@@ -12,7 +12,7 @@ function MT_Cover_getRecentEntries($parameters){
 
 	if (isset($parameters['preview'])) {
 		// preview mode
-		$retval = '메타페이지에 최신 글 목록을 보여줍니다.';
+		$retval = '표지에 최신 글 목록을 추가합니다.';
 		return htmlspecialchars($retval);
 	}
 	$entryLength = isset($parameters['entryLength'])?$parameters['entryLength']:10;
