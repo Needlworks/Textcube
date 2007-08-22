@@ -152,7 +152,7 @@ TTModernEditor.prototype.initialize = function(textarea) {
 
 	// 자주 참조하는 핸들을 지정해둔다
 	if (STD.isIE) {
-		this.contentDocument = document.frames["tatterVisualEditor"].document;
+		this.contentDocument = document.frames[this.iframe.id].document;
 		this.contentWindow = this.contentDocument.parentWindow;
 	} else {
 		this.contentWindow = this.iframe.contentWindow;
