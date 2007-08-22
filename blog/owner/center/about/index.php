@@ -108,15 +108,19 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										<tbody>
 											<tr>
 												<td class="name"><a href="http://spirited.tistory.com">Youyoung Song</a></td>
-												<td class="role"><?php echo _t('Korean');?></td>
+												<td class="role"><?php echo _t('한국어');?></td>
 											</tr>
 											<tr>
 												<td class="name"><a href="mailto:seikanet@gmail.com">Sangjib Choi</a></td>
-												<td class="role"><?php echo _t('Japanese');?></td>
+												<td class="role"><?php echo _t('日本語');?></td>
 											</tr>
 											<tr>
 												<td class="name">DX.KIM</td>
-												<td class="role"><?php echo _t('Chinese');?></td>
+												<td class="role"><?php echo _t('简体中文');?></td>
+											</tr>
+											<tr>
+												<td class="name"><a href="http://blog.chieh.tw">Chieh</a></td>
+												<td class="role"><?php echo _t('正體中文');?></td>
 											</tr>
 											<tr>
 												<td class="name">Steve Yum</td>
