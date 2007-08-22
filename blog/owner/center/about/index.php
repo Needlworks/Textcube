@@ -92,7 +92,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								</div>
 								
 								<div id="internationalization-container" class="container">
-									<h4><span class="text"><?php echo _t('Internationalization');?></span></h4>
+									<h4><span class="text"><?php echo _t('Internationalization Maintainer');?></span></h4>
 									
 									<table>
 										<colgroup>
@@ -108,23 +108,23 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										<tbody>
 											<tr>
 												<td class="name"><a href="http://spirited.tistory.com">Youyoung Song</a></td>
-												<td class="role"><?php echo _t('한국어');?></td>
+												<td class="role">한국어</td>
 											</tr>
 											<tr>
 												<td class="name"><a href="mailto:seikanet@gmail.com">Sangjib Choi</a></td>
-												<td class="role"><?php echo _t('日本語');?></td>
+												<td class="role">日本語</td>
 											</tr>
 											<tr>
 												<td class="name">DX.KIM</td>
-												<td class="role"><?php echo _t('简体中文');?></td>
+												<td class="role">简体中文</td>
 											</tr>
 											<tr>
 												<td class="name"><a href="http://blog.chieh.tw">Chieh</a></td>
-												<td class="role"><?php echo _t('正體中文');?></td>
+												<td class="role">正體中文</td>
 											</tr>
 											<tr>
 												<td class="name">Steve Yum</td>
-												<td class="role"><?php echo _t('English');?></td>
+												<td class="role">English</td>
 											</tr>
 										</tbody>
 									</table>
@@ -222,6 +222,19 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									<a href="#">우수한</a>,
 									<a href="http://chakani.net">차칸아이</a>,
 									<a href="http://www.yangkun.pe.kr">희망이아빠</a>
+									</p>
+									
+									<h4><?php echo _t('Internationalization Contributor');?></h4>
+									<p>
+									<a href="http://www.fsun.cn/blog">AIR</a>(简体中文),
+									<a href="http://ddokbaro.com">Baro</a>(简体中文),
+									<a href="http://hina.ushiisland.net/blog">Hina</a>(正體中文),
+									M. Satoh(日本語),
+									Nazu NT(日本語),
+									Shungchul Kim(日本語),
+									Taku S.(日本語),
+									Terry Lee (English),
+									건더기 (English)
 									</p>
 								</div>
 								<div id="tester-container" class="container">
