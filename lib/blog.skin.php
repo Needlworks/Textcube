@@ -164,7 +164,7 @@ class Skin {
 
 		handleSidebars($sval, $this, $previewMode);
 
-		// 메타페이지 작업.
+		// 표지 작업.
 		$coverpageCount = 0;
 		if (ereg("<s_cover>", $sval) && ereg("<s_coverpage>", $sval)) {
 			if (!isset($this->coverpageBasicModules[$coverpageCount]))
@@ -177,7 +177,7 @@ class Skin {
 			if (isset($temp[1])) {
 				$tempTitle = trim($temp[1]);
 			} else {
-				$tempTitle = _t('메타페이지');
+				$tempTitle = _t('표지');
 			}
 			$this->coverpageName[$coverpageCount] = $tempTitle;
 		}
