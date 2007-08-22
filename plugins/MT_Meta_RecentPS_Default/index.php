@@ -32,7 +32,7 @@ function MT_Cover_getRecentEntries($parameters){
 
 	$cache = new PageCache;
 	$cache->name = 'MT_Cover_RecentPS';
-	if($cache->load() && !doesHaveOwnership()) { //If successful loads
+	if($cache->load()) { //If successful loads
 		// If coverpage is single mode OR coverpage is coverblog and cache is not expired, return cache contents.
 		if($data['coverMode']==1 || ($data['coverMode']==2 && (Timestamp::getUNIXtime() - $cache->dbContents < 300))) {
 			return $cache->contents;
@@ -40,12 +40,12 @@ function MT_Cover_getRecentEntries($parameters){
 	}
 	
 	if((misc::isMetaBlog() == true) && doesHaveOwnership()) {
-		$visibility = 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
+		$visibility = 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
 	} else {
-		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
+		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
 	}
 	$multiple = ($data['coverMode']==2) ? '' : 'e.blogid = ' . getBlogId() . ' AND';
-	$entries = DBQuery::queryAll("SELECT e.blogid, e.id, e.userid, e.visibility, e.title, e.content, e.slogan, e.category, e.published, c.label 
+	$entries = DBQuery::queryAll("SELECT e.blogid, e.id, e.userid, e.title, e.content, e.slogan, e.category, e.published, c.label 
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE $multiple e.draft = 0 $visibility AND e.category >= 0 
@@ -57,7 +57,7 @@ function MT_Cover_getRecentEntries($parameters){
 		$blogid = ($data['coverMode']==2) ? $entry['blogid'] : getBlogId();
 		$entryTags = getTags($blogid, $entry['id']);
 		$defaultURL = getDefaultURL($blogid);
-		if ((sizeof($entryTags) > 0)) {
+		if (sizeof($entryTags) > 0) {
 			$tags = array();
 			foreach ($entryTags as $entryTag) {
 				$tags[$entryTag['name']] = "<a href=\"{$defaultURL}/tag/" . encodeURL($entryTag['name']) . '"' . ((count($entries) == 1 && getBlogSetting('useRelTag', true)) ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>';
@@ -70,7 +70,7 @@ function MT_Cover_getRecentEntries($parameters){
 
 		$html .= '<div class="coverpost">'.CRLF;
 		if($imageName = MT_Cover_getAttachmentExtract($entry['content'])){
-			if(($tempImageSrc = MT_Cover_getImageResizer($blogid, $imageName)) && ($entry['visibility'] > 1)){
+			if($tempImageSrc = MT_Cover_getImageResizer($blogid, $imageName)){
 				$html .= '<div class="img_preview" style="background:url('.$tempImageSrc.') top center no-repeat #ffffff;"><img src="'.$serviceURL.'/image/spacer.gif" alt="" onclick="window.location.href=\''.$permalink.'\'; return false;" /></div>'.CRLF;
 			}
 		}
@@ -80,12 +80,8 @@ function MT_Cover_getRecentEntries($parameters){
 		$html .= '		<span class="date">'.Timestamp::format5($entry['published']).'</span>'.CRLF;
 		$html .= '		<span class="author">by '.User::getName($entry['userid']).'</span>'.CRLF;
 		$html .= '	</div>'.CRLF;
-		if(($entry['visibility'] == 1) && !doesHaveOwnership()){
-			$html .= '	<div class="post_content">'._text('<em>보호된 글 입니다.</em>').'</div>'.CRLF;
-		}else{
-			$html .= '	<div class="post_content">'.htmlspecialchars(UTF8::lessenAsEm(removeAllTags(stripHTML($entry['content'])),250)).'</div>'.CRLF;
-			$html .=	$tagLabelView;
-		}
+		$html .= '	<div class="post_content">'.htmlspecialchars(UTF8::lessenAsEm(removeAllTags(stripHTML($entry['content'])),250)).'</div>'.CRLF;
+		$html .=	$tagLabelView;
 		$html .= '	<div class="clear"></div>'.CRLF;
 		$html .= '</div>'.CRLF;
 	}
