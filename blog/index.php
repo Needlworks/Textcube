@@ -65,11 +65,9 @@ fireEvent('OBStart');
 $skin = new Skin($skinSetting['skin']);
 if(empty($suri['value']) && $suri["directive"] == "/" && $suri['page'] == 1 && count($coverpageMappings) > 0 && getBlogSetting("coverpageInitView") && isset($skin->cover)) {
 	require ROOT . '/lib/piece/blog/begin.php';
-	$coverView = $skin->cover;
 	dress('article_rep', '', $view);
 	dress('paging', '', $view);
-	dress('coverpage', $coverpageModule, $coverView);
-	dress('cover', $coverView, $view);
+	require ROOT . '/lib/piece/blog/cover.php';
 } else {
 	list($entries, $paging) = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnPage']);
 	require ROOT . '/lib/piece/blog/begin.php';

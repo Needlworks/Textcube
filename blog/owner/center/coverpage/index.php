@@ -253,8 +253,8 @@ getBlogContentForCoverPage();
 								<dd><a class="button" href="<?php echo $blogURL;?>/owner/plugin?visibility=coverpage"><?php echo _t('플러그인 설정 페이지로 바로가기');?></a></dd>
 							</dl>	
 <?php
-if ($coverpageCount == 0 || count($coverpageMappings) == 0) {
-	if ($coverpageCount == 0)
+if ($skin->cover == null || count($coverpageMappings) == 0) {
+	if ($skin->cover == null)
 		$errmsg = '사용중인 스킨이 표지를 지원하지 않습니다.';
 	else
 		$errmsg = '사용중인 표지 플러그인이 없습니다.';
@@ -396,23 +396,7 @@ for ($i=0; $i<$coverpageCount; $i++) {
 							
 							<div id="coverpage-element-box" class="data-inbox">
 								<h3><?php echo _t('추가 가능한 모듈');?></h3>
-<?php
-// 사용중이지 않은 스킨 내장형 표지 모듈 리스트 출력.
-$sortedArray = array();
-for ($i=0; $i<$coverpageCount; $i++) {
-	$moduleCountInCoverpage = count($skin->coverpageBasicModules[$i]);
-	for ($j=0; $j<$moduleCountInCoverpage; $j++) {
-		array_push($sortedArray, 
-			array('title' => $skin->coverpageBasicModules[$i][$j]['title'], 
-				'body' => $skin->coverpageBasicModules[$i][$j]['body'],
-				'identifier' => implode(':', array(1, $i, $j))
-			)
-		);
-	}
-}
 
-
-?>
 								<fieldset id="coverpage-plugin-module-box" class="section">
 									<legend><?php echo _t('추가 가능한 플러그인');?></legend>
 									

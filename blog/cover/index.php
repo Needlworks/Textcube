@@ -18,11 +18,9 @@ if (false) {
 fireEvent('OBStart');
 require ROOT . '/lib/piece/blog/begin.php';
 if(count($coverpageMappings) > 0) {
-	$coverView = $skin->cover;
 	dress('article_rep', '', $view);
 	dress('paging', '', $view);
-	dress('coverpage', $coverpageModule, $coverView);
-	dress('cover', $coverView, $view);
+	require ROOT . '/lib/piece/blog/cover.php';
 }
 require ROOT . '/lib/piece/blog/end.php';
 fireEvent('OBEnd');

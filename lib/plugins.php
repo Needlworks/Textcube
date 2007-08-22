@@ -499,7 +499,7 @@ function handleCoverpages(& $sval, & $obj, $previewMode) {
 	if ($previewMode == true) $coverpageAllOrders = null;
 	
 	$i = 0;
-	$coverpageModule = "";
+	$coverpageModule = array();
 	if ((!is_null($coverpageAllOrders)) && ((array_key_exists($i, $coverpageAllOrders)))) {
 		$currentCoverpageOrder = $coverpageAllOrders[$i];
 		for ($j=0; $j<count($currentCoverpageOrder); $j++) {
@@ -508,7 +508,7 @@ function handleCoverpages(& $sval, & $obj, $previewMode) {
 				$handler = $currentCoverpageOrder[$j]['id']['handler'];
 				include_once (ROOT . "/plugins/{$plugin}/index.php");
 				if (function_exists($handler)) {
-					$coverpageModule .= "[##_temp_coverpage_element_{$i}_{$j}_##]";
+					$coverpageModule[$j] = "[##_temp_coverpage_element_{$i}_{$j}_##]";
 					$parameters = $currentCoverpageOrder[$j]['parameters'];
 					$pluginURL = "{$service['path']}/plugins/{$plugin}";
 					$pluginPath = ROOT . "/plugins/{$plugin}";

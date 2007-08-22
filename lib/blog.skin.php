@@ -165,22 +165,8 @@ class Skin {
 		handleSidebars($sval, $this, $previewMode);
 
 		// 표지 작업.
-		$coverpageCount = 0;
-		if (ereg("<s_cover>", $sval) && ereg("<s_coverpage>", $sval)) {
-			if (!isset($this->coverpageBasicModules[$coverpageCount]))
-				$this->coverpageBasicModules[$coverpageCount] = array();
-			list($sval, $this->coverpageOriginalContent[$coverpageCount]) = $this->cutSkinTag($sval, "coverpage");
-			list($sval, $this->cover) = $this->cutSkinTag($sval, 'cover');
-					
-			$firstPos = strlen($this->coverpageOriginalContent[$coverpageCount]);
-			preg_match("/<!\-\-(.+)\-\->/", substr($this->coverpageOriginalContent[$coverpageCount],0,$firstPos - 1), $temp);
-			if (isset($temp[1])) {
-				$tempTitle = trim($temp[1]);
-			} else {
-				$tempTitle = _t('표지');
-			}
-			$this->coverpageName[$coverpageCount] = $tempTitle;
-		}
+		$this->coverpageBasicModules[0] = array();
+		$this->coverpageName[0] =_t('표지');
 
 		if((empty($suri['value']) 
 			&& $suri["directive"] == "/" 
@@ -196,7 +182,11 @@ class Skin {
 		$this->singleCommentMessage = str_replace('./', "{$service['path']}/skin/$name/", $this->singleCommentMessage);
 		$this->noneTrackbackMessage = str_replace('./', "{$service['path']}/skin/$name/", $this->noneTrackbackMessage);
 		$this->singleTrackbackMessage = str_replace('./', "{$service['path']}/skin/$name/", $this->singleTrackbackMessage);
-		
+
+
+		list($sval, $this->coverItem) = $this->cutSkinTag($sval, 'cover_rep');
+		list($sval, $this->cover) = $this->cutSkinTag($sval, 'cover');
+
 		list($sval, $this->listItem) = $this->cutSkinTag($sval, 'list_rep');
 		list($sval, $this->list) = $this->cutSkinTag($sval, 'list');
 		list($sval, $this->commentListItem) = $this->cutSkinTag($sval, 'rplist_rep');
