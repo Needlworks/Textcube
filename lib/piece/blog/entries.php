@@ -82,7 +82,7 @@ if (isset($cache->contents)) {
 				dress('s_ad_d_onclick', "deleteEntry({$entry['id']}); return false;", $managementView);
 				dress('ad_div', $managementView, $entryView);
 			}
-			$author = User::authorName($blogid, $entry['id']);
+			$author = User::getName($entry['userid']);
 			dress('article_rep_author', fireEvent('ViewPostAuthor', $author, $entry['id']), $entryView);
 			dress('article_rep_id', $entry['id'], $entryView);
 			dress('article_rep_link', $permalink, $entryView);
@@ -113,9 +113,9 @@ if (isset($cache->contents)) {
 			dress($tempTag, $trackbackView, $entryView);
 			$entriesView .= $entryView;
 		} else {
-			$author = User::getName($entry['userid']);
-			dress('article_rep_author', fireEvent('ViewPostAuthor', $author, $entry['id']), $entryView);
 			$protectedEntryView = $skin->entryProtected;
+			$author = User::getName($entry['userid']);
+			dress('article_rep_author', fireEvent('ViewPostAuthor', $author, $entry['id']), $protectedEntryView);
 			dress('article_rep_id', $entry['id'], $protectedEntryView);
 			dress('article_rep_link', $permalink, $protectedEntryView);
 			dress('article_rep_title', htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id'])), $protectedEntryView);
