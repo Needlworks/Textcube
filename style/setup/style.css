@@ -123,6 +123,10 @@ table.inputs td {
 	text-align: left;
 }
 
+table.inputs td * {
+	display: block;
+}
+
 table#info {
 	margin: 0px auto;
 	width: 100%;
