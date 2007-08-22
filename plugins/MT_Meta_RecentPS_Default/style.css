@@ -1,23 +1,23 @@
-.coverpage .coverpost
+.coverpost
 {
 	clear: both;
 	border-bottom: 1px solid #ddd;
 	margin: 10px 0;
 }
 
-.coverpage .coverpost h2
+.coverpost h2
 {
 	font-size: 120%;
 	padding-right: 5px;
 }
 
-.coverpage .coverpost h2 a
+.coverpost h2 a
 {
 	letter-spacing: -1px;
 	line-height: 125%;
 }
 
-.coverpage .coverpost .img_preview
+.coverpost .img_preview
 {
 	float: left;
 	margin: 0 7px 7px 0;
@@ -29,46 +29,46 @@
 	background-color: #fff;
 }
 
-.coverpage .coverpost .img_preview img
+.coverpost .img_preview img
 {
 	width: 80px;
 	height: 80px;
 	cursor: pointer;
 }
 
-.coverpage .coverpost .post_info .category a
+.coverpost .post_info .category a
 {
 	font: 1em Dotum, Arial, sans-serif;
 	color: #888;
 	margin-right: 6px;
 }
 
-.coverpage .coverpost .post_info .date
+.coverpost .post_info .date
 {
 	font: 0.9em Verdana, Helvetica, Arial, Gulim, sans-serif;
 	color: #888;
 }
 
-.coverpage .coverpost .post_content
+.coverpost .post_content
 {
 	margin: 5px 0;
 	line-height: 125%;
 	overflow: hidden;
 }
 
-.coverpage .coverpost .post_tags
+.coverpost .post_tags
 {
 	padding: 5px 5px 5px 40px;
 	background: url('./images/entryTag.gif') center left no-repeat;
 	clear: both;
 }
 
-.coverpage .coverpost .post_tags span
+.coverpost .post_tags span
 {
 	display: none;
 }
 
-.coverpage .clear
+.clear
 {
 	clear: both;
 }
