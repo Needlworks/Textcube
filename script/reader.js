@@ -780,7 +780,7 @@ TTReader.prototype.updateAllFeeds = function()
 
 TTReader.prototype.importOPMLUpload = function()
 {
-	document.forms[0].submit();
+	document.getElementById("opml-section").submit();
 }
 
 TTReader.prototype.importOPMLURL = function()
