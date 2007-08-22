@@ -486,7 +486,7 @@ function handleSidebars(& $sval, & $obj, $previewMode) {
 	}
 }
 
-// 저장된 메타페이지 정렬 순서 정보를 가져온다.
+// 저장된 표지 정렬 순서 정보를 가져온다.
 function handleCoverpages(& $sval, & $obj, $previewMode) {
 	global $service, $pluginURL, $pluginPath, $pluginName, $configVal, $configMappings, $coverpageModule;
 	requireModel("blog.coverpage");

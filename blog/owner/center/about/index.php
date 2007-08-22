@@ -201,6 +201,9 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									
 									<p>
 									<a href="http://blog.creorix.com">Creorix</a>,
+									<a href="http://crizin.net">Crizin</a>,
+									<a href="http://egoing.net">egoing</a>,
+									<a href="http://skk97.tistory.com">Hanyoung</a>,
 									<a href="http://blog.laco.pe.kr">lacovnk</a>,
 									<a href="http://laziel.com">laziel</a>,
 									<a href="http://story.isloco.com">linus</a>,
@@ -219,7 +222,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								</div>
 								<div id="tester-container" class="container">
 									<h4><?php echo _t('Tester');?></h4>
-									<p>adeurian, chester, DARKLiCH, FeelSoGood, laotzu, McFuture,  NC_Fly, xizhu, 심민규, 엽기민원, 유마, 헤이</p>
+									<p>adeurian, chester, DARKLiCH, FeelSoGood, laotzu, McFuture, NC_Fly, xizhu, 심민규, 엽기민원, 유마, 헤이</p>
 								</div>
 								
 								<div id="reporter-container" class="container">

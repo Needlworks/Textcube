@@ -52,17 +52,10 @@ if (isset($_POST['returnURL']) && !empty($_POST['returnURL'])) {
 	$_GET['returnURL'] = $_POST['returnURL'];
 }
 
+require ROOT . '/lib/piece/owner/contentMenu.php';
 if (defined('__TEXTCUBE_POST__')) {
-	if (isset($_GET['popupEditor']))
-		require ROOT . '/lib/piece/owner/contentMenu.php';
-	else
-		require ROOT . '/lib/piece/owner/contentMenu.php';
 	printOwnerEditorScript();
 } else {
-	if (isset($_GET['popupEditor']))
-		require ROOT . '/lib/piece/owner/contentMenu.php';
-	else
-		require ROOT . '/lib/piece/owner/contentMenu.php';
 	printOwnerEditorScript($entry['id']);
 }
 
