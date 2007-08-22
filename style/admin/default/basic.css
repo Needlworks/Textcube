@@ -291,12 +291,18 @@ textarea
 	font-weight                      : bold;
 }
 
+#menu-center
+{
+	margin-left                     : 30px !important;
+}
+
 #menu-textcube
 {
 	background-image                 : url("./image/img_header_textcube.gif");
 	background-repeat                : no-repeat;
 	height                           : 33px;
 	left                             : 16px;
+	padding                          : 0 !important;
 	position                         : absolute;
 	text-indent                      : -1000px;
 	top                              : 9px;
@@ -304,16 +310,11 @@ textarea
 	z-index                          : 100;
 }
 
-#menu-center
-{
-	margin-left                     : 30px !important;
-}
-
 #menu-textcube a
 {
 	display                          : block;
-	height                           : 22px;
-	width                            : 130px;
+	height                           : 33px;
+	width                            : 151px;
 }
 
 /* Layout Body ***********************************************************************************/
