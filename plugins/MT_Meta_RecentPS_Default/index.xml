@@ -17,6 +17,7 @@
   	<listener event="AddPost">MT_Cover_getRecentEntries_purgeCache</listener>
   	<listener event="UpdatePost">MT_Cover_getRecentEntries_purgeCache</listener>
   	<listener event="DeletePost">MT_Cover_getRecentEntries_purgeCache</listener>
+	<listener event="ChangeVisibility">MT_Cover_getRecentEntries_purgeCache</listener>
 	<tag name="SKIN_head_end" handler="MT_Cover_getRecentEntryStyle" />
     <coverpage title="Recent Posts" handler="MT_Cover_getRecentEntries">
       <params>
