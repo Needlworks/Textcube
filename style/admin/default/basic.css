@@ -931,19 +931,6 @@ table.data-inbox tbody tr td.inactive-class
 	display                          : block; 
 }
 
-#layout-footer #validator
-{
-	background-image                 : url("./image/xhtml10-gray.png");
-	background-position              : right top;
-	background-repeat                : no-repeat;
-	height                           : 15px;
-}
-
-#validator .text
-{
-	display                          : none;
-}
-
 /* Etc *******************************************************************************************/
 
 /* eolin suggest */
