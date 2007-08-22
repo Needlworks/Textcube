@@ -296,7 +296,7 @@ function openid_try_auth()
 	}
 
 	if( isset($_GET['openid_cancel']) || isset($_GET['openid_cancel_x']) ) {
-		header( "Location: " . $blogURL);
+		header( "Location: " . $hostURL . $blogURL);
 		exit(0);
 	}
 
