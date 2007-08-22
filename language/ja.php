@@ -5,6 +5,8 @@
 /* Contributed by M. Satoh */
 /* Contributed by Taku S. */
 
+// 1.5
+
 /* 標準時間リスト */
 $__text['default:Asia/Seoul'] = '大韓民国(ソウル)';
 $__text['Asia/Seoul'] = "大韓民国(ソウル)";

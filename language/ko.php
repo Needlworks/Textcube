@@ -1,7 +1,7 @@
 <?php // 한국어
 /* contributed by inureyes */
 /* contributed by spirited */ 
-
+ 
 // 1.5.1
 
 //$__text["%1 설정"] = "";

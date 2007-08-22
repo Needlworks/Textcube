@@ -3,7 +3,7 @@
 /* contributed by Baro (http://ddokbaro.com)    */
 /* contributed by AIR (http://www.fsun.cn/blog) */
 
-// 1.5
+// 1.5 
 
 /* Timezones */
 $__text['Asia/Seoul'] = '韩国';
