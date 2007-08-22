@@ -895,8 +895,8 @@ RewriteRule ^testrewrite$ setup.php [L]"
         <tr>
           <th><?php echo _t('비밀번호');?> : </th>
           <td>
-            <input type="password" name="password" value="<?php echo (isset($_POST['password']) ? htmlspecialchars($_POST['password']) : '');?>" class="input_password"<?php echo ($check && empty($_POST['password']) ? ' style="border-color:red"' : '');?> />
-			<legend class="help"><?php echo _t('비밀번호는 최소 6자 이상이어야 합니다');?></legend>
+            <input type="password" name="password" value="<?php echo (isset($_POST['password']) ? htmlspecialchars($_POST['password']) : '');?>" class="input_password"<?php echo ($check && empty($_POST['password']) ? ' style="border-color:red"' : '');?> /><br />
+			<em class="password"><?php echo _t('비밀번호는 최소 6자 이상이어야 합니다.');?></em>
           </td>
         </tr>
         <tr>

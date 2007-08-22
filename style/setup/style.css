@@ -204,3 +204,9 @@ label {
 	color: #666;
 	padding: 2px 2px 0px 4px;
 }	
+
+em.password
+{
+	font-style: normal;
+	padding-left: 5px;
+}
