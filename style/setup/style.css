@@ -123,7 +123,7 @@ table.inputs td {
 	text-align: left;
 }
 
-table.inputs td * {
+table.inputs td .help {
 	display: block;
 }
 
