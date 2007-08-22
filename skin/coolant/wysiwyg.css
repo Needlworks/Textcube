@@ -71,6 +71,12 @@ fieldset
 	clear: both;
 }
 
+hr
+{
+	display: block;
+	margin-bottom: 1em;
+}
+
 p
 {
 	margin-bottom: 1.7em;

@@ -511,6 +511,12 @@ h4
 	clear: both;
 }
 
+.article hr
+{
+	display: block;
+	margin-bottom: 1em;
+}
+
 .article ol
 {
 	margin: 1em 0 1.5em 50px;
