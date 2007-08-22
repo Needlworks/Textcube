@@ -150,8 +150,13 @@ function MT_Cover_getAttachmentExtract($content){
 }
 
 function MT_Cover_getRecentEntryStyle($target){
-	global $pluginURL;
-	$target .= '<link rel="stylesheet" media="screen" type="text/css" href="' . $pluginURL . '/style.css" />' . CRLF;
+	global $pluginURL, $configVal;
+	requireComponent('Textcube.Function.misc');
+	$data = misc::fetchConfigVal($configVal);
+	$data['cssSelect']	= !isset($data['cssSelect'])?1:$data['cssSelect'];
+	if($data['cssSelect'] == 1){
+		$target .= '<link rel="stylesheet" media="screen" type="text/css" href="' . $pluginURL . '/style.css" />' . CRLF;
+	}
 	return $target;
 }
 
@@ -173,11 +178,15 @@ function MT_Cover_getRecentEntries_ConfigOut_ko($plugin) {
 
 	$manifest .= '<?xml version="1.0" encoding="utf-8"?>'.CRLF;
 	$manifest .= '<config dataValHandler="MT_Cover_getRecentEntries_DataSet" >'.CRLF;
-	$manifest .= '	<window width="500" height="244" />'.CRLF;
+	$manifest .= '	<window width="500" height="270" />'.CRLF;
 	$manifest .= '	<fieldset legend="메타 출력 설정">'.CRLF;
 	$manifest .= '		<field title="출력 형태 :" name="coverMode" type="radio"  >'.CRLF;
 	$manifest .= '			<op value="1" checked="checked"><![CDATA[단일 사용자&nbsp;]]></op>'.CRLF;
 	$manifest .= '			<op value="2">다중 사용자</op>'.CRLF;
+	$manifest .= '		</field>'.CRLF;
+	$manifest .= '		<field title="CSS 적용 :" name="cssSelect" type="radio"  >'.CRLF;
+	$manifest .= '			<op value="1" checked="checked"><![CDATA[적용&nbsp;]]></op>'.CRLF;
+	$manifest .= '			<op value="2">미적용</op>'.CRLF;
 	$manifest .= '		</field>'.CRLF;
 	$manifest .= '	</fieldset>'.CRLF;
 	$manifest .= '</config>'.CRLF;
@@ -192,11 +201,15 @@ function MT_Cover_getRecentEntries_ConfigOut_en($plugin) {
 
 	$manifest .= '<?xml version="1.0" encoding="utf-8"?>'.CRLF;
 	$manifest .= '<config dataValHandler="MT_Cover_getRecentEntries_DataSet" >'.CRLF;
-	$manifest .= '	<window width="500" height="244" />'.CRLF;
+	$manifest .= '	<window width="500" height="270" />'.CRLF;
 	$manifest .= '	<fieldset legend="Cover list setup">'.CRLF;
 	$manifest .= '		<field title="List mode :" name="coverMode" type="radio"  >'.CRLF;
 	$manifest .= '			<op value="1" checked="checked"><![CDATA[Single user&nbsp;]]></op>'.CRLF;
 	$manifest .= '			<op value="2">Multi user</op>'.CRLF;
+	$manifest .= '		</field>'.CRLF;
+	$manifest .= '		<field title="CSS Apply :" name="cssSelect" type="radio"  >'.CRLF;
+	$manifest .= '			<op value="1" checked="checked"><![CDATA[Apply&nbsp;]]></op>'.CRLF;
+	$manifest .= '			<op value="2">Not apply</op>'.CRLF;
 	$manifest .= '		</field>'.CRLF;
 	$manifest .= '	</fieldset>'.CRLF;
 	$manifest .= '</config>'.CRLF;

@@ -31,10 +31,10 @@
 	  </params>
 	</coverpage>
 	<config xml:lang="ko" dataValHandler="MT_Cover_getRecentEntries_DataSet" manifestHandler="MT_Cover_getRecentEntries_ConfigOut_ko">
-		<window width="500" height="244" />
+		<window width="500" height="270" />
 	</config>
 	<config xml:lang="en" dataValHandler="MT_Cover_getRecentEntries_DataSet" manifestHandler="MT_Cover_getRecentEntries_ConfigOut_en">
-		<window width="500" height="244" />
+		<window width="500" height="270" />
 	</config>
   </binding>
 </plugin>
