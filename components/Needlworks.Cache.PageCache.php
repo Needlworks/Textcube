@@ -145,7 +145,7 @@ class pageCache {
 	function setPageCacheLog() {
 		global $database;
 		if(doesHaveOwnership()) $this->_dbContents['owner'] = $this->dbContents;
-		else $this->_dbConents['user'] = $this->dbContents;
+		else $this->_dbContents['user'] = $this->dbContents;
 		return DBQuery::execute("REPLACE INTO {$database['prefix']}PageCacheLog 
 			VALUES(".getBlogId().", '".mysql_tt_escape_string($this->realName)."', '".mysql_tt_escape_string(serialize($this->_dbContents))."')");
 	}
