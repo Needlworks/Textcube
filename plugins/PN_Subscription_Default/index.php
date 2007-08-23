@@ -152,7 +152,9 @@ function getAggregatorName($useragent)
 		'ONNET-OPENAPI' => '온네트 API 로봇',
 		'S20 Wing' => '날개 피드 로봇',
 		'Feedburner' => 'Feedburner 피드 로봇',
-		'xMind' => '크로스마인드(xMind) 검색 로봇'
+		'xMind' => '크로스마인드(xMind) 검색 로봇',
+		'openmaru feed aggregator' => 'Openmaru Feed Aggregator',
+		'ColFeed' => '콜콜넷 피드 로봇'
 	);
 	$declinePattern = array(
 		//법칙이 있으면 사용하겠는데, 제멋대로다...
@@ -204,7 +206,9 @@ function robotChecker($useragent)
 		'RMOM' => 1,
 		'S20 Wing' => 1,
 		'Feedburner' => 1,
-		'xMind' => 1
+		'xMind' => 1,
+		'openmaru feed aggregator' => 1,
+		'ColFeed' => 1
 	);
 	foreach ($robotPattern as $agentName => $isRobot)
 		if((strpos($useragent,$agentName)!==false)&&($isRobot)) return true;
