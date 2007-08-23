@@ -1140,13 +1140,6 @@ function sendTrackback(id) {
 	alignCenter(openWindow,width,height);
 }
 
-function copyUrl(url){
-	if(STD.isIE) {
-		window.clipboardData.setData("Text", url);
-		window.alert(messages.trackbackUrlCopied);
-	}
-}
-
 function deleteTrackback(id, entryId) {
 	if (!doesHaveOwnership) {
 		alert(messages.operationFailed);
@@ -1211,3 +1204,29 @@ function reloadEntry(id) {
 
 	window.location.href = window.location.href;
 }
+
+function thisMovie(movieName) {
+    if (navigator.appName.indexOf("Microsoft") != -1) {
+        return window[movieName]
+    }
+    else {
+        return document[movieName]
+    }
+}
+
+function copyUrl(url) {
+	try {
+		thisMovie('clipboardPoter').setClipBoard(url);
+	} catch(e) {
+		if(isIE) {
+			window.clipboardData.setData('Text',url);
+			window.alert(s_trackbackUrlCopied);
+		}
+	}
+}
+
+function onClipBorad(result) {
+	alert(result ? messages["trackbackUrlCopied"] : messages["operationFailed"]);
+}
+
+		

@@ -71,6 +71,8 @@ function getUpperView($paging) {
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF3.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/gallery.js" ></script>
+    	<script type="text/javascript" src="<?php echo $service['path'];?>/script/flash.js" ></script>
+
 <?php
 	if (doesHaveOwnership()) {
 ?>
@@ -83,6 +85,27 @@ function getUpperView($paging) {
 			document.onkeydown = processShortcut;
 		//]]>
 	</script>
+<div style="position:absolute;top:0;left:0; background-color:transparent;background-image:none">
+<script type="text/javascript">
+//<![CDATA[
+	AC_FL_RunContent(
+		'codebase','http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0',
+		'width','1',
+		'height','1',
+		'id','clipboardPoter',
+		'src','<?php echo $service['path'];?>/script/clipboardPoter/clipboardPoter',
+		'wmode','transparent',
+		'name','clipboardPoter',
+		'allowscriptaccess','sameDomain',
+		'pluginspage','http://www.macromedia.com/go/getflashplayer',
+		'movie','<?php echo $service['path'];?>/script/clipboardPoter/clipboardPoter',
+		'flashvars', 'callback=onClipBorad'
+	);
+	window.clipboardPoter = document.getElementById("clipboardPoter");
+//]]>
+</script>
+</div>
+    
 <?php
 
 	$view = ob_get_contents();
