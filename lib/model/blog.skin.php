@@ -61,6 +61,7 @@ function reloadSkin($blogid)
 
 function selectSkin($blogid, $skinName) {
 	global $database, $service;
+	requireComponent('Needlworks.Cache.PageCache');
 	$blogid = getBlogId();
 	if (empty($skinName))
 		return _t('실패했습니다.');
@@ -185,6 +186,7 @@ function selectSkin($blogid, $skinName) {
 	}
 	
 	removeBlogSetting("sidebarOrder");
+	CacheControl::flushTag();
 	getSkinSetting($blogid, true); // refresh skin cache
 	return true;
 }
