@@ -1077,15 +1077,15 @@ function openid_manage()
 {
 	global $database, $blogURL, $hostURL;
 
-	$menu_url = $hostURL . $blogURL . "/blogid/plugin/adminMenu?name=" . $_GET['name'];
+	$menu_url = $hostURL . $blogURL . "/owner/plugin/adminMenu?name=" . $_GET['name'];
 	$menu1 = $menu_url . "&amp;mode=1";
 	$menu2 = $menu_url . "&amp;mode=3";
 	$menu3 = $menu_url . "&amp;mode=5";
 	$menu4 = $menu_url . "&amp;mode=7";
 	$order = "order by lastLogin desc";
 
-	$mode = preg_replace( '/.*mode=(.+)/', '\1', $_SERVER["QUERY_STRING"] . "mode=7");
-	/* last mode=7 will be default */
+	$mode = preg_replace( '/.*?mode=(\d)/', '\1', $_SERVER["QUERY_STRING"]);
+	if( !is_numeric($mode) ) { $mode = 7; };
 	switch( $mode )
 	{
 	case 2:

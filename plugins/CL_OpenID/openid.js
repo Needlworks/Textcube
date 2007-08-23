@@ -12,7 +12,7 @@ function add_openid_link_before(s)
 
 	var openid_pannel = document.createElement("div");
 	openid_pannel.innerHTML = "<a style='a:link:none' href=\"" + target + "\"><img style='margin:0; padding:0 0 0 0' align='absmiddle' hspace='2' src=\"" + openid_pluginbase + "openid16x16.gif" + "\"> <span style='padding:-10 0 0 0'>" + openid_title + "</span></a>";
-	openid_pannel.innerHTML += " | <a target='_blank' href=\"http://www.google.co.kr/search?q=OpenID&lr=lang_ko\">오픈아이디란?</a>";
+	openid_pannel.innerHTML += " | <a target='_blank' href=\"http://www.google.co.kr/search?q=오픈아이디&lr=lang_ko\">오픈아이디란?</a>";
 	s.parentNode.insertBefore( openid_pannel, s );
 	s.title = openid_hint;
 }
