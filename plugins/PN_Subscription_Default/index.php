@@ -149,7 +149,10 @@ function getAggregatorName($useragent)
 		'UCLA CS Dept' => '연구용 로봇 (UCLA 컴퓨터공학과)',
 		'Windows-RSS-Platform/1.0 (MSIE 7.0' => '윈도우 비스타 RSS 개짓',
 		'HTTPClientBox' => 'HTTPClientBox',
-		'ONNET-OPENAPI' => '온네트 API 로봇'
+		'ONNET-OPENAPI' => '온네트 API 로봇',
+		'S20 Wing' => '날개 피드 로봇',
+		'Feedburner' => 'Feedburner 피드 로봇',
+		'xMind' => '크로스마인드(xMind) 검색 로봇'
 	);
 	$declinePattern = array(
 		//법칙이 있으면 사용하겠는데, 제멋대로다...
@@ -198,7 +201,10 @@ function robotChecker($useragent)
 		'UCLA CS Dept' => 1,
 		'Snapbot' => 1,
 		'DAUM RSS Robot' => 1,
-		'RMOM' => 1
+		'RMOM' => 1,
+		'S20 Wing' => 1,
+		'Feedburner' => 1,
+		'xMind' => 1
 	);
 	foreach ($robotPattern as $agentName => $isRobot)
 		if((strpos($useragent,$agentName)!==false)&&($isRobot)) return true;
