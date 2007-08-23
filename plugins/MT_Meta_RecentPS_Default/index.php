@@ -175,7 +175,7 @@ function MT_Cover_getRecentEntries_ConfigOut_ko($plugin) {
 	$manifest .= '<?xml version="1.0" encoding="utf-8"?>'.CRLF;
 	$manifest .= '<config dataValHandler="MT_Cover_getRecentEntries_DataSet" >'.CRLF;
 	$manifest .= '	<window width="500" height="270" />'.CRLF;
-	$manifest .= '	<fieldset legend="메타 출력 설정">'.CRLF;
+	$manifest .= '	<fieldset legend="표지 출력 설정">'.CRLF;
 	$manifest .= '		<field title="출력 형태 :" name="coverMode" type="radio"  >'.CRLF;
 	$manifest .= '			<op value="1" checked="checked"><![CDATA[단일 사용자&nbsp;]]></op>'.CRLF;
 	$manifest .= '			<op value="2">다중 사용자</op>'.CRLF;
