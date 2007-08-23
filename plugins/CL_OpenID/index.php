@@ -172,7 +172,10 @@ function _openid_update_id($openid,$delegatedid,$nickname,$homepage=null,$userid
 	$result = DBQuery::queryCell($query);
 
 	if (is_null($result)) {
-		$data = serialize( array( 'nickname' => $nickname, 'homepage' => $homepage, 'acl' => '' ) );
+		if( $userid === null ) {
+			$userid = '';
+		}
+		$data = serialize( array( 'nickname' => $nickname, 'homepage' => $homepage, 'acl' => $userid ) );
 		$openid_session['nickname'] = $nickname;
 		$openid_session['homepage'] = $homepage;
 
