@@ -30,6 +30,7 @@
 			<li class="tab_notice"><a href="[##_blog_link_##]notice">Notice</a></li>
 			<li class="tab_tag"><a href="[##_taglog_link_##]">Tag List</a></li>
 			<li class="tab_location"><a href="[##_localog_link_##]">Location Log</a></li>
+			<li class="tab_keyword"><a href="[##_blog_link_##]keylog">Keywords</a></li>
 			<li class="tab_guestbook"><a href="[##_guestbook_link_##]">Guest Book</a></li>
 		</ul>
 	</div>
@@ -97,6 +98,129 @@
 				</ol>
 			</div>
 			</s_tblist>
+
+			<s_local>
+			<div id="location">
+				<div class="subject">
+					<h2><a href="[##_location_link_##]">Location Log</a></h2>
+					<p>Where my posts are related to</p>
+				</div>
+				<dl>
+					<s_local_spot_rep>
+					<dt><span class="dent[##_local_spot_depth_##]" style="margin-left: [##_local_spot_depth_##]px">[##_local_spot_##]</span></dt>
+					</s_local_spot_rep>
+
+					<s_local_info_rep>
+					<dd>
+						<span style="margin-left: [##_local_info_depth_##]px"><a href="[##_local_info_link_##]">[##_local_info_title_##]</a></span>
+						<!-- <cite class="localAuthor">by [##_local_info_author_##]</cite> -->
+					</dd>
+					</s_local_info_rep>
+				</dl>
+			</div>
+			</s_local>
+
+			<s_tag>
+			<div id="taglog">
+				<div class="subject">
+					<h2><a href="[##_taglog_link_##]">Tag Cloud</a></h2>
+					<p>Keywords with size based on popularity</p>
+				</div>
+				<ul>
+					<s_tag_rep>
+					<li><a href="[##_tag_link_##]" class="[##_tag_class_##]">[##_tag_name_##]</a></li>
+					</s_tag_rep>
+				</ul>
+			</div>
+			</s_tag>
+
+			<s_guest>
+			<div id="guestBook">
+				<div class="subject">
+					<h2><a href="[##_guestbook_link_##]">Guest Book</a></h2>
+					<p>Leave your greetings here</p>
+				</div>
+				<s_guest_input_form>
+				<fieldset>
+					<s_guest_member>
+					<s_guest_form>
+					<div>
+						<input type="text" id="[##_guest_input_name_##]" name="[##_guest_input_name_##]" value="[##_guest_name_##]" maxlength="20" />
+						<label for="[##_guest_input_name_##]">Your Name <em>(required)</em></label>
+					</div>
+					<div>
+						<input type="password" id="[##_guest_input_password_##]" name="[##_guest_input_password_##]" value="[##_guest_password_##]" />
+						<label for="[##_guest_input_password_##]">Password <em>(required)</em></label>
+					</div>
+					<div>
+						<input type="text" id="[##_guest_input_homepage_##]" name="[##_guest_input_homepage_##]" value="[##_guest_homepage_##]" />
+						<label for="[##_guest_input_homepage_##]">Your Website Address</label>
+					</div>
+					</s_guest_form>
+					<div>
+						<input type="checkbox" id="[##_guest_input_is_secret_##]" name="[##_guest_input_is_secret_##]" class="checkbox" value="1" />
+						<label for="[##_guest_input_is_secret_##]">secret</label>
+					</div>
+					</s_guest_member>
+					<div><textarea name="[##_guest_textarea_body_##]" rows="10" cols="50"></textarea></div>
+					<div class="submit"><input type="submit" value="Submit" onclick="[##_guest_onclick_submit_##]" /></div>
+				</fieldset>
+				</s_guest_input_form>
+
+				<s_guest_container>
+				<div class="list">
+					<ol>
+						<s_guest_rep>
+						<li id="[##_guest_rep_id_##]" class="[##_guest_rep_class_##]">
+							<p class="author">
+								<cite><strong>[##_guest_rep_name_##]</strong></cite>
+								<span class="command">
+									[##_guest_rep_date_##]
+									<a href="#" onclick="[##_guest_rep_onclick_delete_##]" title="수정/삭제하기"><abbr title="Modify or Delete">M/D</abbr></a> 
+									<a href="#" onclick="[##_guest_rep_onclick_reply_##]" title="답변 달기">Reply</a>
+									<a href="[##_guest_rep_link_##]" title="퍼머링크">Permalink</a>
+								</span>
+							</p>
+							<p>[##_guest_rep_desc_##]</p>
+
+							<s_guest_reply_container>
+							<ol>
+								<s_guest_reply_rep>
+								<li id="[##_guest_rep_id_##]" class="[##_guest_rep_class_##]" title="답변">
+									<p class="author">
+										<cite><strong>[##_guest_rep_name_##]</strong></cite>
+										<span class="command">
+											[##_guest_rep_date_##]
+											<a href="#" onclick="[##_guest_rep_onclick_delete_##]" title="수정/삭제하기"><abbr title="Modify or Delete">M/D</abbr></a>
+											<a href="[##_guest_rep_link_##]" title="퍼머링크">Permalink</a>
+										</span>
+									</p>
+									<p>[##_guest_rep_desc_##]</p>
+								</li>
+								</s_guest_reply_rep>
+							</ol>
+							</s_guest_reply_container>
+						</li>
+						</s_guest_rep>
+					</ol>
+				</div>
+				</s_guest_container>
+			</div>
+			</s_guest>
+
+			<s_keyword>
+			<div id="keywords">
+				<div class="subject">
+					<h2><a href="[##_blog_link_##]keylog">Keywords</a></h2>
+					<p>My keywords</p>
+				</div>
+				<ul>
+					<s_keyword_rep>
+					<li><a href="#void" onclick="[##_onclick_keyword_##]">[##_keyword_label_##]</a></li>
+					</s_keyword_rep>
+				</ul>
+			</div>
+			</s_keyword>
 
 			<s_keylog_rep>
 			<div class="entry">
@@ -286,116 +410,6 @@
 				</s_rp>
 			</div>
 			</s_article_rep>
-
-
-			<s_local>
-			<div id="location">
-				<div class="subject">
-					<h2><a href="[##_location_link_##]">Location Log</a></h2>
-					<p>Where my posts are related to</p>
-				</div>
-				<dl>
-					<s_local_spot_rep>
-					<dt><span class="dent[##_local_spot_depth_##]" style="margin-left: [##_local_spot_depth_##]px">[##_local_spot_##]</span></dt>
-					</s_local_spot_rep>
-
-					<s_local_info_rep>
-					<dd>
-						<span style="margin-left: [##_local_info_depth_##]px"><a href="[##_local_info_link_##]">[##_local_info_title_##]</a></span>
-						<!-- <cite class="localAuthor">by [##_local_info_author_##]</cite> -->
-					</dd>
-					</s_local_info_rep>
-				</dl>
-			</div>
-			</s_local>
-
-			<s_tag>
-			<div id="taglog">
-				<div class="subject">
-					<h2><a href="[##_taglog_link_##]">Tag Cloud</a></h2>
-					<p>Keywords with size based on popularity</p>
-				</div>
-				<ul>
-					<s_tag_rep>
-					<li><a href="[##_tag_link_##]" class="[##_tag_class_##]">[##_tag_name_##]</a></li>
-					</s_tag_rep>
-				</ul>
-			</div>
-			</s_tag>
-
-			<s_guest>
-			<div id="guestBook">
-				<div class="subject">
-					<h2><a href="[##_guestbook_link_##]">Guest Book</a></h2>
-					<p>Leave your greetings here</p>
-				</div>
-				<s_guest_input_form>
-				<fieldset>
-					<s_guest_member>
-					<s_guest_form>
-					<div>
-						<input type="text" id="[##_guest_input_name_##]" name="[##_guest_input_name_##]" value="[##_guest_name_##]" maxlength="20" />
-						<label for="[##_guest_input_name_##]">Your Name <em>(required)</em></label>
-					</div>
-					<div>
-						<input type="password" id="[##_guest_input_password_##]" name="[##_guest_input_password_##]" value="[##_guest_password_##]" />
-						<label for="[##_guest_input_password_##]">Password <em>(required)</em></label>
-					</div>
-					<div>
-						<input type="text" id="[##_guest_input_homepage_##]" name="[##_guest_input_homepage_##]" value="[##_guest_homepage_##]" />
-						<label for="[##_guest_input_homepage_##]">Your Website Address</label>
-					</div>
-					</s_guest_form>
-					<div>
-						<input type="checkbox" id="[##_guest_input_is_secret_##]" name="[##_guest_input_is_secret_##]" class="checkbox" value="1" />
-						<label for="[##_guest_input_is_secret_##]">secret</label>
-					</div>
-					</s_guest_member>
-					<div><textarea name="[##_guest_textarea_body_##]" rows="10" cols="50"></textarea></div>
-					<div class="submit"><input type="submit" value="Submit" onclick="[##_guest_onclick_submit_##]" /></div>
-				</fieldset>
-				</s_guest_input_form>
-
-				<s_guest_container>
-				<div class="list">
-					<ol>
-						<s_guest_rep>
-						<li id="[##_guest_rep_id_##]" class="[##_guest_rep_class_##]">
-							<p class="author">
-								<cite><strong>[##_guest_rep_name_##]</strong></cite>
-								<span class="command">
-									[##_guest_rep_date_##]
-									<a href="#" onclick="[##_guest_rep_onclick_delete_##]" title="수정/삭제하기"><abbr title="Modify or Delete">M/D</abbr></a> 
-									<a href="#" onclick="[##_guest_rep_onclick_reply_##]" title="답변 달기">Reply</a>
-									<a href="[##_guest_rep_link_##]" title="퍼머링크">Permalink</a>
-								</span>
-							</p>
-							<p>[##_guest_rep_desc_##]</p>
-
-							<s_guest_reply_container>
-							<ol>
-								<s_guest_reply_rep>
-								<li id="[##_guest_rep_id_##]" class="[##_guest_rep_class_##]" title="답변">
-									<p class="author">
-										<cite><strong>[##_guest_rep_name_##]</strong></cite>
-										<span class="command">
-											[##_guest_rep_date_##]
-											<a href="#" onclick="[##_guest_rep_onclick_delete_##]" title="수정/삭제하기"><abbr title="Modify or Delete">M/D</abbr></a>
-											<a href="[##_guest_rep_link_##]" title="퍼머링크">Permalink</a>
-										</span>
-									</p>
-									<p>[##_guest_rep_desc_##]</p>
-								</li>
-								</s_guest_reply_rep>
-							</ol>
-							</s_guest_reply_container>
-						</li>
-						</s_guest_rep>
-					</ol>
-				</div>
-				</s_guest_container>
-			</div>
-			</s_guest>
 
 			<s_paging>
 				<div class="paging">
