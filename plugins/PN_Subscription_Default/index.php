@@ -41,13 +41,6 @@ function PN_Subscription_Default()
 								}
 							//]]>
 						</script>
-						<style type="text/css">
-						/*<![CDATA[*/
-							.robot {
-								font-weight : bold;
-							}
-						/*]]>*/
-						</style>
 						<div id="part-statistics-total" class="part">
 							<h2 class="caption"><span class="main-text">전체 피드 통계</span></h2>
 							<dl class="data-inbox">

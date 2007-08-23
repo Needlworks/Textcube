@@ -52,18 +52,18 @@
 }
 
 #part-statistics-rank table.data-inbox tr th,
-#part-statistics-rank table.data-inbox tr tr
+#part-statistics-rank table.data-inbox tr td
 {
 	padding-left                     : 5px;
 	padding-right                    : 5px;
 }
 
-#part-statistics-rank table.data-inbox tr th.rank
+#part-statistics-rank table.data-inbox tr td.rank
 {
 	width                            : 50px;
 }
 
-#part-statistics-rank table.data-inbox tr tr.aggregator
+#part-statistics-rank table.data-inbox tr td.aggregator
 {
 	text-align                       : left;
 }
@@ -72,4 +72,8 @@
 {
 	height                           : 1.8em;
 	width                            : 69% !important;
+}
+
+#part-statistics-rank table.data-inbox tr td.aggregator .robot {
+	font-weight : bold;
 }
