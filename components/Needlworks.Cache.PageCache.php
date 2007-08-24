@@ -210,8 +210,9 @@ class CacheControl{
 		$tagLists = DBQuery::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND (name like 'tagList_".$tagId."%' 
-				OR name like 'tagPaging_".$tagId."%')");
+			AND (name like 'tagList_".$tagId."_%' 
+				OR name like 'tagPaging_".$tagId."_%'
+				OR name like 'keyword_".$tagId."_%')");
 		if (!is_null($tagLists)) {
 			foreach($tagLists as $tagListName){
 				$cache->reset();
