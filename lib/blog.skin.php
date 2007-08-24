@@ -356,7 +356,7 @@ class KeywordSkin {
 
 function removeAllTags($contents) {
 	$contents = preg_replace('/\[#M_[^|]*\|[^|]*\|/Us', '', str_replace('_M#]', '', preg_replace('/\[##_.+_##\]/Us', '', $contents)));
-	$contents = preg_replace('@<(s_[0-1a-zA-Z_]+)>.*?</\1>@', '', $contents);
+	$contents = preg_replace('@<(s_[0-9a-zA-Z_]+)>.*?</\1>@s', '', $contents);
 	return $contents;	
 }
 
