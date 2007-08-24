@@ -245,7 +245,7 @@ function getCommentView($entryId, $skin) {
 			$contentContainer["{$prefix1}_{$commentSubItem['id']}"] = fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense($commentSubItem['comment'], ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem);
 			dress($prefix1 . '_rep_desc', setTempTag("{$prefix1}_{$commentSubItem['id']}"), $commentSubItemView);
 			dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentSubItem['written']), $commentSubItem['written']), $commentSubItemView);
-			dress($prefix1 . '_rep_link',"$blogURL/".($entryId == 0 ? "guestbook/#guestbook{$commentSubItem['id']}" : "{$entryId}#comment{$commentSubItem['id']}"), $commentSubItemView);
+			dress($prefix1 . '_rep_link',"$blogURL/".($entryId == 0 ? "guestbook/{$commentSubItem['id']}#guestbook{$commentSubItem['id']}" : "{$entryId}#comment{$commentSubItem['id']}"), $commentSubItemView);
 			dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentSubItem['id']}); return false;", $commentSubItemView);
 			
 			$commentSubItemsView .= $commentSubItemView;
@@ -290,7 +290,7 @@ function getCommentView($entryId, $skin) {
 		}
 		dress($prefix1 . '_rep_onclick_reply', $doubleCommentPermissionScript . "commentComment({$commentItem['id']}); return false", $commentItemView);
 		dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentItem['id']});return false", $commentItemView);
-		dress($prefix1 . '_rep_link', "$blogURL/".($entryId == 0 ? "guestbook/#guestbook{$commentItem['id']}" : "{$entryId}#comment{$commentItem['id']}"), $commentItemView);
+		dress($prefix1 . '_rep_link', "$blogURL/".($entryId == 0 ? "guestbook/{$commentSubItem['id']}#guestbook{$commentItem['id']}" : "{$entryId}#comment{$commentItem['id']}"), $commentItemView);
 		
 		$commentItemsView .= $commentItemView;
 	}
