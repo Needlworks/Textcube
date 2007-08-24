@@ -186,7 +186,7 @@ function selectSkin($blogid, $skinName) {
 	}
 	
 	removeBlogSetting("sidebarOrder");
-	CacheControl::flushTag();
+	CacheControl::flushAll();
 	getSkinSetting($blogid, true); // refresh skin cache
 	return true;
 }
@@ -194,6 +194,7 @@ function selectSkin($blogid, $skinName) {
 function writeSkinHtml($blogid, $contents, $mode, $file) {
 	global $database;
 	global $skinSetting;
+	requireComponent('Needlworks.Cache.PageCache');
 	if ($mode != 'skin' && $mode != 'skin_keyword' && $mode != 'style')
 		return _t('실패했습니다.');
 	if ($skinSetting['skin'] != "customize/$blogid") {
@@ -223,6 +224,7 @@ function writeSkinHtml($blogid, $contents, $mode, $file) {
 	} else {
 		fclose($handler);
 		@chmod(ROOT . "/skin/customize/$blogid/$file", 0666);
+		CacheControl::flushAll();
 		return true;
 	}
 }

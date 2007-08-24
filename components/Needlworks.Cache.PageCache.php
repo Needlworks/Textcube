@@ -189,7 +189,7 @@ class CacheControl{
 		$categoryLists = DBQuery::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND (name like 'categoryList_".$categoryId."_%')");
+			AND (name like 'categoryList\_".$categoryId."\_%')");
 		foreach($categoryLists as $categoryListName){
 			$cache->reset();
 			$cache->name = $categoryListName;
@@ -209,8 +209,8 @@ class CacheControl{
 		$tagLists = DBQuery::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND (name like 'tagList_".$tagId."_%' 
-				OR name like 'keyword_".$tagId."_%')");
+			AND (name like 'tagList\_".$tagId."\_%' 
+				OR name like 'keyword\_".$tagId."\_%')");
 		if (!is_null($tagLists)) {
 			foreach($tagLists as $tagListName){
 				$cache->reset();
@@ -234,7 +234,7 @@ class CacheControl{
 		$keywordEntries = DBQuery::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND name like 'keyword_".$tagId."_%'");
+			AND name like 'keyword\_".$tagId."\_%'");
 		foreach($keywordEntries as $keywordEntryName){
 			$cache->reset();
 			$cache->name = $keywordEntryName;
@@ -253,7 +253,7 @@ class CacheControl{
 		$Entries = DBQuery::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND name like 'entry_".$entryId."_%'");
+			AND name like 'entry\_".$entryId."\_%'");
 		foreach($Entries as $EntryName){
 			$cache->reset();
 			$cache->name = $EntryName;
