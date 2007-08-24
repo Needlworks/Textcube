@@ -226,7 +226,7 @@ TTModernEditor.prototype.initialize = function(textarea) {
 		this.iframe.style.display = "none";
 
 	// 가끔씩 Firefox에서 커서가 움직이지 않는 문제 수정
-	setTimeout(function() { try { _this.contentDocument.designMode='on'; } catch (e) {} }, 100);
+	if(!STD.isIE) setTimeout(function() { try { _this.contentDocument.designMode='on'; } catch (e) {} }, 100);
 }
 
 TTModernEditor.prototype.finalize = function() {
