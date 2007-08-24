@@ -690,7 +690,7 @@ function textTreat( $cmd , $dfVal , $name ) {
 	return $DSP;
 }
 function textareaTreat( $cmd, $dfVal , $name) {
-	$dfVal = ( !is_null( $dfVal[$name]  ) ) ? $dfVal[$name] : ((!isset($cmd['value']) || (empty($cmd['value']) && $cmd['value']!== 0))? null:$cmd['.value']);
+	$dfVal = ( !is_null( $dfVal[$name]  ) ) ? $dfVal[$name] : ((!isset($cmd['.value']) || (empty($cmd['.value']) && $cmd['.value']!== 0))? null:$cmd['.value']);
 	$DSP = TAB.TAB.TAB.TAB.'<textarea class="textareacontrol"';
 	$DSP .= ' id="'.$name.'"';
 	$DSP .= ' rows="'.((!isset($cmd['.attributes']['rows']) || (empty($cmd['.attributes']['rows']) && $cmd['.attributes']['rows']!== 0)) ? '2' : $cmd['.attributes']['rows']).'"';
