@@ -463,7 +463,7 @@ function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderU
 			} else {*/
 			{
 				if (($onclickFlag == true) && ($bRssMode == false) && ($bPassing == false)) {
-					$imageStr = '<img src="'.$url.'" '.$property.' style="cursor: pointer;" onclick="open_img(\''.$url.'\')" />';
+					$imageStr = '<img src="'.$url.'" '.$property.' style="cursor: pointer;" onclick="open_img(\''.$url.'\'); return false;" />';
 				} else {
 					$imageStr = '<img src="'.$url.'" '.$property.' />';
 				}
