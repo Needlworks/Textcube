@@ -71,18 +71,20 @@ function MT_Cover_getRecentEntries($parameters){
 		$html .= '<div class="coverpost">'.CRLF;
 		if($imageName = MT_Cover_getAttachmentExtract($entry['content'])){
 			if($tempImageSrc = MT_Cover_getImageResizer($blogid, $imageName)){
-				$html .= '<div class="img_preview" style="background:url('.$tempImageSrc.') top center no-repeat #ffffff;"><img src="'.$serviceURL.'/image/spacer.gif" alt="" onclick="window.location.href=\''.$permalink.'\'; return false;" /></div>'.CRLF;
+				$html .= '<div class="img_preview"><a href="'.$permalink.'"><img src="'.$tempImageSrc.'" alt="" /></a></div>'.CRLF;
 			}
 		}
-		$html .= '	<h2><a href="'.$permalink.'">'.htmlspecialchars($entry['title']).'</a></h2>'.CRLF;
-		$html .= '	<div class="post_info">'.CRLF;
-		$html .= '		<span class="category"><a href="'.$categoryLink.'">'.$categoryName.'</a></span>'.CRLF;
-		$html .= '		<span class="date">'.Timestamp::format5($entry['published']).'</span>'.CRLF;
-		$html .= '		<span class="author">by '.User::getName($entry['userid']).'</span>'.CRLF;
-		$html .= '	</div>'.CRLF;
-		$html .= '	<div class="post_content">'.htmlspecialchars(UTF8::lessenAsEm(removeAllTags(stripHTML($entry['content'])),250)).'</div>'.CRLF;
-		$html .=	$tagLabelView;
-		$html .= '	<div class="clear"></div>'.CRLF;
+		$html .= '	<div class="content_box">';
+		$html .= '		<h2><a href="'.$permalink.'">'.htmlspecialchars($entry['title']).'</a></h2>'.CRLF;
+		$html .= '		<div class="post_info">'.CRLF;
+		$html .= '			<span class="category"><a href="'.$categoryLink.'">'.$categoryName.'</a></span>'.CRLF;
+		$html .= '			<span class="date">'.Timestamp::format5($entry['published']).'</span>'.CRLF;
+		$html .= '			<span class="author"><span class="preposition">by </span>'.User::getName($entry['userid']).'</span>'.CRLF;
+		$html .= '		</div>'.CRLF;
+		$html .= '		<div class="post_content">'.htmlspecialchars(UTF8::lessenAsEm(removeAllTags(stripHTML($entry['content'])),250)).'</div>'.CRLF;
+		$html .=		$tagLabelView;
+		$html .= '		<div class="clear"></div>'.CRLF;
+		$html .= '	</div>';
 		$html .= '</div>'.CRLF;
 	}
 	$target = $html;
