@@ -839,7 +839,7 @@ foreach($plugintablesraw as $table) {
 	
 	if ($dbCaseInsensitive == true) $dbname = strtolower($dbname);
 	if(DBQuery::queryExistence("DESC $dbname owner")) {
-		echo '<li>', _textf('플러그인이 생성한 %1 테이블의 owner 필드를 변경합니다.'), ': ';
+		echo '<li>', _textf('플러그인이 생성한 %1 테이블의 owner 필드를 변경합니다.',$table['name']), ': ';
 		if(DBQuery::execute("ALTER TABLE $dbname CHANGE owner blogid int(11) NOT NULL DEFAULT 0"))
 			echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 		else

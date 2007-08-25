@@ -232,6 +232,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									M. Satoh(日本語),
 									Nazu NT(日本語),
 									Shungchul Kim(日本語),
+									Sid (English),
 									Taku S.(日本語),
 									Terry Lee (English),
 									건더기 (English)
