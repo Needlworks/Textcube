@@ -188,7 +188,7 @@ if( Acl::check('group.owners')) {?>
 
 <?php
 }
-if( Acl::check('group.administrators')) {?>
+if( Acl::check('group.administrators')) {
 ?>
 								function changeACL(acltype, userid, checked) {
 
