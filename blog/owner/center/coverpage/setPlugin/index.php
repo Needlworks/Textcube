@@ -70,7 +70,6 @@ foreach($parameters as $item)
         $newParameter[$item['name']] = $_REQUEST[$item['name']];
 	}
 }
-//dumpAsFile($plugin);
 $eventName = 'ModifyPluginParam_'.$plugin;
 fireEvent($eventName,null,$plugin);
 $coverpageOrderData[$coverpageNumber][$modulePos]['parameters'] = $newParameter;

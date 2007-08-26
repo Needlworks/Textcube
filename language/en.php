@@ -4,6 +4,7 @@
 
 // 1.5.1
 
+
 $__text["%1 설정"] = 'Set up %1';
 $__text["%1님께서 블로그의 팀원으로 초대합니다"] = '%1 as a teamblog leader invites you to join';
 $__text["BlogAPI를 사용하는 편집기들은 이 블로그로 글을 보내기 위하여 'API 주소'를 사용합니다."] = 'When using external blog editors, such as Ecto or MarsEdit, you can use this address.';

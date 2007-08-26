@@ -139,7 +139,6 @@ class pageCache {
 		} else {
 			return false;
 		}
-		dumpAsFile($this->_dbContents);
 		return true;
 	}
 
