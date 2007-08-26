@@ -135,7 +135,7 @@ if (defined('__TEXTCUBE_POST__')) {
 									this.autoSave  = false;
 									this.delay     = false;
 									this.nowsaving = false;
-									this.preview   = false;
+									this.isPreview   = false;
 									this.entryId   = <?php echo $entry['id'];?>;
 
 									this.pageHolder = new PageHolder(false, "<?php echo _t('아직 저장되지 않았습니다.');?>");
@@ -325,9 +325,9 @@ if (defined('__TEXTCUBE_POST__')) {
 											if (entryManager.savedData == entryManager.getData())
 												entryManager.pageHolder.release();
 											entryManager.nowsaving = false;
-											if (entryManager.preview == true) {
+											if (entryManager.isPreview == true) {
 												window.open("<?php echo $blogURL;?>/owner/entry/preview/"+entryManager.entryId, "previewEntry"+entryManager.entryId, "location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
-												entryManager.preview = false;
+												entryManager.isPreview = false;
 											}
 										}
 										request.onError = function () {
@@ -421,7 +421,7 @@ if (isset($_GET['popupEditor'])) {
 										return;
 									}
 									this.preview = function () {
-										this.preview = true;
+										this.isPreview = true;
 										this.save();
 										return;
 									}
