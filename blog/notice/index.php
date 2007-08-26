@@ -7,6 +7,7 @@ require ROOT . '/lib/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }
+$skin = new Skin($skinSetting['skin']);
 list($entries, $paging) = getEntriesWithPagingByNotice($blogid, $suri['page'], $blog['entriesOnPage']);
 fireEvent('OBStart');
 require ROOT . '/lib/piece/blog/begin.php';

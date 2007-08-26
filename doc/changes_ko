@@ -1,6 +1,84 @@
 * 이 문서는 변경사항을 모두 포함하고 있지 않을 수 있습니다. 자세한 변경사항 열람을 위해서는 텍스트큐브 개발 사이트 (http://dev.textcube.org) 의 해당 버전의 로드맵과 티켓들을 확인해 주시기 바랍니다.
 * 버그 로그는 일반적으로 이전 버전에서 발생했으나 해결된 부분을 포함하며, 이번 버전을 만드는 과정에서 발생하는 버그는 기록하지 않습니다.
 
+== v1.5.1 개발 관련 노트 ==
+* 모든 로그의 설명 및 진행 사항을 열람하기 위해서는 http://dev.textcube.org/milestone/1.5.1 을 참조해 주시기 바랍니다.
+
+id  type        component         prioritysummary
+ 632task        User Interfaces   major   xhtml 1 validation banner 추가
+ 625enhancement User Interfaces   major   메타 페이지 이름 변경
+ 578enhancement User Interfaces   major   글쓰기 메뉴 활성시 볼드 처리
+ 656enhancement User Interfaces   major   키워드 페이지 정렬
+ 581enhancement Skin              major   mp3 플레이어에서 center 태그 제외
+ 579enhancement Skin              major   기본 스킨 수정
+ 637enhancement Plugins           major   메타플러그인 강제 CSS 출력문제
+ 470enhancement Libraries         minor   EAF의 response message를 스킨화
+ 636enhancement Core              major   cover_ coverpage 스킨 스트럭쳐문제
+ 628enhancement Core              major   휴지통 비우는 루틴 최적화
+ 623enhancement Core              major   데이터 교정 시 태그 및 태그 관계 데이터도 교정
+ 617defect      User Interfaces   minor   에디터에서 gallery의 자막과 미리보기 속성 출력 루틴 개선
+ 616defect      User Interfaces   minor   index.xml 을 수동편집했을 경우에 대한 처리 강화
+ 492defect      User Interfaces   minor   관리자 화면 css 글꼴 순서 변경
+ 573defect      User Interfaces   major   파일 업로드 관련 문제
+ 624defect      User Interfaces   major   스킨매니저 레이아웃 문제
+ 574defect      User Interfaces   major   파일 업로드 관련 문제
+ 575defect      User Interfaces   major   메세지 스타일 문제
+ 517defect      User Interfaces   major   페이지 이동 단축키가 작동되지 않음
+ 639defect      User Interfaces   major   셋업화면 안내 문구가 두줄로 넘어가는 부분
+ 631defect      User Interfaces   major   글 화면에서 필자 표시
+ 572defect      User Interfaces   major   위지윅에디터가 뜨지 않는 문제
+ 580defect      User Interfaces   major   에디터에서 object 삽입시 자바스크립트 처리
+ 582defect      User Interfaces   major   사이드바 메뉴 레이아웃 문제
+ 588defect      Skin              minor   Coolant의 본문영역에 포함된 fieldset처리 미흡
+ 577defect      Plugins           major   첫번째 태그에 키워드 설명 연결 아이콘이 뜸
+ 633defect      Plugins           major   OpenID 로그인 취소시 버그
+ 614defect      Plugins           major   OpenID 플러그인의 short tag
+ 596defect      Plugins           major   EolinTagSearchTT 플러그인의 오류
+ 595defect      Plugins           major   메타페이지 플러그인의 동작 교정
+ 659defect      Plugins           major   표지 플러그인의 설정 갱신시 캐시가 남는 문제
+ 654defect      Plugins           major   관리자 계정에 연결된 OpenID로 관리자로그인이 되지 않는 문제
+ 635defect      Plugins           critical메타플러그인 보호글 노출 버그
+ 615defect      Libraries         major   모바일 페이지 출력이 되지 않음
+ 627defect      Libraries         major   리더에서 피드 갯수가 정상적으로 표시되지 않음
+ 611defect      Internationalizatiminor   언어팩의 따옴표에 슬래시 처리가 잘못된 문제
+ 583defect      Core              minor   favicon이 깔끔하게 출력되지 않는 문제
+ 563defect      Core              major   Metapage의 label의 참조 대상이 맞지 않는 문제
+ 585defect      Core              major   플러그인 설정에서 0이 허용되지 않는 문제
+ 571defect      Core              major   업데이트후 관리자 권한이 없다고 나오는 문제
+ 638defect      Core              major   리더 OPML 파일 업로드가 되지 않는 문제
+ 570defect      Core              major   Checkup 에 실패하는 문제
+ 641defect      Core              major   글 목록에서 공개여부 변경시 이벤트 제공
+ 621defect      Core              major   변수의 메타포 문제
+ 569defect      Core              major   티스토리/태터툴즈 데이터의 텍스트큐브로의 복원이 안되는 문제
+ 642defect      Core              major   보호된 글에서 Author 표시가 안됨
+ 640defect      Components        major   PageCache에서 owner와 비 owner 캐시가 제대로 관리되지 않는 문제
+ 630defect      API               major   에디터에서 contentDocument 접근시 IE를 고려하지 않은 문제
+ 584defect      API               major   IE7에서 센터 최근 댓글 알리미 간격이 벌어지는 문제
+
+=== 스킨 관련 변경점 및 추가 안내 ===
+ * metapage 의 cover로의 변경
+  1.5에서 도입된 메타페이지가 Cover로 이름이 변경되었습니다. 또한 이를 사용하기 위한 문법도 전체 스킨 규격과 통일성을 맞추기 위하여 전면적으로 변경 되었습니다.
+  1.5에서의 metapage 및 문법 지원은 이후의 혼란을 막기 위하여 제거 되었습니다. 양해 말씀 드립니다.
+ 
+    * <s_cover> : 표지 영역
+      * <s_cover_rep> : 표지 플러그인 출력의 반복 영역
+	  * [##_coverpage_content_##] : 표지 플러그인 출력 부분
+
+ 아래는 예제입니다. 
+------------------------------
+<s_cover>
+   <div class="aaa">
+   <s_cover_rep>
+     <div class="bbb">[##_coverpage_content_##]</div>
+   </s_cover_rep>
+   </div>
+</s_cover>
+------------------------------
+
+=== 플러그인 관련 변경점 및 추가 안내 ===
+ * 공개 속성을 변할 때 사용할 수 있는 이벤트인 ChangeVisibility 가 추가되었습니다.
+
+
 == v1.5 개발 관련 노트 ==
 * 아래에는 중요한 변경 사항들 및 수정들만이 명기되어 있습니다. 모든 로그를 열람하기 위해서는 http://dev.textcube.org/milestone/1.5 를 참조해 주시기 바랍니다.
 
@@ -117,6 +195,30 @@ a3 * 설치     - DB 제거시 XMLRPCPingSettings 가 삭제되지 않는 문제
 	</div>
 </s_meta>
 ------------------------------
+
+
+ * 태그와 키워드의 통합
+  키워드 기능을 사용할 때, 같은 이름을 가진 태그가 있으면 해당 태그 페이지를 보여줄 때 키워드 설명을 먼저 보여주도록 할 수 있습니다. 이를 위하여 스킨에서
+   * <s_keylog_rep>
+    *  [##_keylog_rep_title_##]
+    *  [##_keylog_rep_desc_##]
+  치환자가 추가 되었습니다.
+
+  아래는 예제입니다.
+------------------------------
+                 <s_keylog_rep>
+                     <div class="entryKeylog">
+                         <div class="titleWrap">
+                             <h2>[##_keylog_rep_title_##]</h2>
+                         </div>
+                         <div class="article">
+                             [##_keylog_rep_desc_##]
+                         </div>
+                    </div>
+                </s_keylog_rep>
+------------------------------
+
+
 
  * 404 에러 관련
  페이지가 없을 때 출력되는 페이지를 스킨에서 추가적으로 지정할 수 있습니다. <s_page_error>로 묶은 부분이 에러 발생시에 출력됩니다. 스킨에 해당 부분이 없을 경우에는 1.5 이전과 똑같이 동작합니다.

@@ -6,7 +6,7 @@ define('ROOT', '../../../../..');
 
 $IV = array(
 	'REQUEST' => array(
-		'metapageNumber' => array('int'),
+		'coverpageNumber' => array('int'),
 		'modulePos' => array('int', 'default' => -1),
 		'moduleId' => array('string', 'default' => ''),
 		'viewMode' => array('string', 'default' => '')
@@ -15,26 +15,26 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
-requireModel("blog.metapage");
+requireModel("blog.coverpage");
 requireStrictRoute();
 
 $skin = new Skin($skinSetting['skin']);
-$metapageCount = count($skin->metapageBasicModules);
+$coverpageCount = count($skin->coverpageBasicModules);
 
 $module = explode(':', $_REQUEST['moduleId']);
 
 if (($module !== false) && (count($module) == 3) && 
-	($_REQUEST['metapageNumber'] >= 0) 	&& ($_REQUEST['metapageNumber'] < $metapageCount))
+	($_REQUEST['coverpageNumber'] >= 0) 	&& ($_REQUEST['coverpageNumber'] < $coverpageCount))
 {
-	$metapageOrder = getMetapageModuleOrderData($metapageCount);
-	$metapageOrder = addMetapageModuleOrderData($metapageOrder, $_REQUEST['metapageNumber'], $_REQUEST['modulePos'], $module);
-	if ($metapageOrder != null) {
-		setBlogSetting("metapageOrder", serialize($metapageOrder));
+	$coverpageOrder = getCoverpageModuleOrderData($coverpageCount);
+	$coverpageOrder = addCoverpageModuleOrderData($coverpageOrder, $_REQUEST['coverpageNumber'], $_REQUEST['modulePos'], $module);
+	if ($coverpageOrder != null) {
+		setBlogSetting("coverpageOrder", serialize($coverpageOrder));
 	}
 }
 
 if ($_REQUEST['viewMode'] != '') $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST')
-	header('Location: '. $blogURL . '/owner/center/metapage' . $_REQUEST['viewMode']);
+	header('Location: '. $blogURL . '/owner/center/coverpage' . $_REQUEST['viewMode']);
 ?>

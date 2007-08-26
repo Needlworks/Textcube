@@ -166,6 +166,7 @@ table.data-inbox tbody tr td.ip
 #part-post-list table.data-inbox tbody tr .syndicate,
 #part-post-list table.data-inbox tbody tr .category,
 #part-post-list table.data-inbox tbody tr .title,
+#part-post-list table.data-inbox tbody tr .author,
 #part-post-list table.data-inbox tbody tr .protect
 {
 	border-left                      : 1px solid #E3E3DE;

@@ -123,6 +123,10 @@ table.inputs td {
 	text-align: left;
 }
 
+table.inputs td .help {
+	display: block;
+}
+
 table#info {
 	margin: 0px auto;
 	width: 100%;
@@ -200,3 +204,9 @@ label {
 	color: #666;
 	padding: 2px 2px 0px 4px;
 }	
+
+em.password
+{
+	font-style: normal;
+	padding-left: 5px;
+}

@@ -21,9 +21,9 @@ switch ($_POST['visibility']) {
 		define('__TAB_CENTER__', true);
 		$memberScopes = 'center';
 		break;
-	case 'metapage':
-		define('__TAB_METAPAGE__', true);
-		$memberScopes = 'metapage'; // 임시.
+	case 'coverpage':
+		define('__TAB_COVERPAGE__', true);
+		$memberScopes = 'coverpage'; // 임시.
 		break;
 	case 'blog':
 	default:
@@ -54,7 +54,6 @@ while (false !== ($plugin = $dir->read())) { // 이게 php.net에서 권장하�
 
 	$acceptedPathCount = 0;
 	$tempXMLPathCount = 0;
-
 	if(empty($pluginInfo['scope'])) continue;
 	
 	foreach($pluginInfo['scope'] as $pluginScope) {
@@ -262,7 +261,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 							<ul id="plugin-tabs-box" class="tabs-box">
 								<li<?php echo isset($tabsClass['blog']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/plugin"><?php echo _t('블로그/관리자 플러그인');?></a></li>
 								<li<?php echo isset($tabsClass['center']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/plugin?visibility=center"><?php echo _t('센터 플러그인');?></a></li>
-								<li<?php echo isset($tabsClass['metapage']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/plugin?visibility=metapage"><?php echo _t('메타 페이지 플러그인');?></a></li>
+								<li<?php echo isset($tabsClass['coverpage']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/plugin?visibility=coverpage"><?php echo _t('표지 플러그인');?></a></li>
 							</ul>
 							
 							<fieldset id="plugin-display-box">
@@ -294,9 +293,9 @@ if (defined('__TAB_BLOG__')) {
 ?>
 											<li><input type="checkbox" class="checkbox" id="center-scope" name="scopeType" value="center" onclick="this.checked=true;" checked="checked" /><label id="center-scope-label" for="center-scope"<?php echo in_array('center', $selectedScopes) ? ' class="selected"' : '';?>><?php echo _t('센터 플러그인');?></label></li>
 <?php
-} else if (defined('__TAB_METAPAGE__')) {
+} else if (defined('__TAB_COVERPAGE__')) {
 ?>
-											<li><input type="checkbox" class="checkbox" id="metapage-scope" name="scopeType" value="metapage" onclick="this.checked=true;" checked="checked" /><label id="metapage-scope-label" for="metapage-scope"<?php echo in_array('metapage', $selectedScopes) ? ' class="selected"' : '';?>><?php echo _t('메타 페이지 플러그인');?></label></li>
+											<li><input type="checkbox" class="checkbox" id="coverpage-scope" name="scopeType" value="coverpage" onclick="this.checked=true;" checked="checked" /><label id="coverpage-scope-label" for="coverpage-scope"<?php echo in_array('coverpage', $selectedScopes) ? ' class="selected"' : '';?>><?php echo _t('표지 플러그인');?></label></li>
 <?php
 }
 ?>
@@ -321,9 +320,9 @@ if (defined('__TAB_BLOG__')) {
 								</dl>
 								
 <?php
-if (defined('__TAB_CENTER__') || defined('__TAB_METAPAGE__')) {
-	$text = defined('__TAB_CENTER__') ? _t('센터로 바로 가기') : _t('메타 페이지로 바로가기');
-	$link = defined('__TAB_CENTER__') ? $blogURL . '/owner/center/dashboard' : $blogURL . '/owner/center/metapage';
+if (defined('__TAB_CENTER__') || defined('__TAB_COVERPAGE__')) {
+	$text = defined('__TAB_CENTER__') ? _t('센터로 바로 가기') : _t('표지 설정으로 바로가기');
+	$link = defined('__TAB_CENTER__') ? $blogURL . '/owner/center/dashboard' : $blogURL . '/owner/center/coverpage';
 } else {
 	$text = _t('사이드바로 바로 가기');
 	$link = $blogURL . '/owner/skin/sidebar';

@@ -1015,7 +1015,7 @@ ul#feedList li .edit-button span
 {
 	color                            : #FFFFFF !important;
 	display                          : inline;
-	font-family                      : 'Apple Gothic', '돋움', Dotum, '굴림', Gulim, sans-serif;
+	font-family                      : AppleGothic, '돋움', Dotum, '굴림', Gulim, sans-serif;
 	font-size                        : 90%;
 	letter-spacing                   : -1px;
 	margin-right                     : 5px;

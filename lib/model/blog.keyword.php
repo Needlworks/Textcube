@@ -31,7 +31,7 @@ function getKeywordNames($blogid) {
 function getKeywords($blogid) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	return DBQuery::queryAll("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -1 ORDER BY published DESC");
+	return DBQuery::queryAll("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -1 ORDER BY title ASC");
 }
 
 function getKeywordsWithPaging($blogid, $search, $page, $count) {

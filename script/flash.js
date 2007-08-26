@@ -1,5 +1,19 @@
 //v1.0
 //Copyright 2006 Adobe Systems, Inc. All rights reserved.
+var sUserAgent = navigator.userAgent;
+var fAppVersion = parseFloat(navigator.appVersion);
+
+var isOpera = sUserAgent.indexOf("Opera") > -1;
+var isIE = sUserAgent.indexOf("compatible") > -1 
+           && sUserAgent.indexOf("MSIE") > -1
+           && !isOpera;
+
+function isExplore() {
+	return sUserAgent.indexOf("compatible") > -1 
+           && sUserAgent.indexOf("MSIE") > -1
+           && !isOpera;	
+}
+
 function AC_AddExtension(src, ext)
 {
   if (src.indexOf('?') != -1)
@@ -10,19 +24,46 @@ function AC_AddExtension(src, ext)
 
 function AC_Generateobj(objAttrs, params, embedAttrs) 
 { 
-  var str = '<object ';
-  for (var i in objAttrs)
-    str += i + '="' + objAttrs[i] + '" ';
-  str += '>';
-  for (var i in params)
-    str += '<param name="' + i + '" value="' + params[i] + '" /> ';
-  str += '<embed ';
-  for (var i in embedAttrs)
-    str += i + '="' + embedAttrs[i] + '" ';
-  str += ' ></embed></object>';
-
+	var str = '';
+	if(isExplore()) {
+		str += '<object ';
+		for (var i in objAttrs)
+			str += i + '="' + objAttrs[i] + '" ';
+		str += '>';
+		for (var i in params)
+			str += '<param name="' + i + '" value="' + params[i] + '" /> ';	
+	}
+	str += '<embed ';
+	for (var i in embedAttrs)
+		str += i + '="' + embedAttrs[i] + '" ';
+	str += ' ></embed>';
+	if(isIE) {
+		str += '</object>';
+	}
   document.write(str);
 }
+
+function AC_GenerateobjNotWriteGetString(objAttrs, params, embedAttrs) 
+{
+  	var str = '';
+	if(isExplore()) {
+		str += '<object ';
+		for (var i in objAttrs)
+			str += i + '="' + objAttrs[i] + '" ';
+		str += '>';
+		for (var i in params)
+			str += '<param name="' + i + '" value="' + params[i] + '" /> ';	
+	}
+	str += '<embed ';
+	for (var i in embedAttrs)
+		str += i + '="' + embedAttrs[i] + '" ';
+	str += ' ></embed>';
+	if(isIE) {
+		str += '</object>';
+	}
+  return str;
+}
+
 
 function AC_FL_RunContent(){
   var ret = 
@@ -31,6 +72,19 @@ function AC_FL_RunContent(){
      , "application/x-shockwave-flash"
     );
   AC_Generateobj(ret.objAttrs, ret.params, ret.embedAttrs);
+}
+
+function AC_FL_RunContentNotWriteGetString(){
+  var ret = 
+    AC_GetArgs
+    (  arguments, ".swf", "movie", "clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+     , "application/x-shockwave-flash"
+    );
+  return AC_GenerateobjNotWriteGetString(ret.objAttrs, ret.params, ret.embedAttrs);
+}
+
+function insertObject(element, str) {
+	document.getElementById(element).innerHTML = str;
 }
 
 function AC_GetArgs(args, ext, srcParamName, classid, mimeType){
@@ -148,3 +202,15 @@ function initializeExternalInterface() {
 		window[movieName] = realMovie; 
 	} 
 }
+
+function getVariableFromFlash(myFlashElementID, myVariableName){
+	var myContent = "";
+	if(document.all){
+		//isIE
+		myContent = document.all[myFlashElementID].getVariable(myVariableName);
+	}else{
+		//isNotIE
+		myContent = document[myFlashElementID].GetVariable(myVariableName);
+	}
+	return myContent;
+}	

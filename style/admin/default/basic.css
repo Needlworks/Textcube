@@ -35,7 +35,7 @@ body
 {
 	background-color                 : #fff;
 	color                            : #666666;
-	font-family                      : 'Lucida Grande', Arial, 'Apple Gothic', '굴림', Gulim, Tahoma, Verdana, sans-serif;
+	font-family                      : 'Lucida Grande', Arial, AppleGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
 	font-size                        : small;
 	margin                           : 0 10px 0 10px;
 }
@@ -93,7 +93,7 @@ h3
 
 input
 {
-	font-family                      : 'Lucida Grande', Arial, 'Apple Gothic', '굴림', Gulim, Tahoma, Verdana, sans-serif;
+	font-family                      : 'Lucida Grande', Arial, AppleGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
 }
 
 label
@@ -137,14 +137,14 @@ option
 
 kbd, samp
 {
-	font-family                      : "Courier New", Courier, 'Apple Gothic', '굴림', Gulim, monospace;
+	font-family                      : "Courier New", Courier, AppleGothic, '굴림', Gulim, monospace;
 	font-size                        : 11px; /* Sarafi에서 상대크기를 제대로 인식하지 못함. */
 }
 
 select
 {
 	font-size                        : 1em;
-	font-family                      : 'Lucida Grande', Arial, 'Apple Gothic', '굴림', Gulim, Tahoma, Verdana, sans-serif;
+	font-family                      : 'Lucida Grande', Arial, AppleGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
 	vertical-align                   : middle;
 }
 
@@ -291,12 +291,18 @@ textarea
 	font-weight                      : bold;
 }
 
+#menu-center
+{
+	margin-left                     : 30px !important;
+}
+
 #menu-textcube
 {
 	background-image                 : url("./image/img_header_textcube.gif");
 	background-repeat                : no-repeat;
 	height                           : 33px;
 	left                             : 16px;
+	padding                          : 0 !important;
 	position                         : absolute;
 	text-indent                      : -1000px;
 	top                              : 9px;
@@ -304,16 +310,11 @@ textarea
 	z-index                          : 100;
 }
 
-#menu-center
-{
-	margin-left                     : 30px !important;
-}
-
 #menu-textcube a
 {
 	display                          : block;
-	height                           : 22px;
-	width                            : 130px;
+	height                           : 33px;
+	width                            : 151px;
 }
 
 /* Layout Body ***********************************************************************************/
@@ -377,7 +378,7 @@ textarea
 	background-position              : right center;
 	background-repeat                : no-repeat;
 	color                            : #DDE5F1;
-	font-family                      : Dotum, 'Apple Gothic', '돋움', '굴림', Gulim, sans-serif;
+	font-family                      : Dotum, AppleGothic, '돋움', '굴림', Gulim, sans-serif;
 	font-size                        : 0.9em;
 	padding                          : 0 16px !important;
 }
@@ -928,7 +929,7 @@ table.data-inbox tbody tr td.inactive-class
 
 #layout-footer div
 {
-	display                          : inline;
+	display                          : block; 
 }
 
 /* Etc *******************************************************************************************/

@@ -6,7 +6,7 @@ define('ROOT', '../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
-requireModel("blog.metapage");
+requireModel("blog.coverpage");
 requireModel("blog.statistics");
 requireModel("blog.entry");
 requireModel("blog.archive");
@@ -19,11 +19,11 @@ requireModel("blog.link");
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
 
-$service['disablePageCache'] = true; // For plugin settting update.
+$service['disablePageCache'] = true; // For plugin setting update.
 
 $stats = getStatistics($blogid);
 
-function correctMetapageImage( $subject ) {
+function correctCoverpageImage( $subject ) {
 	$pattern_with_src = '/(?:\ssrc\s*=\s*["\']?)([^\s^"^>^\']+)(?:[\s">\'])/i';
 	$pattern_with_background = '/(?:\sbackground\s*=\s*["\']??)([^\s^"^>^\']+)(?:[\s">\'])/i';
 	$pattern_with_url_func = '/(?:url\s*\(\s*\'?)([^)]+)(?:\'?\s*\))/i';
@@ -52,7 +52,7 @@ function correctImagePath($match ) {
 
 if (false) correctImagePath('');
 
-function getBlogContentForMetaPage()
+function getBlogContentForCoverPage()
 {
 	global $blogid, $blog, $blogURL, $database, $service, $stats, $skinSetting;
 
@@ -85,11 +85,11 @@ function pretty_dress($view)
 	
 	if (isset($_REQUEST['safe'])) {
 		// safe mode
-		return '<div class="metapage-element-safebox">&hellip;</div>';
+		return '<div class="coverpage-element-safebox">&hellip;</div>';
 	}
 	if (isset($_REQUEST['tag'])) {
 		// safe mode
-		return '<div class="metapage-element-safebox"><p>' . nl2br(htmlspecialchars($view, ENT_QUOTES)) . '</p></div>';
+		return '<div class="coverpage-element-safebox"><p>' . nl2br(htmlspecialchars($view, ENT_QUOTES)) . '</p></div>';
 	}
 	
 	$writer = User::getBlogOwnerName($blogid);
@@ -163,7 +163,7 @@ function pretty_dress($view)
 			
 	$view = preg_replace($tagSearches, $tagReplaces, $view);
 	
-	return correctMetapageImage($view);
+	return correctCoverpageImage($view);
 }
 
 $defaultModeSelected = false;
@@ -194,76 +194,76 @@ if ((!isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag']))) {
 		$initModeSelected = true;
 }
 
-$metapagePluginArray = array();
-for ($i=0; $i<count($metapageMappings); $i++) {
-	$metapagePluginArray[$metapageMappings[$i]['plugin'] . '/' . $metapageMappings[$i]['handler']]=
+$coverpagePluginArray = array();
+for ($i=0; $i<count($coverpageMappings); $i++) {
+	$coverpagePluginArray[$coverpageMappings[$i]['plugin'] . '/' . $coverpageMappings[$i]['handler']]=
 		array( 
-			'type' => 3, 'id' => $metapageMappings[$i]['handler'],
-			'plugin' => $metapageMappings[$i]['plugin'], 'title' =>$metapageMappings[$i]['title'], 
-			'display' => $metapageMappings[$i]['display'],
-			'identifier' => implode(':', array(3,$metapageMappings[$i]['plugin'],$metapageMappings[$i]['handler'])),
-			'parameters' => $metapageMappings[$i]['parameters']
+			'type' => 3, 'id' => $coverpageMappings[$i]['handler'],
+			'plugin' => $coverpageMappings[$i]['plugin'], 'title' =>$coverpageMappings[$i]['title'], 
+			'display' => $coverpageMappings[$i]['display'],
+			'identifier' => implode(':', array(3,$coverpageMappings[$i]['plugin'],$coverpageMappings[$i]['handler'])),
+			'parameters' => $coverpageMappings[$i]['parameters']
 		);
 }
 
 $skin = new Skin($skinSetting['skin']);
-$usedMetapageBasicModule = array();
-$metapageCount = count($skin->metapageBasicModules);
+$usedCoverpageBasicModule = array();
+$coverpageCount = count($skin->coverpageBasicModules);
 
-if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useMetapageInit']))) {
-	$metapageInitView = getBlogSetting("metapageInitView");
-	if (is_null($metapageInitView)) {
-		setBlogSetting("metapageInitView", 1);
-		$metapageInitView = 1;
+if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useCoverpageInit']))) {
+	$coverpageInitView = getBlogSetting("coverpageInitView");
+	if (is_null($coverpageInitView)) {
+		setBlogSetting("coverpageInitView", 1);
+		$coverpageInitView = 1;
 	} else {
-		setBlogSetting("metapageInitView", 0);
-		$metapageInitView = 0;
+		setBlogSetting("coverpageInitView", 0);
+		$coverpageInitView = 0;
 	}
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		setBlogSetting("metapageInitView", 1);
-		$metapageInitView = 1;
+		setBlogSetting("coverpageInitView", 1);
+		$coverpageInitView = 1;
 } else {
-	$metapageInitView = getBlogSetting("metapageInitView");
+	$coverpageInitView = getBlogSetting("coverpageInitView");
 }
 
-getBlogContentForMetaPage();
+getBlogContentForCoverPage();
 ?>
-						<form id="part-metapage-order" class="part" method="post" action="<?php echo $blogURL; ?>/owner/center/metapage">
-							<h2 class="caption"><span class="main-text"><?php echo _t('메타 페이지를 관리합니다');?></span></h2>
+						<form id="part-coverpage-order" class="part" method="post" action="<?php echo $blogURL; ?>/owner/center/coverpage">
+							<h2 class="caption"><span class="main-text"><?php echo _t('표지를 관리합니다');?></span></h2>
 <?php
-	if(isset($skin->meta)) {
+	if(isset($skin->cover)) {
 ?>
-							<dl id="independent-meta-line" class="line">
+							<dl id="independent-cover-line" class="line">
 								<dt><?php echo _t('독립패널 설정');?></dt>
 								<dd>
-									<input type="checkbox" class="checkbox" id="useMetapageInit" name="useMetapageInit" value="on" onclick="changeList();return false;"<?php echo $metapageInitView == 1 ? ' checked="checked"' : NULL;?> />
-									<label for="useMetapageInit"><?php echo _t('메타 페이지를 첫 화면으로 설정합니다');?></label>
+									<input type="checkbox" class="checkbox" id="useCoverpageInit" name="useCoverpageInit" value="on" onclick="changeList();return false;"<?php echo $coverpageInitView == 1 ? ' checked="checked"' : NULL;?> />
+									<label for="useCoverpageInit"><?php echo _t('표지를 첫 화면으로 사용합니다');?></label>
 								</dd>
 							</dl>							
 <?php
 	}
 ?>
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t('블로그의 메타 페이지 구성을 변경할 수 있습니다. 메타 페이지는 블로그 첫 화면에 표시되는 부분입니다. 메타 페이지에 새로운 요소를 추가/삭제할 수 있으며 패널들을 자유롭게 배치 할 수 있습니다.');?>
-								<?php echo ($service['type'] == 'path' || $service['type'] == 'domain') ?  _t('다중 사용자 모드로 설치된 경우 블로그 관리자는 메타 페이지 기능을 이용하여 대표 블로그를 다른 블로그들에 대한 센터 기능을 하는 메타 페이지로 구성할 수 있습니다.') : '';?></p>
+								<p class="explain"><?php echo _t('블로그의 표지 구성을 변경할 수 있습니다.');?> <?php echo _f('표지는 블로그 첫 화면 또는 %1/cover 에 표시되는 부분입니다.',$defaultURL);?> <?php echo _t('표지에 새로운 요소를 추가/삭제할 수 있으며 패널들을 자유롭게 배치 할 수 있습니다.');?>
+								<?php echo ($service['type'] == 'path' || $service['type'] == 'domain') ?  _t('다중 사용자 모드로 설치된 경우 블로그 관리자는 표지 기능을 이용하여 대표 블로그를 다른 블로그들에 대한 센터 기능을 하도록 구성할 수 있습니다.') : '';?></p>
 							</div>
 							
 							<dl id="direct-link-line" class="line">
 								<dt><?php echo _t('플러그인 설정');?></dt>
-								<dd><a class="button" href="<?php echo $blogURL;?>/owner/plugin?visibility=metapage"><?php echo _t('플러그인 설정 페이지로 바로가기');?></a></dd>
+								<dd><a class="button" href="<?php echo $blogURL;?>/owner/plugin?visibility=coverpage"><?php echo _t('플러그인 설정 페이지로 바로가기');?></a></dd>
 							</dl>	
 <?php
-if ($metapageCount == 0 || count($metapageMappings) == 0) {
-	if ($metapageCount == 0)
-		$errmsg = '사용중인 스킨이 메타 페이지를 지원하지 않습니다.';
+if ($skin->cover == null || count($coverpageMappings) == 0) {
+	if ($skin->cover == null)
+		$errmsg = '사용중인 스킨이 표지를 지원하지 않습니다.';
 	else
-		$errmsg = '사용중인 메타 페이지 플러그인이 없습니다.';
+		$errmsg = '사용중인 표지 플러그인이 없습니다.';
 ?>
-							<ul id="metapage-tabs-box" class="tabs-box">
-								<li class="selected"><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/metapage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
+							<ul id="coverpage-tabs-box" class="tabs-box">
+								<li class="selected"><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/coverpage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
 							</ul>
 							
-							<div id="metapage-box-disabled" class="data-inbox">
+							<div id="coverpage-box-disabled" class="data-inbox">
 								<p><?php echo _t($errmsg);?></p>
 							</div>
 						</form>
@@ -272,36 +272,36 @@ if ($metapageCount == 0 || count($metapageMappings) == 0) {
 	exit;
 }
 
-// 사용중인 메타 페이지 모듈 리스트 출력.
+// 사용중인 표지 모듈 리스트 출력.
 $bFirstRadio = true;
-$metapageConfig = getMetapageModuleOrderData();
-if (is_null($metapageConfig)) {
-	for ($i=0; $i<$metapageCount; $i++) {
-		$metapageConfig[$i] = array();
+$coverpageConfig = getCoverpageModuleOrderData();
+if (is_null($coverpageConfig)) {
+	for ($i=0; $i<$coverpageCount; $i++) {
+		$coverpageConfig[$i] = array();
 	}
 }
 ?>
-							<ul id="metapage-tabs-box" class="tabs-box">
-								<li<?php echo $defaultModeSelected ? ' class="selected"' : NULL;?>><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/metapage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
-								<li<?php echo $safeModeSelected ? ' class="selected"' : NULL;?>><a id="safe-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/metapage?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a></li>
-								<li<?php echo $tagModeSelected ? ' class="selected"' : NULL;?>><a id="tag-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/metapage?tag" title="<?php echo _t('실제 블로그 메타 페이지에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a></li>
-								<li<?php echo $initModeSelected ? ' class="selected"' : NULL;?>><a id="init-button" class="button" href="metapage/initialize<?php echo $viewMode2;?>" onclick="if (!confirm('<?php echo _t('정말 메타 페이지의 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('메타 페이지의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a></li>
+							<ul id="coverpage-tabs-box" class="tabs-box">
+								<li<?php echo $defaultModeSelected ? ' class="selected"' : NULL;?>><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/coverpage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
+								<li<?php echo $safeModeSelected ? ' class="selected"' : NULL;?>><a id="safe-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/coverpage?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a></li>
+								<li<?php echo $tagModeSelected ? ' class="selected"' : NULL;?>><a id="tag-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/coverpage?tag" title="<?php echo _t('실제 블로그 표지에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a></li>
+								<li<?php echo $initModeSelected ? ' class="selected"' : NULL;?>><a id="init-button" class="button" href="coverpage/initialize<?php echo $viewMode2;?>" onclick="if (!confirm('<?php echo _t('정말 표지의 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('표지의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a></li>
 							</ul>
 							
-							<div id="metapage-box" class="data-inbox">
+							<div id="coverpage-box" class="data-inbox">
 								<table border="0">
 									<tr>
 <?php
 
-for ($i=0; $i<$metapageCount; $i++) {
-	if (array_key_exists($i, $metapageConfig))
-		$orderConfig = $metapageConfig[$i];
+for ($i=0; $i<$coverpageCount; $i++) {
+	if (array_key_exists($i, $coverpageConfig))
+		$orderConfig = $coverpageConfig[$i];
 	else
 		$orderConfig = array();
 ?>
 										<td class="section">
-											<h3><input type="radio" id="metapage-<?php echo $i + 1;?>" class="radio" name="metapageNumber" value="<?php echo $i;?>"<?php echo $bFirstRadio ? ' checked="checked"' : NULL;?> /><label for="metapage-<?php echo $i + 1;?>"><?php echo $skin->metapageName[$i];?></label></h3>
-											<ul id="metapage-ul-<?php echo $i;?>" class="metapage">
+											<h3><input type="radio" id="coverpage-<?php echo $i + 1;?>" class="radio" name="coverpageNumber" value="<?php echo $i;?>"<?php echo $bFirstRadio ? ' checked="checked"' : NULL;?> /><label for="coverpage-<?php echo $i + 1;?>"><?php echo $skin->coverpageName[$i];?></label></h3>
+											<ul id="coverpage-ul-<?php echo $i;?>" class="coverpage">
 <?php
 	for ($j=0; $j<count($orderConfig); $j++) {
 		if ($orderConfig[$j]['type'] == 3) { // plugin
@@ -310,13 +310,13 @@ for ($i=0; $i<$metapageCount; $i++) {
 			$sidbarPluginIndex = $plugin . '/' . $handler;
 			
 			$invalidPlugin = false;
-			if (!array_key_exists($sidbarPluginIndex,  $metapagePluginArray)) {
+			if (!array_key_exists($sidbarPluginIndex,  $coverpagePluginArray)) {
 				// invalid or missed plug-in
-				$metapagePluginArray[$sidbarPluginIndex] = array();
-				$metapagePluginArray[$sidbarPluginIndex]['title'] = $plugin;
-				$metapagePluginArray[$sidbarPluginIndex]['handler'] = $handler;
-				$metapagePluginArray[$sidbarPluginIndex]['display'] = $plugin;
-				$metapagePluginArray[$sidbarPluginIndex]['parameters'] = array();
+				$coverpagePluginArray[$sidbarPluginIndex] = array();
+				$coverpagePluginArray[$sidbarPluginIndex]['title'] = $plugin;
+				$coverpagePluginArray[$sidbarPluginIndex]['handler'] = $handler;
+				$coverpagePluginArray[$sidbarPluginIndex]['display'] = $plugin;
+				$coverpagePluginArray[$sidbarPluginIndex]['parameters'] = array();
 				$invalidPlugin = true;
 			} else {
 				include_once (ROOT . "/plugins/{$plugin}/index.php");
@@ -328,8 +328,8 @@ for ($i=0; $i<$metapageCount; $i++) {
 				else
 					$configVal ='';
 ?>
-												<li class="metapage-module metapage-plugin-module" id="metapage-element-<?php echo "{$i}-{$j}";?>">
-													<h4 class="module-title"><?php echo $metapagePluginArray[$sidbarPluginIndex]['display'], '::', $metapagePluginArray[$sidbarPluginIndex]['title'];?></h4>
+												<li class="coverpage-module coverpage-plugin-module" id="coverpage-element-<?php echo "{$i}-{$j}";?>">
+													<h4 class="module-title"><?php echo $coverpagePluginArray[$sidbarPluginIndex]['display'], '::', $coverpagePluginArray[$sidbarPluginIndex]['title'];?></h4>
 													<div class="button-box">
 <?php
 				if ($j == 0) {
@@ -338,7 +338,7 @@ for ($i=0; $i<$metapageCount; $i++) {
 <?php
 				} else {
 ?>
-														<a href="<?php echo $blogURL; ?>/owner/center/metapage/order/?metapageNumber=<?php echo $i;?>&amp;targetmetapageNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>&amp;targetPos=<?php echo $j - 1;?><?php echo $viewMode;?>" title="<?php echo _t('이 메타 페이지 모듈을 위로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_moveup_module.jpg" border="0" alt="<?php echo _t('위로');?>" /></a>
+														<a href="<?php echo $blogURL; ?>/owner/center/coverpage/order/?coverpageNumber=<?php echo $i;?>&amp;targetcoverpageNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>&amp;targetPos=<?php echo $j - 1;?><?php echo $viewMode;?>" title="<?php echo _t('이 표지 모듈을 위로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_moveup_module.jpg" border="0" alt="<?php echo _t('위로');?>" /></a>
 <?php
 				}
 				
@@ -348,19 +348,19 @@ for ($i=0; $i<$metapageCount; $i++) {
 <?php
 				} else {
 ?>
-														<a href="<?php echo $blogURL; ?>/owner/center/metapage/order/?metapageNumber=<?php echo $i;?>&amp;targetmetapageNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>&amp;targetPos=<?php echo $j + 2;?><?php echo $viewMode;?>" title="<?php echo _t('이 메타 페이지 모듈을 아래로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_movedown_module.jpg" border="0" alt="<?php echo _t('아래로');?>" /></a>
+														<a href="<?php echo $blogURL; ?>/owner/center/coverpage/order/?coverpageNumber=<?php echo $i;?>&amp;targetcoverpageNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>&amp;targetPos=<?php echo $j + 2;?><?php echo $viewMode;?>" title="<?php echo _t('이 표지 모듈을 아래로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_movedown_module.jpg" border="0" alt="<?php echo _t('아래로');?>" /></a>
 <?php
 				}
 ?>
-														<a href="<?php echo $blogURL; ?>/owner/center/metapage/delete/?metapageNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?><?php echo $viewMode;?>" title="<?php echo _t('이 메타 페이지 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.gif" border="0" alt="<?php echo _t('삭제');?>" /></a>
-														<!-- TODO : metapage plugin settting -->									
+														<a href="<?php echo $blogURL; ?>/owner/center/coverpage/delete/?coverpageNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?><?php echo $viewMode;?>" title="<?php echo _t('이 표지 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.gif" border="0" alt="<?php echo _t('삭제');?>" /></a>
+														<!-- TODO : coverpage plugin settting -->									
 													</div>
 <?php 
-				$pluginparameters = $metapagePluginArray[$sidbarPluginIndex]['parameters'];
+				$pluginparameters = $coverpagePluginArray[$sidbarPluginIndex]['parameters'];
 				if (count($pluginparameters) > 0) {
 ?>
 													<div class="edit-button-box">
-														<a href="<?php echo $blogURL; ?>/owner/center/metapage/edit?metapageNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?><?php echo $viewMode;?>"><?php echo _t('편집');?></a>
+														<a href="<?php echo $blogURL; ?>/owner/center/coverpage/edit?coverpageNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?><?php echo $viewMode;?>"><?php echo _t('편집');?></a>
 													</div>
 <?php 
 				}
@@ -377,7 +377,7 @@ for ($i=0; $i<$metapageCount; $i++) {
 <?php
 			}
 			if ($invalidPlugin == true) 
-				 unset($metapagePluginArray[$sidbarPluginIndex]);
+				 unset($coverpagePluginArray[$sidbarPluginIndex]);
 				
 		} else {
 			// other type
@@ -394,34 +394,18 @@ for ($i=0; $i<$metapageCount; $i++) {
 								</table>
 							</div>
 							
-							<div id="metapage-element-box" class="data-inbox">
+							<div id="coverpage-element-box" class="data-inbox">
 								<h3><?php echo _t('추가 가능한 모듈');?></h3>
-<?php
-// 사용중이지 않은 스킨 내장형 메타 페이지 모듈 리스트 출력.
-$sortedArray = array();
-for ($i=0; $i<$metapageCount; $i++) {
-	$moduleCountInMetapage = count($skin->metapageBasicModules[$i]);
-	for ($j=0; $j<$moduleCountInMetapage; $j++) {
-		array_push($sortedArray, 
-			array('title' => $skin->metapageBasicModules[$i][$j]['title'], 
-				'body' => $skin->metapageBasicModules[$i][$j]['body'],
-				'identifier' => implode(':', array(1, $i, $j))
-			)
-		);
-	}
-}
 
-
-?>
-								<fieldset id="metapage-plugin-module-box" class="section">
+								<fieldset id="coverpage-plugin-module-box" class="section">
 									<legend><?php echo _t('추가 가능한 플러그인');?></legend>
 									
 									<ul class="module-list">
 <?php
-// 메타 페이지 플러그인 모듈을 리스트에 포함시킨다.
-foreach ($metapagePluginArray as $nowKey) {
+// 표지 플러그인 모듈을 리스트에 포함시킨다.
+foreach ($coverpagePluginArray as $nowKey) {
 ?>
-										<li class="metapage-module" id="<?php echo "add-metapage-module-{$nowKey['identifier']}";?>">
+										<li class="coverpage-module" id="<?php echo "add-coverpage-module-{$nowKey['identifier']}";?>">
 											<h4 class="module-title"><input type="radio" id="module<?php echo $nowKey['identifier'];?>" class="radio" name="moduleId" value="<?php echo $nowKey['identifier'];?>" /><label for="module<?php echo $nowKey['identifier'];?>"><?php echo $nowKey['display'], '::' , $nowKey['title'];?></label></h4>
 																			
 											<div class="edit-button-box">
@@ -441,20 +425,20 @@ foreach ($metapagePluginArray as $nowKey) {
 								</fieldset>
 								
 								<div class="button-box">
-									<input type="submit" class="input-button" value="<?php echo _t('모듈 추가');?>" title="<?php echo _t('선택된 모듈을 메타 페이지에 추가합니다.');?>"/>									
+									<input type="submit" class="input-button" value="<?php echo _t('모듈 추가');?>" title="<?php echo _t('선택된 모듈을 표지에 추가합니다.');?>"/>									
 								</div>
 							</div>
 							
-							<p id="metapage-description" class="pseudo-clear">
-								<em>* <?php echo _t('메타 페이지의 위치는 스킨의 구조에 따라 달라집니다.');?></em>
+							<p id="coverpage-description" class="pseudo-clear">
+								<em>* <?php echo _t('표지의 위치는 스킨의 구조에 따라 달라집니다.');?></em>
 							</p>
 						</form>
 						
 						<script src="<?php echo $service['path'];?>/script/dojo/dojo.js" type="text/javascript"></script>
-						<script src="<?php echo $service['path'];?>/script/metapage.js" type="text/javascript"></script>
+						<script src="<?php echo $service['path'];?>/script/coverpage.js" type="text/javascript"></script>
 						<script type="text/javascript">
 							//<![CDATA[
-								var decorateDragPanelString_deleteTitle = "<?php echo _t('이 메타 페이지 모듈을 삭제합니다.');?>";
+								var decorateDragPanelString_deleteTitle = "<?php echo _t('이 표지 모듈을 삭제합니다.');?>";
 								var commonString_delete = "<?php echo _t('삭제');?>";
 								var commonString_cancel = "<?php echo _t('취소');?>";
 								var commonString_close = "<?php echo _t('닫기');?>";
@@ -469,12 +453,12 @@ foreach ($metapagePluginArray as $nowKey) {
 									var pNode = null;
 									
 <?php
-		for ($i=0; $i<$metapageCount; $i++) {
-			echo "pNode = document.getElementById('metapage-ul-{$i}').firstChild;";
+		for ($i=0; $i<$coverpageCount; $i++) {
+			echo "pNode = document.getElementById('coverpage-ul-{$i}').firstChild;";
 ?>
 									pos = 0;
 									while (pNode != null) {
-										if ((pNode.nodeType != 3/* TEXT_NODE */) && (pNode.className.indexOf("metapage-module") != -1)) { 
+										if ((pNode.nodeType != 3/* TEXT_NODE */) && (pNode.className.indexOf("coverpage-module") != -1)) { 
 											pNode.modulePos = pos++;
 											
 											var p2Node = pNode.firstChild;
@@ -483,7 +467,7 @@ foreach ($metapagePluginArray as $nowKey) {
 												p2Node = p2Node.nextSibling;
 											}
 											if (p2Node != null) {
-												p2Node.href = blogURL + "/owner/center/metapage/delete/?metapageNumber=" + pNode.metapageNumber + "&modulePos=" + pNode.modulePos + viewMode;
+												p2Node.href = blogURL + "/owner/center/coverpage/delete/?coverpageNumber=" + pNode.coverpageNumber + "&modulePos=" + pNode.modulePos + viewMode;
 											}
 											
 											if ((pNode.moduleCategory == 'plugin') && (pNode.hasPropertyEdit == true)) {
@@ -495,7 +479,7 @@ foreach ($metapagePluginArray as $nowKey) {
 													p2Node = p2Node.nextSibling;
 												}
 												if (p2Node != null) {
-													p2Node.innerHTML = '<a onclick="editMetapagePlugin('+ pNode.metapageNumber + ',' + pNode.modulePos + '); return false" ><?php echo _t('편집');?><\/a>';
+													p2Node.innerHTML = '<a onclick="editCoverpagePlugin('+ pNode.coverpageNumber + ',' + pNode.modulePos + '); return false" ><?php echo _t('편집');?><\/a>';
 												}
 											}
 										}
@@ -529,41 +513,41 @@ foreach ($metapagePluginArray as $nowKey) {
 									}
 									
 <?php
-for ($i=0; $i<$metapageCount; $i++) {
-	echo "document.getElementById('metapage-ul-{$i}').metapage = {$i};";
-	echo "new DropPanel(document.getElementById('metapage-ul-{$i}'), [\"metapage\"]);";
+for ($i=0; $i<$coverpageCount; $i++) {
+	echo "document.getElementById('coverpage-ul-{$i}').coverpage = {$i};";
+	echo "new DropPanel(document.getElementById('coverpage-ul-{$i}'), [\"coverpage\"]);";
 	
-	$orderConfig = array_key_exists($i, $metapageConfig) ? $metapageConfig[$i] :  array();
+	$orderConfig = array_key_exists($i, $coverpageConfig) ? $coverpageConfig[$i] :  array();
 	for ($j=0; $j<count($orderConfig); $j++) {
-		echo "document.getElementById('metapage-element-{$i}-{$j}').metapageNumber = {$i};";
-		echo "document.getElementById('metapage-element-{$i}-{$j}').modulePos = {$j};";
-		echo "document.getElementById('metapage-element-{$i}-{$j}').ajaxtype = 'reorder';";
-		echo "document.getElementById('metapage-element-{$i}-{$j}').hasPropertyEdit = false;";
+		echo "document.getElementById('coverpage-element-{$i}-{$j}').coverpageNumber = {$i};";
+		echo "document.getElementById('coverpage-element-{$i}-{$j}').modulePos = {$j};";
+		echo "document.getElementById('coverpage-element-{$i}-{$j}').ajaxtype = 'reorder';";
+		echo "document.getElementById('coverpage-element-{$i}-{$j}').hasPropertyEdit = false;";
 		
 		if ($orderConfig[$j]['type'] == 3) {
-			echo "document.getElementById('metapage-element-{$i}-{$j}').moduleCategory = 'plugin';";
-			echo "document.getElementById('metapage-element-{$i}-{$j}').hasPropertyEdit = ";
+			echo "document.getElementById('coverpage-element-{$i}-{$j}').moduleCategory = 'plugin';";
+			echo "document.getElementById('coverpage-element-{$i}-{$j}').hasPropertyEdit = ";
 			$plugin = $orderConfig[$j]['id']['plugin'];
 			$handler = $orderConfig[$j]['id']['handler'];
 			$sidbarPluginIndex = $plugin . '/' . $handler;
 			
-			echo (array_key_exists($sidbarPluginIndex, $metapagePluginArray) 
-				&& (count($metapagePluginArray[$sidbarPluginIndex]['parameters']) > 0)) ? 'true' : 'false';
+			echo (array_key_exists($sidbarPluginIndex, $coverpagePluginArray) 
+				&& (count($coverpagePluginArray[$sidbarPluginIndex]['parameters']) > 0)) ? 'true' : 'false';
 			echo ";";
 		}
 		
-		echo "new DragPanel(document.getElementById('metapage-element-{$i}-{$j}'), [\"metapage\"]);";
+		echo "new DragPanel(document.getElementById('coverpage-element-{$i}-{$j}'), [\"coverpage\"]);";
 	}
 }
 
-foreach ($metapagePluginArray as $nowKey) {
-	echo "document.getElementById('add-metapage-module-{$nowKey['identifier']}').identifier = '{$nowKey['identifier']}';";
-	echo "document.getElementById('add-metapage-module-{$nowKey['identifier']}').ajaxtype = 'register';";
-	echo "document.getElementById('add-metapage-module-{$nowKey['identifier']}').moduleCategory = 'plugin';";
-	echo "document.getElementById('add-metapage-module-{$nowKey['identifier']}').hasPropertyEdit = ";
+foreach ($coverpagePluginArray as $nowKey) {
+	echo "document.getElementById('add-coverpage-module-{$nowKey['identifier']}').identifier = '{$nowKey['identifier']}';";
+	echo "document.getElementById('add-coverpage-module-{$nowKey['identifier']}').ajaxtype = 'register';";
+	echo "document.getElementById('add-coverpage-module-{$nowKey['identifier']}').moduleCategory = 'plugin';";
+	echo "document.getElementById('add-coverpage-module-{$nowKey['identifier']}').hasPropertyEdit = ";
 	echo count($nowKey['parameters']) > 0 ? 'true' : 'false';
 	echo ";";
-	echo "new DragPanelAdd(document.getElementById('add-metapage-module-{$nowKey['identifier']}'), [\"metapage\"]);";
+	echo "new DragPanelAdd(document.getElementById('add-coverpage-module-{$nowKey['identifier']}'), [\"coverpage\"]);";
 }
 ?>
 									reordering();
@@ -571,7 +555,7 @@ foreach ($metapagePluginArray as $nowKey) {
 								dojo.addOnLoad(initPages);
 
 								function changeList() {
-									document.getElementById("part-metapage-order").submit();
+									document.getElementById("part-coverpage-order").submit();
 								}
 							//]]>							
 						</script>						

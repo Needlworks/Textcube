@@ -71,6 +71,8 @@ function getUpperView($paging) {
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF3.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/gallery.js" ></script>
+    	<script type="text/javascript" src="<?php echo $service['path'];?>/script/flash.js" ></script>
+
 <?php
 	if (doesHaveOwnership()) {
 ?>
@@ -83,6 +85,27 @@ function getUpperView($paging) {
 			document.onkeydown = processShortcut;
 		//]]>
 	</script>
+<div style="position:absolute;top:0;left:0; background-color:transparent;background-image:none">
+<script type="text/javascript">
+//<![CDATA[
+	AC_FL_RunContent(
+		'codebase','http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0',
+		'width','1',
+		'height','1',
+		'id','clipboardPoter',
+		'src','<?php echo $service['path'];?>/script/clipboardPoter/clipboardPoter',
+		'wmode','transparent',
+		'name','clipboardPoter',
+		'allowscriptaccess','sameDomain',
+		'pluginspage','http://www.macromedia.com/go/getflashplayer',
+		'movie','<?php echo $service['path'];?>/script/clipboardPoter/clipboardPoter',
+		'flashvars', 'callback=onClipBorad'
+	);
+	window.clipboardPoter = document.getElementById("clipboardPoter");
+//]]>
+</script>
+</div>
+    
 <?php
 
 	$view = ob_get_contents();
@@ -267,7 +290,7 @@ function getCommentView($entryId, $skin) {
 		}
 		dress($prefix1 . '_rep_onclick_reply', $doubleCommentPermissionScript . "commentComment({$commentItem['id']}); return false", $commentItemView);
 		dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentItem['id']});return false", $commentItemView);
-		dress($prefix1 . '_rep_link', "$blogURL/".($entryId == 0 ? "guestbook/{$commentItem['id']}#guestbook{$commentItem['id']}" : "{$entryId}#comment{$commentItem['id']}"), $commentItemView);
+		dress($prefix1 . '_rep_link', "$blogURL/".($entryId == 0 ? "guestbook/{$commentSubItem['id']}#guestbook{$commentItem['id']}" : "{$entryId}#comment{$commentItem['id']}"), $commentItemView);
 		
 		$commentItemsView .= $commentItemView;
 	}
@@ -1256,7 +1279,7 @@ function printFeedEntriesMore($blogid, $group = 0, $feed = 0, $unreadOnly = fals
 ?>
 												<table cellpadding="0" cellspacing="0">
 <?php
-	$count = 1;
+	$count = 0;
 	foreach (getFeedEntries($blogid, $group, $feed, $unreadOnly, $starredOnly, $searchKeyword, $offset) as $entry) {
 		$class = $entry['wasread'] ? 'read' : 'unread';
 		$class .= ($count % 2) == 1 ? ' odd-line' : ' even-line';

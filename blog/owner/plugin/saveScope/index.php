@@ -5,7 +5,7 @@
 define('ROOT', '../../../..');
 $IV = array(
 	'POST' => array(
-		'visibility' => array(array('blog', 'center', 'metapage'), 'mandatory' => false),
+		'visibility' => array(array('blog', 'center', 'coverpage'), 'mandatory' => false),
 		'scope' => array('string', 'mandatory' => false),
 		'status' => array(array('activated', 'deactivated', 'activated|deactivated'), 'mandatory' => false),
 		'sort' => array(array('ascend', 'descend'), 'mandatory' => false)

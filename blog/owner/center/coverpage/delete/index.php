@@ -5,7 +5,7 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'GET' => array(
-		'metapageNumber' => array('int'),
+		'coverpageNumber' => array('int'),
 		'modulePos' => array('int'),
 		'viewMode' => array('string', 'default' => '')
 	)
@@ -13,14 +13,14 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
-requireModel("blog.metapage");
+requireModel("blog.coverpage");
 
 $skin = new Skin($skinSetting['skin']);
-$metapageCount = count($skin->metapageBasicModules);
-$metapageOrder = deleteMetapageModuleOrderData(getMetapageModuleOrderData($metapageCount), $_GET['metapageNumber'], $_GET['modulePos']);
-setBlogSetting("metapageOrder", serialize($metapageOrder));
+$coverpageCount = count($skin->coverpageBasicModules);
+$coverpageOrder = deleteCoverpageModuleOrderData(getCoverpageModuleOrderData($coverpageCount), $_GET['coverpageNumber'], $_GET['modulePos']);
+setBlogSetting("coverpageOrder", serialize($coverpageOrder));
 
 //printRespond(array('error' => 0));
 if ($_GET['viewMode'] != '') $_GET['viewMode'] = '?' . $_GET['viewMode'];
-header('Location: '. $blogURL . '/owner/center/metapage' . $_GET['viewMode']);
+header('Location: '. $blogURL . '/owner/center/coverpage' . $_GET['viewMode']);
 ?>

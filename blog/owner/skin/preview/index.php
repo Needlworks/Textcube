@@ -5,11 +5,12 @@
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForBlog.php';
 requireModel('blog.entry');
-list($entries, $paging) = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnPage']);
+
 if(!Validator::filename($_GET['skin']) && $_GET['skin'] != "customize/$blogid")
 	respondNotFoundPage();
 $skinSetting['skin'] = $_GET['skin'];
 $skin = new Skin($skinSetting['skin'], true);
+list($entries, $paging) = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnPage']);
 
 require ROOT . '/lib/piece/blog/begin.php';
 require ROOT . '/lib/piece/blog/entries.php';

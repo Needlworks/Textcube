@@ -10,6 +10,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlog.php';
+requireView('mobileView');
 $imagePath = ROOT . "/attach/$blogid/{$_GET['f']}";
 if ($fp = @fopen($imagePath, 'r')) {
 	$imageInfo = @getimagesize($imagePath);

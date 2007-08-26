@@ -67,12 +67,12 @@ class Skin {
 	var $sidebarOriginalContent = array();
 	var $sidebarName = array();
 
-	var $meta;
-	var $metapage;
-	var $metapageBasicModules = array();
-	var $metapageStorage = array();
-	var $metapageOriginalContent = array();
-	var $metapageName = array();
+	var $cover;
+	var $coverpage;
+	var $coverpageBasicModules = array();
+	var $coverpageStorage = array();
+	var $coverpageOriginalContent = array();
+	var $coverpageName = array();
 
 	var $noneCommentMessage;
 	var $singleCommentMessage;
@@ -164,30 +164,16 @@ class Skin {
 
 		handleSidebars($sval, $this, $previewMode);
 
-		// 메타페이지 작업.
-		$metapageCount = 0;
-		if (ereg("<s_meta>", $sval) && ereg("<s_metapage>", $sval)) {
-			if (!isset($this->metapageBasicModules[$metapageCount]))
-				$this->metapageBasicModules[$metapageCount] = array();
-			list($sval, $this->metapageOriginalContent[$metapageCount]) = $this->cutSkinTag($sval, "metapage");
-			list($sval, $this->meta) = $this->cutSkinTag($sval, 'meta');
-					
-			$firstPos = strlen($this->metapageOriginalContent[$metapageCount]);
-			preg_match("/<!\-\-(.+)\-\->/", substr($this->metapageOriginalContent[$metapageCount],0,$firstPos - 1), $temp);
-			if (isset($temp[1])) {
-				$tempTitle = trim($temp[1]);
-			} else {
-				$tempTitle = _t('메타페이지');
-			}
-			$this->metapageName[$metapageCount] = $tempTitle;
-		}
+		// 표지 작업.
+		$this->coverpageBasicModules[0] = array();
+		$this->coverpageName[0] =_t('표지');
 
 		if((empty($suri['value']) 
 			&& $suri["directive"] == "/" 
 			&& $suri['page'] == 1 
-			&& getBlogSetting("metapageInitView")) ||
-		  	$suri['directive'] == "/meta"){
-			handleMetapages($sval, $this, $previewMode);
+			&& getBlogSetting("coverpageInitView")) ||
+		  	$suri['directive'] == "/cover"){
+			handleCoverpages($sval, $this, $previewMode);
 		}
 
 		$sval = str_replace('./', "{$service['path']}/skin/$name/", $sval);
@@ -196,7 +182,11 @@ class Skin {
 		$this->singleCommentMessage = str_replace('./', "{$service['path']}/skin/$name/", $this->singleCommentMessage);
 		$this->noneTrackbackMessage = str_replace('./', "{$service['path']}/skin/$name/", $this->noneTrackbackMessage);
 		$this->singleTrackbackMessage = str_replace('./', "{$service['path']}/skin/$name/", $this->singleTrackbackMessage);
-		
+
+
+		list($sval, $this->coverItem) = $this->cutSkinTag($sval, 'cover_rep');
+		list($sval, $this->cover) = $this->cutSkinTag($sval, 'cover');
+
 		list($sval, $this->listItem) = $this->cutSkinTag($sval, 'list_rep');
 		list($sval, $this->list) = $this->cutSkinTag($sval, 'list');
 		list($sval, $this->commentListItem) = $this->cutSkinTag($sval, 'rplist_rep');
@@ -366,7 +356,7 @@ class KeywordSkin {
 
 function removeAllTags($contents) {
 	$contents = preg_replace('/\[#M_[^|]*\|[^|]*\|/Us', '', str_replace('_M#]', '', preg_replace('/\[##_.+_##\]/Us', '', $contents)));
-	$contents = preg_replace('@(<s_|</s_)[0-1a-zA-Z_]+>@', '', $contents);
+	$contents = preg_replace('@<(s_[0-9a-zA-Z_]+)>.*?</\1>@s', '', $contents);
 	return $contents;	
 }
 

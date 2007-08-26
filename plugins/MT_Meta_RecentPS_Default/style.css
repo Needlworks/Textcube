@@ -1,23 +1,23 @@
-.metapage .metapost
+.coverpost
 {
 	clear: both;
 	border-bottom: 1px solid #ddd;
 	margin: 10px 0;
 }
 
-.metapage .metapost h2
+.coverpost h2
 {
 	font-size: 120%;
 	padding-right: 5px;
 }
 
-.metapage .metapost h2 a
+.coverpost h2 a
 {
 	letter-spacing: -1px;
 	line-height: 125%;
 }
 
-.metapage .metapost .img_preview
+.coverpost .img_preview
 {
 	float: left;
 	margin: 0 7px 7px 0;
@@ -29,46 +29,46 @@
 	background-color: #fff;
 }
 
-.metapage .metapost .img_preview img
+.coverpost .img_preview img
 {
 	width: 80px;
 	height: 80px;
 	cursor: pointer;
 }
 
-.metapage .metapost .post_info .category a
+.coverpost .post_info .category a
 {
 	font: 1em Dotum, Arial, sans-serif;
 	color: #888;
 	margin-right: 6px;
 }
 
-.metapage .metapost .post_info .date
+.coverpost .post_info .date
 {
 	font: 0.9em Verdana, Helvetica, Arial, Gulim, sans-serif;
 	color: #888;
 }
 
-.metapage .metapost .post_content
+.coverpost .post_content
 {
 	margin: 5px 0;
 	line-height: 125%;
 	overflow: hidden;
 }
 
-.metapage .metapost .post_tags
+.coverpost .post_tags
 {
 	padding: 5px 5px 5px 40px;
 	background: url('./images/entryTag.gif') center left no-repeat;
 	clear: both;
 }
 
-.metapage .metapost .post_tags span
+.coverpost .post_tags span
 {
 	display: none;
 }
 
-.metapage .clear
+.clear
 {
 	clear: both;
 }

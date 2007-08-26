@@ -18,7 +18,7 @@ if (strlen($suri['value'])) {
 
 	if ($skinSetting['showListOnTag'] != 0) {
 		$cache->reset();
-		$cache->name = 'tagList_'.$tag.'_'.$suri['page'];
+		$cache->name = 'tagList_'.$tag.'_'.$suri['page'].'_';
 		if(!$cache->load()) {
 			$listWithPaging = getEntryListWithPagingByTag($blogid, $tag, $suri['page'], $blog['entriesOnList']);
 			if (!array_key_exists('total',$listWithPaging[1])) $listWithPaging[1]['total'] = 0;
@@ -40,7 +40,7 @@ if (strlen($suri['value'])) {
 	require ROOT . '/lib/piece/blog/begin.php';
 	$cache->reset();
 	if(getBlogSetting('useKeywordAsTag',true)==true) {
-		$cache->name = 'keyword_'.$tag;
+		$cache->name = 'keyword_'.$tag.'_';
 		if($cache->load()) {
 			require ROOT . '/lib/piece/blog/entries.php';
 		} else {

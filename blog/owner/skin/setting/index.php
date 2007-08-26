@@ -173,7 +173,7 @@ for ($i = 1; $i <= 30; $i++) {
 $arg = ob_get_contents();
 ob_end_clean();
 ?>
-										<dl id="post-per-count-line" class="line">
+										<dl id="list-per-count-line" class="line">
 											<dt><span class="label"><?php echo _t('목록 한 쪽당 글 수');?></span></dt>
 											<dd><?php echo _f('글목록을 한 쪽당 %1개 보여줍니다.', $arg);?></dd>
 										</dl>
@@ -267,11 +267,18 @@ for ($i = 1; $i < 36; $i++) {
 													<option value="<?php echo $i;?>" <?php echo $checked;?>><?php echo $i;?></option>
 <?php
 }
-for ($i = 36; $i <= 120; $i = $i + 12) {
-	if ($i == $skinSetting['archivesOnPage'])
+for ($i = 36; $i < 120; $i = $i + 12) {
+	if ($i == $skinSetting['archivesOnPage']) {
 		$checked = ' selected="selected"';
-	else
+	} else if (($i < $skinSetting['archivesOnPage']) && (($i + 12) > $skinSetting['archivesOnPage'])) {
+		$checked = ' selected="selected"';
+?>
+													<option value="<?php echo $skinSetting['archivesOnPage'];?>" <?php echo $checked;?>><?php echo $i;?></option>
+<?php
 		$checked = '';
+	} else {
+		$checked = '';
+	}
 ?>
 													<option value="<?php echo $i;?>" <?php echo $checked;?>><?php echo $i;?></option>
 <?php
@@ -359,6 +366,7 @@ for ($i = 50; $i < 1000; $i = $i + 50) {
 ?>
 													<option value="<?php echo $skinSetting['recentNoticeLength'];?>" <?php echo $checked;?>><?php echo $skinSetting['recentNoticeLength'];?></option>
 <?php
+		$checked = '';
 	} else {
 		$checked = '';
 	}
@@ -401,6 +409,7 @@ for ($i = 50; $i < 1000; $i = $i + 50) {
 ?>
 													<option value="<?php echo $skinSetting['recentEntryLength'];?>" <?php echo $checked;?>><?php echo $skinSetting['recentEntryLength'];?></option>
 <?php
+		$checked = '';
 	} else {
 		$checked = '';
 	}
@@ -442,6 +451,7 @@ for ($i = 50; $i < 1000; $i = $i + 50) {
 ?>
 													<option value="<?php echo $skinSetting['recentCommentLength'];?>" <?php echo $checked;?>><?php echo $skinSetting['recentCommentLength'];?></option>
 <?php
+		$checked = '';
 	} else {
 		$checked = '';
 	}
@@ -482,6 +492,7 @@ for ($i = 50; $i < 1000; $i = $i + 50) {
 ?>
 														<option value="<?php echo $skinSetting['recentTrackbackLength'];?>" <?php echo $checked;?>><?php echo $skinSetting['recentTrackbackLength'];?></option>
 <?php
+		$checked = '';
 	} else {
 		$checked = '';
 	}
@@ -544,10 +555,17 @@ ob_start();
 												<select id="tagsOnTagbox" name="tagsOnTagbox">
 <?php
 for ($i = 10; $i <= 200; $i += 10) {
-	if ($i == $skinSetting['tagsOnTagbox'])
+	if ($i == $skinSetting['tagsOnTagbox']) {
 		$checked = ' selected="selected"';
-	else
+	} else if (($i < $skinSetting['tagsOnTagbox']) && (($i + 10) > $skinSetting['tagsOnTagbox'])) {
+		$checked = ' selected="selected"';
+?>
+													<option value="<?php echo $i;?>" <?php echo $checked;?>><?php echo $i;?></option>
+<?php
 		$checked = '';
+	} else {
+		$checked = '';
+	}
 ?>
 													<option value="<?php echo $i;?>" <?php echo $checked;?>><?php echo $i;?></option>
 <?php

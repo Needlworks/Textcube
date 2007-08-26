@@ -172,7 +172,10 @@ function _openid_update_id($openid,$delegatedid,$nickname,$homepage=null,$userid
 	$result = DBQuery::queryCell($query);
 
 	if (is_null($result)) {
-		$data = serialize( array( 'nickname' => $nickname, 'homepage' => $homepage, 'acl' => '' ) );
+		if( $userid === null ) {
+			$userid = '';
+		}
+		$data = serialize( array( 'nickname' => $nickname, 'homepage' => $homepage, 'acl' => $userid ) );
 		$openid_session['nickname'] = $nickname;
 		$openid_session['homepage'] = $homepage;
 
@@ -296,7 +299,7 @@ function openid_try_auth()
 	}
 
 	if( isset($_GET['openid_cancel']) || isset($_GET['openid_cancel_x']) ) {
-		header( "Location: " . $blogURL);
+		header( "Location: " . $hostURL . $blogURL);
 		exit(0);
 	}
 
@@ -640,7 +643,7 @@ function openid_LOGIN_add_form($target, $requestURI)
 
 					<dd><input type="text" class="input-text" id="openid_identifier" name="openid_identifier" value="' . $cookie_openid . '" maxlength="256" /></dd>
 					<input type="submit" class="openid-login-button" id="openid-login-button" name="openid_login" value="로그인" />
-					<dd id="openid-remember"><input type="checkbox" class="checkbox" name="openid_remember" ' . $openid_remember_check. ' /><label for="openid_remember">' . _text('오픈아이디 저장') . '</label></dd>
+					<dd id="openid-remember"><input type="checkbox" class="checkbox" id="openid_remember" name="openid_remember" ' . $openid_remember_check. ' /><label for="openid_remember">' . _text('오픈아이디 저장') . '</label></dd>
 					<dd id="openid-help"><a href="' . $openid_help_link . '">' . _text('오픈아이디란?') . '</a> </dd>
 					<dd><a href="' . $openid_signup_link . '">' . _text('오픈아이디 발급하기') . '</a></dd>
 				</dl>
@@ -1016,7 +1019,7 @@ function openid_comment_del()
 			<div id="comment-box">
 				<img src="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />	
 				<div id="command-box">
-<? 
+<?php 
 /*-------------------------------------------------------------------------------------------*/
 if( ! _openid_has_ownership($comment['openid']) ) { ?>
 					<div class="edit-line">
@@ -1025,7 +1028,7 @@ if( ! _openid_has_ownership($comment['openid']) ) { ?>
 					<div class="password-line">
 						<input type="button" class="input-button" name="Submit" value="<?php echo _text('닫기');?>" onclick="window.close()" />				
 					</div>
-<? 
+<?php 
 } else { 
 	if (!doesHaveOwnership() && (!doesHaveMembership() || ($replier != getUserId())) )
 	{
@@ -1055,14 +1058,16 @@ if( ! _openid_has_ownership($comment['openid']) ) { ?>
 	<?php
 		} else {
 	?>
-						<input type="hidden" id="password" class="input-text" name="password" value="<? echo $tmp_password ?>"/>
-	<?
+						<input type="hidden" id="password" class="input-text" name="password" value="<?php echo $tmp_password ?>"/>
+	<?php
 		}
 	}
 	?>
 						<input type="button" class="input-button" name="Submit" value="<?php echo _text('다음');?>" onclick="document.deleteComment.submit()" />				
 					</div>
-<? } ?>
+<?php
+}
+?>
 				</div>
 			</div>
 		</form>
@@ -1075,15 +1080,15 @@ function openid_manage()
 {
 	global $database, $blogURL, $hostURL;
 
-	$menu_url = $hostURL . $blogURL . "/blogid/plugin/adminMenu?name=" . $_GET['name'];
+	$menu_url = $hostURL . $blogURL . "/owner/plugin/adminMenu?name=" . $_GET['name'];
 	$menu1 = $menu_url . "&amp;mode=1";
 	$menu2 = $menu_url . "&amp;mode=3";
 	$menu3 = $menu_url . "&amp;mode=5";
 	$menu4 = $menu_url . "&amp;mode=7";
 	$order = "order by lastLogin desc";
 
-	$mode = preg_replace( '/.*mode=(.+)/', '\1', $_SERVER["QUERY_STRING"] . "mode=7");
-	/* last mode=7 will be default */
+	$mode = preg_replace( '/.*?mode=(\d)/', '\1', $_SERVER["QUERY_STRING"]);
+	if( !is_numeric($mode) ) { $mode = 7; };
 	switch( $mode )
 	{
 	case 2:
@@ -1290,7 +1295,7 @@ $className .= ($i == sizeof($rec) - 1) ? ' last-line' : '';
 			</tbody>
 		</table>
 	</div>
-<?
+<?php
 }
 
 ?>

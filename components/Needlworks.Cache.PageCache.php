@@ -64,8 +64,8 @@ class pageCache {
 		if(isset($service['disablePageCache']) && $service['disablePageCache'] == true) return false;
 		$this->initialize();
 		if(!$this->getFileName()) return false;
+		$this->getdbContents();
 		if($this->getFileContents()) {
-			$this->getdbContents();
 			return true;
 		}
 		else return false;
@@ -134,8 +134,8 @@ class pageCache {
 			AND name = '".mysql_tt_escape_string($this->realName)."'");
 		if($result !== false) {
 			$this->_dbContents = unserialize($result);
-			if(doesHaveOwnership()) $this->dbContents = $this->_dbContents['owner'];
-			else $this->dbContents = $this->_dbContents['user'];
+			if(doesHaveOwnership()) $this->dbContents = isset($this->_dbContents['owner']) ? $this->_dbContents['owner'] : null;
+			else $this->dbContents = isset($this->_dbContents['user']) ? $this->_dbContents['user'] : null;
 		} else {
 			return false;
 		}
@@ -145,7 +145,7 @@ class pageCache {
 	function setPageCacheLog() {
 		global $database;
 		if(doesHaveOwnership()) $this->_dbContents['owner'] = $this->dbContents;
-		else $this->_dbConents['user'] = $this->dbContents;
+		else $this->_dbContents['user'] = $this->dbContents;
 		return DBQuery::execute("REPLACE INTO {$database['prefix']}PageCacheLog 
 			VALUES(".getBlogId().", '".mysql_tt_escape_string($this->realName)."', '".mysql_tt_escape_string(serialize($this->_dbContents))."')");
 	}
@@ -189,8 +189,7 @@ class CacheControl{
 		$categoryLists = DBQuery::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND (name like 'categoryList_".$categoryId."%'
-				OR name like 'categoryPaging_".$categoryId."%')");
+			AND (name like 'categoryList\_".$categoryId."\_%')");
 		foreach($categoryLists as $categoryListName){
 			$cache->reset();
 			$cache->name = $categoryListName;
@@ -210,8 +209,8 @@ class CacheControl{
 		$tagLists = DBQuery::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND (name like 'tagList_".$tagId."%' 
-				OR name like 'tagPaging_".$tagId."%')");
+			AND (name like 'tagList\_".$tagId."\_%' 
+				OR name like 'keyword\_".$tagId."\_%')");
 		if (!is_null($tagLists)) {
 			foreach($tagLists as $tagListName){
 				$cache->reset();
@@ -235,7 +234,7 @@ class CacheControl{
 		$keywordEntries = DBQuery::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND name like 'keyword_".$tagId."%'");
+			AND name like 'keyword\_".$tagId."\_%'");
 		foreach($keywordEntries as $keywordEntryName){
 			$cache->reset();
 			$cache->name = $keywordEntryName;
@@ -254,7 +253,7 @@ class CacheControl{
 		$Entries = DBQuery::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND name like 'entry_".$entryId."%'");
+			AND name like 'entry\_".$entryId."\_%'");
 		foreach($Entries as $EntryName){
 			$cache->reset();
 			$cache->name = $EntryName;

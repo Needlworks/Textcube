@@ -5,6 +5,7 @@
 define('__TEXTCUBE_MOBILE__', true);
 define('ROOT', '../../..');
 require ROOT . '/lib/includeForBlog.php';
+requireView('mobileView');
 list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
 $entry = $entries ? $entries[0] : null;
 printMobileHtmlHeader();

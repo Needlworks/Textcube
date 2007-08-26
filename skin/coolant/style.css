@@ -9,14 +9,14 @@
 html
 {
 	background-color: #a8a8a8;
-	font-size: 62.5%;
 }
 
 body
 {
 	background: url('./images/bg_bodyTop.gif') 50% top repeat-x;
-	font: 1.2em/1.7 AppleGothic, Gulim, '굴림', Helvetica, sans-serif;
 	color: #666;
+	font: 1.2em/1.7 AppleGothic, Gulim, '굴림', Helvetica, sans-serif;
+	font-size: 75%;
 	padding-top: 30px;
 }
 
@@ -62,6 +62,7 @@ fieldset
 legend
 {
 	color: #999;
+	padding: 0 3px;
 }
 
 p
@@ -82,7 +83,7 @@ dfn, em, cite, address
 
 h1
 {
-	font: normal 2.3em arial, 'Trebuchet MS', Verdana, sans-serif;
+	font: normal 2.17em arial, 'Trebuchet MS', Verdana, sans-serif;
 }
 
 h1 a:link, h1 a:visited
@@ -100,7 +101,7 @@ h2
 	padding-bottom: .5em;
 	background: #fff url('./images/bg_h2.gif') repeat-x 0 100%;
 	border-bottom: 1px solid #fff;
-	font-size: 1.6em;
+	font-size: 1.5em;
 	letter-spacing: -1px;
 	color: #accb53;
 }
@@ -117,7 +118,7 @@ h2 a:hover, h2 a:active
 
 h3
 {
-	font: bold 1.2em/1.5 Arial, Helvetica, sans-serif;
+	font: bold 1.17em/1.5 Arial, Helvetica, sans-serif;
 	background-color: #faf9f8;
 	border-bottom: 1px solid #eee;
 	color: #accb53;
@@ -135,7 +136,7 @@ h3 a:hover, h3 a:active
 
 h4
 {
-	font-size: 1.1em;
+	font-size: 1.08em;
 }
 
 /*-------------------------------*/
@@ -155,7 +156,7 @@ h4
 	position: relative;
 	margin: 0 5px;
 	background: #222 url('./images/bg_authorBar.gif') repeat-x 0 0;
-	font-size: .9em;
+	font-size: 0.92em;
 	line-height: 3.3em;
 }
 
@@ -318,9 +319,10 @@ h4
 #tt-body-archive #header .tab_home a,
 #tt-body-category #header .tab_home a,
 #tt-body-entry #header .tab_home a,
-#tt-body-meta #header .tab_metapage a,
+#tt-body-cover #header .tab_cover a,
 #tt-body-location #header .tab_location a,
 #tt-body-tag #header .tab_tag a,
+#tt-body-keylog #header .tab_keyword a,
 #tt-body-notice #header .tab_notice a,
 #tt-body-guestbook #header .tab_guestbook a
 {
@@ -356,7 +358,7 @@ h4
 .subject li
 {
 	display: inline;
-	font: .9em/2 'Trebuchet MS', Helvetica, sans-serif;
+	font: 0.92em/2 'Trebuchet MS', Helvetica, sans-serif;
 	color: #999;
 }
 
@@ -382,10 +384,10 @@ h4
 
 .subject p
 {
-	padding: .3em 10px .3em 20px;
-	background: #faf9f8 url('./images/bullet_info.gif') no-repeat 0 50%;
+	padding: .3em 10px .3em 25px;
+	background: #faf9f8 url('./images/bullet_info.gif') no-repeat 5px 50%;
 	border-bottom: 1px solid #e8e8e8;
-	font: .9em 'Trebuchet MS', Helvetica, sans-serif;
+	font: 0.92em 'Trebuchet MS', Helvetica, sans-serif;
 	color: #999;
 }
 
@@ -405,7 +407,7 @@ h4
 .protectedBody input.submitBtn
 {
 	width: 5em;
-	font-size: .9em;
+	font-size: 0.92em;
 }
 
 /* search list */
@@ -444,14 +446,14 @@ h4
 .searchList .slDate
 {
 	color: #666;
-	font-size: .9em;
+	font-size: 0.92em;
 	margin-right: .4em;
 }
 
 .searchList .slCnt
 {
 	color: #f90;
-	font-size: .9em;
+	font-size: 0.92em;
 	margin-left: .2em;
 }
 
@@ -505,23 +507,15 @@ h4
 	border-left: 2px solid #ddd;
 }
 
-.article .infoAuthor
+.article fieldset
 {
-	line-height: 1.2em;
-	margin-top: 20px;
-	text-align: right;
+	clear: both;
 }
 
-.article .infoAuthor dfn
+.article hr
 {
-	background: url('./images/bullet_author.gif') no-repeat 0 50%;
-	padding: 2px 0 2px 18px;
-}
-
-.article .infoAuthor span
-{
-	color: #999;
-	font: .9em/2 'Trebuchet MS', Helvetica, sans-serif;
+	display: block;
+	margin-bottom: 1em;
 }
 
 .article ol
@@ -539,6 +533,25 @@ h4
 {
 	padding-left: 20px;
 	background: url('./images/bullet_atricleUl.gif') no-repeat 0 .5em;
+}
+
+.article .infoAuthor
+{
+	line-height: 1.2em;
+	margin-top: 20px;
+	text-align: right;
+}
+
+.article .infoAuthor dfn
+{
+	background: url('./images/bullet_author.gif') no-repeat 0 50%;
+	padding: 2px 0 2px 18px;
+}
+
+.article .infoAuthor span
+{
+	color: #999;
+	font: 0.92em/2 'Trebuchet MS', Helvetica, sans-serif;
 }
 
 .tt-gallery-box
@@ -598,7 +611,7 @@ h4
 	font-size: 0.9em;
 	line-height: 1.3;
 	padding: 3px;
-	text-align: left;
+	text-align: center;
 	margin: 5px 0 0 0;
 }
 
@@ -643,7 +656,7 @@ h4
 	padding: 0 0 .3em;
 	border-top: 1px solid #eee;
 	border-bottom: 1px solid #eee;
-	font-size: .9em;
+	font-size: 0.92em;
 	line-height: 1.5em;
 }
 
@@ -721,7 +734,7 @@ h4
 
 .trackback li span
 {
-	font: .9em 'Franklin Gothic Medium', Helvetica, sans-serif;
+	font: 0.92em 'Franklin Gothic Medium', Helvetica, sans-serif;
 	color: #999;
 }
 
@@ -808,7 +821,7 @@ h4
 	float: left;
 	display: block;
 	margin-bottom: 1em;
-	font: .9em 'Franklin Gothic Medium', Helvetica, sans-serif;
+	font: 0.92em 'Franklin Gothic Medium', Helvetica, sans-serif;
 	color: #999;
 }
 
@@ -955,7 +968,7 @@ form input:focus, textarea:focus
 	height: 25px;
 	margin-top: 1em;
 	padding: .3em;
-	font-size: .9em;
+	font-size: 0.92em;
 	color: #666;
 	cursor: pointer;
 }
@@ -1000,7 +1013,7 @@ form input:focus, textarea:focus
 
 #location dd .localAuthor
 {
-	font-size: .9em;
+	font-size: 0.92em;
 	vertical-align: middle;
 	color: #999;
 }
@@ -1056,13 +1069,146 @@ form input:focus, textarea:focus
 
 #taglog li a.cloud5
 {
-	font-size: .9em;
+	font-size: 0.92em;
 	color: #aaa;
 }
 
 #taglog li a:hover
 {
 	color: #c36;
+}
+
+/*-------------------------------*/
+
+/* keyword log */
+
+/*-------------------------------*/
+
+#keywords ul
+{
+	list-type-style: none;
+	text-align: left;
+}
+
+#keywords ul li
+{
+	display: inline;
+	line-height: 2.2em
+	list-type-style: none;
+	padding-right: 10px;
+}
+
+/*-------------------------------*/
+
+/* cover */
+
+/*-------------------------------*/
+
+.coverpost
+{
+	clear: both;
+	border-bottom: 1px solid #ddd;
+	margin: 10px 0;
+}
+
+.coverpost h2
+{
+	font-size: 120%;
+	padding-right: 5px;
+}
+
+.coverpost h2 a
+{
+	letter-spacing: -1px;
+	line-height: 125%;
+}
+
+.coverpost .img_preview
+{
+	background-color: #fff;
+	float: left;
+	padding: 0 7px 7px 0;
+}
+
+.coverpost .img_preview img
+{
+	border: 2px solid #ccc;
+	cursor: pointer;
+	height: 80px;
+	width: 80px;
+}
+
+.coverpost .post_info
+{
+	background-color: #faf9f8;
+	border-bottom: 1px solid #e8e8e8;
+	font: 0.9em Dotum, Arial, sans-serif;
+	padding: .3em .6em .3em 0;
+}
+
+.coverpost .post_info span
+{
+	line-height: 1.2em;
+	padding: .3em 0 .3em 22px;
+}
+
+.coverpost .post_info .category
+{
+	background: url('./images/bullet_clock.gif') no-repeat 6px 50%;
+}
+
+.coverpost .post_info .category a
+{
+	color: #888;
+	margin-right: 6px;
+}
+
+.coverpost .post_info .date
+{
+	background: url('./images/bullet_folder.gif') no-repeat 0 50%;
+	color: #888;
+	font-family: Verdana, Helvetica, Arial, Gulim, sans-serif;
+	padding-left: 16px;
+}
+
+.coverpost .post_info .author .preposition
+{
+	display: none;
+}
+
+.coverpost .post_info .author
+{
+	background: url('./images/bullet_author.gif') no-repeat 6px 50%;
+}
+
+.coverpost .post_content
+{
+	margin: 5px 0;
+	line-height: 125%;
+	overflow: hidden;
+}
+
+.coverpost .post_tags
+{
+	background: url('./images/bullet_tag.gif') no-repeat 0 0.35em;
+	clear: both;
+	line-height: 1.2em;
+	padding: 5px 5px 5px 20px;
+}
+
+.coverpost .post_tags a
+{
+	font-size: 0.9em;
+}
+
+.coverpost .post_tags span
+{
+	display: none;
+}
+
+.clear
+{
+	clear: both;
 }
 
 /*-------------------------------*/
@@ -1184,7 +1330,7 @@ form input:focus, textarea:focus
 
 #category
 {
-	font: .9em/2 AppleGothic, Dotum, '돋움', sans-serif;
+	font: 0.92em/2 AppleGothic, Dotum, '돋움', sans-serif;
 }
 
 #category ul
@@ -1359,7 +1505,7 @@ form input:focus, textarea:focus
 #calendar th
 {
 	height: 1.2em;
-	font: normal .9em AppleGothic, Dotum, '돋움', sans-serif !important;
+	font: normal 0.92em AppleGothic, Dotum, '돋움', sans-serif !important;
 }
 
 #calendar tr.cal_week
@@ -1398,7 +1544,7 @@ form input:focus, textarea:focus
 #counter dl
 {
 	margin-top: 1em;
-	font: .9em 'Trebuchet MS', Helvetica, sans-serif;
+	font: 0.92em 'Trebuchet MS', Helvetica, sans-serif;
 }
 
 #counter dt

@@ -355,7 +355,6 @@ function addComment($blogid, & $comment) {
 		}
 		updateCommentsOfEntry($blogid, $comment['entry']);
 		fireEvent($comment['entry'] ? 'AddComment' : 'AddGuestComment', $id, $comment);
-		
 		if ($filtered == 1)
 			return $blockType;
 		else

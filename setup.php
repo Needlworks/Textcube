@@ -117,7 +117,7 @@ if (array_key_exists('phpinfo',$_GET)) {
 <body onload="init()">
 <div id="container">
   <form id="setup" name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
-  <div id="title"><h1><img src="style/setup/title.gif" width="233" height="44" alt="<?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> Setup" /></h1></div>
+  <div id="title"><h1><img src="style/setup/title.gif" width="253" height="44" alt="<?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> Setup" /></h1></div>
   <input type="hidden" name="Lang" id="Lang" value="<?php echo $baseLanguage;?>" />
 <?php
 if (empty($_POST['step'])) {
@@ -895,8 +895,8 @@ RewriteRule ^testrewrite$ setup.php [L]"
         <tr>
           <th><?php echo _t('비밀번호');?> : </th>
           <td>
-            <input type="password" name="password" value="<?php echo (isset($_POST['password']) ? htmlspecialchars($_POST['password']) : '');?>" class="input_password"<?php echo ($check && empty($_POST['password']) ? ' style="border-color:red"' : '');?> />
-			<legend><?php echo _t('비밀번호는 최소 6자 이상이어야 합니다');?></legend>
+            <input type="password" name="password" value="<?php echo (isset($_POST['password']) ? htmlspecialchars($_POST['password']) : '');?>" class="input_password"<?php echo ($check && empty($_POST['password']) ? ' style="border-color:red"' : '');?> /><br />
+			<em class="password"><?php echo _t('비밀번호는 최소 6자 이상이어야 합니다.');?></em>
           </td>
         </tr>
         <tr>

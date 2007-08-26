@@ -181,7 +181,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
 												tempTr = tempTd.parentNode;
-												tempTr.cells[6].innerHTML = "";
+												tempTr.cells[7].innerHTML = "";
 												
 												break;
 											case 1:
@@ -210,7 +210,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
 												tempTr = tempTd.parentNode;
-												tempTr.cells[6].appendChild(tempLink);
+												tempTr.cells[7].appendChild(tempLink);
 												
 												break;
 											case 2:
@@ -231,7 +231,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
 												tempTr = tempTd.parentNode;
-												tempTr.cells[6].innerHTML = "";
+												tempTr.cells[7].innerHTML = "";
 																							
 												break;
 											case 3:
@@ -252,7 +252,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
 												tempTr = tempTd.parentNode;
-												tempTr.cells[6].innerHTML = "";
+												tempTr.cells[7].innerHTML = "";
 												
 												if (countSyndicated == false) {
 													viewWhatIsEolin();
@@ -538,7 +538,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 											newRow.className = "hidden-layer";
 											
 											newCell = newRow.insertCell(0);
-											newCell.colSpan = 9;
+											newCell.colSpan = 10;
 											newCell.setAttribute("align", "right");
 											newSection = document.createElement("DIV");
 											newSection.className = "layer-section";
@@ -580,7 +580,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										newRow.className = "hidden-layer";
 										
 										newCell = newRow.insertCell(0);
-										newCell.colSpan = 9;
+										newCell.colSpan = 10;
 										newCell.setAttribute("align", "right");
 										
 										newSection = document.createElement("DIV");
@@ -759,6 +759,7 @@ if(isset($_POST['visibility'])) $returnURLpostfix .= (empty($returnURLpostfix) ?
 											<th class="syndicate"><span class="text"><?php echo _t('발행');?></span></th>
 											<th class="category"><span class="text"><?php echo _t('분류');?></span></th>
 											<th class="title"><span class="text"><?php echo _t('제목');?></span></th>
+											<th class="author"><span class="text"><?php echo _t('필자');?></span></th>
 											<th class="protect"><span class="text"><?php echo _t('보호설정');?></span></th>
 											<th class="trackback"><span class="text"><?php echo _t('글걸기');?></span></th>
 											<th class="delete"><span class="text"><?php echo _t('삭제');?></span></th>
@@ -859,6 +860,9 @@ for ($i=0; $i<sizeof($entries); $i++) {
 	$editmode = 'entry';
 ?>
 												<a href="<?php echo $blogURL;?>/owner/<?php echo $editmode;?>/edit/<?php echo $entry['id'];?>" onclick="document.getElementById('list-form').action='<?php echo $blogURL;?>/owner/<?php echo $editmode;?>/edit/<?php echo $entry['id'];?>'<?php echo ($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '');?>; document.getElementById('list-form').submit(); return false;"><?php echo htmlspecialchars($entry['title']);?></a>
+											</td>
+											<td class="author">
+												<?php echo User::getName($entry['userid']);?>
 											</td>
 											<td class="protect">
 <?php

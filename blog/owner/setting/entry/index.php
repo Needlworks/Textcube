@@ -125,7 +125,7 @@ foreach (getAllEditors() as $key => $value) {
 										<dl id="blogapi-line" class="line">
 											<dt><span class="label"><?php echo _t('블로그 API 사용 여부');?></span></dt>
 											<dd>
-												<input type="checkbox" class="checkbox" id="useBlogAPI" name="useBlogAPI" value="yes" <?php echo (getBlogSetting("useBlogAPI", 0) == "1") ? ' checked="checked"' : '';?> /><label for="useBlogAPI"><?php echo _t('metaWeblogAPI나 Blogger API를 이용하여 글을 작성할 수 있도록 합니다.');?></label>
+												<input type="checkbox" class="checkbox" id="useBlogAPI" name="useBlogAPI" value="yes" <?php echo (getBlogSetting("useBlogAPI", 0) == "1") ? ' checked="checked"' : '';?> /><label for="useBlogAPI"><?php echo _t('MetaWeblog API나 Blogger API를 이용하여 글을 작성할 수 있도록 합니다.');?></label>
 											</dd>
 											<dd><?php echo _t("블로그 API는 MovableType 혹은 MetaWeblog API를 선택하시면 됩니다."); ?></dd>
 										</dl>

@@ -18,6 +18,9 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									<cite><?php echo _t('움베르트 에코 -장미의 이름- 중');?></cite>
 								</p>
 								<div id="copyright"><?php echo _t('&copy; 2004 - 2007. 모든 저작권은 개발자 및 공헌자에게 있습니다.<br />텍스트큐브는 니들웍스/TNF에서 개발합니다.<br />텍스트큐브와 텍스트큐브 로고는 니들웍스의 상표입니다.');?></div>
+								<div id="XHTML-ValidIcon">
+									<img src="http://www.w3.org/Icons/valid-xhtml11-blue" alt="Valid XHTML 1.1!" />
+								</div>
 							</div>
 							
 							<div id="developer-description" class="section">
@@ -78,7 +81,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											</tr>
 											<tr>
 												<td class="name"><a href="http://www.create74.com">Yong-ju, Park</a></td>
-												<td class="role"><?php echo _t('Teamblog / Metapage / Plugin');?></td>
+												<td class="role"><?php echo _t('Teamblog / Coverpage / Plugin');?></td>
 											</tr>
 											<tr>
 												<td class="name"><a href="http://tokigun.net">Seong-Hoon Kang</a></td>
@@ -89,7 +92,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								</div>
 								
 								<div id="internationalization-container" class="container">
-									<h4><span class="text"><?php echo _t('Internationalization');?></span></h4>
+									<h4><span class="text"><?php echo _t('Internationalization Maintainer');?></span></h4>
 									
 									<table>
 										<colgroup>
@@ -105,19 +108,23 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										<tbody>
 											<tr>
 												<td class="name"><a href="http://spirited.tistory.com">Youyoung Song</a></td>
-												<td class="role"><?php echo _t('Korean');?></td>
+												<td class="role">한국어</td>
 											</tr>
 											<tr>
 												<td class="name"><a href="mailto:seikanet@gmail.com">Sangjib Choi</a></td>
-												<td class="role"><?php echo _t('Japanese');?></td>
+												<td class="role">日本語</td>
 											</tr>
 											<tr>
 												<td class="name">DX.KIM</td>
-												<td class="role"><?php echo _t('Chinese');?></td>
+												<td class="role">简体中文</td>
+											</tr>
+											<tr>
+												<td class="name"><a href="http://blog.chieh.tw">Chieh</a></td>
+												<td class="role">正體中文</td>
 											</tr>
 											<tr>
 												<td class="name">Steve Yum</td>
-												<td class="role"><?php echo _t('English');?></td>
+												<td class="role">English</td>
 											</tr>
 										</tbody>
 									</table>
@@ -197,26 +204,43 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									<h4><?php echo _t('Code Contributor');?></h4>
 									
 									<p>
-									<a href="http://barosl.com/blog">랜덤여신</a>,
+									<a href="http://blog.creorix.com">Creorix</a>,
+									<a href="http://crizin.net">Crizin</a>,
+									<a href="http://egoing.net">egoing</a>,
+									<a href="http://skk97.tistory.com">Hanyoung</a>,
 									<a href="http://blog.laco.pe.kr">lacovnk</a>,
-									<a href="http://mcfuture.net">McFuture</a>,
 									<a href="http://laziel.com">laziel</a>,
-									<a href="http://sangsangbox.net">나니</a>,
-									<a href="http://tokigun.net">tokigun</a>,
 									<a href="http://story.isloco.com">linus</a>,
+									<a href="http://mcfuture.net">McFuture</a>,
 									<a href="http://nya.pe.kr">NYA</a>,
-									<a href="http://www.yangkun.pe.kr">희망이아빠</a>,
-									<a href="#">우수한</a>,
-									<a href="#">엽기민원</a>,
-									<a href="http://offree.net">도아</a>,
+									<a href="http://tokigun.net">tokigun</a>,
 									<a href="http://rsef.net/">Peris</a>,
+									<a href="http://sangsangbox.net">나니</a>,
+									<a href="http://offree.net">도아</a>,
+									<a href="http://barosl.com/blog">랜덤여신</a>,	
+									<a href="#">엽기민원</a>,
+									<a href="#">우수한</a>,
 									<a href="http://chakani.net">차칸아이</a>,
-									<a href="http://blog.creorix.com">Creorix</a>
+									<a href="http://www.yangkun.pe.kr">희망이아빠</a>
+									</p>
+									
+									<h4><?php echo _t('Internationalization Contributor');?></h4>
+									<p>
+									<a href="http://www.fsun.cn/blog">AIR</a>(简体中文),
+									<a href="http://ddokbaro.com">Baro</a>(简体中文),
+									<a href="http://hina.ushiisland.net/blog">Hina</a>(正體中文),
+									M. Satoh(日本語),
+									Nazu NT(日本語),
+									Shungchul Kim(日本語),
+									Sid (English),
+									Taku S.(日本語),
+									Terry Lee (English),
+									건더기 (English)
 									</p>
 								</div>
 								<div id="tester-container" class="container">
 									<h4><?php echo _t('Tester');?></h4>
-									<p>유마, DARKLiCH, McFuture, 심민규, 엽기민원, xizhu, 헤이, chester, NC_Fly, FeelSoGood, adeurian, laotzu</p>
+									<p>adeurian, chester, DARKLiCH, FeelSoGood, laotzu, McFuture, NC_Fly, xizhu, 심민규, 엽기민원, 유마, 헤이</p>
 								</div>
 								
 								<div id="reporter-container" class="container">

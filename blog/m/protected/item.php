@@ -10,6 +10,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlog.php';
+requireView('mobileView');
 $entry = getEntry($blogid, $suri['id']);
 if(isset($_POST['password']) && $entry['password'] == $_POST['password']) {
 	setcookie('GUEST_PASSWORD', $_POST['password'], time() + 86400, "$blogURL/");

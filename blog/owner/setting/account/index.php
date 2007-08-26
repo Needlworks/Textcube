@@ -305,7 +305,7 @@ if ($service['type'] != 'single' &&  Acl::check("group.inviters")) {
 								<thead>
 									<tr>
 										<th class="site"><span class="text"><?php echo _t('오픈아이디')?></span></th>
-										<th class="site"><span class="text"></span></th>
+										<th class="site"><span class="text"><?php echo _t('삭제');?></span></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -325,7 +325,7 @@ for ($i=0; $i<count($openid_list); $i++) {
 ?>
 									<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td><?php echo $openid_list[$i] ?></td>
-										<td><a href="<?php echo $blogURL?>/owner/setting/account/openid?mode=del&amp;openid_identifier=<?php echo urlencode($openid_list[$i])?>">삭제</a></td>
+										<td><a href="<?php echo $blogURL?>/owner/setting/account/openid?mode=del&amp;openid_identifier=<?php echo urlencode($openid_list[$i])?>"><?php echo _t('삭제') ?></a></td>
 									</tr>
 <?php
 }
@@ -489,7 +489,7 @@ if ($service['type'] != 'single' && Acl::check("group.inviters")) {
 										</dd>
 									</dl>
 								</div>
-							</form>
+							</div>
 						</div>
 <?php
 }

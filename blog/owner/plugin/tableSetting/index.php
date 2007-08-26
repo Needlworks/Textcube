@@ -65,7 +65,7 @@ if ($blogid == 1) {
 $likeEscape = array ( '/_/' , '/%/' );
 $likeReplace = array ( '\\_' , '\\%' );
 $escapename = preg_replace($likeEscape, $likeReplace, $database['prefix']);
-$query = "show tables like '{$escapename}%'";
+$query = "SHOW TABLES LIKE '{$escapename}%'";
 $dbtables = DBQuery::queryColumn($query);
 
 $result = DBQuery::queryRow("show variables like 'lower_case_table_names'");

@@ -320,7 +320,7 @@ function addBlog($blogid, $userid, $identify) {
 			'entriesOnList'            => 10,
 			'entriesOnRSS'             => 10,
 			'publishWholeOnRSS'        => 1,
-			'publishEolinSyncOnRSS'    => 0,
+			'publishEolinSyncOnRSS'    => 1,
 			'allowWriteOnGuestbook'    => 1,
 			'allowWriteDblCommentOnGuestbook' => 1,
 			'language'     => $service['language'],

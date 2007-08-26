@@ -212,6 +212,8 @@ textarea        { border:1px solid #aaa;}
 .guestList li .name         { color:#666;  font-weight:bold;}
 .guestList li .date         { font:0.8em Tahoma, Helvetica, Arial, Gulim, sans-serif;}
 
+.guestList .control a.address       { background:url(images/iconAddress.gif) no-repeat;  padding-left:52px;  padding-bottom:2px;  text-decoration:none;}
+.guestList .control a.address span  { display:none;}
 .guestList .control a.modify       { background:url(images/iconModify.gif) no-repeat;  padding:0 0 2px 53px;  text-decoration:none;}
 .guestList .control a.modify span  { display:none;}
 .guestList .control a.write        { background:url(images/iconWrite.gif) no-repeat;  padding:0 5px 2px 53px;  text-decoration:none;}

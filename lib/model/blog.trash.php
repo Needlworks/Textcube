@@ -125,21 +125,26 @@ function trashVan() {
    	global $database;
 	requireComponent('Eolin.PHP.Core');
 	requireModel('common.setting');
-	if(Timestamp::getUNIXtime() - getBlogSetting('lastTrashSweep',0) > 86400) {
+	if(Timestamp::getUNIXtime() - getServiceSetting('lastTrashSweep',0) > 86400) {
 		DBQuery::execute("DELETE FROM {$database['prefix']}Comments where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
 		DBQuery::execute("DELETE FROM {$database['prefix']}Trackbacks where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
+		setServiceSetting('lastTrashSweep',Timestamp::getUNIXtime());
+	}
+	if(Timestamp::getUNIXtime() - getServiceSetting('lastNoticeRead',0) > 43200) {
 		removeServiceSetting('Textcube_Notice');
-		setBlogSetting('lastTrashSweep',Timestamp::getUNIXtime());
+		setServiceSetting('lastNoticeRead',Timestamp::getUNIXtime());
 	}
 }
 
 function emptyTrash($comment = true)
 {
    	global $database;
+	requireModel('common.setting');
+	$blogid = getBlogId();
 	if ($comment == true) {
-		DBQuery::execute("DELETE FROM {$database['prefix']}Comments where isFiltered > 0");
+		DBQuery::execute("DELETE FROM {$database['prefix']}Comments where blogid = ".$blogid." and isFiltered > 0");
 	} else {
-		DBQuery::execute("DELETE FROM {$database['prefix']}Trackbacks where isFiltered > 0");
+		DBQuery::execute("DELETE FROM {$database['prefix']}Trackbacks where blogid = ".$blogid." and isFiltered > 0");
 	}
 }
 

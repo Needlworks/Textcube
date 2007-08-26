@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-15 13:30:06+0000\n"
-"PO-Revision-Date: 2007-08-15 13:30:06+0000\n"
+"POT-Creation-Date: 2007-08-24 12:22:12+0000\n"
+"PO-Revision-Date: 2007-08-24 12:22:12+0000\n"
 "Last-Translator: TEXTCUBE\n"
 "Language-Team: TEXTCUBE\n"
 "MIME-Version: 1.0\n"
@@ -200,6 +200,9 @@ msgstr "日文"
 msgid "MP3만 사용할 수 있습니다."
 msgstr "只能使用 MP3"
 
+msgid "MetaWeblog API나 Blogger API를 이용하여 글을 작성할 수 있도록 합니다."
+msgstr "允许通过MetaWeblog API或Blogger API发布文章"
+
 msgid "MySQL 버전"
 msgstr "MySQL版本"
 
@@ -295,9 +298,6 @@ msgstr "韩国"
 
 msgid "fontDisplayName:fontCode:fontFamily"
 msgstr "fontDisplayName:fontCode:fontFamily|MingLiU:MingLiU:Serif|PMingLiU:PMingLiU:Serif|SimHei:SimHei:Sans-serif|SimSun:SimSun:Serif|NSimSun:NSimSun:Serif"
-
-msgid "metaWeblogAPI나 Blogger API를 이용하여 글을 작성할 수 있도록 합니다."
-msgstr "允许使用metaWeblogAPI或 Blogger API来发布文章."
 
 msgid "skin.html 파일을 수정하실 수 있는 권한이 없습니다."
 msgstr "无权限修改skin.html 文件。"
@@ -491,14 +491,20 @@ msgstr "管理员修改访客的回复，回复者昵称会被管理员昵称覆
 msgid "관리자가 아닙니다"
 msgstr "不是管理员"
 
+msgid "관리자만 볼 수 있는 댓글입니다"
+msgstr "只有管理员能看到的回复"
+
 msgid "관리자만 볼 수 있는 댓글입니다."
 msgstr "只有管理员能看到的回复."
+
+msgid "관리자만 볼 수 있는 방명록입니다."
+msgstr "只有管理员能看到的留言。"
 
 msgid "관리자의 설정에 의해 오픈아이디로 로그인한 사용자만 댓글을 남길 수 있습니다"
 msgstr "按照管理者的设定，只有使用OpenID登入的用户才可以写评论。"
 
 msgid "관리자의 설정에 의해 오픈아이디로 로그인한 사용자만 댓글을 남길 수 있습니다.\\r\\n로그인하시겠습니까?"
-msgstr "按照管理者的设定，只有使用OpenID登入的用户才可以写评论。\\r\\n要登入吗?"
+msgstr "按照管理者的设定，只有使用OpenID登入的用户才可以写评论。\\\\r\\\\n要登入吗?"
 
 msgid "교정 대상을 확인하고 있습니다."
 msgstr "正在确认矫正对象"
@@ -773,8 +779,8 @@ msgstr "请确认以下项目"
 msgid "다중 사용자"
 msgstr "多用户"
 
-msgid "다중 사용자 모드로 설치된 경우 블로그 관리자는 메타 페이지 기능을 이용하여 대표 블로그를 다른 블로그들에 대한 센터 기능을 하는 메타 페이지로 구성할 수 있습니다."
-msgstr "安装多用户模式时，网志管理者可以通过MetaPage功能，建立团体网志成员的Metapage。"
+msgid "다중 사용자 모드로 설치된 경우 블로그 관리자는 표지 기능을 이용하여 대표 블로그를 다른 블로그들에 대한 센터 기능을 하도록 구성할 수 있습니다."
+msgstr "设定为多用户模式时，网站总管理员可以使用首页功能实现对其他网志的聚合。"
 
 msgid "단일 블로그"
 msgstr "单一用户"
@@ -1219,27 +1225,6 @@ msgstr "首页选项"
 
 msgid "메일 전송에 실패하였습니다."
 msgstr "发送邮件失败."
-
-msgid "메타 페이지 플러그인"
-msgstr "Metapage插件"
-
-msgid "메타 페이지로 바로가기"
-msgstr "转到Metapage"
-
-msgid "메타 페이지를 관리합니다"
-msgstr "管理Metapage"
-
-msgid "메타 페이지를 첫 화면으로 설정합니다"
-msgstr "Metapage设定为主页"
-
-msgid "메타 페이지의 기능을 스킨 설정 상태로 초기화합니다."
-msgstr "按照模板设定初始化Metapage"
-
-msgid "메타 페이지의 위치는 스킨의 구조에 따라 달라집니다."
-msgstr "Metapage的位置会因模板结构而不同"
-
-msgid "메타페이지"
-msgstr "Metapage"
 
 msgid "명령을 취소하고 이 대화상자를 닫습니다."
 msgstr "取消命令并关闭对话框."
@@ -1739,11 +1724,11 @@ msgstr "更改网志内显示数据"
 msgid "블로그의 기본 정보를 설정합니다"
 msgstr "设定网志基本信息"
 
-msgid "블로그의 메타 페이지 구성을 변경할 수 있습니다. 메타 페이지는 블로그 첫 화면에 표시되는 부분입니다. 메타 페이지에 새로운 요소를 추가/삭제할 수 있으며 패널들을 자유롭게 배치 할 수 있습니다."
-msgstr "您可以变更网志的Metapage结构。Metapage是自定义显示网志主页的功能，通过Metapage增加删除要素。"
-
 msgid "블로그의 사이드바 구성을 변경할 수 있습니다. 사이드바는 블로그 화면에서 양 옆이나 위아래에 표시되는 메뉴가 있는 부분을 말합니다. 사이드바에 새로운 요소를 추가/삭제할 수 있으며 자유로운 위치 이동을 할 수 있습니다."
 msgstr "您可以变更侧栏的结构。侧栏是网志页面两侧或上下位置出现的各种信息，您可以增加删除侧栏的各个要素。"
+
+msgid "블로그의 표지 구성을 변경할 수 있습니다."
+msgstr "可以更改网志首页的构成"
 
 msgid "비공개"
 msgstr "不公开"
@@ -1780,9 +1765,6 @@ msgstr "密码不一致."
 
 msgid "비밀번호는 6자리 이상입니다."
 msgstr "密码应为6位以上."
-
-msgid "비밀번호는 최소 6자 이상이어야 합니다"
-msgstr "密码不得少于6个字符"
 
 msgid "비밀번호는 최소 6자 이상이어야 합니다."
 msgstr "密码不得少于6个字符"
@@ -1929,7 +1911,7 @@ msgid "삭제하지 못했습니다."
 msgstr "未能删除"
 
 msgid "삭제할 파일을 선택해 주십시오\\t"
-msgstr "请选择要删除文件\\t"
+msgstr "请选择要删除文件\\\\t"
 
 msgid "삭제할 파일이 없습니다. 다시 시도하세요"
 msgstr "没有您要删除的文件，请您再试试"
@@ -1968,7 +1950,7 @@ msgid "새로운 비밀번호"
 msgstr "新密码"
 
 msgid "새로운 스킨을 선택하면 이전 스킨에 적용된 출력 설정들과 사이드바의 변경점은 모두 지워집니다.\\n스킨을 적용하시겠습니까?"
-msgstr "如果选择新的模板会删除以前模板的输出设定和侧栏的变更。\\n 要使用该模板吗？"
+msgstr "如果选择新的模板会删除以前模板的输出设定和侧栏的变更。\\\\n 要使用该模板吗？"
 
 msgid "새로운 테이블 식별자가 올바르지 않습니다. 다시 입력해 주십시오."
 msgstr "新的数据库前缀不正确，请重新输入."
@@ -1980,7 +1962,7 @@ msgid "새로운 프로필 사진을 저장 했습니다."
 msgstr "已经保存新的个人照片"
 
 msgid "색동"
-msgstr "自定首页"
+msgstr "首页"
 
 msgid "서버에 <em>%1</em>에 저장된 백업파일이 있습니다."
 msgstr "服务器上的 <em>%1</em>上存在备份文件."
@@ -2057,8 +2039,8 @@ msgstr "复原选择的回复,继续吗?"
 msgid "선택된 댓글을 삭제합니다. 계속 하시겠습니까?"
 msgstr "删除选择的评论.继续吗?"
 
-msgid "선택된 모듈을 메타 페이지에 추가합니다."
-msgstr "在Metapage增加该模块"
+msgid "선택된 모듈을 표지에 추가합니다."
+msgstr "将选择的模块添加到首页中"
 
 msgid "선택된 목록을 필터링에서 제외합니다. 계속 하시겠습니까?"
 msgstr "取消对所选项目的过滤. 继续吗?"
@@ -2196,7 +2178,7 @@ msgid "수정"
 msgstr "编辑"
 
 msgid "수정된 스킨을 사용중입니다. 새로운 스킨을 선택하면 수정된 스킨의 내용과 스킨에 적용된 출력 설정, 사이드바의 변경점은 모두 지워집니다.\\n스킨을 적용하시겠습니까?"
-msgstr "如果选择新的模板会删除以前模板的输出设定和侧栏的变更。\\n 要使用该模板吗？"
+msgstr "如果选择新的模板会删除以前模板的输出设定和侧栏的变更。\\\\n 要使用该模板吗？"
 
 msgid "수정이 실패하였습니다."
 msgstr "修改失败"
@@ -2300,11 +2282,11 @@ msgstr "时区"
 msgid "식별자"
 msgstr "识别ID"
 
-msgid "실제 블로그 메타 페이지에 사용되는 태그를 직접사용하는 모드입니다."
-msgstr "直接使用网志Metapage里的Tag的模式"
-
 msgid "실제 블로그 사이드바에 사용되는 태그를 직접사용하는 모드입니다."
 msgstr "直接使用网志侧栏使用的标签的安全模式"
+
+msgid "실제 블로그 표지에 사용되는 태그를 직접사용하는 모드입니다."
+msgstr "可直接使用TAG(实际使用于网志首页)的模式"
 
 msgid "실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다."
 msgstr "直接查看实际输出内容的模式"
@@ -2486,6 +2468,12 @@ msgstr "因为没有开启OpenID插件，所以不能设定OpenID，请联系网
 msgid "오픈아이디란?"
 msgstr "OpenID是？"
 
+msgid "오픈아이디로 로그인을 해야만 댓글 및 방명록을 쓸 수 있습니다."
+msgstr "只有通过OpenID登录才能回复或留言"
+
+msgid "오픈아이디로 로그인하여 쓴 댓글/방명록에 오픈아이디 아이콘을 표시합니다."
+msgstr "通过OpenID登录后填写的回复/留言前将显示OpenID图标"
+
 msgid "올바르지 않은 블로그 주소입니다"
 msgstr "错误的网志地址"
 
@@ -2618,15 +2606,6 @@ msgstr "修改此链接信息."
 msgid "이 링크에 연결합니다."
 msgstr "连接到此链接."
 
-msgid "이 메타 페이지 모듈을 삭제합니다."
-msgstr "删除此Metapage模块"
-
-msgid "이 메타 페이지 모듈을 아래로 이동합니다."
-msgstr "向下移动此Metapage模块"
-
-msgid "이 메타 페이지 모듈을 위로 이동합니다."
-msgstr "向上移动此Metapage模块"
-
 msgid "이 사용자를 팀블로그에서 제외합니다."
 msgstr "从团队网志中排除此用户"
 
@@ -2677,6 +2656,15 @@ msgstr "添加星号"
 
 msgid "이 포스트를 편집합니다."
 msgstr "展开此文章"
+
+msgid "이 표지 모듈을 삭제합니다."
+msgstr "删除此首页模块"
+
+msgid "이 표지 모듈을 아래로 이동합니다."
+msgstr "向下移动此首页模块"
+
+msgid "이 표지 모듈을 위로 이동합니다."
+msgstr "向上移动此首页模块"
 
 msgid "이 플러그인에 대하여"
 msgstr "关于此插件"
@@ -2835,7 +2823,7 @@ msgid "일"
 msgstr "日"
 
 msgid "일반적으로 복원시 기존의 데이터를 덮어씁니다. \\n덮어쓰지 않고 백업파일을 추가하기 위해서는 백업파일을 열어 migrational=false 를 migrational=true로 바꾸셔야 합니다. 확인하신 후에 진행하시기 바랍니다.\\n계속 하시겠습니까?"
-msgstr "复原会覆盖原有的数据。\\n如果备份文件的migrational=false改成migrational=true的话，不会覆盖原有的数据。请您慎重考虑后继续进行。\\n要继续进行吗？"
+msgstr "复原会覆盖原有的数据。\\\\n如果备份文件的migrational=false改成migrational=true的话，不会覆盖原有的数据。请您慎重考虑后继续进行。\\\\n要继续进行吗？"
 
 msgid "일별 통계 정보를 복원하고 있습니다."
 msgstr "正在复原每日统计信息"
@@ -2987,9 +2975,6 @@ msgstr "排列"
 msgid "정렬순서 변경"
 msgstr "更改排列方式"
 
-msgid "정말 메타 페이지의 기능을 초기화하시겠습니까?"
-msgstr "确定要初始化Metapage吗？"
-
 msgid "정말 사이드바 기능을 초기화하시겠습니까?"
 msgstr "真的要初始化侧栏吗?"
 
@@ -2998,6 +2983,9 @@ msgstr "确定删除吗?"
 
 msgid "정말 삭제하시겠습니까?"
 msgstr "确定删除吗?"
+
+msgid "정말 표지의 기능을 초기화하시겠습니까?"
+msgstr "确定要初始化首页吗？"
 
 msgid "정보 가져오기"
 msgstr "读取数据"
@@ -3362,6 +3350,9 @@ msgstr "标签模块的标签数"
 msgid "태그상자의 태그를 %1개 표시합니다."
 msgstr "标签模块中显示 %1个标签"
 
+msgid "태그와 태그 관계 정보를 다시 계산해서 저장합니다."
+msgstr "重新计算标签之间的关系并保存。"
+
 msgid "태그의 정렬방법을"
 msgstr "显示标签的方式"
 
@@ -3623,6 +3614,33 @@ msgstr "信息不足"
 msgid "표시할 플러그인의 종류를 선택하세요."
 msgstr "选择要显示的插件类别"
 
+msgid "표지"
+msgstr "首页"
+
+msgid "표지 설정으로 바로가기"
+msgstr "转到首页设定"
+
+msgid "표지 플러그인"
+msgstr "首页插件"
+
+msgid "표지는 블로그 첫 화면 또는 %1/cover 에 표시되는 부분입니다."
+msgstr "首页为网志的第一画面或%1/cover"
+
+msgid "표지를 관리합니다"
+msgstr "管理首页"
+
+msgid "표지를 첫 화면으로 사용합니다"
+msgstr "将首页设定为主页"
+
+msgid "표지에 새로운 요소를 추가/삭제할 수 있으며 패널들을 자유롭게 배치 할 수 있습니다."
+msgstr "可以添加/删除首页元素，也可以自由移动。"
+
+msgid "표지의 기능을 스킨 설정 상태로 초기화합니다."
+msgstr "按照模板设定初始化首页"
+
+msgid "표지의 위치는 스킨의 구조에 따라 달라집니다."
+msgstr "首页的位置会因模板的结构而不同"
+
 msgid "프로그램 사용에 대한 유지 및 보수 등의 의무와, 사용 중 데이터 손실 등에 대한 사고책임은 모두 사용자에게 있습니다."
 msgstr "对软件的使用，日常数据维护等义务和使用中的数据丢失由用户负责"
 
@@ -3754,6 +3772,9 @@ msgstr "昵称设定"
 
 msgid "필명 스타일"
 msgstr "昵称样式"
+
+msgid "필자"
+msgstr "作者"
 
 msgid "필터 설정을 복원하고 있습니다."
 msgstr "正在复原过滤"

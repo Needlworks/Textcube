@@ -12,7 +12,7 @@ if (isset($_REQUEST['ajaxcall'])) {
 
 $IV = array(
 		'REQUEST' => array(
-			'metapageNumber' => array('int'),
+			'coverpageNumber' => array('int'),
 			'modulePos' => array('int'),
 			'viewMode' => array('string', 'default' => '')
 			)
@@ -21,20 +21,20 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
-requireModel("blog.metapage");
+requireModel("blog.coverpage");
 requireStrictRoute();
 
 $skin = new Skin($skinSetting['skin']);
-$metapageCount = count($skin->metapageBasicModules);
-$metapageOrderData = getMetapageModuleOrderData($metapageCount);
+$coverpageCount = count($skin->coverpageBasicModules);
+$coverpageOrderData = getCoverpageModuleOrderData($coverpageCount);
 
-$metapageNumber = $_REQUEST['metapageNumber'];
+$coverpageNumber = $_REQUEST['coverpageNumber'];
 $modulePos = $_REQUEST['modulePos'];
 
-if (($metapageNumber < 0) || ($metapageNumber >= $metapageCount)) respondErrorPage();
-if (!isset($metapageOrderData[$metapageNumber]) || !isset($metapageOrderData[$metapageNumber][$modulePos])) respondErrorPage();
+if (($coverpageNumber < 0) || ($coverpageNumber >= $coverpageCount)) respondErrorPage();
+if (!isset($coverpageOrderData[$coverpageNumber]) || !isset($coverpageOrderData[$coverpageNumber][$modulePos])) respondErrorPage();
 
-$pluginData = $metapageOrderData[$metapageNumber][$modulePos];
+$pluginData = $coverpageOrderData[$coverpageNumber][$modulePos];
 if ($pluginData['type'] != 3) respondErrorPage();
 
 $plugin = $pluginData['id']['plugin'];
@@ -43,7 +43,7 @@ $oldParameters = $pluginData['parameters'];
 
 $title = $plugin . '::' . $handler;
 
-foreach($metapageMappings as $sm)
+foreach($coverpageMappings as $sm)
 {
 	if (($sm['plugin'] == $plugin) && ($sm['handler'] == $handler))
 		$title = $sm['display'] . '::' . $sm['title'];
@@ -53,7 +53,7 @@ foreach($metapageMappings as $sm)
 $identifier = $plugin . '/' . $handler;
 
 $parameters = array();
-foreach($metapageMappings as $item) {
+foreach($coverpageMappings as $item) {
 	if (($item['plugin'] == $plugin) && ($item['handler'] == $handler)) {
 		$parameters = $item['parameters'];
 		break;
@@ -132,7 +132,7 @@ if ($ajaxcall == false) {
 $modeParam = !empty($_REQUEST['viewMode']) ? '&' . $_REQUEST['viewMode'] : '';
 
 echo '<h2 class="caption"><span class="main-text">' . $title . '</span></h2>';
-echo '<form action="' . $blogURL . '/owner/center/metapage/setPlugin?metapageNumber=', $metapageNumber, '&modulePos=', $modulePos, $modeParam, '" method="POST" >';
+echo '<form action="' . $blogURL . '/owner/center/coverpage/setPlugin?coverpageNumber=', $coverpageNumber, '&modulePos=', $modulePos, $modeParam, '" method="POST" >';
 echo '	<div class="field-box">';
 echo $result;
 echo '	</div>';

@@ -1096,7 +1096,7 @@ class DBQuery {
 		}
 		if( stristr($query, 'update ') ||
 			stristr($query, 'insert ') ||
-			stristr($query, 'update ') ||
+			stristr($query, 'delete ') ||
 			stristr($query, 'replace ') ) {
 			DBQuery::clearCache();
 		}

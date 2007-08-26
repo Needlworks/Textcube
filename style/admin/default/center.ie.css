@@ -48,51 +48,51 @@
 	width                            : 620px;
 }
 
-/* Metapage ***************************************************************************************/
+/* Coverpage ***************************************************************************************/
 
-#part-metapage-order
+#part-coverpage-order
 {
 	background-position              : 308px 135px;	
 }
 
-#metapage-preview-mode
+#coverpage-preview-mode
 {
 	margin                           : 30px 10px 13px 10px;
 }
 
-#metapage-box
+#coverpage-box
 {
 	margin-right                     : 3px !important;
 	width                            : 603px;
 }
 
-#metapage-box .section ul.metapage
+#coverpage-box .section ul.coverpage
 {
 	height                       : 200px;
 }
 
-#metapage-element-box
+#coverpage-element-box
 {
 	margin-left                      : 5px;
 }
 
-#metapage-element-box fieldset ul.module-list
+#coverpage-element-box fieldset ul.module-list
 {
 	height                           : 418px;
 	overflow-y                       : scroll;
 }
 
-#metapage-element-box fieldset ul li.metapage-module
+#coverpage-element-box fieldset ul li.coverpage-module
 {
 	width                            : auto;
 }
 
-#metapage-description
+#coverpage-description
 {
 	padding-top                      : 0 !important;
 }
 
-#independent-meta-line
+#independent-cover-line
 {
 	margin: -31px 10px 0 0;
 }

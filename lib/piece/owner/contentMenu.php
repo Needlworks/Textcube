@@ -5,7 +5,7 @@ if(isset($blogMenu['topMenu'])) {
 			if(Acl::check('group.administrators')) {
 				$blogContentMenuItem = array(
 					array('menu'=>'dashboard','title'=>_t('조각보'),'link'=>'/owner/center/dashboard'),
-					array('menu'=>'metapage','title'=>_t('색동'),'link'=>'/owner/center/metapage'),
+					array('menu'=>'coverpage','title'=>_t('색동'),'link'=>'/owner/center/coverpage'),
 				);
 			}
 			else{
@@ -140,7 +140,8 @@ if(isset($blogContentMenuItem)) {
 						<li id="sub-menu-<?php echo $PostIdStr;?>"<?php echo 
 						(($blogMenu['contentMenu'] == $contentMenuItem['menu'] || 
 							(isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) ||
-							($contentMenuItem['menu'] == 'trash' && strpos($blogMenu['contentMenu'],'trash') !== false)) ? " class=\"selected{$firstChildClass}\"" : '');?>><a href="<?php echo $blogURL.$contentMenuItem['link'];?>"><span class="text"><?php echo $contentMenuItem['title'];?></span></a></li>
+							($contentMenuItem['menu'] == 'trash' && strpos($blogMenu['contentMenu'],'trash') !== false) ||
+							($blogMenu['contentMenu'] == 'edit' && $contentMenuItem['menu'] == 'post')) ? " class=\"selected{$firstChildClass}\"" : '');?>><a href="<?php echo $blogURL.$contentMenuItem['link'];?>"><span class="text"><?php echo $contentMenuItem['title'];?></span></a></li>
 <?php
 		$firstChildClass = null;
 	}
