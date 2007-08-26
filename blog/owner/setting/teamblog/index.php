@@ -186,6 +186,10 @@ if( Acl::check('group.owners')) {?>
 									request.send("userid=" + userid);
 								}
 
+<?php
+}
+if( Acl::check('group.administrators')) {?>
+?>
 								function changeACL(acltype, userid, checked) {
 
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/teamblog/changeACL/");
