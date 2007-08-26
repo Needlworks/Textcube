@@ -7,7 +7,8 @@
 id  type        component         prioritysummary
  632task        User Interfaces   major   xhtml 1 validation banner 추가
  625enhancement User Interfaces   major   메타 페이지 이름 변경
- 578enhancement User Interfaces   major   글쓰기' 메뉴가 활성화 볼드 처리
+ 578enhancement User Interfaces   major   글쓰기 메뉴 활성시 볼드 처리
+ 656enhancement User Interfaces   major   키워드 페이지 정렬
  581enhancement Skin              major   mp3 플레이어에서 center 태그 제외
  579enhancement Skin              major   기본 스킨 수정
  637enhancement Plugins           major   메타플러그인 강제 CSS 출력문제
@@ -34,6 +35,8 @@ id  type        component         prioritysummary
  614defect      Plugins           major   OpenID 플러그인의 short tag
  596defect      Plugins           major   EolinTagSearchTT 플러그인의 오류
  595defect      Plugins           major   메타페이지 플러그인의 동작 교정
+ 659defect      Plugins           major   표지 플러그인의 설정 갱신시 캐시가 남는 문제
+ 654defect      Plugins           major   관리자 계정에 연결된 OpenID로 관리자로그인이 되지 않는 문제
  635defect      Plugins           critical메타플러그인 보호글 노출 버그
  615defect      Libraries         major   모바일 페이지 출력이 되지 않음
  627defect      Libraries         major   리더에서 피드 갯수가 정상적으로 표시되지 않음
