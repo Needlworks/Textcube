@@ -60,7 +60,7 @@ function MT_Cover_getRecentEntries($parameters){
 		if (sizeof($entryTags) > 0) {
 			$tags = array();
 			foreach ($entryTags as $entryTag) {
-				$tags[$entryTag['name']] = "<a href=\"{$defaultURL}/tag/" . encodeURL($entryTag['name']) . '"' . ((count($entries) == 1 && getBlogSetting('useRelTag', true)) ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>';
+				$tags[$entryTag['name']] = "<a href=\"{$defaultURL}/tag/" . encodeURL($entryTag['name']) . '">' . htmlspecialchars($entryTag['name']) . '</a>';
 			}
 			$tagLabelView = "<div class=\"post_tags\"><span>TAG : </span>".implode(",\r\n", array_values($tags))."</div>";
 		}
@@ -97,7 +97,6 @@ function MT_Cover_getRecentEntries($parameters){
 
 function MT_Cover_getRecentEntries_purgeCache($mother, $target) {
 	requireComponent('Needlworks.Cache.PageCache');
-
 	$cache = new PageCache;
 	$cache->name = 'MT_Cover_RecentPS';
 	$cache->purge();

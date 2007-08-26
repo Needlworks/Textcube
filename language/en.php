@@ -686,7 +686,7 @@ $__text['새로운 스킨을 선택하면 이전 스킨에 적용된 출력 설�
 $__text['새로운 테이블 식별자가 올바르지 않습니다. 다시 입력해 주십시오.'] = 'Incorrect table prefix. Please re-enter';
 $__text['새로운 텍스트큐브를 설정합니다'] = 'New Textcube install';
 $__text['새로운 프로필 사진을 저장 했습니다.'] = 'New profile picture is saved.'; //
-$__text['색동'] = 'Aggregate';
+$__text['색동'] = 'Cover';
 $__text['서버에 <em>%1</em>에 저장된 백업파일이 있습니다. 삭제후 복원에는 이 파일을 이용하실 수 있습니다.'] = 'Found a backup file saved on the server in the location <em>%1</em>. You can use this for restoration.';
 $__text['서버에 <em>%1</em>에 저장된 백업파일이 있습니다.'] = 'Found a backup file saved on the server in the location %1';
 $__text['서버에 백업파일을 저장하여 복원에 사용할 수 있습니다.'] = 'save backup file on the server for restoration.';
@@ -810,7 +810,7 @@ $__text['아이디 또는 비밀번호가 틀렸습니다.'] = 'ID or password i
 $__text['아직 저장되지 않았습니다.'] = 'Not saved yet.';
 $__text['안 읽은 글로 표시'] = 'Mark as unread';
 $__text['안 읽은 글만보기'] = 'Show only unread';
-$__text['안전모드'] = 'Safety Mode';
+$__text['안전모드'] = 'Safe Mode';
 $__text['알 수 없는 에러가 발생했습니다'] = 'Unknown Error Occurred';
 $__text['알 수 없는 에러가 발생했습니다.'] = 'Unknown Error Occurred';
 $__text['알 수 없는 에러입니다.'] = 'Unknown Error';

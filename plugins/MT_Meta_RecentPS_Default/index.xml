@@ -11,13 +11,14 @@
   <author xml:lang="ko" link="http://needlworks.org">Needlworks</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
-    <textcube>1.5</textcube>
+    <textcube>1.5.1</textcube>
   </requirements>
   <binding>
   	<listener event="AddPost">MT_Cover_getRecentEntries_purgeCache</listener>
   	<listener event="UpdatePost">MT_Cover_getRecentEntries_purgeCache</listener>
   	<listener event="DeletePost">MT_Cover_getRecentEntries_purgeCache</listener>
 	<listener event="ChangeVisibility">MT_Cover_getRecentEntries_purgeCache</listener>
+	<listener event="ModifyPluginParam_MT_Meta_RecentPS_Default">MT_Cover_getRecentEntries_purgeCache</listener>
 	<tag name="SKIN_head_end" handler="MT_Cover_getRecentEntryStyle" />
     <coverpage title="Recent Posts" handler="MT_Cover_getRecentEntries">
       <params>

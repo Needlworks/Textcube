@@ -64,8 +64,8 @@ class pageCache {
 		if(isset($service['disablePageCache']) && $service['disablePageCache'] == true) return false;
 		$this->initialize();
 		if(!$this->getFileName()) return false;
+		$this->getdbContents();
 		if($this->getFileContents()) {
-			$this->getdbContents();
 			return true;
 		}
 		else return false;
@@ -134,11 +134,12 @@ class pageCache {
 			AND name = '".mysql_tt_escape_string($this->realName)."'");
 		if($result !== false) {
 			$this->_dbContents = unserialize($result);
-			if(doesHaveOwnership()) $this->dbContents = $this->_dbContents['owner'];
-			else $this->dbContents = $this->_dbContents['user'];
+			if(doesHaveOwnership()) $this->dbContents = isset($this->_dbContents['owner']) ? $this->_dbContents['owner'] : null;
+			else $this->dbContents = isset($this->_dbContents['user']) ? $this->_dbContents['user'] : null;
 		} else {
 			return false;
 		}
+		dumpAsFile($this->_dbContents);
 		return true;
 	}
 
