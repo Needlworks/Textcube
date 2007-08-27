@@ -62,14 +62,14 @@ id  type        component         prioritysummary
  
     * <s_cover> : 표지 영역
       * <s_cover_rep> : 표지 플러그인 출력의 반복 영역
-	  * [##_coverpage_content_##] : 표지 플러그인 출력 부분
+	  * [##_cover_content_##] : 표지 플러그인 출력 부분
 
  아래는 예제입니다. 
 ------------------------------
 <s_cover>
    <div class="aaa">
    <s_cover_rep>
-     <div class="bbb">[##_coverpage_content_##]</div>
+     <div class="bbb">[##_cover_content_##]</div>
    </s_cover_rep>
    </div>
 </s_cover>
