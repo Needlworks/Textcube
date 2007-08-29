@@ -96,7 +96,7 @@ function MT_Cover_getRecentEntries($parameters){
 	return $target;
 }
 
-function MT_Cover_getRecentEntries_purgeCache($mother, $target) {
+function MT_Cover_getRecentEntries_purgeCache($target, $mother) {
 	requireComponent('Needlworks.Cache.PageCache');
 	$cache = new PageCache;
 	$cache->name = 'MT_Cover_RecentPS';
