@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 class HTTPRequest {
-	var $method = 'GET', $url, $async = false, $contentType = 'application/x-www-form-urlencoded', $content = '', $eTag, $lastModified, $timeout = 10, $responseText, $pathToSave;
+	var $method = 'GET', $url, $async = false, $contentType = 'application/x-www-form-urlencoded', $content = '', $eTag, $lastModified, $referer, $timeout = 10, $responseText, $pathToSave;
 	
 	function HTTPRequest() {
 		switch (func_num_args()) {
@@ -40,7 +40,9 @@ class HTTPRequest {
 			$path = empty($request['query']) ? $request['path'] : $request['path'] . '?' . $request['query'];
 			fwrite($socket, $this->method . ' ' . $path . " HTTP/1.1\r\n");
 			fwrite($socket, 'Host: ' . $request['host'] . "\r\n");
-			fwrite($socket, "User-Agent: Mozilla/4.0 (compatible; Eolin)\r\n");
+			fwrite($socket, "User-Agent: Mozilla/4.0 (compatible; Eolin; Textcube ".TEXTCUBE_VERSION.")\r\n");
+			if ($this->referer !== null)
+				fwrite($socket, "Referer: {$this->referer}\r\n");
 			if ($this->eTag !== null)
 				fwrite($socket, "If-None-Match: {$this->eTag}\r\n");
 			if ($this->lastModified !== null) {

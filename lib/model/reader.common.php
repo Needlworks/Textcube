@@ -379,11 +379,12 @@ function addFeed($blogid, $group = 0, $url, $getEntireFeed = true, $htmlURL = ''
 }
 
 function getRemoteFeed($url) {
-	global $service;
+	global $service, $serviceURL;
 	$xml = fireEvent('GetRemoteFeed', null, $url);
 	if (empty($xml)) {
 		requireComponent('Eolin.PHP.HTTPRequest');
 		$request = new HTTPRequest($url);
+		$request->referer = $serviceURL;
 		$request->timeout = 3;
 		if (!$request->send())
 			return array(2, null, null);
