@@ -9,6 +9,7 @@ id  type        component         prioritysummary
  463enhancement User Interfaces   major   위지윅 에디터의 사파리 3 지원
  663enhancement Plugins           major   표지 예제 플러그인이 gd 없는 환경에서 오작동할 수 있는 문제
  664enhancement Plugins           minor   표지 예제 플러그인에서 $target과 $mother가 뒤바뀐 문제
+ 666enhancement API               minor   Eolin.PHP.HTTPRequest에서 referer 첨부 지원
 
 == v1.5.1 개발 관련 노트 ==
 * 모든 로그의 설명 및 진행 사항을 열람하기 위해서는 http://dev.textcube.org/milestone/1.5.1 을 참조해 주시기 바랍니다.
