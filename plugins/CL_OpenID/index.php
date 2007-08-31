@@ -1231,7 +1231,7 @@ function openid_manage()
 				<tr class="site">
 					<td>
 <?php
-		$currentDelegate = misc::getBlogSettingGlobal( 'OpenIDDelegate', 'HIHI' );
+		$currentDelegate = misc::getBlogSettingGlobal( 'OpenIDDelegate', '' );
 ?>
 						<select id="openid_for_delegation">
 <?php
