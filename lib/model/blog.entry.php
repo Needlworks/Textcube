@@ -685,7 +685,7 @@ function setEntryVisibility($id, $visibility) {
 	global $database;
 	requireModel("blog.rss");
 	requireModel("blog.category");
-
+	requireComponent('Needlworks.Cache.PageCache');
 	$blogid = getBlogId();
 	if (($visibility < 0) || ($visibility > 3))
 		return false;
