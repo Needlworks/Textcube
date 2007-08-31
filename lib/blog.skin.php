@@ -119,7 +119,7 @@ class Skin {
 		$sidebarCount = 0;
 		$noNameCount = 1;
 		// - 사이드바가 여러개일 수 있으므로 루프로 돌린다.
-		while (ereg("<s_sidebar>", $sval)) {
+		while (strpos($sval, '<s_sidebar>') !== false) {
 			if (!isset($this->sidebarBasicModules[$sidebarCount]))
 				$this->sidebarBasicModules[$sidebarCount] = array();
 			list($sval, $this->sidebarOriginalContent[$sidebarCount]) = $this->cutSkinTag($sval, "sidebar", "[##_sidebar_{$sidebarCount}_##]");

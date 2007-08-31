@@ -161,7 +161,7 @@ class BlogSetting {
 
 	/*@static@*/
 	function validateName($name) {
-		return ereg('^[[:alnum:]]+$', $name);
+		return preg_match('/^[a-zA-Z0-9]+$/', $name);
 	}
 
 	function _error($error) {

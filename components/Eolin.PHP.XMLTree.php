@@ -55,7 +55,7 @@ class XMLTree {
 		while ($d = array_shift($p)) {
 			$o = 0;
 			if ($d{strlen($d) - 1} == ']') {
-				@list($d, $o) = split('\[', $d, 2);
+				@list($d, $o) = explode('[', $d, 2);
 				if ($o === null)
 					return null;
 				$o = substr($o, 0, strlen($o) - 1);

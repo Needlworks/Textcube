@@ -121,7 +121,7 @@ class Statistics {
 		$paging = array('url' => $url, 'prefix' => $prefix, 'postfix' => '');
 		if (empty($sql))
 			return array(array(), $paging);
-		if (eregi('[[:space:]]{1}(FROM.*)$', $sql, $matches))
+		if (preg_match('/\s(FROM.*)$/i', $sql, $matches))
 			$from = $matches[1];
 		else
 			return array(array(), $paging);

@@ -253,12 +253,12 @@ function api_make_post( $param, $ispublic, $postid = -1 )
 	global $arr_hint;
 	if( api_getHint("TagsFromCategories") )
 	{
-		$post->tags = array_merge( $param['categories'], split(",", $param['mt_excerpt']) , $param['tagwords'] );
+		$post->tags = array_merge( $param['categories'], explode(',', $param['mt_excerpt']) , $param['tagwords'] );
 	}
 	else
 	{
-		//$post->tags = array_merge( split(",", $param['mt_excerpt']) , $param['tagwords'] );
-		$post->tags = split(",", $param['mt_keywords']);
+		//$post->tags = array_merge( explode(",", $param['mt_excerpt']) , $param['tagwords'] );
+		$post->tags = explode(',', $param['mt_keywords']);
 		$post->category = api_getCategoryIdByName( $param['categories'] );
 	}
 

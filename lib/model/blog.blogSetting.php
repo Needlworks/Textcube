@@ -58,7 +58,7 @@ function changeBlogLogo($blogid, $file) {
 }
 
 function checkBlogName($name) {
-	return ereg('^[[:alnum:]]+(-[[:alnum:]]+)*$', $name);
+	return preg_match('/^[-a-zA-Z0-9]+$/', $name);
 }
 
 function setPrimaryDomain($blogid, $name) {
@@ -224,7 +224,7 @@ function addUser($email, $name) {
 	global $database, $service, $user, $blog;
 	if (empty($email))
 		return 1;
-	if (!ereg('^[^@]+@([[:alnum:]]+(-[[:alnum:]]+)*\.)+[[:alnum:]]+(-[[:alnum:]]+)*$', $email))
+	if (!preg_match('/^[^@]+@([-a-zA-Z0-9]+\.)+[-a-zA-Z0-9]+$/', $email))
 		return 2;
 
 	if (strcmp($email, mysql_lessen($email, 64)) != 0) return 11;
@@ -275,9 +275,9 @@ function addBlog($blogid, $userid, $identify) {
 		$blogName = getBlogName($blogid);
 		if (empty($email) || empty($identify))
 			return 1; // Not enough information to create blog.
-		if (!ereg('^[^@]+@([[:alnum:]]+(-[[:alnum:]]+)*\.)+[[:alnum:]]+(-[[:alnum:]]+)*$', $email))
+		if (!preg_match('/^[^@]+@([a-zA-Z0-9]+\.)+[-a-zA-Z0-9]+$/', $email))
 			return 2; // Wrong E-mail address
-		if (!ereg('^[[:alnum:]]+$', $identify))
+		if (!preg_match('/^[a-zA-Z0-9]+$/', $identify))
 			return 4; // Wrong Blog name
 		if (empty($name))
 			$name = User::getName($userid);
@@ -395,7 +395,7 @@ function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $sen
 
 	if (empty($email))
 		return 1;
-	if (!ereg('^[^@]+@([[:alnum:]]+(-[[:alnum:]]+)*\.)+[[:alnum:]]+(-[[:alnum:]]+)*$', $email))
+	if (!preg_match('/^[^@]+@([-a-zA-Z0-9]+\.)+[-a-zA-Z0-9]+$/', $email))
 		return 2;
 	if (empty($name))
 		$name = User::getName($userid);

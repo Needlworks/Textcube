@@ -124,7 +124,7 @@ function convertDateFormat($argTarget, $argType) {
 		if (isset($rgDateInformation[$strLanguage]['month'][$strMonth])) {
 			$rgCustomIdentifier['%M'] = $rgDateInformation[$strLanguage]['month'][$strMonth];
 			if (isset($rgDateInformation[$strLanguage]['month']['length'])) {
-				$rgCustomIdentifier['%m'] = eregi_replace("^(.{".$rgDateInformation[$strLanguage]['month']['length']."})(.*)$", "\\1", $rgDateInformation[$strLanguage]['month'][$strMonth]);
+				$rgCustomIdentifier['%m'] = preg_replace('/^(.{'.$rgDateInformation[$strLanguage]['month']['length'].'})(.*)$/', '$1', $rgDateInformation[$strLanguage]['month'][$strMonth]);
 			} else {
 				$rgCustomIdentifier['%m'] = $rgCustomIdentifier['%M'];
 			}
@@ -161,8 +161,8 @@ function convertDateFormat($argTarget, $argType) {
 	
 	$newTarget = strtr($rgDateFormat[$argType]['format'], $rgCustomIdentifier);
 	$newTarget = eregi_replace("\{[^\{]*%[a-z][^\}]*\}", "", $newTarget);
-	
-	return trim(eregi_replace("\{|\}", "", $newTarget));
+
+	return trim(str_replace(array('{', '}'), array('', ''), $newTarget);
 }
 
 function removeHeadZero($number) {

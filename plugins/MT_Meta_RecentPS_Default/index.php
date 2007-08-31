@@ -144,7 +144,7 @@ function MT_Cover_getAttachmentExtract($content){
 		$split = explode("|", $matches[0][0]);
 		$result = $split[1];
 	}else if(preg_match_all('/<img[^>]+?src=("|\')?([^\'">]*?)("|\')/si', $content, $matches)) {
-		if( !eregi("http://", $matches[2][0]) ){
+		if( !stristr('http://', $matches[2][0]) ){
 			$result = basename($matches[2][0]);
 		}
 	}

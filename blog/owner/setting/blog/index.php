@@ -438,11 +438,11 @@ if (!empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")
 											<dt><span class="label"><?php echo _t('파비콘');?></span></dt>
 											<dd>
 <?php
-if (file_exists(ROOT."/attach/$blogid/favicon.ico") && !eregi(' MSIE', $_SERVER['HTTP_USER_AGENT'], $temp)) {
+if (file_exists(ROOT."/attach/$blogid/favicon.ico") && !stristr($_SERVER['HTTP_USER_AGENT'], ' MSIE')) {
 ?>
 												<img src="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/favicon.ico" border="1" alt="<?php echo _t('파비콘');?>" />
 <?php
-} else if (file_exists(ROOT."/attach/$blogid/favicon.ico") && eregi(' MSIE', $_SERVER['HTTP_USER_AGENT'], $temp)) {
+} else if (file_exists(ROOT."/attach/$blogid/favicon.ico") && stristr($_SERVER['HTTP_USER_AGENT'], ' MSIE')) {
 ?>
 												<a id="favicon-preview" href="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/favicon.ico"><?php echo _t('미리 보기');?></a>
 <?php

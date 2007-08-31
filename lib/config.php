@@ -35,8 +35,8 @@ if (@is_numeric($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80) && (
 	$service['port'] = $_SERVER['SERVER_PORT'];
 
 function requireComponent($name) {
-	//if (!ereg('^[[:alnum:]]+[[:alnum:].]+$', $name))		return;
-	$name = preg_replace("/Tattertools/","Textcube",$name);
+	//if (!preg_match('/^[a-zA-Z0-9\.]+$/', $name))		return;
+	$name = str_replace('Tattertools', 'Textcube',$name);
 	include_once (ROOT . "/components/$name.php");
 }
 

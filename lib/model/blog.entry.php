@@ -391,9 +391,9 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false) {
 }
 
 function getSlogan($slogan) {
-	$slogan = ereg_replace('-+', ' ', $slogan);
-	$slogan = ereg_replace('[!-/:-@[-`{-~]+', '', $slogan);
-	$slogan = ereg_replace('[[:space:]]+', '-', $slogan);
+	$slogan = preg_replace('/-+/', ' ', $slogan);
+	$slogan = preg_replace('@[!-/:-\@\[-`\{-~]+@', '', $slogan);
+	$slogan = preg_replace('/\s+/', '-', $slogan);
 	$slogan = trim($slogan, '-');
 	return strlen($slogan) > 0 ? $slogan : 'XFile';
 }

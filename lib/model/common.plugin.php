@@ -17,7 +17,7 @@ function activatePlugin($name) {
 	global $database, $activePlugins;
 	if (in_array($name, $activePlugins))
 		return true;
-	if (!ereg("^[[:alnum:] _\-]+$", $name))
+	if (!preg_match('/^[-a-zA-Z0-9_ ]+$/', $name))
 		return false;
 	if (!is_dir(ROOT . "/plugins/$name"))
 		return false;

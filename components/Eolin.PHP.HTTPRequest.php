@@ -66,7 +66,7 @@ class HTTPRequest {
 					fclose($socket);
 					return false;
 				}
-				if (!ereg('^HTTP/([0-9.]+)[ \t]+([0-9]+)[ \t]+', $line, $match)) {
+				if (!preg_match('@^HTTP/([0-9\.]+)[ \t]+([0-9]+)[ \t]+@', $line, $match)) {
 					fclose($socket);
 					return false;
 				}

@@ -139,7 +139,7 @@ class misc {
 	}
 	
 	function dress($tag, $value, & $contents) {
-		if (eregi("\[##_{$tag}_##\]", $contents, $temp)) {
+		if (preg_match('/\[##_' . preg_quote($tag, '/') . '_##\]/i', $contents, $temp)) {
 			$contents = str_replace("[##_{$tag}_##]", $value, $contents);
 			return true;
 		} else {

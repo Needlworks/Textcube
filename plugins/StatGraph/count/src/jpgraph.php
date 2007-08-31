@@ -5749,7 +5749,7 @@ class Picture {
 	if( $dir==90 )
 	    imagestringup($this->img,$this->font_family,$x,$y,$txt,$this->current_color);
 	else {
-	    if( ereg("\n",$txt) ) { 
+	    if( strpos($txt, "\n") !== false ) { 
 		$tmp = split("\n",$txt);
 		for($i=0; $i < count($tmp); ++$i) {
 		    $w1 = $this->GetTextWidth($tmp[$i]);
@@ -5868,7 +5868,7 @@ class Picture {
 	    $oy=$y;
 	}
 
-	if( !ereg("\n",$txt) || ($dir>0 && ereg("\n",$txt)) ) {
+	if( strpos($txt, "\n") === false || ($dir>0 && strpos($txt, "\n") !== false) ) {
 	    // Format a single line
 
 	    $txt = $this->AddTxtCR($txt);

@@ -14,7 +14,7 @@ $suri = array('url' => $url, 'value' => '');
 $blogid = null;
 $depth = substr_count($service['path'], '/');
 if ($depth > 0) {
-	if (ereg("^((/+[^/]+){{$depth}})(.*)$", $url, $matches))
+	if (preg_match('@^((/+[^/]+){' . $depth . '})(.*)$@', $url, $matches))
 		$url = $matches[3];
 	else
 		respondNotFoundPage();
@@ -38,7 +38,7 @@ if ($service['type'] == 'single') {
 	} else {
 		if ($url == '/') {
 			$blogid = 1;
-		} else if (ereg('^/+([^/]+)(.*)$', $url, $matches)) {
+		} else if (preg_match('@^/+([^/]+)(.*)$@', $url, $matches)) {
 			$blogid = getBlogidByName($matches[1]);
 			if ($blogid === null)
 				$blogid = 1;
@@ -57,7 +57,7 @@ $skinSetting = getSkinSetting($blogid);
 
 $depth = substr_count(ROOT, '/');
 if ($depth > 0) {
-	if (ereg("^((/+[^/]+){{$depth}})/*(.*)$", $url, $matches)) {
+	if (preg_match('@^((/+[^/]+){' . $depth . '})/*(.*)$@', $url, $matches)) {
 		$suri['directive'] = $matches[1];
 		if ($matches[3] !== false)
 			$suri['value'] = $matches[3];
