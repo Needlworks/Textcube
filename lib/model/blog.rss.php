@@ -51,19 +51,22 @@ function refreshRSS($blogid) {
 		$result = array();
 	$channel['items'] = array();
 	foreach($result as $row) {
+		$entryURL = $defaultURL . '/' . ($blog['useSlogan'] ? 'entry/' . rawurlencode($row['slogan']) : $row['id']);
+
 		$content = getEntryContentView($blogid, $row['id'], $row['content'], $row['contentFormatter'], true, 'Post', true, true);
+		$content = preg_replace('/<a href=("|\')(#[^\1]+)\1/i', '<a href=$1' . htmlspecialchars($entryURL) . '$2$1', $content);
  		if (!$blog['publishWholeOnRSS']) {
-			$content .= "<p><strong><a href=\"$defaultURL/" . ($blog['useSlogan'] ? "entry/{$row['slogan']}" : $row['id']) . "\">" . _t('글 전체보기') . "</a></strong></p>";
+			$content .= "<p><strong><a href=\"" . htmlspecialchars($entryURL) . "\">" . _t('글 전체보기') . "</a></strong></p>";
  		}
 
 		$item = array(
 			'id' => $row['id'], 
 			'title' => $row['title'], 
-			'link' => "$defaultURL/" . ($blog['useSlogan'] ? 'entry/' . rawurlencode($row['slogan']) : $row['id']), 
+			'link' => $entryURL, 
 			'categories' => array(), 'description' => $content, 
 			'author' => '('.$row['author'].')', 
 			'pubDate' => Timestamp::getRFC1123($row['published']),
-			'comments' => "$defaultURL/" . ($blog['useSlogan'] ? 'entry/' . rawurlencode($row['slogan']) : $row['id']) . '#entry' . $row['id'] . 'comment',
+			'comments' => $entryURL . '#entry' . $row['id'] . 'comment',
 			'guid' => "$defaultURL/" . $row['id']
 		);
 		if (isset($service['useNumericURLonRSS'])) {
