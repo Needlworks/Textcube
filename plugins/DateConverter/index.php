@@ -118,7 +118,7 @@ function convertDateFormat($argTarget, $argType) {
 	$rgCustomIdentifier = array();
 	if ($strYear != false) {
 		$rgCustomIdentifier['%Y'] = $strYear;
-		$rgCustomIdentifier['%y'] = eregi_replace("^0", "", $strYear);
+		$rgCustomIdentifier['%y'] = removeHeadZero($strYear);
 	}
 	if ($strMonth != false) {
 		if (isset($rgDateInformation[$strLanguage]['month'][$strMonth])) {
@@ -130,12 +130,12 @@ function convertDateFormat($argTarget, $argType) {
 			}
 		} else {
 			$rgCustomIdentifier['%M'] = $strMonth;
-			$rgCustomIdentifier['%m'] = eregi_replace("^0", "", $strMonth);
+			$rgCustomIdentifier['%m'] = removeHeadZero($strMonth);
 		}
 	}
 	if ($strDay != false) {
 		$rgCustomIdentifier['%D'] = $strDay;
-		$rgCustomIdentifier['%d'] = eregi_replace("^0", "", $strDay);
+		$rgCustomIdentifier['%d'] = removeHeadZero($strDay);
 		if (isset($rgDateInformation[$strLanguage]['day ordinal postfix']['00'])) {
 			$rgCustomIdentifier['%o'] = $rgCustomIdentifier['%d'].$rgDateInformation[$strLanguage]['day ordinal postfix']['00'];
 		} else if (isset($rgDateInformation[$strLanguage]['day ordinal postfix'][$strDay])) {
@@ -146,27 +146,27 @@ function convertDateFormat($argTarget, $argType) {
 	}
 	if ($strHour != false) {
 		$rgCustomIdentifier['%H'] = $strHour;
-		$rgCustomIdentifier['%h'] = eregi_replace("^0", "", $strHour);
+		$rgCustomIdentifier['%h'] = removeHeadZero($strHour);
 		$rgCustomIdentifier['%f'] = ($rgCustomIdentifier['%h'] > 12) ? $rgCustomIdentifier['%h'] - 12 : $rgCustomIdentifier['%h'];
 		$rgCustomIdentifier['%F'] = ($rgCustomIdentifier['%f'] < 10) ? '0'.$rgCustomIdentifier['%f'] : $rgCustomIdentifier['%f'];
 	}
 	if ($strMinute != false) {
 		$rgCustomIdentifier['%I'] = $strMinute;
-		$rgCustomIdentifier['%i'] = eregi_replace("^0", "", $strMinute);
+		$rgCustomIdentifier['%i'] = removeHeadZero($strMinute);
 	}
 	if ($strSecond != false) {
 		$rgCustomIdentifier['%S'] = $strSecond;
-		$rgCustomIdentifier['%s'] = eregi_replace("^0", "", $strSecond);
+		$rgCustomIdentifier['%s'] = removeHeadZero($strSecond);
 	}
 	
 	$newTarget = strtr($rgDateFormat[$argType]['format'], $rgCustomIdentifier);
-	$newTarget = eregi_replace("\{[^\{]*%[a-z][^\}]*\}", "", $newTarget);
+	$newTarget = preg_replace('/\{[^\{]*%[a-z][^\}]*\}/i', '', $newTarget);
 
-	return trim(str_replace(array('{', '}'), array('', ''), $newTarget));
+	return trim(str_replace(array('{', '}'), array('', ''), $newTarget);
 }
 
 function removeHeadZero($number) {
-	return eregi_replace("^0", "", $number);
+	return preg_replace('/^0/', '', $number);
 }
 
 function convertDateLangLD($argTarget, $argMother) {
