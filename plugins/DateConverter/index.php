@@ -162,7 +162,7 @@ function convertDateFormat($argTarget, $argType) {
 	$newTarget = strtr($rgDateFormat[$argType]['format'], $rgCustomIdentifier);
 	$newTarget = preg_replace('/\{[^\{]*%[a-z][^\}]*\}/i', '', $newTarget);
 
-	return trim(str_replace(array('{', '}'), array('', ''), $newTarget);
+	return trim(str_replace(array('{', '}'), array('', ''), $newTarget));
 }
 
 function removeHeadZero($number) {
