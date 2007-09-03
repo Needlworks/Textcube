@@ -482,7 +482,7 @@ function openid_SessionLogout($target)
 	$openid_session['nickname'] = '';
 	openid_session_write();
 	openid_setcookie( 'openid_auto', 'n' );
-	return "";
+	return $target;
 }
 
 function openid_logout()
@@ -868,19 +868,19 @@ function openid_AddComment( $id, $comment )
 
 	if( empty($comment['parent']) )
 	{
-		return;
+		return $id;
 	}
 
 	$parent_comment = _openid_getCommentInfo( $blogid, $comment['parent'] );
 
 	/* Check if parent's comment is written by openid and secret. */
 	if( ! Acl::check('group.writers') && !_openid_has_ownership( $parent_comment['openid'] ) ) {
-		return;
+		return $id;
 	}
 
 	$result = getCommentAttributes($blogid,$comment['parent'],"secret");
 	if( empty($result) || empty($result['secret']) ) {
-		return;
+		return $id;
 	}
 
 	$row = DBQuery::queryRow("SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = {$comment['parent']}" );
@@ -889,7 +889,7 @@ function openid_AddComment( $id, $comment )
 	}
 	/* Then, this administor's comment can be secret */
 	DBQuery::execute("UPDATE {$database['prefix']}Comments SET secret = 1 WHERE blogid = $blogid and id = $id" );
-	return;
+	return $id;
 }
 
 function openid_ShowSecretComment($target, $comment)
