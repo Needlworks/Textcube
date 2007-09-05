@@ -134,7 +134,7 @@ function useBlogSlogan($blogid, $useSlogan) {
 	$blog['useSlogan'] = $useSlogan;
 	CacheControl::flushCategory();
 	CacheControl::flushEntry();
-	fireEvent('toggleBlogSlogan',null,$blog['useSlogan']);
+	fireEvent('ToggleBlogSlogan',null,$blog['useSlogan']);
 	clearRSS();
 	return true;
 }
