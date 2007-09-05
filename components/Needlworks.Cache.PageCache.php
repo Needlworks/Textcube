@@ -225,7 +225,7 @@ class CacheControl{
 		return true;
 	}
 
-	function flushKeyword($tagId) {
+	function flushKeyword($tagId = null) {
 		global $database;
 
 		if(empty($tagId)) $tagId = '';
@@ -244,7 +244,7 @@ class CacheControl{
 		return true;
 	}
 	
-	function flushEntry($entryId) {
+	function flushEntry($entryId = null) {
 		global $database;
 
 		if(empty($entryId)) $entryId = '';
