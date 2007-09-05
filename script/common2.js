@@ -945,7 +945,7 @@ function searchBlog() {
 
 function processShortcut(event) {
 	event = STD.event(event);
-	if(event.altKey || event.ctrlKey)
+	if(event.altKey || event.ctrlKey || event.metaKey)
 		return;
 	switch(event.target.nodeName) {
 		case "INPUT":

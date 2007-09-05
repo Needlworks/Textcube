@@ -18,7 +18,7 @@
 					oEvent = event;
 				}
 
-				if (oEvent.altKey || oEvent.ctrlKey)
+				if (oEvent.altKey || oEvent.ctrlKey || oEvent.metaKey)
 					return;
 				if(isIE) {
 					var nodeName = oEvent.srcElement.nodeName
