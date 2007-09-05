@@ -124,6 +124,7 @@ function setDefaultDomain($blogid, $default) {
 function useBlogSlogan($blogid, $useSlogan) {
 	global $database, $blog;
 	requireModel('blog.rss');
+	requireComponent('Needlworks.Cache.PageCache');
 	$useSlogan = $useSlogan ? 1 : 0;
 	if ($useSlogan == $blog['useSlogan'])
 		return true;
@@ -131,6 +132,8 @@ function useBlogSlogan($blogid, $useSlogan) {
 		return false;
 	}
 	$blog['useSlogan'] = $useSlogan;
+	CacheControl::flushCategory();
+	CacheControl::flushEntry();
 	clearRSS();
 	return true;
 }
