@@ -109,7 +109,6 @@ class Keyword {
 
 		if (!$query->insert())
 			return $this->_error('insert');
-		$this->id = $query->id;
 		
 		return true;
 	}
