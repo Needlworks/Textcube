@@ -46,10 +46,11 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 } else {
 	notifyComment();
 }
-$skin = new Skin($skinSetting['skin']);
+
 list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
 if (isset($_POST['partial'])) {
 	header('Content-Type: text/plain; charset=utf-8');
+	$skin = new Skin($skinSetting['skin']);
 	$view = '[##_article_rep_##]';
 	require ROOT . '/lib/piece/blog/entries.php';
 	$view = removeAllTags($view);

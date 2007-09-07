@@ -402,7 +402,7 @@ function getRecentEntries($blogid) {
 	global $database, $skinSetting;
 	$entries = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
-	$result = DBQuery::query("SELECT e.id, e.userid, e.title, e.comments 
+	$result = DBQuery::query("SELECT e.id, e.userid, e.title, e.slogan, e.comments 
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 

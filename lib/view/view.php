@@ -956,10 +956,12 @@ function getCalendarView($calendar) {
 }
 
 function getRecentEntriesView($entries, $template) {
-	global $blogURL, $skinSetting, $contentContainer;
+	global $blog, $blogURL, $skinSetting, $contentContainer;
 	ob_start();
 	foreach ($entries as $entry) {
 		$view = "$template";
+		$permalink = "$blogURL/" . ($blog['useSlogan'] ? "entry/" . encodeURL($entry['slogan']) : $entry['id']);
+		dress('rctps_rep_link', $permalink, $view);
 		dress('rctps_rep_link', "$blogURL/{$entry['id']}", $view);
 		$contentContainer["recent_entry_{$entry['id']}"] = htmlspecialchars(UTF8::lessenAsEm($entry['title'], $skinSetting['recentEntryLength']));
 		dress('rctps_rep_title', setTempTag("recent_entry_{$entry['id']}"), $view);
