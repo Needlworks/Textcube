@@ -86,13 +86,13 @@ if ($service['type'] != 'single') {
 ?>
 									newPrimaryDomain = document.getElementById('multi-form').primaryDomain.value;
 									newSecondaryDomain = document.getElementById('multi-form').secondaryDomain.value;
-									newDefaultDomain = document.getElementById('multi-form').defaultDomain[defaultDomain].checked ? 0 : 1;
+									newDefaultDomain = document.getElementById('multi-form').defaultDomain[0].checked ? 0 : 1;
 								
 									if(primaryDomain != newPrimaryDomain || secondaryDomain != newSecondaryDomain || defaultDomain != newDefaultDomain) {
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/domain/set/");
 										request.onSuccess = function() {
 											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
-											if(newDefaultDomain == 0 && newPrimaryDomain != primaryDomain) {
+											if(newDefaultDomain == 0 || newPrimaryDomain != primaryDomain) {
 												alert("<?php echo _t('변경된 1차 블로그 주소로 이동합니다');?>");
 												window.location.href = "http://" + newPrimaryDomain + ".<?php echo $service['domain'];?><?php echo $blogURL;?>/owner/setting/blog";
 											}
