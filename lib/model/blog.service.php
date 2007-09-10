@@ -19,7 +19,7 @@ function getBlogidByName($name) {
 
 function getBlogidBySecondaryDomain($domain) {
 	global $database;
-	return DBQuery::queryCell("SELECT blogid FROM {$database['prefix']}BlogSettings WHERE secondaryDomain = '$domain' OR  secondaryDomain = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "'");
+	return DBQuery::queryCell("SELECT blogid FROM {$database['prefix']}BlogSettings WHERE name = 'secondaryDomain' AND value = '$domain' OR  value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "'");
 }
 
 function getBlogSettings($blogid) {
