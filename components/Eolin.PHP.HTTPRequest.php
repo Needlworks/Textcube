@@ -101,6 +101,7 @@ class HTTPRequest {
 				fclose($socket);
 				if (empty($this->_response['location']))
 					return false;
+				$this->url = $this->_response['location'];
 				$request['path'] = '/';
 				foreach (parse_url($this->_response['location']) as $key => $value)
 					$request[$key] = $value;

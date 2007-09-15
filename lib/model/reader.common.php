@@ -390,7 +390,7 @@ function getRemoteFeed($url) {
 			return array(2, null, null);
 		$xml = $request->responseText;
 	}
-	$feed = array('xmlURL' => $url);
+	$feed = array('xmlURL' => (isset($request) ? $request->url : $url));
 	$xmls = new XMLStruct();
 	if (!$xmls->open($xml, $service['encoding'])) {
 		if(preg_match_all('/<link .*?rel\s*=\s*[\'"]?alternate.*?>/i', $xml, $matches)) {
