@@ -488,7 +488,7 @@ class Post {
 	/*@static@*/
 	function makeSlogan($title) {
 		$slogan = preg_replace('/-+/', ' ', $title);
-		$slogan = preg_replace('/[!-\/:-@[-`{-~]+/', '', $slogan);
+		$slogan = preg_replace('/[!-\/:-@\[-\^`{-~]+/', '', $slogan);
 		$slogan = preg_replace('/\s+/', '-', $slogan);
 		$slogan = trim($slogan, '-');
 		return strlen($slogan) > 0 ? $slogan : 'XFile';
@@ -496,7 +496,7 @@ class Post {
 	
 	/*@static@*/
 	function validateSlogan($slogan) {
-		return preg_match('/^[^!-,.\/:-@[-`{-~\s]+$/', $slogan);
+		return preg_match('/^[^!-,.\/:-@\[-\^`{-~\s]+$/', $slogan);
 	}
 	
 	/*@static@*/
