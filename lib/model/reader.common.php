@@ -351,6 +351,7 @@ function addFeed($blogid, $group = 0, $url, $getEntireFeed = true, $htmlURL = ''
 	global $database;
 	if(strpos(strtolower($url), 'http://') !== 0)
 		$url = 'http://'.$url;
+	$url = rtrim($url, '/');
 	$escapedURL = mysql_tt_escape_string($url);
 	if (DBQuery::queryExistence("SELECT f.id FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations r WHERE r.blogid = $blogid AND r.blogid = g.blogid AND r.feed = f.id AND r.groupId = g.id AND f.xmlURL = '$escapedURL'")) {
 		return 1;
