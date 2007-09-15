@@ -1575,7 +1575,7 @@ form input:focus, textarea:focus
 
 #subscription .rss
 {
-	background: url('./images/btn_rss.gif') left 50% no-repeat;
+	background: url('./images/btn_rss.png') left 50% no-repeat;
 	margin-top: 10px;
 	padding: .1em 0 .1em 20px;
 	font: 0.9em/2 Tahoma, Helvetica, sans-serif;
