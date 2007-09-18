@@ -3,10 +3,12 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../..');
+define('NO_SESSION', true);
 require ROOT . '/lib/includeForBlog.php';
 requireModel("blog.rss");
 requireModel("blog.entry");
 
+requireStrictBlogURL();
 if (false) {
 	fetchConfigVal();
 }
