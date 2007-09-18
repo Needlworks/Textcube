@@ -226,6 +226,7 @@ function sendTrackback($blogid, $entryId, $url) {
 		|| strpos($url, 'blog.yahoo.com') !== false // 야후 블로그
 		|| strpos($url, 'www.blogin.com/tb/') !== false // 블로긴
 		|| strpos($url, 'cytb.cyworld.nate.com') !== false // 싸이 페이퍼
+		|| strpos($url, 'www.cine21.com/Movies/tb.php') !== false // cine21
 		;
 	if ($isNeedConvert) {
 		$title = UTF8::convert($title);
