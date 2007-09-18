@@ -618,13 +618,17 @@ function deleteReaderTablesByOwner($blogid) {
 
 function updateRandomFeed() {
 	global $database;
-	$updateCycle = DBQuery::queryCell("SELECT updateCycle FROM {$database['prefix']}FeedSettings");
-	if($updateCycle != 0) {
-		if ($feed = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Feeds WHERE modified < " . (gmmktime() - ($updateCycle * 60)) . " ORDER BY RAND() LIMIT 1")) {
-			return array(updateFeed($feed), $feed['xmlURL']);
+	if(gmmktime() - getBlogSetting('lastFeedUpdate',0) > 180) {
+		$updateCycle = DBQuery::queryCell("SELECT updateCycle FROM {$database['prefix']}FeedSettings");
+		if($updateCycle != 0) {
+			if ($feed = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Feeds WHERE modified < " . (gmmktime() - ($updateCycle * 60)) . " ORDER BY RAND() LIMIT 1")) {
+				setBlogSetting('lastFeedUpdate',gmmktime());
+				return array(updateFeed($feed), $feed['xmlURL']);
+			}
 		}
+		return aryyray(1, 'No feeds to update');
 	}
-	return array(1, 'No feeds to update');
+	return aryyray(1, 'No feeds to update');
 }
 
 function updateFeed($feedRow) {
