@@ -626,9 +626,9 @@ function updateRandomFeed() {
 				return array(updateFeed($feed), $feed['xmlURL']);
 			}
 		}
-		return aryyray(1, 'No feeds to update');
+		return array(1, 'No feeds to update');
 	}
-	return aryyray(1, 'No feeds to update');
+	return array(1, 'No feeds to update');
 }
 
 function updateFeed($feedRow) {
