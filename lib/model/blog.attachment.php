@@ -211,9 +211,11 @@ function downloadAttachment($name) {
 
 function setEnclosure($name, $order) {
 	global $database;
+	requireModel('blog.rss');
+	requireModel('blog.attachment');
 	$name = mysql_tt_escape_string($name);
 	if (($parent = DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND name = '$name'")) !== null) {
-		DBQuery::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 0 WHERE parent = $parent");
+		DBQuery::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 0 WHERE parent = $parent and blogid = ".getBlogId());
 		if ($order) {
 			clearRSS();
 			return DBQuery::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 1 WHERE blogid = ".getBlogId()." AND name = '$name'") ? 1 : 2;

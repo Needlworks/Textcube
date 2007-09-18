@@ -112,7 +112,7 @@ if (defined('__TEXTCUBE_POST__')) {
 									}
 									
 									request.onError= function () {
-									PM.removeRequest(this);
+										PM.removeRequest(this);
 										alert("<?php echo _t('변경하지 못했습니다.');?>");
 									}
 									PM.addRequest(request, "<?php echo _t('변경하고 있습니다.');?>");
