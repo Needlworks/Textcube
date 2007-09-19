@@ -1682,7 +1682,7 @@ TTModernEditor.prototype.eventHandler = function(event) {
 	}
 	editorChanged();
 
-	// 이벤트가 발생하면 showProperty 함수에서 태터툴즈 치환자인지 아닌지 판단해, 태터툴즈 치환자일 경우에 속성을 수정할 수 있는 창을 띄워주게 된다
+	// 이벤트가 발생하면 showProperty 함수에서 TTML 치환자인지 아닌지 판단해, TTML 치환자일 경우에 속성을 수정할 수 있는 창을 띄워주게 된다
 	if(this.selectedElement && !isFunctionalKeyPressed) {
 		if (this.showProperty(this.selectedElement) && STD.isSafari3) {
 			// safari 3 workaround: put current element in the selection
