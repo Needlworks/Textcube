@@ -975,11 +975,11 @@ function getRecentEntriesView($entries, $template) {
 }
 
 function getRecentCommentsView($comments, $template) {
-	global $blogURL, $skinSetting, $contentContainer;
+	global $blogURL, $blog, $skinSetting, $contentContainer;
 	ob_start();
 	foreach ($comments as $comment) {
 		$view = "$template";
-		dress('rctrp_rep_link', "$blogURL/{$comment['entry']}#comment{$comment['id']}", $view);
+		dress('rctrp_rep_link', "$blogURL/".($blog['useSlogan'] ? "entry/".encodeURL($comment['slogan']) : $comment['entry'])."#comment{$comment['id']}", $view);
 		$contentContainer["recent_comment_{$comment['id']}"] = htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['comment']), $skinSetting['recentCommentLength']));
 		dress('rctrp_rep_desc', setTempTag("recent_comment_{$comment['id']}"), $view);
 		dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::format2($comment['written']), $comment['written']), $view);
@@ -993,11 +993,12 @@ function getRecentCommentsView($comments, $template) {
 }
 
 function getRecentTrackbacksView($trackbacks, $template) {
-	global $blogURL, $skinSetting;
+	global $blogURL, $blog, $skinSetting;
 	ob_start();
 	foreach ($trackbacks as $trackback) {
 		$view = "$template";
-		dress('rcttb_rep_link', "$blogURL/{$trackback['entry']}#trackback{$trackback['id']}", $view);
+		dress('rcttb_rep_link', "$blogURL/".($blog['useSlogan'] ? "entry/".encodeURL($trackback['slogan']) : $trackback['entry'])."#trackback{$trackback['id']}", $view);
+		
 		dress('rcttb_rep_desc', htmlspecialchars(UTF8::lessenAsEm($trackback['subject'], $skinSetting['recentTrackbackLength'])), $view);
 		dress('rcttb_rep_time', fireEvent('ViewRecentTrackbackDate', Timestamp::format2($trackback['written']), $trackback['written']), $view);
 		dress('rcttb_rep_name', htmlspecialchars(UTF8::lessenAsEm($trackback['site'], $skinSetting['recentTrackbackLength'])), $view);

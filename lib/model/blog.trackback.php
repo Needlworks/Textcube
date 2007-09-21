@@ -61,7 +61,7 @@ function getTrackbackList($blogid, $search) {
 	$list = array('title' => "$search", 'items' => array());
 	$search = escapeMysqlSearchString($search);
 	$authorized = doesHaveOwnership() ? '' : ' AND (ct.visibility > 1 OR e.category = 0)';
-	if ($result = DBQuery::query("SELECT t.id, t.entry, t.url, t.site, t.subject, t.excerpt, t.written
+	if ($result = DBQuery::query("SELECT t.id, t.entry, t.url, t.site, t.subject, t.excerpt, t.written, e.slogan
  		FROM {$database['prefix']}Trackbacks t
 			LEFT JOIN {$database['prefix']}Entries e ON t.entry = e.id AND t.blogid = e.blogid
 			LEFT JOIN {$database['prefix']}Categories ct ON ct.id = e.category AND ct.blogid = t.blogid
@@ -79,15 +79,16 @@ function getRecentTrackbacks($blogid, $count = false) {
 	global $database;
 	global $skinSetting;
 	$trackbacks = array();
-	$sql = doesHaveOwnership() ? "SELECT * 
+	$sql = doesHaveOwnership() ? "SELECT t.*, e.slogan 
 		FROM 
-			{$database['prefix']}Trackbacks 
+			{$database['prefix']}Trackbacks t
+			LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id
 		WHERE 
-			blogid = $blogid AND isFiltered = 0 
+			t.blogid = $blogid AND t.isFiltered = 0 
 		ORDER BY 
-			written 
+			t.written 
 		DESC LIMIT ".($count != false ? $count : $skinSetting['trackbacksOnRecent']) : 
-		"SELECT t.* 
+		"SELECT t.*, e.slogan 
 		FROM 
 			{$database['prefix']}Trackbacks t 
 			LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id
