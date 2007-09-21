@@ -175,6 +175,7 @@ class CacheControl{
 			if($object == '.' || $object == '..') continue;
 			if(!@unlink($dir.'/'.$object)) return false;
 		}
+		@rmdir($dir);
 		DBQuery::query("DELETE FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$blogid);
 		return true;
 	}
