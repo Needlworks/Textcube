@@ -85,8 +85,10 @@ function getEntry($blogid, $id, $draft = false) {
 
 function getUserIdOfEntry($blogid, $id) {
 	global $database;
-	$result = DBQuery::queryCell("SELECT userid FROM {$database['prefix']}Entries
-			WHERE blogid = $blogid AND id = $id");
+	$result = DBQuery::queryCell("SELECT userid 
+		FROM {$database['prefix']}Entries
+		WHERE 
+			blogid = $blogid AND id = $id");
 	if(!empty($result)) return $result;
 	else return null;
 }
@@ -826,5 +828,15 @@ function getSloganById($blogid, $id) {
 		return false;
 	else
 		return $result;
+}
+
+function getEntryIdBySlogan($blogid, $slogan) {
+	global $database;
+	$result = DBQuery::queryCell("SELECT id
+		FROM {$database['prefix']}Entries 
+		WHERE blogid = $blogid 
+			AND slogan = '".mysql_tt_escape_string($slogan)."'");
+	if(!$result) return false;
+	else return $result;
 }
 ?>
