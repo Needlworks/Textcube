@@ -122,7 +122,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 					$skin = new Skin($skinSetting['skin']);
 					$suri['page'] = getGuestbookPageById($blogid, $suri['id']);
 					$entry = array();
-					$entry['id'] = $entryId;
+					$entry['id'] = $comment['entry'];
 					$entry['slogan'] = getSloganById($blogid, $entry['id']);
 					printHtmlHeader();
 					$tempComments = revertTempTags(removeAllTags(getCommentView($entry, $skin)));
@@ -133,7 +133,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 		alert("<?php echo _text('댓글이 수정되었습니다.');?>");
 		
 		try {
-			var obj = opener.document.getElementById("entry<?php echo $comment['entry'];?>Comment");
+			var obj = opener.document.getElementById("entry<?php echo $entry['id'];?>Comment");
 			obj.innerHTML = "<?php echo str_innerHTML($tempComments);?>";
 			var recentComment = opener.document.getElementById("recentComments");
 			if(recentComment)
