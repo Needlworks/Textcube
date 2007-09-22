@@ -45,8 +45,10 @@ if (!empty($_POST['mode'])) {
 			}			
 			if ($result == true) {
 				$skin = new Skin($skinSetting['skin']);
+				$entry['id'] = $entryId;
+				$entry['slogan'] = getSloganById($blogid, $entry['id']);
 				printHtmlHeader();
-				$tempComments = revertTempTags(removeAllTags(getCommentView($entryId, $skin)));
+				$tempComments = revertTempTags(removeAllTags(getCommentView($entry, $skin)));
 				$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments));
 ?>
 <script type="text/javascript">
@@ -118,8 +120,10 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 				} else if ($result !== false) {
 					$skin = new Skin($skinSetting['skin']);
 					$suri['page'] = getGuestbookPageById($blogid, $suri['id']);
+					$entry['id'] = $entryId;
+					$entry['slogan'] = getSloganById($blogid, $entry['id']);
 					printHtmlHeader();
-					$tempComments = revertTempTags(removeAllTags(getCommentView($comment['entry'], $skin)));
+					$tempComments = revertTempTags(removeAllTags(getCommentView($entry, $skin)));
 					$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments));
 ?>
 <script type="text/javascript">

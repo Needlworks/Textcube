@@ -82,13 +82,15 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 	} else if ($result === false) {
 		echo '<?xml version="1.0" encoding="utf-8"?><response><error>2</error><description><![CDATA[', _text('댓글을 달 수 없습니다.'), ']]></description></response>';
 	} else {
+		$entry['id'] = $entryId;
+		$entry['slogan'] = getSloganById($blogid, $entryId);
 		if(!$comment['secret']) {
 			if($row = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0 AND visibility = 3 AND acceptComment = 1"))
 				sendCommentPing($entryId, "$defaultURL/".($blog['useSlogan'] ? "entry/{$row['slogan']}": $entryId), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
 		}
 		$skin = new Skin($skinSetting['skin']);
 		if ($entryId > 0) {
-			$commentBlock = getCommentView($entryId, $skin);
+			$commentBlock = getCommentView($entry, $skin);
 			dress('article_rep_id', $entryId, $commentBlock);
 			$commentBlock = escapeCData(revertTempTags(removeAllTags($commentBlock)));
 			$recentCommentBlock = escapeCData(revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments)));
@@ -97,7 +99,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 			list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 		} else {
 			$commentView = '';
-			$commentBlock = getCommentView($entryId, $skin);
+			$commentBlock = getCommentView($entry, $skin);
 			dress('article_rep_id', $entryId, $commentBlock);
 			$commentBlock = escapeCData(revertTempTags(removeAllTags($commentBlock)));
 			$commentCount = 0;

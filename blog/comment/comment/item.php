@@ -54,7 +54,9 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 		
 <?php
 			notifyComment();
-			$tempComments = revertTempTags(removeAllTags(getCommentView($comment['entry'], $skin)));
+			$entry['id'] = $comment['entry'];
+			$entry['slogan'] = getSloganById($blogid, $entry['id']);
+			$tempComments = revertTempTags(removeAllTags(getCommentView($entry, $skin)));
 			$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments));
 ?>
 		var obj = opener.document.getElementById("entry<?php echo $comment['entry'];?>Comment");
