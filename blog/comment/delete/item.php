@@ -45,6 +45,7 @@ if (!empty($_POST['mode'])) {
 			}			
 			if ($result == true) {
 				$skin = new Skin($skinSetting['skin']);
+				$entry = array();
 				$entry['id'] = $entryId;
 				$entry['slogan'] = getSloganById($blogid, $entry['id']);
 				printHtmlHeader();
@@ -120,6 +121,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 				} else if ($result !== false) {
 					$skin = new Skin($skinSetting['skin']);
 					$suri['page'] = getGuestbookPageById($blogid, $suri['id']);
+					$entry = array();
 					$entry['id'] = $entryId;
 					$entry['slogan'] = getSloganById($blogid, $entry['id']);
 					printHtmlHeader();

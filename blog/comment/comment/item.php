@@ -54,6 +54,7 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 		
 <?php
 			notifyComment();
+			$entry = array();
 			$entry['id'] = $comment['entry'];
 			$entry['slogan'] = getSloganById($blogid, $entry['id']);
 			$tempComments = revertTempTags(removeAllTags(getCommentView($entry, $skin)));

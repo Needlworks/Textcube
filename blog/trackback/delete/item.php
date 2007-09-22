@@ -20,6 +20,7 @@ if ($entryId !== false) {
 	$trackbackCount = getTrackbackCount($blogid, $entryId);
 	list($tempTag, $trackbackCountContent) = getTrackbackCountPart($trackbackCount, $skin);
 	$recentTrackbackContent = getRecentTrackbacksView(getRecentTrackbacks($blogid), $skin->recentTrackback);
+	$entry = array();
 	$entry['id'] = $entryId;
 	$entry['slogan'] = getSloganById($blogid, $entry['id']);
 	$trackbackListContent = getTrackbacksView($entry, $skin, true);

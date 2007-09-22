@@ -82,6 +82,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 	} else if ($result === false) {
 		echo '<?xml version="1.0" encoding="utf-8"?><response><error>2</error><description><![CDATA[', _text('댓글을 달 수 없습니다.'), ']]></description></response>';
 	} else {
+		$entry = array();
 		$entry['id'] = $entryId;
 		$entry['slogan'] = getSloganById($blogid, $entryId);
 		if(!$comment['secret']) {
