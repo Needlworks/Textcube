@@ -100,6 +100,13 @@ function requireStrictRoute() {
 	exit;
 }
 
+function requireStrictBlogURL() {
+	global $isStrictBlogURL;
+	if(isset($isStrictBlogURL) && $isStrictBlogURL == true) return;
+	header('HTTP/1.1 404 Not found');
+	exit;
+}
+
 function isLoginId($userid, $loginid) {
 	global $database;
 	$loginid = mysql_tt_escape_string($loginid);

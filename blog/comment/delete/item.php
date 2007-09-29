@@ -45,8 +45,11 @@ if (!empty($_POST['mode'])) {
 			}			
 			if ($result == true) {
 				$skin = new Skin($skinSetting['skin']);
+				$entry = array();
+				$entry['id'] = $entryId;
+				$entry['slogan'] = getSloganById($blogid, $entry['id']);
 				printHtmlHeader();
-				$tempComments = revertTempTags(removeAllTags(getCommentView($entryId, $skin)));
+				$tempComments = revertTempTags(removeAllTags(getCommentView($entry, $skin)));
 				$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments));
 ?>
 <script type="text/javascript">
@@ -118,8 +121,11 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 				} else if ($result !== false) {
 					$skin = new Skin($skinSetting['skin']);
 					$suri['page'] = getGuestbookPageById($blogid, $suri['id']);
+					$entry = array();
+					$entry['id'] = $comment['entry'];
+					$entry['slogan'] = getSloganById($blogid, $entry['id']);
 					printHtmlHeader();
-					$tempComments = revertTempTags(removeAllTags(getCommentView($comment['entry'], $skin)));
+					$tempComments = revertTempTags(removeAllTags(getCommentView($entry, $skin)));
 					$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments));
 ?>
 <script type="text/javascript">
@@ -127,7 +133,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 		alert("<?php echo _text('댓글이 수정되었습니다.');?>");
 		
 		try {
-			var obj = opener.document.getElementById("entry<?php echo $comment['entry'];?>Comment");
+			var obj = opener.document.getElementById("entry<?php echo $entry['id'];?>Comment");
 			obj.innerHTML = "<?php echo str_innerHTML($tempComments);?>";
 			var recentComment = opener.document.getElementById("recentComments");
 			if(recentComment)

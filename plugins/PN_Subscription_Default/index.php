@@ -151,7 +151,7 @@ function getAggregatorName($useragent)
 		'HTTPClientBox' => 'HTTPClientBox',
 		'ONNET-OPENAPI' => '온네트 API 로봇',
 		'S20 Wing' => '날개 피드 로봇',
-		'Feedburner' => 'Feedburner 피드 로봇',
+		'FeedBurner' => 'FeedBurner 피드 로봇',
 		'xMind' => '크로스마인드(xMind) 검색 로봇',
 		'openmaru feed aggregator' => 'Openmaru Feed Aggregator',
 		'ColFeed' => '콜콜넷 피드 로봇'
@@ -205,7 +205,7 @@ function robotChecker($useragent)
 		'DAUM RSS Robot' => 1,
 		'RMOM' => 1,
 		'S20 Wing' => 1,
-		'Feedburner' => 1,
+		'FeedBurner' => 1,
 		'xMind' => 1,
 		'openmaru feed aggregator' => 1,
 		'ColFeed' => 1

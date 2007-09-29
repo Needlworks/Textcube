@@ -237,7 +237,7 @@ function getCommentList($blogid, $search) {
 	$list = array('title' => "$search", 'items' => array());
 	$search = escapeMysqlSearchString($search);
 	$authorized = doesHaveOwnership() ? '' : 'AND c.secret = 0 AND (ct.visibility > 1 OR e.category = 0)';
-	if ($result = DBQuery::query("SELECT c.id, c.entry, c.parent, c.name, c.comment, c.written 
+	if ($result = DBQuery::query("SELECT c.id, c.entry, c.parent, c.name, c.comment, c.written, e.slogan
 		FROM {$database['prefix']}Comments c
 		LEFT JOIN {$database['prefix']}Entries e ON c.entry = e.id AND c.blogid = e.blogid
 		LEFT JOIN {$database['prefix']}Categories ct ON ct.id = e.category AND ct.blogid = c.blogid
@@ -510,20 +510,23 @@ function revertComment($blogid, $id, $entry, $password) {
 function getRecentComments($blogid,$count = false,$isGuestbook = false) {
 	global $skinSetting, $database;
 	$comments = array();
-	$sql = doesHaveOwnership() ? "SELECT * FROM 
-			{$database['prefix']}Comments 
+	$sql = doesHaveOwnership() ? "SELECT r.*, e.slogan
+		FROM 
+			{$database['prefix']}Comments r
+			LEFT JOIN {$database['prefix']}Entries e ON r.blogid = e.blogid AND r.entry = e.id
 		WHERE 
-			blogid = $blogid".($isGuestbook != false ? " AND entry=0" : " AND entry>0")." AND isFiltered = 0 
+			r.blogid = $blogid".($isGuestbook != false ? " AND r.entry=0" : " AND r.entry>0")." AND r.isFiltered = 0 
 		ORDER BY 
-			written 
+			r.written 
 		DESC LIMIT ".($count != false ? $count : $skinSetting['commentsOnRecent']) :
-		"SELECT r.* FROM 
+		"SELECT r.*, e.slogan
+		FROM 
 			{$database['prefix']}Comments r
 			LEFT JOIN {$database['prefix']}Entries e ON r.blogid = e.blogid AND r.entry = e.id
 			LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id
 		WHERE 
 			r.blogid = $blogid AND e.draft = 0 AND e.visibility >= 2 AND (c.visibility > 1 OR e.category = 0) "
-			.($isGuestbook != false ? " AND r.entry = 0" : " AND r.entry > 0")." AND isFiltered = 0 
+			.($isGuestbook != false ? " AND r.entry = 0" : " AND r.entry > 0")." AND r.isFiltered = 0 
 		ORDER BY 
 			r.written 
 		DESC LIMIT 

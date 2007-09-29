@@ -2,8 +2,9 @@
 /// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+
 define('TEXTCUBE_NAME', 'Textcube');
-define('TEXTCUBE_VERSION', '1.5.1 : Counterpoint');
+define('TEXTCUBE_VERSION', '1.5.3.1 : Adamantine');
 define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2007. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
 define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.org/');
 define('TEXTCUBE_SYNC_URL', 'http://ping.eolin.com/');
@@ -35,8 +36,8 @@ if (@is_numeric($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80) && (
 	$service['port'] = $_SERVER['SERVER_PORT'];
 
 function requireComponent($name) {
-	//if (!ereg('^[[:alnum:]]+[[:alnum:].]+$', $name))		return;
-	$name = preg_replace("/Tattertools/","Textcube",$name);
+	//if (!preg_match('/^[a-zA-Z0-9\.]+$/', $name))		return;
+	$name = str_replace('Tattertools', 'Textcube',$name);
 	include_once (ROOT . "/components/$name.php");
 }
 

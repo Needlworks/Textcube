@@ -211,7 +211,7 @@ function checkStep($step, $check = true) {
 							$error = 1;
 						else if (!mysql_select_db($_POST['dbName']))
 							$error = 2;
-						else if (!empty($_POST['dbPrefix']) && !ereg('^[[:alnum:]_]+$', $_POST['dbPrefix']))
+						else if (!empty($_POST['dbPrefix']) && !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['dbPrefix']))
 							$error = 3;
 						else
 							return true;
@@ -846,11 +846,11 @@ RewriteRule ^testrewrite$ setup.php [L]"
     else if ($step == 6) {
         if ($check) {
             if (!empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['password2']) && (($_POST['type'] == 'single') || !empty($_POST['blog'])) && isset($_POST['name'])) {
-                if (!ereg('^[^@]+@([[:alnum:]]+(-[[:alnum:]]+)*\.)+[[:alnum:]]+(-[[:alnum:]]+)*$', $_POST['email']))
+                if (!preg_match('/^[^@]+@([-a-zA-Z0-9]+\.)+[-a-zA-Z0-9]+$/', $_POST['email']))
                     $error = 51;
                 else if ($_POST['password'] != $_POST['password2'])
                     $error = 52;
-                else if (($_POST['type'] != 'single') && !ereg('^[[:alnum:]]+$', $_POST['blog']))
+                else if (($_POST['type'] != 'single') && !preg_match('/^[a-zA-Z0-9]+$/', $_POST['blog']))
                     $error = 53;
                 else if (strlen($_POST['password']) < 6 || strlen($_POST['password2']) < 6)
 					$error = 54;
@@ -1485,23 +1485,23 @@ RewriteRule (.*) - [L]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^(.+[^/])$ $1/ [L]
 RewriteRule ^$ blog/index.php [E=SURI:1,L]
-RewriteRule ^[[:alnum:]]+/*$ blog/index.php [E=SURI:1,L]
-RewriteRule ^[[:alnum:]]+/+[0-9]+$ blog/item.php [E=SURI:1,L]
+RewriteRule ^[-[:alnum:]]+/*$ blog/index.php [E=SURI:1,L]
+RewriteRule ^[-[:alnum:]]+/+[0-9]+$ blog/item.php [E=SURI:1,L]
 RewriteRule ^favicon\.ico$ blog/favicon.ico.php [E=SURI:1,L]
-RewriteRule ^[[:alnum:]]+/+favicon\.ico$ blog/favicon.ico.php [E=SURI:1,L]
+RewriteRule ^[-[:alnum:]]+/+favicon\.ico$ blog/favicon.ico.php [E=SURI:1,L]
 RewriteRule ^index\.gif$ blog/index.gif.php [E=SURI:1,L]
-RewriteRule ^[[:alnum:]]+/+index\.gif$ blog/index.gif.php [E=SURI:1,L]
+RewriteRule ^[-[:alnum:]]+/+index\.gif$ blog/index.gif.php [E=SURI:1,L]
 RewriteCond %{QUERY_STRING} (^|&)pl=([0-9]+)
-RewriteRule ^([[:alnum:]]+)/+index\.php$ $1/%2 [NE,L]
-RewriteRule ^[[:alnum:]]+/+index\.php$ blog/index.php [E=SURI:1,L]
-RewriteRule ^[[:alnum:]]+/+index\.xml$ blog/rss/index.php [E=SURI:1,L]
+RewriteRule ^([-[:alnum:]]+)/+index\.php$ $1/%2 [NE,L]
+RewriteRule ^[-[:alnum:]]+/+index\.php$ blog/index.php [E=SURI:1,L]
+RewriteRule ^[-[:alnum:]]+/+index\.xml$ blog/rss/index.php [E=SURI:1,L]
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule !^(blog|cache)/ - [L]
-RewriteRule ^[[:alnum:]]+/+(thumbnail)/([0-9]+/.+) cache/$1/$2 [E=SURI:1,L]
-RewriteRule ^[[:alnum:]]+/+(entry|attachment|category|keylog|tag|search|plugin)/? blog/$1/index.php [E=SURI:1,L]
-RewriteRule ^[[:alnum:]]+/+(.+)/[0-9]+$ blog/$1/item.php [E=SURI:1,L]
-RewriteRule ^[[:alnum:]]+/+(.+)$ blog/$1/index.php [E=SURI:1,L]
+RewriteRule ^[-[:alnum:]]+/+(thumbnail)/([0-9]+/.+) cache/$1/$2 [E=SURI:1,L]
+RewriteRule ^[-[:alnum:]]+/+(entry|attachment|category|keylog|tag|search|plugin)/? blog/$1/index.php [E=SURI:1,L]
+RewriteRule ^[-[:alnum:]]+/+(.+)/[0-9]+$ blog/$1/item.php [E=SURI:1,L]
+RewriteRule ^[-[:alnum:]]+/+(.+)$ blog/$1/index.php [E=SURI:1,L]
 ";
 				break;
         	case 'single':
@@ -1630,7 +1630,8 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
         if ($result = mysql_query("SHOW TABLES")) {
             while ($table = mysql_fetch_array($result)) {
 				$table = $table[0];
-				if (ereg('Entries$', $table) && checkTables('1.5', $prefix = substr($table, 0, strlen($table) - 7))) {
+				$entriesMatched = preg_match('/Entries$/', $table);
+				if ($entriesMatched && checkTables('1.5', $prefix = substr($table, 0, strlen($table) - 7))) {
 ?>
       <tr>
         <th><?php echo $prefix;?></th>
@@ -1640,7 +1641,7 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
       </tr>
 <?php
 					$ckeckedString = '';
-				} else if (ereg('Entries$', $table) && checkTables('1.1', $prefix = substr($table, 0, strlen($table) - 7))) {
+				} else if ($entriesMatched && checkTables('1.1', $prefix = substr($table, 0, strlen($table) - 7))) {
 ?>
       <tr>
         <th><?php echo $prefix;?></th>
@@ -1650,7 +1651,7 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
       </tr>
 <?php
 					$ckeckedString = '';
-				} else if (ereg('Entries$', $table) && checkTables('1.0.2', $prefix = substr($table, 0, strlen($table) - 7))) {
+				} else if ($entriesMatched && checkTables('1.0.2', $prefix = substr($table, 0, strlen($table) - 7))) {
 ?>
       <tr>
         <th><?php echo $prefix;?></th>
@@ -1660,7 +1661,7 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
       </tr>
 <?php
 					$ckeckedString = '';
-				} else if (ereg('Entries$', $table) && checkTables('1.0.0', $prefix = substr($table, 0, strlen($table) - 7))) {
+				} else if ($entriesMatched && checkTables('1.0.0', $prefix = substr($table, 0, strlen($table) - 7))) {
 ?>
       <tr>
         <th><?php echo $prefix;?></th>
@@ -1670,7 +1671,7 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
       </tr>
 <?php
 					$ckeckedString = '';
-				} else if (ereg('Entries$', $table) && checkTables('1.0.b2', $prefix = substr($table, 0, strlen($table) - 7))) {
+				} else if ($entriesMatched && checkTables('1.0.b2', $prefix = substr($table, 0, strlen($table) - 7))) {
 ?>
       <tr>
         <th><?php echo $prefix;?></th>
@@ -1680,7 +1681,7 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
       </tr>
 <?php
 					$ckeckedString = '';
-				} else if (ereg('^t3_(.*)_10ofmg$', $table) && checkTables('0.97', $prefix = substr($table, 3, strlen($table) - 10))) {
+				} else if (preg_match('/^t3_(.*)_10ofmg$/', $table) && checkTables('0.97', $prefix = substr($table, 3, strlen($table) - 10))) {
 ?>
       <tr>
         <th><?php echo $prefix;?></th>
@@ -1690,7 +1691,7 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
       </tr>
 <?php
 					$ckeckedString = '';
-				} else if (ereg('^t3_(.*)_ct1$', $table) && checkTables('0.96', $prefix = substr($table, 3, strlen($table) - 7))) {
+				} else if (preg_match('/^t3_(.*)_ct1$/', $table) && checkTables('0.96', $prefix = substr($table, 3, strlen($table) - 7))) {
 ?>
       <tr>
         <th><?php echo $prefix;?></th>

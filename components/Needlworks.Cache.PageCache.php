@@ -175,6 +175,7 @@ class CacheControl{
 			if($object == '.' || $object == '..') continue;
 			if(!@unlink($dir.'/'.$object)) return false;
 		}
+		@rmdir($dir);
 		DBQuery::query("DELETE FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$blogid);
 		return true;
 	}
@@ -183,13 +184,13 @@ class CacheControl{
 		global $database;
 
 		if(empty($categoryId)) $categoryId = '';
-		else $categoryId = $categoryId.'_';
+		else $categoryId = $categoryId.'\\_';
 		
 		$cache = new pageCache;
 		$categoryLists = DBQuery::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND (name like 'categoryList\_".$categoryId."\_%')");
+			AND (name like 'categoryList\\_".$categoryId."%')");
 		foreach($categoryLists as $categoryListName){
 			$cache->reset();
 			$cache->name = $categoryListName;
@@ -204,13 +205,13 @@ class CacheControl{
 		global $database;
 
 		if(empty($tagId)) $tagId = '';
-		else $tagId = $tagId.'_';
+		else $tagId = $tagId.'\\_';
 		$cache = new pageCache;
 		$tagLists = DBQuery::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND (name like 'tagList\_".$tagId."\_%' 
-				OR name like 'keyword\_".$tagId."\_%')");
+			AND (name like 'tagList\\_".$tagId."%' 
+				OR name like 'keyword\\_".$tagId."%')");
 		if (!is_null($tagLists)) {
 			foreach($tagLists as $tagListName){
 				$cache->reset();
@@ -225,16 +226,16 @@ class CacheControl{
 		return true;
 	}
 
-	function flushKeyword($tagId) {
+	function flushKeyword($tagId = null) {
 		global $database;
 
 		if(empty($tagId)) $tagId = '';
-		else $tagId = $tagId.'_';
+		else $tagId = $tagId.'\\_';
 		$cache = new pageCache;
 		$keywordEntries = DBQuery::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND name like 'keyword\_".$tagId."\_%'");
+			AND name like 'keyword\\_".$tagId."%'");
 		foreach($keywordEntries as $keywordEntryName){
 			$cache->reset();
 			$cache->name = $keywordEntryName;
@@ -244,16 +245,16 @@ class CacheControl{
 		return true;
 	}
 	
-	function flushEntry($entryId) {
+	function flushEntry($entryId = null) {
 		global $database;
 
 		if(empty($entryId)) $entryId = '';
-		else $entryId = $entryId.'_';
+		else $entryId = $entryId.'\\_';
 		$cache = new pageCache;
 		$Entries = DBQuery::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND name like 'entry\_".$entryId."\_%'");
+			AND name like 'entry\\_".$entryId."%'");
 		foreach($Entries as $EntryName){
 			$cache->reset();
 			$cache->name = $EntryName;

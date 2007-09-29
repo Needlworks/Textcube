@@ -10,7 +10,7 @@ function addTeamUser($email, $name, $comment, $senderName, $senderEmail) {
 	$blogid = getBlogId();
 	if(empty($email))
 		return 1;
-	if(!ereg('^[^@]+@([[:alnum:]]+(-[[:alnum:]]+)*\.)+[[:alnum:]]+(-[[:alnum:]]+)*$',$email))
+	if(!preg_match('/^[^@]+@([-a-zA-Z0-9]+\.)+[-a-zA-Z0-9]+$/',$email))
 		return 2;
 	
 	$isUserExists = getUserIdByEmail($email);

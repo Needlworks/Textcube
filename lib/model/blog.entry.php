@@ -85,8 +85,10 @@ function getEntry($blogid, $id, $draft = false) {
 
 function getUserIdOfEntry($blogid, $id) {
 	global $database;
-	$result = DBQuery::queryCell("SELECT userid FROM {$database['prefix']}Entries
-			WHERE blogid = $blogid AND id = $id");
+	$result = DBQuery::queryCell("SELECT userid 
+		FROM {$database['prefix']}Entries
+		WHERE 
+			blogid = $blogid AND id = $id");
 	if(!empty($result)) return $result;
 	else return null;
 }
@@ -391,9 +393,9 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false) {
 }
 
 function getSlogan($slogan) {
-	$slogan = ereg_replace('-+', ' ', $slogan);
-	$slogan = ereg_replace('[!-/:-@[-`{-~]+', '', $slogan);
-	$slogan = ereg_replace('[[:space:]]+', '-', $slogan);
+	$slogan = preg_replace('/-+/', ' ', $slogan);
+	$slogan = preg_replace('@[!-/:-\@\[-\^`{-~]+@', '', $slogan);
+	$slogan = preg_replace('/\s+/', '-', $slogan);
 	$slogan = trim($slogan, '-');
 	return strlen($slogan) > 0 ? $slogan : 'XFile';
 }
@@ -402,7 +404,7 @@ function getRecentEntries($blogid) {
 	global $database, $skinSetting;
 	$entries = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
-	$result = DBQuery::query("SELECT e.id, e.userid, e.title, e.comments 
+	$result = DBQuery::query("SELECT e.id, e.userid, e.title, e.slogan, e.comments 
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
@@ -685,7 +687,7 @@ function setEntryVisibility($id, $visibility) {
 	global $database;
 	requireModel("blog.rss");
 	requireModel("blog.category");
-
+	requireComponent('Needlworks.Cache.PageCache');
 	$blogid = getBlogId();
 	if (($visibility < 0) || ($visibility > 3))
 		return false;
@@ -826,5 +828,15 @@ function getSloganById($blogid, $id) {
 		return false;
 	else
 		return $result;
+}
+
+function getEntryIdBySlogan($blogid, $slogan) {
+	global $database;
+	$result = DBQuery::queryCell("SELECT id
+		FROM {$database['prefix']}Entries 
+		WHERE blogid = $blogid 
+			AND slogan = '".mysql_tt_escape_string($slogan)."'");
+	if(!$result) return false;
+	else return $result;
 }
 ?>

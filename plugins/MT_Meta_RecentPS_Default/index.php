@@ -9,6 +9,7 @@ function MT_Cover_getRecentEntries($parameters){
 	$data = misc::fetchConfigVal($configVal);
 	$data['coverMode']	= !isset($data['coverMode'])?1:$data['coverMode'];
 	if(misc::isMetaBlog() != true) $data['coverMode'] = 1;
+	$data['screenshot']	= !isset($data['screenshot'])?1:$data['screenshot'];
 
 	if (isset($parameters['preview'])) {
 		// preview mode
@@ -70,7 +71,7 @@ function MT_Cover_getRecentEntries($parameters){
 
 		$html .= '<div class="coverpost">'.CRLF;
 		if($imageName = MT_Cover_getAttachmentExtract($entry['content'])){
-			if($tempImageSrc = MT_Cover_getImageResizer($blogid, $imageName)){
+			if(($tempImageSrc = MT_Cover_getImageResizer($blogid, $imageName)) && ($data['screenshot'] == 1)){
 				$html .= '<div class="img_preview"><a href="'.$permalink.'"><img src="'.$tempImageSrc.'" alt="" /></a></div>'.CRLF;
 			}
 		}
@@ -95,7 +96,7 @@ function MT_Cover_getRecentEntries($parameters){
 	return $target;
 }
 
-function MT_Cover_getRecentEntries_purgeCache($mother, $target) {
+function MT_Cover_getRecentEntries_purgeCache($target, $mother) {
 	requireComponent('Needlworks.Cache.PageCache');
 	$cache = new PageCache;
 	$cache->name = 'MT_Cover_RecentPS';
@@ -104,7 +105,7 @@ function MT_Cover_getRecentEntries_purgeCache($mother, $target) {
 }
 
 function MT_Cover_getImageResizer($blogid, $filename){
-	global $defaultURL;
+	global $defaultURL, $serviceURL;
 	requireComponent('Textcube.Function.Image');
 	
 	$imagePath = ROOT . "/attach/{$blogid}/{$filename}"; 
@@ -112,20 +113,24 @@ function MT_Cover_getImageResizer($blogid, $filename){
 	$srcPath = "{$defaultURL}/thumbnail/" . getBlogId() . "/coverPostThumbnail/th_{$filename}";
 
 	if(file_exists($imagePath)){
-		if(!file_exists($savePath)){
-			$imageInfo = getimagesize($imagePath);
-			$attachedImage = new Image();
-			$tempSizeCheck = $attachedImage->calcOptimizedImageSize($imageInfo[0],$imageInfo[1],90,null);
-			if($tempSizeCheck[1] < 90){
-				$tempSize = $attachedImage->calcOptimizedImageSize($imageInfo[0],$imageInfo[1],null,90);
-			}else{
-				$tempSize = array($tempSizeCheck[0], $tempSizeCheck[1]);
+		if(extension_loaded('gd')){
+			if(!file_exists($savePath)){
+				$imageInfo = getimagesize($imagePath);
+				$attachedImage = new Image();
+				$tempSizeCheck = $attachedImage->calcOptimizedImageSize($imageInfo[0],$imageInfo[1],90,null);
+				if($tempSizeCheck[1] < 90){
+					$tempSize = $attachedImage->calcOptimizedImageSize($imageInfo[0],$imageInfo[1],null,90);
+				}else{
+					$tempSize = array($tempSizeCheck[0], $tempSizeCheck[1]);
+				}
+				$attachedImage->imageFile = $imagePath;
+				if ($attachedImage->resample($tempSize[0], $tempSize[1])) {
+					$attachedImage->createThumbnailIntoFile($savePath);
+				}
+				unset($attachedImage);
 			}
-			$attachedImage->imageFile = $imagePath;
-			if ($attachedImage->resample($tempSize[0], $tempSize[1])) {
-				$attachedImage->createThumbnailIntoFile($savePath);
-			}
-			unset($attachedImage);
+		}else{
+			$srcPath = "{$serviceURL}/attach/{$blogid}/{$filename}"; 
 		}
 		return $srcPath;
 	}else{
@@ -139,7 +144,7 @@ function MT_Cover_getAttachmentExtract($content){
 		$split = explode("|", $matches[0][0]);
 		$result = $split[1];
 	}else if(preg_match_all('/<img[^>]+?src=("|\')?([^\'">]*?)("|\')/si', $content, $matches)) {
-		if( !eregi("http://", $matches[2][0]) ){
+		if( !stristr('http://', $matches[2][0]) ){
 			$result = basename($matches[2][0]);
 		}
 	}
@@ -175,11 +180,15 @@ function MT_Cover_getRecentEntries_ConfigOut_ko($plugin) {
 
 	$manifest .= '<?xml version="1.0" encoding="utf-8"?>'.CRLF;
 	$manifest .= '<config dataValHandler="MT_Cover_getRecentEntries_DataSet" >'.CRLF;
-	$manifest .= '	<window width="500" height="270" />'.CRLF;
+	$manifest .= '	<window width="500" height="298" />'.CRLF;
 	$manifest .= '	<fieldset legend="표지 출력 설정">'.CRLF;
 	$manifest .= '		<field title="출력 형태 :" name="coverMode" type="radio"  >'.CRLF;
 	$manifest .= '			<op value="1" checked="checked"><![CDATA[단일 사용자&nbsp;]]></op>'.CRLF;
 	$manifest .= '			<op value="2">다중 사용자</op>'.CRLF;
+	$manifest .= '		</field>'.CRLF;
+	$manifest .= '		<field title="스크린 샷 :" name="screenshot" type="radio"  >'.CRLF;
+	$manifest .= '			<op value="1" checked="checked"><![CDATA[적용&nbsp;]]></op>'.CRLF;
+	$manifest .= '			<op value="2">미적용</op>'.CRLF;
 	$manifest .= '		</field>'.CRLF;
 	$manifest .= '		<field title="CSS 적용 :" name="cssSelect" type="radio"  >'.CRLF;
 	$manifest .= '			<op value="1" checked="checked"><![CDATA[적용&nbsp;]]></op>'.CRLF;
@@ -198,11 +207,15 @@ function MT_Cover_getRecentEntries_ConfigOut_en($plugin) {
 
 	$manifest .= '<?xml version="1.0" encoding="utf-8"?>'.CRLF;
 	$manifest .= '<config dataValHandler="MT_Cover_getRecentEntries_DataSet" >'.CRLF;
-	$manifest .= '	<window width="500" height="270" />'.CRLF;
+	$manifest .= '	<window width="500" height="298" />'.CRLF;
 	$manifest .= '	<fieldset legend="Cover list setup">'.CRLF;
 	$manifest .= '		<field title="List mode :" name="coverMode" type="radio"  >'.CRLF;
 	$manifest .= '			<op value="1" checked="checked"><![CDATA[Single user&nbsp;]]></op>'.CRLF;
 	$manifest .= '			<op value="2">Multi user</op>'.CRLF;
+	$manifest .= '		</field>'.CRLF;
+	$manifest .= '		<field title="Screenshot:" name="screenshot" type="radio"  >'.CRLF;
+	$manifest .= '			<op value="1" checked="checked"><![CDATA[Apply&nbsp;]]></op>'.CRLF;
+	$manifest .= '			<op value="2">Not apply</op>'.CRLF;
 	$manifest .= '		</field>'.CRLF;
 	$manifest .= '		<field title="CSS Apply :" name="cssSelect" type="radio"  >'.CRLF;
 	$manifest .= '			<op value="1" checked="checked"><![CDATA[Apply&nbsp;]]></op>'.CRLF;

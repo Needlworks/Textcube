@@ -109,7 +109,6 @@ class Keyword {
 
 		if (!$query->insert())
 			return $this->_error('insert');
-		$this->id = $query->id;
 		
 		return true;
 	}
@@ -119,7 +118,7 @@ class Keyword {
 		if (!is_numeric($id)) {
 			return false;
 		}
-		$result = mysql_query("DELETE FROM FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND category = -1 AND id = $id ");
+		$result = mysql_query("DELETE FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND category = -1 AND id = $id ");
 		if ($result && ($this->_count = mysql_affected_rows()))
 			return true;
 		return false;

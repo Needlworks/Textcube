@@ -351,6 +351,7 @@ function addFeed($blogid, $group = 0, $url, $getEntireFeed = true, $htmlURL = ''
 	global $database;
 	if(strpos(strtolower($url), 'http://') !== 0)
 		$url = 'http://'.$url;
+	$url = rtrim($url, '/');
 	$escapedURL = mysql_tt_escape_string($url);
 	if (DBQuery::queryExistence("SELECT f.id FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations r WHERE r.blogid = $blogid AND r.blogid = g.blogid AND r.feed = f.id AND r.groupId = g.id AND f.xmlURL = '$escapedURL'")) {
 		return 1;
@@ -379,17 +380,18 @@ function addFeed($blogid, $group = 0, $url, $getEntireFeed = true, $htmlURL = ''
 }
 
 function getRemoteFeed($url) {
-	global $service;
+	global $service, $serviceURL;
 	$xml = fireEvent('GetRemoteFeed', null, $url);
 	if (empty($xml)) {
 		requireComponent('Eolin.PHP.HTTPRequest');
 		$request = new HTTPRequest($url);
+		$request->referer = $serviceURL;
 		$request->timeout = 3;
 		if (!$request->send())
 			return array(2, null, null);
 		$xml = $request->responseText;
 	}
-	$feed = array('xmlURL' => $url);
+	$feed = array('xmlURL' => (isset($request) ? $request->url : $url));
 	$xmls = new XMLStruct();
 	if (!$xmls->open($xml, $service['encoding'])) {
 		if(preg_match_all('/<link .*?rel\s*=\s*[\'"]?alternate.*?>/i', $xml, $matches)) {
@@ -616,11 +618,15 @@ function deleteReaderTablesByOwner($blogid) {
 
 function updateRandomFeed() {
 	global $database;
-	$updateCycle = DBQuery::queryCell("SELECT updateCycle FROM {$database['prefix']}FeedSettings");
-	if($updateCycle != 0) {
-		if ($feed = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Feeds WHERE modified < " . (gmmktime() - ($updateCycle * 60)) . " ORDER BY RAND() LIMIT 1")) {
-			return array(updateFeed($feed), $feed['xmlURL']);
+	if(gmmktime() - getBlogSetting('lastFeedUpdate',0) > 180) {
+		$updateCycle = DBQuery::queryCell("SELECT updateCycle FROM {$database['prefix']}FeedSettings");
+		if($updateCycle != 0) {
+			if ($feed = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Feeds WHERE modified < " . (gmmktime() - ($updateCycle * 60)) . " ORDER BY RAND() LIMIT 1")) {
+				setBlogSetting('lastFeedUpdate',gmmktime());
+				return array(updateFeed($feed), $feed['xmlURL']);
+			}
 		}
+		return array(1, 'No feeds to update');
 	}
 	return array(1, 'No feeds to update');
 }

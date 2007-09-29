@@ -12,9 +12,10 @@ if(isset($service['useFastCGI']) && $service['useFastCGI'] == true) {
 
 $suri = array('url' => $url, 'value' => '');
 $blogid = null;
+$isStrictBlogURL = true;
 $depth = substr_count($service['path'], '/');
 if ($depth > 0) {
-	if (ereg("^((/+[^/]+){{$depth}})(.*)$", $url, $matches))
+	if (preg_match('@^((/+[^/]+){' . $depth . '})(.*)$@', $url, $matches))
 		$url = $matches[3];
 	else
 		respondNotFoundPage();
@@ -29,7 +30,7 @@ if ($service['type'] == 'single') {
 			$domain = explode('.', $_SERVER['HTTP_HOST'], 2);
 			if ($domain[1] == $service['domain']) {
 				$blogid = getBlogidByName($domain[0]);
-				if ($blogid === null)
+				if ($blogid === null) 
 					$blogid = getBlogidBySecondaryDomain($_SERVER['HTTP_HOST']);
 			} else {
 				$blogid = getBlogidBySecondaryDomain($_SERVER['HTTP_HOST']);
@@ -38,10 +39,12 @@ if ($service['type'] == 'single') {
 	} else {
 		if ($url == '/') {
 			$blogid = 1;
-		} else if (ereg('^/+([^/]+)(.*)$', $url, $matches)) {
+		} else if (preg_match('@^/+([^/]+)(.*)$@', $url, $matches)) {
 			$blogid = getBlogidByName($matches[1]);
-			if ($blogid === null)
+			if ($blogid === null) {
 				$blogid = 1;
+				$isStrictBlogURL = false;
+			}
 			$url = $matches[2];
 		} else {
 			respondNotFoundPage();
@@ -57,7 +60,7 @@ $skinSetting = getSkinSetting($blogid);
 
 $depth = substr_count(ROOT, '/');
 if ($depth > 0) {
-	if (ereg("^((/+[^/]+){{$depth}})/*(.*)$", $url, $matches)) {
+	if (preg_match('@^((/+[^/]+){' . $depth . '})/*(.*)$@', $url, $matches)) {
 		$suri['directive'] = $matches[1];
 		if ($matches[3] !== false)
 			$suri['value'] = $matches[3];

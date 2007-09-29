@@ -466,7 +466,7 @@ function importer($path, $node, $line) {
 							$notice2->update();
 							$notice2->close();
 						}
-						unset($post2);
+						unset($notice2);
 					} else {
 						if (!$attachment->add())
 							user_error(__LINE__ . $attachment->error);
@@ -519,7 +519,7 @@ function importer($path, $node, $line) {
 							$keyword2->update();
 							$keyword2->close();
 						}
-						unset($post2);
+						unset($keyword2);
 					} else {
 						if (!$attachment->add())
 							user_error(__LINE__ . $attachment->error);

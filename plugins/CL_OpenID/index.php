@@ -47,7 +47,7 @@ function openid_login()
 	if( strlen($openid_session_id) >= 32 ) {
 	echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html><head>
-<title>텍스트큐브 오픈아이디 인증</title>
+<title>' . _text('텍스트큐브') . _text('오픈아이디 인증') . '</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="' . $service['path'] . '/style/admin/default/basic.css" />
 <link rel="stylesheet" type="text/css" href="' . $service['path'] . '/style/admin/default/login.css" />
@@ -117,8 +117,8 @@ dd .input-text
 				<div id="data-outbox">
 					<div id="login-box">
 						<div id="logo-box">
-							<img src="' . $service['path'] . '/style/admin/default/image/logo_textcube.png" alt="텍스트큐브 로고" />
-			            	<p><b>텍스트큐브 오픈아이디 로그인</b></p>
+							<img src="' . $service['path'] . '/style/admin/default/image/logo_textcube.png" alt="' . _text('텍스트큐브 로고') . '" />
+			            	<p><b>' . _text('텍스트큐브') . _text('오픈아이디 로그인') . '</b></p>
 			            </div>
 			            
 			            <div id="field-box">
@@ -144,7 +144,7 @@ dd .input-text
 	echo '
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html><head>
-<title>텍스트큐브 오픈아이디 인증</title>
+<title>' . _text('텍스트큐브 오픈아이디 인증') . '</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="' . $service['path'] . '/style/admin/default/basic.css" />
 <link rel="stylesheet" type="text/css" href="' . $service['path'] . '/style/admin/default/login.css" />
@@ -424,9 +424,9 @@ function openid_finish()
 
 	if ($response->status == Auth_OpenID_CANCEL) {
 		// This means the authentication was cancelled.
-		$msg = '인증이 취소되었습니다.';
+		$msg = _text("인증이 취소되었습니다.");
 	} else if ($response->status == Auth_OpenID_FAILURE) {
-		$msg = "오픈아이디 인증이 실패하였습니다: " . $response->message;
+		$msg = _text("오픈아이디 인증이 실패하였습니다: ") . $response->message;
 	} else if ($response->status == Auth_OpenID_SUCCESS) {
 		// This means the authentication succeeded.
 		$openid = $response->identity_url;
@@ -482,7 +482,7 @@ function openid_SessionLogout($target)
 	$openid_session['nickname'] = '';
 	openid_session_write();
 	openid_setcookie( 'openid_auto', 'n' );
-	return "";
+	return $target;
 }
 
 function openid_logout()
@@ -642,7 +642,7 @@ function openid_LOGIN_add_form($target, $requestURI)
 					<dt><label for="loginid">' . _text('관리자 계정과 연결된 오픈아이디') . '</label></dt>
 
 					<dd><input type="text" class="input-text" id="openid_identifier" name="openid_identifier" value="' . $cookie_openid . '" maxlength="256" /></dd>
-					<input type="submit" class="openid-login-button" id="openid-login-button" name="openid_login" value="로그인" />
+					<input type="submit" class="openid-login-button" id="openid-login-button" name="openid_login" value="' . _text('로그인') . '" />
 					<dd id="openid-remember"><input type="checkbox" class="checkbox" id="openid_remember" name="openid_remember" ' . $openid_remember_check. ' /><label for="openid_remember">' . _text('오픈아이디 저장') . '</label></dd>
 					<dd id="openid-help"><a href="' . $openid_help_link . '">' . _text('오픈아이디란?') . '</a> </dd>
 					<dd><a href="' . $openid_signup_link . '">' . _text('오픈아이디 발급하기') . '</a></dd>
@@ -868,19 +868,19 @@ function openid_AddComment( $id, $comment )
 
 	if( empty($comment['parent']) )
 	{
-		return;
+		return $id;
 	}
 
 	$parent_comment = _openid_getCommentInfo( $blogid, $comment['parent'] );
 
 	/* Check if parent's comment is written by openid and secret. */
 	if( ! Acl::check('group.writers') && !_openid_has_ownership( $parent_comment['openid'] ) ) {
-		return;
+		return $id;
 	}
 
 	$result = getCommentAttributes($blogid,$comment['parent'],"secret");
 	if( empty($result) || empty($result['secret']) ) {
-		return;
+		return $id;
 	}
 
 	$row = DBQuery::queryRow("SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = {$comment['parent']}" );
@@ -889,7 +889,7 @@ function openid_AddComment( $id, $comment )
 	}
 	/* Then, this administor's comment can be secret */
 	DBQuery::execute("UPDATE {$database['prefix']}Comments SET secret = 1 WHERE blogid = $blogid and id = $id" );
-	return;
+	return $id;
 }
 
 function openid_ShowSecretComment($target, $comment)
@@ -1023,7 +1023,7 @@ function openid_comment_del()
 /*-------------------------------------------------------------------------------------------*/
 if( ! _openid_has_ownership($comment['openid']) ) { ?>
 					<div class="edit-line">
-						<label>로그인된 오픈아이디의 권한으로는 수정/삭제가 불가능합니다.</label>
+						<label><?php echo _text('로그인된 오픈아이디의 권한으로는 수정/삭제가 불가능합니다.') ?></label>
 					</div>
 					<div class="password-line">
 						<input type="button" class="input-button" name="Submit" value="<?php echo _text('닫기');?>" onclick="window.close()" />				
@@ -1183,7 +1183,7 @@ function openid_manage()
 		try {
 			delegatedid = document.getElementById( 'openid_for_delegation' ).value;
 			if( !delegatedid ) {
-				alert( "<?php echo _text('블로그 주소를 오픈아이디로 사용하지 않습니다.') ?>");
+				alert( "<?php echo _t('블로그 주소를 오픈아이디로 사용하지 않습니다.') ?>");
 			}
 
 			var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/plugin/openid/setdelegate?openid=" + escape(delegatedid));
@@ -1201,7 +1201,7 @@ function openid_manage()
 	</script>
 	
 	<div id="part-openid-comment" class="part">
-		<h2 class="caption"><span class="main-text"><?php echo _text('댓글/방명록 설정')?></span></h2>
+		<h2 class="caption"><span class="main-text"><?php echo _t('댓글/방명록 설정')?></span></h2>
 		<table class="data-inbox" cellspacing="0" cellpadding="0">
 			<tbody>
 			<tr class="site">
@@ -1209,7 +1209,7 @@ function openid_manage()
 			<input id="openidonlycomment" type="checkbox" name="openidonlycomment" <?php echo $mode?>
 				onclick="toggle_openid_only();"
 			/>
-			<label for="openidonlycomment"><?php echo _text('오픈아이디로 로그인을 해야만 댓글 및 방명록을 쓸 수 있습니다.') ?></label>
+			<label for="openidonlycomment"><?php echo _t('오픈아이디로 로그인을 해야만 댓글 및 방명록을 쓸 수 있습니다.') ?></label>
 			</span></td>
 			</tr>
 			<tr class="site">
@@ -1217,7 +1217,7 @@ function openid_manage()
 			<input id="openidlogodisplay" type="checkbox" name="openidlogodisplay" <?php echo $openidlogodisplay?>
 				onclick="toggle_openidlogodisplay();"
 			/>
-			<label for="openidlogodisplay"><?php echo _text('오픈아이디로 로그인하여 쓴 댓글/방명록에 오픈아이디 아이콘을 표시합니다.') ?></label>
+			<label for="openidlogodisplay"><?php echo _t('오픈아이디로 로그인하여 쓴 댓글/방명록에 오픈아이디 아이콘을 표시합니다.') ?></label>
 			</span></td>
 			</tr>
 			</tbody>
@@ -1225,17 +1225,17 @@ function openid_manage()
 	</div>
 	
 	<div id="part-openid-blogaddress" class="part">
-		<h2 class="caption"><span class="main-text"><?php echo _text('블로그 주소를 오픈아이디로 사용')?></span></h2>
+		<h2 class="caption"><span class="main-text"><?php echo _t('블로그 주소를 오픈아이디로 사용')?></span></h2>
 		<table class="data-inbox" cellspacing="0" cellpadding="0">
 			<tbody>
 				<tr class="site">
 					<td>
 <?php
-		$currentDelegate = misc::getBlogSettingGlobal( 'OpenIDDelegate', 'HIHI' );
+		$currentDelegate = misc::getBlogSettingGlobal( 'OpenIDDelegate', '' );
 ?>
 						<select id="openid_for_delegation">
 <?php
-		print "<option value='' >" . _text('블로그 주소를 오픈아이디로 사용하지 않음') . "</option>";
+		print "<option value='' >" . _t('블로그 주소를 오픈아이디로 사용하지 않음') . "</option>";
 		foreach( $openid_list as $openid ) {
 			$selected = '';
 			if( $openid == $currentDelegate ) {
@@ -1245,13 +1245,13 @@ function openid_manage()
 		}
 ?>
 						</select>
-						<input type="button" onclick="setDelegate(); return false" value="<?php echo _text('확인') ?>" class="save-button input-button" />
+						<input type="button" onclick="setDelegate(); return false" value="<?php echo _t('확인') ?>" class="save-button input-button" />
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<span class="text"><?php echo sprintf( _text('블로그 주소(%s)를 관리자로 등록된 오픈아이디 중 하나에 위임하여 오픈아이디로 사용할 수 있습니다.'), "$hostURL$blogURL"); ?>
-						(<a href="<?php echo $blogURL?>/owner/setting/account"><?php echo _text('관리자 계정에 추가하기')?></a>)
+						<span class="text"><?php echo sprintf( _t('블로그 주소(%s)를 관리자로 등록된 오픈아이디 중 하나에 위임하여 오픈아이디로 사용할 수 있습니다.'), "$hostURL$blogURL"); ?>
+						(<a href="<?php echo $blogURL?>/owner/setting/account"><?php echo _t('관리자 계정에 추가하기')?></a>)
 						</span>
 					</td>
 				</tr>
@@ -1260,15 +1260,15 @@ function openid_manage()
 	</div>
 	
 	<div class="part">
-		<h2 class="caption"><span class="main-text"><?php echo _text('오픈아이디 사용현황')?></span></h2>
+		<h2 class="caption"><span class="main-text"><?php echo _t('오픈아이디 사용현황')?></span></h2>
 	
 		<table class="data-inbox" cellspacing="0" cellpadding="0">
 			<thead>
 				<tr>
-					<th class="site"><span class="text"><a href="<?php echo $menu1?>"><?php echo _text('오픈아이디 주소(이름)')?></a></span></th>
-					<th class="site"><span class="text"><a href="<?php echo $menu2?>"><?php echo _text('위임주소')?></a></span></th>
-					<th class="site"><span class="text"><a href="<?php echo $menu3?>"><?php echo _text('로그인 회수')?></a></span></th>
-					<th class="site"><span class="text"><a href="<?php echo $menu4?>"><?php echo _text('마지막 로그인')?></a></span></th>
+					<th class="site"><span class="text"><a href="<?php echo $menu1?>"><?php echo _t('오픈아이디 주소(이름)')?></a></span></th>
+					<th class="site"><span class="text"><a href="<?php echo $menu2?>"><?php echo _t('위임주소')?></a></span></th>
+					<th class="site"><span class="text"><a href="<?php echo $menu3?>"><?php echo _t('로그인 회수')?></a></span></th>
+					<th class="site"><span class="text"><a href="<?php echo $menu4?>"><?php echo _t('마지막 로그인')?></a></span></th>
 				</tr>
 			</thead>
 			<tbody>

@@ -43,7 +43,7 @@ function printFilterBox($mode, $title) {
 	global $service;
 	$filter = new Filter();
 	$filtersList = array();
-	if ($filter->open($mode)) {
+	if ($filter->open($mode, 'pattern')) {
 		do {
 			$filtersList[] = array(0 => $filter->id, 1 => $filter->pattern);
 		} while ($filter->shift());

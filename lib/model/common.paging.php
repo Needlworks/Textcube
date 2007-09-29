@@ -14,7 +14,7 @@ function fetchWithPaging($sql, $page, $count, $url = null, $prefix = '?page=', $
 	$paging = array('url' => $url, 'prefix' => $prefix, 'postfix' => '');
 	if (empty($sql))
 		return array(array(), $paging);
-	if (eregi('[[:space:]]{1}(FROM.*)(ORDER BY.*)$', $sql, $matches))
+	if (preg_match('/\s(FROM.*)(ORDER BY.*)$/si', $sql, $matches))
 		$from = $matches[1];
 	else
 		return array(array(), $paging);

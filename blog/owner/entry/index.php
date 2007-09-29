@@ -444,8 +444,9 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 									obj.selectedIndex = 0
 								}
 								
-								function removeTrackbackLog(id,entry) {
+								function removeTrackbackLog(removeid,entry) {
 									if (confirm("<?php echo _t('선택된 걸린글을 지웁니다. 계속 하시겠습니까?');?>")) {
+										var id = removeid.replace(/trackbackRemove_/g,'');
 										var request = new HTTPRequest("<?php echo $blogURL;?>/owner/entry/trackback/log/remove/" + id);
 										request.onSuccess = function () {
 											document.getElementById("logs_"+entry).innerHTML = "";
@@ -492,9 +493,10 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												tempTd_3.className = "remove";
 												
 												tempA = document.createElement("A");
+												tempA.id = "trackbackRemove_" + field[0];
 												tempA.className = "remove-button button";
 												tempA.setAttribute("href", "#void");
-												tempA.onclick = function() { removeTrackbackLog(field[0], id); return false };
+												tempA.onclick = function() { removeTrackbackLog(this.id, id); return false };
 												tempA.setAttribute("title", "<?php echo _t('이 걸린글을 삭제합니다.');?>");
 												
 												tempSpan = document.createElement("SPAN");

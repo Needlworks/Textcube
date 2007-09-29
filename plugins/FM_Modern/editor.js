@@ -193,6 +193,8 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	this.contentDocument.addEventListener("paste", eventHandler, false);
 	this.contentDocument.addEventListener("keyup", eventHandler, false);
 
+	this.lastSelectionRange = null;
+
 	// editor height resize event
 	var target = (this.editMode == "WYSIWYG" ? this.iframe : textarea);
 	this.resizer = new TTEditorResizer(target, getObject('status-container'), [document, this.contentDocument]);
@@ -599,6 +601,7 @@ TTModernEditor.prototype.morelessConvert_process = function(string) {
 }
 
 // 위지윅 모드에서 치환자 이미지를 클릭했을때 편집창 옆에 속성창을 보여준다
+// true를 반환할 경우 해당 obj는 하나의 오브젝트(이미지 등)로 처리해야 함을 의미
 TTModernEditor.prototype.showProperty = function(obj)
 {
 	this.selectedAnchorElement = null;
@@ -650,7 +653,7 @@ TTModernEditor.prototype.showProperty = function(obj)
 		var values = attribute.split("|");
 
 		if(values.length == 1)
-			return;
+			return false;
 
 		this.propertyHeader = values[0];
 
@@ -810,7 +813,7 @@ TTModernEditor.prototype.showProperty = function(obj)
 				this.propertyWindowId = this.id + "propertyMoreLess";
 				getObject(this.id + "propertyHyperLink").style.display = "none";
 				this.setPropertyPosition();
-				return;
+				return false;
 			} else if(node.tagName.toLowerCase() == "a" && node.href) {
 				getObject(this.id + "propertyHyperLink").style.display = "block";
 				getObject(this.id + "propertyHyperLink_url").value = node.href;
@@ -823,7 +826,7 @@ TTModernEditor.prototype.showProperty = function(obj)
 				getObject(this.id + "propertyInsertObject").style.display = "none";
 				getObject(this.id + "propertyObject").style.display = "none";
 				this.setPropertyPosition();
-				return;
+				return false;
 			}
 
 			node = node.parentNode;
@@ -836,8 +839,10 @@ TTModernEditor.prototype.showProperty = function(obj)
 
 		if (this.selectedAnchorElement == null && isEmpty)
 			getObject(this.id + "propertyHyperLink").style.display = "none";
+		return false;
 	}
 	this.setPropertyPosition();
+	return true;
 }
 
 // 속성창에서 수정된 내용을 반영
@@ -1592,18 +1597,21 @@ TTModernEditor.prototype.command = function(command, value1, value2) {
 					}
 				}
 				else {
-					if(this.contentWindow.getSelection().focusNode.tagName == "HTML") {
+					var focus = this.contentWindow.getSelection().focusNode;
+					if(focus && focus.tagName == "HTML") {
 						var range = this.contentDocument.createRange();
 						range.setStart(this.contentDocument.body,0);
 						range.setEnd(this.contentDocument.body,0);
 						var dummyNode = document.createElement("div");
-						dummyNode.appendChild(range.extractContents());
+						var node = range.extractContents();
+						if (node != null) dummyNode.appendChild(node);
 						range.insertNode(range.createContextualFragment(value1 + dummyNode.innerHTML + value2));
 					}
 					else {
-						var range = this.getSelectionRange();
+						var range = this.getSelectionRange() || this.lastSelectionRange;
 						var dummyNode = document.createElement("div");
-						dummyNode.appendChild(range.extractContents());
+						var node = range ? range.extractContents() : null;
+						if (node != null) dummyNode.appendChild(node);
 						range.insertNode(range.createContextualFragment(value1 + dummyNode.innerHTML + value2));
 					}
 				}
@@ -1621,6 +1629,12 @@ TTModernEditor.prototype.eventHandler = function(event) {
 	if(STD.isIE) {
 		event = this.contentWindow.event;
 		event.target = event.srcElement;
+	}
+
+	// safari 3 workaround: collect the last selection range for object insertion
+	if (STD.isSafari3) {
+		var range = this.getSelectionRange();
+		if (range) this.lastSelectionRange = range;
 	}
 
 	// 마우스를 클릭했을땐 이벤트가 발생한 오브젝트 핸들을 selectedElement 변수에 저장해둔다
@@ -1668,9 +1682,16 @@ TTModernEditor.prototype.eventHandler = function(event) {
 	}
 	editorChanged();
 
-	// 이벤트가 발생하면 showProperty 함수에서 태터툴즈 치환자인지 아닌지 판단해, 태터툴즈 치환자일 경우에 속성을 수정할 수 있는 창을 띄워주게 된다
-	if(this.selectedElement && !isFunctionalKeyPressed)
-		this.showProperty(this.selectedElement);
+	// 이벤트가 발생하면 showProperty 함수에서 TTML 치환자인지 아닌지 판단해, TTML 치환자일 경우에 속성을 수정할 수 있는 창을 띄워주게 된다
+	if(this.selectedElement && !isFunctionalKeyPressed) {
+		if (this.showProperty(this.selectedElement) && STD.isSafari3) {
+			// safari 3 workaround: put current element in the selection
+			var range = this.contentDocument.createRange();
+			range.selectNode(this.selectedElement);
+			this.contentWindow.getSelection().removeAllRanges();
+			this.contentWindow.getSelection().addRange(range);
+		}
+	}
 }
 
 // execCommand 후 불필요하게 삽입된 여백등을 제거해준다
@@ -2149,7 +2170,7 @@ TTModernEditor.prototype.addObject = function(data) {
 					moreattrs = objects[0][1];
 					longdesc = data.mode.substr(5) + '|' + objects[0][0] + '|' + objects[0][1] + '|' + objects[0][2].replaceAll("|", "");
 				} else {
-					moreattrs = ' width="' + (parseInt(data.mode.substr(5)) * 100) + '" height="100"';
+					moreattrs = 'width="' + (parseInt(data.mode.substr(5)) * 100) + '" height="100"';
 					longdesc = data.mode.substr(5);
 					for (var i = 0; objects[i]; ++i) {
 						longdesc += '|' + objects[i][0] + '|' + objects[i][1] + '|' + objects[i][2];
@@ -2158,7 +2179,7 @@ TTModernEditor.prototype.addObject = function(data) {
 
 				var className = {Image1L: 'tatterImageLeft', Image1C: 'tatterImageCenter', Image1R: 'tatterImageRight',
 				                 Image2C: 'tatterImageDual', Image3C: 'tatterImageTriple'}[data.mode];
-				var prefix = '<img class="' + className + '" src="' + src + '"' + moreattrs + ' longdesc="' + this.addQuot(longdesc) + '" />';
+				var prefix = '<img class="' + className + '" src="' + src + '" ' + moreattrs + ' longdesc="' + this.addQuot(longdesc) + '" />';
 				this.command("Raw", prefix);
 				return true;
 			}

@@ -10,9 +10,8 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
-requireModel("blog.attachment");
-
 requireStrictRoute();
+
 $result = setEnclosure($_POST['fileName'], $_POST['order']);
 printRespond(array('error' => $result < 3 ? 0 : 1, 'order' => $result));
 ?>

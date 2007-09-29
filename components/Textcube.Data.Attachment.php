@@ -140,7 +140,7 @@ class Attachment {
 	function _generateName() {
 		$blogid = getBlogId();
 		if (isset($this->name)) {
-			if (!Validator::filename($this->name, false))
+			if (!Validator::filename($this->name))
 				return $this->_error('name');
 			switch (Path::getExtension($this->name)) {
 				case '.php':

@@ -66,7 +66,7 @@ if (defined('__TEXTCUBE_POST__')) {
 							//<![CDATA[
 								var enclosured = "<?php echo getEnclosure($entry['id']);?>";
 								var originalPermalink = "<?php echo htmlspecialchars($entry['slogan']);?>";
-								
+
 								window.onerror = function(errType, errURL,errLineNum) {
 									window.status = "Error: " + errType +" (on line " + errLineNum + " of " + errURL + ")";
 									return true;
@@ -112,7 +112,7 @@ if (defined('__TEXTCUBE_POST__')) {
 									}
 									
 									request.onError= function () {
-									PM.removeRequest(this);
+										PM.removeRequest(this);
 										alert("<?php echo _t('변경하지 못했습니다.');?>");
 									}
 									PM.addRequest(request, "<?php echo _t('변경하고 있습니다.');?>");
@@ -369,12 +369,20 @@ if (isset($_GET['popupEditor'])) {
 											window.close();
 <?php
 } else if (isset($_GET['returnURL'])) {
+	if(strpos($_GET['returnURL'],'/owner/entry')!==false) {
+?>
+											returnURI = "<?php echo escapeJSInCData($_GET['returnURL']);?>";
+<?php
+	} else {
 ?>
 											if(originalPermalink == changedPermalink) {
 												returnURI = "<?php echo escapeJSInCData($_GET['returnURL']);?>";
 											} else {
 												returnURI = "<?php echo escapeJSInCData("$blogURL/" . $entry['id']);?>";
 											}
+<?php
+	}
+?>
 											window.location = returnURI;
 <?php
 } else {

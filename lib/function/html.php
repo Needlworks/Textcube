@@ -51,11 +51,11 @@ function nl2brWithHTML($str) {
 }
 
 function addLinkSense($text, $attributes = '') {
-	return ereg_replace("(^| |\t|\r|\n|\"|')(http://[^ \t\r\n\"']+)","\\1<a href=\"\\2\"$attributes rel=\"external nofollow\">\\2</a>",$text);
+	return preg_replace('@(\^|\s|"|\')(http://[^\s"\']+)@i','$1<a href="$2"' . $attributes . ' rel="external nofollow">$2</a>',$text);
 }
 
 function addProtocolSense($url, $protocol = 'http://') {
-	return ereg('^[[:alnum:]]+:', $url) ? $url : $protocol . $url;
+	return preg_match('/^[a-zA-Z0-9]+:/', $url) ? $url : $protocol . $url;
 }
 
 function decorateSrcInObejct($html)
@@ -111,7 +111,7 @@ function str_tag_off($str) {
 }
 
 function str_tag_truncate($str) {
-	return strip_tags(ereg_replace('\[##.+##\]', '', $str));
+	return strip_tags(preg_replace('/\[##.+##\]/', '', $str));
 }
 
 function str_cut($str, $maxlen, $type) {

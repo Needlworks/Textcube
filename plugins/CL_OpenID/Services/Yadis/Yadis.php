@@ -241,7 +241,7 @@ class Services_Yadis_Yadis {
             // Treat the body as HTML and look for a META tag.
             $parser = new Services_Yadis_ParseHTML();
             $new_uri = $parser->getHTTPEquiv($body);
-            $xrds_uri = null;
+            //$xrds_uri = null;
             if ($new_uri) {
                 $response = $fetcher->get($new_uri);
                 if ($response->status != 200) {

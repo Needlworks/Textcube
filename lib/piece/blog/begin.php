@@ -24,7 +24,7 @@ if (!empty($category)) {
 	dress('body_id',"tt-body-archive",$view);
 //} else if (isset($list)) {
 //	dress('body_id',$suri['value'],$view);
-} else if ($suri['directive'] == '/' && is_numeric($suri['value'])) {
+} else if (($suri['directive'] == '/' && is_numeric($suri['value'])) || $suri['directive'] == '/owner/entry/preview') {
 	dress('body_id',"tt-body-entry",$view);
 } else if ($suri['directive'] == '/') {
 	dress('body_id',"tt-body-page",$view);

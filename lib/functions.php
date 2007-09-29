@@ -115,14 +115,19 @@ function deltree($dir) {
 }
 
 function deleteFilesByRegExp($path, $regexp) {
-	$path = eregi("/$", $path, $temp) ? $path : $path."/";
+	$path = rtrim($path, '/') . '/';
 	
 	if (!file_exists($path))
 		return false;
 	
 	$handle = opendir($path);
 	while ($tempFile = readdir($handle)) {
-		if (($regexp == "*" || eregi("$regexp", $tempFile, $temp)) && ($tempFile != "." && $tempFile != "..")) {
+		if ($tempFile == '.' || $tempFile != '..') {
+			continue;
+		}
+		if ($regexp == '*') {
+			@unlink($path.$tempFile);
+		} elseif (preg_match($regexp, $tempFile, $temp)) {
 			@unlink($path.$tempFile);
 		}
 	}
