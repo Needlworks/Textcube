@@ -170,7 +170,7 @@ class CacheControl{
 		if(empty($blogid)) $blogid = getBlogId();
 		
 		$dir = ROOT . '/cache/pageCache/'.$blogid;
-		if(!$dirHandle = opendir($dir)) return true;
+		if(!$dirHandle = @opendir($dir)) return true;
 		while(($object = readdir($dirHandle))) {
 			if($object == '.' || $object == '..') continue;
 			if(!@unlink($dir.'/'.$object)) return false;
