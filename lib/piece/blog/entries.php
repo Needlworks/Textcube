@@ -9,6 +9,7 @@ if (isset($cache->contents)) {
 	$entriesView = $cache->contents;
 	if(strpos($cache->name,'keyword')!==false) $isKeylog = true;
 } else if(isset($entries)) {
+	$totalTags = array();
 	foreach ($entries as $entry) {
 		if ($suri['directive'] == '/notice')
 			$permalink = "$blogURL/notice/{$entry['id']}";
@@ -57,6 +58,7 @@ if (isset($cache->contents)) {
 				$tags = array();
 				foreach ($entryTags as $entryTag) {
 					$tags[$entryTag['name']] = "<a href=\"$defaultURL/tag/" . encodeURL($entryTag['name']) . '"' . ((count($entries) == 1 && getBlogSetting('useRelTag', true)) ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>';
+					array_push($totalTags,$entryTag['name']);
 				}
 				$tags = fireEvent('ViewTagLists', $tags, $entry['id']);
 				dress('tag_label_rep', implode(",\r\n", array_values($tags)), $tagLabelView);
@@ -128,6 +130,8 @@ if (isset($cache->contents)) {
 				$entriesView .= "<div id=\"entry{$entry['id']}\">$protectedEntryView</div>";
 		}
 	}
+	array_push($totalTags, $blog['title']);
+	$totalTags = array_unique($totalTags);
 	if(isset($cache)) {
 		$cache->contents = revertTempTags(removeAllTags($entriesView));
 		if(isset($paging)) $cache->dbContents = $paging;
@@ -138,6 +142,8 @@ if(isset($isKeylog) && $isKeylog) {
 	dressInsertBefore('list', $entriesView, $view);
 	$isKeylog = false;
 } else {
+	$totalTagsView = implode(",",$totalTags);
+	dress('meta_http_equiv_keywords', $totalTagsView, $view);
 	if (isset($cache->contents)) {
 		dressInsertBefore('article_rep', $entriesView, $view);
 	}else{
