@@ -130,6 +130,9 @@ if (isset($cache->contents)) {
 				$entriesView .= "<div id=\"entry{$entry['id']}\">$protectedEntryView</div>";
 		}
 	}
+	if(count($entries) > 1) {
+		$totalTags = array();
+	}
 	array_push($totalTags, $blog['title']);
 	$totalTags = array_unique($totalTags);
 	if(isset($cache)) {
