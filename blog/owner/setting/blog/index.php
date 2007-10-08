@@ -7,6 +7,7 @@ require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
 ?>
+						<script type="text/javascript" src="<?php echo $service['path'];?>/script/generaltag.js"></script>
 						<script type="text/javascript">
 							//<![CDATA[
 								var title = "<?php echo escapeJSInCData($blog['title']);?>";
@@ -36,6 +37,26 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										request.send("description=" + encodeURIComponent(document.getElementById('common-form').description.value));
 									}
 								}
+								
+								function setBlogTag() {
+									var oForm = document.forms[2];
+									var tagValue = "";
+									try {
+										tagValue = oTag.getValues().join(",");
+									} catch (e) {
+										tagValue = oForm.blog-tag.value;
+									}
+									
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/tag/");
+									request.onSuccess = function() {
+										PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+									}
+									request.onError = function() {
+										alert("<?php echo _t('대표 태그를 변경하지 못했습니다.');?>");
+									}
+									request.send("tags=" + encodeURIComponent(tagValue));
+								}
+
 <?php
 if ($service['type'] != 'single') {
 	if ($service['type'] == 'domain') {
@@ -399,6 +420,40 @@ if ($service['type'] != 'single') {
 <?php
 }
 ?>
+								<form id="tag-form" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/blog/tag">
+									<fieldset class="container">
+										<legend><?php echo _t('블로그 태그');?></legend>
+										
+										<dl id="blog-tag-line" class="line">
+											<dt><label for="title"><?php echo _t('대표 태그');?></label></dt>
+											<dd id="blog-tag"></dd>
+										</dl>
+									</fieldset>
+									<script type="text/javascript">
+										//<![CDATA[
+											try {
+												var oTag = new Tag(document.getElementById("blog-tag"), "<?php echo $blog['language'];?>", <?php echo isset($service['disableEolinSuggestion']) && $service['disableEolinSuggestion'] ? 'true' : 'false';?>);
+												oTag.setInputClassName("input-tag");
+<?php
+		$tags = array();
+		$blogTags = getBlogTags($blogid);
+		if(!empty($blogTags)) {
+			$blogTags = explode(',',$blogTags);
+			foreach ($blogTags as $tag) {
+				array_push($tags, $tag);
+				echo 'oTag.setValue("' . addslashes($tag) . '");';
+			}
+		}
+?>
+											} catch(e) {
+												document.getElementById("tag").innerHTML = '<input type="text" class="input-text" name="blog-tag" value="<?php echo addslashes(str_replace('"', '&quot;', implode(', ', $tags)));?>" /><br /><?php echo _t('태그 입력 스크립트를 사용할 수 없습니다. 콤마(,)로 구분된 태그를 직접 입력해 주십시오.(예: 텍스트큐브, BLOG, 테스트)');?>';
+											}
+										//]]>
+									</script> 									
+									<div class="button-box">
+										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setBlogTag(); return false;" />
+									</div>
+								</form>
 							</div>
 						</div>
 						

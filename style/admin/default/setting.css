@@ -127,6 +127,17 @@ dl dd
 	margin-left                      : 3px;
 }
 
+#blog-tag ul li
+{
+	background-image                 : url("./image/comma.gif");
+	background-position              : right 10px;
+	background-repeat                : no-repeat;
+	display                          : inline;
+	margin-right                     : 5px;
+	padding                          : 0 4px 0 0;
+	vertical-align                   : middle;
+}
+
 /* profile setting */
 #part-setting-profile
 {

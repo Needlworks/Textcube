@@ -28,6 +28,15 @@ dress('localog_link', "$blogURL/location", $view);
 dress('taglog_link', "$blogURL/tag", $view);
 dress('guestbook_link', "$blogURL/guestbook", $view);
 
+if(isset($totalTags)) {
+	$totalTags = array_unique($totalTags);
+	$totalTagsView = implode(",",$totalTags);
+} else {
+	$totalTagsView = getBlogTags($blogid);
+}
+
+dress('meta_http_equiv_keywords', $totalTagsView, $view);
+
 $searchView = $skin->search;
 dress('search_name', 'search', $searchView);
 dress('search_text', isset($search) ? htmlspecialchars($search) : '', $searchView);

@@ -25,6 +25,21 @@ function setBlogDescription($blogid, $description) {
 	return true;
 }
 
+function setBlogTags($blogid, $tags) {
+	if(isset($tags)) {
+		setBlogSetting('blogTags',$tags);
+		return true;
+	}
+	return false;
+}
+
+function getBlogTags($blogid) {
+	if($tags = getBlogSetting('blogTags')) {
+		return $tags;
+	}
+	return null;
+}
+
 function removeBlogLogo($blogid) {
 	global $database, $blog;
 	requireModel('blog.attachment');

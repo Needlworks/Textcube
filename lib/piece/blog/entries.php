@@ -131,10 +131,8 @@ if (isset($cache->contents)) {
 		}
 	}
 	if(count($entries) > 1) {
-		$totalTags = array();
+		unset($totalTags);
 	}
-	array_push($totalTags, $blog['title']);
-	$totalTags = array_unique($totalTags);
 	if(isset($cache)) {
 		$cache->contents = revertTempTags(removeAllTags($entriesView));
 		if(isset($paging)) $cache->dbContents = $paging;
@@ -145,8 +143,6 @@ if(isset($isKeylog) && $isKeylog) {
 	dressInsertBefore('list', $entriesView, $view);
 	$isKeylog = false;
 } else {
-	$totalTagsView = implode(",",$totalTags);
-	dress('meta_http_equiv_keywords', $totalTagsView, $view);
 	if (isset($cache->contents)) {
 		dressInsertBefore('article_rep', $entriesView, $view);
 	}else{
