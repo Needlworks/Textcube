@@ -8,7 +8,7 @@ function getEntriesTotalCount($blogid) {
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	return DBQuery::queryCell("SELECT COUNT(*) 
 		FROM {$database['prefix']}Entries e
-		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.blogid = c.blogid 
+		INNER JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.blogid = c.blogid 
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0");
 }
 
@@ -123,7 +123,7 @@ function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
 
 	$sql = "SELECT e.blogid,e.userid,e.id,e.title,e.comments,e.slogan,e.published
 			FROM {$database['prefix']}Entries e 
-			LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.blogid = c.blogid 
+			INNER JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.blogid = c.blogid 
 			WHERE e.blogid = $blogid AND e.draft = 0 $visibility $cond 
 			ORDER BY e.published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");

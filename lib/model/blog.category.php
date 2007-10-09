@@ -15,7 +15,10 @@ function getCategoryId($blogid, $name, $parentName = false) {
 		$sql = "SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND name = '$name'";
 	else {
 		$parentName = mysql_tt_escape_string($parentName);
-		$sql = "SELECT c.id FROM {$database['prefix']}Categories c LEFT JOIN {$database['prefix']}Categories c2 ON c.parent = c2.id AND c.blogid = c2.blogid WHERE c.blogid = $blogid AND c.name = '$name' AND c2.name = '$parentName'";
+		$sql = "SELECT c.id 
+			FROM {$database['prefix']}Categories c 
+			LEFT JOIN {$database['prefix']}Categories c2 ON c.parent = c2.id AND c.blogid = c2.blogid 
+			WHERE c.blogid = $blogid AND c.name = '$name' AND c2.name = '$parentName'";
 	}
 	return DBQuery::queryCell($sql);
 }
@@ -265,8 +268,7 @@ function moveCategory($blogid, $id, $direction) {
 			FROM {$database['prefix']}Categories AS _my 
 				LEFT JOIN {$database['prefix']}Categories AS _parent ON _parent.id = _my.parent 
 			WHERE _my.id = $id AND _my.blogid = $blogid";
-	$result = DBQuery::query($sql);
-	$row = mysql_fetch_array($result);
+	$row = DBQuery::queryAll($sql);
 	$myParent = is_null($row['myParent']) ? 'NULL' : $row['myParent'];
 	$parentId = is_null($row['parentId']) ? 'NULL' : $row['parentId'];
 	$parentPriority = is_null($row['parentPriority']) ? 'NULL' : $row['parentPriority'];
@@ -276,9 +278,8 @@ function moveCategory($blogid, $id, $direction) {
 	$myIsHaveChild = (mysql_result(DBQuery::query($sql), 0, 0) > 0) ? true : false;
 	$aux = $parentId == 'NULL' ? 'parent is null' : "parent = $parentId";
 	$sql = "SELECT id, parent, priority FROM {$database['prefix']}Categories WHERE $aux AND blogid = $blogid AND priority $sign $myPriority ORDER BY priority $arrange LIMIT 1";
-	$result = DBQuery::query($sql);
-	$canMove = (mysql_num_rows($result) > 0) ? true : false;
-	$row = mysql_fetch_array($result);
+	$canMove = (DBQuery::queryCount($sql) > 0) ? true : false;
+	$row = DBQuery::query($sql);
 	$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
 	$nextParentId = is_null($row['parent']) ? 'NULL' : $row['parent'];
 	$nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
@@ -301,8 +302,8 @@ function moveCategory($blogid, $id, $direction) {
 		// 자신이 2 depth를 가지지 않은 1 depth 카테고리이거나, 위치를 바꿀 대상이 없는 경우.
 		} else {
 			// 위치를 바꿀 대상 카테고리에 같은 이름이 존재하는지 판별.
-			$myName = DBQuery::queryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId");
-			$overlapCount = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` = $nextId");
+			$myName = DBQuery::queryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId AND blogid = $blogid");
+			$overlapCount = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` = $nextId AND blogid = $blogid");
 			// 같은 이름이 없으면 이동 시작.
 			if ($overlapCount == 0) {
 				$sql = "UPDATE {$database['prefix']}Categories
@@ -350,8 +351,8 @@ function moveCategory($blogid, $id, $direction) {
 	} else {
 		// 위치를 바꿀 대상이 1 depth이면.
 		if ($nextId == 'NULL') {
-			$myName = mysql_tt_escape_string(DBQuery::queryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId"));
-			$overlapCount = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` IS NULL");
+			$myName = mysql_tt_escape_string(DBQuery::queryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId and `blogid` = $blogid"));
+			$overlapCount = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` IS NULL AND `blogid` = $blogid");
 			// 1 depth에 같은 이름이 있으면 2 depth로 직접 이동.
 			if ($overlapCount > 0) {
 				$sql = "SELECT `id`, `parent`, `priority` FROM `{$database['prefix']}Categories` WHERE `parent` IS NULL AND `blogid` = $blogid AND `priority` $sign $parentPriority ORDER BY `priority` $arrange";
@@ -362,8 +363,8 @@ function moveCategory($blogid, $id, $direction) {
 					$nextPriority = $row['priority'];
 					
 					// 위치를 바꿀 대상 카테고리에 같은 이름이 존재하는지 판별.
-					$myName = mysql_tt_escape_string(DBQuery::queryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId"));
-					$overlapCount = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` = $nextId");
+					$myName = mysql_tt_escape_string(DBQuery::queryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId AND `blogid` = $blogid"));
+					$overlapCount = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` = $nextId AND `blogid` = $blogid");
 					// 같은 이름이 없으면 이동 시작.
 					if ($overlapCount == 0) {
 						$sql = "UPDATE `{$database['prefix']}Categories`

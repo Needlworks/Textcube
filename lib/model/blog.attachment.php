@@ -6,8 +6,8 @@
 function getAttachments($blogid, $parent, $orderBy = null, $sort='ASC') {
 	global $database;
 	$attachments = array();
-	if ($result = DBQuery::query("select * from {$database['prefix']}Attachments where blogid = $blogid and parent = $parent ".( is_null($orderBy ) ? '' : "ORDER BY $orderBy $sort"))) {
-		while ($attachment = mysql_fetch_array($result))
+	if ($result = DBQuery::queryAll("select * from {$database['prefix']}Attachments where blogid = $blogid and parent = $parent ".( is_null($orderBy ) ? '' : "ORDER BY $orderBy $sort"))) {
+		foreach($result as $attachment)
 			array_push($attachments, $attachment);
 	}
 	return $attachments;
@@ -148,7 +148,8 @@ function copyAttachments($blogid, $originalEntryId, $targetEntryId) {
 		} while (file_exists($attachment['path']));
 		if(!copy($originalPath, $attachment['path'])) return 4; // copy failed.
 		if(!DBQuery::execute("insert into {$database['prefix']}Attachments 
-			values ($blogid, $targetEntryId,
+			values ($blogid, 
+				$targetEntryId,
 				'{$attachment['name']}',
 				'{$attachment['label']}',
 				'{$attachment['mime']}',
