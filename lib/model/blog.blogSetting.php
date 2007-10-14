@@ -8,7 +8,7 @@ function setBlogTitle($blogid, $title) {
 	requireModel('blog.rss');
 	if ($title == $blog['title'])
 		return true;
-	if(setBlogSetting('title', mysql_lessen($title, 255)) === false) return false;
+	if(setBlogSetting('title', UTF8::lessenAsEncoding($title, 255)) === false) return false;
 	$blog['title'] = $title;
 	clearRSS();
 	return true;
@@ -19,7 +19,7 @@ function setBlogDescription($blogid, $description) {
 	requireModel('blog.rss');
 	if ($description == $blog['description'])
 		return true;
-	if(setBlogSetting('description',mysql_lessen($description, 255)) === false) return false;
+	if(setBlogSetting('description',UTF8::lessenAsEncoding($description, 255)) === false) return false;
 	$blog['description'] = $description;
 	clearRSS();
 	return true;
@@ -80,7 +80,7 @@ function setPrimaryDomain($blogid, $name) {
 	global $database;
 	global $service, $blog;
 	requireModel('blog.rss');
-	$name = mysql_lessen(strtolower(trim($name)), 32);
+	$name = UTF8::lessenAsEncoding(strtolower(trim($name)), 32);
 	if ($name == $blog['name'])
 		return 0;
 	if (!checkBlogName($name))
@@ -100,7 +100,7 @@ function setPrimaryDomain($blogid, $name) {
 function setSecondaryDomain($blogid, $domain) {
 	global $database, $blog;
 	requireModel('blog.rss');
-	$domain = mysql_lessen(strtolower(trim($domain)), 64);
+	$domain = UTF8::lessenAsEncoding(strtolower(trim($domain)), 64);
 	if ($domain == $blog['secondaryDomain'])
 		return 0;
 	if (empty($domain))
@@ -195,8 +195,8 @@ function setBlogLanguage($blogid, $language, $blogLanguage) {
 	requireModel('blog.rss');
 	if (($language == $blog['language']) && ($blogLanguage == $blog['blogLanguage']))
 		return true;
-	$language = mysql_lessen($language, 5);
-	$blogLanguage = mysql_lessen($blogLanguage, 5);
+	$language = UTF8::lessenAsEncoding($language, 5);
+	$blogLanguage = UTF8::lessenAsEncoding($blogLanguage, 5);
 	if(setBlogSetting('language',$language) && setBlogSetting('blogLanguage',$blogLanguage)) {
 		$blog['language'] = $language;
 		$blog['blogLanguage'] = $blogLanguage;
@@ -216,9 +216,9 @@ function setGuestbook($blogid, $write, $comment) {
 
 function changeSetting($blogid, $email, $nickname) {
 	global $database;
-	if (strcmp($email, mysql_lessen($email, 64)) != 0) return false;
-	$email = mysql_tt_escape_string(mysql_lessen($email, 64));
-	$nickname = mysql_tt_escape_string(mysql_lessen($nickname, 32));
+	if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return false;
+	$email = tc_escape_string(UTF8::lessenAsEncoding($email, 64));
+	$nickname = tc_escape_string(UTF8::lessenAsEncoding($nickname, 32));
 	if ($email == '' || $nickname == '') {
 		return false;
 	}
@@ -246,10 +246,10 @@ function addUser($email, $name) {
 	if (!preg_match('/^[^@]+@([-a-zA-Z0-9]+\.)+[-a-zA-Z0-9]+$/', $email))
 		return 2;
 
-	if (strcmp($email, mysql_lessen($email, 64)) != 0) return 11;
+	if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return 11;
 
-	$loginid = mysql_tt_escape_string(mysql_lessen($email, 64));	
-	$name = mysql_tt_escape_string(mysql_lessen($name, 32));
+	$loginid = tc_escape_string(UTF8::lessenAsEncoding($email, 64));	
+	$name = tc_escape_string(UTF8::lessenAsEncoding($name, 32));
 	$password = generatePassword();
 
 	$result = DBQuery::queryRow("SELECT * FROM `{$database['prefix']}Users` WHERE loginid = '$loginid'");
@@ -301,11 +301,11 @@ function addBlog($blogid, $userid, $identify) {
 		if (empty($name))
 			$name = User::getName($userid);
 
-		if (strcmp($email, mysql_lessen($email, 64)) != 0) return 11;
+		if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return 11;
 
-		$loginid = mysql_tt_escape_string(mysql_lessen($email, 64));	
-		$name = mysql_tt_escape_string(mysql_lessen($name, 32));
-		$identify = mysql_tt_escape_string(mysql_lessen($identify, 32));
+		$loginid = tc_escape_string(UTF8::lessenAsEncoding($email, 64));	
+		$name = tc_escape_string(UTF8::lessenAsEncoding($name, 32));
+		$identify = tc_escape_string(UTF8::lessenAsEncoding($identify, 32));
 		$password = generatePassword();
 
 		$blogName = $identify;
@@ -324,7 +324,7 @@ function addBlog($blogid, $userid, $identify) {
 		}
 		$blogid = DBQuery::queryCell("SELECT max(blogid)
 			FROM `{$database['prefix']}BlogSettings`") + 1;
-		$baseTimezone = mysql_tt_escape_string($service['timezone']);
+		$baseTimezone = tc_escape_string($service['timezone']);
 		$basicInformation = array(
 			'name'         => $identify,
 			'defaultDomain'            => 0,
@@ -419,10 +419,10 @@ function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $sen
 	if (empty($name))
 		$name = User::getName($userid);
 
-	if (strcmp($email, mysql_lessen($email, 64)) != 0) return 11;
+	if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return 11;
 
-	$loginid = mysql_tt_escape_string(mysql_lessen($email, 64));	
-	$name = mysql_tt_escape_string(mysql_lessen($name, 32));
+	$loginid = tc_escape_string(UTF8::lessenAsEncoding($email, 64));	
+	$name = tc_escape_string(UTF8::lessenAsEncoding($name, 32));
 
 	$headers = 'From: ' . encodeMail($senderName) . '<' . $senderEmail . ">\n" . 'X-Mailer: ' . TEXTCUBE_NAME . "\n" . "MIME-Version: 1.0\nContent-Type: text/html; charset=utf-8\n";
 	if (empty($name))

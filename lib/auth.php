@@ -5,7 +5,7 @@
 
 function login($loginid, $password, $preKnownPassword = null) {
 	global $service;
-	$loginid = mysql_tt_escape_string($loginid);
+	$loginid = tc_escape_string($loginid);
 	$blogid = getBlogId();
 	$userid = Auth::authenticate($blogid , $loginid, $password );
 
@@ -109,7 +109,7 @@ function requireStrictBlogURL() {
 
 function isLoginId($userid, $loginid) {
 	global $database;
-	$loginid = mysql_tt_escape_string($loginid);
+	$loginid = tc_escape_string($loginid);
 	
 	// 팀블로그 :: 팀원 확인
 	$result = DBQuery::query("SELECT u.userid 
@@ -144,7 +144,7 @@ function resetPassword($userid, $loginid) {
 	$message = str_replace('[##_sender_##]', '', $message);
 	if (!mail($loginid, encodeMail(_text('블로그 로그인 암호가 초기화되었습니다.')), $message, $headers))
 		return false;
-	$loginid = mysql_tt_escape_string($loginid);
+	$loginid = tc_escape_string($loginid);
 	return true;
 }
 ?>

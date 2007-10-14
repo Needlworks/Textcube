@@ -6,7 +6,7 @@ class FeedGroup {
 	/*@static@*/
 	function getId($name, $add = false) {
 		global $database;
-		$name = mysql_lessen($name);
+		$name = UTF8::lessenAsEncoding($name);
 		if (empty($name))
 			return 0;
 		$query = new TableQuery($database['prefix'] . 'FeedGroups');
@@ -124,8 +124,8 @@ class Feed {
 			return $this->_error('group');
 
 		$query = new TableQuery($database['prefix'] . 'Feeds');
-		$query->setQualifier('xmlURL', mysql_lessen($this->url, 255), true);
-		$query->setAttribute('title', mysql_lessen($this->url, 255), true);
+		$query->setQualifier('xmlURL', UTF8::lessenAsEncoding($this->url, 255), true);
+		$query->setAttribute('title', UTF8::lessenAsEncoding($this->url, 255), true);
 		if (!$query->doesExist()) {
 			if (!$query->insert())
 				return $this->_error('insert');
@@ -242,7 +242,7 @@ class FeedItem {
 	function add() {
 		global $database;
 		$this->id = null;
-		$this->link = mysql_lessen(trim($this->link), 255);
+		$this->link = UTF8::lessenAsEncoding(trim($this->link), 255);
 		if (empty($this->link))
 			return false;
 		
@@ -263,11 +263,11 @@ class FeedItem {
 		$query->setQualifier('permalink', $this->link, true);
 		$this->id = $query->getCell('id');
 		if ($this->id === null) {
-			$query->setAttribute('title', mysql_lessen($this->title, 255), true);
+			$query->setAttribute('title', UTF8::lessenAsEncoding($this->title, 255), true);
 			$query->setAttribute('description', $this->description, true);
-			$query->setAttribute('tags', mysql_lessen($this->tags, 255), true);
-			$query->setAttribute('enclosure', mysql_lessen($this->enclosure, 255), true);
-			$query->setAttribute('author', mysql_lessen($this->author, 255), true);
+			$query->setAttribute('tags', UTF8::lessenAsEncoding($this->tags, 255), true);
+			$query->setAttribute('enclosure', UTF8::lessenAsEncoding($this->enclosure, 255), true);
+			$query->setAttribute('author', UTF8::lessenAsEncoding($this->author, 255), true);
 			$query->setAttribute('written', $this->published);
 			$this->id = $query->insert();
 			//echo mysql_error(), '<br />';

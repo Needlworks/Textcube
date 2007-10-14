@@ -5,7 +5,7 @@
 
 function getKeywordByName($blogid, $name) {
 	global $database;
-	$name = mysql_tt_escape_string($name);
+	$name = tc_escape_string($name);
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
 	if ($result = DBQuery::query("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -1 AND title = '$name'"))
 		return mysql_fetch_array($result);
@@ -38,7 +38,7 @@ function getKeywordsWithPaging($blogid, $search, $page, $count) {
 	global $database, $folderURL, $suri;
 	$aux = '';
 	if (($search !== true) && $search) {
-		$search = mysql_tt_escape_string($search);
+		$search = tc_escape_string($search);
 		$aux = "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
 	}
 
@@ -54,7 +54,7 @@ function getKeywordsWithPaging($blogid, $search, $page, $count) {
 
 function getKeyword($blogid, $keyword) {	
 	global $database;
-	$keyword = mysql_tt_escape_string($keyword);
+	$keyword = tc_escape_string($keyword);
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	return DBQuery::queryAll("SELECT * 
 			FROM {$database['prefix']}Entries 
@@ -67,7 +67,7 @@ function getKeyword($blogid, $keyword) {
 
 function getKeylogs($blogid, $keyword) {	
 	global $database;
-	$keyword = mysql_tt_escape_string($keyword);
+	$keyword = tc_escape_string($keyword);
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	return DBQuery::queryAll("SELECT id, userid, title, category, comments, published 
 			FROM {$database['prefix']}Entries 

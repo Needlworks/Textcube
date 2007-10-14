@@ -131,7 +131,7 @@ class pageCache {
 		global $database;
 		$result = DBQuery::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog 
 			WHERE blogid = ".getBlogId()."
-			AND name = '".mysql_tt_escape_string($this->realName)."'");
+			AND name = '".tc_escape_string($this->realName)."'");
 		if($result !== false) {
 			$this->_dbContents = unserialize($result);
 			if(doesHaveOwnership()) $this->dbContents = isset($this->_dbContents['owner']) ? $this->_dbContents['owner'] : null;
@@ -147,14 +147,14 @@ class pageCache {
 		if(doesHaveOwnership()) $this->_dbContents['owner'] = $this->dbContents;
 		else $this->_dbContents['user'] = $this->dbContents;
 		return DBQuery::execute("REPLACE INTO {$database['prefix']}PageCacheLog 
-			VALUES(".getBlogId().", '".mysql_tt_escape_string($this->realName)."', '".mysql_tt_escape_string(serialize($this->_dbContents))."')");
+			VALUES(".getBlogId().", '".tc_escape_string($this->realName)."', '".tc_escape_string(serialize($this->_dbContents))."')");
 	}
 
 	function removePageCacheLog() {
 		global $database;
 		return DBQuery::execute("DELETE FROM {$database['prefix']}PageCacheLog 
 			WHERE blogid = ".getBlogId()."
-			AND name = '".mysql_tt_escape_string($this->realName)."'"); 
+			AND name = '".tc_escape_string($this->realName)."'"); 
 	}
 
 	function _error($error) {

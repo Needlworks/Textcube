@@ -148,7 +148,7 @@ else if ($_POST['step'] == 7) {
 }
 else {
 	
-	function mysql_tt_escape_string($string) {
+	function tc_escape_string($string) {
 		global $mysql_escaping_function;
 		return $mysql_escaping_function($string);
 	}
@@ -977,12 +977,12 @@ RewriteRule ^testrewrite$ setup.php [L]"
 			exit;
 		}
 
-		$loginid = mysql_tt_escape_string($_POST['email']);
+		$loginid = tc_escape_string($_POST['email']);
 		$password = md5($_POST['password']);
-		$name = mysql_tt_escape_string($_POST['name']);
-		$blog = mysql_tt_escape_string($_POST['blog']);
-		$baseLanguage = mysql_tt_escape_string( $_POST['Lang']);
-		$baseTimezone = mysql_tt_escape_string( substr(_t('default:Asia/Seoul'),8));
+		$name = tc_escape_string($_POST['name']);
+		$blog = tc_escape_string($_POST['blog']);
+		$baseLanguage = tc_escape_string( $_POST['Lang']);
+		$baseTimezone = tc_escape_string( substr(_t('default:Asia/Seoul'),8));
 
         $charset = 'TYPE=MyISAM DEFAULT CHARSET=utf8';
         if (!@mysql_query('SET CHARACTER SET utf8'))
@@ -1415,7 +1415,7 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (blogid) values(1)";
 			}
         }
 		else {
-			$password2 = mysql_tt_escape_string($_POST['password']);
+			$password2 = tc_escape_string($_POST['password']);
             $schema = "
 				UPDATE {$_POST['dbPrefix']}Users SET loginid = '$loginid', name = '$name' WHERE userid = 1;
 				UPDATE {$_POST['dbPrefix']}Users SET password = '$password' WHERE userid = 1 AND password <> '$password2';

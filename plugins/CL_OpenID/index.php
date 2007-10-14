@@ -165,8 +165,8 @@ function _openid_update_id($openid,$delegatedid,$nickname,$homepage=null,$userid
 {
 	global $database, $blogid;
 	global $openid_session;
-	$openid = mysql_tt_escape_string($openid);
-	$delegatedid = mysql_tt_escape_string($delegatedid);
+	$openid = tc_escape_string($openid);
+	$delegatedid = tc_escape_string($delegatedid);
 
 	$query = "SELECT data FROM {$database['prefix']}OpenIDUsers WHERE openid='{$openid}'";
 	$result = DBQuery::queryCell($query);
@@ -204,7 +204,7 @@ function _openid_update_id($openid,$delegatedid,$nickname,$homepage=null,$userid
 function _openid_existed($openid)
 {
 	global $database, $blogid;
-	$openid = mysql_tt_escape_string($openid);
+	$openid = tc_escape_string($openid);
 
 	$query = "SELECT openid FROM {$database['prefix']}OpenIDUsers WHERE blogid={$blogid} and openid='{$openid}'";
 	$result = DBQuery::queryCell($query);

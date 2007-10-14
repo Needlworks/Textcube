@@ -130,13 +130,13 @@ class GuestComment {
 			$query->setAttribute('replier', $this->commenter);
 		}
 		if (isset($this->name)) {
-			$this->name = mysql_lessen(trim($this->name), 80);
+			$this->name = UTF8::lessenAsEncoding(trim($this->name), 80);
 			if (empty($this->name))
 				return $this->_error('name');
 			$query->setAttribute('name', $this->name, true);
 		}
 		if (isset($this->homepage)) {
-			$this->homepage = mysql_lessen(trim($this->homepage), 80);
+			$this->homepage = UTF8::lessenAsEncoding(trim($this->homepage), 80);
 			if (empty($this->homepage))
 				return $this->_error('homepage');
 			$query->setAttribute('homepage', $this->homepage, true);
@@ -160,7 +160,7 @@ class GuestComment {
 			$query->setAttribute('written', $this->written);
 		}
 		if (isset($this->password)) {
-			$this->password = mysql_lessen($this->password, 32);
+			$this->password = UTF8::lessenAsEncoding($this->password, 32);
 			$query->setAttribute('password', $this->password, true);
 			$this->password = null;
 		}

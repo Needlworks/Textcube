@@ -104,7 +104,7 @@ class Link {
 		global $database;
 		if (empty($url))
 			return null;
-		return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Links WHERE blogid = ".getBlogId()." AND url = '" . mysql_tt_escape_string($url) . "'");
+		return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Links WHERE blogid = ".getBlogId()." AND url = '" . tc_escape_string($url) . "'");
 	}
 	
 	/*@static@*/
@@ -125,19 +125,19 @@ class Link {
 			$query->setQualifier('id', $this->id);
 		}
 		if (isset($this->url)) {
-			$this->url = mysql_lessen(trim($this->url), 255);
+			$this->url = UTF8::lessenAsEncoding(trim($this->url), 255);
 			if (empty($this->url))
 				return $this->_error('url');
 			$query->setQualifier('url', $this->url, true);
 		}
 		if (isset($this->title)) {
-			$this->title = mysql_lessen(trim($this->title), 255);
+			$this->title = UTF8::lessenAsEncoding(trim($this->title), 255);
 			if (empty($this->title))
 				return $this->_error('title');
 			$query->setAttribute('name', $this->title, true);
 		}
 		if (isset($this->feed)) {
-			$this->feed = mysql_lessen(trim($this->feed), 255);
+			$this->feed = UTF8::lessenAsEncoding(trim($this->feed), 255);
 			if (empty($this->feed))
 				return $this->_error('feed');
 			$query->setAttribute('rss', $this->feed, true);

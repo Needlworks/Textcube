@@ -17,7 +17,7 @@ function mysql_multi_query() {
 }
 
 function escapeMysqlSearchString($str) {
-	return is_string($str) ? str_replace('_', '\_', str_replace('%', '\%', mysql_tt_escape_string($str))) : $str;
+	return is_string($str) ? str_replace('_', '\_', str_replace('%', '\%', tc_escape_string($str))) : $str;
 }
 
 function doesExistTable($tablename)

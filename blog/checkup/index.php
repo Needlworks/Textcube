@@ -18,8 +18,8 @@ if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/C
 
 function setBlogSettingForMigration($blogid, $name, $value, $mig = null) {
 	global $database;
-	$name = mysql_tt_escape_string($name);
-	$value = mysql_tt_escape_string($value);
+	$name = tc_escape_string($name);
+	$value = tc_escape_string($value);
 	if($mig == null) 
 		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettingsMig VALUES('$blogid', '$name', '$value')");
 	else
@@ -31,7 +31,7 @@ function getBlogSettingForMigration($blogid, $name, $default = null) {
 	$value = DBQuery::queryCell("SELECT value 
 		FROM {$database['prefix']}BlogSettingsMig 
 		WHERE blogid = '$blogid'
-		AND name = '".mysql_tt_escape_string($name)."'");
+		AND name = '".tc_escape_string($name)."'");
 	return ($value === null) ? $default : $value;
 }
 
@@ -333,7 +333,7 @@ if (!DBQuery::queryExistence("SELECT value FROM {$database['prefix']}ServiceSett
 				$query->setQualifier('id', $entry['id']);
 				$query->setQualifier('draft', $entry['draft']);
 				$originalEntry = $query->getCell('content');
-				$newContent = mysql_tt_escape_string(nl2brWithHTML($originalEntry));
+				$newContent = tc_escape_string(nl2brWithHTML($originalEntry));
 				DBQuery::execute("UPDATE {$database['prefix']}Entries SET content = '$newContent' WHERE owner = {$entry['owner']} AND id = {$entry['id']} AND draft = {$entry['draft']}");
 				$query->resetQualifiers();
 			}
@@ -499,7 +499,7 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}Entries contentFormatter
 	$defaulteditor = 'modern';
 	$result =
 		DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD contentEditor VARCHAR(32) DEFAULT '' NOT NULL AFTER content, ADD contentFormatter VARCHAR(32) DEFAULT '' NOT NULL AFTER content") &&
-		DBQuery::execute("UPDATE {$database['prefix']}Entries SET contentEditor = '".mysql_tt_escape_string($defaulteditor)."', contentFormatter = '".mysql_tt_escape_string($defaultformatter)."'");
+		DBQuery::execute("UPDATE {$database['prefix']}Entries SET contentEditor = '".tc_escape_string($defaulteditor)."', contentFormatter = '".tc_escape_string($defaultformatter)."'");
 	if ($result)
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else
@@ -511,7 +511,7 @@ if (DBQuery::queryCell("select count(*) FROM {$database['prefix']}Entries WHERE 
 	echo '<li>', _text('글 테이블의 편집기와 포매터 필드를 갱신합니다.'), ': ';
 	$defaultformatter = 'ttml';
 	$defaulteditor = 'modern';
-	$result = DBQuery::execute("UPDATE {$database['prefix']}Entries SET contentEditor = '".mysql_tt_escape_string($defaulteditor)."', contentFormatter = '".mysql_tt_escape_string($defaultformatter)."'");
+	$result = DBQuery::execute("UPDATE {$database['prefix']}Entries SET contentEditor = '".tc_escape_string($defaulteditor)."', contentFormatter = '".tc_escape_string($defaultformatter)."'");
 	if ($result)
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else

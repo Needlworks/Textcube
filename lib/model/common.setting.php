@@ -39,8 +39,8 @@ function getServiceSetting($name, $default = null) {
 
 function setServiceSetting($name, $value) {
 	global $database;
-	$name = mysql_tt_escape_string(mysql_lessen($name, 32));
-	$value = mysql_tt_escape_string($value);
+	$name = tc_escape_string(UTF8::lessenAsEncoding($name, 32));
+	$value = tc_escape_string($value);
 	clearServiceSettingCache();
 	return DBQuery::execute("REPLACE INTO {$database['prefix']}ServiceSettings VALUES('$name', '$value')");
 }
@@ -48,7 +48,7 @@ function setServiceSetting($name, $value) {
 function removeServiceSetting($name) {
 	global $database;
 	clearServiceSettingCache();
-	return DBQuery::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".mysql_tt_escape_string($name)."'");
+	return DBQuery::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".tc_escape_string($name)."'");
 }
 
 function getBlogSetting($name, $default = null, $blogid = null) {
@@ -75,8 +75,8 @@ function setBlogSetting($name, $value, $blogid = null) {
 		return null;
 	}
 	
-	$escape_name = mysql_tt_escape_string($name);
-	$escape_value = mysql_tt_escape_string($value);
+	$escape_name = tc_escape_string($name);
+	$escape_value = tc_escape_string($value);
 	
 	if (array_key_exists($name, $__gCacheBlogSettings[$blogid])) {
 		// overwrite value
@@ -91,8 +91,8 @@ function setBlogSetting($name, $value, $blogid = null) {
 
 function setBlogSettingDefault($name, $value, $blogid = null) {
 	global $database;
-	$name = mysql_tt_escape_string($name);
-	$value = mysql_tt_escape_string($value);
+	$name = tc_escape_string($name);
+	$value = tc_escape_string($value);
 	if($blogid == null)
 		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES(".getBlogId().", '$name', '$value')");
 	else if(is_numeric($blogid)) {
@@ -116,7 +116,7 @@ function removeBlogSetting($name, $blogid = null) {
 		return null;
 	}
 	
-	$escape_name = mysql_tt_escape_string($name);
+	$escape_name = tc_escape_string($name);
 	
 	if (array_key_exists($name, $__gCacheBlogSettings[$blogid])) {
 		// overwrite value
@@ -149,14 +149,14 @@ function getUserSetting($name, $default = null) {
 	$value = DBQuery::queryCell("SELECT value 
 			FROM {$database['prefix']}UserSettings 
 			WHERE userid = ".getUserId()."
-				AND name = '".mysql_tt_escape_string($name)."'");
+				AND name = '".tc_escape_string($name)."'");
 	return ($value === null) ? $default : $value;
 }
 
 function setUserSetting($name, $value) {
 	global $database;
-	$name = mysql_tt_escape_string($name);
-	$value = mysql_tt_escape_string($value);
+	$name = tc_escape_string($name);
+	$value = tc_escape_string($value);
 	clearUserSettingCache();
 	return DBQuery::execute("REPLACE INTO {$database['prefix']}UserSettings VALUES(".getUserId().", '$name', '$value')");
 }
@@ -165,7 +165,7 @@ function removeUserSetting($name) {
 	global $database;
 	clearUserSettingCache();
 	return DBQuery::execute("DELETE FROM {$database['prefix']}UserSettings 
-			WHERE userid = ".getUserId()." AND name = '".mysql_tt_escape_string($name)."'");
+			WHERE userid = ".getUserId()." AND name = '".tc_escape_string($name)."'");
 }
 
 function getDefinedTableNames() {

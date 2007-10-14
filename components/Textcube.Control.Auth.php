@@ -343,14 +343,14 @@ class Auth {
 		global $database;
 
 		Acl::clearAcl();
-		$loginid = mysql_tt_escape_string($loginid);
+		$loginid = tc_escape_string($loginid);
 
 		$blogApiPassword = getBlogSetting("blogApiPassword", "");
 
 		if ((strlen($password) == 32) && preg_match('/[0-9a-f]/i', $password)) {
 			$secret = '(`password` = \'' . md5($password) . "' OR `password` = '$password')";
 		} else if( $blogapi && !empty($blogApiPassword) ) {
-			$password = mysql_tt_escape_string($password);
+			$password = tc_escape_string($password);
 			$secret = '(`password` = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $blogApiPassword . '\')';
 		} else {
 			$secret = '`password` = \'' . md5($password) . '\'';

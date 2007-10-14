@@ -75,7 +75,7 @@ class Category {
 		if($this->id != 0) $this->id = null;
 		if (isset($this->parent) && !is_numeric($this->parent))
 			return $this->_error('parent');
-		$this->name = mysql_lessen(trim($this->name), 127);
+		$this->name = UTF8::lessenAsEncoding(trim($this->name), 127);
 		if (empty($this->name))
 			return $this->_error('name');
 		
@@ -85,7 +85,7 @@ class Category {
 			if (($parentLabel = Category::getLabel($this->parent)) === null)
 				return $this->_error('parent');
 			$query->setQualifier('parent', $this->parent);
-			$query->setAttribute('label', mysql_lessen($parentLabel . '/' . $this->name, 255), true);
+			$query->setAttribute('label', UTF8::lessenAsEncoding($parentLabel . '/' . $this->name, 255), true);
 		} else {
 			$query->setAttribute('label', $this->name, true);
 		}
@@ -155,7 +155,7 @@ class Category {
 		global $database;
 		if (empty($label))
 			return null;
-		return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND label = '" . mysql_tt_escape_string($label) . "'");
+		return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND label = '" . tc_escape_string($label) . "'");
 	}
 	
 	/*@static@*/

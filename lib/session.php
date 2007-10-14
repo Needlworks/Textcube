@@ -32,10 +32,10 @@ function writeSession($id, $data) {
 		return false;
 	$userid = Acl::getIdentity('textcube');
 	if( empty($userid) ) $userid = 'null';
-	$data = mysql_tt_escape_string($data);
-	$server = mysql_tt_escape_string($_SERVER['HTTP_HOST']);
-	$request = mysql_tt_escape_string($_SERVER['REQUEST_URI']);
-	$referer = isset($_SERVER['HTTP_REFERER']) ? mysql_tt_escape_string($_SERVER['HTTP_REFERER']) : '';
+	$data = tc_escape_string($data);
+	$server = tc_escape_string($_SERVER['HTTP_HOST']);
+	$request = tc_escape_string($_SERVER['REQUEST_URI']);
+	$referer = isset($_SERVER['HTTP_REFERER']) ? tc_escape_string($_SERVER['HTTP_REFERER']) : '';
 	$timer = getMicrotimeAsFloat() - $sessionMicrotime;
 	$result = DBQuery::query("UPDATE {$database['prefix']}Sessions SET userid = $userid, data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 	if ($result && (mysql_affected_rows() == 1))

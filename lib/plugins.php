@@ -314,7 +314,7 @@ if (getBlogId()) {
 		if ($disablePlugin == true) {
 			$query = "DELETE FROM `{$database['prefix']}Plugins` 
 				WHERE `blogid` = ".getBlogId()." 
-				AND name = '".mysql_tt_escape_string($plugin)."'";
+				AND name = '".tc_escape_string($plugin)."'";
 			DBQuery::query($query);
 		}
 	}

@@ -79,9 +79,9 @@ class PluginSetting {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'Plugins');
 		$query->setQualifier('blogid', getBlogId());
-		$query->setQualifier('name', mysql_tt_escape_string(mysql_lessen($this->name, 255)), true);
+		$query->setQualifier('name', tc_escape_string(UTF8::lessenAsEncoding($this->name, 255)), true);
 		if (isset($this->setting))
-			$query->setAttribute('settings', mysql_tt_escape_string($this->setting), true);
+			$query->setAttribute('settings', tc_escape_string($this->setting), true);
 		return $query;
 	}
 

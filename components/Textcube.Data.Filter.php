@@ -103,8 +103,8 @@ class Filter {
 	/*@static@*/
 	function isFiltered($type, $value) {
 		global $database;
-		$type = mysql_tt_escape_string($type);
-		$value = mysql_tt_escape_string($value);
+		$type = tc_escape_string($type);
+		$value = tc_escape_string($value);
 		return DBQuery::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = '$type' AND '$value' LIKE CONCAT('%', pattern, '%')");
 	}
 	
@@ -133,7 +133,7 @@ class Filter {
 				$query->setQualifier('type', $this->type, false);
 		}
 		if (isset($this->pattern)) {
-			$this->pattern = mysql_lessen(trim($this->pattern), 255);
+			$this->pattern = UTF8::lessenAsEncoding(trim($this->pattern), 255);
 			if (empty($this->pattern))
 				return $this->_error('pattern');
 			if (isset($this->id))

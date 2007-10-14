@@ -281,10 +281,10 @@ class Post {
 		else
 			$slogan0 = $this->slogan = Post::makeSlogan($this->title);
 			
-		$slogan0 = mysql_lessen($slogan0, 255);
+		$slogan0 = UTF8::lessenAsEncoding($slogan0, 255);
 
 		for ($i = 1; $i < 1000; $i++) {
-			$checkSlogan = mysql_tt_escape_string($this->slogan);
+			$checkSlogan = tc_escape_string($this->slogan);
 			$query->setAttribute('slogan', $checkSlogan, false);
 			if (!DBQuery::queryExistence(
 				"SELECT id FROM {$database['prefix']}Entries " 
@@ -295,7 +295,7 @@ class Post {
 					return $this->_error('update');
 				return true;
 			}
-			$this->slogan = mysql_lessen($slogan0, 245) . '-' . $i;
+			$this->slogan = UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i;
 		}
 		// if try saveSlogan again, slogan string has more $i
 		return $this->_error('limit');
@@ -330,7 +330,7 @@ class Post {
 		$ret = array();
 		
 		foreach ($tags as $tag) {
-			$tag = mysql_lessen($tag, 255, '');
+			$tag = UTF8::lessenAsEncoding($tag, 255, '');
 			$tag = str_replace('&quot;', '"', $tag);
 			$tag = str_replace('&#39;', '\'', $tag);
 			$tag = preg_replace('/ +/', ' ', $tag);
@@ -523,7 +523,7 @@ class Post {
 			$query->setQualifier('id', $this->id);
 		} 
 		if (isset($this->title))
-			$query->setAttribute('title', mysql_lessen($this->title, 255), true);
+			$query->setAttribute('title', UTF8::lessenAsEncoding($this->title, 255), true);
 		if (isset($this->content)) {
 			$query->setAttribute('content', $this->content, true);
 			$query->setAttribute('contentFormatter', $this->contentFormatter, true);
@@ -556,7 +556,7 @@ class Post {
 			$query->setAttribute('category', $this->category);
 		}
 		if (isset($this->location))
-			$query->setAttribute('location', mysql_lessen($this->location, 255), true);
+			$query->setAttribute('location', UTF8::lessenAsEncoding($this->location, 255), true);
 		if (isset($this->password))
 			$query->setAttribute('password', $this->password, true);
 		if (isset($this->acceptComment))
@@ -589,7 +589,7 @@ class Post {
 			while ($target = mysql_fetch_array($targetresult)) {
 				$oldtag = DBQuery::queryRow("SELECT id, name FROM {$database['prefix']}Tags WHERE id = {$target['tag']}");
 				if ($oldtag != null) {		
-					$tagid = DBQuery::queryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '" . mysql_tt_escape_string($oldtag['name']) . "' LIMIT 1 ");
+					$tagid = DBQuery::queryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '" . tc_escape_string($oldtag['name']) . "' LIMIT 1 ");
 					if ($tagid == null) { 
 						DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
 					} else {

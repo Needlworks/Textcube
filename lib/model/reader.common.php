@@ -307,7 +307,7 @@ function getFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly = 
 
 function addFeedGroup($blogid, $title) {
 	global $database;
-	$title = mysql_tt_escape_string(mysql_lessen($title, 255));
+	$title = tc_escape_string(UTF8::lessenAsEncoding($title, 255));
 	if (empty($title))
 		return 1;
 	if (DBQuery::queryCell("SELECT id FROM {$database['prefix']}FeedGroups WHERE blogid = $blogid AND title = '$title'") !== null) {
@@ -322,7 +322,7 @@ function addFeedGroup($blogid, $title) {
 
 function editFeedGroup($blogid, $id, $title) {
 	global $database;
-	$title = mysql_tt_escape_string(mysql_lessen($title, 255));
+	$title = tc_escape_string(UTF8::lessenAsEncoding($title, 255));
 	if (empty($title))
 		return 1;
 	$prevTitle = DBQuery::queryCell("SELECT title FROM {$database['prefix']}FeedGroups WHERE blogid = $blogid AND id = $id");
@@ -352,7 +352,7 @@ function addFeed($blogid, $group = 0, $url, $getEntireFeed = true, $htmlURL = ''
 	if(strpos(strtolower($url), 'http://') !== 0)
 		$url = 'http://'.$url;
 	$url = rtrim($url, '/');
-	$escapedURL = mysql_tt_escape_string($url);
+	$escapedURL = tc_escape_string($url);
 	if (DBQuery::queryExistence("SELECT f.id FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations r WHERE r.blogid = $blogid AND r.blogid = g.blogid AND r.feed = f.id AND r.groupId = g.id AND f.xmlURL = '$escapedURL'")) {
 		return 1;
 	}
@@ -369,9 +369,9 @@ function addFeed($blogid, $group = 0, $url, $getEntireFeed = true, $htmlURL = ''
 		DBQuery::query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($blogid, $id, $group)");
 		saveFeedItems($id, $xml);
 	} else {
-		$htmlURL = mysql_tt_escape_string(mysql_lessen($htmlURL));
-		$blogTitle = mysql_tt_escape_string(mysql_lessen($blogTitle));
-		$blogDescription = mysql_tt_escape_string(mysql_lessen(stripHTML($blogDescription)));
+		$htmlURL = tc_escape_string(UTF8::lessenAsEncoding($htmlURL));
+		$blogTitle = tc_escape_string(UTF8::lessenAsEncoding($blogTitle));
+		$blogDescription = tc_escape_string(UTF8::lessenAsEncoding(stripHTML($blogDescription)));
 		DBQuery::query("INSERT INTO {$database['prefix']}Feeds VALUES(null, '$escapedURL', '$htmlURL', '$blogTitle', '$blogDescription', 'en-US', 0)");
 		$id = mysql_insert_id();
 		DBQuery::query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($blogid, $id, $group)");
@@ -455,11 +455,11 @@ function getRemoteFeed($url) {
 	} else
 		return array(3, null, null);
 
-	$feed['xmlURL'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct($feed['xmlURL'])));
-	$feed['blogURL'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct($feed['blogURL'])));
-	$feed['title'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct($feed['title'])));
-	$feed['description'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct(stripHTML($feed['description']))));
-	$feed['language'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct($feed['language']), 255));
+	$feed['xmlURL'] = tc_escape_string(UTF8::lessenAsEncoding(UTF8::correct($feed['xmlURL'])));
+	$feed['blogURL'] = tc_escape_string(UTF8::lessenAsEncoding(UTF8::correct($feed['blogURL'])));
+	$feed['title'] = tc_escape_string(UTF8::lessenAsEncoding(UTF8::correct($feed['title'])));
+	$feed['description'] = tc_escape_string(UTF8::lessenAsEncoding(UTF8::correct(stripHTML($feed['description']))));
+	$feed['language'] = tc_escape_string(UTF8::lessenAsEncoding(UTF8::correct($feed['language']), 255));
 	
 	return array(0, $feed, $xml);
 }
@@ -552,12 +552,12 @@ function saveFeedItem($feedId, $item) {
 
 	$item = fireEvent('SaveFeedItem', $item);
 
-	$item['permalink'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct($item['permalink'])));
-	$item['author'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct($item['author'])));
-	$item['title'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct($item['title'])));
-	$item['description'] = mysql_tt_escape_string(mysql_lessen(UTF8::correct($item['description']), 65535));
-	$tagString = mysql_tt_escape_string(mysql_lessen(UTF8::correct(implode(', ', $item['tags']))));
-	$enclosureString = mysql_tt_escape_string(mysql_lessen(UTF8::correct(implode('|', $item['enclosures']))));
+	$item['permalink'] = tc_escape_string(UTF8::lessenAsEncoding(UTF8::correct($item['permalink'])));
+	$item['author'] = tc_escape_string(UTF8::lessenAsEncoding(UTF8::correct($item['author'])));
+	$item['title'] = tc_escape_string(UTF8::lessenAsEncoding(UTF8::correct($item['title'])));
+	$item['description'] = tc_escape_string(UTF8::lessenAsEncoding(UTF8::correct($item['description']), 65535));
+	$tagString = tc_escape_string(UTF8::lessenAsEncoding(UTF8::correct(implode(', ', $item['tags']))));
+	$enclosureString = tc_escape_string(UTF8::lessenAsEncoding(UTF8::correct(implode('|', $item['enclosures']))));
 
 	if ($item['written'] > gmmktime() + 86400)
 		return false;

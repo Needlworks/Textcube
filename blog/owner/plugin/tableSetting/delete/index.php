@@ -25,7 +25,7 @@ if ($_REQUEST['type'] == 1) { // type 1, plugin
 	$pluginname = $values[0];
 	$version = $values[1];
 
-	$query = "select name from {$database['prefix']}ServiceSettings WHERE value = '" . mysql_tt_escape_string($_REQUEST['name']) . "'";
+	$query = "select name from {$database['prefix']}ServiceSettings WHERE value = '" . tc_escape_string($_REQUEST['name']) . "'";
 	
 	$plugintablesraw = DBQuery::queryColumn($query);
 	if (count($plugintablesraw) <= 0) {
@@ -45,7 +45,7 @@ if ($_REQUEST['type'] == 1) { // type 1, plugin
 			exit;
 		}
 		array_push($plugintables, $dbname);
-		$query = "delete from {$database['prefix']}ServiceSettings WHERE name = '$origname' AND value = '" . mysql_tt_escape_string($_REQUEST['name']) . "'";
+		$query = "delete from {$database['prefix']}ServiceSettings WHERE name = '$origname' AND value = '" . tc_escape_string($_REQUEST['name']) . "'";
 		DBQuery::execute($query);
 	}
 	$result = true;

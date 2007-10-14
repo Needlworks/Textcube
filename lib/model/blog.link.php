@@ -26,13 +26,13 @@ function deleteLink($blogid, $id) {
 
 function addLink($blogid, $link) {
 	global $database;
-	$name = mysql_lessen(trim($link['name']), 255);
-	$url = mysql_lessen(trim($link['url']), 255);
+	$name = UTF8::lessenAsEncoding(trim($link['name']), 255);
+	$url = UTF8::lessenAsEncoding(trim($link['url']), 255);
 	if (empty($name) || empty($url))
 		return - 1;
-	$name = mysql_tt_escape_string($name);
-	$url = mysql_tt_escape_string($url);
-	$rss = isset($link['rss']) ? mysql_tt_escape_string(mysql_lessen(trim($link['rss']), 255)) : '';
+	$name = tc_escape_string($name);
+	$url = tc_escape_string($url);
+	$rss = isset($link['rss']) ? tc_escape_string(UTF8::lessenAsEncoding(trim($link['rss']), 255)) : '';
 	if (DBQuery::queryCell("SELECT id FROM {$database['prefix']}Links WHERE blogid = $blogid AND url = '$url'"))
 		return 1;
 	if (DBQuery::execute("INSERT INTO {$database['prefix']}Links VALUES ($blogid, null, '$name', '$url', '$rss', UNIX_TIMESTAMP())"))
@@ -44,13 +44,13 @@ function addLink($blogid, $link) {
 function updateLink($blogid, $link) {
 	global $database;
 	$id = $link['id'];
-	$name = mysql_lessen(trim($link['name']), 255);
-	$url = mysql_lessen(trim($link['url']), 255);
+	$name = UTF8::lessenAsEncoding(trim($link['name']), 255);
+	$url = UTF8::lessenAsEncoding(trim($link['url']), 255);
 	if (empty($name) || empty($url))
 		return false;
-	$name = mysql_tt_escape_string($name);
-	$url = mysql_tt_escape_string($url);
-	$rss = isset($link['rss']) ? mysql_tt_escape_string(mysql_lessen(trim($link['rss']), 255)) : '';
+	$name = tc_escape_string($name);
+	$url = tc_escape_string($url);
+	$rss = isset($link['rss']) ? tc_escape_string(UTF8::lessenAsEncoding(trim($link['rss']), 255)) : '';
 	return DBQuery::execute("update {$database['prefix']}Links
 				set
 					name = '$name',

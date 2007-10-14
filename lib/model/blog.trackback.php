@@ -22,11 +22,11 @@ function getTrackbacksWithPagingForOwner($blogid, $category, $site, $ip, $search
 	} else
 		$sql .= ' AND e.category >= 0';
 	if (!empty($site)) {
-		$sql .= ' AND t.site = \'' . mysql_tt_escape_string($site) . '\'';
+		$sql .= ' AND t.site = \'' . tc_escape_string($site) . '\'';
 		$postfix .= '&site=' . rawurlencode($site);
 	}
 	if (!empty($ip)) {
-		$sql .= ' AND t.ip = \'' . mysql_tt_escape_string($ip) . '\'';
+		$sql .= ' AND t.ip = \'' . tc_escape_string($ip) . '\'';
 		$postfix .= '&ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
@@ -141,10 +141,10 @@ function receiveTrackback($blogid, $entry, $title, $url, $excerpt, $site) {
 	$title = correctTTForXmlText($title);
 	$excerpt = correctTTForXmlText($excerpt);
 
-	$url = mysql_lessen($url);
-	$site = mysql_lessen($site);
-	$title = mysql_lessen($title);
-	$excerpt = mysql_lessen($excerpt);
+	$url = UTF8::lessenAsEncoding($url);
+	$site = UTF8::lessenAsEncoding($site);
+	$title = UTF8::lessenAsEncoding($title);
+	$excerpt = UTF8::lessenAsEncoding($excerpt);
 
 	requireComponent('Textcube.Data.Trackback');
 	$trackback = new Trackback();
@@ -244,7 +244,7 @@ function sendTrackback($blogid, $entryId, $url) {
 		$isSuccess = $request->send($content);
 	}
 	if ($isSuccess && (checkResponseXML($request->responseText) === 0)) {
-		$url = mysql_tt_escape_string(mysql_lessen($url, 255));
+		$url = tc_escape_string(UTF8::lessenAsEncoding($url, 255));
 		DBQuery::query("insert into {$database['prefix']}TrackbackLogs values ($blogid, '', $entryId, '$url', UNIX_TIMESTAMP())");
 		return true;
 	}
@@ -286,7 +286,7 @@ function lastIndexOf($string, $item) {
 }
 
 function getURLForFilter($value) {
-	$value = mysql_tt_escape_string($value);
+	$value = tc_escape_string($value);
 	$value = str_replace('http://', '', $value);
 	$lastSlashPos = lastIndexOf($value, '/');
 	if ($lastSlashPos > - 1) {

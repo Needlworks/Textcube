@@ -84,19 +84,19 @@ class RefererLog {
 		$query = new TableQuery($database['prefix'] . 'RefererLogs');
 		$query->setQualifier('blogid', getBlogId());
 		if (isset($this->host)) {
-			$this->host = mysql_lessen(trim($url['host']), 64);
+			$this->host = UTF8::lessenAsEncoding(trim($url['host']), 64);
 			if (empty($this->host))
 				return $this->_error('host');
 			$query->setAttribute('host', $this->host, true);
 		}
 		if (isset($this->url)) {
-			$this->url = mysql_lessen(trim($this->url), 255);
+			$this->url = UTF8::lessenAsEncoding(trim($this->url), 255);
 			if (empty($this->url))
 				return $this->_error('url');
 			$url = parse_url($this->url);
 			if (empty($url['host']))
 				return $this->_error('url');
-			$this->host = mysql_lessen(trim($url['host']), 64);
+			$this->host = UTF8::lessenAsEncoding(trim($url['host']), 64);
 			$query->setAttribute('host', $this->host, true);
 			if (empty($url['scheme']))
 				$this->url = 'http://' . $this->url;
