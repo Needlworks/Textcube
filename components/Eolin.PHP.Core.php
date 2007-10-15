@@ -967,11 +967,11 @@ class Timestamp {
 //Database Binding
 switch($service['dbms']) {
 	case 'postgresql':
-		requireComponent('Needlworks.Database.PostgreSQL');
+		requireComponent('Needlworks.DBMS.PostgreSQL');
 		break;
 	case 'mysql':
 	default:
-		requireComponent('Needlworks.Database.MySQL');
+		requireComponent('Needlworks.DBMS.MySQL');
 }
 
 class TableQuery {
