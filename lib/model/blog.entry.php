@@ -769,17 +769,21 @@ function syndicateEntry($id, $mode) {
 function publishEntries() {
 	global $database;
 	$blogid = getBlogId();
-	$entries = DBQuery::queryAll("SELECT id, visibility FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND visibility < 0 AND published < UNIX_TIMESTAMP()");
+	$entries = DBQuery::queryAll("SELECT id, visibility 
+			FROM {$database['prefix']}Entries 
+			WHERE blogid = $blogid AND draft = 0 AND visibility < 0 AND published < UNIX_TIMESTAMP()");
 	if (count($entries) == 0)
 		return;
 	foreach ($entries as $i => $entry) {
-		$result = DBQuery::query("UPDATE {$database['prefix']}Entries SET visibility = 0 WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 0");
+		$result = DBQuery::query("UPDATE {$database['prefix']}Entries 
+				SET visibility = 0 
+				WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 0");
 		if ($entry['visibility'] == -3) {
-			if ($result && (mysql_affected_rows() > 0) && setEntryVisibility($entry['id'], 2))
+			if ($result && setEntryVisibility($entry['id'], 2))
 				setEntryVisibility($entry['id'], 3);
 		}
 		else {
-			if ($result && (mysql_affected_rows() > 0))
+			if ($result)
 				setEntryVisibility($entry['id'], abs($entry['visibility']));
 		}
 	}
