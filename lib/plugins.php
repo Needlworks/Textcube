@@ -82,7 +82,7 @@ if (getBlogId()) {
 								array_push($storageKeymappings, $key['.value']);
 							}
 						}
-						treatPluginTable($plugin, $tableName,$storageMappings,$storageKeymappings, $version);
+						treatPluginTable($plugin, $tableName, $storageMappings, $storageKeymappings, $version);
 						unset($tableName);
 						unset($storageMappings);
 						unset($storageKeymappings);

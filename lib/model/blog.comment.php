@@ -51,7 +51,7 @@ function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, 
 		$postfix .= '&ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
-		$search = escapeMysqlSearchString($search);
+		$search = escapeSearchString($search);
 		$sql .= " AND (c.name LIKE '%$search%' OR c.homepage LIKE '%$search%' OR c.comment LIKE '%$search%')";
 		$postfix .= '&search=' . rawurlencode($search);
 	}
@@ -83,7 +83,7 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 		$sql .= ' ORDER BY c.modified DESC';
 	} else {
 		if (!empty($search)) {
-			$search = escapeMysqlSearchString($search);
+			$search = escapeSearchString($search);
 		}
 				
 		$preQuery = "SELECT parent FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND parent is NOT NULL";
@@ -234,7 +234,7 @@ function getComment($blogid, $id, $password) {
 function getCommentList($blogid, $search) {
 	global $database;
 	$list = array('title' => "$search", 'items' => array());
-	$search = escapeMysqlSearchString($search);
+	$search = escapeSearchString($search);
 	$authorized = doesHaveOwnership() ? '' : 'AND c.secret = 0 AND (ct.visibility > 1 OR e.category = 0)';
 	if ($result = DBQuery::queryAll("SELECT c.id, c.entry, c.parent, c.name, c.comment, c.written, e.slogan
 		FROM {$database['prefix']}Comments c

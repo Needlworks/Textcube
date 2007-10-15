@@ -45,7 +45,7 @@ function markAsStar($blogid, $id, $flag) {
 
 function getFeedGroups($blogid, $starredOnly = false, $searchKeyword = null) {
 	global $database;
-	$searchKeyword = escapeMysqlSearchString($searchKeyword);
+	$searchKeyword = escapeSearchString($searchKeyword);
 	if ($starredOnly !== false) {
 		$condition = "AND s.item IS NOT NULL";
 	} else if ($searchKeyword !== null) {
@@ -82,7 +82,7 @@ function getFeedGroups($blogid, $starredOnly = false, $searchKeyword = null) {
 
 function getFeeds($blogid, $group = 0, $starredOnly = false, $searchKeyword = null) {
 	global $database;
-	$searchKeyword = escapeMysqlSearchString($searchKeyword);
+	$searchKeyword = escapeSearchString($searchKeyword);
 	if ($starredOnly !== false) {
 		$condition = "AND s.item IS NOT NULL";
 	} else if ($searchKeyword !== null) {
@@ -119,7 +119,7 @@ function getFeeds($blogid, $group = 0, $starredOnly = false, $searchKeyword = nu
 
 function getFeedEntriesTotalCount($blogid, $group = 0, $feed = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null) {
 	global $database;
-	$searchKeyword = escapeMysqlSearchString($searchKeyword);
+	$searchKeyword = escapeSearchString($searchKeyword);
 	if ($starredOnly !== false) {
 		$condition = 'AND s.item IS NOT NULL';
 	} else if ($searchKeyword !== null) {
@@ -161,7 +161,7 @@ function getFeedEntriesTotalCount($blogid, $group = 0, $feed = 0, $unreadOnly = 
 
 function getFeedEntries($blogid, $group = 0, $feed = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null, $offset = 0) {
 	global $database;
-	$searchKeyword = escapeMysqlSearchString($searchKeyword);
+	$searchKeyword = escapeSearchString($searchKeyword);
 	if ($starredOnly !== false) {
 		$condition = 'AND s.item IS NOT NULL';
 	} else if ($searchKeyword !== null) {
@@ -206,7 +206,7 @@ function getFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly = 
 	// if failed, return false or null. check both!
 	global $database;
 	$setting = getReaderSetting($blogid);
-	$searchKeyword = escapeMysqlSearchString($searchKeyword);
+	$searchKeyword = escapeSearchString($searchKeyword);
 	if ($entry == 0 || $position != 'current') {
 		if ($starredOnly !== false) {
 			$condition = 'AND s.item IS NOT NULL';

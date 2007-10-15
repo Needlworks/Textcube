@@ -194,41 +194,154 @@ class misc {
 		unset($xmls);	
 		return ( $outVal);
 	}
-	
-	function getBlogSetting($name, $default = null) {
-		global $database, $blogid;
-		$name = 'plugin_' . $name;
-		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}BlogSettings WHERE blogid = $blogid AND name = '".tc_escape_string($name)."'");
-		return ($value === null) ? $default : $value;
+
+	// For Blog-scope setting
+	function getBlogSettingGlobal($name, $default = null) {
+		$settings = misc::getBlogSettingsGlobal(getBlogId()); // from blog.service.php
+		if ($settings === false) return $default;
+		if( isset($settings[$name]) ) {
+			return $settings[$name];
+		}
+		return $default;
 	}
 
-	function getBlogSettingGlobal($name, $default = null) {
-		global $database, $blogid;
-		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}BlogSettings WHERE blogid = $blogid AND name = '".tc_escape_string($name)."'");
-		return ($value === null) ? $default : $value;
+	function getBlogSettingsGlobal($blogid = null) {
+		global $database, $service;
+		global $__gCacheBlogSettings;
+		if($blogid == null) $blogid = getBlogId();
+		if (array_key_exists($blogid, $__gCacheBlogSettings)) {
+			return $__gCacheBlogSettings[$blogid];
+		}
+		$query = new TableQuery($database['prefix'] . 'BlogSettings');
+		$query->setQualifier('blogid',$blogid);
+		$blogSettings = $query->getAll();
+		if( $blogSettings ) {
+			$result = array();
+			$blogSettingFields = array();
+			$defaultValues = array(
+					'name'                     => '',
+					'defaultDomain'            => 0,
+					'title'                    => '', 
+					'description'              => '', 
+					'logo'                     => '', 
+					'logoLabel'                => '', 
+					'logoWidth'                => 0,
+					'logoHeight'               => 0,
+					'useSlogan'                => 1,
+					'entriesOnPage'            => 10, 
+					'entriesOnList'            => 10, 
+					'entriesOnRSS'             => 10, 
+					'publishWholeOnRSS'        => 1,
+					'publishEolinSyncOnRSS'    => 1,
+					'allowWriteOnGuestbook'    => 1,
+					'allowWriteDblCommentOnGuestbook' => 1,
+					'language'     => $service['language'],
+					'blogLanguage' => $service['language'],
+					'timezone'     => $service['timezone'],
+					'noneCommentMessage'       => '',
+					'singleCommentMessage'     => '',
+					'noneTrackbackMessage'     => '',
+					'singleTrackbackMessage'   => '');
+			foreach($blogSettings as $blogSetting) {
+				$result[$blogSetting['name']] = $blogSetting['value'];
+				if(array_key_exists($blogSetting['name'],$defaultValues)) {
+					array_push($blogSettingFields, $blogSetting['name']);
+				}
+			}
+			foreach($defaultValues as $name => $value) {
+				if(!in_array($name,$blogSettingFields)) {
+					$result[$name] = $value;
+					setBlogSettingDefault($name,$value);
+				}
+			}
+			$__gCacheBlogSettings[$blogid] = $result;
+			return $result;
+		}
+		$__gCacheBlogSettings[$blogid] = false;
+		return false;
+	}
+	
+	function setBlogSettingGlobal($name, $value, $blogid = null) {
+		global $database;
+		global $__gCacheBlogSettings; // share blog.service.php
+	
+		if (is_null($blogid)) $blogid = getBlogId();
+		if (!is_numeric($blogid)) return null;
+	
+		if (!array_key_exists($blogid, $__gCacheBlogSettings)) {
+			// force loading
+			getBlogSettings($blogid);
+		}
+		if ($__gCacheBlogSettings[$blogid] === false) {
+			return null;
+		}
+		
+		$escape_name = tc_escape_string($name);
+		$escape_value = tc_escape_string($value);
+		
+		if (array_key_exists($name, $__gCacheBlogSettings[$blogid])) {
+			// overwrite value
+			$__gCacheBlogSettings[$blogid][$name] = $value;
+			return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, '$escape_name', '$escape_value')");
+		}
+		
+		// insert new value
+		$__gCacheBlogSettings[$blogid][$name] = $value;
+		return DBQuery::execute("INSERT INTO {$database['prefix']}BlogSettings VALUES($blogid, '$escape_name', '$escape_value')");
+	}
+
+	function removeBlogSettingGlobal($name, $blogid = null) {
+		global $database;
+		global $__gCacheBlogSettings; // share blog.service.php
+	
+		if (is_null($blogid)) $blogid = getBlogId();
+		if (!is_numeric($blogid)) return null;
+	
+		if (!array_key_exists($blogid, $__gCacheBlogSettings)) {
+			// force loading
+			getBlogSettings($blogid);
+		}
+		if ($__gCacheBlogSettings[$blogid] === false) {
+			return null;
+		}
+		
+		$escape_name = tc_escape_string($name);
+		
+		if (array_key_exists($name, $__gCacheBlogSettings[$blogid])) {
+			// overwrite value
+			unset($__gCacheBlogSettings[$blogid][$name]);
+			return DBQuery::execute("DELETE FROM {$database['prefix']}BlogSettings 
+				WHERE blogid = $blogid AND name = '$escape_name'");
+		}
+		
+		// already not exist
+		return true;
+	}
+
+	// For plugin-specific use.
+	function getBlogSetting($name, $default = null) {
+		$settings = misc::getBlogSettingsGlobal(getBlogId()); // from blog.service.php
+		if ($settings === false) return $default;
+		$name = 'plugin_' . $name;
+		if( isset($settings[$name]) ) {
+			return $settings[$name];
+		}
+		return $default;
 	}
 	
 	function setBlogSetting($name, $value) {
 		global $database, $blogid;
 		$name = 'plugin_' . $name;
-		$name = tc_escape_string($name);
-		$value = tc_escape_string($value);
-		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, '$name', '$value')");
+		return setBlogSettingGlobal($name, $value);
 	}
 	
-	function setBlogSettingGlobal($name, $value) {
-		global $database, $blogid;
-		$name = tc_escape_string($name);
-		$value = tc_escape_string($value);
-		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES(".getBlogId().", '$name', '$value')");
-	}
-
 	function removeBlogSetting($name) {
 		global $database, $blogid;
 		$name = 'plugin_' . $name;
-		return DBQuery::execute("DELETE FROM {$database['prefix']}BlogSettings WHERE blogid = $blogid AND name = '".tc_escape_string($name)."'");
+		return removeBlogSettingGlobal($name);
 	}
 
+	// For User
 	function getUserSetting($name, $default = null) {
 		global $database;
 		$name = 'plugin_' . $name;

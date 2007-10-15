@@ -158,7 +158,7 @@ function getEntryListWithPagingByPeriod($blogid, $period, $page, $count) {
 
 function getEntryListWithPagingBySearch($blogid, $search, $page, $count) {
 	global $database, $suri, $folderURL;
-	$search = escapeMysqlSearchString($search);
+	$search = escapeSearchString($search);
 	$cond = strlen($search) == 0 ? 'AND 0' : "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
 	$sql = "SELECT e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published
@@ -241,7 +241,7 @@ function getEntriesWithPagingByPeriod($blogid, $period, $page, $count) {
 
 function getEntriesWithPagingBySearch($blogid, $search, $page, $count, $countItem) {
 	global $database, $folderURL, $suri;
-	$search = escapeMysqlSearchString($search);
+	$search = escapeSearchString($search);
 	$cond = strlen($search) == 0 ? 'AND 0' : "AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
 	$sql = "SELECT e.*, c.label categoryLabel 
@@ -287,7 +287,7 @@ function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count
 		}
 	}
 	if (!empty($search)) {
-		$search = escapeMysqlSearchString($search);
+		$search = escapeSearchString($search);
 		$sql .= " AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
 	}
 	$sql .= ' ORDER BY e.published DESC';

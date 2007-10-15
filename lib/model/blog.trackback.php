@@ -30,7 +30,7 @@ function getTrackbacksWithPagingForOwner($blogid, $category, $site, $ip, $search
 		$postfix .= '&ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
-		$search = escapeMysqlSearchString($search);
+		$search = escapeSearchString($search);
 		$sql .= " AND (t.site LIKE '%$search%' OR t.subject LIKE '%$search%' OR t.excerpt LIKE '%$search%')";
 		$postfix .= '&search=' . rawurlencode($search);
 	}
@@ -59,7 +59,7 @@ function getTrackbacks($entry) {
 function getTrackbackList($blogid, $search) {
 	global $database;
 	$list = array('title' => "$search", 'items' => array());
-	$search = escapeMysqlSearchString($search);
+	$search = escapeSearchString($search);
 	$authorized = doesHaveOwnership() ? '' : ' AND (ct.visibility > 1 OR e.category = 0)';
 	if ($result = DBQuery::query("SELECT t.id, t.entry, t.url, t.site, t.subject, t.excerpt, t.written, e.slogan
  		FROM {$database['prefix']}Trackbacks t

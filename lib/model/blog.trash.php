@@ -26,7 +26,7 @@ function getTrashTrackbackWithPagingForOwner($blogid, $category, $site, $ip, $se
 		$postfix .= '&ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
-		$search = escapeMysqlSearchString($search);
+		$search = escapeSearchString($search);
 		$sql .= " AND (t.site LIKE '%$search%' OR t.subject LIKE '%$search%' OR t.excerpt LIKE '%$search%')";
 		$postfix .= '&search=' . rawurlencode($search);
 	}
@@ -60,7 +60,7 @@ function getTrashCommentsWithPagingForOwner($blogid, $category, $name, $ip, $sea
 		$postfix .= '&ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
-		$search = escapeMysqlSearchString($search);
+		$search = escapeSearchString($search);
 		$sql .= " AND (c.name LIKE '%$search%' OR c.homepage LIKE '%$search%' OR c.comment LIKE '%$search%')";
 		$postfix .= '&search=' . rawurlencode($search);
 	}

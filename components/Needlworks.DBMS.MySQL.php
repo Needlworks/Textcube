@@ -25,6 +25,10 @@ class DBQuery {
 			$database['utf8'] = false;
 		@DBQuery::query('SET SESSION collation_connection = \'utf8_general_ci\'');
 	}
+	function unbind() {
+		mysql_close();
+		return true;
+	}
 	
 	/*@static@*/
 	function queryExistence($query) {
@@ -139,6 +143,20 @@ class DBQuery {
 	/*@static@*/
 	function execute($query) {
 		return DBQuery::query($query) ? true : false;
+	}
+
+	/*@static@*/
+	function multiQuery() {
+		$result = false;
+		foreach (func_get_args() as $query) {
+			if (is_array($query)) {
+				foreach ($query as $subquery)
+					if (($result = DBQuery::query($subquery)) === false)
+						return false;
+			} else if (($result = DBQuery::query($query)) === false)
+				return false;
+		}
+		return $result;
 	}
 
 	/*@static@*/

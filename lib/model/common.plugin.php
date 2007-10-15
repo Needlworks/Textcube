@@ -164,8 +164,7 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 	global $database;
 	if(doesExistTable($database['prefix'] . $name)) {
 		$keyname = 'Database_' . $name;
-		$value = $plugin;		
-		$query = "SELECT value FROM {$database['prefix']}ServiceSettings WHERE name='{$keyname}'";
+		$value = $plugin;
 		$result = getServiceSetting($keyname, null);
 		if (is_null($result)) {
 			$keyname = tc_escape_string(UTF8::lessenAsEncoding($keyname, 32));
