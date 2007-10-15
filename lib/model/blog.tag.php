@@ -13,16 +13,14 @@ function getTags($blogid, $entry) {
 	global $database;
 	$tags = array();
 	if (doesHaveOwnership())
-		$result = DBQuery::query("SELECT * FROM `{$database['prefix']}Tags` t, 
-			`{$database['prefix']}TagRelations` r 
-			WHERE t.id = r.tag AND r.entry = $entry AND r.blogid = $blogid 
+		$result = DBQuery::query("SELECT t.* FROM `{$database['prefix']}Tags` t
+			INNER JOIN `{$database['prefix']}TagRelations` r ON r.blogid = $blogid AND r.tag = t.id AND r.entry = $entry AND r.tag = t.id
 			GROUP BY r.tag 
 			ORDER BY t.name");
 	else
-		$result = DBQuery::query("SELECT * FROM `{$database['prefix']}Tags` t,
-			`{$database['prefix']}TagRelations` r, 
-			`{$database['prefix']}Entries` e 
-			WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.entry = $entry AND r.blogid = $blogid 
+		$result = DBQuery::query("SELECT t.* FROM `{$database['prefix']}Tags` t
+			INNER JOIN `{$database['prefix']}TagRelations` r ON r.blogid = $blogid AND r.entry = $entry AND r.tag = t.id
+			INNER JOIN `{$database['prefix']}Entries` e ON e.id = r.entry AND e.visibility > 0
 			GROUP BY r.tag 
 			ORDER BY t.name");
 	if ($result) {
@@ -39,8 +37,7 @@ function getRandomTags($blogid) {
 	if ($skinSetting['tagboxAlign'] == 1) { // order by count
 		if (doesHaveOwnership())
 			$tags = DBQuery::queryAll("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t, 
-				`{$database['prefix']}TagRelations` r 
-				WHERE t.id = r.tag and r.blogid = $blogid 
+				INNER JOIN `{$database['prefix']}TagRelations` r ON r.blogid = $blogid AND r.tag = t.id
 				GROUP BY r.tag 
 				ORDER BY cnt DESC $aux");
 		else

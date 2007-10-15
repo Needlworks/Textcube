@@ -123,7 +123,9 @@ function FM_TTML_bindKeywords($keywords, $content) {
 
 function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolutePath = false, $bRssMode = false) {
 	global $service, $hostURL, $blogURL;
+	requireModel('blog.attachment');
 	$blogid = getBlogId();
+	getAttachments($blogid, $entryId); // For attachment caching.
 	$view = str_replace('[##_ATTACH_PATH_##]', ($useAbsolutePath ? "$hostURL{$service['path']}/attach/$blogid" : $folderURL), $content);
 	$view = str_replace('http://tt_attach_path/', ($useAbsolutePath ? "$hostURL{$service['path']}/attach/$blogid/" : ($folderURL . '/')), $view);
 	$count = 0;

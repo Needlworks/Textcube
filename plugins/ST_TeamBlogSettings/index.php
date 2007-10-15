@@ -59,7 +59,7 @@ function getTeamProfile($userid){
 	requireComponent('Textcube.Function.misc');
 	$data = misc::fetchConfigVal($configVal);
 	getTeamBlogInitConfigVal($data);
-	$row = DBQuery::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =".getBlogId()." and userid=".$userid);
+	$row = DBQuery::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =".getBlogId()." AND userid=".$userid);
 	$imageStyle = $imageTag = $html = '';
 	if(!empty($row['image'])){
 		$imageSrc = "{$serviceURL}/attach/".getBlogId()."/team/".$row['image'];

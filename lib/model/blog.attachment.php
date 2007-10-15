@@ -3,26 +3,66 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+$__gAttachmentCache = array();
+
 function getAttachments($blogid, $parent, $orderBy = null, $sort='ASC') {
-	global $database;
+	global $database, $__gAttachmentCache;
+	if(isset($__gAttachmentCache)) {
+		if($result = getAttachmentsFromCache($blogid, $parent, 'parent')) {
+			return $__gAttachmentCache[$parent];
+		}
+	}
 	$attachments = array();
-	if ($result = DBQuery::queryAll("select * from {$database['prefix']}Attachments where blogid = $blogid and parent = $parent ".( is_null($orderBy ) ? '' : "ORDER BY $orderBy $sort"))) {
-		foreach($result as $attachment)
+	if ($result = DBQuery::queryAll("SELECT * 
+		FROM {$database['prefix']}Attachments 
+		WHERE blogid = $blogid and parent = $parent ".( is_null($orderBy ) ? '' : "ORDER BY $orderBy $sort"))) {
+		foreach($result as $attachment) {
 			array_push($attachments, $attachment);
+			array_push($__gAttachmentCache, $attachment);
+		}
 	}
 	return $attachments;
 }
 
+function getAttachmentsFromCache($blogid, $value, $filter = 'parent') {
+	global $__gAttachmentCache;
+	$result = array();
+	foreach($__gAttachmentCache as $id => $info) {
+		$row = array_search($value, $info);
+		if($row && $row == $filter) array_push($result,$__gAttachmentCache[$id]);
+	}
+	return $result;
+}
+
+function getAttachmentFromCache($blogid, $value, $filter = 'name') {
+	global $__gAttachmentCache;
+	foreach($__gAttachmentCache as $id => $info) {
+		$row = array_search($value, $info);
+		if($row && $row == $filter) return $__gAttachmentCache[$id];
+	}
+	return false;
+}
+
 function getAttachmentByName($blogid, $parent, $name) {
-	global $database;
-	$name = tc_escape_string($name);
-	return DBQuery::queryRow("select * from {$database['prefix']}Attachments where blogid = $blogid and parent = $parent and name = '$name'");
+	global $database, $__gAttachmentCache;
+	if(!isset($__gAttachmentCache))
+		getAttachments($blogid, $parent);
+	if($result = getAttachmentFromCache($blogid, $name, 'name') && $result['parent'] == $parent) {
+		return $result;
+	}
+	return false;
 }
 
 function getAttachmentByOnlyName($blogid, $name) {
-	global $database;
-	$name = tc_escape_string($name);
-	return DBQuery::queryRow("select * from {$database['prefix']}Attachments where blogid = $blogid and name = '$name'");
+	global $database, $__gAttachmentCache;
+	if(!empty($__gAttachmentCache) && $result = getAttachmentFromCache($blogid, $name, 'name')) {
+		return $result;
+	} else {
+		$newAttachment = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Attachments 
+			WHERE blogid = $blogid and name = '".tc_escape_string($name)."'");
+		array_push($__gAttachmentCache,$newAttachment);
+		return $newAttachment;
+	}
 }
 
 function getAttachmentByLabel($blogid, $parent, $label) {
