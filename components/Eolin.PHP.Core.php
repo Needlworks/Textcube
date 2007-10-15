@@ -162,7 +162,7 @@ class UTF8 {
 		return $length;
 	}
 	
-	function lessenAsEncoding($str, $length, $tail = '...') {
+	function lessenAsEncoding($str, $length = 255, $tail = '...') {
 		if(!isset($database['utf8']) || empty($database['utf8']) || $database['utf8'] == true)
 			return UTF8::lessen($str, $length, $tail);
 		else
