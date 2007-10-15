@@ -29,7 +29,7 @@ function getAttachmentsFromCache($blogid, $value, $filter = 'parent') {
 	$result = array();
 	foreach($__gAttachmentCache as $id => $info) {
 		$row = array_search($value, $info);
-		if($row && $row == $filter) array_push($result,$__gAttachmentCache[$id]);
+		if($row) array_push($result,$__gAttachmentCache[$id]);
 	}
 	return $result;
 }
