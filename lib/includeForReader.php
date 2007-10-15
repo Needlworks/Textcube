@@ -9,7 +9,6 @@ require 'function/time.php';
 require 'function/javascript.php';
 require 'function/html.php';
 require 'function/xml.php';
-require 'function/mysql.php';
 require 'function/misc.php';
 require 'function/image.php';
 require 'function/mail.php';

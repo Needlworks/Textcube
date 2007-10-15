@@ -46,12 +46,19 @@ class DBQuery {
 	function queryCount($query) {
 		$count = 0;
 		if ($result = DBQuery::query($query)) {
-			$count = mysql_num_rows($result);
-			mysql_free_result($result);
+			if( stristr($query, 'select ')) {
+				$count = mysql_num_rows($result);
+				mysql_free_result($result);
+			} else if (stristr($query, 'insert ') ||
+			stristr($query, 'update ') ||
+			stristr($query, 'delete ') ||
+			stristr($query, 'replace ') ) {
+				$count = mysql_affected_rows();
+			}
 		}
 		return $count;
 	}
-	
+
 	/*@static@*/
 	function queryCell($query, $field = 0, $useCache=true) {
 		$type = MYSQL_BOTH;

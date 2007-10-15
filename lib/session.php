@@ -18,9 +18,9 @@ function closeSession() {
 
 function readSession($id) {
 	global $database, $service;
-	if ($result = sessionQuery("SELECT data FROM {$database['prefix']}Sessions WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND updated >= (UNIX_TIMESTAMP() - {$service['timeout']})")) {
-		if ($session = mysql_fetch_array($result))
-			return $session['data'];
+	if ($result = sessionQuery("SELECT data FROM {$database['prefix']}Sessions 
+		WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND updated >= (UNIX_TIMESTAMP() - {$service['timeout']})")) {
+		return $result;
 	}
 	return '';
 }
@@ -37,25 +37,32 @@ function writeSession($id, $data) {
 	$request = tc_escape_string($_SERVER['REQUEST_URI']);
 	$referer = isset($_SERVER['HTTP_REFERER']) ? tc_escape_string($_SERVER['HTTP_REFERER']) : '';
 	$timer = getMicrotimeAsFloat() - $sessionMicrotime;
-	$result = DBQuery::query("UPDATE {$database['prefix']}Sessions SET userid = $userid, data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
-	if ($result && (mysql_affected_rows() == 1))
+	$result = DBQuery::queryCount("UPDATE {$database['prefix']}Sessions 
+			SET userid = $userid, data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() 
+			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
+	if ($result && $result == 1)
 		return true;
 	return false;
 }
 
 function destroySession($id, $setCookie = false) {
 	global $database;
-	@DBQuery::query("DELETE FROM {$database['prefix']}Sessions WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
+	@DBQuery::query("DELETE FROM {$database['prefix']}Sessions 
+		WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 	gcSession();
 }
 
 function gcSession($maxLifeTime = false) {
 	global $database, $service;
-	@DBQuery::query("DELETE FROM {$database['prefix']}Sessions WHERE updated < (UNIX_TIMESTAMP() - {$service['timeout']})");
-	$result = @sessionQuery("SELECT DISTINCT v.id, v.address FROM {$database['prefix']}SessionVisits v LEFT JOIN {$database['prefix']}Sessions s ON v.id = s.id AND v.address = s.address WHERE s.id IS NULL AND s.address IS NULL");
+	@DBQuery::query("DELETE FROM {$database['prefix']}Sessions 
+		WHERE updated < (UNIX_TIMESTAMP() - {$service['timeout']})");
+	$result = @sessionQueryAll("SELECT DISTINCT v.id, v.address 
+		FROM {$database['prefix']}SessionVisits v 
+		LEFT JOIN {$database['prefix']}Sessions s ON v.id = s.id AND v.address = s.address 
+		WHERE s.id IS NULL AND s.address IS NULL");
 	if ($result) {
 		$gc = array();
-		while ($g = mysql_fetch_row($result))
+		foreach ($result as $g)
 			array_push($gc, $g);
 		foreach ($gc as $g)
 			@DBQuery::query("DELETE FROM {$database['prefix']}SessionVisits WHERE id = '{$g[0]}' AND address = '{$g[1]}'");
@@ -66,8 +73,8 @@ function gcSession($maxLifeTime = false) {
 function getAnonymousSession() {
 	global $database;
 	$result = sessionQuery("SELECT id FROM {$database['prefix']}Sessions WHERE address = '{$_SERVER['REMOTE_ADDR']}' AND userid IS NULL AND preexistence IS NULL");
-	if ($result && (list($id) = mysql_fetch_array($result)))
-		return $id;
+	if ($result)
+		return $result;
 	return false;
 }
 
@@ -77,8 +84,8 @@ function newAnonymousSession() {
 		if (($id = getAnonymousSession()) !== false)
 			return $id;
 		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-		DBQuery::query("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
-		if (mysql_affected_rows() > 0)
+		$result = DBQuery::queryCount("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+		if ($result > 0)
 			return $id;
 	}
 	return false;
@@ -103,8 +110,8 @@ function newSession() {
 	global $database;
 	for ($i = 0; ($i < 100) && !setSessionAnonymous(); $i++) {
 		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-		$result = DBQuery::query("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) SELECT DISTINCT '$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
-		if (($result !== false) && (mysql_affected_rows() > 0)) {
+		$result = DBQuery::queryCount("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) SELECT DISTINCT '$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+		if ($result && $result > 0) {
 			session_id($id);
 			return true;
 		}
@@ -114,8 +121,12 @@ function newSession() {
 
 function isSessionAuthorized($id) {
 	global $database;
-	$result = DBQuery::query("select id from {$database['prefix']}Sessions where id = '$id' and address = '{$_SERVER['REMOTE_ADDR']}' and (userid is not null or preexistence is not null)");
-	if ($result && (mysql_num_rows($result) == 1))
+	$result = DBQuery::queryCell("SELECT id 
+		FROM {$database['prefix']}Sessions 
+		WHERE id = '$id' 
+			AND address = '{$_SERVER['REMOTE_ADDR']}' 
+			AND (userid IS NOT NULL OR preexistence IS NOT NULL)");
+	if ($result)
 		return true;
 	return false;
 }
@@ -140,8 +151,10 @@ function authorizeSession($blogid, $userid) {
 		return true;
 	for ($i = 0; $i < 100; $i++) {
 		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-		$result = DBQuery::query("INSERT INTO {$database['prefix']}Sessions(id, address, userid, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', $userid, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
-		if ($result && (mysql_affected_rows() == 1)) {
+		$result = DBQuery::queryCount("INSERT INTO {$database['prefix']}Sessions
+			(id, address, userid, created, updated) 
+			VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', $userid, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+		if ($result && $result == 1) {
 			@session_id($id);
 			setcookie('TSSESSION', $id, 0, $session_cookie_path, $service['domain']);
 			return true;
@@ -152,11 +165,24 @@ function authorizeSession($blogid, $userid) {
 
 function sessionQuery($sql) {
 	global $database, $sessionDBRepair;
-	$result = DBQuery::query($sql);
+	$result = DBQuery::queryCell($sql);
 	if($result === false) {
 		if (!isset($sessionDBRepair)) {		
 			DBQuery::query("REPAIR TABLE {$database['prefix']}Sessions");
-			$result = DBQuery::query($sql);
+			$result = DBQuery::queryCell($sql);
+			$sessionDBRepair = true;
+		}
+	}
+	return $result;
+}
+
+function sessionQueryAll($sql) {
+	global $database, $sessionDBRepair;
+	$result = DBQuery::queryAll($sql);
+	if($result === false) {
+		if (!isset($sessionDBRepair)) {		
+			DBQuery::query("REPAIR TABLE {$database['prefix']}Sessions");
+			$result = DBQuery::queryAll($sql);
 			$sessionDBRepair = true;
 		}
 	}
