@@ -179,12 +179,11 @@ class DBQuery {
 			} else {
 				$__gEscapeTag = 'none';
 			}
+		}
+		if($__gEscapeTag == 'real') {
+			return is_null($link) ? mysql_real_escape_string($string) : mysql_real_escape_string($string, $link);
 		} else {
-			if($__gEscapeTag == 'real') {
-				return is_null($link) ? mysql_real_escape_string($string) : mysql_real_escape_string($string, $link);
-			} else {
-				return mysql_escape_string($string);
-			}
+			return mysql_escape_string($string);
 		}
 	}
 	
