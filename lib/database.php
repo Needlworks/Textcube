@@ -15,12 +15,22 @@ function escapeSearchString($str) {
 
 function doesExistTable($tablename)
 {
+	requireModel('common.setting');
+
 	global $database;
-	static $tables = array();	
+	static $tables = array();
 	if( empty($tables) ) {
 		$escapename = escapeSearchString($database['prefix']);
 		$tables = DBQuery::queryColumn( "SHOW TABLES LIKE '{$escapename}%'" );
 	}
+	
+	$dbCaseInsensitive = getServiceSetting('lowercaseTableNames');
+	if($dbCaseInsensitive == null) {
+		$result = DBQuery::queryRow("SHOW VARIABLES LIKE 'lower_case_table_names'");
+		$dbCaseInsensitive = ($result['Value'] == 1) ? true : false;
+		setServiceSetting('lowercaseTableNames',$dbCaseInsensitive);
+	}
+	if($dbCaseInsensitive == true) $tablename = strtolower($tablename);
 	if( in_array( $tablename, $tables ) ) {
 		return true;
 	}

@@ -237,17 +237,22 @@ function deletePluginTable($name) {
 }
 
 function getPluginTableName() {
-	global $database;
 	requireModel('common.setting');
 
+	global $database;
+	
 	$likeEscape = array ( '/_/' , '/%/' );
 	$likeReplace = array ( '\\_' , '\\%' );
 	$escapename = preg_replace($likeEscape, $likeReplace, $database['prefix']);
-	$query = "show tables like '{$escapename}%'";
+	$query = "SHOW TABLES LIKE '{$escapename}%'";
 	$dbtables = DBQuery::queryColumn($query);
 
-	$result = DBQuery::queryRow("show variables like 'lower_case_table_names'");
-	$dbCaseInsensitive = ($result['Value'] == 1) ? true : false;
+	$dbCaseInsensitive = getServiceSetting('lowercaseTableNames');
+	if($dbCaseInsensitive == null) {
+		$result = DBQuery::queryRow("SHOW VARIABLES LIKE 'lower_case_table_names'");
+		$dbCaseInsensitive = ($result['Value'] == 1) ? true : false;
+		setServiceSetting('lowercaseTableNames',$dbCaseInsensitive);
+	}
 
 	$definedTables = getDefinedTableNames();
 
