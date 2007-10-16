@@ -27,10 +27,10 @@ function doesExistTable($tablename)
 	$dbCaseInsensitive = getServiceSetting('lowercaseTableNames');
 	if($dbCaseInsensitive == null) {
 		$result = DBQuery::queryRow("SHOW VARIABLES LIKE 'lower_case_table_names'");
-		$dbCaseInsensitive = ($result['Value'] == 1) ? true : false;
+		$dbCaseInsensitive = ($result['Value'] == 1) ? 1 : 0;
 		setServiceSetting('lowercaseTableNames',$dbCaseInsensitive);
 	}
-	if($dbCaseInsensitive == true) $tablename = strtolower($tablename);
+	if($dbCaseInsensitive == 1) $tablename = strtolower($tablename);
 	if( in_array( $tablename, $tables ) ) {
 		return true;
 	}

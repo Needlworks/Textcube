@@ -3,49 +3,50 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-$__gAttachmentCache = array();
+$__gCacheAttachment = array();
 
 function getAttachments($blogid, $parent, $orderBy = null, $sort='ASC') {
-	global $database, $__gAttachmentCache;
-	if(isset($__gAttachmentCache)) {
+	global $database, $__gCacheAttachment;
+	if(isset($__gCacheAttachment) && !empty($__gCacheAttachment)) {
 		if($result = getAttachmentsFromCache($blogid, $parent, 'parent')) {
-			return $__gAttachmentCache[$parent];
+			return $result;
 		}
 	}
 	$attachments = array();
 	if ($result = DBQuery::queryAll("SELECT * 
 		FROM {$database['prefix']}Attachments 
-		WHERE blogid = $blogid and parent = $parent ".( is_null($orderBy ) ? '' : "ORDER BY $orderBy $sort"))) {
+		WHERE blogid = $blogid AND parent = $parent ".( is_null($orderBy ) ? '' : "ORDER BY $orderBy $sort"))) {
 		foreach($result as $attachment) {
 			array_push($attachments, $attachment);
-			array_push($__gAttachmentCache, $attachment);
+			array_push($__gCacheAttachment, $attachment);
 		}
 	}
 	return $attachments;
 }
 
 function getAttachmentsFromCache($blogid, $value, $filter = 'parent') {
-	global $__gAttachmentCache;
+	global $__gCacheAttachment;
 	$result = array();
-	foreach($__gAttachmentCache as $id => $info) {
+	foreach($__gCacheAttachment as $id => $info) {
 		$row = array_search($value, $info);
-		if($row) array_push($result,$__gAttachmentCache[$id]);
+		if($row) array_push($result,$__gCacheAttachment[$id]);
 	}
 	return $result;
 }
 
 function getAttachmentFromCache($blogid, $value, $filter = 'name') {
-	global $__gAttachmentCache;
-	foreach($__gAttachmentCache as $id => $info) {
+	global $__gCacheAttachment;
+	foreach($__gCacheAttachment as $id => $info) {
 		$row = array_search($value, $info);
-		if($row && $row == $filter) return $__gAttachmentCache[$id];
+		//if($row && $row == $filter) return $__gCacheAttachment[$id];
+		if($row) return $__gCacheAttachment[$id];
 	}
 	return false;
 }
 
 function getAttachmentByName($blogid, $parent, $name) {
-	global $database, $__gAttachmentCache;
-	if(!isset($__gAttachmentCache))
+	global $database, $__gCacheAttachment;
+	if(!isset($__gCacheAttachment))
 		getAttachments($blogid, $parent);
 	if($result = getAttachmentFromCache($blogid, $name, 'name') && $result['parent'] == $parent) {
 		return $result;
@@ -54,13 +55,13 @@ function getAttachmentByName($blogid, $parent, $name) {
 }
 
 function getAttachmentByOnlyName($blogid, $name) {
-	global $database, $__gAttachmentCache;
-	if(!empty($__gAttachmentCache) && $result = getAttachmentFromCache($blogid, $name, 'name')) {
+	global $database, $__gCacheAttachment;
+	if(!empty($__gCacheAttachment) && $result = getAttachmentFromCache($blogid, $name, 'name')) {
 		return $result;
 	} else {
 		$newAttachment = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Attachments 
-			WHERE blogid = $blogid and name = '".tc_escape_string($name)."'");
-		array_push($__gAttachmentCache,$newAttachment);
+			WHERE blogid = $blogid AND name = '".tc_escape_string($name)."'");
+		array_push($__gCacheAttachment,$newAttachment);
 		return $newAttachment;
 	}
 }
@@ -70,7 +71,7 @@ function getAttachmentByLabel($blogid, $parent, $label) {
 	if ($parent === false)
 		$parent = 0;
 	$label = tc_escape_string($label);
-	return DBQuery::queryRow("select * from {$database['prefix']}Attachments where blogid = $blogid and parent = $parent and label = '$label'");
+	return DBQuery::queryRow("SELECT * FROM {$database['prefix']}Attachments WHERE blogid = $blogid AND parent = $parent AND label = '$label'");
 }
 
 function getAttachmentSize($blogid=null, $parent = null) {
@@ -81,8 +82,8 @@ function getAttachmentSize($blogid=null, $parent = null) {
 	if (!empty($blogid))
 		$blogidStr = "blogid = $blogid ";
 	if ($parent == 0 || !empty($parent))
-		$parentStr = "and parent = $parent";
-	return DBQuery::queryCell("select sum(size) from {$database['prefix']}Attachments where $blogidStr $parentStr");
+		$parentStr = "AND parent = $parent";
+	return DBQuery::queryCell("SELECT sum(size) FROM {$database['prefix']}Attachments WHERE $blogidStr $parentStr");
 }
 
 function getAttachmentSizeLabel($blogid=null, $parent = null) {
@@ -157,7 +158,7 @@ function deleteAttachment($blogid, $parent, $name) {
 		return false;
 	$origname = $name;
 	$name = tc_escape_string($name);
-	if (DBQuery::execute("delete from {$database['prefix']}Attachments where blogid = $blogid and name = '$name'") && (mysql_affected_rows() == 1)) {
+	if (DBQuery::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid AND name = '$name'") && (mysql_affected_rows() == 1)) {
 		@unlink(ROOT . "/attach/$blogid/$origname");
 		clearRSS();
 		return true;
@@ -171,13 +172,13 @@ function copyAttachments($blogid, $originalEntryId, $targetEntryId) {
 	$attachments = getAttachments($blogid, $originalEntryId);
 	if(empty($attachments)) return true;
 	if(!DBQuery::queryCell("SELECT id 
-		from {$database['prefix']}Entries
-		where blogid = $blogid
-			and id = $originalEntryId")) return 2; // original entry does not exists;
+		FROM {$database['prefix']}Entries
+		WHERE blogid = $blogid
+			AND id = $originalEntryId")) return 2; // original entry does not exists;
 	if(!DBQuery::queryCell("SELECT id 
-		from {$database['prefix']}Entries
-		where blogid = $blogid
-			and id = $targetEntryId")) return 3; // target entry does not exists;
+		FROM {$database['prefix']}Entries
+		WHERE blogid = $blogid
+			AND id = $targetEntryId")) return 3; // target entry does not exists;
 
 	foreach($attachments as $attachment) {
 		$extension = getFileExtension($attachment['label']);
@@ -226,7 +227,7 @@ function deleteAttachmentMulti($blogid, $parent, $names) {
 			continue;
 		$origname = $name;
 		$name = tc_escape_string($name);
-		if (DBQuery::execute("delete from {$database['prefix']}Attachments where blogid = $blogid and parent = $parent and name = '$name'") && (mysql_affected_rows() == 1)) {
+		if (DBQuery::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid AND parent = $parent AND name = '$name'") && (mysql_affected_rows() == 1)) {
 			unlink(ROOT . "/attach/$blogid/$origname");
 		} else {
 		}
@@ -256,7 +257,7 @@ function setEnclosure($name, $order) {
 	requireModel('blog.attachment');
 	$name = tc_escape_string($name);
 	if (($parent = DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND name = '$name'")) !== null) {
-		DBQuery::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 0 WHERE parent = $parent and blogid = ".getBlogId());
+		DBQuery::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 0 WHERE parent = $parent AND blogid = ".getBlogId());
 		if ($order) {
 			clearRSS();
 			return DBQuery::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 1 WHERE blogid = ".getBlogId()." AND name = '$name'") ? 1 : 2;

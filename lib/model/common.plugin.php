@@ -250,14 +250,14 @@ function getPluginTableName() {
 	$dbCaseInsensitive = getServiceSetting('lowercaseTableNames');
 	if($dbCaseInsensitive == null) {
 		$result = DBQuery::queryRow("SHOW VARIABLES LIKE 'lower_case_table_names'");
-		$dbCaseInsensitive = ($result['Value'] == 1) ? true : false;
+		$dbCaseInsensitive = ($result['Value'] == 1) ? 1 : 0;
 		setServiceSetting('lowercaseTableNames',$dbCaseInsensitive);
 	}
 
 	$definedTables = getDefinedTableNames();
 
 	$dbtables = array_values(array_diff($dbtables, $definedTables));
-	if ($dbCaseInsensitive == true) {
+	if ($dbCaseInsensitive == 1) {
 		$tempTables = $definedTables;
 		$definedTables = array();
 		foreach($tempTables as $table) {
