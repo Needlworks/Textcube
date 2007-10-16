@@ -36,12 +36,12 @@ function getRandomTags($blogid) {
 	$aux = ($skinSetting['tagsOnTagbox'] == - 1) ? '' : "limit {$skinSetting['tagsOnTagbox']}";
 	if ($skinSetting['tagboxAlign'] == 1) { // order by count
 		if (doesHaveOwnership())
-			$tags = DBQuery::queryAll("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t, 
+			$tags = DBQuery::queryAll("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t 
 				INNER JOIN `{$database['prefix']}TagRelations` r ON r.blogid = $blogid AND r.tag = t.id
 				GROUP BY r.tag 
 				ORDER BY cnt DESC $aux");
 		else
-			$tags = DBQuery::queryAll("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t, 
+			$tags = DBQuery::queryAll("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t 
 				`{$database['prefix']}TagRelations` r, 
 				`{$database['prefix']}Entries` e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
@@ -112,8 +112,7 @@ function getTagFrequencyRange() {
 			DESC LIMIT 1");
 	else
 		$max = DBQuery::queryCell("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r
-			INNER JOIN `{$database['prefix']}Entries` e 
-				ON e.blogid = r.blogid AND e.visibility > 0 AND r.entry = e.id
+			INNER JOIN `{$database['prefix']}Entries` e ON r.blogid = e.blogid AND e.visibility > 0 AND r.entry = e.id
 			WHERE r.blogid = $blogid 
 			GROUP BY r.tag 
 			ORDER BY `cnt` 

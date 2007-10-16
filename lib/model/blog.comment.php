@@ -173,7 +173,12 @@ function getComments($entry) {
 	$comments = array();
 	$authorized = doesHaveOwnership();
 	$aux = ($entry == 0 ? 'ORDER BY written DESC' : 'order by id ASC');
-	$sql = "select * from {$database['prefix']}Comments where blogid = ".getBlogId()." and entry = $entry and parent is null and isFiltered = 0 $aux";
+	$sql = "SELECT * 
+		FROM {$database['prefix']}Comments 
+		WHERE blogid = ".getBlogId()." 
+			AND entry = $entry 
+			AND parent IS NULL
+			AND isFiltered = 0 $aux";
 	if ($result = DBQuery::queryAll($sql)) {
 		foreach ($result as $comment) {
 			if (($comment['secret'] == 1) && !$authorized) {
@@ -193,7 +198,12 @@ function getCommentComments($parent) {
 	global $database;
 	$comments = array();
 	$authorized = doesHaveOwnership();
-	if ($result = DBQuery::queryAll("select * from {$database['prefix']}Comments where blogid = ".getBlogId()." and parent = $parent and isFiltered = 0 order by id")) {
+	if ($result = DBQuery::queryAll("SELECT * 
+		FROM {$database['prefix']}Comments 
+		WHERE blogid = ".getBlogId()." 
+		AND parent = $parent 
+		AND isFiltered = 0 
+		ORDER BY id")) {
 		foreach ($result as $comment) {
 			if (($comment['secret'] == 1) && !$authorized) {
 				if( !fireEvent('ShowSecretComment', false, $comment) ) {
@@ -212,19 +222,24 @@ function isCommentWriter($blogid, $commentId) {
 	global $database;
 	if (!doesHaveMembership())
 		return false;
-	return DBQuery::queryExistence("select replier 
+	return DBQuery::queryExistence("SELECT replier 
 			FROM {$database['prefix']}Comments 
-			WHERE blogid = $blogid and id = $commentId and replier = " . getUserId());
+			WHERE blogid = $blogid 
+				AND id = $commentId 
+				AND replier = " . getUserId());
 }
 
 function getComment($blogid, $id, $password) {
 	global $database;
-	$sql = "select * from {$database['prefix']}Comments where blogid = $blogid and id = $id";
+	$sql = "SELECT * 
+		FROM {$database['prefix']}Comments 
+		WHERE blogid = $blogid 
+			AND id = $id";
 	if (!doesHaveOwnership()) {
 		if (doesHaveMembership())
-			$sql .= ' and replier = ' . getUserId();
+			$sql .= ' AND replier = ' . getUserId();
 		else
-			$sql .= ' and password = \'' . md5($password) . '\'';
+			$sql .= ' AND password = \'' . md5($password) . '\'';
 	}
 	if ($result = DBQuery::queryAll($sql))
 		return $result;
@@ -235,11 +250,10 @@ function getCommentList($blogid, $search) {
 	global $database;
 	$list = array('title' => "$search", 'items' => array());
 	$search = escapeSearchString($search);
-	$authorized = doesHaveOwnership() ? '' : 'AND c.secret = 0 AND (ct.visibility > 1 OR e.category = 0)';
+	$authorized = doesHaveOwnership() ? '' : 'AND c.secret = 0 AND e.category NOT IN ('.getCategoryVisibilityList($blogid,'private').')';
 	if ($result = DBQuery::queryAll("SELECT c.id, c.entry, c.parent, c.name, c.comment, c.written, e.slogan
 		FROM {$database['prefix']}Comments c
 		INNER JOIN {$database['prefix']}Entries e ON c.entry = e.id AND c.blogid = e.blogid
-		INNER JOIN {$database['prefix']}Categories ct ON ct.id = e.category AND ct.blogid = c.blogid
 		WHERE c.entry > 0 
 			AND c.blogid = $blogid $authorized 
 			and c.isFiltered = 0 
@@ -253,8 +267,15 @@ function getCommentList($blogid, $search) {
 function updateCommentsOfEntry($blogid, $entryId) {
 	global $database;
 	requireComponent('Needlworks.Cache.PageCache');
-	$commentCount = DBQuery::queryCell("SELECT COUNT(*) From {$database['prefix']}Comments WHERE blogid = $blogid AND entry = $entryId AND isFiltered = 0");
-	DBQuery::query("UPDATE {$database['prefix']}Entries SET comments = $commentCount WHERE blogid = $blogid AND id = $entryId");
+	$commentCount = DBQuery::queryCell("SELECT COUNT(*) 
+		FROM {$database['prefix']}Comments 
+		WHERE blogid = $blogid 
+			AND entry = $entryId 
+			AND isFiltered = 0");
+	DBQuery::query("UPDATE {$database['prefix']}Entries 
+		SET comments = $commentCount 
+		WHERE blogid = $blogid 
+			AND id = $entryId");
 	if($entryId >=0) CacheControl::flushEntry($entryId);
 	return $commentCount;
 }
@@ -262,7 +283,13 @@ function updateCommentsOfEntry($blogid, $entryId) {
 function sendCommentPing($entryId, $permalink, $name, $homepage) {
 	global $database, $blog;
 	$blogid = getBlogId();
-	if($slogan = DBQuery::queryCell("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0 AND visibility = 3 AND acceptComment = 1")) {
+	if($slogan = DBQuery::queryCell("SELECT slogan 
+		FROM {$database['prefix']}Entries 
+		WHERE blogid = $blogid 
+			AND id = $entryId 
+			AND draft = 0 
+			AND visibility = 3 
+			AND acceptComment = 1")) {
 		requireComponent('Eolin.PHP.Core');
 		requireComponent('Eolin.PHP.XMLRPC');
 		$rpc = new XMLRPC();
@@ -308,7 +335,13 @@ function addComment($blogid, & $comment) {
 	$comment['comment'] = UTF8::lessenAsEncoding($comment['comment'], 65535);
 	
 	if (!doesHaveOwnership() && $comment['entry'] != 0) {
-		$result = DBQuery::query("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = {$comment['entry']} AND draft = 0 AND visibility > 0 AND acceptComment = 1");
+		$result = DBQuery::query("SELECT * 
+			FROM {$database['prefix']}Entries 
+			WHERE blogid = $blogid 
+				AND id = {$comment['entry']} 
+				AND draft = 0 
+				AND visibility > 0 
+				AND acceptComment = 1");
 		if (mysql_num_rows($result) == 0)
 			return false;
 	}
@@ -400,7 +433,11 @@ function updateComment($blogid, $comment, $password) {
 	$comment0 = tc_escape_string($comment['comment']);
 	
 	$guestcomment = false;
-	if (DBQuery::queryExistence("SELECT * from {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$comment['id']} AND replier IS NULL")) {
+	if (DBQuery::queryExistence("SELECT * 
+		FROM {$database['prefix']}Comments 
+		WHERE blogid = $blogid 
+			AND id = {$comment['id']} 
+			AND replier IS NULL")) {
 		$guestcomment = true;
 	}
 	
@@ -409,18 +446,18 @@ function updateComment($blogid, $comment, $password) {
 		if ($guestcomment == false) {
 			if (!doesHaveMembership())
 				return false;
-			$wherePassword = ' and replier = ' . getUserId();
+			$wherePassword = ' AND replier = ' . getUserId();
 		}
 		else
 		{
-			$wherePassword = ' and password = \'' . md5($password) . '\'';
+			$wherePassword = ' AND password = \'' . md5($password) . '\'';
 		}
 	}
 	
-	$replier = is_null($comment['replier']) ? 'null' : "'{$comment['replier']}'";
+	$replier = is_null($comment['replier']) ? 'NULL' : "'{$comment['replier']}'";
 	
-	$result = DBQuery::query("update {$database['prefix']}Comments
-				set
+	$result = DBQuery::query("UPDATE {$database['prefix']}Comments
+				SET
 					name = '$name',
 					$setPassword
 					homepage = '$homepage',
@@ -430,7 +467,8 @@ function updateComment($blogid, $comment, $password) {
 					written = UNIX_TIMESTAMP(),
 					isFiltered = {$comment['isFiltered']},
 					replier = {$replier}
-				where blogid = $blogid and id = {$comment['id']} $wherePassword");
+				WHERE blogid = $blogid 
+					AND id = {$comment['id']} $wherePassword");
 	return $result ? true : false;
 }
 
@@ -441,27 +479,30 @@ function deleteComment($blogid, $id, $entry, $password) {
 	if (!is_numeric($entry)) return false;
 		
 	$guestcomment = false;
-	if (DBQuery::queryExistence("SELECT * from {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id AND replier IS NULL")) {
+	if (DBQuery::queryExistence("SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id AND replier IS NULL")) {
 		$guestcomment = true;
 	}
 	
 	$wherePassword = '';
 	
-	$sql = "delete from {$database['prefix']}Comments where blogid = $blogid and id = $id and entry = $entry";
+	$sql = "DELETE FROM {$database['prefix']}Comments 
+		WHERE blogid = $blogid 
+			AND id = $id 
+			AND entry = $entry";
 	if (!doesHaveOwnership()) {
 		if ($guestcomment == false) {
 			if (!doesHaveMembership()) {
 				return false;
 			}
-			$wherePassword = ' and replier = ' . getUserId();
+			$wherePassword = ' AND replier = ' . getUserId();
 		}
 		else
 		{
-			$wherePassword = ' and password = \'' . md5($password) . '\'';
+			$wherePassword = ' AND password = \'' . md5($password) . '\'';
 		}
 	}
 	if(DBQuery::queryExistence($sql . $wherePassword)) {
-		DBQuery::query("delete from {$database['prefix']}Comments where blogid = $blogid and parent = $id");
+		DBQuery::query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND parent = $id");
 		updateCommentsOfEntry($blogid, $entry);
 		return true;
 	}
@@ -475,9 +516,17 @@ function trashComment($blogid, $id, $entry, $password) {
 	}
 	if (!is_numeric($id)) return false;
 	if (!is_numeric($entry)) return false;
-	$sql = "update {$database['prefix']}Comments set isFiltered = UNIX_TIMESTAMP() where blogid = $blogid and id = $id and entry = $entry";
+	$sql = "UPDATE {$database['prefix']}Comments 
+		SET isFiltered = UNIX_TIMESTAMP() 
+		WHERE blogid = $blogid 
+			AND id = $id 
+			AND entry = $entry";
 	$affected = DBQuery::queryCount($sql);
-	$sql = "update {$database['prefix']}Comments set isFiltered = UNIX_TIMESTAMP() where blogid = $blogid and parent = $id and entry = $entry";
+	$sql = "UPDATE {$database['prefix']}Comments 
+		SET isFiltered = UNIX_TIMESTAMP() 
+		WHERE blogid = $blogid 
+			AND parent = $id 
+			AND entry = $entry";
 	$affectedChildren = DBQuery::queryCount($sql);
 	if ($affected + $affectedChildren > 0) {
 		updateCommentsOfEntry($blogid, $entry);
@@ -495,7 +544,11 @@ function revertComment($blogid, $id, $entry, $password) {
 	}
 	if (!is_numeric($id)) return false;
 	if (!is_numeric($entry)) return false;
-	$sql = "update {$database['prefix']}Comments set isFiltered = 0 where blogid = $blogid and id = $id and entry = $entry";
+	$sql = "UPDATE {$database['prefix']}Comments 
+		SET isFiltered = 0 
+		WHERE blogid = $blogid 
+			AND id = $id 
+			AND entry = $entry";
 	if(DBQuery::queryExistence($sql)) {
 		updateCommentsOfEntry($blogid, $entry);
 		return true;
@@ -521,7 +574,7 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false) {
 			INNER JOIN {$database['prefix']}Entries e ON r.blogid = e.blogid AND r.entry = e.id
 			INNER JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id
 		WHERE 
-			r.blogid = $blogid AND e.draft = 0 AND e.visibility >= 2 AND (c.visibility > 1 OR e.category = 0) "
+			r.blogid = $blogid AND e.draft = 0 AND e.visibility >= 2 AND e.category NOT IN (".getCategoryVisibilityList($blogid,'private').")"
 			.($isGuestbook != false ? " AND r.entry = 0" : " AND r.entry > 0")." AND r.isFiltered = 0 
 		ORDER BY 
 			r.written 

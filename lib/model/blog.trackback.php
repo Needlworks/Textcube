@@ -60,17 +60,16 @@ function getTrackbackList($blogid, $search) {
 	global $database;
 	$list = array('title' => "$search", 'items' => array());
 	$search = escapeSearchString($search);
-	$authorized = doesHaveOwnership() ? '' : ' AND (ct.visibility > 1 OR e.category = 0)';
-	if ($result = DBQuery::query("SELECT t.id, t.entry, t.url, t.site, t.subject, t.excerpt, t.written, e.slogan
+	$authorized = doesHaveOwnership() ? '' : ' AND e.category NOT IN ('.getCategoryVisibilityList($blogid,'private').')';
+	if ($result = DBQuery::queryAll("SELECT t.id, t.entry, t.url, t.site, t.subject, t.excerpt, t.written, e.slogan
  		FROM {$database['prefix']}Trackbacks t
-			LEFT JOIN {$database['prefix']}Entries e ON t.entry = e.id AND t.blogid = e.blogid
-			LEFT JOIN {$database['prefix']}Categories ct ON ct.id = e.category AND ct.blogid = t.blogid
-			WHERE t.entry > 0 
-				AND t.blogid = $blogid $authorized 
-				AND t.isFiltered = 0 
-				AND (t.excerpt like '%$search%' OR t.subject like '%$search%')")) {
-			while ($comment = mysql_fetch_array($result))
-				array_push($list['items'], $comment);
+		LEFT JOIN {$database['prefix']}Entries e ON t.entry = e.id AND t.blogid = e.blogid
+		WHERE t.entry > 0 
+			AND t.blogid = $blogid $authorized 
+			AND t.isFiltered = 0 
+			AND (t.excerpt like '%$search%' OR t.subject like '%$search%')")) {
+		foreach($result as $comment)	
+			array_push($list['items'], $comment);
 	}   
 	return $list;
 }
@@ -92,9 +91,12 @@ function getRecentTrackbacks($blogid, $count = false) {
 		FROM 
 			{$database['prefix']}Trackbacks t 
 			LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id
-			LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id
 		WHERE 
-			t.blogid = $blogid AND e.draft = 0 AND e.visibility >= 2 AND (c.visibility > 1 OR e.category = 0) AND t.isFiltered = 0 
+			t.blogid = $blogid 
+			AND t.isFiltered = 0 
+			AND e.draft = 0 
+			AND e.visibility >= 2 
+			AND e.category NOT IN (".getCategoryVisibilityList($blogid,'private').") 
 		ORDER BY 
 			t.written 
 		DESC LIMIT ".($count = false ? $count : $skinSetting['trackbacksOnRecent']);
