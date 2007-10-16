@@ -5,10 +5,10 @@
 
 function getEntriesTotalCount($blogid) {
 	global $database;
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
+	//$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND e.category NOT IN ('.getCategoryVisibilityList($blogid).')';
 	return DBQuery::queryCell("SELECT COUNT(*) 
 		FROM {$database['prefix']}Entries e
-		INNER JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.blogid = c.blogid 
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0");
 }
 

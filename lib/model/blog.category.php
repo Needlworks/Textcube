@@ -6,6 +6,7 @@
 // global variables for Category information cache
 $__gCacheCategoryTree = array();
 $__gCacheCategoryRaw = array();
+$__gCacheCategoryVisibilityList = array();
 
 function getCategoryId($blogid, $name, $parentName = false) {
 	global $database;
@@ -102,6 +103,28 @@ function getCategories($blogid, $format = 'tree') {
 	}
 	$__gCacheCategoryTree = $categories;
 	return $categories;
+}
+
+function getCategoryVisibilityList($blogid, $mode = 'private') {
+	global $database;
+	global $__gCacheCategoryVisibilityList;
+	
+	if(!array_key_exists($mode,$__gCacheCategoryVisibilityList)) {
+		switch($mode) {
+			case 'public':
+				$visibility = '> 1';
+				break;
+			case 'private':
+			default:
+				$visibility = '< 2';
+		}
+		$list = DBQuery::queryColumn("SELECT id
+			FROM {$database['prefix']}Categories
+			WHERE blogid = $blogid
+				AND visibility ".$visibility);
+		$__gCacheCategoryVisibilityList[$mode] = implode(', ',$list); 
+	}
+	return $__gCacheCategoryVisibilityList[$mode];
 }
 
 function getCategoriesSkin() {
