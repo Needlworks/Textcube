@@ -6,13 +6,13 @@
 function getStatistics($blogid) {
 	global $database;
 	$stats = array('total' => 0, 'today' => 0, 'yesterday' => 0);
-	$result = DBQuery::query("select visits from {$database['prefix']}BlogStatistics where blogid = $blogid");
+	$result = DBQuery::query("SELECT visits FROM {$database['prefix']}BlogStatistics WHERE blogid = $blogid");
 	if (!empty($result) && mysql_num_rows($result) == 1)
 		list($stats['total']) = mysql_fetch_array($result);
-	$result = DBQuery::query("select visits from {$database['prefix']}DailyStatistics where blogid = $blogid and `date` = " . Timestamp::getDate());
+	$result = DBQuery::query("SELECT visits FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid AND `date` = " . Timestamp::getDate());
 	if (!empty($result) && mysql_num_rows($result) == 1)
 		list($stats['today']) = mysql_fetch_array($result);
-	$result = DBQuery::query("select visits from {$database['prefix']}DailyStatistics where blogid = $blogid and `date` = " . Timestamp::getDate(time() - 86400));
+	$result = DBQuery::query("SELECT visits FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid AND `date` = " . Timestamp::getDate(time() - 86400));
 	if (!empty($result) && mysql_num_rows($result) == 1)
 		list($stats['yesterday']) = mysql_fetch_array($result);
 	return $stats;
@@ -26,7 +26,7 @@ function getDailyStatistics($period) {
 function getMonthlyStatistics($blogid) {
 	global $database;
 	$statistics = array();
-	if ($result = DBQuery::query("select left(date, 6) date, sum(visits) visits from {$database['prefix']}DailyStatistics where blogid = $blogid group by left(date, 6) order by date desc")) {
+	if ($result = DBQuery::query("SELECT left(date, 6) date, sum(visits) visits FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid group by left(date, 6) order by date desc")) {
 		while ($record = mysql_fetch_array($result))
 			array_push($statistics, $record);
 	}
@@ -36,7 +36,7 @@ function getMonthlyStatistics($blogid) {
 function getRefererStatistics($blogid) {
 	global $database;
 	$statistics = array();
-	if ($result = DBQuery::query("select host, count from {$database['prefix']}RefererStatistics where blogid = $blogid order by count desc limit 20")) {
+	if ($result = DBQuery::query("SELECT host, count FROM {$database['prefix']}RefererStatistics WHERE blogid = $blogid order by count desc limit 20")) {
 		while ($record = mysql_fetch_array($result))
 			array_push($statistics, $record);
 	}
@@ -60,20 +60,20 @@ function updateVisitorStatistics($blogid) {
 	if (doesHaveOwnership())
 		return;
 	$id = session_id();
-	$result = DBQuery::query("select blog from {$database['prefix']}SessionVisits where id = '$id' and address = '{$_SERVER['REMOTE_ADDR']}' and blog = $blogid");
+	$result = DBQuery::query("SELECT blog FROM {$database['prefix']}SessionVisits WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND blog = $blogid");
 	if ($result && (mysql_num_rows($result) > 0))
 		return;
-	if (DBQuery::query("insert into {$database['prefix']}SessionVisits values('$id', '{$_SERVER['REMOTE_ADDR']}', $blogid)") && (mysql_affected_rows() > 0)) {
-		DBQuery::query("update {$database['prefix']}BlogStatistics set visits = visits + 1 where blogid = $blogid");
+	if (DBQuery::query("INSERT into {$database['prefix']}SessionVisits values('$id', '{$_SERVER['REMOTE_ADDR']}', $blogid)") && (mysql_affected_rows() > 0)) {
+		DBQuery::query("UPDATE {$database['prefix']}BlogStatistics SET visits = visits + 1 WHERE blogid = $blogid");
 		if (mysql_affected_rows() == 0) {
-			if (DBQuery::query("update {$database['prefix']}BlogStatistics set visits = visits + 1 where blogid = $blogid") || (mysql_affected_rows() == 0))
-				DBQuery::query("insert into {$database['prefix']}BlogStatistics values($blogid, 1)");
+			if (DBQuery::query("UPDATE {$database['prefix']}BlogStatistics SET visits = visits + 1 WHERE blogid = $blogid") || (mysql_affected_rows() == 0))
+				DBQuery::query("INSERT into {$database['prefix']}BlogStatistics values($blogid, 1)");
 		}
 		$period = Timestamp::getDate();
-		DBQuery::query("update {$database['prefix']}DailyStatistics set visits = visits + 1 where blogid = $blogid and `date` = $period");
+		DBQuery::query("UPDATE {$database['prefix']}DailyStatistics SET visits = visits + 1 WHERE blogid = $blogid AND `date` = $period");
 		if (mysql_affected_rows() == 0) {
-			if (!DBQuery::query("insert into {$database['prefix']}DailyStatistics values($blogid, $period, 1)") || (mysql_affected_rows() == 0))
-				DBQuery::query("update {$database['prefix']}DailyStatistics set visits = visits + 1 where blogid = $blogid and `date` = $period");
+			if (!DBQuery::query("INSERT into {$database['prefix']}DailyStatistics values($blogid, $period, 1)") || (mysql_affected_rows() == 0))
+				DBQuery::query("UPDATE {$database['prefix']}DailyStatistics SET visits = visits + 1 WHERE blogid = $blogid AND `date` = $period");
 		}
 		if (!empty($_SERVER['HTTP_REFERER'])) {
 			$referer = parse_url($_SERVER['HTTP_REFERER']);
@@ -85,10 +85,10 @@ function updateVisitorStatistics($blogid) {
 					return;
 				$host = tc_escape_string(UTF8::lessenAsEncoding($referer['host'], 64));
 				$url = tc_escape_string(UTF8::lessenAsEncoding($_SERVER['HTTP_REFERER'], 255));
-				DBQuery::query("insert into {$database['prefix']}RefererLogs values($blogid, '$host', '$url', UNIX_TIMESTAMP())");
-				DBQuery::query("delete from {$database['prefix']}RefererLogs where referred < UNIX_TIMESTAMP() - 604800");
-				if (!DBQuery::query("update {$database['prefix']}RefererStatistics set count = count + 1 where blogid = $blogid and host = '$host'") || (mysql_affected_rows() == 0))
-					DBQuery::query("insert into {$database['prefix']}RefererStatistics values($blogid, '$host', 1)");
+				DBQuery::query("INSERT into {$database['prefix']}RefererLogs values($blogid, '$host', '$url', UNIX_TIMESTAMP())");
+				DBQuery::query("DELETE FROM {$database['prefix']}RefererLogs WHERE referred < UNIX_TIMESTAMP() - 604800");
+				if (!DBQuery::query("UPDATE {$database['prefix']}RefererStatistics SET count = count + 1 WHERE blogid = $blogid AND host = '$host'") || (mysql_affected_rows() == 0))
+					DBQuery::query("INSERT into {$database['prefix']}RefererStatistics values($blogid, '$host', 1)");
 			}
 		}
 	}
@@ -100,9 +100,9 @@ function setTotalStatistics($blogid) {
 	$prevCount = DBQuery::queryCell("SELECT visits FROM {$database['prefix']}BlogStatistics WHERE blogid = $blogid");
 	if ((!is_null($prevCount)) && ($prevCount == 0))
 		return true;
-	DBQuery::query("update {$database['prefix']}BlogStatistics set visits = 0 where blogid = $blogid");
+	DBQuery::query("UPDATE {$database['prefix']}BlogStatistics SET visits = 0 WHERE blogid = $blogid");
 	if (mysql_affected_rows() == 0)
-		DBQuery::query("insert into {$database['prefix']}BlogStatistics values($blogid, 0)");
+		DBQuery::query("INSERT into {$database['prefix']}BlogStatistics values($blogid, 0)");
 	return mysql_affected_rows() ? true : false;
 }
 ?>

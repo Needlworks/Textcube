@@ -25,28 +25,40 @@ function getCategoryId($blogid, $name, $parentName = false) {
 }
 
 function getCategoryIdByLabel($blogid, $label) {
-	global $database;
+	requireComponent('Needlworks.Cache.PageCache');
+
+	global $__gCacheCategoryRaw;
 	if (empty($label))
 		return 0;
+
 	$label = tc_escape_string($label);
-	return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND label = '$label'");
+	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
+	if($result = MMCache::queryRow($__gCacheCategoryRaw,'label',$label))
+		return $result['id'];
+	else return null;
 }
 
 function getCategoryNameById($blogid, $id) {
-	global $database;
-	$result = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id");
-	if (is_null($result))
-		return _text('전체');
-	else
-		return $result;
+	requireComponent('Needlworks.Cache.PageCache');
+
+	global $__gCacheCategoryRaw;
+
+	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
+	if($result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id))
+		return $result['name'];
+	else return _text('전체');
 }
 
 function getCategoryBodyIdById($blogid, $id) {
-	global $database;
-	$result = DBQuery::queryCell("SELECT bodyId FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id");
+	requireComponent('Needlworks.Cache.PageCache');
+
+	global $__gCacheCategoryRaw;
+
+	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
+	$result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id);
 	if (($id === 0) || ($result == '') || ($id === null))
 		return 'tt-body-category';
-	return $result;
+	else return (getServiceSetting('lowercaseTableNames') ? $result['bodyid'] : $result['bodyId']);
 }
 
 function getCategoryLabelById($blogid, $id) {
@@ -81,7 +93,7 @@ function getCategories($blogid, $format = 'tree') {
 	$rows = DBQuery::queryAllWithCache("SELECT * 
 			FROM {$database['prefix']}Categories 
 			WHERE blogid = $blogid 
-				AND id > 0 
+				AND id >= 0 
 			ORDER BY parent, priority");
 	$categories = array();
 	if( empty($rows) ) {
@@ -148,8 +160,14 @@ function getCategoriesSkin() {
 }
 
 function getParentCategoryId($blogid, $id) {
-	global $database;
-	return DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id");
+	requireComponent('Needlworks.Cache.PageCache');
+
+	global $__gCacheCategoryRaw;
+
+	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
+	if($result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id))
+		return $result['parent'];
+	return null;
 }
 
 function getNumberChildCategory($id = null) {
