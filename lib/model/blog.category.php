@@ -9,19 +9,22 @@ $__gCacheCategoryRaw = array();
 $__gCacheCategoryVisibilityList = array();
 
 function getCategoryId($blogid, $name, $parentName = false) {
-	global $database;
-	
-	$name = tc_escape_string($name);
-	if ($parentName === false)
-		$sql = "SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND name = '$name'";
-	else {
-		$parentName = tc_escape_string($parentName);
-		$sql = "SELECT c.id 
-			FROM {$database['prefix']}Categories c 
-			LEFT JOIN {$database['prefix']}Categories c2 ON c.parent = c2.id AND c.blogid = c2.blogid 
-			WHERE c.blogid = $blogid AND c.name = '$name' AND c2.name = '$parentName'";
+	requireComponent('Needlworks.Cache.PageCache');
+
+	global $__gCacheCategoryRaw;
+
+	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
+	if($result = MMCache::queryRow($__gCacheCategoryRaw,'name',$name)) {
+		if($parentName == false) {
+			return $result['id'];
+		} else {
+			$parent = MMCache::queryRow($__gCacheCategoryRaw,'name',$parentName);
+			if($parent['id'] == $result['parent']) return $result['id'];
+		}
 	}
-	return DBQuery::queryCell($sql);
+
+	return null;
+
 }
 
 function getCategoryIdByLabel($blogid, $label) {
@@ -62,12 +65,17 @@ function getCategoryBodyIdById($blogid, $id) {
 }
 
 function getCategoryLabelById($blogid, $id) {
-	global $database;
+	requireComponent('Needlworks.Cache.PageCache');
+
+	global $__gCacheCategoryRaw;
+
 	if ($id === null)
 		return '';
-//	if ($id === 0)
-//		return _text('분류 전체보기');
-	return DBQuery::queryCell("SELECT label FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id");
+
+	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
+	if($result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id))
+		return $result['label'];
+	else return _text('분류 전체보기');
 }
 
 function getCategoryLinkById($blogid, $id) {
@@ -118,23 +126,23 @@ function getCategories($blogid, $format = 'tree') {
 }
 
 function getCategoryVisibilityList($blogid, $mode = 'private') {
-	global $database;
-	global $__gCacheCategoryVisibilityList;
+	requireComponent('Needlworks.Cache.PageCache');
+
+	global $__gCacheCategoryVisibilityList, $__gCacheCategoryRaw;
 	
 	if(!array_key_exists($mode,$__gCacheCategoryVisibilityList)) {
 		switch($mode) {
 			case 'public':
-				$visibility = '> 1';
+				$visibility = 2;
 				break;
 			case 'private':
 			default:
-				$visibility = '< 2';
+				$visibility = 1;
 		}
-		$list = DBQuery::queryColumn("SELECT id
-			FROM {$database['prefix']}Categories
-			WHERE blogid = $blogid
-				AND visibility ".$visibility);
-		$__gCacheCategoryVisibilityList[$mode] = implode(', ',$list); 
+		if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
+		if($list = MMCache::queryColumn($__gCacheCategoryRaw,'visibility',1,'id')) {
+			$__gCacheCategoryVisibilityList[$mode] = implode(', ',$list);
+		}
 	}
 	return $__gCacheCategoryVisibilityList[$mode];
 }

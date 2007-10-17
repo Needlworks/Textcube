@@ -301,6 +301,8 @@ class CacheControl{
 }
 
 class MMCache{
+	var $variable;
+	
 	//Variable must be the table form. (2-dimensional recursive structure)
 	function queryRow($var, $key, $value) {
 		$init = false;
@@ -322,6 +324,18 @@ class MMCache{
 				$init = true;
 			}
 			if($row[$key] == $value) array_push($result, $row);
+		}
+		return $result;
+	}
+	function queryColumn($var, $key, $value, $column){
+		$init = false;
+		$result = array();
+		foreach($var as $row){
+			if($init == false) {
+				if(!isset($row[$key])) return false;
+				$init = true;
+			}
+			if($row[$key] == $value) array_push($result, $row[$column]);
 		}
 		return $result;
 	}

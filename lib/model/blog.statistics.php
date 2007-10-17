@@ -20,13 +20,21 @@ function getStatistics($blogid) {
 
 function getDailyStatistics($period) {
 	global $database, $blogid;
-	return DBQuery::queryAll("SELECT date, visits FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid AND LEFT(date, 6) = $period ORDER BY date DESC");
+	return DBQuery::queryAll("SELECT date, visits 
+		FROM {$database['prefix']}DailyStatistics 
+		WHERE blogid = $blogid 
+			AND LEFT(date, 6) = $period 
+		ORDER BY date DESC");
 }
 
 function getMonthlyStatistics($blogid) {
 	global $database;
 	$statistics = array();
-	if ($result = DBQuery::query("SELECT left(date, 6) date, sum(visits) visits FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid group by left(date, 6) order by date desc")) {
+	if ($result = DBQuery::query("SELECT left(date, 6) date, sum(visits) visits 
+		FROM {$database['prefix']}DailyStatistics 
+		WHERE blogid = $blogid 
+		GROUP BY left(date, 6) 
+		ORDER BY date DESC")) {
 		while ($record = mysql_fetch_array($result))
 			array_push($statistics, $record);
 	}
@@ -85,7 +93,7 @@ function updateVisitorStatistics($blogid) {
 					return;
 				$host = tc_escape_string(UTF8::lessenAsEncoding($referer['host'], 64));
 				$url = tc_escape_string(UTF8::lessenAsEncoding($_SERVER['HTTP_REFERER'], 255));
-				DBQuery::query("INSERT into {$database['prefix']}RefererLogs values($blogid, '$host', '$url', UNIX_TIMESTAMP())");
+				DBQuery::query("INSERT INTO {$database['prefix']}RefererLogs values($blogid, '$host', '$url', UNIX_TIMESTAMP())");
 				DBQuery::query("DELETE FROM {$database['prefix']}RefererLogs WHERE referred < UNIX_TIMESTAMP() - 604800");
 				if (!DBQuery::query("UPDATE {$database['prefix']}RefererStatistics SET count = count + 1 WHERE blogid = $blogid AND host = '$host'") || (mysql_affected_rows() == 0))
 					DBQuery::query("INSERT into {$database['prefix']}RefererStatistics values($blogid, '$host', 1)");
@@ -102,7 +110,7 @@ function setTotalStatistics($blogid) {
 		return true;
 	DBQuery::query("UPDATE {$database['prefix']}BlogStatistics SET visits = 0 WHERE blogid = $blogid");
 	if (mysql_affected_rows() == 0)
-		DBQuery::query("INSERT into {$database['prefix']}BlogStatistics values($blogid, 0)");
+		DBQuery::query("INSERT INTO {$database['prefix']}BlogStatistics values($blogid, 0)");
 	return mysql_affected_rows() ? true : false;
 }
 ?>
