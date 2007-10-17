@@ -147,13 +147,13 @@ function getTagFrequency($tag, $max, $min) {
 		} 
 		if (doesHaveOwnership())
 			$count = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, 
-				`{$database['prefix']}TagRelations` r 
-				WHERE t.id = r.tag AND r.blogid = $blogid AND t.name = '" . tc_escape_string($tag['name']) . "'");
+				INNER JOIN `{$database['prefix']}TagRelations` r ON r.tag = t.id AND r.blogid = $blogid
+				WHERE t.name = '" . tc_escape_string($tag['name']) . "'");
 		else
 			$count = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, 
-				`{$database['prefix']}TagRelations` r, 
-				`{$database['prefix']}Entries` e 
-				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = e.blogid AND r.blogid = $blogid AND t.name = '" . tc_escape_string($tag['name']) . "'");
+				INNER JOIN `{$database['prefix']}TagRelations` r ON r.blogid = $blogid AND r.tag = t.id 
+				INNER JOIN `{$database['prefix']}Entries` e ON e.blogid = r.blogid e.id = r.entry AND e.visibility > 0 
+				WHERE t.name = '" . tc_escape_string($tag['name']) . "'");
 	}
 	$dist = $max / 3;
 	if ($count == $min)
@@ -171,14 +171,17 @@ function getTagFrequency($tag, $max, $min) {
 function suggestLocalTags($blogid, $filter) {
 	global $database;
 	$tags = array();
-	$result = DBQuery::query("select distinct name, count(*) cnt from {$database['prefix']}Tags, 
-		{$database['prefix']}TagRelations 
-		where id = tag and blogid = $blogid and $filter 
-		group by tag 
-		order by cnt 
-		desc limit 10");
+	$result = DBQuery::queryAll("SELECT DISTINCT t.name, count(*) cnt 
+		FROM {$database['prefix']}Tags t 
+		INNER JOIN {$database['prefix']}TagRelations r
+		WHERE t.id = r.tag 
+			AND r.blogid = $blogid
+			AND $filter 
+		GROUP BY tag 
+		ORDER BY cnt 
+		DESC LIMIT 10");
 	if ($result) {
-		while ($tag = mysql_fetch_array($result))
+		foreach($result as $tag)
 			array_push($tags, $tag[0]);
 	}
 	return $tags;
