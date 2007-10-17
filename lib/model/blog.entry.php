@@ -5,7 +5,7 @@
 
 function getEntriesTotalCount($blogid) {
 	global $database;
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND e.category NOT IN ('.getCategoryVisibilityList($blogid,'private').')';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND e.category '.getPrivateCategoryExclusionQuery($blogid);
 	return DBQuery::queryCell("SELECT COUNT(*) 
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0");
@@ -117,7 +117,7 @@ function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	} else {
 		$cond = 'AND e.category >= 0';
-		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND e.category NOT IN ('.getCategoryVisibilityList($blogid,'private').')';
+		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND e.category '.getPrivateCategoryExclusionQuery($blogid);
 	}
 
 	$sql = "SELECT e.blogid,e.userid,e.id,e.title,e.comments,e.slogan,e.published
@@ -132,7 +132,7 @@ function getEntryListWithPagingByTag($blogid, $tag, $page, $count) {
 	if ($tag === null)
 		return array(array(), array('url'=>'','prefix'=>'','postfix'=>''));	
 	$tag = tc_escape_string($tag);
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND e.category NOT IN ('.getCategoryVisibilityList($blogid,'private').')';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND e.category '.getPrivateCategoryExclusionQuery($blogid);
 	$sql = "SELECT e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.blogid = t.blogid 
@@ -144,7 +144,7 @@ function getEntryListWithPagingByTag($blogid, $tag, $page, $count) {
 function getEntryListWithPagingByPeriod($blogid, $period, $page, $count) {
 	global $database, $suri, $folderURL;
 	$cond = "AND e.published >= " . getTimeFromPeriod($period) . " AND e.published < " . getTimeFromPeriod(addPeriod($period));
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND e.category NOT IN ('.getCategoryVisibilityList($blogid,'private').')';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND e.category '.getPrivateCategoryExclusionQuery($blogid);
 	$sql = "SELECT e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond 
@@ -156,7 +156,7 @@ function getEntryListWithPagingBySearch($blogid, $search, $page, $count) {
 	global $database, $suri, $folderURL;
 	$search = escapeSearchString($search);
 	$cond = strlen($search) == 0 ? 'AND 0' : "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND e.category NOT IN ('.getCategoryVisibilityList($blogid,'private').')';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND e.category '.getPrivateCategoryExclusionQuery($blogid);
 	$sql = "SELECT e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond 
@@ -202,7 +202,7 @@ function getEntriesWithPagingByTag($blogid, $tag, $page, $count, $countItem = nu
 	if ($tag === null)
 		return fetchWithPaging(null, $page, $count, "$folderURL/{$suri['value']}");
 	$tag = tc_escape_string($tag);
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND e.category NOT IN ('.getCategoryVisibilityList($blogid,'private').')';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND e.category '.getPrivateCategoryExclusionQuery($blogid);
 	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
@@ -339,7 +339,7 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false) {
 	$entries = array();
 	$paging = initPaging("$blogURL/entry", '/');
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
-	$visibility .= ($isNotice || doesHaveOwnership()) ? '' : ' AND e.category NOT IN ('.getCategoryVisibilityList($blogid,'private').')';
+	$visibility .= ($isNotice || doesHaveOwnership()) ? '' : ' AND e.category '.getPrivateCategoryExclusionQuery($blogid);
 	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
 	$result = DBQuery::query("SELECT e.id, e.userid, e.slogan, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
@@ -398,7 +398,7 @@ function getSlogan($slogan) {
 function getRecentEntries($blogid) {
 	global $database, $skinSetting;
 	$entries = array();
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND e.category NOT IN ('.getCategoryVisibilityList($blogid,'private').')';
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND e.category '.getPrivateCategoryExclusionQuery($blogid);
 	$result = DBQuery::query("SELECT e.id, e.userid, e.title, e.slogan, e.comments 
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 

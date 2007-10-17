@@ -127,6 +127,12 @@ function getCategoryVisibilityList($blogid, $mode = 'private') {
 	return $__gCacheCategoryVisibilityList[$mode];
 }
 
+function getPrivateCategoryExclusionQuery($blogid) {
+	$exclusionList = getCategoryVisibilityList($blogid, 'private');
+	if($exclusionList == null) return '';
+	return ' NOT IN ('.$exclusionList.')';
+}
+
 function getCategoriesSkin() {
 	global $database, $service;
 	$setting = getSkinSetting(getBlogId());

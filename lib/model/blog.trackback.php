@@ -60,7 +60,7 @@ function getTrackbackList($blogid, $search) {
 	global $database;
 	$list = array('title' => "$search", 'items' => array());
 	$search = escapeSearchString($search);
-	$authorized = doesHaveOwnership() ? '' : ' AND e.category NOT IN ('.getCategoryVisibilityList($blogid,'private').')';
+	$authorized = doesHaveOwnership() ? '' : ' AND e.category '.getPrivateCategoryExclusionQuery($blogid);
 	if ($result = DBQuery::queryAll("SELECT t.id, t.entry, t.url, t.site, t.subject, t.excerpt, t.written, e.slogan
  		FROM {$database['prefix']}Trackbacks t
 		LEFT JOIN {$database['prefix']}Entries e ON t.entry = e.id AND t.blogid = e.blogid
@@ -255,7 +255,7 @@ function sendTrackback($blogid, $entryId, $url) {
 
 function getTrackbackLog($blogid, $entry) {
 	global $database;
-	$result = DBQuery::query("select * from {$database['prefix']}TrackbackLogs where blogid = $blogid and entry = $entry");
+	$result = DBQuery::query("SELECT * FROM {$database['prefix']}TrackbackLogs WHERE blogid = $blogid AND entry = $entry");
 	$str = '';
 	while ($row = mysql_fetch_array($result)) {
 		$str .= $row['id'] . ',' . $row['url'] . ',' . Timestamp::format5($row['written']) . '*';
@@ -266,7 +266,7 @@ function getTrackbackLog($blogid, $entry) {
 function getTrackbackLogs($blogid, $entryId) {
 	global $database;
 	$logs = array();
-	$result = DBQuery::query("select * from {$database['prefix']}TrackbackLogs where blogid = $blogid and entry = $entryId");
+	$result = DBQuery::query("SELECT * FROM {$database['prefix']}TrackbackLogs WHERE blogid = $blogid AND entry = $entryId");
 	while ($log = mysql_fetch_array($result))
 		array_push($logs, $log);
 	return $logs;
@@ -274,7 +274,7 @@ function getTrackbackLogs($blogid, $entryId) {
 
 function deleteTrackbackLog($blogid, $id) {
 	global $database;
-	$result = DBQuery::query("delete from {$database['prefix']}TrackbackLogs where blogid = $blogid and id = $id");
+	$result = DBQuery::query("delete from {$database['prefix']}TrackbackLogs WHERE blogid = $blogid AND id = $id");
 	return ($result && (mysql_affected_rows() == 1)) ? true : false;
 }
 
