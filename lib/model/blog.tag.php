@@ -41,7 +41,7 @@ function getRandomTags($blogid) {
 				GROUP BY r.tag 
 				ORDER BY cnt DESC $aux");
 		else
-			$tags = DBQuery::queryAll("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t 
+			$tags = DBQuery::queryAll("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t,
 				`{$database['prefix']}TagRelations` r, 
 				`{$database['prefix']}Entries` e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
