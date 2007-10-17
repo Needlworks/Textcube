@@ -45,14 +45,18 @@ class DBQuery {
 	/*@static@*/
 	function queryCount($query) {
 		$count = 0;
+		$query = trim($query);
 		if ($result = DBQuery::query($query)) {
-			if( stristr($query, 'select ')) {
+			$operation = strtolower(substr($query, 0, strpos($query, ' ')));
+			switch ($operation) {
+			case 'select':
 				$count = mysql_num_rows($result);
 				mysql_free_result($result);
-			} else if (stristr($query, 'insert ') ||
-			stristr($query, 'update ') ||
-			stristr($query, 'delete ') ||
-			stristr($query, 'replace ') ) {
+				break;
+			case 'insert':
+			case 'update':
+			case 'delete':
+			case 'replace':
 				$count = mysql_affected_rows();
 			}
 		}
