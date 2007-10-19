@@ -3,6 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+global $__gCacheAttachment;
 $__gCacheAttachment = array();
 
 function getAttachments($blogid, $parent, $orderBy = null, $sort='ASC') {
