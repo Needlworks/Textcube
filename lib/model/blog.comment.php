@@ -241,7 +241,7 @@ function getComment($blogid, $id, $password) {
 		else
 			$sql .= ' AND password = \'' . md5($password) . '\'';
 	}
-	if ($result = DBQuery::queryAll($sql))
+	if ($result = DBQuery::queryRow($sql))
 		return $result;
 	return false;
 }

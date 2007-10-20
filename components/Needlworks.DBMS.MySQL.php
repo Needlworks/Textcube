@@ -57,7 +57,9 @@ class DBQuery {
 			case 'update':
 			case 'delete':
 			case 'replace':
+			default:
 				$count = mysql_affected_rows();
+				mysql_free_result();
 			}
 		}
 		return $count;
