@@ -4,6 +4,8 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 // global variables for Category information cache
+global $__gCacheCategoryTree, $__gCacheCategoryRaw, $__gCacheCategoryVisibilityList;
+
 $__gCacheCategoryTree = array();
 $__gCacheCategoryRaw = array();
 $__gCacheCategoryVisibilityList = array();
@@ -142,6 +144,8 @@ function getCategoryVisibilityList($blogid, $mode = 'private') {
 		if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
 		if($list = MMCache::queryColumn($__gCacheCategoryRaw,'visibility',1,'id')) {
 			$__gCacheCategoryVisibilityList[$mode] = implode(', ',$list);
+		} else {
+			$__gCacheCategoryVisibilityList[$mode] = array();
 		}
 	}
 	return $__gCacheCategoryVisibilityList[$mode];
