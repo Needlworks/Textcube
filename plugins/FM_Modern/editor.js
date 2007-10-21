@@ -160,10 +160,12 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	}
 
 	// 디자인모드로 변경한다
+	// Changing to browser desingmode.
 	try { this.contentDocument.designMode = "on"; }
 	catch(e) { return; }
 
 	// IFRAME 안에 HTML을 작성한다
+	// Put HTML code into IFRAME
 	this.contentDocument.open("text/html", "replace");
 	this.contentDocument.write('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">');
 	this.contentDocument.write('<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko"><head><meta http-equiv="content-type" content="text/html; charset=utf-8" />');
@@ -184,6 +186,7 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	var _this = this; // make new scope closure
 
 	// IFRAME 내에서 발생하는 이벤트 핸들러를 연결
+	// Connect event handlers occurring in IFRAME
 	STD.addEventListener(this.contentDocument);
 	var eventHandler = function(event) { _this.eventHandler(event); };
 	this.contentDocument.addEventListener("mousedown", eventHandler, false);
@@ -279,6 +282,7 @@ TTModernEditor.prototype.syncEditorWindow = function() {
 }
 
 // TTML로 작성된 파일을 HTML 뷰에 뿌려주기 위해 변환
+// Convert TTML-format to HTML view
 TTModernEditor.prototype.ttml2html = function() {
 	var str = this.textarea.value;
 
@@ -418,20 +422,20 @@ TTModernEditor.prototype.ttml2html = function() {
 	while(result = regImage.exec(str))
 		str = str.replaceAll(result[0], 'class="tatterImageFree" longdesc="' + result[1] + '" src="' + this.propertyFilePath.substring(0, this.propertyFilePath.length - 1) + result[1].replaceAll("[##_ATTACH_PATH_##]", ""));
 
-	// Object 처리
+	// Object manipulation
 	var objects = getTagChunks(str, "object");
 	for(i in objects) {
 		str = str.replaceAll(objects[i], '<img class="tatterObject" src="' + servicePath + adminSkin + '/image/spacer.gif"' + this.parseImageSize(objects[i], "string", "css") + ' longDesc="' + this.objectSerialize(objects[i]) + '" />');
 	}
 
-	// Flash 처리
+	// Flash manipulation
 	var regEmbed = new RegExp("<embed([^<]*?)application/x-shockwave-flash(.*?)></embed>", "i");
 	while(result = regEmbed.exec(str)) {
 	    var body = result[0];
 	    str = str.replaceAll(body, '<img class="tatterFlash" src="' + servicePath + adminSkin + '/image/spacer.gif"' + this.parseImageSize(body, "string", "css") + ' longDesc="' + this.parseAttribute(body, "src") + '"/>');
 	}
 
-	// Embed 처리
+	// Embed manipulation
 	var regEmbed = new RegExp("<embed([^<]*?)></embed>", "i");
 	while(result = regEmbed.exec(str)) {
 	    var body = result[0];
@@ -442,26 +446,27 @@ TTModernEditor.prototype.ttml2html = function() {
 }
 
 // IFRAME에 작성된 HTML을 태터툴즈 텍스트 에디터에서 볼 수 있는 TTML로 전환
+// Convert HTML on designmode IFRAME to TTML format.
 TTModernEditor.prototype.html2ttml = function() {
 	var str = this.contentDocument.body.innerHTML;
 
-	// more/less 처리
+	// more/less handling
 	str = this.morelessConvert(str);
 
-	// 빈줄을 br 태그로
+	// 빈 줄을 BR 태그로 변환 convert empty line to BR tag.
 	str = str.replace(new RegExp("<p[^>]*?>&nbsp;</p>", "gi"), "<br />");
 
-	// <br> 을 <br />로
+	// <br>을 <br />로 변환 <br> to <br />
 	str = str.replaceAll("<br>", "<br />");
 	str = str.replaceAll("<BR>", "<br />");
 
-	// 빈 태그 제거
+	// 빈 태그 제거 Remove empty tags
 	str = str.replace(new RegExp("<(\\w+)[^>]*></\\1>", "gi"), "");
 
-	// 쓸모없는 &nbsp; 제거
+	// 쓸모없는 &nbsp; 제거 Remove useless &nbsp; tag.
 	str = str.replace(new RegExp("([^> ])&nbsp;([^ ])", "gi"), "$1 $2");
 
-	// 비어있는 a 태그 제거
+	// 비어있는 a 태그 제거 Remove blank anchor tag.
 	var regEmptyAnchor = new RegExp("<a>(((?!<a>).)*?)</a>", "i");
 	while(result = regEmptyAnchor.exec(str))
 		str = str.replaceAll(result[0], result[1]);
@@ -507,7 +512,7 @@ TTModernEditor.prototype.html2ttml = function() {
 		longdesc = longdesc.replace(new RegExp("(height=[\"']?)\\d*", "i"), "$1" + size[1]);
 		longdesc = longdesc.split("|");
 
-		// TT 1.0 alpha ~ 1.0.1까지 쓰던 Gallery 치환자를 위한 코드
+		// TT 1.0 alpha ~ 1.0.1까지 쓰던 Gallery 치환자를 위한 코드 Legacy code for TT 1.0 alpha to 1.0.1
 		if(longdesc.length % 2 == 1)
 			longdesc.length--;
 
@@ -519,7 +524,7 @@ TTModernEditor.prototype.html2ttml = function() {
 		str = str.replaceAll(body, "[##_Gallery|" + files + this.unHtmlspecialchars(trim(longdesc[longdesc.length-1])) + "_##]");
 	}
 
-	// Jukebox 처리
+	// Jukebox 처리 Jukebox handling
 	var regJukebox = new RegExp("<img[^>]*class=[\"']?tatterJukebox[^>]*>", "i");
 	while(result = regJukebox.exec(str)) {
 		var body = result[0];
@@ -602,6 +607,7 @@ TTModernEditor.prototype.morelessConvert_process = function(string) {
 
 // 위지윅 모드에서 치환자 이미지를 클릭했을때 편집창 옆에 속성창을 보여준다
 // true를 반환할 경우 해당 obj는 하나의 오브젝트(이미지 등)로 처리해야 함을 의미
+// Show property window when click images at WYGIWYG mode.
 TTModernEditor.prototype.showProperty = function(obj)
 {
 	this.selectedAnchorElement = null;
@@ -1664,8 +1670,8 @@ TTModernEditor.prototype.eventHandler = function(event) {
 			break;
 		case "keypress":
 			var range = this.getSelectionRange();
-
 			if(event.keyCode == 13) {
+			alert(range);
 				if(this.newLineToParagraph) {
 					if(STD.isFirefox && !event.shiftKey) {
 						// TODO : put a p tag
@@ -1698,6 +1704,7 @@ TTModernEditor.prototype.eventHandler = function(event) {
 }
 
 // execCommand 후 불필요하게 삽입된 여백등을 제거해준다
+// Excluse useless blanks after execCommand.
 TTModernEditor.prototype.trimContent = function() {
 	var html = this.contentDocument.body.innerHTML;
 	html = html.replace(new RegExp("<p>\\s*(<br\\s/?)+", "gi"), "<p>");
@@ -1708,8 +1715,13 @@ TTModernEditor.prototype.trimContent = function() {
 	this.contentDocument.body.innerHTML = html;
 }
 
+// correct HTML tags generated by browser desingmode to XHTML compartible
 TTModernEditor.prototype.correctContent = function() {
-	var html = this.contentDocument.body.innerHTML;
+	if(isWYSIWYG) {
+		var html = this.contentDocument.body.innerHTML;
+	} else {
+		var html = this.textarea.value;
+	}
 	var dmodeExprs = new Array("font-weight: bold;",
 		"font-style: italic;",
 		"text-decoration: underline;",
@@ -1723,7 +1735,18 @@ TTModernEditor.prototype.correctContent = function() {
 		while(result = regTag.exec(html))
 			html = html.replaceAll(result[0], "<"+xhtmlExprs[i]+">"+result[1]+"</"+xhtmlExprs[i]+">");
 	}
-	this.contentDocument.body.innerHTML = html;
+
+	// Make tags strict.
+	html = html.replace(new RegExp("<b([^>]*?)>(.*?)</b>", "gi"), "<strong$1>$2</strong>"); 
+	html = html.replace(new RegExp("<i([^>]*?)>(.*?)</i>", "gi"), "<em$1>$2</em>"); 
+	html = html.replace(new RegExp("<u([^>]*?)>(.*?)</u>", "gi"), "<ins$1>$2</ins>"); 
+	html = html.replace(new RegExp("<strike([^>]*?)>(.*?)</strike>", "gi"), "<del$1>$2</del>"); 
+	
+	if(isWYSIWYG) {
+		this.contentDocument.body.innerHTML = html;
+	} else {
+		this.textarea.value = html;
+	}
 }
 
 
