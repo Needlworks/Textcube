@@ -1618,6 +1618,9 @@ TTModernEditor.prototype.command = function(command, value1, value2) {
 			} else
 				insertTag(this.textarea, value1, value2);
 	}
+	if(isWYSIWYG) {
+		this.correctContent();
+	}
     this.changeButtonStatus(null, null);
 	try { this.contentDocument.body.focus(); } catch(e) { }
 }
@@ -1704,6 +1707,25 @@ TTModernEditor.prototype.trimContent = function() {
 	html = html.replace(new RegExp("</p>\\s*</li>", "gi"), "</li>");
 	this.contentDocument.body.innerHTML = html;
 }
+
+TTModernEditor.prototype.correctContent = function() {
+	var html = this.contentDocument.body.innerHTML;
+	var dmodeExprs = new Array("font-weight: bold;",
+		"font-style: italic;",
+		"text-decoration: underline;",
+		"text-decoration: line-through;");
+	var xhtmlExprs = new Array("strong",
+		"em",
+		"ins",
+		"del");
+	for(var i in dmodeExprs) {
+		var regTag = new RegExp('<span style="'+dmodeExprs[i]+'">((?:.|\\s)*?)</span>', "gi");
+		while(result = regTag.exec(html))
+			html = html.replaceAll(result[0], "<"+xhtmlExprs[i]+">"+result[1]+"</"+xhtmlExprs[i]+">");
+	}
+	this.contentDocument.body.innerHTML = html;
+}
+
 
 // HTML 문자열 또는 오브젝트에서 오브젝트 크기를 추출
 TTModernEditor.prototype.parseImageSize = function(target, type, mode) {
@@ -2067,7 +2089,7 @@ TTModernEditor.prototype.nl2br = function(str) {
 
 // 스타일 속성, 태그 제거
 TTModernEditor.prototype.removeFormatting = function(str) {
-	var styleTags = new Array("b", "strong", "i", "em", "u", "ins", "strike", "del", "font");
+	var styleTags = new Array("b", "strong", "i", "em", "u", "ins", "strike", "del", "font", "div");
 	for(var i in styleTags) {
 		var regTag = new RegExp("</?" + styleTags[i] + "(?:>| [^>]*>)", "i");
 		while(result = regTag.exec(str))
