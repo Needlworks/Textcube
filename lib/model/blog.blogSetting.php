@@ -291,7 +291,6 @@ function addBlog($blogid, $userid, $identify) {
 		$password = DBQuery::queryCell("SELECT password
 			FROM {$database['prefix']}Users
 			WHERE userid = ".$userid);
-		$blogName = getBlogName($blogid);
 		if (empty($email) || empty($identify))
 			return 1; // Not enough information to create blog.
 		if (!preg_match('/^[^@]+@([a-zA-Z0-9]+\.)+[-a-zA-Z0-9]+$/', $email))
