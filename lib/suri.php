@@ -66,7 +66,7 @@ if ($depth > 0) {
 		$suri['directive'] = $matches[1];
 		if ($matches[3] !== false) {
 			if($service['useRewriteEngine'] === false) {
-				$suri['value'] = str_replace('index.php','',$matches[3]);
+				$suri['value'] = str_replace('index.php?','',$matches[3]);
 			} else {
 				$suri['value'] = $matches[3];
 			}

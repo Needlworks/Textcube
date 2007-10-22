@@ -16,8 +16,14 @@ $IV = array(
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
-if (setTreeSetting($blogid, $_POST)) {
-	header("Location: $blogURL/owner/skin/setting");
+if(isset($suri['id'])) {
+	$categories = getCategories($blogid);
+	printRespond(array('code' => urlencode(getCategoriesViewInSkinSetting(getEntriesTotalCount($blogid), getCategories($blogid), $suri['id']))));
+	exit;
 } else {
+	if (setTreeSetting($blogid, $_POST)) {
+		header("Location: $blogURL/owner/skin/setting");
+	} else {
+	}
 }
 ?>

@@ -5,6 +5,19 @@
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForReader.php';
 requireStrictRoute();
+
+if(isset($suri['id'])) {
+	if ($feed = DBQuery::queryRow("SELECT * 
+		FROM {$database['prefix']}Feeds 
+		WHERE id = {$suri['id']}")) {
+		respondResultPage(updateFeed($feed));
+		exit;
+	} else {
+		respondResultPage(-1);
+		exit;
+	}
+}
+
 set_time_limit(360);
 ob_implicit_flush();
 ?>
