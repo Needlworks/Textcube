@@ -133,4 +133,14 @@ function deleteFilesByRegExp($path, $regexp) {
 	}
 	return true;
 }
+
+function parseURL($path) {
+	global $service;
+	if($service['useRewriteEngine'] == false) {
+		$urlFragment = explode('?',trim($path));
+		if(count($urlFragment) == 1) $path = $urlFragment[0].'/index.php';
+		else $path = $urlFragment[0].'/index.php?'.$urlFragment[1];
+	}
+	return $path;
+}
 ?>

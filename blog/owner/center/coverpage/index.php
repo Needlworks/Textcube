@@ -113,7 +113,7 @@ function pretty_dress($view)
 	dress('search_name', 'search', $searchView);
 	dress('search_text', isset($search) ? htmlspecialchars($search) : '', $searchView);
 	dress('search_onclick_submit', 'searchBlog()', $searchView);
-	dress('search', '<form id="TTSearchForm" action="'.$blogURL.'/search/" method="get" onsubmit="return searchBlog()" style="margin:0;padding:0;display:inline">'.$searchView.'</form>', $view);
+	dress('search', '<form id="TTSearchForm" action="'.parseURL($blogURL.'/search/').'" method="get" onsubmit="return searchBlog()" style="margin:0;padding:0;display:inline">'.$searchView.'</form>', $view);
 	
 	dress('category', $pd_category, $view);
 	dress('category_list', $pd_categoryXhtml, $view);
@@ -228,7 +228,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useCoverpageInit'])
 
 getBlogContentForCoverPage();
 ?>
-						<form id="part-coverpage-order" class="part" method="post" action="<?php echo $blogURL; ?>/owner/center/coverpage">
+						<form id="part-coverpage-order" class="part" method="post" action="<?php echo parseURL($blogURL.'/owner/center/coverpage');?>">
 							<h2 class="caption"><span class="main-text"><?php echo _t('표지를 관리합니다');?></span></h2>
 <?php
 	if(isset($skin->cover)) {
@@ -338,7 +338,7 @@ for ($i=0; $i<$coverpageCount; $i++) {
 <?php
 				} else {
 ?>
-														<a href="<?php echo $blogURL; ?>/owner/center/coverpage/order/?coverpageNumber=<?php echo $i;?>&amp;targetcoverpageNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>&amp;targetPos=<?php echo $j - 1;?><?php echo $viewMode;?>" title="<?php echo _t('이 표지 모듈을 위로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_moveup_module.jpg" border="0" alt="<?php echo _t('위로');?>" /></a>
+														<a href="<?php echo parseURL($blogURL.'/owner/center/coverpage/order/?coverpageNumber='.$i.'&amp;targetcoverpageNumber='.$i.'&amp;modulePos='.$j.'&amp;targetPos='.($j - 1).$viewMode);?>" title="<?php echo _t('이 표지 모듈을 위로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_moveup_module.jpg" border="0" alt="<?php echo _t('위로');?>" /></a>
 <?php
 				}
 				
@@ -348,11 +348,11 @@ for ($i=0; $i<$coverpageCount; $i++) {
 <?php
 				} else {
 ?>
-														<a href="<?php echo $blogURL; ?>/owner/center/coverpage/order/?coverpageNumber=<?php echo $i;?>&amp;targetcoverpageNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?>&amp;targetPos=<?php echo $j + 2;?><?php echo $viewMode;?>" title="<?php echo _t('이 표지 모듈을 아래로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_movedown_module.jpg" border="0" alt="<?php echo _t('아래로');?>" /></a>
+														<a href="<?php echo parseURL($blogURL.'/owner/center/coverpage/order/?coverpageNumber='.$i.'&amp;targetcoverpageNumber='.$i.'&amp;modulePos='.$j.'&amp;targetPos='.($j + 2).$viewMode);?>" title="<?php echo _t('이 표지 모듈을 아래로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_movedown_module.jpg" border="0" alt="<?php echo _t('아래로');?>" /></a>
 <?php
 				}
 ?>
-														<a href="<?php echo $blogURL; ?>/owner/center/coverpage/delete/?coverpageNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?><?php echo $viewMode;?>" title="<?php echo _t('이 표지 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.gif" border="0" alt="<?php echo _t('삭제');?>" /></a>
+														<a href="<?php echo parseURL($blogURL.'/owner/center/coverpage/delete/?coverpageNumber='.$i.'&amp;modulePos='.$j.$viewMode);?>" title="<?php echo _t('이 표지 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.gif" border="0" alt="<?php echo _t('삭제');?>" /></a>
 														<!-- TODO : coverpage plugin settting -->									
 													</div>
 <?php 
@@ -360,7 +360,7 @@ for ($i=0; $i<$coverpageCount; $i++) {
 				if (count($pluginparameters) > 0) {
 ?>
 													<div class="edit-button-box">
-														<a href="<?php echo $blogURL; ?>/owner/center/coverpage/edit?coverpageNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?><?php echo $viewMode;?>"><?php echo _t('편집');?></a>
+														<a href="<?php echo parseURL($blogURL.'/owner/center/coverpage/edit?coverpageNumber='.$i.'&amp;modulePos='.$j.$viewMode);?>"><?php echo _t('편집');?></a>
 													</div>
 <?php 
 				}
@@ -433,7 +433,6 @@ foreach ($coverpagePluginArray as $nowKey) {
 								<em>* <?php echo _t('표지의 위치는 스킨의 구조에 따라 달라집니다.');?></em>
 							</p>
 						</form>
-						
 						<script src="<?php echo $service['path'];?>/script/dojo/dojo.js" type="text/javascript"></script>
 						<script src="<?php echo $service['path'];?>/script/coverpage.js" type="text/javascript"></script>
 						<script type="text/javascript">
@@ -467,7 +466,17 @@ foreach ($coverpagePluginArray as $nowKey) {
 												p2Node = p2Node.nextSibling;
 											}
 											if (p2Node != null) {
+<?php
+	if($service['useRewriteEngine'] == false) {
+?>
+												p2Node.href = blogURL + "/owner/center/coverpage/delete/index.php?coverpageNumber=" + pNode.coverpageNumber + "&modulePos=" + pNode.modulePos + viewMode;
+<?php
+	} else {
+?>
 												p2Node.href = blogURL + "/owner/center/coverpage/delete/?coverpageNumber=" + pNode.coverpageNumber + "&modulePos=" + pNode.modulePos + viewMode;
+<?php
+	}
+?>
 											}
 											
 											if ((pNode.moduleCategory == 'plugin') && (pNode.hasPropertyEdit == true)) {

@@ -157,7 +157,7 @@ if (false) {
 	fetchConfigVal();
 }
 ?>	
-						<form id="tempForm" method="post" action="<?php echo $blogURL;?>/owner/center/dashboard">
+						<form id="tempForm" method="post" action="<?php echo parseURL($blogURL.'/owner/center/dashboard');?>">
 <?php
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useTTdashboard']))) {
 	$textcubeDashboard = getBlogSetting("textcubeDashboard");
@@ -438,7 +438,7 @@ if (!isset($_REQUEST['edit']) && Acl::check('group.owners')) {
 								<dl id="independent-notice-line" class="line">
 									<dt><?php echo _t('정보 패널 설정');?></dt>
 									<dd>
-										<input type="checkbox" class="checkbox" id="useTTdashboard" name="useTTdashboard" value="on" onclick="changeList()"<?php echo $textcubeDashboard == 1 ? " checked" : NULL;?> />
+										<input type="checkbox" class="checkbox" id="useTTdashboard" name="useTTdashboard" value="on" onclick="changeList();return false;"<?php echo $textcubeDashboard == 1 ? " checked" : NULL;?> />
 										<label for="useTTdashboard"><?php echo _t('블로그 정보를 보여주는 패널을 사용합니다');?></label>
 									</dd>
 								</dl>
