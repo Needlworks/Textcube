@@ -8,6 +8,10 @@ $IV = array(
 	'GET' => array(
 		'visibility' => array('int', 0, 3, 'default' => 0),
 		'command' =>  array('string', 'mandatory' => false)
+		),
+	'POST' => array(
+		'visibility' => array('int', 0, 3, 'default' => 0),
+		'command' =>  array('string', 'mandatory' => false)
 		)
 	);
 

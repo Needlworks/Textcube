@@ -313,6 +313,7 @@ HTTPRequest.prototype.verion      = "1.0";
 HTTPRequest.prototype.copyright   = "Copyright (c) 2005, Tatter & Company / Needlworks / Tatter Network Foundation. All rights reserved.";
 HTTPRequest.prototype.method      = "GET";
 HTTPRequest.prototype.url         = null;
+HTTPRequest.prototype.correcturl  = false;
 HTTPRequest.prototype.contentType = "application/x-www-form-urlencoded";
 HTTPRequest.prototype.content     = "";
 HTTPRequest.prototype.async       = true;
@@ -335,14 +336,14 @@ function HTTPRequest() {
 		case 0:
 			break;
 		case 1:
-			this.url=arguments[0];
+			this.url=this.parseURL(arguments[0]);
 			break;
 		default:
 		case 3:
 			this.async=arguments[2];
 		case 2:
 			this.method=arguments[0];
-			this.url=arguments[1];
+			this.url=this.parseURL(arguments[1]);
 			break;
 	};
 	try {
@@ -456,6 +457,11 @@ HTTPRequest.prototype._getText = function(node) {
 	if(node.nodeValue) text += node.nodeValue;
 	for(var i=0;i<node.childNodes.length;i++) text += this._getText(node.childNodes[i]);
 	return text;
+};
+
+HTTPRequest.prototype.parseURL = function(url) {
+	if(this.correcturl == true) url = url+'/index.php';
+	return url;
 };
 
 FileUploadRequest.prototype.namespace  = "Eolin.Application.Framework";
