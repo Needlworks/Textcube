@@ -6,11 +6,19 @@ define('ROOT', '../../../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.trackback");
 
-$targets = explode('~*_)', $_POST['targets']);
-for ($i = 0; $i < count($targets); $i++) {
-	if ($targets[$i] == '')
-		continue;
-	deleteTrackback($blogid, $targets[$i]);
+if(isset($suri['id'])) {
+	$isAjaxRequest = checkAjaxRequest();
+	if (deleteTrackback($blogid, $suri['id']) !== true)
+		$isAjaxRequest ? respondResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
+	else
+		$isAjaxRequest ? respondResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
+} else {
+	$targets = explode('~*_)', $_POST['targets']);
+	foreach($targets as $target) {
+		if ($target == '')
+			continue;
+		deleteTrackback($blogid, $target);
+	}
+	respondResultPage(0);
 }
-respondResultPage(0);
 ?>

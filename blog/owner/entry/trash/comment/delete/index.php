@@ -6,11 +6,19 @@ define('ROOT', '../../../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.comment");
 
-$targets = explode('~*_)', $_POST['targets']);
-for ($i = 0; $i < count($targets); $i++) {
-	if ($targets[$i] == '')
-		continue;
-	deleteCommentInOwner($blogid, $targets[$i], false);
+if(isset($suri['id'])) {
+	$isAjaxRequest = checkAjaxRequest();
+	if (deleteCommentInOwner($blogid, $suri['id']) === true)
+		$isAjaxRequest ? respondResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
+	else
+		$isAjaxRequest ? respondResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
+} else {
+	$targets = explode('~*_)', $_POST['targets']);
+	for ($i = 0; $i < count($targets); $i++) {
+		if ($targets[$i] == '')
+			continue;
+		deleteCommentInOwner($blogid, $targets[$i], false);
+	}
+	respondResultPage(0);
 }
-respondResultPage(0);
 ?>
