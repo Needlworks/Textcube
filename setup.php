@@ -1457,6 +1457,7 @@ ini_set('display_errors', 'off');
 \$service['domain'] = '{$_POST['domain']}';
 \$service['path'] = '$path';
 \$service['skin'] = 'coolant';
+\$service['useRewriteEngine'] = true;
 //\$serviceURL = 'http://{$_POST['domain']}{$path}' ; // for path of Skin, plugin and etc.
 //requireComponent(\"Needlworks.Function.Debug\"); // for debugging, e.g. displaying DB Query or Session info
 //\$service['debug_session_dump'] = 1; // session info debuging.

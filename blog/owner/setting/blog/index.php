@@ -362,7 +362,7 @@ if ($service['type'] != 'single') {
 							<h2 class="caption"><span class="main-text"><?php echo _t('블로그의 기본 정보를 설정합니다');?></span></h2>
 							
 							<div class="data-inbox">
-								<form id="common-form" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/blog/title">
+								<form id="common-form" class="section" method="post" action="<?php echo parseURL($blogURL.'/owner/setting/blog/title');?>">
 									<fieldset class="container">
 										<legend><?php echo _t('블로그 정보');?></legend>
 										
@@ -383,7 +383,7 @@ if ($service['type'] != 'single') {
 $urlRule = getBlogURLRule();
 if ($service['type'] != 'single') {
 ?>
-								<form id="multi-form" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/blog">
+								<form id="multi-form" class="section" method="post" action="<?php echo parseURL($blogURL.'/owner/setting/blog');?>">
 									<fieldset class="container">
 										<legend><?php echo _t('블로그 주소');?></legend>
 									
@@ -420,7 +420,7 @@ if ($service['type'] != 'single') {
 <?php
 }
 ?>
-								<form id="tag-form" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/blog/tag">
+								<form id="tag-form" class="section" method="post" action="<?php echo parseURL($blogURL.'/owner/setting/blog/tag');?>">
 									<fieldset class="container">
 										<legend><?php echo _t('블로그 태그');?></legend>
 										
@@ -462,7 +462,7 @@ if ($service['type'] != 'single') {
 						<div id="part-setting-profile" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('특징을 설정합니다');?></span></h2>
 							
-							<form id="icons-form" class="data-inbox" method="post" action="<?php echo $blogURL;?>/owner/setting/blog/icons" enctype="multipart/form-data">
+							<form id="icons-form" class="data-inbox" method="post" action="<?php echo parseURL($blogURL.'/owner/setting/blog/icons');?>" enctype="multipart/form-data">
 								<div id="icons-upload-section" class="section">
 									<fieldset class="container">
 										<legend><?php echo _t('블로그 로고 및 파비콘');?></legend>
@@ -546,7 +546,7 @@ if (file_exists(ROOT."/attach/$blogid/index.gif")) {
 						<div id="part-setting-rss" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('블로그 공개 정책을 설정합니다');?></span></h2>
 							
-							<form id="rss-form" class="data-inbox" method="post" action="<?php echo $blogURL;?>/owner/setting/blog">
+							<form id="rss-form" class="data-inbox" method="post" action="<?php echo parseURL($blogURL.'/owner/setting/blog');?>">
 								<div id="rss-section" class="section">
 									<fieldset class="container">
 										<legend><?php echo _t('RSS 설정');?></legend>
@@ -617,7 +617,7 @@ for ($i = 5; $i <= 30; $i += 5) {
 						<div id="part-setting-language" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('언어, 시간대를 설정합니다');?></span></h2>
 							
-							<form id="language-form" class="data-inbox" method="post" action="<?php echo $blogURL;?>/owner/setting/blog/language">
+							<form id="language-form" class="data-inbox" method="post" action="<?php echo parseURL($blogURL.'/owner/setting/blog/language');?>">
 								<div id="language-section" class="section">
 									<fieldset class="container">
 										<legend><?php echo _t('언어 및 시간대');?></legend>
@@ -680,7 +680,7 @@ foreach (Timezone::getList() as $timezone) {
 						<div id="part-setting-admin" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('관리자 화면 스킨을 설정합니다');?></span></h2>
 							
-							<form id="admin-skin-form" class="data-inbox" method="post" action="<?php echo $blogURL;?>/owner/setting/blog/skin">
+							<form id="admin-skin-form" class="data-inbox" method="post" action="<?php echo parseURL($blogURL.'/owner/setting/blog/skin');?>">
 								<div id="admin-skin-section" class="section">
 									<fieldset class="container">
 										<legend><?php echo _t('관리자 스킨을 설정합니다');?></legend>
