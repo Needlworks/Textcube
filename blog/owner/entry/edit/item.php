@@ -296,6 +296,13 @@ if (defined('__TEXTCUBE_POST__')) {
 										}
 										if(entryManager.isSaved == true) {
 											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/update/"+entryManager.entryId);
+<?php
+	if($service['useRewriteEngine'] == false) {
+?>
+											request.correcturl = true;
+<?php
+	}
+?>
 										} else {
 											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/add/");
 										}
@@ -349,6 +356,13 @@ if (defined('__TEXTCUBE_POST__')) {
 
 										if(entryManager.isSaved == true) {
 											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/update/"+entryManager.entryId);
+<?php
+	if($service['useRewriteEngine'] == false) {
+?>
+											request.correcturl = true;
+<?php
+	}
+?>
 										} else {
 											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/add/");
 										}

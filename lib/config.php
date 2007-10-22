@@ -45,17 +45,12 @@ function requireComponent($name) {
 	$name = str_replace('Tattertools', 'Textcube',$name); // Legacy routine.
 	include_once (ROOT . "/components/$name.php");
 }
-
 function requireModel($name) {
 	include_once (ROOT . "/lib/model/$name.php");
 }
-
-
 function requireView($name) {
 	include_once (ROOT . "/lib/view/$name.php");
 }
-
-
 function requireLibrary($name) {
 	include_once (ROOT . "/lib/$name.php");
 }

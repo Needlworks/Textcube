@@ -314,6 +314,7 @@ HTTPRequest.prototype.copyright   = "Copyright (c) 2005, Tatter & Company / Need
 HTTPRequest.prototype.method      = "GET";
 HTTPRequest.prototype.url         = null;
 HTTPRequest.prototype.correcturl  = false;
+HTTPRequest.prototype.id          = null;
 HTTPRequest.prototype.contentType = "application/x-www-form-urlencoded";
 HTTPRequest.prototype.content     = "";
 HTTPRequest.prototype.async       = true;
@@ -404,7 +405,7 @@ HTTPRequest.prototype.send = function() {
 			};
 		};
 	};
-	
+	if(this.correcturl != false) this.url = this.url+'/index.php';
 	if(this.cache) this._request.open(this.method,this.url,this.async);
 	else if(this.url.lastIndexOf("?") >= 0)
 		this._request.open(this.method,this.url+"&__T__="+(new Date()).getTime(),this.async);
@@ -412,7 +413,12 @@ HTTPRequest.prototype.send = function() {
 	
 	if(STD.isFirefox)
 		this._request.setRequestHeader("Referer",location.href);
-	if(arguments.length>0) this.content=arguments[0];
+	if(arguments.length>0) {
+		this.content=arguments[0];
+		if(this.correcturl!=false && this.id!=null) {
+			this.content=arguments[0]+"&id="+this.id;
+		}
+	}
 	if(this.content.length>0) this._request.setRequestHeader("Content-Type",this.contentType);
 	this._request.send(this.content);
 	
@@ -460,7 +466,14 @@ HTTPRequest.prototype._getText = function(node) {
 };
 
 HTTPRequest.prototype.parseURL = function(url) {
-	if(this.correcturl == true) url = url+'/index.php';
+	var idIndex = url.lastIndexOf("/");
+	if(idIndex >= 0) {
+		var idCandidate = url.substring(idIndex+1);
+		if(idCandidate.toString().search(/^-?[0-9]+$/) == 0) {
+			this.id = idCandidate;
+			url = url.substring(0,idIndex);
+		}
+	}
 	return url;
 };
 

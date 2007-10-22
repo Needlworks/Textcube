@@ -42,5 +42,5 @@ if ($entry = getEntry($blogid, $suri['id'])) {
 		respondResultPage(0);
 	}
 }
-respondResultPage(1);
+respondResultPage(-1);
 ?>
