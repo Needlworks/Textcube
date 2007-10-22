@@ -483,10 +483,10 @@ HTTPRequest.prototype.parseURL = function(url) {
 		if(idCandidate.toString().search(/^-?[0-9]+$/) == 0) {
 			this.id = idCandidate;
 			if(getIndex >=0) {this.getfragment = url.substring(getIndex);}
+			url = url.substring(0,idIndex);
 		} else { // Usually GET method.
 			this.getfragment = idCandidate;
 		}
-		url = url.substring(0,idIndex);
 	}
 	return url;
 };

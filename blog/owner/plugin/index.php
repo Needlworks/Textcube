@@ -111,6 +111,13 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 									
 									if (command) {
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/plugin/activate");
+<?php
+	if($service['useRewriteEngine'] == false) {
+?>
+										request.correcturl = true;
+<?php
+	}
+?>
 										request.onSuccess = function() {												
 											currentIcon.setAttribute('alt', '<?php echo _t('켜짐');?>');
 											currentIcon.setAttribute('title', '<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>');
@@ -153,6 +160,14 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 										request.send("name=" + plugin);
 									} else {
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/plugin/deactivate");
+
+<?php
+	if($service['useRewriteEngine'] == false) {
+?>
+										request.correcturl = true;
+<?php
+	}
+?>
 										request.onSuccess = function() {
 											currentIcon.setAttribute('alt', '<?php echo _t('꺼짐');?>');
 											currentIcon.setAttribute('title', '<?php echo _t('이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>');
@@ -220,6 +235,14 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 									}
 									
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/plugin/saveScope");
+
+<?php
+	if($service['useRewriteEngine'] == false) {
+?>
+									request.correcturl = true;
+<?php
+	}
+?>
 									request.onSuccess = function() {
 										window.location.reload(true);
 									}
@@ -251,7 +274,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 							//]]>
 						</script>
 						
-						<form id="part-plugin-list" class="part" method="post" action="<?php echo $blogURL."/owner/plugin";?>">
+						<form id="part-plugin-list" class="part" method="post" action="<?php echo parseURL($blogURL."/owner/plugin");?>">
 							<h2 class="caption"><span class="main-text"><?php echo _t('설치된 플러그인 목록입니다');?></span></h2>
 							
 							<div class="main-explain-box">
