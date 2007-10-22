@@ -76,11 +76,17 @@ if ($depth > 0) {
 	$suri['directive'] = '/';
 	$suri['value'] = ltrim($url, '/');
 }
-if (is_numeric($suri['value']))
+if (is_numeric($suri['value'])) {
 	$suri['id'] = $suri['value'];
-else
-	$suri['value'] = decodeURL($suri['value']);
-	
+} else {
+	$suri['value'] = decodeURL(str_replace('index.php','',$suri['value']));
+}
+// Workaround for the environments redirect engine disabled.
+if($service['useRewriteEngine'] == false) {
+	if(isset($_POST['id'])) $suri['id'] = $_POST['id'];
+	else if(isset($_GET['id'])) $suri['id'] = $_GET['id'];
+}
+// Parse page.
 $suri['page'] = empty($_POST['page']) ? (empty($_GET['page']) ? true : $_GET['page']) : $_POST['page'];
 
 if (!isset($serviceURL))
