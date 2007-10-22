@@ -476,10 +476,13 @@ HTTPRequest.prototype._getText = function(node) {
 
 HTTPRequest.prototype.parseURL = function(url) {
 	var idIndex = url.lastIndexOf("/");
+	var getIndex = url.lastIndexOf("?");
 	if(idIndex >= 0) {
-		var idCandidate = url.substring(idIndex+1);
+		if(getIndex >= 0) {var idCandidate = url.substring(idIndex+1,getIndex);}
+		else {var idCandidate = url.substring(idIndex+1);}
 		if(idCandidate.toString().search(/^-?[0-9]+$/) == 0) {
 			this.id = idCandidate;
+			if(getIndex >=0) {this.getfragment = url.substring(getIndex);}
 		} else { // Usually GET method.
 			this.getfragment = idCandidate;
 		}
