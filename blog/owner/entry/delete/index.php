@@ -12,20 +12,42 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.entry");
 
 requireStrictRoute();
-foreach(explode(',', $_POST['targets']) as $target) {
-	// TeamBlog check
-	if(!Acl::check( 'group.writers', 'entry.delete.' . $target )) {
-		if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) { 
+
+if(isset($suri['id'])) {
+	if(!Acl::check("group.editors")) {
+		if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) {
 			respondResultPage(-1);
 			exit;
 		}
-	}
+	}			
 	
-	if (!deleteEntry($blogid, $target))
-		respondResultPage(-1);
-	else {
-		fireEvent('DeletePost', $target, null);
+	if ($isAjaxRequest) {
+		if (deleteEntry($blogid, $suri['id']) === true) {
+			fireEvent('DeletePost', $suri['id'], null);
+			respondResultPage(0);
+		} else {
+			respondResultPage(-1);
+		}
+	} else {
+		deleteEntry($blogid, $suri['id']);
+		header("Location: ".$_SERVER['HTTP_REFERER']);
 	}
+} else {
+	foreach(explode(',', $_POST['targets']) as $target) {
+		// TeamBlog check
+		if(!Acl::check( 'group.writers', 'entry.delete.' . $target )) {
+			if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) { 
+				respondResultPage(-1);
+				exit;
+			}
+		}
+		
+		if (!deleteEntry($blogid, $target))
+			respondResultPage(-1);
+		else {
+			fireEvent('DeletePost', $target, null);
+		}
+	}
+	respondResultPage(0);
 }
-respondResultPage(0);
 ?>
