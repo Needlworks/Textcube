@@ -315,6 +315,7 @@ HTTPRequest.prototype.method      = "GET";
 HTTPRequest.prototype.url         = null;
 HTTPRequest.prototype.correcturl  = false;
 HTTPRequest.prototype.id          = null;
+HTTPRequest.prototype.getfragment = "";
 HTTPRequest.prototype.contentType = "application/x-www-form-urlencoded";
 HTTPRequest.prototype.content     = "";
 HTTPRequest.prototype.async       = true;
@@ -406,6 +407,14 @@ HTTPRequest.prototype.send = function() {
 		};
 	};
 	if(this.correcturl != false) this.url = this.url+'/index.php';
+	if(this.method == 'GET'){
+		if(this.getfragment.length > 0) {
+			this.url=this.url+this.getfragment;
+			if(this.id != null) {this.url=this.url+'&id='+this.id}
+		} else {
+			if(this.id != null) {this.url=this.url+'?id='+this.id}
+		}
+	}
 	if(this.cache) this._request.open(this.method,this.url,this.async);
 	else if(this.url.lastIndexOf("?") >= 0)
 		this._request.open(this.method,this.url+"&__T__="+(new Date()).getTime(),this.async);
@@ -471,8 +480,10 @@ HTTPRequest.prototype.parseURL = function(url) {
 		var idCandidate = url.substring(idIndex+1);
 		if(idCandidate.toString().search(/^-?[0-9]+$/) == 0) {
 			this.id = idCandidate;
-			url = url.substring(0,idIndex);
+		} else { // Usually GET method.
+			this.getfragment = idCandidate;
 		}
+		url = url.substring(0,idIndex);
 	}
 	return url;
 };

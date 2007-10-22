@@ -256,6 +256,13 @@ if ($service['type'] != 'single') {
 									}
 									
 									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/publishRSS/" + (document.getElementById('rss-form').publishEolinSyncOnRSS[0].checked ? 1 : 0));
+<?php
+	if($service['useRewriteEngine'] == false) {
+?>
+									request.correcturl = true;
+<?php
+	}
+?>
 									request.onSuccess = function() {
 										publishEolinSyncOnRSS = document.getElementById('rss-form').publishEolinSyncOnRSS[0].checked ? 1 : 0;
 										PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
@@ -267,6 +274,13 @@ if ($service['type'] != 'single') {
 									
 									if (document.getElementById('rss-form').entriesOnRSS.value != entriesOnRSS) {
 										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/rss/entries/" + document.getElementById('rss-form').entriesOnRSS.value);
+<?php
+	if($service['useRewriteEngine'] == false) {
+?>
+										request.correcturl = true;
+<?php
+	}
+?>
 										request.onSuccess = function() {
 											entriesOnRSS = document.getElementById('rss-form').entriesOnRSS.value;
 											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
@@ -279,6 +293,13 @@ if ($service['type'] != 'single') {
 									
 									if (document.getElementById('rss-form').publishWholeOnRSS.value != publishWholeOnRSS) {
 										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/rss/whole/" + document.getElementById('rss-form').publishWholeOnRSS.value);
+<?php
+	if($service['useRewriteEngine'] == false) {
+?>
+										request.correcturl = true;
+<?php
+	}
+?>
 										request.onSuccess = function() {
 											publishWholeOnRSS = document.getElementById('rss-form').publishWholeOnRSS.value;
 											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
@@ -293,6 +314,13 @@ if ($service['type'] != 'single') {
 									//isAllowWriteGuestbook = document.getElementById('allowWriteGuestbook').checked ? 1 : 0;
 									if ( isAllowCommentGuestbook != allowCommentGuestbook) {
 										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/guestbook/?comment="+isAllowCommentGuestbook+"&write=1");
+<?php
+	if($service['useRewriteEngine'] == false) {
+?>
+										request.correcturl = true;
+<?php
+	}
+?>
 										request.onSuccess = function() {
 											allowCommentGuestbook = isAllowCommentGuestbook;
 											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
