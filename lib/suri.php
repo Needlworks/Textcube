@@ -62,7 +62,6 @@ $depth = substr_count(ROOT, '/');
 if ($depth > 0) {
 	if($service['useRewriteEngine'] === false) $url = substr($url, 5); // Exclude /blog path.
 	if (preg_match('@^((/+[^/]+){' . $depth . '})/*(.*)$@', $url, $matches)) {
-		if($service['useRewriteEngine'] === false)
 		$suri['directive'] = $matches[1];
 		if ($matches[3] !== false) {
 			if($service['useRewriteEngine'] === false) {
