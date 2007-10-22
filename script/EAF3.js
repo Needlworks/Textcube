@@ -74,7 +74,7 @@ var KeyCode = new function() {
 	this.framework = "Eolin AJAX Framework";
 	this.name = "Eolin LogViewer";
 	this.verion = "1.0";
-	this.copyright = "Copyright (c) 2005, Tatter & Company. All rights reserved.";
+	this.copyright = "Copyright (c) 2005, Tatter & Company / Needlworks / Tatter Network Foundation. All rights reserved.";
 	this.A=65;this.B=66;this.C=67;this.D=68;this.E=69;this.F=70;this.G=71;
 	this.H=72;this.I=73;this.J=74;this.K=75;this.L=76;this.M=77;this.N=78;
 	this.O=79;this.P=80;this.Q=81;this.R=82;this.S=83;this.T=84;this.U=85;
@@ -85,7 +85,7 @@ var KeyCode = new function() {
 PageMaster.prototype.namespace = "Eolin.Application.Framework";
 PageMaster.prototype.name      = "Eolin Page Master";
 PageMaster.prototype.verion    = "1.0";
-PageMaster.prototype.copyright = "Copyright (c) 2005, Tatter & Company. All rights reserved.";
+PageMaster.prototype.copyright = "Copyright (c) 2005, Tatter & Company / Needlworks / Tatter Network Foundation. All rights reserved.";
 PageMaster.prototype.message   = "아직 처리중인 작업이 있습니다.";
 
 function PageMaster() {
@@ -310,7 +310,7 @@ var PM=new PageMaster();
 HTTPRequest.prototype.namespace   = "Eolin.Application.Framework";
 HTTPRequest.prototype.name        = "Eolin HTTPXMLRequest Processor";
 HTTPRequest.prototype.verion      = "1.0";
-HTTPRequest.prototype.copyright   = "Copyright (c) 2005, Tatter & Company. All rights reserved.";
+HTTPRequest.prototype.copyright   = "Copyright (c) 2005, Tatter & Company / Needlworks / Tatter Network Foundation. All rights reserved.";
 HTTPRequest.prototype.method      = "GET";
 HTTPRequest.prototype.url         = null;
 HTTPRequest.prototype.contentType = "application/x-www-form-urlencoded";

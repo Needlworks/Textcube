@@ -60,10 +60,17 @@ $skinSetting = getSkinSetting($blogid);
 
 $depth = substr_count(ROOT, '/');
 if ($depth > 0) {
+	if($service['useRewriteEngine'] === false) $url = substr($url, 5); // Exclude /blog path.
 	if (preg_match('@^((/+[^/]+){' . $depth . '})/*(.*)$@', $url, $matches)) {
+		if($service['useRewriteEngine'] === false)
 		$suri['directive'] = $matches[1];
-		if ($matches[3] !== false)
-			$suri['value'] = $matches[3];
+		if ($matches[3] !== false) {
+			if($service['useRewriteEngine'] === false) {
+				$suri['value'] = str_replace('index.php','',$matches[3]);
+			} else {
+				$suri['value'] = $matches[3];
+			}
+		}
 	} else
 		respondNotFoundPage();
 } else {
@@ -116,6 +123,10 @@ switch ($service['type']) {
 	default:
 		$pathURL = $service['path'];
 		$blog['primaryBlogURL'] = 'http://' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
+		if(isset($service['useRewriteEngine']) && $service['useRewriteEngine'] === false) {
+			$blog['primaryBlogURL'] = $blog['primaryBlogURL'].'/blog';
+			$pathURL = $pathURL.'/blog';
+		}
 		$blog['secondaryBlogURL'] = null;
 		$defaultURL = $blog['primaryBlogURL'];
 		if ($_SERVER['HTTP_HOST'] == $service['domain'])

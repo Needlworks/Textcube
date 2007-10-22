@@ -148,7 +148,7 @@ function getBlogURL($name = null, $domain = null, $path = null, $type = null) {
 		case 'path':
 			return "http://$domain$path/$name";
 		case 'single':default:
-			return "http://$domain$path";
+			return "http://$domain$path".($service['useRewriteEngine'] ? '' : '/blog');
 	}
 }
 

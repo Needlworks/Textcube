@@ -9,5 +9,9 @@ if(isset($service['useFastCGI']) && $service['useFastCGI'] == true) {
 } else {
 	$url = rtrim(isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : $_SERVER['SCRIPT_NAME'], '/');
 }
-header("Location: $url/center/dashboard");
+// Exclude parse errors occurring at some hosting service.
+$url = rtrim($url,'/index.php');
+
+// Redirect.
+header("Location: $url/center/dashboard".($service['useRewriteEngine'] ? "" : "/index.php"));
 ?>

@@ -141,7 +141,7 @@ if(isset($blogContentMenuItem)) {
 						(($blogMenu['contentMenu'] == $contentMenuItem['menu'] || 
 							(isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) ||
 							($contentMenuItem['menu'] == 'trash' && strpos($blogMenu['contentMenu'],'trash') !== false) ||
-							($blogMenu['contentMenu'] == 'edit' && $contentMenuItem['menu'] == 'post')) ? " class=\"selected{$firstChildClass}\"" : '');?>><a href="<?php echo $blogURL.$contentMenuItem['link'];?>"><span class="text"><?php echo $contentMenuItem['title'];?></span></a></li>
+							($blogMenu['contentMenu'] == 'edit' && $contentMenuItem['menu'] == 'post')) ? " class=\"selected{$firstChildClass}\"" : '');?>><a href="<?php echo $blogURL.$contentMenuItem['link'].($service['useRewriteEngine'] ? '' : '/index.php');?>"><span class="text"><?php echo $contentMenuItem['title'];?></span></a></li>
 <?php
 		$firstChildClass = null;
 	}

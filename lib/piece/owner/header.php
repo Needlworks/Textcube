@@ -1,7 +1,11 @@
 <?php
 // Automatic menu location routine.
 $blogMenu = array();
+var_dump($suri);
 $urlFragments = preg_split('/\//',ltrim($suri['directive'],'/'));
+//var_dump($urlFragments);
+//if($service['useRewriteEngine']===false) array_shift($urlFragments);
+//var_dump($urlFragments[0]);
 if(isset($urlFragments[1])) $blogMenu['topMenu'] = $urlFragments[1];
 if(isset($urlFragments[2])) $blogMenu['contentMenu'] = $urlFragments[2];
 else $blogMenu['contentMenu'] = $urlFragments[1];
@@ -87,7 +91,6 @@ switch($blogMenu['topMenu']) {
 
 // mapping data management to setting
 if(isset($blogMenu['topMenu']) && $blogMenu['topMenu']=='data') $blogMenu['topMenu'] = 'setting';
-
 $pluginListForCSS = array();
 if ($blogMenu['topMenu'] == 'center' && $blogMenu['contentMenu'] == 'dashboard') {
 	if (isset($eventMappings['AddPostEditorToolbox'])) {
@@ -235,7 +238,7 @@ requireComponent('Textcube.Core');
 <?php
 foreach($blogTopMenuItem as $menuItem) {
 ?>
-						<li id="menu-<?php echo $menuItem['menu'];?>"<?php echo $menuItem['menu']==$blogMenu['topMenu'] ? ' class="selected"' : '';?>><a href="<?php echo $blogURL.$menuItem['link'];?>"><span><?php echo $menuItem['title'];?></span></a></li>
+						<li id="menu-<?php echo $menuItem['menu'];?>"<?php echo $menuItem['menu']==$blogMenu['topMenu'] ? ' class="selected"' : '';?>><a href="<?php echo $blogURL.$menuItem['link'].($service['useRewriteEngine'] ? '' : '/index.php');?>"><span><?php echo $menuItem['title'];?></span></a></li>
 <?php
 }
 ?>

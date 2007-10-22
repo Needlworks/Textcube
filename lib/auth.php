@@ -39,7 +39,7 @@ function requireLogin() {
 		if (String::endsWith($_SERVER['HTTP_HOST'], '.' . $service['domain']))
 			header("Location: $blogURL/login?requestURI=" . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}"));
 		else
-			header('Location: ' . getBlogURL() . '/login?requestURI=' . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}"));
+			header('Location: ' . getBlogURL() . '/login'.($service['useRewriteEngine'] ? '' : '/index.php').'?requestURI=' . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}"));
 	}
 	exit;
 }
@@ -112,14 +112,14 @@ function isLoginId($userid, $loginid) {
 	$loginid = tc_escape_string($loginid);
 	
 	// 팀블로그 :: 팀원 확인
-	$result = DBQuery::query("SELECT u.userid 
-			from {$database['prefix']}Users u, 
+	$result = DBQuery::queryCount("SELECT u.userid 
+			FROM {$database['prefix']}Users u, 
 				{$database['prefix']}Teamblog t 
-			where t.blogid = $userid 
-				and u.loginid = '$loginid' 
-				and t.userid = u.userid");
+			WHERE t.blogid = $userid 
+				AND u.loginid = '$loginid' 
+				AND t.userid = u.userid");
 	// End TeamBlog
-	if ($result && (mysql_num_rows($result) == 1))
+	if ($result && $result === 1)
 		return true;
 	return false;
 }
