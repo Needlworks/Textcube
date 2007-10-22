@@ -354,6 +354,7 @@ function checkStep($step, $check = true) {
   <input type="hidden" name="dbUser" value="<?php echo (isset($_POST['dbUser']) ? $_POST['dbUser'] : '');?>" />
   <input type="hidden" name="dbPassword" value="<?php echo (isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '');?>" />
   <input type="hidden" name="dbPrefix" value="<?php echo (isset($_POST['dbPrefix']) ? $_POST['dbPrefix'] : '');?>" />
+  <input type="hidden" name="disableRewrite" value="<?php echo (isset($_POST['disableRewrite']) ? $_POST['disableRewrite'] : '');?>" />
   <div id="inner">
     <h2><span class="step"><?php echo _f('%1단계', 4);?></span> : <?php echo _t('설치 요구 사항을 확인하고 있습니다.');?> </h2>
     <div id="content-box">
@@ -710,6 +711,8 @@ xml_set_object
     <h3><?php echo _t('Apache Rewrite Engine');?></h3>
     <ul style="color:red">
       <li><?php echo _t('Rewrite를 사용할 수 없습니다.');?><br /><span style="color:black"><?php echo _t('다음 항목을 확인하십시오.');?></span></li>
+      <input type="checkbox" id="disableRewrite" name="disableRewrite" />
+	  <label for="disableRewrite"><?php echo _t('rewrite 모듈을 사용하지 않습니다. 이 경우 단일 사용자 모드로만 동작하며, 글로 된 주소 체계(fancy-URL)를 사용할 수 없습니다.');?></label>
       <ol style="color:blue">
         <li><?php echo _t('웹서버 설정에 <b>mod_rewrite</b>의 로딩이 포함되어야 합니다.');?><br />
           <samp><?php echo _t('예: LoadModule <b>rewrite_module</b> modules/<b>mod_rewrite</b>.so');?></samp>
@@ -749,35 +752,37 @@ xml_set_object
             if (!empty($_POST['domain']) && !empty($_POST['type']))
                 return true;
         }
-
-        $filename = $root . '/.htaccess';
-        $fp = fopen($filename, 'w+');
-        if (!$fp) {
-            checkStep($step - 1, false);
-            return false;
-        }
-        fwrite($fp,
+		// mod_rewrite routine.
+		if(empty($_POST['disableRewrite'])) {
+	        $filename = $root . '/.htaccess';
+    	    $fp = fopen($filename, 'w+');
+	        if (!$fp) {
+    	        checkStep($step - 1, false);
+	            return false;
+	        }
+    	    fwrite($fp,
 "RewriteEngine On
 RewriteBase $path/
 RewriteRule ^testrewrite$ setup.php [L]"
-        );
-        fclose($fp);
-		@chmod($filename, 0666);
+        	);
+	        fclose($fp);
+			@chmod($filename, 0666);
         
-        if (testMyself(substr(getFingerPrint(), 0, 6) . substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.')), $path . '/testrewrite?test=now', $_SERVER['SERVER_PORT']))
-            $rewrite = 3;
-        else if (testMyself(substr(getFingerPrint(), 0, 6) . '.' . $_SERVER['HTTP_HOST'], $path . '/testrewrite?test=now', $_SERVER['SERVER_PORT']))
-            $rewrite = 2;
-        else if (testMyself($_SERVER['HTTP_HOST'], $path . '/testrewrite?test=now', $_SERVER['SERVER_PORT']))
-            $rewrite = 1;
-        else {
-            $rewrite = 0;
+        	if (testMyself(substr(getFingerPrint(), 0, 6) . substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.')), $path . '/testrewrite?test=now', $_SERVER['SERVER_PORT']))
+            	$rewrite = 3;
+	        else if (testMyself(substr(getFingerPrint(), 0, 6) . '.' . $_SERVER['HTTP_HOST'], $path . '/testrewrite?test=now', $_SERVER['SERVER_PORT']))
+    	        $rewrite = 2;
+	        else if (testMyself($_SERVER['HTTP_HOST'], $path . '/testrewrite?test=now', $_SERVER['SERVER_PORT']))
+    	        $rewrite = 1;
+	        else {
+    	        $rewrite = 0;
+				@unlink($filename);
+				checkStep(33, false);
+				return false;
+			}
 			@unlink($filename);
-            checkStep(33, false);
-            return false;
-        }
-		@unlink($filename);
-        $domain = $rewrite == 3 ? substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.') + 1) : $_SERVER['HTTP_HOST'];
+		}
+    	$domain = $rewrite == 3 ? substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.') + 1) : $_SERVER['HTTP_HOST'];
 ?>
   <input type="hidden" name="step" value="<?php echo $step;?>" />
   <input type="hidden" name="mode" value="<?php echo $_POST['mode'];?>" />
@@ -788,12 +793,13 @@ RewriteRule ^testrewrite$ setup.php [L]"
   <input type="hidden" name="dbPrefix" value="<?php echo (isset($_POST['dbPrefix']) ? $_POST['dbPrefix'] : '');?>" />
   <input type="hidden" name="checked" value="<?php echo (isset($_POST['checked']) ? $_POST['checked'] : '');?>" />
   <input type="hidden" name="domain" value="<?php echo $domain;?>" />
+  <input type="hidden" name="disableRewrite" value="<?php echo (isset($_POST['disableRewrite']) ? $_POST['disableRewrite'] : false);?>" />
   <div id="inner">
   <h2><span class="step"><?php echo _f('%1단계', $step);?></span> : <?php echo _t('사용 가능한 운영 방법은 다음과 같습니다. 선택하여 주십시오.');?></h2>
   <div id="userinput">
     <table class="inputs">
 <?php
-        if ($rewrite >= 1) {
+        if ($rewrite >= 1 && empty($_POST['disableRewrite'])) {
 ?>
       <tr>
         <th width="120"><strong><?php echo _t('다중 사용자');?> : </strong></th>
@@ -801,23 +807,23 @@ RewriteRule ^testrewrite$ setup.php [L]"
 <?php
             if ($rewrite >= 2) {
 ?>
-        <label for="type1"><input type="radio" id="type1" name="type" value="domain" checked="checked" onclick="show('typeDomain')" />
+        <label for="type1"><input type="radio" id="type1" name="type" value="domain" checked="checked" onclick="show('typeDomain');return false;" />
                       <?php echo _t('도메인네임(DNS)으로 블로그 식별');?></label>
         <br />
 <?php
             }
 ?>
-        <label for="type2"><input type="radio" id="type2" name="type" value="path"<?php echo ($rewrite == 1 ? ' checked="checked"' : '');?> onclick="show('typePath')" />
+        <label for="type2"><input type="radio" id="type2" name="type" value="path"<?php echo ($rewrite == 1 ? ' checked="checked"' : '');?> onclick="show('typePath');return false;" />
         <?php echo _t('하위 경로(Path)로 블로그 식별');?></label></td>
       </tr>
+<?php
+		}
+?>
       <tr>
         <th style="padding-top:10px"><strong><?php echo _t('단일 사용자');?> : </strong></th>
         <td style="padding-top:10px">
-          <label for="type3"><input type="radio" id="type3" name="type" value="single" onclick="show('typeSingle')" /><?php echo _t('단일 블로그');?></label></td>
+          <label for="type3"><input type="radio" id="type3" name="type" value="single" onclick="show('typeSingle');return false;" <?php echo (empty($_POST['disableRewrite']) ? '' : 'checked="checked"');?> /><?php echo _t('단일 블로그');?></label></td>
       </tr>
-<?php
-        }
-?>
       <tr>
         <th style="padding-top:20px"><?php echo _t('블로그 주소 예시');?></th>
         <td style="padding-top:20px; height:100px">
@@ -829,8 +835,8 @@ RewriteRule ^testrewrite$ setup.php [L]"
           <li>http://<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/<b>blog1</b></li>
           <li>http://<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/<b>blog2</b></li>
         </ul> 
-        <ul id="typeSingle" style="display:none">
-          <li>http://<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/</li>
+        <ul id="typeSingle" <?php echo (empty($_POST['disableRewrite']) ? 'style="display:none"' : '');?>>
+          <li>http://<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/<?php echo (empty($_POST['disableRewrite']) ? '' : 'blog/');?></li>
         </ul> 
         </td>
       </tr>
@@ -881,6 +887,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
   <input type="hidden" name="dbPrefix" value="<?php echo (isset($_POST['dbPrefix']) ? $_POST['dbPrefix'] : '');?>" />
   <input type="hidden" name="checked" value="<?php echo (isset($_POST['checked']) ? $_POST['checked'] : '');?>" />
   <input type="hidden" name="domain" value="<?php echo (isset($_POST['domain']) ? $_POST['domain'] : '');?>" />
+  <input type="hidden" name="disableRewrite" value="<?php echo (isset($_POST['disableRewrite']) ? $_POST['disableRewrite'] : false);?>" />
   <input type="hidden" name="type" value="<?php echo (isset($_POST['type']) ? $_POST['type'] : '');?>" />
   <div id="inner">
     <h2><span class="step"><?php echo _f('%1단계', $step);?></span> : <?php echo _t('관리자 정보 입력');?></h2>
@@ -959,6 +966,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
   <input type="hidden" name="dbPrefix" value="<?php echo (isset($_POST['dbPrefix']) ? $_POST['dbPrefix'] : '');?>" />
   <input type="hidden" name="checked" value="<?php echo (isset($_POST['checked']) ? $_POST['checked'] : '');?>" />
   <input type="hidden" name="domain" value="<?php echo (isset($_POST['domain']) ? $_POST['domain'] : '');?>" />
+  <input type="hidden" name="disableRewrite" value="<?php echo (isset($_POST['disableRewrite']) ? $_POST['disableRewrite'] : false);?>" />
   <input type="hidden" name="type" value="<?php echo (isset($_POST['type']) ? $_POST['type'] : '');?>" />
   <input type="hidden" name="blog" value="<?php echo (isset($_POST['blog']) ? $_POST['blog'] : '');?>" />
   <div id="inner">
@@ -1457,7 +1465,7 @@ ini_set('display_errors', 'off');
 \$service['domain'] = '{$_POST['domain']}';
 \$service['path'] = '$path';
 \$service['skin'] = 'coolant';
-\$service['useRewriteEngine'] = true;
+\$service['useRewriteEngine'] = ".((isset($_POST['disableRewrite']) && $_POST['disableRewrite']) ? 'false' : 'true').";
 //\$serviceURL = 'http://{$_POST['domain']}{$path}' ; // for path of Skin, plugin and etc.
 //requireComponent(\"Needlworks.Function.Debug\"); // for debugging, e.g. displaying DB Query or Session info
 //\$service['debug_session_dump'] = 1; // session info debuging.
@@ -1467,15 +1475,15 @@ ini_set('display_errors', 'off');
             fclose($fp);
             @chmod($filename, 0666);
         }
+      	if(!isset($_POST['disableRewrite']) || !$_POST['disableRewrite']) { 
+	        $filename = $root . '/.htaccess';
+    	    $fp = fopen($filename, 'w+');
         
-        $filename = $root . '/.htaccess';
-        $fp = fopen($filename, 'w+');
+	        $htaccessContent = '';
         
-        $htaccessContent = '';
-        
-        switch ($_POST['type']) {
-        	case 'path':
-        		$htaccessContent = 
+    	    switch ($_POST['type']) {
+        		case 'path':
+        			$htaccessContent = 
 "#<IfModule mod_url.c>
 #CheckURL Off
 #</ifModule>
@@ -1504,10 +1512,10 @@ RewriteRule ^[-[:alnum:]]+/+(entry|attachment|category|keylog|tag|search|plugin)
 RewriteRule ^[-[:alnum:]]+/+(.+)/[0-9]+$ blog/$1/item.php [E=SURI:1,L]
 RewriteRule ^[-[:alnum:]]+/+(.+)$ blog/$1/index.php [E=SURI:1,L]
 ";
-				break;
-        	case 'single':
-        		$prefixPath = empty($path) ? '' : $path . '/';        		
-        		$htaccessContent = 
+					break;
+	        	case 'single':
+    	    		$prefixPath = empty($path) ? '' : $path . '/';        		
+        			$htaccessContent = 
 "#<IfModule mod_url.c>
 #CheckURL Off
 #</IfModule>
@@ -1537,9 +1545,9 @@ RewriteRule ^(entry|attachment|category|keylog|tag|search|plugin)/? blog/$1/inde
 RewriteRule ^(.+)/[0-9]+$ blog/$1/item.php [E=SURI:1,L]
 RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
 ";
-	       		break;
-        	default :
-        		$htaccessContent = 
+	       			break;
+	        	default :
+    	    		$htaccessContent = 
 "#<IfModule mod_url.c>
 #CheckURL Off
 #</IfModule>
@@ -1565,13 +1573,14 @@ RewriteRule ^(entry|attachment|category|keylog|tag|search|plugin)/? blog/$1/inde
 RewriteRule ^(.+)/[0-9]+$ blog/$1/item.php [E=SURI:1,L]
 RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
 ";
-			break;
-        }
-        if ($fp) {
-            fwrite($fp, $htaccessContent);
-            fclose($fp);
-            @chmod($filename, 0666);
-        }
+				break;
+	        }
+    	    if ($fp) {
+        	    fwrite($fp, $htaccessContent);
+            	fclose($fp);
+	            @chmod($filename, 0666);
+    	    }
+		}
     
         switch ($_POST['type']) {
             case 'domain':
@@ -1589,15 +1598,14 @@ RewriteRule ^(.+)$ blog/$1/index.php [E=SURI:1,L]
     <h2><span class="step"><?php echo _t('설치완료');?></span> : <?php echo _t('텍스트큐브가 성공적으로 설치되었습니다.');?></h2>
     <div id="content-box">
       <p>
-        
       </p>
       <ul>
         <li><?php echo _t('텍스트큐브 주소');?><br />
-          <a href="<?php echo $blogURL;?>/"><?php echo $blogURL;?>/</a><br />
+          <a href="<?php echo $blogURL.'/'.(empty($_POST['disableRewrite']) ? '' : 'blog/');?>"><?php echo $blogURL.'/'.(empty($_POST['disableRewrite']) ? '' : 'blog/');?></a><br />
           <br />
         </li>
         <li><?php echo _t('텍스트큐브 관리 툴 주소');?><br />
-          <a href="<?php echo $blogURL;?>/owner"><?php echo $blogURL;?>/owner</a></li>
+          <a href="<?php echo $blogURL.'/'.(empty($_POST['disableRewrite']) ? '' : 'blog/');?>owner"><?php echo $blogURL.'/'.(empty($_POST['disableRewrite']) ? '' : 'blog/');?>owner</a></li>
       </ul>
       <p>
         <?php echo _t('텍스트큐브 관리 툴로 로그인 하신 후 필요사항을 수정해 주십시오.');?><br />
