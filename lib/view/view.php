@@ -68,7 +68,7 @@ function getUpperView($paging) {
 		}
 	//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF3.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF4.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/gallery.js" ></script>
     	<script type="text/javascript" src="<?php echo $service['path'];?>/script/flash.js" ></script>
