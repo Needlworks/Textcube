@@ -17,7 +17,7 @@ if( strstr( PHP_OS, "WIN") !== false ) {
 	define('DS', "/");
 }
 // Define global variable.
-global $database, $service;
+global $database, $service, $blog;
 $database['server'] = 'localhost';
 $database['database'] = '';
 $database['username'] = '';

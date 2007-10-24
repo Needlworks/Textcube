@@ -420,6 +420,9 @@ function addEntry($blogid, $entry) {
 	$entry['title'] = UTF8::lessenAsEncoding(trim($entry['title']), 255);
 	$entry['location'] = UTF8::lessenAsEncoding(trim($entry['location']), 255);
 	$entry['slogan'] = array_key_exists('slogan', $entry) ? trim($entry['slogan']) : '';
+	
+	$isDraft = empty($entry['draft']) ? 0 : $entry['draft'];
+	
 	if((empty($entry['slogan']))||($entry['category'] == -1)) {
 		$slogan = $slogan0 = getSlogan($entry['title']);
 	} else {
@@ -444,12 +447,12 @@ function addEntry($blogid, $entry) {
 		$entry['visibility'] = 0;
 	}
 
-	$result = DBQuery::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' LIMIT 1");
+	$result = DBQuery::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = $isDraft LIMIT 1");
 	for ($i = 1; $result > 0; $i++) {
 		if ($i > 1000)
 			return false;
 		$slogan = tc_escape_string(UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i);
-		$result = DBQuery::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' LIMIT 1");
+		$result = DBQuery::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = $isDraft LIMIT 1");
 	}
 	$userid = $entry['userid'];
 	$content = tc_escape_string($entry['content']);
@@ -463,11 +466,20 @@ function addEntry($blogid, $entry) {
 	} else {
 		$published = 'UNIX_TIMESTAMP()';
 	}
-	$currentMaxId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid and draft = 0");
-	if(!empty($currentMaxId) && $currentMaxId > 0) {
-		$id = $currentMaxId + 1;
+	
+	if(isset($entry['id'])) { // entry id가 있는 경우 (주로 updateEntry에 의하여 draft를 생성하는 경우가 될 것이다)
+		if(DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = {$entry['id']} AND draft = $isDraft") != 0) { // 이미 원하는 draft에 같은 id가 다 존재한다. 이 경우 저장할 수 없음.
+			return false;
+		} else {
+			$id = $entry['id'];
+		}
 	} else {
-		$id = 1;
+		$currentMaxId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0");
+		if(!empty($currentMaxId) && $currentMaxId > 0) {
+			$id = $currentMaxId + 1;
+		} else {
+			$id = 1;
+		}
 	}
 	$result = DBQuery::query("INSERT INTO {$database['prefix']}Entries 
 			(blogid, userid, id, draft, visibility, category, title, slogan, content, contentFormatter,
@@ -477,7 +489,7 @@ function addEntry($blogid, $entry) {
 			$blogid,
 			$userid,
 			$id,
-			0,
+			$isDraft,
 			{$entry['visibility']},
 			{$entry['category']},
 			'$title',
@@ -496,16 +508,18 @@ function addEntry($blogid, $entry) {
 			0)");
 	if (!$result)
 		return false;
-	DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 1");
 	DBQuery::query("UPDATE {$database['prefix']}Attachments SET parent = $id WHERE blogid = $blogid AND parent = 0");
-	updateEntriesOfCategory($blogid, $entry['category']);
-	if ($entry['visibility'] == 3)
-		syndicateEntry($id, 'create');
-	if ($entry['visibility'] >= 2)
-		clearRSS();
-	if (!empty($entry['tag'])) {
-		$tags = getTagsWithEntryString($entry['tag']);
-		addTagsWithEntryId($blogid, $id, $tags);
+	if(!$isDraft) {
+		DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 1");
+		updateEntriesOfCategory($blogid, $entry['category']);
+		if ($entry['visibility'] == 3)
+			syndicateEntry($id, 'create');
+		if ($entry['visibility'] >= 2)
+			clearRSS();
+		if (!empty($entry['tag'])) {
+			$tags = getTagsWithEntryString($entry['tag']);
+			addTagsWithEntryId($blogid, $id, $tags);
+		}
 	}
 	return $id;
 }
@@ -520,7 +534,20 @@ function updateEntry($blogid, $entry) {
 	requireModel('blog.rss');
 
 	if($entry['id'] == 0) return false;
+	$isDraft = empty($entry['draft']) ? 0 : $entry['draft'];
 
+	// entry가 draft가 없으면서(draft = 1인 글이 없는 경우) 저장하려는 요구사항이 draft인 경우는 addEntry로 글을 더한다.
+	$draftCount = DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}Entries
+		WHERE blogid = $blogid
+			AND id = ".$entry['id']."
+			AND draft = 1");
+	if(($draftCount == 0) && ($isDraft == 1)) {
+		return addEntry($blogid, $entry);
+	}
+	// draft가 없으면서 정상적인 글을 저장하려는 경우, (이 경우는 현재 글을 update한다.)
+	// draft가 있으면서 정상적인 글을 저장하려는 경우, (이 경우는 draft를 update한다.)
+	// draft가 있으면서 draft를 저장하려는 경우가 남음. (이 경우도 draft를 update한다.)
+	
 	if(empty($entry['userid'])) $entry['userid'] = getUserId(); 
 	$entry['title'] = UTF8::lessenAsEncoding(trim($entry['title']));
 	$entry['location'] = UTF8::lessenAsEncoding(trim($entry['location']));
@@ -536,7 +563,13 @@ function updateEntry($blogid, $entry) {
 	if($entry['category'] == -1) {
 		if($entry['visibility'] == 1 || $entry['visibility'] == 3)
 			return false;
-		if(DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id <> {$entry['id']} AND draft = 0 AND title = '$title' AND category = -1") > 0)
+		if(DBQuery::queryCell("SELECT count(*) 
+			FROM {$database['prefix']}Entries 
+			WHERE blogid = $blogid 
+				AND id <> {$entry['id']} 
+				AND draft = 0 
+				AND title = '$title' 
+				AND category = -1") > 0)
 			return false;
 	}
 
@@ -548,14 +581,19 @@ function updateEntry($blogid, $entry) {
 		$entry['visibility'] = 0;
 	}
 	
-	$result = DBQuery::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND id = {$entry['id']} LIMIT 1");
+	$result = DBQuery::queryCount("SELECT slogan 
+		FROM {$database['prefix']}Entries 
+		WHERE blogid = $blogid 
+		AND slogan = '$slogan' 
+		AND id = {$entry['id']} 
+		AND draft = $isDraft LIMIT 1");
 	if ($result == 0) { // if changed
-		$result = DBQuery::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' LIMIT 1");
+		$result = DBQuery::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = $isDraft LIMIT 1");
 		for ($i = 1; $result > 0; $i++) {
 			if ($i > 1000)
 				return false;
 			$slogan = tc_escape_string(UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i);
-			$result = DBQuery::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' LIMIT 1");
+			$result = DBQuery::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = $isDraft LIMIT 1");
 		}
 	}
 	$tags = getTagsWithEntryString($entry['tag']);
@@ -577,11 +615,17 @@ function updateEntry($blogid, $entry) {
 			$entry['visibility'] = 0 - $entry['visibility'];
 			break;
 	}
+	
+	// draft가 없으면서 정상적인 글을 저장하려는 경우, (이 경우는 현재 글을 update한다.)
+	if(($draftCount == 0) && ($isDraft == 0)) $draftSign = 0;
+	else $draftSign = 1;
+
 	$result = DBQuery::query("UPDATE {$database['prefix']}Entries
 			SET
 				userid             = {$entry['userid']},
 				visibility         = {$entry['visibility']},
 				category           = {$entry['category']},
+				draft              = $isDraft,
 				location           = '$location',
 				title              = '$title',
 				content            = '$content',
@@ -592,15 +636,17 @@ function updateEntry($blogid, $entry) {
 				acceptTrackback    = {$entry['acceptTrackback']},
 				published          = $published,
 				modified           = UNIX_TIMESTAMP()
-			WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 0");
-	if ($result)
-		DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 1");
-	updateEntriesOfCategory($blogid, $entry['category']);
-	if ($entry['visibility'] == 3)
-		syndicateEntry($entry['id'], 'modify');
-	DBQuery::query("UPDATE {$database['prefix']}Attachments SET parent = {$entry['id']} WHERE blogid = $blogid AND parent = 0");
-	if ($entry['visibility'] >= 2)
-		clearRSS();
+			WHERE blogid = $blogid AND id = {$entry['id']} AND draft = $draftSign");
+	if($isDraft == 0) {  // Publishing phase.
+		if ($result) // 정상적인 글을 저장하려는 경우 draft는 날린다.
+			DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 1");
+		updateEntriesOfCategory($blogid, $entry['category']);
+		if ($entry['visibility'] == 3)
+			syndicateEntry($entry['id'], 'modify');
+		DBQuery::query("UPDATE {$database['prefix']}Attachments SET parent = {$entry['id']} WHERE blogid = $blogid AND parent = 0");
+		if ($entry['visibility'] >= 2)
+			clearRSS();
+	}
 	return $result ? $entry['id'] : false;
 }
 

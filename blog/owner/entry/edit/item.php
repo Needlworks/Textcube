@@ -28,7 +28,11 @@ define('__TEXTCUBE_EDIT__', true);
 if (defined('__TEXTCUBE_POST__'))
 	$suri['id'] = 0;
 
-$entry = getEntry(getBlogId(), $suri['id'], false);
+if($_GET['draft']) {
+	$entry = getEntry(getBlogId(), $suri['id'], true);
+} else {
+	$entry = getEntry(getBlogId(), $suri['id'], false);
+}
 if (!$entry) {
 	respondErrorPage(_t('포스트 정보가 존재하지 않습니다.'));
 	$isKeyword = ($entry['category'] == -1);
@@ -294,6 +298,7 @@ if (defined('__TEXTCUBE_POST__')) {
 											this.nowsaving = false;
 											return false;
 										}
+										data = data+"&draft=1";
 										if(entryManager.isSaved == true) {
 											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/update/"+entryManager.entryId);
 <?php
@@ -353,7 +358,7 @@ if (defined('__TEXTCUBE_POST__')) {
 										var data = this.getData(true);
 										if (data == null)
 											return false;
-
+										data = data+"&draft=0";
 										if(entryManager.isSaved == true) {
 											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/update/"+entryManager.entryId);
 <?php
