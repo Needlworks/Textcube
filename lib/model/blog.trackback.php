@@ -60,7 +60,7 @@ function getTrackbackList($blogid, $search) {
 	global $database;
 	$list = array('title' => "$search", 'items' => array());
 	$search = escapeSearchString($search);
-	$authorized = doesHaveOwnership() ? '' : ' AND e.category '.getPrivateCategoryExclusionQuery($blogid);
+	$authorized = doesHaveOwnership() ? '' : getPrivateCategoryExclusionQuery($blogid);
 	if ($result = DBQuery::queryAll("SELECT t.id, t.entry, t.url, t.site, t.subject, t.excerpt, t.written, e.slogan
  		FROM {$database['prefix']}Trackbacks t
 		LEFT JOIN {$database['prefix']}Entries e ON t.entry = e.id AND t.blogid = e.blogid

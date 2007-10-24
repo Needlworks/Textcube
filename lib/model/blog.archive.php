@@ -6,7 +6,7 @@
 function getArchives($blogid) {
 	global $database;
 	$archives = array();
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND e.category '.getPrivateCategoryExclusionQuery($blogid);
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$skinSetting = getSkinSetting($blogid);
 	$archivesOnPage = $skinSetting['archivesOnPage'];
 	$result = DBQuery::query("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(e.published)) period, COUNT(*) count 
@@ -30,7 +30,7 @@ function getCalendar($blogid, $period) {
 	$calendar['period'] = $period;
 	$calendar['year'] = substr($period, 0, 4);
 	$calendar['month'] = substr($period, 4, 2);
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND e.category '.getPrivateCategoryExclusionQuery($blogid);
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$result = DBQuery::queryAll("SELECT DISTINCT DAYOFMONTH(FROM_UNIXTIME(e.published)) 
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND YEAR(FROM_UNIXTIME(e.published)) = {$calendar['year']} AND MONTH(FROM_UNIXTIME(e.published)) = {$calendar['month']}");

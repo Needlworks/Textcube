@@ -154,7 +154,7 @@ function getCategoryVisibilityList($blogid, $mode = 'private') {
 function getPrivateCategoryExclusionQuery($blogid) {
 	$exclusionList = getCategoryVisibilityList($blogid, 'private');
 	if($exclusionList == null) return '';
-	return ' NOT IN ('.$exclusionList.')';
+	return '  AND e.category NOT IN ('.$exclusionList.')';
 }
 
 function getCategoriesSkin() {
