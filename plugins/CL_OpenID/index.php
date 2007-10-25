@@ -536,6 +536,9 @@ function openid_hardcore_login($target)
 	if( empty($_COOKIE['openid']) ) {
 		return $target;
 	}
+	if( headers_sent() ) {
+		return $target;
+	}
 	_openid_try_auth( $_COOKIE['openid'], $_SERVER["REQUEST_URI"], true, '' );
 	/* Never return */
 	return $target;
