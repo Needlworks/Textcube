@@ -41,7 +41,7 @@ if($isDraft) { // Prepare for draft saving.
 	$entry['acceptTrackback'] = empty($_POST['acceptTrackback']) ? 0 : 1;
 	$entry['published'] = empty($_POST['published']) ? 0 : $_POST['published'];
 	$entry['draft'] = empty($_POST['draft']) ? 0 : $_POST['draft'];
-} else if ($entry = getEntry($blogid, $suri['id'], $isDraft)) { // Non-draft saving.
+} else if ($entry = getEntry($blogid, $suri['id'])) { // Non-draft saving.
 	$entry['visibility'] = $_POST['visibility'];
 	$entry['category'] = $_POST['category'];
 	$entry['location'] = empty($_POST['location']) ? '/' : $_POST['location'];

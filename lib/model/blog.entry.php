@@ -620,6 +620,10 @@ function updateEntry($blogid, $entry) {
 	if(($draftCount == 0) && ($isDraft == 0)) $draftSign = 0;
 	else $draftSign = 1;
 
+	// 원래 글이 이미 있으면서 정상적인 글을 저장하려는 경우 원래 글을 날리고 현재 draft를 update한다.
+	if(($draftCount > 0) && ($isDraft == 0)) {
+		if(!DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 0")) return false;
+	}
 	$result = DBQuery::query("UPDATE {$database['prefix']}Entries
 			SET
 				userid             = {$entry['userid']},
