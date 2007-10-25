@@ -964,6 +964,12 @@ class Timestamp {
 
 }
 
+global $service;
+
+if (!isset($service['dbms'])) {
+	$service['dbms'] = 'mysql';
+}
+
 //Database Binding
 switch($service['dbms']) {
 	case 'postgresql':
