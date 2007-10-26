@@ -56,6 +56,8 @@ function requireLibrary($name) {
 }
 
 // Include core components.
+// Due to the global variable scope issues, use require here instead of requireComponent.
+
 requireComponent('Eolin.PHP.UnifiedEnvironment');
 requireComponent('Eolin.PHP.Core');
 requireComponent('Textcube.Core');

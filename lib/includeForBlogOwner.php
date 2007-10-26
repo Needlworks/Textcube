@@ -11,7 +11,7 @@ require 'function/xml.php';
 require 'function/misc.php';
 require 'function/image.php';
 require 'function/mail.php';
-//require 'function/legacy.php';
+require 'function/legacy.php';
 require 'functions.php';
 require 'database.php';
 require 'model/blog.service.php';

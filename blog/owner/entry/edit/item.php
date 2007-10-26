@@ -28,7 +28,7 @@ define('__TEXTCUBE_EDIT__', true);
 if (defined('__TEXTCUBE_POST__'))
 	$suri['id'] = 0;
 
-if($_GET['draft']) {
+if(isset($_GET['draft'])) {
 	$entry = getEntry(getBlogId(), $suri['id'], true);
 } else {
 	$entry = getEntry(getBlogId(), $suri['id'], false);
@@ -75,7 +75,6 @@ if (defined('__TEXTCUBE_POST__')) {
 									window.status = "Error: " + errType +" (on line " + errLineNum + " of " + errURL + ")";
 									return true;
 								}
-								
 								function setEnclosure(value) {
 									var filename = value.substring(0, value.indexOf("|"));
 									
@@ -298,9 +297,8 @@ if (defined('__TEXTCUBE_POST__')) {
 											this.nowsaving = false;
 											return false;
 										}
-										data = data+"&draft=1";
 										if(entryManager.isSaved == true) {
-											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/update/"+entryManager.entryId);
+											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/draft/"+entryManager.entryId);
 <?php
 	if($service['useRewriteEngine'] == false) {
 ?>
@@ -358,7 +356,6 @@ if (defined('__TEXTCUBE_POST__')) {
 										var data = this.getData(true);
 										if (data == null)
 											return false;
-										data = data+"&draft=0";
 										if(entryManager.isSaved == true) {
 											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/update/"+entryManager.entryId);
 <?php
