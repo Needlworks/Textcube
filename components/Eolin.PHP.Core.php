@@ -964,22 +964,6 @@ class Timestamp {
 
 }
 
-global $service;
-
-if (!isset($service['dbms'])) {
-	$service['dbms'] = 'mysql';
-}
-
-//Database Binding
-switch($service['dbms']) {
-	case 'postgresql':
-		requireComponent('Needlworks.DBMS.PostgreSQL');
-		break;
-	case 'mysql':
-	default:
-		requireComponent('Needlworks.DBMS.MySQL');
-}
-
 class TableQuery {
 	function TableQuery($table = null) {
 		$this->reset($table);

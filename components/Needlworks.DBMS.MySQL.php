@@ -11,10 +11,10 @@ $__gEscapeTag = null;
 
 class DBQuery {	
 	/*@static@*/
-	function bind() {
+	function bind($database) {
 		// Connects DB and set environment variables
 		// $database['utf8'] should be validated.
-		global $database;
+		// $database array should contain 'server','username','password'.
 		if(!isset($database) || empty($database)) return false;
 		mysql_connect($database['server'], $database['username'], $database['password']);
 		mysql_select_db($database['database']);
@@ -25,6 +25,7 @@ class DBQuery {
 			$database['utf8'] = false;
 		@DBQuery::query('SET SESSION collation_connection = \'utf8_general_ci\'');
 	}
+	
 	function unbind() {
 		mysql_close();
 		return true;
@@ -47,19 +48,20 @@ class DBQuery {
 		$count = 0;
 		$query = trim($query);
 		if ($result = DBQuery::query($query)) {
-			$operation = strtolower(substr($query, 0, strpos($query, ' ')));
+			$operation = strtolower(substr($query, 0,6));
 			switch ($operation) {
-			case 'select':
-				$count = mysql_num_rows($result);
-				mysql_free_result($result);
-				break;
-			case 'insert':
-			case 'update':
-			case 'delete':
-			case 'replace':
-			default:
-				$count = mysql_affected_rows();
-				//mysql_free_result();
+				case 'select':
+					$count = mysql_num_rows($result);
+					mysql_free_result($result);
+					break;
+				case 'insert':
+				case 'update':
+				case 'delete':
+				case 'replac':
+				default:
+					$count = mysql_affected_rows();
+					//mysql_free_result();
+					break;
 			}
 		}
 		return $count;

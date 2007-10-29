@@ -265,7 +265,6 @@ if (defined('__TEXTCUBE_POST__')) {
 											templateTitle = this.getText("/response/title");
 											templateContents = this.getText("/response/content");
 											entryManager.entryId = this.getText("/response/entryId");
-											alert(entryManager.entryId);
 											entryManager.isSaved = true;
 											PM.removeRequest(this);
 											var title = trim(oForm.title.value);

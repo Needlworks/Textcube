@@ -501,8 +501,7 @@ function deleteComment($blogid, $id, $entry, $password) {
 			$wherePassword = ' AND password = \'' . md5($password) . '\'';
 		}
 	}
-	if(DBQuery::queryExistence($sql . $wherePassword)) {
-		DBQuery::query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND parent = $id");
+	if(DBQuery::query($sql . $wherePassword)) {
 		updateCommentsOfEntry($blogid, $entry);
 		return true;
 	}
@@ -549,7 +548,7 @@ function revertComment($blogid, $id, $entry, $password) {
 		WHERE blogid = $blogid 
 			AND id = $id 
 			AND entry = $entry";
-	if(DBQuery::queryExistence($sql)) {
+	if(DBQuery::query($sql)) {
 		updateCommentsOfEntry($blogid, $entry);
 		return true;
 	}

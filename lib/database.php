@@ -3,8 +3,23 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+global $service;
+if (!isset($service['dbms'])) {
+	$service['dbms'] = 'mysql';
+}
+//Database Binding
+switch($service['dbms']) {
+	case 'postgresql':
+		require_once ROOT.'/components/Needlworks.DBMS.PostgreSQL.php';
+		break;
+	case 'mysql':
+	default:
+		require_once ROOT.'/components/Needlworks.DBMS.MySQL.php';
+}
+
 DBQuery::bind($database);
 
+// legacy.
 function tc_escape_string($string, $link = null) {
 	return DBQuery::escapeString($string, $link);
 }
