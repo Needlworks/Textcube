@@ -21,7 +21,7 @@ if (isset($cache->contents)) {
 				'[##_list_rep_rp_cnt_##]'
 			),
 			array(
-				fireEvent('ViewListDate', Timestamp::format3($item['published']), $item['published']),
+				fireEvent('ViewListDate', Timestamp::formatDate($item['published']), $item['published']),
 				fireEvent('ViewListName', htmlspecialchars($author)),
 				fireEvent('ViewListName', htmlspecialchars($author)),
 				"$blogURL/" . ($blog['useSlogan'] ? 'entry/' . encodeURL($item['slogan']) : $item['id']),
