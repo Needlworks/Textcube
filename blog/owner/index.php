@@ -5,11 +5,11 @@
 
 if(isset($service['useFastCGI']) && $service['useFastCGI'] == true) {
 	$url = rtrim(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['SCRIPT_NAME'], '/');
-	$url = preg_replace('/\?[\w\&=]+/', '', $url);
 } else {
 	$url = rtrim(isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : $_SERVER['SCRIPT_NAME'], '/');
 }
 // Exclude parse errors occurring at some hosting service.
+$url = preg_replace('/\?[\w\&=]+/', '', $url);
 $url = rtrim($url,'/index.php');
 
 // Redirect.
