@@ -562,8 +562,10 @@ class Validator {
 	}
 }
 
+global $__locale, $__text, $__skinText;
 
 class Locale {
+	// Requires $__locale as global variable. (language resource information)
 	function get() {
 		global $__locale;
 		return $__locale['locale'];
@@ -671,38 +673,6 @@ class Locale {
 		return $locales;
 	}
 }
-
-$__locale = array(
-	'locale' => null,
-	'directory' => './locale',
-	'domain' => null,
-	);
-
-function _t_noop($t) {
-	/* just for extracting by xgettext */
-	return $t;
-}
-
-function _t($t) {
-	global $__locale, $__text;
-	if (isset($__locale['domain']) && isset($__text[$__locale['domain']][$t]))
-		return $__text[$__locale['domain']][$t];
-	else if (isset($__text[$t]))
-		return $__text[$t];
-	return $t;
-}
-
-function _f($t) {
-	$t = _t($t);
-	if (func_num_args() <= 1)
-		return $t;
-	for ($i = 1; $i < func_num_args(); $i++) {
-		$arg = func_get_arg($i);
-		$t = str_replace('%' . $i, $arg, $t);
-	}
-	return $t;
-}
-
 
 class Timezone {
 	/*@static@*/

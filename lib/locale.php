@@ -3,6 +3,41 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+// Initialize locale variable.
+$__locale = array(
+	'locale' => null,
+	'directory' => './locale',
+	'domain' => null,
+	);
+
+function _t_noop($t) {
+	/* just for extracting by xgettext */
+	return $t;
+}
+
+// Administration panel language resource.
+// Text.
+function _t($t) {
+	global $__locale, $__text;
+	if (isset($__locale['domain']) && isset($__text[$__locale['domain']][$t]))
+		return $__text[$__locale['domain']][$t];
+	else if (isset($__text[$t]))
+		return $__text[$t];
+	return $t;
+}
+
+// Text with parameters.
+function _f($t) {
+	$t = _t($t);
+	if (func_num_args() <= 1)
+		return $t;
+	for ($i = 1; $i < func_num_args(); $i++) {
+		$arg = func_get_arg($i);
+		$t = str_replace('%' . $i, $arg, $t);
+	}
+	return $t;
+}
+
 // Set timezone.
 Timezone::set(isset($blog['timezone']) ? $blog['timezone'] : $service['timezone']);
 DBQuery::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
