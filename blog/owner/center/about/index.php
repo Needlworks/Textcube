@@ -87,6 +87,10 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												<td class="name"><a href="http://tokigun.net">Seong-Hoon Kang</a></td>
 												<td class="role"><?php echo _t('Editor / Formatter / Module');?></td>
 											</tr>
+											<tr>
+												<td class="name"><a href="http://crizin.net">Jaeyong Lee</a></td>
+												<td class="role"><?php echo _t('RSS Reader');?></td>
+											</tr>
 										</tbody>
 									</table>
 								</div>
@@ -199,7 +203,13 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 							
 							<div id="supporter-description" class="section">
 								<h3><span class="text"><?php echo _t('공헌자');?></span></h3>
-								
+								<div id="creators-container" class="container">
+									<h4><?php echo _t('Core creator');?></h4>
+									<p>
+									<a href="http://interlude.pe.kr">Jaehoon Jeong (0.9x),</a>
+									<a href="http://papacha.tistory.com">Sunju Jahng (1.0x)</a>
+									</p>
+								</div>	
 								<div id="contributor-container" class="container">
 									<h4><?php echo _t('Code Contributor');?></h4>
 									

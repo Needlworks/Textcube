@@ -5,13 +5,15 @@
 define('ROOT', '../../../..');
 $IV = array(
 	'POST' => array(
-		'targets' => array ('list')
+		'targets' => array ('list','mandatory'=>false)
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.entry");
 
 requireStrictRoute();
+
+$isAjaxRequest = checkAjaxRequest();
 
 if(isset($suri['id'])) {
 	if(!Acl::check("group.editors")) {

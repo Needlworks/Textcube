@@ -1740,7 +1740,12 @@ TTModernEditor.prototype.correctContent = function() {
 	html = html.replace(new RegExp("<i([^>]*?)>(.*?)</i>", "gi"), "<em$1>$2</em>"); 
 	html = html.replace(new RegExp("<u([^>]*?)>(.*?)</u>", "gi"), "<ins$1>$2</ins>"); 
 	html = html.replace(new RegExp("<strike([^>]*?)>(.*?)</strike>", "gi"), "<del$1>$2</del>"); 
-	
+	// delete blanks
+	html = html.replace(new RegExp("<p>\\s*(<br\\s/?)+", "gi"), "<p>");
+	html = html.replace(new RegExp("(<br\\s/?>)+\\s*</p>", "gi"), "</p>");
+	html = html.replace(new RegExp("<p></p>", "gi"), "");
+	html = html.replace(new RegExp("<li>\\s*<p>", "gi"), "<li>");
+	html = html.replace(new RegExp("</p>\\s*</li>", "gi"), "</li>");
 	if(isWYSIWYG) {
 		this.contentDocument.body.innerHTML = html;
 	} else {
