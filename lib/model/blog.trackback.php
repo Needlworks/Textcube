@@ -95,8 +95,7 @@ function getRecentTrackbacks($blogid, $count = false) {
 			t.blogid = $blogid 
 			AND t.isFiltered = 0 
 			AND e.draft = 0 
-			AND e.visibility >= 2 
-			AND e.category NOT IN (".getCategoryVisibilityList($blogid,'private').") 
+			AND e.visibility >= 2 ".getPrivateCategoryExclusionQuery($blogid)." 
 		ORDER BY 
 			t.written 
 		DESC LIMIT ".($count = false ? $count : $skinSetting['trackbacksOnRecent']);
