@@ -422,8 +422,6 @@ function addEntry($blogid, $entry) {
 	$entry['location'] = UTF8::lessenAsEncoding(trim($entry['location']), 255);
 	$entry['slogan'] = array_key_exists('slogan', $entry) ? trim($entry['slogan']) : '';
 	
-	$isDraft = empty($entry['draft']) ? 0 : $entry['draft'];
-	
 	if((empty($entry['slogan']))||($entry['category'] == -1)) {
 		$slogan = $slogan0 = getSlogan($entry['title']);
 	} else {
@@ -468,23 +466,11 @@ function addEntry($blogid, $entry) {
 		$published = 'UNIX_TIMESTAMP()';
 	}
 	
-	if(isset($entry['id'])) { // entry id를 지정한 경우 (주로 saveDraftEntry에 의하여 draft를 생성하는 경우가 될 것이다)
-		if(DBQuery::queryCell("SELECT count(*) 
-			FROM {$database['prefix']}Entries 
-			WHERE blogid = $blogid 
-				AND id = {$entry['id']} 
-				AND draft = $isDraft") > 0) { // 이미 원하는 draft에 같은 id가 다 존재한다. 이 경우 저장할 수 없음.
-			return false;
-		} else {
-			$id = $entry['id'];
-		}
+	$currentMaxId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0");
+	if(!empty($currentMaxId) && $currentMaxId > 0) {
+		$id = $currentMaxId + 1;
 	} else {
-		$currentMaxId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0");
-		if(!empty($currentMaxId) && $currentMaxId > 0) {
-			$id = $currentMaxId + 1;
-		} else {
-			$id = 1;
-		}
+		$id = 1;
 	}
 	$result = DBQuery::query("INSERT INTO {$database['prefix']}Entries 
 			(blogid, userid, id, draft, visibility, category, title, slogan, content, contentFormatter,
@@ -494,7 +480,7 @@ function addEntry($blogid, $entry) {
 			$blogid,
 			$userid,
 			$id,
-			$isDraft,
+			0,
 			{$entry['visibility']},
 			{$entry['category']},
 			'$title',
@@ -514,17 +500,15 @@ function addEntry($blogid, $entry) {
 	if (!$result)
 		return false;
 	DBQuery::query("UPDATE {$database['prefix']}Attachments SET parent = $id WHERE blogid = $blogid AND parent = 0");
-	if(!$isDraft) { // draft가 없는 상태에서 저장하고 나가는 경우.
-		DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 1");
-		updateEntriesOfCategory($blogid, $entry['category']);
-		if ($entry['visibility'] == 3)
-			syndicateEntry($id, 'create');
-		if ($entry['visibility'] >= 2)
-			clearRSS();
-		if (!empty($entry['tag'])) {
-			$tags = getTagsWithEntryString($entry['tag']);
-			addTagsWithEntryId($blogid, $id, $tags);
-		}
+	DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 1");
+	updateEntriesOfCategory($blogid, $entry['category']);
+	if ($entry['visibility'] == 3)
+		syndicateEntry($id, 'create');
+	if ($entry['visibility'] >= 2)
+		clearRSS();
+	if (!empty($entry['tag'])) {
+		$tags = getTagsWithEntryString($entry['tag']);
+		addTagsWithEntryId($blogid, $id, $tags);
 	}
 	return $id;
 }
