@@ -16,7 +16,7 @@ function _t_noop($t) {
 }
 
 // Administration panel language resource.
-// Text.
+// Translate text only.
 function _t($t) {
 	global $__locale, $__text;
 	if (isset($__locale['domain']) && isset($__text[$__locale['domain']][$t]))
@@ -39,8 +39,10 @@ function _f($t) {
 }
 
 // Set timezone.
-Timezone::set(isset($blog['timezone']) ? $blog['timezone'] : $service['timezone']);
-DBQuery::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
+if(isset($database) && !empty($database['database'])) {
+	Timezone::set(isset($blog['timezone']) ? $blog['timezone'] : $service['timezone']);
+	DBQuery::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
+}
 
 // 관리자 화면 locale 불러오기.
 // TODO : po지원하도록 변경해야 함.

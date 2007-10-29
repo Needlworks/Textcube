@@ -3,7 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-global $service;
+// Instructions
+// ------------
 if (!isset($service['dbms'])) {
 	$service['dbms'] = 'mysql';
 }
@@ -16,20 +17,20 @@ switch($service['dbms']) {
 	default:
 		require_once ROOT.'/components/Needlworks.DBMS.MySQL.php';
 }
+if(!empty($database) && !empty($database["database"])) DBQuery::bind($database);
 
-DBQuery::bind($database);
-
-// legacy.
+// Functions
+// ---------
+// legacy functions to support character escaping depended on DBMS
 function tc_escape_string($string, $link = null) {
 	return DBQuery::escapeString($string, $link);
 }
 
 function escapeSearchString($str) {
-	return is_string($str) ? str_replace('_', '\_', str_replace('%', '\%', tc_escape_string($str))) : $str;
+	return is_string($str) ? str_replace('_', '\_', str_replace('%', '\%', DBQuery::escapeString($str, null))) : $str;
 }
 
-function doesExistTable($tablename)
-{
+function doesExistTable($tablename) {
 	requireModel('common.setting');
 
 	global $database;

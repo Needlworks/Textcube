@@ -65,11 +65,11 @@ requireComponent('Textcube.Core.BackwardCompatibility');
 requireComponent('Needlworks.Cache.PageCache');
 
 // Include installation configuration.
-include_once ROOT . '/config.php';
+@include_once ROOT . '/config.php';
 
 // Basic POST/GET variable validation.
 if (isset($IV)) {
-	// Pass-through 'id' as an mod_alias workaround.
+	// Pass-through 'id' as a mod_alias workaround.
 	if($service['useRewriteEngine'] == false) {
 		$currentIV = array();
 		if(isset($_POST['id'])) {

@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
-ini_set('display_errors', 'off');
+ini_set('display_errors', 'on');
 if (get_magic_quotes_gpc()) {
     foreach ($_GET as $key => $value)
         $_GET[$key] = stripslashes($value);
@@ -11,17 +11,19 @@ if (get_magic_quotes_gpc()) {
 }
 $host = explode(':', $_SERVER['HTTP_HOST']);
 if (count($host) > 1) {
-    $_SERVER['HTTP_HOST'] = $host[0];
-    $_SERVER['SERVER_PORT'] = $host[1];
+	$_SERVER['HTTP_HOST'] = $host[0];
+	$_SERVER['SERVER_PORT'] = $host[1];
 }
 unset($host);
 
 define ('ROOT', '.');
 require 'lib/config.php';
+require 'lib/database.php';
+require 'lib/locale.php';
 
 if (!empty($_GET['test'])) {
-   echo getFingerPrint();
-    exit;
+	echo getFingerPrint();
+	exit;
 }
 
 $root = substr($_SERVER['SCRIPT_FILENAME'], 0, strlen($_SERVER['SCRIPT_FILENAME']) - 10);
@@ -147,11 +149,11 @@ else if ($_POST['step'] == 7) {
 	checkStep(8, false);
 }
 else {
-	
+/*	
 	function tc_escape_string($string) {
 		global $mysql_escaping_function;
 		return $mysql_escaping_function($string);
-	}
+	}*/
 	
 	for ($i = 1; $i <= $_POST['step']; $i ++) {
         if (!checkStep($i))
@@ -807,13 +809,13 @@ RewriteRule ^testrewrite$ setup.php [L]"
 <?php
             if ($rewrite >= 2) {
 ?>
-        <label for="type1"><input type="radio" id="type1" name="type" value="domain" checked="checked" onclick="show('typeDomain');return false;" />
+        <label for="type1"><input type="radio" id="type1" name="type" value="domain" checked="checked" onclick="show('typeDomain');" />
                       <?php echo _t('도메인네임(DNS)으로 블로그 식별');?></label>
         <br />
 <?php
             }
 ?>
-        <label for="type2"><input type="radio" id="type2" name="type" value="path"<?php echo ($rewrite == 1 ? ' checked="checked"' : '');?> onclick="show('typePath');return false;" />
+        <label for="type2"><input type="radio" id="type2" name="type" value="path"<?php echo ($rewrite == 1 ? ' checked="checked"' : '');?> onclick="show('typePath');" />
         <?php echo _t('하위 경로(Path)로 블로그 식별');?></label></td>
       </tr>
 <?php
@@ -822,7 +824,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
       <tr>
         <th style="padding-top:10px"><strong><?php echo _t('단일 사용자');?> : </strong></th>
         <td style="padding-top:10px">
-          <label for="type3"><input type="radio" id="type3" name="type" value="single" onclick="show('typeSingle');return false;" <?php echo (empty($_POST['disableRewrite']) ? '' : 'checked="checked"');?> /><?php echo _t('단일 블로그');?></label></td>
+          <label for="type3"><input type="radio" id="type3" name="type" value="single" onclick="show('typeSingle');" <?php echo (empty($_POST['disableRewrite']) ? '' : 'checked="checked"');?> /><?php echo _t('단일 블로그');?></label></td>
       </tr>
       <tr>
         <th style="padding-top:20px"><?php echo _t('블로그 주소 예시');?></th>
