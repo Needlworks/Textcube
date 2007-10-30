@@ -3,6 +3,10 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+define('ROOT', '../..');
+
+require ROOT . '/lib/includeForBlogOwner.php';
+
 if(isset($service['useFastCGI']) && $service['useFastCGI'] == true) {
 	$url = rtrim(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['SCRIPT_NAME'], '/');
 } else {
