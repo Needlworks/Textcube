@@ -34,7 +34,6 @@ require 'view/view.php';
 
 // Initializing environment.
 require 'initialize.php';
-require 'suri.php';
 require 'plugins.php';
 require 'session.php';
 

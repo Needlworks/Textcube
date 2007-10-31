@@ -13,7 +13,6 @@ require 'model/common.plugin.php';
 require 'model/common.setting.php';
 // Initialize
 require 'initialize.php';
-require 'suri.php';
 
 header('Content-Type: text/html; charset=utf-8');
 ?>

@@ -11,6 +11,12 @@
 require ROOT.'/components/Needlworks.Database.php';
 if(!empty($database) && !empty($database["database"])) DBQuery::bind($database);
 
+
+/* Path-dependent environment setting
+   ----------------------------------
+   */
+require ROOT.'/lib/suri.php';
+
 /* Locale initialization
    ---------------------
    - Depends on /lib/locale.php 

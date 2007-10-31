@@ -37,7 +37,6 @@ require 'view/paging.php';
 require 'view/view.php';
 // Initializing environment.
 require 'initialize.php';
-require 'suri.php';
 if (!defined('NO_SESSION')) require 'session.php';
 require 'plugins.php';
 
