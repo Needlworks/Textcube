@@ -10,16 +10,18 @@ if(isset($service['useFastCGI']) && $service['useFastCGI'] == true) {
 	$url = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : $_SERVER['SCRIPT_NAME'];
 }
 
-$suri = array('url' => $url, 'value' => '');
-$blogid = null;
+$suri            = array('url' => $url, 'value' => '');
+$blogid          = null;
 $isStrictBlogURL = true;
-$depth = substr_count($service['path'], '/');
+$depth           = substr_count($service['path'], '/');
+
 if ($depth > 0) {
 	if (preg_match('@^((/+[^/]+){' . $depth . '})(.*)$@', $url, $matches))
 		$url = $matches[3];
 	else
 		respondNotFoundPage();
 }
+
 if ($service['type'] == 'single') {
 	$blogid = 1;
 } else {
@@ -145,31 +147,11 @@ $hostURL = 'http://' . $_SERVER['HTTP_HOST'] . (isset($service['port']) ? ':' . 
 $blogURL = $pathURL;
 $folderURL = rtrim($blogURL . $suri['directive'], '/');
 
-
 if (defined('__TEXTCUBE_MOBILE__')) {
 	$blogURL .= '/m';
 }
 unset($url, $domain);
 
-// 어드민 스킨 및 에디터 템플릿 설정.
-$adminSkinSetting = array();
-$adminSkinSetting['skin'] = "/style/admin/".getBlogSetting("adminSkin", "default");
-
-// 리샘플링 설정값.
-$useImageResampling = getBlogSetting("resamplingDefault");
-
-// content 본문에 removeAllTags()가 적용되는 것을 방지하기 위한 프로세스를 위한 변수.
-$contentContainer = array();
-
-if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/wysiwyg.css"))
-	$adminSkinSetting['editorTemplate'] = "/skin/{$skinSetting['skin']}/wysiwyg.css";
-else
-	$adminSkinSetting['editorTemplate'] = "/style/default-wysiwyg.css";
-
-if (!file_exists(ROOT . '/config.php')) {
-	header('Location: ' . ROOT . '/setup.php');
-	exit;
-}
 function respondNotFoundPage() {
 	header('HTTP/1.1 404 Not Found');
 	header("Connection: close");

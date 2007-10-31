@@ -5,7 +5,7 @@
 
 define('ROOT', '../..');
 
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/lib/config.php';
 
 if(isset($service['useFastCGI']) && $service['useFastCGI'] == true) {
 	$url = rtrim(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['SCRIPT_NAME'], '/');

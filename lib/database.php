@@ -3,29 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-// Instructions
-// ------------
-if (!isset($service['dbms'])) {
-	$service['dbms'] = 'mysql';
-}
-//Database Binding
-switch($service['dbms']) {
-	case 'postgresql':
-		require_once ROOT.'/components/Needlworks.DBMS.PostgreSQL.php';
-		break;
-	case 'mysql':
-	default:
-		require_once ROOT.'/components/Needlworks.DBMS.MySQL.php';
-}
-if(!empty($database) && !empty($database["database"])) DBQuery::bind($database);
-
-// Functions
-// ---------
 // legacy functions to support character escaping depended on DBMS
-function tc_escape_string($string, $link = null) {
-	return DBQuery::escapeString($string, $link);
-}
-
 function escapeSearchString($str) {
 	return is_string($str) ? str_replace('_', '\_', str_replace('%', '\%', DBQuery::escapeString($str, null))) : $str;
 }

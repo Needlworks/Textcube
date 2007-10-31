@@ -146,11 +146,11 @@ function getTagFrequency($tag, $max, $min) {
 			$tag = array('name' => $tag);
 		} 
 		if (doesHaveOwnership())
-			$count = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, 
+			$count = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t
 				INNER JOIN `{$database['prefix']}TagRelations` r ON r.tag = t.id AND r.blogid = $blogid
 				WHERE t.name = '" . tc_escape_string($tag['name']) . "'");
 		else
-			$count = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t, 
+			$count = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t
 				INNER JOIN `{$database['prefix']}TagRelations` r ON r.blogid = $blogid AND r.tag = t.id 
 				INNER JOIN `{$database['prefix']}Entries` e ON e.blogid = r.blogid e.id = r.entry AND e.visibility > 0 
 				WHERE t.name = '" . tc_escape_string($tag['name']) . "'");

@@ -5,6 +5,8 @@
 
 global $pluginSetting;
 $pluginSetting = array();
+
+/***** Plugin data manipulation *****/
 function clearPluginSettingCache()
 {
 	global $pluginSetting;
@@ -273,5 +275,419 @@ function getPluginTableName() {
 		$dbtables = array_values(array_diff($dbtables, $definedTables));
 	}
 	return $dbtables;
+}
+
+
+/***** Events and configuration handles *****/
+
+function fireEvent($event, $target = null, $mother = null, $condition = true) {
+	global $service, $eventMappings, $pluginURL, $pluginPath, $configMappings, $configVal;
+	if (!$condition)
+		return $target;
+	if (!isset($eventMappings[$event]))
+		return $target;
+	foreach ($eventMappings[$event] as $mapping) {
+		include_once (ROOT . "/plugins/{$mapping['plugin']}/index.php");
+		if (function_exists($mapping['listener'])) {
+			if( !empty( $configMappings[$mapping['plugin']]['config'] ) ) 				
+				$configVal = getCurrentSetting($mapping['plugin']);
+			else
+				$configVal = null;
+			$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
+			$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
+			$target = call_user_func($mapping['listener'], $target, $mother);
+		}
+	}
+	return $target;
+}
+
+function handleTags( & $content) {
+	global $service, $tagMappings, $pluginURL, $pluginPath, $pluginName, $configMappings, $configVal;
+	if (preg_match_all('/\[##_(\w+)_##\]/', $content, $matches)) {
+		foreach ($matches[1] as $tag) {
+			if (!isset($tagMappings[$tag]))
+				continue;
+			$target = '';
+			foreach ($tagMappings[$tag] as $mapping) {
+				include_once (ROOT . "/plugins/{$mapping['plugin']}/index.php");
+				if (function_exists($mapping['handler'])) {
+					if( !empty( $configMappings[$mapping['plugin']]['config'] ) ) 				
+						$configVal = getCurrentSetting($mapping['plugin']);
+					else
+						$configVal ='';
+					$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
+					$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
+					$pluginName = $mapping['plugin'];
+					$target = call_user_func($mapping['handler'], $target);
+				}
+			}
+			dress($tag, $target, $content);
+		}
+	}
+}
+
+function handleCenters($mapping) {
+	global $service, $pluginURL, $pluginPath, $pluginName, $configMappings, $configVal;
+	$target = '';
+
+	include_once (ROOT . "/plugins/{$mapping['plugin']}/index.php");
+	if (function_exists($mapping['handler'])) {
+		if( !empty( $configMappings[$mapping['plugin']]['config'] ) ) 				
+			$configVal = getCurrentSetting($mapping['plugin']);
+		else
+			$configVal ='';
+		$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
+		$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
+		$pluginName = $mapping['plugin'];
+		$target = call_user_func($mapping['handler'], $target);
+	}
+
+	return $target;
+}
+
+// 저장된 사이드바 정렬 순서 정보를 가져온다.
+function handleSidebars(& $sval, & $obj, $previewMode) {
+	global $service, $pluginURL, $pluginPath, $pluginName, $configVal, $configMappings;
+	$newSidebarAllOrders = array(); 
+	// [sidebar id][element id](type, id, parameters)
+	// type : 1=skin text, 2=default handler, 3=plug-in
+	// id : type1=sidebar i, type2=handler id, type3=plug-in handler name
+	// parameters : type1=sidebar j, blah blah~
+	
+	$sidebarCount = count($obj->sidebarBasicModules);
+	$sidebarAllOrders = getSidebarModuleOrderData($sidebarCount);
+	if ($previewMode == true) {
+		$sidebarAllOrders = null;
+	} else {
+		if (is_null($sidebarAllOrders)) $sidebarAllOrders = array();
+	}
+	
+	for ($i=0; $i<$sidebarCount; $i++) {
+		$str = "";
+		if ((!is_null($sidebarAllOrders)) && ((array_key_exists($i, $sidebarAllOrders)))) {
+			$currentSidebarOrder = $sidebarAllOrders[$i];
+			for ($j=0; $j<count($currentSidebarOrder); $j++) {
+				if ($currentSidebarOrder[$j]['type'] == 1) { // skin text
+					$skini = $currentSidebarOrder[$j]['id'];
+					$skinj = $currentSidebarOrder[$j]['parameters'];
+					if (isset($obj->sidebarBasicModules[$skini]) && isset($obj->sidebarBasicModules[$skini][$skinj])) {
+						$str .= $obj->sidebarBasicModules[$skini][$skinj]['body'];
+					}
+				} else if ($currentSidebarOrder[$j]['type'] == 2) { // default handler
+					// TODO : implement
+				} else if ($currentSidebarOrder[$j]['type'] == 3) { // plugin
+					$plugin = $currentSidebarOrder[$j]['id']['plugin'];
+					$handler = $currentSidebarOrder[$j]['id']['handler'];
+					include_once (ROOT . "/plugins/{$plugin}/index.php");
+					if (function_exists($handler)) {
+						$str .= "[##_temp_sidebar_element_{$i}_{$j}_##]";
+						$parameters = $currentSidebarOrder[$j]['parameters'];
+						$pluginURL = "{$service['path']}/plugins/{$plugin}";
+						$pluginPath = ROOT . "/plugins/{$plugin}";
+						if( !empty( $configMappings[$plugin]['config'] ) ) 				
+							$configVal = getCurrentSetting($plugin);
+						else
+							$configVal ='';
+						
+						if (function_exists($handler)) {
+							$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"] = call_user_func($handler, $parameters);
+						} else {
+							$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"] = "";
+						}
+					}
+				} else {
+					// WHAT?
+				}
+			}
+		} else {
+			$newSidebarAllOrders[$i] = array();
+			
+			for ($j=0; $j<count($obj->sidebarBasicModules[$i]); $j++) {
+				$str .= $obj->sidebarBasicModules[$i][$j]['body'];
+				array_push($newSidebarAllOrders[$i], array('type' => '1', 'id' => "$i", 'parameters' => "$j"));
+			}
+			
+			if (!is_null($sidebarAllOrders)) $sidebarAllOrders[$i] = $newSidebarAllOrders[$i];  
+		}
+		
+		dress("sidebar_{$i}", $str, $sval);
+	}
+	
+	if (count($newSidebarAllOrders) > 0) {
+		if (($previewMode == false) && !is_null($sidebarAllOrders))
+			setBlogSetting("sidebarOrder", serialize($sidebarAllOrders));
+	}
+}
+
+// 저장된 표지 정렬 순서 정보를 가져온다.
+function handleCoverpages(& $sval, & $obj, $previewMode) {
+	global $service, $pluginURL, $pluginPath, $pluginName, $configVal, $configMappings, $coverpageModule;
+	requireModel("blog.coverpage");
+	// [coverpage id][element id](type, id, parameters)
+	// type : 3=plug-in
+	// id : type1=coverpage i, type2=handler id, type3=plug-in handler name
+	// parameters : type1=coverpage j, blah blah~
+	
+	$coverpageAllOrders = getCoverpageModuleOrderData();
+	if ($previewMode == true) $coverpageAllOrders = null;
+	
+	$i = 0;
+	$coverpageModule = array();
+	if ((!is_null($coverpageAllOrders)) && ((array_key_exists($i, $coverpageAllOrders)))) {
+		$currentCoverpageOrder = $coverpageAllOrders[$i];
+		for ($j=0; $j<count($currentCoverpageOrder); $j++) {
+			if ($currentCoverpageOrder[$j]['type'] == 3) { // plugin
+				$plugin = $currentCoverpageOrder[$j]['id']['plugin'];
+				$handler = $currentCoverpageOrder[$j]['id']['handler'];
+				include_once (ROOT . "/plugins/{$plugin}/index.php");
+				if (function_exists($handler)) {
+					$coverpageModule[$j] = "[##_temp_coverpage_element_{$i}_{$j}_##]";
+					$parameters = $currentCoverpageOrder[$j]['parameters'];
+					$pluginURL = "{$service['path']}/plugins/{$plugin}";
+					$pluginPath = ROOT . "/plugins/{$plugin}";
+					if( !empty( $configMappings[$plugin]['config'] ) ) 				
+						$configVal = getCurrentSetting($plugin);
+					else
+						$configVal ='';
+					
+					if (function_exists($handler)) {
+						$obj->coverpageStorage["temp_coverpage_element_{$i}_{$j}"] = call_user_func($handler, $parameters);
+					} else {
+						$obj->coverpageStorage["temp_coverpage_element_{$i}_{$j}"] = "";
+					}
+				}
+			} else {
+				// WHAT?
+			}
+		}
+	}
+}
+
+function handleDataSet( $plugin , $DATA ) {
+	global $configMappings, $activePlugins, $service, $pluginURL, $pluginPath, $pluginName, $configMapping, $configVal;
+	$xmls = new XMLStruct();
+	if( ! $xmls->open($DATA) ) {
+		unset($xmls);	
+		return array('error' => '3' ,'customError' => '' ) ;
+	}unset($xmls);	
+	if( ! in_array($plugin, $activePlugins) ) 
+		return array('error' => '9' , 'customError'=> _t($plugin.' : 플러그인이 활성화되어 있지 않아 설정을 저장하지 못했습니다.')) ;
+	$reSetting = true;
+	if( !empty( $configMappings[$plugin]['dataValHandler'] ) ) {
+		$pluginURL = "{$service['path']}/plugins/{$plugin}";
+		$pluginPath = ROOT . "/plugins/{$plugin}";
+		$pluginName = $plugin;
+		include_once (ROOT . "/plugins/{$plugin}/index.php");
+		if( function_exists( $configMappings[$plugin]['dataValHandler'] ) ) {
+			if( !empty( $configMappings[$plugin]['config'] ) ) 				
+				$configVal = getCurrentSetting($plugin);
+			else
+				$configVal ='';
+			$reSetting = call_user_func( $configMappings[$plugin]['dataValHandler'] , $DATA);
+		}
+		if( true !== $reSetting )	
+			return array( 'error' => '9', 'customError' => $reSetting)	;
+	}
+	$result = updatePluginConfig($plugin, $DATA);
+	return array('error' => $result , 'customError'=> '' ) ;
+}
+
+function fetchConfigVal( $DATA ) {
+	$xmls = new XMLStruct();
+	$outVal = array();
+	if( ! $xmls->open($DATA) ) {
+		unset($xmls);	
+		return null;
+	}
+	if( is_null(  $xmls->selectNodes('/config/field') )) {
+	 	unset($xmls);	
+		return null;
+	}
+	foreach ($xmls->selectNodes('/config/field') as $field) {
+		if( empty( $field['.attributes']['name'] )  || empty( $field['.attributes']['type'] ) ) {
+		 	unset($xmls);	
+			return null;
+		}
+		$outVal[$field['.attributes']['name']] = $field['.value'] ;
+	}
+	unset($xmls);	
+	return ( $outVal);
+}
+
+function handleConfig($plugin) {
+	global $service , $typeSchema, $pluginURL, $pluginPath, $pluginName, $configMappings, $configVal, $adminSkinSetting;
+	
+	$typeSchema = array(
+		'text' 
+	,	'textarea'
+	,	'select'
+	,	'checkbox'
+	,	'radio'
+	);
+	$manifest = @file_get_contents(ROOT . "/plugins/$plugin/index.xml");
+	$xmls = new XMLStruct();	
+	$CDSPval = '';
+	$i=0;
+	$dfVal =  fetchConfigVal(getCurrentSetting($plugin));
+	$name = '';
+	$clientData ='[';
+	
+	$title = $plugin;
+	
+	if ($manifest && $xmls->open($manifest)) {
+		$title = $xmls->getValue('/plugin/title[lang()]');
+		//설정 핸들러가 존재시 바꿈
+		$config = $xmls->selectNode('/plugin/binding/config[lang()]');
+		unset( $xmls );
+		if( !empty($config['.attributes']['manifestHandler']) ) {
+			$handler = $config['.attributes']['manifestHandler'] ;
+			$oldconfig = $config;
+			$pluginURL = "{$service['path']}/plugins/{$plugin}";
+			$pluginPath = ROOT . "/plugins/{$plugin}";
+			$pluginName = $plugin;
+			include_once (ROOT . "/plugins/$plugin/index.php");
+			if (function_exists($handler)) {
+				if( !empty( $configMappings[$plugin]['config'] ) ) 				
+					$configVal = getCurrentSetting($plugin);
+				else
+					$configVal ='';
+				$manifest = call_user_func( $handler , $plugin );
+			}
+			$newXmls = new XMLStruct();
+			if($newXmls->open( $manifest) ) {	 
+				unset( $config );
+				$config = $newXmls->selectNode('/config[lang()]');
+			}
+			unset( $newXmls);
+		}
+		if( is_null( $config['fieldset'] ) ) 
+			return array( 'code' => _t('설정 값이 없습니다.') , 'script' => '[]' ) ;  	
+		foreach ($config['fieldset'] as $fieldset) {
+			$legend = !empty($fieldset['.attributes']['legend']) ? htmlspecialchars($fieldset['.attributes']['legend']) :'';
+			$CDSPval .= CRLF.TAB."<fieldset>".CRLF.TAB.TAB."<legend><span class=\"text\">$legend</span></legend>".CRLF;
+			if( !empty( $fieldset['field'] ) ) {
+				foreach( $fieldset['field'] as $field ) {
+					if( empty( $field['.attributes']['name'] ) ) continue;
+					$name = $field['.attributes']['name'] ;
+					$clientData .= getFieldName($field , $name) ;
+					$CDSPval .=  TreatType( $field , $dfVal ,  $name) ;	
+				}
+			}
+			$CDSPval .= TAB."</fieldset>".CRLF;
+		}
+	} else	$CDSPval = _t('설정 값이 없습니다.'); 	
+	$clientData .= ']';
+	return array( 'code' => $CDSPval , 'script' => $clientData, 'title' => $title ) ;
+}
+
+/***** Plugin configuration panel functions *****/
+
+function getFieldName( $field , $name ) {
+	if( 'checkbox' != $field['.attributes' ]['type'] ) return '"' . $name . '",';
+	$tname ='';
+	foreach( $field['op'] as $op ) {
+		if( !empty( $op['.attributes']['name'] ) )
+			$tname .= '"' . $op['.attributes']['name'] . '",';
+	}
+	return $tname;
+}
+
+function TreatType(  $cmd , $dfVal , $name ) {
+	global $typeSchema;
+	if( empty($cmd['.attributes']['type']) || !in_array($cmd['.attributes']['type'] , $typeSchema  ) ) return '';
+	if( empty($cmd['.attributes']['title']) || empty($cmd['.attributes']['name'])) return '';
+	$titleFw = empty($cmd['.attributes']['titledirection']) ? true : ($cmd['.attributes']['titledirection'] == 'bk' ? false : true);
+	$fieldTitle = TAB.TAB.TAB.'<label class="fieldtitle" for="'.$name.'">'.htmlspecialchars($cmd['.attributes']['title']) . '</label>';
+	$fieldControl = TAB.TAB.TAB.'<span class="fieldcontrol">' .CRLF.  call_user_func($cmd['.attributes']['type'].'Treat' , $cmd, $dfVal, $name) .TAB.TAB.TAB.'</span>';
+	$caption = empty($cmd['caption'][0]) ? '':TAB.TAB.TAB.'<div class="fieldcaption">'. $cmd['caption'][0]['.value']  . '</div>'.CRLF;
+	if( $titleFw) 
+		return	TAB.TAB.'<div class="field" id="div_'.htmlspecialchars($cmd['.attributes']['name']).'">'.CRLF.$fieldTitle.CRLF.$fieldControl.CRLF.$caption.TAB.TAB."</div>\n";
+	else
+		return	TAB.TAB.'<div class="field" id="div_'.htmlspecialchars($cmd['.attributes']['name']).'">'.CRLF.$fieldControl.CRLF.$fieldTitle.CRLF.$caption.TAB.TAB."</div>\n";
+}
+
+function treatDefaultValue($value, $default, $allowZero = true) {
+	if ($allowZero)
+		return (!isset($value) || trim($value) == '' ? $default : $value);
+	else
+		return (empty($value) ? $default : $value);
+}
+
+function textTreat( $cmd , $dfVal , $name ) {
+	$dfVal = ( !is_null( $dfVal[$name]  ) ) ? $dfVal[$name]  :  ((!isset($cmd['.attributes']['value']) || (empty($cmd['.attributes']['value']) && $cmd['.attributes']['value']!== 0))?null:$cmd['.attributes']['value']); 
+	$DSP = TAB.TAB.TAB.TAB.'<input type="text" class="textcontrol" ';
+	$DSP .= ' id="'.$name.'" ';
+	$DSP .= empty( $cmd['.attributes']['size'] ) ? '' : 'size="'. $cmd['.attributes']['size'] . '"' ;
+	$DSP .= is_null( $dfVal  ) ? '' : 'value="'. htmlspecialchars($dfVal). '"' ;
+	$DSP .= ' />'.CRLF ;
+	return $DSP;
+}
+function textareaTreat( $cmd, $dfVal , $name) {
+	$dfVal = ( !is_null( $dfVal[$name]  ) ) ? $dfVal[$name] : ((!isset($cmd['.value']) || (empty($cmd['.value']) && $cmd['.value']!== 0))? null:$cmd['.value']);
+	$DSP = TAB.TAB.TAB.TAB.'<textarea class="textareacontrol"';
+	$DSP .= ' id="'.$name.'"';
+	$DSP .= ' rows="'.((!isset($cmd['.attributes']['rows']) || (empty($cmd['.attributes']['rows']) && $cmd['.attributes']['rows']!== 0)) ? '2' : $cmd['.attributes']['rows']).'"';
+	$DSP .= ' cols="'.((!isset($cmd['.attributes']['cols']) || (empty($cmd['.attributes']['cols']) && $cmd['.attributes']['cols']!== 0)) ? '23' : $cmd['.attributes']['cols']).'"';
+	$DSP .= '>';
+	$DSP .= is_null( $dfVal  )  ? '' : htmlspecialchars($dfVal);
+	$DSP .= '</textarea>'.CRLF ;
+	return $DSP;
+}
+
+function selectTreat( $cmd, $dfVal , $name) {
+	$DSP = TAB.TAB.TAB.TAB.'<select id="'.$name.'" class="selectcontrol">'.CRLF;
+	$df = ((!isset($dfVal[$name]) || (empty($dfVal[$name]) && $dfVal[$name]!== 0))?null:$dfVal[$name]);
+	foreach( $cmd['op']  as $option ) {
+		$ov = ((!isset($option['.attributes']['value']) || (empty($option['.attributes']['value']) && $option['.attributes']['value']!== 0))?null:$option['.attributes']['value']);
+		$oc = ((!isset($option['.attributes']['checked']) || (empty($option['.attributes']['checked']) && $option['.attributes']['checked']!== 0))?null:$option['.attributes']['checked']);
+		
+		$DSP .= TAB.TAB.TAB.TAB.TAB.'<option ';
+		$DSP .= !is_string( $ov ) ? '' : 'value="'.htmlspecialchars($ov).'" ';
+		$DSP .= is_string( $oc ) && 'checked' == $oc && is_null($dfVal) ? 'selected="selected" ':'';
+		$DSP .= is_string($df) && (!is_string( $ov ) ? false : $ov== $df ) ? 'selected="selected" ' : '';
+		$DSP .= '>';
+		$DSP .= $option['.value'];
+		$DSP .= '</option>'.CRLF;
+	}
+	$DSP .= TAB.TAB.TAB.TAB.'</select>'.CRLF ;
+	return $DSP;
+}
+
+function checkboxTreat( $cmd, $dfVal, $name) {
+	$DSP = '';	
+	foreach( $cmd['op']  as $option ) {
+		if( empty($option['.attributes']['name']) || !is_string( $option['.attributes']['name'] ) ) continue;
+		$df = ((!isset($dfVal[$option['.attributes']['name']]) || (empty($dfVal[$option['.attributes']['name']]) && $dfVal[$option['.attributes']['name']]!== 0))?null:$dfVal[$option['.attributes']['name']]);
+		$oc = ((!isset($option['.attributes']['checked']) || (empty($option['.attributes']['checked']) && $option['.attributes']['checked']!== 0))?null:$option['.attributes']['checked']);		
+		
+		$checked = !is_string( $df ) ? 
+				( is_string( $oc ) && 'checked' == $oc && is_null( $dfVal ) ? 'checked="checked" ' : ''   ) :
+				( '' != $df ? 'checked="checked" ' : '');
+		$DSP .= TAB.TAB.TAB.TAB.'<input type="checkbox" class="checkboxcontrol"';
+		$DSP .= ' id="'.$option['.attributes']['name'].'" ';
+		$DSP .= !is_string( $option['.attributes']['value'] ) ? '' : 'value="'.htmlspecialchars($option['.attributes']['value']).'" ';
+		$DSP .= $checked;
+		$DSP .= ' />' ;
+		$DSP .= "<label class='checkboxlabel' for=\"".$option['.attributes']['name']."\">{$option['.value']}</label>".CRLF;
+	}
+	return $DSP;
+}
+
+function radioTreat( $cmd, $dfVal, $name) {
+	$DSP = '';
+	$cnt = 0;
+	$df = ((!isset($dfVal[$name]) || (empty($dfVal[$name]) && $dfVal[$name]!== 0))?null:$dfVal[$name]);
+	foreach( $cmd['op']  as $option ) {
+		$cnt++;
+		$DSP .= TAB.TAB.TAB.TAB.'<input type="radio"  class="radiocontrol" ';
+		$DSP .= ' name="'.$name.'" id="'.$name.$cnt.'" ';
+		$oc = ((!isset($option['.attributes']['checked']) || (empty($option['.attributes']['checked']) && $option['.attributes']['checked']!== 0))?null:$option['.attributes']['checked']);
+		$DSP .= !is_string( $option['.attributes']['value'] ) ? '' : 'value="'.htmlspecialchars($option['.attributes']['value']).'" ';
+		$DSP .= is_string( $oc ) && 'checked' == $oc && is_null($dfVal) ? 'checked="checked" ' : '';
+		$DSP .= is_string($df) && (!is_string( $option['.attributes']['value'] ) ? false : $option['.attributes']['value']== $df ) ? 'checked="checked" ' : '';
+		$DSP .= ' />' ;
+		$DSP .= "<label class='radiolabel' for='".$name.$cnt."'>{$option['.value']}</label >".CRLF;
+	}
+	return $DSP;
 }
 ?>
