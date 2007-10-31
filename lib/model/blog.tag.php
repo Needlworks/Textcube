@@ -151,8 +151,8 @@ function getTagFrequency($tag, $max, $min) {
 				WHERE t.name = '" . tc_escape_string($tag['name']) . "'");
 		else
 			$count = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t
-				INNER JOIN `{$database['prefix']}TagRelations` r ON r.blogid = $blogid AND r.tag = t.id 
-				INNER JOIN `{$database['prefix']}Entries` e ON e.blogid = r.blogid e.id = r.entry AND e.visibility > 0 
+				INNER JOIN `{$database['prefix']}TagRelations` r ON r.tag = t.id AND r.blogid = $blogid 
+				INNER JOIN `{$database['prefix']}Entries` e ON e.blogid = r.blogid AND e.id = r.entry AND e.visibility > 0 
 				WHERE t.name = '" . tc_escape_string($tag['name']) . "'");
 	}
 	$dist = $max / 3;
