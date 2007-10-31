@@ -270,7 +270,7 @@ class misc {
 	
 		if (!array_key_exists($blogid, $__gCacheBlogSettings)) {
 			// force loading
-			getBlogSettings($blogid);
+			misc::getBlogSettingsGlobal($blogid);
 		}
 		if ($__gCacheBlogSettings[$blogid] === false) {
 			return null;
@@ -299,7 +299,7 @@ class misc {
 	
 		if (!array_key_exists($blogid, $__gCacheBlogSettings)) {
 			// force loading
-			getBlogSettings($blogid);
+			misc::getBlogSettingsGlobal($blogid);
 		}
 		if ($__gCacheBlogSettings[$blogid] === false) {
 			return null;
@@ -332,13 +332,13 @@ class misc {
 	function setBlogSetting($name, $value) {
 		global $database, $blogid;
 		$name = 'plugin_' . $name;
-		return setBlogSettingGlobal($name, $value);
+		return misc::setBlogSettingGlobal($name, $value);
 	}
 	
 	function removeBlogSetting($name) {
 		global $database, $blogid;
 		$name = 'plugin_' . $name;
-		return removeBlogSettingGlobal($name);
+		return misc::removeBlogSettingGlobal($name);
 	}
 
 	// For User
