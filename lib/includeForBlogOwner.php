@@ -24,7 +24,6 @@ require 'model/blog.blogSetting.php';
 require 'model/blog.category.php';
 require 'model/blog.teamblog.php';
 require 'model/blog.skin.php';
-require 'model/blog.user.php';
 require 'model/common.plugin.php';
 require 'model/common.module.php';
 require 'model/common.setting.php';
@@ -38,6 +37,7 @@ require 'view/view.php';
 // Initializing environment.
 require 'initialize.php';
 if (!defined('NO_SESSION')) require 'session.php';
+require 'model/blog.user.php';
 require 'plugins.php';
 
 header('Content-Type: text/html; charset=utf-8');
