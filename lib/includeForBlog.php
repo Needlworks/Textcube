@@ -36,7 +36,6 @@ require 'model/blog.sidebar.php';
 require 'model/blog.statistics.php';
 require 'model/blog.trackback.php';
 require 'model/blog.tag.php';
-require 'model/blog.user.php';
 require 'model/common.setting.php';
 require 'model/common.paging.php';
 require 'model/common.plugin.php';
@@ -50,6 +49,7 @@ require 'view/view.php';
 // Initializing environment.
 require 'initialize.php';
 if (!defined('NO_SESSION')) require 'session.php';
+require 'model/blog.user.php';
 require 'plugins.php';
 if (defined( 'TCDEBUG')) __tcSqlLogPoint('end of plugins.php');
 
