@@ -12,6 +12,7 @@ require 'model/blog.service.php';
 require 'model/common.plugin.php';
 require 'model/common.setting.php';
 // Initialize
+define('NO_SESSION',true);
 require 'initialize.php';
 
 header('Content-Type: text/html; charset=utf-8');

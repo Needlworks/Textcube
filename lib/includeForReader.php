@@ -20,6 +20,7 @@ require 'auth.php';
 // Model
 require 'model/blog.service.php';
 require 'model/blog.blogSetting.php';
+require 'model/blog.user.php';
 require 'model/common.paging.php';
 require 'model/common.setting.php';
 require 'model/common.plugin.php';
@@ -34,8 +35,6 @@ require 'view/view.php';
 // Initializing environment.
 require 'initialize.php';
 require 'plugins.php';
-require 'session.php';
-require 'model/blog.user.php';
 
 header('Content-Type: text/html; charset=utf-8');
 // Check access control list
