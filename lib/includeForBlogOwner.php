@@ -21,6 +21,7 @@ require 'auth.php';
 // Models
 require 'model/blog.service.php';
 require 'model/blog.blogSetting.php';
+require 'model/blog.user.php';
 require 'model/blog.category.php';
 require 'model/blog.teamblog.php';
 require 'model/blog.skin.php';
@@ -37,7 +38,6 @@ require 'view/view.php';
 // Initializing environment.
 require 'initialize.php';
 if (!defined('NO_SESSION')) require 'session.php';
-require 'model/blog.user.php';
 require 'plugins.php';
 
 header('Content-Type: text/html; charset=utf-8');

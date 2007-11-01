@@ -17,6 +17,16 @@ if(!empty($database) && !empty($database["database"])) DBQuery::bind($database);
    */
 require ROOT.'/lib/suri.php';
 
+if (doesHaveMembership()) {
+	$user = array('id' => getUserId());
+	$user['name'] = DBQuery::queryCell("SELECT name 
+			FROM {$database['prefix']}Users 
+			WHERE userid = ".getUserId());
+	$user['homepage'] = getDefaultURL($user['id']);
+} else {
+	$user = null;
+}
+
 /* Locale initialization
    ---------------------
    - Depends on /lib/locale.php 
