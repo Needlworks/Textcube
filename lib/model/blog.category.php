@@ -327,7 +327,7 @@ function moveCategory($blogid, $id, $direction) {
 			FROM {$database['prefix']}Categories AS _my 
 				LEFT JOIN {$database['prefix']}Categories AS _parent ON _parent.id = _my.parent 
 			WHERE _my.id = $id AND _my.blogid = $blogid";
-	$row = DBQuery::queryAll($sql);
+	$row = DBQuery::queryRow($sql);
 	$myParent = is_null($row['myParent']) ? 'NULL' : $row['myParent'];
 	$parentId = is_null($row['parentId']) ? 'NULL' : $row['parentId'];
 	$parentPriority = is_null($row['parentPriority']) ? 'NULL' : $row['parentPriority'];
@@ -338,7 +338,7 @@ function moveCategory($blogid, $id, $direction) {
 	$aux = $parentId == 'NULL' ? 'parent is null' : "parent = $parentId";
 	$sql = "SELECT id, parent, priority FROM {$database['prefix']}Categories WHERE $aux AND blogid = $blogid AND priority $sign $myPriority ORDER BY priority $arrange LIMIT 1";
 	$canMove = (DBQuery::queryCount($sql) > 0) ? true : false;
-	$row = DBQuery::query($sql);
+	$row = DBQuery::queryRow($sql);
 	$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
 	$nextParentId = is_null($row['parent']) ? 'NULL' : $row['parent'];
 	$nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
