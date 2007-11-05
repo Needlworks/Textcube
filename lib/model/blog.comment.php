@@ -381,12 +381,13 @@ function addComment($blogid, & $comment) {
 	if ($result && $result > 0) {
 		$id = $insertId;
 		if ($parent != 'null' && $comment['secret'] < 1) {
+			$insertId = getCommentsNotifiedQueueMaxId();
 			DBQuery::execute("
 				INSERT INTO 
 					`{$database['prefix']}CommentsNotifiedQueue` 
-					( `blogid` , `commentId` , `sendStatus` , `checkDate` , `written` ) 
+					( `blogid` , `id`, `commentId` , `sendStatus` , `checkDate` , `written` ) 
 				VALUES 
-					($blogid , '" . $id . "', '0', '0', UNIX_TIMESTAMP());");
+					($blogid , $insertId, '" . $id . "', '0', '0', UNIX_TIMESTAMP());");
 		}
 		updateCommentsOfEntry($blogid, $comment['entry']);
 		fireEvent($comment['entry'] ? 'AddComment' : 'AddGuestComment', $id, $comment);
@@ -808,9 +809,7 @@ function receiveNotifiedComment($post) {
 	$child_url = tc_escape_string(UTF8::lessenAsEncoding($post['r2_url'], 255));
 	$sql = "SELECT id FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE url = '$homepage'";
 	$siteId = DBQuery::queryCell($sql);
-	$maxId = DBQuery::queryCell("SELECT max(id)
-		FROM {$database['prefix']}CommentsNotifiedSiteInfo");
-	$insertId = empty($maxId) ? 1 : $maxId + 1;
+	$insertId = getCommentsNotifiedSiteInfoMaxId() + 1;
 	if (empty($siteId)) {
 		if (DBQuery::execute("INSERT INTO {$database['prefix']}CommentsNotifiedSiteInfo VALUES ($insertId, '$title', '$name', '$homepage', UNIX_TIMESTAMP());"))
 			$siteId = $insertId;
@@ -881,4 +880,19 @@ function getCommentsNotifiedMaxId() {
 		WHERE blogid = ".getBlogId());
 	return empty($maxId) ? 0 : $maxId;
 }
+
+function getCommentsNotifiedQueueMaxId() {
+	$maxId = DBQuery::queryCell("SELECT max(id) 
+		FROM {$database['prefix']}CommentsNotifiedQueue
+		WHERE blogid = ".getBlogId());
+	return empty($maxId) ? 0 : $maxId;
+}
+
+function getCommentsNotifiedSiteInfoMaxId() {
+	$maxId = DBQuery::queryCell("SELECT max(id) 
+		FROM {$database['prefix']}CommentsNotifiedSiteInfo
+		WHERE blogid = ".getBlogId());
+	return empty($maxId) ? 0 : $maxId;
+}
+
 ?>
