@@ -391,7 +391,9 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 				$categoryCountAll = $categoryCountAll + (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']);
 			}
 			$parentCategoryCount = (doesHaveOwnership() ? $category1['entriesInLogin'] - $categoryCountAll : $category1['entries'] - $categoryCountAll);
-			array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => $categoryCount + $parentCategoryCount, 'link' => "$blogURL/category/" . encodeURL($category1['label']), 'children' => $children));
+			if($category1['id'] != 0) {
+				array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => $categoryCount + $parentCategoryCount, 'link' => "$blogURL/category/" . encodeURL($category1['label']), 'children' => $children));
+			}
 			$categoryCount = 0;
 			$categoryCountAll = 0;
 			$parentCategoryCount = 0;
@@ -441,7 +443,9 @@ function getCategoriesViewInSkinSetting($totalPosts, $categories, $selected) {
 		foreach ($category1['children'] as $category2) {
 			array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']), 'link' => "", 'children' => array()));
 		}
-		array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => (doesHaveOwnership() ? $category1['entriesInLogin'] : $category1['entries']), 'link' => "", 'children' => $children));
+		if($category1['id'] != 0) {
+			array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => (doesHaveOwnership() ? $category1['entriesInLogin'] : $category1['entries']), 'link' => "", 'children' => $children));
+		}
 	}
 	ob_start();
 	printTreeView($tree, $selected, true);
