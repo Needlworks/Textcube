@@ -694,12 +694,12 @@ function saveDraftEntry($blogid, $entry) {
 		AND id = {$entry['id']} 
 		AND draft = 0 LIMIT 1");
 	if ($result == 0) { // if changed
-		$result = DBQuery::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
-		for ($i = 1; $result > 0; $i++) {
+		$result = DBQuery::queryExistence("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
+		for ($i = 1; $result != false; $i++) {
 			if ($i > 1000)
 				return false;
 			$slogan = tc_escape_string(UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i);
-			$result = DBQuery::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
+			$result = DBQuery::queryExistence("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
 		}
 	}
 	$tags = getTagsWithEntryString($entry['tag']);
@@ -945,12 +945,18 @@ function publishEntries() {
 				SET visibility = 0 
 				WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 0");
 		if ($entry['visibility'] == -3) {
-			if ($result && setEntryVisibility($entry['id'], 2))
-				setEntryVisibility($entry['id'], 3);
+			if ($result && setEntryVisibility($entry['id'], 2)) {
+					$updatedEntry = getEntry($blogid, $entry['id']);
+					fireEvent('UpdatePost', $entry['id'], $updatedEntry);
+					setEntryVisibility($entry['id'], 3);
+			}
 		}
 		else {
-			if ($result)
+			if ($result) {
 				setEntryVisibility($entry['id'], abs($entry['visibility']));
+				$updatedEntry = getEntry($blogid, $entry['id']);
+				fireEvent('UpdatePost', $entry['id'], $updatedEntry);
+			}
 		}
 	}
 }

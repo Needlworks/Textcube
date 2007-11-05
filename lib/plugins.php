@@ -108,7 +108,7 @@ if (getBlogId()) {
 					}
 					unset($tag);
 				}
-				if ($xmls->doesExist('/plugin/binding/center')) {
+				if (doesHaveMembership() && $xmls->doesExist('/plugin/binding/center')) {
 					$title = htmlspecialchars($xmls->getValue('/plugin/title[lang()]'));
 					foreach ($xmls->selectNodes('/plugin/binding/center') as $center) {
 						if (!empty($center['.attributes']['handler'])) {
@@ -160,7 +160,7 @@ if (getBlogId()) {
 					else
 						$configMappings[$plugin] = array( 'config' => 'ok') ;
 				}
-				if ($xmls->doesExist('/plugin/binding/adminMenu')) {
+				if (doesHaveMembership() && $xmls->doesExist('/plugin/binding/adminMenu')) {
 					$title = htmlspecialchars($xmls->getValue('/plugin/title[lang()]'));
 
 					if ($xmls->doesExist('/plugin/binding/adminMenu/viewMethods')) {
@@ -228,7 +228,7 @@ if (getBlogId()) {
 					unset($adminViewMenu);
 					unset($params);
 				
-					if ($xmls->doesExist('/plugin/binding/adminMenu/methods')) {
+					if (doesHaveMembership() &&$xmls->doesExist('/plugin/binding/adminMenu/methods')) {
 						foreach($xmls->selectNodes('/plugin/binding/adminMenu/methods/method') as $adminMethods) {
 							$method = array();
 							$method['plugin'] = $plugin;
@@ -285,7 +285,7 @@ if (getBlogId()) {
 					unset($formatterinfo);
 					unset($usedFor);
 				}
-				if ($xmls->doesExist('/plugin/binding/editor[lang()]')) {
+				if (doesHaveMembership() && $xmls->doesExist('/plugin/binding/editor[lang()]')) {
 					$editorCount = $editorCount + 1;
 					foreach (array($xmls->selectNode('/plugin/binding/editor[lang()]')) as $editor) {
 						if (!isset($editor['.attributes']['name'])) continue;
@@ -312,10 +312,7 @@ if (getBlogId()) {
 		}
 		
 		if ($disablePlugin == true) {
-			$query = "DELETE FROM `{$database['prefix']}Plugins` 
-				WHERE `blogid` = ".getBlogId()." 
-				AND name = '".tc_escape_string($plugin)."'";
-			DBQuery::query($query);
+			deactivatePlugin($plugin);
 		}
 	}
 	if(empty($formatterCount)) { // Any formatter is used, add the ttml formatter.
