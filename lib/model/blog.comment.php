@@ -335,14 +335,14 @@ function addComment($blogid, & $comment) {
 	$comment['comment'] = UTF8::lessenAsEncoding($comment['comment'], 65535);
 	
 	if (!doesHaveOwnership() && $comment['entry'] != 0) {
-		$result = DBQuery::query("SELECT * 
+		$result = DBQuery::queryCount("SELECT * 
 			FROM {$database['prefix']}Entries 
 			WHERE blogid = $blogid 
 				AND id = {$comment['entry']} 
 				AND draft = 0 
 				AND visibility > 0 
 				AND acceptComment = 1");
-		if (mysql_num_rows($result) == 0)
+		if (!$result || $result == 0)
 			return false;
 	}
 	$parent = $comment['parent'] == null ? 'null' : "'{$comment['parent']}'";
@@ -359,11 +359,14 @@ function addComment($blogid, & $comment) {
 	}
 	$comment0 = tc_escape_string($comment['comment']);
 	$filteredAux = ($filtered == 1 ? "UNIX_TIMESTAMP()" : 0);
-	$result = DBQuery::query("INSERT INTO {$database['prefix']}Comments 
-		(blogid,replier,entry,parent,name,password,homepage,secret,comment,ip,written,isFiltered)
+	$maxId = getCommentsMaxId();
+	$insertId = $maxId + 1;
+	$result = DBQuery::queryCount("INSERT INTO {$database['prefix']}Comments 
+		(blogid,replier,id,entry,parent,name,password,homepage,secret,comment,ip,written,isFiltered)
 		VALUES (
 			$blogid,
 			{$comment['replier']},
+			$insertId,
 			{$comment['entry']},
 			$parent,
 			'$name',
@@ -375,8 +378,8 @@ function addComment($blogid, & $comment) {
 			UNIX_TIMESTAMP(),
 			$filteredAux
 		)");
-	if ($result && (mysql_affected_rows() > 0)) {
-		$id = mysql_insert_id();
+	if ($result && $result > 0) {
+		$id = $insertId;
 		if ($parent != 'null' && $comment['secret'] < 1) {
 			DBQuery::execute("
 				INSERT INTO 
@@ -579,8 +582,8 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false) {
 			r.written 
 		DESC LIMIT 
 			".($count != false ? $count : $skinSetting['commentsOnRecent']);
-	if ($result = DBQuery::query($sql)) {
-		while ($comment = mysql_fetch_array($result)) {
+	if ($result = DBQuery::queryAll($sql)) {
+		foreach($result as $comment) {
 			if (($comment['secret'] == 1) && !doesHaveOwnership()) {
 				if( !fireEvent('ShowSecretComment', false, $comment) ) {
 					$comment['name'] = '';
@@ -661,8 +664,8 @@ function trashCommentInOwner($blogid, $id) {
 	global $database;
 	if (!is_numeric($id)) return false;
 	$entryId = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
-	$result = DBQuery::query("UPDATE {$database['prefix']}Comments SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id");
-	if ($result && (mysql_affected_rows() == 1)) {
+	$result = DBQuery::queryCount("UPDATE {$database['prefix']}Comments SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id");
+	if ($result && $result == 1) {
 		if (DBQuery::query("UPDATE {$database['prefix']}Comments SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND parent = $id")) {
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
@@ -805,27 +808,32 @@ function receiveNotifiedComment($post) {
 	$child_url = tc_escape_string(UTF8::lessenAsEncoding($post['r2_url'], 255));
 	$sql = "SELECT id FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE url = '$homepage'";
 	$siteId = DBQuery::queryCell($sql);
+	$maxId = DBQuery::queryCell("SELECT max(id)
+		FROM {$database['prefix']}CommentsNotifiedSiteInfo");
+	$insertId = empty($maxId) ? 1 : $maxId + 1;
 	if (empty($siteId)) {
-		if (DBQuery::execute("INSERT INTO {$database['prefix']}CommentsNotifiedSiteInfo VALUES ('', '$title', '$name', '$homepage', UNIX_TIMESTAMP());"))
-			$siteId = mysql_insert_id();
+		if (DBQuery::execute("INSERT INTO {$database['prefix']}CommentsNotifiedSiteInfo VALUES ($insertId, '$title', '$name', '$homepage', UNIX_TIMESTAMP());"))
+			$siteId = $insertId;
 		else
 			return 2;
 	}
 	$parentId = DBQuery::queryCell("SELECT id FROM {$database['prefix']}CommentsNotified WHERE entry = $entryId AND siteId = $siteId AND blogid = $blogid AND remoteId = $parent_id");
 	if (empty($parentId)) {
+		$insertId = getCommentsNotifiedMaxId() + 1;
 		$sql = "INSERT INTO {$database['prefix']}CommentsNotified ( blogid , replier , id , entry , parent , name , password , homepage , secret , comment , ip , written, modified , siteId , isNew , url , remoteId ,entryTitle , entryUrl ) 
 VALUES (
-$blogid, NULL , '', " . $entryId . ", " . (empty($parent_parent) ? 'null' : $parent_parent) . ", '" . $parent_name . "', '', '" . $parent_homepage . "', '', '" . $parent_comment . "', '', " . $parent_written . ",UNIX_TIMESTAMP(), " . $siteId . ", 1, '" . $parent_url . "'," . $parent_id . ", '" . $entryTitle . "', '" . $entryUrl . "'
+$blogid, NULL , $insertId, " . $entryId . ", " . (empty($parent_parent) ? 'null' : $parent_parent) . ", '" . $parent_name . "', '', '" . $parent_homepage . "', '', '" . $parent_comment . "', '', " . $parent_written . ",UNIX_TIMESTAMP(), " . $siteId . ", 1, '" . $parent_url . "'," . $parent_id . ", '" . $entryTitle . "', '" . $entryUrl . "'
 );";
 		if (!DBQuery::execute($sql))
 			return 3;
-		$parentId = mysql_insert_id();
+		$parentId = $insertId;
 	}
 	if (DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}CommentsNotified WHERE siteId=$siteId AND remoteId=$child_id") > 0)
 		return 4;
+	$insertId = getCommentsNotifiedMaxId() + 1;
 	$sql = "INSERT INTO {$database['prefix']}CommentsNotified ( blogid , replier , id , entry , parent , name , password , homepage , secret , comment , ip , written, modified , siteId , isNew , url , remoteId ,entryTitle , entryUrl ) 
 VALUES (
-$blogid, NULL , '', " . $entryId . ", $parentId, '$child_name', '', '$child_homepage', '', '$child_comment', '', $child_written, UNIX_TIMESTAMP(), $siteId, 1, '$child_url',$child_id, '$entryTitle', '$entryUrl');";
+$blogid, NULL , $insertId, " . $entryId . ", $parentId, '$child_name', '', '$child_homepage', '', '$child_comment', '', $child_written, UNIX_TIMESTAMP(), $siteId, 1, '$child_url',$child_id, '$entryTitle', '$entryUrl');";
 	if (!DBQuery::execute($sql))
 		return 5;
 	$sql = "UPDATE {$database['prefix']}CommentsNotified SET modified = UNIX_TIMESTAMP() WHERE id=$parentId";
@@ -858,5 +866,19 @@ function getCommentCountPart($commentCount, &$skin) {
 	}
 	
 	return array("rp_count", $commentView);
+}
+
+function getCommentsMaxId() {
+	$maxId = DBQuery::queryCell("SELECT max(id) 
+		FROM {$database['prefix']}Comments
+		WHERE blogid = ".getBlogId());
+	return empty($maxId) ? 0 : $maxId;
+}
+
+function getCommentsNotifiedMaxId() {
+	$maxId = DBQuery::queryCell("SELECT max(id) 
+		FROM {$database['prefix']}CommentsNotified
+		WHERE blogid = ".getBlogId());
+	return empty($maxId) ? 0 : $maxId;
 }
 ?>
