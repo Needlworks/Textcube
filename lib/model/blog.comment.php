@@ -868,6 +868,7 @@ function getCommentCountPart($commentCount, &$skin) {
 }
 
 function getCommentsMaxId() {
+	global $database;
 	$maxId = DBQuery::queryCell("SELECT max(id) 
 		FROM {$database['prefix']}Comments
 		WHERE blogid = ".getBlogId());
@@ -875,6 +876,7 @@ function getCommentsMaxId() {
 }
 
 function getCommentsNotifiedMaxId() {
+	global $database;
 	$maxId = DBQuery::queryCell("SELECT max(id) 
 		FROM {$database['prefix']}CommentsNotified
 		WHERE blogid = ".getBlogId());
@@ -882,6 +884,7 @@ function getCommentsNotifiedMaxId() {
 }
 
 function getCommentsNotifiedQueueMaxId() {
+	global $database;
 	$maxId = DBQuery::queryCell("SELECT max(id) 
 		FROM {$database['prefix']}CommentsNotifiedQueue
 		WHERE blogid = ".getBlogId());
@@ -889,6 +892,7 @@ function getCommentsNotifiedQueueMaxId() {
 }
 
 function getCommentsNotifiedSiteInfoMaxId() {
+	global $database;
 	$maxId = DBQuery::queryCell("SELECT max(id) 
 		FROM {$database['prefix']}CommentsNotifiedSiteInfo
 		WHERE blogid = ".getBlogId());
