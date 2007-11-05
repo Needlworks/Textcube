@@ -409,6 +409,7 @@ function getCategoriesViewInOwner($totalPosts, $categories, $selected) {
 	$blogid = getBlogId();
 	requireModel('blog.category');
 	requireLibrary('blog.skin');
+	// Initialize root category.
 	$tree = array('id' => 0, 'label' => getCategoryNameById(getBlogId(), 0), 'value' => $totalPosts, 'link' => "$blogURL/owner/entry/category", 'children' => array());
 	foreach ($categories as $category1) {
 		$children = array();
@@ -419,7 +420,9 @@ function getCategoriesViewInOwner($totalPosts, $categories, $selected) {
 				array_push($children, array('id' => $category2['id'], 'label' => '[!] '.(getCategoryVisibility($blogid, $category2['id'])==2 ? $category2['name'] : _t('(비공개)').' '.$category2['name']), 'value' =>  $category2['entriesInLogin'], 'link' => "$blogURL/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
 			}
 		}
-		array_push($tree['children'], array('id' => $category1['id'], 'label' => (getCategoryVisibility($blogid, $category1['id'])==2 ? $category1['name'] : _t('(비공개)').' '.$category1['name']), 'value' => $category1['entriesInLogin'], 'link' => "$blogURL/owner/entry/category/?&id={$category1['id']}&entries={$category1['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category1['name']), 'children' => $children));
+		if($category1['id'] != 0) {
+			array_push($tree['children'], array('id' => $category1['id'], 'label' => (getCategoryVisibility($blogid, $category1['id'])==2 ? $category1['name'] : _t('(비공개)').' '.$category1['name']), 'value' => $category1['entriesInLogin'], 'link' => "$blogURL/owner/entry/category/?&id={$category1['id']}&entries={$category1['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category1['name']), 'children' => $children));
+		}
 	}
 	ob_start();
 	printTreeView($tree, $selected);

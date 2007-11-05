@@ -120,8 +120,9 @@ function getCategories($blogid, $format = 'tree') {
 		if ($category['parent'] == null) {
 			$category['children'] = array();
 			$categories[$category['id']] = $category;
-		} else if (isset($categories[$category['parent']]))
+		} else if (isset($categories[$category['parent']])) {
 			array_push($categories[$category['parent']]['children'], $category);
+		}
 	}
 	$__gCacheCategoryTree = $categories;
 	return $categories;
@@ -194,13 +195,20 @@ function getNumberEntryInCategories($id) {
 	return DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND draft = 0 AND category " . ($id == null ? 'IS NULL' : "= $id"));
 }
 
-function addCategory($blogid, $parent, $name) {
+function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
 	global $database;
 	
 	if (empty($name))
 		return false;
 	if (!is_null($parent) && !Validator::id($parent))
 		return false;
+	if($id != null && !Validator::isInteger($id,0)) {
+		return false;
+	}
+	if($priority != null && !Validator::isInteger($priority,0)) {
+		return false;
+	}
+
 	if ($parent !== null) {
 		$label = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $parent");
 		if ($label === null)
@@ -225,8 +233,28 @@ function addCategory($blogid, $parent, $name) {
 	if (DBQuery::queryCell($sql) > 0)
 		return false;
 
-	$newPriority = DBQuery::queryCell("SELECT MAX(priority) FROM {$database['prefix']}Categories WHERE blogid = $blogid") + 1;
-	$newId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Categories WHERE blogid = $blogid") + 1;
+	if($priority != null) {
+		if(DBQuery::queryExistence("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND priority = $priority")) {
+			return false;
+		} else {
+			$newPriority = $priority;
+		}
+	} else {
+		$newPriority = DBQuery::queryCell("SELECT MAX(priority) FROM {$database['prefix']}Categories WHERE blogid = $blogid") + 1;
+	}
+
+	// Determine ID.
+	if($id != null) {
+		$sql = "SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id";
+		if(DBQuery::queryExistence($sql)) {
+			return false;
+		} else {
+			$newId = $id;
+		}
+	} else {
+		$newId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Categories WHERE blogid = $blogid") + 1;
+	}
+
 	$result = DBQuery::query("INSERT INTO {$database['prefix']}Categories (blogid, id, parent, name, priority, entries, entriesInLogin, label, visibility) VALUES ($blogid, $newId, $parent, '$name', $newPriority, 0, 0, '$label', 2)");
 	updateEntriesOfCategory($blogid);
 	return $result ? true : false;
@@ -249,7 +277,10 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 	if($id==0) checkRootCategoryExistence($blogid);
 	if ((empty($name)) && (empty($bodyid)))
 		return false;
-	$row = DBQuery::queryRow("SELECT p.name, p.id FROM {$database['prefix']}Categories c LEFT JOIN {$database['prefix']}Categories p ON c.parent = p.id WHERE c.blogid = $blogid AND c.id = $id");
+	$row = DBQuery::queryRow("SELECT p.name, p.id 
+		FROM {$database['prefix']}Categories c 
+		LEFT JOIN {$database['prefix']}Categories p ON c.parent = p.id 
+		WHERE c.blogid = $blogid AND c.id = $id");
 	$label = $row['name'];
 	$parentId = $row['id'];	
 	if (!empty($parentId)) {
@@ -259,14 +290,22 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 	
 	$label = tc_escape_string(UTF8::lessenAsEncoding(empty($label) ? $name : "$label/$name", 255));
 	$name = tc_escape_string(UTF8::lessenAsEncoding($name, 127));
-	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id=$id";
+	$sql = "SELECT * 
+		FROM {$database['prefix']}Categories 
+		WHERE blogid = $blogid 
+			AND id = $id";
 	// $sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE blogid = $blogid AND name='$name' $parentStr";	
-	if(DBQuery::queryCell($sql) == false)
+	if(DBQuery::queryExistence($sql) == false)
 		return false;
 	$bodyid = tc_escape_string(UTF8::lessenAsEncoding($bodyid, 20));
 	
-	$result = DBQuery::query("UPDATE {$database['prefix']}Categories SET name = '$name', label = '$label', bodyId = '$bodyid'  WHERE blogid = $blogid AND id = $id");
-	if ($result && (mysql_affected_rows() > 0))
+	$result = DBQuery::query("UPDATE {$database['prefix']}Categories 
+		SET name = '$name', 
+			label = '$label', 
+			bodyId = '$bodyid'  
+		WHERE blogid = $blogid 
+			AND id = $id");
+	if ($result)
 		clearRSS();
 	updateEntriesOfCategory($blogid);
 	CacheControl::flushCategory($id);
@@ -487,9 +526,7 @@ function checkRootCategoryExistence($blogid) {
 	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = 0";
 	if(!(DBQuery::queryCell($sql))) {
 		$name = _text('전체');
-		addCategory($blogid,null,'tempRootCategory');
-		$id = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Categories WHERE blogid = $blogid");
-		$result = DBQuery::query("UPDATE {$database['prefix']}Categories SET id = 0 AND name = '$name' AND priority = 1 WHERE blogid = $blogid AND id = $id LIMIT 1");
+		$result = addCategory($blogid,null,$name,0);
 		return $result ? true : false;
 	}
 	return false;
