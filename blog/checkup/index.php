@@ -877,10 +877,11 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}PageCacheLog value")) {
 }
 
 // From 1.6
-if (DBQuery::queryCell("DESC {$database['prefix']}Comments id", 'Extra') == 'auto_increment') {
+if (DBQuery::queryCell("DESC {$database['prefix']}CommentsNotified id", 'Extra') == 'auto_increment') {
 	$changed = true;
 	echo '<li>', _text('데이터베이스 호환성을 위하여 댓글 테이블의 자동 증가 설정을 제거합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Comments CHANGE id id int(11) NOT NULL")
+		&& DBQuery::execute("ALTER TABLE {$database['prefix']}CommentsNotified CHANGE id id int(11) NOT NULL")
 		&& DBQuery::execute("ALTER TABLE {$database['prefix']}CommentsNotifiedQueue CHANGE id id int(11) NOT NULL")
 		&& DBQuery::execute("ALTER TABLE {$database['prefix']}CommentsNotifiedSiteInfo CHANGE id id int(11) NOT NULL"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
