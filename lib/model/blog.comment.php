@@ -902,8 +902,7 @@ function getCommentsNotifiedQueueMaxId() {
 function getCommentsNotifiedSiteInfoMaxId() {
 	global $database;
 	$maxId = DBQuery::queryCell("SELECT max(id) 
-		FROM {$database['prefix']}CommentsNotifiedSiteInfo
-		WHERE blogid = ".getBlogId());
+		FROM {$database['prefix']}CommentsNotifiedSiteInfo");
 	return empty($maxId) ? 0 : $maxId;
 }
 
