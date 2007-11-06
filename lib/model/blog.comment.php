@@ -138,7 +138,7 @@ function getCommentCommentsNotified($parent) {
 				{$database['prefix']}CommentsNotified c 
 				LEFT JOIN 
 				{$database['prefix']}CommentsNotifiedSiteInfo csiteinfo ON c.siteId = csiteinfo.id  
-			WHERE c.blogid = ".getBlogId()." AND c.parent=$parent";
+			WHERE c.blogid = ".getBlogId()." AND c.parent = $parent";
 	$sql .= ' ORDER BY c.written ASC';
 	if ($result = DBQuery::queryAll($sql)) {
 		foreach($result as $comment) {
@@ -157,22 +157,25 @@ function getCommentCommentsNotified($parent) {
 
 function getCommentsWithPagingForGuestbook($blogid, $page, $count) {
 	global $database;
-	$sql = "SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid";
-	$sql .= ' AND entry = 0 AND parent is null AND isFiltered = 0';
-	$sql .= ' ORDER BY written DESC';
+	$sql = "SELECT * FROM {$database['prefix']}Comments 
+		WHERE blogid = $blogid
+			AND entry = 0 
+			AND parent IS NULL 
+			AND isFiltered = 0
+		ORDER BY written DESC";
 	return fetchWithPaging($sql, $page, $count);
 }
 
 function getCommentAttributes($blogid, $id, $attributeNames) {
 	global $database;
-	return DBQuery::queryRow("select $attributeNames from {$database['prefix']}Comments where blogid = $blogid and id = $id");
+	return DBQuery::queryRow("SELECT $attributeNames FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
 }
 
 function getComments($entry) {
 	global $database;
 	$comments = array();
 	$authorized = doesHaveOwnership();
-	$aux = ($entry == 0 ? 'ORDER BY written DESC' : 'order by id ASC');
+	$aux = ($entry == 0 ? 'ORDER BY written DESC' : 'ORDER BY id ASC');
 	$sql = "SELECT * 
 		FROM {$database['prefix']}Comments 
 		WHERE blogid = ".getBlogId()." 
@@ -201,8 +204,8 @@ function getCommentComments($parent) {
 	if ($result = DBQuery::queryAll("SELECT * 
 		FROM {$database['prefix']}Comments 
 		WHERE blogid = ".getBlogId()." 
-		AND parent = $parent 
-		AND isFiltered = 0 
+			AND parent = $parent 
+			AND isFiltered = 0 
 		ORDER BY id")) {
 		foreach ($result as $comment) {
 			if (($comment['secret'] == 1) && !$authorized) {
@@ -223,10 +226,10 @@ function isCommentWriter($blogid, $commentId) {
 	if (!doesHaveMembership())
 		return false;
 	return DBQuery::queryExistence("SELECT replier 
-			FROM {$database['prefix']}Comments 
-			WHERE blogid = $blogid 
-				AND id = $commentId 
-				AND replier = " . getUserId());
+		FROM {$database['prefix']}Comments 
+		WHERE blogid = $blogid 
+			AND id = $commentId 
+			AND replier = " . getUserId());
 }
 
 function getComment($blogid, $id, $password) {
@@ -359,9 +362,8 @@ function addComment($blogid, & $comment) {
 	}
 	$comment0 = tc_escape_string($comment['comment']);
 	$filteredAux = ($filtered == 1 ? "UNIX_TIMESTAMP()" : 0);
-	$maxId = getCommentsMaxId();
-	$insertId = $maxId + 1;
-	$result = DBQuery::queryCount("INSERT INTO {$database['prefix']}Comments 
+	$insertId = getCommentsMaxId() + 1;
+	$result = DBQuery::query("INSERT INTO {$database['prefix']}Comments 
 		(blogid,replier,id,entry,parent,name,password,homepage,secret,comment,ip,written,isFiltered)
 		VALUES (
 			$blogid,
@@ -378,16 +380,14 @@ function addComment($blogid, & $comment) {
 			UNIX_TIMESTAMP(),
 			$filteredAux
 		)");
-	if ($result && $result > 0) {
+	if ($result) {
 		$id = $insertId;
 		if ($parent != 'null' && $comment['secret'] < 1) {
 			$insertId = getCommentsNotifiedQueueMaxId() + 1;
-			DBQuery::execute("
-				INSERT INTO 
-					`{$database['prefix']}CommentsNotifiedQueue` 
+			DBQuery::execute("INSERT INTO `{$database['prefix']}CommentsNotifiedQueue` 
 					( `blogid` , `id`, `commentId` , `sendStatus` , `checkDate` , `written` ) 
 				VALUES 
-					($blogid , $insertId, '" . $id . "', '0', '0', UNIX_TIMESTAMP());");
+					('".$blogid."' , '".$insertId."', '" . $id . "', '0', '0', UNIX_TIMESTAMP())");
 		}
 		updateCommentsOfEntry($blogid, $comment['entry']);
 		fireEvent($comment['entry'] ? 'AddComment' : 'AddGuestComment', $id, $comment);
@@ -807,22 +807,29 @@ function receiveNotifiedComment($post) {
 	$child_written = $post['r2_regdate'];
 	$child_comment = tc_escape_string(UTF8::lessenAsEncoding($post['r2_body'], 255));
 	$child_url = tc_escape_string(UTF8::lessenAsEncoding($post['r2_url'], 255));
-	$sql = "SELECT id FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE url = '$homepage'";
-	$siteId = DBQuery::queryCell($sql);
+	$siteId = DBQuery::queryCell("SELECT id FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE url = '$homepage'");
 	$insertId = getCommentsNotifiedSiteInfoMaxId() + 1;
 	if (empty($siteId)) {
-		if (DBQuery::execute("INSERT INTO {$database['prefix']}CommentsNotifiedSiteInfo VALUES ($insertId, '$title', '$name', '$homepage', UNIX_TIMESTAMP());"))
+		if (DBQuery::execute("INSERT INTO {$database['prefix']}CommentsNotifiedSiteInfo 
+			( id, title, name, url, modified)
+			VALUES ($insertId, '$title', '$name', '$homepage', UNIX_TIMESTAMP());"))
 			$siteId = $insertId;
 		else
 			return 2;
 	}
-	$parentId = DBQuery::queryCell("SELECT id FROM {$database['prefix']}CommentsNotified WHERE entry = $entryId AND siteId = $siteId AND blogid = $blogid AND remoteId = $parent_id");
+	$parentId = DBQuery::queryCell("SELECT id 
+		FROM {$database['prefix']}CommentsNotified 
+		WHERE entry = $entryId 
+			AND siteId = $siteId 
+			AND blogid = $blogid 
+			AND remoteId = $parent_id");
 	if (empty($parentId)) {
 		$insertId = getCommentsNotifiedMaxId() + 1;
-		$sql = "INSERT INTO {$database['prefix']}CommentsNotified ( blogid , replier , id , entry , parent , name , password , homepage , secret , comment , ip , written, modified , siteId , isNew , url , remoteId ,entryTitle , entryUrl ) 
-VALUES (
-$blogid, NULL , $insertId, " . $entryId . ", " . (empty($parent_parent) ? 'null' : $parent_parent) . ", '" . $parent_name . "', '', '" . $parent_homepage . "', '', '" . $parent_comment . "', '', " . $parent_written . ",UNIX_TIMESTAMP(), " . $siteId . ", 1, '" . $parent_url . "'," . $parent_id . ", '" . $entryTitle . "', '" . $entryUrl . "'
-);";
+		$sql = "INSERT INTO {$database['prefix']}CommentsNotified 
+			( blogid , replier , id , entry , parent , name , password , homepage , secret , comment , ip , written, modified , siteId , isNew , url , remoteId ,entryTitle , entryUrl ) 
+			VALUES (
+				$blogid, NULL , $insertId, " . $entryId . ", " . (empty($parent_parent) ? 'null' : $parent_parent) . ", '" . $parent_name . "', '', '" . $parent_homepage . "', '', '" . $parent_comment . "', '', " . $parent_written . ",UNIX_TIMESTAMP(), " . $siteId . ", 1, '" . $parent_url . "'," . $parent_id . ", '" . $entryTitle . "', '" . $entryUrl . "'
+)";
 		if (!DBQuery::execute($sql))
 			return 3;
 		$parentId = $insertId;
@@ -830,12 +837,13 @@ $blogid, NULL , $insertId, " . $entryId . ", " . (empty($parent_parent) ? 'null'
 	if (DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}CommentsNotified WHERE siteId=$siteId AND remoteId=$child_id") > 0)
 		return 4;
 	$insertId = getCommentsNotifiedMaxId() + 1;
-	$sql = "INSERT INTO {$database['prefix']}CommentsNotified ( blogid , replier , id , entry , parent , name , password , homepage , secret , comment , ip , written, modified , siteId , isNew , url , remoteId ,entryTitle , entryUrl ) 
-VALUES (
-$blogid, NULL , $insertId, " . $entryId . ", $parentId, '$child_name', '', '$child_homepage', '', '$child_comment', '', $child_written, UNIX_TIMESTAMP(), $siteId, 1, '$child_url',$child_id, '$entryTitle', '$entryUrl');";
+	$sql = "INSERT INTO {$database['prefix']}CommentsNotified 
+		( blogid , replier , id , entry , parent , name , password , homepage , secret , comment , ip , written, modified , siteId , isNew , url , remoteId ,entryTitle , entryUrl ) 
+		VALUES (
+			$blogid, NULL , $insertId, " . $entryId . ", $parentId, '$child_name', '', '$child_homepage', '', '$child_comment', '', $child_written, UNIX_TIMESTAMP(), $siteId, 1, '$child_url', $child_id, '$entryTitle', '$entryUrl')";
 	if (!DBQuery::execute($sql))
 		return 5;
-	$sql = "UPDATE {$database['prefix']}CommentsNotified SET modified = UNIX_TIMESTAMP() WHERE id=$parentId";
+	$sql = "UPDATE {$database['prefix']}CommentsNotified SET modified = UNIX_TIMESTAMP() WHERE id = $parentId";
 	if (!DBQuery::execute($sql))
 		return 6;
 	return 0;
