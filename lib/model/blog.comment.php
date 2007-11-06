@@ -381,7 +381,7 @@ function addComment($blogid, & $comment) {
 	if ($result && $result > 0) {
 		$id = $insertId;
 		if ($parent != 'null' && $comment['secret'] < 1) {
-			$insertId = getCommentsNotifiedQueueMaxId();
+			$insertId = getCommentsNotifiedQueueMaxId() + 1;
 			DBQuery::execute("
 				INSERT INTO 
 					`{$database['prefix']}CommentsNotifiedQueue` 
