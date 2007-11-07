@@ -85,9 +85,9 @@ function setPrimaryDomain($blogid, $name) {
 		return 0;
 	if (!checkBlogName($name))
 		return 1;
-	if (mysql_num_rows(DBQuery::query("select * from {$database['prefix']}ReservedWords where '$name' like word")) > 0)
+	if (DBQuery::queryCount("SELECT * FROM {$database['prefix']}ReservedWords WHERE '$name' like word") > 0)
 		return 2;
-	if (mysql_num_rows(DBQuery::query("select * from {$database['prefix']}BlogSettings where name = 'name' and value = '$name'")) > 0)
+	if (DBQuery::queryCount("SELECT * FROM {$database['prefix']}BlogSettings WHERE name = 'name' AND value = '$name'") > 0)
 		return 3;
 	if(setBlogSetting('name', $name)) {
 		$blog['name'] = $name;
@@ -309,16 +309,16 @@ function addBlog($blogid, $userid, $identify) {
 
 		$blogName = $identify;
 
-		$result = DBQuery::query("SELECT * 
+		$result = DBQuery::queryCount("SELECT * 
 			FROM `{$database['prefix']}ReservedWords` 
 			WHERE word = '$blogName'");
-		if ($result && (mysql_num_rows($result) > 0)) {
+		if ($result && $result > 0) {
 			return 60;	// Reserved blog name.
 		}
-		$result = DBQuery::query("SELECT value 
+		$result = DBQuery::queryCount("SELECT value 
 			FROM `{$database['prefix']}BlogSettings` 
 			WHERE name = 'name' AND value = '$blogName'");
-		if ($result && (mysql_num_rows($result) > 0)) {
+		if ($result && $result > 0) {
 			return 61; // Same blogname is already exists.
 		}
 		$blogid = DBQuery::queryCell("SELECT max(blogid)

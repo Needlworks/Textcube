@@ -9,14 +9,14 @@ function getArchives($blogid) {
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$skinSetting = getSkinSetting($blogid);
 	$archivesOnPage = $skinSetting['archivesOnPage'];
-	$result = DBQuery::query("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(e.published)) period, COUNT(*) count 
+	$result = DBQuery::queryAll("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(e.published)) period, COUNT(*) count 
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 		GROUP BY period 
 		ORDER BY period 
 		DESC LIMIT $archivesOnPage");
 	if ($result) {
-		while ($archive = mysql_fetch_array($result))
+		foreach($result as $archive)
 			array_push($archives, $archive);
 	}
 	return $archives;

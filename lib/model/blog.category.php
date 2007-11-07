@@ -314,15 +314,15 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 
 function updateEntriesOfCategory($blogid, $id = - 1) {
 	global $database;
-	$result = DBQuery::query("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent IS NULL");
-	while ($row = mysql_fetch_array($result)) {
+	$result = DBQuery::queryAll("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent IS NULL");
+	foreach($result as $row) {
 		$parent = $row['id'];
 		$parentName = UTF8::lessenAsEncoding($row['name'], 127);
 		$row['name'] = tc_escape_string($parentName);
 		$countParent = DBQuery::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND visibility > 0 AND category = $parent");
 		$countInLoginParent = DBQuery::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND category = $parent");
-		$result2 = DBQuery::query("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $parent");
-		while ($rowChild = mysql_fetch_array($result2)) {
+		$result2 = DBQuery::queryAll("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $parent");
+		foreach ($result2 as $rowChild) {
 			$label = tc_escape_string(UTF8::lessenAsEncoding($parentName . '/' . $rowChild['name'], 255));
 			$rowChild['name'] = tc_escape_string(UTF8::lessenAsEncoding($rowChild['name'], 127));
 			$countChild = DBQuery::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND visibility > 0 AND category = {$rowChild['id']}");
@@ -373,7 +373,7 @@ function moveCategory($blogid, $id, $direction) {
 	$parentParent = is_null($row['parentParent']) ? 'NULL' : $row['parentParent'];
 	$myPriority = $row['myPriority'];
 	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE parent = $myId AND blogid = $blogid";
-	$myIsHaveChild = (mysql_result(DBQuery::query($sql), 0, 0) > 0) ? true : false;
+	$myIsHaveChild = (DBQuery::queryCell($sql) > 0) ? true : false;
 	$aux = $parentId == 'NULL' ? 'parent is null' : "parent = $parentId";
 	$sql = "SELECT id, parent, priority FROM {$database['prefix']}Categories WHERE $aux AND blogid = $blogid AND priority $sign $myPriority ORDER BY priority $arrange LIMIT 1";
 	$canMove = (DBQuery::queryCount($sql) > 0) ? true : false;
@@ -410,9 +410,8 @@ function moveCategory($blogid, $id, $direction) {
 							WHERE
 								id = $myId AND blogid = $blogid";
 				DBQuery::query($sql);
-				$sql = "SELECT id, priority FROM {$database['prefix']}Categories WHERE parent = $nextId AND blogid = $blogid ORDER BY priority LIMIT 1";
-				$result = DBQuery::query($sql);
-				$row = mysql_fetch_array($result);
+				$sql = "SELECT id, priority FROM {$database['prefix']}Categories WHERE parent = $nextId AND blogid = $blogid ORDER BY priority";
+				$row = DBQuery::queryRow($sql);
 				$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
 				$nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
 				if ($nextId != 'NULL') {
@@ -454,8 +453,8 @@ function moveCategory($blogid, $id, $direction) {
 			// 1 depth에 같은 이름이 있으면 2 depth로 직접 이동.
 			if ($overlapCount > 0) {
 				$sql = "SELECT `id`, `parent`, `priority` FROM `{$database['prefix']}Categories` WHERE `parent` IS NULL AND `blogid` = $blogid AND `priority` $sign $parentPriority ORDER BY `priority` $arrange";
-				$result = DBQuery::query($sql);
-				while ($row = mysql_fetch_array($result)) {
+				$result = DBQuery::queryAll($sql);
+				foreach($result as $row) {
 					$nextId = $row['id'];
 					$nextParentId = $row['parent'];
 					$nextPriority = $row['priority'];
@@ -478,9 +477,8 @@ function moveCategory($blogid, $id, $direction) {
 			} else {
 				$sql = "UPDATE {$database['prefix']}Categories SET parent = NULL WHERE id = $myId AND blogid = $blogid";
 				DBQuery::query($sql);
-				$sql = "SELECT id, priority FROM {$database['prefix']}Categories WHERE parent is null AND blogid = $blogid AND priority $sign $parentPriority ORDER BY priority $arrange LIMIT 1";
-				$result = DBQuery::query($sql);
-				$row = mysql_fetch_array($result);
+				$sql = "SELECT id, priority FROM {$database['prefix']}Categories WHERE parent is null AND blogid = $blogid AND priority $sign $parentPriority ORDER BY priority $arrange";
+				$row = DBQuery::queryRow($sql);
 				$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
 				$nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
 				if ($nextId == 'NULL') {

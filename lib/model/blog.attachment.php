@@ -159,7 +159,7 @@ function deleteAttachment($blogid, $parent, $name) {
 		return false;
 	$origname = $name;
 	$name = tc_escape_string($name);
-	if (DBQuery::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid AND name = '$name'") && (mysql_affected_rows() == 1)) {
+	if (DBQuery::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid AND name = '$name'")) {
 		@unlink(ROOT . "/attach/$blogid/$origname");
 		clearRSS();
 		return true;
@@ -228,7 +228,7 @@ function deleteAttachmentMulti($blogid, $parent, $names) {
 			continue;
 		$origname = $name;
 		$name = tc_escape_string($name);
-		if (DBQuery::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid AND parent = $parent AND name = '$name'") && (mysql_affected_rows() == 1)) {
+		if (DBQuery::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid AND parent = $parent AND name = '$name'")) {
 			unlink(ROOT . "/attach/$blogid/$origname");
 		} else {
 		}
