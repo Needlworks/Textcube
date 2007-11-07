@@ -102,7 +102,6 @@ if( Acl::check('group.owners')) {?>
 										window.location.href='<?php	echo $blogURL;?>/owner/setting/teamblog/';
 									}
 									request.onError = function() {
-										alert(Number(this.getText("/response/error")));
 										switch(Number(this.getText("/response/error"))) {
 											case 2:
 												alert('<?php echo _t('이메일이 바르지 않습니다.');?>');

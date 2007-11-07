@@ -11,6 +11,14 @@ function getEntriesTotalCount($blogid) {
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0");
 }
 
+function getNoticesTotalCount($blogid) {
+	global $database;
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
+	return DBQuery::queryCell("SELECT COUNT(*) 
+		FROM {$database['prefix']}Entries e
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category = -2");
+}
+
 function getEntries($blogid, $attributes = '*', $condition = false, $order = 'published DESC') {
 	global $database;
 	if (!empty($condition))
@@ -297,25 +305,34 @@ function getEntryWithPaging($blogid, $id, $isNotice = false) {
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	$visibility .= ($isNotice || doesHaveOwnership())  ? '' : ' AND (c.visibility > 1 OR e.category = 0)';
 	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
-	$sql = "SELECT e.*, c.label categoryLabel 
+	$currentEntry = DBQuery::queryRow("SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
-		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND $category 
-		ORDER BY e.published DESC";
-	$result = DBQuery::query($sql);
-	if (!$result)
+		WHERE e.blogid = $blogid 
+			AND e.id = $id 
+			AND e.draft = 0 $visibility AND $category");
+	$result = DBQuery::query("SELECT e.id 
+		FROM {$database['prefix']}Entries e 
+		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
+		WHERE e.blogid = $blogid 
+			AND e.draft = 0 $visibility AND $category 
+		ORDER BY e.published DESC");
+	if (!$result || !$currentEntry)
 		return array($entries, $paging);
-	$paging['pages'] = mysql_num_rows($result);
+	$paging['pages'] = ($isNotice) ? getNoticesTotalCount($blogid) : getEntriesTotalCount($blogid);
+
 	for ($i = 1; $entry = mysql_fetch_array($result); $i++) {
 		if ($entry['id'] != $id) {
-			if (array_push($paging['before'], $entry['id']) > 4) if ($i == 5)
-				$paging['first'] = array_shift($paging['before']);
-			else
-				array_shift($paging['before']);
+			if (array_push($paging['before'], $entry['id']) > 4) {
+				if ($i == 5) 
+					$paging['first'] = array_shift($paging['before']);
+				else 
+					array_shift($paging['before']);
+			}
 			continue;
 		}
 		$paging['page'] = $i;
-		array_push($entries, $entry);
+		array_push($entries, $currentEntry);
 		$paging['after'] = array();
 		for ($i++; (count($paging['after']) < 4) && ($entry = mysql_fetch_array($result)); $i++)
 			array_push($paging['after'], $entry['id']);
@@ -341,14 +358,23 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false) {
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	$visibility .= ($isNotice || doesHaveOwnership()) ? '' : getPrivateCategoryExclusionQuery($blogid);
 	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
-	$result = DBQuery::query("SELECT e.id, e.userid, e.slogan, c.label categoryLabel 
+
+	$currentEntry = DBQuery::queryRow("SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
-		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND $category 
+		WHERE e.blogid = $blogid 
+			AND e.slogan = '".tc_escape_string($slogan)."' 
+			AND e.draft = 0 $visibility AND $category");
+
+	$result = DBQuery::query("SELECT e.id, e.slogan 
+		FROM {$database['prefix']}Entries e 
+		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
+		WHERE e.blogid = $blogid 
+			AND e.draft = 0 $visibility AND $category 
 		ORDER BY e.published DESC");
-	if (!$result)
+	if (!$result || !$currentEntry)
 		return array($entries, $paging);
-	$paging['pages'] = mysql_num_rows($result);
+	$paging['pages'] = ($isNotice) ? getNoticesTotalCount($blogid) : getEntriesTotalCount($blogid);
 	for ($i = 1; $entry = mysql_fetch_array($result); $i++) {
 		if ($entry['slogan'] != $slogan) {
 			if (array_push($paging['before'], $entry['slogan']) > 4) if ($i == 5)
@@ -358,7 +384,7 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false) {
 			continue;
 		}
 		$paging['page'] = $i;
-		array_push($entries, $entry);
+		array_push($entries, $currentEntry);
 		$paging['after'] = array();
 		for ($i++; (count($paging['after']) < 4) && ($entry = mysql_fetch_array($result)); $i++)
 			array_push($paging['after'], $entry['slogan']);
@@ -370,20 +396,9 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false) {
 			$paging['prev'] = $paging['before'][count($paging['before']) - 1];
 		if (isset($paging['after'][0]))
 			$paging['next'] = $paging['after'][0];
-		
-		$label = $entries[0]['categoryLabel'];
-		$entry = getEntry($blogid, $entries[0]['id']);
-		$entry['categoryLabel'] = $label;
-		$entries = array($entry);
 		return array($entries, $paging);
 	}
 	$paging['page'] = $paging['pages'] + 1;
-	if (count($entries) > 0) {
-		$label = $entries[0]['categoryLabel'];
-		$entry = getEntry($blogid, $entries[0]['id']);
-		$entries = array($entry);
-		$entry['categoryLabel'] = $label;
-	}
 	return array($entries, $paging);
 }
 
