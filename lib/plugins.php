@@ -160,7 +160,7 @@ if (getBlogId()) {
 					else
 						$configMappings[$plugin] = array( 'config' => 'ok') ;
 				}
-				if (doesHaveMembership() && $xmls->doesExist('/plugin/binding/adminMenu')) {
+				if (doesHaveOwnership() && $xmls->doesExist('/plugin/binding/adminMenu')) {
 					$title = htmlspecialchars($xmls->getValue('/plugin/title[lang()]'));
 
 					if ($xmls->doesExist('/plugin/binding/adminMenu/viewMethods')) {
@@ -183,7 +183,6 @@ if (getBlogId()) {
 							} else {
 								$pluginTopMenuLocation = 'plugin';
 							}
-							//var_dump($pluginTopMenuLocation);
 							$pluginContentMenuOrder = empty($adminViewMenu['contentMenuOrder'][0]['.value'])? '100':$adminViewMenu['contentMenuOrder'][0]['.value'];
 							$menuhelpurl = empty($adminViewMenu['helpurl'][0]['.value'])?'':$adminViewMenu['helpurl'][0]['.value'];
 						
@@ -228,7 +227,7 @@ if (getBlogId()) {
 					unset($adminViewMenu);
 					unset($params);
 				
-					if (doesHaveMembership() &&$xmls->doesExist('/plugin/binding/adminMenu/methods')) {
+					if (doesHaveOwnership() &&$xmls->doesExist('/plugin/binding/adminMenu/methods')) {
 						foreach($xmls->selectNodes('/plugin/binding/adminMenu/methods/method') as $adminMethods) {
 							$method = array();
 							$method['plugin'] = $plugin;
@@ -285,7 +284,7 @@ if (getBlogId()) {
 					unset($formatterinfo);
 					unset($usedFor);
 				}
-				if (doesHaveMembership() && $xmls->doesExist('/plugin/binding/editor[lang()]')) {
+				if (doesHaveOwnership() && $xmls->doesExist('/plugin/binding/editor[lang()]')) {
 					$editorCount = $editorCount + 1;
 					foreach (array($xmls->selectNode('/plugin/binding/editor[lang()]')) as $editor) {
 						if (!isset($editor['.attributes']['name'])) continue;

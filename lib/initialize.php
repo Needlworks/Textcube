@@ -16,16 +16,15 @@ if(!empty($database) && !empty($database["database"])) DBQuery::bind($database);
    ----------------------------------
    */
 require ROOT.'/lib/suri.php';
+
 /* Session initializing */
 if (!defined('NO_SESSION')) require ROOT.'/lib/session.php';
 
 /* Get User information */
 if (doesHaveMembership()) {
 	$user = array('id' => getUserId());
-	$user['name'] = DBQuery::queryCell("SELECT name 
-			FROM {$database['prefix']}Users 
-			WHERE userid = ".getUserId());
-	$user['homepage'] = getDefaultURL($user['id']);
+	$user['name'] = User::getName(getUserId());
+//	$user['homepage'] = getDefaultURL($user['id']); //Will delete after 1.5
 } else {
 	$user = null;
 }

@@ -1042,7 +1042,7 @@ CREATE TABLE {$_POST['dbPrefix']}Categories (
 CREATE TABLE {$_POST['dbPrefix']}Comments (
   blogid int(11) NOT NULL default '0',
   replier int(11) default NULL,
-  id int(11) NOT NULL auto_increment,
+  id int(11) NOT NULL,
   entry int(11) NOT NULL default '0',
   parent int(11) default NULL,
   name varchar(80) NOT NULL default '',
@@ -1053,7 +1053,7 @@ CREATE TABLE {$_POST['dbPrefix']}Comments (
   ip varchar(15) NOT NULL default '',
   written int(11) NOT NULL default '0',
   isFiltered int(11) NOT NULL default '0',
-  PRIMARY KEY  (id),
+  PRIMARY KEY  (blogid, id),
   KEY blogid (blogid),
   KEY entry (entry),
   KEY parent (parent),
@@ -1062,7 +1062,7 @@ CREATE TABLE {$_POST['dbPrefix']}Comments (
 CREATE TABLE {$_POST['dbPrefix']}CommentsNotified (
   blogid int(11) NOT NULL default '0',
   replier int(11) default NULL,
-  id int(11) NOT NULL auto_increment,
+  id int(11) NOT NULL,
   entry int(11) NOT NULL default '0',
   parent int(11) default NULL,
   name varchar(80) NOT NULL default '',
@@ -1079,22 +1079,22 @@ CREATE TABLE {$_POST['dbPrefix']}CommentsNotified (
   remoteId int(11) NOT NULL default '0',
   entryTitle varchar(255) NOT NULL default '',
   entryUrl varchar(255) NOT NULL default '',
-  PRIMARY KEY  (id),
+  PRIMARY KEY  (blogid, id),
   KEY blogid (blogid),
   KEY entry (entry)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}CommentsNotifiedQueue (
   blogid int(11) NOT NULL default '0',
-  id int(11) NOT NULL auto_increment,
+  id int(11) NOT NULL,
   commentId int(11) NOT NULL default '0',
   sendStatus int(1) NOT NULL default '0',
   checkDate int(11) NOT NULL default '0',
   written int(11) NOT NULL default '0',
-  PRIMARY KEY  (id),
+  PRIMARY KEY  (blogid, id),
   UNIQUE KEY commentId (commentId)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}CommentsNotifiedSiteInfo (
-  id int(11) NOT NULL auto_increment,
+  id int(11) NOT NULL,
   title varchar(255) NOT NULL default '',
   name varchar(255) NOT NULL default '',
   url varchar(255) NOT NULL default '',

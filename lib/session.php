@@ -151,11 +151,12 @@ function authorizeSession($blogid, $userid) {
 		return true;
 	for ($i = 0; $i < 100; $i++) {
 		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-		$result = DBQuery::queryCount("INSERT INTO {$database['prefix']}Sessions
+		$result = DBQuery::execute("INSERT INTO {$database['prefix']}Sessions
 			(id, address, userid, created, updated) 
 			VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', $userid, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
-		if ($result && $result == 1) {
+		if ($result) {
 			@session_id($id);
+			//$service['domain'] = $service['domain'].':8888';
 			setcookie('TSSESSION', $id, 0, $session_cookie_path, $service['domain']);
 			return true;
 		}
@@ -188,7 +189,6 @@ function sessionQueryAll($sql) {
 	}
 	return $result;
 }
-
 session_name('TSSESSION');
 setSession();
 session_set_save_handler('openSession', 'closeSession', 'readSession', 'writeSession', 'destroySession', 'gcSession');

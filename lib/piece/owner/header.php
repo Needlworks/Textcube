@@ -1,11 +1,7 @@
 <?php
 // Automatic menu location routine.
 $blogMenu = array();
-//var_dump($suri);
 $urlFragments = preg_split('/\//',ltrim($suri['directive'],'/'));
-//var_dump($urlFragments);
-//if($service['useRewriteEngine']===false) array_shift($urlFragments);
-//var_dump($urlFragments[0]);
 if(isset($urlFragments[1])) $blogMenu['topMenu'] = $urlFragments[1];
 if(isset($urlFragments[2])) $blogMenu['contentMenu'] = $urlFragments[2];
 else $blogMenu['contentMenu'] = $urlFragments[1];
