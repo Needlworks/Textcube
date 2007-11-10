@@ -357,7 +357,7 @@ if (defined('__TEXTCUBE_POST__')) {
 										if (data == null)
 											return false;
 										if(entryManager.isSaved == true) {
-											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/update/"+entryManager.entryId);
+											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/finish/"+entryManager.entryId);
 <?php
 	if($service['useRewriteEngine'] == false) {
 ?>
@@ -366,7 +366,7 @@ if (defined('__TEXTCUBE_POST__')) {
 	}
 ?>
 										} else {
-											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/add/");
+											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/finish/");
 										}
 
 										request.message = "<?php echo _t('저장하고 있습니다.');?>";
