@@ -198,6 +198,19 @@ include ROOT . '/language/messages.php';
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/gallery.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/owner.js"></script>
 <?php
+if( isset($service['admin_script']) ) {
+	if( is_array($service['admin_script']) ) {
+		foreach( $service['admin_script'] as $src ) {
+?>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/<?php echo $src;?>"></script>
+<?php
+		}
+	} else {
+?>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/<?php echo $service['admin_script'];?>"></script>
+<?php
+	}
+}
 if($blogMenu['topMenu']=='entry') {
 ?>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/editor3.js"></script>
