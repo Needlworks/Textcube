@@ -12,7 +12,12 @@ if( isset($_POST['usexfn']) ) {
 	header( "Location: ${_SERVER['REQUEST_URI']}" );
 }
 
-$links = getLinks($blogid);
+$page=1;
+if( isset( $_GET['page'] ) ) {
+	$page=$_GET['page'];
+}
+
+list( $links, $paging ) = getLinksWithPagingForOwner($blogid, $page, 30);
 $service['admin_script'] = array( 'xfn.js' );
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
@@ -143,6 +148,19 @@ if (sizeof($links) > 0) echo "									</tbody>";
 								<input type="button" class="cancel-button input-button" value="<?php echo _t('취소하기');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/link/xfn'" />
 							</div>
 							</form>
+
+							<div id="page-section" class="section">
+								<div id="page-navigation">
+									<span id="page-list">
+<?php
+$pagingTemplate = '[##_paging_rep_##]';
+$pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
+print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
+?>
+									</span>
+									<span id="total-count"><?php echo sprintf(_t('총 %d건'), empty($paging['total']) ? "0" : $paging['total']);?></span>
+								</div>
+							</div>
 						</div>
 <?php
 require ROOT . '/lib/piece/owner/footer.php';

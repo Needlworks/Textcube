@@ -4,41 +4,6 @@
 
 var xfnInputs, xfnResults, xfnMe;
 
-function debug_dump(e,ret)
-{
-        var b = ""; 
-        var c = 0;
-        var i = 0;
-        if( typeof e == 'string' ) { 
-                e = $(e);
-        }   
-        for( a in e ) { 
-                i++;
-                if( typeof e[a] == 'function' ) { 
-                        b += i + ". " + a + " : FUNCTION\r\n";
-                } else {
-                        b += i + ". " + a + " : " + e[a] + "\r\n";
-                }   
-                if( c > 40 ) { 
-                        c = 0;
-                        if( ret != undefined ) { 
-                                alert(b);
-                                b = ''; 
-                        }   
-                } else {
-                        c++;
-                }   
-        }   
-        if( c != 0 ) { 
-                if( ret == undefined ) { 
-                        alert(b);
-                } else {
-                        return b;
-                }   
-        }   
-        return ''; 
-}
-
 function srcElement(event)
 {
 	return event.target || event.srcElement;
@@ -82,6 +47,9 @@ function installOnClick()
 	var inputs = document.getElementsByTagName('input');
 	for (var i = 0; i < inputs.length; i++) {		
 		input_id = inputs[i].id;
+		if( !input_id ) {
+			continue;
+		}
 		id = input_id.replace( /^.*_id_(\d+)$/, "$1" );
 		if( xfnInputs[id] == undefined ) {
 			xfnInputs[id] = new Array();

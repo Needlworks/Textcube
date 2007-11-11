@@ -13,6 +13,11 @@ function getLinks($blogid) {
 	return $links;
 }
 
+function getLinksWithPagingForOwner($blogid, $page, $count) {
+	global $database;
+	return fetchWithPaging( "SELECT * FROM {$database['prefix']}Links WHERE blogid = $blogid ORDER BY name", $page, $count );
+}
+
 function getLink($blogid, $id) {
 	global $database;
 	return DBQuery::queryRow("select * from {$database['prefix']}Links where blogid = $blogid and id = $id");
