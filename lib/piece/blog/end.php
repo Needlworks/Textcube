@@ -69,7 +69,8 @@ if (sizeof($notices) > 0) {
 dress('rctps_rep', getRecentEntriesView(getRecentEntries($blogid), $skin->recentEntry), $view);
 dress('rctrp_rep', getRecentCommentsView(getRecentComments($blogid), $skin->recentComments), $view);
 dress('rcttb_rep', getRecentTrackbacksView(getRecentTrackbacks($blogid), $skin->recentTrackback), $view);
-dress('link_rep', getLinksView(getLinks($blogid), $skin->s_link_rep), $view);
+$links = getLinks( $blogid );
+dress('link_rep', getLinksView($links, $skin->s_link_rep), $view);
 dress('rss_url', "$blogURL/rss", $view);
 dress('owner_url', "$blogURL/owner", $view);
 dress('textcube_name', TEXTCUBE_NAME, $view);
@@ -108,6 +109,15 @@ foreach ($coverpageElements as $element) {
 	dress($element, $skin->coverpageStorage[$element], $view);
 }
 $view = revertTempTags(removeAllTags($view));
+
+$links = getLinks( $blogid );
+foreach ($links as $link) {
+	if( !$link['visible'] || !$link['xfn'] ) {
+		continue;
+	}
+	addXfnAttrs( $link['url'], $link['xfn'], $view );
+}
+
 print $view;
 
 ?>

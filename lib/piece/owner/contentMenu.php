@@ -36,7 +36,8 @@ if(isset($blogMenu['topMenu'])) {
 		if(Acl::check('group.administrators')) {
 			$blogContentMenuItem = array(
 				array('menu'=>'add','title'=>_t('링크 추가'),'link'=>'/owner/link/add'),
-				array('menu'=>'link','title'=>_t('링크 목록'),'link'=>'/owner/link')
+				array('menu'=>'link','title'=>_t('링크 목록'),'link'=>'/owner/link'),
+				array('menu'=>'xfn','title'=>_t('친구 링크 관리'),'link'=>'/owner/link/xfn')
 			);
 		}
 		break;

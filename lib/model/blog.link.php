@@ -24,6 +24,17 @@ function deleteLink($blogid, $id) {
 	return ($result && (mysql_affected_rows() == 1)) ? true : false;
 }
 
+function toggleVisibility($blogid, $id) {
+	global $database;
+	if (DBQuery::queryCell("SELECT visible FROM {$database['prefix']}Links WHERE blogid = $blogid AND id = $id") == 1) {
+		$visible = 0;
+	} else {
+		$visible = 1;
+	}
+	$result = DBQuery::query("update {$database['prefix']}Links set visible = $visible where blogid = $blogid and id = $id");
+	return array( ($result && (mysql_affected_rows() == 1)) ? true : false, $visible );
+}
+
 function addLink($blogid, $link) {
 	global $database;
 	$name = UTF8::lessenAsEncoding(trim($link['name']), 255);
@@ -59,5 +70,22 @@ function updateLink($blogid, $link) {
 					written = UNIX_TIMESTAMP()
 				where
 					blogid = $blogid and id = {$link['id']}");
+}
+
+function updateXfn($blogid, $links) {
+	global $database;
+	$ids = Array();
+	foreach( $links as $k => $v ) {
+		if( substr($k,0,3) == 'xfn' ) {
+			$id = substr( $k, 3 );
+			$xfn = tc_escape_string($v);
+			DBQuery::execute("update {$database['prefix']}Links
+				set
+					xfn = '$xfn',
+					written = UNIX_TIMESTAMP()
+				where
+					blogid = $blogid and id = $id");
+		}
+	}
 }
 ?>

@@ -911,10 +911,19 @@ function getRecentTrackbacksView($trackbacks, $template) {
 	return $view;
 }
 
+function addXfnAttrs( $url, $xfn, & $view )
+{
+	$view = str_replace( "href=\"$url\"", "href=\"$url\" rel=\"$xfn\"", $view);
+	$view = str_replace( "href='$url'", "href='$url' rel=\"$xfn\"", $view);
+}
+
 function getLinksView($links, $template) {
 	global $blogURL, $skinSetting;
 	ob_start();
 	foreach ($links as $link) {
+		if( !$link['visible'] ) {
+			continue;
+		}
 		$view = "$template";
 		dress('link_url', htmlspecialchars($link['url']), $view);
 		dress('link_site', fireEvent('ViewLink', htmlspecialchars(UTF8::lessenAsEm($link['name'], $skinSetting['linkLength']))), $view);

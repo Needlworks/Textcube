@@ -944,6 +944,16 @@ if (preg_match('@\(thumbnail\)/\(\[0\-9\]\+/\.\+\) cache/\$1/\$2@', $content) ==
 	}
 }
 
+if (!DBQuery::queryExistence("DESC {$database['prefix']}Links visible")) {
+	$changed = true;
+	echo '<li>', _text('Links 테이블에 보이기 여부 필드와 XFN 마이크로포맷을 위한 필드 추가합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Links ADD visible int(1) NOT NULL DEFAULT 1") &&
+	   DBQuery::execute("ALTER TABLE {$database['prefix']}Links ADD xfn varchar(128) NOT NULL DEFAULT ''"))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
 ?>
 </ul>
 <?php
