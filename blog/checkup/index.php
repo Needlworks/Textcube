@@ -901,6 +901,55 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Comments blogid", 'Key') != 'P
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
+if (!doesExistTable($database['prefix'] . 'EntriesArchive')) {
+	$changed = true;
+	echo '<li>', _text('글 버전 관리및 비교를 위한 테이블을 추가합니다.'), ': ';
+	$query = "
+	CREATE TABLE {$database['prefix']}EntriesArchive (
+		blogid int(11) NOT NULL default '0',
+		userid int(11) NOT NULL default '0',
+		id int(11) NOT NULL,
+		visibility tinyint(4) NOT NULL default '0',
+		category int(11) NOT NULL default '0',
+		title varchar(255) NOT NULL default '',
+		slogan varchar(255) NOT NULL default '',
+		content mediumtext NOT NULL,
+		contentFormatter varchar(32) DEFAULT '' NOT NULL,
+		contentEditor varchar(32) DEFAULT '' NOT NULL,
+		location varchar(255) NOT NULL default '/',
+		password varchar(32) default NULL,
+		created int(11) NOT NULL default '0',
+		PRIMARY KEY (blogid, id, created),
+		KEY visibility (visibility),
+		KEY blogid (blogid, id),
+		KEY userid (userid, blogid)
+		) TYPE=MyISAM
+	";
+	if (DBQuery::execute($query . ' DEFAULT CHARSET=utf8') || DBQuery::execute($query))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
+if (!DBQuery::queryExistence("DESC {$database['prefix']}Links visibility")) {
+	$changed = true;
+	echo '<li>', _text('Links 테이블에 공개 여부 설정 필드와 XFN 마이크로포맷을 위한 필드 추가합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Links ADD visibility tinyint(4) NOT NULL DEFAULT 2") &&
+	   DBQuery::execute("ALTER TABLE {$database['prefix']}Links ADD xfn varchar(128) NOT NULL DEFAULT ''"))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
+if (!DBQuery::queryExistence("DESC {$database['prefix']}Links visible")) {
+	$changed = true;
+	echo '<li>', _text('Links 테이블의 공개 여부 설정 필드의 속성을 변경합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Links CHANGE visible visibility tinyint(4) NOT NULL DEFAULT 2")) 
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
 // Common parts.
 if(doesHaveOwnership() && $blogids = DBQuery::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog")) {
 	$changed = true;
@@ -942,16 +991,6 @@ if (preg_match('@\(thumbnail\)/\(\[0\-9\]\+/\.\+\) cache/\$1/\$2@', $content) ==
 		fclose($fp);
 		echo ': <span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	}
-}
-
-if (!DBQuery::queryExistence("DESC {$database['prefix']}Links visible")) {
-	$changed = true;
-	echo '<li>', _text('Links 테이블에 보이기 여부 필드와 XFN 마이크로포맷을 위한 필드 추가합니다.'), ': ';
-	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Links ADD visible int(1) NOT NULL DEFAULT 1") &&
-	   DBQuery::execute("ALTER TABLE {$database['prefix']}Links ADD xfn varchar(128) NOT NULL DEFAULT ''"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
 ?>
