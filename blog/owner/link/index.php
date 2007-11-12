@@ -34,7 +34,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									request.send();
 								}
 								function toggleVisibility(id) {
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/link/visible/" + id);
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/link/visibility/" + id);
 									request.onSuccess = function () {
 										PM.removeRequest(this);
 										PM.showMessage("<?php echo _t('변경되었습니다.');?>", "center", "bottom");
