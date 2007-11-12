@@ -51,7 +51,7 @@ function addLink($blogid, $link) {
 	$rss = isset($link['rss']) ? tc_escape_string(UTF8::lessenAsEncoding(trim($link['rss']), 255)) : '';
 	if (DBQuery::queryCell("SELECT id FROM {$database['prefix']}Links WHERE blogid = $blogid AND url = '$url'"))
 		return 1;
-	if (DBQuery::execute("INSERT INTO {$database['prefix']}Links VALUES ($blogid, null, '$name', '$url', '$rss', UNIX_TIMESTAMP())"))
+	if (DBQuery::execute("INSERT INTO {$database['prefix']}Links (blogid,name,url,rss,written) VALUES ($blogid, '$name', '$url', '$rss', UNIX_TIMESTAMP())"))
 		return 0;
 	else
 		return - 1;
