@@ -950,7 +950,7 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}Links visibility")) {
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
-// Common parts.
+/***** Common parts. *****/
 if(doesHaveOwnership() && $blogids = DBQuery::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog")) {
 	$changed = true;
 	$errorlog = false;

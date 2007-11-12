@@ -3,14 +3,23 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+global $__gCacheLink;
+$__gCacheLink = array();
+
 function getLinks($blogid) {
-	global $database;
-	$links = array();
-	if ($result = DBQuery::queryAll("SELECT * FROM {$database['prefix']}Links WHERE blogid = $blogid ORDER BY name")) {
-		foreach($result as $link)
-			array_push($links, $link);
+	global $database, $__gCacheLink;
+	if(empty($__gCacheLink)) {
+		if ($result = DBQuery::queryAll("SELECT * 
+			FROM {$database['prefix']}Links 
+			WHERE blogid = $blogid 
+			ORDER BY name")) {
+			$__gCacheLink = array();
+			foreach($result as $link) {
+				array_push($__gCacheLink, $link);
+			}
+		}
 	}
-	return $links;
+	return $__gCacheLink;
 }
 
 function getLinksWithPagingForOwner($blogid, $page, $count) {
@@ -19,8 +28,8 @@ function getLinksWithPagingForOwner($blogid, $page, $count) {
 }
 
 function getLink($blogid, $id) {
-	global $database;
-	return DBQuery::queryRow("SELECT * FROM {$database['prefix']}Links WHERE blogid = $blogid AND id = $id");
+	global $database, $__gCacheLink;
+	return DBQuery::queryRow("SELECT * FROM {$database['prefix']}Links WHERE blogid = $blogid and id = $id");
 }
 
 function deleteLink($blogid, $id) {

@@ -1208,6 +1208,8 @@ CREATE TABLE {$_POST['dbPrefix']}Links (
   url varchar(255) NOT NULL default '',
   rss varchar(255) NOT NULL default '',
   written int(11) NOT NULL default '0',
+  visibility tinyint(4) NOT NULL default '2',
+  xfn varchar(128) NOT NULL default '',
   PRIMARY KEY  (id),
   UNIQUE KEY blogid (blogid,url)
 ) $charset;

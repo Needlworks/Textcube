@@ -7,8 +7,8 @@ function getKeywordByName($blogid, $name) {
 	global $database;
 	$name = tc_escape_string($name);
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	if ($result = DBQuery::query("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -1 AND title = '$name'"))
-		return mysql_fetch_array($result);
+	if ($result = DBQuery::queryAll("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -1 AND title = '$name'"))
+		return $result;
 	return false;	
 }
 
@@ -22,16 +22,19 @@ function getKeywordNames($blogid) {
 	global $database;
 	$names = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$result = DBQuery::query("SELECT title FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -1 ORDER BY char_length(title) DESC");
-	while (list($name) = mysql_fetch_array($result))
-		array_push($names, $name);
+	$names = DBQuery::queryColumn("SELECT title FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -1 ORDER BY char_length(title) DESC");
 	return $names;
 }
 
 function getKeywords($blogid) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	return DBQuery::queryAll("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -1 ORDER BY title ASC");
+	return DBQuery::queryAll("SELECT * 
+		FROM {$database['prefix']}Entries 
+		WHERE blogid = $blogid 
+			AND draft = 0 $visibility 
+			AND category = -1 
+		ORDER BY title ASC");
 }
 
 function getKeywordsWithPaging($blogid, $search, $page, $count) {
@@ -56,13 +59,13 @@ function getKeyword($blogid, $keyword) {
 	global $database;
 	$keyword = tc_escape_string($keyword);
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
-	return DBQuery::queryAll("SELECT * 
+	return DBQuery::queryRow("SELECT * 
 			FROM {$database['prefix']}Entries 
 			WHERE blogid = $blogid 
 				AND draft = 0 $visibility 
 				AND category = -1 
 				AND title = '$keyword' 
-			ORDER BY published DESC LIMIT 1");
+			ORDER BY published DESC");
 }
 
 function getKeylogs($blogid, $keyword) {	
