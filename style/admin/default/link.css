@@ -20,6 +20,7 @@
 }
 
 #part-link-list table.data-inbox tbody tr .address,
+#part-link-list table.data-inbox thead tr .status,
 #part-link-list table.data-inbox tbody tr .edit,
 #part-link-list table.data-inbox tbody tr .delete,
 #part-link-list table.data-inbox tbody tr .xfn-edit
@@ -39,6 +40,11 @@
 {
 	padding-left                     : 20px;
 	text-align                       : left;
+}
+
+#part-link-list table.data-inbox thead tr th.status
+{
+	width                            : 52px;
 }
 
 #part-link-list table.data-inbox thead tr th.edit

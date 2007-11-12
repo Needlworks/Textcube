@@ -29,13 +29,8 @@ function deleteLink($blogid, $id) {
 	return ($result) ? true : false;
 }
 
-function toggleLinkVisibility($blogid, $id) {
+function toggleLinkVisibility($blogid, $id, $visibility) {
 	global $database;
-	if (DBQuery::queryCell("SELECT visibility FROM {$database['prefix']}Links WHERE blogid = $blogid AND id = $id") != 0) {
-		$visibility = 0;
-	} else {
-		$visibility = 2;
-	}
 	$result = DBQuery::execute("UPDATE {$database['prefix']}Links SET visibility = $visibility WHERE blogid = $blogid AND id = $id");
 	return array( ($result) ? true : false, $visibility );
 }

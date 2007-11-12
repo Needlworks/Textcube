@@ -33,14 +33,43 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									PM.addRequest(request, "<?php echo _t('링크를 삭제하고 있습니다.');?>");
 									request.send();
 								}
-								function toggleVisibility(id) {
+								
+								function setLinkVisibility(id, command) {
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/link/visibility/" + id);
 									request.onSuccess = function () {
 										PM.removeRequest(this);
-										var node = document.getElementById("link-visible-" + id );
 										var visibility = parseInt(this.getText("/response/visibility"));
-										node.className = ( visibility ? "visible-link" : "invisible-link" ) + ' visible-button button';
-										/* visibility := 0: invisible, 1: member-visible, 2: public-visible */
+										switch(visibility) {
+											/* visibility := 0: invisible, 1: member-visible, 2: public-visible */
+											case 0:
+												document.getElementById("privateIcon_" + id).className = 'private-on-icon';
+												document.getElementById("protectedIcon_" + id).className = 'protected-off-icon';
+												document.getElementById("publicIcon_" + id).className = 'public-off-icon';
+
+												document.getElementById("privateIcon_" + id).innerHTML = '<span class="text"><?php echo _t('비공개');?><\/span>';
+												document.getElementById("protectedIcon_" + id).innerHTML = '<a href="<?php echo $blogURL;?>/owner/link/visibility/' + id + '?command=protect" onclick="setLinkVisibility('+id+', 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.');?>"><span class="text"><?php echo _t('보호');?><\/span><\/a>';
+												document.getElementById("publicIcon_" + id).innerHTML = '<a href="<?php echo $blogURL;?>/owner/link/visibility/' + id + '?command=public" onclick="setLinkVisibility('+id+', 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.');?>"><span class="text"><?php echo _t('공개');?><\/span><\/a>';
+												break;
+											case 1:
+												document.getElementById("privateIcon_" + id).className = 'private-off-icon';
+												document.getElementById("protectedIcon_" + id).className = 'protected-on-icon';
+												document.getElementById("publicIcon_" + id).className = 'public-off-icon';
+
+												document.getElementById("privateIcon_" + id).innerHTML = '<a href="<?php echo $blogURL;?>/owner/link/visibility/' + id + '?command=private" onclick="setLinkVisibility('+id+', 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.');?>"><span class="text"><?php echo _t('비공개');?><\/span><\/a>';
+												document.getElementById("protectedIcon_" + id).innerHTML = '<span class="text"><?php echo _t('보호');?><\/span>';
+												document.getElementById("publicIcon_" + id).innerHTML = '<a href="<?php echo $blogURL;?>/owner/link/visibility/' + id + '?command=public" onclick="setLinkVisibility('+id+', 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.');?>"><span class="text"><?php echo _t('공개');?><\/span><\/a>';
+												break;
+											case 2:
+											default :
+												document.getElementById("privateIcon_" + id).className = 'private-off-icon';
+												document.getElementById("protectedIcon_" + id).className = 'protected-off-icon';
+												document.getElementById("publicIcon_" + id).className = 'public-on-icon';
+												
+												document.getElementById("privateIcon_" + id).innerHTML = '<a href="<?php echo $blogURL;?>/owner/link/visibility/' + id + '?command=private" onclick="setLinkVisibility('+id+', 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.');?>"><span class="text"><?php echo _t('비공개');?><\/span><\/a>';
+												document.getElementById("protectedIcon_" + id).innerHTML = '<a href="<?php echo $blogURL;?>/owner/link/visibility/' + id + '?command=protect" onclick="setLinkVisibility('+id+', 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.');?>"><span class="text"><?php echo _t('보호');?><\/span><\/a>';
+												document.getElementById("publicIcon_" + id).innerHTML = '<span class="text"><?php echo _t('공개');?><\/span>';
+												break;
+										}
 									}
 									request.onError= function () {
 										PM.removeRequest(this);
@@ -51,7 +80,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										}
 									}
 									PM.addRequest(request);
-									request.send();
+									request.send("visibility="+command);
 								}
 							//]]>
 						</script>
@@ -63,7 +92,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								<thead>
 									<tr>
 										<th class="homepage"><span class="text"><?php echo _t('홈페이지 이름');?></span></th>
-										<th class="edit"><span class="text"><?php echo _t('보기');?></span></th>
+										<th class="status"><span class="text"><?php echo _t('상태');?></span></th>
 										<th class="address"><span class="text"><?php echo _t('사이트 주소');?></span></th>
 										<th class="edit"><span class="text"><?php echo _t('수정');?></span></th>
 										<th class="delete"><span class="text"><?php echo _t('삭제');?></span></th>
@@ -80,8 +109,52 @@ for ($i=0; $i<sizeof($links); $i++) {
 	$className .= ($i == sizeof($links) - 1) ? ' last-line' : '';
 ?>
 									<tr id="link_<?php echo $link['id'];?>" class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-										<td class="homepage"><a href="<?php echo htmlspecialchars($link['url']);?>" onclick="window.open(this.href); return false;" title="<?php echo _t('이 링크에 연결합니다.');?>"><?php echo htmlspecialchars($link['name']);?></a></td>
-										<td class="edit"><a id="link-visible-<?php echo $link['id']?>" class="<?php echo $visible_class ?>" href="<?php echo $blogURL;?>/owner/link/visibility/<?php echo $link['id'];?>" onclick="toggleVisibility(<?php echo $link['id'];?>); return false;" title="<?php echo _t('방문자에게 보일지 여부를 선택합니다.');?>"><span><?php echo _t('보기');?></span></a></td>
+										<td class="homepage"><a href="<?php echo htmlspecialchars($link['url']);?>" onclick="window.open(this.href); return false;" title="<?php echo _t('이 링크에 연결합니다.');?>"><?php echo htmlspecialchars($link['name']);?></a></td>									
+										<td class="status">
+											
+											<span id="privateIcon_<?php echo $link['id'];?>" class="private-<?php echo (($link['visibility'] == 0) ? 'on' : 'off');?>-icon">
+<?php 
+	if($link['visibility'] != 0) {
+?>
+												<a href="<?php echo $blogURL;?>/owner/link/visibility/<?php echo $link['id'];?>?command=protect" onclick="setLinkVisibility(<?php echo $link['id'];?>, 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.');?>"><span class="text"><?php echo _t('비공개');?></span></a>
+<?php
+	} else {
+?>
+												<span class="text"><?php echo _t('비공개');?></span>
+<?php
+	}
+?>
+											</span>
+
+											
+											<span id="protectedIcon_<?php echo $link['id'];?>" class="protected-<?php echo (($link['visibility'] == 1) ? 'on' : 'off');?>-icon">
+<?php 
+	if($link['visibility'] != 1) {
+?>
+												<a href="<?php echo $blogURL;?>/owner/link/visibility/<?php echo $link['id'];?>?command=protect" onclick="setLinkVisibility(<?php echo $link['id'];?>, 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.');?>"><span class="text"><?php echo _t('보호');?></span></a>
+<?php
+	} else {
+?>
+												<span class="text"><?php echo _t('보호');?></span>
+<?php
+	}
+?>
+											</span>
+											<span id="publicIcon_<?php echo $link['id'];?>" class="public-<?php echo (($link['visibility'] == 2) ? 'on' : 'off');?>-icon">
+<?php 
+	if($link['visibility'] != 2) {
+?>
+												<a href="<?php echo $blogURL;?>/owner/link/visibility/<?php echo $link['id'];?>?command=public" onclick="setLinkVisibility(<?php echo $link['id'];?>, 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.');?>"><span class="text"><?php echo _t('공개');?></span></a>
+<?php
+	} else {
+?>
+												<span class="text"><?php echo _t('공개');?></span>
+<?php
+	}
+?>
+											</span>
+										</td>
+										
 										<td class="address"><a href="<?php echo $blogURL;?>/owner/link/edit/<?php echo $link['id'];?>" title="<?php echo _t('이 링크 정보를 수정합니다.');?>"><?php echo htmlspecialchars($link['url']);?></a></td>
 										<td class="edit"><a class="edit-button button" href="<?php echo $blogURL;?>/owner/link/edit/<?php echo $link['id'];?>" title="<?php echo _t('링크 정보를 수정합니다.');?>"><span><?php echo _t('수정');?></span></a></td>
 										<td class="delete"><a class="delete-button button" href="<?php echo $blogURL;?>/owner/link/delete/<?php echo $link['id'];?>" onclick="deleteLink(<?php echo $link['id'];?>); return false;" title="<?php echo _t('링크 정보를 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a></td>
