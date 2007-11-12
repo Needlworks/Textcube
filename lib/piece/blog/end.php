@@ -91,7 +91,7 @@ if (isset($paging)) {
 		$pagingView = getPagingView($paging, $skin->paging, $skin->pagingItem);
 	}
 	dress('paging', $pagingView, $view);
-	$url = encodeURL($paging['url']);
+	$url = URL::encode($paging['url'],$service['useEncodedURL']);
 	$prefix = $paging['prefix'];
 	$postfix = isset($paging['postfix']) ? $paging['postfix'] : '';
 	dress('prev_page', isset($paging['prev']) ? "href='$url$prefix{$paging['prev']}$postfix'" : '',$view);

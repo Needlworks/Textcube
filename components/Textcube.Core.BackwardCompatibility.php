@@ -51,4 +51,20 @@ function tc_escape_string($string, $link = null) {
 	return DBQuery::escapeString($string, $link);
 }
 
+function encodeURL($url) {
+	global $service;
+	if (isset($service['useEncodedURL']) && $service['useEncodedURL'])
+		return str_replace('%2F', '/', rawurlencode($url));
+	else
+		return str_replace(array('%', ' ', '"', '#', '&', '\'', '<', '>', '?'), array('%25', '%20', '%22', '%23', '%26', '%27', '%3C', '%3E', '%3F'), $url);
+}
+
+function decodeURL($url) {
+	global $service;
+	if (isset($service['useEncodedURL']) && $service['useEncodedURL'])
+		return rawurldecode($url);
+	else
+		return urldecode($url);
+}
+
 ?>

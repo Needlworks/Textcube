@@ -24,7 +24,7 @@ if (isset($cache->contents)) {
 				fireEvent('ViewListDate', Timestamp::formatDate($item['published']), $item['published']),
 				fireEvent('ViewListName', htmlspecialchars($author)),
 				fireEvent('ViewListName', htmlspecialchars($author)),
-				"$blogURL/" . ($blog['useSlogan'] ? 'entry/' . encodeURL($item['slogan']) : $item['id']),
+				"$blogURL/" . ($blog['useSlogan'] ? 'entry/' . URL::encode($item['slogan'],$service['useEncodedURL']) : $item['id']),
 				fireEvent('ViewListTitle', $item['title']),
 				($item['comments'] > 0) ? "({$item['comments']})" : ''
 			),

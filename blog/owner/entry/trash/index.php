@@ -7,22 +7,22 @@ require ROOT . '/lib/includeForBlogOwner.php';
 
 $param = array();
 if (isset($_REQUEST['trashType'])) {
-	array_push($param,'trashType=' . encodeURL($_REQUEST['trashType']));
+	array_push($param,'trashType=' . URL::encode($_REQUEST['trashType'],$service['useEncodedURL']));
 }
 if (isset($_REQUEST['category'])) {
-	array_push($param,'category=' . encodeURL($_REQUEST['category']));
+	array_push($param,'category=' . URL::encode($_REQUEST['category'],$service['useEncodedURL']));
 }
 if (isset($_REQUEST['name'])) {
-	array_push($param,'name=' . encodeURL($_REQUEST['name']));
+	array_push($param,'name=' . URL::encode($_REQUEST['name'],$service['useEncodedURL']));
 }
 if (isset($_REQUEST['ip'])) {
-	array_push($param,'ip=' . encodeURL($_REQUEST['ip']));
+	array_push($param,'ip=' . URL::encode($_REQUEST['ip']));
 }
 if (isset($_REQUEST['withSearch'])) {
-	array_push($param,'withSearch=' . encodeURL($_REQUEST['withSearch']));
+	array_push($param,'withSearch=' . URL::encode($_REQUEST['withSearch'],$service['useEncodedURL']));
 }
 if (isset($_REQUEST['search'])) {
-	array_push($param,'search=' . encodeURL($_REQUEST['search']));
+	array_push($param,'search=' . URL::encode($_REQUEST['search'],$service['useEncodedURL']));
 }
 
 $paramStr = implode('&', $param);

@@ -248,7 +248,7 @@ function getCommentView($entry, $skin) {
 			$contentContainer["{$prefix1}_{$commentSubItem['id']}"] = fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense($commentSubItem['comment'], ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem);
 			dress($prefix1 . '_rep_desc', setTempTag("{$prefix1}_{$commentSubItem['id']}"), $commentSubItemView);
 			dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentSubItem['written']), $commentSubItem['written']), $commentSubItemView);
-			dress($prefix1 . '_rep_link',"$blogURL/".($entry['id'] == 0 ? "guestbook/{$commentItem['id']}#guestbook{$commentSubItem['id']}" : ($blog['useSlogan'] ? "entry/".encodeURL($entry['slogan']) : $entry['id'])."#comment{$commentSubItem['id']}"), $commentSubItemView);
+			dress($prefix1 . '_rep_link',"$blogURL/".($entry['id'] == 0 ? "guestbook/{$commentItem['id']}#guestbook{$commentSubItem['id']}" : ($blog['useSlogan'] ? "entry/".URL::encode($entry['slogan'],$service['useEncodedURL']) : $entry['id'])."#comment{$commentSubItem['id']}"), $commentSubItemView);
 			dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentSubItem['id']}); return false;", $commentSubItemView);
 			
 			$commentSubItemsView .= $commentSubItemView;
@@ -294,7 +294,7 @@ function getCommentView($entry, $skin) {
 		dress($prefix1 . '_rep_onclick_reply', $doubleCommentPermissionScript . "commentComment({$commentItem['id']}); return false", $commentItemView);
 		dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentItem['id']});return false", $commentItemView);
 //		dress($prefix1 . '_rep_link', "$blogURL/".($entry['id'] == 0 ? "guestbook/{$commentSubItem['id']}#guestbook{$commentItem['id']}" : "{$entry['id']}#comment{$commentItem['id']}"), $commentItemView);
-		dress($prefix1 . '_rep_link',"$blogURL/".($entry['id'] == 0 ? "guestbook/{$commentItem['id']}#guestbook{$commentItem['id']}" : ($blog['useSlogan'] ? "entry/".encodeURL($entry['slogan']) : $entry['id'])."#comment{$commentItem['id']}"), $commentItemView);
+		dress($prefix1 . '_rep_link',"$blogURL/".($entry['id'] == 0 ? "guestbook/{$commentItem['id']}#guestbook{$commentItem['id']}" : ($blog['useSlogan'] ? "entry/".URL::encode($entry['slogan'],$service['useEncodedURL']) : $entry['id'])."#comment{$commentItem['id']}"), $commentItemView);
 		
 		$commentItemsView .= $commentItemView;
 	}
@@ -385,14 +385,14 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 		if(doesHaveOwnership() || getCategoryVisibility($blogid, $category1['id']) > 1) {
 			foreach ($category1['children'] as $category2) {
 				if( doesHaveOwnership() || getCategoryVisibility($blogid, $category2['id']) > 1) {
-					array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']), 'link' => "$blogURL/category/" . encodeURL($category2['label']), 'children' => array()));
+					array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']), 'link' => "$blogURL/category/" . URL::encode($category2['label'],$service['useEncodedURL']), 'children' => array()));
 					$categoryCount = $categoryCount + (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']);
 				}
 				$categoryCountAll = $categoryCountAll + (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']);
 			}
 			$parentCategoryCount = (doesHaveOwnership() ? $category1['entriesInLogin'] - $categoryCountAll : $category1['entries'] - $categoryCountAll);
 			if($category1['id'] != 0) {
-				array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => $categoryCount + $parentCategoryCount, 'link' => "$blogURL/category/" . encodeURL($category1['label']), 'children' => $children));
+				array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => $categoryCount + $parentCategoryCount, 'link' => "$blogURL/category/" . URL::encode($category1['label'],$service['useEncodedURL']), 'children' => $children));
 			}
 			$categoryCount = 0;
 			$categoryCountAll = 0;
@@ -863,7 +863,7 @@ function getRecentEntriesView($entries, $template) {
 	ob_start();
 	foreach ($entries as $entry) {
 		$view = "$template";
-		$permalink = "$blogURL/" . ($blog['useSlogan'] ? "entry/" . encodeURL($entry['slogan']) : $entry['id']);
+		$permalink = "$blogURL/" . ($blog['useSlogan'] ? "entry/" . URL::encode($entry['slogan'],$service['useEncodedURL']) : $entry['id']);
 		dress('rctps_rep_link', $permalink, $view);
 		$contentContainer["recent_entry_{$entry['id']}"] = htmlspecialchars(UTF8::lessenAsEm($entry['title'], $skinSetting['recentEntryLength']));
 		dress('rctps_rep_title', setTempTag("recent_entry_{$entry['id']}"), $view);
@@ -881,7 +881,7 @@ function getRecentCommentsView($comments, $template) {
 	ob_start();
 	foreach ($comments as $comment) {
 		$view = "$template";
-		dress('rctrp_rep_link', "$blogURL/".($blog['useSlogan'] ? "entry/".encodeURL($comment['slogan']) : $comment['entry'])."#comment{$comment['id']}", $view);
+		dress('rctrp_rep_link', "$blogURL/".($blog['useSlogan'] ? "entry/".URL::encode($comment['slogan'],$service['useEncodedURL']) : $comment['entry'])."#comment{$comment['id']}", $view);
 		$contentContainer["recent_comment_{$comment['id']}"] = htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['comment']), $skinSetting['recentCommentLength']));
 		dress('rctrp_rep_desc', setTempTag("recent_comment_{$comment['id']}"), $view);
 		dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::format2($comment['written']), $comment['written']), $view);
@@ -899,7 +899,7 @@ function getRecentTrackbacksView($trackbacks, $template) {
 	ob_start();
 	foreach ($trackbacks as $trackback) {
 		$view = "$template";
-		dress('rcttb_rep_link', "$blogURL/".($blog['useSlogan'] ? "entry/".encodeURL($trackback['slogan']) : $trackback['entry'])."#trackback{$trackback['id']}", $view);
+		dress('rcttb_rep_link', "$blogURL/".($blog['useSlogan'] ? "entry/".URL::encode($trackback['slogan'],$service['useEncodedURL']) : $trackback['entry'])."#trackback{$trackback['id']}", $view);
 		
 		dress('rcttb_rep_desc', htmlspecialchars(UTF8::lessenAsEm($trackback['subject'], $skinSetting['recentTrackbackLength'])), $view);
 		dress('rcttb_rep_time', fireEvent('ViewRecentTrackbackDate', Timestamp::format2($trackback['written']), $trackback['written']), $view);
@@ -940,7 +940,7 @@ function getRandomTagsView($tags, $template) {
 	list($maxTagFreq, $minTagFreq) = getTagFrequencyRange();
 	foreach ($tags as $tag) {
 		$view = $template;
-		dress('tag_link', "$blogURL/tag/" . encodeURL($tag['name']), $view);
+		dress('tag_link', "$blogURL/tag/" . URL::encode($tag['name'],$service['useEncodedURL']), $view);
 		dress('tag_name', htmlspecialchars($tag['name']), $view);
 		dress('tag_class', "cloud" . getTagFrequency($tag, $maxTagFreq, $minTagFreq), $view);
 		print $view;

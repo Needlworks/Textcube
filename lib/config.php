@@ -34,6 +34,7 @@ $service['encoding'] = 'EUC-KR';
 $service['umask'] = 0;
 $service['skin'] = 'coolant';
 $service['useRewriteEngine'] = true;
+$service['useEncodedURL'] = false;
 //$service['flashuploader'] = false;
 
 // Map port setting.

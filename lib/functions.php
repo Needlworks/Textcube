@@ -43,7 +43,7 @@ function str_innerHTML($str) {
 	$replace = array( ''             , '<\/'  , '\"' );
 	return preg_replace($pattern, $replace, $str);
 }
-
+/*
 function update($sql) {
 	DBQuery::query($sql);
 	$result = mysql_affected_rows();
@@ -78,7 +78,7 @@ function size($sql) {
 		$list[] = $row;
 	}
 	return $list[0][0];
-}
+}*/
 
 function copyRecusive($source, $target, $chkPrint = false) {
 	if (Path::getBaseName($source) == "." || Path::getBaseName($source) == "..") {

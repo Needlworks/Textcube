@@ -1376,4 +1376,20 @@ class XMLStruct {
 		return false;
 	}
 }
+
+class URL {
+	function encode($url,$useEncodedURL = true) {
+		if ($useEncodedURL == true)
+			return str_replace('%2F', '/', rawurlencode($url));
+		else
+			return str_replace(array('%', ' ', '"', '#', '&', '\'', '<', '>', '?'), array('%25', '%20', '%22', '%23', '%26', '%27', '%3C', '%3E', '%3F'), $url);
+	}
+
+	function decode($url,$useEncodedURL = true) {
+		if ($useEncodedURL == true)
+			return rawurldecode($url);
+		else
+			return urldecode($url);
+	}
+}
 ?>

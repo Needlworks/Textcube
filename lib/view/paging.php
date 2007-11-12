@@ -14,7 +14,7 @@ function getPagingView( & $paging, & $template, & $itemTemplate) {
 		$paging['next'] = NULL;
 	}
 	
-	$url = encodeURL($paging['url']);
+	$url = URL::encode($paging['url'],$service['useEncodedURL']);
 	$prefix = $paging['prefix'];
 	$postfix = isset($paging['postfix']) ? $paging['postfix'] : '';
 	ob_start();
