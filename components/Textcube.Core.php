@@ -71,7 +71,7 @@ class User {
 				LEFT JOIN {$database['prefix']}BlogSettings b ON b.blogid = t.blogid AND b.name = 'title'
 				WHERE t.userid='".getUserId()."'");
 		foreach($teamblogListInfo as $info){
-			$title = empty($info['title']) ? _f('%1 님의 블로그',User::getBlogOwnerName($info['blogid'])) : $info['title'];
+			$title = empty($info['title']) ? _f('%1 님의 블로그',User::getBlogOwnerName($info['blogid'])) : UTF8::lessenAsEm($info['title'],30);
 			$changeBlogView .= str_repeat(TAB,8).'<option value="' . $info['blogid'] . '"';
 			if($info['blogid'] == $blogid) $changeBlogView .= ' selected="selected"';
 			$changeBlogView .= '>' . $title . '</option>'.CRLF;

@@ -6,8 +6,8 @@
 function getLinks($blogid) {
 	global $database;
 	$links = array();
-	if ($result = DBQuery::query("select * from {$database['prefix']}Links where blogid = $blogid ORDER BY name")) {
-		while ($link = mysql_fetch_array($result))
+	if ($result = DBQuery::queryAll("SELECT * FROM {$database['prefix']}Links WHERE blogid = $blogid ORDER BY name")) {
+		foreach($result as $link)
 			array_push($links, $link);
 	}
 	return $links;
@@ -20,24 +20,24 @@ function getLinksWithPagingForOwner($blogid, $page, $count) {
 
 function getLink($blogid, $id) {
 	global $database;
-	return DBQuery::queryRow("select * from {$database['prefix']}Links where blogid = $blogid and id = $id");
+	return DBQuery::queryRow("SELECT * FROM {$database['prefix']}Links WHERE blogid = $blogid AND id = $id");
 }
 
 function deleteLink($blogid, $id) {
 	global $database;
-	$result = DBQuery::query("delete from {$database['prefix']}Links where blogid = $blogid and id = $id");
-	return ($result && (mysql_affected_rows() == 1)) ? true : false;
+	$result = DBQuery::execute("DELETE FROM {$database['prefix']}Links WHERE blogid = $blogid AND id = $id");
+	return ($result) ? true : false;
 }
 
-function toggleVisibility($blogid, $id) {
+function toggleLinkVisibility($blogid, $id) {
 	global $database;
 	if (DBQuery::queryCell("SELECT visibility FROM {$database['prefix']}Links WHERE blogid = $blogid AND id = $id") != 0) {
 		$visibility = 0;
 	} else {
 		$visibility = 2;
 	}
-	$result = DBQuery::query("update {$database['prefix']}Links set visibility = $visibility where blogid = $blogid and id = $id");
-	return array( ($result && (mysql_affected_rows() == 1)) ? true : false, $visibility );
+	$result = DBQuery::execute("UPDATE {$database['prefix']}Links SET visibility = $visibility WHERE blogid = $blogid AND id = $id");
+	return array( ($result) ? true : false, $visibility );
 }
 
 function addLink($blogid, $link) {
@@ -46,9 +46,9 @@ function addLink($blogid, $link) {
 	$url = UTF8::lessenAsEncoding(trim($link['url']), 255);
 	if (empty($name) || empty($url))
 		return - 1;
-	$name = tc_escape_string($name);
-	$url = tc_escape_string($url);
-	$rss = isset($link['rss']) ? tc_escape_string(UTF8::lessenAsEncoding(trim($link['rss']), 255)) : '';
+	$name = DBQuery::escapeString($name);
+	$url = DBQuery::escapeString($url);
+	$rss = isset($link['rss']) ? DBQuery::escapeString(UTF8::lessenAsEncoding(trim($link['rss']), 255)) : '';
 	if (DBQuery::queryCell("SELECT id FROM {$database['prefix']}Links WHERE blogid = $blogid AND url = '$url'"))
 		return 1;
 	if (DBQuery::execute("INSERT INTO {$database['prefix']}Links (blogid,name,url,rss,written) VALUES ($blogid, '$name', '$url', '$rss', UNIX_TIMESTAMP())"))
@@ -64,9 +64,9 @@ function updateLink($blogid, $link) {
 	$url = UTF8::lessenAsEncoding(trim($link['url']), 255);
 	if (empty($name) || empty($url))
 		return false;
-	$name = tc_escape_string($name);
-	$url = tc_escape_string($url);
-	$rss = isset($link['rss']) ? tc_escape_string(UTF8::lessenAsEncoding(trim($link['rss']), 255)) : '';
+	$name = DBQuery::escapeString($name);
+	$url = DBQuery::escapeString($url);
+	$rss = isset($link['rss']) ? DBQuery::escapeString(UTF8::lessenAsEncoding(trim($link['rss']), 255)) : '';
 	return DBQuery::execute("update {$database['prefix']}Links
 				set
 					name = '$name',
@@ -83,7 +83,7 @@ function updateXfn($blogid, $links) {
 	foreach( $links as $k => $v ) {
 		if( substr($k,0,3) == 'xfn' ) {
 			$id = substr( $k, 3 );
-			$xfn = tc_escape_string($v);
+			$xfn = DBQuery::escapeString($v);
 			DBQuery::execute("update {$database['prefix']}Links
 				set
 					xfn = '$xfn',
