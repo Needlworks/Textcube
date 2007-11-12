@@ -74,17 +74,22 @@ function tt_xml_parser_into_struct($body) {
 
 function get_remotefile($url, $mdate) {
 	$url_stuff = parse_url($url);
-	if (!$fp = @fsockopen($url_stuff['host'], (($url_stuff['port']) ? ($url_stuff['port']) : ("80")), $errno, $errstr, 2))
+	if (!$fp = @fsockopen($url_stuff['host'], (isset($url_stuff['port']) ? ($url_stuff['port']) : ("80")), $errno, $errstr, 2))
 		return false;
 	else {
-		if ($url_stuff['query'])
+		if (!empty($url_stuff['query'])) {
 			$url_stuff['path'] .= "?";
+		} else {
+			$url_stuff['query'] = "";
+		}
 		$header = "GET " . $url_stuff['path'] . $url_stuff['query'] . " HTTP/1.0";
 		$header .= "\r\nHost: " . $url_stuff['host'];
 		$header .= "\r\nIf-Modified-Since: $mdate";
 		$header .= "\r\n\r\n";
 		fputs($fp, $header);
-		unset($header, $body, $lmdate);
+		$header = '';
+		$body = '';
+		$lmdate = '';
 		$act = false;
 		$cnt = 0;
 		socket_set_timeout($fp, 4);
@@ -93,7 +98,7 @@ function get_remotefile($url, $mdate) {
 				break;
 			$line = fgets($fp, 1024);
 			$ss = socket_get_status($fp);
-			if ($ss[timed_out])
+			if ($ss['timed_out'])
 				return false;
 			if (!$act) {
 				if (strpos($line, "\r\n", 0) == 0)
@@ -113,7 +118,7 @@ function get_remotefile($url, $mdate) {
 		}
 		fclose($fp);
 	}
-	if ($loc)
+	if (!empty($loc))
 		list($header, $body, $lmdate) = get_remotefile($loc, $mdate);
 	return array($header, $body, $lmdate);
 }
@@ -142,6 +147,7 @@ function str_dbi_check($array) {
 }
 
 function get_siteinfo($xmlinfo) {
+	$st = $sl = $sd = '';
 	foreach ($xmlinfo as $k => $row) {
 		if (!$st && $row['tag'] == "TITLE")
 			$st = $row['value'];
