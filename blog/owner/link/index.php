@@ -109,7 +109,7 @@ for ($i=0; $i<sizeof($links); $i++) {
 	$className .= ($i == sizeof($links) - 1) ? ' last-line' : '';
 ?>
 									<tr id="link_<?php echo $link['id'];?>" class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-										<td class="homepage"><a href="<?php echo htmlspecialchars($link['url']);?>" onclick="window.open(this.href); return false;" title="<?php echo _t('이 링크에 연결합니다.');?>"><?php echo htmlspecialchars($link['name']);?></a></td>									
+										<td class="homepage"><a href="<?php echo htmlspecialchars($link['name']);?>" onclick="window.open(this.href); return false;" title="<?php echo _t('이 링크에 연결합니다.');?>"><?php echo htmlspecialchars($link['name']);?></a></td>									
 										<td class="status">
 											
 											<span id="privateIcon_<?php echo $link['id'];?>" class="private-<?php echo (($link['visibility'] == 0) ? 'on' : 'off');?>-icon">

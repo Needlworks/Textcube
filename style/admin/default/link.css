@@ -20,7 +20,7 @@
 }
 
 #part-link-list table.data-inbox tbody tr .address,
-#part-link-list table.data-inbox thead tr .status,
+#part-link-list table.data-inbox tbody tr .status,
 #part-link-list table.data-inbox tbody tr .edit,
 #part-link-list table.data-inbox tbody tr .delete,
 #part-link-list table.data-inbox tbody tr .xfn-edit
@@ -33,7 +33,7 @@
 {
 	padding-left                     : 20px;
 	text-align                       : left;
-	width                            : 300px;
+	width                            : 200px;
 }
 
 #part-link-list table.data-inbox thead tr th.address
@@ -44,7 +44,7 @@
 
 #part-link-list table.data-inbox thead tr th.status
 {
-	width                            : 52px;
+	width                            : 68px;
 }
 
 #part-link-list table.data-inbox thead tr th.edit
@@ -109,7 +109,7 @@
 	background-position              : right bottom;
 	padding-left                     : 25px;
 	text-align                       : left;
-	width                            : 300px;
+	width                            : 200px;
 }
 
 #part-link-list table.data-inbox tbody tr td.address
