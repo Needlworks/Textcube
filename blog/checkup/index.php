@@ -931,7 +931,7 @@ if (!doesExistTable($database['prefix'] . 'EntriesArchive')) {
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
-if (!DBQuery::queryExistence("DESC {$database['prefix']}Links visible")) {
+if (DBQuery::queryExistence("DESC {$database['prefix']}Links visible")) {
 	$changed = true;
 	echo '<li>', _text('Links 테이블의 공개 여부 설정 필드의 속성을 변경합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Links CHANGE visible visibility tinyint(4) NOT NULL DEFAULT 2")) 
