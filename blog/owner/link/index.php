@@ -39,8 +39,9 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										PM.removeRequest(this);
 										PM.showMessage("<?php echo _t('변경되었습니다.');?>", "center", "bottom");
 										var node = document.getElementById("link-visible-" + id );
-										var visible = parseInt(this.getText("/response/visible"));
-										node.className = ( visible ? "visible-link" : "invisible-link" ) + ' visible-button button';
+										var visibility = parseInt(this.getText("/response/visibility"));
+										node.className = ( visibility ? "visible-link" : "invisible-link" ) + ' visible-button button';
+										/* visibility := 0: invisible, 1: member-visible, 2: public-visible */
 									}
 									request.onError= function () {
 										PM.removeRequest(this);
@@ -72,7 +73,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 if (sizeof($links) > 0) echo "									<tbody>";
 for ($i=0; $i<sizeof($links); $i++) {
 	$link = $links[$i];
-	$visible_class = ( $link['visible'] ? "visible-link" : "invisible-link" ) . " visible-button";
+	$visible_class = ( $link['visibility'] ? "visible-link" : "invisible-link" ) . " visible-button";
 	$visible_class .= ' button';
 	
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';

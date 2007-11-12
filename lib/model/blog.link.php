@@ -31,13 +31,13 @@ function deleteLink($blogid, $id) {
 
 function toggleVisibility($blogid, $id) {
 	global $database;
-	if (DBQuery::queryCell("SELECT visible FROM {$database['prefix']}Links WHERE blogid = $blogid AND id = $id") == 1) {
-		$visible = 0;
+	if (DBQuery::queryCell("SELECT visibility FROM {$database['prefix']}Links WHERE blogid = $blogid AND id = $id") != 0) {
+		$visibility = 0;
 	} else {
-		$visible = 1;
+		$visibility = 2;
 	}
-	$result = DBQuery::query("update {$database['prefix']}Links set visible = $visible where blogid = $blogid and id = $id");
-	return array( ($result && (mysql_affected_rows() == 1)) ? true : false, $visible );
+	$result = DBQuery::query("update {$database['prefix']}Links set visibility = $visibility where blogid = $blogid and id = $id");
+	return array( ($result && (mysql_affected_rows() == 1)) ? true : false, $visibility );
 }
 
 function addLink($blogid, $link) {

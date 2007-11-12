@@ -921,7 +921,7 @@ function getLinksView($links, $template) {
 	global $blogURL, $skinSetting;
 	ob_start();
 	foreach ($links as $link) {
-		if( !$link['visible'] ) {
+		if( !$link['visibility'] ) {
 			continue;
 		}
 		$view = "$template";

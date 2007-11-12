@@ -112,7 +112,7 @@ $view = revertTempTags(removeAllTags($view));
 
 $links = getLinks( $blogid );
 foreach ($links as $link) {
-	if( !$link['visible'] || !$link['xfn'] ) {
+	if( !$link['visibility'] || !$link['xfn'] ) {
 		continue;
 	}
 	addXfnAttrs( $link['url'], $link['xfn'], $view );

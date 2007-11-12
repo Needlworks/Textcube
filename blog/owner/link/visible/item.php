@@ -7,6 +7,6 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.link");
 requireStrictRoute();
 $respond = array();
-list($result,$visible) = toggleVisibility($blogid, $suri['id']);
-printRespond( array( 'error' => $result ? 0:1, 'visible' => $visible ), false );
+list($result,$visibility) = toggleVisibility($blogid, $suri['id']);
+printRespond( array( 'error' => $result ? 0:1, 'visibility' => $visibility ), false );
 ?>
