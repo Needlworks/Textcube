@@ -921,7 +921,8 @@ function getLinksView($links, $template) {
 	global $blogURL, $skinSetting;
 	ob_start();
 	foreach ($links as $link) {
-		if( !$link['visibility'] ) {
+		if((!doesHaveOwnership() && $link['visibility'] == 0) ||
+			(!doesHaveMembership() && $link['visibility'] < 2)) {
 			continue;
 		}
 		$view = "$template";
