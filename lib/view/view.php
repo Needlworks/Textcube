@@ -372,7 +372,7 @@ function getCommentView($entry, $skin) {
 }
 
 function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) {
-	global $blogURL;
+	global $blogURL, $service;
 	requireModel('blog.category');
 	requireLibrary('blog.skin');
 	$blogid = getBlogId();
@@ -936,7 +936,7 @@ function getLinksView($links, $template) {
 }
 
 function getRandomTagsView($tags, $template) {
-	global $blogURL;
+	global $blogURL, $service;
 	ob_start();
 	list($maxTagFreq, $minTagFreq) = getTagFrequencyRange();
 	foreach ($tags as $tag) {

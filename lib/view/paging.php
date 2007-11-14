@@ -4,6 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 function getPagingView( & $paging, & $template, & $itemTemplate) {
+	global $service;
 	if (($paging === false) || empty($paging['page'])) {
 		$paging['url'] = NULL;
 		$paging['prefix'] = NULL;
