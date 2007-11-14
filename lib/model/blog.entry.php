@@ -167,7 +167,7 @@ function getEntryListWithPagingBySearch($blogid, $search, $page, $count) {
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1'.getPrivateCategoryExclusionQuery($blogid);
 	$sql = "SELECT e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published
 		FROM {$database['prefix']}Entries e
-		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond 
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond
 		ORDER BY e.published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
