@@ -575,7 +575,7 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false) {
 		FROM 
 			{$database['prefix']}Comments r
 			INNER JOIN {$database['prefix']}Entries e ON r.blogid = e.blogid AND r.entry = e.id
-			INNER JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id
+			LEFT OUTER JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id
 		WHERE 
 			r.blogid = $blogid AND e.draft = 0 AND e.visibility >= 2".getPrivateCategoryExclusionQuery($blogid)
 			.($isGuestbook != false ? " AND r.entry = 0" : " AND r.entry > 0")." AND r.isFiltered = 0 

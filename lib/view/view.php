@@ -859,7 +859,7 @@ function getCalendarView($calendar) {
 }
 
 function getRecentEntriesView($entries, $template) {
-	global $blog, $blogURL, $skinSetting, $contentContainer;
+	global $blog, $service, $blogURL, $skinSetting, $contentContainer;
 	ob_start();
 	foreach ($entries as $entry) {
 		$view = "$template";
@@ -877,7 +877,7 @@ function getRecentEntriesView($entries, $template) {
 }
 
 function getRecentCommentsView($comments, $template) {
-	global $blogURL, $blog, $skinSetting, $contentContainer;
+	global $blog, $service, $blogURL, $skinSetting, $contentContainer;
 	ob_start();
 	foreach ($comments as $comment) {
 		$view = "$template";
