@@ -25,7 +25,7 @@ class User {
 		global $database, $__gCacheUserNames;
 		if (!isset($name))
 			return getUserId();
-		$name = escapeString($name);
+		$name = DBQuery::escapeString($name);
 		$userid = array_search($name, $__gCacheUserNames);
 		if(!empty($userid))
 			return $userid;

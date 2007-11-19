@@ -117,7 +117,6 @@ function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
 		return array();
 	if (!doesHaveOwnership() && getCategoryVisibility($blogid, $category) < 2 && $category != 0)
 		return array();
-	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	if ($category > 0) {
 		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category $visibility");
 		array_push($categories, $category);
@@ -127,6 +126,19 @@ function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
 		$cond = 'AND e.category >= 0';
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	}
+
+	$sql = "SELECT e.blogid,e.userid,e.id,e.title,e.comments,e.slogan,e.published
+			FROM {$database['prefix']}Entries e 
+			WHERE e.blogid = $blogid AND e.draft = 0 $visibility $cond 
+			ORDER BY e.published DESC";
+	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
+}
+
+function getEntryListWithPagingByAuthor($blogid, $author, $page, $count) {
+	global $database, $suri, $folderURL;
+	if ($author === null)
+		return array();
+	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 
 	$sql = "SELECT e.blogid,e.userid,e.id,e.title,e.comments,e.slogan,e.published
 			FROM {$database['prefix']}Entries e 
