@@ -292,6 +292,12 @@ function openid_try_auth()
 		$authenticate_only = '';
 	}
 
+	if( !empty($_GET['need_writers'])) {
+		$need_writers = '1';
+	} else {
+		$need_writers = '';
+	}
+
 	$openid = $_GET['openid_identifier'];
 	$requestURI = $_GET['requestURI'];
 	if( empty($requestURI) ) {
@@ -310,7 +316,7 @@ function openid_try_auth()
 		exit(0);
 	}
 
-	return _openid_try_auth( $openid, $requestURI, $openid_remember, $authenticate_only );
+	return _openid_try_auth( $openid, $requestURI, $openid_remember, $authenticate_only, $need_writers );
 }
 
 function openid_Fetch( $openid, $xrdsuri = false )
@@ -360,7 +366,7 @@ function openid_ResetUserId($openid)
 	return "";
 }
 
-function _openid_try_auth( $openid, $requestURI, $openid_remember, $authenticate_only )
+function _openid_try_auth( $openid, $requestURI, $openid_remember, $authenticate_only = '', $need_writers = '' )
 {
 	global $hostURL, $blogURL;
 	require_once  "common.php";
@@ -371,7 +377,7 @@ function _openid_try_auth( $openid, $requestURI, $openid_remember, $authenticate
 
 	Services_Yadis_setDefaultParser( $xmlparser );
 
-	$process_url = $hostURL . $blogURL . "/plugin/openid/finish?authenticate_only=$authenticate_only&requestURI=" . urlencode($requestURI);
+	$process_url = $hostURL . $blogURL . "/plugin/openid/finish?need_writers=$need_writers&authenticate_only=$authenticate_only&requestURI=" . urlencode($requestURI);
 	$trust_root = $hostURL . "/";
 
 	// Begin the OpenID authentication process.
@@ -440,6 +446,11 @@ function openid_finish()
 			$openid_session['delegatedid'] = $response->endpoint->delegate;
 			_openid_update_id( $response->identity_url, $response->endpoint->delegate, $sreg['nickname'] );
 			_openid_set_acl( $response->identity_url );
+			if( !empty($_GET['need_writers']) ) {
+				if( !Acl::check( 'group.writers') ) {
+					$msg = _text("로그인은 되었습니다만, 관리자 권한이 없는 오픈아이디 입니다") . " : " . $response->identity_url;
+				}
+			}
 			openid_session_write();
 		} else {
 			Acl::authorize('openid_temp', $openid);
@@ -652,6 +663,7 @@ function openid_LOGIN_add_form($target, $requestURI)
 				</dl>
 			</div>
 			<input type="hidden" name="requestURI" value="' . $requestURI . '" />
+			<input type="hidden" name="need_writers" value="1" />
 		</div>
 	</div>
 	</form>
@@ -973,7 +985,7 @@ function openid_ShowSecretComment($target, $comment)
 	if( empty($comment['parent']) ) {
 		return false;
 	}
-	$row = _openid_GetOpenIDComment( $comment['parent'] );
+	$row = _openid_GetOpenIDComment( $comment['blogid'], $comment['parent'] );
 	if( empty($row) ) {
 		return $target;
 	}
@@ -1317,7 +1329,6 @@ function openid_manage()
 				<tr>
 					<td>
 						<span class="text"><?php echo sprintf( _t('블로그 주소(%s)를 관리자로 등록된 오픈아이디 중 하나에 위임하여 오픈아이디로 사용할 수 있습니다.'), "$hostURL$blogURL"); ?>
-						(<a href="<?php echo $blogURL?>/owner/setting/account"><?php echo _t('관리자 계정에 추가하기')?></a>)
 						</span>
 					</td>
 				</tr>
@@ -1325,8 +1336,29 @@ function openid_manage()
 		</table>
 	</div>
 	
+	<div id="part-openid-blogaddress" class="part">
+		<h2 class="caption"><span class="main-text"><?php echo _t('관리자 계정에 등록된 오픈아이디 목록')?></span></h2>
+		<table class="data-inbox" cellspacing="0" cellpadding="0">
+			<tbody>
+<?php
+		foreach( $openid_list as $openid ) {
+			print "<tr class='site'><td>" . $openid . "</td></tr>";
+		}
+		if( empty( $openid_list ) ) {
+			print "<tr class='site'><td>";
+			print _t('관리자 계정에 등록된 오픈아이디가 없습니다');
+			print "</td></tr>";
+		}
+			print "<tr class='site'><td><a href='$blogURL/owner/setting/account'>";
+			print _t('관리자 계정에 오픈아이디 추가하기');
+			print "</a></td></tr>";
+?>
+			</tbody>
+		</table>
+	</div>
+	
 	<div class="part">
-		<h2 class="caption"><span class="main-text"><?php echo _t('오픈아이디 사용현황')?></span></h2>
+		<h2 class="caption"><span class="main-text"><?php echo _t('오픈아이디 로그인 목록')?></span></h2>
 	
 		<table class="data-inbox" cellspacing="0" cellpadding="0">
 			<thead>
