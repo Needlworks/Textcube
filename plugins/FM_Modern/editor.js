@@ -2371,7 +2371,7 @@ TTModernEditor.prototype.getEditorPalette = function() {
 						'</tr>' +
 					'</table>' +
 				'</div>' +
-				'<a id="__ID__indicatorRemoveFormat" class="inactive-class button moderneditor-indicatorRemoveFormat" href="#void" onclick="__EDITOR__.command(\'RemoveFormat\')" title="' + _t('효과 제거') + '; return false"><span class="text">' + _t('효과 제거') + '</span></a>' +
+				'<a id="__ID__indicatorRemoveFormat" class="inactive-class button moderneditor-indicatorRemoveFormat" href="#void" onclick="__EDITOR__.command(\'RemoveFormat\'); return false;" title="' + _t('효과 제거') + '"><span class="text">' + _t('효과 제거') + '</span></a>' +
 			'</dd>' +
 		'</dl>' +
 		'<dl class="paragraph">' +
