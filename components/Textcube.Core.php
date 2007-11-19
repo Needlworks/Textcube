@@ -20,6 +20,20 @@ class User {
 		}
 		return $__gCacheUserNames[$userid] = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $userid");
 	}
+
+	function getUserId($name) {
+		global $database, $__gCacheUserNames;
+		if (!isset($name))
+			return getUserId();
+		$name = escapeString($name);
+		$userid = array_search($name, $__gCacheUserNames);
+		if(!empty($userid))
+			return $userid;
+		$userid = DBQuery::queryCell("SELECT userid FROM {$database['prefix']}Users WHERE name = '".$name."'");
+		$__gCacheUserNames[$userid] = $name;
+		return $userid;
+	}
+
 	/*@static@*/
 	function getBlogOwnerName($blogid) {
 		global $database;
@@ -48,7 +62,6 @@ class User {
 		if( $blogid == null ) {
 			$blogid = getBlogId();
 		}
-		requireComponent('Eolin.PHP.Core');
 		global $database, $entry;
 
 		// Read userId of entry from relation table.
