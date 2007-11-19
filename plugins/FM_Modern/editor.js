@@ -2441,7 +2441,7 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 	var html = ////
 		'<div id="__ID__propertyHyperLink" class="entry-editor-property" style="display: none;">' +
 			'<div class="entry-editor-property-option">' +
-				'<input type="checkbox" class="checkbox" id="__ID__propertyHyperLink-fix-position" onclick="__EDITOR__.setPropertyPosition(1)"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
+				'<input type="checkbox" class="checkbox" id="__ID__propertyHyperLink-fix-position" onclick="__EDITOR__.setPropertyPosition(1); return false;"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
 				'<label for="__ID__propertyHyperLink-fix-position">' + _t('위치 고정') + '</label>' +
 			'</div>' +
 			'<h4>' + _t('하이퍼링크') + '</h4>' +
@@ -2472,7 +2472,7 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 	html += ////
 		'<div id="__ID__propertyInsertObject" class="entry-editor-property" style="display: none;">' +
 			'<div class="entry-editor-property-option">' +
-				'<input type="checkbox" class="checkbox" id="__ID__propertyInsertObject-fix-position" onclick="__EDITOR__.setPropertyPosition(1)"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
+				'<input type="checkbox" class="checkbox" id="__ID__propertyInsertObject-fix-position" onclick="__EDITOR__.setPropertyPosition(1); return false;"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
 				'<label for="__ID__propertyInsertObject-fix-position">' + _t('위치 고정') + '</label>' +
 			'</div>' +
 			'<h4>' + _t('오브젝트 삽입') + '</h4>' +
@@ -2508,7 +2508,7 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 	html += ////
 		'<div id="__ID__propertyImage1" class="entry-editor-property" style="display: none;">' +
 			'<div class="entry-editor-property-option">' +
-				'<input type="checkbox" class="checkbox" id="__ID__propertyImage1-fix-position" onclick="__EDITOR__.setPropertyPosition(1)"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
+				'<input type="checkbox" class="checkbox" id="__ID__propertyImage1-fix-position" onclick="__EDITOR__.setPropertyPosition(1); return false;"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
 				'<label for="__ID__propertyImage1-fix-position">' + _t('위치 고정') + '</label>' +
 			'</div>' +
 			'<h4>' + _t('Image') + '</h4>' +
@@ -2532,7 +2532,7 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 	html += ////
 		'<div id="__ID__propertyImage2" class="entry-editor-property" style="display: none;">' +
 			'<div class="entry-editor-property-option">' +
-				'<input type="checkbox" class="checkbox" id="__ID__propertyImage2-fix-position" onclick="__EDITOR__.setPropertyPosition(1)"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
+				'<input type="checkbox" class="checkbox" id="__ID__propertyImage2-fix-position" onclick="__EDITOR__.setPropertyPosition(1); return false;"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
 				'<label for="__ID__propertyImage2-fix-position">' + _t('위치 고정') + '</label>' +
 			'</div>' +
 			'<h4>' + _t('Image') + '</h4>' +
@@ -2572,7 +2572,7 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 	html += ////
 		'<div id="__ID__propertyImage3" class="entry-editor-property" style="display: none;">' +
 			'<div class="entry-editor-property-option">' +
-				'<input type="checkbox" class="checkbox" id="__ID__propertyImage3-fix-position" onclick="__EDITOR__.setPropertyPosition(1)"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
+				'<input type="checkbox" class="checkbox" id="__ID__propertyImage3-fix-position" onclick="__EDITOR__.setPropertyPosition(1); return false;"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
 				'<label for="__ID__propertyImage3-fix-position">' + _t('위치 고정') + '</label>' +
 			'</div>' +
 			'<h4>' + _t('Image') + '</h4>' +
@@ -2627,7 +2627,7 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 	html += ////
 		'<div id="__ID__propertyObject" class="entry-editor-property" style="display: none;">' +
 			'<div class="entry-editor-property-option">' +
-				'<input type="checkbox" class="checkbox" id="__ID__propertyObject-fix-position" onclick="__EDITOR__.setPropertyPosition(1)"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
+				'<input type="checkbox" class="checkbox" id="__ID__propertyObject-fix-position" onclick="__EDITOR__.setPropertyPosition(1); return false;"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
 				'<label for="__ID__propertyObject-fix-position">' + _t('위치 고정') + '</label>' +
 			'</div>' +
 			'<h4>' + _t('Object') + '</h4>' +
@@ -2651,7 +2651,7 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 	html += ////
 		'<div id="__ID__propertyObject1" class="entry-editor-property" style="display: none;">' +
 			'<div class="entry-editor-property-option">' +
-				'<input type="checkbox" class="checkbox" id="__ID__propertyObject1-fix-position" onclick="__EDITOR__.setPropertyPosition(1)"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
+				'<input type="checkbox" class="checkbox" id="__ID__propertyObject1-fix-position" onclick="__EDITOR__.setPropertyPosition(1); return false;"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
 				'<label for="__ID__propertyObject1-fix-position">' + _t('위치 고정') + '</label>' +
 			'</div>' +
 			'<h4>' + _t('Object 1') + '</h4>' +
@@ -2671,7 +2671,7 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 	html += ////
 		'<div id="__ID__propertyObject2" class="entry-editor-property" style="display: none;">' +
 			'<div class="entry-editor-property-option">' +
-				'<input type="checkbox" class="checkbox" id="__ID__propertyObject2-fix-position" onclick="__EDITOR__.setPropertyPosition(1)"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
+				'<input type="checkbox" class="checkbox" id="__ID__propertyObject2-fix-position" onclick="__EDITOR__.setPropertyPosition(1); return false;"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
 				'<label for="__ID__propertyObject2-fix-position">' + _t('위치 고정') + '</label>' +
 			'</div>' +
 			'<h4>' + _t('Object') + '</h4>' +
@@ -2703,7 +2703,7 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 	html += ////
 		'<div id="__ID__propertyObject3" class="entry-editor-property" style="display: none;">' +
 			'<div class="entry-editor-property-option">' +
-				'<input type="checkbox" class="checkbox" id="__ID__propertyObject3-fix-position" onclick="__EDITOR__.setPropertyPosition(1)"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
+				'<input type="checkbox" class="checkbox" id="__ID__propertyObject3-fix-position" onclick="__EDITOR__.setPropertyPosition(1); return false;"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
 				'<label for="__ID__propertyObject3-fix-position">' + _t('위치 고정') + '</label>' +
 			'</div>' +
 			'<h4>' + _t('Object') + '</h4>' +
@@ -2746,7 +2746,7 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 	html += ////
 		'<div id="__ID__propertyiMazing" class="entry-editor-property" style="display: none;">' +
 			'<div class="entry-editor-property-option">' +
-				'<input type="checkbox" class="checkbox" id="__ID__propertyiMazing-fix-position" onclick="__EDITOR__.setPropertyPosition(1)"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
+				'<input type="checkbox" class="checkbox" id="__ID__propertyiMazing-fix-position" onclick="__EDITOR__.setPropertyPosition(1); return false;"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
 				'<label for="__ID__propertyiMazing-fix-position">' + _t('위치 고정') + '</label>' +
 			'</div>' +
 			'<h4>' + _t('iMazing') + '</h4>' +
@@ -2831,7 +2831,7 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 	html += ////
 		'<div id="__ID__propertyGallery" class="entry-editor-property" style="display: none;">' +
 			'<div class="entry-editor-property-option">' +
-				'<input type="checkbox" class="checkbox" id="__ID__propertyGallery-fix-position" onclick="__EDITOR__.setPropertyPosition(1)"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
+				'<input type="checkbox" class="checkbox" id="__ID__propertyGallery-fix-position" onclick="__EDITOR__.setPropertyPosition(1); return false;"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
 				'<label for="__ID__propertyGallery-fix-position">' + _t('위치 고정') + '</label>' +
 			'</div>' +
 			'<h4>' + _t('Gallery') + '</h4>' +
@@ -2870,7 +2870,7 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 	html += ////
 		'<div id="__ID__propertyJukebox" class="entry-editor-property" style="display: none;">' +
 			'<div class="entry-editor-property-option">' +
-				'<input type="checkbox" class="checkbox" id="__ID__propertyJukebox-fix-position" onclick="__EDITOR__.setPropertyPosition(1)"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
+				'<input type="checkbox" class="checkbox" id="__ID__propertyJukebox-fix-position" onclick="__EDITOR__.setPropertyPosition(1); return false;"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
 				'<label for="__ID__propertyJukebox-fix-position">' + _t('위치 고정') + '</label>' +
 			'</div>' +
 			'<h4>' + _t('Jukebox') + '</h4>' +
@@ -2905,7 +2905,7 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 	html += ////
 		'<div id="__ID__propertyEmbed" class="entry-editor-property" style="display: none;">' +
 			'<div class="entry-editor-property-option">' +
-				'<input type="checkbox" class="checkbox" id="__ID__propertyEmbed-fix-position" onclick="__EDITOR__.setPropertyPosition(1)"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
+				'<input type="checkbox" class="checkbox" id="__ID__propertyEmbed-fix-position" onclick="__EDITOR__.setPropertyPosition(1); return false;"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
 				'<label for="__ID__propertyEmbed-fix-position">' + _t('위치 고정') + '</label>' +
 			'</div>' +
 			'<h4>' + _t('Embed') + '</h4>' +
@@ -2929,7 +2929,7 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 	html += ////
 		'<div id="__ID__propertyFlash" class="entry-editor-property" style="display: none;">' +
 			'<div class="entry-editor-property-option">' +
-				'<input type="checkbox" class="checkbox" id="__ID__propertyFlash-fix-position" onclick="__EDITOR__.setPropertyPosition(1)"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
+				'<input type="checkbox" class="checkbox" id="__ID__propertyFlash-fix-position" onclick="__EDITOR__.setPropertyPosition(1); return false;"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
 				'<label for="__ID__propertyFlash-fix-position">' + _t('위치 고정') + '</label>' +
 			'</div>' +
 			'<h4>' + _t('Embed') + '</h4>' +
@@ -2953,7 +2953,7 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 	html += ////
 		'<div id="__ID__propertyMoreLess" class="entry-editor-property" style="display: none;">' +
 			'<div class="entry-editor-property-option">' +
-				'<input type="checkbox" class="checkbox" id="__ID__propertyMoreLess-fix-position" onclick="__EDITOR__.setPropertyPosition(1)"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
+				'<input type="checkbox" class="checkbox" id="__ID__propertyMoreLess-fix-position" onclick="__EDITOR__.setPropertyPosition(1); return false;"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
 				'<label for="__ID__propertyMoreLess-fix-position">' + _t('위치 고정') + '</label>' +
 			'</div>' +
 			'<h4>' + _t('More/Less') + '</h4>' +
