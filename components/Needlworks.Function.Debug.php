@@ -104,7 +104,7 @@ function __tcSqlLogPoint($description = null)
 	$__tcSqlQueryBeginTime = 0;
 }
 
-function __tcSqlLoggetCallstack($backtrace, $level = 1) {
+function __tcSqlLoggetCallstack($backtrace, $level = 0) {
 	$callstack = '';
 	for ($i = $level; $i < count($backtrace); $i++) {
 		if (isset($backtrace[$i]['file'])) {
