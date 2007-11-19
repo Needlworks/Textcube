@@ -7,6 +7,9 @@ require ROOT . '/lib/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }
+if(!empty($suri['value'])) {
+	$suri['page'] = getGuestbookPageById($blogid,$suri['value']);
+}
 notifyComment();
 require ROOT . '/lib/piece/blog/begin.php';
 require ROOT . '/lib/piece/blog/guestbook.php';
