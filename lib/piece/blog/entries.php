@@ -62,7 +62,7 @@ if (isset($cache->contents)) {
 				dress('tag_label_rep', implode(",\r\n", array_values($tags)), $tagLabelView);
 				dress('tag_label', $tagLabelView, $entryView);
 			}
-			if (doesHaveOwnership()) {
+			if (doesHaveOwnership() && ($entry['userid'] == getUserId() || Acl::check('group.editors')===true)) {
 				$managementView = $skin->management;
 				$useEncodedURL = false;
 				if( isset($service['useEncodedURL'])) {

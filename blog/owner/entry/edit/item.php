@@ -35,7 +35,7 @@ if (!$entry) {
 }
 
 // Check whether or not user has permission to edit.
-if(Acl::check('group.writers')===false && !empty($suri['id'])) {
+if(Acl::check('group.editors')===false && !empty($suri['id'])) {
 	if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) { 
 		@header("location:".$blogURL ."/owner/entry");
 		exit; 
