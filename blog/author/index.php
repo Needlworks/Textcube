@@ -28,7 +28,7 @@ if ($skinSetting['showListOnCategory'] != 0) {
 $entries = array();
 if ($skinSetting['showListOnCategory'] != 2) {
 	unset($cache);
-	list($entries, $paging) = getEntriesWithPagingByAuthor($blogid, $category, $suri['page'], $blog['entriesOnList'], ($skinSetting['showListOnCategory'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
+	list($entries, $paging) = getEntriesWithPagingByAuthor($blogid, $author, $suri['page'], $blog['entriesOnList'], ($skinSetting['showListOnCategory'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
 	if($skinSetting['showListOnCategory'] == 0) require ROOT . '/lib/piece/blog/begin.php';
 	require ROOT . '/lib/piece/blog/entries.php';
 }
