@@ -35,6 +35,9 @@ function PN_Visitor_Default()
 <!-- This tab space below this line is inserted for the indentation of original admin page -->
 						<script type="text/javascript">
 							//<![CDATA[
+<?php
+	if(Acl::check('group.owners')) {
+?>
 								function setTotalStatistics() {
 									if (confirm("방문자의 수를 초기화하면 방문객의 수가 0이 됩니다.\n정말 초기화하시겠습니까?")) {
 										var request = new HTTPRequest("GET", "<?php echo $pluginHandlerURL;?>/PN_Visitor_Default_set&ajaxcall");
@@ -50,6 +53,9 @@ function PN_Visitor_Default()
 										request.send();
 									}
 								}
+<?php
+	}
+?>
 								
 								function addCommas(nStr) {
 									nStr += '';
@@ -83,7 +89,13 @@ function PN_Visitor_Default()
 										<span class="divider"> : </span>
 										<span id="total"><?php echo number_format($stats['total']);?></span>
 									</div>
+<?php
+	if(Acl::check('group.owners')) {
+?>
 									<a class="init-button button" href="<?php echo $pluginHandlerURL;?>/PN_Visitor_Default_set" onclick="setTotalStatistics(); return false;"><span class="text">초기화</span></a>
+<?php
+	}
+?>
 								</div>
 							
 								<hr class="hidden" />
