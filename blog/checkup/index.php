@@ -950,29 +950,6 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}Links visibility")) {
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
-
-if (DBQuery::queryExistence("DESC {$database['prefix']}OpenIDComments blogid") &&
-	!DBQuery::queryExistence("DESC {$database['prefix']}OpenIDComments entry")) {
-	$changed = true;
-	echo '<li>', _text('OpenID 테이블의 최적화를 위하여 글번호 필드를 추가합니다.'), ': ';
-	if (DBQuery::execute("ALTER TABLE {$database['prefix']}OpenIDComments ADD entry INT(11) DEFAULT 0 NOT NULL AFTER blogid, DROP PRIMARY KEY, ADD PRIMARY KEY (blogid,entry,id)")) {
-		if($commentInfos = DBQuery::queryAll("SELECT blogid, id FROM {$database['prefix']}OpenIDComments")) {
-			foreach($commentInfos as $commentInfo) {
-				$id = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Comments
-					WHERE blogid = {$commentInfo['blogid']} AND id = {$commentInfo['id']}");
-				DBQuery::execute("UPDATE {$database['prefix']}OpenIDComments 
-					SET entry = $id
-					WHERE blogid = {$commentInfo['blogid']} AND id = {$commentInfo['id']}");
-			}
-			echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-		} else {
-			echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-		}
-	} else {
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-	}
-}
-
 /***** Common parts. *****/
 if(doesHaveOwnership() && $blogids = DBQuery::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog")) {
 	$changed = true;

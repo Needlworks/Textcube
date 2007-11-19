@@ -25,6 +25,18 @@ function decorateComment( & $comment )
 	}
 }
 
+function fireCommentHint( & $result, $blogid )
+{
+	$comment_ids = array();
+	foreach($result as $comment) {
+		array_push($comment_ids, $comment['id']);
+		if( !empty($comment['parent']) ) {
+			array_push($comment_ids, $comment['parent']);
+		}
+	}
+	fireEvent( 'CommentFetchHint', $comment_ids, $blogid );
+}
+
 function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, $page, $count) {
 	global $database;
 	
@@ -62,7 +74,8 @@ function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, 
 		$postfix .= '&withSearch=on';
 		$paging['postfix'] .= $postfix;
 	}
-	
+
+	fireCommentHint( $comments, $blogid );
 	return array($comments, $paging);
 }
 
@@ -141,6 +154,7 @@ function getCommentCommentsNotified($parent) {
 			WHERE c.blogid = ".getBlogId()." AND c.parent = $parent";
 	$sql .= ' ORDER BY c.written ASC';
 	if ($result = DBQuery::queryAll($sql)) {
+		fireCommentHint( $result, getBlogId() );
 		foreach($result as $comment) {
 			if (($comment['secret'] == 1) && !$authorized) {
 				if( !fireEvent('ShowSecretComment', false, $comment) ) {
@@ -163,7 +177,9 @@ function getCommentsWithPagingForGuestbook($blogid, $page, $count) {
 			AND parent IS NULL 
 			AND isFiltered = 0
 		ORDER BY written DESC";
-	return fetchWithPaging($sql, $page, $count);
+	$result = fetchWithPaging($sql, $page, $count);
+	fireCommentHint( $result[0], $blogid );
+	return $result;
 }
 
 function getCommentAttributes($blogid, $id, $attributeNames) {
@@ -183,6 +199,7 @@ function getComments($entry) {
 			AND parent IS NULL
 			AND isFiltered = 0 $aux";
 	if ($result = DBQuery::queryAll($sql)) {
+		fireCommentHint( $result, getBlogId() );
 		foreach ($result as $comment) {
 			if (($comment['secret'] == 1) && !$authorized) {
 				if( !fireEvent('ShowSecretComment', false, $comment) ) {
@@ -207,6 +224,7 @@ function getCommentComments($parent) {
 			AND parent = $parent 
 			AND isFiltered = 0 
 		ORDER BY id")) {
+		fireCommentHint( $result, getBlogId() );
 		foreach ($result as $comment) {
 			if (($comment['secret'] == 1) && !$authorized) {
 				if( !fireEvent('ShowSecretComment', false, $comment) ) {
@@ -261,6 +279,7 @@ function getCommentList($blogid, $search) {
 			AND c.blogid = $blogid $authorized 
 			and c.isFiltered = 0 
 			and (c.comment like '%$search%' OR c.name like '%$search%')")) {
+		fireCommentHint( $result, $blogid );
 		foreach ($result as $comment)
 			array_push($list['items'], $comment);
 	}
@@ -584,6 +603,7 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false) {
 		DESC LIMIT 
 			".($count != false ? $count : $skinSetting['commentsOnRecent']);
 	if ($result = DBQuery::queryAll($sql)) {
+		fireCommentHint( $result, $blogid );
 		foreach($result as $comment) {
 			if (($comment['secret'] == 1) && !doesHaveOwnership()) {
 				if( !fireEvent('ShowSecretComment', false, $comment) ) {
@@ -611,6 +631,7 @@ function getRecentGuestbook($blogid,$count = false) {
 		DESC LIMIT ".($count != false ? $count : $skinSetting['commentsOnRecent']);
 
 	if ($result = DBQuery::queryAll($sql)) {
+		fireCommentHint( $result, $blogid );
 		foreach($result as $comment) {
 			if (($comment['secret'] == 1) && !doesHaveOwnership()) {
 				if( !fireEvent('ShowSecretComment', false, $comment) ) {

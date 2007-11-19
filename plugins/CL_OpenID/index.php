@@ -895,23 +895,85 @@ function openid_AddComment( $id, $comment )
 	return $id;
 }
 
-function openid_ShowSecretComment($target, $comment)
+function openid_CommentFetchHint( $comment_ids, $blogid )
+{
+	global $database;
+	global $openid_session;
+	global $openid_comments;
+
+	if( empty($openid_comments ) ) {
+		$openid_comments = array();
+	}
+	if( empty($comment_ids ) ) {
+		return $comment_ids;
+	}
+
+	$query_candidate_ids = array();
+	$openid_comments_keys = array_keys( $openid_comments );
+	foreach( $comment_ids as $id ) {
+		if( in_array( "$blogid-$id", $openid_comments_keys ) ) {
+			continue;
+		}
+		array_push( $query_candidate_ids, $id );
+	}
+
+	$ids = join( ',', $query_candidate_ids );
+	$sql = "SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id in ( $ids )";
+	$row = DBQuery::queryAll($sql);
+
+	$cached_ids = array();
+	if( !empty($row) ) {
+		foreach( $row as $openid_cmt ) {
+			$openid_comments[ $openid_cmt['blogid']."-".$openid_cmt['id'] ] = $openid_cmt;
+			array_push( $cached_ids, $openid_cmt['id'] );
+		}
+	}
+	foreach( $comment_ids as $id ) {
+		if( in_array( $id, $cached_ids ) ) {
+			continue;
+		}
+		$openid_comments[ "$blogid-$id" ] = false;
+	}
+	return $comment_ids;
+}
+
+function _openid_GetOpenIDComment( $blogid, $id )
 {
 	global $database, $blogid;
-	global $hostURL, $service, $blogURL;
+	global $openid_comments;
+
+	if( isset($openid_comments["$blogid-$id"]) ) {
+		return $openid_comments["$blogid-$id"];
+	}
+	$row = DBQuery::queryRow("SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = $id" );
+	if( empty($row) )
+	{
+		return null;
+	}
+	if( empty($openid_comments) ) {
+		$openid_comments = array();
+	}
+	$openid_comments[ "$blogid-$id" ] = $row;
+	return $row;
+}
+
+function openid_ShowSecretComment($target, $comment)
+{
 	global $openid_session;
+	$blogid = getBlogId();
 
 	if( !$comment['secret'] || empty($openid_session['id']) ) {
 		return $target;
 	}
-	$row = DBQuery::queryRow("SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = {$comment['id']}" );
+
+	$row = _openid_GetOpenIDComment( $comment['blogid'], $comment['id'] );
 	if( !empty($row) && $row['openid'] == $openid_session['id'] ) {
 		return true;
 	}
 	if( empty($comment['parent']) ) {
 		return false;
 	}
-	$row = DBQuery::queryRow("SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = {$comment['parent']}" );
+	$row = _openid_GetOpenIDComment( $comment['parent'] );
 	if( empty($row) ) {
 		return $target;
 	}
@@ -923,16 +985,17 @@ function openid_ShowSecretComment($target, $comment)
 
 function openid_ViewCommenter($name, $comment)
 {
-	global $database, $blogid;
+	global $database;
 	global $hostURL, $service, $blogURL;
 	global $openid_pluginbase;
+	$blogid = getBlogId();
 
 	$openid_pluginbase = $hostURL . $service['path'] . "/plugins/" . basename(dirname( __FILE__ ));
 
 	if( $comment['secret'] ) {
 		return $name;
 	}
-	$row = DBQuery::queryAll("SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = {$comment['id']}" );
+	$row = _openid_GetOpenIDComment( $blogid, $comment['id'] );
 	if( !$row ) {
 		return $name;
 	}

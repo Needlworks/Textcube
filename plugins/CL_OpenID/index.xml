@@ -28,6 +28,7 @@
 	<listener event="OpenIDFetch">openid_Fetch</listener>
 	<listener event="OpenIDSetUserId">openid_SetUserId</listener>
 	<listener event="OpenIDResetUserId">openid_ResetUserId</listener>
+	<listener event="CommentFetchHint">openid_CommentFetchHint</listener>
 
 	<listener event="/plugin/openid/try_auth">openid_try_auth</listener>
 	<listener event="/plugin/openid/finish">openid_finish</listener>
