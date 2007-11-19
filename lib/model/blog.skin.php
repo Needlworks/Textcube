@@ -281,8 +281,7 @@ function setSkinSetting($blogid, $setting) {
 		recentTrackbackLength 	= ' . $setting['recentTrackbackLength'] . ',
 		linkLength 				= ' . $setting['linkLength'] . '
 	WHERE blogid =' . $blogid;
-	if (update($sql) > - 1) {
-	} else {
+	if (!DBQuery::execute($sql)) {
 		return false;
 	}
 	setBlogSetting('entriesOnPage',$setting['entriesOnPage']);
