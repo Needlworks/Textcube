@@ -55,12 +55,14 @@ class pageCache {
 	}
 
 	function update () {
+		global $service;
 		if(isset($service['disablePageCache']) && $service['disablePageCache'] == true) return false;
 		$this->purge();
 		$this->create();
 	}
 
 	function load () {
+		global $service;
 		if(isset($service['disablePageCache']) && $service['disablePageCache'] == true) return false;
 		$this->initialize();
 		if(!$this->getFileName()) return false;
@@ -79,6 +81,7 @@ class pageCache {
 		 }
 	}
 	function purge () {
+		global $service;
 		if(isset($service['disablePageCache']) && $service['disablePageCache'] == true) return true;
 		$this->getFileName();
 		if(
