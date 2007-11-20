@@ -8,10 +8,10 @@ require ROOT . '/lib/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }
-if (!$keyword = getKeywordByName($blogid, $suri['value']))
+if(!$keylog = getKeylogByTitle($blogid, $suri['value'])) {
 	respondErrorPage();
-
-$keylog = getKeylog($blogid, $keyword['title']);
+	exit;
+}
 $skinSetting['keylogSkin'] = fireEvent('setKeylogSkin');
 if($skinSetting['keylogSkin']!= null) {
 	require ROOT . '/lib/piece/blog/keylog.php';

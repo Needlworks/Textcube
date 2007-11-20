@@ -9,9 +9,10 @@ if (false) {
 	fetchConfigVal();
 }
 if (strlen($suri['value'])) {
-	if (!$keyword = getKeywordByName($blogid, $suri['value']))
+	if(!$keylog = getKeylogByTitle($blogid, $suri['value'])) {
 		respondErrorPage();
-	$keylog = getKeylogs($blogid, $keyword['title']);
+		exit;
+	}
 	$skinSetting['keylogSkin'] = fireEvent('setKeylogSkin');
 	if($skinSetting['keylogSkin']!= null) {
 		require ROOT . '/lib/piece/blog/keylog.php';
