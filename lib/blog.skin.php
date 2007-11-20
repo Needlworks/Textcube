@@ -321,13 +321,13 @@ class Skin {
 	}
 }
 
-class KeywordSkin {
+class KeylogSkin {
 	var $outter;
 	var $skin;
 	var $keylog;
 	var $keylogItem;
 
-	function KeywordSkin($filename) {
+	function KeylogSkin($filename) {
 		global $service, $serviceURL;
 		if (!$sval = file_get_contents($filename))
 			respondErrorPage("KeywordSkin");

@@ -3,15 +3,6 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-function getKeywordByName($blogid, $name) {
-	global $database;
-	$name = tc_escape_string($name);
-	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	if ($result = DBQuery::queryAll("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -1 AND title = '$name'"))
-		return $result;
-	return false;	
-}
-
 function getKeywordCount($blogid) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
@@ -56,19 +47,23 @@ function getKeywordsWithPaging($blogid, $search, $page, $count) {
 }
 
 function getKeyword($blogid, $keyword) {	
+	return getKeylogByTitle($blogid, $keyword);
+}
+
+function getKeylogByTitle($blogid, $title) {	
 	global $database;
-	$keyword = tc_escape_string($keyword);
-	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
+	$title = tc_escape_string($title);
+	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
 	return DBQuery::queryRow("SELECT * 
 			FROM {$database['prefix']}Entries 
 			WHERE blogid = $blogid 
 				AND draft = 0 $visibility 
 				AND category = -1 
-				AND title = '$keyword' 
+				AND title = '$title' 
 			ORDER BY published DESC");
 }
 
-function getKeylogs($blogid, $keyword) {	
+function getEntriesByKeyword($blogid, $keyword) {	
 	global $database;
 	$keyword = tc_escape_string($keyword);
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';

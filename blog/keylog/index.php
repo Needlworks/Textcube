@@ -13,6 +13,8 @@ if (strlen($suri['value'])) {
 		respondErrorPage();
 		exit;
 	}
+	$entries = array();
+	$entries = getEntriesByKeyword($blogid, $keylog['title']);
 	$skinSetting['keylogSkin'] = fireEvent('setKeylogSkin');
 	if($skinSetting['keylogSkin']!= null) {
 		require ROOT . '/lib/piece/blog/keylog.php';
@@ -20,7 +22,7 @@ if (strlen($suri['value'])) {
 		respondErrorPage(_t('No handling plugin'));
 	}
 } else {
-	$keywords = getKeywords($blogid, true);
+	$keywords = getKeywordNames($blogid, true);
 	$skinSetting['keylogSkin'] = fireEvent('setKeylogSkin');
 	if($skinSetting['keylogSkin']!= null) {
 		require ROOT . '/lib/piece/blog/begin.php';
