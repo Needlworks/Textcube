@@ -929,6 +929,10 @@ function openid_CommentFetchHint( $comment_ids, $blogid )
 		array_push( $query_candidate_ids, $id );
 	}
 
+	if( empty( $query_candidate_ids ) ) {
+		return $comment_ids;
+	}
+
 	$ids = join( ',', $query_candidate_ids );
 	$sql = "SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id in ( $ids )";
 	$row = DBQuery::queryAll($sql);
