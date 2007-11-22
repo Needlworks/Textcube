@@ -22,7 +22,7 @@ if(Acl::check('group.administrators')) {
 		array('menu'=>'skin','title'=>_t('스킨'),'link'=>'/owner/skin'),
 		array('menu'=>'plugin','title'=>_t('플러그인'),'link'=>'/owner/plugin'),	
 		array('menu'=>'setting','title'=>_t('환경설정'),'link'=>'/owner/setting/blog'),
-		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader')
+		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader'),
 		);
 } else {
 	$blogTopMenuItem = array(
@@ -31,6 +31,9 @@ if(Acl::check('group.administrators')) {
 		array('menu'=>'setting','title'=>_t('환경설정'),'link'=>'/owner/setting/account'),
 		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader')
 		);
+}
+if(Acl::check('group.inviters')) {  //TODO : Super Adminisrator에 맞는 권한 필요 현재는 inviters
+	array_push($blogTopMenuItem, array('menu'=>'control','title'=>_t('제어판'),'link'=>'/owner/control/blog'));
 }
 switch($blogMenu['topMenu']) {
 	case 'center':
@@ -82,6 +85,10 @@ switch($blogMenu['topMenu']) {
 		$blogMenu['loadCSS'] = array('reader');
 		$blogMenu['loadCSSIE6'] = array('reader');
 		$blogMenu['loadCSSIE7'] = array('reader');
+		break;
+	case 'control':
+		$blogMenu['title'] = _t('제어판');
+		$blogMenu['loadCSS'] = array('control');
 		break;
 }
 

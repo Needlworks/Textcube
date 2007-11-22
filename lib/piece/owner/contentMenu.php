@@ -86,6 +86,15 @@ if(isset($blogMenu['topMenu'])) {
 		break;
 		case 'reader':
 		break;
+		case 'control':
+		if(Acl::check('group.inviters')) {  //TODO : Super Adminisrator에 맞는 권한 필요 현재는 inviters
+			$blogContentMenuItem = array(
+				array('menu'=>'blog','title'=>_t('블로그'),'link'=>'/owner/control/blog'),
+				array('menu'=>'user','title'=>_t('사용자'),'link'=>'/owner/control/user'),
+				array('menu'=>'etc','title'=>_t('기타 설정'),'link'=>'/owner/control/etc')
+			);
+		}
+		break;
 	}
 
 	if( empty($blogContentMenuItem) ) {
