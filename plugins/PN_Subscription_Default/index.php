@@ -124,7 +124,8 @@ function getAggregatorName($useragent)
 		'NewsLife' => 'NewsLife',
 		'Google Desktop' => '구글 데스크탑',
 		'RSSOwl' => 'RSS Owl',
-		'Eolin' => '태터툴즈/텍스트큐브 리더',
+		'Eolin' => '태터툴즈 리더',
+		'Textcube' => '텍스트큐브 리더',
 		'Safari' => '사파리',
 		'NetNewsWire' => 'NetNewsWire',
 		'Feedfetcher-Google' => '구글 feedfetcher',
@@ -176,6 +177,7 @@ function getNumberOfSubscribers($useragent)
 	$agentPattern = array(
 		'Bloglines' => 'subscribers',
 		'HanRSS' => 'subscribers',
+		'Feedfetcher-Google' => 'subscribers',
 		'Netvibes' => 'subscribers',
 		'NewsGatorOnline' => 'subscribers',
 		'Fastladder' => 'subscribers'
@@ -232,7 +234,7 @@ function organizeAggregatorInfo($info)
 		$subscribers = getNumberOfSubscribers($record['useragent']);
 		$startDate = $record['subscribed'];
 		$referred = $record['referred'];
-		if(time()- $referred > 259200) continue;
+		if(time()- $referred > 604800) continue;
 		if(array_key_exists($aggregatorName,$aggregatorInfo)) {
 			if(($subscribers > $aggregatorInfo[$aggregatorName]['subscribers'])&&($subscribers!==1)) {
 				$totalSubscribers -= $aggregatorInfo[$aggregatorName]['subscribers'];
@@ -320,7 +322,7 @@ function PN_Subscription_setTime($target) {
 function PN_Subscription_Sidebar($target) {
 	requireComponent("Textcube.Function.misc");
 	$count = misc::getBlogSetting('SubscriberCount',null);
-	$text = '<div class="SubscriptionPanel">';
+	$text = '<div class="SubscriptionPanel" style="text-align:center">';
 	if($count==null) $text .= '구독 정보 갱신이 필요합니다';
 	else $text .= $count.'명이 RSS를 구독하고 있습니다.';
 	$text .= '</div>';

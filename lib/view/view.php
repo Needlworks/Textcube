@@ -895,7 +895,7 @@ function getRecentCommentsView($comments, $template) {
 }
 
 function getRecentTrackbacksView($trackbacks, $template) {
-	global $blogURL, $blog, $skinSetting;
+	global $blogURL, $blog, $skinSetting, $service;
 	ob_start();
 	foreach ($trackbacks as $trackback) {
 		$view = "$template";
