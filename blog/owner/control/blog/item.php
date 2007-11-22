@@ -31,7 +31,7 @@ function deleteBlog(bid) {
 
 
 function changeOwner(owner) {
-	var request = new HTTPRequest("<?php echo $blogURL;?>/owner/control/action/changeowner/?owner="+owner+"&blogid="+<?php echo $blogid?>);
+	var request = new HTTPRequest("<?php echo $blogURL;?>/owner/control/action/blog/changeowner/?owner="+owner+"&blogid="+<?php echo $blogid?>);
 	request.onSuccess = function() {
 		alert("<?php echo _t('소유자가 변경되었습니다. \r\n기존의 소유자는 참가자로 변경되었습니다.');?>");
 		window.location.reload();

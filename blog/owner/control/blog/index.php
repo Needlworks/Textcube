@@ -25,7 +25,7 @@ var page = <?php echo $page;?>;
 
 function deleteBlog(bid) {
 	if (!confirm(_t('되돌릴 수 없습니다.\t\n\n계속 진행하시겠습니까?'))) return false;
-	var request = new HTTPRequest(blogURL + "/owner/control/action/delete/blog/"+bid);
+	var request = new HTTPRequest(blogURL + "/owner/control/action/blog/delete/"+bid);
 	request.onSuccess = function() {
 		PM.showMessage(_t('선택된 블로그가 삭제되었습니다.'), "center", "top");
 		showBlogList(page);

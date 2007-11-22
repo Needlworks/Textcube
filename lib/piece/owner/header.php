@@ -22,7 +22,7 @@ if(Acl::check('group.administrators')) {
 		array('menu'=>'skin','title'=>_t('스킨'),'link'=>'/owner/skin'),
 		array('menu'=>'plugin','title'=>_t('플러그인'),'link'=>'/owner/plugin'),	
 		array('menu'=>'setting','title'=>_t('환경설정'),'link'=>'/owner/setting/blog'),
-		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader'),
+		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader')
 		);
 } else {
 	$blogTopMenuItem = array(
