@@ -1,14 +1,14 @@
 <?php
-/* Subscription statistics plugin for Textcube 1.1
+/* Subscription statistics plugin for Textcube 1.6
    ----------------------------------
-   Version 1.5
+   Version 2.0 
    Needlworks development team.
 
    Creator          : inureyes
    Maintainer       : gendoh, inureyes, graphittie
 
    Created at       : 2006.9.21
-   Last modified at : 2007.5.5
+   Last modified at : 2007.11.22
  
  This plugin shows RSS subscription statistics on administration menu.
  For the detail, visit http://forum.tattersite.com/ko
@@ -31,6 +31,8 @@ function PN_Subscription_Default()
 	$blogid = getBlogId();
 	$temp = getSubscriptionStatistics($blogid);
 	$aggregatorInfo = organizeAggregatorInfo($temp);
+	misc::setBlogSetting('SubscriberCount',$totalSubscribers);
+	
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -310,8 +312,18 @@ function updateSubscriptionStatistics($target, $mother) {
 }
 
 function PN_Subscription_setTime($target) {
-	requireComponent( "Textcube.Function.misc");
+	requireComponent("Textcube.Function.misc");
 	misc::setBlogSetting('LatestRSSrefresh',time());
 	return true;
+}
+
+function PN_Subscription_Sidebar($target) {
+	requireComponent("Textcube.Function.misc");
+	$count = misc::getBlogSetting('SubscriberCount',null);
+	$text = '<div class="SubscriptionPanel">';
+	if($count==null) $text .= '구독 정보 갱신이 필요합니다';
+	else $text .= $count.'명이 RSS를 구독하고 있습니다.';
+	$text .= '</div>';
+	return $text;
 }
 ?>
