@@ -214,7 +214,7 @@ function setGuestbook($blogid, $write, $comment) {
 	} else return false;
 }
 
-function changeSetting($blogid, $email, $nickname) {
+function changeSetting($userid, $email, $nickname) {
 	global $database;
 	if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return false;
 	$email = tc_escape_string(UTF8::lessenAsEncoding($email, 64));
@@ -222,21 +222,13 @@ function changeSetting($blogid, $email, $nickname) {
 	if ($email == '' || $nickname == '') {
 		return false;
 	}
-	$sql = "UPDATE `{$database['prefix']}Users` SET loginid = '$email', name = '$nickname' WHERE `userid` = $blogid";
+	$sql = "UPDATE `{$database['prefix']}Users` SET loginid = '$email', name = '$nickname' WHERE `userid` = $userid";
 	$result = DBQuery::query($sql);
 	if (!$result) {
 		return false;
 	} else {
 		return true;
 	}
-}
-
-function getCertificationLink($blogid) {
-	global $database;
-	$blogName = getBlogSetting('name');
-	$users = DBQuery::queryRow("SELECT * FROM `{$database['prefix']}Users` 
-		WHERE host = $blogid");
-	return getBlogURL($blogName) . '/login?loginid=' . rawurlencode($users['loginid']) . '&password=' . rawurlencode($users['password']) . '&requestURI=' . rawurlencode(getBlogURL($blogName) . "/owner/setting/account?password=" . rawurlencode($users['password']));
 }
 
 function addUser($email, $name) {
@@ -460,7 +452,7 @@ function cancelInvite($userid) {
 	
 }
 
-function changePassword($blogid, $pwd, $prevPwd) {
+function changePassword($userid, $pwd, $prevPwd) {
 	global $database;
 	if (!strlen($pwd) || !strlen($prevPwd))
 		return false;
@@ -468,11 +460,11 @@ function changePassword($blogid, $pwd, $prevPwd) {
 		$secret = '(`password` = \'' . md5($prevPwd) . "' OR `password` = '$prevPwd')";
 	else
 		$secret = '`password` = \'' . md5($prevPwd) . '\'';
-	$count = DBQuery::queryCell("select count(*) from {$database['prefix']}Users where userid = $blogid and $secret");
+	$count = DBQuery::queryCell("select count(*) from {$database['prefix']}Users where userid = $userid and $secret");
 	if ($count == 0)
 		return false;
 	$pwd = md5($pwd);
-	$sql = "UPDATE `{$database['prefix']}Users` SET password = '$pwd' WHERE `userid` = $blogid";
+	$sql = "UPDATE `{$database['prefix']}Users` SET password = '$pwd' WHERE `userid` = $userid";
 	return DBQuery::execute($sql);
 }
 
