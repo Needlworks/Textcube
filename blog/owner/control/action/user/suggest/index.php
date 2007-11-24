@@ -21,7 +21,4 @@ if ($result) {
 	}
 	echo ');';
 }
-else {
-echo "xx";
-}
 ?>
