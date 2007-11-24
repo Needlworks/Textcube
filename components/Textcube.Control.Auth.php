@@ -347,12 +347,16 @@ class Auth {
 
 		$blogApiPassword = getBlogSetting("blogApiPassword", "");
 
-		$userid=getUserIdByEmail($loginid);
-		$authtoken = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
-
-		if (!empty($authtoken) && (strlen($password) == 32) && preg_match('/[0-9a-f]/i', $password)) {
-			$password = tc_escape_string($password);
-			$secret = '(`password` = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $authtoken . '\')';
+		if ((strlen($password) == 32) && preg_match('/[0-9a-f]/i', $password)) {
+			$userid=getUserIdByEmail($loginid);
+			$authtoken = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
+			if (!empty($authtoken)) {
+				$password = tc_escape_string($password);
+				$secret = '(`password` = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $authtoken . '\')';
+			}
+			else {
+				$secret = '`password` = \'' . md5($password) . '\'';
+			}
 		} else if( $blogapi && !empty($blogApiPassword) ) {
 			$password = tc_escape_string($password);
 			$secret = '(`password` = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $blogApiPassword . '\')';
