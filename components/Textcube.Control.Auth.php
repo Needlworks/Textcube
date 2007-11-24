@@ -347,8 +347,12 @@ class Auth {
 
 		$blogApiPassword = getBlogSetting("blogApiPassword", "");
 
-		if ((strlen($password) == 32) && preg_match('/[0-9a-f]/i', $password)) {
-			$secret = '(`password` = \'' . md5($password) . "' OR `password` = '$password')";
+		$userid=getUserIdByEmail($loginid);
+		$authtoken = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
+
+		if (!empty($authtoken) && (strlen($password) == 32) && preg_match('/[0-9a-f]/i', $password)) {
+			$password = tc_escape_string($password);
+			$secret = '(`password` = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $authtoken . '\')';
 		} else if( $blogapi && !empty($blogApiPassword) ) {
 			$password = tc_escape_string($password);
 			$secret = '(`password` = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $blogApiPassword . '\')';
@@ -367,6 +371,7 @@ class Auth {
 		Acl::setBasicAcl($userid);
 		Acl::setTeamAcl($userid);
 		DBQuery::execute("UPDATE  {$database['prefix']}Users SET lastLogin = unix_timestamp() WHERE loginid = '$loginid'");
+		DBQuery::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
 		return $userid;
 	}
 

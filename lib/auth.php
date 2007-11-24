@@ -107,7 +107,7 @@ function requireStrictBlogURL() {
 	exit;
 }
 
-function isLoginId($userid, $loginid) {
+function isLoginId($blogid, $loginid) {
 	global $database;
 	$loginid = tc_escape_string($loginid);
 	
@@ -115,7 +115,7 @@ function isLoginId($userid, $loginid) {
 	$result = DBQuery::queryCount("SELECT u.userid 
 			FROM {$database['prefix']}Users u, 
 				{$database['prefix']}Teamblog t 
-			WHERE t.blogid = $userid 
+			WHERE t.blogid = $blogid 
 				AND u.loginid = '$loginid' 
 				AND t.userid = u.userid");
 	// End TeamBlog
@@ -128,23 +128,29 @@ function generatePassword() {
 	return strtolower(substr(base64_encode(rand(0x10000000, 0x70000000)), 3, 8));
 }
 
-function resetPassword($userid, $loginid) {
+function resetPassword($blogid, $loginid) {
 	global $database;
 	global $service, $blog, $hostURL, $blogURL;
-	if (!isLoginId($userid, $loginid))
+	if (!isLoginId($blogid, $loginid))
 		return false;
+	$userid=getUserIdByEmail($loginid);
 	$password = DBQuery::queryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = $userid");
+	$authtoken = md5(generatePassword());
+	$result = DBQuery::query("INSERT INTO `{$database['prefix']}UserSettings` (userid, name, value) VALUES ('" . $userid . "', 'AuthToken', '" . $authtoken . "')");
+	if(empty($result)) {
+		return false;
+	}
 	$headers = "From: Your Textcube Blog <textcube@{$service['domain']}>\n" . 'X-Mailer: ' . TEXTCUBE_NAME . "\n" . "MIME-Version: 1.0\nContent-Type: text/html; charset=utf-8\n";
 	$message = file_get_contents(ROOT . "/style/letter/letter.html");
 	$message = str_replace('[##_title_##]', _text('텍스트큐브 블로그 로그인 정보'), $message);
 	$message = str_replace('[##_content_##]', _text('블로그 로그인 암호가 초기화되었습니다. 이 이메일에 로그인할 수 있는 인증 정보가 포함되어 있습니다.'), $message);
 	$message = str_replace('[##_images_##]', "$hostURL{$service['path']}/style/letter", $message);
-	$message = str_replace('[##_link_##]', "$hostURL$blogURL/login?loginid=" . rawurlencode($loginid) . '&password=' . rawurlencode($password) . '&requestURI=' . rawurlencode("$hostURL$blogURL/owner/setting/account?password=" . rawurlencode($password)), $message);
+	$message = str_replace('[##_link_##]', "$hostURL$blogURL/login?loginid=" . rawurlencode($loginid) . '&password=' . rawurlencode($authtoken) . '&requestURI=' . rawurlencode("$hostURL$blogURL/owner/setting/account?password=" . rawurlencode($password)), $message);
 	$message = str_replace('[##_link_title_##]', _text('여기를 클릭하시면 로그인하여 암호를 변경하실 수 있습니다.'), $message);
 	$message = str_replace('[##_sender_##]', '', $message);
-	if (!mail($loginid, encodeMail(_text('블로그 로그인 암호가 초기화되었습니다.')), $message, $headers))
+	if (!mail($loginid, encodeMail(_text('블로그 로그인 암호가 초기화되었습니다.')), $message, $headers)) {
 		return false;
-	$loginid = tc_escape_string($loginid);
+	}
 	return true;
 }
 ?>

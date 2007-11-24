@@ -251,6 +251,7 @@ function addUser($email, $name) {
 	$loginid = tc_escape_string(UTF8::lessenAsEncoding($email, 64));	
 	$name = tc_escape_string(UTF8::lessenAsEncoding($name, 32));
 	$password = generatePassword();
+	$authtoken = md5(generatePassword());
 
 	$result = DBQuery::queryRow("SELECT * FROM `{$database['prefix']}Users` WHERE loginid = '$loginid'");
 	if (!empty($result)) {
@@ -261,6 +262,11 @@ function addUser($email, $name) {
 	if (empty($result)) {
 		return 11;
 	}
+	$result = DBQuery::query("INSERT INTO `{$database['prefix']}UserSettings` (userid, name, value) VALUES ('".getUserIdByEmail($loginid)."', 'AuthToken', '$authtoken')");
+	if (empty($result)) {
+		return 11;
+	}
+
 	return true;
 }
 
@@ -409,6 +415,7 @@ function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $sen
 	$password = DBQuery::queryCell("SELECT password
 		FROM {$database['prefix']}Users
 		WHERE userid = ".$userid);
+	$authtoken = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
 	$blogName = getBlogName($blogid);
 
 	if (empty($email))
@@ -432,7 +439,7 @@ function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $sen
 	$message = str_replace('[##_title_##]', _text('초대장'), $message);
 	$message = str_replace('[##_content_##]', $comment, $message);
 	$message = str_replace('[##_images_##]', "$hostURL{$service['path']}/style/letter", $message);
-	$message = str_replace('[##_link_##]', getBlogURL($blogName) . '/login?loginid=' . rawurlencode($email) . '&password=' . rawurlencode($password) . '&requestURI=' . rawurlencode(getBlogURL($blogName) . "/owner/setting/account?password=" . rawurlencode($password)), $message);
+	$message = str_replace('[##_link_##]', getBlogURL($blogName) . '/login?loginid=' . rawurlencode($email) . '&password=' . rawurlencode($authtoken) . '&requestURI=' . rawurlencode(getBlogURL($blogName) . "/owner/setting/account?password=" . rawurlencode($password)), $message);
 	$message = str_replace('[##_go_blog_##]', getBlogURL($blogName), $message);
 	$message = str_replace('[##_link_title_##]', _text('블로그 바로가기'), $message);
 	if (empty($name)) {
