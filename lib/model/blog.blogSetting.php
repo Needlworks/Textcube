@@ -293,25 +293,9 @@ function addBlog($blogid, $userid, $identify) {
 			VALUES('$blogid', '$userid', '0', UNIX_TIMESTAMP(), '0')");
 		return $result;
 	} else { // If no blogid, create a new blog.
-		$email = getUserEmail($userid);
-		$password = DBQuery::queryCell("SELECT password
-			FROM {$database['prefix']}Users
-			WHERE userid = ".$userid);
-		if (empty($email) || empty($identify))
-			return 1; // Not enough information to create blog.
-		if (!preg_match('/^[^@]+@([a-zA-Z0-9]+\.)+[-a-zA-Z0-9]+$/', $email))
-			return 2; // Wrong E-mail address
 		if (!preg_match('/^[a-zA-Z0-9]+$/', $identify))
 			return 4; // Wrong Blog name
-		if (empty($name))
-			$name = User::getName($userid);
-
-		if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return 11;
-
-		$loginid = tc_escape_string(UTF8::lessenAsEncoding($email, 64));	
-		$name = tc_escape_string(UTF8::lessenAsEncoding($name, 32));
 		$identify = tc_escape_string(UTF8::lessenAsEncoding($identify, 32));
-		$password = generatePassword();
 
 		$blogName = $identify;
 
