@@ -21,7 +21,11 @@ function getUserIdByEmail($email) {
 
 function deleteUser($userid) {
 	global $database;
-	return DBQuery::execute("DELETE FROM {$database['prefix']}Users
-		WHERE userid = $userid");
+	if( DBQuery::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1") ) {
+		return DBQuery::execute("DELETE FROM {$database['prefix']}Users WHERE userid = $userid");
+	}
+	else {
+		return false;
+	}
 }
 ?>
