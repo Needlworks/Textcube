@@ -20,8 +20,9 @@ $pagingTemplate = '[##_paging_rep_##]';
 $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
 
 if($bloglist){
-    $tempString=getPagingView($paging, $pagingTemplate, $pagingItemTemplate)."*";
-    $tempString.=$blogcount."*";
+    $resultString = getPagingView($paging, $pagingTemplate, $pagingItemTemplate)."*";
+    $resultString .= $blogcount."*";
+	$tempString = "";
     foreach($bloglist as $bid) {
 		$result = DBQuery::queryAll("SELECT * FROM `{$database['prefix']}BlogSettings` WHERE blogid = {$bid}");
  		foreach($result as $row) {
@@ -35,7 +36,8 @@ if($bloglist){
 		$tempString.=getUserEmail($bsetting['owner'])."*";
 	}
 	if($tempString!=''){
-		printRespond(array('error' => 0, 'result' => $tempString));
+		$resultString .= $tempString;
+		printRespond(array('error' => 0, 'result' => $resultString));
 	}
 	else {
 		printRespond(array('error' => -2,'result' => $paging['pages']));

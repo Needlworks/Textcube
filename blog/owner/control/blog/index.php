@@ -4,13 +4,14 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 define('ROOT', '../../../..');
-
 $IV = array(
 	'GET' => array(
 		'page' => array('number','min'=>1,'default'=>1),
 	) 
 );
+
 $service['admin_script']='control.js';
+
 require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';

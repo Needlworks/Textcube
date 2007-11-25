@@ -49,6 +49,11 @@ function ctlUserSuggestFunction_showSuggestion()
 			htmlText.append("</li>");
 		}
 	}
+	else
+	{
+		instance.hideSuggestion();
+		return false;
+	}
 
 	instance.suggestion.innerHTML = htmlText.toString();
 	instance.suggestion.style.display = "block";
@@ -468,6 +473,19 @@ function showBlogList(page) {
 		if (error == -2 ) {
 			window.location = "?page="+ this.getText("/response/result");
 		}
+	}
+	request.send();
+}
+
+function sendUserAddInfo(name,email) {
+	var request = new HTTPRequest(blogURL + "/owner/control/action/user/add/?name=" + name + "&email=" + email);
+	request.onSuccess = function() {
+		PM.showMessage(_t('새로운 사용자가 추가되었습니다.'), "center", "top");
+		showUserList(page);
+	}
+	request.onError = function() {
+		msg = this.getText("/response/result");
+		alert(_t('사용자를 추가하지 못했습니다.') + "Error : \r\n" + msg);
 	}
 	request.send();
 }
