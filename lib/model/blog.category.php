@@ -287,9 +287,12 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 		$parentStr = "AND parent = $parentId";
 	} else
 		$parentStr = 'AND parent is null';
-	
-	$label = tc_escape_string(UTF8::lessenAsEncoding(empty($label) ? $name : "$label/$name", 255));
 	$name = tc_escape_string(UTF8::lessenAsEncoding($name, 127));
+	if(DBQuery::queryExistence("SELECT name
+		FROM {$database['prefix']}Categories
+		WHERE blogid = $blogid AND name = '".$name."'"))
+		return false;
+	$label = tc_escape_string(UTF8::lessenAsEncoding(empty($label) ? $name : "$label/$name", 255));
 	$sql = "SELECT * 
 		FROM {$database['prefix']}Categories 
 		WHERE blogid = $blogid 
