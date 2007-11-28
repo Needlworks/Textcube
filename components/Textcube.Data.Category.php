@@ -87,6 +87,7 @@ class Category {
 			$query->setQualifier('parent', $this->parent);
 			$query->setAttribute('label', UTF8::lessenAsEncoding($parentLabel . '/' . $this->name, 255), true);
 		} else {
+			$query->setQualifier('parent', null);
 			$query->setAttribute('label', $this->name, true);
 		}
 		$query->setQualifier('name', $this->name, true);
