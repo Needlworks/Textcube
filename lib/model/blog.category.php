@@ -36,7 +36,7 @@ function getCategoryIdByLabel($blogid, $label) {
 	if (empty($label))
 		return 0;
 
-	$label = tc_escape_string($label);
+	$label = DBQuery::escapeString($label);
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
 	if($result = MMCache::queryRow($__gCacheCategoryRaw,'label',$label))
 		return $result['id'];
@@ -219,8 +219,8 @@ function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
 		$label = $name;
 	}
 
-	$label = tc_escape_string(UTF8::lessenAsEncoding($label, 255));
-	$name = tc_escape_string(UTF8::lessenAsEncoding($name, 127));
+	$label = DBQuery::escapeString(UTF8::lessenAsEncoding($label, 255));
+	$name = DBQuery::escapeString(UTF8::lessenAsEncoding($name, 127));
 
 	if($parent == 'NULL') {
 		$parentStr = 'AND parent is null';
@@ -287,12 +287,12 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 		$parentStr = "AND parent = $parentId";
 	} else
 		$parentStr = 'AND parent is null';
-	$name = tc_escape_string(UTF8::lessenAsEncoding($name, 127));
+	$name = DBQuery::escapeString(UTF8::lessenAsEncoding($name, 127));
 	if(DBQuery::queryExistence("SELECT name
 		FROM {$database['prefix']}Categories
 		WHERE blogid = $blogid AND name = '".$name."'"))
 		return false;
-	$label = tc_escape_string(UTF8::lessenAsEncoding(empty($label) ? $name : "$label/$name", 255));
+	$label = DBQuery::escapeString(UTF8::lessenAsEncoding(empty($label) ? $name : "$label/$name", 255));
 	$sql = "SELECT * 
 		FROM {$database['prefix']}Categories 
 		WHERE blogid = $blogid 
@@ -300,7 +300,7 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 	// $sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE blogid = $blogid AND name='$name' $parentStr";	
 	if(DBQuery::queryExistence($sql) == false)
 		return false;
-	$bodyid = tc_escape_string(UTF8::lessenAsEncoding($bodyid, 20));
+	$bodyid = DBQuery::escapeString(UTF8::lessenAsEncoding($bodyid, 20));
 	
 	$result = DBQuery::query("UPDATE {$database['prefix']}Categories 
 		SET name = '$name', 
@@ -321,13 +321,13 @@ function updateEntriesOfCategory($blogid, $id = - 1) {
 	foreach($result as $row) {
 		$parent = $row['id'];
 		$parentName = UTF8::lessenAsEncoding($row['name'], 127);
-		$row['name'] = tc_escape_string($parentName);
+		$row['name'] = DBQuery::escapeString($parentName);
 		$countParent = DBQuery::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND visibility > 0 AND category = $parent");
 		$countInLoginParent = DBQuery::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND category = $parent");
 		$result2 = DBQuery::queryAll("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $parent");
 		foreach ($result2 as $rowChild) {
-			$label = tc_escape_string(UTF8::lessenAsEncoding($parentName . '/' . $rowChild['name'], 255));
-			$rowChild['name'] = tc_escape_string(UTF8::lessenAsEncoding($rowChild['name'], 127));
+			$label = DBQuery::escapeString(UTF8::lessenAsEncoding($parentName . '/' . $rowChild['name'], 255));
+			$rowChild['name'] = DBQuery::escapeString(UTF8::lessenAsEncoding($rowChild['name'], 127));
 			$countChild = DBQuery::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND visibility > 0 AND category = {$rowChild['id']}");
 			$countInLogInChild = DBQuery::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND category = {$rowChild['id']}");
 			DBQuery::query("UPDATE {$database['prefix']}Categories SET entries = $countChild, entriesInLogin = $countInLogInChild, `label` = '$label' WHERE blogid = $blogid AND id = {$rowChild['id']}");
@@ -451,7 +451,7 @@ function moveCategory($blogid, $id, $direction) {
 	} else {
 		// 위치를 바꿀 대상이 1 depth이면.
 		if ($nextId == 'NULL') {
-			$myName = tc_escape_string(DBQuery::queryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId and `blogid` = $blogid"));
+			$myName = DBQuery::escapeString(DBQuery::queryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId and `blogid` = $blogid"));
 			$overlapCount = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` IS NULL AND `blogid` = $blogid");
 			// 1 depth에 같은 이름이 있으면 2 depth로 직접 이동.
 			if ($overlapCount > 0) {
@@ -463,7 +463,7 @@ function moveCategory($blogid, $id, $direction) {
 					$nextPriority = $row['priority'];
 					
 					// 위치를 바꿀 대상 카테고리에 같은 이름이 존재하는지 판별.
-					$myName = tc_escape_string(DBQuery::queryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId AND `blogid` = $blogid"));
+					$myName = DBQuery::escapeString(DBQuery::queryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId AND `blogid` = $blogid"));
 					$overlapCount = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` = $nextId AND `blogid` = $blogid");
 					// 같은 이름이 없으면 이동 시작.
 					if ($overlapCount == 0) {

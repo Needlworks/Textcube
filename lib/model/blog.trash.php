@@ -18,11 +18,11 @@ function getTrashTrackbackWithPagingForOwner($blogid, $category, $site, $ip, $se
 	} else
 		$sql .= ' AND e.category >= 0';
 	if (!empty($site)) {
-		$sql .= ' AND t.site = \'' . tc_escape_string($site) . '\'';
+		$sql .= ' AND t.site = \'' . DBQuery::escapeString($site) . '\'';
 		$postfix .= '&site=' . rawurlencode($site);
 	}
 	if (!empty($ip)) {
-		$sql .= ' AND t.ip = \'' . tc_escape_string($ip) . '\'';
+		$sql .= ' AND t.ip = \'' . DBQuery::escapeString($ip) . '\'';
 		$postfix .= '&ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
@@ -52,11 +52,11 @@ function getTrashCommentsWithPagingForOwner($blogid, $category, $name, $ip, $sea
 	} else
 		$sql .= ' AND e.category >= 0';
 	if (!empty($name)) {
-		$sql .= ' AND c.name = \'' . tc_escape_string($name) . '\'';
+		$sql .= ' AND c.name = \'' . DBQuery::escapeString($name) . '\'';
 		$postfix .= '&name=' . rawurlencode($name);
 	}
 	if (!empty($ip)) {
-		$sql .= ' AND t.ip = \'' . tc_escape_string($ip) . '\'';
+		$sql .= ' AND t.ip = \'' . DBQuery::escapeString($ip) . '\'';
 		$postfix .= '&ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {

@@ -55,11 +55,11 @@ function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, 
 	} else
 		$sql .= ' AND e.category >= 0';
 	if (!empty($name)) {
-		$sql .= ' AND c.name = \'' . tc_escape_string($name) . '\'';
+		$sql .= ' AND c.name = \'' . DBQuery::escapeString($name) . '\'';
 		$postfix .= '&name=' . rawurlencode($name);
 	}
 	if (!empty($ip)) {
-		$sql .= ' AND c.ip = \'' . tc_escape_string($ip) . '\'';
+		$sql .= ' AND c.ip = \'' . DBQuery::escapeString($ip) . '\'';
 		$postfix .= '&ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
@@ -101,9 +101,9 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 				
 		$preQuery = "SELECT parent FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND parent is NOT NULL";
 		if (!empty($name))
-			$preQuery .= ' AND name = \''. tc_escape_string($name) . '\' ';
+			$preQuery .= ' AND name = \''. DBQuery::escapeString($name) . '\' ';
 		if (!empty($ip))
-			$preQuery .= ' AND ip = \''. tc_escape_string($ip) . '\' ';
+			$preQuery .= ' AND ip = \''. DBQuery::escapeString($ip) . '\' ';
 		if (!empty($search)) {
 			$preQuery .= " AND ((name LIKE '%$search%') OR (homepage LIKE '%$search%') OR (comment LIKE '%$search%'))";
 		}
@@ -126,9 +126,9 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 				{$database['prefix']}CommentsNotifiedSiteInfo csiteinfo ON c.siteId = csiteinfo.id  
 			WHERE c.blogid = $blogid AND (c.parent is null) ";
 		if (!empty($name))
-			$sql .= ' AND ( c.name = \'' . tc_escape_string($name) . '\') ' ;
+			$sql .= ' AND ( c.name = \'' . DBQuery::escapeString($name) . '\') ' ;
 		if (!empty($ip))
-			$sql .= ' AND ( c.ip = \'' . tc_escape_string($ip) . '\') ';
+			$sql .= ' AND ( c.ip = \'' . DBQuery::escapeString($ip) . '\') ';
 		if (!empty($search)) {
 			$sql .= " AND ((c.name LIKE '%$search%') OR (c.homepage LIKE '%$search%') OR (c.comment LIKE '%$search%')) ";
 		}
@@ -370,16 +370,16 @@ function addComment($blogid, & $comment) {
 	$parent = $comment['parent'] == null ? 'null' : "'{$comment['parent']}'";
 	if ($user !== null) {
 		$comment['replier'] = getUserId();
-		$name = tc_escape_string($user['name']);
+		$name = DBQuery::escapeString($user['name']);
 		$password = '';
-		$homepage = tc_escape_string($user['homepage']);
+		$homepage = DBQuery::escapeString($user['homepage']);
 	} else {
 		$comment['replier'] = 'null';
-		$name = tc_escape_string($comment['name']);
+		$name = DBQuery::escapeString($comment['name']);
 		$password = empty($comment['password']) ? '' : md5($comment['password']);
-		$homepage = tc_escape_string($comment['homepage']);
+		$homepage = DBQuery::escapeString($comment['homepage']);
 	}
-	$comment0 = tc_escape_string($comment['comment']);
+	$comment0 = DBQuery::escapeString($comment['comment']);
 	$filteredAux = ($filtered == 1 ? "UNIX_TIMESTAMP()" : 0);
 	$insertId = getCommentsMaxId() + 1;
 	$result = DBQuery::query("INSERT INTO {$database['prefix']}Comments 
@@ -444,16 +444,16 @@ function updateComment($blogid, $comment, $password) {
 	$setPassword = '';
 	if ($user !== null) {
 		$comment['replier'] = getUserId();
-		$name = tc_escape_string($user['name']);
+		$name = DBQuery::escapeString($user['name']);
 		$setPassword = 'password = \'\',';
-		$homepage = tc_escape_string($user['homepage']);
+		$homepage = DBQuery::escapeString($user['homepage']);
 	} else {
-		$name = tc_escape_string($comment['name']);
+		$name = DBQuery::escapeString($comment['name']);
 		if ($comment['password'] !== true)
 			$setPassword = 'password = \'' . (empty($comment['password']) ? '' : md5($comment['password'])) . '\', ';
-		$homepage = tc_escape_string($comment['homepage']);
+		$homepage = DBQuery::escapeString($comment['homepage']);
 	}
-	$comment0 = tc_escape_string($comment['comment']);
+	$comment0 = DBQuery::escapeString($comment['comment']);
 	
 	$guestcomment = false;
 	if (DBQuery::queryExistence("SELECT * 
@@ -808,26 +808,26 @@ function receiveNotifiedComment($post) {
 	if ($post === false) return 7;
 	
 	$blogid = getBlogId();
-	$title = tc_escape_string(UTF8::lessenAsEncoding($post['s_home_title'], 255));
-	$name = tc_escape_string(UTF8::lessenAsEncoding($post['s_name'], 255));
-	$entryId = tc_escape_string($post['s_no']);
-	$homepage = tc_escape_string(UTF8::lessenAsEncoding($post['url'], 255));
-	$entryUrl = tc_escape_string($post['s_url']);
-	$entryTitle = tc_escape_string($post['s_post_title']);
+	$title = DBQuery::escapeString(UTF8::lessenAsEncoding($post['s_home_title'], 255));
+	$name = DBQuery::escapeString(UTF8::lessenAsEncoding($post['s_name'], 255));
+	$entryId = DBQuery::escapeString($post['s_no']);
+	$homepage = DBQuery::escapeString(UTF8::lessenAsEncoding($post['url'], 255));
+	$entryUrl = DBQuery::escapeString($post['s_url']);
+	$entryTitle = DBQuery::escapeString($post['s_post_title']);
 	$parent_id = $post['r1_no'];
-	$parent_name = tc_escape_string(UTF8::lessenAsEncoding($post['r1_name'], 80));
+	$parent_name = DBQuery::escapeString(UTF8::lessenAsEncoding($post['r1_name'], 80));
 	$parent_parent = $post['r1_rno'];
-	$parent_homepage = tc_escape_string(UTF8::lessenAsEncoding($post['r1_homepage'], 80));
+	$parent_homepage = DBQuery::escapeString(UTF8::lessenAsEncoding($post['r1_homepage'], 80));
 	$parent_written = $post['r1_regdate'];
-	$parent_comment = tc_escape_string(UTF8::lessenAsEncoding($post['r1_body'], 255));
-	$parent_url = tc_escape_string(UTF8::lessenAsEncoding($post['r1_url'], 255));
+	$parent_comment = DBQuery::escapeString(UTF8::lessenAsEncoding($post['r1_body'], 255));
+	$parent_url = DBQuery::escapeString(UTF8::lessenAsEncoding($post['r1_url'], 255));
 	$child_id = $post['r2_no'];
-	$child_name = tc_escape_string(UTF8::lessenAsEncoding($post['r2_name'], 80));
+	$child_name = DBQuery::escapeString(UTF8::lessenAsEncoding($post['r2_name'], 80));
 	$child_parent = $post['r2_rno'];
-	$child_homepage = tc_escape_string(UTF8::lessenAsEncoding($post['r2_homepage'], 80));
+	$child_homepage = DBQuery::escapeString(UTF8::lessenAsEncoding($post['r2_homepage'], 80));
 	$child_written = $post['r2_regdate'];
-	$child_comment = tc_escape_string(UTF8::lessenAsEncoding($post['r2_body'], 255));
-	$child_url = tc_escape_string(UTF8::lessenAsEncoding($post['r2_url'], 255));
+	$child_comment = DBQuery::escapeString(UTF8::lessenAsEncoding($post['r2_body'], 255));
+	$child_url = DBQuery::escapeString(UTF8::lessenAsEncoding($post['r2_url'], 255));
 	$siteId = DBQuery::queryCell("SELECT id FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE url = '$homepage'");
 	$insertId = getCommentsNotifiedSiteInfoMaxId() + 1;
 	if (empty($siteId)) {

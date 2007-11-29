@@ -19,8 +19,8 @@ function addUserWithPassword($email, $name, $password) {
 
 	if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return 11;
 
-	$loginid = tc_escape_string(UTF8::lessenAsEncoding($email, 64));	
-	$name = tc_escape_string(UTF8::lessenAsEncoding($name, 32));
+	$loginid = DBQuery::escapeString(UTF8::lessenAsEncoding($email, 64));	
+	$name = DBQuery::escapeString(UTF8::lessenAsEncoding($name, 32));
 
 	$result = DBQuery::queryRow("SELECT * FROM `{$database['prefix']}Users` WHERE loginid = '$loginid'");
 	if (!empty($result)) {

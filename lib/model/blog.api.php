@@ -324,7 +324,7 @@ function api_addAttachment($blogid,$parent,$file) {
 	$attachment=array();
 	$attachment['parent']=$parent?$parent:0;
 	$attachment['label']=Path::getBaseName($file['name']);
-	$label=tc_escape_string(UTF8::lessenAsEncoding($attachment['label'],64));
+	$label=DBQuery::escapeString(UTF8::lessenAsEncoding($attachment['label'],64));
 	$attachment['size']=$file['size'];
 	$extension=Path::getExtension($attachment['label']);
 	switch(strtolower($extension)) {
@@ -413,7 +413,7 @@ function api_update_attaches( $parent, $attaches = null)
 	} else {
 		foreach( $attaches as $att )
 		{
-			$att = tc_escape_string($att);
+			$att = DBQuery::escapeString($att);
 			DBQuery::query( "update {$database['prefix']}Attachments set parent=$parent where owner=".getBlogId()." and parent=0 and name='" . $att . "'");
 		}
 	}
@@ -426,7 +426,7 @@ function api_update_attaches_with_replace($entryId)
 	requireComponent('Eolin.PHP.Core');
 	$newFiles = DBQuery::queryAll("SELECT name, label FROM {$database['prefix']}Attachments WHERE owner=".getBlogId()." AND parent=0");
 	foreach($newFiles as $newfile) {
-		$newfile['label'] = tc_escape_string(UTF8::lessenAsEncoding($newfile['label'], 64));
+		$newfile['label'] = DBQuery::escapeString(UTF8::lessenAsEncoding($newfile['label'], 64));
 		$oldFile = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE owner=".getBlogId()." AND parent=$entryId AND label='{$newfile['label']}'");
 	
 		if (!is_null($oldFile)) {

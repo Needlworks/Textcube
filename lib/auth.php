@@ -5,7 +5,7 @@
 
 function login($loginid, $password, $preKnownPassword = null) {
 	global $service;
-	$loginid = tc_escape_string($loginid);
+	$loginid = DBQuery::escapeString($loginid);
 	$blogid = getBlogId();
 	$userid = Auth::authenticate($blogid , $loginid, $password );
 
@@ -109,7 +109,7 @@ function requireStrictBlogURL() {
 
 function isLoginId($blogid, $loginid) {
 	global $database;
-	$loginid = tc_escape_string($loginid);
+	$loginid = DBQuery::escapeString($loginid);
 	
 	// 팀블로그 :: 팀원 확인
 	$result = DBQuery::queryCount("SELECT u.userid 

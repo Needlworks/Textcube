@@ -5,7 +5,7 @@
 
 function getTagId($blogid, $name) {
 	global $database;
-	$name = tc_escape_string($name);
+	$name = DBQuery::escapeString($name);
 	return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '$name'");
 }
 
@@ -148,12 +148,12 @@ function getTagFrequency($tag, $max, $min) {
 		if (doesHaveOwnership())
 			$count = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t
 				INNER JOIN `{$database['prefix']}TagRelations` r ON r.tag = t.id AND r.blogid = $blogid
-				WHERE t.name = '" . tc_escape_string($tag['name']) . "'");
+				WHERE t.name = '" . DBQuery::escapeString($tag['name']) . "'");
 		else
 			$count = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t
 				INNER JOIN `{$database['prefix']}TagRelations` r ON r.tag = t.id AND r.blogid = $blogid 
 				INNER JOIN `{$database['prefix']}Entries` e ON e.blogid = r.blogid AND e.id = r.entry AND e.visibility > 0 
-				WHERE t.name = '" . tc_escape_string($tag['name']) . "'");
+				WHERE t.name = '" . DBQuery::escapeString($tag['name']) . "'");
 	}
 	$dist = $max / 3;
 	if ($count == $min)
@@ -208,7 +208,7 @@ function addTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 
 	$taglist = array();
 	foreach($tmptaglist as $tag) {
-		$tag = tc_escape_string(UTF8::lessenAsEncoding(trim($tag), 255));
+		$tag = DBQuery::escapeString(UTF8::lessenAsEncoding(trim($tag), 255));
 		array_push($taglist, $tag);
 	}
 
@@ -255,7 +255,7 @@ function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 	$tmptaglist = array_filter($taglist, 'removeEmptyTagHelper');
 	$taglist = array();
 	foreach($tmptaglist as $tag) {
-		$tag = tc_escape_string(trim($tag));
+		$tag = DBQuery::escapeString(trim($tag));
 		array_push($taglist, $tag);
 	}
 	
@@ -267,7 +267,7 @@ function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 		$tmpoldtaglist = array();
 	$oldtaglist = array();
 	foreach($tmpoldtaglist as $tag) {
-		$tag = tc_escape_string(UTF8::lessenAsEncoding(trim($tag), 255));
+		$tag = DBQuery::escapeString(UTF8::lessenAsEncoding(trim($tag), 255));
 		array_push($oldtaglist, $tag);
 	}
 	

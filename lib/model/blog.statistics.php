@@ -91,8 +91,8 @@ function updateVisitorStatistics($blogid) {
 					return;
 				if (!fireEvent('AddingRefererLog', true, array('host' => $referer['host'], 'url' => $_SERVER['HTTP_REFERER'])))
 					return;
-				$host = tc_escape_string(UTF8::lessenAsEncoding($referer['host'], 64));
-				$url = tc_escape_string(UTF8::lessenAsEncoding($_SERVER['HTTP_REFERER'], 255));
+				$host = DBQuery::escapeString(UTF8::lessenAsEncoding($referer['host'], 64));
+				$url = DBQuery::escapeString(UTF8::lessenAsEncoding($_SERVER['HTTP_REFERER'], 255));
 				DBQuery::query("INSERT INTO {$database['prefix']}RefererLogs values($blogid, '$host', '$url', UNIX_TIMESTAMP())");
 				DBQuery::query("DELETE FROM {$database['prefix']}RefererLogs WHERE referred < UNIX_TIMESTAMP() - 604800");
 				if (!DBQuery::query("UPDATE {$database['prefix']}RefererStatistics SET count = count + 1 WHERE blogid = $blogid AND host = '$host'") || (mysql_affected_rows() == 0))

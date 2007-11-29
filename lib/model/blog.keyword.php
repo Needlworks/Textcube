@@ -32,7 +32,7 @@ function getKeywordsWithPaging($blogid, $search, $page, $count) {
 	global $database, $folderURL, $suri;
 	$aux = '';
 	if (($search !== true) && $search) {
-		$search = tc_escape_string($search);
+		$search = DBQuery::escapeString($search);
 		$aux = "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
 	}
 
@@ -52,7 +52,7 @@ function getKeyword($blogid, $keyword) {
 
 function getKeylogByTitle($blogid, $title) {	
 	global $database;
-	$title = tc_escape_string($title);
+	$title = DBQuery::escapeString($title);
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
 	return DBQuery::queryRow("SELECT * 
 			FROM {$database['prefix']}Entries 
@@ -65,7 +65,7 @@ function getKeylogByTitle($blogid, $title) {
 
 function getEntriesByKeyword($blogid, $keyword) {	
 	global $database;
-	$keyword = tc_escape_string($keyword);
+	$keyword = DBQuery::escapeString($keyword);
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	return DBQuery::queryAll("SELECT id, userid, title, category, comments, published 
 			FROM {$database['prefix']}Entries 

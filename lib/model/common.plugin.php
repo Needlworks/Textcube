@@ -47,7 +47,7 @@ function activatePlugin($name) {
 		return false;
 	}
 	$pluginName = $name;
-	$name = tc_escape_string(UTF8::lessenAsEncoding($name, 255));
+	$name = DBQuery::escapeString(UTF8::lessenAsEncoding($name, 255));
 	DBQuery::query("INSERT INTO {$database['prefix']}Plugins VALUES (".getBlogId().", '$name', null)");
 	$result = mysql_affected_rows();
 	clearPluginSettingCache();
@@ -60,7 +60,7 @@ function deactivatePlugin($name) {
 	if (!in_array($name, $activePlugins))
 		return false;
 	$pluginName = $name;
-	$name = tc_escape_string($name);
+	$name = DBQuery::escapeString($name);
 	DBQuery::query("DELETE FROM {$database['prefix']}Plugins 
 			WHERE blogid = ".getBlogId()."
 				AND name = '$name'");
@@ -92,8 +92,8 @@ function updatePluginConfig( $name , $setVal) {
 	if (!in_array($name, $activePlugins))
 		return false;
 	$pluginName = $name;
-	$name = tc_escape_string( UTF8::lessenAsEncoding($name, 255) ) ;
-	$setVal = tc_escape_string( $setVal ) ;
+	$name = DBQuery::escapeString( UTF8::lessenAsEncoding($name, 255) ) ;
+	$setVal = DBQuery::escapeString( $setVal ) ;
 	DBQuery::query(
 		"UPDATE {$database['prefix']}Plugins 
 			SET settings = '$setVal' 
@@ -169,12 +169,12 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 		$value = $plugin;
 		$result = getServiceSetting($keyname, null);
 		if (is_null($result)) {
-			$keyname = tc_escape_string(UTF8::lessenAsEncoding($keyname, 32));
-			$value = tc_escape_string(UTF8::lessenAsEncoding($plugin . '/' . $version , 255));
+			$keyname = DBQuery::escapeString(UTF8::lessenAsEncoding($keyname, 32));
+			$value = DBQuery::escapeString(UTF8::lessenAsEncoding($plugin . '/' . $version , 255));
 			DBQuery::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value'");
 		} else {
-			$keyname = tc_escape_string(UTF8::lessenAsEncoding($keyname, 32));
-			$value = tc_escape_string(UTF8::lessenAsEncoding($plugin . '/' . $version , 255));
+			$keyname = DBQuery::escapeString(UTF8::lessenAsEncoding($keyname, 32));
+			$value = DBQuery::escapeString(UTF8::lessenAsEncoding($plugin . '/' . $version , 255));
 			$values = explode('/', $result, 2);
 			if (strcmp($plugin, $values[0]) != 0) { // diff plugin
 				return false; // nothing can be done
@@ -200,7 +200,7 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 				}
 			}
 			$isNull = ($field['isnull'] == 0) ? ' NOT NULL ' : ' NULL ';
-			$defaultValue = is_null($field['default']) ? '' : " DEFAULT '" . tc_escape_string($field['default']) . "' ";
+			$defaultValue = is_null($field['default']) ? '' : " DEFAULT '" . DBQuery::escapeString($field['default']) . "' ";
 			$fieldLength = ($field['length'] >= 0) ? "(".$field['length'].")" : '';
 			$sentence = $field['name'] . " " . $field['attribute'] . $fieldLength . $isNull . $defaultValue . $ai . ",";
 			$query .= $sentence;
@@ -212,8 +212,8 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 		$query .= ") TYPE=MyISAM ";
 		$query .= ($database['utf8'] == true) ? 'DEFAULT CHARSET=utf8' : '';
 		if (DBQuery::execute($query)) {
-				$keyname = tc_escape_string(UTF8::lessenAsEncoding('Database_' . $name, 32));
-				$value = tc_escape_string(UTF8::lessenAsEncoding($plugin . '/' . $version , 255));
+				$keyname = DBQuery::escapeString(UTF8::lessenAsEncoding('Database_' . $name, 32));
+				$value = DBQuery::escapeString(UTF8::lessenAsEncoding($plugin . '/' . $version , 255));
 				DBQuery::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value'");
 			return true;
 		}
@@ -225,7 +225,7 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 
 function clearPluginTable($name) {
 	global $database;
-	$name = tc_escape_string($name);
+	$name = DBQuery::escapeString($name);
 	DBQuery::query("DELETE FROM {$database['prefix']}{$name} WHERE blogid = ".getBlogId());
 	return (mysql_affected_rows() == 1);
 }
@@ -233,7 +233,7 @@ function clearPluginTable($name) {
 function deletePluginTable($name) {
 	global $database;
 	if(getBlogId() !== 0) return false;
-	$name = tc_escape_string($name);
+	$name = DBQuery::escapeString($name);
 	DBQuery::query("DROP {$database['prefix']}{$name}");
 	return true;
 }

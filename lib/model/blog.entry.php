@@ -153,7 +153,7 @@ function getEntryListWithPagingByTag($blogid, $tag, $page, $count) {
 	global $database, $suri, $folderURL;
 	if ($tag === null)
 		return array(array(), array('url'=>'','prefix'=>'','postfix'=>''));	
-	$tag = tc_escape_string($tag);
+	$tag = DBQuery::escapeString($tag);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$sql = "SELECT e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published
 		FROM {$database['prefix']}Entries e 
@@ -223,7 +223,7 @@ function getEntriesWithPagingByTag($blogid, $tag, $page, $count, $countItem = nu
 	global $database, $folderURL, $suri;
 	if ($tag === null)
 		return fetchWithPaging(null, $page, $count, "$folderURL/{$suri['value']}");
-	$tag = tc_escape_string($tag);
+	$tag = DBQuery::escapeString($tag);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e
@@ -389,7 +389,7 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false) {
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid 
-			AND e.slogan = '".tc_escape_string($slogan)."' 
+			AND e.slogan = '".DBQuery::escapeString($slogan)."' 
 			AND e.draft = 0 $visibility AND $category");
 
 	$result = DBQuery::query("SELECT e.id, e.slogan 
@@ -469,8 +469,8 @@ function addEntry($blogid, $entry) {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
 	}
 
-	$slogan = tc_escape_string(UTF8::lessenAsEncoding($slogan, 255));
-	$title = tc_escape_string($entry['title']);
+	$slogan = DBQuery::escapeString(UTF8::lessenAsEncoding($slogan, 255));
+	$title = DBQuery::escapeString($entry['title']);
 
 	if($entry['category'] == -1) {
 		if($entry['visibility'] == 1 || $entry['visibility'] == 3)
@@ -491,15 +491,15 @@ function addEntry($blogid, $entry) {
 	for ($i = 1; $result > 0; $i++) {
 		if ($i > 1000)
 			return false;
-		$slogan = tc_escape_string(UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i);
+		$slogan = DBQuery::escapeString(UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i);
 		$result = DBQuery::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
 	}
 	$userid = $entry['userid'];
-	$content = tc_escape_string($entry['content']);
-	$contentFormatter = tc_escape_string($entry['contentFormatter']);
-	$contentEditor = tc_escape_string($entry['contentEditor']);
-	$password = tc_escape_string(generatePassword());
-	$location = tc_escape_string($entry['location']);
+	$content = DBQuery::escapeString($entry['content']);
+	$contentFormatter = DBQuery::escapeString($entry['contentFormatter']);
+	$contentEditor = DBQuery::escapeString($entry['contentEditor']);
+	$password = DBQuery::escapeString(generatePassword());
+	$location = DBQuery::escapeString($entry['location']);
 	if (isset($entry['published']) && is_numeric($entry['published']) && ($entry['published'] >= 2)) {
 		$published = $entry['published'];
 		$entry['visibility'] = 0 - $entry['visibility'];
@@ -574,8 +574,8 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	} else {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
 	}
-	$slogan = tc_escape_string(UTF8::lessenAsEncoding($slogan, 255));
-	$title = tc_escape_string($entry['title']);
+	$slogan = DBQuery::escapeString(UTF8::lessenAsEncoding($slogan, 255));
+	$title = DBQuery::escapeString($entry['title']);
 
 	if($entry['category'] == -1) {
 		if($entry['visibility'] == 1 || $entry['visibility'] == 3)
@@ -610,17 +610,17 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 		for ($i = 1; $result > 0; $i++) {
 			if ($i > 1000)
 				return false;
-			$slogan = tc_escape_string(UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i);
+			$slogan = DBQuery::escapeString(UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i);
 			$result = DBQuery::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
 		}
 	}
 	$tags = getTagsWithEntryString($entry['tag']);
 	modifyTagsWithEntryId($blogid, $entry['id'], $tags);
 	
-	$location = tc_escape_string($entry['location']);
-	$content = tc_escape_string($entry['content']);
-	$contentFormatter = tc_escape_string($entry['contentFormatter']);
-	$contentEditor = tc_escape_string($entry['contentEditor']);
+	$location = DBQuery::escapeString($entry['location']);
+	$content = DBQuery::escapeString($entry['content']);
+	$contentFormatter = DBQuery::escapeString($entry['contentFormatter']);
+	$contentEditor = DBQuery::escapeString($entry['contentEditor']);
 	switch ($entry['published']) {
 		case 0:
 			$published = 'published';
@@ -704,8 +704,8 @@ function saveDraftEntry($blogid, $entry) {
 	} else {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
 	}
-	$slogan = tc_escape_string(UTF8::lessenAsEncoding($slogan, 255));
-	$title = tc_escape_string($entry['title']);
+	$slogan = DBQuery::escapeString(UTF8::lessenAsEncoding($slogan, 255));
+	$title = DBQuery::escapeString($entry['title']);
 
 	if($entry['category'] == -1) {
 		if($entry['visibility'] == 1 || $entry['visibility'] == 3)
@@ -739,17 +739,17 @@ function saveDraftEntry($blogid, $entry) {
 		for ($i = 1; $result != false; $i++) {
 			if ($i > 1000)
 				return false;
-			$slogan = tc_escape_string(UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i);
+			$slogan = DBQuery::escapeString(UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i);
 			$result = DBQuery::queryExistence("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
 		}
 	}
 	$tags = getTagsWithEntryString($entry['tag']);
 	modifyTagsWithEntryId($blogid, $entry['id'], $tags);
 	
-	$location = tc_escape_string($entry['location']);
-	$content = tc_escape_string($entry['content']);
-	$contentFormatter = tc_escape_string($entry['contentFormatter']);
-	$contentEditor = tc_escape_string($entry['contentEditor']);
+	$location = DBQuery::escapeString($entry['location']);
+	$content = DBQuery::escapeString($entry['content']);
+	$contentFormatter = DBQuery::escapeString($entry['contentFormatter']);
+	$contentEditor = DBQuery::escapeString($entry['contentEditor']);
 	switch ($entry['published']) {
 		case 0:
 			$published = 'published';
@@ -939,7 +939,7 @@ function setEntryVisibility($id, $visibility) {
 
 function protectEntry($id, $password) {
 	global $database;
-	$password = tc_escape_string($password);
+	$password = DBQuery::escapeString($password);
 	$result = DBQuery::query("UPDATE {$database['prefix']}Entries SET password = '$password', modified = UNIX_TIMESTAMP() WHERE blogid = ".getBlogId()." AND id = $id AND visibility = 1");
 	return ($result && (mysql_affected_rows() > 0));
 }
@@ -1052,7 +1052,7 @@ function getEntryIdBySlogan($blogid, $slogan) {
 	$result = DBQuery::queryCell("SELECT id
 		FROM {$database['prefix']}Entries 
 		WHERE blogid = $blogid 
-			AND slogan = '".tc_escape_string($slogan)."'");
+			AND slogan = '".DBQuery::escapeString($slogan)."'");
 	if(!$result) return false;
 	else return $result;
 }

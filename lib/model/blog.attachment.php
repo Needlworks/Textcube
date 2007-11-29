@@ -61,7 +61,7 @@ function getAttachmentByOnlyName($blogid, $name) {
 		return $result;
 	} else {
 		$newAttachment = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Attachments 
-			WHERE blogid = $blogid AND name = '".tc_escape_string($name)."'");
+			WHERE blogid = $blogid AND name = '".DBQuery::escapeString($name)."'");
 		array_push($__gCacheAttachment,$newAttachment);
 		return $newAttachment;
 	}
@@ -71,7 +71,7 @@ function getAttachmentByLabel($blogid, $parent, $label) {
 	global $database;
 	if ($parent === false)
 		$parent = 0;
-	$label = tc_escape_string($label);
+	$label = DBQuery::escapeString($label);
 	return DBQuery::queryRow("SELECT * FROM {$database['prefix']}Attachments WHERE blogid = $blogid AND parent = $parent AND label = '$label'");
 }
 
@@ -96,7 +96,7 @@ function addAttachment($blogid, $parent, $file) {
 	global $database;	
 	if (empty($file['name']) || ($file['error'] != 0))
 		return false;
-	$filename = tc_escape_string($file['name']);
+	$filename = DBQuery::escapeString($file['name']);
 	if (DBQuery::queryCell("SELECT count(*) 
 		FROM {$database['prefix']}Attachments 
 		WHERE blogid=$blogid 
@@ -140,8 +140,8 @@ function addAttachment($blogid, $parent, $file) {
 	if (!move_uploaded_file($file['tmp_name'], $attachment['path']))
 		return false;
 	@chmod($attachment['path'], 0666);
-	$name = tc_escape_string($attachment['name']);
-	$label = tc_escape_string(UTF8::lessenAsEncoding($attachment['label'], 64));
+	$name = DBQuery::escapeString($attachment['name']);
+	$label = DBQuery::escapeString(UTF8::lessenAsEncoding($attachment['label'], 64));
 	$attachment['mime'] = UTF8::lessenAsEncoding($attachment['mime'], 32);
 	
 	$result = DBQuery::execute("insert into {$database['prefix']}Attachments values ($blogid, {$attachment['parent']}, '$name', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
@@ -158,7 +158,7 @@ function deleteAttachment($blogid, $parent, $name) {
 	if (!Validator::filename($name)) 
 		return false;
 	$origname = $name;
-	$name = tc_escape_string($name);
+	$name = DBQuery::escapeString($name);
 	if (DBQuery::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid AND name = '$name'")) {
 		@unlink(ROOT . "/attach/$blogid/$origname");
 		clearRSS();
@@ -227,7 +227,7 @@ function deleteAttachmentMulti($blogid, $parent, $names) {
 		if (!Validator::filename($name)) 
 			continue;
 		$origname = $name;
-		$name = tc_escape_string($name);
+		$name = DBQuery::escapeString($name);
 		if (DBQuery::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid AND parent = $parent AND name = '$name'")) {
 			unlink(ROOT . "/attach/$blogid/$origname");
 		} else {
@@ -248,7 +248,7 @@ function deleteAttachments($blogid, $parent) {
 function downloadAttachment($name) {
 	requireModel('blog.rss');
 	global $database;
-	$name = tc_escape_string($name);
+	$name = DBQuery::escapeString($name);
 	DBQuery::query("UPDATE {$database['prefix']}Attachments SET downloads = downloads + 1 WHERE blogid = ".getBlogId()." AND name = '$name'");
 }
 
@@ -256,7 +256,7 @@ function setEnclosure($name, $order) {
 	global $database;
 	requireModel('blog.rss');
 	requireModel('blog.attachment');
-	$name = tc_escape_string($name);
+	$name = DBQuery::escapeString($name);
 	if (($parent = DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND name = '$name'")) !== null) {
 		DBQuery::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 0 WHERE parent = $parent AND blogid = ".getBlogId());
 		if ($order) {

@@ -6,7 +6,7 @@
 function setTreeSetting($blogid, $setting) {
 	global $database;
 	foreach ($setting as $key => $value)
-		$setting[$key] = tc_escape_string($value);
+		$setting[$key] = DBQuery::escapeString($value);
 	$sql = "
 	UPDATE {$database['prefix']}SkinSettings
 	SET 
@@ -256,7 +256,7 @@ function setSkinSetting($blogid, $setting) {
 		$useRelTag = '0';
 
 	foreach ($setting as $key => $value) {
-		$setting[$key] = tc_escape_string($value);
+		$setting[$key] = DBQuery::escapeString($value);
 	}
 	$sql = "
 	UPDATE {$database['prefix']}SkinSettings 

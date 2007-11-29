@@ -112,11 +112,11 @@ if ($result = DBQuery::query("SELECT id, name, parent, homepage, comment, entry,
 		setProgress($item++ / $items * 100, _t('댓글과 방명록 데이터를 교정하고 있습니다.'));
 		$correction = '';
 		if (!UTF8::validate($comment['name']))
-			$correction .= ' name = \'' . tc_escape_string(UTF8::correct($comment['name'], '?')) . '\'';
+			$correction .= ' name = \'' . DBQuery::escapeString(UTF8::correct($comment['name'], '?')) . '\'';
 		if (!UTF8::validate($comment['homepage']))
-			$correction .= ' homepage = \'' . tc_escape_string(UTF8::correct($comment['homepage'], '?')) . '\'';
+			$correction .= ' homepage = \'' . DBQuery::escapeString(UTF8::correct($comment['homepage'], '?')) . '\'';
 		if (!UTF8::validate($comment['comment']))
-			$correction .= ' comment = \'' . tc_escape_string(UTF8::correct($comment['comment'], '?')) . '\'';
+			$correction .= ' comment = \'' . DBQuery::escapeString(UTF8::correct($comment['comment'], '?')) . '\'';
 		if (strlen($correction) > 0) {
 			DBQuery::query("UPDATE {$database['prefix']}Comments SET $correction WHERE blogid = $blogid AND id = {$comment['id']}");
 			$corrected++;
@@ -137,13 +137,13 @@ if ($result = DBQuery::query("SELECT id, url, site, subject, excerpt FROM {$data
 		setProgress($item++ / $items * 100, _t('걸린 글 데이터를 교정하고 있습니다.'));
 		$correction = '';
 		if (!UTF8::validate($trackback['url']))
-			$correction .= ' url = \'' . tc_escape_string(UTF8::correct($trackback['url'], '?')) . '\'';
+			$correction .= ' url = \'' . DBQuery::escapeString(UTF8::correct($trackback['url'], '?')) . '\'';
 		if (!UTF8::validate($trackback['site']))
-			$correction .= ' site = \'' . tc_escape_string(UTF8::correct($trackback['site'], '?')) . '\'';
+			$correction .= ' site = \'' . DBQuery::escapeString(UTF8::correct($trackback['site'], '?')) . '\'';
 		if (!UTF8::validate($trackback['subject']))
-			$correction .= ' subject = \'' . tc_escape_string(UTF8::correct($trackback['subject'], '?')) . '\'';
+			$correction .= ' subject = \'' . DBQuery::escapeString(UTF8::correct($trackback['subject'], '?')) . '\'';
 		if (!UTF8::validate($trackback['excerpt']))
-			$correction .= ' excerpt = \'' . tc_escape_string(UTF8::correct($trackback['excerpt'], '?')) . '\'';
+			$correction .= ' excerpt = \'' . DBQuery::escapeString(UTF8::correct($trackback['excerpt'], '?')) . '\'';
 		if (strlen($correction) > 0) {
 			DBQuery::query("UPDATE {$database['prefix']}Trackbacks SET $correction WHERE blogid = $blogid AND id = {$trackback['id']}");
 			$corrected++;

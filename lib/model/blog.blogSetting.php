@@ -217,8 +217,8 @@ function setGuestbook($blogid, $write, $comment) {
 function changeSetting($userid, $email, $nickname) {
 	global $database;
 	if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return false;
-	$email = tc_escape_string(UTF8::lessenAsEncoding($email, 64));
-	$nickname = tc_escape_string(UTF8::lessenAsEncoding($nickname, 32));
+	$email = DBQuery::escapeString(UTF8::lessenAsEncoding($email, 64));
+	$nickname = DBQuery::escapeString(UTF8::lessenAsEncoding($nickname, 32));
 	if ($email == '' || $nickname == '') {
 		return false;
 	}
@@ -240,8 +240,8 @@ function addUser($email, $name) {
 
 	if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return 11;
 
-	$loginid = tc_escape_string(UTF8::lessenAsEncoding($email, 64));	
-	$name = tc_escape_string(UTF8::lessenAsEncoding($name, 32));
+	$loginid = DBQuery::escapeString(UTF8::lessenAsEncoding($email, 64));	
+	$name = DBQuery::escapeString(UTF8::lessenAsEncoding($name, 32));
 	$password = generatePassword();
 	$authtoken = md5(generatePassword());
 
@@ -287,7 +287,7 @@ function addBlog($blogid, $userid, $identify) {
 	} else { // If no blogid, create a new blog.
 		if (!preg_match('/^[a-zA-Z0-9]+$/', $identify))
 			return 4; // Wrong Blog name
-		$identify = tc_escape_string(UTF8::lessenAsEncoding($identify, 32));
+		$identify = DBQuery::escapeString(UTF8::lessenAsEncoding($identify, 32));
 
 		$blogName = $identify;
 
@@ -305,7 +305,7 @@ function addBlog($blogid, $userid, $identify) {
 		}
 		$blogid = DBQuery::queryCell("SELECT max(blogid)
 			FROM `{$database['prefix']}BlogSettings`") + 1;
-		$baseTimezone = tc_escape_string($service['timezone']);
+		$baseTimezone = DBQuery::escapeString($service['timezone']);
 		$basicInformation = array(
 			'name'         => $identify,
 			'defaultDomain'            => 0,
@@ -403,8 +403,8 @@ function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $sen
 
 	if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return 11;
 
-	$loginid = tc_escape_string(UTF8::lessenAsEncoding($email, 64));	
-	$name = tc_escape_string(UTF8::lessenAsEncoding($name, 32));
+	$loginid = DBQuery::escapeString(UTF8::lessenAsEncoding($email, 64));	
+	$name = DBQuery::escapeString(UTF8::lessenAsEncoding($name, 32));
 
 	$headers = 'From: ' . encodeMail($senderName) . '<' . $senderEmail . ">\n" . 'X-Mailer: ' . TEXTCUBE_NAME . "\n" . "MIME-Version: 1.0\nContent-Type: text/html; charset=utf-8\n";
 	if (empty($name))
