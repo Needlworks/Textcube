@@ -770,7 +770,9 @@ printEntryFileUploadButton($entry['id']);
 									</div>
 
 									<hr class="hidden" />
-									
+<?php
+if($entry['category'] != -4) {
+?>
 									<div id="power-section" class="section">
 										<div id="power-container" class="container">
 											<dl id="permalink-line" class="line"<?php if($isKeyword) echo _t('style="display: none"');?>>
@@ -802,7 +804,7 @@ if (defined('__TEXTCUBE_POST__')) {
 												</dd>
 											</dl>
 <?php
-$countResult = DBQuery::queryExistence("SELECT `id` FROM `{$database['prefix']}Entries` WHERE `blogid` = ".getBlogId()." AND `visibility` = 3");
+	$countResult = DBQuery::queryExistence("SELECT `id` FROM `{$database['prefix']}Entries` WHERE `blogid` = ".getBlogId()." AND `visibility` = 3");
 ?>
 											<dl id="status-line" class="line">
 												<dt><span class="label"><?php echo _t('공개여부');?></span></dt>
@@ -824,6 +826,8 @@ $countResult = DBQuery::queryExistence("SELECT `id` FROM `{$database['prefix']}E
 										</div>
 									</div>
 <?php
+}
+
 if (isset($_GET['popupEditor'])) {
 ?>
 									<div class="button-box two-button-box">
