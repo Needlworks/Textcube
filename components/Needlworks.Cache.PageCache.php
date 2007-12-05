@@ -135,7 +135,7 @@ class pageCache {
 		$result = DBQuery::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog 
 			WHERE blogid = ".getBlogId()."
 			AND name = '".tc_escape_string($this->realName)."'");
-		if($result !== false) {
+		if($result !== null) {
 			$this->_dbContents = unserialize($result);
 			if(doesHaveOwnership()) $this->dbContents = isset($this->_dbContents['owner']) ? $this->_dbContents['owner'] : null;
 			else $this->dbContents = isset($this->_dbContents['user']) ? $this->_dbContents['user'] : null;
