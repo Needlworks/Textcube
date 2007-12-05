@@ -103,8 +103,8 @@ class Filter {
 	/*@static@*/
 	function isFiltered($type, $value) {
 		global $database;
-		$type = tc_escape_string($type);
-		$value = tc_escape_string($value);
+		$type = DBQuery::escapeString($type);
+		$value = DBQuery::escapeString($value);
 		return DBQuery::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = '$type' AND '$value' LIKE CONCAT('%', pattern, '%')");
 	}
 	

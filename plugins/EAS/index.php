@@ -21,7 +21,7 @@ function EAS_Call($type, $name, $title, $url, $content)
 		if ($type == 2) // Trackback Case
 		{
 			$sql = 'SELECT COUNT(id) as cc FROM ' . $database['prefix'] . 'Trackbacks WHERE';
-			$sql .= ' url = \'' . tc_escape_string($url) . '\'';
+			$sql .= ' url = \'' . DBQuery::escapeString($url) . '\'';
 			$sql .= ' AND isFiltered > 0';
 			
 			if ($result = DBQuery::query($sql)) {
@@ -33,9 +33,9 @@ function EAS_Call($type, $name, $title, $url, $content)
 			$tableName = $database['prefix'] . 'Comments';	
 
 			$sql = 'SELECT COUNT(id) as cc FROM ' . $database['prefix'] . 'Comments WHERE';
-			$sql .= ' comment = \'' . tc_escape_string($content) . '\'';
-			$sql .= ' AND homepage = \'' . tc_escape_string($url) . '\'';
-			$sql .= ' AND name = \'' . tc_escape_string($name) . '\'';
+			$sql .= ' comment = \'' . DBQuery::escapeString($content) . '\'';
+			$sql .= ' AND homepage = \'' . DBQuery::escapeString($url) . '\'';
+			$sql .= ' AND name = \'' . DBQuery::escapeString($name) . '\'';
 			$sql .= ' AND isFiltered > 0';
 			
 			if ($result = mysql_query($sql)) {
@@ -46,7 +46,7 @@ function EAS_Call($type, $name, $title, $url, $content)
 
 		// Check IP
 		$sql = 'SELECT COUNT(id) as cc FROM ' . $tableName . ' WHERE';
-		$sql .= ' ip = \'' . tc_escape_string($_SERVER['REMOTE_ADDR']) . '\'';
+		$sql .= ' ip = \'' . DBQuery::escapeString($_SERVER['REMOTE_ADDR']) . '\'';
 		$sql .= ' AND isFiltered > 0';
 
 		if ($result = mysql_query($sql)) {

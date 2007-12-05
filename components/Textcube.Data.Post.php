@@ -284,7 +284,7 @@ class Post {
 		$slogan0 = UTF8::lessenAsEncoding($slogan0, 255);
 
 		for ($i = 1; $i < 1000; $i++) {
-			$checkSlogan = tc_escape_string($this->slogan);
+			$checkSlogan = DBQuery::escapeString($this->slogan);
 			$query->setAttribute('slogan', $checkSlogan, false);
 			if (!DBQuery::queryExistence(
 				"SELECT id FROM {$database['prefix']}Entries " 
@@ -589,7 +589,7 @@ class Post {
 			while ($target = mysql_fetch_array($targetresult)) {
 				$oldtag = DBQuery::queryRow("SELECT id, name FROM {$database['prefix']}Tags WHERE id = {$target['tag']}");
 				if ($oldtag != null) {		
-					$tagid = DBQuery::queryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '" . tc_escape_string($oldtag['name']) . "' LIMIT 1 ");
+					$tagid = DBQuery::queryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '" . DBQuery::escapeString($oldtag['name']) . "' LIMIT 1 ");
 					if ($tagid == null) { 
 						DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
 					} else {

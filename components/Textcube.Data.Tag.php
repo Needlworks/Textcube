@@ -24,7 +24,7 @@ class Tag {
 
 		$taglist = array();
 		foreach($tmptaglist as $tag) {
-			$tag = tc_escape_string(UTF8::lessenAsEncoding(trim($tag), 255));
+			$tag = DBQuery::escapeString(UTF8::lessenAsEncoding(trim($tag), 255));
 			array_push($taglist, $tag);
 		}
 
@@ -70,7 +70,7 @@ class Tag {
 		$tmptaglist = array_filter($taglist, 'Tag_removeEmptyTagHelper');
 		$taglist = array();
 		foreach($tmptaglist as $tag) {
-			$tag = tc_escape_string(trim($tag));
+			$tag = DBQuery::escapeString(trim($tag));
 			array_push($taglist, $tag);
 		}
 		
@@ -85,7 +85,7 @@ class Tag {
 			$tmpoldtaglist = array();
 		$oldtaglist = array();
 		foreach($tmpoldtaglist as $tag) {
-			$tag = tc_escape_string(UTF8::lessenAsEncoding(trim($tag), 255));
+			$tag = DBQuery::escapeString(UTF8::lessenAsEncoding(trim($tag), 255));
 			array_push($oldtaglist, $tag);
 		}
 		

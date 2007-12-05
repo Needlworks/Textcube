@@ -90,8 +90,8 @@ class Statistics {
 						return;
 					if (!fireEvent('AddingRefererLog', true, array('host' => $referer['host'], 'url' => $_SERVER['HTTP_REFERER'])))
 						return;
-					$host = tc_escape_string(UTF8::lessenAsEncoding($referer['host'], 64));
-					$url = tc_escape_string(UTF8::lessenAsEncoding($_SERVER['HTTP_REFERER'], 255));
+					$host = DBQuery::escapeString(UTF8::lessenAsEncoding($referer['host'], 64));
+					$url = DBQuery::escapeString(UTF8::lessenAsEncoding($_SERVER['HTTP_REFERER'], 255));
 					mysql_query("insert into {$database['prefix']}RefererLogs values($blogid, '$host', '$url', UNIX_TIMESTAMP())");
 					mysql_query("delete from {$database['prefix']}RefererLogs where referred < UNIX_TIMESTAMP() - 604800");
 					if (!mysql_query("update {$database['prefix']}RefererStatistics set count = count + 1 where blogid = $blogid and host = '$host'") || (mysql_affected_rows() == 0))

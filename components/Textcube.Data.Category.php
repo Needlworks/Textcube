@@ -156,7 +156,7 @@ class Category {
 		global $database;
 		if (empty($label))
 			return null;
-		return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND label = '" . tc_escape_string($label) . "'");
+		return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND label = '" . DBQuery::escapeString($label) . "'");
 	}
 	
 	/*@static@*/

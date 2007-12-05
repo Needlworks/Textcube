@@ -343,7 +343,7 @@ class Auth {
 		global $database;
 
 		Acl::clearAcl();
-		$loginid = tc_escape_string($loginid);
+		$loginid = DBQuery::escapeString($loginid);
 
 		$blogApiPassword = getBlogSetting("blogApiPassword", "");
 
@@ -351,14 +351,14 @@ class Auth {
 			$userid=getUserIdByEmail($loginid);
 			$authtoken = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
 			if (!empty($authtoken)) {
-				$password = tc_escape_string($password);
+				$password = DBQuery::escapeString($password);
 				$secret = '(`password` = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $authtoken . '\')';
 			}
 			else {
 				$secret = '`password` = \'' . md5($password) . '\'';
 			}
 		} else if( $blogapi && !empty($blogApiPassword) ) {
-			$password = tc_escape_string($password);
+			$password = DBQuery::escapeString($password);
 			$secret = '(`password` = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $blogApiPassword . '\')';
 		} else {
 			$secret = '`password` = \'' . md5($password) . '\'';

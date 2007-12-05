@@ -104,7 +104,7 @@ class Link {
 		global $database;
 		if (empty($url))
 			return null;
-		return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Links WHERE blogid = ".getBlogId()." AND url = '" . tc_escape_string($url) . "'");
+		return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Links WHERE blogid = ".getBlogId()." AND url = '" . DBQuery::escapeString($url) . "'");
 	}
 	
 	/*@static@*/

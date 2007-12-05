@@ -88,9 +88,9 @@ function openid_session_write()
 		return false;
 
 	$data = serialize( $openid_session );
-	$server = tc_escape_string($_SERVER['HTTP_HOST']);
-	$request = tc_escape_string($_SERVER['REQUEST_URI']);
-	$referer = isset($_SERVER['HTTP_REFERER']) ? tc_escape_string($_SERVER['HTTP_REFERER']) : '';
+	$server = DBQuery::escapeString($_SERVER['HTTP_HOST']);
+	$request = DBQuery::escapeString($_SERVER['REQUEST_URI']);
+	$referer = isset($_SERVER['HTTP_REFERER']) ? DBQuery::escapeString($_SERVER['HTTP_REFERER']) : '';
 	$timer = getMicrotimeAsFloat() - $sessionMicrotime;
 	$result = DBQuery::query("UPDATE {$database['prefix']}Sessions SET data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() WHERE id = '$openid_session_id' AND address = '" . _openid_ip_address() . "'");
 

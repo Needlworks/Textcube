@@ -264,7 +264,7 @@ function getTeamContentsSave($target){
 				respondResultPage(0);
 			}
 		}else if($flag == "profile"){
-			$profile = tc_escape_string(UTF8::lessenAsEncoding($profile, 65535));
+			$profile = DBQuery::escapeString(UTF8::lessenAsEncoding($profile, 65535));
 			if(DBQuery::execute("UPDATE {$database['prefix']}TeamUserSettings SET profile=\"{$profile}\", updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
 				respondResultPage(0);
 			}
