@@ -969,13 +969,20 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 	
 	// image resampling
 	if ($useImageResampling == true) {
-		preg_match_all("@<img.+src=['\"](.+)['\"].*/>@Usi", $view, $images, PREG_SET_ORDER);
-		$view = preg_replace("@<img.+src=['\"](.+)['\"].*/>@Usi", '[#####_#####_#####_image_#####_#####_#####]', $view);
-		
+		preg_match_all("@<img.+src=['\"](.+)['\"](.*)/>@Usi", $view, $images, PREG_SET_ORDER);
+		$view = preg_replace("@<img.+src=['\"].+['\"].*/>@Usi", '[#####_#####_#####_image_#####_#####_#####]', $view);
+		$contentWidth = getContentWidth();
+			
 		if (count($images) > 0) {
 			for ($i=0; $i<count($images); $i++) {
 				$tempFileName = array_pop(explode('/', $images[$i][1]));
-				$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', resampleImage($images[$i][0], ROOT . "/attach/{$blogid}/{$tempFileName}", $useAbsolutePath), $view, 1);
+				$tempAttributes = getAttributesFromString($images[$i][2], false);
+				if (!isset($tempAttributes['width']) || $tempAttributes['width'] > $contentWidth)
+					$newImage = resampleImage($images[$i][0], ROOT . "/attach/{$blogid}/{$tempFileName}", $useAbsolutePath);
+				else
+					$newImage = $images[$i][0];
+
+				$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', $newImage, $view, 1);
 			}
 		}
 	}
