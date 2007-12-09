@@ -61,7 +61,6 @@ function addOpenID()
 			}
 		}
 	}
-	fireEvent("OpenIDSetUserId", $currentOpenID);
 
 	echo "<html><head><script type=\"text/javascript\">//<![CDATA[".CRLF
 		."alert('" . _t('추가하였습니다.') . " : " . $currentOpenID . "'); document.location.href='" . $blogURL . "/owner/setting/account'; //]]></script></head></html>";
@@ -76,7 +75,6 @@ function deleteOpenID($openidForDel)
 		$openid = getUserSetting( "openid." . $i );
 		if( $openid == $openidForDel ) {
 			removeUserSetting( "openid." . $i );
-			fireEvent("OpenIDResetUserId", $openidForDel);
 			break;
 		}
 	}

@@ -161,7 +161,7 @@ alert("Session creation error' . $openid_session_id . '");
 	}
 }
 
-function _openid_update_id($openid,$delegatedid,$nickname,$homepage=null,$userid=null)
+function _openid_update_id($openid,$delegatedid,$nickname,$homepage=null)
 {
 	global $database, $blogid;
 	global $openid_session;
@@ -172,10 +172,7 @@ function _openid_update_id($openid,$delegatedid,$nickname,$homepage=null,$userid
 	$result = DBQuery::queryCell($query);
 
 	if (is_null($result)) {
-		if( $userid === null ) {
-			$userid = '';
-		}
-		$data = serialize( array( 'nickname' => $nickname, 'homepage' => $homepage, 'acl' => $userid ) );
+		$data = serialize( array( 'nickname' => $nickname, 'homepage' => $homepage ) );
 		$openid_session['nickname'] = $nickname;
 		$openid_session['homepage'] = $homepage;
 
@@ -186,14 +183,9 @@ function _openid_update_id($openid,$delegatedid,$nickname,$homepage=null,$userid
 
 		if( !empty($nickname) ) $data['nickname'] = $nickname;
 		if( !empty($homepage) ) $data['homepage'] = $homepage;
-		if( $userid !== null ) $data['acl'] = $userid;
 
 		$openid_session['nickname'] = $data['nickname'];
 		$openid_session['homepage'] = $data['homepage'];
-
-		if( !isset($data['acl']) ) {
-			$data['acl'] = '';
-		}
 
 		$data = serialize( $data );
 		DBQuery::execute("update {$database['prefix']}OpenIDUsers set data='{$data}', lastLogin = UNIX_TIMESTAMP(), loginCount = loginCount + 1 where openid = '{$openid}'");
@@ -241,17 +233,16 @@ function _openid_set_acl($openid)
 	Acl::authorize('openid', $openid);
 
 	$blogid = getBlogId();
-	$query = "SELECT * FROM {$database['prefix']}OpenIDUsers WHERE blogid={$blogid} and openid='{$openid}'";
+	$query = "SELECT userid FROM {$database['prefix']}UserSettings WHERE name like 'openid.%' and value='{$openid}' order by userid";
 	$result = DBQuery::queryRow($query);
-	$data = unserialize( $result['data'] );
 
-	if( !isset($data['acl']) ) {
+	if( !$result ) {
 		return;
 	}
 
-	$userid = $data['acl'];
+	$userid = $result['userid'];
 
-	if( empty($userid) || !class_exists( "Acl" ) ) {
+	if( !class_exists( "Acl" ) ) {
 		return;
 	}
 
@@ -354,18 +345,6 @@ function openid_Fetch( $openid, $xrdsuri = false )
 	return $auth_request->endpoint->identity_url;
 }
 
-function openid_SetUserId($openid)
-{
-	_openid_update_id( $openid, null, null, null, getUserId() );
-	return "";
-}
-
-function openid_ResetUserId($openid)
-{
-	_openid_update_id( $openid, null, null, null, "" );
-	return "";
-}
-
 function _openid_try_auth( $openid, $requestURI, $openid_remember, $authenticate_only = '', $need_writers = '' )
 {
 	global $hostURL, $blogURL;
@@ -448,7 +427,7 @@ function openid_finish()
 			_openid_set_acl( $response->identity_url );
 			if( !empty($_GET['need_writers']) ) {
 				if( !Acl::check( 'group.writers') ) {
-					$msg = _text("로그인은 되었습니다만, 관리자 권한이 없는 오픈아이디 입니다") . " : " . $response->identity_url;
+					$msg = _text("관리자 권한이 없는 오픈아이디 입니다") . " : " . $response->identity_url;
 				}
 			}
 			openid_session_write();
