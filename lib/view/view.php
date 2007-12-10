@@ -976,8 +976,8 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 		if (count($images) > 0) {
 			for ($i=0; $i<count($images); $i++) {
 				$tempFileName = array_pop(explode('/', $images[$i][1]));
-				$tempAttributes = getAttributesFromString($images[$i][2], false);
-				if (!isset($tempAttributes['width']) || $tempAttributes['width'] > $contentWidth)
+				$tempInfo = getimagesize(ROOT . "/attach/{$blogid}/{$tempFileName}");
+				if ($tempInfo[0] > $contentWidth)
 					$newImage = resampleImage($images[$i][0], ROOT . "/attach/{$blogid}/{$tempFileName}", $useAbsolutePath);
 				else
 					$newImage = $images[$i][0];
