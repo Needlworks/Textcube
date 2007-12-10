@@ -144,7 +144,7 @@ function getTrackbacksView($entry, $skin, $acceptTrackback) {
 	$trackbacks = getTrackbacks($entry['id']);
 	foreach ($trackbacks as $trackback) {
 		$trackbackView = $skin->trackback;
-		dress('tb_rep_title', htmlspecialchars($trackback['subject']), $trackbackView);
+		dress('tb_rep_title', $trackback['subject'], $trackbackView);
 		dress('tb_rep_site', htmlspecialchars($trackback['site']), $trackbackView);
 		dress('tb_rep_url', htmlspecialchars($trackback['url']), $trackbackView);
 		dress('tb_rep_desc', htmlspecialchars($trackback['excerpt']), $trackbackView);
@@ -976,12 +976,15 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 		if (count($images) > 0) {
 			for ($i=0; $i<count($images); $i++) {
 				$tempFileName = array_pop(explode('/', $images[$i][1]));
-				$tempInfo = getimagesize(ROOT . "/attach/{$blogid}/{$tempFileName}");
-				if ($tempInfo[0] > $contentWidth)
-					$newImage = resampleImage($images[$i][0], ROOT . "/attach/{$blogid}/{$tempFileName}", $useAbsolutePath);
-				else
+				if (file_exists(ROOT . "/attach/{$blogid}/{$tempFileName}")) {
+					$tempInfo = getimagesize(ROOT . "/attach/{$blogid}/{$tempFileName}");
+					if ($tempInfo[0] > $contentWidth)
+						$newImage = resampleImage($images[$i][0], ROOT . "/attach/{$blogid}/{$tempFileName}", $useAbsolutePath);
+					else
+						$newImage = $images[$i][0];
+				} else {
 					$newImage = $images[$i][0];
-
+				}
 				$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', $newImage, $view, 1);
 			}
 		}
