@@ -134,6 +134,7 @@ dd .input-text
 					</div>
 				</div>
         		<input type="hidden" name="requestURI" value="' . $requestURI . '" />
+				<input type="hidden" name="need_writers" value="0" />
 			</form>
 		</div>
 	</div>
@@ -285,14 +286,17 @@ function openid_try_auth()
 
 	if( !empty($_GET['need_writers'])) {
 		$need_writers = '1';
+		$fallback_location = "$blogURL/login";
 	} else {
 		$need_writers = '';
+		$fallback_location = "$blogURL/plugin/openid/login";
 	}
 
 	$openid = $_GET['openid_identifier'];
-	$requestURI = $_GET['requestURI'];
-	if( empty($requestURI) ) {
-		$requestURI = $blogURL;
+	$requestURI = $blogURL;
+
+	if( !empty( $_GET['requestURI'] ) ) {
+		$requestURI = $_GET['requestURI'];
 	}
 
 	if( isset($_GET['openid_cancel']) || isset($_GET['openid_cancel_x']) ) {
@@ -300,10 +304,16 @@ function openid_try_auth()
 		exit(0);
 	}
 
+	$errmsg = "";
 	if (empty($openid)) {
+		$errmsg = _text("오픈아이디를 입력하세요");
+	} else if (strstr($openid, ".") === false) {
+		$errmsg = _text("오픈아이디에 도메인 부분이 없습니다. 예) textcube.idtail.com");
+	}
+	if( $errmsg ) {
 		openid_setcookie( 'openid_auto', 'n' );
-		print "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /></head><body><script type='text/javascript'>//<![CDATA[" . CRLF . "alert('" . _text("오픈ID를 입력하세요") . "');";
-		print "document.location.href='$blogURL/plugin/openid/login?requestURI=" . urlencode($requestURI) . "';//]]>" . CRLF . "</script></body></html>";
+		print "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /></head><body><script type='text/javascript'>//<![CDATA[" . CRLF . "alert('$errmsg');";
+		print "document.location.href='$fallback_location?requestURI=" . urlencode($requestURI) . "';//]]>" . CRLF . "</script></body></html>";
 		exit(0);
 	}
 
@@ -628,14 +638,15 @@ function openid_LOGIN_add_form($target, $requestURI)
 </style>
 	<form method="get" name="openid_form" action="' . $blogURL . '/plugin/openid/try_auth">
 	<div id="openid-temp-wrap">
-		<hr size="1">
+		<hr size="1" />
 		<div id="openid-all-wrap">
 			<div id="openid-field-box">
 				<dl id="openid-line">
-					<dt><label for="loginid">' . _text('관리자 계정과 연결된 오픈아이디') . '</label></dt>
+					<dt><label for="openid_identifier">' . _text('관리자 계정과 연결된 오픈아이디') . '</label></dt>
 
 					<dd><input type="text" class="input-text" id="openid_identifier" name="openid_identifier" value="' . $cookie_openid . '" maxlength="256" /></dd>
-					<input type="submit" class="openid-login-button" id="openid-login-button" name="openid_login" value="' . _text('로그인') . '" />
+					<dd><label>'._text('예) textcube.idtail.com, textcube.myid.net').'</label></dd>
+					<dd><input type="submit" class="openid-login-button" id="openid-login-button" name="openid_login" value="' . _text('로그인') . '" /></dd>
 					<dd id="openid-remember"><input type="checkbox" class="checkbox" id="openid_remember" name="openid_remember" ' . $openid_remember_check. ' /><label for="openid_remember">' . _text('오픈아이디 저장') . '</label></dd>
 					<dd id="openid-help"><a href="' . $openid_help_link . '">' . _text('오픈아이디란?') . '</a> </dd>
 					<dd><a href="' . $openid_signup_link . '">' . _text('오픈아이디 발급하기') . '</a></dd>
