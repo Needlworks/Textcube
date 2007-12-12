@@ -76,6 +76,9 @@ class Comment {
 	
 	function add() {
 		global $database;
+		if (!isset($this->id))
+			$this->id = $this->nextId();
+		else $this->id = $this->nextId($this->id);
 		if (!isset($this->entry))
 			return $this->_error('entry');
 		if (!isset($this->commenter) && !isset($this->name))
@@ -94,7 +97,7 @@ class Comment {
 		
 		if (!$query->insert())
 			return $this->_error('insert');
-		$this->id = $query->id;
+//		$this->id = $query->id;
 		
 		if (isset($this->parent))
 			$this->entry = Comment::getEntry($this->parent);
@@ -122,7 +125,16 @@ class Comment {
 			return null;
 		return DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()." AND id = {$id}");
 	}
-	
+
+	function nextId($id = 0) {
+		global $database;
+		$maxId = DBQuery::queryCell("SELECT max(id) FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId());
+		if($id == 0)
+			return $maxId + 1;
+		else
+			 return ($maxId > $id ? $maxId : $id);
+	}
+
 	function _buildQuery() {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'Comments');
