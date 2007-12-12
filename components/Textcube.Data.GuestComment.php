@@ -78,6 +78,9 @@ class GuestComment {
 	
 	function add() {
 		global $database;
+		if (!isset($this->id))
+			$this->id = $this->nextId();
+		else $this->id = $this->nextId($this->id);
 		if (!isset($this->commenter) && !isset($this->name))
 			return $this->_error('commenter');
 		if (!isset($this->content))
@@ -107,6 +110,15 @@ class GuestComment {
 		$comment = new Comment();
 		if ($comment->open('parent = ' . $this->id))
 			return $comment;
+	}
+	
+	function nextId($id = 0) {
+		global $database;
+		$maxId = DBQuery::queryCell("SELECT max(id) FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId());
+		if($id == 0)
+			return $maxId + 1;
+		else
+			 return ($maxId > $id ? $maxId : $id);
 	}
 	
 	function _buildQuery() {
