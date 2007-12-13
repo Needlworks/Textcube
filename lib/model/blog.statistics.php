@@ -6,15 +6,13 @@
 function getStatistics($blogid) {
 	global $database;
 	$stats = array('total' => 0, 'today' => 0, 'yesterday' => 0);
-	$result = DBQuery::query("select visits from {$database['prefix']}BlogStatistics where blogid = $blogid");
-	if (!empty($result) && mysql_num_rows($result) == 1)
-		list($stats['total']) = mysql_fetch_array($result);
-	$result = DBQuery::query("select visits from {$database['prefix']}DailyStatistics where blogid = $blogid and `date` = " . Timestamp::getDate());
-	if (!empty($result) && mysql_num_rows($result) == 1)
-		list($stats['today']) = mysql_fetch_array($result);
-	$result = DBQuery::query("select visits from {$database['prefix']}DailyStatistics where blogid = $blogid and `date` = " . Timestamp::getDate(time() - 86400));
-	if (!empty($result) && mysql_num_rows($result) == 1)
-		list($stats['yesterday']) = mysql_fetch_array($result);
+	$result = DBQuery::queryCell("SELECT visits FROM {$database['prefix']}BlogStatistics WHERE blogid = $blogid");
+	if (!empty($result)) $stats['total'] = $result;
+	
+	$result = DBQuery::queryColumn("SELECT visits FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid AND `date` in (" . Timestamp::getDate().",".Timestamp::getDate(time()-86400).") ORDER BY date DESC");
+	$stats['today'] = (isset($result[0])) ? $result[0] : 0;
+	$stats['yesterday'] = (isset($result[1])) ? $result[1] : 0;
+
 	return $stats;
 }
 
