@@ -250,7 +250,7 @@ function getPluginTableName() {
 	$dbtables = DBQuery::queryColumn($query);
 
 	$dbCaseInsensitive = getServiceSetting('lowercaseTableNames');
-	if($dbCaseInsensitive == null) {
+	if($dbCaseInsensitive === null) {
 		$result = DBQuery::queryRow("SHOW VARIABLES LIKE 'lower_case_table_names'");
 		$dbCaseInsensitive = ($result['Value'] == 1) ? 1 : 0;
 		setServiceSetting('lowercaseTableNames',$dbCaseInsensitive);

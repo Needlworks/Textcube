@@ -65,7 +65,7 @@ class DBQuery {
 		} else {
 			$result = DBQuery::queryAll($query, $type);
 		}
-		if( $result == null ) {
+		if( is_null($result) ) {
 			return null;
 		}
 		return $result[0][$field];
@@ -78,7 +78,7 @@ class DBQuery {
 		} else {
 			$result = DBQuery::queryAll($query, $type, 1);
 		}
-		if( $result == null ) {
+		if( is_null($result) ) {
 			return null;
 		}
 		return $result[0];
@@ -176,7 +176,7 @@ class DBQuery {
 	
 	function escapeString($string, $link = null){
 		global $__gEscapeTag;
-		if($__gEscapeTag == null) {
+		if(is_null($__gEscapeTag)) {
 			if (function_exists('mysql_real_escape_string') && (mysql_real_escape_string('ㅋ') == 'ㅋ')) {
 				$__gEscapeTag = 'real';
 			} else {

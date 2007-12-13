@@ -556,7 +556,7 @@ class Validator {
 	
 	/*@static@*/
 	function escapeXML($string, $escape = true) {
-		if ($string === null)
+		if (is_null($string))
 			return null;
 		return ($escape ? htmlspecialchars($string) : str_replace('&amp;', '&', preg_replace(array('&quot;', '&lt;', '&gt;'), array('"', '<', '>'), $string)));
 	}
@@ -1060,7 +1060,7 @@ class XMLStruct {
 			}
 			if (strcasecmp($encoding, 'utf-8')) {
 				$xml = UTF8::bring($xml, $encoding);
-				if ($xml === null) {
+				if (is_null($xml)) {
 					$this->error = XML_ERROR_UNKNOWN_ENCODING;
 					return false;
 				}
@@ -1258,7 +1258,7 @@ class XMLStruct {
 			$o = 0;
 			if ($d{strlen($d) - 1} == ']') {
 				@list($d, $o) = explode('[', $d, 2);
-				if ($o === null) {
+				if (is_null($o)) {
 					$null = null;
 					return $null;
 				}
@@ -1289,12 +1289,12 @@ class XMLStruct {
 	}
 	
 	function doesExist($path) {
-		return ($this->selectNode($path) !== null);
+		return (!is_null($this->selectNode($path)));
 	}
 	
 	function getAttribute($path, $name, $default = null) {
 		$n = &$this->selectNode($path);
-		if (($n !== null) && isset($n['.attributes'][$name]))
+		if ((!is_null($n)) && isset($n['.attributes'][$name]))
 			return $n['.attributes'][$name];
 		else
 			return $default;

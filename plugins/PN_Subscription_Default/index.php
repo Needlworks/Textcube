@@ -51,7 +51,7 @@ function PN_Subscription_Default()
 								<dt class="aggregator"><span class="text">구독기</span></dt>
 								<dd class="aggregator"><span class="text"><?php echo sizeof($aggregatorInfo);?> 종류의 구독기 및 크롤러가 구독중입니다.</span></dd>
 								<dt class="lastRSSupdate"><span class="text">최종 RSS 갱신일</span></dt>
-								<dd class="lastRSSupdate"><span class="text"><?php echo misc::getBlogSetting('LatestRSSrefresh',null)!=null ? Timestamp::format5(misc::getBlogSetting('LatestRSSrefresh',null)) : '정보가 갱신되지 않았습니다';?></span></dd>
+								<dd class="lastRSSupdate"><span class="text"><?php echo misc::getBlogSetting('LatestRSSrefresh',null)!==null ? Timestamp::format5(misc::getBlogSetting('LatestRSSrefresh',null)) : '정보가 갱신되지 않았습니다';?></span></dd>
 								<dt class="updatedAggregators"><span class="text">이후 갱신된 RSS 구독기</span></dt>
 								<dd class="updatedAggregators"><span class="text"><?php echo $updatedSubscribers;?></span></dd>
 							</dl>
@@ -323,7 +323,7 @@ function PN_Subscription_Sidebar($target) {
 	requireComponent("Textcube.Function.misc");
 	$count = misc::getBlogSetting('SubscriberCount',null);
 	$text = '<div class="SubscriptionPanel" style="text-align:center">';
-	if($count==null) $text .= '구독 정보 갱신이 필요합니다';
+	if($count===null) $text .= '구독 정보 갱신이 필요합니다';
 	else $text .= $count.'명이 RSS를 구독하고 있습니다.';
 	$text .= '</div>';
 	return $text;

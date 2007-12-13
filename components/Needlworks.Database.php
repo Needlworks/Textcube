@@ -51,10 +51,10 @@ class TableQuery {
 	}
 	
 	function setAttribute($name, $value, $escape = null) {
-		if ($value === null)
+		if (is_null($value))
 			$this->_attributes[$name] = 'NULL';
 		else
-			$this->_attributes[$name] = ($escape === null ? $value : ($escape ? '\'' . DBQuery::escapeString($value) . '\'' : "'" . $value . "'"));
+			$this->_attributes[$name] = (is_null($escape) ? $value : ($escape ? '\'' . DBQuery::escapeString($value) . '\'' : "'" . $value . "'"));
 	}
 	
 	function unsetAttribute($name) {
@@ -78,10 +78,10 @@ class TableQuery {
 	}
 	
 	function setQualifier($name, $value, $escape = null) {
-		if ($value === null)
+		if (is_null($value))
 			$this->_qualifiers[$name] = 'NULL';
 		else
-			$this->_qualifiers[$name] = ($escape === null ? $value : ($escape ? '\'' . DBQuery::escapeString($value) . '\'' : "'" . $value . "'"));
+			$this->_qualifiers[$name] = (is_null($escape) ? $value : ($escape ? '\'' . DBQuery::escapeString($value) . '\'' : "'" . $value . "'"));
 	}
 	
 	function unsetQualifier($name) {

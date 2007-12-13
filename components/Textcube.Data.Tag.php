@@ -14,7 +14,7 @@ class Tag {
 	{
 		global $database;
 		
-		if ($taglist == null)
+		if (is_null($taglist))
 			return;
 			
 		$tmptaglist = array_filter($taglist, 'Tag_removeEmptyTagHelper');
@@ -64,7 +64,7 @@ class Tag {
 	{
 		global $database;
 		
-		if ($taglist == null)
+		if (is_null($taglist))
 			$taglist = array();
 			
 		$tmptaglist = array_filter($taglist, 'Tag_removeEmptyTagHelper');
@@ -81,7 +81,7 @@ class Tag {
 			$toldliststr = implode(', ', $toldlist);
 			$tmpoldtaglist = DBQuery::queryColumn("SELECT name FROM {$database['prefix']}Tags WHERE id IN ( $toldliststr )");
 		}
-		if ($tmpoldtaglist == null)
+		if (is_null($tmpoldtaglist))
 			$tmpoldtaglist = array();
 		$oldtaglist = array();
 		foreach($tmpoldtaglist as $tag) {
@@ -128,13 +128,13 @@ class Tag {
 			// small step, get tag id list
 			$tagliststr =  '\'' . implode('\' , \'', $deletedTagList) . '\'';
 			$t1list = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Tags WHERE name in ( $tagliststr )");
-			if ($t1list == null) 
+			if (is_null($t1list)) 
 				return; // What?
 			$t1liststr = implode(', ', $t1list);
 			$taglist = DBQuery::queryColumn(
 					"SELECT tag FROM {$database['prefix']}TagRelations 
 							WHERE blogid = $blogid AND entry = $entry AND tag in ( $t1liststr )");
-			if ($taglist == null) 
+			if (is_null($taglist)) 
 				return; // What?
 			
 			// now delete tag
@@ -160,7 +160,7 @@ class Tag {
 	{
 		global $database;
 		$taglist = DBQuery::queryColumn("SELECT tag FROM {$database['prefix']}TagRelations WHERE blogid = $blogid AND entry = $entry");
-		if ($taglist != null) {
+		if (!is_null($taglist)) {
 			$tagliststr = implode(',', $taglist);
 			
 			DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = $blogid AND entry = $entry");

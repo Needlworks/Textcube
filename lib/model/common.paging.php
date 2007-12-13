@@ -36,7 +36,7 @@ function fetchWithPaging($sql, $page, $count, $url = null, $prefix = '?page=', $
 		$paging['next'] = $paging['page'] + 1;
 	$offset = ($paging['page'] - 1) * $count;
 	if ($offset < 0) $offset = 0;
-	if ($countItem != null) $count = $countItem;
+	if ($countItem !== null) $count = $countItem;
 	return array(DBQuery::queryAll("$sql LIMIT $offset, $count"), $paging);
 }
 ?>

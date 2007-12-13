@@ -16,7 +16,7 @@ if (strlen($suri['value'])) {
 	$entries = array();
 	$entries = getEntriesByKeyword($blogid, $keylog['title']);
 	$skinSetting['keylogSkin'] = fireEvent('setKeylogSkin');
-	if($skinSetting['keylogSkin']!= null) {
+	if(!is_null($skinSetting['keylogSkin'])) {
 		require ROOT . '/lib/piece/blog/keylog.php';
 	} else {
 		respondErrorPage(_t('No handling plugin'));

@@ -59,7 +59,7 @@ class User {
 	}
 
 	function authorName($blogid = null,$entryId){
-		if( $blogid == null ) {
+		if( is_null($blogid) ) {
 			$blogid = getBlogId();
 		}
 		global $database, $entry;

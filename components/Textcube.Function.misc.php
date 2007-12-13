@@ -208,7 +208,7 @@ class misc {
 	function getBlogSettingsGlobal($blogid = null) {
 		global $database, $service;
 		global $__gCacheBlogSettings;
-		if($blogid == null) $blogid = getBlogId();
+		if(is_null($blogid)) $blogid = getBlogId();
 		if (array_key_exists($blogid, $__gCacheBlogSettings)) {
 			return $__gCacheBlogSettings[$blogid];
 		}
@@ -346,13 +346,13 @@ class misc {
 		global $database;
 		$name = 'plugin_' . $name;
 		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = ".getUserId()." AND name = '".DBQuery::escapeString($name)."'");
-		return ($value === null) ? $default : $value;
+		return (is_null($value)) ? $default : $value;
 	}
 
 	function getUserSettingGlobal($name, $default = null) {
 		global $database;
 		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = ".getUserId()." AND name = '".DBQuery::escapeString($name)."'");
-		return ($value === null) ? $default : $value;
+		return (is_null($value)) ? $default : $value;
 	}
 	
 	function setUserSetting($name, $value) {
@@ -373,7 +373,7 @@ class misc {
 		global $database;
 		$name = 'plugin_' . $name;
 		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}ServiceSettings WHERE name = '".DBQuery::escapeString($name)."'");
-		return ($value === null) ? $default : $value;
+		return (is_null($value)) ? $default : $value;
 	}
 
 	function setServiceSetting($name, $value) {
@@ -393,7 +393,7 @@ class misc {
 	function getBlogSettingRowsPerPage($default = null) {
 		global $database, $blogid;
 		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}BlogSettings WHERE blogid = $blogid AND name = 'rowsPerPage'");
-		return ($value === null) ? $default : $value;
+		return (is_null($value)) ? $default : $value;
 	}
 
 	function setBlogSettingRowsPerPage($value) {

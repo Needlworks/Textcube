@@ -13,7 +13,7 @@ class FeedGroup {
 		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('title', $name, true);
 		$id = $query->getCell('id');
-		if (($id === null) && $add) {
+		if (is_null($id) && $add) {
 			$query->unsetQualifier('title');
 			$id = $query->getCell('MAX(id) + 1');
 			$query->setQualifier('id', $id);
@@ -262,7 +262,7 @@ class FeedItem {
 		$query->setQualifier('feed', $this->feed);
 		$query->setQualifier('permalink', $this->link, true);
 		$this->id = $query->getCell('id');
-		if ($this->id === null) {
+		if (is_null($this->id)) {
 			$query->setAttribute('title', UTF8::lessenAsEncoding($this->title, 255), true);
 			$query->setAttribute('description', $this->description, true);
 			$query->setAttribute('tags', UTF8::lessenAsEncoding($this->tags, 255), true);
