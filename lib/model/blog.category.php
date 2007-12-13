@@ -63,7 +63,7 @@ function getCategoryBodyIdById($blogid, $id) {
 	$result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id);
 	if (($id === 0) || ($result == '') || ($id === null))
 		return 'tt-body-category';
-	else return (getServiceSetting('lowercaseTableNames') ? $result['bodyid'] : $result['bodyId']);
+	else return $result['bodyId'];
 }
 
 function getCategoryLabelById($blogid, $id) {
