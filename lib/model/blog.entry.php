@@ -565,6 +565,13 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 
 	if($entry['id'] == 0) return false;
 	
+	$oldEntry = DBQuery::queryRow("SELECT *
+		FROM {$database['prefix']}Entries
+		WHERE blogid = $blogid
+		AND id = {$entry['id']}
+		AND draft = 0");
+	if(empty($oldEntry)) return false;
+
 	if(empty($entry['userid'])) $entry['userid'] = getUserId(); 
 	$entry['title'] = UTF8::lessenAsEncoding(trim($entry['title']));
 	$entry['location'] = UTF8::lessenAsEncoding(trim($entry['location']));
@@ -653,6 +660,8 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 			WHERE blogid = $blogid AND id = {$entry['id']} AND draft = $updateDraft");
 	if ($result)
 		@DBQuery::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 1");
+
+	updateEntriesOfCategory($blogid, $oldEntry['category']);
 	updateEntriesOfCategory($blogid, $entry['category']);
 	if ($entry['visibility'] == 3)
 		syndicateEntry($entry['id'], 'modify');
@@ -975,8 +984,9 @@ function syndicateEntry($id, $mode) {
 
 function publishEntries() {
 	global $database;
+	requireComponent('Textcube.Cache.PageCache');
 	$blogid = getBlogId();
-	$entries = DBQuery::queryAll("SELECT id, visibility 
+	$entries = DBQuery::queryAll("SELECT id, visibility, category
 			FROM {$database['prefix']}Entries 
 			WHERE blogid = $blogid AND draft = 0 AND visibility < 0 AND published < UNIX_TIMESTAMP()");
 	if (count($entries) == 0)
@@ -990,6 +1000,7 @@ function publishEntries() {
 					$updatedEntry = getEntry($blogid, $entry['id']);
 					fireEvent('UpdatePost', $entry['id'], $updatedEntry);
 					setEntryVisibility($entry['id'], 3);
+					CacheControl::flushCategory($entry['category']);
 			}
 		}
 		else {
@@ -997,6 +1008,7 @@ function publishEntries() {
 				setEntryVisibility($entry['id'], abs($entry['visibility']));
 				$updatedEntry = getEntry($blogid, $entry['id']);
 				fireEvent('UpdatePost', $entry['id'], $updatedEntry);
+				CacheControl::flushCategory($entry['category']);
 			}
 		}
 	}
