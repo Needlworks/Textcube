@@ -92,7 +92,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												<td class="role"><?php echo _t('RSS Reader');?></td>
 											</tr>
 											<tr>
-												<td class="name"><a href="http://bringbring.net">Jaepil Koh</a></td>
+												<td class="name"><a href="http://bringbring.com">Jaepil Koh</a></td>
 												<td class="role"><?php echo _t('Service administration panel');?></td>
 											</tr>
 										</tbody>
