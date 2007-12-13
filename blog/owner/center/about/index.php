@@ -91,6 +91,10 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												<td class="name"><a href="http://crizin.net">Jaeyong Lee</a></td>
 												<td class="role"><?php echo _t('RSS Reader');?></td>
 											</tr>
+											<tr>
+												<td class="name"><a href="http://bringbring.net">Jaepil Ko</a></td>
+												<td class="role"><?php echo _t('Service administration panel');?></td>
+											</tr>
 										</tbody>
 									</table>
 								</div>
