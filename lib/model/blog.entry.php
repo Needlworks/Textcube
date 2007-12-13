@@ -503,6 +503,12 @@ function addEntry($blogid, $entry) {
 	if (isset($entry['published']) && is_numeric($entry['published']) && ($entry['published'] >= 2)) {
 		$published = $entry['published'];
 		$entry['visibility'] = 0 - $entry['visibility'];
+		if($entry['visibility'] < 0) {
+			$closestReservedTime = getBlogSetting('closestReservedPostTime',9999999999);
+			if($published < $closestReservedTime) {
+				setBlogSetting('closestReservedPostTime',$published);
+			}
+		}
 	} else {
 		$published = 'UNIX_TIMESTAMP()';
 	}
@@ -638,6 +644,12 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 		default:
 			$published = $entry['published'];
 			$entry['visibility'] = 0 - $entry['visibility'];
+			if($entry['visibility'] < 0) {
+				$closestReservedTime = getBlogSetting('closestReservedPostTime',9999999999);
+				if($published < $closestReservedTime) {
+					setBlogSetting('closestReservedPostTime',$published);
+				}
+			}
 			break;
 	}
 
@@ -983,32 +995,39 @@ function syndicateEntry($id, $mode) {
 }
 
 function publishEntries() {
-	global $database;
-	requireComponent('Textcube.Cache.PageCache');
+	global $database;;
 	$blogid = getBlogId();
-	$entries = DBQuery::queryAll("SELECT id, visibility, category
+	$closestReservedTime = getBlogSetting('closestReservedPostTime',9999999999);
+
+	if($closestReservedTime < UNIX_TIMESTAMP()) {
+		$entries = DBQuery::queryAll("SELECT id, visibility, category
 			FROM {$database['prefix']}Entries 
 			WHERE blogid = $blogid AND draft = 0 AND visibility < 0 AND published < UNIX_TIMESTAMP()");
-	if (count($entries) == 0)
-		return;
-	foreach ($entries as $i => $entry) {
-		$result = DBQuery::query("UPDATE {$database['prefix']}Entries 
+		if (count($entries) == 0)
+			return;
+		foreach ($entries as $i => $entry) {
+			$result = DBQuery::query("UPDATE {$database['prefix']}Entries 
 				SET visibility = 0 
 				WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 0");
-		if ($entry['visibility'] == -3) {
-			if ($result && setEntryVisibility($entry['id'], 2)) {
+			if ($entry['visibility'] == -3) {
+				if ($result && setEntryVisibility($entry['id'], 2)) {
 					$updatedEntry = getEntry($blogid, $entry['id']);
 					fireEvent('UpdatePost', $entry['id'], $updatedEntry);
 					setEntryVisibility($entry['id'], 3);
+				}
+			} else {
+				if ($result) {
+					setEntryVisibility($entry['id'], abs($entry['visibility']));
+					$updatedEntry = getEntry($blogid, $entry['id']);
+					fireEvent('UpdatePost', $entry['id'], $updatedEntry);
+				}
 			}
 		}
-		else {
-			if ($result) {
-				setEntryVisibility($entry['id'], abs($entry['visibility']));
-				$updatedEntry = getEntry($blogid, $entry['id']);
-				fireEvent('UpdatePost', $entry['id'], $updatedEntry);
-			}
-		}
+		$newClosestTime = DBQuery::queryCell("SELECT min(published)
+			FROM {$database['prefix']}Entries
+			WHERE blogid = $blogid AND draft = 0 AND visibility < 0 AND published > UNIX_TIMESTAMP()");
+		if(!empty($newClosestTime)) setBlogSetting('closestReservedPostTime',$newClosestTime);
+		else setBlogSetting('closestReservedPostTime',9999999999);
 	}
 }
 
