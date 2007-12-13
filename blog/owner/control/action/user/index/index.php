@@ -1,7 +1,11 @@
 <?php
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
+/// All rights reserved. Licensed under the GPL.
+/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+
 define('ROOT', '../../../../../..');
 require ROOT . '/lib/includeForBlog.php';
-require ROOT . '/lib/piece/owner/libForControl.php';
+
 global $database;
 $page=(isset($_GET['page']) && $_GET['page'] >= 1 ? $_GET['page'] : 1 );
 

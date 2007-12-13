@@ -1,8 +1,11 @@
 <?php
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
+/// All rights reserved. Licensed under the GPL.
+/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+
 define('ROOT', '../../../../../..');
-require ROOT . '/lib/includeForBlog.php';
-require ROOT . '/lib/piece/owner/libForControl.php';
-global $blogid,$database;
+
+global $blogid, $database;
 $page=(isset($_GET['page']) && $_GET['page'] >= 1 ? $_GET['page'] : 1 );
 
 $bloglist = DBQuery::queryColumn("SELECT blogid,name FROM `{$database['prefix']}BlogSettings` WHERE name = 'name' ORDER BY blogid ASC LIMIT " . ($page-1)*25 . " ,25");
@@ -32,8 +35,8 @@ if($bloglist){
  		$tempString.=$bid.",";
 		$tempString.=$bsetting['name'].",";
 		$tempString.=$bsetting['title'].",";
-		$tempString.=getUserName($bsetting['owner']).",";
-		$tempString.=getUserEmail($bsetting['owner'])."*";
+		$tempString.=User::getName($bsetting['owner']).",";
+		$tempString.=User::getEmail($bsetting['owner'])."*";
 	}
 	if($tempString!=''){
 		$resultString .= $tempString;

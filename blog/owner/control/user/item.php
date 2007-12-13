@@ -2,13 +2,15 @@
 /// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+
 define('ROOT', '../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
-require ROOT . '/lib/piece/owner/libForControl.php';
+
 global $database;
-$userid=$suri['id'];
+
+$userid = $suri['id'];
 $usersetting= DBQuery::queryRow("SELECT * FROM `{$database['prefix']}Users` WHERE userid = " . $userid);
 $usersetting['owner']= DBQuery::queryCell("SELECT userid FROM `{$database['prefix']}teamblog` WHERE acl & ".BITWISE_OWNER." != 0 AND blogid = " . $blogid);
 ?>

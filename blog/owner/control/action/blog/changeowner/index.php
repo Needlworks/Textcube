@@ -4,11 +4,10 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../../../..');
 require ROOT . '/lib/includeForBlog.php';
-require ROOT . '/lib/piece/owner/libForControl.php';
 $IV = array(
 	'GET' => array(
 		'owner' => array('email'),
-		'blogid' => array('id'),
+		'blogid' => array('id')
 	) 
 );
 requireStrictRoute();

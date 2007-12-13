@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
-require ROOT . '/lib/piece/owner/libForControl.php';
+
 $IV = array(
 	'GET' => array(
 		'name' => array('string'),

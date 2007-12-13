@@ -4,10 +4,11 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../../../..');
 $service['admin_script']='control.js';
+
 require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
-require ROOT . '/lib/piece/owner/libForControl.php';
+
 global $database;
 $blogid=$suri['id'];
 $blogsetting=getBlogSettings($blogid);
@@ -104,7 +105,7 @@ function changeOwner(owner) {
 $teamblog = DBQuery::queryAll("SELECT * FROM `{$database['prefix']}teamblog` WHERE blogid = " . $blogid);
 	foreach ($teamblog as $row){
 		echo "<tr>";
-		echo "<td class=\"name\"><a href=\"{$blogURL}/owner/control/user/{$row['userid']}\">".getUserName($row['userid'])."(".getUserEmail($row['userid']).")</a></td>";
+		echo "<td class=\"name\"><a href=\"{$blogURL}/owner/control/user/{$row['userid']}\">".User::getName($row['userid'])."(".User::getEmail($row['userid']).")</a></td>";
 
 		$tmpstr = '';
 		if ($row['acl'] & BITWISE_ADMINISTRATOR) $tmpstr .= _t("관리자")." ";
@@ -134,7 +135,7 @@ $teamblog = DBQuery::queryAll("SELECT * FROM `{$database['prefix']}teamblog` WHE
 	try {
 		var ctlUserSuggestObj = new ctlUserSuggest(document.getElementById("sgtOwner"),  false);
 		ctlUserSuggestObj.setInputClassName("bi-owner-loginid");
-		ctlUserSuggestObj.setValue("<?php echo getUserEmail($blogsetting['owner']);?>");
+		ctlUserSuggestObj.setValue("<?php echo User::getEmail($blogsetting['owner']);?>");
 	} catch (e) {
 		document.getElementById("sgtOwner").innerHTML = '<input type="text" class="bi-owner-loginid" name="location" value="" />';
 	}

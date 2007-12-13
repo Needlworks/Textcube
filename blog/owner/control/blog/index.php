@@ -6,7 +6,7 @@
 define('ROOT', '../../../..');
 $IV = array(
 	'GET' => array(
-		'page' => array('number','min'=>1,'default'=>1),
+		'page' => array('number','min'=>1,'default'=>1)
 	) 
 );
 

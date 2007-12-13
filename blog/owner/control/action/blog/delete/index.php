@@ -5,11 +5,10 @@
 define('ROOT', '../../../../../..');
 $IV = array(
 	'GET' => array(
-		'item' => array('string'),
+		'item' => array('string')
 	) 
 );
 require ROOT . '/lib/includeForBlogOwner.php';
-require ROOT . '/lib/piece/owner/libForControl.php';
 requireStrictRoute();
 
 $items = split(",",$_GET['item']);
