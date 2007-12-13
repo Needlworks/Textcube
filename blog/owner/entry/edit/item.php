@@ -5,13 +5,14 @@
 define('ROOT', '../../../..');
 $IV = array(
 	'GET' => array(
-		'draft' => array('any', 'mandatory' => false),
+		'draft'       => array('any', 'mandatory' => false),
 		'popupEditor' => array('any', 'mandatory' => false),
-		'returnURL' => array('string', 'mandatory' => false)
+		'returnURL'   => array('string', 'mandatory' => false),
+		'category'    => array('int', 'default' => 0)
 	),
 	'POST' => array(
-		'category' => array('int', 'default' => 0),
-		'search' => array('string', 'default' => ''),
+		'category'  => array('int', 'default' => 0),
+		'search'    => array('string', 'default' => ''),
 		'returnURL' => array('string', 'mandatory' => false)
 	)
 );
@@ -28,7 +29,7 @@ define('__TEXTCUBE_EDIT__', true);
 if (defined('__TEXTCUBE_POST__'))
 	$suri['id'] = 0;
 
-if(isset($_GET['draft'])) {
+if (isset($_GET['draft'])) {
 	$entry = getEntry(getBlogId(), $suri['id'], true);
 } else {
 	$entry = getEntry(getBlogId(), $suri['id'], false);
@@ -36,6 +37,10 @@ if(isset($_GET['draft'])) {
 if (!$entry) {
 	respondErrorPage(_t('포스트 정보가 존재하지 않습니다.'));
 	$isKeyword = ($entry['category'] == -1);
+}
+
+if (defined('__TEXTCUBE_POST__') && isset($_GET['category'])) {
+	$entry['category'] = $_GET['category'];
 }
 
 // Check whether or not user has permission to edit.
