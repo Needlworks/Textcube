@@ -998,7 +998,6 @@ function publishEntries() {
 	global $database;;
 	$blogid = getBlogId();
 	$closestReservedTime = getBlogSetting('closestReservedPostTime',9999999999);
-
 	if($closestReservedTime < Timestamp::getUNIXtime()) {
 		$entries = DBQuery::queryAll("SELECT id, visibility, category
 			FROM {$database['prefix']}Entries 
