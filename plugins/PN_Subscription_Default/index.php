@@ -1,14 +1,14 @@
 <?php
-/* Subscription statistics plugin for Textcube 1.1
+/* Subscription statistics plugin for Textcube 1.6
    ----------------------------------
-   Version 1.5
+   Version 2.0 
    Needlworks development team.
 
    Creator          : inureyes
    Maintainer       : gendoh, inureyes, graphittie
 
    Created at       : 2006.9.21
-   Last modified at : 2007.5.5
+   Last modified at : 2007.11.22
  
  This plugin shows RSS subscription statistics on administration menu.
  For the detail, visit http://forum.tattersite.com/ko
@@ -31,6 +31,8 @@ function PN_Subscription_Default()
 	$blogid = getBlogId();
 	$temp = getSubscriptionStatistics($blogid);
 	$aggregatorInfo = organizeAggregatorInfo($temp);
+	misc::setBlogSetting('SubscriberCount',$totalSubscribers);
+	
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -122,7 +124,8 @@ function getAggregatorName($useragent)
 		'NewsLife' => 'NewsLife',
 		'Google Desktop' => '구글 데스크탑',
 		'RSSOwl' => 'RSS Owl',
-		'Eolin' => '태터툴즈/텍스트큐브 리더',
+		'Eolin' => '태터툴즈 리더',
+		'Textcube' => '텍스트큐브 리더',
 		'Safari' => '사파리',
 		'NetNewsWire' => 'NetNewsWire',
 		'Feedfetcher-Google' => '구글 feedfetcher',
@@ -174,6 +177,7 @@ function getNumberOfSubscribers($useragent)
 	$agentPattern = array(
 		'Bloglines' => 'subscribers',
 		'HanRSS' => 'subscribers',
+		'Feedfetcher-Google' => 'subscribers',
 		'Netvibes' => 'subscribers',
 		'NewsGatorOnline' => 'subscribers',
 		'Fastladder' => 'subscribers'
@@ -230,7 +234,7 @@ function organizeAggregatorInfo($info)
 		$subscribers = getNumberOfSubscribers($record['useragent']);
 		$startDate = $record['subscribed'];
 		$referred = $record['referred'];
-		if(time()- $referred > 259200) continue;
+		if(time()- $referred > 604800) continue;
 		if(array_key_exists($aggregatorName,$aggregatorInfo)) {
 			if(($subscribers > $aggregatorInfo[$aggregatorName]['subscribers'])&&($subscribers!==1)) {
 				$totalSubscribers -= $aggregatorInfo[$aggregatorName]['subscribers'];
@@ -299,9 +303,9 @@ function updateSubscriptionStatistics($target, $mother) {
 	requireComponent('Textcube.Data.Filter');
 	if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']))
 		return;
-	$ip = mysql_tt_escape_string($_SERVER['REMOTE_ADDR']);
-	$host = mysql_tt_escape_string(isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : '');
-	$useragent = mysql_tt_escape_string(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
+	$ip = DBQuery::escapeString($_SERVER['REMOTE_ADDR']);
+	$host = DBQuery::escapeString(isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : '');
+	$useragent = DBQuery::escapeString(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
 	mysql_query("insert into {$database['prefix']}SubscriptionLogs values($blogid, '$ip', '$host', '$useragent', UNIX_TIMESTAMP())");
 	mysql_query("delete from {$database['prefix']}SubscriptionLogs where referred < UNIX_TIMESTAMP() - 604800");
 	if (!mysql_query("update {$database['prefix']}SubscriptionStatistics set referred = UNIX_TIMESTAMP() where blogid = $blogid and ip = '$ip' and host = '$host' and useragent = '$useragent'") || (mysql_affected_rows() == 0))
@@ -310,8 +314,18 @@ function updateSubscriptionStatistics($target, $mother) {
 }
 
 function PN_Subscription_setTime($target) {
-	requireComponent( "Textcube.Function.misc");
+	requireComponent("Textcube.Function.misc");
 	misc::setBlogSetting('LatestRSSrefresh',time());
 	return true;
+}
+
+function PN_Subscription_Sidebar($target) {
+	requireComponent("Textcube.Function.misc");
+	$count = misc::getBlogSetting('SubscriberCount',null);
+	$text = '<div class="SubscriptionPanel" style="text-align:center">';
+	if($count==null) $text .= '구독 정보 갱신이 필요합니다';
+	else $text .= $count.'명이 RSS를 구독하고 있습니다.';
+	$text .= '</div>';
+	return $text;
 }
 ?>
