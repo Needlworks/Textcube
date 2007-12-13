@@ -13,7 +13,7 @@ if (!$keyword = getKeywordByName($blogid, $suri['value']))
 
 $keylog = getKeylog($blogid, $keyword['title']);
 $skinSetting['keylogSkin'] = fireEvent('setKeylogSkin');
-if($skinSetting['keylogSkin']!= null) {
+if(!empty($keylog)) {
 	require ROOT . '/lib/piece/blog/keylog.php';
 } else {
 	respondErrorPage();
