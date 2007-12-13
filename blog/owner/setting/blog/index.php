@@ -630,6 +630,20 @@ for ($i = 5; $i <= 30; $i += 5) {
 											<dd>
 												<!--input type="checkbox" id="allowWriteGuestbook" class="checkbox" value=""<?php echo $blog['allowWriteOnGuestbook'] == '1' ? ' checked="checked"' : "";?> /><label for="allowWriteGuestbook"><?php echo _t('손님이 글쓰기 허용');?></label-->
 												<input type="checkbox" id="allowCommentGuestbook" class="checkbox" value=""<?php echo $blog['allowWriteDblCommentOnGuestbook'] == '1' ? ' checked="checked"' : "";?> /><label for="allowCommentGuestbook"><?php echo _t('손님이 댓글을 쓰는 것을 허용합니다.');?></label>
+<?php
+$openidPluginCheck = fireEvent("OpenIDGetCurrent","*NONE*");
+if( $openidPluginCheck != "*NONE*" ) {
+?>
+												(<a href="<?php echo $blogURL?>/owner/plugin/adminMenu?name=CL_OpenID/openid_manage"><?php echo _t('오픈아이디 로그인 사용자에게만 댓글을 허용하도록 설정하러 가기')?></a>)
+<?php
+} else {
+												echo "<samp>(";
+												echo _t('댓글을 오픈아이디 사용자에게만 허용할 수 있습니다.');
+?>
+									<a class="button" href="<?php echo $blogURL?>/owner/plugin"><?php echo _t('오픈아이디 플러그인 설정 바로가기'); ?></a>)</samp>
+<?php
+}
+?>
 											</dd>
 										</dl>
 									</fieldset>

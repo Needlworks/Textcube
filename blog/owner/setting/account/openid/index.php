@@ -5,9 +5,10 @@
 define('ROOT', '../../../../..');
 define('OPENID_REGISTERS', 10); /* check also ../index.php */
 
+/* ID Provider로부터 Redirect되어 연결이 되므로 GET 방식으로 구현되었습니다 */
 $IV = array(
 	'GET' => array(
-		'openid_identifier' => array('string'),
+		'openid_identifier' => array('string', 'default'=>''),
 		'mode' => array('string'),
 		'authenticated' => array('string', 'default'=>null)
 	)
@@ -25,12 +26,20 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 	}
 }
 
-function loginOpenIDforAdding()
+function loginOpenIDforAdding($claimedOpenID)
 {
 	global $blogURL;
 	header( "Location: $blogURL/plugin/openid/try_auth" .
-		"?authenticate_only=1&openid_identifier=" . urlencode($_GET['openid_identifier']) . 
-		"&requestURI=" .  urlencode( $blogURL . "/owner/setting/account/openid" . "?mode=add&authenticate_only=1&openid_identifier=" . urlencode($_GET['openid_identifier']) ) );
+		"?authenticate_only=1&openid_identifier=" . urlencode($claimedOpenID) .
+		"&requestURI=" .  urlencode( $blogURL . "/owner/setting/account/openid" . "?mode=add&authenticate_only=1&openid_identifier=" . urlencode($claimedOpenID) ) );
+}
+
+function exitWithError($msg)
+{
+	global $blogURL;
+	echo "<html><head><script type=\"text/javascript\">//<![CDATA[".CRLF
+		."alert('$msg'); document.location.href='" . $blogURL . "/owner/setting/account'; //]]></script></head></html>";
+	exit;
 }
 
 function addOpenID()
@@ -38,8 +47,16 @@ function addOpenID()
 	global $openid_list;
 	global $blogURL;
 
+	if( empty( $_GET['openid_identifier'] ) || strstr( $_GET['openid_identifier'], "." ) === false  ) {
+			exitWithError( _t('오픈아이디를 입력하지 않았거나, 도메인 없는 오픈아이디를 입력하였습니다.') );
+	}
+
 	$currentOpenID = Acl::getIdentity( 'openid_temp' );
 	$claimedOpenID = fireEvent("OpenIDFetch", $_GET['openid_identifier']);
+
+	if( in_array( $claimedOpenID, $openid_list ) ) {
+			exitWithError( _t('이미 연결된 오픈아이디 입니다') );
+	}
 
 	if( $_GET['authenticated'] === "0" ) {
 		header( "Location: $blogURL/owner/setting/account" );
@@ -47,7 +64,7 @@ function addOpenID()
 	}
 
 	if( empty($currentOpenID) || $claimedOpenID != $currentOpenID ) {
-		loginOpenIDforAdding();
+		loginOpenIDforAdding($claimedOpenID);
 		return;
 	}
 
@@ -63,7 +80,7 @@ function addOpenID()
 	}
 
 	echo "<html><head><script type=\"text/javascript\">//<![CDATA[".CRLF
-		."alert('" . _t('추가하였습니다.') . " : " . $currentOpenID . "'); document.location.href='" . $blogURL . "/owner/setting/account'; //]]></script></head></html>";
+		."alert('" . _t('연결하였습니다.') . " : " . $currentOpenID . "'); document.location.href='" . $blogURL . "/owner/setting/account'; //]]></script></head></html>";
 
 }
 

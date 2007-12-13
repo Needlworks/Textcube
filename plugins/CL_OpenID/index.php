@@ -1295,6 +1295,9 @@ function openid_manage()
 			</tbody>
 		</table>
 	</div>
+<?php
+	if( Acl::check( 'group.owners' ) ) { 
+?>
 	
 	<div id="part-openid-blogaddress" class="part">
 		<h2 class="caption"><span class="main-text"><?php echo _t('블로그 주소를 오픈아이디로 사용')?></span></h2>
@@ -1322,7 +1325,7 @@ function openid_manage()
 				</tr>
 				<tr>
 					<td>
-						<span class="text"><?php echo sprintf( _t('블로그 주소(%s)를 관리자로 등록된 오픈아이디 중 하나에 위임하여 오픈아이디로 사용할 수 있습니다.'), "$hostURL$blogURL"); ?>
+						<span class="text"><?php echo sprintf( _t('블로그 주소(%s)를 소유자 계정에 연결된 오픈아이디 중 하나에 위임하여 오픈아이디로 사용할 수 있습니다.'), "$hostURL$blogURL"); ?>
 						</span>
 					</td>
 				</tr>
@@ -1331,7 +1334,7 @@ function openid_manage()
 	</div>
 	
 	<div id="part-openid-blogaddress" class="part">
-		<h2 class="caption"><span class="main-text"><?php echo _t('관리자 계정에 등록된 오픈아이디 목록')?></span></h2>
+		<h2 class="caption"><span class="main-text"><?php echo _t('소유자 계정에 연결된 오픈아이디 목록')?></span></h2>
 		<table class="data-inbox" cellspacing="0" cellpadding="0">
 			<tbody>
 <?php
@@ -1340,16 +1343,19 @@ function openid_manage()
 		}
 		if( empty( $openid_list ) ) {
 			print "<tr class='site'><td>";
-			print _t('관리자 계정에 등록된 오픈아이디가 없습니다');
+			print _t('소유자 계정에 연결된 오픈아이디가 없습니다');
 			print "</td></tr>";
 		}
-			print "<tr class='site'><td><a href='$blogURL/owner/setting/account'>";
-			print _t('관리자 계정에 오픈아이디 추가하기');
-			print "</a></td></tr>";
+			print "<tr class='site'><td><a href='$blogURL/owner/setting/account'><b>";
+			print _t('소유자 계정에 오픈아이디 연결하기');
+			print "</b></a></td></tr>";
 ?>
 			</tbody>
 		</table>
 	</div>
+<?php
+} /* 소유자 계정 확인 */
+?>
 	
 	<div class="part">
 		<h2 class="caption"><span class="main-text"><?php echo _t('오픈아이디 로그인 목록')?></span></h2>

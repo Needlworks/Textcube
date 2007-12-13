@@ -299,7 +299,7 @@ if ($service['type'] != 'single' &&  Acl::check("group.inviters")) {
 
 <!-- OPENID -->
 						<div id="part-setting-openid" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('오픈아이디');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('오픈아이디 연결');?></span></h2>
 							
 							<table class="data-inbox" cellspacing="0" cellpadding="0">
 								<thead>
@@ -335,8 +335,8 @@ for ($i=0; $i<count($openid_list); $i++) {
 <?php
 if( $i > 0 ) { /* 출력된것이 하나라도 있다면*/
 ?>
-							<div class="openid-account-help">
-								<?php echo _t('삭제: 오픈아이디에 부과된 관리자 권한을 제거합니다.'); ?>
+							<div class="data-inbox openid-account-help">
+								<?php echo _t('삭제: 본 계정과의 관계를 끊습니다.'); ?>
 							</div> 
 <?php
 }
@@ -348,21 +348,26 @@ if( $openidPluginCheck != "*NONE*" ) {
 ?>
 								<form id="openid-section" class="section" method="get" action="<?php echo $blogURL;?>/owner/setting/account/openid">
 									<fieldset class="container">
-										<legend><?php echo _t('오픈아이디');?></legend>
+										<legend><?php echo _t('오픈아이디 연결');?></legend>
 										
 										<dl id="blogger-openid-line" class="line">
-											<dt><label for="nickname"><?php echo _t('오픈아이디');?></label></dt>
-											<dd><input type="text" name="openid_identifier" class="input-text" value="<?php echo $currentOpenID ?>" />
-												<input type="submit" class="save-button input-button" value="<?php echo _t('추가하기');?>" />
+											<dt><label for="openid_identifier"><?php echo _t('오픈아이디');?></label></dt>
+											<dd><input type="text" id="openid_identifier" name="openid_identifier" class="input-text" value="<?php echo $currentOpenID ?>" />
+												<input type="submit" class="save-button input-button" value="<?php echo _t('연결하기');?>" />
+											</dd>
+										</dl>
+										<div class="openid-account-help">
+											<?php echo _t('연결하기: 로그인하면 본 계정의 권한을 갖습니다.'); ?>
+										</div> 
 <?php 
-	if( Acl::check( 'group.administrators' ) ) { 
+	if( Acl::check( 'group.owners' ) ) { 
 ?>
-												(<a href="<?php echo $blogURL?>/owner/plugin/adminMenu?name=CL_OpenID/openid_manage"><?php echo _t('오픈아이디 플러그인 설정 바로가기')?></a>)
+										<div class="openid-account-help">
+												<b><a href="<?php echo $blogURL?>/owner/plugin/adminMenu?name=CL_OpenID/openid_manage"><?php echo _t('오픈아이디 플러그인 설정 바로가기')?></b></a>
+										</div> 
 <?php
 	} 
 ?>
-											</dd>
-										</dl>
 									</fieldset>
 									<input type="hidden" name="mode" value="add" />
 								</form>
