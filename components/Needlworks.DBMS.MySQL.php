@@ -81,7 +81,7 @@ class DBQuery {
 		} else {
 			$result = DBQuery::queryAll($query, $type);
 		}
-		if( is_null($result) ) {
+		if( empty($result) ) {
 			return null;
 		}
 		return $result[0][$field];
@@ -94,7 +94,7 @@ class DBQuery {
 		} else {
 			$result = DBQuery::queryAll($query, $type, 1);
 		}
-		if( is_null($result) ) {
+		if( empty($result) ) {
 			return null;
 		}
 		return $result[0];

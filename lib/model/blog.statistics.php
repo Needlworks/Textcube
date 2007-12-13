@@ -10,8 +10,8 @@ function getStatistics($blogid) {
 	if (!empty($result)) $stats['total'] = $result;
 	
 	$result = DBQuery::queryColumn("SELECT visits FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid AND `date` in (" . Timestamp::getDate().",".Timestamp::getDate(time()-86400).") ORDER BY date DESC");
-	$stats['today'] = $result[0];
-	$stats['yesterday'] = $result[1];
+	$stats['today'] = (isset($result[0])) ? $result[0] : 0;
+	$stats['yesterday'] = (isset($result[1])) ? $result[1] : 0;
 
 	return $stats;
 }

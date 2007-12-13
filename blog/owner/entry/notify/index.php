@@ -155,7 +155,7 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 							</h2>
 							
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _f('다른 사람의 블로그에 단 댓글에 대한 댓글이 등록되면 알려줍니다. 알리미가 동작하기 위해서는 댓글 작성시 홈페이지 기입란에 자신의 블로그 주소(<samp>%1</samp>)를 입력하셔야 합니다.',$user['homepage']);?></p>
+								<p class="explain"><?php echo _t('다른 사람의 블로그에 단 댓글에 대한 댓글이 등록되면 알려줍니다. 알리미가 동작하기 위해서는 댓글 작성시 홈페이지 기입란에 자신의 블로그 주소를 입력하셔야 합니다.');?></p>
 							</div>
 							
 							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/entry/notify">
