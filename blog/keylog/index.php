@@ -24,12 +24,8 @@ if (strlen($suri['value'])) {
 } else {
 	$keywords = getKeywordNames($blogid, true);
 	$skinSetting['keylogSkin'] = fireEvent('setKeylogSkin');
-	if($skinSetting['keylogSkin']!= null) {
-		require ROOT . '/lib/piece/blog/begin.php';
-		require ROOT . '/lib/piece/blog/keywords.php';
-		require ROOT . '/lib/piece/blog/end.php';
-	} else {
-		respondErrorPage(_t('No handling plugin'));
-	}
+	require ROOT . '/lib/piece/blog/begin.php';
+	require ROOT . '/lib/piece/blog/keywords.php';
+	require ROOT . '/lib/piece/blog/end.php';
 }
 ?>

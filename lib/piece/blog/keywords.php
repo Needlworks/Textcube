@@ -6,11 +6,17 @@
 $keywordView = $skin->keyword;
 $previousGroup = '';
 $itemsView = '';
-foreach ($keywords as $item) {
-	$itemView = $skin->keywordItem;
-	dress('keyword_label', htmlspecialchars($item), $itemView);
-	dress('onclick_keyword', "openKeyword('$blogURL/keylog/" . escapeJSInAttribute($item) . "'); return false;", $itemView);
-	$itemsView .= $itemView;
+if(isset($keywords)) {
+	foreach ($keywords as $item) {
+		$itemView = $skin->keywordItem;
+		dress('keyword_label', htmlspecialchars($item), $itemView);
+		if($skinSetting['keylogSkin']!= null) {
+			dress('onclick_keyword', "openKeyword('$blogURL/keylog/" . escapeJSInAttribute($item) . "'); return false;", $itemView);
+		} else {
+			dress('onclick_keyword', "return false;", $itemView);
+		}
+		$itemsView .= $itemView;
+	}
 }
 dress('keyword_rep', $itemsView, $keywordView);
 dress('keyword', $keywordView, $view);
