@@ -18,6 +18,8 @@ switch($service['dbms']) {
 		require_once ROOT.'/components/Needlworks.DBMS.MySQL.php';
 }
 
+require_once ROOT.'/components/POD.Core.php';
+
 /* TableQuery */
 // class TableQuery will be depreacted after 1.6 tree.
 // (Will be replaced to POD Framework)
