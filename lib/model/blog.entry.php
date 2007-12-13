@@ -926,13 +926,13 @@ function setEntryVisibility($id, $visibility) {
 		}
 	}
 
-	$result = DBQuery::query("UPDATE {$database['prefix']}Entries 
+	$result = DBQuery::queryCount("UPDATE {$database['prefix']}Entries 
 		SET visibility = $visibility, 
 			modified = UNIX_TIMESTAMP() 
 		WHERE blogid = $blogid AND id = $id");
 	if (!$result)
 		return false;
-	if (mysql_affected_rows() == 0)
+	if ($result == 0)
 		return true;
 
 	if ($category >= 0) {
@@ -1000,7 +1000,6 @@ function publishEntries() {
 					$updatedEntry = getEntry($blogid, $entry['id']);
 					fireEvent('UpdatePost', $entry['id'], $updatedEntry);
 					setEntryVisibility($entry['id'], 3);
-					CacheControl::flushCategory($entry['category']);
 			}
 		}
 		else {
@@ -1008,7 +1007,6 @@ function publishEntries() {
 				setEntryVisibility($entry['id'], abs($entry['visibility']));
 				$updatedEntry = getEntry($blogid, $entry['id']);
 				fireEvent('UpdatePost', $entry['id'], $updatedEntry);
-				CacheControl::flushCategory($entry['category']);
 			}
 		}
 	}
