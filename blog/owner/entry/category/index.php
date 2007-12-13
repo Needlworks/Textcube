@@ -59,7 +59,10 @@ if (empty($_GET['entries']) || $_GET['entries'] == 0)
 else
 	$entries = $_GET['entries'];
 
-if (!empty($_POST['newCategory'])) {
+if ((!empty($_POST['newCategory']) && strpos($_POST['newCategory'], '/') !== false) || (!empty($_POST['modifyCategory']) && strpos($_POST['modifyCategory'], '/') !== false)) {
+	$history = '';
+	$errorMessage = _t('슬래시가 들어간 카테고리 이름은 사용할 수 없습니다');
+} elseif (!empty($_POST['newCategory'])) {
 	$history = addCategory($blogid, ($selected == 0) ? null : $_POST['id'], trim($_POST['newCategory'])) ? 'document.getElementById("newCategory").select();' : '';
 	if(empty($history)) $errorMessage = _t('같은 이름의 카테고리가 이미 존재합니다');
 } else if (!empty($_POST['modifyCategoryName']) || !empty($_POST['modifyCategoryBodyId'])) {
