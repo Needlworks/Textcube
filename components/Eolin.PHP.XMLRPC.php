@@ -168,7 +168,7 @@ class XMLRPC {
 	function sendResponse($param = null) {
 		header('Content-Type: text/xml');
 		echo '<?xml version="1.0" encoding="utf-8"?><methodResponse><params>';
-		if ($param !== null) {
+		if (!is_null($param)) {
 			echo '<param>';
 			$this->_encodeValue($param);
 			echo '</param>';

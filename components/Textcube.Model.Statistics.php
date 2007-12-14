@@ -116,7 +116,7 @@ class Statistics {
 	function fetchWithPaging($sql, $page, $count, $url = null, $prefix = '?page=') {
 		global $folderURL;
 		requireComponent('Eolin.PHP.Core');
-		if ($url === null)
+		if (is_null($url))
 			$url = $folderURL;
 		$paging = array('url' => $url, 'prefix' => $prefix, 'postfix' => '');
 		if (empty($sql))
@@ -126,7 +126,7 @@ class Statistics {
 		else
 			return array(array(), $paging);
 		$paging['total'] = DBQuery::queryCell("SELECT COUNT(*) $from");
-		if ($paging['total'] === null)
+		if (is_null($paging['total']))
 			return array(array(), $paging);
 		$paging['pages'] = intval(ceil($paging['total'] / $count));
 		$paging['page'] = is_numeric($page) ? $page : 1;

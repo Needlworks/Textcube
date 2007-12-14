@@ -27,7 +27,7 @@ if (($module !== false) && (count($module) == 3) &&
 {
 	$sidebarOrder = getSidebarModuleOrderData($sidebarCount);
 	$sidebarOrder = addSidebarModuleOrderData($sidebarOrder, $_REQUEST['sidebarNumber'], $_REQUEST['modulePos'], $module);
-	if ($sidebarOrder != null) {
+	if (!is_null($sidebarOrder)) {
 		setBlogSetting("sidebarOrder", serialize($sidebarOrder));
 	}
 }

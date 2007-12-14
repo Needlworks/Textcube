@@ -197,7 +197,7 @@ function addTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 {
 	global $database;
 	requireComponent('Needlworks.Cache.PageCache');
-	if ($taglist == null)
+	if ($taglist === null)
 		return;
 		
 	if (false) removeEmptyTagHelper(""); // for optimizer
@@ -248,7 +248,7 @@ function addTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 {
 	global $database;
-	if ($taglist == null)
+	if ($taglist === null)
 		$taglist = array();
 		
 	if (false) removeEmptyTagHelper(""); // for optimizer
@@ -264,7 +264,7 @@ function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 	$tmpoldtaglist = DBQuery::queryColumn("SELECT name FROM {$database['prefix']}Tags
 		LEFT JOIN {$database['prefix']}TagRelations ON tag = id 
 		WHERE blogid = $blogid AND entry = $entry");
-	if ($tmpoldtaglist == null)
+	if ($tmpoldtaglist === null)
 		$tmpoldtaglist = array();
 	$oldtaglist = array();
 	foreach($tmpoldtaglist as $tag) {
@@ -312,7 +312,7 @@ function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 		// small step, get tag id list
 		$tagliststr =  '\'' . implode('\' , \'', $deletedTagList) . '\'';
 		$t1list = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Tags WHERE name in ( $tagliststr )");
-		if ($t1list == null) 
+		if ($t1list === null) 
 			return; // What?
 		// Flushing pageCache
 		foreach($t1list as $tagids) {
@@ -323,7 +323,7 @@ function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 		$taglist = DBQuery::queryColumn(
 				"SELECT tag FROM {$database['prefix']}TagRelations 
 						WHERE blogid = $blogid AND entry = $entry AND tag in ( $t1liststr )");
-		if ($taglist == null) 
+		if ($taglist === null) 
 			return; // What?
 		
 		// now delete tag
@@ -351,7 +351,7 @@ function deleteTagsWithEntryId($blogid, $entry)
 		FROM {$database['prefix']}TagRelations 
 		WHERE blogid = $blogid 
 			AND entry = $entry");
-	if ($taglist != null) {
+	if ($taglist !== null) {
 		$tagliststr = implode(',', $taglist);
 		
 		foreach($taglist as $tagid) {

@@ -82,7 +82,7 @@ class Category {
 		$query = new TableQuery($database['prefix'] . 'Categories');
 		$query->setQualifier('blogid', getBlogId());
 		if (isset($this->parent)) {
-			if (($parentLabel = Category::getLabel($this->parent)) === null)
+			if (is_null($parentLabel = Category::getLabel($this->parent)))
 				return $this->_error('parent');
 			$query->setQualifier('parent', $this->parent);
 			$query->setAttribute('label', mysql_lessen($parentLabel . '/' . $this->name, 255), true);

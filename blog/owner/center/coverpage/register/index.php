@@ -28,7 +28,7 @@ if (($module !== false) && (count($module) == 3) &&
 {
 	$coverpageOrder = getCoverpageModuleOrderData($coverpageCount);
 	$coverpageOrder = addCoverpageModuleOrderData($coverpageOrder, $_REQUEST['coverpageNumber'], $_REQUEST['modulePos'], $module);
-	if ($coverpageOrder != null) {
+	if (!is_null($coverpageOrder)) {
 		setBlogSetting("coverpageOrder", serialize($coverpageOrder));
 	}
 }

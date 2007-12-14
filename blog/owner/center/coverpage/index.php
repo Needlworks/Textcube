@@ -253,8 +253,8 @@ getBlogContentForCoverPage();
 								<dd><a class="button" href="<?php echo $blogURL;?>/owner/plugin?visibility=coverpage"><?php echo _t('플러그인 설정 페이지로 바로가기');?></a></dd>
 							</dl>	
 <?php
-if ($skin->cover == null || count($coverpageMappings) == 0) {
-	if ($skin->cover == null)
+if (is_null($skin->cover) || count($coverpageMappings) == 0) {
+	if (is_null($skin->cover))
 		$errmsg = '사용중인 스킨이 표지를 지원하지 않습니다.';
 	else
 		$errmsg = '사용중인 표지 플러그인이 없습니다.';

@@ -7,7 +7,7 @@ class XMLTree {
 	var $tree, $error;
 	
 	function XMLTree($xml = null, $encoding = null) {
-		if ($xml !== null)
+		if (!is_null($xml))
 			$this->open($xml, $encoding);
 	}
 	
@@ -19,7 +19,7 @@ class XMLTree {
 			}
 			if (strcasecmp($encoding, 'utf-8')) {
 				$xml = UTF8::bring($xml, $encoding);
-				if ($xml === null) {
+				if (is_null($xml)) {
 					$this->error = XML_ERROR_UNKNOWN_ENCODING;
 					return false;
 				}
@@ -56,7 +56,7 @@ class XMLTree {
 			$o = 0;
 			if ($d{strlen($d) - 1} == ']') {
 				@list($d, $o) = explode('[', $d, 2);
-				if ($o === null)
+				if (is_null($o))
 					return null;
 				$o = substr($o, 0, strlen($o) - 1);
 				if (!is_numeric($o))
@@ -79,12 +79,12 @@ class XMLTree {
 	}
 	
 	function doesExist($path) {
-		return ($this->selectNode($path) !== null);
+		return (!is_null($this->selectNode($path)));
 	}
 	
 	function getAttribute($path, $name, $default = null) {
 		$n = &$this->selectNode($path);
-		if (($n !== null) && isset($n['attributes'][$name]))
+		if ((!is_null($n)) && isset($n['attributes'][$name]))
 			return $n['attributes'][$name];
 		else
 			return $default;
@@ -92,7 +92,7 @@ class XMLTree {
 
 	function getValue($path) {
 		$n = &$this->selectNode($path);
-		if ($n === null)
+		if (is_null($n))
 			return null;
 		switch (count($n['children'])) {
 			case 0:
@@ -109,7 +109,7 @@ class XMLTree {
 	
 	function getText($path, $recursively = true) {
 		$n = &$this->selectNode($path);
-		if ($n === null)
+		if (is_null($n))
 			return null;
 		ob_start();
 		$this->_getText($n, $recursively);
@@ -120,7 +120,7 @@ class XMLTree {
 
 	function getChildCount($path) {
 		$n = &$this->selectNode($path);
-		if ($n === null)
+		if (is_null($n))
 			return null;
 		return count($n['children']);
 	}

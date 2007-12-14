@@ -322,7 +322,7 @@ class Post {
 	function getTagsWithEntryString($entryTag) 
 	{
 		global $database;
-		if ($entryTag == null) 
+		if (is_null($entryTag))
 			return array();
 		
 		$tags = explode(',', $entryTag);
@@ -442,17 +442,17 @@ class Post {
 	function updateComments($id = null) {
 		global $database;
 
-		if (($id !== null) && !is_numeric($id)) {
+		if (!is_null($id) && !is_numeric($id)) {
 			return false;
 		}
 
-		$posts = ($id === null ? DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND category >= 0 AND draft = 0") : array($id));
+		$posts = (is_null($id) ? DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND category >= 0 AND draft = 0") : array($id));
 		if (!is_array($posts))
 			return false;
 		$succeeded = true;
 		foreach ($posts as $id) {
 			$comments = DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()." AND entry = $id AND isFiltered = 0");
-			if ($comments !== null) {
+			if (!is_null($comments)) {
 				if (DBQuery::execute("UPDATE {$database['prefix']}Entries SET comments = $comments WHERE blogid = ".getBlogId()." AND id = $id"))
 					continue;
 			}
@@ -465,17 +465,17 @@ class Post {
 	function updateTrackbacks($id = null) {
 		global $database;
 
-		if (($id !== null) && !is_numeric($id)) {
+		if (!is_null($id) && !is_numeric($id)) {
 			return false;
 		}
 
-		$posts = ($id === null ? DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND category >= 0 AND draft = 0") : array($id));
+		$posts = (is_null($id) ? DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND category >= 0 AND draft = 0") : array($id));
 		if (!is_array($posts))
 			return false; 
 		$succeeded = true;
 		foreach ($posts as $id) {
 			$trackbacks = DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE blogid = ".getBlogId()." AND entry = $id AND isFiltered = 0");
-			if ($trackbacks !== null) { 
+			if (!is_null($trackbacks)) { 
 				if (DBQuery::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks 
 					WHERE blogid = ".getBlogId()." AND id = $id"))
 					continue;
@@ -588,9 +588,9 @@ class Post {
 		if ($targetresult != false) {
 			while ($target = mysql_fetch_array($targetresult)) {
 				$oldtag = DBQuery::queryRow("SELECT id, name FROM {$database['prefix']}Tags WHERE id = {$target['tag']}");
-				if ($oldtag != null) {		
+				if (!is_null($oldtag)) {		
 					$tagid = DBQuery::queryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '" . mysql_tt_escape_string($oldtag['name']) . "' LIMIT 1 ");
-					if ($tagid == null) { 
+					if (is_null($tagid)) { 
 						DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
 					} else {
 						if ($tagid == $oldtag['id']) continue;

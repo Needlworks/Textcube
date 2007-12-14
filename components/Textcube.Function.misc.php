@@ -194,6 +194,72 @@ class misc {
 		unset($xmls);	
 		return ( $outVal);
 	}
+
+	// For Blog-scope setting
+	function getBlogSettingGlobal($name, $default = null) {
+		$settings = misc::getBlogSettingsGlobal(getBlogId()); // from blog.service.php
+		if ($settings === false) return $default;
+		if( isset($settings[$name]) ) {
+			return $settings[$name];
+		}
+		return $default;
+	}
+
+	function getBlogSettingsGlobal($blogid = null) {
+		global $database, $service;
+		global $__gCacheBlogSettings;
+		if(is_null($blogid)) $blogid = getBlogId();
+		if (array_key_exists($blogid, $__gCacheBlogSettings)) {
+			return $__gCacheBlogSettings[$blogid];
+		}
+		$query = new TableQuery($database['prefix'] . 'BlogSettings');
+		$query->setQualifier('blogid',$blogid);
+		$blogSettings = $query->getAll();
+		if( $blogSettings ) {
+			$result = array();
+			$blogSettingFields = array();
+			$defaultValues = array(
+					'name'                     => '',
+					'defaultDomain'            => 0,
+					'title'                    => '', 
+					'description'              => '', 
+					'logo'                     => '', 
+					'logoLabel'                => '', 
+					'logoWidth'                => 0,
+					'logoHeight'               => 0,
+					'useSlogan'                => 1,
+					'entriesOnPage'            => 10, 
+					'entriesOnList'            => 10, 
+					'entriesOnRSS'             => 10, 
+					'publishWholeOnRSS'        => 1,
+					'publishEolinSyncOnRSS'    => 1,
+					'allowWriteOnGuestbook'    => 1,
+					'allowWriteDblCommentOnGuestbook' => 1,
+					'language'     => $service['language'],
+					'blogLanguage' => $service['language'],
+					'timezone'     => $service['timezone'],
+					'noneCommentMessage'       => '',
+					'singleCommentMessage'     => '',
+					'noneTrackbackMessage'     => '',
+					'singleTrackbackMessage'   => '');
+			foreach($blogSettings as $blogSetting) {
+				$result[$blogSetting['name']] = $blogSetting['value'];
+				if(array_key_exists($blogSetting['name'],$defaultValues)) {
+					array_push($blogSettingFields, $blogSetting['name']);
+				}
+			}
+			foreach($defaultValues as $name => $value) {
+				if(!in_array($name,$blogSettingFields)) {
+					$result[$name] = $value;
+					setBlogSettingDefault($name,$value);
+				}
+			}
+			$__gCacheBlogSettings[$blogid] = $result;
+			return $result;
+		}
+		$__gCacheBlogSettings[$blogid] = false;
+		return false;
+	}
 	
 	function getBlogSetting($name, $default = null) {
 		global $database, $blogid;
@@ -233,13 +299,13 @@ class misc {
 		global $database;
 		$name = 'plugin_' . $name;
 		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = ".getUserId()." AND name = '".mysql_tt_escape_string($name)."'");
-		return ($value === null) ? $default : $value;
+		return (is_null($value)) ? $default : $value;
 	}
 
 	function getUserSettingGlobal($name, $default = null) {
 		global $database;
 		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = ".getUserId()." AND name = '".mysql_tt_escape_string($name)."'");
-		return ($value === null) ? $default : $value;
+		return (is_null($value)) ? $default : $value;
 	}
 	
 	function setUserSetting($name, $value) {
@@ -260,7 +326,7 @@ class misc {
 		global $database;
 		$name = 'plugin_' . $name;
 		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}ServiceSettings WHERE name = '".mysql_tt_escape_string($name)."'");
-		return ($value === null) ? $default : $value;
+		return (is_null($value)) ? $default : $value;
 	}
 
 	function setServiceSetting($name, $value) {
@@ -280,7 +346,7 @@ class misc {
 	function getBlogSettingRowsPerPage($default = null) {
 		global $database, $blogid;
 		$value = DBQuery::queryCell("SELECT value FROM {$database['prefix']}BlogSettings WHERE blogid = $blogid AND name = 'rowsPerPage'");
-		return ($value === null) ? $default : $value;
+		return (is_null($value)) ? $default : $value;
 	}
 
 	function setBlogSettingRowsPerPage($value) {

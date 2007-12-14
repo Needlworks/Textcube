@@ -23,7 +23,7 @@ class HTTPRequest {
 	function send($content = null) {
 		if (empty($this->url))
 			return false;
-		if ($content !== null)
+		if (!is_null($content))
 			$this->content = $content;
 		$request = @parse_url($this->url);
 		for ($trial = 0; $trial < 5; $trial++) {
@@ -41,11 +41,11 @@ class HTTPRequest {
 			fwrite($socket, $this->method . ' ' . $path . " HTTP/1.1\r\n");
 			fwrite($socket, 'Host: ' . $request['host'] . "\r\n");
 			fwrite($socket, "User-Agent: Mozilla/4.0 (compatible; Eolin; Textcube ".TEXTCUBE_VERSION.")\r\n");
-			if ($this->referer !== null)
+			if (!is_null($this->referer))
 				fwrite($socket, "Referer: {$this->referer}\r\n");
-			if ($this->eTag !== null)
+			if (!is_null($this->eTag))
 				fwrite($socket, "If-None-Match: {$this->eTag}\r\n");
-			if ($this->lastModified !== null) {
+			if (!is_null($this->lastModified)) {
 				if (is_numeric($this->lastModified))
 					$this->lastModified = Timestamp::getRFC1123GMT($this->lastModified);
 				fwrite($socket, "If-Modified-Since: {$this->lastModified}\r\n");
@@ -120,7 +120,7 @@ class HTTPRequest {
 				fclose($socket);
 				return false;
 			case 304: // Not Modified
-				if (($this->eTag === null) && ($this->lastModified === null)) {
+				if (is_null($this->eTag) && is_null($this->lastModified)) {
 					fclose($socket);
 					return false;
 				}

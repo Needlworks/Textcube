@@ -250,7 +250,7 @@ class Acl {
 			$_SESSION['acl']["blog.$blogid"] = array();
 		}
 
-		if( $priv === null ) {
+		if( is_null($priv) ) {
 			return;
 		}
 
@@ -266,7 +266,7 @@ class Acl {
 	}
 
 	function getCurrentPrivilege($blogid=null) {
-		if( $blogid === null ) {
+		if( is_null($blogid) ) {
 			$blogid = getBlogId();
 		}
 		if( Acl::isAvailable($blogid) ) {

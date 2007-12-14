@@ -313,7 +313,7 @@ function addComment($blogid, & $comment) {
 		if (mysql_num_rows($result) == 0)
 			return false;
 	}
-	$parent = $comment['parent'] == null ? 'null' : "'{$comment['parent']}'";
+	$parent = $comment['parent'] === null ? 'null' : "'{$comment['parent']}'";
 	if ($user !== null) {
 		$comment['replier'] = getUserId();
 		$name = mysql_tt_escape_string($user['name']);

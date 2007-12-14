@@ -5,7 +5,7 @@
 class Base64Stream {
 	function encode($src = null, $dest = null) {
 		if (is_string($src)) {
-			if ($dest === null) {
+			if (is_null($dest)) {
 				if (!$src = fopen($src, 'r'))
 					return false;
 				while (!feof($src))
