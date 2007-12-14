@@ -54,7 +54,7 @@ function getKeylogByTitle($blogid, $title) {
 	global $database;
 	$title = DBQuery::escapeString($title);
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	return DBQuery::queryRow("SELECT * 
+	return DBQuery::queryAll("SELECT * 
 			FROM {$database['prefix']}Entries 
 			WHERE blogid = $blogid 
 				AND draft = 0 $visibility 
