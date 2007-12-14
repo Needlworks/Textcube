@@ -974,11 +974,15 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 		$contentWidth = getContentWidth();
 			
 		if (count($images) > 0) {
+			include_once ROOT . '/components/Textcube.Function.misc.php';
+			
 			for ($i=0; $i<count($images); $i++) {
 				$tempFileName = array_pop(explode('/', $images[$i][1]));
+
 				if (file_exists(ROOT . "/attach/{$blogid}/{$tempFileName}")) {
-					$tempInfo = getimagesize(ROOT . "/attach/{$blogid}/{$tempFileName}");
-					if ($tempInfo[0] > $contentWidth)
+					$tempAttributes = misc::getAttributesFromString($images[$i][2]);
+					$tempOriginInfo = getimagesize(ROOT . "/attach/{$blogid}/{$tempFileName}");
+					if ($tempOriginInfo[0] > $tempAttributes['width'])
 						$newImage = resampleImage($images[$i][0], ROOT . "/attach/{$blogid}/{$tempFileName}", $useAbsolutePath);
 					else
 						$newImage = $images[$i][0];
