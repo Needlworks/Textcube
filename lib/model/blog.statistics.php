@@ -9,11 +9,11 @@ function getStatistics($blogid) {
 	$result = DBQuery::queryCell("SELECT visits FROM {$database['prefix']}BlogStatistics WHERE blogid = $blogid");
 	if (!empty($result)) $stats['total'] = $result;
 	
-	$result = DBQuery::queryColumn("SELECT date, visits FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid AND `date` in ('" . Timestamp::getDate()."','".Timestamp::getDate(time()-86400)."')");
+	$result = DBQuery::queryAll("SELECT date, visits FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid AND `date` in ('" . Timestamp::getDate()."','".Timestamp::getDate(time()-86400)."')");
 	$stat['today'] = $stat['yesterday'] = 0;
 	foreach($result as $data) {
-		if($data['date'] == Timestamp::getDate()) $stats['today'] = $data['date'];
-		if($data['date'] == Timestamp::getDate(time()-86400)) $stats['yesterday'] = $data['date'];
+		if($data['date'] == Timestamp::getDate()) $stats['today'] = $data['visits'];
+		if($data['date'] == Timestamp::getDate(time()-86400)) $stats['yesterday'] = $data['visits'];
 	}
 
 	return $stats;
