@@ -9,10 +9,12 @@ function getStatistics($blogid) {
 	$result = DBQuery::queryCell("SELECT visits FROM {$database['prefix']}BlogStatistics WHERE blogid = $blogid");
 	if (!empty($result)) $stats['total'] = $result;
 	
-	$result = DBQuery::queryColumn("SELECT date, visits FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid AND `date` in ('" . Timestamp::getDate()."','".Timestamp::getDate(time()-86400)."') ORDER BY date DESC");
-	var_dump($result);
-	$stats['today'] = (isset($result[0]) && $result[0]['date'] == Timestamp::getDate()) ? $result[0] : 0;
-	$stats['yesterday'] = (isset($result[1]) && $result[1]['date'] == Timestamp::getDate(time()-86400)) ? $result[1] : 0;
+	$result = DBQuery::queryColumn("SELECT date, visits FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid AND `date` in ('" . Timestamp::getDate()."','".Timestamp::getDate(time()-86400)."')");
+	$stat['today'] = $stat['yesterday'] = 0;
+	foreach($result as $data) {
+		if($data['date'] == Timestamp::getDate()) $stats['today'] = $data['date'];
+		if($data['date'] == Timestamp::getDate(time()-86400)) $stats['yesterday'] = $data['date'];
+	}
 
 	return $stats;
 }
@@ -70,12 +72,12 @@ function updateVisitorStatistics($blogid) {
 	if(DBQuery::queryCount("SELECT blog FROM {$database['prefix']}SessionVisits WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND blog = $blogid") > 0)
 		return;
 	if (DBQuery::queryCount("INSERT INTO {$database['prefix']}SessionVisits values('$id', '{$_SERVER['REMOTE_ADDR']}', $blogid)") > 0) {
-		if(!DBQuery::execute("UPDATE {$database['prefix']}BlogStatistics SET visits = visits + 1 WHERE blogid = $blogid")) {
+		if(DBQuery::queryCount("UPDATE {$database['prefix']}BlogStatistics SET visits = visits + 1 WHERE blogid = $blogid") < 1) {
 			DBQuery::execute("INSERT into {$database['prefix']}BlogStatistics values($blogid, 1)");
 		}
 		
 		$period = Timestamp::getDate();
-		if(!DBQuery::execute("UPDATE {$database['prefix']}DailyStatistics SET visits = visits + 1 WHERE blogid = $blogid AND `date` = $period")) {
+		if(DBQuery::queryCount("UPDATE {$database['prefix']}DailyStatistics SET visits = visits + 1 WHERE blogid = $blogid AND `date` = $period") < 1) {
 			DBQuery::execute("INSERT into {$database['prefix']}DailyStatistics values($blogid, $period, 1)");
 		}
 		if (!empty($_SERVER['HTTP_REFERER'])) {
