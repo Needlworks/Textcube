@@ -6,9 +6,10 @@
 function getEntriesTotalCount($blogid) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
-	return DBQuery::queryCell("SELECT COUNT(*) 
+	$count =  DBQuery::queryCell("SELECT COUNT(*) 
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0");
+	return ($count ? $count : 0);
 }
 
 function getNoticesTotalCount($blogid) {
