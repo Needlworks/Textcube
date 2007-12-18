@@ -117,7 +117,7 @@ function getCategories($blogid, $format = 'tree') {
 		return $categories;
 	}
 	foreach ($rows as $category) {
-		if ($category['parent'] === null) {
+		if ($category['parent'] == null) {
 			$category['children'] = array();
 			$categories[$category['id']] = $category;
 		} else if (isset($categories[$category['parent']])) {
@@ -154,7 +154,7 @@ function getCategoryVisibilityList($blogid, $mode = 'private') {
 
 function getPrivateCategoryExclusionQuery($blogid) {
 	$exclusionList = getCategoryVisibilityList($blogid, 'private');
-	if($exclusionList === null) return '';
+	if(empty($exclusionList)) return '';
 	return '  AND e.category NOT IN ('.$exclusionList.')';
 }
 

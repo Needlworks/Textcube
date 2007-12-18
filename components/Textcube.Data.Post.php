@@ -322,7 +322,7 @@ class Post {
 	function getTagsWithEntryString($entryTag) 
 	{
 		global $database;
-		if (is_null($entryTag))
+		if ($entryTag != null)
 			return array();
 		
 		$tags = explode(',', $entryTag);

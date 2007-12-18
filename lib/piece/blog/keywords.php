@@ -10,7 +10,7 @@ if(isset($keywords)) {
 	foreach ($keywords as $item) {
 		$itemView = $skin->keywordItem;
 		dress('keyword_label', htmlspecialchars($item), $itemView);
-		if($skinSetting['keylogSkin']!== null) {
+		if($skinSetting['keylogSkin']!= null) {
 			dress('onclick_keyword', "openKeyword('$blogURL/keylog/" . escapeJSInAttribute($item) . "'); return false;", $itemView);
 		} else {
 			dress('onclick_keyword', "return false;", $itemView);
