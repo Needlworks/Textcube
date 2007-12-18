@@ -210,7 +210,7 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 		$query .= " PRIMARY KEY (" . implode(',',$keys) . ")";
 		$query .= $index;
 		$query .= ") TYPE=MyISAM ";
-		$query .= ($database['utf8'] == true) ? 'DEFAULT CHARSET=utf8' : '';
+		$query .= (DBQuery::charset() == 'utf8') ? 'DEFAULT CHARSET=utf8' : '';
 		if (DBQuery::execute($query)) {
 				$keyname = DBQuery::escapeString(UTF8::lessenAsEncoding('Database_' . $name, 32));
 				$value = DBQuery::escapeString(UTF8::lessenAsEncoding($plugin . '/' . $version , 255));

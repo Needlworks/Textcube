@@ -6,12 +6,14 @@
 global $cachedResult;
 global $fileCachedResult;
 global $__gEscapeTag;
-$cachedResult = array();
+global $__dbProperties;
+$cachedResult = $__dbProperties = array();
 $__gEscapeTag = null;
 
 class DBQuery {	
 	/*@static@*/
 	function bind($database) {
+		global $__dbProperties;
 		// Connects DB and set environment variables
 		// $database['utf8'] should be validated.
 		// $database array should contain 'server','username','password'.
@@ -20,9 +22,9 @@ class DBQuery {
 		mysql_select_db($database['database']);
 
 		if (DBQuery::query('SET CHARACTER SET utf8'))
-			$database['utf8'] = true;
+			$__dbProperties['charset'] = 'utf8';
 		else
-			$database['utf8'] = false;
+			$__dbProperties['charset'] = '';
 		@DBQuery::query('SET SESSION collation_connection = \'utf8_general_ci\'');
 	}
 	
@@ -30,7 +32,13 @@ class DBQuery {
 		mysql_close();
 		return true;
 	}
-	
+
+	function charset() {
+		global $__dbProperties;
+		if(isset($__dbProperties['charset'])) return $__dbProperties['charset'];
+		else return null;
+	}
+
 	/*@static@*/
 	function queryExistence($query) {
 		if ($result = DBQuery::query($query)) {
