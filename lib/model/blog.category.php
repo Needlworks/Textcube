@@ -91,7 +91,7 @@ function getCategories($blogid, $format = 'tree') {
 		return $categories;
 	}
 	foreach ($rows as $category) {
-		if ($category['parent'] === null) {
+		if ($category['parent'] == null) {
 			$category['children'] = array();
 			$categories[$category['id']] = $category;
 		} else if (isset($categories[$category['parent']]))

@@ -14,7 +14,7 @@ class Tag {
 	{
 		global $database;
 		
-		if (is_null($taglist))
+		if ($taglist == null)
 			return;
 			
 		$tmptaglist = array_filter($taglist, 'Tag_removeEmptyTagHelper');
@@ -64,7 +64,7 @@ class Tag {
 	{
 		global $database;
 		
-		if (is_null($taglist))
+		if ($taglist != null)
 			$taglist = array();
 			
 		$tmptaglist = array_filter($taglist, 'Tag_removeEmptyTagHelper');

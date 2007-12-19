@@ -20,7 +20,7 @@ function setBlogSettingForMigration($blogid, $name, $value, $mig = null) {
 	global $database;
 	$name = mysql_tt_escape_string($name);
 	$value = mysql_tt_escape_string($value);
-	if(is_null($mig)) 
+	if($mig === null) 
 		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettingsMig VALUES('$blogid', '$name', '$value')");
 	else
 		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES('$blogid', '$name', '$value')");
@@ -32,7 +32,7 @@ function getBlogSettingForMigration($blogid, $name, $default = null) {
 		FROM {$database['prefix']}BlogSettingsMig 
 		WHERE blogid = '$blogid'
 		AND name = '".mysql_tt_escape_string($name)."'");
-	return (is_null($value)) ? $default : $value;
+	return ($value === null) ? $default : $value;
 }
 
 ?>

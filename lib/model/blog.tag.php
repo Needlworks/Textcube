@@ -197,7 +197,7 @@ function addTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 {
 	global $database;
 	requireComponent('Needlworks.Cache.PageCache');
-	if ($taglist === null)
+	if ($taglist == null)
 		return;
 		
 	if (false) removeEmptyTagHelper(""); // for optimizer
@@ -248,7 +248,7 @@ function addTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 {
 	global $database;
-	if ($taglist === null)
+	if ($taglist == null)
 		$taglist = array();
 		
 	if (false) removeEmptyTagHelper(""); // for optimizer
