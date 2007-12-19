@@ -645,7 +645,7 @@ if (count($templateLists) == 0) {
 	echo '												<dd class="noItem">' . _t('등록된 서식이 없습니다.') . '</dd>' . CRLF;
 } else {
 	foreach($templateLists as $templateList) {
-		echo '												<dd><a href="#void" onclick="entryManager.loadTemplate('.$templateList['id'].',\''.$templateList['title'].'\');return false;">'.$templateList['title'].'</a></dd>'.CRLF;
+		echo '												<dd><a href="#void" onclick="entryManager.loadTemplate('.$templateList['id'].',\''.htmlspecialchars($templateList['title']).'\');return false;">'.htmlspecialchars($templateList['title']).'</a></dd>'.CRLF;
 	}
 }
 ?>
