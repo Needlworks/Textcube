@@ -5,7 +5,7 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'POST' => array(
-		'targets' => array('list')
+		'targets' => array('list', 'default' => '')
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
@@ -20,7 +20,7 @@ if(isset($suri['id'])) {
 		$isAjaxRequest ? respondResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
 } else {
 	foreach(explode(',', $_POST['targets']) as $target)
-		trashCommentInOwner($blogid, $target, false);
+		trashCommentInOwner($blogid, $target);
 	respondResultPage(0);
 }
 ?>
