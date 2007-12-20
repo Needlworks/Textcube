@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 define('ROOT', '../../../../../..');
-require ROOT . '/lib/includeForBlog.php';
+require ROOT . '/lib/includeForBlogOwner.php';
 
 global $database;
 $page=(isset($_GET['page']) && $_GET['page'] >= 1 ? $_GET['page'] : 1 );
@@ -32,10 +32,10 @@ if($userlist){
 		$tempString.=$row['userid'].",";
 		$tempString.=$row['loginid'].",";
 		$tempString.=$row['name'].",";
-		$tempString.=date("Y/m/d H:i:s T",$row['lastLogin'])."*";
+		$tempString.=($row['lastLogin']?date("Y/m/d H:i:s T",$row['lastLogin']):"")."*";
 		}
 	if($tempString!=''){
-		$resultString.=$tempString;
+		$resultString.=substr($tempString,0,-1);
 		printRespond(array('error' => 0, 'result' => $resultString));
 	}
 	else {

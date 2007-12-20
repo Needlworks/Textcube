@@ -348,140 +348,11 @@ function debug(s){try{document.getElementById("debug").innerHTML=++x+")"+s+"<br 
 
 // 여기까지 Suggestion용 Function
 
-function showBlogList(page) {
-	var request = new HTTPRequest(blogURL + "/owner/control/action/blog/index/?page="+page);
-	request.onSuccess = function () {
-		document.getElementById("container-blog-list").innerHTML='';
-		var resultResponse = this.getText("/response/result");
-		var resultRow = resultResponse.split('*');
-		if (resultRow.length == 1)
-		tempTable = '';
-		else {
-			field = resultRow[0];
-			tempInfo = document.createElement("div");
-			tempInfo.id = "page-navigation";
-			tempSpan = document.createElement("span");
-			tempSpan.id = "page-list";
-			tempSpan.innerHTML = field;
-			tempInfo.appendChild(tempSpan);
-			field = resultRow[1];
-			tempSpan = document.createElement("span");
-			tempSpan.id = "total-count";
-			tempSpan.innerHTML = "총 " + field + "개의 블로그";
-			tempInfo.appendChild(tempSpan);
-			
-			tempTable = document.createElement("TABLE");
-			tempThead = document.createElement("THEAD");
-			Tbody_container = document.createElement("TBODY");
-			
-			tempTable.id = "table-blog-list";
-			tempTable.className = "data-inbox";
-			tempTable.setAttribute("cellpadding", 0);
-			tempTable.setAttribute("cellspacing", 0);					
-
-			Tr_container = document.createElement("TR");
-			tempTh_0 = document.createElement("TH");
-			tempTh_1 = document.createElement("TH");
-			tempTh_2 = document.createElement("TH");
-			tempTh_3 = document.createElement("TH");
-			tempTh_4 = document.createElement("TH");
-			tempTh_5 = document.createElement("TH");
-			
-			tempCheckBox = document.createElement("input");
-			tempCheckBox.type = "checkbox";
-			tempCheckBox.onclick = function() { selectCheckBoxAll("table-blog-list",this.checked); };
-			tempTh_0.appendChild(tempCheckBox);
-			tempTh_1.innerHTML = _t('블로그 ID');
-			tempTh_2.innerHTML = _t('블로그 구분자');	
-			tempTh_3.innerHTML = _t('블로그 제목');
-			tempTh_4.innerHTML = _t('블로그 소유자');
-			tempTh_5.innerHTML = _t('Actions');
-			
-			Tr_container.appendChild(tempTh_0);
-			Tr_container.appendChild(tempTh_1);
-			Tr_container.appendChild(tempTh_2);
-			Tr_container.appendChild(tempTh_3);
-			Tr_container.appendChild(tempTh_4);
-			Tr_container.appendChild(tempTh_5);					
-			tempThead.appendChild(Tr_container);
-			tempTable.appendChild(tempThead);
-			for (var i=2; i<resultRow.length-1 ; i++) {
-
-				field = resultRow[i].split(',');
-				Tr_container = document.createElement("TR");
-				Tr_container.id = tempTable.id + "_" + field[0];
-				Td_id = document.createElement("TD");
-				Td_identity = document.createElement("TD");
-				Td_title = document.createElement("TD");
-				Td_owner = document.createElement("TD");
-				Td_action = document.createElement("TD");
-				Td_checkbox = document.createElement("TD");
-				
-				
-				tempCheckBox = document.createElement("input");
-				tempCheckBox.id = Tr_container.id+"_check";
-				tempCheckBox.type = "checkbox";
-				Td_checkbox.appendChild(tempCheckBox);
-
-				Td_id.innerHTML = field[0];
-				//Td_identity.innerHTML = field[1];
-				Td_title.innerHTML = field[2];
-				Td_owner.innerHTML = field[3] + "(" + field[4] +")";
-				Td_action.className = "action";
-				
-				tempLink = document.createElement("A");
-				tempLink.setAttribute("href",blogURL + "/owner/control/blog/" + field[0]);
-				tempLink.innerHTML = field[1];
-				Td_identity.appendChild(tempLink);
-				
-				tempLink = document.createElement("A");
-				tempLink.className = "remove-button button";
-				tempLink.id = "rb_" + field[0];
-				tempLink.setAttribute("href", "#void");
-				tempLink.onclick = function() { deleteBlog(this.id.substr(3)); showBlogList(page);return false; };
-				tempLink.setAttribute("title", _t('이 블로그를 삭제합니다.'));
-
-				tempSpan = document.createElement("SPAN");
-				tempSpan.className = "text";
-				tempSpan.innerHTML = _t('삭제');
-				
-				tempLink.appendChild(tempSpan);
-				Td_action.appendChild(tempLink);				
-				
-				Tr_container.appendChild(Td_checkbox);
-				Tr_container.appendChild(Td_id);
-				Tr_container.appendChild(Td_identity);
-				Tr_container.appendChild(Td_title);
-				Tr_container.appendChild(Td_owner);
-				Tr_container.appendChild(Td_action);
-				Tbody_container.appendChild(Tr_container);
-				}
-				tempTable.appendChild(Tbody_container);
-			}
-		if (tempTable != '' ) {
-			Tbody_container.appendChild(Tr_container);
-			document.getElementById("container-blog-list").appendChild(tempTable);
-			tempTable = document.createElement("TABLE");
-			tempTable.innerHTML = "<tbody><tr><td class='action'>선택한 블로그 : <a title='선택한 블로그를 삭제합니다.' href='#void' onclick='deleteBlogChecked(\"table-blog-list\")'><span class='text'>삭제</span></a></td></tr></tbody>";
-			document.getElementById("container-blog-list").appendChild(tempTable);
-			document.getElementById("container-blog-list").appendChild(tempInfo);
-		}
-		return true;
-	}
-	request.onError = function() {
-		error = this.getText("/response/error");
-		if (error == -2 ) {
-			window.location = "?page="+ this.getText("/response/result");
-		}
-	}
-	request.send();
-}
-
 function sendUserAddInfo(name,email) {
 	var request = new HTTPRequest(blogURL + "/owner/control/action/user/add/?name=" + name + "&email=" + email);
 	request.onSuccess = function() {
 		PM.showMessage(_t('새로운 사용자가 추가되었습니다.'), "center", "top");
-		showUserList(page);
+		ctlRefresh();
 	}
 	request.onError = function() {
 		msg = this.getText("/response/result");
@@ -494,7 +365,7 @@ function sendBlogAddInfo(owner,identify) {
 	var request = new HTTPRequest(blogURL + "/owner/control/action/blog/add/?owner="+owner+"&identify="+identify);
 	request.onSuccess = function() {
 		PM.showMessage(_t('새로운 블로그가 추가되었습니다.'), "center", "top");
-		showBlogList(page);
+		ctlRefresh();
 	}
 	request.onError = function() {
 		msg = this.getText("/response/result");
@@ -503,55 +374,383 @@ function sendBlogAddInfo(owner,identify) {
 	request.send();
 }
 
-function getChecked(tablename) {
-	var tbody = document.getElementById(tablename).childNodes[1];
+//From prototype.js
+function ctlExtend(destination,source) {
+
+	for(var property in source.prototype) {
+		destination.prototype[property] = source.prototype[property];
+	}
+	return destination;
+}
+
+function ctlTable(containername)
+{
+	this.init();
+	
+	this.name = "Textcube Control Panel Blog Table Object";
+	this.copyright = "Tatter Network Foundation";
+	
+	this.container = document.getElementById(containername);	
+}
+
+ctlTable.prototype.init = function() {
+	this.instance = this;
+	this.enablecheckbox = true;
+	this.enableaction = true;
+	this.enableinfo = true;
+
+	this.table = document.createElement("TABLE");		
+	this.rows = 20;
+	
+	this.url="";
+	this.colitem = new Array();
+	this.collink = new Array();	
+	
+}
+
+ctlTable.prototype.setsource = function(url,page,rows) {
+	this.url = url;
+}
+
+ctlTable.prototype.setColumns = function(columns) {
+	this.columns = columns.length;
+	this.colitem = columns;
+}
+
+ctlTable.prototype.refreshTable = function()
+{
+	this.showTable();
+}
+ctlTable.prototype.showTable = function()
+{
+	this.requesturl = blogURL + this.url + "?page="+this.page+"&rows="+this.rows;
+	var request = new HTTPRequest(this.requesturl);
+	request.instance=this.instance;
+	request.onSuccess = function () {
+		var Line_id,resultResponse,resultRow;
+		var instance=this.instance;
+		
+		resultResponse = this.getText("/response/result");
+		resultRow = instance.resultRow = resultResponse.split('*');
+		instance.container.innerHTML='';
+		instance.table.innerHTML = '';
+		
+		if (resultRow.length == 1)
+			instance.table = '';
+		else {
+			if(instance.enableinfo) {
+				tempInfo = instance.printInfo();
+			}
+			var containerThead, containerTr, tempTh, tempCheckBox,containerTbody;
+
+			containerThead = document.createElement("THEAD");
+			containerTr = document.createElement("TR");
+
+			if(instance.enablecheckbox) {
+				tempTh = document.createElement("TH");
+				tempCheckBox = document.createElement("input");
+				tempCheckBox.type = "checkbox";
+				tempCheckBox.onclick = function() { instance.selectCheckBoxAll(this.checked); };
+				tempTh.appendChild(tempCheckBox);
+				containerTr.appendChild(tempTh);
+			}
+			for(var i=0;i<instance.columns;i++) {
+				tempTh = document.createElement("TH");
+				tempTh.innerHTML = instance.colitem[i];
+				containerTr.appendChild(tempTh);
+			}
+			tempTh = document.createElement("TH");
+			tempTh.innerHTML = _t('Actions');
+			containerTr.appendChild(tempTh);
+			
+			containerThead.appendChild(containerTr);
+			instance.table.appendChild(containerThead);
+
+			containerTbody = document.createElement("TBODY");
+
+			for (var i=0; i<instance.rows && resultRow.length > 0; i++) {
+				tempRow = resultRow.shift();
+				field = tempRow.split(',');
+				containerTr = document.createElement("TR");
+
+				var Line_id = field[0];
+				containerTr.id = instance.table.id + "_" + Line_id;
+				Td_id = document.createElement("td");
+
+				if(instance.enablecheckbox) {
+					tempCheckBox = document.createElement("input");
+					Td_checkbox = document.createElement("td");
+					tempCheckBox.id = containerTr.id+"_check";
+					tempCheckBox.type = "checkbox";
+					Td_checkbox.appendChild(tempCheckBox);
+					containerTr.appendChild(Td_checkbox);
+				}
+				for (var j=0;j<4;j++) {
+					Td_id = document.createElement("TD");
+					if (instance.collink[j]!='') {
+						var tempLink = document.createElement("A");
+						tempLink.innerHTML = field[j];
+						tempLink.setAttribute("href",instance.collink[j] + Line_id);
+						Td_id.appendChild(tempLink);
+					}
+					else {
+						Td_id.innerHTML = field[j];
+					}
+					containerTr.appendChild(Td_id);
+				}
+
+				if(instance.enableaction) {
+					Td_action = document.createElement("TD");
+					instance.printAction(Td_action);
+					containerTr.appendChild(Td_action);
+				}
+
+				containerTbody.appendChild(containerTr);
+				}
+			this.instance.table.appendChild(containerTbody);
+		}
+		if (this.instance.table != '' ) {
+			this.instance.container.appendChild(this.instance.table);
+			if(instance.enablecheckbox) {
+				tempTable = instance.printActionChecked();
+				this.instance.container.appendChild(tempTable);
+			}
+			if(instance.enableinfo) {
+				this.instance.container.appendChild(tempInfo);
+			}	
+		}
+		return true;
+	}
+	request.onError = function() {
+		error = this.getText("/response/error");
+		if (error == -2 ) {
+			window.location = "?page="+ this.getText("/response/result");
+		}
+	}
+	request.send();
+}
+
+ctlTable.prototype.getChecked = function() {
+	var tbody = this.table.childNodes[1];
 	var returnText = new Array();
 	for(var i=0; i<tbody.childNodes.length; i++) {
 		var checkbox =  document.getElementById(tbody.childNodes[i].id+"_check");
 		if (checkbox.checked)
 		{
-			returnText.push(tbody.childNodes[i].id.substr(tablename.length+1));
+			returnText.push(tbody.childNodes[i].id.substr(this.table.id.length+1));
 		}
 	}
 	return returnText.join(",");
 }
 
-function selectCheckBoxAll(tablename,checked) {
-	var tbody = document.getElementById(tablename).childNodes[1];
+ctlTable.prototype.selectCheckBoxAll = function(checked) {
+	var tbody = this.table.childNodes[1];
 	for(var i=0; i<tbody.childNodes.length; i++) {
 		var checkbox =  document.getElementById(tbody.childNodes[i].id+"_check");
 		checkbox.checked = checked;
 	}
-}
+} 
 
-
-function reverseCheckBoxAll(tablename,checked) {
-	var tbody = document.getElementById(tablename).childNodes[1];
+ctlTable.prototype.reverseCheckBoxAll = function(checked) {
+	var tbody = this.table.childNodes[1];
 	for(var i=0; i<tbody.childNodes.length; i++) {
 		var checkbox =  document.getElementById(tbody.childNodes[i].id+"_check");
 		//checkbox.checked = checked;
-		if (checkbox.checked) {
-			checkbox.checked=false;
-		}
-		else {
-			checkbox.checked=true;
-		}
+		checkbox.checked = !checkbox.checked;
 	}
 }
 
-function deleteBlogChecked(tablename) {
-	var tbody = document.getElementById(tablename).childNodes[1];
-	var itemString = getChecked(tablename);
+
+//ctlBlog..
+
+ctlBlog = ctlExtend(ctlBlog, ctlTable);
+
+function ctlBlog(containername) {
+	this.name = "Textcube Control Panel Blog Table Object";
+	this.copyright = "Tatter Network Foundation";
+
+	this.init();
+
+	this.container = document.getElementById(containername);
+
+	this.table.id = "table-blog-list";
+	this.table.className = "data-inbox";
+	this.table.setAttribute("cellpadding", 0);
+	this.table.setAttribute("cellspacing", 0);				
+	
+	this.colitem.push(_t('블로그 ID'));
+	this.collink.push('');
+	this.colitem.push(_t('블로그 구분자'));
+	this.collink.push(blogURL + "/owner/control/blog/");
+	this.colitem.push(_t('블로그 제목'));
+	this.collink.push('');
+	this.colitem.push(_t('블로그 소유자'));
+	this.collink.push('');
+		
+	this.url="/owner/control/action/blog/index/";
+	this.rows = (typeof(rows) == "undefined") ? 20 : rows;
+	this.columns = this.colitem.length;
+}
+
+ctlBlog.prototype.setPage = function(page) {
+	this.page = page;
+	this.requesturl = blogURL + this.url + "?page="+this.page+"&rows="+this.rows;
+}
+
+ctlBlog.prototype.printInfo = function() {
+	var pagelist = this.resultRow.shift();
+	var tempInfo = document.createElement("div");
+	tempInfo.id = "page-navigation";
+	var tempSpan = document.createElement("span");
+	tempSpan.id = "page-list";
+	tempSpan.innerHTML = pagelist
+	tempInfo.appendChild(tempSpan);
+	var blogs = this.resultRow.shift();
+	tempSpan = document.createElement("span");
+	tempSpan.id = "total-count";
+	tempSpan.innerHTML = "총 " + blogs + "개의 블로그";
+	tempInfo.appendChild(tempSpan);
+	return tempInfo;
+}
+
+ctlBlog.prototype.printAction = function(Td) {
+	var tempInfo = document.createElement("div");
+	var tempLink = document.createElement("A");
+	tempLink.className = "remove-button button";
+	tempLink.id = "rb_" + field[0];
+	tempLink.setAttribute("href", "#void");
+	tempLink.onclick = function() { deleteBlog(this.id.substr(3)); showTable(page);return false; };
+	tempLink.setAttribute("title", _t('이 블로그를 삭제합니다.'));
+
+	var tempSpan = document.createElement("SPAN");
+	tempSpan.className = "text";
+	tempSpan.innerHTML = _t('삭제');
+
+	tempLink.appendChild(tempSpan);
+	Td.appendChild(tempLink);
+}
+
+ctlBlog.prototype.printActionChecked = function() {
+	var instance = this.instance;
+	var tempInfo = document.createElement("div");
+	var tempLink = document.createElement("A");
+	tempLink.className = "remove-button button";
+	tempLink.id = "rb_" + field[0];
+	tempLink.setAttribute("href", "#void");
+	tempLink.onclick = function() { instance.deleteBlogChecked();return false; };
+	tempLink.setAttribute("title", _t('선택된 블로그를 삭제합니다.'));
+
+	var tempSpan = document.createElement("SPAN");
+	tempSpan.className = "text";
+	tempSpan.innerHTML = _t('선택된 블로그 삭제');
+	
+	tempLink.appendChild(tempSpan);
+	tempInfo.appendChild(tempLink);
+	return tempInfo;
+}
+
+ctlBlog.prototype.deleteBlogChecked = function() {
+	var tbody = this.table.childNodes[1];
+	var itemString = this.getChecked();
 
 	if (!confirm(_t('되돌릴 수 없습니다.\t\n\n계속 진행하시겠습니까?'))) return false;
 	var request = new HTTPRequest(blogURL + "/owner/control/action/blog/delete/?item=" +itemString);
+	request.instance=this.instance;
 	request.onSuccess = function() {
 		PM.showMessage(_t('선택된 블로그가 삭제되었습니다.'), "center", "top");
-		showBlogList(page);
+		this.instance.showTable();
 	}
 	request.onError = function() {
 		PM.showMessage(_t('삭제 도중 오류가 발생하였습니다.'), "center", "top");
 	}
 	request.send();
+}
+
+
+//ctlUser
+ctlUser = ctlExtend(ctlUser, ctlTable);
+
+function ctlUser(containername) {
+	this.name = "Textcube Control Panel User Table Object";
+	this.copyright = "Tatter Network Foundation";
+
+	this.init();
+
+	this.container = document.getElementById(containername);
+
+	this.table.id = "table-user-list";
+	this.table.className = "data-inbox";
+	this.table.setAttribute("cellpadding", 0);
+	this.table.setAttribute("cellspacing", 0);				
+	
+	this.colitem.push(_t('ID'));
+	this.collink.push('');
+	this.colitem.push(_t('로그인 ID'));
+	this.collink.push(blogURL + "/owner/control/user/");
+	this.colitem.push(_t('필명'));
+	this.collink.push('');
+	this.colitem.push(_t('최종 접속일'));
+	this.collink.push('');
+		
+	this.url="/owner/control/action/user/index/";
+	this.rows = (typeof(rows) == "undefined") ? 20 : rows;
+	this.columns = this.colitem.length;
+}
+
+ctlUser.prototype.setPage = function(page) {
+	this.page = page;
+	this.requesturl = blogURL + this.url + "?page="+this.page+"&rows="+this.rows;
+}
+
+ctlUser.prototype.printInfo = function() {
+	var pagelist = this.resultRow.shift();
+	var tempInfo = document.createElement("div");
+	tempInfo.id = "page-navigation";
+	var tempSpan = document.createElement("span");
+	tempSpan.id = "page-list";
+	tempSpan.innerHTML = pagelist
+	tempInfo.appendChild(tempSpan);
+	var blogs = this.resultRow.shift();
+	tempSpan = document.createElement("span");
+	tempSpan.id = "total-count";
+	tempSpan.innerHTML = "총 " + blogs + "명의 사용자";
+	tempInfo.appendChild(tempSpan);
+	return tempInfo;
+}
+
+ctlUser.prototype.printAction = function(Td) {
+	var tempInfo = document.createElement("div");
+	var tempLink = document.createElement("A");
+	tempLink.className = "remove-button button";
+	tempLink.id = "rb_" + field[0];
+	tempLink.setAttribute("href", "#void");
+	tempLink.onclick = function() { return false; }; //TODO:미구현
+	tempLink.setAttribute("title", _t('이 사용자를 삭제합니다.'));
+
+	var tempSpan = document.createElement("SPAN");
+	tempSpan.className = "text";
+	tempSpan.innerHTML = _t('삭제');
+
+	tempLink.appendChild(tempSpan);
+	Td.appendChild(tempLink);
+}
+
+ctlUser.prototype.printActionChecked = function() {
+	var instance = this.instance;
+	var tempInfo = document.createElement("div");
+	var tempLink = document.createElement("A");
+	tempLink.className = "remove-button button";
+	tempLink.id = "rb_" + field[0];
+	tempLink.setAttribute("href", "#void");
+	tempLink.onclick = function() { return false; }; //TODO:미구현
+	tempLink.setAttribute("title", _t('선택된 사용자를 삭제합니다.'));
+
+	var tempSpan = document.createElement("SPAN");
+	tempSpan.className = "text";
+	tempSpan.innerHTML = _t('선택된 사용자 삭제');
+	
+	tempLink.appendChild(tempSpan);
+	tempInfo.appendChild(tempLink);
+	return tempInfo;
 }
 

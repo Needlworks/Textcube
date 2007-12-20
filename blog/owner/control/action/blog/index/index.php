@@ -4,14 +4,16 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 define('ROOT', '../../../../../..');
+require ROOT . '/lib/includeForBlogOwner.php';
 
 global $blogid, $database;
 $page=(isset($_GET['page']) && $_GET['page'] >= 1 ? $_GET['page'] : 1 );
+$row=(isset($_GET['rows']) && $_GET['rows'] >= 1 ? $_GET['rows'] : 25 );
 
-$bloglist = POD::queryColumn("SELECT blogid,name FROM `{$database['prefix']}BlogSettings` WHERE name = 'name' ORDER BY blogid ASC LIMIT " . ($page-1)*25 . " ,25");
+$bloglist = POD::queryColumn("SELECT blogid,name FROM `{$database['prefix']}BlogSettings` WHERE name = 'name' ORDER BY blogid ASC LIMIT " . ($page-1)*$row . " ,$row");
 $blogcount = POD::queryCount("SELECT blogid,name FROM `{$database['prefix']}BlogSettings` WHERE name = 'name'");
 
-$pages = (int)(($blogcount-0.5) / 25)+1;
+$pages = (int)(($blogcount-0.5) / $row)+1;
 if ($pages<$page) {
 	printRespond(array('error' => -2,'result' => $pages));
 }
@@ -35,11 +37,10 @@ if($bloglist){
  		$tempString.=$bid.",";
 		$tempString.=$bsetting['name'].",";
 		$tempString.=$bsetting['title'].",";
-		$tempString.=User::getName($bsetting['owner']).",";
-		$tempString.=User::getEmail($bsetting['owner'])."*";
+		$tempString.=User::getName($bsetting['owner'])."(".User::getEmail($bsetting['owner']).")*";
 	}
 	if($tempString!=''){
-		$resultString .= $tempString;
+		$resultString .= substr($tempString,0,-1);
 		printRespond(array('error' => 0, 'result' => $resultString));
 	}
 	else {

@@ -23,13 +23,17 @@ $page = $_GET['page'];
 <script type="text/javascript"> // <![CDATA[
 
 var page = <?php echo $page;?>;
+function ctlRefresh() {
+	ctlTableObj.refreshTable();
+}
 
 function deleteBlog(bid) {
 	if (!confirm(_t('되돌릴 수 없습니다.\t\n\n계속 진행하시겠습니까?'))) return false;
 	var request = new HTTPRequest(blogURL + "/owner/control/action/blog/delete/"+bid);
 	request.onSuccess = function() {
 		PM.showMessage(_t('선택된 블로그가 삭제되었습니다.'), "center", "top");
-		showBlogList(page);
+		ctlTableObj.refreshTable();
+	//	showBlogList(page);
 	}
 	request.onError = function() {
 		alert(_t('블로그 삭제에 실패하였습니다.'));
@@ -44,6 +48,13 @@ function deleteBlog(bid) {
 <span id="sgtOwner"></span><?php echo _t('블로그 식별자'); ?> : <input type=text name='bi-identify' id='bi-identify'>
 <input type=submit value="<?php echo _t("새 블로그 생성");?>" onclick="sendBlogAddInfo(ctlUserSuggestObj.getValue(),document.getElementById('bi-identify').value);return false;">
 </form>
+</div>
+
+<h2 class="caption"><span class="main-text">Blog List</span></h2>
+<div id=container-blog-list class='part'></div>
+<?php 
+require ROOT . '/lib/piece/owner/footer.php';
+?>
 <script type="text/javascript">
 //<![CDATA[
 	try {
@@ -53,15 +64,8 @@ function deleteBlog(bid) {
 	} catch (e) {
 		document.getElementById("sgtOwner").innerHTML = '<input type="text" class="bi-owner-loginid" name="location" value="" />';
 	}
+	var ctlTableObj = new ctlBlog('container-blog-list');
+	ctlTableObj.setPage(page);
+	ctlTableObj.showTable();
 //]]>
 </script> 
-</div>
-
-<h2 class="caption"><span class="main-text">Blog List</span></h2>
-<div id=container-blog-list class='part'></div>
-<script type="text/javascript"> // <![CDATA[
-showBlogList(page);
-// ]]> </script>
-<?php 
-require ROOT . '/lib/piece/owner/footer.php';
-?>
