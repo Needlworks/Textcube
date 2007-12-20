@@ -883,7 +883,14 @@ for ($i=0; $i<sizeof($entries); $i++) {
 if ($entry['category'] != -4) {
 ?>
 											<td class="trackback">
-												<a id="trackbackIcon_<?php echo $entry['id'];?>" class="trackback-off-button button" href="#void" onclick="showTrackbackSender(<?php echo $entry['id'];?>,event)" title="<?php echo _t('관련된 글에 글을 겁니다.');?>"><span class="text"><?php echo _t('글걸기');?></span></a>
+<?php
+if($entry['category'] < 0) {
+} else {
+?>
+												<a id="trackbackIcon_<?php echo $entry['id'];?>" class="trackback-off-button button" href="#void" onclick="showTrackbackSender(<?php echo $entry['id'];?>,event);return false;" title="<?php echo _t('관련된 글에 글을 겁니다.');?>"><span class="text"><?php echo _t('글걸기');?></span></a>
+<?php
+}
+?>
 											</td>
 <?php
 } else {
