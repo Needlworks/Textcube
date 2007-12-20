@@ -15,7 +15,6 @@ class DBQuery {
 	function bind($database) {
 		global $__dbProperties;
 		// Connects DB and set environment variables
-		// $database['utf8'] should be validated.
 		// $database array should contain 'server','username','password'.
 		if(!isset($database) || empty($database)) return false;
 		mysql_connect($database['server'], $database['username'], $database['password']);
@@ -24,7 +23,7 @@ class DBQuery {
 		if (DBQuery::query('SET CHARACTER SET utf8'))
 			$__dbProperties['charset'] = 'utf8';
 		else
-			$__dbProperties['charset'] = '';
+			$__dbProperties['charset'] = 'default';
 		@DBQuery::query('SET SESSION collation_connection = \'utf8_general_ci\'');
 	}
 	
@@ -35,7 +34,7 @@ class DBQuery {
 
 	function charset() {
 		global $__dbProperties;
-		if(isset($__dbProperties['charset'])) return $__dbProperties['charset'];
+		if (array_key_exists('charset', $__dbProperties)) return $__dbProperties['charset'];
 		else return null;
 	}
 
