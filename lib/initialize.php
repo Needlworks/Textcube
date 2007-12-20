@@ -9,7 +9,7 @@
    - Choose DBMS and bind database.*/
    
 require ROOT.'/components/Needlworks.Database.php';
-if(!empty($database) && !empty($database["database"])) DBQuery::bind($database);
+if(!empty($database) && !empty($database["database"])) POD::bind($database);
 
 
 /* Path-dependent environment setting
@@ -43,7 +43,7 @@ $__locale = array(
 // Set timezone.
 if(isset($database) && !empty($database['database'])) {
 	Timezone::set(isset($blog['timezone']) ? $blog['timezone'] : $service['timezone']);
-	DBQuery::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
+	POD::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
 }
 
 // Load administration panel locale.

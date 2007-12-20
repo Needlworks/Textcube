@@ -117,7 +117,7 @@ if (isset($_POST['visibility'])) {
 }
 
 // 이올린에 발행한 적이 있는지 체크.
-$countResult = DBQuery::queryExistence("SELECT `id` 
+$countResult = POD::queryExistence("SELECT `id` 
 		FROM `{$database['prefix']}Entries` 
 		WHERE `blogid` = ".getBlogId()." AND `visibility` = 3");
 

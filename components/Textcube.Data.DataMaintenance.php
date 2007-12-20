@@ -7,7 +7,7 @@ class DataMaintenance {
 	function removeAll($removeAttachments = true) {
 		global $database;
 		$blogid = getBlogId();	
-		$tags = DBQuery::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");
+		$tags = POD::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");
 		
 		mysql_query("UPDATE {$database['prefix']}BlogStatistics SET visits = 0 WHERE blogid = $blogid");
 		mysql_query("DELETE FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid");
@@ -33,12 +33,12 @@ class DataMaintenance {
 		if (count($tags) > 0) 
 		{
 			$tagliststr = implode(', ', $tags);
-			$nottargets = DBQuery::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE tag in ( $tagliststr )");
+			$nottargets = POD::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE tag in ( $tagliststr )");
 			if (count($nottargets) > 0) {
 				$nottargetstr	= implode(', ', $nottargets);
-				DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr ) AND id NOT IN ( $nottargetstr )");
+				POD::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr ) AND id NOT IN ( $nottargetstr )");
 			} else {
-				DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr ) ");
+				POD::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr ) ");
 			}
 		}
 		

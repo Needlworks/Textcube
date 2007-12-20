@@ -7,7 +7,7 @@ require ROOT . '/lib/includeForReader.php';
 requireStrictRoute();
 
 if(isset($suri['id'])) {
-	if ($feed = DBQuery::queryRow("SELECT * 
+	if ($feed = POD::queryRow("SELECT * 
 		FROM {$database['prefix']}Feeds 
 		WHERE id = {$suri['id']}")) {
 		respondResultPage(updateFeed($feed));
@@ -44,7 +44,7 @@ ob_implicit_flush();
 			//]]>
 		</script>
 <?php
-$feeds = DBQuery::queryAll("SELECT f.* 
+$feeds = POD::queryAll("SELECT f.* 
 		FROM {$database['prefix']}Feeds f, 
 			{$database['prefix']}FeedGroups g, 
 			{$database['prefix']}FeedGroupRelations gr 

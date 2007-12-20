@@ -20,14 +20,14 @@ class Statistics {
 
 	function getDailyStatistics($period) {
 		global $database, $blogid;
-		return DBQuery::queryAll("SELECT date, visits FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid AND LEFT(date, 6) = $period ORDER BY date DESC");
+		return POD::queryAll("SELECT date, visits FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid AND LEFT(date, 6) = $period ORDER BY date DESC");
 	}
 	
 	function getWeeklyStatistics() {
 		global $database, $blogid;
 		$now_day = date('Ymd', strtotime("now"));
 		$old_day = date('Ymd', strtotime("-1 week"));
-		return DBQuery::queryAll("SELECT date, visits FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid AND  date BETWEEN $old_day AND $now_day ORDER BY date DESC");
+		return POD::queryAll("SELECT date, visits FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid AND  date BETWEEN $old_day AND $now_day ORDER BY date DESC");
 	}
 
 	function getMonthlyStatistics($blogid) {
@@ -57,7 +57,7 @@ class Statistics {
 
 	function getRefererLogs() {
 		global $database, $blogid;
-		return DBQuery::queryAll("SELECT host, url, referred FROM {$database['prefix']}RefererLogs WHERE blogid = $blogid ORDER BY referred DESC LIMIT 1500");
+		return POD::queryAll("SELECT host, url, referred FROM {$database['prefix']}RefererLogs WHERE blogid = $blogid ORDER BY referred DESC LIMIT 1500");
 	}
 
 	function updateVisitorStatistics($blogid) {
@@ -90,8 +90,8 @@ class Statistics {
 						return;
 					if (!fireEvent('AddingRefererLog', true, array('host' => $referer['host'], 'url' => $_SERVER['HTTP_REFERER'])))
 						return;
-					$host = DBQuery::escapeString(UTF8::lessenAsEncoding($referer['host'], 64));
-					$url = DBQuery::escapeString(UTF8::lessenAsEncoding($_SERVER['HTTP_REFERER'], 255));
+					$host = POD::escapeString(UTF8::lessenAsEncoding($referer['host'], 64));
+					$url = POD::escapeString(UTF8::lessenAsEncoding($_SERVER['HTTP_REFERER'], 255));
 					mysql_query("insert into {$database['prefix']}RefererLogs values($blogid, '$host', '$url', UNIX_TIMESTAMP())");
 					mysql_query("delete from {$database['prefix']}RefererLogs where referred < UNIX_TIMESTAMP() - 604800");
 					if (!mysql_query("update {$database['prefix']}RefererStatistics set count = count + 1 where blogid = $blogid and host = '$host'") || (mysql_affected_rows() == 0))
@@ -103,8 +103,8 @@ class Statistics {
 
 	function setTotalStatistics($blogid) {
 		global $database;
-		DBQuery::execute("DELETE FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid");
-		$prevCount = DBQuery::queryCell("SELECT visits FROM {$database['prefix']}BlogStatistics WHERE blogid = $blogid");
+		POD::execute("DELETE FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid");
+		$prevCount = POD::queryCell("SELECT visits FROM {$database['prefix']}BlogStatistics WHERE blogid = $blogid");
 		if ((!is_null($prevCount)) && ($prevCount == 0))
 			return true;
 		mysql_query("update {$database['prefix']}BlogStatistics set visits = 0 where blogid = $blogid");
@@ -125,7 +125,7 @@ class Statistics {
 			$from = $matches[1];
 		else
 			return array(array(), $paging);
-		$paging['total'] = DBQuery::queryCell("SELECT COUNT(*) $from");
+		$paging['total'] = POD::queryCell("SELECT COUNT(*) $from");
 		if (is_null($paging['total']))
 			return array(array(), $paging);
 		$paging['pages'] = intval(ceil($paging['total'] / $count));
@@ -141,7 +141,7 @@ class Statistics {
 		if ($paging['page'] < $paging['pages'])
 			$paging['next'] = $paging['page'] + 1;
 		$offset = ($paging['page'] - 1) * $count;
-		return array(DBQuery::queryAll("$sql LIMIT $offset, $count"), $paging);
+		return array(POD::queryAll("$sql LIMIT $offset, $count"), $paging);
 	}
 }
 ?>

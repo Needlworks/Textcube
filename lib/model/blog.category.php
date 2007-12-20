@@ -36,7 +36,7 @@ function getCategoryIdByLabel($blogid, $label) {
 	if (empty($label))
 		return 0;
 
-	$label = DBQuery::escapeString($label);
+	$label = POD::escapeString($label);
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
 	if($result = MMCache::queryRow($__gCacheCategoryRaw,'label',$label))
 		return $result['id'];
@@ -100,7 +100,7 @@ function getCategories($blogid, $format = 'tree') {
 		return $__gCacheCategoryTree;
 	else if($format == 'raw' && !empty($__gCacheCategoryRaw))
 		return $__gCacheCategoryRaw;
-	$rows = DBQuery::queryAllWithCache("SELECT * 
+	$rows = POD::queryAllWithCache("SELECT * 
 			FROM {$database['prefix']}Categories 
 			WHERE blogid = $blogid 
 				AND id >= 0 
@@ -186,13 +186,13 @@ function getParentCategoryId($blogid, $id) {
 function getNumberChildCategory($id = null) {
 	global $database;
 	$sql = "SELECT * FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND parent " . ($id === null ? 'IS NULL' : "= $id");
-	$result = DBQuery::queryRow($sql);
-	return DBQuery::queryCell($sql);
+	$result = POD::queryRow($sql);
+	return POD::queryCell($sql);
 }
 
 function getNumberEntryInCategories($id) {
 	global $database;
-	return DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND draft = 0 AND category " . ($id === null ? 'IS NULL' : "= $id"));
+	return POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND draft = 0 AND category " . ($id === null ? 'IS NULL' : "= $id"));
 }
 
 function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
@@ -210,7 +210,7 @@ function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
 	}
 
 	if (!is_null($parent)) {
-		$label = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $parent");
+		$label = POD::queryCell("SELECT name FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $parent");
 		if ($label === null)
 			return false;
 		$label .= '/' . $name;
@@ -219,8 +219,8 @@ function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
 		$label = $name;
 	}
 
-	$label = DBQuery::escapeString(UTF8::lessenAsEncoding($label, 255));
-	$name = DBQuery::escapeString(UTF8::lessenAsEncoding($name, 127));
+	$label = POD::escapeString(UTF8::lessenAsEncoding($label, 255));
+	$name = POD::escapeString(UTF8::lessenAsEncoding($name, 127));
 
 	if($parent == 'NULL') {
 		$parentStr = 'AND parent is null';
@@ -230,32 +230,32 @@ function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
 
 	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE blogid = $blogid AND name = '$name' $parentStr";
 	
-	if (DBQuery::queryCell($sql) > 0)
+	if (POD::queryCell($sql) > 0)
 		return false;
 
 	if(!is_null($priority)) {
-		if(DBQuery::queryExistence("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND priority = $priority")) {
+		if(POD::queryExistence("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND priority = $priority")) {
 			return false;
 		} else {
 			$newPriority = $priority;
 		}
 	} else {
-		$newPriority = DBQuery::queryCell("SELECT MAX(priority) FROM {$database['prefix']}Categories WHERE blogid = $blogid") + 1;
+		$newPriority = POD::queryCell("SELECT MAX(priority) FROM {$database['prefix']}Categories WHERE blogid = $blogid") + 1;
 	}
 
 	// Determine ID.
 	if(!is_null($id)) {
 		$sql = "SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id";
-		if(DBQuery::queryExistence($sql)) {
+		if(POD::queryExistence($sql)) {
 			return false;
 		} else {
 			$newId = $id;
 		}
 	} else {
-		$newId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Categories WHERE blogid = $blogid") + 1;
+		$newId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Categories WHERE blogid = $blogid") + 1;
 	}
 
-	$result = DBQuery::query("INSERT INTO {$database['prefix']}Categories (blogid, id, parent, name, priority, entries, entriesInLogin, label, visibility) VALUES ($blogid, $newId, $parent, '$name', $newPriority, 0, 0, '$label', 2)");
+	$result = POD::query("INSERT INTO {$database['prefix']}Categories (blogid, id, parent, name, priority, entries, entriesInLogin, label, visibility) VALUES ($blogid, $newId, $parent, '$name', $newPriority, 0, 0, '$label', 2)");
 	updateEntriesOfCategory($blogid);
 	return $result ? true : false;
 }
@@ -266,7 +266,7 @@ function deleteCategory($blogid, $id) {
 	if (!is_numeric($id))
 		return false;
 	CacheControl::flushCategory($id);
-	DBQuery::execute("DELETE FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id");
+	POD::execute("DELETE FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id");
 	updateEntriesOfCategory($blogid);
 	return true;
 }
@@ -277,7 +277,7 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 	if($id==0) checkRootCategoryExistence($blogid);
 	if ((empty($name)) && (empty($bodyid)))
 		return false;
-	$row = DBQuery::queryRow("SELECT p.name, p.id 
+	$row = POD::queryRow("SELECT p.name, p.id 
 		FROM {$database['prefix']}Categories c 
 		LEFT JOIN {$database['prefix']}Categories p ON c.parent = p.id 
 		WHERE c.blogid = $blogid AND c.id = $id");
@@ -287,22 +287,22 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 		$parentStr = "AND parent = $parentId";
 	} else
 		$parentStr = 'AND parent is null';
-	$name = DBQuery::escapeString(UTF8::lessenAsEncoding($name, 127));
-	if(DBQuery::queryExistence("SELECT name
+	$name = POD::escapeString(UTF8::lessenAsEncoding($name, 127));
+	if(POD::queryExistence("SELECT name
 		FROM {$database['prefix']}Categories
 		WHERE blogid = $blogid AND name = '".$name."'"))
 		return false;
-	$label = DBQuery::escapeString(UTF8::lessenAsEncoding(empty($label) ? $name : "$label/$name", 255));
+	$label = POD::escapeString(UTF8::lessenAsEncoding(empty($label) ? $name : "$label/$name", 255));
 	$sql = "SELECT * 
 		FROM {$database['prefix']}Categories 
 		WHERE blogid = $blogid 
 			AND id = $id";
 	// $sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE blogid = $blogid AND name='$name' $parentStr";	
-	if(DBQuery::queryExistence($sql) == false)
+	if(POD::queryExistence($sql) == false)
 		return false;
-	$bodyid = DBQuery::escapeString(UTF8::lessenAsEncoding($bodyid, 20));
+	$bodyid = POD::escapeString(UTF8::lessenAsEncoding($bodyid, 20));
 	
-	$result = DBQuery::query("UPDATE {$database['prefix']}Categories 
+	$result = POD::query("UPDATE {$database['prefix']}Categories 
 		SET name = '$name', 
 			label = '$label', 
 			bodyId = '$bodyid'  
@@ -317,24 +317,24 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 
 function updateEntriesOfCategory($blogid, $id = - 1) {
 	global $database;
-	$result = DBQuery::queryAll("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent IS NULL");
+	$result = POD::queryAll("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent IS NULL");
 	foreach($result as $row) {
 		$parent = $row['id'];
 		$parentName = UTF8::lessenAsEncoding($row['name'], 127);
-		$row['name'] = DBQuery::escapeString($parentName);
-		$countParent = DBQuery::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND visibility > 0 AND category = $parent");
-		$countInLoginParent = DBQuery::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND category = $parent");
-		$result2 = DBQuery::queryAll("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $parent");
+		$row['name'] = POD::escapeString($parentName);
+		$countParent = POD::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND visibility > 0 AND category = $parent");
+		$countInLoginParent = POD::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND category = $parent");
+		$result2 = POD::queryAll("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $parent");
 		foreach ($result2 as $rowChild) {
-			$label = DBQuery::escapeString(UTF8::lessenAsEncoding($parentName . '/' . $rowChild['name'], 255));
-			$rowChild['name'] = DBQuery::escapeString(UTF8::lessenAsEncoding($rowChild['name'], 127));
-			$countChild = DBQuery::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND visibility > 0 AND category = {$rowChild['id']}");
-			$countInLogInChild = DBQuery::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND category = {$rowChild['id']}");
-			DBQuery::query("UPDATE {$database['prefix']}Categories SET entries = $countChild, entriesInLogin = $countInLogInChild, `label` = '$label' WHERE blogid = $blogid AND id = {$rowChild['id']}");
+			$label = POD::escapeString(UTF8::lessenAsEncoding($parentName . '/' . $rowChild['name'], 255));
+			$rowChild['name'] = POD::escapeString(UTF8::lessenAsEncoding($rowChild['name'], 127));
+			$countChild = POD::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND visibility > 0 AND category = {$rowChild['id']}");
+			$countInLogInChild = POD::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND category = {$rowChild['id']}");
+			POD::query("UPDATE {$database['prefix']}Categories SET entries = $countChild, entriesInLogin = $countInLogInChild, `label` = '$label' WHERE blogid = $blogid AND id = {$rowChild['id']}");
 			$countParent += $countChild;
 			$countInLoginParent += $countInLogInChild;
 		}
-		DBQuery::query("UPDATE {$database['prefix']}Categories SET entries = $countParent, entriesInLogin = $countInLoginParent, `label` = '{$row['name']}' WHERE blogid = $blogid AND id = $parent");
+		POD::query("UPDATE {$database['prefix']}Categories SET entries = $countParent, entriesInLogin = $countInLoginParent, `label` = '{$row['name']}' WHERE blogid = $blogid AND id = $parent");
 	}
 	if($id >=0) CacheControl::flushCategory($id);
 	clearCategoryCache();
@@ -369,18 +369,18 @@ function moveCategory($blogid, $id, $direction) {
 			FROM {$database['prefix']}Categories AS _my 
 				LEFT JOIN {$database['prefix']}Categories AS _parent ON _parent.id = _my.parent 
 			WHERE _my.id = $id AND _my.blogid = $blogid";
-	$row = DBQuery::queryRow($sql);
+	$row = POD::queryRow($sql);
 	$myParent = is_null($row['myParent']) ? 'NULL' : $row['myParent'];
 	$parentId = is_null($row['parentId']) ? 'NULL' : $row['parentId'];
 	$parentPriority = is_null($row['parentPriority']) ? 'NULL' : $row['parentPriority'];
 	$parentParent = is_null($row['parentParent']) ? 'NULL' : $row['parentParent'];
 	$myPriority = $row['myPriority'];
 	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE parent = $myId AND blogid = $blogid";
-	$myIsHaveChild = (DBQuery::queryCell($sql) > 0) ? true : false;
+	$myIsHaveChild = (POD::queryCell($sql) > 0) ? true : false;
 	$aux = $parentId == 'NULL' ? 'parent is null' : "parent = $parentId";
 	$sql = "SELECT id, parent, priority FROM {$database['prefix']}Categories WHERE $aux AND blogid = $blogid AND priority $sign $myPriority ORDER BY priority $arrange LIMIT 1";
-	$canMove = (DBQuery::queryCount($sql) > 0) ? true : false;
-	$row = DBQuery::queryRow($sql);
+	$canMove = (POD::queryCount($sql) > 0) ? true : false;
+	$row = POD::queryRow($sql);
 	$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
 	$nextParentId = is_null($row['parent']) ? 'NULL' : $row['parent'];
 	$nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
@@ -393,18 +393,18 @@ function moveCategory($blogid, $id, $direction) {
 							priority = $myPriority
 						WHERE
 							id = $nextId AND blogid = $blogid";
-			DBQuery::query($sql);
+			POD::query($sql);
 			$sql = "UPDATE {$database['prefix']}Categories
 						SET
 							priority = $nextPriority
 						WHERE
 							id = $myId AND blogid = $blogid";
-			DBQuery::query($sql);
+			POD::query($sql);
 		// 자신이 2 depth를 가지지 않은 1 depth 카테고리이거나, 위치를 바꿀 대상이 없는 경우.
 		} else {
 			// 위치를 바꿀 대상 카테고리에 같은 이름이 존재하는지 판별.
-			$myName = DBQuery::queryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId AND blogid = $blogid");
-			$overlapCount = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` = $nextId AND blogid = $blogid");
+			$myName = POD::queryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId AND blogid = $blogid");
+			$overlapCount = POD::queryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` = $nextId AND blogid = $blogid");
 			// 같은 이름이 없으면 이동 시작.
 			if ($overlapCount == 0) {
 				$sql = "UPDATE {$database['prefix']}Categories
@@ -412,9 +412,9 @@ function moveCategory($blogid, $id, $direction) {
 								parent = $nextId
 							WHERE
 								id = $myId AND blogid = $blogid";
-				DBQuery::query($sql);
+				POD::query($sql);
 				$sql = "SELECT id, priority FROM {$database['prefix']}Categories WHERE parent = $nextId AND blogid = $blogid ORDER BY priority";
-				$row = DBQuery::queryRow($sql);
+				$row = POD::queryRow($sql);
 				$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
 				$nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
 				if ($nextId != 'NULL') {
@@ -423,13 +423,13 @@ function moveCategory($blogid, $id, $direction) {
 									priority = " . max($nextPriority, $myPriority) . "
 								WHERE
 									id = $nextId AND blogid = $blogid";
-					DBQuery::query($sql);
+					POD::query($sql);
 					$sql = "UPDATE {$database['prefix']}Categories
 								SET
 									priority = " . min($nextPriority, $myPriority) . "
 								WHERE
 									id = $myId AND blogid = $blogid";
-					DBQuery::query($sql);
+					POD::query($sql);
 				}
 			// 같은 이름이 있으면.
 			} else {
@@ -438,33 +438,33 @@ function moveCategory($blogid, $id, $direction) {
 								priority = $myPriority
 							WHERE
 								id = $nextId AND blogid = $blogid";
-				DBQuery::query($sql);
+				POD::query($sql);
 				$sql = "UPDATE {$database['prefix']}Categories
 							SET
 								priority = $nextPriority
 							WHERE
 								id = $myId AND blogid = $blogid";
-				DBQuery::query($sql);
+				POD::query($sql);
 			}
 		}
 	// 이동할 자신이 2 depth일 때.
 	} else {
 		// 위치를 바꿀 대상이 1 depth이면.
 		if ($nextId == 'NULL') {
-			$myName = DBQuery::escapeString(DBQuery::queryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId and `blogid` = $blogid"));
-			$overlapCount = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` IS NULL AND `blogid` = $blogid");
+			$myName = POD::escapeString(POD::queryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId and `blogid` = $blogid"));
+			$overlapCount = POD::queryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` IS NULL AND `blogid` = $blogid");
 			// 1 depth에 같은 이름이 있으면 2 depth로 직접 이동.
 			if ($overlapCount > 0) {
 				$sql = "SELECT `id`, `parent`, `priority` FROM `{$database['prefix']}Categories` WHERE `parent` IS NULL AND `blogid` = $blogid AND `priority` $sign $parentPriority ORDER BY `priority` $arrange";
-				$result = DBQuery::queryAll($sql);
+				$result = POD::queryAll($sql);
 				foreach($result as $row) {
 					$nextId = $row['id'];
 					$nextParentId = $row['parent'];
 					$nextPriority = $row['priority'];
 					
 					// 위치를 바꿀 대상 카테고리에 같은 이름이 존재하는지 판별.
-					$myName = DBQuery::escapeString(DBQuery::queryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId AND `blogid` = $blogid"));
-					$overlapCount = DBQuery::queryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` = $nextId AND `blogid` = $blogid");
+					$myName = POD::escapeString(POD::queryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId AND `blogid` = $blogid"));
+					$overlapCount = POD::queryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` = $nextId AND `blogid` = $blogid");
 					// 같은 이름이 없으면 이동 시작.
 					if ($overlapCount == 0) {
 						$sql = "UPDATE `{$database['prefix']}Categories`
@@ -472,22 +472,22 @@ function moveCategory($blogid, $id, $direction) {
 										`parent` = $nextId
 									WHERE
 										`id` = $myId AND `blogid` = $blogid";
-						DBQuery::query($sql);
+						POD::query($sql);
 							break;
 					}
 				}
 			// 같은 이름이 없으면 1 depth로 이동.
 			} else {
 				$sql = "UPDATE {$database['prefix']}Categories SET parent = NULL WHERE id = $myId AND blogid = $blogid";
-				DBQuery::query($sql);
+				POD::query($sql);
 				$sql = "SELECT id, priority FROM {$database['prefix']}Categories WHERE parent is null AND blogid = $blogid AND priority $sign $parentPriority ORDER BY priority $arrange";
-				$row = DBQuery::queryRow($sql);
+				$row = POD::queryRow($sql);
 				$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
 				$nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
 				if ($nextId == 'NULL') {
 					$operator = ($direction == 'up') ? '-' : '+';
 					$sql = "UPDATE {$database['prefix']}Categories SET priority = $parentPriority $operator 1 WHERE id = $myId AND blogid = $blogid";
-					DBQuery::query($sql);
+					POD::query($sql);
 					return;
 				}
 				if ($direction == 'up') {
@@ -498,9 +498,9 @@ function moveCategory($blogid, $id, $direction) {
 					$aux2 = "SET priority = $nextPriority WHERE id = $myId AND blogid = $blogid";
 				}
 				$sql = "UPDATE {$database['prefix']}Categories $aux";
-				DBQuery::query($sql);
+				POD::query($sql);
 				$sql = "UPDATE {$database['prefix']}Categories $aux2";
-				DBQuery::query($sql);
+				POD::query($sql);
 			}
 		// 위치를 바꿀 대상이 2 depth이면 위치 교환.
 		} else {
@@ -509,13 +509,13 @@ function moveCategory($blogid, $id, $direction) {
 							priority = $myPriority
 						WHERE
 							id = $nextId AND blogid = $blogid";
-			DBQuery::query($sql);
+			POD::query($sql);
 			$sql = "UPDATE {$database['prefix']}Categories
 						SET
 							priority = $nextPriority
 						WHERE
 							id = $myId AND blogid = $blogid";
-			DBQuery::query($sql);
+			POD::query($sql);
 		}
 	}
 	updateEntriesOfCategory($blogid);
@@ -525,7 +525,7 @@ function moveCategory($blogid, $id, $direction) {
 function checkRootCategoryExistence($blogid) {
 	global $database;
 	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = 0";
-	if(!(DBQuery::queryCell($sql))) {
+	if(!(POD::queryCell($sql))) {
 		$name = _text('전체');
 		$result = addCategory($blogid,null,$name,0);
 		return $result ? true : false;
@@ -562,7 +562,7 @@ function setCategoryVisibility($blogid, $id, $visibility) {
 	if($id == 0) return false;
 	$parentVisibility = getParentCategoryVisibility($blogid, $id);
 	if ($parentVisibility!==false && $parentVisibility < 2) return false; // return without changing if parent category is set to hidden.
-	$result = DBQuery::query("UPDATE {$database['prefix']}Categories 
+	$result = POD::query("UPDATE {$database['prefix']}Categories 
 		SET visibility = $visibility 
 		WHERE blogid = $blogid 
 			AND id = $id");
@@ -577,11 +577,11 @@ function setCategoryVisibility($blogid, $id, $visibility) {
 function setChildCategoryVisibility($blogid, $id, $visibility) {
 	global $database;
 	if($id == 0) return false;
-	$childCategories = DBQuery::queryColumn("SELECT id 
+	$childCategories = POD::queryColumn("SELECT id 
 		FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $id");
 	if($childCategories!=false) {
 		foreach($childCategories as $childCategory) {
-			$result = DBQuery::query("UPDATE {$database['prefix']}Categories 
+			$result = POD::query("UPDATE {$database['prefix']}Categories 
 				SET visibility = $visibility 
 				WHERE blogid = $blogid AND id = $childCategory");
 			if($result == false) return false;

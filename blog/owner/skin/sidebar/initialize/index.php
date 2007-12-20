@@ -9,6 +9,6 @@ requireStrictRoute();
 if (!array_key_exists('viewMode', $_REQUEST)) $_REQUEST['viewMode'] = '';
 else $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];
 
-DBQuery::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = {$blogid} AND `name` = 'sidebarOrder'");
+POD::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = {$blogid} AND `name` = 'sidebarOrder'");
 header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
 ?>

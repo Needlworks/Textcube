@@ -55,7 +55,7 @@ function CT_Start_Default_getEntry($blogid, $id) {
 		return null;
 	}
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$entry = DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 0 $visibility");
+	$entry = POD::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 0 $visibility");
 	if (!$entry)
 		return;
 	if ($entry['visibility'] < 0)

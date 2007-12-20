@@ -103,9 +103,9 @@ class Filter {
 	/*@static@*/
 	function isFiltered($type, $value) {
 		global $database;
-		$type = DBQuery::escapeString($type);
-		$value = DBQuery::escapeString($value);
-		return DBQuery::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = '$type' AND '$value' LIKE CONCAT('%', pattern, '%')");
+		$type = POD::escapeString($type);
+		$value = POD::escapeString($value);
+		return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = '$type' AND '$value' LIKE CONCAT('%', pattern, '%')");
 	}
 	
 	function _buildQuery() {

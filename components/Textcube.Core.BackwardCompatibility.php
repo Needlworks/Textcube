@@ -40,15 +40,15 @@ function getTimestamp2($time) {
 
 // From Tattertools 1.1.x to Textcube 1.5
 function mysql_tt_escape_string($string, $link = null) {
-	return DBQuery::escapeString($string, $link);
+	return POD::escapeString($string, $link);
 }
 
 function mysql_tc_escape_string($string, $link = null) {
-	return DBQuery::escapeString($string, $link);
+	return POD::escapeString($string, $link);
 }
 
 function tc_escape_string($string, $link = null) {
-	return DBQuery::escapeString($string, $link);
+	return POD::escapeString($string, $link);
 }
 
 function encodeURL($url) {

@@ -33,15 +33,15 @@ function cancelTeamblogInvite($userid) {
 
 	$blogId = getBlogId();
 	// If there is posts, cannot cancel invitation.
-	if( 0 != DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}Entries 
+	if( 0 != POD::queryCell("SELECT count(*) FROM {$database['prefix']}Entries 
 		WHERE blogid = $blogid AND userid = $userid")) {
 		return false;
 	}
 	// Delete ACL relation.
-	if(!DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid='$blogid' and userid='$userid'"))
+	if(!POD::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid='$blogid' and userid='$userid'"))
 		return false;
 	// And if there is no blog related to the specific user, delete user.
-	if(DBQuery::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE userid = '$userid'")) {
+	if(POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE userid = '$userid'")) {
 		deleteUser($userid);
 	}
 	return true;
@@ -52,13 +52,13 @@ function changeACLonBlog($blogid, $ACLtype, $userid, $switch) {  // Change user 
 	if(empty($ACLtype) || empty($userid))
 		return false;
 
-	$acl = DBQuery::queryCell("SELECT acl
+	$acl = POD::queryCell("SELECT acl
 			FROM {$database['prefix']}Teamblog 
 			WHERE blogid='$blogid' and userid='$userid'");
 
 	if( $acl === null ) { // If there is no ACL, add user into the blog.
 		$name = User::getName($userid);
-		DBQuery::query("INSERT INTO `{$database['prefix']}Teamblog`  
+		POD::query("INSERT INTO `{$database['prefix']}Teamblog`  
 				VALUES('$blogid', '$userid', '0', UNIX_TIMESTAMP(), '0')");
 		$acl = 0;
 	}
@@ -84,17 +84,17 @@ function changeACLonBlog($blogid, $ACLtype, $userid, $switch) {  // Change user 
 	$sql = "UPDATE `{$database['prefix']}Teamblog` 
 		SET acl = ".$acl." 
 		WHERE blogid = ".$blogid." and userid = ".$userid;
-	return DBQuery::execute($sql);
+	return POD::execute($sql);
 }
 
 function deleteTeamblogUser($userid) {
 	global $database;
 
-	DBQuery::execute("UPDATE `{$database['prefix']}Entries` 
+	POD::execute("UPDATE `{$database['prefix']}Entries` 
 		SET userid = ".getBlogId()." 
 		WHERE blogid = ".getBlogId()." AND userid = ".$userid);
 
-	if(DBQuery::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid = ".getBlogId()." and userid='$userid'")) {
+	if(POD::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid = ".getBlogId()." and userid='$userid'")) {
 		return true;
 	} else {
 		return false;

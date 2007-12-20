@@ -9,7 +9,7 @@ require ROOT . '/lib/includeForBlog.php';
 global $database;
 $page=(isset($_GET['page']) && $_GET['page'] >= 1 ? $_GET['page'] : 1 );
 
-$usercount = DBQuery::queryCell("SELECT Count(userid) FROM `{$database['prefix']}Users` WHERE 1");
+$usercount = POD::queryCell("SELECT Count(userid) FROM `{$database['prefix']}Users` WHERE 1");
 
 $pages = (int)((0.5+$usercount) / 25)+1;
 
@@ -22,7 +22,7 @@ $paging['pages'] = $pages;
 $paging['page'] = $page ;
 $pagingTemplate = '[##_paging_rep_##]';
 $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
-$userlist = DBQuery::queryAll("SELECT * FROM `{$database['prefix']}Users` WHERE 1 ORDER BY userid LIMIT ". ($page-1)*25 .", 25");
+$userlist = POD::queryAll("SELECT * FROM `{$database['prefix']}Users` WHERE 1 ORDER BY userid LIMIT ". ($page-1)*25 .", 25");
 
 if($userlist){
 	$resultString=getPagingView($paging, $pagingTemplate, $pagingItemTemplate)."*";

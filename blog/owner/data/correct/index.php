@@ -85,7 +85,7 @@ function setProgress($progress, $text = null, $sub = null) {
 }
 
 setProgress(0, _t('교정 대상을 확인하고 있습니다.'));
-$items = 4 + DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE blogid = $blogid") + DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid");
+$items = 4 + POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE blogid = $blogid") + POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid");
 
 set_time_limit(0);
 $item = 0;
@@ -107,22 +107,22 @@ setProgress($item++ / $items * 100, _t('태그와 태그 관계 정보를 다시
 requireComponent('Textcube.Data.Post');
 Post::correctTagsAll();
 
-if ($result = DBQuery::query("SELECT id, name, parent, homepage, comment, entry, isFiltered FROM {$database['prefix']}Comments WHERE blogid = $blogid")) {
+if ($result = POD::query("SELECT id, name, parent, homepage, comment, entry, isFiltered FROM {$database['prefix']}Comments WHERE blogid = $blogid")) {
 	while ($comment = mysql_fetch_assoc($result)) {
 		setProgress($item++ / $items * 100, _t('댓글과 방명록 데이터를 교정하고 있습니다.'));
 		$correction = '';
 		if (!UTF8::validate($comment['name']))
-			$correction .= ' name = \'' . DBQuery::escapeString(UTF8::correct($comment['name'], '?')) . '\'';
+			$correction .= ' name = \'' . POD::escapeString(UTF8::correct($comment['name'], '?')) . '\'';
 		if (!UTF8::validate($comment['homepage']))
-			$correction .= ' homepage = \'' . DBQuery::escapeString(UTF8::correct($comment['homepage'], '?')) . '\'';
+			$correction .= ' homepage = \'' . POD::escapeString(UTF8::correct($comment['homepage'], '?')) . '\'';
 		if (!UTF8::validate($comment['comment']))
-			$correction .= ' comment = \'' . DBQuery::escapeString(UTF8::correct($comment['comment'], '?')) . '\'';
+			$correction .= ' comment = \'' . POD::escapeString(UTF8::correct($comment['comment'], '?')) . '\'';
 		if (strlen($correction) > 0) {
-			DBQuery::query("UPDATE {$database['prefix']}Comments SET $correction WHERE blogid = $blogid AND id = {$comment['id']}");
+			POD::query("UPDATE {$database['prefix']}Comments SET $correction WHERE blogid = $blogid AND id = {$comment['id']}");
 			$corrected++;
 		}
 		if (!is_null($comment['parent']) && ($comment['isFiltered'] == 0)) {
-			$r2 = DBQuery::query("SELECT id FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$comment['parent']} AND isFiltered = 0");
+			$r2 = POD::query("SELECT id FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$comment['parent']} AND isFiltered = 0");
 			if (mysql_num_rows($r2) <= 0) {
 				trashCommentInOwner($blogid, $comment['id']);
 			}
@@ -132,20 +132,20 @@ if ($result = DBQuery::query("SELECT id, name, parent, homepage, comment, entry,
 	mysql_free_result($result);
 }
 
-if ($result = DBQuery::query("SELECT id, url, site, subject, excerpt FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid")) {
+if ($result = POD::query("SELECT id, url, site, subject, excerpt FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid")) {
 	while ($trackback = mysql_fetch_assoc($result)) {
 		setProgress($item++ / $items * 100, _t('걸린 글 데이터를 교정하고 있습니다.'));
 		$correction = '';
 		if (!UTF8::validate($trackback['url']))
-			$correction .= ' url = \'' . DBQuery::escapeString(UTF8::correct($trackback['url'], '?')) . '\'';
+			$correction .= ' url = \'' . POD::escapeString(UTF8::correct($trackback['url'], '?')) . '\'';
 		if (!UTF8::validate($trackback['site']))
-			$correction .= ' site = \'' . DBQuery::escapeString(UTF8::correct($trackback['site'], '?')) . '\'';
+			$correction .= ' site = \'' . POD::escapeString(UTF8::correct($trackback['site'], '?')) . '\'';
 		if (!UTF8::validate($trackback['subject']))
-			$correction .= ' subject = \'' . DBQuery::escapeString(UTF8::correct($trackback['subject'], '?')) . '\'';
+			$correction .= ' subject = \'' . POD::escapeString(UTF8::correct($trackback['subject'], '?')) . '\'';
 		if (!UTF8::validate($trackback['excerpt']))
-			$correction .= ' excerpt = \'' . DBQuery::escapeString(UTF8::correct($trackback['excerpt'], '?')) . '\'';
+			$correction .= ' excerpt = \'' . POD::escapeString(UTF8::correct($trackback['excerpt'], '?')) . '\'';
 		if (strlen($correction) > 0) {
-			DBQuery::query("UPDATE {$database['prefix']}Trackbacks SET $correction WHERE blogid = $blogid AND id = {$trackback['id']}");
+			POD::query("UPDATE {$database['prefix']}Trackbacks SET $correction WHERE blogid = $blogid AND id = {$trackback['id']}");
 			$corrected++;
 		}
 	}

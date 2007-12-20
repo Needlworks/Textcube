@@ -22,16 +22,16 @@ class DBQuery {
 		
 		pg_connect($sql);
 
-		if (DBQuery::query('SET CHARACTER SET utf8'))
+		if (POD::query('SET CHARACTER SET utf8'))
 			$database['utf8'] = true;
 		else
 			$database['utf8'] = false;
-		@DBQuery::query('SET SESSION collation_connection = \'utf8_general_ci\'');
+		@POD::query('SET SESSION collation_connection = \'utf8_general_ci\'');
 	}
 	
 	/*@static@*/
 	function queryExistence($query) {
-		if ($result = DBQuery::query($query)) {
+		if ($result = POD::query($query)) {
 			if (pg_num_rows($result) > 0) {
 				pg_free_result($result);
 				return true;
@@ -44,7 +44,7 @@ class DBQuery {
 	/*@static@*/
 	function queryCount($query) {
 		$count = 0;
-		if ($result = DBQuery::query($query)) {
+		if ($result = POD::query($query)) {
 			$count = pg_num_rows($result);
 			pg_free_result($result);
 		}
@@ -61,9 +61,9 @@ class DBQuery {
 		}
 
 		if( $useCache ) {
-			$result = DBQuery::queryAllWithCache($query, $type);
+			$result = POD::queryAllWithCache($query, $type);
 		} else {
-			$result = DBQuery::queryAll($query, $type);
+			$result = POD::queryAll($query, $type);
 		}
 		if( empty($result) ) {
 			return null;
@@ -74,9 +74,9 @@ class DBQuery {
 	/*@static@*/
 	function queryRow($query, $type = MYSQL_BOTH, $useCache=true) {
 		if( $useCache ) {
-			$result = DBQuery::queryAllWithCache($query, $type, 1);
+			$result = POD::queryAllWithCache($query, $type, 1);
 		} else {
-			$result = DBQuery::queryAll($query, $type, 1);
+			$result = POD::queryAll($query, $type, 1);
 		}
 		if( empty($result) ) {
 			return null;
@@ -98,7 +98,7 @@ class DBQuery {
 		}
 
 		$column = null;
-		if ($result = DBQuery::query($query)) {
+		if ($result = POD::query($query)) {
 			$column = array();
 			while ($row = pg_fetch_row($result))
 				array_push($column, $row[0]);
@@ -114,7 +114,7 @@ class DBQuery {
 	/*@static@*/
 	function queryAll($query, $type = MYSQL_BOTH, $count = -1) {
 		$all = array();
-		if ($result = DBQuery::query($query)) {
+		if ($result = POD::query($query)) {
 			while ( ($count-- !=0) && $row = pg_fetch_array($result, $type))
 				array_push($all, $row);
 			pg_free_result($result);
@@ -134,14 +134,14 @@ class DBQuery {
 			$cachedResult[$cacheKey][0]++;
 			return $cachedResult[$cacheKey][1];
 		}
-		$all = DBQuery::queryAll($query,$type,$count);
+		$all = POD::queryAll($query,$type,$count);
 		$cachedResult[$cacheKey] = array( 1, $all );
 		return $all;
 	}
 	
 	/*@static@*/
 	function execute($query) {
-		return DBQuery::query($query) ? true : false;
+		return POD::query($query) ? true : false;
 	}
 
 	/*@static@*/
@@ -153,7 +153,7 @@ class DBQuery {
 
 	/*@static@*/
 	function query($query) {
-		$query = DBQuery::queryPostProcessing($query);
+		$query = POD::queryPostProcessing($query);
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);
 			$result = pg_query($query);
@@ -165,7 +165,7 @@ class DBQuery {
 			stristr($query, 'insert ') ||
 			stristr($query, 'delete ') ||
 			stristr($query, 'replace ') ) {
-			DBQuery::clearCache();
+			POD::clearCache();
 		}
 		return $result;
 	}
@@ -208,7 +208,7 @@ class DBQuery {
 	}
 }
 
-DBQuery::cacheLoad();
+POD::cacheLoad();
 register_shutdown_function( array('DBQuery','cacheSave') );
 
 ?>

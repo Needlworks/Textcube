@@ -96,7 +96,7 @@ function pretty_dress($view)
 		return '<div class="sidebar-element-safebox"><p>' . nl2br(htmlspecialchars($view, ENT_QUOTES)) . '</p></div>';
 	}
 	
-	$writer = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $blogid");
+	$writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $blogid");
 	$pageTitle = _t('페이지 제목');
 	
 	dress('page_title', htmlspecialchars($pageTitle), $view);

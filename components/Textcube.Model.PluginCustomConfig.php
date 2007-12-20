@@ -43,7 +43,7 @@ class PluginCustomConfig{
 				return $__globalCache_data['pluginSettings'][$this->pluginName];
 			}
 		}
-		$configXml = DBQuery::queryCell("SELECT settings FROM {$database['prefix']}Plugins WHERE blogid = {$this->blogid} AND name = '{$this->pluginName}'");
+		$configXml = POD::queryCell("SELECT settings FROM {$database['prefix']}Plugins WHERE blogid = {$this->blogid} AND name = '{$this->pluginName}'");
 		requireComponent("Textcube.Function.misc");
 		$t= misc::fetchConfigVal($configXml);
 		return false==is_array($t)?array():$t;
@@ -70,7 +70,7 @@ class PluginCustomConfig{
 			globalCacheExpire($this->blogid);
 		}
 
-		return DBQuery::query("REPLACE INTO {$database['prefix']}Plugins (blogid, name, settings) VALUES({$this->blogid},'{$this->pluginName}', '$xml')");
+		return POD::query("REPLACE INTO {$database['prefix']}Plugins (blogid, name, settings) VALUES({$this->blogid},'{$this->pluginName}', '$xml')");
 	}
 	
 	/* public string null*/

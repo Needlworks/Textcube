@@ -26,7 +26,7 @@ function getServiceSetting($name, $default = null) {
 	global $database;
 	global $serviceSetting;
 	if( empty($serviceSetting) ) {
-		$settings = DBQuery::queryAllWithCache("SELECT name, value FROM {$database['prefix']}ServiceSettings" , MYSQL_NUM );
+		$settings = POD::queryAllWithCache("SELECT name, value FROM {$database['prefix']}ServiceSettings" , MYSQL_NUM );
 		foreach( $settings as $k => $v ) {
 			$serviceSetting[ $v[0] ] = $v[1];
 		}
@@ -39,16 +39,16 @@ function getServiceSetting($name, $default = null) {
 
 function setServiceSetting($name, $value) {
 	global $database;
-	$name = DBQuery::escapeString(UTF8::lessenAsEncoding($name, 32));
-	$value = DBQuery::escapeString($value);
+	$name = POD::escapeString(UTF8::lessenAsEncoding($name, 32));
+	$value = POD::escapeString($value);
 	clearServiceSettingCache();
-	return DBQuery::execute("REPLACE INTO {$database['prefix']}ServiceSettings VALUES('$name', '$value')");
+	return POD::execute("REPLACE INTO {$database['prefix']}ServiceSettings VALUES('$name', '$value')");
 }
 
 function removeServiceSetting($name) {
 	global $database;
 	clearServiceSettingCache();
-	return DBQuery::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".DBQuery::escapeString($name)."'");
+	return POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".POD::escapeString($name)."'");
 }
 
 function getBlogSetting($name, $default = null, $blogid = null) {
@@ -75,28 +75,28 @@ function setBlogSetting($name, $value, $blogid = null) {
 		return null;
 	}
 	
-	$escape_name = DBQuery::escapeString($name);
-	$escape_value = DBQuery::escapeString($value);
+	$escape_name = POD::escapeString($name);
+	$escape_value = POD::escapeString($value);
 	
 	if (array_key_exists($name, $__gCacheBlogSettings[$blogid])) {
 		// overwrite value
 		$__gCacheBlogSettings[$blogid][$name] = $value;
-		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, '$escape_name', '$escape_value')");
+		return POD::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, '$escape_name', '$escape_value')");
 	}
 	
 	// insert new value
 	$__gCacheBlogSettings[$blogid][$name] = $value;
-	return DBQuery::execute("INSERT INTO {$database['prefix']}BlogSettings VALUES($blogid, '$escape_name', '$escape_value')");
+	return POD::execute("INSERT INTO {$database['prefix']}BlogSettings VALUES($blogid, '$escape_name', '$escape_value')");
 }
 
 function setBlogSettingDefault($name, $value, $blogid = null) {
 	global $database;
-	$name = DBQuery::escapeString($name);
-	$value = DBQuery::escapeString($value);
+	$name = POD::escapeString($name);
+	$value = POD::escapeString($value);
 	if($blogid === null)
-		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES(".getBlogId().", '$name', '$value')");
+		return POD::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES(".getBlogId().", '$name', '$value')");
 	else if(is_numeric($blogid)) {
-		return DBQuery::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, '$name', '$value')");
+		return POD::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, '$name', '$value')");
 	}
 	return null;
 }
@@ -116,12 +116,12 @@ function removeBlogSetting($name, $blogid = null) {
 		return null;
 	}
 	
-	$escape_name = DBQuery::escapeString($name);
+	$escape_name = POD::escapeString($name);
 	
 	if (array_key_exists($name, $__gCacheBlogSettings[$blogid])) {
 		// overwrite value
 		unset($__gCacheBlogSettings[$blogid][$name]);
-		return DBQuery::execute("DELETE FROM {$database['prefix']}BlogSettings 
+		return POD::execute("DELETE FROM {$database['prefix']}BlogSettings 
 			WHERE blogid = $blogid AND name = '$escape_name'");
 	}
 	
@@ -133,7 +133,7 @@ function getUserSetting($name, $default = null) {
 	global $database;
 	global $userSetting;
 	if( empty($userSetting) ) {
-		$settings = DBQuery::queryAllWithCache("SELECT name, value 
+		$settings = POD::queryAllWithCache("SELECT name, value 
 				FROM {$database['prefix']}UserSettings
 				WHERE userid = ".getUserId(), MYSQL_NUM );
 		foreach( $settings as $k => $v ) {
@@ -146,26 +146,26 @@ function getUserSetting($name, $default = null) {
 	return $default;
 
 	global $database;
-	$value = DBQuery::queryCell("SELECT value 
+	$value = POD::queryCell("SELECT value 
 			FROM {$database['prefix']}UserSettings 
 			WHERE userid = ".getUserId()."
-				AND name = '".DBQuery::escapeString($name)."'");
+				AND name = '".POD::escapeString($name)."'");
 	return ($value === null) ? $default : $value;
 }
 
 function setUserSetting($name, $value) {
 	global $database;
-	$name = DBQuery::escapeString($name);
-	$value = DBQuery::escapeString($value);
+	$name = POD::escapeString($name);
+	$value = POD::escapeString($value);
 	clearUserSettingCache();
-	return DBQuery::execute("REPLACE INTO {$database['prefix']}UserSettings VALUES(".getUserId().", '$name', '$value')");
+	return POD::execute("REPLACE INTO {$database['prefix']}UserSettings VALUES(".getUserId().", '$name', '$value')");
 }
 
 function removeUserSetting($name) {
 	global $database;
 	clearUserSettingCache();
-	return DBQuery::execute("DELETE FROM {$database['prefix']}UserSettings 
-			WHERE userid = ".getUserId()." AND name = '".DBQuery::escapeString($name)."'");
+	return POD::execute("DELETE FROM {$database['prefix']}UserSettings 
+			WHERE userid = ".getUserId()." AND name = '".POD::escapeString($name)."'");
 }
 
 function getDefinedTableNames() {

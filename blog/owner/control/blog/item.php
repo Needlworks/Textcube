@@ -12,7 +12,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 global $database;
 $blogid=$suri['id'];
 $blogsetting=getBlogSettings($blogid);
-$blogsetting['owner']= DBQuery::queryCell("SELECT userid FROM `{$database['prefix']}teamblog` WHERE acl & ".BITWISE_OWNER." != 0 AND blogid = " . $blogid);
+$blogsetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}teamblog` WHERE acl & ".BITWISE_OWNER." != 0 AND blogid = " . $blogid);
 ?>
 <script type="text/javascript"> // <![CDATA[
 
@@ -54,10 +54,10 @@ function changeOwner(owner) {
 								<p class="explain"><?php echo $blogsetting['description'];?></h3>
 								</p>
 								<div id="copyright">
-                                    <?php echo _f('이 블로그에는 총 %1개의 글이 있습니다.', DBQuery::queryCell("SELECT Count(*) FROM {$database['prefix']}Entries WHERE blogid = ".$blogid));?><br/>
-                                    <?php echo _f('이 블로그에는 총 %1개의 트랙백이 있습니다.', DBQuery::queryCell("SELECT Count(*) FROM {$database['prefix']}Trackbacks WHERE blogid = ".$blogid));?><br/>
-                                    <?php echo _f('이 블로그에는 총 %1개의 코멘트가 있습니다.', DBQuery::queryCell("SELECT Count(*) FROM {$database['prefix']}Comments WHERE blogid = ".$blogid));?><br/>
-                                    <?php echo _f('이 블로그가 사용중인 첨부파일의 총 용량은 %1 입니다.', getSizeHumanReadable(DBQuery::queryCell(" SELECT sum( size ) FROM `{$database['prefix']}Attachments` WHERE blogid = ".$blogid)));?>
+                                    <?php echo _f('이 블로그에는 총 %1개의 글이 있습니다.', POD::queryCell("SELECT Count(*) FROM {$database['prefix']}Entries WHERE blogid = ".$blogid));?><br/>
+                                    <?php echo _f('이 블로그에는 총 %1개의 트랙백이 있습니다.', POD::queryCell("SELECT Count(*) FROM {$database['prefix']}Trackbacks WHERE blogid = ".$blogid));?><br/>
+                                    <?php echo _f('이 블로그에는 총 %1개의 코멘트가 있습니다.', POD::queryCell("SELECT Count(*) FROM {$database['prefix']}Comments WHERE blogid = ".$blogid));?><br/>
+                                    <?php echo _f('이 블로그가 사용중인 첨부파일의 총 용량은 %1 입니다.', getSizeHumanReadable(POD::queryCell(" SELECT sum( size ) FROM `{$database['prefix']}Attachments` WHERE blogid = ".$blogid)));?>
                                 </div>
 							</div>
 							
@@ -102,7 +102,7 @@ function changeOwner(owner) {
 											</tr>
 										</thead>
 										<tbody><?php
-$teamblog = DBQuery::queryAll("SELECT * FROM `{$database['prefix']}teamblog` WHERE blogid = " . $blogid);
+$teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}teamblog` WHERE blogid = " . $blogid);
 	foreach ($teamblog as $row){
 		echo "<tr>";
 		echo "<td class=\"name\"><a href=\"{$blogURL}/owner/control/user/{$row['userid']}\">".User::getName($row['userid'])."(".User::getEmail($row['userid']).")</a></td>";

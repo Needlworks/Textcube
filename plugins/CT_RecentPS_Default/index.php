@@ -29,7 +29,7 @@ function _getRecentEntries($blogid){
 	global $database,$skinSetting;
 	$entries=array();
 	$visibility=doesHaveOwnership()?'':'AND visibility > 0';
-	$result=DBQuery::query("SELECT id, title, comments FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category >= 0 ORDER BY published DESC LIMIT {$skinSetting['entriesOnRecent']}");
+	$result=POD::query("SELECT id, title, comments FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category >= 0 ORDER BY published DESC LIMIT {$skinSetting['entriesOnRecent']}");
 	while($entry=mysql_fetch_array($result)){
 		array_push($entries,$entry);
 	}

@@ -73,7 +73,7 @@ function printOwnerEditorScript($entryId = false) {
 
 	$contentWidth = 500;
 	
-	if($skin = DBQuery::queryCell("SELECT skin FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid")) {
+	if($skin = POD::queryCell("SELECT skin FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid")) {
 		if($xml = @file_get_contents(ROOT."/skin/$skin/index.xml")) {
 			$xmls = new XMLStruct();
 			$xmls->open($xml, $service['encoding']);

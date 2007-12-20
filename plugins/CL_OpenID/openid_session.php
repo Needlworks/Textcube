@@ -26,7 +26,7 @@ function _openid_new_session()
 
 	# OpenID Session Key will be recognized by "77XXX..." format.
 	$openid_session_id = dechex(rand(0x77000000, 0x77FFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-	$result = DBQuery::query("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) VALUES('$openid_session_id', '" . _openid_ip_address() . "', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+	$result = POD::query("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) VALUES('$openid_session_id', '" . _openid_ip_address() . "', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 	if ( !headers_sent() && ($result !== false) && (mysql_affected_rows() > 0)) {
 		setcookie( $openid_session_name, $openid_session_id, time()+$service['timeout'], $openid_session_path );
 		gcSession();
@@ -45,7 +45,7 @@ function openid_session_destroy()
 		return;
 	}
 
-	DBQuery::query("DELETE FROM {$database['prefix']}Sessions WHERE id = '$openid_session_id'");
+	POD::query("DELETE FROM {$database['prefix']}Sessions WHERE id = '$openid_session_id'");
 	if( !headers_sent() ) {
 		setcookie( $openid_session_name, '', time()-3600, $openid_session_path );
 	}
@@ -62,7 +62,7 @@ function openid_session_read()
 		$openid_session_id = $_COOKIE[$openid_session_name];
 	}
 
-	if ($result = DBQuery::query("SELECT data FROM {$database['prefix']}Sessions WHERE id = '$openid_session_id' AND address = '" . _openid_ip_address() . "' AND updated >= (UNIX_TIMESTAMP() - {$service['timeout']})")) {
+	if ($result = POD::query("SELECT data FROM {$database['prefix']}Sessions WHERE id = '$openid_session_id' AND address = '" . _openid_ip_address() . "' AND updated >= (UNIX_TIMESTAMP() - {$service['timeout']})")) {
 		if ( ($openid_session_rec = mysql_fetch_array($result)) )
 		{
 			if( !isset( $openid_session_rec['data'] ) ) {
@@ -88,11 +88,11 @@ function openid_session_write()
 		return false;
 
 	$data = serialize( $openid_session );
-	$server = DBQuery::escapeString($_SERVER['HTTP_HOST']);
-	$request = DBQuery::escapeString($_SERVER['REQUEST_URI']);
-	$referer = isset($_SERVER['HTTP_REFERER']) ? DBQuery::escapeString($_SERVER['HTTP_REFERER']) : '';
+	$server = POD::escapeString($_SERVER['HTTP_HOST']);
+	$request = POD::escapeString($_SERVER['REQUEST_URI']);
+	$referer = isset($_SERVER['HTTP_REFERER']) ? POD::escapeString($_SERVER['HTTP_REFERER']) : '';
 	$timer = getMicrotimeAsFloat() - $sessionMicrotime;
-	$result = DBQuery::query("UPDATE {$database['prefix']}Sessions SET data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() WHERE id = '$openid_session_id' AND address = '" . _openid_ip_address() . "'");
+	$result = POD::query("UPDATE {$database['prefix']}Sessions SET data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() WHERE id = '$openid_session_id' AND address = '" . _openid_ip_address() . "'");
 
 	if ($result && (mysql_affected_rows() == 1)) {
 		if( !headers_sent() ) {

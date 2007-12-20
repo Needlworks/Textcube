@@ -21,6 +21,7 @@ require 'lib/config.php';
 require 'lib/database.php';
 require 'lib/locale.php';
 require 'components/Needlworks.DBMS.MySQL.php';
+require 'components/POD.Core.php';
 if (!empty($_GET['test'])) {
 	echo getFingerPrint();
 	exit;
@@ -872,7 +873,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
 				$_POST['password2'] = $_POST['password'];
 				mysql_free_result($result);
 			}
-			if ($result = DBQuery::queryCell("SELECT value FROM {$_POST['dbPrefix']}BlogSettings 
+			if ($result = POD::queryCell("SELECT value FROM {$_POST['dbPrefix']}BlogSettings 
 						WHERE blogid = 1 
 							AND name = 'name'")) {
 				$_POST['blog'] = $result;

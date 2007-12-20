@@ -166,16 +166,16 @@ class Post {
 		}
 		
 		// step 2. Delete Entry
-		$result = DBQuery::execute("DELETE FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND id = $this->id");
+		$result = POD::execute("DELETE FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND id = $this->id");
 		if (mysql_affected_rows() > 0) {
 		// step 3. Delete Comment
-			DBQuery::execute("DELETE FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()." AND entry = $this->id");
+			POD::execute("DELETE FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()." AND entry = $this->id");
 		
 		// step 4. Delete Trackback
-			DBQuery::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = ".getBlogId()." AND entry = $this->id");
+			POD::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = ".getBlogId()." AND entry = $this->id");
 		
 		// step 5. Delete Trackback Logs
-			DBQuery::execute("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = ".getBlogId()." AND entry = $this->id");
+			POD::execute("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = ".getBlogId()." AND entry = $this->id");
 		
 		// step 6. update Category
 			// TODO : Update Category
@@ -284,9 +284,9 @@ class Post {
 		$slogan0 = UTF8::lessenAsEncoding($slogan0, 255);
 
 		for ($i = 1; $i < 1000; $i++) {
-			$checkSlogan = DBQuery::escapeString($this->slogan);
+			$checkSlogan = POD::escapeString($this->slogan);
 			$query->setAttribute('slogan', $checkSlogan, false);
-			if (!DBQuery::queryExistence(
+			if (!POD::queryExistence(
 				"SELECT id FROM {$database['prefix']}Entries " 
 				. "WHERE blogid = ".getBlogId()." AND id <> {$this->id} AND slogan ='{$checkSlogan}'")
 				) 
@@ -425,7 +425,7 @@ class Post {
 		global $database;
 		if (!Validator::number($id, 1))
 			return false;
-		return DBQuery::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND id = $id AND category >= 0 AND draft = 0");
+		return POD::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND id = $id AND category >= 0 AND draft = 0");
 	}
 	
 	/*@static@*/
@@ -433,7 +433,7 @@ class Post {
 		global $database;
 		if (!Validator::number($id, 1))
 			return false;
-		return DBQuery::queryExistence("SELECT id 
+		return POD::queryExistence("SELECT id 
 			FROM {$database['prefix']}Entries 
 			WHERE blogid = ".getBlogId()." AND id = $id AND draft = 0 AND visibility > 0 AND category >= 0 AND acceptTrackback = 1");
 	}
@@ -446,14 +446,14 @@ class Post {
 			return false;
 		}
 
-		$posts = (is_null($id) ? DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND category >= 0 AND draft = 0") : array($id));
+		$posts = (is_null($id) ? POD::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND category >= 0 AND draft = 0") : array($id));
 		if (!is_array($posts))
 			return false;
 		$succeeded = true;
 		foreach ($posts as $id) {
-			$comments = DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()." AND entry = $id AND isFiltered = 0");
+			$comments = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()." AND entry = $id AND isFiltered = 0");
 			if (!is_null($comments)) {
-				if (DBQuery::execute("UPDATE {$database['prefix']}Entries SET comments = $comments WHERE blogid = ".getBlogId()." AND id = $id"))
+				if (POD::execute("UPDATE {$database['prefix']}Entries SET comments = $comments WHERE blogid = ".getBlogId()." AND id = $id"))
 					continue;
 			}
 			$succeeded = false;
@@ -469,14 +469,14 @@ class Post {
 			return false;
 		}
 
-		$posts = (is_null($id) ? DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND category >= 0 AND draft = 0") : array($id));
+		$posts = (is_null($id) ? POD::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND category >= 0 AND draft = 0") : array($id));
 		if (!is_array($posts))
 			return false; 
 		$succeeded = true;
 		foreach ($posts as $id) {
-			$trackbacks = DBQuery::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE blogid = ".getBlogId()." AND entry = $id AND isFiltered = 0");
+			$trackbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE blogid = ".getBlogId()." AND entry = $id AND isFiltered = 0");
 			if (!is_null($trackbacks)) { 
-				if (DBQuery::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks 
+				if (POD::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks 
 					WHERE blogid = ".getBlogId()." AND id = $id"))
 					continue;
 			}
@@ -506,7 +506,7 @@ class Post {
 	
 	function nextEntryId($id = 0) {
 		global $database;
-		$maxId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId());
+		$maxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId());
 		if($id==0)
 			return $maxId + 1;
 		else
@@ -587,19 +587,19 @@ class Post {
 		$targetresult = mysql_query("SELECT * FROM {$database['prefix']}TagRelations");
 		if ($targetresult != false) {
 			while ($target = mysql_fetch_array($targetresult)) {
-				$oldtag = DBQuery::queryRow("SELECT id, name FROM {$database['prefix']}Tags WHERE id = {$target['tag']}");
+				$oldtag = POD::queryRow("SELECT id, name FROM {$database['prefix']}Tags WHERE id = {$target['tag']}");
 				if (!is_null($oldtag)) {		
-					$tagid = DBQuery::queryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '" . DBQuery::escapeString($oldtag['name']) . "' LIMIT 1 ");
+					$tagid = POD::queryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '" . POD::escapeString($oldtag['name']) . "' LIMIT 1 ");
 					if (is_null($tagid)) { 
-						DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
+						POD::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
 					} else {
 						if ($tagid == $oldtag['id']) continue;
-						if (DBQuery::execute("UPDATE {$database['prefix']}TagRelations SET tag = $tagid WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}") == false) { // maybe duplicated tag
-							DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
+						if (POD::execute("UPDATE {$database['prefix']}TagRelations SET tag = $tagid WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}") == false) { // maybe duplicated tag
+							POD::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
 						}
 					}
 				} else { // Ooops!
-					DBQuery::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
+					POD::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
 				}
 			}
 			mysql_free_result($targetresult);
@@ -609,7 +609,7 @@ class Post {
 		if ($targetresult != false) {
 			while ($target = mysql_fetch_array($targetresult)) {
 				$tag = $target['id'];
-				DBQuery::execute("DELETE FROM {$database['prefix']}Tags WHERE id = $tag ");
+				POD::execute("DELETE FROM {$database['prefix']}Tags WHERE id = $tag ");
 			}
 			mysql_free_result($targetresult);
 		}

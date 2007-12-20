@@ -276,7 +276,7 @@ function organizeRobotInfo($info)
 function getSubscriptionStatistics($blogid) {
 	global $database;
 	$statistics = array();
-	if ($result = DBQuery::query("select ip, host, useragent, subscribed, referred from {$database['prefix']}SubscriptionStatistics where blogid = $blogid order by referred desc")) {
+	if ($result = POD::query("select ip, host, useragent, subscribed, referred from {$database['prefix']}SubscriptionStatistics where blogid = $blogid order by referred desc")) {
 		while ($record = mysql_fetch_array($result))
 			array_push($statistics, $record);
 	}
@@ -293,7 +293,7 @@ function getSubscriptionLogsWithPage($page, $count) {
 function getSubscriptionLogs() {
 	global $database;
 	$blogid = getBlogId();
-	return DBQuery::queryAll("SELECT ip, host, useragent, referred FROM {$database['prefix']}SubscriptionLogs WHERE blogid = $blogid ORDER BY referred DESC LIMIT 1000");
+	return POD::queryAll("SELECT ip, host, useragent, referred FROM {$database['prefix']}SubscriptionLogs WHERE blogid = $blogid ORDER BY referred DESC LIMIT 1000");
 }
 
 function updateSubscriptionStatistics($target, $mother) {
@@ -303,9 +303,9 @@ function updateSubscriptionStatistics($target, $mother) {
 	requireComponent('Textcube.Data.Filter');
 	if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']))
 		return;
-	$ip = DBQuery::escapeString($_SERVER['REMOTE_ADDR']);
-	$host = DBQuery::escapeString(isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : '');
-	$useragent = DBQuery::escapeString(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
+	$ip = POD::escapeString($_SERVER['REMOTE_ADDR']);
+	$host = POD::escapeString(isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : '');
+	$useragent = POD::escapeString(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
 	mysql_query("insert into {$database['prefix']}SubscriptionLogs values($blogid, '$ip', '$host', '$useragent', UNIX_TIMESTAMP())");
 	mysql_query("delete from {$database['prefix']}SubscriptionLogs where referred < UNIX_TIMESTAMP() - 604800");
 	if (!mysql_query("update {$database['prefix']}SubscriptionStatistics set referred = UNIX_TIMESTAMP() where blogid = $blogid and ip = '$ip' and host = '$host' and useragent = '$useragent'") || (mysql_affected_rows() == 0))

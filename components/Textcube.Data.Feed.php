@@ -284,21 +284,21 @@ class FeedItem {
 	function isRead() {
 		global $database;
 		if (isset($this->id))
-			return DBQuery::queryExistence("SELECT * FROM {$database['prefix']}FeedReads WHERE blogid = ".getBlogId()." AND item = {$this->id}");
+			return POD::queryExistence("SELECT * FROM {$database['prefix']}FeedReads WHERE blogid = ".getBlogId()." AND item = {$this->id}");
 		return false;
 	}
 	
 	function setRead() {
 		global $database;
 		if (isset($this->id))
-			return DBQuery::execute("INSERT INTO {$database['prefix']}FeedReads VALUES(".getBlogId().", {$this->id})");
+			return POD::execute("INSERT INTO {$database['prefix']}FeedReads VALUES(".getBlogId().", {$this->id})");
 		return false;
 	}
 	
 	function isStarred() {
 		global $database;
 		if (isset($this->id))
-			return DBQuery::queryExistence("SELECT * FROM {$database['prefix']}FeedStarred 
+			return POD::queryExistence("SELECT * FROM {$database['prefix']}FeedStarred 
 					WHERE blogid = ".getBlogId()." AND item = {$this->id}");
 		return false;
 	}
@@ -306,7 +306,7 @@ class FeedItem {
 	function setStarred() {
 		global $database;
 		if (isset($this->id))
-			return DBQuery::execute("INSERT INTO {$database['prefix']}FeedStarred VALUES(".getBlogId().", {$this->id})");
+			return POD::execute("INSERT INTO {$database['prefix']}FeedStarred VALUES(".getBlogId().", {$this->id})");
 		return false;
 	}
 }

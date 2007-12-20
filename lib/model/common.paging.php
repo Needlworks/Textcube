@@ -18,7 +18,7 @@ function fetchWithPaging($sql, $page, $count, $url = null, $prefix = '?page=', $
 		$from = $matches[1];
 	else
 		return array(array(), $paging);
-	$paging['total'] = DBQuery::queryCell("SELECT COUNT(*) $from");
+	$paging['total'] = POD::queryCell("SELECT COUNT(*) $from");
 	if ($paging['total'] === null)
 		return array(array(), $paging);
 	if (empty($count)) $count = 1;
@@ -37,6 +37,6 @@ function fetchWithPaging($sql, $page, $count, $url = null, $prefix = '?page=', $
 	$offset = ($paging['page'] - 1) * $count;
 	if ($offset < 0) $offset = 0;
 	if ($countItem !== null) $count = $countItem;
-	return array(DBQuery::queryAll("$sql LIMIT $offset, $count"), $paging);
+	return array(POD::queryAll("$sql LIMIT $offset, $count"), $paging);
 }
 ?>

@@ -48,18 +48,18 @@ function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, 
 		LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.blogid = c2.blogid 
 		WHERE c.blogid = $blogid AND c.isFiltered = 0";
 	if ($category > 0) {
-		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE parent = $category");
+		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
 		$postfix .= '&category=' . rawurlencode($category);
 	} else
 		$sql .= ' AND e.category >= 0';
 	if (!empty($name)) {
-		$sql .= ' AND c.name = \'' . DBQuery::escapeString($name) . '\'';
+		$sql .= ' AND c.name = \'' . POD::escapeString($name) . '\'';
 		$postfix .= '&name=' . rawurlencode($name);
 	}
 	if (!empty($ip)) {
-		$sql .= ' AND c.ip = \'' . DBQuery::escapeString($ip) . '\'';
+		$sql .= ' AND c.ip = \'' . POD::escapeString($ip) . '\'';
 		$postfix .= '&ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
@@ -101,14 +101,14 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 				
 		$preQuery = "SELECT parent FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND parent is NOT NULL";
 		if (!empty($name))
-			$preQuery .= ' AND name = \''. DBQuery::escapeString($name) . '\' ';
+			$preQuery .= ' AND name = \''. POD::escapeString($name) . '\' ';
 		if (!empty($ip))
-			$preQuery .= ' AND ip = \''. DBQuery::escapeString($ip) . '\' ';
+			$preQuery .= ' AND ip = \''. POD::escapeString($ip) . '\' ';
 		if (!empty($search)) {
 			$preQuery .= " AND ((name LIKE '%$search%') OR (homepage LIKE '%$search%') OR (comment LIKE '%$search%'))";
 		}
 	
-		$childListTemp = array_unique(DBQuery::queryColumn($preQuery));
+		$childListTemp = array_unique(POD::queryColumn($preQuery));
 		$childList = array();
 		foreach ($childListTemp as $item) 
 			if(!is_null($item)) array_push($childList, $item);
@@ -126,9 +126,9 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 				{$database['prefix']}CommentsNotifiedSiteInfo csiteinfo ON c.siteId = csiteinfo.id  
 			WHERE c.blogid = $blogid AND (c.parent is null) ";
 		if (!empty($name))
-			$sql .= ' AND ( c.name = \'' . DBQuery::escapeString($name) . '\') ' ;
+			$sql .= ' AND ( c.name = \'' . POD::escapeString($name) . '\') ' ;
 		if (!empty($ip))
-			$sql .= ' AND ( c.ip = \'' . DBQuery::escapeString($ip) . '\') ';
+			$sql .= ' AND ( c.ip = \'' . POD::escapeString($ip) . '\') ';
 		if (!empty($search)) {
 			$sql .= " AND ((c.name LIKE '%$search%') OR (c.homepage LIKE '%$search%') OR (c.comment LIKE '%$search%')) ";
 		}
@@ -153,7 +153,7 @@ function getCommentCommentsNotified($parent) {
 				{$database['prefix']}CommentsNotifiedSiteInfo csiteinfo ON c.siteId = csiteinfo.id  
 			WHERE c.blogid = ".getBlogId()." AND c.parent = $parent";
 	$sql .= ' ORDER BY c.written ASC';
-	if ($result = DBQuery::queryAll($sql)) {
+	if ($result = POD::queryAll($sql)) {
 		fireCommentHint( $result, getBlogId() );
 		foreach($result as $comment) {
 			if (($comment['secret'] == 1) && !$authorized) {
@@ -184,7 +184,7 @@ function getCommentsWithPagingForGuestbook($blogid, $page, $count) {
 
 function getCommentAttributes($blogid, $id, $attributeNames) {
 	global $database;
-	return DBQuery::queryRow("SELECT $attributeNames FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
+	return POD::queryRow("SELECT $attributeNames FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
 }
 
 function getComments($entry) {
@@ -198,7 +198,7 @@ function getComments($entry) {
 			AND entry = $entry 
 			AND parent IS NULL
 			AND isFiltered = 0 $aux";
-	if ($result = DBQuery::queryAll($sql)) {
+	if ($result = POD::queryAll($sql)) {
 		fireCommentHint( $result, getBlogId() );
 		foreach ($result as $comment) {
 			if (($comment['secret'] == 1) && !$authorized) {
@@ -218,7 +218,7 @@ function getCommentComments($parent) {
 	global $database;
 	$comments = array();
 	$authorized = doesHaveOwnership();
-	if ($result = DBQuery::queryAll("SELECT * 
+	if ($result = POD::queryAll("SELECT * 
 		FROM {$database['prefix']}Comments 
 		WHERE blogid = ".getBlogId()." 
 			AND parent = $parent 
@@ -243,7 +243,7 @@ function isCommentWriter($blogid, $commentId) {
 	global $database;
 	if (!doesHaveMembership())
 		return false;
-	return DBQuery::queryExistence("SELECT replier 
+	return POD::queryExistence("SELECT replier 
 		FROM {$database['prefix']}Comments 
 		WHERE blogid = $blogid 
 			AND id = $commentId 
@@ -262,7 +262,7 @@ function getComment($blogid, $id, $password) {
 		else
 			$sql .= ' AND password = \'' . md5($password) . '\'';
 	}
-	if ($result = DBQuery::queryRow($sql))
+	if ($result = POD::queryRow($sql))
 		return $result;
 	return false;
 }
@@ -272,7 +272,7 @@ function getCommentList($blogid, $search) {
 	$list = array('title' => "$search", 'items' => array());
 	$search = escapeSearchString($search);
 	$authorized = doesHaveOwnership() ? '' : 'AND c.secret = 0 AND e.category NOT IN ('.getCategoryVisibilityList($blogid,'private').')';
-	if ($result = DBQuery::queryAll("SELECT c.id, c.entry, c.parent, c.name, c.comment, c.written, e.slogan
+	if ($result = POD::queryAll("SELECT c.id, c.entry, c.parent, c.name, c.comment, c.written, e.slogan
 		FROM {$database['prefix']}Comments c
 		INNER JOIN {$database['prefix']}Entries e ON c.entry = e.id AND c.blogid = e.blogid
 		WHERE c.entry > 0 
@@ -289,12 +289,12 @@ function getCommentList($blogid, $search) {
 function updateCommentsOfEntry($blogid, $entryId) {
 	global $database;
 	requireComponent('Needlworks.Cache.PageCache');
-	$commentCount = DBQuery::queryCell("SELECT COUNT(*) 
+	$commentCount = POD::queryCell("SELECT COUNT(*) 
 		FROM {$database['prefix']}Comments 
 		WHERE blogid = $blogid 
 			AND entry = $entryId 
 			AND isFiltered = 0");
-	DBQuery::query("UPDATE {$database['prefix']}Entries 
+	POD::query("UPDATE {$database['prefix']}Entries 
 		SET comments = $commentCount 
 		WHERE blogid = $blogid 
 			AND id = $entryId");
@@ -305,7 +305,7 @@ function updateCommentsOfEntry($blogid, $entryId) {
 function sendCommentPing($entryId, $permalink, $name, $homepage) {
 	global $database, $blog;
 	$blogid = getBlogId();
-	if($slogan = DBQuery::queryCell("SELECT slogan 
+	if($slogan = POD::queryCell("SELECT slogan 
 		FROM {$database['prefix']}Entries 
 		WHERE blogid = $blogid 
 			AND id = $entryId 
@@ -357,7 +357,7 @@ function addComment($blogid, & $comment) {
 	$comment['comment'] = UTF8::lessenAsEncoding($comment['comment'], 65535);
 	
 	if (!doesHaveOwnership() && $comment['entry'] != 0) {
-		$result = DBQuery::queryCount("SELECT * 
+		$result = POD::queryCount("SELECT * 
 			FROM {$database['prefix']}Entries 
 			WHERE blogid = $blogid 
 				AND id = {$comment['entry']} 
@@ -370,19 +370,19 @@ function addComment($blogid, & $comment) {
 	$parent = $comment['parent'] == null ? 'null' : "'{$comment['parent']}'";
 	if ($user !== null) {
 		$comment['replier'] = getUserId();
-		$name = DBQuery::escapeString($user['name']);
+		$name = POD::escapeString($user['name']);
 		$password = '';
-		$homepage = DBQuery::escapeString($user['homepage']);
+		$homepage = POD::escapeString($user['homepage']);
 	} else {
 		$comment['replier'] = 'null';
-		$name = DBQuery::escapeString($comment['name']);
+		$name = POD::escapeString($comment['name']);
 		$password = empty($comment['password']) ? '' : md5($comment['password']);
-		$homepage = DBQuery::escapeString($comment['homepage']);
+		$homepage = POD::escapeString($comment['homepage']);
 	}
-	$comment0 = DBQuery::escapeString($comment['comment']);
+	$comment0 = POD::escapeString($comment['comment']);
 	$filteredAux = ($filtered == 1 ? "UNIX_TIMESTAMP()" : 0);
 	$insertId = getCommentsMaxId() + 1;
-	$result = DBQuery::query("INSERT INTO {$database['prefix']}Comments 
+	$result = POD::query("INSERT INTO {$database['prefix']}Comments 
 		(blogid,replier,id,entry,parent,name,password,homepage,secret,comment,ip,written,isFiltered)
 		VALUES (
 			$blogid,
@@ -403,7 +403,7 @@ function addComment($blogid, & $comment) {
 		$id = $insertId;
 		if ($parent != 'null' && $comment['secret'] < 1) {
 			$insertId = getCommentsNotifiedQueueMaxId() + 1;
-			DBQuery::execute("INSERT INTO `{$database['prefix']}CommentsNotifiedQueue` 
+			POD::execute("INSERT INTO `{$database['prefix']}CommentsNotifiedQueue` 
 					( `blogid` , `id`, `commentId` , `sendStatus` , `checkDate` , `written` ) 
 				VALUES 
 					('".$blogid."' , '".$insertId."', '" . $id . "', '0', '0', UNIX_TIMESTAMP())");
@@ -444,19 +444,19 @@ function updateComment($blogid, $comment, $password) {
 	$setPassword = '';
 	if ($user !== null) {
 		$comment['replier'] = getUserId();
-		$name = DBQuery::escapeString($user['name']);
+		$name = POD::escapeString($user['name']);
 		$setPassword = 'password = \'\',';
-		$homepage = DBQuery::escapeString($user['homepage']);
+		$homepage = POD::escapeString($user['homepage']);
 	} else {
-		$name = DBQuery::escapeString($comment['name']);
+		$name = POD::escapeString($comment['name']);
 		if ($comment['password'] !== true)
 			$setPassword = 'password = \'' . (empty($comment['password']) ? '' : md5($comment['password'])) . '\', ';
-		$homepage = DBQuery::escapeString($comment['homepage']);
+		$homepage = POD::escapeString($comment['homepage']);
 	}
-	$comment0 = DBQuery::escapeString($comment['comment']);
+	$comment0 = POD::escapeString($comment['comment']);
 	
 	$guestcomment = false;
-	if (DBQuery::queryExistence("SELECT * 
+	if (POD::queryExistence("SELECT * 
 		FROM {$database['prefix']}Comments 
 		WHERE blogid = $blogid 
 			AND id = {$comment['id']} 
@@ -479,7 +479,7 @@ function updateComment($blogid, $comment, $password) {
 	
 	$replier = is_null($comment['replier']) ? 'NULL' : "'{$comment['replier']}'";
 	
-	$result = DBQuery::query("UPDATE {$database['prefix']}Comments
+	$result = POD::query("UPDATE {$database['prefix']}Comments
 				SET
 					name = '$name',
 					$setPassword
@@ -502,7 +502,7 @@ function deleteComment($blogid, $id, $entry, $password) {
 	if (!is_numeric($entry)) return false;
 		
 	$guestcomment = false;
-	if (DBQuery::queryExistence("SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id AND replier IS NULL")) {
+	if (POD::queryExistence("SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id AND replier IS NULL")) {
 		$guestcomment = true;
 	}
 	
@@ -524,7 +524,7 @@ function deleteComment($blogid, $id, $entry, $password) {
 			$wherePassword = ' AND password = \'' . md5($password) . '\'';
 		}
 	}
-	if(DBQuery::query($sql . $wherePassword)) {
+	if(POD::query($sql . $wherePassword)) {
 		updateCommentsOfEntry($blogid, $entry);
 		return true;
 	}
@@ -543,13 +543,13 @@ function trashComment($blogid, $id, $entry, $password) {
 		WHERE blogid = $blogid 
 			AND id = $id 
 			AND entry = $entry";
-	$affected = DBQuery::queryCount($sql);
+	$affected = POD::queryCount($sql);
 	$sql = "UPDATE {$database['prefix']}Comments 
 		SET isFiltered = UNIX_TIMESTAMP() 
 		WHERE blogid = $blogid 
 			AND parent = $id 
 			AND entry = $entry";
-	$affectedChildren = DBQuery::queryCount($sql);
+	$affectedChildren = POD::queryCount($sql);
 	if ($affected + $affectedChildren > 0) {
 		updateCommentsOfEntry($blogid, $entry);
 		return true;
@@ -571,7 +571,7 @@ function revertComment($blogid, $id, $entry, $password) {
 		WHERE blogid = $blogid 
 			AND id = $id 
 			AND entry = $entry";
-	if(DBQuery::query($sql)) {
+	if(POD::query($sql)) {
 		updateCommentsOfEntry($blogid, $entry);
 		return true;
 	}
@@ -602,7 +602,7 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false) {
 			r.written 
 		DESC LIMIT 
 			".($count != false ? $count : $skinSetting['commentsOnRecent']);
-	if ($result = DBQuery::queryAll($sql)) {
+	if ($result = POD::queryAll($sql)) {
 		fireCommentHint( $result, $blogid );
 		foreach($result as $comment) {
 			if (($comment['secret'] == 1) && !doesHaveOwnership()) {
@@ -630,7 +630,7 @@ function getRecentGuestbook($blogid,$count = false) {
 			r.written 
 		DESC LIMIT ".($count != false ? $count : $skinSetting['commentsOnRecent']);
 
-	if ($result = DBQuery::queryAll($sql)) {
+	if ($result = POD::queryAll($sql)) {
 		fireCommentHint( $result, $blogid );
 		foreach($result as $comment) {
 			if (($comment['secret'] == 1) && !doesHaveOwnership()) {
@@ -648,7 +648,7 @@ function getRecentGuestbook($blogid,$count = false) {
 
 function getGuestbookPageById($blogid, $id) {
 	global $database, $skinSetting;
-	$totalGuestbookId = DBQuery::queryColumn("SELECT id
+	$totalGuestbookId = POD::queryColumn("SELECT id
 		FROM {$database['prefix']}Comments
 		WHERE
 			blogid = $blogid AND entry = 0 AND isFiltered = 0 AND parent is null
@@ -656,7 +656,7 @@ function getGuestbookPageById($blogid, $id) {
 			written DESC");
 	$order = array_search($id, $totalGuestbookId);
 	if($order == false) {
-		$parentCommentId = DBQuery::queryCell("SELECT parent
+		$parentCommentId = POD::queryCell("SELECT parent
 			FROM {$database['prefix']}Comments
 			WHERE
 				blogid = $blogid AND entry = 0 AND isFiltered = 0 AND id = $id");
@@ -672,9 +672,9 @@ function getGuestbookPageById($blogid, $id) {
 function deleteCommentInOwner($blogid, $id) {
 	global $database;
 	if (!is_numeric($id)) return false;
-	$entryId = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
-	if(DBQuery::queryCount("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id") == 1) {
-		if (DBQuery::query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND parent = $id")) {
+	$entryId = POD::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
+	if(POD::queryCount("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id") == 1) {
+		if (POD::query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND parent = $id")) {
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
 		}
@@ -685,10 +685,10 @@ function deleteCommentInOwner($blogid, $id) {
 function trashCommentInOwner($blogid, $id) {
 	global $database;
 	if (!is_numeric($id)) return false;
-	$entryId = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
-	$result = DBQuery::queryCount("UPDATE {$database['prefix']}Comments SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id");
+	$entryId = POD::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
+	$result = POD::queryCount("UPDATE {$database['prefix']}Comments SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id");
 	if ($result && $result == 1) {
-		if (DBQuery::query("UPDATE {$database['prefix']}Comments SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND parent = $id")) {
+		if (POD::query("UPDATE {$database['prefix']}Comments SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND parent = $id")) {
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
 		}
@@ -699,10 +699,10 @@ function trashCommentInOwner($blogid, $id) {
 function revertCommentInOwner($blogid, $id) {
 	global $database;
 	if (!is_numeric($id)) return false;
-	$entryId = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
-	$parent = DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
-	if(DBQuery::queryCount("UPDATE {$database['prefix']}Comments SET isFiltered = 0 WHERE blogid = $blogid AND id = $id") == 1) {
-		if (is_null($parent) || DBQuery::query("UPDATE {$database['prefix']}Comments SET isFiltered = 0 WHERE blogid = $blogid AND id = $parent")) {
+	$entryId = POD::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
+	$parent = POD::queryCell("SELECT parent FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
+	if(POD::queryCount("UPDATE {$database['prefix']}Comments SET isFiltered = 0 WHERE blogid = $blogid AND id = $id") == 1) {
+		if (is_null($parent) || POD::query("UPDATE {$database['prefix']}Comments SET isFiltered = 0 WHERE blogid = $blogid AND id = $parent")) {
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
 		}
@@ -716,9 +716,9 @@ function deleteCommentNotifiedInOwner($blogid, $id) {
 	
 	fireEvent('DeleteCommentNotified', $id);
 	
-	$entryId = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND id = $id");
-	if(DBQuery::queryCount("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND id = $id") == 1) {
-		if (DBQuery::query("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND parent = $id")) {
+	$entryId = POD::queryCell("SELECT entry FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND id = $id");
+	if(POD::queryCount("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND id = $id") == 1) {
+		if (POD::query("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND parent = $id")) {
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
 		}
@@ -747,22 +747,22 @@ function notifyComment() {
 			ORDER BY CNQ.id ASC
 			limit 0, 1
 		";
-	$queue = DBQuery::queryRow($sql);
+	$queue = POD::queryRow($sql);
 	if (empty($queue) && empty($queue['queueId'])) {
-		//DBQuery::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
+		//POD::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
 		return false;
 	}
-	$comments = (DBQuery::queryRow("SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$queue['commentId']}"));
+	$comments = (POD::queryRow("SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$queue['commentId']}"));
 	if (empty($comments['parent']) || $comments['secret'] == 1) {
-		DBQuery::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
+		POD::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
 		return false;
 	}
-	$parentComments = (DBQuery::queryRow("SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$comments['parent']}"));
+	$parentComments = (POD::queryRow("SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$comments['parent']}"));
 	if (empty($parentComments['homepage'])) {
-		DBQuery::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
+		POD::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
 		return false;
 	}
-	$entry = (DBQuery::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id={$comments['entry']}"));
+	$entry = (POD::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id={$comments['entry']}"));
 	if( $entry['id'] == 0) {
 		$r1_comment_check_url = rawurlencode("$defaultURL/guestbook#comment" . $parentComments['id']);
 		$r2_comment_check_url = rawurlencode("$defaultURL/guestbook#comment" . $comments['id']);
@@ -796,7 +796,7 @@ function notifyComment() {
 		}
 	} else {
 	}
-	DBQuery::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
+	POD::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
 }
 
 function receiveNotifiedComment($post) {
@@ -808,37 +808,37 @@ function receiveNotifiedComment($post) {
 	if ($post === false) return 7;
 	
 	$blogid = getBlogId();
-	$title = DBQuery::escapeString(UTF8::lessenAsEncoding($post['s_home_title'], 255));
-	$name = DBQuery::escapeString(UTF8::lessenAsEncoding($post['s_name'], 255));
-	$entryId = DBQuery::escapeString($post['s_no']);
-	$homepage = DBQuery::escapeString(UTF8::lessenAsEncoding($post['url'], 255));
-	$entryUrl = DBQuery::escapeString($post['s_url']);
-	$entryTitle = DBQuery::escapeString($post['s_post_title']);
+	$title = POD::escapeString(UTF8::lessenAsEncoding($post['s_home_title'], 255));
+	$name = POD::escapeString(UTF8::lessenAsEncoding($post['s_name'], 255));
+	$entryId = POD::escapeString($post['s_no']);
+	$homepage = POD::escapeString(UTF8::lessenAsEncoding($post['url'], 255));
+	$entryUrl = POD::escapeString($post['s_url']);
+	$entryTitle = POD::escapeString($post['s_post_title']);
 	$parent_id = $post['r1_no'];
-	$parent_name = DBQuery::escapeString(UTF8::lessenAsEncoding($post['r1_name'], 80));
+	$parent_name = POD::escapeString(UTF8::lessenAsEncoding($post['r1_name'], 80));
 	$parent_parent = $post['r1_rno'];
-	$parent_homepage = DBQuery::escapeString(UTF8::lessenAsEncoding($post['r1_homepage'], 80));
+	$parent_homepage = POD::escapeString(UTF8::lessenAsEncoding($post['r1_homepage'], 80));
 	$parent_written = $post['r1_regdate'];
-	$parent_comment = DBQuery::escapeString(UTF8::lessenAsEncoding($post['r1_body'], 255));
-	$parent_url = DBQuery::escapeString(UTF8::lessenAsEncoding($post['r1_url'], 255));
+	$parent_comment = POD::escapeString(UTF8::lessenAsEncoding($post['r1_body'], 255));
+	$parent_url = POD::escapeString(UTF8::lessenAsEncoding($post['r1_url'], 255));
 	$child_id = $post['r2_no'];
-	$child_name = DBQuery::escapeString(UTF8::lessenAsEncoding($post['r2_name'], 80));
+	$child_name = POD::escapeString(UTF8::lessenAsEncoding($post['r2_name'], 80));
 	$child_parent = $post['r2_rno'];
-	$child_homepage = DBQuery::escapeString(UTF8::lessenAsEncoding($post['r2_homepage'], 80));
+	$child_homepage = POD::escapeString(UTF8::lessenAsEncoding($post['r2_homepage'], 80));
 	$child_written = $post['r2_regdate'];
-	$child_comment = DBQuery::escapeString(UTF8::lessenAsEncoding($post['r2_body'], 255));
-	$child_url = DBQuery::escapeString(UTF8::lessenAsEncoding($post['r2_url'], 255));
-	$siteId = DBQuery::queryCell("SELECT id FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE url = '$homepage'");
+	$child_comment = POD::escapeString(UTF8::lessenAsEncoding($post['r2_body'], 255));
+	$child_url = POD::escapeString(UTF8::lessenAsEncoding($post['r2_url'], 255));
+	$siteId = POD::queryCell("SELECT id FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE url = '$homepage'");
 	$insertId = getCommentsNotifiedSiteInfoMaxId() + 1;
 	if (empty($siteId)) {
-		if (DBQuery::execute("INSERT INTO {$database['prefix']}CommentsNotifiedSiteInfo 
+		if (POD::execute("INSERT INTO {$database['prefix']}CommentsNotifiedSiteInfo 
 			( id, title, name, url, modified)
 			VALUES ($insertId, '$title', '$name', '$homepage', UNIX_TIMESTAMP());"))
 			$siteId = $insertId;
 		else
 			return 2;
 	}
-	$parentId = DBQuery::queryCell("SELECT id 
+	$parentId = POD::queryCell("SELECT id 
 		FROM {$database['prefix']}CommentsNotified 
 		WHERE entry = $entryId 
 			AND siteId = $siteId 
@@ -851,21 +851,21 @@ function receiveNotifiedComment($post) {
 			VALUES (
 				$blogid, NULL , $insertId, " . $entryId . ", " . (empty($parent_parent) ? 'null' : $parent_parent) . ", '" . $parent_name . "', '', '" . $parent_homepage . "', '', '" . $parent_comment . "', '', " . $parent_written . ",UNIX_TIMESTAMP(), " . $siteId . ", 1, '" . $parent_url . "'," . $parent_id . ", '" . $entryTitle . "', '" . $entryUrl . "'
 )";
-		if (!DBQuery::execute($sql))
+		if (!POD::execute($sql))
 			return 3;
 		$parentId = $insertId;
 	}
-	if (DBQuery::queryCell("SELECT count(*) FROM {$database['prefix']}CommentsNotified WHERE siteId=$siteId AND remoteId=$child_id") > 0)
+	if (POD::queryCell("SELECT count(*) FROM {$database['prefix']}CommentsNotified WHERE siteId=$siteId AND remoteId=$child_id") > 0)
 		return 4;
 	$insertId = getCommentsNotifiedMaxId() + 1;
 	$sql = "INSERT INTO {$database['prefix']}CommentsNotified 
 		( blogid , replier , id , entry , parent , name , password , homepage , secret , comment , ip , written, modified , siteId , isNew , url , remoteId ,entryTitle , entryUrl ) 
 		VALUES (
 			$blogid, NULL , $insertId, " . $entryId . ", $parentId, '$child_name', '', '$child_homepage', '', '$child_comment', '', $child_written, UNIX_TIMESTAMP(), $siteId, 1, '$child_url', $child_id, '$entryTitle', '$entryUrl')";
-	if (!DBQuery::execute($sql))
+	if (!POD::execute($sql))
 		return 5;
 	$sql = "UPDATE {$database['prefix']}CommentsNotified SET modified = UNIX_TIMESTAMP() WHERE id = $parentId";
-	if (!DBQuery::execute($sql))
+	if (!POD::execute($sql))
 		return 6;
 	return 0;
 }
@@ -873,8 +873,8 @@ function receiveNotifiedComment($post) {
 function getCommentCount($blogid, $entryId = null) {
 	global $database;
 	if (is_null($entryId))
-		return DBQuery::queryCell("SELECT SUM(comments) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft= 0 ");
-	return DBQuery::queryCell("SELECT comments FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0");
+		return POD::queryCell("SELECT SUM(comments) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft= 0 ");
+	return POD::queryCell("SELECT comments FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0");
 }
 
 function getCommentCountPart($commentCount, &$skin) {
@@ -898,7 +898,7 @@ function getCommentCountPart($commentCount, &$skin) {
 
 function getCommentsMaxId() {
 	global $database;
-	$maxId = DBQuery::queryCell("SELECT max(id) 
+	$maxId = POD::queryCell("SELECT max(id) 
 		FROM {$database['prefix']}Comments
 		WHERE blogid = ".getBlogId());
 	return empty($maxId) ? 0 : $maxId;
@@ -906,7 +906,7 @@ function getCommentsMaxId() {
 
 function getCommentsNotifiedMaxId() {
 	global $database;
-	$maxId = DBQuery::queryCell("SELECT max(id) 
+	$maxId = POD::queryCell("SELECT max(id) 
 		FROM {$database['prefix']}CommentsNotified
 		WHERE blogid = ".getBlogId());
 	return empty($maxId) ? 0 : $maxId;
@@ -914,7 +914,7 @@ function getCommentsNotifiedMaxId() {
 
 function getCommentsNotifiedQueueMaxId() {
 	global $database;
-	$maxId = DBQuery::queryCell("SELECT max(id) 
+	$maxId = POD::queryCell("SELECT max(id) 
 		FROM {$database['prefix']}CommentsNotifiedQueue
 		WHERE blogid = ".getBlogId());
 	return empty($maxId) ? 0 : $maxId;
@@ -922,7 +922,7 @@ function getCommentsNotifiedQueueMaxId() {
 
 function getCommentsNotifiedSiteInfoMaxId() {
 	global $database;
-	$maxId = DBQuery::queryCell("SELECT max(id) 
+	$maxId = POD::queryCell("SELECT max(id) 
 		FROM {$database['prefix']}CommentsNotifiedSiteInfo");
 	return empty($maxId) ? 0 : $maxId;
 }

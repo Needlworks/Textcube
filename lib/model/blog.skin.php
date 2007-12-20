@@ -6,7 +6,7 @@
 function setTreeSetting($blogid, $setting) {
 	global $database;
 	foreach ($setting as $key => $value)
-		$setting[$key] = DBQuery::escapeString($value);
+		$setting[$key] = POD::escapeString($value);
 	$sql = "
 	UPDATE {$database['prefix']}SkinSettings
 	SET 
@@ -180,7 +180,7 @@ function selectSkin($blogid, $skinName) {
 		setBlogSetting('singleTrackbackMessage', NULL);
 		$sql = "UPDATE {$database['prefix']}SkinSettings SET skin='{$skinName}' WHERE blogid = $blogid";
 	}
-	$result = DBQuery::query($sql);
+	$result = POD::query($sql);
 	if (!$result) {
 		return _t('실패했습니다.');
 	}
@@ -208,7 +208,7 @@ function writeSkinHtml($blogid, $contents, $mode, $file) {
 	}
 	$skinSetting['skin'] = "customize/$blogid";
 	$sql = "UPDATE {$database['prefix']}SkinSettings SET skin = '{$skinSetting['skin']}' WHERE blogid = $blogid";
-	$result = DBQuery::query($sql);
+	$result = POD::query($sql);
 	if (!$result)
 		return _t('실패했습니다.');
 	//if ($mode == 'style')
@@ -256,7 +256,7 @@ function setSkinSetting($blogid, $setting) {
 		$useRelTag = '0';
 
 	foreach ($setting as $key => $value) {
-		$setting[$key] = DBQuery::escapeString($value);
+		$setting[$key] = POD::escapeString($value);
 	}
 	$sql = "
 	UPDATE {$database['prefix']}SkinSettings 
@@ -281,7 +281,7 @@ function setSkinSetting($blogid, $setting) {
 		recentTrackbackLength 	= ' . $setting['recentTrackbackLength'] . ',
 		linkLength 				= ' . $setting['linkLength'] . '
 	WHERE blogid =' . $blogid;
-	if (!DBQuery::execute($sql)) {
+	if (!POD::execute($sql)) {
 		return false;
 	}
 	setBlogSetting('entriesOnPage',$setting['entriesOnPage']);

@@ -118,7 +118,7 @@ class Category {
 
 	function getNextCategoryId($id = 0) {
 		global $database;
-		$maxId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()); 
+		$maxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()); 
 		if($id==0)
 			return $maxId + 1;
 		else
@@ -148,7 +148,7 @@ class Category {
 		if (!Validator::number($id, 0))
 			return false;
 		if ($id == 0) return true; // not specified case
-		return DBQuery::queryExistence("SELECT id FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND id = $id");
+		return POD::queryExistence("SELECT id FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND id = $id");
 	}
 	
 	/*@static@*/
@@ -156,7 +156,7 @@ class Category {
 		global $database;
 		if (empty($label))
 			return null;
-		return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND label = '" . DBQuery::escapeString($label) . "'");
+		return POD::queryCell("SELECT id FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND label = '" . POD::escapeString($label) . "'");
 	}
 	
 	/*@static@*/
@@ -164,7 +164,7 @@ class Category {
 		global $database;
 		if (!Validator::number($id, 1))
 			return null;
-		return DBQuery::queryCell("SELECT label FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND id = $id");
+		return POD::queryCell("SELECT label FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND id = $id");
 	}
 
 	/*@static@*/
@@ -172,7 +172,7 @@ class Category {
 		global $database;
 		if (!Validator::number($id, 1))
 			return null;
-		return DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND id = $id");
+		return POD::queryCell("SELECT parent FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND id = $id");
 	}
 
 	function _error($error) {

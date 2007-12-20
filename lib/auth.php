@@ -5,7 +5,7 @@
 
 function login($loginid, $password, $preKnownPassword = null) {
 	global $service;
-	$loginid = DBQuery::escapeString($loginid);
+	$loginid = POD::escapeString($loginid);
 	$blogid = getBlogId();
 	$userid = Auth::authenticate($blogid , $loginid, $password );
 
@@ -109,10 +109,10 @@ function requireStrictBlogURL() {
 
 function isLoginId($blogid, $loginid) {
 	global $database;
-	$loginid = DBQuery::escapeString($loginid);
+	$loginid = POD::escapeString($loginid);
 	
 	// 팀블로그 :: 팀원 확인
-	$result = DBQuery::queryCount("SELECT u.userid 
+	$result = POD::queryCount("SELECT u.userid 
 			FROM {$database['prefix']}Users u, 
 				{$database['prefix']}Teamblog t 
 			WHERE t.blogid = $blogid 
@@ -134,9 +134,9 @@ function resetPassword($blogid, $loginid) {
 	if (!isLoginId($blogid, $loginid))
 		return false;
 	$userid=getUserIdByEmail($loginid);
-	$password = DBQuery::queryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = $userid");
+	$password = POD::queryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = $userid");
 	$authtoken = md5(generatePassword());
-	$result = DBQuery::query("INSERT INTO `{$database['prefix']}UserSettings` (userid, name, value) VALUES ('" . $userid . "', 'AuthToken', '" . $authtoken . "')");
+	$result = POD::query("INSERT INTO `{$database['prefix']}UserSettings` (userid, name, value) VALUES ('" . $userid . "', 'AuthToken', '" . $authtoken . "')");
 	if(empty($result)) {
 		return false;
 	}

@@ -163,7 +163,8 @@ class UTF8 {
 	}
 	
 	function lessenAsEncoding($str, $length = 255, $tail = '...') {
-		if(empty(DBQuery::charset()) || DBQuery::charset() == 'utf8')
+		global $database;
+		if(!isset($database['utf8']) || empty($database['utf8']) || $database['utf8'] == true)
 			return UTF8::lessen($str, $length, $tail);
 		else
 			return UTF8::lessenAsByte($str, $length, $tail);

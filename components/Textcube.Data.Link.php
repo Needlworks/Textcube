@@ -104,7 +104,7 @@ class Link {
 		global $database;
 		if (empty($url))
 			return null;
-		return DBQuery::queryCell("SELECT id FROM {$database['prefix']}Links WHERE blogid = ".getBlogId()." AND url = '" . DBQuery::escapeString($url) . "'");
+		return POD::queryCell("SELECT id FROM {$database['prefix']}Links WHERE blogid = ".getBlogId()." AND url = '" . POD::escapeString($url) . "'");
 	}
 	
 	/*@static@*/
@@ -112,7 +112,7 @@ class Link {
 		global $database;
 		if (!Validator::number($id, 1))
 			return null;
-		return DBQuery::queryCell("SELECT label FROM {$database['prefix']}Links WHERE blogid = ".getBlogId()." AND id = $id");
+		return POD::queryCell("SELECT label FROM {$database['prefix']}Links WHERE blogid = ".getBlogId()." AND id = $id");
 	}
 
 	function _buildQuery() {

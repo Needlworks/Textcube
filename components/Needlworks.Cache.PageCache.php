@@ -132,9 +132,9 @@ class pageCache {
 
 	function getPageCacheLog() {
 		global $database;
-		$result = DBQuery::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog 
+		$result = POD::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog 
 			WHERE blogid = ".getBlogId()."
-			AND name = '".DBQuery::escapeString($this->realName)."'");
+			AND name = '".POD::escapeString($this->realName)."'");
 		if(!is_null($result)) {
 			$this->_dbContents = unserialize($result);
 			if(doesHaveOwnership()) $this->dbContents = isset($this->_dbContents['owner']) ? $this->_dbContents['owner'] : null;
@@ -149,15 +149,15 @@ class pageCache {
 		global $database;
 		if(doesHaveOwnership()) $this->_dbContents['owner'] = $this->dbContents;
 		else $this->_dbContents['user'] = $this->dbContents;
-		return DBQuery::execute("REPLACE INTO {$database['prefix']}PageCacheLog 
-			VALUES(".getBlogId().", '".DBQuery::escapeString($this->realName)."', '".tc_escape_string(serialize($this->_dbContents))."')");
+		return POD::execute("REPLACE INTO {$database['prefix']}PageCacheLog 
+			VALUES(".getBlogId().", '".POD::escapeString($this->realName)."', '".tc_escape_string(serialize($this->_dbContents))."')");
 	}
 
 	function removePageCacheLog() {
 		global $database;
-		return DBQuery::execute("DELETE FROM {$database['prefix']}PageCacheLog 
+		return POD::execute("DELETE FROM {$database['prefix']}PageCacheLog 
 			WHERE blogid = ".getBlogId()."
-			AND name = '".DBQuery::escapeString($this->realName)."'"); 
+			AND name = '".POD::escapeString($this->realName)."'"); 
 	}
 
 	function _error($error) {
@@ -180,7 +180,7 @@ class CacheControl{
 			if(!@unlink($dir.'/'.$object)) return false;
 		}
 		@rmdir($dir);
-		DBQuery::query("DELETE FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$blogid);
+		POD::query("DELETE FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$blogid);
 		return true;
 	}
 	
@@ -191,7 +191,7 @@ class CacheControl{
 		else $categoryId = $categoryId.'\\_';
 		
 		$cache = new pageCache;
-		$categoryLists = DBQuery::queryColumn("SELECT name
+		$categoryLists = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'categoryList\\_".$categoryId."%')");
@@ -211,7 +211,7 @@ class CacheControl{
 		if(empty($tagId)) $tagId = '';
 		else $tagId = $tagId.'\\_';
 		$cache = new pageCache;
-		$tagLists = DBQuery::queryColumn("SELECT name
+		$tagLists = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'tagList\\_".$tagId."%' 
@@ -236,7 +236,7 @@ class CacheControl{
 		if(empty($tagId)) $tagId = '';
 		else $tagId = $tagId.'\\_';
 		$cache = new pageCache;
-		$keywordEntries = DBQuery::queryColumn("SELECT name
+		$keywordEntries = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND name like 'keyword\\_".$tagId."%'");
@@ -255,7 +255,7 @@ class CacheControl{
 		if(empty($entryId)) $entryId = '';
 		else $entryId = $entryId.'\\_';
 		$cache = new pageCache;
-		$Entries = DBQuery::queryColumn("SELECT name
+		$Entries = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND name like 'entry\\_".$entryId."%'");

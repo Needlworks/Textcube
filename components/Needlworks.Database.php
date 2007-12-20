@@ -19,6 +19,7 @@ switch($service['dbms']) {
 }
 
 require_once ROOT.'/components/POD.Core.php';
+$database['utf8'] = (POD::charset() == 'utf8') ? true : false;
 
 /* TableQuery */
 // class TableQuery will be depreacted after 1.6 tree.
@@ -56,7 +57,7 @@ class TableQuery {
 		if (is_null($value))
 			$this->_attributes[$name] = 'NULL';
 		else
-			$this->_attributes[$name] = (is_null($escape) ? $value : ($escape ? '\'' . DBQuery::escapeString($value) . '\'' : "'" . $value . "'"));
+			$this->_attributes[$name] = (is_null($escape) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
 	}
 	
 	function unsetAttribute($name) {
@@ -83,7 +84,7 @@ class TableQuery {
 		if (is_null($value))
 			$this->_qualifiers[$name] = 'NULL';
 		else
-			$this->_qualifiers[$name] = (is_null($escape) ? $value : ($escape ? '\'' . DBQuery::escapeString($value) . '\'' : "'" . $value . "'"));
+			$this->_qualifiers[$name] = (is_null($escape) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
 	}
 	
 	function unsetQualifier($name) {
@@ -91,23 +92,23 @@ class TableQuery {
 	}
 	
 	function doesExist() {
-		return DBQuery::queryExistence('SELECT * FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
+		return POD::queryExistence('SELECT * FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
 	}
 	
 	function getCell($field = '*') {
-		return DBQuery::queryCell('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
+		return POD::queryCell('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
 	}
 	
 	function getRow($field = '*') {
-		return DBQuery::queryRow('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
+		return POD::queryRow('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
 	}
 	
 	function getColumn($field = '*') {
-		return DBQuery::queryColumn('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
+		return POD::queryColumn('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
 	}
 	
 	function getAll($field = '*') {
-		return DBQuery::queryAll('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
+		return POD::queryAll('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
 	}
 	
 	function insert() {
@@ -118,8 +119,8 @@ class TableQuery {
 		if (empty($attributes))
 			return false;
 		$this->_query = 'INSERT INTO ' . $this->table . '(' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
-		if (DBQuery::query($this->_query)) {
-			$this->id = DBQuery::insertId();
+		if (POD::query($this->_query)) {
+			$this->id = POD::insertId();
 			return true;
 		}
 		return false;
@@ -132,7 +133,7 @@ class TableQuery {
 		foreach ($this->_attributes as $name => $value)
 			array_push($attributes, $name . '=' . $value);
 		$this->_query = 'UPDATE ' . $this->table . ' SET ' . implode(',', $attributes) . $this->_makeWhereClause();
-		if (DBQuery::query($this->_query))
+		if (POD::query($this->_query))
 			return true;
 		return false;
 	}
@@ -145,8 +146,8 @@ class TableQuery {
 		if (empty($attributes))
 			return false;
 		$this->_query = 'REPLACE INTO ' . $this->table . '(' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
-		if (DBQuery::query($this->_query)) {
-			$this->id = DBQuery::insertId();
+		if (POD::query($this->_query)) {
+			$this->id = POD::insertId();
 			return true;
 		}
 		return false;
@@ -156,7 +157,7 @@ class TableQuery {
 		if (empty($this->table))
 			return false;
 		$this->_query = 'DELETE FROM ' . $this->table . $this->_makeWhereClause();
-		if (DBQuery::query($this->_query))
+		if (POD::query($this->_query))
 			return true;
 		return false;
 	}

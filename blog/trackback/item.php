@@ -35,7 +35,7 @@ if(empty($suri['id'])) {
 }*/
 $result = receiveTrackback($blogid, $suri['id'], $title, $url, $excerpt, $blog_name);
 if ($result == 0) {
-	if($row = DBQuery::queryRow("SELECT * 
+	if($row = POD::queryRow("SELECT * 
 		FROM {$database['prefix']}Entries
 		WHERE blogid = $blogid 
 			AND id = {$suri['id']} 

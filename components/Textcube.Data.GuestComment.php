@@ -31,7 +31,7 @@ class GuestComment {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = DBQuery::query("SELECT $fields 
+		$this->_result = POD::query("SELECT $fields 
 			FROM {$database['prefix']}Comments 
 			WHERE blogid = ".getBlogId()." 
 				AND entry = 0 
@@ -114,7 +114,7 @@ class GuestComment {
 	
 	function nextId($id = 0) {
 		global $database;
-		$maxId = DBQuery::queryCell("SELECT max(id) FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId());
+		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId());
 		if($id == 0)
 			return $maxId + 1;
 		else

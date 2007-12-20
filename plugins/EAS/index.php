@@ -21,10 +21,10 @@ function EAS_Call($type, $name, $title, $url, $content)
 		if ($type == 2) // Trackback Case
 		{
 			$sql = 'SELECT COUNT(id) as cc FROM ' . $database['prefix'] . 'Trackbacks WHERE';
-			$sql .= ' url = \'' . DBQuery::escapeString($url) . '\'';
+			$sql .= ' url = \'' . POD::escapeString($url) . '\'';
 			$sql .= ' AND isFiltered > 0';
 			
-			if ($result = DBQuery::query($sql)) {
+			if ($result = POD::query($sql)) {
 				$row = mysql_fetch_row($result);
 				$count += @$row[0];
 			}
@@ -33,9 +33,9 @@ function EAS_Call($type, $name, $title, $url, $content)
 			$tableName = $database['prefix'] . 'Comments';	
 
 			$sql = 'SELECT COUNT(id) as cc FROM ' . $database['prefix'] . 'Comments WHERE';
-			$sql .= ' comment = \'' . DBQuery::escapeString($content) . '\'';
-			$sql .= ' AND homepage = \'' . DBQuery::escapeString($url) . '\'';
-			$sql .= ' AND name = \'' . DBQuery::escapeString($name) . '\'';
+			$sql .= ' comment = \'' . POD::escapeString($content) . '\'';
+			$sql .= ' AND homepage = \'' . POD::escapeString($url) . '\'';
+			$sql .= ' AND name = \'' . POD::escapeString($name) . '\'';
 			$sql .= ' AND isFiltered > 0';
 			
 			if ($result = mysql_query($sql)) {
@@ -46,7 +46,7 @@ function EAS_Call($type, $name, $title, $url, $content)
 
 		// Check IP
 		$sql = 'SELECT COUNT(id) as cc FROM ' . $tableName . ' WHERE';
-		$sql .= ' ip = \'' . DBQuery::escapeString($_SERVER['REMOTE_ADDR']) . '\'';
+		$sql .= ' ip = \'' . POD::escapeString($_SERVER['REMOTE_ADDR']) . '\'';
 		$sql .= ' AND isFiltered > 0';
 
 		if ($result = mysql_query($sql)) {

@@ -11,8 +11,8 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 global $database;
 
 $userid = $suri['id'];
-$usersetting= DBQuery::queryRow("SELECT * FROM `{$database['prefix']}Users` WHERE userid = " . $userid);
-$usersetting['owner']= DBQuery::queryCell("SELECT userid FROM `{$database['prefix']}teamblog` WHERE acl & ".BITWISE_OWNER." != 0 AND blogid = " . $blogid);
+$usersetting= POD::queryRow("SELECT * FROM `{$database['prefix']}Users` WHERE userid = " . $userid);
+$usersetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}teamblog` WHERE acl & ".BITWISE_OWNER." != 0 AND blogid = " . $blogid);
 ?>
 						<div id="part-center-about" class="part">
 <a href="<?php echo $blogURL;?>/owner/control/user">&lt;&lt;돌아가기</a>
@@ -68,10 +68,10 @@ $usersetting['owner']= DBQuery::queryCell("SELECT userid FROM `{$database['prefi
 											</tr>
 										</thead>
 										<tbody><?php
-$teamblog = DBQuery::queryAll("SELECT * FROM `{$database['prefix']}teamblog` WHERE userid = " . $userid);
+$teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}teamblog` WHERE userid = " . $userid);
 	foreach ($teamblog as $row){
 		echo "<tr>";
-		echo "<td class=\"name\"><a href=\"{$blogURL}/owner/control/blog/{$row['blogid']}\">".DBQuery::queryCell("SELECT value FROM `{$database['prefix']}BlogSettings` WHERE name = 'name' AND blogid = " . $row['blogid'])."</a></td>";
+		echo "<td class=\"name\"><a href=\"{$blogURL}/owner/control/blog/{$row['blogid']}\">".POD::queryCell("SELECT value FROM `{$database['prefix']}BlogSettings` WHERE name = 'name' AND blogid = " . $row['blogid'])."</a></td>";
 
 		$tmpstr = '';
 		if ($row['acl'] & BITWISE_ADMINISTRATOR) $tmpstr .= _t("관리자")." ";

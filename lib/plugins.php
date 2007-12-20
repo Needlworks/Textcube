@@ -24,7 +24,7 @@ $editorMapping = array('plain' => array('name' => _t('편집기 없음')));
 list($currentTextcubeVersion) = explode(' ', TEXTCUBE_VERSION, 2);
 
 if (getBlogId()) {
-	$activePlugins = DBQuery::queryColumn("SELECT name FROM {$database['prefix']}Plugins WHERE blogid = ".getBlogId());
+	$activePlugins = POD::queryColumn("SELECT name FROM {$database['prefix']}Plugins WHERE blogid = ".getBlogId());
 	$xmls = new XMLStruct();
 	$editorCount     = 0;
 	$formatterCount  = 0;

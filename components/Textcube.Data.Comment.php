@@ -102,7 +102,7 @@ class Comment {
 		if (isset($this->parent))
 			$this->entry = Comment::getEntry($this->parent);
 		if ((isset($this->entry)) && ($this->isFiltered == 0))
-			DBQuery::execute("UPDATE {$database['prefix']}Entries SET comments = comments + 1 WHERE blogid = ".getBlogId()." AND id = {$this->entry}");
+			POD::execute("UPDATE {$database['prefix']}Entries SET comments = comments + 1 WHERE blogid = ".getBlogId()." AND id = {$this->entry}");
 		return true;
 	}
 	
@@ -123,12 +123,12 @@ class Comment {
 		global $database;
 		if (!Validator::number($id, 1))
 			return null;
-		return DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()." AND id = {$id}");
+		return POD::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()." AND id = {$id}");
 	}
 
 	function nextId($id = 0) {
 		global $database;
-		$maxId = DBQuery::queryCell("SELECT max(id) FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId());
+		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId());
 		if($id == 0)
 			return $maxId + 1;
 		else

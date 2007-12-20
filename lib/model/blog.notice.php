@@ -18,12 +18,12 @@ function getNoticesWithPaging($blogid, $search, $page, $count) {
 function getNotice($blogid, $id) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility = 2';
-	return DBQuery::queryAll("SELECT id, title, content, published FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -2 AND id = $id");
+	return POD::queryAll("SELECT id, title, content, published FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -2 AND id = $id");
 }
 
 function getNotices($blogid) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility = 2';
-	return DBQuery::queryAll("SELECT id, title, published FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -2 ORDER BY published DESC");
+	return POD::queryAll("SELECT id, title, published FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -2 ORDER BY published DESC");
 }
 ?>

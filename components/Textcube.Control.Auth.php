@@ -296,7 +296,7 @@ class Acl {
 
 	function setBasicAcl( $userid ) {
 		global $database;
-		$result = DBQuery::queryColumn("SELECT blogid
+		$result = POD::queryColumn("SELECT blogid
 			FROM {$database['prefix']}Teamblog
 			WHERE userid = $userid
 				AND acl > 15");
@@ -311,7 +311,7 @@ class Acl {
 	function setTeamAcl( $userid ) {
 		global $database;
 		$blogid = getBlogId();
-		$result = DBQuery::queryAllWithCache("SELECT blogid,acl FROM {$database['prefix']}Teamblog WHERE userid='$userid'");
+		$result = POD::queryAllWithCache("SELECT blogid,acl FROM {$database['prefix']}Teamblog WHERE userid='$userid'");
 		foreach( $result as $session ) {
 			$priv = array("group.writers");
 
@@ -325,7 +325,7 @@ class Acl {
 			Acl::setAcl( $session['blogid'], $priv, true );
 		}
 
-		DBQuery::execute("UPDATE  {$database['prefix']}Teamblog SET lastLogin = unix_timestamp() WHERE blogid='$blogid' AND userid='$userid'");
+		POD::execute("UPDATE  {$database['prefix']}Teamblog SET lastLogin = unix_timestamp() WHERE blogid='$blogid' AND userid='$userid'");
 		return;
 	}	
 }
@@ -343,28 +343,28 @@ class Auth {
 		global $database;
 
 		Acl::clearAcl();
-		$loginid = DBQuery::escapeString($loginid);
+		$loginid = POD::escapeString($loginid);
 
 		$blogApiPassword = getBlogSetting("blogApiPassword", "");
 
 		if ((strlen($password) == 32) && preg_match('/[0-9a-f]/i', $password)) {
 			$userid=getUserIdByEmail($loginid);
-			$authtoken = DBQuery::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
+			$authtoken = POD::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
 			if (!empty($authtoken)) {
-				$password = DBQuery::escapeString($password);
+				$password = POD::escapeString($password);
 				$secret = '(`password` = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $authtoken . '\')';
 			}
 			else {
 				$secret = '`password` = \'' . md5($password) . '\'';
 			}
 		} else if( $blogapi && !empty($blogApiPassword) ) {
-			$password = DBQuery::escapeString($password);
+			$password = POD::escapeString($password);
 			$secret = '(`password` = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $blogApiPassword . '\')';
 		} else {
 			$secret = '`password` = \'' . md5($password) . '\'';
 		}
 
-		$session = DBQuery::queryRow("SELECT userid, loginid, name FROM {$database['prefix']}Users WHERE loginid = '$loginid' AND $secret");
+		$session = POD::queryRow("SELECT userid, loginid, name FROM {$database['prefix']}Users WHERE loginid = '$loginid' AND $secret");
 		if ( empty($session) ) {
 			/* You should compare return value with '=== false' which checks with variable types*/
 			return false;
@@ -374,8 +374,8 @@ class Auth {
 		Acl::authorize( 'textcube', $userid );
 		Acl::setBasicAcl($userid);
 		Acl::setTeamAcl($userid);
-		DBQuery::execute("UPDATE  {$database['prefix']}Users SET lastLogin = unix_timestamp() WHERE loginid = '$loginid'");
-		DBQuery::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
+		POD::execute("UPDATE  {$database['prefix']}Users SET lastLogin = unix_timestamp() WHERE loginid = '$loginid'");
+		POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
 		return $userid;
 	}
 

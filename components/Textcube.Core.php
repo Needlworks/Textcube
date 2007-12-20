@@ -18,18 +18,18 @@ class User {
 		if (array_key_exists($userid, $__gCacheUserNames)) {
 			return $__gCacheUserNames[$userid];
 		}
-		return $__gCacheUserNames[$userid] = DBQuery::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $userid");
+		return $__gCacheUserNames[$userid] = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $userid");
 	}
 
 	function getUserId($name) {
 		global $database, $__gCacheUserNames;
 		if (!isset($name))
 			return getUserId();
-		$name = DBQuery::escapeString($name);
+		$name = POD::escapeString($name);
 		$userid = array_search($name, $__gCacheUserNames);
 		if(!empty($userid))
 			return $userid;
-		$userid = DBQuery::queryCell("SELECT userid FROM {$database['prefix']}Users WHERE name = '".$name."'");
+		$userid = POD::queryCell("SELECT userid FROM {$database['prefix']}Users WHERE name = '".$name."'");
 		$__gCacheUserNames[$userid] = $name;
 		return $userid;
 	}
@@ -37,7 +37,7 @@ class User {
 	/*@static@*/
 	function getBlogOwnerName($blogid) {
 		global $database;
-		$ownerUserId = DBQuery::queryCell("SELECT userid 
+		$ownerUserId = POD::queryCell("SELECT userid 
 			FROM {$database['prefix']}Teamblog
 			WHERE blogid = $blogid
 				AND acl > 15");
@@ -48,14 +48,14 @@ class User {
 		global $database;
 		if (!isset($userid))
 			$userid = getUserId();
-		return DBQuery::queryCell("SELECT loginid FROM {$database['prefix']}Users WHERE userid = $userid");
+		return POD::queryCell("SELECT loginid FROM {$database['prefix']}Users WHERE userid = $userid");
 	}
 	
 	/*@static@*/
 	function confirmPassword($password) {
 		global $database;
 		$password = md5($password);
-		return DBQuery::queryExistence("SELECT userid FROM {$database['prefix']}Users WHERE userid = ".getBlogId()." AND password = '$password'");
+		return POD::queryExistence("SELECT userid FROM {$database['prefix']}Users WHERE userid = ".getBlogId()." AND password = '$password'");
 	}
 
 	function authorName($blogid = null,$entryId){
@@ -79,7 +79,7 @@ class User {
 	
 		$changeBlogView = str_repeat(TAB,7)."<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/setting/teamblog/changeBlog/?blogid='+this.value\">".CRLF;
 		
-		$teamblogListInfo = DBQuery::queryAll("SELECT t.blogid, b.value AS title
+		$teamblogListInfo = POD::queryAll("SELECT t.blogid, b.value AS title
 				FROM {$database['prefix']}Teamblog t 
 				LEFT JOIN {$database['prefix']}BlogSettings b ON b.blogid = t.blogid AND b.name = 'title'
 				WHERE t.userid='".getUserId()."'");

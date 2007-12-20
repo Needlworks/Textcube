@@ -32,12 +32,12 @@ function writeSession($id, $data) {
 		return false;
 	$userid = Acl::getIdentity('textcube');
 	if( empty($userid) ) $userid = 'null';
-	$data = DBQuery::escapeString($data);
-	$server = DBQuery::escapeString($_SERVER['HTTP_HOST']);
-	$request = DBQuery::escapeString($_SERVER['REQUEST_URI']);
-	$referer = isset($_SERVER['HTTP_REFERER']) ? DBQuery::escapeString($_SERVER['HTTP_REFERER']) : '';
+	$data = POD::escapeString($data);
+	$server = POD::escapeString($_SERVER['HTTP_HOST']);
+	$request = POD::escapeString($_SERVER['REQUEST_URI']);
+	$referer = isset($_SERVER['HTTP_REFERER']) ? POD::escapeString($_SERVER['HTTP_REFERER']) : '';
 	$timer = getMicrotimeAsFloat() - $sessionMicrotime;
-	$result = DBQuery::queryCount("UPDATE {$database['prefix']}Sessions 
+	$result = POD::queryCount("UPDATE {$database['prefix']}Sessions 
 			SET userid = $userid, data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() 
 			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 	if ($result && $result == 1)
@@ -47,14 +47,14 @@ function writeSession($id, $data) {
 
 function destroySession($id, $setCookie = false) {
 	global $database;
-	@DBQuery::query("DELETE FROM {$database['prefix']}Sessions 
+	@POD::query("DELETE FROM {$database['prefix']}Sessions 
 		WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 	gcSession();
 }
 
 function gcSession($maxLifeTime = false) {
 	global $database, $service;
-	@DBQuery::query("DELETE FROM {$database['prefix']}Sessions 
+	@POD::query("DELETE FROM {$database['prefix']}Sessions 
 		WHERE updated < (UNIX_TIMESTAMP() - {$service['timeout']})");
 	$result = @sessionQueryAll("SELECT DISTINCT v.id, v.address 
 		FROM {$database['prefix']}SessionVisits v 
@@ -65,7 +65,7 @@ function gcSession($maxLifeTime = false) {
 		foreach ($result as $g)
 			array_push($gc, $g);
 		foreach ($gc as $g)
-			@DBQuery::query("DELETE FROM {$database['prefix']}SessionVisits WHERE id = '{$g[0]}' AND address = '{$g[1]}'");
+			@POD::query("DELETE FROM {$database['prefix']}SessionVisits WHERE id = '{$g[0]}' AND address = '{$g[1]}'");
 	}
 	return true;
 }
@@ -84,7 +84,7 @@ function newAnonymousSession() {
 		if (($id = getAnonymousSession()) !== false)
 			return $id;
 		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-		$result = DBQuery::queryCount("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+		$result = POD::queryCount("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 		if ($result > 0)
 			return $id;
 	}
@@ -110,7 +110,7 @@ function newSession() {
 	global $database;
 	for ($i = 0; ($i < 100) && !setSessionAnonymous(); $i++) {
 		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-		$result = DBQuery::queryCount("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) SELECT DISTINCT '$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+		$result = POD::queryCount("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) SELECT DISTINCT '$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 		if ($result && $result > 0) {
 			session_id($id);
 			return true;
@@ -121,7 +121,7 @@ function newSession() {
 
 function isSessionAuthorized($id) {
 	global $database;
-	$result = DBQuery::queryCell("SELECT id 
+	$result = POD::queryCell("SELECT id 
 		FROM {$database['prefix']}Sessions 
 		WHERE id = '$id' 
 			AND address = '{$_SERVER['REMOTE_ADDR']}' 
@@ -151,7 +151,7 @@ function authorizeSession($blogid, $userid) {
 		return true;
 	for ($i = 0; $i < 100; $i++) {
 		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-		$result = DBQuery::execute("INSERT INTO {$database['prefix']}Sessions
+		$result = POD::execute("INSERT INTO {$database['prefix']}Sessions
 			(id, address, userid, created, updated) 
 			VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', $userid, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 		if ($result) {
@@ -166,11 +166,11 @@ function authorizeSession($blogid, $userid) {
 
 function sessionQuery($sql) {
 	global $database, $sessionDBRepair;
-	$result = DBQuery::queryCell($sql);
+	$result = POD::queryCell($sql);
 	if($result === false) {
 		if (!isset($sessionDBRepair)) {		
-			DBQuery::query("REPAIR TABLE {$database['prefix']}Sessions");
-			$result = DBQuery::queryCell($sql);
+			POD::query("REPAIR TABLE {$database['prefix']}Sessions");
+			$result = POD::queryCell($sql);
 			$sessionDBRepair = true;
 		}
 	}
@@ -179,11 +179,11 @@ function sessionQuery($sql) {
 
 function sessionQueryAll($sql) {
 	global $database, $sessionDBRepair;
-	$result = DBQuery::queryAll($sql);
+	$result = POD::queryAll($sql);
 	if($result === false) {
 		if (!isset($sessionDBRepair)) {		
-			DBQuery::query("REPAIR TABLE {$database['prefix']}Sessions");
-			$result = DBQuery::queryAll($sql);
+			POD::query("REPAIR TABLE {$database['prefix']}Sessions");
+			$result = POD::queryAll($sql);
 			$sessionDBRepair = true;
 		}
 	}

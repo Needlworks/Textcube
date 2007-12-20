@@ -15,18 +15,18 @@ function getTrackbacksWithPagingForOwner($blogid, $category, $site, $ip, $search
 		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
 		WHERE t.blogid = $blogid AND t.isFiltered = 0";
 	if ($category > 0) {
-		$categories = DBQuery::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
+		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
 		$postfix .= '&category=' . rawurlencode($category);
 	} else
 		$sql .= ' AND e.category >= 0';
 	if (!empty($site)) {
-		$sql .= ' AND t.site = \'' . DBQuery::escapeString($site) . '\'';
+		$sql .= ' AND t.site = \'' . POD::escapeString($site) . '\'';
 		$postfix .= '&site=' . rawurlencode($site);
 	}
 	if (!empty($ip)) {
-		$sql .= ' AND t.ip = \'' . DBQuery::escapeString($ip) . '\'';
+		$sql .= ' AND t.ip = \'' . POD::escapeString($ip) . '\'';
 		$postfix .= '&ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
@@ -45,7 +45,7 @@ function getTrackbacksWithPagingForOwner($blogid, $category, $site, $ip, $search
 function getTrackbacks($entry) {
 	global $database;
 	$trackbacks = array();
-	$result = DBQuery::query("select * 
+	$result = POD::query("select * 
 			from {$database['prefix']}Trackbacks 
 			where blogid = ".getBlogId()." 
 				AND entry = $entry 
@@ -61,7 +61,7 @@ function getTrackbackList($blogid, $search) {
 	$list = array('title' => "$search", 'items' => array());
 	$search = escapeSearchString($search);
 	$authorized = doesHaveOwnership() ? '' : getPrivateCategoryExclusionQuery($blogid);
-	if ($result = DBQuery::queryAll("SELECT t.id, t.entry, t.url, t.site, t.subject, t.excerpt, t.written, e.slogan
+	if ($result = POD::queryAll("SELECT t.id, t.entry, t.url, t.site, t.subject, t.excerpt, t.written, e.slogan
  		FROM {$database['prefix']}Trackbacks t
 		LEFT JOIN {$database['prefix']}Entries e ON t.entry = e.id AND t.blogid = e.blogid
 		WHERE t.entry > 0 
@@ -99,7 +99,7 @@ function getRecentTrackbacks($blogid, $count = false) {
 		ORDER BY 
 			t.written 
 		DESC LIMIT ".($count = false ? $count : $skinSetting['trackbacksOnRecent']);
-	if ($result = DBQuery::query($sql)) {
+	if ($result = POD::query($sql)) {
 		while ($trackback = mysql_fetch_array($result))
 			array_push($trackbacks, $trackback);
 	}
@@ -168,10 +168,10 @@ function deleteTrackback($blogid, $id) {
 	global $database;
 	requireModel('blog.entry');
 	if (!is_numeric($id)) return null;
-	$entry = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND id = $id");
+	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!DBQuery::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND id = $id"))
+	if (!POD::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND id = $id"))
 		return false;
 	if (updateTrackbacksOfEntry($blogid, $entry))
 		return $entry;
@@ -182,10 +182,10 @@ function trashTrackback($blogid, $id) {
 	global $database;
 	requireModel('blog.entry');
 	if (!is_numeric($id)) return null;
-	$entry = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND id = $id");
+	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!DBQuery::execute("UPDATE {$database['prefix']}Trackbacks SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id"))
+	if (!POD::execute("UPDATE {$database['prefix']}Trackbacks SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id"))
 		return false;
 	if (updateTrackbacksOfEntry($blogid, $entry))
 		return $entry;
@@ -196,10 +196,10 @@ function revertTrackback($blogid, $id) {
 	global $database;
 	requireModel('blog.entry');
 	if (!is_numeric($id)) return null;
-	$entry = DBQuery::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND id = $id");
+	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!DBQuery::execute("UPDATE {$database['prefix']}Trackbacks SET isFiltered = 0 WHERE blogid = $blogid AND id = $id"))
+	if (!POD::execute("UPDATE {$database['prefix']}Trackbacks SET isFiltered = 0 WHERE blogid = $blogid AND id = $id"))
 		return false;
 	if (updateTrackbacksOfEntry($blogid, $entry))
 		return $entry;
@@ -245,8 +245,8 @@ function sendTrackback($blogid, $entryId, $url) {
 		$isSuccess = $request->send($content);
 	}
 	if ($isSuccess && (checkResponseXML($request->responseText) === 0)) {
-		$url = DBQuery::escapeString(UTF8::lessenAsEncoding($url, 255));
-		DBQuery::query("insert into {$database['prefix']}TrackbackLogs values ($blogid, '', $entryId, '$url', UNIX_TIMESTAMP())");
+		$url = POD::escapeString(UTF8::lessenAsEncoding($url, 255));
+		POD::query("insert into {$database['prefix']}TrackbackLogs values ($blogid, '', $entryId, '$url', UNIX_TIMESTAMP())");
 		return true;
 	}
 	return false;
@@ -254,7 +254,7 @@ function sendTrackback($blogid, $entryId, $url) {
 
 function getTrackbackLog($blogid, $entry) {
 	global $database;
-	$result = DBQuery::query("SELECT * FROM {$database['prefix']}TrackbackLogs WHERE blogid = $blogid AND entry = $entry");
+	$result = POD::query("SELECT * FROM {$database['prefix']}TrackbackLogs WHERE blogid = $blogid AND entry = $entry");
 	$str = '';
 	while ($row = mysql_fetch_array($result)) {
 		$str .= $row['id'] . ',' . $row['url'] . ',' . Timestamp::format5($row['written']) . '*';
@@ -265,7 +265,7 @@ function getTrackbackLog($blogid, $entry) {
 function getTrackbackLogs($blogid, $entryId) {
 	global $database;
 	$logs = array();
-	$result = DBQuery::query("SELECT * FROM {$database['prefix']}TrackbackLogs WHERE blogid = $blogid AND entry = $entryId");
+	$result = POD::query("SELECT * FROM {$database['prefix']}TrackbackLogs WHERE blogid = $blogid AND entry = $entryId");
 	while ($log = mysql_fetch_array($result))
 		array_push($logs, $log);
 	return $logs;
@@ -273,7 +273,7 @@ function getTrackbackLogs($blogid, $entryId) {
 
 function deleteTrackbackLog($blogid, $id) {
 	global $database;
-	$result = DBQuery::query("delete from {$database['prefix']}TrackbackLogs WHERE blogid = $blogid AND id = $id");
+	$result = POD::query("delete from {$database['prefix']}TrackbackLogs WHERE blogid = $blogid AND id = $id");
 	return ($result && (mysql_affected_rows() == 1)) ? true : false;
 }
 
@@ -287,7 +287,7 @@ function lastIndexOf($string, $item) {
 }
 
 function getURLForFilter($value) {
-	$value = DBQuery::escapeString($value);
+	$value = POD::escapeString($value);
 	$value = str_replace('http://', '', $value);
 	$lastSlashPos = lastIndexOf($value, '/');
 	if ($lastSlashPos > - 1) {
@@ -299,11 +299,11 @@ function getURLForFilter($value) {
 function getTrackbackCount($blogid, $entryId = null) {
 	global $database;
 	if (is_null($entryId))
-		return DBQuery::queryCell("SELECT SUM(trackbacks) 
+		return POD::queryCell("SELECT SUM(trackbacks) 
 				FROM {$database['prefix']}Entries 
 				WHERE blogid = $blogid 
 					AND draft= 0");
-	return DBQuery::queryCell("SELECT trackbacks 
+	return POD::queryCell("SELECT trackbacks 
 			FROM {$database['prefix']}Entries 
 			WHERE blogid = $blogid 
 				AND id = $entryId 

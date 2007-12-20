@@ -166,11 +166,11 @@ function _openid_update_id($openid,$delegatedid,$nickname,$homepage=null)
 {
 	global $database, $blogid;
 	global $openid_session;
-	$openid = DBQuery::escapeString($openid);
-	$delegatedid = DBQuery::escapeString($delegatedid);
+	$openid = POD::escapeString($openid);
+	$delegatedid = POD::escapeString($delegatedid);
 
 	$query = "SELECT data FROM {$database['prefix']}OpenIDUsers WHERE openid='{$openid}'";
-	$result = DBQuery::queryCell($query);
+	$result = POD::queryCell($query);
 
 	if (is_null($result)) {
 		$data = serialize( array( 'nickname' => $nickname, 'homepage' => $homepage ) );
@@ -178,7 +178,7 @@ function _openid_update_id($openid,$delegatedid,$nickname,$homepage=null)
 		$openid_session['homepage'] = $homepage;
 
 		/* Owner column is used for reference, all openid records are shared */
-		DBQuery::execute("insert into {$database['prefix']}OpenIDUsers (blogid,openid,delegatedid,firstLogin,lastLogin,loginCount,data) values ($blogid,'{$openid}','{$delegatedid}',UNIX_TIMESTAMP(),UNIX_TIMESTAMP(),1,'{$data}')");
+		POD::execute("insert into {$database['prefix']}OpenIDUsers (blogid,openid,delegatedid,firstLogin,lastLogin,loginCount,data) values ($blogid,'{$openid}','{$delegatedid}',UNIX_TIMESTAMP(),UNIX_TIMESTAMP(),1,'{$data}')");
 	} else {
 		$data = unserialize( $result );
 
@@ -189,7 +189,7 @@ function _openid_update_id($openid,$delegatedid,$nickname,$homepage=null)
 		$openid_session['homepage'] = $data['homepage'];
 
 		$data = serialize( $data );
-		DBQuery::execute("update {$database['prefix']}OpenIDUsers set data='{$data}', lastLogin = UNIX_TIMESTAMP(), loginCount = loginCount + 1 where openid = '{$openid}'");
+		POD::execute("update {$database['prefix']}OpenIDUsers set data='{$data}', lastLogin = UNIX_TIMESTAMP(), loginCount = loginCount + 1 where openid = '{$openid}'");
 	}
 	return;
 }
@@ -197,10 +197,10 @@ function _openid_update_id($openid,$delegatedid,$nickname,$homepage=null)
 function _openid_existed($openid)
 {
 	global $database, $blogid;
-	$openid = DBQuery::escapeString($openid);
+	$openid = POD::escapeString($openid);
 
 	$query = "SELECT openid FROM {$database['prefix']}OpenIDUsers WHERE blogid={$blogid} and openid='{$openid}'";
-	$result = DBQuery::queryCell($query);
+	$result = POD::queryCell($query);
 
 	if (is_null($result)) {
 		return false;
@@ -217,7 +217,7 @@ function _openid_authorizeSession($userid) {
 		return true;
 	for ($i = 0; $i < 100; $i++) {
 		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-		$result = DBQuery::query("INSERT INTO {$database['prefix']}Sessions(id, address, userid, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', $userid, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+		$result = POD::query("INSERT INTO {$database['prefix']}Sessions(id, address, userid, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', $userid, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 		if ($result && (mysql_affected_rows() == 1)) {
 			@session_id($id);
 			header("Set-Cookie: TSSESSION=$id; path=/; domain={$service['domain']}");
@@ -235,7 +235,7 @@ function _openid_set_acl($openid)
 
 	$blogid = getBlogId();
 	$query = "SELECT userid FROM {$database['prefix']}UserSettings WHERE name like 'openid.%' and value='{$openid}' order by userid";
-	$result = DBQuery::queryRow($query);
+	$result = POD::queryRow($query);
 
 	if( !$result ) {
 		return;
@@ -667,7 +667,7 @@ function _openid_set_temp_password( $blogid, $id )
 	global $database;
 	$pw = md5( 'seed for hash' . time() . filemtime( ROOT .DS.'config.php') );
 	$pw = substr($pw, 0, 32);
-	DBQuery::execute("UPDATE {$database['prefix']}Comments SET password = '" . md5($pw) . "' WHERE blogid = $blogid and id = $id" );
+	POD::execute("UPDATE {$database['prefix']}Comments SET password = '" . md5($pw) . "' WHERE blogid = $blogid and id = $id" );
 	return $pw;
 }
 
@@ -713,44 +713,44 @@ function _openid_fix_table()
 		}
 	}
 
-	$rows = DBQuery::queryAll("DESC {$database['prefix']}OpenIDUsers");
+	$rows = POD::queryAll("DESC {$database['prefix']}OpenIDUsers");
 	foreach( $rows as $row ) {
 		if( $row['Field'] == 'owner' )    { $fix0 = true; }
 		if( $row['Field'] == 'blocked' )  { $fix1 = true; }
 		if( $row['Field'] == 'data' )     { $fix2 = false; }
 		if( $row['Field'] == 'nickname' ) { $fix3 = true; }
 	}
-	$rows = DBQuery::queryAll("DESC {$database['prefix']}OpenIDComments");
+	$rows = POD::queryAll("DESC {$database['prefix']}OpenIDComments");
 	foreach( $rows as $row ) {
 		if( $row['Field'] == 'owner' )    { $fix4 = true; }
 	}
 
 	if( $fix0 ) {
-		DBQuery::execute("alter table {$database['prefix']}OpenIDUsers change column owner blogid int(11) not null default 0");
+		POD::execute("alter table {$database['prefix']}OpenIDUsers change column owner blogid int(11) not null default 0");
 	}
 	if( $fix1 ) {
-		DBQuery::execute("alter table {$database['prefix']}OpenIDUsers drop column blocked");
-		DBQuery::execute("alter table {$database['prefix']}OpenIDUsers drop column admin");
-		DBQuery::execute("alter table {$database['prefix']}OpenIDUsers drop column member");
-		DBQuery::execute("alter table {$database['prefix']}OpenIDUsers drop column comment");
+		POD::execute("alter table {$database['prefix']}OpenIDUsers drop column blocked");
+		POD::execute("alter table {$database['prefix']}OpenIDUsers drop column admin");
+		POD::execute("alter table {$database['prefix']}OpenIDUsers drop column member");
+		POD::execute("alter table {$database['prefix']}OpenIDUsers drop column comment");
 	}
 
 	if( $fix2 ) {
-		DBQuery::execute("alter table {$database['prefix']}OpenIDUsers add column data text");
+		POD::execute("alter table {$database['prefix']}OpenIDUsers add column data text");
 	}
 
 	if( $fix3 ) {
-		$rows = DBQuery::queryAll("select blogid,openid,nickname from {$database['prefix']}OpenIDUsers");
+		$rows = POD::queryAll("select blogid,openid,nickname from {$database['prefix']}OpenIDUsers");
 		foreach( $rows as $row ) {
 			$blogid = $row["blogid"];
 			$openid = $row["openid"];
 			$data = serialize( array( "nickname" => $row["nickname"], "homepage" => $openid ) );
-			DBQuery::execute("update {$database['prefix']}OpenIDUsers set data='{$data}' where blogid={$blogid} and openid='{$openid}'");
+			POD::execute("update {$database['prefix']}OpenIDUsers set data='{$data}' where blogid={$blogid} and openid='{$openid}'");
 		}
-		DBQuery::execute("alter table {$database['prefix']}OpenIDUsers drop column nickname");
+		POD::execute("alter table {$database['prefix']}OpenIDUsers drop column nickname");
 	}
 	if( $fix4 ) {
-		DBQuery::execute("alter table {$database['prefix']}OpenIDComments change column owner blogid int(11) not null default 0");
+		POD::execute("alter table {$database['prefix']}OpenIDComments change column owner blogid int(11) not null default 0");
 	}
 	$f = fopen( $checkup_path, "w");
 	if( $f ) {
@@ -865,9 +865,9 @@ function openid_AddComment( $id, $comment )
 		_openid_update_id( $openid_session['id'], $openid_session['delegatedid'], $result['name'], $result['homepage']);
 		openid_session_write();
 
-		DBQuery::execute("UPDATE {$database['prefix']}Comments SET password = '" . OPENID_PASSWORD . "' WHERE blogid = $blogid and id = $id" );
-		DBQuery::execute("DELETE FROM {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = $id" );
-		DBQuery::execute("INSERT INTO {$database['prefix']}OpenIDComments (blogid,id,openid) values " .
+		POD::execute("UPDATE {$database['prefix']}Comments SET password = '" . OPENID_PASSWORD . "' WHERE blogid = $blogid and id = $id" );
+		POD::execute("DELETE FROM {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = $id" );
+		POD::execute("INSERT INTO {$database['prefix']}OpenIDComments (blogid,id,openid) values " .
 			"( {$blogid}, {$id}, '{$auth_id}' )");
 	}
 
@@ -888,12 +888,12 @@ function openid_AddComment( $id, $comment )
 		return $id;
 	}
 
-	$row = DBQuery::queryRow("SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = {$comment['parent']}" );
+	$row = POD::queryRow("SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = {$comment['parent']}" );
 	if( empty($row) ) {
 		return;
 	}
 	/* Then, this administor's comment can be secret */
-	DBQuery::execute("UPDATE {$database['prefix']}Comments SET secret = 1 WHERE blogid = $blogid and id = $id" );
+	POD::execute("UPDATE {$database['prefix']}Comments SET secret = 1 WHERE blogid = $blogid and id = $id" );
 	return $id;
 }
 
@@ -925,7 +925,7 @@ function openid_CommentFetchHint( $comment_ids, $blogid )
 
 	$ids = join( ',', $query_candidate_ids );
 	$sql = "SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id in ( $ids )";
-	$row = DBQuery::queryAll($sql);
+	$row = POD::queryAll($sql);
 
 	$cached_ids = array();
 	if( !empty($row) ) {
@@ -951,7 +951,7 @@ function _openid_GetOpenIDComment( $blogid, $id )
 	if( isset($openid_comments["$blogid-$id"]) ) {
 		return $openid_comments["$blogid-$id"];
 	}
-	$row = DBQuery::queryRow("SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = $id" );
+	$row = POD::queryRow("SELECT * from {$database['prefix']}OpenIDComments WHERE blogid = $blogid and id = $id" );
 	if( empty($row) )
 	{
 		return null;
@@ -1047,7 +1047,7 @@ function _openid_getCommentInfo($blogid,$id){
 	global $database;
 
 	$sql="select a.*, openid from {$database['prefix']}Comments a left join {$database['prefix']}OpenIDComments b on a.id = b.id where a.blogid = $blogid and a.id = $id";
-	return DBQuery::queryRow($sql, MYSQL_ASSOC);
+	return POD::queryRow($sql, MYSQL_ASSOC);
 }
 /* Get and rename from original code */
 
@@ -1372,7 +1372,7 @@ function openid_manage()
 			<tbody>
 <?php
 $sql="select * from {$database['prefix']}OpenIDUsers $order";
-$rec = DBQuery::queryAll( $sql );
+$rec = POD::queryAll( $sql );
 for ($i=0; $i<count($rec); $i++) {
 $record = $rec[$i];
 $data = unserialize($record['data']);

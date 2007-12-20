@@ -6,7 +6,7 @@
 function refreshRSS($blogid) {
 	global $database, $serviceURL, $defaultURL, $blog, $service;
 	$channel = array();
-//	$author = DBQuery::queryCell("SELECT CONCAT(' (', name, ')') FROM {$database['prefix']}Users WHERE userid = $blogid");
+//	$author = POD::queryCell("SELECT CONCAT(' (', name, ')') FROM {$database['prefix']}Users WHERE userid = $blogid");
 	$channel['title'] = $blog['title'];
 	$channel['link'] = "$defaultURL/";
 	$channel['description'] = $blog['description'];
@@ -22,7 +22,7 @@ function refreshRSS($blogid) {
 	}
 
 	if ($blog['publishEolinSyncOnRSS']) {
-		$result = DBQuery::queryAll("SELECT 
+		$result = POD::queryAll("SELECT 
 				e.*, 
 				c.name AS categoryName, 
 				u.name AS author
@@ -34,7 +34,7 @@ function refreshRSS($blogid) {
 			WHERE e.blogid = $blogid AND e.draft = 0 AND e.visibility >= 2 AND e.category >= 0 AND (c.visibility > 1 OR e.category = 0)
 			ORDER BY e.published 
 			DESC LIMIT {$blog['entriesOnRSS']}");
-	} else { $result = DBQuery::queryAll("SELECT 
+	} else { $result = POD::queryAll("SELECT 
 				e.*, 
 				c.name AS categoryName,
 				u.name AS author
@@ -76,13 +76,13 @@ function refreshRSS($blogid) {
 		}
 		if (!empty($row['id'])) {
 			$sql = "SELECT name, size, mime FROM {$database['prefix']}Attachments WHERE parent= {$row['id']} AND blogid =$blogid AND enclosure = 1";
-			$attaches = DBQuery::queryRow($sql);
+			$attaches = POD::queryRow($sql);
 			if (count($attaches) > 0) {
 				$item['enclosure'] = array('url' => "$serviceURL/attach/$blogid/{$attaches['name']}", 'length' => $attaches['size'], 'type' => $attaches['mime']);
 			}
 		}
 		array_push($item['categories'], $row['categoryName']);
-		$tag_result = DBQuery::queryColumn("SELECT name 
+		$tag_result = POD::queryColumn("SELECT name 
 				FROM {$database['prefix']}Tags, 
 					{$database['prefix']}TagRelations 
 				WHERE id = tag 

@@ -47,8 +47,8 @@ function activatePlugin($name) {
 		return false;
 	}
 	$pluginName = $name;
-	$name = DBQuery::escapeString(UTF8::lessenAsEncoding($name, 255));
-	DBQuery::query("INSERT INTO {$database['prefix']}Plugins VALUES (".getBlogId().", '$name', null)");
+	$name = POD::escapeString(UTF8::lessenAsEncoding($name, 255));
+	POD::query("INSERT INTO {$database['prefix']}Plugins VALUES (".getBlogId().", '$name', null)");
 	$result = mysql_affected_rows();
 	clearPluginSettingCache();
 	CacheControl::flushItemsByPlugin($pluginName);
@@ -60,8 +60,8 @@ function deactivatePlugin($name) {
 	if (!in_array($name, $activePlugins))
 		return false;
 	$pluginName = $name;
-	$name = DBQuery::escapeString($name);
-	DBQuery::query("DELETE FROM {$database['prefix']}Plugins 
+	$name = POD::escapeString($name);
+	POD::query("DELETE FROM {$database['prefix']}Plugins 
 			WHERE blogid = ".getBlogId()."
 				AND name = '$name'");
 	clearPluginSettingCache();
@@ -75,7 +75,7 @@ function getCurrentSetting($name) {
 	if( !in_array( $name , $activePlugins))
 		return false;
 	if( empty($pluginSetting) ) {
-		$settings = DBQuery::queryAllWithCache("SELECT name, settings 
+		$settings = POD::queryAllWithCache("SELECT name, settings 
 				FROM {$database['prefix']}Plugins 
 				WHERE blogid = ".getBlogId(), MYSQL_NUM );
 		foreach( $settings as $k => $v ) {
@@ -92,9 +92,9 @@ function updatePluginConfig( $name , $setVal) {
 	if (!in_array($name, $activePlugins))
 		return false;
 	$pluginName = $name;
-	$name = DBQuery::escapeString( UTF8::lessenAsEncoding($name, 255) ) ;
-	$setVal = DBQuery::escapeString( $setVal ) ;
-	DBQuery::query(
+	$name = POD::escapeString( UTF8::lessenAsEncoding($name, 255) ) ;
+	$setVal = POD::escapeString( $setVal ) ;
+	POD::query(
 		"UPDATE {$database['prefix']}Plugins 
 			SET settings = '$setVal' 
 			WHERE blogid = ".getBlogId()."
@@ -169,17 +169,17 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 		$value = $plugin;
 		$result = getServiceSetting($keyname, null);
 		if (is_null($result)) {
-			$keyname = DBQuery::escapeString(UTF8::lessenAsEncoding($keyname, 32));
-			$value = DBQuery::escapeString(UTF8::lessenAsEncoding($plugin . '/' . $version , 255));
-			DBQuery::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value'");
+			$keyname = POD::escapeString(UTF8::lessenAsEncoding($keyname, 32));
+			$value = POD::escapeString(UTF8::lessenAsEncoding($plugin . '/' . $version , 255));
+			POD::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value'");
 		} else {
-			$keyname = DBQuery::escapeString(UTF8::lessenAsEncoding($keyname, 32));
-			$value = DBQuery::escapeString(UTF8::lessenAsEncoding($plugin . '/' . $version , 255));
+			$keyname = POD::escapeString(UTF8::lessenAsEncoding($keyname, 32));
+			$value = POD::escapeString(UTF8::lessenAsEncoding($plugin . '/' . $version , 255));
 			$values = explode('/', $result, 2);
 			if (strcmp($plugin, $values[0]) != 0) { // diff plugin
 				return false; // nothing can be done
 			} else if (strcmp($version, $values[1]) != 0) {
-				DBQuery::execute("UPDATE {$database['prefix']}ServiceSettings SET value ='$value' WHERE name='$keyname'");
+				POD::execute("UPDATE {$database['prefix']}ServiceSettings SET value ='$value' WHERE name='$keyname'");
 				$eventName = 'UpdateDB_' . $name;
 				fireEvent($eventName, $values[1]);
 			}
@@ -200,7 +200,7 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 				}
 			}
 			$isNull = ($field['isnull'] == 0) ? ' NOT NULL ' : ' NULL ';
-			$defaultValue = is_null($field['default']) ? '' : " DEFAULT '" . DBQuery::escapeString($field['default']) . "' ";
+			$defaultValue = is_null($field['default']) ? '' : " DEFAULT '" . POD::escapeString($field['default']) . "' ";
 			$fieldLength = ($field['length'] >= 0) ? "(".$field['length'].")" : '';
 			$sentence = $field['name'] . " " . $field['attribute'] . $fieldLength . $isNull . $defaultValue . $ai . ",";
 			$query .= $sentence;
@@ -210,11 +210,11 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 		$query .= " PRIMARY KEY (" . implode(',',$keys) . ")";
 		$query .= $index;
 		$query .= ") TYPE=MyISAM ";
-		$query .= (DBQuery::charset() == 'utf8') ? 'DEFAULT CHARSET=utf8' : '';
-		if (DBQuery::execute($query)) {
-				$keyname = DBQuery::escapeString(UTF8::lessenAsEncoding('Database_' . $name, 32));
-				$value = DBQuery::escapeString(UTF8::lessenAsEncoding($plugin . '/' . $version , 255));
-				DBQuery::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value'");
+		$query .= (POD::charset() == 'utf8') ? 'DEFAULT CHARSET=utf8' : '';
+		if (POD::execute($query)) {
+				$keyname = POD::escapeString(UTF8::lessenAsEncoding('Database_' . $name, 32));
+				$value = POD::escapeString(UTF8::lessenAsEncoding($plugin . '/' . $version , 255));
+				POD::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value'");
 			return true;
 		}
 		else return false;
@@ -225,16 +225,16 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 
 function clearPluginTable($name) {
 	global $database;
-	$name = DBQuery::escapeString($name);
-	DBQuery::query("DELETE FROM {$database['prefix']}{$name} WHERE blogid = ".getBlogId());
+	$name = POD::escapeString($name);
+	POD::query("DELETE FROM {$database['prefix']}{$name} WHERE blogid = ".getBlogId());
 	return (mysql_affected_rows() == 1);
 }
 
 function deletePluginTable($name) {
 	global $database;
 	if(getBlogId() !== 0) return false;
-	$name = DBQuery::escapeString($name);
-	DBQuery::query("DROP {$database['prefix']}{$name}");
+	$name = POD::escapeString($name);
+	POD::query("DROP {$database['prefix']}{$name}");
 	return true;
 }
 
@@ -247,11 +247,11 @@ function getPluginTableName() {
 	$likeReplace = array ( '\\_' , '\\%' );
 	$escapename = preg_replace($likeEscape, $likeReplace, $database['prefix']);
 	$query = "SHOW TABLES LIKE '{$escapename}%'";
-	$dbtables = DBQuery::queryColumn($query);
+	$dbtables = POD::queryColumn($query);
 
 	$dbCaseInsensitive = getServiceSetting('lowercaseTableNames');
 	if($dbCaseInsensitive === null) {
-		$result = DBQuery::queryRow("SHOW VARIABLES LIKE 'lower_case_table_names'");
+		$result = POD::queryRow("SHOW VARIABLES LIKE 'lower_case_table_names'");
 		$dbCaseInsensitive = ($result['Value'] == 1) ? 1 : 0;
 		setServiceSetting('lowercaseTableNames',$dbCaseInsensitive);
 	}

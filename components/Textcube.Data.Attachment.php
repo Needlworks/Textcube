@@ -100,7 +100,7 @@ class Attachment {
 		global $database;
 		if (!Validator::filename($name))
 			return null;
-		return DBQuery::queryExistence("SELECT parent FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND name = '$name'");
+		return POD::queryExistence("SELECT parent FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND name = '$name'");
 	}
 	
 	/*@static@*/
@@ -108,7 +108,7 @@ class Attachment {
 		global $database;
 		if (!Validator::filename($name))
 			return null;
-		return DBQuery::queryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND name = '$name'");
+		return POD::queryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND name = '$name'");
 	}
 	
 	/*@static@*/

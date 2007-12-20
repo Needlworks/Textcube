@@ -5,7 +5,7 @@
 
 // legacy functions to support character escaping depended on DBMS
 function escapeSearchString($str) {
-	return is_string($str) ? str_replace('_', '\_', str_replace('%', '\%', DBQuery::escapeString($str, null))) : $str;
+	return is_string($str) ? str_replace('_', '\_', str_replace('%', '\%', POD::escapeString($str, null))) : $str;
 }
 
 function doesExistTable($tablename) {
@@ -15,12 +15,12 @@ function doesExistTable($tablename) {
 	static $tables = array();
 	if( empty($tables) ) {
 		$escapename = escapeSearchString($database['prefix']);
-		$tables = DBQuery::queryColumn( "SHOW TABLES LIKE '{$escapename}%'" );
+		$tables = POD::queryColumn( "SHOW TABLES LIKE '{$escapename}%'" );
 	}
 	
 	$dbCaseInsensitive = getServiceSetting('lowercaseTableNames');
 	if($dbCaseInsensitive === null) {
-		$result = DBQuery::queryRow("SHOW VARIABLES LIKE 'lower_case_table_names'");
+		$result = POD::queryRow("SHOW VARIABLES LIKE 'lower_case_table_names'");
 		$dbCaseInsensitive = ($result['Value'] == 1) ? 1 : 0;
 		setServiceSetting('lowercaseTableNames',$dbCaseInsensitive);
 	}

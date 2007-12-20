@@ -155,12 +155,12 @@ class Notice {
 		global $database;
 		if (!Validator::number($id, 1))
 			return false;
-		return DBQuery::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND id = $id AND category = -2 AND draft = 0");
+		return POD::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND id = $id AND category = -2 AND draft = 0");
 	}
 
 	function nextEntryId($id = 0) {
 		global $database;
-		$maxId = DBQuery::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId());
+		$maxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId());
 		if($id==0)
 			return $maxId + 1;
 		else
