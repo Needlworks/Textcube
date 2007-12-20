@@ -24,7 +24,7 @@ function closeSession() {
 function readSession($id) {
 	global $database, $service;
 	if ($result = sessionQuery("SELECT data FROM {$database['prefix']}Sessions 
-		WHERE id = '$id' AND address = '".getRemoveAddress()."' AND updated >= (UNIX_TIMESTAMP() - {$service['timeout']})")) {
+		WHERE id = '$id' AND address = '".getRemoteAddress()."' AND updated >= (UNIX_TIMESTAMP() - {$service['timeout']})")) {
 		return $result;
 	}
 	return '';
@@ -44,7 +44,7 @@ function writeSession($id, $data) {
 	$timer = getMicrotimeAsFloat() - $sessionMicrotime;
 	$result = POD::queryCount("UPDATE {$database['prefix']}Sessions 
 			SET userid = $userid, data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() 
-			WHERE id = '$id' AND address = '".getRemoveAddress()."'");
+			WHERE id = '$id' AND address = '".getRemoteAddress()."'");
 	if ($result && $result == 1)
 		return true;
 	return false;
@@ -53,7 +53,7 @@ function writeSession($id, $data) {
 function destroySession($id, $setCookie = false) {
 	global $database;
 	@POD::query("DELETE FROM {$database['prefix']}Sessions 
-		WHERE id = '$id' AND address = '".getRemoveAddress()."'");
+		WHERE id = '$id' AND address = '".getRemoteAddress()."'");
 	gcSession();
 }
 
@@ -77,7 +77,7 @@ function gcSession($maxLifeTime = false) {
 
 function getAnonymousSession() {
 	global $database;
-	$result = sessionQuery("SELECT id FROM {$database['prefix']}Sessions WHERE address = '".getRemoveAddress()."' AND userid IS NULL AND preexistence IS NULL");
+	$result = sessionQuery("SELECT id FROM {$database['prefix']}Sessions WHERE address = '".getRemoteAddress()."' AND userid IS NULL AND preexistence IS NULL");
 	if ($result)
 		return $result;
 	return false;
@@ -89,7 +89,7 @@ function newAnonymousSession() {
 		if (($id = getAnonymousSession()) !== false)
 			return $id;
 		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-		$result = POD::queryCount("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) VALUES('$id', '".getRemoveAddress()."', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+		$result = POD::queryCount("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) VALUES('$id', '".getRemoteAddress()."', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 		if ($result > 0)
 			return $id;
 	}
@@ -115,7 +115,7 @@ function newSession() {
 	global $database;
 	for ($i = 0; ($i < 100) && !setSessionAnonymous(); $i++) {
 		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-		$result = POD::queryCount("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) SELECT DISTINCT '$id', '".getRemoveAddress()."', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+		$result = POD::queryCount("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) SELECT DISTINCT '$id', '".getRemoteAddress()."', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 		if ($result && $result > 0) {
 			session_id($id);
 			return true;
@@ -129,7 +129,7 @@ function isSessionAuthorized($id) {
 	$result = POD::queryCell("SELECT id 
 		FROM {$database['prefix']}Sessions 
 		WHERE id = '$id' 
-			AND address = '".getRemoveAddress()."' 
+			AND address = '".getRemoteAddress()."' 
 			AND (userid IS NOT NULL OR preexistence IS NOT NULL)");
 	if ($result)
 		return true;
@@ -158,7 +158,7 @@ function authorizeSession($blogid, $userid) {
 		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
 		$result = POD::execute("INSERT INTO {$database['prefix']}Sessions
 			(id, address, userid, created, updated) 
-			VALUES('$id', '".getRemoveAddress()."', $userid, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+			VALUES('$id', '".getRemoteAddress()."', $userid, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 		if ($result) {
 			@session_id($id);
 			//$service['domain'] = $service['domain'].':8888';
