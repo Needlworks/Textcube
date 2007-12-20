@@ -5,7 +5,7 @@
 define('ROOT', '../../../../..');
 $IV = array(
 	'POST' => array(
-		'targets' => array('list', 'default' = > '')
+		'targets' => array('list', 'default' => '')
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
@@ -17,7 +17,7 @@ if(isset($suri['id'])) {
 	
 	$isAjaxRequest = checkAjaxRequest();
 	
-	if (trashTrackback($blogid, $suri['id']) !== true)
+	if (trashTrackback($blogid, $suri['id']) !== false)
 		$isAjaxRequest ? respondResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	else
 		$isAjaxRequest ? respondResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);

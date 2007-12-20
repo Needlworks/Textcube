@@ -55,8 +55,15 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										return;
 									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/comment/delete/" + id);
 									request.onSuccess = function () {
+										PM.removeRequest(this);
+										PM.showMessage("<?php echo _t('댓글이 삭제되었습니다.');?>", "center", "bottom");
 										document.getElementById('list-form').submit();
 									}
+									request.onError = function() {
+										PM.removeRequest(this);
+										PM.showErrorMessage("<?php echo _t('댓글을 삭제하지 못하였습니다.');?>", "center", "bottom");
+									}
+									PM.addRequest(request, "<?php echo _t('댓글을 삭제하고 있습니다.');?>");
 									request.send();
 								}
 								

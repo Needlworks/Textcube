@@ -185,7 +185,7 @@ function trashTrackback($blogid, $id) {
 	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!POD::execute("UPDATE {$database['prefix']}Trackbacks SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id"))
+	if (!POD::query("UPDATE {$database['prefix']}Trackbacks SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id"))
 		return false;
 	if (updateTrackbacksOfEntry($blogid, $entry))
 		return $entry;
