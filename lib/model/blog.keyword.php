@@ -54,7 +54,7 @@ function getKeylogByTitle($blogid, $title) {
 	global $database;
 	$title = POD::escapeString($title);
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	return POD::queryAll("SELECT * 
+	return POD::queryRow("SELECT * 
 			FROM {$database['prefix']}Entries 
 			WHERE blogid = $blogid 
 				AND draft = 0 $visibility 
