@@ -998,7 +998,7 @@ function syndicateEntry($id, $mode) {
 function publishEntries() {
 	global $database;;
 	$blogid = getBlogId();
-	$closestReservedTime = getBlogSetting('closestReservedPostTime',9999999999);
+	$closestReservedTime = getBlogSetting('closestReservedPostTime',MAX_INT);
 	if($closestReservedTime < Timestamp::getUNIXtime()) {
 		$entries = POD::queryAll("SELECT id, visibility, category
 			FROM {$database['prefix']}Entries 
@@ -1027,7 +1027,7 @@ function publishEntries() {
 			FROM {$database['prefix']}Entries
 			WHERE blogid = $blogid AND draft = 0 AND visibility < 0 AND published > UNIX_TIMESTAMP()");
 		if(!empty($newClosestTime)) setBlogSetting('closestReservedPostTime',$newClosestTime);
-		else setBlogSetting('closestReservedPostTime',9999999999);
+		else setBlogSetting('closestReservedPostTime',MAX_INT);
 	}
 }
 
