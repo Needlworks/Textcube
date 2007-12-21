@@ -10,6 +10,8 @@ if(isset($service['useFastCGI']) && $service['useFastCGI'] == true) {
 	$url = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : $_SERVER['SCRIPT_NAME'];
 }
 
+$defaultblogid = getServiceSetting("defaultBlogId",1);
+
 $suri            = array('url' => $url, 'value' => '');
 $blogid          = null;
 $isStrictBlogURL = true;
@@ -23,11 +25,11 @@ if ($depth > 0) {
 }
 
 if ($service['type'] == 'single') {
-	$blogid = 1;
+	$blogid = $defaultblogid;
 } else {
 	if ($service['type'] == 'domain') {
 		if ($_SERVER['HTTP_HOST'] == $service['domain']) {
-			$blogid = 1;
+			$blogid = $defaultblogid;
 		} else {
 			$domain = explode('.', $_SERVER['HTTP_HOST'], 2);
 			if ($domain[1] == $service['domain']) {
@@ -40,11 +42,11 @@ if ($service['type'] == 'single') {
 		}
 	} else {
 		if ($url == '/') {
-			$blogid = 1;
+			$blogid = $defaultblogid;
 		} else if (preg_match('@^/+([^/]+)(.*)$@', $url, $matches)) {
 			$blogid = getBlogidByName($matches[1]);
 			if ($blogid === null) {
-				$blogid = 1;
+				$blogid = $defaultblogid;
 				$isStrictBlogURL = false;
 			}
 			$url = $matches[2];
