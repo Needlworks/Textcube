@@ -113,6 +113,7 @@ class Skin {
 		$sval = replaceSkinTag($sval, 'html');
 		$sval = replaceSkinTag($sval, 'head');
 		$sval = replaceSkinTag($sval, 'body');
+		$sval = insertGeneratorVersion($sval);
 		handleTags($sval);
 		
 		// 사이드바 작업.
@@ -366,6 +367,13 @@ function replaceSkinTag($contents, $tag) {
 
 	$replacement[] = '$1'.CRLF.'[##_SKIN_'.$tag.'_start_##]';
 	$replacement[] = '[##_SKIN_'.$tag.'_end_##]$0';
+
+	return preg_replace($pattern, $replacement, $contents);
+}
+
+function insertGeneratorVersion($contents) {
+	$pattern = '/(<head.*>)/Ui';
+	$replacement = '$1'.CRLF.'<meta name="generator" content="'.TEXTCUBE_NAME.' '.TEXTCUBE_VERSION.'" />';
 
 	return preg_replace($pattern, $replacement, $contents);
 }
