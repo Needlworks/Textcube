@@ -19,6 +19,19 @@ function getUserIdByEmail($email) {
 		WHERE loginid = '".$email."'");
 }
 
+function getUserNamesOfBlog($blogid) {
+	global $database;
+
+	$authorIds = POD::queryColumn("SELECT userid
+		FROM {$database['prefix']}Teamblog
+		WHERE blogid = $blogid");
+
+	$authorInfo = POD::queryAll("SELECT userid, name
+		FROM {$database['prefix']}Users
+		WHERE userid IN (".implode(",",$authorIds).")");
+	return $authorInfo;
+}
+
 function deleteUser($userid) {
 	global $database;
 	if( POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1") ) {

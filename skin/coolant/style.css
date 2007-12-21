@@ -1441,30 +1441,33 @@ form input:focus, textarea:focus
 
 /* recently */
 
+.authorList ol, .authorList ul,
 .recent ol, .recent ul
 {
 	margin-top: .3em;
 	list-style: none;
 }
 
-.recent li
+.authorList li, .recent li
 {
 	font: 0.9em/1.5 AppleGothic, Dotum, '돋움', sans-serif;
 	letter-spacing: -1px;
 	border-bottom: 1px solid #eee;
 }
 
-.recent li a
+.authorList li a, .recent li a
 {
 	display: block;
 	padding: .3em 0;
 }
 
+.authorList li a:link, .authorList li a:visited,
 .recent li a:link, .recent li a:visited
 {
 	color: #666;
 }
 
+.authorList li a:hover, .authroList li a:active,
 .recent li a:hover, .recent li a:active
 {
 	background: #faf9f8;

@@ -858,6 +858,26 @@ function getCalendarView($calendar) {
 	return $view;
 }
 
+function getAuthorListView($authorInfo, $template) {
+	global $blog, $service, $blogURL, $skinSetting, $contentContainer;
+	ob_start();
+	foreach ($authorInfo as $user) {
+		$view = "$template";
+		$permalink = "$blogURL/author/" . $user['name'];
+		dress('author_rep_link', $permalink, $view);
+		dress('author_rep_name', $user['name'], $view);
+
+//		$contentContainer["recent_entry_{$entry['id']}"] = htmlspecialchars(UTF8::lessenAsEm($entry['title'], $skinSetting['recentEntryLength']));
+//		dress('rctps_rep_title', setTempTag("recent_entry_{$entry['id']}"), $view);
+//		dress('rctps_rep_rp_cnt', "<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments'] > 0 ? "({$entry['comments']})" : '').'</span>', $view);
+		print $view;
+	}
+	$view = ob_get_contents();
+	ob_end_clean();
+	
+	return $view;
+}
+
 function getRecentEntriesView($entries, $template) {
 	global $blog, $service, $blogURL, $skinSetting, $contentContainer;
 	ob_start();

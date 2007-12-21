@@ -66,6 +66,7 @@ if (sizeof($notices) > 0) {
 	dress('rct_notice_rep', $itemsView, $noticeView);
 	dress('rct_notice', $noticeView, $view);
 }
+dress('author_rep', getAuthorListView(getUserNamesOfBlog($blogid), $skin->authorList), $view);
 dress('rctps_rep', getRecentEntriesView(getRecentEntries($blogid), $skin->recentEntry), $view);
 dress('rctrp_rep', getRecentCommentsView(getRecentComments($blogid), $skin->recentComments), $view);
 dress('rcttb_rep', getRecentTrackbacksView(getRecentTrackbacks($blogid), $skin->recentTrackback), $view);

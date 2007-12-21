@@ -282,6 +282,7 @@ class Skin {
 		list($sval, $this->paging) = $this->cutSkinTag($sval, 'paging');
 		list($sval, $this->archive) = $this->cutSkinTag($sval, 'archive_rep');
 		list($sval, $this->search) = $this->cutSkinTag($sval, 'search');
+		list($sval, $this->authorList) = $this->cutSkinTag($sval, 'author_rep');
 		list($sval, $this->recentEntry) = $this->cutSkinTag($sval, 'rctps_rep');
 		list($sval, $this->recentComments) = $this->cutSkinTag($sval, 'rctrp_rep');
 		list($sval, $this->recentTrackback) = $this->cutSkinTag($sval, 'rcttb_rep');
