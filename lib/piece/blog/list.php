@@ -25,7 +25,7 @@ if (isset($cache->contents)) {
 				fireEvent('ViewListName', htmlspecialchars($author)),
 				fireEvent('ViewListName', htmlspecialchars($author)),
 				"$blogURL/" . ($blog['useSlogan'] ? 'entry/' . URL::encode($item['slogan'],$service['useEncodedURL']) : $item['id']),
-				fireEvent('ViewListTitle', $item['title']),
+				fireEvent('ViewListTitle', htmlspecialchars($item['title'])),
 				($item['comments'] > 0) ? "({$item['comments']})" : ''
 			),
 			$skin->listItem
