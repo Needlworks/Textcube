@@ -10,6 +10,7 @@ define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.org/');
 define('TEXTCUBE_SYNC_URL', 'http://ping.eolin.com/');
 define('CRLF', "\r\n");
 define('TAB', "	");
+define('INT_MAX',2147483647);
 if( strstr( PHP_OS, "WIN") !== false ) {
 	define('DS', "\\");
 } else {
