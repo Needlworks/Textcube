@@ -284,6 +284,7 @@ function setSkinSetting($blogid, $setting) {
 	if (!POD::execute($sql)) {
 		return false;
 	}
+	setBlogSetting('useRelTag',$useRelTag);
 	setBlogSetting('entriesOnPage',$setting['entriesOnPage']);
 	setBlogSetting('entriesOnList',$setting['entriesOnList']);
 	CacheControl::flushCategory();
