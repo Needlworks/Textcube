@@ -19,7 +19,6 @@ switch($service['dbms']) {
 }
 
 if(!class_exists(POD)) require_once ROOT.'/components/POD.Core.php';
-$database['utf8'] = (POD::charset() == 'utf8') ? true : false;
 
 /* TableQuery */
 // class TableQuery will be depreacted after 1.6 tree.

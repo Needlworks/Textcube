@@ -11,6 +11,7 @@
 require ROOT.'/components/Needlworks.Database.php';
 if(!empty($database) && !empty($database["database"])) POD::bind($database);
 
+$database['utf8'] = (POD::charset() == 'utf8') ? true : false;
 
 /* Path-dependent environment setting
    ----------------------------------
