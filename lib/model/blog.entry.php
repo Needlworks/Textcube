@@ -119,7 +119,7 @@ function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
 	if (!doesHaveOwnership() && getCategoryVisibility($blogid, $category) < 2 && $category != 0)
 		return array();
 	if ($category > 0) {
-		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category $visibility");
+		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
 		$cond = 'AND e.category IN (' . implode(', ', $categories) . ')';
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
