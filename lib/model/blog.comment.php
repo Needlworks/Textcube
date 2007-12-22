@@ -730,23 +730,22 @@ function deleteCommentNotifiedInOwner($blogid, $id) {
 function notifyComment() {
 	global $database, $service, $blog, $defaultURL;
 	$blogid = getBlogId();
-	$sql = "
-			select
+	$sql = "SELECT
 				CN.*,
 				CNQ.id AS queueId, 
 				CNQ.commentId AS commentId, 
 				CNQ.sendStatus AS sendStatus, 
 				CNQ.checkDate AS checkDate, 
 				CNQ.written  AS queueWritten
-			from
+			FROM
 				{$database['prefix']}CommentsNotifiedQueue AS CNQ
 			LEFT JOIN
 				{$database['prefix']}Comments AS CN ON CNQ.commentId = CN.id
-			where
+			WHERE
 				CNQ.sendStatus = '0'
 				and CN.parent is not null
 			ORDER BY CNQ.id ASC
-			limit 0, 1
+			LIMIT 0, 1
 		";
 	$queue = POD::queryRow($sql);
 	if (empty($queue) && empty($queue['queueId'])) {

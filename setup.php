@@ -20,7 +20,6 @@ define ('ROOT', '.');
 require 'lib/config.php';
 require 'lib/database.php';
 require 'lib/locale.php';
-require 'components/Needlworks.DBMS.MySQL.php';
 require 'components/POD.Core.php';
 if (!empty($_GET['test'])) {
 	echo getFingerPrint();
