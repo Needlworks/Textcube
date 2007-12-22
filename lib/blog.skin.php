@@ -110,10 +110,11 @@ class Skin {
 		if (!$sval = file_get_contents($filename))
 			respondErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
 
-		$sval = replaceSkinTag($sval, 'html');
-		$sval = replaceSkinTag($sval, 'head');
-		$sval = replaceSkinTag($sval, 'body');
-		$sval = insertGeneratorVersion($sval);
+		addMicroformats($sval);
+		replaceSkinTag($sval, 'html');
+		replaceSkinTag($sval, 'head');
+		replaceSkinTag($sval, 'body');
+		insertGeneratorVersion($sval);
 		handleTags($sval);
 		
 		// 사이드바 작업.
@@ -362,21 +363,21 @@ function removeAllTags($contents) {
 	return $contents;	
 }
 
-function replaceSkinTag($contents, $tag) {
+function replaceSkinTag( & $contents, $tag) {
 	$pattern[] = '/(<'.$tag.'.*>)\r?\n/Ui';
 	$pattern[] = '/<\/'.$tag.'>/Ui';
 
 	$replacement[] = '$1'.CRLF.'[##_SKIN_'.$tag.'_start_##]';
 	$replacement[] = '[##_SKIN_'.$tag.'_end_##]$0';
 
-	return preg_replace($pattern, $replacement, $contents);
+	$content = preg_replace($pattern, $replacement, $contents);
 }
 
-function insertGeneratorVersion($contents) {
+function insertGeneratorVersion(&$contents) {
 	$pattern = '/(<head.*>)/Ui';
 	$replacement = '$1'.CRLF.'<meta name="generator" content="'.TEXTCUBE_NAME.' '.TEXTCUBE_VERSION.'" />';
 
-	return preg_replace($pattern, $replacement, $contents);
+	$contents = preg_replace($pattern, $replacement, $contents);
 }
 
 function setTempTag($name) {
@@ -392,5 +393,46 @@ function revertTempTags($content) {
 //		unset($contentContainer[$keys[$i]]);
 	}
 	return $content;
+}
+
+function addAttributeCore(& $string, $regex, & $addings) {
+	if( !preg_match( $regex, $string, $match ) ) {
+		return $string;
+	}
+	foreach( $addings as $add_attr => $add_value ) {
+		$regex_attr = "/(.*)$add_attr=[\"']([^\"']*)[\"'](.*)/si";
+		/* Does the tag have already add_attr attribute? */
+		if( preg_match( $regex_attr, $match[2], $attr_match ) ) {
+			/* Does not the attribute have already add_value value? */
+			if( !preg_match( "/\b$add_value\b/i", $attr_match[2] ) ) {
+				if( !empty( $attr_match[2] ) ) {
+					$attr_match[2] .= ' ';
+				}
+				$match[2] = "{$attr_match[1]}$add_attr=\"{$attr_match[2]}$add_value\"{$attr_match[3]}";
+			} else {
+			}
+		} else {
+			$match[2] = preg_replace( "/(.*?)(\/?>)/", "\\1 $add_attr=\"$add_value\"\\2", $match[2] );
+		}
+	}
+	return $match[1].$match[2].addAttributeCore($match[3],$regex,$addings);
+}
+
+function addAttribute(& $skin, $tag, $cond_attr, $cond_value, $addings) {
+	if( !empty($cond_attr ) && !empty($cond_value) ) {
+		$needle = "/(.*?)(<$tag\s+[^>]*{$cond_attr}=[\"'][^\"']*{$cond_value}[^\"']*[\"'][^>]*>)(.*)/s";
+	} else {
+		$needle = "/(.*?)(<{$tag}[^>]*>)(.*)/s";
+	}
+	$skin = addAttributeCore( $skin, $needle, $addings );
+}
+
+/**
+ * See: http://dev.textcube.org/wiki/MicroformatDeployment
+ */
+function addMicroformats(& $skin) {
+	/* bookmark */
+	addAttribute( $skin, 'a', 'href', '##_article_rep_link_##', 
+				array( 'rel' => 'bookmark', 'title' => "[##_article_rep_title_##]" ) );
 }
 ?>
