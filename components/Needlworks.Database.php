@@ -18,7 +18,7 @@ switch($service['dbms']) {
 		require_once ROOT.'/components/Needlworks.DBMS.MySQL.php';
 }
 
-require_once ROOT.'/components/POD.Core.php';
+if(!class_exists(POD)) require_once ROOT.'/components/POD.Core.php';
 $database['utf8'] = (POD::charset() == 'utf8') ? true : false;
 
 /* TableQuery */

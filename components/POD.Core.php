@@ -15,6 +15,7 @@ require_once 'Needlworks.Database.php';
 // Bypass variables are supported. ($_pod_setting);
 class POD extends DBQuery {
 	/** Pre-definition **/
+	// 'var' is deprecated from PHP5.
 /*	var $_domain;
 	var $_prototype;
 	var $_type;
