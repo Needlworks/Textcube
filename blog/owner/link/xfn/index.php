@@ -118,7 +118,7 @@ for ($i=0; $i<sizeof($links); $i++) {
 										<td class="xfn-edit">
 										<label for="co-resident_id_<?php echo $link['id'];?>"><input name="geographical<?php echo $link['id'];?>" value="co-resident" id="co-resident_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_coresident; ?> /> <?php echo _t('같이 사는'); ?></label> 
 										<label for="neighbor_id_<?php echo $link['id'];?>"><input name="geographical<?php echo $link['id'];?>" value="neighbor" id="neighbor_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_neighbor; ?> /> <?php echo _t('이웃에 사는'); ?></label> 
-										<label for="geographical-none_id_<?php echo $link['id'];?>"><input name="geographical<?php echo $link['id'];?>" value="" id="geographical-none_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_none_geographical; ?> /> <?php echo _t('멀리 사는');?></label>
+										<label for="geographical-none_id_<?php echo $link['id'];?>"><input name="geographical<?php echo $link['id'];?>" value="" id="geographical-none_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_none_geographical; ?> /> <?php echo _t('비공개');?></label>
 										</td>
 										<td class="xfn-edit">
 										<label for="family-child_id_<?php echo $link['id'];?>"><input name="family<?php echo $link['id'];?>" value="child" id="family-child_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_child; ?> /> <?php echo _t('자녀'); ?></label> 
