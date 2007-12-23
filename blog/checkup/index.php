@@ -973,23 +973,23 @@ $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));
 fclose($fp);
-if (preg_match('@\(thumbnail\)/\(\[0\-9\]\+/\.\+\) cache/\$1/\$2@', $content) == 0) {
-	if ($service['type'] == 'path')
-		$insertLine = 'RewriteRule ^[[:alnum:]]+/+(thumbnail)/([0-9]+/.+) cache/$1/$2 [E=SURI:1,L]'.CRLF;
-	else
-		$insertLine = 'RewriteRule ^(thumbnail)/([0-9]+/.+) cache/$1/$2 [E=SURI:1,L]'.CRLF;
-	$findStr = 'RewriteRule !^(blog|cache)/ - [L]';
-	echo '<li>.htaccess thumbnail rule - ', _text('수정');
-	if (strpos($content, $findStr) == false)
-		echo ': <span style="color:#33CC33;">', _text('실패'), '</span></li>';
-	else {
-		$pos = strpos($content, $findStr) + strlen($findStr);
-		while (((bin2hex($content[$pos]) == '0d') || (bin2hex($content[$pos]) == '0a') || (bin2hex($content[$pos]) == '20')) && (strlen($content) > $pos)) $pos++;
-		$content = substr($content, 0, $pos) . $insertLine . substr($content,$pos);
-		$fp = fopen($filename, "w");
-		fwrite($fp, $content);
-		fclose($fp);
+if (preg_match('/rewrite.php/', $content) == 0) {
+	$fp = fopen($filename, "w");
+	$path = $service['path'];
+	$content = "#<IfModule mod_url.c>
+#CheckURL Off
+#</IfModule>
+RewriteEngine On
+RewriteBase $path/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.+)$ rewrite.php?$1 [L,QSA]
+RewriteRule ^$ rewrite.php [L,QSA]";
+	echo '<li>', _textf('새로운 rewrite 엔진을 사용하기 위하여 .htaccess 를 재작성합니다.'), ': ';
+	$fp = fopen($filename, "w");
+	if(fwrite($fp, $content) && fclose($fp)) {
 		echo ': <span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	} else {
+		echo ': <span style="color:#33CC33;">', _text('실패'), '</span></li>';
 	}
 }
 
