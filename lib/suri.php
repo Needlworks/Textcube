@@ -65,7 +65,7 @@ $blog = getBlogSettings($blogid);
 $skinSetting = getSkinSetting($blogid);
 
 if(isset($accessInfo)) {
-	$depth = substr_count(str_replace($accessInfo['root'],'',$accessInfo['fullpath']),'/');
+	$depth = substr_count($accessInfo['fullpath'],'/') - substr_count($accessInfo['root'],'/'); 
 } else {
 	$depth = substr_count(ROOT, '/');
 }
