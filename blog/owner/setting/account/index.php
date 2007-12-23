@@ -395,7 +395,7 @@ if( $openidPluginCheck != "*NONE*" ) {
 						</div>
 <!-- OPENID END -->
 <?php
-if ($service['type'] != 'single' && Acl::check("group.inviters")) {
+if ($service['type'] != 'single' && Acl::check("group.creators")) {
 	$urlRule = getBlogURLRule();
 ?>
 						<div id="part-setting-invite" class="part">
