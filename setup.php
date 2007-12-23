@@ -1490,8 +1490,7 @@ ini_set('display_errors', 'off');
 RewriteEngine On
 RewriteBase $path/
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.+)$ rewrite.php?$1 [L,QSA]
-RewriteRule ^$ rewrite.php [L,QSA]
+RewriteRule (.*) rewrite.php [L,QSA]
 ";
 
     	    if ($fp) {

@@ -6,7 +6,8 @@
 	$accessInfo = array(
 		'host'     => $_SERVER['HTTP_HOST'],
 		'fullpath' => $_SERVER["REQUEST_URI"],
-		'input'    => (isset($_SERVER['REDIRECT_QUERY_STRING']) ? $_SERVER['REDIRECT_QUERY_STRING'] : $_SERVER['QUERY_STRING']),
+		//'input'    => (isset($_SERVER['REDIRECT_QUERY_STRING']) ? $_SERVER['REDIRECT_QUERY_STRING'] : $_SERVER['QUERY_STRING']),
+		'input'    => ltrim($_SERVER['REQUEST_URI'],'/'),
 		'position' => $_SERVER["SCRIPT_NAME"],
 		'root'     => str_replace('rewrite.php','',$_SERVER["SCRIPT_NAME"])
 		);
@@ -29,7 +30,7 @@
 			$pathPart = ltrim(rtrim(strtok($accessInfo['fullpath'], '?'),'/'),'/');
 			break;
 	}
-	if(in_array($accessInfo['URLfragment'][0],array('entry','notice','location','cover','attachment','category','keylog','tag','search','plugin','author'))) {
+	if(!empty($accessInfo['URLfragment']) && in_array($accessInfo['URLfragment'][0],array('entry','notice','location','cover','attachment','category','keylog','tag','search','plugin','author'))) {
 		$interfacePath = 'blog/'.$accessInfo['URLfragment'][0].'/index.php';
 	} else if(is_numeric($lastElm[0])) {
 		$interfacePath = 'blog/'.strtok(implode('/',array_slice($accessInfo['URLfragment'],0,count($firstElm)-1)), '&').'/item.php';
