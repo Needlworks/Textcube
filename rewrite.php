@@ -12,8 +12,9 @@
 		);
 	define('ROOT', '.'); // Legacy ( < 1.6)
 	require ROOT.'/config.php';
-	if(in_array(strtok($accessInfo['input'],'/'), array('image','plugins','script','skin','style','attach','cache','thumbnail'))) {
-		$content = @file_get_contents(($part == 'thumbnail' ? str_replace('thumbnail','cache/thumbnail',$accessInfo['root'].$accessInfo['input']) : $accessInfo['root'].$accessInfo['input']));
+	$part = strtok($accessInfo['input'],'/');
+	if(in_array($part, array('image','plugins','script','skin','style','attach','cache','thumbnail'))) {
+		$content = file_get_contents(ltrim(($part == 'thumbnail' ? str_replace('thumbnail','cache/thumbnail',$accessInfo['root'].$accessInfo['input']) : $accessInfo['root'].$accessInfo['input']),'/'));
 		if(!empty($content)) { echo $content; exit;}
 		else exit;
 	}
