@@ -150,24 +150,6 @@ if( Acl::check('group.owners')) {?>
 									}
 									request.send("&senderName="+encodeURIComponent(sender[0][0])+"&senderEmail="+encodeURIComponent(sender[0][1])+"&email="+inviteList[0][1]+"&name="+encodeURIComponent(inviteList[0][0])+"&comment="+encodeURIComponent(comment.value));
 								}
-
-								function setSmtp() {
-									var useCustomSMTP = document.getElementById('useCustomSMTP').checked?1:0;
-									var smtpHost = document.getElementById('smtpHost').value;
-									var smtpPort = document.getElementById('smtpPort').value;
-									
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/teamblog/mailhost/");
-									request.onVerify = function() {
-										return this.getText("/response/error") == 0;
-									}
-									request.onSuccess = function() {
-										PM.showMessage("<?php echo _t('저장하였습니다');?>", "center", "bottom");
-									}
-									request.onError = function() {
-											alert('<?php echo _t('저장하지 못하였습니다');?>');
-									}
-									request.send("&useCustomSMTP="+useCustomSMTP+"&smtpHost="+encodeURIComponent(smtpHost)+"&smtpPort="+smtpPort);
-								}
 								
 								function createBlogIdentify(receivers) {
 									var blogList = document.getElementById('blogList');
@@ -375,31 +357,6 @@ if( Acl::check('group.owners')) {
 							</div>
 						</div>
 
-						<div id="part-setting-mailhost" class="part">
-							<h2 class="caption"><span class="main-text"><?php	echo _t('메일 보낼 서버를 지정합니다');?></span></h2>
-							
-							<div class="data-inbox">
-								<form class="section" method="post" action="<?php	echo $blogURL;?>/owner/setting/teamblog/mailhost">
-									<dl>
-										<dt class="title"><span class="label"><?php	echo _t('호스트');?></span></dt>
-										<dd>
-											<div class="line">
-												<input id="useCustomSMTP" type="checkbox" class="checkbox" name="useCustomSMTP" value="1" <?php if( misc::getBlogSettingGlobal( 'useCustomSMTP', 0 ) ) { echo "checked='checked'"; } ?> />
-												<label for="useCustomSMTP"><?php echo _t('메일서버 지정'); ?></label>
-											</div>
-											<div class="line">
-												<label for="smtpHost"><?php echo _t('메일서버 IP 주소:포트'); ?></label>
-												<input id="smtpHost" type="text" class="input-text" name="smtpHost" value="<?php echo misc::getBlogSettingGlobal( 'smtpHost', '127.0.0.1' ); ?>" /> :
-												<input id="smtpPort" type="text" class="input-text" name="smtpPort" value="<?php echo misc::getBlogSettingGlobal( 'smtpPort', 25 );?>" />
-											</div>
-										</dd>
-									</dl>
-									<div class="button-box">
-										<input type="submit" class="input-button" value="<?php	echo _t('설정');?>" onclick="setSmtp(); return false;" />
-									</div>
-								</form>
-							</div>
-						</div>
 <?php
 	}
 require ROOT . '/lib/piece/owner/footer.php';

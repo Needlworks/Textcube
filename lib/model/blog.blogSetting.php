@@ -570,12 +570,12 @@ function removeBlog($blogid) {
 
 function setSmtpServer( $useCustomSMTP, $smtpHost, $smtpPort ) {
 	if( empty($useCustomSMTP) ) {
-		misc::setBlogSettingGlobal( 'useCustomSMTP', 0 );
+		setServiceSetting( 'useCustomSMTP', 0 );
 		return true;
 	}
-	if( !misc::setBlogSettingGlobal( 'useCustomSMTP', 1 ) ) return false;
-	if( !misc::setBlogSettingGlobal( 'smtpHost', $smtpHost ) ) return false;
-	if( !misc::setBlogSettingGlobal( 'smtpPort', $smtpPort ) ) return false;
+	if( !setServiceSetting( 'useCustomSMTP', 1 ) ) return false;
+	if( !setServiceSetting( 'smtpHost', $smtpHost ) ) return false;
+	if( !setServiceSetting( 'smtpPort', $smtpPort ) ) return false;
 	return true;
 }
 ?>

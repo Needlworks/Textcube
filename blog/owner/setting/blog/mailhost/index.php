@@ -13,7 +13,7 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireComponent( 'Textcube.Function.misc' );
 requireStrictRoute();
-if (!acl::check('group.owners'))
+if (!acl::check('group.creators'))
 	respondResultPage(false);
 
 $result = setSmtpServer( empty($_POST['useCustomSMTP']) ? 0:1, $_POST['smtpHost'], $_POST['smtpPort'] );

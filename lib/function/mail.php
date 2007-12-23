@@ -21,12 +21,12 @@ function sendEmail($senderName, $senderEmail, $name, $email, $subject, $message 
 	$mail->AltBody  = 'To view this email message, open the email with html enabled mailer.';
 	$mail->AddAddress( $email, $name );
 
-	if( !misc::getBlogSettingGlobal( 'useCustomSMTP', 0 ) ) {
+	if( !getServiceSetting( 'useCustomSMTP', 0 ) ) {
 		$mail->IsMail();
 	} else {
 		$mail->IsSMTP();
-		$mail->Host = misc::getBlogSettingGlobal( 'smtpHost', '127.0.0.1' );
-		$mail->Port = misc::getBlogSettingGlobal( 'smtpPort', 25 );
+		$mail->Host = getServiceSetting( 'smtpHost', '127.0.0.1' );
+		$mail->Port = getServiceSetting( 'smtpPort', 25 );
 	}
 
 	ob_start();

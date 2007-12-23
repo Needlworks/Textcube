@@ -159,7 +159,7 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 									}
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/account/invite/");
 									request.onVerify = function() {
-										return this.getText("/response/error") == 15;
+										return this.getText("/response/error") == 0;
 									}
 									request.onSuccess = function() {
 										PM.showMessage("<?php echo _t('초대장을 발송했습니다.');?>", "center", "bottom");
@@ -201,10 +201,13 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 												alert('<?php echo _t('메일 전송에 실패하였습니다.');?>');
 												break;
 											default:
-												alert(Number(this.getText("/response/error")));
 												alert('<?php echo _t('실패했습니다.');?>');
 										}
-										window.location.href='<?php echo $blogURL;?>/owner/setting/account/';
+										msg = this.getText("/response/message");
+										if( msg ) {
+											alert( msg );
+										}
+										//window.location.href='<?php echo $blogURL;?>/owner/setting/account/';
 									}
 									request.send("&senderName="+encodeURIComponent(sender[0][0])+"&senderEmail="+encodeURIComponent(sender[0][1])+"&email="+inviteList[0][1]+"&name="+encodeURIComponent(inviteList[0][0])+"&identify="+identify.value+"&comment="+encodeURIComponent(comment.value));
 								}

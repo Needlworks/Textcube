@@ -382,6 +382,24 @@ if ($service['type'] != 'single') {
 								}
 
 
+								function setSmtp() {
+									var useCustomSMTP = document.getElementById('useCustomSMTP').checked?1:0;
+									var smtpHost = document.getElementById('smtpHost').value;
+									var smtpPort = document.getElementById('smtpPort').value;
+									
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/mailhost/");
+									request.onVerify = function() {
+										return this.getText("/response/error") == 0;
+									}
+									request.onSuccess = function() {
+										PM.showMessage("<?php echo _t('저장하였습니다');?>", "center", "bottom");
+									}
+									request.onError = function() {
+											alert('<?php echo _t('저장하지 못하였습니다');?>');
+									}
+									request.send("&useCustomSMTP="+useCustomSMTP+"&smtpHost="+encodeURIComponent(smtpHost)+"&smtpPort="+smtpPort);
+								}
+
 
 							//]]>
 						</script>
@@ -762,6 +780,49 @@ while ($tempAdminSkin = $dir->read()) {
 									</div>
 								</div>
 							</form>
+						</div>
+
+						<div id="part-setting-mailhost" class="part">
+							<h2 class="caption"><span class="main-text"><?php	echo _t('메일 보낼 서버를 지정합니다');?></span></h2>
+							
+							<div class="data-inbox">
+								<form class="section" method="post" action="<?php	echo $blogURL;?>/owner/setting/blog/mailhost">
+									<dl>
+										<dt class="title"><span class="label"><?php	echo _t('보낼 메일 서버 설정');?></span></dt>
+										<dd>
+											<div class="line">
+											<span><?php echo _text( '운영자만이 수정할 수 있습니다' ); ?></span>
+											</div>
+<?php if( Acl::check('group.creators') ) { ?>
+											<div class="line">
+												<input id="useCustomSMTP" type="checkbox" class="checkbox" name="useCustomSMTP" value="1" <?php if( getServiceSetting( 'useCustomSMTP', 0 ) ) { echo "checked='checked'"; } ?> />
+												<label for="useCustomSMTP"><?php echo _t('메일서버 지정'); ?></label>
+											</div>
+											<div class="line">
+												<label for="smtpHost"><?php echo _t('메일서버 IP 주소:포트'); ?></label>
+												<input id="smtpHost" type="text" class="input-text" name="smtpHost" value="<?php echo getServiceSetting( 'smtpHost', '127.0.0.1' ); ?>" /> :
+												<input id="smtpPort" type="text" class="input-text" name="smtpPort" value="<?php echo getServiceSetting( 'smtpPort', 25 );?>" />
+											</div>
+<?php } else { ?>
+											<div class="line">
+												<input readonly="readonly" id="useCustomSMTP" type="checkbox" class="checkbox" name="useCustomSMTP" value="1" <?php if( getServiceSetting( 'useCustomSMTP', 0 ) ) { echo "checked='checked'"; } ?> />
+												<label for="useCustomSMTP"><?php echo _t('메일서버 지정'); ?></label>
+											</div>
+											<div class="line">
+												<label for="smtpHost"><?php echo _t('메일서버 IP 주소:포트'); ?></label>
+												<?php echo getServiceSetting( 'smtpHost', '127.0.0.1' ); ?> : 
+												<?php echo getServiceSetting( 'smtpPort', 25 ) ?>
+											</div>
+<?php } ?>
+										</dd>
+									</dl>
+<?php if( Acl::check('group.creators') ) { ?>
+									<div class="button-box">
+										<input type="submit" class="save-button input-button" value="<?php	echo _t('설정');?>" onclick="setSmtp(); return false;" />
+									</div>
+<?php } ?>
+								</form>
+							</div>
 						</div>
 
 <?php
