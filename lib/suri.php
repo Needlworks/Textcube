@@ -65,7 +65,11 @@ $blog = getBlogSettings($blogid);
 $skinSetting = getSkinSetting($blogid);
 
 if(isset($accessInfo)) {
-	$depth = substr_count($accessInfo['fullpath'],'/') - substr_count($accessInfo['root'],'/'); 
+	switch($service['type']) {
+		case 'path' : $depth = substr_count($accessInfo['fullpath'],'/') - substr_count($accessInfo['root'],'/') - 1; break;
+		case 'domain' :
+		default : $depth = substr_count($accessInfo['fullpath']); break;
+	}
 } else {
 	$depth = substr_count(ROOT, '/');
 }
