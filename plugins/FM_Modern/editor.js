@@ -1601,8 +1601,7 @@ TTModernEditor.prototype.command = function(command, value1, value2) {
 						this.selectedElement.insertAdjacentHTML("beforeBegin", value1);
 						this.selectedElement.insertAdjacentHTML("afterEnd", value2);
 					}
-				}
-				else {
+				} else {
 					var focus = this.contentWindow.getSelection().focusNode;
 					if(focus && focus.tagName == "HTML") {
 						var range = this.contentDocument.createRange();
@@ -1612,8 +1611,7 @@ TTModernEditor.prototype.command = function(command, value1, value2) {
 						var node = range.extractContents();
 						if (node != null) dummyNode.appendChild(node);
 						range.insertNode(range.createContextualFragment(value1 + dummyNode.innerHTML + value2));
-					}
-					else {
+					} else {
 						var range = this.getSelectionRange() || this.lastSelectionRange;
 						var dummyNode = document.createElement("div");
 						var node = range ? range.extractContents() : null;
@@ -1621,8 +1619,9 @@ TTModernEditor.prototype.command = function(command, value1, value2) {
 						range.insertNode(range.createContextualFragment(value1 + dummyNode.innerHTML + value2));
 					}
 				}
-			} else
+			} else {
 				insertTag(this.textarea, value1, value2);
+			}
 	}
 	if(isWYSIWYG) {
 		this.correctContent();

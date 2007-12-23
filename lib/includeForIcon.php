@@ -4,16 +4,16 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 // Basics
-require 'config.php';
-require 'database.php';
-require 'auth.php';
+require ROOT .'/lib/config.php';
+require ROOT .'/lib/database.php';
+require ROOT .'/lib/auth.php';
 // Models
-require 'model/blog.service.php';
-require 'model/common.plugin.php';
-require 'model/common.setting.php';
+require ROOT .'/lib/model/blog.service.php';
+require ROOT .'/lib/model/common.plugin.php';
+require ROOT .'/lib/model/common.setting.php';
 // Initialize
 define('NO_SESSION',true);
-require 'initialize.php';
+require ROOT .'/lib/initialize.php';
 
 header('Content-Type: text/html; charset=utf-8');
 ?>

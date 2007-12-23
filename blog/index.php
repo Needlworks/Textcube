@@ -3,6 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '..');
+
 if (isset($_POST['page']))
 	$_GET['page'] = $_POST['page'];
 if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {

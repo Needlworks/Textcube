@@ -78,7 +78,7 @@ function getBlogSettings($blogid) {
 function getSkinSetting($blogid, $forceReload = false) {
 	global $database, $service, $skinSetting;
 	global $__gCacheSkinSetting;
-	
+
 	if (
 		($forceReload == false) 
 		&& (isset($__gCacheSkinSetting)) 

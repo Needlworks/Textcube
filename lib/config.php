@@ -5,7 +5,7 @@
 
 // Define basic signatures.
 define('TEXTCUBE_NAME', 'Textcube');
-define('TEXTCUBE_VERSION', '1.6 Alpha 8');
+define('TEXTCUBE_VERSION', '1.6 Alpha 9');
 define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2007. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
 define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.org/');
 define('TEXTCUBE_SYNC_URL', 'http://ping.eolin.com/');
@@ -68,7 +68,8 @@ requireComponent('Textcube.Core.BackwardCompatibility');
 requireComponent('Needlworks.Cache.PageCache');
 
 // Include installation configuration.
-@include_once ROOT . '/config.php';
+@include ROOT . '/config.php';
+//@include_once ROOT . '/config.php';
 
 // Basic POST/GET variable validation.
 if (isset($IV)) {

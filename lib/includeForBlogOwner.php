@@ -4,43 +4,43 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 // Basics
-require 'config.php';
-require 'function/string.php';
-require 'function/time.php';
-require 'function/javascript.php';
-require 'function/html.php';
-require 'function/xml.php';
-require 'function/misc.php';
-require 'function/image.php';
-require 'function/mail.php';
-require 'functions.php';
+require ROOT .'/lib/config.php';
+require ROOT .'/lib/function/string.php';
+require ROOT .'/lib/function/time.php';
+require ROOT .'/lib/function/javascript.php';
+require ROOT .'/lib/function/html.php';
+require ROOT .'/lib/function/xml.php';
+require ROOT .'/lib/function/misc.php';
+require ROOT .'/lib/function/image.php';
+require ROOT .'/lib/function/mail.php';
+require ROOT .'/lib/functions.php';
 // Library
-require 'database.php';
-require 'locale.php';
-require 'auth.php';
+require ROOT .'/lib/database.php';
+require ROOT .'/lib/locale.php';
+require ROOT .'/lib/auth.php';
 // Models
-require 'model/blog.service.php';
-require 'model/blog.blogSetting.php';
-require 'model/blog.user.php';
-require 'model/blog.category.php';
-require 'model/blog.teamblog.php';
-require 'model/blog.skin.php';
-require 'model/common.plugin.php';
-require 'model/common.module.php';
-require 'model/common.setting.php';
-require 'model/common.paging.php';
+require ROOT .'/lib/model/blog.service.php';
+require ROOT .'/lib/model/blog.blogSetting.php';
+require ROOT .'/lib/model/blog.user.php';
+require ROOT .'/lib/model/blog.category.php';
+require ROOT .'/lib/model/blog.teamblog.php';
+require ROOT .'/lib/model/blog.skin.php';
+require ROOT .'/lib/model/common.plugin.php';
+require ROOT .'/lib/model/common.module.php';
+require ROOT .'/lib/model/common.setting.php';
+require ROOT .'/lib/model/common.paging.php';
 // Views
-require 'view/html.php';
-require 'view/pages.php';
-require 'view/ownerView.php';
-require 'view/paging.php';
-require 'view/view.php';
+require ROOT .'/lib/view/html.php';
+require ROOT .'/lib/view/pages.php';
+require ROOT .'/lib/view/ownerView.php';
+require ROOT .'/lib/view/paging.php';
+require ROOT .'/lib/view/view.php';
 // Initializing environment.
-require 'initialize.php';
-require 'plugins.php';
+require ROOT .'/lib/initialize.php';
+require ROOT .'/lib/plugins.php';
 
 header('Content-Type: text/html; charset=utf-8');
 // Check access control list
 requireOwnership();
-require 'pageACL.php';
+require ROOT .'/lib/pageACL.php';
 ?>
