@@ -34,7 +34,7 @@
 	} else if(is_numeric($lastElm[0])) {
 		$interfacePath = 'blog/'.strtok(implode('/',array_slice($accessInfo['URLfragment'],0,count($firstElm)-1)), '&').'/item.php';
 	} else {
-		$interfacePath = 'blog/'.$pathPart.'/index.php';
+		$interfacePath = 'blog/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
 	}
 	require $interfacePath;
 ?>
