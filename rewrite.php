@@ -31,8 +31,8 @@
 	}
 	if(in_array($accessInfo['URLfragment'][0],array('entry','cover','attachment','category','keylog','tag','search','plugin','author'))) {
 		$path = 'blog/'.$accessInfo['URLfragment'][0].'/index.php';
-	} else if(is_numeric($accessInfo['URLfragment'][0])) {
-		$path = 'blog/'.strtok(implode('/',array_slice($firstElm,0,count($firstElm)-1)), '&').'/item.php';
+	} else if(is_numeric($lastElm[0])) {
+		$path = 'blog/'.strtok(implode('/',array_slice($accessInfo['URLfragment'],0,count($firstElm)-1)), '&').'/item.php';
 	} else {
 		$path = 'blog/'.$pathPart.'/index.php';
 	}
