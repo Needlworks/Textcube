@@ -23,18 +23,18 @@
 	switch ($service['type']) {
 		case 'path' : // For path-based multi blog.
 			array_splice($accessInfo['URLfragment'],0,1); 
-			$pathPart = trim(strtok(strstr($accessInfo['input'],'/'), '&').'/');
+			$pathPart = trim(strtok(strstr($accessInfo['input'],'/'), '&'),'/');
 			break;
 		case 'domain' : 	case 'single' : 	default : 
 			$pathPart = trim(strtok($accessInfo['fullpath'], '?'),'/');
 			break;
 	}
 	if(in_array($accessInfo['URLfragment'][0],array('entry','cover','attachment','category','keylog','tag','search','plugin','author'))) {
-		$path = 'blog/'.$accessInfo['URLfragment'][0].'/index.php';
+		$interfacePath = 'blog/'.$accessInfo['URLfragment'][0].'/index.php';
 	} else if(is_numeric($lastElm[0])) {
-		$path = 'blog/'.strtok(implode('/',array_slice($accessInfo['URLfragment'],0,count($firstElm)-1)), '&').'/item.php';
+		$interfacePath = 'blog/'.strtok(implode('/',array_slice($accessInfo['URLfragment'],0,count($firstElm)-1)), '&').'/item.php';
 	} else {
-		$path = 'blog/'.$pathPart.'/index.php';
+		$interfacePath = 'blog/'.$pathPart.'index.php';
 	}
-	require $path;
+	require $interfacePath;
 ?>

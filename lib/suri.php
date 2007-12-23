@@ -25,7 +25,6 @@ if ($depth > 0) {
 	else
 		respondNotFoundPage();
 }
-
 if ($service['type'] == 'single') {
 	$blogid = $defaultblogid;
 } else {
@@ -59,19 +58,11 @@ if ($service['type'] == 'single') {
 	if ($blogid === null)
 		respondNotFoundPage();
 }
-
 $owner = $blogid; // For legacy.(<1.5)
 $blog = getBlogSettings($blogid);
 $skinSetting = getSkinSetting($blogid);
-
-if(isset($accessInfo)) {
-	$depth = substr_count($accessInfo['input'],'/');
-	switch($service['type']) {
-		case 'path' : break;
-		case 'domain' :
-		default :
-		if($accessInfo['URLfragment'][0] == 'owner') $depth++;
-	}
+if(isset($interfacePath)) {
+	$depth = substr_count($interfacePath, '/') - 1;
 } else {
 	$depth = substr_count(ROOT, '/');
 }
@@ -86,8 +77,9 @@ if ($depth > 0) {
 				$suri['value'] = $matches[3];
 			}
 		}
-	} else
+	} else {
 		respondNotFoundPage();
+	}
 } else {
 	$suri['directive'] = '/';
 	$suri['value'] = ltrim($url, '/');
@@ -97,7 +89,6 @@ if (is_numeric($suri['value'])) {
 } else {
 	$suri['value'] = decodeURL(str_replace('index.php','',$suri['value']));
 }
-
 // Workaround for the environments redirect engine disabled.
 if($service['useRewriteEngine'] == false) {
 	if(isset($_POST['id'])) $suri['id'] = $_POST['id'];
