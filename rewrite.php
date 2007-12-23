@@ -24,7 +24,7 @@
 	}
 	switch ($service['type']) {
 		case 'path' : $path = 'blog'.strtok(strstr($accessInfo['input'],'/'), '&').'/index.php'; break;// For path-based multi blog.
-		case 'domain' : case 'single' : default : $path = 'blog'.strtok($accessInfo['input'], '&').'/index.php'; break;
+		case 'domain' : case 'single' : default : $path = 'blog/'.strtok($accessInfo['input'], '&').'/index.php'; break;
 	}
 	require $path;
 ?>
