@@ -64,7 +64,11 @@ $owner = $blogid; // For legacy.(<1.5)
 $blog = getBlogSettings($blogid);
 $skinSetting = getSkinSetting($blogid);
 
-$depth = substr_count(ROOT, '/');
+if(isset($accessInfo)) {
+	$depth = substr_count(str_replace($accessInfo['root'],'',$accessInfo['fullpath']),'/');
+} else {
+	$depth = substr_count(ROOT, '/');
+}
 if ($depth > 0) {
 	if($service['useRewriteEngine'] === false) $url = substr($url, 5); // Exclude /blog path.
 	if (preg_match('@^((/+[^/]+){' . $depth . '})/*(.*)$@', $url, $matches)) {
