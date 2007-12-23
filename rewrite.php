@@ -21,20 +21,19 @@
 	$lastElm = array_slice($accessInfo['URLfragment'], -1, 1);
 	switch ($service['type']) {
 		case 'path' : // For path-based multi blog.
-			$firstElm = array_slice($accessInfo['URLfragment'], 1, count($accessInfo['URLfragment'])-1);
-			$pathPart = strtok(strstr($accessInfo['input'],'/'), '&');
+			array_splice($accessInfo['URLfragment'],0,1); 
+			$pathPart = trim(strtok(strstr($accessInfo['input'],'/'), '&').'/');
 			break;
 		case 'domain' : 	case 'single' : 	default : 
-			$firstElm = array_slice($accessInfo['URLfragment'], 0, count($accessInfo['URLfragment'])-1);
-			$pathPart = 'blog/'.trim(strtok($accessInfo['fullpath'], '?'),'/').'/index.php';
+			$pathPart = trim(strtok($accessInfo['fullpath'], '?'),'/');
 			break;
 	}
-	if(in_array($firstElm[0],array('entry','attachment','category','keylog','tag','search','plugin','author'))) {
-		$path = 'blog/'.$accessInfo['URLfragment'][1].'/index.php';
-	} else if(is_numeric($lastElm[0])) {
-		$path = 'blog/'.strtok(implode('/',$firstElm), '&').'/item.php';
+	if(in_array($accessInfo['URLfragment'][0],array('entry','cover','attachment','category','keylog','tag','search','plugin','author'))) {
+		$path = 'blog/'.$accessInfo['URLfragment'][0].'/index.php';
+	} else if(is_numeric($accessInfo['URLfragment'][0])) {
+		$path = 'blog/'.strtok(implode('/',array_slice($firstElm,0,count($firstElm)-1)), '&').'/item.php';
 	} else {
-		$path = 'blog'.$pathPart.'/index.php';
+		$path = 'blog/'.$pathPart.'/index.php';
 	}
 	require $path;
 ?>

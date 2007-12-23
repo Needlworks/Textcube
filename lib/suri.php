@@ -65,11 +65,11 @@ $blog = getBlogSettings($blogid);
 $skinSetting = getSkinSetting($blogid);
 
 if(isset($accessInfo)) {
+	$depth = substr_count($accessInfo['input'],'/');
 	switch($service['type']) {
-		case 'path' : $depth = substr_count($accessInfo['fullpath'],'/') - substr_count($accessInfo['root'],'/') - 1; break;
+		case 'path' : break;
 		case 'domain' :
 		default :
-		$depth = substr_count($accessInfo['input'],'/');
 		if($accessInfo['URLfragment'][0] == 'owner') $depth++;
 	}
 } else {
@@ -97,6 +97,7 @@ if (is_numeric($suri['value'])) {
 } else {
 	$suri['value'] = decodeURL(str_replace('index.php','',$suri['value']));
 }
+
 // Workaround for the environments redirect engine disabled.
 if($service['useRewriteEngine'] == false) {
 	if(isset($_POST['id'])) $suri['id'] = $_POST['id'];
