@@ -94,7 +94,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								}
 
 <?php
-if ($service['type'] != 'single' &&  Acl::check("group.inviters")) {
+if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 ?>
 								function refreshReceiver(event) {
 									if (event.keyCode == 188) {

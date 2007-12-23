@@ -6,13 +6,15 @@
 // Of course, BITWISE must be BITWISE! (2^)
 define( 'BITWISE_EDITOR', 0x1 );              // 00001
 define( 'BITWISE_ADMINISTRATOR', 0x2 );       // 00010
-define( 'BITWISE_INVITER', 0x8 );             // 01000
+define( 'BITWISE_CREATOR', 0x8 );             // 01000
 define( 'BITWISE_OWNER', 0x10 );              // 10000
 
 /* static */
 global $sAcoPredefinedChain;
 $sAcoPredefinedChain = 
-	array(	"group.owners"         => array( "group.administrators", "group.editors" ),
+	array(	
+		"group.creators"       => array( "group.owners" ),
+		"group.owners"         => array( "group.administrators", "group.editors" ),
 		"group.administrators" => array( "group.writers" ),
 		"group.editors"        => array( "group.writers" ),
 		"group.writers"	       => array( "group.readers" )
@@ -197,19 +199,57 @@ class Acl {
 	function Acl() {
 	}
 
-	function authorize( $domain, $identity ) {
+	function authorize( $domain, $userid ) {
+		global $database;
 		if( !isset( $_SESSION['identity'] ) ) {
 			$_SESSION['identity'] = array();
 		}
 		if( !isset( $_SESSION['identity'][$domain] ) ) {
 			$_SESSION['identity'][$domain] = array();
 		}
-		$_SESSION['identity'][$domain] = $identity;
+		$_SESSION['identity'][$domain] = $userid;
+
+		if( $domain != 'textcube' ) {
+			return;
+		}
 
 		/* Support code for legacy */
-		if( $domain == 'textcube' ) {
-			$_SESSION['userid'] = $identity;
+		$_SESSION['userid'] = $userid;
+
+		if( $userid == 1 ) {
+			$ownership = "group.creators";
+		} else {
+			$ownership = "group.owners";
 		}
+
+		$result = POD::queryAllWithCache("SELECT blogid,acl FROM {$database['prefix']}Teamblog WHERE userid='$userid'");
+		foreach( $result as $rec ) {
+			$priv = array("group.writers", "textcube.$userid");
+
+			if( $rec['acl'] & BITWISE_OWNER ) {
+				array_push($priv, $ownership);
+			}
+			if( $rec['acl'] & BITWISE_EDITOR ) {
+				array_push($priv, "group.editors");
+			}
+			if( $rec['acl'] & BITWISE_ADMINISTRATOR ) {
+				array_push($priv, "group.administrators");
+			}
+
+			Acl::setAcl( $rec['blogid'], $priv, false );
+		}
+
+		$blogid = getBlogId();
+		POD::execute("UPDATE  {$database['prefix']}Teamblog SET lastLogin = unix_timestamp() WHERE blogid='$blogid' AND userid='$userid'");
+		return;
+	}
+
+	function setBasicAcl( $userid ) {
+		/* Remain for compatibility */
+	}
+
+	function setTeamAcl( $userid ) {
+		/* Remain for compatibility */
 	}
 
 	function getIdentity( $domain ) {
@@ -294,40 +334,6 @@ class Acl {
 		return true;
 	}
 
-	function setBasicAcl( $userid ) {
-		global $database;
-		$result = POD::queryColumn("SELECT blogid
-			FROM {$database['prefix']}Teamblog
-			WHERE userid = $userid
-				AND acl > 15");
-		foreach( $result as $blogids) {
-			Acl::setAcl($blogids, array("group.owners", "textcube.$userid"), false );
-			if($userid == 1) {	// Give invite privilege to super administrator
-				Acl::setAcl(getBlogId(), array("group.inviters", "textcube.$userid"), true );
-			}
-		}
-	}
-
-	function setTeamAcl( $userid ) {
-		global $database;
-		$blogid = getBlogId();
-		$result = POD::queryAllWithCache("SELECT blogid,acl FROM {$database['prefix']}Teamblog WHERE userid='$userid'");
-		foreach( $result as $session ) {
-			$priv = array("group.writers");
-
-			if( $session['acl'] & BITWISE_EDITOR ) {
-				array_push($priv, "group.editors");
-			}
-			if( $session['acl'] & BITWISE_ADMINISTRATOR ) {
-				array_push($priv, "group.administrators");
-			}
-
-			Acl::setAcl( $session['blogid'], $priv, true );
-		}
-
-		POD::execute("UPDATE  {$database['prefix']}Teamblog SET lastLogin = unix_timestamp() WHERE blogid='$blogid' AND userid='$userid'");
-		return;
-	}	
 }
 
 class Auth {
@@ -372,8 +378,6 @@ class Auth {
 		$userid = $session['userid'];
 
 		Acl::authorize( 'textcube', $userid );
-		Acl::setBasicAcl($userid);
-		Acl::setTeamAcl($userid);
 		POD::execute("UPDATE  {$database['prefix']}Users SET lastLogin = unix_timestamp() WHERE loginid = '$loginid'");
 		POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
 		return $userid;
