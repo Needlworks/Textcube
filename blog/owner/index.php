@@ -5,17 +5,7 @@
 
 define('ROOT', '../..');
 
-require ROOT . '/lib/config.php';
-
-if(isset($service['useFastCGI']) && $service['useFastCGI'] == true) {
-	$url = rtrim(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['SCRIPT_NAME'], '/');
-} else {
-	$url = rtrim(isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : $_SERVER['SCRIPT_NAME'], '/');
-}
-// Exclude parse errors occurring at some hosting service.
-$url = preg_replace('/\?[\w\&=]+/', '', $url);
-$url = rtrim($url,'/index.php');
-
+require ROOT . '/lib/includeForBlog.php';
 // Redirect.
-header("Location: $url/center/dashboard".($service['useRewriteEngine'] ? "" : "/index.php"));
+header("Location: $blogURL/owner/center/dashboard".($service['useRewriteEngine'] ? "" : "/index.php"));
 ?>

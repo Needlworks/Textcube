@@ -5,9 +5,6 @@
 
 if(isset($accessInfo)) {
 	$url = str_replace('index.php?pl=','',$accessInfo['fullpath']);
-} else if(isset($service['useFastCGI']) && $service['useFastCGI'] == true) {
-	$url = str_replace('index.php?pl=','',$_SERVER['REQUEST_URI']);
-	if (($url_fix_pos=strpos($url, '?', 1))!==false) $url = substr($url, 0, $url_fix_pos);
 } else {
 	$url = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : $_SERVER['SCRIPT_NAME'];
 }
