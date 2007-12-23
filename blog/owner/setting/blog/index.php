@@ -803,16 +803,6 @@ while ($tempAdminSkin = $dir->read()) {
 												<input id="smtpHost" type="text" class="input-text" name="smtpHost" value="<?php echo getServiceSetting( 'smtpHost', '127.0.0.1' ); ?>" /> :
 												<input id="smtpPort" type="text" class="input-text" name="smtpPort" value="<?php echo getServiceSetting( 'smtpPort', 25 );?>" />
 											</div>
-<?php } else { ?>
-											<div class="line">
-												<input readonly="readonly" id="useCustomSMTP" type="checkbox" class="checkbox" name="useCustomSMTP" value="1" <?php if( getServiceSetting( 'useCustomSMTP', 0 ) ) { echo "checked='checked'"; } ?> />
-												<label for="useCustomSMTP"><?php echo _t('메일서버 지정'); ?></label>
-											</div>
-											<div class="line">
-												<label for="smtpHost"><?php echo _t('메일서버 IP 주소:포트'); ?></label>
-												<?php echo getServiceSetting( 'smtpHost', '127.0.0.1' ); ?> : 
-												<?php echo getServiceSetting( 'smtpPort', 25 ) ?>
-											</div>
 <?php } ?>
 										</dd>
 									</dl>
