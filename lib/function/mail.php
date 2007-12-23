@@ -6,4 +6,37 @@
 function encodeMail($str) {
 	return '=?utf-8?b?' . base64_encode($str) . '?=';
 }
+
+function sendEmail($senderName, $senderEmail, $name, $email, $subject, $message ) {
+	requireComponent( 'Textcube.Function.misc' );
+	include_once( ROOT."/lib/contrib/phpmailer/class.phpmailer.php" );
+	$mail = new PHPMailer();
+	$mail->SetLanguage( 'en', ROOT."/lib/contrib/phpmailer/language/" );
+	$mail->IsHTML(true);
+	$mail->CharSet  = 'utf-8';
+	$mail->From     = $senderEmail;
+	$mail->FromName = $senderName;
+	$mail->Subject  = $subject;
+	$mail->Body     = $message;
+	$mail->AltBody  = 'To view this email message, open the email with html enabled mailer.';
+	$mail->AddAddress( $email, $name );
+
+	if( !misc::getBlogSettingGlobal( 'useCustomSMTP', 0 ) ) {
+		$mail->IsMail();
+	} else {
+		$mail->IsSMTP();
+		$mail->Host = misc::getBlogSettingGlobal( 'smtpHost', '127.0.0.1' );
+		$mail->Port = misc::getBlogSettingGlobal( 'smtpPort', 25 );
+	}
+
+	ob_start();
+	$ret = $mail->Send();
+	ob_clean();
+
+	if( !$ret ) {
+		return array( false, $mail->ErrorInfo );
+	}
+	return true;
+}
+
 ?>

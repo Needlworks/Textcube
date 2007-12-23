@@ -424,11 +424,11 @@ function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $sen
 		$message = str_replace('[##_to_##]', _text('받는 사람') . ': ' . $name, $message);
 	}
 	$message = str_replace('[##_sender_##]', _text('보내는 사람') . ': ' . $senderName, $message);
-	if (!mail($email, encodeMail($subject), $message, $headers)) {
-		return 14;
-	} else {
-		return 15;
+	$ret = sendEmail($senderName, $senderEmail, $name, $email, $subject, $message );
+	if( $ret !== true ) {
+		return array( 14, $ret[1] );
 	}
+	return true;
 }
 
 function cancelInvite($userid) {
@@ -565,6 +565,17 @@ function removeBlog($blogid) {
 	//Delete Attachments
 	Path::removeFiles(Path::combine(ROOT, 'attach', $blogid));
 
+	return true;
+}
+
+function setSmtpServer( $useCustomSMTP, $smtpHost, $smtpPort ) {
+	if( empty($useCustomSMTP) ) {
+		misc::setBlogSettingGlobal( 'useCustomSMTP', 0 );
+		return true;
+	}
+	if( !misc::setBlogSettingGlobal( 'useCustomSMTP', 1 ) ) return false;
+	if( !misc::setBlogSettingGlobal( 'smtpHost', $smtpHost ) ) return false;
+	if( !misc::setBlogSettingGlobal( 'smtpPort', $smtpPort ) ) return false;
 	return true;
 }
 ?>

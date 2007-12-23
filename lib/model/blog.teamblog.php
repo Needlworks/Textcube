@@ -12,7 +12,7 @@ function addTeamUser($email, $name, $comment, $senderName, $senderEmail) {
 	if(empty($email))
 		return 1;
 	if(!preg_match('/^[^@]+@([-a-zA-Z0-9]+\.)+[-a-zA-Z0-9]+$/',$email))
-		return 2;
+		return array( 2, _t('이메일이 바르지 않습니다.') );
 	
 	$isUserExists = getUserIdByEmail($email);
 	if(empty($isUserExists)) { // If user is not exist
@@ -20,19 +20,16 @@ function addTeamUser($email, $name, $comment, $senderName, $senderEmail) {
 	}
 	$userid = getUserIdByEmail($email);
 	$result = addBlog(getBlogId(), $userid, null);
-	if($result == true) {
-		sendInvitationMail(getBlogId(), $userid, User::getName($userid), $comment, $senderName, $senderEmail);
-		return true;
-	} else {
-		return $result;
+	if($result === true) {
+		return sendInvitationMail(getBlogId(), $userid, User::getName($userid), $comment, $senderName, $senderEmail);
 	}
-	return false;
+	return $result;
 }
 
 function cancelTeamblogInvite($userid) {
 	global $database;
 
-	$blogId = getBlogId();
+	$blogid = getBlogId();
 	// If there is posts, cannot cancel invitation.
 	if( 0 != POD::queryCell("SELECT count(*) FROM {$database['prefix']}Entries 
 		WHERE blogid = $blogid AND userid = $userid")) {

@@ -406,16 +406,25 @@ class misc {
 		return (getBlogId() == 1 ? true : false);
 	}
 
-	function respondResultPage($error) {
+	/* Synch with lib/view/pages.php */
+	function respondResultPage($errorResult) {
+		if (is_array($errorResult)) {
+			$error = $errorResult[0];
+			$errorMsg = $errorResult[1];
+		} else {
+			$error = $errorResult;
+			$errorMsg = '';
+		}
 		if ($error === true)
 			$error = 0;
 		else if ($error === false)
 			$error = 1;
 		header('Content-Type: text/xml; charset=utf-8');
-		print ("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<response>\n<error>$error</error>\n</response>");
+		print ("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<response>\n<error>$error</error>\n<message><![CDATA[$errorMsg]]></message></response>");
 		exit;
 	}
 	
+	/* Synch with lib/view/pages.php */
 	function printRespond($result, $useCDATA=true) {
 		header('Content-Type: text/xml; charset=utf-8');
 		$xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";

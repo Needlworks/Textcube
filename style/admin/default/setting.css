@@ -384,6 +384,17 @@ dl dd
 	border-right                     : 1px solid #DDDDDD;
 }
 
+#part-setting-mailhost div.data-inbox div.line
+{
+	margin-top                       : 5px;
+	margin-bottom                    : 10px;
+}
+
+#part-setting-mailhost div.data-inbox div.line input#port
+{
+	width                            : 50px;
+}
+
 /* Filter ****************************************************************************************/
 
 #part-setting-filter
