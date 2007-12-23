@@ -44,6 +44,5 @@
 			}
 			break;
 	}
-	var_dump($path);
 	require $path;
 ?>
