@@ -18,7 +18,7 @@ switch($service['dbms']) {
 		require_once ROOT.'/components/Needlworks.DBMS.MySQL.php';
 }
 
-if(!class_exists(POD)) require_once ROOT.'/components/POD.Core.php';
+if(!class_exists('POD')) require_once ROOT.'/components/POD.Core.php';
 
 /* TableQuery */
 // class TableQuery will be depreacted after 1.6 tree.
