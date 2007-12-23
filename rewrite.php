@@ -18,16 +18,15 @@
 		else exit;
 	}
 	$accessInfo['URLfragment'] = explode('/',$accessInfo['input']);
-	$firstElm = array_slice($accessInfo['URLfragment'], 0, count($accessInfo['URLfragment'])-1);
 	$lastElm = array_slice($accessInfo['URLfragment'], -1, 1);
 
 	switch ($service['type']) {
 		case 'path' : // For path-based multi blog.
-			$firstElm[0] = '';
+			$firstElm = array_slice($accessInfo['URLfragment'], 1, count($accessInfo['URLfragment'])-1);
 			if(in_array($accessInfo['URLfragment'][1],array('entry','attachment','category','keylog','tag','search','plugin','author'))) {
 				$path = 'blog/'.$accessInfo['URLfragment'][1].'/index.php';
 			} else if(is_numeric($lastElm[0])) {
-				$path = 'blog'.strtok(implode('/',$firstElm), '&').'/item.php';
+				$path = 'blog/'.strtok(implode('/',$firstElm), '&').'/item.php';
 			} else {
 				$path = 'blog'.strtok(strstr($accessInfo['input'],'/'), '&').'/index.php';
 			}
@@ -35,14 +34,16 @@
 		case 'domain' : 
 		case 'single' : 
 		default : 
+			$firstElm = array_slice($accessInfo['URLfragment'], 0, count($accessInfo['URLfragment'])-1);
 			if(in_array($accessInfo['URLfragment'][0],array('entry','attachment','category','keylog','tag','search','plugin','author'))) {
 				$path = 'blog/'.$accessInfo['URLfragment'][0].'/index.php';
 			} else if(is_numeric($lastElm[0])) {
 				$path = 'blog/'.strtok(implode('/',$firstElm), '&').'/item.php';
 			} else {
-				$path = 'blog/'.strtok($accessInfo['fullpath'], '?').'/index.php'; break;
+				$path = 'blog'.rtrim(strtok($accessInfo['fullpath'], '?'),'/').'/index.php'; break;
 			}
 			break;
 	}
+	var_dump($path);
 	require $path;
 ?>
