@@ -370,7 +370,7 @@ function replaceSkinTag( & $contents, $tag) {
 	$replacement[] = '$1'.CRLF.'[##_SKIN_'.$tag.'_start_##]';
 	$replacement[] = '[##_SKIN_'.$tag.'_end_##]$0';
 
-	$content = preg_replace($pattern, $replacement, $contents);
+	$contents = preg_replace($pattern, $replacement, $contents);
 }
 
 function insertGeneratorVersion(&$contents) {
