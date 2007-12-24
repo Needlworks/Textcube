@@ -254,13 +254,13 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								</div>
 								<div id="tester-container" class="container">
 									<h4><?php echo _t('Tester');?></h4>
-									<p>adeurian, chester, DARKLiCH, FeelSoGood, laotzu, McFuture, NC_Fly, xizhu, 심민규, 엽기민원, 유마, 헤이</p>
+									<p>adeurian, chester, DARKLiCH, FeelSoGood, glradios, laotzu, McFuture, NC_Fly, Silvester, xizhu, 독도2005, 심민규, 엽기민원, 유마, 헤이</p>
 								</div>
 								
 								<div id="reporter-container" class="container">
 									<h4><?php echo _t('Reporter');?></h4>
 									
-									<p>마모루, 건더기, 유마, 섭이, JCrew, cirrus, 작은인장, 김종찬, 김정훈, BLue, 소필, webthink, 일모리, lunamoth, 빌리디안, 티즈, rooine, baragi74, soonJin, Juno, 딘제, iarchitect, Rukxer, gofeel, Ever_K, BlueOcean, thessando, advck1123, danew, 엉뚱이, 마잇, 하노아, Naive, mintstate, 바둥이, expansor, 싸이친구, rhapsody, 제주시티, funny4u, 안용열, lacovnk, laziel, 랜덤여신, McFuture, subyis, leokim, diasozo, Ikaris Cyrus Faust, DARKLiCH, 주성애비, dikafryo, 이일환, Chiri, htna, Milfy, filmstyle, citta, 날개달기, vampelf, 비나무, FeelSoGood, 헤이, 밤하늘, raziel, U클래스, pom., bellblog, ataiger</p>
+									<p>마모루, 건더기, 유마, 섭이, JCrew, cirrus, 작은인장, 김종찬, 김정훈, BLue, 소필, webthink, 일모리, lunamoth, 빌리디안, 티즈, rooine, baragi74, soonJin, Juno, 딘제, iarchitect, Rukxer, gofeel, Ever_K, BlueOcean, thessando, advck1123, danew, 엉뚱이, 마잇, 하노아, Naive, mintstate, 바둥이, expansor, 싸이친구, rhapsody, 제주시티, funny4u, 안용열, lacovnk, laziel, 랜덤여신, McFuture, subyis, leokim, diasozo, Ikaris Cyrus Faust, DARKLiCH, 주성애비, dikafryo, 이일환, Chiri, htna, Milfy, filmstyle, citta, 날개달기, vampelf, 비나무, FeelSoGood, 헤이, 밤하늘, raziel, U클래스, pom., bellblog, ataiger, onesound, mountaineer, jkm0114, 컴Ting, okto79, 보물섬, daydreamer </p>
 								</div>
 							</div>
 						</div>
