@@ -7,10 +7,11 @@
 		'host'     => $_SERVER['HTTP_HOST'],
 		'fullpath' => $_SERVER["REQUEST_URI"],
 		//'input'    => (isset($_SERVER['REDIRECT_QUERY_STRING']) ? $_SERVER['REDIRECT_QUERY_STRING'] : $_SERVER['QUERY_STRING']),
-		'input'    => ltrim($_SERVER['REQUEST_URI'],'/'),
+		//'input'    => ltrim($_SERVER['REQUEST_URI'],'/'),
 		'position' => $_SERVER["SCRIPT_NAME"],
 		'root'     => str_replace('rewrite.php','',$_SERVER["SCRIPT_NAME"])
 		);
+	$accessInfo['input'] = substr($accessInfo['fullpath'],strlen($accessInfo['root'])); //Workaround for compartibility with fastCGI / Other environment
 	define('ROOT', '.'); // Legacy ( < 1.6)
 	require ROOT.'/config.php';
 	$part = strtok($accessInfo['input'],'/');
@@ -24,7 +25,7 @@
 	switch ($service['type']) {
 		case 'path' : // For path-based multi blog.
 			array_splice($accessInfo['URLfragment'],0,1); 
-			$pathPart = ltrim(rtrim(strtok(strstr($accessInfo['input'],'/'), '&'),'/'),'/');
+			$pathPart = ltrim(rtrim(strtok(strstr($accessInfo['input'],'/'), '?'),'/'),'/');
 			break;
 		case 'domain' : 	case 'single' : 	default : 
 			$pathPart = ltrim(rtrim(strtok($accessInfo['fullpath'], '?'),'/'),'/');
@@ -32,7 +33,7 @@
 	}
 	if(!empty($accessInfo['URLfragment']) && in_array($accessInfo['URLfragment'][0],array('entry','notice','location','cover','attachment','category','keylog','tag','search','plugin','author'))) {
 		$interfacePath = 'blog/'.$accessInfo['URLfragment'][0].'/index.php';
-	} else if(is_numeric($lastElm[0])) {
+	} else if(is_numeric(strtok($lastElm[0], '?'))) {
 		$pathPart = strtok(implode('/',array_slice($accessInfo['URLfragment'],0,count($accessInfo['URLfragment'])-1)), '&');
 		$interfacePath = 'blog/'.(empty($pathPart) ? '' : $pathPart.'/').'item.php';
 	} else {
