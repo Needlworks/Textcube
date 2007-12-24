@@ -983,6 +983,7 @@ RewriteEngine On
 RewriteBase $path/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule (.*) rewrite.php [L,QSA]
+";
 	echo '<li>', _textf('새로운 rewrite 엔진을 사용하기 위하여 .htaccess 를 재작성합니다.'), ': ';
 	$fp = fopen($filename, "w");
 	if(fwrite($fp, $content) && fclose($fp)) {
