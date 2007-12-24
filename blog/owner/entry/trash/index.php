@@ -32,11 +32,11 @@ if (strlen($paramStr) > 0) {
 
 $location = $blogURL . 'owner/center';
 if (empty($_REQUEST['trashType']) || $_REQUEST['trashType'] == "comment") {
-	$location = 'trash/comment/index.php';
+	$location = 'trash/comment';
 }
 else
 {
-	$location = 'trash/trackback/index.php';
+	$location = 'trash/trackback';
 }
 
 header("Location: {$location}{$paramStr}");
