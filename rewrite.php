@@ -17,7 +17,7 @@
 		if(!empty($file)) { echo $file; exit;}
 		else exit;
 	}
-	$accessInfo['URLfragment'] = explode('/',$accessInfo['input']);
+	$accessInfo['URLfragment'] = explode('/',strtok($accessInfo['input'],'?'));
 	switch ($service['type']) {
 		case 'path' : // For path-based multi blog.
 			array_splice($accessInfo['URLfragment'],0,1); 
@@ -29,8 +29,8 @@
 	}
 	if(!empty($accessInfo['URLfragment']) && in_array($accessInfo['URLfragment'][0],array('entry','notice','location','cover','attachment','category','keylog','tag','search','plugin','author'))) {
 		$interfacePath = 'blog/'.$accessInfo['URLfragment'][0].'/index.php';
-	} else if(is_numeric(strtok(end($accessInfo['URLfragment']), '?'))) {
-		$pathPart = strtok(implode('/',array_slice($accessInfo['URLfragment'],0,count($accessInfo['URLfragment'])-1)), '?');
+	} else if(is_numeric(end($accessInfo['URLfragment']))) {
+		$pathPart = implode('/',array_slice($accessInfo['URLfragment'],0,count($accessInfo['URLfragment'])-1));
 		$interfacePath = 'blog/'.(empty($pathPart) ? '' : $pathPart.'/').'item.php';
 	} else {
 		$interfacePath = 'blog/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
