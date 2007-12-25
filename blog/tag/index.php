@@ -45,7 +45,7 @@ if (strlen($suri['value'])) {
 			require ROOT . '/lib/piece/blog/entries.php';
 		} else {
 			$entries[0] = getKeylogByTitle(getBlogId(), $suri['value']);
-			if(!empty($entries)) {
+			if(!empty($entries[0])) {
 				require ROOT . '/lib/piece/blog/entries.php';
 				unset($entries);
 			}
