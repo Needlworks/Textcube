@@ -64,7 +64,7 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 publishEntries();
 fireEvent('OBStart');
 $skin = new Skin($skinSetting['skin']);
-if(empty($suri['value']) && $suri["directive"] == "/" && $suri['page'] == 1 && count($coverpageMappings) > 0 && getBlogSetting("coverpageInitView") && isset($skin->cover)) {
+if(empty($suri['value']) && $suri["directive"] == "/" && count($coverpageMappings) > 0 && getBlogSetting("coverpageInitView") && isset($skin->cover)) {
 	require ROOT . '/lib/piece/blog/begin.php';
 	dress('article_rep', '', $view);
 	dress('paging', '', $view);
