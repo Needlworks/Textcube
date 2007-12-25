@@ -562,7 +562,7 @@ if (defined('__TEXTCUBE_POST__')) {
 											</dd>
 										</dl>
 										<dl id="category-line" class="line">
-											<dt><label for="permalink"><?php echo _t('분류');?></label></dt>
+											<dt><label for="category"><?php echo _t('분류');?></label></dt>
 											<dd>
 												<div class="entrytype-notice"><input type="radio" id="type_notice" class="radio" name="entrytype" value="-2" onclick="checkCategory('type_notice')"<?php echo ($entry['category'] == -2 ? ' checked="checked"' : '');?> /><label for="type_notice"><?php echo _t('공지');?></label></div>
 												<div class="entrytype-keyword"><input type="radio" id="type_keyword" class="radio" name="entrytype" value="-1" onclick="checkCategory('type_keyword')"<?php echo ($entry['category'] == -1 ? ' checked="checked"' : '');?> /><label for="type_keyword"><?php echo _t('키워드');?></label></div>
