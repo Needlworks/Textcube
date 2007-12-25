@@ -266,12 +266,12 @@ if (defined('__TEXTCUBE_POST__')) {
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/loadTemplate/");
 										request.message = "<?php echo _t('불러오고 있습니다');?>";
 										request.onSuccess = function () {
+											PM.removeRequest(this);
 											PM.showMessage("<?php echo _t('서식을 반영하였습니다.');?>", "center", "bottom");
 											templateTitle = this.getText("/response/title");
 											templateContents = this.getText("/response/content");
 											entryManager.entryId = this.getText("/response/entryId");
 											entryManager.isSaved = true;
-											PM.removeRequest(this);
 											var title = trim(oForm.title.value);
 											if(title.length == 0) {
 												oForm.title.value = templateTitle;
@@ -318,6 +318,7 @@ if (defined('__TEXTCUBE_POST__')) {
 											request.message = "<?php echo _t('저장하고 있습니다.');?>";
 										}
 										request.onSuccess = function () {
+											PM.removeRequest(this);
 											if(entryManager.autoSave == true) {
 												document.getElementById("saveButton").value = "<?php echo _t('자동으로 저장됨');?>";
 												document.getElementById("saveButton").style.color = "#BBB";
@@ -333,9 +334,6 @@ if (defined('__TEXTCUBE_POST__')) {
 												reloadUploader();
 											}
 
-											if(entryManager.autoSave != true) {
-												PM.removeRequest(this);
-											}
 											entryManager.savedData = this.content;
 											if (entryManager.savedData == entryManager.getData())
 												entryManager.pageHolder.release();
@@ -347,12 +345,14 @@ if (defined('__TEXTCUBE_POST__')) {
 										}
 										request.onError = function () {
 											PM.removeRequest(this);
-											alert("<?php echo _t('저장하지 못했습니다.');?>");
+											PM.showErrorMessage("<?php echo _t('저장하지 못했습니다.');?>", "center", "bottom");
 											this.nowsaving = false;
 										}
 										if(entryManager.autoSave != true) {
 											PM.addRequest(request, "<?php echo _t('저장하고 있습니다.');?>");
-										}
+										} else {
+											PM.addRequest(request);
+										}											
 										request.send(data);
 									}
 																		

@@ -81,6 +81,7 @@ if ($depth > 0) {
 	$suri['directive'] = '/';
 	$suri['value'] = ltrim($url, '/');
 }
+$suri['value'] = strtok($suri['value'], '?');
 if (is_numeric($suri['value'])) {
 	$suri['id'] = $suri['value'];
 } else {
