@@ -67,7 +67,6 @@ if (defined('__TEXTCUBE_POST__')) {
 } else {
 	printOwnerEditorScript($entry['id']);
 }
-
 ?>
 						<script type="text/javascript" src="<?php echo $service['path'];?>/script/generaltag.js"></script>
 						<script type="text/javascript" src="<?php echo $service['path'];?>/script/locationtag.js"></script>

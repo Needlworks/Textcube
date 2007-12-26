@@ -39,5 +39,5 @@
 		$interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
 	}
 	unset($pathPart,$part);
-	include_once $interfacePath;
+	@include_once $interfacePath;
 ?>
