@@ -356,7 +356,11 @@ TFOOT;
 		print_r( $_SESSION );
 		print '</pre>';
 	}
-	
+	if( ! empty($service['debug_rewrite_module'])) {
+		print '<pre> path parser result : \r\n';
+		print_r( $accessInfo );
+		print '</pre>';
+	}
 	if ($commentBlosk == true) echo '-->';
 }
 

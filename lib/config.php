@@ -36,6 +36,7 @@ $service['umask'] = 0;
 $service['skin'] = 'coolant';
 $service['useRewriteEngine'] = true;
 $service['useEncodedURL'] = false;
+$service['enableDebugMode'] = false;
 //$service['flashuploader'] = false;
 
 // Map port setting.
@@ -70,6 +71,7 @@ requireComponent('Needlworks.Cache.PageCache');
 // Include installation configuration.
 @include ROOT . '/config.php';
 //@include_once ROOT . '/config.php';
+if($service['enableDebugMode'] == true) requireComponent("Needlworks.Function.Debug");
 
 // Basic POST/GET variable validation.
 if (isset($IV)) {

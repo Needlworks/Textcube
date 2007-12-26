@@ -9,15 +9,16 @@
 		'root'     => str_replace('rewrite.php','',$_SERVER["SCRIPT_NAME"])
 		);
 	$accessInfo['input'] = substr($accessInfo['fullpath'],strlen($accessInfo['root'])); //Workaround for compartibility with fastCGI / Other environment
-	define('ROOT', '.'); // Legacy ( < 1.6)
-	require ROOT.'/config.php';
 	$part = strtok($accessInfo['input'],'/');
 	if(in_array($part, array('image','plugins','script','skin','style','attach','cache','thumbnail'))) {
 		$file = @file_get_contents(ltrim(($part == 'thumbnail' ? preg_replace('/thumbnail/','cache/thumbnail',$accessInfo['root'].$accessInfo['input'],1) : $accessInfo['root'].$accessInfo['input']),'/'));
 		if(!empty($file)) { echo $file; exit;}
 		else exit;
 	}
+	if(strtok($part,'?') == 'setup.php') {require 'setup.php';exit;}
 	$accessInfo['URLfragment'] = explode('/',strtok($accessInfo['input'],'?'));
+	define('ROOT', '.'); 
+	require ROOT.'/config.php';
 	switch ($service['type']) {
 		case 'path' : // For path-based multi blog.
 			array_splice($accessInfo['URLfragment'],0,1); 
