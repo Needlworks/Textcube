@@ -154,10 +154,11 @@ function resampleImage($imgString, $originSrc, $useAbsolutePath) {
 	$newTempFileName = preg_replace("/\.([[:alnum:]]+)$/i", ".w{$tempWidth}-h{$tempHeight}.\\1", $originFileName);
 	$tempSrc = ROOT."/cache/thumbnail/".getBlogId()."/".$newTempFileName;
 	
-	$tempURL = "{$pathURL}/thumbnail/".getBlogId()."/".$newTempFileName;
-	if ($useAbsolutePath == true) {
-		$tempURL = "{$defaultURL}/thumbnail/".getBlogId()."/".$newTempFileName;
-	}
+	//$tempURL = "{$pathURL}/thumbnail/".getBlogId()."/".$newTempFileName;
+//	if ($useAbsolutePath == true) {
+	// From Textcube 1.6, thumbnail's URLs are also treated as absolute Path.
+	$tempURL = "{$defaultURL}/thumbnail/".getBlogId()."/".$newTempFileName;
+//	}
 
 	if (file_exists($tempSrc)) {
 		$imgString = preg_replace('/src="([^"]+)"/i', 'src="'.$tempURL.'"', $imgString);
