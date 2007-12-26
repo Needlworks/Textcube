@@ -157,7 +157,7 @@ function resampleImage($imgString, $originSrc, $useAbsolutePath) {
 	//$tempURL = "{$pathURL}/thumbnail/".getBlogId()."/".$newTempFileName;
 //	if ($useAbsolutePath == true) {
 	// From Textcube 1.6, thumbnail's URLs are also treated as absolute Path.
-	$tempURL = "{$defaultURL}/thumbnail/".getBlogId()."/".$newTempFileName;
+	$tempURL = "{$serviceURL}/thumbnail/".getBlogId()."/".$newTempFileName;
 //	}
 
 	if (file_exists($tempSrc)) {
