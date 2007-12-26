@@ -349,7 +349,7 @@ TBODY;
 TFOOT;
 	print '</table>';
 
-	global $service;
+	global $service, $accessInfo;
 	if( ! empty($service['debug_session_dump'])) {
 		print '<pre> session_id = ' . session_id() . "\r\n";
 		print '$_SESSION = ';
@@ -357,7 +357,7 @@ TFOOT;
 		print '</pre>';
 	}
 	if( ! empty($service['debug_rewrite_module'])) {
-		print '<pre> path parser result : \r\n';
+		print '<pre> path parser result : '."\r\n";
 		print_r( $accessInfo );
 		print '</pre>';
 	}
