@@ -28,12 +28,12 @@
 			break;
 	}
 	if(!empty($accessInfo['URLfragment']) && in_array($accessInfo['URLfragment'][0],array('entry','notice','location','cover','attachment','category','keylog','tag','search','plugin','author'))) {
-		$interfacePath = 'interface.blog/'.$accessInfo['URLfragment'][0].'/index.php';
+		$interfacePath = 'interface/'.$accessInfo['URLfragment'][0].'/index.php';
 	} else if(is_numeric(end($accessInfo['URLfragment']))) {
 		$pathPart = implode('/',array_slice($accessInfo['URLfragment'],0,count($accessInfo['URLfragment'])-1));
-		$interfacePath = 'interface.blog/'.(empty($pathPart) ? '' : $pathPart.'/').'item.php';
+		$interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'item.php';
 	} else {
-		$interfacePath = 'interface.blog/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
+		$interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
 	}
 	unset($pathPart,$part);
 	include_once $interfacePath;
