@@ -23,6 +23,9 @@
 			array_splice($accessInfo['URLfragment'],0,1); 
 			$pathPart = ltrim(rtrim(strtok(strstr($accessInfo['input'],'/'), '?'),'/'),'/');
 			break;
+		case 'single' :
+			$pathPart = ltrim(rtrim(strtok($accessInfo['input'], '?'),'/'),'/');
+			break;
 		case 'domain' :	case 'single' :	default : 
 			$pathPart = ltrim(rtrim(strtok($accessInfo['fullpath'], '?'),'/'),'/');
 			break;
