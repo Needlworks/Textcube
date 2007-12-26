@@ -5,5 +5,5 @@
 
 // Symbolic link to support migration from Textcube 1.5 to 1.6
 define('ROOT', '../..');
-require ROOT . '/interface.blog/checkup/index.php';
+require ROOT . '/interface/checkup/index.php';
 ?>

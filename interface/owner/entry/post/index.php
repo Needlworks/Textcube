@@ -2,6 +2,6 @@
 /// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-define('__TEXTCUBE_BACKUP__', true);
-require ROOT. '/blog/owner/data/export/index.php';
+define('__TEXTCUBE_POST__', true);
+require ROOT. '/interface/owner/entry/edit/item.php';
 ?>
