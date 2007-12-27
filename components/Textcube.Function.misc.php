@@ -198,6 +198,11 @@ class misc {
 	// For Blog-scope setting
 	function getBlogSettingGlobal($name, $default = null) {
 		$settings = misc::getBlogSettingsGlobal(getBlogId()); // from blog.service.php
+		/*
+		echo "<pre>";
+		print_r($settings);
+		echo "</pre>";
+		*/
 		if ($settings === false) return $default;
 		if( isset($settings[$name]) ) {
 			return $settings[$name];
@@ -233,6 +238,7 @@ class misc {
 					'entriesOnRSS'             => 10, 
 					'publishWholeOnRSS'        => 1,
 					'publishEolinSyncOnRSS'    => 1,
+					'OpenIDLogin'              => 1,
 					'allowWriteOnGuestbook'    => 1,
 					'allowWriteDblCommentOnGuestbook' => 1,
 					'language'     => $service['language'],
