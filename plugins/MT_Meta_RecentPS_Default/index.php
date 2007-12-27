@@ -67,7 +67,7 @@ function MT_Cover_getRecentEntries($parameters){
 		}
 		$categoryName = htmlspecialchars(empty($entry['category']) ? _text('분류없음') : $entry['label']);
 		$categoryLink = "{$defaultURL}/" . (empty($entry['category']) ? "category/" : "category/".encodeURL($categoryName));
-		$permalink = "{$defaultURL}/" . ($blog['useSlogan'] ? "entry/" . encodeURL($entry['slogan']) : $entry['id']);
+		$permalink = "{$serviceURL}/" . ($blog['useSlogan'] ? "entry/" . encodeURL($entry['slogan']) : $entry['id']);
 
 		$html .= '<div class="coverpost">'.CRLF;
 		if($imageName = MT_Cover_getAttachmentExtract($entry['content'])){
