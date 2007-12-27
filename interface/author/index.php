@@ -9,9 +9,11 @@ if (false) {
 
 $cache = new pageCache;
 $author = empty($suri['value']) ? '' : $suri['value'];
+$authorId = User::getUserId($author);
+if(empty($authorId)) exit;
 
 if ($skinSetting['showListOnCategory'] != 0) {
-	$cache->name = 'authorList_'.$author."_".$suri['page']."_";
+	$cache->name = 'authorList_'.$authorId."_".$suri['page']."_";
 	if (!$cache->load()) {
 		if(!$listWithPaging = getEntryListWithPagingByAuthor($blogid, $author, $suri['page'], $blog['entriesOnList']))
 			$listWithPaging = array(array(), array('total' => 0));

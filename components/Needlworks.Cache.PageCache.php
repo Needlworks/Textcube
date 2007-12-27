@@ -195,12 +195,23 @@ class CacheControl{
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'categoryList\\_".$categoryId."%')");
-		foreach($categoryLists as $categoryListName){
-			$cache->reset();
-			$cache->name = $categoryListName;
-			$cache->purge();
-		}
+		CacheControl::purgeItems($categoryLists);
+		unset($cache);
+		return true;
+	}
 
+	function flushAuthor($authorId = null) {
+		global $database;
+
+		if(empty($authorId)) $authorId = '';
+		else $authorId = POD::escapeString($authorId).'\\_';
+		
+		$cache = new pageCache;
+		$pageLists = POD::queryColumn("SELECT name
+			FROM {$database['prefix']}PageCacheLog
+			WHERE blogid = ".getBlogId()."
+			AND (name like 'authorList\\_".$authorId."%')");
+		CacheControl::purgeItems($pageLists);
 		unset($cache);
 		return true;
 	}
@@ -216,13 +227,7 @@ class CacheControl{
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'tagList\\_".$tagId."%' 
 				OR name like 'keyword\\_".$tagId."%')");
-		if (!is_null($tagLists)) {
-			foreach($tagLists as $tagListName){
-				$cache->reset();
-				$cache->name = $tagListName;
-				$cache->purge();
-			}
-		}
+		CacheControl::purgeItems($tagLists);
 		$cache->reset();
 		$cache->name = 'tagPage';
 		$cache->purge();
@@ -240,11 +245,7 @@ class CacheControl{
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND name like 'keyword\\_".$tagId."%'");
-		foreach($keywordEntries as $keywordEntryName){
-			$cache->reset();
-			$cache->name = $keywordEntryName;
-			$cache->purge();
-		}
+		CacheControl::purgeItems($keywordEntries);
 		unset($cache);
 		return true;
 	}
@@ -259,10 +260,12 @@ class CacheControl{
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'entry\\_".$entryId."%' OR name = commentRSS_'.$entryId.')");
-		foreach($Entries as $EntryName){
-			$cache->reset();
-			$cache->name = $EntryName;
-			$cache->purge();
+		CacheControl::purgeItems($Entries);
+		$entry = POD::queryCell("SELECT userid, category FROM {$database['prefix']}Entries
+				WHERE blogid = $blogid AND id = $entryId");
+		if(!empty($entry)) {
+			CacheControl::flushAuthor($entry['userid']);
+			CacheControl::flushCategory($entry['category']);
 		}
 		unset($cache);
 		return true;
@@ -311,6 +314,16 @@ class CacheControl{
 			}
 			
 		}
+	}
+	function purgeItems($items) {
+		if(!empty($items)) {
+			$cache = new pageCache;
+			foreach($items as $item){
+				$cache->reset();
+				$cache->name = $EntryName;
+				$cache->purge();
+			}
+		}	
 	}
 }
 
