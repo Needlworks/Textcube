@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 class pageCache {
-	var $name;
+/*	var $name;
 	var $realName;
 	var $realNameOwner;
 	var $realNameGuest;
@@ -17,7 +17,7 @@ class pageCache {
 	var $absoluteFilePath;
 	var $absoluteFilePathOwner;
 	var $absoluteFilePathGuest;
-	var $error;
+	var $error;*/
 
 	function reset() {
 		$this->name = 
@@ -258,13 +258,23 @@ class CacheControl{
 		$Entries = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND name like 'entry\\_".$entryId."%'");
+			AND (name like 'entry\\_".$entryId."%' OR name = commentRSS_'.$entryId.')");
 		foreach($Entries as $EntryName){
 			$cache->reset();
 			$cache->name = $EntryName;
 			$cache->purge();
 		}
 		unset($cache);
+		return true;
+	}
+
+	function flushCommentRSS($entryId = null) {
+		global $database;
+
+		if(empty($entryId)) $entryId = '';
+		$cache = new pageCache;
+		$cache->name = 'commentRSS_'.$entryId;
+		$cache->purge();
 		return true;
 	}
 
@@ -305,7 +315,7 @@ class CacheControl{
 }
 
 class MMCache{
-	var $variable;
+	/*var $variable;*/
 	
 	//Variable must be the table form. (2-dimensional recursive structure)
 	function queryRow($var, $key, $value) {

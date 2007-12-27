@@ -66,7 +66,7 @@ function refreshRSS($blogid) {
 			'categories' => array(), 'description' => $content, 
 			'author' => '('.$row['author'].')', 
 			'pubDate' => Timestamp::getRFC1123($row['published']),
-			'comments' => $entryURL . '#entry' . $row['id'] . 'comment',
+			'comments' => $entryURL . '#rp',
 			'guid' => "$defaultURL/" . $row['id']
 		);
 		if (isset($service['useNumericURLonRSS'])) {
@@ -114,6 +114,60 @@ function refreshRSS($blogid) {
 	}
 	fclose($fileHandle);
 	return false;
+}
+
+function getCommentRSSByEntryId($blogid, $entryId) {
+	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
+
+	if(empty($blogid)) $blogid = getBlogId();
+	$entry = POD::queryRow("SELECT slogan, visibility, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
+	if(empty($entry)) return false;
+	if($entry['visibility'] < 2) return false;
+	if(in_array($entry['category'], getCategoryVisibilityList($blogid, 'private'))) return false;
+	$channel = array();
+	$channel['title'] = $blog['title']. ': '._f('%1 에 달린 댓글',$entry['slogan']);
+	if($blog['useSlogan']) {
+		$channel['link'] = $defaultURL."/entry/".URL::encode($entry['slogan'],true);
+	} else {
+		$channel['link'] = $defaultURL."/".$entryId;
+	}
+	$channel['description'] = $blog['description'];
+	$channel['language'] = $blog['language'];
+	$channel['pubDate'] = Timestamp::getRFC1123();
+	$channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
+
+	if (!empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
+		$logoInfo = getimagesize(ROOT."/attach/$blogid/{$blog['logo']}");
+		$channel['url'] = $serviceURL."/attach/".$blogid."/".$blog['logo'];
+		$channel['width'] = $logoInfo[0];
+		$channel['height'] = $logoInfo[1];
+	}
+	$result = POD::queryAll("SELECT *
+		FROM {$database['prefix']}Comments
+		WHERE blogid = ".$blogid." 
+			AND entry = ".$entryId."
+			AND isFiltered = 0");
+	if (!$result)
+		$result = array();
+
+	$channel['items'] = array();
+	foreach($result as $row) {
+		$commentURL = $channel['link']."#comment".$row['id'];
+		$content = $row['comment'];
+		$item = array(
+			'id' => $row['id'], 
+			'title' => $row['title'], 
+			'link' => $commentURL, 
+			'categories' => array(), 'description' => $content, 
+			'author' => '('.$row['name'].')', 
+			'pubDate' => Timestamp::getRFC1123($row['written']),
+			'guid' => $commentURL
+		);
+		if($row['secret']) $item['description'] = _t('비밀 댓글입니다');
+		array_push($channel['items'], $item);
+	}
+	$rss = array('channel' => $channel);
+	return publishRSS($blogid, $rss);
 }
 
 function publishRSS($blogid, $data) {

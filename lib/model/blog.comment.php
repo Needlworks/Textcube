@@ -401,6 +401,7 @@ function addComment($blogid, & $comment) {
 		)");
 	if ($result) {
 		$id = $insertId;
+		CacheControl::flushCommentRSS($comment['entry']);
 		if ($parent != 'null' && $comment['secret'] < 1) {
 			$insertId = getCommentsNotifiedQueueMaxId() + 1;
 			POD::execute("INSERT INTO `{$database['prefix']}CommentsNotifiedQueue` 
@@ -492,7 +493,10 @@ function updateComment($blogid, $comment, $password) {
 					replier = {$replier}
 				WHERE blogid = $blogid 
 					AND id = {$comment['id']} $wherePassword");
-	return $result ? true : false;
+	if($result) {
+		CacheControl::flushCommentRSS($comment['entry']); // Assume blogid = current blogid.
+		return true;
+	} else return false;
 }
 
 function deleteComment($blogid, $id, $entry, $password) {
@@ -525,6 +529,7 @@ function deleteComment($blogid, $id, $entry, $password) {
 		}
 	}
 	if(POD::query($sql . $wherePassword)) {
+		CacheControl::flushCommentRSS($entry);
 		updateCommentsOfEntry($blogid, $entry);
 		return true;
 	}
@@ -551,6 +556,7 @@ function trashComment($blogid, $id, $entry, $password) {
 			AND entry = $entry";
 	$affectedChildren = POD::queryCount($sql);
 	if ($affected + $affectedChildren > 0) {
+		CacheControl::flushCommentRSS($entry);
 		updateCommentsOfEntry($blogid, $entry);
 		return true;
 	}
@@ -572,6 +578,7 @@ function revertComment($blogid, $id, $entry, $password) {
 			AND id = $id 
 			AND entry = $entry";
 	if(POD::query($sql)) {
+		CacheControl::flushCommentRSS($entry);
 		updateCommentsOfEntry($blogid, $entry);
 		return true;
 	}
@@ -675,6 +682,7 @@ function deleteCommentInOwner($blogid, $id) {
 	$entryId = POD::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
 	if(POD::queryCount("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id") == 1) {
 		if (POD::query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND parent = $id")) {
+			CacheControl::flushCommentRSS($entryId);
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
 		}
@@ -690,6 +698,7 @@ function trashCommentInOwner($blogid, $id) {
 //	if ($result && $result == 1) {
 	if(POD::query("UPDATE {$database['prefix']}Comments SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id")) {
 		if (POD::query("UPDATE {$database['prefix']}Comments SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND parent = $id")) {
+			CacheControl::flushCommentRSS($entryId);
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
 		}
@@ -704,6 +713,7 @@ function revertCommentInOwner($blogid, $id) {
 	$parent = POD::queryCell("SELECT parent FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
 	if(POD::queryCount("UPDATE {$database['prefix']}Comments SET isFiltered = 0 WHERE blogid = $blogid AND id = $id") == 1) {
 		if (is_null($parent) || POD::query("UPDATE {$database['prefix']}Comments SET isFiltered = 0 WHERE blogid = $blogid AND id = $parent")) {
+			CacheControl::flushCommentRSS($entryId);
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
 		}
