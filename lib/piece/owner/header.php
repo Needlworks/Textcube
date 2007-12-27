@@ -32,7 +32,7 @@ if(Acl::check('group.administrators')) {
 		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader')
 		);
 }
-if(Acl::check('group.inviters')) {  //TODO : Super Adminisrator에 맞는 권한 필요 현재는 inviters
+if(Acl::check('group.creators')) { 
 	array_push($blogTopMenuItem, array('menu'=>'control','title'=>_t('제어판'),'link'=>'/owner/control/blog'));
 }
 switch($blogMenu['topMenu']) {

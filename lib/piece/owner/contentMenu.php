@@ -91,7 +91,7 @@ if(isset($blogMenu['topMenu'])) {
 		case 'reader':
 		break;
 		case 'control':
-		if(Acl::check('group.inviters')) {  //TODO : Super Adminisrator에 맞는 권한 필요 현재는 inviters
+		if(Acl::check('group.creators')) {
 			$blogContentMenuItem = array(
 				array('menu'=>'blog','title'=>_t('블로그'),'link'=>'/owner/control/blog'),
 				array('menu'=>'user','title'=>_t('사용자'),'link'=>'/owner/control/user'),
