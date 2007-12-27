@@ -3,6 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+global $__gUserInfo;
 
 function getUserEmail($userid) {
 	global $database;
@@ -20,7 +21,7 @@ function getUserIdByEmail($email) {
 }
 
 function getUserNamesOfBlog($blogid) {
-	global $database;
+	global $database, $__gUserInfo;
 
 	$authorIds = POD::queryColumn("SELECT userid
 		FROM {$database['prefix']}Teamblog
@@ -30,6 +31,10 @@ function getUserNamesOfBlog($blogid) {
 		FROM {$database['prefix']}Users
 		WHERE userid IN (".implode(",",$authorIds).")");
 	return $authorInfo;
+}
+
+function getNumberOfPostsByUser($blogid, $userid) {
+	return 0;
 }
 
 function deleteUser($userid) {

@@ -866,10 +866,8 @@ function getAuthorListView($authorInfo, $template) {
 		$permalink = "$blogURL/author/" . $user['name'];
 		dress('author_rep_link', $permalink, $view);
 		dress('author_rep_name', $user['name'], $view);
+//		dress('author_rep_post_count', $user['postcount'], $view);
 
-//		$contentContainer["recent_entry_{$entry['id']}"] = htmlspecialchars(UTF8::lessenAsEm($entry['title'], $skinSetting['recentEntryLength']));
-//		dress('rctps_rep_title', setTempTag("recent_entry_{$entry['id']}"), $view);
-//		dress('rctps_rep_rp_cnt', "<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments'] > 0 ? "({$entry['comments']})" : '').'</span>', $view);
 		print $view;
 	}
 	$view = ob_get_contents();
