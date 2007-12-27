@@ -2,7 +2,6 @@
 /// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-define('ROOT', '../../../../..');
 $ajaxcall= false;
 if (isset($_REQUEST['ajaxcall'])) {
 	$ajaxcall= true;

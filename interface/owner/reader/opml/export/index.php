@@ -2,7 +2,6 @@
 /// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-define('ROOT', '../../../../..');
 require ROOT . '/lib/includeForReader.php';
 header("Content-type: application");
 header("Content-Disposition: attachment; filename=textcube_reader_feed_" . date("Ymd") . ".opml");

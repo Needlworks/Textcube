@@ -3,7 +3,6 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 ini_set('display_errors', 'off');
-define('ROOT', '../../../..');
 $IV = array(
 	'POST' => array(
 		'importFrom' => array(array('server', 'uploaded', 'web')),

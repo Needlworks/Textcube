@@ -3,7 +3,6 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-define('ROOT', '../../../../../..');
 $IV = array(
 	'GET' => array(
 		'id' => array('string'),

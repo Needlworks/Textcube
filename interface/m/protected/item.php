@@ -3,7 +3,6 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('__TEXTCUBE_MOBILE__', true);
-define('ROOT', '../../..');
 $IV = array(
 	'POST' => array(
 		'password' => array('string','default' => null)

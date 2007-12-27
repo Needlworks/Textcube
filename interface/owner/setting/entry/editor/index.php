@@ -2,7 +2,6 @@
 /// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-define('ROOT', '../../../../..');
 require ROOT . '/lib/includeForBlogOwner.php';
 if(array_key_exists('useBlogAPI',  $_REQUEST)) {
 	if (($_REQUEST['useBlogAPI'] == "yes") || ($_REQUEST['useBlogAPI'] == "1") || ($_REQUEST['useBlogAPI'] == "true"))

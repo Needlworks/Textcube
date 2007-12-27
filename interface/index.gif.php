@@ -3,7 +3,6 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-define('ROOT', '..');
 require ROOT . '/lib/includeForIcon.php';
 
 $fp = @fopen(ROOT . "/attach/$blogid/index.gif", 'rb');
