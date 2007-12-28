@@ -107,8 +107,8 @@ class pageCache {
 		$this->realName = $this->name;
 		$this->realNameOwner = $this->name."_".getBlogId()."_owner";
 		$this->realNameGuest = $this->name."_".getBlogId();
-		$this->filenameOwner = md5($this->realNameOwner);
-		$this->filenameGuest = md5($this->realNameGuest);
+		$this->filenameOwner = crc32($this->realNameOwner);
+		$this->filenameGuest = crc32($this->realNameGuest);
 		$this->filename = doesHaveOwnership() ? $this->filenameOwner : $this->filenameGuest;
 		$this->absoluteFilePathOwner = ROOT.'/cache/pageCache/'.getBlogId()."/".$this->filenameOwner;
 		$this->absoluteFilePathGuest = ROOT.'/cache/pageCache/'.getBlogId()."/".$this->filenameGuest;
