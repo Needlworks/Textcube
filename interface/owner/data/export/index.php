@@ -267,6 +267,7 @@ if ($cmtNotifiedSite->open()) {
 		$writer->write('</site>');
 	} while ($cmtNotifiedSite->shift());
 	$writer->write('</commentsNotifiedSiteInfo>');
+	$cmtNotifiedSite->close();
 }
 $statistics = new RefererStatistics();
 if ($statistics->open()) {
