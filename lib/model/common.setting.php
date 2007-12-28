@@ -52,41 +52,13 @@ function removeServiceSetting($name) {
 }
 
 function getBlogSetting($name, $default = null, $blogid = null) {
-	$settings = getBlogSettings(getBlogId()); // from blog.service.php
-	if ($settings === false) return $default;
-	if( isset($settings[$name]) ) {
-		return $settings[$name];
-	}
-	return $default;
+	requireComponent('Textcube.Function.misc');
+	return misc::getBlogSettingGlobal($name, $default);
 }
 
 function setBlogSetting($name, $value, $blogid = null) {
-	global $database;
-	global $__gCacheBlogSettings; // share blog.service.php
-
-	if (is_null($blogid)) $blogid = getBlogId();
-	if (!is_numeric($blogid)) return null;
-
-	if (!array_key_exists($blogid, $__gCacheBlogSettings)) {
-		// force loading
-		getBlogSettings($blogid);
-	}
-	if ($__gCacheBlogSettings[$blogid] === false) {
-		return null;
-	}
-	
-	$escape_name = POD::escapeString($name);
-	$escape_value = POD::escapeString($value);
-	
-	if (array_key_exists($name, $__gCacheBlogSettings[$blogid])) {
-		// overwrite value
-		$__gCacheBlogSettings[$blogid][$name] = $value;
-		return POD::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, '$escape_name', '$escape_value')");
-	}
-	
-	// insert new value
-	$__gCacheBlogSettings[$blogid][$name] = $value;
-	return POD::execute("INSERT INTO {$database['prefix']}BlogSettings VALUES($blogid, '$escape_name', '$escape_value')");
+	requireComponent('Textcube.Function.misc');
+	return misc::setBlogSettingGlobal($name, $value, $blogid);
 }
 
 function setBlogSettingDefault($name, $value, $blogid = null) {
@@ -102,63 +74,23 @@ function setBlogSettingDefault($name, $value, $blogid = null) {
 }
 
 function removeBlogSetting($name, $blogid = null) {
-	global $database;
-	global $__gCacheBlogSettings; // share blog.service.php
-
-	if (is_null($blogid)) $blogid = getBlogId();
-	if (!is_numeric($blogid)) return null;
-
-	if (!array_key_exists($blogid, $__gCacheBlogSettings)) {
-		// force loading
-		getBlogSettings($blogid);
-	}
-	if ($__gCacheBlogSettings[$blogid] === false) {
-		return null;
-	}
-	
-	$escape_name = POD::escapeString($name);
-	
-	if (array_key_exists($name, $__gCacheBlogSettings[$blogid])) {
-		// overwrite value
-		unset($__gCacheBlogSettings[$blogid][$name]);
-		return POD::execute("DELETE FROM {$database['prefix']}BlogSettings 
-			WHERE blogid = $blogid AND name = '$escape_name'");
-	}
-	
-	// already not exist
-	return true;
+	requireComponent('Textcube.Function.misc');
+	return misc::removeBlogSettingGlobal($name, $value, $blogid);
 }
 
 function getUserSetting($name, $default = null) {
-	global $database;
-	global $userSetting;
-	if( empty($userSetting) ) {
-		$settings = POD::queryAllWithCache("SELECT name, value 
-				FROM {$database['prefix']}UserSettings
-				WHERE userid = ".getUserId(), MYSQL_NUM );
-		foreach( $settings as $k => $v ) {
-			$userSetting[ $v[0] ] = $v[1];
-		}
-	}
-	if( isset($userSetting[$name]) ) {
-		return $userSetting[$name];
-	}
-	return $default;
+	requireComponent('Textcube.Function.misc');
+	return misc::getUserSettingGlobal($name, $default);
 }
 
 function setUserSetting($name, $value) {
-	global $database;
-	$name = POD::escapeString($name);
-	$value = POD::escapeString($value);
-	clearUserSettingCache();
-	return POD::execute("REPLACE INTO {$database['prefix']}UserSettings VALUES(".getUserId().", '$name', '$value')");
+	requireComponent('Textcube.Function.misc');
+	return misc::setUserSettingGlobal($name, $default);
 }
 
 function removeUserSetting($name) {
-	global $database;
-	clearUserSettingCache();
-	return POD::execute("DELETE FROM {$database['prefix']}UserSettings 
-			WHERE userid = ".getUserId()." AND name = '".POD::escapeString($name)."'");
+	requireComponent('Textcube.Function.misc');
+	return misc::removeUserSettingGlobal($name);
 }
 
 function getDefinedTableNames() {

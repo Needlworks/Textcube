@@ -343,29 +343,50 @@ class misc {
 
 	// For User
 	function getUserSetting($name, $default = null) {
-		global $database;
+		global $database, $userSetting;
 		$name = 'plugin_' . $name;
-		$value = POD::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = ".getUserId()." AND name = '".POD::escapeString($name)."'");
-		return (is_null($value)) ? $default : $value;
+		return misc::getUserSettingGlobal($name, $default);
 	}
 
 	function getUserSettingGlobal($name, $default = null) {
-		global $database;
-		$value = POD::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = ".getUserId()." AND name = '".POD::escapeString($name)."'");
-		return (is_null($value)) ? $default : $value;
+		global $database, $userSetting;
+		if( empty($userSetting) ) {
+			$settings = POD::queryAllWithCache("SELECT name, value 
+					FROM {$database['prefix']}UserSettings
+					WHERE userid = ".getUserId(), MYSQL_NUM );
+			foreach( $settings as $k => $v ) {
+				$userSetting[ $v[0] ] = $v[1];
+			}
+		}
+		if( isset($userSetting[$name]) ) {
+			return $userSetting[$name];
+		}
+		return $default;
 	}
 	
 	function setUserSetting($name, $value) {
 		global $database;
 		$name = 'plugin_' . $name;
+		return misc::setUserSettingGlobal($name, $value);
+	}
+	
+	function setUserSettingGlobal($name, $value) {
+		global $database;
 		$name = POD::escapeString($name);
 		$value = POD::escapeString($value);
+		clearUserSettingCache();
 		return POD::execute("REPLACE INTO {$database['prefix']}UserSettings VALUES(".getUserId().", '$name', '$value')");
 	}
 	
 	function removeUserSetting($name) {
 		global $database;
 		$name = 'plugin_' . $name;
+		return misc::removeUserSettingGlobal($name);
+	}
+
+	function removeUserSettingGlobal($name) {
+		global $database;
+		clearUserSettingCache();
 		return POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = ".getUserId()." AND name = '".POD::escapeString($name)."'");
 	}
 
@@ -403,7 +424,7 @@ class misc {
 	}
 
 	function isMetaBlog() {
-		return (getBlogId() == 1 ? true : false);
+		return (getBlogId() == getServiceSetting("defaultBlogId",1) ? true : false);
 	}
 
 	/* Synch with lib/view/pages.php */
