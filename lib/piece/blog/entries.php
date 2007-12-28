@@ -45,6 +45,8 @@ if (isset($cache->contents)) {
 
 		} else if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {	// Posts
 			$entryView = $skin->entry;
+			$entryView = '<a id="entry_'.$entry['id'].'"></a>'.CRLF.$entryView;
+
 			dress('tb', getTrackbacksView($entry, $skin, $entry['acceptTrackback']), $entryView);
 			if ($skinSetting['expandComment'] == 1 || (($suri['url'] != $blogURL.'/index.php' && $suri['url'] != $service['path'].'/index.php') && ($suri['directive'] == '/' || $suri['directive'] == '/entry') && $suri['value'] != '')) {
 				$style = 'block';

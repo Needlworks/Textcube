@@ -66,7 +66,7 @@ function refreshRSS($blogid) {
 			'categories' => array(), 'description' => $content, 
 			'author' => '('.$row['author'].')', 
 			'pubDate' => Timestamp::getRFC1123($row['published']),
-			'comments' => $entryURL . '#rp',
+			'comments' => $entryURL . '#entry' . $row['id'] . 'comment',
 			'guid' => "$defaultURL/" . $row['id']
 		);
 		if (isset($service['useNumericURLonRSS'])) {

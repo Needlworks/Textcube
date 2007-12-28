@@ -78,7 +78,10 @@ class pageCache {
 
 	function initialize() {
 		 if (!is_dir(ROOT."/cache/pageCache/".getBlogId())){
-			 @mkdir(ROOT."/cache/pageCache");
+			 if(!is_dir(ROOT."/cache/pageCache")) {
+				 @mkdir(ROOT."/cache/pageCache");
+				 @chmod(ROOT."/cache/pageCache",0777);
+			 }
 			 @mkdir(ROOT."/cache/pageCache/".getBlogId());
 			 @chmod(ROOT."/cache/pageCache/".getBlogId(),0777);
 		 }

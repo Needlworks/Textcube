@@ -8,7 +8,6 @@ if(isset($accessInfo)) {
 } else {
 	$url = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : $_SERVER['SCRIPT_NAME'];
 }
-
 $defaultblogid = getServiceSetting("defaultBlogId",1);
 
 $suri            = array('url' => $url, 'value' => '');
