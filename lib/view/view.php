@@ -865,7 +865,7 @@ function getAuthorListView($authorInfo, $template) {
 		$view = "$template";
 		$permalink = "$blogURL/author/" . $user['name'];
 		dress('author_rep_link', $permalink, $view);
-		dress('author_rep_name', $user['name'], $view);
+		dress('author_rep_name', rawurlencode($user['name']), $view);
 //		dress('author_rep_post_count', $user['postcount'], $view);
 
 		print $view;
