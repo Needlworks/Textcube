@@ -214,23 +214,6 @@ function setGuestbook($blogid, $write, $comment) {
 	} else return false;
 }
 
-function changeSetting($userid, $email, $nickname) {
-	global $database;
-	if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return false;
-	$email = POD::escapeString(UTF8::lessenAsEncoding($email, 64));
-	$nickname = POD::escapeString(UTF8::lessenAsEncoding($nickname, 32));
-	if ($email == '' || $nickname == '') {
-		return false;
-	}
-	$sql = "UPDATE `{$database['prefix']}Users` SET loginid = '$email', name = '$nickname' WHERE `userid` = $userid";
-	$result = POD::query($sql);
-	if (!$result) {
-		return false;
-	} else {
-		return true;
-	}
-}
-
 function addUser($email, $name) {
 	global $database, $service, $user, $blog;
 	if (empty($email))
