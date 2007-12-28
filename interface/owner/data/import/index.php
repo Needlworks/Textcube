@@ -574,6 +574,7 @@ function importer($path, $node, $line) {
 			$cmtNotified = new CommentNotified();
 			$cmtNotified->id = $node['id']['.value'];
 			$cursor = & $node['commenter'][0];
+			$cmtNotified->commenter = $cursor['.attributes']['id'];
 			$cmtNotified->name = $cursor['name']['.value'];
 			$cmtNotified->homepage = $cursor['homepage']['.value'];
 			$cmtNotified->ip = $cursor['ip']['.value'];
