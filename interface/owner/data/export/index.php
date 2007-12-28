@@ -230,8 +230,9 @@ $cmtNotified = new CommentNotified();
 if ($cmtNotified->open()) {
 	$writer->write('<commentsNotified>');
 	do {
+		$writer->write('<comment>');
 		$writer->write('<id>' . $cmtNotified->id . '</id>');
-		$writer->write('<commenter id="' . $cmtNotified->commenter . '">');
+		$writer->write('<commenter>');
 			$writer->write('<name>' . htmlspecialchars(UTF8::correct($cmtNotified->name)) . '</name>');
 			$writer->write('<homepage>' . htmlspecialchars(UTF8::correct($cmtNotified->homepage)) . '</homepage>');
 			$writer->write('<ip>' . $cmtNotified->ip . '</ip>');
@@ -248,6 +249,7 @@ if ($cmtNotified->open()) {
 		$writer->write('<url>' . htmlspecialchars(UTF8::correct($cmtNotified->url)). '</url>');
 		$writer->write('<entryTitle>' . htmlspecialchars(UTF8::correct($cmtNotified->entryTitle)). '</entryTitle>');
 		$writer->write('<entryUrl>' . htmlspecialchars(UTF8::correct($cmtNotified->entryUrl)). '</entryUrl>');
+		$writer->write('</comment>');
 	} while ($cmtNotified->shift());
 	$writer->write('</commentsNotified>');
 	$cmtNotified->close();
@@ -256,11 +258,13 @@ $cmtNotifiedSite = new CommentNotifiedSiteInfo();
 if ($cmtNotifiedSite->open()) {
 	$writer->write('<commentsNotifiedSiteInfo>');
 	do {
+		$writer->write('<site>');
 		$writer->write('<id>' . $cmtNotifiedSite->id . '</id>');
 		$writer->write('<title>' . htmlspecialchars(UTF8::correct($cmtNotifiedSite->title)) . '</title>');
 		$writer->write('<name>' . htmlspecialchars(UTF8::correct($cmtNotifiedSite->name)) . '</name>');
 		$writer->write('<url>' . htmlspecialchars(UTF8::correct($cmtNotifiedSite->url)) . '</url>');
 		$writer->write('<modified>' . $cmtNotifiedSite->modified . '</modified>');
+		$writer->write('</site>');
 	} while ($cmtNotifiedSite->shift());
 	$writer->write('</commentsNotifiedSiteInfo>');
 }

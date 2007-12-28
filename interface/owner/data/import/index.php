@@ -214,8 +214,8 @@ function scanner($path, $node, $line) {
 		case '/blog/statistics/daily':
 		case '/blog/skin':
 		case '/blog/plugin':
-		case '/blog/commentNotified':
-		case '/blog/commentNotifiedSiteInfo':
+		case '/blog/commentNotified/comment':
+		case '/blog/commentNotifiedSiteInfo/site':
 		case '/blog/guestbook/comment':
 		case '/blog/filter':
 		case '/blog/feed':
@@ -569,12 +569,11 @@ function importer($path, $node, $line) {
 			if (!$log->add(false))
 				user_error(__LINE__ . $log->error);
 			return true;
-		case '/blog/commentNotified':
+		case '/blog/commentNotified/comment':
 			setProgress($item++ / $items * 100, _t('댓글 알리미 내용을 복원하고 있습니다.'));
 			$cmtNotified = new CommentNotified();
 			$cmtNotified->id = $node['id']['.value'];
 			$cursor = & $node['commenter'][0];
-			$cmtNotified->commenter = $cursor['.attributes']['id'];
 			$cmtNotified->name = $cursor['name']['.value'];
 			$cmtNotified->homepage = $cursor['homepage']['.value'];
 			$cmtNotified->ip = $cursor['ip']['.value'];
@@ -594,7 +593,7 @@ function importer($path, $node, $line) {
 			if (!$cmtNotified->add())
 				user_error(__LINE__ . $cmtNotified->error);
 			return true;
-		case '/blog/commentNotifiedSiteInfo':
+		case '/blog/commentNotifiedSiteInfo/site':
 			setProgress($item++ / $items * 100, _t('댓글 알리미 내용을 복원하고 있습니다.'));
 			$cmtNotifiedSite = new CommentNotifiedSiteInfo();
 			$cmtNotifiedSite->id = $node['id']['.value'];
