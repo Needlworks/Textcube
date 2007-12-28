@@ -144,13 +144,6 @@ function getUserSetting($name, $default = null) {
 		return $userSetting[$name];
 	}
 	return $default;
-
-	global $database;
-	$value = POD::queryCell("SELECT value 
-			FROM {$database['prefix']}UserSettings 
-			WHERE userid = ".getUserId()."
-				AND name = '".POD::escapeString($name)."'");
-	return ($value === null) ? $default : $value;
 }
 
 function setUserSetting($name, $value) {
