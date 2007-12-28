@@ -9,6 +9,7 @@
 		'root'     => str_replace('rewrite.php','',$_SERVER["SCRIPT_NAME"])
 		);
 	$accessInfo['input'] = substr($accessInfo['fullpath'],strlen($accessInfo['root'])); //Workaround for compartibility with fastCGI / Other environment
+	var_dump($accessInfo);
 	$part = strtok($accessInfo['input'],'/');
 	if(in_array($part, array('image','plugins','script','skin','style','attach','cache','thumbnail'))) {
 		$file = @file_get_contents(ltrim(($part == 'thumbnail' ? preg_replace('/thumbnail/','cache/thumbnail',$accessInfo['root'].$accessInfo['input'],1) : $accessInfo['root'].$accessInfo['input']),'/'));
@@ -25,9 +26,10 @@
 			$pathPart = ltrim(rtrim(strtok(strstr($accessInfo['input'],'/'), '?'),'/'),'/');
 			break;
 		case 'single' :
-			$pathPart = ltrim(rtrim(strtok($accessInfo['input'], '?'),'/'),'/');
+			$pathPart = (strpos($accessInfo['input'],'?') !== 0 ? ltrim(rtrim(strtok($accessInfo['input'], '?'),'/'),'/') : '');
+			
 			break;
-		case 'domain' :	case 'single' :	default : 
+		case 'domain' :	default : 
 			$pathPart = ltrim(rtrim(strtok($accessInfo['fullpath'], '?'),'/'),'/');
 			break;
 	}
