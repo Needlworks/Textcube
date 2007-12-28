@@ -73,6 +73,7 @@ dress('rcttb_rep', getRecentTrackbacksView(getRecentTrackbacks($blogid), $skin->
 $links = getLinks( $blogid );
 dress('link_rep', getLinksView($links, $skin->s_link_rep), $view);
 dress('rss_url', "$blogURL/rss", $view);
+dress('comment_rss_url', "$blogURL/comment/rss", $view);
 dress('owner_url', "$blogURL/owner", $view);
 dress('textcube_name', TEXTCUBE_NAME, $view);
 dress('textcube_version', TEXTCUBE_VERSION, $view);

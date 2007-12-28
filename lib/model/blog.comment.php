@@ -585,10 +585,10 @@ function revertComment($blogid, $id, $entry, $password) {
 	return false;
 }
 
-function getRecentComments($blogid,$count = false,$isGuestbook = false) {
+function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestShip = false) {
 	global $skinSetting, $database;
 	$comments = array();
-	$sql = doesHaveOwnership() ? "SELECT r.*, e.slogan
+	$sql = (doesHaveOwnership() && !$guestShip) ? "SELECT r.*, e.slogan
 		FROM 
 			{$database['prefix']}Comments r
 			INNER JOIN {$database['prefix']}Entries e ON r.blogid = e.blogid AND r.entry = e.id

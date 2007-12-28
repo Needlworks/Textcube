@@ -178,6 +178,19 @@ function setEntriesOnRSS($blogid, $entriesOnRSS) {
 	return true;
 }
 
+function setCommentsOnRSS($blogid, $commentsOnRSS) {
+	global $database, $blog;
+	requireModel('blog.rss');
+	if ($commentsOnRSS == $blog['commentsOnRSS'])
+		return true;
+	if(setBlogSetting('commentsOnRSS',$commentsOnRSS) === false) return false;
+	$blog['commentsOnRSS'] = $commentsOnRSS;
+	$cache = new pageCache;
+	$cache->name = 'commentRSS';
+	$cache->purge();
+	return true;
+}
+
 function setPublishWholeOnRSS($blogid, $publishWholeOnRSS) {
 	global $database, $blog;
 	requireModel('blog.rss');
@@ -302,6 +315,7 @@ function addBlog($blogid, $userid, $identify) {
 			'entriesOnPage'            => 10,
 			'entriesOnList'            => 10,
 			'entriesOnRSS'             => 10,
+			'commentsOnRSS'             => 10,
 			'publishWholeOnRSS'        => 1,
 			'publishEolinSyncOnRSS'    => 1,
 			'allowWriteOnGuestbook'    => 1,

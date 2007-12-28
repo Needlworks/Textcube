@@ -254,60 +254,28 @@ if ($service['type'] != 'single') {
 										}
 									}
 									
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/publishRSS/" + (document.getElementById('rss-form').publishEolinSyncOnRSS[0].checked ? 1 : 0));
+									
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/rss/");
 <?php
 	if($service['useRewriteEngine'] == false) {
 ?>
 									request.correcturl = true;
 <?php
 	}
-?>
-									request.onSuccess = function() {
+?>									request.onSuccess = function() {
 										publishEolinSyncOnRSS = document.getElementById('rss-form').publishEolinSyncOnRSS[0].checked ? 1 : 0;
+										entriesOnRSS = document.getElementById('rss-form').entriesOnRSS.value;
+										commentsOnRSS = document.getElementById('rss-form').commentsOnRSS.value;
+										publishWholeOnRSS = document.getElementById('rss-form').publishWholeOnRSS.value;
 										PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
 									}
 									request.onError = function() {
-										alert("<?php echo _t('RSS 공개 정도를 변경할 수 없습니다.');?>");
+										PM.showErrorMessage("<?php echo _t('RSS를 변경할 수 없습니다.');?>", "center", "bottom");
 									}
-									request.send();
-									
-									if (document.getElementById('rss-form').entriesOnRSS.value != entriesOnRSS) {
-										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/rss/entries/" + document.getElementById('rss-form').entriesOnRSS.value);
-<?php
-	if($service['useRewriteEngine'] == false) {
-?>
-										request.correcturl = true;
-<?php
-	}
-?>
-										request.onSuccess = function() {
-											entriesOnRSS = document.getElementById('rss-form').entriesOnRSS.value;
-											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
-										}
-										request.onError = function() {
-											alert("<?php echo _t('RSS 글 개수를 변경하지 못했습니다.');?>");
-										}
-										request.send();
-									}
-									
-									if (document.getElementById('rss-form').publishWholeOnRSS.value != publishWholeOnRSS) {
-										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/rss/whole/" + document.getElementById('rss-form').publishWholeOnRSS.value);
-<?php
-	if($service['useRewriteEngine'] == false) {
-?>
-										request.correcturl = true;
-<?php
-	}
-?>
-										request.onSuccess = function() {
-											publishWholeOnRSS = document.getElementById('rss-form').publishWholeOnRSS.value;
-											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
-										}
-										request.onError = function() {
-											alert("<?php echo _t('RSS 공개 범위를 변경하지 못했습니다.');?>");
-										}
-										request.send();
-									}
+									request.send("publishWholeOnRSS="+document.getElementById('rss-form').publishWholeOnRSS.value
+										+"&publishEolinSyncOnRSS="+(document.getElementById('rss-form').publishEolinSyncOnRSS[0].checked ? 1 : 0)
+										+"&entriesOnRSS="+document.getElementById('rss-form').entriesOnRSS.value
+										+"&commentsOnRSS="+document.getElementById('rss-form').commentsOnRSS.value);
 									
 									isAllowCommentGuestbook = document.getElementById('allowCommentGuestbook').checked ? 1 : 0;
 									//isAllowWriteGuestbook = document.getElementById('allowWriteGuestbook').checked ? 1 : 0;
@@ -618,6 +586,19 @@ for ($i = 5; $i <= 30; $i += 5) {
 ?>
 												</select><?php echo getArrayValue(explode('%1', _t('RSS 파일의 블로그 글은 최신 %1개로 갱신됩니다.')), 1);?>
 											</dd>
+											<dd>
+												<?php echo getArrayValue(explode('%1', _t('댓글 RSS 파일의 블로그 글은 최신 %1개로 갱신됩니다.')), 0);?>
+												<select id="commentsOnRSS" name="commentsOnRSS">
+<?php
+for ($i = 5; $i <= 30; $i += 5) {
+?>
+													<option value="<?php echo $i;?>"<?php echo ($i == $blog['commentsOnRSS'] ? ' selected="selected"' : '');?>><?php echo $i;?></option>
+<?php
+}
+?>
+												</select><?php echo getArrayValue(explode('%1', _t('댓글 RSS 파일의 블로그 글은 최신 %1개로 갱신됩니다.')), 1);?>
+											</dd>
+
 										</dl>
 										<dl id="open-range-line" class="line">
 											<dt><span class="label"><?php echo _t('공개 범위');?></span></dt>

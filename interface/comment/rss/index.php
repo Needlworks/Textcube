@@ -13,12 +13,23 @@ if (false) {
 	fetchConfigVal();
 }
 $cache = new pageCache;
-$cache->name = 'commentRSS_'.$suri['id'];
-if(!$cache->load()) {
-	$result = getCommentRSSByEntryId(getBlogId(),$suri['id']);
-	if($result !== false) {
-		$cache->contents = $result;
-		$cache->update();
+if($suri['id']) {
+	$cache->name = 'commentRSS_'.$suri['id'];
+	if(!$cache->load()) {
+		$result = getCommentRSSByEntryId(getBlogId(),$suri['id']);
+		if($result !== false) {
+			$cache->contents = $result;
+			$cache->update();
+		}
+	}
+} else {
+	$cache->name = 'commentRSS';
+	if(!$cache->load()) {
+		$result = getCommentRSSTotal(getBlogId());
+		if($result !== false) {
+			$cache->contents = $result;
+			$cache->update();
+		}
 	}
 }
 header('Content-Type: text/xml; charset=utf-8');

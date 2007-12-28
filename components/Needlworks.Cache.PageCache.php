@@ -278,6 +278,9 @@ class CacheControl{
 		$cache = new pageCache;
 		$cache->name = 'commentRSS_'.$entryId;
 		$cache->purge();
+		$cache->reset();
+		$cache->name = 'commentRSS';
+		$cache->purge();
 		return true;
 	}
 
