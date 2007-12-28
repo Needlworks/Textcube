@@ -94,4 +94,42 @@ class User {
 	}
 }
 
+class Transaction {
+	function pickle($data) {
+		if( !isset( $_SESSION['pickle'] ) ) {
+			$_SESSION['pickle'] = array();
+		}
+		$pid = md5( microtime(true) );
+		while( isset( $_SESSION['pickle'][$pid] ) ) {
+			$pid = md5( microtime(true) );
+			usleep(50);
+		}
+		$_SESSION['pickle'][$pid] = $data;
+		return $pid;
+	}
+
+	function unpickle( $pid ) {
+		if( !isset( $_SESSION['pickle'] ) || !isset( $_SESSION['pickle'][$pid] ) ) {
+			return null;
+		}
+		$data = $_SESSION['pickle'][$pid];
+		unset( $_SESSION['pickle'][$pid] );
+		return $data;
+	}
+
+	function repickle( $pid, & $data ) {
+		if( empty($pid) ) {
+			return;
+		}
+		$_SESSION['pickle'][$pid] = $data;
+	}
+
+	function taste( $pid ) {
+		if( !isset( $_SESSION['pickle'] ) || !isset( $_SESSION['pickle'][$pid] ) ) {
+			return null;
+		}
+		return $_SESSION['pickle'][$pid];
+	}
+}
+
 ?>
