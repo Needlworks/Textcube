@@ -133,6 +133,8 @@ requireComponent('Textcube.Data.Post');
 requireComponent('Textcube.Data.Attachment');
 requireComponent('Textcube.Data.Tag');
 requireComponent('Textcube.Data.Comment');
+requireComponent('Textcube.Data.CommentNotified');
+requireComponent('Textcube.Data.CommentNotifiedSiteInfo');
 requireComponent('Textcube.Data.Trackback');
 requireComponent('Textcube.Data.TrackbackLog');
 requireComponent('Textcube.Data.Notice');
@@ -212,6 +214,8 @@ function scanner($path, $node, $line) {
 		case '/blog/statistics/daily':
 		case '/blog/skin':
 		case '/blog/plugin':
+		case '/blog/commentNotified':
+		case '/blog/commentNotifiedSiteInfo':
 		case '/blog/guestbook/comment':
 		case '/blog/filter':
 		case '/blog/feed':
@@ -564,6 +568,41 @@ function importer($path, $node, $line) {
 			$log->referred = $node['referred'][0]['.value'];
 			if (!$log->add(false))
 				user_error(__LINE__ . $log->error);
+			return true;
+		case '/blog/commentNotified':
+			setProgress($item++ / $items * 100, _t('댓글 알리미 내용을 복원하고 있습니다.'));
+			$cmtNotified = new CommentNotified();
+			$cmtNotified->id = $node['id']['.value'];
+			$cursor = & $node['commenter'][0];
+			$cmtNotified->name = $cursor['name']['.value'];
+			$cmtNotified->homepage = $cursor['homepage']['.value'];
+			$cmtNotified->ip = $cursor['ip']['.value'];
+			$cmtNotified->entry = $node['entry']['.value'];
+			$cmtNotified->password = $node['password']['.value'];
+			$cmtNotified->content = $node['content']['.value'];
+			$cmtNotified->parent = $node['parent']['.value'];
+			$cmtNotified->secret = $node['secret']['.value'];
+			$cmtNotified->written = $node['written']['.value'];
+			$cmtNotified->modified = $node['modified']['.value'];
+			$cmtNotified->url = $node['url']['.value'];
+			$cmtNotified->isNew = $node['isNew']['.value'];
+			$cmtNotified->siteId = $node['siteId']['.value'];
+			$cmtNotified->remoteId = $node['remoteId']['.value'];
+			$cmtNotified->entryTitle = $node['entryTitle']['.value'];
+			$cmtNotified->entryUrl = $node['entryUrl']['.value'];
+			if (!$cmtNotified->add())
+				user_error(__LINE__ . $cmtNotified->error);
+			return true;
+		case '/blog/commentNotifiedSiteInfo':
+			setProgress($item++ / $items * 100, _t('댓글 알리미 내용을 복원하고 있습니다.'));
+			$cmtNotifiedSite = new CommentNotifiedSiteInfo();
+			$cmtNotifiedSite->id = $node['id']['.value'];
+			$cmtNotifiedSite->title = $node['title']['.value'];
+			$cmtNotifiedSite->name = $node['name']['.value'];
+			$cmtNotifiedSite->url = $node['url']['.value'];
+			$cmtNotifiedSite->modified = $node['modified']['.value'];
+			if (!$cmtNotifiedSite->add())
+				user_error(__LINE__ . $cmtNotifiedSite->error);
 			return true;
 		case '/blog/statistics/referer':
 			setProgress($item++ / $items * 100, _t('리퍼러 통계를 복원하고 있습니다.'));

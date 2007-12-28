@@ -49,6 +49,8 @@ requireComponent('Textcube.Data.SkinSetting');
 requireComponent('Textcube.Data.PluginSetting');
 requireComponent('Textcube.Data.GuestComment');
 requireComponent('Textcube.Data.Filter');
+requireComponent('Textcube.Data.CommentNotified');
+requireComponent('Textcube.Data.CommentNotifiedSiteInfo');
 requireComponent('Textcube.Data.Feed');
 requireComponent('Textcube.Data.UserSetting');
 $newlineStyle = (!is_null(getServiceSetting('newlineStyle')) ? ' format="'.getServiceSetting('newlineStyle').'"' : '');
@@ -223,6 +225,44 @@ if ($log->open()) {
 	} while ($log->shift());
 	$writer->write('</logs>');
 	$log->close();
+}
+$cmtNotified = new CommentNotified();
+if ($cmtNotified->open()) {
+	$writer->write('<commentsNotified>');
+	do {
+		$writer->write('<id>' . $cmtNotified->id . '</id>');
+		$writer->write('<commenter id="' . $cmtNotified->commenter . '">');
+			$writer->write('<name>' . htmlspecialchars(UTF8::correct($cmtNotified->name)) . '</name>');
+			$writer->write('<homepage>' . htmlspecialchars(UTF8::correct($cmtNotified->homepage)) . '</homepage>');
+			$writer->write('<ip>' . $cmtNotified->ip . '</ip>');
+		$writer->write('</commenter>');
+		$writer->write('<entry>' . $cmtNotified->entry . '</entry>');
+		$writer->write('<content>' . htmlspecialchars($cmtNotified->content). '</content>');
+		$writer->write('<password>' . htmlspecialchars($cmtNotified->password) . '</password>');
+		$writer->write('<secret>' . $cmtNotified->secret . '</secret>');
+		$writer->write('<written>' . $cmtNotified->written . '</written>');
+		$writer->write('<modified>' . $cmtNotified->modified . '</modified>');
+		$writer->write('<siteId>' . $cmtNotified->siteId . '</siteId>');
+		$writer->write('<remoteId>' . $cmtNotified->remoteId . '</remoteId>');
+		$writer->write('<isNew>' . $cmtNotified->isNew . '</isNew>');
+		$writer->write('<url>' . htmlspecialchars(UTF8::correct($cmtNotified->url)). '</url>');
+		$writer->write('<entryTitle>' . htmlspecialchars(UTF8::correct($cmtNotified->entryTitle)). '</entryTitle>');
+		$writer->write('<entryUrl>' . htmlspecialchars(UTF8::correct($cmtNotified->entryUrl)). '</entryUrl>');
+	} while ($cmtNotified->shift());
+	$writer->write('</commentsNotified>');
+	$cmtNotified->close();
+}
+$cmtNotifiedSite = new CommentNotifiedSiteInfo();
+if ($cmtNotifiedSite->open()) {
+	$writer->write('<commentsNotifiedSiteInfo>');
+	do {
+		$writer->write('<id>' . $cmtNotifiedSite->id . '</id>');
+		$writer->write('<title>' . htmlspecialchars(UTF8::correct($cmtNotifiedSite->title)) . '</title>');
+		$writer->write('<name>' . htmlspecialchars(UTF8::correct($cmtNotifiedSite->name)) . '</name>');
+		$writer->write('<url>' . htmlspecialchars(UTF8::correct($cmtNotifiedSite->url)) . '</url>');
+		$writer->write('<modified>' . $cmtNotifiedSite->modified . '</modified>');
+	} while ($cmtNotifiedSite->shift());
+	$writer->write('</commentsNotifiedSiteInfo>');
 }
 $statistics = new RefererStatistics();
 if ($statistics->open()) {
