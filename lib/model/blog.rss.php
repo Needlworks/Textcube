@@ -163,7 +163,7 @@ function getCommentRSSByEntryId($blogid, $entryId) {
 			'pubDate' => Timestamp::getRFC1123($row['written']),
 			'guid' => $commentURL
 		);
-		if($row['secret']) $item['description'] = _t('비밀 댓글입니다');
+		if($row['secret']) $item['author'] = $item['description'] = _t('비밀 댓글입니다');
 		array_push($channel['items'], $item);
 	}
 	$rss = array('channel' => $channel);
