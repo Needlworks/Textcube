@@ -187,6 +187,7 @@ function selectSkin($blogid, $skinName) {
 	
 	removeBlogSetting("sidebarOrder");
 	CacheControl::flushAll();
+	Skin::purgeCache();
 	getSkinSetting($blogid, true); // refresh skin cache
 	return true;
 }
@@ -225,6 +226,7 @@ function writeSkinHtml($blogid, $contents, $mode, $file) {
 		fclose($handler);
 		@chmod(ROOT . "/skin/customize/$blogid/$file", 0666);
 		CacheControl::flushAll();
+		Skin::purgeCache();
 		return true;
 	}
 }
@@ -289,6 +291,7 @@ function setSkinSetting($blogid, $setting) {
 	setBlogSetting('entriesOnList',$setting['entriesOnList']);
 	CacheControl::flushCategory();
 	CacheControl::flushTag();
+	Skin::purgeCache();
 	getSkinSetting($blogid, true); // refresh skin cache
 	return true;
 }

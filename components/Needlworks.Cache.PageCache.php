@@ -18,7 +18,10 @@ class pageCache {
 	var $absoluteFilePathOwner;
 	var $absoluteFilePathGuest;
 	var $error;*/
-
+	function pageCache($name = null){
+		$this->reset();
+		if($name != null) $this->name = $name;
+	}
 	function reset() {
 		$this->name = 
 		$this->realName = 
