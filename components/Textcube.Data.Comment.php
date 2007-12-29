@@ -97,7 +97,6 @@ class Comment {
 		
 		if (!$query->insert())
 			return $this->_error('insert');
-//		$this->id = $query->id;
 		
 		if (isset($this->parent))
 			$this->entry = Comment::getEntry($this->parent);

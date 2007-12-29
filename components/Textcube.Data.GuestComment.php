@@ -96,7 +96,6 @@ class GuestComment {
 		if (!$query->insert()) {
 			return $this->_error('insert');
 		}
-		$this->id = $query->id;
 		return true;
 	}
 	
@@ -171,6 +170,9 @@ class GuestComment {
 				return $this->_error('written');
 			$query->setAttribute('written', $this->written);
 		}
+		if (isset($this->isFiltered)) {
+			$query->setAttribute('isFiltered', Validator::getBit($this->isFiltered));
+   		}
 		if (isset($this->password)) {
 			$this->password = UTF8::lessenAsEncoding($this->password, 32);
 			$query->setAttribute('password', $this->password, true);
