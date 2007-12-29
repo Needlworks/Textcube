@@ -102,12 +102,12 @@ class CommentNotifiedSiteInfo {
 		global $database;
 		if (!Validator::number($id, 1))
 			return null;
-		return POD::queryCell("SELECT entry FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE blogid = ".getBlogId()." AND id = {$id}");
+		return POD::queryCell("SELECT entry FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE id = {$id}");
 	}
 
 	function nextId($id = 0) {
 		global $database;
-		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE blogid = ".getBlogId());
+		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}CommentsNotifiedSiteInfo");
 		if($id == 0)
 			return $maxId + 1;
 		else
