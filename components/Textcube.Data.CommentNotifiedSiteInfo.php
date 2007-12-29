@@ -26,7 +26,7 @@ class CommentNotifiedSiteInfo {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE blogid = ".getBlogId()." $filter $sort");
+		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE True $filter $sort");
 		if ($this->_result) {
 			if ($this->_count = mysql_num_rows($this->_result))
 				return $this->shift();
