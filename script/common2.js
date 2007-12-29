@@ -978,7 +978,7 @@ function processShortcut(event) {
 			window.location = "#recentComments";
 			break;
 		case 67: //C
-			window.location = "#recentTrackback";
+			window.location = "#recentTrackbacks";
 			break;
 	}
 }
