@@ -10,7 +10,6 @@ set_error_handler( "__error" );
 function __error( $errno, $errstr, $errfile, $errline )
 {
 	if(in_array($errno, array(2048))) return;
-	if( $errstr == "Constant ROOT already defined" ) return;
 	print("$errstr($errno)<br />");
 	print("File: $errfile:$errline<br /><hr size='1' />");
 }
