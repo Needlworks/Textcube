@@ -130,6 +130,13 @@ class Transaction {
 		}
 		return $_SESSION['pickle'][$pid];
 	}
+
+	function debug( $pid = null ) {
+		header( "X-Debug-tid: $pid" );
+		foreach( $_SESSION['pickle'][$pid] as $k => $v ) {
+			header( "X-Debug-$k: [$v]" );
+		}
+	}
 }
 
 ?>
