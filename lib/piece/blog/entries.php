@@ -30,6 +30,8 @@ if (isset($cache->contents)) {
 			$isKeylog = true;
 		} else if ($entry['category'] == - 2) { // This is notice
 			$entryView = $skin->noticeItem;
+			dress('notice_rep_microformat_published', Timestamp::getISO8601($entry['published']), $entryView);
+			dress('notice_rep_microformat_updated', Timestamp::getISO8601($entry['modified']), $entryView);
 			dress('notice_rep_date', fireEvent('ViewNoticeDate', Timestamp::format5($entry['published']), $entry['published']), $entryView);
 			dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', $entry['title'], $entry['id'])), $entryView);
 			if ($suri['directive'] == '/notice')
@@ -97,6 +99,8 @@ if (isset($cache->contents)) {
 			dress('article_rep_desc', setTempTag("article_{$entry['id']}"), $entryView);
 			dress('article_rep_category', htmlspecialchars(empty($entry['category']) ? _text('분류없음') : $entry['categoryLabel'], $entry['id']), $entryView);
 			dress('article_rep_category_link', empty($entry['category']) ? "$blogURL/category/" : "$blogURL/category/".URL::encode($entry['categoryLabel'],$service['useEncodedURL']) ,$entryView);
+			dress('article_rep_microformat_published', Timestamp::getISO8601($entry['published']), $entryView);
+			dress('article_rep_microformat_updated', Timestamp::getISO8601($entry['modified']), $entryView);
 			dress('article_rep_date', fireEvent('ViewPostDate', Timestamp::format5($entry['published']), $entry['published']), $entryView);
 			dress('entry_archive_link', "$blogURL/archive/" . Timestamp::getDate($entry['published']), $entryView);
 			if ($entry['acceptComment'] || ($entry['comments'] > 0))
