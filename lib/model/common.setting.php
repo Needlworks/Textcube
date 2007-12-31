@@ -85,7 +85,7 @@ function getUserSetting($name, $default = null) {
 
 function setUserSetting($name, $value) {
 	requireComponent('Textcube.Function.misc');
-	return misc::setUserSettingGlobal($name, $default);
+	return misc::setUserSettingGlobal($name, $value);
 }
 
 function removeUserSetting($name) {
