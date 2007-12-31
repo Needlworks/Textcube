@@ -31,6 +31,7 @@ $entries = array();
 if ($skinSetting['showListOnCategory'] != 2) {
 	unset($cache);
 	list($entries, $paging) = getEntriesWithPagingByCategory($blogid, $category, $suri['page'], $blog['entriesOnList'], ($skinSetting['showListOnCategory'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
+	if($skinSetting['showListOnCategory'] == 1) $skinSetting['showListWithTotalEntries'] = true;
 	if($skinSetting['showListOnCategory'] == 0) require ROOT . '/lib/piece/blog/begin.php';
 	require ROOT . '/lib/piece/blog/entries.php';
 }

@@ -31,6 +31,7 @@ if (strlen($suri['value'])) {
 
 	if ($skinSetting['showListOnTag'] != 2) {
 		list($entries, $paging) = getEntriesWithPagingByTag($blogid, $tag, $suri['page'], $blog['entriesOnList'],($skinSetting['showListOnTag'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
+		if($skinSetting['showListOnTag'] == 1) $skinSetting['showListWithTotalEntries'] = true;
 		$preservedEntries = $entries;
 		unset($entries);
 	}

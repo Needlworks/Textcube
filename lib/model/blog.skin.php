@@ -18,7 +18,7 @@ function setTreeSetting($blogid, $setting) {
 		labelLengthOnTree 		= {$setting['labelLengthOnTree']},
 		showValueOnTree 		= " . (empty($setting['showValueOnTree']) ? 0 : 1) . "
 	WHERE blogid = $blogid";
-	if (update($sql) > - 1) {
+	if (POD::execute($sql)) {
 		getSkinSetting($blogid, true); // refresh skin cache
 		return true;
 	} else {
@@ -62,6 +62,7 @@ function reloadSkin($blogid)
 function selectSkin($blogid, $skinName) {
 	global $database, $service;
 	requireComponent('Needlworks.Cache.PageCache');
+	requireLibrary('blog.skin');
 	$blogid = getBlogId();
 	if (empty($skinName))
 		return _t('실패했습니다.');
@@ -196,6 +197,7 @@ function writeSkinHtml($blogid, $contents, $mode, $file) {
 	global $database;
 	global $skinSetting;
 	requireComponent('Needlworks.Cache.PageCache');
+	requireLibrary('blog.skin');
 	if ($mode != 'skin' && $mode != 'skin_keyword' && $mode != 'style')
 		return _t('실패했습니다.');
 	if ($skinSetting['skin'] != "customize/$blogid") {
@@ -239,6 +241,8 @@ function getCSSContent($blogid, $file) {
 function setSkinSetting($blogid, $setting) {
 	global $database;
 	global $skinSetting;
+	
+	requireLibrary('blog.skin');
 	$blogid = getBlogId();
 	if (strncmp($skinSetting['skin'], 'customize/', 10) == 0) {
 		if (strcmp($skinSetting['skin'], "customize/$blogid") != 0)
@@ -252,10 +256,6 @@ function setSkinSetting($blogid, $setting) {
 	$skinpath = ROOT . '/skin/' . $skinSetting['skin'];
 	if (!is_dir($skinpath))
 		return _t('실패 했습니다');
-	if($setting['useRelTag'] == "1")
-	    $useRelTag = '1';
-	else
-		$useRelTag = '0';
 
 	foreach ($setting as $key => $value) {
 		$setting[$key] = POD::escapeString($value);
@@ -286,7 +286,7 @@ function setSkinSetting($blogid, $setting) {
 	if (!POD::execute($sql)) {
 		return false;
 	}
-	setBlogSetting('useRelTag',$useRelTag);
+	setBlogSetting('useRelTag',(($setting['useRelTag'] == 1) ? 1: 0));
 	setBlogSetting('entriesOnPage',$setting['entriesOnPage']);
 	setBlogSetting('entriesOnList',$setting['entriesOnList']);
 	CacheControl::flushCategory();
