@@ -25,7 +25,7 @@ if (!defined('NO_SESSION')) require ROOT.'/lib/session.php';
 if (doesHaveMembership()) {
 	$user = array('id' => getUserId());
 	$user['name'] = User::getName(getUserId());
-//	$user['homepage'] = getDefaultURL($user['id']); //Will delete after 1.5
+	$user['homepage'] = User::getHomePage();
 } else {
 	$user = null;
 }

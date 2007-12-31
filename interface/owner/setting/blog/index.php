@@ -401,7 +401,7 @@ if ($service['type'] != 'single') {
 										<legend><?php echo _t('블로그 주소');?></legend>
 									
 <?php
-	if ($service['type'] == 'domain') {
+	if ($service['type'] != 'domain') {
 ?>
 										<dl id="first-blog-address-line" class="line">
 											<dt><label for="primaryDomain"><?php echo _t('1차 블로그 주소');?></label></dt>

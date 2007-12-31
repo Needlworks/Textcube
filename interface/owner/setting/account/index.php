@@ -31,6 +31,27 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									return sInString.replace( /\s+$/g, "" );// strip trailing
 								}
 								
+								function changeHomepage() {
+									try {
+										var type = document.getElementById('homepage-section').hptype[0].checked ? 0:1;
+										var hpurl = document.getElementById('hpurl');
+										var blogid = document.getElementById('blogid');
+										if(type && (hpurl.value == 'http://' || hpurl.value == '')) {
+											alert("<?php echo _t('홈페이지 주소를 입력해 주십시오.');?>");
+											hpurl.select();
+											return false;
+										}
+										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/account/homepage/");
+										request.onSuccess = function() {
+											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+										}
+										request.onError = function() {
+											alert("<?php echo _t('저장하지 못했습니다.');?>");
+										}
+										request.send("&type=" + encodeURIComponent(type) + "&hp=" + encodeURIComponent((type==0 ? blogid.value : hpurl.value)));
+									} catch(e) {
+									}
+								}
 								function save() {
 									try {
 										var email = document.getElementById('email');
@@ -294,6 +315,48 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 									</fieldset>
 									<div class="button-box">
 										<input type="submit" class="save-button input-button" value="<?php echo _t('변경하기');?>" onclick="savePwd(); return false;" />
+									</div>
+								</form>
+							</div>
+							<div id="part-setting-account" class="part">
+							<h2 class="caption"><span class="main-text"><?php echo _t('대표 주소');?></span></h2>
+								<div class="main-explain-box">
+									<p class="explain"><?php echo _t("댓글 및 필자 정보에 사용되는 대표 홈페이지 주소를 설정합니다.")?></p>
+								</div>
+<?php
+$blogs = POD::queryColumn("SELECT blogid FROM {$database['prefix']}TeamBlog WHERE userid = ".getUserId()." ORDER BY acl DESC");
+$hptype = (empty($blogs) || is_string(getUserSetting("homepage"))? "url" : "blogid");
+?>
+								<form id="homepage-section" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/account/homepage">
+									<fieldset class="container">
+										<legend><?php echo _t('대표 주소');?></legend>
+										<dl id="blogger-name-line" class="line">
+											<dt><?php echo _t('대표 주소');?></dt>
+											<dd><div><input id="hptype" type="radio" name="hptype" value="id" <?php echo ($hptype == "blogid" ? "checked=\"checked\"" : "");?> > <?php echo _t('참여중인 블로그');?>
+<?php
+if(!empty($blogs)) {
+?>
+												<select id="blogid" name="blogid">
+<?php
+	foreach ($blogs as $blog) {
+?>
+													<option value="<?php echo $blog;?>"><?php echo getBlogName($blog);?></option>
+<?php
+}
+?>
+												</select>
+<?php
+}
+?>
+												</div>
+												<div>
+												<input id="hptype" type="radio" name="hptype" value="hp" <?php echo ($hptype == "url" ? "checked=\"checked\"":"");?> > <?php echo _t('외부 주소');?> <input type="text" name="hpurl" id="hpurl" class="input-text" value="<?php echo getUserSetting("homepage","http://");?>">
+												</div>
+											</dd>
+										</dl>
+									</fieldset>
+									<div class="button-box">
+										<input type="submit" class="save-button input-button" value="<?php echo _t('변경하기');?>" onclick="changeHomepage(); return false;" />
 									</div>
 								</form>
 							</div>

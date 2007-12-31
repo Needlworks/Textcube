@@ -50,6 +50,30 @@ class User {
 			$userid = getUserId();
 		return POD::queryCell("SELECT loginid FROM {$database['prefix']}Users WHERE userid = $userid");
 	}
+
+	/*@static@*/
+	function getHomepage($userid = null) {
+		global $database;
+		if (!isset($userid)) //TODO : 현재 로그인 사용자의 homepage만 변경가능.getUserSetting함수 특성. 
+			$userid = getUserId();
+		$homepage = getUserSetting("homepage");
+		if(empty($homepage)) {
+			$homepage = POD::queryCell("SELECT blogid FROM {$database['prefix']}TeamBlog WHERE userid = $userid ORDER BY acl DESC");
+		}
+		if(is_numeric($homepage)) {
+			$homepage = getDefaultURL($homepage);
+		}
+		return $homepage;
+	}
+
+	/*@static@*/
+	function setHomepage($homepage, $userid = null) {
+		global $database;
+		if (!isset($userid)) //TODO : 현재 로그인 사용자의 homepage만 변경가능.getUserSetting함수 특성. 
+			$userid = getUserId();
+		$result = setUserSetting("homepage",$homepage);
+		return $result;
+	}
 	
 	/*@static@*/
 	function confirmPassword($password) {
