@@ -148,6 +148,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								}
 <?php
 }
+if(Acl::check("group.owners")) {
 ?>
 								function cleanupCache() {
 									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/center/dashboard/cleanup/");
@@ -161,6 +162,32 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 									PM.addRequest(request, "<?php echo _t('캐시를 정리하고 있습니다.');?>");
 									request.send();
 								}
+								
+								var dialog = null;
+								
+								function showDialog($name) {
+									if (dialog)
+										dialog.style.display = "none";
+									dialog = document.getElementById($name + "Dialog");
+									PM.showPanel(dialog);
+								}
+								
+								function hideDialog() {
+									if (dialog) {
+										dialog.style.display = "none";
+										dialog = null;
+									}
+								}
+								
+								function optimizeData() {
+									document.getElementById("optimizingIndicator").style.width = "0%";
+									document.getElementById("optimizingDataDialogTitle").innerHTML = '<?php echo _t('데이터베이스를 최적화하고 있습니다. 잠시만 기다려 주십시오.');?>';
+									PM.showPanel("optimizingDataDialog");
+									document.getElementById("dataOptimizer").submit();
+								}								
+<?php
+}
+?>
 							//]]>
 						</script>
 <?php
@@ -168,7 +195,6 @@ if (false) {
 	fetchConfigVal();
 }
 ?>	
-						<form id="tempForm" method="post" action="<?php echo parseURL($blogURL.'/owner/center/dashboard');?>">
 <?php
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useTTdashboard']))) {
 	$textcubeDashboard = getBlogSetting("textcubeDashboard");
@@ -219,8 +245,7 @@ if($textcubeDashboard) {
 										<li><a href="<?php echo $blogURL;?>/owner/skin"><?php echo _t('스킨 변경');?></a></li>
 										<li><a href="<?php echo $blogURL;?>/owner/skin/setting"><?php echo _t('블로그 표시설정');?></a></li>
 										<li><a href="<?php echo $blogURL;?>/owner/entry/category"><?php echo _t('카테고리 변경');?></a></li>
-										<li><a href="<?php echo $blogURL;?>/owner/plugin"><?php echo _t('플러그인 관리');?></a> / 
-										<a href="<?php echo $blogURL;?>/owner/center/dashboard/cleanup" onclick="cleanupCache();return false;"><?php echo _t('캐시 비우기');?></a></li>
+										<li><a href="<?php echo $blogURL;?>/owner/plugin"><?php echo _t('플러그인 관리');?></a></li>
 <?php
 		}
 ?>
@@ -251,6 +276,26 @@ if($textcubeDashboard) {
 											</tr>
 										</tbody>
 									</table>
+<?php
+		if(Acl::check("group.owners")) {
+?>
+									<form id="dataOptimizer" method="get" action="<?php echo $blogURL;?>/owner/data/optimize" target="blackhole"></form>
+									<div id="optimizingDataDialog" class="system-dialog" style="position: absolute; display: none; z-index: 110;">
+										<h4 id="optimizingDataDialogTitle"></h4>
+										<div class="message-sub">
+											<span id="optimizingText"></span>
+											<span id="optimizingTextSub"></span>
+										</div>
+										<div id="optimizingIndicator" class="progressBar" style="width: 0%; height: 18px; margin-top: 5px; background-color: #66DDFF;"></div>
+									</div>
+									<ul>
+										<li><a href="<?php echo $blogURL;?>/owner/center/dashboard/cleanup" onclick="cleanupCache();return false;"><?php echo _t('캐시 지우기');?></a></li>
+										<li><a onclick="optimizeData();"><?php echo _t('저장소 최적화');?></a></li>
+									</ul>
+									<iframe id="blackhole" name="blackhole" style="display: none;"></iframe>
+<?php
+		}
+?>
 								</div>
 							
 								<div id="textcube-notice" class="section">
@@ -440,7 +485,7 @@ if($textcubeDashboard) {
 	}
 }
 ?>
-
+						<form id="tempForm" method="post" action="<?php echo parseURL($blogURL.'/owner/center/dashboard');?>">
 							<div id="part-center-quilt<?php echo $editClass;?>" class="part">
 								<h2 class="caption"><span class="main-text"><?php echo _t('조각보를 봅니다');?></span></h2>
 								

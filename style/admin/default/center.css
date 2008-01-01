@@ -47,7 +47,8 @@
 	height                           : 32px;
 }
 
-#shortcut-collection ul li
+#shortcut-collection ul li,
+#total-information ul li
 {
 	background-image                 : url("./image/icon_newPost.gif");
 	background-position              : 15px center;
@@ -91,6 +92,11 @@
 	height                           : 24px;
 	padding-right                    : 10px;
 	text-align                       : right;
+}
+
+#total-information ul
+{
+	margin-top                       : 10px;
 }
 
 /* notice */
@@ -385,6 +391,34 @@
 	background-position              : right center;
 	background-repeat                : no-repeat;
 	padding-right                    : 15px;
+}
+
+/* system dialog --------------------------------------------------------------------------------*/
+.part .system-dialog
+{
+	background-color                 : #FFFFFF;
+	border                           : 5px solid #000000;
+	margin-left                      : 10px;
+	padding                          : 10px;
+	width                            : 550px;
+	z-index                          : 500;
+}
+
+.part .system-dialog h4
+{
+	display                          : block !important;
+}
+
+.part .system-dialog .message-sub
+{
+	border                           : 1px solid #EEEEEE;
+	margin-top                       : 10px;
+	padding                          : 10px;
+}
+
+.part .system-dialog .progressBar
+{
+	background-color                 : #1C6D9C !important;
 }
 
 /* Coverpage ***************************************************************************************/
