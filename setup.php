@@ -1264,7 +1264,8 @@ CREATE TABLE {$_POST['dbPrefix']}Sessions (
   timer float NOT NULL default '0',
   created int(11) NOT NULL default '0',
   updated int(11) NOT NULL default '0',
-  PRIMARY KEY  (id,address)
+  PRIMARY KEY  (id,address),
+  KEY updated (updated)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}SkinSettings (
   blogid int(11) NOT NULL default '0',
