@@ -58,7 +58,7 @@ class User {
 			$userid = getUserId();
 		$homepage = getUserSetting("homepage");
 		if(empty($homepage)) {
-			$homepage = POD::queryCell("SELECT blogid FROM {$database['prefix']}TeamBlog WHERE userid = $userid ORDER BY acl DESC");
+			$homepage = POD::queryCell("SELECT blogid FROM {$database['prefix']}Teamblog WHERE userid = $userid ORDER BY acl DESC");
 		}
 		if(is_numeric($homepage)) {
 			$homepage = getDefaultURL($homepage);
