@@ -203,7 +203,7 @@ if (false) forceCheckBlog('');
 						
 						<hr class="hidden" />
 <?php
-if (getUserId() == 1) {
+if(Acl::check("group.creators")) {
 ?>
 						<div id="part-data-optimize" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('데이터베이스를 최적화합니다');?></span></h2>

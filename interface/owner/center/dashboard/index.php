@@ -162,7 +162,9 @@ if(Acl::check("group.owners")) {
 									PM.addRequest(request, "<?php echo _t('캐시를 정리하고 있습니다.');?>");
 									request.send();
 								}
-								
+<?php
+	if(Acl::check("group.creators")) {
+?>
 								var dialog = null;
 								
 								function showDialog($name) {
@@ -186,6 +188,7 @@ if(Acl::check("group.owners")) {
 									document.getElementById("dataOptimizer").submit();
 								}								
 <?php
+	}
 }
 ?>
 							//]]>
@@ -279,6 +282,13 @@ if($textcubeDashboard) {
 <?php
 		if(Acl::check("group.owners")) {
 ?>
+									<ul>
+										<li><a href="<?php echo $blogURL;?>/owner/center/dashboard/cleanup" onclick="cleanupCache();return false;"><?php echo _t('캐시 지우기');?></a></li>
+<?php
+			if(Acl::check("group.creators")) {
+?>
+										<li><a onclick="optimizeData();"><?php echo _t('저장소 최적화');?></a></li>
+									</ul>
 									<form id="dataOptimizer" method="get" action="<?php echo $blogURL;?>/owner/data/optimize" target="blackhole"></form>
 									<div id="optimizingDataDialog" class="system-dialog" style="position: absolute; display: none; z-index: 110;">
 										<h4 id="optimizingDataDialogTitle"></h4>
@@ -288,12 +298,13 @@ if($textcubeDashboard) {
 										</div>
 										<div id="optimizingIndicator" class="progressBar" style="width: 0%; height: 18px; margin-top: 5px; background-color: #66DDFF;"></div>
 									</div>
-									<ul>
-										<li><a href="<?php echo $blogURL;?>/owner/center/dashboard/cleanup" onclick="cleanupCache();return false;"><?php echo _t('캐시 지우기');?></a></li>
-										<li><a onclick="optimizeData();"><?php echo _t('저장소 최적화');?></a></li>
-									</ul>
 									<iframe id="blackhole" name="blackhole" style="display: none;"></iframe>
 <?php
+			} else {
+?>
+									</ul>
+<?php
+			}
 		}
 ?>
 								</div>
