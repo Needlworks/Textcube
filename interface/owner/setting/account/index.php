@@ -324,7 +324,7 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 									<p class="explain"><?php echo _t("댓글 및 필자 정보에 사용되는 대표 홈페이지 주소를 설정합니다.")?></p>
 								</div>
 <?php
-$blogs = POD::queryColumn("SELECT blogid FROM {$database['prefix']}TeamBlog WHERE userid = ".getUserId()." ORDER BY acl DESC");
+$blogs = POD::queryColumn("SELECT blogid FROM {$database['prefix']}Teamblog WHERE userid = ".getUserId()." ORDER BY acl DESC");
 $hptype = (empty($blogs) || is_string(getUserSetting("homepage"))? "url" : "blogid");
 ?>
 								<form id="homepage-section" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/account/homepage">
