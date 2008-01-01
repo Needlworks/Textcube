@@ -21,7 +21,7 @@ class User {
 		return $__gCacheUserNames[$userid] = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $userid");
 	}
 
-	function getUserId($name) {
+	function getUserIdByName($name) {
 		global $database, $__gCacheUserNames;
 		if (!isset($name))
 			return getUserId();

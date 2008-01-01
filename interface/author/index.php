@@ -9,7 +9,7 @@ if (false) {
 
 $cache = new pageCache;
 $author = empty($suri['value']) ? '' : $suri['value'];
-$authorId = User::getUserId($author);
+$authorId = User::getUserIdByName($author);
 if(empty($authorId)) exit;
 
 if ($skinSetting['showListOnCategory'] != 0) {

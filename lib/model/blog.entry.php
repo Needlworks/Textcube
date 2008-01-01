@@ -139,7 +139,7 @@ function getEntryListWithPagingByAuthor($blogid, $author, $page, $count) {
 	global $database, $suri, $folderURL;
 	if ($author === null)
 		return array();
-	$userid = User::getUserId($author);
+	$userid = User::getUserIdByName($author);
 	if(empty($userid)) return array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 
@@ -272,7 +272,7 @@ function getEntriesWithPagingBySearch($blogid, $search, $page, $count, $countIte
 
 function getEntriesWithPagingByAuthor($blogid, $author, $page, $count, $countItem = null) {
 	global $database, $folderURL, $suri;
-	$userid = User::getUserId($author);
+	$userid = User::getUserIdByName($author);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
