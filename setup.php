@@ -1366,7 +1366,7 @@ CREATE TABLE {$_POST['dbPrefix']}Teamblog (
 ) $charset;
 
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);
-INSERT INTO {$_POST['dbPrefix']}Teamblog VALUES (1, 1, 0, UNIX_TIMESTAMP(), 0);
+INSERT INTO {$_POST['dbPrefix']}Teamblog VALUES (1, 1, 16, UNIX_TIMESTAMP(), 0);
 INSERT INTO {$_POST['dbPrefix']}ServiceSettings (name, value) VALUES ('newlineStyle', '1.1'); 
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'name', '$blog');
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'language', '$baseLanguage');
