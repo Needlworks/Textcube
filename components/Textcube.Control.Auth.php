@@ -24,7 +24,7 @@ $sAcoPredefinedChain =
 global $requiredPrivFromUri;
 $requiredPrivFromUri = array(
 		"group.administrators" => array( 
-			'/owner/center/dashboard',
+			'/owner/center/dashboard*',
 			'/owner/center/about',
 			'/owner/entry*',
 			'/owner/reader',

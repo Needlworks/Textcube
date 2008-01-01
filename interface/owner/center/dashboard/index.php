@@ -149,6 +149,18 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 <?php
 }
 ?>
+								function cleanupCache() {
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/center/dashboard/cleanup/");
+									request.onSuccess = function () {
+										PM.removeRequest(this);
+										PM.showMessage("<?php echo _t('캐시를 정리하였습니다.');?>", "center", "bottom");
+									}
+									request.onError= function () {
+										PM.removeRequest(this);
+									}
+									PM.addRequest(request, "<?php echo _t('캐시를 정리하고 있습니다.');?>");
+									request.send();
+								}
 							//]]>
 						</script>
 <?php
@@ -207,7 +219,8 @@ if($textcubeDashboard) {
 										<li><a href="<?php echo $blogURL;?>/owner/skin"><?php echo _t('스킨 변경');?></a></li>
 										<li><a href="<?php echo $blogURL;?>/owner/skin/setting"><?php echo _t('블로그 표시설정');?></a></li>
 										<li><a href="<?php echo $blogURL;?>/owner/entry/category"><?php echo _t('카테고리 변경');?></a></li>
-										<li><a href="<?php echo $blogURL;?>/owner/plugin"><?php echo _t('플러그인 관리');?></a></li>
+										<li><a href="<?php echo $blogURL;?>/owner/plugin"><?php echo _t('플러그인 관리');?></a> / 
+										<a href="<?php echo $blogURL;?>/owner/center/dashboard/cleanup" onclick="cleanupCache();return false;"><?php echo _t('캐시 비우기');?></a></li>
 <?php
 		}
 ?>
