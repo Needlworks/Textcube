@@ -329,7 +329,7 @@ class CacheControl{
 			$cache = new pageCache;
 			foreach($items as $item){
 				$cache->reset();
-				$cache->name = $EntryName;
+				$cache->name = $item;
 				$cache->purge();
 			}
 		}	
