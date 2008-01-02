@@ -370,6 +370,16 @@ function dump($data) {
 	var_dump($data);
 	echo'</pre>';
 }
+
+function dumpToHeader($data) {
+	static $count = 0;
+	$debug_string = print_r($data, true);
+	foreach( split( "\n", $debug_string ) as $line ) {
+		$count++;
+		header( "X-TC-Debug-$count: $line" );
+	}
+}
+
 function dumpAsFile($data) {
 	if(!is_dir(ROOT."/cache")) {
 		@mkdir(ROOT."/cache");
