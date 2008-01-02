@@ -123,41 +123,44 @@ class Transaction {
 		if( !isset( $_SESSION['pickle'] ) ) {
 			$_SESSION['pickle'] = array();
 		}
-		$pid = md5( microtime(true) );
-		while( isset( $_SESSION['pickle'][$pid] ) ) {
-			$pid = md5( microtime(true) );
+		$tid = md5( microtime(true) );
+		while( isset( $_SESSION['pickle'][$tid] ) ) {
+			$tid = md5( microtime(true) );
 			usleep(50);
 		}
-		$_SESSION['pickle'][$pid] = $data;
-		return $pid;
+		$_SESSION['pickle'][$tid] = $data;
+		return $tid;
 	}
 
-	function unpickle( $pid ) {
-		if( !isset( $_SESSION['pickle'] ) || !isset( $_SESSION['pickle'][$pid] ) ) {
+	function unpickle( $tid ) {
+		if( !isset( $_SESSION['pickle'] ) || !isset( $_SESSION['pickle'][$tid] ) ) {
 			return null;
 		}
-		$data = $_SESSION['pickle'][$pid];
-		unset( $_SESSION['pickle'][$pid] );
+		$data = $_SESSION['pickle'][$tid];
+		unset( $_SESSION['pickle'][$tid] );
+		if( empty( $_SESSION['pickle'] ) ) {
+			unset( $_SESSION['pickle'] );
+		}
 		return $data;
 	}
 
-	function repickle( $pid, & $data ) {
-		if( empty($pid) ) {
+	function repickle( $tid, & $data ) {
+		if( empty($tid) ) {
 			return;
 		}
-		$_SESSION['pickle'][$pid] = $data;
+		$_SESSION['pickle'][$tid] = $data;
 	}
 
-	function taste( $pid ) {
-		if( !isset( $_SESSION['pickle'] ) || !isset( $_SESSION['pickle'][$pid] ) ) {
+	function taste( $tid ) {
+		if( !isset( $_SESSION['pickle'] ) || !isset( $_SESSION['pickle'][$tid] ) ) {
 			return null;
 		}
-		return $_SESSION['pickle'][$pid];
+		return $_SESSION['pickle'][$tid];
 	}
 
-	function debug( $pid = null ) {
-		header( "X-Debug-tid: $pid" );
-		foreach( $_SESSION['pickle'][$pid] as $k => $v ) {
+	function debug( $tid = null ) {
+		header( "X-Debug-tid: $tid" );
+		foreach( $_SESSION['pickle'][$tid] as $k => $v ) {
 			header( "X-Debug-$k: [$v]" );
 		}
 	}
