@@ -402,6 +402,7 @@ function addComment($blogid, & $comment) {
 	if ($result) {
 		$id = $insertId;
 		CacheControl::flushCommentRSS($comment['entry']);
+		CacheControl::flushDBCache('comment');
 		if ($parent != 'null' && $comment['secret'] < 1) {
 			$insertId = getCommentsNotifiedQueueMaxId() + 1;
 			POD::execute("INSERT INTO `{$database['prefix']}CommentsNotifiedQueue` 
@@ -495,6 +496,7 @@ function updateComment($blogid, $comment, $password) {
 					AND id = {$comment['id']} $wherePassword");
 	if($result) {
 		CacheControl::flushCommentRSS($comment['entry']); // Assume blogid = current blogid.
+		CacheControl::flushDBCache('comment');
 		return true;
 	} else return false;
 }
@@ -530,6 +532,7 @@ function deleteComment($blogid, $id, $entry, $password) {
 	}
 	if(POD::query($sql . $wherePassword)) {
 		CacheControl::flushCommentRSS($entry);
+		CacheControl::flushDBCache('comment');
 		updateCommentsOfEntry($blogid, $entry);
 		return true;
 	}
@@ -557,6 +560,7 @@ function trashComment($blogid, $id, $entry, $password) {
 	$affectedChildren = POD::queryCount($sql);
 	if ($affected + $affectedChildren > 0) {
 		CacheControl::flushCommentRSS($entry);
+		CacheControl::flushDBCache('comment');
 		updateCommentsOfEntry($blogid, $entry);
 		return true;
 	}
@@ -579,6 +583,7 @@ function revertComment($blogid, $id, $entry, $password) {
 			AND entry = $entry";
 	if(POD::query($sql)) {
 		CacheControl::flushCommentRSS($entry);
+		CacheControl::flushDBCache('comment');
 		updateCommentsOfEntry($blogid, $entry);
 		return true;
 	}
@@ -609,7 +614,7 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestSh
 			r.written 
 		DESC LIMIT 
 			".($count != false ? $count : $skinSetting['commentsOnRecent']);
-	if ($result = POD::queryAll($sql)) {
+	if ($result = POD::queryAllWithDBCache($sql,'comment')) {
 		fireCommentHint( $result, $blogid );
 		foreach($result as $comment) {
 			if (($comment['secret'] == 1) && !doesHaveOwnership()) {
