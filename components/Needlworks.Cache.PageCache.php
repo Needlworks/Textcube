@@ -183,7 +183,6 @@ class queryCache {
 		$this->reset();
 		$this->query = $query;
 		$this->prefix = $prefix;
-		var_dump($this->prefix);
 	}
 	function reset() {
 		$this->query = $this->queryHash = $this->contents = $this->error = $this->prefix = null;
@@ -235,7 +234,6 @@ class queryCache {
 	function setPageCacheLog() {
 		global $database;
 		if(empty($this->queryHash)) $this->getQueryHash();
-		var_dump($this->queryHash);
 		return POD::execute("REPLACE INTO {$database['prefix']}PageCacheLog 
 			VALUES(".getBlogId().", '".POD::escapeString($this->queryHash)."', '".tc_escape_string(serialize($this->contents))."')");
 	}
