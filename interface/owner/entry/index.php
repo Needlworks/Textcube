@@ -622,13 +622,17 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 									var trackbackField = document.getElementById('trackbackForm_'+id);
 									var request = new HTTPRequest("<?php echo $blogURL;?>/owner/entry/trackback/send/" + id + "?url=" + encodeURIComponent(trackbackField.value));
 									request.onSuccess = function () {
+										PM.removeRequest(this);
+										PM.showMessage("<?php echo _t('글을 걸었습니다.');?>", "center", "bottom");
 										document.getElementById('trackbackForm_'+id).value = "http://";
 										document.getElementById("logs_"+id).innerHTML = "";
 										printTrackbackLog(id);
 									}
 									request.onError = function () {
+										PM.removeRequest(this);
 										alert("<?php echo _t('글을 걸 수 없었습니다.');?>");
 									}
+									PM.addRequest(request, "<?php echo _t('글을 걸고 있습니다.');?>");
 									request.send();
 								}
 								
