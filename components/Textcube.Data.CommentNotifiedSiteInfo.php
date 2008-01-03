@@ -50,8 +50,6 @@ class CommentNotifiedSiteInfo {
 		$this->reset();
 		if ($this->_result && ($row = mysql_fetch_assoc($this->_result))) {
 			foreach ($row as $name => $value) {
-				if ($name == 'blogid')
-					continue;
 				$this->$name = $value;
 			}
 			return true;
@@ -64,8 +62,6 @@ class CommentNotifiedSiteInfo {
 		if (!isset($this->id))
 			$this->id = $this->nextId();
 		else $this->id = $this->nextId($this->id);
-		if (!isset($this->entry))
-			return $this->_error('entry');
 		if (!isset($this->title))
 			return $this->_error('title');
 		if (!isset($this->name))
@@ -80,6 +76,30 @@ class CommentNotifiedSiteInfo {
 		
 		if (!$query->insert())
 			return $this->_error('insert');
+//		$this->id = $query->id;
+		
+		return true;
+	}
+
+	function update() {
+		global $database;
+		if (!isset($this->id))
+			$this->id = $this->nextId();
+		else $this->id = $this->nextId($this->id);
+		if (!isset($this->title))
+			return $this->_error('title');
+		if (!isset($this->name))
+			return $this->_error('name');
+		if (!isset($this->url))
+			return $this->_error('url');
+		
+		if (!$query = $this->_buildQuery())
+			return false;
+		if (!$query->hasAttribute('modified'))
+			$query->setAttribute('modified', 'UNIX_TIMESTAMP()');
+		
+		if (!$query->update())
+			return $this->_error('update');
 //		$this->id = $query->id;
 		
 		return true;
@@ -117,16 +137,10 @@ class CommentNotifiedSiteInfo {
 	function _buildQuery() {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'CommentsNotifiedSiteInfo');
-		$query->setQualifier('blogid', getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
 			$query->setQualifier('id', $this->id);
-		}
-		if (isset($this->entry)) {
-			if (!Validator::number($this->entry, 1))
-				return $this->_error('entry');
-			$query->setAttribute('entry', $this->entry);
 		}
 		if (isset($this->title)) {
 			$this->title = UTF8::lessenAsEncoding(trim($this->title), 255);

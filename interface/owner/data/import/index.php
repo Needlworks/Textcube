@@ -586,7 +586,15 @@ function importer($path, $node, $line) {
 			$cmtNotified->modified = $node['modified']['.value'];
 			$cmtNotified->url = $node['url']['.value'];
 			$cmtNotified->isNew = $node['isNew']['.value'];
-			$cmtNotified->siteId = $node['siteId']['.value'];
+			$site = new CommentNotifiedSiteInfo();
+			if ($site.open("url = '{$cmtNotified->site}'")) {
+				$cmtNotified->siteId = $site->id;
+			} else {
+				$site.title = '';
+				$site.name = '';
+				$site.url = $node['site']['.value'];
+				$site.add();
+			}
 			$cmtNotified->remoteId = $node['remoteId']['.value'];
 			$cmtNotified->entryTitle = $node['entryTitle']['.value'];
 			$cmtNotified->entryUrl = $node['entryUrl']['.value'];
@@ -596,13 +604,21 @@ function importer($path, $node, $line) {
 		case '/blog/commentNotifiedSiteInfo/site':
 			setProgress($item++ / $items * 100, _t('댓글 알리미 내용을 복원하고 있습니다.'));
 			$cmtNotifiedSite = new CommentNotifiedSiteInfo();
-			$cmtNotifiedSite->id = $node['id']['.value'];
-			$cmtNotifiedSite->title = $node['title']['.value'];
-			$cmtNotifiedSite->name = $node['name']['.value'];
-			$cmtNotifiedSite->url = $node['url']['.value'];
-			$cmtNotifiedSite->modified = $node['modified']['.value'];
-			if (!$cmtNotifiedSite->add())
-				user_error(__LINE__ . $cmtNotifiedSite->error);
+			if ($cmtNotifiedSite.open("url = {$node['url']['.value']}")) {
+				$cmtNotifiedSite->title = $node['title']['.value'];
+				$cmtNotifiedSite->name = $node['name']['.value'];
+				if ($node['modified']['.value'] > $cmtNotifiedSitel.modified)
+					$cmtNotifiedSite->modified = $node['modified']['.value'];
+				if (!$cmtNotifiedSite->update())
+					user_error(__LINE__ . $cmtNotifiedSite->error);
+			} else {
+				$cmtNotifiedSite->title = $node['title']['.value'];
+				$cmtNotifiedSite->name = $node['name']['.value'];
+				$cmtNotifiedSite->url = $node['url']['.value'];
+				$cmtNotifiedSite->modified = $node['modified']['.value'];
+				if (!$cmtNotifiedSite->add())
+					user_error(__LINE__ . $cmtNotifiedSite->error);
+			}
 			return true;
 		case '/blog/statistics/referer':
 			setProgress($item++ / $items * 100, _t('리퍼러 통계를 복원하고 있습니다.'));
