@@ -530,7 +530,7 @@ function deleteComment($blogid, $id, $entry, $password) {
 			$wherePassword = ' AND password = \'' . md5($password) . '\'';
 		}
 	}
-	if(POD::query($sql . $wherePassword)) {
+	if(POD::queryCount($sql . $wherePassword)) {
 		CacheControl::flushCommentRSS($entry);
 		CacheControl::flushDBCache('comment');
 		updateCommentsOfEntry($blogid, $entry);
