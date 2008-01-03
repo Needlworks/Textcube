@@ -595,6 +595,7 @@ function importer($path, $node, $line) {
 				$site->open("url = '{$site->url}'");
 			}
 			$cmtNotified->siteId = $site->id;
+			$site->close();
 			$cmtNotified->remoteId = $node['remoteId']['.value'];
 			$cmtNotified->entryTitle = $node['entryTitle']['.value'];
 			$cmtNotified->entryUrl = $node['entryUrl']['.value'];
@@ -612,9 +613,9 @@ function importer($path, $node, $line) {
 				if (!$cmtNotifiedSite->update())
 					user_error(__LINE__ . $cmtNotifiedSite->error);
 			} else {
+				$cmtNotifiedSite->url = $node['url']['.value'];
 				$cmtNotifiedSite->title = $node['title']['.value'];
 				$cmtNotifiedSite->name = $node['name']['.value'];
-				$cmtNotifiedSite->url = $node['url']['.value'];
 				$cmtNotifiedSite->modified = $node['modified']['.value'];
 				if (!$cmtNotifiedSite->add())
 					user_error(__LINE__ . $cmtNotifiedSite->error);
