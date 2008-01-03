@@ -238,7 +238,7 @@ if ($cmtNotified->open()) {
 			$writer->write('<ip>' . $cmtNotified->ip . '</ip>');
 		$writer->write('</commenter>');
 		$writer->write('<entry>' . $cmtNotified->entry . '</entry>');
-		$writer->write('<content>' . htmlspecialchars($cmtNotified->content). '</content>');
+		$writer->write('<content>' . htmlspecialchars(UTF8::correct($cmtNotified->content)). '</content>');
 		$writer->write('<password>' . htmlspecialchars($cmtNotified->password) . '</password>');
 		$writer->write('<secret>' . $cmtNotified->secret . '</secret>');
 		$writer->write('<written>' . $cmtNotified->written . '</written>');

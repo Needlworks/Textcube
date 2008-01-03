@@ -17,7 +17,7 @@ class CommentNotifiedSiteInfo {
 			null;
 	}
 	
-	function open($filter = '', $fields = '*', $sort = 'id') {
+	function open($filter = 'True', $fields = '*', $sort = 'id') {
 		global $database;
 		if (is_numeric($filter))
 			$filter = 'id = ' . $filter;
