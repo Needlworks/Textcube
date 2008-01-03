@@ -350,9 +350,11 @@ TFOOT;
 
 	global $service, $accessInfo;
 	if( ! empty($service['debug_session_dump'])) {
-		print '<pre> session_id = ' . session_id() . "\r\n";
+		print '<pre>session_id = ' . session_id() . "\r\n";
 		print '$_SESSION = ';
 		print_r( $_SESSION );
+		print '$_COOKIE = ';
+		print_r( $_COOKIE );
 		print '</pre>';
 	}
 	if( ! empty($service['debug_rewrite_module'])) {
