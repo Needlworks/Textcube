@@ -170,14 +170,6 @@ class Skin {
 			$this->coverpageBasicModules[0] = array();
 			$this->coverpageName[0] =_t('표지');
 	
-			//if((empty($suri['value']) 
-			//	&& $suri["directive"] == "/" 
-			//	&& $suri['page'] == 1 
-			//	&& getBlogSetting("coverpageInitView")) ||
-			//	$suri['directive'] == "/cover"){
-			handleCoverpages($sval, $this, $previewMode);
-			//}
-	
 			$sval = str_replace('./', "{$service['path']}/skin/$name/", $sval);
 	
 			$this->noneCommentMessage = str_replace('./', "{$service['path']}/skin/$name/", $this->noneCommentMessage);

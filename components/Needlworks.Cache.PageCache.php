@@ -353,12 +353,12 @@ class CacheControl{
 			if(!empty($entry)) {
 				CacheControl::flushAuthor($entry['userid']);
 				CacheControl::flushCategory($entry['category']);
-				CacheControl::flushQueryCache();
+				CacheControl::flushDBCache();
 			}
 		} else {
 			CacheControl::flushAuthor();
 			CacheControl::flushCategory();
-			CacheControl::flushQueryCache();
+			CacheControl::flushDBCache();
 		}
 		unset($cache);
 		return true;

@@ -9,7 +9,8 @@ if (isset($cache->contents)) {
 } else if (isset($skin)) {
 	$coverView = $skin->cover;
 	$itemsView = '';
-
+	handleCoverpages($skin, false);
+	$coverpageModule = $skin->coverpageModule;
 	foreach ($coverpageModule as $coverpageItem) {	
 		$itemsView .= str_replace('[##_cover_content_##]',$coverpageItem, $skin->coverItem);
 	}

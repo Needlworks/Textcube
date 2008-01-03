@@ -420,8 +420,8 @@ function handleSidebars(& $sval, & $obj, $previewMode) {
 }
 
 // 저장된 표지 정렬 순서 정보를 가져온다.
-function handleCoverpages(& $sval, & $obj, $previewMode) {
-	global $service, $pluginURL, $pluginPath, $pluginName, $configVal, $configMappings, $coverpageModule;
+function handleCoverpages(& $obj, $previewMode = false) {
+	global $service, $pluginURL, $pluginPath, $pluginName, $configVal, $configMappings;
 	requireModel("blog.coverpage");
 	// [coverpage id][element id](type, id, parameters)
 	// type : 3=plug-in
@@ -432,7 +432,7 @@ function handleCoverpages(& $sval, & $obj, $previewMode) {
 	if ($previewMode == true) $coverpageAllOrders = null;
 	
 	$i = 0;
-	$coverpageModule = array();
+	$obj->coverpageModule = array();
 	if ((!is_null($coverpageAllOrders)) && ((array_key_exists($i, $coverpageAllOrders)))) {
 		$currentCoverpageOrder = $coverpageAllOrders[$i];
 		for ($j=0; $j<count($currentCoverpageOrder); $j++) {
@@ -441,7 +441,7 @@ function handleCoverpages(& $sval, & $obj, $previewMode) {
 				$handler = $currentCoverpageOrder[$j]['id']['handler'];
 				include_once (ROOT . "/plugins/{$plugin}/index.php");
 				if (function_exists($handler)) {
-					$coverpageModule[$j] = "[##_temp_coverpage_element_{$i}_{$j}_##]";
+					$obj->coverpageModule[$j] = "[##_temp_coverpage_element_{$i}_{$j}_##]";
 					$parameters = $currentCoverpageOrder[$j]['parameters'];
 					$pluginURL = "{$service['path']}/plugins/{$plugin}";
 					$pluginPath = ROOT . "/plugins/{$plugin}";
