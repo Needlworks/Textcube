@@ -587,14 +587,14 @@ function importer($path, $node, $line) {
 			$cmtNotified->url = $node['url']['.value'];
 			$cmtNotified->isNew = $node['isNew']['.value'];
 			$site = new CommentNotifiedSiteInfo();
-			if ($site->open("url = '{$cmtNotified->site}'")) {
-				$cmtNotified->siteId = $site->id;
-			} else {
+			if (!$site->open("url = '{$cmtNotified->site}'")) {
 				$site->title = '';
 				$site->name = '';
 				$site->url = $node['site']['.value'];
 				$site->add();
+				$site->open("url = '{$site->url}'");
 			}
+			$cmtNotified->siteId = $site->id;
 			$cmtNotified->remoteId = $node['remoteId']['.value'];
 			$cmtNotified->entryTitle = $node['entryTitle']['.value'];
 			$cmtNotified->entryUrl = $node['entryUrl']['.value'];
@@ -607,7 +607,7 @@ function importer($path, $node, $line) {
 			if ($cmtNotifiedSite->open("url = {$node['url']['.value']}")) {
 				$cmtNotifiedSite->title = $node['title']['.value'];
 				$cmtNotifiedSite->name = $node['name']['.value'];
-				if ($node['modified']['.value'] > $cmtNotifiedSite->modified)
+				if (intval($node['modified']['.value']) > intval($cmtNotifiedSite->modified))
 					$cmtNotifiedSite->modified = $node['modified']['.value'];
 				if (!$cmtNotifiedSite->update())
 					user_error(__LINE__ . $cmtNotifiedSite->error);
