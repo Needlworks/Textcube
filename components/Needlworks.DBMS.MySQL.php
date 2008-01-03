@@ -40,7 +40,7 @@ class DBQuery {
 
 	/*@static@*/
 	function queryExistence($query) {
-		if ($result = POD::query($query)) {
+		if ($result = DBQuery::query($query)) {
 			if (mysql_num_rows($result) > 0) {
 				mysql_free_result($result);
 				return true;
@@ -54,7 +54,7 @@ class DBQuery {
 	function queryCount($query) {
 		$count = 0;
 		$query = trim($query);
-		if ($result = POD::query($query)) {
+		if ($result = DBQuery::query($query)) {
 			$operation = strtolower(substr($query, 0,6));
 			switch ($operation) {
 				case 'select':
@@ -84,9 +84,9 @@ class DBQuery {
 		}
 
 		if( $useCache ) {
-			$result = POD::queryAllWithCache($query, $type);
+			$result = DBQuery::queryAllWithCache($query, $type);
 		} else {
-			$result = POD::queryAll($query, $type);
+			$result = DBQuery::queryAllWithoutCache($query, $type);
 		}
 		if( empty($result) ) {
 			return null;
@@ -99,7 +99,7 @@ class DBQuery {
 		if( $useCache ) {
 			$result = POD::queryAllWithCache($query, $type, 1);
 		} else {
-			$result = POD::queryAll($query, $type, 1);
+			$result = POD::queryAllWithoutCache($query, $type, 1);
 		}
 		if( empty($result) ) {
 			return null;
@@ -135,7 +135,12 @@ class DBQuery {
 	}
 	
 	/*@static@*/
-	function queryAll($query, $type = MYSQL_BOTH, $count = -1) {
+	function queryAll ($query, $type = MYSQL_BOTH, $count = -1) {
+		return DBQuery::queryAllWithCache($query, $type, $count);
+		//return DBQuery::queryAllWithoutCache($query, $type, $count);  // Your choice. :)
+	}
+
+	function queryAllWithoutCache($query, $type = MYSQL_BOTH, $count = -1) {
 		$all = array();
 		if ($result = POD::query($query)) {
 			while ( ($count-- !=0) && $row = mysql_fetch_array($result, $type))
@@ -157,7 +162,7 @@ class DBQuery {
 			$cachedResult[$cacheKey][0]++;
 			return $cachedResult[$cacheKey][1];
 		}
-		$all = POD::queryAll($query,$type,$count);
+		$all = POD::queryAllWithoutCache($query,$type,$count);
 		$cachedResult[$cacheKey] = array( 1, $all );
 		return $all;
 	}
@@ -182,15 +187,7 @@ class DBQuery {
 	}
 
 	/*@static@*/
-	function queryPostProcessing($query) {
-		global $service;
-		return (isset($service['useLegacySupport']) && $service['useLegacySupport'] == true ? preg_replace(array("/ owner/","/.owner/"),array(" blogid",".blogid"),$query) : $query);
-
-	}
-
-	/*@static@*/
 	function query($query) {
-		$query = POD::queryPostProcessing($query);
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);
 			$result = mysql_query($query);
@@ -202,7 +199,7 @@ class DBQuery {
 			stristr($query, 'insert ') ||
 			stristr($query, 'delete ') ||
 			stristr($query, 'replace ') ) {
-			POD::clearCache();
+			DBQuery::clearCache();
 		}
 		return $result;
 	}

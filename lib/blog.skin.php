@@ -293,7 +293,7 @@ class Skin {
 			list($sval, $this->skin) = $this->cutSkinTag($sval, 't3');
 			list($sval, $this->pageTitle) = $this->cutSkinTag($sval, 'page_title');
 			$this->outter = $sval;
-			$this->saveCache();
+			if($previewMode == false) $this->saveCache();
 		}
 	}
 	
@@ -331,7 +331,7 @@ class Skin {
 		$skinCache = get_object_vars($this);
 		$cache = new pageCache('skinCache');
 		$cache->contents = serialize($skinCache);
-		$cache->update();
+		return $cache->update();
 	}
 	
 	function loadCache() {
@@ -341,6 +341,7 @@ class Skin {
 		foreach($skinCache as $key=>$value) {
 			$this->$key = $value;
 		}
+		return true;
 	}
 
 	function purgeCache() {

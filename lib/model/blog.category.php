@@ -24,9 +24,7 @@ function getCategoryId($blogid, $name, $parentName = false) {
 			if($parent['id'] == $result['parent']) return $result['id'];
 		}
 	}
-
 	return null;
-
 }
 
 function getCategoryIdByLabel($blogid, $label) {

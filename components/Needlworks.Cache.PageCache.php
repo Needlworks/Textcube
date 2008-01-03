@@ -173,6 +173,88 @@ class pageCache {
 
 }
 
+class queryCache {
+/*	var $query;
+	var $queryHash;
+	var $contents;
+	var $prefix;
+	var $error;*/
+	function queryCache($query = null, $prefix = null){
+		$this->reset();
+		$this->query = $query;
+		$this->prefix = $prefix;
+		var_dump($this->prefix);
+	}
+	function reset() {
+		$this->query = $this->queryHash = $this->contents = $this->error = $this->prefix = null;
+	}
+	function create () {
+		$this->setPageCacheLog();
+		return true;
+	}
+	function update () {
+		global $service;
+		if(isset($service['disablePageCache']) && $service['disablePageCache'] == true) return false;
+		$this->purge();
+		$this->create();
+	}
+	function load () {
+		global $service;
+		if(isset($service['disablePageCache']) && $service['disablePageCache'] == true) return false;
+		if($this->getPageCacheLog()) {
+			return true;
+		}
+		else return false;
+	}
+	function purge () {
+		global $service;
+		if(isset($service['disablePageCache']) && $service['disablePageCache'] == true) return true;
+		if($this->removePageCacheLog())
+			return true;
+		else return false;
+	}
+	function getQueryHash(){ 
+		if(empty($this->query)) return false;
+		$this->queryHash = (isset($this->prefix) ? $this->prefix.'_' : '')."queryCache_".crc32($this->query);
+	}
+	function getPageCacheLog() {
+		global $database;
+		if(empty($this->queryHash)) $this->getQueryHash();
+
+		$result = POD::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog 
+			WHERE blogid = ".getBlogId()."
+			AND name = '".POD::escapeString($this->queryHash)."'");
+		if(!is_null($result)) {
+			$this->contents = unserialize($result);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function setPageCacheLog() {
+		global $database;
+		if(empty($this->queryHash)) $this->getQueryHash();
+		var_dump($this->queryHash);
+		return POD::execute("REPLACE INTO {$database['prefix']}PageCacheLog 
+			VALUES(".getBlogId().", '".POD::escapeString($this->queryHash)."', '".tc_escape_string(serialize($this->contents))."')");
+	}
+
+	function removePageCacheLog() {
+		global $database;
+		if(empty($this->queryHash)) $this->getQueryHash();
+
+		return POD::execute("DELETE FROM {$database['prefix']}PageCacheLog 
+			WHERE blogid = ".getBlogId()."
+			AND name = '".POD::escapeString($this->queryHash)."'"); 
+	}
+
+	function _error($error) {
+		$this->error = $error;
+		return false;
+	}
+}
+
 class CacheControl{
 	function flushAll($blogid = null) {
 		global $database;
@@ -273,10 +355,12 @@ class CacheControl{
 			if(!empty($entry)) {
 				CacheControl::flushAuthor($entry['userid']);
 				CacheControl::flushCategory($entry['category']);
+				CacheControl::flushQueryCache();
 			}
 		} else {
 			CacheControl::flushAuthor();
 			CacheControl::flushCategory();
+			CacheControl::flushQueryCache();
 		}
 		unset($cache);
 		return true;
@@ -328,6 +412,11 @@ class CacheControl{
 			}
 			
 		}
+	}
+	function flushDBCache($prefix = null) {
+		return POD::query("DELETE FROM {$database['prefix']}PageCacheLog
+			WHERE blogid = ".getBlogId()."
+			AND name like '%".(!empty($prefix) ? $prefix.'_' : '')."queryCache%'");
 	}
 	function purgeItems($items) {
 		if(!empty($items)) {

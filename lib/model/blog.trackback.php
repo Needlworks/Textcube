@@ -77,7 +77,6 @@ function getTrackbackList($blogid, $search) {
 function getRecentTrackbacks($blogid, $count = false) {
 	global $database;
 	global $skinSetting;
-	$trackbacks = array();
 	$sql = doesHaveOwnership() ? "SELECT t.*, e.slogan 
 		FROM 
 			{$database['prefix']}Trackbacks t
@@ -99,11 +98,10 @@ function getRecentTrackbacks($blogid, $count = false) {
 		ORDER BY 
 			t.written 
 		DESC LIMIT ".($count = false ? $count : $skinSetting['trackbacksOnRecent']);
-	if ($result = POD::query($sql)) {
-		while ($trackback = mysql_fetch_array($result))
-			array_push($trackbacks, $trackback);
+	if ($result = POD::queryAllWithDBCache($sql,'trackback')) {
+		return $result;
 	}
-	return $trackbacks;
+	else return array();
 }
 
 function sendTrackbackPing($entryId, $permalink, $url, $site, $title) {
@@ -157,8 +155,12 @@ function receiveTrackback($blogid, $entry, $title, $url, $excerpt, $site) {
 	if ($filtered > 0) {
 		$trackback->isFiltered = true;
 	}
-	if ($trackback->add())
+	if ($trackback->add()) {
+		if($filtered == 0) {
+			CacheControl::flushDBCache('trackback');
+		}
 		return ($filtered == 0) ? 0 : 3;
+	}
 	else
 		return 4;
 	return 0;
@@ -173,6 +175,7 @@ function deleteTrackback($blogid, $id) {
 		return false;
 	if (!POD::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND id = $id"))
 		return false;
+	CacheControl::flushDBCache('trackback');
 	if (updateTrackbacksOfEntry($blogid, $entry))
 		return $entry;
 	return false;
@@ -187,6 +190,7 @@ function trashTrackback($blogid, $id) {
 		return false;
 	if (!POD::query("UPDATE {$database['prefix']}Trackbacks SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id"))
 		return false;
+	CacheControl::flushDBCache('trackback');
 	if (updateTrackbacksOfEntry($blogid, $entry))
 		return $entry;
 	return false;
@@ -201,6 +205,7 @@ function revertTrackback($blogid, $id) {
 		return false;
 	if (!POD::execute("UPDATE {$database['prefix']}Trackbacks SET isFiltered = 0 WHERE blogid = $blogid AND id = $id"))
 		return false;
+	CacheControl::flushDBCache('trackback');
 	if (updateTrackbacksOfEntry($blogid, $entry))
 		return $entry;
 	return false;
