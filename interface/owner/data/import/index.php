@@ -587,13 +587,13 @@ function importer($path, $node, $line) {
 			$cmtNotified->url = $node['url']['.value'];
 			$cmtNotified->isNew = $node['isNew']['.value'];
 			$site = new CommentNotifiedSiteInfo();
-			if ($site.open("url = '{$cmtNotified->site}'")) {
+			if ($site->open("url = '{$cmtNotified->site}'")) {
 				$cmtNotified->siteId = $site->id;
 			} else {
-				$site.title = '';
-				$site.name = '';
-				$site.url = $node['site']['.value'];
-				$site.add();
+				$site->title = '';
+				$site->name = '';
+				$site->url = $node['site']['.value'];
+				$site->add();
 			}
 			$cmtNotified->remoteId = $node['remoteId']['.value'];
 			$cmtNotified->entryTitle = $node['entryTitle']['.value'];
@@ -604,10 +604,10 @@ function importer($path, $node, $line) {
 		case '/blog/commentNotifiedSiteInfo/site':
 			setProgress($item++ / $items * 100, _t('댓글 알리미 내용을 복원하고 있습니다.'));
 			$cmtNotifiedSite = new CommentNotifiedSiteInfo();
-			if ($cmtNotifiedSite.open("url = {$node['url']['.value']}")) {
+			if ($cmtNotifiedSite->open("url = {$node['url']['.value']}")) {
 				$cmtNotifiedSite->title = $node['title']['.value'];
 				$cmtNotifiedSite->name = $node['name']['.value'];
-				if ($node['modified']['.value'] > $cmtNotifiedSite.modified)
+				if ($node['modified']['.value'] > $cmtNotifiedSite->modified)
 					$cmtNotifiedSite->modified = $node['modified']['.value'];
 				if (!$cmtNotifiedSite->update())
 					user_error(__LINE__ . $cmtNotifiedSite->error);
