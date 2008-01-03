@@ -20,13 +20,11 @@ class CommentNotifiedSiteInfo {
 	function open($filter = '', $fields = '*', $sort = 'id') {
 		global $database;
 		if (is_numeric($filter))
-			$filter = 'AND id = ' . $filter;
-		else if (!empty($filter))
-			$filter = 'AND ' . $filter;
+			$filter = 'id = ' . $filter;
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE True $filter $sort");
+		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE $filter $sort");
 		if ($this->_result) {
 			if ($this->_count = mysql_num_rows($this->_result))
 				return $this->shift();
