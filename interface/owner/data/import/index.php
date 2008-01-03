@@ -569,54 +569,55 @@ function importer($path, $node, $line) {
 			if (!$log->add(false))
 				user_error(__LINE__ . $log->error);
 			return true;
-		case '/blog/commentNotified/comment':
+		case '/blog/commentsNotified/comment':
 			setProgress($item++ / $items * 100, _t('댓글 알리미 내용을 복원하고 있습니다.'));
 			$cmtNotified = new CommentNotified();
-			$cmtNotified->id = $node['id']['.value'];
+			$cmtNotified->id = $node['id'][0]['.value'];
 			$cursor = & $node['commenter'][0];
-			$cmtNotified->name = $cursor['name']['.value'];
-			$cmtNotified->homepage = $cursor['homepage']['.value'];
-			$cmtNotified->ip = $cursor['ip']['.value'];
-			$cmtNotified->entry = $node['entry']['.value'];
-			$cmtNotified->password = $node['password']['.value'];
-			$cmtNotified->content = $node['content']['.value'];
-			$cmtNotified->parent = $node['parent']['.value'];
-			$cmtNotified->secret = $node['secret']['.value'];
-			$cmtNotified->written = $node['written']['.value'];
-			$cmtNotified->modified = $node['modified']['.value'];
-			$cmtNotified->url = $node['url']['.value'];
-			$cmtNotified->isNew = $node['isNew']['.value'];
+			$cmtNotified->name = $cursor['name'][0]['.value'];
+			$cmtNotified->homepage = $cursor['homepage'][0]['.value'];
+			$cmtNotified->ip = $cursor['ip'][0]['.value'];
+			$cmtNotified->entry = $node['entry'][0]['.value'];
+			$cmtNotified->password = $node['password'][0]['.value'];
+			$cmtNotified->content = $node['content'][0]['.value'];
+			$cmtNotified->parent = $node['parent'][0]['.value'];
+			$cmtNotified->secret = $node['secret'][0]['.value'];
+			$cmtNotified->written = $node['written'][0]['.value'];
+			$cmtNotified->modified = $node['modified'][0]['.value'];
+			$cmtNotified->url = $node['url'][0]['.value'];
+			$cmtNotified->isNew = $node['isNew'][0]['.value'];
 			$site = new CommentNotifiedSiteInfo();
-			if (!$site->open("url = '{$cmtNotified->site}'")) {
+			if (!$site->open("url = '{$node['site'][0]['.value']}'")) {
 				$site->title = '';
 				$site->name = '';
-				$site->url = $node['site']['.value'];
+				$site->modified = 31536000;
+				$site->url = $node['site'][0]['.value'];
 				$site->add();
-				$site->open("url = '{$site->url}'");
 			}
 			$cmtNotified->siteId = $site->id;
 			$site->close();
-			$cmtNotified->remoteId = $node['remoteId']['.value'];
-			$cmtNotified->entryTitle = $node['entryTitle']['.value'];
-			$cmtNotified->entryUrl = $node['entryUrl']['.value'];
+			$cmtNotified->remoteId = $node['remoteId'][0]['.value'];
+			$cmtNotified->entryTitle = $node['entryTitle'][0]['.value'];
+			$cmtNotified->entryUrl = $node['entryUrl'][0]['.value'];
 			if (!$cmtNotified->add())
 				user_error(__LINE__ . $cmtNotified->error);
 			return true;
-		case '/blog/commentNotifiedSiteInfo/site':
+		case '/blog/commentsNotifiedSiteInfo/site':
 			setProgress($item++ / $items * 100, _t('댓글 알리미 내용을 복원하고 있습니다.'));
 			$cmtNotifiedSite = new CommentNotifiedSiteInfo();
-			if ($cmtNotifiedSite->open("url = {$node['url']['.value']}")) {
-				$cmtNotifiedSite->title = $node['title']['.value'];
-				$cmtNotifiedSite->name = $node['name']['.value'];
-				if (intval($node['modified']['.value']) > intval($cmtNotifiedSite->modified))
-					$cmtNotifiedSite->modified = $node['modified']['.value'];
+			if ($cmtNotifiedSite->open("url = {$node['url'][0]['.value']}")) {
+				if (intval($node['modified'][0]['.value']) > intval($cmtNotifiedSite->modified)) {
+					$cmtNotifiedSite->title = $node['title'][0]['.value'];
+					$cmtNotifiedSite->name = $node['name'][0]['.value'];
+					$cmtNotifiedSite->modified = $node['modified'][0]['.value'];
+				}
 				if (!$cmtNotifiedSite->update())
 					user_error(__LINE__ . $cmtNotifiedSite->error);
 			} else {
-				$cmtNotifiedSite->url = $node['url']['.value'];
-				$cmtNotifiedSite->title = $node['title']['.value'];
-				$cmtNotifiedSite->name = $node['name']['.value'];
-				$cmtNotifiedSite->modified = $node['modified']['.value'];
+				$cmtNotifiedSite->url = $node['url'][0]['.value'];
+				$cmtNotifiedSite->title = $node['title'][0]['.value'];
+				$cmtNotifiedSite->name = $node['name'][0]['.value'];
+				$cmtNotifiedSite->modified = $node['modified'][0]['.value'];
 				if (!$cmtNotifiedSite->add())
 					user_error(__LINE__ . $cmtNotifiedSite->error);
 			}

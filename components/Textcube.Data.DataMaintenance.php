@@ -14,6 +14,7 @@ class DataMaintenance {
 		mysql_query("DELETE FROM {$database['prefix']}Categories WHERE blogid = $blogid");
 		mysql_query("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid");
 		mysql_query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid");
+		mysql_query("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid");
 		mysql_query("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid");
 		mysql_query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = $blogid");
 		mysql_query("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");

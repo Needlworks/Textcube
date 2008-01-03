@@ -101,6 +101,8 @@ class CommentNotified {
 			return $this->_error('entryUrl');
 		if (!isset($this->ip))
 			$this->ip = $_SERVER['REMOTE_ADDR'];
+		else if (empty($this->ip))
+			$this->ip = '127.0.0.1'; // Temporary patch: 현재 댓글 알리미에 IP가 기록되지 않으므로 validation 통과를 위한 트릭
 		if (!isset($this->isNew))
 			$this->isNew = 0;
 		if (!isset($this->secret))
@@ -113,9 +115,9 @@ class CommentNotified {
 		if (!$query->hasAttribute('modified'))
 			$query->setAttribute('modified', 'UNIX_TIMESTAMP()');
 		
-		if (!$query->insert())
+		if (!$query->insert()) {
 			return $this->_error('insert');
-//		$this->id = $query->id;
+		}
 		
 		if (isset($this->parent))
 			$this->entry = CommentNotified::getEntry($this->parent);
@@ -166,8 +168,11 @@ class CommentNotified {
 			$query->setAttribute('entry', $this->entry);
 		}
 		if (isset($this->parent)) {
-			if (!Validator::number($this->parent, 1))
-				return $this->_error('parent');
+			if (empty($this->parent))
+				$this->parent = NULL;
+			else
+				if (!Validator::number($this->parent, 0))
+					return $this->_error('parent');
 		}
 		$query->setAttribute('parent', $this->parent);
 		if (isset($this->commenter)) {
@@ -183,13 +188,11 @@ class CommentNotified {
 				return $this->_error('name');
 			$query->setAttribute('name', $this->name, true);
 		}
-		if (isset($this->homepage)) {
+		if (isset($this->homepage) && !empty($this->homepage)) {
 			$this->homepage = UTF8::lessenAsEncoding(trim($this->homepage), 80);
-			if (empty($this->homepage))
-				return $this->_error('homepage');
 			$query->setAttribute('homepage', $this->homepage, true);
 		}
-		if (isset($this->ip)) {
+		if (isset($this->ip) && !empty($this->ip)) {
 			if (!Validator::ip($this->ip))
 				return $this->_error('ip');
 			$query->setAttribute('ip', $this->ip, true);
@@ -224,21 +227,22 @@ class CommentNotified {
 				return $this->_error('id');
 			$query->setAttribute('remoteId', $this->remoteId);
 		}
-		if (isset($this->url)) {
+		if (isset($this->url) && !empty($this->url)) {
+			// TODO: url validator doesn't validate correctly?
 			//if (!Validator::url($this->url))
 			//	return $this->_error('url');
-			$query->setAttribute('url', $this->url);
+			$query->setAttribute('url', $this->url, true);
 		}
 		if (isset($this->entryTitle)) {
 			$this->entryTitle = UTF8::lessenAsEncoding(trim($this->entryTitle), 255);
 			if (empty($this->entryTitle))
 				return $this->_error('entryTitle');
-			$query->setAttribute('entryTitle', $this->entryTitle);
+			$query->setAttribute('entryTitle', $this->entryTitle, true);
 		}
 		if (isset($this->entryUrl)) {
 			//if (!Validator::url($this->entryUrl))
 			//	return $this->_error('entryUrl');
-			$query->setAttribute('entryUrl', $this->entryUrl);
+			$query->setAttribute('entryUrl', $this->entryUrl, true);
 		}
 		if (isset($this->password)) {
 			$this->password = UTF8::lessenAsEncoding($this->password, 32);

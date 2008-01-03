@@ -82,8 +82,7 @@ class CommentNotifiedSiteInfo {
 	function update() {
 		global $database;
 		if (!isset($this->id))
-			$this->id = $this->nextId();
-		else $this->id = $this->nextId($this->id);
+			return $this->_error('id');
 		if (!isset($this->title))
 			return $this->_error('title');
 		if (!isset($this->name))
@@ -142,14 +141,10 @@ class CommentNotifiedSiteInfo {
 		}
 		if (isset($this->title)) {
 			$this->title = UTF8::lessenAsEncoding(trim($this->title), 255);
-			if (empty($this->title))
-				return $this->_error('title');
 			$query->setAttribute('title', $this->title, true);
 		}
 		if (isset($this->name)) {
 			$this->name = UTF8::lessenAsEncoding(trim($this->name), 255);
-			if (empty($this->name))
-				return $this->_error('name');
 			$query->setAttribute('name', $this->name, true);
 		}
 		if (isset($this->url)) {
