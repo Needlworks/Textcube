@@ -267,11 +267,16 @@ class CacheControl{
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'entry\\_".$entryId."%' OR name = commentRSS_'.$entryId.')");
 		CacheControl::purgeItems($Entries);
-		$entry = POD::queryCell("SELECT userid, category FROM {$database['prefix']}Entries
+		if(!empty($entryId)) {
+			$entry = POD::queryCell("SELECT userid, category FROM {$database['prefix']}Entries
 				WHERE blogid = ".getBlogId()." AND id = $entryId");
-		if(!empty($entry)) {
-			CacheControl::flushAuthor($entry['userid']);
-			CacheControl::flushCategory($entry['category']);
+			if(!empty($entry)) {
+				CacheControl::flushAuthor($entry['userid']);
+				CacheControl::flushCategory($entry['category']);
+			}
+		} else {
+			CacheControl::flushAuthor();
+			CacheControl::flushCategory();
 		}
 		unset($cache);
 		return true;
