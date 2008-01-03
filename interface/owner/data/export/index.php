@@ -243,9 +243,9 @@ if ($cmtNotified->open()) {
 		$writer->write('<secret>' . $cmtNotified->secret . '</secret>');
 		$writer->write('<written>' . $cmtNotified->written . '</written>');
 		$writer->write('<modified>' . $cmtNotified->modified . '</modified>');
-		$cmtNotifiedSite = new CommentNotifiedSiteInfo();
-		$cmtNotifiedSite.open($cmtNotified->siteId);
-		$writer->write('<site>' . $cmtNotifiedSite->url . '</site>');
+		$site = new CommentNotifiedSiteInfo();
+		$site.open($cmtNotified->siteId);
+		$writer->write('<site>' . $site->url . '</site>');
 		$writer->write('<remoteId>' . $cmtNotified->remoteId . '</remoteId>');
 		$writer->write('<isNew>' . $cmtNotified->isNew . '</isNew>');
 		$writer->write('<url>' . htmlspecialchars(UTF8::correct($cmtNotified->url)). '</url>');

@@ -607,7 +607,7 @@ function importer($path, $node, $line) {
 			if ($cmtNotifiedSite.open("url = {$node['url']['.value']}")) {
 				$cmtNotifiedSite->title = $node['title']['.value'];
 				$cmtNotifiedSite->name = $node['name']['.value'];
-				if ($node['modified']['.value'] > $cmtNotifiedSitel.modified)
+				if ($node['modified']['.value'] > $cmtNotifiedSite.modified)
 					$cmtNotifiedSite->modified = $node['modified']['.value'];
 				if (!$cmtNotifiedSite->update())
 					user_error(__LINE__ . $cmtNotifiedSite->error);
