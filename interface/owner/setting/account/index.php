@@ -375,13 +375,13 @@ if(!empty($blogs)) {
 								</thead>
 								<tbody>
 <?php
-$currentOpenID = fireEvent("OpenIDGetCurrent", null);
+$currentOpenID = Acl::getIdentity( 'openid' );
 $openid_list = array();
 for( $i=0; $i<OPENID_REGISTERS; $i++ )
 {
-	$openid = getUserSetting( "openid." . $i );
-	if( !empty($openid) ) {
-		array_push( $openid_list, $openid );
+	$openid_identity = getUserSetting( "openid." . $i );
+	if( !empty($openid_identity) ) {
+		array_push( $openid_list, $openid_identity );
 	}
 }
 for ($i=0; $i<count($openid_list); $i++) {
@@ -408,8 +408,7 @@ if( $i > 0 ) { /* 출력된것이 하나라도 있다면*/
 ?>
 							<div class="data-inbox">
 <?php
-$openidPluginCheck = fireEvent("OpenIDGetCurrent","*NONE*");
-if( $openidPluginCheck != "*NONE*" ) {
+if( isActivePlugin( 'CL_OpenID' ) ) {
 ?>
 								<form id="openid-section" class="section" method="get" action="<?php echo $blogURL;?>/owner/setting/account/openid">
 									<fieldset class="container">

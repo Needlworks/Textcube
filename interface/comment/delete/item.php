@@ -10,11 +10,15 @@ $IV = array(
 		'name' => array('string' , 'default' => ''),
 		'comment' => array('string' , 'default' => ''),
 		'homepage' => array('string', 'default' => ''),
+		'openidedit' => array('string', 'default' => ''),
 		'secret' => array(array('on'), 'default' => null)
 	)
 );
 require ROOT . '/lib/includeForBlog.php';
+requireComponent( 'Textcube.Control.Openid' );
 list($replier) = getCommentAttributes($blogid,$suri['id'],'replier');
+$comment = OpenIDConsumer::getCommentInfo( $blogid, $suri['id'] );
+$openid_identity = Acl::getIdentity('openid');
 
 if(!Acl::check('group.administrators') && !Acl::check('group.owners')) { // If no administration permission,
 	if(!empty($replier)) {	// If replier exists, (member of the blog system)
@@ -22,7 +26,6 @@ if(!Acl::check('group.administrators') && !Acl::check('group.owners')) { // If n
 			if(!doesHaveMembership() || $replier != getUserId()) {
 				echo "<script type=\"text/javascript\">//<![CDATA[".CRLF
 					."alert('"._t('권한이 없습니다.')."'); window.close(); //]]></script>";
-				exit;	
 			}
 		}
 	}
@@ -84,14 +87,28 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 			}
 			
 		case 'edit':
-			$comment = getComment($blogid, $suri['id'], isset($_POST['password']) ? $_POST['password'] : '');
+			if( !empty( $_POST['openidedit'] ) ) {
+				//$comment is feched top of this script;
+				if( $openid_identity != $comment['openid'] ) {
+					$comment = false;
+				}
+			} else {
+				$comment = getComment($blogid, $suri['id'], isset($_POST['password']) ? $_POST['password'] : '');
+			}
 			if ($comment === false)
 				respondErrorPage(_text('댓글이 존재하지 않거나 패스워드가 일치하지 않습니다.'));
 			$pageTitle = _text('댓글을 수정합니다');
 			require ROOT . '/lib/view/replyEditorView.php';
 			exit;
 		case 'commit':
-			$comment = getComment($blogid, $suri['id'], isset($_POST['oldPassword']) ? $_POST['oldPassword'] : '');
+			if( !empty( $_POST['openidedit'] ) ) {
+				//$comment is feched top of this script;
+				if( $openid_identity != $comment['openid'] ) {
+					$comment = false;
+				}
+			} else {
+				$comment = getComment($blogid, $suri['id'], isset($_POST['oldPassword']) ? $_POST['oldPassword'] : '');
+			}
 			if ($comment === false)
 				respondErrorPage(_text('댓글이 존재하지 않거나 패스워드가 일치하지 않습니다.'));
 			if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment'])) {
@@ -176,6 +193,26 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 			<img src="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />	
 			
 			<div id="command-box">
+<?php 
+	$render = true;
+	if( !empty($comment['openid']) && !Acl::check('group.administrators') ) { ?>
+<?php		if( !$openid_identity ) { $render = false;?>
+				<div class="edit-line">
+					<label><?php echo _text('권한이 없습니다.') ?></label>
+				</div>
+				<div class="password-line">
+					<input type="button" class="input-button" name="Submit" value="<?php echo _text('닫기');?>" onclick="window.close()" />				
+				</div>
+<?php		} else if( $openid_identity != $comment['openid']) { $render = false;?>
+				<div class="edit-line">
+					<label><?php echo _text('로그인된 오픈아이디의 권한으로는 수정/삭제가 불가능합니다.') ?></label>
+				</div>
+				<div class="password-line">
+					<input type="button" class="input-button" name="Submit" value="<?php echo _text('닫기');?>" onclick="window.close()" />				
+				</div>
+<?php 		} ?>
+<?php }
+	  if ($render) { ?>
 				<div class="edit-line">
 					<input type="radio" id="edit" class="radio" name="mode" value="edit" checked="checked" /><label for="edit"><?php echo _text('댓글을 수정합니다.');?></label>
 				</div>
@@ -183,15 +220,16 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 					<input type="radio" id="delete" class="radio" name="mode" value="delete" /><label for="delete"><?php echo _text('댓글을 삭제합니다.');?></label>
 				</div>
 				<div class="password-line">
-<?php
-if (!doesHaveOwnership() && (!doesHaveMembership() || ($replier != getUserId()))) {
-?>				  
+<?php 		if (!doesHaveOwnership() && (!doesHaveMembership() || ($replier != getUserId())) ) {
+				if( !$openid_identity || $openid_identity != $comment['openid'] ) { ?>				  
 					<label for="password"><?php echo _text('비밀번호');?><span class="divider"> | </span></label><input type="password" id="password" class="input-text" name="password" />
-<?php
-}
-?>
+<?php 			} else { ?>
+					<input name="openidedit" type="hidden" value="1" />
+<?php 			} ?>
+<?php		} ?>
 					<input type="button" class="input-button" name="Submit" value="<?php echo _text('다음');?>" onclick="document.deleteComment.submit()" />				
 				</div>
+<?php	} ?>
 			</div>
 		</div>
 	</form>

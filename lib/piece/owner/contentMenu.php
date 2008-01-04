@@ -72,7 +72,8 @@ if(isset($blogMenu['topMenu'])) {
 				array('menu'=>'account','title'=>_t('계정 정보'),'link'=>'/owner/setting/account'),
 				array('menu'=>'teamblog','title'=>_t('팀블로그'),'link'=>'/owner/setting/teamblog'),
 				array('menu'=>'filter','title'=>_t('스팸 필터'),'link'=>'/owner/setting/filter'),
-				array('menu'=>'data','title'=>_t('데이터 관리'),'link'=>'/owner/data')
+				array('menu'=>'data','title'=>_t('데이터 관리'),'link'=>'/owner/data'),
+				array('menu'=>'openid','title'=>_t('오픈아이디'),'link'=>'/owner/setting/openid')
 			);
 		} else if(Acl::check('group.editors')) {
 			$blogContentMenuItem = array(
@@ -81,10 +82,12 @@ if(isset($blogMenu['topMenu'])) {
 				array('menu'=>'account','title'=>_t('계정 정보'),'link'=>'/owner/setting/account'),
 				array('menu'=>'teamblog','title'=>_t('팀블로그'),'link'=>'/owner/setting/teamblog'),
 				array('menu'=>'filter','title'=>_t('스팸 필터'),'link'=>'/owner/setting/filter'),
+				array('menu'=>'setting','title'=>_t('오픈아이디'),'link'=>'/owner/setting/openid')
 			);
 		} else {
 			$blogContentMenuItem = array(
 				array('menu'=>'account','title'=>_t('계정 정보'),'link'=>'/owner/setting/account'),
+				array('menu'=>'openid','title'=>_t('오픈아이디'),'link'=>'/owner/setting/openid')
 			);
 		}
 		break;

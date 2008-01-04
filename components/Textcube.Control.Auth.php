@@ -82,7 +82,8 @@ $requiredPrivFromUri = array(
 			'/owner/setting/account*',
 			'/owner/setting/teamblog/changeBlog*',
 			'/owner/reader',
-			'/owner/plugin/admin*'
+			'/owner/plugin/admin*',
+			'/owner/openid'
 			)
 		);
 
@@ -256,7 +257,7 @@ class Acl {
 
 	function getIdentity( $domain ) {
 		if( empty($_SESSION['identity'][$domain]) ) {
-			return null;
+			return '';
 		}
 		return $_SESSION['identity'][$domain];
 	}

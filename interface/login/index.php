@@ -26,8 +26,10 @@ if (isset($_GET['password']))
 	$_POST['password'] = $_GET['password'];
 if (!empty($_GET['requestURI']))
 	$_POST['requestURI'] = $_GET['requestURI'];
-else if (empty($_POST['requestURI']))
+else if (empty($_POST['requestURI']) && !empty($_SERVER['HTTP_REFERER']) )
 	$_POST['requestURI'] = $_SERVER['HTTP_REFERER'];
+else
+	$_POST['requestURI'] = $blogURL;
 $message = '';
 $showPasswordReset = false;
 if (isset($_GET['session']) && isset($_GET['requestURI'])) {
@@ -162,6 +164,49 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 						</div>
 						</form>
 						
+<?php if( isActivePlugin('CL_OpenID') ) { 
+	if( !empty($_COOKIE['openid']) ) {
+		$openid_remember_check = "checked";
+		$cookie_openid = $_COOKIE['openid'];
+	} else {
+		$openid_remember_check = "";
+		$cookie_openid = '';
+	}
+	list( $openid_help_link, $openid_signup_link ) = fireEvent( "OpenIDAffiliateLinks", array('',''), $_POST['requestURI'] );
+?>
+						<form method="get" name="openid_form" action="<?php echo $blogURL; ?>/login/openid?action=try_auth">
+						<input type="hidden" name="requestURI" value="<?php echo $_POST['requestURI']; ?>" />
+						<input type="hidden" name="need_writers" value="1" />
+						<input type="hidden" name="action" value="try_auth" />
+						<div id="openid-temp-wrap">
+							<hr size="1" />
+							<div id="openid-all-wrap">
+								<div id="openid-field-box">
+									<dl id="openid-line">
+										<dt><label for="openid_identifier"><?php echo _text('관리자 계정과 연결된 오픈아이디');?></label></dt>
+
+										<dd><input type="text" class="input-text openid-identifier-login" id="openid_identifier" name="openid_identifier" value="<?php echo $cookie_openid; ?>" maxlength="256" /></dd>
+										<dd><label><?php echo _text('예) textcube.idtail.com, textcube.myid.net'); ?></label></dd>
+										<dd><input type="submit" class="openid-login-button" id="openid-login-button" name="openid_login" value="<?php echo _text('로그인'); ?>" /></dd>
+										<dd id="openid-remember"><input type="checkbox" class="checkbox" id="openid_remember" name="openid_remember" <?php echo $openid_remember_check; ?> /><label for="openid_remember"><?php echo _text('오픈아이디 저장'); ?></label></dd>
+										<?php if( !empty( $openid_help_link ) ) { ?>
+										<dd id="openid-help"><a href="<?php echo $openid_help_link; ?>" ><?php echo _text('오픈아이디란?') ?></a></dd>
+										<?php } ?>
+										<?php if( !empty( $openid_signup_link ) ) { ?>
+										<dd><a href="<?php echo $openid_signup_link; ?>"><?php echo _text('오픈아이디 발급하기'); ?></a></dd>
+										<?php } ?>
+									</dl>
+								</div>
+							</div>
+						</div>
+						</form>
+						<script type="text/javascript">
+						//<![CDATA[ 
+							function focus_openid(){ 
+								document.getElementById("openid_identifier").focus();}
+						//]]>
+						</script>
+<?php } ?>
 <?php
 						echo fireEvent('LOGIN_add_form', '', $_POST['requestURI'] );
 if (!empty($message)) {
@@ -172,11 +217,10 @@ if (!empty($message)) {
 <?php
 }
 ?>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+				</div> <!-- login-box -->
+			</div> <!-- data-outbox -->
+		</div> <!-- all-wrap -->
+	</div> <!-- temp-wrap -->
 	<?php if( function_exists('__tcSqlLogDump') ) { __tcSqlLogDump(); } ?>
 </body>
 </html>

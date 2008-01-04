@@ -118,6 +118,44 @@ if (!doesExistTable($database['prefix'] . 'EntriesArchive')) {
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
+if (!doesExistTable($database['prefix'] . 'OpenIDUsers')) {
+	$changed = true;
+	echo '<li>', _text('오픈아이디 사용자 테이블을 만듭니다'), ': ';
+	$query = "
+	CREATE TABLE `{$database['prefix']}OpenIDUsers` (
+	  blogid int(11) NOT NULL default '0',
+	  openid varchar(128) NOT NULL,
+	  delegatedid varchar(128) default NULL,
+	  firstLogin int(11) default NULL,
+	  lastLogin int(11) default NULL,
+	  loginCount int(11) default NULL,
+	  data text,
+	  PRIMARY KEY  (blogid,openid)
+	) TYPE=MyISAM
+	";
+	if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
+if (!doesExistTable($database['prefix'] . 'OpenIDComments')) {
+	$changed = true;
+	echo '<li>', _text('오픈아이디 댓글 테이블을 만듭니다'), ': ';
+	$query = "
+	CREATE TABLE `{$database['prefix']}OpenIDComments` (
+	  blogid int(11) NOT NULL default '0',
+	  id int(11) NOT NULL,
+	  openid varchar(128) default NULL,
+	  PRIMARY KEY  (blogid,id)
+	) TYPE=MyISAM
+	";
+	if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
 if (POD::queryExistence("DESC {$database['prefix']}Links visible")) {
 	$changed = true;
 	echo '<li>', _text('Links 테이블의 공개 여부 설정 필드의 속성을 변경합니다.'), ': ';

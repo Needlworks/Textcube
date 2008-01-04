@@ -629,10 +629,9 @@ for ($i = 5; $i <= 30; $i += 5) {
 												<!--input type="checkbox" id="allowWriteGuestbook" class="checkbox" value=""<?php echo $blog['allowWriteOnGuestbook'] == '1' ? ' checked="checked"' : "";?> /><label for="allowWriteGuestbook"><?php echo _t('손님이 글쓰기 허용');?></label-->
 												<input type="checkbox" id="allowCommentGuestbook" class="checkbox" value=""<?php echo $blog['allowWriteDblCommentOnGuestbook'] == '1' ? ' checked="checked"' : "";?> /><label for="allowCommentGuestbook"><?php echo _t('손님이 댓글을 쓰는 것을 허용합니다.');?></label>
 <?php
-$openidPluginCheck = fireEvent("OpenIDGetCurrent","*NONE*");
-if( $openidPluginCheck != "*NONE*" ) {
+if( isActivePlugin( 'CL_OpenID' ) ) {
 ?>
-												(<a href="<?php echo $blogURL?>/owner/plugin/adminMenu?name=CL_OpenID/openid_manage"><?php echo _t('오픈아이디 로그인 사용자에게만 댓글을 허용하도록 설정하러 가기')?></a>)
+												(<a href="<?php echo $blogURL?>/owner/setting/openid"><?php echo _t('오픈아이디 로그인 사용자에게만 댓글을 허용하도록 설정하러 가기')?></a>)
 <?php
 } else {
 												echo "<samp>(";
@@ -788,7 +787,7 @@ while ($tempAdminSkin = $dir->read()) {
 									</dl>
 <?php if( Acl::check('group.creators') ) { ?>
 									<div class="button-box">
-										<input type="submit" class="save-button input-button" value="<?php	echo _t('설정');?>" onclick="setSmtp(); return false;" />
+										<input type="submit" class="save-button input-button" value="<?php	echo _t('저장하기');?>" onclick="setSmtp(); return false;" />
 									</div>
 <?php } ?>
 								</form>

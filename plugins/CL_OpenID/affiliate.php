@@ -1,4 +1,5 @@
 <?php
+/* Make your own affiliate.local.php for changing the values of $openid_help_links and $openid_signup_links */
 
 if (!defined('ROOT')) {
 	header('HTTP/1.1 403 Forbidden');
@@ -7,12 +8,12 @@ if (!defined('ROOT')) {
 }
 
 $another_config = __FILE__;
-$another_config = str_replace( $another_config, ".php", ".local.php" );
+$another_config = str_replace( ".php", ".local.php", $another_config);
 if( file_exists( $another_config ) ) {
 	require( $another_config );
 } else {
 	global $hostURL, $blogURL;
-	$_try_auth_url = $hostURL . $blogURL . "/plugin/openid/try_auth?redirect=$requestURI";
+	$_try_auth_url = $hostURL . $blogURL . "/login/openid?action=try_auth&redirect=$requestURI";
 	$_op_base = "http://www.idtail.com";
 	$_encoded_args      = base64_encode( "login_url:" . $_try_auth_url );
 	$openid_help_link   = $_op_base . "/affiliate/help/textcube/" . $_encoded_args;

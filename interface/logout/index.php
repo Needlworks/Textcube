@@ -25,13 +25,13 @@ if (isset($_GET['requestURI']))
 	$_POST['requestURI'] = $_GET['requestURI'];
 if (doesHaveMembership()) {
 	if (!empty($_POST['requestURI']))
-		header("Location: {$_POST['requestURI']}");
+		$returnURL = $_POST['requestURI'];
 	else
-		//header("Location: {$user['homepage']}");
-		header("Location: $blogURL");
+		$returnURL = $blogURL;
 } else {
-	header("Location: $blogURL");
+	$returnURL = $blogURL;
 }
 logout();
+header("Location: $returnURL");
 
 ?>

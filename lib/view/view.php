@@ -182,10 +182,16 @@ function getTrackbacksView($entry, $skin, $acceptTrackback) {
 	return $trackbacksView;
 }
 
+function removePasswordIfLoggedIn( $content )
+{
+	return preg_replace( "@(.*)(<p>|<div>).*?_rp_input_password_.*?(</p>|</div>)@ms", '$1', $content );
+}
+
 function getCommentView($entry, $skin) {
 	global $database, $blogURL, $service, $suri, $paging, $contentContainer, $skinSetting, $blog;
 	if(!isset($entry)) $entry['id'] = 0;
 	$blogid = getBlogId();
+	requireModel("common.setting");
 	requireModel("blog.entry");
 	requireModel("blog.comment");
 	requireLibrary('blog.skin');
@@ -308,30 +314,58 @@ function getCommentView($entry, $skin) {
 	$acceptComment = POD::queryCell("SELECT `acceptComment` FROM `{$database['prefix']}Entries` WHERE `id` = {$entry['id']}");
 
 	$useForm = false;
+	$openid_identity = Acl::getIdentity('openid');
 	if ($isComment) {
 		if (!($skin->commentForm == '')) {
 			$commentRrevView = $commentView;
-			$commentView = $skin->commentForm;
+			if( getBlogSetting( 'AddCommentMode', '' ) == 'openid' && !$openid_identity ) {
+				$commentView = $skin->commentFormOpenIDOnly;
+			} else {
+				$commentView = $skin->commentForm;
+			}
 			$useForm = true;
 		}
 	} else {
 		if (!($skin->guestForm == '')) {
 			$commentRrevView = $commentView;
-			$commentView = $skin->guestForm;
+			if( getBlogSetting( 'AddCommentMode', '' ) == 'openid' && !$openid_identity ) {
+				$commentView = $skin->guestFormOpenIDOnly;
+			} else {
+				$commentView = $skin->guestForm;
+			}
 			$useForm = true;
 		}
 	}
 
+	if( isActivePlugin( 'CL_OpenID' ) ) {
+		$whatisopenid = '<a target="_blank" href="http://www.google.co.kr/search?q=OpenID&amp;lr=lang_ko">'._text('오픈아이디란?').'</a>';
+		if( $openid_identity ) {
+			$openid_links = '<div><a href="'.$blogURL.'/login/openid?action=logout&requestURI='.urlencode( $_SERVER["REQUEST_URI"] ).'"><img style="margin: 0pt; padding: 0pt;" src="'.$service['path'].'/image/icon_openid.gif" align="absmiddle" hspace="2"> <span style="">'._text('오픈아이디').' '._text('로그아웃').'</span></a> | <a href="'.$openid_identity.'">'.$openid_identity.'</a> </div>';
+		} else {
+			$openid_links = '<div><a href="'.$blogURL.'/login/openid/guest?requestURI='.urlencode( $_SERVER["REQUEST_URI"] ).'"><img style="margin: 0pt; padding: 0pt;" src="'.$service['path'].'/image/icon_openid.gif" align="absmiddle" hspace="2"> <span>'._text('오픈아이디').' '._text('로그인').'</span></a> | '.$whatisopenid.'</div>';
+		}
+	} else {
+		$openid_links = '';
+	}
+
+	$default_guestname = '';
+	$default_homepage = '';
 	if (doesHaveOwnership() || ($isComment && $acceptComment == 1) || ($isComment == false) || ($useForm == false)) {
 		if (!doesHaveOwnership()) {
 			$commentMemberView = ($isComment ? $skin->commentMember : $skin->guestMember);
 			if (!doesHaveMembership()) {
 				$commentGuestView = ($isComment ? $skin->commentGuest : $skin->guestGuest);
+				dress( 'openid_links', $openid_links, $commentGuestView );
+				if( $openid_identity ) {
+					$commentGuestView = removePasswordIfLoggedIn( $commentGuestView );
+				}
 				dress($prefix1 . '_input_name', 'name', $commentGuestView);
 				dress($prefix1 . '_input_password', 'password', $commentGuestView);
 				dress($prefix1 . '_input_homepage', 'homepage', $commentGuestView);
 				if (!empty($_POST["name_{$entry['id']}"]))
 					$guestName = htmlspecialchars($_POST["name_{$entry['id']}"]);
+				else if (!empty($_SESSION['openid']['nickname']))
+					$guestName = htmlspecialchars($_SESSION['openid']['nickname']);
 				else if (!empty($_COOKIE['guestName']))
 					$guestName = htmlspecialchars($_COOKIE['guestName']);
 				else
@@ -342,8 +376,11 @@ function getCommentView($entry, $skin) {
 						$guestHomepage = htmlspecialchars($_POST["homepage_{$entry['id']}"]);
 					else
 						$guestHomepage = 'http://' . htmlspecialchars($_POST["homepage_{$entry['id']}"]);
-				} else if (!empty($_COOKIE['guestHomepage']))
+				} else if (!empty($_SESSION['openid']['homepage'])) {
+					$guestHomepage = htmlspecialchars($_SESSION['openid']['homepage']);
+				} else if (!empty($_COOKIE['guestHomepage'])) {
 					$guestHomepage = htmlspecialchars($_COOKIE['guestHomepage']);
+				}
 				else
 					$guestHomepage = 'http://';
 				dress('guest_homepage', $guestHomepage, $commentGuestView);

@@ -101,3 +101,101 @@ dd .input-text
 	padding                          : 5px;
 	text-align                       : center;
 }
+
+#openid-temp-wrap
+{
+	width                            : 230px;
+	margin                           : 20px -10px 0 340px;
+}
+
+#openid-line
+{
+	margin                           : 0;
+	padding-right                    : 5px;
+}
+
+#openid-all-wrap
+{
+	position                         : relative;
+	width                            : 230px;
+}
+
+#openid-field-box
+{
+	width                            : 230px;
+}
+
+.openid-identifier-login#openid_identifier {
+	padding-left                     : 30px;
+	width                            : 183px;
+	background                       : url(../../../image/icon_login_openid.gif) no-repeat;
+	font-size                        : 1.3em;
+	font-family                      : arial;
+}
+
+.openid-login-button
+{
+	display                          : inline;
+	width                            : 74px;
+	height                           : 3em;
+	cursor                           : pointer;
+	padding                          : 0pt 5px;
+	font-size                        : 1em;
+	font-weight                      : bold;
+	font-family                      : 'Lucida Grande',Arial,±¼¸²,Gulim,Tahoma,Verdana,sans-serif;
+	background-color                 : #fff;
+	border                           : 1px solid;
+	vertical-align                   : middle;
+}
+
+#openid-login-button
+{
+	float                            : right;
+	margin                           : 15px 10px 5px 20px;
+	left                             : 100px;
+}
+
+#openid-remember
+{
+	display                          : block;
+	margin-top                       : 10px;
+}
+
+#openid-help
+{
+	display                          :block;
+}
+
+.openid-login-button
+{
+	position						 : static;
+	background-color                 : #FFFFFF;
+	background-position              : left top;
+	display                          : inline;
+	font-weight                      : bold;
+	height                           : 3em;
+	line-height                      : 3em;
+	width                            : 6em;
+	border                           : 1px solid #777777;
+	cursor                           : pointer;
+	margin-right					 : 5px;
+}
+
+.openid-data-outbox {
+	width                            : 650px;
+} 
+
+#openid_remember {
+	padding-top                      : 10px;
+}
+
+.openid-identifier-guest-login#openid_identifier {
+	padding-left                     : 30px; 
+	background                       : url(../../../image/icon_login_openid.gif) no-repeat; 
+	height                           : 1.5em; 
+	width                            : 400px;
+	font-size                        : 1.5em;
+	font-weight                      : bold;
+	font-family                      : arial;
+}
+

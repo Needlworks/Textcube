@@ -28,8 +28,8 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 function loginOpenIDforAdding($claimedOpenID)
 {
 	global $blogURL;
-	header( "Location: $blogURL/plugin/openid/try_auth" .
-		"?authenticate_only=1&openid_identifier=" . urlencode($claimedOpenID) .
+	header( "Location: $blogURL/login/openid?action=try_auth" .
+		"&authenticate_only=1&openid_identifier=" . urlencode($claimedOpenID) .
 		"&requestURI=" .  urlencode( $blogURL . "/owner/setting/account/openid" . "?mode=add&authenticate_only=1&openid_identifier=" . urlencode($claimedOpenID) ) );
 }
 
@@ -51,10 +51,11 @@ function addOpenID()
 	}
 
 	$currentOpenID = Acl::getIdentity( 'openid_temp' );
-	$claimedOpenID = fireEvent("OpenIDFetch", $_GET['openid_identifier']);
+	$fc = new OpenIDConsumer;
+	$claimedOpenID = $fc->fetch( $_GET['openid_identifier'] );
 
 	if( in_array( $claimedOpenID, $openid_list ) ) {
-			exitWithError( _t('이미 연결된 오픈아이디 입니다') );
+			exitWithError( _t('이미 연결된 오픈아이디 입니다') . " : " . $claimedOpenID );
 	}
 
 	if( $_GET['authenticated'] === "0" ) {

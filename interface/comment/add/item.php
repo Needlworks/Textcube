@@ -3,6 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/lib/includeForBlog.php';
+requireComponent( 'Textcube.Control.Openid' );
 if (false) {
 	fetchConfigVal();
 }
@@ -42,10 +43,12 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 		setcookie('guestName', $userName, time() + 2592000, "$blogURL/");
 	}
 	if (!empty($userHomepage) && ($userHomepage != 'http://')) {
-		if (strpos($userHomepage, 'http://') === 0)
-			setcookie('guestHomepage', $userHomepage, time() + 2592000, "$blogURL/");
-		else
-			setcookie('guestHomepage', "http://$userHomepage", time() + 2592000, "$blogURL/");
+		if (strpos($userHomepage, 'http://') !== 0)
+			$userHomepage = "http://$userHomepage";
+		setcookie('guestHomepage', $userHomepage, time() + 2592000, "$blogURL/");
+	}
+	if( Acl::getIdentity( 'openid' ) ) {
+		OpenIDConsumer::updateUserInfo( $userName, $userHomepage );
 	}
 	$comment = array();
 	$comment['entry'] = $entryId;

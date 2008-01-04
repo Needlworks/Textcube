@@ -5,10 +5,23 @@
 
 $confirmString = '';
 
-if (empty($comment['name']) && isset($_COOKIE['guestName']))
-	$comment['name'] = $_COOKIE['guestName'];
-if ((empty($comment['homepage']) || $comment['homepage'] == 'http://') && isset($_COOKIE['guestHomepage']) && $_COOKIE['guestHomepage'] != 'http://')
-	$comment['homepage'] = $_COOKIE['guestHomepage'];
+if (empty($comment['name']) ) {
+	if( isset($_SESSION['openid']['nickname'])) {
+		$comment['name'] = $_SESSION['openid']['nickname'];
+	} else if( isset($_COOKIE['guestName'])) {
+		$comment['name'] = $_COOKIE['guestName'];
+	}
+}
+if ((empty($comment['homepage']) || $comment['homepage'] == 'http://') ) {
+	if( isset($_SESSION['openid']['homepage'])) {
+		$comment['homepage'] = $_SESSION['openid']['homepage'];
+	} else if( isset($_COOKIE['guestHomepage']) && $_COOKIE['guestHomepage'] != 'http://') {
+		$comment['homepage'] = $_COOKIE['guestHomepage'];
+	}
+}
+if( Acl::getIdentity('openid') ) {
+	$pageTitle = "$pageTitle ( <img src=\"".$service['path']."/image/icon_openid.gif\" style=\"position:static;\" height=\"16\" width=\"16\"> ".Acl::getIdentity('openid').")";
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
@@ -78,10 +91,13 @@ if (!doesHaveOwnership()) {
 					<dt><label for="name"><?php echo _text('이름');?></label></dt>
 					<dd><input type="text" id="name" class="input-text" name="name" value="<?php echo htmlspecialchars($comment['name']);?>" /></dd>
 				</dl>
+<?php 
+if( !Acl::getIdentity('openid') ) { ?>
 				<dl class="password-line">
 					<dt><label for="password"><?php echo _text('비밀번호');?></label></dt>
 					<dd><input type="password" class="input-text" id="password" name="password" value="<?php echo isset($_POST['password']) ? $_POST['password'] : '';?>" /></dd>
 				</dl>
+<?php } ?>
     			<dl class="homepage-line">
 					<dt><label for="homepage"><?php echo _text('홈페이지');?></label></dt>
 					<dd><input type="text" class="input-text" id="homepage" name="homepage" value="<?php echo (empty($comment['homepage']) ? 'http://' : htmlspecialchars($comment['homepage']));?>" /></dd>
@@ -112,7 +128,9 @@ if (doesHaveOwnership() && array_key_exists('replier', $comment) && (is_null($co
 				</div>
 			</div>
 		</div>
+<?php if( Acl::getIdentity('openid') ) { ?>
+		<input name="openidedit" type="hidden" value="1" />
+<?php } ?>
 	</form>
-	<?php echo fireEvent( 'AddingCommentViewTail', '', $suri['id'] ) ?>
 </body>
 </html>

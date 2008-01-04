@@ -3,11 +3,10 @@
 * LICENSE: GPL
 * Author: Hojin Choi(coolengineer) <hojin.choi@gmail.com>
 * HomePage: http://coolengineer.com/tags/openid
-* Release: 2007-05-09(1.0), 2007-02-21(0.9), 2007-01-18(0.1)
+* Release: 2008-01-03(1.6), 2007-05-09(1.0), 2007-02-21(0.9), 2007-01-18(0.1)
 
-* Outsourced: PHP-openid-1.2.1, http://www.openidenabled.com/openid/libraries/php
-* Directory Auth, Services are from PHP-openid-1.2.1
-* Fixed: Services/Yadis/XML.php to port Textcube XML-Parser
+Version 1.6:
++ Chg: 모든 기능을 주 코드 영역으로 옮김. 이전 디렉토리/파일들은 사실상 사용하지 않음
 
 Version 1.0:
 + Add: 타임아웃으로 종료될 경우, 자동으로 로그인가능하게함

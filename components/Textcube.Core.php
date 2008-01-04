@@ -158,6 +158,12 @@ class Transaction {
 		return $_SESSION['pickle'][$tid];
 	}
 
+	function clear() {
+		if( isset( $_SESSION['pickle'] ) ) {
+			unset( $_SESSION['pickle'] );
+		}
+	}
+
 	function debug( $tid = null ) {
 		header( "X-Debug-tid: $tid" );
 		foreach( $_SESSION['pickle'][$tid] as $k => $v ) {

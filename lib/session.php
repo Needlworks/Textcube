@@ -2,6 +2,9 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+
+define( 'SESSION_OPENID_USERID', -1 );
+
 function getMicrotimeAsFloat() {
 	list($usec, $sec) = explode(" ", microtime());
 	return ($usec + $sec);
@@ -36,6 +39,9 @@ function writeSession($id, $data) {
 	if (strlen($id) < 32)
 		return false;
 	$userid = Acl::getIdentity('textcube');
+	if( empty($userid) ) {
+		$userid = Acl::getIdentity('openid') ? SESSION_OPENID_USERID : '';
+	}
 	if( empty($userid) ) $userid = 'null';
 	$data = POD::escapeString($data);
 	$server = POD::escapeString($_SERVER['HTTP_HOST']);
@@ -125,6 +131,7 @@ function newSession() {
 }
 
 function isSessionAuthorized($id) {
+	/* OpenID and Admin sessions are treated as authorized ones*/
 	global $database;
 	$result = POD::queryCell("SELECT id 
 		FROM {$database['prefix']}Sessions 
@@ -136,10 +143,22 @@ function isSessionAuthorized($id) {
 	return false;
 }
 
+function isGuestOpenIDSession($id) {
+	global $database;
+	$result = POD::queryCell("SELECT id 
+		FROM {$database['prefix']}Sessions 
+		WHERE id = '$id' 
+			AND address = '".getRemoteAddress()."' AND userid < 0");
+	if ($result)
+		return true;
+	return false;
+}
+
 function setSession() {
 	$id = empty($_COOKIE[session_name()]) ? '' : $_COOKIE[session_name()];
-	if ((strlen($id) < 32) || !isSessionAuthorized($id))
+	if ((strlen($id) < 32) || !isSessionAuthorized($id)) {
 		setSessionAnonymous($id);
+	}
 }
 
 // Teamblog : insert userid to variable admin when member logins.
@@ -151,7 +170,17 @@ function authorizeSession($blogid, $userid) {
 	}
 	if (!is_numeric($userid))
 		return false;
-	$_SESSION['userid'] = $userid;
+	if( $userid != SESSION_OPENID_USERID ) { /* OpenID session : -1 */
+		$_SESSION['userid'] = $userid;
+		$id = session_id();
+		if( isGuestOpenIDSession($id) ) {
+			$result = POD::execute("UPDATE {$database['prefix']}Sessions
+				set userid = $userid WHERE id = '$id' AND address = '".getRemoteAddress()."'");
+			if ($result) {
+				return true;
+			}
+		}
+	}
 	if (isSessionAuthorized(session_id()))
 		return true;
 	for ($i = 0; $i < 100; $i++) {

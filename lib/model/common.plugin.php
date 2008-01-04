@@ -87,6 +87,12 @@ function getCurrentSetting($name) {
 	}
 	return null;
 }
+
+function isActivePlugin( $name ) {
+	global $activePlugins;
+	return in_array($name , $activePlugins);
+}
+
 function updatePluginConfig( $name , $setVal) {
 	global $database,  $activePlugins;
 	if (!in_array($name, $activePlugins))
