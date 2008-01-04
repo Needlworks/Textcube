@@ -148,7 +148,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								}
 <?php
 }
-if(Acl::check("group.owners")) {
+if(Acl::check("group.administrators")) {
 ?>
 								function cleanupCache() {
 									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/center/dashboard/cleanup/");
@@ -280,7 +280,7 @@ if($textcubeDashboard) {
 										</tbody>
 									</table>
 <?php
-		if(Acl::check("group.owners")) {
+		if(Acl::check("group.administrators")) {
 ?>
 									<ul>
 										<li><a href="<?php echo $blogURL;?>/owner/center/dashboard/cleanup" onclick="cleanupCache();return false;"><?php echo _t('캐시 지우기');?></a></li>
