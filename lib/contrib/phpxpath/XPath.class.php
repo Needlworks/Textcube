@@ -822,6 +822,8 @@ class XPathEngine extends XPathBase {
     'NoNodeMatch'           => "The supplied xPath-query '%s' does not match *any* node in the xml document.",
     'RootNodeAlreadyExists' => "An xml document may have only one root node."
     );
+
+  var $ns = array(); // Name space prefix array
     
   /**
    * Constructor
@@ -873,6 +875,36 @@ class XPathEngine extends XPathBase {
     $this->_indexIsDirty = FALSE;
   }
   
+  //-----------------------------------------------------------------------------------------
+  // XPathEngine              ------  Namespace stuff -------
+  //-----------------------------------------------------------------------------------------
+  
+  function _expandNS( $steps ) {
+    $return_steps = array();
+	foreach( $steps as $s ) {
+		foreach( $this->ns as $prefix => $uri ) {
+			if( substr( $s, 0, strlen($prefix) + 1) == "$prefix:" ) {
+				$s = "$uri:" . substr( $s, strlen($prefix) + 1 );
+				break;
+			}
+		}
+		array_push( $return_steps, $s );
+	}
+	return $return_steps;
+  }
+  
+  function _unexpandNS( $nodeName ) {
+	foreach( $this->ns as $prefix => $uri ) {
+		$nodeName = str_replace( $uri, $prefix, $nodeName );
+	}
+	return $nodeName;
+  }
+  
+  function registerNamespace($prefix, $uri)
+  {
+	$this->ns[$prefix] = $uri;
+	return true;
+  } 
   
   //-----------------------------------------------------------------------------------------
   // XPathEngine              ------  Get / Set Stuff  ------                                
@@ -970,8 +1002,9 @@ class XPathEngine extends XPathBase {
    * @return                 (array)  The node, or FALSE if the node wasn't found.
    */
   function &getNode($absoluteXPath='') {
+    $n = false;
     if ($absoluteXPath==='/') $absoluteXPath = '';
-    if (!isSet($this->nodeIndex[$absoluteXPath])) return FALSE;
+    if (!isSet($this->nodeIndex[$absoluteXPath])) return $n;
     if ($this->_indexIsDirty) $this->reindexNodeTree();
     return $this->nodeIndex[$absoluteXPath];
   }
@@ -1676,7 +1709,7 @@ class XPathEngine extends XPathBase {
       $this->parseSkipWhiteCache = isSet($this->parseOptions[XML_OPTION_SKIP_WHITE]) ? $this->parseOptions[XML_OPTION_SKIP_WHITE] : FALSE;
       
       // Create an XML parser.
-      $parser = xml_parser_create();
+      $parser = xml_parser_create_ns();
       // Set default XML parser options.
       if (is_array($this->parseOptions)) {
         foreach($this->parseOptions as $key => $val) {
@@ -1761,6 +1794,7 @@ class XPathEngine extends XPathBase {
       $this->_displayError('XML error in file at line'. xml_get_current_line_number($parser) .'. Empty name.', __LINE__, __FILE__);
       return;
     }
+    $nodeName = $this->_unexpandNS( $nodeName );
 
     // Trim accumulated text if necessary.
     if ($this->parseSkipWhiteCache) {
@@ -1814,7 +1848,8 @@ class XPathEngine extends XPathBase {
    * @param $name   (string) Name of the closing tag found in the document.
    * @see       _handleStartElement(), _handleCharacterData()
    */
-  function _handleEndElement($parser, $name) {
+  function _handleEndElement($parser, $nodeName) {
+    $name = $this->_unexpandNS( $nodeName );
     if (($this->parsedTextLocation=='') 
         && empty($this->nodeStack[$this->parseStackIndex]['textParts'])) {
       // We reach this point when parsing a tag of format <foo/>. The 'textParts'-array 
@@ -3745,6 +3780,7 @@ class XPathEngine extends XPathBase {
     );
 
     $cacheKey = $step;
+	$LastFailedStep = '';
     do { // parse block
       $parseBlock = 1;
 
