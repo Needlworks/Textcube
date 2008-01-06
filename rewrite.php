@@ -16,7 +16,7 @@
 		else exit;
 	}
 	if(strtok($part,'?') == 'setup.php') {require 'setup.php';exit;}
-	$accessInfo['URLfragment'] = explode('/',rtrim(strtok($accessInfo['input'],'?'),'/').'/');
+	$accessInfo['URLfragment'] = explode('/',strtok($accessInfo['input'],'?'));
 	define('ROOT', '.'); 
 	require ROOT.'/config.php';
 	switch ($service['type']) {
