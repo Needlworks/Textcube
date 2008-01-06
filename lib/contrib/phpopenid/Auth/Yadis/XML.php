@@ -362,6 +362,9 @@ function &Auth_Yadis_getXMLParser()
         }
     }
 
+    if( !isset($p)) {
+		$p = new Auth_Textcube_xmlparser();
+    }
     if (!isset($p)) {
         trigger_error('No XML parser was found', E_USER_ERROR);
     } else {

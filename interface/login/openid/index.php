@@ -52,12 +52,21 @@ function TryAuthByRequest()
 		$tr['need_writers'] = '';
 	}
 
+	if( !empty( $_GET['requestURI'] ) ) {
+		$requestURI = $_GET['requestURI'];
+	} else {
+		$requestURI = $blogURL;
+	}
+
 	$openid = $_GET['openid_identifier'];
 	$errmsg = "";
 	if (empty($openid)) {
 		$errmsg = _text("오픈아이디를 입력하세요");
-	} else if (strstr($openid, ".") === false) {
-		$errmsg = _text("오픈아이디에 도메인 부분이 없습니다. 예) textcube.idtail.com");
+	} else if (strstr($openid, ".") === false ) {
+		require_once OPENID_LIBRARY_ROOT."Auth/Yadis/XRI.php";
+		if( Auth_Yadis_identifierScheme($openid) == 'URI' ) {
+			$errmsg = _text("오픈아이디에 도메인 부분이 없습니다. 예) textcube.idtail.com");
+		}
 	}
 	if( $errmsg ) {
 		$location = "$fallback_location?requestURI=" . urlencode($requestURI);
@@ -77,11 +86,6 @@ function TryAuthByRequest()
 		$tr['authenticate_only'] = '';
 	}
 
-	if( !empty( $_GET['requestURI'] ) ) {
-		$requestURI = $_GET['requestURI'];
-	} else {
-		$requestURI = $blogURL;
-	}
 	$tr['requestURI'] = $requestURI;
 	$tid = Transaction::pickle( $tr );
 	$tr['finishURL'] = $hostURL . $blogURL . "/login/openid?action=finish&tid=$tid";

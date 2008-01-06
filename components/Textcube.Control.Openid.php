@@ -4,6 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 define( 'OPENID_LIBRARY_ROOT', ROOT . "/lib/contrib/phpopenid/" );
+define( 'XPATH_LIBRARY_ROOT', ROOT . "/lib/contrib/phpxpath/" );
 define( 'Auth_OpenID_NO_MATH_SUPPORT', 1 );
 define( 'OPENID_PASSWORD', "-OPENID-" );
 
@@ -17,9 +18,69 @@ if( !isset( $_ENV['OS'] ) || strstr( $_ENV['OS'], 'Windows' ) === false ) {
 }
 ini_set('include_path', $path);
 
+requireComponent( "Eolin.PHP.Core" );
 requireComponent( "Textcube.Core" );
 requireComponent( "Textcube.Control.Auth" );
 requireComponent( "Textcube.Function.misc" );
+
+include_once OPENID_LIBRARY_ROOT."Auth/Yadis/XML.php";
+include_once XPATH_LIBRARY_ROOT."XPath.class.php";
+
+class Auth_Textcube_xmlparser extends XPath
+{
+	function Auth_Textcube_xmlparser()
+	{
+		$this->ns = array();
+        $xmlOptions = array(XML_OPTION_CASE_FOLDING => false, XML_OPTION_SKIP_WHITE => TRUE);
+        parent::XPath( FALSE, $xmlOptions );
+        $this->bDebugXmlParse = false;
+    }
+
+    function init($xml_string, $namespace_map)
+    {
+        foreach ($namespace_map as $prefix => $uri) {
+            if (!$this->registerNamespace($prefix, $uri)) {
+                return false;
+            }
+        }
+        if (!$this->setXML($xml_string)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function setXML($xml_string)
+    {
+    	return $this->importFromString( $xml_string );
+    }
+
+    function evalXPath($xpath, $node = null)
+    {
+    	if( $xpath[0] != '/' ) { $xpath = "//$xpath"; }
+    	$nodes = $this->evaluate($xpath);
+    	$return_nodes = array();
+    	foreach( $nodes as $n ) {
+    		$node = $this->nodeIndex[$n];
+    		$node['text'] = join( '', $node['textParts'] );
+    		$return_nodes[] = $node;
+    	}
+    	return $return_nodes;
+    }
+
+    function content($node)
+    {
+		return $node['text'];
+    }
+
+    function attributes($node)
+    {
+        if (isset($node['attributes'])) {
+				return $node['attributes'];
+        }
+		return null;
+    }
+}
 
 class OpenID {
 	function setCookie( $key, $value )
@@ -99,26 +160,8 @@ class OpenIDConsumer extends OpenID {
 		} else {
 			$this->session = null;
 		}
+
 		$this->consumer = new Auth_OpenID_Consumer($store, $this->session );
-	}
-
-	function tryAuthentication( $openid, $return_to_url )
-	{
-		global $hostURL, $blogURL;
-		$trust_root = $hostURL . "/";
-		// Begin the OpenID authentication process.
-		ob_start();
-		$auth_request = $this->consumer->begin($openid);
-		ob_end_clean();
-
-		// Handle failure status return values.
-		if (!$auth_request) {
-			$this->setCookie( 'openid_auto', 'n' );
-			if( !empty($authenticate_only) ) {
-				$requestURI .= (strchr($requestURI,'?')===false ? "?":"&" ) . "authenticated=0";
-			}
-			$this->printErrorReturn( _text("인증하지 못하였습니다. 아이디를 확인하세요"), $requestURI );
-		}
 	}
 
 	function fetch( $openid )
@@ -173,7 +216,9 @@ class OpenIDConsumer extends OpenID {
 		}
 
 		if( $remember_openid ) {
-				$this->setCookie( 'openid', $auth_request->endpoint->claimed_id );
+				$this->setCookie( 'openid',
+						empty($auth_request->endpoint->display_identifier) ?
+						$auth_request->endpoint->claimed_id : $auth_request->endpoint->display_identifier );
 		} else {
 				$this->clearCookie( 'openid' );
 		}
