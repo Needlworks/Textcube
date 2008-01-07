@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
+/// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 class Image {
@@ -11,8 +11,6 @@ class Image {
 		$this->extraPadding = 0;
 		$this->imageFile = NULL;
 		$this->resultImageDevice = NULL;
-		$this->cropSize = NULL; // array(0, 0);
-		$this->cropPosition = array('center', 'middle'); // array(0, 0, 0, 0);
 	}
 	
 	function resample($width, $height) {
