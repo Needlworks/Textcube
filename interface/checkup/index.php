@@ -202,6 +202,35 @@ if(doesHaveOwnership()){
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
+
+$filename = ROOT . '/.htaccess';
+$fp = fopen($filename, "r");
+$content = fread($fp, filesize($filename));
+fclose($fp);
+if (preg_match('@REQUEST_URI@', $content) == 0) {
+	$fp = fopen($filename, "w");
+	echo '<li>.htaccess thumbnail rule - ', _text('수정');
+	$content = 
+"#<IfModule mod_url.c>
+#CheckURL Off
+#</IfModule>
+RewriteEngine On
+RewriteBase ".$service['path']."/
+RewriteCond %{REQUEST_URI} !/$
+RewriteRule (.*) $1/ [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule (.*) rewrite.php [L,QSA]
+";
+	$fp = fopen($filename, "w");
+	if(fwrite($fp, $content)) {
+		fclose($fp);
+		echo ': <span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	} else {
+		fclose($fp);
+		echo ': <span style="color:#FF0066;">', _text('실패'), '</span></li>';
+	}
+}
+
 ?>
 </ul>
 <?php

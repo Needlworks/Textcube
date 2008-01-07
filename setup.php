@@ -1491,6 +1491,8 @@ ini_set('display_errors', 'off');
 #</IfModule>
 RewriteEngine On
 RewriteBase $path/
+RewriteCond %{REQUEST_URI} !/$
+RewriteRule (.*) $1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule (.*) rewrite.php [L,QSA]
 ";
