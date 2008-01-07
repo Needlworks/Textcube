@@ -226,8 +226,6 @@ if (preg_match('@REQUEST_URI@', $content) != 0) {
 #</IfModule>
 RewriteEngine On
 RewriteBase ".$service['path']."/
-#RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule (.*) rewrite.php [L,QSA]
 ";
 	$fp = fopen($filename, "w");

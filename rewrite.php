@@ -13,7 +13,7 @@
 	if(in_array($part, array('image','plugins','script','skin','style','attach','cache','thumbnail'))) {
 		$file = @file_get_contents(ltrim(($part == 'thumbnail' ? preg_replace('/thumbnail/','cache/thumbnail',$accessInfo['input'],1) : $accessInfo['input']),'/'));
 		if(!empty($file)) { echo $file; exit;}
-		else exit;
+		else {header('HTTP/1.1 404 Not Found');exit;}
 	}
 	if(strtok($part,'?') == 'setup.php') {require 'setup.php';exit;}
 	$accessInfo['URLfragment'] = explode('/',strtok($accessInfo['input'],'?'));
