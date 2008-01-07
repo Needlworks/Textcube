@@ -522,17 +522,7 @@ foreach ($sidebarPluginArray as $nowKey) {
 												p2Node = p2Node.nextSibling;
 											}
 											if (p2Node != null) {
-<?php
-	if($service['useRewriteEngine'] == false) {
-?>
-												p2Node.href = blogURL + "/owner/skin/sidebar/delete/index.php?sidebarNumber=" + pNode.sidebarNumber + "&modulePos=" + pNode.modulePos + viewMode;
-<?php
-	} else {
-?>
 												p2Node.href = blogURL + "/owner/skin/sidebar/delete/?sidebarNumber=" + pNode.sidebarNumber + "&modulePos=" + pNode.modulePos + viewMode;
-<?php
-	}
-?>
 											}
 											
 											if ((pNode.moduleCategory == 'plugin') && (pNode.hasPropertyEdit == true)) {

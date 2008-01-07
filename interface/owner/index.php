@@ -6,5 +6,5 @@
 
 require ROOT . '/lib/includeForBlog.php';
 // Redirect.
-header("Location: $blogURL/owner/center/dashboard".($service['useRewriteEngine'] ? "" : "/index.php"));
+header("Location: $blogURL/owner/center/dashboard");
 ?>

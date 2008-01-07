@@ -63,15 +63,11 @@ if(isset($interfacePath)) {
 	$depth = substr_count(ROOT, '/');
 }
 if ($depth > 0) {
-	if($service['useRewriteEngine'] === false) $url = substr($url, 5); // Exclude /blog path.
+	if($service['useFancyURL'] === false) $url = '/'.$accessInfo['input']; // Exclude /blog path.
 	if (preg_match('@^((/+[^/]+){' . $depth . '})/*(.*)$@', $url, $matches)) {
 		$suri['directive'] = $matches[1];
 		if ($matches[3] !== false) {
-			if($service['useRewriteEngine'] === false) {
-				$suri['value'] = str_replace('index.php?','',$matches[3]);
-			} else {
-				$suri['value'] = $matches[3];
-			}
+			$suri['value'] = $matches[3];
 		}
 	} else {
 		respondNotFoundPage();
@@ -80,18 +76,14 @@ if ($depth > 0) {
 	$suri['directive'] = '/';
 	$suri['value'] = ltrim($url, '/');
 }
-$suri['value'] = strtok($suri['value'], '?');
+$suri['value'] = strtok(strtok($suri['value'], '?'),'&');
 $suri['directive'] = strtok($suri['directive'], '?');
 if (is_numeric($suri['value'])) {
 	$suri['id'] = $suri['value'];
 } else {
 	$suri['value'] = decodeURL(str_replace('index.php','',$suri['value']));
 }
-// Workaround for the environments redirect engine disabled.
-if($service['useRewriteEngine'] == false) {
-	if(isset($_POST['id'])) $suri['id'] = $_POST['id'];
-	else if(isset($_GET['id'])) $suri['id'] = $_GET['id'];
-}
+
 // Parse page.
 $suri['page'] = empty($_POST['page']) ? (empty($_GET['page']) ? true : $_GET['page']) : $_POST['page'];
 
@@ -134,10 +126,6 @@ switch ($service['type']) {
 	default:
 		$pathURL = $service['path'];
 		$blog['primaryBlogURL'] = 'http://' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
-		if(isset($service['useRewriteEngine']) && $service['useRewriteEngine'] === false) {
-			$blog['primaryBlogURL'] = $blog['primaryBlogURL'].'/blog';
-			$pathURL = $pathURL.'/blog';
-		}
 		$blog['secondaryBlogURL'] = null;
 		$defaultURL = $blog['primaryBlogURL'];
 		if ($_SERVER['HTTP_HOST'] == $service['domain'])
@@ -148,14 +136,15 @@ switch ($service['type']) {
 }
 
 $hostURL = 'http://' . $_SERVER['HTTP_HOST'] . (isset($service['port']) ? ':' . $service['port'] : '');
-$blogURL = $pathURL;
+if($service['useFancyURL'] == false) {$blogURL = $pathURL.'/index.php?';}
+else  {$blogURL = $pathURL;}
 $folderURL = rtrim($blogURL . $suri['directive'], '/');
 
 if (defined('__TEXTCUBE_MOBILE__')) {
 	$blogURL .= '/m';
 }
 unset($url, $domain);
-
+//var_dump($suri);
 function respondNotFoundPage() {
 	header('HTTP/1.1 404 Not Found');
 	header("Connection: close");

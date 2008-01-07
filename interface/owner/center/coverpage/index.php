@@ -465,17 +465,7 @@ foreach ($coverpagePluginArray as $nowKey) {
 												p2Node = p2Node.nextSibling;
 											}
 											if (p2Node != null) {
-<?php
-	if($service['useRewriteEngine'] == false) {
-?>
-												p2Node.href = blogURL + "/owner/center/coverpage/delete/index.php?coverpageNumber=" + pNode.coverpageNumber + "&modulePos=" + pNode.modulePos + viewMode;
-<?php
-	} else {
-?>
 												p2Node.href = blogURL + "/owner/center/coverpage/delete/?coverpageNumber=" + pNode.coverpageNumber + "&modulePos=" + pNode.modulePos + viewMode;
-<?php
-	}
-?>
 											}
 											
 											if ((pNode.moduleCategory == 'plugin') && (pNode.hasPropertyEdit == true)) {

@@ -254,7 +254,7 @@ requireComponent('Textcube.Core');
 <?php
 foreach($blogTopMenuItem as $menuItem) {
 ?>
-						<li id="menu-<?php echo $menuItem['menu'];?>"<?php echo $menuItem['menu']==$blogMenu['topMenu'] ? ' class="selected"' : '';?>><a href="<?php echo $blogURL.$menuItem['link'].($service['useRewriteEngine'] ? '' : '/index.php');?>"><span><?php echo $menuItem['title'];?></span></a></li>
+						<li id="menu-<?php echo $menuItem['menu'];?>"<?php echo $menuItem['menu']==$blogMenu['topMenu'] ? ' class="selected"' : '';?>><a href="<?php echo $blogURL.$menuItem['link'];?>"><span><?php echo $menuItem['title'];?></span></a></li>
 <?php
 }
 ?>

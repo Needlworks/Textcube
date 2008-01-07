@@ -40,7 +40,7 @@ function requireLogin() {
 		if (String::endsWith($_SERVER['HTTP_HOST'], '.' . $service['domain']))
 			header("Location: $blogURL/login?requestURI=" . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}"));
 		else
-			header('Location: ' . getBlogURL() . '/login'.($service['useRewriteEngine'] ? '' : '/index.php').'?requestURI=' . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}"));
+			header('Location: ' . getBlogURL() . '/login?requestURI=' . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}"));
 	}
 	exit;
 }

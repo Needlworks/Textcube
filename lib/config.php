@@ -34,7 +34,8 @@ $service['timezone'] = 'Asia/Seoul';
 $service['encoding'] = 'EUC-KR';
 $service['umask'] = 0;
 $service['skin'] = 'coolant';
-$service['useRewriteEngine'] = true;
+if(defined('__TEXTCUBE_NO_FANCY_URL__')) $service['useFancyURL'] = false;
+else $service['useFancyURL'] = true;
 $service['useEncodedURL'] = false;
 $service['enableDebugMode'] = false;
 //$service['flashuploader'] = false;
@@ -75,21 +76,6 @@ if($service['enableDebugMode'] == true) requireComponent("Needlworks.Function.De
 
 // Basic POST/GET variable validation.
 if (isset($IV)) {
-	// Pass-through 'id' as a mod_alias workaround.
-	if($service['useRewriteEngine'] == false) {
-		$currentIV = array();
-		if(isset($_POST['id'])) {
-			$currentIV = $IV['POST'];
-			$currentIV['id'] = array('int', 'min' => '0', 'mandatory' => false);
-			$IV['POST'] = $currentIV;
-		}
-		if(isset($_GET['id'])) {
-			$currentIV = $IV['GET'];
-			$currentIV['id'] = array('int', 'min' => '0', 'mandatory' => false);
-			$IV['GET'] = $currentIV;
-		}
-		unset($currentIV);
-	}
 	if (!Validator::validate($IV)) {
 		header('HTTP/1.1 404 Not Found');
 		exit;

@@ -45,6 +45,7 @@ function getBlogSettings($blogid) {
 				'entriesOnPage'            => 10, 
 				'entriesOnList'            => 10, 
 				'entriesOnRSS'             => 10, 
+				'commentsOnRSS'            => 10, 
 				'publishWholeOnRSS'        => 1,
 				'publishEolinSyncOnRSS'    => 1,
 				'allowWriteOnGuestbook'    => 1,
@@ -148,7 +149,7 @@ function getBlogURL($name = null, $domain = null, $path = null, $type = null) {
 		case 'path':
 			return "http://$domain$path/$name";
 		case 'single':default:
-			return "http://$domain$path".($service['useRewriteEngine'] ? '' : '/blog');
+			return "http://$domain$path".($service['useFancyURL'] ? '' : '/index.php?');
 	}
 }
 

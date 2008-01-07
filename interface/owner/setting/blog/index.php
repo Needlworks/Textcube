@@ -256,13 +256,7 @@ if ($service['type'] != 'single') {
 									
 									
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/rss/");
-<?php
-	if($service['useRewriteEngine'] == false) {
-?>
-									request.correcturl = true;
-<?php
-	}
-?>									request.onSuccess = function() {
+									request.onSuccess = function() {
 										publishEolinSyncOnRSS = document.getElementById('rss-form').publishEolinSyncOnRSS[0].checked ? 1 : 0;
 										entriesOnRSS = document.getElementById('rss-form').entriesOnRSS.value;
 										commentsOnRSS = document.getElementById('rss-form').commentsOnRSS.value;
@@ -281,13 +275,6 @@ if ($service['type'] != 'single') {
 									//isAllowWriteGuestbook = document.getElementById('allowWriteGuestbook').checked ? 1 : 0;
 									if ( isAllowCommentGuestbook != allowCommentGuestbook) {
 										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/guestbook/?comment="+isAllowCommentGuestbook+"&write=1");
-<?php
-	if($service['useRewriteEngine'] == false) {
-?>
-										request.correcturl = true;
-<?php
-	}
-?>
 										request.onSuccess = function() {
 											allowCommentGuestbook = isAllowCommentGuestbook;
 											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");

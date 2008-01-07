@@ -164,7 +164,6 @@ if(isset($blogContentMenuItem)) {
 							($blogMenu['contentMenu'] == 'edit' && $contentMenuItem['menu'] == 'post')) ? " class=\"selected{$firstChildClass}\"" : '');?>><a href="<?php 
 						echo $blogURL.
 							$contentMenuItem['link'].
-							($service['useRewriteEngine'] ? '' : '/index.php').
 							($contentMenuItem['menu'] == 'post' && isset($currentCategory) ? '?category='.$currentCategory : '');
 						?>"><span class="text"><?php echo $contentMenuItem['title'];?></span></a></li>
 <?php

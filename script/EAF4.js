@@ -313,7 +313,6 @@ HTTPRequest.prototype.verion      = "1.0";
 HTTPRequest.prototype.copyright   = "Copyright (c) 2005, Tatter & Company / Needlworks / Tatter Network Foundation. All rights reserved.";
 HTTPRequest.prototype.method      = "GET";
 HTTPRequest.prototype.url         = null;
-HTTPRequest.prototype.correcturl  = false;
 HTTPRequest.prototype.id          = null;
 HTTPRequest.prototype.getfragment = "";
 HTTPRequest.prototype.contentType = "application/x-www-form-urlencoded";
@@ -406,7 +405,6 @@ HTTPRequest.prototype.send = function() {
 			};
 		};
 	};
-	if(this.correcturl != false) this.url = this.url+'/index.php';
 	if(this.method == 'GET'){
 		if(this.getfragment.length > 0) {
 			this.url=this.url+this.getfragment;
@@ -424,9 +422,6 @@ HTTPRequest.prototype.send = function() {
 		this._request.setRequestHeader("Referer",location.href);
 	if(arguments.length>0) {
 		this.content=arguments[0];
-		if(this.correcturl!=false && this.id!=null) { // Workaround when rewrite module is disabled.
-			this.content=arguments[0]+"&id="+this.id;
-		}
 	}
 	if(this.content.length>0) this._request.setRequestHeader("Content-Type",this.contentType);
 	this._request.send(this.content);
@@ -475,21 +470,6 @@ HTTPRequest.prototype._getText = function(node) {
 };
 
 HTTPRequest.prototype.parseURL = function(url) {
-	if(this.correcturl!=false) {
-		var idIndex = url.lastIndexOf("/");
-		var getIndex = url.lastIndexOf("?");
-		if(idIndex >= 0) {
-			if(getIndex >= 0) {var idCandidate = url.substring(idIndex+1,getIndex);}
-			else {var idCandidate = url.substring(idIndex+1);}
-			if(idCandidate.toString().search(/^-?[0-9]+$/) == 0) {
-				this.id = idCandidate;
-				if(getIndex >=0) {this.getfragment = url.substring(getIndex);}
-				url = url.substring(0,idIndex);
-			} else { // Usually GET method.
-				this.getfragment = idCandidate;
-			}
-		}
-	}
 	return url;
 };
 

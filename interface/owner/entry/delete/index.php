@@ -13,7 +13,6 @@ requireModel("blog.entry");
 requireStrictRoute();
 
 $isAjaxRequest = checkAjaxRequest();
-
 if(isset($suri['id'])) {
 	if(!Acl::check("group.editors")) {
 		if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) {

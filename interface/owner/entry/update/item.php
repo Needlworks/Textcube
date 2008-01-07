@@ -22,7 +22,6 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireModel('blog.entry');
 
 requireStrictRoute();
-
 $updateDraft = 0;
 $entry = getEntry($blogid, $suri['id']);
 if(empty($entry)) {

@@ -1137,6 +1137,25 @@ CREATE TABLE {$_POST['dbPrefix']}Entries (
   KEY id (id, category, visibility),
   KEY blogid (blogid, published)
 ) $charset;
+CREATE TABLE {$_POST['dbPrefix']}EntriesArchive (
+  blogid int(11) NOT NULL default '0',
+  userid int(11) NOT NULL default '0',
+  id int(11) NOT NULL,
+  visibility tinyint(4) NOT NULL default '0',
+  category int(11) NOT NULL default '0',
+  title varchar(255) NOT NULL default '',
+  slogan varchar(255) NOT NULL default '',
+  content mediumtext NOT NULL,
+  contentFormatter varchar(32) DEFAULT '' NOT NULL,
+  contentEditor varchar(32) DEFAULT '' NOT NULL,
+  location varchar(255) NOT NULL default '/',
+  password varchar(32) default NULL,
+  created int(11) NOT NULL default '0',
+  PRIMARY KEY (blogid, id, created),
+  KEY visibility (visibility),
+  KEY blogid (blogid, id),
+  KEY userid (userid, blogid)
+) $charset;
 CREATE TABLE {$_POST['dbPrefix']}FeedGroupRelations (
   blogid int(11) NOT NULL default '0',
   feed int(11) NOT NULL default '0',
@@ -1470,7 +1489,6 @@ ini_set('display_errors', 'off');
 \$service['domain'] = '{$_POST['domain']}';
 \$service['path'] = '$path';
 \$service['skin'] = 'coolant';
-\$service['useRewriteEngine'] = ".((isset($_POST['disableRewrite']) && $_POST['disableRewrite']) ? 'false' : 'true').";
 //\$serviceURL = 'http://{$_POST['domain']}{$path}' ; // for path of Skin, plugin and etc.
 //\$service['enableDebugMode'] = false; // for debugging, e.g. displaying DB Query or Session info
 //\$service['debug_session_dump'] = 1; // session info debuging.
@@ -1503,13 +1521,13 @@ RewriteRule (.*) rewrite.php [L,QSA]
     
         switch ($_POST['type']) {
             case 'domain':
-                $blogURL = "http://{$_POST['blog']}.{$_POST['domain']}" . ($_SERVER['SERVER_PORT'] != 80 ? ":{$_SERVER['SERVER_PORT']}" : '') . "$path";
+                $blogURL = "http://{$_POST['blog']}.{$_POST['domain']}" . ($_SERVER['SERVER_PORT'] != 80 ? ":{$_SERVER['SERVER_PORT']}" : '') . "$path".(empty($_POST['disableRewrite']) ? '' : '/index.php?');
                 break;
             case 'path':
-                $blogURL = "http://{$_POST['domain']}" . ($_SERVER['SERVER_PORT'] != 80 ? ":{$_SERVER['SERVER_PORT']}" : '') . "$path/{$_POST['blog']}";
+                $blogURL = "http://{$_POST['domain']}" . ($_SERVER['SERVER_PORT'] != 80 ? ":{$_SERVER['SERVER_PORT']}" : '') . "$path".(empty($_POST['disableRewrite']) ? '' : '/index.php?')."/{$_POST['blog']}";
                 break;
             case 'single':
-                $blogURL = "http://{$_POST['domain']}" . ($_SERVER['SERVER_PORT'] != 80 ? ":{$_SERVER['SERVER_PORT']}" : '') . "$path";
+                $blogURL = "http://{$_POST['domain']}" . ($_SERVER['SERVER_PORT'] != 80 ? ":{$_SERVER['SERVER_PORT']}" : '') . "$path".(empty($_POST['disableRewrite']) ? '' : '/index.php?');
                 break;
         }
 ?>
@@ -1520,11 +1538,11 @@ RewriteRule (.*) rewrite.php [L,QSA]
       </p>
       <ul>
         <li><?php echo _t('텍스트큐브 주소');?><br />
-          <a href="<?php echo $blogURL.'/'.(empty($_POST['disableRewrite']) ? '' : 'blog/');?>"><?php echo $blogURL.'/'.(empty($_POST['disableRewrite']) ? '' : 'blog/');?></a><br />
+          <a href="<?php echo $blogURL.'/';?>"><?php echo $blogURL.'/';?></a><br />
           <br />
         </li>
         <li><?php echo _t('텍스트큐브 관리 툴 주소');?><br />
-          <a href="<?php echo $blogURL.'/'.(empty($_POST['disableRewrite']) ? '' : 'blog/');?>owner"><?php echo $blogURL.'/'.(empty($_POST['disableRewrite']) ? '' : 'blog/');?>owner</a></li>
+          <a href="<?php echo $blogURL.'/';?>owner"><?php echo $blogURL.'/';?>owner</a></li>
       </ul>
       <p>
         <?php echo _t('텍스트큐브 관리 툴로 로그인 하신 후 필요사항을 수정해 주십시오.');?><br />
@@ -1733,6 +1751,8 @@ function checkTables($version, $prefix) {
 
 function getTables($version, $prefix) {
 	switch ($version) {
+		case '1.6':
+			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}EntriesArchive", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Links", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}Users", "{$prefix}UserSettings", "{$prefix}XMLRPCPingSettings", "{$prefix}Teamblog", "{$prefix}PageCacheLog");
 		case '1.5':
 			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Links", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}Users", "{$prefix}UserSettings", "{$prefix}XMLRPCPingSettings", "{$prefix}Teamblog", "{$prefix}PageCacheLog");
 		case '1.1':

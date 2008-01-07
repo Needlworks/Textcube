@@ -318,6 +318,14 @@ class Validator {
 	
 	/*@static@*/
 	function validateArray(&$array, &$rules) {
+		// Workaround for non Fancy-URL user.
+		$cropArray = array();
+		foreach($array as $name => $value) {
+			$doesHaveRequest = strpos($name,'?');
+			if($doesHaveRequest !== false) {$name = substr($name,$doesHaveRequest+1);}
+			$cropArray[$name] = $value;
+		}
+		$array = $cropArray;
 		foreach ($rules as $key => $rule) {
 			if (!isset($rule[0])) {
 				trigger_error("Validator: The type of '$key' is not defined", E_USER_WARNING);

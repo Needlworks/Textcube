@@ -2,5 +2,6 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-require PATH.'item.php';
+	define('__TEXTCUBE_NO_FANCY_URL__',true);
+	require 'rewrite.php';
 ?>

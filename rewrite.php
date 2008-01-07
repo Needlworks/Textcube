@@ -8,7 +8,7 @@
 		'position' => $_SERVER["SCRIPT_NAME"],
 		'root'     => str_replace('rewrite.php','',$_SERVER["SCRIPT_NAME"])
 		);
-	$accessInfo['input'] = substr($accessInfo['fullpath'],strlen($accessInfo['root'])); //Workaround for compartibility with fastCGI / Other environment
+	$accessInfo['input'] = ltrim(substr($accessInfo['fullpath'],strlen($accessInfo['root'])+(defined('__TEXTCUBE_NO_FANCY_URL__') ? 1 : 0)),'/'); //Workaround for compartibility with fastCGI / Other environment
 	$part = strtok($accessInfo['input'],'/');
 	if(in_array($part, array('image','plugins','script','skin','style','attach','cache','thumbnail'))) {
 		$file = @file_get_contents(ltrim(($part == 'thumbnail' ? preg_replace('/thumbnail/','cache/thumbnail',$accessInfo['input'],1) : $accessInfo['input']),'/'));
@@ -32,14 +32,17 @@
 			$pathPart = ltrim(rtrim(strtok($accessInfo['fullpath'], '?'),'/'),'/');
 			break;
 	}
+	$pathPart = strtok($pathPart,'&');
 	if(!empty($accessInfo['URLfragment']) && in_array($accessInfo['URLfragment'][0],array('entry','notice','location','cover','attachment','category','keylog','tag','search','plugin','author'))) {
-		$interfacePath = 'interface/'.$accessInfo['URLfragment'][0].'/index.php';
-	} else if(is_numeric(end($accessInfo['URLfragment']))) {
+		$pathPart = $accessInfo['URLfragment'][0];
+		$interfacePath = 'interface/'.$pathPart.'/index.php';
+	} else if(is_numeric(strtok(end($accessInfo['URLfragment']),'&'))) {
 		$pathPart = implode('/',array_slice($accessInfo['URLfragment'],0,count($accessInfo['URLfragment'])-1));
 		$interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'item.php';
 	} else {
 		$interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
 	}
+	define('PATH','interface/'.(empty($pathPart) ? '' : $pathPart.'/'));
 	unset($pathPart,$part);
 	if( empty($service['enableDebugMode']) ) {
 		@include_once $interfacePath;
