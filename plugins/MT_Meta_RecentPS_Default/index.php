@@ -1,6 +1,6 @@
 <?php
 function MT_Cover_getRecentEntries($parameters){
-	global $database,$blog,$serviceURL,$configVal;
+	global $database,$blog,$serviceURL,$configVal, $defaultURL;
 	requireComponent('Textcube.Core');
 	requireComponent('Needlworks.Cache.PageCache');
 	requireComponent('Textcube.Function.misc');
