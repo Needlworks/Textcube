@@ -97,8 +97,8 @@ if(isset($blogMenu['topMenu'])) {
 		if(Acl::check('group.creators')) {
 			$blogContentMenuItem = array(
 				array('menu'=>'blog','title'=>_t('블로그'),'link'=>'/owner/control/blog'),
-				array('menu'=>'user','title'=>_t('사용자'),'link'=>'/owner/control/user'),
-				array('menu'=>'etc','title'=>_t('기타 설정'),'link'=>'/owner/control/etc')
+				array('menu'=>'user','title'=>_t('사용자'),'link'=>'/owner/control/user')
+//				array('menu'=>'etc','title'=>_t('기타 설정'),'link'=>'/owner/control/etc')
 			);
 		}
 		break;
