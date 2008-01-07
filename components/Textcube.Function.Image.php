@@ -1,13 +1,18 @@
 <?php
-/// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
+/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 class Image {
 	function Image() {
+		$this->reset();
+	}
+	
+	function reset() {
 		$this->extraPadding = 0;
-		$this->imageFile = 
-		$this->resultImageDevice = 
-			NULL;
+		$this->imageFile = NULL;
+		$this->resultImageDevice = NULL;
+		$this->cropSize = NULL; // array(0, 0);
+		$this->cropPosition = array('center', 'middle'); // array(0, 0, 0, 0);
 	}
 	
 	function resample($width, $height) {
@@ -289,6 +294,59 @@ class Image {
 		return true;
 	}
 	
+	function cropRectByCoordinates($startX, $startY, $finishX, $finishY) {
+		$width = $finishX - $startX;
+		$height = $finishY - $startY;
+		
+		$targetDevice = imagecreatetruecolor($width, $height);
+		$bgColorBy16 = $this->hexRGB('FFFFFF');
+		imagecolorallocate($tempWaterMarkDevice, $bgColorBy16['R'], $bgColorBy16['G'], $bgColorBy16['B']);
+		imagecopy($targetDevice, $this->resultImageDevice, 0, 0, $startX, $startY, $width, $height);
+		$this->resultImageDevice = $targetDevice;
+		unset($targetDevice);
+		
+		return true;
+	}
+	
+	function cropRectBySize($width, $height, $align='center', $valign='middle') {
+		switch ($align) {
+			case 'left':
+				$srcX = 0;
+				break;
+			case 'center':
+				$srcX = floor((imagesx($this->resultImageDevice) - $width) / 2);
+				break;
+			case 'right':
+				$srcX = imagesx($this->resultImageDevice) - $width;
+				break;
+		}
+		
+		switch ($valign) {
+			case 'top':
+				$srcY = 0;
+				break;
+			case 'middle':
+				$srcY = floor((imagesy($this->resultImageDevice) - $height) / 2);
+				break;
+			case 'bottom':
+				$srcY = imagesy($this->resultImageDevice) - $height;
+				break;
+		}
+		
+		$targetDevice = imagecreatetruecolor($width, $height);
+		$bgColorBy16 = $this->hexRGB('FFFFFF');
+		imagecolorallocate($targetDevice, $bgColorBy16['R'], $bgColorBy16['G'], $bgColorBy16['B']);
+		imagecopy($targetDevice, $this->resultImageDevice, 0, 0, $srcX, $srcY, $width, $height);
+		$this->resultImageDevice = $targetDevice;
+		unset($targetDevice);
+		
+		return true;
+	}
+	
+	function saveAsFile($fileName) {
+		return $this->createThumbnailIntoFile($fileName);
+	}
+	
 	function createThumbnailIntoFile($fileName) {
 		if (empty($this->resultImageDevice))
 			return false;
@@ -313,6 +371,10 @@ class Image {
 		$this->resultImageDevice = NULL;
 		
 		return true;
+	}
+	
+	function saveAsCache() {
+		return $this->createThumbnailIntoCache();
 	}
 	
 	function createThumbnailIntoCache() {
