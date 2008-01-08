@@ -34,13 +34,15 @@
 			break;
 	}
 	$pathPart = strtok($pathPart,'&');
+	$interfacePath = null;
 	if(in_array($pathPart, array('favicon.ico','index.gif'))) {require_once 'interface/'.$pathPart.'.php';exit;}
-	if(!empty($accessInfo['URLfragment']) && in_array($accessInfo['URLfragment'][0],array('entry','notice','location','cover','attachment','category','keylog','tag','search','plugin','author'))) {
+	if(!empty($accessInfo['URLfragment']) && in_array($accessInfo['URLfragment'][0],array('api','archive','attachment','author','category','checkup','cover','entry','feeder','guestbook','keylog','location','logout','notice','page','plugin','pluginForOwner','rss','search','suggest','sync','tag'))) {
 		$pathPart = $accessInfo['URLfragment'][0];
+		$interfacePath = 'interface/blog/'.$pathPart.'.php';
 	} else if(is_numeric(strtok(end($accessInfo['URLfragment']),'&'))) {
 		$pathPart = implode('/',array_slice($accessInfo['URLfragment'],0,count($accessInfo['URLfragment'])-1));
 	}
-	$interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
+	if(empty($interfacePath)) $interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
 	define('PATH','interface/'.(empty($pathPart) ? '' : $pathPart.'/'));
 	unset($pathPart,$part);
 	if( empty($service['enableDebugMode']) ) {
