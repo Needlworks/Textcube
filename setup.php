@@ -1509,7 +1509,11 @@ ini_set('display_errors', 'off');
 #</IfModule>
 RewriteEngine On
 RewriteBase $path/
-RewriteRule . rewrite.php [L,QSA]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^(.+[^/])$ $1/ [L]
+RewriteCond %{REQUEST_FILENAME} !-d [OR]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ rewrite.php [L,QSA]
 ";
 
     	    if ($fp) {

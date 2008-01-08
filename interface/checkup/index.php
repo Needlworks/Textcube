@@ -217,7 +217,7 @@ $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));
 fclose($fp);
-if (preg_match('@\(\.\+@', $content) == 0) {
+if ((preg_match('@\(\.\+@', $content) == 0) || (preg_match('@rewrite\.php@', $content) == 0 )) {
 	$fp = fopen($filename, "w");
 	echo '<li>.htaccess thumbnail rule - ', _text('수정');
 	$content = 
@@ -226,7 +226,11 @@ if (preg_match('@\(\.\+@', $content) == 0) {
 #</IfModule>
 RewriteEngine On
 RewriteBase ".$service['path']."/
-RewriteRule . rewrite.php [L,QSA]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^(.+[^/])$ $1/ [L]
+RewriteCond %{REQUEST_FILENAME} !-d [OR]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ rewrite.php [L,QSA]
 ";
 	$fp = fopen($filename, "w");
 	if(fwrite($fp, $content)) {
