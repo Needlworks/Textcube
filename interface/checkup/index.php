@@ -219,7 +219,7 @@ $content = fread($fp, filesize($filename));
 fclose($fp);
 if ((preg_match('@\(\.\+@', $content) == 0) || (preg_match('@rewrite\.php@', $content) == 0 )) {
 	$fp = fopen($filename, "w");
-	echo '<li>.htaccess thumbnail rule - ', _text('수정');
+	echo '<li>', _textf('htaccess 규칙을 수정합니다.'), ': ';
 	$content = 
 "#<IfModule mod_url.c>
 #CheckURL Off
