@@ -53,7 +53,7 @@ function getAttributesFromString($str, $caseSensitive=true) {
 
 function getMIMEType($ext, $filename = null) {
 	if ($filename) {
-		return '';
+		return getMIMEType(getFileExtension($filename));
 	} else {
 		switch (strtolower($ext)) {
 			// Image

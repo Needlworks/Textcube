@@ -144,7 +144,7 @@ function addAttachment($blogid, $parent, $file) {
 	$label = POD::escapeString(UTF8::lessenAsEncoding($attachment['label'], 64));
 	$attachment['mime'] = UTF8::lessenAsEncoding($attachment['mime'], 32);
 	
-	$result = POD::execute("insert into {$database['prefix']}Attachments values ($blogid, {$attachment['parent']}, '$name', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
+	$result = POD::execute("INSERT INTO {$database['prefix']}Attachments VALUES ($blogid, {$attachment['parent']}, '$name', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
 	if (!$result) {
 		@unlink($attachment['path']);
 		return false;

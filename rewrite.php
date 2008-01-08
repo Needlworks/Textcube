@@ -2,6 +2,7 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+	define('ROOT', '.'); 
 	$accessInfo = array(
 		'host'     => $_SERVER['HTTP_HOST'],
 		'fullpath' => $_SERVER["REQUEST_URI"],
@@ -11,13 +12,13 @@
 	$accessInfo['input'] = ltrim(substr($accessInfo['fullpath'],strlen($accessInfo['root'])+(defined('__TEXTCUBE_NO_FANCY_URL__') ? 1 : 0)),'/'); //Workaround for compartibility with fastCGI / Other environment
 	$part = strtok($accessInfo['input'],'/');
 	if(in_array($part, array('image','plugins','script','skin','style','attach','cache','thumbnail'))) {
+		require_once ROOT.'/lib/function/misc.php';
 		$file = @file_get_contents(ltrim(($part == 'thumbnail' ? preg_replace('/thumbnail/','cache/thumbnail',$accessInfo['input'],1) : $accessInfo['input']),'/'));
-		if(!empty($file)) { echo $file; exit;}
+		if(!empty($file)) { header('Content-type: '.getMIMEType(null,$file));echo $file; exit;}
 		else {header('HTTP/1.1 404 Not Found');exit;}
 	}
 	if(strtok($part,'?') == 'setup.php') {require 'setup.php';exit;}
 	$accessInfo['URLfragment'] = explode('/',strtok($accessInfo['input'],'?'));
-	define('ROOT', '.'); 
 	require ROOT.'/config.php';
 	switch ($service['type']) {
 		case 'path' : // For path-based multi blog.
@@ -33,15 +34,13 @@
 			break;
 	}
 	$pathPart = strtok($pathPart,'&');
+	if(in_array($pathPart, array('favicon.ico','index.gif'))) {require_once 'interface/'.$pathPart.'.php';exit;}
 	if(!empty($accessInfo['URLfragment']) && in_array($accessInfo['URLfragment'][0],array('entry','notice','location','cover','attachment','category','keylog','tag','search','plugin','author'))) {
 		$pathPart = $accessInfo['URLfragment'][0];
-		$interfacePath = 'interface/'.$pathPart.'/index.php';
 	} else if(is_numeric(strtok(end($accessInfo['URLfragment']),'&'))) {
 		$pathPart = implode('/',array_slice($accessInfo['URLfragment'],0,count($accessInfo['URLfragment'])-1));
-		$interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'item.php';
-	} else {
-		$interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
 	}
+	$interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
 	define('PATH','interface/'.(empty($pathPart) ? '' : $pathPart.'/'));
 	unset($pathPart,$part);
 	if( empty($service['enableDebugMode']) ) {

@@ -122,6 +122,7 @@ function getLowerView() {
 
 function getScriptsOnFoot() {
 	ob_start();
+	if(gmmktime() - getBlogSetting('lastFeedUpdate',0) > 180) {	
 ?>
 	<script type="text/javascript">
 		//<![CDATA[
@@ -129,9 +130,10 @@ function getScriptsOnFoot() {
 		//]]>
 	</script>
 <?php
-	$view = ob_get_contents();
-	ob_end_clean();
-	return $view;
+		$view = ob_get_contents();
+		ob_end_clean();
+		return $view;
+	} else return '';
 }
 
 function getTrackbacksView($entry, $skin, $acceptTrackback) {
