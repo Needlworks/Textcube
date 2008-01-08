@@ -123,6 +123,7 @@ function getCommentRSSTotal($blogid) {
 
 	$channel = array();
 	$channel['title'] = $blog['title']. ': '._text('최근 댓글 목록');
+	$channel['link'] = "$defaultURL/";
 	$channel['description'] = $blog['description'];
 	$channel['language'] = $blog['language'];
 	$channel['pubDate'] = Timestamp::getRFC1123();
@@ -141,7 +142,7 @@ function getCommentRSSTotal($blogid) {
 	$channel['items'] = array();
 	foreach($result as $row) {
 		$commentURL = $defaultURL."/".$row['entry']."#comment";
-		$content = $row['comment'];
+		$content = htmlspecialchars($row['comment']);
 		$item = array(
 			'id' => $row['id'], 
 			'title' => $row['title'], 
@@ -196,11 +197,11 @@ function getCommentRSSByEntryId($blogid, $entryId) {
 	$channel['items'] = array();
 	foreach($result as $row) {
 		$commentURL = $channel['link']."#comment";
-		$content = $row['comment'];
+		$content = htmlspecialchars($row['comment']);
 		$item = array(
 			'id' => $row['id'], 
 			'title' => $row['title'], 
-			'link' => $commentURL.$row['id'], 
+			'link' => $channel['link']."#comment".$row['id'], 
 			'categories' => array(), 'description' => $content, 
 			'author' => '('.$row['name'].')', 
 			'pubDate' => Timestamp::getRFC1123($row['written']),
