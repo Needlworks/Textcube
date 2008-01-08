@@ -33,23 +33,31 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								
 								function changeHomepage() {
 									try {
-										var type = document.getElementById('homepage-section').hptype[0].checked ? 0:1;
-										var hpurl = document.getElementById('hpurl');
-										var blogid = document.getElementById('blogid');
-										if(type && (hpurl.value == 'http://' || hpurl.value == '')) {
+										var type = "";
+										var tempradio =  document.getElementById('homepage-section').elements['type'];
+										var radioLength =  tempradio.length;
+										for(var i = 0; i < radioLength; i++) {
+											if(tempradio[i].checked) {
+												type = tempradio[i].value;
+											}
+										}
+										var homepage = document.getElementById('homepage').value;
+										var blogid = document.getElementById('blogid').value;
+										if(type == "external" && (homepage == 'http://' || homepage == '')) {
 											alert("<?php echo _t('홈페이지 주소를 입력해 주십시오.');?>");
 											hpurl.select();
 											return false;
 										}
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/account/homepage/");
+										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/account/homepage" + "?type=" + encodeURIComponent(type) + "&homepage=" + encodeURIComponent(homepage) +     "&blogid=" + encodeURIComponent(blogid));
 										request.onSuccess = function() {
 											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
 										}
 										request.onError = function() {
 											alert("<?php echo _t('저장하지 못했습니다.');?>");
 										}
-										request.send("&type=" + encodeURIComponent(type) + "&hp=" + encodeURIComponent((type==0 ? blogid.value : hpurl.value)));
+										request.send();
 									} catch(e) {
+										return true;
 									}
 								}
 								function save() {
@@ -324,15 +332,21 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 									<p class="explain"><?php echo _t("댓글 및 필자 정보에 사용되는 대표 홈페이지 주소를 설정합니다.")?></p>
 								</div>
 <?php
-$blogs = POD::queryColumn("SELECT blogid FROM {$database['prefix']}Teamblog WHERE userid = ".getUserId()." ORDER BY acl DESC");
-$hptype = (empty($blogs) || is_string(getUserSetting("homepage"))? "url" : "blogid");
+$hptype = User::getHomepageType();
+$blogs = User::getBlogs();
+$ownedblogs = User::getOwnedBlogs();
+$hptype = empty($blogs)?"defalut":$hptype;
+if ($hptype == 'internal' || 'author') {
+	$blogidforhomepage = getUserSetting("blogidforhomepage"); 
+}
 ?>
-								<form id="homepage-section" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/account/homepage">
+								<form id="homepage-section" class="section" method="get" action="<?php echo $blogURL;?>/owner/setting/account/homepage">
 									<fieldset class="container">
 										<legend><?php echo _t('대표 주소');?></legend>
 										<dl id="blogger-name-line" class="line">
 											<dt><?php echo _t('대표 주소');?></dt>
-											<dd><div><input id="hptype" type="radio" name="hptype" value="id" <?php echo ($hptype == "blogid" ? "checked=\"checked\"" : "");?> > <?php echo _t('참여중인 블로그');?>
+											<dd><div><input id="type" type="radio" name="type" value="internal" <?php echo ($hptype != "external" ? "checked=\"checked\"" : "");?> > <?php echo _t('참여중인 블로그');?> 
+												<input id="type" type="radio" name="type" value="author" <?php echo ($hptype == "author" ? "checked=\"checked\"":"");?> > <?php echo _t('author page');?>
 <?php
 if(!empty($blogs)) {
 ?>
@@ -340,7 +354,7 @@ if(!empty($blogs)) {
 <?php
 	foreach ($blogs as $blog) {
 ?>
-													<option value="<?php echo $blog;?>"><?php echo getBlogName($blog);?></option>
+													<option value="<?php echo $blog;?>" <?php if ($blog == $blogidforhomepage) echo "selected = selected"?>><?php echo getBlogName($blog);?></option>
 <?php
 }
 ?>
@@ -350,7 +364,10 @@ if(!empty($blogs)) {
 ?>
 												</div>
 												<div>
-												<input id="hptype" type="radio" name="hptype" value="hp" <?php echo ($hptype == "url" ? "checked=\"checked\"":"");?> > <?php echo _t('외부 주소');?> <input type="text" name="hpurl" id="hpurl" class="input-text" value="<?php echo getUserSetting("homepage","http://");?>">
+												<input id="type" type="radio" name="type" value="external" <?php echo ($hptype == "external" ? "checked=\"checked\"":"");?> > <?php echo _t('외부 주소');?> <input type="text" name="homepage" id="homepage" class="input-text" value="<?php echo User::getHomepage();?>">
+												</div>
+												<div>
+												<input id="type" type="radio" name="type" value="default" <?php echo ($hptype == "default" ? "checked=\"checked\"":"");?> > <?php echo _t('기본 값');?>
 												</div>
 											</dd>
 										</dl>

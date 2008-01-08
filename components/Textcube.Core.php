@@ -52,27 +52,84 @@ class User {
 	}
 
 	/*@static@*/
+	function getBlogs($userid = null) {
+		global $database;
+		if (!isset($userid))
+			$userid = getUserId();
+		return POD::queryColumn("SELECT blogid FROM {$database['prefix']}TeamBlog WHERE userid = $userid");
+	}
+
+	/*@static@*/
+	function getOwnedBlogs($userid = null) {
+		global $database;
+		if (!isset($userid))
+			$userid = getUserId();
+		return POD::queryColumn("SELECT blogid FROM {$database['prefix']}TeamBlog WHERE userid = $userid AND acl > 15");
+	}
+
+	/*@static@*/
+	function getHomepageType($userid = null) {
+		global $database;
+		if (!isset($userid))//TODO : 현재 로그인 사용자의 homepage만 읽기가능.getUserSetting함수 특성. 
+			$userid = getUserId();
+		$type = getUserSetting("homepagetype");
+		if (empty($type)) {
+			$type = "default";
+		}
+		return $type;
+	}
+
+	/*@static@*/
 	function getHomepage($userid = null) {
 		global $database;
-		if (!isset($userid)) //TODO : 현재 로그인 사용자의 homepage만 변경가능.getUserSetting함수 특성. 
+		if (!isset($userid)) //TODO : 현재 로그인 사용자의 homepage만 읽기가능.getUserSetting함수 특성. 
 			$userid = getUserId();
-		$homepage = getUserSetting("homepage");
-		if(empty($homepage)) {
-			$homepage = POD::queryCell("SELECT blogid FROM {$database['prefix']}Teamblog WHERE userid = $userid ORDER BY acl DESC");
-		}
-		if(is_numeric($homepage)) {
-			$homepage = getDefaultURL($homepage);
+		$type = User::getHomepageType();
+		switch ($type) {
+		case "external" :
+			$homepage = getUserSetting("homepage");
+			break;
+		case "internal" :
+			$homepage = getDefaultURL(getUserSetting("blogidforhomepage"));
+			break;
+		case "author" : 
+			$homepage = getDefaultURL(getUserSetting("blogidforhomepage"))."/author/".User::getName();
+			break;
+		case "default" :
+		default :
+			$homepage = null;
 		}
 		return $homepage;
 	}
 
-	/*@static@*/
-	function setHomepage($homepage, $userid = null) {
+	function setHomepage($type, $homepage, $blogid = null, $userid = null) {
 		global $database;
-		if (!isset($userid)) //TODO : 현재 로그인 사용자의 homepage만 변경가능.getUserSetting함수 특성. 
+		if (!isset($userid)) //TODO : 현재 로그인 사용자의 homepage만 변경가능.setUserSetting함수 특성. 
 			$userid = getUserId();
-		$result = setUserSetting("homepage",$homepage);
-		return $result;
+		if (setUserSetting("homepagetype",$type)) {
+			switch ($type) {
+			case "internal" :
+			case "author" : 
+				$homepage = null;
+				break;
+			case "external" :
+				$blogid = null;
+				break;
+			case "default" :
+			default :
+				$homepage = null;
+				$blogid = null;
+			}
+		}
+		else {
+			return false;
+		}
+		if (setUserSetting("homepage",$homepage)) {
+			if (setUserSetting("blogidforhomepage",$blogid)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/*@static@*/
