@@ -1509,7 +1509,7 @@ ini_set('display_errors', 'off');
 #</IfModule>
 RewriteEngine On
 RewriteBase $path/
-RewriteRule (.*) rewrite.php [L,QSA]
+RewriteRule . rewrite.php [L,QSA]
 ";
 
     	    if ($fp) {
