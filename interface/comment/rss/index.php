@@ -13,7 +13,7 @@ if (false) {
 	fetchConfigVal();
 }
 $cache = new pageCache;
-if($suri['id']) {
+if(!empty($suri['id'])) {
 	$cache->name = 'commentRSS_'.$suri['id'];
 	if(!$cache->load()) {
 		$result = getCommentRSSByEntryId(getBlogId(),$suri['id']);

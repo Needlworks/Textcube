@@ -123,11 +123,6 @@ function getCommentRSSTotal($blogid) {
 
 	$channel = array();
 	$channel['title'] = $blog['title']. ': '._text('최근 댓글 목록');
-	if($blog['useSlogan']) {
-		$channel['link'] = $defaultURL."/entry/".URL::encode($entry['slogan'],true);
-	} else {
-		$channel['link'] = $defaultURL."/".$entryId;
-	}
 	$channel['description'] = $blog['description'];
 	$channel['language'] = $blog['language'];
 	$channel['pubDate'] = Timestamp::getRFC1123();
@@ -145,15 +140,16 @@ function getCommentRSSTotal($blogid) {
 
 	$channel['items'] = array();
 	foreach($result as $row) {
-		$commentURL = $channel['link']."#comment".$row['id'];
+		$commentURL = $defaultURL."/".$row['entry']."#comment";
 		$content = $row['comment'];
 		$item = array(
 			'id' => $row['id'], 
 			'title' => $row['title'], 
-			'link' => $commentURL, 
+			'link' => $commentURL.$row['id'], 
 			'categories' => array(), 'description' => $content, 
 			'author' => '('.$row['name'].')', 
 			'pubDate' => Timestamp::getRFC1123($row['written']),
+			'comments' => $commentURL,
 			'guid' => $commentURL
 		);
 		if($row['secret']) $item['author'] = $item['description'] = _text('비밀 댓글입니다');
@@ -199,15 +195,16 @@ function getCommentRSSByEntryId($blogid, $entryId) {
 
 	$channel['items'] = array();
 	foreach($result as $row) {
-		$commentURL = $channel['link']."#comment".$row['id'];
+		$commentURL = $channel['link']."#comment";
 		$content = $row['comment'];
 		$item = array(
 			'id' => $row['id'], 
 			'title' => $row['title'], 
-			'link' => $commentURL, 
+			'link' => $commentURL.$row['id'], 
 			'categories' => array(), 'description' => $content, 
 			'author' => '('.$row['name'].')', 
 			'pubDate' => Timestamp::getRFC1123($row['written']),
+			'comments' => $commentURL,
 			'guid' => $commentURL
 		);
 		if($row['secret']) $item['author'] = $item['description'] = _text('비밀 댓글입니다');
