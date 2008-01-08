@@ -62,7 +62,6 @@ function requireLibrary($name) {
 
 // Include core components.
 // Due to the global variable scope issues, use require here instead of requireComponent.
-
 requireComponent('Eolin.PHP.UnifiedEnvironment');
 requireComponent('Eolin.PHP.Core');
 requireComponent('Textcube.Core');
@@ -70,8 +69,7 @@ requireComponent('Textcube.Core.BackwardCompatibility');
 requireComponent('Needlworks.Cache.PageCache');
 
 // Include installation configuration.
-@include ROOT . '/config.php';
-//@include_once ROOT . '/config.php';
+if(!defined('__TEXTCUBE_SETUP__')) @include ROOT . '/config.php';
 if($service['enableDebugMode'] == true) requireComponent("Needlworks.Function.Debug");
 
 // Basic POST/GET variable validation.

@@ -1,4 +1,9 @@
 <?php
+/// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
+/// All rights reserved. Licensed under the GPL.
+/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+
+define('__TEXTCUBE_SETUP__',true);
 header('Content-Type: text/html; charset=utf-8');
 ini_set('display_errors', 'on');
 if (get_magic_quotes_gpc()) {
@@ -16,18 +21,19 @@ if (count($host) > 1) {
 }
 unset($host);
 
-define ('ROOT', '.');
-require 'lib/config.php';
-require 'lib/database.php';
-require 'lib/locale.php';
-require 'components/POD.Core.php';
+if(empty($accessInfo)) $root = substr($_SERVER['SCRIPT_FILENAME'], 0, strlen($_SERVER['SCRIPT_FILENAME']) - 10);
+else $root = substr($_SERVER['SCRIPT_FILENAME'], 0, strlen($_SERVER['SCRIPT_FILENAME']) - 12);
+$path = stripPath(substr($_SERVER['PHP_SELF'], 0, strlen($_SERVER['PHP_SELF']) - 10));
+
+define ('ROOT', $root);
+require ROOT.'/lib/config.php';
+require ROOT.'/lib/database.php';
+require ROOT.'/lib/locale.php';
+require ROOT.'/components/POD.Core.php';
 if (!empty($_GET['test'])) {
 	echo getFingerPrint();
 	exit;
 }
-
-$root = substr($_SERVER['SCRIPT_FILENAME'], 0, strlen($_SERVER['SCRIPT_FILENAME']) - 10);
-$path = stripPath(substr($_SERVER['PHP_SELF'], 0, strlen($_SERVER['PHP_SELF']) - 10));
 
 $baseLanguage = 'ko';
 if( !empty($_POST['Lang']) ) $baseLanguage = $_POST['Lang'];
