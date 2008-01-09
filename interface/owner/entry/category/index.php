@@ -18,7 +18,6 @@ if(count($_POST) > 0) {
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel('blog.category');
 requireModel('blog.entry');
-requireModel('blog.entry');
 
 if (!empty($_POST['id']))
 	$selected = $_POST['id'];
