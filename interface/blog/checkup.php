@@ -185,7 +185,7 @@ if (POD::queryCell("DESC {$database['prefix']}Sessions updated", 'Key') != 'MUL'
 }
 
 
-if (POD::queryCell("DESC {$database['prefix']}Trackbacks written", 'Key') != 'MUL') {
+if (POD::queryCount("SHOW INDEX FROM {$database['prefix']}Trackbacks WHERE Key_name = 'written'") == 0) {
 	$changed = true;
 	echo '<li>', _text('트랙백 불러오기 속도를 개선하기 위하여 트랙백 테이블의 인덱스 설정을 변경합니다.'), ': ';
 	if (POD::execute("ALTER TABLE {$database['prefix']}Trackbacks ADD KEY written (blogid, isFiltered, written)"))
