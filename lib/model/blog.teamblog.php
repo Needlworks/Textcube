@@ -12,7 +12,7 @@ function addTeamUser($email, $name, $comment, $senderName, $senderEmail) {
 	if(empty($email))
 		return 1;
 	if(!preg_match('/^[^@]+@([-a-zA-Z0-9]+\.)+[-a-zA-Z0-9]+$/',$email))
-		return array( 2, _t('ÀÌ¸ŞÀÏÀÌ ¹Ù¸£Áö ¾Ê½À´Ï´Ù.') );
+		return array( 2, _t('ì´ë©”ì¼ì´ ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤.') );
 	
 	$isUserExists = getUserIdByEmail($email);
 	if(empty($isUserExists)) { // If user is not exist
