@@ -18,6 +18,7 @@ if(count($_POST) > 0) {
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel('blog.category');
 requireModel('blog.entry');
+requireModel('blog.entry');
 
 if (!empty($_POST['id']))
 	$selected = $_POST['id'];
@@ -58,7 +59,11 @@ if (empty($_GET['entries']) || $_GET['entries'] == 0)
 else
 	$entries = $_GET['entries'];
 
-if ((!empty($_POST['newCategory']) && strpos($_POST['newCategory'], '/') !== false) || (!empty($_POST['modifyCategory']) && strpos($_POST['modifyCategory'], '/') !== false)) {
+if ((!empty($_POST['newCategory']) && isSpace($_POST['newCategory'])) || 
+			(!empty($_POST['modifyCategoryName']) && isSpace($_POST['modifyCategoryName']))) {
+	$history = '';
+	$errorMessage = _t('공백문자는 카테고리 이름으로 사용할 수 없습니다');
+} elseif ((!empty($_POST['newCategory']) && strpos($_POST['newCategory'], '/') !== false) || (!empty($_POST['modifyCategory']) && strpos($_POST['modifyCategory'], '/') !== false)) {
 	$history = '';
 	$errorMessage = _t('슬래시가 들어간 카테고리 이름은 사용할 수 없습니다');
 } elseif (!empty($_POST['newCategory'])) {

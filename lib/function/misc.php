@@ -198,4 +198,8 @@ function getFileListByRegExp($path, $pattern, $deepScan=false) {
 	return $fileList;
 }
 
+function isSpace($string) {
+	$result = str_replace(array(' ',"\t","\r","\n"),array(''),$string);
+	return empty($result);
+}
 ?>
