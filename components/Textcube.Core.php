@@ -56,7 +56,7 @@ class User {
 		global $database;
 		if (!isset($userid))
 			$userid = getUserId();
-		return POD::queryColumn("SELECT blogid FROM {$database['prefix']}TeamBlog WHERE userid = $userid");
+		return POD::queryColumn("SELECT blogid FROM {$database['prefix']}Teamblog WHERE userid = $userid");
 	}
 
 	/*@static@*/
@@ -64,7 +64,7 @@ class User {
 		global $database;
 		if (!isset($userid))
 			$userid = getUserId();
-		return POD::queryColumn("SELECT blogid FROM {$database['prefix']}TeamBlog WHERE userid = $userid AND acl > 15");
+		return POD::queryColumn("SELECT blogid FROM {$database['prefix']}Teamblog WHERE userid = $userid AND acl > 15");
 	}
 
 	/*@static@*/
