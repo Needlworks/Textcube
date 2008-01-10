@@ -45,17 +45,17 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										var blogid = document.getElementById('blogid').value;
 										if(type == "external" && (homepage == 'http://' || homepage == '')) {
 											alert("<?php echo _t('홈페이지 주소를 입력해 주십시오.');?>");
-											hpurl.select();
+											document.getElementById('homepage').select();
 											return false;
 										}
-										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/account/homepage" + "?type=" + encodeURIComponent(type) + "&homepage=" + encodeURIComponent(homepage) +     "&blogid=" + encodeURIComponent(blogid));
+										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/account/homepage");
 										request.onSuccess = function() {
 											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
 										}
 										request.onError = function() {
 											alert("<?php echo _t('저장하지 못했습니다.');?>");
 										}
-										request.send();
+										request.send("&type=" + encodeURIComponent(type) + "&homepage=" + encodeURIComponent(homepage) +     "&blogid=" + encodeURIComponent(blogid));
 									} catch(e) {
 										return true;
 									}
@@ -340,7 +340,7 @@ if ($hptype == 'internal' || 'author') {
 	$blogidforhomepage = getUserSetting("blogidforhomepage"); 
 }
 ?>
-								<form id="homepage-section" class="section" method="get" action="<?php echo $blogURL;?>/owner/setting/account/homepage">
+								<form id="homepage-section" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/account/homepage">
 									<fieldset class="container">
 										<legend><?php echo _t('대표 주소');?></legend>
 										<dl id="blogger-name-line" class="line">

@@ -3,15 +3,15 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 $IV = array(
-	'GET' => array(
-		'homepage' => array(),
+	'POST' => array(
+		'homepage' => array('url','mandatory' => false),
 		'type' => array('string'),
 		'blogid' => array('id')
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
-if (User::setHomepage($_GET['type'],$_GET['homepage'],$_GET['blogid'])) {
+if (User::setHomepage($_POST['type'],$_POST['homepage'],$_POST['blogid'])) {
 	$result = 0;
 }
 else {

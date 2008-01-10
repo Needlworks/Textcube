@@ -104,9 +104,10 @@ class User {
 
 	function setHomepage($type, $homepage, $blogid = null, $userid = null) {
 		global $database;
+		$types = array("internal","author","external","default");
 		if (!isset($userid)) //TODO : 현재 로그인 사용자의 homepage만 변경가능.setUserSetting함수 특성. 
 			$userid = getUserId();
-		if (setUserSetting("homepagetype",$type)) {
+		if (in_array($type,$types) && setUserSetting("homepagetype",$type)) {
 			switch ($type) {
 			case "internal" :
 			case "author" : 
