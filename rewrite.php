@@ -12,9 +12,8 @@
 	$part = strtok($accessInfo['input'],'/');
 	if(in_array($part, array('image','plugins','script','skin','style','attach','cache','thumbnail'))) {
 		require_once 'lib/function/misc.php';
-		$file = @file_get_contents(rtrim(ltrim(($part == 'thumbnail' ? preg_replace('/thumbnail/','cache/thumbnail',$accessInfo['input'],1) : $accessInfo['input']),'/'),'/'));
-		if(!empty($file)) { header('Content-type: '.getMIMEType(null,$file));echo $file; exit;}
-		else {header('HTTP/1.1 404 Not Found');exit;}
+		dumpWithEtag(rtrim(ltrim(($part == 'thumbnail' ? preg_replace('/thumbnail/','cache/thumbnail',$accessInfo['input'],1) : $accessInfo['input']),'/'),'/'));
+		exit;
 	}
 	if(strtok($part,'?') == 'setup.php') {require 'setup.php';exit;}
 	define('ROOT', '.'); 

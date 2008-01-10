@@ -14,6 +14,7 @@ require ROOT .'/lib/model/common.setting.php';
 // Initialize
 define('NO_SESSION',true);
 require ROOT .'/lib/initialize.php';
+require ROOT .'/lib/function/misc.php';
 
 header('Content-Type: text/html; charset=utf-8');
 ?>

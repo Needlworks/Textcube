@@ -202,4 +202,44 @@ function isSpace($string) {
 	$result = str_replace(array(' ',"\t","\r","\n"),array(''),$string);
 	return empty($result);
 }
+
+function headerEtag($etag,$length,$lastmodified) {
+	$cache_hit = false;
+	if( isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) || isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ) { 
+		$cache_hit = true; 
+		if( isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) && $etag != $_SERVER['HTTP_IF_NONE_MATCH'] ) { 
+			$cache_hit = false; 
+		} else if( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) && $lastmodified != $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) {
+			$cache_hit = false;
+		}   
+	}   
+
+	if( $cache_hit ) { header("HTTP/1.1 304 Not Modified", true, 304); } 
+	else {
+		header("HTTP/1.1 200 Ok", true, 200);
+		header("Last-Modified: " . $lastmodified);
+		header("Date: " . gmdate("D, j M Y G:i:s ", time()) . " GMT");
+		header("Expires: " . gmdate("D, j M Y H:i:s", time() + 3600*24) . " GMT");
+		header("Cache-Control: max-age=" . 3600*24);
+		header("Pragma: cache");        // HTTP/1.0
+		header("Content-Length: $length");
+	}   
+	header("ETag: $etag");
+
+	return $cache_hit;
+}
+
+function dumpWithEtag($path) {
+	$fs = stat( $path );
+	if( !$fs || !$fs['size'] ) { header('HTTP/1.1 404 Not Found');exit; }
+	$etag = sprintf( "textcube-%x", (0x1234*$fs['size'])^$fs['mtime'] );
+	$lastmodified = gmdate("D, j M Y G:i:s ", $fs['mtime']) . " GMT";
+	$length = $fs['size'];
+
+	if( !headerEtag($etag,$length,$lastmodified) ) {
+		header('Content-type: '.getMIMEType(null,$path)); 
+		echo file_get_contents($path);
+	}
+}
+
 ?>
