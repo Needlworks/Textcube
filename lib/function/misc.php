@@ -218,7 +218,7 @@ function headerEtag($etag,$length,$lastmodified) {
 	else {
 		header("HTTP/1.1 200 Ok", true, 200);
 		header("Last-Modified: " . $lastmodified);
-		header("Date: " . gmdate("D, j M Y G:i:s ", time()) . " GMT");
+		header("Date: " . gmdate("D, j M Y H:i:s ", time()) . " GMT");
 		header("Expires: " . gmdate("D, j M Y H:i:s", time() + 3600*24) . " GMT");
 		header("Cache-Control: max-age=" . 3600*24);
 		header("Pragma: cache");        // HTTP/1.0
@@ -233,7 +233,7 @@ function dumpWithEtag($path) {
 	$fs = stat( $path );
 	if( !$fs || !$fs['size'] ) { header('HTTP/1.1 404 Not Found');exit; }
 	$etag = sprintf( "textcube-%x", (0x1234*$fs['size'])^$fs['mtime'] );
-	$lastmodified = gmdate("D, j M Y G:i:s ", $fs['mtime']) . " GMT";
+	$lastmodified = gmdate("D, j M Y H:i:s ", $fs['mtime']) . " GMT";
 	$length = $fs['size'];
 
 	if( !headerEtag($etag,$length,$lastmodified) ) {
