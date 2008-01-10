@@ -345,7 +345,7 @@ class CacheControl{
 		$Entries = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND (name like 'entry\\_".$entryId."%' OR name = commentRSS_'.$entryId.')");
+			AND (name like 'entry\\_".$entryId."%' OR name = 'commentRSS_".$entryId."')");
 		CacheControl::purgeItems($Entries);
 		if(!empty($entryId)) {
 			$entry = POD::queryCell("SELECT userid, category FROM {$database['prefix']}Entries
