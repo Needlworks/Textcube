@@ -554,6 +554,7 @@ function addEntry($blogid, $entry) {
 		syndicateEntry($id, 'create');
 	if ($entry['visibility'] >= 2) {
 		CacheControl::flushAuthor($userid);
+		CacheControl::flushDBCache('entry');
 		clearRSS();
 	}
 	if (!empty($entry['tag'])) {
@@ -679,6 +680,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	updateEntriesOfCategory($blogid, $oldEntry['category']);
 	updateEntriesOfCategory($blogid, $entry['category']);
 	CacheControl::flushAuthor($entry['userid']);	
+	CacheControl::flushDBCache('entry');
 	if ($entry['visibility'] == 3)
 		syndicateEntry($entry['id'], 'modify');
 	POD::query("UPDATE {$database['prefix']}Attachments SET parent = {$entry['id']} WHERE blogid = $blogid AND parent = 0");
@@ -855,6 +857,7 @@ function deleteEntry($blogid, $id) {
 	if (POD::queryCell("SELECT visibility FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id") == 3)
 		syndicateEntry($id, 'delete');
 	CacheControl::flushEntry($id);
+	CacheControl::flushDBCache('entry');	
 	$result = POD::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id");
 	if (mysql_affected_rows() > 0) {
 		$result = POD::query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND entry = $id");
@@ -929,6 +932,7 @@ function setEntryVisibility($id, $visibility) {
 		return true;
 
 	CacheControl::flushEntry($id);
+	CacheControl::flushDBCache('entry');
 	if ($oldVisibility == 3)
 		syndicateEntry($id, 'delete');
 	else if ($visibility == 3) {
@@ -967,6 +971,7 @@ function protectEntry($id, $password) {
 	$result = POD::queryCount("UPDATE {$database['prefix']}Entries SET password = '$password', modified = UNIX_TIMESTAMP() WHERE blogid = ".getBlogId()." AND id = $id AND visibility = 1");
 	if($result > 0) {
 		CacheControl::flushEntry($id);
+		CacheControl::flushDBCache('entry');
 		return true;
 	} else return false;
 }

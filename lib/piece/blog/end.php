@@ -72,6 +72,12 @@ dress('rctrp_rep', getRecentCommentsView(getRecentComments($blogid), $skin->rece
 dress('rcttb_rep', getRecentTrackbacksView(getRecentTrackbacks($blogid), $skin->recentTrackback), $view);
 $links = getLinks( $blogid );
 dress('link_rep', getLinksView($links, $skin->s_link_rep), $view);
+foreach ($links as $link) {
+	if( !$link['visibility'] || !$link['xfn'] ) {
+		continue;
+	}
+	addXfnAttrs( $link['url'], $link['xfn'], $view );
+}
 dress('rss_url', "$blogURL/rss", $view);
 dress('comment_rss_url', "$blogURL/comment/rss", $view);
 dress('owner_url', "$blogURL/owner", $view);
@@ -111,14 +117,6 @@ foreach ($coverpageElements as $element) {
 	dress($element, $skin->coverpageStorage[$element], $view);
 }
 $view = revertTempTags(removeAllTags($view));
-
-$links = getLinks( $blogid );
-foreach ($links as $link) {
-	if( !$link['visibility'] || !$link['xfn'] ) {
-		continue;
-	}
-	addXfnAttrs( $link['url'], $link['xfn'], $view );
-}
 
 print $view;
 
