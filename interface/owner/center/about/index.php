@@ -64,7 +64,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										<tbody>
 										<tr>
 												<td class="name"><a href="http://coolengineer.com/">Hojin Choi</a></td>
-												<td class="role"><?php echo _t('ACO / ACL / i18n / XML-RPC API interface / OpenID');?></td>
+												<td class="role"><?php echo _t('ACO / ACL / i18n / XML-RPC API interface / OpenID / Microformat');?></td>
 											</tr>
 											<tr>
 												<td class="name"><a href="http://daybreaker.info">Kim Joongi</a></td>
