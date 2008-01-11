@@ -59,14 +59,14 @@ class pageCache {
 
 	function update () {
 		global $service;
-		if(isset($service['disablePageCache']) && $service['disablePageCache'] == true) return false;
+		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
 		$this->purge();
 		$this->create();
 	}
 
 	function load () {
 		global $service;
-		if(isset($service['disablePageCache']) && $service['disablePageCache'] == true) return false;
+		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
 		$this->initialize();
 		if(!$this->getFileName()) return false;
 		$this->getdbContents();
@@ -88,7 +88,7 @@ class pageCache {
 	}
 	function purge () {
 		global $service;
-		if(isset($service['disablePageCache']) && $service['disablePageCache'] == true) return true;
+		if(isset($service['pagecache']) && $service['pagecache'] == false) return true;
 		$this->getFileName();
 		if(
 			(file_exists($this->absoluteFilePathOwner) && @chmod($this->absoluteFilePathOwner, 0777))
@@ -193,13 +193,13 @@ class queryCache {
 	}
 	function update () {
 		global $service;
-		if(isset($service['disablePageCache']) && $service['disablePageCache'] == true) return false;
+		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
 		$this->purge();
 		$this->create();
 	}
 	function load () {
 		global $service;
-		if(isset($service['disablePageCache']) && $service['disablePageCache'] == true) return false;
+		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
 		if($this->getPageCacheLog()) {
 			return true;
 		}
@@ -207,7 +207,7 @@ class queryCache {
 	}
 	function purge () {
 		global $service;
-		if(isset($service['disablePageCache']) && $service['disablePageCache'] == true) return true;
+		if(isset($service['pagecache']) && $service['pagecache'] == false) return true;
 		if($this->removePageCacheLog())
 			return true;
 		else return false;

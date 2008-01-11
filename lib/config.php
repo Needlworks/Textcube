@@ -37,7 +37,7 @@ $service['skin'] = 'coolant';
 if(defined('__TEXTCUBE_NO_FANCY_URL__')) $service['useFancyURL'] = false;
 else $service['useFancyURL'] = true;
 $service['useEncodedURL'] = false;
-$service['enableDebugMode'] = false;
+$service['debugmode'] = false;
 //$service['flashuploader'] = false;
 
 // Map port setting.
@@ -70,7 +70,7 @@ requireComponent('Needlworks.Cache.PageCache');
 
 // Include installation configuration.
 if(!defined('__TEXTCUBE_SETUP__')) @include ROOT . '/config.php';
-if($service['enableDebugMode'] == true) requireComponent("Needlworks.Function.Debug");
+if($service['debugmode'] == true) requireComponent("Needlworks.Function.Debug");
 
 // Basic POST/GET variable validation.
 if (isset($IV)) {

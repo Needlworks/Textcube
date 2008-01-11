@@ -35,8 +35,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									try {
 										var type = "";
 										var tempradio =  document.getElementById('homepage-section').elements['type'];
-										var radioLength =  tempradio.length;
-										for(var i = 0; i < radioLength; i++) {
+										for(var i = 0; i < tempradio.length; i++) {
 											if(tempradio[i].checked) {
 												type = tempradio[i].value;
 											}
@@ -53,7 +52,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
 										}
 										request.onError = function() {
-											alert("<?php echo _t('저장하지 못했습니다.');?>");
+											PM.showErrorMessage("<?php echo _t('저장하지 못했습니다.');?>", "center", "bottom");
 										}
 										request.send("&type=" + encodeURIComponent(type) + "&homepage=" + encodeURIComponent(homepage) +     "&blogid=" + encodeURIComponent(blogid));
 									} catch(e) {
@@ -79,7 +78,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
 										}
 										request.onError = function() {
-											alert("<?php echo _t('저장하지 못했습니다.');?>");
+											PM.showErrorMessage("<?php echo _t('저장하지 못했습니다.');?>", "center", "bottom");
 										}
 										request.send("&email=" + encodeURIComponent(email.value) + "&nickname=" + encodeURIComponent(nickname.value));
 									} catch(e) {
@@ -110,13 +109,13 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									}
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/account/password/");
 									request.onSuccess = function() {
-										alert("<?php echo _t('변경했습니다.');?>");
+										PM.showMessage("<?php echo _t('변경했습니다.');?>", "center", "bottom");
 										prevPwd.value = '';
 										pwd.value = '';
 										pwd2.value = '';
 									}
 									request.onError = function() {
-										alert("<?php echo _t('변경하지 못했습니다.');?>");
+										PM.showErrorMessage("<?php echo _t('변경하지 못했습니다.');?>", "center", "bottom");
 									}
 									request.send("email=&nickname=&prevPwd=" + encodeURIComponent(prevPwd.value) + "&pwd=" + encodeURIComponent(pwd.value));
 								}
@@ -258,7 +257,7 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 										window.location.href="<?php echo $blogURL;?>/owner/setting/account";
 									}
 									request.onError = function() {
-										alert('<?php echo _t('실패했습니다.');?>');
+										PM.showErrorMessage('<?php echo _t('실패했습니다.');?>', "center", "bottom");
 									}
 									request.send("userid=" + userid);
 								}

@@ -1496,7 +1496,8 @@ ini_set('display_errors', 'off');
 \$service['path'] = '$path';
 \$service['skin'] = 'coolant';
 //\$serviceURL = 'http://{$_POST['domain']}{$path}' ; // for path of Skin, plugin and etc.
-//\$service['enableDebugMode'] = false; // for debugging, e.g. displaying DB Query or Session info
+//\$service['debugmode'] = true; // uncomment for debugging, e.g. displaying DB Query or Session info
+//\$service['pagecache'] = false; // uncomment if you want to disable page cache feature.
 //\$service['debug_session_dump'] = 1; // session info debuging.
 //\$service['debug_rewrite_module'] = 1; // rewrite handling module debuging.
 //\$service['session_cookie_path'] = \$service['path']; // for avoiding spoiling other textcube's session id sharing root.

@@ -44,7 +44,7 @@
 	if(empty($interfacePath)) $interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
 	define('PATH','interface/'.(empty($pathPart) ? '' : $pathPart.'/'));
 	unset($pathPart,$part);
-	if( empty($service['enableDebugMode']) ) {
+	if( empty($service['debugmode']) ) {
 		@include_once $interfacePath;
 	} else {
 		include_once $interfacePath;
