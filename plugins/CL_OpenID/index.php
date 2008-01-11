@@ -138,8 +138,6 @@ function _openid_fix_table()
 	}
 }
 
-_openid_fix_table();
-
 function openid_ViewCommenter($name, $comment)
 {
 	global $database;
@@ -155,8 +153,8 @@ function openid_ViewCommenter($name, $comment)
 	}
 	$openidlogodisplay = misc::getBlogSettingGlobal( "OpenIDLogoDisplay", 0 );
 	if( $openidlogodisplay ) {
-		$name = "<img hojin src=\"" .$service['path']. "/image/icon_openid.gif\" alt=\"OpenID Logo\" title=\"" .
-			sprintf( _text("오픈아이디(%s)로 작성하였습니다"), $row['openid'] ) . "\" />" . $name;
+		$name = "<a href=\"".$row['openid']."\" class=\"openid\"><img hojin src=\"" .$service['path']. "/image/icon_openid.gif\" alt=\"OpenID Logo\" title=\"" .
+			sprintf( _text("오픈아이디(%s)로 작성하였습니다"), $row['openid'] ) . "\" />" . $name . "</a>";
 	} else {
 		preg_match_all('@<a(.*)>(.*)</a>@Usi', $name, $temp);
 		
@@ -164,6 +162,7 @@ function openid_ViewCommenter($name, $comment)
 			if (strip_tags($temp[2][$i]) == $comment['name'])
 				$name = str_replace($temp[0][$i], "<a{$temp[1][$i]} title='" .sprintf( _text("오픈아이디(%s)로 작성하였습니다"), $row['openid'] )."'>".$temp[2][$i]."</a>", $name);
 		}
+		$name .= "<a href=\"".$row['openid']."\" class=\"openid\">&nbsp;</a>";
 	}
 	return $name;
 }
