@@ -204,6 +204,16 @@ if (POD::queryExistence("DESC {$database['prefix']}SessionVisits blog")) {
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
+//if (POD::queryCell("DESC {$database['prefix']}BlogSettings name", 'Key') != 'MUL') {
+if (POD::queryCount("SHOW INDEX FROM {$database['prefix']}BlogSettings WHERE Key_name = 'name'") == 0) {
+	$changed = true;
+	echo '<li>', _text('블로그 설정 불러오기 속도를 개선하기 위하여 블로그 설정 테이블의 인덱스 설정을 변경합니다.'), ': ';
+	if (POD::execute("ALTER TABLE {$database['prefix']}BlogSettings ADD INDEX name (name,value (32))"))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
 /***** Common parts. *****/
 if(doesHaveOwnership() && $blogids = POD::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog")) {
 	$changed = true;
