@@ -80,7 +80,7 @@ function removeBlogSetting($name, $blogid = null) {
 
 function getUserSetting($name, $default = null, $userid = null) {
 	requireComponent('Textcube.Function.misc');
-	return misc::getUserSettingGlobal($name, $default);
+	return misc::getUserSettingGlobal($name, $default, $userid);
 }
 
 function setUserSetting($name, $value, $userid = null) {

@@ -72,8 +72,8 @@ class User {
 		global $database;
 		if (!isset($userid)) 
 			$userid = getUserId();
-		$info = unserialize(getUserSetting('authorLink',$userid));
-		$type = $info['type'];
+		$info = unserialize(getUserSetting('userLinkInfo',null,$userid));
+		if(!empty($info)) $type = $info['type'];
 		if (empty($type)) {
 			$type = "default";
 		}
@@ -83,9 +83,10 @@ class User {
 	/*@static@*/
 	function getHomepage($userid = null) {
 		global $database;
-		if (!isset($userid)) //TODO : 현재 로그인 사용자의 homepage만 읽기가능.getUserSetting함수 특성. 
+		if (!isset($userid)) 
 			$userid = getUserId();
-		$info = unserialize(getUserSetting('authorLink',$userid));
+		$info = unserialize(getUserSetting('userLinkInfo',null,$userid));
+		if(is_null($info)) $info = array('type' => 'default'); 
 		switch ($info['type']) {
 			case "external" :
 				$homepage = $info['url'];
@@ -108,25 +109,27 @@ class User {
 		$types = array("internal","author","external","default");
 		if (!isset($userid)) //TODO : 현재 로그인 사용자의 homepage만 변경가능.setUserSetting함수 특성. 
 			$userid = getUserId();
+		$info['blogid'] = is_null($blogid) ? getBlogId() : $blogid;
+		$info['url'] = is_null($homepage) ? null : $homepage;
 		if (in_array($type,$types)) {
-			$homepage['type'] = $type;
+			$info['type'] = $type;
 			switch ($type) {
 				case "internal" : case "author" : 
-					$homepage['url'] = null;
+					$info['url'] = null;
 					break;
 				case "external" :
-					$homepage['blogid'] = null;
+					$info['blogid'] = null;
 					break;
 				case "default" :
 				default :
-					$homepage['url'] = null;
-					$homepage['blogid'] = null;
+					$info['url'] = null;
+					$info['blogid'] = null;
 			}
 		} else {
 			return false;
 		}
-		$homepage = serialize($homepage);
-		if (setUserSetting("authorLink",$homepage, $userid)) {
+		$homepage = serialize($info);
+		if (setUserSetting("userLinkInfo",$homepage, $userid)) {
 			return true;
 		}
 		return false;
