@@ -27,13 +27,13 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									}
 									request.onSuccess = function () {
 										PM.removeRequest(this);
-										document.getElementById('addForm').name.value = this.getText("/response/name");
+										document.getElementById('addForm').name.value = unescape(this.getText("/response/name"));
 										document.getElementById('addForm').url.value = this.getText("/response/url");
 										return true;
 									}
 									request.onError = function () {
 										PM.removeRequest(this);
-										alert("<?php echo _t('RSS를 읽어올 수 없습니다.');?>");
+										PM.showErrorMessage("<?php echo _t('RSS를 읽어올 수 없습니다.');?>","center", "bottom");
 										return false;
 									}
 									PM.addRequest(request, "<?php echo _t('RSS를 읽어오고 있습니다.');?>");
