@@ -209,6 +209,9 @@ function getComments($entry) {
 					$comment['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
 				}
 			}
+			if(!empty($comment['replier'])) {
+				$comment['homepage'] = User::getHomepage($comment['replier']);
+			}
 			array_push($comments, $comment);
 		}
 	}
@@ -238,6 +241,9 @@ function getCommentComments($parent) {
 							_text('비밀글의 작성자만 읽을 수 있는 댓글입니다.') :
 							_text('관리자만 볼 수 있는 댓글입니다.');
 				}
+			}
+			if(!empty($comment['replier'])) {
+				$comment['homepage'] = User::getHomepage($comment['replier']);
 			}
 			array_push($comments, $comment);
 		}

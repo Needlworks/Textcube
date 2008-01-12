@@ -78,19 +78,19 @@ function removeBlogSetting($name, $blogid = null) {
 	return misc::removeBlogSettingGlobal($name, $blogid);
 }
 
-function getUserSetting($name, $default = null) {
+function getUserSetting($name, $default = null, $userid = null) {
 	requireComponent('Textcube.Function.misc');
 	return misc::getUserSettingGlobal($name, $default);
 }
 
-function setUserSetting($name, $value) {
+function setUserSetting($name, $value, $userid = null) {
 	requireComponent('Textcube.Function.misc');
-	return misc::setUserSettingGlobal($name, $value);
+	return misc::setUserSettingGlobal($name, $value, $userid);
 }
 
-function removeUserSetting($name) {
+function removeUserSetting($name, $userid = null) {
 	requireComponent('Textcube.Function.misc');
-	return misc::removeUserSettingGlobal($name);
+	return misc::removeUserSettingGlobal($name, $userid);
 }
 
 function getDefinedTableNames() {

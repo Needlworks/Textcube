@@ -196,8 +196,8 @@ class misc {
 	}
 
 	// For Blog-scope setting
-	function getBlogSettingGlobal($name, $default = null) {
-		$settings = misc::getBlogSettingsGlobal(getBlogId()); // from blog.service.php
+	function getBlogSettingGlobal($name, $default = null, $blogid = null) {
+		$settings = misc::getBlogSettingsGlobal(($blogid == null ? getBlogId() : $blogid)); 
 		if ($settings === false) return $default;
 		if( isset($settings[$name]) ) {
 			return $settings[$name];
@@ -348,18 +348,19 @@ class misc {
 		return misc::getUserSettingGlobal($name, $default);
 	}
 
-	function getUserSettingGlobal($name, $default = null) {
+	function getUserSettingGlobal($name, $default = null, $userid = null) {
 		global $database, $userSetting;
-		if( empty($userSetting) ) {
-			$settings = POD::queryAllWithCache("SELECT name, value 
+		if( empty($userSetting) || !isset($userSetting[$userid])) {
+			$userid = is_null($userid) ? getUserId() :  $userid;
+			$settings = POD::queryAll("SELECT name, value 
 					FROM {$database['prefix']}UserSettings
-					WHERE userid = ".getUserId(), MYSQL_NUM );
+					WHERE userid = ".$userid, MYSQL_NUM );
 			foreach( $settings as $k => $v ) {
-				$userSetting[ $v[0] ] = $v[1];
+				$userSetting[$userid][ $v[0] ] = $v[1];
 			}
 		}
-		if( isset($userSetting[$name]) ) {
-			return $userSetting[$name];
+		if( isset($userSetting[$userid][$name]) ) {
+			return $userSetting[$userid][$name];
 		}
 		return $default;
 	}
@@ -370,12 +371,12 @@ class misc {
 		return misc::setUserSettingGlobal($name, $value);
 	}
 	
-	function setUserSettingGlobal($name, $value) {
+	function setUserSettingGlobal($name, $value, $userid = null) {
 		global $database;
 		$name = POD::escapeString($name);
 		$value = POD::escapeString($value);
 		clearUserSettingCache();
-		return POD::execute("REPLACE INTO {$database['prefix']}UserSettings VALUES(".getUserId().", '$name', '$value')");
+		return POD::execute("REPLACE INTO {$database['prefix']}UserSettings VALUES(".(is_null($userid) ? getUserId() : $userid).", '$name', '$value')");
 	}
 	
 	function removeUserSetting($name) {
@@ -384,10 +385,10 @@ class misc {
 		return misc::removeUserSettingGlobal($name);
 	}
 
-	function removeUserSettingGlobal($name) {
+	function removeUserSettingGlobal($name, $userid = null) {
 		global $database;
 		clearUserSettingCache();
-		return POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = ".getUserId()." AND name = '".POD::escapeString($name)."'");
+		return POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = ".(is_null($userid) ? getUserId() : $userid)." AND name = '".POD::escapeString($name)."'");
 	}
 
 	function getServiceSetting($name, $default = null) {

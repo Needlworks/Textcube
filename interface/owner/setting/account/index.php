@@ -333,8 +333,8 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 <?php
 $hptype = User::getHomepageType();
 $blogs = User::getBlogs();
-$ownedblogs = User::getOwnedBlogs();
-$hptype = empty($blogs)?"defalut":$hptype;
+$ownedblogs = User::getOwnedBlogId();
+$hptype = empty($blogs)?"default":$hptype;
 if ($hptype == 'internal' || 'author') {
 	$blogidforhomepage = getUserSetting("blogidforhomepage"); 
 }

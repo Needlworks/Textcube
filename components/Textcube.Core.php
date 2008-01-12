@@ -60,7 +60,7 @@ class User {
 	}
 
 	/*@static@*/
-	function getOwnedBlogs($userid = null) {
+	function getOwnedBlogId($userid = null) {
 		global $database;
 		if (!isset($userid))
 			$userid = getUserId();
@@ -70,9 +70,10 @@ class User {
 	/*@static@*/
 	function getHomepageType($userid = null) {
 		global $database;
-		if (!isset($userid))//TODO : 현재 로그인 사용자의 homepage만 읽기가능.getUserSetting함수 특성. 
+		if (!isset($userid)) 
 			$userid = getUserId();
-		$type = getUserSetting("homepagetype");
+		$info = unserialize(getUserSetting('authorLink',$userid));
+		$type = $info['type'];
 		if (empty($type)) {
 			$type = "default";
 		}
@@ -84,20 +85,20 @@ class User {
 		global $database;
 		if (!isset($userid)) //TODO : 현재 로그인 사용자의 homepage만 읽기가능.getUserSetting함수 특성. 
 			$userid = getUserId();
-		$type = User::getHomepageType();
-		switch ($type) {
-		case "external" :
-			$homepage = getUserSetting("homepage");
-			break;
-		case "internal" :
-			$homepage = getDefaultURL(getUserSetting("blogidforhomepage"));
-			break;
-		case "author" : 
-			$homepage = getDefaultURL(getUserSetting("blogidforhomepage"))."/author/".User::getName();
-			break;
-		case "default" :
-		default :
-			$homepage = null;
+		$info = unserialize(getUserSetting('authorLink',$userid));
+		switch ($info['type']) {
+			case "external" :
+				$homepage = $info['url'];
+				break;
+			case "internal" :
+				$homepage = getDefaultURL($info['blogid']);
+				break;
+			case "author" : 
+				$homepage = getDefaultURL($info['blogid'])."/author/".encodeURL(User::getName());
+				break;
+			case "default" :
+			default :
+				$homepage = null;
 		}
 		return $homepage;
 	}
@@ -107,28 +108,26 @@ class User {
 		$types = array("internal","author","external","default");
 		if (!isset($userid)) //TODO : 현재 로그인 사용자의 homepage만 변경가능.setUserSetting함수 특성. 
 			$userid = getUserId();
-		if (in_array($type,$types) && setUserSetting("homepagetype",$type)) {
+		if (in_array($type,$types)) {
+			$homepage['type'] = $type;
 			switch ($type) {
-			case "internal" :
-			case "author" : 
-				$homepage = null;
-				break;
-			case "external" :
-				$blogid = null;
-				break;
-			case "default" :
-			default :
-				$homepage = null;
-				$blogid = null;
+				case "internal" : case "author" : 
+					$homepage['url'] = null;
+					break;
+				case "external" :
+					$homepage['blogid'] = null;
+					break;
+				case "default" :
+				default :
+					$homepage['url'] = null;
+					$homepage['blogid'] = null;
 			}
-		}
-		else {
+		} else {
 			return false;
 		}
-		if (setUserSetting("homepage",$homepage)) {
-			if (setUserSetting("blogidforhomepage",$blogid)) {
-				return true;
-			}
+		$homepage = serialize($homepage);
+		if (setUserSetting("authorLink",$homepage, $userid)) {
+			return true;
 		}
 		return false;
 	}
