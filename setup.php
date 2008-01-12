@@ -1275,7 +1275,7 @@ CREATE TABLE {$_POST['dbPrefix']}SessionVisits (
   id varchar(32) NOT NULL default '',
   address varchar(15) NOT NULL default '',
   blogid int(11) NOT NULL default '0',
-  PRIMARY KEY  (id,address,blog)
+  PRIMARY KEY  (id,address,blogid)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Sessions (
   id varchar(32) NOT NULL default '',
