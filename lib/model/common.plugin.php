@@ -387,16 +387,11 @@ function handleSidebars(& $sval, & $obj, $previewMode) {
 					include_once (ROOT . "/plugins/{$plugin}/index.php");
 					if (function_exists($handler)) {
 						$str .= "[##_temp_sidebar_element_{$i}_{$j}_##]";
-						$parameters = $currentSidebarOrder[$j]['parameters'];
-						$pluginURL = "{$service['path']}/plugins/{$plugin}";
-						$pluginPath = ROOT . "/plugins/{$plugin}";
-						if( !empty( $configMappings[$plugin]['config'] ) ) 				
-							$configVal = getCurrentSetting($plugin);
-						else
-							$configVal ='';
-						
 						if (function_exists($handler)) {
-							$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"] = call_user_func($handler, $parameters);
+							$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"]['plugin'] = $plugin;
+							$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"]['handler'] = $handler;
+							$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"]['parameters'] = $parameter;
+						//	= call_user_func($handler, $parameters);
 						} else {
 							$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"] = "";
 						}

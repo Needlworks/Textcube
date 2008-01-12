@@ -108,10 +108,22 @@ if (isset($paging)) {
 	dress('paging', $cache->contents, $view);
 }
 
+// Sidebar dressing
 $sidebarElements = array_keys($skin->sidebarStorage);
 foreach ($sidebarElements as $element) {
-	dress($element, $skin->sidebarStorage[$element], $view);
+	$pluginData = $skin->sidebarStorage[$element];
+	include_once (ROOT . "/plugins/{$plugin}/index.php");
+	$pluginURL = "{$service['path']}/plugins/{$plugin}";
+	$pluginPath = ROOT . "/plugins/{$plugin}";
+	if( !empty( $configMappings[$plugin]['config'] ) ) 				
+		$configVal = getCurrentSetting($plugin);
+	else
+		$configVal ='';
+	
+	dress($element, call_user_func($pluginData['handler'], $pluginData['parameters']), $view);
 }
+
+// Coverpage dressing
 $coverpageElements = array_keys($skin->coverpageStorage);
 foreach ($coverpageElements as $element) {
 	dress($element, $skin->coverpageStorage[$element], $view);

@@ -53,7 +53,7 @@ function addSidebarModuleOrderData($dataArray, $sidebarNumber, $modulePos, $newM
 		
 		if ($matched == false) return null;
 	}
-	
+	Skin::purgeCache();	
 	return $dataArray;
 }
 
@@ -63,6 +63,7 @@ function deleteSidebarModuleOrderData($dataArray, $sidebarNumber, $modulePos) {
 	
 	array_splice($dataArray[$sidebarNumber], $modulePos, 1);
 	
+	Skin::purgeCache();	
 	return $dataArray;
 }
 
