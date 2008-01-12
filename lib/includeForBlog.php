@@ -14,6 +14,7 @@ require ROOT .'/lib/function/misc.php';
 require ROOT .'/lib/function/image.php';
 require ROOT .'/lib/function/mail.php';
 require ROOT .'/lib/functions.php';
+if (defined( 'TCDEBUG')) __tcSqlLogPoint('end of basic function loading');
 // Library
 require ROOT .'/lib/database.php';
 require ROOT .'/lib/locale.php';
@@ -42,15 +43,18 @@ require ROOT .'/lib/model/common.paging.php';
 require ROOT .'/lib/model/common.plugin.php';
 require ROOT .'/lib/model/common.module.php';
 require ROOT .'/lib/model/reader.common.php';
+if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of model loading.');
 // Views
 require ROOT .'/lib/view/html.php';
 require ROOT .'/lib/view/pages.php';
 require ROOT .'/lib/view/paging.php';
 require ROOT .'/lib/view/view.php';
+if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of view loading.');
 // Initializing environment.
 require ROOT .'/lib/initialize.php';
+if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of initializing.');
 require ROOT .'/lib/plugins.php';
-if (defined( 'TCDEBUG')) __tcSqlLogPoint('end of plugins.php');
+if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of plugins.php');
 
 header('Content-Type: text/html; charset=utf-8');
 ?>
