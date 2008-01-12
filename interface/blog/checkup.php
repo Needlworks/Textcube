@@ -194,6 +194,15 @@ if (POD::queryCount("SHOW INDEX FROM {$database['prefix']}Trackbacks WHERE Key_n
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
+if (POD::queryExistence("DESC {$database['prefix']}SessionVisits blog")) {
+	$changed = true;
+	echo '<li>', _text('SessionVisits 테이블의 블로그 정보 필드 이름을 변경합니다.'), ': ';
+	if (POD::execute("ALTER TABLE {$database['prefix']}SessionVisits CHANGE blog blogid int(11) NOT NULL DEFAULT 0")) 
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
 /***** Common parts. *****/
 if(doesHaveOwnership() && $blogids = POD::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog")) {
 	$changed = true;

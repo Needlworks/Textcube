@@ -1274,7 +1274,7 @@ CREATE TABLE {$_POST['dbPrefix']}ServiceSettings (
 CREATE TABLE {$_POST['dbPrefix']}SessionVisits (
   id varchar(32) NOT NULL default '',
   address varchar(15) NOT NULL default '',
-  blog int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
   PRIMARY KEY  (id,address,blog)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Sessions (
