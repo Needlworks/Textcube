@@ -105,15 +105,16 @@ function MT_Cover_getRecentEntries_purgeCache($target, $mother) {
 }
 
 function MT_Cover_getImageResizer($blogid, $filename){
+	global $serviceURL;
+	
 	$originSrc = ROOT . "/attach/{$blogid}/{$filename}";
 	$currentBlogId = getBlogId();
-	$defaultURL = getDefaultURL();
 	$cropSize = 90;
 	
 	if (file_exists($originSrc)) {
 		$imageInfo = getimagesize($originSrc);
 		$newSrc = ROOT . "/cache/thumbnail/{$currentBlogId}/coverPostThumbnail/th_{$filename}";
-		$imageURL = "{$defaultURL}/thumbnail/{$currentBlogId}/{$filename}";
+		$imageURL = "{$serviceURL}/thumbnail/{$currentBlogId}/{$filename}";
 		
 		if (extension_loaded('gd')) {
 			if (!file_exists($newSrc)) {
@@ -127,12 +128,12 @@ function MT_Cover_getImageResizer($blogid, $filename){
 				
 				$objThumbnail->imageFile = $originSrc;
 				if ($objThumbnail->resample($tempWidth, $tempHeight) && $objThumbnail->cropRectBySize($cropSize, $cropSize)) {
-					$imageURL = "{$defaultURL}/thumbnail/{$currentBlogId}/coverPostThumbnail/th_{$filename}";
+					$imageURL = "{$serviceURL}/thumbnail/{$currentBlogId}/coverPostThumbnail/th_{$filename}";
 					$objThumbnail->saveAsFile($newSrc);
 				}
 				unset($objThumbnail);
 			} else {
-				$imageURL = "{$defaultURL}/thumbnail/{$currentBlogId}/coverPostThumbnail/th_{$filename}";
+				$imageURL = "{$serviceURL}/thumbnail/{$currentBlogId}/coverPostThumbnail/th_{$filename}";
 			}
 		}
 		
