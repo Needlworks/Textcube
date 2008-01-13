@@ -4,30 +4,34 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 function setBlogTitle($blogid, $title) {
-	global $database, $blog;
+	global $database, $blog, $gCacheStorage;
 	requireModel('blog.rss');
 	if ($title == $blog['title'])
 		return true;
 	if(setBlogSetting('title', UTF8::lessenAsEncoding($title, 255)) === false) return false;
 	$blog['title'] = $title;
 	clearRSS();
+	$gCacheStorage->purge();
 	return true;
 }
 
 function setBlogDescription($blogid, $description) {
-	global $database, $blog;
+	global $database, $blog, $gCacheStorage;
 	requireModel('blog.rss');
 	if ($description == $blog['description'])
 		return true;
 	if(setBlogSetting('description',UTF8::lessenAsEncoding($description, 255)) === false) return false;
 	$blog['description'] = $description;
+	$gCacheStorage->purge();
 	clearRSS();
 	return true;
 }
 
 function setBlogTags($blogid, $tags) {
+	global $gCacheStorage;
 	if(isset($tags)) {
 		setBlogSetting('blogTags',$tags);
+		$gCacheStorage->purge();
 		return true;
 	}
 	return false;
@@ -41,12 +45,13 @@ function getBlogTags($blogid) {
 }
 
 function removeBlogLogo($blogid) {
-	global $database, $blog;
+	global $database, $blog, $gCacheStorage;
 	requireModel('blog.attachment');
 	
 	if(setBlogSetting('logo','') === false) return false;
 	else {
 		deleteAttachment($blogid, - 1, $blog['logo']);
+		$gCacheStorage->purge();
 		$blog['logo'] = '';
 		return true;
 	}
@@ -54,8 +59,7 @@ function removeBlogLogo($blogid) {
 }
 
 function changeBlogLogo($blogid, $file) {
-	global $database;
-	global $blog;
+	global $database, $blog, $gCacheStorage;
 	requireModel('blog.attachment');
 	if (($attachment = addAttachment($blogid, - 1, $file)) === false) {
 		return false;
@@ -66,6 +70,7 @@ function changeBlogLogo($blogid, $file) {
 	}
 	if(setBlogSetting('logo',$attachment['name'])) {
 		deleteAttachment($blogid, - 1, $blog['logo']);
+		$gCacheStorage->purge();
 		$blog['logo'] = $attachment['name'];
 		return true;
 	}
@@ -77,8 +82,7 @@ function checkBlogName($name) {
 }
 
 function setPrimaryDomain($blogid, $name) {
-	global $database;
-	global $service, $blog;
+	global $database, $service, $blog, $gCacheStorage;
 	requireModel('blog.rss');
 	$name = UTF8::lessenAsEncoding(strtolower(trim($name)), 32);
 	if ($name == $blog['name'])
@@ -91,6 +95,7 @@ function setPrimaryDomain($blogid, $name) {
 		return 3;
 	if(setBlogSetting('name', $name)) {
 		$blog['name'] = $name;
+		$gCacheStorage->purge();
 		clearRSS();
 	} else {
 		return 0;
@@ -98,11 +103,12 @@ function setPrimaryDomain($blogid, $name) {
 }
 
 function setSecondaryDomain($blogid, $domain) {
-	global $database, $blog;
+	global $database, $blog, $gCacheStorage;
 	requireModel('blog.rss');
 	$domain = UTF8::lessenAsEncoding(strtolower(trim($domain)), 64);
 	if ($domain == $blog['secondaryDomain'])
 		return 0;
+	$gCacheStorage->purge();
 	if (empty($domain))
 		setBlogSetting('secondaryDomain','');
 	else if (Validator::domain($domain)) {
@@ -121,7 +127,7 @@ function setSecondaryDomain($blogid, $domain) {
 }
 
 function setDefaultDomain($blogid, $default) {
-	global $database, $blog;
+	global $database, $blog, $gCacheStorage;
 	requireModel('blog.rss');
 	$default = $default == 1 ? 1 : 0;
 	if (empty($blog['secondaryDomain']) && $default == 1)
@@ -132,12 +138,13 @@ function setDefaultDomain($blogid, $default) {
 		return false;
 	}
 	$blog['defaultDomain'] = $default;
+	$gCacheStorage->purge();
 	clearRSS();
 	return true;
 }
 
 function useBlogSlogan($blogid, $useSlogan) {
-	global $database, $blog;
+	global $database, $blog, $gCacheStorage;
 	requireModel('blog.rss');
 	requireComponent('Needlworks.Cache.PageCache');
 	$useSlogan = $useSlogan ? 1 : 0;
@@ -150,12 +157,13 @@ function useBlogSlogan($blogid, $useSlogan) {
 	CacheControl::flushCategory();
 	CacheControl::flushEntry();
 	fireEvent('ToggleBlogSlogan',null,$blog['useSlogan']);
+	$gCacheStorage->purge();
 	clearRSS();
 	return true;
 }
 
 function publishPostEolinSyncOnRSS($blogid, $publishEolinSyncOnRSS) {
-	global $database, $blog;
+	global $database, $blog, $gCacheStorage;
 	requireModel('blog.rss');
 	$publishEolinSyncOnRSS = $publishEolinSyncOnRSS ? 1 : 0;
 	if ($publishEolinSyncOnRSS == $blog['publishEolinSyncOnRSS'])
@@ -163,23 +171,25 @@ function publishPostEolinSyncOnRSS($blogid, $publishEolinSyncOnRSS) {
 	if(setBlogSetting('publishEolinSyncOnRSS',$publishEolinSyncOnRSS) === false)
 		return false;
 	$blog['publishEolinSyncOnRSS'] = $publishEolinSyncOnRSS;
+	$gCacheStorage->purge();
 	clearRSS();
 	return true;
 }
 
 function setEntriesOnRSS($blogid, $entriesOnRSS) {
-	global $database, $blog;
+	global $database, $blog, $gCacheStorage;
 	requireModel('blog.rss');
 	if ($entriesOnRSS == $blog['entriesOnRSS'])
 		return true;
 	if(setBlogSetting('entriesOnRSS',$entriesOnRSS) === false) return false;
 	$blog['entriesOnRSS'] = $entriesOnRSS;
+	$gCacheStorage->purge();
 	clearRSS();
 	return true;
 }
 
 function setCommentsOnRSS($blogid, $commentsOnRSS) {
-	global $database, $blog;
+	global $database, $blog, $gCacheStorage;
 	requireModel('blog.rss');
 	if ($commentsOnRSS == $blog['commentsOnRSS'])
 		return true;
@@ -188,23 +198,25 @@ function setCommentsOnRSS($blogid, $commentsOnRSS) {
 	$cache = new pageCache;
 	$cache->name = 'commentRSS';
 	$cache->purge();
+	$gCacheStorage->purge();
 	return true;
 }
 
 function setPublishWholeOnRSS($blogid, $publishWholeOnRSS) {
-	global $database, $blog;
+	global $database, $blog, $gCacheStorage;
 	requireModel('blog.rss');
 	$publishWholeOnRSS = $publishWholeOnRSS ? 1 : 0;
 	if ($publishWholeOnRSS == $blog['publishWholeOnRSS'])
 		return true;
 	if(setBlogSetting('publishWholeOnRSS',$publishWholeOnRSS) === false) return false;
 	$blog['publishWholeOnRSS'] = $publishWholeOnRSS;
+	$gCacheStorage->purge();
 	clearRSS();
 	return true;
 }
 
 function setBlogLanguage($blogid, $language, $blogLanguage) {
-	global $database, $blog;
+	global $database, $blog, $gCacheStorage;
 	requireModel('blog.rss');
 	if (($language == $blog['language']) && ($blogLanguage == $blog['blogLanguage']))
 		return true;
@@ -213,22 +225,24 @@ function setBlogLanguage($blogid, $language, $blogLanguage) {
 	if(setBlogSetting('language',$language) && setBlogSetting('blogLanguage',$blogLanguage)) {
 		$blog['language'] = $language;
 		$blog['blogLanguage'] = $blogLanguage;
+		$gCacheStorage->purge();
 		clearRSS();
 		return true;
 	} else return false;
 }
 
 function setGuestbook($blogid, $write, $comment) {
-	global $database, $blog;
+	global $database, $blog, $gCacheStorage;
 	if (!is_numeric($write) || !is_numeric($comment))
 		return false;
 	if(setBlogSetting('allowWriteOnGuestbook',$write) && setBlogSetting('allowWriteDblCommentOnGuestbook',$comment)) {
+		$gCacheStorage->purge();
 		return true;
 	} else return false;
 }
 
 function addUser($email, $name) {
-	global $database, $service, $user, $blog;
+	global $database, $service, $user, $blog, $gCacheStorage;
 	if (empty($email))
 		return 1;
 	if (!preg_match('/^[^@]+@([-a-zA-Z0-9]+\.)+[-a-zA-Z0-9]+$/', $email))
@@ -245,6 +259,7 @@ function addUser($email, $name) {
 	if (!empty($result)) {
 		return 9;	// User already exists.
 	}
+	$gCacheStorage->purge();
 
 	$result = POD::query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (NULL, '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, ".getUserId().")");
 	if (empty($result)) {
