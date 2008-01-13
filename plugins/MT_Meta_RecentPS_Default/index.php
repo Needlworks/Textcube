@@ -105,36 +105,40 @@ function MT_Cover_getRecentEntries_purgeCache($target, $mother) {
 }
 
 function MT_Cover_getImageResizer($blogid, $filename){
-	global $defaultURL, $serviceURL;
-	requireComponent('Textcube.Function.Image');
+	$originSrc = ROOT . "/attach/{$blogid}/{$filename}";
+	$currentBlogId = getBlogId();
+	$defaultURL = getDefaultURL();
+	$cropSize = 90;
 	
-	$imagePath = ROOT . "/attach/{$blogid}/{$filename}"; 
-	$savePath = ROOT . "/cache/thumbnail/" . getBlogId() . "/coverPostThumbnail/th_{$filename}";
-	$srcPath = "{$serviceURL}/thumbnail/" . getBlogId() . "/coverPostThumbnail/th_{$filename}";
-
-	if(file_exists($imagePath)){
-		if(extension_loaded('gd')){
-			if(!file_exists($savePath)){
-				$imageInfo = getimagesize($imagePath);
-				$attachedImage = new Image();
-				$tempSizeCheck = $attachedImage->calcOptimizedImageSize($imageInfo[0],$imageInfo[1],90,null);
-				if($tempSizeCheck[1] < 90){
-					$tempSize = $attachedImage->calcOptimizedImageSize($imageInfo[0],$imageInfo[1],null,90);
-				}else{
-					$tempSize = array($tempSizeCheck[0], $tempSizeCheck[1]);
+	if (file_exists($originSrc)) {
+		$imageInfo = getimagesize($originSrc);
+		$newSrc = ROOT . "/cache/thumbnail/{$currentBlogId}/coverPostThumbnail/th_{$filename}";
+		$imageURL = "{$defaultURL}/thumbnail/{$currentBlogId}/{$filename}";
+		
+		if (extension_loaded('gd')) {
+			if (!file_exists($newSrc)) {
+				requireComponent('Textcube.Function.Image');
+				
+				$objThumbnail = new Image();
+				if ($imageInfo[0] > $imageInfo[1])
+					list($tempWidth, $tempHeight) = $objThumbnail->calcOptimizedImageSize($imageInfo[0], $imageInfo[1], NULL, 90);
+				else
+					list($tempWidth, $tempHeight) = $objThumbnail->calcOptimizedImageSize($imageInfo[0], $imageInfo[1], 90, null);
+				
+				$objThumbnail->imageFile = $originSrc;
+				if ($objThumbnail->resample($tempWidth, $tempHeight) && $objThumbnail->cropRectBySize($cropSize, $cropSize)) {
+					$imageURL = "{$defaultURL}/thumbnail/{$currentBlogId}/coverPostThumbnail/th_{$filename}";
+					$objThumbnail->saveAsFile($newSrc);
 				}
-				$attachedImage->imageFile = $imagePath;
-				if ($attachedImage->resample($tempSize[0], $tempSize[1])) {
-					$attachedImage->createThumbnailIntoFile($savePath);
-				}
-				unset($attachedImage);
+				unset($objThumbnail);
+			} else {
+				$imageURL = "{$defaultURL}/thumbnail/{$currentBlogId}/coverPostThumbnail/th_{$filename}";
 			}
-		}else{
-			$srcPath = "{$serviceURL}/attach/{$blogid}/{$filename}"; 
 		}
-		return $srcPath;
-	}else{
-		return '';
+		
+		return $imageURL;
+	} else {
+		return NULL;
 	}
 }
 
