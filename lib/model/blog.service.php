@@ -23,8 +23,16 @@ function getBlogidBySecondaryDomain($domain) {
 function getBlogSettings($blogid) {
 	global $database, $service;
 	global $__gCacheBlogSettings;
+	global $gCacheStorage;
 	if (array_key_exists($blogid, $__gCacheBlogSettings)) {
 		return $__gCacheBlogSettings[$blogid];
+	}
+	if($blogid = getBlogId()) {
+		$result = $gCacheStorage->getContent('BlogSettings');
+		if(!empty($result)) { 
+			$__gCacheBlogSettings[$blogid] = $result;
+			return $result;
+		}
 	}
 	$query = new TableQuery($database['prefix'] . 'BlogSettings');
 	$query->setQualifier('blogid',$blogid);
@@ -70,6 +78,7 @@ function getBlogSettings($blogid) {
 			}
 		}
 		$__gCacheBlogSettings[$blogid] = $result;
+		if($blogid = getBlogId()) $gCacheStorage->setContent('BlogSettings', $result);
 		return $result;
 	}
 	$__gCacheBlogSettings[$blogid] = false;
@@ -79,7 +88,7 @@ function getBlogSettings($blogid) {
 function getSkinSetting($blogid, $forceReload = false) {
 	global $database, $service, $skinSetting;
 	global $__gCacheSkinSetting;
-
+	global $gCacheStorage;
 	if (
 		($forceReload == false) 
 		&& (isset($__gCacheSkinSetting)) 
@@ -88,14 +97,20 @@ function getSkinSetting($blogid, $forceReload = false) {
 	{
 		return $__gCacheSkinSetting[$blogid];
 	}
-	
-	if ($result = POD::query("SELECT * FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid")) {
-		$retval = mysql_fetch_array($result);
+	if($blogid == getBlogId() && $forceReload == false) {
+		$retval = $gCacheStorage->getContent('SkinSetting');
+		if(!empty($retval)) {
+			$__gCacheSkinSetting[$blogid] = $retval;
+			return $retval;
+		}
+	}
+	if ($retval = POD::queryRow("SELECT * FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid",MYSQL_ASSOC)) {
 		if ($retval != FALSE) {
 			if (!Validator::directory($retval['skin']) && ($retval['skin'] !="customize/$blogid")) {
 				$retval['skin'] = $service['skin'];
 			}
 			$__gCacheSkinSetting[$blogid] = $retval;
+			if($blogid == getBlogId())  $gCacheStorage->setContent('SkinSetting',$retval);
 			return $retval;
 		}
 	}
@@ -113,6 +128,7 @@ function getSkinSetting($blogid, $forceReload = false) {
 		'labelLengthOnTree' => 27, 'showValueOnTree' => 1 );
 	
 	$__gCacheSkinSetting[$blogid] = $retval;
+	if($blogid == getBlogId())  $gCacheStorage->setContent('SkinSetting',$retval);
 	return $retval;	
 }
 

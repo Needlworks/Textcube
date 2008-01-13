@@ -25,6 +25,7 @@ function clearUserSettingCache() {
 function getServiceSetting($name, $default = null) {
 	global $database;
 	global $serviceSetting;
+	global $gCacheStorage;
 	if( empty($serviceSetting) ) {
 		$settings = POD::queryAllWithCache("SELECT name, value FROM {$database['prefix']}ServiceSettings" , MYSQL_NUM );
 		foreach( $settings as $k => $v ) {

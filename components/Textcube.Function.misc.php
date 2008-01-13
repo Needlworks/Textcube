@@ -263,7 +263,7 @@ class misc {
 	
 	function setBlogSettingGlobal($name, $value, $blogid = null) {
 		global $database;
-		global $__gCacheBlogSettings; // share blog.service.php
+		global $__gCacheBlogSettings;
 	
 		if (is_null($blogid)) $blogid = getBlogId();
 		if (!is_numeric($blogid)) return null;

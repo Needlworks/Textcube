@@ -132,5 +132,5 @@ foreach ($coverpageElements as $element) {
 $view = revertTempTags(removeAllTags($view));
 
 print $view;
-
+$gCacheStorage->save();
 ?>

@@ -43,18 +43,18 @@ require ROOT .'/lib/model/common.paging.php';
 require ROOT .'/lib/model/common.plugin.php';
 require ROOT .'/lib/model/common.module.php';
 require ROOT .'/lib/model/reader.common.php';
-if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of model loading.');
+if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of model loading');
 // Views
 require ROOT .'/lib/view/html.php';
 require ROOT .'/lib/view/pages.php';
 require ROOT .'/lib/view/paging.php';
 require ROOT .'/lib/view/view.php';
-if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of view loading.');
+if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of view loading');
 // Initializing environment.
 require ROOT .'/lib/initialize.php';
-if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of initializing.');
+if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of initializing');
 require ROOT .'/lib/plugins.php';
-if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of plugins.php');
+if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of plugin parsing');
 
 header('Content-Type: text/html; charset=utf-8');
 ?>

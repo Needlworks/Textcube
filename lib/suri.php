@@ -55,6 +55,9 @@ if ($service['type'] == 'single') {
 		respondNotFoundPage();
 }
 $owner = $blogid; // For legacy.(<1.5)
+
+$gCacheStorage = new globalCacheStorage; // Initialize global cache
+
 $blog = getBlogSettings($blogid);
 $skinSetting = getSkinSetting($blogid);
 if(isset($interfacePath)) {
