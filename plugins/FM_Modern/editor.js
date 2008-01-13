@@ -1677,7 +1677,6 @@ TTModernEditor.prototype.eventHandler = function(event) {
 					} else {
 					}
 				} else {
-						alert('hee');
 					if(STD.isIE && range.parentElement && range.parentElement().tagName != "LI") {
 						event.returnValue = false;
 						event.cancelBubble = true;
