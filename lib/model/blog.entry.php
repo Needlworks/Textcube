@@ -452,7 +452,7 @@ function getRecentEntries($blogid) {
 }
 
 function addEntry($blogid, $entry) {
-	global $database, $blog;
+	global $database, $blog, $gCacheStorage;
 	requireModel("blog.attachment");
 	requireModel("blog.rss");
 	requireModel("blog.category");
@@ -555,6 +555,7 @@ function addEntry($blogid, $entry) {
 	if ($entry['visibility'] >= 2) {
 		CacheControl::flushAuthor($userid);
 		CacheControl::flushDBCache('entry');
+		$gCacheStorage->purge();
 		clearRSS();
 	}
 	if (!empty($entry['tag'])) {
@@ -565,8 +566,7 @@ function addEntry($blogid, $entry) {
 }
 
 function updateEntry($blogid, $entry, $updateDraft = 0) {
-	global $database;
-	global $blog;
+	global $database, $blog, $gCacheStorage;
 	requireModel('blog.tag');
 	requireModel('blog.locative');
 	requireModel('blog.attachment');
@@ -681,6 +681,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	updateEntriesOfCategory($blogid, $entry['category']);
 	CacheControl::flushAuthor($entry['userid']);	
 	CacheControl::flushDBCache('entry');
+	$gCacheStorage->purge();
 	if ($entry['visibility'] == 3)
 		syndicateEntry($entry['id'], 'modify');
 	POD::query("UPDATE {$database['prefix']}Attachments SET parent = {$entry['id']} WHERE blogid = $blogid AND parent = 0");
@@ -847,7 +848,7 @@ function updateTrackbacksOfEntry($blogid, $id) {
 }
 
 function deleteEntry($blogid, $id) {
-	global $database, $blog;
+	global $database, $blog, $gCacheStorage;
 	requireModel("blog.rss");
 	requireModel("blog.category");
 	requireModel("blog.attachment");
@@ -857,9 +858,10 @@ function deleteEntry($blogid, $id) {
 	if (POD::queryCell("SELECT visibility FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id") == 3)
 		syndicateEntry($id, 'delete');
 	CacheControl::flushEntry($id);
-	CacheControl::flushDBCache('entry');	
-	$result = POD::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id");
-	if (mysql_affected_rows() > 0) {
+	CacheControl::flushDBCache('entry');
+	$gCacheStorage->purge();
+	$result = POD::queryCount("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id");
+	if ($result > 0) {
 		$result = POD::query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND entry = $id");
 		$result = POD::query("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND entry = $id");
 		$result = POD::query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = $blogid AND entry = $id");
