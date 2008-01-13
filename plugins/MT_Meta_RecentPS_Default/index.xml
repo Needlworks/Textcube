@@ -3,7 +3,7 @@
   <title xml:lang="en">Coverpage Recent Entries as blogmeta</title>
   <title xml:lang="ko">모든 블로그의 최근 글 보기</title>
   <link>http://needlworks.org/</link>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
   <description xml:lang="en">Shows coverpage with recent entries</description>
   <description xml:lang="ko">다중 사용자 모드에서 모든 블로그들의 최근에 작성된 글들을 표지에 보여줍니다</description>
   <license>GPL</license>
@@ -11,7 +11,7 @@
   <author xml:lang="ko" link="http://needlworks.org">Needlworks</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
-    <textcube>1.5.1</textcube>
+    <textcube>1.6</textcube>
   </requirements>
   <binding>
   	<listener event="AddPost">MT_Cover_getRecentEntries_purgeCache</listener>
