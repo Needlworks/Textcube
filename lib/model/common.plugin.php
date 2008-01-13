@@ -9,14 +9,15 @@ $pluginSetting = array();
 /***** Plugin data manipulation *****/
 function clearPluginSettingCache()
 {
-	global $pluginSetting;
+	global $pluginSetting, $gCacheStorage;
 	if( !empty($pluginSetting) ) {
+		$gCacheStorage->purge();
 		$pluginSetting = array();
 	}
 }
 
 function activatePlugin($name) {
-	global $database, $activePlugins;
+	global $database, $activePlugins, $gCacheStorage;
 	if (in_array($name, $activePlugins))
 		return true;
 	if (!preg_match('/^[-a-zA-Z0-9_ ]+$/', $name))
@@ -56,7 +57,7 @@ function activatePlugin($name) {
 }
 
 function deactivatePlugin($name) {
-	global $database, $activePlugins;
+	global $database, $activePlugins, $gCacheStorage;
 	if (!in_array($name, $activePlugins))
 		return false;
 	$pluginName = $name;
