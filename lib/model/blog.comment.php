@@ -742,6 +742,7 @@ function trashCommentInOwner($blogid, $id) {
 	if(POD::query("UPDATE {$database['prefix']}Comments SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id")) {
 		if (POD::query("UPDATE {$database['prefix']}Comments SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND parent = $id")) {
 			CacheControl::flushCommentRSS($entryId);
+			CacheControl::flushDBCache('comment');
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
 		}
