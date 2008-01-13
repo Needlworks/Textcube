@@ -450,6 +450,7 @@ TTModernEditor.prototype.ttml2html = function() {
 TTModernEditor.prototype.html2ttml = function() {
 	var str = this.contentDocument.body.innerHTML;
 
+	str = str.replaceAll('<div><br /></div>','<br />');
 	// more/less handling
 	str = this.morelessConvert(str);
 
@@ -1318,7 +1319,7 @@ TTModernEditor.prototype.command = function(command, value1, value2) {
 					}
 					else {
 						if(STD.isIE) {
-							this.getSelectionRange().pasteHTML("<ul><li>" + this.getSelectionRange().htmlText.replace(new RegExp("<br />", "gi"), "</li><li>") + "</li></ul>");
+							this.getSelectionRange().pasteHTML("<ul>\n<li>" + this.getSelectionRange().htmlText.replace(new RegExp("<br />", "gi"), "</li>\n<li>") + "</li>\n</ul>");
 						}
 						else {
 							var range = this.getSelectionRange();
@@ -1673,9 +1674,10 @@ TTModernEditor.prototype.eventHandler = function(event) {
 				if(this.newLineToParagraph) {
 					if(STD.isFirefox && !event.shiftKey) {
 						// TODO : put a p tag
+					} else {
 					}
-				}
-				else {
+				} else {
+						alert('hee');
 					if(STD.isIE && range.parentElement && range.parentElement().tagName != "LI") {
 						event.returnValue = false;
 						event.cancelBubble = true;
@@ -1727,6 +1729,10 @@ TTModernEditor.prototype.correctContent = function() {
 	} else {
 		var html = this.textarea.value;
 	}
+	html = html.replaceAll('class="Apple-style-span"','');
+	html = html.replaceAll('class="webkit-block-placeholder"','');
+	html = html.replaceAll('br class="webkit-block-placeholder"','br /');
+	html = html.replaceAll('<div><br /></div>','<br />');
 	var dmodeExprs = new Array("font-weight: bold;",
 		"font-style: italic;",
 		"text-decoration: underline;",
@@ -2023,6 +2029,7 @@ TTModernEditor.prototype.toggleMode = function() {
 		this.textarea.style.display = "block";
 		this.editMode = "TEXTAREA";
 		this.textarea.value = this.html2ttml();
+		this.correctContent();
 		this.textarea.focus();
 		this.resizer.target = this.textarea;
 	}
@@ -2037,6 +2044,7 @@ TTModernEditor.prototype.toggleMode = function() {
 		}
 		this.editMode = "WYSIWYG";
 		this.contentDocument.body.innerHTML = this.ttml2html();
+		this.correctContent();
 		try { this.contentDocument.body.focus(); } catch(e) { }
 		this.resizer.target = this.iframe;
 	}
