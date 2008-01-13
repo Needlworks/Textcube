@@ -117,7 +117,6 @@ class Skin {
 			replaceSkinTag($sval, 'head');
 			replaceSkinTag($sval, 'body');
 			insertGeneratorVersion($sval);
-			handleTags($sval);
 			
 			// 사이드바 작업.
 			$sidebarCount = 0;
