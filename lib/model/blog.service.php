@@ -27,7 +27,7 @@ function getBlogSettings($blogid) {
 	if (array_key_exists($blogid, $__gCacheBlogSettings)) {
 		return $__gCacheBlogSettings[$blogid];
 	}
-	if($blogid = getBlogId()) {
+	if($blogid == getBlogId()) {
 		$result = $gCacheStorage->getContent('BlogSettings');
 		if(!empty($result)) { 
 			$__gCacheBlogSettings[$blogid] = $result;
