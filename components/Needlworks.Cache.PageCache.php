@@ -292,7 +292,7 @@ class globalCacheStorage {
 
 	function purge() {
 		global $database;
-		return POD::query("DELETE FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$this->_gBlogId()." AND name = 'globalCacheStorage'");
+		return POD::query("DELETE FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$this->_gBlogId." AND name = 'globalCacheStorage'");
 	}
 }
 

@@ -347,7 +347,7 @@ class Skin {
 		global $gCacheStorage;
 		$cache = new pageCache('skinCache');
 		$cache->purge();
-		$gCaccheStorage->purge();
+		$gCacheStorage->purge();
 	}
 }
 
