@@ -112,7 +112,6 @@ if (isset($paging)) {
 
 // Sidebar dressing
 $sidebarElements = array_keys($skin->sidebarStorage);
-var_dump($sidebarElements);
 if(!empty($sidebarElements)) {
 	foreach ($sidebarElements as $element) {
 		$pluginData = $skin->sidebarStorage[$element];
