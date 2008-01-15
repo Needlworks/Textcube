@@ -24,8 +24,12 @@ if(empty($suri['id'])) {
 		<hr />
 		<?php printMobileEntryContentView($blogid, $entry, getKeywordNames($blogid)); ?>
 	</div>
-	<?php
-	printMobileNavigation($entry, true, true, $paging);
+<?php
+	if(doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
+		printMobileNavigation($entry, true, true, $paging);
+	} else {
+		printMobileNavigation($entry, false, false, $paging);
+	}
 	printMobileHtmlFooter();
 }
 ?>
