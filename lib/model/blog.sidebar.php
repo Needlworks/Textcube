@@ -15,7 +15,7 @@ function getSidebarModuleOrderData($sidebarCount) {
 }
 
 function addSidebarModuleOrderData($dataArray, $sidebarNumber, $modulePos, $newModuleData) {
-	global $skin, $sidebarMappings;
+	global $skin, $sidebarMappings, $gCacheStorage;
 	
 	if (!isset($dataArray[$sidebarNumber]) || empty($dataArray[$sidebarNumber]))
 		$dataArray[$sidebarNumber] = array();
@@ -53,17 +53,20 @@ function addSidebarModuleOrderData($dataArray, $sidebarNumber, $modulePos, $newM
 		
 		if ($matched == false) return null;
 	}
-	Skin::purgeCache();	
+	Skin::purgeCache();
+	$gCacheStorage->purge();
 	return $dataArray;
 }
 
 function deleteSidebarModuleOrderData($dataArray, $sidebarNumber, $modulePos) {
+	global $gCacheStorage;
 	if (!isset($dataArray[$sidebarNumber]))
 		$dataArray[$sidebarNumber] = array();
 	
 	array_splice($dataArray[$sidebarNumber], $modulePos, 1);
 	
 	Skin::purgeCache();	
+	$gCacheStorage->purge();
 	return $dataArray;
 }
 

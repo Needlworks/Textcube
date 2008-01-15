@@ -10,8 +10,8 @@ $pluginSetting = array();
 function clearPluginSettingCache()
 {
 	global $pluginSetting, $gCacheStorage;
+	$gCacheStorage->purge();
 	if( !empty($pluginSetting) ) {
-		$gCacheStorage->purge();
 		$pluginSetting = array();
 	}
 }
