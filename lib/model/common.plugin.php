@@ -49,15 +49,14 @@ function activatePlugin($name) {
 	}
 	$pluginName = $name;
 	$name = POD::escapeString(UTF8::lessenAsEncoding($name, 255));
-	POD::query("INSERT INTO {$database['prefix']}Plugins VALUES (".getBlogId().", '$name', null)");
-	$result = mysql_affected_rows();
+	$result = POD::queryCount("INSERT INTO {$database['prefix']}Plugins VALUES (".getBlogId().", '$name', null)");
 	clearPluginSettingCache();
 	CacheControl::flushItemsByPlugin($pluginName);
 	return ($result == 1);
 }
 
 function deactivatePlugin($name) {
-	global $database, $activePlugins, $gCacheStorage;
+	global $database, $activePlugins;
 	if (!in_array($name, $activePlugins))
 		return false;
 	$pluginName = $name;
@@ -101,13 +100,13 @@ function updatePluginConfig( $name , $setVal) {
 	$pluginName = $name;
 	$name = POD::escapeString( UTF8::lessenAsEncoding($name, 255) ) ;
 	$setVal = POD::escapeString( $setVal ) ;
-	POD::query(
+	$count = POD::queryCount(
 		"UPDATE {$database['prefix']}Plugins 
 			SET settings = '$setVal' 
 			WHERE blogid = ".getBlogId()."
 			AND name = '$name'"
 		);
-	if( mysql_affected_rows() == 1 )
+	if( $count == 1 )
 		$result = '0';
 	clearPluginSettingCache();
 	CacheControl::flushItemsByPlugin($pluginName);
@@ -233,8 +232,8 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 function clearPluginTable($name) {
 	global $database;
 	$name = POD::escapeString($name);
-	POD::query("DELETE FROM {$database['prefix']}{$name} WHERE blogid = ".getBlogId());
-	return (mysql_affected_rows() == 1);
+	$count = POD::queryCount("DELETE FROM {$database['prefix']}{$name} WHERE blogid = ".getBlogId());
+	return ($count == 1);
 }
 
 function deletePluginTable($name) {

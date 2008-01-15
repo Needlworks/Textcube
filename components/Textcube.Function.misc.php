@@ -264,6 +264,7 @@ class misc {
 	function setBlogSettingGlobal($name, $value, $blogid = null) {
 		global $database;
 		global $__gCacheBlogSettings;
+		global $gCacheStorage;
 	
 		if (is_null($blogid)) $blogid = getBlogId();
 		if (!is_numeric($blogid)) return null;
@@ -278,7 +279,8 @@ class misc {
 		
 		$escape_name = POD::escapeString($name);
 		$escape_value = POD::escapeString($value);
-		
+
+		$gCacheStorage->purge();
 		if (array_key_exists($name, $__gCacheBlogSettings[$blogid])) {
 			// overwrite value
 			$__gCacheBlogSettings[$blogid][$name] = $value;
@@ -293,7 +295,8 @@ class misc {
 	function removeBlogSettingGlobal($name, $blogid = null) {
 		global $database;
 		global $__gCacheBlogSettings; // share blog.service.php
-	
+		global $gCacheStorage;
+
 		if (is_null($blogid)) $blogid = getBlogId();
 		if (!is_numeric($blogid)) return null;
 	
@@ -306,9 +309,10 @@ class misc {
 		}
 		
 		$escape_name = POD::escapeString($name);
-		
+
 		if (array_key_exists($name, $__gCacheBlogSettings[$blogid])) {
 			// overwrite value
+			$gCacheStorage->purge();
 			unset($__gCacheBlogSettings[$blogid][$name]);
 			return POD::execute("DELETE FROM {$database['prefix']}BlogSettings 
 				WHERE blogid = $blogid AND name = '$escape_name'");
