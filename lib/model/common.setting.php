@@ -53,13 +53,13 @@ function removeServiceSetting($name) {
 }
 
 function getBlogSetting($name, $default = null, $blogid = null) {
-	requireComponent('Textcube.Function.misc');
-	return misc::getBlogSettingGlobal($name, $default);
+	requireComponent('Textcube.Function.Setting');
+	return setting::getBlogSettingGlobal($name, $default);
 }
 
 function setBlogSetting($name, $value, $blogid = null) {
-	requireComponent('Textcube.Function.misc');
-	return misc::setBlogSettingGlobal($name, $value, $blogid);
+	requireComponent('Textcube.Function.Setting');
+	return setting::setBlogSettingGlobal($name, $value, $blogid);
 }
 
 function setBlogSettingDefault($name, $value, $blogid = null) {
@@ -75,23 +75,23 @@ function setBlogSettingDefault($name, $value, $blogid = null) {
 }
 
 function removeBlogSetting($name, $blogid = null) {
-	requireComponent('Textcube.Function.misc');
-	return misc::removeBlogSettingGlobal($name, $blogid);
+	requireComponent('Textcube.Function.Setting');
+	return setting::removeBlogSettingGlobal($name, $blogid);
 }
 
 function getUserSetting($name, $default = null, $userid = null) {
-	requireComponent('Textcube.Function.misc');
-	return misc::getUserSettingGlobal($name, $default, $userid);
+	requireComponent('Textcube.Function.Setting');
+	return setting::getUserSettingGlobal($name, $default, $userid);
 }
 
 function setUserSetting($name, $value, $userid = null) {
-	requireComponent('Textcube.Function.misc');
-	return misc::setUserSettingGlobal($name, $value, $userid);
+	requireComponent('Textcube.Function.Setting');
+	return setting::setUserSettingGlobal($name, $value, $userid);
 }
 
 function removeUserSetting($name, $userid = null) {
-	requireComponent('Textcube.Function.misc');
-	return misc::removeUserSettingGlobal($name, $userid);
+	requireComponent('Textcube.Function.Setting');
+	return setting::removeUserSettingGlobal($name, $userid);
 }
 
 function getDefinedTableNames() {
