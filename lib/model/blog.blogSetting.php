@@ -409,7 +409,7 @@ function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $sen
 	$message = file_get_contents(ROOT . "/style/letter/letter.html");
 	$message = str_replace('[##_title_##]', _text('초대장'), $message);
 	$message = str_replace('[##_content_##]', $comment, $message);
-	$message = str_replace('[##_images_##]', "$hostURL{$service['path']}/style/letter", $message);
+	$message = str_replace('[##_images_##]', $hostURL.$service['path']."/style/letter", $message);
 	$message = str_replace('[##_link_##]', getBlogURL($blogName) . '/login?loginid=' . rawurlencode($email) . '&password=' . rawurlencode($authtoken) . '&requestURI=' . rawurlencode(getBlogURL($blogName) . "/owner/setting/account?password=" . rawurlencode($password)), $message);
 	$message = str_replace('[##_go_blog_##]', getBlogURL($blogName), $message);
 	$message = str_replace('[##_link_title_##]', _text('블로그 바로가기'), $message);
