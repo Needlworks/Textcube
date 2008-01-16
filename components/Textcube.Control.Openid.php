@@ -14,6 +14,7 @@ $path = ini_get('include_path');
 if( !isset( $_ENV['OS'] ) || strstr( $_ENV['OS'], 'Windows' ) === false ) {
 	$path .= ':' . OPENID_LIBRARY_ROOT . ':' . $path_extra;
 } else {
+	define('Auth_OpenID_RAND_SOURCE', null);
 	$path .= ';' . OPENID_LIBRARY_ROOT . ';' . $path_extra;
 }
 ini_set('include_path', $path);
