@@ -72,7 +72,7 @@ class User {
 		global $database;
 		if (!isset($userid)) 
 			$userid = getUserId();
-		$info = unserialize(getUserSetting('userLinkInfo',null,$userid));
+		$info = unserialize(getUserSetting('userLinkInfo','',$userid));
 		if(!empty($info)) $type = $info['type'];
 		if (empty($type)) {
 			$type = "default";
@@ -85,7 +85,7 @@ class User {
 		global $database;
 		if (!isset($userid)) 
 			$userid = getUserId();
-		$info = unserialize(getUserSetting('userLinkInfo',null,$userid));
+		$info = unserialize(getUserSetting('userLinkInfo','',$userid));
 		if(is_null($info)) $info = array('type' => 'default'); 
 		switch ($info['type']) {
 			case "external" :
