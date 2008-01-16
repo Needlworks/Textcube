@@ -41,7 +41,7 @@ if( Acl::getIdentity('openid') ) {
 		//<![CDATA[
 			function submitComment() {
 				var oForm = document.commentToComment;
-				var oButton = document.submitComment;
+				var oButton = document.getElementById('commentSubmit');
 				oButton.value = '<?php echo _text('저장중');?>';
 				oButton.onclick = 'return false;';
 				trimAll(oForm);
@@ -127,7 +127,7 @@ if (doesHaveOwnership() && array_key_exists('replier', $comment) && (is_null($co
 				</dl>
 				
 				<div class="button-box">
-					<input type="button" class="input-button" id="submitComment" value="<?php echo _text('완료');?>" onclick="<?php echo $confirmString;?> submitComment()" />
+					<input type="button" class="input-button" id="commentSubmit" value="<?php echo _text('완료');?>" onclick="<?php echo $confirmString;?> submitComment()" />
 				</div>
 			</div>
 		</div>
