@@ -51,6 +51,7 @@ function addOpenID()
 	}
 
 	$currentOpenID = Acl::getIdentity( 'openid_temp' );
+	requireComponent( "Textcube.Control.Openid" );
 	$fc = new OpenIDConsumer;
 	$claimedOpenID = $fc->fetch( $_GET['openid_identifier'] );
 
