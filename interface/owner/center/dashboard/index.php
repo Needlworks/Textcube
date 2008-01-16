@@ -225,92 +225,82 @@ if($textcubeDashboard) {
 	if (!isset($_REQUEST['edit'])) {
 		$stats = getStatistics($blogid);
 ?>
-							<div id="part-center-dashboard" class="part">
-								<h2 class="caption"><span class="main-text"><?php echo _t('센터');?></span></h2>
+						<div id="part-center-dashboard" class="part">
+							<h2 class="caption"><span class="main-text"><?php echo _t('센터');?></span></h2>
 								
-								<div id="shortcut-collection" class="section">
-									<h3><?php echo _t('바로가기');?></h3>
-									
-									<ul>
-										<li><a href="<?php echo $blogURL;?>/owner/entry/post"><?php echo _t('새글 쓰기');?></a></li>
+							<div id="shortcut-collection" class="section">
+								<h3><?php echo _t('바로가기');?></h3>
+								
+								<ul>
+									<li><a href="<?php echo $blogURL;?>/owner/entry/post"><?php echo _t('새글 쓰기');?></a></li>
 <?php
 		$latestEntryId = getBlogSetting('LatestEditedEntry_user'.getUserId(),0);
 		if($latestEntryId !== 0) {
 			$latestEntry = getEntry($blogid,$latestEntryId);
 			if($latestEntry!=false) {
 ?>
-										<li><a href="<?php echo $blogURL;?>/owner/entry/edit/<?php echo $latestEntry['id'];?>"><?php echo _f('최근글(%1) 수정', htmlspecialchars(UTF8::lessenAsEm($latestEntry['title'],10)));?></a></li>
+									<li><a href="<?php echo $blogURL;?>/owner/entry/edit/<?php echo $latestEntry['id'];?>"><?php echo _f('최근글(%1) 수정', htmlspecialchars(UTF8::lessenAsEm($latestEntry['title'],10)));?></a></li>
 <?php
 			}
 		}
 		if(Acl::check("group.owners")) {
 ?>
-										<li><a href="<?php echo $blogURL;?>/owner/skin"><?php echo _t('스킨 변경');?></a></li>
-										<li><a href="<?php echo $blogURL;?>/owner/skin/setting"><?php echo _t('블로그 표시설정');?></a></li>
-										<li><a href="<?php echo $blogURL;?>/owner/entry/category"><?php echo _t('카테고리 변경');?></a></li>
-										<li><a href="<?php echo $blogURL;?>/owner/plugin"><?php echo _t('플러그인 관리');?></a></li>
+									<li><a href="<?php echo $blogURL;?>/owner/skin"><?php echo _t('스킨 변경');?></a></li>
+									<li><a href="<?php echo $blogURL;?>/owner/skin/setting"><?php echo _t('블로그 표시설정');?></a></li>
+									<li><a href="<?php echo $blogURL;?>/owner/entry/category"><?php echo _t('카테고리 변경');?></a></li>
+									<li><a href="<?php echo $blogURL;?>/owner/plugin"><?php echo _t('플러그인 관리');?></a></li>
 <?php
 		}
 ?>
-										<li><a href="<?php echo $blogURL;?>/owner/reader"><?php echo _t('RSS 리더');?></a></li>
-									</ul>
-								</div>
+									<li><a href="<?php echo $blogURL;?>/owner/reader"><?php echo _t('RSS 리더');?></a></li>
+								</ul>
+							</div>
 								
-								<div id="total-information" class="section">
-									<h3><?php echo _t('요약');?></h3>
+							<div id="total-information" class="section">
+								<h3><?php echo _t('요약');?></h3>
 									
-									<table>
-										<tbody>
-											<tr>
-												<th><?php echo _t('오늘/어제방문자');?></th>
-												<td><?php echo number_format($stats['today']) . '/' . number_format($stats['yesterday']);?></td>
-											</tr>
-											<tr>
-												<th><?php echo _t('총 방문자');?></th>
-												<td><?php echo number_format($stats['total']);?></td>
-											</tr>
-											<tr>
-												<th><?php echo _t('글 개수');?></th>
-												<td><?php echo number_format(getEntriesTotalCount($blogid));?></td>
-											</tr>
-											<tr>
-												<th><?php echo _t('댓글/걸린글 개수');?></th>
-												<td><?php echo number_format(getCommentCount($blogid)) . '/' . number_format(getTrackbackCount($blogid));?></td>
-											</tr>
-										</tbody>
-									</table>
+								<table>
+									<tbody>
+										<tr>
+											<th><?php echo _t('오늘/어제방문자');?></th>
+											<td><?php echo number_format($stats['today']) . '/' . number_format($stats['yesterday']);?></td>
+										</tr>
+										<tr>
+											<th><?php echo _t('총 방문자');?></th>
+											<td><?php echo number_format($stats['total']);?></td>
+										</tr>
+										<tr>
+											<th><?php echo _t('글 개수');?></th>
+											<td><?php echo number_format(getEntriesTotalCount($blogid));?></td>
+										</tr>
+										<tr>
+											<th><?php echo _t('댓글/걸린글 개수');?></th>
+											<td><?php echo number_format(getCommentCount($blogid)) . '/' . number_format(getTrackbackCount($blogid));?></td>
+										</tr>
+									</tbody>
+								</table>
 <?php
 		if(Acl::check("group.administrators")) {
 ?>
-									<ul>
-										<li><a href="<?php echo $blogURL;?>/owner/center/dashboard/cleanup" onclick="cleanupCache();return false;"><?php echo _t('캐시 지우기');?></a></li>
+								<ul>
+									<li><a href="<?php echo $blogURL;?>/owner/center/dashboard/cleanup" onclick="cleanupCache();return false;"><?php echo _t('캐시 지우기');?></a></li>
 <?php
 			if(Acl::check("group.creators")) {
 ?>
-										<li><a onclick="optimizeData();"><?php echo _t('저장소 최적화');?></a></li>
-									</ul>
-									<form id="dataOptimizer" method="get" action="<?php echo $blogURL;?>/owner/data/optimize" target="blackhole"></form>
-									<div id="optimizingDataDialog" class="system-dialog" style="position: absolute; display: none; z-index: 110;">
-										<h4 id="optimizingDataDialogTitle"></h4>
-										<div class="message-sub">
-											<span id="optimizingText"></span>
-											<span id="optimizingTextSub"></span>
-										</div>
-										<div id="optimizingIndicator" class="progressBar" style="width: 0%; height: 18px; margin-top: 5px; background-color: #66DDFF;"></div>
-									</div>
-									<iframe id="blackhole" name="blackhole" style="display: none;"></iframe>
+									<li><a onclick="optimizeData();"><?php echo _t('저장소 최적화');?></a></li>
+								</ul>
 <?php
 			} else {
 ?>
-									</ul>
+								</ul>
 <?php
 			}
 		}
 ?>
-								</div>
+							</div>
 							
-								<div id="textcube-notice" class="section">
-									<h3><?php echo _t('공지사항');?></h3>
+							<div id="textcube-notice" class="section">
+								<h3><?php echo _t('공지사항');?></h3>
 									
 <?php
 		$noticeURL = "http://notice.textcube.org/";
@@ -368,127 +358,127 @@ if($textcubeDashboard) {
 		if (count($noticeEntries) > 0) {
 			array_splice($noticeEntries, 5, count($noticeEntries) - 5);
 ?>
-									<table>
-										<tbody>
+								<table>
+									<tbody>
 <?php
 			foreach($noticeEntries as $item) {
 ?>
-											<tr>
-												<td class="title"><a href="<?php echo $item['permalink'];?>" onclick="return openLinkInNewWindow(this);" ><?php echo htmlspecialchars(UTF8::lessenAsEm($item['title'],60));?></a></td>
-												<td class="date"><?php echo Timestamp::format2($item['written']);?></td>
-											</tr>
+										<tr>
+											<td class="title"><a href="<?php echo $item['permalink'];?>" onclick="return openLinkInNewWindow(this);" ><?php echo htmlspecialchars(UTF8::lessenAsEm($item['title'],60));?></a></td>
+											<td class="date"><?php echo Timestamp::format2($item['written']);?></td>
+										</tr>
 <?php
 			}
 ?>
-										</tbody>
-									</table>
+									</tbody>
+								</table>
 									
 <?php
 		} else {
 ?>
-									<div id="fail-notice">
-										<?php echo _t('공지사항을 가져올 수 없습니다. 잠시 후 다시 시도해 주십시오.');?>
-									</div>
+								<div id="fail-notice">
+									<?php echo _t('공지사항을 가져올 수 없습니다. 잠시 후 다시 시도해 주십시오.');?>
+								</div>
 <?php
 		}
 ?>
-								</div>
+							</div>
 
-								<div id="myBlogInfo" class="section">
-									<h3><?php echo _t('알림판');?></h3>
-									<div id="infoPanel">
-										<table class="comment">
-											<caption><a href="<?php echo $blogURL."/owner/entry/comment";?>"><?php echo _t('최근 댓글');?></a></caption>
-											<thead>
-												<tr>
-													<th scope="col"><?=_t('내용')?></th>
-													<th scope="col" class="date"><?=_t('날짜')?></th>
-												</tr>
-											</thead>
-											<tbody>
+							<div id="myBlogInfo" class="section">
+								<h3><?php echo _t('알림판');?></h3>
+								<div id="infoPanel">
+									<table class="comment">
+										<caption><a href="<?php echo $blogURL."/owner/entry/comment";?>"><?php echo _t('최근 댓글');?></a></caption>
+										<thead>
+											<tr>
+												<th scope="col"><?=_t('내용')?></th>
+												<th scope="col" class="date"><?=_t('날짜')?></th>
+											</tr>
+										</thead>
+										<tbody>
 <?php
 		$comments = getRecentComments($blogid,5);
 		foreach ($comments as $comment) {
 ?>
-												<tr>
-													<td class="title"><a href="<?php echo $blogURL."/".$comment['entry']."#comment".$comment['id'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 25));?></a></td>
-													<td class="date"><?php echo Timestamp::format('%m/%d',$comment['written']);?></td>
-												</tr>
+											<tr>
+												<td class="title"><a href="<?php echo $blogURL."/".$comment['entry']."#comment".$comment['id'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 25));?></a></td>
+												<td class="date"><?php echo Timestamp::format('%m/%d',$comment['written']);?></td>
+											</tr>
 <?php
 		}
 ?>
-											</tbody>
-										</table>
-										<table class="commentNotifier">
-											<caption><a href="<?php echo $blogURL."/owner/entry/notify";?>"><?php echo _t('최근 댓글 알리미');?></a></caption>
-											<thead>
-												<tr>
-													<th scope="col"><?=_t('내용')?></th>
-													<th scope="col" class="date"><?=_t('날짜')?></th>
-												</tr>
-											</thead>
-											<tbody>
+										</tbody>
+									</table>
+									<table class="commentNotifier">
+										<caption><a href="<?php echo $blogURL."/owner/entry/notify";?>"><?php echo _t('최근 댓글 알리미');?></a></caption>
+										<thead>
+											<tr>
+												<th scope="col"><?=_t('내용')?></th>
+												<th scope="col" class="date"><?=_t('날짜')?></th>
+											</tr>
+										</thead>
+										<tbody>
 <?php
 		list($commentNotifies,$paging) = getCommentsNotifiedWithPagingForOwner($blogid,0,null,null,null,1,5);
 		foreach ($commentNotifies as $comment) {
 ?>
-												<tr>
-													<td class="title"><?php echo htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 25));?></td>
-													<td class="date"><?php echo Timestamp::format('%m/%d',$comment['written']);?></td>
-												</tr>
+											<tr>
+												<td class="title"><?php echo htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 25));?></td>
+												<td class="date"><?php echo Timestamp::format('%m/%d',$comment['written']);?></td>
+											</tr>
 <?php
 		}
 ?>
-											</tbody>
-										</table>
-										<table class="guestbook">
-											<caption><a href="<?php echo $blogURL."/guestbook";?>"><?php echo _t('최근 방명록');?></a></caption>
-											<thead>
-												<tr>
-													<th scope="col"><?=_t('내용')?></th>
-													<th scope="col" class="date"><?=_t('날짜')?></th>
-												</tr>
-											</thead>
-											<tbody>
+										</tbody>
+									</table>
+									<table class="guestbook">
+										<caption><a href="<?php echo $blogURL."/guestbook";?>"><?php echo _t('최근 방명록');?></a></caption>
+										<thead>
+											<tr>
+												<th scope="col"><?=_t('내용')?></th>
+												<th scope="col" class="date"><?=_t('날짜')?></th>
+											</tr>
+										</thead>
+										<tbody>
 <?php
 		$guestbooks = getRecentGuestbook($blogid,5);
 		foreach ($guestbooks as $guestbook) {
 ?>
-												<tr>
-													<td class="title"><a href="<?php echo $blogURL."/guestbook#comment".$guestbook['id'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($guestbook['comment'], 25));?></a></td>
-													<td class="date"><?php echo Timestamp::format('%m/%d',$guestbook['written']);?></td>
-												</tr>
+											<tr>
+												<td class="title"><a href="<?php echo $blogURL."/guestbook#comment".$guestbook['id'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($guestbook['comment'], 25));?></a></td>
+												<td class="date"><?php echo Timestamp::format('%m/%d',$guestbook['written']);?></td>
+											</tr>
 <?php
 		}
 ?>
-											</tbody>
-										</table>
-										<table class="trackback">
-											<caption><a href="<?php echo $blogURL."/owner/entry/trackback";?>"><?php echo _t('최근 트랙백');?></a></caption>
-											<thead>
-												<tr>
-													<th scope="col"><?=_t('내용')?></th>
-													<th scope="col" class="date"><?=_t('날짜')?></th>
-												</tr>
-											</thead>
-											<tbody>
+										</tbody>
+									</table>
+									<table class="trackback">
+										<caption><a href="<?php echo $blogURL."/owner/entry/trackback";?>"><?php echo _t('최근 트랙백');?></a></caption>
+										<thead>
+											<tr>
+												<th scope="col"><?=_t('내용')?></th>
+												<th scope="col" class="date"><?=_t('날짜')?></th>
+											</tr>
+										</thead>
+										<tbody>
 <?php
 		$trackbacks = getRecentTrackbacks($blogid,5);
 		foreach ($trackbacks as $trackback) {
 ?>
-												<tr>
-													<td class="title"><a href="<?php echo $blogURL."/".$trackback['entry']."#trackback".$trackback['id'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($trackback['subject'], 25));?></a></td>
-													<td class="date"><?php echo Timestamp::format('%m/%d',$trackback['written']);?></td>
-												</tr>
+											<tr>
+												<td class="title"><a href="<?php echo $blogURL."/".$trackback['entry']."#trackback".$trackback['id'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($trackback['subject'], 25));?></a></td>
+												<td class="date"><?php echo Timestamp::format('%m/%d',$trackback['written']);?></td>
+											</tr>
 <?php
 		}
 ?>
-											</tbody>
-										</table>
-									</div>
-
+										</tbody>
+									</table>
 								</div>
+
 							</div>
+						</div>
 <?php
 		unset($feed);
 		unset($xmls);
@@ -604,8 +594,23 @@ if(Acl::check('group.owners')) {
 ?>
 							</div>
 						</form>
-
 <?php
+if(Acl::check("group.creators") && !isset($_REQUEST['edit'])) {
+?>
+						<form id="dataOptimizer" method="get" action="<?php echo $blogURL;?>/owner/data/optimize" target="blackhole"></form>
+						<div id="optimizingDialogBox" class="part">
+							<div id="optimizingDataDialog" class="system-dialog" style="position: absolute; display: none; z-index: 500;">
+								<h4 id="optimizingDataDialogTitle"></h4>
+								<div class="message-sub">
+									<span id="optimizingText"></span>
+									<span id="optimizingTextSub"></span>
+								</div>
+								<div id="optimizingIndicator" class="progressBar" style="width: 0%; height: 18px; margin-top: 5px; background-color: #66DDFF;"></div>
+							</div>
+						</div>
+						<iframe id="blackhole" name="blackhole" style="display: none;"></iframe>
+<?php
+}
 if (isset($_REQUEST['edit'])) {
 ?>
 						<script type="text/javascript">
