@@ -45,14 +45,14 @@ case 1:
 	break;
 }
 
-$openidonlycomment = misc::getBlogSettingGlobal( "AddCommentMode", "" );
+$openidonlycomment = setting::getBlogSettingGlobal( "AddCommentMode", "" );
 if( $openidonlycomment == 'openid' ) {
 	$openidonlycomment = "checked='checked'";
 } else {
 	$openidonlycomment = "";
 }
 
-$openidlogodisplay = misc::getBlogSettingGlobal( "OpenIDLogoDisplay", 0 );
+$openidlogodisplay = setting::getBlogSettingGlobal( "OpenIDLogoDisplay", 0 );
 if( $openidlogodisplay ) {
 	$openidlogodisplay = "checked='checked'";
 } else {
@@ -140,7 +140,7 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 				<tr class="site">
 					<td>
 <?php
-		$currentDelegate = misc::getBlogSettingGlobal( 'OpenIDDelegate', '' );
+		$currentDelegate = setting::getBlogSettingGlobal( 'OpenIDDelegate', '' );
 ?>
 						<select id="openid_for_delegation">
 <?php

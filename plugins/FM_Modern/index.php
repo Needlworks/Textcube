@@ -1,7 +1,7 @@
 <?php
 function FM_Modern_handleconfig($configVal) {
 	requireComponent('Textcube.Function.misc');
-	$config = misc::fetchConfigVal($configVal);
+	$config = setting::fetchConfigVal($configVal);
 	if (isset($config['defaultmode']) && $config['defaultmode'] != 'WYSIWYG' && $config['defaultmode'] != 'TEXTAREA') return false;
 	if (isset($config['paragraphdelim']) && $config['paragraphdelim'] != 'P' && $config['paragraphdelim'] != 'BR') return false;
 	return true;
@@ -15,7 +15,7 @@ function FM_Modern_editorinit(&$editor) {
 			'defaultmode' => 'WYSIWYG');
 	} else {
 		requireComponent('Textcube.Function.misc');
-		$config = misc::fetchConfigVal($configVal);
+		$config = setting::fetchConfigVal($configVal);
 	}
 	if (!isset($config['defaultmode'])) {
 		$config['defaultmode'] = (getBlogSetting('editorMode', 1) == 1 ? 'WYSIWYG' : 'TEXTAREA');

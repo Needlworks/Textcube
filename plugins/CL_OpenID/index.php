@@ -50,9 +50,9 @@ function openid_hardcore_login($target)
 function openid_add_delegate($target)
 {
 	global $suri;
-	$openid_delegate = misc::getBlogSettingGlobal( 'OpenIDDelegate', '' );
-	$openid_server = misc::getBlogSettingGlobal( 'OpenIDServer', '' );
-	$openid_xrduri = misc::getBlogSettingGlobal( 'OpenIDXRDSUri', '' );
+	$openid_delegate = setting::getBlogSettingGlobal( 'OpenIDDelegate', '' );
+	$openid_server = setting::getBlogSettingGlobal( 'OpenIDServer', '' );
+	$openid_xrduri = setting::getBlogSettingGlobal( 'OpenIDXRDSUri', '' );
 	if( empty($openid_delegate) ) {
 		return $target;
 	}
@@ -151,7 +151,7 @@ function openid_ViewCommenter($name, $comment)
 	if( empty($row['openid']) ) {
 		return $name;
 	}
-	$openidlogodisplay = misc::getBlogSettingGlobal( "OpenIDLogoDisplay", 0 );
+	$openidlogodisplay = setting::getBlogSettingGlobal( "OpenIDLogoDisplay", 0 );
 	if( $openidlogodisplay ) {
 		$name = "<a href=\"".$row['openid']."\" class=\"openid\"><img hojin src=\"" .$service['path']. "/image/icon_openid.gif\" alt=\"OpenID Logo\" title=\"" .
 			sprintf( _text("오픈아이디(%s)로 작성하였습니다"), $row['openid'] ) . "\" />" . $name . "</a>";
