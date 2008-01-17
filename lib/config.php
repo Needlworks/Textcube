@@ -38,6 +38,7 @@ if(defined('__TEXTCUBE_NO_FANCY_URL__')) $service['useFancyURL'] = false;
 else $service['useFancyURL'] = true;
 $service['useEncodedURL'] = false;
 $service['debugmode'] = false;
+$service['reader'] = true;
 //$service['flashuploader'] = false;
 
 // Map port setting.

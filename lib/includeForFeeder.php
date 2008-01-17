@@ -4,6 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 // Basics
 require ROOT .'/lib/config.php';
+if($service['reader'] === false) exit;
 require ROOT .'/lib/function/string.php';
 require ROOT .'/lib/function/time.php';
 require ROOT .'/lib/function/javascript.php';

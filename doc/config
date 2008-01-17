@@ -20,6 +20,7 @@ $serviceURL = ''; // Useful if using other web program under the same domain
 $service['useNumericURLonRSS'] = false; // Can force permalink to numeric format on RSS output.
 $service['useLegacySupport'] = false; // Uses legacy support (for tattertools plugins) function.
 // From 1.6
+$service['reader'] = true; // Use Textcube reader. You can set it to false if you do not use Textcube reader, and want to decrease DB load.
 $service['pagecache'] = true; // pagecache function. (changed from disablePageCache option at TC 1.5)
 $service['debugmode'] = false; // Textcube debug mode. (for core / plugin debug or optimization) (changed from requireComponent('Needlworks.Function.Debug'); at TC 1.5)
 $service['debug_session_dump'] = false; // session info debuging.

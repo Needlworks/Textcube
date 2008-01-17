@@ -32,6 +32,8 @@ if(Acl::check('group.administrators')) {
 		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader')
 		);
 }
+if($service['reader'] === false) array_pop($blogTopMenuItem);
+
 if(Acl::check('group.creators')) { 
 	array_push($blogTopMenuItem, array('menu'=>'control','title'=>_t('제어판'),'link'=>'/owner/control/blog'));
 }

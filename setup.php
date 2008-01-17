@@ -1496,6 +1496,7 @@ ini_set('display_errors', 'off');
 \$service['path'] = '$path';
 \$service['skin'] = 'coolant';
 //\$serviceURL = 'http://{$_POST['domain']}{$path}' ; // for path of Skin, plugin and etc.
+//\$service['reader'] = true; // Use Textcube reader. You can set it to false if you do not use Textcube reader, and want to decrease DB load.
 //\$service['debugmode'] = true; // uncomment for debugging, e.g. displaying DB Query or Session info
 //\$service['pagecache'] = false; // uncomment if you want to disable page cache feature.
 //\$service['debug_session_dump'] = true; // session info debuging.
