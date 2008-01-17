@@ -383,7 +383,7 @@ function addComment($blogid, & $comment) {
 		if (!$result || $result == 0)
 			return false;
 	}
-	$parent = $comment['parent'] == null ? 'null' : "'{$comment['parent']}'";
+	$parent = $comment['parent'] == null ? 'null' : $comment['parent'];
 	if ($user !== null) {
 		$comment['replier'] = getUserId();
 		$name = POD::escapeString($user['name']);
