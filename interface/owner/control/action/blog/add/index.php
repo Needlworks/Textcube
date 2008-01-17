@@ -15,9 +15,9 @@ requireStrictRoute();
 $result = addBlog('', getUserIdByEmail($_GET['owner']), $_GET['identify']);
 
 if ($result===true) {
-	respond::Print(array('error' => 0));
+	respond::PrintResult(array('error' => 0));
 }
 else {
-	respond::Print(array('error' => -1 , 'result' =>$result));
+	respond::PrintResult(array('error' => -1 , 'result' =>$result));
 }
 ?>

@@ -58,7 +58,7 @@ if (empty($suri['id']) || !empty($entry)) {
 			$result = array();
 			$result['error'] = (($id !== false) === true ? 0 : 1);
 			$result['entryId'] = $id;
-			respond::Print($result);
+			respond::PrintResult($result);
 		}
 	} else {
 		if($id = updateEntry($blogid, $entry, $updateDraft)) {

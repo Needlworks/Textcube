@@ -45,7 +45,6 @@ require ROOT .'/lib/model/common.module.php';
 if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of model loading');
 // Views
 require ROOT .'/lib/view/html.php';
-require ROOT .'/lib/view/pages.php';
 require ROOT .'/lib/view/paging.php';
 require ROOT .'/lib/view/view.php';
 if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of view loading');

@@ -17,7 +17,7 @@ $blogcount = POD::queryCount("SELECT blogid,name FROM `{$database['prefix']}Blog
 
 $pages = (int)(($blogcount-0.5) / $row)+1;
 if ($pages<$page) {
-	respond::Print(array('error' => -2,'result' => $pages));
+	respond::PrintResult(array('error' => -2,'result' => $pages));
 }
 
 $paging = array('url' => "", 'prefix' => '?page=', 'postfix' => '', 'total' => 0, 'pages' => 0, 'page' => 0);
@@ -43,13 +43,13 @@ if($bloglist){
 	}
 	if($tempString!=''){
 		$resultString .= substr($tempString,0,-1);
-		respond::Print(array('error' => 0, 'result' => $resultString));
+		respond::PrintResult(array('error' => 0, 'result' => $resultString));
 	}
 	else {
-		respond::Print(array('error' => -2,'result' => $paging['pages']));
+		respond::PrintResult(array('error' => -2,'result' => $paging['pages']));
 	}
 }
 else {
-	respond::Print(array('error' => -1, 'result' => mysql_error()));
+	respond::PrintResult(array('error' => -1, 'result' => mysql_error()));
 }
 ?>

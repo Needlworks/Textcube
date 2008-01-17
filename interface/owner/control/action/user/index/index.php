@@ -21,7 +21,7 @@ $usercount = POD::queryCell("SELECT COUNT(userid) FROM `{$database['prefix']}Use
 $pages = (int)((0.5+$usercount) / 25)+1;
 
 if ($pages<$page) {
-	respond::Print(array('error' => -2,'result' => $pages));
+	respond::PrintResult(array('error' => -2,'result' => $pages));
 }
 
 $paging = array('url' => "", 'prefix' => '?page=', 'postfix' => '', 'total' => 0, 'pages' => 0, 'page' => 0);
@@ -43,14 +43,14 @@ if($userlist){
 		}
 	if($tempString!=''){
 		$resultString.=substr($tempString,0,-1);
-		respond::Print(array('error' => 0, 'result' => $resultString));
+		respond::PrintResult(array('error' => 0, 'result' => $resultString));
 	}
 	else {
-		respond::Print(array('error' => -2));
+		respond::PrintResult(array('error' => -2));
 	}
 }
 else {
-	respond::Print(array('error' => -1, 'result' => mysql_error()));
+	respond::PrintResult(array('error' => -1, 'result' => mysql_error()));
 }
 
 ?>

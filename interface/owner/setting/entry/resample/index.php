@@ -20,5 +20,5 @@ if (isset($_POST['useResamplingAsDefault']) && ($_POST['useResamplingAsDefault']
 	removeBlogSetting("resamplingDefault");
 }
 
-$isAjaxRequest ? respond::Print($errorResult) : header("Location: ".$_SERVER['HTTP_REFERER']);
+$isAjaxRequest ? respond::PrintResult($errorResult) : header("Location: ".$_SERVER['HTTP_REFERER']);
 ?>

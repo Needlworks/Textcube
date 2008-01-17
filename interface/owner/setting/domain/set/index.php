@@ -15,9 +15,9 @@ requireStrictRoute();
 if(empty($_POST['secondaryDomain']) && $_POST['defaultDomain'] == 1)
 	respond::ResultPage(4);
 else if( ($result = setPrimaryDomain($blogid, $_POST['primaryDomain'])) > 0 )
-	respond::Print(array('error' => 2, 'msg' => $result));
+	respond::PrintResult(array('error' => 2, 'msg' => $result));
 else if( ($result = setSecondaryDomain($blogid, $_POST['secondaryDomain'])) > 0 )
-	respond::Print(array('error' => 3, 'msg' => $result));
+	respond::PrintResult(array('error' => 3, 'msg' => $result));
 else if(!setDefaultDomain($blogid, $_POST['defaultDomain']))
 	respond::ResultPage(1);
 else

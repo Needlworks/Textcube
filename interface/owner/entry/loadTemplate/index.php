@@ -33,7 +33,7 @@ if ($entry = getEntry($blogid, $_POST['templateId'])) {
 			"title"=>$entry['title'],
 			"content"=>$entry['content'],
 			"entryId"=>$id);
-		respond::Print($result);
+		respond::PrintResult($result);
 	}
 }
 respond::ResultPage(1);

@@ -30,5 +30,5 @@ else {
 	POD::execute($sql);
 }
 
-respond::Print(array('error' => 0));
+respond::PrintResult(array('error' => 0));
 ?>

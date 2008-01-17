@@ -17,8 +17,8 @@ foreach ($items as $item) {
 	if ($result===true) {
 	}
 	else {
-		respond::Print(array('error' => -1 , 'result' =>$result));
+		respond::PrintResult(array('error' => -1 , 'result' =>$result));
 	}
 }
-		respond::Print(array('error' => 0 , 'result' =>$suri['id']));
+		respond::PrintResult(array('error' => 0 , 'result' =>$suri['id']));
 ?>

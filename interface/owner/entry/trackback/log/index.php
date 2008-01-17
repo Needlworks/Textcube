@@ -9,8 +9,8 @@ requireModel("blog.trackback");
 $result = getTrackbackLog($blogid, $suri['id']);
 if ($result !== false) {
 	$result = str_replace(' ', '&nbsp;', $result);
-	respond::Print(array('error' => 0, 'result' => $result));
+	respond::PrintResult(array('error' => 0, 'result' => $result));
 }
 else
-	respond::Print(array('error' => 1, 'msg' => mysql_error()));
+	respond::PrintResult(array('error' => 1, 'msg' => mysql_error()));
 ?> 

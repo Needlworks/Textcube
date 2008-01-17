@@ -27,7 +27,6 @@ require ROOT .'/lib/model/common.plugin.php';
 require ROOT .'/lib/model/reader.common.php';
 // View
 require ROOT .'/lib/view/html.php';
-require ROOT .'/lib/view/pages.php';
 require ROOT .'/lib/view/ownerView.php';
 require ROOT .'/lib/view/paging.php';
 require ROOT .'/lib/view/view.php';

@@ -47,5 +47,5 @@ if ($id = addEntry($blogid, $entry)) {
 $result = array();
 $result['error'] = (($id !== false) === true ? 0 : 1);
 $result['entryId'] = $id;
-respond::Print($result);
+respond::PrintResult($result);
 ?>

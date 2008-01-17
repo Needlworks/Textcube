@@ -46,7 +46,7 @@ if ($id > 0) {
 	$result['error'] = ($id > 0) ? 0 : 1;
 	$result['entryId'] = $id;
 	$result['suriid'] = $suri['id'];
-	respond::Print($result);
+	respond::PrintResult($result);
 } else {
 	respond::ResultPage(1);
 }

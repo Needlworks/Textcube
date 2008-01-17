@@ -18,7 +18,7 @@ $sidebarCount = count($skin->sidebarBasicModules);
 $sidebarOrder = deleteSidebarModuleOrderData(getSidebarModuleOrderData($sidebarCount), $_GET['sidebarNumber'], $_GET['modulePos']);
 setBlogSetting("sidebarOrder", serialize($sidebarOrder));
 
-//respond::Print(array('error' => 0));
+//respond::PrintResult(array('error' => 0));
 if ($_GET['viewMode'] != '') $_GET['viewMode'] = '?' . $_GET['viewMode'];
 header('Location: '. $blogURL . '/owner/skin/sidebar' . $_GET['viewMode']);
 ?>

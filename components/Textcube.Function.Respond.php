@@ -20,7 +20,7 @@ class respond {
 		exit;
 	}
 	
-	function Print($result, $useCDATA=true) {
+	function PrintResult($result, $useCDATA=true) {
 		header('Content-Type: text/xml; charset=utf-8');
 		$xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 		$xml .= "<response>\n";

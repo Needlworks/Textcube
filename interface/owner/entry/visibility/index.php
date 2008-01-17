@@ -40,7 +40,7 @@ if (!isset($_GET['command'])) {
 		$countResult = 1;
 		fireEvent('ChangeVisibility', $_GET['visibility'], $suri['id']);
 	}
-	respond::Print(array('error' => $temp, 'countSyndicated' => $countResult), false);
+	respond::PrintResult(array('error' => $temp, 'countSyndicated' => $countResult), false);
 } else {
 	switch ($_GET['command']) {
 		case "protect":

@@ -13,5 +13,5 @@ requireModel('blog.attachment');
 requireStrictRoute();
 
 $result = setEnclosure($_POST['fileName'], $_POST['order']);
-respond::Print(array('error' => $result < 3 ? 0 : 1, 'order' => $result));
+respond::PrintResult(array('error' => $result < 3 ? 0 : 1, 'order' => $result));
 ?>
