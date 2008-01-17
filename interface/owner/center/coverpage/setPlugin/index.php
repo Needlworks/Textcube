@@ -24,8 +24,8 @@ requireStrictRoute();
 
 $coverpageOrderData = getCoverpageModuleOrderData();
 
-if (!isset($_REQUEST['coverpageNumber']) || !is_numeric($_REQUEST['coverpageNumber'])) respondNotFoundPage();
-if (!isset($_REQUEST['modulePos']) || !is_numeric($_REQUEST['modulePos'])) respondNotFoundPage();
+if (!isset($_REQUEST['coverpageNumber']) || !is_numeric($_REQUEST['coverpageNumber'])) respond::NotFoundPage();
+if (!isset($_REQUEST['modulePos']) || !is_numeric($_REQUEST['modulePos'])) respond::NotFoundPage();
 
 $coverpageNumber = $_REQUEST['coverpageNumber'];
 $modulePos = $_REQUEST['modulePos'];

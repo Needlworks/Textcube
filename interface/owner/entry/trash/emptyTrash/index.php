@@ -21,7 +21,7 @@ if ($_GET['type'] == 1) {
 } else if ($_GET['type'] == 2) {
 	emptyTrash(false);
 } else {
-	respondNotFoundPage();
+	respond::NotFoundPage();
 }
 
 if (array_key_exists('ajaxcall', $_GET)) respond::ResultPage(0);

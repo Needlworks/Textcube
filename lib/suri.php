@@ -19,7 +19,7 @@ if ($depth > 0) {
 	if (preg_match('@^((/+[^/]+){' . $depth . '})(.*)$@', $url, $matches))
 		$url = $matches[3];
 	else
-		respondNotFoundPage();
+		respond::NotFoundPage();
 }
 if ($service['type'] == 'single') {
 	$blogid = $defaultblogid;
@@ -48,11 +48,11 @@ if ($service['type'] == 'single') {
 			}
 			$url = $matches[2];
 		} else {
-			respondNotFoundPage();
+			respond::NotFoundPage();
 		}
 	}
 	if ($blogid === null)
-		respondNotFoundPage();
+		respond::NotFoundPage();
 }
 $owner = $blogid; // For legacy.(<1.5)
 
@@ -73,7 +73,7 @@ if ($depth > 0) {
 			$suri['value'] = $matches[3];
 		}
 	} else {
-		respondNotFoundPage();
+		respond::NotFoundPage();
 	}
 } else {
 	$suri['directive'] = '/';
@@ -147,15 +147,4 @@ if (defined('__TEXTCUBE_MOBILE__')) {
 	$blogURL .= '/m';
 }
 unset($url, $domain);
-function respondNotFoundPage() {
-	header('HTTP/1.1 404 Not Found');
-	header("Connection: close");
-	exit;
-}
-
-function respondForbiddenPage() {
-	header('HTTP/1.1 403 Forbidden');
-	header("Connection: close");
-	exit;
-}
 ?>

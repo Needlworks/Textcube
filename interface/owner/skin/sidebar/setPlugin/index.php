@@ -26,8 +26,8 @@ $skin = new Skin($skinSetting['skin']);
 $sidebarCount = count($skin->sidebarBasicModules);
 $sidebarOrderData = getSidebarModuleOrderData($sidebarCount);
 
-if (!isset($_REQUEST['sidebarNumber']) || !is_numeric($_REQUEST['sidebarNumber'])) respondNotFoundPage();
-if (!isset($_REQUEST['modulePos']) || !is_numeric($_REQUEST['modulePos'])) respondNotFoundPage();
+if (!isset($_REQUEST['sidebarNumber']) || !is_numeric($_REQUEST['sidebarNumber'])) respond::NotFoundPage();
+if (!isset($_REQUEST['modulePos']) || !is_numeric($_REQUEST['modulePos'])) respond::NotFoundPage();
 
 $sidebarNumber = $_REQUEST['sidebarNumber'];
 $modulePos = $_REQUEST['modulePos'];

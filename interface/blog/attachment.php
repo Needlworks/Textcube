@@ -4,12 +4,12 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/lib/includeForBlog.php';
 if (empty($suri['value']))
-	respondNotFoundPage();
+	respond::NotFoundPage();
 if (!$attachment = getAttachmentByOnlyName($blogid, $suri['value']))
-	respondNotFoundPage();
+	respond::NotFoundPage();
 $fp = fopen(ROOT . "/attach/$blogid/{$attachment['name']}", 'rb');
 if (!$fp)
-	respondNotFoundPage();
+	respond::NotFoundPage();
 $fstat = fstat($fp);
 if (!empty($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
 	$modifiedSince = strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']);

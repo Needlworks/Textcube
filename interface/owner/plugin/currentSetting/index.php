@@ -17,11 +17,11 @@ $pluginName = $_GET['Name'];
 $tabName = $_GET['Tab'];
 $active = in_array($pluginName, $activePlugins);
 $result =  handleConfig($pluginName);
-if( is_null($result) )	respondNotFoundPage();
+if( is_null($result) )	respond::NotFoundPage();
 
 $xmls = new XMLStruct();
 if (!$xmls->open(file_get_contents(ROOT . "/plugins/{$pluginName}/index.xml"))) {
-	respondNotFoundPage();
+	respond::NotFoundPage();
 } else {
 	$pluginAttrs = array(
 						"link" => $xmls->getValue('/plugin/link[lang()]'),

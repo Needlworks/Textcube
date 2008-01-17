@@ -8,5 +8,5 @@ if (false) {
 }
 fireEvent($suri['directive'] . '/' . $suri['value']);
 if (!headers_sent())
-	respondNotFoundPage();
+	respond::NotFoundPage();
 ?>
