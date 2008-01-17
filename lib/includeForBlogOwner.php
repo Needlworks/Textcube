@@ -35,7 +35,6 @@ require ROOT .'/lib/view/pages.php';
 require ROOT .'/lib/view/ownerView.php';
 require ROOT .'/lib/view/paging.php';
 require ROOT .'/lib/view/view.php';
-require ROOT .'/component/Textcube.Function.Respond.php';
 
 // Initializing environment.
 require ROOT .'/lib/initialize.php';
