@@ -42,7 +42,6 @@ require ROOT .'/lib/model/common.setting.php';
 require ROOT .'/lib/model/common.paging.php';
 require ROOT .'/lib/model/common.plugin.php';
 require ROOT .'/lib/model/common.module.php';
-require ROOT .'/lib/model/reader.common.php';
 if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of model loading');
 // Views
 require ROOT .'/lib/view/html.php';
