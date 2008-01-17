@@ -15,5 +15,5 @@ ob_start();
 printFeeds($blogid, $_POST['group']);
 $result['view'] = escapeCData(ob_get_contents());
 ob_end_clean();
-printRespond($result);
+respond::Print($result);
 ?>

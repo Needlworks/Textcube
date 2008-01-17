@@ -23,8 +23,8 @@ if (!setBlogSetting("pluginListScopeType_{$_POST['visibility']}", $_POST['scope'
 	setBlogSetting("pluginListStatusType_{$_POST['visibility']}", $backupStatus);
 	setBlogSetting("pluginListSortType", $backupSort);
 	
-	respondResultPage(1);
+	respond::ResultPage(1);
 } else {
-	respondResultPage(0);
+	respond::ResultPage(0);
 }
 ?>

@@ -147,7 +147,6 @@ if (defined('__TEXTCUBE_MOBILE__')) {
 	$blogURL .= '/m';
 }
 unset($url, $domain);
-//var_dump($suri);
 function respondNotFoundPage() {
 	header('HTTP/1.1 404 Not Found');
 	header("Connection: close");

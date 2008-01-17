@@ -14,12 +14,13 @@ requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireModel("blog.coverpage");
 
+
 $skin = new Skin($skinSetting['skin']);
 $coverpageCount = count($skin->coverpageBasicModules);
 $coverpageOrder = deleteCoverpageModuleOrderData(getCoverpageModuleOrderData($coverpageCount), $_GET['coverpageNumber'], $_GET['modulePos']);
 setBlogSetting("coverpageOrder", serialize($coverpageOrder));
 
-//printRespond(array('error' => 0));
+//respond::Print(array('error' => 0));
 if ($_GET['viewMode'] != '') $_GET['viewMode'] = '?' . $_GET['viewMode'];
 header('Location: '. $blogURL . '/owner/center/coverpage' . $_GET['viewMode']);
 ?>

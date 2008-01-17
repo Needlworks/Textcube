@@ -20,6 +20,8 @@ requireModel("blog.entry");
 requireModel("blog.tag");
 requireModel("blog.locative");
 requireModel("blog.attachment");
+
+
 if (false) {
 	fetchConfigVal();
 }
@@ -34,7 +36,7 @@ if (isset($_GET['draft'])) {
 	$entry = getEntry(getBlogId(), $suri['id'], false);
 }
 if (!$entry) {
-	respondErrorPage(_t('포스트 정보가 존재하지 않습니다.'));
+	respond::ErrorPage(_t('포스트 정보가 존재하지 않습니다.'));
 	$isKeyword = ($entry['category'] == -1);
 }
 

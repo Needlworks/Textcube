@@ -10,6 +10,7 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.trackback");
 
+
 requireStrictRoute();
-respondResultPage(!empty($_GET['url']) && sendTrackback($blogid, $suri['id'], trim($_GET['url'])));
+respond::ResultPage(!empty($_GET['url']) && sendTrackback($blogid, $suri['id'], trim($_GET['url'])));
 ?>

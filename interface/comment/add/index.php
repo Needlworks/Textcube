@@ -4,6 +4,8 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/lib/includeForBlog.php';
 requireComponent( 'Textcube.Control.Openid' );
+requireComponent('Textcube.Function.Respond');
+
 if (false) {
 	fetchConfigVal();
 }
@@ -22,7 +24,7 @@ $IV = array(
 	)
 );
 if(!Validator::validate($IV))
-	printRespond(array('error' => 1, 'description' => 'Illigal parameters'));
+	respond::Print(array('error' => 1, 'description' => 'Illigal parameters'));
 requireStrictRoute();
 header('Content-Type: text/xml; charset=utf-8');
 if (!isset($_GET['__T__']) || !isset($_POST['key']) || $_POST['key'] != md5(filemtime(ROOT . '/config.php'))) {

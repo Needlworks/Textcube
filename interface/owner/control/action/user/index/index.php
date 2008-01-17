@@ -3,17 +3,25 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+$IV = array(
+	'GET' => array(
+		'page' => array('int', 'default' => 1)
+	)
+);
+
 require ROOT . '/lib/includeForBlogOwner.php';
+requireStrictRoute();
+
 
 global $database;
 $page=(isset($_GET['page']) && $_GET['page'] >= 1 ? $_GET['page'] : 1 );
 
-$usercount = POD::queryCell("SELECT Count(userid) FROM `{$database['prefix']}Users` WHERE 1");
+$usercount = POD::queryCell("SELECT COUNT(userid) FROM `{$database['prefix']}Users` WHERE 1");
 
 $pages = (int)((0.5+$usercount) / 25)+1;
 
 if ($pages<$page) {
-	printRespond(array('error' => -2,'result' => $pages));
+	respond::Print(array('error' => -2,'result' => $pages));
 }
 
 $paging = array('url' => "", 'prefix' => '?page=', 'postfix' => '', 'total' => 0, 'pages' => 0, 'page' => 0);
@@ -35,14 +43,14 @@ if($userlist){
 		}
 	if($tempString!=''){
 		$resultString.=substr($tempString,0,-1);
-		printRespond(array('error' => 0, 'result' => $resultString));
+		respond::Print(array('error' => 0, 'result' => $resultString));
 	}
 	else {
-		printRespond(array('error' => -2));
+		respond::Print(array('error' => -2));
 	}
 }
 else {
-	printRespond(array('error' => -1, 'result' => mysql_error()));
+	respond::Print(array('error' => -1, 'result' => mysql_error()));
 }
 
 ?>

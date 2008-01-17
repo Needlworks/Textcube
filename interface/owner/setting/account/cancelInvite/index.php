@@ -11,8 +11,8 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 $result = cancelInvite($_POST['userid']);
 if ($result) {
-	respondResultPage(0);
+	respond::ResultPage(0);
 } else {
-	respondResultPage(1);
+	respond::ResultPage(1);
 }
 ?>

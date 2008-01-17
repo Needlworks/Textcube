@@ -22,6 +22,7 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.entry");
 
+
 requireStrictRoute();
 $entry = array();
 $entry['visibility'] = $_POST['visibility'];
@@ -46,5 +47,5 @@ if ($id = addEntry($blogid, $entry)) {
 $result = array();
 $result['error'] = (($id !== false) === true ? 0 : 1);
 $result['entryId'] = $id;
-printRespond($result);
+respond::Print($result);
 ?>

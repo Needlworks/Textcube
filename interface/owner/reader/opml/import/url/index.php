@@ -11,5 +11,5 @@ require ROOT . '/lib/includeForReader.php';
 requireStrictRoute();
 set_time_limit(60);
 $result = importOPMLFromURL($blogid, $_POST['url']);
-printRespond($result);
+respond::Print($result);
 ?>

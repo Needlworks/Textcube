@@ -13,13 +13,13 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 
 if(empty($_POST['secondaryDomain']) && $_POST['defaultDomain'] == 1)
-	respondResultPage(4);
+	respond::ResultPage(4);
 else if( ($result = setPrimaryDomain($blogid, $_POST['primaryDomain'])) > 0 )
-	printRespond(array('error' => 2, 'msg' => $result));
+	respond::Print(array('error' => 2, 'msg' => $result));
 else if( ($result = setSecondaryDomain($blogid, $_POST['secondaryDomain'])) > 0 )
-	printRespond(array('error' => 3, 'msg' => $result));
+	respond::Print(array('error' => 3, 'msg' => $result));
 else if(!setDefaultDomain($blogid, $_POST['defaultDomain']))
-	respondResultPage(1);
+	respond::ResultPage(1);
 else
-	respondResultPage(0);
+	respond::ResultPage(0);
 ?>

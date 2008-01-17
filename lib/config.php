@@ -66,6 +66,7 @@ requireComponent('Eolin.PHP.UnifiedEnvironment');
 requireComponent('Eolin.PHP.Core');
 requireComponent('Textcube.Core');
 requireComponent('Textcube.Core.BackwardCompatibility');
+requireComponent('Textcube.Function.Respond');
 requireComponent('Needlworks.Cache.PageCache');
 
 // Include installation configuration.

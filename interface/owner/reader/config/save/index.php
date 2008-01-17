@@ -14,5 +14,5 @@ $IV = array(
 
 require ROOT . '/lib/includeForReader.php';
 requireStrictRoute();
-respondResultPage(setReaderSetting($blogid, $_POST));
+respond::ResultPage(setReaderSetting($blogid, $_POST));
 ?>

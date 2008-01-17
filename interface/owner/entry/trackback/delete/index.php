@@ -10,6 +10,7 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.trackback");
 
+
 requireStrictRoute();
 
 if(isset($suri['id'])) {
@@ -17,12 +18,12 @@ if(isset($suri['id'])) {
 	$isAjaxRequest = checkAjaxRequest();
 	
 	if (trashTrackback($blogid, $suri['id']) !== false)
-		$isAjaxRequest ? respondResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? respond::ResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	else
-		$isAjaxRequest ? respondResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? respond::ResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
 } else {
 	foreach(explode(',', $_POST['targets']) as $target)
 		trashTrackback($blogid, $target);
-	respondResultPage(0);
+	respond::ResultPage(0);
 }
 ?>

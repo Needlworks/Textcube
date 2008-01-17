@@ -22,7 +22,7 @@ function setTreeSetting($blogid, $setting) {
 		getSkinSetting($blogid, true); // refresh skin cache
 		return true;
 	} else {
-		respondErrorPage(mysql_error());
+		respond::ErrorPage(mysql_error());
 	}
 }
 

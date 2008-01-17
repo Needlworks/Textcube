@@ -5,11 +5,12 @@
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.trackback");
 
+
 $result = getTrackbackLog($blogid, $suri['id']);
 if ($result !== false) {
 	$result = str_replace(' ', '&nbsp;', $result);
-	printRespond(array('error' => 0, 'result' => $result));
+	respond::Print(array('error' => 0, 'result' => $result));
 }
 else
-	printRespond(array('error' => 1, 'msg' => mysql_error()));
+	respond::Print(array('error' => 1, 'msg' => mysql_error()));
 ?> 

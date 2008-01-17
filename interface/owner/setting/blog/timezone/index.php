@@ -11,7 +11,7 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if (isset($_GET['timezone']) && Timezone::set($_GET['timezone'])) {
 	setBlogSetting('timezone',$_GET['timezone']);
-	respondResultPage(0);
+	respond::ResultPage(0);
 }
-respondResultPage( - 1);
+respond::ResultPage( - 1);
 ?>

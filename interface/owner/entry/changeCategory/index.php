@@ -12,9 +12,10 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 requireModel("blog.entry");
 
+
 if(changeCategoryOfEntries($blogid, $_POST['targets'], $_POST['category'])) {
-	respondResultPage(0);
+	respond::ResultPage(0);
 } else {
-	respondResultPage(1);
+	respond::ResultPage(1);
 }
 ?>

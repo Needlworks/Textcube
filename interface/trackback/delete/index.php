@@ -9,6 +9,7 @@ requireModel('blog.trash');
 requireModel('blog.trackback');
 requireModel('blog.sidebar');
 requireLibrary('blog.skin');
+requireComponent('Textcube.Function.Respond');
 
 requireStrictRoute();
 $blogid = getBlogId();
@@ -25,7 +26,7 @@ if ($entryId !== false) {
 	$trackbackListContent = getTrackbacksView($entry, $skin, true);
 }
 if ($trackbackListContent === false)
-	printRespond(array('error' => 1));
+	respond::Print(array('error' => 1));
 else
-	printRespond(array('error' => 0, 'trackbackList' => $trackbackListContent, 'trackbackCount' => $trackbackCountContent, 'recentTrackbacks' => $recentTrackbackContent));
+	respond::Print(array('error' => 0, 'trackbackList' => $trackbackListContent, 'trackbackCount' => $trackbackCountContent, 'recentTrackbacks' => $recentTrackbackContent));
 ?>

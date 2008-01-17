@@ -100,17 +100,17 @@ class Skin {
 			}
 			
 			if (($name == '.') || ($name == '..')) {
-				respondErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
+				respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
 			}
 			
 			$filename = ROOT . "/skin/$name/skin.html";
 			
 			if (!is_file($filename)) {
-				respondErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
+				respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
 			}
 			
 			if (!$sval = file_get_contents($filename))
-				respondErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
+				respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
 	
 			tuneSkin($sval);
 			replaceSkinTag($sval, 'html');
@@ -360,7 +360,7 @@ class KeylogSkin {
 	function KeylogSkin($filename) {
 		global $service, $serviceURL;
 		if (!$sval = file_get_contents($filename))
-			respondErrorPage("KeywordSkin");
+			respond::ErrorPage("KeywordSkin");
 		$origPath = $serviceURL . substr($filename,strlen(ROOT));
 		$origPath = substr($origPath, 0, 0 - strlen(Path::getBaseName($origPath)));
 		$sval = str_replace('./', $origPath, $sval);

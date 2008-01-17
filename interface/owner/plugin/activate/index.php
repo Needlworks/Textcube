@@ -10,6 +10,6 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if (!empty($_POST['name']) && activatePlugin($_POST['name']))
-	respondResultPage(0);
-respondResultPage(1);
+	respond::ResultPage(0);
+respond::ResultPage(1);
 ?>

@@ -21,6 +21,7 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel('blog.entry');
 
+
 requireStrictRoute();
 $updateDraft = 0;
 $entry = getEntry($blogid, $suri['id']);
@@ -45,8 +46,8 @@ if (!empty($entry)) {
 	if($id = updateEntry($blogid, $entry, $updateDraft)) {
 		fireEvent('UpdatePost', $id, $entry);
 		setBlogSetting('LatestEditedEntry_user'.getUserId(),$suri['id']);
-		respondResultPage(0);
+		respond::ResultPage(0);
 	}
 }
-respondResultPage(-1);
+respond::ResultPage(-1);
 ?>

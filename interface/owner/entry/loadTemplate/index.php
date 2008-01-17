@@ -13,6 +13,7 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel('blog.entry');
 
+
 requireStrictRoute();
 
 if ($entry = getEntry($blogid, $_POST['templateId'])) {
@@ -22,7 +23,7 @@ if ($entry = getEntry($blogid, $_POST['templateId'])) {
 		$entry['published'] = 'UNIX_TIMESTAMP()';
 		$id = addEntry($blogid,$entry);
 	} else {
-		if($_POST['entryId'] == 0) respondResultPage(1);
+		if($_POST['entryId'] == 0) respond::ResultPage(1);
 		$id = $_POST['entryId'];
 	}
 	// Delete original attachments.
@@ -32,8 +33,8 @@ if ($entry = getEntry($blogid, $_POST['templateId'])) {
 			"title"=>$entry['title'],
 			"content"=>$entry['content'],
 			"entryId"=>$id);
-		printRespond($result);
+		respond::Print($result);
 	}
 }
-respondResultPage(1);
+respond::ResultPage(1);
 ?>

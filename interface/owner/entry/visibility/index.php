@@ -16,6 +16,7 @@ $IV = array(
 
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.entry");
+
 requireStrictRoute();
 
 // TeamBlog ACL check whether or not current user can edit this post.
@@ -39,7 +40,7 @@ if (!isset($_GET['command'])) {
 		$countResult = 1;
 		fireEvent('ChangeVisibility', $_GET['visibility'], $suri['id']);
 	}
-	printRespond(array('error' => $temp, 'countSyndicated' => $countResult), false);
+	respond::Print(array('error' => $temp, 'countSyndicated' => $countResult), false);
 } else {
 	switch ($_GET['command']) {
 		case "protect":

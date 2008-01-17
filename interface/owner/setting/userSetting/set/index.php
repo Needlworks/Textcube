@@ -3,5 +3,5 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/lib/includeForBlogOwner.php';
-respondResultPage(setBlogSetting($_POST['name'], $_POST['value']));
+respond::ResultPage(setBlogSetting($_POST['name'], $_POST['value']));
 ?>

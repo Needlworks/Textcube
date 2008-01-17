@@ -12,7 +12,7 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if (changeACLonBlog(getBlogId(),$_POST['acltype'],$_POST['userid'],$_POST['switch'])) {
-	return respondResultPage(true);
+	return respond::ResultPage(true);
 }
-respondResultPage(false);
+respond::ResultPage(false);
 ?>

@@ -3,11 +3,11 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/lib/includeForFeeder.php';
-requireComponent('Textcube.Function.misc');
+requireComponent('Textcube.Function.Respond');
 
 if (false) {
 	fetchConfigVal();
 }
 list($status, $url) = updateRandomFeed();
-misc::printRespond(array('error' => $status, 'url' => $url));
+respond::Print(array('error' => $status, 'url' => $url));
 ?>

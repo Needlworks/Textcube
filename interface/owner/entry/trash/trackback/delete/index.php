@@ -5,12 +5,13 @@
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.trackback");
 
+
 if(isset($suri['id'])) {
 	$isAjaxRequest = checkAjaxRequest();
 	if (deleteTrackback($blogid, $suri['id']) !== true)
-		$isAjaxRequest ? respondResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? respond::ResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	else
-		$isAjaxRequest ? respondResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? respond::ResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
 } else {
 	$targets = explode('~*_)', $_POST['targets']);
 	foreach($targets as $target) {
@@ -18,6 +19,6 @@ if(isset($suri['id'])) {
 			continue;
 		deleteTrackback($blogid, $target);
 	}
-	respondResultPage(0);
+	respond::ResultPage(0);
 }
 ?>

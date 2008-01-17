@@ -5,6 +5,6 @@
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if (useBlogSlogan($blogid, $suri['id']))
-	respondResultPage(0);
-respondResultPage( - 1);
+	respond::ResultPage(0);
+respond::ResultPage( - 1);
 ?>

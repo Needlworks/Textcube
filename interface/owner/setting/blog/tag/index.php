@@ -11,7 +11,7 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 //$tags = explode(trim($_POST['tags']),',');
 if (setBlogTags($blogid, trim($_POST['tags']))) {
-	respondResultPage(0);
+	respond::ResultPage(0);
 }
-respondResultPage(-1);
+respond::ResultPage(-1);
 ?>

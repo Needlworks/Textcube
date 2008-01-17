@@ -10,7 +10,7 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if (setBlogDescription($blogid, trim($_POST['description']))) {
-	respondResultPage(0);
+	respond::ResultPage(0);
 }
-respondResultPage(-1);
+respond::ResultPage(-1);
 ?>

@@ -15,7 +15,7 @@ requireStrictRoute();
 	
 $result = writeSkinHtml($blogid, $_POST['body'], $_POST['mode'], $_POST['file']);
 if ($result === true)
-	printRespond(array('error' => 0));
+	respond::Print(array('error' => 0));
 else
-	printRespond(array('error' => 1, 'msg' => $result));
+	respond::Print(array('error' => 1, 'msg' => $result));
 ?>

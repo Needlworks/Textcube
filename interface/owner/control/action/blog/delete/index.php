@@ -8,6 +8,7 @@ $IV = array(
 	) 
 );
 require ROOT . '/lib/includeForBlogOwner.php';
+
 requireStrictRoute();
 
 $items = split(",",$_GET['item']);
@@ -16,8 +17,8 @@ foreach ($items as $item) {
 	if ($result===true) {
 	}
 	else {
-		printRespond(array('error' => -1 , 'result' =>$result));
+		respond::Print(array('error' => -1 , 'result' =>$result));
 	}
 }
-		printRespond(array('error' => 0 , 'result' =>$suri['id']));
+		respond::Print(array('error' => 0 , 'result' =>$suri['id']));
 ?>

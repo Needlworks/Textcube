@@ -6,6 +6,7 @@ require ROOT . '/lib/includeForBlogOwner.php';
 
 requireLibrary('blog.skin');
 
+
 requireModel('reader.common');
 requireModel('blog.statistics');
 requireModel('blog.comment');
@@ -13,6 +14,7 @@ requireModel('blog.trackback');
 requireModel('blog.entry');
 requireModel('blog.trash');
 requireModel('common.setting');
+
 
 $blogMenu['topMenu'] = 'center';
 $blogMenu['contentMenu'] = 'dashboard';
@@ -110,7 +112,7 @@ unset($layout);
 unset($oldcenterlayout);
 
 if (isset($_REQUEST['ajaxcall'])) {
-	respondResultPage(0);
+	respond::ResultPage(0);
 	exit;
 }
 

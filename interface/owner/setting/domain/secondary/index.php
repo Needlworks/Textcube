@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/lib/includeForBlogOwner.php';
 if (!empty($_GET['domain']) && setSecondaryDomain($blogid, $_GET['domain'])) {
-	respondResultPage(0);
+	respond::ResultPage(0);
 }
-respondResultPage( - 1);
+respond::ResultPage( - 1);
 ?>

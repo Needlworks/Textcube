@@ -17,7 +17,7 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if(isset($suri['id'])) {
 	$categories = getCategories($blogid);
-	printRespond(array('code' => urlencode(getCategoriesViewInSkinSetting(getEntriesTotalCount($blogid), getCategories($blogid), $suri['id']))));
+	respond::Print(array('code' => urlencode(getCategoriesViewInSkinSetting(getEntriesTotalCount($blogid), getCategories($blogid), $suri['id']))));
 	exit;
 } else {
 	if (setTreeSetting($blogid, $_POST)) {

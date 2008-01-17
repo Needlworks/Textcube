@@ -29,11 +29,11 @@ $sidebarOrderData = getSidebarModuleOrderData($sidebarCount);
 $sidebarNumber = $_REQUEST['sidebarNumber'];
 $modulePos = $_REQUEST['modulePos'];
 
-if (($sidebarNumber < 0) || ($sidebarNumber >= $sidebarCount)) respondErrorPage();
-if (!isset($sidebarOrderData[$sidebarNumber]) || !isset($sidebarOrderData[$sidebarNumber][$modulePos])) respondErrorPage();
+if (($sidebarNumber < 0) || ($sidebarNumber >= $sidebarCount)) respond::ErrorPage();
+if (!isset($sidebarOrderData[$sidebarNumber]) || !isset($sidebarOrderData[$sidebarNumber][$modulePos])) respond::ErrorPage();
 
 $pluginData = $sidebarOrderData[$sidebarNumber][$modulePos];
-if ($pluginData['type'] != 3) respondErrorPage();
+if ($pluginData['type'] != 3) respond::ErrorPage();
 
 $plugin = $pluginData['id']['plugin'];
 $handler = $pluginData['id']['handler'];

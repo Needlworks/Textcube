@@ -9,10 +9,10 @@ requireStrictRoute();
 $result = removeBlog($suri['id']);
 
 if ($result===true) {
-	printRespond(array('error' => 0 , 'result' =>$suri['id']));
+	respond::Print(array('error' => 0 , 'result' =>$suri['id']));
 }
 else {
-	printRespond(array('error' => -1 , 'result' =>$result));
+	respond::Print(array('error' => -1 , 'result' =>$result));
 }
 
 ?>

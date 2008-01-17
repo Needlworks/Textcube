@@ -30,8 +30,8 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if (setSkinSetting($blogid, $_POST)) {
-	printRespond(array('error' => 0));
+	respond::Print(array('error' => 0));
 } else {
-	printRespond(array('error' => 1, 'msg' => mysql_error()));
+	respond::Print(array('error' => 1, 'msg' => mysql_error()));
 }
 ?>

@@ -13,5 +13,5 @@ if (false) {
 $pluginName = $_POST['Name'];
 $DATA = $_POST['DATA'];
 $result = handleDataSet($pluginName, $DATA );
-printRespond($result);
+respond::Print($result);
 ?>

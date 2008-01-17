@@ -11,12 +11,13 @@ $IV = array(
 	) 
 );
 requireStrictRoute();
+
 $result = addUser($_GET['email'], $_GET['name']);
 if ($result===true) {
-	printRespond(array('error' => 0));
+	respond::Print(array('error' => 0));
 }
 else {
-	printRespond(array('error' => -1 , 'result' =>$result));
+	respond::Print(array('error' => -1 , 'result' =>$result));
 }
 
 ?>

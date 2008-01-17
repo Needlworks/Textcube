@@ -14,8 +14,8 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 if (!acl::check('group.owners'))
-	respondResultPage(false);
+	respond::ResultPage(false);
 
 $result = addTeamUser($_POST['email'], $_POST['name'], $_POST['comment'], $_POST['senderName'], $_POST['senderEmail']);
-respondResultPage($result);
+respond::ResultPage($result);
 ?>

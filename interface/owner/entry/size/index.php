@@ -10,5 +10,5 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel('blog.attachment');
 $result = getAttachmentSizeLabel($blogid, $_GET['parent']);
-printRespond(array ('error' => empty($result) ? 1 : 0, 'result' => $result));
+respond::Print(array ('error' => empty($result) ? 1 : 0, 'result' => $result));
 ?> 

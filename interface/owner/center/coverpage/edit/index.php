@@ -21,6 +21,7 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireModel("blog.coverpage");
+
 requireStrictRoute();
 
 $skin = new Skin($skinSetting['skin']);
@@ -30,11 +31,11 @@ $coverpageOrderData = getCoverpageModuleOrderData($coverpageCount);
 $coverpageNumber = $_REQUEST['coverpageNumber'];
 $modulePos = $_REQUEST['modulePos'];
 
-if (($coverpageNumber < 0) || ($coverpageNumber >= $coverpageCount)) respondErrorPage();
-if (!isset($coverpageOrderData[$coverpageNumber]) || !isset($coverpageOrderData[$coverpageNumber][$modulePos])) respondErrorPage();
+if (($coverpageNumber < 0) || ($coverpageNumber >= $coverpageCount)) respond::ErrorPage();
+if (!isset($coverpageOrderData[$coverpageNumber]) || !isset($coverpageOrderData[$coverpageNumber][$modulePos])) respond::ErrorPage();
 
 $pluginData = $coverpageOrderData[$coverpageNumber][$modulePos];
-if ($pluginData['type'] != 3) respondErrorPage();
+if ($pluginData['type'] != 3) respond::ErrorPage();
 
 $plugin = $pluginData['id']['plugin'];
 $handler = $pluginData['id']['handler'];

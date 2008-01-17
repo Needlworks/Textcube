@@ -176,56 +176,6 @@ class misc {
 		return (getBlogId() == getServiceSetting("defaultBlogId",1) ? true : false);
 	}
 
-	function respondResultPage($errorResult) {
-		if (is_array($errorResult)) {
-			$error = $errorResult[0];
-			$errorMsg = $errorResult[1];
-		} else {
-			$error = $errorResult;
-			$errorMsg = '';
-		}
-		if ($error === true)
-			$error = 0;
-		else if ($error === false)
-			$error = 1;
-		header('Content-Type: text/xml; charset=utf-8');
-		print ("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<response>\n<error>$error</error>\n<message><![CDATA[$errorMsg]]></message></response>");
-		exit;
-	}
-	
-	/* Synch with lib/view/pages.php */
-	function printRespond($result, $useCDATA=true) {
-		header('Content-Type: text/xml; charset=utf-8');
-		$xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
-		$xml .= "<response>\n";
-		$xml .= misc::printRespondValue($result, $useCDATA);
-		$xml .= "</response>\n";
-		die($xml);
-	}
-	/* private */
-	function printRespondValue($array, $useCDATA=true) {
-		$xml = '';
-		if(is_array($array)) {
-			foreach($array as $key => $value) {
-				if(is_null($value))
-					continue;
-				else if(is_array($value)) {
-					if(is_numeric($key))
-						$xml .= misc::printRespondValue($value, $useCDATA)."\n";
-					else
-						$xml .= "<$key>".misc::printRespondValue($value, $useCDATA)."</$key>\n";
-				}
-				else {
-					if($useCDATA)
-						$xml .= "<$key><![CDATA[".misc::escapeCData($value)."]]></$key>\n";
-					else
-						$xml .= "<$key>".htmlspecialchars($value)."</$key>\n";
-				}
-			}
-		}
-		return $xml;
-	}
-
 /***** Functions below are legacy support : THEY WILL BE REMOVED AFTER 1.6 MILESTONE. *****/
 
 	function fetchConfigVal( $DATA ){

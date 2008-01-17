@@ -22,6 +22,6 @@ setCommentsOnRSS($blogid, $_POST['commentsOnRSS']);
 setPublishWholeOnRSS($blogid, $_POST['publishWholeOnRSS']);
 publishPostEolinSyncOnRSS($blogid, $_POST['publishEolinSyncOnRSS']);
 
-respondResultPage(0);
+respond::ResultPage(0);
 
 ?>

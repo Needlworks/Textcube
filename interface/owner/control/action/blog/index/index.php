@@ -5,6 +5,9 @@
 
 require ROOT . '/lib/includeForBlogOwner.php';
 
+
+requireStrictRoute();
+
 global $blogid, $database;
 $page=(isset($_GET['page']) && $_GET['page'] >= 1 ? $_GET['page'] : 1 );
 $row=(isset($_GET['rows']) && $_GET['rows'] >= 1 ? $_GET['rows'] : 25 );
@@ -14,7 +17,7 @@ $blogcount = POD::queryCount("SELECT blogid,name FROM `{$database['prefix']}Blog
 
 $pages = (int)(($blogcount-0.5) / $row)+1;
 if ($pages<$page) {
-	printRespond(array('error' => -2,'result' => $pages));
+	respond::Print(array('error' => -2,'result' => $pages));
 }
 
 $paging = array('url' => "", 'prefix' => '?page=', 'postfix' => '', 'total' => 0, 'pages' => 0, 'page' => 0);
@@ -40,13 +43,13 @@ if($bloglist){
 	}
 	if($tempString!=''){
 		$resultString .= substr($tempString,0,-1);
-		printRespond(array('error' => 0, 'result' => $resultString));
+		respond::Print(array('error' => 0, 'result' => $resultString));
 	}
 	else {
-		printRespond(array('error' => -2,'result' => $paging['pages']));
+		respond::Print(array('error' => -2,'result' => $paging['pages']));
 	}
 }
 else {
-	printRespond(array('error' => -1, 'result' => mysql_error()));
+	respond::Print(array('error' => -1, 'result' => mysql_error()));
 }
 ?>

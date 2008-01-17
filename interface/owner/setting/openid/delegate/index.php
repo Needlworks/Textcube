@@ -14,9 +14,9 @@ requireComponent( 'Textcube.Control.Openid' );
 requireStrictRoute();
 
 if( OpenIDConsumer::setOpenIDLogoDisplay( empty($_GET['mode']) ? "" : "openid" ) ) {
-	respondResultPage(0);
+	respond::ResultPage(0);
 } else {
-	respondResultPage(-1);
+	respond::ResultPage(-1);
 }
 
 ?>

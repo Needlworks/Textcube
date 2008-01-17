@@ -16,9 +16,9 @@ requireStrictRoute();
 
 if( OpenIDConsumer::setComment( $_POST['openidonlycomment'] ) &&
 	OpenIDConsumer::setOpenIDLogoDisplay( $_POST['openidlogodisplay'] ) ) {
-	respondResultPage(0);
+	respond::ResultPage(0);
 } else {
-	respondResultPage(-1);
+	respond::ResultPage(-1);
 }
 
 ?>

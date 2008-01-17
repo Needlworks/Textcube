@@ -13,8 +13,8 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireComponent( 'Textcube.Function.misc' );
 requireStrictRoute();
 if (!acl::check('group.creators'))
-	respondResultPage(false);
+	respond::ResultPage(false);
 
 $result = setSmtpServer( empty($_POST['useCustomSMTP']) ? 0:1, $_POST['smtpHost'], $_POST['smtpPort'] );
-respondResultPage($result);
+respond::ResultPage($result);
 ?>

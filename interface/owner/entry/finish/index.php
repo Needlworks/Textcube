@@ -21,6 +21,7 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel('blog.entry');
 
+
 requireStrictRoute();
 
 if(empty($suri['id'])) {
@@ -57,15 +58,15 @@ if (empty($suri['id']) || !empty($entry)) {
 			$result = array();
 			$result['error'] = (($id !== false) === true ? 0 : 1);
 			$result['entryId'] = $id;
-			printRespond($result);
+			respond::Print($result);
 		}
 	} else {
 		if($id = updateEntry($blogid, $entry, $updateDraft)) {
 			fireEvent('UpdatePost', $id, $entry);
 			setBlogSetting('LatestEditedEntry_user'.getUserId(),$suri['id']);
-			respondResultPage(0);
+			respond::ResultPage(0);
 		}
 	}
 }
-respondResultPage(-1);
+respond::ResultPage(-1);
 ?>

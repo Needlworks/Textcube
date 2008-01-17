@@ -9,13 +9,15 @@ $IV = array(
 	) 
 );
 require ROOT . '/lib/includeForBlogOwner.php';
+
+
 requireStrictRoute();
 $result = addBlog('', getUserIdByEmail($_GET['owner']), $_GET['identify']);
 
 if ($result===true) {
-	printRespond(array('error' => 0));
+	respond::Print(array('error' => 0));
 }
 else {
-	printRespond(array('error' => -1 , 'result' =>$result));
+	respond::Print(array('error' => -1 , 'result' =>$result));
 }
 ?>

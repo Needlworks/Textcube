@@ -19,6 +19,7 @@ if (!array_key_exists('viewMode', $_REQUEST)) $_REQUEST['viewMode'] = '';
 
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.coverpage");
+
 requireStrictRoute();
 
 $coverpageOrderData = getCoverpageModuleOrderData();
@@ -29,11 +30,11 @@ if (!isset($_REQUEST['modulePos']) || !is_numeric($_REQUEST['modulePos'])) respo
 $coverpageNumber = $_REQUEST['coverpageNumber'];
 $modulePos = $_REQUEST['modulePos'];
 
-if (($coverpageNumber < 0)) respondErrorPage();
-if (!isset($coverpageOrderData[$coverpageNumber]) || !isset($coverpageOrderData[$coverpageNumber][$modulePos])) respondErrorPage();
+if (($coverpageNumber < 0)) respond::ErrorPage();
+if (!isset($coverpageOrderData[$coverpageNumber]) || !isset($coverpageOrderData[$coverpageNumber][$modulePos])) respond::ErrorPage();
 
 $pluginData = $coverpageOrderData[$coverpageNumber][$modulePos];
-if ($pluginData['type'] != 3) respondErrorPage();
+if ($pluginData['type'] != 3) respond::ErrorPage();
 
 $plugin = $pluginData['id']['plugin'];
 $handler = $pluginData['id']['handler'];

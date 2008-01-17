@@ -27,16 +27,16 @@ if ($_GET['command'] == 'unblock') {
 		$filter->id = $_GET['id'];
 	}
 	if ($filter->remove()) {
-		$isAjaxRequest ? printRespond(array('error' => 0)) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? respond::Print(array('error' => 0)) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	} else {
-		$isAjaxRequest ? printRespond(array('error' => 1, 'msg' => mysql_error())) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? respond::Print(array('error' => 1, 'msg' => mysql_error())) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	}
 } else {
 	$filter->type = $_GET['mode'];
 	$filter->pattern = $_GET['value'];
 	if ($filter->add())
-		$isAjaxRequest ? printRespond(array('error' => 0)) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? respond::Print(array('error' => 0)) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	else
-		$isAjaxRequest ? printRespond(array('error' => 1, 'msg' => mysql_error())) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? respond::Print(array('error' => 1, 'msg' => mysql_error())) : header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 ?>

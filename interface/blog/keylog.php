@@ -3,13 +3,14 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/lib/includeForBlog.php';
+requireComponent('Textcube.Function.Respond');
 
 if (false) {
 	fetchConfigVal();
 }
 if (strlen($suri['value'])) {
 	if(!$keylog = getKeylogByTitle($blogid, $suri['value'])) {
-		respondErrorPage();
+		respond::ErrorPage();
 		exit;
 	}
 	$entries = array();
@@ -18,7 +19,7 @@ if (strlen($suri['value'])) {
 	if(!is_null($skinSetting['keylogSkin'])) {
 		require ROOT . '/lib/piece/blog/keylog.php';
 	} else {
-		respondErrorPage(_t('No handling plugin'));
+		respond::ErrorPage(_t('No handling plugin'));
 	}
 } else {
 	$keywords = getKeywordNames($blogid, true);
