@@ -105,7 +105,17 @@ function getBlogURL($name = null, $domain = null, $path = null, $type = null) {
 		case 'path':
 			return "http://$domain$path/$name";
 		case 'single':default:
-			return "http://$domain$path".($service['useFancyURL'] ? '' : '/index.php?');
+			$url = "http://$domain$path".getFancyURLpostfix();
+			if($service['fancyURL'] ? '' : '/index.php?');
+	}
+}
+
+function getFancyURLpostfix() {
+	global $service;
+	switch($service['fancyURL']) {
+		case 0: return '/index.php?';
+		case 1: return '/?';
+		case 2:default: return '';
 	}
 }
 

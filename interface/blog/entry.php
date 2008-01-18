@@ -6,7 +6,6 @@ require ROOT . '/lib/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }
-
 list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value']);
 fireEvent('OBStart');
 require ROOT . '/lib/piece/blog/begin.php';

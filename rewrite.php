@@ -8,7 +8,7 @@
 		'position' => $_SERVER["SCRIPT_NAME"],
 		'root'     => str_replace('rewrite.php','',$_SERVER["SCRIPT_NAME"])
 		);
-	$accessInfo['input'] = ltrim(substr($accessInfo['fullpath'],strlen($accessInfo['root'])+(defined('__TEXTCUBE_NO_FANCY_URL__') ? 1 : 0)),'/'); //Workaround for compartibility with fastCGI / Other environment
+	$accessInfo['input'] = ltrim(substr(str_replace('index.php','',$accessInfo['fullpath']),strlen(rtrim($accessInfo['root'],'index.php'))+(defined('__TEXTCUBE_NO_FANCY_URL__') ? 1 : 0)),'/'); //Workaround for compartibility with fastCGI / Other environment
 	$part = strtok($accessInfo['input'],'/');
 	if(in_array($part, array('image','plugins','script','skin','style','attach','cache','thumbnail'))) {
 		require_once 'lib/function/misc.php';

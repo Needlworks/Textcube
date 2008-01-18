@@ -1388,10 +1388,15 @@ class XMLStruct {
 
 class URL {
 	function encode($url,$useEncodedURL = true) {
+		$postfix = '';
+		if(substr($url,strlen($url)-1) == '?') {
+			$url = substr($url,0,strlen($url)-1);
+			$postfix = '?';
+		}
 		if ($useEncodedURL == true)
-			return str_replace('%2F', '/', rawurlencode($url));
+			return str_replace('%2F', '/', rawurlencode($url)).$postfix;
 		else
-			return str_replace(array('%', ' ', '"', '#', '&', '\'', '<', '>', '?'), array('%25', '%20', '%22', '%23', '%26', '%27', '%3C', '%3E', '%3F'), $url);
+			return str_replace(array('%', ' ', '"', '#', '&', '\'', '<', '>', '?'), array('%25', '%20', '%22', '%23', '%26', '%27', '%3C', '%3E', '%3F'), $url).$postfix;
 	}
 
 	function decode($url,$useEncodedURL = true) {

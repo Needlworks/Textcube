@@ -4,11 +4,11 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 function initPaging($url, $prefix = '?page=') {
-	return array('url' => $url, 'prefix' => $prefix, 'postfix' => '', 'total' => 0, 'pages' => 0, 'page' => 0, 'before' => array(), 'after' => array());
+	return array('url' => rtrim($url,'?'), 'prefix' => $prefix, 'postfix' => '', 'total' => 0, 'pages' => 0, 'page' => 0, 'before' => array(), 'after' => array());
 }
 
 function fetchWithPaging($sql, $page, $count, $url = null, $prefix = '?page=', $countItem = null) {
-	global $folderURL;
+	global $folderURL, $service;
 	if ($url === null)
 		$url = $folderURL;
 	$paging = array('url' => $url, 'prefix' => $prefix, 'postfix' => '');

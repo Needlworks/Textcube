@@ -66,7 +66,7 @@ if(isset($interfacePath)) {
 	$depth = substr_count(ROOT, '/');
 }
 if ($depth > 0) {
-	if($service['useFancyURL'] === false) $url = '/'.$accessInfo['input']; // Exclude /blog path.
+	if($service['fancyURL'] === 0 || $servuce['fancyURL'] === 1) $url = '/'.$accessInfo['input']; // Exclude /blog path.
 	if (preg_match('@^((/+[^/]+){' . $depth . '})/*(.*)$@', $url, $matches)) {
 		$suri['directive'] = $matches[1];
 		if ($matches[3] !== false) {
@@ -139,8 +139,7 @@ switch ($service['type']) {
 }
 
 $hostURL = 'http://' . $_SERVER['HTTP_HOST'] . (isset($service['port']) ? ':' . $service['port'] : '');
-if($service['useFancyURL'] == false) {$blogURL = $pathURL.'/index.php?';}
-else  {$blogURL = $pathURL;}
+$blogURL = $pathURL.getFancyURLpostfix();
 $folderURL = rtrim($blogURL . $suri['directive'], '/');
 
 if (defined('__TEXTCUBE_MOBILE__')) {
