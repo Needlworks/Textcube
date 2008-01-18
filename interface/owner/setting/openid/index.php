@@ -205,7 +205,7 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 			</thead>
 			<tbody>
 <?php
-$sql="select * from {$database['prefix']}OpenIDUsers $order";
+$sql="SELECT * FROM {$database['prefix']}OpenIDUsers $order";
 $rec = POD::queryAll( $sql );
 for ($i=0; $i<count($rec); $i++) {
 $record = $rec[$i];
@@ -227,3 +227,6 @@ $className .= ($i == sizeof($rec) - 1) ? ' last-line' : '';
 			</tbody>
 		</table>
 	</div>
+<?php
+require ROOT . '/lib/piece/owner/footer.php';
+?>
