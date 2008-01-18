@@ -93,7 +93,7 @@ class setting {
 				}
 			}
 			$__gCacheBlogSettings[$blogid] = $result;
-			if($blogid = getBlogId()) $gCacheStorage->setContent('BlogSettings', $result);
+			if($blogid == getBlogId()) $gCacheStorage->setContent('BlogSettings', $result);
 			return $result;
 		}
 		$__gCacheBlogSettings[$blogid] = false;
