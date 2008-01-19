@@ -1337,14 +1337,15 @@ CREATE TABLE {$_POST['dbPrefix']}Tags (
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}TrackbackLogs (
   blogid int(11) NOT NULL default '0',
-  id int(11) NOT NULL auto_increment,
+  id int(11) NOT NULL,
   entry int(11) NOT NULL default '0',
   url varchar(255) NOT NULL default '',
   written int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (blogid, entry),
+  UNIQUE KEY id (blogid, id)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Trackbacks (
-  id int(11) NOT NULL auto_increment,
+  id int(11) NOT NULL,
   blogid int(11) NOT NULL default '0',
   entry int(11) NOT NULL default '0',
   url varchar(255) NOT NULL default '',
@@ -1355,9 +1356,9 @@ CREATE TABLE {$_POST['dbPrefix']}Trackbacks (
   ip varchar(15) NOT NULL default '',
   written int(11) NOT NULL default '0',
   isFiltered int(11) NOT NULL default '0',
-  PRIMARY KEY (id),
-  UNIQUE KEY blogid (blogid, entry, url),
-  KEY isFiltered (isFiltered)
+  PRIMARY KEY (blogid, id),
+  KEY isFiltered (isFiltered),
+  KEY blogid (blogid, isFiltered, written)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Users (
   userid int(11) NOT NULL auto_increment,
