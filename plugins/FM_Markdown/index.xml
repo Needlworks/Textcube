@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+	<title xml:lang="en">Markdown Formatter</title>
+	<title xml:lang="ko">Markdown 포매터</title>
+	<link>http://www.needlworks.org/</link>
+	<version>0.1</version>
+	<description xml:lang="en">Implements Markdown formatter, to support semantic XHTML with plain text markup syntax.</description>
+	<description xml:lang="ko">일반적인 텍스트 문서를 통하여 의미론적인 XHTML을 생성해내는 Markdown 포맷을 지원합니다.</description>
+	<license>GPL</license>
+	<author xml:lang="en" link="http://www.needlworks.org">Needlworks</author>
+	<author xml:lang="en" link="http://forest.nubimaru.com/">Jeongkyu Shin (inureyes)</author>
+	<author xml:lang="en" link="http://michelf.com/weblog/">Michel Fortin</author>
+	<author xml:lang="ko" link="http://www.needlworks.org">Needlworks</author>
+	<author xml:lang="ko" link="http://forest.nubimaru.com/">Jeongkyu Shin (inureyes)</author>
+	<author xml:lang="ko" link="http://michelf.com/weblog/">Michel Fortin</author>
+	<safety changeData="no" exposeData="no" accessLocal="yes" accessRemote="no" accessRaw="no" />
+	<requirements>
+		<textcube>1.6</textcube>
+	</requirements>
+	<binding>
+		<formatter id="markdown" name="Markdown">
+			<format>FM_Markdown_format</format>
+			<summary>FM_Markdown_summary</summary>
+			<usedFor editor="modern" />
+		</formatter>
+	</binding>
+</plugin>

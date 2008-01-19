@@ -22,11 +22,13 @@
 			<initialize>FM_Modern_editorinit</initialize>
 			<!--<usedFor formatter="html" />-->
 			<usedFor formatter="ttml" />
+			<usedFor formatter="markdown" />
 		</editor>
 		<editor xml:lang="ko" id="modern" name="위지윅 편집기">
 			<initialize>FM_Modern_editorinit</initialize>
 			<!--<usedFor formatter="html" />-->
 			<usedFor formatter="ttml" />
+			<usedFor formatter="markdown" />
 		</editor>
 		
 		<config xml:lang="ko" dataValHandler="FM_Modern_handleconfig">
@@ -36,7 +38,20 @@
 					<op value="WYSIWYG" checked="checked"><![CDATA[위지윅 편집기]]></op>
 					<op value="TEXTAREA"><![CDATA[HTML 직접 편집]]></op>
 				</field>
-				<field title="문단을 구별하는 데 사용할 태그" type="select" name="paragraphdelim">
+				<field title="문단을 구별하기 위하여 사용할 태그" type="select" name="paragraphdelim">
+					<op value="P"><![CDATA[&lt;p&gt;&lt;/p&gt;]]></op>
+					<op value="BR" checked="checked"><![CDATA[&lt;br /&gt;]]></op>
+				</field>
+			</fieldset>
+		</config>
+		<config xml:lang="en" dataValHandler="FM_Modern_handleconfig">
+			<window width="500" height="525" />
+			<fieldset legend="Settings">
+				<field title="Default editor mode" type="select" name="defaultmode">
+					<op value="WYSIWYG" checked="checked"><![CDATA[WYSIWYG Editor]]></op>
+					<op value="TEXTAREA"><![CDATA[HTML editor]]></op>
+				</field>
+				<field title="Tag to separate paragraphs" type="select" name="paragraphdelim">
 					<op value="P"><![CDATA[&lt;p&gt;&lt;/p&gt;]]></op>
 					<op value="BR" checked="checked"><![CDATA[&lt;br /&gt;]]></op>
 				</field>
