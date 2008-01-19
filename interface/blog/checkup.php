@@ -76,6 +76,16 @@ if (POD::queryCell("DESC {$database['prefix']}CommentsNotified id", 'Extra') == 
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
+if (POD::queryCell("DESC {$database['prefix']}Trackbacks id", 'Extra') == 'auto_increment') {
+	$changed = true;
+	echo '<li>', _text('데이터베이스 호환성을 위하여 트랙백 테이블의 자동 증가 설정을 제거합니다.'), ': ';
+	if (POD::execute("ALTER TABLE {$database['prefix']}Trackbacks CHANGE id id int(11) NOT NULL")
+		&& POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs CHANGE id id int(11) NOT NULL"))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
 if (POD::queryCell("DESC {$database['prefix']}Comments blogid", 'Key') != 'PRI') {
 	$changed = true;
 	echo '<li>', _text('데이터베이스 호환성을 위하여 댓글 테이블의 인덱스 설정을 변경합니다.'), ': ';
@@ -185,10 +195,13 @@ if (POD::queryCell("DESC {$database['prefix']}Sessions updated", 'Key') != 'MUL'
 }
 
 
-if (POD::queryCount("SHOW INDEX FROM {$database['prefix']}Trackbacks WHERE Key_name = 'written'") == 0) {
+if (POD::queryCell("DESC {$database['prefix']}Trackbacks blogid", 'Key') != 'PRI') {
 	$changed = true;
 	echo '<li>', _text('트랙백 불러오기 속도를 개선하기 위하여 트랙백 테이블의 인덱스 설정을 변경합니다.'), ': ';
-	if (POD::execute("ALTER TABLE {$database['prefix']}Trackbacks ADD KEY written (blogid, isFiltered, written)"))
+	if (POD::execute("ALTER TABLE {$database['prefix']}Trackbacks 
+			DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, id),
+			DROP KEY blogid,
+			ADD KEY blogid (blogid, isFiltered, written)"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
@@ -204,8 +217,7 @@ if (POD::queryExistence("DESC {$database['prefix']}SessionVisits blog")) {
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
-//if (POD::queryCell("DESC {$database['prefix']}BlogSettings name", 'Key') != 'MUL') {
-if (POD::queryCount("SHOW INDEX FROM {$database['prefix']}BlogSettings WHERE Key_name = 'name'") == 0) {
+if (POD::queryCell("DESC {$database['prefix']}BlogSettings name", 'Key') != 'PRI') {
 	$changed = true;
 	echo '<li>', _text('블로그 설정 불러오기 속도를 개선하기 위하여 블로그 설정 테이블의 인덱스 설정을 변경합니다.'), ': ';
 	if (POD::execute("ALTER TABLE {$database['prefix']}BlogSettings ADD INDEX name (name,value (32))"))

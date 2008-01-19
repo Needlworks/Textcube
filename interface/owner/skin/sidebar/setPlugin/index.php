@@ -75,7 +75,7 @@ foreach($parameters as $item)
 
 $sidebarOrderData[$sidebarNumber][$modulePos]['parameters'] = $newParameter;
 setBlogSetting("sidebarOrder", serialize($sidebarOrderData));
-
+Skin::purgeCache();
 if ($ajaxcall == false) {
 	if ($_REQUEST['viewMode'] != '') $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];
 	header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);

@@ -35,6 +35,7 @@ if ($_REQUEST['targetPos'] < 0 || $_REQUEST['targetPos'] > count($sidebarOrder[$
 	array_splice($sidebarOrder[$_REQUEST['targetSidebarNumber']], $_REQUEST['targetPos'], 0, $temp);
 	
 	setBlogSetting("sidebarOrder", serialize($sidebarOrder));
+	Skin::purgeCache();
 }
 
 if ($_REQUEST['viewMode'] != '') $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];

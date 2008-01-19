@@ -73,7 +73,9 @@ class Trackback {
 	
 	function add() {
 		global $database;
-		$this->id = null;
+		if (!isset($this->id))
+			$this->id = $this->nextId();
+		else $this->id = $this->nextId($this->id);
 		if (!isset($this->entry))
 			return $this->_error('entry');
 		if (!isset($this->url))
@@ -99,6 +101,15 @@ class Trackback {
 	
 	function getCount() {
 		return (isset($this->_count) ? $this->_count : 0);
+	}
+	
+	function nextId($id = 0) {
+		global $database;
+		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Trackbacks WHERE blogid = ".getBlogId());
+		if($id == 0)
+			return $maxId + 1;
+		else
+			 return ($maxId > $id ? $maxId : $id);
 	}
 	
 	function _buildQuery() {

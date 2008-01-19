@@ -115,6 +115,7 @@ $sidebarElements = array_keys($skin->sidebarStorage);
 if(!empty($sidebarElements)) {
 	foreach ($sidebarElements as $element) {
 		$pluginData = $skin->sidebarStorage[$element];
+		$plugin = $pluginData['plugin'];
 		include_once (ROOT . "/plugins/{$plugin}/index.php");
 		$pluginURL = "{$service['path']}/plugins/{$plugin}";
 		$pluginPath = ROOT . "/plugins/{$plugin}";
@@ -122,10 +123,11 @@ if(!empty($sidebarElements)) {
 			$configVal = getCurrentSetting($plugin);
 		else
 			$configVal ='';
-	
+
 		dress($element, call_user_func($pluginData['handler'], $pluginData['parameters']), $view);
 	}
 }
+
 // Coverpage dressing
 $coverpageElements = array_keys($skin->coverpageStorage);
 foreach ($coverpageElements as $element) {

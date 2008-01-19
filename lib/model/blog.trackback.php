@@ -64,12 +64,12 @@ function getTrackbackList($blogid, $search) {
 	if ($result = POD::queryAll("SELECT t.id, t.entry, t.url, t.site, t.subject, t.excerpt, t.written, e.slogan
  		FROM {$database['prefix']}Trackbacks t
 		LEFT JOIN {$database['prefix']}Entries e ON t.entry = e.id AND t.blogid = e.blogid
-		WHERE t.entry > 0 
-			AND t.blogid = $blogid $authorized 
-			AND t.isFiltered = 0 
+		WHERE  t.blogid = $blogid
+			AND t.isFiltered = 0
+			AND t.entry > 0 $authorized 
 			AND (t.excerpt like '%$search%' OR t.subject like '%$search%')")) {
-		foreach($result as $comment)	
-			array_push($list['items'], $comment);
+		foreach($result as $trackback)	
+			array_push($list['items'], $trackback);
 	}   
 	return $list;
 }

@@ -387,14 +387,12 @@ function handleSidebars(& $sval, & $obj, $previewMode) {
 					include_once (ROOT . "/plugins/{$plugin}/index.php");
 					if (function_exists($handler)) {
 						$str .= "[##_temp_sidebar_element_{$i}_{$j}_##]";
-						if (function_exists($handler)) {
-							$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"]['plugin'] = $plugin;
-							$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"]['handler'] = $handler;
-							$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"]['parameters'] = $parameter;
-						//	= call_user_func($handler, $parameters);
-						} else {
-							$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"] = "";
-						}
+						$parameter = $currentSidebarOrder[$j]['parameters'];
+						$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"]['plugin'] = $plugin;
+						$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"]['handler'] = $handler;
+						$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"]['parameters'] = $parameter;
+					} else {
+						$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"] = "";
 					}
 				} else {
 					// WHAT?
@@ -410,13 +408,14 @@ function handleSidebars(& $sval, & $obj, $previewMode) {
 			
 			if (!is_null($sidebarAllOrders)) $sidebarAllOrders[$i] = $newSidebarAllOrders[$i];  
 		}
-		
 		dress("sidebar_{$i}", $str, $sval);
 	}
 	
 	if (count($newSidebarAllOrders) > 0) {
-		if (($previewMode == false) && !is_null($sidebarAllOrders))
+		if (($previewMode == false) && !is_null($sidebarAllOrders)) {
 			setBlogSetting("sidebarOrder", serialize($sidebarAllOrders));
+			Skin::purgeCache();
+		}
 	}
 }
 

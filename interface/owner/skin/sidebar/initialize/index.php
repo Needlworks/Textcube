@@ -9,5 +9,6 @@ if (!array_key_exists('viewMode', $_REQUEST)) $_REQUEST['viewMode'] = '';
 else $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];
 
 setting::removeBlogSettingGlobal('sidebarOrder');
+Skin::purgeCache();
 header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
 ?>
