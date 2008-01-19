@@ -20,11 +20,11 @@ class DBQuery {
 		mysql_connect($database['server'], $database['username'], $database['password']);
 		mysql_select_db($database['database']);
 
-		if (POD::query('SET CHARACTER SET utf8'))
+		if (DBQuery::query('SET CHARACTER SET utf8'))
 			$__dbProperties['charset'] = 'utf8';
 		else
 			$__dbProperties['charset'] = 'default';
-		@POD::query('SET SESSION collation_connection = \'utf8_general_ci\'');
+		@DBQuery::query('SET SESSION collation_connection = \'utf8_general_ci\'');
 	}
 	
 	function unbind() {
@@ -36,6 +36,18 @@ class DBQuery {
 		global $__dbProperties;
 		if (array_key_exists('charset', $__dbProperties)) return $__dbProperties['charset'];
 		else return null;
+	}
+	function dbms() {
+		return 'MySQL';
+	}
+
+	function version() {
+		global $__dbProperties;
+		if (array_key_exists('version', $__dbProperties)) return $__dbProperties['version'];
+		else {
+			$__dbProperties['version'] = DBQuery::queryCell("SHOW VARIABLES LIKE 'version'");
+			return $__dbProperties['version'];
+		}
 	}
 
 	/*@static@*/
@@ -97,9 +109,9 @@ class DBQuery {
 	/*@static@*/
 	function queryRow($query, $type = MYSQL_BOTH, $useCache=true) {
 		if( $useCache ) {
-			$result = POD::queryAllWithCache($query, $type, 1);
+			$result = DBQuery::queryAllWithCache($query, $type, 1);
 		} else {
-			$result = POD::queryAllWithoutCache($query, $type, 1);
+			$result = DBQuery::queryAllWithoutCache($query, $type, 1);
 		}
 		if( empty($result) ) {
 			return null;
@@ -121,7 +133,7 @@ class DBQuery {
 		}
 
 		$column = null;
-		if ($result = POD::query($query)) {
+		if ($result = DBQuery::query($query)) {
 			$column = array();
 			while ($row = mysql_fetch_row($result))
 				array_push($column, $row[0]);
@@ -142,7 +154,7 @@ class DBQuery {
 
 	function queryAllWithoutCache($query, $type = MYSQL_BOTH, $count = -1) {
 		$all = array();
-		if ($result = POD::query($query)) {
+		if ($result = DBQuery::query($query)) {
 			while ( ($count-- !=0) && $row = mysql_fetch_array($result, $type))
 				array_push($all, $row);
 			mysql_free_result($result);
@@ -162,14 +174,14 @@ class DBQuery {
 			$cachedResult[$cacheKey][0]++;
 			return $cachedResult[$cacheKey][1];
 		}
-		$all = POD::queryAllWithoutCache($query,$type,$count);
+		$all = DBQuery::queryAllWithoutCache($query,$type,$count);
 		$cachedResult[$cacheKey] = array( 1, $all );
 		return $all;
 	}
 	
 	/*@static@*/
 	function execute($query) {
-		return POD::query($query) ? true : false;
+		return DBQuery::query($query) ? true : false;
 	}
 
 	/*@static@*/
@@ -178,9 +190,9 @@ class DBQuery {
 		foreach (func_get_args() as $query) {
 			if (is_array($query)) {
 				foreach ($query as $subquery)
-					if (($result = POD::query($subquery)) === false)
+					if (($result = DBQuery::query($subquery)) === false)
 						return false;
-			} else if (($result = POD::query($query)) === false)
+			} else if (($result = DBQuery::query($query)) === false)
 				return false;
 		}
 		return $result;
