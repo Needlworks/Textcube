@@ -1747,18 +1747,16 @@ TTModernEditor.prototype.correctContent = function() {
 	}
 
 	// Make tags strict.
-	html = html.replace(new RegExp("<b([^>]*?)>(.*?)</b>", "gi"), "<strong$1>$2</strong>"); 
-	html = html.replace(new RegExp("<i([^>]*?)>(.*?)</i>", "gi"), "<em$1>$2</em>"); 
-	html = html.replace(new RegExp("<u([^>]*?)>(.*?)</u>", "gi"), "<ins$1>$2</ins>"); 
-	html = html.replace(new RegExp("<strike([^>]*?)>(.*?)</strike>", "gi"), "<del$1>$2</del>"); 
+	html = html.replace(new RegExp("<b([^>]*?)>(.*?)</b>", "gi"), "<strong$1>$2</strong>");
+	html = html.replace(new RegExp("<i([^>]*?)>(.*?)</i>", "gi"), "<em$1>$2</em>");
+	html = html.replace(new RegExp("<u([^>]*?)>(.*?)</u>", "gi"), "<ins$1>$2</ins>");
+	html = html.replace(new RegExp("<strike([^>]*?)>(.*?)</strike>", "gi"), "<del$1>$2</del>");
 	// delete blanks
-	html = html.replace(new RegExp("<p>\\s*(<br\\s*/?>)+", "gi"), "<p>");
-	html = html.replace(new RegExp("(<br\\s*/?>)+\\s*</p>", "gi"), "</p>");
+	html = html.replace(new RegExp("(<[^>]+>)\\s*(<br\\s*/?>)+", "gi"), "$1");
+	html = html.replace(new RegExp("(<br\\s*/?>+)\\s*(</[^>]+>)", "gi"), "$2");
 	html = html.replace(new RegExp("<p>\\s*</p>", "gi"), "");
 	html = html.replace(new RegExp("<li>\\s*<p>", "gi"), "<li>");
 	html = html.replace(new RegExp("</p>\\s*</li>", "gi"), "</li>");
-	html = html.replace(new RegExp("<li>\\s*(<br\\s*/?>)+", "gi"), "<li>");
-	html = html.replace(new RegExp("(<br\\s*/?>)+\\s*</li>", "gi"), "</li>");
 	if(isWYSIWYG) {
 		this.contentDocument.body.innerHTML = html;
 	} else {
