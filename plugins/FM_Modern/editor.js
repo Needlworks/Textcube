@@ -1624,9 +1624,6 @@ TTModernEditor.prototype.command = function(command, value1, value2) {
 				insertTag(this.textarea, value1, value2);
 			}
 	}
-	if(isWYSIWYG) {
-		this.correctContent();
-	}
     this.changeButtonStatus(null, null);
 	try { this.contentDocument.body.focus(); } catch(e) { }
 }
