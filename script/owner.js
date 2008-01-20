@@ -40,7 +40,7 @@ function checkDomainName(name) {
 function viewHelp(id) {
 	id = (typeof("id") == "undefined") ? "" : "#" + id;
 		id = "";
-	var win = window.open(blogURL + "/owner/help/" + id, "tatter", "width=600, height=500, location=0, menubar=0, resizable=1, scrollbars=1, status=0, toolbar=0");
+	var win = window.open(blogURL + "/owner/help/" + id, "TextcubeHelper", "width=600, height=500, location=0, menubar=0, resizable=1, scrollbars=1, status=0, toolbar=0");
 	try {
 		win.focus();
 		win.moveTo(screen.availWidth / 2 - 300, screen.availHeight / 2 - 250);

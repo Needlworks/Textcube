@@ -169,7 +169,7 @@ function AC_GetArgs(args, ext, srcParamName, classid, mimeType){
   if (mimeType) ret.embedAttrs["type"] = mimeType;
   return ret;
 }
-//see below URL's comments to solove externalInterface in form problem 
+//see below URL's comments to solve externalInterface in form problem 
 //  http://livedocs.macromedia.com/flash/8/main/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Parts&file=00002200.html
 //  http://egoing.net/268 (Korean)
 function ExternalInterfaceManager() { 
