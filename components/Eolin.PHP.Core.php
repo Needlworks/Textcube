@@ -10,7 +10,7 @@ class String {
 			return false;
 		return (strcmp(substr($string, $longer), $end) == 0);
 	}
-	
+
 	/*@static@*/
 	function startsWith($string, $start) {
 		return (strncmp($string, $start, strlen($start)) == 0);
@@ -62,7 +62,7 @@ class UTF8 {
 		}
 		return true;
 	}
-	
+
 	/*@static@*/
 	function correct($str, $broken = '') {
 		$corrected = '';
@@ -111,19 +111,19 @@ class UTF8 {
 		}
 		return $corrected;
 	}
-	
+
 	/*@static@*/
 	function bring($str, $encoding = null) {
 		global $service;
 		return @iconv((isset($encoding) ? $encoding : $service['encoding']), 'UTF-8', $str);
 	}
-	
+
 	/*@static@*/
 	function convert($str, $encoding = null) {
 		global $service;
 		return @iconv('UTF-8', (isset($encoding) ? $encoding : $service['encoding']), $str);
 	}
-	
+
 	/*@static@*/
 	function length($str) {
 		$len = strlen($str);
@@ -140,7 +140,7 @@ class UTF8 {
 		}
 		return $length;
 	}
-	
+
 	/*@static@*/
 	function lengthAsEm($str) {
 		$len = strlen($str);
@@ -161,7 +161,7 @@ class UTF8 {
 		}
 		return $length;
 	}
-	
+
 	function lessenAsEncoding($str, $length = 255, $tail = '...') {
 		global $database;
 		if(!isset($database['utf8']) || empty($database['utf8']) || $database['utf8'] == true)
@@ -169,7 +169,7 @@ class UTF8 {
 		else
 			return UTF8::lessenAsByte($str, $length, $tail);
 	}
-	
+
 	/*@static@*/
 	function lessen($str, $chars, $tail = '...') {
 		if (UTF8::length($str) <= $chars)
@@ -192,7 +192,7 @@ class UTF8 {
 		}
 		return trim(substr($str, 0, $adapted)) . $tail;
 	}
-	
+
 	/*@static@*/
 	function lessenAsByte($str, $bytes, $tail = '...') {
 		if (strlen($str) <= $bytes)
@@ -215,7 +215,7 @@ class UTF8 {
 		}
 		return substr($str, 0, $adapted) . $tail;
 	}
-	
+
 	/*@static@*/
 	function lessenAsEm($str, $ems, $tail = '...') {
 		if (UTF8::lengthAsEm($str) <= $ems)
@@ -261,8 +261,8 @@ class Validator {
 								addr-spec = local-part "@" domain
 								local-part = dot-atom
 	**/
-	
-	
+
+
 	/*@static@*/
 	function validate(&$iv) {
 		if (isset($iv['GET'])) {
@@ -275,7 +275,7 @@ class Validator {
 		} else {
 			$_GET = array();
 		}
-		
+
 		if (isset($iv['POST'])) {
 			if (!Validator::validateArray($_POST, $iv['POST']))
 				return false;
@@ -286,7 +286,7 @@ class Validator {
 		} else {
 			$_POST = array();
 		}
-		
+
 		if (isset($iv['REQUEST'])) {
 			if (!Validator::validateArray($_REQUEST, $iv['REQUEST']))
 				return false;
@@ -297,12 +297,12 @@ class Validator {
 		} else {
 			$_REQUEST = array();
 		}
-		
+
 		if (isset($iv['SERVER'])) {
 			if (!Validator::validateArray($_SERVER, $iv['SERVER']))
 				return false;
 		}
-		
+
 		if (isset($iv['FILES'])) {
 			if (!Validator::validateArray($_FILES, $iv['FILES']))
 				return false;
@@ -315,7 +315,7 @@ class Validator {
 		}
 		return true;
 	}
-	
+
 	/*@static@*/
 	function validateArray(&$array, &$rules) {
 		// Workaround for non Fancy-URL user.
@@ -331,14 +331,14 @@ class Validator {
 				trigger_error("Validator: The type of '$key' is not defined", E_USER_WARNING);
 				continue;
 			}
-			
+
 			if (isset($array[$key]) && (($rule[0] == 'file') || (strlen($array[$key]) > 0))) {
 				$value = &$array[$key];
 				if (isset($rule['min']))
 					$rule[1] = $rule['min'];
 				if (isset($rule['max']))
 					$rule[2] = $rule['max'];
-				
+
 				switch ($rule[0]) {
 					case 'any':
 						if (isset($rule[1]) && (strlen($value) < $rule[1]))
@@ -372,7 +372,7 @@ class Validator {
 								return false;
 						}
 						$value = $array[$key] = UTF8::correct($value);
-						
+
 						if (isset($rule[1]) && (UTF8::length($value) < $rule[1]))
 							return false;
 						if (isset($rule[2]) && (UTF8::length($value) > $rule[2]))
@@ -431,7 +431,7 @@ class Validator {
 						}
 						break;
 				}
-				
+
 				if (isset($rule['check']))
 					$rule[5] = $rule['check'];
 				if (isset($rule[5])) {
@@ -453,7 +453,7 @@ class Validator {
 		}
 		return true;
 	}
-	
+
 	/*@static@*/
 	function number($value, $min = null, $max = null) {
 		if (!is_numeric($value))
@@ -464,7 +464,7 @@ class Validator {
 			return false;
 		return true;
 	}
-	
+
 	/*@static@*/
 	function isInteger($value, $min = -2147483648, $max = 2147483647) {
 		if (!preg_match('/^(0|-?[1-9][0-9]{0,9})$/', $value))
@@ -473,19 +473,19 @@ class Validator {
 			return false;
 		return true;
 	}
-	
+
 	/*@static@*/
 	function id($value, $min = 1, $max = 2147483647) {
 		return Validator::isInteger($value, $min, $max);
 	}
-	
+
 	/*@static@*/
 	function isList($value) {
 		if (!preg_match('/^[1-9][0-9]{0,9}(,[1-9][0-9]{0,9})*,?$/', $value))
 			return false;
 		return true;
 	}
-	
+
 	/**
 	 *	Valid: Jan 1 1971 ~ Dec 31 2037 GMT
 	 */
@@ -493,7 +493,7 @@ class Validator {
 	function timestamp($value) {
 		return (Validator::isInteger($value) && ($value >= 31536000) && ($value < 2145916800));
 	}
-	
+
 	/*@static@*/
 	function period($value, $length = null) {
 		if (preg_match('/\\d+/', $value)) {
@@ -514,17 +514,17 @@ class Validator {
 		}
 		return false;
 	}
-	
+
 	/*@static@*/
 	function ip($value) {
 		return preg_match('/^\\d{1,3}(\\.\\d{1,3}){3}$/', $value);
 	}
-	
+
 	/*@static@*/
 	function domain($value) {
 		return ((strlen($value) <= 64) && preg_match('/^([[:alnum:]]+(-[[:alnum:]]+)*\\.)+[[:alnum:]]+(-[[:alnum:]]+)*$/', $value));
 	}
-	
+
 	/*@static@*/
 	function email($value) {
 		if (strlen($value) > 64)
@@ -532,37 +532,37 @@ class Validator {
 		$parts = explode('@', $value, 2);
 		return ((count($parts) == 2) && preg_match('@[\\w!#\-\'*+/=?^`{-~-]+(\\.[\\w!#-\'*+/=?^`{-~-]+)*@', $parts[0]) && Validator::domain($parts[1]));
 	}
-	
+
 	/*@static@*/
 	function language($value) {
 		return preg_match('/^[[:alpha:]]{2}(\-[[:alpha:]]{2})?$/', $value);
 	}
-	
+
 	/*@static@*/
 	function filename($value) {
 		return preg_match('/^\w+(\.\w+)*$/', $value);
 	}
-	
+
 	/*@static@*/
 	function directory($value) {
 		return preg_match('/^[\-\w]+( [\-\w]+)*$/', $value);
 	}
-	
+
 	/*@static@*/
 	function path($value) {
 		return preg_match('/^[\-\w]+( [\-\w]+)*(\/[\-\w]+( [\-\w]+)*)*$/', $value);
 	}
-	
+
 	/*@static@*/
 	function getBit($value) {
 		return (Validator::getBool($value) ? 1 : 0);
 	}
-	
+
 	/*@static@*/
 	function getBool($value) {
 		return (!empty($value) && (!is_string($value) || (strcasecmp('false', $value) && strcasecmp('off', $value) && strcasecmp('no', $value))));
 	}
-	
+
 	/*@static@*/
 	function escapeXML($string, $escape = true) {
 		if (is_null($string))
@@ -579,7 +579,7 @@ class Locale {
 		global $__locale;
 		return $__locale['locale'];
 	}
-	
+
 	function set($locale) {
 		global $__locale, $__text;
 		list($common) = explode('-', $locale, 2);
@@ -609,7 +609,7 @@ class Locale {
 		}
 		return false;
 	}
-	
+
 	function includeLocaleFile($languageFile) {
 		include($languageFile);
 		return $__text;
@@ -640,13 +640,13 @@ class Locale {
 		$__locale['directory'] = $directory;
 		return true;
 	}
-	
+
 	function setDomain($domain) {
 		global $__locale;
 		$__locale['domain'] = $domain;
 		return true;
 	}
-	
+
 	function match($locale) {
 		global $__locale;
 		if (strcasecmp($locale, $__locale['locale']) == 0)
@@ -657,7 +657,7 @@ class Locale {
 			return 1;
 		return 0;
 	}
-	
+
 	function getSupportedLocales() {
 		global $__locale;
 		$locales = array();
@@ -688,7 +688,7 @@ class Timezone {
 	function isGMT() {
 		return (date('Z') == 0);
 	}
-	
+
 	/*@static@*/
 	function get() {
 		$timezone = getenv('TZ');
@@ -696,17 +696,17 @@ class Timezone {
 			$timezone = date('T');
 		return (empty($timezone) ? 'UTC' : $timezone);
 	}
-	
+
 	/*@static@*/
 	function getOffset() {
 		return (int)date('Z');
 	}
-	
+
 	/*@static@*/
 	function getCanonical() {
 		return sprintf("%+03d:%02d", intval(Timezone::getOffset() / 3600), abs((Timezone::getOffset() / 60) % 60));
 	}
-	
+
 	/*@static@*/
 	function getRFC822() {
 		if (Timezone::isGMT())
@@ -714,7 +714,7 @@ class Timezone {
 		else
 			return sprintf("%+05d", intval(Timezone::getOffset() / 3600) * 100 + ((Timezone::getOffset() / 60) % 60));
 	}
-	
+
 	/*@static@*/
 	function getISO8601($timezone = null) {
 		if (Timezone::isGMT())
@@ -722,20 +722,20 @@ class Timezone {
 		else
 			return sprintf("%+03d:%02d", intval(Timezone::getOffset() / 3600), abs((Timezone::getOffset() / 60) % 60));
 	}
-	
+
 	/*@static@*/
 	function set($timezone) {
 		if ( isset( $_ENV['OS'] ) && strncmp($_ENV['OS'], 'Windows', 7) == 0)
 			$timezone = Timezone::getAlternative($timezone);
-		
+
 		return putenv('TZ=' . $timezone);
 	}
-	
+
 	/*@static@*/
 	function setOffset($offset) {
 		return Timezone::setISO8601(sprintf("%+02d:%02d", floor($offset / 3600), abs(($offset / 60) % 60)));
 	}
-	
+
 	/*@static@*/
 	function setRFC822($timezone) {
 		if (($timezone == 'GMT') || ($timezone == 'UT'))
@@ -749,7 +749,7 @@ class Timezone {
 		else
 			return false;
 	}
-	
+
 	/*@static@*/
 	function setISO8601($timezone) {
 		if ($timezone == 'Z')
@@ -766,7 +766,7 @@ class Timezone {
 			$matches[4] = '00';
 		return Timezone::set(implode('', $matches));
 	}
-	
+
 	/*@static@*/
 	function getList() {
 		return array(
@@ -790,9 +790,9 @@ class Timezone {
 			_t_noop('Australia/Perth'),
 			);
 	}
-	
+
 	/*@static@*/
-	function getAlternative($timezone) {	
+	function getAlternative($timezone) {
 		switch ($timezone) {
 			case 'Asia/Seoul':
 				return 'KST-9';
@@ -839,7 +839,7 @@ class Timestamp {
 		else
 			return strftime(_t($format));
 	}
-	
+
 	/*@static@*/
 	function formatGMT($format = '%c', $time = null) {
 		if (isset($time))
@@ -847,7 +847,7 @@ class Timestamp {
 		else
 			return gmstrftime(_t($format));
 	}
-	
+
 	/*@static@*/
 	function format2($time) {
 		if (date('Ymd', $time) == date('Ymd'))
@@ -857,7 +857,7 @@ class Timestamp {
 		else
 			return strftime(_t('%Y'), $time);
 	}
-	
+
 	/*@static@*/
 	function format3($time) {
 		if (date('Ymd', $time) == date('Ymd'))
@@ -865,72 +865,72 @@ class Timestamp {
 		else
 			return strftime(_t('%Y/%m/%d'), $time);
 	}
-	
+
 	/*@static@*/
 	function format5($time = null) {
 		return (isset($time) ? strftime(_t('%Y/%m/%d %H:%M'), $time) : strftime(_t('%Y/%m/%d %H:%M')));
 	}
-	
+
 	/*@static@*/
 	function formatDate($time = null) {
 		return (isset($time) ? strftime(_t('%Y/%m/%d'), $time) : strftime(_t('%Y/%m/%d')));
 	}
-	
+
 	/*@static@*/
 	function formatDate2($time = null) {
 		return (isset($time) ? strftime(_t('%Y/%m'), $time) : strftime(_t('%Y/%m')));
 	}
-	
+
 	/*@static@*/
 	function formatTime($time = null) {
 		return (isset($time) ? strftime(_t('%H:%M:%S'), $time) : strftime(_t('%H:%M:%S')));
 	}
-	
+
 	/*@static@*/
 	function get($format = 'YmdHis', $time = null) {
 		return (isset($time) ? date($format, $time) : date($format));
 	}
-	
+
 	/*@static@*/
 	function getGMT($format = 'YmdHis', $time = null) {
 		return (isset($time) ? gmdate($format, $time) : gmdate($format));
 	}
-	
+
 	/*@static@*/
 	function getDate($time = null) {
 		return (isset($time) ? date('Ymd', $time) : date('Ymd'));
 	}
-	
+
 	/*@static@*/
 	function getYearMonth($time = null) {
 		return (isset($time) ? date('Ym', $time) : date('Ym'));
 	}
-	
+
 	/*@static@*/
 	function getYear($time = null) {
 		return (isset($time) ? date('Y', $time) : date('Y'));
 	}
-	
+
 	/*@static@*/
 	function getTime($time = null) {
 		return (isset($time) ? date('His', $time) : date('His'));
 	}
-	
+
 	/*@static@*/
 	function getRFC1123($time = null) {
 		return (isset($time) ? date('r', $time) : date('r'));
 	}
-	
+
 	/*@static@*/
 	function getRFC1123GMT($time = null) {
 		return (isset($time) ? gmdate('D, d M Y H:i:s \G\M\T', $time) : gmdate('D, d M Y H:i:s \G\M\T'));
 	}
-	
+
 	/*@static@*/
 	function getRFC1036($time = null) {
 		return ((isset($time) ? date('l, d-M-Y H:i:s ', $time) : date('l, d-M-Y H:i:s ')) . Timezone::getRFC822());
 	}
-	
+
 	/*@static@*/
 	function getISO8601($time = null) {
 		return ((isset($time) ? date('Y-m-d\TH:i:s', $time) : date('Y-m-d\TH:i:s')) . Timezone::getISO8601());
@@ -951,7 +951,7 @@ class Path {
 			return $matches[1];
 		return '';
 	}
-	
+
 	/*@static@*/
 	function getExtension($path) {
 		if (preg_match('/.{1}(\.[[:alnum:]]+)$/', $path, $matches))
@@ -959,7 +959,7 @@ class Path {
 		else
 			return '';
 	}
-	
+
 	/*@static@*/
 	function getExtension2($path) {
 		if (preg_match('/.{1}(\.[[:alnum:]]+(\.[[:alnum:]]+)?)$/', $path, $matches))
@@ -967,13 +967,13 @@ class Path {
 		else
 			return '';
 	}
-	
+
 	/*@static@*/
 	function combine($path) {
 		$args = func_get_args();
 		return implode('/', $args);
 	}
-	
+
 	/*@static@*/
 	function removeFiles($directory) {
 		if (!is_dir($directory))
@@ -1027,15 +1027,15 @@ class XMLStruct {
 		} else if (isset($thirdBest)) {
 			$matched = $thirdBest;
 		}
-		
+
 		if (!isset($matched))
 			return null;
-		
+
 		if (isset($matched['.value']))
 			return $matched['.value'];
 		return null;
 	}
-	
+
 	function XMLStruct() {
 		$this->ns = array();
 		$this->baseindex = 0;
@@ -1060,7 +1060,7 @@ class XMLStruct {
 		}
 		return $item;
 	}
-	
+
 	function open($xml, $encoding = null, $nsenabled = false) {
 		if (!empty($encoding) && (strtolower($encoding) != 'utf-8') && !UTF8::validate($xml)) {
 			if (preg_match('/^<\?xml[^<]*\s+encoding=["\']?([\w-]+)["\']?/', $xml, $matches)) {
@@ -1102,7 +1102,7 @@ class XMLStruct {
 		xml_parser_free($p);
 		return true;
 	}
-	
+
 	function openFile($filename, $correct = false) {
 		if (!$fp = fopen($filename, 'r'))
 			return false;
@@ -1163,18 +1163,18 @@ class XMLStruct {
 		xml_parser_free($p);
 		return true;
 	}
-	
+
 	function close() {
 	}
-	
+
 	function setStream($path) {
 		$this->_streams[$path] = true;
 	}
-	
+
 	function setConsumer($consumer) {
 		$this->_consumer = $consumer;
 	}
-	
+
 	function & selectNode($path, $lang = null) {
 		$path = explode('/', $path);
 		if (array_shift($path) != '') {
@@ -1182,7 +1182,7 @@ class XMLStruct {
 			return $null;
 		}
 		$cursor = &$this->struct;
-		
+
 		while (is_array($cursor) && ($step = array_shift($path))) {
 			$step = $this->expandNS($step);
 			if (!preg_match('/^([^[]+)(\[(\d+|lang\(\))\])?$/', $step, $matches)) {
@@ -1194,7 +1194,7 @@ class XMLStruct {
 				$null = null;
 				return $null;
 			}
-			
+
 			if (count($matches) != 4) { // Node name only.
 				if (isset($cursor[$name][0])) {
 					$cursor = &$cursor[$name][0];
@@ -1248,7 +1248,7 @@ class XMLStruct {
 		}
 		return $cursor;
 	}
-	
+
 	function & selectNodes($path) {
 		/*
 		if ($path{strlen($path) - 1} == ']') {
@@ -1262,7 +1262,7 @@ class XMLStruct {
 			return $null;
 		}
 		$c = &$this->struct;
-		
+
 		while ($d = array_shift($p)) {
 			$o = 0;
 			if ($d{strlen($d) - 1} == ']') {
@@ -1296,11 +1296,11 @@ class XMLStruct {
 		$null = null;
 		return $null;
 	}
-	
+
 	function doesExist($path) {
 		return (!is_null($this->selectNode($path)));
 	}
-	
+
 	function getAttribute($path, $name, $default = null) {
 		$n = &$this->selectNode($path);
 		if ((!is_null($n)) && isset($n['.attributes'][$name]))
@@ -1313,7 +1313,7 @@ class XMLStruct {
 		$n = &$this->selectNode($path);
 		return (isset($n['.value']) ? $n['.value'] : null);
 	}
-	
+
 	function getNodeCount($path) {
 		return count($this->selectNodes($path));
 	}
@@ -1349,7 +1349,7 @@ class XMLStruct {
 		}
 		array_pop($this->_path);
 	}
-	
+
 	function d($p, $d) {
 		if (count($this->_cursor) != (1 + isset($this->_cursor['.value']) + isset($this->_cursor['.attributes']) + isset($this->_cursor['.stream'])))
 			return;
@@ -1366,14 +1366,14 @@ class XMLStruct {
 		else
 			fwrite($this->_cursor['.stream'], $d);
 	}
-	
+
 	function x($p, $d) {
 		if ($d == '<![CDATA[')
 			$this->_cdata = true;
 		else if (($d == ']]>') && $this->_cdata)
 			$this->_cdata = false;
 	}
-	
+
 	function _error($p) {
 		$this->error = array(
 			'code' => xml_get_error_code($p),
@@ -1396,7 +1396,7 @@ class URL {
 		if ($useEncodedURL == true)
 			return str_replace('%2F', '/', rawurlencode($url)).$postfix;
 		else
-			return str_replace(array('%', ' ', '"', '#', '&', '\'', '<', '>', '?'), array('%25', '%20', '%22', '%23', '%26', '%27', '%3C', '%3E', '%3F'), $url).$postfix;
+			return str_replace(array('%', ' ', '"', '#', '&', '\'', '<', '>', '?', '+'), array('%25', '%20', '%22', '%23', '%26', '%27', '%3C', '%3E', '%3F', '%2B'), $url).$postfix;
 	}
 
 	function decode($url,$useEncodedURL = true) {
