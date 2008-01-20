@@ -43,6 +43,17 @@ class User {
 				AND acl > 15");
 		return User::getName($ownerUserId);
 	}
+
+	/*@static@*/
+	function getBlogOwner($blogid) {
+		global $database;
+		$ownerUserId = POD::queryCell("SELECT userid 
+			FROM {$database['prefix']}Teamblog
+			WHERE blogid = $blogid
+				AND acl > 15");
+		return $ownerUserId;
+	}
+
 	/*@static@*/
 	function getEmail($userid = null) {
 		global $database;
@@ -139,7 +150,7 @@ class User {
 	function confirmPassword($password) {
 		global $database;
 		$password = md5($password);
-		return POD::queryExistence("SELECT userid FROM {$database['prefix']}Users WHERE userid = ".getBlogId()." AND password = '$password'");
+		return POD::queryExistence("SELECT userid FROM {$database['prefix']}Users WHERE userid = ".User::getBlogOwner(getBlogId())." AND password = '$password'");
 	}
 
 	function authorName($blogid = null,$entryId){

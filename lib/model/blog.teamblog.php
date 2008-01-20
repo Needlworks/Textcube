@@ -1,6 +1,5 @@
 <?php
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
-/// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 function addTeamUser($email, $name, $comment, $senderName, $senderEmail) {
@@ -85,14 +84,16 @@ function changeACLonBlog($blogid, $ACLtype, $userid, $switch) {  // Change user 
 	return POD::execute($sql);
 }
 
-function deleteTeamblogUser($userid) {
+function deleteTeamblogUser($userid ,$blogid = null) {
 	global $database;
-
+	if ($blogid == null) {
+		$blogid = getBlogId();
+	}
 	POD::execute("UPDATE `{$database['prefix']}Entries` 
-		SET userid = ".getBlogId()." 
-		WHERE blogid = ".getBlogId()." AND userid = ".$userid);
+		SET userid = ".User::getBlogOwner($blogid)." 
+		WHERE blogid = ".$blogid." AND userid = ".$userid);
 
-	if(POD::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid = ".getBlogId()." and userid='$userid'")) {
+	if(POD::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid = ".$blogid." and userid='$userid'")) {
 		return true;
 	} else {
 		return false;
