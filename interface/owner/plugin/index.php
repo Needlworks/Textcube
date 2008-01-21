@@ -49,7 +49,7 @@ while (false !== ($plugin = $dir->read())) { // 이게 php.net에서 권장하�
 	$plugin = trim($plugin);
 	$pluginInfo = getPluginInformation($plugin);
 	if(empty($pluginInfo)) continue;
-	if($pluginInfo['privilege'] == 'administrator' && getBlogId() != 1) continue;
+	if($pluginInfo['privilege'] == 'administrator' && !Acl::check('group.creators')) continue;
 
 	$acceptedPathCount = 0;
 	$tempXMLPathCount = 0;
