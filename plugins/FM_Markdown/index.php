@@ -20,10 +20,6 @@ function FM_Markdown_format($blogid, $id, $content, $keywords = array(), $useAbs
 
 function FM_Markdown_summary($blogid, $id, $content, $keywords = array(), $useAbsolutePath = false) {
 	global $blog;
-	if(!function_exists('FM_TTML_bindAttachments')) { // To reduce the amount of loading code!
-		require_once 'ttml.php';
-	}
-	$content = Markdown($content);
 	$view = FM_Markdown_format($blogid, $id, $content, $keywords, $useAbsolutePath, true);
     if (!$blog['publishWholeOnRSS']) $view = UTF8::lessen(removeAllTags(stripHTML($view)), 255);
 		return $view;
