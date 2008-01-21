@@ -88,4 +88,14 @@ $basicIV = array(
 	'REDIRECT_URL' => array('string', 'mandatory' => false)
 );
 Validator::validateArray($_SERVER, $basicIV);
+if(isset($accessInfo)) {
+	$basicIV = array(
+		'fullpath' => array('string'),
+		'input'    => array('string'),
+		'position' => array('string'),
+		'root'     => array('string'),
+		'input'    => array('string', 'mandatory' => false)
+	);
+	Validator::validateArray($accessInfo, $basicIV);
+}
 ?>
