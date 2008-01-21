@@ -9,15 +9,21 @@ function FM_Modern_handleconfig($configVal) {
 
 function FM_Modern_editorinit(&$editor) {
 	global $service, $configVal;
+	requireComponent('Textcube.Function.misc');
+	requireComponent('Textcube.Function.Setting');
+	$config['restrictEditorMode'] = false;
 	$blogid = getBlogId();
 	if (is_null($configVal)) {
 		$config = array('paragraphdelim' => 'BR',
 			'defaultmode' => 'WYSIWYG');
 	} else {
-		requireComponent('Textcube.Function.misc');
 		$config = setting::fetchConfigVal($configVal);
 	}
-	if (!isset($config['defaultmode'])) {
+	if ((setting::getBlogSettingGlobal('defaultFormatter','html') == 'markdown') ||
+		(setting::getBlogSettingGlobal('defaultFormatter','html') == 'textile')) {
+		$config['restrictEditorMode'] = true;
+		$config['defaultmode'] = 'TEXTAREA';
+	} else if (!isset($config['defaultmode'])) {
 		$config['defaultmode'] = (getBlogSetting('editorMode', 1) == 1 ? 'WYSIWYG' : 'TEXTAREA');
 	}
 
@@ -30,6 +36,7 @@ function FM_Modern_editorinit(&$editor) {
 			editor.propertyFilePath = "<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/";
 			editor.editMode = "<?php echo $config['defaultmode'];?>";
 			editor.newLineToParagraph = <?php echo ($config['paragraphdelim'] == 'P' ? 'true' : 'false');?>;
+			editor.restrictEditorMode = <?php echo ($config['restrictEditorMode'] == true ? 'true' : 'false');?>;
 			return editor;
 <?php
 	$result = ob_get_contents();

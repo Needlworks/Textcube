@@ -2406,7 +2406,9 @@ TTModernEditor.prototype.getEditorPalette = function() {
 				'<a id="__ID__indicatorMediaBlock" class="inactive-class button moderneditor-indicatorMediaBlock" href="#void" onclick="__EDITOR__.command(\'ObjectBlock\'); return false" title="' + _t('미디어 삽입') + '"><span class="text">' + _t('미디어 삽입') + '</span></a>' +
 				'<a id="__ID__indicatorMoreLessBlock" class="inactive-class button moderneditor-indicatorMoreLessBlock" href="#void" onclick="__EDITOR__.command(\'MoreLessBlock\'); return false" title="' + _t('More/Less') + '"><span class="text">' + _t('More/Less') + '</span></a>' +
 			'</dd>' +
-		'</dl>' +
+		'</dl>';
+	if(this.restrictEditorMode != true) {
+		html += ////
 		'<dl class="mode">' +
 			'<dt class="title">' +
 				'<span class="label">' + _t('편집 환경') + '</span>' +
@@ -2415,7 +2417,7 @@ TTModernEditor.prototype.getEditorPalette = function() {
 				'<a id="__ID__indicatorMode" class="inactive-class button moderneditor-indicatorMode" href="#void" onclick="__EDITOR__.command(\'ToggleMode\'); __EDITOR__.changeEditorMode(); return false" title="' + _t('클릭하시면 HTML 편집기로 변경합니다.') + '"><span class="text">' + _t('WYSIWYG 편집기') + '</span></a>' +
 			'</dd>' +
 		'</dl>';
-
+	}
 	html = html.replace(new RegExp('__EDITOR__', 'g'), 'TTModernEditor.editors.' + this.name);
 	html = html.replace(new RegExp('__ID__', 'g'), this.id);
 
