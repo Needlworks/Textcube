@@ -230,6 +230,22 @@ function headerEtag($etag,$length,$lastmodified) {
 }
 
 function dumpWithEtag($path) {
+	$path = urldecode($path);
+	$qIndex = strpos($path,'?');
+	if( $qIndex !== false ) {
+		$path = substr($path,0,$qIndex);
+	}
+	/* I think, it is a bad idea to check '..' and skip.
+	   but this is an annoyance to solve gracefully about whole HTTP request */
+	/* Kill them all requests with referencing parent directory */
+	if( strpos( $path, "/.." ) !== false || 
+		strpos( $path, "\\.." ) !== false ||
+		strcasecmp( substr( $path, -3 ), "php" ) == 0 ||
+		!file_exists( $path ) ) {
+		header("HTTP/1.0 404 Not found");
+		exit;
+	}
+		
 	$fs = stat( $path );
 	if( !$fs || !$fs['size'] ) { header('HTTP/1.1 404 Not Found');exit; }
 	$etag = sprintf( "textcube-%x", (0x1234*$fs['size'])^$fs['mtime'] );
@@ -238,7 +254,15 @@ function dumpWithEtag($path) {
 
 	if( !headerEtag($etag,$length,$lastmodified) ) {
 		header('Content-type: '.getMIMEType(null,$path)); 
-		echo file_get_contents($path);
+		$f =  fopen($path,"r");
+		if( !$f ) {
+			header("HTTP/1.0 404 Not found");
+			exit;
+		}
+		while( ($content=fread($f,8192)) ){
+			echo $content;
+		}
+		fclose($f);
 	}
 }
 
