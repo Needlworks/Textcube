@@ -1341,7 +1341,7 @@ CREATE TABLE {$_POST['dbPrefix']}TrackbackLogs (
   entry int(11) NOT NULL default '0',
   url varchar(255) NOT NULL default '',
   written int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid, entry),
+  PRIMARY KEY  (blogid, entry, id),
   UNIQUE KEY id (blogid, id)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Trackbacks (

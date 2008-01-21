@@ -203,7 +203,7 @@ if (POD::queryCell("DESC {$database['prefix']}Trackbacks blogid", 'Key') != 'PRI
 			DROP KEY blogid,
 			ADD KEY blogid (blogid, isFiltered, written)")
 		&&POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs
-			DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, entry), ADD UNIQUE KEY id (blogid, id)"))
+			DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, entry, id), ADD UNIQUE KEY id (blogid, id)"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';

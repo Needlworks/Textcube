@@ -8,7 +8,7 @@ function FM_Markdown_format($blogid, $id, $content, $keywords = array(), $useAbs
 	global $service;
 	$path = ROOT . "/attach/$blogid";
 	$url = "{$service['path']}/attach/$blogid";
-	//$content = Markdown($content);
+	$content = Markdown($content);
 	if(!function_exists('FM_TTML_bindAttachments')) { // To reduce the amount of loading code!
 		require_once 'ttml.php';
 	}
