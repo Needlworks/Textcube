@@ -492,6 +492,9 @@ function deleteBlog($blogid) {
 
 function removeBlog($blogid) {
 	global $database;
+	if (getServiceSetting("defaultBlogId",1) == $blogid) {
+		return false;
+	}
 	$tags = POD::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");
 	$feeds = POD::queryColumn("SELECT DISTINCT feeds FROM {$database['prefix']}FeedGroupRelations WHERE blogid = $blogid");
 
@@ -572,5 +575,13 @@ function setSmtpServer( $useCustomSMTP, $smtpHost, $smtpPort ) {
 	if( !setServiceSetting( 'smtpHost', $smtpHost ) ) return false;
 	if( !setServiceSetting( 'smtpPort', $smtpPort ) ) return false;
 	return true;
+}
+
+function setDefaultBlog( $blogid ) {
+	if(User::getBlogOwner($blogid) != 1) {
+		return false;
+	}
+	$result = setServiceSetting("defaultBlogId", $_GET['blogid']);
+	return $result;
 }
 ?>
