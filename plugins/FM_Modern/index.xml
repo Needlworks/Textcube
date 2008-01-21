@@ -23,12 +23,14 @@
 			<!--<usedFor formatter="html" />-->
 			<usedFor formatter="ttml" />
 			<usedFor formatter="markdown" />
+			<usedFor formatter="textile" />
 		</editor>
 		<editor xml:lang="ko" id="modern" name="위지윅 편집기">
 			<initialize>FM_Modern_editorinit</initialize>
 			<!--<usedFor formatter="html" />-->
 			<usedFor formatter="ttml" />
 			<usedFor formatter="markdown" />
+			<usedFor formatter="textile" />
 		</editor>
 		
 		<config xml:lang="ko" dataValHandler="FM_Modern_handleconfig">
