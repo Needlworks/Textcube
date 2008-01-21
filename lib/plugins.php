@@ -24,11 +24,11 @@ $editorMapping = array('plain' => array('name' => _t('편집기 없음')));
 list($currentTextcubeVersion) = explode(' ', TEXTCUBE_VERSION, 2);
 
 if (getBlogId()) {
-//	if($gCacheStorage->getContent('activePlugins')) $activePlugins = $gCacheStorage->getContent('activePlugins');
-//	else {
+	if($gCacheStorage->getContent('activePlugins')) $activePlugins = $gCacheStorage->getContent('activePlugins');
+	else {
 		$activePlugins = POD::queryColumn("SELECT name FROM {$database['prefix']}Plugins WHERE blogid = ".getBlogId());
-//		$gCacheStorage->setContent('activePlugins',$activePlugins);
-//	}
+		$gCacheStorage->setContent('activePlugins',$activePlugins);
+	}
 	$xmls = new XMLStruct();
 	$editorCount     = 0;
 	$formatterCount  = 0;
@@ -300,7 +300,8 @@ if (getBlogId()) {
 							if (isset($editor['usedFor'])) {
 								foreach ($editor['usedFor'] as $usedFor) {
 									if (!isset($usedFor['.attributes']['formatter'])) continue;
-									$formatterMapping[$usedFor['.attributes']['formatter']]['editors'][$editorid] = @$usedFor['.value'];
+									if(isset($formatterMapping[$usedFor['.attributes']['formatter']]))
+										$formatterMapping[$usedFor['.attributes']['formatter']]['editors'][$editorid] = @$usedFor['.value'];
 								}
 							}
 							$editorMapping[$editorid] = $editorinfo;
@@ -328,7 +329,6 @@ if (getBlogId()) {
 	}
 	unset($xmls);
 	unset($currentTextcubeVersion, $disablePlugin, $plugin, $query, $requiredTattertoolsVersion, $requiredTextcubeVersion);
-
 	// sort mapping by its name, with exception for default formatter and editor
 	function _cmpfuncByFormatterName($x, $y) {
 		global $formatterMapping;

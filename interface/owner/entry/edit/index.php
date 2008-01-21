@@ -21,7 +21,6 @@ requireModel("blog.tag");
 requireModel("blog.locative");
 requireModel("blog.attachment");
 
-
 if (false) {
 	fetchConfigVal();
 }
