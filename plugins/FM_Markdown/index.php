@@ -8,7 +8,6 @@ function FM_Markdown_format($blogid, $id, $content, $keywords = array(), $useAbs
 	global $service;
 	$path = ROOT . "/attach/$blogid";
 	$url = "{$service['path']}/attach/$blogid";
-	$content = Markdown($content);
 	if(!function_exists('FM_TTML_bindAttachments')) { // To reduce the amount of loading code!
 		require_once 'ttml.php';
 	}
@@ -25,7 +24,7 @@ function FM_Markdown_summary($blogid, $id, $content, $keywords = array(), $useAb
 		require_once 'ttml.php';
 	}
 	$content = Markdown($content);
-	$view = FM_TTML_format($blogid, $id, $content, $keywords, $useAbsolutePath, true);
+	$view = FM_Markdown_format($blogid, $id, $content, $keywords, $useAbsolutePath, true);
     if (!$blog['publishWholeOnRSS']) $view = UTF8::lessen(removeAllTags(stripHTML($view)), 255);
 		return $view;
 }
