@@ -50,22 +50,21 @@ if ($pages<$page) {
 	printRespond(array('error' => -2,'result' => $pages));
 }
 if($bloglist){
-    $resultString .= $blogcount."*";
 	$tempString = "";
-    foreach($bloglist as $bid) {
-		$result = POD::queryAll("SELECT * FROM `{$database['prefix']}BlogSettings` WHERE blogid = {$bid}");
+    foreach($bloglist as $itemBlogId) {
+		$result = POD::queryAll("SELECT * FROM `{$database['prefix']}BlogSettings` WHERE blogid = {$itemBlogId}");
  		foreach($result as $row) {
  			$bsetting[$row['name']] = $row['value'];
  		}
-		$bsetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}teamblog` WHERE acl & ".BITWISE_OWNER." != 0 AND blogid = " . $bid);
+		$bsetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}teamblog` WHERE acl & ".BITWISE_OWNER." != 0 AND blogid = " . $itemBlogId);
 		?>
 
-<tr id="table-blog-list_<?php echo $bid?>">
+<tr id="table-blog-list_<?php echo $itemBlogId?>">
 	<td>
-		<?php echo $bid?>
+		<?php echo $itemBlogId?>
 	</td>
 	<td>
-		<a href="<?php echo $blogURL?>/owner/control/blog/detail/<?php echo $bid?>"><?php echo $bsetting['name']?></a>
+		<a href="<?php echo $blogURL?>/owner/control/blog/detail/<?php echo $itemBlogId?>"><?php echo $bsetting['name']?></a>
 	</td>
 	<td>
 		<?php echo $bsetting['title']?>

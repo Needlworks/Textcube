@@ -17,7 +17,7 @@ $usersetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}
 <a href="<?php echo $blogURL;?>/owner/control/user">&lt;&lt;돌아가기</a>
 							<h2 class="caption"><span class="main-text"><?php echo _t('사용자 정보');?></span></h2>
 						
-							<h3>Brand yourself! : <?php echo $usersetting['name'];?></h3>
+							<h3><?php echo $usersetting['name'];?></h3>
 							
 							<div class="main-explain-box">
 								<p class="explain"><?php echo $usersetting['loginid'];?></h3>
@@ -44,18 +44,12 @@ $usersetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td class="name"><?php echo _t("로그인 아이디 변경");?></td>
-											</tr>
-											<tr>
-												<td class="name"><?php echo _t("계정 삭제");?></td>
-											</tr>
 										</tbody>
 									</table>
 								</div>
 								
 								<div id="developer-container" class="container">
-									<h4><span class="text"><?php echo _t('Team Blog');?></span></h4>
+									<h4><span class="text"><?php echo _t('참여중인 Blog');?></span></h4>
 									<table>
 										<colgroup>
 											<col class="name"></col>
@@ -71,7 +65,7 @@ $usersetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}
 $teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}teamblog` WHERE userid = " . $userid);
 	foreach ($teamblog as $row){
 		echo "<tr>";
-		echo "<td class=\"name\"><a href=\"{$blogURL}/owner/control/blog/{$row['blogid']}\">".POD::queryCell("SELECT value FROM `{$database['prefix']}BlogSettings` WHERE name = 'name' AND blogid = " . $row['blogid'])."</a></td>";
+		echo "<td class=\"name\"><a href=\"{$blogURL}/owner/control/blog/detail/{$row['blogid']}\">".POD::queryCell("SELECT value FROM `{$database['prefix']}BlogSettings` WHERE name = 'name' AND blogid = " . $row['blogid'])."</a></td>";
 
 		$tmpstr = '';
 		if ($row['acl'] & BITWISE_ADMINISTRATOR) $tmpstr .= _t("관리자")." ";
