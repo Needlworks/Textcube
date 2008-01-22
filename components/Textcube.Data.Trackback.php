@@ -91,7 +91,6 @@ class Trackback {
 		
 		if (!$query->insert())
 			return $this->_error('insert');
-		$this->id = $query->id;
 
 		if ($this->isFiltered == 0) {
 			mysql_query("UPDATE {$database['prefix']}Entries SET trackbacks = trackbacks + 1 WHERE blogid = ".getBlogId()." AND id = {$this->entry}");
