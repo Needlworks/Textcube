@@ -11,7 +11,6 @@ function FM_Modern_editorinit(&$editor) {
 	global $service, $configVal, $entry;
 	requireComponent('Textcube.Function.misc');
 	requireComponent('Textcube.Function.Setting');
-	$config['restrictEditorMode'] = false;
 	$blogid = getBlogId();
 	if (is_null($configVal)) {
 		$config = array('paragraphdelim' => 'BR',
@@ -19,6 +18,7 @@ function FM_Modern_editorinit(&$editor) {
 	} else {
 		$config = setting::fetchConfigVal($configVal);
 	}
+	$config['restrictEditorMode'] = false;
 	if (in_array(setting::getBlogSettingGlobal('defaultFormatter','html'),array('markdown','textile')) ||
 		in_array($entry['contentFormatter'],array('markdown','textile'))) {
 		$config['restrictEditorMode'] = true;
