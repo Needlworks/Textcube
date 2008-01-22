@@ -85,6 +85,9 @@ function getUpperView($paging) {
 			document.onkeydown = processShortcut;
 		//]]>
 	</script>
+<?php
+	if($service['flashclipboardpoter'] == true) {
+?>
 <div style="position:absolute;top:0;left:0; background-color:transparent;background-image:none">
 <script type="text/javascript">
 //<![CDATA[
@@ -105,9 +108,8 @@ function getUpperView($paging) {
 //]]>
 </script>
 </div>
-    
 <?php
-
+	}
 	$view = ob_get_contents();
 	ob_end_clean();
 	return $view;

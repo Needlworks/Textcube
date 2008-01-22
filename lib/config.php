@@ -39,6 +39,7 @@ else $service['fancyURL'] = 2;
 $service['useEncodedURL'] = false;
 $service['debugmode'] = false;
 $service['reader'] = true;
+$service['flashclipboardpoter'] = true;
 //$service['flashuploader'] = false;
 
 // Map port setting.
