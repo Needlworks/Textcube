@@ -249,7 +249,7 @@ function dumpWithEtag($path) {
 	$fs = stat( $path );
 	if( !$fs || !$fs['size'] ) { header('HTTP/1.1 404 Not Found');exit; }
 	$etag = sprintf( "textcube-%x", (0x1234*$fs['size'])^$fs['mtime'] );
-	$lastmodified = gmdate("D, j M Y H:i:s ", $fs['mtime']) . " GMT";
+	$lastmodified = gmdate("D, j M Y H:i:s ", $fs['mtime']) . "GMT";
 	$length = $fs['size'];
 
 	if( !headerEtag($etag,$length,$lastmodified) ) {
