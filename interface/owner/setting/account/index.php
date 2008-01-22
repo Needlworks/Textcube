@@ -333,7 +333,6 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 <?php
 $hptype = User::getHomepageType();
 $blogs = User::getBlogs();
-$ownedblogs = User::getOwnedBlogId();
 $hptype = empty($blogs)?"default":$hptype;
 if ($hptype == 'internal' || 'author') {
 	$blogidforhomepage = getUserSetting("blogidforhomepage"); 
@@ -543,6 +542,9 @@ if ($service['type'] != 'single' && Acl::check("group.creators")) {
 <?php
 	$count = 0;
 	foreach ($invitedList as $value) {
+		if (count(User::getOwnedBlogs($value['userid'])) == 0) {
+			continue;
+		}
 		$className = ($count % 2) == 1 ? 'even-line' : 'odd-line';
 		$className .= ($count == sizeof($invitedList) - 1) ? ' last-line' : '';
 ?>

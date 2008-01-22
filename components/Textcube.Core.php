@@ -71,7 +71,7 @@ class User {
 	}
 
 	/*@static@*/
-	function getOwnedBlogId($userid = null) {
+	function getOwnedBlogs($userid = null) {
 		global $database;
 		if (!isset($userid))
 			$userid = getUserId();

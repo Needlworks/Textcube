@@ -426,25 +426,22 @@ function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $sen
 	return true;
 }
 
-function cancelInvite($userid) {
+function cancelInvite($userid,$clean = true) {
 	global $database;
 	requireModel('blog.user');
 	if (POD::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `lastLogin` = 0") == 0)
 		return false;
-	if (POD::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `host` = ".getBlogId()) === 0)
+	if (POD::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `host` = ".getUserId()) === 0)
 		return false;
 	
-	$blogidWithOwner = POD::queryColumn("SELECT blogid 
-		FROM `{$database['prefix']}Teamblog` 
-		WHERE userid = $userid
-			AND acl > 15");
+	$blogidWithOwner = User::getOwnedBlogs($userid);
 	foreach($blogidWithOwner as $blogids) {
 		if(deleteBlog($blogids) === false) return false;
 	}
-	if(deleteUser($userid) != false)
-		return true;
-	else return false;
-	
+	if($clean && !POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE userid = '$userid'")) {
+		deleteUser($userid);
+	}
+	return true;
 }
 
 function changePassword($userid, $pwd, $prevPwd) {

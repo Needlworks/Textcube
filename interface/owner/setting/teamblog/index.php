@@ -1,4 +1,4 @@
-<?php
+초대상태<?php
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
@@ -160,18 +160,6 @@ if( Acl::check('group.owners')) {?>
 									}
 								}
 								
-								function cancelInvite(userid) {
-									if(!confirm("<?php echo _t('초대를 취소하시겠습니까?');?>")) return false;
-									var request = new HTTPRequest("POST", "<?php	echo $blogURL;?>/owner/setting/teamblog/cancelInvite/");
-									request.onSuccess = function() {
-										window.location.href="<?php 	echo $blogURL;?>/owner/setting/teamblog";
-									}
-									request.onError = function() {
-										alert('<?php echo _t('실패했습니다.');?>');
-									}
-									request.send("userid=" + userid);
-								}
-								
 								function deleteUser(userid, atype) {
 									if(atype == 1) { // If there are posts from user.
 										if(!confirm("<?php echo _t('선택된 사용자를 정말 삭제하시겠습니까?');?>\n\n<?php echo _t('삭제되는 기존 사용자의 글은 전부 관리자의 글로 변환됩니다.');?>\n(<?php echo _t('글이 전부 삭제되지는 않고 팀블로그의 로그인 데이터만 삭제됩니다');?>)\n<?php echo _t('삭제 이후에는 복원이 불가능합니다.');?> <?php echo _t('정말 삭제 하시겠습니까?');?>")) return false;
@@ -237,7 +225,7 @@ if( Acl::check('group.administrators')) {
 											<th class="email"><span class="text"><?php echo _t('이메일');?></span></th>
 											<th class="date"><span class="text"><?php echo _t('가입일');?></span></th>
 											<th class="date"><span class="text"><?php echo _t('작성한 글 수');?></span></th>
-											<th class="cancel"><span class="text"><?php	echo _t('초대취소');?></span></th>
+											<th class="cancel"><span class="text"><?php	echo _t('초대상태');?></span></th>
 											<th class="status"><span class="text"><?php echo _t('권한');?></span></th>
 											<th class="status"><span class="text"><?php	echo _t('팀블로그 제외');?></span></th>
 										</tr>
@@ -273,7 +261,7 @@ if( Acl::check('group.administrators')) {
 <?php
 			if($value['lastLogin'] == 0) { 
 ?>
-													<td class="cancel"><a class="cancel-button button" href="#void" onclick="cancelInvite(<?php	echo $value['userid'];?>);return false;" title="<?php echo _t('초대에 응하지 않은 사용자의 계정을 삭제합니다.');?>"><span class="text"><?php echo _t('초대 취소');?></span></a></td>
+													<td class="status"><?php echo _t('미참여');?></td>
 <?php
 			} else { 
 ?>

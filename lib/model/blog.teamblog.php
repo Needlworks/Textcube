@@ -26,25 +26,6 @@ function addTeamUser($email, $name, $comment, $senderName, $senderEmail) {
 	return $result;
 }
 
-function cancelTeamblogInvite($userid) {
-	global $database;
-
-	$blogid = getBlogId();
-	// If there is posts, cannot cancel invitation.
-	if( 0 != POD::queryCell("SELECT count(*) FROM {$database['prefix']}Entries 
-		WHERE blogid = $blogid AND userid = $userid")) {
-		return false;
-	}
-	// Delete ACL relation.
-	if(!POD::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid='$blogid' and userid='$userid'"))
-		return false;
-	// And if there is no blog related to the specific user, delete user.
-	if(POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE userid = '$userid'")) {
-		deleteUser($userid);
-	}
-	return true;
-}
-
 function changeACLonBlog($blogid, $ACLtype, $userid, $switch) {  // Change user priviledge on the blog.
 	global $database;
 	if(empty($ACLtype) || empty($userid))
@@ -85,7 +66,7 @@ function changeACLonBlog($blogid, $ACLtype, $userid, $switch) {  // Change user 
 	return POD::execute($sql);
 }
 
-function deleteTeamblogUser($userid ,$blogid = null) {
+function deleteTeamblogUser($userid ,$blogid = null, $clean = true) {
 	global $database;
 	if ($blogid == null) {
 		$blogid = getBlogId();
@@ -94,10 +75,13 @@ function deleteTeamblogUser($userid ,$blogid = null) {
 		SET userid = ".User::getBlogOwner($blogid)." 
 		WHERE blogid = ".$blogid." AND userid = ".$userid);
 
-	if(POD::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid = ".$blogid." and userid='$userid'")) {
-		return true;
-	} else {
+	// Delete ACL relation.
+	if(!POD::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid='$blogid' and userid='$userid'"))
 		return false;
+	// And if there is no blog related to the specific user, delete user.
+	if($clean && !POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE userid = '$userid'")) {
+		deleteUser($userid);
 	}
+	return true;
 }
 ?>
