@@ -8,7 +8,7 @@ function FM_Modern_handleconfig($configVal) {
 }
 
 function FM_Modern_editorinit(&$editor) {
-	global $service, $configVal;
+	global $service, $configVal, $entry;
 	requireComponent('Textcube.Function.misc');
 	requireComponent('Textcube.Function.Setting');
 	$config['restrictEditorMode'] = false;
@@ -19,8 +19,8 @@ function FM_Modern_editorinit(&$editor) {
 	} else {
 		$config = setting::fetchConfigVal($configVal);
 	}
-	if ((setting::getBlogSettingGlobal('defaultFormatter','html') == 'markdown') ||
-		(setting::getBlogSettingGlobal('defaultFormatter','html') == 'textile')) {
+	if (in_array(setting::getBlogSettingGlobal('defaultFormatter','html'),array('markdown','textile')) ||
+		in_array($entry['contentFormatter'],array('markdown','textile'))) {
 		$config['restrictEditorMode'] = true;
 		$config['defaultmode'] = 'TEXTAREA';
 	} else if (!isset($config['defaultmode'])) {
