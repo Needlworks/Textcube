@@ -41,7 +41,7 @@ if ($service['type'] == 'single') {
 		if ($url == '/') {
 			$blogid = $defaultblogid;
 		} else if (preg_match('@^/+([^/]+)(.*)$@', $url, $matches)) {
-			$blogid = getBlogidByName($matches[1]);
+			$blogid = getBlogidByName(strtok($matches[1],'?'));
 			if ($blogid === null) {
 				$blogid = $defaultblogid;
 				$isStrictBlogURL = false;
@@ -89,7 +89,6 @@ if (is_numeric($suri['value'])) {
 
 // Parse page.
 $suri['page'] = empty($_POST['page']) ? (empty($_GET['page']) ? true : $_GET['page']) : $_POST['page'];
-
 if (!isset($serviceURL))
 	$serviceURL = 'http://' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $service['path'];
 switch ($service['type']) {
