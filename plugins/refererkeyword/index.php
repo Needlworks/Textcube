@@ -77,6 +77,8 @@ for ($i=0; $i<sizeof($refereres); $i++) {
 		$keyword = "";
 		if(preg_match('/\W(q|query|k|keyword|search|stext|nlia|aqa|wd)(?:=|%3D)([^&]+)/i', $record['url'], $matches))
 			$keyword = urldecode(rawurldecode($matches[2]));
+		else if(strpos($mother['host'], 'images.google.') !== false && preg_match('/%3Fsearch%3D([^&]+)/i', $mother['url'], $matches))
+			$keyword = urldecode(rawurldecode($matches[1]));
 		else if(strpos($record['url'], 'yahoo.') !== false && preg_match('/\Wp=([^&]+)/i', $record['url'], $matches))
 			$keyword = urldecode(rawurldecode($matches[1]));
 		else if(preg_match('@/search/(?:\w+/)*([^/?]+)@i', $record['url'], $matches))
