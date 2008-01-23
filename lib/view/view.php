@@ -1016,7 +1016,7 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 	requireModel('blog.attachment');
 	requireModel('blog.keyword');
 	requireLibrary('blog.skin');
-
+	requireComponent('Textcube.Function.misc');
 	$content = fireEvent('Format' . $type . 'Content', $content, $id);
 	$func = ($bRssMode ? 'summarizeContent' : 'formatContent');
 	$view = $func($blogid, $id, $content, $formatter, $keywords, $useAbsolutePath);
@@ -1031,7 +1031,7 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 	if ($useImageResampling == true) {
 		preg_match_all("@<img.+src=['\"](.+)['\"](.*)/>@Usi", $view, $images, PREG_SET_ORDER);
 		$view = preg_replace("@<img.+src=['\"].+['\"].*/>@Usi", '[#####_#####_#####_image_#####_#####_#####]', $view);
-		$contentWidth = getContentWidth();
+		$contentWidth = misc::getContentWidth();
 			
 		if (count($images) > 0) {
 			include_once ROOT . '/components/Textcube.Function.misc.php';

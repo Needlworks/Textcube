@@ -10,6 +10,7 @@ else if (file_exists(ROOT . "/cache/backup/$blogid.xml"))
 	$backup = filemtime(ROOT . "/cache/backup/$blogid.xml");
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
+requireComponent('Textcube.Function.misc');
 
 if (isset($checkFunction)) unset($checkFunction);
 
@@ -286,7 +287,7 @@ if(Acl::check("group.creators")) {
 									
 									<div class="message-body">
 										<div class="explain">
-											<?php echo _f('이 계정의 업로드 허용 용량은 <em>%1</em> 바이트로 백업파일의 크기가 이를 초과하는 경우 <acronym title="File Transfer Protocol">FTP</acronym> 등으로 원하시는 사이트에 업로드하신 후 이 파일의 웹 주소를 입력해서 진행하십시오. 이 경우, 보안을 위해 복원이 끝나면 반드시 그 백업파일을 웹 상에서 지우실 것을 권장합니다.', (getNumericValue(ini_get('post_max_size')) < getNumericValue(ini_get('upload_max_filesize')) ? ini_get('post_max_size') : ini_get('upload_max_filesize')));?>
+											<?php echo _f('이 계정의 업로드 허용 용량은 <em>%1</em> 바이트로 백업파일의 크기가 이를 초과하는 경우 <acronym title="File Transfer Protocol">FTP</acronym> 등으로 원하시는 사이트에 업로드하신 후 이 파일의 웹 주소를 입력해서 진행하십시오. 이 경우, 보안을 위해 복원이 끝나면 반드시 그 백업파일을 웹 상에서 지우실 것을 권장합니다.', (misc::getNumericValue(ini_get('post_max_size')) < misc::getNumericValue(ini_get('upload_max_filesize')) ? ini_get('post_max_size') : ini_get('upload_max_filesize')));?>
 										</div>
 <?php
 if ($backup) {

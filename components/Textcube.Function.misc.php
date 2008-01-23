@@ -53,9 +53,10 @@ class misc {
 
 	function getMIMEType($ext, $filename = null) {
 		if ($filename) {
-			return '';
+			return misc::getMIMEType(getFileExtension($filename));
 		} else {
 			switch (strtolower($ext)) {
+				// Image
 				case 'gif':
 					return 'image/gif';
 				case 'jpeg':case 'jpg':case 'jpe':
@@ -66,6 +67,7 @@ class misc {
 					return 'image/tiff';
 				case 'bmp':
 					return 'image/bmp';
+				// Sound
 				case 'wav':
 					return 'audio/x-wav';
 				case 'mpga':case 'mp2':case 'mp3':
@@ -76,6 +78,7 @@ class misc {
 					return 'audio/x-msaudio';
 				case 'ra':
 					return 'audio/x-realaudio';
+				// Document
 				case 'css':
 					return 'text/css';
 				case 'html':case 'htm':case 'xhtml':
@@ -86,14 +89,45 @@ class misc {
 					return 'text/sgml';
 				case 'xml':case 'xsl':
 					return 'text/xml';
+				case 'hwp':case 'hwpml':
+					return 'application/x-hwp';
+				case 'pdf':
+					return 'application/pdf';
+				case 'odt':case 'ott':
+					return 'application/vnd.oasis.opendocument.text';
+				case 'ods':case 'ots':
+					return 'application/vnd.oasis.opendocument.spreadsheet';	
+				case 'odp':case 'otp':
+					return 'application/vnd.oasis.opendocument.presentation';
+				case 'sxw':case 'stw':	
+					return '	application/vnd.sun.xml.writer';
+				case 'sxc':case 'stc':	
+					return '	application/vnd.sun.xml.calc';
+				case 'sxi':case 'sti':	
+					return '	application/vnd.sun.xml.impress';
+				case 'doc':
+					return 'application/vnd.ms-word';
+				case 'xls':case 'xla':case 'xlt':
+				case 'xlb':
+					return 'application/vnd.ms-excel';			
+				case 'ppt':case 'ppa':case 'pot':case 'pps':
+					return 'application/vnd.mspowerpoint';
+				case 'vsd':case 'vss':case 'vsw':
+					return 'application/vnd.visio';
+				case 'docx':case 'docm':
+				case 'pptx':case 'pptm':
+				case 'xlsx':case 'xlsm':	
+					return 'application/vnd.openxmlformats';
+				case 'csv':
+					return 'text/comma-separated-values'; 
+				// Multimedia
 				case 'mpeg':case 'mpg':case 'mpe':
 					return 'video/mpeg';
 				case 'qt':case 'mov':
 					return 'video/quicktime';
 				case 'avi':case 'wmv':
 					return 'video/x-msvideo';
-				case 'pdf':
-					return 'application/pdf';
+				// Compression
 				case 'bz2':
 					return 'application/x-bzip2';
 				case 'gz':case 'tgz':
@@ -106,6 +140,8 @@ class misc {
 					return 'application/x-rar-compressed';
 				case '7z':
 					return 'application/x-7z-compressed';
+				case 'alz':
+					return 'application/x-alzip';				
 			}
 		}
 		return '';
@@ -138,6 +174,30 @@ class misc {
 		return $contentWidth;
 	}
 	
+	function getFileListByRegExp($path, $pattern, $deepScan=false) {
+		$path = preg_replace('@/$@', '', $path);
+		
+		$fileList = array();
+		if ($dirHandle = @dir($path)) {
+			while (false !== ($tempSrc = $dirHandle->read())) {
+				if ($tempSrc == '.' || $tempSrc == '..' || preg_match('@^\.@', $tempSrc))
+					continue;
+				if (is_dir($path . '/' . $tempSrc)) {
+					$tempList = getFileListByRegExp($path . '/' . $tempSrc, $pattern, $deepScan);
+					if (is_array($tempList))
+						$fileList = array_merge($fileList, $tempList);
+				}
+				if (is_file($path . '/' . $tempSrc)) {
+					if ($pattern == '' || preg_match("@{$pattern}@", $tempSrc))
+						array_push($fileList, $path . '/' . $tempSrc);
+				}
+			}
+			$dirHandle->close();
+		}
+		
+		return $fileList;
+	}
+	
 	function dress($tag, $value, & $contents) {
 		if (preg_match('/\[##_' . preg_quote($tag, '/') . '_##\]/i', $contents, $temp)) {
 			$contents = str_replace("[##_{$tag}_##]", $value, $contents);
@@ -146,6 +206,12 @@ class misc {
 			return false;
 		}	
 	}
+	
+	function isSpace($string) {
+		$result = str_replace(array(' ',"\t","\r","\n"),array(''),$string);
+		return empty($result);
+	}
+	
 	function escapeJSInAttribute($str) {
 		return htmlspecialchars(str_replace(array('\\', '\r', '\n', '\''), array('\\\\', '\\r', '\\n', '\\\''), $str));
 	}

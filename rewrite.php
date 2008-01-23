@@ -11,7 +11,7 @@
 	$accessInfo['input'] = ltrim(substr(str_replace('index.php','',$accessInfo['fullpath']),strlen(rtrim($accessInfo['root'],'index.php'))+(defined('__TEXTCUBE_NO_FANCY_URL__') ? 1 : 0)),'/'); //Workaround for compartibility with fastCGI / Other environment
 	$part = strtok($accessInfo['input'],'/');
 	if(in_array($part, array('image','plugins','script','skin','style','attach','thumbnail'))) {
-		require_once 'lib/function/misc.php';
+		require_once 'lib/function/file.php';
 		dumpWithEtag(rtrim(ltrim(($part == 'thumbnail' ? preg_replace('/thumbnail/','cache/thumbnail',$accessInfo['input'],1) : $accessInfo['input']),'/'),'/'));
 		exit;
 	} else if( strcasecmp( $part, 'cache' ) == 0 ) {

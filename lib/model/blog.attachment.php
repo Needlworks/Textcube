@@ -93,7 +93,8 @@ function getAttachmentSizeLabel($blogid=null, $parent = null) {
 }
 
 function addAttachment($blogid, $parent, $file) {
-	global $database;	
+	global $database;
+	requireComponent('Textcube.Function.misc');
 	if (empty($file['name']) || ($file['error'] != 0))
 		return false;
 	$filename = POD::escapeString($file['name']);
@@ -108,7 +109,7 @@ function addAttachment($blogid, $parent, $file) {
 	$attachment['parent'] = $parent ? $parent : 0;
 	$attachment['label'] = Path::getBaseName($file['name']);
 	$attachment['size'] = $file['size'];
-	$extension = getFileExtension($attachment['label']);
+	$extension = misc::getFileExtension($attachment['label']);
 	switch (strtolower($extension)) {
 		case 'exe':case 'php':case 'sh':case 'com':case 'bat':
 			$extension = 'xxx';
@@ -133,7 +134,7 @@ function addAttachment($blogid, $parent, $file) {
 		$attachment['width'] = $imageAttributes[0];
 		$attachment['height'] = $imageAttributes[1];
 	} else {
-		$attachment['mime'] = getMIMEType($extension);
+		$attachment['mime'] = misc::getMIMEType($extension);
 		$attachment['width'] = 0;
 		$attachment['height'] = 0;
 	}
@@ -169,6 +170,7 @@ function deleteAttachment($blogid, $parent, $name) {
 
 function copyAttachments($blogid, $originalEntryId, $targetEntryId) {
 	global $database;
+	requireComponent('Textcube.Function.misc');
 	$path = ROOT . "/attach/$blogid";
 	$attachments = getAttachments($blogid, $originalEntryId);
 	if(empty($attachments)) return true;
@@ -182,7 +184,7 @@ function copyAttachments($blogid, $originalEntryId, $targetEntryId) {
 			AND id = $targetEntryId")) return 3; // target entry does not exists;
 
 	foreach($attachments as $attachment) {
-		$extension = getFileExtension($attachment['label']);
+		$extension = misc::getFileExtension($attachment['label']);
 		$originalPath = "$path/{$attachment['name']}";
 		do {
 			$attachment['name'] = rand(1000000000, 9999999999) . ".$extension";

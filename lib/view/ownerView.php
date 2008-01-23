@@ -902,12 +902,13 @@ function getAttachmentValue($attachment) {
 }
 
 function getPrettyAttachmentLabel($attachment) {
+	requireComponent('Textcube.Function.misc');
 	if (strpos($attachment['mime'], 'image') === 0)
-		return "{$attachment['label']} ({$attachment['width']}x{$attachment['height']} / ".getSizeHumanReadable($attachment['size']).')';
+		return "{$attachment['label']} ({$attachment['width']}x{$attachment['height']} / ".misc::getSizeHumanReadable($attachment['size']).')';
 	else if(strpos($attachment['mime'], 'audio') !== 0 && strpos($attachment['mime'], 'video') !== 0) {
 		if ($attachment['downloads']>0)
-			return "{$attachment['label']} (".getSizeHumanReadable($attachment['size']).' / '._t('다운로드').':'.$attachment['downloads'].')';		
+			return "{$attachment['label']} (".misc::getSizeHumanReadable($attachment['size']).' / '._t('다운로드').':'.$attachment['downloads'].')';		
 	}
-	return "{$attachment['label']} (".getSizeHumanReadable($attachment['size']).')';
+	return "{$attachment['label']} (".misc::getSizeHumanReadable($attachment['size']).')';
 }
 ?>

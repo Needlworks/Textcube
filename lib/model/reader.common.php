@@ -381,6 +381,7 @@ function addFeed($blogid, $group = 0, $url, $getEntireFeed = true, $htmlURL = ''
 
 function getRemoteFeed($url) {
 	global $service, $serviceURL;
+	requireComponent('Textcube.Function.misc');
 	$xml = fireEvent('GetRemoteFeed', null, $url);
 	if (empty($xml)) {
 		requireComponent('Eolin.PHP.HTTPRequest');
@@ -396,7 +397,7 @@ function getRemoteFeed($url) {
 	if (!$xmls->open($xml, $service['encoding'])) {
 		if(preg_match_all('/<link .*?rel\s*=\s*[\'"]?alternate.*?>/i', $xml, $matches)) {
 			foreach($matches[0] as $link) {
-				$attributes = getAttributesFromString($link);
+				$attributes = misc::getAttributesFromString($link);
 				if(isset($attributes['href'])) {
 					$urlInfo = parse_url($url);
 					$rssInfo = parse_url($attributes['href']);
