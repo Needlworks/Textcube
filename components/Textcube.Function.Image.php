@@ -81,12 +81,13 @@ class Image {
 	}
 	
 	function resizeImageToContent($property, $originSrc, $imageWidth) {
+		requireComponent('Textcube.Function.misc');
 		if ( !is_readable($originSrc) ) {
 			return array($property, false);
 		}
 		
 		list($originWidth, $originHeight, $type, $attr) = getimagesize($originSrc);		
-		$attributes = getAttributesFromString($property, false);
+		$attributes = misc::getAttributesFromString($property, false);
 		
 		// 단위 변환.
 		$onclickFlag = false;
