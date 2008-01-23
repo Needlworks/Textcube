@@ -7,6 +7,7 @@ $service['admin_script']='control.js';
 require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
+requireComponent('Textcube.Function.misc');
 
 global $database;
 $bid=$suri['id'];
@@ -103,7 +104,7 @@ function addUser(user) {
                                     <?php echo _f('이 블로그에는 총 %1개의 글이 있습니다.', POD::queryCell("SELECT Count(*) FROM {$database['prefix']}Entries WHERE blogid = ".$bid));?><br/>
                                     <?php echo _f('이 블로그에는 총 %1개의 트랙백이 있습니다.', POD::queryCell("SELECT Count(*) FROM {$database['prefix']}Trackbacks WHERE blogid = ".$bid));?><br/>
                                     <?php echo _f('이 블로그에는 총 %1개의 코멘트가 있습니다.', POD::queryCell("SELECT Count(*) FROM {$database['prefix']}Comments WHERE blogid = ".$bid));?><br/>
-                                    <?php echo _f('이 블로그가 사용중인 첨부파일의 총 용량은 %1 입니다.', getSizeHumanReadable(POD::queryCell(" SELECT sum( size ) FROM `{$database['prefix']}Attachments` WHERE blogid = ".$bid)));?>
+                                    <?php echo _f('이 블로그가 사용중인 첨부파일의 총 용량은 %1 입니다.', misc::getSizeHumanReadable(POD::queryCell(" SELECT sum( size ) FROM `{$database['prefix']}Attachments` WHERE blogid = ".$bid)));?>
                                 </div>
 							</div>
 							
@@ -159,7 +160,7 @@ function addUser(user) {
 											</tr>
 										</thead>
 										<tbody><?php
-$teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}teamblog` WHERE blogid = " . $bid);
+$teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE blogid = " . $bid);
 	foreach ($teamblog as $row){
 		echo "<tr>";
 		echo "<td class=\"name\"><a href=\"{$blogURL}/owner/control/user/detail/{$row['userid']}\">".User::getName($row['userid'])."(".User::getEmail($row['userid']).")</a></td>";
