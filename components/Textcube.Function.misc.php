@@ -53,7 +53,7 @@ class misc {
 
 	function getMIMEType($ext, $filename = null) {
 		if ($filename) {
-			return misc::getMIMEType(getFileExtension($filename));
+			return misc::getMIMEType(misc::getFileExtension($filename));
 		} else {
 			switch (strtolower($ext)) {
 				// Image
