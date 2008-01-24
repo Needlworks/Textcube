@@ -4,6 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
+requireLibrary('blog.skin');
 
 if (!array_key_exists('viewMode', $_REQUEST)) $_REQUEST['viewMode'] = '';
 else $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];
