@@ -34,6 +34,7 @@ function headerEtag($etag,$length,$lastmodified) {
 }
 
 function dumpWithEtag($path) {
+	requireComponent('Textcube.Function.misc');
 	$path = urldecode($path);
 	$qIndex = strpos($path,'?');
 	if( $qIndex !== false ) {
@@ -57,7 +58,7 @@ function dumpWithEtag($path) {
 	$length = $fs['size'];
 
 	if( !headerEtag($etag,$length,$lastmodified) ) {
-		header('Content-type: '.getMIMEType(null,$path)); 
+		header('Content-type: '.misc::getMIMEType(null,$path)); 
 		$f =  fopen($path,"r");
 		if( !$f ) {
 			header("HTTP/1.0 404 Not found");
