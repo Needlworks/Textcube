@@ -29,7 +29,7 @@ define ('ROOT', $root);
 require ROOT.'/lib/config.php';
 require ROOT.'/lib/database.php';
 require ROOT.'/lib/locale.php';
-require ROOT.'/components/POD.Core.php';
+require ROOT.'/components/POD.Core.Legacy.php';
 if (!empty($_GET['test'])) {
 	echo getFingerPrint();
 	exit;
