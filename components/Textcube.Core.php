@@ -171,23 +171,29 @@ class User {
 	function changeBlog(){
 		global $database, $blogURL, $blog, $service;
 		$blogid = getBlogId();	
-	
-		$changeBlogView = str_repeat(TAB,7)."<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/setting/teamblog/changeBlog/?blogid='+this.value\">".CRLF;
-		
-		$teamblogListInfo = POD::queryAll("SELECT t.blogid, b.value AS title
-				FROM {$database['prefix']}Teamblog t 
-				LEFT JOIN {$database['prefix']}BlogSettings b ON b.blogid = t.blogid AND b.name = 'title'
-				WHERE t.userid='".getUserId()."'");
-		foreach($teamblogListInfo as $info){
-			$title = empty($info['title']) ? _f('%1 님의 블로그',User::getBlogOwnerName($info['blogid'])) : UTF8::lessenAsEm($info['title'],30);
-			$changeBlogView .= str_repeat(TAB,8).'<option value="' . $info['blogid'] . '"';
-			if($info['blogid'] == $blogid) $changeBlogView .= ' selected="selected"';
-			$changeBlogView .= '>' . $title . '</option>'.CRLF;
+
+		$blogList = User::getBlogs();
+		Switch (count($blogList)) {
+			case 0:
+				return;
+			case 1:
+				$title = setting::getBlogSettingGlobal("title",null,$blogList[0]);
+				return "<span id=\"teamblog\">".($title ? $title : _f('%1 님의 블로그',User::getBlogOwnerName($blogList[0])))."</span>";
+			default:
+				$changeBlogView = str_repeat(TAB,7)."<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/setting/teamblog/changeBlog/?blogid='+this.value\">".CRLF;
+				foreach($blogList as $info){
+					$title = setting::getBlogSettingGlobal("title",null,$info);
+					$title = ($title ? $title : _f('%1 님의 블로그',User::getBlogOwnerName($info)));
+					$changeBlogView .= str_repeat(TAB,8).'<option value="' . $info . '"';
+					if($info == $blogid) $changeBlogView .= ' selected="selected"';
+					$changeBlogView .= '>' . $title . '</option>'.CRLF;
+				}
+				$changeBlogView .= str_repeat(TAB,7).'</select>'.CRLF;
+				return $changeBlogView;
 		}
-		$changeBlogView .= str_repeat(TAB,7).'</select>'.CRLF;
-		return $changeBlogView;
 	}
 }
+
 
 class Transaction {
 	function pickle($data) {
