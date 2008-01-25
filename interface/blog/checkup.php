@@ -229,6 +229,15 @@ if (POD::queryCell("DESC {$database['prefix']}BlogSettings name", 'Key') != 'PRI
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
+if (!POD::queryExistence("DESC {$database['prefix']}SkinSettings showListOnAuthor")) {
+	$changed = true;
+	echo '<li>', _text('스킨 설정 테이블에 저자별 페이지 출력 설정을 위한 필드를 추가합니다.'), ': ';
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD showListOnAuthor TINYINT(4) DEFAULT 1 NOT NULL AFTER showListOnTag"))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
 /***** Common parts. *****/
 if(doesHaveOwnership() && $blogids = POD::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog")) {
 	$changed = true;

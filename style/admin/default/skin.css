@@ -315,12 +315,12 @@
 
 #tag-setting-container
 {
-	float                            : left;
+	float                            : right;
 }
 
 #guestbook-setting-container
 {
-	float                            : right;
+	float                            : left;
 }
 	
 /* Tree -----------------------------------------------------------------------------------------*/

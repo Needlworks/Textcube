@@ -16,6 +16,7 @@ $IV = array(
 		'showListOnCategory' => array('int'),
 		'showListOnArchive' => array('int'),
 		'showListOnTag' => array('int'),
+		'showListOnAuthor' => array('int'),
 		'showListOnSearch' => array('int'),
 		'expandComment' => array('int'),
 		'expandTrackback' => array('int'),

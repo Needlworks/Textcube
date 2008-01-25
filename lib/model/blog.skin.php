@@ -274,6 +274,7 @@ function setSkinSetting($blogid, $setting) {
 		showListOnCategory		= ' . $setting['showListOnCategory'] . ',
 		showListOnArchive		= ' . $setting['showListOnArchive'] . ',
 		showListOnTag			= ' . $setting['showListOnTag'] . ',
+		showListOnAuthor			= ' . $setting['showListOnAuthor'] . ',
 		showListOnSearch			= ' . $setting['showListOnSearch'] . ',
 		expandComment				= ' . $setting['expandComment'] . ',
 		expandTrackback			= ' . $setting['expandTrackback'] . ',
