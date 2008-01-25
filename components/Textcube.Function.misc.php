@@ -183,7 +183,7 @@ class misc {
 				if ($tempSrc == '.' || $tempSrc == '..' || preg_match('@^\.@', $tempSrc))
 					continue;
 				if (is_dir($path . '/' . $tempSrc)) {
-					$tempList = getFileListByRegExp($path . '/' . $tempSrc, $pattern, $deepScan);
+					$tempList = misc::getFileListByRegExp($path . '/' . $tempSrc, $pattern, $deepScan);
 					if (is_array($tempList))
 						$fileList = array_merge($fileList, $tempList);
 				}
