@@ -154,6 +154,7 @@ function __tcSqlLogDump()
 	
 	if ($commentBlosk == true) echo '<!--';
 	
+	if (!$commentBlosk) {
 	print <<<EOS
 <style type='text/css'>
 /*<![CDATA[*/
@@ -248,6 +249,7 @@ function __tcSqlLogDump()
 /*]]>*/
 </style>
 EOS;
+	}
 
 	$elapsed_total_db = 0;
 
@@ -268,15 +270,17 @@ EOS;
 	}
 
 	$count = 1;
-	print '<table class="debugTable">';
-	print <<<THEAD
+	if (!$commentBlosk) {
+		print '<table class="debugTable">';
+		print <<<THEAD
 		<thead>
 			<tr>
 				<th>count</th><th class="sql">query string</th><th>elapsed (ms)</th><th>elapsed sum (ms)</th><th></th><th>rows</th><th>error</th><th>stack</th>
 			</tr>
 		</thead>
 THEAD;
-	print '<tbody>';
+		print '<tbody>';
+	}
 	foreach( $__tcSqlLog as $c => $log ) {
 		$error = '';
 		$backtrace = '';
@@ -313,8 +317,9 @@ THEAD;
 		$elapsed_total_db += $log['elapsed'];
 		$elapsed_total = $log['endtime'];
 		$progress_bar = $log['percent'] / 2; //Max 50px;
-		$log['percent'] = "<div style='background:#f00;line-height:10px;width:{$progress_bar}px'>&nbsp;</div>";
-		print <<<TBODY
+		if (!$commentBlosk) {
+			$log['percent'] = "<div style='background:#f00;line-height:10px;width:{$progress_bar}px'>&nbsp;</div>";
+			print <<<TBODY
 		<tr class="debugSQLLine{$trclass}">
 			<th>{$count_label}</th>
 			<td class="code"><code>{$log['sql']}</code></td>
@@ -326,17 +331,28 @@ THEAD;
 			<td class="backtrace"><pre>{$backtrace}</pre></td>
 		</tr>
 TBODY;
+		} else {
+			print <<<TBODY
+
+-----------------------------------------------------------------------------------------------
+$count_label:{$log['sql']}
+Elapsed:{$log['elapsed']} secs./End time:{$log['endtime']}/Percent:{$log['percent']}/Rows:{$log['rows']} rows
+{$error}
+{$backtrace}
+TBODY;
+		}
 	
 		if( $log['cached'] < 2 ) {
 			$count++;
 		}
 	}
-	print '</tbody>';
 	
 	$count--;
 	$real_query_count = $count - $cached_count;
 	
-	print <<<TFOOT
+	if (!$commentBlosk) {
+		print '</tbody>';
+		print <<<TFOOT
 <tfoot>
 	<tr>
 		<td colspan='8'>
@@ -346,7 +362,8 @@ TBODY;
 	</tr>
 </tfoot>
 TFOOT;
-	print '</table>';
+		print '</table>';
+	}
 
 	global $service, $accessInfo;
 	if( ! empty($service['debug_session_dump'])) {
