@@ -82,6 +82,7 @@ foreach ($links as $link) {
 }
 dress('rss_url', "$blogURL/rss", $view);
 dress('comment_rss_url', "$blogURL/comment/rss", $view);
+dress('trackback_rss_url', "$blogURL/trackback/rss", $view);
 dress('owner_url', "$blogURL/owner", $view);
 dress('textcube_name', TEXTCUBE_NAME, $view);
 dress('textcube_version', TEXTCUBE_VERSION, $view);
