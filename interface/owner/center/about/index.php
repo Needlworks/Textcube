@@ -207,7 +207,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 							<div id="supporter-description" class="section">
 								<h3><span class="text"><?php echo _t('공헌자');?></span></h3>
 								<div id="creators-container" class="container">
-									<h4><?php echo _t('Core creator');?></h4>
+									<h4><?php echo _t('Hall of Fame');?></h4>
 									<p>
 									<a href="http://interlude.pe.kr">Jaehoon Jeong (0.9x),</a>
 									<a href="http://papacha.tistory.com">Sunju Jahng (1.0x)</a>
