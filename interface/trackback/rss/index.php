@@ -14,7 +14,7 @@ if (false) {
 }
 $cache = new pageCache;
 if(!empty($suri['id'])) {
-	$cache->name = 'commentRSS_'.$suri['id'];
+	$cache->name = 'trackbackRSS_'.$suri['id'];
 	if(!$cache->load()) {
 		$result = getTrackbackRSSByEntryId(getBlogId(),$suri['id']);
 		if($result !== false) {
@@ -23,7 +23,7 @@ if(!empty($suri['id'])) {
 		}
 	}
 } else {
-	$cache->name = 'commentRSS';
+	$cache->name = 'trackbackRSS';
 	if(!$cache->load()) {
 		$result = getTrackbackRSSTotal(getBlogId());
 		if($result !== false) {

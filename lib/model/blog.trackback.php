@@ -250,8 +250,13 @@ function sendTrackback($blogid, $entryId, $url) {
 		$isSuccess = $request->send($content);
 	}
 	if ($isSuccess && (checkResponseXML($request->responseText) === 0)) {
-		$url = POD::escapeString(UTF8::lessenAsEncoding($url, 255));
-		POD::query("insert into {$database['prefix']}TrackbackLogs values ($blogid, '', $entryId, '$url', UNIX_TIMESTAMP())");
+//		$url = POD::escapeString(UTF8::lessenAsEncoding($url, 255));
+		requireComponent('Textcube.Data.TrackbackLog');
+		$trackbacklog = new TrackbackLog;
+		$trackbacklog->entry = $entryId;
+		$trackbacklog->url = POD::escapeString(UTF8::lessenAsEncoding($url, 255));
+		$trackbacklog->add();
+//		POD::query("INSERT INTO {$database['prefix']}TrackbackLogs VALUES ($blogid, '', $entryId, '$url', UNIX_TIMESTAMP())");
 		return true;
 	}
 	return false;

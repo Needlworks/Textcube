@@ -40,7 +40,7 @@ class HTTPRequest {
 			$path = empty($request['query']) ? $request['path'] : $request['path'] . '?' . $request['query'];
 			fwrite($socket, $this->method . ' ' . $path . " HTTP/1.1\r\n");
 			fwrite($socket, 'Host: ' . $request['host'] . "\r\n");
-			fwrite($socket, "User-Agent: Mozilla/4.0 (compatible; Eolin; Textcube ".TEXTCUBE_VERSION.")\r\n");
+			fwrite($socket, "User-Agent: Mozilla/4.0 (compatible; Textcube ".TEXTCUBE_VERSION.")\r\n");
 			if (!is_null($this->referer))
 				fwrite($socket, "Referer: {$this->referer}\r\n");
 			if (!is_null($this->eTag))
