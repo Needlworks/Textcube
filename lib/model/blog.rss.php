@@ -151,7 +151,7 @@ function getCommentRSSTotal($blogid) {
 			'author' => '('.$row['name'].')', 
 			'pubDate' => Timestamp::getRFC1123($row['written']),
 			'comments' => $commentURL,
-			'guid' => $commentURL
+			'guid' => $commentURL.$row['id']
 		);
 		if($row['secret']) $item['author'] = $item['description'] = _text('비밀 댓글입니다');
 		array_push($channel['items'], $item);
@@ -201,12 +201,12 @@ function getCommentRSSByEntryId($blogid, $entryId) {
 		$item = array(
 			'id' => $row['id'], 
 			'title' => $row['title'], 
-			'link' => $channel['link']."#comment".$row['id'], 
+			'link' => $commentURL.$row['id'], 
 			'categories' => array(), 'description' => $content, 
 			'author' => '('.$row['name'].')', 
 			'pubDate' => Timestamp::getRFC1123($row['written']),
 			'comments' => $commentURL,
-			'guid' => $commentURL
+			'guid' => $commentURL.$row['id']
 		);
 		if($row['secret']) $item['author'] = $item['description'] = _text('비밀 댓글입니다');
 		array_push($channel['items'], $item);
@@ -251,7 +251,7 @@ function getTrackbackRSSTotal($blogid) {
 			'author' => '('.htmlspecialchars($row['site']).')', 
 			'pubDate' => Timestamp::getRFC1123($row['written']),
 			'comments' => $trackbackURL,
-			'guid' => $trackbackURL
+			'guid' => $trackbackURL.$row['id']
 		);
 		array_push($channel['items'], $item);
 	}
@@ -301,12 +301,12 @@ function getTrackbackRSSByEntryId($blogid, $entryId) {
 		$item = array(
 			'id' => $row['id'], 
 			'title' => $row['subject'], 
-			'link' => $channel['link']."#trackback".$row['id'], 
+			'link' => $trackbackURL.$row['id'], 
 			'categories' => array(), 'description' => $content, 
 			'author' => '('.htmlspecialchars($row['site']).')', 
 			'pubDate' => Timestamp::getRFC1123($row['written']),
 			'comments' => $trackbackURL,
-			'guid' => $trackbackURL
+			'guid' => $trackbackURL.$row['id']
 		);
 		array_push($channel['items'], $item);
 	}
