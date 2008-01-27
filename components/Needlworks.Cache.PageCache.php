@@ -36,6 +36,7 @@ class pageCache {
 		$this->contents =
 		$this->dbContents =
 		$this->_dbContents =
+		$this->_fileCacheOnly =
 		$this->error = 
 		null;
 	}
@@ -49,7 +50,7 @@ class pageCache {
 		$fileHandle = fopen($this->absoluteFilePath,'w');
 		if(fwrite($fileHandle, $this->contents)){
 			fclose($fileHandle);
-			$this->setPageCacheLog();
+			if(empty($this->_fileCacheOnly)) $this->setPageCacheLog();
 			@chmod($this->absoluteFilePath, 0666);
 			return true;
 		}
@@ -69,7 +70,7 @@ class pageCache {
 		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
 		$this->initialize();
 		if(!$this->getFileName()) return false;
-		$this->getdbContents();
+		if(empty($this->_fileCacheOnly)) $this->getdbContents();
 		if($this->getFileContents()) {
 			return true;
 		}
@@ -97,10 +98,10 @@ class pageCache {
 		{
 			if(file_exists($this->absoluteFilePathOwner)) @unlink($this->absoluteFilePathOwner);
 			if(file_exists($this->absoluteFilePathGuest)) @unlink($this->absoluteFilePathGuest);
-			$this->removePageCacheLog();
+			if(empty($this->_fileCacheOnly)) $this->removePageCacheLog();
 			return true;
 		} else {
-			$this->removePageCacheLog();
+			if(empty($this->_fileCacheOnly)) $this->removePageCacheLog();
 			return false;
 		}
 	}
