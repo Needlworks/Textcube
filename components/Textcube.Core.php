@@ -200,9 +200,9 @@ class Transaction {
 		if( !isset( $_SESSION['pickle'] ) ) {
 			$_SESSION['pickle'] = array();
 		}
-		$tid = md5( microtime(true) );
+		$tid = sprintf("%010dP%s",time(),md5( microtime(true) ));
 		while( isset( $_SESSION['pickle'][$tid] ) ) {
-			$tid = md5( microtime(true) );
+			$tid = sprintf("%010dP%s",time(),md5( microtime(true) ));
 			usleep(50);
 		}
 		$_SESSION['pickle'][$tid] = $data;
@@ -237,6 +237,22 @@ class Transaction {
 
 	function clear() {
 		if( isset( $_SESSION['pickle'] ) ) {
+			unset( $_SESSION['pickle'] );
+		}
+	}
+
+	function gc() {
+		if( !isset( $_SESSION['pickle'] ) ) {
+			return;
+		}
+		$current = time();
+		foreach( array_keys( $_SESSION['pickle'] ) as $k ) {
+			$created_time = int($k);
+			if( $created_time < $current - 3600 ) {
+				unset( $_SESSION['pickle'][$k] );
+			}
+		}
+		if( empty($_SESSION['pickle']) ) {
 			unset( $_SESSION['pickle'] );
 		}
 	}
