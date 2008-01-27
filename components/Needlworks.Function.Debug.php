@@ -150,6 +150,9 @@ function __tcSqlLogDump()
 			$commentBlosk = true;
 			break;
 		}
+		if (strpos($row, 'text/javascript') !== false) {
+			return;
+		}
 	}
 	
 	if ($commentBlosk == true) echo '<!--';
@@ -336,7 +339,7 @@ TBODY;
 
 ===============================================================================================
 $count_label:{$log['sql']}
-Elapsed:{$log['elapsed']} secs./End time:{$log['endtime']}/Percent:{$log['percent']}/Rows:{$log['rows']} rows
+Elapsed:{$log['elapsed']} ms/End time:{$log['endtime']}/Percent:{$log['percent']}/Rows:{$log['rows']} rows
 {$error}
 {$backtrace}
 TBODY;
