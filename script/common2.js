@@ -1220,7 +1220,7 @@ function copyUrl(url) {
 	} catch(e) {
 		if(isIE) {
 			window.clipboardData.setData('Text',url);
-			window.alert(s_trackbackUrlCopied);
+			window.alert(messages["trackbackUrlCopied"]);
 		}
 	}
 }
