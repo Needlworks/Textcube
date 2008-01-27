@@ -43,16 +43,25 @@ if( Acl::getIdentity('openid') ) {
 				var oForm = document.commentToComment;
 				var oButton = document.getElementById('commentSubmit');
 				oButton.value = '<?php echo _text('저장중');?>';
+				var tempOnClick = oButton.onclick;
 				oButton.onclick = 'return false;';
 				trimAll(oForm);
 <?php 
 if (!doesHaveMembership()) {
 ?>
-				if (!checkValue(oForm.name, '<?php echo _text('이름을 입력해 주십시오.');?>')) return false;
+				if (!checkValue(oForm.name, '<?php echo _text('이름을 입력해 주십시오.');?>')) {
+					oButton.value = '<?php echo _text('완료');?>';
+					oButton.onclick = tempOnClick; 
+					return false;
+				}
 <?php 
 }
 ?>
-				if (!checkValue(oForm.comment, '<?php echo _text('댓글을 입력해 주십시오.');?>')) return false;
+				if (!checkValue(oForm.comment, '<?php echo _text('댓글을 입력해 주십시오.');?>')) {
+					oButton.value = '<?php echo _text('완료');?>';
+					oButton.onclick = tempOnClick; 
+					return false;
+				}
 				oForm.submit();
 			}
 			function confirmOverwrite() {

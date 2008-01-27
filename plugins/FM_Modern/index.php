@@ -24,7 +24,7 @@ function FM_Modern_editorinit(&$editor) {
 		$config['restrictEditorMode'] = true;
 		$config['defaultmode'] = 'TEXTAREA';
 	} else if (!isset($config['defaultmode'])) {
-		$config['defaultmode'] = (getBlogSetting('editorMode', 1) == 1 ? 'WYSIWYG' : 'TEXTAREA');
+		$config['defaultmode'] = (setting::getBlogSetting('editorMode', 1) == 1 ? 'WYSIWYG' : 'TEXTAREA');
 	}
 
 	ob_start();
