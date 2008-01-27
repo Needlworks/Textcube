@@ -16,7 +16,7 @@ $IV = array(
 );
 require ROOT . '/lib/includeForBlog.php';
 requireComponent('Textcube.Function.Respond');
-requireComponent( 'Textcube.Control.Openid' );
+requireComponent('Textcube.Control.Openid');
 
 list($replier) = getCommentAttributes($blogid,$suri['id'],'replier');
 $comment = OpenIDConsumer::getCommentInfo( $blogid, $suri['id'] );

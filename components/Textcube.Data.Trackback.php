@@ -73,8 +73,7 @@ class Trackback {
 	
 	function add() {
 		global $database;
-		if (!isset($this->id))
-			$this->id = $this->nextId();
+		if (!isset($this->id)) $this->id = $this->nextId();
 		else $this->id = $this->nextId($this->id);
 		if (!isset($this->entry))
 			return $this->_error('entry');

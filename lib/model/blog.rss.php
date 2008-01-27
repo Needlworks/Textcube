@@ -285,7 +285,7 @@ function getTrackbackRSSByEntryId($blogid, $entryId) {
 		$channel['width'] = $logoInfo[0];
 		$channel['height'] = $logoInfo[1];
 	}
-	$result = POD::queryAll("SELECT *
+	$result = POD::queryAll("SELECT * 
 		FROM {$database['prefix']}Trackbacks
 		WHERE blogid = ".$blogid." 
 			AND entry = ".$entryId."

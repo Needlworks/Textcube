@@ -2,8 +2,6 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-requireComponent('Textcube.Function.Respond');
-
 $IV = array(
 	'POST' => array(
 		'url' => array('url', 'default' => ''),
@@ -16,6 +14,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlog.php';
+requireComponent('Textcube.Function.Respond');
 if (false) {
 	fetchConfigVal();
 }
