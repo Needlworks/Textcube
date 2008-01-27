@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.trackback");
-
+requireComponent('Textcube.Function.Respond');
 
 requireStrictRoute();
 if (deleteTrackbackLog($blogid, $suri['id']) !== false)

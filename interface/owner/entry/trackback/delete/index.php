@@ -9,7 +9,7 @@ $IV = array(
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.trackback");
-
+requireComponent('Textcube.Function.Respond');
 
 requireStrictRoute();
 
