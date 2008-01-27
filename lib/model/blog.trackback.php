@@ -74,10 +74,10 @@ function getTrackbackList($blogid, $search) {
 	return $list;
 }
 
-function getRecentTrackbacks($blogid, $count = false) {
+function getRecentTrackbacks($blogid, $count = false, $guestShip = false) {
 	global $database;
 	global $skinSetting;
-	$sql = doesHaveOwnership() ? "SELECT t.*, e.slogan 
+	$sql = (doesHaveOwnership() && !$guestShip) ? "SELECT t.*, e.slogan 
 		FROM 
 			{$database['prefix']}Trackbacks t
 			LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id

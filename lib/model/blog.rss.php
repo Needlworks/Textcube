@@ -215,6 +215,105 @@ function getCommentRSSByEntryId($blogid, $entryId) {
 	return publishRSS($blogid, $rss);
 }
 
+
+function getTrackbackRSSTotal($blogid) {
+	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
+
+	if(empty($blogid)) $blogid = getBlogId();
+
+	$channel = array();
+	$channel['title'] = $blog['title']. ': '._text('최근 트랙백 목록');
+	$channel['link'] = "$defaultURL/";
+	$channel['description'] = $blog['description'];
+	$channel['language'] = $blog['language'];
+	$channel['pubDate'] = Timestamp::getRFC1123();
+	$channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
+
+	if (!empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
+		$logoInfo = getimagesize(ROOT."/attach/$blogid/{$blog['logo']}");
+		$channel['url'] = $serviceURL."/attach/".$blogid."/".$blog['logo'];
+		$channel['width'] = $logoInfo[0];
+		$channel['height'] = $logoInfo[1];
+	}
+	$result = getRecentTrackbacks($blogid, 20, true);
+	if (!$result)
+		$result = array();
+
+	$channel['items'] = array();
+	foreach($result as $row) {
+		$trackbackURL = $defaultURL."/".$row['entry']."#trackback";
+		$content = htmlspecialchars($row['excerpt']);
+		$item = array(
+			'id' => $row['id'], 
+			'title' => $row['subject'], 
+			'link' => $trackbackURL.$row['id'], 
+			'categories' => array(), 'description' => $content, 
+			'author' => '('.htmlspecialchars($row['site']).')', 
+			'pubDate' => Timestamp::getRFC1123($row['written']),
+			'comments' => $trackbackURL,
+			'guid' => $trackbackURL
+		);
+		array_push($channel['items'], $item);
+	}
+	$rss = array('channel' => $channel);
+	return publishRSS($blogid, $rss);
+}
+
+function getTrackbackRSSByEntryId($blogid, $entryId) {
+	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
+
+	if(empty($blogid)) $blogid = getBlogId();
+	$entry = POD::queryRow("SELECT slogan, visibility, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
+	if(empty($entry)) return false;
+	if($entry['visibility'] < 2) return false;
+	if(in_array($entry['category'], getCategoryVisibilityList($blogid, 'private'))) return false;
+	$channel = array();
+	$channel['title'] = $blog['title']. ': '._textf('%1 에 달린 트랙백',$entry['slogan']);
+	if($blog['useSlogan']) {
+		$channel['link'] = $defaultURL."/entry/".URL::encode($entry['slogan'],true);
+	} else {
+		$channel['link'] = $defaultURL."/".$entryId;
+	}
+	$channel['description'] = $blog['description'];
+	$channel['language'] = $blog['language'];
+	$channel['pubDate'] = Timestamp::getRFC1123();
+	$channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
+
+	if (!empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
+		$logoInfo = getimagesize(ROOT."/attach/$blogid/{$blog['logo']}");
+		$channel['url'] = $serviceURL."/attach/".$blogid."/".$blog['logo'];
+		$channel['width'] = $logoInfo[0];
+		$channel['height'] = $logoInfo[1];
+	}
+	$result = POD::queryAll("SELECT *
+		FROM {$database['prefix']}Trackbacks
+		WHERE blogid = ".$blogid." 
+			AND entry = ".$entryId."
+			AND isFiltered = 0");
+	if (!$result)
+		$result = array();
+
+	$channel['items'] = array();
+
+	foreach($result as $row) {
+		$trackbackURL = $channel['link']."#trackback";
+		$content = htmlspecialchars($row['excerpt']);
+		$item = array(
+			'id' => $row['id'], 
+			'title' => $row['subject'], 
+			'link' => $channel['link']."#trackback".$row['id'], 
+			'categories' => array(), 'description' => $content, 
+			'author' => '('.htmlspecialchars($row['site']).')', 
+			'pubDate' => Timestamp::getRFC1123($row['written']),
+			'comments' => $trackbackURL,
+			'guid' => $trackbackURL
+		);
+		array_push($channel['items'], $item);
+	}
+	$rss = array('channel' => $channel);
+	return publishRSS($blogid, $rss);
+}
+
 function publishRSS($blogid, $data) {
 	global $blog;
 	$blogid = getBlogId();
