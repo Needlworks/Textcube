@@ -58,8 +58,11 @@ function TryAuthByRequest()
 		$requestURI = $blogURL;
 	}
 
-	$openid = $_GET['openid_identifier'];
 	$errmsg = "";
+	$openid = "";
+	if( !empty($_GET['openid_identifier']) ) {
+		$openid = $_GET['openid_identifier'];
+	}
 	if (empty($openid)) {
 		$errmsg = _text("오픈아이디를 입력하세요");
 	} else if (strstr($openid, ".") === false ) {
@@ -128,6 +131,9 @@ function LogoutOpenID()
 	print( "<html><body></body></html>" );
 }
 
+if( empty($_GET['action']) ) {
+	$_GET['action'] = 'try_auth';
+}
 switch( $_GET['action'] ) {
 case 'try_auth':
 	TryAuthByRequest();

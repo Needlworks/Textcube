@@ -64,7 +64,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 	
 	$result = addComment($blogid, $comment);
 	
-	if (in_array($result, array("ip", "name", "homepage", "comment", "etc"))) {
+	if (in_array($result, array("ip", "name", "homepage", "comment", "openidonly", "etc"))) {
 		switch ($result) {
 			case "name":
 				$errorString = _text('차단된 이름을 사용하고 계시므로 댓글을 남기실 수 없습니다.');
@@ -77,6 +77,9 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 				break;
 			case "comment":
 				$errorString = _text('금칙어를 사용하고 계시므로 댓글을 남기실 수 없습니다.');
+				break;
+			case "openidonly":
+				$errorString = _text('관리자 설정에 의해 오픈아이디로만 댓글을 남길 수 있습니다.');
 				break;
 			case "etc":
 				$errorString = _text('귀하는 차단되었으므로 사용하실 수 없습니다.');

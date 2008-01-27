@@ -359,7 +359,7 @@ function addComment($blogid, & $comment) {
 			$filtered = 1;
 		} elseif ( !Acl::check( "group.writers" ) && !Acl::getIdentity('openid') &&
 			getBlogSetting('AddCommentMode', '') == 'openid' ) {
-			$blockType = "etc";
+			$blockType = "openidonly";
 			$filtered = 1;
 		} else if (!fireEvent('AddingComment', true, $comment)) {
 			$blockType = "etc";

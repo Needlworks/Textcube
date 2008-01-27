@@ -142,6 +142,9 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 					$entry = array();
 					$entry['id'] = $comment['entry'];
 					$entry['slogan'] = getSloganById($blogid, $entry['id']);
+					if( Acl::getIdentity( 'openid' ) ) {
+						OpenIDConsumer::updateUserInfo( $comment['name'], $comment['homepage'] );
+					}
 					printHtmlHeader();
 					$tempComments = revertTempTags(removeAllTags(getCommentView($entry, $skin)));
 					$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments));

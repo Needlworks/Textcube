@@ -297,9 +297,24 @@ class OpenIDConsumer extends OpenID {
 
 	function printErrorReturn( $msg, $location )
 	{
-		header("HTTP/1.0 200 OK");
-		header("Content-type: text/html");
-		print "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /></head><body><script type='text/javascript'>//<![CDATA[" . CRLF . "alert('$msg');document.location.href='$location';//]]>" . CRLF . "</script></body></html>";
+		$query = split( '\?', $location );
+		$query = array_pop($query);
+		parse_str($query,$args);
+		if( !empty($args['tid']) ) {
+			$tid = $args['tid'];
+			$tr = Transaction::taste($tid);
+			$tr['openid_errormsg'] = $msg;
+			Transaction::repickle($tid,$tr);
+			header( "Location: $location" );
+		} else {
+			header("HTTP/1.0 200 OK");
+			header("Content-type: text/html");
+			print "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /></head><body><script type='text/javascript'>//<![CDATA[" . CRLF . "alert('$msg');";
+			if( $location ) {
+				print "document.location.href='$location';";
+			}
+			print "//]]>" . CRLF . "</script></body></html>";
+		}
 		exit(0);
 	}
 

@@ -987,6 +987,9 @@ function addComment(caller, entryId) {
 	var oForm = findFormObject(caller);
 	if (!oForm)
 		return false;
+	if( oForm.comment_type[0].checked && oForm.comment_type[0].value == 'openid' ) {
+		return addCommentWithOpenIDAuth(oForm, entryId);
+	}
 	var request = new HTTPRequest("POST", oForm.action);
 	request.onSuccess = function () {
 		document.getElementById("entry" + entryId + "Comment").innerHTML = this.getText("/response/commentBlock");
@@ -1075,6 +1078,135 @@ function addComment(caller, entryId) {
 		}
 	}
 	request.send(queryString);
+}
+
+function addCommentWithOpenIDAuth(oForm, entryId) {
+	if (!oForm)
+		return false;
+	form = document.createElement('form');
+
+	var action = oForm.action.split("/");
+	action.pop();
+	action.pop();
+	form.action = action.join("/");
+	form.action += "/addopenid/"+entryId+"?__T__="+(new Date()).getTime();
+	form.method = "post";
+
+	var input;
+	input = document.createElement('input');
+	input.type = 'hidden';
+	input.name = 'key';
+	input.value = commentKey;
+	form.appendChild( input );
+
+	input = document.createElement('input');
+	input.type = 'hidden';
+	input.name = 'requestURI';
+	input.value = document.location.href;
+	form.appendChild( input );
+
+	tempComment = 'comment_' + entryId;
+	tempHomepage = 'homepage_' + entryId;
+	tempSecret = 'secret_' + entryId;
+
+	for (i=0; i<oForm.elements.length; i++) {
+		// disabled 상태이면 패스.
+		if (oForm.elements[i].disabled == true)
+			continue;
+
+		var name = '';
+		var value = '';
+
+		if (oForm.elements[i].tagName.toLowerCase() == "input") {
+			switch (oForm.elements[i].type) {
+				case "checkbox":
+				case "radio":
+					if (oForm.elements[i].checked == true) {
+						if (oForm.elements[i].name == tempSecret) {
+							name = oForm.elements[i].name;
+						} else if (oForm.elements[i].id == tempSecret) {
+							name = oForm.elements[i].id;
+						} else if (oForm.elements[i].name != '') {
+							name = oForm.elements[i].name + '_' + entryId;
+						} else if (oForm.elements[i].id != '') {
+							name = oForm.elements[i].id;
+						}
+					}
+					break;
+				case "text":
+				case "password":
+				case "hidden":
+				case "button":
+				case "submit":
+					if (oForm.elements[i].name == tempHomepage) {
+						name = oForm.elements[i].name;
+					} else if (oForm.elements[i].id == tempHomepage) {
+						name = oForm.elements[i].id;
+					} else if (oForm.elements[i].name != '') {
+						name = oForm.elements[i].name + '_' + entryId;
+					} else if (oForm.elements[i].id != '') {
+						name = oForm.elements[i].id;
+					}
+					break;
+				//case "file":
+				//	break;
+			}
+			if( name ) {
+				value = oForm.elements[i].value;
+			}
+		} else if (oForm.elements[i].tagName.toLowerCase() == "select") {
+			num = oForm.elements[i].selectedIndex;
+			if (oForm.elements[i].name != '') {
+				name = oForm.elements[i].name + '_' + entryId;
+				value = oForm.elements[i].options[num].value;
+			} else if (oForm.elements[i].id != '') {
+				name = oForm.elements[i].id;
+				value = oForm.elements[i].options[num].value;
+			}
+		} else if (oForm.elements[i].tagName.toLowerCase() == "textarea") {
+			if (oForm.elements[i].name == tempComment) {
+				name = oForm.elements[i].name;
+				value = oForm.elements[i].value;
+			} else if (oForm.elements[i].name != '') {
+				name = oForm.elements[i].name + '_' + entryId;
+				value = oForm.elements[i].value;
+			} else if (oForm.elements[i].id != '') {
+				name = oForm.elements[i].id;
+				value = oForm.elements[i].value;
+			}
+		}
+		if( !name ) {
+			continue;
+		}
+		input = document.createElement( "input" );
+		input.type = 'hidden';
+		input.name = name;
+		input.value = value;
+		form.appendChild( input );
+	}
+	document.body.appendChild( form );
+	form.submit();
+}
+
+function recallLastComment(caller,entryId) {
+	alert("Not yet supported.");
+	var oForm = findFormObject(caller);
+	if (!oForm)
+		return false;
+
+	var action = oForm.action.split("/");
+	action.pop();
+	action.pop();
+	action = action.join("/");
+	action += "/recall?__T__="+(new Date()).getTime();
+
+	var request = new HTTPRequest("POST", action);
+	request.onSuccess = function () {
+	}
+
+	request.onError = function() {
+		alert(this.getText("/response/description"));
+	}
 }
 
 var openWindow='';

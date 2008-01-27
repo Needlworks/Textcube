@@ -23,7 +23,6 @@ class Skin {
 	var $locativeEntry;
 	var $guest;
 	var $guestForm;
-	var $guestFormOpenIDOnly;
 	var $guestGuest;
 	var $guestMember;
 	var $guestContainer;
@@ -45,7 +44,6 @@ class Skin {
 	var $comment;
 	var $commentCount;
 	var $commentForm;
-	var $commentFormOpenIDOnly;
 	var $commentGuest;
 	var $commentMember;
 	var $commentContainer;
@@ -87,7 +85,7 @@ class Skin {
 		//$this->singleCommentMessage = getBlogSetting('singleCommentMessage');
 		//$this->noneTrackbackMessage = getBlogSetting('noneTrackbackMessage');
 		//$this->singleTrackbackMessage = getBlogSetting('singleTrackbackMessage');
-		if($previewMode == true || !$this->loadCache()) {
+		if($previewMode == true || !empty($service['debug_skin_cache']) || !$this->loadCache()) {
 			$this->noneCommentMessage = $blog['noneCommentMessage'];
 			$this->singleCommentMessage = $blog['singleCommentMessage'];
 			$this->noneTrackbackMessage = $blog['noneTrackbackMessage'];
@@ -219,11 +217,8 @@ class Skin {
 			}
 			
 			list($sval, $this->guestGuest) = $this->cutSkinTag($sval, 'guest_form');
-			$this->guestGuest = "[##_openid_links_##]\r\n" . $this->guestGuest;
 			list($sval, $this->guestMember) = $this->cutSkinTag($sval, 'guest_member');
 			list($sval, $this->guestForm) = $this->cutSkinTag($sval, 'guest_input_form');
-			list($sval, $this->guestFormOpenIDOnly) = $this->cutSkinTag($sval, 'guest_input_form_openid_only');
-			$this->guestFormOpenIDOnly = "[##_openid_links_##]\r\n" . $this->guestFormOpenIDOnly;
 			list($sval, $this->guest) = $this->cutSkinTag($sval, 'guest');
 			list($sval, $this->entryProtected) = $this->cutSkinTag($sval, 'article_protected');
 			list($sval, $this->management) = $this->cutSkinTag($sval, 'ad_div');
@@ -270,11 +265,8 @@ class Skin {
 			}
 			
 			list($sval, $this->commentGuest) = $this->cutSkinTag($sval, 'rp_guest');
-			$this->commentGuest = "[##_openid_links_##]\r\n" . $this->commentGuest;
 			list($sval, $this->commentMember) = $this->cutSkinTag($sval, 'rp_member');
 			list($sval, $this->commentForm) = $this->cutSkinTag($sval, 'rp_input_form');
-			list($sval, $this->commentFormOpenIDOnly) = $this->cutSkinTag($sval, 'rp_input_form_openid_only');
-			$this->commentFormOpenIDOnly = "[##_openid_links_##]\r\n" . $this->commentFormOpenIDOnly;
 			list($sval, $this->comment) = $this->cutSkinTag($sval, 'rp');
 			
 			list($sval, $this->pageError) = $this->cutSkinTag($sval, 'page_error'); 
