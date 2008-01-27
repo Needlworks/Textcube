@@ -197,14 +197,14 @@ if (POD::queryCell("DESC {$database['prefix']}Sessions updated", 'Key') != 'MUL'
 if (POD::queryCell("DESC {$database['prefix']}Trackbacks blogid", 'Key') != 'PRI') {
 	$changed = true;
 	echo '<li>', _text('트랙백 불러오기 속도를 개선하기 위하여 트랙백 테이블의 인덱스 설정을 변경합니다.'), ': ';
-	POD::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP KEY written");
-	POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs DROP KEY id");
+	POD::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP INDEX written");
+	POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs DROP INDEX id");
 	if (POD::execute("ALTER TABLE {$database['prefix']}Trackbacks 
 			DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, id),
-			DROP KEY blogid,
-			ADD KEY blogid (blogid, isFiltered, written)")
+			DROP INDEX blogid,
+			ADD INDEX blogid (blogid, isFiltered, written)")
 		&&POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs
-			DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, entry, id), ADD UNIQUE KEY id (blogid, id)"))
+			DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, entry, id), ADD UNIQUE id (blogid, id)"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
