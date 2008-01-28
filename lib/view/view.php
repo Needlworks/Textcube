@@ -1384,6 +1384,13 @@ function addOpenIDPannel( $comment, $prefix )
 		$checked1 = ''; $checked2 = 'checked="checked"';
 		$disabled1 = 'disabled="disabled"'; $disabled2 = ''; 
 	}
+
+	$pannel_style = "style=\"float:left;width:100%; text-align:left\"";
+	$radio_style  = "style=\"float:left;width:15px;height:15px;border:0px;margin:0px;padding:0px;\"";
+	$label_style  = "style=\"float:left;display:inline;margin-top:0px; padding-left:5px\"";
+	$openid_input_style = 'style="padding-left:21px;width:165px;background-image:url('.$service['path'].'/image/icon_openid.gif'.');'.
+					'background-repeat:no-repeat;background-position:0px center"';
+
 	if( $openid_identity ) {
 		$openid_input = '<span><a href="'.$openid_identity.'">'.$openid_identity.'</a></span>'.CRLF;
 		$openid_input .= '<input type="hidden" name="openid_identifier" id="openid_identifier_[##_article_rep_id_##]" value="'.htmlentities($openid_identity).'" />';
@@ -1398,8 +1405,7 @@ function addOpenIDPannel( $comment, $prefix )
 			$openid_input = preg_replace( '/value=(?:"|\')?(?:[^"\']+)(?:"|\')?/', 'value="'.$cookie_openid.'"', $openid_input );
 			$openid_input = preg_replace( '/name=(?:"|\')?(?:[^"\']+)(?:"|\')?/', $disabled1.' name="openid_identifier"', $openid_input );
 			$openid_input = preg_replace( '/style=("|\')?([^"\']+)("|\')?/', '', $openid_input );
-			$openid_input = preg_replace( '/(value=(?:"|\'))/', 'style="padding-left:21px; width:165px; background:no-repeat url('.$service['path'].'/image/icon_openid.gif'.') " $1', $openid_input );
-			//$openid_input = _text('오픈아이디').' '.$openid_input;
+			$openid_input = preg_replace( '/(value=(?:"|\'))/', $openid_input_style.' $1', $openid_input );
 		}
 	}
 
@@ -1413,29 +1419,25 @@ function addOpenIDPannel( $comment, $prefix )
 		$comment = preg_replace( "/(.*)(<input)((?:[^>]+)\[##_{$prefix}_input_password_##\](?:[^>]+)>(?:.*))/sm", "$1$2 $disabled2 $3", $comment );
 	}
 
-	$radio_style = "style=\"float:left;width:15px;height:15px;border:0px;padding:0px;\"";
-	$label_style = "style=\"float:left;display:inline;padding-left:5px\"";
-	$pannel .= '<div class="comment_type_openid" style="float:left;width:100%;">'.
-		'<input '.$checked1.' type="radio" '.CRLF.
+	$pannel .= '<div class="commentTypeOpenid" '.$pannel_style.'>'.
+		'<input class="commentTypeCheckbox" '.$checked1.' type="radio" '.CRLF.
 			$radio_style.CRLF.
 			'id="comment_type_[##_article_rep_id_##]_openid" '.CRLF.
-			'name="comment_type" '.CRLF.
-			'value="openid" '.CRLF.
+			'name="comment_type" value="openid" '.CRLF.
 			'onclick="this.form.[##_'.$prefix.'_input_name_##].disabled=this.form.[##_'.$prefix.'_input_password_##].disabled=true;this.form.openid_identifier.disabled=false;this.form.openid_identifier.disabled=false;"'.CRLF.
 			'/> '.CRLF.
 		'<label for="comment_type_[##_article_rep_id_##]_openid" '.$label_style.'>'.
 		_text('오픈아이디로 글쓰기').
-		'</label> | '.($openid_identity ? $tag_logoff:$tag_login).' | '.$whatisopenid.$lastcomment.'</div>'.CRLF;
+		'</label><span> | '.($openid_identity ? $tag_logoff:$tag_login).' | '.$whatisopenid.$lastcomment.'</span></div>'.CRLF;
 	/* Opera browser does not work with single 'this.form.openid_identifier.disabled=false;', is it a bug? */
 
 	$pannel .= '<div style="padding:5px 0 5px 0px;width:100%;">'.$openid_input.'</div>'.CRLF;
 
-	$pannel .= '<div class="comment_type_namepassword" style="float:left;;width:100%;">'.CRLF.
-		'<input '.$checked2.' type="radio" '.CRLF.
+	$pannel .= '<div class="commentTypeNamepassword" '.$pannel_style.' >'.CRLF.
+		'<input class="commentTypeCheckbox" '.$checked2.' type="radio" '.CRLF.
 			$radio_style.CRLF.
 			'id="comment_type_[##_article_rep_id_##]_idpwd" '.CRLF.
-			'name="comment_type" '.CRLF.
-			'value="idpwd" '.CRLF.
+			'name="comment_type" value="idpwd" '.CRLF.
 			'onclick="this.form.[##_'.$prefix.'_input_name_##].disabled=this.form.[##_'.$prefix.'_input_password_##].disabled=false;this.form.openid_identifier.disabled=true;this.form.openid_identifier.disabled=true;"'.CRLF.
 			'/> '.CRLF.
 		'<label for="comment_type_[##_article_rep_id_##]_idpwd" '.$label_style.'>'.
