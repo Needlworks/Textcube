@@ -1413,29 +1413,32 @@ function addOpenIDPannel( $comment, $prefix )
 		$comment = preg_replace( "/(.*)(<input)((?:[^>]+)\[##_{$prefix}_input_password_##\](?:[^>]+)>(?:.*))/sm", "$1$2 $disabled2 $3", $comment );
 	}
 
-	$pannel .= '<div class="comment_type_openid">'.
+	$radio_style = "style=\"float:left;width:15px;height:15px;border:0px;padding:0px;\"";
+	$label_style = "style=\"float:left;display:inline;padding-left:5px\"";
+	$pannel .= '<div class="comment_type_openid" style="float:left;width:100%;">'.
 		'<input '.$checked1.' type="radio" '.CRLF.
-			'style="width:15px;height:15px;border:0px;padding:0px" '.CRLF.
+			$radio_style.CRLF.
 			'id="comment_type_[##_article_rep_id_##]_openid" '.CRLF.
 			'name="comment_type" '.CRLF.
 			'value="openid" '.CRLF.
-			'onclick="this.form.[##_'.$prefix.'_input_name_##].disabled=this.form.[##_'.$prefix.'_input_password_##].disabled=true;this.form.openid_identifier.disabled=false"'.CRLF.
+			'onclick="this.form.[##_'.$prefix.'_input_name_##].disabled=this.form.[##_'.$prefix.'_input_password_##].disabled=true;this.form.openid_identifier.disabled=false;this.form.openid_identifier.disabled=false;"'.CRLF.
 			'/> '.CRLF.
-		'<label for="comment_type_[##_article_rep_id_##]_openid" style="display:inline">'.
+		'<label for="comment_type_[##_article_rep_id_##]_openid" '.$label_style.'>'.
 		_text('오픈아이디로 글쓰기').
 		'</label> | '.($openid_identity ? $tag_logoff:$tag_login).' | '.$whatisopenid.$lastcomment.'</div>'.CRLF;
+	/* Opera browser does not work with single 'this.form.openid_identifier.disabled=false;', is it a bug? */
 
-	$pannel .= '<div style="padding:5px 0 5px 0px"><!--img style="margin: 0pt 5px; padding: 0pt;border:1px solid; border-color:#dddddd" src="'.$service['path'].'/image/icon_openid.gif" align="absmiddle" hspace="2" -->'.$openid_input.'</div>'.CRLF;
+	$pannel .= '<div style="padding:5px 0 5px 0px;width:100%;">'.$openid_input.'</div>'.CRLF;
 
-	$pannel .= '<div class="comment_type_namepassword">'.CRLF.
+	$pannel .= '<div class="comment_type_namepassword" style="float:left;;width:100%;">'.CRLF.
 		'<input '.$checked2.' type="radio" '.CRLF.
-			'style="width:15px;height:15px;border:0px;padding:0px" '.CRLF.
+			$radio_style.CRLF.
 			'id="comment_type_[##_article_rep_id_##]_idpwd" '.CRLF.
 			'name="comment_type" '.CRLF.
 			'value="idpwd" '.CRLF.
-			'onclick="this.form.[##_'.$prefix.'_input_name_##].disabled=this.form.[##_'.$prefix.'_input_password_##].disabled=false;this.form.openid_identifier.disabled=true"'.CRLF.
+			'onclick="this.form.[##_'.$prefix.'_input_name_##].disabled=this.form.[##_'.$prefix.'_input_password_##].disabled=false;this.form.openid_identifier.disabled=true;this.form.openid_identifier.disabled=true;"'.CRLF.
 			'/> '.CRLF.
-		'<label for="comment_type_[##_article_rep_id_##]_idpwd" style="display:inline">'.
+		'<label for="comment_type_[##_article_rep_id_##]_idpwd" '.$label_style.'>'.
 		'이름/비밀번호로 글쓰기</label> '.$openidOnlySettingNotice.'</div>'.CRLF;
 	$comment = $pannel.$comment."</div>";
 	return $comment;
