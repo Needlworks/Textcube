@@ -124,7 +124,7 @@ if (array_key_exists('phpinfo',$_GET)) {
 </head>
 <body onload="init()">
 <div id="container">
-  <form id="setup" name="setup" method="post" action="<?php echo dirname($_SERVER['PHP_SELF']) . '/setup.php';?>">
+  <form id="setup" name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
   <div id="title"><h1><img src="style/setup/title.gif" width="253" height="44" alt="<?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> Setup" /></h1></div>
   <input type="hidden" name="Lang" id="Lang" value="<?php echo $baseLanguage;?>" />
 <?php
