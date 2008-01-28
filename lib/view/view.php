@@ -319,16 +319,16 @@ function getCommentView($entry, $skin) {
 		if (!($skin->commentForm == '')) {
 			$commentRrevView = $commentView;
 			$commentView = $skin->commentForm;
-			$skin->commentGuest = addOpenIDPannel( $skin->commentGuest, 'rp' );
 			$useForm = true;
 		}
+		$skin->commentGuest = addOpenIDPannel( $skin->commentGuest, 'rp' );
 	} else {
 		if (!($skin->guestForm == '')) {
 			$commentRrevView = $commentView;
 			$commentView = $skin->guestForm;
-			$skin->guestGuest = addOpenIDPannel( $skin->guestGuest, 'guest' );
 			$useForm = true;
 		}
+		$skin->guestGuest = addOpenIDPannel( $skin->guestGuest, 'guest' );
 	}
 
 	$default_guestname = '';
@@ -1347,6 +1347,10 @@ function printScript($filename, $obfuscate = true) {
 
 function addOpenIDPannel( $comment, $prefix )
 {
+	if( !isActivePlugin( 'CL_OpenID' ) ) {
+		return $comment;
+	}
+
 	global $service,$blogURL;
 	$openid_identity = Acl::getIdentity('openid');
 	$whatisopenid = '<a target="_blank" href="'._text('http://www.google.co.kr/search?q=OpenID&amp;lr=lang_ko').'"><span style="color:#ff6200">'._text('오픈아이디란?').'</span></a>';
@@ -1358,85 +1362,82 @@ function addOpenIDPannel( $comment, $prefix )
 		$openidOnlySettingNotice = "<b>"._text('오픈아이디로만 댓글을 남길 수 있습니다')."</b>";
 	}
 
-	if( isActivePlugin( 'CL_OpenID' ) ) {
+	$tag_login = '<a href="'.$blogURL.'/login/openid/guest?requestURI='.
+			urlencode( $_SERVER["REQUEST_URI"] ).
+			'"><span style="color:#ff6200">'._text('오픈아이디').' '._text('로그인').'</span></a>';
 
-		$tag_login = '<a href="'.$blogURL.'/login/openid/guest?requestURI='.
-				urlencode( $_SERVER["REQUEST_URI"] ).
-				'"><span style="color:#ff6200">'._text('오픈아이디').' '._text('로그인').'</span></a>';
+	$tag_logoff = '<a href="'.$blogURL.'/login/openid?action=logout&requestURI='.
+			urlencode( $_SERVER["REQUEST_URI"] ).
+			'"><span style="">'._text('로그아웃').'</span></a>';
 
-		$tag_logoff = '<a href="'.$blogURL.'/login/openid?action=logout&requestURI='.
-				urlencode( $_SERVER["REQUEST_URI"] ).
-				'"><span style="">'._text('로그아웃').'</span></a>';
+	$pannel = '<div class="commentOuterPannel">'.CRLF;
+	$openid_input = 'OPENID_TAG_NEEDED';
 
-		$pannel = '<div class="commentOuterPannel">'.CRLF;
-		$openid_input = 'OPENID_TAG_NEEDED';
-
-		$cookie_openid = '';
-		if( !empty( $_COOKIE['openid'] ) ) {
-			$cookie_openid = $_COOKIE['openid'];
-		}
-		if( $openidOnlySettingNotice || $openid_identity ) {
-			$checked1 = 'checked="checked"'; $checked2 = '';
-			$disabled1 = ''; $disabled2 = 'disabled="disabled"'; 
-		} else {
-			$checked1 = ''; $checked2 = 'checked="checked"';
-			$disabled1 = 'disabled="disabled"'; $disabled2 = ''; 
-		}
-		if( $openid_identity ) {
-			$openid_input = '<span><a href="'.$openid_identity.'">'.$openid_identity.'</a></span>'.CRLF;
-			$openid_input .= '<input type="hidden" name="openid_identifier" id="openid_identifier_[##_article_rep_id_##]" value="'.htmlentities($openid_identity).'" />';
-			$openid_input = _text('현재 로그인한 오픈아이디').' '.$openid_input;
-			$_COOKIE['guestHomepage'] = $_SESSION['openid']['homepage'];
-			$_COOKIE['guestName'] = $_SESSION['openid']['nickname'];
-		} else {
-			if( preg_match( '/.*?(<input[^>]+_(?:guest|rp)_input_homepage_[^>]+>).*/sm', $comment, $match ) ) {
-				$openid_input = $match[1];
-				$openid_input = str_replace( 'homepage_[##', 'openid_identifier_[##', $openid_input );
-				$openid_input = str_replace( '[##_'.$prefix.'_input_homepage_##]_[##', 'openid_identifier_[##', $openid_input );
-				$openid_input = preg_replace( '/value=(?:"|\')?(?:[^"\']+)(?:"|\')?/', 'value="'.$cookie_openid.'"', $openid_input );
-				$openid_input = preg_replace( '/name=(?:"|\')?(?:[^"\']+)(?:"|\')?/', $disabled1.' name="openid_identifier"', $openid_input );
-				$openid_input = preg_replace( '/style=("|\')?([^"\']+)("|\')?/', '', $openid_input );
-				$openid_input = preg_replace( '/(value=(?:"|\'))/', 'style="padding-left:21px; width:165px; background:no-repeat url('.$service['path'].'/image/icon_openid.gif'.') " $1', $openid_input );
-				//$openid_input = _text('오픈아이디').' '.$openid_input;
-			}
-		}
-
-		if( $disabled1 ) {
-			$openid_input = preg_replace( '/(name=(?:"|\'))/', $disabled1.' $1', $openid_input );
-		}
-		if( $disabled2 ) {
-			$comment = preg_replace( "/(.*)(<input)((?:[^>]+)name_\[##_article_rep_id_##\](?:[^>]+)>(?:.*))/sm", "$1$2 $disabled2 $3", $comment );
-			$comment = preg_replace( "/(.*)(<input)((?:[^>]+)password_\[##_article_rep_id_##\](?:[^>]+)>(?:.*))/sm", "$1$2 $disabled2 $3", $comment );
-			$comment = preg_replace( "/(.*)(<input)((?:[^>]+)\[##_{$prefix}_input_name_##\](?:[^>]+)>(?:.*))/sm", "$1$2 $disabled2 $3", $comment );
-			$comment = preg_replace( "/(.*)(<input)((?:[^>]+)\[##_{$prefix}_input_password_##\](?:[^>]+)>(?:.*))/sm", "$1$2 $disabled2 $3", $comment );
-		}
-
-		$pannel .= '<div class="comment_type_openid">'.
-			'<input '.$checked1.' type="radio" '.CRLF.
-				'style="width:15px;height:15px;border:0px;padding:0px" '.CRLF.
-				'id="comment_type_[##_article_rep_id_##]_openid" '.CRLF.
-				'name="comment_type" '.CRLF.
-				'value="openid" '.CRLF.
-				'onclick="this.form.[##_'.$prefix.'_input_name_##].disabled=this.form.[##_'.$prefix.'_input_password_##].disabled=true;this.form.openid_identifier.disabled=false"'.CRLF.
-				'/> '.CRLF.
-			'<label for="comment_type_[##_article_rep_id_##]_openid" style="display:inline">'.
-			_text('오픈아이디로 글쓰기').
-			'</label> | '.($openid_identity ? $tag_logoff:$tag_login).' | '.$whatisopenid.$lastcomment.'</div>'.CRLF;
-
-		$pannel .= '<div style="padding:5px 0 5px 0px"><!--img style="margin: 0pt 5px; padding: 0pt;border:1px solid; border-color:#dddddd" src="'.$service['path'].'/image/icon_openid.gif" align="absmiddle" hspace="2" -->'.$openid_input.'</div>'.CRLF;
-
-		$pannel .= '<div class="comment_type_namepassword">'.CRLF.
-			'<input '.$checked2.' type="radio" '.CRLF.
-				'style="width:15px;height:15px;border:0px;padding:0px" '.CRLF.
-				'id="comment_type_[##_article_rep_id_##]_idpwd" '.CRLF.
-				'name="comment_type" '.CRLF.
-				'value="idpwd" '.CRLF.
-				'onclick="this.form.[##_'.$prefix.'_input_name_##].disabled=this.form.[##_'.$prefix.'_input_password_##].disabled=false;this.form.openid_identifier.disabled=true"'.CRLF.
-				'/> '.CRLF.
-			'<label for="comment_type_[##_article_rep_id_##]_idpwd" style="display:inline">'.
-			'이름/비밀번호로 글쓰기</label> '.$openidOnlySettingNotice.'</div>'.CRLF;
-		$comment = $pannel.$comment."</div>";
+	$cookie_openid = '';
+	if( !empty( $_COOKIE['openid'] ) ) {
+		$cookie_openid = $_COOKIE['openid'];
 	}
+	if( $openidOnlySettingNotice || $openid_identity ) {
+		$checked1 = 'checked="checked"'; $checked2 = '';
+		$disabled1 = ''; $disabled2 = 'disabled="disabled"'; 
+	} else {
+		$checked1 = ''; $checked2 = 'checked="checked"';
+		$disabled1 = 'disabled="disabled"'; $disabled2 = ''; 
+	}
+	if( $openid_identity ) {
+		$openid_input = '<span><a href="'.$openid_identity.'">'.$openid_identity.'</a></span>'.CRLF;
+		$openid_input .= '<input type="hidden" name="openid_identifier" id="openid_identifier_[##_article_rep_id_##]" value="'.htmlentities($openid_identity).'" />';
+		$openid_input = _text('현재 로그인한 오픈아이디').' '.$openid_input;
+		$_COOKIE['guestHomepage'] = $_SESSION['openid']['homepage'];
+		$_COOKIE['guestName'] = $_SESSION['openid']['nickname'];
+	} else {
+		if( preg_match( '/.*?(<input[^>]+_(?:guest|rp)_input_homepage_[^>]+>).*/sm', $comment, $match ) ) {
+			$openid_input = $match[1];
+			$openid_input = str_replace( 'homepage_[##', 'openid_identifier_[##', $openid_input );
+			$openid_input = str_replace( '[##_'.$prefix.'_input_homepage_##]_[##', 'openid_identifier_[##', $openid_input );
+			$openid_input = preg_replace( '/value=(?:"|\')?(?:[^"\']+)(?:"|\')?/', 'value="'.$cookie_openid.'"', $openid_input );
+			$openid_input = preg_replace( '/name=(?:"|\')?(?:[^"\']+)(?:"|\')?/', $disabled1.' name="openid_identifier"', $openid_input );
+			$openid_input = preg_replace( '/style=("|\')?([^"\']+)("|\')?/', '', $openid_input );
+			$openid_input = preg_replace( '/(value=(?:"|\'))/', 'style="padding-left:21px; width:165px; background:no-repeat url('.$service['path'].'/image/icon_openid.gif'.') " $1', $openid_input );
+			//$openid_input = _text('오픈아이디').' '.$openid_input;
+		}
+	}
+
+	if( $disabled1 ) {
+		$openid_input = preg_replace( '/(name=(?:"|\'))/', $disabled1.' $1', $openid_input );
+	}
+	if( $disabled2 ) {
+		$comment = preg_replace( "/(.*)(<input)((?:[^>]+)name_\[##_article_rep_id_##\](?:[^>]+)>(?:.*))/sm", "$1$2 $disabled2 $3", $comment );
+		$comment = preg_replace( "/(.*)(<input)((?:[^>]+)password_\[##_article_rep_id_##\](?:[^>]+)>(?:.*))/sm", "$1$2 $disabled2 $3", $comment );
+		$comment = preg_replace( "/(.*)(<input)((?:[^>]+)\[##_{$prefix}_input_name_##\](?:[^>]+)>(?:.*))/sm", "$1$2 $disabled2 $3", $comment );
+		$comment = preg_replace( "/(.*)(<input)((?:[^>]+)\[##_{$prefix}_input_password_##\](?:[^>]+)>(?:.*))/sm", "$1$2 $disabled2 $3", $comment );
+	}
+
+	$pannel .= '<div class="comment_type_openid">'.
+		'<input '.$checked1.' type="radio" '.CRLF.
+			'style="width:15px;height:15px;border:0px;padding:0px" '.CRLF.
+			'id="comment_type_[##_article_rep_id_##]_openid" '.CRLF.
+			'name="comment_type" '.CRLF.
+			'value="openid" '.CRLF.
+			'onclick="this.form.[##_'.$prefix.'_input_name_##].disabled=this.form.[##_'.$prefix.'_input_password_##].disabled=true;this.form.openid_identifier.disabled=false"'.CRLF.
+			'/> '.CRLF.
+		'<label for="comment_type_[##_article_rep_id_##]_openid" style="display:inline">'.
+		_text('오픈아이디로 글쓰기').
+		'</label> | '.($openid_identity ? $tag_logoff:$tag_login).' | '.$whatisopenid.$lastcomment.'</div>'.CRLF;
+
+	$pannel .= '<div style="padding:5px 0 5px 0px"><!--img style="margin: 0pt 5px; padding: 0pt;border:1px solid; border-color:#dddddd" src="'.$service['path'].'/image/icon_openid.gif" align="absmiddle" hspace="2" -->'.$openid_input.'</div>'.CRLF;
+
+	$pannel .= '<div class="comment_type_namepassword">'.CRLF.
+		'<input '.$checked2.' type="radio" '.CRLF.
+			'style="width:15px;height:15px;border:0px;padding:0px" '.CRLF.
+			'id="comment_type_[##_article_rep_id_##]_idpwd" '.CRLF.
+			'name="comment_type" '.CRLF.
+			'value="idpwd" '.CRLF.
+			'onclick="this.form.[##_'.$prefix.'_input_name_##].disabled=this.form.[##_'.$prefix.'_input_password_##].disabled=false;this.form.openid_identifier.disabled=true"'.CRLF.
+			'/> '.CRLF.
+		'<label for="comment_type_[##_article_rep_id_##]_idpwd" style="display:inline">'.
+		'이름/비밀번호로 글쓰기</label> '.$openidOnlySettingNotice.'</div>'.CRLF;
+	$comment = $pannel.$comment."</div>";
 	return $comment;
 }
 ?>
