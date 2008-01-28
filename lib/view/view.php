@@ -218,6 +218,8 @@ function getCommentView($entry, $skin) {
 	} else {
 		$comments = getComments($entry['id']);
 	}
+	$skin->commentGuest = addOpenIDPannel( $skin->commentGuest, 'rp' );
+	$skin->guestGuest   = addOpenIDPannel( $skin->guestGuest, 'guest' );
 
 	foreach ($comments as $commentItem) {
 		$commentItemView = ($isComment ? $skin->commentItem : $skin->guestItem);
@@ -321,14 +323,12 @@ function getCommentView($entry, $skin) {
 			$commentView = $skin->commentForm;
 			$useForm = true;
 		}
-		$skin->commentGuest = addOpenIDPannel( $skin->commentGuest, 'rp' );
 	} else {
 		if (!($skin->guestForm == '')) {
 			$commentRrevView = $commentView;
 			$commentView = $skin->guestForm;
 			$useForm = true;
 		}
-		$skin->guestGuest = addOpenIDPannel( $skin->guestGuest, 'guest' );
 	}
 
 	$default_guestname = '';
