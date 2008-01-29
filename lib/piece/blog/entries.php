@@ -16,7 +16,7 @@ if (isset($cache->contents)) {
 			"title='".$entry['title']." - ".$blog['title']."' ".
 			"href='$blogURL/trackback/rss/{$entry['id']}' />".CRLF;
 	}
-	dress('SKIN_head_end', $trackbackRsses, $view);
+	dress('SKIN_head_end', $trackbackRsses."[##_SKIN_head_end_##]", $view);
 	foreach ($entries as $entry) {
 		if ($suri['directive'] == '/notice')
 			$permalink = "$blogURL/notice/{$entry['id']}";
