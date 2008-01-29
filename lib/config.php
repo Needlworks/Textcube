@@ -97,6 +97,7 @@ if(isset($accessInfo)) {
 		'root'     => array('string'),
 		'input'    => array('string', 'mandatory' => false)
 	);
+	$accessInfo['input'] = urldecode($accessInfo['input']);
 	Validator::validateArray($accessInfo, $basicIV);
 }
 ?>
