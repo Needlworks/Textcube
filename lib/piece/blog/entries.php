@@ -17,7 +17,7 @@ if (isset($cache->contents)) {
 			"href='$blogURL/trackback/rss/{$entry['id']}' />".CRLF;
 		$entryRsses .= "<link rel='alternate' type='application/rss+xml' ".
 			"title='Comment: ".$entry['title']." - ".$blog['title']."' ".
-			"href='$blogURL/trackback/rss/{$entry['id']}' />".CRLF;
+			"href='$blogURL/comment/rss/{$entry['id']}' />".CRLF;
 	}
 	dress('SKIN_head_end', $entryRsses."[##_SKIN_head_end_##]", $view);
 	foreach ($entries as $entry) {
