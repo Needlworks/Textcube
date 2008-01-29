@@ -86,11 +86,11 @@ if (is_numeric($suri['value'])) {
 } else {
 	$suri['value'] = decodeURL(str_replace('index.php','',$suri['value']));
 }
-
+/*
 if( function_exists( 'mb_detect_encoding' ) && function_exists('iconv') ) {
 	$encoding = mb_detect_encoding($suri['value'], 'UTF-8,EUC-KR,SHIFT_JIS,EUC-JP,BIG5,EUC-CN,EUC-TW,GBK');
 	$suri['value'] = @iconv( $encoding, 'UTF-8', $suri['value'] );
-}
+}*/
 
 // Parse page.
 $suri['page'] = empty($_POST['page']) ? (empty($_GET['page']) ? true : $_GET['page']) : $_POST['page'];
