@@ -1401,7 +1401,7 @@ function addOpenIDPannel( $comment, $prefix )
 		if( preg_match( '/.*?(<input[^>]+_(?:guest|rp)_input_homepage_[^>]+>).*/sm', $comment, $match ) ) {
 			$openid_input = $match[1];
 			$openid_input = str_replace( 'homepage_[##', 'openid_identifier_[##', $openid_input );
-			$openid_input = str_replace( '[##_'.$prefix.'_input_homepage_##]_[##', 'openid_identifier_[##', $openid_input );
+			$openid_input = str_replace( '[##_'.$prefix.'_input_homepage_##]', 'openid_identifier', $openid_input );
 			$openid_input = preg_replace( '/value=(?:"|\')?(?:[^"\']+)(?:"|\')?/', 'value="'.$cookie_openid.'"', $openid_input );
 			$openid_input = preg_replace( '/style=("|\')?([^"\']+)("|\')?/', '', $openid_input );
 			$openid_input = preg_replace( '/(value=(?:"|\'))/', $openid_input_style.' $1', $openid_input );
