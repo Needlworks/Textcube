@@ -164,12 +164,12 @@ function getCommentRSSByEntryId($blogid, $entryId) {
 	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
 
 	if(empty($blogid)) $blogid = getBlogId();
-	$entry = POD::queryRow("SELECT slogan, visibility, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
+	$entry = POD::queryRow("SELECT slogan, visibility, title, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
 	if(empty($entry)) return false;
 	if($entry['visibility'] < 2) return false;
 	if(in_array($entry['category'], getCategoryVisibilityList($blogid, 'private'))) return false;
 	$channel = array();
-	$channel['title'] = $blog['title']. ': '._textf('%1 에 달린 댓글',$entry['slogan']);
+	$channel['title'] = $blog['title']. ': '.sprintf(_text('%s 에 달린 댓글'),$entry['title']);
 	if($blog['useSlogan']) {
 		$channel['link'] = $defaultURL."/entry/".URL::encode($entry['slogan'],true);
 	} else {
@@ -200,7 +200,7 @@ function getCommentRSSByEntryId($blogid, $entryId) {
 		$content = htmlspecialchars($row['comment']);
 		$item = array(
 			'id' => $row['id'], 
-			'title' => $row['title'], 
+			'title' => sprintf( _text('%s님의 댓글'), $row['name'] ), 
 			'link' => $commentURL.$row['id'], 
 			'categories' => array(), 'description' => $content, 
 			'author' => '('.$row['name'].')', 
