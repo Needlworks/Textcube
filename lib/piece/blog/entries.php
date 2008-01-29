@@ -10,6 +10,13 @@ if (isset($cache->contents)) {
 	if(strpos($cache->name,'keyword')!==false) $isKeylog = true;
 } else if(isset($entries)) {
 	$totalTags = array();
+	$trackbackRsses = '';
+	foreach ($entries as $entry) {
+		$trackbackRsses = "<link rel='alternate' type='application/rss+xml' ".
+			"title='".$entry['title']." - ".$blog['title']."' ".
+			"href='$blogURL/trackback/rss/{$entry['id']}' />".CRLF;
+	}
+	dress('SKIN_head_end', $trackbackRsses, $view);
 	foreach ($entries as $entry) {
 		if ($suri['directive'] == '/notice')
 			$permalink = "$blogURL/notice/{$entry['id']}";
