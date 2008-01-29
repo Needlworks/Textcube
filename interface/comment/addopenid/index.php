@@ -75,7 +75,7 @@ if( $openid_identity ) {
 		$requestURI = urlencode("$blogURL/comment/addopenid/$entryId?tid=$tid&__T__=".$_GET['__T__']);
 
 		/* eas_mode will redirect your browser to the IdP authentication page in EAS4.js addComment-onError handler */
-		header( "Location: $blogURL/login/openid?action=try_auth&openid_remember=y&requestURI=$requestURI".
+		header( "Location: $blogURL/login/openid?action=try_auth&openid_remember=y&requestURI=$requestURI&fallbackURI=".urlencode($_POST["requestURI"]).
 			"&openid_identifier=".urlencode($_POST["openid_identifier_$entryId"]) );
 		exit;
 	} else {

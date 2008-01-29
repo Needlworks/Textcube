@@ -1,7 +1,14 @@
 <?php
-/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
+/// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+
+/* There are 3 pages related with the user as openid login */
+/* 
+	1. requestURI: the target uri with authentication success.
+	2. fallbackURI: the openid identifier input form uri.
+	3. tryAuthURI: the entrance uri of openid authentication.
+ */
 
 $IV = array(
 	'GET' => array(
@@ -11,6 +18,7 @@ $IV = array(
 		'openid_cancel' => array('string', 'mandatory' => false ),
 		'openid_cancel_x' => array('string', 'mandatory' => false ),
 		'requestURI' => array('string', 'mandatory' => false ),
+		'fallbackURI' => array('string', 'mandatory' => false ),
 		'authenticate_only' => array('number', 'mandatory' => false ),
 		'need_writers' => array('number', 'mandatory' => false ),
 		'mode' => array('string', 'mandatory' => false ),
@@ -38,24 +46,29 @@ function _openid_ip_address()
 function TryAuthByRequest()
 {
 	global $hostURL, $blogURL;
+	/* User clicked cancel button at login form */
 	if( isset($_GET['openid_cancel']) || isset($_GET['openid_cancel_x']) ) {
 		header( "Location: " . $hostURL . $blogURL);
 		exit(0);
-	}
-
-	$tr = array();
-	if( !empty($_GET['need_writers'])) {
-		$fallback_location = "$blogURL/login";
-		$tr['need_writers'] = '1';
-	} else {
-		$fallback_location = "$blogURL/login/openid/guest";
-		$tr['need_writers'] = '';
 	}
 
 	if( !empty( $_GET['requestURI'] ) ) {
 		$requestURI = $_GET['requestURI'];
 	} else {
 		$requestURI = $blogURL;
+	}
+
+	$tr = array();
+	$tr['need_writers'] = '';
+	if( empty($_GET['fallbackURI']) ) {
+		if( !empty($_GET['need_writers'])) {
+			$tr['fallbackURI'] = "$blogURL/login?requestURI=" . urlencode($requestURI);
+			$tr['need_writers'] = '1';
+		} else {
+			$tr['fallbackURI'] = "$blogURL/login/openid/guest?requestURI=" . urlencode($requestURI);
+		}
+	} else {
+		$tr['fallbackURI'] = $_GET['fallbackURI'];
 	}
 
 	$errmsg = "";
@@ -72,8 +85,7 @@ function TryAuthByRequest()
 		}
 	}
 	if( $errmsg ) {
-		$location = "$fallback_location?requestURI=" . urlencode($requestURI);
-		OpenIDConsumer::printErrorReturn( $errmsg, $location );
+		OpenIDConsumer::printErrorReturn( $errmsg, $tr['fallbackURI'] );
 		exit(0);
 	}
 
