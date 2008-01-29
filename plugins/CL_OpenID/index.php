@@ -60,9 +60,9 @@ function openid_add_delegate($target)
 		return $target;
 	}
 	$target ="<!--OpenID Delegation Begin-->
-<link rel='openid.server' href='$openid_server' />
-<link rel='openid.delegate' href='$openid_delegate' />
-<meta http-equiv='X-XRDS-Location' content='$openid_xrduri' />
+<link rel=\"openid.server\" href=\"$openid_server\" />
+<link rel=\"openid.delegate\" href=\"$openid_delegate\" />
+<meta http-equiv=\"X-XRDS-Location\" content=\"$openid_xrduri\" />
 <!--OpenID Delegation End-->
 $target";
 	header( "X-XRDS-Location: $openid_xrduri" );
