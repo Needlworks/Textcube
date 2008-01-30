@@ -56,7 +56,7 @@ if($bloglist){
  		foreach($result as $row) {
  			$bsetting[$row['name']] = $row['value'];
  		}
-		$bsetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}teamblog` WHERE acl & ".BITWISE_OWNER." != 0 AND blogid = " . $itemBlogId);
+		$bsetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}TeamBlog` WHERE acl & ".BITWISE_OWNER." != 0 AND blogid = " . $itemBlogId);
 		?>
 
 <tr id="table-blog-list_<?php echo $itemBlogId?>">
