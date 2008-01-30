@@ -30,14 +30,14 @@ if ( $service['type'] == "single" ) {
 <div id=container-add-blog>
 <form onsubmit="return false;">
 <span class="label"><?php echo _t('소유자'); ?> : </span>
-<span id="sgtOwner"><input type="text" class="bi-owner-loginid" name="location" value="<?php echo getUserEmail(1);?>" /></span><?php echo _t('블로그 식별자'); ?> : <input type=text name='bi-identify' id='bi-identify'>
+<span id="sgtOwner"><input type="text" class="bi-owner-loginid" name="location" value="<?php echo getUserEmail(1);?>" /></span>&nbsp;<?php echo _t('블로그 구분자'); ?> : <input type=text name='bi-identify' id='bi-identify'>
 <input type=submit value="<?php echo _t("새 블로그 생성");?>" onclick="sendBlogAddInfo(ctlUserSuggestObj.getValue(),document.getElementById('bi-identify').value);return false;">
 </form>
 </div>
 <h2 class="caption"><span class="main-text">Blog List</span></h2>
 <div id=container-blog-list class='part'>
 <table class="data-inbox" id="table-blog-list" cellpadding="0" cellspacing="0">
-<thead><tr><th>블로그 ID</th><th>블로그 구분자</th><th>블로그 제목</th><th>블로그 소유자</th></tr></thead>
+<thead><tr><th><?php echo _t('블로그 ID')?></th><th><?php echo _t('블로그 구분자')?></th><th><?php echo _t('블로그 제목')?></th><th><?php echo _t('블로그 소유자')?></th></tr></thead>
 <tbody>
 <?php
 $row = 25;
