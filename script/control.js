@@ -355,7 +355,7 @@ function sendUserAddInfo(name,email) {
 	}
 	request.onError = function() {
 		msg = this.getText("/response/result");
-		alert(_t('사용자를 추가하지 못했습니다.') + "Error : \r\n" + msg);
+		alert(_t('사용자를 추가하지 못했습니다.') + "\r\nError : " + msg);
 	}
 	request.send();
 }
@@ -368,7 +368,7 @@ function sendBlogAddInfo(owner,identify) {
 	}
 	request.onError = function() {
 		msg = this.getText("/response/result");
-		alert(_t('블로그를 추가하지 못했습니다.') + "Error : \r\n" + msg);
+		alert(_t('블로그를 추가하지 못했습니다.') + "\r\nError : " + msg);
 	}
 	request.send();
 }
