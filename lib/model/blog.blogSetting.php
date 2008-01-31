@@ -519,7 +519,7 @@ function removeBlog($blogid) {
 	POD::execute("DELETE FROM {$database['prefix']}RefererStatistics WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}TeamBlog WHERE blogid = $blogid");
+	POD::execute("DELETE FROM {$database['prefix']}Teamblog WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = $blogid");
 	
