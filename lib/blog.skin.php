@@ -469,8 +469,8 @@ function applyMicroformats( $type, $content ) {
 			$content );
 		$content = str_replace( 
 			"[##_article_rep_date_##]", 
-			"<abbr class=\"published\" title=\"[##_article_rep_microformat_published_##]\" >[##_article_rep_date_##]</abbr>". 
-			"<abbr class=\"updated\" title=\"[##_article_rep_microformat_updated_##]\" style=\"display:none\">[##_article_rep_microformat_updated_##]</abbr>", 
+			"<abbr style=\"border-style:none\" class=\"published\" title=\"[##_article_rep_microformat_published_##]\" >[##_article_rep_date_##]</abbr>",
+			//."<abbr class=\"updated\" title=\"[##_article_rep_microformat_updated_##]\" style=\"display:none\">[##_article_rep_microformat_updated_##]</abbr>", 
 			$content );
 		$content = "<div class=\"hentry\">{$content}</div>";
 	} else if( $type == "notice" ) {
