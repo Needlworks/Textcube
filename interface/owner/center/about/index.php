@@ -253,7 +253,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								</div>
 								<div id="tester-container" class="container">
 									<h4><?php echo _t('Tester');?></h4>
-									<p>adeurian, chester, DARKLiCH, FeelSoGood, glradios, laotzu, McFuture, NC_Fly, Silvester, xizhu, 독도2005, 심민규, 엽기민원, 유마, 헤이</p>
+									<p>adeurian, chester, DARKLiCH, FeelSoGood, glradios, laotzu, McFuture, Tartarus, Silvester, xizhu, 독도2005, 심민규, 엽기민원, 유마, 헤이</p>
 								</div>
 								
 								<div id="reporter-container" class="container">
