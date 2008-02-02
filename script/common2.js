@@ -987,7 +987,8 @@ function addComment(caller, entryId) {
 	var oForm = findFormObject(caller);
 	if (!oForm)
 		return false;
-	if( oForm.comment_type[0].checked && oForm.comment_type[0].value == 'openid' ) {
+	if( oForm.comment_type != undefined && 
+		oForm.comment_type[0].checked && oForm.comment_type[0].value == 'openid' ) {
 		return addCommentWithOpenIDAuth(oForm, entryId);
 	}
 	var request = new HTTPRequest("POST", oForm.action);
