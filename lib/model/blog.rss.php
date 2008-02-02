@@ -314,6 +314,57 @@ function getTrackbackRSSByEntryId($blogid, $entryId) {
 	return publishRSS($blogid, $rss);
 }
 
+function getCommentNotifiedRSSTotal($blogid) {
+	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
+
+	if(empty($blogid)) $blogid = getBlogId();
+
+	$channel = array();
+	$channel['title'] = $blog['title']. ': '._text('최근 댓글 알리미 목록');
+	$channel['link'] = "$defaultURL/";
+	$channel['description'] = $blog['description'];
+	$channel['language'] = $blog['language'];
+	$channel['pubDate'] = Timestamp::getRFC1123();
+	$channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
+
+	if (!empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
+		$logoInfo = getimagesize(ROOT."/attach/$blogid/{$blog['logo']}");
+		$channel['url'] = $serviceURL."/attach/".$blogid."/".$blog['logo'];
+		$channel['width'] = $logoInfo[0];
+		$channel['height'] = $logoInfo[1];
+	}
+	$mergedComments = array();
+	list($comments, $paging) = getCommentsNotifiedWithPagingForOwner($blogid, '', '', '', '', 1, 20);
+	for ($i = 0; $i < count($comments); $i++) {
+		array_push($mergedComments, $comments[$i]);
+		$result = getCommentCommentsNotified($comments[$i]['id']);
+		for ($j = 0; $j < count($result); $j++) {
+			array_push($mergedComments, $result[$j]);
+		}
+	}	
+	
+	if (!$mergedComments)
+		$mergedComments = array();
+
+	$channel['items'] = array();
+	foreach($mergedComments as $row) {
+		$item = array(
+			'id' => $row['id'], 
+			'title' => $row['entryTitle'], 
+			'link' => $row['url'], 
+			'categories' => array(), 
+			'description' => htmlspecialchars($row['comment']), 
+			'author' => '('.htmlspecialchars($row['name']).')', 
+			'pubDate' => Timestamp::getRFC1123($row['written']),
+			'comments' => $row['entryUrl'],
+			'guid' => $row['url']
+		);
+		array_push($channel['items'], $item);
+	}
+	$rss = array('channel' => $channel);
+	return publishRSS($blogid, $rss);
+}
+
 function publishRSS($blogid, $data) {
 	global $blog;
 	$blogid = getBlogId();

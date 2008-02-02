@@ -108,6 +108,26 @@ function requireStrictBlogURL() {
 	exit;
 }
 
+function validateAPIKey($blogid, $loginid, $key) {
+	requireComponent('Textcube.Function.Setting');
+	global $service;
+	$loginid = POD::escapeString($loginid);
+	$key = POD::escapeString($key);
+	$userid = getUserIdByEmail($loginid);
+	if( $userid === false ) { return false; }
+	$currentAPIKey = setting::getUserSettingGlobal('APIKey',null,$userid);
+	if($currentAPIKey == null) {
+		if(!User::confirmPassword($userid, $key)) {
+			header('HTTP/1.1 403 Forbidden');
+			exit;
+		}
+	} else if($currentAPIKey != $key) {
+		header('HTTP/1.1 403 Forbidden');
+		exit;
+	}
+	return true;
+}
+
 function isLoginId($blogid, $loginid) {
 	global $database;
 	$loginid = POD::escapeString($loginid);

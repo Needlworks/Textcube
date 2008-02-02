@@ -460,6 +460,12 @@ function changePassword($userid, $pwd, $prevPwd) {
 	return POD::execute($sql);
 }
 
+function changeAPIKey($userid, $key) {
+	requireComponent('Textcube.Function.Setting');
+	if($key) return setting::setUserSettingGlobal('APIKey',$key,$userid);
+	else return false;
+}
+
 function deleteBlog($blogid) {
 	global $database;
 	if($blogid == 1) return false;

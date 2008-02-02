@@ -147,10 +147,11 @@ class User {
 	}
 	
 	/*@static@*/
-	function confirmPassword($password) {
+	function confirmPassword($userid = null, $password) {
 		global $database;
+		if(empty($userid)) $userid = getUserId(); 
 		$password = md5($password);
-		return POD::queryExistence("SELECT userid FROM {$database['prefix']}Users WHERE userid = ".User::getBlogOwner(getBlogId())." AND password = '$password'");
+		return POD::queryExistence("SELECT userid FROM {$database['prefix']}Users WHERE userid = $userid AND password = '$password'");
 	}
 
 	function authorName($blogid = null,$entryId){
