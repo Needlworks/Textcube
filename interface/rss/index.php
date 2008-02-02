@@ -12,7 +12,7 @@ requireStrictBlogURL();
 if (false) {
 	fetchConfigVal();
 }
-
+publishEntries();
 if (!file_exists(ROOT . "/cache/rss/$blogid.xml"))
 	refreshRSS($blogid);
 header('Content-Type: text/xml; charset=utf-8');
