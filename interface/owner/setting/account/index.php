@@ -89,6 +89,8 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									var prevPwd = document.getElementById('prevPwd');
 									var pwd = document.getElementById('pwd');
 									var pwd2 = document.getElementById('pwd2');
+									var apiPasswd = document.getElementById('TCApiPassword');
+									
 									if(pwd.value != '' || prevPwd.value != '') {
 										if(confirm("<?php echo _t('비밀번호를 변경하시겠습니까?');?>")) {
 											if(pwd.value.length<6 || pwd2.value.length<6) {
@@ -103,8 +105,8 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										} else {
 											return false;
 										}
-									} else {
-										alert("<?php echo _t('비밀번호를 입력해 주십시오.');?>");
+									} else if (apiPasswd.value == '') {
+										alert("<?php echo _t('변경하고자 하는 비밀번호 또는 API키를 입력해 주십시오.');?>");
 										return false;
 									}
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/account/password/");
@@ -117,9 +119,23 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									request.onError = function() {
 										PM.showErrorMessage("<?php echo _t('변경하지 못했습니다.');?>", "center", "bottom");
 									}
-									request.send("email=&nickname=&prevPwd=" + encodeURIComponent(prevPwd.value) + "&pwd=" + encodeURIComponent(pwd.value));
+									request.send("prevPwd=" + encodeURIComponent(prevPwd.value) + "&pwd=" + encodeURIComponent(pwd.value) + "&APIKey=" + encodeURIComponent(apiPasswd.value));
 								}
 
+								function clearBlogPassword() {
+									document.getElementById('TCApiPassword').value = "";
+								}
+
+								function chooseBlogPassword() {
+									var blogApiPassword = document.getElementById('TCApiPassword');
+									var value = "";
+									var asciibase = "0123456789abcdef";
+									for( i=0;i<20;i++) {
+										value += "" + asciibase.charAt(Math.round((Math.random()*15)));
+									}
+									blogApiPassword.value = value;
+								}
+								
 <?php
 if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 ?>
@@ -319,12 +335,29 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 											<dt><label for="pwd2"><?php echo _t('비밀번호 확인');?></label></dt>
 											<dd><input type="password" id="pwd2" class="input-text" onkeydown="if(event.keyCode == 13) savePwd();" /></dd>
 										</dl>
+										<legend><?php echo _t('API Key 설정');?></legend>
+										
+										<dl id="blogapi-password-line" class="line">
+											<dt><span class="label"><?php echo _t('API 용 비밀번호');?></span></dt>
+											<dd>
+												<p><label for="blogApiPassword"><?php echo _t('텍스트큐브 API에 사용할 비밀번호입니다.').'<br />'._t('이 API 키는 외부에서 댓글 알리미 RSS를 참조하거나 로그인이 필요한 기능에서 원래 비밀번호 대용으로 사용합니다.').'<br />'._t('관리자 로그인 비밀번호와 동일하게 사용하실 경우 비워두시기 바랍니다.');?></label></p>
+											</dd>
+											<dd>
+											<input type="text" style="width:14em" class="input-text" id="TCApiPassword" name="TCApiPassword" value="<?php echo setting::getUserSettingGlobal('APIKey',null,$userid);?>" />
+												<input type="button" class="input-button" value="<?php echo _t('임의로 생성')?>" onclick="chooseBlogPassword()" />
+												<input type="button" class="input-button" value="<?php echo _t('관리자 비밀번호를 그대로 사용')?>" onclick="clearBlogPassword()" />
+											</dd>
+										</dl>
+
 									</fieldset>
 									<div class="button-box">
 										<input type="submit" class="save-button input-button" value="<?php echo _t('변경하기');?>" onclick="savePwd(); return false;" />
 									</div>
 								</form>
+
+								<hr class="hidden" />
 							</div>
+
 							<div id="part-setting-account" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('대표 주소');?></span></h2>
 								<div class="main-explain-box">

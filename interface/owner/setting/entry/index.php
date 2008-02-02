@@ -131,7 +131,7 @@ foreach (getAllEditors() as $key => $value) {
 										<dl id="blogapi-password-line" class="line">
 											<dt><span class="label"><?php echo _t('블로그 API 용 비밀번호');?></span></dt>
 											<dd>
-												<p><label for="blogApiPassword"><?php echo _t('BlogAPI에 사용할 비밀번호입니다. 관리자 로그인 비밀번호와 동일하게 사용하실 경우 비워두시기 바랍니다.');?></label></p>
+												<p><label for="blogApiPassword"><?php echo _t('BlogAPI에 사용할 비밀번호입니다.').' '._t('관리자 로그인 비밀번호와 동일하게 사용하실 경우 비워두시기 바랍니다.');?></label></p>
 											</dd>
 											<dd>
 												<input type="text" style="width:14em" class="input-text" id="blogApiPassword" name="blogApiPassword" value="<?php echo getBlogSetting("blogApiPassword", "");?>" />

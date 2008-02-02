@@ -4,14 +4,21 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 $IV = array(
 	'POST' => array(
-		'pwd' => array('string'),
-		'prevPwd' => array('string')
+		'pwd' => array('string','default'=>''),
+		'prevPwd' => array('string','default'=>''),
+		'APIKey' => array('string', 'default'=>'')
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
-if (changePassword(getUserId(), $_POST['pwd'], $_POST['prevPwd'])) {
-	respond::ResultPage(0);
+$result = false;
+if($_POST['pwd'] != '' && $_POST['prevPwd'] != '') {
+	$result = changePassword(getUserId(), $_POST['pwd'], $_POST['prevPwd']);
+	
 }
-respond::ResultPage( - 1);
+if($_POST['APIKey'] != '') {
+	$result = changeAPIKey(getUserId(), $_POST['APIKey']);
+}
+if($result) respond::ResultPage(0);
+else respond::ResultPage(-1);
 ?>
