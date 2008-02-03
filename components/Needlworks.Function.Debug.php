@@ -146,7 +146,7 @@ function __tcSqlLogDump()
 	$commentBlosk = false;
 	
 	foreach ($headers as $row) {
-		if (strpos($row, 'text/xml') !== false) {
+		if (strpos($row, '/xml') !== false) { /* To check text/xml, application/xml and application/xml+blah... types */
 			$commentBlosk = true;
 			break;
 		}
