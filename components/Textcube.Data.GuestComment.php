@@ -12,6 +12,7 @@ class GuestComment {
 		$this->id =
 		$this->parent =
 		$this->commenter =
+		$this->openid =
 		$this->name =
 		$this->homepage =
 		$this->ip =
@@ -145,6 +146,12 @@ class GuestComment {
 			if (empty($this->name))
 				return $this->_error('name');
 			$query->setAttribute('name', $this->name, true);
+		}
+		if (isset($this->openid)) {
+			$this->openid = UTF8::lessenAsEncoding(trim($this->openid), 128);
+			if (empty($this->openid))
+				return $this->_error('openid');
+			$query->setAttribute('openid', $this->openid, true);
 		}
 		if (isset($this->homepage)) {
 			$this->homepage = UTF8::lessenAsEncoding(trim($this->homepage), 80);

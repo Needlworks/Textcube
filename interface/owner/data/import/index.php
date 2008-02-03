@@ -369,6 +369,8 @@ function importer($path, $node, $line) {
 						$comment->homepage = $cursor['commenter'][0]['homepage'][0]['.value'];
 					if (!empty($cursor['commenter'][0]['ip'][0]['.value']))
 						$comment->ip = $cursor['commenter'][0]['ip'][0]['.value'];
+					if (!empty($cursor['commenter'][0]['openid'][0]['.value']))
+						$comment->openid = $cursor['commenter'][0]['openid'][0]['.value'];
 					$comment->password = $cursor['password'][0]['.value'];
 					$comment->secret = $cursor['secret'][0]['.value'];
 					$comment->written = $cursor['written'][0]['.value'];
@@ -390,6 +392,8 @@ function importer($path, $node, $line) {
 								$childComment->homepage = $cursor['commenter'][0]['homepage'][0]['.value'];
 							if (!empty($cursor['commenter'][0]['ip'][0]['.value']))
 								$childComment->ip = $cursor['commenter'][0]['ip'][0]['.value'];
+							if (!empty($cursor['commenter'][0]['openid'][0]['.value']))
+								$childComment->openid = $cursor['commenter'][0]['openid'][0]['.value'];
 							$childComment->password = $cursor['password'][0]['.value'];
 							$childComment->secret = $cursor['secret'][0]['.value'];
 							$childComment->written = $cursor['written'][0]['.value'];
@@ -726,6 +730,8 @@ function importer($path, $node, $line) {
 				$comment->homepage = $node['commenter'][0]['homepage'][0]['.value'];
 			if (!empty($node['commenter'][0]['ip'][0]['.value']))
 				$comment->ip = $node['commenter'][0]['ip'][0]['.value'];
+			if (!empty($node['commenter'][0]['openid'][0]['.value']))
+				$comment->openid = $node['commenter'][0]['openid'][0]['.value'];
 			$comment->password = $node['password'][0]['.value'];
 			$comment->secret = @$node['secret'][0]['.value'];
 			$comment->written = $node['written'][0]['.value'];
@@ -742,6 +748,8 @@ function importer($path, $node, $line) {
 						$childComment->homepage = $cursor['commenter'][0]['homepage'][0]['.value'];
 					if (!empty($cursor['commenter'][0]['ip'][0]['.value']))
 						$childComment->ip = $cursor['commenter'][0]['ip'][0]['.value'];
+					if (!empty($cursor['commenter'][0]['openid'][0]['.value']))
+						$childComment->openid = $cursor['commenter'][0]['openid'][0]['.value'];
 					$childComment->password = $cursor['password'][0]['.value'];
 					$childComment->secret = @$cursor['secret'][0]['.value'];
 					$childComment->written = $cursor['written'][0]['.value'];
