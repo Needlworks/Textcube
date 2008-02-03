@@ -166,7 +166,7 @@ if (doesExistTable($database['prefix'] . 'OpenIDComments')) {
 			echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 		else
 			echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-	else
+	} else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
