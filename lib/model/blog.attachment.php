@@ -161,7 +161,9 @@ function deleteAttachment($blogid, $parent, $name) {
 	$origname = $name;
 	$name = POD::escapeString($name);
 	if (POD::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid AND name = '$name'")) {
-		@unlink(ROOT . "/attach/$blogid/$origname");
+		if( file_exists( ROOT . "/attach/$blogid/$origname") ) {
+			@unlink(ROOT . "/attach/$blogid/$origname");
+		}
 		clearRSS();
 		return true;
 	}

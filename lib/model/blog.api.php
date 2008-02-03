@@ -346,7 +346,7 @@ function api_addAttachment($blogid,$parent,$file) {
 		@chmod($path,0777);
 	}
 	
-	$oldFile = POD::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE owner=$blogid AND parent=$parent AND label = '$label'");
+	$oldFile = POD::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE blogid=$blogid AND parent=$parent AND label = '$label'");
 	
 	if ($oldFile !== null) {
 		$attachment['name'] = $oldFile;
@@ -409,12 +409,12 @@ function api_update_attaches( $parent, $attaches = null)
 {
 	global $database;
 	if (is_null($attaches)) {
-		POD::query( "update {$database['prefix']}Attachments set parent=$parent where owner=".getBlogId()." and parent=0");		
+		POD::query( "update {$database['prefix']}Attachments set parent=$parent where blogid=".getBlogId()." and parent=0");		
 	} else {
 		foreach( $attaches as $att )
 		{
 			$att = POD::escapeString($att);
-			POD::query( "update {$database['prefix']}Attachments set parent=$parent where owner=".getBlogId()." and parent=0 and name='" . $att . "'");
+			POD::query( "update {$database['prefix']}Attachments set parent=$parent where blogid=".getBlogId()." and parent=0 and name='" . $att . "'");
 		}
 	}
 }
@@ -424,16 +424,17 @@ function api_update_attaches_with_replace($entryId)
 	global $database;
 	
 	requireComponent('Eolin.PHP.Core');
-	$newFiles = POD::queryAll("SELECT name, label FROM {$database['prefix']}Attachments WHERE owner=".getBlogId()." AND parent=0");
-	foreach($newFiles as $newfile) {
-		$newfile['label'] = POD::escapeString(UTF8::lessenAsEncoding($newfile['label'], 64));
-		$oldFile = POD::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE owner=".getBlogId()." AND parent=$entryId AND label='{$newfile['label']}'");
-	
-		if (!is_null($oldFile)) {
-			deleteAttachment(getBlogId(), $entryId, $oldFile);
+	$newFiles = POD::queryAll("SELECT name, label FROM {$database['prefix']}Attachments WHERE blogid=".getBlogId()." AND parent=0");
+	if( $newFiles ) {
+		foreach($newFiles as $newfile) {
+			$newfile['label'] = POD::escapeString(UTF8::lessenAsEncoding($newfile['label'], 64));
+			$oldFile = POD::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE blogid=".getBlogId()." AND parent=$entryId AND label='{$newfile['label']}'");
+		
+			if (!is_null($oldFile)) {
+				deleteAttachment(getBlogId(), $entryId, $oldFile);
+			}
 		}
-	}
-	
+	}	
 	api_update_attaches($entryId);
 }
 
@@ -931,19 +932,6 @@ function metaWeblog_newMediaObject()
 		return $result;
 	}
 	$mediaOjbect = $params[3]['bits'];
-
-	$tmp_dir = ROOT. "/attach/temp";
-	if( !is_dir( $tmp_dir ) )
-	{
-		mkdir( $tmp_dir );
-		if( !is_dir( $tmp_dir ) )
-		{
-			return new XMLRPCFault( 1, "Can't Create Directory $tmp_dir" );
-		}
-		if( file_exists($path) ) {
-			@chmod( $path, 0777 );
-		}
-	}
 
 	$file = array( 
 		'name' => $params[3]['name'],
