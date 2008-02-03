@@ -224,7 +224,7 @@ function getCommentView($entry, $skin) {
 	foreach ($comments as $commentItem) {
 		$commentItemView = ($isComment ? $skin->commentItem : $skin->guestItem);
 		$commentSubItemsView = '';
-		$subComments = getCommentComments($commentItem['id']);
+		$subComments = getCommentComments($commentItem['id'],$commentItem);
 		foreach ($subComments as $commentSubItem) {
 			$commentSubItemView = ($isComment ? $skin->commentSubItem : $skin->guestSubItem);
 			
@@ -1364,7 +1364,7 @@ function addOpenIDPannel( $comment, $prefix )
 
 	$tag_login = '<a href="'.$blogURL.'/login/openid/guest?requestURI='.
 			urlencode( $_SERVER["REQUEST_URI"] ).
-			'"><span style="color:#ff6200">'._text('오픈아이디').' '._text('로그인').'</span></a>';
+			'"><span style="color:#ff6200">'._text('로그인').'</span></a>';
 
 	$tag_logoff = '<a href="'.$blogURL.'/login/openid?action=logout&requestURI='.
 			urlencode( $_SERVER["REQUEST_URI"] ).
@@ -1387,7 +1387,7 @@ function addOpenIDPannel( $comment, $prefix )
 
 	$pannel_style = "style=\"float:left;width:100%; text-align:left\"";
 	$radio_style  = "style=\"float:left;width:15px;height:15px;border:0px;margin:0px;padding:0px;\"";
-	$label_style  = "style=\"float:left;display:inline;margin-top:0px; padding-left:5px\"";
+	$label_style  = "style=\"float:left;display:inline;margin-top:0px;padding-left:5px;cursor:pointer\"";
 	$openid_input_style = 'style="padding-left:21px;width:165px;background-image:url('.$service['path'].'/image/icon_openid.gif'.');'.
 					'background-repeat:no-repeat;background-position:0px center"';
 
@@ -1427,7 +1427,7 @@ function addOpenIDPannel( $comment, $prefix )
 			'/> '.CRLF.
 		'<label for="comment_type_[##_article_rep_id_##]_openid" '.$label_style.'>'.
 		_text('오픈아이디로 글쓰기').
-		'</label><span> | '.($openid_identity ? $tag_logoff:$tag_login).' | '.$whatisopenid.$lastcomment.'</span></div>'.CRLF;
+		'</label> <span>['.($openid_identity ? $tag_logoff:$tag_login).']['.$whatisopenid.$lastcomment.']</span></div>'.CRLF;
 	/* Opera browser does not work with single 'this.form.openid_identifier.disabled=false;', is it a bug? */
 
 	$pannel .= '<div style="padding:5px 0 5px 0px;width:100%;">'.$openid_input.'</div>'.CRLF;

@@ -149,19 +149,23 @@ if (!doesExistTable($database['prefix'] . 'OpenIDUsers')) {
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
-if (!doesExistTable($database['prefix'] . 'OpenIDComments')) {
+if (!POD::queryExistence("DESC {$database['prefix']}Comments openid")) {
 	$changed = true;
-	echo '<li>', _text('오픈아이디 댓글 테이블을 만듭니다'), ': ';
-	$query = "
-	CREATE TABLE `{$database['prefix']}OpenIDComments` (
-	  blogid int(11) NOT NULL default '0',
-	  id int(11) NOT NULL,
-	  openid varchar(128) default NULL,
-	  PRIMARY KEY  (blogid,id)
-	) TYPE=MyISAM
-	";
-	if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query))
+	echo '<li>', _text('Comments 테이블에 openid 필드를 추가합니다.'), ': ';
+	if (POD::execute("ALTER TABLE {$database['prefix']}Comments ADD openid varchar(128) NOT NULL DEFAULT '' AFTER id"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
+if (doesExistTable($database['prefix'] . 'OpenIDComments')) {
+	$changed = true;
+	echo '<li>', _text('오픈아이디 댓글 테이블을 기존 댓글 테이블에 병합합니다'), ': ';
+	if (POD::execute("UPDATE `{$database['prefix']}Comments` AS A,`{$database['prefix']}OpenIDComments` AS B SET `A`.`openid` = `B`.`openid` WHERE `A`.`id` = `B`.`id`" )) {
+		if (POD::execute("DROP TABLE `{$database['prefix']}OpenIDComments`" ) )
+			echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		else
+			echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 	else
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }

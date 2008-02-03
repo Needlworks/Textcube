@@ -18,8 +18,9 @@ require ROOT . '/lib/includeForBlog.php';
 requireComponent('Textcube.Function.Respond');
 requireComponent('Textcube.Control.Openid');
 
+$blogid = getBlogId();
 list($replier) = getCommentAttributes($blogid,$suri['id'],'replier');
-$comment = OpenIDConsumer::getCommentInfo( $blogid, $suri['id'] );
+$comment = POD::queryRow("SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$suri['id']}");
 $openid_identity = Acl::getIdentity('openid');
 
 if(!Acl::check('group.administrators') && !Acl::check('group.owners')) { // If no administration permission,

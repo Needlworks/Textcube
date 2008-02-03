@@ -5,6 +5,27 @@
 
 requireComponent( "Textcube.Control.Openid" );
 
+function doesHaveOpenIDPriv( & $comment )
+{
+	global $database;
+	$blogid = getBlogId();
+	$openid = Acl::getIdentity('openid');
+
+	if( !$comment['secret'] || !$openid ) {
+		return false;
+	}
+	if( $comment['openid'] == $openid ) {
+		return true;
+	}
+	if( empty($comment['parent']) ) {
+		return false;
+	}
+	$openid = POD::escapeString($openid);
+	$row = POD::queryRow("SELECT * from {$database['prefix']}Comments ".
+		"WHERE blogid = $blogid and id = {$comment['parent']} and openid='{$openid}'" );
+	return !empty($row);
+}
+
 function decorateComment( & $comment )
 {
 	$authorized = doesHaveOwnership();
@@ -15,7 +36,7 @@ function decorateComment( & $comment )
 		if($authorized) {
 			$comment['comment'] = '<span class="hiddenCommentTag_content">' . _text('[비밀댓글]') . '</span> ' . $comment['comment'];
 		} else {
-			if( !OpenIDConsumer::showSecretComment($comment) ) {
+			if( !doesHaveOpenIDPriv($comment) ) {
 				$comment['hidden'] = true;
 				$comment['name'] = '<span class="hiddenCommentTag_name">' . _text('비밀방문자') . '</span>';
 				$comment['homepage'] = '';
@@ -23,17 +44,6 @@ function decorateComment( & $comment )
 			} else {
 				$comment['name'] = '<span class="hiddenCommentTag_name">' . _text('비밀방문자') . '</span>'. $comment['name'];
 			}
-		}
-	}
-}
-
-function fireCommentHint( & $result, $blogid )
-{
-	$comment_ids = array();
-	foreach($result as $comment) {
-		array_push($comment_ids, $comment['id']);
-		if( !empty($comment['parent']) ) {
-			array_push($comment_ids, $comment['parent']);
 		}
 	}
 }
@@ -76,7 +86,6 @@ function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, 
 		$paging['postfix'] .= $postfix;
 	}
 
-	fireCommentHint( $comments, $blogid );
 	return array($comments, $paging);
 }
 
@@ -155,10 +164,9 @@ function getCommentCommentsNotified($parent) {
 			WHERE c.blogid = ".getBlogId()." AND c.parent = $parent";
 	$sql .= ' ORDER BY c.written ASC';
 	if ($result = POD::queryAll($sql)) {
-		fireCommentHint( $result, getBlogId() );
 		foreach($result as $comment) {
 			if (($comment['secret'] == 1) && !$authorized) {
-				if( !OpenIDConsumer::showSecretComment($comment) ) {
+				if( !doesHaveOpenIDPriv($comment) ) {
 					$comment['name'] = '';
 					$comment['homepage'] = '';
 					$comment['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
@@ -179,7 +187,6 @@ function getCommentsWithPagingForGuestbook($blogid, $page, $count) {
 			AND isFiltered = 0
 		ORDER BY written DESC";
 	$result = fetchWithPaging($sql, $page, $count);
-	fireCommentHint( $result[0], $blogid );
 	return $result;
 }
 
@@ -200,10 +207,9 @@ function getComments($entry) {
 			AND parent IS NULL
 			AND isFiltered = 0 $aux";
 	if ($result = POD::queryAll($sql)) {
-		fireCommentHint( $result, getBlogId() );
 		foreach ($result as $comment) {
 			if (($comment['secret'] == 1) && !$authorized) {
-				if( !OpenIDConsumer::showSecretComment($comment) ) {
+				if( !doesHaveOpenIDPriv($comment) ) {
 					$comment['name'] = '';
 					$comment['homepage'] = '';
 					$comment['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
@@ -218,7 +224,7 @@ function getComments($entry) {
 	return $comments;
 }
 
-function getCommentComments($parent) {
+function getCommentComments($parent,$parentComment=null) {
 	global $database;
 	$comments = array();
 	$authorized = doesHaveOwnership();
@@ -228,12 +234,15 @@ function getCommentComments($parent) {
 			AND parent = $parent 
 			AND isFiltered = 0 
 		ORDER BY id")) {
-		$parent_comment = OpenIDConsumer::getCommentInfo( getBlogId(), $parent );
-		$parentByOpenid = !empty( $parent_comment['openid'] );
-		fireCommentHint( $result, getBlogId() );
+		if( $parentComment == null ) {
+			$parentComment = POD::queryRow( 
+				"SELECT * FROM {$database['prefix']}Comments ".
+				"  WHERE blogid = ".getBlogId()." AND id = $parent" );
+		}
+		$parentByOpenid = !empty( $parentComment['openid'] );
 		foreach ($result as $comment) {
 			if (($comment['secret'] == 1) && !$authorized) {
-				if( !OpenIDConsumer::showSecretComment($comment) ) {
+				if( !doesHaveOpenIDPriv($comment) ) {
 					$comment['name'] = '';
 					$comment['homepage'] = '';
 					$comment['comment'] = 
@@ -291,7 +300,6 @@ function getCommentList($blogid, $search) {
 			AND c.blogid = $blogid $authorized 
 			and c.isFiltered = 0 
 			and (c.comment like '%$search%' OR c.name like '%$search%')")) {
-		fireCommentHint( $result, $blogid );
 		foreach ($result as $comment)
 			array_push($list['items'], $comment);
 	}
@@ -398,12 +406,14 @@ function addComment($blogid, & $comment) {
 	$comment0 = POD::escapeString($comment['comment']);
 	$filteredAux = ($filtered == 1 ? "UNIX_TIMESTAMP()" : 0);
 	$insertId = getCommentsMaxId() + 1;
+	$openid = Acl::getIdentity( 'openid' );
 	$result = POD::query("INSERT INTO {$database['prefix']}Comments 
-		(blogid,replier,id,entry,parent,name,password,homepage,secret,comment,ip,written,isFiltered)
+		(blogid,replier,id,openid,entry,parent,name,password,homepage,secret,comment,ip,written,isFiltered)
 		VALUES (
 			$blogid,
 			{$comment['replier']},
 			$insertId,
+			'$openid',
 			{$comment['entry']},
 			$parent,
 			'$name',
@@ -428,9 +438,6 @@ function addComment($blogid, & $comment) {
 		}
 		updateCommentsOfEntry($blogid, $comment['entry']);
 		fireEvent($comment['entry'] ? 'AddComment' : 'AddGuestComment', $id, $comment);
-		if( Acl::getIdentity('openid') ) {
-			OpenIDConsumer::addComment($id, $comment);
-		}
 		if ($filtered == 1)
 			return $blockType;
 		else
@@ -442,7 +449,6 @@ function addComment($blogid, & $comment) {
 function updateComment($blogid, $comment, $password) {
 	global $database, $user;
 
-	$openidMatched = false;
 	if (!doesHaveOwnership()) {
 		// if filtered, only block and not send to trash
 		requireComponent('Textcube.Data.Filter');
@@ -456,9 +462,6 @@ function updateComment($blogid, $comment, $password) {
 			return 'blocked';
 		if (!fireEvent('ModifyingComment', true, $comment))
 			return 'blocked';
-		if( Acl::getIdentity('openid') && Acl::getIdentity('openid') == $comment['openid'] ) {
-			$openidMatched = true;
-		}
 	}
 	
 	$comment['homepage'] = stripHTML($comment['homepage']);
@@ -467,22 +470,16 @@ function updateComment($blogid, $comment, $password) {
 	$comment['comment'] = UTF8::lessenAsEncoding($comment['comment'], 65535);
 	
 	$setPassword = '';
-	if( !$openidMatched ) {
-		if ($user !== null) {
-			$comment['replier'] = getUserId();
-			$name = POD::escapeString($user['name']);
-			$setPassword = 'password = \'\',';
-			$homepage = POD::escapeString($user['homepage']);
-		} else {
-			$name = POD::escapeString($comment['name']);
-			if ($comment['password'] !== true)
-				$setPassword = 'password = \'' . (empty($comment['password']) ? '' : md5($comment['password'])) . '\', ';
-			$homepage = POD::escapeString($comment['homepage']);
-		}
+	if ($user !== null) {
+		$comment['replier'] = getUserId();
+		$name = POD::escapeString($user['name']);
+		$setPassword = 'password = \'\',';
+		$homepage = POD::escapeString($user['homepage']);
 	} else {
-			$name = POD::escapeString($comment['name']);
-			$homepage = POD::escapeString($comment['homepage']);
-			$setPassword = "password = '".OPENID_PASSWORD."',";
+		$name = POD::escapeString($comment['name']);
+		if ($comment['password'] !== true)
+			$setPassword = 'password = \'' . (empty($comment['password']) ? '' : md5($comment['password'])) . '\', ';
+		$homepage = POD::escapeString($comment['homepage']);
 	}
 	$comment0 = POD::escapeString($comment['comment']);
 	
@@ -496,7 +493,7 @@ function updateComment($blogid, $comment, $password) {
 	}
 	
 	$wherePassword = '';
-	if (!doesHaveOwnership() && !$openidMatched ) {
+	if (!doesHaveOwnership()) {
 		if ($guestcomment == false) {
 			if (!doesHaveMembership())
 				return false;
@@ -504,7 +501,12 @@ function updateComment($blogid, $comment, $password) {
 		}
 		else
 		{
-			$wherePassword = ' AND password = \'' . md5($password) . '\'';
+			$openid = Acl::getIdentity('openid');
+			if( empty($password) && $openid ) {
+				$wherePassword = ' AND openid = \'' . $openid . '\'';
+			} else {
+				$wherePassword = ' AND password = \'' . md5($password) . '\'';
+			}
 		}
 	}
 	
@@ -548,14 +550,9 @@ function deleteComment($blogid, $id, $entry, $password) {
 			AND id = $id 
 			AND entry = $entry";
 	if (!doesHaveOwnership()) {
-		$openidMatched = false;
-		if( Acl::getIdentity('openid') ) {
-			$comment = OpenIDConsumer::getCommentInfo( $blogid, $id );
-			if( !empty($comment['openid']) && Acl::getIdentity('openid') == $comment['openid'] ) {
-				$openidMatched = true;
-			}
-		}
-		if( !$openidMatched ) {
+		if( Acl::getIdentity('openid') && empty($password) ) {
+			$wherePassword = ' AND openid = \'' . Acl::getIdentity('openid') . '\'';
+		} else {
 			if ($guestcomment == false) {
 				if (!doesHaveMembership()) {
 					return false;
@@ -653,10 +650,9 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestSh
 		DESC LIMIT 
 			".($count != false ? $count : $skinSetting['commentsOnRecent']);
 	if ($result = POD::queryAllWithDBCache($sql,'comment')) {
-		fireCommentHint( $result, $blogid );
 		foreach($result as $comment) {
 			if (($comment['secret'] == 1) && !doesHaveOwnership()) {
-				if( !OpenIDConsumer::showSecretComment($comment) ) {
+				if( !doesHaveOpenIDPriv($comment) ) {
 					$comment['name'] = '';
 					$comment['homepage'] = '';
 					$comment['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
@@ -681,10 +677,9 @@ function getRecentGuestbook($blogid,$count = false) {
 		DESC LIMIT ".($count != false ? $count : $skinSetting['commentsOnRecent']);
 
 	if ($result = POD::queryAll($sql)) {
-		fireCommentHint( $result, $blogid );
 		foreach($result as $comment) {
 			if (($comment['secret'] == 1) && !doesHaveOwnership()) {
-				if( !OpenIDConsumer::showSecretComment($comment) ) {
+				if( !doesHaveOpenIDPriv($comment) ) {
 					$comment['name'] = '';
 					$comment['homepage'] = '';
 					$comment['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');

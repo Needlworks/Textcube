@@ -19,14 +19,17 @@ if ((empty($comment['homepage']) || $comment['homepage'] == 'http://') ) {
 		$comment['homepage'] = $_COOKIE['guestHomepage'];
 	}
 }
+
+$pageHeadTitle = $pageTitle;
 if( Acl::getIdentity('openid') ) {
+	$pageHeadTitle = $pageTitle;
 	$pageTitle = "$pageTitle ( <img src=\"".$service['path']."/image/icon_openid.gif\" style=\"position:static;\" height=\"16\" width=\"16\"> ".Acl::getIdentity('openid').")";
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
-	<title><?php echo $pageTitle ;?></title>
+	<title><?php echo $pageHeadTitle ;?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/popup-comment.css" />
 	<script type="text/javascript">
