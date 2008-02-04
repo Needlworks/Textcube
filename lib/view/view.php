@@ -955,7 +955,7 @@ function addXfnAttrs( $url, $xfn, & $view )
 }
 
 function getLinksView($links, $template) {
-	global $blogURL, $skinSetting;
+	global $blogURL, $skinSetting, $suri;
 	ob_start();
 	foreach ($links as $link) {
 		if((!doesHaveOwnership() && $link['visibility'] == 0) ||
@@ -964,6 +964,9 @@ function getLinksView($links, $template) {
 		}
 		$view = "$template";
 		dress('link_url', htmlspecialchars($link['url']), $view);
+		if( $suri['directive'] == '/' && $link['xfn'] ) {
+			addXfnAttrs( htmlspecialchars($link['url']), htmlspecialchars($link['xfn']), $view );
+		}
 		dress('link_site', fireEvent('ViewLink', htmlspecialchars(UTF8::lessenAsEm($link['name'], $skinSetting['linkLength']))), $view);
 		print $view;
 	}

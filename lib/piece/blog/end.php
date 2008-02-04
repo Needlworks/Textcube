@@ -72,14 +72,7 @@ dress('author_rep', getAuthorListView(getUserNamesOfBlog($blogid), $skin->author
 dress('rctps_rep', getRecentEntriesView(getRecentEntries($blogid), $skin->recentEntry), $view);
 dress('rctrp_rep', getRecentCommentsView(getRecentComments($blogid), $skin->recentComments), $view);
 dress('rcttb_rep', getRecentTrackbacksView(getRecentTrackbacks($blogid), $skin->recentTrackback), $view);
-$links = getLinks( $blogid );
-dress('link_rep', getLinksView($links, $skin->s_link_rep), $view);
-foreach ($links as $link) {
-	if( !$link['visibility'] || !$link['xfn'] ) {
-		continue;
-	}
-	addXfnAttrs( $link['url'], $link['xfn'], $view );
-}
+dress('link_rep', getLinksView(getLinks( $blogid ), $skin->s_link_rep), $view);
 dress('rss_url', "$blogURL/rss", $view);
 dress('comment_rss_url', "$blogURL/rss/comment", $view);
 dress('trackback_rss_url', "$blogURL/rss/trackback", $view);
