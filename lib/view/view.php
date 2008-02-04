@@ -189,6 +189,7 @@ function getTrackbacksView($entry, $skin, $acceptTrackback) {
 
 function getCommentView($entry, $skin) {
 	global $database, $blogURL, $service, $suri, $paging, $contentContainer, $skinSetting, $blog;
+	static $dressCommentBlock = false;
 	if(!isset($entry)) $entry['id'] = 0;
 	$blogid = getBlogId();
 	requireModel("common.setting");
@@ -218,9 +219,11 @@ function getCommentView($entry, $skin) {
 	} else {
 		$comments = getComments($entry['id']);
 	}
-	$skin->commentGuest = addOpenIDPannel( $skin->commentGuest, 'rp' );
-	$skin->guestGuest   = addOpenIDPannel( $skin->guestGuest, 'guest' );
-
+	if($dressCommentBlock == false) {
+		if($isComment) $skin->commentGuest = addOpenIDPannel( $skin->commentGuest, 'rp' );
+		else $skin->guestGuest   = addOpenIDPannel( $skin->guestGuest, 'guest' );
+		$dressCommentBlock = true;
+	}
 	foreach ($comments as $commentItem) {
 		$commentItemView = ($isComment ? $skin->commentItem : $skin->guestItem);
 		$commentSubItemsView = '';
@@ -1350,7 +1353,6 @@ function addOpenIDPannel( $comment, $prefix )
 	if( !isActivePlugin( 'CL_OpenID' ) ) {
 		return $comment;
 	}
-
 	global $service,$blogURL;
 	$openid_identity = Acl::getIdentity('openid');
 	$whatisopenid = '<a target="_blank" href="'._text('http://www.google.co.kr/search?q=OpenID&amp;lr=lang_ko').'"><span style="color:#ff6200">'._text('오픈아이디란?').'</span></a>';
@@ -1440,7 +1442,7 @@ function addOpenIDPannel( $comment, $prefix )
 			'onclick="this.form.[##_'.$prefix.'_input_name_##].disabled=this.form.[##_'.$prefix.'_input_password_##].disabled=false;this.form.openid_identifier.disabled=true;this.form.openid_identifier.disabled=true;"'.CRLF.
 			'/> '.CRLF.
 		'<label for="comment_type_[##_article_rep_id_##]_idpwd" '.$label_style.'>'.
-		'이름/비밀번호로 글쓰기</label> '.$openidOnlySettingNotice.'</div>'.CRLF;
+		_text('이름/비밀번호로 글쓰기').'</label> '.$openidOnlySettingNotice.'</div>'.CRLF;
 	$comment = $pannel.$comment."</div>";
 	return $comment;
 }
