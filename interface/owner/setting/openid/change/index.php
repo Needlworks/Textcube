@@ -13,12 +13,15 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireComponent( 'Textcube.Control.Openid' );
 requireStrictRoute();
+requireModel( 'common.plugin' );
 
 if( OpenIDConsumer::setComment( $_POST['openidonlycomment'] ) &&
 	OpenIDConsumer::setOpenIDLogoDisplay( $_POST['openidlogodisplay'] ) ) {
+	if( !empty($_POST['openidonlycomment']) || !empty($_POST['openidlogodisplay']) ) {
+		activatePlugin('CL_OpenID');
+	}
 	respond::ResultPage(0);
 } else {
 	respond::ResultPage(-1);
 }
-
 ?>

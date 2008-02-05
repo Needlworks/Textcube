@@ -456,7 +456,7 @@ if( $i > 0 ) { /* 출력된것이 하나라도 있다면*/
 ?>
 							<div class="data-inbox">
 <?php
-if( isActivePlugin( 'CL_OpenID' ) ) {
+if( isActivePlugin( 'CL_OpenID' ) || Acl::check('group.administrators') ) {
 ?>
 								<form id="openid-section" class="section" method="get" action="<?php echo $blogURL;?>/owner/setting/account/openid">
 									<fieldset class="container">
@@ -471,27 +471,9 @@ if( isActivePlugin( 'CL_OpenID' ) ) {
 										<div class="openid-account-help">
 											<?php echo _t('연결하기: 로그인하면 본 계정의 권한을 갖습니다.'); ?>
 										</div> 
-<?php 
-	if( Acl::check( 'group.owners' ) ) { 
-?>
-										<div class="openid-account-help">
-												<b><a href="<?php echo $blogURL?>/owner/plugin/adminMenu?name=CL_OpenID/openid_manage"><?php echo _t('오픈아이디 플러그인 설정 바로가기')?></b></a>
-										</div> 
-<?php
-	} 
-?>
 									</fieldset>
 									<input type="hidden" name="mode" value="add" />
 								</form>
-<?php
-} else if( Acl::check('group.administrators') ) { 
-?>
-								<dl id="blogger-openid-activate-line" class="line">
-									<dt><label for="nickname"><?php echo _t('오픈아이디');?></label></dt>
-									<dd><em><?php echo _t('오픈아이디 인증 플러그인을 활성화하십시오'); ?></em>
-									<a class="button" href="<?php echo $blogURL?>/owner/plugin">(<?php echo _t('플러그인 설정 바로가기'); ?></a>)
-									</dd>
-								</dl>
 <?php
 } else {
 ?>
