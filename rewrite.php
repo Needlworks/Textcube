@@ -38,7 +38,7 @@
 	$pathPart = strtok($pathPart,'&');
 	$interfacePath = null;
 	if(in_array($pathPart, array('favicon.ico','index.gif'))) {require_once 'interface/'.$pathPart.'.php';exit;}
-	if(!empty($accessInfo['URLfragment']) && in_array($accessInfo['URLfragment'][0],array('api','archive','attachment','author','category','checkup','cover','entry','feeder','guestbook','keylog','location','logout','notice','page','plugin','pluginForOwner','search','suggest','sync','tag'))) {
+	if(!empty($accessInfo['URLfragment']) && in_array($accessInfo['URLfragment'][0],array('api','archive','attachment','author','category','checkup','cover','entry','feeder','foaf','guestbook','keylog','location','logout','notice','page','plugin','pluginForOwner','search','suggest','sync','tag'))) {
 		$pathPart = $accessInfo['URLfragment'][0];
 		$interfacePath = 'interface/blog/'.$pathPart.'.php';
 	} else if(is_numeric(strtok(end($accessInfo['URLfragment']),'&'))) {
