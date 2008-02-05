@@ -19,7 +19,8 @@ if (isset($cache->contents)) {
 			"title='Comment: ".$entry['title']." - ".$blog['title']."' ".
 			"href='$blogURL/comment/rss/{$entry['id']}' />".CRLF;
 	}
-	dress('SKIN_head_end', $entryRsses."[##_SKIN_head_end_##]", $view);
+	$foafDiscovery = "<link rel=\"meta\" type=\"application/rdf+xml\" title=\"FOAF\" href=\"$pathURL/foaf\" />\n";
+	dress('SKIN_head_end', $foafDiscovery.$entryRsses."[##_SKIN_head_end_##]", $view);
 	foreach ($entries as $entry) {
 		if ($suri['directive'] == '/notice')
 			$permalink = "$blogURL/notice/{$entry['id']}";
