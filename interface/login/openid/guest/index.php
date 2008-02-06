@@ -12,6 +12,10 @@ if( empty( $_GET['requestURI'] ) ) {
 	$requestURI = $blogURL;
 } else {
 	$requestURI = $_GET['requestURI'];
+	if( Acl::getIdentity( 'openid' ) ) {
+		header( "Location: $requestURI" );
+		exit;
+	}
 }
 
 list( $openid_help_link, $openid_signup_link ) = fireEvent( 'OpenIDAffiliateLinks', $requestURI );
@@ -63,7 +67,7 @@ if( !empty($_COOKIE['openid']) ) {
 			            		<dd><input type="checkbox" class="checkbox" id="openid_remember" name="openid_remember" <?php echo $openid_remember_check ?> /><label for="openid_remember"><?php echo _text('오픈아이디 기억') ?></label></dd>
 			            		<dd><input type="submit" class="openid-login-button" name="openid_login" value="로그인" /><input type="submit" class="openid-login-button" name="openid_cancel" value="<?php echo _text('취소') ?>" /></dd>
 			            		<dd style="margin-top:5px"><a href="<?php echo $openid_help_link ?>"><?php echo _text('오픈아이디란?'); ?></a> | <a href="<?php echo $openid_signup_link; ?>"><?php echo _text('오픈아이디 발급하기');?></a></dd>
-			            		<dd><a href="http://www.idtail.com/" style="color: rgb(171, 171, 171);font-size:0.8em" target="_blank" >Technical supported by idtail.com</a></dd>
+			            		<dd><a href="http://www.idtail.com/" style="color: rgb(171, 171, 171);font-size:0.8em" target="_blank" >Technically supported by idtail.com</a></dd>
 							</dl>
 						</div>
 					</div>

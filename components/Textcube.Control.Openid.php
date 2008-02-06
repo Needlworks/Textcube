@@ -263,6 +263,7 @@ class OpenIDConsumer extends OpenID {
 						$msg = _text("관리자 권한이 없는 오픈아이디 입니다") . " : " . $this->openid;
 					}
 				}
+				fireEvent( "AfterOpenIDLogin", $this->openid );
 			} else {
 				Acl::authorize('openid_temp', $this->openid);
 			}
@@ -369,6 +370,7 @@ class OpenIDConsumer extends OpenID {
 		if( empty($openid) ) {
 			return false;
 		}
+		$openid = POD::escapeString($openid);
 		$query = "SELECT data FROM {$database['prefix']}OpenIDUsers WHERE openid='{$openid}'";
 		$result = POD::queryCell($query);
 		$data = unserialize( $result );
@@ -417,7 +419,7 @@ class OpenIDConsumer extends OpenID {
 		Acl::authorize('openid', $openid);
 
 		$blogid = getBlogId();
-		$query = "SELECT userid FROM {$database['prefix']}UserSettings WHERE name like 'openid.%' and value='{$openid}' order by userid";
+		$query = "SELECT userid FROM {$database['prefix']}UserSettings WHERE name like 'openid.%' and value='".POD::escapeString($openid)."' order by userid";
 		$result = POD::queryRow($query);
 
 		$userid = null;
