@@ -86,8 +86,7 @@ if(isset($blogMenu['topMenu'])) {
 			);
 		} else {
 			$blogContentMenuItem = array(
-				array('menu'=>'account','title'=>_t('계정 정보'),'link'=>'/owner/setting/account'),
-				array('menu'=>'openid','title'=>_t('오픈아이디'),'link'=>'/owner/setting/openid')
+				array('menu'=>'account','title'=>_t('계정 정보'),'link'=>'/owner/setting/account')
 			);
 		}
 		break;
