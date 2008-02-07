@@ -19,7 +19,11 @@ if (isset($cache->contents)) {
 			"title='Comment: ".$entry['title']." - ".$blog['title']."' ".
 			"href='$blogURL/comment/rss/{$entry['id']}' />".CRLF;
 	}
-	$foafDiscovery = "<link rel=\"meta\" type=\"application/rdf+xml\" title=\"FOAF\" href=\"$pathURL/foaf\" />\n";
+	if( rtrim( $suri['url'], '/' ) == $pathURL ) {
+		$foafDiscovery = "<link rel=\"meta\" type=\"application/rdf+xml\" title=\"FOAF\" href=\"$pathURL/foaf\" />\n";
+	} else {
+		$foafDiscovery = "";
+	}
 	dress('SKIN_head_end', $foafDiscovery.$entryRsses."[##_SKIN_head_end_##]", $view);
 	foreach ($entries as $entry) {
 		if ($suri['directive'] == '/notice')
