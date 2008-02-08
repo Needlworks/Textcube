@@ -1244,6 +1244,16 @@ CREATE TABLE {$_POST['dbPrefix']}Links (
   PRIMARY KEY  (id),
   UNIQUE KEY blogid (blogid,url)
 ) $charset;
+CREATE TABLE {$_POST['dbPrefix']}OpenIDUsers (
+  blogid int(11) NOT NULL default '0',
+  openid varchar(128) NOT NULL,
+  delegatedid varchar(128) default NULL,
+  firstLogin int(11) default NULL,
+  lastLogin int(11) default NULL,
+  loginCount int(11) default NULL,
+  data text,
+  PRIMARY KEY  (blogid,openid)
+) $charset;
 CREATE TABLE {$_POST['dbPrefix']}PageCacheLog (
   blogid int(11) NOT NULL default '0',
   name varchar(255) NOT NULL default '',
