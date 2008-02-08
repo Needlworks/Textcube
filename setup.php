@@ -1428,6 +1428,7 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (blogid) values(1)";
 							{$_POST['dbPrefix']}ContentFilters,
 							{$_POST['dbPrefix']}DailyStatistics,
 							{$_POST['dbPrefix']}Entries,
+							{$_POST['dbPrefix']}EntriesArchive,
 							{$_POST['dbPrefix']}FeedGroupRelations,
 							{$_POST['dbPrefix']}FeedGroups,
 							{$_POST['dbPrefix']}FeedItems,
