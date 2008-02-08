@@ -21,6 +21,14 @@
 	if(strtok($part,'?') == 'setup.php') {require 'setup.php';exit;}
 	define('ROOT', '.'); 
 	$accessInfo['URLfragment'] = explode('/',strtok($accessInfo['input'],'?'));
+	if( !file_exists(ROOT.'/config.php') ) {
+		if( file_exists(ROOT.'/.htaccess') ) {
+			print "<html><body>Remove '.htaccess' file first!</body></html>";
+			exit;
+		}
+		print "<html><body><a id='setup' href='".rtrim($_SERVER["REQUEST_URI"],"/")."/setup.php'>Click to setup.</a></body></html>";
+		exit;
+	}
 	require ROOT.'/config.php';
 	switch ($service['type']) {
 		case 'path' : // For path-based multi blog.
