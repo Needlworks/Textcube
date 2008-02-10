@@ -3,6 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+$service['admin_script']='control.js';
+
 require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
@@ -44,6 +46,9 @@ $usersetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}
 											</tr>
 										</thead>
 										<tbody>
+											<tr>
+	<?php echo "<td class=\"name\"><a href=\"".$blogURL."/owner/control/action/user/delete/?userid=" . $userid . "\" onclick =  \"cleanUser(".$userid.");return false;\">사용자 삭제</a></td>";?>
+											</tr>
 										</tbody>
 									</table>
 								</div>

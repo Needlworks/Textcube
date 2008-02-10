@@ -193,6 +193,26 @@ class User {
 				return $changeBlogView;
 		}
 	}
+
+	function deleteUser($userid) {
+		global $database;
+		if ($userid == 1)
+			return false;
+		if (!isset($userid)) 
+			return false;
+		$blogs = User::getOwnedBlogs($userid);
+		$sql = "UPDATE `{$database['prefix']}Comments` SET replier = NULL WHERE replier = ".$userid;
+		POD::execute($sql);
+		foreach ($blogs as $ownedBlog) {
+			changeBlogOwner($ownedBlog,1); // 관리자 uid로 변경
+		}
+		$blogs = User::getBlogs($userid);
+		foreach ($blogs as $joinedBlog) {
+			deleteTeamblogUser($userid,$joinedBlog);
+		}
+		deleteUser($userid);
+		return true;
+	}
 }
 
 

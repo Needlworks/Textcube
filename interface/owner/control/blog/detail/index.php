@@ -120,7 +120,7 @@ function addUser(user) {
 										</colgroup>
 										<thead>
 											<tr>
-												<th class="name"><?php echo _t('사용자');?></th>
+												<th class="name"><?php echo _t('Action');?></th>
 											</tr>
 										</thead>
 										<tbody>

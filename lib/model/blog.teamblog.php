@@ -84,4 +84,24 @@ function deleteTeamblogUser($userid ,$blogid = null, $clean = true) {
 	}
 	return true;
 }
+
+function changeBlogOwner($blogid,$userid) {
+	global $database;
+	$sql = "UPDATE `{$database['prefix']}Teamblog` SET acl = 3 WHERE blogid = ".$blogid." and acl = " . BITWISE_OWNER;
+	POD::execute($sql);
+
+	$acl = POD::queryCell("SELECT acl FROM {$database['prefix']}Teamblog WHERE blogid='$blogid' and userid='$userid'");
+
+	if( $acl === null ) { // If there is no ACL, add user into the blog.
+		POD::query("INSERT INTO `{$database['prefix']}Teamblog`  
+			VALUES('$blogid', '$userid', '".BITWISE_OWNER."', UNIX_TIMESTAMP(), '0')");
+	}
+	else {
+		$sql = "UPDATE `{$database['prefix']}Teamblog` SET acl = ".BITWISE_OWNER." 
+			WHERE blogid = ".$blogid." and userid = " . $userid;
+		POD::execute($sql);
+	}
+
+	return true;
+}
 ?>

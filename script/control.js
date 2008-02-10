@@ -372,6 +372,23 @@ function sendBlogAddInfo(owner,identify) {
 	}
 	request.send();
 }
+
+function cleanUser(uid) {
+	if (!confirm(_t('모든 글과 블로그가 관리자의 소유로 옮겨집니다.') + '\t\n\n' + _t('되돌릴 수 없습니다.') + '\t\n\n' + _t('계속 진행하시겠습니까?'))) return false;
+	var request = new HTTPRequest(blogURL + "/owner/control/action/user/delete/?userid="+uid);
+	request.onSuccess = function() {
+		PM.removeRequest(this);
+		window.location.href = '../';
+	}
+	request.onError = function() {
+		PM.removeRequest(this);
+		msg = this.getText("/response/result");
+		alert(_t('사용자 삭제에 실패하였습니다.') + "\r\nError : " + msg);
+	}
+	PM.addRequest(request, _t("사용자 삭제중"));
+	request.send();
+}
+
 function ctlRefresh() {
 	window.location.reload();
 }
