@@ -37,7 +37,16 @@ if ( $service['type'] == "single" ) {
 <h2 class="caption"><span class="main-text">Blog List</span></h2>
 <div id=container-blog-list class='part'>
 <table class="data-inbox" id="table-blog-list" cellpadding="0" cellspacing="0">
-<thead><tr><th><?php echo _t('블로그 ID')?></th><th><?php echo _t('블로그 구분자')?></th><th><?php echo _t('블로그 제목')?></th><th><?php echo _t('블로그 소유자')?></th></tr></thead>
+<thead>
+	<tr>
+	<th><?php echo _t('블로그 ID')?></th>
+	<th><?php echo _t('블로그 구분자')?></th>
+	<th><?php echo _t('블로그 제목')?></th>
+	<th><?php echo _t('블로그 소유자')?></th>
+	</td><?php if ( $service['type'] != "single" ) {?>
+	<th><?php echo _t('바로 가기')?></th>
+	<?php }?>
+	</tr></thead>
 <tbody>
 <?php
 $row = 25;
@@ -71,7 +80,10 @@ if($bloglist){
 	</td>
 	<td>
 		<?php echo User::getName($bsetting['owner'])."(".User::getEmail($bsetting['owner']).")";?>
-	</td>
+	</td><?php if ( $service['type'] != "single" ) {?>
+	<td class="name">
+		<a href="<?php echo getDefaultUrl($itemBlogId);?>"><?php echo _t("보기");?></a>
+	</td><?php }?>
 </tr>
 <?php
 	}
