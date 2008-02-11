@@ -49,7 +49,9 @@ define('Auth_Yadis_XMLNS_XRDS', 'xri://$xrds');
 function Auth_Yadis_getNSMap()
 {
     return array('xrds' => Auth_Yadis_XMLNS_XRDS,
-                 'xrd' => Auth_Yadis_XMLNS_XRD_2_0);
+                 'xrd' => Auth_Yadis_XMLNS_XRD_2_0,
+                 'openid' => Auth_OpenID_XMLNS_1_0
+               );
 }
 
 /**
