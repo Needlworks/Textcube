@@ -63,6 +63,14 @@ class User {
 	}
 
 	/*@static@*/
+	function getUseridByEmail($loginid = null) {
+		global $database;
+		if(!isset($loginid)) return null;
+		$loginid = POD::escapeString($loginid);
+		return POD::queryCell("SELECT userid FROM {$database['prefix']}Users WHERE loginid = '".$loginid."'");
+	}
+	
+	/*@static@*/
 	function getBlogs($userid = null) {
 		global $database;
 		if (!isset($userid))

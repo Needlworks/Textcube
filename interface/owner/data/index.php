@@ -242,10 +242,36 @@ if(Acl::check("group.creators")) {
 									<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/dbExport.png" alt="<?php echo _t('데이터 백업 이미지');?>" />
 								</div>
 								<p class="explain">
-									<?php echo _t('현재의 모든 데이터를 백업파일로 보관합니다.<br />첨부파일을 포함시킬 수 있으며, 복원할 경우 자동으로 첨부파일이 처리됩니다.<br />백업파일은 서버에 저장하거나 다운받으실 수 있습니다.');?>
+									<?php echo _t('현재의 모든 데이터를 TTXML형태의 백업파일로 보관합니다.<br />첨부파일을 포함시킬 수 있으며, 복원할 경우 자동으로 첨부파일이 처리됩니다.<br />백업파일은 서버에 저장하거나 다운받으실 수 있습니다.');?>
 								</p>
 							</div>
-							
+<?php
+	if(file_exists(ROOT . "/cache/backup/$blogid.xml")) {
+		$fileTime = Timestamp::format5(filectime(ROOT . "/cache/backup/$blogid.xml"));
+
+?>
+							<div class="notification-box">
+								<p><?php echo _f('서버에 %1에 백업한 파일이 존재합니다.',$fileTime);?></p>
+<?php
+		$apikey = setting::getUserSettingGlobal('APIKey',null,getUserId());
+		if($apikey!=null) {
+?>
+								<p>
+									 <?php echo _t('복원을 위하여 외부에서 백업 파일에 접근하려면 아래의 주소를 이용하세요.');?></p>
+								<p class="url"><?php echo $defaultURL."/ttxml?loginid=".User::getEmail(getUserId())."&key=".$apikey;?></p>
+<?php
+		} else {
+?>
+								<p>
+								 	<?php echo _t('환경설정-계정 정보에서 API key를 설정하시면 온라인 복원을 위한 주소를 만들 수 있습니다.');?>
+								</p>
+<?php
+		}
+?>
+							</div>
+<?php
+	}
+?>
 							<form id="DBExportDialog" class="dialog" method="get" action="<?php echo $blogURL;?>/owner/data/backup" style="position: absolute; display: none; z-index: 100;">
 								<h3><?php echo _t('데이터 백업을 시작합니다');?></h3>
 								
