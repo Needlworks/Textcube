@@ -58,7 +58,7 @@ function addProtocolSense($url, $protocol = 'http://') {
 	return preg_match('/^[a-zA-Z0-9]+:/', $url) ? $url : $protocol . $url;
 }
 
-function decorateSrcInObejct($html)
+function decorateSrcInObject($html)
 {
 	$count = preg_match_all('@src="(.+)"@iU', $html, $matches, PREG_PATTERN_ORDER);
 	while ($count > 0) {

@@ -33,7 +33,7 @@ $page = $_GET['page'];
 <h2 class="caption"><span class="main-text">User List</span></h2>
 <div id=container-user-list class='part'>
 <table class="data-inbox" id="table-user-list" cellpadding="0" cellspacing="0">
-<thead><tr><th>사용자 ID</th><th>로그인 ID</th><th>이름</th><th>마지막 로그인</th></tr></thead>
+<thead><tr><th><?php echo _t('사용자 ID');?></th><th><?php echo _t('로그인 ID');?></th><th><?php echo _t('이름');?></th><th><?php echo _t('마지막 로그인');?></th></tr></thead>
 <tbody>
 <?php
 $row = 25;
