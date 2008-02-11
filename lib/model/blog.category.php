@@ -286,9 +286,10 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 	} else
 		$parentStr = 'AND parent is null';
 	$name = POD::escapeString(UTF8::lessenAsEncoding($name, 127));
+	$bodyid = POD::escapeString(UTF8::lessenAsEncoding($bodyid, 20));
 	if(POD::queryExistence("SELECT name
 		FROM {$database['prefix']}Categories
-		WHERE blogid = $blogid AND name = '".$name."'"))
+		WHERE blogid = $blogid AND name = '".$name."' AND bodyId = '".$bodyid."'"))
 		return false;
 	$label = POD::escapeString(UTF8::lessenAsEncoding(empty($label) ? $name : "$label/$name", 255));
 	$sql = "SELECT * 
@@ -298,7 +299,6 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 	// $sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE blogid = $blogid AND name='$name' $parentStr";	
 	if(POD::queryExistence($sql) == false)
 		return false;
-	$bodyid = POD::escapeString(UTF8::lessenAsEncoding($bodyid, 20));
 	
 	$result = POD::query("UPDATE {$database['prefix']}Categories 
 		SET name = '$name', 

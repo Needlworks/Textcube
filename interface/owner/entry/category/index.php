@@ -19,7 +19,6 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireModel('blog.category');
 requireModel('blog.entry');
 requireComponent('Textcube.Function.misc');
-
 if (!empty($_POST['id']))
 	$selected = $_POST['id'];
 else if (empty($_GET['id']))
@@ -80,7 +79,6 @@ if ((!empty($_POST['newCategory']) && misc::isSpace($_POST['newCategory'])) ||
 } else {
 	$history = '';
 }
-
 $categories = getCategories($blogid);
 $name = getCategoryNameById($blogid, $selected) ? getCategoryNameById($blogid, $selected) : _t('전체');
 $bodyid = getCategoryBodyIdById($blogid, $selected);
