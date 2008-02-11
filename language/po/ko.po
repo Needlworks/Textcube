@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-22 18:17:00+0000\n"
-"PO-Revision-Date: 2007-08-22 18:17:00+0000\n"
+"POT-Creation-Date: 2008-02-11 14:55:53+0000\n"
+"PO-Revision-Date: 2008-02-11 14:55:53+0000\n"
 "Last-Translator: TEXTCUBE\n"
 "Language-Team: TEXTCUBE\n"
 "MIME-Version: 1.0\n"
@@ -16,15 +16,6 @@ msgstr "fontDisplayName:fontCode:fontFamily|바탕:Batang:Serif|바탕체:Batang
 
 msgid "걸린글"
 msgstr "걸린글(트랙백)"
-
-msgid "걸린글 테이블에 광고 및 스팸 분류를 위한 휴지통 필드를 추가합니다."
-msgstr "걸린글(트랙백) 테이블에 광고 및 스팸 분류를 위한 휴지통 필드를 추가합니다."
-
-msgid "걸린글 테이블의 미사용 필드를 삭제합니다."
-msgstr "걸린글(트랙백) 테이블의 사용하지 않는 필드를 삭제합니다."
-
-msgid "걸린글 테이블의 인덱스를 수정합니다."
-msgstr "걸린글(트랙백) 테이블의 인덱스를 수정합니다."
 
 msgid "걸린글을 기본으로 펼칩니다."
 msgstr "걸린글(트랙백)을 기본으로 펼칩니다."
@@ -82,9 +73,6 @@ msgstr "선택한 걸린글(트랙백)을"
 
 msgid "수요일"
 msgstr "수"
-
-msgid "스킨 관련 테이블에 댓글 및 글걸기 메세지 설정을 위한 필드를 삭제합니다."
-msgstr "스킨 관련 테이블에 댓글 및 글걸기(트랙백) 메세지 설정을 위한 필드를 삭제합니다."
 
 msgid "월요일"
 msgstr "월"
