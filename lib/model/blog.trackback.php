@@ -97,7 +97,7 @@ function getRecentTrackbacks($blogid, $count = false, $guestShip = false) {
 			AND e.visibility >= 2 ".getPrivateCategoryExclusionQuery($blogid)." 
 		ORDER BY 
 			t.written 
-		DESC LIMIT ".($count = false ? $count : $skinSetting['trackbacksOnRecent']);
+		DESC LIMIT ".($count != false ? $count : $skinSetting['trackbacksOnRecent']);
 	if ($result = POD::queryAllWithDBCache($sql,'trackback')) {
 		return $result;
 	}
