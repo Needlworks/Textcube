@@ -84,7 +84,7 @@ function avoidFlashBorder($html, $tag='object') {
 		while(true) {
 			if(($pos2 = strpos($str, "</$tag>", $pos2)) === false) {
 				return $result . '<script type="text/javascript">//<![CDATA[' . CRLF
-				    .'writeCode2("' . str_replace(array('"', "\r", "\n"), array('\"', '', "\\\r\n"), decorateSrcInObejct(substr($html, $pos1))) . '")'.CRLF
+				    .'writeCode2("' . str_replace(array('"', "\r", "\n"), array('\"', '', "\\\r\n"), decorateSrcInObject(substr($html, $pos1))) . '")'.CRLF
 				    .'//]]></script>';
 			}
 			$pos2 += strlen($tag) + 3;
@@ -93,7 +93,7 @@ function avoidFlashBorder($html, $tag='object') {
 				break;
 		}
 		$result .= '<script type="text/javascript">//<![CDATA['. CRLF
-		    .'writeCode2("' . str_replace(array('"', "\r", "\n"), array('\"', '', "\\\r\n"), decorateSrcInObejct(substr($html, $pos1, $pos2 - $pos1))) . '")'.CRLF
+		    .'writeCode2("' . str_replace(array('"', "\r", "\n"), array('\"', '', "\\\r\n"), decorateSrcInObject(substr($html, $pos1, $pos2 - $pos1))) . '")'.CRLF
 		    .'//]]></script>';
 	}
 	return $result . substr($html, $pos2);
