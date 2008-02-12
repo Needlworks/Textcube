@@ -73,9 +73,9 @@ dress('rctps_rep', getRecentEntriesView(getRecentEntries($blogid), $skin->recent
 dress('rctrp_rep', getRecentCommentsView(getRecentComments($blogid), $skin->recentComments), $view);
 dress('rcttb_rep', getRecentTrackbacksView(getRecentTrackbacks($blogid), $skin->recentTrackback), $view);
 dress('link_rep', getLinksView(getLinks( $blogid ), $skin->s_link_rep), $view);
-dress('rss_url', "$blogURL/rss", $view);
-dress('comment_rss_url', "$blogURL/rss/comment", $view);
-dress('trackback_rss_url', "$blogURL/rss/trackback", $view);
+dress('rss_url', "$defaultURL/rss", $view);
+dress('comment_rss_url', "$defaultURL/rss/comment", $view);
+dress('trackback_rss_url', "$defaultURL/rss/trackback", $view);
 dress('owner_url', "$blogURL/owner", $view);
 dress('textcube_name', TEXTCUBE_NAME, $view);
 dress('textcube_version', TEXTCUBE_VERSION, $view);
