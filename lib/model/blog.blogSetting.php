@@ -463,7 +463,7 @@ function changePassword($userid, $pwd, $prevPwd) {
 function changeAPIKey($userid, $key) {
 	requireComponent('Textcube.Function.Setting');
 	if($key) return setting::setUserSettingGlobal('APIKey',$key,$userid);
-	else return false;
+	else return setting::removeUserSettingGlobal('APIKey',$userid);
 }
 
 function deleteBlog($blogid) {

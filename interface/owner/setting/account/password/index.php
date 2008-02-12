@@ -16,9 +16,7 @@ if($_POST['pwd'] != '' && $_POST['prevPwd'] != '') {
 	$result = changePassword(getUserId(), $_POST['pwd'], $_POST['prevPwd']);
 	
 }
-if($_POST['APIKey'] != '') {
-	$result = changeAPIKey(getUserId(), $_POST['APIKey']);
-}
+$result = changeAPIKey(getUserId(), $_POST['APIKey']);
 if($result) respond::ResultPage(0);
 else respond::ResultPage(-1);
 ?>

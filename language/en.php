@@ -152,6 +152,7 @@ $__text['SessionVisits 테이블의 블로그 정보 필드 이름을 변경합�
 $__text['URL로 읽어오기'] = 'OPML URL';
 $__text['UTF8 General 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)'] = 'UTF8 General is not supported; non-ASCII characters may not be displayed correctly)';
 $__text['UTF8 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)'] = 'UTF8 is not supported; non-ASCII characters may not be displayed correctly';
+$__text['XFN 지원'] = 'XFN support';
 //$__text['XHTML specification / Textcube main page / Quality Assurance'] = '';
 $__text['[비밀댓글]'] = '[Secret comment]';
 $__text['[임시]'] = '[temp]';
@@ -197,6 +198,8 @@ $__text['걸린글을 삭제하지 못하였습니다.'] = 'Could not delete tra
 $__text['걸린글을 지우지 못했습니다.'] = 'Failed to delete trackback.';
 $__text['검색 시'] = 'When searching';
 $__text['검색'] = 'Search';
+$__text['검색엔진이 링크 관계를 인식할 수 있도록 링크에 FOAF를 추가합니다.'] = 'Add FOAF to links. FOAF helps machines to recognize link relationship better.';
+$__text['검색엔진이 링크 관계를 인식할 수 있도록 링크에 XFN 마이크로포맷을 추가합니다.'] = 'Add XFN microformat to links. XFN microformat helps machines to recognize link relationship better.';
 $__text['검색엔진이 태그를 따로 인식할 수 있도록 글의 태그에 rel=tag 를 표시합니다. 태그 상자에는 적용되지 않습니다.'] = 'Make posts search engine friendly by applying rel=tag to all tags. This does not apply to tag boxes';
 $__text['경과'] = 'Elapsed';
 $__text['계속보관'] = 'Archive';

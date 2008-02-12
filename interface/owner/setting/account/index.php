@@ -105,9 +105,6 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										} else {
 											return false;
 										}
-									} else if (apiPasswd.value == '') {
-										alert("<?php echo _t('변경하고자 하는 비밀번호 또는 API키를 입력해 주십시오.');?>");
-										return false;
 									}
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/account/password/");
 									request.onSuccess = function() {
