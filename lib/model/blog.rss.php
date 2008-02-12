@@ -145,7 +145,7 @@ function getCommentRSSTotal($blogid) {
 		$content = htmlspecialchars($row['comment']);
 		$item = array(
 			'id' => $row['id'], 
-			'title' => sprintf( _text('%s님의 댓글'), $row['name'] ), 
+			'title' => UTF8::lessen($row['title'],30).' : '.sprintf( _text('%s님의 댓글'), $row['name'] ), 
 			'link' => $commentURL.$row['id'], 
 			'categories' => array(), 'description' => $content, 
 			'author' => '('.$row['name'].')', 
