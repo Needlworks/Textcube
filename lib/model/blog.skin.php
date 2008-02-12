@@ -288,6 +288,8 @@ function setSkinSetting($blogid, $setting) {
 		return false;
 	}
 	setBlogSetting('useRelTag',(($setting['useRelTag'] == 1) ? 1: 0));
+	setBlogSetting('useFOAF',(($setting['useFOAF'] == 1) ? 1: 0));
+	setBlogSetting('useXFN',(($setting['useXFN'] == 1) ? 1: 0));
 	setBlogSetting('entriesOnPage',$setting['entriesOnPage']);
 	setBlogSetting('entriesOnList',$setting['entriesOnList']);
 	CacheControl::flushCategory();

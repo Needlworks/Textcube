@@ -71,6 +71,16 @@ $selected = 0;
 									else 
 										useRelTag = 0;
 									
+									if(document.getElementById('useXFN').checked)
+										useXFN = 1;
+									else 
+										useXFN = 0;
+									
+									if(document.getElementById('useFOAF').checked)
+										useFOAF = 1;
+									else 
+										useFOAF = 0;
+									
 									var tagboxAlign = 1;
 									if (document.getElementById('tagboxAlignUsed')	.checked) {
 										tagboxAlign = 1;
@@ -103,6 +113,8 @@ $selected = 0;
 									param += 'recentTrackbackLength='+getValueById('recentTrackbackLength') +'&';				
 									param += 'linkLength='+getValueById('linkLength') +'&';
 									param += 'useRelTag='+ useRelTag +'&';
+									param += 'useXFN='+ useRelTag +'&';
+									param += 'useFOAF='+ useRelTag +'&';
 									var request = new HTTPRequest("POST", '<?php echo $blogURL;?>/owner/skin/setting/skin/');
 									request.onSuccess = function() {
 										PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
@@ -599,12 +611,6 @@ ob_end_clean();
 											<dt><span class="label"><?php echo _t('태그상자의 태그 수');?></span></dt>
 											<dd><?php echo _f('태그상자의 태그를 %1개 표시합니다.', $arg);?></dd>
 										</dl>
-										<dl id="tag-rel-line" class="line">
-											<dt><span class="label"><?php echo _t('태그 연관성 명시');?></span></dt>
-											<dd>
-												<input type="checkbox" id="useRelTag" class="checkbox" name="useRelTag"<?php echo getBlogSetting('useRelTag',1) ? ' checked="checked"' : '';?> /><label for="useRelTag"><?php echo _t('검색엔진이 태그를 따로 인식할 수 있도록 글의 태그에 rel=tag 를 표시합니다. 태그 상자에는 적용되지 않습니다.');?></label>
-											</dd>
-										</dl>
 									</fieldset>
 									
 									<fieldset id="guestbook-setting-container" class="container">
@@ -635,7 +641,27 @@ ob_end_clean();
 											<dd><?php echo _f('방명록 한 쪽 당 %1개 글을 표시합니다.', $arg);?></dd>
 										</dl>
 									</fieldset>
-								
+									<fieldset id="microformat-setting-container" class="container">
+										<legend><?php echo _t('Microformat 지원');?></legend>
+										<dl id="tag-rel-line" class="line">
+											<dt><span class="label"><?php echo _t('태그 연관성 명시');?></span></dt>
+											<dd>
+												<input type="checkbox" id="useRelTag" class="checkbox" name="useRelTag"<?php echo getBlogSetting('useRelTag',1) ? ' checked="checked"' : '';?> /><label for="useRelTag"><?php echo _t('검색엔진이 태그를 따로 인식할 수 있도록 글의 태그에 rel=tag 를 표시합니다. 태그 상자에는 적용되지 않습니다.');?></label>
+											</dd>
+										</dl>
+										<dl id="microformat-xfn-line" class="line">
+											<dt><span class="label"><?php echo _t('XFN 지원');?></span></dt>
+											<dd>
+												<input type="checkbox" id="useXFN" class="checkbox" name="useXFN"<?php echo getBlogSetting('useXFN',1) ? ' checked="checked"' : '';?> /><label for="useXFN"><?php echo _t('검색엔진이 링크 관계를 인식할 수 있도록 링크에 XFN 마이크로포맷을 추가합니다.');?></label>
+											</dd>
+										</dl>
+										<dl id="microformat-foaf-line" class="line">
+											<dt><span class="label"><?php echo _t('FOAF 지원');?></span></dt>
+											<dd>
+												<input type="checkbox" id="useFOAF" class="checkbox" name="useFOAF"<?php echo getBlogSetting('useFOAF',1) ? ' checked="checked"' : '';?> /><label for="useFOAF"><?php echo _t('검색엔진이 링크 관계를 인식할 수 있도록 링크에 FOAF를 추가합니다.');?></label>
+											</dd>
+										</dl>
+									</fieldset>
 									<div class="button-box">
 										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setSkin(); return false;" />
 									</div>

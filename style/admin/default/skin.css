@@ -239,6 +239,11 @@
 
 /* Setting ***************************************************************************************/
 
+#part-skin-setting 
+{
+	height                           : 650px;
+}
+
 #part-skin-setting .caption
 {
 	margin-bottom                    : 20px;
@@ -273,7 +278,9 @@
 
 #part-skin-setting .section .button-box
 {
-	clear                            : both;
+	position                         : absolute;
+	top                              : 600px;
+	left                             : 455px;
 	padding-bottom                   : 30px;
 }
 
@@ -293,13 +300,17 @@
 
 #per-page-container
 {
-	float                            : right;
+	position                         : absolute;
+	top                              : 60px;
+	left                             : 500px;
 }
 
 #click-container
 {
 	display                          : block;
-	float                            : left;
+	position                         : absolute;
+	top                              : 60px;
+	left                             : 20px;
 }
 
 #click-container dd
@@ -309,20 +320,32 @@
 
 #length-container
 {
-	float                            : right;
-	margin-left                      : 22px;
+	position                         : absolute;
+	top                              : 260px;
+	left                             : 500px;
 }
 
 #tag-setting-container
 {
-	float                            : right;
+	position                         : absolute;
+	top                              : 475px;
+	left                             : 500px;
 }
 
 #guestbook-setting-container
 {
-	float                            : left;
+	position                         : absolute;
+	top                              : 430px;
+	left                             : 500px;
 }
-	
+
+#microformat-setting-container
+{
+	position                         : absolute;
+	top                              : 460px;
+	left                             : 20px;
+}
+
 /* Tree -----------------------------------------------------------------------------------------*/
 
 #part-skin-tree div.data-inbox

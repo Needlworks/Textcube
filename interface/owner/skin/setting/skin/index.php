@@ -25,7 +25,9 @@ $IV = array(
 		'recentCommentLength' => array('int'),
 		'recentTrackbackLength' => array('int'),
 		'linkLength' => array('int'),
-		'useRelTag' => array('int')
+		'useRelTag' => array('int'),
+		'useFOAF' => array('int'),
+		'useXFN' => array('int')
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';

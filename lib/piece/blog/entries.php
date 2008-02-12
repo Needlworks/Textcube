@@ -19,7 +19,7 @@ if (isset($cache->contents)) {
 			"title='Comment: ".$entry['title']." - ".$blog['title']."' ".
 			"href='$defaultURL/rss/comment/{$entry['id']}' />".CRLF;
 	}
-	if( rtrim( $suri['url'], '/' ) == $pathURL ) {
+	if( getBlogSetting('useFOAF',1) && rtrim( $suri['url'], '/' ) == $pathURL ) {
 		/* same code exists in cover.php */
 		$foafDiscovery = "<link rel=\"meta\" type=\"application/rdf+xml\" title=\"FOAF\" href=\"$defaultURL/foaf\" />\n";
 	} else {
@@ -27,6 +27,7 @@ if (isset($cache->contents)) {
 	}
 	dress('SKIN_head_end', $foafDiscovery.$entryRsses."[##_SKIN_head_end_##]", $view);
 	dress('foaf_url', "$defaultURL/foaf", $view);
+	
 	foreach ($entries as $entry) {
 		if ($suri['directive'] == '/notice')
 			$permalink = "$blogURL/notice/{$entry['id']}";

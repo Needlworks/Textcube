@@ -974,7 +974,7 @@ function getLinksView($links, $template) {
 		}
 		$view = "$template";
 		dress('link_url', htmlspecialchars($link['url']), $view);
-		if( $home && $link['xfn'] ) {
+		if( getBlogSetting('useXFN',1) && $home && $link['xfn'] ) {
 			addXfnAttrs( htmlspecialchars($link['url']), htmlspecialchars($link['xfn']), $view );
 		}
 		dress('link_site', fireEvent('ViewLink', htmlspecialchars(UTF8::lessenAsEm($link['name'], $skinSetting['linkLength']))), $view);
