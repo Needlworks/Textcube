@@ -14,13 +14,13 @@ if (isset($cache->contents)) {
 	foreach ($entries as $entry) {
 		$entryRsses .= "<link rel='alternate' type='application/rss+xml' ".
 			"title='Trackback: ".$entry['title']." - ".$blog['title']."' ".
-			"href='$blogURL/trackback/rss/{$entry['id']}' />".CRLF;
+			"href='$defaultURL/rss/trackback/{$entry['id']}' />".CRLF;
 		$entryRsses .= "<link rel='alternate' type='application/rss+xml' ".
 			"title='Comment: ".$entry['title']." - ".$blog['title']."' ".
-			"href='$blogURL/comment/rss/{$entry['id']}' />".CRLF;
+			"href='$defaultURL/rss/comment/{$entry['id']}' />".CRLF;
 	}
 	if( rtrim( $suri['url'], '/' ) == $pathURL ) {
-		$foafDiscovery = "<link rel=\"meta\" type=\"application/rdf+xml\" title=\"FOAF\" href=\"$pathURL/foaf\" />\n";
+		$foafDiscovery = "<link rel=\"meta\" type=\"application/rdf+xml\" title=\"FOAF\" href=\"$defaultURL/foaf\" />\n";
 	} else {
 		$foafDiscovery = "";
 	}
