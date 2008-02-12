@@ -20,11 +20,13 @@ if (isset($cache->contents)) {
 			"href='$defaultURL/rss/comment/{$entry['id']}' />".CRLF;
 	}
 	if( rtrim( $suri['url'], '/' ) == $pathURL ) {
+		/* same code exists in cover.php */
 		$foafDiscovery = "<link rel=\"meta\" type=\"application/rdf+xml\" title=\"FOAF\" href=\"$defaultURL/foaf\" />\n";
 	} else {
 		$foafDiscovery = "";
 	}
 	dress('SKIN_head_end', $foafDiscovery.$entryRsses."[##_SKIN_head_end_##]", $view);
+	dress('foaf_url', "$defaultURL/foaf", $view);
 	foreach ($entries as $entry) {
 		if ($suri['directive'] == '/notice')
 			$permalink = "$blogURL/notice/{$entry['id']}";

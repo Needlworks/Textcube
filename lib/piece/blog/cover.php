@@ -7,6 +7,11 @@
 if (isset($cache->contents)) {
 	dress('cover', $cache->contents, $view);
 } else if (isset($skin)) {
+	if( rtrim( $suri['url'], '/' ) == $pathURL ) {
+		/* same code exists in entries.php */
+		$foafDiscovery = "<link rel=\"meta\" type=\"application/rdf+xml\" title=\"FOAF\" href=\"$defaultURL/foaf\" />\n";
+		dress('SKIN_head_end', $foafDiscovery."[##_SKIN_head_end_##]", $view);
+	}
 	$coverView = $skin->cover;
 	$itemsView = '';
 	handleCoverpages($skin, false);
@@ -17,6 +22,7 @@ if (isset($cache->contents)) {
 
 	dress('cover_rep', $itemsView, $coverView);
 	dress('cover', $coverView, $view);
+	dress('foaf_url', "$defaultURL/foaf", $view);
 
 	if(isset($cache)) { 
 		$cache->contents = $coverView;
