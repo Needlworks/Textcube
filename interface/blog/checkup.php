@@ -202,10 +202,10 @@ if (POD::queryCell("DESC {$database['prefix']}Trackbacks blogid", 'Key') != 'PRI
 	$changed = true;
 	echo '<li>', _text('트랙백 불러오기 속도를 개선하기 위하여 트랙백 테이블의 인덱스 설정을 변경합니다.'), ': ';
 	POD::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP INDEX written");
+	POD::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP INDEX blogid");
 	POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs DROP INDEX id");
 	if (POD::execute("ALTER TABLE {$database['prefix']}Trackbacks 
 			DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, id),
-			DROP INDEX blogid,
 			ADD INDEX blogid (blogid, isFiltered, written)")
 		&&POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs
 			DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, entry, id), ADD UNIQUE id (blogid, id)"))
