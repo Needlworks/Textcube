@@ -81,7 +81,7 @@ $__text['<acronym title="Rich Site Summary">RSS</acronym> 주소'] = '<acronym t
 $__text['<acronym title="Uniform Resource Locator">URL</acronym> 입력'] = 'Typing <acronym title="Uniform Resource Locator">URL</acronym>';
 //$__text['ACO / ACL / i18n / XML-RPC API interface / OpenID / Microformat'] = '';
 //$__text['ACO / ACL / i18n / XML-RPC API interface / OpenID'] = '';
-/$__text['API Key 설정'] = 'Setting API Key';
+$__text['API Key 설정'] = 'Setting API Key';
 $__text['API 용 비밀번호'] = 'Password for API';
 $__text['API 주소'] = 'API address';
 //$__text['Action'] = '';
