@@ -242,6 +242,15 @@ if (!POD::queryExistence("DESC {$database['prefix']}SkinSettings showListOnAutho
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
+if (POD::queryCell("DESC {$database['prefix']}Entries draft", 'Key') != 'PRI') {
+	$changed = true;
+	echo '<li>', _text('엔트리 테이블의 주 인덱스에 draft를 추가합니다.'), ': ';
+	if (POD::execute("ALTER TABLE {$database['prefix']}Entries DROP PRIMARY KEY, ADD PRIMARY KEY (`blogid`,`id`,`draft`,`category`,`published`)"))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+}
+
 /***** Common parts. *****/
 if(doesHaveOwnership() && $blogids = POD::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog")) {
 	$changed = true;

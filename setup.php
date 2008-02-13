@@ -1142,7 +1142,7 @@ CREATE TABLE {$_POST['dbPrefix']}Entries (
   modified int(11) NOT NULL default '0',
   comments int(11) NOT NULL default '0',
   trackbacks int(11) NOT NULL default '0',
-  PRIMARY KEY (blogid, id, category, published),
+  PRIMARY KEY (blogid, id, draft, category, published),
   KEY visibility (visibility),
   KEY userid (userid),
   KEY published (published),
