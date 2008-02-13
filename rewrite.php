@@ -2,23 +2,13 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-	define('ROOT', '.'); 
-	if( !file_exists(ROOT.'/config.php') ) {
-		print "<html><body>".(file_exists(ROOT.'/.htaccess')?
-			"Remove '.htaccess' file first!":
-			"<a id='setup' href='".rtrim($_SERVER["REQUEST_URI"],"/")."/setup.php'>Click to setup.</a>").
-			"</body></html>";
-		exit;
-	} else {
-		require ROOT.'/config.php';
-	}
-
+	if( !empty($_SERVER['REWRITE_CONFIG']) && file_exists('rewrite_config.php') ) { require_once "rewrite_config.php"; }
 	$accessInfo = array(
 		'host'     => $_SERVER['HTTP_HOST'],
 		'fullpath' => $_SERVER["REQUEST_URI"],
 		'position' => $_SERVER["SCRIPT_NAME"],
 		'root'     => str_replace('rewrite.php','',$_SERVER["SCRIPT_NAME"])
-	);
+		);
 	$accessInfo['input'] = ltrim(substr(str_replace('index.php','',$accessInfo['fullpath']),strlen(rtrim($accessInfo['root'],'index.php'))+(defined('__TEXTCUBE_NO_FANCY_URL__') ? 1 : 0)),'/'); //Workaround for compartibility with fastCGI / Other environment
 	$part = strtok($accessInfo['input'],'/');
 	if(in_array($part, array('image','plugins','script','cache','skin','style','attach','thumbnail'))) {
@@ -30,7 +20,17 @@
 		exit;
 	}
 	if(strtok($part,'?') == 'setup.php') {require 'setup.php';exit;}
+	define('ROOT', '.'); 
 	$accessInfo['URLfragment'] = explode('/',strtok($accessInfo['input'],'?'));
+	if( !file_exists(ROOT.'/config.php') ) {
+		if( file_exists(ROOT.'/.htaccess') ) {
+			print "<html><body>Remove '.htaccess' file first!</body></html>";
+			exit;
+		}
+		print "<html><body><a id='setup' href='".rtrim($_SERVER["REQUEST_URI"],"/")."/setup.php'>Click to setup.</a></body></html>";
+		exit;
+	}
+	require ROOT.'/config.php';
 	switch ($service['type']) {
 		case 'path' : // For path-based multi blog.
 			array_splice($accessInfo['URLfragment'],0,1); 
