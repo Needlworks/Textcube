@@ -65,17 +65,7 @@ $selected = 0;
 										expandTrackback = 1;
 									else 
 										expandTrackback = 0;
-
-									if(document.getElementById('useRelTag').checked)
-										useRelTag = 1;
-									else 
-										useRelTag = 0;
-									
-									if(document.getElementById('useXFN').checked)
-										useXFN = 1;
-									else 
-										useXFN = 0;
-									
+																		
 									if(document.getElementById('useFOAF').checked)
 										useFOAF = 1;
 									else 
@@ -90,6 +80,14 @@ $selected = 0;
 										tagboxAlign = 3;
 									}
 									
+									if (document.getElementById('microformatNone').checked) {
+										useMicroformat = 1;
+									} else if(document.getElementById('microformatSome').checked) {
+										useMicroformat = 2;
+									} else {
+										useMicroformat = 3;
+									}
+
 									param  = '';
 									param += 'entriesOnPage='+getValueById('entriesOnPage') +'&';
 									param += 'entriesOnList='+getValueById('entriesOnList') +'&';
@@ -112,9 +110,9 @@ $selected = 0;
 									param += 'recentCommentLength='+getValueById('recentCommentLength') +'&';
 									param += 'recentTrackbackLength='+getValueById('recentTrackbackLength') +'&';				
 									param += 'linkLength='+getValueById('linkLength') +'&';
-									param += 'useRelTag='+ useRelTag +'&';
-									param += 'useXFN='+ useRelTag +'&';
-									param += 'useFOAF='+ useRelTag +'&';
+									param += 'useMicroformat='+ useMicroformat +'&';
+									param += 'useFOAF='+ useFOAF +'&';
+
 									var request = new HTTPRequest("POST", '<?php echo $blogURL;?>/owner/skin/setting/skin/');
 									request.onSuccess = function() {
 										PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
@@ -569,19 +567,16 @@ ob_end_clean();
 
 									<fieldset id="advanced-setting-container" class="container">
 										<legend><?php echo _t('확장 지원');?></legend>
-										<dl id="tag-rel-line" class="line">
-											<dt><span class="label"><?php echo _t('태그 연관성 명시');?></span></dt>
+										<dl id="advanced-microformat-line" class="line">
+											<dt><span class="label"><?php echo _t('Microformat 지원');?></span></dt>
 											<dd>
-												<input type="checkbox" id="useRelTag" class="checkbox" name="useRelTag"<?php echo getBlogSetting('useRelTag',1) ? ' checked="checked"' : '';?> /><label for="useRelTag"><?php echo _t('검색엔진이 태그를 따로 인식할 수 있도록 글의 태그에 rel=tag 를 표시합니다. 태그 상자에는 적용되지 않습니다.');?></label>
+												<input type="radio" id="microformatNone" class="radio" name="useMicroformat" value="1" <?php echo (getBlogSetting('useMicroformat',3) == 1 ? 'checked = "checked"' : '');?> /><label for="microformatNone"><?php echo _t('Microformat을 사용하지 않습니다.');?></label><br />
+												<input type="radio" id="microformatSome" class="radio" name="useMicroformat" value="2" <?php echo (getBlogSetting('useMicroformat',3) == 2 ? 'checked = "checked"' : '');?> /><label for="microformatSome"><?php echo _t('웹표준 권고안과 충돌할 수도 있는 규약을 제외한 Microformat을 사용합니다.');?></label><br />
+												<input type="radio" id="microformatFull" class="radio" name="useMicroformat" value="3" <?php echo (getBlogSetting('useMicroformat',3) == 3 ? 'checked = "checked"' : '');?> /><label for="microformatFull"><?php echo _t('가능한 모든 Microformat을 지원합니다.');?></label>
 											</dd>
 										</dl>
-										<dl id="microformat-xfn-line" class="line">
-											<dt><span class="label"><?php echo _t('XFN 지원');?></span></dt>
-											<dd>
-												<input type="checkbox" id="useXFN" class="checkbox" name="useXFN"<?php echo getBlogSetting('useXFN',1) ? ' checked="checked"' : '';?> /><label for="useXFN"><?php echo _t('검색엔진이 링크 관계를 인식할 수 있도록 링크에 XFN 마이크로포맷을 추가합니다.');?></label>
-											</dd>
-										</dl>
-										<dl id="microformat-foaf-line" class="line">
+
+										<dl id="advanced-foaf-line" class="line">
 											<dt><span class="label"><?php echo _t('FOAF 지원');?></span></dt>
 											<dd>
 												<input type="checkbox" id="useFOAF" class="checkbox" name="useFOAF"<?php echo getBlogSetting('useFOAF',1) ? ' checked="checked"' : '';?> /><label for="useFOAF"><?php echo _t('검색엔진이 링크 관계를 인식할 수 있도록 링크에 FOAF를 추가합니다.');?></label>

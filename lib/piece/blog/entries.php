@@ -79,7 +79,7 @@ if (isset($cache->contents)) {
 			if (sizeof($entryTags) > 0) {
 				$tags = array();
 				foreach ($entryTags as $entryTag) {
-					$tags[$entryTag['name']] = "<a href=\"$defaultURL/tag/" . URL::encode($entryTag['name'],$service['useEncodedURL']) . '"' . ((count($entries) == 1 && getBlogSetting('useRelTag', true)) ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>';
+					$tags[$entryTag['name']] = "<a href=\"$defaultURL/tag/" . URL::encode($entryTag['name'],$service['useEncodedURL']) . '"' . ((count($entries) == 1 && (getBlogSetting('useMicroformat', 3)>1)) ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>';
 					array_push($totalTags,$entryTag['name']);
 				}
 				$tags = fireEvent('ViewTagLists', $tags, $entry['id']);

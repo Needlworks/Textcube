@@ -193,7 +193,7 @@ class Skin {
 			list($sval, $this->keywordGroup) = $this->cutSkinTag($sval, 'keyword_date_rep');
 			list($sval, $this->keyword) = $this->cutSkinTag($sval, 'keyword');
 			list($sval, $this->noticeItem) = $this->cutSkinTag($sval, 'notice_rep');
-			$this->noticeItem = applyMicroformats( 'notice', $this->noticeItem );
+			if(getBlogSetting('useMicroformat',3)>1) $this->noticeItem = applyMicroformats( 'notice', $this->noticeItem );
 			list($sval, $this->keylogItem) = $this->cutSkinTag($sval, 'keylog_rep');
 			list($sval, $this->recentNoticeItem) = $this->cutSkinTag($sval, 'rct_notice_rep');
 			list($sval, $this->recentNotice) = $this->cutSkinTag($sval, 'rct_notice');
@@ -271,7 +271,7 @@ class Skin {
 			
 			list($sval, $this->pageError) = $this->cutSkinTag($sval, 'page_error'); 
 			list($sval, $this->entry) = $this->cutSkinTag($sval, 'article_rep');
-			$this->entry = applyMicroformats( 'article', $this->entry );
+			if(getBlogSetting('useMicroformat',3)>1) $this->entry = applyMicroformats( 'article', $this->entry );
 			list($sval, $this->pagingItem) = $this->cutSkinTag($sval, 'paging_rep');
 			list($sval, $this->paging) = $this->cutSkinTag($sval, 'paging');
 			list($sval, $this->archive) = $this->cutSkinTag($sval, 'archive_rep');
@@ -451,10 +451,12 @@ function addAttribute(& $skin, $tag, $cond_attr, $cond_value, $addings) {
  */
 function tuneSkin(& $skin) {
 	/* add bookmark microformats */
-	addAttribute( $skin, 'a', 'href', '##_article_rep_link_##', 
+	if(getBlogSetting('useMicroformat',3)>1) {
+		addAttribute( $skin, 'a', 'href', '##_article_rep_link_##', 
 				array( 'rel' => 'bookmark', 'title' => "[##_article_rep_title_##]", 'class' => 'entry-title' ) );
-	addAttribute( $skin, 'a', 'href', '##_notice_rep_link_##', 
+		addAttribute( $skin, 'a', 'href', '##_notice_rep_link_##', 
 				array( 'rel' => 'bookmark', 'title' => "[##_notice_rep_title_##]", 'class' => 'entry-title' ) );
+	}
 }
 
 function applyMicroformats( $type, $content ) {
