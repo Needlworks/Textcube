@@ -566,6 +566,28 @@ ob_end_clean();
 											<dd><?php echo _f('링크를 %1 글자로 표시합니다.', $arg);?></dd>
 										</dl>
 									</fieldset>
+
+									<fieldset id="advanced-setting-container" class="container">
+										<legend><?php echo _t('확장 지원');?></legend>
+										<dl id="tag-rel-line" class="line">
+											<dt><span class="label"><?php echo _t('태그 연관성 명시');?></span></dt>
+											<dd>
+												<input type="checkbox" id="useRelTag" class="checkbox" name="useRelTag"<?php echo getBlogSetting('useRelTag',1) ? ' checked="checked"' : '';?> /><label for="useRelTag"><?php echo _t('검색엔진이 태그를 따로 인식할 수 있도록 글의 태그에 rel=tag 를 표시합니다. 태그 상자에는 적용되지 않습니다.');?></label>
+											</dd>
+										</dl>
+										<dl id="microformat-xfn-line" class="line">
+											<dt><span class="label"><?php echo _t('XFN 지원');?></span></dt>
+											<dd>
+												<input type="checkbox" id="useXFN" class="checkbox" name="useXFN"<?php echo getBlogSetting('useXFN',1) ? ' checked="checked"' : '';?> /><label for="useXFN"><?php echo _t('검색엔진이 링크 관계를 인식할 수 있도록 링크에 XFN 마이크로포맷을 추가합니다.');?></label>
+											</dd>
+										</dl>
+										<dl id="microformat-foaf-line" class="line">
+											<dt><span class="label"><?php echo _t('FOAF 지원');?></span></dt>
+											<dd>
+												<input type="checkbox" id="useFOAF" class="checkbox" name="useFOAF"<?php echo getBlogSetting('useFOAF',1) ? ' checked="checked"' : '';?> /><label for="useFOAF"><?php echo _t('검색엔진이 링크 관계를 인식할 수 있도록 링크에 FOAF를 추가합니다.');?></label>
+											</dd>
+										</dl>
+									</fieldset>
 									
 									<fieldset id="tag-setting-container" class="container">
 										<legend><?php echo _t('태그 조절');?></legend>
@@ -639,27 +661,6 @@ ob_end_clean();
 										<dl class="line">
 											<dt><span class="label"><?php echo _t('쪽 당 방명록 수');?></span></dt>
 											<dd><?php echo _f('방명록 한 쪽 당 %1개 글을 표시합니다.', $arg);?></dd>
-										</dl>
-									</fieldset>
-									<fieldset id="microformat-setting-container" class="container">
-										<legend><?php echo _t('Microformat 지원');?></legend>
-										<dl id="tag-rel-line" class="line">
-											<dt><span class="label"><?php echo _t('태그 연관성 명시');?></span></dt>
-											<dd>
-												<input type="checkbox" id="useRelTag" class="checkbox" name="useRelTag"<?php echo getBlogSetting('useRelTag',1) ? ' checked="checked"' : '';?> /><label for="useRelTag"><?php echo _t('검색엔진이 태그를 따로 인식할 수 있도록 글의 태그에 rel=tag 를 표시합니다. 태그 상자에는 적용되지 않습니다.');?></label>
-											</dd>
-										</dl>
-										<dl id="microformat-xfn-line" class="line">
-											<dt><span class="label"><?php echo _t('XFN 지원');?></span></dt>
-											<dd>
-												<input type="checkbox" id="useXFN" class="checkbox" name="useXFN"<?php echo getBlogSetting('useXFN',1) ? ' checked="checked"' : '';?> /><label for="useXFN"><?php echo _t('검색엔진이 링크 관계를 인식할 수 있도록 링크에 XFN 마이크로포맷을 추가합니다.');?></label>
-											</dd>
-										</dl>
-										<dl id="microformat-foaf-line" class="line">
-											<dt><span class="label"><?php echo _t('FOAF 지원');?></span></dt>
-											<dd>
-												<input type="checkbox" id="useFOAF" class="checkbox" name="useFOAF"<?php echo getBlogSetting('useFOAF',1) ? ' checked="checked"' : '';?> /><label for="useFOAF"><?php echo _t('검색엔진이 링크 관계를 인식할 수 있도록 링크에 FOAF를 추가합니다.');?></label>
-											</dd>
 										</dl>
 									</fieldset>
 									<div class="button-box">

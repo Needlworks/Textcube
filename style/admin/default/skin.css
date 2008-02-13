@@ -239,11 +239,6 @@
 
 /* Setting ***************************************************************************************/
 
-#part-skin-setting 
-{
-	height                           : 650px;
-}
-
 #part-skin-setting .caption
 {
 	margin-bottom                    : 20px;
@@ -278,9 +273,7 @@
 
 #part-skin-setting .section .button-box
 {
-	position                         : absolute;
-	top                              : 600px;
-	left                             : 455px;
+	clear                            : both;
 	padding-bottom                   : 30px;
 }
 
@@ -300,17 +293,13 @@
 
 #per-page-container
 {
-	position                         : absolute;
-	top                              : 60px;
-	left                             : 500px;
+	float                            : right;
 }
 
 #click-container
 {
 	display                          : block;
-	position                         : absolute;
-	top                              : 60px;
-	left                             : 20px;
+	float                            : left;
 }
 
 #click-container dd
@@ -320,31 +309,26 @@
 
 #length-container
 {
-	position                         : absolute;
-	top                              : 260px;
-	left                             : 500px;
+	float                            : right;
+	margin-left                      : 22px;
 }
 
 #tag-setting-container
 {
-	position                         : absolute;
-	top                              : 475px;
-	left                             : 500px;
+	float                            : right;
 }
 
 #guestbook-setting-container
 {
-	position                         : absolute;
-	top                              : 430px;
-	left                             : 500px;
+	float                            : right;
 }
 
-#microformat-setting-container
+#advanced-setting-container
 {
-	position                         : absolute;
-	top                              : 460px;
-	left                             : 20px;
+	float                            : right;
+	margin-left                      : 22px;
 }
+
 
 /* Tree -----------------------------------------------------------------------------------------*/
 
