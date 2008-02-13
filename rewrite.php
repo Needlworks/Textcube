@@ -2,7 +2,8 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-	if( !empty($_SERVER['REWRITE_CONFIG']) && file_exists('rewrite_config.php') ) { require_once "rewrite_config.php"; }
+	define('ROOT', '.'); 
+	if( !empty($_SERVER['PRELOAD_CONFIG']) && file_exists(ROOT.'/config.php') ) { require_once ROOT."/config.php"; }
 	$accessInfo = array(
 		'host'     => $_SERVER['HTTP_HOST'],
 		'fullpath' => $_SERVER["REQUEST_URI"],
@@ -20,7 +21,6 @@
 		exit;
 	}
 	if(strtok($part,'?') == 'setup.php') {require 'setup.php';exit;}
-	define('ROOT', '.'); 
 	$accessInfo['URLfragment'] = explode('/',strtok($accessInfo['input'],'?'));
 	if( !file_exists(ROOT.'/config.php') ) {
 		if( file_exists(ROOT.'/.htaccess') ) {
@@ -30,7 +30,7 @@
 		print "<html><body><a id='setup' href='".rtrim($_SERVER["REQUEST_URI"],"/")."/setup.php'>Click to setup.</a></body></html>";
 		exit;
 	}
-	require ROOT.'/config.php';
+	require_once ROOT.'/config.php';
 	switch ($service['type']) {
 		case 'path' : // For path-based multi blog.
 			array_splice($accessInfo['URLfragment'],0,1); 

@@ -1536,7 +1536,7 @@ ini_set('display_errors', 'off');
 "#<IfModule mod_url.c>
 #CheckURL Off
 #</IfModule>
-#SetEnv REWRITE_CONFIG 1
+#SetEnv PRELOAD_CONFIG 1
 RewriteEngine On
 RewriteBase $path/
 RewriteCond %{REQUEST_FILENAME} -d
