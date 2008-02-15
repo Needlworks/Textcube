@@ -141,6 +141,7 @@ class OpenIDConsumer extends OpenID {
 		require_once OPENID_LIBRARY_ROOT."Auth/OpenID/Consumer.php";
 		require_once OPENID_LIBRARY_ROOT."Auth/OpenID/FileStore.php";
 		require_once OPENID_LIBRARY_ROOT."Auth/OpenID/SReg.php";
+		require_once OPENID_LIBRARY_ROOT."Auth/OpenID/AX.php";
 
 		$store_path = ROOT . "/cache/_php_consumer";
 
@@ -212,8 +213,15 @@ class OpenIDConsumer extends OpenID {
 
 		if( ! $this->IsExisted( $auth_request->endpoint->claimed_id ) )
 		{
-			$sreg_request = Auth_OpenID_SRegRequest::build( null, array( 'nickname' ) );
-			$auth_request->addExtension( $sreg_request );
+			if( $auth_request->message->isOpenID2() ) {
+				$ax_nickname = Auth_OpenID_AX_AttrInfo::make( 'http://axschema.org/namePerson/friendly', 1, true, 'nickname' );
+				$ax_request = new Auth_OpenID_AX_FetchRequest();
+				$ax_request->add( $ax_nickname );
+				$auth_request->addExtension( $ax_request );
+			} else {
+				$sreg_request = Auth_OpenID_SRegRequest::build( null, array( 'nickname' ) );
+				$auth_request->addExtension( $sreg_request );
+			}
 		}
 
 		if( $remember_openid ) {
