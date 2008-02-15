@@ -7,11 +7,13 @@ $IV = array(
 		'draft'       => array('any', 'mandatory' => false),
 		'popupEditor' => array('any', 'mandatory' => false),
 		'returnURL'   => array('string', 'mandatory' => false),
+		'slogan'   => array('string', 'mandatory' => false),
 		'category'    => array('int', 'default' => 0)
 	),
 	'POST' => array(
 		'category'  => array('int', 'default' => 0),
 		'search'    => array('string', 'default' => ''),
+		'slogan'   => array('string', 'mandatory' => false),
 		'returnURL' => array('string', 'mandatory' => false)
 	)
 );
@@ -41,6 +43,11 @@ if (!$entry) {
 
 if (defined('__TEXTCUBE_POST__') && isset($_GET['category'])) {
 	$entry['category'] = $_GET['category'];
+}
+
+if(isset($_POST['slogan'])) $_GET['slogan'] = $_POST['slogan'];
+if(defined('__TEXTCUBE_ADD__') && (isset($_GET['slogan']))) {
+	$entry['slogan'] = $_GET['slogan'];
 }
 
 // Check whether or not user has permission to edit.

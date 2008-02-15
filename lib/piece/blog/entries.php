@@ -68,7 +68,7 @@ if (isset($cache->contents)) {
 			$entryView = '<a id="entry_'.$entry['id'].'"></a>'.CRLF.$entryView;
 
 			dress('tb', getTrackbacksView($entry, $skin, $entry['acceptTrackback']), $entryView);
-			if ($skinSetting['expandComment'] == 1 || (($suri['url'] != $blogURL.'/index.php' && $suri['url'] != $service['path'].'/index.php') && ($suri['directive'] == '/' || $suri['directive'] == '/entry') && $suri['value'] != '')) {
+			if ($skinSetting['expandComment'] == 1 || (($suri['directive'] == '/' || $suri['directive'] == '/entry') && $suri['value'] != '')) {
 				$style = 'block';
 			} else {
 				$style = 'none';

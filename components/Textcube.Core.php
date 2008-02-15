@@ -201,7 +201,7 @@ class User {
 				return $changeBlogView;
 		}
 	}
-
+	/* TO DO : library 의존성 없애야 함. 함수를 사용하고 있습니다.  */
 	function deleteUser($userid) {
 		global $database;
 		if ($userid == 1)

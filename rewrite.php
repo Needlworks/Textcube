@@ -6,11 +6,12 @@
 	if( !empty($_SERVER['PRELOAD_CONFIG']) && file_exists(ROOT.'/config.php') ) { require_once ROOT."/config.php"; }
 	$accessInfo = array(
 		'host'     => $_SERVER['HTTP_HOST'],
-		'fullpath' => $_SERVER["REQUEST_URI"],
+		'fullpath' => str_replace('index.php','',$_SERVER["REQUEST_URI"]),
 		'position' => $_SERVER["SCRIPT_NAME"],
-		'root'     => str_replace('rewrite.php','',$_SERVER["SCRIPT_NAME"])
+		'root'     => rtrim(str_replace('rewrite.php','',$_SERVER["SCRIPT_NAME"]),'index.php')
 		);
-	$accessInfo['input'] = ltrim(substr(str_replace('index.php','',$accessInfo['fullpath']),strlen(rtrim($accessInfo['root'],'index.php'))+(defined('__TEXTCUBE_NO_FANCY_URL__') ? 1 : 0)),'/'); //Workaround for compartibility with fastCGI / Other environment
+	if(strpos($accessInfo['fullpath'],$accessInfo['root']) !== 0) $accessInfo['fullpath'] = $accessInfo['root'].substr($accessInfo['fullpath'],strlen($accessInfo['root'])-1);
+	$accessInfo['input'] = ltrim(substr($accessInfo['fullpath'],	strlen($accessInfo['root'])+(defined('__TEXTCUBE_NO_FANCY_URL__') ? 1 : 0)),'/'); //Workaround for compartibility with fastCGI / Other environment
 	$part = strtok($accessInfo['input'],'/');
 	if(in_array($part, array('image','plugins','script','cache','skin','style','attach','thumbnail'))) {
 		if(strpos($accessInfo['input'],'cache/backup') !== false) {

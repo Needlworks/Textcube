@@ -12,11 +12,12 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 global $database;
 
 $userid = $suri['id'];
+
 $usersetting= POD::queryRow("SELECT * FROM `{$database['prefix']}Users` WHERE userid = " . $userid);
 $usersetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}Teamblog` WHERE acl & ".BITWISE_OWNER." != 0 AND blogid = " . $blogid);
 ?>
 						<div id="part-center-about" class="part">
-<a href="<?php echo $blogURL;?>/owner/control/user">&lt;&lt;<?php echo _t('돌아가기');?></a>
+
 							<h2 class="caption"><span class="main-text"><?php echo _t('사용자 정보');?></span></h2>
 						
 							<h3><?php echo $usersetting['name'];?></h3>
@@ -48,6 +49,9 @@ $usersetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}
 										<tbody>
 											<tr>
 	<?php echo "<td class=\"name\"><a href=\"".$blogURL."/owner/control/action/user/delete/?userid=" . $userid . "\" onclick =  \"cleanUser(".$userid.");return false;\">"._t('사용자 삭제')."</a></td>";?>
+											</tr>
+												<td><a href="<?php echo $blogURL;?>/owner/control/user"><?php echo _t('이전 메뉴로 돌아가기');?></a></td>
+											<tr>
 											</tr>
 										</tbody>
 									</table>

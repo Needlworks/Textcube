@@ -8,16 +8,11 @@ $IV = array(
 	) 
 );
 
-$page=(isset($_GET['page']) && $_GET['page'] >= 1 ? $_GET['page'] : 1 );
-
-
-
-$service['admin_script']='control.js';
-
 require ROOT . '/lib/includeForBlogOwner.php';
+$page=(isset($_GET['page']) && $_GET['page'] >= 1 ? $_GET['page'] : 1 );
+$service['admin_script']='control.js';
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
-
 global $blogURL;
 $page = $_GET['page'];
 
