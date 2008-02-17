@@ -78,6 +78,9 @@ class Skin {
 	var $singleCommentMessage;
 	var $noneTrackbackMessage;
 	var $singleTrackbackMessage;
+
+	var $microformatDebug;
+	var $hentryExisted;
 	
 	function Skin($name, $previewMode = false) {
 		global $service, $blogURL, $suri, $blog;
@@ -90,6 +93,7 @@ class Skin {
 			$this->singleCommentMessage = $blog['singleCommentMessage'];
 			$this->noneTrackbackMessage = $blog['noneTrackbackMessage'];
 			$this->singleTrackbackMessage = $blog['singleTrackbackMessage'];
+			$this->microformatDebug = array();
 			
 			if (strncmp($name, 'customize/', 10) == 0) {
 				$name = "customize/".getBlogId();
@@ -110,7 +114,6 @@ class Skin {
 			if (!$sval = file_get_contents($filename))
 				respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
 	
-			tuneSkin($sval);
 			replaceSkinTag($sval, 'html');
 			replaceSkinTag($sval, 'head');
 			replaceSkinTag($sval, 'body');
@@ -193,7 +196,6 @@ class Skin {
 			list($sval, $this->keywordGroup) = $this->cutSkinTag($sval, 'keyword_date_rep');
 			list($sval, $this->keyword) = $this->cutSkinTag($sval, 'keyword');
 			list($sval, $this->noticeItem) = $this->cutSkinTag($sval, 'notice_rep');
-			if(getBlogSetting('useMicroformat',3)>1) $this->noticeItem = applyMicroformats( 'notice', $this->noticeItem );
 			list($sval, $this->keylogItem) = $this->cutSkinTag($sval, 'keylog_rep');
 			list($sval, $this->recentNoticeItem) = $this->cutSkinTag($sval, 'rct_notice_rep');
 			list($sval, $this->recentNotice) = $this->cutSkinTag($sval, 'rct_notice');
@@ -271,7 +273,6 @@ class Skin {
 			
 			list($sval, $this->pageError) = $this->cutSkinTag($sval, 'page_error'); 
 			list($sval, $this->entry) = $this->cutSkinTag($sval, 'article_rep');
-			if(getBlogSetting('useMicroformat',3)>1) $this->entry = applyMicroformats( 'article', $this->entry );
 			list($sval, $this->pagingItem) = $this->cutSkinTag($sval, 'paging_rep');
 			list($sval, $this->paging) = $this->cutSkinTag($sval, 'paging');
 			list($sval, $this->archive) = $this->cutSkinTag($sval, 'archive_rep');
@@ -284,6 +285,7 @@ class Skin {
 			list($sval, $this->skin) = $this->cutSkinTag($sval, 't3');
 			list($sval, $this->pageTitle) = $this->cutSkinTag($sval, 'page_title');
 			$this->outter = $sval;
+			$this->applyMicroformats();
 			if($previewMode == false) $this->saveCache();
 		}
 	}
@@ -341,6 +343,154 @@ class Skin {
 		$cache->purge();
 		$gCacheStorage->purge();
 	}
+
+	/**
+	 * See: http://dev.textcube.org/wiki/MicroformatDeployment
+	 */
+
+	function applyMicroformats() {
+		switch( getBlogSetting('useMicroformat',3) )
+		{ 
+			/* 1: none, 2: semantically sane, 3: insane but machine friendly */
+			case 1:
+			array_push( $this->microformatDebug, _text("Microformat-info: 스킨에 마이크로포맷 자동추가하지 않도록 설정되어 있습니다.") );
+			return;
+			case 2:
+			array_push( $this->microformatDebug, _text("Microformat-info: 스킨에 웹표준에 맞는 마이크로포맷만 추가합니다.") );
+			break;
+			case 3:
+			array_push( $this->microformatDebug, _text("Microformat-info: 스킨에 가능한 모든 마이크로포맷을 추가합니다.") );
+			default:
+		}
+		$this->entryOriginal = $this->entry;
+		//$this->noticeItemOriginal = $this->noticeItem;
+		$this->entry = $this->applyMicroformatsCore( 'article', $this->entry );
+		//$this->noticeItem = $this->applyMicroformatsCore( 'notice', $this->noticeItem );
+		if( !$this->hentryExisted ) {
+			$this->hentryExisted = preg_match( '/<(p|div)[^>]*class=[\'"][^\'"]*\bhentry\b[^\'"]*[\'"][^>]*>/sm', $this->entry );
+		}
+	}
+
+	function getTopLevelContent($content)
+	{
+		$bareContent = preg_replace( '/[@%]/', '', $content );
+		$bareContent = preg_replace( '@<(\w+\b[^>/]*/>)@sm', '', $bareContent );
+		$bareContent = preg_replace( '@<(\w+\b[^>]*>)@sm', '@', $bareContent );
+		$bareContent = preg_replace( '@</(\w+\b[^>]*>)@sm', '%', $bareContent );
+		$bareContent2 = '';
+		while( $bareContent != $bareContent2 ) {
+			$bareContent2 = $bareContent;
+			$bareContent = preg_replace( '/@[^@%]*%/sm', '', $bareContent );
+		}
+		$bareContent = preg_replace( '/[@%]/', '', $bareContent );
+		return $bareContent;
+	}
+
+	function applyMicroformatsCore( $type, $content ) {
+		/* This function contains heavy regular expressions, but this function is called once and stored in cache by skin setup logic */
+		$bareContent = $this->getTopLevelContent($content);
+		$content = preg_replace( "/<((br|hr|img)[^>]*)>/sm", "{{{\\1}}}", $content );
+
+		/* hAtom:entry-title */
+		$content = addAttributeCore( $content,
+					'@(.*?)(<(a|span|textarea|td)[^>]*>[^<>]*?\[##_article_rep_title_##\].*?</\3>)(.*)@sm',
+					array( 'class' => 'entry-title' ), array(1,2,4), 1 );
+		if( preg_match( '@<(a|span|textarea|td)[^>]*?class=[\'"][^\'"]*entry-title[^\'"]*[\'"][^>]*>@sm', $content ) ) {
+			array_push( $this->microformatDebug, _text("Microformat-info: 제목에 hAtom용 title을 추가합니다") );
+		} else {
+			array_push( $this->microformatDebug, _text("Microformat-warn: 제목에 hAtom용 title을 추가하지 못했습니다") );
+		}
+
+
+		/* hAtom:entry-content */
+		$content = addAttributeCore( $content,
+					'@(.*?)(<(div|td|span|p)[^>]*>[^<>]*?\[##_article_rep_desc_##\].*?</\3>)(.*)@sm',
+					array( 'class' => 'entry-content' ), array(1,2,4), 1 );
+		if( strstr( $bareContent , '[##_article_rep_desc_##]' ) !== false ) {
+			$content = str_replace( "[##_article_rep_desc_##]", "<div class=\"entry-content\">[##_article_rep_desc_##]</div>",$content );
+			array_push( $this->microformatDebug, _text("Microformat-info: 본문을 감싸고 있는 태그가 없어 div를 삽입한 뒤 hAtom용 entry-content를 추가합니다") );
+		} else {
+			if( preg_match( '@<(div|td|span|p)[^>]*?class=[\'"][^\'"]*entry-content[^\'"]*[\'"][^>]*>@sm', $content ) ) {
+				array_push( $this->microformatDebug, _text("Microformat-info: 제목에 hAtom용 content를 추가합니다") );
+			} else {
+				array_push( $this->microformatDebug, _text("Microformat-warn: 제목에 hAtom용 content를 추가하지 못했습니다") );
+			}
+		}
+
+		/* hAtom:updated, published */
+		if(getBlogSetting('useMicroformat',3)>2) {
+			/* Adding published, updated date */
+			$content = preg_replace( 
+					'@(<(div|td|span|p)[^>]*>[^<>]*?\[##_article_rep_desc_##\].*?</\2>)@sm',
+					"\\1
+					<div style=\"display:none\">
+					<abbr class=\"updated\" title=\"[##_article_rep_microformat_updated_##]\">[##_article_rep_date_##]</abbr>
+					<abbr class=\"published\" title=\"[##_article_rep_microformat_published_##]\">[##_article_rep_date_##]</abbr>
+					</div>", 
+					$content );
+			if( preg_match( '@<abbr[^>]*?class=[\'"][^\'"]*\bupdated\b[^\'"]*[\'"][^>]*>@sm', $content ) ) {
+				array_push( $this->microformatDebug, _text("Microformat-info: hAtom용 발행일(published,updated)을 보이지 않게 추가하였습니다") );
+			} else {
+				array_push( $this->microformatDebug, _text("Microformat-warn: hAtom용 발행일을 추가하지 못하였습니다") );
+			}
+		} else {
+			array_push( $this->microformatDebug, _text("Microformat-info: 의미상 어긋나는 사용인 hAtom용 발행일(published,updated)을 추가하지 않았습니다") );
+		}
+
+		/* hAtom:author should be a complete inner text(without other text such as 'By', 'From') of span,cite,label,li. */
+		if( !preg_match( '@<(\w+)\b[^>]*?class=[\'"][^\'"]*author[^\'"]*[\'"][^>]*>@sm', $content ) ) {
+			if( preg_match( '@<(span|cite|label|li)[^>]*>([^<>]*)\[##_article_rep_author_##\]([^<>]*)</\1>@sm',$content,$match) ) {
+				/* If there are garbage texts around author's name..., embrace author's name with a span */
+				if( !preg_match( '/^\s*$/', $match[2] ) || !preg_match( '/^\s*$/', $match[3] ) ) {
+					$content = str_replace( "[##_article_rep_author_##]", "<span>[##_article_rep_author_##]</span>", $content );
+					array_push( $this->microformatDebug, _text("Microformat-info: 작성자 주위로 공백외의 문자가 있어 <span>으로 한번 더 감쌉니다") );
+				}
+			} else {
+				array_push( $this->microformatDebug, _text("Microformat-info: 작성자가 출력되지 않는 스킨입니다. 작성자를 보이지 않게 추가하였습니다") );
+				$content = preg_replace( 
+					'@(<(div|td|span|p)[^>]*>[^<>]*?\[##_article_rep_desc_##\].*?</\2>)@sm',
+					"\\1
+					<span style=\"display:none\">[##_article_rep_author_##]</span>",
+					$content );
+			}
+			$content = addAttributeCore( $content,
+						'@(.*?)(<(span|cite|label|li|div)[^>]*>\s*\[##_article_rep_author_##\]\s*</\3>)(.*)@sm',
+						array( 'class' => 'author' ), array(1,2,4), 1 );
+			if( preg_match( '@<(span|cite|label|li|div)[^>]*?class=[\'"][^\'"]*\bauthor\b[^\'"]*[\'"][^>]*>@sm', $content ) ) {
+				array_push( $this->microformatDebug, _text("Microformat-info: 작성자에 hAtom용 class=\"author\"를 추가합니다") );
+			} else {
+				array_push( $this->microformatDebug, _text("Microformat-warn: 작성자에 hAtom용 class=\"author\"를 추가하지 못하였습니다") );
+			}
+		} else {
+			array_push( $this->microformatDebug, _text("Microformat-info: class=\"author\"를 사용한 스킨입니다. hAtom용 author는 삽입하지 않았습니다. 주의: 스킨에 사용된 author의 용도가 마이크로포맷과 다를 수 있습니다.") );
+		}
+
+		/* hAtom:hEntry is a unique division in a blog entry*/
+		if( !preg_match( '/<(p|div)[^>]*class=[\'"][^\'"]*\bhentry\b[^\'"]*[\'"][^>]*>/sm', $content ) )
+		{
+			$content = "<div class=\"hentry\">\r\n{$content}\r\n</div>";
+			array_push( $this->microformatDebug, _text("Microformat-warn: 블로그 글영역 전체를 hAtom용 entry로 간주합니다. 적절한 class=\"hentry\" 삽입이 필요할 수 있습니다 ") );
+		} else {
+			array_push( $this->microformatDebug, _text("Microformat-info: 스킨에 class=\"hentry\"가 있으므로, hAtom용 entry는 삽입하지 않았습니다.") );
+		}
+
+		/* bookmark to A link */
+		addAttribute( $content, 'a', 'href', '##_article_rep_link_##', 
+			array( 'rel' => 'bookmark', 'title' => "[##_article_rep_title_##]" ) );
+		if( preg_match( '@<a\b[^>]*?rel=[\'"][^\'"]*bookmark[^\'"]*[\'"][^>]*>@sm', $content ) ) {
+			array_push( $this->microformatDebug, _text("Microformat-info: 제목에 bookmark를 추가합니다") );
+		} else {
+			if(getBlogSetting('useMicroformat',3)>2) {
+				$content = str_replace( "[##_article_rep_desc_##]", "<a style=\"display:none\" href=\"[##_article_rep_link_##]\" rel=\"bookmark\" title=\"[##_article_rep_title_##]\">[##_article_rep_title_##]</a>\r\n[##_article_rep_desc_##]",$content );
+			}
+			array_push( $this->microformatDebug, _text("Microformat-info: 링크가 걸린 제목이 없어 보이지 않는 링크를 추가한 뒤 bookmark를 추가하였습니다") );
+		}
+
+		$this->hentryExisted = true;
+		$content = preg_replace( "/{{{([^}]+)}}}/sm", '<\1>', $content );
+		return $content;
+	}
+
 }
 
 class KeylogSkin {
@@ -414,84 +564,39 @@ function revertTempTags($content) {
 	return $content;
 }
 
-function addAttributeCore(& $string, $regex, & $addings) {
+/* You need 3 parenthesis' for match 1,2,3 */
+function addAttributeCore(& $string, $regex, $addings, $mi = null, $count = 10000) {
+	if( $count < 1 ) { return $string; }
 	if( !preg_match( $regex, $string, $match ) ) {
 		return $string;
 	}
+	if( $mi === null ) { $mi = array( 1,2,3 ); }
 	foreach( $addings as $add_attr => $add_value ) {
-		$regex_attr = "/(.*)$add_attr=[\"']([^\"']*)[\"'](.*)/si";
+		$regex_attr = "/([^>]*)$add_attr=[\"']([^\"']*)[\"'](.*)/sm";
 		/* Does the tag have already add_attr attribute? */
 		if( preg_match( $regex_attr, $match[2], $attr_match ) ) {
-			/* Does not the attribute have already add_value value? */
+			/* Does not the attribute have add_value value? */
 			if( !preg_match( "/\b$add_value\b/i", $attr_match[2] ) ) {
 				if( !empty( $attr_match[2] ) ) {
 					$attr_match[2] .= ' ';
 				}
-				$match[2] = "{$attr_match[1]}$add_attr=\"{$attr_match[2]}$add_value\"{$attr_match[3]}";
+				$match[$mi[1]] = "{$attr_match[1]}$add_attr=\"{$attr_match[2]}$add_value\"{$attr_match[3]}";
 			} else {
 			}
 		} else {
-			$match[2] = preg_replace( "/(.*?)(\/?>)/", "\\1 $add_attr=\"$add_value\"\\2", $match[2] );
+			$match[$mi[1]] = preg_replace( "/(.*?)(\/?>)/", "\\1 $add_attr=\"$add_value\"\\2", $match[$mi[1]], 1 );
 		}
 	}
-	return $match[1].$match[2].addAttributeCore($match[3],$regex,$addings);
+	return $match[$mi[0]].$match[$mi[1]].addAttributeCore($match[$mi[2]],$regex,$addings,$mi, $count-1);
 }
 
-function addAttribute(& $skin, $tag, $cond_attr, $cond_value, $addings) {
+function addAttribute(& $skin, $tag, $cond_attr, $cond_value, $addings, $count = 10000) {
 	if( !empty($cond_attr ) && !empty($cond_value) ) {
-		$needle = "/(.*?)(<$tag\s+[^>]*{$cond_attr}=[\"'][^\"']*{$cond_value}[^\"']*[\"'][^>]*>)(.*)/s";
+		$needle = "/(.*?)(<$tag\s+[^>]*{$cond_attr}=[\"'][^\"'>]*{$cond_value}[^\"'>]*[\"'][^>]*>)(.*)/s";
 	} else {
 		$needle = "/(.*?)(<{$tag}[^>]*>)(.*)/s";
 	}
-	$skin = addAttributeCore( $skin, $needle, $addings );
-}
-
-/**
- * See: http://dev.textcube.org/wiki/MicroformatDeployment
- */
-function tuneSkin(& $skin) {
-	/* add bookmark microformats */
-	if(getBlogSetting('useMicroformat',3)>1) {
-		addAttribute( $skin, 'a', 'href', '##_article_rep_link_##', 
-				array( 'rel' => 'bookmark', 'title' => "[##_article_rep_title_##]", 'class' => 'entry-title' ) );
-		addAttribute( $skin, 'a', 'href', '##_notice_rep_link_##', 
-				array( 'rel' => 'bookmark', 'title' => "[##_notice_rep_title_##]", 'class' => 'entry-title' ) );
-	}
-}
-
-function applyMicroformats( $type, $content ) {
-	if( $type == 'article' ) {
-		$content = str_replace( 
-			"[##_article_rep_desc_##]", 
-			"<div class=\"entry-content\">[##_article_rep_desc_##]</div>", 
-			$content );
-		$content = str_replace( 
-			"[##_article_rep_author_##]", 
-			"<span class=\"vcard\"><span class=\"fn\">[##_article_rep_author_##]</span></span>", 
-			$content );
-		$content = str_replace( 
-			"[##_article_rep_date_##]", 
-			"<abbr style=\"border-style:none\" class=\"published\" title=\"[##_article_rep_microformat_published_##]\" >[##_article_rep_date_##]</abbr>",
-			//."<abbr class=\"updated\" title=\"[##_article_rep_microformat_updated_##]\" style=\"display:none\">[##_article_rep_microformat_updated_##]</abbr>", 
-			$content );
-		$content = "<div class=\"hentry\">{$content}</div>";
-	} else if( $type == "notice" ) {
-		$content = str_replace( 
-			"[##_notice_rep_desc_##]", 
-			"<div class=\"entry-content\">[##_notice_rep_desc_##]</div>", 
-			$content );
-		$content = str_replace( 
-			"[##_notice_rep_author_##]", 
-			"<span class=\"vcard\"><span class=\"fn\">[##_notice_rep_author_##]</span></span>", 
-			$content );
-		$content = str_replace( 
-			"[##_notice_rep_date_##]", 
-			"<abbr class=\"published\" title=\"[##_notice_rep_microformat_published_##]\" >[##_notice_rep_date_##]</abbr>". 
-			"<abbr class=\"updated\" title=\"[##_notice_rep_microformat_updated_##]\" style=\"display:none\">[##_notice_rep_microformat_updated_##]</abbr>", 
-			$content );
-		$content = "<div class=\"hentry\">{$content}</div>";
-	}
-	return $content;
+	$skin = addAttributeCore( $skin, $needle, $addings, array(1,2,3), $count );
 }
 
 ?>
