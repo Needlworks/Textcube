@@ -818,7 +818,7 @@ h4
 	padding: 0 1em .3em;
 }
 
-.list p.author
+.list p.writer
 {
 	padding: 0 1em 0;
 }
@@ -874,7 +874,7 @@ h4
 	background-color: #faf9f8;
 }
 
-.list .author cite img
+.list .writer cite img
 {
 	float: left;
 	margin: 0 .5em 3px 0;
@@ -884,7 +884,7 @@ h4
 }
 
 /* special classes
-.list ol li.rp_secret p.author cite, .list ol li.guest_secret p.author cite
+.list ol li.rp_secret p.writer cite, .list ol li.guest_secret p.writer cite
 {
 	background-image: url('./images/ico_lock.jpg');
 	background-position: left center;
@@ -1178,12 +1178,12 @@ form input:focus, textarea:focus
 	padding-left: 16px;
 }
 
-.coverpost .post_info .author .preposition
+.coverpost .post_info .writer .preposition
 {
 	display: none;
 }
 
-.coverpost .post_info .author
+.coverpost .post_info .writer
 {
 	background: url('./images/bullet_author.gif') no-repeat 6px 50%;
 }

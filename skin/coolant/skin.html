@@ -168,7 +168,7 @@
 					<ol>
 						<s_guest_rep>
 						<li id="[##_guest_rep_id_##]" class="[##_guest_rep_class_##]">
-							<p class="author">
+							<p class="writer">
 								<cite><strong>[##_guest_rep_name_##]</strong></cite>
 								<span class="command">
 									[##_guest_rep_date_##]
@@ -183,7 +183,7 @@
 							<ol>
 								<s_guest_reply_rep>
 								<li id="[##_guest_rep_id_##]" class="[##_guest_rep_class_##]" title="답변">
-									<p class="author">
+									<p class="writer">
 										<cite><strong>[##_guest_rep_name_##]</strong></cite>
 										<span class="command">
 											[##_guest_rep_date_##]
@@ -257,50 +257,52 @@
 			</s_article_protected>
 			<s_article_rep>
 			<div class="entry">
-				<div class="subject">
-					<h2><a href="[##_article_rep_link_##]">[##_article_rep_title_##]</a></h2>
-					<ul class="postInfo">
-						<li class="infoDate"><dfn>Posted</dfn> at [##_article_rep_date_##]</li>
-						<li class="infoCategory"><dfn>Filed</dfn> under <a href="[##_article_rep_category_link_##]">[##_article_rep_category_##]</a></li>
-					</ul>
-					<s_ad_div>
-					<ul class="admin">
-						<li>
-							"<strong>[##_s_ad_s1_label_##]</strong>" 포스트입니다.
-							<a href="#" onclick="[##_s_ad_s2_onclick_##]" title="[##_s_ad_s2_label_##]">변경</a>
-						</li>
-						<li><a href="[##_s_ad_m_link_##]">본문 수정</a><a href="#" onclick="[##_s_ad_m_onclick_##]">(새창)</a></li>
-						<li><a href="#" onclick="[##_s_ad_t_onclick_##]">트랙백 보내기</a></li>
-						<li><a href="#" onclick="[##_s_ad_d_onclick_##]">삭제 하기</a></li>
-					</ul>
-					</s_ad_div>
-				</div>
+				<div class="hentry">
+					<div class="subject">
+						<h2><a href="[##_article_rep_link_##]">[##_article_rep_title_##]</a></h2>
+						<ul class="postInfo">
+							<li class="infoDate"><dfn>Posted</dfn> at [##_article_rep_date_##]</li>
+							<li class="infoCategory"><dfn>Filed</dfn> under <a href="[##_article_rep_category_link_##]">[##_article_rep_category_##]</a></li>
+						</ul>
+						<s_ad_div>
+						<ul class="admin">
+							<li>
+								"<strong>[##_s_ad_s1_label_##]</strong>" 포스트입니다.
+								<a href="#" onclick="[##_s_ad_s2_onclick_##]" title="[##_s_ad_s2_label_##]">변경</a>
+							</li>
+							<li><a href="[##_s_ad_m_link_##]">본문 수정</a><a href="#" onclick="[##_s_ad_m_onclick_##]">(새창)</a></li>
+							<li><a href="#" onclick="[##_s_ad_t_onclick_##]">트랙백 보내기</a></li>
+							<li><a href="#" onclick="[##_s_ad_d_onclick_##]">삭제 하기</a></li>
+						</ul>
+						</s_ad_div>
+					</div>
 
-				<div class="article">
-					[##_article_rep_desc_##]
-					<p class="infoAuthor"><span><dfn>Posted</dfn> by</span> <cite>[##_article_rep_author_##]</cite></p>
-				</div>
+					<div class="article">
+						[##_article_rep_desc_##]
+						<p class="infoAuthor"><span><dfn>Posted</dfn> by</span> <cite>[##_article_rep_author_##]</cite></p>
+					</div>
 
-				<div class="miscInfo">
-					<dl>
-						<s_tag_label>
-						<dt class="postTag">Tag</dt>
-						<dd>[##_tag_label_rep_##]</dd>
-						</s_tag_label>
-						<dt class="response">Response</dt>
-						<dd>
-							<a id="[##_article_rep_tb_cnt_id_##]" href="#tb" onclick="[##_article_rep_tb_link_##]" title="트랙백 목록 보이기/감추기">
-								<s_tb_count>
-								<em>[##_article_rep_tb_cnt_##]</em> Trackbacks
-								</s_tb_count>
-							</a>, 
-							<a id="[##_article_rep_rp_cnt_id_##]" href="#rp" onclick="[##_article_rep_rp_link_##]" title="댓글 목록 보이기/감추기">
-								<s_rp_count>
-								<em>[##_article_rep_rp_cnt_##]</em> Comments
-								</s_rp_count>
-							</a>
-						</dd>
-					</dl>
+					<div class="miscInfo">
+						<dl>
+							<s_tag_label>
+							<dt class="postTag">Tag</dt>
+							<dd>[##_tag_label_rep_##]</dd>
+							</s_tag_label>
+							<dt class="response">Response</dt>
+							<dd>
+								<a id="[##_article_rep_tb_cnt_id_##]" href="#tb" onclick="[##_article_rep_tb_link_##]" title="트랙백 목록 보이기/감추기">
+									<s_tb_count>
+									<em>[##_article_rep_tb_cnt_##]</em> Trackbacks
+									</s_tb_count>
+								</a>, 
+								<a id="[##_article_rep_rp_cnt_id_##]" href="#rp" onclick="[##_article_rep_rp_link_##]" title="댓글 목록 보이기/감추기">
+									<s_rp_count>
+									<em>[##_article_rep_rp_cnt_##]</em> Comments
+									</s_rp_count>
+								</a>
+							</dd>
+						</dl>
+					</div>
 				</div>
 				<hr />
 
@@ -336,7 +338,7 @@
 						<li><span class="rssurl">Comment RSS : [##_article_rep_rp_rssurl_##]</span></li>
 						<s_rp_rep>
 						<li id="[##_rp_rep_id_##]" class="[##_rp_rep_class_##]">
-							<p class="author">
+							<p class="writer">
 								<cite><strong>[##_rp_rep_name_##]</strong></cite>
 								<span class="command">
 									[##_rp_rep_date_##]
@@ -352,7 +354,7 @@
 							<ol>
 								<s_rp2_rep>
 								<li id="[##_rp_rep_id_##]" class="[##_rp_rep_class_##]" title="답변">
-									<p class="author">
+									<p class="writer">
 										<cite><strong>[##_rp_rep_name_##]</strong></cite>
 										<span class="command">
 											[##_rp_rep_date_##]
