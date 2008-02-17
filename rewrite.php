@@ -4,11 +4,11 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 	define('ROOT', '.'); 
 
-	if (!empty($_SERVER['PRELOAD_CONFIG']) && file_exists(ROOT.'/config.php'))
+	if (!empty($_SERVER['PRELOAD_CONFIG']) && file_exists('config.php'))
 		require_once ROOT."/config.php";
 
 	/* Retrieve Access Parameter Information. */
-	require_once ROOT.'/lib/function/string.php';
+	//require_once 'lib/function/string.php';
 	$accessInfo = array(
 		'host'     => $_SERVER['HTTP_HOST'],
 		'fullpath' => str_replace('index.php', '', $_SERVER["REQUEST_URI"]),
@@ -27,22 +27,22 @@
 			header("HTTP/1.0 404 Not found");
 			exit;
 		}
-		require_once ROOT.'/lib/function/file.php';
-		dumpWithEtag(trim_url($part == 'thumbnail' ?
+		require_once 'lib/function/file.php';
+		dumpWithEtag(ltrim(rtrim($part == 'thumbnail' ?
 							  preg_replace('/thumbnail/', 'cache/thumbnail', $accessInfo['input'], 1) :
-							  $accessInfo['input']));
+							  $accessInfo['input']), '/'), '/');
 		exit;
 	}
 	if (strtok($part, '?') == 'setup.php') {
-		require ROOT.'/setup.php';
+		require 'setup.php';
 		exit;
 	}
 	$accessInfo['URLfragment'] = explode('/',strtok($accessInfo['input'],'?'));
 	unset($part);
 
 	/* Check the existence of config.php (whether installed or not) */
-	if (!file_exists(ROOT.'/config.php')) {
-		if (file_exists(ROOT.'/.htaccess')) {
+	if (!file_exists('config.php')) {
+		if (file_exists('.htaccess')) {
 			print "<html><body>Remove '.htaccess' file first!</body></html>";
 			exit;
 		}
@@ -51,17 +51,17 @@
 	}
 
 	/* Determine that which interface should be loaded. */
-	require_once ROOT.'/config.php';
+	require_once 'config.php';
 	switch ($service['type']) {
 		case 'path': // For path-based multi blog.
 			array_splice($accessInfo['URLfragment'],0,1); 
-			$pathPart = trim_url(strtok(strstr($accessInfo['input'],'/'), '?'));
+			$pathPart = ltrim(rtrim(strtok(strstr($accessInfo['input'],'/'), '?'), '/'), '/');
 			break;
 		case 'single':
-			$pathPart = (strpos($accessInfo['input'],'?') !== 0 ? trim_url(strtok($accessInfo['input'], '?')) : '');
+			$pathPart = (strpos($accessInfo['input'],'?') !== 0 ? ltrim(rtrim(strtok($accessInfo['input'], '?'), '/'), '/') : '');
 			break;
 		case 'domain': default: 
-			$pathPart = trim_url(strtok($accessInfo['fullpath'], '?'));
+			$pathPart = ltrim(rtrim(strtok($accessInfo['fullpath'], '?'), '/'), '/');
 			break;
 	}
 	$pathPart = strtok($pathPart,'&');
@@ -69,7 +69,7 @@
 	/* Load interface. */
 	$interfacePath = null;
 	if (in_array($pathPart, array('favicon.ico','index.gif'))) {
-		require_once ROOT.'/interface/'.$pathPart.'.php';
+		require_once 'interface/'.$pathPart.'.php';
 		exit;
 	}
 	if (!empty($accessInfo['URLfragment']) &&
@@ -83,8 +83,8 @@
 		$pathPart = implode('/', array_slice($accessInfo['URLfragment'], 0, count($accessInfo['URLfragment']) - 1));
 	}
 	if (empty($interfacePath))
-		$interfacePath = ROOT.'/interface/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
-	define('PATH', ROOT.'/interface/'.(empty($pathPart) ? '' : $pathPart.'/'));
+		$interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
+	define('PATH', 'interface/'.(empty($pathPart) ? '' : $pathPart.'/'));
 	unset($pathPart);
 
 	if (!file_exists($interfacePath)) {
