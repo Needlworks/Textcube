@@ -9,4 +9,7 @@ function str_trans($str) {
 function str_trans_rev($str) {
 	return str_replace("&#39;", "'", str_replace("&quot;", "\"", $str));
 }
+function trim_url($str) {
+	return ltrim(rtrim($str, '/'), '/');
+}
 ?>
