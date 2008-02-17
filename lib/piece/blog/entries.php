@@ -13,10 +13,10 @@ if (isset($cache->contents)) {
 	$entryRsses = '';
 	foreach ($entries as $entry) {
 		$entryRsses .= "<link rel='alternate' type='application/rss+xml' ".
-			"title='Trackback: ".$entry['title']." - ".$blog['title']."' ".
+			"title='Trackback: ".htmlspecialchars($entry['title'])." - ".htmlspecialchars($blog['title'])."' ".
 			"href='$defaultURL/rss/trackback/{$entry['id']}' />".CRLF;
 		$entryRsses .= "<link rel='alternate' type='application/rss+xml' ".
-			"title='Comment: ".$entry['title']." - ".$blog['title']."' ".
+			"title='Comment: ".htmlspecialchars($entry['title'])." - ".htmlspecialchars($blog['title'])."' ".
 			"href='$defaultURL/rss/comment/{$entry['id']}' />".CRLF;
 	}
 	if( getBlogSetting('useFOAF',1) && rtrim( $suri['url'], '/' ) == $pathURL ) {
