@@ -190,7 +190,7 @@ input.text-readonly-input
 	background-repeat                : repeat-x;
 	position                         : absolute;
 	right                            : 85px;
-	top                              : 24px;
+	top                              : 29px;
 	padding-right                    : 2px;
 }
 
@@ -213,7 +213,7 @@ input.text-readonly-input
 {
 	position                         : absolute;
 	right                            : 34px;
-	top                              : 24px;
+	top                              : 29px;
 }
 
 #description-logout a
@@ -279,14 +279,13 @@ input.text-readonly-input
 }
 
 #menu-center,
-#menu-post,
-#menu-notice,
+#menu-entry,
 #menu-link,
 #menu-skin,
-#menu-trash,
-#menu-setting,
 #menu-plugin,
-#menu-reader
+#menu-setting,
+#menu-reader,
+#menu-control
 {
 	background-image                 : url("./image/mainMenuSeparate.gif");
 	background-position              : left center;
@@ -296,14 +295,14 @@ input.text-readonly-input
 }
 
 #menu-center a,
-#menu-post a,
-#menu-notice a,
+#menu-entry a,
 #menu-link a,
 #menu-skin a,
-#menu-trash a,
+#menu-plugin a,
 #menu-setting a,
 #menu-plugin a,
-#menu-reader a
+#menu-reader a,
+#menu-control a
 {
 	padding                          : 4px 0 2px 0;
 }

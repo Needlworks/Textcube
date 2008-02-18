@@ -1,0 +1,284 @@
+@charset "utf-8";
+
+/* Basic Tag */
+
+*
+{
+	margin                           : 0;
+	padding                          : 0;
+}
+
+abbr, acronym
+{
+	cursor                           : help;
+}
+
+body
+{
+	background-color                 : #FFFFFF;
+	font-family                      : 'Lucida Grande', Arial, AppleGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
+	font-size                        : small;
+	margin                           : 0;
+}
+
+em
+{
+	color                            : #FF0000;
+	font-style                       : normal;
+}
+
+form
+{
+	font-size                        : 12px;
+}
+
+kbd
+{
+	color                            : #FF0000;
+	font-family                      : "Courier New", Courier, monospace;
+}
+
+label
+{
+	cursor                           : pointer;
+}
+
+option
+{
+	padding-right                    : 0.5em;
+}
+
+samp
+{
+	color                            : #ABABAB;
+	font-family                      : "Courier New", Courier, monospace;
+}
+
+select
+{
+	font-family                      : 'Lucida Grande', Arial, AppleGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
+	font-size                        : 12px;
+}
+
+/* Layout */
+
+#layout-head
+{
+	background-image                 : url("./image/bg_plugin_setting_header.png");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	padding                          : 13px 16px;
+}
+
+#layout-body
+{
+	background-image                 : url("./image/bg_plugin_setting_body.png");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	padding                          : 20px 10px 10px 10px;
+}
+
+#layout-foot
+{
+	background-color                 : #F2F2F2;
+	margin-top                       : 10px;
+	padding                          : 12px;
+	text-align                       : center;
+}
+
+/* Body */
+
+h1
+{
+	background-image                 : url("./image/img_textcube_icon.gif");
+	background-position              : left center;
+	background-repeat                : no-repeat;
+	color                            : #FFFFFF;
+	font-size                        : 12px;
+	line-height                      : 2em;
+	margin                           : 0;
+	padding-left                     : 27px;
+}
+
+/* @group Menu */
+
+#menu
+{
+	background-image: url('./image/bg_tabbox.jpg');
+	background-position: left bottom;
+	line-height: 2.3em;
+	list-style-type: none;
+	height: 2.55em;
+	overflow: hidden;
+	padding-left: 10px;
+}
+
+#menu li
+{
+	background-color: #EFEFEF;
+	border: 1px solid #D9D9D9;
+	cursor: pointer;
+	display: block;
+	float: left;
+	list-style-type: none;
+	margin: 0 1px;
+	padding: 0 1em;
+}
+
+#menu li.selected
+{
+	background-color: #FFFFFF;
+	border-bottom: 1px solid #FFFFFF;
+	cursor: default;
+}
+
+#menu li.dimmed
+{
+	color: #bdbdbd;
+	cursor: default;
+}
+
+/* @end */
+
+/* @group About Tab */
+
+#about-tab-body
+{
+	margin: 15px auto;
+	width: 450px;
+}
+
+#iconBox
+{
+	float: left;
+	width : 170px;
+}
+
+#iconBox img
+{
+	margin: 20px 10px;
+}
+
+#information
+{
+	background-color: #EFEFEF;
+	float: right;
+	margin-left: 10px;
+	padding-top: 50px;
+	width: 265px;
+}
+
+#information .title
+{
+	text-align: center;
+}
+
+#information .title h2
+{
+	font-size: 1.3em;
+	margin-bottom: 15px;
+}
+
+#information .description
+{
+	margin-top: 40px;
+	min-height: 100px;
+	padding: 10px;
+}
+
+#information .description .requirement
+{
+	background-color: #FFEAE7;
+	border: 1px solid #FFD2CC;
+	margin-bottom: 8px;
+	padding: 5px 10px;
+}
+
+#information .description .temp-description
+{
+	height: 100px;
+}
+
+#information .license,
+#information .pluginDir
+{
+	background-color: #FFFFFF;
+	font-family: Dotum, 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
+	font-size: 0.9em;
+	padding: 5px;
+	text-align: right;
+}
+
+/* @end */
+
+/* @group Setting Tab */
+
+#config_data fieldset
+{
+	border                           : 1px solid #DDDDDD;
+	margin-top                       : 10px;
+	overflow                         : hidden;
+	padding                          : 0 10px 10px 10px;
+}
+
+#config_data fieldset legend
+{
+	color                            : #000000;
+	font-weight                      : bold;
+}
+
+#config_data fieldset .field
+{
+	border-top                       : 1px solid #DDDDDD;
+	margin-top                       : 5px;
+	padding                          : 5px 5px 0 5px;
+}
+
+#config_data fieldset .fieldcaption
+{
+	background-color                 : #EEEEEE;
+	margin-top                       : 5px;
+	overflow: hidden;
+	padding                          : 10px;
+}
+
+#config_data fieldset .fieldtitle
+{
+	padding                          : 0 5px;
+}
+
+#config_data fieldset .textcontrol
+{
+	border                           : 1px solid #999999;
+	font-family                      : "Courier New", Courier, monospace;
+	font-size                        : 12px;
+}
+
+/* @end */
+
+.input-button
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #BBBBBB;
+	color                            : #000000;
+	cursor                           : pointer;
+	font-family                      : 'Lucida Grande', Arial, AppleGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
+	font-size                        : 12px;
+	font-weight                      : bold;
+	height                           : auto;
+	line-height                      : normal;
+	padding                          : 8px 5px 6px 5px !important;
+	vertical-align                   : middle;
+}
+
+.radiocontrol, .checkboxcontrol
+{
+	vertical-align                   : middle;
+}
+
+/* Class */
+
+.clear
+{
+	clear: both;
+}

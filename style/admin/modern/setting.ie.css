@@ -1,0 +1,61 @@
+@charset "utf-8";
+
+/* Basic *****************************************************************************************/
+
+/* basic setting */
+#part-setting-basic .button-box,
+#part-setting-profile .button-box,
+#part-setting-rss .button-box
+{
+	height                           : 2.5em;
+	line-height                      : 2.5em;
+}
+
+/* Account ***************************************************************************************/
+
+#letter-section .button-box .input-button
+{
+	padding                          : 0 !important;
+}
+
+/* Filter ****************************************************************************************/
+
+#part-setting-filter div.data-inbox .section
+{
+	overflow-x                       : hidden;
+	width                            : 184px;
+}
+
+#part-setting-filter div.data-inbox .section table
+{
+	table-layout                     : fixed;
+	width                            : 129px;
+}
+
+#part-setting-filter div.data-inbox .section table tbody tr td.content
+{
+	overflow-x                       : hidden;
+	width                            : 129px;
+}
+
+#part-setting-filter div.data-inbox .section table tbody tr td.empty
+{
+	width                            : 158px;
+}
+
+#part-setting-filter div.data-inbox .section .input-text
+{
+	width                            : 182px !important;
+}
+
+/* Data ******************************************************************************************/
+
+#part-data-correct div.data-inbox .image,
+#part-data-optimize div.data-inbox .image,
+#part-data-backup div.data-inbox .image,
+#part-data-restore div.data-inbox .image,
+#part-data-remove div.data-inbox .image
+{
+	margin                           : 0 10px 10px 7.5px;
+	padding                          : 10px 10px 7px 10px;
+}
