@@ -1,0 +1,201 @@
+@charset "utf-8";
+
+/* Login *****************************************************************************************/
+
+body
+{
+	background-color                 : #FFFFFF;
+	background-image                 : url("./image/bg_login.png");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+}
+
+#data-outbox
+{
+	
+	margin                           : 150px auto 0 auto;
+	position                         : relative;
+	width                            : 560px;
+}
+
+#logo-box
+{
+	left                             : 65px;
+	position                         : absolute;
+	top                              : 30px;
+}
+
+#login-box
+{
+	/*background-image                 : url("./image/logo_textcube_mirror.png");
+	background-position              : 55px 167px;
+	background-repeat                : no-repeat;
+	height                           : 300px;*/
+}
+
+#field-box
+{
+	background-image                 : url("./image/bg_login_border.png");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	height                           : 190px;
+	margin-left                      : 250px;
+}
+
+dl
+{
+	margin-left                      : 90px;
+}
+
+dt
+{
+	font-weight                      : normal !important;
+	line-height                      : 1em !important;
+	padding                          : 15px 0 3px 0;
+	position                         : static !important;
+}
+	
+dd
+{
+	margin-left                      : 0 !important;
+}
+
+dd .input-text
+{
+	border                           : 1px solid #999999;
+	font-family                      : "Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+	font-size                        : 1.3em;
+	padding                          : 3px 0 3px 5px;
+	width                            : 208px;
+}
+
+#checkbox-line dt
+{
+	display                          : none;
+}
+
+#checkbox-line dd
+{
+	color                            : #666666;
+	margin-top                       : 25px;
+}
+
+.login-button
+{
+	background-color                 : #FFFFFF;
+	background-image                 : none !important;
+	display                          : block;
+	font-weight                      : bold;
+	height                           : 3em;
+	line-height                      : 3em;
+	position                         : absolute;
+	right                            : 15px;
+	top                              : 153px;
+	width                            : 74px;
+}
+
+#message-box
+{
+	background-color                 : #F2F2F2;
+	margin-top                       : 10px;
+	padding                          : 5px;
+	text-align                       : center;
+}
+
+#openid-temp-wrap
+{
+	width                            : 230px;
+	margin                           : 20px -10px 0 340px;
+}
+
+#openid-line
+{
+	margin                           : 0;
+	padding-right                    : 5px;
+}
+
+#openid-all-wrap
+{
+	position                         : relative;
+	width                            : 230px;
+}
+
+#openid-field-box
+{
+	width                            : 230px;
+}
+
+.openid-identifier-login#openid_identifier {
+	padding-left                     : 30px;
+	width                            : 183px;
+	background                       : url(../../../image/icon_login_openid.gif) no-repeat;
+	font-size                        : 1.3em;
+	font-family                      : arial;
+}
+
+.openid-login-button
+{
+	display                          : inline;
+	width                            : 74px;
+	height                           : 3em;
+	cursor                           : pointer;
+	padding                          : 0pt 5px;
+	font-size                        : 1em;
+	font-weight                      : bold;
+	font-family                      : 'Lucida Grande',Arial,±¼¸²,Gulim,Tahoma,Verdana,sans-serif;
+	background-color                 : #fff;
+	border                           : 1px solid;
+	vertical-align                   : middle;
+}
+
+#openid-login-button
+{
+	float                            : right;
+	margin                           : 15px 10px 5px 20px;
+	left                             : 100px;
+}
+
+#openid-remember
+{
+	display                          : block;
+	margin-top                       : 10px;
+}
+
+#openid-help
+{
+	display                          :block;
+}
+
+.openid-login-button
+{
+	position						 : static;
+	background-color                 : #FFFFFF;
+	background-position              : left top;
+	display                          : inline;
+	font-weight                      : bold;
+	height                           : 3em;
+	line-height                      : 3em;
+	width                            : 6em;
+	border                           : 1px solid #777777;
+	cursor                           : pointer;
+	margin-right					 : 5px;
+}
+
+.openid-data-outbox {
+	width                            : 650px;
+} 
+
+#openid_remember {
+	padding-top                      : 10px;
+}
+
+.openid-identifier-guest-login#openid_identifier {
+	padding-left                     : 30px; 
+	background                       : url(../../../image/icon_login_openid.gif) no-repeat; 
+	height                           : 1.5em; 
+	width                            : 450px;
+	font-size                        : 1.5em;
+	font-weight                      : bold;
+	font-family                      : arial;
+}
+

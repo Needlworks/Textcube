@@ -1,0 +1,1024 @@
+@charset "utf-8";
+
+/* Common ****************************************************************************************/
+
+#sub-menu-dashboard
+{
+	background-image                 : none !important;
+}
+
+.part .caption
+{
+	margin-bottom                    : 10px;
+}
+
+/* Dashboard *************************************************************************************/
+
+#part-center-dashboard,
+#part-center-lint
+{
+	height                           : 480px;
+	position                         : relative;
+}
+
+#part-center-dashboard .section h3,
+#part-center-lint .section h3
+{
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	font-weight                      : normal;
+	height                           : 38px;
+	line-height                      : 34px;
+	padding-left                     : 25px;
+	margin-top                       : 10px;
+}
+
+/* shortcut */
+#shortcut-collection
+{
+	position                         : absolute;
+	left                             : 10px;
+	top                              : 40px;
+	width                            : 200px;
+}
+
+#shortcut-collection h3
+{
+	background-image                 : url("./image/bg_dashboard_header3.png");
+	height                           : 38px;
+}
+
+#shortcut-collection ul li,
+#total-information ul li
+{
+	background-image                 : url("./image/icon_newPost.gif");
+	background-position              : 15px center;
+	background-repeat                : no-repeat;
+	border-bottom                    : 1px solid #EEEEEE;
+	padding                          : 6px 10px 5px 32px;
+	text-align                       : left;
+}
+
+/* total information */
+#total-information
+{
+	margin-left                      : 220px;
+	width                            : 200px;
+	position                         : absolute;
+	top                              : 40px;
+}
+
+#total-information h3
+{
+	background-image                 : url("./image/bg_dashboard_header3.png");
+	height                           : 38px;
+}
+
+#total-information table
+{
+	width                            : 200px;
+}
+
+#total-information table tbody tr th
+{
+	border-bottom                    : 1px solid #EEEEEE;
+	font-weight                      : normal;
+	height                           : 30px;
+	text-align                       : center;
+	width                            : 50%;
+}
+
+#total-information table tbody tr td
+{
+	border-bottom                    : 1px solid #EEEEEE;
+	border-left                      : 1px solid #EEEEEE;
+	height                           : 24px;
+	padding-right                    : 10px;
+	text-align                       : right;
+}
+
+#total-information ul
+{
+	margin-top                       : 10px;
+}
+
+/* notice */
+#textcube-notice
+{
+	position                         : absolute;
+	left                             : 10px;
+	top                              : 280px;
+	width                            : 410px;
+}
+
+#textcube-notice h3
+{
+	background-image                 : url("./image/bg_dashboard_header4.png");
+	height                           : 38px;
+}
+
+#textcube-notice table
+{
+	margin                           : 0 0 25px 0;
+	width                            : 410px;
+}
+
+#textcube-notice table tbody tr td
+{
+	border-bottom                    : 1px solid #EEEEEE;
+	height                           : 28px;
+	padding-left                     : 10px;
+	text-align                       : left;
+}
+
+#textcube-notice table tbody tr td.date
+{
+	font-family                      : Verdana, Tahoma, Arial, "Lucida Grande", sans-serif;
+	font-size                        : 0.8em;
+	padding-right                    : 10px;
+	text-align                       : right;
+}
+
+/* panel */
+
+#part-center-dashboard #myBlogInfo
+{
+	position                         : relative;
+	width                            : 505px;
+	position                         : absolute;
+	right                            : 20px;
+	top                              : 40px;
+}
+
+#part-center-dashboard #myBlogInfo.section h3
+{ 
+	background-image                 : url("./image/bg_dashboard_header2.png");
+}
+
+#part-center-dashboard #myBlogInfo table caption
+{
+	font-weight                      : bold;
+	text-align                       : left;
+	line-height                      : 23px;
+	border-bottom                    : 1px solid #e2e5e7;
+}
+
+
+#part-center-dashboard #infoPanel
+{
+	border                           : 1px solid #d9dde0;
+	padding                          : 9px;
+	width                            : 485px;
+	float                            : right;
+}
+
+#part-center-dashboard #infoPanel table
+{
+	width                            : 232px;
+	height                           : 130px;
+	float                            : left;
+	margin-right                     : 5px;
+	margin-bottom                    : 16px;
+}
+
+#part-center-dashboard #infoPanel table.guestbook
+{
+	clear: left;
+}
+
+#part-center-dashboard #infoPanel table th
+{
+	display                          : none;
+}
+
+#part-center-dashboard #infoPanel table td
+{
+	height                           : 12px;
+	background                       : url(./image/icon_dot.gif) -1px 10px no-repeat;
+	vertical-align                   : top;
+}
+
+#part-center-dashboard #infoPanel table tr .title
+{
+	padding                          : 8px 5px 2px 7px;
+	width                            : 200px;
+	overflow                         : hidden;
+}
+
+#part-center-dashboard #infoPanel table tr .date
+{
+	padding                          : 8px 0 2px 0;
+	width                            : 45px;
+	font                             : 0.8em Tahoma;
+	background                       : none;
+	text-align: center;
+}
+
+/* quilt */
+#part-center-quilt .panel,
+#part-center-quilt-edit .panel,
+#part-center-lint .panel,
+#part-center-lint-edit .panel
+{
+	float                            : left;
+	margin-left                      : 10px;
+	min-height                       : 100px;
+	width                            : 300px;
+}
+
+#part-center-quilt .button-box,
+#part-center-quilt-edit .button-box,
+#part-center-lint .button-box,
+#part-center-lint-edit .button-box
+{
+	border-top                       : 1px solid #DDDDDD;
+	clear                            : both;
+	padding                          : 15px 0;
+}
+
+#part-center-quilt .button-box .input-button,
+#part-center-quilt-edit .button-box .input-button,
+#part-center-lint .button-box .input-button,
+#part-center-lint-edit .button-box .input-button
+{
+	background-color                 : #FFFFFF;
+	background-image                 : none !important;
+	font-weight                      : bold;
+	height                           : 30px;
+}
+
+#dojo_boardbar1,
+#dojo_boardbar2
+{
+	margin-left                      : 20px !important;
+}
+
+#part-center-quilt .section,
+#part-center-quilt-edit .section,
+#part-center-lint .section,
+#part-center-lint-edit .section,
+.ajax-floating-panel
+{
+	font-size                        : 12px;
+	margin-bottom                    : 15px;
+}
+
+#part-center-quilt-edit .section,
+#part-center-lint-edit .section,
+.ajax-floating-panel
+{
+	cursor                           : pointer;
+}
+
+#part-center-quilt .section h3,
+#part-center-quilt-edit .section h3,
+#part-center-lint .section h3,
+#part-center-lint-edit .section h3,
+.ajax-floating-panel h3
+{
+	background-image                 : url("./image/bg_dashboard_header.png");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	font-weight                      : normal;
+	height                           : 38px;
+	line-height                      : 34px;
+	padding-left                     : 25px;
+}
+
+#part-center-quilt .section h4,
+#part-center-quilt .section h5,
+#part-center-quilt .section h6,
+#part-center-quilt-edit .section h4,
+#part-center-quilt-edit .section h5,
+#part-center-quilt-edit .section h6,
+#part-center-lint .section h4,
+#part-center-lint .section h5,
+#part-center-lint .section h6,
+#part-center-lint-edit .section h4,
+#part-center-lint-edit .section h5,
+#part-center-lint-edit .section h6,
+.ajax-floating-panel h4,
+.ajax-floating-panel h5,
+.ajax-floating-panel h6
+{
+	font-size                        : 1em;
+}
+
+#part-center-quilt .section ol,
+#part-center-quilt .section ul,
+#part-center-quilt-edit .section ol,
+#part-center-quilt-edit .section ul,
+#part-center-lint .section ol,
+#part-center-lint .section ul,
+#part-center-lint-edit .section ol,
+#part-center-lint-edit .section ul,
+.ajax-floating-panel ol,
+.ajax-floating-panel ul
+{
+	width                            : 300px;
+}
+
+#part-center-quilt .section ol li,
+#part-center-quilt .section ul li,
+#part-center-quilt-edit .section ol li,
+#part-center-quilt-edit .section ul li,
+#part-center-lint .section ol li,
+#part-center-lint .section ul li,
+#part-center-lint-edit .section ol li,
+#part-center-lint-edit .section ul li,
+.ajax-floating-panel ol li,
+.ajax-floating-panel ul li
+{
+	border-bottom                    : 1px solid #EEEEEE;
+	padding                          : 7px 10px 5px 15px;
+	text-align                       : left;
+}
+
+#part-center-quilt .section table,
+#part-center-quilt-edit .section table,
+#part-center-lint .section table,
+#part-center-lint-edit .section table,
+.ajax-floating-panel table
+{
+	margin                           : 0 12px 25px 0;
+	width                            : 300px;
+}
+
+#part-center-quilt .section table tbody tr td,
+#part-center-quilt-edit .section table tbody tr td,
+#part-center-lint .section table tbody tr td,
+#part-center-lint-edit .section table tbody tr td,
+.ajax-floating-panel table tbody tr td
+{
+	border-bottom                    : 1px solid #EEEEEE;
+	border-top                       : 1px solid #EEEEEE;
+	height                           : 28px;
+	padding-left                     : 10px;
+	text-align                       : left;
+}
+
+#independent-notice-line
+{
+	margin: -37px 10px 0 0;
+}
+
+#independent-notice-line dd
+{
+	color: #222;
+	text-align: right;
+}
+
+#independent-notice-line dt, #direct-link-line dt
+{
+	display: none;
+}
+
+#direct-link-line
+{
+	margin: 20px 10px;
+	text-align: right;	
+}
+
+#direct-link-line dd
+{
+	border                           : 3px solid #EC81CA;
+	display                          : inline;
+	padding                          : 10px;
+	text-align                       : right;
+}
+
+#direct-link-line dd .button
+{
+	background-image                 : url('./image/img_link_bullet.jpg');
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	padding-right                    : 15px;
+}
+
+/* system dialog --------------------------------------------------------------------------------*/
+.part .system-dialog
+{
+	background-color                 : #FFFFFF;
+	border                           : 5px solid #000000;
+	margin-left                      : 10px;
+	padding                          : 10px;
+	width                            : 550px;
+	z-index                          : 500;
+}
+
+.part .system-dialog h4
+{
+	display                          : block !important;
+}
+
+.part .system-dialog .message-sub
+{
+	border                           : 1px solid #EEEEEE;
+	margin-top                       : 10px;
+	padding                          : 10px;
+}
+
+.part .system-dialog .progressBar
+{
+	background-color                 : #1C6D9C !important;
+}
+
+/* Coverpage ***************************************************************************************/
+
+#part-coverpage-order
+{
+	background-image                 : url("./image/bg_sidebar.png");
+	background-position              : 309px 175px;
+	background-repeat                : no-repeat;	
+}
+
+
+
+#part-coverpage-order .pseudo-clear
+{
+	clear                            : both;
+	font-family                      : 돋움, Dotum, sans-serif;
+	font-size                        : 0.9em;
+	letter-spacing                   : -1px;
+	padding-top                      : 15px;
+	text-align                       : right;
+}
+
+#part-coverpage-order .pseudo-clear a
+{
+	font-weight                      : bold;
+}
+
+#part-coverpage-order .main-explain-box
+{
+	margin-top                       : 13px;
+}
+
+#part-coverpage-order .main-explain-box .explain
+{
+	margin-bottom                    : 15px;
+}
+
+#part-coverpage-order #direct-link-line
+{
+	margin-bottom                    : 0px;
+	margin-top                       : 0px !important;
+}
+
+#coverpage-tabs-box
+{
+	margin-bottom                    : 30px;
+}
+
+#coverpage-box
+{
+	float                            : right;
+	height                           : 903px;
+	margin                           : 0 5px 0 30px;
+	overflow                         : auto;
+	position                         : relative;
+	width                            : 600px;
+	z-index                          : 100;
+}
+
+#coverpage-box .section
+{
+	vertical-align                   : top;
+	width                            : 575px;
+}
+
+#coverpage-box .section h3
+{
+	color                            : #FF6600;
+	font-size                        : 1em;
+	margin                           : 7px 0 0 10px;
+}
+
+#coverpage-box .section ul.coverpage
+{
+	min-height                       : 400px;
+}
+
+#coverpage-box .section ul li.coverpage-module *
+{
+	color                            : inherit;
+	font-size                        : 1em;
+	font-weight                      : inherit;
+}
+
+#coverpage-box-disabled
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #DDDDDD;
+	height                           : 400px;
+}
+
+#coverpage-box-disabled p
+{
+	margin-top                       : 190px;
+	text-align                       : center;
+}
+
+.coverpage-module,
+.coverpage-module .ajax-floating-panel
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #CCCCCC;
+	cursor                           : move;
+	font-size                        : 12px;
+	list-style-type                  : none;
+	margin                           : 2px 0px 2px 0;
+	max-height                       : 200px;
+	overflow                         : hidden;
+	position                         : relative;
+	text-align                       : left;
+	width                            : 575px;
+	z-index                          : 50;
+}
+
+.coverpage-module *
+{
+	font-size                        : 1em;
+}
+
+.coverpage-module a,
+.coverpage-module input-button
+{
+	cursor                           : pointer;
+}
+
+.coverpage-module h4.module-title,
+.coverpage-module .ajax-floating-panel h4.module-title
+{
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	border-bottom                    : 1px solid #CCCCCC;
+	font-weight                      : bold !important;
+	padding                          : 5px 5px 4px 5px;
+}
+
+.coverpage-module h4 .radio
+{
+	display                          : none;
+}
+
+.coverpage-module .module-close
+{
+	position                         : absolute;
+	top                              : 7px;
+	right                            : 0;
+}
+
+.coverpage-module .edit-button-box,
+.coverpage-module .ajax-floating-panel .edit-button-box
+{
+	text-align                       : center;
+}
+
+.coverpage-module .edit-button-box a,
+.coverpage-module .ajax-floating-panel .edit-button-box a
+{
+	border                           : 1px solid #DDDDDD;
+	display                          : block;
+	height                           : 1.5em;
+	line-height                      : 1.5em;
+	margin                           : 10px auto 0 auto !important;
+	padding-top                      : 3px;
+	width                            : 40px;
+}
+
+.coverpage-module .module-content,
+.ajax-floating-panel .module-content
+{
+	padding                          : 5px 5px 4px 5px;
+}
+
+/* main-content 내부 스타일 */
+.coverpage-module .module-content h1,
+.coverpage-module .module-content h2,
+.coverpage-module .module-content h3,
+.coverpage-module .module-content h4,
+.coverpage-module .module-content h5,
+.coverpage-module .module-content h6
+{
+	color                            : #000000 !important;
+	/* display                       : none; */
+}
+
+.coverpage-module .module-content ul li
+{
+	list-style-type                  : disc;
+	margin-left                      : 18px;
+}
+
+.coverpage-module .module-content .calendar caption,
+.coverpage-module .module-content .calendar table tr td,
+.coverpage-module .module-content .calendar table tr th
+{
+	text-align                       : center;
+}
+
+.coverpage-plugin-module h4.module-title,
+#coverpage-plugin-module-box ul li.coverpage-module h4
+{
+	background-color                 : #DDDDDD;
+}
+
+#coverpage-element-box
+{
+	background-image                 : none;
+	float                            : left;
+	width                            : 287px;
+}
+
+#coverpage-element-box h3
+{
+	display                          : none;
+}
+
+#coverpage-element-box fieldset
+{
+	background-image                 : none;
+	border                           : 1px solid #CCCCCC;
+	margin-bottom                    : 5px;
+	padding                          : 7px;
+}
+
+#coverpage-element-box fieldset legend
+{
+	color                            : #476db4;
+	display                          : inline;
+	font-weight                      : bold;
+	padding                          : 0 4px;
+}
+
+#coverpage-element-box fieldset ul.module-list
+{
+	height                           : 840px;
+	overflow-y                       : scroll;
+	position                         : relative;
+	z-index                          : 100;
+}
+
+#coverpage-element-box fieldset ul.module-list li.coverpage-module
+{
+	width                            : 247px;
+}
+
+#coverpage-element-box fieldset ul.module-list li.coverpage-module .edit-button-box,
+.coverpage-module .ajax-floating-panel .edit-button-box
+{
+	margin-top                       : 0;
+}
+
+#coverpage-element-box .coverpage-module h4,
+.coverpage-module .ajax-floating-panel h4
+{
+	background-image                 : url("./image/icon_sidebar_module.gif");
+}
+
+#coverpage-description
+{
+	padding-top                      : 5px !important;
+}
+
+#independent-cover-line
+{
+	margin: -36px 10px 0 0;
+}
+
+#independent-cover-line dt
+{
+	display: none;
+}
+
+#independent-cover-line dd
+{
+	color: #222;
+	text-align                       : right;
+}
+
+/* Credit ****************************************************************************************/
+
+#part-center-about
+{
+	position                         : relative;
+}
+
+
+#part-center-about
+{
+	background-image                 : url("./image/logo_textcube_full.png");
+	background-position              : 140px 70px;
+	background-repeat                : no-repeat;
+}
+
+#part-center-about h3
+{
+	font-family                      : Tahoma, "Lucida Grande", Verdana, sans-serif;
+	padding-top                      : 55px;
+	margin                           : 30px 0 5px 360px;
+	text-align                       : center;
+	width                            : 435px;
+}
+
+#part-center-about .main-explain-box
+{
+	margin-left                      : 360px;
+	padding                          : 0;
+	width                            : 435px;
+}
+
+#part-center-about .main-explain-box p
+{
+	border                           : 1px solid #DDDDDD;
+	display                          : block;
+	margin-top                       : 20px;
+	padding                          : 10px;
+	text-align                       : center;
+}
+
+#part-center-about .main-explain-box p q
+{
+	cursor                           : help;
+	display                          : block;
+}
+
+#part-center-about .main-explain-box p br
+{
+	display                          : none;
+}
+
+#part-center-about .main-explain-box cite
+{
+	display                          : none;
+	text-align                       : right !important;
+}
+
+#copyright
+{
+	padding                          : 10px;
+}
+
+#XHTML-ValidIcon
+{
+	padding-left: 20px;
+}
+
+#developer-description
+{
+	margin-left                      : 10px;
+}
+
+#part-center-about .section h3
+{
+	display                          : none;
+}
+
+#part-center-about table
+{
+	border-top                       : 1px solid #D2D2CC;
+}
+
+#part-center-about table thead tr
+{
+	background-color                 : #F3F3F1;
+	background-image                 : url("./image/bg_thead.png");
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
+}
+
+#part-center-about table thead tr th
+{
+	color                            : #333333;
+	font-weight                      : normal;
+	padding                          : 8px;
+	text-align                       : center;
+}
+
+#part-center-about table tbody tr td
+{
+	background-image                 : url("./image/bg_tbody.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	padding                          : 8px;
+	text-align                       : center;
+	/*vertical-align                   : top;*/
+}
+
+#part-center-about table tbody tr td.selection
+{
+	background-position              : right bottom;
+}
+
+#part-center-about .section .container table tbody tr td.name,
+#part-center-about .section .container table tbody tr td.id
+{
+	width                            : 130px;
+}
+
+#supporter-container table thead tr th.name, #supporter-container table tbody tr td.name
+{
+	width                            : 100px !important;
+}
+
+#part-center-about .section .container
+{
+	margin-top                       : 30px;
+}
+
+#part-center-about .section .container h4
+{
+	margin-top                       : 0;
+}
+
+#maintainer-container
+{
+	float: left;
+	margin-right: 3%;
+	padding-top: 50px;
+	width: 27%;
+}
+
+#internationalization-container
+{
+	float: left;
+	margin: 0 3% 50px 0;
+	width: 27%;
+}
+
+#painter-container
+{
+	float: left;
+	margin: 0 3% 50px 0;
+	width: 31%;
+}
+
+#support-container
+{
+	float: left;
+	margin: 0 0 50px 0;
+	width: 35%;
+}
+
+#maintainer-container table,
+#internationalization-container table,
+#painter-container table,
+#support-container table
+{
+	width                            : 100%;
+}
+
+#maintainer-container table tr td.id a,
+#developer-container table tr td.id a,
+#internationalization-container table tr td.id a,
+#support-container table tr td.id a
+{
+	font-weight                      : bold;
+
+}
+
+#developer-container table tr td.id span,
+#painter-container table tr td.id span,
+#internationalization-container table tr td.id span
+{
+	font-weight                      : bold;
+}
+
+#developer-container
+{
+	float: left;
+	padding-top: 50px;
+	width: 69%;
+}
+
+#developer-description .container h4
+{
+	color                            : #000000;
+	font-family                      : Arial, Tahoma, "Lucida Grande", Verdana, sans-serif;
+	font-size                        : 1.2em;
+	font-weight                      : normal;
+	margin                           : 0 0 3px 15px;
+}
+
+#developer-description .container table tbody tr td
+{
+	background-position              : right bottom;
+	padding-left                     : 20px;
+	text-align                       : left;
+}
+
+#developer-container table
+{
+	width                            : 100%;
+}
+
+#supporter-description h3
+{
+	background-color                 : #666;
+	background-image                 : url("./image/bg_title_left.png");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	clear                            : both;
+	color                            : #222;
+	display                          : block !important;
+	height                           : 38px;
+	font-size                        : 1em;
+	font-weight                      : normal;
+	line-height                      : 2.8em;
+	margin                           : 0 0 10px 0;
+	overflow                         : hidden;
+	padding                          : 0 0 0 60px;
+	text-align                       : left;
+	width                            : 94%;
+}
+
+#supporter-description h3 span
+{
+	background-color                 : #666;
+	background-image                 : url("./image/bg_title_right.png");
+	background-position              : right top;
+	background-repeat                : repeat-x;
+	display                          : block;
+	height                           : 38em;
+	line-height                      : 2.7em;
+}
+
+#supporter-description .container
+{
+	margin-left                      : 10px;
+}
+
+#supporter-description .container h4
+{
+	color                            : #000000;
+	font-family                      : Arial, Tahoma, "Lucida Grande", Verdana, sans-serif;
+	font-size                        : 1.2em;
+	font-weight                      : normal;
+	margin                           : 20px 0 3px 10px;
+}
+
+#supporter-description .container p
+{
+	margin                           : 10px 0 10px 10px;
+}
+
+/* classes for AJAX *******************************************************************************/
+
+.ajax-popup-window
+{
+	background-color                 : #FFFFFF;
+	border                           : 4px solid black;
+	font-size                        : 12px;
+	padding                          : 20px;
+	width                            : 40%;
+}
+
+.ajax-popup-window form
+{
+	text-align                       : center;
+}
+
+.ajax-popup-window .line
+{
+	clear                            : both;
+	display                          : block;
+	line-height                      : 2em;
+	text-align                       : right;
+}
+
+.ajax-popup-window .input-text
+{
+	width                            : 70%;
+}
+
+.ajax-popup-window label
+{
+	float                            : left;
+}
+
+.ajax-popup-window .button-box
+{
+	margin-top                       : 15px;
+	text-align                       : center;
+}
+
+.ajax-popup-window .button-box .input-button
+{
+	background-color                 : #FFFFFF;
+	background-image                 : none;
+	border                           : 1px solid #BBBBBB;
+	color                            : #000000;
+	font-weight                      : bold;
+	height                           : 3em;
+	line-height                      : 3em;
+	padding-top                      : 8px;
+	padding-bottom                   : 6px;
+	vertical-align                   : middle;
+}
+
+.ajax-popup-window .waiting-string,
+.ajax-popup-window .error-string
+{
+	text-align                       : center;
+}
