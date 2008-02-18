@@ -37,6 +37,8 @@ if (count($host) > 1) {
 }
 unset($host);
 
+if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
+
 if (!function_exists('iconv')) {
 	if (function_exists('mb_convert_encoding')) {
 		function iconv($in, $out, $str) {

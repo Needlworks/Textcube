@@ -11,11 +11,6 @@ function getMicrotimeAsFloat() {
 }
 $sessionMicrotime = getMicrotimeAsFloat();
 
-function getRemoteAddress() {
-	if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) return $_SERVER['HTTP_X_FORWARDED_FOR'];
-	else return $_SERVER['REMOTE_ADDR'];
-}
-
 function openSession($savePath, $sessionName) {
 	return true;
 }
@@ -27,7 +22,7 @@ function closeSession() {
 function readSession($id) {
 	global $database, $service;
 	if ($result = sessionQuery("SELECT data FROM {$database['prefix']}Sessions 
-		WHERE id = '$id' AND address = '".getRemoteAddress()."' AND updated >= (UNIX_TIMESTAMP() - {$service['timeout']})")) {
+		WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND updated >= (UNIX_TIMESTAMP() - {$service['timeout']})")) {
 		return $result;
 	}
 	return '';
@@ -50,7 +45,7 @@ function writeSession($id, $data) {
 	$timer = getMicrotimeAsFloat() - $sessionMicrotime;
 	$result = POD::queryCount("UPDATE {$database['prefix']}Sessions 
 			SET userid = $userid, data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() 
-			WHERE id = '$id' AND address = '".getRemoteAddress()."'");
+			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 	if ($result && $result == 1)
 		return true;
 	return false;
@@ -59,7 +54,7 @@ function writeSession($id, $data) {
 function destroySession($id, $setCookie = false) {
 	global $database;
 	@POD::query("DELETE FROM {$database['prefix']}Sessions 
-		WHERE id = '$id' AND address = '".getRemoteAddress()."'");
+		WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 	gcSession();
 }
 
@@ -83,7 +78,7 @@ function gcSession($maxLifeTime = false) {
 
 function getAnonymousSession() {
 	global $database;
-	$result = sessionQuery("SELECT id FROM {$database['prefix']}Sessions WHERE address = '".getRemoteAddress()."' AND userid IS NULL AND preexistence IS NULL");
+	$result = sessionQuery("SELECT id FROM {$database['prefix']}Sessions WHERE address = '{$_SERVER['REMOTE_ADDR']}' AND userid IS NULL AND preexistence IS NULL");
 	if ($result)
 		return $result;
 	return false;
@@ -95,7 +90,7 @@ function newAnonymousSession() {
 		if (($id = getAnonymousSession()) !== false)
 			return $id;
 		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-		$result = POD::queryCount("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) VALUES('$id', '".getRemoteAddress()."', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+		$result = POD::queryCount("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 		if ($result > 0)
 			return $id;
 	}
@@ -121,7 +116,7 @@ function newSession() {
 	global $database;
 	for ($i = 0; ($i < 100) && !setSessionAnonymous(); $i++) {
 		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-		$result = POD::queryCount("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) SELECT DISTINCT '$id', '".getRemoteAddress()."', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+		$result = POD::queryCount("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) SELECT DISTINCT '$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 		if ($result && $result > 0) {
 			session_id($id);
 			return true;
@@ -136,7 +131,7 @@ function isSessionAuthorized($id) {
 	$result = POD::queryCell("SELECT id 
 		FROM {$database['prefix']}Sessions 
 		WHERE id = '$id' 
-			AND address = '".getRemoteAddress()."' 
+			AND address = '{$_SERVER['REMOTE_ADDR']}' 
 			AND (userid IS NOT NULL OR preexistence IS NOT NULL)");
 	if ($result)
 		return true;
@@ -148,7 +143,7 @@ function isGuestOpenIDSession($id) {
 	$result = POD::queryCell("SELECT id 
 		FROM {$database['prefix']}Sessions 
 		WHERE id = '$id' 
-			AND address = '".getRemoteAddress()."' AND userid < 0");
+			AND address = '{$_SERVER['REMOTE_ADDR']}' AND userid < 0");
 	if ($result)
 		return true;
 	return false;
@@ -175,7 +170,7 @@ function authorizeSession($blogid, $userid) {
 		$id = session_id();
 		if( isGuestOpenIDSession($id) ) {
 			$result = POD::execute("UPDATE {$database['prefix']}Sessions
-				set userid = $userid WHERE id = '$id' AND address = '".getRemoteAddress()."'");
+				set userid = $userid WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 			if ($result) {
 				return true;
 			}
@@ -187,7 +182,7 @@ function authorizeSession($blogid, $userid) {
 		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
 		$result = POD::execute("INSERT INTO {$database['prefix']}Sessions
 			(id, address, userid, created, updated) 
-			VALUES('$id', '".getRemoteAddress()."', $userid, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+			VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', $userid, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 		if ($result) {
 			@session_id($id);
 			//$service['domain'] = $service['domain'].':8888';
