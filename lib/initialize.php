@@ -65,7 +65,12 @@ if (!defined('NO_INITIALIZAION')) {
 
 // 어드민 스킨 및 에디터 템플릿 설정.
 	$adminSkinSetting = array();
-	$adminSkinSetting['skin'] = "/style/admin/".getBlogSetting("adminSkin", "default");
+	$adminSkinSetting['skin'] = "/style/admin/".getBlogSetting("adminSkin", "whitedream");
+// 1.5에서 올라온 경우 스킨이 있는 경우를 위한 workaround.
+	if($adminSkinSetting['skin'] == 'default') {
+		setBlogSetting("adminSkin", "whitedream");
+		$adminSkinSetting['skin'] = "/style/admin/whitedream";
+	}
 
 // 리샘플링 설정값.
 	$useImageResampling = getBlogSetting("resamplingDefault");
