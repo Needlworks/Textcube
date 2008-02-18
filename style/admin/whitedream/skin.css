@@ -476,10 +476,10 @@
 
 #part-sidebar-order #direct-link-line dd
 {
-	border                           : 3px solid #EFEFEF;
-	display: inline;
-	padding: 10px;
-	text-align: right;
+	border                           : 3px solid #30A13D;
+	display                          : inline;
+	padding                          : 10px;
+	text-align                       : right;
 }
 
 #part-sidebar-order #direct-link-line dd .button
