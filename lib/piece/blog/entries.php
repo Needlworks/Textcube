@@ -12,12 +12,12 @@ if (isset($cache->contents)) {
 	$totalTags = array();
 	$entryRsses = '';
 	foreach ($entries as $entry) {
-		$entryRsses .= "<link rel='alternate' type='application/rss+xml' ".
-			"title='Trackback: ".htmlspecialchars($entry['title'])." - ".htmlspecialchars($blog['title'])."' ".
-			"href='$defaultURL/rss/trackback/{$entry['id']}' />".CRLF;
-		$entryRsses .= "<link rel='alternate' type='application/rss+xml' ".
-			"title='Comment: ".htmlspecialchars($entry['title'])." - ".htmlspecialchars($blog['title'])."' ".
-			"href='$defaultURL/rss/comment/{$entry['id']}' />".CRLF;
+		$entryRsses .= '<link rel="alternate" type="application/rss+xml" '.
+			'title="Trackback: '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($blog['title']).'" '.
+			'href="'.$defaultURL.'/rss/trackback/'.$entry['id'].'" />'.CRLF;
+		$entryRsses .= '<link rel="alternate" type="application/rss+xml" '.
+			'title="Comment: '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($blog['title']).'" '.
+			'href="'.$defaultURL.'/rss/comment/'.$entry['id'].'" />'.CRLF;
 	}
 	if( getBlogSetting('useFOAF',1) && rtrim( $suri['url'], '/' ) == $pathURL ) {
 		/* same code exists in cover.php */
