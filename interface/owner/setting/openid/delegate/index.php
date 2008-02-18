@@ -13,7 +13,8 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireComponent( 'Textcube.Control.Openid' );
 requireStrictRoute();
 
-if( OpenIDConsumer::setOpenIDLogoDisplay( empty($_GET['mode']) ? "" : "openid" ) ) {
+$consumer = new OpenIDConsumer;
+if( $consumer->setDelegate( $_GET['openid_identifier'] ) ) {
 	respond::ResultPage(0);
 } else {
 	respond::ResultPage(-1);

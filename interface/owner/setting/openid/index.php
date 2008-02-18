@@ -91,6 +91,8 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 	}
 	function setDelegate() {
 		try {
+			var odlg = document.getElementById( 'openid_for_delegation' );
+			delegatedid = odlg.options[odlg.selectedIndex].value;
 			if( !delegatedid ) {
 				alert( "<?php echo _t('블로그 주소를 오픈아이디로 사용하지 않습니다.') ?>");
 			}

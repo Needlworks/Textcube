@@ -281,7 +281,13 @@ class Auth_Yadis_Yadis {
         $result = new Auth_Yadis_DiscoveryResult($uri);
 
         $request_uri = $uri;
-        $headers = array("Accept: " . Auth_Yadis_CONTENT_TYPE);
+
+		global $TextCubeDoNotUseAcceptHeader;
+		if( empty($TextCubeDoNotUseAcceptHeader) ) {
+        	$headers = array("Accept: " . Auth_Yadis_CONTENT_TYPE);
+		} else {
+        	$headers = array();
+		}
 
         if (!$fetcher) {
             $fetcher = Auth_Yadis_Yadis::getHTTPFetcher($timeout);

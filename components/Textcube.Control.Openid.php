@@ -176,8 +176,9 @@ class OpenIDConsumer extends OpenID {
 
 	function fetchXRDSUri( $openid )
 	{
-		global $TextCubeLastXRDSUri;
+		global $TextCubeLastXRDSUri, $TextCubeDoNotUseAcceptHeader;
 		$TextCubeLastXRDSUri = '';
+		$TextCubeDoNotUseAcceptHeader = true;
 
 		ob_start();
 		$auth_request = $this->consumer->begin($openid);
