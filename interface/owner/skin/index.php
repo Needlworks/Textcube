@@ -138,7 +138,7 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 }
 ?>
 									</div>
-								</div>
+								</div>
 							</div>
 						</div>
 						
