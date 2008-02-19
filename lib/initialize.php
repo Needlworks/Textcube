@@ -67,7 +67,7 @@ if (!defined('NO_INITIALIZAION')) {
 	$adminSkinSetting = array();
 	$adminSkinSetting['skin'] = "/style/admin/".getBlogSetting("adminSkin", "whitedream");
 // 1.5에서 올라온 경우 스킨이 있는 경우를 위한 workaround.
-	if($adminSkinSetting['skin'] == 'default') {
+	if($adminSkinSetting['skin'] == '/style/admin/default') {
 		setBlogSetting("adminSkin", "whitedream");
 		$adminSkinSetting['skin'] = "/style/admin/whitedream";
 	}
