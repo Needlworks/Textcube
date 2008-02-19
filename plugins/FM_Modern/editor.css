@@ -32,7 +32,7 @@
 #moderneditor-palette .paragraph,
 #moderneditor-palette .special
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/dotted_vertical.gif");
+	background-image                 : url("./image/edit/dotted_vertical.gif");
 	background-position              : 2px 4px; /*left 3px*/
 	background-repeat                : no-repeat;
 	border                           : none; /*--*/
@@ -140,117 +140,117 @@
 
 .moderneditor-indicatorBold
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/setBold.gif") !important;
+	background-image                 : url("./image/edit/setBold.gif") !important;
 }
 
 .moderneditor-indicatorItalic
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/setItalic.gif") !important;
+	background-image                 : url("./image/edit/setItalic.gif") !important;
 }
 
 .moderneditor-indicatorUnderline
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/setUnderLine.gif") !important;
+	background-image                 : url("./image/edit/setUnderLine.gif") !important;
 }
 
 .moderneditor-indicatorStrike
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/setLineThrough.gif") !important;
+	background-image                 : url("./image/edit/setLineThrough.gif") !important;
 }
 
 .moderneditor-indicatorColorPalette
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/setColor.gif") !important;
+	background-image                 : url("./image/edit/setColor.gif") !important;
 }
 
 .moderneditor-indicatorMarkPalette
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/setMark.gif") !important;
+	background-image                 : url("./image/edit/setMark.gif") !important;
 }
 
 .moderneditor-indicatorTextBox
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/textBox.gif") !important;
+	background-image                 : url("./image/edit/textBox.gif") !important;
 }
 
 .moderneditor-indicatorRemoveFormat
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/set_remove.gif") !important;
+	background-image                 : url("./image/edit/set_remove.gif") !important;
 }
 
 .moderneditor-indicatorJustifyLeft
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/setAlignLeft.gif") !important;
+	background-image                 : url("./image/edit/setAlignLeft.gif") !important;
 }
 
 .moderneditor-indicatorJustifyCenter
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/setAlignCenter.gif") !important;
+	background-image                 : url("./image/edit/setAlignCenter.gif") !important;
 }
 
 .moderneditor-indicatorJustifyRight
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/setAlignRight.gif") !important;
+	background-image                 : url("./image/edit/setAlignRight.gif") !important;
 }
 
 .moderneditor-indicatorUnorderedList
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/set_ul.gif") !important;
+	background-image                 : url("./image/edit/set_ul.gif") !important;
 }
 
 .moderneditor-indicatorOrderedList
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/set_ol.gif") !important;
+	background-image                 : url("./image/edit/set_ol.gif") !important;
 }
 
 .moderneditor-indicatorOutdent
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/set_outdent.gif") !important;
+	background-image                 : url("./image/edit/set_outdent.gif") !important;
 }
 
 .moderneditor-indicatorIndent
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/set_indent.gif") !important;
+	background-image                 : url("./image/edit/set_indent.gif") !important;
 }
 
 .moderneditor-indicatorBlockquote
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/set_blockquote.gif") !important;
+	background-image                 : url("./image/edit/set_blockquote.gif") !important;
 }
 
 .moderneditor-indicatorCodeBlock
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/setCode.gif") !important;
+	background-image                 : url("./image/edit/setCode.gif") !important;
 }
 
 .moderneditor-indicatorHtmlBlock
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/setHtml.gif") !important;
+	background-image                 : url("./image/edit/setHtml.gif") !important;
 }
 
 .moderneditor-indicatorCreateLink
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/setLink.gif") !important;
+	background-image                 : url("./image/edit/setLink.gif") !important;
 }
 
 .moderneditor-indicatorMediaBlock
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/setEmbed.gif") !important;
+	background-image                 : url("./image/edit/setEmbed.gif") !important;
 }
 
 .moderneditor-indicatorFlashBlock
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/setFlash.gif") !important;
+	background-image                 : url("./image/edit/setFlash.gif") !important;
 }
 
 .moderneditor-indicatorMoreLessBlock
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/setMoreLess.gif") !important;
+	background-image                 : url("./image/edit/setMoreLess.gif") !important;
 }
 
 .moderneditor-indicatorMode
 {
-	background-image                 : url("../../style/admin/whitedream/image/edit/set_switch.gif") !important;
+	background-image                 : url("./image/edit/set_switch.gif") !important;
 	height                           : 13px !important; /*11px !important*/
 	margin-top                       : 8px !important; /*5px !important*/
 	width                            : 42px !important;
