@@ -28,7 +28,7 @@
 	background-repeat                : no-repeat;
 	font-weight                      : normal;
 	height                           : 38px;
-	line-height                      : 34px;
+	line-height                      : 38px;
 	padding-left                     : 25px;
 	margin-top                       : 10px;
 }
@@ -167,6 +167,7 @@
 #part-center-dashboard #infoPanel
 {
 	border                           : 1px solid #d9dde0;
+	margin-top: 10px;
 	padding                          : 9px;
 	width                            : 485px;
 	float                            : right;
@@ -281,7 +282,7 @@
 	background-repeat                : no-repeat;
 	font-weight                      : normal;
 	height                           : 38px;
-	line-height                      : 34px;
+	line-height                      : 38px;
 	padding-left                     : 25px;
 }
 
@@ -359,7 +360,7 @@
 
 #independent-notice-line
 {
-	margin: -37px 10px 0 0;
+	margin: -40px 10px 0 0;
 }
 
 #independent-notice-line dd
@@ -375,7 +376,7 @@
 
 #direct-link-line
 {
-	margin: 20px 10px;
+	margin: 25px 10px 20px 10px;
 	text-align: right;	
 }
 
@@ -684,7 +685,7 @@
 
 #independent-cover-line
 {
-	margin: -36px 10px 0 0;
+	margin: -40px 10px 0 0;
 }
 
 #independent-cover-line dt

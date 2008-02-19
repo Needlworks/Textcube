@@ -9,13 +9,6 @@
 
 /* Post *******************************************************************************************/
 
-#part-post-list #search-form
-{
-	background-color                 : transparent !important;
-	border                           : none !important;
-	top                              : 58px;
-}
-
 #data-description dl
 {
 	font-family                      : 돋움, Dotum, sans-serif;
@@ -38,11 +31,6 @@
 }
 
 /* Comment *****************************************************************************************/
-
-#part-post-comment #search-form
-{
-	top                              : 58px;
-}
 
 /* Tree ******************************************************************************************/
 
