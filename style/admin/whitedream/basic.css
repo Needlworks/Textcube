@@ -298,7 +298,7 @@ textarea
 
 #menu-textcube
 {
-	background-image                 : url("./image/img_header_textcube.png");
+	background-image                 : url("./image/img_header_textcube.gif");
 	background-repeat                : no-repeat;
 	height                           : 90px;
 	left                             : 0;
@@ -405,7 +405,7 @@ textarea
 .part .caption,
 h2.caption
 {
-	background-color                 : #666;
+	background-color                 : #FFF;
 	background-image                 : url("./image/bg_title_left.png");
 	background-position              : left top;
 	background-repeat                : no-repeat;
@@ -424,7 +424,7 @@ h2.caption
 .part .caption span,
 h2.caption span
 {
-	background-color                 : #666;
+	background-color                 : #FFF;
 	background-image                 : url("./image/bg_title_right.png");
 	background-position              : right top;
 	background-repeat                : repeat-x;
