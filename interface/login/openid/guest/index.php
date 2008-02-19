@@ -55,7 +55,7 @@ if( !empty($_COOKIE['openid']) ) {
 				<div id="data-outbox" class="openid-data-outbox" style="width:810px">
 					<div id="login-box">
 						<div id="logo-box">
-							<img src="<?php echo $service['path'] ?>/style/admin/default/image/logo_textcube.png" alt="<?php echo _text('텍스트큐브 로고'); ?>" />
+							<img src="<?php echo $service['path'] ?>/style/admin/whitedream/image/logo_textcube.png" alt="<?php echo _text('텍스트큐브 로고'); ?>" />
 			            	<p><b><?php echo _text('텍스트큐브') .' '. _text('오픈아이디 로그인') ?></b></p>
 			            </div>
 			            
