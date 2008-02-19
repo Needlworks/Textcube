@@ -216,6 +216,11 @@ dl dd
 	margin                           : 0 auto 0 190px;
 }
 
+#part-setting-mailhost
+{
+	margin-bottom: 30px;
+}
+
 /* Account ***************************************************************************************/
 
 /* account management */
@@ -400,6 +405,7 @@ dl dd
 #part-setting-filter
 {
 	height                           : 500px;
+	padding-bottom: 30px;
 }
 
 #part-setting-filter div.data-inbox
@@ -779,12 +785,75 @@ div.notification-box
 	background-color                 : #1C6D9C !important;
 }
 
+/* OpenID ****************************************************************************************/
+
+/* blog address as openId */
+
+#part-openid-blogaddress
+{
+	margin-bottom: 20px;
+}
+
+#part-openid-blogaddress fieldset dl dd
+{
+	margin-left: 0;
+	text-align: center;
+}
+
+#part-openid-blogaddress fieldset dl dd p
+{
+	margin-top: 10px;
+	text-align: center;
+}
+
+/* connected openId */
+
+#part-openid-linkedopenids
+{
+	margin-bottom: 40px;
+}
+
+#part-openid-linkedopenids dl
+{
+	margin: 25px 10px 0 10px;
+	text-align: right;
+}
+
+#part-openid-linkedopenids dl dt
+{
+	display: none;
+}
+
+#part-openid-linkedopenids dl dd
+{
+	border                           : 3px solid #EC81CA;
+	display                          : inline;
+	padding                          : 10px;
+	text-align                       : right;
+}
+
+#part-openid-linkedopenids dl dd .button
+{
+	background-image                 : url('./image/img_link_bullet.jpg');
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	padding-right                    : 15px;
+}
+
+/* openid login history */
+
+#part-openid-loginhistory
+{
+	margin-bottom: 30px;
+}
+
 /* Etc *******************************************************************************************/
 
 #part-setting-resample .button-box,
 #part-setting-language .button-box,
 #part-setting-editor .button-box,
-#part-setting-admin .button-box
+#part-setting-admin .button-box,
+#part-setting-mailhost .button-box
 {
 	border-top                       : 1px solid #DDDDDD;
 	margin                           : 10px 0 20px 0;
@@ -794,38 +863,6 @@ div.notification-box
 #part-setting-resample .section dl dd img
 {
 	margin-top                       : 8px;
-}
-
-#watermark-line dd a img
-{
-	border                           : 1px solid #000000;
-}
-
-#watermark-resize-line dd,
-#admin-language-line dd p,
-#blog-language-line dd p
-{
-	padding-bottom                   : 3px;
-	padding-top                      : 5px;
-	line-height                      : 1.2em;
-}
-
-#watermark-position-line dd,
-#padding-line dd
-{
-	padding-bottom                   : 3px;
-	padding-top                      : 5px;
-	line-height                      : 2.1em;
-}
-
-#watermark-position-line dd .input-text,
-#topPaddingManual,
-#rightPaddingManual,
-#bottomPaddingManual,
-#leftPaddingManual
-{
-	margin-right                     : 3px;
-	width                            : 30px !important;
 }
 
 #padding-line dd .input-text

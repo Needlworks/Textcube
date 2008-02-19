@@ -112,7 +112,7 @@ table.data-inbox tbody tr td.ip
 
 #part-post-list h2.caption
 {
-	margin-bottom: 20px;
+	margin-bottom: 1.6em;
 }
 
 /* table header */
@@ -317,10 +317,6 @@ table.data-inbox tbody tr td.ip
 
 /* Notify *****************************************************************************************/
 
-#part-post-notify #search-form
-{
-	top                              : 97px !important;
-}
 #part-post-notify table.data-inbox tr .delete
 {
 	width                            : 12px;
@@ -374,7 +370,7 @@ table.data-inbox tbody tr td.ip
 
 #part-post-notify #search-form
 {
-	top                              : 90px;
+	top                              : 7.4em;
 }
 
 /* Trackback **************************************************************************************/
@@ -490,7 +486,7 @@ table.data-inbox tbody tr td.ip
 
 #part-post-trash #search-form
 {
-	top                              : 108px;
+	top                              : 115px;
 }
 
 #part-post-trash .main-explain-box p
@@ -504,7 +500,7 @@ table.data-inbox tbody tr td.ip
 	border                           : none;
 	position                         : absolute;
 	left                             : 0;
-	top                              : 107px;
+	top                              : 113px;
 }
 
 #part-post-trash fieldset dl

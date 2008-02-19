@@ -415,7 +415,7 @@ h2.caption
 	height                           : 30px;
 	font-size                        : 1em;
 	font-weight                      : normal;
-	line-height                      : 2.8em;
+	line-height                      : 38px;
 	margin-bottom                    : 10px;
 	overflow                         : hidden;
 	padding-left                     : 35px;
@@ -430,7 +430,7 @@ h2.caption span
 	background-repeat                : repeat-x;
 	display                          : block;
 	height                           : 30px;
-	line-height                      : 2.7em;
+	line-height                      : 38px;
 }
 
 .main-explain-box .explain
@@ -902,8 +902,8 @@ table.data-inbox tbody tr td.inactive-class
 	position                         : absolute;
 	right                            : 25px;
 	text-align                       : right;
-	top                              : 60px;
-	width                            : 300px;
+	top                              : 5.5em;
+	width                            : 25em;
 	z-index                          : 1;
 }
 

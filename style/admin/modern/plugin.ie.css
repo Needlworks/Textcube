@@ -5,6 +5,8 @@
 #sorting-line-align
 {
 	right                            : 20px;
+	text-align: right;
+	width: 300px;
 }
 
 #temp-box

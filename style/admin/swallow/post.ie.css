@@ -30,11 +30,6 @@
 
 /* Comment ****************************************************************************************/
 
-#part-post-comment #search-form
-{
-	top                              : 51px;
-}
-
 /* Notify *****************************************************************************************/
 
 #part-post-notify table.data-inbox tbody tr td.delete
@@ -52,11 +47,6 @@
 #part-post-trackback table.data-inbox tbody tr td.delete
 {
 	width                            : 12px;
-}
-
-#part-post-trackback #search-form
-{
-	top                              : 51px;
 }
 
 /* Tree ******************************************************************************************/
@@ -86,7 +76,7 @@
 
 #part-post-trash #search-form
 {
-	top                              : 105px;
+	top                              : 113px;
 }
 
 .all-delete-button

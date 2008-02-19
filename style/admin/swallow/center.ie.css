@@ -39,7 +39,7 @@
 
 #independent-notice-line dd
 {
-	padding-top                      : 6px;
+	padding-top                      : 5px;
 }
 
 #cite
@@ -58,6 +58,11 @@
 #coverpage-preview-mode
 {
 	margin                           : 30px 10px 13px 10px;
+}
+
+#part-coverpage-order .main-explain-box
+{
+	margin-top: 19px;
 }
 
 #coverpage-box
@@ -94,7 +99,7 @@
 
 #independent-cover-line
 {
-	margin: -31px 10px 0 0;
+	margin: -36px 10px 0 0;
 }
 
 /* Credit ****************************************************************************************/

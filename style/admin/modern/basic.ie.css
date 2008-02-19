@@ -26,17 +26,7 @@
 
 /* Layout Body ***********************************************************************************/
 
-.part .caption
-{
-	height                           : 2.45em;
-}
-
 /* data subbox */
-#search-form
-{
-	top                              : 59px;
-}
-
 #page-section .page-count
 {
 	right                            : 30px;
