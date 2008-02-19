@@ -918,27 +918,14 @@ TTModernEditor.prototype.setProperty = function()
 			try {
 				imageCaption = this.htmlspecialchars(getObject(this.propertyWindowId + "_caption1").value);
 			} catch(e) { imageCaption = ''; }
-			try {
-				if (getObject(this.propertyWindowId + "_watermark1").checked == true) {
-					imageResample = 'class="tt-watermark" ';
-					getObject(this.propertyWindowId + "_resample1").checked = true;
-				} else if (getObject(this.propertyWindowId + "_resample1").checked == true) {
-					imageResample = 'class="tt-resampling" ';
-				} else {
-					imageResample = '';
-					getObject(this.propertyWindowId + "_watermark1").checked = false;
-					getObject(this.propertyWindowId + "_resample1").checked = false;
-				}
-			} catch(e) { imageResample = ''; }
 
-			var longdesc = this.propertyHeader + '|' + this.propertyFilename1 + '|' + imageSize + imageResample + imageAlt + '|' + imageCaption;
+			var longdesc = this.propertyHeader + '|' + this.propertyFilename1 + '|' + imageSize + imageAlt + '|' + imageCaption;
 
 			// 2번 이미지.
 			if(objectCount > 1) {
 				imageSize = "";
 				imageAlt = "";
 				imageCaption = "";
-				imageResample = "";
 
 				try {
 					var value = parseInt(getObject(this.propertyWindowId + "_width2").value);
@@ -952,20 +939,8 @@ TTModernEditor.prototype.setProperty = function()
 				try {
 					imageCaption = this.htmlspecialchars(getObject(this.propertyWindowId + "_caption2").value);
 				} catch(e) { imageCaption = ''; }
-				try {
-					if (getObject(this.propertyWindowId + "_watermark2").checked == true) {
-						imageResample = 'class="tt-watermark" ';
-						getObject(this.propertyWindowId + "_resample2").checked = true;
-					} else if (getObject(this.propertyWindowId + "_resample2").checked == true) {
-						imageResample = 'class="tt-resampling" ';
-					} else {
-						imageResample = '';
-						getObject(this.propertyWindowId + "_watermark2").checked = false;
-						getObject(this.propertyWindowId + "_resample2").checked = false;
-					}
-				} catch(e) { imageResample = ''; }
 
-				longdesc += '|' + this.propertyFilename2 + '|' + imageSize + imageResample + imageAlt + '|' + imageCaption;
+				longdesc += '|' + this.propertyFilename2 + '|' + imageSize + imageAlt + '|' + imageCaption;
 			}
 
 			// 3번 이미지.
@@ -973,7 +948,6 @@ TTModernEditor.prototype.setProperty = function()
 				imageSize = "";
 				imageAlt = "";
 				imageCaption = "";
-				imageResample = "";
 
 				try {
 					var value = parseInt(getObject(this.propertyWindowId + "_width3").value);
@@ -987,20 +961,8 @@ TTModernEditor.prototype.setProperty = function()
 				try {
 					imageCaption = this.htmlspecialchars(getObject(this.propertyWindowId + "_caption3").value);
 				} catch(e) { imageCaption = ''; }
-				try {
-					if (getObject(this.propertyWindowId + "_watermark3").checked == true) {
-						imageResample = 'class="tt-watermark" ';
-						getObject(this.propertyWindowId + "_resample3").checked = true;
-					} else if (getObject(this.propertyWindowId + "_resample3").checked == true) {
-						imageResample = 'class="tt-resampling" ';
-					} else {
-						imageResample = '';
-						getObject(this.propertyWindowId + "_watermark3").checked = false;
-						getObject(this.propertyWindowId + "_resample3").checked = false;
-					}
-				} catch(e) { imageResample = ''; }
 
-				longdesc += '|' + this.propertyFilename3 + '|' + imageSize + imageResample + imageAlt + '|' + imageCaption;
+				longdesc += '|' + this.propertyFilename3 + '|' + imageSize + imageAlt + '|' + imageCaption;
 			}
 
 			this.selectedElement.setAttribute("longDesc", longdesc);
@@ -2431,19 +2393,6 @@ TTModernEditor.prototype.getEditorPalette = function() {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// moved from lib/view/ownerView.php, printEntryEditorProperty()
-// XXX: unused $alt argument is for what?
-
-TTModernEditor.prototype.checkResampling = function(flag, type, num) {
-	resampleCheckbox = document.getElementById(this.id + "propertyImage" + type + "_resample" + num);
-	watermarkCheckbox = document.getElementById(this.id + "propertyImage" + type + "_watermark" + num);
-
-	if (flag == "resample" && resampleCheckbox.checked == false && watermarkCheckbox.checked == true)
-		watermarkCheckbox.checked = false;
-	else if (flag == "watermark" && watermarkCheckbox.checked == true && resampleCheckbox.checked == false)
-		resampleCheckbox.checked = true;
-}
-
 TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 	//$fixPosition = getUserSetting('editorPropertyPositionFix', 0);
 	var fixPosition = this.fixPosition, hasGD = this.hasGD;
@@ -2573,7 +2522,7 @@ TTModernEditor.prototype.getEditorProperty = function(/*$alt*/) {
 					'<dd><input type="text" class="input-text" id="__ID__propertyImage2_alt2" onkeyup="__EDITOR__.setProperty()" onkeypress="return preventEnter(event);" /></dd>' +
 				'</dl>' +
 				'<dl class="line">' +
-					'<dt class="property-name"><label for="__ID__propertyImage2_resample2">' + _t('자막') + '</label></dt>' +
+					'<dt class="property-name"><label for="__ID__propertyImage2_caption2">' + _t('자막') + '</label></dt>' +
 					'<dd><textarea class="input-text" id="__ID__propertyImage2_caption2" onkeyup="__EDITOR__.setProperty()" onkeypress="return preventEnter(event);"></textarea></dd>' +
 				'</dl>' +
 			'</div>' +

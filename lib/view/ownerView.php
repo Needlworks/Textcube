@@ -888,14 +888,7 @@ echo getAttachmentSizeLabel($blogid, $entryId);
 function getAttachmentValue($attachment) {
 	global $g_attachmentFolderPath;
 	if (strpos($attachment['mime'], 'image') === 0) {
-		if (getBlogSetting("waterMarkDefault") == "yes")
-			$classString = 'class="tt-watermark" ';
-		else if (getBlogSetting("resamplingDefault") == "yes")
-			$classString = 'class="tt-resampling" ';
-		else
-			$classString = "";
-		
-		return "{$attachment['name']}|{$classString}width=\"{$attachment['width']}\" height=\"{$attachment['height']}\" alt=\"" . _text('사용자 삽입 이미지') . "\"";		
+		return "{$attachment['name']}|width=\"{$attachment['width']}\" height=\"{$attachment['height']}\" alt=\"" . _text('사용자 삽입 이미지') . "\"";		
 	} else {
 		return "{$attachment['name']}|";
 	}

@@ -149,7 +149,7 @@ function getTrackbacksView($entry, $skin, $acceptTrackback) {
 	$trackbacks = getTrackbacks($entry['id']);
 	foreach ($trackbacks as $trackback) {
 		$trackbackView = $skin->trackback;
-		dress('tb_rep_title', $trackback['subject'], $trackbackView);
+		dress('tb_rep_title', fireEvent('ViewTrackbackTitle', $trackback['subject'], array($trackback['id'], $trackback['url'])), $trackbackView);
 		dress('tb_rep_site', htmlspecialchars($trackback['site']), $trackbackView);
 		dress('tb_rep_url', htmlspecialchars($trackback['url']), $trackbackView);
 		dress('tb_rep_desc', htmlspecialchars($trackback['excerpt']), $trackbackView);
@@ -1002,7 +1002,7 @@ function getRandomTagsView($tags, $template) {
 }
 
 function getEntryContentView($blogid, $id, $content, $formatter, $keywords = array(), $type = 'Post', $useAbsolutePath = false, $bRssMode = false) {
-	global $hostURL, $service, $useImageResampling;
+	global $hostURL, $service;
 	requireModel('blog.attachment');
 	requireModel('blog.keyword');
 	requireLibrary('blog.skin');
@@ -1018,13 +1018,13 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 	$view = fireEvent('View' . $type . 'Content', $view, $id);
 	
 	// image resampling
-	if ($useImageResampling == true) {
+	if (getBlogSetting('resamplingDefault') == true) {
 		preg_match_all("@<img.+src=['\"](.+)['\"](.*)/>@Usi", $view, $images, PREG_SET_ORDER);
 		$view = preg_replace("@<img.+src=['\"].+['\"].*/>@Usi", '[#####_#####_#####_image_#####_#####_#####]', $view);
 		$contentWidth = misc::getContentWidth();
 			
 		if (count($images) > 0) {
-			include_once ROOT . '/components/Textcube.Function.misc.php';
+			requireComponent('Textcube.Function.misc');
 			
 			for ($i=0; $i<count($images); $i++) {
 				$tempFileName = array_pop(explode('/', $images[$i][1]));
