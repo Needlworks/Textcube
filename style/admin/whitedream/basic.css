@@ -200,7 +200,7 @@ textarea
 #description-blogger
 {
 	float                            : left;
-	margin-left                      : 180px;
+	margin-left                      : 210px;
 }
 
 #description-teamblog
@@ -293,20 +293,20 @@ textarea
 
 #menu-center
 {
-	margin-left                     : 30px !important;
+	margin-left                      : 200px !important;
 }
 
 #menu-textcube
 {
-	background-image                 : url("./image/img_header_textcube.gif");
+	background-image                 : url("./image/img_header_textcube.png");
 	background-repeat                : no-repeat;
-	height                           : 35px;
-	left                             : 16px;
+	height                           : 90px;
+	left                             : 0;
 	padding                          : 0 !important;
 	position                         : absolute;
 	text-indent                      : -1000px;
-	top                              : 9px;
-	width                            : 151px;
+	top                              : 12px;
+	width                            : 180px;
 	z-index                          : 100;
 }
 
@@ -324,7 +324,7 @@ textarea
 	clear                            : both;
 	height                           : 2.4em;
 	line-height                      : 2.4em;
-	padding-left                     : 15px;
+	padding-left                     : 180px;
 }
 
 #sub-menu li
