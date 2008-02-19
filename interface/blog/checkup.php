@@ -274,13 +274,14 @@ $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));
 fclose($fp);
-if ((preg_match('@\(\.\+@', $content) == 0) || (preg_match('@rewrite\.php@', $content) == 0 ) || (preg_match('@OR@', $content) == 0)) {
+if ((preg_match('@rewrite\.php@', $content) == 0 ) || (strpos($content,'[OR]') !== false)) {
 	$fp = fopen($filename, "w");
 	echo '<li>', _textf('htaccess 규칙을 수정합니다.'), ': ';
 	$content = 
 "#<IfModule mod_url.c>
 #CheckURL Off
 #</IfModule>
+#SetEnv PRELOAD_CONFIG 1
 RewriteEngine On
 RewriteBase ".$service['path']."/
 RewriteCond %{REQUEST_FILENAME} !-f

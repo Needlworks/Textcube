@@ -5,7 +5,6 @@
 define('ROOT', '../..');
 require ROOT . '/lib/includeForBlog.php';
 require ROOT . '/lib/model/blog.skin.php';
-// Legacy upgrade routine for Tattertools -> Textcube.
 
 requireModel('common.setting');
 
@@ -901,23 +900,26 @@ $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));
 fclose($fp);
-if (preg_match('@\(thumbnail\)/\(\[0\-9\]\+/\.\+\) cache/\$1/\$2@', $content) == 0) {
-	if ($service['type'] == 'path')
-		$insertLine = 'RewriteRule ^[[:alnum:]]+/+(thumbnail)/([0-9]+/.+) cache/$1/$2 [E=SURI:1,L]'.CRLF;
-	else
-		$insertLine = 'RewriteRule ^(thumbnail)/([0-9]+/.+) cache/$1/$2 [E=SURI:1,L]'.CRLF;
-	$findStr = 'RewriteRule !^(blog|cache)/ - [L]';
-	echo '<li>.htaccess thumbnail rule - ', _text('수정');
-	if (strpos($content, $findStr) == false)
-		echo ': <span style="color:#33CC33;">', _text('실패'), '</span></li>';
-	else {
-		$pos = strpos($content, $findStr) + strlen($findStr);
-		while (((bin2hex($content[$pos]) == '0d') || (bin2hex($content[$pos]) == '0a') || (bin2hex($content[$pos]) == '20')) && (strlen($content) > $pos)) $pos++;
-		$content = substr($content, 0, $pos) . $insertLine . substr($content,$pos);
-		$fp = fopen($filename, "w");
-		fwrite($fp, $content);
+if ((preg_match('@rewrite\.php@', $content) == 0 ) || (strpos($content,'[OR]') !== false)) {
+	$fp = fopen($filename, "w");
+	echo '<li>', _textf('htaccess 규칙을 수정합니다.'), ': ';
+	$content = 
+"#<IfModule mod_url.c>
+#CheckURL Off
+#</IfModule>
+#SetEnv PRELOAD_CONFIG 1
+RewriteEngine On
+RewriteBase ".$service['path']."/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ rewrite.php [L,QSA]
+";
+	$fp = fopen($filename, "w");
+	if(fwrite($fp, $content)) {
 		fclose($fp);
 		echo ': <span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	} else {
+		fclose($fp);
+		echo ': <span style="color:#FF0066;">', _text('실패'), '</span></li>';
 	}
 }
 
