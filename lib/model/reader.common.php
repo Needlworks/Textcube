@@ -619,10 +619,10 @@ function deleteReaderTablesByOwner($blogid) {
 
 function updateRandomFeed() {
 	global $database;
-	$updateCycle = POD::queryCell("SELECT updateCycle FROM {$database['prefix']}FeedSettings");
+	$updateCycle = POD::queryCell("SELECT updateCycle FROM {$database['prefix']}FeedSettings LIMIT 1");
 	if($updateCycle != 0) {
 		if ($feed = POD::queryRow("SELECT * FROM {$database['prefix']}Feeds WHERE modified < " . (gmmktime() - ($updateCycle * 60)) . " ORDER BY RAND() LIMIT 1")) {
-			setBlogSetting('lastFeedUpdate',gmmktime());
+			setServiceSetting('lastFeedUpdate',gmmktime());
 			return array(updateFeed($feed), $feed['xmlURL']);
 		}
 	}

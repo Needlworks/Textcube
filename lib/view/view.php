@@ -125,7 +125,7 @@ function getLowerView() {
 function getScriptsOnFoot() {
 	global $service;
 	ob_start();
-	if(($service['reader'] != false) && (gmmktime() - getBlogSetting('lastFeedUpdate',0) > 180)) {	
+	if(($service['reader'] != false) && (gmmktime() - getServiceSetting('lastFeedUpdate',0) > 180)) {	
 ?>
 	<script type="text/javascript">
 		//<![CDATA[
