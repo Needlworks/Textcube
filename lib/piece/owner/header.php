@@ -19,9 +19,9 @@ if(Acl::check('group.administrators')) {
 		array('menu'=>'center','title'=>_t('센터'),'link'=>'/owner/center/dashboard'),
 		array('menu'=>'entry','title'=>_t('글'),'link'=>'/owner/entry'),
 		array('menu'=>'link','title'=>_t('링크'),'link'=>'/owner/link'),
+		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader'),
 		array('menu'=>'skin','title'=>_t('스킨'),'link'=>'/owner/skin'),
 		array('menu'=>'plugin','title'=>_t('플러그인'),'link'=>'/owner/plugin'),	
-		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader'),
 		array('menu'=>'setting','title'=>_t('환경설정'),'link'=>'/owner/setting/blog')
 		);
 } else {
