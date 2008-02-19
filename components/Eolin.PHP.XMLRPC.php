@@ -120,7 +120,9 @@ class XMLRPC {
 	}
 	
 	function registerMethod($method, $function) {
+		if( function_exists( $function ) ) {
 		$this->_registry[$method] = $function;
+	}
 	}
 	
 	function receive($xml = null) {

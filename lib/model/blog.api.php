@@ -505,6 +505,12 @@ function api_BlogAPI()
 		$xmlrpc->registerMethod( $func, $callback );
 	}
 
+	$otherMethods = fireEvent( 'RegisterRpcMethod', array() );
+	foreach( $otherMethods as $func => $callback )
+	{
+		$xmlrpc->registerMethod( $func, $callback );
+	}
+
 	$xmlrpc->receive( $xml );
 }
 
