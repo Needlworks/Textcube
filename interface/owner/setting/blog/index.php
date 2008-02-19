@@ -716,7 +716,7 @@ foreach (Timezone::getList() as $timezone) {
 											<dd>
 												<select id="adminSkin" name="adminSkin">
 <?php
-$currentAdminSkin = getBlogSetting("adminSkin", "default");
+$currentAdminSkin = getBlogSetting("adminSkin", "whitedream");
 $dir = dir(ROOT . '/style/admin/');
 while ($tempAdminSkin = $dir->read()) {
 	if (!ereg('^[[:alnum:] _-]+$', $tempAdminSkin))
