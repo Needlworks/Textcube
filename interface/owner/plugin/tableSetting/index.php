@@ -7,7 +7,7 @@ require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
 
-if ($blogid == 1) {
+if (Acl::check('group.creators')) {
 
 ?>
 						<script type="text/javascript">
@@ -90,7 +90,7 @@ if ($dbCaseInsensitive == true) {
 	$dbtables = array_values(array_diff($dbtables, $definedTables));
 }
 
-$query = "select name, value from {$database['prefix']}ServiceSettings WHERE name like 'Database\_%'";
+$query = "SELECT name, value FROM {$database['prefix']}ServiceSettings WHERE name like 'Database\_%'";
 $plugintablesraw = POD::queryAll($query);
 $plugintables = array();
 foreach($plugintablesraw as $table) {
@@ -156,7 +156,7 @@ foreach($dbtables as $dbname)
 							</table>
 						</form>
 <?php
-} else { // when not blogid == 1
+} else { // when not creator
 ?>
 	<h2 class="caption"><span class="main-text"><?php echo _t('블로그 소유자만 테이블을 관리할 수 있습니다.');?></span></h2>
 <?php
