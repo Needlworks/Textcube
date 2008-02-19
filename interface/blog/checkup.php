@@ -274,7 +274,7 @@ $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));
 fclose($fp);
-if ((preg_match('@\(\.\+@', $content) == 0) || (preg_match('@rewrite\.php@', $content) == 0 )) {
+if ((preg_match('@\(\.\+@', $content) == 0) || (preg_match('@rewrite\.php@', $content) == 0 ) || (preg_match('@OR@', $content) == 0)) {
 	$fp = fopen($filename, "w");
 	echo '<li>', _textf('htaccess 규칙을 수정합니다.'), ': ';
 	$content = 
@@ -283,9 +283,6 @@ if ((preg_match('@\(\.\+@', $content) == 0) || (preg_match('@rewrite\.php@', $co
 #</IfModule>
 RewriteEngine On
 RewriteBase ".$service['path']."/
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^(.+[^/])$ $1/ [L]
-RewriteCond %{REQUEST_FILENAME} !-d [OR]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ rewrite.php [L,QSA]
 ";
