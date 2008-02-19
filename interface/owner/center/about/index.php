@@ -42,7 +42,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												<td class="name"><a href="http://forest.nubimaru.com">Jeongkyu Shin</a></td>
 											</tr>
 											<tr>
-												<td class="name"><a href="http://gendoh.tistory.com">Sang-il Lee</a></td>
+												<td class="name"><a href="http://gendoh.com">Sang-il Lee</a></td>
 											</tr>
 										</tbody>
 									</table>

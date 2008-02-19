@@ -1,5 +1,5 @@
 <?php
-// Statistics Graph by Gendoh http://gendoh.tistory.com
+// Statistics Graph by Gendoh http://gendoh.com
 // if installed at other directory, edit a location of count
 // global $pluginURL;
 
