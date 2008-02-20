@@ -89,7 +89,6 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									var prevPwd = document.getElementById('prevPwd');
 									var pwd = document.getElementById('pwd');
 									var pwd2 = document.getElementById('pwd2');
-									var apiPasswd = document.getElementById('TCApiPassword');
 									
 									if(pwd.value != '' || prevPwd.value != '') {
 										if(confirm("<?php echo _t('비밀번호를 변경하시겠습니까?');?>")) {
@@ -105,6 +104,9 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										} else {
 											return false;
 										}
+									} else {
+										PM.showMessage("<?php echo _t('비밀번호를 입력해 주십시오.');?>","center","top");
+										return false;
 									}
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/account/password/");
 									request.onSuccess = function() {
@@ -116,9 +118,22 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									request.onError = function() {
 										PM.showErrorMessage("<?php echo _t('변경하지 못했습니다.');?>", "center", "bottom");
 									}
-									request.send("prevPwd=" + encodeURIComponent(prevPwd.value) + "&pwd=" + encodeURIComponent(pwd.value) + "&APIKey=" + encodeURIComponent(apiPasswd.value));
+									request.send("prevPwd=" + encodeURIComponent(prevPwd.value) + "&pwd=" + encodeURIComponent(pwd.value));
 								}
-
+								
+								function saveAPIKey() {
+									var apiPasswd = document.getElementById('TCApiPassword');
+									
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/account/apikey/");
+									request.onSuccess = function() {
+										PM.showMessage("<?php echo _t('변경했습니다.');?>", "center", "bottom");
+									}
+									request.onError = function() {
+										PM.showErrorMessage("<?php echo _t('변경하지 못했습니다.');?>", "center", "bottom");
+									}
+									request.send("APIKey=" + encodeURIComponent(apiPasswd.value));
+								}
+								
 								function clearBlogPassword() {
 									document.getElementById('TCApiPassword').value = "";
 								}
@@ -332,6 +347,13 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 											<dt><label for="pwd2"><?php echo _t('비밀번호 확인');?></label></dt>
 											<dd><input type="password" id="pwd2" class="input-text" onkeydown="if(event.keyCode == 13) savePwd();" /></dd>
 										</dl>
+									</fieldset>
+									<div class="button-box">
+										<input type="submit" class="save-button input-button" value="<?php echo _t('변경하기');?>" onclick="savePwd(); return false;" />
+									</div>
+								</form>
+								<form id="apikey-section" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/apikey">
+									<fieldset class="container">
 										<legend><?php echo _t('API Key 설정');?></legend>
 										
 										<dl id="blogapi-password-line" class="line">
@@ -348,7 +370,7 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 
 									</fieldset>
 									<div class="button-box">
-										<input type="submit" class="save-button input-button" value="<?php echo _t('변경하기');?>" onclick="savePwd(); return false;" />
+										<input type="submit" class="save-button input-button" value="<?php echo _t('변경하기');?>" onclick="saveAPIKey(); return false;" />
 									</div>
 								</form>
 

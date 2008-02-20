@@ -5,8 +5,7 @@
 $IV = array(
 	'POST' => array(
 		'pwd' => array('string','default'=>''),
-		'prevPwd' => array('string','default'=>''),
-		'APIKey' => array('string', 'default'=>'')
+		'prevPwd' => array('string','default'=>'')
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
@@ -14,9 +13,7 @@ requireStrictRoute();
 $result = false;
 if($_POST['pwd'] != '' && $_POST['prevPwd'] != '') {
 	$result = changePassword(getUserId(), $_POST['pwd'], $_POST['prevPwd']);
-	
 }
-$result = changeAPIKey(getUserId(), $_POST['APIKey']);
 if($result) respond::ResultPage(0);
 else respond::ResultPage(-1);
 ?>
