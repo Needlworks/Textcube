@@ -129,7 +129,7 @@ if (array_key_exists('phpinfo',$_GET)) {
 <body onload="init()">
 <div id="container">
   <form id="setup" name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
-  <div id="title"><h1><img src="style/setup/title.gif" width="253" height="44" alt="<?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> Setup" /></h1></div>
+  <div id="title"><h1><img src="style/setup/image/title.gif" width="253" height="44" alt="<?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> Setup" /></h1></div>
   <input type="hidden" name="Lang" id="Lang" value="<?php echo $baseLanguage;?>" />
 <?php
 if (empty($_POST['step'])) {
@@ -150,7 +150,7 @@ if (empty($_POST['step'])) {
       </ol>
     </div>
   <div id="navigation">
-    <a href="#" onclick="next(); return false;" title="<?php echo _t('다음');?>"><img src="style/setup/icon_next.gif" width="74" height="24" alt="<?php echo _t('다음');?>" /></a>
+    <a href="#" onclick="next(); return false;" title="<?php echo _t('다음');?>"><img src="style/setup/image/icon_next.gif" width="74" height="24" alt="<?php echo _t('다음');?>" /></a>
   </div>
   </div>
 <?php
@@ -335,8 +335,8 @@ function checkStep($step, $check = true) {
            echo '&nbsp;';
 ?></div>
   <div id="navigation">
-    <a href="#" onclick="window.history.back()" title="<?php echo _t('이전');?>"><img src="style/setup/icon_prev.gif" width="74" height="24" alt="<?php echo _t('이전');?>" /></a>
-    <a href="#" onclick="next(); return false;" title="<?php echo _t('다음');?>"><img src="style/setup/icon_next.gif" width="74" height="24" alt="<?php echo _t('다음');?>" /></a>
+    <a href="#" onclick="window.history.back()" title="<?php echo _t('이전');?>"><img src="style/setup/image/icon_prev.gif" width="74" height="24" alt="<?php echo _t('이전');?>" /></a>
+    <a href="#" onclick="next(); return false;" title="<?php echo _t('다음');?>"><img src="style/setup/image/icon_next.gif" width="74" height="24" alt="<?php echo _t('다음');?>" /></a>
   </div>
   </div>
 <?php
@@ -753,8 +753,8 @@ xml_set_object
 ?>
   </div>
   <div id="navigation">
-    <a href="#" onclick="window.history.back()" title="<?php echo _t('이전');?>"><img src="style/setup/icon_prev.gif" width="74" height="24" alt="<?php echo _t('이전');?>" /></a>
-    <a href="#" onclick="next(); return false;" title="<?php echo _t('다음');?>"><img src="style/setup/icon_next.gif" width="74" height="24" alt="<?php echo _t('다음');?>" /></a>
+    <a href="#" onclick="window.history.back()" title="<?php echo _t('이전');?>"><img src="style/setup/image/icon_prev.gif" width="74" height="24" alt="<?php echo _t('이전');?>" /></a>
+    <a href="#" onclick="next(); return false;" title="<?php echo _t('다음');?>"><img src="style/setup/image/icon_next.gif" width="74" height="24" alt="<?php echo _t('다음');?>" /></a>
   </div>
   </div>
   <input type="hidden" name="checked" value="<?php echo ($error ? '' : 'checked');?>" />
@@ -856,8 +856,8 @@ RewriteRule ^testrewrite$ setup.php [L]"
     </table>
   </div>
   <div id="navigation">
-    <a href="#" onclick="window.history.back()" title="<?php echo _t('이전');?>"><img src="style/setup/icon_prev.gif" width="74" height="24" alt="<?php echo _t('이전');?>" /></a>
-    <a href="#" onclick="next(); return false;" title="<?php echo _t('다음');?>"><img src="style/setup/icon_next.gif" width="74" height="24" alt="<?php echo _t('다음');?>" /></a>
+    <a href="#" onclick="window.history.back()" title="<?php echo _t('이전');?>"><img src="style/setup/image/icon_prev.gif" width="74" height="24" alt="<?php echo _t('이전');?>" /></a>
+    <a href="#" onclick="next(); return false;" title="<?php echo _t('다음');?>"><img src="style/setup/image/icon_next.gif" width="74" height="24" alt="<?php echo _t('다음');?>" /></a>
   </div>
   </div>
 <?php
@@ -954,8 +954,8 @@ RewriteRule ^testrewrite$ setup.php [L]"
 ?></div>
     </div>
   <div id="navigation">
-    <a href="#" onclick="window.history.back()" title="<?php echo _t('이전');?>"><img src="style/setup/icon_prev.gif" width="74" height="24" alt="<?php echo _t('이전');?>" /></a>
-    <a href="#" onclick="next(); return false;" title="<?php echo _t('다음');?>"><img src="style/setup/icon_next.gif" width="74" height="24" alt="<?php echo _t('다음');?>" /></a>
+    <a href="#" onclick="window.history.back()" title="<?php echo _t('이전');?>"><img src="style/setup/image/icon_prev.gif" width="74" height="24" alt="<?php echo _t('이전');?>" /></a>
+    <a href="#" onclick="next(); return false;" title="<?php echo _t('다음');?>"><img src="style/setup/image/icon_next.gif" width="74" height="24" alt="<?php echo _t('다음');?>" /></a>
   </div>
   </div>
   <script type="text/javascript">
@@ -1685,8 +1685,8 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
     </table>
     </div>
   <div id="navigation">
-    <a href="#" onclick="window.history.back()" title="<?php echo _t('이전');?>"><img src="style/setup/icon_prev.gif" width="74" height="24" alt="<?php echo _t('이전');?>" /></a>
-    <a href="#" onclick="if (confirm('<?php echo _t('삭제하시겠습니까?');?>') && confirm('<?php echo _t('정말 삭제하시겠습니까?');?>')) next(); return false;" title="<?php echo _t('다음');?>"><img src="style/setup/icon_next.gif" width="74" height="24" alt="<?php echo _t('다음');?>" /></a>
+    <a href="#" onclick="window.history.back()" title="<?php echo _t('이전');?>"><img src="style/setup/image/icon_prev.gif" width="74" height="24" alt="<?php echo _t('이전');?>" /></a>
+    <a href="#" onclick="if (confirm('<?php echo _t('삭제하시겠습니까?');?>') && confirm('<?php echo _t('정말 삭제하시겠습니까?');?>')) next(); return false;" title="<?php echo _t('다음');?>"><img src="style/setup/image/icon_next.gif" width="74" height="24" alt="<?php echo _t('다음');?>" /></a>
   </div>
   </div>
 <?php
@@ -1721,8 +1721,8 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
 	<p><?php echo ($result ? _t('삭제하였습니다.') : '<span style="color:red">' . _t('삭제하지 못했습니다.') . '</span>');?></p>
     </div>
   <div id="navigation">
-    <a href="#" onclick="window.history.back()" title="<?php echo _t('이전');?>"><img src="style/setup/icon_prev.gif" width="74" height="24" alt="<?php echo _t('이전');?>" /></a>
-    <a href="#" onclick="next(); return false;" title="<?php echo _t('다음');?>"><img src="style/setup/icon_next.gif" width="74" height="24" alt="<?php echo _t('다음');?>" /></a>
+    <a href="#" onclick="window.history.back()" title="<?php echo _t('이전');?>"><img src="style/setup/image/icon_prev.gif" width="74" height="24" alt="<?php echo _t('이전');?>" /></a>
+    <a href="#" onclick="next(); return false;" title="<?php echo _t('다음');?>"><img src="style/setup/image/icon_next.gif" width="74" height="24" alt="<?php echo _t('다음');?>" /></a>
   </div>
   </div>
 <?php

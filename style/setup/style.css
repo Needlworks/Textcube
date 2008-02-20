@@ -9,7 +9,7 @@
 }
 
 body {
-	background: #666 url(bg.gif) left top repeat-x;
+	background: #666 url(./image/bg.gif) left top repeat-x;
 	font-size: inherit;
 	margin: 0px;
 }
@@ -53,7 +53,7 @@ ul {
 }
 
 samp {
-	font-family: Lucida Console Typewriter, Courier New, FreeMono, Gulim, monospace;
+	font-family: 'Lucida Console Typewriter', 'Courier New', FreeMono, Gulim, monospace;
 	color:#666;
 }
 
@@ -67,7 +67,7 @@ samp {
 	padding: 0px 20px 0px 0px;
 	margin: 0px auto;
 	margin-top: 120px;
-	background : #666 url(shadow.gif) right top no-repeat;
+	background : #666 url(./image/shadow.gif) right top no-repeat;
 	width: 572px;
 	height: 400px;
 }
@@ -82,8 +82,9 @@ samp {
 
 #inner {
 	padding: 20px;
-	background: white;
+	/*background: white;*/
 	min-height: 300px;
+	background : #FFF url(./image/bg_inner.png) left top no-repeat;
 }
 
 #info {
