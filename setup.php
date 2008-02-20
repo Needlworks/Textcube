@@ -1516,6 +1516,7 @@ ini_set('display_errors', 'off');
 \$service['domain'] = '{$_POST['domain']}';
 \$service['path'] = '$path';
 \$service['skin'] = 'coolant';
+\$service['favicon_daily_traffic'] = 10; // 10MB
 //\$serviceURL = 'http://{$_POST['domain']}{$path}' ; // for path of Skin, plugin and etc.
 //\$service['reader'] = true; // Use Textcube reader. You can set it to false if you do not use Textcube reader, and want to decrease DB load.
 //\$service['debugmode'] = true; // uncomment for debugging, e.g. displaying DB Query or Session info

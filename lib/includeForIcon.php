@@ -17,5 +17,4 @@ define('NO_INITIALIZATION',true);
 require ROOT .'/lib/initialize.php';
 require ROOT .'/lib/function/file.php';
 
-header('Content-Type: text/html; charset=utf-8');
 ?>
