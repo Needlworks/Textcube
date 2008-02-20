@@ -1,32 +1,59 @@
 @charset "utf-8";
 
-/* Common ****************************************************************************************/
+/* Blog ******************************************************************************************/
 
-#sub-menu-dashboard
+/* create new blog */
+#part-create-newblog fieldset
 {
-	background-image                 : none !important;
+	background-image: none;
+	border: none;
+	margin-bottom: 15px;
 }
 
-.part .caption
+#part-create-newblog fieldset dl
 {
-	margin-bottom                    : 10px;
+	padding-top: 10px;
+	text-align: center;
 }
+
+#part-create-newblog fieldset dl dt
+{
+	display: inline;
+	line-height: 15px;
+	position: static;
+}
+
+#part-create-newblog fieldset dl dd
+{
+	display: inline;
+	line-height: 15px;
+	margin: 0 10px 0 5px;
+	width: auto;
+}
+
+#part-create-newblog .button-box
+{
+	margin-bottom: 30px;
+}
+
+/* blog list */
+#part-blog-list .message
+{
+	color: #f00;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
 /* Credit ****************************************************************************************/
 
-#part-center-about
-{
-	position                         : relative;
-}
-
-
-#part-center-about
+#part-control-about
 {
 	background-image                 : url("./image/logo_textcube_full.png");
 	background-position              : 140px 70px;
 	background-repeat                : no-repeat;
 }
 
-#part-center-about h3
+#part-control-about h3
 {
 	font-family                      : Tahoma, "Lucida Grande", Verdana, sans-serif;
 	padding-top                      : 55px;
@@ -35,14 +62,14 @@
 	width                            : 435px;
 }
 
-#part-center-about .main-explain-box
+#part-control-about .main-explain-box
 {
 	margin-left                      : 360px;
 	padding                          : 0;
 	width                            : 435px;
 }
 
-#part-center-about .main-explain-box p
+#part-control-about .main-explain-box p
 {
 	border                           : 1px solid #DDDDDD;
 	display                          : block;
@@ -51,21 +78,15 @@
 	text-align                       : center;
 }
 
-#part-center-about .main-explain-box p q
+#part-control-about ul
 {
-	cursor                           : help;
-	display                          : block;
+	list-style-type: disc;
+	margin-left                      : 400px;
 }
 
-#part-center-about .main-explain-box p br
+#part-control-about ul li
 {
-	display                          : none;
-}
-
-#part-center-about .main-explain-box cite
-{
-	display                          : none;
-	text-align                       : right !important;
+	list-style-type: disc;
 }
 
 #copyright
@@ -83,17 +104,17 @@
 	margin-left                      : 10px;
 }
 
-#part-center-about .section h3
+#part-control-about .section h3
 {
 	display                          : none;
 }
 
-#part-center-about table
+#part-control-about table
 {
 	border-top                       : 1px solid #D2D2CC;
 }
 
-#part-center-about table thead tr
+#part-control-about table thead tr
 {
 	background-color                 : #F3F3F1;
 	background-image                 : url("./image/bg_thead.png");
@@ -101,7 +122,7 @@
 	background-repeat                : repeat-x;
 }
 
-#part-center-about table thead tr th
+#part-control-about table thead tr th
 {
 	color                            : #333333;
 	font-weight                      : normal;
@@ -109,7 +130,7 @@
 	text-align                       : center;
 }
 
-#part-center-about table tbody tr td
+#part-control-about table tbody tr td
 {
 	background-image                 : url("./image/bg_tbody.gif");
 	background-position              : left bottom;
@@ -119,13 +140,13 @@
 	/*vertical-align                   : top;*/
 }
 
-#part-center-about table tbody tr td.selection
+#part-control-about table tbody tr td.selection
 {
 	background-position              : right bottom;
 }
 
-#part-center-about .section .container table tbody tr td.name,
-#part-center-about .section .container table tbody tr td.id
+#part-control-about .section .container table tbody tr td.name,
+#part-control-about .section .container table tbody tr td.id
 {
 	width                            : 130px;
 }
@@ -135,12 +156,12 @@
 	width                            : 100px !important;
 }
 
-#part-center-about .section .container
+#part-control-about .section .container
 {
 	margin-top                       : 30px;
 }
 
-#part-center-about .section .container h4
+#part-control-about .section .container h4
 {
 	margin-top                       : 0;
 }
@@ -306,3 +327,121 @@
 		color                            : #777;
 }
 
+/* System ****************************************************************************************/
+
+/* general information */
+#part-system-generalinfo
+{
+	margin-bottom: 30px;
+}
+
+#part-system-generalinfo h3
+{
+	color: #000;
+	font-size: 1.2em;
+	margin: 30px 0 10px 10px;
+}
+
+#part-system-generalinfo h4
+{
+	color: #000;
+	font-size: 1.1em;
+	margin: 30px 0 10px 10px;
+}
+
+#part-system-generalinfo table
+{
+	width: 100%;
+}
+
+#part-system-generalinfo table tr
+{
+	border-bottom: 1px solid #ddd;
+	border-top: 1px solid #ddd;
+}
+
+#part-system-generalinfo table tr th, #part-system-generalinfo table tr td
+{
+	padding: 5px;
+	text-align: left;
+}
+
+#part-system-generalinfo table tbody tr th
+{
+	width: 250px;
+}
+
+/* php information */
+#part-system-phpinfo
+{
+	margin-bottom: 30px;
+}
+
+#part-system-phpinfo h3
+{
+	color: #000;
+	font-size: 1.2em;
+	margin: 30px 0 10px 10px;
+}
+
+#part-system-phpinfo h4
+{
+	color: #000;
+	font-size: 1.1em;
+	margin: 30px 0 0 10px;
+}
+
+#part-system-phpinfo table
+{
+	margin-top: 10px;
+	width: 100%;
+}
+
+#part-system-phpinfo table thead
+{
+	background-color: #efefef;
+}
+
+#part-system-phpinfo table tr
+{
+	border-bottom: 1px solid #ddd;
+	border-top: 1px solid #ddd;
+}
+
+#part-system-phpinfo table tr th, #part-system-phpinfo table tr td
+{
+	padding: 5px;
+	text-align: left;
+}
+
+#part-system-phpinfo table tbody tr th
+{
+	width: 250px;
+}
+
+#part-system-phpinfo form
+{
+	margin-top: -37px;
+	position: relative;
+	right: 10px;
+	text-align: right;
+	z-index: 10;
+}
+
+#part-system-phpinfo form label
+{
+	display: none;
+}
+
+#PHPLogo
+{
+	margin-top: 30px;
+	text-align: center;
+	width: 150px;
+}
+
+#part-system-phpinfo table tr td img
+{
+	float: left;
+	margin-right: 10px;
+}
