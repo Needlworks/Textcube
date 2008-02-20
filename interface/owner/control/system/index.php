@@ -3,6 +3,12 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+$IV = array(
+	'GET' => array(
+		'range' => array('int', 'min' => -1, 'max' => 64, 'default' => -1)
+	) 
+);
+
 require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
@@ -49,51 +55,141 @@ if( function_exists( 'sys_getloadavg' ) ) {
 	$loadAvg = "Last 1,5,15 min(s): {$loadAvg[0]} / {$loadAvg[1]} / {$loadAvg[2]}";
 }
 ?>
-<h2 class="caption"><span class="main-text"><?php echo _t('Server Info'); ?></span></h2>
-<div class="generalinfo">
-<table>
-<tr>
-	<td>Server time</td>
-	<td><?php echo $serverTime; ?></td>
-</tr>
-<tr>
-	<td>Database</td>
-	<td><? echo $dbVersion; ?></td>
-</tr>
-<tr>
-	<td>Database stat</td>
-	<td><? echo $dbStat; ?></td>
-</tr>
-<tr>
-	<td>Web server</td>
-	<td><? echo $webServer; ?></td>
-</tr>
-<tr>
-	<td>Operating System</td>
-	<td><? echo $osVersion; ?></td>
-</tr>
-<tr>
-	<td>Install path</td>
-	<td><? echo dirname(dirname(dirname((dirname(dirname(__FILE__)))))); ?></td>
-</tr>
-<tr>
-	<td>Disk space</td>
-	<td><? echo $diskSpace; ?></td>
-</tr>
-<tr>
-	<td>Load Avg.</td>
-	<td><? echo $loadAvg; ?></td>
-</tr>
-</table>
-</div>
-<h2 class="caption"><span class="main-text"><?php echo _t('PHP Info'); ?></span></h2>
-<div class="phpinfo">
+	<div id="part-system-generalinfo" class="part">
+		<h2 class="caption"><span class="main-text"><?php echo _t('Server Info'); ?></span></h2>
+		
+		<table>
+			<tbody>
+				<tr>
+					<th>Server time</th>
+					<td><?php echo $serverTime; ?></td>
+				</tr>
+				<tr>
+					<th>Database</th>
+					<td><? echo $dbVersion; ?></td>
+				</tr>
+				<tr>
+					<th>Database stat</th>
+					<td><? echo $dbStat; ?></td>
+				</tr>
+				<tr>
+					<th>Web server</th>
+					<td><? echo $webServer; ?></td>
+				</tr>
+				<tr>
+					<th>Operating System</th>
+					<td><? echo $osVersion; ?></td>
+				</tr>
+				<tr>
+					<th>Install path</th>
+					<td><? echo dirname(dirname(dirname((dirname(dirname(__FILE__)))))); ?></td>
+				</tr>
+				<tr>
+					<th>Disk space</th>
+					<td><? echo $diskSpace; ?></td>
+				</tr>
+				<tr>
+					<th>Load Avg.</th>
+					<td><? echo $loadAvg; ?></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<div id="part-system-phpinfo" class="part">
+		<h2 class="caption"><span class="main-text"><?php echo _t('PHP Info'); ?></span></h2>
+		
 <?php 
+switch ($_GET['range']) {
+	case 1:
+	case 2:
+	case 4:
+	case 8:
+	case 16:
+	case 32:
+	case 64:
+	case -1:
+		$phpinfo = (int) $_GET['range'];
+		break;
+	default:
+		$phpinfo = -1;
+		break;
+}
+?>
+		<form id="phpinfoForm" action="<?php echo strtok($_SERVER['REQUEST_URI'], '?');?>">
+			<label for="range"><?php echo _t('범위설정');?></label>
+			<select id="range" name="range" onchange="document.getElementById('phpinfoForm').submit(); return false;">
+				<option value="-1">All Information</option>
+<?php
+for ($i=1; $i<=64; $i=abs($i*2)) {
+	switch ($i) {
+		case 1:
+			$text = 'General Information';
+			break;
+		case 2:
+			$text = 'Credits';
+			break;
+		case 4:
+			$text = 'Configuration';
+			break;
+		case 8:
+			$text = 'Modules';
+			break;
+		case 16:
+			$text = 'Environments';
+			break;
+		case 32:
+			$text = 'Variables';
+			break;
+		case 64:
+			$text = 'License';
+			break;
+	}
+	
+	echo sprintf('<option value="%d"%s>%s</option>',
+					$i,
+					$i == $phpinfo ? ' selected="selected"' : NULL,
+					$text
+				);
+}
+?>
+			</select>
+		</form>
+		
+<?php
 ob_start();
-phpinfo();
+phpinfo($phpinfo);
 $phpinfo = ob_get_contents();
 ob_end_clean();
-echo preg_replace( "@.*<body.*?>(.*)</body>.*@sim",'$1', $phpinfo );
+
+$regexpArray = array();
+array_push($regexpArray, '@.*<body.*?>(.*)</body>.*@sim');
+array_push($regexpArray, '@<table.*>\s*<tr.*><td>\s*<a href="(.+)"><img border="0" src="(.+)" alt="PHP Logo" /></a><h1 class="p">(.+)</h1>\s*</td></tr>\s*</table>@Usi');
+//array_push($regexpArray, '@<table.*>\s*<tr.*><td>\s*<a href="(.+)"><img border="0" src="(.+)" alt="Zend logo" /></a>(.+)\s*</td></tr>\s*</table>@Usi');
+array_push($regexpArray, '@<(/?)h1(.*)>@Usi');
+array_push($regexpArray, '@<(/?)h2(.*)>@Usi');
+array_push($regexpArray, '@<tr class="h">(.+)</tr>@Usi');
+array_push($regexpArray, '@<table .*>@Usi');
+array_push($regexpArray, '@</table>@');
+array_push($regexpArray, '@<td class="e">(.+)</td>@Usi');
+array_push($regexpArray, '@<td class="v">(.+)</td>@Usi');
+array_push($regexpArray, '@<(br|hr) />@');
+array_push($regexpArray, '');
+$resultArray = array();
+array_push($resultArray, '$1');
+array_push($resultArray, '<div id="PHPLogo"><a href="$1"><img src="$2" /></a><p>$3</p></div>');
+//array_push($resultArray, '<div id="ZendLogo"><a href="$1"><img src="$2" /></a><p>$3</p></div>');
+array_push($resultArray, '<$1h3>');
+array_push($resultArray, '<$1h4>');
+array_push($resultArray, '<thead><tr>$1</tr></thead><tbody>');
+array_push($resultArray, '<table>');
+array_push($resultArray, '</tbody></table>');
+array_push($resultArray, '<th>$1</th>');
+array_push($resultArray, '<td>$1</td>');
+array_push($resultArray, '');
+array_push($resultArray, '');
+
+echo preg_replace($regexpArray, $resultArray, $phpinfo);
 
 /* ORIGINAL embeded css from phpinfo()
 <style type="text/css"><!--
@@ -120,5 +216,5 @@ hr {width: 600px; background-color: #cccccc; border: 0px; height: 1px; color: #0
 */
 
 ?>
-</div>
+	</div>
 <?php require ROOT . '/lib/piece/owner/footer.php';?>
