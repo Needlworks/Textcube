@@ -31,7 +31,7 @@ $page = $_GET['page'];
 				</dl>
 			</fieldset>
 			<div class="button-box">
-				<input type="submit" class="input-button" value="<?php echo _t("새 블로그 생성");?>" onclick="sendBlogAddInfo(ctlUserSuggestObj.getValue(),document.getElementById('bi-identify').value);return false;">
+				<a class="button" href="#void" onclick="sendBlogAddInfo(ctlUserSuggestObj.getValue(),document.getElementById('bi-identify').value); return false;"><?php echo _t("새 블로그 생성");?></a>
 			</div>
 		</form>
 	</div>
@@ -47,7 +47,7 @@ if ( $service['type'] == "single" ) {
 }
 ?>
 		
-		<table class="data-inbox" id="table-blog-list" cellpadding="0" cellspacing="0">
+		<table id="table-blog-list" class="data-inbox">
 			<thead>
 				<tr>
 				<th><?php echo _t('블로그 ID')?></th>

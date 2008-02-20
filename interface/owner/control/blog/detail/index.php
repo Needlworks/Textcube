@@ -88,126 +88,92 @@ function addUser(user) {
 	request.send();
 }
 // ]]> </script>
-						<div id="part-center-about" class="part">
-<a href="<?php echo $blogURL;//TODO TEMPCODE?>/owner/control/blog">&lt;&lt;돌아가기</a>
+						<div id="part-blog-about" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('블로그 정보');?></span></h2>
-						
-							<h3><?php echo $blogsetting['title'];?></h3>
 							
-							<div class="main-explain-box">
-								<p class="explain"><?php echo $blogsetting['description'];?></h3>
-								</p>
-								<div id="copyright"><?php if ($bid == getServiceSetting("defaultBlogId",1)) { ?>
-									<?php echo _t('이 블로그는 대표 블로그 입니다.');?><br/><?php 
-								}
-?>
-                                    <?php echo _f('이 블로그에는 총 %1개의 글이 있습니다.', POD::queryCell("SELECT Count(*) FROM {$database['prefix']}Entries WHERE blogid = ".$bid));?><br/>
-                                    <?php echo _f('이 블로그에는 총 %1개의 트랙백이 있습니다.', POD::queryCell("SELECT Count(*) FROM {$database['prefix']}Trackbacks WHERE blogid = ".$bid));?><br/>
-                                    <?php echo _f('이 블로그에는 총 %1개의 코멘트가 있습니다.', POD::queryCell("SELECT Count(*) FROM {$database['prefix']}Comments WHERE blogid = ".$bid));?><br/>
-                                    <?php echo _f('이 블로그가 사용중인 첨부파일의 총 용량은 %1 입니다.', misc::getSizeHumanReadable(POD::queryCell(" SELECT sum( size ) FROM `{$database['prefix']}Attachments` WHERE blogid = ".$bid)));?>
-                                </div>
-							</div>
-							
-							<div id="developer-description" class="section">
-								<h3><span class="text"><?php echo _t('팀블로그');?></span></h3>
+							<div id="team-blog-about" class="container">
+								<h3><?php echo empty($blogsetting['title']) ? '<em>'._t('비어 있는 타이틀').'</em>' : '<a href="'.getDefaultUrl($bid).'">'.$blogsetting['title'].'</a>';?></h3>
 								
-								<div id="maintainer-container" class="container">
-									<h4><span class="text"><?php echo _t('Action');?></span></h4>
-									
-									<table>
-										<colgroup>
-											<col class="name"></col>
-										</colgroup>
-										<thead>
-											<tr>
-												<th class="name"><?php echo _t('Action');?></th>
-											</tr>
-										</thead>
-										<tbody>
-										<?php 
-										if ( $service['type'] != "single" ) {
-											?>
-											<tr>
-												<td class="name"><a href="<?php echo getDefaultUrl($bid);?>"><?php echo _t("블로그 보기");?></a></td>
-											</tr>
-											<?php 
-										} 
-?>
-											<tr>
-	<?php echo "<td class=\"name\"><a href=\"".$blogURL."/owner/control/action/blog/setDefault/?blogid=" . $bid . "\" onclick =  \"setDefaultBlog(".$bid.");return false;\">"._t('대표 블로그 설정')."</a></td>";
-	?>
-											</tr>
-											<tr>
-												<td class="name"><a href="#void" onClick="deleteBlog(<?php echo $bid?>);return false;"><?php echo _t("블로그 삭제");?></a></td>
-											</tr>
-										</tbody>
-									</table>
+								<div class="main-explain-box">
+									<p class="explain"><?php echo empty($blogsetting['description']) ? '<em>'._t('비어 있는 블로그 설명').'</em>' : $blogsetting['description'];?></p>
 								</div>
 								
-								<div id="developer-container" class="container">
-									<h4><span class="text"><?php echo _t('Team Blog');?></span></h4>
-									<table>
-										<colgroup>
-											<col class="name"></col>
-											<col class="role"></col>
-										</colgroup>
-										<thead>
-											<tr>
-												<th class="name"><?php echo _t('사용자');?></th>
-												<th class="role" ><?php echo _t('관리자');?></th>
-												<th class="role" ><?php echo _t('글관리');?></th>
-												<th class="action" colspan=2 ><?php echo _t('Actions');?></th>
-											</tr>
-										</thead>
-										<tbody><?php
+								<ul>
+									<?php if ($bid == getServiceSetting("defaultBlogId",1)) { ?><li><em><?php echo _t('이 블로그는 대표 블로그입니다.');?></em></li><?php } ?>
+									<li><?php echo _f('이 블로그에는 총 %1개의 글이 있습니다.', POD::queryCell("SELECT Count(*) FROM {$database['prefix']}Entries WHERE blogid = ".$bid));?></li>
+                                    <li><?php echo _f('이 블로그에는 총 %1개의 걸린글(트랙백)이 있습니다.', POD::queryCell("SELECT Count(*) FROM {$database['prefix']}Trackbacks WHERE blogid = ".$bid));?></li>
+                                    <li><?php echo _f('이 블로그에는 총 %1개의 댓글이 있습니다.', POD::queryCell("SELECT Count(*) FROM {$database['prefix']}Comments WHERE blogid = ".$bid));?></li>
+                                    <li><?php echo _f('이 블로그가 사용중인 첨부파일의 총 용량은 %1입니다.', misc::getSizeHumanReadable(POD::queryCell(" SELECT sum( size ) FROM `{$database['prefix']}Attachments` WHERE blogid = ".$bid)));?></li>
+                                </ul>
+							</div>
+								
+							<div id="team-member-list" class="container">
+								<h4><span class="text"><?php echo _t('팀블로그 멤버 목록');?></span></h4>
+								
+								<table class="data-inbox">
+									<thead>
+										<tr>
+											<th class="name"><?php echo _t('사용자');?></th>
+											<th class="role"><?php echo _t('관리자');?></th>
+											<th class="role"><?php echo _t('글관리');?></th>
+											<th class="action" colspan=2 ><?php echo _t('명령');?></th>
+										</tr>
+									</thead>
+									<tbody><?php
 $teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE blogid = " . $bid);
 	foreach ($teamblog as $row){
 		echo "<tr>";
 		echo "<td class=\"name\"><a href=\"{$blogURL}/owner/control/user/detail/{$row['userid']}\">".User::getName($row['userid'])."(".User::getEmail($row['userid']).")</a></td>";
 
 		if ($row['acl'] & BITWISE_OWNER) {
-			echo "<td class=\"role\" colspan = 4>"._t('이 사용자는 소유자 입니다.')."</td>";
+			echo '<td class="role" colspan="3">'._t('이 사용자는 블로그의 소유자입니다.').'</td>';
 		}
 		else {
 		echo "<td class=\"role\"><a href=\"".$blogURL."/owner/control/action/blog/changeACL/?blogid=" . $bid . "&acltype=admin&userid=" .$row['userid']."&switch=".(($row['acl'] & BITWISE_ADMINISTRATOR)?0:1)."\" onclick =  \"changeACL('admin',".$row['userid'].",".(($row['acl'] & BITWISE_ADMINISTRATOR)?0:1).");return false;\">".(($row['acl'] & BITWISE_ADMINISTRATOR)?_t('ON'):_t('OFF'))."</a></td>";
 		echo "<td class=\"role\"><a href=\"".$blogURL."/owner/control/action/blog/changeACL/?blogid=" . $bid . "&acltype=editor&userid=" .$row['userid']."&switch=".(($row['acl'] & BITWISE_EDITOR)?0:1)."\" onclick =  \"changeACL('editor',".$row['userid'].",".(($row['acl'] & BITWISE_EDITOR)?0:1).");return false;\">".(($row['acl'] & BITWISE_EDITOR)?_t('ON'):_t('OFF'))."</a></td>";
-		echo "<td class=\"role\"><a href=\"".$blogURL."/owner/control/action/blog/deleteUser/?blogid=" . $bid . "&userid=".$row['userid']."\" onclick =  \"deleteUser(".$row['userid'].",1);return false;\">"._t('팀원 제외')."</a></td>";
-		echo "<td class=\"role\"><a href=\"".$blogURL."/owner/control/action/blog/changeOwner/?blogid=" . $bid . "&owner=".$row['userid']."\" onclick =  \"changeOwner(".$row['userid'].");return false;\">"._t('소유자 변경')."</a></td>";
+		echo "<td class=\"role\"><a href=\"".$blogURL."/owner/control/action/blog/deleteUser/?blogid=" . $bid . "&userid=".$row['userid']."\" onclick =  \"deleteUser(".$row['userid'].",1);return false;\">" . t('팀원 제외') . "</a></td>";
+		echo "<td class=\"role\"><a href=\"".$blogURL."/owner/control/action/blog/changeOwner/?blogid=" . $bid . "&owner=".$row['userid']."\" onclick =  \"changeOwner(".$row['userid'].");return false;\">" . _t('소유자 변경') . "</a></td>";
 		echo "</tr>";
 		}
 	}
 ?>
-										</tbody>
-									</table>
-								<div id="tester-container" class="container">
-									<h4><?php echo _t('팀원 추가');?></h4>
-									<div>
-<form action ="<?php echo $blogURL?>/owner/control/action/blog/addUser/" onsubmit="return false;">
-<span class="label"><?php echo _t('사용자'); ?> : </span>
-<span id="sgtOwner"><input type="text" class="bi-owner-loginid" name="user" value="" /></span>
-<input type=hidden name = "blogid" value="<?php echo $bid?>">
-<input type=submit value="<?php echo _t("팀원 추가");?>" onclick="addUser(ctlUserSuggestObj.getValue());return false;">
-</form>
-<script type="text/javascript">
-//<![CDATA[
-	try {
-		document.getElementById("sgtOwner").innerHTML = '';
-		var ctlUserSuggestObj = new ctlUserSuggest(document.getElementById("sgtOwner"),  false);
-		ctlUserSuggestObj.setInputClassName("bi-owner-loginid");
-		ctlUserSuggestObj.setValue("<?php echo User::getEmail(1);?>");
-	} catch (e) {
-		document.getElementById("sgtOwner").innerHTML = '<input type="text" class="bi-owner-loginid" name="location" value="" />';
-	}
-//]]>
-</script> 
-</div>
-								</div>
+									</tbody>
+								</table>
+							</div>
+							
+							<div id="team-new-member" class="container">
+								<h4><?php echo _t('팀원 추가');?></h4>
+								
+								<form action="<?php echo $blogURL?>/owner/control/action/blog/addUser/">
+									<dl>
+										<dt><label for=""><?php echo _t('사용자'); ?></label></dt>
+										<dd>
+											<input type="text" class="bi-owner-loginid" name="user" value="" />
+											<input type="hidden" name="blogid" value="<?php echo $bid?>" />
+											<input type="submit" class="input-button" value="<?php echo _t("팀원 추가");?>" onclick="addUser(ctlUserSuggestObj.getValue());return false;" />
+										</dd>
+									</dl>
+								</form>
+								
+								<script type="text/javascript">
+									//<![CDATA[
+										try {
+											document.getElementById("sgtOwner").innerHTML = '';
+											var ctlUserSuggestObj = new ctlUserSuggest(document.getElementById("sgtOwner"), false);
+											ctlUserSuggestObj.setInputClassName("bi-owner-loginid");
+											ctlUserSuggestObj.setValue("<?php echo User::getEmail(1);?>");
+										} catch (e) {
+											document.getElementById("sgtOwner").innerHTML = '<input type="text" class="bi-owner-loginid" name="location" value="" />';
+										}
+									//]]>
+								</script>
+							</div>
+							
+							<div class="button-box">
+								<a class="button" href="#void" onclick="deleteBlog(<?php echo $bid;?>); return false;"><?php echo _t("블로그 삭제");?></a>
+								<?php if ($bid != getServiceSetting("defaultBlogId",1)) { ?><a class="button" href="<?php echo $blogURL;?>/owner/control/action/blog/setDefault/?blogid=<?php echo $bid;?>" onclick="setDefaultBlog('<?php echo $bid;?>); return false;"><?php echo _t('대표 블로그 설정');?></a><?php } ?>
 							</div>
 						</div>
-								</div>
-								
-							<div id="supporter-description" class="section">
-								<h3><span class="text"><?php echo _t('Plugin');?></span></h3>
 <?php
 require ROOT . '/lib/piece/owner/footer.php';
 ?>
