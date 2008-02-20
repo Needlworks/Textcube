@@ -71,7 +71,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												<td class="role"><?php echo _t('XHTML specification / Textcube main page / Quality Assurance');?></td>
 											</tr>
 											<tr>
-												<td class="name"><span class="text">graphittie</span></td>
+												<td class="name"><a href="http://www.graphittie.org/blog">graphittie™</a></td>
 												<td class="role"><?php echo _t('UI / Sidebar / XHTML specification / Bug tracking');?></td>
 											</tr>
 											<tr>
