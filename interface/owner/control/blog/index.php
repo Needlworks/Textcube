@@ -17,37 +17,49 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 
 global $blogURL;
 $page = $_GET['page'];
-
+?>
+	<div id="part-create-newblog" class="part">
+		<h2 class="caption"><span class="main-text"><?php echo _t('새 블로그 만들기'); ?></span></h2>
+		
+		<form onsubmit="return false;">
+			<fieldset>
+				<dl>
+					<dt><label for="sgtOwner"><?php echo _t('소유자'); ?></label>
+					<dd><input type="text" id="sgtOwner" class="bi-owner-loginid" class="input-text" name="location" value="<?php echo getUserEmail(1);?>" /></dd>
+					<dt><label for="bi-identify"><?php echo _t('블로그 구분자'); ?></label></dt>
+					<dd><input type="text" id="bi-identify" name="bi-identify" /></dd>
+				</dl>
+			</fieldset>
+			<div class="button-box">
+				<input type="submit" class="input-button" value="<?php echo _t("새 블로그 생성");?>" onclick="sendBlogAddInfo(ctlUserSuggestObj.getValue(),document.getElementById('bi-identify').value);return false;">
+			</div>
+		</form>
+	</div>
+	
+	<div id="part-blog-list" class="part">
+		<h2 class="caption"><span class="main-text"><?php echo _t('블로그 목록');?></span></h2>
+		
+<?php
 if ( $service['type'] == "single" ) {
 ?>
-<div class="main-explain-box">
-	<p class="explain"><?php echo _t('현재 단일 블로그 모드 텍스트 큐브가 설정되어 있습니다. 단일 블로그 모드에서는 대표 블로그 만이 외부에 보여집니다.')?></p>
-</div>	
+		<p class="message"><?php echo _t('현재 단일 블로그 모드 텍스트 큐브가 설정되어 있습니다. 단일 블로그 모드에서는 대표 블로그 만이 외부에 보여집니다.')?></p>
 <?php
 }
 ?>
-<h2 class="caption"><span class="main-text"><?php echo _t('새 블로그 만들기'); ?></span></h2>
-<div id=container-add-blog>
-<form onsubmit="return false;">
-<span class="label"><?php echo _t('소유자'); ?> : </span>
-<span id="sgtOwner"><input type="text" class="bi-owner-loginid" name="location" value="<?php echo getUserEmail(1);?>" /></span>&nbsp;<?php echo _t('블로그 구분자'); ?> : <input type=text name='bi-identify' id='bi-identify'>
-<input type=submit value="<?php echo _t("새 블로그 생성");?>" onclick="sendBlogAddInfo(ctlUserSuggestObj.getValue(),document.getElementById('bi-identify').value);return false;">
-</form>
-</div>
-<h2 class="caption"><span class="main-text">Blog List</span></h2>
-<div id=container-blog-list class='part'>
-<table class="data-inbox" id="table-blog-list" cellpadding="0" cellspacing="0">
-<thead>
-	<tr>
-	<th><?php echo _t('블로그 ID')?></th>
-	<th><?php echo _t('블로그 구분자')?></th>
-	<th><?php echo _t('블로그 제목')?></th>
-	<th><?php echo _t('블로그 소유자')?></th>
-	</td><?php if ( $service['type'] != "single" ) {?>
-	<th><?php echo _t('바로 가기')?></th>
-	<?php }?>
-	</tr></thead>
-<tbody>
+		
+		<table class="data-inbox" id="table-blog-list" cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+				<th><?php echo _t('블로그 ID')?></th>
+				<th><?php echo _t('블로그 구분자')?></th>
+				<th><?php echo _t('블로그 제목')?></th>
+				<th><?php echo _t('블로그 소유자')?></th>
+<?php if ( $service['type'] != "single" ) {?>
+				<th><?php echo _t('바로 가기')?></th>
+<?php }?>
+				</tr>
+			</thead>
+			<tbody>
 <?php
 $row = 25;
 
@@ -66,32 +78,31 @@ if($bloglist){
  			$bsetting[$row['name']] = $row['value'];
  		}
 		$bsetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}Teamblog` WHERE acl & ".BITWISE_OWNER." != 0 AND blogid = " . $itemBlogId);
-		?>
-
-<tr id="table-blog-list_<?php echo $itemBlogId?>">
-	<td>
-		<?php echo $itemBlogId?>
-	</td>
-	<td>
-		<a href="<?php echo $blogURL?>/owner/control/blog/detail/<?php echo $itemBlogId?>"><?php echo $bsetting['name']?></a>
-	</td>
-	<td>
-		<?php echo $bsetting['title']?>
-	</td>
-	<td>
-		<?php echo User::getName($bsetting['owner'])."(".User::getEmail($bsetting['owner']).")";?>
-	</td><?php if ( $service['type'] != "single" ) {?>
-	<td class="name">
-		<a href="<?php echo getDefaultUrl($itemBlogId);?>"><?php echo _t("보기");?></a>
-	</td><?php }?>
-</tr>
+?>
+				<tr id="table-blog-list_<?php echo $itemBlogId?>">
+					<td>
+						<?php echo $itemBlogId?>
+					</td>
+					<td>
+						<a href="<?php echo $blogURL?>/owner/control/blog/detail/<?php echo $itemBlogId?>"><?php echo $bsetting['name']?></a>
+					</td>
+					<td>
+						<?php echo $bsetting['title']?>
+					</td>
+					<td>
+						<?php echo User::getName($bsetting['owner'])."(".User::getEmail($bsetting['owner']).")";?>
+					</td><?php if ( $service['type'] != "single" ) {?>
+					<td class="name">
+						<a href="<?php echo getDefaultUrl($itemBlogId);?>"><?php echo _t("보기");?></a>
+					</td><?php }?>
+				</tr>
 <?php
 	}
 }
 ?>
-</tbody>
-</table>
-</div>
+			</tbody>
+		</table>
+	</div>
 <?php
 $paging = array('url' => "", 'prefix' => '?page=', 'postfix' => '', 'total' => 0, 'pages' => 0, 'page' => 0);
 $paging['pages'] = $pages;
@@ -99,10 +110,10 @@ $paging['page'] = $page ;
 $pagingTemplate = '[##_paging_rep_##]';
 $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
 ?>
-<div id="page-navigation">
-	<span id="page-list"><?php echo getPagingView($paging, $pagingTemplate, $pagingItemTemplate);?></span>
-	<span id="total-count"><?php echo _f('총 %1개의 블로그',$blogcount);?></span>
-</div>
+	<div id="page-navigation">
+		<span id="page-list"><?php echo getPagingView($paging, $pagingTemplate, $pagingItemTemplate);?></span>
+		<span id="total-count"><?php echo _f('총 %1개의 블로그',$blogcount);?></span>
+	</div>
 <?php 
 require ROOT . '/lib/piece/owner/footer.php';
 ?>
