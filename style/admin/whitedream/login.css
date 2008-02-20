@@ -5,9 +5,6 @@
 body
 {
 	background-color                 : #FFFFFF;
-	background-image                 : url("./image/bg_login.png");
-	background-position              : left top;
-	background-repeat                : repeat-x;
 }
 
 #data-outbox
@@ -16,6 +13,7 @@ body
 	margin                           : 150px auto 0 auto;
 	position                         : relative;
 	width                            : 560px;
+	background-image                 : url("./image/bg_login.png");
 }
 
 #logo-box
@@ -23,21 +21,16 @@ body
 	left                             : 65px;
 	position                         : absolute;
 	top                              : 30px;
+	display:none;
 }
 
 #login-box
 {
-	/*background-image                 : url("./image/logo_textcube_mirror.png");
-	background-position              : 55px 167px;
-	background-repeat                : no-repeat;
-	height                           : 300px;*/
+	height                           : 400px;
 }
 
 #field-box
 {
-	background-image                 : url("./image/bg_login_border.png");
-	background-position              : left top;
-	background-repeat                : no-repeat;
 	height                           : 190px;
 	margin-left                      : 250px;
 }
