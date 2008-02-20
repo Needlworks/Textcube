@@ -103,7 +103,7 @@
 
 #team-blog-about .main-explain-box p
 {
-	border                           : 1px solid #DDDDDD;
+	border                           : 1px solid #ddd;
 	display                          : block;
 	margin-top                       : 20px;
 	padding                          : 10px;
@@ -169,6 +169,122 @@
 	text-align: center;
 }
 
+/* User ******************************************************************************************/
+
+/* create new user */
+#part-create-newuser fieldset
+{
+	background-image: none;
+	border: none;
+	margin-bottom: 15px;
+}
+
+#part-create-newuser fieldset dl
+{
+	padding-top: 10px;
+	text-align: center;
+}
+
+#part-create-newuser fieldset dl dt
+{
+	display: inline;
+	line-height: 15px;
+	position: static;
+}
+
+#part-create-newuser fieldset dl dd
+{
+	display: inline;
+	line-height: 15px;
+	margin: 0 10px 0 5px;
+	width: auto;
+}
+
+#part-create-newuser .button-box
+{
+	margin-bottom: 30px;
+}
+
+/* user list */
+#part-user-list .message
+{
+	color: #f00;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+/* user in detail */
+#part-user-about
+{
+	background-image                 : url("./image/logo_textcube_full.png") !important;
+	background-position              : 140px 70px;
+	background-repeat                : no-repeat;
+	padding-bottom: 50px;
+}
+
+#team-user-about h3
+{
+	font-family                      : Tahoma, "Lucida Grande", Verdana, sans-serif;
+	padding-top                      : 55px;
+	margin                           : 30px 0 5px 360px;
+	text-align                       : center;
+	width                            : 435px;
+}
+
+#team-user-about .main-explain-box
+{
+	margin-left                      : 360px;
+	padding                          : 0;
+	width                            : 435px;
+}
+
+#team-user-about .main-explain-box p
+{
+	border                           : 1px solid #ddd;
+	display                          : block;
+	margin-top                       : 20px;
+	padding                          : 10px;
+	text-align                       : center;
+}
+
+#part-user-about ul
+{
+	list-style-type: disc;
+	margin-left: 400px;
+	padding-bottom: 100px;
+}
+
+#part-user-about ul li
+{
+	list-style-type: disc;
+}
+
+#part-user-about ul li em
+{
+	color: #f00;
+}
+
+#part-user-about .container h4
+{
+	margin: 0 0 5px 13px;
+}
+
+#team-joined-list
+{
+	margin: 0 auto;
+	width: 700px;
+}
+
+#team-joined-list h4
+{
+	font-size: 1em;
+}
+
+#team-joined-list table
+{
+	width: 700px;
+}
+
 /* Add Blog ***************************************************************************************/
 #container-add-blog
 {
@@ -226,7 +342,7 @@
 	width: 100%;
 }
 
-#part-system-generalinfo table tr
+#part-system-generalinfo table tr th, #part-system-generalinfo table tr td
 {
 	border-bottom: 1px solid #ddd;
 	border-top: 1px solid #ddd;
@@ -274,7 +390,7 @@
 	background-color: #efefef;
 }
 
-#part-system-phpinfo table tr
+#part-system-phpinfo table tr th, #part-system-phpinfo table tr td
 {
 	border-bottom: 1px solid #ddd;
 	border-top: 1px solid #ddd;
@@ -310,6 +426,11 @@
 	margin-top: 30px;
 	text-align: center;
 	width: 150px;
+}
+
+#PHPLogo img
+{
+	border: none;
 }
 
 #part-system-phpinfo table tr td img
