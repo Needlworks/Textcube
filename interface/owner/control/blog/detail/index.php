@@ -100,10 +100,10 @@ function addUser(user) {
 								
 								<ul>
 									<?php if ($bid == getServiceSetting("defaultBlogId",1)) { ?><li><em><?php echo _t('이 블로그는 대표 블로그입니다.');?></em></li><?php } ?>
-									<li><?php echo _f('이 블로그에는 총 %1개의 글이 있습니다.', POD::queryCell("SELECT Count(*) FROM {$database['prefix']}Entries WHERE blogid = ".$bid));?></li>
-                                    <li><?php echo _f('이 블로그에는 총 %1개의 걸린글(트랙백)이 있습니다.', POD::queryCell("SELECT Count(*) FROM {$database['prefix']}Trackbacks WHERE blogid = ".$bid));?></li>
-                                    <li><?php echo _f('이 블로그에는 총 %1개의 댓글이 있습니다.', POD::queryCell("SELECT Count(*) FROM {$database['prefix']}Comments WHERE blogid = ".$bid));?></li>
-                                    <li><?php echo _f('이 블로그가 사용중인 첨부파일의 총 용량은 %1입니다.', misc::getSizeHumanReadable(POD::queryCell(" SELECT sum( size ) FROM `{$database['prefix']}Attachments` WHERE blogid = ".$bid)));?></li>
+									<li><?php echo sprintf(_t('이 블로그에는 총 %d개의 글이 있습니다.'), POD::queryCell("SELECT Count(*) FROM {$database['prefix']}Entries WHERE blogid = ".$bid));?></li>
+                                    <li><?php echo sprintf(_t('이 블로그에는 총 %d개의 걸린글(트랙백)이 있습니다.'), POD::queryCell("SELECT Count(*) FROM {$database['prefix']}Trackbacks WHERE blogid = ".$bid));?></li>
+                                    <li><?php echo sprintf(_t('이 블로그에는 총 %d개의 댓글이 있습니다.'), POD::queryCell("SELECT Count(*) FROM {$database['prefix']}Comments WHERE blogid = ".$bid));?></li>
+                                    <li><?php echo sprintf(_t('이 블로그가 사용중인 첨부파일의 총 용량은 %s입니다.'), misc::getSizeHumanReadable(POD::queryCell(" SELECT sum( size ) FROM `{$database['prefix']}Attachments` WHERE blogid = ".$bid)));?></li>
                                 </ul>
 							</div>
 								
@@ -172,6 +172,7 @@ $teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE b
 							<div class="button-box">
 								<a class="button" href="#void" onclick="deleteBlog(<?php echo $bid;?>); return false;"><?php echo _t("블로그 삭제");?></a>
 								<?php if ($bid != getServiceSetting("defaultBlogId",1)) { ?><a class="button" href="<?php echo $blogURL;?>/owner/control/action/blog/setDefault/?blogid=<?php echo $bid;?>" onclick="setDefaultBlog('<?php echo $bid;?>); return false;"><?php echo _t('대표 블로그 설정');?></a><?php } ?>
+								<a class="button" href="<?php echo $blogURL;?>/owner/control/blog"><?php echo _t("돌아가기");?></a>
 							</div>
 						</div>
 <?php

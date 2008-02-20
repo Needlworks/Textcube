@@ -16,22 +16,23 @@ $userid = $suri['id'];
 $usersetting= POD::queryRow("SELECT * FROM `{$database['prefix']}Users` WHERE userid = " . $userid);
 $usersetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}Teamblog` WHERE acl & ".BITWISE_OWNER." != 0 AND blogid = " . $blogid);
 ?>
-						<div id="part-center-about" class="part">
-
+						<div id="part-user-about" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('사용자 정보');?></span></h2>
-						
-							<h3><?php echo $usersetting['name'];?></h3>
 							
-							<div class="main-explain-box">
-								<p class="explain"><?php echo $usersetting['loginid'];?></h3>
-								</p>
-								<div id="copyright">
-                                    <?php if(POD::queryExistence("SELECT * FROM `{$database['prefix']}UserSettings` WHERE name ='AuthToken' AND userid = " . $userid)) {echo _t("임시 암호가 설정되어 있습니다.") . '<br/>';}?>
-                                    <?php echo _f('이 계정은 %1에 생성되었습니다.', date("D M j G:i:s T Y",$usersetting['created']));?><br/>
-                                </div>
+							<div id="team-user-about" class="container">
+								<h3><?php echo $usersetting['name'];?></h3>
+								
+								<div class="main-explain-box">
+									<p class="explain"><?php echo $usersetting['loginid'];?></p>
+								</div>
+								
+								<ul>
+									<?php if(POD::queryExistence("SELECT * FROM `{$database['prefix']}UserSettings` WHERE name ='AuthToken' AND userid = " . $userid)) { echo '<li><em>'._t("임시 암호가 설정되어 있습니다.").'</em></li>';}?>
+									<li><?php echo sprintf(_t('이 계정은 %s에 생성되었습니다.'), date("D M j G:i:s T Y", $usersetting['created']));?></li>
+                                </ul>
 							</div>
 							
-							<div id="developer-description" class="section">
+							<!--div id="developer-description" class="section">
 								<h3><span class="text"><?php echo _t('팀블로그');?></span></h3>
 								
 								<div id="maintainer-container" class="container">
@@ -48,29 +49,27 @@ $usersetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}
 										</thead>
 										<tbody>
 											<tr>
-	<?php echo "<td class=\"name\"><a href=\"".$blogURL."/owner/control/action/user/delete/?userid=" . $userid . "\" onclick =  \"cleanUser(".$userid.");return false;\">"._t('사용자 삭제')."</a></td>";?>
+	<?php echo "<td class=\"name\"></td>";?>
 											</tr>
-												<td><a href="<?php echo $blogURL;?>/owner/control/user"><?php echo _t('이전 메뉴로 돌아가기');?></a></td>
+												<td></td>
 											<tr>
 											</tr>
 										</tbody>
 									</table>
 								</div>
+							</div -->
+							
+							<div id="team-joined-list" class="container">
+								<h4><span class="text"><?php echo _t('참여중인 블로그');?></span></h4>
 								
-								<div id="developer-container" class="container">
-									<h4><span class="text"><?php echo _t('참여중인 Blog');?></span></h4>
-									<table>
-										<colgroup>
-											<col class="name"></col>
-											<col class="role"></col>
-										</colgroup>
-										<thead>
-											<tr>
-												<th class="name"><?php echo _t('블로그');?></th>
-												<th class="role"><?php echo _t('권한 그룹');?></th>
-											</tr>
-										</thead>
-										<tbody><?php
+								<table class="data-inbox">
+									<thead>
+										<tr>
+											<th class="name"><?php echo _t('블로그');?></th>
+											<th class="role"><?php echo _t('권한 그룹');?></th>
+										</tr>
+									</thead>
+									<tbody><?php
 $teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE userid = " . $userid);
 	foreach ($teamblog as $row){
 		echo "<tr>";
@@ -85,14 +84,13 @@ $teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE u
 		echo "</tr>";
 	}
 ?>
-										</tbody>
-									</table>
-								</div>
-								
-							<div id="supporter-description" class="section">
-								<h3><span class="text"><?php echo _t('OpenID');?></span></h3>
-								<div id="tester-container" class="container">
-								</div>
+									</tbody>
+								</table>
+							</div>
+							
+							<div class="button-box">
+								<a class="button" href="<?php echo $blogURL;?>/owner/control/action/user/delete/?userid=<?php echo $userid;?>" onclick="cleanUser('<?php echo $userid;?>'); return false;"><?php echo _t('사용자 삭제');?></a>
+								<a class="button" href="<?php echo $blogURL;?>/owner/control/user"><?php echo _t('돌아가기');?></a>
 							</div>
 						</div>
 <?php

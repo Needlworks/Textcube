@@ -56,7 +56,7 @@ if( function_exists( 'sys_getloadavg' ) ) {
 }
 ?>
 	<div id="part-system-generalinfo" class="part">
-		<h2 class="caption"><span class="main-text"><?php echo _t('Server Info'); ?></span></h2>
+		<h2 class="caption"><span class="main-text"><?php echo _t('Server 정보'); ?></span></h2>
 		
 		<table>
 			<tbody>
@@ -97,7 +97,7 @@ if( function_exists( 'sys_getloadavg' ) ) {
 	</div>
 	
 	<div id="part-system-phpinfo" class="part">
-		<h2 class="caption"><span class="main-text"><?php echo _t('PHP Info'); ?></span></h2>
+		<h2 class="caption"><span class="main-text"><?php echo _t('PHP 정보'); ?></span></h2>
 		
 <?php 
 switch ($_GET['range']) {
