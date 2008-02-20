@@ -134,7 +134,7 @@ function addUser(user) {
 										} 
 ?>
 											<tr>
-	<?php echo "<td class=\"name\"><a href=\"".$blogURL."/owner/control/action/blog/setDefault/?blogid=" . $bid . "\" onclick =  \"setDefaultBlog(".$bid.");return false;\">대표 블로그 설정</a></td>";
+	<?php echo "<td class=\"name\"><a href=\"".$blogURL."/owner/control/action/blog/setDefault/?blogid=" . $bid . "\" onclick =  \"setDefaultBlog(".$bid.");return false;\">"._t('대표 블로그 설정')."</a></td>";
 	?>
 											</tr>
 											<tr>
