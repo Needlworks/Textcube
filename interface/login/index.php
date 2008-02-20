@@ -138,16 +138,15 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 					<div id="logo-box">
 						<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/logo_textcube.png" alt="<?php echo _text('텍스트큐브 로고');?>" />
 					</div>
-			            
-						<form method="post" action="">
+					<form method="post" action="">
 						<input type="hidden" name="requestURI" value="<?php echo htmlspecialchars($_POST['requestURI']);?>" />
-			            <div id="field-box">
-			            	<dl id="email-line">
-			            		<dt><label for="loginid"><?php echo _text('이메일');?></label></dt>
-			            		<dd><input type="text" class="input-text" id="loginid" name="loginid" value="<?php echo htmlspecialchars(empty($_POST['loginid']) ? (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : $_COOKIE['TSSESSION_LOGINID']) : $_POST['loginid']);?>" maxlength="64" tabindex="1" /></dd>
-			            	</dl>
-			            	<dl id="password-line">
-			            		<dt><label for="password"><?php echo _text('비밀번호');?></label></dt>
+						<div id="field-box">
+							<dl id="email-line">
+								<dt><label for="loginid"><?php echo _text('이메일');?></label></dt>
+								<dd><input type="text" class="input-text" id="loginid" name="loginid" value="<?php echo htmlspecialchars(empty($_POST['loginid']) ? (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : $_COOKIE['TSSESSION_LOGINID']) : $_POST['loginid']);?>" maxlength="64" tabindex="1" /></dd>
+							</dl>
+							<dl id="password-line">
+								<dt><label for="password"><?php echo _text('비밀번호');?></label></dt>
 								<dd><input type="password" class="input-text" id="password" name="password" onkeydown="if (event.keyCode == 13) document.forms[0].submit()" maxlength="64" tabindex="2" /></dd>
 							</dl>
 							<dl id="checkbox-line">
@@ -162,7 +161,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								<input type="submit" class="login-button input-button" name="button_login" value="<?php echo _text('로그인');?>" />
 							</div>
 						</div>
-						</form>
+					</form>
 						
 <?php if( isActivePlugin('CL_OpenID') ) { 
 	if( !empty($_COOKIE['openid']) ) {
@@ -174,7 +173,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 	}
 	list( $openid_help_link, $openid_signup_link ) = fireEvent( "OpenIDAffiliateLinks", array('',''), $_POST['requestURI'] );
 ?>
-						<form method="get" name="openid_form" action="<?php echo $blogURL; ?>/login/openid?action=try_auth">
+					<form method="get" name="openid_form" action="<?php echo $blogURL; ?>/login/openid?action=try_auth">
 						<input type="hidden" name="requestURI" value="<?php echo $_POST['requestURI']; ?>" />
 						<input type="hidden" name="need_writers" value="1" />
 						<input type="hidden" name="action" value="try_auth" />
@@ -199,21 +198,21 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								</div>
 							</div>
 						</div>
-						</form>
-						<script type="text/javascript">
-						//<![CDATA[ 
-							function focus_openid(){ 
-								document.getElementById("openid_identifier").focus();}
-						//]]>
-						</script>
+					</form>
+					<script type="text/javascript">
+					//<![CDATA[ 
+						function focus_openid(){ 
+							document.getElementById("openid_identifier").focus();}
+					//]]>
+					</script>
 <?php } ?>
 <?php
 						echo fireEvent('LOGIN_add_form', '', $_POST['requestURI'] );
 if (!empty($message)) {
 ?>
-						<div id="message-box">
-							<?php echo $message.CRLF;?>
-						</div>
+					<div id="message-box">
+						<?php echo $message.CRLF;?>
+					</div>
 <?php
 }
 ?>

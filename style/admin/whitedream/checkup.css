@@ -1,0 +1,30 @@
+@charset "utf-8";
+
+/* Basic Tag *************************************************************************************/
+
+h3
+{
+	font-size                        : 1.5em;
+}
+
+#all-wrap
+{
+	margin                           : 50px auto;
+	width                            : 500px;
+	background-image                 : url('./image/img_header_textcube.png');
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	border                           :2px solid #999;
+}
+
+#data-outbox h3
+{
+	margin-top                       : 40px;
+	margin-left                      : 180px;
+}
+
+#message-box
+{
+	text-align                       : center;
+	margin                           : 15px auto;
+}

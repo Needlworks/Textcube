@@ -7,6 +7,8 @@ require ROOT . '/lib/model/blog.skin.php';
 
 requireModel('common.setting');
 
+if(!file_exists(ROOT . '/cache/CHECKUP')) $currentVersion = _text('첫번째 점검');
+else $currentVersion = file_get_contents(ROOT . '/cache/CHECKUP');
 if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/CHECKUP') != TEXTCUBE_VERSION)) {
 	if ($fp = fopen(ROOT . '/cache/CHECKUP', 'w')) {
 		fwrite($fp, TEXTCUBE_VERSION);
@@ -40,6 +42,14 @@ function getBlogSettingForMigration($blogid, $name, $default = null) {
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo _text('텍스트큐브를 점검합니다.');?></title>
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.css" />
+<?php
+if(file_exists(ROOT.$adminSkinSetting['skin'].'/checkup.css')) {
+?>
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/checkup.css" />
+<?php
+} else {  // Basic CSS
+?>
 	<style type="text/css" media="screen">
 	/*<![CDATA[*/
 		body
@@ -54,12 +64,21 @@ function getBlogSettingForMigration($blogid, $name, $default = null) {
 		}
 	/*]]>*/
 	</style>
+<?php
+}
+?>
 </head>
 <body>
-	<h3><?php echo _text('텍스트큐브를 점검합니다.');?></h3>
-	
-	<p>
-		<ul>
+	<div id="all-wrap">
+		<div id="data-outbox">
+			<h3><?php echo _text('텍스트큐브를 점검합니다.');?></h3>
+			<dl class="message">
+				<dt><?php echo _text('버전 검사');?></dt>
+				<dd><?php echo _textf('기존 버전 : %1',$currentVersion);?></dd>
+				<dd><?php echo _textf('현재 버전 : %1',TEXTCUBE_VERSION);?></dd>
+			<dl>
+			<div id="checkup-box">
+				<ul>
 <?php
 $changed = false;
 
@@ -298,14 +317,18 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
 }
 
 ?>
-</ul>
-<?php
+				</ul>
+			</div>
+		</div>
+		<div id="message-box">
+			<span><?php
 	reloadSkin(1);
-?>
-<?php echo ($changed ? _text('완료되었습니다.') : _text('확인되었습니다.'));?>
-</p>
-<p>
-<a href="<?php echo $blogURL.'/owner/center/dashboard';?>"><?php echo _text('되돌아가기');?></a>
-</p>
+	echo ($changed ? _text('완료되었습니다.') : _text('확인되었습니다.'));
+?></span>
+		</div>
+		<div class="button-box">
+			<span class="input-button"><a href="<?php echo $blogURL.'/owner/center/dashboard';?>"><?php echo _text('되돌아가기');?></a></span>
+		</div>
+	</div>
 </body>
 </html>
