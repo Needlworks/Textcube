@@ -171,8 +171,8 @@ $teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE b
 		else {
 		echo "<td class=\"role\"><a href=\"".$blogURL."/owner/control/action/blog/changeACL/?blogid=" . $bid . "&acltype=admin&userid=" .$row['userid']."&switch=".(($row['acl'] & BITWISE_ADMINISTRATOR)?0:1)."\" onclick =  \"changeACL('admin',".$row['userid'].",".(($row['acl'] & BITWISE_ADMINISTRATOR)?0:1).");return false;\">".(($row['acl'] & BITWISE_ADMINISTRATOR)?_t('ON'):_t('OFF'))."</a></td>";
 		echo "<td class=\"role\"><a href=\"".$blogURL."/owner/control/action/blog/changeACL/?blogid=" . $bid . "&acltype=editor&userid=" .$row['userid']."&switch=".(($row['acl'] & BITWISE_EDITOR)?0:1)."\" onclick =  \"changeACL('editor',".$row['userid'].",".(($row['acl'] & BITWISE_EDITOR)?0:1).");return false;\">".(($row['acl'] & BITWISE_EDITOR)?_t('ON'):_t('OFF'))."</a></td>";
-		echo "<td class=\"role\"><a href=\"".$blogURL."/owner/control/action/blog/deleteUser/?blogid=" . $bid . "&userid=".$row['userid']."\" onclick =  \"deleteUser(".$row['userid'].",1);return false;\">팀원 제외</a></td>";
-		echo "<td class=\"role\"><a href=\"".$blogURL."/owner/control/action/blog/changeOwner/?blogid=" . $bid . "&owner=".$row['userid']."\" onclick =  \"changeOwner(".$row['userid'].");return false;\">소유자 변경</a></td>";
+		echo "<td class=\"role\"><a href=\"".$blogURL."/owner/control/action/blog/deleteUser/?blogid=" . $bid . "&userid=".$row['userid']."\" onclick =  \"deleteUser(".$row['userid'].",1);return false;\">"._t('팀원 제외')."</a></td>";
+		echo "<td class=\"role\"><a href=\"".$blogURL."/owner/control/action/blog/changeOwner/?blogid=" . $bid . "&owner=".$row['userid']."\" onclick =  \"changeOwner(".$row['userid'].");return false;\">"._t('소유자 변경')."</a></td>";
 		echo "</tr>";
 		}
 	}
