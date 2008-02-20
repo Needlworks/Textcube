@@ -291,12 +291,12 @@ textarea
 	font-weight                      : bold;
 }
 
-#menu-center
+#menu-center 
 {
 	margin-left                      : 200px !important;
 }
 
-#menu-textcube
+#main-menu #menu-textcube
 {
 	background-image                 : url("./image/img_header_textcube.gif");
 	background-repeat                : no-repeat;
