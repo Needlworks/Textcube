@@ -916,33 +916,34 @@
 
 #supporter-description h3
 {
-	background-color                 : #666;
+	background-color                 : #FFF;
 	background-image                 : url("./image/bg_title_left.png");
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	clear                            : both;
 	color                            : #222;
 	display                          : block !important;
-	height                           : 38px;
+	height                           : 38px !important;
 	font-size                        : 1em;
 	font-weight                      : normal;
-	line-height                      : 2.8em;
-	margin                           : 0 0 10px 0;
+	line-height                      : 38px !important;
+	margin: 0 0 10px 0;
 	overflow                         : hidden;
-	padding                          : 0 0 0 60px;
-	text-align                       : left;
-	width                            : 94%;
+	padding: 0 0 0 60px;
+	width: 900px;
 }
 
 #supporter-description h3 span
 {
-	background-color                 : #666;
+	background-color                 : #FFF;
 	background-image                 : url("./image/bg_title_right.png");
 	background-position              : right top;
 	background-repeat                : repeat-x;
-	display                          : block;
-	height                           : 38em;
-	line-height                      : 2.7em;
+	display                          : block !important;
+	height                           : 38px !important;
+	line-height                      : 38px !important;
+	text-align: left;
+	width: 900px;
 }
 
 #supporter-description .container

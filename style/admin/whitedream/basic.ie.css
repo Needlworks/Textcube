@@ -19,11 +19,6 @@
 	height                           : 2.7em;
 }
 
-#menu-center
-{
-	margin-left                     : 200px !important;
-}
-
 #main-menu #menu-textcube
 {
 	background-image                 : url("./image/img_header_textcube.gif") !important;
