@@ -24,6 +24,11 @@
 	margin-left                     : 200px !important;
 }
 
+#main-menu #menu-textcube
+{
+	background-image                 : url("./image/img_header_textcube.gif") !important;
+}
+
 /* Layout Body ***********************************************************************************/
 
 /* data subbox */
