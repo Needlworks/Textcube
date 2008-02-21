@@ -9,7 +9,7 @@ requireModel('common.setting');
 
 if(!file_exists(ROOT . '/cache/CHECKUP')) $currentVersion = _text('첫번째 점검');
 else $currentVersion = file_get_contents(ROOT . '/cache/CHECKUP');
-if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/CHECKUP') != TEXTCUBE_VERSION)) {
+if (!file_exists(ROOT . '/cache/CHECKUP')) {
 	if ($fp = fopen(ROOT . '/cache/CHECKUP', 'w')) {
 		fwrite($fp, TEXTCUBE_VERSION);
 		fclose($fp);
@@ -34,6 +34,16 @@ function getBlogSettingForMigration($blogid, $name, $default = null) {
 		WHERE blogid = '$blogid'
 		AND name = '".POD::escapeString($name)."'");
 	return ($value === null) ? $default : $value;
+}
+
+function showCheckupMessage($stat = true) {
+	global $succeed;
+	if($stat) {
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	} else {
+		$succeed = false;
+		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+	}
 }
 
 ?>
@@ -81,193 +91,204 @@ if(file_exists(ROOT.$adminSkinSetting['skin'].'/checkup.css')) {
 				<ul>
 <?php
 $changed = false;
+global $succeed;
+$succeed = true;
+if($currentVersion != TEXTCUBE_VERSION) {
+	// From 1.6
+	if (POD::queryCell("DESC {$database['prefix']}CommentsNotified id", 'Extra') == 'auto_increment') {
+		$changed = true;
+		echo '<li>', _text('데이터베이스 호환성을 위하여 댓글 테이블의 자동 증가 설정을 제거합니다.'), ': ';
+		if (POD::execute("ALTER TABLE {$database['prefix']}Comments CHANGE id id int(11) NOT NULL")
+			&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotified CHANGE id id int(11) NOT NULL")
+			&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotifiedQueue CHANGE id id int(11) NOT NULL")
+			&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotifiedSiteInfo CHANGE id id int(11) NOT NULL"))
+			showCheckupMessage(true);
+		else {
+			showCheckupMessage(false);
+		}
+	}
 
-// From 1.6
-if (POD::queryCell("DESC {$database['prefix']}CommentsNotified id", 'Extra') == 'auto_increment') {
-	$changed = true;
-	echo '<li>', _text('데이터베이스 호환성을 위하여 댓글 테이블의 자동 증가 설정을 제거합니다.'), ': ';
-	if (POD::execute("ALTER TABLE {$database['prefix']}Comments CHANGE id id int(11) NOT NULL")
-		&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotified CHANGE id id int(11) NOT NULL")
-		&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotifiedQueue CHANGE id id int(11) NOT NULL")
-		&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotifiedSiteInfo CHANGE id id int(11) NOT NULL"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
+	if (POD::queryCell("DESC {$database['prefix']}Trackbacks id", 'Extra') == 'auto_increment') {
+		$changed = true;
+		echo '<li>', _text('데이터베이스 호환성을 위하여 트랙백 테이블의 자동 증가 설정을 제거합니다.'), ': ';
+		if (POD::execute("ALTER TABLE {$database['prefix']}Trackbacks CHANGE id id int(11) NOT NULL")
+			&& POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs CHANGE id id int(11) NOT NULL"))
+			showCheckupMessage(true);
+		else {
+			showCheckupMessage(false);
+		}
+	}
 
-if (POD::queryCell("DESC {$database['prefix']}Trackbacks id", 'Extra') == 'auto_increment') {
-	$changed = true;
-	echo '<li>', _text('데이터베이스 호환성을 위하여 트랙백 테이블의 자동 증가 설정을 제거합니다.'), ': ';
-	if (POD::execute("ALTER TABLE {$database['prefix']}Trackbacks CHANGE id id int(11) NOT NULL")
-		&& POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs CHANGE id id int(11) NOT NULL"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
+	if (POD::queryCell("DESC {$database['prefix']}Comments blogid", 'Key') != 'PRI') {
+		$changed = true;
+		echo '<li>', _text('데이터베이스 호환성을 위하여 댓글 테이블의 인덱스 설정을 변경합니다.'), ': ';
+		if (POD::execute("ALTER TABLE {$database['prefix']}Comments DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, id)")
+			&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotified DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, id)")
+			&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotifiedQueue DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, id)")
+			&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotifiedSiteInfo DROP INDEX id"))
+			showCheckupMessage(true);
+		else {
+			showCheckupMessage(false);
+		}
+	}
 
-if (POD::queryCell("DESC {$database['prefix']}Comments blogid", 'Key') != 'PRI') {
-	$changed = true;
-	echo '<li>', _text('데이터베이스 호환성을 위하여 댓글 테이블의 인덱스 설정을 변경합니다.'), ': ';
-	if (POD::execute("ALTER TABLE {$database['prefix']}Comments DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, id)")
-		&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotified DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, id)")
-		&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotifiedQueue DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, id)")
-		&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotifiedSiteInfo DROP INDEX id"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
+	if (!doesExistTable($database['prefix'] . 'EntriesArchive')) {
+		$changed = true;
+		echo '<li>', _text('글 버전 관리및 비교를 위한 테이블을 추가합니다.'), ': ';
+		$query = "
+		CREATE TABLE {$database['prefix']}EntriesArchive (
+			blogid int(11) NOT NULL default '0',
+			userid int(11) NOT NULL default '0',
+			id int(11) NOT NULL,
+			visibility tinyint(4) NOT NULL default '0',
+			category int(11) NOT NULL default '0',
+			title varchar(255) NOT NULL default '',
+			slogan varchar(255) NOT NULL default '',
+			content mediumtext NOT NULL,
+			contentFormatter varchar(32) DEFAULT '' NOT NULL,
+			contentEditor varchar(32) DEFAULT '' NOT NULL,
+			location varchar(255) NOT NULL default '/',
+			password varchar(32) default NULL,
+			created int(11) NOT NULL default '0',
+			PRIMARY KEY (blogid, id, created),
+			KEY visibility (visibility),
+			KEY blogid (blogid, id),
+			KEY userid (userid, blogid)
+			) TYPE=MyISAM
+		";
+		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query))
+			showCheckupMessage(true);
+		else {
+			showCheckupMessage(false);
+		}
+	}
 
-if (!doesExistTable($database['prefix'] . 'EntriesArchive')) {
-	$changed = true;
-	echo '<li>', _text('글 버전 관리및 비교를 위한 테이블을 추가합니다.'), ': ';
-	$query = "
-	CREATE TABLE {$database['prefix']}EntriesArchive (
-		blogid int(11) NOT NULL default '0',
-		userid int(11) NOT NULL default '0',
-		id int(11) NOT NULL,
-		visibility tinyint(4) NOT NULL default '0',
-		category int(11) NOT NULL default '0',
-		title varchar(255) NOT NULL default '',
-		slogan varchar(255) NOT NULL default '',
-		content mediumtext NOT NULL,
-		contentFormatter varchar(32) DEFAULT '' NOT NULL,
-		contentEditor varchar(32) DEFAULT '' NOT NULL,
-		location varchar(255) NOT NULL default '/',
-		password varchar(32) default NULL,
-		created int(11) NOT NULL default '0',
-		PRIMARY KEY (blogid, id, created),
-		KEY visibility (visibility),
-		KEY blogid (blogid, id),
-		KEY userid (userid, blogid)
+	if (!doesExistTable($database['prefix'] . 'OpenIDUsers')) {
+		$changed = true;
+		echo '<li>', _text('오픈아이디 사용자 테이블을 만듭니다'), ': ';
+		$query = "
+		CREATE TABLE `{$database['prefix']}OpenIDUsers` (
+		  blogid int(11) NOT NULL default '0',
+		  openid varchar(128) NOT NULL,
+		  delegatedid varchar(128) default NULL,
+		  firstLogin int(11) default NULL,
+		  lastLogin int(11) default NULL,
+		  loginCount int(11) default NULL,
+		  data text,
+		  PRIMARY KEY  (blogid,openid)
 		) TYPE=MyISAM
-	";
-	if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
+		";
+		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query))
+			showCheckupMessage(true);
+		else {
+			showCheckupMessage(false);
+		}
+	}
 
-if (!doesExistTable($database['prefix'] . 'OpenIDUsers')) {
-	$changed = true;
-	echo '<li>', _text('오픈아이디 사용자 테이블을 만듭니다'), ': ';
-	$query = "
-	CREATE TABLE `{$database['prefix']}OpenIDUsers` (
-	  blogid int(11) NOT NULL default '0',
-	  openid varchar(128) NOT NULL,
-	  delegatedid varchar(128) default NULL,
-	  firstLogin int(11) default NULL,
-	  lastLogin int(11) default NULL,
-	  loginCount int(11) default NULL,
-	  data text,
-	  PRIMARY KEY  (blogid,openid)
-	) TYPE=MyISAM
-	";
-	if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
+	if (!POD::queryExistence("DESC {$database['prefix']}Comments openid")) {
+		$changed = true;
+		echo '<li>', _text('Comments 테이블에 openid 필드를 추가합니다.'), ': ';
+		if (POD::execute("ALTER TABLE {$database['prefix']}Comments ADD openid varchar(128) NOT NULL DEFAULT '' AFTER id"))
+			showCheckupMessage(true);
+		else {
+			showCheckupMessage(false);
+		}
+	}
 
-if (!POD::queryExistence("DESC {$database['prefix']}Comments openid")) {
-	$changed = true;
-	echo '<li>', _text('Comments 테이블에 openid 필드를 추가합니다.'), ': ';
-	if (POD::execute("ALTER TABLE {$database['prefix']}Comments ADD openid varchar(128) NOT NULL DEFAULT '' AFTER id"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
+	if (doesExistTable($database['prefix'] . 'OpenIDComments')) {
+		$changed = true;
+		echo '<li>', _text('오픈아이디 댓글 테이블을 기존 댓글 테이블에 병합합니다'), ': ';
+		if (POD::execute("UPDATE `{$database['prefix']}Comments` AS A,`{$database['prefix']}OpenIDComments` AS B SET `A`.`openid` = `B`.`openid` WHERE `A`.`id` = `B`.`id`" )) {
+			if (POD::execute("DROP TABLE `{$database['prefix']}OpenIDComments`" ) )
+				showCheckupMessage(true);
+			else {
+				showCheckupMessage(false);
+			}
+		} else
+			showCheckupMessage(false);
+	}
 
-if (doesExistTable($database['prefix'] . 'OpenIDComments')) {
-	$changed = true;
-	echo '<li>', _text('오픈아이디 댓글 테이블을 기존 댓글 테이블에 병합합니다'), ': ';
-	if (POD::execute("UPDATE `{$database['prefix']}Comments` AS A,`{$database['prefix']}OpenIDComments` AS B SET `A`.`openid` = `B`.`openid` WHERE `A`.`id` = `B`.`id`" )) {
-		if (POD::execute("DROP TABLE `{$database['prefix']}OpenIDComments`" ) )
-			echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	if (POD::queryExistence("DESC {$database['prefix']}Links visible")) {
+		$changed = true;
+		echo '<li>', _text('Links 테이블의 공개 여부 설정 필드의 속성을 변경합니다.'), ': ';
+		if (POD::execute("ALTER TABLE {$database['prefix']}Links CHANGE visible visibility tinyint(4) NOT NULL DEFAULT 2")) 
+			showCheckupMessage(true);
+		else {
+			showCheckupMessage(false);
+		}
+	}
+
+	if (!POD::queryExistence("DESC {$database['prefix']}Links visibility")) {
+		$changed = true;
+		echo '<li>', _text('Links 테이블에 공개 여부 설정 필드와 XFN 마이크로포맷을 위한 필드를 추가합니다.'), ': ';
+		if (POD::execute("ALTER TABLE {$database['prefix']}Links ADD visibility tinyint(4) NOT NULL DEFAULT 2") &&
+		   POD::execute("ALTER TABLE {$database['prefix']}Links ADD xfn varchar(128) NOT NULL DEFAULT ''"))
+			showCheckupMessage(true);
 		else
-			echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-	} else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
+			showCheckupMessage(false);
+	}
 
-if (POD::queryExistence("DESC {$database['prefix']}Links visible")) {
-	$changed = true;
-	echo '<li>', _text('Links 테이블의 공개 여부 설정 필드의 속성을 변경합니다.'), ': ';
-	if (POD::execute("ALTER TABLE {$database['prefix']}Links CHANGE visible visibility tinyint(4) NOT NULL DEFAULT 2")) 
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
+	if (POD::queryCell("DESC {$database['prefix']}Sessions updated", 'Key') != 'MUL') {
+		$changed = true;
+		echo '<li>', _text('동시 접속자 관리를 위하여 세션 테이블의 인덱스 설정을 변경합니다.'), ': ';
+		if (POD::execute("ALTER TABLE {$database['prefix']}Sessions ADD KEY updated (updated)"))
+			showCheckupMessage(true);
+		else
+			showCheckupMessage(false);
+	}
 
-if (!POD::queryExistence("DESC {$database['prefix']}Links visibility")) {
-	$changed = true;
-	echo '<li>', _text('Links 테이블에 공개 여부 설정 필드와 XFN 마이크로포맷을 위한 필드를 추가합니다.'), ': ';
-	if (POD::execute("ALTER TABLE {$database['prefix']}Links ADD visibility tinyint(4) NOT NULL DEFAULT 2") &&
-	   POD::execute("ALTER TABLE {$database['prefix']}Links ADD xfn varchar(128) NOT NULL DEFAULT ''"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
+	if (POD::queryCell("DESC {$database['prefix']}Trackbacks blogid", 'Key') != 'PRI') {
+		$changed = true;
+		echo '<li>', _text('트랙백 불러오기 속도를 개선하기 위하여 트랙백 테이블의 인덱스 설정을 변경합니다.'), ': ';
+		POD::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP INDEX written");
+		POD::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP INDEX blogid");
+		POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs DROP INDEX id");
+		if (POD::execute("ALTER TABLE {$database['prefix']}Trackbacks 
+				DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, id),
+				ADD INDEX blogid (blogid, isFiltered, written)")
+			&&POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs
+				DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, entry, id), ADD UNIQUE id (blogid, id)"))
+			showCheckupMessage(true);
+		else
+			showCheckupMessage(false);
+	}
 
-if (POD::queryCell("DESC {$database['prefix']}Sessions updated", 'Key') != 'MUL') {
-	$changed = true;
-	echo '<li>', _text('동시 접속자 관리를 위하여 세션 테이블의 인덱스 설정을 변경합니다.'), ': ';
-	if (POD::execute("ALTER TABLE {$database['prefix']}Sessions ADD KEY updated (updated)"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
+	if (POD::queryExistence("DESC {$database['prefix']}SessionVisits blog")) {
+		$changed = true;
+		echo '<li>', _text('SessionVisits 테이블의 블로그 정보 필드 이름을 변경합니다.'), ': ';
+		if (POD::execute("ALTER TABLE {$database['prefix']}SessionVisits CHANGE blog blogid int(11) NOT NULL DEFAULT 0") && 
+		(POD::execute("ALTER TABLE {$database['prefix']}SessionVisits DROP PRIMARY KEY, ADD PRIMARY KEY (id,address,blogid)")))
+			showCheckupMessage(true);
+		else
+			showCheckupMessage(false);
+	}
 
-if (POD::queryCell("DESC {$database['prefix']}Trackbacks blogid", 'Key') != 'PRI') {
-	$changed = true;
-	echo '<li>', _text('트랙백 불러오기 속도를 개선하기 위하여 트랙백 테이블의 인덱스 설정을 변경합니다.'), ': ';
-	POD::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP INDEX written");
-	POD::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP INDEX blogid");
-	POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs DROP INDEX id");
-	if (POD::execute("ALTER TABLE {$database['prefix']}Trackbacks 
-			DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, id),
-			ADD INDEX blogid (blogid, isFiltered, written)")
-		&&POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs
-			DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, entry, id), ADD UNIQUE id (blogid, id)"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
+	if (POD::queryCell("DESC {$database['prefix']}BlogSettings name", 'Key') != 'PRI') {
+		$changed = true;
+		echo '<li>', _text('블로그 설정 불러오기 속도를 개선하기 위하여 블로그 설정 테이블의 인덱스 설정을 변경합니다.'), ': ';
+		if (POD::execute("ALTER TABLE {$database['prefix']}BlogSettings ADD INDEX name (name,value (32))"))
+			showCheckupMessage(true);
+		else
+			showCheckupMessage(false);
+	}
 
-if (POD::queryExistence("DESC {$database['prefix']}SessionVisits blog")) {
-	$changed = true;
-	echo '<li>', _text('SessionVisits 테이블의 블로그 정보 필드 이름을 변경합니다.'), ': ';
-	if (POD::execute("ALTER TABLE {$database['prefix']}SessionVisits CHANGE blog blogid int(11) NOT NULL DEFAULT 0") && 
-	(POD::execute("ALTER TABLE {$database['prefix']}SessionVisits DROP PRIMARY KEY, ADD PRIMARY KEY (id,address,blogid)")))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
+	if (!POD::queryExistence("DESC {$database['prefix']}SkinSettings showListOnAuthor")) {
+		$changed = true;
+		echo '<li>', _text('스킨 설정 테이블에 저자별 페이지 출력 설정을 위한 필드를 추가합니다.'), ': ';
+		if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD showListOnAuthor TINYINT(4) DEFAULT 1 NOT NULL AFTER showListOnTag"))
+			showCheckupMessage(true);
+		else
+			showCheckupMessage(false);
+	}
 
-if (POD::queryCell("DESC {$database['prefix']}BlogSettings name", 'Key') != 'PRI') {
-	$changed = true;
-	echo '<li>', _text('블로그 설정 불러오기 속도를 개선하기 위하여 블로그 설정 테이블의 인덱스 설정을 변경합니다.'), ': ';
-	if (POD::execute("ALTER TABLE {$database['prefix']}BlogSettings ADD INDEX name (name,value (32))"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
-
-if (!POD::queryExistence("DESC {$database['prefix']}SkinSettings showListOnAuthor")) {
-	$changed = true;
-	echo '<li>', _text('스킨 설정 테이블에 저자별 페이지 출력 설정을 위한 필드를 추가합니다.'), ': ';
-	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD showListOnAuthor TINYINT(4) DEFAULT 1 NOT NULL AFTER showListOnTag"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
-
-if (POD::queryCell("DESC {$database['prefix']}Entries draft", 'Key') != 'PRI') {
-	$changed = true;
-	echo '<li>', _text('엔트리 테이블의 주 인덱스에 draft를 추가합니다.'), ': ';
-	if (POD::execute("ALTER TABLE {$database['prefix']}Entries DROP PRIMARY KEY, ADD PRIMARY KEY (`blogid`,`id`,`draft`,`category`,`published`)"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+	if (POD::queryCell("DESC {$database['prefix']}Entries draft", 'Key') != 'PRI') {
+		$changed = true;
+		echo '<li>', _text('엔트리 테이블의 주 인덱스에 draft를 추가합니다.'), ': ';
+		if (POD::execute("ALTER TABLE {$database['prefix']}Entries DROP PRIMARY KEY, ADD PRIMARY KEY (`blogid`,`id`,`draft`,`category`,`published`)"))
+			showCheckupMessage(true);
+		else
+			showCheckupMessage(false);
+	}
 }
 
 /***** Common parts. *****/
@@ -324,6 +345,14 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
 			<span><?php
 	reloadSkin(1);
 	echo ($changed ? _text('완료되었습니다.') : _text('확인되었습니다.'));
+
+if ((file_get_contents(ROOT . '/cache/CHECKUP') != TEXTCUBE_VERSION) && ($succeed == true)) {
+	if ($fp = fopen(ROOT . '/cache/CHECKUP', 'w')) {
+		fwrite($fp, TEXTCUBE_VERSION);
+		fclose($fp);
+		@chmod(ROOT . '/cache/CHECKUP', 0666);
+	}
+}
 ?></span>
 		</div>
 		<div class="button-box">
