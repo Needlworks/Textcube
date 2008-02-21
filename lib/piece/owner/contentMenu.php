@@ -2,7 +2,6 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-
 if(isset($blogMenu['topMenu'])) {
 	switch($blogMenu['topMenu']) {
 		case 'center':
@@ -161,6 +160,8 @@ if(isset($blogContentMenuItem)) {
 						(($blogMenu['contentMenu'] == $contentMenuItem['menu'] || 
 							(isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) ||
 							($contentMenuItem['menu'] == 'trash' && strpos($blogMenu['contentMenu'],'trash') !== false) ||
+							($contentMenuItem['menu'] == 'blog' && strpos($blogMenu['contentMenu'],'blog') !== false) ||
+							($contentMenuItem['menu'] == 'user' && strpos($blogMenu['contentMenu'],'user') !== false) ||
 							($blogMenu['contentMenu'] == 'edit' && $contentMenuItem['menu'] == 'post')) ? " class=\"selected{$firstChildClass}\"" : ($firstChildClass ? " class=\"$firstChildClass\"" : ''));?>><a href="<?php 
 						echo $blogURL.
 							$contentMenuItem['link'].
