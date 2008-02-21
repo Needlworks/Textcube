@@ -350,6 +350,7 @@ class Skin {
 
 	function applyMicroformats() {
 		/* Spam과 관련된 것이므로 강제로 넣음 http://dev.textcube.org/ticket/75 */
+		addAttribute( $this->trackback, 'a', 'href', '##_tb_rep_url_##', array( 'rel' => 'external' ) );
 		addAttribute( $this->trackback, 'a', 'href', '##_tb_rep_url_##', array( 'rel' => 'nofollow' ) );
 
 		$useMicroformat = getBlogSetting('useMicroformat',3);
