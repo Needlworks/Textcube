@@ -20,9 +20,7 @@ if ($uid = getUserIdByEmail($_GET['owner'])) {
 	else {
 		respond::PrintResult(array('error' => -1 , 'result' =>$result));
 	}
-}
-else {
+} else {
 	respond::PrintResult(array('error' => -2 , 'result' => _t('등록되지 않은 소유자 E-mail 입니다.')));
 }
-
 ?>
