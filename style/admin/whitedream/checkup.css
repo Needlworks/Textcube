@@ -11,16 +11,17 @@ h3
 {
 	margin                           : 50px auto;
 	width                            : 500px;
-	background-image                 : url('./image/img_header_textcube.png');
+	/*background-image                 : url('./image/img_header_textcube.png');*/
+	background-image                 : url('./image/bg_inner.png');
 	background-position              : left top;
 	background-repeat                : no-repeat;
-	border                           :2px solid #999;
+/*	border                           :2px solid #999;*/
 }
 
 #data-outbox h3
 {
 	margin-top                       : 40px;
-	margin-left                      : 180px;
+	margin-left                      : 140px;
 }
 
 #message-box
