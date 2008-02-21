@@ -156,7 +156,7 @@ $blogsetting = getBlogSettings($bid);
 									<dl>
 										<dt><label for=""><?php echo _t('사용자'); ?></label></dt>
 										<dd>
-											<input type="text" id="sgtOwner" class="bi-owner-loginid" name="user" value="" />
+											<span id="suggestContainer"><input type="text" id="bi-owner-loginid" name="user" value="" /></span>
 											<input type="hidden" name="blogid" value="<?php echo $bid?>" />
 											<input type="submit" class="input-button" value="<?php echo _t("팀원 추가");?>" onclick="addUser(ctlUserSuggestObj.getValue());return false;" />
 										</dd>
@@ -166,12 +166,11 @@ $blogsetting = getBlogSettings($bid);
 								<script type="text/javascript">
 									//<![CDATA[
 										try {
-											document.getElementById("sgtOwner").innerHTML = '';
-											var ctlUserSuggestObj = new ctlUserSuggest(document.getElementById("sgtOwner"), false);
-											ctlUserSuggestObj.setInputClassName("bi-owner-loginid");
+											document.getElementById("suggestContainer").innerHTML = '';
+											var ctlUserSuggestObj = new ctlUserSuggest(document.getElementById("suggestContainer"), false);
 											ctlUserSuggestObj.setValue("<?php echo User::getEmail(1);?>");
 										} catch (e) {
-											document.getElementById("sgtOwner").innerHTML = '<input type="text" class="bi-owner-loginid" name="user" value="" />';
+											document.getElementById("suggestContainer").innerHTML = '<input type="text" id="bi-owner-loginid" name="user" value="" />';
 										}
 									//]]>
 								</script>

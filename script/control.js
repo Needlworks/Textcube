@@ -101,7 +101,6 @@ function ctlUserSuggest(container, disable)
 
 	this.input = document.createElement("input");
 	this.input.instance = this;
-	this.input.className = this.inputClassName;
 	this.input.setAttribute("autocomplete", "off");
 	this.input.onblur = function() {
 		this.instance.isTyping = false;
@@ -207,12 +206,6 @@ ctlUserSuggest.prototype.focusOnInput = function()
 
 	// 가끔씩 IE에서 포커스가 안가는 문제
 	try { setTimeout("document.getElementById('" + this.container.id + "').instance.input.focus()", 1); } catch(e) { }
-}
-
-ctlUserSuggest.prototype.setInputClassName = function(str)
-{
-	this.inputClassName = str;
-	this.input.className = str;
 }
 
 ctlUserSuggest.prototype.getValue = function()

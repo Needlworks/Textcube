@@ -24,8 +24,8 @@ $page = $_GET['page'];
 		<form onsubmit="return false;">
 			<fieldset>
 				<dl>
-					<dt><label for="sgtOwner"><?php echo _t('소유자'); ?></label>
-					<dd><input type="text" id="sgtOwner" class="bi-owner-loginid" class="input-text" name="location" value="<?php echo getUserEmail(1);?>" /></dd>
+					<dt><label for="bi-owner-loginid"><?php echo _t('소유자'); ?></label>
+					<dd id="suggestContainer"><input id="bi-owner-loginid" class="input-text" name="location" value="<?php echo getUserEmail(1);?>" /></dd>
 					<dt><label for="bi-identify"><?php echo _t('블로그 구분자'); ?></label></dt>
 					<dd><input type="text" id="bi-identify" name="bi-identify" /></dd>
 				</dl>
@@ -42,7 +42,7 @@ $page = $_GET['page'];
 <?php
 if ( $service['type'] == "single" ) {
 ?>
-		<p class="message"><?php echo _t('현재 단일 블로그 모드 텍스트큐브가 설정되어 있습니다. 단일 블로그 모드에서는 대표 블로그 만이 외부에 보여집니다.')?></p>
+bi-owner-loginid		<p class="message"><?php echo _t('현재 단일 블로그 모드 텍스트큐브가 설정되어 있습니다. 단일 블로그 모드에서는 대표 블로그 만이 외부에 보여집니다.')?></p>
 <?php
 }
 ?>
@@ -120,12 +120,11 @@ require ROOT . '/lib/piece/owner/footer.php';
 <script type="text/javascript">
 //<![CDATA[
 	try {
-		document.getElementById("sgtOwner").innerHTML = '';
-		var ctlUserSuggestObj = new ctlUserSuggest(document.getElementById("sgtOwner"),  false);
-		ctlUserSuggestObj.setInputClassName("bi-owner-loginid");
+		document.getElementById("suggestContainer").innerHTML = '';
+		var ctlUserSuggestObj = new ctlUserSuggest(document.getElementById("suggestContainer"),  false);
 		ctlUserSuggestObj.setValue("<?php echo getUserEmail(1);?>");	
 	} catch (e) {
-		document.getElementById("sgtOwner").innerHTML = '<input type="text" class="bi-owner-loginid" name="location" value="" />';
+		document.getElementById("suggestContainer").innerHTML = '<input type="text" id="bi-owner-loginid" name="location" value="" />';
 	}
 //]]>
 </script> 
