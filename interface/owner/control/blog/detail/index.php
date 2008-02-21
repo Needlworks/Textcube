@@ -13,81 +13,86 @@ global $database;
 $bid=$suri['id'];
 $blogsetting = getBlogSettings($bid);
 ?>
-<script type="text/javascript"> // <![CDATA[
-//from interface/owner/setting/teamblog
-function deleteUser(userid, atype) {
-	if(atype == 1) { // If there are posts from user.
-		if(!confirm("<?php echo _t('선택된 사용자를 정말 삭제하시겠습니까?');?>\n\n<?php echo _t('삭제되는 기존 사용자의 글은 전부 관리자의 글로 변환됩니다.');?>\n(<?php echo _t('글이 전부 삭제되지는 않고 팀블로그의 로그인 데이터만 삭제됩니다');?>)\n<?php echo _t('삭제 이후에는 복원이 불가능합니다.');?> <?php echo _t('정말 삭제 하시겠습니까?');?>")) return false;
-	} else { // No post from user.
-		if(!confirm('<?php echo _t('삭제 하시겠습니까?');?>')) 
-			return false;
-	}
-	var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/control/action/blog/deleteUser/" + "?userid=" + userid + "&blogid=" + <?php echo $bid?>);
-	request.onSuccess = function() {
-		window.location.href="<?php echo $blogURL;?>/owner/control/blog/detail/<?php echo $bid?>";
-	}
-	request.onError = function() {
-		alert("<?php echo _t('실패했습니다.');?>");
-	}
-	request.send();
-}
+						<script type="text/javascript"> 
+						//<![CDATA[
 
+						//from interface/owner/setting/teamblog
+						function deleteUser(userid, atype) {
+							if(atype == 1) { // If there are posts from user.
+								if(!confirm("<?php echo _t('선택된 사용자를 정말 삭제하시겠습니까?');?>\n\n<?php echo _t('삭제되는 기존 사용자의 글은 전부 관리자의 글로 변환됩니다.');?>\n(<?php echo _t('글이 전부 삭제되지는 않고 팀블로그의 로그인 데이터만 삭제됩니다');?>)\n<?php echo _t('삭제 이후에는 복원이 불가능합니다.');?> <?php echo _t('정말 삭제 하시겠습니까?');?>")) return false;
+							} else { // No post from user.
+								if(!confirm('<?php echo _t('삭제 하시겠습니까?');?>')) 
+									return false;
+							}
+							var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/control/action/blog/deleteUser/" + "?userid=" + userid + "&blogid=" + <?php echo $bid?>);
+							request.onSuccess = function() {
+								window.location.href="<?php echo $blogURL;?>/owner/control/blog/detail/<?php echo $bid?>";
+							}
+							request.onError = function() {
+								alert("<?php echo _t('실패했습니다.');?>");
+							}
+							request.send();
+						}
+						
+						
+						function deleteBlog(bid) {
+							if (!confirm("<?php echo _t('되돌릴 수 없습니다.');?>\t\n\n<?php echo _t('계속 진행하시겠습니까?');?>"))) return false;
+							var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/control/action/blog/delete/?item="+bid);
+							request.onSuccess = function() {
+								PM.removeRequest(this);
+								window.location.href = '../';
+							}
+							request.onError = function() {
+								PM.removeRequest(this);
+								msg = this.getText("/response/result");
+								alert("<?php echo _t('블로그 삭제에 실패하였습니다.');?>\r\nError : " + msg);
+							}
+							PM.addRequest(request, _t("블로그 삭제중"));
+							request.send();
+						}
+						
+						function changeOwner(owner) {
+							var request = new HTTPRequest("<?php echo $blogURL;?>/owner/control/action/blog/changeOwner/?owner="+owner+"&blogid="+<?php echo $bid?>);
+							request.onSuccess = function() {
+								alert("<?php echo _t('소유자가 변경되었습니다. \r\n기존의 소유자는 관리자로 변경되었습니다.');?>");
+								window.location.reload();
+							}
+							request.onError = function() {
+								msg = this.getText("/response/result");
+								alert("<?php echo _t('소유자를 변경하지 못했습니다.');?>\r\nError : " + msg);
+							}
+							request.send();
+						}
+						
+						//from interface/owner/setting/teamblog
+						function changeACL(acltype, userid, checked) {
+							var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/control/action/blog/changeACL/?blogid=" + <?php echo $bid?> + "&acltype=" + acltype + "&userid=" + userid + "&switch=" + checked);
+							request.onSuccess = function() {
+								alert("<?php echo _t('설정을 변경했습니다.');?>", "center", "bottom");
+								window.location.reload();
+							}
+							request.onError = function() {
+								alert("<?php echo _t('실패했습니다.');?>");
+							}
+							request.send();
+);
+						}
+						
+						function addUser(user) {
+							var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/control/action/blog/addUser/?user="+user+"&blogid="+<?php echo $bid?>);
+							request.onSuccess = function() {
+								alert("<?php echo _t('팀블로그 참여자를 추가하였습니다.');?>\r\n<?php echo _t('초대 메일은 발송되지 않으며, 새로 추가된 참여자는 기본 권한만을 가지게 됩니다.');?>");
+								window.location.reload();
+							}
+							request.onError = function() {
+								msg = this.getText("/response/message");
+								PM.showErrorMessage("<?php echo _t('참여자를 추가하지 못하였습니다.');?>\r\nMessage : \r\n" + msg,"center","bottom");
+							}
+							request.send();
+						}
+						//]]> 
+						</script>
 
-function deleteBlog(bid) {
-	if (!confirm(_t('되돌릴 수 없습니다.\t\n\n계속 진행하시겠습니까?'))) return false;
-	var request = new HTTPRequest(blogURL + "/owner/control/action/blog/delete/?item="+bid);
-	request.onSuccess = function() {
-		PM.removeRequest(this);
-		window.location.href = '../';
-	}
-	request.onError = function() {
-		PM.removeRequest(this);
-		msg = this.getText("/response/result");
-		alert("<?php echo _t('블로그 삭제에 실패하였습니다.');?>\r\nError : " + msg);
-	}
-	PM.addRequest(request, _t("블로그 삭제중"));
-	request.send();
-}
-
-function changeOwner(owner) {
-	var request = new HTTPRequest("<?php echo $blogURL;?>/owner/control/action/blog/changeOwner/?owner="+owner+"&blogid="+<?php echo $bid?>);
-	request.onSuccess = function() {
-		alert("<?php echo _t('소유자가 변경되었습니다. \r\n기존의 소유자는 관리자로 변경되었습니다.');?>");
-		window.location.reload();
-	}
-	request.onError = function() {
-		msg = this.getText("/response/result");
-		alert("<?php echo _t('소유자를 변경하지 못했습니다.');?>\r\nError : " + msg);
-	}
-	request.send();
-}
-
-//from interface/owner/setting/teamblog
-function changeACL(acltype, userid, checked) {
-	var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/control/action/blog/changeACL/" + "?blogid=" + <?php echo $bid?> + "&acltype=" + acltype + "&userid=" + userid + "&switch=" + checked);
-	request.onSuccess = function() {
-		alert("<?php echo _t('설정을 변경했습니다.');?>", "center", "bottom");
-		window.location.reload();
-	}
-	request.onError = function() {
-		alert("<?php echo _t('실패했습니다.');?>");
-	}
-	request.send();
-}
-
-function addUser(user) {
-	var request = new HTTPRequest("<?php echo $blogURL;?>/owner/control/action/blog/addUser/?user="+user+"&blogid="+<?php echo $bid?>);
-	request.onSuccess = function() {
-		alert("<?php echo _t('팀블로그 참여자가 추가 되었습니다.\r\n초대 메일은 발송되지 않으며, 새로 추가된 참여자는 기본 권한만을 가지게 됩니다.');?>");
-		window.location.reload();
-	}
-	request.onError = function() {
-		msg = this.getText("/response/message");
-		alert("<?php echo _t('참여자를 추가하지 못하였습니다.');?>\r\nMessage : \r\n" + msg);//TODO//PM으로 change
-	}
-	request.send();
-}
-// ]]> </script>
 						<div id="part-blog-about" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('블로그 정보');?></span></h2>
 							
@@ -100,10 +105,13 @@ function addUser(user) {
 								
 								<ul>
 									<?php if ($bid == getServiceSetting("defaultBlogId",1)) { ?><li><em><?php echo _t('이 블로그는 대표 블로그입니다.');?></em></li><?php } ?>
-									<li><?php echo sprintf(_t('이 블로그에는 총 %d개의 글이 있습니다.'), POD::queryCell("SELECT Count(*) FROM {$database['prefix']}Entries WHERE blogid = ".$bid));?></li>
-                                    <li><?php echo sprintf(_t('이 블로그에는 총 %d개의 걸린글(트랙백)이 있습니다.'), POD::queryCell("SELECT Count(*) FROM {$database['prefix']}Trackbacks WHERE blogid = ".$bid));?></li>
-                                    <li><?php echo sprintf(_t('이 블로그에는 총 %d개의 댓글이 있습니다.'), POD::queryCell("SELECT Count(*) FROM {$database['prefix']}Comments WHERE blogid = ".$bid));?></li>
-                                    <li><?php echo sprintf(_t('이 블로그가 사용중인 첨부파일의 총 용량은 %s입니다.'), misc::getSizeHumanReadable(POD::queryCell(" SELECT sum( size ) FROM `{$database['prefix']}Attachments` WHERE blogid = ".$bid)));?></li>
+									<li><?php echo _f('이 블로그에는 총 %1개의 글이 있습니다.', POD::queryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE blogid = ".$bid));?></li>
+                                    <li><?php echo _f('이 블로그에는 총 %1개의 걸린글(트랙백)이 있습니다.', POD::queryCell("SELECT count(*) FROM {$database['prefix']}Trackbacks WHERE blogid = ".$bid));?></li>
+                                    <li><?php echo _f('이 블로그에는 총 %1개의 댓글이 있습니다.', POD::queryCell("SELECT count(*) FROM {$database['prefix']}Comments WHERE blogid = ".$bid));?></li>
+                                    <li><?php 
+		$attachmentSum = POD::queryCell("SELECT sum(size) FROM `{$database['prefix']}Attachments` WHERE blogid = ".$bid);
+		if(empty($attachmentSum)) echo _t('이 블로그에는 첨부파일이 없습니다.');
+		else echo _f('이 블로그가 사용중인 첨부파일의 총 용량은 %1입니다.', $attachmentSum);?></li>
                                 </ul>
 							</div>
 								
@@ -119,21 +127,22 @@ function addUser(user) {
 											<th class="action" colspan=2 ><?php echo _t('명령');?></th>
 										</tr>
 									</thead>
-									<tbody><?php
-$teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE blogid = " . $bid);
+									<tbody>
+<?php
+	$teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE blogid = " . $bid);
 	foreach ($teamblog as $row){
-		echo "<tr>";
-		echo "<td class=\"name\"><a href=\"{$blogURL}/owner/control/user/detail/{$row['userid']}\">".User::getName($row['userid'])."(".User::getEmail($row['userid']).")</a></td>";
+		echo "<tr>".CRLF;
+		echo "<td class=\"name\"><a href=\"{$blogURL}/owner/control/user/detail/{$row['userid']}\">".User::getName($row['userid'])."(".User::getEmail($row['userid']).")</a></td>".CRLF;
 
 		if ($row['acl'] & BITWISE_OWNER) {
-			echo '<td class="role" colspan="3">'._t('이 사용자는 블로그의 소유자입니다.').'</td>';
+			echo '<td class="role" colspan="3">'._t('이 사용자는 블로그의 소유자입니다.').'</td>'.CRLF;
 		}
 		else {
-		echo "<td class=\"role\"><a href=\"".$blogURL."/owner/control/action/blog/changeACL/?blogid=" . $bid . "&acltype=admin&userid=" .$row['userid']."&switch=".(($row['acl'] & BITWISE_ADMINISTRATOR)?0:1)."\" onclick =  \"changeACL('admin',".$row['userid'].",".(($row['acl'] & BITWISE_ADMINISTRATOR)?0:1).");return false;\">".(($row['acl'] & BITWISE_ADMINISTRATOR)?_t('ON'):_t('OFF'))."</a></td>";
-		echo "<td class=\"role\"><a href=\"".$blogURL."/owner/control/action/blog/changeACL/?blogid=" . $bid . "&acltype=editor&userid=" .$row['userid']."&switch=".(($row['acl'] & BITWISE_EDITOR)?0:1)."\" onclick =  \"changeACL('editor',".$row['userid'].",".(($row['acl'] & BITWISE_EDITOR)?0:1).");return false;\">".(($row['acl'] & BITWISE_EDITOR)?_t('ON'):_t('OFF'))."</a></td>";
-		echo "<td class=\"role\"><a href=\"".$blogURL."/owner/control/action/blog/deleteUser/?blogid=" . $bid . "&userid=".$row['userid']."\" onclick =  \"deleteUser(".$row['userid'].",1);return false;\">" . t('팀원 제외') . "</a></td>";
-		echo "<td class=\"role\"><a href=\"".$blogURL."/owner/control/action/blog/changeOwner/?blogid=" . $bid . "&owner=".$row['userid']."\" onclick =  \"changeOwner(".$row['userid'].");return false;\">" . _t('소유자 변경') . "</a></td>";
-		echo "</tr>";
+		echo "<td class=\"role\"><a href=\"".$blogURL."/owner/control/action/blog/changeACL/?blogid=" . $bid . "&acltype=admin&userid=" .$row['userid']."&switch=".(($row['acl'] & BITWISE_ADMINISTRATOR)?0:1)."\" onclick=\"changeACL('admin',".$row['userid'].",".(($row['acl'] & BITWISE_ADMINISTRATOR)?0:1).");return false;\">".(($row['acl'] & BITWISE_ADMINISTRATOR)?_t('ON'):_t('OFF'))."</a></td>".CRLF;
+		echo "<td class=\"role\"><a href=\"".$blogURL."/owner/control/action/blog/changeACL/?blogid=" . $bid . "&acltype=editor&userid=" .$row['userid']."&switch=".(($row['acl'] & BITWISE_EDITOR)?0:1)."\" onclick=\"changeACL('editor',".$row['userid'].",".(($row['acl'] & BITWISE_EDITOR)?0:1).");return false;\">".(($row['acl'] & BITWISE_EDITOR)?_t('ON'):_t('OFF'))."</a></td>".CRLF;
+		echo "<td class=\"role\"><a href=\"".$blogURL."/owner/control/action/blog/deleteUser/?blogid=" . $bid . "&userid=".$row['userid']."\" onclick =  \"deleteUser(".$row['userid'].",1);return false;\">" . _t('팀원 제외') . "</a></td>".CRLF;
+		echo "<td class=\"role\"><a href=\"".$blogURL."/owner/control/action/blog/changeOwner/?blogid=" . $bid . "&owner=".$row['userid']."\" onclick =  \"changeOwner(".$row['userid'].");return false;\">" . _t('소유자 변경') . "</a></td>".CRLF;
+		echo "</tr>".CRLF;
 		}
 	}
 ?>

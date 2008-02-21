@@ -12,6 +12,7 @@ $IV = array(
 
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
+requirePrivilege('group.creators');
 
 if (changeBlogOwner($_GET['blogid'],$_GET['owner'])) {
 	return respond::ResultPage(true);

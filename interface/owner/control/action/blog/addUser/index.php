@@ -10,6 +10,7 @@ $IV = array(
 	) 
 );
 requireStrictRoute();
+requirePrivilege('group.creators');
 
 $userid=getUserIdByEmail($_GET['user']);
 $bid=$_GET['blogid'];

@@ -10,6 +10,8 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 
 requireStrictRoute();
+requirePrivilege('group.creators');
+
 if ( setDefaultBlog($_GET['blogid'])) {
 	respond::PrintResult(array('error' => 0));
 }

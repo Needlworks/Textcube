@@ -10,6 +10,7 @@ $IV = array(
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
+requirePrivilege('group.creators');
 
 if (deleteTeamblogUser($_GET['userid'],$_GET['blogid'])) {
 	respond::ResultPage(0);

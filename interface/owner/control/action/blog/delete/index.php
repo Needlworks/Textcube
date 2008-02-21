@@ -10,6 +10,7 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 
 requireStrictRoute();
+requirePrivilege('group.creators');
 
 $items = split(",",$_GET['item']);
 if (in_array(getServiceSetting("defaultBlogId",1),$items)) {

@@ -108,6 +108,13 @@ function requireStrictBlogURL() {
 	exit;
 }
 
+function requirePrivilege($AC) {
+	requireComponent('Textcube.Control.Auth');
+	if(Acl::check($AC)) return true;
+	else header('HTTP/1.1 404 Not found');
+	exit;
+}
+
 function validateAPIKey($blogid, $loginid, $key) {
 	requireComponent('Textcube.Function.Setting');
 	global $service;
