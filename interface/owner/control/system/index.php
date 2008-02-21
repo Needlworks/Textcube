@@ -12,6 +12,7 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
+requirePrivilege('group.creators');
 
 function getSymbolByQuantity($bytes) {
 	$symbols = array('B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB');
@@ -66,31 +67,31 @@ if( function_exists( 'sys_getloadavg' ) ) {
 				</tr>
 				<tr>
 					<th>Database</th>
-					<td><? echo $dbVersion; ?></td>
+					<td><?php echo $dbVersion; ?></td>
 				</tr>
 				<tr>
 					<th>Database stat</th>
-					<td><? echo $dbStat; ?></td>
+					<td><?php echo $dbStat; ?></td>
 				</tr>
 				<tr>
 					<th>Web server</th>
-					<td><? echo $webServer; ?></td>
+					<td><?php echo $webServer; ?></td>
 				</tr>
 				<tr>
 					<th>Operating System</th>
-					<td><? echo $osVersion; ?></td>
+					<td><?php echo $osVersion; ?></td>
 				</tr>
 				<tr>
 					<th>Install path</th>
-					<td><? echo dirname(dirname(dirname((dirname(dirname(__FILE__)))))); ?></td>
+					<td><?php echo dirname(dirname(dirname((dirname(dirname(__FILE__)))))); ?></td>
 				</tr>
 				<tr>
 					<th>Disk space</th>
-					<td><? echo $diskSpace; ?></td>
+					<td><?php echo $diskSpace; ?></td>
 				</tr>
 				<tr>
 					<th>Load Avg.</th>
-					<td><? echo $loadAvg; ?></td>
+					<td><?php echo $loadAvg; ?></td>
 				</tr>
 			</tbody>
 		</table>

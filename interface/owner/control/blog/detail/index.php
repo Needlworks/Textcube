@@ -8,7 +8,7 @@ require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
 requireComponent('Textcube.Function.misc');
-
+requirePrivilege('group.creators');
 global $database;
 $bid=$suri['id'];
 $blogsetting = getBlogSettings($bid);
