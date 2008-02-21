@@ -36,7 +36,7 @@ $blogsetting = getBlogSettings($bid);
 						
 						
 						function deleteBlog(bid) {
-							if (!confirm("<?php echo _t('되돌릴 수 없습니다.');?>\t\n\n<?php echo _t('계속 진행하시겠습니까?');?>")) return false;
+							if (!confirm("<?php echo _t('되돌릴 수 없습니다.');?>\t\n\n<?php echo _t('계속 진행 하시겠습니까?');?>")) return false;
 							var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/control/action/blog/delete/?item="+bid);
 							request.onSuccess = function() {
 								PM.removeRequest(this);

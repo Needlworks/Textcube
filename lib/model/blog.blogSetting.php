@@ -532,8 +532,8 @@ function removeBlog($blogid) {
 	//Delete Tags
 	if (count($tags) > 0) 
 	{
-		$tagliststr = implode(', ', $tags);
-		$nottargets = POD::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE tag in ( $tagliststr )");
+		$tagliststr = implode(', ', $tags);	// Tag id used at deleted blog.
+		$nottargets = POD::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE tag in ( $tagliststr )");	// Tag id used at other blogs.
 		if (count($nottargets) > 0) {
 			$nottargetstr	= implode(', ', $nottargets);
 			POD::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr ) AND id NOT IN ( $nottargetstr )");

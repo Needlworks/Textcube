@@ -24,5 +24,5 @@ foreach ($items as $item) {
 		respond::PrintResult(array('error' => -1 , 'result' =>$result));
 	}
 }
-		respond::PrintResult(array('error' => 0 , 'result' =>$suri['id']));
+respond::PrintResult(array('error' => 0 , 'result' =>$suri['id']));
 ?>
