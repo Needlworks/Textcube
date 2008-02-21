@@ -914,7 +914,7 @@
 
 #supporter-description h3
 {
-	background-color                 : #666;
+	background-color                 : #FFF;
 	background-image                 : url("./image/bg_title_left.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
@@ -924,8 +924,8 @@
 	height                           : 2.5em;
 	font-size                        : 1em;
 	font-weight                      : normal;
-	line-height                      : 2.8em;
-	margin                           : 0 0 10px 0;
+	line-height                      : 38px !important;
+	margin: 0 0 10px 0;
 	overflow                         : hidden;
 	padding                          : 0 0 0 35px;
 	text-align: left;
@@ -934,7 +934,7 @@
 
 #supporter-description h3 span
 {
-	background-color                 : #666;
+	background-color                 : #FFF;
 	background-image                 : url("./image/bg_title_right.gif");
 	background-position              : left top;
 	background-repeat                : repeat-x;
