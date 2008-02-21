@@ -36,7 +36,7 @@ $blogsetting = getBlogSettings($bid);
 						
 						
 						function deleteBlog(bid) {
-							if (!confirm("<?php echo _t('되돌릴 수 없습니다.');?>\t\n\n<?php echo _t('계속 진행하시겠습니까?');?>"))) return false;
+							if (!confirm("<?php echo _t('되돌릴 수 없습니다.');?>\t\n\n<?php echo _t('계속 진행하시겠습니까?');?>")) return false;
 							var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/control/action/blog/delete/?item="+bid);
 							request.onSuccess = function() {
 								PM.removeRequest(this);
@@ -68,14 +68,13 @@ $blogsetting = getBlogSettings($bid);
 						function changeACL(acltype, userid, checked) {
 							var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/control/action/blog/changeACL/?blogid=" + <?php echo $bid?> + "&acltype=" + acltype + "&userid=" + userid + "&switch=" + checked);
 							request.onSuccess = function() {
-								alert("<?php echo _t('설정을 변경했습니다.');?>", "center", "bottom");
+								PM.showMessage("<?php echo _t('설정을 변경했습니다.');?>", "center", "bottom");
 								window.location.reload();
 							}
 							request.onError = function() {
-								alert("<?php echo _t('실패했습니다.');?>");
+								PM.showErrorMessage("<?php echo _t('실패했습니다.');?>", "center", "bottom");
 							}
 							request.send();
-);
 						}
 						
 						function addUser(user) {
