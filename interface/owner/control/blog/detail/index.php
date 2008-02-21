@@ -156,7 +156,7 @@ $blogsetting = getBlogSettings($bid);
 									<dl>
 										<dt><label for=""><?php echo _t('사용자'); ?></label></dt>
 										<dd>
-											<input type="text" class="bi-owner-loginid" name="user" value="" />
+											<input type="text" id="sgtOwner" class="bi-owner-loginid" name="user" value="" />
 											<input type="hidden" name="blogid" value="<?php echo $bid?>" />
 											<input type="submit" class="input-button" value="<?php echo _t("팀원 추가");?>" onclick="addUser(ctlUserSuggestObj.getValue());return false;" />
 										</dd>
@@ -171,7 +171,7 @@ $blogsetting = getBlogSettings($bid);
 											ctlUserSuggestObj.setInputClassName("bi-owner-loginid");
 											ctlUserSuggestObj.setValue("<?php echo User::getEmail(1);?>");
 										} catch (e) {
-											document.getElementById("sgtOwner").innerHTML = '<input type="text" class="bi-owner-loginid" name="location" value="" />';
+											document.getElementById("sgtOwner").innerHTML = '<input type="text" class="bi-owner-loginid" name="user" value="" />';
 										}
 									//]]>
 								</script>

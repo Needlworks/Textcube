@@ -392,4 +392,3 @@ function cleanUser(uid) {
 function ctlRefresh() {
 	window.location.reload();
 }
-
