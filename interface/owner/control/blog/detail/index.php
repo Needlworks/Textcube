@@ -134,7 +134,7 @@ $blogsetting = getBlogSettings($bid);
 		echo "<td class=\"name\"><a href=\"{$blogURL}/owner/control/user/detail/{$row['userid']}\">".User::getName($row['userid'])."(".User::getEmail($row['userid']).")</a></td>".CRLF;
 
 		if ($row['acl'] & BITWISE_OWNER) {
-			echo '<td class="role" colspan="3">'._t('이 사용자는 블로그의 소유자입니다.').'</td>'.CRLF;
+			echo '<td class="role" colspan="4">'._t('이 사용자는 블로그의 소유자입니다.').'</td>'.CRLF;
 		}
 		else {
 		echo "<td class=\"role\"><a href=\"".$blogURL."/owner/control/action/blog/changeACL/?blogid=" . $bid . "&acltype=admin&userid=" .$row['userid']."&switch=".(($row['acl'] & BITWISE_ADMINISTRATOR)?0:1)."\" onclick=\"changeACL('admin',".$row['userid'].",".(($row['acl'] & BITWISE_ADMINISTRATOR)?0:1).");return false;\">".(($row['acl'] & BITWISE_ADMINISTRATOR)?_t('ON'):_t('OFF'))."</a></td>".CRLF;
