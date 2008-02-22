@@ -3,18 +3,24 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+function RSSMessage($message) {
+	$isPublic = (getBlogSetting('visibility',2) == 2 ? true : false);
+	return ($isPublic ? $message : _text('비공개'));
+}
+
 function refreshRSS($blogid) {
 	global $database, $serviceURL, $defaultURL, $blog, $service;
 	$channel = array();
 //	$author = POD::queryCell("SELECT CONCAT(' (', name, ')') FROM {$database['prefix']}Users WHERE userid = $blogid");
-	$channel['title'] = $blog['title'];
+
+	$channel['title'] = RSSMessage($blog['title']);
 	$channel['link'] = "$defaultURL/";
-	$channel['description'] = $blog['description'];
+	$channel['description'] = RSSMessage($blog['description']);
 	$channel['language'] = $blog['language'];
 	$channel['pubDate'] = Timestamp::getRFC1123();
 	$channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
 
-	if (!empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
+	if ((getBlogSetting('visibility',2) == 2) && !empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
 		$logoInfo = getimagesize(ROOT."/attach/$blogid/{$blog['logo']}");
 		$channel['url'] = $serviceURL."/attach/".$blogid."/".$blog['logo'];
 		$channel['width'] = $logoInfo[0];
@@ -61,10 +67,10 @@ function refreshRSS($blogid) {
 
 		$item = array(
 			'id' => $row['id'], 
-			'title' => $row['title'], 
+			'title' => RSSMessage($row['title']), 
 			'link' => $entryURL, 
-			'categories' => array(), 'description' => $content, 
-			'author' => '('.$row['author'].')', 
+			'categories' => array(), 'description' => RSSMessage($content), 
+			'author' => '('.RSSMessage($row['author']).')', 
 			'pubDate' => Timestamp::getRFC1123($row['published']),
 			'comments' => $entryURL . '#entry' . $row['id'] . 'comment',
 			'guid' => "$defaultURL/" . $row['id']
@@ -122,14 +128,14 @@ function getCommentRSSTotal($blogid) {
 	if(empty($blogid)) $blogid = getBlogId();
 
 	$channel = array();
-	$channel['title'] = $blog['title']. ': '._text('최근 댓글 목록');
+	$channel['title'] = RSSMessage($blog['title']. ': '._text('최근 댓글 목록'));
 	$channel['link'] = "$defaultURL/";
-	$channel['description'] = $blog['description'];
+	$channel['description'] = RSSMessage($blog['description']);
 	$channel['language'] = $blog['language'];
 	$channel['pubDate'] = Timestamp::getRFC1123();
 	$channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
 
-	if (!empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
+	if ((getBlogSetting('visibility',2) == 2) && !empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
 		$logoInfo = getimagesize(ROOT."/attach/$blogid/{$blog['logo']}");
 		$channel['url'] = $serviceURL."/attach/".$blogid."/".$blog['logo'];
 		$channel['width'] = $logoInfo[0];
@@ -145,10 +151,10 @@ function getCommentRSSTotal($blogid) {
 		$content = htmlspecialchars($row['comment']);
 		$item = array(
 			'id' => $row['id'], 
-			'title' => UTF8::lessen($row['title'],30).' : '.sprintf( _text('%s님의 댓글'), $row['name'] ), 
+			'title' => RSSMessage(UTF8::lessen($row['title'],30).' : '._textf('%1님의 댓글',$row['name'])), 
 			'link' => $commentURL.$row['id'], 
-			'categories' => array(), 'description' => $content, 
-			'author' => '('.$row['name'].')', 
+			'categories' => array(), 'description' => RSSMessage($content), 
+			'author' => '('.RSSMessage($row['name']).')', 
 			'pubDate' => Timestamp::getRFC1123($row['written']),
 			'comments' => $commentURL,
 			'guid' => $commentURL.$row['id']
@@ -164,23 +170,24 @@ function getCommentRSSByEntryId($blogid, $entryId) {
 	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
 
 	if(empty($blogid)) $blogid = getBlogId();
+
 	$entry = POD::queryRow("SELECT slogan, visibility, title, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
 	if(empty($entry)) return false;
 	if($entry['visibility'] < 2) return false;
 	if(in_array($entry['category'], getCategoryVisibilityList($blogid, 'private'))) return false;
 	$channel = array();
-	$channel['title'] = $blog['title']. ': '.sprintf(_text('%s 에 달린 댓글'),$entry['title']);
+	$channel['title'] = RSSMessage($blog['title']. ': '._textf('%1 에 달린 댓글',$entry['title']));
 	if($blog['useSlogan']) {
 		$channel['link'] = $defaultURL."/entry/".URL::encode($entry['slogan'],true);
 	} else {
 		$channel['link'] = $defaultURL."/".$entryId;
 	}
-	$channel['description'] = $blog['description'];
+	$channel['description'] = RSSMessage($blog['description']);
 	$channel['language'] = $blog['language'];
 	$channel['pubDate'] = Timestamp::getRFC1123();
 	$channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
 
-	if (!empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
+	if ((getBlogSetting('visibility',2) == 2) && !empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
 		$logoInfo = getimagesize(ROOT."/attach/$blogid/{$blog['logo']}");
 		$channel['url'] = $serviceURL."/attach/".$blogid."/".$blog['logo'];
 		$channel['width'] = $logoInfo[0];
@@ -200,10 +207,10 @@ function getCommentRSSByEntryId($blogid, $entryId) {
 		$content = htmlspecialchars($row['comment']);
 		$item = array(
 			'id' => $row['id'], 
-			'title' => sprintf( _text('%s님의 댓글'), $row['name'] ), 
+			'title' => RSSMessage(_textf('%1님의 댓글',$row['name'] )), 
 			'link' => $commentURL.$row['id'], 
-			'categories' => array(), 'description' => $content, 
-			'author' => '('.$row['name'].')', 
+			'categories' => array(), 'description' => RSSMessage($content), 
+			'author' => '('.RSSMessage($row['name']).')', 
 			'pubDate' => Timestamp::getRFC1123($row['written']),
 			'comments' => $commentURL,
 			'guid' => $commentURL.$row['id']
@@ -220,16 +227,17 @@ function getTrackbackRSSTotal($blogid) {
 	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
 
 	if(empty($blogid)) $blogid = getBlogId();
+	$isPublic = (getBlogSetting('visibility',2) == 2 ? true : false);
 
 	$channel = array();
-	$channel['title'] = $blog['title']. ': '._text('최근 트랙백 목록');
+	$channel['title'] = RSSMessage($blog['title']. ': '._text('최근 트랙백 목록'));
 	$channel['link'] = "$defaultURL/";
-	$channel['description'] = $blog['description'];
+	$channel['description'] = RSSMessage($blog['description']);
 	$channel['language'] = $blog['language'];
 	$channel['pubDate'] = Timestamp::getRFC1123();
 	$channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
 
-	if (!empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
+	if ((getBlogSetting('visibility',2) == 2) && !empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
 		$logoInfo = getimagesize(ROOT."/attach/$blogid/{$blog['logo']}");
 		$channel['url'] = $serviceURL."/attach/".$blogid."/".$blog['logo'];
 		$channel['width'] = $logoInfo[0];
@@ -245,10 +253,10 @@ function getTrackbackRSSTotal($blogid) {
 		$content = htmlspecialchars($row['excerpt']);
 		$item = array(
 			'id' => $row['id'], 
-			'title' => $row['subject'], 
+			'title' => RSSMessage($row['subject']), 
 			'link' => $trackbackURL.$row['id'], 
-			'categories' => array(), 'description' => $content, 
-			'author' => '('.htmlspecialchars($row['site']).')', 
+			'categories' => array(), 'description' => RSSMessage($content), 
+			'author' => '('.RSSMessage(htmlspecialchars($row['site'])).')', 
 			'pubDate' => Timestamp::getRFC1123($row['written']),
 			'comments' => $trackbackURL,
 			'guid' => $trackbackURL.$row['id']
@@ -263,23 +271,24 @@ function getTrackbackRSSByEntryId($blogid, $entryId) {
 	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
 
 	if(empty($blogid)) $blogid = getBlogId();
+
 	$entry = POD::queryRow("SELECT slogan, visibility, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
 	if(empty($entry)) return false;
 	if($entry['visibility'] < 2) return false;
 	if(in_array($entry['category'], getCategoryVisibilityList($blogid, 'private'))) return false;
 	$channel = array();
-	$channel['title'] = $blog['title']. ': '._textf('%1 에 달린 트랙백',$entry['slogan']);
+	$channel['title'] = RSSMessage($blog['title']. ': '._textf('%1 에 달린 트랙백',$entry['slogan']));
 	if($blog['useSlogan']) {
 		$channel['link'] = $defaultURL."/entry/".URL::encode($entry['slogan'],true);
 	} else {
 		$channel['link'] = $defaultURL."/".$entryId;
 	}
-	$channel['description'] = $blog['description'];
+	$channel['description'] = RSSMessage($blog['description']);
 	$channel['language'] = $blog['language'];
 	$channel['pubDate'] = Timestamp::getRFC1123();
 	$channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
 
-	if (!empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
+	if ((getBlogSetting('visibility',2) == 2) && !empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
 		$logoInfo = getimagesize(ROOT."/attach/$blogid/{$blog['logo']}");
 		$channel['url'] = $serviceURL."/attach/".$blogid."/".$blog['logo'];
 		$channel['width'] = $logoInfo[0];
@@ -300,10 +309,10 @@ function getTrackbackRSSByEntryId($blogid, $entryId) {
 		$content = htmlspecialchars($row['excerpt']);
 		$item = array(
 			'id' => $row['id'], 
-			'title' => $row['subject'], 
+			'title' => RSSMessage($row['subject']), 
 			'link' => $trackbackURL.$row['id'], 
-			'categories' => array(), 'description' => $content, 
-			'author' => '('.htmlspecialchars($row['site']).')', 
+			'categories' => array(), 'description' => RSSMessage($content), 
+			'author' => '('.RSSMessage(htmlspecialchars($row['site'])).')', 
 			'pubDate' => Timestamp::getRFC1123($row['written']),
 			'comments' => $trackbackURL,
 			'guid' => $trackbackURL.$row['id']
@@ -318,16 +327,17 @@ function getCommentNotifiedRSSTotal($blogid) {
 	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
 
 	if(empty($blogid)) $blogid = getBlogId();
+	$isPublic = (getBlogSetting('visibility',2) == 2 ? true : false);
 
 	$channel = array();
-	$channel['title'] = $blog['title']. ': '._text('최근 댓글 알리미 목록');
+	$channel['title'] = RSSMessage($blog['title']. ': '._text('최근 댓글 알리미 목록'));
 	$channel['link'] = "$defaultURL/";
-	$channel['description'] = $blog['description'];
+	$channel['description'] = RSSMessage($blog['description']);
 	$channel['language'] = $blog['language'];
 	$channel['pubDate'] = Timestamp::getRFC1123();
 	$channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
 
-	if (!empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
+	if ((getBlogSetting('visibility',2) == 2) && !empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
 		$logoInfo = getimagesize(ROOT."/attach/$blogid/{$blog['logo']}");
 		$channel['url'] = $serviceURL."/attach/".$blogid."/".$blog['logo'];
 		$channel['width'] = $logoInfo[0];
@@ -350,11 +360,11 @@ function getCommentNotifiedRSSTotal($blogid) {
 	foreach($mergedComments as $row) {
 		$item = array(
 			'id' => $row['id'], 
-			'title' => $row['entryTitle'], 
+			'title' => RSSMessage($row['entryTitle']), 
 			'link' => $row['url'], 
 			'categories' => array(), 
-			'description' => htmlspecialchars($row['comment']), 
-			'author' => '('.htmlspecialchars($row['name']).')', 
+			'description' => RSSMessage(htmlspecialchars($row['comment'])), 
+			'author' => '('.RSSMessage(htmlspecialchars($row['name'])).')', 
 			'pubDate' => Timestamp::getRFC1123($row['written']),
 			'comments' => $row['entryUrl'],
 			'guid' => $row['url']

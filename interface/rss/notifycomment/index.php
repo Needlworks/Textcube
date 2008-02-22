@@ -3,6 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('NO_SESSION', true);
+define('__TEXTCUBE_LOGIN__',true);
+
 $IV = array(
 	'POST' => array(
 		'loginid' => array('string'),

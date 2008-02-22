@@ -4,6 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 define('NO_SESSION', true);
+define('__TEXTCUBE_LOGIN__',true);
 require ROOT . '/lib/includeForBlog.php';
 requireModel("blog.rss");
 requireModel("blog.entry");

@@ -8,7 +8,14 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
+requireModel('blog.rss');
+
 requireStrictRoute();
-if (setting::setBlogSettingGlobal('visibility',$_GET['visibility'])) respond::ResultPage(0);
+if (setting::setBlogSettingGlobal('visibility',$_GET['visibility'])) {
+	CacheControl::flushCommentRSS();
+	CacheControl::flushTrackbackRSS();
+	clearRSS();
+	respond::ResultPage(0);
+}
 respond::ResultPage(-1);
 ?>

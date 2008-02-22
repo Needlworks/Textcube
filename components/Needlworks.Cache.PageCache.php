@@ -420,7 +420,20 @@ class CacheControl {
 		$cache->purge();
 		return true;
 	}
+	
+	function flushTrackbackRSS($entryId = null) {
+		global $database;
 
+		if(empty($entryId)) $entryId = '';
+		$cache = new pageCache;
+		$cache->name = 'trackbackRSS_'.$entryId;
+		$cache->purge();
+		$cache->reset();
+		$cache->name = 'trackbackRSS';
+		$cache->purge();
+		return true;
+	}
+	
 	function flushItemsByPlugin($pluginName) {
 		global $databases;
 
