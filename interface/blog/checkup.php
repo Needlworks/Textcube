@@ -314,7 +314,7 @@ $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));
 fclose($fp);
-if ((preg_match('@rewrite\.php@', $content) == 0 ) || (strpos($content,'[OR]') !== false)) {
+if ((preg_match('@rewrite\.php@', $content) == 0 ) || (strpos($content,'[OR]') !== false) || (strpos($content,' -d') != false)) {
 	$fp = fopen($filename, "w");
 	echo '<li>', _textf('htaccess 규칙을 수정합니다.'), ': ';
 	$content = 
@@ -324,6 +324,8 @@ if ((preg_match('@rewrite\.php@', $content) == 0 ) || (strpos($content,'[OR]') !
 #SetEnv PRELOAD_CONFIG 1
 RewriteEngine On
 RewriteBase ".$service['path']."/
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^(.+[^/])$ $1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ rewrite.php [L,QSA]
 ";

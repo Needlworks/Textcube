@@ -1540,6 +1540,8 @@ ini_set('display_errors', 'off');
 #SetEnv PRELOAD_CONFIG 1
 RewriteEngine On
 RewriteBase $path/
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^(.+[^/])$ $1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ rewrite.php [L,QSA]
 ";
