@@ -164,6 +164,10 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												<td class="name"><a href="http://cyworld.com/madskillz">Hyunsang Hwang</a></td>
 												<td class="role"><?php echo _t('Logo design');?></td>
 											</tr>
+											<tr>
+												<td class="name"><a href="http://themaum.com">Sungho Kim</a></td>
+												<td class="role"><?php echo _t('Plugin icon design');?></td>
+											</tr>
 										</tbody>
 									</table>
 								</div>
