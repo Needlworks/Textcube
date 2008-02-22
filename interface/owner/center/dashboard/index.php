@@ -308,7 +308,7 @@ if($textcubeDashboard) {
 		$noticeURL = "http://notice.textcube.org/";
 		$noticeURLRSS = $noticeURL.(isset($blog['language']) ? $blog['language'] : "ko")."/rss";
 
-		if(!is_null(getServiceSetting('Textcube_Notice_',$blog['language']))) {
+		if(!is_null(getServiceSetting('Textcube_Notice_'.$blog['language']))) {
 			$noticeEntries = unserialize(getServiceSetting('Textcube_Notice_'.$blog['language']));
 		} else {
 			list($result, $feed, $xml) = getRemoteFeed($noticeURLRSS);
