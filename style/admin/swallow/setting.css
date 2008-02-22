@@ -356,6 +356,18 @@ dl dd
 }
 
 /* invite list */
+
+#list-section dl dt
+{
+	display                          : none;
+}
+
+#list-section dl dd
+{
+	margin-left                      : 0;
+	display                          : block;
+}
+
 #list-section table
 {
 	margin-left                      : 100px;
