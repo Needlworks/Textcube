@@ -305,7 +305,7 @@ if(doesHaveOwnership() && $blogids = POD::queryColumn("SELECT blogid FROM {$data
 
 if(doesHaveOwnership()){
 	echo '<li>', _textf('공지사항 캐시를 초기화합니다.'), ': ';
-	if(POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = 'Textcube_Notice'"))
+	if(POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = 'Textcube_Notice_%'"))
 		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
 	else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
