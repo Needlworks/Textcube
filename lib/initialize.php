@@ -31,7 +31,7 @@ if (!defined('NO_INITIALIZAION')) {
 		$user = null;
 	}
 
-/* Locale initialization
+	/* Locale initialization
    ---------------------
    - Depends on /lib/locale.php 
    - Set current locale, load locale and language resources. */
@@ -42,7 +42,7 @@ if (!defined('NO_INITIALIZAION')) {
 		'domain' => null,
 		);
 
-// Set timezone.
+	// Set timezone.
 	if(isset($database) && !empty($database['database'])) {
 		Timezone::set(isset($blog['timezone']) ? $blog['timezone'] : $service['timezone']);
 		POD::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
@@ -50,36 +50,39 @@ if (!defined('NO_INITIALIZAION')) {
 
 	// Load administration panel locale.
 	// TODO : po지원하도록 변경해야 함.
-	Locale::setDirectory(ROOT . '/language');
-	Locale::set(isset($blog['language']) ? $blog['language'] : $service['language']);
+	if(!defined('NO_LOCALE')) {
+		Locale::setDirectory(ROOT . '/language');
+		Locale::set(isset($blog['language']) ? $blog['language'] : $service['language']);
 
-	// Load blog screen locale.
-	if (!isset($blog['blogLanguage'])) {
-		$blog['blogLanguage'] = $service['language'];
+		// Load blog screen locale.
+		if (!isset($blog['blogLanguage'])) {
+			$blog['blogLanguage'] = $service['language'];
+		}
+		Locale::setSkinLocale(isset($blog['blogLanguage']) ? $blog['blogLanguage'] : $service['language']);
 	}
-	Locale::setSkinLocale(isset($blog['blogLanguage']) ? $blog['blogLanguage'] : $service['language']);
 
 /* Administration panel skin and editor template initialization
    ---------------------
    - Set administration panel skin and editor template CSS. */
 
-// 어드민 스킨 및 에디터 템플릿 설정.
-	$adminSkinSetting = array();
-	$adminSkinSetting['skin'] = "/style/admin/".getBlogSetting("adminSkin", "whitedream");
-// 1.5에서 올라온 경우 스킨이 있는 경우를 위한 workaround.
-	if($adminSkinSetting['skin'] == '/style/admin/default') {
-		setBlogSetting("adminSkin", "whitedream");
-		$adminSkinSetting['skin'] = "/style/admin/whitedream";
+	// 어드민 스킨 및 에디터 템플릿 설정.
+	if(!defined('NO_ADMINPANEL')) {
+		$adminSkinSetting = array();
+		$adminSkinSetting['skin'] = "/style/admin/".getBlogSetting("adminSkin", "whitedream");
+		// 1.5에서 올라온 경우 스킨이 있는 경우를 위한 workaround.
+		if($adminSkinSetting['skin'] == '/style/admin/default') {
+			setBlogSetting("adminSkin", "whitedream");
+			$adminSkinSetting['skin'] = "/style/admin/whitedream";
+		}
+
+		// content 본문에 removeAllTags()가 적용되는 것을 방지하기 위한 프로세스를 위한 변수.
+		$contentContainer = array();
+
+		if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/wysiwyg.css"))
+			$adminSkinSetting['editorTemplate'] = "/skin/{$skinSetting['skin']}/wysiwyg.css";
+		else
+			$adminSkinSetting['editorTemplate'] = "/style/default-wysiwyg.css";
 	}
-
-// content 본문에 removeAllTags()가 적용되는 것을 방지하기 위한 프로세스를 위한 변수.
-	$contentContainer = array();
-
-	if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/wysiwyg.css"))
-		$adminSkinSetting['editorTemplate'] = "/skin/{$skinSetting['skin']}/wysiwyg.css";
-	else
-		$adminSkinSetting['editorTemplate'] = "/style/default-wysiwyg.css";
-
 	if (!file_exists(ROOT . '/config.php')) {
 		header('Location: ' . ROOT . '/setup.php');
 		exit;

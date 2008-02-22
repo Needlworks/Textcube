@@ -16,17 +16,19 @@ require ROOT .'/lib/function/mail.php';
 require ROOT .'/lib/functions.php';
 // Library
 require ROOT .'/lib/database.php';
-require ROOT .'/lib/locale.php';
+//require ROOT .'/lib/locale.php';
 require ROOT .'/lib/auth.php';
 // Model
 require ROOT .'/lib/model/blog.service.php';
 require ROOT .'/lib/model/blog.blogSetting.php';
-require ROOT .'/lib/model/blog.user.php';
+//require ROOT .'/lib/model/blog.user.php';
 require ROOT .'/lib/model/common.setting.php';
 require ROOT .'/lib/model/common.plugin.php';
 require ROOT .'/lib/model/reader.common.php';
 
 // Initializing environment.
+define('NO_LOCALE',true);
+define('NO_ADMINPANEL',true);
 require ROOT .'/lib/initialize.php';
 require ROOT .'/lib/plugins.php';
 
