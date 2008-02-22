@@ -30,7 +30,7 @@ require ROOT .'/lib/model/reader.common.php';
 define('NO_LOCALE',true);
 define('NO_ADMINPANEL',true);
 require ROOT .'/lib/initialize.php';
-require ROOT .'/lib/plugins.php';
+//require ROOT .'/lib/plugins.php';
 
 header('Content-Type: text/html; charset=utf-8');
 ?>
