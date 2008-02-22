@@ -40,6 +40,7 @@ $service['useEncodedURL'] = false;
 $service['debugmode'] = false;
 $service['reader'] = true;
 $service['flashclipboardpoter'] = true;
+$service['allowBlogVisibilitySetting'] = true;
 //$service['flashuploader'] = false;
 
 // Map port setting.

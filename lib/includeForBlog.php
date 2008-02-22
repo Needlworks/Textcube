@@ -55,4 +55,9 @@ require ROOT .'/lib/plugins.php';
 if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of plugin parsing');
 
 header('Content-Type: text/html; charset=utf-8');
+if(!defined('__TEXTCUBE_LOGIN__')) {
+	$blogVisibility = getBlogSetting('visibility',2);
+	if($blogVisibility == 0) requireOwnership();
+	else if($blogVisibility == 1) requireMembership();
+}
 ?>

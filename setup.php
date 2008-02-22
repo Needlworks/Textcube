@@ -1524,6 +1524,7 @@ ini_set('display_errors', 'off');
 //\$service['debug_session_dump'] = true; // session info debuging.
 //\$service['debug_rewrite_module'] = true; // rewrite handling module debuging.
 //\$service['session_cookie_path'] = \$service['path']; // for avoiding spoiling other textcube's session id sharing root.
+//\$service['allowBlogVisibilitySetting'] = true; // Allow service users to change blog visibility.
 ?>"
             );
             fclose($fp);

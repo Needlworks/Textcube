@@ -313,11 +313,12 @@ function addBlog($blogid, $userid, $identify) {
 			'entriesOnPage'            => 10,
 			'entriesOnList'            => 10,
 			'entriesOnRSS'             => 10,
-			'commentsOnRSS'             => 10,
+			'commentsOnRSS'            => 10,
 			'publishWholeOnRSS'        => 1,
 			'publishEolinSyncOnRSS'    => 1,
 			'allowWriteOnGuestbook'    => 1,
 			'allowWriteDblCommentOnGuestbook' => 1,
+			'visibility'               => 2,
 			'language'     => $service['language'],
 			'blogLanguage' => $service['language'],
 			'timezone'     => $baseTimezone);

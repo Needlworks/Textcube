@@ -25,3 +25,4 @@ $service['pagecache'] = true; // pagecache function. (changed from disablePageCa
 $service['debugmode'] = false; // Textcube debug mode. (for core / plugin debug or optimization) (changed from requireComponent('Needlworks.Function.Debug'); at TC 1.5)
 $service['debug_session_dump'] = false; // session info debuging.
 $service['debug_rewrite_module'] = false; // rewrite handling module info debuging.
+$service['allowBlogVisibilitySetting'] = true; // Allow service users to change blog visibility

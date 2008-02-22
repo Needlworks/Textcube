@@ -73,6 +73,7 @@ class setting {
 					'publishEolinSyncOnRSS'    => 1,
 					'allowWriteOnGuestbook'    => 1,
 					'allowWriteDblCommentOnGuestbook' => 1,
+					'visibility'               => 2,
 					'language'     => $service['language'],
 					'blogLanguage' => $service['language'],
 					'timezone'     => $service['timezone'],

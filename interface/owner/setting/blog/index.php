@@ -238,6 +238,8 @@ if ($service['type'] != 'single') {
 								var entriesOnRSS = "<?php echo $blog['entriesOnRSS'];?>";
 								var publishWholeOnRSS = "<?php echo $blog['publishWholeOnRSS'];?>";
 								var allowCommentGuestbook = <?php echo $blog['allowWriteDblCommentOnGuestbook'];?>;
+								var blogVisibility = <?php echo $blog['visibility'];?>;
+
 								//var allowWriteGuestbook = <?php echo $blog['allowWriteOnGuestbook'];?>;
 								function setRSS() {
 									if (document.getElementById('rss-form').useSlogan[useSlogan].checked == true) {
@@ -270,7 +272,7 @@ if ($service['type'] != 'single') {
 										+"&publishEolinSyncOnRSS="+(document.getElementById('rss-form').publishEolinSyncOnRSS[0].checked ? 1 : 0)
 										+"&entriesOnRSS="+document.getElementById('rss-form').entriesOnRSS.value
 										+"&commentsOnRSS="+document.getElementById('rss-form').commentsOnRSS.value);
-									
+
 									isAllowCommentGuestbook = document.getElementById('allowCommentGuestbook').checked ? 1 : 0;
 									//isAllowWriteGuestbook = document.getElementById('allowWriteGuestbook').checked ? 1 : 0;
 									if ( isAllowCommentGuestbook != allowCommentGuestbook) {
@@ -284,8 +286,28 @@ if ($service['type'] != 'single') {
 										}
 										request.send();
 									}
-								}
+<?php
+if($service['allowBlogVisibilitySetting']){
+?>									
+									if(document.getElementById('visibilityPrivate').checked) newVisibility = 0;
+									else if(document.getElementById('visibilityMember').checked) newVisibility = 1;
+									else newVisibility = 2;
 
+									if ( blogVisibility != newVisibility) {
+										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/visibility/?visibility="+newVisibility);
+										request.onSuccess = function() {
+											blogVisibility = newVisibility;
+											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+										}
+										request.onError = function() {
+											PM.showErrorMessage("<?php echo _t('실패했습니다.');?>", "center", "bottom");
+										}
+										request.send();
+									}
+<?php
+}
+?>
+								}
 								var language = "<?php echo $blog['language'];?>";
 								var skinLanguage = "<?php echo $blog['blogLanguage'];?>";
 								var timezone = "<?php echo $blog['timezone'];?>";
@@ -552,13 +574,29 @@ if (file_exists(ROOT."/attach/$blogid/index.gif")) {
 										<legend><?php echo _t('RSS 설정');?></legend>
 										
 										<dl id="open-type-line" class="line">
-											<dt><span class="label"><?php echo _t('공개 정도');?></span></dt>
+											<dt><span class="label"><?php echo _t('RSS 공개 정도');?></span></dt>
 											<dd>
 												<input type="radio" id="publishEolinSyncOnRSS1" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ? ' checked="checked"' : '');?> /><label for="publishEolinSyncOnRSS1"><span class="text"><?php echo _t('공개된 모든 글을 <acronym title="Rich Site Summary">RSS</acronym>로 내보냅니다.');?></span></label><br />
 												<input type="radio" id="publishEolinSyncOnRSS0" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ?   '' : ' checked="checked"');?> /><label for="publishEolinSyncOnRSS0"><span class="text"><?php echo _t('이올린에 발행된 글만을 RSS로 내보냅니다.');?></span></label>
 											</dd>
-
 										</dl>
+<?php
+if($service['allowBlogVisibilitySetting']){
+?>
+										<dl id="blog-open-type-line" class="line">
+											<dt><span class="label"><?php echo _t('블로그 공개 정도');?></span></dt>
+											<dd>
+												<input type="radio" id="visibilityPrivate" class="radio" name="visibility"<?php echo ($blog['visibility']==0 ? ' checked="checked"' : '');?> /><label for="visibilityPrivate"><span class="text"><?php echo _t('이 블로그의 구성원만 접근할 수 있도록 합니다.');?></span></label><br />
+												<input type="radio" id="visibilityMember" class="radio" name="visibility"<?php echo ($blog['visibility']==1 ?   ' checked="checked"' : '');?> /><label for="visibilityMember"><span class="text"><?php echo _t('블로그에 아이디가 있는 경우만 접근할 수 있도록 합니다.');?></span></label><br />
+												<input type="radio" id="visibilityPublic" class="radio" name="visibility"<?php echo ($blog['visibility']==2 ?   ' checked="checked"' : '');?> /><label for="visibilityPublic"><span class="text"><?php echo _t('누구나 접근할 수 있도록 합니다.');?></span></label>
+											</dd>
+											<dd>
+												<p><label for="visibility"><?php echo _t('블로그 공개 정도를 설정합니다.').' '._t('접근 권한이 제한된 경우에는 로그인 이후에 블로그를 열람할 수 있습니다.').'<br />'._t('접근 권한이 제한된 경우 RSS로 내용을 열람할 수 없으며, RSS로 새 글이 올라오는 시간만 전달됩니다.');?></label></p>
+											</dd>
+										</dl>
+<?php
+}
+?>
 										<dl id="post-count-line" class="line">
 											<dt><span class="label"><?php echo _t('글 개수');?></span></dt>
 											<dd>

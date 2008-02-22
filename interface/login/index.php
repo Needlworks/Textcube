@@ -19,6 +19,7 @@ $IV = array(
 		'teamblogPatch' => array('string', 'default' => null)
 	)
 );
+define('__TEXTCUBE_LOGIN__',true);
 require ROOT . '/lib/includeForBlog.php';
 if (isset($_GET['loginid']))
 	$_POST['loginid'] = $_GET['loginid'];

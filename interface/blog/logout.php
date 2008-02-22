@@ -12,6 +12,7 @@ $IV = array(
 		'requestURI' => array('string', 'default' => null)
 	)
 );
+define('__TEXTCUBE_LOGIN__',true);
 require ROOT . '/lib/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
