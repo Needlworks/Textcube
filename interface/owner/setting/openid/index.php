@@ -140,7 +140,7 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 		<form>
 			<fieldset class="container">
 				<dl>
-					<dt class="hidden"><?php echo _t('오픈아이다로 사용할 블로그 주소를 선택하세요');?></dt>
+					<dt class="hidden"><?php echo _t('오픈아이디로 사용할 블로그 주소를 선택하세요');?></dt>
 					<dd>
 <?php
 		$currentDelegate = setting::getBlogSettingGlobal( 'OpenIDDelegate', '' );
