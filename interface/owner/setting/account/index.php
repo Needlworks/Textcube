@@ -359,12 +359,12 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 										<dl id="blogapi-password-line" class="line">
 											<dt><span class="label"><?php echo _t('API 용 비밀번호');?></span></dt>
 											<dd>
-												<p><label for="blogApiPassword"><?php echo _t('텍스트큐브 API에 사용할 비밀번호입니다.').'<br />'._t('이 API 키는 외부에서 댓글 알리미 RSS를 참조하거나 로그인이 필요한 기능에서 원래 비밀번호 대용으로 사용합니다.').'<br />'._t('관리자 로그인 비밀번호와 동일하게 사용하실 경우 비워두시기 바랍니다.');?></label></p>
-											</dd>
-											<dd>
 											<input type="text" style="width:14em" class="input-text" id="TCApiPassword" name="TCApiPassword" value="<?php echo setting::getUserSettingGlobal('APIKey',null,getUserId());?>" />
 												<input type="button" class="input-button" value="<?php echo _t('임의로 생성')?>" onclick="chooseBlogPassword()" />
 												<input type="button" class="input-button" value="<?php echo _t('관리자 비밀번호를 그대로 사용')?>" onclick="clearBlogPassword()" />
+											</dd>
+											<dd>
+												<p><label for="TCApiPassword"><?php echo _t('텍스트큐브 API에 사용할 비밀번호입니다.').'<br />'._t('이 API 키는 외부에서 댓글 알리미 RSS를 참조하거나 로그인이 필요한 기능에서 원래 비밀번호 대용으로 사용합니다.').'<br />'._t('관리자 로그인 비밀번호와 동일하게 사용하실 경우 비워두시기 바랍니다.');?></label></p>
 											</dd>
 										</dl>
 
@@ -417,7 +417,7 @@ if(!empty($blogs)) {
 												<input id="type" type="radio" name="type" value="external" <?php echo ($hptype == "external" ? "checked=\"checked\"":"");?> > <?php echo _t('외부 주소');?> <input type="text" name="homepage" id="homepage" class="input-text" value="<?php echo User::getHomepage();?>">
 												</div>
 												<div>
-												<input id="type" type="radio" name="type" value="default" <?php echo ($hptype == "default" ? "checked=\"checked\"":"");?> > <?php echo _t('기본 값');?>
+												<input id="type" type="radio" name="type" value="default" <?php echo ($hptype == "default" ? "checked=\"checked\"":"");?> > <?php echo _t('기본값');?>
 												</div>
 											</dd>
 										</dl>
@@ -432,7 +432,9 @@ if(!empty($blogs)) {
 <!-- OPENID -->
 						<div id="part-setting-openid" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('오픈아이디 연결');?></span></h2>
-							
+							<div class="main-explain-box">
+								<p class="explain"><?php echo _t("오픈아이디를 현재 계정에 연결합니다.").' '._t('연결한 오픈아이디로 이 계정에 로그인 할 수 있습니다.');?></p>
+							</div>
 							<table class="data-inbox" cellspacing="0" cellpadding="0">
 								<thead>
 									<tr>
@@ -560,7 +562,7 @@ if ($service['type'] != 'single' && Acl::check("group.creators")) {
 										<dt class="title"><span class="label"><?php echo _t('초대명단');?></span></dt>
 										<dd>
 <?php
-	$invitedList = getInvited(getUserId());
+$invitedList = getInvited(getUserId());
 ?>
 											<table cellspacing="0" cellpadding="0">
 												<thead>
