@@ -366,7 +366,7 @@ function addComment($blogid, & $comment) {
 		} elseif (Filter::isFiltered('content', $comment['comment'])) {
 			$blockType = "comment";
 			$filtered = 1;
-		} elseif ( !Acl::check( "group.writers" ) && !$openid) &&
+		} elseif ( !Acl::check( "group.writers" ) && !$openid &&
 			getBlogSetting('AddCommentMode', '') == 'openid' ) {
 			$blockType = "openidonly";
 			$filtered = 1;
