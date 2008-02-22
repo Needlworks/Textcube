@@ -349,6 +349,7 @@ function sendCommentPing($entryId, $permalink, $name, $homepage) {
 function addComment($blogid, & $comment) {
 	global $database, $user, $blog, $defaultURL;
 	
+	$openid = Acl::getIdentity('openid');
 	$filtered = 0;
 	
 	if (!doesHaveOwnership()) {
@@ -365,7 +366,7 @@ function addComment($blogid, & $comment) {
 		} elseif (Filter::isFiltered('content', $comment['comment'])) {
 			$blockType = "comment";
 			$filtered = 1;
-		} elseif ( !Acl::check( "group.writers" ) && !Acl::getIdentity('openid') &&
+		} elseif ( !Acl::check( "group.writers" ) && !$openid) &&
 			getBlogSetting('AddCommentMode', '') == 'openid' ) {
 			$blockType = "openidonly";
 			$filtered = 1;
@@ -397,6 +398,7 @@ function addComment($blogid, & $comment) {
 		$name = POD::escapeString($user['name']);
 		$password = '';
 		$homepage = POD::escapeString($user['homepage']);
+		if( empty($homepage) && $openid ) { $homepage = POD::escapeString($openid); }
 	} else {
 		$comment['replier'] = 'null';
 		$name = POD::escapeString($comment['name']);
@@ -406,7 +408,6 @@ function addComment($blogid, & $comment) {
 	$comment0 = POD::escapeString($comment['comment']);
 	$filteredAux = ($filtered == 1 ? "UNIX_TIMESTAMP()" : 0);
 	$insertId = getCommentsMaxId() + 1;
-	$openid = Acl::getIdentity( 'openid' );
 	$result = POD::query("INSERT INTO {$database['prefix']}Comments 
 		(blogid,replier,id,openid,entry,parent,name,password,homepage,secret,comment,ip,written,isFiltered)
 		VALUES (
@@ -449,6 +450,7 @@ function addComment($blogid, & $comment) {
 function updateComment($blogid, $comment, $password) {
 	global $database, $user;
 
+	$openid = Acl::getIdentity('openid');
 	if (!doesHaveOwnership()) {
 		// if filtered, only block and not send to trash
 		requireComponent('Textcube.Data.Filter');
@@ -475,6 +477,7 @@ function updateComment($blogid, $comment, $password) {
 		$name = POD::escapeString($user['name']);
 		$setPassword = 'password = \'\',';
 		$homepage = POD::escapeString($user['homepage']);
+		if( empty($homepage) && $openid ) { $homepage = POD::escapeString($openid); }
 	} else {
 		$name = POD::escapeString($comment['name']);
 		if ($comment['password'] !== true)
@@ -501,7 +504,6 @@ function updateComment($blogid, $comment, $password) {
 		}
 		else
 		{
-			$openid = Acl::getIdentity('openid');
 			if( empty($password) && $openid ) {
 				$wherePassword = ' AND openid = \'' . $openid . '\'';
 			} else {

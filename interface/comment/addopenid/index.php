@@ -94,7 +94,7 @@ $comment['entry'] = $entryId;
 $comment['parent'] = null;
 $comment['name'] = $userName;
 $comment['password'] = OPENID_PASSWORD;
-$comment['homepage'] = ($userHomepage == '' || $userHomepage == 'http://') ? '' : $userHomepage;
+$comment['homepage'] = ($userHomepage == '' || $userHomepage == 'http://') ? $openid_identity : $userHomepage;
 $comment['secret'] = $userSecret;
 $comment['comment'] = $userComment;
 $comment['ip'] = $_SERVER['REMOTE_ADDR'];
