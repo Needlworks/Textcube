@@ -395,12 +395,12 @@ if ($hptype == 'internal' || 'author') {
 										<legend><?php echo _t('대표 주소');?></legend>
 										<dl id="blogger-name-line" class="line">
 											<dt><?php echo _t('대표 주소');?></dt>
-											<dd><div><input id="type" type="radio" name="type" value="internal" <?php echo ($hptype != "external" ? "checked=\"checked\"" : "");?> > <?php echo _t('참여중인 블로그');?> 
-												<input id="type" type="radio" name="type" value="author" <?php echo ($hptype == "author" ? "checked=\"checked\"":"");?> > <?php echo _t('author page');?>
+											<dd><div><input id="id-joined-blog" type="radio" name="type" value="internal" <?php echo ($hptype != "external" ? "checked=\"checked\"" : "");?> /> <label for="id-joined-blog"><?php echo _t('참여중인 블로그');?></label>
+												<input id="id-author-page" type="radio" name="type" value="author" <?php echo ($hptype == "author" ? "checked=\"checked\"":"");?> /> <label for="id-author-page"><?php echo _t('author page');?></label>
 <?php
 if(!empty($blogs)) {
 ?>
-												<select id="blogid" name="blogid">
+												<select id="blogid-list" name="blogid">
 <?php
 	foreach ($blogs as $blog) {
 ?>
@@ -414,10 +414,10 @@ if(!empty($blogs)) {
 ?>
 												</div>
 												<div>
-												<input id="type" type="radio" name="type" value="external" <?php echo ($hptype == "external" ? "checked=\"checked\"":"");?> > <?php echo _t('외부 주소');?> <input type="text" name="homepage" id="homepage" class="input-text" value="<?php echo User::getHomepage();?>">
+												<input id="id-external-address" type="radio" name="type" value="external" <?php echo ($hptype == "external" ? "checked=\"checked\"":"");?> > <label for="id-external-address"><?php echo _t('외부 주소');?></label> <input type="text" name="homepage" id="homepage" class="input-text" value="<?php echo User::getHomepage();?>">
 												</div>
 												<div>
-												<input id="type" type="radio" name="type" value="default" <?php echo ($hptype == "default" ? "checked=\"checked\"":"");?> > <?php echo _t('기본값');?>
+												<input id="id-default-value" type="radio" name="type" value="default" <?php echo ($hptype == "default" ? "checked=\"checked\"":"");?> /> <label for="id-default-value"><?php echo _t('기본값');?></label>
 												</div>
 											</dd>
 										</dl>
