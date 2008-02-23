@@ -910,6 +910,8 @@ if ((preg_match('@rewrite\.php@', $content) == 0 ) || (strpos($content,'[OR]') !
 #SetEnv PRELOAD_CONFIG 1
 RewriteEngine On
 RewriteBase ".$service['path']."/
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^(.+[^/])$ $1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ rewrite.php [L,QSA]
 ";
