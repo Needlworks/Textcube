@@ -47,48 +47,31 @@ function showCheckupMessage($stat = true) {
 }
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo _text('텍스트큐브를 점검합니다.');?></title>
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.css" />
-<?php
-if(file_exists(ROOT.$adminSkinSetting['skin'].'/checkup.css')) {
-?>
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/checkup.css" />
-<?php
-} else {  // Basic CSS
-?>
-	<style type="text/css" media="screen">
-	/*<![CDATA[*/
-		body
-		{
-			font                : 12px/1.5 Verdana, Gulim;
-			color               : #333;
-		}
-		h3
-		{
-			color               :#0099FF;
-			padding-bottom      :5px;
-		}
-	/*]]>*/
-	</style>
-<?php
-}
-?>
+	<link rel="stylesheet" media="screen" type="text/css" href="<?php echo $service['path']?>/style/setup/style.css" />
 </head>
 <body>
-	<div id="all-wrap">
-		<div id="data-outbox">
-			<h3><?php echo _text('텍스트큐브를 점검합니다.');?></h3>
-			<dl class="message">
-				<dt><?php echo _text('버전 검사');?></dt>
-				<dd><?php echo _textf('기존 버전 : %1',$currentVersion);?></dd>
-				<dd><?php echo _textf('현재 버전 : %1',TEXTCUBE_VERSION);?></dd>
-			<dl>
-			<div id="checkup-box">
-				<ul>
+	<div id="container">
+		<form id="setup">
+			<div id="title">
+				<h1><img src="<?php echo $service['path']?>/style/setup/image/title.gif" width="253" height="44" alt="Textcube를 점검합니다." /></h1>
+			</div>
+
+			<div id="inner">
+				<h2><?php echo _text('텍스트큐브 점검을 시작합니다.');?></h2>
+				
+				<div id="content" style="height: 200px; overflow-y: auto;">
+					<dl class="message">
+						<dt><?php echo _text('버전 검사');?></dt>
+						<dd><?php echo _textf('기존 버전 : %1',$currentVersion);?></dd>
+						<dd><?php echo _textf('현재 버전 : %1',TEXTCUBE_VERSION);?></dd>
+					<dl>
+					
+					<ul>
 <?php
 $changed = false;
 global $succeed;
@@ -340,11 +323,10 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
 }
 
 ?>
-				</ul>
-			</div>
-		</div>
-		<div id="message-box">
-			<span><?php
+					</ul>
+
+					<div id="message-box" style="text-align: center;">
+						<span><?php
 	reloadSkin(1);
 	echo ($changed ? _text('완료되었습니다.') : _text('확인되었습니다.'));
 
@@ -356,10 +338,14 @@ if ((file_get_contents(ROOT . '/cache/CHECKUP') != TEXTCUBE_VERSION) && ($succee
 	}
 }
 ?></span>
-		</div>
-		<div class="button-box">
-			<span class="input-button"><a href="<?php echo $blogURL.'/owner/center/dashboard';?>"><?php echo _text('되돌아가기');?></a></span>
-		</div>
+					</div>
+				</div>
+
+				<div id="navigation" style="padding-top: 20px;">
+					<a href="<?php echo $blogURL.'/owner/center/dashboard';?>"><img src="<?php echo $service['path']?>/style/setup/image/icon_ok.gif" width="74" height="24" alt="돌아가기" /></a>
+				</div>
+			</div>
+		</form>
 	</div>
 </body>
 </html>

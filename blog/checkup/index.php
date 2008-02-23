@@ -36,31 +36,31 @@ function getBlogSettingForMigration($blogid, $name, $default = null) {
 }
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo _text('텍스트큐브를 점검합니다.');?></title>
-	<style type="text/css" media="screen">
-	/*<![CDATA[*/
-		body
-		{
-			font                : 12px/1.5 Verdana, Gulim;
-			color               : #333;
-		}
-		h3
-		{
-			color               :#0099FF;
-			padding-bottom      :5px;
-		}
-	/*]]>*/
-	</style>
+	<link rel="stylesheet" media="screen" type="text/css" href="<?php echo $service['path']?>/style/setup/style.css" />
 </head>
 <body>
-	<h3><?php echo _text('텍스트큐브를 점검합니다.');?></h3>
-	
-	<p>
-		<ul>
+	<div id="container">
+		<form id="setup">
+			<div id="title">
+				<h1><img src="<?php echo $service['path']?>/style/setup/image/title.gif" width="253" height="44" alt="Textcube를 점검합니다." /></h1>
+			</div>
+
+			<div id="inner">
+				<h2><?php echo _text('텍스트큐브 점검을 시작합니다.');?></h2>
+
+				<div id="content" style="height: 200px; overflow-y: auto;">
+					<dl class="message">
+						<dt><?php echo _text('버전 검사');?></dt>
+						<dd><?php echo _textf('기존 버전 : %1',$currentVersion);?></dd>
+						<dd><?php echo _textf('현재 버전 : %1',TEXTCUBE_VERSION);?></dd>
+					<dl>
+
+					<ul>
 <?php
 $changed = false;
 if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings recentNoticeLength")) { // Since 1.0.1
@@ -924,14 +924,22 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
 }
 
 ?>
-</ul>
+					</ul>
+
+					<div id="message-box" style="text-align: center;">
+						<span><?php
 <?php
 	reloadSkin(1);
 ?>
 <?php echo ($changed ? _text('완료되었습니다.') : _text('확인되었습니다.'));?>
-</p>
-<p>
-<a href="<?php echo $blogURL.'/owner/center/dashboard';?>"><?php echo _text('되돌아가기');?></a>
-</p>
+					</div>
+				</div>
+
+				<div id="navigation" style="padding-top: 20px;">
+					<a href="<?php echo $blogURL.'/owner/center/dashboard';?>"><img src="<?php echo $service['path']?>/style/setup/image/icon_ok.gif" width="74" height="24" alt="돌아가기" /></a>
+				</div>
+			</div>
+		</form>
+	</div>
 </body>
 </html>
