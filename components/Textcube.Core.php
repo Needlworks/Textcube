@@ -186,12 +186,12 @@ class User {
 			case 0:
 				return;
 			case 1:
-				$title = setting::getBlogSettingGlobal("title",null,$blogList[0]);
+				$title = setting::getBlogSettingGlobal("title",null,$blogList[0],true);
 				return "<span id=\"teamblog\">".($title ? $title : _f('%1 님의 블로그',User::getBlogOwnerName($blogList[0])))."</span>";
 			default:
 				$changeBlogView = str_repeat(TAB,7)."<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/setting/teamblog/changeBlog/?blogid='+this.value\">".CRLF;
 				foreach($blogList as $info){
-					$title = UTF8::lessen(setting::getBlogSettingGlobal("title",null,$info), 30);
+					$title = UTF8::lessen(setting::getBlogSettingGlobal("title",null,$info,true), 30);
 					$title = ($title ? $title : _f('%1 님의 블로그',User::getBlogOwnerName($info)));
 					$changeBlogView .= str_repeat(TAB,8).'<option value="' . $info . '"';
 					if($info == $blogid) $changeBlogView .= ' selected="selected"';

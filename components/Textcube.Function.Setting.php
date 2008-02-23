@@ -26,7 +26,15 @@ class setting {
 	}
 
 	// For Blog-scope setting
-	function getBlogSettingGlobal($name, $default = null, $blogid = null) {
+	function getBlogSettingGlobal($name, $default = null, $blogid = null, $directAccess = false) {
+		global $database;
+		if(is_null($blogid)) $blogid = getBlogId();
+		if($directAccess == true) {
+			$query = new TableQuery($database['prefix']. 'BlogSettings');
+			$query->setQualifier('blogid', $blogid);
+			$query->setQualifier('name',$name, true);
+			return $query->getCell('value');
+		}
 		$settings = setting::getBlogSettingsGlobal(($blogid == null ? getBlogId() : $blogid)); 
 		if ($settings === false) return $default;
 		if( isset($settings[$name]) ) {
