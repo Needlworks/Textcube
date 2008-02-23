@@ -214,7 +214,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									<h4><?php echo _t('Hall of Fame');?></h4>
 									<p>
 									<a href="http://interlude.pe.kr">Jaehoon Jeong (0.9x),</a>
-									<a href="http://papacha.tistory.com">Sunju Jahng (1.0x)</a>
+									<a href="http://papacha.net">Sunju Jahng (1.0x)</a>
 									</p>
 								</div>	
 								<div id="contributor-container" class="container">
