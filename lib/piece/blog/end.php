@@ -74,6 +74,7 @@ dress('rctrp_rep', getRecentCommentsView(getRecentComments($blogid), $skin->rece
 dress('rcttb_rep', getRecentTrackbacksView(getRecentTrackbacks($blogid), $skin->recentTrackback), $view);
 dress('link_rep', getLinksView(getLinks( $blogid ), $skin->s_link_rep), $view);
 dress('rss_url', "$defaultURL/rss", $view);
+dress('response_rss_url', "$defaultURL/rss/response", $view);
 dress('comment_rss_url', "$defaultURL/rss/comment", $view);
 dress('trackback_rss_url', "$defaultURL/rss/trackback", $view);
 dress('owner_url', "$blogURL/owner", $view);

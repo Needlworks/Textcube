@@ -5,8 +5,7 @@
 <meta http-equiv="imagetoolbar" content="no" />
 <meta http-equiv="Keywords" content="[##_meta_http_equiv_keywords_##]" />
 <link rel="alternate" type="application/rss+xml" title="[##_title_##]" href="[##_rss_url_##]" />
-<link rel="alternate" type="application/rss+xml" title="[##_title_##] : comment" href="[##_comment_rss_url_##]" />
-<link rel="alternate" type="application/rss+xml" title="[##_title_##] : trackback" href="[##_trackback_rss_url_##]" />
+<link rel="alternate" type="application/rss+xml" title="[##_title_##] : responses" href="[##_response_rss_url_##]" />
 <link rel="stylesheet" media="screen" type="text/css" href="./style.css" />
 <link rel="stylesheet" media="print" type="text/css" href="./styles/print.css" />
 <link rel="shortcut icon" href="[##_blog_link_##]favicon.ico" />
@@ -301,6 +300,10 @@
 									</s_rp_count>
 								</a>
 							</dd>
+							<dt class="response"><abbr title="Really Simple Syndication">RSS</dbbr> : </dt>
+							<dd>
+								[##_article_rep_response_rssurl_##]
+							</dd>
 						</dl>
 					</div>
 				</div>
@@ -309,7 +312,7 @@
 				<s_tb>
 				<div class="trackback">
 					<p class="url"><dfn>Trackback <abbr title="Uniform Resource Locator">URL</abbr></dfn> : [##_tb_address_##]</p>
-					<p class="url"><dfn>Trackback <abbr title="Really Simple Syndication">RSS</abbr></dfn> : [##_article_rep_tb_rssurl_##]</p>
+<!--					<p class="url"><dfn>Trackback <abbr title="Really Simple Syndication">RSS</abbr></dfn> : [##_article_rep_tb_rssurl_##]</p>-->
 					<s_tb_container>
 					
 					<h3>Trackbacks List</h3>
@@ -335,7 +338,7 @@
 				<div class="list">
 					<h3>Comments List</h3>
 					<ol>
-						<li><span class="rssurl">Comment RSS : [##_article_rep_rp_rssurl_##]</span></li>
+						<!--<li><span class="rssurl">Comment RSS : [##_article_rep_rp_rssurl_##]</span></li>-->
 						<s_rp_rep>
 						<li id="[##_rp_rep_id_##]" class="[##_rp_rep_class_##]">
 							<p class="writer">
@@ -601,9 +604,8 @@
 			<div id="subscription" class="module">
 				<a href="[##_rss_url_##]" class="rss" rel="alternate" type="application/rss+xml">
 					Subscribe to <abbr title="Really Simple Syndication">RSS</abbr> articles</a><br />
-				<a href="[##_comment_rss_url_##]" class="rss" rel="alternate" type="application/rss+xml">Subscribe to RSS comments</a>
-				<a href="[##_trackback_rss_url_##]" class="rss" rel="alternate" type="application/rss+xml">Subscribe to RSS trackbacks</a>
-					</div>
+				<a href="[##_response_rss_url_##]" class="rss" rel="alternate" type="application/rss+xml">Subscribe to RSS responses</a>
+			</div>
 			</s_sidebar_element>
 		</s_sidebar>
 		</div>

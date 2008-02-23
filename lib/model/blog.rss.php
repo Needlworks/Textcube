@@ -122,13 +122,12 @@ function refreshRSS($blogid) {
 	return false;
 }
 
-function getCommentRSSTotal($blogid) {
-	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
+function initializeRSSchannel($blogid = null) {
+	global $serviceURL, $defaultURL, $blogURL, $blog;
 
 	if(empty($blogid)) $blogid = getBlogId();
 
 	$channel = array();
-	$channel['title'] = RSSMessage($blog['title']. ': '._text('최근 댓글 목록'));
 	$channel['link'] = "$defaultURL/";
 	$channel['description'] = RSSMessage($blog['description']);
 	$channel['language'] = $blog['language'];
@@ -141,6 +140,41 @@ function getCommentRSSTotal($blogid) {
 		$channel['width'] = $logoInfo[0];
 		$channel['height'] = $logoInfo[1];
 	}
+	return $channel;
+}
+function getResponseRSSTotal($blogid) {
+	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
+	if(empty($blogid)) $blogid = getBlogId();
+	$channel = initializeRSSchannel($blogid);
+	$channel['title'] = $blog['title']. ': '._text('최근 댓글/트랙백 목록');
+
+	$recentComment = getCommentRSSTotal($blogid,true);
+	$recentTrackback = getTrackbackRSSTotal($blogid,true);
+	$merged = array_merge($recentComment, $recentTrackback);
+	$channel['items'] = $merged;
+	$rss = array('channel' => $channel);
+	return publishRSS($blogid, $rss);
+}
+
+function getResponseRSSByEntryId($blogid, $entryId) {
+	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
+	if(empty($blogid)) $blogid = getBlogId();
+	$channel = initializeRSSchannel($blogid);
+	$channel['title'] = $blog['title']. ': '._text('최근 댓글/트랙백 목록');
+
+	$recentComment = getCommentRSSByEntryId($blogid,$entryId,true);
+	$recentTrackback = getTrackbackRSSByEntryId($blogid,$entryId,true);
+	$merged = array_merge($recentComment, $recentTrackback);
+	$channel['items'] = $merged;
+	$rss = array('channel' => $channel);
+	return publishRSS($blogid, $rss);
+}
+
+function getCommentRSSTotal($blogid, $rawMode = false) {
+	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
+	$channel = initializeRSSchannel($blogid);
+	$channel['title'] = $blog['title']. ': '._text('최근 댓글 목록');
+	
 	$result = getRecentComments($blogid, 20, false, true);
 	if (!$result)
 		$result = array();
@@ -162,36 +196,27 @@ function getCommentRSSTotal($blogid) {
 		if($row['secret']) $item['author'] = $item['description'] = _text('비밀 댓글입니다');
 		array_push($channel['items'], $item);
 	}
+	if($rawMode == true) return $channel['items'];
 	$rss = array('channel' => $channel);
 	return publishRSS($blogid, $rss);
 }
 
-function getCommentRSSByEntryId($blogid, $entryId) {
+function getCommentRSSByEntryId($blogid = null, $entryId, $rawMode = false) {
 	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
-
+	
 	if(empty($blogid)) $blogid = getBlogId();
 
 	$entry = POD::queryRow("SELECT slogan, visibility, title, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
 	if(empty($entry)) return false;
 	if($entry['visibility'] < 2) return false;
 	if(in_array($entry['category'], getCategoryVisibilityList($blogid, 'private'))) return false;
-	$channel = array();
+
+	$channel = initializeRSSchannel($blogid);
 	$channel['title'] = RSSMessage($blog['title']. ': '._textf('%1 에 달린 댓글',$entry['title']));
 	if($blog['useSlogan']) {
 		$channel['link'] = $defaultURL."/entry/".URL::encode($entry['slogan'],true);
 	} else {
 		$channel['link'] = $defaultURL."/".$entryId;
-	}
-	$channel['description'] = RSSMessage($blog['description']);
-	$channel['language'] = $blog['language'];
-	$channel['pubDate'] = Timestamp::getRFC1123();
-	$channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
-
-	if ((getBlogSetting('visibility',2) == 2) && !empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
-		$logoInfo = getimagesize(ROOT."/attach/$blogid/{$blog['logo']}");
-		$channel['url'] = $serviceURL."/attach/".$blogid."/".$blog['logo'];
-		$channel['width'] = $logoInfo[0];
-		$channel['height'] = $logoInfo[1];
 	}
 	$result = POD::queryAll("SELECT *
 		FROM {$database['prefix']}Comments
@@ -218,31 +243,18 @@ function getCommentRSSByEntryId($blogid, $entryId) {
 		if($row['secret']) $item['author'] = $item['description'] = _text('비밀 댓글입니다');
 		array_push($channel['items'], $item);
 	}
+	if($rawMode == true) return $channel['items'];
 	$rss = array('channel' => $channel);
 	return publishRSS($blogid, $rss);
 }
 
 
-function getTrackbackRSSTotal($blogid) {
+function getTrackbackRSSTotal($blogid, $rawMode = false) {
 	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
 
 	if(empty($blogid)) $blogid = getBlogId();
-	$isPublic = (getBlogSetting('visibility',2) == 2 ? true : false);
-
-	$channel = array();
+	$channel = initializeRSSchannel($blogid);
 	$channel['title'] = RSSMessage($blog['title']. ': '._text('최근 트랙백 목록'));
-	$channel['link'] = "$defaultURL/";
-	$channel['description'] = RSSMessage($blog['description']);
-	$channel['language'] = $blog['language'];
-	$channel['pubDate'] = Timestamp::getRFC1123();
-	$channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
-
-	if ((getBlogSetting('visibility',2) == 2) && !empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
-		$logoInfo = getimagesize(ROOT."/attach/$blogid/{$blog['logo']}");
-		$channel['url'] = $serviceURL."/attach/".$blogid."/".$blog['logo'];
-		$channel['width'] = $logoInfo[0];
-		$channel['height'] = $logoInfo[1];
-	}
 	$result = getRecentTrackbacks($blogid, 20, true);
 	if (!$result)
 		$result = array();
@@ -263,11 +275,12 @@ function getTrackbackRSSTotal($blogid) {
 		);
 		array_push($channel['items'], $item);
 	}
+	if($rawMode == true) return $channel['items'];
 	$rss = array('channel' => $channel);
 	return publishRSS($blogid, $rss);
 }
 
-function getTrackbackRSSByEntryId($blogid, $entryId) {
+function getTrackbackRSSByEntryId($blogid = null, $entryId, $rawMode = false) {
 	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
 
 	if(empty($blogid)) $blogid = getBlogId();
@@ -277,22 +290,13 @@ function getTrackbackRSSByEntryId($blogid, $entryId) {
 	if($entry['visibility'] < 2) return false;
 	if(in_array($entry['category'], getCategoryVisibilityList($blogid, 'private'))) return false;
 	$channel = array();
+
+	$channel = initializeRSSchannel($blogid);
 	$channel['title'] = RSSMessage($blog['title']. ': '._textf('%1 에 달린 트랙백',$entry['slogan']));
 	if($blog['useSlogan']) {
 		$channel['link'] = $defaultURL."/entry/".URL::encode($entry['slogan'],true);
 	} else {
 		$channel['link'] = $defaultURL."/".$entryId;
-	}
-	$channel['description'] = RSSMessage($blog['description']);
-	$channel['language'] = $blog['language'];
-	$channel['pubDate'] = Timestamp::getRFC1123();
-	$channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
-
-	if ((getBlogSetting('visibility',2) == 2) && !empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
-		$logoInfo = getimagesize(ROOT."/attach/$blogid/{$blog['logo']}");
-		$channel['url'] = $serviceURL."/attach/".$blogid."/".$blog['logo'];
-		$channel['width'] = $logoInfo[0];
-		$channel['height'] = $logoInfo[1];
 	}
 	$result = POD::queryAll("SELECT * 
 		FROM {$database['prefix']}Trackbacks
@@ -319,6 +323,7 @@ function getTrackbackRSSByEntryId($blogid, $entryId) {
 		);
 		array_push($channel['items'], $item);
 	}
+	if($rawMode == true) return $channel['items'];
 	$rss = array('channel' => $channel);
 	return publishRSS($blogid, $rss);
 }
@@ -327,22 +332,8 @@ function getCommentNotifiedRSSTotal($blogid) {
 	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
 
 	if(empty($blogid)) $blogid = getBlogId();
-	$isPublic = (getBlogSetting('visibility',2) == 2 ? true : false);
-
-	$channel = array();
+	$channel = initializeRSSchannel($blogid);
 	$channel['title'] = RSSMessage($blog['title']. ': '._text('최근 댓글 알리미 목록'));
-	$channel['link'] = "$defaultURL/";
-	$channel['description'] = RSSMessage($blog['description']);
-	$channel['language'] = $blog['language'];
-	$channel['pubDate'] = Timestamp::getRFC1123();
-	$channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
-
-	if ((getBlogSetting('visibility',2) == 2) && !empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
-		$logoInfo = getimagesize(ROOT."/attach/$blogid/{$blog['logo']}");
-		$channel['url'] = $serviceURL."/attach/".$blogid."/".$blog['logo'];
-		$channel['width'] = $logoInfo[0];
-		$channel['height'] = $logoInfo[1];
-	}
 	$mergedComments = array();
 	list($comments, $paging) = getCommentsNotifiedWithPagingForOwner($blogid, '', '', '', '', 1, 20);
 	for ($i = 0; $i < count($comments); $i++) {

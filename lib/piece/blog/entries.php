@@ -12,12 +12,15 @@ if (isset($cache->contents)) {
 	$totalTags = array();
 	$entryRsses = '';
 	foreach ($entries as $entry) {
+//		$entryRsses .= '<link rel="alternate" type="application/rss+xml" '.
+//			'title="Trackback: '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($blog['title']).'" '.
+//			'href="'.$defaultURL.'/rss/trackback/'.$entry['id'].'" />'.CRLF;
+//		$entryRsses .= '<link rel="alternate" type="application/rss+xml" '.
+//			'title="Comment: '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($blog['title']).'" '.
+//			'href="'.$defaultURL.'/rss/comment/'.$entry['id'].'" />'.CRLF;
 		$entryRsses .= '<link rel="alternate" type="application/rss+xml" '.
-			'title="Trackback: '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($blog['title']).'" '.
-			'href="'.$defaultURL.'/rss/trackback/'.$entry['id'].'" />'.CRLF;
-		$entryRsses .= '<link rel="alternate" type="application/rss+xml" '.
-			'title="Comment: '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($blog['title']).'" '.
-			'href="'.$defaultURL.'/rss/comment/'.$entry['id'].'" />'.CRLF;
+			'title="Responses : '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($blog['title']).'" '.
+			'href="'.$defaultURL.'/rss/response/'.$entry['id'].'" />'.CRLF;
 	}
 	if( getBlogSetting('useFOAF',1) && rtrim( $suri['url'], '/' ) == $pathURL ) {
 		/* same code exists in cover.php */
@@ -113,6 +116,7 @@ if (isset($cache->contents)) {
 			dress('article_rep_link', $permalink, $entryView);
 			dress('article_rep_rp_rssurl', $defaultURL.'/rss/comment/'.$entry['id'], $entryView);
 			dress('article_rep_tb_rssurl', $defaultURL.'/rss/trackback/'.$entry['id'], $entryView);
+			dress('article_rep_response_rssurl', $defaultURL.'/rss/response/'.$entry['id'], $entryView);
 			dress('article_rep_title', htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id'])), $entryView);
 			// 사용자가 작성한 본문은 lib/piece/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
 			$contentContainer["article_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($blogid));

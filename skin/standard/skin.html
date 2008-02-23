@@ -5,7 +5,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
 <meta http-equiv="Keywords" content="[##_meta_http_equiv_keywords_##]" />
 <link rel="alternate" type="application/rss+xml" title="[##_title_##]" href="[##_rss_url_##]" />
-<link rel="alternate" type="application/rss+xml" title="[##_title_##]" href="[##_comment_rss_url_##]" />
+<link rel="alternate" type="application/rss+xml" title="[##_title_##] : comments" href="[##_comment_rss_url_##]" />
+<link rel="alternate" type="application/rss+xml" title="[##_title_##] : trackbacks" href="[##_trackback_rss_url_##]" />
+<link rel="alternate" type="application/rss+xml" title="[##_title_##] :  comments + trackbacks" href="[##_response_rss_url_##]" />
 <link rel="stylesheet" media="screen" type="text/css" href="./style.css" />
 <link rel="stylesheet" media="print" type="text/css" href="./images/print.css" />
 <link rel="shortcut icon" href="[##_blog_link_##]favicon.ico" />
@@ -274,6 +276,7 @@
 					<div class="actionTrail">
 						<a id="[##_article_rep_tb_cnt_id_##]" href="#tb" onclick="[##_article_rep_tb_link_##]"><s_tb_count> 트랙백 <span class="cnt">[##_article_rep_tb_cnt_##]</span>개</s_tb_count></a>, 
 						<a id="[##_article_rep_rp_cnt_id_##]" href="#rp" onclick="[##_article_rep_rp_link_##]"><s_rp_count> 댓글 <span class="cnt">[##_article_rep_rp_cnt_##]</span>개가 달렸습니다.</s_rp_count></a>
+						<h3>댓글+트랙백 RSS :: [##_article_rep_response_rssurl_##]</h3>
 					</div>
 
 					<s_tb>
@@ -596,6 +599,10 @@
 					<div class="botton">
 						<a href="[##_trackback_rss_url_##]" onclick="window.open(this.href); return false">
 						<img src="./images/rss.gif" alt="rss"/>트랙백</a>
+					</div>
+					<div class="botton">
+						<a href="[##_response_rss_url_##]" onclick="window.open(this.href); return false">
+						<img src="./images/rss.gif" alt="rss"/>댓글+트랙백</a>
 					</div>
 				</s_sidebar_element>
 			</s_sidebar>
