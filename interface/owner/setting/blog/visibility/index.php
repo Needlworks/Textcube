@@ -11,7 +11,7 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireModel('blog.rss');
 
 requireStrictRoute();
-if (setting::setBlogSettingGlobal('visibility',$_GET['visibility'])) {
+if (setBlogSetting('visibility',$_GET['visibility'])) {
 	CacheControl::flushCommentRSS();
 	CacheControl::flushTrackbackRSS();
 	clearRSS();

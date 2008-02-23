@@ -203,7 +203,7 @@ dl dd
 
 #part-setting-rss dl dd
 {
-	padding-bottom                      : 8px;
+	padding-bottom                   : 8px;
 }
 
 #etc-section fieldset
@@ -213,7 +213,7 @@ dl dd
 
 #part-setting-rss .button-box .input-button
 {
-	margin                           : 0 auto 0 190px;
+	margin                           : 0 auto;
 }
 
 #part-setting-mailhost

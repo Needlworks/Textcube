@@ -274,7 +274,6 @@ if ($service['type'] != 'single') {
 										+"&commentsOnRSS="+document.getElementById('rss-form').commentsOnRSS.value);
 
 									isAllowCommentGuestbook = document.getElementById('allowCommentGuestbook').checked ? 1 : 0;
-									//isAllowWriteGuestbook = document.getElementById('allowWriteGuestbook').checked ? 1 : 0;
 									if ( isAllowCommentGuestbook != allowCommentGuestbook) {
 										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/guestbook/?comment="+isAllowCommentGuestbook+"&write=1");
 										request.onSuccess = function() {
@@ -379,7 +378,6 @@ if($service['allowBlogVisibilitySetting']){
 
 							//]]>
 						</script>
-						
 						<div id="part-setting-basic" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('블로그의 기본 정보를 설정합니다');?></span></h2>
 							
@@ -587,8 +585,8 @@ if($service['allowBlogVisibilitySetting']){
 											<dt><span class="label"><?php echo _t('블로그 공개 정도');?></span></dt>
 											<dd>
 												<input type="radio" id="visibilityPrivate" class="radio" name="visibility"<?php echo ($blog['visibility']==0 ? ' checked="checked"' : '');?> /><label for="visibilityPrivate"><span class="text"><?php echo _t('이 블로그의 구성원만 접근할 수 있도록 합니다.');?></span></label><br />
-												<input type="radio" id="visibilityMember" class="radio" name="visibility"<?php echo ($blog['visibility']==1 ?   ' checked="checked"' : '');?> /><label for="visibilityMember"><span class="text"><?php echo _t('블로그에 아이디가 있는 경우만 접근할 수 있도록 합니다.');?></span></label><br />
-												<input type="radio" id="visibilityPublic" class="radio" name="visibility"<?php echo ($blog['visibility']==2 ?   ' checked="checked"' : '');?> /><label for="visibilityPublic"><span class="text"><?php echo _t('누구나 접근할 수 있도록 합니다.');?></span></label>
+												<input type="radio" id="visibilityMember" class="radio" name="visibility"<?php echo ($blog['visibility']==1 ? ' checked="checked"' : '');?> /><label for="visibilityMember"><span class="text"><?php echo _t('블로그에 아이디가 있는 경우만 접근할 수 있도록 합니다.');?></span></label><br />
+												<input type="radio" id="visibilityPublic" class="radio" name="visibility"<?php echo ($blog['visibility']==2 ? ' checked="checked"' : '');?> /><label for="visibilityPublic"><span class="text"><?php echo _t('누구나 접근할 수 있도록 합니다.');?></span></label>
 											</dd>
 											<dd>
 												<p><label for="visibility"><?php echo _t('블로그 공개 정도를 설정합니다.').' '._t('접근 권한이 제한된 경우에는 로그인 이후에 블로그를 열람할 수 있습니다.').'<br />'._t('접근 권한이 제한된 경우 RSS로 내용을 열람할 수 없으며, RSS로 새 글이 올라오는 시간만 전달됩니다.');?></label></p>
@@ -662,7 +660,7 @@ if( isActivePlugin( 'CL_OpenID' ) ) {
 												echo "<samp>(";
 												echo _t('댓글을 오픈아이디 사용자에게만 허용할 수 있습니다.');
 ?>
-									<a class="button" href="<?php echo $blogURL?>/owner/plugin"><?php echo _t('오픈아이디 플러그인 설정 바로가기'); ?></a>)</samp>
+												<a class="button" href="<?php echo $blogURL?>/owner/plugin"><?php echo _t('오픈아이디 플러그인 설정 바로가기'); ?></a>)</samp>
 <?php
 }
 ?>

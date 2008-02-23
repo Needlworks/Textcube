@@ -147,7 +147,16 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								function setEntryVisibility(entry, visibility) {
 									if ((visibility < 0) || (visibility > 3))
 										return false;
-									
+<?php
+	if(getBlogSetting('visibility',2) < 2) {
+?>
+									if(visibility == 3) {
+										alert('<?php echo _t('블로그가 공개되지 않은 상태이기 때문에 발행할 수 없습니다.');?>');
+										return false;
+									}
+<?php
+	}
+?>
 									if (visibility == 3 && document.getElementById("syndicatedIcon_" + entry).style.backgroundPosition == 'left bottom') {
 										visibility = 2;
 									}

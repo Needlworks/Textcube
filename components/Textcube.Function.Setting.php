@@ -119,7 +119,6 @@ class setting {
 		
 		$escape_name = POD::escapeString($name);
 		$escape_value = POD::escapeString($value);
-
 		$gCacheStorage->purge();
 		if (array_key_exists($name, $__gCacheBlogSettings[$blogid])) {
 			// overwrite value

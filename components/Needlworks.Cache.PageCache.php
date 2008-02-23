@@ -418,6 +418,7 @@ class CacheControl {
 		$cache->reset();
 		$cache->name = 'commentRSS';
 		$cache->purge();
+		CacheControl::flushResponseRSS($entryId);
 		return true;
 	}
 	
@@ -430,6 +431,20 @@ class CacheControl {
 		$cache->purge();
 		$cache->reset();
 		$cache->name = 'trackbackRSS';
+		$cache->purge();
+		CacheControl::flushResponseRSS($entryId);
+		return true;
+	}
+		
+	function flushResponseRSS($entryId = null) {
+		global $database;
+
+		if(empty($entryId)) $entryId = '';
+		$cache = new pageCache;
+		$cache->name = 'responseRSS_'.$entryId;
+		$cache->purge();
+		$cache->reset();
+		$cache->name = 'responseRSS';
 		$cache->purge();
 		return true;
 	}
