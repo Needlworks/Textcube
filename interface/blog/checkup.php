@@ -9,13 +9,6 @@ requireModel('common.setting');
 
 if(!file_exists(ROOT . '/cache/CHECKUP')) $currentVersion = _text('첫번째 점검');
 else $currentVersion = file_get_contents(ROOT . '/cache/CHECKUP');
-if (!file_exists(ROOT . '/cache/CHECKUP')) {
-	if ($fp = fopen(ROOT . '/cache/CHECKUP', 'w')) {
-		fwrite($fp, TEXTCUBE_VERSION);
-		fclose($fp);
-		@chmod(ROOT . '/cache/CHECKUP', 0666);
-	}
-}
 
 function setBlogSettingForMigration($blogid, $name, $value, $mig = null) {
 	global $database;
@@ -44,6 +37,25 @@ function showCheckupMessage($stat = true) {
 		$succeed = false;
 		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 	}
+}
+
+function clearCache() {
+	global $database, $changed, $errorlog;
+	if($blogids = POD::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog")) {
+		$changed = true;
+		$errorlog = false;
+		echo '<li>', _textf('페이지 캐시를 초기화합니다.'), ': ';
+		foreach($blogids as $ids) {
+			if(CacheControl::flushAll($ids) == false) $errorlog = true; 
+		}
+		if($errorlog == false) echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+	}
+
+	echo '<li>', _textf('공지사항 캐시를 초기화합니다.'), ': ';
+	if(POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = 'Textcube_Notice_%'"))
+		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+	else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
 }
 
 ?>
@@ -275,23 +287,7 @@ if($currentVersion != TEXTCUBE_VERSION) {
 }
 
 /***** Common parts. *****/
-if(doesHaveOwnership() && $blogids = POD::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog")) {
-	$changed = true;
-	$errorlog = false;
-	echo '<li>', _textf('페이지 캐시를 초기화합니다.'), ': ';
-	foreach($blogids as $ids) {
-		if(CacheControl::flushAll($ids) == false) $errorlog = true; 
-	}
-	if($errorlog == false) echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
-
-if(doesHaveOwnership()){
-	echo '<li>', _textf('공지사항 캐시를 초기화합니다.'), ': ';
-	if(POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = 'Textcube_Notice_%'"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-}
+if(doesHaveOwnership()) clearCache();
 
 $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
@@ -330,11 +326,12 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
 	reloadSkin(1);
 	echo ($changed ? _text('완료되었습니다.') : _text('확인되었습니다.'));
 
-if ((file_get_contents(ROOT . '/cache/CHECKUP') != TEXTCUBE_VERSION) && ($succeed == true)) {
+if (((!file_exists(ROOT . '/cache/CHECKUP')) || (file_get_contents(ROOT . '/cache/CHECKUP') != TEXTCUBE_VERSION)) && ($succeed == true)) {
 	if ($fp = fopen(ROOT . '/cache/CHECKUP', 'w')) {
 		fwrite($fp, TEXTCUBE_VERSION);
 		fclose($fp);
 		@chmod(ROOT . '/cache/CHECKUP', 0666);
+		clearCache();
 	}
 }
 ?></span>
