@@ -39,10 +39,10 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										</thead>
 										<tbody>
 											<tr>
-												<td class="name"><a href="http://forest.nubimaru.com">Jeongkyu Shin</a></td>
+												<td class="name vcard"><a class="fn url" href="http://forest.nubimaru.com">Jeongkyu Shin</a></td>
 											</tr>
 											<tr>
-												<td class="name"><a href="http://gendoh.com">Sang-il Lee</a></td>
+												<td class="name vcard"><a class="fn url" href="http://gendoh.com">Sang-il Lee</a></td>
 											</tr>
 										</tbody>
 									</table>
@@ -63,35 +63,35 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										</thead>
 										<tbody>
 										<tr>
-												<td class="name"><a href="http://coolengineer.com/">Hojin Choi</a></td>
+												<td class="name vcard"><a class="fn url" href="http://coolengineer.com/">Hojin Choi</a></td>
 												<td class="role"><?php echo _t('ACL / i18n / XML-RPC API interface / OpenID / Microformat');?></td>
 											</tr>
 											<tr>
-												<td class="name"><a href="http://daybreaker.info">Kim Joongi</a></td>
+												<td class="name vcard"><a class="fn url" href="http://daybreaker.info">Kim Joongi</a></td>
 												<td class="role"><?php echo _t('XHTML specification / Textcube main page / Quality Assurance');?></td>
 											</tr>
 											<tr>
-												<td class="name"><a href="http://www.graphittie.org/blog">graphittie™</a></td>
+												<td class="name vcard"><a class="fn url" href="http://www.graphittie.org/blog">graphittie™</a></td>
 												<td class="role"><?php echo _t('UI / Sidebar / XHTML specification / Bug tracking');?></td>
 											</tr>
 											<tr>
-												<td class="name"><a href="http://forest.nubimaru.com">Jeongkyu Shin</a></td>
+												<td class="name vcard"><a class="fn url" href="http://forest.nubimaru.com">Jeongkyu Shin</a></td>
 												<td class="role"><?php echo _t('Core / DB management / Editor / Documentation');?></td>
 											</tr>
 											<tr>
-												<td class="name"><a href="http://www.create74.com">Yong-ju, Park</a></td>
+												<td class="name vcard"><a class="fn url" href="http://www.create74.com">Yong-ju, Park</a></td>
 												<td class="role"><?php echo _t('Teamblog / Coverpage / Plugin');?></td>
 											</tr>
 											<tr>
-												<td class="name"><a href="http://tokigun.net">Seong-Hoon Kang</a></td>
+												<td class="name vcard"><a class="fn url" href="http://tokigun.net">Seong-Hoon Kang</a></td>
 												<td class="role"><?php echo _t('Editor / Formatter / Module');?></td>
 											</tr>
 											<tr>
-												<td class="name"><a href="http://crizin.net">Jaeyong Lee</a></td>
+												<td class="name vcard"><a class="fn url" href="http://crizin.net">Jaeyong Lee</a></td>
 												<td class="role"><?php echo _t('RSS Reader');?></td>
 											</tr>
 											<tr>
-												<td class="name"><a href="http://bringbring.com">Jaepil Koh</a></td>
+												<td class="name vcard"><a class="fn url" href="http://bringbring.com">Jaepil Koh</a></td>
 												<td class="role"><?php echo _t('Service administration panel');?></td>
 											</tr>
 										</tbody>
@@ -114,23 +114,23 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										</thead>
 										<tbody>
 											<tr>
-												<td class="name"><a href="http://spirited.tistory.com">Youyoung Song</a></td>
+												<td class="name vcard"><a class="fn url" href="http://spirited.tistory.com">Youyoung Song</a></td>
 												<td class="role">한국어</td>
 											</tr>
 											<tr>
-												<td class="name"><a href="mailto:seikanet@gmail.com">Sangjib Choi</a></td>
+												<td class="name vcard"><a class="fn email" href="mailto:seikanet@gmail.com">Sangjib Choi</a></td>
 												<td class="role">日本語</td>
 											</tr>
 											<tr>
-												<td class="name">DX.KIM</td>
+												<td class="name vcard"><span class="fn nickname">DX.KIM</span></td>
 												<td class="role">简体中文</td>
 											</tr>
 											<tr>
-												<td class="name"><a href="http://blog.chieh.tw">Chieh</a></td>
+												<td class="name vcard"><a class="fn url" href="http://blog.chieh.tw">Chieh</a></td>
 												<td class="role">正體中文</td>
 											</tr>
 											<tr>
-												<td class="name">Steve Yum</td>
+												<td class="name vcard"><span class="fn">Steve Yum</span></td>
 												<td class="role">English</td>
 											</tr>
 										</tbody>
@@ -153,19 +153,19 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										</thead>
 										<tbody>
 											<tr>
-												<td class="name"><a href="http://design.funny4u.com">Guihwan Yu</a></td>
+												<td class="name vcard"><a class="fn url" href="http://design.funny4u.com">Guihwan Yu</a></td>
 												<td class="role"><?php echo _t('Icon design');?></td>
 											</tr>
 											<tr>
-												<td class="name"><a href="http://1upz.com">Won-eob Cho</a></td>
+												<td class="name vcard"><a class="fn url" href="http://1upz.com">Won-eob Cho</a></td>
 												<td class="role"><?php echo _t('Default skin');?></td>
 											</tr>
 											<tr>
-												<td class="name"><a href="http://cyworld.com/madskillz">Hyunsang Hwang</a></td>
+												<td class="name vcard"><a class="fn url" href="http://cyworld.com/madskillz">Hyunsang Hwang</a></td>
 												<td class="role"><?php echo _t('Logo design');?></td>
 											</tr>
 											<tr>
-												<td class="name"><a href="http://themaum.com">Sungho Kim</a></td>
+												<td class="name vcard"><a class="fn url" href="http://themaum.com">Sungho Kim</a></td>
 												<td class="role"><?php echo _t('Plugin icon design');?></td>
 											</tr>
 										</tbody>
@@ -188,19 +188,19 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										</thead>
 										<tbody>
 											<tr>
-												<td class="name"><a href="http://blog.2pink.net">Shik Yoon</a></td>
+												<td class="name vcard"><a class="fn url" href="http://blog.2pink.net">Shik Yoon</a></td>
 												<td class="role"><?php echo _t('Site design / Manual');?></td>
 											</tr>
 											<tr>
-												<td class="name"><a href="http://ilmol.com">Sem Kim</a></td>
+												<td class="name vcard"><a class="fn url" href="http://ilmol.com">Sem Kim</a></td>
 												<td class="role"><?php echo _t('Notice moderator (English)');?></td>
 											</tr>
 											<tr>
-												<td class="name"><a href="http://lunamoth.biz">lunamoth</a></td>
+												<td class="name vcard"><a class="fn url" href="http://lunamoth.biz">lunamoth</a></td>
 												<td class="role"><?php echo _t('Online manual');?></td>
 											</tr>
 											<tr>
-												<td class="name"><a href="http://bringbring.com">Jaepil Koh</a></td>
+												<td class="name vcard"><a class="fn url" href="http://bringbring.com">Jaepil Koh</a></td>
 												<td class="role"><?php echo _t('TatterCamp moderator');?></td>
 											</tr>
 										</tbody>
@@ -213,39 +213,39 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								<div id="creators-container" class="container">
 									<h4><?php echo _t('Hall of Fame');?></h4>
 									<p>
-									<a href="http://interlude.pe.kr">Jaehoon Jeong (0.9x),</a>
-									<a href="http://papacha.net">Sunju Jahng (1.0x)</a>
+									<span class="vcard"><a class="fn url" href="http://interlude.pe.kr">Jaehoon Jeong</a> (0.9x),</span>
+									<span class="vcard"><a class="fn url" href="http://papacha.net">Sunju Jahng</a> (1.0x)</span>
 									</p>
 								</div>	
 								<div id="contributor-container" class="container">
 									<h4><?php echo _t('Code Contributor');?></h4>
 									
 									<p>
-									<a href="http://blog.creorix.com">Creorix</a>,
-									<a href="http://crizin.net">Crizin</a>,
-									<a href="http://egoing.net">egoing</a>,
-									<a href="http://skk97.tistory.com">Hanyoung</a>,
-									<a href="http://blog.laco.pe.kr">lacovnk</a>,
-									<a href="http://laziel.com">laziel</a>,
-									<a href="http://story.isloco.com">linus</a>,
-									<a href="http://mcfuture.net">McFuture</a>,
-									<a href="http://nya.pe.kr">NYA</a>,
-									<a href="http://tokigun.net">tokigun</a>,
-									<a href="http://rsef.net/">Peris</a>,
-									<a href="http://sangsangbox.net">나니</a>,
-									<a href="http://offree.net">도아</a>,
-									<a href="http://barosl.com/blog">랜덤여신</a>,	
-									<a href="#">엽기민원</a>,
-									<a href="#">우수한</a>,
-									<a href="http://chakani.net">차칸아이</a>,
-									<a href="http://www.yangkun.pe.kr">희망이아빠</a>
+									<span class="vcard"><a class="fn nickname url" href="http://blog.creorix.com">Creorix</a></span>,
+									<span class="vcard"><a class="fn nickname url" href="http://crizin.net">Crizin</a></span>,
+									<span class="vcard"><a class="fn nickname url" href="http://egoing.net">egoing</a></span>,
+									<span class="vcard"><a class="fn nickname url" href="http://skk97.tistory.com">Hanyoung</a></span>,
+									<span class="vcard"><a class="fn nickname url" href="http://blog.laco.pe.kr">lacovnk</a></span>,
+									<span class="vcard"><a class="fn nickname url" href="http://laziel.com">laziel</a></span>,
+									<span class="vcard"><a class="fn nickname url" href="http://story.isloco.com">linus</a></span>,
+									<span class="vcard"><a class="fn nickname url" href="http://mcfuture.net">McFuture</a></span>,
+									<span class="vcard"><a class="fn nickname url" href="http://nya.pe.kr">NYA</a></span>,
+									<span class="vcard"><a class="fn nickname url" href="http://tokigun.net">tokigun</a></span>,
+									<span class="vcard"><a class="fn nickname url" href="http://rsef.net/">Peris</a></span>,
+									<span class="vcard"><a class="fn nickname url" href="http://sangsangbox.net">나니</a></span>,
+									<span class="vcard"><a class="fn nickname url" href="http://offree.net">도아</a></span>,
+									<span class="vcard"><a class="fn nickname url" href="http://barosl.com/blog">랜덤여신</a>,	
+									<span class="vcard"><a class="fn nickname url" href="http://yupmin.tistory.com/">엽기민원</a></span>,
+									<span class="vcard"><a class="fn nickname url" href="#">우수한</a></span>,
+									<span class="vcard"><a class="fn nickname url" href="http://chakani.net">차칸아이</a></span>,
+									<span class="vcard"><a class="fn nickname url" href="http://www.yangkun.pe.kr">희망이아빠</a></span>
 									</p>
 									
 									<h4><?php echo _t('Internationalization Contributor');?></h4>
 									<p>
-									<a href="http://www.fsun.cn/blog">AIR</a>(简体中文),
-									<a href="http://ddokbaro.com">Baro</a>(简体中文),
-									<a href="http://hina.ushiisland.net/blog">Hina</a>(正體中文),
+									<span class="vcard"><a class="fn url" href="http://www.fsun.cn/blog">AIR</a></span>(简体中文),
+									<span class="vcard"><a class="fn url" href="http://ddokbaro.com">Baro</a></span>(简体中文),
+									<span class="vcard"><a class="fn url" href="http://hina.ushiisland.net/blog">Hina</a></span>(正體中文),
 									M. Satoh(日本語),
 									Nazu NT(日本語),
 									Shungchul Kim(日本語),
