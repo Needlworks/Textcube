@@ -170,6 +170,7 @@ if (isset($cache->contents)) {
 		$cache->update();
 	}
 }
+$view = str_replace( "[##_article_rep_##]", "<div class=\"hfeed\">[##_article_rep_##]</div>", $view);
 if(isset($isKeylog) && $isKeylog) {
 	dressInsertBefore('list', $entriesView, $view);
 	$isKeylog = false;
