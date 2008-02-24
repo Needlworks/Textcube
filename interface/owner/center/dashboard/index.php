@@ -253,8 +253,12 @@ if($textcubeDashboard) {
 									<li><a href="<?php echo $blogURL;?>/owner/plugin"><?php echo _t('플러그인 관리');?></a></li>
 <?php
 		}
+		if ($service['reader'] == true) {
 ?>
 									<li><a href="<?php echo $blogURL;?>/owner/reader"><?php echo _t('RSS 리더');?></a></li>
+<?php
+		}
+?>
 								</ul>
 							</div>
 								
