@@ -367,13 +367,21 @@ class Skin {
 			array_push( $this->microformatDebug, _text("Microformat-info: 스킨에 가능한 모든 마이크로포맷을 추가합니다.") );
 			default:
 		}
+
+		/* hAtom, bookmark */
 		$this->entryOriginal = $this->entry;
 		//$this->noticeItemOriginal = $this->noticeItem;
-		$this->entry = $this->applyMicroformatsCore( 'article', $this->entry );
-		//$this->noticeItem = $this->applyMicroformatsCore( 'notice', $this->noticeItem );
+		$this->entry = $this->applyMF2Entry( 'article', $this->entry );
+		//$this->noticeItem = $this->applyMF2Entry( 'notice', $this->noticeItem );
 		if( !$this->hentryExisted ) {
 			$this->hentryExisted = preg_match( '/<(p|div)[^>]*class=[\'"][^\'"]*\bhentry\b[^\'"]*[\'"][^>]*>/sm', $this->entry );
 		}
+
+		/* hCard */
+		$this->commentItem = $this->applyMF2Comment( "rp", $this->commentItem, _text("댓글") );
+		$this->commentSubItem = $this->applyMF2Comment( "rp", $this->commentSubItem, _text("댓글의 댓글") );
+		$this->guestItem = $this->applyMF2Comment( "guest", $this->guestItem, _text("방명록") );
+		$this->guestSubItem = $this->applyMF2Comment( "guest", $this->guestSubItem, _text("방명록의 댓글") );
 	}
 
 	function getTopLevelContent($content)
@@ -391,16 +399,16 @@ class Skin {
 		return $bareContent;
 	}
 
-	function applyMicroformatsCore( $type, $content ) {
+	function applyMF2Entry( $type, $content ) {
 		/* This function contains heavy regular expressions, but this function is called once and stored in cache by skin setup logic */
 		$bareContent = $this->getTopLevelContent($content);
 		$content = preg_replace( "/<((br|hr|img)[^>]*)>/sm", "{{{\\1}}}", $content );
 
 		/* hAtom:entry-title */
 		$content = addAttributeCore( $content,
-					'@(.*?)(<(a|span|textarea|td)[^>]*>[^<>]*?\[##_article_rep_title_##\].*?</\3>)(.*)@sm',
+					'@(.*?)(<(a|span|textarea|td|h1|h2|h3|strong|cite|font)[^>]*>[^<>]*?\[##_article_rep_title_##\].*?</\3>)(.*)@sm',
 					array( 'class' => 'entry-title' ), array(1,2,4), 1 );
-		if( preg_match( '@<(a|span|textarea|td)[^>]*?class=[\'"][^\'"]*entry-title[^\'"]*[\'"][^>]*>@sm', $content ) ) {
+		if( preg_match( '@<(a|span|textarea|td|h1|h2|h3|strong|cite|font)[^>]*?class=[\'"][^\'"]*entry-title[^\'"]*[\'"][^>]*>@sm', $content ) ) {
 			array_push( $this->microformatDebug, _text("Microformat-info: 제목에 hAtom용 title을 추가합니다") );
 		} else {
 			array_push( $this->microformatDebug, _text("Microformat-warn: 제목에 hAtom용 title을 추가하지 못했습니다") );
@@ -416,9 +424,9 @@ class Skin {
 			array_push( $this->microformatDebug, _text("Microformat-info: 본문을 감싸고 있는 태그가 없어 div를 삽입한 뒤 hAtom용 entry-content를 추가합니다") );
 		} else {
 			if( preg_match( '@<(div|td|span|p)[^>]*?class=[\'"][^\'"]*entry-content[^\'"]*[\'"][^>]*>@sm', $content ) ) {
-				array_push( $this->microformatDebug, _text("Microformat-info: 제목에 hAtom용 content를 추가합니다") );
+				array_push( $this->microformatDebug, _text("Microformat-info: hAtom용 content를 추가합니다") );
 			} else {
-				array_push( $this->microformatDebug, _text("Microformat-warn: 제목에 hAtom용 content를 추가하지 못했습니다") );
+				array_push( $this->microformatDebug, _text("Microformat-warn: hAtom용 content를 추가하지 못했습니다") );
 			}
 		}
 
@@ -474,7 +482,7 @@ class Skin {
 		if( !preg_match( '/<(p|div)[^>]*class=[\'"][^\'"]*\bhentry\b[^\'"]*[\'"][^>]*>/sm', $content ) )
 		{
 			$content = "<div class=\"hentry\">\r\n{$content}\r\n</div>";
-			array_push( $this->microformatDebug, _text("Microformat-warn: 블로그 글영역 전체를 hAtom용 entry로 간주합니다. 적절한 class=\"hentry\" 삽입이 필요할 수 있습니다 ") );
+			array_push( $this->microformatDebug, _text("Microformat-info: 블로그 글영역 전체를 hAtom용 entry로 간주합니다. 적절한 class=\"hentry\" 삽입이 필요할 수 있습니다 ") );
 		} else {
 			array_push( $this->microformatDebug, _text("Microformat-info: 스킨에 class=\"hentry\"가 있으므로, hAtom용 entry는 삽입하지 않았습니다.") );
 		}
@@ -486,14 +494,33 @@ class Skin {
 			array_push( $this->microformatDebug, _text("Microformat-info: 제목에 bookmark를 추가합니다") );
 		} else {
 			if(getBlogSetting('useMicroformat',3)>2) {
-				$content = str_replace( "[##_article_rep_desc_##]", "<a style=\"display:none\" href=\"[##_article_rep_link_##]\" rel=\"bookmark\" title=\"[##_article_rep_title_##]\">[##_article_rep_title_##]</a>\r\n[##_article_rep_desc_##]",$content );
+				$content = str_replace( "[##_article_rep_desc_##]", "<a style=\"display:none\" href=\"[##_article_rep_link_##]\" rel=\"bookmark\" class=\"entry-title\" title=\"[##_article_rep_title_##]\">[##_article_rep_title_##]</a>\r\n[##_article_rep_desc_##]",$content );
 			}
-			array_push( $this->microformatDebug, _text("Microformat-info: 링크가 걸린 제목이 없어 보이지 않는 링크를 추가한 뒤 bookmark를 추가하였습니다") );
+			array_push( $this->microformatDebug, _text("Microformat-info: 링크가 걸린 제목이 없어 보이지 않는 링크를 추가한 뒤 rel=\"bookmark\"와 hAtom용 title을 추가하였습니다") );
 		}
 
 		$this->hentryExisted = true;
 		$content = preg_replace( "/{{{([^}]+)}}}/sm", '<\1>', $content );
 		return $content;
+	}
+
+	function applyMF2Comment( $type, $commentItem, $debugType ) {
+		$type .= "_rep";
+		if( !preg_match( '/<(p|div|li|table|tr|td|span|cite|strong)[^>]*class=[\'"][^\'"]*\bvcard\b[^\'"]*[\'"][^>]*>/sm', $commentItem ) )
+		{
+			$commentItem = addAttributeCore( $commentItem,
+						'@(.*?)(<(p|div|li|td|span|cite|strong)[^>]*>[^<>]*?\[##_'.$type.'_name_##\].*?</\3>)(.*)@sm',
+						array( 'class' => 'vcard' ), array(1,2,4), 1 );
+			if( !preg_match( '@<(p|div|li|td|span|cite|strong)[^>]*class=[\'"][^\'"]*\bvcard\b[^\'"]*[\'"][^>]*>@sm', $commentItem ) ) {
+				$commentItem = str_replace( "[##_{$type}_name_##]", "<span class=\"vcard\">[##_{$type}_name_##]</span>",$commentItem );
+				array_push( $this->microformatDebug, sprintf( _text("Microformat-info: %s 작성자를 감싸고 있는 태그가 없어 span으로 감싼 뒤 class=\"vcard\"를 추가합니다."), $debugType) );
+			} else {
+				array_push( $this->microformatDebug, sprintf( _text("Microformat-info: %s 영역에 class=\"vcard\"를 삽입합니다."), $debugType) );
+			}
+		} else {
+			array_push( $this->microformatDebug, sprintf( _text("Microformat-info: %s 영역에 class=\"vcard\"가 있으므로, vcard는 삽입하지 않았습니다."), $debugType) );
+		}
+		return $commentItem;
 	}
 
 }

@@ -197,6 +197,13 @@ function getCommentView($entry, $skin) {
 	requireModel("blog.comment");
 	requireLibrary('blog.skin');
 	$authorized = doesHaveOwnership();
+	$useMicroformat = getBlogSetting('useMicroformat',3);
+	$fn = '';
+	$fn_nickname = '';
+	if( $useMicroformat > 1 ) {
+		$fn = 'class="fn url nickname" ';
+		$fn_nickname = 'class="fn nickname" ';
+	}
 //	$blogSetting = getBlogSettings($blogid);
 	if ($entry['id'] > 0) {
 		$prefix1 = 'rp';
@@ -257,9 +264,9 @@ function getCommentView($entry, $skin) {
 				$commentSubItemView = "<a id=\"comment{$commentSubItem['id']}\"></a>" . $commentSubItemView;
 			}
 			if (empty($commentSubItem['homepage'])) {
-				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), $commentSubItem['name'], $commentSubItem), $commentSubItemView);
+				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), "<span $fn_nickname>".$commentSubItem['name']."</span>", $commentSubItem), $commentSubItemView);
 			} else {
-				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a rel="external nofollow" href="' . htmlspecialchars(addProtocolSense($commentSubItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . $commentSubItem['name'] . '</a>', $commentSubItem), $commentSubItemView);
+				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a '.$fn.'rel="external nofollow" href="' . htmlspecialchars(addProtocolSense($commentSubItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . $commentSubItem['name'] . '</a>', $commentSubItem), $commentSubItemView);
 			}
 			$contentContainer["{$prefix1}_{$commentSubItem['id']}"] = fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense($commentSubItem['comment'], ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem);
 			dress($prefix1 . '_rep_desc', setTempTag("{$prefix1}_{$commentSubItem['id']}"), $commentSubItemView);
@@ -295,9 +302,9 @@ function getCommentView($entry, $skin) {
 			$commentItemView = "<a id=\"comment{$commentItem['id']}\"></a>" . $commentItemView;
 		}
 		if (empty($commentItem['homepage'])) {
-			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), $commentItem['name'], $commentItem), $commentItemView);
+			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), "<span $fn_nickname>".$commentItem['name']."</span>", $commentItem), $commentItemView);
 		} else {
-			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a href="' . htmlspecialchars(addProtocolSense($commentItem['homepage'])) . '" rel="external nofollow" onclick="return openLinkInNewWindow(this)">' . $commentItem['name'] . '</a>', $commentItem), $commentItemView);
+			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a '.$fn.'rel="external nofollow" href="' . htmlspecialchars(addProtocolSense($commentItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . $commentItem['name'] . '</a>', $commentItem), $commentItemView);
 		}
 		$contentContainer["{$prefix1}_{$commentItem['id']}"] = fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense($commentItem['comment'], ' onclick="return openLinkInNewWindow(this)"')), $commentItem);
 		dress($prefix1 . '_rep_desc', setTempTag("{$prefix1}_{$commentItem['id']}"), $commentItemView);
