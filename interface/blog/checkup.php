@@ -293,7 +293,7 @@ $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));
 fclose($fp);
-if ((preg_match('@rewrite\.php@', $content) == 0 ) || (strpos($content,'[OR]') !== false) || (strpos($content,' -d') != false)) {
+if ((preg_match('@rewrite\.php@', $content) == 0 ) || (strpos($content,'[OR]') !== false) || (strpos($content,' -d') == false)) {
 	$fp = fopen($filename, "w");
 	echo '<li>', _textf('htaccess 규칙을 수정합니다.'), ': ';
 	$content = 
