@@ -31,11 +31,11 @@ if (!isset($_GET['__T__']) || !isset($_POST['key']) || $_POST['key'] != md5(file
 	print ("<?xml version=\"1.0\" encoding=\"utf-8\"?><response><error>0</error><commentBlock></commentBlock><recentCommentBlock></recentCommentBlock></response>");
 	exit;
 }
-$userName = isset($_POST["name_$entryId"]) ? $_POST["name_$entryId"] : '';
-$userPassword = isset($_POST["password_$entryId"]) ? $_POST["password_$entryId"] : '';
+$userName = isset($_POST["name_$entryId"]) ? trim($_POST["name_$entryId"]) : '';
+$userPassword = isset($_POST["password_$entryId"]) ? trim($_POST["password_$entryId"]) : '';
 $userSecret = isset($_POST["secret_$entryId"]) ? 1 : 0;
-$userHomepage = isset($_POST["homepage_$entryId"]) ? $_POST["homepage_$entryId"] : '';
-$userComment = isset($_POST["comment_$entryId"]) ? $_POST["comment_$entryId"] : '';
+$userHomepage = isset($_POST["homepage_$entryId"]) ? trim($_POST["homepage_$entryId"]) : '';
+$userComment = isset($_POST["comment_$entryId"]) ? trim($_POST["comment_$entryId"]) : '';
 if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 	echo '<?xml version="1.0" encoding="utf-8"?><response><error>2</error><description><![CDATA[', _text('이름을 입력해 주십시오.'), ']]></description></response>';
 } else if ($userComment == '') {

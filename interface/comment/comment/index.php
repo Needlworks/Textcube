@@ -33,13 +33,29 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 	if (count($comment) == 0)
 		respond::ErrorPage(_text('댓글이 존재하지 않습니다.'));
 	$comment['parent'] = $suri['id'];
-	$comment['name'] = empty($_POST['name']) ? '' : $_POST['name'];
-	$comment['password'] = empty($_POST['password']) ? '' : $_POST['password'];
-	$comment['homepage'] = empty($_POST['homepage']) || ($_POST['homepage'] == 'http://') ? '' : $_POST['homepage'];
+	$comment['name'] = empty($_POST['name']) ? '' : trim($_POST['name']);
+	$comment['password'] = empty($_POST['password']) ? '' : trim($_POST['password']);
+	$comment['homepage'] = empty($_POST['homepage']) || ($_POST['homepage'] == 'http://') ? '' : trim($_POST['homepage']);
 	$comment['secret'] = empty($_POST['secret']) ? 0 : 1;
-	$comment['comment'] = $_POST['comment'];
+	$comment['comment'] = trim($_POST['comment']);
 	$comment['ip'] = $_SERVER['REMOTE_ADDR'];
-	if (addComment($blogid, $comment) !== false) {
+	if (!doesHaveMembership() && !doesHaveOwnership() && $comment['name'] == '') {
+	?>
+<script type="text/javascript">
+	//<![CDATA[
+		alert("<?php echo _text('이름을 입력해 주십시오.');?>");
+	//]]>
+</script>
+<?php
+	} else if ($comment['comment'] == '') {
+?>
+<script type="text/javascript">
+	//<![CDATA[
+		alert("<?php echo _text('본문을 입력해 주십시오.');?>");
+	//]]>
+</script>
+<?php	
+	} else if (addComment($blogid, $comment) !== false) {
 		if(!$comment['secret']) {
 			if($row = POD::queryRow("SELECT * FROM {$database['prefix']}Entries 
 				WHERE blogid = $blogid AND id = {$comment['entry']} AND draft = 0 AND visibility = 3 AND acceptComment = 1"))
