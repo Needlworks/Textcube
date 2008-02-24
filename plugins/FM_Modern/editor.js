@@ -86,7 +86,10 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	if(typeof(document.execCommand) == "undefined" || !(STD.isIE || STD.isFirefox || STD.isSafari3))
 		return;
 	// Set editor mode for formatters.
-	if(this.formatter == 'textile' || this.formatter == 'markdown') this.editMode = 'TEXTAREA';
+	if(this.formatter == 'textile' || this.formatter == 'markdown') {
+		this.editMode = 'TEXTAREA';
+		this.restrictEditorMode = true;
+	} else this.restrictEditorMode = false;
 	for (var x in TTModernEditor.editors) return x; // ignore if there is any other instance
 	var seed = (textarea.id || 'unknown').replace(new RegExp('[^a-z0-9_]', 'gi'), '');
 	this.name = seed;

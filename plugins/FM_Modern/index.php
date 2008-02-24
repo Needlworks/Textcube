@@ -19,10 +19,8 @@ function FM_Modern_editorinit(&$editor) {
 	} else {
 		$config = setting::fetchConfigVal($configVal);
 	}
-	$config['restrictEditorMode'] = false;
 	if (in_array(setting::getBlogSettingGlobal('defaultFormatter','html'),array('markdown','textile')) ||
 		in_array($entry['contentFormatter'],array('markdown','textile'))) {
-		$config['restrictEditorMode'] = true;
 		$config['defaultmode'] = 'TEXTAREA';
 	} else if (!isset($config['defaultmode'])) {
 		$config['defaultmode'] = (setting::getBlogSetting('editorMode', 1) == 1 ? 'WYSIWYG' : 'TEXTAREA');
@@ -37,7 +35,6 @@ function FM_Modern_editorinit(&$editor) {
 			editor.propertyFilePath = "<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/";
 			editor.editMode = "<?php echo $config['defaultmode'];?>";
 			editor.newLineToParagraph = <?php echo ($config['paragraphdelim'] == 'P' ? 'true' : 'false');?>;
-			editor.restrictEditorMode = <?php echo ($config['restrictEditorMode'] == true ? 'true' : 'false');?>;
 			return editor;
 <?php
 	$result = ob_get_contents();
