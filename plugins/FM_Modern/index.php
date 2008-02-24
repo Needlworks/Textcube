@@ -1,6 +1,7 @@
 <?php
 function FM_Modern_handleconfig($configVal) {
 	requireComponent('Textcube.Function.misc');
+	requireComponent('Textcube.Function.Setting');
 	$config = setting::fetchConfigVal($configVal);
 	if (isset($config['defaultmode']) && $config['defaultmode'] != 'WYSIWYG' && $config['defaultmode'] != 'TEXTAREA') return false;
 	if (isset($config['paragraphdelim']) && $config['paragraphdelim'] != 'P' && $config['paragraphdelim'] != 'BR') return false;

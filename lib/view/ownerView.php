@@ -42,9 +42,10 @@ function printFormatterSelectScript() {
 				editoroptions[i].style.color = 'GrayText';
 			}
 		}
-		if (correct && !editormap[editorselect.value] && firsteditor >= 0) {
+		//if (correct && !editormap[editorselect.value] && firsteditor >= 0) {
+		if (correct && firsteditor >= 0) {
 			editorselect.selectedIndex = firsteditor;
-			if (typeof correct == 'function') correct(editorselect.value);
+			if (typeof correct == 'function') correct(editorselect.value, key);
 		}
 		return true;
 	}
@@ -141,7 +142,7 @@ function printOwnerEditorScript($entryId = false) {
 	}
 
 	var editor = null;
-	function setCurrentEditor(key) {
+	function setCurrentEditor(key,formatter) {
 		var neweditor = getEditor(key);
 		if (neweditor == null) {
 			if (editor == null) {
@@ -157,6 +158,7 @@ function printOwnerEditorScript($entryId = false) {
 			editor.finalize();
 		}
 		editor = neweditor;
+		editor.formatter = formatter;
 		editor.initialize(document.getElementById("editWindow"));
 		return true;
 	}

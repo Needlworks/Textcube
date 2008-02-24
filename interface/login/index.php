@@ -47,8 +47,9 @@ if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 	$isLogin = login($_POST['loginid'],$_POST['password']);
 	if (!$isLogin) {
 		$message = _text('아이디 또는 비밀번호가 틀렸습니다.');
-		if (!doesHaveMembership() && isLoginId($blogid, $_POST['loginid']))
+		if (!doesHaveMembership() && isLoginId(getBlogId(), $_POST['loginid'])){
 			$showPasswordReset = true;
+		}
 	}
 	else if($isLogin == 2) {
 		$message=_t('권한이 없습니다.');

@@ -85,7 +85,8 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	// execCommand가 사용가능한 경우에만 위지윅을 쓸 수 있다. (지금은 Internet Explorer, Firefox, Safari 3만 지원한다)
 	if(typeof(document.execCommand) == "undefined" || !(STD.isIE || STD.isFirefox || STD.isSafari3))
 		return;
-
+	// Set editor mode for formatters.
+	if(this.formatter == 'textile' || this.formatter == 'markdown') this.editMode = 'TEXTAREA';
 	for (var x in TTModernEditor.editors) return x; // ignore if there is any other instance
 	var seed = (textarea.id || 'unknown').replace(new RegExp('[^a-z0-9_]', 'gi'), '');
 	this.name = seed;
@@ -229,7 +230,6 @@ TTModernEditor.prototype.initialize = function(textarea) {
 
 	if(this.editMode == "TEXTAREA")
 		this.iframe.style.display = "none";
-
 	// 가끔씩 Firefox에서 커서가 움직이지 않는 문제 수정
 	if(!STD.isIE) setTimeout(function() { try { _this.contentDocument.designMode='on'; } catch (e) {} }, 100);
 }
