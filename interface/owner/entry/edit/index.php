@@ -772,7 +772,7 @@ if($entry['category'] != -4) {
 ?>
 									<div id="power-section" class="section">
 										<div id="power-container" class="container">
-											<dl id="permalink-line" class="line"<?php if($isKeyword) echo _t('style="display: none"');?>>
+											<dl id="permalink-line" class="line"<?php if($isKeyword) echo ' style="display: none"';?>>
 												<dt><label for="permalink"><?php echo _t('절대 주소');?></label></dt>
 												<dd>
 													<samp><?php echo _f('%1/entry/', link_cut(getBlogURL()));?></samp><input type="text" id="permalink" class="input-text" name="permalink" onkeypress="return preventEnter(event);" value="<?php echo htmlspecialchars($entry['slogan']);?>" />
