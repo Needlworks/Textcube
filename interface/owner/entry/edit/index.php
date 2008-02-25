@@ -767,9 +767,7 @@ printEntryFileUploadButton($entry['id']);
 									</div>
 
 									<hr class="hidden" />
-<?php
-if($entry['category'] != -4) {
-?>
+
 									<div id="power-section" class="section">
 										<div id="power-container" class="container">
 											<dl id="permalink-line" class="line"<?php if($isKeyword) echo ' style="display: none"';?>>
@@ -812,7 +810,7 @@ if (defined('__TEXTCUBE_POST__')) {
 													<div id="status-syndicated" class="status-syndicated"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?php echo $countResult == false ? ' onclick="viewWhatIsEolin();"' : NULL; echo (abs($entry['visibility']) == 3 ? ' checked="checked"' : '');?> /><label for="visibility_syndicated"><?php echo _t('발행');?><?php echo $countResult == true ? ' (<a href="#void" onclick="viewWhatIsEolin();">'._t('설명').'</a>)' : NULL;?></label></div>
 												</dd>
 											</dl>
-												
+
 											<dl id="power-line" class="line"<?php if($isKeyword) echo _t('style="display: none"');?>>
 												<dt><span class="label"><?php echo _t('권한');?></span></dt>
 												<dd>
@@ -823,8 +821,6 @@ if (defined('__TEXTCUBE_POST__')) {
 										</div>
 									</div>
 <?php
-}
-
 if (isset($_GET['popupEditor'])) {
 ?>
 									<div class="button-box two-button-box">
@@ -881,6 +877,17 @@ if (isset($_GET['popupEditor'])) {
 								entryManager = new EntryManager();
 								reloadUploader();
 								window.setInterval("entryManager.saveDraft();", 300000);
+								checkCategory('<?php
+switch($entry['category']) {
+	case -1:
+		echo 'type_keyword';break;
+	case -2:
+		echo 'type_notice';break;
+	case -4:
+		echo 'type_template';break;
+	default:
+		echo 'type_post';break;
+		}?>');
 							//]]>
 						</script> 
 <?php
