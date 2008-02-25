@@ -63,15 +63,8 @@ function setBlogSetting($name, $value, $blogid = null) {
 }
 
 function setBlogSettingDefault($name, $value, $blogid = null) {
-	global $database;
-	$name = POD::escapeString($name);
-	$value = POD::escapeString($value);
-	if($blogid === null)
-		return POD::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES(".getBlogId().", '$name', '$value')");
-	else if(is_numeric($blogid)) {
-		return POD::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, '$name', '$value')");
-	}
-	return null;
+	requireComponent('Textcube.Function.Setting');
+	return setting::setBlogSettingDefault($name, $value, $blogid);
 }
 
 function removeBlogSetting($name, $blogid = null) {
