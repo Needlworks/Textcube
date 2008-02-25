@@ -83,7 +83,8 @@ $requiredPrivFromUri = array(
 			'/owner/setting/teamblog/changeBlog*',
 			'/owner/reader',
 			'/owner/plugin/admin*',
-			'/owner/openid'
+			'/owner/openid',
+			'/owner/setting/account*'
 			)
 		);
 
