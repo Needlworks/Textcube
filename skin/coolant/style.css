@@ -1447,7 +1447,7 @@ form input:focus, textarea:focus
 }
 
 /* author list */
-#authorList ol, #authorList ul
+#authorList ol, #authorList ul, #archiveBox ul
 {
 	list-style: none;
 }
