@@ -501,6 +501,7 @@ if (isset($_GET['popupEditor'])) {
 										document.getElementById("date-line").style.display = "";
 										document.getElementById("status-line").style.display = "";
 									}
+									return true;
 								}
 								
 								function viewWhatIsEolin() {
