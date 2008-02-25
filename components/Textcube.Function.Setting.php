@@ -98,7 +98,7 @@ class setting {
 			foreach($defaultValues as $name => $value) {
 				if(!in_array($name,$blogSettingFields)) {
 					$result[$name] = $value;
-					setBlogSettingDefault($name,$value);
+					setting::setBlogSettingDefault($name,$value,$blogid);
 				}
 			}
 			$__gCacheBlogSettings[$blogid] = $result;
@@ -139,6 +139,18 @@ class setting {
 		return POD::execute("INSERT INTO {$database['prefix']}BlogSettings VALUES($blogid, '$escape_name', '$escape_value')");
 	}
 
+	function setBlogSettingDefault($name, $value, $blogid = null) {
+		global $database;
+		$name = POD::escapeString($name);
+		$value = POD::escapeString($value);
+		if($blogid === null)
+			return POD::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES(".getBlogId().", '$name', '$value')");
+		else if(is_numeric($blogid)) {
+			return POD::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, '$name', '$value')");
+		}
+	return null;
+	}
+
 	function removeBlogSettingGlobal($name, $blogid = null) {
 		global $database;
 		global $__gCacheBlogSettings; // share blog.service.php
@@ -149,7 +161,7 @@ class setting {
 	
 		if (!array_key_exists($blogid, $__gCacheBlogSettings)) {
 			// force loading
-			misc::getBlogSettingsGlobal($blogid);
+			setting::getBlogSettingsGlobal($blogid);
 		}
 		if ($__gCacheBlogSettings[$blogid] === false) {
 			return null;
