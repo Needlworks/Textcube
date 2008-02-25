@@ -7,8 +7,8 @@
   <description xml:lang="en">This plugin enables keyword feature in Textcube.</description>
   <description xml:lang="ko">텍스트큐브의 키워드 기능을 사용합니다.</description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://needlworks.org">Needlworks</author>
-  <author xml:lang="ko" link="http://needlworks.org">Needlworks</author>
+  <author xml:lang="en" link="http://forest.nubimaru.com"><![CDATA[Jeongkyu Shin (inureyes / Needlworks)]]></author>
+  <author xml:lang="ko" link="http://forest.nubimaru.com"><![CDATA[신정규 (inureyes / Needlworks)]]></author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
     <textcube>1.5</textcube>

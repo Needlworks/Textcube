@@ -7,11 +7,9 @@
 	<description xml:lang="en"><![CDATA[Implements Markdown formatter, to support semantic XHTML with plain text markup syntax.]]></description>
 	<description xml:lang="ko"><![CDATA[일반적인 텍스트 문서를 통하여 의미론적인 XHTML을 생성해내는 Markdown 포맷을 지원합니다.]]></description>
 	<license>GPL</license>
-	<author xml:lang="en" link="http://www.needlworks.org">Needlworks</author>
-	<author xml:lang="en" link="http://forest.nubimaru.com/">Jeongkyu Shin (inureyes)</author>
+	<author xml:lang="en" link="http://forest.nubimaru.com/">Jeongkyu Shin (inureyes / Needlworks)</author>
 	<author xml:lang="en" link="http://michelf.com/weblog/">Michel Fortin</author>
-	<author xml:lang="ko" link="http://www.needlworks.org">Needlworks</author>
-	<author xml:lang="ko" link="http://forest.nubimaru.com/">Jeongkyu Shin (inureyes)</author>
+	<author xml:lang="ko" link="http://forest.nubimaru.com/">Jeongkyu Shin (inureyes / Needlworks)</author>
 	<author xml:lang="ko" link="http://michelf.com/weblog/">Michel Fortin</author>
 	<safety changeData="no" exposeData="no" accessLocal="yes" accessRemote="no" accessRaw="no" />
 	<requirements>

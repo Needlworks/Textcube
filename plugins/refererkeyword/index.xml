@@ -7,8 +7,8 @@
   <description xml:lang="en">Keyword Statistics</description>
   <description xml:lang="ko">리퍼러에서 검색 키워드를 추출하여 통계를 출력합니다.</description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://forum.tattersite.com/en">Tatter &amp; Friends (Chiri)</author>
-  <author xml:lang="ko" link="http://forum.tattersite.com/ko">태터앤프렌즈 (치리)</author>
+  <author xml:lang="en" link="http://moonmelody.com">Chiri (Tatter Network Foundation)</author>
+  <author xml:lang="ko" link="http://moonmelody.com"><![CDATA[치리 (태터 네트워크 재단)]]></author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
     <textcube>1.5</textcube>

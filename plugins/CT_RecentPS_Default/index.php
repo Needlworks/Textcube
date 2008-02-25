@@ -1,8 +1,8 @@
 <?php
-/* Recent Entries plugin for Textcube 1.1
+/* Recent Entries plugin for Textcube 1.6
    ----------------------------------
-   Version 1.0
-   Tatter and Friends development team.
+   Version 1.6
+   Tatter Network Foundation development team / Needlworks.
 
    Creator          : Peris
    Maintainer       : Peris, inureyes, graphittie
@@ -24,7 +24,6 @@
 
 */
 
-// lib/model/entry.php : 263 line
 function _getRecentEntries($blogid){
 	global $database,$skinSetting;
 	$entries=array();
@@ -36,7 +35,6 @@ function _getRecentEntries($blogid){
 	return $entries;
 }
 
-// lib/view/view.php : 889 line
 function _getRecentEntriesView($entries,$template){
 	requireComponent("Eolin.PHP.Core");
 	requireComponent("Textcube.Function.misc");
@@ -55,7 +53,6 @@ function _getRecentEntriesView($entries,$template){
 	return $view;
 }
 
-// lib/piece/blog/end.php : 47 line
 function CT_RecentPS_Default($target) {
 	global $blogid,$pluginURL;
 

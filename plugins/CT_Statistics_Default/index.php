@@ -1,8 +1,8 @@
 <?php
-/* Statistics plugin for Textcube 1.1
+/* Statistics plugin for Textcube 1.6
    ----------------------------------
-   Version 1.0
-   Tatter and Friends development team.
+   Version 1.6
+   Tatter Network Foundation development team / Needlworks.
 
    Creator          : inureyes
    Maintainer       : inureyes, gendoh

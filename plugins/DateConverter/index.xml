@@ -3,12 +3,12 @@
 	<title xml:lang="en">Date Format Changer</title>
 	<title xml:lang="ko">날짜 언어/형식 변경 플러그인</title>
 	<link>http://needlworks.org/</link>
-	<version>0.8</version>
+	<version>1.6</version>
 	<description xml:lang="en">Change all date format in this blog</description>
 	<description xml:lang="ko">블로그에 표시되는 날짜의 언어와 형식을 변경해주는 플러그인입니다.</description>
 	<license>GPL</license>
-	<author xml:lang="en" link="http://needlworks.org">Needlworks</author>
-	<author xml:lang="ko" link="http://needlworks.org">Needlworks</author>
+	<author xml:lang="en" link="http://graphittie.org/blog">Graphittie (Needlworks)</author>
+	<author xml:lang="ko" link="http://graphittie.org/blog">Graphittie (Needlworks)</author>
 	<safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
 	<requirements>
 		<textcube>1.5</textcube>

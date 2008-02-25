@@ -1,18 +1,17 @@
 <?php
-/* Start plugin for Textcube 1.1
+/* Start plugin for Textcube 1.6
    ----------------------------------
-   Version 1.0
+   Version 1.6
    Tatter and Friends development team.
 
    Creator          : inureyes
    Maintainer       : inureyes, gendoh, graphittie
 
    Created at       : 2006.8.22
-   Last modified at : 2006.10.30
+   Last modified at : 2008.2.25
 
  This plugin adds start panel on 'quilt'.
  For the detail, visit http://forum.tattersite.com/ko
-
 
  General Public License
  http://www.gnu.org/licenses/gpl.html
@@ -27,7 +26,7 @@ function CT_Start_Default($target) {
 	requireModel("blog.attachment");
 	requireComponent("Eolin.PHP.Core");
 	requireComponent( "Textcube.Function.misc");
-	global $blogid, $blogURL, $database;
+	global $blogid, $blogURL, $database, $service;
 	$target .= '<ul>';
 	$target .= '<li><a href="'.$blogURL.'/owner/entry/post">'. _t('새 글을 씁니다').'</a></li>'.CRLF;
 
@@ -38,13 +37,16 @@ function CT_Start_Default($target) {
 			$target .= '<li><a href="'.$blogURL.'/owner/entry/edit/'.$latestEntry['id'].'">'. _f('최근글(%1) 수정', htmlspecialchars(UTF8::lessenAsEm($latestEntry['title'],10))).'</a></li>';
 		}
 	}
-
-	$target .= '<li><a href="'.$blogURL.'/owner/skin">'. _t('스킨을 변경합니다').'</a></li>'.CRLF;
-	$target .= '<li><a href="'.$blogURL.'/owner/skin/sidebar">'. _t('사이드바 구성을 변경합니다').'</a></li>'.CRLF;
-	$target .= '<li><a href="'.$blogURL.'/owner/skin/setting">'. _t('블로그에 표시되는 값들을 변경합니다').'</a></li>'.CRLF;
-	$target .= '<li><a href="'.$blogURL.'/owner/entry/category">'. _t('카테고리를 변경합니다').'</a></li>'.CRLF;
-	$target .= '<li><a href="'.$blogURL.'/owner/plugin">'. _t('플러그인을 켜거나 끕니다').'</a></li>'.CRLF;
-	$target .= '<li><a href="'.$blogURL.'/owner/reader">'. _t('RSS 리더를 봅니다').'</a></li>'.CRLF;
+	if(Acl::check('group.administrators')) {
+		$target .= '<li><a href="'.$blogURL.'/owner/skin">'. _t('스킨을 변경합니다').'</a></li>'.CRLF;
+		$target .= '<li><a href="'.$blogURL.'/owner/skin/sidebar">'. _t('사이드바 구성을 변경합니다').'</a></li>'.CRLF;
+		$target .= '<li><a href="'.$blogURL.'/owner/skin/setting">'. _t('블로그에 표시되는 값들을 변경합니다').'</a></li>'.CRLF;
+		$target .= '<li><a href="'.$blogURL.'/owner/entry/category">'. _t('카테고리를 변경합니다').'</a></li>'.CRLF;
+		$target .= '<li><a href="'.$blogURL.'/owner/plugin">'. _t('플러그인을 켜거나 끕니다').'</a></li>'.CRLF;
+	}
+	if($service['reader'] != false) {
+		$target .= '<li><a href="'.$blogURL.'/owner/reader">'. _t('RSS 리더를 봅니다').'</a></li>'.CRLF;
+	}
 	$target .= '</ul>';
 	return $target;
 }
@@ -55,11 +57,9 @@ function CT_Start_Default_getEntry($blogid, $id) {
 		return null;
 	}
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$entry = POD::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 0 $visibility");
+	$entry = POD::queryRow("SELECT id,title,visibility FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 0 $visibility");
 	if (!$entry)
-		return;
-	if ($entry['visibility'] < 0)
-		$entry['appointed'] = $entry['published'];
+		return false;
 	return $entry;
 }
 ?>

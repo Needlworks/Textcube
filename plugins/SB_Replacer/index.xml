@@ -7,8 +7,8 @@
   <description xml:lang="en">Insert replacers for plug-in's tag on sidebar.</description>
   <description xml:lang="ko">사이드바에 플러그인을 위한 치환자를 출력해 줍니다.</description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://needlworks.org">Needlworks</author>
-  <author xml:lang="ko" link="http://needlworks.org">Needlworks</author>
+  <author xml:lang="en" link="http://gendoh.com">Sang-il Lee (gendoh / TNC)</author>
+  <author xml:lang="ko" link="http://gendoh.com"><![CDATA[이상일 (gendoh / TNC)]]></author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
     <textcube>1.5</textcube>

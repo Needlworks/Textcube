@@ -3,17 +3,15 @@
 	<title xml:lang="en">TTML Formatter</title>
 	<title xml:lang="ko">TTML 포매터</title>
 	<link>http://needlworks.org/</link>
-	<version>1.0</version>
+	<version>1.6</version>
 	<description xml:lang="en">Implements TTML formatter, dedicated HTML-like syntax for Textcube.</description>
 	<description xml:lang="ko">텍스트큐브 용으로 사용되는 TTML 문법을 구현합니다.</description>
 	<license>GPL</license>
-	<author xml:lang="en" link="http://needlworks.org">Needlworks</author>
-	<author xml:lang="en" link="http://tokigun.net/">Kang Seonghoon (lifthrasiir)</author>
-	<author xml:lang="ko" link="http://needlworks.org">Needlworks</author>
-	<author xml:lang="ko" link="http://tokigun.net/">강 성훈 (lifthrasiir)</author>
+	<author xml:lang="en" link="http://tokigun.net/">Kang Seonghoon (lifthrasiir / Needlworks)</author>
+	<author xml:lang="ko" link="http://tokigun.net/"><![CDATA[강 성훈 (lifthrasiir / Needlworks)]]></author>
 	<safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
 	<requirements>
-		<textcube>1.5</textcube>
+		<textcube>1.6</textcube>
 	</requirements>
 	<binding>
 		<formatter id="ttml" name="TTML">

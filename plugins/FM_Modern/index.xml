@@ -3,17 +3,15 @@
 	<title xml:lang="en">Modern WYSIWYG Editor</title>
 	<title xml:lang="ko">텍스트큐브 위지윅 편집기</title>
 	<link>http://needlworks.org/</link>
-	<version>1.0</version>
+	<version>1.6</version>
 	<description xml:lang="en">Provides an easy-to-use WYSIWYG editor interface.</description>
 	<description xml:lang="ko">사용하기 쉬운 위지윅 편집기 환경을 제공합니다.</description>
 	<license>GPL</license>
-	<author xml:lang="en" link="http://needlworks.org">Needlworks</author>
-	<author xml:lang="en" link="http://tokigun.net/">Kang Seonghoon (lifthrasiir)</author>
-	<author xml:lang="ko" link="http://needlworks.org">Needlworks</author>
-	<author xml:lang="ko" link="http://tokigun.net/">강 성훈 (lifthrasiir)</author>
+	<author xml:lang="en" link="http://tokigun.net/">Kang Seonghoon (lifthrasiir / Needlworks)</author>
+	<author xml:lang="ko" link="http://tokigun.net/"><![CDATA[강 성훈 (lifthrasiir / Needlworks)]]></author>
 	<safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
 	<requirements>
-		<textcube>1.5</textcube>
+		<textcube>1.6</textcube>
 	</requirements>
 	<binding>
 		<listener event="ShowAdminHeader">FM_Modern_adminheader</listener>

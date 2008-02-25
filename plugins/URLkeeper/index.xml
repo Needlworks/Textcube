@@ -9,7 +9,7 @@
   <description xml:lang="ko">퍼머링크를 보존하기 위하여 자신의 블로그를 프레임에 넣어 호출하는 외부사이트에 원래 주소로 접속해달라는 경고창을 띄우거나, 자신의 블로그로 이동하게 합니다.</description>
   <description xml:lang="en">Breaks frame or iframe to prevent permalink.</description>
   <license>GPL</license>
-  <author link="http://www.forum.tattersite.com"><![CDATA[Tatter Network Foundation]]></author>
+  <author link="http://forum.tattersite.com"><![CDATA[Tatter Network Foundation]]></author>
   <author xml:lang="ko" link="http://forum.tattersite.com"><![CDATA[태터 네트워크 재단]]></author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>

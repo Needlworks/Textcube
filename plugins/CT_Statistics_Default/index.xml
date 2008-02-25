@@ -3,15 +3,15 @@
   <title xml:lang="en">Statistics</title>
   <title xml:lang="ko">통계</title>
   <link>http://needlworks.org/</link>
-  <version>1.0</version>
+  <version>1.6</version>
   <description xml:lang="en">Default Blog Statistics Plugin</description>
   <description xml:lang="ko">텍스트큐브 통계 알리미</description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://needlworks.org">Needlworks</author>
-  <author xml:lang="ko" link="http://needlworks.org">Needlworks</author>
+  <author xml:lang="en" link="http://needlworks.org">Jeongkyu Shin (inureyes / Needlworks)</author>
+  <author xml:lang="ko" link="http://needlworks.org"><![CDATA[신정규 (inureyes / Needlworks)]]></author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
-    <textcube>1.5</textcube>
+    <textcube>1.6</textcube>
   </requirements>
   <binding>
 	<center handler="CT_Statistics_Default" />

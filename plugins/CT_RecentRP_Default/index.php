@@ -1,7 +1,7 @@
 <?php
-/* Recent Replies plugin for Textcube 1.1
+/* Recent Replies plugin for Textcube 1.6
    ----------------------------------
-   Version 1.2
+   Version 1.6
    Tatter and Friends development team.
 
    Creator          : Peris
@@ -9,7 +9,7 @@
    Editor			: J.Parker
 
    Created at       : 2006.7.25
-   Last modified at : 2007.01.16
+   Last modified at : 2008.2.25
 
  This plugin shows recent eeplies on 'quilt'.
  For the detail, visit http://forum.tattersite.com/ko
@@ -80,7 +80,7 @@ function CT_RecentRP_Default($target) {
 }
 
 function CT_RecentRP_Default_DataSet($DATA){
-	requireComponent('Textcube.Function.misc');
+	requireComponent('Textcube.Function.Setting');
 	$cfg = setting::fetchConfigVal($DATA);
 	return true;
 }
