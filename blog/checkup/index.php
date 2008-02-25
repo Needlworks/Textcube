@@ -929,7 +929,7 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
 					</ul>
 
 					<div id="message-box" style="text-align: center;">
-						<span><?php
+						<span>
 <?php
 	reloadSkin(1);
 ?>
