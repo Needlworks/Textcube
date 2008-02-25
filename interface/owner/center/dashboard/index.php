@@ -293,7 +293,7 @@ if($textcubeDashboard) {
 <?php
 			if(Acl::check("group.creators")) {
 ?>
-									<li><a onclick="optimizeData();"><?php echo _t('저장소 최적화');?></a></li>
+									<li><a href="<?php echo $blogURL;?>/owner/data" onclick="optimizeData();return false;"><?php echo _t('저장소 최적화');?></a></li>
 								</ul>
 <?php
 			} else {
