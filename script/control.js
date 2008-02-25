@@ -344,7 +344,8 @@ function debug(s){try{document.getElementById("debug").innerHTML=++x+")"+s+"<br 
 function sendUserAddInfo(name,email) {
 	var request = new HTTPRequest(blogURL + "/owner/control/action/user/add/?name=" + name + "&email=" + email);
 	request.onSuccess = function() {
-		PM.showMessage(_t('새로운 사용자가 추가되었습니다.'), "center", "top");
+		PM.showMessage(_t('새로운 사용자가 추가되었습니다.'), "right", "bottom");
+		ctlRefresh();
 	}
 	request.onError = function() {
 		msg = this.getText("/response/result");
