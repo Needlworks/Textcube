@@ -14,6 +14,7 @@ body
 	position                         : relative;
 	width                            : 560px;
 	background-image                 : url("./image/bg_login.png");
+	border                           : 1px solid #CCC;
 }
 
 #logo-box
@@ -60,6 +61,11 @@ dd .input-text
 	font-size                        : 1.3em;
 	padding                          : 3px 0 3px 5px;
 	width                            : 208px;
+}
+
+hr
+{
+	display                          : none;
 }
 
 #checkbox-line dt
