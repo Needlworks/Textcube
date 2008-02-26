@@ -18,12 +18,11 @@ if (empty($userid)) {
 	respond::ResultPage(array(-1,"존재하지 않는 사용자"));
 }
 
-
 $acl = POD::queryCell("SELECT acl FROM {$database['prefix']}Teamblog WHERE blogid='$bid' and userid='$userid'");
 
 if( $acl === null ) { // If there is no ACL, add user into the blog.
 	POD::query("INSERT INTO `{$database['prefix']}Teamblog`  
-		VALUES('$bid', '$userid',0 , UNIX_TIMESTAMP(), '0')");
+		VALUES('$bid', '$userid',0, UNIX_TIMESTAMP(), '0')");
 	respond::ResultPage(array(0));
 }
 else {
