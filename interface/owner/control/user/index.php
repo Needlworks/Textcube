@@ -27,7 +27,7 @@ $page = $_GET['page'];
 				<dl>
 					<dt><?php echo _t('이름'); ?></dt>
 					<dd><input type="text" class="input-text" id="ui-name" name="ui-name" /></dd>
-					<dt><?php echo _t('이메일'); ?></dt>
+					<dt><?php echo _t('이메일').' ('._t('로그인 ID').')';?></dt>
 					<dd><input type="text" class="input-text" id="ui-email" name="ui-email" /></dd>
 				</dl>
 			</fieldset>
@@ -47,7 +47,8 @@ $page = $_GET['page'];
 						<th><?php echo _t('사용자 ID');?></th>
 						<th><?php echo _t('로그인 ID');?></th>
 						<th><?php echo _t('이름');?></th>
-						<th><?php echo _t('마지막 로그인');?></th>
+						<th><?php echo _t('최근 로그인');?></th>
+						<th><?php echo _t('임시 암호');?></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -62,11 +63,12 @@ if($userlist){
 	$tempString = "";
     foreach($userlist as $row) {
 ?>
-					<tr id="table-user-list_<?php echo $row['userid']?>">
+					<tr id="table-user-list_<?php echo $row['userid'];?>">
 						<td><?php echo $row['userid']?></td>
-						<td><a href="<?php echo $blogURL?>/owner/control/user/detail/<?php echo $row['userid']?>"><?php echo $row['loginid']?></a></td>
+						<td><a href="<?php echo $blogURL;?>/owner/control/user/detail/<?php echo $row['userid']?>"><?php echo $row['loginid'];?></a></td>
 						<td><?php echo $row['name']?></td>
-						<td><?php echo ($row['lastLogin']?date("Y/m/d H:i:s T",$row['lastLogin']):"")?></td>
+						<td><?php echo ($row['lastLogin']?date("Y/m/d H:i:s T",$row['lastLogin']):'<span class="warning">'._t('아직 로그인하지 않았습니다.').'</span>');?></td>
+						<td><?php if(empty($row['lastLogin'])) echo setting::getUserSettingGlobal('AuthToken',null,$row['userid'],true);?></td>
 					</tr>
 <?php
 	}

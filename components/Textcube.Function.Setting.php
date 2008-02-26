@@ -211,8 +211,12 @@ class setting {
 		return setting::getUserSettingGlobal($name, $default);
 	}
 
-	function getUserSettingGlobal($name, $default = null, $userid = null) {
+	function getUserSettingGlobal($name, $default = null, $userid = null, $directAccess = false) {
 		global $database, $userSetting;
+		if($directAccess !== false) {
+			return POD::queryCell("SELECT value FROM {$database['prefix']}UserSettings
+					WHERE userid = $userid");
+		}
 		if( empty($userSetting) || !isset($userSetting[$userid])) {
 			$userid = is_null($userid) ? getUserId() :  $userid;
 			$settings = POD::queryAll("SELECT name, value 
