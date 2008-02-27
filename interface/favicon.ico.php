@@ -30,7 +30,7 @@ if( !empty($_SERVER["HTTP_REFERER"]) && $icon_size > 0 ) {
 		( empty($service['favicon_daily_traffic']) ? 10 : $service['favicon_daily_traffic'] ) *1024*1024; /* 10 MB/day */
 
 	if( $host != $_SERVER['HTTP_HOST'] ) {
-		define( REFERER_STAT, ROOT . "/cache/favicon_traffic.dat" );
+		define( 'REFERER_STAT', ROOT . "/cache/favicon_traffic.dat" );
 		if( file_exists( REFERER_STAT ) ) {
 			$referer = unserialize( file_get_contents( REFERER_STAT ) );
 		}
