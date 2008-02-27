@@ -10,7 +10,7 @@ $IV = array(
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
-if (changeSetting(getUserId(), $_POST['email'], $_POST['nickname'])) {
+if (User::changeSetting(getUserId(), $_POST['email'], $_POST['nickname'])) {
 	respond::ResultPage(0);
 }
 respond::ResultPage( - 1);

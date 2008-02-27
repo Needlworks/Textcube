@@ -3,8 +3,6 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-require 'common.correctTT.php';
-
 function getTrackbacksWithPagingForOwner($blogid, $category, $site, $ip, $search, $page, $count) {
 	global $database;
 	

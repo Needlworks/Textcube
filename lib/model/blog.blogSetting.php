@@ -225,37 +225,6 @@ function setGuestbook($blogid, $write, $comment) {
 	} else return false;
 }
 
-function addUser($email, $name) {
-	global $database, $service, $user, $blog;
-	if (empty($email))
-		return 1;
-	if (!preg_match('/^[^@]+@([-a-zA-Z0-9]+\.)+[-a-zA-Z0-9]+$/', $email))
-		return 2;
-
-	if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return 11;
-
-	$loginid = POD::escapeString(UTF8::lessenAsEncoding($email, 64));	
-	$name = POD::escapeString(UTF8::lessenAsEncoding($name, 32));
-	$password = generatePassword();
-	$authtoken = md5(generatePassword());
-
-	$result = POD::queryRow("SELECT * FROM `{$database['prefix']}Users` WHERE loginid = '$loginid'");
-	if (!empty($result)) {
-		return 9;	// User already exists.
-	}
-
-	$result = POD::query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (NULL, '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, ".getUserId().")");
-	if (empty($result)) {
-		return 11;
-	}
-	$result = POD::query("INSERT INTO `{$database['prefix']}UserSettings` (userid, name, value) VALUES ('".getUserIdByEmail($loginid)."', 'AuthToken', '$authtoken')");
-	if (empty($result)) {
-		return 11;
-	}
-
-	return true;
-}
-
 function addBlog($blogid, $userid, $identify) {
 	global $database, $service, $blogURL, $hostURL, $user, $blog;
 
@@ -440,7 +409,7 @@ function cancelInvite($userid,$clean = true) {
 		if(deleteBlog($blogids) === false) return false;
 	}
 	if($clean && !POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE userid = '$userid'")) {
-		deleteUser($userid);
+		User::removePermanent($userid);
 	}
 	return true;
 }

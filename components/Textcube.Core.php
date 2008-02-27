@@ -3,6 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+/* This component contains 'User' and 'Transaction' class. */
+
 requireComponent( "Textcube.Control.Auth" );
 
 // for Global Cache
@@ -20,7 +22,8 @@ class User {
 		}
 		return $__gCacheUserNames[$userid] = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $userid");
 	}
-
+	
+	/*@static@*/
 	function getUserIdByName($name) {
 		global $database, $__gCacheUserNames;
 		if (!isset($name))
@@ -32,6 +35,20 @@ class User {
 		$userid = POD::queryCell("SELECT userid FROM {$database['prefix']}Users WHERE name = '".$name."'");
 		$__gCacheUserNames[$userid] = $name;
 		return $userid;
+	}
+	
+	/*@static@*/
+	function getUserNamesOfBlog($blogid) {
+		// TODO : Caching with global cache component. (Usually it is not changing easily.)
+		global $database;
+		$authorIds = POD::queryColumn("SELECT userid
+			FROM {$database['prefix']}Teamblog
+			WHERE blogid = $blogid");
+	
+		$authorInfo = POD::queryAll("SELECT userid, name
+			FROM {$database['prefix']}Users
+			WHERE userid IN (".implode(",",$authorIds).")");
+		return $authorInfo;
 	}
 
 	/*@static@*/
@@ -63,8 +80,9 @@ class User {
 	}
 
 	/*@static@*/
-	function getUseridByEmail($loginid = null) {
+	function getUserIdByEmail($loginid = null) {
 		global $database;
+		$loginid = trim($loginid);
 		if(!isset($loginid)) return null;
 		$loginid = POD::escapeString($loginid);
 		return POD::queryCell("SELECT userid FROM {$database['prefix']}Users WHERE loginid = '".$loginid."'");
@@ -91,7 +109,7 @@ class User {
 		global $database;
 		if (!isset($userid)) 
 			$userid = getUserId();
-		$info = unserialize(getUserSetting('userLinkInfo','',$userid));
+		$info = unserialize(setting::getUserSettingGlobal('userLinkInfo','',$userid));
 		if(!empty($info)) $type = $info['type'];
 		if (empty($type)) {
 			$type = "default";
@@ -104,7 +122,7 @@ class User {
 		global $database;
 		if (!isset($userid)) 
 			$userid = getUserId();
-		$info = unserialize(getUserSetting('userLinkInfo','',$userid));
+		$info = unserialize(setting::getUserSettingGlobal('userLinkInfo','',$userid));
 		if(is_null($info)) $info = array('type' => 'default'); 
 		switch ($info['type']) {
 			case "external" :
@@ -148,7 +166,7 @@ class User {
 			return false;
 		}
 		$homepage = serialize($info);
-		if (setUserSetting("userLinkInfo",$homepage, $userid)) {
+		if (setting::setUserSettingGlobal("userLinkInfo",$homepage, $userid)) {
 			return true;
 		}
 		return false;
@@ -201,8 +219,55 @@ class User {
 				return $changeBlogView;
 		}
 	}
+	
+	function changeSetting($userid, $email, $nickname) {
+		global $database;
+		if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return false;
+		$email = POD::escapeString(UTF8::lessenAsEncoding($email, 64));
+		$nickname = POD::escapeString(UTF8::lessenAsEncoding($nickname, 32));
+		if ($email == '' || $nickname == '') {
+			return false;
+		}
+		$result = POD::query("UPDATE `{$database['prefix']}Users` SET loginid = '$email', name = '$nickname' WHERE `userid` = $userid");
+		if (!$result) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	function add($email, $name) {
+		global $database, $service, $user, $blog;
+		if (empty($email))
+			return 1;
+		if (!preg_match('/^[^@]+@([-a-zA-Z0-9]+\.)+[-a-zA-Z0-9]+$/', $email))
+			return 2;
+	
+		if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return 11;
+	
+		$loginid = POD::escapeString(UTF8::lessenAsEncoding($email, 64));	
+		$name = POD::escapeString(UTF8::lessenAsEncoding($name, 32));
+		$password = generatePassword();
+		$authtoken = md5(generatePassword());
+	
+		$result = POD::queryRow("SELECT * FROM `{$database['prefix']}Users` WHERE loginid = '$loginid'");
+		if (!empty($result)) {
+			return 9;	// User already exists.
+		}
+	
+		$result = POD::query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (NULL, '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, ".getUserId().")");
+		if (empty($result)) {
+			return 11;
+		}
+		$result = POD::query("INSERT INTO `{$database['prefix']}UserSettings` (userid, name, value) VALUES ('".User::getUserIdByEmail($loginid)."', 'AuthToken', '$authtoken')");
+		if (empty($result)) {
+			return 11;
+		}
+		return true;
+	}
+	
 	/* TO DO : library 의존성 없애야 함. 함수를 사용하고 있습니다.  */
-	function deleteUser($userid) {
+	function remove($userid) {
 		global $database;
 		if ($userid == 1)
 			return false;
@@ -218,8 +283,17 @@ class User {
 		foreach ($blogs as $joinedBlog) {
 			deleteTeamblogUser($userid,$joinedBlog);
 		}
-		deleteUser($userid);
+		User::removePermanent($userid);
 		return true;
+	}
+	
+	function removePermanent($userid) {
+		global $database;
+		if( POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1") ) {
+			return POD::execute("DELETE FROM {$database['prefix']}Users WHERE userid = $userid");
+		} else {
+			return false;
+		}
 	}
 }
 

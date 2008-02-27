@@ -17,9 +17,8 @@ requireStrictBlogURL();
 if (false) {
 	fetchConfigVal();
 }
-//$userid = User::getUseridByEmail($_GET['loginid']);
 if(validateAPIKey($blogid, $_GET['loginid'], $_GET['key'])) {
-	$userid = User::getUseridByEmail($_GET['loginid']);
+	$userid = User::getUserIdByEmail($_GET['loginid']);
 	if(in_array($blogid, User::getOwnedBlogs($userid))) { 
 		if (file_exists(ROOT . "/cache/backup/$blogid.xml")) {
 			header('Content-Type: text/xml; charset=utf-8');

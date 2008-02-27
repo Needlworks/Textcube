@@ -12,7 +12,7 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 requirePrivilege('group.creators');
 
-if (deleteTeamblogUser($_GET['userid'],$_GET['blogid'])) {
+if (deleteTeamblogUser($_GET['userid'],$_GET['blogid'],false)) {
 	respond::ResultPage(0);
 }
 respond::ResultPage(-1);

@@ -4,11 +4,11 @@
   <title xml:lang="ko">시작하기</title>
   <link>http://needlworks.org/</link>
   <version>1.6</version>
-  <description xml:lang="en">Start tasks what you want to.</description>
-  <description xml:lang="ko">종류에 따라 원하는 일을 시작합니다.</description>
+  <description xml:lang="en">Adds shortcuts to start tasks what you want to with Textcube.</description>
+  <description xml:lang="ko"><![CDATA[글쓰기, 리더 보기, 다양한 설정 바꾸기 등 여러 일들에 대한 바로가기를 센터에 추가합니다.]]></description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://needlworks.org">Jeongkyu Shin (inureyes /Needlworks)</author>
-  <author xml:lang="ko" link="http://needlworks.org"><![CDATA[신정규 (inureyes / Needlworks)]]></author>
+  <author xml:lang="en" link="http://forest.nubimaru.com">Jeongkyu Shin (inureyes /Needlworks)</author>
+  <author xml:lang="ko" link="http://forest.nubimaru.com"><![CDATA[신정규 (inureyes / Needlworks)]]></author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
     <textcube>1.6</textcube>

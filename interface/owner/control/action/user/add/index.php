@@ -12,7 +12,7 @@ $IV = array(
 );
 requireStrictRoute();
 
-$result = addUser($_GET['email'], $_GET['name']);
+$result = User::add($_GET['email'], $_GET['name']);
 if ($result===true) {
 	respond::PrintResult(array('error' => 0));
 }

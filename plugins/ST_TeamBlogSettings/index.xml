@@ -3,12 +3,14 @@
   <title xml:lang="en">Team Blog Settings</title>
   <title xml:lang="ko">팀블로그 설정</title>
   <link>http://needlworks.org/</link>
-  <version>1.706</version>
-  <description xml:lang="en">Team Blog Settings</description>
-  <description xml:lang="ko">팀블로그 설정</description>
+  <version>1.6</version>
+  <description xml:lang="en"><![CDATA[Adds some detail settings for team blog use.]]></description>
+  <description xml:lang="ko"><![CDATA[팀블로그를 사용할 경우 사용자 프로필 등의 다양한 기능을 텍스트큐브에 추가합니다.]]></description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://needlworks.org">Needlworks</author>
-  <author xml:lang="ko" link="http://needlworks.org">Needlworks</author>
+  <author xml:lang="en" link="http://create74.com">Yongju-Park / Young-sun Park (j.parker / chakani)</author>
+  <author xml:lang="en" link="http://chakani.net">Yongju-Park / Young-sun Park (j.parker / chakani)</author>
+  <author xml:lang="en" link="http://create74.com">박용주 / 박용선 (j.parker / chakani)</author>
+  <author xml:lang="en" link="http://chakani.net">박용주 / 박용선 (j.parker / chakani)</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
     <textcube>1.5</textcube>

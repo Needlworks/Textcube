@@ -14,11 +14,11 @@ function addTeamUser($email, $name, $comment, $senderName, $senderEmail) {
 	if(!preg_match('/^[^@]+@([-a-zA-Z0-9]+\.)+[-a-zA-Z0-9]+$/',$email))
 		return array( 2, _t('이메일이 바르지 않습니다.') );
 	
-	$isUserExists = getUserIdByEmail($email);
+	$isUserExists = User::getUserIdByEmail($email);
 	if(empty($isUserExists)) { // If user is not exist
-		addUser($email,$name);
+		User::add($email,$name);
 	}
-	$userid = getUserIdByEmail($email);
+	$userid = User::getUserIdByEmail($email);
 	$result = addBlog(getBlogId(), $userid, null);
 	if($result === true) {
 		return sendInvitationMail(getBlogId(), $userid, User::getName($userid), $comment, $senderName, $senderEmail);
@@ -80,7 +80,7 @@ function deleteTeamblogUser($userid ,$blogid = null, $clean = true) {
 		return false;
 	// And if there is no blog related to the specific user, delete user.
 	if($clean && !POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE userid = '$userid'")) {
-		deleteUser($userid);
+		User::removePermanent($userid);
 	}
 	return true;
 }

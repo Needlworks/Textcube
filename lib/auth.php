@@ -120,7 +120,7 @@ function validateAPIKey($blogid, $loginid, $key) {
 	global $service;
 	$loginid = POD::escapeString($loginid);
 	$key = POD::escapeString($key);
-	$userid = getUserIdByEmail($loginid);
+	$userid = User::getUserIdByEmail($loginid);
 	if( $userid === false ) { return false; }
 	$currentAPIKey = setting::getUserSettingGlobal('APIKey',null,$userid);
 	if($currentAPIKey == null) {
@@ -161,7 +161,7 @@ function resetPassword($blogid, $loginid) {
 	global $service, $blog, $hostURL, $blogURL;
 	if (!isLoginId($blogid, $loginid))
 		return false;
-	$userid=getUserIdByEmail($loginid);
+	$userid = User::getUserIdByEmail($loginid);
 	$password = POD::queryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = $userid");
 	$authtoken = md5(generatePassword());
 	$result = POD::query("REPLACE INTO `{$database['prefix']}UserSettings` (userid, name, value) VALUES ('" . $userid . "', 'AuthToken', '" . $authtoken . "')");

@@ -9,7 +9,7 @@
 	<license>GPL</license>
 	<author xml:lang="en" link="http://forest.nubimaru.com/">Jeongkyu Shin (inureyes / Needlworks)</author>
 	<author xml:lang="en" link="http://michelf.com/weblog/">Michel Fortin</author>
-	<author xml:lang="ko" link="http://forest.nubimaru.com/">Jeongkyu Shin (inureyes / Needlworks)</author>
+	<author xml:lang="ko" link="http://forest.nubimaru.com/">신정규 (inureyes / Needlworks)</author>
 	<author xml:lang="ko" link="http://michelf.com/weblog/">Michel Fortin</author>
 	<safety changeData="no" exposeData="no" accessLocal="yes" accessRemote="no" accessRaw="no" />
 	<requirements>

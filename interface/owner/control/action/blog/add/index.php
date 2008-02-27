@@ -12,7 +12,7 @@ require ROOT . '/lib/includeForBlogOwner.php';
 
 requireStrictRoute();
 requirePrivilege('group.creators');
-if ($uid = getUserIdByEmail($_GET['owner'])) {
+if ($uid = User::getUserIdByEmail($_GET['owner'])) {
 	$result = addBlog('',$uid, $_GET['identify']);
 	if ($result===true) {
 		respond::PrintResult(array('error' => 0));

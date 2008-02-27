@@ -160,4 +160,8 @@ function get_siteinfo($xmlinfo) {
 	}
 	return array($st, $sl, $sd);
 }
+
+function correctTTForXmlText($text) {
+	return str_replace('&quot;', '"', str_replace('&#39;', '\'', $text));
+}
 ?>
