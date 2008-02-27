@@ -22,7 +22,6 @@
 	<listener event="ViewGuestCommenter">openid_ViewCommenter</listener>
 	<listener event="OpenIDAffiliateLinks">openid_OpenIDAffiliateLinks</listener>
 
-	<tag name="SKIN_head_start" handler="openid_hardcore_login" />
 	<tag name="SKIN_head_start" handler="openid_add_delegate" />
   </binding>
 </plugin>
