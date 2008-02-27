@@ -4,8 +4,8 @@
   <title xml:lang="en">Blog API</title>
   <link>http://needlworks.org/</link>
   <version>1.6</version>
-  <description xml:lang="en">This plugin supports RSD link in skin for api</description>
-  <description xml:lang="ko">스킨에 RSD link를 추가하여 api를 자동으로 검출되게 합니다.</description>
+  <description xml:lang="en">This plugin adds API auto discovery</description>
+  <description xml:lang="ko">API 자동 검출 기능을 추가합니다.</description>
   <license>GPL</license>
   <author xml:lang="en" link="http://coolengineer.com">Hojin Choi (coolengineer / Needlworks)</author>
   <author xml:lang="ko" link="http://coolengineer.com"><![CDATA[최호진 (coolengineer / Needlworks)]]></author>
