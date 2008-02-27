@@ -108,6 +108,7 @@
 	padding                          : 0 !important;
 	position                         : absolute !important;
 	top                              : 6.5em;
+	width                            : 200px;
 }
 
 #direct-link-line dt
@@ -214,15 +215,15 @@
 {
 	margin-left                      : 225px;
 	min-height                       : 10em;
-	width                            : 730px;
+	width                            : 720px;
 }
 
 #part-plugin-list #listview-box ul.data-inbox li
 {
 	float                            : left;
 	margin                           : 2px !important;
-	width                            : 730px;
-	height:100px;
+	width                            : 710px;
+	height                           : 105px;
 }
 
 #part-plugin-list #listview-box ul.data-inbox li .plugin-box
