@@ -129,7 +129,7 @@
 	padding-left                     : 15px;
 }
 
-/* plugin list - icon view */
+/* plugin list - icon view ------------------------------------- */
 #iconview-box
 {
 	margin-left                      : 225px;
@@ -210,11 +210,11 @@
 	display                          : none;
 }
 
-/* plugin list - list view */
+/* plugin list - list view ------------------------------------- */
 #listview-box
 {
 	margin-left                      : 225px;
-	min-height                       : 10em;
+	min-height                       : 5em;
 	width                            : 720px;
 }
 
