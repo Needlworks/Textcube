@@ -74,17 +74,18 @@
 	margin                           : 0 !important;
 }
 
-#sorting-line
+#sorting-line, #viewmode-line
 {
 	position                         : static;
 }
 
-#sorting-line-status
+#sorting-line-status, #viewmode-line-status
 {
 	padding-left                     : 10px;
 }
 
-#sorting-line-status label
+#sorting-line-status label,
+#viewmode-line-status label
 {
 	border                           : none !important;
 	display                          : block;
@@ -95,6 +96,15 @@
 {
 	border                           : none !important;
 	right                            : 10px;
+	padding                          : 0 !important;
+	position                         : absolute !important;
+	top                              : 6.5em;
+}
+
+#viewmode-line-align
+{
+	border                           : none !important;
+	right                            : 200px;
 	padding                          : 0 !important;
 	position                         : absolute !important;
 	top                              : 6.5em;
@@ -118,28 +128,28 @@
 	padding-left                     : 15px;
 }
 
-#temp-box
+/* plugin list - icon view */
+#iconview-box
 {
 	margin-left                      : 225px;
 	min-height                       : 15em;
 	width                            : 730px;
 }
 
-/* plugin list */
 #part-plugin-list ul.data-inbox
 {
 	margin                           : 0;
 	width                            : 730px;
 }
 
-#part-plugin-list ul.data-inbox li
+#part-plugin-list #iconview-box ul.data-inbox li
 {
 	float                            : left;
 	margin                           : 2px !important;
 	width                            : 140px;
 }
 
-#part-plugin-list ul.data-inbox li .plugin-box
+#part-plugin-list #iconview-box ul.data-inbox li .plugin-box
 {
 	/*background-image: url('./image/bg_plugin_box.jpg');*/
 	border                           : 1px solid #F4F4F4;
@@ -148,13 +158,13 @@
 	vertical-align                   : middle;
 }
 
-#part-plugin-list ul.data-inbox li.active-class .plugin-box
+#part-plugin-list #iconview-box ul.data-inbox li.active-class .plugin-box
 {
 	background-color                 : #EFF6FF;
 	border                           : 1px solid #C6DFFF;
 }
 
-#part-plugin-list ul.data-inbox li .plugin-box .plugin-icon
+#part-plugin-list #iconview-box ul.data-inbox li .plugin-box .plugin-icon
 {
 	background-position              : center center;
 	cursor                           : pointer;
@@ -163,17 +173,17 @@
 	width                            : 90px;
 }
 
-#part-plugin-list ul.data-inbox li .plugin-box .plugin-disabled-icon
+#part-plugin-list #iconview-box ul.data-inbox li .plugin-box .plugin-disabled-icon
 {
 	cursor                           : default;
 }
 
-#part-plugin-list ul.data-inbox li .plugin-box .plugin-icon img
+#part-plugin-list #iconview-box ul.data-inbox li .plugin-box .plugin-icon img
 {
 	display                          : none;
 }
 
-#part-plugin-list ul.data-inbox li .summary
+#part-plugin-list #iconview-box ul.data-inbox li .summary
 {
 	height                           : 3em;
 	margin-bottom                    : 7px;
@@ -182,17 +192,129 @@
 	text-align                       : center;
 }
 
-#part-plugin-list ul.data-inbox li .summary .plugin-buttons
+#part-plugin-list #iconview-box ul.data-inbox li .summary .plugin-buttons
 {
 	font-family                      : 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
 	font-size                        : 0.9em;
 }
 
-#part-plugin-list ul.data-inbox li .summary .plugin-buttons .disabled,
-#part-plugin-list ul.data-inbox li .summary .plugin-buttons .dimmed
+#part-plugin-list #iconview-box ul.data-inbox li .summary .plugin-buttons .disabled,
+#part-plugin-list #iconview-box ul.data-inbox li .summary .plugin-buttons .dimmed
 {
 	color                            : #BBBBBB;
 }
+
+#part-plugin-list #iconview-box .plugin-description
+{
+	display                          : none;
+}
+
+/* plugin list - list view */
+#listview-box
+{
+	margin-left                      : 225px;
+	min-height                       : 10em;
+	width                            : 730px;
+}
+
+#part-plugin-list #listview-box ul.data-inbox li
+{
+	float                            : left;
+	margin                           : 2px !important;
+	width                            : 730px;
+	height:100px;
+}
+
+#part-plugin-list #listview-box ul.data-inbox li .plugin-box
+{
+	border                           : 1px solid #F4F4F4;
+	padding                          : 5px;
+	text-align                       : left;
+	width                            : 100px;
+	vertical-align                   : middle;
+}
+
+#part-plugin-list #listview-box ul.data-inbox li.active-class
+{
+	background-color                 : #EFF6FF;
+	border                           : 1px solid #C6DFFF;
+}
+
+#part-plugin-list #listview-box ul.data-inbox li .plugin-box .plugin-icon
+{
+	background-position              : center center;
+	cursor                           : pointer;
+	height                           : 90px;
+	margin                           : 0 auto 0 auto;
+	width                            : 90px;
+}
+
+#part-plugin-list #listview-box ul.data-inbox li .plugin-box .plugin-disabled-icon
+{
+	cursor                           : default;
+}
+
+#part-plugin-list #listview-box ul.data-inbox li .plugin-box .plugin-icon img
+{
+	display                          : none;
+}
+
+#part-plugin-list #listview-box ul.data-inbox li .summary
+{
+	position                         : relative;
+	top                              : -100px;
+	left                             : 130px;
+	width                            : 500px;
+}
+
+#part-plugin-list #listview-box ul.data-inbox li .summary dl dt,
+#part-plugin-list #listview-box ul.data-inbox li .summary dl dd
+{
+	display                          : inline;
+}
+
+#part-plugin-list #listview-box ul.data-inbox li .summary dl dd
+{
+	margin-left                      : 0;
+}
+
+#part-plugin-list #listview-box ul.data-inbox li .summary dl dd.version
+{
+	margin-left                      : 10px;
+}
+
+#part-plugin-list #listview-box ul.data-inbox li .summary dl dd.author
+{
+	margin-left                      : 200px;
+}
+
+#part-plugin-list #listview-box ul.data-inbox li .summary dl dd.description
+{
+	display                          : block;
+	width                            : 580px;
+	line-height                      : 130%;
+}
+
+#part-plugin-list #listview-box ul.data-inbox li .summary .plugin-title
+{
+	display                          : none;
+}
+
+#part-plugin-list #listview-box ul.data-inbox li .summary .plugin-buttons
+{
+	font-family                      : 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
+	font-size                        : 0.9em;
+	margin-left                      : 450px;
+	width                            : 150px;
+}
+
+#part-plugin-list #listview-box ul.data-inbox li .summary .plugin-buttons .disabled,
+#part-plugin-list #listview-box ul.data-inbox li .summary .plugin-buttons .dimmed
+{
+	color                            : #BBBBBB;
+}
+
+/* introduction of textcube plugin download page */
 
 #part-plugin-more
 {
