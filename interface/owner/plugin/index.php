@@ -40,6 +40,9 @@ $selectedSort = getBlogSetting('pluginListSortType', 'ascend');
 $selectedScopes = explode('|', getBlogSetting("pluginListScopeType_{$_POST['visibility']}", $memberScopes));
 $selectedStatus = explode('|', getBlogSetting("pluginListStatusType_{$_POST['visibility']}", 'activated|deactivated'));
 
+// get the list type.
+$listType = getBlogSetting('pluginViewType', 'iconview');
+
 // get all plugin list.
 $plugins = array();
 $pluginAttrs = array();
@@ -211,6 +214,8 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 											statusCount++;
 										} else if (oElement.name == 'sortType' && oElement.checked == true) {
 											var sort = oElement.value;
+										} else if (oElement.name == 'viewType' && oElement.checked == true) {
+											var viewtype = oElement.value;
 										}
 									}
 									
@@ -229,7 +234,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 										alert("<?php echo _t('선택하신 조건을 적용할 수 없었습니다.');?>");
 									}
 									
-									request.send("visibility=" + currentTab.value + "&scope=" + scope.join('|') + "&status=" + status.join('|') + "&sort=" + sort);
+									request.send("visibility=" + currentTab.value + "&scope=" + scope.join('|') + "&status=" + status.join('|') + "&sort=" + sort + "&viewtype=" + viewtype);
 								}
 								
 								window.addEventListener("load", execLoadFunction, false);
@@ -320,6 +325,13 @@ if (defined('__TAB_BLOG__')) {
 									</dd>
 								</dl>
 								
+								<dl id="viewmode-line" class="line">
+									<dt class="hidden"><?php echo _t('출력 설정');?></dt>
+									<dd id="viewmode-line-align">
+										<input type="radio" class="radio" id="list-view" name="viewType" value="listview" onclick="changeList(this)"<?php echo $listType == 'listview' ? ' checked="checked"' : '';?> /><label for="list-view"><?php echo _t('리스트 보기');?></label>
+										<input type="radio" class="radio" id="icon-view" name="viewType" value="iconview" onclick="changeList(this)"<?php echo $listType == 'iconview' ? ' checked="checked"' : '';?> /><label for="icon-view"><?php echo _t('아이콘 보기');?></label>
+									</dd>
+								</dl>								
 <?php
 if (defined('__TAB_CENTER__') || defined('__TAB_COVERPAGE__')) {
 	$text = defined('__TAB_CENTER__') ? _t('센터로 바로 가기') : _t('표지 설정으로 바로가기');
@@ -337,7 +349,7 @@ if (defined('__TAB_CENTER__') || defined('__TAB_COVERPAGE__')) {
 								</dl>
 							</fieldset>
 							
-							<div id="temp-box">
+							<div id="<?php echo $listType;?>-box">
 								<ul class="data-inbox">
 <?php
 list($currentTextcubeVersion) = explode(' ', TEXTCUBE_VERSION, 2);
@@ -394,7 +406,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 	} else {
 ?>
 										<div class="plugin-box">
-										<div id="pluginIcon<?php echo $i;?>" class="plugin-icon" style="background-image: url('<?php 
+											<div id="pluginIcon<?php echo $i;?>" class="plugin-icon" style="background-image: url('<?php 
 		echo $serviceURL . 
 			(file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_off.png") ? 
 				"/plugins/{$pluginDir}/images/icon_plugin_off.png" : 
@@ -422,8 +434,15 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 												<input type="checkbox" class="input-checkbox" name="plugin" value="<?php echo $pluginDir;?>" title="<?php echo _t('이 플러그인은 사용 중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>" />
 <?php
 	}
+	echo ($link ? "<a href=\"" . htmlspecialchars($link) . "\" title=\"".htmlspecialchars($title)." - " . _t('판번호') . " {$version}\">" . htmlspecialchars(UTF8::lessenAsEm($title, 20)) . '</a>' : "<span title=\"".htmlspecialchars($title)." - " . _t('판번호') . " {$version}\">" . htmlspecialchars(UTF8::lessenAsEm($title, 20)) . '</span>');
 ?>
-												<?php echo ($link ? "<a href=\"" . htmlspecialchars($link) . "\" title=\"".htmlspecialchars($title)." - " . _t('판번호') . " {$version}\">" . htmlspecialchars(UTF8::lessenAsEm($title, 20)) . '</a>' : "<span title=\"".htmlspecialchars($title)." - " . _t('판번호') . " {$version}\">" . htmlspecialchars(UTF8::lessenAsEm($title, 20)) . '</span>');?>
+											</div>
+											<div class="plugin-description">
+												<dl>
+													<dt class="title"><a href="<?php echo htmlspecialchars($link);?>" title="<?php echo htmlspecialchars($title);?>"><?php echo htmlspecialchars($title);?></a></dt>													<dd class="author"><a href="<?php echo htmlspecialchars($authorLink);?>" title="<?php echo htmlspecialchars($author);?>"><?php echo htmlspecialchars($author);?></a></dd>
+													<dd class="version"><?php echo $version;?></dd>
+													<dd class="description"><?php echo htmlspecialchars($description);?></dd>
+												</dl>
 											</div>
 											<div class="plugin-buttons">
 <?php
