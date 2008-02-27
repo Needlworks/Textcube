@@ -24,7 +24,8 @@ Standardizer.prototype.copyright = "Copyright (c) 2005,2007 Needlworks / Tatter 
 
 function Standardizer(){};
 
-Standardizer.prototype.isIE = (navigator.userAgent.indexOf("MSIE")>=0);
+Standardizer.prototype.isIE = (navigator.userAgent.indexOf("MSIE")>=0 && document.all);
+Standardizer.prototype.isIE6 = (navigator.userAgent.indexOf("MSIE 6.")>=0  && document.all);
 Standardizer.prototype.isFirefox = (navigator.userAgent.indexOf("Firefox")>=0 || navigator.userAgent.indexOf("IceWeasel")>=0);
 Standardizer.prototype.isSafari = (navigator.userAgent.indexOf("Safari")>=0);
 Standardizer.prototype.isSafari3 = (navigator.userAgent.indexOf("Safari")>=0 && navigator.userAgent.indexOf("Version/3")>0);

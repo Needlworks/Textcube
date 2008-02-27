@@ -123,23 +123,22 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 												objLI.parentNode.removeChild(objLI);
 											} else {
 												objLI.className = objLI.className.replace('inactive', 'active');
-											
-												var icon = new Image();
-												if (currentIcon.style.backgroundImage == "url(<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png)") {
-													icon.src = '<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png';
+												
+												if (STD.isIE6) {
+													if (currentIcon.style.filter == 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png", sizingMethod="scale")')
+														currentIcon.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png", sizingMethod="scale")'
+													else
+														currentIcon.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $serviceURL;?>/plugins/' + plugin + '/images/icon_plugin_on.png", sizingMethod="scale")'
 												} else {
-													icon.src = '<?php echo $serviceURL;?>/plugins/' + plugin + '/images/icon_plugin_on.png';
+													if (currentIcon.src == "<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png")
+														currentIcon.src = '<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png';
+													else
+														currentIcon.src = '<?php echo $serviceURL;?>/plugins/' + plugin + '/images/icon_plugin_on.png';
 												}
-												currentIcon.style.backgroundImage = "url('"+icon.src+"')";
 											
 												if (currentSettingButton.className == 'dimmed') {
-													if (STD.isIE) {
-														// tempLink.onclick, tempLink.setAttribute('onclick', ...)은 브라우저 호환성에 문제 있음. 따라서 브라우저를 detect하여 처리함.
-														tempLink = document.createElement('<A onclick="getCurrentSetting(\''+plugin+'\', \'Y\', '+width+', '+height+', \'setting\'); return false;">');
-													} else {
-														tempLink = document.createElement('A');
-														tempLink.setAttribute('onclick', "getCurrentSetting('"+plugin+"', 'Y', "+width+", "+height+", 'setting'); return false;");
-													}
+													tempLink = document.createElement('A');
+													tempLink.onclick = function() { getCurrentSetting(plugin, 'Y', width, height, 'setting'); return false; };
 													tempLink.setAttribute('href', '#void');
 													tempLink.innerHTML = '<?php echo _t('환경설정');?>';
 													
@@ -166,14 +165,18 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 												objLI.parentNode.removeChild(objLI);
 											} else {
 												objLI.className = objLI.className.replace('active', 'inactive');
-											
-												var icon = new Image();
-												if (currentIcon.style.backgroundImage == "url(<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png)") {
-													icon.src = '<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png';
+												
+												if (STD.isIE6) {
+													if (currentIcon.style.filter == 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png", sizingMethod="scale")')
+														currentIcon.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png", sizingMethod="scale")'
+													else
+														currentIcon.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $serviceURL;?>/plugins/' + plugin + '/images/icon_plugin_off.png", sizingMethod="scale")'
 												} else {
-													icon.src = '<?php echo $serviceURL;?>/plugins/' + plugin + '/images/icon_plugin_off.png';
+													if (currentIcon.src == "<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png")
+														currentIcon.src = '<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png';
+													else
+														currentIcon.src = '<?php echo $serviceURL;?>/plugins/' + plugin + '/images/icon_plugin_off.png';
 												}
-												currentIcon.style.backgroundImage = "url('"+icon.src+"')";
 											
 												if (currentSettingButton.className == 'enabled') {
 													currentSettingButton.innerHTML = '<?php echo _t('환경설정');?>';
@@ -240,10 +243,20 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 								window.addEventListener("load", execLoadFunction, false);
 								
 								function execLoadFunction() {
-									for (var i=0; getObject('part-plugin-list').elements[i]; i++) {
+									if (STD.isIE6) {
+										var pluginIcons = document.getElementById('part-plugin-list').getElementsByTagName('img');
+										
+										for (var i=0; i<pluginIcons.length; ++i) {
+											var temp = pluginIcons[i].src;
+											pluginIcons[i].setAttribute('src', "<?php echo $service['path'];?>/image/spacer.gif");
+											pluginIcons[i].style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' + temp + '", sizingMethod="scale")';
+										}
+									}
+									
+									for (var i=0; getObject('part-plugin-list').elements[i]; ++i) {
 										oElement = getObject('part-plugin-list').elements[i];
 										if ((oElement.name == 'plugin'))
-											oElement.style.display = 'none';
+											oElement.style.display = 'none';	
 									}
 								}
 								
@@ -288,6 +301,7 @@ if (defined('__TAB_BLOG__')) {
 										</ul>
 									</dd>
 								</dl>
+								
 								<dl id="module-line" class="line">
 									<dt><?php echo _t('모듈');?></dt>
 									<dd>
@@ -350,7 +364,7 @@ if (defined('__TAB_CENTER__') || defined('__TAB_COVERPAGE__')) {
 							</fieldset>
 							
 							<div id="<?php echo $listType;?>-box">
-								<ul class="data-inbox">
+								<ol class="data-inbox">
 <?php
 list($currentTextcubeVersion) = explode(' ', TEXTCUBE_VERSION, 2);
 
@@ -383,36 +397,30 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 	if ($requirements == false) {
 ?>
 										<div class="plugin-box">
-											<div class="plugin-icon plugin-disabled-icon" style="background-image: url('<?php 
+											<img class="plugin-icon plugin-disabled-icon" src="<?php 
 		echo $serviceURL . 
 			(file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_off.png") ?
 				"/plugins/{$pluginDir}/images/icon_plugin_off.png" :
-				$adminSkinSetting['skin'] . "/image/icon_plugin_off.png")	;?>');">
-												<img id="pluginStatusIcon<?php echo $i;?>" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/spacer.gif";?>" width="28" height="29" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 현재 텍스트큐브와 호환되지 않습니다. 플러그인의 업데이트가 필요합니다.');?>" />
-											</div>
+				$adminSkinSetting['skin'] . "/image/icon_plugin_off.png");?>" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 현재 텍스트큐브와 호환되지 않습니다. 플러그인의 업데이트가 필요합니다.');?>" />
 <?php
 	} else if ($active) {
 ?>
 										<div class="plugin-box">
-											<div id="pluginIcon<?php echo $i;?>" class="plugin-icon" style="background-image: url('<?php 
+											<img id="pluginIcon<?php echo $i;?>" class="plugin-icon" src="<?php 
 		echo $serviceURL . 
 			(file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_on.png") ? 
 				"/plugins/{$pluginDir}/images/icon_plugin_on.png" :
-				$adminSkinSetting['skin'] . "/image/icon_plugin_on.png");?>');" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null); return false;">
-												<img id="pluginStatusIcon<?php echo $i;?>" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/spacer.gif";?>" width="28" height="29" alt="<?php echo _t('켜짐');?>" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>" />
-											</div>
+				$adminSkinSetting['skin'] . "/image/icon_plugin_on.png");?>" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null); return false;" alt="<?php echo _t('켜짐');?>" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>" />
 											<input type="hidden" id="pluginStatus<?php echo $i;?>" value="1" />
 <?php
 	} else {
 ?>
 										<div class="plugin-box">
-											<div id="pluginIcon<?php echo $i;?>" class="plugin-icon" style="background-image: url('<?php 
+											<img id="pluginIcon<?php echo $i;?>" class="plugin-icon" src="<?php 
 		echo $serviceURL . 
 			(file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_off.png") ? 
 				"/plugins/{$pluginDir}/images/icon_plugin_off.png" : 
-				$adminSkinSetting['skin'] . "/image/icon_plugin_off.png");?>');" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null); return false;">
-												<img id="pluginStatusIcon<?php echo $i;?>" src="<?php echo $serviceURL . $adminSkinSetting['skin'] . "/image/spacer.gif";?>" width="28" height="29" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 사용 중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>" />
-											</div>
+				$adminSkinSetting['skin'] . "/image/icon_plugin_off.png");?>" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null); return false;" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 사용 중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>" />
 											<input type="hidden" id="pluginStatus<?php echo $i;?>" value="0" />
 <?php
 	}
@@ -434,16 +442,27 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 												<input type="checkbox" class="input-checkbox" name="plugin" value="<?php echo $pluginDir;?>" title="<?php echo _t('이 플러그인은 사용 중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>" />
 <?php
 	}
-	echo ($link ? "<a href=\"" . htmlspecialchars($link) . "\" title=\"".htmlspecialchars($title)." - " . _t('판번호') . " {$version}\">" . htmlspecialchars(UTF8::lessenAsEm($title, 20)) . '</a>' : "<span title=\"".htmlspecialchars($title)." - " . _t('판번호') . " {$version}\">" . htmlspecialchars(UTF8::lessenAsEm($title, 20)) . '</span>');
+	if ($link) {
+		echo sprintf('<a href="%s" title="%s - %s">%s</a>',
+						htmlspecialchars($link),
+						htmlspecialchars($title),
+						_t('판번호') . ' ' . $version,
+						$listType == 'listview' ? $title : htmlspecialchars(UTF8::lessenAsEm($title, 20))
+					);
+	} else {
+		echo sprintf('<span title="%s - %s">%s</span>',
+						htmlspecialchars($title),
+						_t('판번호') . ' ' . $version,
+						$listType == 'listview' ? $title : htmlspecialchars(UTF8::lessenAsEm($title, 20))
+					);
+	}
 ?>
 											</div>
-											<div class="plugin-description">
-												<dl>
-													<dt class="title"><a href="<?php echo htmlspecialchars($link);?>" title="<?php echo htmlspecialchars($title);?>"><?php echo htmlspecialchars($title);?></a></dt>													<dd class="author"><a href="<?php echo htmlspecialchars($authorLink);?>" title="<?php echo htmlspecialchars($author);?>"><?php echo htmlspecialchars($author);?></a></dd>
-													<dd class="version"><?php echo $version;?></dd>
-													<dd class="description"><?php echo htmlspecialchars($description);?></dd>
-												</dl>
-											</div>
+											<ul class="plugin-description">
+												<li class="author"><span class="label"><?php echo _t('제작자');?> : </span><a href="<?php echo htmlspecialchars($authorLink);?>" title="<?php echo htmlspecialchars($author);?>"><?php echo htmlspecialchars($author);?></a></li>
+												<li class="version"><span class="label"><?php echo _t('버젼');?> : </span><?php echo $version;?></li>
+												<li class="description"><span class="label"><?php echo _t('설명');?> : </span><?php echo htmlspecialchars($description);?></li>
+											</ul>
 											<div class="plugin-buttons">
 <?php
 	if ($requirements == false) {

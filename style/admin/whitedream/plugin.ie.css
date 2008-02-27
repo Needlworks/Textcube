@@ -1,19 +1,20 @@
 @charset "utf-8";
 
-/* Plugin */
-
-#sorting-line-align
-{
-	right                            : 20px;
-	text-align: right;
-	width: 300px;
-}
-
 /* Plugin List */
 
-#part-plugin-list ul.data-inbox li .summary .plugin-buttons
+#part-plugin-list #listview-box ol.data-inbox li .summary
 {
-	font-family: Dotum, 'Lucida Grande', Tahoma, sans-serif;
+	height: 101px;
+}
+
+#part-plugin-list ol.data-inbox li .summary .plugin-buttons
+{
+	font-family: "돋움", Dotum, 'Lucida Grande', Tahoma, sans-serif !important;
 	letter-spacing: -1px;
 	margin-top: 3px;
+}
+
+#viewmode-line-align
+{
+	top                              : 10em;
 }
