@@ -144,7 +144,6 @@ if ($ajaxcall == false) {
 }
 echo '	</div>';
 echo '</form>';
-
 if ($ajaxcall == false) {
 	require ROOT . '/lib/piece/owner/footer.php';
 }
