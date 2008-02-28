@@ -11,9 +11,8 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 $result = false;
-$isAuthToken = getUserSetting('AuthToken',false);
 if($_POST['pwd'] != '' && ($_POST['prevPwd'] != '' || $isAuthToken)) {
-	$result = changePassword(getUserId(), $_POST['pwd'], $_POST['prevPwd'], $isAuthToken);
+	$result = changePassword(getUserId(), $_POST['pwd'], $_POST['prevPwd']);
 }
 if($result) respond::ResultPage(0);
 else respond::ResultPage(-1);
