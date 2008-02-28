@@ -1035,6 +1035,11 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 			requireComponent('Textcube.Function.misc');
 			
 			for ($i=0; $i<count($images); $i++) {
+				if (strtolower(misc::getFileExtension($images[$i][1])) == 'gif') {
+					$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', $images[$i][0], $view, 1);
+					continue;
+				}
+				
 				$tempFileName = array_pop(explode('/', $images[$i][1]));
 
 				if (file_exists(ROOT . "/attach/{$blogid}/{$tempFileName}")) {
