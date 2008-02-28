@@ -98,6 +98,16 @@ class OpenID {
 		}
 	}
 
+	function getDisplayName( $openid )
+	{
+		$s = split( '#', $openid );
+		$openid = $s[0];
+		if( strlen($openid) > 40 ) {
+			$openid = substr($openid,0,36) . "...";
+		}
+		return $openid;
+	}
+
 }
 
 class OpenIDSession {
