@@ -630,7 +630,7 @@ function revertComment($blogid, $id, $entry, $password) {
 function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestShip = false) {
 	global $skinSetting, $database;
 	$comments = array();
-	$sql = (doesHaveOwnership() && !$guestShip) ? "SELECT r.*, e.title, e.slogan
+	$sql = (doesHaveOwnership() && !$guestShip) ? "SELECT DISTINCT r.*, e.title, e.slogan
 		FROM 
 			{$database['prefix']}Comments r
 			INNER JOIN {$database['prefix']}Entries e ON r.blogid = e.blogid AND r.entry = e.id
@@ -639,7 +639,7 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestSh
 		ORDER BY 
 			r.written 
 		DESC LIMIT ".($count != false ? $count : $skinSetting['commentsOnRecent']) :
-		"SELECT r.*, e.title, e.slogan
+		"SELECT DISTINCT r.*, e.title, e.slogan
 		FROM 
 			{$database['prefix']}Comments r
 			INNER JOIN {$database['prefix']}Entries e ON r.blogid = e.blogid AND r.entry = e.id
