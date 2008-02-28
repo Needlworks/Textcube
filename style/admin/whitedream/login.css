@@ -14,7 +14,7 @@ body
 	position                         : relative;
 	width                            : 560px;
 	background-image                 : url("./image/bg_login.png");
-	border                           : 1px solid #CCC;
+	border                           : 8px solid #EFEFEF;
 }
 
 #logo-box
