@@ -65,6 +65,12 @@ if ((!empty($_POST['newCategory']) && misc::isSpace($_POST['newCategory'])) ||
 } elseif ((!empty($_POST['newCategory']) && strpos($_POST['newCategory'], '/') !== false) || (!empty($_POST['modifyCategory']) && strpos($_POST['modifyCategory'], '/') !== false)) {
 	$history = '';
 	$errorMessage = _t('슬래시가 들어간 카테고리 이름은 사용할 수 없습니다');
+} elseif ((!empty($_POST['newCategory']) && strpos($_POST['newCategory'], '&') !== false) || (!empty($_POST['modifyCategory']) && strpos($_POST['modifyCategory'], '&') !== false)) {
+	$history = '';
+	$errorMessage = _t('앰퍼샌드(&)가 들어간 카테고리 이름은 사용할 수 없습니다');
+} elseif ((!empty($_POST['newCategory']) && strpos($_POST['newCategory'], '?') !== false) || (!empty($_POST['modifyCategory']) && strpos($_POST['modifyCategory'], '?') !== false)) {
+	$history = '';
+	$errorMessage = _t('물음표가 들어간 카테고리 이름은 사용할 수 없습니다');
 } elseif (!empty($_POST['newCategory'])) {
 	$history = addCategory($blogid, ($selected == 0) ? null : $_POST['id'], trim($_POST['newCategory'])) ? 'document.getElementById("newCategory").select();' : '';
 	if(empty($history)) $errorMessage = _t('같은 이름의 카테고리가 이미 존재합니다');
