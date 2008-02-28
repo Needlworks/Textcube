@@ -194,13 +194,18 @@ if($currentVersion != TEXTCUBE_VERSION) {
 		$changed = true;
 		echo '<li>', _text('오픈아이디 댓글 테이블을 기존 댓글 테이블에 병합합니다'), ': ';
 		if (POD::execute("UPDATE `{$database['prefix']}Comments` AS A,`{$database['prefix']}OpenIDComments` AS B SET `A`.`openid` = `B`.`openid` WHERE `A`.`id` = `B`.`id`" )) {
-			if (POD::execute("DROP TABLE `{$database['prefix']}OpenIDComments`" ) )
-				showCheckupMessage(true);
-			else {
-				showCheckupMessage(false);
+		} else {
+			$openids = POD::queryAll( "SELECT * from `{$database['prefix']}OpenIDComments`" );
+			foreach( $openids as $rec ) {
+				$_oid = POD::escapeString( $rec['openid'] );
+				POD::execute( "UPDATE `{$database['prefix']}Comments` SET `openid`='$_oid' WHERE `id`={$rec['id']}" );
 			}
-		} else
+		}
+		if (POD::execute("DROP TABLE `{$database['prefix']}OpenIDComments`" ) )
+			showCheckupMessage(true);
+		else {
 			showCheckupMessage(false);
+		}
 	}
 
 	if (POD::queryExistence("DESC {$database['prefix']}Links visible")) {
