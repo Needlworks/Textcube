@@ -416,20 +416,22 @@ function cancelInvite($userid,$clean = true) {
 
 function changePassword($userid, $pwd, $prevPwd, $forceChange = false) {
 	global $database;
-	if (!strlen($pwd) || (!strlen($prevPwd) || !$forceChange))
+	if (!strlen($pwd) || (!strlen($prevPwd) && !$forceChange))
 		return false;
 	if($forceChange === true) {
 		$pwd = md5($pwd);
+		@POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
 		return POD::execute("UPDATE `{$database['prefix']}Users` SET password = '$pwd' WHERE `userid` = $userid");
 	}
 	if ((strlen($prevPwd) == 32) && preg_match('/[0-9a-f]/i', $prevPwd))
 		$secret = '(`password` = \'' . md5($prevPwd) . "' OR `password` = '$prevPwd')";
 	else
 		$secret = '`password` = \'' . md5($prevPwd) . '\'';
-	$count = POD::queryCell("select count(*) from {$database['prefix']}Users where userid = $userid and $secret");
+	$count = POD::queryCell("SELECT count(*) FROM {$database['prefix']}Users WHERE userid = $userid and $secret");
 	if ($count == 0)
 		return false;
 	$pwd = md5($pwd);
+	@POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
 	return POD::execute("UPDATE `{$database['prefix']}Users` SET password = '$pwd' WHERE `userid` = $userid");
 }
 
