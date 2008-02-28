@@ -26,3 +26,4 @@ $service['debugmode'] = false; // Textcube debug mode. (for core / plugin debug 
 $service['debug_session_dump'] = false; // session info debuging.
 $service['debug_rewrite_module'] = false; // rewrite handling module info debuging.
 $service['allowBlogVisibilitySetting'] = true; // Allow service users to change blog visibility
+$service['favicon_daily_traffic'] = 10; // Set favicon traffic limitation. default is 10MB.
