@@ -32,7 +32,7 @@ if (!isset($_GET['__T__']) || !isset($_POST['key']) || $_POST['key'] != md5(file
 	exit;
 }
 $userName = isset($_POST["name_$entryId"]) ? trim($_POST["name_$entryId"]) : '';
-$userPassword = isset($_POST["password_$entryId"]) ? trim($_POST["password_$entryId"]) : '';
+$userPassword = isset($_POST["password_$entryId"]) ? $_POST["password_$entryId"] : '';
 $userSecret = isset($_POST["secret_$entryId"]) ? 1 : 0;
 $userHomepage = isset($_POST["homepage_$entryId"]) ? trim($_POST["homepage_$entryId"]) : '';
 $userComment = isset($_POST["comment_$entryId"]) ? trim($_POST["comment_$entryId"]) : '';

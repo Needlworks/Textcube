@@ -34,7 +34,7 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 		respond::ErrorPage(_text('댓글이 존재하지 않습니다.'));
 	$comment['parent'] = $suri['id'];
 	$comment['name'] = empty($_POST['name']) ? '' : trim($_POST['name']);
-	$comment['password'] = empty($_POST['password']) ? '' : trim($_POST['password']);
+	$comment['password'] = empty($_POST['password']) ? '' : $_POST['password'];
 	$comment['homepage'] = empty($_POST['homepage']) || ($_POST['homepage'] == 'http://') ? '' : trim($_POST['homepage']);
 	$comment['secret'] = empty($_POST['secret']) ? 0 : 1;
 	$comment['comment'] = trim($_POST['comment']);
