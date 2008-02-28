@@ -460,7 +460,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 											</div>
 											<ul class="plugin-description">
 												<li class="author"><span class="label"><?php echo _t('제작자');?> : </span><a href="<?php echo htmlspecialchars($authorLink);?>" title="<?php echo htmlspecialchars($author);?>"><?php echo htmlspecialchars($author);?></a></li>
-												<li class="version"><span class="label"><?php echo _t('버젼');?> : </span><?php echo $version;?></li>
+												<li class="version"><span class="label"><?php echo _t('판번호');?> : </span><?php echo $version;?></li>
 												<li class="description"><span class="label"><?php echo _t('설명');?> : </span><?php echo htmlspecialchars($description);?></li>
 											</ul>
 											<div class="plugin-buttons">

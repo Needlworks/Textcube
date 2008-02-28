@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title xml:lang="ko">텍스트큐브 생일 표시</title>
-  <title xml:lang="en">Textcube birthday</title>
+  <title xml:lang="ko">태터툴즈/텍스트큐브 생일 표시</title>
+  <title xml:lang="en">Tattertools/Textcube birthday</title>
   <title xml:lang="ja">タッターツールズの誕生日表示</title>
   <title xml:lang="zh-CN">表示TT生日</title>
   <link>http://needlworks.org/</link>
-  <version>1.0</version>
+  <version>1.6</version>
   <description xml:lang="en">This plugin displays Textcube birthday and D-day. To enable this, skin's HTML should contain [##_TextcubeBirthday_##] tag.</description>
-  <description xml:lang="ko">텍스트큐브의 생일과 D-day를 블로그 페이지에 출력합니다. [##_TextcubeBirthday_##] 태그가 스킨에 있어야 합니다.</description>
+  <description xml:lang="ko"><![CDATA[텍스트큐브의 생일과 D-day를 블로그 페이지에 출력합니다. [##_TextcubeBirthday_##] 태그가 스킨에 있어야 합니다.]]></description>
   <description xml:lang="ja">タッターツールズの誕生日と D-day をブログのページに出力します。このプラグインを使用中にして [##_TextcubeBirthday_##] タグをスキンに含むと動作が出来ます。</description>
   <description xml:lang="zh-CN">在网页中显示TT生日和D-day. 模板中要包含 [##_TextcubeBirthday_##] 标签.</description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://needlworks.org">Needlworks</author>
-  <author xml:lang="ko" link="http://needlworks.org">Needlworks</author>
+  <author xml:lang="ko" link="http://papacha.net"><![CDATA[장선주 (papacha / TNC)]]></author>
+  <author xml:lang="en" link="http://papacha.net">Sunju Jahng</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
     <textcube>1.5</textcube>

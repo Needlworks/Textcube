@@ -414,10 +414,14 @@ function cancelInvite($userid,$clean = true) {
 	return true;
 }
 
-function changePassword($userid, $pwd, $prevPwd) {
+function changePassword($userid, $pwd, $prevPwd, $forceChange = false) {
 	global $database;
-	if (!strlen($pwd) || !strlen($prevPwd))
+	if (!strlen($pwd) || (!strlen($prevPwd) || !$forceChange))
 		return false;
+	if($forceChange === true) {
+		$pwd = md5($pwd);
+		return POD::execute("UPDATE `{$database['prefix']}Users` SET password = '$pwd' WHERE `userid` = $userid");
+	}
 	if ((strlen($prevPwd) == 32) && preg_match('/[0-9a-f]/i', $prevPwd))
 		$secret = '(`password` = \'' . md5($prevPwd) . "' OR `password` = '$prevPwd')";
 	else
@@ -426,8 +430,7 @@ function changePassword($userid, $pwd, $prevPwd) {
 	if ($count == 0)
 		return false;
 	$pwd = md5($pwd);
-	$sql = "UPDATE `{$database['prefix']}Users` SET password = '$pwd' WHERE `userid` = $userid";
-	return POD::execute($sql);
+	return POD::execute("UPDATE `{$database['prefix']}Users` SET password = '$pwd' WHERE `userid` = $userid");
 }
 
 function changeAPIKey($userid, $key) {
