@@ -7,8 +7,8 @@
   <description xml:lang="en">Shows coverpage with recent entries</description>
   <description xml:lang="ko">다중 사용자 모드에서 모든 블로그들의 최근에 작성된 글들을 표지에 보여줍니다</description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://create74.com">Yong-ju, Park (jparker / Needlworks)</author>
-  <author xml:lang="ko" link="http://create74.com"><![CDATA[박용주 (jparker / Needlworks)]]></author>
+  <author xml:lang="en" link="http://create74.com">Yong-ju, Park (J.Parker / Needlworks)</author>
+  <author xml:lang="ko" link="http://create74.com"><![CDATA[박용주 (J.Parker / Needlworks)]]></author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
     <textcube>1.6</textcube>
