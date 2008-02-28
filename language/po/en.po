@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-11 14:56:18+0000\n"
-"PO-Revision-Date: 2008-02-11 14:56:18+0000\n"
+"POT-Creation-Date: 2008-02-28 17:40:04+0000\n"
+"PO-Revision-Date: 2008-02-28 17:40:04+0000\n"
 "Last-Translator: TEXTCUBE\n"
 "Language-Team: TEXTCUBE\n"
 "MIME-Version: 1.0\n"
@@ -80,12 +80,6 @@ msgstr "(No name %1)"
 msgid "(찾아보기를 이용하여 사진을 선택하시면 바로 <b>변경</b> 저장됩니다)"
 msgstr "(Select picture using \\'Browse\\' then it will be changed.)"
 
-msgid "1개월 뒤의 달력을 보여줍니다."
-msgstr "Next month"
-
-msgid "1개월 앞의 달력을 보여줍니다."
-msgstr "Previous month"
-
 msgid "1차 블로그 도메인을 변경하지 못했습니다"
 msgstr "Failed to change first domain"
 
@@ -116,6 +110,9 @@ msgstr "<acronym title=\"Rich Site Summary\">RSS</acronym> address"
 msgid "<acronym title=\"Uniform Resource Locator\">URL</acronym> 입력"
 msgstr "Typing <acronym title=\"Uniform Resource Locator\">URL</acronym>"
 
+msgid "API Key 설정"
+msgstr "Setting API Key"
+
 msgid "API 용 비밀번호"
 msgstr "Password for API"
 
@@ -131,17 +128,8 @@ msgstr "Body Id"
 msgid "Body id는 블로그 스킨의 <acronym title=\"Cascading Style Sheet\">CSS</acronym> 활용을 위해 사용합니다.<br /> 기본값인 \"tt-body-category\"를 그냥 사용하셔도 사용에 지장은 없습니다."
 msgstr "Body Id is used for the skin <acronym title=\"Cascading Style Sheet\">CSS</acronym>.<br /> You can use \"tt-body-category\" which is the default value"
 
-msgid "Comments 테이블에 openid 필드를 추가합니다."
-msgstr "Adding OpenID field to Comments table"
-
 msgid "IP 필터링"
 msgstr "IP addresses to be filtered"
-
-msgid "Links 테이블에 공개 여부 설정 필드와 XFN 마이크로포맷을 위한 필드를 추가합니다."
-msgstr "ADding XFN microformat and visibility field to Links table."
-
-msgid "Links 테이블의 공개 여부 설정 필드의 속성을 변경합니다."
-msgstr "Modifying attributes of Links table."
 
 msgid "MP3만 사용할 수 있습니다."
 msgstr "MP3 file format only."
@@ -163,6 +151,12 @@ msgstr "OPML file imported."
 
 msgid "PHP 버전"
 msgstr "PHP Version"
+
+msgid "PHP 정보"
+msgstr "PHP information"
+
+msgid "RSS 공개 정도"
+msgstr "RSS visibility"
 
 msgid "RSS 리더"
 msgstr "RSS Reader"
@@ -197,8 +191,8 @@ msgstr "Cannot update feeds"
 msgid "Rewrite를 사용할 수 없습니다."
 msgstr "Cannot use the Rewrite module"
 
-msgid "SessionVisits 테이블의 블로그 정보 필드 이름을 변경합니다."
-msgstr "Modifying blog information field name of SessionVisits Table."
+msgid "Server 정보"
+msgstr "Server information"
 
 msgid "URL로 읽어오기"
 msgstr "OPML URL"
@@ -209,8 +203,8 @@ msgstr "UTF8 General is not supported; non-ASCII characters may not be displayed
 msgid "UTF8 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)"
 msgstr "UTF8 is not supported; non-ASCII characters may not be displayed correctly"
 
-msgid "[비밀댓글]"
-msgstr "[Secret comment]"
+msgid "[HTML][/HTML] 블럭을 제거합니다"
+msgstr "Remove [HTML][/HTML] block."
 
 msgid "[임시]"
 msgstr "[temp]"
@@ -232,6 +226,9 @@ msgstr "Do not use rewrite module. In this case, textcube will run only as a sin
 
 msgid "skin.html 파일을 수정하실 수 있는 권한이 없습니다."
 msgstr "Not authorized to edit skin.html"
+
+msgid "가능한 모든 Microformat을 지원합니다."
+msgstr "Use all possible Microformats"
 
 msgid "가입"
 msgstr "[Join]"
@@ -272,9 +269,6 @@ msgstr "\\\\n new feeds received.Please update the reading list."
 msgid "갤러리 삽입"
 msgstr "Insert Gallery"
 
-msgid "갤러리 이미지"
-msgstr "Gallery images"
-
 msgid "갱신"
 msgstr "Update"
 
@@ -283,12 +277,6 @@ msgstr "Block"
 
 msgid "걸린 글 데이터를 교정하고 있습니다."
 msgstr "Trackback data is being corrected."
-
-msgid "걸린 글 보기"
-msgstr "View trackback"
-
-msgid "걸린 글이 없습니다"
-msgstr "There\\'s no trackback"
 
 msgid "걸린글"
 msgstr "Trackback"
@@ -320,11 +308,14 @@ msgstr "Search"
 msgid "검색 시"
 msgstr "When searching"
 
-msgid "검색엔진이 태그를 따로 인식할 수 있도록 글의 태그에 rel=tag 를 표시합니다. 태그 상자에는 적용되지 않습니다."
-msgstr "Make posts search engine friendly by applying rel=tag to all tags. This does not apply to tag boxes"
+msgid "검색엔진이 링크 관계를 인식할 수 있도록 링크에 FOAF를 추가합니다."
+msgstr "Add FOAF to links. FOAF helps machines to recognize link relationship better."
 
 msgid "경과"
 msgstr "Elapsed"
+
+msgid "계속 진행 하시겠습니까?"
+msgstr "Continue anyway?"
 
 msgid "계속보관"
 msgstr "Archive"
@@ -341,17 +332,11 @@ msgstr "Status"
 msgid "공개 설정"
 msgstr "Public/Private"
 
-msgid "공개 정도"
-msgstr "Feed publish settings"
-
 msgid "공개된 글"
 msgstr "Public post"
 
 msgid "공개된 모든 글을 <acronym title=\"Rich Site Summary\">RSS</acronym>로 내보냅니다."
 msgstr "Send out RSS feeds for all public posts."
-
-msgid "공개로 변경합니다"
-msgstr "Change status to Public"
 
 msgid "공개로 변경합니다."
 msgstr "Public"
@@ -395,17 +380,11 @@ msgstr "Send Trackback"
 msgid "관리자"
 msgstr "Admin."
 
-msgid "관리자 계정과 연결된 오픈아이디"
-msgstr "OpenID which is registered to Admin account"
-
 msgid "관리자 로그인 비밀번호와 동일하게 사용하실 경우 비워두시기 바랍니다."
 msgstr "Leave as blank if you want to use login password."
 
 msgid "관리자 비밀번호를 그대로 사용"
 msgstr "Use admin\\'s password"
-
-msgid "관리자 설정에 의해 오픈아이디로만 댓글을 남길 수 있습니다."
-msgstr "Due to the setting, you can leave comment only with OpenID"
 
 msgid "관리자 스킨을 설정합니다"
 msgstr "Set Theme of Admin Page"
@@ -428,16 +407,7 @@ msgstr "Admin Page Language"
 msgid "관리자 화면의 언어를 설정합니다.<br />한국어 블로그를 운영하고 계신다면 한국어를 선택해 주십시오."
 msgstr "Select language to be used on the admin page."
 
-msgid "관리자가 방문객의 댓글을 수정하시면 작성자 이름을 관리자 아이디로 덮어 쓰게 됩니다.\\n계속 하시겠습니까?"
-msgstr "If administrator edits a comment, original author’s id is overwritten with administrator\\'s id. Continue with edits?"
-
 msgid "관리자가 아닙니다"
-msgstr "Administrator access only"
-
-msgid "관리자만 볼 수 있는 댓글입니다."
-msgstr "Administrator access only"
-
-msgid "관리자만 볼 수 있는 방명록입니다."
 msgstr "Administrator access only"
 
 msgid "교정 대상을 확인하고 있습니다."
@@ -454,9 +424,6 @@ msgstr "Permissions"
 
 msgid "권한이 없습니다."
 msgstr "Permission denied"
-
-msgid "귀하는 차단되었으므로 사용하실 수 없습니다."
-msgstr "You have been blocked."
 
 msgid "그대로 두기"
 msgstr "Default"
@@ -518,12 +485,6 @@ msgstr "Show title of all posts"
 msgid "글 목록을 표시합니다."
 msgstr "Show title of the posts"
 
-msgid "글 버전 관리및 비교를 위한 테이블을 추가합니다."
-msgstr "Adding table for entry version control"
-
-msgid "글 보관함"
-msgstr "Post archive"
-
 msgid "글 수 출력"
 msgstr "Number of posts"
 
@@ -551,14 +512,8 @@ msgstr "Could not change the permalink."
 msgid "글걸기"
 msgstr "Trackback"
 
-msgid "글걸기 시도"
-msgstr "Trying to send trackback"
-
 msgid "글걸기 주소"
 msgstr "Trackback address"
-
-msgid "글걸기를 시도합니다"
-msgstr "Trying to send trackback"
 
 msgid "글관리"
 msgstr "Post"
@@ -602,29 +557,17 @@ msgstr "Refreshing comment count."
 msgid "글이 전부 삭제되지는 않고 팀블로그의 로그인 데이터만 삭제됩니다"
 msgstr "Only Teamblog login data will be deleted, not all posts."
 
-msgid "글이 하나도 없습니다."
-msgstr "No post."
-
 msgid "글자색"
 msgstr "Font Color"
 
 msgid "글자체"
 msgstr "Font"
 
-msgid "금요일"
-msgstr "F"
-
-msgid "금칙어를 사용하고 계시므로 댓글을 남기실 수 없습니다."
-msgstr "Comment blocked as it contains filtered word(s)"
-
 msgid "기능"
 msgstr "Function"
 
 msgid "기능 설명"
 msgstr "Legend"
-
-msgid "기본 값"
-msgstr "Default"
 
 msgid "기본 도메인"
 msgstr "Default domain"
@@ -677,17 +620,11 @@ msgstr "Export"
 msgid "내용"
 msgstr "Content"
 
-msgid "내용보기"
-msgstr "Show content"
-
 msgid "내용을 입력해 주십시오."
 msgstr "Enter content."
 
-msgid "년"
-msgstr "Year"
-
-msgid "다른 메뉴보기"
-msgstr "Show other menus"
+msgid "누구나 접근할 수 있도록 합니다."
+msgstr "Allow access to everyone."
 
 msgid "다른 사람의 블로그에 단 댓글에 대한 댓글이 등록되면 알려줍니다. 알리미가 동작하기 위해서는 댓글 작성시 홈페이지 기입란에 자신의 블로그 주소를 입력하셔야 합니다."
 msgstr "Notify if reply has been added to your commentsss. You should input your blog address at the homepage field when leaving comments."
@@ -703,12 +640,6 @@ msgstr "NEXT"
 
 msgid "다음 글"
 msgstr "Next"
-
-msgid "다음 글 보기"
-msgstr "Next"
-
-msgid "다음 이미지 보기"
-msgstr "Next image"
 
 msgid "다음 포스트가 없습니다."
 msgstr "No more posts"
@@ -737,47 +668,17 @@ msgstr "Show Shortcuts"
 msgid "닫기"
 msgstr "Close"
 
-msgid "달"
-msgstr "Month"
-
-msgid "답글 보기"
-msgstr "Show comment"
-
-msgid "답글 보기 페이지로"
-msgstr "Go to Comment view page."
-
-msgid "답글 보기 화면으로"
-msgstr "Go to Comment view page."
-
-msgid "답글쓰기가 차단됐습니다."
-msgstr "Comment writing denied."
-
-msgid "답글에 답글을 작성합니다."
-msgstr "Comment on comment."
-
 msgid "답글을 삭제할 수 없습니다"
 msgstr "Cannot delete comment"
-
-msgid "답글을 삭제할 수 없습니다."
-msgstr "Cannot delete comment"
-
-msgid "답글을 쓸 수 없습니다."
-msgstr "Could not write comment"
-
-msgid "답글을 작성할 수 없습니다."
-msgstr "Could not write comment"
 
 msgid "답글이 삭제됐습니다"
 msgstr "Comment deleted"
 
-msgid "답글이 없습니다"
-msgstr "No comment"
-
-msgid "답글이 작성됐습니다."
-msgstr "Comment has been written."
-
 msgid "대기 중.."
 msgstr "Waiting.."
+
+msgid "대표 블로그 설정"
+msgstr "Setting representative blog"
 
 msgid "대표 블로그는 삭제할 수 없습니다."
 msgstr "Representative blog cannot be deleted."
@@ -796,9 +697,6 @@ msgstr "Comment"
 
 msgid "댓글 RSS 파일의 블로그 글은 최신 %1개로 갱신됩니다."
 msgstr "Comment RSS will be renewed with %1 items"
-
-msgid "댓글 삭제"
-msgstr "Delete Comment"
 
 msgid "댓글 알리미"
 msgstr "Comment Tracker"
@@ -824,20 +722,11 @@ msgstr "Setting comment and guestbook."
 msgid "댓글과 방명록 데이터를 교정하고 있습니다."
 msgstr "Correcting comments and guestbook entries."
 
-msgid "댓글에 댓글 달기"
-msgstr "Comment on comment."
-
 msgid "댓글을 기본으로 펼칩니다."
 msgstr "Show comment area by default"
 
-msgid "댓글을 달 수 없습니다."
-msgstr "Could not write comment"
-
 msgid "댓글을 복원하지 못했습니다."
 msgstr "Could not restore comments"
-
-msgid "댓글을 사용할 수 없습니다."
-msgstr "Not allowed to comment"
 
 msgid "댓글을 삭제하고 있습니다."
 msgstr "Deleting comments..."
@@ -848,41 +737,17 @@ msgstr "Could not delete comments."
 msgid "댓글을 삭제하지 못했습니다."
 msgstr "Could not delete comment"
 
-msgid "댓글을 삭제합니다."
-msgstr "Deleting comment."
-
-msgid "댓글을 수정합니다"
-msgstr "Editing comment."
-
-msgid "댓글을 수정합니다."
-msgstr "Editing comment."
-
 msgid "댓글을 오픈아이디 사용자에게만 허용할 수 있습니다."
 msgstr "Allow comments only to OpenID users."
 
-msgid "댓글을 입력해 주십시오."
-msgstr "Comment is empty!"
-
-msgid "댓글이 등록되었습니다."
-msgstr "Comment registered."
-
 msgid "댓글이 삭제되었습니다."
 msgstr "Comment deleted."
-
-msgid "댓글이 수정되었습니다."
-msgstr "Comment edited"
 
 msgid "댓글이 작성된 위치로 직접 이동합니다."
 msgstr "Move to the comment."
 
 msgid "댓글이 작성된 포스트로 직접 이동합니다."
 msgstr "Move to the post with the comment"
-
-msgid "댓글이 존재하지 않거나 패스워드가 일치하지 않습니다."
-msgstr "Comment not found or invalid password."
-
-msgid "댓글이 존재하지 않습니다."
-msgstr "No Comment."
 
 msgid "더 읽어오기"
 msgstr "Read more"
@@ -965,15 +830,6 @@ msgstr "Database optimized image"
 msgid "데이터베이스 테이블 확인"
 msgstr "Check database table"
 
-msgid "데이터베이스 호환성을 위하여 댓글 테이블의 인덱스 설정을 변경합니다."
-msgstr "Modifying index setting of Comments table."
-
-msgid "데이터베이스 호환성을 위하여 댓글 테이블의 자동 증가 설정을 제거합니다."
-msgstr "Removing auto_increment setting of Comments table for better DBMS supporting"
-
-msgid "데이터베이스 호환성을 위하여 트랙백 테이블의 자동 증가 설정을 제거합니다."
-msgstr "Removing auto_increment setting of Trackbacks table for better DBMS supporting"
-
 msgid "데이터베이스를 사용할 수가 없습니다. 정보를 다시 입력해 주십시오."
 msgstr "Not allowed to use database. Re-enter information"
 
@@ -1007,23 +863,14 @@ msgstr "Panels"
 msgid "돌아가기"
 msgstr "Go Back"
 
-msgid "동시 접속자 관리를 위하여 세션 테이블의 인덱스 설정을 변경합니다."
-msgstr "Modifying index setting of Sessions table."
-
 msgid "동일한 이름을 가진 파일이 이미 첨부되었습니다."
 msgstr "Filename already exists"
 
 msgid "되돌리기"
 msgstr "Reset"
 
-msgid "되돌릴 수 없습니다.\\t\\n\\n계속 진행하시겠습니까?"
-msgstr "This work cannot be reducible.\\t\\n\\nContinue?"
-
-msgid "되돌아가기"
-msgstr "Back"
-
-msgid "등록"
-msgstr "Post"
+msgid "되돌릴 수 없습니다."
+msgstr "Cannot undo."
 
 msgid "등록 예약 시간이 올바르지 않습니다."
 msgstr "Reserved post time is not in a correct format."
@@ -1085,17 +932,11 @@ msgstr "Logout"
 msgid "로그아웃하고 블로그 메인으로 이동합니다."
 msgstr "Logout and move to blog main page."
 
-msgid "로그인"
-msgstr "Login"
-
 msgid "로그인 ID"
 msgstr "Login ID"
 
 msgid "로그인 회수"
 msgstr "# of Logins"
-
-msgid "로그인된 오픈아이디의 권한으로는 수정/삭제가 불가능합니다."
-msgstr "Cannot modifying/deleting with the privilege of this OpenID."
 
 msgid "로딩 중.."
 msgstr "Loading.."
@@ -1117,6 +958,9 @@ msgstr "Preferences"
 
 msgid "리더를 만드는 과정에서 오류가 발생하였습니다."
 msgstr "Error has occurred while making a reader."
+
+msgid "리스트 보기"
+msgstr "List view"
 
 msgid "리퍼러 로그를 복원하고 있습니다."
 msgstr "Restoring referer log"
@@ -1175,9 +1019,6 @@ msgstr "Modifying link"
 msgid "링크를 추가하고 있습니다."
 msgstr "Adding link"
 
-msgid "마지막 댓글로 채우기"
-msgstr "Fill with last comment"
-
 msgid "마지막 로그인"
 msgstr "Last login"
 
@@ -1220,6 +1061,9 @@ msgstr "IP address:port number of SMTP server"
 msgid "메일서버 지정"
 msgstr "Setting SMTP server"
 
+msgid "명령"
+msgstr "Command"
+
 msgid "명령을 취소하고 이 대화상자를 닫습니다."
 msgstr "Cancel action and close window"
 
@@ -1256,14 +1100,14 @@ msgstr "Display title and complete post."
 msgid "목록으로"
 msgstr "To List"
 
-msgid "목요일"
-msgstr "T"
-
 msgid "문자를 사용합니다."
 msgstr "Use characters in the URL"
 
 msgid "문자열 길이 조절"
 msgstr "Adjust character length"
+
+msgid "물음표가 들어간 카테고리 이름은 사용할 수 없습니다"
+msgstr "Cannot use category name that contains question mark."
 
 msgid "미리 보기"
 msgstr "Preview"
@@ -1394,6 +1238,9 @@ msgstr "Version %1"
 msgid "버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?"
 msgstr "Create file for version tracking?"
 
+msgid "범위설정"
+msgstr "Setting"
+
 msgid "변경된 1차 블로그 주소로 이동합니다"
 msgstr "Go to the updated 1st blog URL"
 
@@ -1411,9 +1258,6 @@ msgstr "Style change(s) has not been saved. \\\\n save the changes?"
 
 msgid "변경하고 있습니다."
 msgstr "Modifying"
-
-msgid "변경하고자 하는 비밀번호 또는 API키를 입력해 주십시오."
-msgstr "Please input password or API key to change."
 
 msgid "변경하기"
 msgstr "Modify"
@@ -1451,9 +1295,6 @@ msgstr "Could not change password on protected post."
 msgid "보호된 글"
 msgstr "Locked post"
 
-msgid "보호된 글입니다"
-msgstr "Protected post"
-
 msgid "보호설정"
 msgstr "Protection setting"
 
@@ -1490,9 +1331,6 @@ msgstr "Parent"
 msgid "부분공개"
 msgstr "Partial"
 
-msgid "분"
-msgstr "Minute"
-
 msgid "분류"
 msgstr "Category"
 
@@ -1517,9 +1355,6 @@ msgstr "Select category style"
 msgid "분류 없음"
 msgstr "No Category"
 
-msgid "분류 전체보기"
-msgstr "All Categories"
-
 msgid "분류는 2단까지 허용됩니다."
 msgstr "Categories can have up to 2 levels."
 
@@ -1534,9 +1369,6 @@ msgstr "Could not edit categories"
 
 msgid "분류를 복원하고 있습니다."
 msgstr "Restoring Categories"
-
-msgid "분류없음"
-msgstr "Uncategorized"
 
 msgid "분류에 등록된 글이 있으므로 삭제할 수 없습니다."
 msgstr "Cannot delete category with posts"
@@ -1574,6 +1406,12 @@ msgstr "Blog API gateway address"
 msgid "블로그 ID"
 msgstr "Blog ID"
 
+msgid "블로그 공개 정도"
+msgstr "Blog visibility"
+
+msgid "블로그 공개 정도를 설정합니다."
+msgstr "Setting blog visibility."
+
 msgid "블로그 공개 정책을 설정합니다"
 msgstr "Feed Settings"
 
@@ -1589,17 +1427,11 @@ msgstr "Show %1 posts per page"
 msgid "블로그 로고 및 파비콘"
 msgstr "Blog Logo & Favicon"
 
-msgid "블로그 로그인 암호가 초기화되었습니다."
-msgstr "Blog login password reset."
-
-msgid "블로그 로그인 암호가 초기화되었습니다. 이 이메일에 로그인할 수 있는 인증 정보가 포함되어 있습니다."
-msgstr "Blog login password reset. This email containss login information."
-
 msgid "블로그 메인으로 이동합니다."
 msgstr "To Blog Main Page"
 
-msgid "블로그 바로가기"
-msgstr "Go to blog"
+msgid "블로그 목록"
+msgstr "Blog list"
 
 msgid "블로그 삭제에 실패하였습니다."
 msgstr "Deleting blog failed."
@@ -1609,9 +1441,6 @@ msgstr "Blog Description"
 
 msgid "블로그 설명을 변경하지 못했습니다."
 msgstr "Could not change blog description."
-
-msgid "블로그 설정 불러오기 속도를 개선하기 위하여 블로그 설정 테이블의 인덱스 설정을 변경합니다."
-msgstr "Modifying index setting of BlogSetting table for better performance."
 
 msgid "블로그 설정을 복원하고 있습니다."
 msgstr "Restoring blog setting"
@@ -1715,11 +1544,17 @@ msgstr "To Blog"
 msgid "블로그/관리자 플러그인"
 msgstr "Blog admin plugins"
 
+msgid "블로그가 공개되지 않은 상태이기 때문에 발행할 수 없습니다."
+msgstr "Cannot publish this post. This blog runs as hidden mode."
+
 msgid "블로그가 존재하지 않거나, 블로그의 소유자가 전체 관리자가 아닙니다."
 msgstr "No blog exist or the administrator is not a service administrator."
 
 msgid "블로그로 이동"
 msgstr "To this blog"
+
+msgid "블로그에 아이디가 있는 경우만 접근할 수 있도록 합니다."
+msgstr "Allow access only to service-registered user."
 
 msgid "블로그에 표시되는 값들을 변경합니다"
 msgstr "Change display settings"
@@ -1739,26 +1574,11 @@ msgstr "Private"
 msgid "비공개 글"
 msgstr "Private post"
 
-msgid "비공개로 변경합니다"
-msgstr "Change status to Private"
-
 msgid "비공개로 변경합니다."
 msgstr "Private"
 
 msgid "비밀 댓글"
 msgstr "Secret Comment"
-
-msgid "비밀 댓글입니다"
-msgstr "Secret comment"
-
-msgid "비밀글로 등록"
-msgstr "Only show to admin"
-
-msgid "비밀글의 작성자만 읽을 수 있는 댓글입니다."
-msgstr "Only the writer can read this one."
-
-msgid "비밀방문자"
-msgstr "Secret visitor"
 
 msgid "비밀번호"
 msgstr "Password"
@@ -1783,6 +1603,12 @@ msgstr "Change Password?"
 
 msgid "비밀번호를 입력해 주십시오."
 msgstr "Enter Password."
+
+msgid "비어 있는 블로그 설명"
+msgstr "Empty blog description"
+
+msgid "비어 있는 타이틀"
+msgstr "Empty title"
 
 msgid "비우기에 실패하였습니다."
 msgstr "Failed to delete."
@@ -1811,11 +1637,14 @@ msgstr "User ID"
 msgid "사용자 로고"
 msgstr "User Logo"
 
+msgid "사용자 목록"
+msgstr "User list"
+
 msgid "사용자 삭제"
 msgstr "Delete user"
 
-msgid "사용자 삽입 이미지"
-msgstr "User inserted image"
+msgid "사용자 설정값과 관련된 구조를 변경합니다"
+msgstr "Modifying structure related to user setting."
 
 msgid "사용자 정보"
 msgstr "User information"
@@ -2042,9 +1871,6 @@ msgstr "Move selected trackbacks to trash. Continue?"
 msgid "선택된 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?"
 msgstr "Delete all content in the selected posts. Continue?"
 
-msgid "선택된 글걸기를 삭제합니다. 계속 하시겠습니까?"
-msgstr "Selected trackback will be deleted. Continue?"
-
 msgid "선택된 글자색"
 msgstr "Font color (Selected)"
 
@@ -2068,9 +1894,6 @@ msgstr "Sure to delet selected user?"
 
 msgid "선택된 테이블을 삭제하고 있습니다."
 msgstr "Deleting selected table"
-
-msgid "선택사항"
-msgstr "Consider point"
 
 msgid "선택하신 스킨이 존재하지 않습니다. 다른 스킨을 선택해 주시기 바랍니다."
 msgstr "Selected skin is not available. Choose another one."
@@ -2186,8 +2009,11 @@ msgstr "There is no OpenID related to this account"
 msgid "소유자 계정에 오픈아이디 연결하기"
 msgstr "Connecting OpenID to the owner account."
 
+msgid "소유자 변경"
+msgstr "Change owner"
+
 msgid "소유자가 변경되었습니다. \\r\\n기존의 소유자는 관리자로 변경되었습니다."
-msgstr "Owner changed. \\r\\nOriginal owner is changed to the administrator"
+msgstr "Owner changed. \\\\r\\\\nOriginal owner is changed to the administrator"
 
 msgid "소유자를 변경하지 못했습니다."
 msgstr "Could not change owner."
@@ -2198,17 +2024,11 @@ msgstr "Allow visitors to write a guestbook entry"
 msgid "손님이 댓글을 쓰는 것을 허용합니다."
 msgstr "Allow visitors to comment"
 
-msgid "수요일"
-msgstr "W"
-
 msgid "수정"
 msgstr "Edit"
 
 msgid "수정된 스킨을 사용중입니다. 새로운 스킨을 선택하면 수정된 스킨의 내용과 스킨에 적용된 출력 설정, 사이드바의 변경점은 모두 지워집니다.\\n스킨을 적용하시겠습니까?"
 msgstr "You are using modified skin. If you select new skin, all the page settings and sidebar changes for old skin will be deleted. \\\\n Do you want to apply new skin?"
-
-msgid "수정이 실패하였습니다."
-msgstr "Failed to edit comment."
 
 msgid "수집하지 않음"
 msgstr "Do not fetch"
@@ -2249,17 +2069,11 @@ msgstr "Change Theme"
 msgid "스킨 선택"
 msgstr "Select"
 
-msgid "스킨 설정 테이블에 저자별 페이지 출력 설정을 위한 필드를 추가합니다."
-msgstr "Adding author field to the SkinSetting Table"
-
 msgid "스킨 설정을 복원하고 있습니다."
 msgstr "Restoring theme settings.."
 
 msgid "스킨 업로드 게시판"
 msgstr "Theme upload BBS"
-
-msgid "스킨 정보가 존재하지 않습니다."
-msgstr "Failed to get theme information."
 
 msgid "스킨 출력에 따른 여러 값들을 변경합니다"
 msgstr "Configure display settings here."
@@ -2294,8 +2108,8 @@ msgstr "hour(s)"
 msgid "시간대"
 msgstr "Timezone"
 
-msgid "시스템"
-msgstr "System"
+msgid "시스템 정보"
+msgstr "System information"
 
 msgid "식별자"
 msgstr "Blog name"
@@ -2321,9 +2135,6 @@ msgstr "Failed"
 msgid "실패했습니다.."
 msgstr "Failed"
 
-msgid "아니요"
-msgstr "No"
-
 msgid "아래로"
 msgstr "Move down"
 
@@ -2339,8 +2150,11 @@ msgstr "Change the category to..."
 msgid "아래의 상태로 변경합니다."
 msgstr "Change the type to..."
 
-msgid "아이디 또는 비밀번호가 틀렸습니다."
-msgstr "ID or password incorrect."
+msgid "아이콘 보기"
+msgstr "Icon view"
+
+msgid "아직 로그인하지 않았습니다."
+msgstr "Not log-in yet."
 
 msgid "아직 저장되지 않았습니다."
 msgstr "Not saved yet."
@@ -2369,8 +2183,11 @@ msgstr "Unknown"
 msgid "알림판"
 msgstr "Notice board"
 
-msgid "암호 초기화"
-msgstr "Reset password"
+msgid "애정"
+msgstr "Sweet"
+
+msgid "앰퍼샌드(&)가 들어간 카테고리 이름은 사용할 수 없습니다"
+msgstr "Cannot use category name that contains ampersand($)."
 
 msgid "언어"
 msgstr "Language"
@@ -2408,17 +2225,11 @@ msgstr "Editor module"
 msgid "에디터 설정을 변경할 수 없습니다"
 msgstr "Could not change editor setting."
 
-msgid "여기를 클릭하시면 로그인하여 암호를 변경하실 수 있습니다."
-msgstr "You can change password after login via this link."
-
 msgid "여러개의 사이드바 사용시 사이드바의 위치는 스킨의 구조에 따라 달라집니다."
 msgstr "When using multiple sidebar items, their order may change according the CSS stylesheet."
 
 msgid "역할"
 msgstr "Part"
-
-msgid "엮인글 주소가 복사되었습니다."
-msgstr "Trackback address has been copied"
 
 msgid "연결하기"
 msgstr "Connect"
@@ -2429,14 +2240,11 @@ msgstr "Connect: will acquire the permission of this account after login."
 msgid "연결하였습니다."
 msgstr "Connected."
 
+msgid "연결한 오픈아이디로 이 계정에 로그인 할 수 있습니다."
+msgstr "You can log-in to this account using matched OpenID."
+
 msgid "연락처를 아는"
 msgstr "Contact"
-
-msgid "예"
-msgstr "Yes"
-
-msgid "예) textcube.idtail.com, textcube.myid.net"
-msgstr "Ex.) textcube.idtail.com, textcube.myid.net"
 
 msgid "예: AllowOverride <b>All</b>"
 msgstr "e.g. AllowOverride <b>All</b>"
@@ -2474,35 +2282,14 @@ msgstr "Sweetheart"
 msgid "오픈아이디"
 msgstr "OpenID"
 
-msgid "오픈아이디 기억"
-msgstr "Save OpenID"
-
-msgid "오픈아이디 댓글 테이블을 기존 댓글 테이블에 병합합니다"
-msgstr "Merging OpenID table into Comments table."
-
-msgid "오픈아이디 로그인"
-msgstr "OpenID login"
-
 msgid "오픈아이디 로그인 목록"
 msgstr "OpenID Login List"
 
 msgid "오픈아이디 로그인 사용자에게만 댓글을 허용하도록 설정하러 가기"
 msgstr "Set to accept comment only to the OpenID users"
 
-msgid "오픈아이디 발급하기"
-msgstr "Make OpenID"
-
-msgid "오픈아이디 사용자 테이블을 만듭니다"
-msgstr "Creating OpenID user table."
-
 msgid "오픈아이디 연결"
 msgstr "OpenID Connection"
-
-msgid "오픈아이디 인증"
-msgstr "OpenID Authentication"
-
-msgid "오픈아이디 저장"
-msgstr "Save OpenID"
 
 msgid "오픈아이디 주소(이름)"
 msgstr "OpenID Address(Name)"
@@ -2513,20 +2300,14 @@ msgstr "Go to OpenID plugin setting"
 msgid "오픈아이디 플러그인을 사용하고 있지 않으므로, 오픈아이디는 설정할 수 없습니다. 관리자에게 문의 하십시오"
 msgstr "OpenID plugin is inactivated, so you cannot set up OpenID. Contact Admin."
 
-msgid "오픈아이디란?"
-msgstr "What is OpenID?"
-
-msgid "오픈아이디로 글쓰기"
-msgstr "Writing with OpenID"
-
 msgid "오픈아이디로 로그인을 해야만 댓글 및 방명록을 쓸 수 있습니다."
 msgstr "You can leave a comment or write in guestbook only when logged in with OpenID."
 
 msgid "오픈아이디로 로그인하여 쓴 댓글/방명록에 오픈아이디 아이콘을 표시합니다."
 msgstr "Show OpenID icon in comments and guesbook written with OpenID."
 
-msgid "오픈아이디로만 댓글을 남길 수 있습니다"
-msgstr "You can leave comment only with OpenID."
+msgid "오픈아이디로 사용할 블로그 주소를 선택하세요"
+msgstr "Choose blog address for OpenID"
 
 msgid "오픈아이디를 입력하지 않았거나, 도메인 없는 오픈아이디를 입력하였습니다."
 msgstr "Did not input OpenID, or input OpenID without domain."
@@ -2545,9 +2326,6 @@ msgstr "Invalid theme directory name.\\\\nYou can use only alphabet, numeric num
 
 msgid "올바른 피드가 아닙니다."
 msgstr "Invalid Feed."
-
-msgid "완료"
-msgstr "Complete"
 
 msgid "완료."
 msgstr "Complete"
@@ -2570,14 +2348,8 @@ msgstr "Summary"
 msgid "운영체제"
 msgstr "OS"
 
-msgid "원본 크기로 보기"
-msgstr "See it with original size."
-
 msgid "원하시는 스킨의 적용 버튼을 클릭하십시오."
 msgstr "Click \"Apply\" to use the theme."
-
-msgid "월요일"
-msgstr "M"
 
 msgid "웹 설정 파일"
 msgstr "Web configuration"
@@ -2596,6 +2368,9 @@ msgstr "On the web server settings <em>Options</em> must have <b>FollowSymLinks<
 
 msgid "웹에서 백업파일 가져오기."
 msgstr "Import backup file from a server"
+
+msgid "웹표준 권고안과 충돌할 수도 있는 규약을 제외한 Microformat을 사용합니다."
+msgstr "Use Microformats except some specifications that contains possible confliction with W3C web-standard."
 
 msgid "위 2와 3의 문제는 아래 내용을 웹서버 설정에 포함시켜 해결할 수 있습니다."
 msgstr "Case 2 and 3 can be addressed by including the following to the web server settings."
@@ -2636,8 +2411,8 @@ msgstr "Restore This Trackback."
 msgid "이 걸린글을 삭제합니다."
 msgstr "Delete This Trackback"
 
-msgid "이 계정은 %1에 생성되었습니다."
-msgstr "This account is created at %1"
+msgid "이 계정은 %s에 생성되었습니다."
+msgstr "This account is created at %s"
 
 msgid "이 계정의 업로드 허용 용량은 <em>%1</em> 바이트로 백업파일의 크기가 이를 초과하는 경우 <acronym title=\"File Transfer Protocol\">FTP</acronym> 등으로 원하시는 사이트에 업로드하신 후 이 파일의 웹 주소를 입력해서 진행하십시오. 이 경우, 보안을 위해 복원이 끝나면 반드시 그 백업파일을 웹 상에서 지우실 것을 권장합니다."
 msgstr "Upload file size limit for this account is %1 bytes. If backup file size exceeds this limit, try uploading the file to other web space via FTP, and enter the URL of the file location. After the restoration process is finished, deleting the backup file is recommended for the sake of security."
@@ -2669,23 +2444,29 @@ msgstr "Modify This Link."
 msgid "이 링크에 연결합니다."
 msgstr "Link here"
 
-msgid "이 블로그가 사용중인 첨부파일의 총 용량은 %1 입니다."
-msgstr "Total amount of attachments is %1."
+msgid "이 블로그가 사용중인 첨부파일의 총 용량은 %1입니다."
+msgstr "This blog uses total %1 space with attachments"
 
-msgid "이 블로그는 대표 블로그 입니다."
+msgid "이 블로그는 대표 블로그입니다."
 msgstr "This blog is representative blog."
 
+msgid "이 블로그에는 첨부파일이 없습니다."
+msgstr "This blog does not contain attachment."
+
+msgid "이 블로그에는 총 %1개의 걸린글(트랙백)이 있습니다."
+msgstr "This blog has total %1 trackbacks."
+
 msgid "이 블로그에는 총 %1개의 글이 있습니다."
-msgstr "Total %1 posts exist in this blog."
+msgstr "This blog has %1 posts."
 
-msgid "이 블로그에는 총 %1개의 코멘트가 있습니다."
-msgstr "Total %1 comment(s) exist in this blog."
+msgid "이 블로그에는 총 %1개의 댓글이 있습니다."
+msgstr "This blog has total %1 comments."
 
-msgid "이 블로그에는 총 %1개의 트랙백이 있습니다."
-msgstr "Total %1 trackback(s) exist in this blog."
+msgid "이 블로그의 구성원만 접근할 수 있도록 합니다."
+msgstr ""
 
-msgid "이 사용자는 소유자 입니다."
-msgstr "This user is owner"
+msgid "이 사용자는 블로그의 소유자입니다."
+msgstr ""
 
 msgid "이 사용자를 팀블로그에서 제외합니다."
 msgstr "Exclude this user from Teamblog."
@@ -2798,9 +2579,6 @@ msgstr "Name&lt;Email&gt; or Email"
 msgid "이름(e-mail)"
 msgstr "Name (e-mail)"
 
-msgid "이름/비밀번호로 글쓰기"
-msgstr "Write with name/password"
-
 msgid "이름순으로 표시합니다."
 msgstr "By name"
 
@@ -2815,9 +2593,6 @@ msgstr "Insert as iMazing (Flash Slideshow)"
 
 msgid "이메일"
 msgstr "Email"
-
-msgid "이메일 저장"
-msgstr "Save E-mail"
 
 msgid "이메일 형식이 올바르지 않습니다."
 msgstr "Invalid Email Format."
@@ -2891,15 +2666,6 @@ msgstr "PREV"
 msgid "이전 글"
 msgstr "Previous"
 
-msgid "이전 글 보기"
-msgstr "Previous"
-
-msgid "이전 이미지 보기"
-msgstr "Previous image"
-
-msgid "이전 페이지로"
-msgstr "Previous page"
-
 msgid "이전 포스트가 없습니다."
 msgstr "No previous post."
 
@@ -2917,9 +2683,6 @@ msgstr "Usually when restoring, original data is overwritten. \\\\n Not to overw
 
 msgid "일별 통계 정보를 복원하고 있습니다."
 msgstr "Restoring daily stats.."
-
-msgid "일요일"
-msgstr "S"
 
 msgid "읽은 글 감추기"
 msgstr "Hide read"
@@ -2981,9 +2744,6 @@ msgstr "Invalid Request"
 msgid "잘못된 입력입니다."
 msgstr "Invalid input"
 
-msgid "잘못된 트랜잭션입니다"
-msgstr "Wrong transaction"
-
 msgid "잘못된 파일 형식입니다. 다시 시도하세요"
 msgstr "Invalid file foramt. Please Try again."
 
@@ -3026,9 +2786,6 @@ msgstr "Optimize database"
 msgid "저장소에 글 목록을 %1달치만큼 보여줍니다."
 msgstr "Archive posts composed during the last %1 months"
 
-msgid "저장중"
-msgstr "Saving..."
-
 msgid "저장하고 있습니다."
 msgstr "Saving.."
 
@@ -3056,12 +2813,6 @@ msgstr "Professional"
 msgid "전송"
 msgstr "Send"
 
-msgid "전송로그"
-msgstr "Send log"
-
-msgid "전송할 주소를 입력하세요"
-msgstr "Target address to send."
-
 msgid "전체"
 msgstr "All"
 
@@ -3082,6 +2833,12 @@ msgstr "Permalink"
 
 msgid "점검 없이 이 기능을 사용할 수 없습니다."
 msgstr "Can not use this function without checking."
+
+msgid "접근 권한이 제한된 경우 RSS로 내용을 열람할 수 없으며, RSS로 새 글이 올라오는 시간만 전달됩니다."
+msgstr "When visiblitily is restricted as private, RSS will contain information only about time, without contents."
+
+msgid "접근 권한이 제한된 경우에는 로그인 이후에 블로그를 열람할 수 있습니다."
+msgstr "When visiblity is restricted, you can read blog after log-in."
 
 msgid "접근권한이 없습니다"
 msgstr "No permission to access"
@@ -3128,23 +2885,20 @@ msgstr "Control"
 msgid "제외할 수 없습니다"
 msgstr "Cannot exclude."
 
+msgid "제작자"
+msgstr "Author"
+
 msgid "조각보"
 msgstr "Dashboard"
 
 msgid "조각보를 봅니다"
 msgstr "Dashboard"
 
-msgid "존재하지 않는 페이지입니다."
-msgstr "Page not found."
-
 msgid "종류"
 msgstr "Type"
 
 msgid "주소를 입력해 주십시오."
 msgstr "Enter Address"
-
-msgid "주소입력"
-msgstr "Address"
 
 msgid "중앙 정렬"
 msgstr "Align Center"
@@ -3173,35 +2927,14 @@ msgstr "Cannot use Location Tag script. Enter location, e.g. France / Paris / Ei
 msgid "지원하지 않는 백업파일입니다."
 msgstr "Backup File Not Supported"
 
-msgid "지정된 이메일로 로그인 정보가 전달되었습니다."
-msgstr "Login information has been sent to selected email."
-
-msgid "지정하신 걸린글 기록을 삭제하시겠습니까?"
-msgstr "Delete selected trackback log?"
-
-msgid "지정하신 주소로 글을 보내시겠습니까?"
-msgstr "Send trackback to the target address?"
-
 msgid "쪽 당 방명록 수"
 msgstr "Guestbook entries per page"
-
-msgid "차단된 IP를 사용하고 계시므로 댓글을 남기실 수 없습니다."
-msgstr "Your IP is on the block list."
-
-msgid "차단된 이름을 사용하고 계시므로 댓글을 남기실 수 없습니다."
-msgstr "Your name is on the block list."
-
-msgid "차단된 홈페이지 주소를 사용하고 계시므로 댓글을 남기실 수 없습니다."
-msgstr "Your Homepage address is on the block list."
 
 msgid "참여자를 추가하지 못하였습니다."
 msgstr "Could not add teamblog user."
 
 msgid "참여중"
 msgstr "Joined"
-
-msgid "참여중인 Blog"
-msgstr "Joined blogs"
 
 msgid "참여중인 블로그"
 msgstr "Current Blog"
@@ -3230,14 +2963,14 @@ msgstr "Include attachments."
 msgid "첨부하지 못했습니다."
 msgstr "Could not attach"
 
-msgid "초"
-msgstr "Second"
-
 msgid "초기화"
 msgstr "Reset"
 
 msgid "초대 메시지"
 msgstr "Invite message"
+
+msgid "초대 메일은 발송되지 않으며, 새로 추가된 참여자는 기본 권한만을 가지게 됩니다."
+msgstr "Newbie will have basic permission. Invitation mail will not send to the user."
 
 msgid "초대명단"
 msgstr "Invitees"
@@ -3314,17 +3047,14 @@ msgstr "Recent comments"
 msgid "최근 댓글 길이"
 msgstr "Length of recent comments"
 
-msgid "최근 댓글 목록"
-msgstr "Recent comments list"
-
 msgid "최근 댓글 알리미"
 msgstr "Recent comment notification"
 
-msgid "최근 댓글 알리미 목록"
-msgstr "Recent comment notification list"
-
 msgid "최근 댓글을 %1 글자로 표시합니다."
 msgstr "Show %1 characters of the Recent Comment."
+
+msgid "최근 로그인"
+msgstr "Last login"
 
 msgid "최근 방명록"
 msgstr "Recent guestbook"
@@ -3332,17 +3062,8 @@ msgstr "Recent guestbook"
 msgid "최근 트랙백"
 msgstr "Recent trackbacks"
 
-msgid "최근 트랙백 목록"
-msgstr "Recent trackbacks list"
-
 msgid "최근글(%1) 수정"
 msgstr "Recent post (%1) edit"
-
-msgid "최근에 걸린글"
-msgstr "Recent trackback"
-
-msgid "최근에 달린 답글"
-msgstr "Recent comment"
 
 msgid "최근에 달린 댓글을 %1개 보여줍니다."
 msgstr "Show %1 Recent Comments."
@@ -3470,9 +3191,6 @@ msgstr "Tag &amp; Location"
 msgid "태그 선택 시"
 msgstr "When tag is selected"
 
-msgid "태그 연관성 명시"
-msgstr "Specify tag relation\""
-
 msgid "태그 입력 스크립트를 사용할 수 없습니다. 콤마(,)로 구분된 태그를 직접 입력해 주십시오.(예: 텍스트큐브, BLOG, 테스트)"
 msgstr "Cannot use Tag entry script. Please use comma to enter multiple tags (e.g. blog, test, theme)"
 
@@ -3527,9 +3245,6 @@ msgstr "Table already exists."
 msgid "테이블이 존재하지 않습니다."
 msgstr "Table does not exist."
 
-msgid "텍스트큐브"
-msgstr "Textcube"
-
 msgid "텍스트큐브 API에 사용할 비밀번호입니다."
 msgstr "Password for Textcube API."
 
@@ -3547,12 +3262,6 @@ msgstr "Textcube Administration Page"
 
 msgid "텍스트큐브 글목록에서 발행버튼을 누르거나 글쓰기시 공개범위를 \"발행\"으로 체크하면 됩니다."
 msgstr "To publishthe entry, click publish button in Textcube entry list or check \\\\\"publish\\\\\" in publish option while you are writing"
-
-msgid "텍스트큐브 로고"
-msgstr "Textcube logo"
-
-msgid "텍스트큐브 블로그 로그인 정보"
-msgstr "Textcube blog login information"
 
 msgid "텍스트큐브 설치를 시작합니다."
 msgstr "Begin Installation"
@@ -3596,20 +3305,11 @@ msgstr "Reset current configs"
 msgid "텍스트큐브를 이용해 주셔서 감사합니다."
 msgstr "Thank you for choosing Textcube."
 
-msgid "텍스트큐브를 점검합니다."
-msgstr "Checking up Textcube."
-
 msgid "텍스트큐브의 동작을 위하여 모듈이 필요한 부분마다 최소 하나 이상이 필요합니다.\\n현재 해당 모듈이 하나밖에 존재하지 않기 때문에 이 모듈의 동작을 중지시킬 수 없습니다."
 msgstr "At lease one module is needed to make Textcube work.\\\\n You cannot inavtivate this module because it is the only one activated. "
 
 msgid "텍스트큐브의 모든 데이터를 삭제합니다.<br />첨부파일의 삭제 여부를 선택하실 수 있습니다.<br />데이터의 복원은 백업파일을 통해서만 가능하므로 먼저 백업을 하시기 바랍니다."
 msgstr "Erase Textcube data.<br />You can optionally choose to erase attachments.<br />Recovering data is only possible through the Restore data option so please do a backup first."
-
-msgid "토요일"
-msgstr "S"
-
-msgid "트랙백 불러오기 속도를 개선하기 위하여 트랙백 테이블의 인덱스 설정을 변경합니다."
-msgstr "Modifying index setting of Trackbacks table to decrease loading speed."
 
 msgid "트리 속성"
 msgstr "Tree Property"
@@ -3620,17 +3320,23 @@ msgstr "Logos and icons"
 msgid "팀블로그"
 msgstr "Team Blog"
 
+msgid "팀블로그 멤버 목록"
+msgstr "Teamblog member list"
+
 msgid "팀블로그 정보를 설정합니다"
 msgstr "Setting team blog information"
 
 msgid "팀블로그 제외"
 msgstr "Exclude Teamblog."
 
-msgid "팀블로그 참여자가 추가 되었습니다.\\r\\n초대 메일은 발송되지 않으며, 새로 추가된 참여자는 기본 권한만을 가지게 됩니다."
-msgstr "Teamblog user has been added.\\r\\nInvite mail will not send, and newbie will have basic permission."
+msgid "팀블로그 참여자를 추가하였습니다."
+msgstr "Teamblog user added."
 
 msgid "팀블로그를 관리합니다"
 msgstr "Manage Teamblog"
+
+msgid "팀원 제외"
+msgstr "Remove team member"
 
 msgid "팀원 추가"
 msgstr "Add teamblog user."
@@ -3695,17 +3401,8 @@ msgstr "Hide Panel"
 msgid "패널 보기"
 msgstr "Show Panel"
 
-msgid "패스워드가 일치하지 않습니다."
-msgstr "Password does not match."
-
-msgid "패스워드가 틀렸습니다."
-msgstr "Incorrect password."
-
 msgid "페이지 네비게이션"
 msgstr "Page navigation"
-
-msgid "페이지 오류"
-msgstr "Page error"
 
 msgid "페이지 제목"
 msgstr "Page Title"
@@ -3735,9 +3432,6 @@ msgid "포스트가 없습니다."
 msgstr "Post does not exist"
 
 msgid "포스트를 보여줍니다."
-msgstr "Show post"
-
-msgid "포스트보기"
 msgstr "Show post"
 
 msgid "표시된 정보가 부족합니다."
@@ -3950,14 +3644,8 @@ msgstr "Current status is public"
 msgid "현재 그룹 내의 피드 목록"
 msgstr "Feeds list under the current group"
 
-msgid "현재 단일 블로그 모드 텍스트 큐브가 설정되어 있습니다. 단일 블로그 모드에서는 대표 블로그 만이 외부에 보여집니다."
-msgstr "This textcube is set as single user mode. Only representative blog will be shown as public."
-
-msgid "현재 달의 달력을 보여줍니다."
-msgstr "Show calendar of the current month."
-
-msgid "현재 로그인한 오픈아이디"
-msgstr "Login OpenIDs"
+msgid "현재 단일 블로그 모드 텍스트큐브가 설정되어 있습니다. 단일 블로그 모드에서는 대표 블로그 만이 외부에 보여집니다."
+msgstr "Textcube is set as single mode. Only representative blog will be shown to public."
 
 msgid "현재 보호 상태입니다."
 msgstr "Current status is protected"
@@ -4010,17 +3698,11 @@ msgstr "Please input URL"
 msgid "홈페이지 필터링"
 msgstr "Homepage to be filtered"
 
-msgid "화요일"
-msgstr "T"
-
-msgid "확대"
-msgstr "Enlarge"
-
 msgid "확인"
 msgstr "Confirm"
 
-msgid "확인되었습니다."
-msgstr "Confirmed"
+msgid "확장 지원"
+msgstr "Extend support"
 
 msgid "환경"
 msgstr "Configuration"
