@@ -175,7 +175,7 @@ function getCommentRSSTotal($blogid, $rawMode = false) {
 	$channel = initializeRSSchannel($blogid);
 	$channel['title'] = $blog['title']. ': '._text('최근 댓글 목록');
 	
-	$result = getRecentComments($blogid, 20, false, true);
+	$result = getRecentComments($blogid, getBlogSetting('commentsOnRSS',20), false, true);
 	if (!$result)
 		$result = array();
 
@@ -255,7 +255,7 @@ function getTrackbackRSSTotal($blogid, $rawMode = false) {
 	if(empty($blogid)) $blogid = getBlogId();
 	$channel = initializeRSSchannel($blogid);
 	$channel['title'] = RSSMessage($blog['title']. ': '._text('최근 트랙백 목록'));
-	$result = getRecentTrackbacks($blogid, 20, true);
+	$result = getRecentTrackbacks($blogid, getBlogSetting('commentsOnRSS',20), true);
 	if (!$result)
 		$result = array();
 

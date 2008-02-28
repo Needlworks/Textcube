@@ -14,7 +14,6 @@ $IV = array(
 require ROOT . '/lib/includeForBlogOwner.php';
 requireStrictRoute();
 
-// EOLIN RSS
 setEntriesOnRSS($blogid, $_POST['entriesOnRSS']);
 setCommentsOnRSS($blogid, $_POST['commentsOnRSS']);
 
