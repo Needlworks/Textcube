@@ -32,10 +32,10 @@ function getBlogSettingForMigration($blogid, $name, $default = null) {
 function showCheckupMessage($stat = true) {
 	global $succeed;
 	if($stat) {
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	} else {
 		$succeed = false;
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 	}
 }
 
@@ -48,14 +48,14 @@ function clearCache() {
 		foreach($blogids as $ids) {
 			if(CacheControl::flushAll($ids) == false) $errorlog = true; 
 		}
-		if($errorlog == false) echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-		else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		if($errorlog == false) echo '<span class="result success">', _text('성공'), '</span></li>';
+		else echo '<span class="result fail">', _text('실패'), '</span></li>';
 	}
 
 	echo '<li>', _textf('공지사항 캐시를 초기화합니다.'), ': ';
 	if(POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = 'Textcube_Notice_%'"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
+	else echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 ?>
@@ -68,7 +68,7 @@ function clearCache() {
 </head>
 <body>
 	<div id="container">
-		<form id="setup">
+		<form id="checkup">
 			<div id="title">
 				<h1><img src="<?php echo $service['path']?>/style/setup/image/title.gif" width="253" height="44" alt="Textcube를 점검합니다." /></h1>
 			</div>
@@ -76,14 +76,25 @@ function clearCache() {
 			<div id="inner">
 				<h2><?php echo _text('텍스트큐브 점검을 시작합니다.');?></h2>
 				
-				<div id="content" style="height: 200px; overflow-y: auto;">
-					<dl class="message">
-						<dt><?php echo _text('버전 검사');?></dt>
-						<dd><?php echo _textf('기존 버전 : %1',$currentVersion);?></dd>
-						<dd><?php echo _textf('현재 버전 : %1',TEXTCUBE_VERSION);?></dd>
-					<dl>
+				<div id="content">
+					<h3><?php echo _text('버전 검사');?></h3>
 					
-					<ul>
+					<ul class="version">
+						<li><?php echo _textf('기존 버전 - %1',$currentVersion);?></li>
+						<li><?php echo _textf('현재 버전 - %1',TEXTCUBE_VERSION);?></li>
+					</ul>
+					
+					<h3><?php echo _text('변경 중');?></h3>
+					
+					<ul id="processList">
+						<li>테스트입니다. 문자열이 길어지면 어떻게 되나? 흠흠흠. 설명을 붙여보세. 길게 좀 붙여보세. 후덜덜. 이뭐병. 흠좀무. : <span class="result fail">실패</span></li>
+						<li>테스트입니다. 문자열이 길어지면 어떻게 되나? 흠흠흠. 설명을 붙여보세. 길게 좀 붙여보세. 후덜덜. 이뭐병. 흠좀무. : <span class="result fail">실패</span></li>
+						<li>테스트입니다. 문자열이 길어지면 어떻게 되나? 흠흠흠. 설명을 붙여보세. 길게 좀 붙여보세. 후덜덜. 이뭐병. 흠좀무. : <span class="result fail">실패</span></li>
+						<li>테스트입니다. 문자열이 길어지면 어떻게 되나? 흠흠흠. 설명을 붙여보세. 길게 좀 붙여보세. 후덜덜. 이뭐병. 흠좀무. : <span class="result fail">실패</span></li>
+						<li>테스트입니다. 문자열이 길어지면 어떻게 되나? 흠흠흠. 설명을 붙여보세. 길게 좀 붙여보세. 후덜덜. 이뭐병. 흠좀무. : <span class="result fail">실패</span></li>
+						<li>테스트입니다. 문자열이 길어지면 어떻게 되나? 흠흠흠. 설명을 붙여보세. 길게 좀 붙여보세. 후덜덜. 이뭐병. 흠좀무. : <span class="result fail">실패</span></li>
+						<li>테스트입니다. 문자열이 길어지면 어떻게 되나? 흠흠흠. 설명을 붙여보세. 길게 좀 붙여보세. 후덜덜. 이뭐병. 흠좀무. : <span class="result fail">실패</span></li>
+						<li>테스트입니다. 문자열이 길어지면 어떻게 되나? 흠흠흠. 설명을 붙여보세. 길게 좀 붙여보세. 후덜덜. 이뭐병. 흠좀무. : <span class="result fail">실패</span></li>
 <?php
 $changed = false;
 global $succeed;
@@ -316,18 +327,18 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
 	$fp = fopen($filename, "w");
 	if(fwrite($fp, $content)) {
 		fclose($fp);
-		echo ': <span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo ': <span class="result success">', _text('성공'), '</span></li>';
 	} else {
 		fclose($fp);
-		echo ': <span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo ': <span class="result fail">', _text('실패'), '</span></li>';
 	}
 }
 
 ?>
 					</ul>
 
-					<div id="message-box" style="text-align: center;">
-						<span><?php
+					<p id="lastMessage">
+						<?php
 	reloadSkin(1);
 	echo ($changed ? _text('완료되었습니다.') : _text('확인되었습니다.'));
 
@@ -340,7 +351,7 @@ if (((!file_exists(ROOT . '/cache/CHECKUP')) || (file_get_contents(ROOT . '/cach
 	}
 }
 ?></span>
-					</div>
+					</p>
 				</div>
 
 				<div id="navigation" style="padding-top: 20px;">

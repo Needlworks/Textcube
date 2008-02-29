@@ -629,7 +629,7 @@ msgstr "Allow access to everyone."
 msgid "다른 사람의 블로그에 단 댓글에 대한 댓글이 등록되면 알려줍니다. 알리미가 동작하기 위해서는 댓글 작성시 홈페이지 기입란에 자신의 블로그 주소를 입력하셔야 합니다."
 msgstr "Notify if reply has been added to your commentsss. You should input your blog address at the homepage field when leaving comments."
 
-msgid "다시 설정하시려면 config.php/.htaccess를 먼저 삭제하셔야 합니다."
+msgid "다시 설정하시려면 config.php를 먼저 삭제하셔야 합니다."
 msgstr "To reconfigure, you should delete config.php and .htaccess first."
 
 msgid "다운로드"
@@ -695,7 +695,7 @@ msgstr "Could not modify blog tags."
 msgid "댓글"
 msgstr "Comment"
 
-msgid "댓글 RSS 파일의 블로그 글은 최신 %1개로 갱신됩니다."
+msgid "댓글, 걸린글(트랙백) 및 통합 RSS의 글은 최신 %1개로 갱신됩니다."
 msgstr "Comment RSS will be renewed with %1 items"
 
 msgid "댓글 알리미"

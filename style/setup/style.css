@@ -1,179 +1,216 @@
 @charset "utf-8";
 
-* {
+*
+{
 	font-size: 11px;
 	font-family: Verdana, Arial, Helvetica, Gulim, sans-serif;
-	line-height:17px;
+	line-height: 17px;
 }
 
-body {
+body
+{
 	background: #666 url(./image/bg.gif) left top repeat-x;
 	font-size: inherit;
 	margin: 0px;
 }
 
-h1 {
+h1
+{
 	margin: 0px;
 	padding: 0px;
 }
 
-h2 {
+h2
+{
 	font-weight: normal;
 }
 
-h3 {
+h3
+{
 	margin: 0px;
 	padding: 0px;
 	font-size: 11px;
 }
 
-img {
+img
+{
 	border: none;
 }
 
-a {
+a
+{
 	text-decoration: none;
 	color: #009;
 }
 
-a:hover {
+a:hover
+{
 	text-decoration: underline;
 }
 
-ol {
+ol
+{
 	margin-left: 15px;
 	padding: 10px;
-}  
+}
 
-ul {
+ul
+{
 	margin: 0px 0px 0px 15px;
 	padding: 10px;
 }
 
-samp {
+samp
+{
 	font-family: 'Lucida Console Typewriter', 'Courier New', FreeMono, Gulim, monospace;
-	color:#666;
+	color: #666;
 }
 
-.step {
+.step
+{
 	color: #408FBD;
 	font-weight: bold;
-	font-size : 14px;	
+	font-size: 14px;
 }
 
-#container {
+.message
+{
+	text-align: center;
+}
+
+#container
+{
 	padding: 0px 20px 0px 0px;
 	margin: 0px auto;
 	margin-top: 120px;
-	background : #666 url(./image/shadow.gif) right top no-repeat;
+	background: #666 url(./image/shadow.gif) right top no-repeat;
 	width: 572px;
 	height: 400px;
 }
 
-#title {
+#title
+{
 	background-color: #000;
-	/*background: #eee url(paper.gif) top right no-repeat;*/
+	
+
+/*background: #eee url(paper.gif) top right no-repeat;*/
 	padding: 10px 0 0 20px;
 	height: 54px;
 	border-bottom: 1px solid #ccc;
 }
 
-#inner {
+#inner
+{
 	padding: 20px;
-	/*background: white;*/
+	
+
+/*background: white;*/
 	min-height: 300px;
-	background : #FFF url(./image/bg_inner.png) left top no-repeat;
+	background: #FFF url(./image/bg_inner.png) left top no-repeat;
 }
 
-#info {
+#info
+{
 	background-color: #f5f5f5;
 	border: 4px solid #ddd;
 	padding: 8px;
 }
 
-#content {
-}
-
-#content-box {
+#content-box
+{
 	border: 1px solid #ddd;
 	background: #f3f3f3;
 	padding: 15px;
 }
 
-#userinput {
+#userinput
+{
 	border: 1px solid #ddd;
 	background: #f3f3f3;
 	padding: 15px;
 	text-align: center;
 }
 
-table.inputs {
+table.inputs
+{
 	margin: 0px auto;
 	width: 100%;
 }
 
-table.inputs th {
+table.inputs th
+{
 	text-align: right;
 	font-weight: normal;
 }
 
-table.inputs td {
+table.inputs td
+{
 	padding: 2px;
 	text-align: left;
 }
 
-table.inputs td .help {
+table.inputs td .help
+{
 	display: block;
 }
 
-table#info {
+table#info
+{
 	margin: 0px auto;
 	width: 100%;
-	border:solid 1px #eee;
-	border-collapse:collapse;
+	border: solid 1px #eee;
+	border-collapse: collapse;
 	background-color: white;
 }
 
-table#info th {
+table#info th
+{
 	text-align: center;
 	font-weight: normal;
-	border:solid 1px #eee;
-	padding:3px;
-	white-space:nowrap;
+	border: solid 1px #eee;
+	padding: 3px;
+	white-space: nowrap;
 }
 
-table#info td {
+table#info td
+{
 	padding: 2px;
 	text-align: left;
-	border:solid 1px #eee;
-	padding:3px;
+	border: solid 1px #eee;
+	padding: 3px;
 }
 
-#warning {
+#warning
+{
 	text-align: center;
 	color: red;
 	margin: 8px;
 }
 
-#navigation {
+#navigation
+{
 	text-align: center;
 	margin: 10px;
 }
 
-input {
+input
+{
 	font-size: 12px;
 	font-family: Tahoma, Verdana, Gulim, sans-serif;
 }
 
-input[type="radio"] {
+input[type="radio"]
+{
 	cursor: pointer;
 }
 
-label {
+label
+{
 	cursor: pointer;
 }
 
-.input {
+.input
+{
 	border: 1px solid #ccc;
 	background: white;
 	height: 20px;
@@ -182,30 +219,70 @@ label {
 	padding: 2px 2px 0px 4px;
 }
 
-.input_error {
+.input_error
+{
 	border-color: red;
 }
 
-.input_email {
-	border: 1px solid #ccc; 
-	background: white;
-	height: 20px; 
-	width: 250px;	
-	color: #666; 
-	padding: 2px 2px 0px 4px;
-}		
-
-.input_password {
+.input_email
+{
 	border: 1px solid #ccc;
 	background: white;
-	height:20px;
+	height: 20px;
 	width: 250px;
 	color: #666;
 	padding: 2px 2px 0px 4px;
-}	
+}
+
+.input_password
+{
+	border: 1px solid #ccc;
+	background: white;
+	height: 20px;
+	width: 250px;
+	color: #666;
+	padding: 2px 2px 0px 4px;
+}
 
 em.password
 {
 	font-style: normal;
 	padding-left: 5px;
+}
+
+/* checkup */
+
+#checkup
+{
+	margin-bottom: 120px;
+}
+
+#processList
+{
+	list-style-type: none;
+	margin: 0;
+}
+
+#processList li
+{
+	border: 1px solid #ddd;
+	background: #f3f3f3;
+	list-style-type: none;
+	margin: 1px 0;
+	padding: 10px 15px;
+}
+
+#lastMessage
+{
+	text-align: center;
+}
+
+.fail
+{
+	color: #ff0066;
+}
+
+.success
+{
+	color: #33cc33;
 }

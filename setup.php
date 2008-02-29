@@ -51,6 +51,7 @@ if (file_exists($root . '/config.php') && (filesize($root . '/config.php') > 0))
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> - Setup</title>
+<link rel="stylesheet" media="screen" type="text/css" href="./style/setup/style.css" />
 <script  type="text/javascript">
 //<![CDATA[
 	function current(){ 
@@ -60,8 +61,16 @@ if (file_exists($root . '/config.php') && (filesize($root . '/config.php') > 0))
 </script> 
 </head>
 <body>
-<p><?php echo _t('다시 설정하시려면 config.php/.htaccess를 먼저 삭제하셔야 합니다.');?></p>
-<form id="setup" name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>"> 
+	<div id="container">
+		<form id="setup" name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
+			<div id="title">
+				<h1><img src="./style/setup/image/title.gif" width="253" height="44" alt="Textcube를 점검합니다." /></h1>
+			</div>
+
+			<div id="inner">
+				<p class="message"><?php echo _t('다시 설정하시려면 config.php를 먼저 삭제하셔야 합니다.');?></p>
+				
+				<p class="message">
 <?php
 	if( Locale::setDirectory('language')) {
 		$currentLang = isset($_REQUEST['Lang']) ? $_REQUEST['Lang'] : '';
@@ -75,7 +84,10 @@ Select Language : <select name="Lang" id = "Lang" onchange= "current();" >
 <?php 
 	}
 ?>
-</form> 
+				</p>
+			</div>
+		</form>
+	</div>
 </body>
 </html>
 <?php
@@ -93,7 +105,7 @@ if (array_key_exists('phpinfo',$_GET)) {
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> - Setup</title>
-<link rel="stylesheet" media="screen" type="text/css" href="style/setup/style.css" />
+<link rel="stylesheet" media="screen" type="text/css" href="./style/setup/style.css" />
 <script type="text/javascript">
 //<![CDATA[
     function init() {
@@ -129,7 +141,7 @@ if (array_key_exists('phpinfo',$_GET)) {
 <body onload="init()">
 <div id="container">
   <form id="setup" name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
-  <div id="title"><h1><img src="style/setup/image/title.gif" width="253" height="44" alt="<?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> Setup" /></h1></div>
+  <div id="title"><h1><img src="./style/setup/image/title.gif" width="253" height="44" alt="<?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> Setup" /></h1></div>
   <input type="hidden" name="Lang" id="Lang" value="<?php echo $baseLanguage;?>" />
 <?php
 if (empty($_POST['step'])) {

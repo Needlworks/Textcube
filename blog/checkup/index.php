@@ -53,47 +53,50 @@ function getBlogSettingForMigration($blogid, $name, $default = null) {
 			<div id="inner">
 				<h2><?php echo _text('텍스트큐브 점검을 시작합니다.');?></h2>
 
-				<div id="content" style="height: 200px; overflow-y: auto;">
-					<dl class="message">
-						<dt><?php echo _text('버전 검사');?></dt>
-						<dd><?php echo _textf('기존 버전 : %1',$currentVersion);?></dd>
-						<dd><?php echo _textf('현재 버전 : %1',TEXTCUBE_VERSION);?></dd>
-					<dl>
-
-					<ul>
+				<div id="content">
+					<h3><?php echo _text('버전 검사');?></h3>
+					
+					<ul class="message">
+						<li><?php echo _textf('기존 버전 - %1',$currentVersion);?></li>
+						<li><?php echo _textf('현재 버전 - %1',TEXTCUBE_VERSION);?></li>
+					</ul>
+					
+					<h3><?php echo _text('변경 중');?></h3>
+					
+					<ul id="processList">
 <?php
 $changed = false;
 if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings recentNoticeLength")) { // Since 1.0.1
 	$changed = true;
 	echo '<li>', _text('스킨 설정 테이블에 공지 길이 제한 필드를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD recentNoticeLength INT DEFAULT 30 NOT NULL AFTER expandTrackback"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (DBQuery::queryExistence("DESC {$database['prefix']}Categories `order`")) { // Since 1.0.2
 	$changed = true;
 	echo '<li>', _text('분류 테이블의 우선순위 필드명을 변경합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Categories CHANGE `order` priority INT NOT NULL DEFAULT 0"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (DBQuery::queryExistence("DESC {$database['prefix']}Users `database`")) { // Since 1.0.2
 	$changed = true;
 	echo '<li>', _text('사용자 테이블의 미사용 필드를 삭제합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Users DROP server, DROP `database`"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (!DBQuery::queryExistence("DESC {$database['prefix']}RefererLogs url")) { // Since 1.0.2
 	$changed = true;
 	echo '<li>', _text('리퍼러 로그 테이블의 구조를 변경합니다.'), ': ';
 	if (DBQuery::execute("UPDATE {$database['prefix']}RefererLogs SET path = CONCAT('http://', host, path)") && DBQuery::execute("ALTER TABLE {$database['prefix']}RefererLogs CHANGE path url VARCHAR(255) NOT NULL") && DBQuery::execute("ALTER TABLE {$database['prefix']}RefererLogs CHANGE written referred INT NOT NULL"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (!doesExistTable($database['prefix'] . 'Filters')) { // Since 1.0.2
 	$changed = true;
@@ -117,93 +120,93 @@ if (!doesExistTable($database['prefix'] . 'Filters')) { // Since 1.0.2
 			DBQuery::execute("DROP TABLE {$database['prefix']}HostFilters");
 		if (DBQuery::execute("INSERT INTO {$database['prefix']}Filters(owner, type, pattern) SELECT owner, 'url', url FROM {$database['prefix']}URLFilters"))
 			DBQuery::execute("DROP TABLE {$database['prefix']}URLFilters");
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	} else {
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 	}
 }
 if (doesExistTable($database['prefix'] . 'FeedOwners')) { // Since 1.0.2
 	$changed = true;
 	echo '<li>', _text('리더와 관련된 구조를 변경합니다.'), ': ';
 	if (DBQuery::execute("DROP TABLE {$database['prefix']}FeedOwners"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (doesExistTable($database['prefix'] . 'MonthlyStatistics')) { // Since 1.0.2
 	$changed = true;
 	echo '<li>', _text('통계와 관련된 구조를 변경합니다.'), ': ';
 	if (DBQuery::execute("DROP TABLE {$database['prefix']}MonthlyStatistics"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (DBQuery::queryExistence("SELECT * FROM {$database['prefix']}Users WHERE name = ''")) { // Since 1.0.2
 	$changed = true;
 	echo '<li>', _text('사용자 이름 누락 정보를 보완합니다.'), ': ';
 	if (DBQuery::execute("UPDATE {$database['prefix']}Users SET name = IF(LEFT(loginid, POSITION('@' IN loginid) - 1) = '', loginid, LEFT(loginid, POSITION('@' IN loginid) - 1)) WHERE name = ''"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (DBQuery::queryCell("DESC {$database['prefix']}Entries owner", 'Key') != 'PRI'
 	&& DBQuery::queryCell("DESC {$database['prefix']}Entries blogid", 'Key') != 'PRI') { // Since 1.0.2
 	$changed = true;
 	echo '<li>', _text('엔트리 테이블의 인덱스를 수정합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries DROP PRIMARY KEY, ADD PRIMARY KEY(owner, id, draft)"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (DBQuery::queryCell("DESC {$database['prefix']}TagRelations owner", 'Key') != 'PRI'
 	&& DBQuery::queryCell("DESC {$database['prefix']}TagRelations blogid", 'Key') != 'PRI') { // Since 1.0.2
 	$changed = true;
 	echo '<li>', _text('태그관계 테이블의 인덱스를 수정합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}TagRelations DROP PRIMARY KEY, ADD PRIMARY KEY(owner, tag, entry)"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (DBQuery::queryCell("DESC {$database['prefix']}Trackbacks owner", 'Key') != 'MUL'
 	&& DBQuery::queryCell("DESC {$database['prefix']}Trackbacks blogid", 'Key') != 'MUL') { // Since 1.0.2
 	$changed = true;
 	echo '<li>', _text('걸린글 테이블의 인덱스를 수정합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP INDEX entry, ADD UNIQUE owner (owner, entry, url)"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (DBQuery::queryCell("DESC {$database['prefix']}Comments parent", 'Key') != 'MUL') { // Since 1.0.3
 	$changed = true;
 	echo '<li>', _text('댓글 테이블에 인덱스를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Comments ADD INDEX parent (parent)"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (!Validator::getBool(DBQuery::queryCell("DESC {$database['prefix']}Sessions data", 'Null'))) { // Since 1.0.3
 	$changed = true;
 	echo '<li>', _text('세션 테이블의 필드 속성을 변경합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Sessions CHANGE data data TEXT DEFAULT NULL"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (DBQuery::queryCell("DESC {$database['prefix']}Categories name", 'Type') == 'varchar(32)') { // Since 1.0.3
 	$changed = true;
 	echo '<li>', _text('분류 테이블의 이름 필드 속성을 변경합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Categories CHANGE name name VARCHAR(127) NOT NULL"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (DBQuery::queryCell("DESC {$database['prefix']}Categories label", 'Type') == 'varchar(80)') { // Since 1.0.3
 	$changed = true;
 	echo '<li>', _text('분류 테이블의 라벨 필드 속성을 변경합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Categories CHANGE label label VARCHAR(255) NOT NULL"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings timezone", 'Type') != 'varchar(32)'
 	&& !DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings value")) { // Since 1.0.5
@@ -213,9 +216,9 @@ if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings timezone", 'Type'
 		DBQuery::execute("UPDATE {$database['prefix']}BlogSettings SET timezone = 'GMT' WHERE timezone <> '32400' AND timezone <> '-18000'");
 		DBQuery::execute("UPDATE {$database['prefix']}BlogSettings SET timezone = 'Asia/Seoul' WHERE timezone = '32400'");
 		DBQuery::execute("UPDATE {$database['prefix']}BlogSettings SET timezone = 'America/New_York' WHERE timezone = '-18000'");
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	} else {
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 	}
 }
 if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings language", 'Type') != 'varchar(5)'
@@ -223,66 +226,66 @@ if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings language", 'Type'
 	$changed = true;
 	echo '<li>', _text('블로그 설정 테이블의 언어 필드 속성을 변경합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}BlogSettings CHANGE language language VARCHAR(5) NOT NULL DEFAULT 'en'"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings archivesOnPage")) { // Since 1.1
 	$changed = true;
 	echo '<li>', _text('스킨 설정 테이블에 아카이브 출력 설정 필드를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD archivesOnPage INT DEFAULT 5 NOT NULL AFTER commentsOnGuestbook"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (!DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings publishEolinSyncOnRSS")
 	&& !DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings value")) {
 	$changed = true;
 	echo '<li>', _text('블로그 설정 테이블에 RSS 공개 정도 설정 필드를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}BlogSettings ADD publishEolinSyncOnRSS INT(1) DEFAULT 1 NOT NULL AFTER publishWholeOnRSS"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (!DBQuery::queryExistence("DESC {$database['prefix']}Trackbacks isFiltered")) {
 	$changed = true;
 	echo '<li>', _text('걸린글 테이블에 광고 및 스팸 분류를 위한 휴지통 필드를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Trackbacks ADD isFiltered INT(11) DEFAULT 0 NOT NULL AFTER written"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (!DBQuery::queryExistence("DESC {$database['prefix']}Comments isFiltered")) {
 	$changed = true;
 	echo '<li>', _text('덧글및 방명록 테이블에 광고 및 스팸 분류를 위한 휴지통 필드를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Comments ADD isFiltered INT(11) DEFAULT 0 NOT NULL AFTER written"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (DBQuery::queryExistence("DESC {$database['prefix']}Trackbacks sender")) {
 	$changed = true;
 	echo '<li>', _text('걸린글 테이블의 미사용 필드를 삭제합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP sender"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (!DBQuery::queryExistence("DESC {$database['prefix']}Categories visibility")) {
 	$changed = true;
 	echo '<li>', _text('카테고리 테이블에 비공개 카테고리 설정을 위한 필드를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Categories ADD visibility TINYINT(4) DEFAULT 2 NOT NULL AFTER label"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (!DBQuery::queryExistence("DESC {$database['prefix']}Categories bodyId")) {
 	$changed = true;
 	echo '<li>', _text('카테고리 테이블에 Body Id 설정을 위한 필드를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Categories ADD bodyId varchar(20) DEFAULT null AFTER visibility"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (!doesExistTable($database['prefix'] . 'ServiceSettings')) {
 	$changed = true;
@@ -295,9 +298,9 @@ if (!doesExistTable($database['prefix'] . 'ServiceSettings')) {
 		) TYPE=MyISAM
 	";
 	if (DBQuery::execute($query . ' DEFAULT CHARSET=utf8') || DBQuery::execute($query))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 if (!doesExistTable($database['prefix'] . 'UserSettings')) { // Since 1.0.7
 	$changed = true;
@@ -316,9 +319,9 @@ if (!doesExistTable($database['prefix'] . 'UserSettings')) { // Since 1.0.7
 		DBQuery::execute("INSERT INTO {$database['prefix']}UserSettings(user, name, value) SELECT owner, 'readerPannelHeight', readerPannelHeight FROM {$database['prefix']}Personalization");
 		DBQuery::execute("INSERT INTO {$database['prefix']}UserSettings(user, name, value) SELECT owner, 'lastVisitNotifiedPage', lastVisitNotifiedPage FROM {$database['prefix']}Personalization");
 		DBQuery::execute("DROP TABLE {$database['prefix']}Personalization");
-		echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
+		echo '<span class="result success">', _t('성공'), '</span></li>';
 	} else {
-		echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
+		echo '<span class="result fail">', _t('실패'), '</span></li>';
 	}
 }
 
@@ -337,10 +340,10 @@ if (!DBQuery::queryExistence("SELECT value FROM {$database['prefix']}ServiceSett
 				DBQuery::execute("UPDATE {$database['prefix']}Entries SET content = '$newContent' WHERE owner = {$entry['owner']} AND id = {$entry['id']} AND draft = {$entry['draft']}");
 				$query->resetQualifiers();
 			}
-			echo '<span style="color:#33CC33;">', _t('성공'), '</span></li>';
+			echo '<span class="result success">', _t('성공'), '</span></li>';
 			unset($entries);
 		} else {
-			echo '<span style="color:#FF0066;">', _t('실패'), '</span></li>';
+			echo '<span class="result fail">', _t('실패'), '</span></li>';
 		}
 	}
 	setServiceSetting('newlineStyle', '1.1');
@@ -352,9 +355,9 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings blogLanguag
 	echo '<li>', _text('설정 테이블에 블로그 언어 설정을 위한 필드를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}BlogSettings ADD blogLanguage varchar(5) not null default 'en' after language")) {
 		DBQuery::execute("UPDATE {$database['prefix']}BlogSettings SET blogLanguage = language");
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	} else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings NoCommentMessage")) {
@@ -366,9 +369,9 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings NoCommentMes
 	DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings DROP NoTrackbackMessage") &&
 	DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings DROP SingleTrackbackMessage") &&
 	DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings DROP MultipleTrackbackMessage"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (DBQuery::queryCell("DESC {$database['prefix']}Tags name" , 'Key') != 'UNI') {
@@ -377,10 +380,10 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Tags name" , 'Key') != 'UNI') 
 	requireComponent('Textcube.Data.Post');
 	Post::correctTagsAll();
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Tags ADD UNIQUE INDEX name (name)")) {
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	} else {
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span>';
-		echo '<span style="color:#33CC33;">', _text('관리자 화면의 환경 설정에서 데이터 교정을 수행하시기 바랍니다.'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span>';
+		echo '<span class="result success">', _text('관리자 화면의 환경 설정에서 데이터 교정을 수행하시기 바랍니다.'), '</span></li>';
 	}
 }
 
@@ -388,9 +391,9 @@ if (DBQuery::queryCell("DESC {$database['prefix']}UserSettings value", 'Type') !
 	$changed = true;
 	echo '<li>', _text('사용자 설정값 테이블의 필드 속성을 변경합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}UserSettings CHANGE value value text NOT NULL DEFAULT ''")) {
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	} else {
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 	}
 }
 
@@ -398,9 +401,9 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Comments isFiltered", 'Type') 
 	$changed = true;
 	echo '<li>', _text('휴지통 테이블의 필드 속성을 변경합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Comments CHANGE isFiltered isFiltered int(11) NOT NULL DEFAULT 0")) {
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	} else {
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 	}
 }
 
@@ -408,9 +411,9 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Trackbacks isFiltered", 'Type'
 	$changed = true;
 	echo '<li>', _text('휴지통 테이블의 필드 속성을 변경합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Trackbacks CHANGE isFiltered isFiltered int(11) NOT NULL DEFAULT 0")) {
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	} else {
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 	}
 }
 
@@ -423,45 +426,45 @@ if ($idkey == FALSE) {
 	$changed = true;
 	echo '<li>', _text('본문 테이블에 태그 검색 향상을 위한 인덱스를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD INDEX id (id)"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (DBQuery::queryCell("DESC {$database['prefix']}Comments isFiltered", 'Key') != 'MUL') {
 	$changed = true;
 	echo '<li>', _text('댓글 테이블에 필터 인덱스를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Comments ADD INDEX isFiltered (isFiltered)"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (DBQuery::queryCell("DESC {$database['prefix']}Trackbacks isFiltered", 'Key') != 'MUL') {
 	$changed = true;
 	echo '<li>', _text('글걸기 테이블에 필터 인덱스를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Trackbacks ADD INDEX isFiltered (isFiltered)"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings showListOnTag")) {
 	$changed = true;
 	echo '<li>', _text('스킨 설정 테이블에 태그 출력시 목록 및 글 출력 설정을 위한 필드를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD showListOnTag INT(1) DEFAULT 1 NOT NULL AFTER showListOnArchive"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings showListOnSearch")) { // Since 1.1.1.1
 	$changed = true;
 	echo '<li>', _text('스킨 설정 테이블에 검색 결과 출력시 목록 및 글 출력 설정을 위한 필드를 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD showListOnSearch INT(1) DEFAULT 1 NOT NULL AFTER showListOnTag"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (DBQuery::queryCell("DESC {$database['prefix']}Categories owner", 'Key') != 'PRI'
@@ -469,27 +472,27 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Categories owner", 'Key') != '
 	$changed = true;
 	echo '<li>', _text('최상위 카테고리 이름 수정을 위하여 카테고리 테이블의 인덱스를 수정합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Categories DROP PRIMARY KEY, ADD PRIMARY KEY(owner, id)"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (DBQuery::queryCell("DESC {$database['prefix']}Categories id", 'Extra') == 'auto_increment') {
 	$changed = true;
 	echo '<li>', _text('최상위 카테고리 이름 수정을 위하여 카테고리 테이블의 자동 증가 설정을 제거합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Categories CHANGE id id int(11) NOT NULL"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (DBQuery::queryCell("DESC {$database['prefix']}Entries id", 'Extra') == 'auto_increment') {
 	$changed = true;
 	echo '<li>', _text('글번호의 교정을 위하여 본문 테이블의 자동 증가 설정을 제거합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries CHANGE id id int(11) NOT NULL"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (!DBQuery::queryExistence("DESC {$database['prefix']}Entries contentFormatter")) { // Since 1.5
@@ -501,9 +504,9 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}Entries contentFormatter
 		DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD contentEditor VARCHAR(32) DEFAULT '' NOT NULL AFTER content, ADD contentFormatter VARCHAR(32) DEFAULT '' NOT NULL AFTER content") &&
 		DBQuery::execute("UPDATE {$database['prefix']}Entries SET contentEditor = '".mysql_tt_escape_string($defaulteditor)."', contentFormatter = '".mysql_tt_escape_string($defaultformatter)."'");
 	if ($result)
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (DBQuery::queryCell("select count(*) FROM {$database['prefix']}Entries WHERE contentFormatter = ''") != 0) { 
@@ -513,9 +516,9 @@ if (DBQuery::queryCell("select count(*) FROM {$database['prefix']}Entries WHERE 
 	$defaulteditor = 'modern';
 	$result = DBQuery::execute("UPDATE {$database['prefix']}Entries SET contentEditor = '".mysql_tt_escape_string($defaulteditor)."', contentFormatter = '".mysql_tt_escape_string($defaultformatter)."'");
 	if ($result)
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (!doesExistTable($database['prefix'] . 'Teamblog')) {
@@ -541,10 +544,10 @@ if (!doesExistTable($database['prefix'] . 'Teamblog')) {
 				}
 			}
 			unset($users);
-			echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+			echo '<span class="result success">', _text('성공'), '</span></li>';
 		}
 	} else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (!doesExistTable($database['prefix'] . 'XMLRPCPingSettings')) {
@@ -559,9 +562,9 @@ if (!doesExistTable($database['prefix'] . 'XMLRPCPingSettings')) {
 		) TYPE=MyISAM
 	";
 	if (DBQuery::execute($query . ' DEFAULT CHARSET=utf8') || DBQuery::execute($query))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (DBQuery::queryExistence("DESC {$database['prefix']}Teamblog enduser")) {
@@ -576,9 +579,9 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}Teamblog enduser")) {
 	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP font_size") &&
 	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP font_bold") &&
 	DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog ADD acl int(11) not null AFTER userid"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings defaultDomain")) {
@@ -618,7 +621,7 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings defaultDomai
 				unset($blogSettings);
 				if($checked == false) {
 					DBQuery::execute("DROP TABLE {$database['prefix']}BlogSettingsMig");
-					echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+					echo '<span class="result fail">', _text('실패'), '</span></li>';
 				} else {
 					// Change Table
 					DBQuery::execute("DROP TABLE {$database['prefix']}BlogSettings");
@@ -640,13 +643,13 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}BlogSettings defaultDomai
 						) TYPE=MyISAM
 						";
 						if (DBQuery::execute($query . ' DEFAULT CHARSET=utf8') || DBQuery::execute($query)) {
-							echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-						} else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
-					} else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+							echo '<span class="result success">', _text('성공'), '</span></li>';
+						} else echo '<span class="result fail">', _text('실패'), '</span></li>';
+					} else echo '<span class="result fail">', _text('실패'), '</span></li>';
 				}
-			} else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+			} else echo '<span class="result fail">', _text('실패'), '</span></li>';
 		}
-	} else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+	} else echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (!DBQuery::queryExistence("DESC {$database['prefix']}Entries userid")) {
@@ -660,12 +663,12 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}Entries userid")) {
 					WHERE owner = '".$blogid['owner']."'");
 			}
 			DBQuery::execute("DROP TABLE {$database['prefix']}TeamEntryRelations");
-			echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+			echo '<span class="result success">', _text('성공'), '</span></li>';
 		} else {
-			echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+			echo '<span class="result fail">', _text('실패'), '</span></li>';
 		}
 	} else {
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 	}
 }
 
@@ -682,18 +685,18 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Entries published", 'Key') != 
 		ADD index userid (userid),
 		ADD index id (id, category, visibility),
 		ADD index owner (owner, published)"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (DBQuery::queryExistence("DESC {$database['prefix']}Teamblog teams")) {
 	$changed = true;
 	echo '<li>', _text('팀블로그 테이블의 필드 이름을 변경합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog CHANGE teams blogid int(11) NOT NULL DEFAULT 0"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 
@@ -701,18 +704,18 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}Teamblog profile")) {
 	$changed = true;
 	echo '<li>', _text('팀블로그 테이블의 사용자 이름 필드를 삭제합니다.'), ': ';
 	if(DBQuery::execute("ALTER TABLE {$database['prefix']}Teamblog DROP profile"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings owner")) {
 	$changed = true;
 	echo '<li>', _text('스킨 테이블의 필드 이름을 변경합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings CHANGE owner blogid int(11) NOT NULL DEFAULT 0"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (DBQuery::queryExistence("DESC {$database['prefix']}Entries owner")) {
@@ -741,9 +744,9 @@ if (DBQuery::queryExistence("DESC {$database['prefix']}Entries owner")) {
 	   && DBQuery::execute("ALTER TABLE {$database['prefix']}TrackbackLogs CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
 	   && DBQuery::execute("ALTER TABLE {$database['prefix']}XMLRPCPingSettings CHANGE owner blogid int(11) NOT NULL DEFAULT 0")
 	)
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (DBQuery::queryCell("DESC {$database['prefix']}Filters blogid", 'Key') != 'MUL') {
@@ -760,9 +763,9 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Filters blogid", 'Key') != 'MU
 	   && DBQuery::execute("ALTER TABLE {$database['prefix']}TagRelations DROP INDEX owner, ADD INDEX blogid (blogid)")
 	   && DBQuery::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP INDEX owner, ADD INDEX blogid (blogid, entry, url)")
 	)
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 	
 	
@@ -777,18 +780,18 @@ if (!doesExistTable($database['prefix'] . 'PageCacheLog')) {
 		) TYPE=MyISAM
 	";
 	if (DBQuery::execute($query . ' DEFAULT CHARSET=utf8') || DBQuery::execute($query))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (DBQuery::queryCell("DESC {$database['prefix']}SkinSettings skin", 'Default') != 'coolant') {
 	$changed = true;
 	echo '<li>', _text('기본 스킨을 변경합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings CHANGE skin skin varchar(32) NOT NULL DEFAULT 'coolant'")) {
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	} else {
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 	}
 }
 
@@ -841,9 +844,9 @@ foreach($plugintablesraw as $table) {
 	if(DBQuery::queryExistence("DESC $dbname owner")) {
 		echo '<li>', _textf('플러그인이 생성한 %1 테이블의 owner 필드를 변경합니다.',$table['name']), ': ';
 		if(DBQuery::execute("ALTER TABLE $dbname CHANGE owner blogid int(11) NOT NULL DEFAULT 0"))
-			echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+			echo '<span class="result success">', _text('성공'), '</span></li>';
 		else
-			echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+			echo '<span class="result fail">', _text('실패'), '</span></li>';
 	}
 }
 
@@ -852,18 +855,18 @@ if (DBQuery::queryCell("SELECT acl FROM {$database['prefix']}Teamblog WHERE blog
 	echo '<li>', _text('팀블로그 테이블의 소유 관계를 정의합니다.'), ': ';
 	if (DBQuery::execute("UPDATE {$database['prefix']}Teamblog SET acl = 16
 		WHERE blogid = userid"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if (DBQuery::queryCell("DESC {$database['prefix']}ServiceSettings value", 'Type') != 'text') {
 	$changed = true;
 	echo '<li>', _text('서비스 설정값 테이블의 필드 속성을 변경합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}ServiceSettings CHANGE value value text NOT NULL")) {
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	} else {
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 	}
 }
 
@@ -871,9 +874,9 @@ if (!DBQuery::queryExistence("DESC {$database['prefix']}PageCacheLog value")) {
 	$changed = true;
 	echo '<li>', _text('페이지 캐싱을 위한 테이블을 추가합니다.'), ': ';
 	if (DBQuery::execute("ALTER TABLE {$database['prefix']}PageCacheLog ADD value text NOT NULL AFTER name"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
-		echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 
@@ -885,15 +888,15 @@ if(doesHaveOwnership() && $blogids = DBQuery::queryColumn("SELECT blogid FROM {$
 	foreach($blogids as $ids) {
 		if(CacheControl::flushAll($ids) == false) $errorlog = true; 
 	}
-	if($errorlog == false) echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+	if($errorlog == false) echo '<span class="result success">', _text('성공'), '</span></li>';
+	else echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 if(doesHaveOwnership()){
 	echo '<li>', _textf('공지사항 캐시를 초기화합니다.'), ': ';
 	if(DBQuery::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = 'Textcube_Notice'"))
-		echo '<span style="color:#33CC33;">', _text('성공'), '</span></li>';
-	else echo '<span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
+	else echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
 $filename = ROOT . '/.htaccess';
@@ -918,24 +921,22 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
 	$fp = fopen($filename, "w");
 	if(fwrite($fp, $content)) {
 		fclose($fp);
-		echo ': <span style="color:#33CC33;">', _text('성공'), '</span></li>';
+		echo ': <span class="result success">', _text('성공'), '</span></li>';
 	} else {
 		fclose($fp);
-		echo ': <span style="color:#FF0066;">', _text('실패'), '</span></li>';
+		echo ': <span class="result fail">', _text('실패'), '</span></li>';
 	}
 }
 
 ?>
 					</ul>
 
-					<div id="message-box" style="text-align: center;">
-						<span>
+					<p id="lastMessage">
 <?php
 	reloadSkin(1);
 ?>
 <?php echo ($changed ? _text('완료되었습니다.') : _text('확인되었습니다.'));?>
-						</span>
-					</div>
+					</p>
 				</div>
 
 				<div id="navigation" style="padding-top: 20px;">
