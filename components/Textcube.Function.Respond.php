@@ -4,6 +4,9 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 class respond {
 	function ResultPage($errorResult) {
+		if (is_array($errorResult) && count($errorResult) < 2) {
+			$errorResult = array_shift($errorResult);
+		}
 		if (is_array($errorResult)) {
 			$error = $errorResult[0];
 			$errorMsg = $errorResult[1];

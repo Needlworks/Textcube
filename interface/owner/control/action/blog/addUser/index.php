@@ -23,7 +23,7 @@ $acl = POD::queryCell("SELECT acl FROM {$database['prefix']}Teamblog WHERE blogi
 if( $acl === null ) { // If there is no ACL, add user into the blog.
 	POD::query("INSERT INTO `{$database['prefix']}Teamblog`  
 		VALUES('$bid', '$userid',0, UNIX_TIMESTAMP(), '0')");
-	respond::ResultPage(array(0));
+	respond::ResultPage(0);
 }
 else {
 	respond::ResultPage(array(-2,"이미 참여중인 사용자"));
