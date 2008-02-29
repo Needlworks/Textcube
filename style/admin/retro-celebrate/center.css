@@ -27,8 +27,8 @@
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	font-weight                      : normal;
-	height                           : 38px;
-	line-height                      : 38px;
+	height                           : 30px;
+	line-height                      : 32px;
 	padding-left                     : 25px;
 	margin-top                       : 10px;
 }
@@ -382,7 +382,7 @@
 
 #direct-link-line dd
 {
-	border                           : 3px solid #EC81CA;
+	border                           : 3px solid gray;
 	display                          : inline;
 	padding                          : 10px;
 	text-align                       : right;
@@ -475,11 +475,16 @@
 {
 	float                            : right;
 	height                           : 903px;
-	margin                           : 0 5px 0 30px;
+	margin                           : 0 5px 0 0;
 	overflow                         : auto;
 	position                         : relative;
-	width                            : 600px;
+	width                            : 610px;
 	z-index                          : 100;
+}
+
+#coverpage-box table
+{
+	margin: 0 auto;
 }
 
 #coverpage-box .section
@@ -490,9 +495,9 @@
 
 #coverpage-box .section h3
 {
-	color                            : #FF6600;
+	color                            : #476db4;
 	font-size                        : 1em;
-	margin                           : 7px 0 0 10px;
+	margin                           : 10px 0 0 10px;
 }
 
 #coverpage-box .section ul.coverpage
@@ -629,7 +634,8 @@
 {
 	background-image                 : none;
 	float                            : left;
-	width                            : 287px;
+	padding: 10px;
+	width                            : 267px;
 }
 
 #coverpage-element-box h3
@@ -640,9 +646,8 @@
 #coverpage-element-box fieldset
 {
 	background-image                 : none;
-	border                           : 1px solid #CCCCCC;
+	border: none;
 	margin-bottom                    : 5px;
-	padding                          : 7px;
 }
 
 #coverpage-element-box fieldset legend
@@ -922,33 +927,30 @@
 #supporter-description h3
 {
 	background-color                 : #FFF;
-	background-image                 : url("./image/bg_title_left.png");
-	background-position              : left top;
+	background-image                 : url("./image/sectionDescriptionIcon.gif");
+	background-position              : left center;
 	background-repeat                : no-repeat;
 	clear                            : both;
 	color                            : #222;
 	display                          : block !important;
-	height                           : 38px !important;
+	height                           : 30px;
 	font-size                        : 1em;
 	font-weight                      : normal;
-	line-height                      : 38px !important;
-	margin: 0 0 10px 0;
+	line-height                      : 30px;
+	margin-bottom                    : 10px;
 	overflow                         : hidden;
-	padding: 0 0 0 60px;
-	width: 900px;
+	padding: 0 0 0 22px;
+	margin-left                      : 15px;
+	text-align: left;
+	width: auto;
 }
 
 #supporter-description h3 span
 {
 	background-color                 : #FFF;
-	background-image                 : url("./image/bg_title_right.png");
-	background-position              : right top;
-	background-repeat                : repeat-x;
-	display                          : block !important;
-	height                           : 38px !important;
-	line-height                      : 38px !important;
-	text-align: left;
-	width: 900px;
+	display                          : block;
+	height                           : 30px;
+	line-height                      : 30px;
 }
 
 #supporter-description .container

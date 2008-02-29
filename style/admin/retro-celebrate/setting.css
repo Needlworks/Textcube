@@ -12,8 +12,8 @@ fieldset
 
 dl
 {
-	border-top                       : 1px solid #FFFFFF;
-	border-bottom                    : 1px solid #FFFFFF;
+	border-bottom: 1px solid #EBF2F8 !important;
+	border-top: 1px solid #EBF2F8 !important;
 }
 
 dl dt
@@ -59,11 +59,13 @@ dl dd
 #part-setting-basic
 {
 	float                            : left;
-	width                            : 470px;
+	padding-left: 20px;
+	width                            : 460px;
 }
 
 #part-setting-basic .data-inbox
 {
+	padding-bottom: 20px;
 	width                            : 460px;
 }
 
@@ -142,12 +144,14 @@ dl dd
 #part-setting-profile
 {
 	float                            : right;
+	padding-right: 10px;
 	width                            : 470px;
 }
 
 #part-setting-profile .data-inbox
 {
-	width                            : 450px;
+	padding-bottom: 20px;
+	width                            : 460px;
 }
 
 #part-setting-profile dl
@@ -194,6 +198,11 @@ dl dd
 {
 	clear                            : both;
 	padding                          : 20px 0 60px 0 !important;
+}
+
+#part-setting-rss .data-inbox
+{
+	padding-bottom: 20px;
 }
 
 #part-setting-rss dl
@@ -287,6 +296,12 @@ dl dd
 	font-size                        : 0.9em;
 }
 
+#part-setting-openid .data-subbox
+{
+	margin: 0 auto;
+	width: 940px;
+}
+
 #blogger-openid-activate-line dd, #blogger-name-line dd
 {
 	padding                          : 9px 3px 8px 3px !important;
@@ -355,6 +370,18 @@ dl dd
 	width                            : auto;
 }
 
+/* Team Blog *************************************************************************************/
+
+#list-section table tr td.status
+{
+	border-left: none;
+}
+
+#list-section table tr td.cancel
+{
+	border-right: none !important;
+}
+
 /* invite list */
 
 #list-section dl dt
@@ -416,19 +443,21 @@ dl dd
 
 #part-setting-filter
 {
-	height                           : 500px;
 	padding-bottom: 30px;
 }
 
 #part-setting-filter div.data-inbox
 {
+	height                           : 420px;
 	margin-top                       : 20px;
+	padding: 20px 0 0 40px;
+	width: 900px;
 }
 
 #part-setting-filter div.data-inbox .section
 {
 	float                            : left;
-	margin-left                      : 20px;
+	margin-right                      : 20px;
 	width                            : 200px;
 }
 
@@ -572,6 +601,7 @@ dl dd
 #part-data-restore div.data-inbox,
 #part-data-remove div.data-inbox
 {
+	height: 100px;
 	width                            : 470px;
 }
 
@@ -589,7 +619,7 @@ dl dd
 	font-family                      : Verdana, Tahoma, sans-serif;
 	font-size                        : 90%;
 	height                           : 49px;
-	margin                           : 0 20px 10px 15px;
+	margin                           : 10px 20px 10px 15px;
 	padding                          : 10px 10px 7px 10px;
 	text-align                       : center;
 	width                            : 80px;
@@ -827,6 +857,7 @@ div.notification-box
 
 #part-openid-linkedopenids dl
 {
+	border: none !important;
 	margin: 25px 10px 0 10px;
 	text-align: right;
 }
@@ -838,7 +869,7 @@ div.notification-box
 
 #part-openid-linkedopenids dl dd
 {
-	border                           : 3px solid #EC81CA;
+	border                           : 3px solid gray;
 	display                          : inline;
 	padding                          : 10px;
 	text-align                       : right;

@@ -37,7 +37,6 @@ body
 	color                            : #666666;
 	font-family                      : 'Lucida Grande', Arial, AppleGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
 	font-size                        : small;
-	margin                           : 14px 0 0 0
 }
 
 dl
@@ -214,28 +213,22 @@ textarea
 
 #main-description-box
 {
-	height                           : 49px;
 	position                         : relative;
 }
 
 #main-description
 {
-	bottom                           : 5px;
-	right                            : 10px;
-	position                         : absolute;
-	text-align                       : right;
 	width                            : 100%;
 }
 
 #main-description li
 {
 	display                          : inline;
-	line-height                      : 33px;
+	line-height                      : 2em;
 }
 
 #description-blogger
 {
-	float                            : left;
 	margin-left                      : 210px;
 }
 
@@ -245,7 +238,7 @@ textarea
 	background-repeat                : repeat-x;
 	position                         : absolute;
 	right                            : 85px;
-	top                              : 45px;
+	top                              : 35px;
 	padding-right                    : 2px;
 }
 
@@ -268,7 +261,7 @@ textarea
 {
 	position                         : absolute;
 	right                            : 34px;
-	top                              : 45px;
+	top                              : 35px;
 }
 
 #description-logout a
@@ -335,23 +328,23 @@ textarea
 
 #main-menu #menu-textcube
 {
-	background-image                 : url("./image/img_header_textcube.png");
+	background-image                 : url("./image/img_header_textcube.gif");
 	background-repeat                : no-repeat;
-	height                           : 70px;
-	left                             : 0;
+	height                           : 33px;
+	left                             : 20px;
 	padding                          : 0 !important;
 	position                         : absolute;
 	text-indent                      : -1000px;
-	top                              : 12px;
-	width                            : 180px;
+	top                              : 25px;
+	width                            : 151px;
 	z-index                          : 100;
 }
 
 #menu-textcube a
 {
 	display                          : block;
-	height                           : 70px;
-	width                            : 180px;
+	height                           : 33px;
+	width                            : 151px;
 }
 
 #menu-center,
@@ -394,8 +387,8 @@ textarea
 #sub-menu
 {
 	height                           : 2.1em;
-	margin                           : 0 20px 0 150px;
-	min-width                        : 840px;
+	margin                           : 0 auto;
+	width                        : 960px;
 }
 
 #sub-menu li
@@ -480,7 +473,6 @@ textarea
 	background-position              : right 5px;
 	background-repeat                : no-repeat;
 	float                            : right !important;
-	margin-right                     : 10px !important;
 	padding-right                    : 12px;
 }
 
@@ -507,7 +499,7 @@ textarea
 	border-right                     : none;
 	margin                           : 0 auto;
 	position                         : relative;
-	width                            : 980px;
+	width                            : 1000px;
 }
 
 /* data oubox -----------------------------------------------------------------------------------*/
@@ -533,10 +525,9 @@ h2.caption
 	font-size                        : 1em;
 	font-weight                      : normal;
 	line-height                      : 30px;
-	margin-bottom                    : 10px;
+	margin: 10px 0 10px 15px;
 	overflow                         : hidden;
-	padding-left                     : 30px;
-	margin-left                      : 30px;
+	padding-left                     : 22px;
 }
 
 .part .caption span,
@@ -550,9 +541,10 @@ h2.caption span
 
 .main-explain-box .explain
 {
+	background-color: #efefef;
 	line-height                      : 1.5em;
-	margin-bottom                    : 30px;
-	padding                          : 0 20px;
+	margin: 0 10px 30px 10px;
+	padding                          : 10px;
 }
 
 .main-explain-box .explain a:link,
@@ -624,6 +616,13 @@ h2.caption span
 	border-bottom                    : 2px solid #009DEA;
 	border-top                       : 2px solid #009DEA;
 	color                            : #536576;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+table.data-inbox
+{
+	background-color: transparent;
 }
 
 table.data-inbox thead tr th
@@ -1004,7 +1003,7 @@ table.data-inbox tbody tr td.inactive-class
 	display                          : block;
 	position                         : absolute;
 	top                              : 9px;
-	right                            : 20px;
+	right                            : 30px;
 	text-align                       : right;
 }
 
@@ -1021,7 +1020,7 @@ table.data-inbox tbody tr td.inactive-class
 	position                         : absolute;
 	right                            : 25px;
 	text-align                       : right;
-	top                              : 5.5em;
+	top                              : 5em;
 	width                            : 25em;
 	z-index                          : 1;
 }

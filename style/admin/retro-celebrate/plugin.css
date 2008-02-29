@@ -100,7 +100,7 @@
 	padding                          : 0 !important;
 	position                         : absolute !important;
 	text-align: right;
-	top                              : 7em;
+	top                              : 8em;
 	width                            : 400px;
 }
 
@@ -111,7 +111,7 @@
 	padding                          : 0 !important;
 	position                         : absolute !important;
 	text-align: right;
-	top                              : 9.5em;
+	top                              : 10.5em;
 	width                            : 400px;
 }
 
@@ -122,7 +122,7 @@
 
 #direct-link-line dd
 {
-	border                           : 3px solid #47B5D3 !important;
+	border                           : 3px solid gray !important;
 }
 
 #direct-link-line dd .button
@@ -145,6 +145,8 @@
 
 #part-plugin-list ol.data-inbox
 {
+	background-color: transparent;
+	border: none;
 	margin                           : 0;
 	width                            : 730px;
 }

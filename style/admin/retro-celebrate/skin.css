@@ -9,6 +9,12 @@
 
 /* Select ****************************************************************************************/
 
+#part-skin-list .data-inbox,
+#part-skin-current .data-inbox
+{
+	padding: 10px;
+}
+
 #part-skin-list .section,
 #part-skin-current .section
 {
@@ -20,6 +26,7 @@
 #part-skin-list .section .preview,
 #part-skin-current .section .preview
 {
+	background-color: #fff;
 	border                           : 1px solid #BBBBBB;
 	padding                          : 3px;
 	/*float                            : left;*/
@@ -143,7 +150,6 @@
 
 #part-skin-edit .section
 {
-	background-color                 : #F5F5F5;
 	color                            : #6B90C3;
 	font-family                      : Verdana, Arial, Tahoma, "Lucida Grande", sans-serif;
 	font-size                        : 1.1em;
@@ -244,11 +250,16 @@
 	margin-bottom                    : 20px;
 }
 
+#part-skin-setting .section
+{
+	padding: 10px;
+}
+
 #part-skin-setting fieldset
 {
 	border-top                       : 1px solid #DDDDDD;
 	padding-top                      : 1px;
-	width                            : 459px;
+	width                            : 450px;
 }
 
 #part-skin-setting dl
@@ -298,7 +309,6 @@
 
 #click-container
 {
-	display                          : block;
 	float                            : left;
 }
 
@@ -309,13 +319,12 @@
 
 #length-container
 {
-	float                            : right;
-	margin-left                      : 22px;
+	float: right;
 }
 
 #tag-setting-container
 {
-	float                            : right;
+	float                            : left;
 }
 
 #guestbook-setting-container
@@ -326,7 +335,6 @@
 #advanced-setting-container
 {
 	float                            : right;
-	margin-left                      : 22px;
 }
 
 
@@ -345,7 +353,6 @@
 
 #tree-preview-box
 {
-	background-color                 : #EEEEEE;
 	height                           : 375px;
 	left                             : 0;
 	padding                          : 10px 0;
@@ -476,7 +483,7 @@
 
 #part-sidebar-order #direct-link-line dd
 {
-	border                           : 3px solid #30A13D;
+	border                           : 3px solid gray;
 	display                          : inline;
 	padding                          : 10px;
 	text-align                       : right;
@@ -501,8 +508,9 @@
 	height                           : 903px;
 	margin                           : 0 5px 0 30px;
 	overflow                         : auto;
+	padding: 0 10px;
 	position                         : relative;
-	width                            : 600px;
+	width                            : 590px;
 	z-index                          : 100;
 }
 
@@ -695,7 +703,7 @@
 #sidebar-element-box fieldset
 {
 	background-image                 : none;
-	border                           : 1px solid #CCCCCC;
+	border: none;
 	margin-bottom                    : 5px;
 	padding                          : 7px;
 }

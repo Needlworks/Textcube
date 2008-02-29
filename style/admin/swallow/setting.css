@@ -355,6 +355,18 @@ dl dd
 	width                            : auto;
 }
 
+/* Team Blog ***************************************************************************************/
+
+#list-section table tr td.status
+{
+	border-left: none;
+}
+
+#list-section table tr td.cancel
+{
+	border-right: none !important;
+}
+
 /* invite list */
 
 #list-section dl dt

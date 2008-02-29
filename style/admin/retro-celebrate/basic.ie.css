@@ -2,11 +2,6 @@
 
 /* Layout Header **********************************************************************************/
 
-#description-blog
-{
-	padding-right                    : 7px;
-}
-
 /* main menu */
 #main-menu-box
 {
@@ -16,12 +11,8 @@
 
 #main-menu li
 {
-	height                           : 2.7em;
-}
-
-#menu-center 
-{
-	margin-left                      : 100px !important;
+	height                           : 2em;
+	line-height                      : 1.5em;
 }
 
 #main-menu #menu-textcube
