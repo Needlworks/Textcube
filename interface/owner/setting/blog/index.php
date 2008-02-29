@@ -610,7 +610,7 @@ for ($i = 5; $i <= 30; $i += 5) {
 												</select><?php echo getArrayValue(explode('%1', _t('RSS 파일의 블로그 글은 최신 %1개로 갱신됩니다.')), 1);?>
 											</dd>
 											<dd>
-												<?php echo getArrayValue(explode('%1', _t('댓글 RSS 파일의 블로그 글은 최신 %1개로 갱신됩니다.')), 0);?>
+												<?php echo getArrayValue(explode('%1', _t('댓글, 걸린글(트랙백) 및 통합 RSS의 글은 최신 %1개로 갱신됩니다.')), 0);?>
 												<select id="commentsOnRSS" name="commentsOnRSS">
 <?php
 for ($i = 5; $i <= 30; $i += 5) {
@@ -619,7 +619,7 @@ for ($i = 5; $i <= 30; $i += 5) {
 <?php
 }
 ?>
-												</select><?php echo getArrayValue(explode('%1', _t('댓글 RSS 파일의 블로그 글은 최신 %1개로 갱신됩니다.')), 1);?>
+												</select><?php echo getArrayValue(explode('%1', _t('댓글, 걸린글(트랙백) 및 통합 RSS의 글은 최신 %1개로 갱신됩니다.')), 1);?>
 											</dd>
 
 										</dl>
