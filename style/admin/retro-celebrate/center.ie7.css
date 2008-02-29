@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+/* Coverpage ***************************************************************************************/
+
+#independent-cover-line
+{
+	margin-top: -42px;
+}
+
+#coverpage-preview-mode
+{
+	background-position              : left 19px;
+}

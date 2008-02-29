@@ -1,0 +1,125 @@
+@charset "utf-8";
+
+/* Reader ****************************************************************************************/
+
+/* common ---------------------------------------------------------------------------------------*/
+.button span
+{
+	background-color                 : transparent !important;
+}
+
+/* menu -----------------------------------------------------------------------------------------*/
+#search
+{
+	background-position              : left 2px;
+	margin-top                       : -2px;
+}
+
+#search .input-text
+{
+	margin-top                       : 0 !important;
+	height                           : 1.5em;
+	padding                          : 0 !important;
+}
+
+#search .input-button
+{
+	line-height                      : 1.2em !important;
+	padding                          : 0 !important;
+}
+
+#sub-menu-helper
+{
+	top                              : 50px;
+}
+
+/* pannel ---------------------------------------------------------------------------------------*/
+#groupsAndFeeds .data-inbox
+{
+	width                            : 100%;
+}
+
+/* group box */
+#group-section
+{
+	margin-left                      : 3px;
+}
+
+#groupAdder .button-box .input-text
+{
+	margin-top                       : 0;
+	padding                          : 0 !important;
+	height                           : 1.55em;
+}
+
+#groupBox
+{
+	position                         : relative;
+	z-index                          : 30;
+}
+
+#groupEditor .button-box .input-button
+{
+	line-height                      : 1.6em !important;
+}
+
+/* feed box */
+#feed-section
+{
+	width                            : 695px;
+}
+
+#feedAdder .button-box .input-text
+{
+	margin-top                       : 0;
+	padding                          : 0 !important;
+	height                           : 1.55em;
+}
+
+ul#feedList li
+{
+	padding                          : 2px 33px 2px 16px !important;
+}
+
+#feedEditor .button-box .input-button
+{
+	line-height                      : 1.6em !important;
+}
+
+/* configure ------------------------------------------------------------------------------------*/
+#configure
+{
+	background-color                 : #D2D2CC;
+}
+
+#configure .data-inbox
+{
+	width                            : 940px;
+}
+
+#configure .button-box .input-button
+{
+	padding                          : 0 !important;
+}
+
+/* content list ---------------------------------------------------------------------------------*/
+#scrollPoint
+{
+	height                           : 620px;
+}
+
+#post-list .button-box .button span
+{
+	font-family                      : Dotum, sans-serif;
+}
+
+/* content in detail ----------------------------------------------------------------------------*/
+#entryPermalink
+{
+	right                            : 10px;
+}
+
+#entryFoot .button-box .button
+{
+	font-family                      : Dotum, sans-serif;
+}
