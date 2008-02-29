@@ -375,7 +375,7 @@ function moveCategory($blogid, $id, $direction) {
 	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE parent = $myId AND blogid = $blogid";
 	$myIsHaveChild = (POD::queryCell($sql) > 0) ? true : false;
 	$aux = $parentId == 'NULL' ? 'parent is null' : "parent = $parentId";
-	$sql = "SELECT id, parent, priority FROM {$database['prefix']}Categories WHERE $aux AND blogid = $blogid AND priority $sign $myPriority ORDER BY priority $arrange LIMIT 1";
+	$sql = "SELECT id, parent, priority FROM {$database['prefix']}Categories WHERE $aux AND blogid = $blogid AND id != 0 AND priority $sign $myPriority ORDER BY priority $arrange LIMIT 1";
 //	$canMove = (POD::queryCount($sql) > 0) ? true : false;
 	$row = POD::queryRow($sql);
 	$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
