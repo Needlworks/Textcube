@@ -934,6 +934,7 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
 	reloadSkin(1);
 ?>
 <?php echo ($changed ? _text('완료되었습니다.') : _text('확인되었습니다.'));?>
+						</span>
 					</div>
 				</div>
 
