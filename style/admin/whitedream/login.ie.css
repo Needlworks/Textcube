@@ -2,14 +2,13 @@
 
 /* Login *****************************************************************************************/
 
-dt
+#login-box
 {
-	padding-bottom                   : 0;
+	width: 215px;
 }
 
 .login-button
 {
 	height                           : 3em;
 	line-height                      : 3em;
-	right                            : 10px;
 }

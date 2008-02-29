@@ -140,7 +140,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 					</div>
 					<form method="post" action="">
 						<input type="hidden" name="requestURI" value="<?php echo htmlspecialchars($_POST['requestURI']);?>" />
-						<div id="field-box">
+						<div class="field-box">
 							<dl id="email-line">
 								<dt><label for="loginid"><?php echo _text('이메일');?></label></dt>
 								<dd><input type="text" class="input-text" id="loginid" name="loginid" value="<?php echo htmlspecialchars(empty($_POST['loginid']) ? (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : $_COOKIE['TSSESSION_LOGINID']) : $_POST['loginid']);?>" maxlength="64" tabindex="1" /></dd>
@@ -177,26 +177,34 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 						<input type="hidden" name="requestURI" value="<?php echo $_POST['requestURI']; ?>" />
 						<input type="hidden" name="need_writers" value="1" />
 						<input type="hidden" name="action" value="try_auth" />
-						<div id="openid-temp-wrap">
-							<hr size="1" />
-							<div id="openid-all-wrap">
-								<div id="openid-field-box">
-									<dl id="openid-line">
-										<dt><label for="openid_identifier"><?php echo _text('관리자 계정과 연결된 오픈아이디');?></label></dt>
-
-										<dd><input type="text" class="input-text openid-identifier-login" id="openid_identifier" name="openid_identifier" value="<?php echo $cookie_openid; ?>" maxlength="256" /></dd>
-										<dd><label><?php echo _text('예) textcube.idtail.com, textcube.myid.net'); ?></label></dd>
-										<dd><input type="submit" class="openid-login-button" id="openid-login-button" name="openid_login" value="<?php echo _text('로그인'); ?>" /></dd>
-										<dd id="openid-remember"><input type="checkbox" class="checkbox" id="openid_remember" name="openid_remember" <?php echo $openid_remember_check; ?> /><label for="openid_remember"><?php echo _text('오픈아이디 저장'); ?></label></dd>
-										<?php if( !empty( $openid_help_link ) ) { ?>
-										<dd id="openid-help"><a href="<?php echo $openid_help_link; ?>" ><?php echo _text('오픈아이디란?') ?></a></dd>
-										<?php } ?>
-										<?php if( !empty( $openid_signup_link ) ) { ?>
-										<dd><a href="<?php echo $openid_signup_link; ?>"><?php echo _text('오픈아이디 발급하기'); ?></a></dd>
-										<?php } ?>
-									</dl>
-								</div>
+						
+						<div id="openid-field-box" class="field-box">
+							<dl id="openid-line">
+								<dt><label for="openid_identifier"><?php echo _text('관리자 계정과 연결된 오픈아이디');?></label></dt>
+								<dd>
+									<input type="text" class="input-text openid-identifier-login" id="openid_identifier" name="openid_identifier" value="<?php echo $cookie_openid; ?>" maxlength="256" />
+									<p class="example"><?php echo _text('예) textcube.idtail.com, textcube.myid.net'); ?></p>
+								</dd>
+							</dl>
+							<dl id="openid-remember">
+								<dt><span class="label"><?php echo _text('선택사항');?></span></dt>
+								<dd><input type="checkbox" class="checkbox" id="openid_remember" name="openid_remember" <?php echo $openid_remember_check; ?> /><label for="openid_remember"><?php echo _text('오픈아이디 저장'); ?></label></dd>
+							</dl>
+							
+							<div class="button-box">
+								<input type="submit" class="login-button input-button" id="openid-login-button" name="openid_login" value="<?php echo _text('로그인'); ?>" />
 							</div>
+							
+							<?php if (!empty($openid_help_link) || !empty($openid_signup_link)) { ?>
+							<ul>
+								<?php if( !empty( $openid_help_link ) ) { ?>
+								<li id="openid-help"><a href="<?php echo $openid_help_link; ?>" ><?php echo _text('오픈아이디란?') ?></a></li>
+								<?php } ?>
+								<?php if( !empty( $openid_signup_link ) ) { ?>
+								<li><a href="<?php echo $openid_signup_link; ?>"><?php echo _text('오픈아이디 발급하기'); ?></a></li>
+								<?php } ?>
+							</ul>
+							<?php } ?>
 						</div>
 					</form>
 					<script type="text/javascript">

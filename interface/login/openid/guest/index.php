@@ -65,7 +65,7 @@ if( !empty($_COOKIE['openid']) ) {
 
 			            		<dd><input type="text" class="input-text openid-identifier-guest-login" id="openid_identifier" name="openid_identifier" value="<?php echo $cookie_openid ?>" maxlength="256" tabindex="1" /></dd>
 			            		<dd><input type="checkbox" class="checkbox" id="openid_remember" name="openid_remember" <?php echo $openid_remember_check ?> /><label for="openid_remember"><?php echo _text('오픈아이디 기억') ?></label></dd>
-			            		<dd><input type="submit" class="openid-login-button" name="openid_login" value="<?php echo _text('로그인');?>" /><input type="submit" class="openid-login-button" name="openid_cancel" value="<?php echo _text('취소') ?>" /></dd>
+			            		<dd><input type="submit" class="login-button input-button" name="openid_login" value="<?php echo _text('로그인');?>" /><input type="submit" class="input-button" name="openid_cancel" value="<?php echo _text('취소') ?>" /></dd>
 			            		<dd style="margin-top:5px"><a href="<?php echo $openid_help_link ?>"><?php echo _text('오픈아이디란?'); ?></a> | <a href="<?php echo $openid_signup_link; ?>"><?php echo _text('오픈아이디 발급하기');?></a></dd>
 			            		<dd><a href="http://www.idtail.com/" style="color: rgb(171, 171, 171);font-size:0.8em" target="_blank" >Technically supported by idtail.com</a></dd>
 							</dl>
