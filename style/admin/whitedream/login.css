@@ -41,6 +41,19 @@ body
 	display: none;
 }
 
+.field-box ul
+{
+	list-style-type: disc;
+	margin-top: 10px;
+}
+
+.field-box ul li
+{
+	line-height: 1.2em;
+	list-style-type: disc;
+	margin-left: 20px;
+}
+
 dt
 {
 	font-weight                      : normal !important;
@@ -86,7 +99,7 @@ hr
 	text-align: right;
 }
 
-.login-button
+.input-button
 {
 	background-color                 : #FFFFFF;
 	background-image                 : none !important;
@@ -127,9 +140,10 @@ hr
 {
 	background-color: #fff;
 	background-image: url("../../../image/icon_login_openid.gif");
+	background-position: left center;
 	background-repeat: no-repeat;
 	padding-left                     : 30px;
-	width: 180px;
+	width: 183px;
 }
 
 #openid-remember dt
@@ -143,15 +157,15 @@ hr
 	text-align: right;
 }
 
-#openid-field-box ul
+#openid-helper
 {
-	list-style-type: disc;
-	margin-top: 10px;
+	font-size: 0.9em;
+	list-style-type: none !important;
+	margin: 20px 0 0 0;
+	text-align: center;
 }
 
-#openid-field-box ul li
+#openid-helper a
 {
-	line-height: 1.2em;
-	list-style-type: disc;
-	margin-left: 20px;
+	color: #aaa;
 }

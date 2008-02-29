@@ -52,23 +52,38 @@ if( !empty($_COOKIE['openid']) ) {
         		<input type="hidden" name="action" value="try_auth" />
         		<input type="hidden" name="requestURI" value="<?php echo $requestURI; ?>" />
 				<input type="hidden" name="need_writers" value="0" />
-				<div id="data-outbox" class="openid-data-outbox" style="width:810px">
+				<div id="data-outbox">
 					<div id="login-box">
 						<div id="logo-box">
 							<img src="<?php echo $service['path'] ?>/style/admin/whitedream/image/logo_textcube.png" alt="<?php echo _text('텍스트큐브 로고'); ?>" />
-			            	<p><b><?php echo _text('텍스트큐브') .' '. _text('오픈아이디 로그인') ?></b></p>
 			            </div>
 			            
-			            <div id="field-box">
+			            <div class="field-box">
+							<h1><?php echo _text('오픈아이디 게스트 로그인'); ?></h1>
+							
 			            	<dl id="email-line">
 			            		<dt><label for="loginid"><?php echo _text('오픈아이디'); ?></label></dt>
-
 			            		<dd><input type="text" class="input-text openid-identifier-guest-login" id="openid_identifier" name="openid_identifier" value="<?php echo $cookie_openid ?>" maxlength="256" tabindex="1" /></dd>
-			            		<dd><input type="checkbox" class="checkbox" id="openid_remember" name="openid_remember" <?php echo $openid_remember_check ?> /><label for="openid_remember"><?php echo _text('오픈아이디 기억') ?></label></dd>
-			            		<dd><input type="submit" class="login-button input-button" name="openid_login" value="<?php echo _text('로그인');?>" /><input type="submit" class="input-button" name="openid_cancel" value="<?php echo _text('취소') ?>" /></dd>
-			            		<dd style="margin-top:5px"><a href="<?php echo $openid_help_link ?>"><?php echo _text('오픈아이디란?'); ?></a> | <a href="<?php echo $openid_signup_link; ?>"><?php echo _text('오픈아이디 발급하기');?></a></dd>
-			            		<dd><a href="http://www.idtail.com/" style="color: rgb(171, 171, 171);font-size:0.8em" target="_blank" >Technically supported by idtail.com</a></dd>
 							</dl>
+							<dl id="checkbox-line">
+								<dt><span class="label"><?php echo _text('선택사항');?></span></dt>
+			            		<dd><input type="checkbox" class="checkbox" id="openid_remember" name="openid_remember" <?php echo $openid_remember_check ?> /><label for="openid_remember"><?php echo _text('오픈아이디 기억') ?></label></dd>
+							</dl>
+							
+							<div class="button-box">
+								<input type="submit" class="login-button input-button" name="openid_login" value="<?php echo _text('로그인');?>" />
+								<input type="submit" class="input-button" name="openid_cancel" value="<?php echo _text('취소') ?>" />
+							</div>
+							
+		            		<ul>
+								<?php if( !empty( $openid_help_link ) ) { ?>
+								<li id="openid-help"><a href="<?php echo $openid_help_link; ?>" ><?php echo _text('오픈아이디란?') ?></a></li>
+								<?php } ?>
+								<?php if( !empty( $openid_signup_link ) ) { ?>
+								<li><a href="<?php echo $openid_signup_link; ?>"><?php echo _text('오픈아이디 발급하기'); ?></a></li>
+								<?php } ?>
+								<li id="openid-helper"><?php echo sprintf(_text('Technically supported by %s'), '<a href="http://www.idtail.com/">idtail.com</a>');?></li>
+							</ul>
 						</div>
 					</div>
 				</div>
