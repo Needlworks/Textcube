@@ -292,7 +292,7 @@ function getCommentList($blogid, $search) {
 	global $database;
 	$list = array('title' => "$search", 'items' => array());
 	$search = escapeSearchString($search);
-	$authorized = doesHaveOwnership() ? '' : 'AND c.secret = 0 AND e.category NOT IN ('.getCategoryVisibilityList($blogid,'private').')';
+	$authorized = doesHaveOwnership() ? '' : 'AND c.secret = 0 '.getPrivateCategoryExclusionQuery($blogid);
 	if ($result = POD::queryAll("SELECT c.id, c.entry, c.parent, c.name, c.comment, c.written, e.slogan
 		FROM {$database['prefix']}Comments c
 		INNER JOIN {$database['prefix']}Entries e ON c.entry = e.id AND c.blogid = e.blogid
