@@ -250,7 +250,6 @@ function api_make_post( $param, $ispublic, $postid = -1 )
 	$param['mt_allow_pings'] = array_key_exists('mt_allow_pings', $param) ? $param['mt_allow_pings'] : '';
 	$param['mt_keywords'] = array_key_exists('mt_keywords', $param) ? $param['mt_keywords'] : '';
 
-	global $arr_hint;
 	if( api_getHint("TagsFromCategories") )
 	{
 		$post->tags = array_merge( $param['categories'], explode(',', $param['mt_excerpt']) , $param['tagwords'] );
@@ -288,7 +287,7 @@ function api_make_post( $param, $ispublic, $postid = -1 )
 function api_get_post( $post, $type = "bl" )
 { 
 	$post->loadTags();
-	$params = func_get_args();
+	//$params = func_get_args();
 	global $hostURL, $blogURL;
 	return array( 
 			"userid" => "",
@@ -777,8 +776,6 @@ function metaWeblog_getRecentPosts()
 		return $result;
 	}
 
-	global $blog;
-
 	$post = new Post();
 	$post->open();
 	$out = array();
@@ -863,7 +860,7 @@ function mt_setPostCategories()
 
 	$category = null;
 	if (is_null($params[3])) $params[3] = array();
-	foreach( $params[3] as $index => $cat )
+	foreach( $params[3] as $cat )
 	{
 		if(array_key_exists('isPrimary', $cat) && $cat['isPrimary'] )
 		{
@@ -937,7 +934,6 @@ function metaWeblog_newMediaObject()
 	{
 		return $result;
 	}
-	$mediaOjbect = $params[3]['bits'];
 
 	$file = array( 
 		'name' => $params[3]['name'],
@@ -951,7 +947,6 @@ function metaWeblog_newMediaObject()
 		return new XMLRPCFault( 1, "Can't create file" );
 	}
 	
-	global $service;
 	$attachurl = array ( 'url' => 'http://tt_attach_path/' .  $attachment['name']);
 	return $attachurl;
 }
@@ -988,8 +983,6 @@ function mt_getRecentPostTitles() /* blogid, username, password, count */
 	{
 		return $result;
 	}
-
-	global $blog;
 
 	$post = new Post();
 	$post->open();

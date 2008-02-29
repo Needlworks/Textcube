@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 function setBlogTitle($blogid, $title) {
-	global $database, $blog;
+	global $blog;
 	requireModel('blog.rss');
 	if ($title == $blog['title'])
 		return true;
@@ -15,7 +15,7 @@ function setBlogTitle($blogid, $title) {
 }
 
 function setBlogDescription($blogid, $description) {
-	global $database, $blog;
+	global $blog;
 	requireModel('blog.rss');
 	if ($description == $blog['description'])
 		return true;
@@ -41,7 +41,7 @@ function getBlogTags($blogid) {
 }
 
 function removeBlogLogo($blogid) {
-	global $database, $blog;
+	global $blog;
 	requireModel('blog.attachment');
 	
 	if(setBlogSetting('logo','') === false) return false;
@@ -50,11 +50,10 @@ function removeBlogLogo($blogid) {
 		$blog['logo'] = '';
 		return true;
 	}
-	return false;
 }
 
 function changeBlogLogo($blogid, $file) {
-	global $database, $blog;
+	global $blog;
 	requireModel('blog.attachment');
 	if (($attachment = addAttachment($blogid, - 1, $file)) === false) {
 		return false;
@@ -76,7 +75,7 @@ function checkBlogName($name) {
 }
 
 function setPrimaryDomain($blogid, $name) {
-	global $database, $service, $blog;
+	global $database, $blog;
 	requireModel('blog.rss');
 	$name = UTF8::lessenAsEncoding(strtolower(trim($name)), 32);
 	if ($name == $blog['name'])
@@ -119,7 +118,7 @@ function setSecondaryDomain($blogid, $domain) {
 }
 
 function setDefaultDomain($blogid, $default) {
-	global $database, $blog;
+	global $blog;
 	requireModel('blog.rss');
 	$default = $default == 1 ? 1 : 0;
 	if (empty($blog['secondaryDomain']) && $default == 1)
@@ -135,7 +134,7 @@ function setDefaultDomain($blogid, $default) {
 }
 
 function useBlogSlogan($blogid, $useSlogan) {
-	global $database, $blog;
+	global $blog;
 	requireModel('blog.rss');
 	requireComponent('Needlworks.Cache.PageCache');
 	$useSlogan = $useSlogan ? 1 : 0;
@@ -153,7 +152,7 @@ function useBlogSlogan($blogid, $useSlogan) {
 }
 
 function publishPostEolinSyncOnRSS($blogid, $publishEolinSyncOnRSS) {
-	global $database, $blog;
+	global $blog;
 	requireModel('blog.rss');
 	$publishEolinSyncOnRSS = $publishEolinSyncOnRSS ? 1 : 0;
 	if ($publishEolinSyncOnRSS == $blog['publishEolinSyncOnRSS'])
@@ -166,7 +165,7 @@ function publishPostEolinSyncOnRSS($blogid, $publishEolinSyncOnRSS) {
 }
 
 function setEntriesOnRSS($blogid, $entriesOnRSS) {
-	global $database, $blog;
+	global $blog;
 	requireModel('blog.rss');
 	if ($entriesOnRSS == $blog['entriesOnRSS'])
 		return true;
@@ -177,7 +176,7 @@ function setEntriesOnRSS($blogid, $entriesOnRSS) {
 }
 
 function setCommentsOnRSS($blogid, $commentsOnRSS) {
-	global $database, $blog;
+	global $blog;
 	requireModel('blog.rss');
 	if ($commentsOnRSS == $blog['commentsOnRSS'])
 		return true;
@@ -190,7 +189,7 @@ function setCommentsOnRSS($blogid, $commentsOnRSS) {
 }
 
 function setPublishWholeOnRSS($blogid, $publishWholeOnRSS) {
-	global $database, $blog;
+	global $blog;
 	requireModel('blog.rss');
 	$publishWholeOnRSS = $publishWholeOnRSS ? 1 : 0;
 	if ($publishWholeOnRSS == $blog['publishWholeOnRSS'])
@@ -202,7 +201,7 @@ function setPublishWholeOnRSS($blogid, $publishWholeOnRSS) {
 }
 
 function setBlogLanguage($blogid, $language, $blogLanguage) {
-	global $database, $blog;
+	global $blog;
 	requireModel('blog.rss');
 	if (($language == $blog['language']) && ($blogLanguage == $blog['blogLanguage']))
 		return true;
@@ -217,7 +216,6 @@ function setBlogLanguage($blogid, $language, $blogLanguage) {
 }
 
 function setGuestbook($blogid, $write, $comment) {
-	global $database, $blog;
 	if (!is_numeric($write) || !is_numeric($comment))
 		return false;
 	if(setBlogSetting('allowWriteOnGuestbook',$write) && setBlogSetting('allowWriteDblCommentOnGuestbook',$comment)) {
@@ -226,7 +224,7 @@ function setGuestbook($blogid, $write, $comment) {
 }
 
 function addBlog($blogid, $userid, $identify) {
-	global $database, $service, $blogURL, $hostURL, $user, $blog;
+	global $database, $service;
 
 	if(empty($userid)) {
 		$userid = 1; // If no userid, choose the service administrator.
@@ -328,7 +326,7 @@ function addBlog($blogid, $userid, $identify) {
 			VALUES('$blogid', '$userid', '16', UNIX_TIMESTAMP(), '0')")) return true;
 		else return 65;
 	}
-	return true;
+	//return true; // unreachable code
 }
 
 function getInvited($userid) {
@@ -347,7 +345,7 @@ function getBlogName($blogid) {
 }
 
 function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $senderEmail) {
-	global $database, $service, $blogURL, $hostURL, $user, $blog;
+	global $database, $service, $hostURL;
 	if(empty($blogid)) {
 		$blogid = POD::queryCell("SELECT max(blogid)
 			FROM {$database['prefix']}BlogSettings"); // If no blogid, get the latest created blogid.
@@ -368,10 +366,10 @@ function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $sen
 
 	if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return 11;
 
-	$loginid = POD::escapeString(UTF8::lessenAsEncoding($email, 64));	
+	//$loginid = POD::escapeString(UTF8::lessenAsEncoding($email, 64));	
 	$name = POD::escapeString(UTF8::lessenAsEncoding($name, 32));
 
-	$headers = 'From: ' . encodeMail($senderName) . '<' . $senderEmail . ">\n" . 'X-Mailer: ' . TEXTCUBE_NAME . "\n" . "MIME-Version: 1.0\nContent-Type: text/html; charset=utf-8\n";
+	//$headers = 'From: ' . encodeMail($senderName) . '<' . $senderEmail . ">\n" . 'X-Mailer: ' . TEXTCUBE_NAME . "\n" . "MIME-Version: 1.0\nContent-Type: text/html; charset=utf-8\n";
 	if (empty($name))
 		$subject = _textf('귀하를 %1님이 초대합니다', $senderName);
 	else
@@ -444,28 +442,16 @@ function changeAPIKey($userid, $key) {
 function deleteBlog($blogid) {
 	global $database;
 	if($blogid == 1) return false;
-	if (POD::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $blogid")) {
-		if (POD::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $blogid")) {
-			if (POD::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `blogid` = $blogid")) {
-				if(POD::execute("DELETE FROM `{$database['prefix']}FeedGroups` WHERE `blogid` = $blogid")) {
-					if(POD::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE `blogid` = '$blogid'")) {
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
-	} else {
-		return false;
-	}
-	return true;
+	if (POD::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $blogid")
+		&& POD::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $blogid")
+		&& POD::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `blogid` = $blogid")
+		&& POD::execute("DELETE FROM `{$database['prefix']}FeedGroups` WHERE `blogid` = $blogid")
+		&& POD::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE `blogid` = '$blogid'")
+	)
+	{
+		return true;
+	} 
+	return false;
 }
 
 function removeBlog($blogid) {
@@ -526,9 +512,8 @@ function removeBlog($blogid) {
 	}
 
 	//Clear Plugin Database
-	$query = "SELECT name, value FROM {$database['prefix']}ServiceSettings WHERE name like 'Database\_%'";
+	$query = "SELECT name, value FROM {$database['prefix']}ServiceSettings WHERE name like 'Database\\_%'";
 	$plugintablesraw = POD::queryAll($query);
-	$plugintables = array();
 	foreach($plugintablesraw as $table) {
 		$dbname = $database['prefix'] . substr($table['name'], 9);
 		POD::execute("DELETE FROM {$database['prefix']}{$dbname} WHERE blogid = $blogid");

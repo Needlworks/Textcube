@@ -36,6 +36,7 @@ function timeInterval($start, $current) {
 	} else if (31104000 <= $interval) {
 		return ceil($interval / 60 / 60 / 24 / 30 / 12) . _text('년');
 	}
+	return ceil($interval / 60 / 60 / 24 / 30 / 12 / 100) . _test('세기');
 }
 
 function getTimeFromPeriod($period) {
@@ -81,5 +82,6 @@ function getPeriodLabel($period) {
 		case 8:
 			return substr($name, 0, 4) . '/' . substr($name, 4, 2) . '/' . substr($name, 6) . '';
 	}
+	return '';
 }
 ?>

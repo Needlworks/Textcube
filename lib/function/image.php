@@ -37,7 +37,7 @@ function resampleImage($imgString, $originSrc, $useAbsolutePath) {
 		$tempHeight = '';
 	}
 
-	$newTempFileName = preg_replace("/\.([[:alnum:]]+)$/i", ".w{$tempWidth}-h{$tempHeight}.\\1", $originFileName);
+	$newTempFileName = preg_replace("/\\.([[:alnum:]]+)$/i", ".w{$tempWidth}-h{$tempHeight}.\\1", $originFileName);
 	$tempSrc = ROOT."/cache/thumbnail/".getBlogId()."/".$newTempFileName;
 	
 	//$tempURL = "{$pathURL}/thumbnail/".getBlogId()."/".$newTempFileName;

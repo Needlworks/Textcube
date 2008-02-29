@@ -79,7 +79,6 @@ function getCategoryLabelById($blogid, $id) {
 }
 
 function getCategoryLinkById($blogid, $id) {
-	global $database;
 	if (($id === null) || ($id === 0))
 		return '';
 	$result = getCategoryNameById($blogid,$id);
@@ -141,7 +140,7 @@ function getCategoryVisibilityList($blogid, $mode = 'private') {
 				$visibility = 1;
 		}
 		if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-		if($list = MMCache::queryColumn($__gCacheCategoryRaw,'visibility',1,'id')) {
+		if($list = MMCache::queryColumn($__gCacheCategoryRaw,'visibility',$visibility,'id')) {
 			$__gCacheCategoryVisibilityList[$mode] = implode(', ',$list);
 		} else {
 			$__gCacheCategoryVisibilityList[$mode] = array();
@@ -157,7 +156,7 @@ function getPrivateCategoryExclusionQuery($blogid) {
 }
 
 function getCategoriesSkin() {
-	global $database, $service;
+	global $service;
 	$setting = getSkinSetting(getBlogId());
 	$skin = array('name' => "{$setting['skin']}", 
 			'url'               => $service['path'] . "/image/tree/{$setting['tree']}", 
@@ -184,7 +183,7 @@ function getParentCategoryId($blogid, $id) {
 function getNumberChildCategory($id = null) {
 	global $database;
 	$sql = "SELECT * FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND parent " . ($id === null ? 'IS NULL' : "= $id");
-	$result = POD::queryRow($sql);
+	//$result = POD::queryRow($sql);
 	return POD::queryCell($sql);
 }
 
@@ -280,11 +279,11 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 		LEFT JOIN {$database['prefix']}Categories p ON c.parent = p.id 
 		WHERE c.blogid = $blogid AND c.id = $id");
 	$label = $row['name'];
-	$parentId = $row['id'];	
-	if (!empty($parentId)) {
-		$parentStr = "AND parent = $parentId";
-	} else
-		$parentStr = 'AND parent is null';
+//	$parentId = $row['id'];	
+//	if (!empty($parentId)) {
+//		$parentStr = "AND parent = $parentId";
+//	} else
+//		$parentStr = 'AND parent is null';
 	$name = POD::escapeString(UTF8::lessenAsEncoding($name, 127));
 	$bodyid = POD::escapeString(UTF8::lessenAsEncoding($bodyid, 20));
 	if(POD::queryExistence("SELECT name
@@ -353,10 +352,10 @@ function moveCategory($blogid, $id, $direction) {
 	$myParent = '';
 	$parentId = '';
 	$parentPriority = '';
-	$parentParent = '';
+//	$parentParent = '';
 	$myIsHaveChild = '';
 	$nextId = '';
-	$nextParentId = '';
+//	$nextParentId = '';
 	$nextPriority = '';
 	$sql = "SELECT 
 				_parent.id AS parentId,
@@ -371,16 +370,16 @@ function moveCategory($blogid, $id, $direction) {
 	$myParent = is_null($row['myParent']) ? 'NULL' : $row['myParent'];
 	$parentId = is_null($row['parentId']) ? 'NULL' : $row['parentId'];
 	$parentPriority = is_null($row['parentPriority']) ? 'NULL' : $row['parentPriority'];
-	$parentParent = is_null($row['parentParent']) ? 'NULL' : $row['parentParent'];
+//	$parentParent = is_null($row['parentParent']) ? 'NULL' : $row['parentParent'];
 	$myPriority = $row['myPriority'];
 	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE parent = $myId AND blogid = $blogid";
 	$myIsHaveChild = (POD::queryCell($sql) > 0) ? true : false;
 	$aux = $parentId == 'NULL' ? 'parent is null' : "parent = $parentId";
 	$sql = "SELECT id, parent, priority FROM {$database['prefix']}Categories WHERE $aux AND blogid = $blogid AND priority $sign $myPriority ORDER BY priority $arrange LIMIT 1";
-	$canMove = (POD::queryCount($sql) > 0) ? true : false;
+//	$canMove = (POD::queryCount($sql) > 0) ? true : false;
 	$row = POD::queryRow($sql);
 	$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
-	$nextParentId = is_null($row['parent']) ? 'NULL' : $row['parent'];
+//	$nextParentId = is_null($row['parent']) ? 'NULL' : $row['parent'];
 	$nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
 	// 이동할 자신이 1 depth 카테고리일 때.
 	if ($myParent == 'NULL') {
@@ -457,7 +456,7 @@ function moveCategory($blogid, $id, $direction) {
 				$result = POD::queryAll($sql);
 				foreach($result as $row) {
 					$nextId = $row['id'];
-					$nextParentId = $row['parent'];
+//					$nextParentId = $row['parent'];
 					$nextPriority = $row['priority'];
 					
 					// 위치를 바꿀 대상 카테고리에 같은 이름이 존재하는지 판별.
@@ -542,7 +541,6 @@ function getCategoryVisibility($blogid, $id) {
 }
 
 function getParentCategoryVisibility($blogid, $id) {
-	global $database;
 	if($id == 0) return false;
 	$categories = getCategories($blogid,'raw');
 	$parentId = $categories[$id]['parent'];
