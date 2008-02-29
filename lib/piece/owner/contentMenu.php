@@ -146,7 +146,11 @@ if(isset($blogContentMenuItem)) {
 			}
 		} else {
 			$PostIdStr = $contentMenuItem['menu'];
-			if(($blogMenu['contentMenu'] == $contentMenuItem['menu'] || (isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) || ($contentMenuItem['menu'] == 'trash' && strpos($blogMenu['contentMenu'],'trash') !== false))) {
+			if(($blogMenu['contentMenu'] == $contentMenuItem['menu'] 
+				|| (isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) 
+				|| ($contentMenuItem['menu'] == 'trash' && strpos($blogMenu['contentMenu'],'trash') !== false)
+				|| (in_array($contentMenuItem['menu'],array('blog','user')) && strpos($blogMenu['contentMenu'],'detail') !== false)
+				)) {
 				$submenuURL = $blogMenu['contentMenu'];
 			}
 		}
