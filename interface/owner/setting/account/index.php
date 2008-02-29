@@ -376,12 +376,16 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 
 								<hr class="hidden" />
 							</div>
-
-							<div id="part-setting-account" class="part">
+						</div>
+						
+						<div id="part-setting-account" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('대표 주소');?></span></h2>
-								<div class="main-explain-box">
-									<p class="explain"><?php echo _t("댓글 및 필자 정보에 사용되는 대표 홈페이지 주소를 설정합니다.")?></p>
-								</div>
+							
+							<div class="main-explain-box">
+								<p class="explain"><?php echo _t("댓글 및 필자 정보에 사용되는 대표 홈페이지 주소를 설정합니다.")?></p>
+							</div>
+							
+							<div class="data-inbox">
 <?php
 $hptype = User::getHomepageType();
 $blogs = User::getBlogs();
@@ -435,7 +439,8 @@ if(!empty($blogs)) {
 							<div class="main-explain-box">
 								<p class="explain"><?php echo _t("오픈아이디를 현재 계정에 연결합니다.").' '._t('연결한 오픈아이디로 이 계정에 로그인 할 수 있습니다.');?></p>
 							</div>
-							<table class="data-inbox" cellspacing="0" cellpadding="0">
+							
+							<table class="data-inbox">
 								<thead>
 									<tr>
 										<th class="site"><span class="text"><?php echo _t('오픈아이디')?></span></th>
@@ -475,7 +480,7 @@ if( $i > 0 ) { /* 출력된것이 하나라도 있다면*/
 <?php
 }
 ?>
-							<div class="data-inbox">
+							<div class="data-subbox">
 <?php
 if( isActivePlugin( 'CL_OpenID' ) || Acl::check('group.administrators') ) {
 ?>

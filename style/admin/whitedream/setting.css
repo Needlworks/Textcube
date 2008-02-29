@@ -355,6 +355,19 @@ dl dd
 	width                            : auto;
 }
 
+
+/* Team Blog ***************************************************************************************/
+
+#list-section table tr td.status
+{
+	border-left: none;
+}
+
+#list-section table tr td.cancel
+{
+	border-right: none !important;
+}
+
 /* invite list */
 
 #list-section dl dt
@@ -572,7 +585,7 @@ dl dd
 #part-data-restore div.data-inbox,
 #part-data-remove div.data-inbox
 {
-	width                            : 470px;
+	width                            : 450px;
 }
 
 #part-data-correct div.data-inbox .image,

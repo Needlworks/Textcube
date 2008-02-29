@@ -175,6 +175,20 @@ if (false) forceCheckBlog('');
 									request.send("removeAttachments=" + (removeAttachments.checked ? "1" : "0") + "&confirmativePassword=" + encodeURIComponent(confirmativePassword.value));
 									hideDialog();
 								}
+								
+								//window.addEventListener("load", execLoadFunction, false);
+								
+								function execLoadFunction() {
+									if (STD.isIE6) {
+										var pluginIcons = document.getElementsByTagName('img');
+										
+										for (var i=0; i<pluginIcons.length; ++i) {
+											var temp = pluginIcons[i].src;
+											pluginIcons[i].setAttribute('src', "<?php echo $service['path'];?>/image/spacer.gif");
+											pluginIcons[i].style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' + temp + '", sizingMethod="scale")';
+										}
+									}
+								}
 							//]]>
 						</script>
 						

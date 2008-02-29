@@ -113,23 +113,26 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 	
 	<div id="part-setting-admin" class="part">
 		<h2 class="caption"><span class="main-text"><?php echo _t('댓글/방명록 설정')?></span></h2>
-		<form action="<?php echo $blogURL;?>/owner/setting/openid/change" method="post">
-			<fieldset class="container">
-				<dl>
-					<dd>
-						<input id="openidonlycomment" type="checkbox" name="openidonlycomment" <?php echo $openidonlycomment?> />
-						<label for="openidonlycomment"><?php echo _t('오픈아이디로 로그인을 해야만 댓글 및 방명록을 쓸 수 있습니다.') ?></label>
-					</dd>
-					<dd>
-						<input id="openidlogodisplay" type="checkbox" name="openidlogodisplay" <?php echo $openidlogodisplay?> />
-						<label for="openidlogodisplay"><?php echo _t('오픈아이디로 로그인하여 쓴 댓글/방명록에 오픈아이디 아이콘을 표시합니다.') ?></label>
-					</dd>
-				</dl>
-			</fieldset>
-			<div class="button-box">
-				<input type="submit" class="save-button input-button" value="<?php echo _t('변경하기');?>" onclick="save(); return false;" />
-			</div>
-		</form>
+		
+		<div class="data-inbox">
+			<form action="<?php echo $blogURL;?>/owner/setting/openid/change" method="post">
+				<fieldset class="container">
+					<dl>
+						<dd>
+							<input id="openidonlycomment" type="checkbox" name="openidonlycomment" <?php echo $openidonlycomment?> />
+							<label for="openidonlycomment"><?php echo _t('오픈아이디로 로그인을 해야만 댓글 및 방명록을 쓸 수 있습니다.') ?></label>
+						</dd>
+						<dd>
+							<input id="openidlogodisplay" type="checkbox" name="openidlogodisplay" <?php echo $openidlogodisplay?> />
+							<label for="openidlogodisplay"><?php echo _t('오픈아이디로 로그인하여 쓴 댓글/방명록에 오픈아이디 아이콘을 표시합니다.') ?></label>
+						</dd>
+					</dl>
+				</fieldset>
+				<div class="button-box">
+					<input type="submit" class="save-button input-button" value="<?php echo _t('변경하기');?>" onclick="save(); return false;" />
+				</div>
+			</form>
+		</div>
 	</div>
 <?php
 	if( Acl::check( 'group.owners' ) ) { /* 블로그 주소를 오픈아이디로 사용 */ 
@@ -137,15 +140,17 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 	
 	<div id="part-openid-blogaddress" class="part">
 		<h2 class="caption"><span class="main-text"><?php echo _t('블로그 주소를 오픈아이디로 사용')?></span></h2>
-		<form>
-			<fieldset class="container">
-				<dl>
-					<dt class="hidden"><?php echo _t('오픈아이디로 사용할 블로그 주소를 선택하세요');?></dt>
-					<dd>
+		
+		<div class="data-inbox">
+			<form>
+				<fieldset class="container">
+					<dl>
+						<dt class="hidden"><?php echo _t('오픈아이디로 사용할 블로그 주소를 선택하세요');?></dt>
+						<dd>
 <?php
 		$currentDelegate = setting::getBlogSettingGlobal( 'OpenIDDelegate', '' );
 ?>
-						<select id="openid_for_delegation">
+							<select id="openid_for_delegation">
 <?php
 		print "<option value='' >" . _t('블로그 주소를 오픈아이디로 사용하지 않음') . "</option>";
 		foreach( $openid_list as $openid_identity ) {
@@ -156,16 +161,17 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 			print "<option value='$openid_identity' $selected>" . $openid_identity . "</option>";
 		}
 ?>
-						</select>
-						<input type="button" onclick="setDelegate(); return false" value="<?php echo _t('확인') ?>" class="save-button input-button" />
+							</select>
+							<input type="button" onclick="setDelegate(); return false" value="<?php echo _t('확인') ?>" class="save-button input-button" />
 						
-						<p class="text">
-							<?php echo sprintf( _t('블로그 주소(%s)를 소유자 계정에 연결된 오픈아이디 중 하나에 위임하여 오픈아이디로 사용할 수 있습니다.'), "$hostURL$blogURL"); ?>
-						</p>
-					</dd>
-				</dl>
-			</fieldset>
-		</form>
+							<p class="text">
+								<?php echo sprintf( _t('블로그 주소(%s)를 소유자 계정에 연결된 오픈아이디 중 하나에 위임하여 오픈아이디로 사용할 수 있습니다.'), "$hostURL$blogURL"); ?>
+							</p>
+						</dd>
+					</dl>
+				</fieldset>
+			</form>
+		</div>
 	</div>
 	
 	<div id="part-openid-linkedopenids" class="part">
