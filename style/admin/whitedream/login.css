@@ -29,11 +29,11 @@ body
 {
 	background-image: url("./image/img_login_logo.png");
 	background-repeat: no-repeat;
-	height: 41px;
+	height: 44px;
 	left: 6px;
 	position: absolute;
-	bottom: 12px;
-	width: 166px;
+	bottom: 9px;
+	width: 175px;
 }
 
 #logo-box img
