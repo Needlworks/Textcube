@@ -348,14 +348,13 @@ class Post {
 	/*@protected@*/
 	function addTags() {
 		// Don't call outside of object!
-		global $database;
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
 		if (!is_array($this->tags)) {
 			$this->tags = Post::getTagsWithEntryString($this->tags);
 		}
 		if (empty($this->tags))
-			return;
+			return true;
 		
 		requireComponent('Textcube.Data.Tag');
 		Tag::addTagsWithEntryId(getBlogId(), $this->id, $this->tags);
@@ -366,7 +365,6 @@ class Post {
 	/*@protected@*/
 	function updateTags() {
 		// Don't call outside of object!
-		global $database;
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
 		if (!is_array($this->tags)) {

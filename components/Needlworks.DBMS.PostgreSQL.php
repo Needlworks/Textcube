@@ -27,6 +27,7 @@ class DBQuery {
 		else
 			$database['utf8'] = false;
 		@POD::query('SET SESSION collation_connection = \'utf8_general_ci\'');
+		return true;
 	}
 	
 	/*@static@*/
