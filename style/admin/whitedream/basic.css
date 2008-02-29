@@ -299,7 +299,7 @@ textarea
 {
 	background-image                 : url("./image/img_header_textcube.png");
 	background-repeat                : no-repeat;
-	height                           : 90px;
+	height                           : 70px;
 	left                             : 0;
 	padding                          : 0 !important;
 	position                         : absolute;
@@ -312,8 +312,8 @@ textarea
 #menu-textcube a
 {
 	display                          : block;
-	height                           : 33px;
-	width                            : 151px;
+	height                           : 70px;
+	width                            : 180px;
 }
 
 /* Layout Body ***********************************************************************************/
