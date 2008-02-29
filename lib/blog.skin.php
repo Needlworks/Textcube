@@ -140,7 +140,7 @@ class Skin {
 					$taglength = 19; //strlen('<s_sidebar_element>');
 					$rgSidebarContent[$i] = substr($rgSidebarContent[$i], $taglength, strlen($rgSidebarContent[$i]) - 39);//2*$taglength - 1);
 					// - 각 모듈을 나중에 가져다 쓰기 위해 기본 모듈 배열 안에 저장한다.
-					preg_match("/<!\-\-(.+)\-\->/", $rgSidebarContent[$i], $temp);
+					preg_match("/<!\\-\\-(.+)\\-\\->/", $rgSidebarContent[$i], $temp);
 					if (isset($temp[1])) {
 						$tempTitle = trim($temp[1]);
 					} else {
@@ -156,7 +156,7 @@ class Skin {
 				} else {
 					$firstPos = $matches[0][1];
 				}
-				preg_match("/<!\-\-(.+)\-\->/", substr($this->sidebarOriginalContent[$sidebarCount],0,$firstPos - 1), $temp);
+				preg_match("/<!\\-\\-(.+)\\-\\->/", substr($this->sidebarOriginalContent[$sidebarCount],0,$firstPos - 1), $temp);
 				if (isset($temp[1])) {
 					$tempTitle = trim($temp[1]);
 				} else {
@@ -608,7 +608,7 @@ function addAttributeCore(& $string, $regex, $addings, $mi = null, $count = 1000
 		/* Does the tag have already add_attr attribute? */
 		if( preg_match( $regex_attr, $match[2], $attr_match ) ) {
 			/* Does not the attribute have add_value value? */
-			if( !preg_match( "/\b$add_value\b/i", $attr_match[2] ) ) {
+			if( !preg_match( "/\\b$add_value\\b/i", $attr_match[2] ) ) {
 				if( !empty( $attr_match[2] ) ) {
 					$attr_match[2] .= ' ';
 				}
@@ -616,7 +616,7 @@ function addAttributeCore(& $string, $regex, $addings, $mi = null, $count = 1000
 			} else {
 			}
 		} else {
-			$match[$mi[1]] = preg_replace( "/(.*?)(\/?>)/", "\\1 $add_attr=\"$add_value\"\\2", $match[$mi[1]], 1 );
+			$match[$mi[1]] = preg_replace( "/(.*?)(\\/?>)/", "\\1 $add_attr=\"$add_value\"\\2", $match[$mi[1]], 1 );
 		}
 	}
 	return $match[$mi[0]].$match[$mi[1]].addAttributeCore($match[$mi[2]],$regex,$addings,$mi, $count-1);
@@ -624,7 +624,7 @@ function addAttributeCore(& $string, $regex, $addings, $mi = null, $count = 1000
 
 function addAttribute(& $skin, $tag, $cond_attr, $cond_value, $addings, $count = 10000) {
 	if( !empty($cond_attr ) && !empty($cond_value) ) {
-		$needle = "/(.*?)(<$tag\s+[^>]*{$cond_attr}=[\"'][^\"'>]*{$cond_value}[^\"'>]*[\"'][^>]*>)(.*)/s";
+		$needle = "/(.*?)(<$tag\\s+[^>]*{$cond_attr}=[\"'][^\"'>]*{$cond_value}[^\"'>]*[\"'][^>]*>)(.*)/s";
 	} else {
 		$needle = "/(.*?)(<{$tag}[^>]*>)(.*)/s";
 	}

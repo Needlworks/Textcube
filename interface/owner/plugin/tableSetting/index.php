@@ -90,7 +90,7 @@ if ($dbCaseInsensitive == true) {
 	$dbtables = array_values(array_diff($dbtables, $definedTables));
 }
 
-$query = "SELECT name, value FROM {$database['prefix']}ServiceSettings WHERE name like 'Database\_%'";
+$query = "SELECT name, value FROM {$database['prefix']}ServiceSettings WHERE name like 'Database\\_%'";
 $plugintablesraw = POD::queryAll($query);
 $plugintables = array();
 foreach($plugintablesraw as $table) {

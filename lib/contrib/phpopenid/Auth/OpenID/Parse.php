@@ -95,19 +95,19 @@ class Auth_OpenID_Parse {
      * Stuff to remove before we start looking for tags
      */
     var $_removed_re =
-           "<!--.*?-->|<!\[CDATA\[.*?\]\]>|<script\b(?!:)[^>]*>.*?<\/script>";
+           "<!--.*?-->|<!\\[CDATA\\[.*?\\]\\]>|<script\\b(?!:)[^>]*>.*?<\\/script>";
 
     /**
      * Starts with the tag name at a word boundary, where the tag name
      * is not a namespace
      */
-    var $_tag_expr = "<%s\b(?!:)([^>]*?)(?:\/>|>(.*?)(?:<\/?%s\s*>|\Z))";
+    var $_tag_expr = "<%s\\b(?!:)([^>]*?)(?:\\/>|>(.*?)(?:<\\/?%s\\s*>|\\Z))";
 
     var $_attr_find = '\b(\w+)=("[^"]*"|\'[^\']*\'|[^\'"\s\/<>]+)';
 
     function Auth_OpenID_Parse()
     {
-        $this->_link_find = sprintf("/<link\b(?!:)([^>]*)(?!<)>/%s",
+        $this->_link_find = sprintf("/<link\\b(?!:)([^>]*)(?!<)>/%s",
                                     $this->_re_flags);
 
         $this->_entity_replacements = array(
@@ -169,7 +169,7 @@ class Auth_OpenID_Parse {
     {
         $matches = array();
         $double = '/^"(.*)"$/';
-        $single = "/^\'(.*)\'$/";
+        $single = "/^'(.*)'$/";
 
         if (preg_match($double, $str, $matches)) {
             return $matches[1];

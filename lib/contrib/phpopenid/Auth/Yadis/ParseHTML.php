@@ -31,7 +31,7 @@ class Auth_Yadis_ParseHTML {
      * @access private
      */
     var $_removed_re =
-           "<!--.*?-->|<!\[CDATA\[.*?\]\]>|<script\b(?!:)[^>]*>.*?<\/script>";
+           "<!--.*?-->|<!\\[CDATA\\[.*?\\]\\]>|<script\\b(?!:)[^>]*>.*?<\\/script>";
 
     /**
      * @access private
@@ -101,7 +101,7 @@ class Auth_Yadis_ParseHTML {
     {
         $matches = array();
         $double = '/^"(.*)"$/';
-        $single = "/^\'(.*)\'$/";
+        $single = "/^'(.*)'$/";
 
         if (preg_match($double, $str, $matches)) {
             return $matches[1];

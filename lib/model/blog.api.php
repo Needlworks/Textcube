@@ -400,7 +400,7 @@ function api_addAttachment($blogid,$parent,$file) {
 
 function api_get_attaches( $content)
 {
-	preg_match_all( "/attach\/".getBlogId()."\/(ta.{7}tt.{7}er.{7}\.[a-z]{2,5})/", $content, $matches );
+	preg_match_all( "/attach\\/".getBlogId()."\\/(ta.{7}tt.{7}er.{7}\\.[a-z]{2,5})/", $content, $matches );
 	return $matches[1];
 }
 

@@ -1440,10 +1440,10 @@ function addOpenIDPannel( $comment, $prefix )
 		$openid_input = preg_replace( '/(name=(?:"|\'))/', $disabled1.' $1', $openid_input );
 	}
 	if( $disabled2 ) {
-		$comment = preg_replace( "/(.*)(<input)((?:[^>]+)name_\[##_article_rep_id_##\](?:[^>]+)>(?:.*))/sm", "$1$2 $disabled2 $3", $comment );
-		$comment = preg_replace( "/(.*)(<input)((?:[^>]+)password_\[##_article_rep_id_##\](?:[^>]+)>(?:.*))/sm", "$1$2 $disabled2 $3", $comment );
-		$comment = preg_replace( "/(.*)(<input)((?:[^>]+)\[##_{$prefix}_input_name_##\](?:[^>]+)>(?:.*))/sm", "$1$2 $disabled2 $3", $comment );
-		$comment = preg_replace( "/(.*)(<input)((?:[^>]+)\[##_{$prefix}_input_password_##\](?:[^>]+)>(?:.*))/sm", "$1$2 $disabled2 $3", $comment );
+		$comment = preg_replace( "/(.*)(<input)((?:[^>]+)name_\\[##_article_rep_id_##\\](?:[^>]+)>(?:.*))/sm", "$1$2 $disabled2 $3", $comment );
+		$comment = preg_replace( "/(.*)(<input)((?:[^>]+)password_\\[##_article_rep_id_##\\](?:[^>]+)>(?:.*))/sm", "$1$2 $disabled2 $3", $comment );
+		$comment = preg_replace( "/(.*)(<input)((?:[^>]+)\\[##_{$prefix}_input_name_##\\](?:[^>]+)>(?:.*))/sm", "$1$2 $disabled2 $3", $comment );
+		$comment = preg_replace( "/(.*)(<input)((?:[^>]+)\\[##_{$prefix}_input_password_##\\](?:[^>]+)>(?:.*))/sm", "$1$2 $disabled2 $3", $comment );
 	}
 
 	$pannel .= '<div class="commentTypeOpenid" '.$pannel_style.'>'.

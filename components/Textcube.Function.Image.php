@@ -178,7 +178,7 @@ class Image {
 		list($waterMarkWidth, $waterMarkHeight, $waterMakrType) = getimagesize($waterMarkFile);
 		
 		// position of watermark.
-		if (eregi("^(\-?[0-9A-Z]+) (\-?[0-9A-Z]+)$", $position, $temp)) {
+		if (eregi("^(\\-?[0-9A-Z]+) (\\-?[0-9A-Z]+)$", $position, $temp)) {
 			$resultWidth = imagesx($this->resultImageDevice);
 			$resultHeight = imagesy($this->resultImageDevice);
 			
@@ -201,7 +201,7 @@ class Image {
 							$xPosition = $extra[1];
 						}
 					// if negative, calculate x value from right.
-					} else if (eregi("^(\-?[1-9][0-9]*)$", $temp[1], $extra)) {
+					} else if (eregi("^(\\-?[1-9][0-9]*)$", $temp[1], $extra)) {
 						if ($resultWidth - $waterMarkWidth - abs($extra[1]) < 0) {
 							$xPosition = 0;
 						} else {
@@ -235,7 +235,7 @@ class Image {
 							$yPosition = $extra[1];
 						}
 					// if negative, calculate y value from bottom.
-					} else if (eregi("^(\-?[1-9][0-9]*)$", $temp[2], $extra)) {
+					} else if (eregi("^(\\-?[1-9][0-9]*)$", $temp[2], $extra)) {
 						if ($resultHeight - $waterMarkHeight - abs($extra[1]) < 0) {
 							$yPosition = 0;
 						} else {

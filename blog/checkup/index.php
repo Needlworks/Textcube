@@ -823,7 +823,7 @@ if ($dbCaseInsensitive == true) {
 	$dbtables = array_values(array_diff($dbtables, $definedTables));
 }
 
-$query = "select name, value from {$database['prefix']}ServiceSettings WHERE name like 'Database\_%'";
+$query = "select name, value from {$database['prefix']}ServiceSettings WHERE name like 'Database\\_%'";
 $plugintablesraw = DBQuery::queryAll($query);
 $plugintables = array();
 foreach($plugintablesraw as $table) {

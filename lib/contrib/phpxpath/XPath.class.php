@@ -1057,7 +1057,7 @@ class XPathEngine extends XPathBase {
       }
             
       // Xpath contains a 'text()'-function, thus goes right to a text node. If so interpret the Xpath.
-      if (preg_match(":(.*)/text\(\)(\[(.*)\])?$:U", $absoluteXPath, $matches)) {
+      if (preg_match(":(.*)/text\\(\\)(\\[(.*)\\])?$:U", $absoluteXPath, $matches)) {
         $absoluteXPath = $matches[1];
  
         if (!isSet($this->nodeIndex[$absoluteXPath])) {
@@ -2688,7 +2688,7 @@ class XPathEngine extends XPathBase {
       {
         // Check whether it's all wrapped in a function.  will be like count(.*) where .* is anything
         // text() will try to be matched here, so just explicitly ignore it
-        $regex = ":^([^\(\)\[\]/]*)\s*\((.*)\)$:U";
+        $regex = ":^([^\\(\\)\\[\\]/]*)\\s*\\((.*)\\)$:U";
         if (preg_match($regex, $xPathQuery, $aMatch) && $xPathQuery != "text()") {
           $function = $aMatch[1];
           $data     = $aMatch[2];
@@ -2708,7 +2708,7 @@ class XPathEngine extends XPathBase {
       // | '(' Expr ')'  
       // If it is surrounded by () then trim the brackets
       $bBrackets = FALSE;
-      if (preg_match(":^\((.*)\):", $xPathQuery, $aMatches)) {
+      if (preg_match(":^\\((.*)\\):", $xPathQuery, $aMatches)) {
         // Do not keep trimming off the () as we could have "(() and ())"
         $bBrackets = TRUE;
         $xPathQuery = $aMatches[1];
@@ -3887,7 +3887,7 @@ class XPathEngine extends XPathBase {
 
       // processing-instruction() is allowed to take an argument, but if it does, the argument
       // is a literal, which we will have parsed out to $[number].
-      if (preg_match(":processing-instruction\(\$\d*\):", $step)) {
+      if (preg_match(":processing-instruction\\(\\$\\d*\\):", $step)) {
         $axis["node-test"] = $step;
         break $parseBlock;
       }
@@ -3906,7 +3906,7 @@ class XPathEngine extends XPathBase {
       // NameTest   ::= '*'  
       //                | NCName ':' '*'  
       //                | (NCName ':')? NCName
-      $NCName = "[a-zA-Z][\w\.\-_]*";
+      $NCName = "[a-zA-Z][\\w\\.\\-_]*";
       if (preg_match("/^$NCName:$NCName$/", $step)
         || preg_match("/^$NCName:*$/", $step)) {
         $axis['node-test'] = $step;
@@ -5859,7 +5859,7 @@ class XPath extends XPathEngine {
         continue;
       }
       return array($this->nodeIndex[$absoluteXPath]['attributes'][$attribute]);
-    } else if (preg_match(":(.*)/text\(\)(\[(.*)\])?$:U", $xPathQuery, $matches)) {
+    } else if (preg_match(":(.*)/text\\(\\)(\\[(.*)\\])?$:U", $xPathQuery, $matches)) {
       $absoluteXPath = $matches[1];
       $textPartNr = $matches[2];      
       return array($this->nodeIndex[$absoluteXPath]['textParts'][$textPartNr]);
@@ -6082,7 +6082,7 @@ class XPath extends XPathEngine {
       }
       
       // Check if it's a Xpath reference direct to a text-part(s). (xpath ends with text()[<part-number>])
-      if (preg_match(":(.*)/text\(\)(\[(.*)\])?$:U", $xPathQuery, $matches)) {
+      if (preg_match(":(.*)/text\\(\\)(\\[(.*)\\])?$:U", $xPathQuery, $matches)) {
         $xPathQuery = $matches[1];
         // default to the first text node if a text node was not specified
         $textPartNr = isSet($matches[2]) ? substr($matches[2],1,-1) : 1;

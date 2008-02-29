@@ -1258,7 +1258,7 @@ class PHPMailer {
         $encoded = preg_replace("/([^A-Za-z0-9!*+\/ -])/e", "'='.sprintf('%02X', ord('\\1'))", $encoded);
         break;
       case 'comment':
-        $encoded = preg_replace("/([\(\)\"])/e", "'='.sprintf('%02X', ord('\\1'))", $encoded);
+        $encoded = preg_replace("/([\\(\\)\"])/e", "'='.sprintf('%02X', ord('\\1'))", $encoded);
       case 'text':
       default:
         /* Replace every high ascii, control =, ? and _ characters */
@@ -1545,7 +1545,7 @@ class PHPMailer {
         $filename  = basename($url);
         $directory = dirname($url);
         $cid       = 'cid:' . md5($filename);
-        $fileParts = split("\.", $filename);
+        $fileParts = split("\\.", $filename);
         $ext       = $fileParts[1];
         $mimeType  = $this->_mime_types($ext);
         $message = preg_replace("/".$images[1][$i]."=\"".preg_quote($url, '/')."\"/Ui", $images[1][$i]."=\"".$cid."\"", $message);
