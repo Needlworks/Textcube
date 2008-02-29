@@ -912,6 +912,11 @@
 	width                            : 100%;
 }
 
+#contributor-container h4
+{
+	margin-top: 30px !important;
+}
+
 #supporter-description h3
 {
 	background-color                 : #FFF;

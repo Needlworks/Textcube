@@ -415,7 +415,7 @@ h2.caption
 	height                           : 30px;
 	font-size                        : 1em;
 	font-weight                      : normal;
-	line-height                      : 38px;
+	line-height                      : 30px;
 	margin-bottom                    : 10px;
 	overflow                         : hidden;
 	padding-left                     : 35px;
@@ -430,7 +430,7 @@ h2.caption span
 	background-repeat                : no-repeat;
 	display                          : block;
 	height                           : 30px;
-	line-height                      : 38px;
+	line-height                      : 30px;
 }
 
 .main-explain-box .explain
