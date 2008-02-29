@@ -313,8 +313,8 @@ textarea
 #menu-textcube a
 {
 	display                          : block;
-	height                           : 70px;
-	width                            : 180px;
+	height                           : 33px;
+	width                            : 151px;
 }
 
 /* Layout Body ***********************************************************************************/
@@ -902,7 +902,7 @@ table.data-inbox tbody tr td.inactive-class
 	position                         : absolute;
 	right                            : 25px;
 	text-align                       : right;
-	top                              : 5.5em;
+	top                              : 5em;
 	width                            : 25em;
 	z-index                          : 1;
 }
