@@ -8,7 +8,6 @@
 		require_once ROOT."/config.php";
 
 	/* Retrieve Access Parameter Information. */
-	//require_once 'lib/function/string.php';
 	$accessInfo = array(
 		'host'     => $_SERVER['HTTP_HOST'],
 		'fullpath' => str_replace('index.php', '', $_SERVER["REQUEST_URI"]),
@@ -27,7 +26,7 @@
 			header("HTTP/1.0 404 Not found");
 			exit;
 		}
-		require_once 'lib/function/file.php';
+		require_once ROOT.'/lib/function/file.php';
 		dumpWithEtag(ltrim(rtrim($part == 'thumbnail' ?
 							  preg_replace('/thumbnail/', 'cache/thumbnail', $accessInfo['input'], 1) :
 							  $accessInfo['input']), '/'), '/');
