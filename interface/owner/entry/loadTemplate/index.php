@@ -16,7 +16,7 @@ requireModel('blog.entry');
 
 requireStrictRoute();
 
-if ($entry = getEntry($blogid, $_POST['templateId'])) {
+if (!is_null($entry = getEntry($blogid, $_POST['templateId']))) {
 	if(!$_POST['isSaved']) {
 		$entry['category'] = 0;
 		$entry['visibility'] = 0;

@@ -239,7 +239,7 @@ if($textcubeDashboard) {
 		$latestEntryId = getBlogSetting('LatestEditedEntry_user'.getUserId(),0);
 		if($latestEntryId !== 0) {
 			$latestEntry = getEntry($blogid,$latestEntryId);
-			if($latestEntry!=false) {
+			if(!is_null($latestEntry)) {
 ?>
 									<li><a href="<?php echo $blogURL;?>/owner/entry/edit/<?php echo $latestEntry['id'];?>"><?php echo _f('최근글(%1) 수정', htmlspecialchars(UTF8::lessenAsEm($latestEntry['title'],10)));?></a></li>
 <?php

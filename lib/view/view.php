@@ -1369,8 +1369,8 @@ function printScript($filename, $obfuscate = true) {
 		return '';
 	$file = "<script type=\"text/javascript\">//<![CDATA[" . CRLF
 		. "var servicePath=\"".$hostURL.$service['path']."\"; var blogURL=\"".$hostURL.$blogURL."/\";".$file;
-	if ($obfuscate) {
-	}
+//	if ($obfuscate) {
+//	}
 	return "$file //]]></script>";
 }
 

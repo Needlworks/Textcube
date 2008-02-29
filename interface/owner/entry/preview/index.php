@@ -5,9 +5,9 @@
 require ROOT . '/lib/includeForBlog.php';
 requireModel('blog.entry');
 $entries = array();
-if (!$entry = getEntry($blogid, $suri['id'], true))
+if (is_null($entry = getEntry($blogid, $suri['id'], true)))
 	$entry = getEntry($blogid, $suri['id'], false);
-if ($entry && ($entry['category'] >= 0)) {
+if (!is_null($entry) && ($entry['category'] >= 0)) {
 	if (isset($entry['appointed']))
 		$entry['published'] = $entry['appointed'];
 	$entry['categoryLabel'] = getCategoryLabelById($blogid, $entry['category']);

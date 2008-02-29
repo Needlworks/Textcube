@@ -29,12 +29,12 @@ if(empty($suri['id'])) {
 } else {
 	$updateDraft = 0;
 	$entry = getEntry($blogid, $suri['id']);
-	if(empty($entry)) {
+	if(is_null($entry)) {
 		$entry = getEntry($blogid, $suri['id'],true);
 		$updateDraft = 1;
 	}
 }
-if (empty($suri['id']) || !empty($entry)) {
+if (empty($suri['id']) || !is_null($entry)) {
 	$entry['visibility'] = $_POST['visibility'];
 	$entry['category'] = $_POST['category'];
 	$entry['location'] = empty($_POST['location']) ? '/' : $_POST['location'];
@@ -59,12 +59,14 @@ if (empty($suri['id']) || !empty($entry)) {
 			$result['error'] = (($id !== false) === true ? 0 : 1);
 			$result['entryId'] = $id;
 			respond::PrintResult($result);
+			exit;
 		}
 	} else {
 		if($id = updateEntry($blogid, $entry, $updateDraft)) {
 			fireEvent('UpdatePost', $id, $entry);
 			setBlogSetting('LatestEditedEntry_user'.getUserId(),$suri['id']);
 			respond::ResultPage(0);
+			exit;
 		}
 	}
 }

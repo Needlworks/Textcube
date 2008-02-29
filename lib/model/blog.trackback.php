@@ -210,13 +210,13 @@ function revertTrackback($blogid, $id) {
 }
 
 function sendTrackback($blogid, $entryId, $url) {
-	global $database, $defaultURL, $blog;
+	global $defaultURL, $blog;
 	requireComponent('Eolin.PHP.HTTPRequest');
 	requireModel('blog.entry');
 	requireModel('blog.keyword');
 	
 	$entry = getEntry($blogid, $entryId);
-	if (!$entry)
+	if (is_null($entry))
 		return false;
 	$link = "$defaultURL/$entryId";
 	$title = htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id']));

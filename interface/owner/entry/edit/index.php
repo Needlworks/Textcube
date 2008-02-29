@@ -36,7 +36,7 @@ if (isset($_GET['draft'])) {
 } else {
 	$entry = getEntry(getBlogId(), $suri['id'], false);
 }
-if (!$entry) {
+if (is_null($entry)) {
 	respond::ErrorPage(_t('포스트 정보가 존재하지 않습니다.'));
 	$isKeyword = ($entry['category'] == -1);
 }

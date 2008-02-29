@@ -216,9 +216,9 @@ class Post {
 		if (!$query->update())
 			return $this->_error('update');
 			
-		if ($bChangedCategory) {
-			// TODO : Recalculate Category
-		}
+//		if ($bChangedCategory) {
+//			// TODO : Recalculate Category
+//		}
 
 		if (isset($this->slogan))
 			$this->saveSlogan();

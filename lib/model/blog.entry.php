@@ -45,7 +45,7 @@ function getEntry($blogid, $id, $draft = false) {
 	requireModel('blog.attachment');
 	if($id == 0) {
 		if (!doesHaveOwnership())
-			return;
+			return null;
 		deleteAttachments($blogid, 0);
 		return array('id'    => 0,
 				'userid'     => 0,
@@ -68,7 +68,7 @@ function getEntry($blogid, $id, $draft = false) {
 					AND id = $id 
 					AND draft = 1");
 		if (!$entry)
-			return;
+			return null;
 		if ($entry['published'] == 1)
 			$entry['republish'] = true;
 		else if ($entry['published'] != 0)
@@ -84,7 +84,7 @@ function getEntry($blogid, $id, $draft = false) {
 				FROM {$database['prefix']}Entries 
 				WHERE blogid = $blogid AND id = $id AND draft = 0 $visibility");
 		if (!$entry)
-			return;
+			return null;
 		if ($entry['visibility'] < 0)
 			$entry['appointed'] = $entry['published'];
 		return $entry;
@@ -848,13 +848,14 @@ function updateTrackbacksOfEntry($blogid, $id) {
 }
 
 function deleteEntry($blogid, $id) {
-	global $database, $blog, $gCacheStorage;
+	global $database, $gCacheStorage;
 	requireModel("blog.rss");
 	requireModel("blog.category");
 	requireModel("blog.attachment");
 	requireModel("blog.tag");
 
 	$target = getEntry($blogid, $id);
+	if (is_null($target)) return false;
 	if (POD::queryCell("SELECT visibility FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id") == 3)
 		syndicateEntry($id, 'delete');
 	CacheControl::flushEntry($id);
@@ -988,6 +989,7 @@ function syndicateEntry($id, $mode) {
 	$summary = array('blogURL' => $defaultURL, 'syncURL' => "$defaultURL/sync/$id");
 	if($mode == 'create') {
 		$entry = getEntry($blogid, $id);
+		if (is_null($entry)) return false;
 		$summary['blogTitle'] = $blog['title'];
 		$summary['language'] = $blog['language'];
 		$summary['permalink'] = "$defaultURL/".($blog['useSlogan'] ? "entry/{$entry['slogan']}": $entry['id']);
@@ -1017,21 +1019,25 @@ function publishEntries() {
 			WHERE blogid = $blogid AND draft = 0 AND visibility < 0 AND published < UNIX_TIMESTAMP()");
 		if (count($entries) == 0)
 			return;
-		foreach ($entries as $i => $entry) {
+		foreach ($entries as $entry) {
 			$result = POD::query("UPDATE {$database['prefix']}Entries 
 				SET visibility = 0 
 				WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 0");
 			if ($entry['visibility'] == -3) {
 				if ($result && setEntryVisibility($entry['id'], 2)) {
 					$updatedEntry = getEntry($blogid, $entry['id']);
-					fireEvent('UpdatePost', $entry['id'], $updatedEntry);
-					setEntryVisibility($entry['id'], 3);
+					if (!is_null($updatedEntry)) {
+						fireEvent('UpdatePost', $entry['id'], $updatedEntry);
+						setEntryVisibility($entry['id'], 3);
+					}
 				}
 			} else {
 				if ($result) {
 					setEntryVisibility($entry['id'], abs($entry['visibility']));
 					$updatedEntry = getEntry($blogid, $entry['id']);
-					fireEvent('UpdatePost', $entry['id'], $updatedEntry);
+					if (!is_null($updatedEntry)) {
+						fireEvent('UpdatePost', $entry['id'], $updatedEntry);
+					}
 				}
 			}
 		}

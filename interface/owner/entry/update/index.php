@@ -25,11 +25,11 @@ requireModel('blog.entry');
 requireStrictRoute();
 $updateDraft = 0;
 $entry = getEntry($blogid, $suri['id']);
-if(empty($entry)) {
+if(is_null($entry)) {
 	$entry = getEntry($blogid, $suri['id'],true);
 	$updateDraft = 1;
 }
-if (!empty($entry)) {
+if (!is_null($entry)) {
 	$entry['visibility'] = $_POST['visibility'];
 	$entry['category'] = $_POST['category'];
 	$entry['location'] = empty($_POST['location']) ? '/' : $_POST['location'];
