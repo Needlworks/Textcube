@@ -100,9 +100,13 @@ hr
 #message-box
 {
 	background-color                 : #F2F2F2;
+	left: 10px;
 	margin-top                       : 10px;
 	padding                          : 5px;
+	position: absolute;
 	text-align                       : center;
+	top: 10px;
+	width: 300px;
 }
 
 /* open id */
