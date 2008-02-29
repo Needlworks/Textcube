@@ -460,10 +460,6 @@ TTModernEditor.prototype.html2ttml = function() {
 	// 빈 줄을 BR 태그로 변환 convert empty line to BR tag.
 	str = str.replace(new RegExp("<p[^>]*?>&nbsp;</p>", "gi"), "<br />");
 
-	// <br>을 <br />로 변환 <br> to <br />
-	str = str.replaceAll("<br>", "<br />");
-	str = str.replaceAll("<BR>", "<br />");
-
 	// 빈 태그 제거 Remove empty tags
 	str = str.replace(new RegExp("<(\\w+)[^>]*></\\1>", "gi"), "");
 
@@ -1713,7 +1709,7 @@ TTModernEditor.prototype.correctContent = function() {
 	html = html.replace(new RegExp("<i([^>]*?)>(.*?)</i>", "gi"), "<em$1>$2</em>");
 	html = html.replace(new RegExp("<u([^>]*?)>(.*?)</u>", "gi"), "<ins$1>$2</ins>");
 	html = html.replace(new RegExp("<strike([^>]*?)>(.*?)</strike>", "gi"), "<del$1>$2</del>");
-	html = html.replace(new RegExp("<img ([^>]+[^/])>", "gi"), "<img $1 />");
+	html = html.replace(new RegExp("<(img|br|hr)(\\s+[^>]*[^>/])?>", "gi"), "<$1$2 />");
 	// delete blanks
 	html = html.replace(new RegExp("(<[^>]+>)\\s*(<br\\s*/?>)+", "gi"), "$1");
 	html = html.replace(new RegExp("(<br\\s*/?>+)\\s*(</[^>]+>)", "gi"), "$2");
