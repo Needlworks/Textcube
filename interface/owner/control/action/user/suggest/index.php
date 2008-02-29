@@ -15,6 +15,8 @@ requireStrictRoute();
 
 global $database;
 
+header('Content-type: text/javascript');
+
 $result = POD::queryAll("SELECT loginid,name FROM `{$database['prefix']}Users` WHERE name LIKE \"%".$_GET['input']."%\" or loginid LIKE \"%".$_GET['input']."%\" LIMIT 5");
 if ($result) {
 	echo 'ctlUserSuggestFunction_showSuggestion("'.$_GET['id'].'","'.$_GET['cursor'].'",';
