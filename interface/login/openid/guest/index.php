@@ -82,7 +82,7 @@ if( !empty($_COOKIE['openid']) ) {
 								<?php if( !empty( $openid_signup_link ) ) { ?>
 								<li><a href="<?php echo $openid_signup_link; ?>"><?php echo _text('오픈아이디 발급하기'); ?></a></li>
 								<?php } ?>
-								<li id="openid-helper"><?php echo sprintf(_text('Technically supported by %s'), '<a href="http://www.idtail.com/">idtail.com</a>');?></li>
+								<li id="openid-helper"><?php echo _textf('Technically supported by %1', '<a href="http://www.idtail.com/">idtail.com</a>');?></li>
 							</ul>
 						</div>
 					</div>

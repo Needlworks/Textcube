@@ -28,7 +28,7 @@ $usersetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}
 								
 								<ul>
 									<?php if(POD::queryExistence("SELECT * FROM `{$database['prefix']}UserSettings` WHERE name ='AuthToken' AND userid = " . $userid)) { echo '<li><em>'._t("임시 암호가 설정되어 있습니다.").'</em></li>';}?>
-									<li><?php echo sprintf(_t('이 계정은 %s에 생성되었습니다.'), date("D M j G:i:s T Y", $usersetting['created']));?></li>
+									<li><?php echo _f('이 계정은 %1에 생성되었습니다.', date("D M j G:i:s T Y", $usersetting['created']));?></li>
                                 </ul>
 							</div>
 							

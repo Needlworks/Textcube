@@ -84,13 +84,13 @@ function openid_ViewCommenter($name, $comment)
 	$openidlogodisplay = setting::getBlogSettingGlobal( "OpenIDLogoDisplay", 0 );
 	if( $openidlogodisplay ) {
 		$name = "<a href=\"".$comment['openid']."\" class=\"openid\"><img src=\"" .$service['path']. "/image/icon_openid.gif\" alt=\"OpenID Logo\" title=\"" .
-			sprintf( _text("오픈아이디(%s)로 작성하였습니다"), $comment['openid'] ) . "\" /></a>" . $name;
+			_textf("오픈아이디(%1)로 작성하였습니다", $comment['openid'] ) . "\" /></a>" . $name;
 	} else {
 		preg_match_all('@<a(.*)>(.*)</a>@Usi', $name, $temp);
 		
 		for ($i=0; $i<count($temp[0]); $i++) {
 			if (strip_tags($temp[2][$i]) == $comment['name'])
-				$name = str_replace($temp[0][$i], "<a{$temp[1][$i]} title='" .sprintf( _text("오픈아이디(%s)로 작성하였습니다"), $comment['openid'] )."'>".$temp[2][$i]."</a>", $name);
+				$name = str_replace($temp[0][$i], "<a{$temp[1][$i]} title='" ._textf("오픈아이디(%1)로 작성하였습니다", $comment['openid'] )."'>".$temp[2][$i]."</a>", $name);
 		}
 		$name .= "<a href=\"".$comment['openid']."\" class=\"openid\">&nbsp;</a>";
 	}

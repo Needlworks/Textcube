@@ -358,13 +358,13 @@ class Skin {
 		{ 
 			/* 1: none, 2: semantically sane, 3: insane but machine friendly */
 			case 1:
-			array_push( $this->microformatDebug, _text("Microformat-info: 스킨에 마이크로포맷 자동추가하지 않도록 설정되어 있습니다.") );
+			array_push( $this->microformatDebug, _text('Microformat-info: 스킨에 마이크로포맷 자동추가하지 않도록 설정되어 있습니다.') );
 			return;
 			case 2:
-			array_push( $this->microformatDebug, _text("Microformat-info: 스킨에 웹표준에 맞는 마이크로포맷만 추가합니다.") );
+			array_push( $this->microformatDebug, _text('Microformat-info: 스킨에 웹표준에 맞는 마이크로포맷만 추가합니다.') );
 			break;
 			case 3:
-			array_push( $this->microformatDebug, _text("Microformat-info: 스킨에 가능한 모든 마이크로포맷을 추가합니다.") );
+			array_push( $this->microformatDebug, _text('Microformat-info: 스킨에 가능한 모든 마이크로포맷을 추가합니다.') );
 			default:
 		}
 
@@ -409,9 +409,9 @@ class Skin {
 					'@(.*?)(<(a|span|textarea|td|h1|h2|h3|strong|cite|font)[^>]*>[^<>]*?\[##_article_rep_title_##\].*?</\3>)(.*)@sm',
 					array( 'class' => 'entry-title' ), array(1,2,4), 1 );
 		if( preg_match( '@<(a|span|textarea|td|h1|h2|h3|strong|cite|font)[^>]*?class=[\'"][^\'"]*entry-title[^\'"]*[\'"][^>]*>@sm', $content ) ) {
-			array_push( $this->microformatDebug, _text("Microformat-info: 제목에 hAtom용 title을 추가합니다") );
+			array_push( $this->microformatDebug, _text('Microformat-info: 제목에 hAtom용 title을 추가합니다.') );
 		} else {
-			array_push( $this->microformatDebug, _text("Microformat-warn: 제목에 hAtom용 title을 추가하지 못했습니다") );
+			array_push( $this->microformatDebug, _text('Microformat-warn: 제목에 hAtom용 title을 추가하지 못했습니다.') );
 		}
 
 
@@ -421,12 +421,12 @@ class Skin {
 					array( 'class' => 'entry-content' ), array(1,2,4), 1 );
 		if( strstr( $bareContent , '[##_article_rep_desc_##]' ) !== false ) {
 			$content = str_replace( "[##_article_rep_desc_##]", "<div class=\"entry-content\">[##_article_rep_desc_##]</div>",$content );
-			array_push( $this->microformatDebug, _text("Microformat-info: 본문을 감싸고 있는 태그가 없어 div를 삽입한 뒤 hAtom용 entry-content를 추가합니다") );
+			array_push( $this->microformatDebug, _text('Microformat-info: 본문을 감싸고 있는 태그가 없어 div를 삽입한 뒤 hAtom용 entry-content를 추가합니다.') );
 		} else {
 			if( preg_match( '@<(div|td|span|p)[^>]*?class=[\'"][^\'"]*entry-content[^\'"]*[\'"][^>]*>@sm', $content ) ) {
-				array_push( $this->microformatDebug, _text("Microformat-info: hAtom용 content를 추가합니다") );
+				array_push( $this->microformatDebug, _text('Microformat-info: hAtom용 content를 추가합니다.') );
 			} else {
-				array_push( $this->microformatDebug, _text("Microformat-warn: hAtom용 content를 추가하지 못했습니다") );
+				array_push( $this->microformatDebug, _text('Microformat-warn: hAtom용 content를 추가하지 못했습니다.') );
 			}
 		}
 
@@ -442,12 +442,12 @@ class Skin {
 					</div>", 
 					$content );
 			if( preg_match( '@<abbr[^>]*?class=[\'"][^\'"]*\bupdated\b[^\'"]*[\'"][^>]*>@sm', $content ) ) {
-				array_push( $this->microformatDebug, _text("Microformat-info: hAtom용 발행일(published,updated)을 보이지 않게 추가하였습니다") );
+				array_push( $this->microformatDebug, _text('Microformat-info: hAtom용 발행일(published,updated)을 보이지 않게 추가하였습니다.') );
 			} else {
-				array_push( $this->microformatDebug, _text("Microformat-warn: hAtom용 발행일을 추가하지 못하였습니다") );
+				array_push( $this->microformatDebug, _text('Microformat-warn: hAtom용 발행일을 추가하지 못하였습니다.') );
 			}
 		} else {
-			array_push( $this->microformatDebug, _text("Microformat-info: 의미상 어긋나는 사용인 hAtom용 발행일(published,updated)을 추가하지 않았습니다") );
+			array_push( $this->microformatDebug, _text('Microformat-info: 의미상 어긋나는 사용인 hAtom용 발행일(published,updated)을 추가하지 않았습니다.') );
 		}
 
 		/* hAtom:author should be a complete inner text(without other text such as 'By', 'From') of span,cite,label,li. */
@@ -456,10 +456,10 @@ class Skin {
 				/* If there are garbage texts around author's name..., embrace author's name with a span */
 				if( !preg_match( '/^\s*$/', $match[2] ) || !preg_match( '/^\s*$/', $match[3] ) ) {
 					$content = str_replace( "[##_article_rep_author_##]", "<span>[##_article_rep_author_##]</span>", $content );
-					array_push( $this->microformatDebug, _text("Microformat-info: 작성자 주위로 공백외의 문자가 있어 <span>으로 한번 더 감쌉니다") );
+					array_push( $this->microformatDebug, _text('Microformat-info: 작성자 주위로 공백외의 문자가 있어 <span>으로 한번 더 감쌉니다.') );
 				}
 			} else {
-				array_push( $this->microformatDebug, _text("Microformat-info: 작성자가 출력되지 않는 스킨입니다. 작성자를 보이지 않게 추가하였습니다") );
+				array_push( $this->microformatDebug, _text('Microformat-info: 작성자가 출력되지 않는 스킨입니다. 작성자를 보이지 않게 추가하였습니다.') );
 				$content = preg_replace( 
 					'@(<(div|td|span|p)[^>]*>[^<>]*?\[##_article_rep_desc_##\].*?</\2>)@sm',
 					"\\1
@@ -470,33 +470,33 @@ class Skin {
 						'@(.*?)(<(span|cite|label|li|div)[^>]*>\s*\[##_article_rep_author_##\]\s*</\3>)(.*)@sm',
 						array( 'class' => 'author' ), array(1,2,4), 1 );
 			if( preg_match( '@<(span|cite|label|li|div)[^>]*?class=[\'"][^\'"]*\bauthor\b[^\'"]*[\'"][^>]*>@sm', $content ) ) {
-				array_push( $this->microformatDebug, _text("Microformat-info: 작성자에 hAtom용 class=\"author\"를 추가합니다") );
+				array_push( $this->microformatDebug, _text('Microformat-info: 작성자에 hAtom용 class="author"를 추가합니다') );
 			} else {
-				array_push( $this->microformatDebug, _text("Microformat-warn: 작성자에 hAtom용 class=\"author\"를 추가하지 못하였습니다") );
+				array_push( $this->microformatDebug, _text('Microformat-warn: 작성자에 hAtom용 class="author"를 추가하지 못하였습니다') );
 			}
 		} else {
-			array_push( $this->microformatDebug, _text("Microformat-info: class=\"author\"를 사용한 스킨입니다. hAtom용 author는 삽입하지 않았습니다. 주의: 스킨에 사용된 author의 용도가 마이크로포맷과 다를 수 있습니다.") );
+			array_push( $this->microformatDebug, _text('Microformat-info: class="author"를 사용한 스킨입니다. hAtom용 author는 삽입하지 않았습니다. 주의: 스킨에 사용된 author의 용도가 마이크로포맷과 다를 수 있습니다.') );
 		}
 
 		/* hAtom:hEntry is a unique division in a blog entry*/
 		if( !preg_match( '/<(p|div)[^>]*class=[\'"][^\'"]*\bhentry\b[^\'"]*[\'"][^>]*>/sm', $content ) )
 		{
 			$content = "<div class=\"hentry\">\r\n{$content}\r\n</div>";
-			array_push( $this->microformatDebug, _text("Microformat-info: 블로그 글영역 전체를 hAtom용 entry로 간주합니다. 적절한 class=\"hentry\" 삽입이 필요할 수 있습니다 ") );
+			array_push( $this->microformatDebug, _text('Microformat-info: 블로그 글영역 전체를 hAtom용 entry로 간주합니다. 적절한 class="hentry" 삽입이 필요할 수 있습니다.') );
 		} else {
-			array_push( $this->microformatDebug, _text("Microformat-info: 스킨에 class=\"hentry\"가 있으므로, hAtom용 entry는 삽입하지 않았습니다.") );
+			array_push( $this->microformatDebug, _text('Microformat-info: 스킨에 class="hentry"가 있으므로, hAtom용 entry는 삽입하지 않았습니다.') );
 		}
 
 		/* bookmark to A link */
 		addAttribute( $content, 'a', 'href', '##_article_rep_link_##', 
 			array( 'rel' => 'bookmark', 'title' => "[##_article_rep_title_##]" ) );
 		if( preg_match( '@<a\b[^>]*?rel=[\'"][^\'"]*bookmark[^\'"]*[\'"][^>]*>@sm', $content ) ) {
-			array_push( $this->microformatDebug, _text("Microformat-info: 제목에 bookmark를 추가합니다") );
+			array_push( $this->microformatDebug, _text('Microformat-info: 제목에 bookmark를 추가합니다') );
 		} else {
 			if(getBlogSetting('useMicroformat',3)>2) {
 				$content = str_replace( "[##_article_rep_desc_##]", "<a style=\"display:none\" href=\"[##_article_rep_link_##]\" rel=\"bookmark\" class=\"entry-title\" title=\"[##_article_rep_title_##]\">[##_article_rep_title_##]</a>\r\n[##_article_rep_desc_##]",$content );
 			}
-			array_push( $this->microformatDebug, _text("Microformat-info: 링크가 걸린 제목이 없어 보이지 않는 링크를 추가한 뒤 rel=\"bookmark\"와 hAtom용 title을 추가하였습니다") );
+			array_push( $this->microformatDebug, _text('Microformat-info: 링크가 걸린 제목이 없어 보이지 않는 링크를 추가한 뒤 rel="bookmark"와 hAtom용 title을 추가하였습니다') );
 		}
 
 		$this->hentryExisted = true;
@@ -513,12 +513,12 @@ class Skin {
 						array( 'class' => 'vcard' ), array(1,2,4), 1 );
 			if( !preg_match( '@<(p|div|li|td|span|cite|strong)[^>]*class=[\'"][^\'"]*\bvcard\b[^\'"]*[\'"][^>]*>@sm', $commentItem ) ) {
 				$commentItem = str_replace( "[##_{$type}_name_##]", "<span class=\"vcard\">[##_{$type}_name_##]</span>",$commentItem );
-				array_push( $this->microformatDebug, sprintf( _text("Microformat-info: %s 작성자를 감싸고 있는 태그가 없어 span으로 감싼 뒤 class=\"vcard\"를 추가합니다."), $debugType) );
+				array_push( $this->microformatDebug, _textf('Microformat-info: %1 작성자를 감싸고 있는 태그가 없어 span으로 감싼 뒤 class="vcard"를 추가합니다.', $debugType) );
 			} else {
-				array_push( $this->microformatDebug, sprintf( _text("Microformat-info: %s 영역에 class=\"vcard\"를 삽입합니다."), $debugType) );
+				array_push( $this->microformatDebug, _textf('Microformat-info: %1 영역에 class="vcard"를 삽입합니다.', $debugType) );
 			}
 		} else {
-			array_push( $this->microformatDebug, sprintf( _text("Microformat-info: %s 영역에 class=\"vcard\"가 있으므로, vcard는 삽입하지 않았습니다."), $debugType) );
+			array_push( $this->microformatDebug, _textf('Microformat-info: %1 영역에 class="vcard"가 있으므로, vcard는 삽입하지 않았습니다.', $debugType) );
 		}
 		return $commentItem;
 	}

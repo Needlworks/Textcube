@@ -3,13 +3,67 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-28 17:39:58+0000\n"
-"PO-Revision-Date: 2008-02-28 17:39:58+0000\n"
+"POT-Creation-Date: 2008-03-01 04:19:17+0000\n"
+"PO-Revision-Date: 2008-03-01 04:19:17+0000\n"
 "Last-Translator: TEXTCUBE\n"
 "Language-Team: TEXTCUBE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+msgid "America/Chicago"
+msgstr "미국/시카고 (중부 시간)"
+
+msgid "America/Denver"
+msgstr "미국/덴버 (산악지대 시간)"
+
+msgid "America/Los_Angeles"
+msgstr "미국/LA (태평양 시간)"
+
+msgid "America/New_York"
+msgstr "미국/뉴욕 (동부 시간)"
+
+msgid "Asia/Calcutta"
+msgstr "인도"
+
+msgid "Asia/Seoul"
+msgstr "대한민국"
+
+msgid "Asia/Shanghai"
+msgstr "중국"
+
+msgid "Asia/Taipei"
+msgstr "대만"
+
+msgid "Asia/Tokyo"
+msgstr "일본"
+
+msgid "Australia/Adelaide"
+msgstr "호주/아들레이드"
+
+msgid "Australia/Darwin"
+msgstr "호주/다윈"
+
+msgid "Australia/Melbourne"
+msgstr "호주/멜번"
+
+msgid "Australia/Perth"
+msgstr "호주/퍼스"
+
+msgid "Australia/Sydney"
+msgstr "호주/시드니"
+
+msgid "Europe/Berlin"
+msgstr "독일"
+
+msgid "Europe/London"
+msgstr "영국"
+
+msgid "Europe/Paris"
+msgstr "프랑스"
+
+msgid "GMT"
+msgstr "세계 표준 시간"
 
 msgid "fontDisplayName:fontCode:fontFamily"
 msgstr "fontDisplayName:fontCode:fontFamily|바탕:Batang:Serif|바탕체:BatangChe: Serif|굴림:Gulim:Sans-serif|굴림체:GulimChe:Sans-serif|돋움:Dotum:Sans-serif|돋움체:DotumChe:Sans-serif"
@@ -32,11 +86,20 @@ msgstr "글걸기(트랙백)"
 msgid "글걸기 주소"
 msgstr "글걸기(트랙백) 주소"
 
+msgid "금요일"
+msgstr "금"
+
 msgid "댓글, 걸린글, 리퍼러가 입력될 때 아래의 단어가 포함되어 있으면 알림창을 띄우고 휴지통으로 보냅니다."
 msgstr "댓글, 걸린글(트랙백), 리퍼러가 입력될 때 아래의 단어가 포함되어 있으면 알림창을 띄우고 휴지통으로 보냅니다."
 
 msgid "댓글/걸린글 개수"
 msgstr "댓글/걸린글(트랙백) 개수"
+
+msgid "목요일"
+msgstr "목"
+
+msgid "블로그에 아이디가 있는 경우만 접근할 수 있도록 합니다."
+msgstr "이 서비스에 아이디가 있는 경우만 접근할 수 있도록 합니다."
 
 msgid "삭제 대기중인 걸린글입니다"
 msgstr "삭제 대기중인 걸린글(트랙백)입니다"
@@ -59,6 +122,12 @@ msgstr "선택된 걸린글(트랙백)을 휴지통으로 옮깁니다. 계속 �
 msgid "선택한 걸린글을"
 msgstr "선택한 걸린글(트랙백)을"
 
+msgid "수요일"
+msgstr "수"
+
+msgid "월요일"
+msgstr "월"
+
 msgid "이 IP로 등록된 걸린글 목록을 보여줍니다."
 msgstr "이 IP로 등록된 걸린글(트랙백) 목록을 보여줍니다."
 
@@ -73,6 +142,9 @@ msgstr "이 걸린글(트랙백)을 삭제합니다."
 
 msgid "이 사이트에서 건 글 목록을 보여줍니다."
 msgstr "이 사이트에서 건 글(트랙백) 목록을 보여줍니다."
+
+msgid "일요일"
+msgstr "일"
 
 msgid "조각보"
 msgstr "센터"
@@ -91,6 +163,12 @@ msgstr "최근 걸린글(트랙백)을 %1개 보여줍니다."
 
 msgid "출력될 최근 걸린글 수"
 msgstr "출력될 최근 걸린글(트랙백) 수"
+
+msgid "토요일"
+msgstr "토"
+
+msgid "화요일"
+msgstr "화"
 
 msgid "휴지통 내의 모든 걸린글을 삭제합니다. 계속 하시겠습니까?"
 msgstr "휴지통 내의 모든 걸린글(트랙백)을 삭제합니다. 계속 하시겠습니까?"

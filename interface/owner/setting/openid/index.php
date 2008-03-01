@@ -165,7 +165,7 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 							<input type="button" onclick="setDelegate(); return false" value="<?php echo _t('확인') ?>" class="save-button input-button" />
 						
 							<p class="text">
-								<?php echo sprintf( _t('블로그 주소(%s)를 소유자 계정에 연결된 오픈아이디 중 하나에 위임하여 오픈아이디로 사용할 수 있습니다.'), "$hostURL$blogURL"); ?>
+								<?php echo _f('블로그 주소(%1)를 소유자 계정에 연결된 오픈아이디 중 하나에 위임하여 오픈아이디로 사용할 수 있습니다.', "$hostURL$blogURL"); ?>
 							</p>
 						</dd>
 					</dl>
