@@ -87,14 +87,6 @@ function clearCache() {
 					<h3><?php echo _text('변경 중');?></h3>
 					
 					<ul id="processList">
-						<li>테스트입니다. 문자열이 길어지면 어떻게 되나? 흠흠흠. 설명을 붙여보세. 길게 좀 붙여보세. 후덜덜. 이뭐병. 흠좀무. : <span class="result fail">실패</span></li>
-						<li>테스트입니다. 문자열이 길어지면 어떻게 되나? 흠흠흠. 설명을 붙여보세. 길게 좀 붙여보세. 후덜덜. 이뭐병. 흠좀무. : <span class="result fail">실패</span></li>
-						<li>테스트입니다. 문자열이 길어지면 어떻게 되나? 흠흠흠. 설명을 붙여보세. 길게 좀 붙여보세. 후덜덜. 이뭐병. 흠좀무. : <span class="result fail">실패</span></li>
-						<li>테스트입니다. 문자열이 길어지면 어떻게 되나? 흠흠흠. 설명을 붙여보세. 길게 좀 붙여보세. 후덜덜. 이뭐병. 흠좀무. : <span class="result fail">실패</span></li>
-						<li>테스트입니다. 문자열이 길어지면 어떻게 되나? 흠흠흠. 설명을 붙여보세. 길게 좀 붙여보세. 후덜덜. 이뭐병. 흠좀무. : <span class="result fail">실패</span></li>
-						<li>테스트입니다. 문자열이 길어지면 어떻게 되나? 흠흠흠. 설명을 붙여보세. 길게 좀 붙여보세. 후덜덜. 이뭐병. 흠좀무. : <span class="result fail">실패</span></li>
-						<li>테스트입니다. 문자열이 길어지면 어떻게 되나? 흠흠흠. 설명을 붙여보세. 길게 좀 붙여보세. 후덜덜. 이뭐병. 흠좀무. : <span class="result fail">실패</span></li>
-						<li>테스트입니다. 문자열이 길어지면 어떻게 되나? 흠흠흠. 설명을 붙여보세. 길게 좀 붙여보세. 후덜덜. 이뭐병. 흠좀무. : <span class="result fail">실패</span></li>
 <?php
 $changed = false;
 global $succeed;
