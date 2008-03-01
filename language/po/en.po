@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-01 04:19:21+0000\n"
-"PO-Revision-Date: 2008-03-01 04:19:21+0000\n"
+"POT-Creation-Date: 2008-03-01 04:27:59+0000\n"
+"PO-Revision-Date: 2008-03-01 04:27:59+0000\n"
 "Last-Translator: TEXTCUBE\n"
 "Language-Team: TEXTCUBE\n"
 "MIME-Version: 1.0\n"
@@ -563,6 +563,9 @@ msgstr "Font Color"
 msgid "글자체"
 msgstr "Font"
 
+msgid "금요일"
+msgstr "Fri"
+
 msgid "기능"
 msgstr "Function"
 
@@ -1096,6 +1099,9 @@ msgstr "Display title and complete post."
 
 msgid "목록으로"
 msgstr "To List"
+
+msgid "목요일"
+msgstr "Thu"
 
 msgid "문자를 사용합니다."
 msgstr "Use characters in the URL"
@@ -2018,6 +2024,9 @@ msgstr "Allow visitors to write a guestbook entry"
 msgid "손님이 댓글을 쓰는 것을 허용합니다."
 msgstr "Allow visitors to comment"
 
+msgid "수요일"
+msgstr "Wed"
+
 msgid "수정"
 msgstr "Edit"
 
@@ -2345,6 +2354,9 @@ msgstr "OS"
 msgid "원하시는 스킨의 적용 버튼을 클릭하십시오."
 msgstr "Click \"Apply\" to use the theme."
 
+msgid "월요일"
+msgstr "Mon"
+
 msgid "웹 설정 파일"
 msgstr "Web configuration"
 
@@ -2668,6 +2680,9 @@ msgstr "Usually when restoring, original data is overwritten. \\\\n Not to overw
 
 msgid "일별 통계 정보를 복원하고 있습니다."
 msgstr "Restoring daily stats.."
+
+msgid "일요일"
+msgstr "Sun"
 
 msgid "읽은 글 감추기"
 msgstr "Hide read"
@@ -3296,6 +3311,9 @@ msgstr "At lease one module is needed to make Textcube work.\\\\n You cannot ina
 msgid "텍스트큐브의 모든 데이터를 삭제합니다.<br />첨부파일의 삭제 여부를 선택하실 수 있습니다.<br />데이터의 복원은 백업파일을 통해서만 가능하므로 먼저 백업을 하시기 바랍니다."
 msgstr "Erase Textcube data.<br />You can optionally choose to erase attachments.<br />Recovering data is only possible through the Restore data option so please do a backup first."
 
+msgid "토요일"
+msgstr "Sat"
+
 msgid "트리 속성"
 msgstr "Tree Property"
 
@@ -3682,6 +3700,9 @@ msgstr "Please input URL"
 
 msgid "홈페이지 필터링"
 msgstr "Homepage to be filtered"
+
+msgid "화요일"
+msgstr "Tue"
 
 msgid "확인"
 msgstr "Confirm"
