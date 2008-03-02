@@ -161,7 +161,7 @@ if (isset($cache->contents)) {
 				$entriesView .= "<div id=\"entry{$entry['id']}\">$protectedEntryView</div>";
 		}
 	}
-	if(count($entries) > 1 || (count($entries) == 1 && $suri['page']==1)) {
+	if(count($entries) > 1 || (count($entries) == 1 && empty($suri['value']))) {
 		unset($totalTags);
 	}
 	if(isset($cache)) {
