@@ -410,7 +410,7 @@ function moveCategory($blogid, $id, $direction) {
 							WHERE
 								id = $myId AND blogid = $blogid";
 				POD::query($sql);
-				$sql = "SELECT id, priority FROM {$database['prefix']}Categories WHERE parent = $nextId AND blogid = $blogid ORDER BY priority";
+				$sql = "SELECT id, priority FROM {$database['prefix']}Categories WHERE parent = $nextId AND blogid = $blogid ORDER BY priority DESC";
 				$row = POD::queryRow($sql);
 				$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
 				$nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
