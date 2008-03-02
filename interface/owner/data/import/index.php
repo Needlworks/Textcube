@@ -370,7 +370,7 @@ function importer($path, $node, $line) {
 					$cursor = & $node['comment'][$i];
 					$comment->name = $cursor['commenter'][0]['name'][0]['.value'];
 					if (!empty($cursor['commenter'][0]['id'][0]['.value']))
-						$comment->id = $cursor['id'][0]['.value'];
+						$comment->id = $cursor['commenter'][0]['id'][0]['.value'];
 					if (!empty($cursor['commenter'][0]['homepage'][0]['.value']))
 						$comment->homepage = $cursor['commenter'][0]['homepage'][0]['.value'];
 					if (!empty($cursor['commenter'][0]['ip'][0]['.value']))
@@ -392,7 +392,7 @@ function importer($path, $node, $line) {
 							$childComment->parent = $comment->id;
 							$cursor = & $node['comment'][$i]['comment'][$j];
 							if (!empty($cursor['commenter'][0]['id'][0]['.value']))
-								$childComment->id = $cursor['id'][0]['.value'];
+								$childComment->id = $cursor['commenter'][0]['id'][0]['.value'];
 							$childComment->name = $cursor['commenter'][0]['name'][0]['.value'];
 							if (!empty($cursor['commenter'][0]['homepage'][0]['.value']))
 								$childComment->homepage = $cursor['commenter'][0]['homepage'][0]['.value'];
