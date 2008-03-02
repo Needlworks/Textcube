@@ -220,10 +220,13 @@ if ($link->open()) {
 $log = new RefererLog();
 if ($log->open()) {
 	$writer->write('<logs>');
+	$writer->write(CRLF);
 	do {
 		$writer->write('<referer>' . '<url>' . htmlspecialchars(UTF8::correct($log->url)) . '</url>' . '<referred>' . $log->referred . '</referred>' . '</referer>');
+		$writer->write(CRLF);
 	} while ($log->shift());
 	$writer->write('</logs>');
+	$writer->write(CRLF);
 	$log->close();
 }
 $cmtNotified = new CommentNotified();
@@ -231,6 +234,7 @@ $cur_siteinfo = array();
 $i = 0;
 if ($cmtNotified->open()) {
 	$writer->write('<commentsNotified>');
+	$writer->write(CRLF);
 	do {
 		$writer->write('<comment>');
 		$writer->write('<id>' . $cmtNotified->id . '</id>');
@@ -257,8 +261,10 @@ if ($cmtNotified->open()) {
 		$writer->write('<entryTitle>' . htmlspecialchars(UTF8::correct($cmtNotified->entryTitle)). '</entryTitle>');
 		$writer->write('<entryUrl>' . htmlspecialchars(UTF8::correct($cmtNotified->entryUrl)). '</entryUrl>');
 		$writer->write('</comment>');
+		$writer->write(CRLF);
 	} while ($cmtNotified->shift());
 	$writer->write('</commentsNotified>');
+	$writer->write(CRLF);
 	$cmtNotified->close();
 }
 $cmtNotifiedSite = new CommentNotifiedSiteInfo();
@@ -275,6 +281,7 @@ if ($cmtNotifiedSite->open()) {
 		}
 	} while ($cmtNotifiedSite->shift());
 	$writer->write('</commentsNotifiedSiteInfo>');
+	$writer->write(CRLF);
 	$cmtNotifiedSite->close();
 }
 $statistics = new RefererStatistics();
@@ -285,6 +292,7 @@ if ($statistics->open()) {
 		$writer->write(CRLF);
 	} while ($statistics->shift());
 	$writer->write('</statistics>');
+	$writer->write(CRLF);
 	$statistics->close();
 }
 $statistics = new BlogStatistics();
@@ -300,6 +308,7 @@ if ($statistics->open()) {
 		$writer->write(CRLF);
 	} while ($statistics->shift());
 	$writer->write('</statistics>');
+	$writer->write(CRLF);
 	$statistics->close();
 }
 $setting = new SkinSetting();
@@ -340,6 +349,7 @@ if ($comment->open('parent IS NULL')) {
 		$writer->write(CRLF);
 	} while ($comment->shift());
 	$writer->write('</guestbook>');
+	$writer->write(CRLF);
 	$comment->close();
 }
 $filter = new Filter();
