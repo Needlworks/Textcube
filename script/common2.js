@@ -958,10 +958,12 @@ function processShortcut(event) {
 			window.location = blogURL + "/owner";
 			break;
 		case 82: //R
-			window.location = blogURL + "/owner/reader";
+			if (isReaderEnabled)
+				window.location = blogURL + "/owner/reader";
 			break;
 		case 84: //T
-			window.location = blogURL + "/owner/reader/?forceRefresh";
+			if (isReaderEnabled)
+				window.location = blogURL + "/owner/reader/?forceRefresh";
 			break;
 		case 65: //A
 			if(prevURL)

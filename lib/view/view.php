@@ -60,6 +60,7 @@ function getUpperView($paging) {
 		var nextURL = "<?php echo isset($paging['next']) ? escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}") : '';?>";
 		var commentKey = "<?php echo md5(filemtime(ROOT . '/config.php'));?>";
 		var doesHaveOwnership = <?php echo doesHaveOwnership() ? 'true' : 'false'; ?>;
+		var isReaderEnabled = <?php echo ($service['reader'] ? 'true' : 'false'); ?>;
 		var messages = {
 			"trackbackUrlCopied": "<?php echo _text('엮인글 주소가 복사되었습니다.');?>",
 			"operationFailed": "<?php echo _text('실패했습니다.');?>",

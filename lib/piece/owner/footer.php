@@ -37,10 +37,12 @@ if (!defined('__TEXTCUBE_EDIT__')) { ?>
 					case 81: //Q
 						try { window.location = "<?php echo $blogURL;?>/"; } catch(e) { };
 						break;
+<?php if ($service['reader']) { ?>
 					case 82: //R
 						try { window.location = "<?php echo $blogURL;?>/owner/reader"; } catch(e) { };
 						break;
-<?php 
+<?php
+	}
 }
 if (defined('__TEXTCUBE_READER__')) {
 ?>
