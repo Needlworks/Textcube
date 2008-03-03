@@ -86,15 +86,23 @@ class Auth_Textcube_xmlparser extends XPath
 class OpenID {
 	function setCookie( $key, $value )
 	{
+		$session_cookie_path = "/";
+		if( !empty($service['session_cookie_path']) ) {
+			$session_cookie_path = $service['session_cookie_path'];
+		}
 		if( !headers_sent() ) {
-			setcookie( $key, $value, time()+3600*24*30, "/" );
+			setcookie( $key, $value, time()+3600*24*30, $session_cookie_path );
 		}
 	}
 
 	function clearCookie( $key )
 	{
+		$session_cookie_path = "/";
+		if( !empty($service['session_cookie_path']) ) {
+			$session_cookie_path = $service['session_cookie_path'];
+		}
 		if( !headers_sent() ) {
-			setcookie( $key, '', time()-3600, "/" );
+			setcookie( $key, '', time()-3600, $session_cookie_path );
 		}
 	}
 

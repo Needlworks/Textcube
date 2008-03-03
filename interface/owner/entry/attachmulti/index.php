@@ -10,8 +10,16 @@ $IV = array(
 		'TSSESSION' => array( 'string' , 'default' => null) 
 	)
 );
+
+if( !function_exists('getSessionName') ) {
+	function getSessionName() {
+		global $service;
+		return 'TSSESSION'.substr('.', '', $service['domain']);
+	}
+}
+
 if (!empty($_GET['TSSESSION']))
-	$_COOKIE['TSSESSION'] = $_GET['TSSESSION'];
+	$_COOKIE[getSessionName()] = $_GET['TSSESSION'];
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.attachment");
 $file = array_pop($_FILES);
