@@ -386,6 +386,7 @@ function getTeamBlogStyleSet($target){
 		.teamProfile .teamImage img {padding:2px; border:1px solid '.$lineColor.'; width:'.$data['imageSize'].'px; background-color:#fff;}
 		.teamProfile .teamDesc  {margin:5px 0px 0px 0px; float:'.$data['imagePosition'].';}
 	';
+	flush();
 }
 
 function getTeamBlog_DataSet($DATA){
