@@ -164,6 +164,7 @@ function isGuestOpenIDSession($id) {
 
 function setSession() {
 	$id = empty($_COOKIE[session_name()]) ? '' : $_COOKIE[session_name()];
+	/* Check interface/owner/entry/attachmulti/index.php below code is needed for innernal use and legacy code*/
 	$id = ( empty($id) && !empty($_COOKIE['TSSESSION']) ) ? $_COOKIE['TSSESSION'] : $id;
 	if ((strlen($id) < 32) || !isSessionAuthorized($id)) {
 		setSessionAnonymous($id);
