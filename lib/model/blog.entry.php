@@ -279,7 +279,7 @@ function getEntriesWithPagingByAuthor($blogid, $author, $page, $count, $countIte
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid AND e.userid = $userid AND e.draft = 0 $visibility AND e.category >= 0 
 		ORDER BY e.published DESC";
-	return fetchWithPaging($sql, $page, $count);
+	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
 }
 
 function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count, $visibility = null) {
