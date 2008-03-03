@@ -164,6 +164,7 @@ function isGuestOpenIDSession($id) {
 
 function setSession() {
 	$id = empty($_COOKIE[session_name()]) ? '' : $_COOKIE[session_name()];
+	$id = ( empty($id) && !empty($_COOKIE['TSSESSION']) ) ? $_COOKIE['TSSESSION'] : $id;
 	if ((strlen($id) < 32) || !isSessionAuthorized($id)) {
 		setSessionAnonymous($id);
 	}
