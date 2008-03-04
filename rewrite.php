@@ -79,7 +79,7 @@
 		$interfacePath = 'interface/blog/'.$pathPart.'.php';
 	}
 	else if (is_numeric(strtok(end($accessInfo['URLfragment']), '&'))) {
-		$pathPart = implode('/', array_slice($accessInfo['URLfragment'], 0, count($accessInfo['URLfragment']) - 1));
+		$pathPart = count($accessInfo['URLfragment'])==1 ? null : implode('/', array_slice($accessInfo['URLfragment'], 0, count($accessInfo['URLfragment']) - 1));
 	}
 	if (empty($interfacePath))
 		$interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
