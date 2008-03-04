@@ -985,7 +985,12 @@ function processShortcut(event) {
 	}
 }
 
+var commentSavingNow = false;
 function addComment(caller, entryId) {
+	if(commentSavingNow == true) {
+		alert(_t('저장하고 있습니다.'));
+		return false;
+	}
 	var oForm = findFormObject(caller);
 	if (!oForm)
 		return false;
@@ -995,6 +1000,7 @@ function addComment(caller, entryId) {
 	}
 	var request = new HTTPRequest("POST", oForm.action);
 	request.onSuccess = function () {
+		commentSavingNow = false;
 		document.getElementById("entry" + entryId + "Comment").innerHTML = this.getText("/response/commentBlock");
 		if(getObject("recentComments") != null)
 			document.getElementById("recentComments").innerHTML = this.getText("/response/recentCommentBlock");
@@ -1004,6 +1010,7 @@ function addComment(caller, entryId) {
 			document.getElementById("commentCountOnRecentEntries" + entryId).innerHTML = "(" + this.getText("/response/commentCount") + ")";
 	}
 	request.onError = function() {
+		commentSavingNow = false;
 		alert(this.getText("/response/description"));
 	}
 
@@ -1080,6 +1087,7 @@ function addComment(caller, entryId) {
 				queryString += linker + oForm.elements[i].id + "=" + encodeURIComponent(oForm.elements[i].value);
 		}
 	}
+	commentSavingNow = true;
 	request.send(queryString);
 }
 
