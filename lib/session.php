@@ -163,9 +163,14 @@ function isGuestOpenIDSession($id) {
 }
 
 function setSession() {
-	$id = empty($_COOKIE[session_name()]) ? '' : $_COOKIE[session_name()];
-	/* Check interface/owner/entry/attachmulti/index.php below code is needed for innernal use and legacy code*/
-	$id = ( empty($id) && !empty($_COOKIE['TSSESSION']) ) ? $_COOKIE['TSSESSION'] : $id;
+	if( !empty($_GET['TSSESSION']) ) {
+		$id = $_GET['TSSESSION'];
+		$_COOKIE[session_name()] = $id;
+	} else if ( !empty($_COOKIE[session_name()]) ) {
+		$id = $_COOKIE[session_name()];
+	} else {
+		$id = '';
+	}
 	if ((strlen($id) < 32) || !isSessionAuthorized($id)) {
 		setSessionAnonymous($id);
 	}
