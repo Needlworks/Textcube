@@ -41,7 +41,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											}
 										}
 										var homepage = document.getElementById('homepage').value;
-										var blogid = document.getElementById('blogid').value;
+										var blogid = document.getElementById('blogid-list').value;
 										if(type == "external" && (homepage == 'http://' || homepage == '')) {
 											alert("<?php echo _t('홈페이지 주소를 입력해 주십시오.');?>");
 											document.getElementById('homepage').select();
@@ -54,9 +54,9 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										request.onError = function() {
 											PM.showErrorMessage("<?php echo _t('저장하지 못했습니다.');?>", "center", "bottom");
 										}
-										request.send("&type=" + encodeURIComponent(type) + "&homepage=" + encodeURIComponent(homepage) +     "&blogid=" + encodeURIComponent(blogid));
+										request.send("&type=" + encodeURIComponent(type) + "&homepage=" + encodeURIComponent(homepage) + "&blogid=" + encodeURIComponent(blogid));
 									} catch(e) {
-										return true;
+										return false;
 									}
 								}
 								function save() {
@@ -378,7 +378,7 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 							</div>
 						</div>
 						
-						<div id="part-setting-account" class="part">
+						<div id="part-setting-homepage" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('대표 주소');?></span></h2>
 							
 							<div class="main-explain-box">
