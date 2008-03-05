@@ -41,6 +41,8 @@ function showCheckupMessage($stat = true) {
 
 function clearCache() {
 	global $database, $changed, $errorlog;
+	static $isCleared = false;
+	if($isCleared == true) return true;
 	if($blogids = POD::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog")) {
 		$changed = true;
 		$errorlog = false;
@@ -56,6 +58,7 @@ function clearCache() {
 	if(POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = 'Textcube_Notice_%'"))
 		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else echo '<span class="result fail">', _text('실패'), '</span></li>';
+	$isCleared = true;
 }
 
 ?>
