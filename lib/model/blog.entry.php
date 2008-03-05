@@ -1049,8 +1049,7 @@ function publishEntries() {
 	}
 }
 
-function getTagsWithEntryString($entryTag) 
-{
+function getTagsWithEntryString($entryTag) {
 	global $database;
 	$tags = explode(',', $entryTag);
 	

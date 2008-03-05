@@ -233,7 +233,8 @@ $cmtNotified = new CommentNotified();
 $cur_siteinfo = array();
 $i = 0;
 if ($cmtNotified->open()) {
-	$writer->write('<commentsNotified>');
+$writer->write('<commentsNotified>');
+	$writer->write(CRLF);
 	$writer->write(CRLF);
 	do {
 		$writer->write('<comment>');
@@ -260,7 +261,8 @@ if ($cmtNotified->open()) {
 		$writer->write('<url>' . htmlspecialchars(UTF8::correct($cmtNotified->url)). '</url>');
 		$writer->write('<entryTitle>' . htmlspecialchars(UTF8::correct($cmtNotified->entryTitle)). '</entryTitle>');
 		$writer->write('<entryUrl>' . htmlspecialchars(UTF8::correct($cmtNotified->entryUrl)). '</entryUrl>');
-		$writer->write('</comment>');
+		$writer->write('</comment>');		
+		$writer->write(CRLF);
 		$writer->write(CRLF);
 	} while ($cmtNotified->shift());
 	$writer->write('</commentsNotified>');
