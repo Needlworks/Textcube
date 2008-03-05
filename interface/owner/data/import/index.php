@@ -615,7 +615,7 @@ function importer($path, $node, $line) {
 		case '/blog/commentsNotifiedSiteInfo/site':
 			setProgress($item++ / $items * 100, _t('댓글 알리미 내용을 복원하고 있습니다.'));
 			$cmtNotifiedSite = new CommentNotifiedSiteInfo();
-			if ($cmtNotifiedSite->open("url = {$node['url'][0]['.value']}")) {
+			if ($cmtNotifiedSite->open("url = '{$node['url'][0]['.value']}'")) {
 				if (intval($node['modified'][0]['.value']) > intval($cmtNotifiedSite->modified)) {
 					$cmtNotifiedSite->title = $node['title'][0]['.value'];
 					$cmtNotifiedSite->name = $node['name'][0]['.value'];
