@@ -319,20 +319,12 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
 	$fp = fopen($filename, "w");
 	if(fwrite($fp, $content)) {
 		fclose($fp);
-		echo ': <span class="result success">', _text('성공'), '</span></li>';
+		showCheckupMessage(true);
 	} else {
 		fclose($fp);
-		echo ': <span class="result fail">', _text('실패'), '</span></li>';
+		showCheckupMessage(false);
 	}
 }
-
-?>
-					</ul>
-
-					<p id="lastMessage">
-						<?php
-	reloadSkin(1);
-	echo ($changed ? _text('완료되었습니다.') : _text('확인되었습니다.'));
 
 if (((!file_exists(ROOT . '/cache/CHECKUP')) || (file_get_contents(ROOT . '/cache/CHECKUP') != TEXTCUBE_VERSION)) && ($succeed == true)) {
 	if ($fp = fopen(ROOT . '/cache/CHECKUP', 'w')) {
@@ -342,7 +334,14 @@ if (((!file_exists(ROOT . '/cache/CHECKUP')) || (file_get_contents(ROOT . '/cach
 		clearCache();
 	}
 }
-?></span>
+?>
+					</ul>
+
+					<p id="lastMessage">
+						<?php
+	reloadSkin(1);
+	echo ($changed ? _text('완료되었습니다.') : _text('확인되었습니다.'));
+?>
 					</p>
 				</div>
 
