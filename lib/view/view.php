@@ -404,7 +404,7 @@ function getCommentView($entry, $skin) {
 }
 
 function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) {
-	global $blogURL, $service;
+	global $blogURL, $service, $blog;
 	requireModel('blog.category');
 	requireLibrary('blog.skin');
 	$blogid = getBlogId();
@@ -417,14 +417,27 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 		if(doesHaveOwnership() || getCategoryVisibility($blogid, $category1['id']) > 1) {
 			foreach ($category1['children'] as $category2) {
 				if( doesHaveOwnership() || getCategoryVisibility($blogid, $category2['id']) > 1) {
-					array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']), 'link' => "$blogURL/category/" . URL::encode($category2['label'],$service['useEncodedURL']), 'children' => array()));
+					array_push($children, 
+						array('id' => $category2['id'], 
+							'label' => $category2['name'], 
+							'value' => (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']), 
+							'link' => "$blogURL/category/" . ($blog['useSlogan'] ? URL::encode($category2['label'],$service['useEncodedURL']) : $category2['id']), 
+							'children' => array()
+						)
+					);
 					$categoryCount = $categoryCount + (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']);
 				}
 				$categoryCountAll = $categoryCountAll + (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']);
 			}
 			$parentCategoryCount = (doesHaveOwnership() ? $category1['entriesInLogin'] - $categoryCountAll : $category1['entries'] - $categoryCountAll);
 			if($category1['id'] != 0) {
-				array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => $categoryCount + $parentCategoryCount, 'link' => "$blogURL/category/" . URL::encode($category1['label'],$service['useEncodedURL']), 'children' => $children));
+				array_push($tree['children'], 
+					array('id' => $category1['id'], 
+						'label' => $category1['name'], 
+						'value' => $categoryCount + $parentCategoryCount, 
+						'link' => "$blogURL/category/" . ($blog['useSlogan'] ? URL::encode($category1['label'],$service['useEncodedURL']) : $category1['id']), 
+						'children' => $children)
+				);
 			}
 			$categoryCount = 0;
 			$categoryCountAll = 0;

@@ -8,8 +8,12 @@ if (false) {
 }
 
 $cache = new pageCache;
-$category = empty($suri['value']) ? 0 : getCategoryIdByLabel($blogid, $suri['value']);
-
+if(!isset($suri['id'])) {
+	$category = empty($suri['value']) ? 0 : getCategoryIdByLabel($blogid, $suri['value']);
+} else {
+	$category = $suri['id'];
+	$suri['value'] = getCategoryLabelById($blogid, $category);
+}
 if(!doesHaveOwnership() && getCategoryVisibility($blogid, $category) < 2)
 	$category = null;
 
