@@ -322,6 +322,7 @@ THEAD;
 		$elapsed_total = $log['endtime'];
 		$progress_bar = $log['percent'] / 2; //Max 50px;
 		if (!$commentBlosk) {
+			$log['sql'] = htmlspecialchars($log['sql']);
 			$log['percent'] = "<div style='background:#f00;line-height:10px;width:{$progress_bar}px'>&nbsp;</div>";
 			print <<<TBODY
 		<tr class="debugSQLLine{$trclass}">
@@ -336,6 +337,7 @@ THEAD;
 		</tr>
 TBODY;
 		} else {
+			$log['sql'] = str_replace('-->', '-- >', $log['sql']);
 			print <<<TBODY
 
 ===============================================================================================
