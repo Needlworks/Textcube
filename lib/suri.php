@@ -134,14 +134,13 @@ switch ($service['type']) {
 		$pathURL = $service['path'];
 		$blog['primaryBlogURL'] = 'http://' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
 		$blog['secondaryBlogURL'] = null;
-		$defaultURL = $blog['primaryBlogURL'];
+		$defaultURL = $blog['primaryBlogURL'].getFancyURLpostfix();
 		if ($_SERVER['HTTP_HOST'] == $service['domain'])
 			$baseURL = $service['path'];
 		else
 			$baseURL = $defaultURL;
 		break;
 }
-
 $hostURL = 'http://' . $_SERVER['HTTP_HOST'] . (isset($service['port']) ? ':' . $service['port'] : '');
 $blogURL = $pathURL.getFancyURLpostfix();
 $folderURL = rtrim($blogURL . $suri['directive'], '/');
