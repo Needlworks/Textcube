@@ -150,7 +150,7 @@ function getTrackbacksView($entry, $skin, $acceptTrackback) {
 	$trackbacks = getTrackbacks($entry['id']);
 	foreach ($trackbacks as $trackback) {
 		$trackbackView = $skin->trackback;
-		dress('tb_rep_title', fireEvent('ViewTrackbackTitle', $trackback['subject'], array($trackback['id'], $trackback['url'])), $trackbackView);
+		dress('tb_rep_title', htmlspecialchars(fireEvent('ViewTrackbackTitle', $trackback['subject'], array($trackback['id'], $trackback['url']))), $trackbackView);
 		dress('tb_rep_site', htmlspecialchars($trackback['site']), $trackbackView);
 		dress('tb_rep_url', htmlspecialchars($trackback['url']), $trackbackView);
 		dress('tb_rep_desc', htmlspecialchars($trackback['excerpt']), $trackbackView);

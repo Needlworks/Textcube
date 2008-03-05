@@ -219,9 +219,9 @@ function sendTrackback($blogid, $entryId, $url) {
 	if (is_null($entry))
 		return false;
 	$link = "$defaultURL/$entryId";
-	$title = htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id']));
+	$title = fireEvent('ViewPostTitle', $entry['title'], $entry['id']);
 	$entry['content'] = getEntryContentView($blogid, $entryId, $entry['content'], $entry['contentFormatter'], getKeywordNames($blogid));
-	$excerpt = UTF8::lessen(removeAllTags(stripHTML($entry['content'])), 255);
+	$excerpt = str_tag_on(UTF8::lessen(removeAllTags(stripHTML($entry['content'])), 255));
 	$blogTitle = $blog['title'];
 	$isNeedConvert = 
 		strpos($url, '/rserver.php?') !== false // 구버전 태터
