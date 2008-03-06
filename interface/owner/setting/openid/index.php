@@ -9,10 +9,10 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 global $database, $blogURL, $hostURL;
 
 $menu_url = $hostURL . $blogURL . "/owner/setting/openid";
-$menu1 = $menu_url . "&amp;mode=1";
-$menu2 = $menu_url . "&amp;mode=3";
-$menu3 = $menu_url . "&amp;mode=5";
-$menu4 = $menu_url . "&amp;mode=7";
+$menu1 = $menu_url . "?mode=1";
+$menu2 = $menu_url . "?mode=3";
+$menu3 = $menu_url . "?mode=5";
+$menu4 = $menu_url . "?mode=7";
 $order = "order by lastLogin desc";
 
 $mode = preg_replace( '/.*?mode=(\d)/', '\1', $_SERVER["QUERY_STRING"]);
@@ -20,28 +20,28 @@ if( !is_numeric($mode) ) { $mode = 7; };
 switch( $mode )
 {
 case 2:
-	$menu2 = $menu_url . "&amp;mode=3"; $order = "order by delegatedid asc";
+	$menu2 = $menu_url . "?mode=3"; $order = "order by delegatedid asc";
 	break;
 case 3:
-	$menu2 = $menu_url . "&amp;mode=2"; $order = "order by delegatedid desc";
+	$menu2 = $menu_url . "?mode=2"; $order = "order by delegatedid desc";
 	break;
 case 4:
-	$menu3 = $menu_url . "&amp;mode=5"; $order = "order by loginCount asc";
+	$menu3 = $menu_url . "?mode=5"; $order = "order by loginCount asc";
 	break;
 case 5:
-	$menu3 = $menu_url . "&amp;mode=4"; $order = "order by loginCount desc";
+	$menu3 = $menu_url . "?mode=4"; $order = "order by loginCount desc";
 	break;
 case 6:
-	$menu4 = $menu_url . "&amp;mode=7"; $order = "order by lastLogin asc";
+	$menu4 = $menu_url . "?mode=7"; $order = "order by lastLogin asc";
 	break;
 case 7:
-	$menu4 = $menu_url . "&amp;mode=6"; $order = "order by lastLogin desc";
+	$menu4 = $menu_url . "?mode=6"; $order = "order by lastLogin desc";
 	break;
 case 0:
-	$menu1 = $menu_url . "&amp;mode=1"; $order = "order by openid asc";
+	$menu1 = $menu_url . "?mode=1"; $order = "order by openid asc";
 	break;
 case 1:
-	$menu1 = $menu_url . "&amp;mode=0"; $order = "order by openid desc";
+	$menu1 = $menu_url . "?mode=0"; $order = "order by openid desc";
 	break;
 }
 
