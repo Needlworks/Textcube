@@ -1,4 +1,4 @@
-/// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
+	/// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
@@ -1711,8 +1711,8 @@ TTModernEditor.prototype.correctContent = function() {
 	html = html.replace(new RegExp("<strike([^>]*?)>(.*?)</strike>", "gi"), "<del$1>$2</del>");
 	html = html.replace(new RegExp("<(img|br|hr)(\\s+[^>]*[^>/]|)>", "gi"), "<$1$2 />");
 	// delete blanks
-	html = html.replace(new RegExp("(<[^>]*[^/>]>)\\s*(<br\\s*/?>)+", "gi"), "$1");
-	html = html.replace(new RegExp("(<br\\s*/?>)+\\s*(</[^>]*[^/>]>)", "gi"), "$2");
+	html = html.replace(new RegExp("(<(div|li|blockquote)(|\\s+[^>]+)>)\\s*(<br\\s*/?>)+", "gi"), "$1");
+	html = html.replace(new RegExp("(<br\\s*/?>)+\\s*(</(div|li|blockquote)(|\\s+[^>]+))", "gi"), "$2");
 	html = html.replace(new RegExp("<p>\\s*</p>", "gi"), "");
 	html = html.replace(new RegExp("<li>\\s*<p>", "gi"), "<li>");
 	html = html.replace(new RegExp("</p>\\s*</li>", "gi"), "</li>");
