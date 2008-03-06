@@ -3,7 +3,6 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 	define('ROOT', '.'); 
-	if(ereg("pl=([0-9]+)", $_SERVER['QUERY_STRING'], $url)) { header("Location: /". $url[1]); exit;}
 	if (!empty($_SERVER['PRELOAD_CONFIG']) && file_exists('config.php')) require_once ROOT."/config.php";
 	/* Retrieve Access Parameter Information. */
 	$accessInfo = array(
@@ -17,6 +16,8 @@
 	// Workaround for compartibility with fastCGI / Other environment
 	$accessInfo['input'] = ltrim(substr($accessInfo['fullpath'],
 		strlen($accessInfo['root']) + (defined('__TEXTCUBE_NO_FANCY_URL__') ? 1 : 0)),'/');
+	// Support Tattertools 0.9x legacy address (for upgrade users)
+	if(ereg("pl=([0-9]+)", $accessInfo['input'], $url)) { header("Location: ".$accessInfo['root']. $url[1]); exit;}
 	$part = strtok($accessInfo['input'], '/');
 	if (in_array($part, array('image','plugins','script','cache','skin','style','attach','thumbnail'))) {
 		if (strpos($accessInfo['input'],'cache/backup') !== false) { header("HTTP/1.0 404 Not found"); exit;}
