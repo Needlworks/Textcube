@@ -16,6 +16,8 @@ class BlogSetting {
 		$this->description =
 		$this->banner =
 		$this->useSloganOnPost =
+		$this->useSloganOnCategory =
+		$this->useSloganOnTag =
 		$this->entriesOnPage =
 		$this->entriesOnList =
 		$this->postsOnFeed =		
@@ -63,6 +65,8 @@ class BlogSetting {
 							break;
 						case 'defaultDomain':
 						case 'useSloganOnPost':
+						case 'useSloganOnCategory':
+						case 'useSloganOnTag':
 						case 'acceptGuestComment':
 						case 'acceptCommentOnGuestComment':
 							$value = $value ? true : false;
@@ -109,6 +113,10 @@ class BlogSetting {
 		}
 		if (isset($this->useSloganOnPost))
 			setBlogSetting('useSloganOnPost', Validator::getBit($this->useSloganOnPost));
+		if (isset($this->useSloganOnCategory))
+			setBlogSetting('useSloganOnCategory', Validator::getBit($this->useSloganOnCategory));
+		if (isset($this->useSloganOnTag))
+			setBlogSetting('useSloganOnTag', Validator::getBit($this->useSloganOnTag));
 		if (isset($this->postsOnPage)) {
 			if (!Validator::number($this->postsOnPage, 1))
 				return $this->_error('postsOnPage');
