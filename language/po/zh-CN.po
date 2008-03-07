@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-05 17:42:18+0000\n"
-"PO-Revision-Date: 2008-03-05 17:42:18+0000\n"
+"POT-Creation-Date: 2008-03-07 18:41:17+0000\n"
+"PO-Revision-Date: 2008-03-07 18:41:17+0000\n"
 "Last-Translator: TEXTCUBE\n"
 "Language-Team: TEXTCUBE\n"
 "MIME-Version: 1.0\n"
@@ -997,42 +997,6 @@ msgstr "关闭"
 
 msgid "달"
 msgstr "月"
-
-msgid "답글 보기"
-msgstr "浏览回复"
-
-msgid "답글 보기 페이지로"
-msgstr "到浏览回复页面"
-
-msgid "답글 보기 화면으로"
-msgstr "到浏览回复画面"
-
-msgid "답글쓰기가 차단됐습니다."
-msgstr "禁止回复"
-
-msgid "답글에 답글을 작성합니다."
-msgstr "为回复添加回复"
-
-msgid "답글을 삭제할 수 없습니다"
-msgstr "无法删除回复"
-
-msgid "답글을 삭제할 수 없습니다."
-msgstr "无法删除回复."
-
-msgid "답글을 쓸 수 없습니다."
-msgstr "无法添加回复"
-
-msgid "답글을 작성할 수 없습니다."
-msgstr "无法编写回复"
-
-msgid "답글이 삭제됐습니다"
-msgstr "回复已删除"
-
-msgid "답글이 없습니다"
-msgstr "尚无回复"
-
-msgid "답글이 작성됐습니다."
-msgstr "成功发布回复"
 
 msgid "대기 중.."
 msgstr "等待中..."
@@ -2237,9 +2201,6 @@ msgstr "未使用的插件和模块"
 msgid "사용중인 스킨이 사이드바 기능을 지원하지 않습니다."
 msgstr "使用的模板不支持编辑侧栏功能"
 
-msgid "사용중인 표지 플러그인이 없습니다."
-msgstr "未开启自定义首页插件"
-
 msgid "사용중인 플러그인"
 msgstr "使用中的插件"
 
@@ -2625,7 +2586,7 @@ msgid "소유자 변경"
 msgstr "更改博客所有者"
 
 msgid "소유자가 변경되었습니다. \\r\\n기존의 소유자는 관리자로 변경되었습니다."
-msgstr "成功更改所有者，\\r\\n原所有者更改为管理者"
+msgstr "成功更改所有者，\\\\r\\\\n原所有者更改为管理者"
 
 msgid "소유자를 변경하지 못했습니다."
 msgstr "未能更改所有者"
@@ -2921,9 +2882,6 @@ msgstr "关联后OpenID的具有登录后台权限"
 msgid "연결하였습니다."
 msgstr "已关联"
 
-msgid "연결한 오픈아이디로 이 계정에 로그인 할 수 있습니다."
-msgstr ""
-
 msgid "연락처를 아는"
 msgstr "仅知道联系方式"
 
@@ -3067,9 +3025,6 @@ msgstr "靠左对齐"
 
 msgid "요약"
 msgstr "简约"
-
-msgid "운영자만이 수정할 수 있습니다"
-msgstr "仅限邮件服务器管理员可设置"
 
 msgid "운영체제"
 msgstr "系统"
@@ -3913,9 +3868,6 @@ msgstr "修改最近文章(%1)"
 
 msgid "최근에 걸린글"
 msgstr "最新引用"
-
-msgid "최근에 달린 답글"
-msgstr "最新回复"
 
 msgid "최근에 달린 댓글을 %1개 보여줍니다."
 msgstr "最新回复显示 %1个"

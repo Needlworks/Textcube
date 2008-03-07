@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-05 17:42:24+0000\n"
-"PO-Revision-Date: 2008-03-05 17:42:24+0000\n"
+"POT-Creation-Date: 2008-03-07 18:41:25+0000\n"
+"PO-Revision-Date: 2008-03-07 18:41:25+0000\n"
 "Last-Translator: TEXTCUBE\n"
 "Language-Team: TEXTCUBE\n"
 "MIME-Version: 1.0\n"
@@ -149,9 +149,6 @@ msgstr "洛杉磯(美國)"
 msgid "America/New_York"
 msgstr "紐約(美國)"
 
-msgid "Apache Rewrite Engine"
-msgstr "Apache Rewrite Engine"
-
 msgid "Asia/Calcutta"
 msgstr "印度"
 
@@ -224,9 +221,6 @@ msgstr "文件上傳"
 msgid "GMT"
 msgstr "格林尼治標準時間"
 
-msgid "HTML 모드"
-msgstr "HTML 模式"
-
 msgid "IP 필터링"
 msgstr "IP過濾"
 
@@ -242,9 +236,6 @@ msgstr "在公開的鏈結清單裡設置與調用 XFN"
 msgid "Links 테이블의 공개 여부 설정 필드의 속성을 변경합니다."
 msgstr "更新公開的鏈結清單裡的屬性設定"
 
-msgid "MP3 파일만 삽입 가능합니다."
-msgstr "只能插入 MP3 檔案。"
-
 msgid "MP3만 사용할 수 있습니다."
 msgstr "只能使用 MP3"
 
@@ -259,9 +250,6 @@ msgstr "不使用 Microformat"
 
 msgid "MySQL 버전"
 msgstr "MySQL版本"
-
-msgid "OBJECT 태그만 입력하세요."
-msgstr "請輸入 OBJECT 標籤"
 
 msgid "OPML 관리"
 msgstr "管理 OPML"
@@ -338,20 +326,11 @@ msgstr "Textcube - 登入"
 msgid "URL로 읽어오기"
 msgstr "URL地址讀取"
 
-msgid "URL을 입력하세요."
-msgstr "請輸入網址。"
-
 msgid "UTF8 General 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)"
 msgstr "不支持 UTF8 General （警告：對中文的支持可能會受限）"
 
 msgid "UTF8 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)"
 msgstr "不支持 UTF8（警告：警告：對中文的支持可能會受限）"
-
-msgid "WYSIWYG 모드"
-msgstr "WYSIWYG 模式"
-
-msgid "WYSIWYG 편집기"
-msgstr "WYSIWYG 編輯器"
 
 msgid "XML-RPC ping 설정을 위한 테이블을 추가합니다."
 msgstr "為設定XML-RPC ping，增加資料庫表"
@@ -383,9 +362,6 @@ msgstr "作者頁面"
 msgid "default:Asia/Seoul"
 msgstr "韓國"
 
-msgid "e-mail"
-msgstr "e-mail"
-
 msgid "fontDisplayName:fontCode:fontFamily"
 msgstr "fontDisplayName:fontCode:fontFamily|MingLiU:MingLiU:Serif|PMingLiU:PMingLiU:Serif|SimHei:SimHei:Sans-serif|SimSun:SimSun:Serif|NSimSun:NSimSun:Serif"
 
@@ -395,29 +371,14 @@ msgstr "更新 .htaccess 規則"
 msgid "http://www.google.co.kr/search?q=OpenID&amp;lr=lang_ko"
 msgstr "http://www.google.com/search?q=OpenID"
 
-msgid "iMazing 갤러리는 JPG,PNG,GIF 파일만 지원됩니다\\n그 외의 형식은 목록에서 제외했습니다"
-msgstr "iMazing 撥放器只支援 JPG, PNG, GIF 格式檔案\\\\n其餘檔案將不被支援。"
-
-msgid "objList 가 정의 안됨"
-msgstr "objList 沒有被定義"
-
 msgid "rewrite 모듈을 사용하지 않습니다. 이 경우 단일 사용자 모드로만 동작하며, 글로 된 주소 체계(fancy-URL)를 사용할 수 없습니다."
 msgstr "Rewrite 設定無法使用。對於部落格運用規則僅能使用單人模式，且 fancy-URL 將無法使用。"
 
 msgid "skin.html 파일을 수정하실 수 있는 권한이 없습니다."
 msgstr "無權限修改skin.html 文件。"
 
-msgid "type에 접근 안됨"
-msgstr "type 沒有被定義"
-
 msgid "가능한 모든 Microformat을 지원합니다."
 msgstr "使用全部的 Mircoformat"
-
-msgid "가로"
-msgstr "水平"
-
-msgid "가운데 정렬"
-msgstr "置中對齊"
 
 msgid "가입"
 msgstr "加入"
@@ -523,9 +484,6 @@ msgstr "經過"
 
 msgid "계속 진행 하시겠습니까?"
 msgstr "要繼續嗎？"
-
-msgid "계속 진행하시겠습니까?"
-msgstr "是否要繼續進行？"
 
 msgid "계속보관"
 msgstr "繼續保管"
@@ -842,9 +800,6 @@ msgstr "功能"
 msgid "기능 설명"
 msgstr "功能說明"
 
-msgid "기본"
-msgstr "基本"
-
 msgid "기본 도메인"
 msgstr "基本網域"
 
@@ -899,12 +854,6 @@ msgstr "按字母逆向"
 msgid "내보내기"
 msgstr "下載"
 
-msgid "내비게이션"
-msgstr "播放列"
-
-msgid "내어쓰기"
-msgstr "向左縮排"
-
 msgid "내용"
 msgstr "內容"
 
@@ -916,9 +865,6 @@ msgstr "請輸入內容"
 
 msgid "년"
 msgstr "年"
-
-msgid "높이"
-msgstr "高度"
 
 msgid "누구나 접근할 수 있도록 합니다."
 msgstr "解除瀏覽限制"
@@ -977,53 +923,8 @@ msgstr "關閉"
 msgid "달"
 msgstr "月"
 
-msgid "답글 보기"
-msgstr "瀏覽回覆"
-
-msgid "답글 보기 페이지로"
-msgstr "到瀏覽回覆頁面"
-
-msgid "답글 보기 화면으로"
-msgstr "到瀏覽回覆畫面"
-
-msgid "답글쓰기가 차단됐습니다."
-msgstr "禁止回覆"
-
-msgid "답글에 답글을 작성합니다."
-msgstr "為回覆新增回覆"
-
-msgid "답글을 삭제할 수 없습니다"
-msgstr "無法刪除回覆"
-
-msgid "답글을 삭제할 수 없습니다."
-msgstr "無法刪除回覆."
-
-msgid "답글을 쓸 수 없습니다."
-msgstr "無法新增回覆"
-
-msgid "답글을 올리시겠습니까?"
-msgstr "送出回覆？\\\\t"
-
-msgid "답글을 작성할 수 없습니다."
-msgstr "無法編寫回覆"
-
-msgid "답글이 삭제됐습니다"
-msgstr "回覆已刪除"
-
-msgid "답글이 없습니다"
-msgstr "尚無回覆"
-
-msgid "답글이 작성됐습니다."
-msgstr "成功發佈回覆"
-
 msgid "대기 중.."
 msgstr "等待中..."
-
-msgid "대상"
-msgstr "對象"
-
-msgid "대체 텍스트"
-msgstr "圖片說明"
 
 msgid "대표 블로그 설정"
 msgstr "設定為部落格最高權限人員"
@@ -1277,12 +1178,6 @@ msgstr "返回"
 msgid "되돌릴 수 없습니다."
 msgstr "無法復原"
 
-msgid "두번째 이미지"
-msgstr "第二張圖片"
-
-msgid "들여쓰기"
-msgstr "向右縮排"
-
 msgid "등록"
 msgstr "登入"
 
@@ -1430,9 +1325,6 @@ msgstr "連接失效的圖片"
 msgid "링크를 %1 글자로 표시합니다."
 msgstr "友情鏈接顯示為 %1字以內"
 
-msgid "링크를 만들 영역을 선택해주세요"
-msgstr "請選擇鏈結區域"
-
 msgid "링크를 복원하고 있습니다."
 msgstr "正在恢復鏈接"
 
@@ -1514,9 +1406,6 @@ msgstr "全部"
 msgid "모든 글"
 msgstr "所有文章"
 
-msgid "모든 글과 블로그가 관리자의 소유로 옮겨집니다."
-msgstr "擁有者的所有的文章與引用回覆將被清除。"
-
 msgid "모든 만물은 책이요 그림이요 또한 거울이니"
 msgstr "世間萬物皆是書是畫是鏡子。"
 
@@ -1550,9 +1439,6 @@ msgstr "調整字符長度"
 msgid "물음표가 들어간 카테고리 이름은 사용할 수 없습니다"
 msgstr "姓名暱稱中不可使用問號"
 
-msgid "미디어 삽입"
-msgstr "插入多媒體"
-
 msgid "미리 보기"
 msgstr "預覽"
 
@@ -1579,9 +1465,6 @@ msgstr "開始"
 
 msgid "바로가기"
 msgstr "轉到"
-
-msgid "박스로 둘러쌀 영역을 선택해주세요"
-msgstr "請選擇文字方塊區域"
 
 msgid "받는 사람"
 msgstr "收件人"
@@ -1612,9 +1495,6 @@ msgstr "留言板每頁顯示%1篇留言."
 
 msgid "방명록을 복원하고 있습니다."
 msgstr "正在恢復留言板"
-
-msgid "배경색"
-msgstr "文字背景"
 
 msgid "배우자"
 msgstr "妻子"
@@ -1690,9 +1570,6 @@ msgstr "版本確認"
 
 msgid "버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?"
 msgstr "未更新版本建立文件，現在確認嗎？"
-
-msgid "번호 매긴 리스트"
-msgstr "有編號清單"
 
 msgid "범위설정"
 msgstr "訊息瀏覽設定"
@@ -2069,9 +1946,6 @@ msgstr "部落格記錄不存在時，部落格記錄管理員非主要管理員
 msgid "블로그로 이동"
 msgstr "返回部落格"
 
-msgid "블로그를 추가하지 못했습니다."
-msgstr "無法增加新的引用"
-
 msgid "블로그에 아이디가 있는 경우만 접근할 수 있도록 합니다."
 msgstr "帳號擁有者(形同於設置部落格關閉狀態)"
 
@@ -2135,9 +2009,6 @@ msgstr "密碼不得少於6個字符"
 msgid "비밀번호를 변경하시겠습니까?"
 msgstr "確定要修改密碼嗎?"
 
-msgid "비밀번호를 입력하지 않으면 나중에 수정하실 수 없습니다.\\t\\n\\n계속 진행하시겠습니까?"
-msgstr "若是不輸入密碼，則以後無法修改。\\\\t\\\\n\\\\n是否繼續？"
-
 msgid "비밀번호를 입력해 주십시오."
 msgstr "請輸入密碼."
 
@@ -2159,9 +2030,6 @@ msgstr "可以選擇的運營方式如下，請選擇."
 msgid "사용 불가능한 판번호"
 msgstr "無法使用的版本號"
 
-msgid "사용 안함"
-msgstr "不設定"
-
 msgid "사용가능한 스킨 목록입니다"
 msgstr "可使用的模板列表"
 
@@ -2182,12 +2050,6 @@ msgstr "用戶資訊"
 
 msgid "사용자 삭제"
 msgstr "刪除用戶"
-
-msgid "사용자 삭제에 실패하였습니다."
-msgstr "使用者刪除失敗。"
-
-msgid "사용자 삭제중"
-msgstr "使用者刪除中"
 
 msgid "사용자 삽입 이미지"
 msgstr "用戶插入圖片"
@@ -2215,9 +2077,6 @@ msgstr "正在恢復個人設定"
 
 msgid "사용자 편의 설정을 복원하고 있습니다."
 msgstr "正在恢復個人設定"
-
-msgid "사용자를 추가하지 못했습니다."
-msgstr "無法增加新的使用者"
 
 msgid "사용중"
 msgstr "使用中"
@@ -2318,9 +2177,6 @@ msgstr "沒有您要刪除的文件，請您再試試"
 msgid "삭제합니다."
 msgstr "刪除"
 
-msgid "삽입하기"
-msgstr "確定插入"
-
 msgid "상태"
 msgstr "狀態"
 
@@ -2354,14 +2210,8 @@ msgstr "新回覆列表"
 msgid "새로운 링크를 추가합니다"
 msgstr "新增鏈接"
 
-msgid "새로운 블로그가 추가되었습니다."
-msgstr "增加了新的引用"
-
 msgid "새로운 비밀번호"
 msgstr "新密碼"
-
-msgid "새로운 사용자가 추가되었습니다."
-msgstr "增加了新的使用者"
 
 msgid "새로운 스킨을 선택하면 이전 스킨에 적용된 출력 설정들과 사이드바의 변경점은 모두 지워집니다.\\n스킨을 적용하시겠습니까?"
 msgstr "如果選擇新的模板會刪除以前模板的輸出設定和側欄的變更。\\\\n 要使用該模板嗎？"
@@ -2374,9 +2224,6 @@ msgstr "全新安裝"
 
 msgid "새로운 프로필 사진을 저장 했습니다."
 msgstr "已經儲存新的個人照片"
-
-msgid "새창"
-msgstr "開新視窗"
 
 msgid "색동"
 msgstr "首頁"
@@ -2519,12 +2366,6 @@ msgstr "插入文件到文章內,靠左"
 msgid "선택한 파일을 글의 중앙에 정렬합니다."
 msgstr "插入文件到文章內,置中"
 
-msgid "선택한 항목을 아래로 이동합니다."
-msgstr "將選取的項目向下移動。"
-
-msgid "선택한 항목을 위로 이동합니다."
-msgstr "將選取的項目向上移動。"
-
 msgid "설명"
 msgstr "說明"
 
@@ -2579,12 +2420,6 @@ msgstr "成功轉移"
 msgid "성공적으로 최적화 되었습니다."
 msgstr "優化成功"
 
-msgid "세로"
-msgstr "垂直"
-
-msgid "세번째 이미지"
-msgstr "第三張圖片"
-
 msgid "세션 테이블의 필드 속성을 변경합니다."
 msgstr "修改相關資料表屬性."
 
@@ -2621,9 +2456,6 @@ msgstr "已改變部落格管理者。\\\\r\\\\n原有的部落格管理者權�
 msgid "소유자를 변경하지 못했습니다."
 msgstr "部落格管理者變更失敗"
 
-msgid "속성"
-msgstr "屬性"
-
 msgid "손님이 글쓰기 허용"
 msgstr "允許訪客留言"
 
@@ -2647,9 +2479,6 @@ msgstr "不進行聚合"
 
 msgid "수집한 글의 보존기간"
 msgstr "聚合文章的儲存時間:"
-
-msgid "순서없는 리스트"
-msgstr "無編號清單"
 
 msgid "순위"
 msgstr "排行"
@@ -2738,17 +2567,8 @@ msgstr "編輯模板 : \"%1\""
 msgid "스팸 필터"
 msgstr "過濾設定"
 
-msgid "슬라이드쇼 간격"
-msgstr "圖片播放間隔時間(秒)"
-
-msgid "슬라이딩"
-msgstr "滑動"
-
 msgid "슬래시가 들어간 카테고리 이름은 사용할 수 없습니다"
 msgstr "清除分類名稱中的半型(/)字元"
-
-msgid "시각을 바르게 입력해 주십시오"
-msgstr "請輸入正確時間"
 
 msgid "시간"
 msgstr "小時"
@@ -2783,9 +2603,6 @@ msgstr "失敗."
 msgid "실패했습니다.."
 msgstr "失敗.."
 
-msgid "심플"
-msgstr "簡易"
-
 msgid "아니요"
 msgstr "不"
 
@@ -2816,9 +2633,6 @@ msgstr "尚未登入"
 msgid "아직 저장되지 않았습니다."
 msgstr "尚未儲存"
 
-msgid "아직 처리중인 작업이 있습니다."
-msgstr "目前仍持續運作中。"
-
 msgid "안 읽은 글로 표시"
 msgstr "修改為未讀"
 
@@ -2836,9 +2650,6 @@ msgstr "發生未知錯誤"
 
 msgid "알 수 없는 에러입니다."
 msgstr "未知錯誤"
-
-msgid "알 수 없는 형식의 파일명입니다."
-msgstr "檔案格式不被支援。"
 
 msgid "알 수 없음"
 msgstr "無法確定"
@@ -2960,9 +2771,6 @@ msgstr "靠右對齊"
 msgid "오름차순"
 msgstr "按字母正向"
 
-msgid "오브젝트 삽입"
-msgstr "插入多媒體物件"
-
 msgid "오직하나뿐인"
 msgstr "單人的"
 
@@ -3065,9 +2873,6 @@ msgstr "靠左對齊"
 msgid "요약"
 msgstr "簡介"
 
-msgid "운영자만이 수정할 수 있습니다"
-msgstr "僅能修改操作者"
-
 msgid "운영체제"
 msgstr "系統"
 
@@ -3116,14 +2921,8 @@ msgstr "Page scroll up"
 msgid "위임주소"
 msgstr "委任地址"
 
-msgid "위치 고정"
-msgstr "固定位置"
-
 msgid "유지"
 msgstr "維持"
-
-msgid "유형"
-msgstr "類型"
 
 msgid "이 API 키는 외부에서 댓글 알리미 RSS를 참조하거나 로그인이 필요한 기능에서 원래 비밀번호 대용으로 사용합니다."
 msgstr "API Key 可以使用回覆 RSS 或是經由登入由部落格外部控制"
@@ -3241,12 +3040,6 @@ msgstr "此分類設定為不公開"
 
 msgid "이 테이블을 삭제합니다."
 msgstr "刪除此資料表."
-
-msgid "이 편집기에서는 iMazing 갤러리를 지원하지 않습니다."
-msgstr "此編輯模式不支援 iMazing 圖片撥放器。"
-
-msgid "이 편집기에서는 주크박스를 지원하지 않습니다."
-msgstr "此編輯模式不支援 JukeBox."
 
 msgid "이 포스트를 삭제합니다."
 msgstr "刪除此文章."
@@ -3392,9 +3185,6 @@ msgstr "設定圖片縮放"
 msgid "이미지 리샘플링을 통하여 올린 이미지의 크기를 줄여 저장한 후 출력하여 블로그의 트래픽을 줄여줍니다."
 msgstr "通過圖片縮放，可以減少部落格的網路流量。"
 
-msgid "이미지 파일만 삽입 가능합니다."
-msgstr "只能插入圖片檔案。"
-
 msgid "이올린"
 msgstr "Eolin"
 
@@ -3436,9 +3226,6 @@ msgstr "沒有上一篇文章."
 
 msgid "인기도순으로 표시합니다."
 msgstr "按使用密度排序"
-
-msgid "인용구"
-msgstr "引言"
 
 msgid "일"
 msgstr "日"
@@ -3491,12 +3278,6 @@ msgstr "子女"
 msgid "자동으로 저장됨"
 msgstr "已自動儲存"
 
-msgid "자동재생"
-msgstr "自動撥放"
-
-msgid "자막"
-msgstr "圖片文字(顯示於圖片下方)"
-
 msgid "자바스크립트 허용"
 msgstr "允許使用 Javascript"
 
@@ -3518,9 +3299,6 @@ msgstr "熟人"
 msgid "잘못된 IP 주소입니다."
 msgstr "IP地址不正確"
 
-msgid "잘못된 OBJECT 태그입니다."
-msgstr "OBJECT 標籤錯誤"
-
 msgid "잘못된 요청입니다."
 msgstr "錯誤操作"
 
@@ -3535,9 +3313,6 @@ msgstr "文件格式錯誤，請您再試試。"
 
 msgid "잘못된 피드"
 msgstr "FEED錯誤"
-
-msgid "장면전환효과"
-msgstr "場面轉換效果"
 
 msgid "잦은 입출력으로 비효율적이 된 데이터베이스를 최적화 합니다."
 msgstr "優化資料庫,提高程序運行效率."
@@ -3596,9 +3371,6 @@ msgstr "儲存失敗"
 msgid "적용"
 msgstr "應用"
 
-msgid "적용하기"
-msgstr "確定套用"
-
 msgid "적용할 글을 선택해 주십시오."
 msgstr "請選擇要應用的文章"
 
@@ -3646,9 +3418,6 @@ msgstr "沒有權限"
 
 msgid "정렬"
 msgstr "排列"
-
-msgid "정렬방법"
-msgstr "對齊方式"
 
 msgid "정렬순서 변경"
 msgstr "修改排列方式"
@@ -3791,9 +3560,6 @@ msgstr "包含附件"
 msgid "첨부하지 못했습니다."
 msgstr "新增附件失敗"
 
-msgid "첫번째 이미지"
-msgstr "第一張圖片"
-
 msgid "첫번째 점검"
 msgstr "初始化檢查"
 
@@ -3917,20 +3683,11 @@ msgstr "修改最近文章(%1)"
 msgid "최근에 걸린글"
 msgstr "最新引用"
 
-msgid "최근에 달린 답글"
-msgstr "最新回覆"
-
 msgid "최근에 달린 댓글을 %1개 보여줍니다."
 msgstr "最新回覆顯示 %1個"
 
 msgid "최근에 쓴 글을 %1개 보여줍니다."
 msgstr "最新文章顯示 %1個"
-
-msgid "최대너비"
-msgstr "最大寬度"
-
-msgid "최대높이"
-msgstr "最大高度"
 
 msgid "최상단 분류는 비공개로 설정할 수 없습니다."
 msgstr "頂級分類不能設定為不公開。"
@@ -3986,9 +3743,6 @@ msgstr "要顯示最新回覆"
 msgid "취소"
 msgstr "取消"
 
-msgid "취소선"
-msgstr "刪除線"
-
 msgid "취소하기"
 msgstr "取消"
 
@@ -4040,26 +3794,11 @@ msgstr "緩存清除成功"
 msgid "켜짐"
 msgstr "開啟"
 
-msgid "코드"
-msgstr "代碼"
-
-msgid "코드 붙여넣기"
-msgstr "輸入代碼"
-
 msgid "크기"
 msgstr "大小"
 
 msgid "클릭 설정"
 msgstr "點擊設定"
-
-msgid "클릭하시면 HTML 모드로 변경합니다."
-msgstr "按此轉換為 HTML 模式"
-
-msgid "클릭하시면 HTML 편집기로 변경합니다."
-msgstr "按此轉換為 HTML 編輯環境"
-
-msgid "클릭하시면 WYSIWYG 모드로 변경합니다."
-msgstr "按此轉換為 WYSIWYG 模式"
 
 msgid "키워드"
 msgstr "關鍵字"
@@ -4112,12 +3851,6 @@ msgstr "重新計算標籤之間的關系並儲存。"
 msgid "태그의 정렬방법을"
 msgstr "顯示標籤的方式"
 
-msgid "테두리"
-msgstr "捲動"
-
-msgid "테두리 없음"
-msgstr "不捲動"
-
 msgid "테이블"
 msgstr "資料表"
 
@@ -4150,9 +3883,6 @@ msgstr "已經存在資料表"
 
 msgid "테이블이 존재하지 않습니다."
 msgstr "資料表不存在"
-
-msgid "텍스트 상자"
-msgstr "文字方塊"
 
 msgid "텍스트큐브"
 msgstr "TextCube 的位址"
@@ -4241,9 +3971,6 @@ msgstr "六"
 msgid "통계와 관련된 구조를 변경합니다."
 msgstr "修改統計相關資料結構."
 
-msgid "투명전환"
-msgstr "透明"
-
 msgid "트랙백 불러오기 속도를 개선하기 위하여 트랙백 테이블의 인덱스 설정을 변경합니다."
 msgstr "製作引用資料表索引以改善引用資料的速度"
 
@@ -4313,15 +4040,6 @@ msgstr "成功初始化Favicon"
 msgid "파비콘을 초기화합니다."
 msgstr "初始化Favicon"
 
-msgid "파일"
-msgstr "清單"
-
-msgid "파일 리스트에서 이미지를 2개 선택해 주십시오. (ctrl + 마우스 왼쪽 클릭)"
-msgstr "請在檔案清單中選擇 2 個圖片檔案(ctrl + 滑鼠左鍵)"
-
-msgid "파일 리스트에서 이미지를 3개 선택해 주십시오. (ctrl + 마우스 왼쪽 클릭)"
-msgstr "請在檔案清單中選擇 3 個圖片檔案(ctrl + 滑鼠左鍵)"
-
 msgid "파일 삽입"
 msgstr "插入文件"
 
@@ -4334,14 +4052,8 @@ msgstr "上傳附件"
 msgid "파일 업로드에 실패했습니다."
 msgstr "上傳附件失敗"
 
-msgid "파일 주소"
-msgstr "URL 位址"
-
 msgid "파일을 삭제하지 못했습니다"
 msgstr "刪除附件失敗"
-
-msgid "파일을 선택하십시오"
-msgstr "請選擇文件"
 
 msgid "파일을 선택하십시오."
 msgstr "請選擇文件"
@@ -4391,9 +4103,6 @@ msgstr "為頁面緩存，增加資料表"
 msgid "편집"
 msgstr "編輯"
 
-msgid "편집 환경"
-msgstr "編輯環境"
-
 msgid "편집기"
 msgstr "編輯器"
 
@@ -4420,15 +4129,6 @@ msgstr "瀏覽文章"
 
 msgid "포스트보기"
 msgstr "查看文章"
-
-msgid "폭"
-msgstr "寬度"
-
-msgid "폰트 설정"
-msgstr "文字設定"
-
-msgid "폰트 스타일"
-msgstr "文字樣式"
 
 msgid "표시된 정보가 부족합니다."
 msgstr "訊息不足"
@@ -4474,9 +4174,6 @@ msgstr "個人照片"
 
 msgid "프로필 사진 초기화"
 msgstr "初始化個人照片"
-
-msgid "플래쉬"
-msgstr "閃爍"
 
 msgid "플러그인"
 msgstr "插件"
@@ -4534,9 +4231,6 @@ msgstr "插件建立的資料表"
 
 msgid "플러그인이 생성한 테이블입니다. 테이블의 데이터를 삭제할 수 있습니다."
 msgstr "插件建立的資料表，可以清空資料."
-
-msgid "플레이어 보이기"
-msgstr "顯示撥放器"
 
 msgid "피드 갱신"
 msgstr "更新FEED"
@@ -4628,9 +4322,6 @@ msgstr "按路徑(Path)識別部落格"
 msgid "하위 분류가 있으므로 삭제할 수 없습니다."
 msgstr "因為存在下級分類 不能刪除"
 
-msgid "하이퍼링크"
-msgstr "插入超鏈結"
-
 msgid "한 쪽당 글 수"
 msgstr "每頁顯示文章數"
 
@@ -4697,9 +4388,6 @@ msgstr "標記本文"
 msgid "현재의 모든 데이터를 TTXML형태의 백업파일로 보관합니다.<br />첨부파일을 포함시킬 수 있으며, 복원할 경우 자동으로 첨부파일이 처리됩니다.<br />백업파일은 서버에 저장하거나 다운받으실 수 있습니다."
 msgstr "以 <acronym title=\"Tattertools Backup XML\">TTXML</acronym> 格式保存目前的所有資料。<br />當你包含附件時將在資料復原時一起被重建。此下載將製作伺服器備份用資料。"
 
-msgid "현재창"
-msgstr "原視窗"
-
 msgid "형제,자매"
 msgstr "兄弟、姊妹"
 
@@ -4720,9 +4408,6 @@ msgstr "請輸入網域名稱"
 
 msgid "홈페이지 필터링"
 msgstr "網站過濾"
-
-msgid "화면당 이미지 수"
-msgstr "每頁撥放圖片數目"
 
 msgid "화요일"
 msgstr "二"
@@ -4750,12 +4435,6 @@ msgstr "於環境設定中設置 API Key 可由遠端取得部落格位址"
 
 msgid "환영합니다. <em>%1</em>님."
 msgstr "歡迎您 <em>%1</em>"
-
-msgid "효과 제거"
-msgstr "清除樣式"
-
-msgid "효과없음"
-msgstr "無效果"
 
 msgid "휴지통"
 msgstr "回收站"

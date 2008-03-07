@@ -71,7 +71,7 @@ function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 	}
 	if ($jumpToComment) {
 ?>
-		<li><a href="<?php echo $blogURL;?>/comment/<?php echo $entry['id'];?>" accesskey="4"><?php echo _text('답글 보기');?> (<?php echo $entry['comments'];?>)</a></li>
+		<li><a href="<?php echo $blogURL;?>/comment/<?php echo $entry['id'];?>" accesskey="4"><?php echo _text('댓글 보기');?> (<?php echo $entry['comments'];?>)</a></li>
 		<?php
 	}
 	if ($jumpToTrackback) {
@@ -120,7 +120,7 @@ function printMobileCommentView($entryId) {
 	if (count($comments) == 0) {
 ?>
 		<div class="comment">
-			<?php echo _text('답글이 없습니다');?>
+			<?php echo _text('댓글이 없습니다');?>
 		</div>
 		<hr />
 		<?php

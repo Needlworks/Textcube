@@ -18,13 +18,13 @@ requireStrictRoute();
 if(empty($suri['id'])) {
 	list($entryId) = getCommentAttributes($blogid, $_POST['replyId'], 'entry');
 	if (deleteComment($blogid, $_POST['replyId'], $entryId, isset($_POST['password']) ? $_POST['password'] : '') === false) {
-		printMobileErrorPage(_text('답글을 삭제할 수 없습니다.'), _text('비밀번호가 일치하지 않습니다.'), "$blogURL/comment/delete/{$_POST['replyId']}");
+		printMobileErrorPage(_text('댓글을 삭제할 수 없습니다.'), _text('비밀번호가 일치하지 않습니다.'), "$blogURL/comment/delete/{$_POST['replyId']}");
 		exit();
 	}
 } else {
 	list($entryId) = getCommentAttributes($blogid, $suri['id'], 'entry');
 	if (deleteComment($blogid, $suri['id'], $entryId, '') === false) {
-		printMobileErrorPage(_t('답글을 삭제할 수 없습니다'), _t('관리자가 아닙니다'), "$blogURL/comment/delete/{$suri['id']}");
+		printMobileErrorPage(_t('댓글을 삭제할 수 없습니다'), _t('관리자가 아닙니다'), "$blogURL/comment/delete/{$suri['id']}");
 		exit();
 	}
 }
@@ -33,7 +33,7 @@ $entry = $entries ? $entries[0] : null;
 printMobileHtmlHeader();
 ?>
 <div id="content">
-	<h2><?php echo _t('답글이 삭제됐습니다');?></h2>
+	<h2><?php echo _t('댓글이 삭제됐습니다');?></h2>
 </div>
 <?php
 printMobileNavigation($entry);
