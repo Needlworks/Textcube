@@ -113,7 +113,7 @@ function getEntryAttributes($blogid, $id, $attributeNames) {
 }
 
 function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
-	global $database, $suri, $folderURL;
+	global $database, $suri, $folderURL, $blog;
 	if ($category === null)
 		return array();
 	if (!doesHaveOwnership() && getCategoryVisibility($blogid, $category) < 2 && $category != 0)
@@ -132,7 +132,7 @@ function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
 			FROM {$database['prefix']}Entries e 
 			WHERE e.blogid = $blogid AND e.draft = 0 $visibility $cond 
 			ORDER BY e.published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
+	return fetchWithPaging($sql, $page, $count, "$folderURL/".((!getBlogSetting('useSlogan',true) && isset($suri['id'])) ? $suri['id'] : $suri['value']));
 }
 
 function getEntryListWithPagingByAuthor($blogid, $author, $page, $count) {
