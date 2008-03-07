@@ -9,7 +9,7 @@ if(isset($_GET['key'])) $_POST['key'] = $_GET['key'];
 
 $IV = array(
 	'POST' => array(
-		'loginid' => array('string'),
+		'loginid' => array('email'),
 		'key' => array('string')
 		)
 );
