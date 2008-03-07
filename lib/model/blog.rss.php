@@ -57,7 +57,7 @@ function refreshRSS($blogid) {
 		$result = array();
 	$channel['items'] = array();
 	foreach($result as $row) {
-		$entryURL = $defaultURL . '/' . ($blog['useSlogan'] ? 'entry/' . rawurlencode($row['slogan']) : $row['id']);
+		$entryURL = $defaultURL . '/' . ($blog['useSloganOnPost'] ? 'entry/' . rawurlencode($row['slogan']) : $row['id']);
 
 		$content = getEntryContentView($blogid, $row['id'], $row['content'], $row['contentFormatter'], true, 'Post', true, true);
 		$content = preg_replace('/<a href=("|\')(#[^\1]+)\1/i', '<a href=$1' . htmlspecialchars($entryURL) . '$2$1', $content);
@@ -213,7 +213,7 @@ function getCommentRSSByEntryId($blogid = null, $entryId, $rawMode = false) {
 
 	$channel = initializeRSSchannel($blogid);
 	$channel['title'] = RSSMessage($blog['title']. ': '._textf('%1 에 달린 댓글',$entry['title']));
-	if($blog['useSlogan']) {
+	if($blog['useSloganOnPost']) {
 		$channel['link'] = $defaultURL."/entry/".URL::encode($entry['slogan'],true);
 	} else {
 		$channel['link'] = $defaultURL."/".$entryId;
@@ -293,7 +293,7 @@ function getTrackbackRSSByEntryId($blogid = null, $entryId, $rawMode = false) {
 
 	$channel = initializeRSSchannel($blogid);
 	$channel['title'] = RSSMessage($blog['title']. ': '._textf('%1 에 달린 트랙백',$entry['slogan']));
-	if($blog['useSlogan']) {
+	if($blog['useSloganOnPost']) {
 		$channel['link'] = $defaultURL."/entry/".URL::encode($entry['slogan'],true);
 	} else {
 		$channel['link'] = $defaultURL."/".$entryId;

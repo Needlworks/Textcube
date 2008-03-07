@@ -37,7 +37,7 @@ if (isset($cache->contents)) {
 		else if ($suri['directive'] == '/page')
 			$permalink = "$blogURL/page/{$entry['id']}";
 		else
-			$permalink = "$blogURL/" . ($blog['useSlogan'] ? "entry/" . URL::encode($entry['slogan'],$service['useEncodedURL']) : $entry['id']);
+			$permalink = "$blogURL/" . ($blog['useSloganOnPost'] ? "entry/" . URL::encode($entry['slogan'],$service['useEncodedURL']) : $entry['id']);
 
 		if ($entry['category'] == - 1) { // This is keylog
 			$entryView = $skin->keylogItem;

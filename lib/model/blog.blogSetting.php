@@ -133,22 +133,36 @@ function setDefaultDomain($blogid, $default) {
 	return true;
 }
 
-function useBlogSlogan($blogid, $useSlogan) {
+function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSloganOnTag) {
 	global $blog;
 	requireModel('blog.rss');
 	requireComponent('Needlworks.Cache.PageCache');
-	$useSlogan = $useSlogan ? 1 : 0;
-	if ($useSlogan == $blog['useSlogan'])
+	$useSloganOnPost     = $useSloganOnPost     ? 1 : 0;
+	$useSloganOnCategory = $useSloganOnCategory ? 1 : 0;
+	$useSloganOnTag      = $useSloganOnTag      ? 1 : 0;
+	if ($useSloganOnPost == $blog['useSloganOnPost'] 
+		&& $useSloganOnCategory == $blog['useSloganOnCategory']
+		&& $useSloganOnTag == $blog['useSloganOnTag'])
 		return true;
-	if(setBlogSetting('useSlogan',$useSlogan) === false) {
+/*	if(setBlogSetting('useSloganOnPost',$useSlogan) === false
+	|| setBlogSetting('useSloganOnCategory',$useSlogan) === false
+	|| setBlogSetting('useSloganOnTag',$useSlogan) === false
+		) {
 		return false;
-	}
-	$blog['useSlogan'] = $useSlogan;
+	}*/
+	setBlogSetting('useSloganOnPost',$useSloganOnPost);
+	setBlogSetting('useSloganOnCategory',$useSloganOnCategory);
+	setBlogSetting('useSloganOnTag',$useSloganOnTag);
+
+	$blog['useSloganOnPost'] = $useSloganOnPost;
+	$blog['useSloganOnCategory'] = $useSloganOnCategory;
+	$blog['useSloganOnTag'] = $useSloganOnTag;
 	CacheControl::flushCategory();
 	CacheControl::flushEntry();
-	fireEvent('ToggleBlogSlogan',null,$blog['useSlogan']);
+	CacheControl::flushTag();
+	fireEvent('ToggleBlogSlogan',null,$blog['useSloganOnPost']);
 	clearRSS();
-	return true;
+	return true; 
 }
 
 function publishPostEolinSyncOnRSS($blogid, $publishEolinSyncOnRSS) {
@@ -276,7 +290,9 @@ function addBlog($blogid, $userid, $identify) {
 			'logoLabel'                => '',
 			'logoWidth'                => 0,
 			'logoHeight'               => 0,
-			'useSlogan'                => 1,
+			'useSloganOnPost'          => 1,
+			'useSloganOnCategory'      => 1,
+			'useSloganOnTag'           => 1,
 			'entriesOnPage'            => 10,
 			'entriesOnList'            => 10,
 			'entriesOnRSS'             => 10,

@@ -15,7 +15,7 @@ class BlogSetting {
 		$this->title =
 		$this->description =
 		$this->banner =
-		$this->useSlogan =
+		$this->useSloganOnPost =
 		$this->entriesOnPage =
 		$this->entriesOnList =
 		$this->postsOnFeed =		
@@ -62,7 +62,7 @@ class BlogSetting {
 							$name = 'acceptCommentOnGuestComment';
 							break;
 						case 'defaultDomain':
-						case 'useSlogan':
+						case 'useSloganOnPost':
 						case 'acceptGuestComment':
 						case 'acceptCommentOnGuestComment':
 							$value = $value ? true : false;
@@ -107,8 +107,8 @@ class BlogSetting {
 				return $this->_error('banner');
 			setBlogSetting('logo', $this->banner);
 		}
-		if (isset($this->useSlogan))
-			setBlogSetting('useSlogan', Validator::getBit($this->useSlogan));
+		if (isset($this->useSloganOnPost))
+			setBlogSetting('useSloganOnPost', Validator::getBit($this->useSloganOnPost));
 		if (isset($this->postsOnPage)) {
 			if (!Validator::number($this->postsOnPage, 1))
 				return $this->_error('postsOnPage');

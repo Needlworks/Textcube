@@ -25,7 +25,7 @@ if($entry = POD::queryRow("SELECT e.*, c.name AS categoryName
 	echo '<trackbacks>', $allTrackbacks, '</trackbacks>', "\r\n";
 	echo '</blog>', "\r\n";
 	echo '<entry>', "\r\n";
-	echo '<permalink>', htmlspecialchars("$defaultURL/".($blog['useSlogan'] ? "entry/{$entry['slogan']}": $entry['id'])), '</permalink>', "\r\n";
+	echo '<permalink>', htmlspecialchars("$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$entry['slogan']}": $entry['id'])), '</permalink>', "\r\n";
 	echo '<title>', htmlspecialchars($entry['title']), '</title>', "\r\n";
 	echo '<content>', htmlspecialchars(getEntryContentView($blogid, $suri['id'], $entry['content'], $entry['contentFormatter'])), '</content>', "\r\n";
 	echo '<author>', htmlspecialchars(POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = ".$entry['userid'])), '</author>', "\r\n";

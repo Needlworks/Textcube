@@ -8,7 +8,12 @@ if (false) {
 }
 $cache = new pageCache;
 if (strlen($suri['value'])) {
-	$tag = getTagId($blogid, $suri['value']);
+	if(!isset($suri['id'])) {
+		$tag = getTagId($blogid, $suri['value']);
+	} else {
+		$tag = $suri['id'];
+		$suri['value'] = getTagById($blogid, $suri['id']);
+	}
 
 	$preservedEntries =
 	$entryCache =

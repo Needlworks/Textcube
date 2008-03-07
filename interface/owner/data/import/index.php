@@ -249,8 +249,8 @@ function importer($path, $node, $line) {
 				$setting->description = $node['description'][0]['.value'];
 			if (isset($node['banner'][0]['name'][0]['.value']))
 				$setting->banner = $node['banner'][0]['name'][0]['.value'];
-			if (isset($node['useSlogan'][0]['.value']))
-				$setting->useSlogan = $node['useSlogan'][0]['.value'];
+			if (isset($node['useSloganOnPost'][0]['.value']))
+				$setting->useSloganOnPost = $node['useSloganOnPost'][0]['.value'];
 			if (isset($node['postsOnPage'][0]['.value']))
 				$setting->postsOnPage = $node['postsOnPage'][0]['.value'];
 			if (isset($node['postsOnList'][0]['.value']))
