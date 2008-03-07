@@ -593,6 +593,7 @@ function revertTempTags($content) {
 		$content = str_replace("[#####_#####_#####_{$keys[$i]}_#####_#####_#####]", $contentContainer[$keys[$i]], $content);
 //		unset($contentContainer[$keys[$i]]);
 	}
+	handleTags($content);
 	return $content;
 }
 

@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-handleTags($view);
+//handleTags($view);
 
 $writer = User::getBlogOwnerName($blogid);
 $pageTitle = trim($pageTitle);
