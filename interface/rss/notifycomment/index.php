@@ -4,6 +4,8 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('NO_SESSION', true);
 define('__TEXTCUBE_LOGIN__',true);
+if(isset($_GET['loginid'])) $_POST['loginid'] = $_GET['loginid'];
+if(isset($_GET['key'])) $_POST['key'] = $_GET['key'];
 
 $IV = array(
 	'POST' => array(
