@@ -559,6 +559,7 @@ class KeylogSkin {
 }
 
 function removeAllTags($contents) {
+	handleTags($contents);
 	$contents = preg_replace('/\[#M_[^|]*\|[^|]*\|/Us', '', str_replace('_M#]', '', preg_replace('/\[##_.+_##\]/Us', '', $contents)));
 	$contents = preg_replace('@<(s_[0-9a-zA-Z_]+)>.*?</\1>@s', '', $contents);
 	return $contents;	
@@ -593,7 +594,6 @@ function revertTempTags($content) {
 		$content = str_replace("[#####_#####_#####_{$keys[$i]}_#####_#####_#####]", $contentContainer[$keys[$i]], $content);
 //		unset($contentContainer[$keys[$i]]);
 	}
-	handleTags($content);
 	return $content;
 }
 
