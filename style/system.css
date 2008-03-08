@@ -33,3 +33,8 @@
 {
 	z-index: 100;
 }
+
+select#commandBox option.default
+{
+	font-style: italic;
+}
