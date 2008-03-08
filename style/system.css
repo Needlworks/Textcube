@@ -9,3 +9,10 @@
 	padding-top: 50px;
 	text-align: center;
 }
+
+#TTSearchForm
+{
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
