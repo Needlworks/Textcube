@@ -16,3 +16,14 @@
 	margin: 0;
 	padding: 0;
 }
+
+#TCfilelist
+{
+	width: 415px;
+}
+
+#TCfilelist .enclosure
+{
+	background-color: #c6a6e7;
+	color: #000;
+}

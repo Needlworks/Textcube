@@ -1905,7 +1905,7 @@ TTModernEditor.prototype.activeButton = function(node) {
 }
 
 TTModernEditor.prototype.getFilenameFromFilelist = function(name) {
-	var fileList = getObject("fileList");
+	var fileList = getObject("TCfilelist");
 
 	for(var i=0; i<fileList.length; i++)
 		if(fileList.options[i].value.indexOf(name) == 0)

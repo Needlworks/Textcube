@@ -89,7 +89,7 @@ if (defined('__TEXTCUBE_POST__')) {
 								function setEnclosure(value) {
 									var filename = value.substring(0, value.indexOf("|"));
 									
-									if(document.getElementById("fileList").selectedIndex == -1) {
+									if(document.getElementById("TCfilelist").selectedIndex == -1) {
 										alert("<?php echo _t('파일을 선택하십시오.');?>");
 										return false;
 									}
@@ -118,7 +118,7 @@ if (defined('__TEXTCUBE_POST__')) {
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/attach/enclosure/");
 									request.onSuccess = function () {
 										PM.removeRequest(this);
-										var fileList = document.getElementById("fileList");
+										var fileList = document.getElementById("TCfilelist");
 										fileList.selectedIndex = -1;
 										for(var i=0; i<fileList.length; i++)
 											fileList[i].style.backgroundColor = (order == 1 && fileList[i].value.indexOf(filename) == 0) ? "#c6a6e7" : "#fff";
@@ -505,13 +505,13 @@ if (isset($_GET['popupEditor'])) {
 								}
 								
 								function viewWhatIsEolin() {
-									document.getElementById('fileList').style.visibility = 'hidden';
+									document.getElementById('TCfilelist').style.visibility = 'hidden';
 									dialog = document.getElementById('eolinDialog');
 									PM.showPanel(dialog);
 								}
 								
 								function closeWhatIsEolin() {
-									document.getElementById('fileList').style.visibility = 'visible';
+									document.getElementById('TCfilelist').style.visibility = 'visible';
 									document.getElementById('eolinDialog').style.display = 'none';
 								}
 								
@@ -760,7 +760,7 @@ printEntryFileList(getAttachments($blogid, $entry['id'], 'label'), $param);
 											<a class="image-imazing" href="#void" onclick="editorAddObject(editor, 'Imazing');return false;" title="<?php echo _t('이메이징(플래쉬 갤러리)을 삽입합니다.');?>"><span class="text"><?php echo _t('이메이징(플래쉬 갤러리) 삽입');?></span></a>
 											<a class="image-sequence" href="#void" onclick="editorAddObject(editor, 'Gallery');return false;" title="<?php echo _t('이미지 갤러리를 삽입합니다.');?>"><span class="text"><?php echo _t('갤러리 삽입');?></span></a>
 											<a class="image-mp3" href="#void" onclick="editorAddObject(editor, 'Jukebox');return false;" title="<?php echo _t('쥬크박스를 삽입합니다.');?>"><span class="text"><?php echo _t('쥬크박스 삽입');?></span></a>
-											<a class="image-podcast" href="#void" onclick="setEnclosure(document.getElementById('fileList').value);return false;" title="<?php echo _t('팟캐스트로 지정합니다.');?>"><span class="text"><?php echo _t('팟캐스트 지정');?></span></a>
+											<a class="image-podcast" href="#void" onclick="setEnclosure(document.getElementById('TCfilelist').value);return false;" title="<?php echo _t('팟캐스트로 지정합니다.');?>"><span class="text"><?php echo _t('팟캐스트 지정');?></span></a>
 										</div>
 <?php
 printEntryFileUploadButton($entry['id']);
