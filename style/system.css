@@ -1,5 +1,6 @@
 .TCwarning
 {
+	background-image: url("../image/warning.gif");
 	background-repeat: no-repeat;
 	background-position: top center;
 	color: #333;
