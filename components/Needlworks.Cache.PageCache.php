@@ -448,7 +448,15 @@ class CacheControl {
 		$cache->purge();
 		return true;
 	}
-	
+
+	function flushCommentNotifyRSS() {
+		global $database;
+		$cache = new pageCache;
+		$cache->name = 'commentNotifiedRSS';
+		$cache->purge();
+		return true;
+	}
+
 	function flushItemsByPlugin($pluginName) {
 		global $databases;
 

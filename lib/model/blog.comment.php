@@ -772,6 +772,7 @@ function deleteCommentNotifiedInOwner($blogid, $id) {
 	if(POD::queryCount("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND id = $id") == 1) {
 		if (POD::query("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND parent = $id")) {
 			updateCommentsOfEntry($blogid, $entryId);
+			CacheControl::flushCommentNotifyRSS();
 			return true;
 		}
 	}
@@ -855,6 +856,7 @@ function receiveNotifiedComment($post) {
 		return 1;
 	global $database;
 	
+	CacheControl::flushCommentNotifyRSS();
 	$post = fireEvent('ReceiveNotifiedComment', $post);
 	if ($post === false) return 7;
 	
