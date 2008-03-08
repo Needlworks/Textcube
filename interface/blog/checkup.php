@@ -351,7 +351,7 @@ if (((!file_exists(ROOT . '/cache/CHECKUP')) || (file_get_contents(ROOT . '/cach
 					</p>
 				</div>
 
-				<div id="navigation" style="padding-top: 20px;">
+				<div id="navigation">
 					<a href="<?php echo $blogURL.'/owner/center/dashboard';?>"><img src="<?php echo $service['path']?>/style/setup/image/icon_ok.gif" width="74" height="24" alt="돌아가기" /></a>
 				</div>
 			</div>
