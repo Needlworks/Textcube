@@ -109,7 +109,7 @@ function pretty_dress($view)
 	dress('search_name', 'search', $searchView);
 	dress('search_text', isset($search) ? htmlspecialchars($search) : '', $searchView);
 	dress('search_onclick_submit', 'searchBlog()', $searchView);
-	dress('search', '<form id="TTSearchForm" action="'.$blogURL.'/search/" method="get" onsubmit="return searchBlog()" style="margin:0;padding:0;display:inline">'.$searchView.'</form>', $view);
+	dress('search', '<form id="TTSearchForm" action="'.$blogURL.'/search/" method="get" onsubmit="return searchBlog()">'.$searchView.'</form>', $view);
 	
 	dress('category', $pd_category, $view);
 	dress('category_list', $pd_categoryXhtml, $view);
