@@ -41,7 +41,7 @@ function getRandomTags($blogid) {
 	$aux = ($skinSetting['tagsOnTagbox'] == - 1) ? '' : "limit {$skinSetting['tagsOnTagbox']}";
 	if ($skinSetting['tagboxAlign'] == 1) { // order by count
 		if (doesHaveOwnership())
-			$tags = POD::queryAll("SELECT `name`, count(*) `cnt`, id FROM `{$database['prefix']}Tags` t 
+			$tags = POD::queryAll("SELECT `name`, count(*) `cnt`, t.id FROM `{$database['prefix']}Tags` t 
 				INNER JOIN `{$database['prefix']}TagRelations` r ON r.blogid = $blogid AND r.tag = t.id
 				GROUP BY r.tag 
 				ORDER BY cnt DESC $aux");
