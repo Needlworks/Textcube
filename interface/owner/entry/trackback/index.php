@@ -10,6 +10,7 @@ if (isset($_GET['site'])) $_POST['site'] = $_GET['site'];
 if (isset($_GET['ip'])) $_POST['ip'] = $_GET['ip'];
 if (isset($_GET['withSearch'])) $_POST['withSearch'] = $_GET['withSearch'];
 if (isset($_GET['search'])) $_POST['search'] = $_GET['search'];
+if (isset($_GET['status'])) $_POST['status'] = $_GET['status'];
 
 $IV = array(
 	'GET' => array(
@@ -23,7 +24,8 @@ $IV = array(
 		'ip' => array('ip', 'mandatory' => false),
 		'withSearch' => array(array('on'), 'mandatory' => false),
 		'search' => array('string', 'default' => ''),
-		'perPage' => array('int', 1, 'mandatory' => false)
+		'perPage' => array('int', 1, 'mandatory' => false),
+		'status' => array('string', 'mandatory' => false)
 	)
 );	
 require ROOT . '/lib/includeForBlogOwner.php';
@@ -40,13 +42,36 @@ if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
 	setBlogSetting('rowsPerPage', $_POST['perPage']);
 }
-list($trackbacks, $paging) = getTrackbacksWithPagingForOwner($blogid, $categoryId, $site, $ip, $search, $suri['page'], $perPage);
+
+$tabsClass = array();
+if (isset($_POST['status'])) {
+	if($_POST['status']=='received') {
+		$tabsClass['received'] = true;
+		$visibilityText = _t('걸린 글');
+	} else if($_POST['status']=='sent') {
+		$tabsClass['sent'] = true;
+		$visibilityText = _t('건 글');
+	}
+} else {
+	$tabsClass['received'] = true;
+	$visibilityText = _t('걸린 글');
+}
+if($tabsClass['received'] == true) {
+	list($trackbacks, $paging) = getTrackbacksWithPagingForOwner($blogid, $categoryId, $site, $ip, $search, $suri['page'], $perPage);
+} else {
+	list($trackbacks, $paging) = getTrackbackLogsWithPagingForOwner($blogid, $categoryId, $site, $ip, $search, $suri['page'], $perPage);
+}
+
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
+
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
-								function changeState(caller, value, mode) {
+<?php
+if($tabsClass['received'] == true) {
+?>
+							function changeState(caller, value, mode) {
 									try {			
 										if (caller.className == 'block-icon bullet') {
 											var command 	= 'unblock';
@@ -119,6 +144,46 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										alert(e.message);
 									}
 								}
+<?php
+} else {
+?>
+								function removeTrackbackLog(id) {
+									if (confirm("선택된 글걸기 기록을 지웁니다. 계속 하시겠습니까?")) {
+										var request = new HTTPRequest("<?php echo $blogURL;?>/owner/entry/trackback/log/remove/" + id);
+										request.onSuccess = function () {
+											document.getElementById('list-form').submit();
+										}
+										request.onError = function () {
+											alert("글걸기 기록을 지우지 못했습니다.");
+										}
+										request.send();
+									}
+								}
+								
+								function trashTrackbacks() {
+									try {
+										if (!confirm("<?php echo _t('선택된 걸린글 기록을 지웁니다. 계속 하시겠습니까?');?>"))
+											return false;
+										var oElement;
+											var targets = new Array();
+										for (i = 0; document.getElementById('list-form').elements[i]; i ++) {
+											oElement = document.getElementById('list-form').elements[i];
+											if ((oElement.name == "entry") && oElement.checked)
+												targets[targets.length] = oElement.value;
+										}
+										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/trackback/log/remove/");
+										request.onSuccess = function() {
+											document.getElementById('list-form').submit();
+										}
+										alert(targets.join(","));
+										request.send("targets=" + targets.join(","));
+									} catch(e) {
+										alert(e.message);
+									}
+								}
+<?php
+}
+?>
 								
 								function checkAll(checked) {
 									for (i = 0; document.getElementById('list-form').elements[i]; i++) {
@@ -168,11 +233,20 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 }
 ?>
 							</h2>
-							
+							<ul id="entry-tabs-box" class="tabs-box">
+								<!-- TODO : $tab['postfix'] 버그 -->
+								<li<?php echo isset($tabsClass['received']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/trackback?page=1<?php echo $tab['postfix'];?>&amp;status=received"><?php echo _t('걸린 글');?></a></li>
+								<li<?php echo isset($tabsClass['sent']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/trackback?page=1<?php echo $tab['postfix'];?>&amp;status=sent"><?php echo _t('건 글');?></a></li>
+							</ul>
+
 							<form id="category-form" class="category-box" method="post" action="<?php echo $blogURL;?>/owner/entry/trackback">
 								<div class="section">
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
-									
+<?php
+	if(!isset($tabsClass['received'])) {
+?>
+									<input type="hidden" name="status" value="sent" />
+<?php } ?>
 									<select id="category" name="category" onchange="document.getElementById('category-form').page.value=1; document.getElementById('category-form').submit()">
 										<option value="0"><?php echo _t('전체');?></option>
 <?php
@@ -191,17 +265,25 @@ foreach (getCategories($blogid) as $category) {
 									<input type="submit" id="category-move-button" class="move-button input-button" value="<?php echo _t('이동');?>" />
 								</div>
 							</form>
-							
+
 							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/entry/trackback">
+<?php
+	if(!isset($tabsClass['received'])) {
+?>
+								<input type="hidden" name="status" value="sent" />
+<?php } ?>
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
 											<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" onclick="checkAll(this.checked);" disabled="disabled" /></th>
 											<th class="date"><span class="text"><?php echo _t('등록일자');?></span></th>
-											<th class="site"><span class="text"><?php echo _t('사이트명');?></span></th>
+											<th class="site"><span class="text"><?php echo (isset($tabsClass['received']) ? _t('사이트 이름') : _t('보낸 주소'));?></span></th>
 											<th class="category"><span class="text"><?php echo _t('분류');?></span></th>
-											<th class="title"><span class="text"><?php echo _t('제목');?></span></th>
+											<th class="title"><span class="text"><?php echo (isset($tabsClass['received']) ? _t('받은 글 제목') : _t('보낸 글 제목'));?></span></th>
+<?php if(isset($tabsClass['received'])) {
+?>
 											<th class="ip"><acronym title="Internet Protocol">ip</acronym></th>
+<?php } ?>
 											<th class="delete"><span class="text"><?php echo _t('삭제');?></span></th>
 										</tr>
 									</thead>
@@ -210,7 +292,6 @@ if (sizeof($trackbacks) > 0) echo "									<tbody>";
 $siteNumber = array();
 for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$trackback = $trackbacks[$i];
-	
 	requireComponent('Textcube.Data.Filter');
 	$isFilterURL = Filter::isFiltered('url', $trackback['url']);
 	$filteredURL = getURLForFilter($trackback['url']);
@@ -237,17 +318,25 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 											<td class="date"><?php echo Timestamp::formatDate($trackback['written']);?></td>
 											<td class="site">
 <?php
-	if ($isFilterURL) {
+	if(isset($tabsClass['received'])) {
+		if ($isFilterURL) {
 ?>
 												<a id="urlFilter<?php echo $currentSite;?>-<?php echo $i;?>" class="block-icon bullet" href="<?php echo $blogURL;?>/owner/setting/filter/change/?value=<?php echo urlencode($filteredURL);?>&amp;mode=url&amp;command=unblock" onclick="changeState(this,'<?php echo $filteredURL;?>','url'); return false;" title="<?php echo _t('이 사이트는 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>"><span class="text"><?php echo _t('[차단됨]');?></span></a>
 <?php
-	} else {
+		} else {
 ?>
 												<a id="urlFilter<?php echo $currentSite;?>-<?php echo $i;?>" class="unblock-icon bullet" href="<?php echo $blogURL;?>/owner/setting/filter/change/?value=<?php echo urlencode($filteredURL);?>&amp;mode=url&amp;command=block" onclick="changeState(this,'<?php echo $filteredURL;?>','url'); return false;" title="<?php echo _t('이 사이트는 차단되지 않았습니다. 클릭하시면 차단합니다.');?>"><span class="text"><?php echo _t('[허용됨]');?></span></a>
 <?php
-	}
+		}
 ?>
 												<a href="?site=<?php echo urlencode(escapeJSInAttribute($trackback['site']));?>" title="<?php echo _t('이 사이트에서 건 글 목록을 보여줍니다.');?>"><?php echo htmlspecialchars($trackback['site']);?></a>
+<?php
+	} else {
+?>
+												<a href="<?php echo htmlspecialchars($trackback['url']);?>"><?php echo link_cut(htmlspecialchars($trackback['url']),30);?></a>
+<?php
+	}
+?>
 											</td>
 											<td class="category">
 <?php
@@ -265,23 +354,39 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 											<td class="title">
 												<a href="<?php echo $trackback['url'];?>" onclick="window.open(this.href); return false;" title="<?php echo _t('글을 건 글을 보여줍니다.');?>"><?php echo htmlspecialchars($trackback['subject']);?></a>
 											</td>
+<?php
+	if(isset($tabsClass['received'])) {
+?>
 											<td class="ip">
 <?php
-	if ($isIpFiltered) {
+		if ($isIpFiltered) {
 ?>
 												<a id="ipFilter<?php echo urlencode($trackback['ip']);?>-<?php echo $i;?>" class="block-icon bullet" href="<?php echo $blogURL;?>/owner/setting/filter/change/?value=<?php echo urlencode($trackback['ip']);?>&amp;mode=ip&amp;command=unblock" onclick="changeState(this,'<?php echo urlencode($trackback['ip']);?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>"><span class="text"><?php echo _t('[차단됨]');?></span></a>
 <?php
-	} else {
+		} else {
 ?>
 												<a id="ipFilter<?php echo urlencode($trackback['ip']);?>-<?php echo $i;?>" class="unblock-icon bullet" href="<?php echo $blogURL;?>/owner/setting/filter/change/?value=<?php echo urlencode($trackback['ip']);?>&amp;mode=ip&amp;command=block" onclick="changeState(this,'<?php echo urlencode($trackback['ip']);?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.');?>"><span class="text"><?php echo _t('[허용됨]');?></span></a>
 <?php
-	}
+		}
 ?>
 
 												<a href="?ip=<?php echo urlencode(escapeJSInAttribute($trackback['ip']));?>" title="<?php echo _t('이 IP로 등록된 걸린글 목록을 보여줍니다.');?>"><?php echo $trackback['ip'];?></a>
 											</td>
+<?php
+	}
+?>
 											<td class="delete">
+<?php
+	if(isset($tabsClass['received'])) {
+?>
 												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/trackback/delete/<?php echo $trackback['id'];?>" onclick="trashTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 걸린글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
+<?php
+	} else {
+?>
+												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/trackback/log/remove/<?php echo $trackback['id'];?>" onclick="removeTrackbackLog(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 글걸기 기록을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
+<?php
+	}
+?>
 											</td>
 										</tr>
 <?php
@@ -349,6 +454,11 @@ for ($i = 10; $i <= 30; $i += 5) {
 									<label for="search"><?php echo _t('제목');?>, <?php echo _t('사이트명');?>, <?php echo _t('내용');?></label>
 									<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
 									<input type="hidden" name="withSearch" value="" />
+<?php
+if(!isset($tabsClass['received'])) {
+	?>
+									<input type="hidden" name="status" value="sent" />
+<?php } ?>
 									<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit();" />
 								</div>
 							</form>

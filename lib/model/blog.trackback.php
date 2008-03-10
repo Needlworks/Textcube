@@ -40,6 +40,35 @@ function getTrackbacksWithPagingForOwner($blogid, $category, $site, $ip, $search
 	return array($trackbacks, $paging);
 }
 
+function getTrackbackLogsWithPagingForOwner($blogid, $category, $site, $ip, $search, $page, $count) {
+	global $database;
+	
+	$postfix = '';
+	$sql = "SELECT t.*, e.title as subject, c.name categoryName 
+		FROM {$database['prefix']}TrackbackLogs t 
+		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
+		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
+		WHERE t.blogid = $blogid";
+	if ($category > 0) {
+		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
+		array_push($categories, $category);
+		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
+		$postfix .= '&category=' . rawurlencode($category);
+	} else
+		$sql .= ' AND e.category >= 0';
+	if (!empty($search)) {
+		$search = escapeSearchString($search);
+		$sql .= " AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
+		$postfix .= '&search=' . rawurlencode($search);
+	}
+	$sql .= ' ORDER BY t.written DESC';
+	list($trackbacks, $paging) = fetchWithPaging($sql, $page, $count);
+	if (strlen($postfix) > 0) {
+		$paging['postfix'] .= $postfix . '&withSearch=on';
+	}
+	return array($trackbacks, $paging);
+}
+
 function getTrackbacks($entry) {
 	global $database;
 	$trackbacks = array();
