@@ -312,6 +312,8 @@ function getImageFileUpload($target){
 function getAddAttachment($file){
 	global $database, $serviceURL;
 	requireComponent('Textcube.Function.misc');
+	requireComponent('Textcube.Data.Attachment');
+	Attachment::confirmFolder();
 	if(empty($file['name'])||($file['error']!=0))
 		return false;
 	$attachment = array();
