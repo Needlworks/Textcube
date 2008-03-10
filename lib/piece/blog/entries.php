@@ -83,7 +83,7 @@ if (isset($cache->contents)) {
 				$tags = array();
 				$relTag = getBlogSetting('useMicroformat', 3)>1 && (count($entries) == 1 || !empty($skin->hentryExisted) );
 				foreach ($entryTags as $entryTag) {
-					$tags[$entryTag['name']] = "<a href=\"$defaultURL/tag/" . URL::encode($entryTag['name'],$service['useEncodedURL']) . '"' . ($relTag ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>';
+					$tags[$entryTag['name']] = "<a href=\"$defaultURL/tag/" . (getBlogSetting('useSloganOnTag',true) ? URL::encode($entryTag['name'],$service['useEncodedURL']) : $entryTag['id']). '"' . ($relTag ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>';
 					array_push($totalTags,$entryTag['name']);
 				}
 				$tags = fireEvent('ViewTagLists', $tags, $entry['id']);
