@@ -50,6 +50,7 @@ if (empty($suri['id']) || !is_null($entry)) {
 	$entry['acceptTrackback'] = empty($_POST['acceptTrackback']) ? 0 : 1;
 	$entry['published'] = empty($_POST['published']) ? 0 : $_POST['published'];
 	$entry['draft'] = 0;
+	if(strpos($entry['slogan'],'TCDraftPost') === 0) $entry['slogan'] = $entry['title'];
 
 	if(empty($suri['id'])) {
 		if ($id = addEntry($blogid, $entry)) {
