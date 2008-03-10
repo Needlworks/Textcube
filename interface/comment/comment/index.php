@@ -76,8 +76,10 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 			$tempComments = revertTempTags(removeAllTags(getCommentView($entry, $skin)));
 			$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments));
 ?>
+		try {
 		var obj = opener.document.getElementById("entry<?php echo $comment['entry'];?>Comment");
 		obj.innerHTML = "<?php echo str_innerHTML($tempComments);?>";
+		} catch(e) { }
 		try {
 		obj = opener.document.getElementById("recentComments");
 		obj.innerHTML = "<?php echo str_innerHTML($tempRecentComments);?>";
@@ -94,6 +96,10 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 		try {
 		obj = opener.document.getElementById("commentCountOnRecentEntries<?php echo $comment['entry'];?>");
 		if (obj != null) obj.innerHTML = "<?php echo str_innerHTML($commentCount);?>";
+		} catch(e) { }
+		try {
+		obj = opener.document.getElementById('list-form');
+		if(obj != null) opener.document.getElementById('list-form').submit();
 		} catch(e) { }
 		window.close();
 	//]]>

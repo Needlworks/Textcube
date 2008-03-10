@@ -16,7 +16,7 @@ $IV = array(
 	'GET' => array(
 		'name' => array('string', 'mandatory' => false),
 		'page' => array('int', 1, 'default' => 1),
-		'ip' => array('ip', 'mandatory' => false),
+		'ip' => array('ip', 'mandatory' => false)
 	),
 	'POST' => array(
 		'ip' => array('ip', 'mandatory' => false),
@@ -38,7 +38,7 @@ $name = isset($_POST['name']) && !empty($_POST['name']) ? $_POST['name'] : $name
 $ip = isset($_GET['ip']) && !empty($_GET['ip']) ? $_GET['ip'] : '';
 $ip = isset($_POST['ip']) && !empty($_POST['ip']) ? $_POST['ip'] : $ip;
 $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
-$perPage = getBlogSetting('rowsPerPage', 10); 
+$perPage = getBlogSetting('rowsPerPage', 10);
 if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
 	setBlogSetting('rowsPerPage', $_POST['perPage']);
@@ -202,6 +202,13 @@ foreach (getCategories($blogid) as $category) {
 							</form>
 							
 							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/entry/comment">
+<?php
+	if(isset($_POST['ip'])) echo '								<input type="hidden" name="ip" value="'.$_POST['ip'].'" />'.CRLF;
+	if(isset($_POST['name'])) echo '								<input type="hidden" name="name" value="'.$_POST['name'].'" />'.CRLF;
+	if(isset($_POST['category'])) echo '								<input type="hidden" name="category" value="'.$_POST['category'].'" />'.CRLF;
+	if(isset($_POST['search'])) echo '								<input type="hidden" name="search" value="'.$_POST['search'].'" />'.CRLF;
+	if(isset($_POST['withSearch'])) echo '								<input type="hidden" name="withSearch" value="'.$_POST['withSearch'].'" />'.CRLF;
+?>
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
@@ -280,6 +287,9 @@ for ($i=0; $i<sizeof($comments); $i++) {
 ?>
 												<?php echo ((!empty($comment['title']) || !empty($comment['parent'])) ? '<br />' : '');?>
 												<?php echo htmlspecialchars($comment['comment']);?>
+<?php
+	if(empty($comment['parent'])) echo '<span class="reply"><a href="#" onclick="commentComment('.$comment['id'].');return false;">'._t('이 댓글에 댓글을 씁니다.').'</a></span>';
+?>
 								 			</td>
 											<td class="ip">
 <?php
