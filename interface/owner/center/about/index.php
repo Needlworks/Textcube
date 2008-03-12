@@ -238,7 +238,8 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									<span class="vcard"><a class="fn nickname url" href="http://yupmin.tistory.com/">엽기민원</a></span>,
 									<span class="vcard"><a class="fn nickname url" href="#">우수한</a></span>,
 									<span class="vcard"><a class="fn nickname url" href="http://chakani.net">차칸아이</a></span>,
-									<span class="vcard"><a class="fn nickname url" href="http://www.yangkun.pe.kr">희망이아빠</a></span>
+									<span class="vcard"><a class="fn nickname url" href="http://www.yangkun.pe.kr">희망이아빠</a></span>,
+									<span class="vcard"><a class="fn nickname url" href="http://reznoa.nayana.com/tt">레즈</a></span>
 									</p>
 									
 									<h4><?php echo _t('Internationalization Contributor');?></h4>
