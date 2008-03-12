@@ -806,6 +806,8 @@ RewriteRule ^testrewrite$ setup.php [L]"
 				return false;
 			}
 			@unlink($filename);
+		} else {
+			$rewrite = 0;
 		}
     	$domain = $rewrite == 3 ? substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.') + 1) : $_SERVER['HTTP_HOST'];
 ?>
