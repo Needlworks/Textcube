@@ -34,7 +34,6 @@ function getCategoryIdByLabel($blogid, $label) {
 	if (empty($label))
 		return 0;
 
-	$label = POD::escapeString($label);
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
 	if($result = MMCache::queryRow($__gCacheCategoryRaw,'label',$label))
 		return $result['id'];
@@ -88,7 +87,7 @@ function getCategoryLinkById($blogid, $id) {
 		$result = rawurlencode(htmlspecialchars(escapeURL($result)));
 	}
 	return $result;
-}	
+}
 
 function getCategories($blogid, $format = 'tree') {
 	global $database;
@@ -97,10 +96,10 @@ function getCategories($blogid, $format = 'tree') {
 		return $__gCacheCategoryTree;
 	else if($format == 'raw' && !empty($__gCacheCategoryRaw))
 		return $__gCacheCategoryRaw;
-	$rows = POD::queryAllWithCache("SELECT * 
-			FROM {$database['prefix']}Categories 
-			WHERE blogid = $blogid 
-				AND id >= 0 
+	$rows = POD::queryAllWithCache("SELECT *
+			FROM {$database['prefix']}Categories
+			WHERE blogid = $blogid
+				AND id >= 0
 			ORDER BY parent, priority");
 	$categories = array();
 	if( empty($rows) ) {
@@ -129,7 +128,7 @@ function getCategoryVisibilityList($blogid, $mode = 'private') {
 	requireComponent('Needlworks.Cache.PageCache');
 
 	global $__gCacheCategoryVisibilityList, $__gCacheCategoryRaw;
-	
+
 	if(!array_key_exists($mode,$__gCacheCategoryVisibilityList)) {
 		switch($mode) {
 			case 'public':
@@ -158,13 +157,13 @@ function getPrivateCategoryExclusionQuery($blogid) {
 function getCategoriesSkin() {
 	global $service;
 	$setting = getSkinSetting(getBlogId());
-	$skin = array('name' => "{$setting['skin']}", 
-			'url'               => $service['path'] . "/image/tree/{$setting['tree']}", 
-			'labelLength'       => $setting['labelLengthOnTree'], 
-			'showValue'         => $setting['showValueOnTree'], 
-			'itemColor'         => "{$setting['colorOnTree']}", 
-			'itemBgColor'       => "{$setting['bgColorOnTree']}", 
-			'activeItemColor'   => "{$setting['activeColorOnTree']}", 
+	$skin = array('name' => "{$setting['skin']}",
+			'url'               => $service['path'] . "/image/tree/{$setting['tree']}",
+			'labelLength'       => $setting['labelLengthOnTree'],
+			'showValue'         => $setting['showValueOnTree'],
+			'itemColor'         => "{$setting['colorOnTree']}",
+			'itemBgColor'       => "{$setting['bgColorOnTree']}",
+			'activeItemColor'   => "{$setting['activeColorOnTree']}",
 			'activeItemBgColor' => "{$setting['activeBgColorOnTree']}", );
 	return $skin;
 }
@@ -194,7 +193,7 @@ function getNumberEntryInCategories($id) {
 
 function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
 	global $database;
-	
+
 	if (empty($name))
 		return false;
 	if (!is_null($parent) && !Validator::id($parent))
@@ -226,7 +225,7 @@ function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
 	}
 
 	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE blogid = $blogid AND name = '$name' $parentStr";
-	
+
 	if (POD::queryCell($sql) > 0)
 		return false;
 
@@ -259,7 +258,7 @@ function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
 
 function deleteCategory($blogid, $id) {
 	global $database;
-	
+
 	if (!is_numeric($id))
 		return false;
 	CacheControl::flushCategory($id);
@@ -274,12 +273,12 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 	if($id==0) checkRootCategoryExistence($blogid);
 	if ((empty($name)) && (empty($bodyid)))
 		return false;
-	$row = POD::queryRow("SELECT p.name, p.id 
-		FROM {$database['prefix']}Categories c 
-		LEFT JOIN {$database['prefix']}Categories p ON c.parent = p.id 
+	$row = POD::queryRow("SELECT p.name, p.id
+		FROM {$database['prefix']}Categories c
+		LEFT JOIN {$database['prefix']}Categories p ON c.parent = p.id
 		WHERE c.blogid = $blogid AND c.id = $id");
 	$label = $row['name'];
-//	$parentId = $row['id'];	
+//	$parentId = $row['id'];
 //	if (!empty($parentId)) {
 //		$parentStr = "AND parent = $parentId";
 //	} else
@@ -291,19 +290,19 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 		WHERE blogid = $blogid AND name = '".$name."' AND bodyId = '".$bodyid."'"))
 		return false;
 	$label = POD::escapeString(UTF8::lessenAsEncoding(empty($label) ? $name : "$label/$name", 255));
-	$sql = "SELECT * 
-		FROM {$database['prefix']}Categories 
-		WHERE blogid = $blogid 
+	$sql = "SELECT *
+		FROM {$database['prefix']}Categories
+		WHERE blogid = $blogid
 			AND id = $id";
-	// $sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE blogid = $blogid AND name='$name' $parentStr";	
+	// $sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE blogid = $blogid AND name='$name' $parentStr";
 	if(POD::queryExistence($sql) == false)
 		return false;
-	
-	$result = POD::query("UPDATE {$database['prefix']}Categories 
-		SET name = '$name', 
-			label = '$label', 
-			bodyId = '$bodyid'  
-		WHERE blogid = $blogid 
+
+	$result = POD::query("UPDATE {$database['prefix']}Categories
+		SET name = '$name',
+			label = '$label',
+			bodyId = '$bodyid'
+		WHERE blogid = $blogid
 			AND id = $id");
 	if ($result)
 		clearRSS();
@@ -357,14 +356,14 @@ function moveCategory($blogid, $id, $direction) {
 	$nextId = '';
 //	$nextParentId = '';
 	$nextPriority = '';
-	$sql = "SELECT 
+	$sql = "SELECT
 				_parent.id AS parentId,
 				_parent.priority AS parentPriority,
 				_parent.parent AS parentParent,
 				_my.priority AS myPriority,
 				_my.parent AS myParent
-			FROM {$database['prefix']}Categories AS _my 
-				LEFT JOIN {$database['prefix']}Categories AS _parent ON _parent.id = _my.parent 
+			FROM {$database['prefix']}Categories AS _my
+				LEFT JOIN {$database['prefix']}Categories AS _parent ON _parent.id = _my.parent
 			WHERE _my.id = $id AND _my.blogid = $blogid";
 	$row = POD::queryRow($sql);
 	$myParent = is_null($row['myParent']) ? 'NULL' : $row['myParent'];
@@ -458,7 +457,7 @@ function moveCategory($blogid, $id, $direction) {
 					$nextId = $row['id'];
 //					$nextParentId = $row['parent'];
 					$nextPriority = $row['priority'];
-					
+
 					// 위치를 바꿀 대상 카테고리에 같은 이름이 존재하는지 판별.
 					$myName = POD::escapeString(POD::queryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId AND `blogid` = $blogid"));
 					$overlapCount = POD::queryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` = $nextId AND `blogid` = $blogid");
@@ -558,9 +557,9 @@ function setCategoryVisibility($blogid, $id, $visibility) {
 	if($id == 0) return false;
 	$parentVisibility = getParentCategoryVisibility($blogid, $id);
 	if ($parentVisibility!==false && $parentVisibility < 2) return false; // return without changing if parent category is set to hidden.
-	$result = POD::query("UPDATE {$database['prefix']}Categories 
-		SET visibility = $visibility 
-		WHERE blogid = $blogid 
+	$result = POD::query("UPDATE {$database['prefix']}Categories
+		SET visibility = $visibility
+		WHERE blogid = $blogid
 			AND id = $id");
 	if ($result && $visibility == 1) $result = setChildCategoryVisibility($blogid, $id, $visibility);
 	if ($result)
@@ -573,12 +572,12 @@ function setCategoryVisibility($blogid, $id, $visibility) {
 function setChildCategoryVisibility($blogid, $id, $visibility) {
 	global $database;
 	if($id == 0) return false;
-	$childCategories = POD::queryColumn("SELECT id 
+	$childCategories = POD::queryColumn("SELECT id
 		FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $id");
 	if($childCategories!=false) {
 		foreach($childCategories as $childCategory) {
-			$result = POD::query("UPDATE {$database['prefix']}Categories 
-				SET visibility = $visibility 
+			$result = POD::query("UPDATE {$database['prefix']}Categories
+				SET visibility = $visibility
 				WHERE blogid = $blogid AND id = $childCategory");
 			if($result == false) return false;
 		}
@@ -591,7 +590,7 @@ function clearCategoryCache() {
 	global $__gCacheCategoryTree, $__gCacheCategoryRaw;
 	if(isset($__gCacheCategoryTree))
 		$__gCacheCategoryTree = array();
-	if(isset($__gCacheCategoryRaw)) 
+	if(isset($__gCacheCategoryRaw))
 		$__gCacheCategoryRaw = array();
 }
 ?>
