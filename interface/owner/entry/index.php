@@ -760,7 +760,7 @@ foreach (getCategories($blogid) as $category) {
 <?php
 $returnURLpostfix = '';
 if(isset($_GET['page'])) $returnURLpostfix .= '?page='.$_GET['page'];
-if(isset($_GET['category'])) $returnURLpostfix .= (empty($returnURLpostfix) ? '?' : '&amp;').'category='.$categoryId;
+if(isset($_GET['category']) || ($categoryId != -5)) $returnURLpostfix .= (empty($returnURLpostfix) ? '?' : '&amp;').'category='.$categoryId;
 if(isset($_POST['visibility'])) $returnURLpostfix .= (empty($returnURLpostfix) ? '?' : '&amp;').'visibility='.$_POST['visibility'];
 ?>
 								<input type="hidden" name="returnURL" value="<?php echo $blogURL.'/owner/entry'.$returnURLpostfix;?>" />
