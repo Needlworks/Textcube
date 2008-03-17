@@ -326,6 +326,7 @@ class CacheControl {
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'categoryList\\_".$categoryId."%')");
 		CacheControl::purgeItems($categoryLists);
+		CacheControl::flushRSS();
 		unset($cache);
 		return true;
 	}
@@ -406,6 +407,13 @@ class CacheControl {
 		}
 		unset($cache);
 		return true;
+	}
+	function flushRSS() {
+		if (file_exists(ROOT . "/cache/rss/".getBlogId().".xml"))
+			@unlink(ROOT . "/cache/rss/".getBlogId().".xml");
+		CacheControl::flushCommentRSS();
+		CacheControl::flushTrackbackRSS();
+		CacheControl::flushResponseRSS();
 	}
 
 	function flushCommentRSS($entryId = null) {
