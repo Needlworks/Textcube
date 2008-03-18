@@ -872,15 +872,15 @@ function receiveNotifiedComment($post) {
 	$parent_parent = $post['r1_rno'];
 	$parent_homepage = POD::escapeString(UTF8::lessenAsEncoding($post['r1_homepage'], 80));
 	$parent_written = $post['r1_regdate'];
-	$parent_comment = POD::escapeString(UTF8::lessenAsEncoding($post['r1_body'], 255));
+	$parent_comment = POD::escapeString($post['r1_body']);
 	$parent_url = POD::escapeString(UTF8::lessenAsEncoding($post['r1_url'], 255));
 	$child_id = $post['r2_no'];
 	$child_name = POD::escapeString(UTF8::lessenAsEncoding($post['r2_name'], 80));
 	$child_parent = $post['r2_rno'];
 	$child_homepage = POD::escapeString(UTF8::lessenAsEncoding($post['r2_homepage'], 80));
 	$child_written = $post['r2_regdate'];
-	$child_comment = POD::escapeString(UTF8::lessenAsEncoding($post['r2_body'], 255));
-	$child_url = POD::escapeString(UTF8::lessenAsEncoding($post['r2_url'], 255));
+	$child_comment = POD::escapeString($post['r2_body'], 255);
+	$child_url = POD::escapeString(UTF8::lessenAsEncoding($post['r2_url']));
 	$siteId = POD::queryCell("SELECT id FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE url = '$homepage'");
 	$insertId = getCommentsNotifiedSiteInfoMaxId() + 1;
 	if (empty($siteId)) {
