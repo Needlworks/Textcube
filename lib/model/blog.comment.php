@@ -879,7 +879,7 @@ function receiveNotifiedComment($post) {
 	$child_parent = $post['r2_rno'];
 	$child_homepage = POD::escapeString(UTF8::lessenAsEncoding($post['r2_homepage'], 80));
 	$child_written = $post['r2_regdate'];
-	$child_comment = POD::escapeString($post['r2_body'], 255);
+	$child_comment = POD::escapeString($post['r2_body']);
 	$child_url = POD::escapeString(UTF8::lessenAsEncoding($post['r2_url'],255));
 	$siteId = POD::queryCell("SELECT id FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE url = '$homepage'");
 	$insertId = getCommentsNotifiedSiteInfoMaxId() + 1;
