@@ -9,7 +9,7 @@ function MT_Cover_getRecentEntries($parameters){
 	requireModel("blog.tag");
 	$data = setting::fetchConfigVal($configVal);
 	$data['coverMode']	= !isset($data['coverMode'])?1:$data['coverMode'];
-	if(setting::isMetaBlog() != true) $data['coverMode'] = 1;
+	if(misc::isMetaBlog() != true) $data['coverMode'] = 1;
 	$data['screenshot']	= !isset($data['screenshot'])?1:$data['screenshot'];
 
 	if (isset($parameters['preview'])) {
