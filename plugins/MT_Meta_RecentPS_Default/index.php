@@ -3,12 +3,13 @@ function MT_Cover_getRecentEntries($parameters){
 	global $database,$blog,$serviceURL,$configVal, $defaultURL;
 	requireComponent('Textcube.Core');
 	requireComponent('Needlworks.Cache.PageCache');
+	requireComponent('Textcube.Function.Setting');
 	requireComponent('Textcube.Function.misc');
 	requireModel("blog.entry");
 	requireModel("blog.tag");
 	$data = setting::fetchConfigVal($configVal);
 	$data['coverMode']	= !isset($data['coverMode'])?1:$data['coverMode'];
-	if(misc::isMetaBlog() != true) $data['coverMode'] = 1;
+	if(setting::isMetaBlog() != true) $data['coverMode'] = 1;
 	$data['screenshot']	= !isset($data['screenshot'])?1:$data['screenshot'];
 
 	if (isset($parameters['preview'])) {
@@ -35,7 +36,7 @@ function MT_Cover_getRecentEntries($parameters){
 	$cache->name = 'MT_Cover_RecentPS';
 	if($cache->load()) { //If successful loads
 		// If coverpage is single mode OR coverpage is coverblog and cache is not expired, return cache contents.
-		if($data['coverMode']==1 || ($data['coverMode']==2 && (Timestamp::getUNIXtime() - $cache->dbContents < 300))) {
+		if(($data['coverMode']==1 || $data['coverMode']==2) && (Timestamp::getUNIXtime() - $cache->dbContents < 300)) {
 			return $cache->contents;
 		}	
 	}
@@ -158,7 +159,7 @@ function MT_Cover_getAttachmentExtract($content){
 
 function MT_Cover_getRecentEntryStyle($target){
 	global $pluginURL, $configVal;
-	requireComponent('Textcube.Function.misc');
+	requireComponent('Textcube.Function.Setting');
 	$data = setting::fetchConfigVal($configVal);
 	$data['cssSelect']	= !isset($data['cssSelect'])?1:$data['cssSelect'];
 	if($data['cssSelect'] == 1){
@@ -168,7 +169,7 @@ function MT_Cover_getRecentEntryStyle($target){
 }
 
 function MT_Cover_getRecentEntries_DataSet($DATA){
-	requireComponent('Textcube.Function.misc');
+	requireComponent('Textcube.Function.Setting');
 	requireComponent('Needlworks.Cache.PageCache');
 	$cfg = setting::fetchConfigVal($DATA);
 
