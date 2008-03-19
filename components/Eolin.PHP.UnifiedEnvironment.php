@@ -37,7 +37,12 @@ if (count($host) > 1) {
 }
 unset($host);
 
-if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
+if(isset($_SERVER['HTTP_CLIENT_IP'])) {
+	$_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CLIENT_IP'];
+} else if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+	$firstIP = explode(',',$_SERVER['HTTP_X_FORWARDED_FOR']);
+	$_SERVER['REMOTE_ADDR'] = $firstIP[0];
+}
 
 if (!function_exists('iconv')) {
 	if (function_exists('mb_convert_encoding')) {
