@@ -11,6 +11,7 @@ if (isset($_GET['name'])) $_POST['name'] = $_GET['name'];
 if (isset($_GET['perPage'])) $_POST['perPage'] = $_GET['perPage'];
 if (isset($_GET['search'])) $_POST['search'] = $_GET['search'];
 if (isset($_GET['withSearch'])) $_POST['withSearch'] = $_GET['withSearch'];
+if (isset($_GET['status'])) $_POST['status'] = $_GET['status'];
 
 $IV = array(
 	'GET' => array(
@@ -24,7 +25,8 @@ $IV = array(
 		'category' => array('int', 'default' => 0),
 		'perPage' => array('int', 1, 'mandatory' => false),
 		'search' => array('string', 'default' => ''),
-		'withSearch' => array(array('on'), 'mandatory' => false)
+		'withSearch' => array(array('on'), 'mandatory' => false),
+		'status' => array('string', 'mandatory' => false)
 	)
 );	
 require ROOT . '/lib/includeForBlogOwner.php';
@@ -43,7 +45,25 @@ if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
 	setBlogSetting('rowsPerPage', $_POST['perPage']);
 }
-list($comments, $paging) = getCommentsWithPagingForOwner($blogid, $categoryId, $name, $ip, $search, $suri['page'], $perPage);
+
+$tabsClass = array();
+if (isset($_POST['status'])) {
+	if($_POST['status']=='comment') {
+		$tabsClass['comment'] = true;
+		$visibilityText = _t('댓글');
+	} else if($_POST['status']=='guestbook') {
+		$tabsClass['guestbook'] = true;
+		$visibilityText = _t('방명록');
+	}
+} else {
+	$tabsClass['comment'] = true;
+	$visibilityText = _t('댓글');
+}
+if($tabsClass['comment'] == true) {
+	list($comments, $paging) = getCommentsWithPagingForOwner($blogid, $categoryId, $name, $ip, $search, $suri['page'], $perPage);
+} else {
+	list($comments, $paging) = getGuestbookWithPagingForOwner($blogid, $name, $ip, $search, $suri['page'], $perPage);
+}
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
 ?>
@@ -161,7 +181,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 						
 						<div id="part-post-comment" class="part">
 							<h2 class="caption">
-								<span class="main-text"><?php echo _t('등록된 댓글 목록입니다');?></span>
+								<span class="main-text"><?php echo (isset($tabsClass['guestbook']) ? _t('등록된 방명록 목록입니다') : _t('등록된 댓글 목록입니다'));?></span>
 <?php
 if (strlen($name) > 0 || strlen($ip) > 0) {
 	if (strlen($name) > 0) {
@@ -178,7 +198,17 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 }
 ?>
 							</h2>
-							
+							<ul id="communication-tabs-box" class="tabs-box">
+								<!-- TODO : $tab['postfix'] 버그 -->
+								<li<?php echo isset($tabsClass['comment']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/comment?page=1<?php echo $tab['postfix'];?>&amp;status=comment"><?php echo _t('댓글');?></a></li>
+								<li<?php echo isset($tabsClass['guestbook']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/comment?page=1<?php echo $tab['postfix'];?>&amp;status=guestbook"><?php echo _t('방명록');?></a></li>
+								<li<?php echo isset($tabsClass['notify']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/notify"><?php echo _t('댓글 알리미');?></a></li>
+								<li<?php echo isset($tabsClass['received']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/trackback?page=1<?php echo $tab['postfix'];?>&amp;status=received"><?php echo _t('걸린 글');?></a></li>
+								<li<?php echo isset($tabsClass['sent']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/trackback?page=1<?php echo $tab['postfix'];?>&amp;status=sent"><?php echo _t('건 글');?></a></li>
+							</ul>
+<?php
+	if(isset($tabsClass['comment'])) {
+?>
 							<form id="category-form" class="category-box" method="post" action="<?php echo $blogURL;?>/owner/entry/comment">
 								<div class="section">
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
@@ -200,7 +230,9 @@ foreach (getCategories($blogid) as $category) {
 									<input type="submit" id="category-move-button" class="move-button input-button" value="<?php echo _t('이동');?>" />
 								</div>
 							</form>
-							
+<?php
+	}
+?>
 							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/entry/comment">
 <?php
 	if(isset($_POST['ip'])) echo '								<input type="hidden" name="ip" value="'.$_POST['ip'].'" />'.CRLF;
@@ -271,24 +303,28 @@ for ($i=0; $i<sizeof($comments); $i++) {
 <?php
 	}
 ?>
-												<a href="?name=<?php echo urlencode(escapeJSInAttribute($comment['name']));?>" title="<?php echo _t('이 이름으로 등록된 댓글 목록을 보여줍니다.');?>"><?php echo htmlspecialchars($comment['name']);?></a>
+												<a href="?name=<?php echo urlencode(escapeJSInAttribute($comment['name'])).'&status='.(isset($tabsClass['guestbook']) ? 'guestbook' : 'comment');?>" title="<?php echo (isset($tabsClass['guestbook']) ? _t('이 이름으로 등록된 방명록을 보여줍니다.') : _t('이 이름으로 등록된 댓글 목록을 보여줍니다.'));?>"><?php echo htmlspecialchars($comment['name']);?></a>
 											</td>
 											<td class="content">
 <?php
-	echo '<a class="entryURL" href="'.$blogURL.'/'.$comment['entry'].'#comment'.$comment['id'].'" title="'._t('댓글이 작성된 포스트로 직접 이동합니다.').'">';
+	if(isset($tabsClass['guestbook'])) {
+		echo '<a class="entryURL" href="'.$blogURL.'/guestbook/'.$comment['id'].'#guestbook'.$comment['id'].'" title="'._t('방명록으로 직접 이동합니다.').'">';
+	} else {
+		echo '<a class="entryURL" href="'.$blogURL.'/'.$comment['entry'].'#comment'.$comment['id'].'" title="'._t('댓글이 작성된 포스트로 직접 이동합니다.').'">';
+	}
 	echo '<span class="entry-title">'. htmlspecialchars($comment['title']) .'</span>';
 	
 	if ($comment['title'] != '' && $comment['parent'] != '') {
 		echo '<span class="divider"> | </span>';
 	}
 	
-	echo empty($comment['parent']) ? '' : '<span class="explain">' . _f('%1 님의 댓글에 대한 댓글',$comment['parentName']) . '</span>';
+	echo empty($comment['parent']) ? '' : '<span class="explain">' . (isset($tabsClass['guestbook']) ? _f('%1 님의 방명록에 대한 댓글',$comment['parentName']) : _f('%1 님의 댓글에 대한 댓글',$comment['parentName'])) . '</span>';
 	echo "</a>";
 ?>
 												<?php echo ((!empty($comment['title']) || !empty($comment['parent'])) ? '<br />' : '');?>
 												<?php echo htmlspecialchars($comment['comment']);?>
 <?php
-	if(empty($comment['parent'])) echo '<span class="reply"><a href="#" onclick="commentComment('.$comment['id'].');return false;">'._t('이 댓글에 댓글을 씁니다.').'</a></span>';
+	if(empty($comment['parent'])) echo '<span class="reply"><a href="#" onclick="commentComment('.$comment['id'].');return false;">'.(isset($tabsClass['guestbook']) ? _t('이 방명록에 답글을 씁니다') : _t('이 댓글에 댓글을 씁니다.')).'</a></span>';
 ?>
 								 			</td>
 											<td class="ip">

@@ -56,6 +56,7 @@ if (isset($_POST['status'])) {
 	$tabsClass['received'] = true;
 	$visibilityText = _t('걸린 글');
 }
+
 if($tabsClass['received'] == true) {
 	list($trackbacks, $paging) = getTrackbacksWithPagingForOwner($blogid, $categoryId, $site, $ip, $search, $suri['page'], $perPage);
 } else {
@@ -216,7 +217,7 @@ if($tabsClass['received'] == true) {
 						
 						<div id="part-post-trackback" class="part">
 							<h2 class="caption">
-								<span class="main-text"><?php echo _t('걸린글 목록입니다');?></span>
+								<span class="main-text"><?php echo (isset($tabsClass['received']) ? _t('걸린글 목록입니다') : _t('건 글 목록입니다'));?></span>
 <?php
 if (strlen($site) > 0 || strlen($ip) > 0) {
 	if (strlen($site) > 0) {
@@ -233,8 +234,11 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 }
 ?>
 							</h2>
-							<ul id="entry-tabs-box" class="tabs-box">
+							<ul id="communication-tabs-box" class="tabs-box">
 								<!-- TODO : $tab['postfix'] 버그 -->
+								<li<?php echo isset($tabsClass['comment']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/comment?page=1<?php echo $tab['postfix'];?>&amp;status=comment"><?php echo _t('댓글');?></a></li>
+								<li<?php echo isset($tabsClass['guestbook']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/comment?page=1<?php echo $tab['postfix'];?>&amp;status=guestbook"><?php echo _t('방명록');?></a></li>
+								<li<?php echo isset($tabsClass['notify']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/notify"><?php echo _t('댓글 알리미');?></a></li>
 								<li<?php echo isset($tabsClass['received']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/trackback?page=1<?php echo $tab['postfix'];?>&amp;status=received"><?php echo _t('걸린 글');?></a></li>
 								<li<?php echo isset($tabsClass['sent']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/trackback?page=1<?php echo $tab['postfix'];?>&amp;status=sent"><?php echo _t('건 글');?></a></li>
 							</ul>
