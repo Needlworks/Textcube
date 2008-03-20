@@ -269,6 +269,11 @@ table.data-inbox tbody tr td.ip
 
 /* Comment ****************************************************************************************/
 
+#part-post-comment .caption
+{
+	margin-bottom: 1.6em;
+}
+
 #part-post-comment table.data-inbox tr .delete
 {
 	width                            : 12px;
@@ -316,6 +321,11 @@ table.data-inbox tbody tr td.ip
 }
 
 /* Notify *****************************************************************************************/
+
+#part-post-notify .caption
+{
+	margin-bottom: 1.6em;
+}
 
 #part-post-notify table.data-inbox tr .delete
 {
@@ -370,10 +380,15 @@ table.data-inbox tbody tr td.ip
 
 #part-post-notify #search-form
 {
-	top                              : 7.4em;
+	top                              : 5.5em;
 }
 
 /* Trackback **************************************************************************************/
+
+#part-post-trackback .caption
+{
+	margin-bottom: 1.6em;
+}
 
 #part-post-trackback table.data-inbox tr .delete
 {
