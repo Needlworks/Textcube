@@ -307,6 +307,21 @@ table.data-inbox tbody tr td.ip
 	font-weight                      : bold;
 }
 
+#part-post-comment table.data-inbox tbody tr td.content .reply
+{
+	background-image: url("./image/returncomment.gif");
+	background-position: left center;
+	background-repeat: no-repeat;
+	display: block;
+	float: right;
+	padding-left: 11px;
+}
+
+#part-post-comment table.data-inbox tbody tr td.content .reply a
+{
+	text-decoration: underline;
+}
+
 #part-post-comment table.data-inbox tbody tr td.content .divider,
 #part-post-comment table.data-inbox tbody tr td.content .explain
 {
