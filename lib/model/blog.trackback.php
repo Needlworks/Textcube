@@ -43,7 +43,7 @@ function getTrackbacksWithPagingForOwner($blogid, $category, $site, $ip, $search
 function getTrackbackLogsWithPagingForOwner($blogid, $category, $site, $ip, $search, $page, $count) {
 	global $database;
 	
-	$postfix = '';
+	$postfix = '&status=sent';
 	$sql = "SELECT t.*, e.title as subject, c.name categoryName 
 		FROM {$database['prefix']}TrackbackLogs t 
 		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 

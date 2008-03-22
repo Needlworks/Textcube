@@ -92,7 +92,7 @@ function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, 
 function getGuestbookWithPagingForOwner($blogid, $name, $ip, $search, $page, $count) {
 	global $database;
 
-	$postfix = '';
+	$postfix = '&status=guestbook';
 
 	$sql = "SELECT c.*, c2.name parentName
 		FROM {$database['prefix']}Comments c
