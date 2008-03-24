@@ -438,7 +438,7 @@ if($textcubeDashboard) {
 										</tbody>
 									</table>
 									<table class="guestbook">
-										<caption><a href="<?php echo $blogURL."/guestbook";?>"><?php echo _t('최근 방명록');?></a></caption>
+										<caption><a href="<?php echo $blogURL."/owner/entry/comment?status=guestbook";?>"><?php echo _t('최근 방명록');?></a></caption>
 										<thead>
 											<tr>
 												<th scope="col"><?=_t('내용')?></th>
