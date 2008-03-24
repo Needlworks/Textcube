@@ -2,10 +2,8 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-$ajaxcall= false;
-if (isset($_REQUEST['ajaxcall'])) {
-	$ajaxcall= true;
-}
+
+$ajaxcall = isset($_REQUEST['ajaxcall']) ? true : false;
 
 $IV = array(
 	'REQUEST' => array(
