@@ -163,7 +163,7 @@ class CommentNotified {
 			$query->setQualifier('id', $this->id);
 		}
 		if (isset($this->entry)) {
-			if (!Validator::number($this->entry, 1))
+			if (!Validator::number($this->entry, 0))
 				return $this->_error('entry');
 			$query->setAttribute('entry', $this->entry);
 		}
