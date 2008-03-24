@@ -68,11 +68,11 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											</tr>
 											<tr>
 												<td class="name vcard"><a class="fn url" href="http://daybreaker.info">Kim Joongi</a></td>
-												<td class="role"><?php echo _t('XHTML specification / Textcube main page / Quality Assurance');?></td>
+												<td class="role"><?php echo _t('XHTML / Textcube server / Quality Assurance');?></td>
 											</tr>
 											<tr>
 												<td class="name vcard"><a class="fn url" href="http://www.graphittie.org/blog">graphittie™</a></td>
-												<td class="role"><?php echo _t('UI / Sidebar / XHTML specification / Bug tracking');?></td>
+												<td class="role"><?php echo _t('UI / Sidebar / XHTML / Bug tracking');?></td>
 											</tr>
 											<tr>
 												<td class="name vcard"><a class="fn url" href="http://forest.nubimaru.com">Jeongkyu Shin</a></td>
@@ -80,7 +80,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											</tr>
 											<tr>
 												<td class="name vcard"><a class="fn url" href="http://www.create74.com">Yong-ju, Park</a></td>
-												<td class="role"><?php echo _t('Teamblog / Coverpage / Plugin');?></td>
+												<td class="role"><?php echo _t('Mobile / Teamblog / Coverpage / Plugin');?></td>
 											</tr>
 											<tr>
 												<td class="name vcard"><a class="fn url" href="http://tokigun.net">Seong-Hoon Kang</a></td>
