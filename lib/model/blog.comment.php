@@ -363,7 +363,7 @@ function sendCommentPing($entryId, $permalink, $name, $homepage) {
 		WHERE blogid = $blogid
 			AND id = $entryId
 			AND draft = 0
-			AND visibility = 3
+			AND visibility = 3 
 			AND acceptComment = 1")) {
 		requireComponent('Eolin.PHP.Core');
 		requireComponent('Eolin.PHP.XMLRPC');
@@ -849,8 +849,8 @@ function notifyComment() {
 	}
 	$entry = (POD::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id={$comments['entry']}"));
 	if( $entry['id'] == 0) {
-		$r1_comment_check_url = rawurlencode("$defaultURL/guestbook#comment" . $parentComments['id']);
-		$r2_comment_check_url = rawurlencode("$defaultURL/guestbook#comment" . $comments['id']);
+		$r1_comment_check_url = rawurlencode("$defaultURL/guestbook/".$parentComments['id']."#guestbook".$parentComments['id']);
+		$r2_comment_check_url = rawurlencode("$defaultURL/guestbook/".$comments['id']."#guestbook".$comments['id']);
 	}else{
 		$r1_comment_check_url = rawurlencode("$defaultURL/" . ($blog['useSloganOnPost'] ? "entry/{$entry['slogan']}" : $entry['id']) . "#comment" . $parentComments['id']);
 		$r2_comment_check_url = rawurlencode("$defaultURL/" . ($blog['useSloganOnPost'] ? "entry/{$entry['slogan']}" : $entry['id']) . "#comment" . $comments['id']);
