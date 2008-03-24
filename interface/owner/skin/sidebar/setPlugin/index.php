@@ -11,12 +11,10 @@ $IV = array(
 	'REQUEST' => array(
 		'sidebarNumber' => array('int'),
 		'modulePos' => array('int'),
-		'viewMode' => array('int','mandatory'=>false)
+		'viewMode' => array('string','default'=>'')
 	)
 );
 	
-if (!array_key_exists('viewMode', $_REQUEST)) $_REQUEST['viewMode'] = '';
-
 require ROOT . '/lib/includeForBlogOwner.php';
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
