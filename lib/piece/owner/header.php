@@ -18,7 +18,7 @@ if(Acl::check('group.administrators')) {
 	$blogTopMenuItem = array(
 		array('menu'=>'center','title'=>_t('센터'),'link'=>'/owner/center/dashboard'),
 		array('menu'=>'entry','title'=>_t('글'),'link'=>'/owner/entry'),
-		array('menu'=>'link','title'=>_t('링크'),'link'=>'/owner/link'),
+		array('menu'=>'communication','title'=>_t('소통'),'link'=>'/owner/communication/comment'),
 		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader'),
 		array('menu'=>'skin','title'=>_t('스킨'),'link'=>'/owner/skin'),
 		array('menu'=>'plugin','title'=>_t('플러그인'),'link'=>'/owner/plugin'),	
@@ -60,11 +60,11 @@ switch($blogMenu['topMenu']) {
 		}
 		
 		break;
-	case 'link':
-		$blogMenu['title'] = _t('링크');
-		$blogMenu['loadCSS'] = array('link');
-		$blogMenu['loadCSSIE6'] = array('link');
-		$blogMenu['loadCSSIE7'] = array('link');
+	case 'communication':
+		$blogMenu['title'] = _t('소통');
+		$blogMenu['loadCSS'] = array('communication');
+		$blogMenu['loadCSSIE6'] = array('communication');
+		$blogMenu['loadCSSIE7'] = array('communication');
 		break;
 	case 'skin':
 		$blogMenu['title'] = _t('스킨');
@@ -203,7 +203,7 @@ include ROOT . '/language/messages.php';
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/byTextcube.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF4.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/gallery.js"></script>
+<!--	<script type="text/javascript" src="<?php echo $service['path'];?>/script/gallery.js"></script>-->
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/owner.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/mootools.js"></script>
 <?php

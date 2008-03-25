@@ -22,20 +22,20 @@ if(isset($blogMenu['topMenu'])) {
 				$blogContentMenuItem = array(
 					array('menu'=>'post','title'=>_t('글쓰기'),'link'=>'/owner/entry/post'),
 					array('menu'=>'entry','title'=>_t('글 목록'),'link'=>'/owner/entry'),
-					array('menu'=>'comment','title'=>_t('소통 기록'),'link'=>'/owner/entry/comment'),
-					array('menu'=>'category','title'=>_t('분류 관리'),'link'=>'/owner/entry/category'),
-					array('menu'=>'trash','title'=>_t('휴지통'),'link'=>'/owner/entry/trash')
+					array('menu'=>'category','title'=>_t('분류 관리'),'link'=>'/owner/entry/category')
 				);
 			} else {
 				$blogContentMenuItem = array(
 					array('menu'=>'post','title'=>_t('글쓰기'),'link'=>'/owner/entry/post'),
-					array('menu'=>'entry','title'=>_t('글 목록'),'link'=>'/owner/entry'),
+					array('menu'=>'entry','title'=>_t('글 목록'),'link'=>'/owner/entry')
 				);
 			}
 		break;
-		case 'link':
+		case 'communication':
 		if(Acl::check('group.administrators')) {
 			$blogContentMenuItem = array(
+				array('menu'=>'comment','title'=>_t('소통 기록'),'link'=>'/owner/communication/comment'),
+				array('menu'=>'trash','title'=>_t('휴지통'),'link'=>'/owner/communcation/trash/comment'),
 				array('menu'=>'add','title'=>_t('링크 추가'),'link'=>'/owner/link/add'),
 				array('menu'=>'link','title'=>_t('링크 목록'),'link'=>'/owner/link'),
 				array('menu'=>'xfn','title'=>_t('친구 링크 관리'),'link'=>'/owner/link/xfn')

@@ -455,7 +455,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								function removeTrackbackLog(removeid,entry) {
 									if (confirm("<?php echo _t('선택된 걸린글을 지웁니다. 계속 하시겠습니까?');?>")) {
 										var id = removeid.replace(/trackbackRemove_/g,'');
-										var request = new HTTPRequest("<?php echo $blogURL;?>/owner/entry/trackback/log/remove/" + id);
+										var request = new HTTPRequest("<?php echo $blogURL;?>/owner/communication/trackback/log/remove/" + id);
 										request.onSuccess = function () {
 											document.getElementById("logs_"+entry).innerHTML = "";
 											printTrackbackLog(entry);
@@ -468,7 +468,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								}
 								
 								function printTrackbackLog(id) {
-									var request = new HTTPRequest("<?php echo $blogURL;?>/owner/entry/trackback/log/" + id);
+									var request = new HTTPRequest("<?php echo $blogURL;?>/owner/communication/trackback/log/" + id);
 									request.onVerify = function () {
 										var resultResponse = this.getText("/response/result");
 										var resultRow = resultResponse.split('*');
@@ -629,7 +629,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								
 								function sendTrackback(id) {
 									var trackbackField = document.getElementById('trackbackForm_'+id);
-									var request = new HTTPRequest("<?php echo $blogURL;?>/owner/entry/trackback/send/" + id + "?url=" + encodeURIComponent(trackbackField.value));
+									var request = new HTTPRequest("<?php echo $blogURL;?>/owner/communication/trackback/send/" + id + "?url=" + encodeURIComponent(trackbackField.value));
 									request.onSuccess = function () {
 										PM.removeRequest(this);
 										PM.showMessage("<?php echo _t('글을 걸었습니다.');?>", "center", "bottom");

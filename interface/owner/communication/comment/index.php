@@ -47,6 +47,13 @@ if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 }
 
 $tabsClass = array();
+$tabsClass['postfix'] = null;
+$tabsClass['postfix'] .= isset($_POST['category']) ? '&category='.$_POST['category'] : '';
+$tabsClass['postfix'] .= isset($_POST['name']) ? '&name='.$_POST['name'] : '';
+$tabsClass['postfix'] .= isset($_POST['ip']) ? '&ip='.$_POST['ip'] : '';
+$tabsClass['postfix'] .= isset($_POST['search']) ? '&search='.$_POST['search'] : '';
+if(!empty($tabsClass['postfix'])) $tabsClass['postfix'] = ltrim($tabsClass['postfix'],'/'); 
+
 if (isset($_POST['status'])) {
 	if($_POST['status']=='comment') {
 		$tabsClass['comment'] = true;
@@ -59,7 +66,7 @@ if (isset($_POST['status'])) {
 	$tabsClass['comment'] = true;
 	$visibilityText = _t('댓글');
 }
-if($tabsClass['comment'] == true) {
+if(isset($tabsClass['comment']) && $tabsClass['comment'] == true) {
 	list($comments, $paging) = getCommentsWithPagingForOwner($blogid, $categoryId, $name, $ip, $search, $suri['page'], $perPage);
 } else {
 	list($comments, $paging) = getGuestbookWithPagingForOwner($blogid, $name, $ip, $search, $suri['page'], $perPage);
@@ -72,7 +79,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								function deleteComment(id) {
 									if (!confirm("<?php echo _t('선택된 댓글을 삭제합니다. 계속 하시겠습니까?');?>"))
 										return;
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/comment/delete/" + id);
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/comment/delete/" + id);
 									request.onSuccess = function () {
 										PM.removeRequest(this);
 										PM.showMessage("<?php echo _t('댓글이 삭제되었습니다.');?>", "center", "bottom");
@@ -98,7 +105,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											targets[targets.length] = oElement.value;
 									}
 									
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/comment/delete/");
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/comment/delete/");
 									request.onSuccess = function() {
 										document.getElementById('list-form').submit();
 									}
@@ -199,17 +206,16 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 ?>
 							</h2>
 							<ul id="communication-tabs-box" class="tabs-box">
-								<!-- TODO : $tab['postfix'] 버그 -->
-								<li<?php echo isset($tabsClass['comment']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/comment?page=1<?php echo $tab['postfix'];?>&amp;status=comment"><?php echo _t('댓글');?></a></li>
-								<li<?php echo isset($tabsClass['guestbook']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/comment?page=1<?php echo $tab['postfix'];?>&amp;status=guestbook"><?php echo _t('방명록');?></a></li>
-								<li<?php echo isset($tabsClass['notify']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/notify"><?php echo _t('댓글 알리미');?></a></li>
-								<li<?php echo isset($tabsClass['received']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/trackback?page=1<?php echo $tab['postfix'];?>&amp;status=received"><?php echo _t('걸린 글');?></a></li>
-								<li<?php echo isset($tabsClass['sent']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/trackback?page=1<?php echo $tab['postfix'];?>&amp;status=sent"><?php echo _t('건 글');?></a></li>
+								<li<?php echo isset($tabsClass['comment']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/communication/comment?page=1<?php echo $tabsClass['postfix'];?>&amp;status=comment"><?php echo _t('댓글');?></a></li>
+								<li<?php echo isset($tabsClass['guestbook']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/communication/comment?page=1<?php echo $tabsClass['postfix'];?>&amp;status=guestbook"><?php echo _t('방명록');?></a></li>
+								<li<?php echo isset($tabsClass['notify']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/communication/notify"><?php echo _t('댓글 알리미');?></a></li>
+								<li<?php echo isset($tabsClass['received']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/communication/trackback?page=1<?php echo $tabsClass['postfix'];?>&amp;status=received"><?php echo _t('걸린 글');?></a></li>
+								<li<?php echo isset($tabsClass['sent']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/communication/trackback?page=1<?php echo $tabsClass['postfix'];?>&amp;status=sent"><?php echo _t('건 글');?></a></li>
 							</ul>
 <?php
 	if(isset($tabsClass['comment'])) {
 ?>
-							<form id="category-form" class="category-box" method="post" action="<?php echo $blogURL;?>/owner/entry/comment">
+							<form id="category-form" class="category-box" method="post" action="<?php echo $blogURL;?>/owner/communication/comment">
 								<div class="section">
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 									<select id="category" name="category" onchange="document.getElementById('category-form').page.value=1; document.getElementById('category-form').submit()">
@@ -233,7 +239,7 @@ foreach (getCategories($blogid) as $category) {
 <?php
 	}
 ?>
-							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/entry/comment">
+							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/communication/comment">
 <?php
 	if(isset($_POST['ip'])) echo '								<input type="hidden" name="ip" value="'.$_POST['ip'].'" />'.CRLF;
 	if(isset($_POST['name'])) echo '								<input type="hidden" name="name" value="'.$_POST['name'].'" />'.CRLF;
@@ -311,11 +317,10 @@ for ($i=0; $i<sizeof($comments); $i++) {
 		echo '<a class="entryURL" href="'.$blogURL.'/guestbook/'.$comment['id'].'#guestbook'.$comment['id'].'" title="'._t('방명록으로 직접 이동합니다.').'">';
 	} else {
 		echo '<a class="entryURL" href="'.$blogURL.'/'.$comment['entry'].'#comment'.$comment['id'].'" title="'._t('댓글이 작성된 포스트로 직접 이동합니다.').'">';
-	}
-	echo '<span class="entry-title">'. htmlspecialchars($comment['title']) .'</span>';
-	
-	if ($comment['title'] != '' && $comment['parent'] != '') {
-		echo '<span class="divider"> | </span>';
+		echo '<span class="entry-title">'. htmlspecialchars($comment['title']) .'</span>';
+		if ($comment['title'] != '' && $comment['parent'] != '') {
+			echo '<span class="divider"> | </span>';
+		}
 	}
 	
 	echo empty($comment['parent']) ? '' : '<span class="explain">' . (isset($tabsClass['guestbook']) ? _f('%1 님의 방명록에 대한 댓글',$comment['parentName']) : _f('%1 님의 댓글에 대한 댓글',$comment['parentName'])) . '</span>';
@@ -342,7 +347,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 												<a href="?ip=<?php echo urlencode(escapeJSInAttribute($comment['ip']));?>" title="<?php echo _t('이 IP로 등록된 댓글 목록을 보여줍니다.');?>"><?php echo $comment['ip'];?></a>
 											</td>
 											<td class="delete">
-												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/comment/delete/<?php echo $comment['id'];?>" onclick="deleteComment(<?php echo $comment['id'];?>); return false;" title="<?php echo _t('이 댓글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
+												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/communication/comment/delete/<?php echo $comment['id'];?>" onclick="deleteComment(<?php echo $comment['id'];?>); return false;" title="<?php echo _t('이 댓글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
 											</td>
 					  					</tr>
 <?php
@@ -403,7 +408,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 							
 							<hr class="hidden" />
 							
-							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/entry/comment">
+							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/communication/comment">
 								<h2><?php echo _t('검색');?></h2>
 								
 								<div class="section">

@@ -44,6 +44,13 @@ if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 }
 
 $tabsClass = array();
+$tabsClass['postfix'] = null;
+$tabsClass['postfix'] .= isset($_POST['category']) ? '&category='.$_POST['category'] : '';
+$tabsClass['postfix'] .= isset($_POST['name']) ? '&name='.$_POST['name'] : '';
+$tabsClass['postfix'] .= isset($_POST['ip']) ? '&ip='.$_POST['ip'] : '';
+$tabsClass['postfix'] .= isset($_POST['search']) ? '&search='.$_POST['search'] : '';
+if(!empty($tabsClass['postfix'])) $tabsClass['postfix'] = ltrim($tabsClass['postfix'],'/'); 
+
 if (isset($_POST['status'])) {
 	if($_POST['status']=='received') {
 		$tabsClass['received'] = true;
@@ -57,7 +64,7 @@ if (isset($_POST['status'])) {
 	$visibilityText = _t('걸린 글');
 }
 
-if($tabsClass['received'] == true) {
+if(isset($tabsClass['received']) && $tabsClass['received'] == true) {
 	list($trackbacks, $paging) = getTrackbacksWithPagingForOwner($blogid, $categoryId, $site, $ip, $search, $suri['page'], $perPage);
 } else {
 	list($trackbacks, $paging) = getTrackbackLogsWithPagingForOwner($blogid, $categoryId, $site, $ip, $search, $suri['page'], $perPage);
@@ -111,7 +118,7 @@ if($tabsClass['received'] == true) {
 								function trashTrackback(id) {
 									if (!confirm("<?php echo _t('선택된 걸린글을 휴지통으로 옮깁니다. 계속 하시겠습니까?');?>"))
 										return;
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/trackback/delete/" + id);
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trackback/delete/" + id);
 									request.onSuccess = function() {
 										PM.removeRequest(this);
 										PM.showMessage("<?php echo _t('걸린글을 삭제하였습니다.');?>","center", "bottom");
@@ -136,7 +143,7 @@ if($tabsClass['received'] == true) {
 											if ((oElement.name == "entry") && oElement.checked)
 												targets[targets.length] = oElement.value;
 										}
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/trackback/delete/");
+										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/trackback/delete/");
 										request.onSuccess = function() {
 											document.getElementById('list-form').submit();
 										}
@@ -150,7 +157,7 @@ if($tabsClass['received'] == true) {
 ?>
 								function removeTrackbackLog(id) {
 									if (confirm("선택된 글걸기 기록을 지웁니다. 계속 하시겠습니까?")) {
-										var request = new HTTPRequest("<?php echo $blogURL;?>/owner/entry/trackback/log/remove/" + id);
+										var request = new HTTPRequest("<?php echo $blogURL;?>/owner/communication/trackback/log/remove/" + id);
 										request.onSuccess = function () {
 											document.getElementById('list-form').submit();
 										}
@@ -172,7 +179,7 @@ if($tabsClass['received'] == true) {
 											if ((oElement.name == "entry") && oElement.checked)
 												targets[targets.length] = oElement.value;
 										}
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/trackback/log/remove/");
+										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/trackback/log/remove/");
 										request.onSuccess = function() {
 											document.getElementById('list-form').submit();
 										}
@@ -235,15 +242,14 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 ?>
 							</h2>
 							<ul id="communication-tabs-box" class="tabs-box">
-								<!-- TODO : $tab['postfix'] 버그 -->
-								<li<?php echo isset($tabsClass['comment']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/comment?page=1<?php echo $tab['postfix'];?>&amp;status=comment"><?php echo _t('댓글');?></a></li>
-								<li<?php echo isset($tabsClass['guestbook']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/comment?page=1<?php echo $tab['postfix'];?>&amp;status=guestbook"><?php echo _t('방명록');?></a></li>
-								<li<?php echo isset($tabsClass['notify']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/notify"><?php echo _t('댓글 알리미');?></a></li>
-								<li<?php echo isset($tabsClass['received']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/trackback?page=1<?php echo $tab['postfix'];?>&amp;status=received"><?php echo _t('걸린 글');?></a></li>
-								<li<?php echo isset($tabsClass['sent']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/trackback?page=1<?php echo $tab['postfix'];?>&amp;status=sent"><?php echo _t('건 글');?></a></li>
+								<li<?php echo isset($tabsClass['comment']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/communication/comment?page=1<?php echo $tabsClass['postfix'];?>&amp;status=comment"><?php echo _t('댓글');?></a></li>
+								<li<?php echo isset($tabsClass['guestbook']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/communication/comment?page=1<?php echo $tabsClass['postfix'];?>&amp;status=guestbook"><?php echo _t('방명록');?></a></li>
+								<li<?php echo isset($tabsClass['notify']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/communication/notify"><?php echo _t('댓글 알리미');?></a></li>
+								<li<?php echo isset($tabsClass['received']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/communication/trackback?page=1<?php echo $tabsClass['postfix'];?>&amp;status=received"><?php echo _t('걸린 글');?></a></li>
+								<li<?php echo isset($tabsClass['sent']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/communication/trackback?page=1<?php echo $tabsClass['postfix'];?>&amp;status=sent"><?php echo _t('건 글');?></a></li>
 							</ul>
 
-							<form id="category-form" class="category-box" method="post" action="<?php echo $blogURL;?>/owner/entry/trackback">
+							<form id="category-form" class="category-box" method="post" action="<?php echo $blogURL;?>/owner/communication/trackback">
 								<div class="section">
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 <?php
@@ -270,7 +276,7 @@ foreach (getCategories($blogid) as $category) {
 								</div>
 							</form>
 
-							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/entry/trackback">
+							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/communication/trackback">
 <?php
 	if(!isset($tabsClass['received'])) {
 ?>
@@ -383,11 +389,11 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 <?php
 	if(isset($tabsClass['received'])) {
 ?>
-												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/trackback/delete/<?php echo $trackback['id'];?>" onclick="trashTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 걸린글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
+												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/communication/trackback/delete/<?php echo $trackback['id'];?>" onclick="trashTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 걸린글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
 <?php
 	} else {
 ?>
-												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/trackback/log/remove/<?php echo $trackback['id'];?>" onclick="removeTrackbackLog(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 글걸기 기록을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
+												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/communication/trackback/log/remove/<?php echo $trackback['id'];?>" onclick="removeTrackbackLog(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 글걸기 기록을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
 <?php
 	}
 ?>
@@ -451,7 +457,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 							
 							<hr class="hidden" />
 							
-							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/entry/trackback">
+							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/communication/trackback">
 								<h2><?php echo _t('검색');?></h2>
 								
 								<div class="section">

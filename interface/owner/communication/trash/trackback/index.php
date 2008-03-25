@@ -83,7 +83,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								function deleteTrackback(id) {
 									if (!confirm("<?php echo _t('선택된 걸린글을 지웁니다. 계속 하시겠습니까?');?>"))
 										return;
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/trash/trackback/delete/" + id);
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trash/trackback/delete/" + id);
 									request.onSuccess = function() {
 										document.getElementById('list-form').submit();
 									}
@@ -96,7 +96,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								function deleteTrackbackAll() {
 									if (!confirm("<?php echo _t('휴지통 내의 모든 걸린글을 삭제합니다. 계속 하시겠습니까?');?>"))
 										return;
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/trash/emptyTrash/?type=2&ajaxcall");
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trash/emptyTrash/?type=2&ajaxcall");
 									request.onSuccess = function() {
 										window.location.reload();
 									}
@@ -118,7 +118,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												targets+=oElement.value+'~*_)';
 											}
 										}
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/trash/trackback/delete/");
+										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/trash/trackback/delete/");
 										request.onSuccess = function() {
 											document.getElementById('list-form').submit();
 										}
@@ -134,7 +134,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								function revertTrackback(id) {
 									if (!confirm("<?php echo _t('선택된 걸린글을 복원합니다. 계속 하시겠습니까?');?>"))
 										return;
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/trash/trackback/revert/" + id);
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trash/trackback/revert/" + id);
 									request.onSuccess = function() {
 										document.getElementById('list-form').submit();
 									}
@@ -156,7 +156,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												targets+=oElement.value+'~*_)';
 											}
 										}
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/trash/trackback/revert/");
+										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/trash/trackback/revert/");
 										request.onSuccess = function() {
 											document.getElementById('list-form').submit();
 										}
@@ -267,7 +267,7 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 								<p class="explain"><?php echo _t('휴지통에 버려진 걸린글은 15일이 지나면 자동으로 지워집니다. 광고 걸린글의 차단 및 분석을 위하여 휴지통의 데이터를 사용하는 플러그인이 있을 수 있으므로 수동으로 지우지 않는 것을 권장합니다.');?></p>
 							</div>								
 
-							<form id="trash-form" method="post" action="<?php echo $blogURL;?>/owner/entry/trash">
+							<form id="trash-form" method="post" action="<?php echo $blogURL;?>/owner/communication/trash">
 								<fieldset class="section">
 									<legend><?php echo _t('삭제된 파일 보기 설정');?></legend>
 									
@@ -289,7 +289,7 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 								</fieldset>
 							</form>
 							
-							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/entry/trash/trackback">
+							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/communication/trash/trackback">
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
@@ -346,7 +346,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 <?php
 	}
 ?>
-												<a href="<?php echo $blogURL;?>/owner/entry/trash/trackback?site=<?php echo urlencode(escapeJSInAttribute($trackback['site']));?>" title="<?php echo _t('이 사이트에서 건 글 목록을 보여줍니다.');?>"><?php echo htmlspecialchars($trackback['site']);?></a>
+												<a href="<?php echo $blogURL;?>/owner/communication/trash/trackback?site=<?php echo urlencode(escapeJSInAttribute($trackback['site']));?>" title="<?php echo _t('이 사이트에서 건 글 목록을 보여줍니다.');?>"><?php echo htmlspecialchars($trackback['site']);?></a>
 											</td>
 											<td class="category">
 <?php
@@ -376,13 +376,13 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 <?php
 	}
 ?>
-												<a href="<?php echo $blogURL;?>/owner/entry/trash/trackback?ip=<?php echo urlencode(escapeJSInAttribute($trackback['ip']));?>" title="<?php echo _t('이 IP로 등록된 걸린글 목록을 보여줍니다.');?>"><span class="text"><?php echo $trackback['ip'];?></span></a>
+												<a href="<?php echo $blogURL;?>/owner/communication/trash/trackback?ip=<?php echo urlencode(escapeJSInAttribute($trackback['ip']));?>" title="<?php echo _t('이 IP로 등록된 걸린글 목록을 보여줍니다.');?>"><span class="text"><?php echo $trackback['ip'];?></span></a>
 											</td>
 											<td class="revert">
-												<a class="revert-button button" href="<?php echo $blogURL;?>/owner/entry/trash/trackback/revert/<?php echo $trackback['id'];?>" onclick="revertTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 걸린글을 복원합니다.');?>"><span class="text"><?php echo _t('복원');?></span></a>
+												<a class="revert-button button" href="<?php echo $blogURL;?>/owner/communication/trash/trackback/revert/<?php echo $trackback['id'];?>" onclick="revertTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 걸린글을 복원합니다.');?>"><span class="text"><?php echo _t('복원');?></span></a>
 											</td>
 											<td class="delete">
-												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/trash/trackback/delete/<?php echo $trackback['id'];?>" onclick="deleteTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 걸린글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
+												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/communication/trash/trackback/delete/<?php echo $trackback['id'];?>" onclick="deleteTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 걸린글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
 											</td>
 										</tr>
 <?php
@@ -445,7 +445,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 							
 							<hr class="hidden" />
 							
-							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/entry/trash/trackback">
+							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/communication/trash/trackback">
 								<h2><?php echo _t('검색');?></h2>
 								
 								<div class="section">
@@ -457,7 +457,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 							</form>
 							
 							<div class="button-box">
-								<a class="all-delete-button button" href="<?php echo $blogURL;?>/owner/entry/trash/emptyTrash/?type=2" onclick="deleteTrackbackAll(); return false;" title="<?php echo _t('휴지통의 걸린글을 한 번에 삭제합니다.');?>"><span class="text"><?php echo _t('휴지통 비우기');?></span></a>
+								<a class="all-delete-button button" href="<?php echo $blogURL;?>/owner/communication/trash/emptyTrash/?type=2" onclick="deleteTrackbackAll(); return false;" title="<?php echo _t('휴지통의 걸린글을 한 번에 삭제합니다.');?>"><span class="text"><?php echo _t('휴지통 비우기');?></span></a>
 							</div>
 						</div>
 <?php
