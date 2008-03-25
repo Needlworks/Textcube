@@ -33,7 +33,7 @@ class respond {
 	}
 	
 	function NotFoundPage($isAjaxCall = false) {
-		if($isAjaxCall) return respond::ResultPage(-1);
+		if($isAjaxCall) {respond::ResultPage(-1);exit;}
 		header('HTTP/1.1 404 Not Found');
 		header("Connection: close");
 		exit;
@@ -90,7 +90,7 @@ class respond {
 	
 	function ErrorPage($message=NULL, $buttonValue=NULL, $buttonLink=NULL, $isAjaxCall = false) {
 		global $service;
-		if($isAjaxCall) return respond::ResultPage(-1);
+		if($isAjaxCall) {respond::ResultPage(-1);exit;}
 ?>
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
