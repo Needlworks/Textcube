@@ -33,8 +33,8 @@ requireModel("blog.trash");
 
 requireComponent('Textcube.Data.Filter');
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
-$name = empty($_GET['name']) ? '' : $_GET['name'];
-$ip = empty($_GET['ip']) ? '' : $_GET['ip'];
+$name = empty($_POST['name']) ? '' : $_POST['name'];
+$ip = empty($_POST['ip']) ? '' : $_POST['ip'];
 $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
 $perPage = getBlogSetting('rowsPerPage', 10); 
 if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
