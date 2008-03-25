@@ -586,23 +586,7 @@ if (file_exists(ROOT."/attach/$blogid/index.gif")) {
 												<input type="radio" id="publishEolinSyncOnRSS0" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ?   '' : ' checked="checked"');?> /><label for="publishEolinSyncOnRSS0"><span class="text"><?php echo _t('이올린에 발행된 글만을 RSS로 내보냅니다.');?></span></label>
 											</dd>
 										</dl>
-<?php
-if($service['allowBlogVisibilitySetting']){
-?>
-										<dl id="blog-open-type-line" class="line">
-											<dt><span class="label"><?php echo _t('블로그 공개 정도');?></span></dt>
-											<dd>
-												<input type="radio" id="visibilityPrivate" class="radio" name="visibility"<?php echo ($blog['visibility']==0 ? ' checked="checked"' : '');?> /><label for="visibilityPrivate"><span class="text"><?php echo _t('이 블로그의 구성원만 접근할 수 있도록 합니다.');?></span></label><br />
-												<input type="radio" id="visibilityMember" class="radio" name="visibility"<?php echo ($blog['visibility']==1 ? ' checked="checked"' : '');?> /><label for="visibilityMember"><span class="text"><?php echo _t('블로그에 아이디가 있는 경우만 접근할 수 있도록 합니다.');?></span></label><br />
-												<input type="radio" id="visibilityPublic" class="radio" name="visibility"<?php echo ($blog['visibility']==2 ? ' checked="checked"' : '');?> /><label for="visibilityPublic"><span class="text"><?php echo _t('누구나 접근할 수 있도록 합니다.');?></span></label>
-											</dd>
-											<dd>
-												<p><label for="visibility"><?php echo _t('블로그 공개 정도를 설정합니다.').' '._t('접근 권한이 제한된 경우에는 로그인 이후에 블로그를 열람할 수 있습니다.').'<br />'._t('접근 권한이 제한된 경우 RSS로 내용을 열람할 수 없으며, RSS로 새 글이 올라오는 시간만 전달됩니다.');?></label></p>
-											</dd>
-										</dl>
-<?php
-}
-?>
+
 										<dl id="post-count-line" class="line">
 											<dt><span class="label"><?php echo _t('글 개수');?></span></dt>
 											<dd>
@@ -643,7 +627,8 @@ for ($i = 5; $i <= 30; $i += 5) {
 										</dl>
 									</fieldset>
 								</div>
-								<div id="etc-section" class="section">
+<?php echo setDetailPanel('panelEtcSetting','button');?>								
+								<div id="panelEtcSetting" class="section">
 									<fieldset class="container">
 										<legend><?php echo _t('기타');?></legend>
 										
@@ -668,6 +653,23 @@ for ($i = 5; $i <= 30; $i += 5) {
 												<input type="radio" id="useTSlogan0" class="radio" name="useTSlogan"<?php echo ($blog['useSloganOnTag'] ? '' : ' checked="checked"');?> /><label for="useTSlogan0"><span class="text"><?php echo _t('숫자를 사용합니다.');?> <samp><?php echo _f('(예: %1/tag/101)', link_cut(getBlogURL()));?></samp></span></label>
 											</dd>
 										</dl>
+<?php
+if($service['allowBlogVisibilitySetting']){
+?>
+										<dl id="blog-open-type-line" class="line">
+											<dt><span class="label"><?php echo _t('블로그 공개 정도');?></span></dt>
+											<dd>
+												<input type="radio" id="visibilityPrivate" class="radio" name="visibility"<?php echo ($blog['visibility']==0 ? ' checked="checked"' : '');?> /><label for="visibilityPrivate"><span class="text"><?php echo _t('이 블로그의 구성원만 접근할 수 있도록 합니다.');?></span></label><br />
+												<input type="radio" id="visibilityMember" class="radio" name="visibility"<?php echo ($blog['visibility']==1 ? ' checked="checked"' : '');?> /><label for="visibilityMember"><span class="text"><?php echo _t('블로그에 아이디가 있는 경우만 접근할 수 있도록 합니다.');?></span></label><br />
+												<input type="radio" id="visibilityPublic" class="radio" name="visibility"<?php echo ($blog['visibility']==2 ? ' checked="checked"' : '');?> /><label for="visibilityPublic"><span class="text"><?php echo _t('누구나 접근할 수 있도록 합니다.');?></span></label>
+											</dd>
+											<dd>
+												<p><label for="visibility"><?php echo _t('블로그 공개 정도를 설정합니다.').' '._t('접근 권한이 제한된 경우에는 로그인 이후에 블로그를 열람할 수 있습니다.').'<br />'._t('접근 권한이 제한된 경우 RSS로 내용을 열람할 수 없으며, RSS로 새 글이 올라오는 시간만 전달됩니다.');?></label></p>
+											</dd>
+										</dl>
+<?php
+}
+?>										
 										<dl id="guestbook-authority-line" class="line">
 											<dt><label for="allowCommentGuestbook"><?php echo _t('방명록 사용 권한');?></label></dt>
 											<dd>
@@ -763,9 +765,9 @@ foreach (Timezone::getList() as $timezone) {
 
 						<div id="part-setting-admin" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('관리자 화면 스킨을 설정합니다');?></span></h2>
-							
+<?php echo setDetailPanel('panelAdminSkinSetting');?>
 							<form id="admin-skin-form" class="data-inbox" method="post" action="<?php echo parseURL($blogURL.'/owner/setting/blog/skin');?>">
-								<div id="admin-skin-section" class="section">
+								<div id="panelAdminSkinSetting" class="section">
 									<fieldset class="container">
 										<legend><?php echo _t('관리자 스킨을 설정합니다');?></legend>
 										
@@ -806,6 +808,7 @@ while ($tempAdminSkin = $dir->read()) {
 							</form>
 						</div>
 
+<?php if( Acl::check('group.creators') ) { ?>
 						<div id="part-setting-mailhost" class="part">
 							<h2 class="caption"><span class="main-text"><?php	echo _t('메일 보낼 서버를 지정합니다');?></span></h2>
 							
@@ -817,7 +820,7 @@ while ($tempAdminSkin = $dir->read()) {
 											<div class="line">
 											<span><?php echo _text( '운영자만이 수정할 수 있습니다' ); ?></span>
 											</div>
-<?php if( Acl::check('group.creators') ) { ?>
+
 											<div class="line">
 												<input id="useCustomSMTP" type="checkbox" class="checkbox" name="useCustomSMTP" value="1" <?php if( getServiceSetting( 'useCustomSMTP', 0 ) ) { echo "checked='checked'"; } ?> />
 												<label for="useCustomSMTP"><?php echo _t('메일서버 지정'); ?></label>
@@ -827,7 +830,6 @@ while ($tempAdminSkin = $dir->read()) {
 												<input id="smtpHost" type="text" class="input-text" name="smtpHost" value="<?php echo getServiceSetting( 'smtpHost', '127.0.0.1' ); ?>" /> :
 												<input id="smtpPort" type="text" class="input-text" name="smtpPort" value="<?php echo getServiceSetting( 'smtpPort', 25 );?>" />
 											</div>
-<?php } ?>
 										</dd>
 									</dl>
 <?php if( Acl::check('group.creators') ) { ?>
@@ -838,9 +840,8 @@ while ($tempAdminSkin = $dir->read()) {
 								</form>
 							</div>
 						</div>
-
-<?php
-
+<?php 
+}
 if (isset($_GET['message'])) {
 	$msg = escapeJSInCData($_GET['message']);
 ?>
