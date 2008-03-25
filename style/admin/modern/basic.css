@@ -433,6 +433,45 @@ h2.caption span
 	line-height                      : 30px;
 }
 
+.part .panel-setting
+{
+	margin                           : -50px 10px 0 0;
+}
+
+.part dl.panel-setting
+{
+	border-top                       : none !important;
+	height                           : 38px;
+}
+
+.part .panel-setting
+{
+	margin                           : -50px 10px 0 0;
+}
+
+.part dl.panel-setting
+{
+	border-top                       : none !important;
+	height                           : 38px;
+}
+
+.part .panel-setting dd
+{
+	color                            : #222;
+	text-align                       : right;
+}
+
+.part .panel-setting a
+{
+	color                            : #22A;
+	text-align                       : right;
+}
+
+.part .panel-setting dt
+{
+	display                          : none;
+}
+
 .main-explain-box .explain
 {
 	line-height                      : 1.5em;

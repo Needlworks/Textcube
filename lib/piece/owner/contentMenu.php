@@ -35,10 +35,10 @@ if(isset($blogMenu['topMenu'])) {
 		if(Acl::check('group.administrators')) {
 			$blogContentMenuItem = array(
 				array('menu'=>'comment','title'=>_t('소통 기록'),'link'=>'/owner/communication/comment'),
-				array('menu'=>'trash','title'=>_t('휴지통'),'link'=>'/owner/communcation/trash/comment'),
-				array('menu'=>'add','title'=>_t('링크 추가'),'link'=>'/owner/link/add'),
-				array('menu'=>'link','title'=>_t('링크 목록'),'link'=>'/owner/link'),
-				array('menu'=>'xfn','title'=>_t('친구 링크 관리'),'link'=>'/owner/link/xfn')
+				array('menu'=>'trash','title'=>_t('휴지통'),'link'=>'/owner/communication/trash/comment'),
+				array('menu'=>'add','title'=>_t('링크 추가'),'link'=>'/owner/communication/link/add'),
+				array('menu'=>'link','title'=>_t('링크 목록'),'link'=>'/owner/communication/link'),
+				array('menu'=>'xfn','title'=>_t('친구 링크 관리'),'link'=>'/owner/communication/xfn')
 			);
 		}
 		break;

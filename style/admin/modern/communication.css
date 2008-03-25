@@ -1,0 +1,592 @@
+@charset "utf-8";
+
+/* Common ****************************************************************************************/
+
+#sub-menu-add
+{
+	background-image                 : none !important;
+}
+
+/* table header */
+table.data-inbox tr .date
+{
+	width                            : 60px;
+}
+
+table.data-inbox tr .name
+{
+	width                            : 150px;
+}
+
+table.data-inbox tr .site
+{
+	width                            : 180px;
+}
+
+table.data-inbox tr .ip
+{
+	width                            : 125px;
+}
+
+table.data-inbox thead tr th.ip
+{
+	text-transform                   : uppercase;
+}
+
+/* table body */
+table.data-inbox tbody tr .date,
+table.data-inbox tbody tr .name,
+table.data-inbox tbody tr .site,
+table.data-inbox tbody tr .ip
+{
+	border-left                      : 1px solid #E3E3DE;
+}
+
+table.data-inbox tbody tr td.date,
+table.data-inbox tbody tr td.ip
+{
+	font-family                      : Verdana, Tahoma, Arial, "Lucida Grande", sans-serif;
+	font-size                        : 0.9em;
+}
+
+table.data-inbox tbody tr td.site,
+table.data-inbox tbody tr td.name,
+table.data-inbox tbody tr td.ip
+{
+	text-align                       : left;
+}
+
+/* Comment ****************************************************************************************/
+
+#part-post-comment .caption
+{
+	margin-bottom: 1.6em;
+}
+
+#part-post-comment table.data-inbox tr .delete
+{
+	width                            : 12px;
+}
+
+#part-post-comment table.data-inbox thead tr th.delete span
+{
+	display                          : none;
+}
+
+#part-post-comment table.data-inbox tbody tr td.content
+{
+	border-left                      : 1px solid #E3E3DE;
+	text-align                       : left;
+}
+
+#part-post-comment table.data-inbox tbody tr td.content a
+{
+	display                          : block;
+	margin-bottom                    : 3px;
+}
+
+#part-post-comment table.data-inbox tbody tr td.content br
+{
+	display                          : none;
+}
+
+#part-post-comment table.data-inbox tbody tr td.content .entry-title
+{
+	color                            : #6B90C3;
+	font-weight                      : bold;
+}
+
+#part-post-comment table.data-inbox tbody tr td.content .reply
+{
+	background-image: url("./image/returncomment.gif");
+	background-position: left center;
+	background-repeat: no-repeat;
+	display: block;
+	float: right;
+	padding-left: 11px;
+}
+
+#part-post-comment table.data-inbox tbody tr td.content .reply a
+{
+	text-decoration: underline;
+}
+
+#part-post-comment table.data-inbox tbody tr td.content .divider,
+#part-post-comment table.data-inbox tbody tr td.content .explain
+{
+	color                            : #999999;
+	font-size                        : 0.9em;
+	font-family                      : 돋움, Dotum, sans-serif;
+}
+
+#part-post-comment table.data-inbox tbody tr .delete
+{
+	border-left                      : 1px solid #E3E3DE;
+}
+
+/* Notify *****************************************************************************************/
+
+#part-post-notify .caption
+{
+	margin-bottom: 1.6em;
+}
+
+#part-post-notify table.data-inbox tr .delete
+{
+	width                            : 12px;
+}
+
+#part-post-notify table.data-inbox thead tr th.delete span
+{
+	display                          : none;
+}
+
+#part-post-notify .main-explain-box
+{
+	margin-bottom                    : 40px;
+	text-align                       : left;
+}
+
+#part-post-notify table.data-inbox tbody tr td.content
+{
+	border-left                      : 1px solid #E3E3DE;
+	text-align                       : left;
+}
+
+#part-post-notify table.data-inbox tbody tr td.content .entryURL
+{
+	color                            : #6B90C3;
+	font-weight                      : bold;
+}
+
+#part-post-notify table.data-inbox tbody tr.reply-line td.content .new-icon
+{
+	display                          : none;
+}
+
+#part-post-notify table.data-inbox tbody tr.reply-line td.content .commentURL
+{
+	background-image                 : url('./image/icon_reply.gif');
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	padding-left                     : 26px;
+}
+
+#part-post-notify table.data-inbox tbody tr.reply-line td.content .new-icon span
+{
+	display                          : none;
+}
+
+#part-post-notify table.data-inbox tbody tr .delete
+{
+	border-left                      : 1px solid #E3E3DE;
+}
+
+#part-post-notify #search-form
+{
+	top                              : 5.5em;
+}
+
+/* Trackback **************************************************************************************/
+
+#part-post-trackback .caption
+{
+	margin-bottom: 1.6em;
+}
+
+#part-post-trackback table.data-inbox tr .delete
+{
+	width                            : 12px;
+}
+
+#part-post-trackback table.data-inbox tbody tr .delete,
+#part-post-trackback table.data-inbox tbody tr .category,
+#part-post-trackback table.data-inbox tbody tr .title
+{
+	border-left                      : 1px solid #E3E3DE;
+}
+
+#part-post-trackback table.data-inbox thead tr th.delete span
+{
+	display                          : none;
+}
+
+/* Trash *****************************************************************************************/
+
+#part-post-trash #search-form
+{
+	top                              : 115px;
+}
+
+#part-post-trash .main-explain-box p
+{
+	margin-bottom                    : 50px;
+}
+
+#part-post-trash fieldset
+{
+	background-image                 : none;
+	border                           : none;
+	position                         : absolute;
+	left                             : 0;
+	top                              : 113px;
+}
+
+#part-post-trash fieldset dl
+{
+	border                           : none;
+}
+
+#part-post-trash fieldset dl dt
+{
+	display                          : none;
+}
+
+#part-post-trash fieldset dl dd
+{
+	margin-left                      : 30px;
+	width: 600px;
+}
+
+#part-post-trash fieldset dl dd div
+{
+	display                          : inline;
+}
+
+#track-radio-trackback
+{
+	margin-left                      : 20px;
+}
+
+/* table header */
+#part-post-trash table.data-inbox tr .revert,
+#part-post-trash table.data-inbox tr .delete
+{
+	width                            : 12px;
+}
+
+#part-post-trash table.data-inbox thead tr th.delete span,
+#part-post-trash table.data-inbox thead tr th.revert span
+{
+	display                          : none;
+}
+
+/* table body */
+#part-post-trash table.data-inbox tbody tr .category,
+#part-post-trash table.data-inbox tbody tr .title,
+#part-post-trash table.data-inbox tbody tr .content,
+#part-post-trash table.data-inbox tbody tr .revert,
+#part-post-trash table.data-inbox tbody tr .delete
+{
+	border-left                      : 1px solid #E3E3DE;
+	text-align                       : left;
+}
+
+#part-post-trash table.data-inbox tbody tr td.content a
+{
+	display                          : block;
+	margin-bottom                    : 3px;
+}
+
+#part-post-trash table.data-inbox tbody tr td.content br
+{
+	display                          : none;
+}
+
+#part-post-trash table.data-inbox tbody tr td.content .entry-title
+{
+	color                            : #6B90C3;
+	font-weight                      : bold;
+}
+
+#part-post-trash table.data-inbox tbody tr td.content .divider,
+#part-post-trash table.data-inbox tbody tr td.content .explain
+{
+	color                            : #999999;
+	font-size                        : 0.9em;
+	font-family                      : 돋움, Dotum, sans-serif;
+}
+
+#part-post-trash table.data-inbox tbody tr td.revert a
+{
+	background-image                 : url("./image/icon_revert.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 15px;
+	width                            : 16px;
+}
+
+#part-post-trash table.data-inbox tbody tr td.revert a span
+{
+	display                          : none;
+}
+
+.all-delete-button
+{
+	background-color                 : #FFFFFF;
+	background-image                 : url("./image/bg_button.png");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	border                           : 1px solid #777777;
+	cursor                           : pointer;
+	font-size                        : 1em;
+	height                           : 1.7em;
+	line-height                      : 1.7em;
+	padding                          : 0 5px;
+	position                         : absolute;
+	right                            : 25px;
+	bottom                           : 75px;
+}
+
+/* List ******************************************************************************************/
+
+#part-link-list .caption
+{
+	margin-bottom                    : 25px;
+}
+
+#part-link-list table.data-inbox
+{
+	margin-bottom                    : 100px;
+}
+
+#part-link-list table.data-inbox tbody tr .address,
+#part-link-list table.data-inbox tbody tr .status,
+#part-link-list table.data-inbox tbody tr .edit,
+#part-link-list table.data-inbox tbody tr .delete,
+#part-link-list table.data-inbox tbody tr .xfn-edit
+{
+	border-left                      : 1px solid #E3E3DE;
+}
+	
+/* table header */
+#part-link-list table.data-inbox thead tr th.homepage
+{
+	padding-left                     : 20px;
+	text-align                       : left;
+	width                            : 200px;
+}
+
+#part-link-list table.data-inbox thead tr th.address
+{
+	padding-left                     : 20px;
+	text-align                       : left;
+}
+
+#part-link-list table.data-inbox thead tr th.status
+{
+	width                            : 68px;
+}
+
+#part-link-list table.data-inbox thead tr th.edit
+{
+	width                            : 20px;
+}
+
+#part-link-list table.data-inbox thead tr th.edit span
+{
+	display                          : none;
+}
+
+#part-link-list table.data-inbox thead tr th.delete
+{
+	width                            : 20px;
+}
+
+#part-link-list table.data-inbox thead tr th.delete span
+{
+	display                          : none;
+}
+
+#part-link-list table.data-inbox thead.xfn tr th.xfn-homepage
+{
+	padding-left                     : 20px;
+	text-align                       : left;
+	width                            : 80px;
+}
+
+#part-link-list table.data-inbox thead.xfn tr th
+{
+	padding-left                     : 5px;
+	text-align                       : center;
+}
+
+#part-link-list table.data-inbox thead.xfn tr th.xfn-me
+{
+	width                            : 50px;
+}
+
+#part-link-list table.data-inbox thead.xfn tr th.xfn-friend
+{
+	width                            : 80px;
+}
+
+#part-link-list table.data-inbox thead.xfn tr th.xfn-met,
+#part-link-list table.data-inbox thead.xfn tr th.xfn-professional
+{
+	width                            : 50px;
+}
+
+#part-link-list table.data-inbox thead.xfn tr th.xfn-coresident,
+#part-link-list table.data-inbox thead.xfn tr th.xfn-family,
+#part-link-list table.data-inbox thead.xfn tr th.xfn-romantic
+{
+	width                            : 100px;
+}
+
+/* table body */
+#part-link-list table.data-inbox tbody tr td.homepage
+{
+	background-position              : right bottom;
+	padding-left                     : 25px;
+	text-align                       : left;
+	width                            : 200px;
+}
+
+#part-link-list table.data-inbox tbody tr td.address
+{
+	font-family                      : "Courier New", Courier, monospace;
+	overflow                         : hidden;
+	padding-left                     : 25px;
+	text-align                       : left;
+}
+
+#part-link-list table.data-inbox tbody tr td.edit .edit-button
+{
+	background-color                 : transparent;
+	background-image                 : url("./image/icon_modify.gif");
+	background-position              : left top;
+	display                          : block;
+	height                           : 11px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 11px;
+}
+
+#part-link-list table.data-inbox tbody tr td.edit .edit-button span,
+#part-link-list table.data-inbox tbody tr td.edit .visible-button span
+{
+	display                          : none;
+}
+
+#part-link-list table.data-inbox tbody tr td.edit .visible-button
+{
+	background-color                 : transparent;
+	display                          : block;
+	height                           : 15px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 15px;
+}
+
+#part-link-list table.data-inbox tbody tr td.edit .invisible-link
+{
+	background-image                 : url("./image/icon_public.gif");
+	background-position              : left top;
+}
+
+#part-link-list table.data-inbox tbody tr td.edit .visible-link
+{
+	background-image                 : url("./image/icon_public.gif");
+	background-position              : left bottom;
+}
+
+#part-link-list table.data-inbox tbody tr td.xfn-homepage
+{
+	background-position              : right bottom;
+	padding-left                     : 25px;
+	text-align                       : left;
+}
+
+#part-link-list table.data-inbox tbody tr td.xfn-edit
+{
+	background-position              : right bottom;
+	padding-left                     : 15px;
+	text-align                       : left;
+}
+
+#part-link-list table.data-inbox tbody tr td.xfn-edit label
+{
+	display	                         : block;
+	width                            : 8.5em;
+}
+
+/* Add *******************************************************************************************/
+
+#part-link-add div.data-inbox,
+#part-link-edit div.data-inbox
+{
+	height                           : 120px;
+	margin                           : 25px auto 0 auto;
+	width                            : 680px;
+}
+
+#part-link-add div.data-inbox dl,
+#part-link-edit div.data-inbox dl
+{
+	border                           : 1px solid #FFFFFF;
+}
+
+#part-link-add div.data-inbox dl dt,
+#part-link-edit div.data-inbox dl dt
+{
+	font-weight                      : normal;
+	line-height                      : 2em;
+	padding                          : 3px 12px 3px 0;
+	text-align                       : right;
+	width                            : 100px !important;
+}
+
+#part-link-add div.data-inbox dl dd,
+#part-link-edit div.data-inbox dl dd
+{
+	margin-left                      : 110px;
+	padding                          : 3px 0;
+}
+
+#part-link-add div.data-inbox dl dd .input-text,
+#part-link-edit div.data-inbox dl dd .input-text
+{
+	width                            : 350px;
+}
+
+#part-link-list .button-box,
+#part-link-add .button-box,
+#part-link-edit .button-box
+{
+	background-color                 : #F2F2F2;
+	background-image                 : url("./image/bg_link_button_box.png");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	clear                            : both;
+	margin                           : 0 auto 150px auto;
+	padding                          : 20px 10px 20px 10px;
+	width                            : 680px;
+}
+
+#part-link-list .button-box .input-button,
+#part-link-add .button-box .input-button,
+#part-link-edit .button-box .input-button
+{
+	background-color                 : #FFFFFF;
+	background-image                 : none;
+	border                           : 1px solid #BBBBBB;
+	color                            : #000000;
+	font-weight                      : bold;
+	height                           : 2.5em;
+	line-height                      : 2.5em;
+	vertical-align                   : middle;
+}
+
+/* Xfn *******************************************************************************************/
+
+#part-link-list .button-box
+{
+	margin-top                    : -50px;
+}
+
+#part-link-list .button-box
+{
+	margin                           : 0 auto 50px auto;
+}
