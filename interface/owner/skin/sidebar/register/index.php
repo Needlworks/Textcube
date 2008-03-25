@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-$ajaxcall = isset($_REQUEST['ajaxcall']) ? true : false;
+$ajaxcall = (isset($_REQUEST['ajaxcall']) && $_REQUEST['ajaxcall'] == true) ? true : false;
 
 $IV = array(
 	'REQUEST' => array(
