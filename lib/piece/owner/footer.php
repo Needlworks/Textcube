@@ -95,6 +95,9 @@ if (isset($paging['next'])) {
 					default:
 				}
 			}
+<?php
+	echo activateDetailPanelJS();
+?>
 		//]]>
 	</script>
 </body>

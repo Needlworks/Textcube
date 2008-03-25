@@ -25,6 +25,7 @@ require ROOT .'/lib/model/blog.user.php';
 require ROOT .'/lib/model/blog.category.php';
 require ROOT .'/lib/model/blog.teamblog.php';
 require ROOT .'/lib/model/blog.skin.php';
+require ROOT .'/lib/model/blog.fx.php';
 require ROOT .'/lib/model/common.plugin.php';
 require ROOT .'/lib/model/common.module.php';
 require ROOT .'/lib/model/common.setting.php';
