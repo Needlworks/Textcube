@@ -22,14 +22,14 @@ if(Acl::check('group.administrators')) {
 //		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader'),
 		array('menu'=>'skin','title'=>_t('스킨'),'link'=>'/owner/skin'),
 		array('menu'=>'plugin','title'=>_t('플러그인'),'link'=>'/owner/plugin'),	
-		array('menu'=>'setting','title'=>_t('환경설정'),'link'=>'/owner/setting/blog')
+		array('menu'=>'setting','title'=>_t('설정'),'link'=>'/owner/setting/blog')
 		);
 } else {
 	$blogTopMenuItem = array(
 		array('menu'=>'center','title'=>_t('센터'),'link'=>'/owner/center/dashboard'),
 		array('menu'=>'entry','title'=>_t('글'),'link'=>'/owner/entry'),
 //		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader'),
-		array('menu'=>'setting','title'=>_t('환경설정'),'link'=>'/owner/setting/account')
+		array('menu'=>'setting','title'=>_t('설정'),'link'=>'/owner/setting/account')
 		);
 }
 if($service['reader'] === false) {
@@ -38,7 +38,7 @@ if($service['reader'] === false) {
 }
 
 if(Acl::check('group.creators')) { 
-	array_push($blogTopMenuItem, array('menu'=>'control','title'=>_t('제어판'),'link'=>'/owner/control/blog'));
+	array_push($blogTopMenuItem, array('menu'=>'control','title'=>_t('서비스'),'link'=>'/owner/control/blog'));
 }
 switch($blogMenu['topMenu']) {
 	case 'center':
@@ -80,7 +80,7 @@ switch($blogMenu['topMenu']) {
 		break;
 	case 'setting':
 	case 'data':
-		$blogMenu['title'] = _t('환경설정');
+		$blogMenu['title'] = _t('설정');
 		$blogMenu['loadCSS'] = array('setting');
 		$blogMenu['loadCSSIE6'] = array('setting');
 		$blogMenu['loadCSSIE7'] = array('setting');
@@ -92,7 +92,7 @@ switch($blogMenu['topMenu']) {
 		$blogMenu['loadCSSIE7'] = array('reader');
 		break;
 	case 'control':
-		$blogMenu['title'] = _t('제어판');
+		$blogMenu['title'] = _t('서비스');
 		$blogMenu['loadCSS'] = array('control');
 		break;
 }
