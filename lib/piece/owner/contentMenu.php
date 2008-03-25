@@ -143,7 +143,6 @@ if(isset($blogContentMenuItem)) {
 
 	foreach($blogContentMenuItem as $contentMenuItem) { 
 		$PostIdStr = null;
-		
 		if(strstr($contentMenuItem['menu'], 'adminMenu?name=') !== false) {
 			$pluginMenuValue = explode('/',substr($contentMenuItem['menu'], 15));
 			$PostIdStr = $pluginMenuValue[0];
@@ -165,6 +164,7 @@ if(isset($blogContentMenuItem)) {
 						(($blogMenu['contentMenu'] == $contentMenuItem['menu'] || 
 							(isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) ||
 							($contentMenuItem['menu'] == 'trash' && strpos($blogMenu['contentMenu'],'trash') !== false) ||
+							($contentMenuItem['menu'] == 'add' && strpos($blogMenu['contentMenu'],'add') !== false) ||
 							($contentMenuItem['menu'] == 'blog' && strpos($blogMenu['contentMenu'],'blog') !== false && strpos($blogMenu['contentMenu'],'teamblog') === false) ||
 							($contentMenuItem['menu'] == 'user' && strpos($blogMenu['contentMenu'],'user') !== false) ||
 							($blogMenu['contentMenu'] == 'edit' && $contentMenuItem['menu'] == 'post')) ? " class=\"selected{$firstChildClass}\"" : ($firstChildClass ? " class=\"$firstChildClass\"" : ''));?>><a href="<?php 
