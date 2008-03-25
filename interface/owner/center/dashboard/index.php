@@ -333,28 +333,6 @@ if($textcubeDashboard) {
 								$item['written'] = 0;
 								array_push($noticeEntries, $item);
 						}
-					} else if ($xmls->getAttribute('/feed', 'version')) {
-						for ($i = 1; $link = $xmls->getValue("/feed/entry[$i]/id"); $i++) {
-							for ($j = 1; $rel = $xmls->getAttribute("/feed/entry[$i]/link[$j]", 'rel'); $j++) {
-								if($rel == 'alternate') {
-									$link = $xmls->getAttribute("/feed/entry[$i]/link[$j]", 'href');
-									break;
-								}
-							}
-							$item = array('permalink' => rawurldecode($link));
-							$item['author'] = $xmls->getValue("/feed/entry[$i]/author/name");
-							$item['title'] = $xmls->getValue("/feed/entry[$i]/title");
-							$item['written'] = parseDate($xmls->getValue("/feed/entry[$i]/issued"));
-							array_push($noticeEntries, $item);
-						}
-					} else if ($xmls->getAttribute('/rdf:RDF', 'xmlns')) {
-						for ($i = 1; $link = $xmls->getValue("/rdf:RDF/item[$i]/link"); $i++) {
-							$item = array('permalink' => rawurldecode($link));
-							$item['author'] = $xmls->getValue("/rdf:RDF/item[$i]/dc:creator");
-							$item['title'] = $xmls->getValue("/rdf:RDF/item[$i]/title");
-							$item['written'] = parseDate($xmls->getValue("/rdf:RDF/item[$i]/dc:date"));
-							array_push($noticeEntries, $item);
-						}
 					}
 				}
 				setServiceSetting('Textcube_Notice',serialize($noticeEntries));
@@ -394,7 +372,7 @@ if($textcubeDashboard) {
 								<h3><?php echo _t('알림판');?></h3>
 								<div id="infoPanel">
 									<table class="comment">
-										<caption><a href="<?php echo $blogURL."/owner/entry/comment";?>"><?php echo _t('최근 댓글');?></a></caption>
+										<caption><a href="<?php echo $blogURL."/owner/communication/comment";?>"><?php echo _t('최근 댓글');?></a></caption>
 										<thead>
 											<tr>
 												<th scope="col"><?=_t('내용')?></th>
@@ -416,7 +394,7 @@ if($textcubeDashboard) {
 										</tbody>
 									</table>
 									<table class="commentNotifier">
-										<caption><a href="<?php echo $blogURL."/owner/entry/notify";?>"><?php echo _t('최근 댓글 알리미');?></a></caption>
+										<caption><a href="<?php echo $blogURL."/owner/communication/notify";?>"><?php echo _t('최근 댓글 알리미');?></a></caption>
 										<thead>
 											<tr>
 												<th scope="col"><?=_t('내용')?></th>
@@ -438,7 +416,7 @@ if($textcubeDashboard) {
 										</tbody>
 									</table>
 									<table class="guestbook">
-										<caption><a href="<?php echo $blogURL."/owner/entry/comment?status=guestbook";?>"><?php echo _t('최근 방명록');?></a></caption>
+										<caption><a href="<?php echo $blogURL."/owner/communication/comment?status=guestbook";?>"><?php echo _t('최근 방명록');?></a></caption>
 										<thead>
 											<tr>
 												<th scope="col"><?=_t('내용')?></th>
@@ -451,7 +429,7 @@ if($textcubeDashboard) {
 		foreach ($guestbooks as $guestbook) {
 ?>
 											<tr>
-												<td class="title"><a href="<?php echo $blogURL."/guestbook#comment".$guestbook['id'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($guestbook['comment'], 25));?></a></td>
+												<td class="title"><a href="<?php echo $blogURL."/guestbook/".$guestbook['id']."#guestbook".$guestbook['id'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($guestbook['comment'], 25));?></a></td>
 												<td class="date"><?php echo Timestamp::format('%m/%d',$guestbook['written']);?></td>
 											</tr>
 <?php
@@ -460,7 +438,7 @@ if($textcubeDashboard) {
 										</tbody>
 									</table>
 									<table class="trackback">
-										<caption><a href="<?php echo $blogURL."/owner/entry/trackback";?>"><?php echo _t('최근 트랙백');?></a></caption>
+										<caption><a href="<?php echo $blogURL."/owner/communication/trackback";?>"><?php echo _t('최근 트랙백');?></a></caption>
 										<thead>
 											<tr>
 												<th scope="col"><?=_t('내용')?></th>
