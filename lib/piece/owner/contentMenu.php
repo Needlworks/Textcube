@@ -22,9 +22,7 @@ if(isset($blogMenu['topMenu'])) {
 				$blogContentMenuItem = array(
 					array('menu'=>'post','title'=>_t('글쓰기'),'link'=>'/owner/entry/post'),
 					array('menu'=>'entry','title'=>_t('글 목록'),'link'=>'/owner/entry'),
-					array('menu'=>'comment','title'=>_t('댓글'),'link'=>'/owner/entry/comment'),
-					array('menu'=>'notify','title'=>_t('댓글 알리미'),'link'=>'/owner/entry/notify'),
-					array('menu'=>'trackback','title'=>_t('걸린글'),'link'=>'/owner/entry/trackback'),
+					array('menu'=>'comment','title'=>_t('소통 기록'),'link'=>'/owner/entry/comment'),
 					array('menu'=>'category','title'=>_t('분류 관리'),'link'=>'/owner/entry/category'),
 					array('menu'=>'trash','title'=>_t('휴지통'),'link'=>'/owner/entry/trash')
 				);
@@ -135,6 +133,9 @@ if(isset($blogContentMenuItem)) {
 	if (isset($_POST['category'])) $currentCategory = $_POST['category'];
 	else if (isset($_GET['category'])) $currentCategory = $_GET['category'];
 	else $currentCategory = null;
+	if(in_array($blogMenu['contentMenu'],array('notify','trackback')))
+		$blogMenu['contentMenu'] = 'comment';
+
 	foreach($blogContentMenuItem as $contentMenuItem) { 
 		$PostIdStr = null;
 		

@@ -140,7 +140,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 					</div>
 					<form method="post" action="">
 						<input type="hidden" name="requestURI" value="<?php echo htmlspecialchars($_POST['requestURI']);?>" />
-						<div class="field-box">
+						<div id="basic-field-box" class="field-box">
 							<dl id="email-line">
 								<dt><label for="loginid"><?php echo _text('이메일');?></label></dt>
 								<dd><input type="text" class="input-text" id="loginid" name="loginid" value="<?php echo htmlspecialchars(empty($_POST['loginid']) ? (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : $_COOKIE['TSSESSION_LOGINID']) : $_POST['loginid']);?>" maxlength="64" tabindex="1" /></dd>

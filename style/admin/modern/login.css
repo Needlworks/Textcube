@@ -12,41 +12,55 @@ body
 
 #data-outbox
 {
-	border                           : 8px solid #efefef;
-	margin                           : 100px auto 0 auto;
+	
+	margin                           : 150px auto 0 auto;
 	position                         : relative;
 	width                            : 560px;
 }
 
-#login-box
-{
-	height: 400px;
-	margin-left: auto;
-	padding: 10px;
-	width: 215px;
-}
-
 #logo-box
 {
-	background-image: url("./image/logo_textcube.png");
-	background-repeat: no-repeat;
-	height: 147px;
-	left: 85px;
-	position: absolute;
-	top: 100px;
-	width: 166px;
+	left                             : 65px;
+	position                         : absolute;
+	top                              : 30px;
 }
 
-#logo-box img
+.field-box ul
 {
-	display: none;
+	list-style-type: disc;
+	margin-top: 10px;
+}
+
+.field-box ul li
+{
+	line-height: 1.2em;
+	list-style-type: disc;
+	margin-left: 20px;
+}
+
+#basic-field-box
+{
+	background-image                 : url("./image/bg_login_border.png");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+}
+
+.field-box
+{
+	height                           : 190px;
+	margin-left                      : 250px;
+}
+
+dl
+{
+	margin-left                      : 90px;
 }
 
 dt
 {
 	font-weight                      : normal !important;
 	line-height                      : 1em !important;
-	padding                          : 10px 0 3px 0;
+	padding                          : 15px 0 3px 0;
 	position                         : static !important;
 }
 	
@@ -62,11 +76,6 @@ dd .input-text
 	font-size                        : 1.3em;
 	padding                          : 3px 0 3px 5px;
 	width                            : 208px;
-}
-
-hr
-{
-	display                          : none;
 }
 
 #checkbox-line dt
@@ -87,7 +96,7 @@ hr
 	text-align: right;
 }
 
-.login-button
+.input-button
 {
 	background-color                 : #FFFFFF;
 	background-image                 : none !important;
@@ -99,13 +108,9 @@ hr
 #message-box
 {
 	background-color                 : #F2F2F2;
-	left: 10px;
 	margin-top                       : 10px;
 	padding                          : 5px;
-	position: absolute;
 	text-align                       : center;
-	top: 10px;
-	width: 300px;
 }
 
 /* open id */
@@ -113,12 +118,12 @@ hr
 #openid-field-box
 {
 	border-top: 1px solid #ccc;
-	margin-top: 20px;
+	margin: 20px 0 0 340px;
 }
 
 #openid-line
 {
-	margin                           : 0;
+	margin: 0;
 }
 
 #openid-line .example
@@ -132,9 +137,10 @@ hr
 {
 	background-color: #fff;
 	background-image: url("../../../image/icon_login_openid.gif");
+	background-position: left center;
 	background-repeat: no-repeat;
 	padding-left                     : 30px;
-	width: 180px;
+	width: 183px;
 }
 
 #openid-remember dt
@@ -148,15 +154,15 @@ hr
 	text-align: right;
 }
 
-#openid-field-box ul
+#openid-helper
 {
-	list-style-type: disc;
-	margin-top: 10px;
+	font-size: 0.9em;
+	list-style-type: none !important;
+	margin: 20px 0 0 0;
+	text-align: center;
 }
 
-#openid-field-box ul li
+#openid-helper a
 {
-	line-height: 1.2em;
-	list-style-type: disc;
-	margin-left: 20px;
+	color: #aaa;
 }

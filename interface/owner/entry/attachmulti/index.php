@@ -10,6 +10,7 @@ $IV = array(
 		'TSSESSION' => array( 'string' , 'default' => null) 
 	)
 );
+
 if (!empty($_GET['TSSESSION']))
 	$_COOKIE['TSSESSION'] = $_GET['TSSESSION'];
 require ROOT . '/lib/includeForBlogOwner.php';

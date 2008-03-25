@@ -109,7 +109,7 @@ function pretty_dress($view)
 	dress('search_name', 'search', $searchView);
 	dress('search_text', isset($search) ? htmlspecialchars($search) : '', $searchView);
 	dress('search_onclick_submit', 'searchBlog()', $searchView);
-	dress('search', '<form id="TTSearchForm" action="'.$blogURL.'/search/" method="get" onsubmit="return searchBlog()" style="margin:0;padding:0;display:inline">'.$searchView.'</form>', $view);
+	dress('search', '<form id="TTSearchForm" action="'.$blogURL.'/search/" method="get" onsubmit="return searchBlog()">'.$searchView.'</form>', $view);
 	
 	dress('category', $pd_category, $view);
 	dress('category_list', $pd_categoryXhtml, $view);
@@ -571,18 +571,18 @@ foreach ($sidebarPluginArray as $nowKey) {
 
 <?php
 for ($i=0; $i<$sidebarCount; $i++) {
-	echo "document.getElementById('sidebar-ul-{$i}').sidebar = {$i};";
-	echo "new DropPanel(document.getElementById('sidebar-ul-{$i}'), [\"sidebar\"]);";
+	echo "document.getElementById('sidebar-ul-{$i}').sidebar = {$i};".CRLF;
+	echo "new DropPanel(document.getElementById('sidebar-ul-{$i}'), [\"sidebar\"]);".CRLF;
 	
 	$orderConfig = array_key_exists($i, $sidebarConfig) ? $sidebarConfig[$i] :  array();
 	for ($j=0; $j<count($orderConfig); $j++) {
-		echo "document.getElementById('sidebar-element-{$i}-{$j}').sidebarNumber = {$i};";
-		echo "document.getElementById('sidebar-element-{$i}-{$j}').modulePos = {$j};";
-		echo "document.getElementById('sidebar-element-{$i}-{$j}').ajaxtype = 'reorder';";
-		echo "document.getElementById('sidebar-element-{$i}-{$j}').hasPropertyEdit = false;";
+		echo "document.getElementById('sidebar-element-{$i}-{$j}').sidebarNumber = {$i};".CRLF;
+		echo "document.getElementById('sidebar-element-{$i}-{$j}').modulePos = {$j};".CRLF;
+		echo "document.getElementById('sidebar-element-{$i}-{$j}').ajaxtype = 'reorder';".CRLF;
+		echo "document.getElementById('sidebar-element-{$i}-{$j}').hasPropertyEdit = false;".CRLF;
 		
 		if ($orderConfig[$j]['type'] == 3) {
-			echo "document.getElementById('sidebar-element-{$i}-{$j}').moduleCategory = 'plugin';";
+			echo "document.getElementById('sidebar-element-{$i}-{$j}').moduleCategory = 'plugin';".CRLF;
 			echo "document.getElementById('sidebar-element-{$i}-{$j}').hasPropertyEdit = ";
 			$plugin = $orderConfig[$j]['id']['plugin'];
 			$handler = $orderConfig[$j]['id']['handler'];
@@ -590,28 +590,28 @@ for ($i=0; $i<$sidebarCount; $i++) {
 			
 			echo (array_key_exists($sidbarPluginIndex, $sidebarPluginArray) 
 				&& (count($sidebarPluginArray[$sidbarPluginIndex]['parameters']) > 0)) ? 'true' : 'false';
-			echo ";";
+			echo ";".CRLF;
 		}
 		
-		echo "new DragPanel(document.getElementById('sidebar-element-{$i}-{$j}'), [\"sidebar\"]);";
+		echo "new DragPanel(document.getElementById('sidebar-element-{$i}-{$j}'), [\"sidebar\"]);".CRLF;
 	}
 }
 
 foreach ($sortedArray as $nowKey) {
-	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').identifier = '{$nowKey['identifier']}';";
-	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').ajaxtype = 'register';";
-	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').moduleCategory = 'sidebar_element';";
-	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').hasPropertyEdit = false;";
-	echo "new DragPanelAdd(document.getElementById('add-sidebar-element-{$nowKey['identifier']}'), [\"sidebar\"]);";
+	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').identifier = '{$nowKey['identifier']}';".CRLF;
+	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').ajaxtype = 'register';".CRLF;
+	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').moduleCategory = 'sidebar_element';".CRLF;
+	echo "document.getElementById('add-sidebar-element-{$nowKey['identifier']}').hasPropertyEdit = false;".CRLF;
+	echo "new DragPanelAdd(document.getElementById('add-sidebar-element-{$nowKey['identifier']}'), [\"sidebar\"]);".CRLF;
 }
 foreach ($sidebarPluginArray as $nowKey) {
-	echo "document.getElementById('add-sidebar-module-{$nowKey['identifier']}').identifier = '{$nowKey['identifier']}';";
-	echo "document.getElementById('add-sidebar-module-{$nowKey['identifier']}').ajaxtype = 'register';";
-	echo "document.getElementById('add-sidebar-module-{$nowKey['identifier']}').moduleCategory = 'plugin';";
+	echo "document.getElementById('add-sidebar-module-{$nowKey['identifier']}').identifier = '{$nowKey['identifier']}';".CRLF;
+	echo "document.getElementById('add-sidebar-module-{$nowKey['identifier']}').ajaxtype = 'register';".CRLF;
+	echo "document.getElementById('add-sidebar-module-{$nowKey['identifier']}').moduleCategory = 'plugin';".CRLF;
 	echo "document.getElementById('add-sidebar-module-{$nowKey['identifier']}').hasPropertyEdit = ";
 	echo count($nowKey['parameters']) > 0 ? 'true' : 'false';
-	echo ";";
-	echo "new DragPanelAdd(document.getElementById('add-sidebar-module-{$nowKey['identifier']}'), [\"sidebar\"]);";
+	echo ";".CRLF;
+	echo "new DragPanelAdd(document.getElementById('add-sidebar-module-{$nowKey['identifier']}'), [\"sidebar\"]);".CRLF;
 }
 ?>
 									reordering();

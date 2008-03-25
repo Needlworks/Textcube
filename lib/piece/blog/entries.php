@@ -37,7 +37,7 @@ if (isset($cache->contents)) {
 		else if ($suri['directive'] == '/page')
 			$permalink = "$blogURL/page/{$entry['id']}";
 		else
-			$permalink = "$blogURL/" . ($blog['useSlogan'] ? "entry/" . URL::encode($entry['slogan'],$service['useEncodedURL']) : $entry['id']);
+			$permalink = "$blogURL/" . ($blog['useSloganOnPost'] ? "entry/" . URL::encode($entry['slogan'],$service['useEncodedURL']) : $entry['id']);
 
 		if ($entry['category'] == - 1) { // This is keylog
 			$entryView = $skin->keylogItem;
@@ -83,7 +83,7 @@ if (isset($cache->contents)) {
 				$tags = array();
 				$relTag = getBlogSetting('useMicroformat', 3)>1 && (count($entries) == 1 || !empty($skin->hentryExisted) );
 				foreach ($entryTags as $entryTag) {
-					$tags[$entryTag['name']] = "<a href=\"$defaultURL/tag/" . URL::encode($entryTag['name'],$service['useEncodedURL']) . '"' . ($relTag ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>';
+					$tags[$entryTag['name']] = "<a href=\"$defaultURL/tag/" . (getBlogSetting('useSloganOnTag',true) ? URL::encode($entryTag['name'],$service['useEncodedURL']) : $entryTag['id']). '"' . ($relTag ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>';
 					array_push($totalTags,$entryTag['name']);
 				}
 				$tags = fireEvent('ViewTagLists', $tags, $entry['id']);
@@ -161,7 +161,7 @@ if (isset($cache->contents)) {
 				$entriesView .= "<div id=\"entry{$entry['id']}\">$protectedEntryView</div>";
 		}
 	}
-	if(count($entries) > 1 || (count($entries) == 1 && $suri['page']==1)) {
+	if(count($entries) > 1 || (count($entries) == 1 && empty($suri['value']))) {
 		unset($totalTags);
 	}
 	if(isset($cache)) {

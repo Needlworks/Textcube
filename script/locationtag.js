@@ -82,7 +82,7 @@ function eolinLocationTagFunction_showSuggestion()
 	/* TODO : temporary code */
 	try {
 		document.getElementById("previewSelected").style.visibility = "hidden";
-		document.getElementById("fileList").style.visibility = "hidden";
+		document.getElementById("TCfilelist").style.visibility = "hidden";
 	} catch(e) { }
 
 	instance.suggestion.innerHTML = htmlText.toString();
@@ -353,7 +353,7 @@ LocationTag.prototype.hideSuggestion = function()
 	/* TODO : temporary code */
 	try {
 		document.getElementById("previewSelected").style.visibility = "visible";
-		document.getElementById("fileList").style.visibility = "visible";
+		document.getElementById("TCfilelist").style.visibility = "visible";
 	} catch(e) { }
 }
 

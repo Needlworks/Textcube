@@ -2,6 +2,9 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+
+define('__TEXTCUBE_LOGIN__',true);
+
 require ROOT . '/lib/includeForBlog.php';
 require ROOT . '/lib/model/blog.skin.php';
 
@@ -41,6 +44,8 @@ function showCheckupMessage($stat = true) {
 
 function clearCache() {
 	global $database, $changed, $errorlog;
+	static $isCleared = false;
+	if($isCleared == true) return true;
 	if($blogids = POD::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog")) {
 		$changed = true;
 		$errorlog = false;
@@ -56,6 +61,7 @@ function clearCache() {
 	if(POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = 'Textcube_Notice_%'"))
 		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else echo '<span class="result fail">', _text('실패'), '</span></li>';
+	$isCleared = true;
 }
 
 ?>
@@ -319,20 +325,12 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
 	$fp = fopen($filename, "w");
 	if(fwrite($fp, $content)) {
 		fclose($fp);
-		echo ': <span class="result success">', _text('성공'), '</span></li>';
+		showCheckupMessage(true);
 	} else {
 		fclose($fp);
-		echo ': <span class="result fail">', _text('실패'), '</span></li>';
+		showCheckupMessage(false);
 	}
 }
-
-?>
-					</ul>
-
-					<p id="lastMessage">
-						<?php
-	reloadSkin(1);
-	echo ($changed ? _text('완료되었습니다.') : _text('확인되었습니다.'));
 
 if (((!file_exists(ROOT . '/cache/CHECKUP')) || (file_get_contents(ROOT . '/cache/CHECKUP') != TEXTCUBE_VERSION)) && ($succeed == true)) {
 	if ($fp = fopen(ROOT . '/cache/CHECKUP', 'w')) {
@@ -342,11 +340,18 @@ if (((!file_exists(ROOT . '/cache/CHECKUP')) || (file_get_contents(ROOT . '/cach
 		clearCache();
 	}
 }
-?></span>
+?>
+					</ul>
+
+					<p id="lastMessage">
+						<?php
+	reloadSkin(1);
+	echo ($changed ? _text('완료되었습니다.') : _text('확인되었습니다.'));
+?>
 					</p>
 				</div>
 
-				<div id="navigation" style="padding-top: 20px;">
+				<div id="navigation">
 					<a href="<?php echo $blogURL.'/owner/center/dashboard';?>"><img src="<?php echo $service['path']?>/style/setup/image/icon_ok.gif" width="74" height="24" alt="돌아가기" /></a>
 				</div>
 			</div>

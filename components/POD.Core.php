@@ -53,21 +53,18 @@ class POD extends DBQuery {
 		/*** TO DO : Upgrade current table schemes into newer one.***/
 		if(empty($this->_version) || empty($this->_prototype)) return $this->_false();
 		$clause = 'CREATE TABLE '.$this->_tablePrefix.$this->_prototype.' (';
-		$clause .= 'pod_fid integer NOT NULL,';
+		$clause .= 'pid integer NOT NULL,';
 		foreach($this->_queue[$this->domain()][$this->type()]['instances'] as $instance => $options) {
 			$clause .= $instance;
 			if($options['attribute'] != null) $clause .= ' '.$options['attribute'];
 			if($options['additional'] != null) $clause .= ' '.$options['additional'];
 			$clause .= ',';
 		}
-		if(!empty($this->_queue[$this->domain()][$this->type()]['primary'])) {
-			$clause .= 'PRIMARY KEY ('.implode(',',$this->_queue[$this->domain()][$this->type()]['primary']).'),';
-		}
+		$clause .= 'PRIMARY KEY (pid)';
 		if(!empty($this->_queue[$this->domain()][$this->type()]['indexes'])) {
 			foreach($this->_queue[$this->domain()][$this->type()]['indexes'] as $indexName => $indexes) {
-				$clause .= 'KEY '.$indexName.' ('.implode(',',$indexes).'),';
+				$clause .= ', KEY '.$indexName.' ('.implode(',',$indexes).')';
 			}
-			$clause .= 'UNIQUE pod_fid (pod_fid),';
 		}
 
 		$clause = rtrim($clause, ',').')'.$this->_setCharset();
@@ -316,7 +313,7 @@ class POD extends DBQuery {
 		if(isset($this->_structure[$this->domain()][$this->type()]['superclasses'])) {
 			$superclass = $this->_structure[$this->domain()][$this->type()]['superclasses'][0];
 			$relations = $this->_structure[$this->domain()][$this->type()]['relations'][$superclass];
-			$clause = "SELECT pod_fid FROM ".$this->_tablePrefix.$superclass." WHERE ";
+			$clause = "SELECT pid FROM ".$this->_tablePrefix.$superclass." WHERE ";
 			foreach($relations as $super => $myself) {
 				$clause .= $super.'='.$this->_instances[$myself].' AND ';
 			}
@@ -383,7 +380,7 @@ class POD extends DBQuery {
 			}
 			$this->_classPointer = 0;
 			$this->_isCheckout = true;
-			$this->_foreignKeyId = $this->_instances['pod_fid'];
+			$this->_foreignKeyId = $this->_instances['pid'];
 			return true;
 		}
 		return $this->_false();
@@ -392,7 +389,7 @@ class POD extends DBQuery {
 	function remove() {
 		if(empty($this->_prototype)) return $this->_false();
 		// Find field pairs.
-		$clause = "SELECT pod_fid FROM ".$this->_tablePrefix.$this->_prototype." WHERE ".$this->_clause();
+		$clause = "SELECT pid FROM ".$this->_tablePrefix.$this->_prototype." WHERE ".$this->_clause();
 		$targetFid = $this->queryCell($clause);
 		$clause = "DELETE FROM ".$this->_tablePrefix.$this->_prototype;
 		$clause .= " WHERE ".$this->_clause();
@@ -400,7 +397,7 @@ class POD extends DBQuery {
 		if($this->execute($clause)) {
 			if($this->_structure[$this->domain()][$this->type()]['subclasses']) {
 				foreach($this->_structure[$this->domain()][$this->type()]['subclasses'] as $subclass) {
-					$this->execute("DELETE FROM ".$this->_tablePrefix.$subclass." WHERE pod_fid = ".$targetFid);
+					$this->execute("DELETE FROM ".$this->_tablePrefix.$subclass." WHERE pid = ".$targetFid);
 				}
 			}
 			return true;
@@ -551,9 +548,9 @@ class POD extends DBQuery {
 	function _insertClause() {
 		$condition = '';
 		if(isset($this->foreignKeyId)) {
-			$this->_instances['pod_fid'] = $this->foreignKeyId;
+			$this->_instances['pid'] = $this->foreignKeyId;
 		} else {
-			$this->_instances['pod_fid'] = $this->_getNewKeyId();
+			$this->_instances['pid'] = $this->_getNewKeyId();
 		}
 		$condition .= ' ('.implode(',',array_keys($this->_instances)).') VALUES ('.implode(',',$this->_instances).')';
 		return $condition;
@@ -568,7 +565,7 @@ class POD extends DBQuery {
 			$condition .= "`".$instance."` = ".$value.",";
 		}
 		$condition = rtrim($condition,',');
-		$condition .= " WHERE pod_fid = ".$this->_foreignKeyId;
+		$condition .= " WHERE pid = ".$this->_foreignKeyId;
 		return $condition;
 	}
 	
@@ -578,14 +575,10 @@ class POD extends DBQuery {
 		else return '';
 	}
 	
-	function setIndex($indexName, $instances = null, $primary = null) {
+	function setIndex($indexName, $instances = null) {
 		if(empty($instances)) $instances = $indexName;
 		$indexSet = explode(',',$instances);
-		if(!empty($primary)) { //Set primary key!
-			$this->_queue[$this->domain()][$this->type()]['primary'] = $indexSet;
-		} else {
-			$this->_queue[$this->domain()][$this->type()]['indexes'][$indexName] = $indexSet;
-		}
+		$this->_queue[$this->domain()][$this->type()]['indexes'][$indexName] = $indexSet;
 	}
 	
 	function _validateInstance($instance) {
@@ -628,9 +621,6 @@ class POD extends DBQuery {
 				$clause .= 'CHANGE '.$instance.' '.$instance.' '.$options['attribute'].(isset($options['additional']) ? ' '.$options['additional'] : '').',';
 			}
 		}
-		if(!empty($this->_queue[$this->domain()][$this->type()]['primary'])) {
-			$clause .= 'DROP PRIMARY KEY, ADD PRIMARY KEY ('.implode(',',$this->_queue[$this->domain()][$this->type()]['primary']).'),';
-		}
 		if(!empty($this->_queue[$this->domain()][$this->type()]['indexes'])) {
 			foreach($this->_queue[$this->domain()][$this->type()]['indexes'] as $indexName => $indexes) {
 				$clause .= 'ADD INDEX '.$indexName.' ('.implode(',',$indexes).'),';
@@ -648,9 +638,6 @@ class POD extends DBQuery {
 				foreach($alternation as $instance => $options)
 					$this->_structure[$this->domain()][$this->type()]['instances'][$instance] = $options;
 			}
-			if(!empty($this->_queue[$this->domain()][$this->type()]['primary'])) {
-				$this->_structure[$this->domain()][$this->type()]['primary'] = $this->_queue[$this->domain()][$this->type()]['primary'];
-			}
 			if(!empty($this->_queue[$this->domain()][$this->type()]['indexes'])) {
 				$this->_structure[$this->domain()][$this->type()]['indexes'] = $this->_queue[$this->domain()][$this->type()]['indexes'];
 			}
@@ -661,7 +648,7 @@ class POD extends DBQuery {
 	}
 	
 	function _getNewKeyId() {
-		return $this->queryCell("SELECT max(pod_fid) FROM ".$this->_tablePrefix.$this->type()) + 1;
+		return $this->queryCell("SELECT max(pid) FROM ".$this->_tablePrefix.$this->type()) + 1;
 	}
 	
 	function _false($err = null) {

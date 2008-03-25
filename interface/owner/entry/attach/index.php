@@ -32,7 +32,7 @@ requireStrictRoute();
 				var servicePath = "<?php echo $service['path'];?>";
 				var blogURL = "<?php echo $blogURL;?>";
 				var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
-				var oSelect = window.parent.document.getElementById('fileList');
+				var oSelect = window.parent.document.getElementById('TCfilelist');
 				
 				function addAttachOption(value) {
 					try {

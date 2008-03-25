@@ -3,11 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-$ajaxcall= false;
-if (isset($_REQUEST['ajaxcall'])) {
-	$ajaxcall= true;
-	$ajaxmethod = $_REQUEST['ajaxcall'];
-}
+$ajaxcall = isset($_REQUEST['ajaxcall']) ? true : false;
+$ajaxmethod = isset($_REQUEST['ajaxcall']) ? $_REQUEST['ajaxcall'] : 'return false;';
 
 $IV = array(
 		'REQUEST' => array(
@@ -29,11 +26,11 @@ $sidebarOrderData = getSidebarModuleOrderData($sidebarCount);
 $sidebarNumber = $_REQUEST['sidebarNumber'];
 $modulePos = $_REQUEST['modulePos'];
 
-if (($sidebarNumber < 0) || ($sidebarNumber >= $sidebarCount)) respond::ErrorPage();
-if (!isset($sidebarOrderData[$sidebarNumber]) || !isset($sidebarOrderData[$sidebarNumber][$modulePos])) respond::ErrorPage();
+if (($sidebarNumber < 0) || ($sidebarNumber >= $sidebarCount)) respond::ErrorPage(null,null,null,$ajaxcall);
+if (!isset($sidebarOrderData[$sidebarNumber]) || !isset($sidebarOrderData[$sidebarNumber][$modulePos])) respond::ErrorPage(null,null,null,$ajaxcall);
 
 $pluginData = $sidebarOrderData[$sidebarNumber][$modulePos];
-if ($pluginData['type'] != 3) respond::ErrorPage();
+if ($pluginData['type'] != 3) respond::ErrorPage(null,null,null,$ajaxcall);
 
 $plugin = $pluginData['id']['plugin'];
 $handler = $pluginData['id']['handler'];
@@ -146,6 +143,4 @@ echo '</form>';
 if ($ajaxcall == false) {
 	require ROOT . '/lib/piece/owner/footer.php';
 }
-
-
 ?>

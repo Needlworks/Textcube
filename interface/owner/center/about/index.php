@@ -68,11 +68,11 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											</tr>
 											<tr>
 												<td class="name vcard"><a class="fn url" href="http://daybreaker.info">Kim Joongi</a></td>
-												<td class="role"><?php echo _t('XHTML specification / Textcube main page / Quality Assurance');?></td>
+												<td class="role"><?php echo _t('XHTML / Textcube server / Quality Assurance');?></td>
 											</tr>
 											<tr>
 												<td class="name vcard"><a class="fn url" href="http://www.graphittie.org/blog">graphittie™</a></td>
-												<td class="role"><?php echo _t('UI / Sidebar / XHTML specification / Bug tracking');?></td>
+												<td class="role"><?php echo _t('UI / Sidebar / XHTML / Bug tracking');?></td>
 											</tr>
 											<tr>
 												<td class="name vcard"><a class="fn url" href="http://forest.nubimaru.com">Jeongkyu Shin</a></td>
@@ -80,7 +80,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											</tr>
 											<tr>
 												<td class="name vcard"><a class="fn url" href="http://www.create74.com">Yong-ju, Park</a></td>
-												<td class="role"><?php echo _t('Teamblog / Coverpage / Plugin');?></td>
+												<td class="role"><?php echo _t('Mobile / Teamblog / Coverpage / Plugin');?></td>
 											</tr>
 											<tr>
 												<td class="name vcard"><a class="fn url" href="http://tokigun.net">Seong-Hoon Kang</a></td>
@@ -238,7 +238,8 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									<span class="vcard"><a class="fn nickname url" href="http://yupmin.tistory.com/">엽기민원</a></span>,
 									<span class="vcard"><a class="fn nickname url" href="#">우수한</a></span>,
 									<span class="vcard"><a class="fn nickname url" href="http://chakani.net">차칸아이</a></span>,
-									<span class="vcard"><a class="fn nickname url" href="http://www.yangkun.pe.kr">희망이아빠</a></span>
+									<span class="vcard"><a class="fn nickname url" href="http://www.yangkun.pe.kr">희망이아빠</a></span>,
+									<span class="vcard"><a class="fn nickname url" href="http://reznoa.nayana.com/tt">레즈</a></span>
 									</p>
 									
 									<h4><?php echo _t('Internationalization Contributor');?></h4>
@@ -263,7 +264,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								<div id="reporter-container" class="container">
 									<h4><?php echo _t('Reporter');?></h4>
 									
-									<p>마모루, 건더기, 유마, 섭이, JCrew, cirrus, 작은인장, 김종찬, 김정훈, BLue, 소필, webthink, 일모리, lunamoth, 빌리디안, 티즈, rooine, baragi74, soonJin, Juno, 딘제, iarchitect, Rukxer, gofeel, Ever_K, BlueOcean, thessando, advck1123, danew, 엉뚱이, 마잇, 하노아, Naive, mintstate, 바둥이, expansor, 싸이친구, rhapsody, 제주시티, funny4u, 안용열, lacovnk, laziel, 랜덤여신, McFuture, subyis, leokim, diasozo, Ikaris Cyrus Faust, DARKLiCH, 주성애비, dikafryo, 이일환, Chiri, htna, Milfy, filmstyle, citta, 날개달기, vampelf, 비나무, FeelSoGood, 헤이, 밤하늘, raziel, U클래스, pom., bellblog, ataiger, onesound, mountaineer, jkm0114, 컴Ting, okto79, 보물섬, daydreamer, 너른호수, envia, Enistia, 정두원</p>
+									<p>마모루, 건더기, 유마, 섭이, JCrew, cirrus, 작은인장, 김종찬, 김정훈, BLue, 소필, webthink, 일모리, lunamoth, 빌리디안, 티즈, rooine, baragi74, soonJin, Juno, 딘제, iarchitect, Rukxer, gofeel, Ever_K, BlueOcean, thessando, advck1123, danew, 엉뚱이, 마잇, 하노아, Naive, mintstate, 바둥이, expansor, 싸이친구, rhapsody, 제주시티, funny4u, 안용열, lacovnk, laziel, 랜덤여신, McFuture, subyis, leokim, diasozo, Ikaris Cyrus Faust, DARKLiCH, 주성애비, dikafryo, 이일환, Chiri, htna, Milfy, filmstyle, citta, 날개달기, vampelf, 비나무, FeelSoGood, 헤이, 밤하늘, raziel, U클래스, pom., bellblog, ataiger, onesound, mountaineer, jkm0114, 컴Ting, okto79, 보물섬, daydreamer, 너른호수, envia, Enistia, 정두원, 엘다, Capricorn</p>
 								</div>
 							</div>
 						</div>

@@ -19,6 +19,19 @@ function closeSession() {
 	return true;
 }
 
+function getSessionName() {
+	global $service;
+	static $sessionName = null;
+	if( $sessionName == null ) { 
+		if( !empty($service['session_cookie']) ) {
+			$sessionName = $session['session_cookie'];
+		} else {
+			$sessionName = 'TSSESSION'.str_replace('.','',$service['domain']); 
+		}
+	}
+	return $sessionName;
+}
+
 function readSession($id) {
 	global $database, $service;
 	if ($result = sessionQuery("SELECT data FROM {$database['prefix']}Sessions 
@@ -150,7 +163,14 @@ function isGuestOpenIDSession($id) {
 }
 
 function setSession() {
-	$id = empty($_COOKIE[session_name()]) ? '' : $_COOKIE[session_name()];
+	if( !empty($_GET['TSSESSION']) ) {
+		$id = $_GET['TSSESSION'];
+		$_COOKIE[session_name()] = $id;
+	} else if ( !empty($_COOKIE[session_name()]) ) {
+		$id = $_COOKIE[session_name()];
+	} else {
+		$id = '';
+	}
 	if ((strlen($id) < 32) || !isSessionAuthorized($id)) {
 		setSessionAnonymous($id);
 	}
@@ -186,7 +206,7 @@ function authorizeSession($blogid, $userid) {
 		if ($result) {
 			@session_id($id);
 			//$service['domain'] = $service['domain'].':8888';
-			setcookie('TSSESSION', $id, 0, $session_cookie_path, $service['domain']);
+			setcookie( getSessionName(), $id, 0, $session_cookie_path, $service['domain']);
 			return true;
 		}
 	}
@@ -218,7 +238,7 @@ function sessionQueryAll($sql) {
 	}
 	return $result;
 }
-session_name('TSSESSION');
+session_name(getSessionName());
 setSession();
 session_set_save_handler('openSession', 'closeSession', 'readSession', 'writeSession', 'destroySession', 'gcSession');
 session_cache_expire(1);

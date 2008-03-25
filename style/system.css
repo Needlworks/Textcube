@@ -1,0 +1,40 @@
+.TCwarning
+{
+	background-image: url("../image/warning.gif");
+	background-repeat: no-repeat;
+	background-position: top center;
+	color: #333;
+	font-size: 14px;
+	font-weight: bold;
+	margin: 50px 0;
+	padding-top: 50px;
+	text-align: center;
+}
+
+#TTSearchForm
+{
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+
+#TCfilelist
+{
+	width: 415px;
+}
+
+#TCfilelist .enclosure
+{
+	background-color: #c6a6e7;
+	color: #000;
+}
+
+#templateDialog
+{
+	z-index: 100;
+}
+
+select#commandBox option.default
+{
+	font-style: italic;
+}

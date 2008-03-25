@@ -140,12 +140,12 @@ function getFeedEntriesTotalCount($blogid, $group = 0, $feed = 0, $unreadOnly = 
 					{$database['prefix']}FeedItems i
 				ON
 					f.id = i.feed
-				LEFT JOIN					
+				LEFT JOIN
 					{$database['prefix']}FeedStarred s
 				ON
 					s.blogid = $blogid AND
 					i.id = s.item
-				LEFT JOIN					
+				LEFT JOIN
 					{$database['prefix']}FeedReads rd
 				ON
 					rd.blogid = $blogid AND
@@ -179,12 +179,12 @@ function getFeedEntries($blogid, $group = 0, $feed = 0, $unreadOnly = false, $st
 					{$database['prefix']}FeedGroupRelations r,
 					{$database['prefix']}Feeds f,
 					{$database['prefix']}FeedItems i
-				LEFT JOIN					
+				LEFT JOIN
 					{$database['prefix']}FeedStarred s
 				ON
 					s.blogid = $blogid AND
 					i.id = s.item
-				LEFT JOIN					
+				LEFT JOIN
 					{$database['prefix']}FeedReads rd
 				ON
 					rd.blogid = $blogid AND
@@ -224,12 +224,12 @@ function getFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly = 
 						{$database['prefix']}FeedGroupRelations r,
 						{$database['prefix']}Feeds f,
 						{$database['prefix']}FeedItems i
-					LEFT JOIN					
+					LEFT JOIN
 						{$database['prefix']}FeedStarred s
 					ON
 						s.blogid = $blogid AND
 						i.id = s.item
-					LEFT JOIN					
+					LEFT JOIN
 						{$database['prefix']}FeedReads rd
 					ON
 						rd.blogid = $blogid AND
@@ -406,7 +406,7 @@ function getRemoteFeed($url) {
 						$rssURL = $attributes['href'];
 					else if(isset($rssInfo['path'])) {
 						if($rssInfo['path']{0} == '/')
-							$rssURL = "{$urlInfo['scheme']}://{$urlInfo['host']}{$rssInfo['path']}";							
+							$rssURL = "{$urlInfo['scheme']}://{$urlInfo['host']}{$rssInfo['path']}";
 						else
 							$rssURL = "{$urlInfo['scheme']}://{$urlInfo['host']}".(isset($urlInfo['path']) ? rtrim($urlInfo['path'], '/') : '').'/'.$rssInfo['path'];
 					}
@@ -428,7 +428,7 @@ function getRemoteFeed($url) {
 		else
 			$feed['language'] = 'en-US';
 		$feed['modified'] = gmmktime();
-	} else if ($xmls->getAttribute('/feed', 'version')) {
+	} else if ($xmls->doesExist('/feed')) {
 		$feed['blogURL'] = $xmls->getAttribute('/feed/link', 'href');
 		$feed['title'] = $xmls->getValue('/feed/title');
 		$feed['description'] = $xmls->getValue('/feed/tagline');
@@ -461,7 +461,7 @@ function getRemoteFeed($url) {
 	$feed['title'] = POD::escapeString(UTF8::lessenAsEncoding(UTF8::correct($feed['title'])));
 	$feed['description'] = POD::escapeString(UTF8::lessenAsEncoding(UTF8::correct(stripHTML($feed['description']))));
 	$feed['language'] = POD::escapeString(UTF8::lessenAsEncoding(UTF8::correct($feed['language']), 255));
-	
+
 	return array(0, $feed, $xml);
 }
 
@@ -497,7 +497,7 @@ function saveFeedItems($feedId, $xml) {
 				$item['written'] = 0;
 			saveFeedItem($feedId, $item);
 		}
-	} else if ($xmls->getAttribute('/feed', 'version')) {
+	} else if ($xmls->doesExist('/feed')) {
 		for ($i = 0; $link = $xmls->getValue("/feed/entry[$i]/id"); $i++) {
 			for ($j = 0; $rel = $xmls->getAttribute("/feed/entry[$i]/link[$j]", 'rel'); $j++) {
 				if($rel == 'alternate') {
@@ -574,7 +574,7 @@ function saveFeedItem($feedId, $item) {
 			POD::query("DELETE FROM {$database['prefix']}FeedReads WHERE item = $id");
 		*/
 	} else if($id != null) {
-		return false;	
+		return false;
 	} else {
 		if ($item['written'] == 0) $item['written'] = gmmktime();
 		if ($item['written'] > $deadLine)

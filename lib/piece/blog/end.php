@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-handleTags($view);
+//handleTags($view);
 
 $writer = User::getBlogOwnerName($blogid);
 $pageTitle = trim($pageTitle);
@@ -43,7 +43,7 @@ $searchView = $skin->search;
 dress('search_name', 'search', $searchView);
 dress('search_text', isset($search) ? htmlspecialchars($search) : '', $searchView);
 dress('search_onclick_submit', 'searchBlog()', $searchView);
-dress('search', '<form id="TTSearchForm" action="'.$blogURL.'/search/" method="get" onsubmit="return searchBlog()" style="margin:0;padding:0;display:inline">'.$searchView.'</form>', $view);
+dress('search', '<form id="TTSearchForm" action="'.$blogURL.'/search/" method="get" onsubmit="return searchBlog()">'.$searchView.'</form>', $view);
 
 $totalPosts = getEntriesTotalCount($blogid);
 $categories = getCategories($blogid);

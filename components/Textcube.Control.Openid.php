@@ -14,10 +14,12 @@ $path = ini_get('include_path');
 if( !isset( $_ENV['OS'] ) || strstr( $_ENV['OS'], 'Windows' ) === false ) {
 	$path .= ':' . OPENID_LIBRARY_ROOT . ':' . $path_extra;
 } else {
-	define('Auth_OpenID_RAND_SOURCE', null);
 	$path .= ';' . OPENID_LIBRARY_ROOT . ';' . $path_extra;
 }
 ini_set('include_path', $path);
+if( !file_exists("/dev/urandom") ) { 
+	define('Auth_OpenID_RAND_SOURCE', null);
+}
 
 requireComponent( "Eolin.PHP.Core" );
 requireComponent( "Textcube.Core" );
@@ -86,15 +88,23 @@ class Auth_Textcube_xmlparser extends XPath
 class OpenID {
 	function setCookie( $key, $value )
 	{
+		$session_cookie_path = "/";
+		if( !empty($service['session_cookie_path']) ) {
+			$session_cookie_path = $service['session_cookie_path'];
+		}
 		if( !headers_sent() ) {
-			setcookie( $key, $value, time()+3600*24*30, "/" );
+			setcookie( $key, $value, time()+3600*24*30, $session_cookie_path );
 		}
 	}
 
 	function clearCookie( $key )
 	{
+		$session_cookie_path = "/";
+		if( !empty($service['session_cookie_path']) ) {
+			$session_cookie_path = $service['session_cookie_path'];
+		}
 		if( !headers_sent() ) {
-			setcookie( $key, '', time()-3600, "/" );
+			setcookie( $key, '', time()-3600, $session_cookie_path );
 		}
 	}
 

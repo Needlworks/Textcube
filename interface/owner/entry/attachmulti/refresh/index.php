@@ -9,7 +9,7 @@ $attachments = getAttachments($blogid, $entryId, 'label');
 $initialFileListForFlash = '';
 $enclosureFileName = '';
 ?>
-<select size="8" name="fileList" id="fileList" multiple="multiple" style="width:415px;" onchange="selectAttachment();">
+<select name="TCfilelist" id="TCfilelist" multiple="multiple" size="8" onchange="selectAttachment();">
 <?php
 foreach ($attachments as $i => $attachment) {
 	if (strpos($attachment['mime'], 'application') !== false) {
@@ -32,15 +32,15 @@ foreach ($attachments as $i => $attachment) {
 		$class = '';
 	}
 	if ($attachment['enclosure'] == 1) {
-		$style = 'style="background-color:#c6a6e7; color:#000000"';
+		$class = ' class="enclosure"';
 		$enclosureFileName = $attachment['name'];
 	} else {
-		$style = '';
+		$class = '';
 	}
 	$value = htmlspecialchars(getAttachmentValue($attachment));
 	$label = htmlspecialchars(getPrettyAttachmentLabel($attachment));
 ?>
-		        <option  <?php echo $style;?> value="<?php echo $value;?>">
+		        <option<?php echo $class;?> value="<?php echo $value;?>">
 	            <?php echo $label;?>
 	            </option>
                 <?php

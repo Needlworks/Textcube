@@ -36,6 +36,11 @@ if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
 	setBlogSetting('rowsPerPage', $_POST['perPage']);
 }
+
+$tabsClass = array();
+$tabsClass['notify'] = true;
+$visibilityText = _t('댓글 알리미');
+
 list($comments, $paging) = getCommentsNotifiedWithPagingForOwner($blogid, '', $name, '', $search, $suri['page'], $perPage);
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
@@ -152,7 +157,16 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 }
 ?>
 							</h2>
-							
+							<ul id="communication-tabs-box" class="tabs-box">
+								<!-- TODO : $tab['postfix'] 버그 -->
+								<li<?php echo isset($tabsClass['comment']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/comment?page=1<?php echo $tab['postfix'];?>&amp;status=comment"><?php echo _t('댓글');?></a></li>
+								<li<?php echo isset($tabsClass['guestbook']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/comment?page=1<?php echo $tab['postfix'];?>&amp;status=guestbook"><?php echo _t('방명록');?></a></li>
+								<li<?php echo isset($tabsClass['notify']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/notify"><?php echo _t('댓글 알리미');?></a></li>
+								<li<?php echo isset($tabsClass['received']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/trackback?page=1<?php echo $tab['postfix'];?>&amp;status=received"><?php echo _t('걸린 글');?></a></li>
+								<li<?php echo isset($tabsClass['sent']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry/trackback?page=1<?php echo $tab['postfix'];?>&amp;status=sent"><?php echo _t('건 글');?></a></li>
+							</ul>
+
+
 							<div class="main-explain-box">
 								<p class="explain"><?php echo _t('다른 사람의 블로그에 단 댓글에 대한 댓글이 등록되면 알려줍니다. 알리미가 동작하기 위해서는 댓글 작성시 홈페이지 기입란에 자신의 블로그 주소를 입력하셔야 합니다.');?></p>
 							</div>

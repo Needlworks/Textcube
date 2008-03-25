@@ -350,10 +350,10 @@ if ($backup) {
 											<div id="select-web" title="<?php echo _t('백업파일의 크기가 업로드 허용 용량을 초과하는 경우, FTP 등을 이용하여 계정의 홈페이지에 직접 업로드한 후 이 파일의 위치를 지정하여 데이터베이스를 복원할 수 있습니다.');?>"><input type="radio" id="importFromWeb" class="radio" name="importFrom" value="web" onclick="if (this.checked) {hideLayer('uploadBackup'); showLayer('remoteBackup'); document.getElementById('backupPath').disabled = true; document.getElementById('backupURL').disabled = false;}" /><label for="importFromWeb"><?php echo _t('웹에서 백업파일 가져오기.');?></label></div>
 											<div id="select-correct" title="<?php echo _t('백업파일에 비정상적인 글자가 포함된 경우 복원에 실패할 수 있습니다. 비정상적인 글자를 교정하여 복원이 가능하도록 합니다. 이를 사용할 경우 복원에 많은 시간이 소요될 수 있습니다.');?>"><input type="checkbox" id="correctData" class="checkbox" name="correctData" value="on" /><label for="correctData"><?php echo _t('백업파일에 포함된 비정상적인 글자를 교정합니다.');?></label></div>
 										</div>
-										<div id="uploadBackup" style="display: <?php echo ($backup ? 'none' : 'block');?>;">
+										<div id="uploadBackup"<?php echo ($backup ? 'class="hidden"' : NULL);?>>
 											<label for="backupPath"><?php echo _t('백업파일 경로');?></label><span class="divider"> : </span><input type="file" id="backupPath" class="input-file" name="backupPath" <?php echo ($backup ? 'disabled="disabled"' : '');?> />
 										</div>
-										<div id="remoteBackup" style="display: none;">
+										<div id="remoteBackup" class="hidden">
 											<label for="backupURL"><?php echo _t('백업파일 <acronym title="Uniform Resource Locator">URL</acronym>');?></label><span class="divider"> : </span><input type="text" id="backupURL" class="input-text" name="backupURL" value="http://" disabled="disabled" onkeydown="if (event.keyCode == 13) { importData(); return false; }" />
 										</div>
 									</div>
@@ -422,7 +422,7 @@ if ($backup) {
 							</form>
 						</div>
 						
-			 			<iframe id="blackhole" name="blackhole" style="display: none;"></iframe>
+			 			<iframe id="blackhole" name="blackhole" class="hidden"></iframe>
 <?php
 require ROOT . '/lib/piece/owner/footer.php';
 ?>

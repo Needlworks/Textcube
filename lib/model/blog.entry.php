@@ -113,7 +113,7 @@ function getEntryAttributes($blogid, $id, $attributeNames) {
 }
 
 function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
-	global $database, $suri, $folderURL;
+	global $database, $suri, $folderURL, $blog;
 	if ($category === null)
 		return array();
 	if (!doesHaveOwnership() && getCategoryVisibility($blogid, $category) < 2 && $category != 0)
@@ -132,7 +132,7 @@ function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
 			FROM {$database['prefix']}Entries e 
 			WHERE e.blogid = $blogid AND e.draft = 0 $visibility $cond 
 			ORDER BY e.published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
+	return fetchWithPaging($sql, $page, $count, "$folderURL/".((!getBlogSetting('useSloganOnCategory',true) && isset($suri['id'])) ? $suri['id'] : $suri['value']));
 }
 
 function getEntryListWithPagingByAuthor($blogid, $author, $page, $count) {
@@ -161,7 +161,7 @@ function getEntryListWithPagingByTag($blogid, $tag, $page, $count) {
 		LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.blogid = t.blogid 
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag' 
 		ORDER BY published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
+	return fetchWithPaging($sql, $page, $count, "$folderURL/".((!getBlogSetting('useSloganOnTag',true) && isset($suri['id'])) ? $suri['id'] : $suri['value']));
 }
 
 function getEntryListWithPagingByPeriod($blogid, $period, $page, $count) {
@@ -217,7 +217,7 @@ function getEntriesWithPagingByCategory($blogid, $category, $page, $count, $coun
 		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.blogid = c.blogid 
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility $cond 
 		ORDER BY e.published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}","?page=",$countItem);
+	return fetchWithPaging($sql, $page, $count, "$folderURL/".((!getBlogSetting('useSloganOnCategory',true) && isset($suri['id'])) ? $suri['id'] : $suri['value']),"?page=",$countItem);
 }
 
 function getEntriesWithPagingByTag($blogid, $tag, $page, $count, $countItem = null) {
@@ -232,7 +232,7 @@ function getEntriesWithPagingByTag($blogid, $tag, $page, $count, $countItem = nu
 		LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.blogid = t.blogid 
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag' 
 		ORDER BY e.published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
+	return fetchWithPaging($sql, $page, $count, "$folderURL/".((!getBlogSetting('useSloganOnTag',true) && isset($suri['id'])) ? $suri['id'] : $suri['value']),"?page=", $countItem);
 }
 
 function getEntriesWithPagingByNotice($blogid, $page, $count, $countItem = null) {
@@ -279,7 +279,7 @@ function getEntriesWithPagingByAuthor($blogid, $author, $page, $count, $countIte
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid AND e.userid = $userid AND e.draft = 0 $visibility AND e.category >= 0 
 		ORDER BY e.published DESC";
-	return fetchWithPaging($sql, $page, $count);
+	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
 }
 
 function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count, $visibility = null) {
@@ -992,7 +992,7 @@ function syndicateEntry($id, $mode) {
 		if (is_null($entry)) return false;
 		$summary['blogTitle'] = $blog['title'];
 		$summary['language'] = $blog['language'];
-		$summary['permalink'] = "$defaultURL/".($blog['useSlogan'] ? "entry/{$entry['slogan']}": $entry['id']);
+		$summary['permalink'] = "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$entry['slogan']}": $entry['id']);
 		$summary['title'] = $entry['title'];
 		$summary['content'] = UTF8::lessenAsByte(stripHTML(getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'])), 1023, '');
 		$summary['author'] = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = {$entry['userid']}");
@@ -1049,8 +1049,7 @@ function publishEntries() {
 	}
 }
 
-function getTagsWithEntryString($entryTag) 
-{
+function getTagsWithEntryString($entryTag) {
 	global $database;
 	$tags = explode(',', $entryTag);
 	

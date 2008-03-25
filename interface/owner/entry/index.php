@@ -118,7 +118,7 @@ if (isset($_POST['visibility'])) {
 // 이올린에 발행한 적이 있는지 체크.
 $countResult = POD::queryExistence("SELECT `id` 
 		FROM `{$database['prefix']}Entries` 
-		WHERE `blogid` = ".getBlogId()." AND `visibility` = 3");
+		WHERE `blogid` = ".getBlogId()." AND `visibility` = 3 LIMIT 1");
 
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
@@ -760,7 +760,7 @@ foreach (getCategories($blogid) as $category) {
 <?php
 $returnURLpostfix = '';
 if(isset($_GET['page'])) $returnURLpostfix .= '?page='.$_GET['page'];
-if(isset($_GET['category'])) $returnURLpostfix .= (empty($returnURLpostfix) ? '?' : '&amp;').'category='.$categoryId;
+if(isset($_GET['category']) || ($categoryId != -5)) $returnURLpostfix .= (empty($returnURLpostfix) ? '?' : '&amp;').'category='.$categoryId;
 if(isset($_POST['visibility'])) $returnURLpostfix .= (empty($returnURLpostfix) ? '?' : '&amp;').'visibility='.$_POST['visibility'];
 ?>
 								<input type="hidden" name="returnURL" value="<?php echo $blogURL.'/owner/entry'.$returnURLpostfix;?>" />
@@ -926,7 +926,7 @@ if($entry['category'] < 0) {
 									<div id="change-section" class="section">
 										<span class="label"><?php echo _t('선택한 글을');?></span>
 										<select name="commandBox" id="commandBox" onchange="toggleDeleteButton(this)"> 
-											<option selected="selected" style="font-style:italic"><?php echo _t('[행동을 지정합니다.]');?></option>
+											<option class="default" selected="selected"><?php echo _t('[행동을 지정합니다.]');?></option>
 <?php
 	$categories = getCategories($blogid);
 	if (count($categories) >0) {

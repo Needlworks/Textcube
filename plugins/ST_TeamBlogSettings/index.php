@@ -312,6 +312,8 @@ function getImageFileUpload($target){
 function getAddAttachment($file){
 	global $database, $serviceURL;
 	requireComponent('Textcube.Function.misc');
+	requireComponent('Textcube.Data.Attachment');
+	Attachment::confirmFolder();
 	if(empty($file['name'])||($file['error']!=0))
 		return false;
 	$attachment = array();
@@ -386,6 +388,7 @@ function getTeamBlogStyleSet($target){
 		.teamProfile .teamImage img {padding:2px; border:1px solid '.$lineColor.'; width:'.$data['imageSize'].'px; background-color:#fff;}
 		.teamProfile .teamDesc  {margin:5px 0px 0px 0px; float:'.$data['imagePosition'].';}
 	';
+	flush();
 }
 
 function getTeamBlog_DataSet($DATA){

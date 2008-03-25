@@ -157,7 +157,7 @@ iMazingProperties['align'] = 'h';
 iMazingProperties['skinPath'] = servicePath + '/script/gallery/iMazing/';
 
 function editorAddObject(editor, mode) {
-	var oSelect = document.forms[0].fileList;
+	var oSelect = document.forms[0].TCfilelist;
 	var objects = [];
 	var result = {mode: mode};
 

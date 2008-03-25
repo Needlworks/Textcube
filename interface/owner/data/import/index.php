@@ -249,8 +249,8 @@ function importer($path, $node, $line) {
 				$setting->description = $node['description'][0]['.value'];
 			if (isset($node['banner'][0]['name'][0]['.value']))
 				$setting->banner = $node['banner'][0]['name'][0]['.value'];
-			if (isset($node['useSlogan'][0]['.value']))
-				$setting->useSlogan = $node['useSlogan'][0]['.value'];
+			if (isset($node['useSloganOnPost'][0]['.value']))
+				$setting->useSloganOnPost = $node['useSloganOnPost'][0]['.value'];
 			if (isset($node['postsOnPage'][0]['.value']))
 				$setting->postsOnPage = $node['postsOnPage'][0]['.value'];
 			if (isset($node['postsOnList'][0]['.value']))
@@ -369,8 +369,8 @@ function importer($path, $node, $line) {
 					$comment->entry = $post->id;
 					$cursor = & $node['comment'][$i];
 					$comment->name = $cursor['commenter'][0]['name'][0]['.value'];
-					if (!empty($cursor['id'][0]['.value']))
-						$comment->id = $cursor['id'][0]['.value'];
+					if (!empty($cursor['commenter'][0]['id'][0]['.value']))
+						$comment->id = $cursor['commenter'][0]['id'][0]['.value'];
 					if (!empty($cursor['commenter'][0]['homepage'][0]['.value']))
 						$comment->homepage = $cursor['commenter'][0]['homepage'][0]['.value'];
 					if (!empty($cursor['commenter'][0]['ip'][0]['.value']))
@@ -391,8 +391,8 @@ function importer($path, $node, $line) {
 							$childComment->entry = $post->id;
 							$childComment->parent = $comment->id;
 							$cursor = & $node['comment'][$i]['comment'][$j];
-							if (!empty($cursor['id'][0]['.value']))
-								$childComment->id = $cursor['id'][0]['.value'];
+							if (!empty($cursor['commenter'][0]['id'][0]['.value']))
+								$childComment->id = $cursor['commenter'][0]['id'][0]['.value'];
 							$childComment->name = $cursor['commenter'][0]['name'][0]['.value'];
 							if (!empty($cursor['commenter'][0]['homepage'][0]['.value']))
 								$childComment->homepage = $cursor['commenter'][0]['homepage'][0]['.value'];
@@ -615,7 +615,7 @@ function importer($path, $node, $line) {
 		case '/blog/commentsNotifiedSiteInfo/site':
 			setProgress($item++ / $items * 100, _t('댓글 알리미 내용을 복원하고 있습니다.'));
 			$cmtNotifiedSite = new CommentNotifiedSiteInfo();
-			if ($cmtNotifiedSite->open("url = {$node['url'][0]['.value']}")) {
+			if ($cmtNotifiedSite->open("url = '{$node['url'][0]['.value']}'")) {
 				if (intval($node['modified'][0]['.value']) > intval($cmtNotifiedSite->modified)) {
 					$cmtNotifiedSite->title = $node['title'][0]['.value'];
 					$cmtNotifiedSite->name = $node['name'][0]['.value'];

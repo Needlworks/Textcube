@@ -233,29 +233,37 @@ if ($service['type'] != 'single') {
 									document.getElementById('icons-form').submit();
 								}
 								
-								var useSlogan = "<?php echo $blog['useSlogan'];?>";
+								var useSlogan             = "<?php echo $blog['useSloganOnPost'];?>";
+								var useCSlogan            = "<?php echo $blog['useSloganOnCategory'];?>";
+								var useTSlogan            = "<?php echo $blog['useSloganOnTag'];?>";
 								var publishEolinSyncOnRSS = "<?php echo $blog['publishEolinSyncOnRSS'];?>";
-								var entriesOnRSS = "<?php echo $blog['entriesOnRSS'];?>";
-								var publishWholeOnRSS = "<?php echo $blog['publishWholeOnRSS'];?>";
+								var entriesOnRSS          = "<?php echo $blog['entriesOnRSS'];?>";
+								var publishWholeOnRSS     = "<?php echo $blog['publishWholeOnRSS'];?>";
 								var allowCommentGuestbook = <?php echo $blog['allowWriteDblCommentOnGuestbook'];?>;
-								var blogVisibility = <?php echo $blog['visibility'];?>;
+								var blogVisibility        = <?php echo $blog['visibility'];?>;
 
 								//var allowWriteGuestbook = <?php echo $blog['allowWriteOnGuestbook'];?>;
 								function setRSS() {
-									if (document.getElementById('rss-form').useSlogan[useSlogan].checked == true) {
-										if (document.getElementById('rss-form').useSlogan.value != useSlogan) {
-											var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/slogan/" + (document.getElementById('rss-form').useSlogan[0].checked ? 1 : 0));
-											request.onSuccess = function() {
-												useSlogan = document.getElementById('rss-form').useSlogan[0].checked ? 1 : 0;
+									if (document.getElementById('rss-form').useSlogan[useSlogan].checked == true
+										|| document.getElementById('rss-form').useCSlogan[useCSlogan].checked == true
+										|| document.getElementById('rss-form').useTSlogan[useTSlogan].checked == true) {
+										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/slogan/");
+										
+										request.onSuccess = function() {
+											useSlogan = document.getElementById('rss-form').useSlogan[0].checked ? 1 : 0;
+											useCSlogan = document.getElementById('rss-form').useCSlogan[0].checked ? 1 : 0;
+											useTSlogan = document.getElementById('rss-form').useTSlogan[0].checked ? 1 : 0;
 												PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
 											}
-											request.onError = function() {
-												alert("<?php echo _t('글 주소 표기법을 변경할 수 없습니다.');?>");
-											}
-											request.send();
+										request.onError = function() {
+											alert("<?php echo _t('글 주소 표기법을 변경할 수 없습니다.');?>");
 										}
-									}
-									
+										request.send("useSloganOnPost="+(document.getElementById('rss-form').useSlogan[0].checked ? 1 : 0)
+											+"&useSloganOnCategory="+(document.getElementById('rss-form').useCSlogan[0].checked ? 1 : 0)
+											+"&useSloganOnTag="+(document.getElementById('rss-form').useTSlogan[0].checked ? 1 : 0)
+										);
+//										}
+									} 
 									
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/rss/");
 									request.onSuccess = function() {
@@ -642,8 +650,22 @@ for ($i = 5; $i <= 30; $i += 5) {
 										<dl id="post-address-line" class="line">
 											<dt><span class="label"><?php echo _t('글 주소');?></span></dt>
 											<dd>
-												<input type="radio" id="useSlogan1" class="radio" name="useSlogan"<?php echo ($blog['useSlogan'] ? ' checked="checked"' : '');?> /><label for="useSlogan1"><span class="text"><?php echo _t('문자를 사용합니다.');?> <samp><?php echo _f('(예: %1/entry/텍스트큐브로-오신-것을-환영합니다)',link_cut(getBlogURL()));?></samp></span></label><br />
-												<input type="radio" id="useSlogan0" class="radio" name="useSlogan"<?php echo ($blog['useSlogan'] ? '' : ' checked="checked"');?> /><label for="useSlogan0"><span class="text"><?php echo _t('숫자를 사용합니다.');?> <samp><?php echo _f('(예: %1/123)', link_cut(getBlogURL()));?></samp></span></label>
+												<input type="radio" id="useSlogan1" class="radio" name="useSlogan"<?php echo ($blog['useSloganOnPost'] ? ' checked="checked"' : '');?> /><label for="useSlogan1"><span class="text"><?php echo _t('문자를 사용합니다.');?> <samp><?php echo _f('(예: %1/entry/텍스트큐브로-오신-것을-환영합니다)',link_cut(getBlogURL()));?></samp></span></label><br />
+												<input type="radio" id="useSlogan0" class="radio" name="useSlogan"<?php echo ($blog['useSloganOnPost'] ? '' : ' checked="checked"');?> /><label for="useSlogan0"><span class="text"><?php echo _t('숫자를 사용합니다.');?> <samp><?php echo _f('(예: %1/123)', link_cut(getBlogURL()));?></samp></span></label>
+											</dd>
+										</dl>
+										<dl id="category-address-line" class="line">
+											<dt><span class="label"><?php echo _t('카테고리 주소');?></span></dt>
+											<dd>
+												<input type="radio" id="useCSlogan1" class="radio" name="useCSlogan"<?php echo ($blog['useSloganOnCategory'] ? ' checked="checked"' : '');?> /><label for="useCSlogan1"><span class="text"><?php echo _t('문자를 사용합니다.');?> <samp><?php echo _f('(예: %1/category/텍스트큐브)',link_cut(getBlogURL()));?></samp></span></label><br />
+												<input type="radio" id="useCSlogan0" class="radio" name="useCSlogan"<?php echo ($blog['useSloganOnCategory'] ? '' : ' checked="checked"');?> /><label for="useCSlogan0"><span class="text"><?php echo _t('숫자를 사용합니다.');?> <samp><?php echo _f('(예: %1/category/1)', link_cut(getBlogURL()));?></samp></span></label>
+											</dd>
+										</dl>
+										<dl id="tag-address-line" class="line">
+											<dt><span class="label"><?php echo _t('태그 주소');?></span></dt>
+											<dd>
+												<input type="radio" id="useTSlogan1" class="radio" name="useTSlogan"<?php echo ($blog['useSloganOnTag'] ? ' checked="checked"' : '');?> /><label for="useTSlogan1"><span class="text"><?php echo _t('문자를 사용합니다.');?> <samp><?php echo _f('(예: %1/tag/텍스트큐브)',link_cut(getBlogURL()));?></samp></span></label><br />
+												<input type="radio" id="useTSlogan0" class="radio" name="useTSlogan"<?php echo ($blog['useSloganOnTag'] ? '' : ' checked="checked"');?> /><label for="useTSlogan0"><span class="text"><?php echo _t('숫자를 사용합니다.');?> <samp><?php echo _f('(예: %1/tag/101)', link_cut(getBlogURL()));?></samp></span></label>
 											</dd>
 										</dl>
 										<dl id="guestbook-authority-line" class="line">

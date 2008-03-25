@@ -36,7 +36,7 @@ class Image {
 				}
 				break;
 			case "png":
-				if (imagetypes() & IMG_PNG) {
+				if ((imagetypes() & IMG_PNG) && extension_loaded('libpng')) {
 					$originImageDevice = imagecreatefrompng($this->imageFile);
 				} else {
 					return false;

@@ -180,6 +180,7 @@ class XMLRPC {
 	
 	function sendFault($code = 0, $string = 'Error') {
 		header('Content-Type: text/xml');
+		echo '<?xml version="1.0" encoding="utf-8"?>';
 		echo '<methodResponse><fault><value><struct><member><name>faultCode</name><value><i4>';
 		echo $code;
 		echo '</i4></value></member><member><name>faultString</name><value><string>';

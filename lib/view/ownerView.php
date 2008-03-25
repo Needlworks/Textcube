@@ -186,7 +186,7 @@ function printEntryFileList($attachments, $param) {
 											
 											<div id="attachManagerSelectNest">				
 												<span id="attachManagerSelect">
-													<select id="fileList" name="fileList" multiple="multiple" size="8" onchange="selectAttachment();">
+													<select id="TCfilelist" name="TCfilelist" multiple="multiple" size="8" onchange="selectAttachment();">
 <?php 
 	$initialFileListForFlash = '';
 	$enclosureFileName = '';
@@ -240,7 +240,7 @@ function printEntryFileList($attachments, $param) {
 													}
 													
 													function deleteAttachment() {
-														var fileList = document.getElementById('fileList');		
+														var fileList = document.getElementById('TCfilelist');		
 														
 														if (fileList.selectedIndex < 0) {
 															alert("<?php echo _t('삭제할 파일을 선택해 주십시오\t');?>");
@@ -293,7 +293,7 @@ function printEntryFileList($attachments, $param) {
 														width = document.getElementById('previewSelected').clientWidth;
 														height = document.getElementById('previewSelected').clientHeight;
 														var code = '';
-														var fileList = document.getElementById('fileList');
+														var fileList = document.getElementById('TCfilelist');
 														if (fileList.selectedIndex < 0)
 															return false;
 														var fileName = fileList.value.split("|")[0];
@@ -379,7 +379,7 @@ function printEntryFileList($attachments, $param) {
 
 													function downloadAttachment() {
 														try {
-															var fileList = document.getElementById('fileList');
+															var fileList = document.getElementById('TCfilelist');
 															if (fileList.selectedIndex < 0) {
 																return false;
 															}
@@ -409,7 +409,7 @@ function printEntryFileList($attachments, $param) {
 													}
 													
 													function refreshAttachFormSize() {
-														fileListObj = document.getElementById('fileList');
+														fileListObj = document.getElementById('TCfilelist');
 														fileListObj.setAttribute('size',Math.max(8,Math.min(fileListObj.length,30)));
 													}
 													
@@ -448,7 +448,7 @@ function printEntryFileList($attachments, $param) {
 													function uploadProgress(target,loaded, total) {
 														loaded = Number(loaded);
 														total = Number(total);
-														var fileListObj = document.getElementById("fileList");					
+														var fileListObj = document.getElementById("TCfilelist");					
 														for(var i=0; i<fileListObj.length; i++) {
 															if (fileListObj[i].getAttribute("value") == target) {
 																fileListObj[i].innerHTML = target+" "+(Math.ceil(100*loaded/total))+"%";
@@ -460,7 +460,7 @@ function printEntryFileList($attachments, $param) {
 													function uploadComplete(target,size) {
 														loaded = Number(loaded);
 														total = Number(total);
-														var fileListObj = document.getElementById("fileList");
+														var fileListObj = document.getElementById("TCfilelist");
 														for(var i=0; i<fileListObj.length; i++) {
 															if (fileListObj[i].getAttribute("value") == target) {
 																fileListObj[i].innerHTML = target+" "+(Math.ceil(100*loaded/total))+"%";
@@ -616,11 +616,11 @@ function printEntryFileList($attachments, $param) {
 													
 													function addFileList(list) {
 														var list = Base64.decode(list);														
-														var fileListObj = document.getElementById("fileList");
+														var fileListObj = document.getElementById("TCfilelist");
 														var listTemp = list.split("!^|");
 														var fileLabel = listTemp[0];
 														var fileValue = listTemp[1];
-														var fileListObj = document.getElementById("fileList");
+														var fileListObj = document.getElementById("TCfilelist");
 														for(var i=0; i<fileListObj.length; i++) {
 															if (stripLabelToValue(fileLabel).indexOf(fileListObj[i].getAttribute("value")) != -1) {
 																var oOption = document.createElement("option");
@@ -633,8 +633,8 @@ function printEntryFileList($attachments, $param) {
 													}
 													
 													function newLoadItem(fileValue) {
-														var fileListObj = document.getElementById("fileList");
-														var fileListObj = document.getElementById("fileList");
+														var fileListObj = document.getElementById("TCfilelist");
+														var fileListObj = document.getElementById("TCfilelist");
 														for(var i=0; i<fileListObj.length; i++) {
 															if (fileValue.indexOf(fileListObj[i].getAttribute("value")) != -1) {
 																fileListObj[i].style.backgroundColor="#C8DAF3";
@@ -649,7 +649,7 @@ function printEntryFileList($attachments, $param) {
 														} catch(e) {
 															alert(e.message);
 														}
-														var fileListObj = document.getElementById("fileList");										
+														var fileListObj = document.getElementById("TCfilelist");										
 														var listTemp = list.split("!^|");					
 														for(var i=0; i<listTemp.length; i++) {						
 															temp = listTemp[i].split('(_!');
@@ -680,7 +680,7 @@ function printEntryFileList($attachments, $param) {
 													
 													function selectFileList(value) {
 														selectedFiles = value.split("!^|");
-														var fileListObj = document.getElementById("fileList");
+														var fileListObj = document.getElementById("TCfilelist");
 														for(var i=0; i<fileListObj.length; i++) {
 															for(var j=0; j<selectedFiles.length; j++) {
 																if (fileListObj[i].getAttribute("value") == selectedFiles[j]) {
@@ -696,7 +696,7 @@ function printEntryFileList($attachments, $param) {
 													}
 													
 													function disabledDeleteBtn() {
-														if(document.getElementById('fileList').length>0) {
+														if(document.getElementById('TCfilelist').length>0) {
 															document.getElementById('deleteBtn').disabled = false;
 														} else {
 															document.getElementById('deleteBtn').disabled = true;
@@ -705,7 +705,7 @@ function printEntryFileList($attachments, $param) {
 													
 													function removeUploadList(list) {
 														selectedFiles = list.split("!^|");
-														var fileListObj = document.getElementById("fileList");
+														var fileListObj = document.getElementById("TCfilelist");
 														for(var j=0; j<selectedFiles.length; j++) {
 															for(var i=0; i<fileListObj.length; i++) {						
 																if(selectedFiles[j] == undefined) 
@@ -794,12 +794,12 @@ function printEntryFileList($attachments, $param) {
 															+ entryManager.entryId
 															+ '&labelingPath=<?php echo $param['labelingPath'];?>'
 															+ entryManager.entryId
-															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE['TSSESSION'];?>" />'
+															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[getSessionName()];?>" />'
 															+ '<embed id="uploader2" src="<?php echo $service['path'];?>/script/uploader/uploader.swf" flashvars="uploadPath=<?php echo $param['uploadPath'];?>'
 															+ entryManager.entryId
 															+ '&labelingPath=<?php echo $param['labelingPath'];?>'
 															+ entryManager.entryId
-															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE['TSSESSION'];?>" width="1" height="1" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
+															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[getSessionName()];?>" width="1" height="1" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
 														if (hasRightVersion && (isMoz || isIE)) {
 															if(<?php echo (isset($service['flashuploader']) && $service['flashuploader'] === false) ? 'false' : 'true';?>) { writeCode(uploaderStr,'uploaderNest'); }
 														}

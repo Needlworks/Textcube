@@ -3,11 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-if(isset($accessInfo)) {
-	$url = str_replace('index.php?pl=','',$accessInfo['fullpath']);
-} else {
-	$url = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : $_SERVER['SCRIPT_NAME'];
-}
+if(isset($accessInfo)) {$url = $accessInfo['fullpath'];} 
+else { $url = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : $_SERVER['SCRIPT_NAME'];}
 $defaultblogid = getServiceSetting("defaultBlogId",1);
 
 $suri            = array('url' => $url, 'value' => '');
@@ -134,14 +131,13 @@ switch ($service['type']) {
 		$pathURL = $service['path'];
 		$blog['primaryBlogURL'] = 'http://' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $pathURL;
 		$blog['secondaryBlogURL'] = null;
-		$defaultURL = $blog['primaryBlogURL'];
+		$defaultURL = $blog['primaryBlogURL'].getFancyURLpostfix();
 		if ($_SERVER['HTTP_HOST'] == $service['domain'])
 			$baseURL = $service['path'];
 		else
 			$baseURL = $defaultURL;
 		break;
 }
-
 $hostURL = 'http://' . $_SERVER['HTTP_HOST'] . (isset($service['port']) ? ':' . $service['port'] : '');
 $blogURL = $pathURL.getFancyURLpostfix();
 $folderURL = rtrim($blogURL . $suri['directive'], '/');

@@ -9,6 +9,11 @@ function getTagId($blogid, $name) {
 	return POD::queryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '$name'");
 }
 
+function getTagById($blogid, $id) {
+	global $database;
+	return POD::queryCell("SELECT name FROM {$database['prefix']}Tags WHERE id = $id");
+}
+
 function getTags($blogid, $entry) {
 	global $database;
 	$tags = array();
@@ -36,12 +41,12 @@ function getRandomTags($blogid) {
 	$aux = ($skinSetting['tagsOnTagbox'] == - 1) ? '' : "limit {$skinSetting['tagsOnTagbox']}";
 	if ($skinSetting['tagboxAlign'] == 1) { // order by count
 		if (doesHaveOwnership())
-			$tags = POD::queryAll("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t 
+			$tags = POD::queryAll("SELECT `name`, count(*) `cnt`, t.id FROM `{$database['prefix']}Tags` t 
 				INNER JOIN `{$database['prefix']}TagRelations` r ON r.blogid = $blogid AND r.tag = t.id
 				GROUP BY r.tag 
 				ORDER BY cnt DESC $aux");
 		else
-			$tags = POD::queryAll("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t,
+			$tags = POD::queryAll("SELECT `name`, count(*) `cnt`, t.id FROM `{$database['prefix']}Tags` t,
 				`{$database['prefix']}TagRelations` r, 
 				`{$database['prefix']}Entries` e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
@@ -49,13 +54,13 @@ function getRandomTags($blogid) {
 				ORDER BY `cnt` DESC $aux");
 	} else if ($skinSetting['tagboxAlign'] == 2) {  // order by name
 		if (doesHaveOwnership())
-			$tags = POD::queryAll("SELECT DISTINCT name, count(*) 'cnt' FROM `{$database['prefix']}Tags` t, 
+			$tags = POD::queryAll("SELECT DISTINCT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t, 
 				`{$database['prefix']}TagRelations` r 
 				WHERE t.id = r.tag AND r.blogid = $blogid 
 				GROUP BY r.tag 
 				ORDER BY t.name $aux");
 		else
-			$tags = POD::queryAll("SELECT DISTINCT name, count(*) `cnt` FROM `{$database['prefix']}Tags` t, 
+			$tags = POD::queryAll("SELECT DISTINCT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t, 
 				`{$database['prefix']}TagRelations` r,
 				`{$database['prefix']}Entries` e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
@@ -63,12 +68,12 @@ function getRandomTags($blogid) {
 				ORDER BY t.name $aux");
 	} else { // random
 		if (doesHaveOwnership())
-			$tags = POD::queryAll("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t,
+			$tags = POD::queryAll("SELECT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t,
 				`{$database['prefix']}TagRelations` r
 				WHERE t.id = r.tag AND r.blogid = $blogid
 				GROUP BY r.tag ORDER BY RAND() $aux");
 		else
-			$tags = POD::queryAll("SELECT `name`, count(*) `cnt` FROM `{$database['prefix']}Tags` t,
+			$tags = POD::queryAll("SELECT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t,
 				`{$database['prefix']}TagRelations` r,
 				`{$database['prefix']}Entries` e
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
@@ -81,14 +86,14 @@ function getRandomTags($blogid) {
 function getSiteTags($blogid) {
 	global $database;
 	if (doesHaveOwnership())
-		$names = POD::queryColumn("SELECT `name` FROM `{$database['prefix']}Tags` t, 
+		$names = POD::queryAll("SELECT t.id,name FROM `{$database['prefix']}Tags` t, 
 			`{$database['prefix']}TagRelations` r 
 			WHERE t.id = r.tag AND r.blogid = $blogid 
 			GROUP BY r.tag 
 			ORDER BY t.name 
 			LIMIT 2000");
 	else
-		$names = POD::queryColumn("SELECT `name` FROM `{$database['prefix']}Tags` t, 
+		$names = POD::queryAll("SELECT t.id,name FROM `{$database['prefix']}Tags` t, 
 			`{$database['prefix']}TagRelations` r,
 			`{$database['prefix']}Entries` e
 			WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 

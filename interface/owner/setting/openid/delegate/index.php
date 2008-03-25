@@ -11,10 +11,12 @@ $IV = array(
 
 require ROOT . '/lib/includeForBlogOwner.php';
 requireComponent( 'Textcube.Control.Openid' );
+requireLibrary('blog.skin');
 requireStrictRoute();
 
 $consumer = new OpenIDConsumer;
 if( $consumer->setDelegate( $_GET['openid_identifier'] ) ) {
+	Skin::purgeCache();
 	respond::ResultPage(0);
 } else {
 	respond::ResultPage(-1);

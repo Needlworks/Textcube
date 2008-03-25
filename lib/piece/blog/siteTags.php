@@ -12,9 +12,9 @@ if(isset($cache->contents)) {
 	$itemsView = '';
 	foreach ($siteTags as $siteTag) {
 		$itemView = $skin->siteTagItem;
-		dress('tag_name', htmlspecialchars($siteTag), $itemView);
-		dress('tag_link', "$blogURL/tag/" . URL::encode($siteTag,$service['useEncodedURL']), $itemView);
-		dress('tag_class', "cloud" . getTagFrequency($siteTag, $maxTagFreq, $minTagFreq), $itemView);
+		dress('tag_name', htmlspecialchars($siteTag['name']), $itemView);
+		dress('tag_link', "$blogURL/tag/" . (getBlogSetting('useSloganOnTag',true) ? URL::encode($siteTag['name'],$service['useEncodedURL']) : $siteTag['id']), $itemView);
+		dress('tag_class', "cloud" . getTagFrequency($siteTag['name'], $maxTagFreq, $minTagFreq), $itemView);
 		$itemsView .= $itemView;
 	}
 	dress('tag_rep', $itemsView, $tagView);

@@ -14,7 +14,7 @@ printMobileHtmlHeader(htmlspecialchars($blog['title']));
 	<h2><?php echo _t('카테고리');?></h2>
 	<?php echo getCategoriesView(getEntriesTotalCount($blogid), getCategories($blogid), true, true);?>
 	-->
-	<h2><?php echo _text('최근에 달린 답글');?></h2>
+	<h2><?php echo _text('최근에 달린 댓글');?></h2>
 	<?php
 		$comments = getRecentComments($blogid);
 		if(count($comments) > 0)

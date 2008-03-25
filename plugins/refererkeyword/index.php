@@ -1,14 +1,14 @@
 <?php
-/* Referer keywords for Textcube 1.1
+/* Referer keywords for Textcube & TatterTools
    ----------------------------------
-   Version 1.0
+   Version 1.2
    Tatter and Friends.
 
    Creator          : 치리 (http://mahodou.pe.kr/tt)
-   Maintainer       : gendoh
+   Maintainer       : gendoh (http://gendoh.com)
 
    Created at       : 2006.9.13
-   Last modified at : 2006.10.27
+   Last modified at : 2008.3.19 by gendoh (http://gendoh.com)
  
  This plugin shows referer keyword statistics for a week on administration menu.
  For the detail, visit http://forum.tattersite.com/ko
@@ -52,19 +52,42 @@ function array_sort($array, $type='asc'){
    return $result;
 }
 
-function tostring($text){
-return iconv('UTF-16LE', 'UHC', chr(hexdec(substr($text[1], 2, 2))).chr(hexdec(substr($text[1], 0, 2))));
+function unified_decode_processor($matches)
+{
+	$grab = array();
+	if (preg_match('@^%([[:alnum:]][[:alnum:]])$@', $matches[0], $grab) > 0) {
+		if (hexdec($grab[1]) == 0) return ' '; // 0x00은 공백으로 처리
+		return chr(hexdec($grab[1]));
+	}
+	if (preg_match('@^%u([[:alnum:]][[:alnum:]][[:alnum:]][[:alnum:]])$@', $matches[0], $grab) > 0) {
+		$value = hexdec($grab[1]); 
+
+		if ($value == 0) return ' '; // 0x00은 공백으로 처리
+		if ($value < 0x0080) { // 7bit -> 1byte
+			return chr($value);
+		}
+		if ($value < 0x0800) { // 11bit -> 2byte ( 110xxxxx 10xxxxxx )
+			return chr((($value & 0x07c0) >> 6) | 0xc0) . chr(($value & 0x3f) | 0x80);
+		}
+		// 16bit --> 3byte ( 1110xxxx 10xxxxxx 10xxxxxx )
+		return chr((($value & 0xf000) >> 12) | 0xe0)
+				. chr((($value & 0x0fc0) >> 6) | 0x80)
+				. chr(($value & 0x3f) | 0x80);
+	}
+	return $matches[0]; // 번역이 안되는 놈들은 그대로 출력하자
 }
 
-function urlutfchr($text){
-return urldecode(preg_replace_callback('/%u([[:alnum:]]{4})/', 'tostring', $text));
+function unified_decode($string)
+{
+	return preg_replace_callback(
+		'@(%u[[:alnum:]]{4}|%[[:alnum:]]{2})@', 
+		'unified_decode_processor', 
+		str_replace('+', ' ', $string) // '+'를 먼저 처리한다.
+	);
 }
 
 function refererkeyword()
 {
-
-$more = false;
-
 requireComponent('Textcube.Model.Statistics');
 
 $refereres = Statistics::getRefererLogs();
@@ -75,14 +98,20 @@ for ($i=0; $i<sizeof($refereres); $i++) {
 	$record = $refereres[$i];
 	if ($i==0) $referredend = $record['referred'];
 		$keyword = "";
-		if(preg_match('/\W(q|query|k|keyword|search|stext|nlia|aqa|wd)(?:=|%3D)([^&]+)/i', $record['url'], $matches))
-			$keyword = urldecode(rawurldecode($matches[2]));
-		else if(strpos($record['host'], 'images.google.') !== false && preg_match('/%3Fsearch%3D([^&]+)/i', $record['url'], $matches))
-			$keyword = urldecode(rawurldecode($matches[1]));
-		else if(strpos($record['url'], 'yahoo.') !== false && preg_match('/\Wp=([^&]+)/i', $record['url'], $matches))
-			$keyword = urldecode(rawurldecode($matches[1]));
-		else if(preg_match('@/search/(?:\w+/)*([^/?]+)@i', $record['url'], $matches))
-			$keyword = urldecode(rawurldecode($matches[1]));
+		$matches = array();
+		if(preg_match('/\W(q|query|k|keyword|search|stext|nlia|aqa|wd)(?:=|%3D)([^&]+)/i', $record['url'], $matches)) {
+			$keyword = unified_decode($matches[2]);
+		}
+		else if(strpos($record['host'], 'images.google.') !== false && preg_match('/%3Fsearch%3D([^&]+)/i', $record['url'], $matches)) {
+			$keyword = unified_decode($matches[1]);
+		}
+		else if(strpos($record['url'], 'yahoo.') !== false && preg_match('/\Wp=([^&]+)/i', $record['url'], $matches)) {
+			$keyword = unified_decode($matches[1]);
+		}
+		else if(preg_match('@/search/(?:\w+/)*([^/?]+)@i', $record['url'], $matches)) {
+			$keyword = unified_decode($matches[1]);
+		}
+		
 		if(!UTF8::validate($keyword))
 			$keyword = UTF8::correct(UTF8::bring($keyword));
 
@@ -129,7 +158,6 @@ $rank = 0;
 for ($i=0; $i<sizeof($keywordlist); $i++) {
 	$keywordkey = $keywordkeys[$i];
 	$keywordvalue = $keywordlist[$keywordkey];
-	$keywordkey = str_replace("\"", "&quot;",$keywordkeys[$i]);
 	if ($keywordvalue != $beforekeywordvalue){
 		$rank++;
 		$beforekeywordvalue = $keywordvalue;
@@ -141,13 +169,7 @@ for ($i=0; $i<sizeof($keywordlist); $i++) {
 									<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td class="rank"><?php echo $rank.".";?></td>
 										<td class="rank"><?php echo $keywordvalue;?></td>
-										<td class="address">
-											<script type="text/javascript">
-												//<![CDATA[
-													document.write(unescape("<?php echo $keywordkey;?>"));
-												//]]>
-											</script>
-										</td>
+										<td class="address"><?php echo htmlspecialchars($keywordkey);?></td>
 									</tr>
 <?php
 }

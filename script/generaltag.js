@@ -115,7 +115,7 @@ function eolinTagFunction_showLocalSuggestion(id, cursor, filter)
 
 							try {
 								document.getElementById("previewSelected").style.visibility = "hidden";
-								document.getElementById("fileList").style.visibility = "hidden";
+								document.getElementById("TCfilelist").style.visibility = "hidden";
 							} catch(e) { }
 							try { document.body.removeChild(instance.suggestion) } catch(e) { };
 							document.body.appendChild(instance.suggestion);
@@ -190,7 +190,7 @@ function eolinTagFunction_showSuggestion()
 	/* TODO : temporary code */
 	try {
 		document.getElementById("previewSelected").style.visibility = "hidden";
-		document.getElementById("fileList").style.visibility = "hidden";
+		document.getElementById("TCfilelist").style.visibility = "hidden";
 	} catch(e) { }
 
 	instance.suggestion.innerHTML = htmlText.toString();
@@ -533,7 +533,7 @@ Tag.prototype.hideSuggestion = function()
 	/* TODO : temporary code */
 	try {
 		document.getElementById("previewSelected").style.visibility = "visible";
-		document.getElementById("fileList").style.visibility = "visible";
+		document.getElementById("TCfilelist").style.visibility = "visible";
 	} catch(e) { }
 }
 

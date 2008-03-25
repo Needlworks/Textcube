@@ -29,7 +29,7 @@ if (doesHaveOwnership()) {
 		<input type="submit" value="<?php echo _text('삭제');?>" />
 		</fieldset>
 		</form>
-		<a href="<?php echo $blogURL;?>/comment/<?php echo $entryId;?>"><?php echo _text('답글 보기 화면으로');?></a>
+		<a href="<?php echo $blogURL;?>/comment/<?php echo $entryId;?>"><?php echo _text('댓글 보기 화면으로');?></a>
 	</div>
 	<?php
 }

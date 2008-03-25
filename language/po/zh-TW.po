@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-01 04:19:37+0000\n"
-"PO-Revision-Date: 2008-03-01 04:19:37+0000\n"
+"POT-Creation-Date: 2008-03-07 18:41:25+0000\n"
+"PO-Revision-Date: 2008-03-07 18:41:25+0000\n"
 "Last-Translator: TEXTCUBE\n"
 "Language-Team: TEXTCUBE\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgid "\"%1\"에 %2 파일을 생성할 수 없습니다. \"%1\"의 퍼미션을
 msgstr "\"%1\"下不建立 %2 文件,請把\"%1\"的屬性修改為 %3 "
 
 msgid "\"%1\"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오."
-msgstr "無法接近\"%1\" 請把屬性修改為 %2 "
+msgstr "無法設定 \"%1\" 請把屬性修改為 %2 "
 
 msgid "\"%1\"의 하위에 새 분류를 만듭니다."
 msgstr "\"%1\"分類下建立新的分類"
@@ -28,6 +28,12 @@ msgstr "%1 的評論的回覆"
 
 msgid "%1 님의 블로그"
 msgstr "%1 的部落格"
+
+msgid "%1 에 달린 댓글"
+msgstr "%1 的評論"
+
+msgid "%1 에 달린 트랙백"
+msgstr "%1 的引用"
 
 msgid "%1 전"
 msgstr "%1 前"
@@ -44,6 +50,12 @@ msgstr "無權限修改%1 文件。"
 msgid "%1개의 피드를 가져왔습니다.\\n피드를 업데이트 해 주십시오."
 msgstr "讀取了%1個FEED.\\\\n請確認更新"
 
+msgid "%1님을 %2님이 초대합니다"
+msgstr "%2 邀請 %1"
+
+msgid "%1님의 댓글"
+msgstr "%1 的評論"
+
 msgid "%1단계"
 msgstr "第%1步"
 
@@ -52,6 +64,9 @@ msgstr "在%1公開文章"
 
 msgid "%1은 올바른 이메일이 아닙니다."
 msgstr "信箱地址%1的格式不正確"
+
+msgid "&copy; 2004 - 2008. 모든 저작권은 개발자 및 공헌자에게 있습니다.<br />텍스트큐브는 니들웍스/TNF에서 개발합니다.<br />텍스트큐브와 텍스트큐브 로고는 니들웍스의 상표입니다."
+msgstr "&copy; 2004 - 2008.<br />著作權為貢獻者與開發者所用有。<br />Textcube 與 Needlworks/TNF 持續開發。<br />Textcube 商標為 Needlworks 所擁有並使用。"
 
 msgid "(로그인시 ID로 사용됩니다)"
 msgstr "(此為登入後台管理時所使用的 ID)"
@@ -113,6 +128,12 @@ msgstr "<acronym title=\"Rich Site Summary\">RSS</acronym> 地址"
 msgid "<acronym title=\"Uniform Resource Locator\">URL</acronym> 입력"
 msgstr "輸入 <acronym title=\"Uniform Resource Locator\">URL</acronym>"
 
+msgid "API Key 설정"
+msgstr "API Key 設定"
+
+msgid "API 용 비밀번호"
+msgstr "API 密碼"
+
 msgid "API 주소"
 msgstr "API 地址"
 
@@ -158,11 +179,29 @@ msgstr "珀斯(澳大利亞)"
 msgid "Australia/Sydney"
 msgstr "悉尼(澳大利亞)"
 
+msgid "BlogAPI에 사용할 비밀번호입니다."
+msgstr "此為 BlogAPI 所使用的密碼。"
+
 msgid "Body Id 변경"
 msgstr "修改 Body Id"
 
 msgid "Body id는 블로그 스킨의 <acronym title=\"Cascading Style Sheet\">CSS</acronym> 활용을 위해 사용합니다.<br /> 기본값인 \"tt-body-category\"를 그냥 사용하셔도 사용에 지장은 없습니다."
 msgstr "Body id可以讓模板的 <acronym title=\"Cascading Style Sheet\">CSS</acronym> 更靈活.<br /> 使用預設值\"tt-body-category\"不會影響頁面效果."
+
+msgid "Code Contributor"
+msgstr "開發貢獻者"
+
+msgid "Comments 테이블에 openid 필드를 추가합니다."
+msgstr "以 OpenID 過濾回覆資料表。"
+
+msgid "Core creator"
+msgstr "核心建置人員"
+
+msgid "Default skin"
+msgstr "預設樣板"
+
+msgid "Developer"
+msgstr "開發者"
 
 msgid "Europe/Berlin"
 msgstr "德國"
@@ -173,6 +212,9 @@ msgstr "英國"
 msgid "Europe/Paris"
 msgstr "法國"
 
+msgid "FOAF 지원"
+msgstr "FOAF 屬性設定"
+
 msgid "File Uploader"
 msgstr "文件上傳"
 
@@ -182,11 +224,29 @@ msgstr "格林尼治標準時間"
 msgid "IP 필터링"
 msgstr "IP過濾"
 
+msgid "Internationalization Contributor"
+msgstr "國際化(貢獻者)"
+
+msgid "Internationalization Maintainer"
+msgstr "國際化"
+
+msgid "Links 테이블에 공개 여부 설정 필드와 XFN 마이크로포맷을 위한 필드를 추가합니다."
+msgstr "在公開的鏈結清單裡設置與調用 XFN"
+
+msgid "Links 테이블의 공개 여부 설정 필드의 속성을 변경합니다."
+msgstr "更新公開的鏈結清單裡的屬性設定"
+
 msgid "MP3만 사용할 수 있습니다."
 msgstr "只能使用 MP3"
 
 msgid "MetaWeblog API나 Blogger API를 이용하여 글을 작성할 수 있도록 합니다."
 msgstr "允許通過MetaWeblog API或Blogger API發佈文章"
+
+msgid "Microformat 지원"
+msgstr "Microformat設定"
+
+msgid "Microformat을 사용하지 않습니다."
+msgstr "不使用 Microformat"
 
 msgid "MySQL 버전"
 msgstr "MySQL版本"
@@ -202,6 +262,15 @@ msgstr "成功讀取 OPML文件"
 
 msgid "PHP 버전"
 msgstr "PHP 版本"
+
+msgid "PHP 정보"
+msgstr "PHP 資訊"
+
+msgid "Painter"
+msgstr "樣式"
+
+msgid "RSS 공개 정도"
+msgstr "RSS 公開"
 
 msgid "RSS 리더"
 msgstr "RSS 閱讀器"
@@ -224,14 +293,29 @@ msgstr "RSS 文件 %1"
 msgid "RSS 파일의 블로그 글은 최신 %1개로 갱신됩니다."
 msgstr "RSS文件顯示最新 %1篇文件"
 
+msgid "RSS를 변경할 수 없습니다."
+msgstr "RSS位址變更失唄。"
+
 msgid "RSS를 읽어오고 있습니다."
 msgstr "正在讀取RSS"
 
 msgid "RSS를 읽어올 수 없습니다."
 msgstr "無法讀取RSS"
 
+msgid "Reporter"
+msgstr "報告"
+
 msgid "Rewrite를 사용할 수 없습니다."
 msgstr "無法使用Rewrite"
+
+msgid "Server 정보"
+msgstr "伺服器資訊"
+
+msgid "SessionVisits 테이블의 블로그 정보 필드 이름을 변경합니다."
+msgstr "依照 SessionVisits 資料表更新部落格資訊。"
+
+msgid "Supports"
+msgstr "支援"
 
 msgid "Tester"
 msgstr "測試團隊"
@@ -272,14 +356,29 @@ msgstr "[指定行為]"
 msgid "[허용됨]"
 msgstr "[允許]"
 
+msgid "author page"
+msgstr "作者頁面"
+
 msgid "default:Asia/Seoul"
 msgstr "韓國"
 
 msgid "fontDisplayName:fontCode:fontFamily"
 msgstr "fontDisplayName:fontCode:fontFamily|MingLiU:MingLiU:Serif|PMingLiU:PMingLiU:Serif|SimHei:SimHei:Sans-serif|SimSun:SimSun:Serif|NSimSun:NSimSun:Serif"
 
+msgid "htaccess 규칙을 수정합니다."
+msgstr "更新 .htaccess 規則"
+
+msgid "http://www.google.co.kr/search?q=OpenID&amp;lr=lang_ko"
+msgstr "http://www.google.com/search?q=OpenID"
+
+msgid "rewrite 모듈을 사용하지 않습니다. 이 경우 단일 사용자 모드로만 동작하며, 글로 된 주소 체계(fancy-URL)를 사용할 수 없습니다."
+msgstr "Rewrite 設定無法使用。對於部落格運用規則僅能使用單人模式，且 fancy-URL 將無法使用。"
+
 msgid "skin.html 파일을 수정하실 수 있는 권한이 없습니다."
 msgstr "無權限修改skin.html 文件。"
+
+msgid "가능한 모든 Microformat을 지원합니다."
+msgstr "使用全部的 Mircoformat"
 
 msgid "가입"
 msgstr "加入"
@@ -290,6 +389,9 @@ msgstr "加入日期"
 msgid "가져오기"
 msgstr "讀取"
 
+msgid "가족관계"
+msgstr "關聯設定"
+
 msgid "각 분류의 글 수를 표시합니다."
 msgstr "顯示各分類中的文章數"
 
@@ -298,6 +400,12 @@ msgstr "強制讀取"
 
 msgid "같은 이름의 카테고리가 이미 존재합니다"
 msgstr "已經存在同名的分類"
+
+msgid "같이 사는"
+msgstr "同居"
+
+msgid "같이 일하는"
+msgstr "朋友"
 
 msgid "개발자"
 msgstr "開發者"
@@ -350,6 +458,15 @@ msgstr "預設展開引用"
 msgid "걸린글을 복원하지 못했습니다."
 msgstr "未能恢復引用"
 
+msgid "걸린글을 삭제하고 있습니다."
+msgstr "刪除引用"
+
+msgid "걸린글을 삭제하였습니다."
+msgstr "引用刪除成功"
+
+msgid "걸린글을 삭제하지 못하였습니다."
+msgstr "引用刪除失敗"
+
 msgid "걸린글을 지우지 못했습니다."
 msgstr "未能刪除引用"
 
@@ -359,8 +476,14 @@ msgstr "搜索"
 msgid "검색 시"
 msgstr "搜索時"
 
+msgid "검색엔진이 링크 관계를 인식할 수 있도록 링크에 FOAF를 추가합니다."
+msgstr "為了讓搜尋引擎識別 FOAF,在鏈結中追加 rel=\"FOAF\""
+
 msgid "경과"
 msgstr "經過"
+
+msgid "계속 진행 하시겠습니까?"
+msgstr "要繼續嗎？"
 
 msgid "계속보관"
 msgstr "繼續保管"
@@ -392,6 +515,9 @@ msgstr "修改為公開"
 msgid "공개여부"
 msgstr "狀態"
 
+msgid "공백문자는 카테고리 이름으로 사용할 수 없습니다"
+msgstr "去除分類名稱空白"
+
 msgid "공지"
 msgstr "公告"
 
@@ -404,6 +530,9 @@ msgstr "正在恢復公告"
 msgid "공지사항"
 msgstr "公告板"
 
+msgid "공지사항 캐시를 초기화합니다."
+msgstr "正在重設公告"
+
 msgid "공지사항을 가져올 수 없습니다. 잠시 후 다시 시도해 주십시오."
 msgstr "無法讀取公告，請稍後再試."
 
@@ -412,6 +541,9 @@ msgstr "包括公告和關鍵字的%1文章列表"
 
 msgid "공헌자"
 msgstr "貢獻者"
+
+msgid "관계 없음"
+msgstr "無關聯"
 
 msgid "관련글에 글을 겁니다."
 msgstr "向相關文章發送引用."
@@ -425,8 +557,14 @@ msgstr "管理"
 msgid "관리자 계정과 연결된 오픈아이디"
 msgstr "與管理者帳戶關聯的OpenID"
 
+msgid "관리자 로그인 비밀번호와 동일하게 사용하실 경우 비워두시기 바랍니다."
+msgstr "若不設置與管理員相同密碼，請保留空白。"
+
 msgid "관리자 비밀번호를 그대로 사용"
 msgstr "直接使用管理密碼"
+
+msgid "관리자 설정에 의해 오픈아이디로만 댓글을 남길 수 있습니다."
+msgstr "只有使用 OpenID 登入後才可以回覆"
 
 msgid "관리자 스킨을 설정합니다"
 msgstr "設定管理頁模板"
@@ -473,11 +611,17 @@ msgstr "粗體"
 msgid "권한"
 msgstr "權限"
 
+msgid "권한 그룹"
+msgstr "權限"
+
 msgid "권한이 없습니다."
 msgstr "您沒有權限"
 
 msgid "귀하는 차단되었으므로 사용하실 수 없습니다."
 msgstr "閣下被列為過濾列表內，故無法使用此功能."
+
+msgid "귀하를 %1님이 초대합니다"
+msgstr "%1 邀請格下至"
 
 msgid "그대로 두기"
 msgstr "擱置"
@@ -538,6 +682,9 @@ msgstr "顯示全部文章列表"
 
 msgid "글 목록을 표시합니다."
 msgstr "顯示文章列表"
+
+msgid "글 버전 관리및 비교를 위한 테이블을 추가합니다."
+msgstr "製作管理與文章的新的資料表"
 
 msgid "글 보관함"
 msgstr "文章存檔"
@@ -605,6 +752,12 @@ msgstr "發送引用失敗"
 msgid "글을 걸 수 있게 합니다."
 msgstr "允許引用"
 
+msgid "글을 걸고 있습니다."
+msgstr "引用傳送中"
+
+msgid "글을 걸었습니다."
+msgstr "發送引用傳送成功"
+
 msgid "글을 복원하고 있습니다."
 msgstr "正在恢復文章"
 
@@ -671,10 +824,19 @@ msgstr "基本值"
 msgid "기본모드"
 msgstr "基本模式"
 
+msgid "기분좋은"
+msgstr "愉快"
+
 msgid "기울임"
 msgstr "斜體"
 
+msgid "기존 버전 - %1"
+msgstr "已有的版本 - %1"
+
 msgid "기타"
+msgstr "其他"
+
+msgid "기타 설정"
 msgstr "其他"
 
 msgid "기타 플러그인"
@@ -704,8 +866,14 @@ msgstr "請輸入內容"
 msgid "년"
 msgstr "年"
 
+msgid "누구나 접근할 수 있도록 합니다."
+msgstr "解除瀏覽限制"
+
 msgid "다른 메뉴보기"
 msgstr "查看其他選項"
+
+msgid "다른 사람의 블로그에 단 댓글에 대한 댓글이 등록되면 알려줍니다. 알리미가 동작하기 위해서는 댓글 작성시 홈페이지 기입란에 자신의 블로그 주소를 입력하셔야 합니다."
+msgstr "當他人回覆回應時通知部落格對方增加了回應。輸入回覆時必須輸入 URL，此為回覆回收站之正常應用。"
 
 msgid "다시 설정하시려면 config.php를 먼저 삭제하셔야 합니다."
 msgstr "若要重新設定要先刪除config.php文件"
@@ -755,44 +923,23 @@ msgstr "關閉"
 msgid "달"
 msgstr "月"
 
-msgid "답글 보기"
-msgstr "瀏覽回覆"
-
-msgid "답글 보기 페이지로"
-msgstr "到瀏覽回覆頁面"
-
-msgid "답글 보기 화면으로"
-msgstr "到瀏覽回覆畫面"
-
-msgid "답글쓰기가 차단됐습니다."
-msgstr "禁止回覆"
-
-msgid "답글에 답글을 작성합니다."
-msgstr "為回覆新增回覆"
-
-msgid "답글을 삭제할 수 없습니다"
-msgstr "無法刪除回覆"
-
-msgid "답글을 삭제할 수 없습니다."
-msgstr "無法刪除回覆."
-
-msgid "답글을 쓸 수 없습니다."
-msgstr "無法新增回覆"
-
-msgid "답글을 작성할 수 없습니다."
-msgstr "無法編寫回覆"
-
-msgid "답글이 삭제됐습니다"
-msgstr "回覆已刪除"
-
-msgid "답글이 없습니다"
-msgstr "尚無回覆"
-
-msgid "답글이 작성됐습니다."
-msgstr "成功發佈回覆"
-
 msgid "대기 중.."
 msgstr "等待中..."
+
+msgid "대표 블로그 설정"
+msgstr "設定為部落格最高權限人員"
+
+msgid "대표 블로그는 삭제할 수 없습니다."
+msgstr "不能刪除部落格最高權限人員。"
+
+msgid "대표 주소"
+msgstr "代表位址"
+
+msgid "대표 태그"
+msgstr "部落格標籤"
+
+msgid "대표 태그를 변경하지 못했습니다."
+msgstr "部落格標籤變更失敗。"
 
 msgid "댓글"
 msgstr "回覆"
@@ -802,6 +949,9 @@ msgstr "刪除回覆"
 
 msgid "댓글 알리미"
 msgstr "回覆通知"
+
+msgid "댓글 알리미 내용을 복원하고 있습니다."
+msgstr "回覆資料於回收站復原中。"
 
 msgid "댓글 알리미입니다"
 msgstr "查閱回覆通知"
@@ -814,6 +964,9 @@ msgstr "為回覆資料庫新增屬性."
 
 msgid "댓글 테이블에 필터 인덱스를 추가합니다."
 msgstr "在評論資料表上增加過濾索引"
+
+msgid "댓글, 걸린글(트랙백) 및 통합 RSS의 글은 최신 %1개로 갱신됩니다."
+msgstr "在 RSS 顯示最新的回覆/引用 %1 則"
 
 msgid "댓글, 걸린글, 리퍼러가 입력될 때 아래의 단어가 포함되어 있으면 알림창을 띄우고 휴지통으로 보냅니다."
 msgstr "在回覆和引用文章中包含以下字符將提示,並發送到回收站."
@@ -842,6 +995,12 @@ msgstr "未能恢復回覆"
 msgid "댓글을 사용할 수 없습니다."
 msgstr "無法使用回覆."
 
+msgid "댓글을 삭제하고 있습니다."
+msgstr "回覆刪除中"
+
+msgid "댓글을 삭제하지 못하였습니다."
+msgstr "回覆刪除失敗"
+
 msgid "댓글을 삭제하지 못했습니다."
 msgstr "未能刪除回覆"
 
@@ -853,6 +1012,9 @@ msgstr "修改回覆"
 
 msgid "댓글을 수정합니다."
 msgstr "修改回覆."
+
+msgid "댓글을 오픈아이디 사용자에게만 허용할 수 있습니다."
+msgstr "只有 OpenID 的使用者可以回覆"
 
 msgid "댓글을 입력해 주십시오."
 msgstr "請輸入回覆."
@@ -962,6 +1124,15 @@ msgstr "優化資料庫圖片"
 msgid "데이터베이스 테이블 확인"
 msgstr "確認資料庫表"
 
+msgid "데이터베이스 호환성을 위하여 댓글 테이블의 인덱스 설정을 변경합니다."
+msgstr "更新資料庫回覆資料表的索引"
+
+msgid "데이터베이스 호환성을 위하여 댓글 테이블의 자동 증가 설정을 제거합니다."
+msgstr "更新資料庫回覆資料表的 AutoIncrese 的屬性"
+
+msgid "데이터베이스 호환성을 위하여 트랙백 테이블의 자동 증가 설정을 제거합니다."
+msgstr "更新資料庫引用資料表的 AutoIncrese 的屬性"
+
 msgid "데이터베이스를 사용할 수가 없습니다. 정보를 다시 입력해 주십시오."
 msgstr "無法使用資料庫，請重新輸入相關訊息"
 
@@ -978,7 +1149,7 @@ msgid "데이터베이스에 연결할 수 없습니다."
 msgstr "無法連接資料庫"
 
 msgid "데이터베이스에 접근할 수 없습니다."
-msgstr "無法接近資料庫"
+msgstr "無法進入資料庫"
 
 msgid "데이터처리 오류 발생."
 msgstr "處理資料發生錯誤"
@@ -995,17 +1166,26 @@ msgstr "設定獨立插件"
 msgid "돌아가기"
 msgstr "返回"
 
+msgid "동시 접속자 관리를 위하여 세션 테이블의 인덱스 설정을 변경합니다."
+msgstr "登入管理的同時更新 session 資料表索引"
+
 msgid "동일한 이름을 가진 파일이 이미 첨부되었습니다."
 msgstr "已存在同名文件"
 
 msgid "되돌리기"
 msgstr "返回"
 
+msgid "되돌릴 수 없습니다."
+msgstr "無法復原"
+
 msgid "등록"
 msgstr "登入"
 
 msgid "등록 예약 시간이 올바르지 않습니다."
 msgstr "定時發佈時間錯誤"
+
+msgid "등록되지 않은 소유자 E-mail 입니다."
+msgstr "沒有此 E-mail Address"
 
 msgid "등록된 %1 공지 목록입니다"
 msgstr "已有的%1公告列表"
@@ -1034,6 +1214,9 @@ msgstr "刪除了現在的個人圖片"
 msgid "등록일자"
 msgstr "發表時間"
 
+msgid "또다른나"
+msgstr "屬於自己"
+
 msgid "라이센스"
 msgstr "版權"
 
@@ -1061,8 +1244,14 @@ msgstr "登出並轉到部落格首頁"
 msgid "로그인"
 msgstr "登入"
 
+msgid "로그인 ID"
+msgstr "ID"
+
 msgid "로그인 회수"
 msgstr "登入次數"
+
+msgid "로그인된 오픈아이디의 권한으로는 수정/삭제가 불가능합니다."
+msgstr "將我的簽名與進階資訊設置於部落格頂端"
 
 msgid "로딩 중.."
 msgstr "載入中"
@@ -1087,6 +1276,9 @@ msgstr "創建閱讀器時發生錯誤"
 
 msgid "리더와 관련된 구조를 변경합니다."
 msgstr "修改閱讀器相關結構."
+
+msgid "리스트 보기"
+msgstr "顯示清單"
 
 msgid "리퍼러 로그 테이블의 구조를 변경합니다."
 msgstr "修改逆向鏈接資料表相關結構."
@@ -1148,14 +1340,29 @@ msgstr "正在修改鏈接."
 msgid "링크를 추가하고 있습니다."
 msgstr "正在新增鏈接."
 
+msgid "마지막 댓글로 채우기"
+msgstr "切換至最新回覆"
+
 msgid "마지막 로그인"
 msgstr "最後登入"
+
+msgid "만나는"
+msgstr "熟人"
+
+msgid "만나본 적있는"
+msgstr "遇見的"
+
+msgid "만남"
+msgstr "相遇"
 
 msgid "만든이"
 msgstr "作者"
 
 msgid "만들기"
 msgstr "新增"
+
+msgid "매력적인"
+msgstr "魅力的"
 
 msgid "머리말"
 msgstr "標題"
@@ -1166,8 +1373,20 @@ msgstr "轉到首頁"
 msgid "메인메뉴"
 msgstr "首頁選項"
 
+msgid "메일 보낼 서버를 지정합니다"
+msgstr "郵件伺服器設定"
+
 msgid "메일 전송에 실패하였습니다."
 msgstr "發送信件失敗."
+
+msgid "메일서버 IP 주소:포트"
+msgstr "IP : Port"
+
+msgid "메일서버 지정"
+msgstr "郵件伺服器設定"
+
+msgid "명령"
+msgstr "作業"
 
 msgid "명령을 취소하고 이 대화상자를 닫습니다."
 msgstr "取消命令並關閉對話框."
@@ -1193,6 +1412,9 @@ msgstr "世間萬物皆是書是畫是鏡子。"
 msgid "모든 피드 새로고침"
 msgstr "更新所有FEED"
 
+msgid "모르는"
+msgstr "未知"
+
 msgid "목록 한 쪽당 글 수"
 msgstr "列表中每頁顯示文章數"
 
@@ -1214,6 +1436,9 @@ msgstr "使用文字."
 msgid "문자열 길이 조절"
 msgstr "調整字符長度"
 
+msgid "물음표가 들어간 카테고리 이름은 사용할 수 없습니다"
+msgstr "姓名暱稱中不可使用問號"
+
 msgid "미리 보기"
 msgstr "預覽"
 
@@ -1229,8 +1454,14 @@ msgstr "未使用"
 msgid "미스크랩 포스트"
 msgstr "未標記文章"
 
+msgid "미참여"
+msgstr "未參與"
+
 msgid "밑줄"
 msgstr "下劃線"
+
+msgid "바로 가기"
+msgstr "開始"
 
 msgid "바로가기"
 msgstr "轉到"
@@ -1265,6 +1496,9 @@ msgstr "留言板每頁顯示%1篇留言."
 msgid "방명록을 복원하고 있습니다."
 msgstr "正在恢復留言板"
 
+msgid "배우자"
+msgstr "妻子"
+
 msgid "백업을 저장하고 있습니다."
 msgstr "正在儲存備份資料."
 
@@ -1297,9 +1531,6 @@ msgstr "矯正備份檔中的不正常字符"
 
 msgid "백업파일을 가져오고 있습니다."
 msgstr "正在讀取備份檔"
-
-msgid "백업파일을 선택하십시오."
-msgstr "請選擇備份檔"
 
 msgid "백업파일을 올리고 있습니다."
 msgstr "正在上傳備份檔"
@@ -1334,8 +1565,17 @@ msgstr "版本"
 msgid "버전 %1"
 msgstr "版本 %1"
 
+msgid "버전 검사"
+msgstr "版本確認"
+
 msgid "버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?"
 msgstr "未更新版本建立文件，現在確認嗎？"
+
+msgid "범위설정"
+msgstr "訊息瀏覽設定"
+
+msgid "변경 중"
+msgstr "變更中"
 
 msgid "변경된 1차 블로그 주소로 이동합니다"
 msgstr "跳轉到新的一級部落格地址"
@@ -1370,6 +1610,9 @@ msgstr "請輸入暱稱"
 msgid "보내는 사람"
 msgstr "發件人"
 
+msgid "보낼 메일 서버 설정"
+msgstr "郵件伺服器設定"
+
 msgid "보호"
 msgstr "保護"
 
@@ -1403,6 +1646,9 @@ msgstr "恢復"
 msgid "복원 위치를 준비하고 있습니다."
 msgstr "正在準備恢復位置"
 
+msgid "복원을 위하여 외부에서 백업 파일에 접근하려면 아래의 주소를 이용하세요."
+msgstr "請記錄底下的 URL。再使用外部恢復資料時將使用此一路徑恢復。"
+
 msgid "복원하기"
 msgstr "恢復"
 
@@ -1429,6 +1675,9 @@ msgstr "如果載入樣板會覆蓋現有的文章，繼續進行嗎？"
 
 msgid "본문을 입력해 주십시오."
 msgstr "請輸入正文內容"
+
+msgid "부모"
+msgstr "親人"
 
 msgid "부분공개"
 msgstr "部分公開"
@@ -1499,6 +1748,12 @@ msgstr "重新計算分類內文章數並儲存"
 msgid "분야"
 msgstr "開發領域"
 
+msgid "분야가 같은"
+msgstr "同領域"
+
+msgid "불러 왔습니다."
+msgstr "忙碌中"
+
 msgid "불러오고 있습니다"
 msgstr "正在讀取"
 
@@ -1517,8 +1772,20 @@ msgstr "BlogAPI專用密碼"
 msgid "블로그 API 주소 도우미"
 msgstr "BlogAPI地址幫助"
 
+msgid "블로그 ID"
+msgstr "部落格 ID"
+
+msgid "블로그 공개 정도"
+msgstr "部落格瀏覽限制"
+
+msgid "블로그 공개 정도를 설정합니다."
+msgstr "設定部落格瀏覽限制"
+
 msgid "블로그 공개 정책을 설정합니다"
 msgstr "設定部落格公開政策"
+
+msgid "블로그 구분자"
+msgstr "識別字"
 
 msgid "블로그 권한 설정 과정에서 오류가 발생하였습니다."
 msgstr "設定部落格權限時發生錯誤。"
@@ -1532,17 +1799,29 @@ msgstr "部落格Icon圖片及Favicon"
 msgid "블로그 로그인 암호가 초기화되었습니다."
 msgstr "成功初始化登入密碼."
 
+msgid "블로그 로그인을 위한 임시 암호가 생성 되었습니다. 이 이메일에 로그인할 수 있는 인증 정보가 포함되어 있습니다."
+msgstr "已產生部落格註冊密碼，並包含了登入訊息於電子郵件當中。"
+
 msgid "블로그 메인으로 이동합니다."
 msgstr "跳轉到部落格首頁"
 
+msgid "블로그 목록"
+msgstr "部落格訊息"
+
 msgid "블로그 바로가기"
 msgstr "返回部落格"
+
+msgid "블로그 삭제에 실패하였습니다."
+msgstr "選取的部落格刪除失敗"
 
 msgid "블로그 설명"
 msgstr "部落格描述 "
 
 msgid "블로그 설명을 변경하지 못했습니다."
 msgstr "未能修改部落格說明."
+
+msgid "블로그 설정 불러오기 속도를 개선하기 위하여 블로그 설정 테이블의 인덱스 설정을 변경합니다."
+msgstr "更新資料庫所引以增加部落格反應速度。"
 
 msgid "블로그 설정 테이블과 사용자 설정 테이블의 구조를 변경합니다."
 msgstr "變更部落格設定資料表和用戶設定資料表的結構。"
@@ -1622,6 +1901,9 @@ msgstr "部落格地址"
 msgid "블로그 주소 예시"
 msgstr "部落格地址例"
 
+msgid "블로그 주소(%1)를 소유자 계정에 연결된 오픈아이디 중 하나에 위임하여 오픈아이디로 사용할 수 있습니다."
+msgstr "委任一個使用者帳戶連結至部落格位址(%1)於 OpenID 中，並於 OpenID 中公開使用。"
+
 msgid "블로그 주소가 올바르지 않습니다."
 msgstr "部落格地址錯誤"
 
@@ -1636,6 +1918,9 @@ msgstr "OpenID不使用部落格地址"
 
 msgid "블로그 주소를 오픈아이디로 사용하지 않음"
 msgstr "OpenID不使用部落格地址"
+
+msgid "블로그 태그"
+msgstr "部落格標籤"
 
 msgid "블로그 통계 정보를 복원하고 있습니다."
 msgstr "正在恢復統計訊息"
@@ -1652,8 +1937,17 @@ msgstr "到部落格首頁"
 msgid "블로그/관리자 플러그인"
 msgstr "部落格/管理 插件"
 
+msgid "블로그가 공개되지 않은 상태이기 때문에 발행할 수 없습니다."
+msgstr "非部落格或是此部落格無管理員"
+
+msgid "블로그가 존재하지 않거나, 블로그의 소유자가 전체 관리자가 아닙니다."
+msgstr "部落格記錄不存在時，部落格記錄管理員非主要管理員。"
+
 msgid "블로그로 이동"
 msgstr "返回部落格"
+
+msgid "블로그에 아이디가 있는 경우만 접근할 수 있도록 합니다."
+msgstr "帳號擁有者(形同於設置部落格關閉狀態)"
 
 msgid "블로그에 표시되는 값들을 변경합니다"
 msgstr "修改部落格內顯示資料"
@@ -1682,8 +1976,14 @@ msgstr "修改為不公開"
 msgid "비밀 댓글"
 msgstr "悄悄話"
 
+msgid "비밀 댓글입니다"
+msgstr "已關閉的回覆"
+
 msgid "비밀글로 등록"
-msgstr "已悄悄話發佈"
+msgstr "以悄悄話發佈"
+
+msgid "비밀글의 작성자만 읽을 수 있는 댓글입니다."
+msgstr "此回覆僅作者本人可檢視"
 
 msgid "비밀방문자"
 msgstr "秘密訪客"
@@ -1712,6 +2012,12 @@ msgstr "確定要修改密碼嗎?"
 msgid "비밀번호를 입력해 주십시오."
 msgstr "請輸入密碼."
 
+msgid "비어 있는 블로그 설명"
+msgstr "部落格說明為空白"
+
+msgid "비어 있는 타이틀"
+msgstr "部落格標題為空白"
+
 msgid "비우기에 실패하였습니다."
 msgstr "清空失敗."
 
@@ -1730,8 +2036,20 @@ msgstr "可使用的模板列表"
 msgid "사용여부"
 msgstr "使用與否"
 
+msgid "사용자"
+msgstr "用戶"
+
+msgid "사용자 ID"
+msgstr "ID"
+
 msgid "사용자 로고"
 msgstr "用戶形象圖片"
+
+msgid "사용자 목록"
+msgstr "用戶資訊"
+
+msgid "사용자 삭제"
+msgstr "刪除用戶"
 
 msgid "사용자 삽입 이미지"
 msgstr "用戶插入圖片"
@@ -1744,6 +2062,9 @@ msgstr "修改用戶設定值和相關結構"
 
 msgid "사용자 이름 누락 정보를 보완합니다."
 msgstr "修復用戶名遺漏相關訊息"
+
+msgid "사용자 정보"
+msgstr "用戶訊息"
 
 msgid "사용자 제외"
 msgstr "排除用戶"
@@ -1820,6 +2141,9 @@ msgstr "刪除後將不能恢復"
 msgid "삭제 하시겠습니까?"
 msgstr "確定要刪除嗎？"
 
+msgid "삭제: 본 계정과의 관계를 끊습니다."
+msgstr "刪除：解除所有權限。"
+
 msgid "삭제되는 기존 사용자의 글은 전부 관리자의 글로 변환됩니다."
 msgstr "若刪除用戶則他寫的文章都變換為管理者的。"
 
@@ -1868,6 +2192,12 @@ msgstr "新回覆"
 msgid "새 데이터베이스 테이블"
 msgstr "新資料庫表"
 
+msgid "새 블로그 만들기"
+msgstr "新的部落格"
+
+msgid "새 사용자 등록"
+msgstr "新的使用者"
+
 msgid "새 창으로"
 msgstr "新視窗"
 
@@ -1897,6 +2227,12 @@ msgstr "已經儲存新的個人照片"
 
 msgid "색동"
 msgstr "首頁"
+
+msgid "생활반경"
+msgstr "生活"
+
+msgid "서버에 %1에 백업한 파일이 존재합니다."
+msgstr "備份檔案儲存於 %1 天前的資訊"
 
 msgid "서버에 <em>%1</em>에 저장된 백업파일이 있습니다."
 msgstr "伺服器上的 <em>%1</em>上存在備份檔."
@@ -2099,6 +2435,27 @@ msgstr "轉到訊息頁"
 msgid "소스를 포함한 소프트웨어에 포함된 모든 저작물(이하, 텍스트큐브)의 저작권자는 Needlworks / TNF 입니다."
 msgstr "包括源代碼在內的所有軟件作品(一下稱為Textcube)的著作權所有者為Needlworks / TNF"
 
+msgid "소유자"
+msgstr "部落格管理者"
+
+msgid "소유자 계정에 연결된 오픈아이디 목록"
+msgstr "管理者用 OpenID"
+
+msgid "소유자 계정에 연결된 오픈아이디가 없습니다"
+msgstr "非管理者用 OpenID"
+
+msgid "소유자 계정에 오픈아이디 연결하기"
+msgstr "管理者權限賦予設定"
+
+msgid "소유자 변경"
+msgstr "部落格管理者變更"
+
+msgid "소유자가 변경되었습니다. \\r\\n기존의 소유자는 관리자로 변경되었습니다."
+msgstr "已改變部落格管理者。\\\\r\\\\n原有的部落格管理者權限將改為一般成員，\\\\r\\\\n但是保有管理者權限。"
+
+msgid "소유자를 변경하지 못했습니다."
+msgstr "部落格管理者變更失敗"
+
 msgid "손님이 글쓰기 허용"
 msgstr "允許訪客留言"
 
@@ -2168,6 +2525,9 @@ msgstr "為模板設定資料庫新增限制公告長度的資料表."
 msgid "스킨 설정 테이블에 아카이브 출력 설정 필드를 추가합니다."
 msgstr "模板設定中新增顯示存檔相關資料表."
 
+msgid "스킨 설정 테이블에 저자별 페이지 출력 설정을 위한 필드를 추가합니다."
+msgstr "模板設定中新增貢獻者資訊相關資料表."
+
 msgid "스킨 설정 테이블에 태그 출력시 목록 및 글 출력 설정을 위한 필드를 추가합니다."
 msgstr "為了標籤列表和文章列表，在模板設定資料表上增加字段。"
 
@@ -2207,11 +2567,17 @@ msgstr "編輯模板 : \"%1\""
 msgid "스팸 필터"
 msgstr "過濾設定"
 
+msgid "슬래시가 들어간 카테고리 이름은 사용할 수 없습니다"
+msgstr "清除分類名稱中的半型(/)字元"
+
 msgid "시간"
 msgstr "小時"
 
 msgid "시간대"
 msgstr "時區"
+
+msgid "시스템 정보"
+msgstr "系統訊息"
 
 msgid "식별자"
 msgstr "識別ID"
@@ -2258,6 +2624,12 @@ msgstr "修改為以下狀態"
 msgid "아이디 또는 비밀번호가 틀렸습니다."
 msgstr "用戶名或密碼錯誤."
 
+msgid "아이콘 보기"
+msgstr "顯示圖示"
+
+msgid "아직 로그인하지 않았습니다."
+msgstr "尚未登入"
+
 msgid "아직 저장되지 않았습니다."
 msgstr "尚未儲存"
 
@@ -2287,6 +2659,12 @@ msgstr "公告板"
 
 msgid "암호 초기화"
 msgstr "初始化密碼"
+
+msgid "애정"
+msgstr "喜好程度"
+
+msgid "앰퍼샌드(&)가 들어간 카테고리 이름은 사용할 수 없습니다"
+msgstr "分類名稱無法使用此一字元(&amp;)"
 
 msgid "언어"
 msgstr "語系"
@@ -2327,6 +2705,9 @@ msgstr "無法修改編輯器設定"
 msgid "엔트리 테이블의 인덱스를 수정합니다."
 msgstr "修改文章數庫相關屬性"
 
+msgid "엔트리 테이블의 주 인덱스에 draft를 추가합니다."
+msgstr "對於文章數據庫製作草稿資料索引"
+
 msgid "여기를 클릭하시면 로그인하여 암호를 변경하실 수 있습니다."
 msgstr "點擊這裡可以登入部落格後台頁面並修改密碼."
 
@@ -2339,8 +2720,26 @@ msgstr "領域"
 msgid "엮인글 주소가 복사되었습니다."
 msgstr "已複製引用文章地址."
 
+msgid "연결하기"
+msgstr "設定權限"
+
+msgid "연결하기: 로그인하면 본 계정의 권한을 갖습니다."
+msgstr "權限設定：若輸入簽名檔，則署名。"
+
+msgid "연결하였습니다."
+msgstr "權限設定成功"
+
+msgid "연결한 오픈아이디로 이 계정에 로그인 할 수 있습니다."
+msgstr "以 OpenID 的管理者來署名"
+
+msgid "연락처를 아는"
+msgstr "聯絡"
+
 msgid "예"
 msgstr "例"
+
+msgid "예) textcube.idtail.com, textcube.myid.net"
+msgstr "例： textcube.idtail.com, textcube.myid.net"
 
 msgid "예: AllowOverride <b>All</b>"
 msgstr "例: AllowOverride <b>All</b>"
@@ -2372,14 +2771,38 @@ msgstr "靠右對齊"
 msgid "오름차순"
 msgstr "按字母正向"
 
+msgid "오직하나뿐인"
+msgstr "單人的"
+
 msgid "오픈아이디"
 msgstr "OpenID"
+
+msgid "오픈아이디 게스트 로그인"
+msgstr "OpenID 用戶登入"
 
 msgid "오픈아이디 기억"
 msgstr "記住OpenID"
 
+msgid "오픈아이디 댓글 테이블을 기존 댓글 테이블에 병합합니다"
+msgstr "將 OpenID 的回覆與資料庫現有的回覆資料表合併"
+
+msgid "오픈아이디 로그인 목록"
+msgstr "OpenID 登入歷史"
+
+msgid "오픈아이디 로그인 사용자에게만 댓글을 허용하도록 설정하러 가기"
+msgstr "回覆權限設定"
+
 msgid "오픈아이디 발급하기"
 msgstr "取得OpenID"
+
+msgid "오픈아이디 사용자 테이블을 만듭니다"
+msgstr "製作 OpenID 使用者資料表"
+
+msgid "오픈아이디 연결"
+msgstr "OpenID 設定"
+
+msgid "오픈아이디 인증"
+msgstr "OpenID 認證"
 
 msgid "오픈아이디 저장"
 msgstr "儲存OpenID"
@@ -2396,11 +2819,23 @@ msgstr "因為沒有開啟OpenID插件，所以不能設定OpenID，請聯絡部
 msgid "오픈아이디란?"
 msgstr "OpenID是？"
 
+msgid "오픈아이디로 글쓰기"
+msgstr "登入 OpenID"
+
 msgid "오픈아이디로 로그인을 해야만 댓글 및 방명록을 쓸 수 있습니다."
 msgstr "只有通過OpenID登入才能回覆或留言"
 
 msgid "오픈아이디로 로그인하여 쓴 댓글/방명록에 오픈아이디 아이콘을 표시합니다."
-msgstr "通過OpenID登入後填寫的回覆/留言前將顯示OpenID圖標"
+msgstr "通過OpenID登入後填寫的回覆/留言前將顯示OpenID圖示"
+
+msgid "오픈아이디로 사용할 블로그 주소를 선택하세요"
+msgstr "請選擇所使用的 OpenID URL"
+
+msgid "오픈아이디로만 댓글을 남길 수 있습니다"
+msgstr "僅登入 OpenID 的使用者的回覆"
+
+msgid "오픈아이디를 입력하지 않았거나, 도메인 없는 오픈아이디를 입력하였습니다."
+msgstr "所輸入的 OpenID 不正確或是 OpenID 沒有被輸入"
 
 msgid "올바르지 않은 블로그 주소입니다"
 msgstr "錯誤的部落格地址"
@@ -2428,6 +2863,9 @@ msgstr "已完成."
 
 msgid "외부 블로그에 표시되는 메세지의 언어를 설정합니다.<br />달력이나 댓글 입력창에 적용됩니다. 한국어 블로그를 운영하고 계신다면 한국어를 선택해 주십시오."
 msgstr "設定部落格外部顯示語系.<br />適用於月曆，回覆視窗等. 若您使用中文部落格請選擇中文."
+
+msgid "외부 주소"
+msgstr "輸入 URL"
 
 msgid "왼쪽 정렬"
 msgstr "靠左對齊"
@@ -2468,6 +2906,9 @@ msgstr "伺服器設定中對本目錄的 Options 項目中應包含 FollowSymLi
 msgid "웹에서 백업파일 가져오기."
 msgstr "從網路上讀取備份檔"
 
+msgid "웹표준 권고안과 충돌할 수도 있는 규약을 제외한 Microformat을 사용합니다."
+msgstr "在遵守 W3C 的規範內使用 Microformat"
+
 msgid "위 2와 3의 문제는 아래 내용을 웹서버 설정에 포함시켜 해결할 수 있습니다."
 msgstr "以上問題中2和3可以在伺服器設定中包含以下內容來解決"
 
@@ -2482,6 +2923,9 @@ msgstr "委任地址"
 
 msgid "유지"
 msgstr "維持"
+
+msgid "이 API 키는 외부에서 댓글 알리미 RSS를 참조하거나 로그인이 필요한 기능에서 원래 비밀번호 대용으로 사용합니다."
+msgstr "API Key 可以使用回覆 RSS 或是經由登入由部落格外部控制"
 
 msgid "이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다."
 msgstr "此IP以被過濾，點擊解除過濾."
@@ -2503,6 +2947,9 @@ msgstr "恢復此引用"
 
 msgid "이 걸린글을 삭제합니다."
 msgstr "刪除此引用"
+
+msgid "이 계정은 %1에 생성되었습니다."
+msgstr "此運算應用於 %1"
 
 msgid "이 계정의 업로드 허용 용량은 <em>%1</em> 바이트로 백업파일의 크기가 이를 초과하는 경우 <acronym title=\"File Transfer Protocol\">FTP</acronym> 등으로 원하시는 사이트에 업로드하신 후 이 파일의 웹 주소를 입력해서 진행하십시오. 이 경우, 보안을 위해 복원이 끝나면 반드시 그 백업파일을 웹 상에서 지우실 것을 권장합니다."
 msgstr "此空間允許的最大上傳容量為 <em>%1</em> 字節，若超過此大小請用 <acronym title=\"File Transfer Protocol\">FTP</acronym> 等工具上傳到其他空間，按照地址進行恢復. 考慮安全因素建議恢復完成後務必刪除文件."
@@ -2533,6 +2980,30 @@ msgstr "修改此鏈接訊息."
 
 msgid "이 링크에 연결합니다."
 msgstr "連接到此鏈接."
+
+msgid "이 블로그가 사용중인 첨부파일의 총 용량은 %1입니다."
+msgstr "總使用量 %1"
+
+msgid "이 블로그는 대표 블로그입니다."
+msgstr "Top Blog"
+
+msgid "이 블로그에는 첨부파일이 없습니다."
+msgstr "沒有附加檔案"
+
+msgid "이 블로그에는 총 %1개의 걸린글(트랙백)이 있습니다."
+msgstr "總共有 %1 的引用"
+
+msgid "이 블로그에는 총 %1개의 글이 있습니다."
+msgstr "總共有 %1 的公告"
+
+msgid "이 블로그에는 총 %1개의 댓글이 있습니다."
+msgstr "總共有 %1 的評論"
+
+msgid "이 블로그의 구성원만 접근할 수 있도록 합니다."
+msgstr "僅團隊部落格成員"
+
+msgid "이 사용자는 블로그의 소유자입니다."
+msgstr "將此成員設置為管理者"
 
 msgid "이 사용자를 팀블로그에서 제외합니다."
 msgstr "從團隊部落格中排除此用戶"
@@ -2645,6 +3116,9 @@ msgstr "信箱地址"
 msgid "이름(e-mail)"
 msgstr "信箱"
 
+msgid "이름/비밀번호로 글쓰기"
+msgstr "輸入姓名/密碼的回覆"
+
 msgid "이름순으로 표시합니다."
 msgstr "按名字排序."
 
@@ -2674,6 +3148,9 @@ msgstr "信箱地址不正確"
 
 msgid "이미 사용중인 블로그 주소입니다"
 msgstr "已使用的部落格地址"
+
+msgid "이미 연결된 오픈아이디 입니다"
+msgstr "已賦予權限的 OpenID"
 
 msgid "이미 존재하는 그룹 이름입니다."
 msgstr "已存在的組名"
@@ -2726,6 +3203,9 @@ msgstr "Eolin是Textcube上“發行”的文章匯集而成的blogger們的開�
 msgid "이올린이란?"
 msgstr "Eolin是？"
 
+msgid "이웃에 사는"
+msgstr "隔壁"
+
 msgid "이전"
 msgstr "上一篇"
 
@@ -2750,6 +3230,9 @@ msgstr "按使用密度排序"
 msgid "일"
 msgstr "日"
 
+msgid "일로서 아는"
+msgstr "業務上"
+
 msgid "일반적으로 복원시 기존의 데이터를 덮어씁니다. \\n덮어쓰지 않고 백업파일을 추가하기 위해서는 백업파일을 열어 migrational=false 를 migrational=true로 바꾸셔야 합니다. 확인하신 후에 진행하시기 바랍니다.\\n계속 하시겠습니까?"
 msgstr "恢復會覆蓋原有的資料。\\\\n如果備份檔的migrational=false改成migrational=true的話，不會覆蓋原有的資料。請您慎重考慮後繼續進行。\\\\n要繼續進行嗎？"
 
@@ -2764,6 +3247,9 @@ msgstr "隱藏已讀文章"
 
 msgid "읽지 않은 상태로 변경하였습니다."
 msgstr "標記為未讀"
+
+msgid "임시 암호"
+msgstr "暫時密碼"
 
 msgid "임시 저장본을 보시겠습니까?"
 msgstr "要查看臨時儲存的文章嗎?"
@@ -2786,6 +3272,9 @@ msgstr "無法連接到輸入的URL"
 msgid "입력하지 않으면 글의 제목이 절대 주소가 됩니다."
 msgstr "不輸入按預設值"
 
+msgid "자녀"
+msgstr "子女"
+
 msgid "자동으로 저장됨"
 msgstr "已自動儲存"
 
@@ -2804,6 +3293,9 @@ msgstr "請選擇模式"
 msgid "작업 정보를 입력해 주십시오."
 msgstr "請輸入模式訊息"
 
+msgid "잘 아는"
+msgstr "熟人"
+
 msgid "잘못된 IP 주소입니다."
 msgstr "IP地址不正確"
 
@@ -2813,6 +3305,9 @@ msgstr "錯誤操作"
 msgid "잘못된 입력입니다."
 msgstr "輸入錯誤"
 
+msgid "잘못된 트랜잭션입니다"
+msgstr "傳送錯誤"
+
 msgid "잘못된 파일 형식입니다. 다시 시도하세요"
 msgstr "文件格式錯誤，請您再試試。"
 
@@ -2821,6 +3316,9 @@ msgstr "FEED錯誤"
 
 msgid "잦은 입출력으로 비효율적이 된 데이터베이스를 최적화 합니다."
 msgstr "優化資料庫,提高程序運行效率."
+
+msgid "저자 선택 시"
+msgstr "選擇作者時"
 
 msgid "저작권"
 msgstr "著作權"
@@ -2846,14 +3344,26 @@ msgstr "已儲存"
 msgid "저장소 선택 시"
 msgstr "選擇月份存檔時"
 
+msgid "저장소 최적화"
+msgstr "資料庫最佳化"
+
 msgid "저장소에 글 목록을 %1달치만큼 보여줍니다."
 msgstr "月份存檔顯示 %1個月"
+
+msgid "저장중"
+msgstr "正在儲存"
 
 msgid "저장하고 있습니다."
 msgstr "正在儲存"
 
 msgid "저장하기"
 msgstr "儲存"
+
+msgid "저장하였습니다"
+msgstr "儲存成功"
+
+msgid "저장하지 못하였습니다"
+msgstr "儲存失敗"
 
 msgid "저장하지 못했습니다."
 msgstr "儲存失敗"
@@ -2863,6 +3373,9 @@ msgstr "應用"
 
 msgid "적용할 글을 선택해 주십시오."
 msgstr "請選擇要應用的文章"
+
+msgid "전문분야"
+msgstr "業務關係"
 
 msgid "전송"
 msgstr "發送"
@@ -2893,6 +3406,12 @@ msgstr "固定地址"
 
 msgid "점검 없이 이 기능을 사용할 수 없습니다."
 msgstr "檢查系統前無法使用此功能"
+
+msgid "접근 권한이 제한된 경우 RSS로 내용을 열람할 수 없으며, RSS로 새 글이 올라오는 시간만 전달됩니다."
+msgstr "部落格設置為關閉時，外部也無法經由 RSS 閱讀，僅更新 RSS 發佈時間"
+
+msgid "접근 권한이 제한된 경우에는 로그인 이후에 블로그를 열람할 수 있습니다."
+msgstr "當設置此設定，部落格需要登入才可訪問。"
 
 msgid "접근권한이 없습니다"
 msgstr "沒有權限"
@@ -2933,8 +3452,14 @@ msgstr "名稱"
 msgid "제목을 입력해 주십시오."
 msgstr "請輸入標題"
 
+msgid "제어판"
+msgstr "控制台"
+
 msgid "제외할 수 없습니다"
 msgstr "不能排除"
+
+msgid "제작자"
+msgstr "製作者"
 
 msgid "조각보"
 msgstr "訊息面板"
@@ -2976,7 +3501,7 @@ msgid "지역"
 msgstr "區域"
 
 msgid "지역태그 스크립트를 사용할 수 없습니다. 슬래시(/)로 구분된 지역을 직접 입력해 주십시오.(예: /대한민국/서울/강남역)"
-msgstr "區域輸入選項無法載入,請用斜杠(/)區分區域,手動輸入.(例: /中國/北京/天安門)"
+msgstr "區域輸入選項無法載入,請用斜線(/)區分區域,手動輸入.(例: /台灣/台北/松山)"
 
 msgid "지원하지 않는 백업파일입니다."
 msgstr "不支持的備份資料文件"
@@ -3001,6 +3526,9 @@ msgstr "因為使用被過濾名字,固不能回覆."
 
 msgid "차단된 홈페이지 주소를 사용하고 계시므로 댓글을 남기실 수 없습니다."
 msgstr "因為使用被過濾網址,固不能回覆."
+
+msgid "참여자를 추가하지 못하였습니다."
+msgstr "一般成員新增失敗"
 
 msgid "참여중"
 msgstr "參與中"
@@ -3032,6 +3560,9 @@ msgstr "包含附件"
 msgid "첨부하지 못했습니다."
 msgstr "新增附件失敗"
 
+msgid "첫번째 점검"
+msgstr "初始化檢查"
+
 msgid "초"
 msgstr "秒"
 
@@ -3041,6 +3572,9 @@ msgstr "初始化"
 msgid "초대 메시지"
 msgstr "邀請函"
 
+msgid "초대 메일은 발송되지 않으며, 새로 추가된 참여자는 기본 권한만을 가지게 됩니다."
+msgstr "邀請函郵件無法送出。受邀請人僅擁有基本權限"
+
 msgid "초대명단"
 msgstr "邀請名單"
 
@@ -3049,6 +3583,9 @@ msgstr "請輸入受邀請人的 名字<信箱>.\\\\n也可以只輸入信箱地
 
 msgid "초대받을 사람이 사용할 블로그 식별자를 적어 주십시오."
 msgstr "請輸入受邀請人要使用的識別ID."
+
+msgid "초대상태"
+msgstr "邀請狀況"
 
 msgid "초대에 응하지 않은 사용자의 계정을 삭제합니다."
 msgstr "刪除沒有接受邀請的用戶"
@@ -3068,8 +3605,17 @@ msgstr "發送邀請函"
 msgid "초대취소"
 msgstr "取消邀請"
 
+msgid "총 %1개의 블로그"
+msgstr "總共 %1 件"
+
 msgid "총 %1건"
-msgstr "總 %1篇"
+msgstr "總 %1 篇"
+
+msgid "총 %1명의 사용자"
+msgstr "總共 %1 人"
+
+msgid "총 %d건"
+msgstr "總 %d 篇"
 
 msgid "총 방문자"
 msgstr "總訪客"
@@ -3104,11 +3650,23 @@ msgstr "最新評論"
 msgid "최근 댓글 길이"
 msgstr "最新回覆長度"
 
+msgid "최근 댓글 목록"
+msgstr "最新回覆"
+
 msgid "최근 댓글 알리미"
 msgstr "最新回覆通知"
 
+msgid "최근 댓글 알리미 목록"
+msgstr "最新引用回覆"
+
+msgid "최근 댓글/트랙백 목록"
+msgstr "最新評論/引用回覆"
+
 msgid "최근 댓글을 %1 글자로 표시합니다."
 msgstr "最新文章顯示到 %1 字以內."
+
+msgid "최근 로그인"
+msgstr "最新登入"
 
 msgid "최근 방명록"
 msgstr "最新留言"
@@ -3116,14 +3674,14 @@ msgstr "最新留言"
 msgid "최근 트랙백"
 msgstr "最新引用"
 
+msgid "최근 트랙백 목록"
+msgstr "最新引用"
+
 msgid "최근글(%1) 수정"
 msgstr "修改最近文章(%1)"
 
 msgid "최근에 걸린글"
 msgstr "最新引用"
-
-msgid "최근에 달린 답글"
-msgstr "最新回覆"
 
 msgid "최근에 달린 댓글을 %1개 보여줍니다."
 msgstr "最新回覆顯示 %1個"
@@ -3188,11 +3746,23 @@ msgstr "取消"
 msgid "취소하기"
 msgstr "取消"
 
+msgid "친구 관계를 설정합니다"
+msgstr "詳細訊息設定"
+
+msgid "친구 링크 관리"
+msgstr "詳細訊息設定"
+
 msgid "친구를 초대합니다"
 msgstr "邀請朋友"
 
 msgid "친구를 팀원으로 초대합니다"
 msgstr "邀請新成員"
+
+msgid "친밀도"
+msgstr "親近度"
+
+msgid "친척"
+msgstr "親戚"
 
 msgid "카테고리"
 msgstr "分類"
@@ -3211,6 +3781,15 @@ msgstr "修改分類"
 
 msgid "캐시 디렉토리"
 msgstr "緩存目錄"
+
+msgid "캐시 지우기"
+msgstr "清除頁面緩存"
+
+msgid "캐시를 정리하고 있습니다."
+msgstr "頁面緩存清除中"
+
+msgid "캐시를 정리하였습니다."
+msgstr "緩存清除成功"
 
 msgid "켜짐"
 msgstr "開啟"
@@ -3305,6 +3884,12 @@ msgstr "已經存在資料表"
 msgid "테이블이 존재하지 않습니다."
 msgstr "資料表不存在"
 
+msgid "텍스트큐브"
+msgstr "TextCube 的位址"
+
+msgid "텍스트큐브 API에 사용할 비밀번호입니다."
+msgstr "TextCube API 所使用的密碼"
+
 msgid "텍스트큐브 개발자"
 msgstr "Textcube開發者"
 
@@ -3331,6 +3916,9 @@ msgstr "開始安裝Textcube"
 
 msgid "텍스트큐브 시스템 점검이 필요합니다. 지금 점검하시겠습니까?"
 msgstr "需要系統檢查,現在進行檢查嗎?"
+
+msgid "텍스트큐브 점검을 시작합니다."
+msgstr "開始檢查 TextCube"
 
 msgid "텍스트큐브 주소"
 msgstr "部落格地址"
@@ -3383,6 +3971,9 @@ msgstr "六"
 msgid "통계와 관련된 구조를 변경합니다."
 msgstr "修改統計相關資料結構."
 
+msgid "트랙백 불러오기 속도를 개선하기 위하여 트랙백 테이블의 인덱스 설정을 변경합니다."
+msgstr "製作引用資料表索引以改善引用資料的速度"
+
 msgid "트리 속성"
 msgstr "屬性"
 
@@ -3395,11 +3986,17 @@ msgstr "團隊部落格"
 msgid "팀블로그 기능을 위한 테이블을 추가합니다."
 msgstr "為團隊部落格，增加資料表"
 
+msgid "팀블로그 멤버 목록"
+msgstr "團隊部落格"
+
 msgid "팀블로그 정보를 설정합니다"
 msgstr "設定團隊部落格訊息"
 
 msgid "팀블로그 제외"
 msgstr "排除於團隊部落格"
+
+msgid "팀블로그 참여자를 추가하였습니다."
+msgstr "增加團隊部落格參與者"
 
 msgid "팀블로그 테이블의 사용자 이름 필드를 삭제합니다."
 msgstr "刪除團隊部落格資料表中的用戶名字字段。"
@@ -3415,6 +4012,12 @@ msgstr "變更團隊部落格資料表中的字段名"
 
 msgid "팀블로그를 관리합니다"
 msgstr "管理團隊部落格"
+
+msgid "팀원 제외"
+msgstr "移除成員"
+
+msgid "팀원 추가"
+msgstr "新增成員"
 
 msgid "팀원 추가에 실패했습니다."
 msgstr "增加成員失敗"
@@ -3490,6 +4093,9 @@ msgstr "頁面錯誤"
 
 msgid "페이지 제목"
 msgstr "頁面標題"
+
+msgid "페이지 캐시를 초기화합니다."
+msgstr "重設頁面緩存"
 
 msgid "페이지 캐싱을 위한 테이블을 추가합니다."
 msgstr "為頁面緩存，增加資料表"
@@ -3591,7 +4197,7 @@ msgid "플러그인 설정을 복원하고 있습니다."
 msgstr "恢復插件設定"
 
 msgid "플러그인 아이콘"
-msgstr "插件圖標"
+msgstr "插件圖示"
 
 msgid "플러그인 업로드 게시판"
 msgstr "插件論壇"
@@ -3616,6 +4222,9 @@ msgstr "使用或不使用插件"
 
 msgid "플러그인을 활성화하는데 실패했습니다."
 msgstr "開啟插件失敗"
+
+msgid "플러그인이 생성한 %1 테이블의 owner 필드를 변경합니다."
+msgstr "變更 %1 管理者重建插件資料表"
 
 msgid "플러그인이 생성한 테이블입니다"
 msgstr "插件建立的資料表"
@@ -3737,8 +4346,17 @@ msgstr "現在是公開狀態"
 msgid "현재 그룹 내의 피드 목록"
 msgstr "此組內的FEED列表"
 
+msgid "현재 단일 블로그 모드 텍스트큐브가 설정되어 있습니다. 단일 블로그 모드에서는 대표 블로그 만이 외부에 보여집니다."
+msgstr "目前所使用的部落格為 TextCube。以單人模式，僅顯示部落格擁有者"
+
 msgid "현재 달의 달력을 보여줍니다."
 msgstr "顯示本月月曆."
+
+msgid "현재 로그인한 오픈아이디"
+msgstr "所有登入的 OpenID"
+
+msgid "현재 버전 - %1"
+msgstr "上一個版本 - %1"
 
 msgid "현재 보호 상태입니다."
 msgstr "現在是受保護狀態"
@@ -3767,6 +4385,12 @@ msgstr "備份並下載現在的資料，伺服器上的備份資料文件將不
 msgid "현재글 스크랩"
 msgstr "標記本文"
 
+msgid "현재의 모든 데이터를 TTXML형태의 백업파일로 보관합니다.<br />첨부파일을 포함시킬 수 있으며, 복원할 경우 자동으로 첨부파일이 처리됩니다.<br />백업파일은 서버에 저장하거나 다운받으실 수 있습니다."
+msgstr "以 <acronym title=\"Tattertools Backup XML\">TTXML</acronym> 格式保存目前的所有資料。<br />當你包含附件時將在資料復原時一起被重建。此下載將製作伺服器備份用資料。"
+
+msgid "형제,자매"
+msgstr "兄弟、姊妹"
+
 msgid "홈페이지"
 msgstr "網站"
 
@@ -3778,6 +4402,9 @@ msgstr "網站標題"
 
 msgid "홈페이지 주소"
 msgstr "網站地址"
+
+msgid "홈페이지 주소를 입력해 주십시오."
+msgstr "請輸入網域名稱"
 
 msgid "홈페이지 필터링"
 msgstr "網站過濾"
@@ -3794,11 +4421,17 @@ msgstr "確認"
 msgid "확인되었습니다."
 msgstr "已確認"
 
+msgid "확장 지원"
+msgstr "擴充支援"
+
 msgid "환경"
 msgstr "環境"
 
 msgid "환경설정"
 msgstr "選項"
+
+msgid "환경설정-계정 정보에서 API key를 설정하시면 온라인 복원을 위한 주소를 만들 수 있습니다."
+msgstr "於環境設定中設置 API Key 可由遠端取得部落格位址"
 
 msgid "환영합니다. <em>%1</em>님."
 msgstr "歡迎您 <em>%1</em>"

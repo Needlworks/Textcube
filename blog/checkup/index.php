@@ -921,10 +921,10 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
 	$fp = fopen($filename, "w");
 	if(fwrite($fp, $content)) {
 		fclose($fp);
-		echo ': <span class="result success">', _text('성공'), '</span></li>';
+		echo '<span class="result success">', _text('성공'), '</span></li>';
 	} else {
 		fclose($fp);
-		echo ': <span class="result fail">', _text('실패'), '</span></li>';
+		echo '<span class="result fail">', _text('실패'), '</span></li>';
 	}
 }
 
@@ -934,12 +934,12 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
 					<p id="lastMessage">
 <?php
 	reloadSkin(1);
+	echo ($changed ? _text('완료되었습니다.') : _text('확인되었습니다.'));
 ?>
-<?php echo ($changed ? _text('완료되었습니다.') : _text('확인되었습니다.'));?>
 					</p>
 				</div>
 
-				<div id="navigation" style="padding-top: 20px;">
+				<div id="navigation">
 					<a href="<?php echo $blogURL.'/owner/center/dashboard';?>"><img src="<?php echo $service['path']?>/style/setup/image/icon_ok.gif" width="74" height="24" alt="돌아가기" /></a>
 				</div>
 			</div>

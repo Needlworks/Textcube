@@ -3,6 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+$ajaxcall = isset($_REQUEST['ajaxcall']) ? true : false;
+
 $IV = array(
 	'REQUEST' => array(
 		'sidebarNumber' => array('int'),
@@ -34,6 +36,10 @@ if (($module !== false) && (count($module) == 3) &&
 
 if ($_REQUEST['viewMode'] != '') $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];
 
-if ($_SERVER['REQUEST_METHOD'] != 'POST')
-	header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
+if($ajaxcall == false) {
+	if ($_SERVER['REQUEST_METHOD'] != 'POST')
+		header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
+} else {
+	respond::ResultPage(0);
+}
 ?>

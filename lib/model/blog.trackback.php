@@ -40,6 +40,35 @@ function getTrackbacksWithPagingForOwner($blogid, $category, $site, $ip, $search
 	return array($trackbacks, $paging);
 }
 
+function getTrackbackLogsWithPagingForOwner($blogid, $category, $site, $ip, $search, $page, $count) {
+	global $database;
+	
+	$postfix = '&status=sent';
+	$sql = "SELECT t.*, e.title as subject, c.name categoryName 
+		FROM {$database['prefix']}TrackbackLogs t 
+		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
+		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
+		WHERE t.blogid = $blogid";
+	if ($category > 0) {
+		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
+		array_push($categories, $category);
+		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
+		$postfix .= '&category=' . rawurlencode($category);
+	} else
+		$sql .= ' AND e.category >= 0';
+	if (!empty($search)) {
+		$search = escapeSearchString($search);
+		$sql .= " AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
+		$postfix .= '&search=' . rawurlencode($search);
+	}
+	$sql .= ' ORDER BY t.written DESC';
+	list($trackbacks, $paging) = fetchWithPaging($sql, $page, $count);
+	if (strlen($postfix) > 0) {
+		$paging['postfix'] .= $postfix . '&withSearch=on';
+	}
+	return array($trackbacks, $paging);
+}
+
 function getTrackbacks($entry) {
 	global $database;
 	$trackbacks = array();
@@ -219,9 +248,9 @@ function sendTrackback($blogid, $entryId, $url) {
 	if (is_null($entry))
 		return false;
 	$link = "$defaultURL/$entryId";
-	$title = htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id']));
+	$title = fireEvent('ViewPostTitle', $entry['title'], $entry['id']);
 	$entry['content'] = getEntryContentView($blogid, $entryId, $entry['content'], $entry['contentFormatter'], getKeywordNames($blogid));
-	$excerpt = UTF8::lessen(removeAllTags(stripHTML($entry['content'])), 255);
+	$excerpt = str_tag_on(UTF8::lessen(removeAllTags(stripHTML($entry['content'])), 255));
 	$blogTitle = $blog['title'];
 	$isNeedConvert = 
 		strpos($url, '/rserver.php?') !== false // 구버전 태터
