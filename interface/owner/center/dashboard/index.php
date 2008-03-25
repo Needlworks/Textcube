@@ -255,7 +255,7 @@ if($textcubeDashboard) {
 		}
 		if ($service['reader'] == true) {
 ?>
-									<li><a href="<?php echo $blogURL;?>/owner/reader"><?php echo _t('RSS 리더');?></a></li>
+									<li><a href="<?php echo $blogURL;?>/owner/communication/reader"><?php echo _t('RSS 리더');?></a></li>
 <?php
 		}
 ?>

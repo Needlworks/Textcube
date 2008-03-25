@@ -54,6 +54,7 @@ $requiredPrivFromUri = array(
 			'/owner/communication/trackback*',
 			'/owner/communication/trash*',
 			'/owner/communication/notify*',
+			'/owner/communication/reader',
 			'/owner/plugin/admin*'
 			),
 		"group.writers" => array(
@@ -79,6 +80,7 @@ $requiredPrivFromUri = array(
 			'/owner/communication/trash*',
 			'/owner/communication/comment*',
 			'/owner/communication/notify*',
+			'/owner/communication/reader',
 			'/owner/setting/account*',
 			'/owner/setting/teamblog/changeBlog*',
 			'/owner/reader',

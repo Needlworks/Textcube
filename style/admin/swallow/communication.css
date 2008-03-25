@@ -2,11 +2,6 @@
 
 /* Common ****************************************************************************************/
 
-#sub-menu-add
-{
-	background-image                 : none !important;
-}
-
 /* table header */
 table.data-inbox tr .date
 {

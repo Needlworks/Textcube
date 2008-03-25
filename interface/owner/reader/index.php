@@ -10,6 +10,9 @@ $IV = array(
 );
 require ROOT . '/lib/includeForReader.php';
 require ROOT . '/lib/piece/owner/header.php';
+if(defined('__TEXTCUBE_READER_SUBMENU__')) 
+	require ROOT . '/lib/piece/owner/contentMenu.php';
+
 $setting = getReaderSetting($blogid);
 ?>
 			<script type="text/javascript">

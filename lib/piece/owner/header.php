@@ -19,7 +19,7 @@ if(Acl::check('group.administrators')) {
 		array('menu'=>'center','title'=>_t('센터'),'link'=>'/owner/center/dashboard'),
 		array('menu'=>'entry','title'=>_t('글'),'link'=>'/owner/entry'),
 		array('menu'=>'communication','title'=>_t('소통'),'link'=>'/owner/communication/comment'),
-		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader'),
+//		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader'),
 		array('menu'=>'skin','title'=>_t('스킨'),'link'=>'/owner/skin'),
 		array('menu'=>'plugin','title'=>_t('플러그인'),'link'=>'/owner/plugin'),	
 		array('menu'=>'setting','title'=>_t('환경설정'),'link'=>'/owner/setting/blog')
@@ -28,7 +28,7 @@ if(Acl::check('group.administrators')) {
 	$blogTopMenuItem = array(
 		array('menu'=>'center','title'=>_t('센터'),'link'=>'/owner/center/dashboard'),
 		array('menu'=>'entry','title'=>_t('글'),'link'=>'/owner/entry'),
-		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader'),
+//		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader'),
 		array('menu'=>'setting','title'=>_t('환경설정'),'link'=>'/owner/setting/account')
 		);
 }
@@ -96,7 +96,14 @@ switch($blogMenu['topMenu']) {
 		$blogMenu['loadCSS'] = array('control');
 		break;
 }
-
+// exception for reader CSS. RSS reader will keep as an independent module.
+if(defined('__TEXTCUBE_READER_SUBMENU__') && $blogMenu['contentMenu'] == 'reader') {
+	$blogMenu['topMenu'] = 'communication';
+	$blogMenu['title'] = _t('소통');
+	$blogMenu['loadCSS'] = array('reader');
+	$blogMenu['loadCSSIE6'] = array('reader');
+	$blogMenu['loadCSSIE7'] = array('reader');
+}
 // mapping data management to setting
 if(isset($blogMenu['topMenu']) && $blogMenu['topMenu']=='data') $blogMenu['topMenu'] = 'setting';
 $pluginListForCSS = array();
