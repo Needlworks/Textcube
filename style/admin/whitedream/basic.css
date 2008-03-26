@@ -480,7 +480,12 @@ h2.caption span
 	color                            : #FC924B;
 	text-decoration                  : underline;
 }
-
+/* preventing IE overflow:visible bug */
+.section,
+.data-inbox
+{
+	position                         : relative;
+}
 /* tab */
 .tabs-box
 {
