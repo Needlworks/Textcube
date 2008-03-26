@@ -41,6 +41,7 @@ $service['debugmode'] = false;
 $service['reader'] = true;
 $service['flashclipboardpoter'] = true;
 $service['allowBlogVisibilitySetting'] = true;
+$service['effect'] = false;
 //$service['flashuploader'] = false;
 
 // Map port setting.

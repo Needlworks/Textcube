@@ -210,10 +210,9 @@ include ROOT . '/language/messages.php';
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/byTextcube.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF4.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
-<!--	<script type="text/javascript" src="<?php echo $service['path'];?>/script/gallery.js"></script>-->
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/owner.js"></script>
 <?php
-if($blogMenu['topMenu'] != 'entry') {
+if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
 ?>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/mootools.js"></script>
 <?php
@@ -231,7 +230,7 @@ if( isset($service['admin_script']) ) {
 <?php
 	}
 }
-if($blogMenu['topMenu']=='entry') {
+if($blogMenu['topMenu']=='entry' && in_array($blogMenu['contentMenu'],array('post','edit'))) {
 ?>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/editor3.js"></script>
 <?php

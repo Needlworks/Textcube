@@ -26,7 +26,7 @@ function setDetailPanel($id,$type = 'section') {
 }
 
 function activateDetailPanelJS() {
-	global $fxList;
+	global $fxList, $service;
 	$jsVal = '';
 	if(!empty($fxList)) {
 		foreach($fxList as $fxItem) {
