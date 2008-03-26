@@ -701,10 +701,9 @@ if( isActivePlugin( 'CL_OpenID' ) ) {
 						<hr class="hidden" />
 						
 						<div id="part-setting-language" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('언어, 시간대를 설정합니다');?></span></h2>
-							
+							<h2 class="caption"><span class="main-text"><?php echo setDetailPanel('language_setting','link',_t('언어, 시간대를 설정합니다'));?></span></h2>
 							<form id="language-form" class="data-inbox" method="post" action="<?php echo parseURL($blogURL.'/owner/setting/blog/language');?>">
-								<div id="language-section" class="section">
+								<div id="language_setting" class="section">
 									<fieldset class="container">
 										<legend><?php echo _t('언어 및 시간대');?></legend>
 										
@@ -764,10 +763,9 @@ foreach (Timezone::getList() as $timezone) {
 						<hr class="hidden" />
 
 						<div id="part-setting-admin" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('관리자 화면 스킨을 설정합니다');?></span></h2>
-<?php echo setDetailPanel('panelAdminSkinSetting');?>
+							<h2 class="caption"><span class="main-text"><?php echo setDetailPanel('admin_skin_setting','link',_t('관리자 화면 스킨을 설정합니다'));?></span></h2>
 							<form id="admin-skin-form" class="data-inbox" method="post" action="<?php echo parseURL($blogURL.'/owner/setting/blog/skin');?>">
-								<div id="panelAdminSkinSetting" class="section">
+								<div id="admin_skin_setting" class="section">
 									<fieldset class="container">
 										<legend><?php echo _t('관리자 스킨을 설정합니다');?></legend>
 										

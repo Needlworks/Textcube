@@ -102,6 +102,9 @@ foreach (getAllFormatters() as $key => $value) {
 ?>
 												</select>
 											</dd>
+											<dd>
+												<p><label for="defaultFormatter"><?php echo _t('포매터는 글이 작성되는 형식과 이후 보여줄 때의 형식을 결정합니다.').'<br />'._t('기본 포매터를 지정한 경우 새 글을 작성할 때 지정한 포매터를 기본값으로 사용합니다.').' '._t('기본 포매터가 지정되더라도 편집기 화면에서 언제든지 다른 포매터를 글마다 지정할 수 있습니다');?></label></p>
+											</dd>											
 										</dl>
 										<dl id="editor-line" class="line">
 											<dt><span class="label"><?php echo _t('기본 편집기');?></span></dt>
@@ -117,7 +120,12 @@ foreach (getAllEditors() as $key => $value) {
 ?>
 												</select>
 											</dd>
+											<dd>
+												<p><label for="defaultEditor"><?php echo _t('글을 작성할 때 사용할 편집기를 지정합니다.');?></label></p>
+											</dd>											
 										</dl>
+<?php echo setDetailPanel('panelBlogAPISetting','button');?>
+										<div id="panelBlogAPISetting">
 										<script type="text/javascript">//<![CDATA[
 											setFormatter(document.getElementById('defaultFormatter').value, document.getElementById('defaultEditor'), false);
 										//]]></script>
@@ -126,7 +134,7 @@ foreach (getAllEditors() as $key => $value) {
 											<dd>
 												<input type="checkbox" class="checkbox" id="useBlogAPI" name="useBlogAPI" value="yes" <?php echo (getBlogSetting("useBlogAPI", 0) == "1") ? ' checked="checked"' : '';?> /><label for="useBlogAPI"><?php echo _t('MetaWeblog API나 Blogger API를 이용하여 글을 작성할 수 있도록 합니다.');?></label>
 											</dd>
-											<dd><?php echo _t("블로그 API는 MovableType 혹은 MetaWeblog API를 선택하시면 됩니다."); ?></dd>
+											<dd><?php echo _t('이 기능을 사용할 경우 BlogAPI를 지원하는 다양한 외부 프로그램을 사용하여 블로그에 글을 작성할 수 있습니다.').'<br />'._t('외부 프로그램에 텍스트큐브를 등록할 경우, BlogAPI 종류로는 MovableType 혹은 MetaWeblog API를 선택하시면 됩니다.'); ?></dd>
 										</dl>
 										<dl id="blogapi-password-line" class="line">
 											<dt><span class="label"><?php echo _t('블로그 API 용 비밀번호');?></span></dt>
@@ -136,7 +144,7 @@ foreach (getAllEditors() as $key => $value) {
 												<input type="button" class="input-button" value="<?php echo _t('관리자 비밀번호를 그대로 사용')?>" onclick="clearBlogPassword()" />
 											</dd>
 											<dd>
-												<p><label for="blogApiPassword"><?php echo _t('BlogAPI에 사용할 비밀번호입니다.').' '._t('관리자 로그인 비밀번호와 동일하게 사용하실 경우 비워두시기 바랍니다.');?></label></p>
+												<p><label for="blogApiPassword"><?php echo _t('BlogAPI에 사용할 비밀번호입니다.').'<br />'._t('외부 프로그램 또는 BlogAPI를 지원하는 서비스들을 사용할 때, 보안상의 이유로 블로그 관리자 비밀번호를 알려주고 싶지 않은 경우 사용하시기 바랍니다.').' '._t('관리자 로그인 비밀번호와 동일하게 사용하실 경우 비워두시기 바랍니다.');?></label></p>
 											</dd>
 										</dl>
 										<dl id="blogapi-helper-line" class="line">
@@ -180,11 +188,13 @@ foreach (getAllEditors() as $key => $value) {
 												<span style="width:400px" id="apientry" ></span>
 											</div>
 											</dd>
-											<dd><?php echo _t("외부 편집기가 사용할 수 있는 주소를 만들어 주는 <b>도우미</b>입니다.");?>
-											<br />
-											<?php echo _t("BlogAPI를 사용하는 편집기들은 이 블로그로 글을 보내기 위하여 'API 주소'를 사용합니다.");?>
-											<?php echo _t("편집기에 미리 정한 분류로 글을 보내는 기능이 없거나, 글들을 일괄적으로 하나의 분류로 작성하고자 할 때 이 도우미를 사용해서 주소를 만든 후 복사해서 사용하시기 바랍니다.");?></dd>
+											<dd>
+												<p><label for="apientry"><?php echo _t("외부 편집기가 사용할 수 있는 주소를 만들어 주는 <strong>도우미</strong>입니다.").'<br />'.
+											_t("BlogAPI를 사용하는 편집기들은 이 블로그로 글을 보내기 위하여 'API 주소'를 사용합니다.").' '.
+											_t("편집기에 미리 정한 분류로 글을 보내는 기능이 없거나, 글들을 일괄적으로 하나의 분류로 작성하고자 할 때 이 도우미를 사용해서 주소를 만든 후 복사해서 사용하시기 바랍니다.");?></label></p>
+											</dd>
 										</dl>
+										</div>
 									</fieldset>
 									<div class="button-box">
 										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setEditorConfig(); return false;" />
