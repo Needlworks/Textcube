@@ -702,8 +702,8 @@ if( isActivePlugin( 'CL_OpenID' ) ) {
 						
 						<div id="part-setting-language" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo setDetailPanel('language_setting','link',_t('언어, 시간대를 설정합니다'));?></span></h2>
-							<form id="language-form" class="data-inbox folding" method="post" action="<?php echo parseURL($blogURL.'/owner/setting/blog/language');?>">
-								<div id="language_setting" class="section">
+							<form id="language-form" class="data-inbox" method="post" action="<?php echo parseURL($blogURL.'/owner/setting/blog/language');?>">
+								<div id="language_setting" class="section folding">
 									<fieldset class="container">
 										<legend><?php echo _t('언어 및 시간대');?></legend>
 										
