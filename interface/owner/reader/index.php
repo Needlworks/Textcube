@@ -10,8 +10,6 @@ $IV = array(
 );
 require ROOT . '/lib/includeForReader.php';
 require ROOT . '/lib/piece/owner/header.php';
-if(defined('__TEXTCUBE_READER_SUBMENU__')) 
-	require ROOT . '/lib/piece/owner/contentMenu.php';
 
 $setting = getReaderSetting($blogid);
 ?>
@@ -83,6 +81,10 @@ if ($setting['newWindow'] == 2) {
 			<iframe id="hiddenFrame" name="hiddenFrame" src="about:blank" width="1" height="1" style="display: none;"></iframe>
 			
 			<div id="layout-body">
+<?php
+if(defined('__TEXTCUBE_READER_SUBMENU__')) 
+	require ROOT . '/lib/piece/owner/contentMenu.php';
+?>
 				<h2><?php echo _t('리더 서브메뉴');?></h2>
 				
 				<div id="reader-menu-box">

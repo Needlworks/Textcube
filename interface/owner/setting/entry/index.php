@@ -125,7 +125,7 @@ foreach (getAllEditors() as $key => $value) {
 											</dd>											
 										</dl>
 <?php echo setDetailPanel('panelBlogAPISetting','button');?>
-										<div id="panelBlogAPISetting">
+										<div id="panelBlogAPISetting" class="folding">
 										<script type="text/javascript">//<![CDATA[
 											setFormatter(document.getElementById('defaultFormatter').value, document.getElementById('defaultEditor'), false);
 										//]]></script>

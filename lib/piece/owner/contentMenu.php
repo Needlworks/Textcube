@@ -125,8 +125,12 @@ if(isset($blogMenu['topMenu'])) {
 		$blogContentMenuItem = array_merge($blogContentMenuItem, array(array('menu'=>'about','title'=>_t('텍스트큐브는'),'link'=>'/owner/center/about')));
 	}
 }
+if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 ?>
 			<div id="layout-body">
+<?php
+}
+?>
 				<h2><?php echo isset($blogMenu['title']) ? _f('서브메뉴 : %1', $blogMenu['title']) : _t('서브메뉴');?></h2>
 
 <?php
@@ -185,8 +189,12 @@ if(isset($blogContentMenuItem)) {
 				</div>
 <?php
 }
+if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 ?>
 				<hr class="hidden" />
 				
 				<div id="pseudo-box">
 					<div id="data-outbox">
+<?php
+}
+?>

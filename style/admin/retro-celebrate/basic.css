@@ -590,8 +590,7 @@ h2.caption span
 }
 
 /* preventing IE overflow:visible bug */
-.section,
-.data-inbox
+.folding
 {
 	position                         : relative;
 }

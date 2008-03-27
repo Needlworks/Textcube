@@ -142,7 +142,7 @@ $selected = 0;
 						<div id="part-skin-setting" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo setDetailPanel('panel_skin_setting','link',_t('스킨 출력에 따른 여러 값들을 변경합니다'));?></span></h2>
 							
-							<div id="panel_skin_setting" class="data-inbox">
+							<div id="panel_skin_setting" class="data-inbox folding">
 								<form id="skinSetting" class="section" method="post" action="<?php echo $blogURL;?>/owner/skin/setting/skin" enctype="application/x-www-form-urlencoded">
 									<fieldset id="per-page-container" class="container">
 										<legend><?php echo _t('출력 숫자 조절');?></legend>
