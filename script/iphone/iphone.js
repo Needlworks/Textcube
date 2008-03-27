@@ -283,7 +283,7 @@ function slidePages(fromPage, toPage, backwards)
         toPage.style.left = "100%";
 
     toPage.setAttribute("selected", "true");
-    scrollTo(0, 0);
+    scrollTo(0, 1);
     clearInterval(checkTimer);
     
     var percent = 100;

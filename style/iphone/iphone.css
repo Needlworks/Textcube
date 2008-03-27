@@ -1,7 +1,7 @@
 /* iui.css (c) 2007 by iUI Project Members, see LICENSE.txt for license */
 body {
     margin: 0;
-	font-family:AppleGothic, "Lucida Grande", Helvetica, Verdana, Arial sans-serif;
+	font-family:Helvetica, AppleGothic, "Lucida Grande",  Verdana, Arial sans-serif;
     background: #FFFFFF;
     color: #000000;
     overflow-x: hidden;
@@ -304,20 +304,23 @@ body > .dialog {
     width: 100%;
     min-height: 417px;
 	z-index: 2;
-	background:url(image/top_color_line.png) repeat-x rgba(0, 0, 0, 0.8);
     padding: 0;
     text-align: right;
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 .dialog > fieldset {
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     width: 100%;
-    margin: 0;
+    margin: 1px 0 0 0;
     border: none;
-	margin-top:1px;
     padding: 10px 6px;
-    background: url(image/toolbar2.png) #191919 repeat-x;
+    background-color: #191919 !important;
+    background-image: url(image/top_color_line.png), url(image/toolbar2.png) !important;
+    background-repeat: repeat-x, repeat-x;
+    background-position: left top, left top;
+
 }
 
 .dialog > fieldset > h1 {
