@@ -38,9 +38,9 @@ if(isset($blogMenu['topMenu'])) {
 					array('menu'=>'trash','title'=>_t('휴지통'),'link'=>'/owner/communication/trash/comment'),
 					array('menu'=>'add','title'=>_t('링크 추가'),'link'=>'/owner/communication/link/add'),
 					array('menu'=>'link','title'=>_t('링크 목록'),'link'=>'/owner/communication/link'),
-					array('menu'=>'xfn','title'=>_t('친구 링크 관리'),'link'=>'/owner/communication/xfn'),
-					array('menu'=>'reader','title'=>_t('바깥 글 읽기'),'link'=>'/owner/communication/reader')
+					array('menu'=>'xfn','title'=>_t('친구 링크 관리'),'link'=>'/owner/communication/xfn')
 				);
+				if($service['reader'] == true) array_push($blogContentMenuItem,array('menu'=>'reader','title'=>_t('바깥 글 읽기'),'link'=>'/owner/communication/reader'));
 			} else {
 				$blogContentMenuItem = array(
 					array('menu'=>'comment','title'=>_t('소통 기록'),'link'=>'/owner/communication/comment'),

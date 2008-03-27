@@ -32,10 +32,10 @@ if(Acl::check('group.administrators')) {
 		array('menu'=>'setting','title'=>_t('설정'),'link'=>'/owner/setting/account')
 		);
 }
-if($service['reader'] === false) {
-	if(Acl::check('group.administrators')) array_splice($blogTopMenuItem,3,1);
-	else array_splice($blogTopMenuItem,2,1);
-}
+//if($service['reader'] === false) {
+//	if(Acl::check('group.administrators')) array_splice($blogTopMenuItem,3,1);
+//	else array_splice($blogTopMenuItem,2,1);
+//}
 
 if(Acl::check('group.creators')) { 
 	array_push($blogTopMenuItem, array('menu'=>'control','title'=>_t('서비스'),'link'=>'/owner/control/blog'));
