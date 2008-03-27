@@ -115,7 +115,7 @@ function MT_Cover_getImageResizer($blogid, $filename){
 	if (file_exists($originSrc)) {
 		$imageInfo = getimagesize($originSrc);
 		$newSrc = ROOT . "/cache/thumbnail/{$currentBlogId}/coverPostThumbnail/th_{$filename}";
-		$imageURL = "{$serviceURL}/thumbnail/{$currentBlogId}/{$filename}";
+		$imageURL = "{$serviceURL}/attach/{$currentBlogId}/{$filename}";
 		
 		if (extension_loaded('gd')) {
 			if (!file_exists($newSrc)) {
