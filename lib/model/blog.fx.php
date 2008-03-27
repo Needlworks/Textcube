@@ -36,7 +36,7 @@ function activateDetailPanelJS() {
 			$jsVal .= "var ".$fxItem." = new Fx.Slide('".$fxItem."');".CRLF
 				."$('toggle".$fxItem."').addEvent('click', function(e){".CRLF
 				."e = new Event(e);".CRLF
-				.$fxItem.".toggle();".CRLF
+				.$fxItem.".slideIn();".CRLF
 				."e.stop();".CRLF
 				."});".CRLF
 				.$fxItem.".hide();".CRLF;
