@@ -827,6 +827,7 @@ ul.trackback li.body .date{
 	width:100%;
 	margin:8px 0 5px 0;
 	padding:4px 0;
+	font-size:15px;
 }
 .commentForm input[type=submit]{
 	background-color:#fff;
