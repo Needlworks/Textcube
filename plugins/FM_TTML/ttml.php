@@ -17,7 +17,7 @@ function FM_TTML_bindTags($id, $content) {
 		$less2 = htmlspecialchars(str_replace("\"", "&quot;", str_replace("'", "&#39;", $less)));
 		$postfix = substr($content, $end + 4);
 		$content = $prefix;
-		if (defined('__TEXTCUBE_MOBILE__')) {
+		if (defined('__TEXTCUBE_MOBILE__') || defined('__TEXTCUBE_IPHONE__')) {
 			$content .= "<div>[$more | $less]<br />$full</div>";
 		} else {
 			$content .= "<p id=\"more{$id}_$no\" class=\"moreless_fold\"><span style=\"cursor: pointer;\" onclick=\"toggleMoreLess(this, '{$id}_$no','$more2','$less2'); return false;\">$more</span></p><div id=\"content{$id}_$no\" class=\"moreless_content\" style=\"display: none;\">$full</div>";
@@ -129,7 +129,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 		if ($attributes[0] == 'Gallery') {
 			if (count($attributes) % 2 == 1)
 				array_pop($attributes);
-			if (defined('__TEXTCUBE_MOBILE__')) {
+			if (defined('__TEXTCUBE_MOBILE__') || defined('__TEXTCUBE_IPHONE__')) {
 				$images = array_slice($attributes, 1, count($attributes) - 2);
 				for ($i = 0; $i < count($images); $i++) {
 					if (!empty($images[$i])) {
@@ -257,7 +257,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				$buf .= '</div>' . CRLF;
 			}
 		} else if ($attributes[0] == 'iMazing') {
-			if (defined('__TEXTCUBE_MOBILE__')  || ($bRssMode == true)) {
+			if (defined('__TEXTCUBE_MOBILE__') || defined('__TEXTCUBE_IPHONE__')  || ($bRssMode == true)) {
 				$images = array_slice($attributes, 1, count($attributes) - 3);
 				for ($i = 0; $i < count($images); $i += 2) {
 					if (!empty($images[$i]))
@@ -296,7 +296,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				$buf .= '</table>' . $caption . '</div>';
 			}
 		} else if ($attributes[0] == 'Jukebox') {
-			if (defined('__TEXTCUBE_MOBILE__')) {
+			if (defined('__TEXTCUBE_MOBILE__') || defined('__TEXTCUBE_IPHONE__')) {
 				$sounds = array_slice($attributes, 1, count($attributes) - 3);
 				for ($i = 0; $i < count($sounds); $i += 2) {
 					if (!empty($sounds[$i]))
@@ -357,7 +357,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				case 4:
 					list($newProperty, $onclickFlag) = FM_TTML_createNewProperty($attributes[1], $contentWidth, $attributes[2]);
 
-					if (defined('__TEXTCUBE_MOBILE__')) {
+					if (defined('__TEXTCUBE_MOBILE__') || defined('__TEXTCUBE_IPHONE__')) {
 						$buf = '<div>' . FM_TTML_getAttachmentBinder($attributes[1], $newProperty, $folderPath, $folderURL, 1, $useAbsolutePath) . "</div><div>$attributes[3]</div>";
 					} else {
 						if (trim($attributes[3]) == '') {
@@ -384,7 +384,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 					$eachImageWidth = floor(($contentWidth - 5 * 3) / 2);
 					list($newProperty1, $onclickFlag1) = FM_TTML_createNewProperty($attributes[1], $eachImageWidth, $attributes[2]);
 					list($newProperty2, $onclickFlag2) = FM_TTML_createNewProperty($attributes[4], $eachImageWidth, $attributes[5]);
-					if (defined('__TEXTCUBE_MOBILE__')) {
+					if (defined('__TEXTCUBE_MOBILE__') || defined('__TEXTCUBE_IPHONE__')) {
 						$buf = '<div>' . FM_TTML_getAttachmentBinder($attributes[1], $newProperty1, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[3]</div>";
 						$buf .= '<div>' . FM_TTML_getAttachmentBinder($attributes[4], $newProperty2, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[6]</div>";
 					} else {
@@ -400,7 +400,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 					list($newProperty1, $onclickFlag1) = FM_TTML_createNewProperty($attributes[1], $eachImageWidth, $attributes[2]);
 					list($newProperty2, $onclickFlag2) = FM_TTML_createNewProperty($attributes[4], $eachImageWidth, $attributes[5]);
 					list($newProperty3, $onclickFlag3) = FM_TTML_createNewProperty($attributes[7], $eachImageWidth, $attributes[8]);
-					if (defined('__TEXTCUBE_MOBILE__')) {
+					if (defined('__TEXTCUBE_MOBILE__') || defined('__TEXTCUBE_IPHONE__')) {
 						$buf = '<div>' . FM_TTML_getAttachmentBinder($attributes[1], $newProperty1, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[3]</div>";
 						$buf .= '<div>' . FM_TTML_getAttachmentBinder($attributes[4], $newProperty2, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[6]</div>";
 						$buf .= '<div>' . FM_TTML_getAttachmentBinder($attributes[7],$newProperty3, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[9]</div>";
@@ -440,7 +440,7 @@ function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderU
 	switch (misc::getFileExtension($filename)) {
 		case 'jpg':case 'jpeg':case 'gif':case 'png':case 'bmp':
 			$bPassing = false;
-			if (defined('__TEXTCUBE_MOBILE__')) {
+			if (defined('__TEXTCUBE_MOBILE__') || defined('__TEXTCUBE_IPHONE__')) {
 				if (!is_null(getBlogSetting("resamplingDefault"))) {
 					$waterMarkOn = getBlogSetting("waterMarkDefault", "no");
 					$exist = preg_match('/class="tt-watermark"/i', $property);
