@@ -691,9 +691,9 @@ if( isActivePlugin( 'CL_OpenID' ) ) {
 											</dd>
 										</dl>
 									</fieldset>
-									<div class="button-box">
-										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setRSS(); return false;" />
-									</div>
+								</div>
+								<div class="button-box">
+									<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setRSS(); return false;" />
 								</div>
 							</form>
 						</div>
