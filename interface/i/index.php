@@ -67,8 +67,8 @@ if(empty($suri['id'])) {
 		<div class="content padding5">
 			<ul class="tag_list">
 				<?php
-					$tags = printIphoneRandomTags($blogid, 100);
-					print printIphoneRandomTagsView($tags);	
+					$tags = printIphoneTags($blogid, 'random', 100);
+					print printIphoneTagsView($tags);	
 				?>	
 			</ul>
 		</div>

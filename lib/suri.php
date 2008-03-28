@@ -145,7 +145,7 @@ $folderURL = rtrim($blogURL . $suri['directive'], '/');
 if (defined('__TEXTCUBE_MOBILE__')) {
 	$blogURL .= '/m';
 }else if (defined('__TEXTCUBE_IPHONE__')) {
-	$blogURL .= '/iphone';
+	$blogURL .= '/i';
 }
 unset($url, $domain);
 ?>

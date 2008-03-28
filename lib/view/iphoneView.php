@@ -134,26 +134,36 @@ function printIphoneArchivesView($archives) {
 	return $printArchive;
 }
 
-function printIphoneRandomTags($blogid, $max = 10) {
+function printIphoneTags($blogid, $flag = 'random', $max = 10) {
 	global $database, $skinSetting;
 	$tags = array();
-	$aux = "limit {$max}";
-	if (doesHaveOwnership()){
-		$tags = POD::queryAll("SELECT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t,
-			`{$database['prefix']}TagRelations` r
-			WHERE t.id = r.tag AND r.blogid = $blogid
-			GROUP BY r.tag ORDER BY RAND() $aux");
-	} else {
-		$tags = POD::queryAll("SELECT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t,
-			`{$database['prefix']}TagRelations` r,
-			`{$database['prefix']}Entries` e
-			WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
-			GROUP BY r.tag 
-			ORDER BY RAND() $aux");
+	$aux = "limit $max";
+	if ($flag == 'count') { // order by count
+			$tags = POD::queryAll("SELECT `name`, count(*) `cnt`, t.id FROM `{$database['prefix']}Tags` t,
+				`{$database['prefix']}TagRelations` r, 
+				`{$database['prefix']}Entries` e 
+				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
+				GROUP BY r.tag 
+				ORDER BY `cnt` DESC $aux");
+	} else if ($flag == 'name') {  // order by name
+			$tags = POD::queryAll("SELECT DISTINCT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t, 
+				`{$database['prefix']}TagRelations` r,
+				`{$database['prefix']}Entries` e 
+				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
+				GROUP BY r.tag 
+				ORDER BY t.name $aux");
+	} else { // random
+			$tags = POD::queryAll("SELECT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t,
+				`{$database['prefix']}TagRelations` r,
+				`{$database['prefix']}Entries` e
+				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
+				GROUP BY r.tag 
+				ORDER BY RAND() $aux");
 	}
 	return $tags;
 }
-function printIphoneRandomTagsView($tags) {
+
+function printIphoneTagsView($tags) {
 	global $blogURL, $service;
 	ob_start();
 	list($maxTagFreq, $minTagFreq) = getTagFrequencyRange();

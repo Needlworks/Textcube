@@ -612,12 +612,11 @@ body > ul > li.panel > .content > ul.tag_list{
 	padding:0 5px;
 	text-align:justify;
 	list-style:none;
-	position: relative;
 }
 body > ul > li.panel > .content > ul.tag_list > li{
 	display:inline;
 	list-style:none;
-	line-height:2.5em
+	line-height:1.4em;
 	margin:0;
 	padding:0 5px;
 }
