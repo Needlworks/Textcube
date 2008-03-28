@@ -63,7 +63,7 @@ if(empty($suri['id'])) {
 			<h2><?php echo htmlspecialchars($entry['title']);?></h2>
 			<h2 class="noBorderLine"><?php echo Timestamp::format5($entry['published']);?></h2>
 		</div>
-		<div class="content"><?php printIphoneEntryContentView($blogid, $entry, getKeywordNames($blogid)); ?></div>
+		<div class="content"><?php printIphoneEntryContentView($blogid, $entry, null); ?></div>
 <?php 
 		$entryTags = getTags($entry['blogid'], $entry['id']);
 		if (sizeof($entryTags) > 0) {
