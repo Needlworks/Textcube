@@ -550,6 +550,10 @@ fieldset > .row:last-child {
 	font-weight:bold;
 	text-decoration:underline;
 	color:#1B4850;
+	margin:0;
+	padding:0;
+	display:inline;
+	background:none;
 }
 .content .entry_body img {
 	margin:0 auto !important;
