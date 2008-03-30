@@ -76,3 +76,8 @@ input.radio
 {
 	margin                           : -3px 0 0 0;
 }
+
+input.input-text
+{
+	width                            : 80%;
+}
