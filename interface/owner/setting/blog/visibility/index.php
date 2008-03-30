@@ -22,10 +22,10 @@ if(isset($_GET['visibility'])) {
 	}
 }
 if(isset($_GET['useiPhoneUI'])) {
-	if($_GET['useiPhoneUI'] === 1) $useiPhoneUI = true;
+	if($_GET['useiPhoneUI'] == 1) $useiPhoneUI = true;
 	else $useiPhoneUI = false;
 	if(setBlogSetting('useiPhoneUI',$useiPhoneUI)) $result = true;
 }
-if($result)	respond::ResultPage(0);
+if($result)	{$gCacheStorage->purge();respond::ResultPage(0);}
 else respond::ResultPage(-1);
 ?>

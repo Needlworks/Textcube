@@ -318,10 +318,10 @@ if($service['allowBlogVisibilitySetting']){
 
 									if(document.getElementById('useiPhoneUI').checked) newUseiPhoneUI = 1;
 									else newUseiPhoneUI = 0;
-									if ( useiPhoneUI != newuseiPhoneUI) {
+									if ( useiPhoneUI != newUseiPhoneUI) {
 										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/visibility/?useiPhoneUI="+newUseiPhoneUI);
 										request.onSuccess = function() {
-											blogVisibility = newVisibility;
+											useiPhoneUI = newUseiPhoneUI;
 											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
 										}
 										request.onError = function() {
