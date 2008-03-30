@@ -4,6 +4,11 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('__TEXTCUBE_MOBILE__', true);
 require ROOT . '/lib/includeForBlog.php';
+
+// Redirect for ipod touch / iPhone
+if(strpos($_SERVER['HTTP_USER_AGENT'],'iPod') || strpos($_SERVER['HTTP_USER_AGENT'],'iPhone')){
+	header("Location: $blogURL/m");	exit;
+}
 requireView('mobileView');
 if (false) {
 	fetchConfigVal();

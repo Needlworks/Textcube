@@ -241,6 +241,7 @@ if ($service['type'] != 'single') {
 								var publishWholeOnRSS     = "<?php echo $blog['publishWholeOnRSS'];?>";
 								var allowCommentGuestbook = <?php echo $blog['allowWriteDblCommentOnGuestbook'];?>;
 								var blogVisibility        = <?php echo $blog['visibility'];?>;
+								var useiPhoneUI           = <?php echo (getBlogSetting('useiPhoneUI',true) ? 1 : 0);?>;
 
 								//var allowWriteGuestbook = <?php echo $blog['allowWriteOnGuestbook'];?>;
 								function setRSS() {
@@ -314,6 +315,20 @@ if($service['allowBlogVisibilitySetting']){
 <?php
 }
 ?>
+
+									if(document.getElementById('useiPhoneUI').checked) newUseiPhoneUI = 1;
+									else newUseiPhoneUI = 0;
+									if ( useiPhoneUI != newuseiPhoneUI) {
+										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/visibility/?useiPhoneUI="+newUseiPhoneUI);
+										request.onSuccess = function() {
+											blogVisibility = newVisibility;
+											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+										}
+										request.onError = function() {
+											PM.showErrorMessage("<?php echo _t('실패했습니다.');?>", "center", "bottom");
+										}
+										request.send();
+									}
 								}
 								var language = "<?php echo $blog['language'];?>";
 								var skinLanguage = "<?php echo $blog['blogLanguage'];?>";
@@ -688,6 +703,12 @@ if( isActivePlugin( 'CL_OpenID' ) ) {
 <?php
 }
 ?>
+											</dd>
+										</dl>
+										<dl id="blog-iphone-ui-line" class="line">
+											<dt><span class="label"><?php echo _t('모바일 인터페이스');?></span></dt>
+											<dd>
+												<input type="checkbox" id="useiPhoneUI" class="checkbox" name="useiPhoneUI"<?php echo (getBlogSetting('useiPhoneUI',true) ? ' checked="checked"' : '');?> /><label for="useiPhoneUI"><?php echo _t('iPhone / iPod Touch로 블로그에 접속할 경우 자동으로 iPhone용 인터페이스로 이동합니다.');?></label>
 											</dd>
 										</dl>
 									</fieldset>

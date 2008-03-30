@@ -276,7 +276,7 @@ function organizeRobotInfo($info)
 function getSubscriptionStatistics($blogid) {
 	global $database;
 	$statistics = array();
-	if ($result = POD::query("select ip, host, useragent, subscribed, referred from {$database['prefix']}SubscriptionStatistics where blogid = $blogid order by referred desc")) {
+	if ($result = POD::query("SELECT ip, host, useragent, subscribed, referred FROM {$database['prefix']}SubscriptionStatistics WHERE blogid = $blogid ORDER BY referred DESC")) {
 		while ($record = mysql_fetch_array($result))
 			array_push($statistics, $record);
 	}

@@ -4,18 +4,28 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 $IV = array(
 	'GET' => array(
-		'visibility' => array('int',0,3)
+		'visibility' => array('int',0,3,'mandatory'=>false),
+		'useiPhoneUI' => array('int',0,1,'mandatory'=>false)
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel('blog.rss');
 
 requireStrictRoute();
-if (setBlogSetting('visibility',$_GET['visibility'])) {
-	CacheControl::flushCommentRSS();
-	CacheControl::flushTrackbackRSS();
-	clearRSS();
-	respond::ResultPage(0);
+$result = false;
+if(isset($_GET['visibility'])) {
+	if (setBlogSetting('visibility',$_GET['visibility'])) {
+		CacheControl::flushCommentRSS();
+		CacheControl::flushTrackbackRSS();
+		clearRSS();
+		$result = true;
+	}
 }
-respond::ResultPage(-1);
+if(isset($_GET['useiPhoneUI'])) {
+	if($_GET['useiPhoneUI'] === 1) $useiPhoneUI = true;
+	else $useiPhoneUI = false;
+	if(setBlogSetting('useiPhoneUI',$useiPhoneUI)) $result = true;
+}
+if($result)	respond::ResultPage(0);
+else respond::ResultPage(-1);
 ?>
