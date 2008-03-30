@@ -48,7 +48,7 @@ if (false) {
 }
 // Redirect for ipod touch / iPhone
 if(setting::getBlogSettingGlobal('useiPhoneUI',true) && (strpos($_SERVER['HTTP_USER_AGENT'],'iPod') || strpos($_SERVER['HTTP_USER_AGENT'],'iPhone'))){
-	header("Location: $blogURL/m"); exit;
+	header("Location: $blogURL/i"); exit;
 }
 
 publishEntries();

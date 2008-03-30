@@ -7,7 +7,7 @@ require ROOT . '/lib/includeForBlog.php';
 
 // Redirect for ipod touch / iPhone
 if(strpos($_SERVER['HTTP_USER_AGENT'],'iPod') || strpos($_SERVER['HTTP_USER_AGENT'],'iPhone')){
-	header("Location: $blogURL/m");	exit;
+	header("Location: $blogURL/i");	exit;
 }
 requireView('mobileView');
 if (false) {
