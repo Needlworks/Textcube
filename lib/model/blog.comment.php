@@ -136,7 +136,7 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 				LEFT JOIN
 						{$database['prefix']}CommentsNotifiedSiteInfo csiteinfo ON c.siteId = csiteinfo.id
 				WHERE c.blogid = $blogid AND (c.parent is null)";
-		$sql .= ' ORDER BY c.modified DESC';
+		$sql .= ' ORDER BY c.written DESC';
 	} else {
 		if (!empty($search)) {
 			$search = escapeSearchString($search);
@@ -175,7 +175,7 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 		if (!empty($search)) {
 			$sql .= " AND ((c.name LIKE '%$search%') OR (c.homepage LIKE '%$search%') OR (c.comment LIKE '%$search%')) ";
 		}
-		$sql .= $childListStr . ' ORDER BY c.modified DESC ';
+		$sql .= $childListStr . ' ORDER BY c.written DESC';
 	}
 	return fetchWithPaging($sql, $page, $count);
 }
