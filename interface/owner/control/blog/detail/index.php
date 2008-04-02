@@ -16,6 +16,19 @@ $blogsetting = getBlogSettings($bid);
 						<script type="text/javascript"> 
 						//<![CDATA[
 
+						function setDefaultBlog(bid) {
+							var request = new HTTPRequest("<?php echo $blogURL;?>/owner/control/action/blog/setDefault/?blogid="+bid);
+							request.onSuccess = function() {
+								alert("<?php echo _t('대표 블로그가 설정되었습니다.');?>");
+								window.location.reload();
+							}
+							request.onError = function() {
+								msg = this.getText("/response/result");
+								alert("<?php echo _t('대표 블로그가 설정되지 못했습니다.');?>\r\nError : " + msg);
+							}
+							request.send();
+						}
+
 						//from interface/owner/setting/teamblog
 						function deleteUser(userid, atype) {
 							if(atype == 1) { // If there are posts from user.
@@ -178,7 +191,7 @@ $blogsetting = getBlogSettings($bid);
 							
 							<div class="button-box">
 								<a class="button" href="#void" onclick="deleteBlog(<?php echo $bid;?>); return false;"><?php echo _t("블로그 삭제");?></a>
-								<?php if ($bid != getServiceSetting("defaultBlogId",1)) { ?><a class="button" href="<?php echo $blogURL;?>/owner/control/action/blog/setDefault/?blogid=<?php echo $bid;?>" onclick="setDefaultBlog('<?php echo $bid;?>); return false;"><?php echo _t('대표 블로그 설정');?></a><?php } ?>
+								<?php if ($bid != getServiceSetting("defaultBlogId",1)) { ?><a class="button" href="<?php echo $blogURL;?>/owner/control/action/blog/setDefault/?blogid=<?php echo $bid;?>" onclick="setDefaultBlog('<?php echo $bid;?>'); return false;"><?php echo _t('대표 블로그 설정');?></a><?php } ?>
 								<a class="button" href="<?php echo $blogURL;?>/owner/control/blog"><?php echo _t("돌아가기");?></a>
 							</div>
 						</div>
