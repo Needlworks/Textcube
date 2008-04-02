@@ -1626,7 +1626,18 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
             while ($table = mysql_fetch_array($result)) {
 				$table = $table[0];
 				$entriesMatched = preg_match('/Entries$/', $table);
-				if ($entriesMatched && checkTables('1.5', $prefix = substr($table, 0, strlen($table) - 7))) {
+
+				if ($entriesMatched && checkTables('1.6', $prefix = substr($table, 0, strlen($table) - 7))) {
+?>
+      <tr>
+        <th><?php echo $prefix;?></th>
+        <th>1.6</th>
+        <td><?php echo implode(', ', getTables('1.6', $prefix));?></td>
+	    <th><input type="radio" name="target" value="1.6_<?php echo $prefix;?>" <?php echo $ckeckedString;?>/></th>
+      </tr>
+<?php
+					$ckeckedString = '';
+				} else if ($entriesMatched && checkTables('1.5', $prefix = substr($table, 0, strlen($table) - 7))) {
 ?>
       <tr>
         <th><?php echo $prefix;?></th>
