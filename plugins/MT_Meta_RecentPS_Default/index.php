@@ -101,6 +101,17 @@ function MT_Cover_getRecentEntries($parameters){
 		$paging['total'] = getEntriesTotalCount($blogid);
 
 		$html .= getPagingView($paging, $skin->paging, $skin->pagingItem).CRLF;
+
+		$html .= '<script type="text/javascript">'.CRLF;
+		$html .= '//<![CDATA['.CRLF;
+		if ($paging['page'] > 1) {
+			$html .= 'var prevURL = "'.$paging['url'].'?page='.($paging['page'] - 1).'"'.CRLF;
+		}
+		if ($paging['page'] < $paging['total']) {
+			$html .= 'var nextURL = "'.$paging['url'].'?page='.($paging['page'] + 1).'"'.CRLF;
+		}
+		$html .= '//]]>'.CRLF;
+		$html .= '</script>';
 	}
 
 	$target = $html;
@@ -109,6 +120,7 @@ function MT_Cover_getRecentEntries($parameters){
 	$cache->dbContents = Timestamp::getUNIXtime();
 	$cache->update();
 	unset($cache);
+
 	return $target;
 }
 
