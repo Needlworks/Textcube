@@ -21,7 +21,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									} else {
 										uri = document.getElementById('addForm').rss.value;
 									}
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/link/site/?rss=" + uri);
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/link/site/?rss=" + uri);
 									request.onVerify = function() {
 										return (this.getText("/response/url") != "")
 									}
@@ -46,10 +46,10 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									if (!checkValue(oForm.name, "<?php echo _t('이름을 입력해 주십시오.');?>\t")) return false;
 									if (!checkValue(oForm.url, "<?php echo _t('주소를 입력해 주십시오.');?>\t")) return false;
 									
-									var request = new HTTPRequest("POST", blogURL + "/owner/link/add/exec/");
+									var request = new HTTPRequest("POST", blogURL + "/owner/communication/link/add/exec/");
 									request.onSuccess = function () {
 										PM.removeRequest(this);
-										window.location = blogURL + "/owner/link";
+										window.location = blogURL + "/owner/communication/link";
 									}
 									request.onError= function () {
 										PM.removeRequest(this);
