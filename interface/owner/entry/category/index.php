@@ -65,9 +65,9 @@ if ((!empty($_POST['newCategory']) && misc::isSpace($_POST['newCategory'])) ||
 } elseif ((!empty($_POST['newCategory']) && strpos($_POST['newCategory'], '/') !== false) || (!empty($_POST['modifyCategoryName']) && strpos($_POST['modifyCategoryName'], '/') !== false)) {
 	$history = '';
 	$errorMessage = _t('슬래시가 들어간 카테고리 이름은 사용할 수 없습니다');
-} elseif ((!empty($_POST['newCategory']) && strpos($_POST['newCategory'], '&') !== false) || (!empty($_POST['modifyCategoryName']) && strpos($_POST['modifyCategoryName'], '&') !== false)) {
+/*} elseif ((!empty($_POST['newCategory']) && strpos($_POST['newCategory'], '&') !== false) || (!empty($_POST['modifyCategoryName']) && strpos($_POST['modifyCategoryName'], '&') !== false)) {
 	$history = '';
-	$errorMessage = _t('앰퍼샌드(&)가 들어간 카테고리 이름은 사용할 수 없습니다');
+	$errorMessage = _t('앰퍼샌드(&)가 들어간 카테고리 이름은 사용할 수 없습니다');*/
 } elseif ((!empty($_POST['newCategory']) && strpos($_POST['newCategory'], '?') !== false) || (!empty($_POST['modifyCategoryName']) && strpos($_POST['modifyCategoryName'], '?') !== false)) {
 	$history = '';
 	$errorMessage = _t('물음표가 들어간 카테고리 이름은 사용할 수 없습니다');
