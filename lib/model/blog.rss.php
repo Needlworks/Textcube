@@ -193,7 +193,7 @@ function getCommentRSSTotal($blogid, $rawMode = false) {
 			'comments' => $commentURL,
 			'guid' => $commentURL.$row['id']
 		);
-		if($row['secret']) $item['author'] = $item['description'] = _text('비밀 댓글입니다');
+		if($row['secret']) $item['title'] = $item['author'] = $item['description'] = _text('비밀 댓글입니다');
 		array_push($channel['items'], $item);
 	}
 	if($rawMode == true) return $channel['items'];
@@ -240,7 +240,7 @@ function getCommentRSSByEntryId($blogid = null, $entryId, $rawMode = false) {
 			'comments' => $commentURL,
 			'guid' => $commentURL.$row['id']
 		);
-		if($row['secret']) $item['author'] = $item['description'] = _text('비밀 댓글입니다');
+		if($row['secret']) $item['title'] = $item['author'] = $item['description'] = _text('비밀 댓글입니다');
 		array_push($channel['items'], $item);
 	}
 	if($rawMode == true) return $channel['items'];
