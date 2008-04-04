@@ -116,7 +116,7 @@ function MT_Cover_getRecentEntries($parameters){
 
 	$target = $html;
 	$cache->contents[$page] = $target;
-	$cache->contents = unserialize($cache->contents);
+	$cache->contents = serialize($cache->contents);
 	$cache->dbContents = Timestamp::getUNIXtime();
 	$cache->update();
 	unset($cache);
