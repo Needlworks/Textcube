@@ -57,7 +57,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								function deleteComment(id) {
 									if (!confirm("<?php echo _t('선택된 댓글을 삭제합니다. 계속 하시겠습니까?');?>"))
 										return;
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/notify/delete/" + id);
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/notify/delete/" + id);
 									request.onSuccess = function () {
 										document.getElementById('list-form').submit();
 									}
@@ -74,7 +74,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										if ((oElement.name == "entry") && oElement.checked)
 											targets[targets.length] = oElement.value;
 									}
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/notify/delete");
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/notify/delete");
 									request.onSuccess = function() {
 										document.getElementById('list-form').submit();
 									}
@@ -177,7 +177,7 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 								<p class="explain"><?php echo _t('다른 사람의 블로그에 단 댓글에 대한 댓글이 등록되면 알려줍니다. 알리미가 동작하기 위해서는 댓글 작성시 홈페이지 기입란에 자신의 블로그 주소를 입력하셔야 합니다.');?></p>
 							</div>
 							
-							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/entry/notify">
+							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/communication/notify">
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
@@ -325,7 +325,7 @@ print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 							
 							<hr class="hidden" />
 							
-							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/entry/notify">
+							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/communication/notify">
 								<h2><?php echo _t('검색');?></h2>
 								
 								<div class="section">
