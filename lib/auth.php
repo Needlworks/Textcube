@@ -46,11 +46,11 @@ function requireLogin() {
 }
 
 function doesHaveMembership() {
-	return Acl::getIdentity('textcube') != null;
+	return Acl::getIdentity('textcube') !== null;
 }
 
 function requireMembership() {
-	if( doesHaveOwnership() ) return true;
+	if( doesHaveMembership() ) return true;
 	requireLogin();
 }
 
