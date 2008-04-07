@@ -75,7 +75,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								<p class="explain"><?php echo _t('RSS 주소를 입력해서 링크할 홈페이지의 정보를 읽어올 수 있습니다. 수동으로 제목과 주소를 입력하셔도 됩니다.');?></p>
 							</div>
 								
-							<form id="addForm" method="post" action="<?php echo $blogURL;?>/owner/link/add/">
+							<form id="addForm" method="post" action="<?php echo $blogURL;?>/owner/communication/link/add/">
 								<div class="data-inbox">
 									<dl id="rss-address-line" class="line">
 										<dt><label for="rss"><?php echo _t('<acronym title="Rich Site Summary">RSS</acronym> 주소');?></label></dt>
@@ -94,7 +94,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								<div class="button-box">
 									<input type="submit" class="add-button input-button" value="<?php echo _t('추가하기');?>" onclick="addLink(); return false" />
 									<span class="hidden">|</span>
-									<input type="button" class="cancel-button input-button" value="<?php echo _t('취소하기');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/link'" />
+									<input type="button" class="cancel-button input-button" value="<?php echo _t('취소하기');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/communication/link'" />
 								</div>
 							</form>
 						</div>

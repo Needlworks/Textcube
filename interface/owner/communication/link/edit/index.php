@@ -24,7 +24,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									} else {
 										uri = document.getElementById('editForm').rss.value;
 									}
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/link/site/?rss=" + uri);
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/link/site/?rss=" + uri);
 									request.onVerify = function() {
 										return (this.getText("/response/url") != "")
 									}
@@ -44,10 +44,10 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									trimAll(oForm);
 									if (!checkValue(oForm.name, "<?php echo _t('이름을 입력해 주십시오.');?>\t")) return false;
 									if (!checkValue(oForm.url, "<?php echo _t('주소를 입력해 주십시오.');?>\t")) return false;
-										var request = new HTTPRequest("POST", blogURL + "/owner/link/edit/exec/");
+										var request = new HTTPRequest("POST", blogURL + "/owner/communication/link/edit/exec/");
 									request.onSuccess = function () {
 										PM.removeRequest(this);
-										window.location = blogURL + "/owner/link";
+										window.location = blogURL + "/owner/communication/link";
 									}
 									request.onError= function () {
 										PM.removeRequest(this);
@@ -68,7 +68,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 						<div id="part-link-edit" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('링크 정보를 수정합니다');?></span></h2>
 							
-							<form id="editForm" method="post" action="<?php echo $blogURL;?>/owner/link/edit/">
+							<form id="editForm" method="post" action="<?php echo $blogURL;?>/owner/communication/link/edit/">
 								<input type="hidden" name="id" value="<?php echo $suri['value'];?>" />
 								
 								<div class="data-inbox">
@@ -89,7 +89,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								<div class="button-box">
 									<input type="submit" class="edit-button input-button" value="<?php echo _t('저장하기');?>" onclick="updateLink(); return false;" />
 									<span class="hidden">|</span>
-									<input type="button" class="cancel-button input-button" value="<?php echo _t('취소하기');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/link'" />
+									<input type="button" class="cancel-button input-button" value="<?php echo _t('취소하기');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/communication/link'" />
 								</div>
 							</form>
 						</div>
