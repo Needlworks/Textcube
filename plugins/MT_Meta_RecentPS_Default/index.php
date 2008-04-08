@@ -1,6 +1,6 @@
 <?php
 function MT_Cover_getRecentEntries($parameters){
-	global $database,$blog,$serviceURL,$suri,$configVal, $defaultURL, $skin;
+	global $database, $blog, $service, $serviceURL, $suri, $configVal, $defaultURL, $skin;
 	requireComponent('Textcube.Core');
 	requireComponent('Needlworks.Cache.PageCache');
 	requireComponent('Textcube.Function.Setting');
@@ -45,7 +45,7 @@ function MT_Cover_getRecentEntries($parameters){
 		}
 	}
 
-	if((misc::isMetaBlog() == true) && doesHaveOwnership()) {
+	if((misc::isMetaBlog() == true) && doesHaveOwnership() && $service['type'] != 'single') {
 		$visibility = 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
 	} else {
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
