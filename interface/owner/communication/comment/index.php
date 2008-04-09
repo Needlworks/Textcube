@@ -171,7 +171,13 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								window.addEventListener("load", execLoadFunction, false);
 								function execLoadFunction() {
 									document.getElementById('allChecked').disabled = false;
+<?php 
+	if(!isset($tabsClass['guestbook'])){
+?>
 									removeItselfById('category-move-button');
+<?php
+	}
+?>
 								}
 								
 								function toggleThisTr(obj) {
