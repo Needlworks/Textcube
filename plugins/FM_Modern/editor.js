@@ -1531,7 +1531,8 @@ TTModernEditor.prototype.command = function(command, value1, value2) {
 					alert(s_enterObjectTag);
 					return;
 				}
-				if(code.count("<object") == 0 || code.count("<object") != code.count("</object>")) {
+				lowercasedCode = code.toLowerCase();
+				if(lowercasedCode.count("<object") == 0 || lowercasedCode.count("<object") != lowercasedCode.count("</object>")) {
 					alert(s_enterCorrectObjectTag);
 					return;
 				}
