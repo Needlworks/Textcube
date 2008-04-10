@@ -72,12 +72,12 @@ function updateVisitorStatistics($blogid) {
 	if(POD::queryCount("SELECT blogid FROM {$database['prefix']}SessionVisits WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND blogid = $blogid") > 0)
 		return;
 	if (POD::queryCount("INSERT INTO {$database['prefix']}SessionVisits values('$id', '{$_SERVER['REMOTE_ADDR']}', $blogid)") > 0) {
-		if(POD::queryCount("UPDATE {$database['prefix']}BlogStatistics SET visits = visits + 1 WHERE blogid = $blogid") < 1) {
+		if(POD::queryCount("UPDATE {$database['prefix']}BlogStatistics SET visits = visits + 1 WHERE blogid = $blogid LIMIT 1") < 1) {
 			POD::execute("INSERT into {$database['prefix']}BlogStatistics values($blogid, 1)");
 		}
 		
 		$period = Timestamp::getDate();
-		if(POD::queryCount("UPDATE {$database['prefix']}DailyStatistics SET visits = visits + 1 WHERE blogid = $blogid AND `date` = $period") < 1) {
+		if(POD::queryCount("UPDATE {$database['prefix']}DailyStatistics SET visits = visits + 1 WHERE blogid = $blogid AND `date` = $period LIMIT 1") < 1) {
 			POD::execute("INSERT into {$database['prefix']}DailyStatistics values($blogid, $period, 1)");
 		}
 		if (!empty($_SERVER['HTTP_REFERER'])) {
