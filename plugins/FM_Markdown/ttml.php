@@ -487,9 +487,9 @@ function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderU
 			break;
 		default:
 			if (file_exists(ROOT . '/image/extension/' . misc::getFileExtension($fileInfo['label']) . '.gif')) {
-				return '<a class="extensionIcon" href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/extension/' . misc::getFileExtension($fileInfo['label']) . '.gif" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
+				return '<a class="extensionIcon" href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/extension/' . misc::getFileExtension($fileInfo['label']) . '.gif" alt="" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
 			} else {
-				return '<a class="extensionIcon" href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/extension/unknown.gif" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
+				return '<a class="extensionIcon" href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/extension/unknown.gif" alt="" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
 			}
 			break;
 	}
