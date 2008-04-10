@@ -557,7 +557,7 @@ function setSmtpServer( $useCustomSMTP, $smtpHost, $smtpPort ) {
 }
 
 function setDefaultBlog( $blogid ) {
-	if(User::getBlogOwner($blogid) != 1) {
+	if(!Acl::check("group.creators")) {
 		return false;
 	}
 	$result = setServiceSetting("defaultBlogId", $_GET['blogid']);
