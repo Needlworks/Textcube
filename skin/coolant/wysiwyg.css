@@ -1,3 +1,5 @@
+@charset "utf-8";
+
 *
 {
 	margin: 0;
@@ -8,7 +10,7 @@ body
 {
 	background-color: #fff;
 	color: #666;
-	font: 1.2em/1.7 Gulim, Helvetica, AppleGothic, Sans-serif;
+	font: 1.2em/1.7 Helvetica, AppleGothic, Gulim, '굴림', sans-serif;
 	font-size: 75%;
 }
 
@@ -80,6 +82,20 @@ hr
 p
 {
 	margin-bottom: 1.7em;
+}
+
+code
+{
+	font-family: Monaco, Courier New, monospace;
+}
+
+pre
+{
+	margin-left: 0.8em;
+	margin-bottom: 1.5em;
+	padding: 0.4em;
+	border-top: 1px dashed #ccc;
+	border-bottom: 1px dashed #ccc;
 }
 
 ol
