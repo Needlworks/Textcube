@@ -651,6 +651,16 @@ table.data-inbox tbody tr .status .protected-off-icon a
 	width                            : 15px;
 }
 
+table.data-inbox tbody tr .status .protected-on-icon a
+{
+	background-image                 : url("./image/icon_protected.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	width                            : 15px;
+}
 table.data-inbox tbody tr .status .protected-on-icon span,
 table.data-inbox tbody tr .status .protected-off-icon span
 {
