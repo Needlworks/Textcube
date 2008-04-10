@@ -1141,6 +1141,7 @@ CREATE TABLE {$_POST['dbPrefix']}Entries (
   id int(11) NOT NULL,
   draft tinyint(1) NOT NULL default '0',
   visibility tinyint(4) NOT NULL default '0',
+  starred tinyint(4) NOT NULL default '1',
   category int(11) NOT NULL default '0',
   title varchar(255) NOT NULL default '',
   slogan varchar(255) NOT NULL default '',

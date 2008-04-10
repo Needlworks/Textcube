@@ -298,6 +298,15 @@ if($currentVersion != TEXTCUBE_VERSION) {
 		else
 			showCheckupMessage(false);
 	}
+	/* FROM Textcube 1.7 */
+	if (!POD::queryExistence("DESC {$database['prefix']}Entries starred")) {
+		$changed = true;
+		echo '<li>', _text('본문 테이블에 별표 및 작성 중 글 표시를 위한 필드를 추가합니다.'), ': ';
+		if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD starred TINYINT(4) DEFAULT 1 NOT NULL AFTER visibility"))
+			showCheckupMessage(true);
+		else
+			showCheckupMessage(false);
+	}
 }
 
 /***** Common parts. *****/
