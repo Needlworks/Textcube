@@ -726,44 +726,44 @@ table.data-inbox tbody tr .status .public-off-icon span
 
 table.data-inbox tbody tr .starred .star-icon
 {
-	background-image                 : url("./image/icon_star.gif");
+	background-image                 : url("./image/icon_starred.gif");
 	background-position              : left bottom;
 	background-repeat                : no-repeat;
 	display                          : block;
-	height                           : 14px;
+	height                           : 16px;
 	margin-right                     : 2px;
-	width                            : 15px;
+	width                            : 16px;
 }
 
 table.data-inbox tbody tr .starred .unstar-icon
 {
-	background-image                 : url("./image/icon_star.gif");
+	background-image                 : url("./image/icon_unstarred.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	display                          : block;
-	height                           : 14px;
+	height                           : 16px;
 	margin-right                     : 2px;
-	width                            : 15px;
+	width                            : 16px;
 }
 
 table.data-inbox tbody tr .starred .star-icon a
 {
-	background-image                 : url("./image/icon_star.gif");
+	background-image                 : url("./image/icon_starred.gif");
 	background-position              : left bottom;
 	background-repeat                : no-repeat;
 	display                          : block;
-	height                           : 14px;
-	width                            : 15px;
+	height                           : 16px;
+	width                            : 16px;
 }
 
 table.data-inbox tbody tr .starred .unstar-icon a
 {
-	background-image                 : url("./image/icon_star.gif");
+	background-image                 : url("./image/icon_unstarred.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	display                          : block;
-	height                           : 14px;
-	width                            : 15px;
+	height                           : 16px;
+	width                            : 16px;
 }
 
 table.data-inbox tbody tr .starred .star-icon span,
