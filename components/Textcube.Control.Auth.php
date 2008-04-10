@@ -258,7 +258,7 @@ class Acl {
 
 	function getIdentity( $domain ) {
 		if( empty($_SESSION['identity'][$domain]) ) {
-			return '';
+			return null;
 		}
 		return $_SESSION['identity'][$domain];
 	}

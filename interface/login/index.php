@@ -55,19 +55,24 @@ if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 }
 $authResult = fireEvent('LOGIN_try_auth', false);
 
-if (doesHaveOwnership()) {
+if (doesHaveOwnership() || doesHaveMembership()) {
 	if (!empty($_POST['requestURI'])) {
 		$url = parse_url($_POST['requestURI']);
 		if ($url && isset($url['host']) && !String::endsWith( '.' . $url['host'], '.' . $service['domain']))
-			header("Location: {$blogURL}/login?requestURI=" . rawurlencode($_POST['requestURI']) . '&session=' . rawurlencode(session_id()));
+			$redirect = "{$blogURL}/login?requestURI=" . rawurlencode($_POST['requestURI']) . '&session=' . rawurlencode(session_id());
 		else
-			header("Location: {$_POST['requestURI']}");
+			$redirect = $_POST['requestURI'];
 	} else {
 		global $blogURL;
-		header("Location: $blogURL");
+		$redirect = $blogURL;
 	}
-	exit;
-} else if (doesHaveMembership()) {
+
+	if (empty($_SESSION['lastLoginRedirected']) || $_SESSION['lastLoginRedirected'] != $redirect) {
+		header('Location: '.($_SESSION['lastLoginRedirected'] = $redirect));
+		exit;
+	} else {
+		unset($_SESSION['lastLoginRedirected']);
+	}
 	$message = _text('권한이 없습니다.');
 }
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
