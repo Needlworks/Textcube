@@ -1,6 +1,6 @@
 <?php
 function MT_Cover_getRecentEntries($parameters){
-	global $database, $blog, $service, $serviceURL, $suri, $configVal, $defaultURL, $skin;
+	global $database,$blog,$serviceURL,$suri,$configVal, $defaultURL, $skin;
 	requireComponent('Textcube.Core');
 	requireComponent('Needlworks.Cache.PageCache');
 	requireComponent('Textcube.Function.Setting');
@@ -11,6 +11,7 @@ function MT_Cover_getRecentEntries($parameters){
 	$data['coverMode']	= !isset($data['coverMode'])?1:$data['coverMode'];
 	if(misc::isMetaBlog() != true) $data['coverMode'] = 1;
 	$data['screenshot']	= !isset($data['screenshot'])?1:$data['screenshot'];
+	$data['paging'] = !isset($data['paging'])?'2':$data['paging'];
 
 	if (isset($parameters['preview'])) {
 		// preview mode
@@ -32,29 +33,32 @@ function MT_Cover_getRecentEntries($parameters){
 		@chmod(ROOT."/cache/thumbnail/" . getBlogId() . "/coverPostThumbnail/", 0777);
 	}
 
+	$page = ($data['paging'] == '1' && !empty($_GET['page'])) ? intval($_GET['page']) : 1;
+
 	$cache = new PageCache;
 	$cache->name = 'MT_Cover_RecentPS';
 	if($cache->load()) { //If successful loads
+		$cache->contents = unserialize($cache->contents);
 		// If coverpage is single mode OR coverpage is coverblog and cache is not expired, return cache contents.
-		if(($data['coverMode']==1 || $data['coverMode']==2) && (Timestamp::getUNIXtime() - $cache->dbContents < 300)) {
-			return $cache->contents;
-		}	
+		if(($data['coverMode']==1 || $data['coverMode']==2) && array_key_exists($page, $cache->contents) && (Timestamp::getUNIXtime() - $cache->dbContents < 300)) {
+			return $cache->contents[$page];
+		}
 	}
-	
+
 	if((misc::isMetaBlog() == true) && doesHaveOwnership() && $service['type'] != 'single') {
 		$visibility = 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
 	} else {
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
 	}
 	$multiple = ($data['coverMode']==2) ? '' : 'e.blogid = ' . getBlogId() . ' AND';
-	$entries = POD::queryAll("SELECT e.blogid, e.id, e.userid, e.title, e.content, e.slogan, e.category, e.published, e.contentFormatter, c.label 
+	list($entries, $paging) = fetchWithPaging("SELECT e.blogid, e.id, e.userid, e.title, e.content, e.slogan, e.category, e.published, e.contentFormatter, c.label
 		FROM {$database['prefix']}Entries e
-		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
-		WHERE $multiple e.draft = 0 $visibility AND e.category >= 0 
-		ORDER BY published DESC LIMIT $entryLength");	
-	
+		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id
+		WHERE $multiple e.draft = 0 $visibility AND e.category >= 0
+		ORDER BY published DESC", $page, $entryLength);
+
 	$html = '';
-	foreach ($entries as $entry){
+	foreach ((array)$entries as $entry){
 		$tagLabelView = "";
 		$blogid = ($data['coverMode']==2) ? $entry['blogid'] : getBlogId();
 		$entryTags = getTags($blogid, $entry['id']);
@@ -89,11 +93,34 @@ function MT_Cover_getRecentEntries($parameters){
 		$html .= '	</div>';
 		$html .= '</div>'.CRLF;
 	}
+
+	if ($data['paging'] == '1') {
+		requireComponent('Textcube.Model.Paging');
+
+		$paging['page'] = $page;
+		$paging['total'] = getEntriesTotalCount($blogid);
+
+		$html .= getPagingView($paging, $skin->paging, $skin->pagingItem).CRLF;
+
+		$html .= '<script type="text/javascript">'.CRLF;
+		$html .= '//<![CDATA['.CRLF;
+		if ($paging['page'] > 1) {
+			$html .= 'var prevURL = "'.$paging['url'].'?page='.($paging['page'] - 1).'"'.CRLF;
+		}
+		if ($paging['page'] < $paging['total']) {
+			$html .= 'var nextURL = "'.$paging['url'].'?page='.($paging['page'] + 1).'"'.CRLF;
+		}
+		$html .= '//]]>'.CRLF;
+		$html .= '</script>';
+	}
+
 	$target = $html;
-	$cache->contents = $target;
+	$cache->contents[$page] = $target;
+	$cache->contents = serialize($cache->contents);
 	$cache->dbContents = Timestamp::getUNIXtime();
 	$cache->update();
 	unset($cache);
+
 	return $target;
 }
 
@@ -107,26 +134,26 @@ function MT_Cover_getRecentEntries_purgeCache($target, $mother) {
 
 function MT_Cover_getImageResizer($blogid, $filename){
 	global $serviceURL;
-	
+
 	$originSrc = ROOT . "/attach/{$blogid}/{$filename}";
 	$currentBlogId = getBlogId();
 	$cropSize = 90;
-	
+
 	if (file_exists($originSrc)) {
 		$imageInfo = getimagesize($originSrc);
 		$newSrc = ROOT . "/cache/thumbnail/{$currentBlogId}/coverPostThumbnail/th_{$filename}";
 		$imageURL = "{$serviceURL}/attach/{$currentBlogId}/{$filename}";
-		
+
 		if (extension_loaded('gd')) {
 			if (!file_exists($newSrc)) {
 				requireComponent('Textcube.Function.Image');
-				
+
 				$objThumbnail = new Image();
 				if ($imageInfo[0] > $imageInfo[1])
 					list($tempWidth, $tempHeight) = $objThumbnail->calcOptimizedImageSize($imageInfo[0], $imageInfo[1], NULL, 90);
 				else
 					list($tempWidth, $tempHeight) = $objThumbnail->calcOptimizedImageSize($imageInfo[0], $imageInfo[1], 90, null);
-				
+
 				$objThumbnail->imageFile = $originSrc;
 				if ($objThumbnail->resample($tempWidth, $tempHeight) && $objThumbnail->cropRectBySize($cropSize, $cropSize)) {
 					$imageURL = "{$serviceURL}/thumbnail/{$currentBlogId}/coverPostThumbnail/th_{$filename}";
@@ -137,7 +164,7 @@ function MT_Cover_getImageResizer($blogid, $filename){
 				$imageURL = "{$serviceURL}/thumbnail/{$currentBlogId}/coverPostThumbnail/th_{$filename}";
 			}
 		}
-		
+
 		return $imageURL;
 	} else {
 		return NULL;
@@ -170,18 +197,15 @@ function MT_Cover_getRecentEntryStyle($target){
 
 function MT_Cover_getRecentEntries_DataSet($DATA){
 	requireComponent('Textcube.Function.Setting');
-	requireComponent('Needlworks.Cache.PageCache');
 	$cfg = setting::fetchConfigVal($DATA);
 
-	$cache = new PageCache;
-	$cache->name = 'MT_Cover_RecentPS';
-	$cache->purge();
+	MT_Cover_getRecentEntries_purgeCache(null, null);
 	return true;
 }
 
 function MT_Cover_getRecentEntries_ConfigOut_ko($plugin) {
 	global $service;
-	
+
 	$manifest = NULL;
 
 	$manifest .= '<?xml version="1.0" encoding="utf-8"?>'.CRLF;
@@ -191,6 +215,10 @@ function MT_Cover_getRecentEntries_ConfigOut_ko($plugin) {
 	$manifest .= '		<field title="출력 형태 :" name="coverMode" type="radio"  >'.CRLF;
 	$manifest .= '			<op value="1" checked="checked"><![CDATA[단일 사용자&nbsp;]]></op>'.CRLF;
 	$manifest .= '			<op value="2">다중 사용자</op>'.CRLF;
+	$manifest .= '		</field>'.CRLF;
+	$manifest .= '		<field title="페이징 적용 :" name="paging" type="radio"  >'.CRLF;
+	$manifest .= '			<op value="1"><![CDATA[적용&nbsp;]]></op>'.CRLF;
+	$manifest .= '			<op value="2" checked="checked">미적용</op>'.CRLF;
 	$manifest .= '		</field>'.CRLF;
 	$manifest .= '		<field title="스크린 샷 :" name="screenshot" type="radio"  >'.CRLF;
 	$manifest .= '			<op value="1" checked="checked"><![CDATA[적용&nbsp;]]></op>'.CRLF;
@@ -202,13 +230,13 @@ function MT_Cover_getRecentEntries_ConfigOut_ko($plugin) {
 	$manifest .= '		</field>'.CRLF;
 	$manifest .= '	</fieldset>'.CRLF;
 	$manifest .= '</config>'.CRLF;
-	
+
 	return $manifest;
 }
 
 function MT_Cover_getRecentEntries_ConfigOut_en($plugin) {
 	global $service;
-	
+
 	$manifest = NULL;
 
 	$manifest .= '<?xml version="1.0" encoding="utf-8"?>'.CRLF;
@@ -219,17 +247,21 @@ function MT_Cover_getRecentEntries_ConfigOut_en($plugin) {
 	$manifest .= '			<op value="1" checked="checked"><![CDATA[Single user&nbsp;]]></op>'.CRLF;
 	$manifest .= '			<op value="2">Multi user</op>'.CRLF;
 	$manifest .= '		</field>'.CRLF;
+	$manifest .= '		<field title="Apply Pagination :" name="paging" type="radio"  >'.CRLF;
+	$manifest .= '			<op value="1"><![CDATA[Apply&nbsp;]]></op>'.CRLF;
+	$manifest .= '			<op value="2" checked="checked">Not apply</op>'.CRLF;
+	$manifest .= '		</field>'.CRLF;
 	$manifest .= '		<field title="Screenshot:" name="screenshot" type="radio"  >'.CRLF;
 	$manifest .= '			<op value="1" checked="checked"><![CDATA[Apply&nbsp;]]></op>'.CRLF;
 	$manifest .= '			<op value="2">Not apply</op>'.CRLF;
 	$manifest .= '		</field>'.CRLF;
-	$manifest .= '		<field title="CSS Apply :" name="cssSelect" type="radio"  >'.CRLF;
+	$manifest .= '		<field title="Apply CSS :" name="cssSelect" type="radio"  >'.CRLF;
 	$manifest .= '			<op value="1" checked="checked"><![CDATA[Apply&nbsp;]]></op>'.CRLF;
 	$manifest .= '			<op value="2">Not apply</op>'.CRLF;
 	$manifest .= '		</field>'.CRLF;
 	$manifest .= '	</fieldset>'.CRLF;
 	$manifest .= '</config>'.CRLF;
-	
+
 	return $manifest;
 }
 ?>
