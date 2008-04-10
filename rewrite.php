@@ -3,6 +3,11 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 	define('ROOT', '.'); 
+	/* Workaround for IIS environment */
+	if(!isset($_SERVER['REQUEST_URI']) && isset($_SERVER['SCRIPT_NAME'])) {
+		$_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
+		if(isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) $_SERVER['REQUEST_URI'] .= '?'.$_SERVER['QUERY_STRING'];
+	}
 	if (!empty($_SERVER['PRELOAD_CONFIG']) && file_exists('config.php')) require_once ROOT."/config.php";
 	/* Retrieve Access Parameter Information. */
 	$accessInfo = array(
