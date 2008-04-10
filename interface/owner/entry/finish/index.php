@@ -45,7 +45,7 @@ if (empty($suri['id']) || !is_null($entry)) {
 	$entry['contentEditor'] = $_POST['contentEditor'];
 	if ((isset($_POST['permalink'])) && ($_POST['permalink'] != '')) {
 		$entry['slogan'] = $_POST['permalink'];
-	}
+	} else if($_POST['permalink'] == '') $entry['slogan'] = '';
 	$entry['acceptComment'] = empty($_POST['acceptComment']) ? 0 : 1;
 	$entry['acceptTrackback'] = empty($_POST['acceptTrackback']) ? 0 : 1;
 	$entry['published'] = empty($_POST['published']) ? 0 : $_POST['published'];
