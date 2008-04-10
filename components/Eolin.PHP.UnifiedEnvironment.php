@@ -43,7 +43,7 @@ if(isset($_SERVER['HTTP_CLIENT_IP'])) {
 	$firstIP = explode(',',$_SERVER['HTTP_X_FORWARDED_FOR']);
 	$_SERVER['REMOTE_ADDR'] = $firstIP[0];
 }
-
+/* Workaround for iconv-absent environment. (contributed by Papacha) */
 if (!function_exists('iconv')) {
 	if (function_exists('mb_convert_encoding')) {
 		function iconv($in, $out, $str) {
@@ -51,6 +51,28 @@ if (!function_exists('iconv')) {
 		}
 	} else {
 		include_once(ROOT . '/iconv.php');
+	}
+}
+/* Workaround for NCR treatment. (contributed by Laziel) */
+if (!function_exists('mb_decode_numericentity')) { 
+	function mb_decode_numericentity($str, $dumb = null, $dumber = null) {
+		if (!function_exists('_mb_decode_numericentity_callback') ) {
+			function _mb_decode_numericentity_callback($t) {
+				$decode = $t[1];
+					if ($decode < 128) {
+						$str = chr($decode);
+					} else if ($decode < 2048) {
+						$str = chr(192 + (($decode - ($decode % 64)) / 64));
+						$str .= chr(128 + ($decode % 64));
+					} else {
+						$str = chr(224 + (($decode - ($decode % 4096)) / 4096));
+						$str .= chr(128 + ((($decode % 4096) - ($decode % 64)) / 64));
+						$str .= chr(128 + ($decode % 64));
+					}
+					return $str;
+			}
+		}
+		return preg_replace_callback('/&#([0-9]{1,});/', '_mb_decode_numericentity_callback', $str);
 	}
 }
 ?>
