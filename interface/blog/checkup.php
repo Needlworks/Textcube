@@ -240,7 +240,7 @@ if($currentVersion != TEXTCUBE_VERSION) {
 	if (POD::queryCell("DESC {$database['prefix']}Sessions updated", 'Key') != 'MUL') {
 		$changed = true;
 		echo '<li>', _text('동시 접속자 관리를 위하여 세션 테이블의 인덱스 설정을 변경합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}Sessions ADD KEY updated (updated)"))
+		if (POD::execute("ALTER TABLE {$database['prefix']}Sessions ADD INDEX updated (updated)"))
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
