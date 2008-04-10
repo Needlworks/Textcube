@@ -273,11 +273,11 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 									request.onSuccess = function () {
 										switch (mark) {
 											case 1:
-												document.getElementById("starIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/star/<?php echo $entry['id'];?>?command=mark" onclick="setEntryStar(<?php echo $entry['id'];?>, 2); return false;" title="<?php echo _t('별표를 줍니다.');?>"><span class="text"><?php echo _t('별표');?></span></a></span>';
+												document.getElementById("starIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/star/' + entry + '?command=mark" onclick="setEntryStar(' + entry + ', 2); return false;" title="<?php echo _t('별표를 줍니다.');?>"><span class="text"><?php echo _t('별표');?></span></a></span>';
 												document.getElementById("starIcon_" + entry).className = 'unstar-icon';
 												break;
 											case 2:
-												document.getElementById("starIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/star/<?php echo $entry['id'];?>?command=unmark" onclick="setEntryStar(<?php echo $entry['id'];?>, 1); return false;" title="<?php echo _t('별표를 지웁니다.');?>"><span class="text"><?php echo _t('별표');?></span></a></span>';
+												document.getElementById("starIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/star/' + entry + '?command=unmark" onclick="setEntryStar(' + entry + ', 1); return false;" title="<?php echo _t('별표를 지웁니다.');?>"><span class="text"><?php echo _t('별표');?></span></a></span>';
 												document.getElementById("starIcon_" + entry).className = 'star-icon';
 												break;
 										}
