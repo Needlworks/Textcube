@@ -13,6 +13,11 @@ table.data-inbox tr .date
 	width                            : 60px;
 }
 
+table.data-inbox tr .starred
+{
+	width                            : 20px;
+}
+
 table.data-inbox tr .name
 {
 	width                            : 150px;
@@ -86,6 +91,13 @@ table.data-inbox tbody tr td.ip
 	position                         : static;
 }
 
+#data-description dl.starred-description
+{
+	background-image                 : url("./image/icon_starred_single.gif");
+	background-position              : 8px 2px;
+	background-repeat                : no-repeat;
+}
+
 #data-description dl.eolin-description
 {
 	background-image                 : url("./image/icon_syndicated_single.gif");
@@ -137,12 +149,14 @@ table.data-inbox tbody tr td.ip
 	padding-right                    : 0;
 }
 
+#part-post-list table.data-inbox thead tr th.starred,
 #part-post-list table.data-inbox thead tr th.trackback,
 #part-post-list table.data-inbox thead tr th.delete
 {
 	width                            : 20px;
 }
 
+#part-post-list table.data-inbox thead tr th.starred span,
 #part-post-list table.data-inbox thead tr th.syndicate span,
 #part-post-list table.data-inbox thead tr th.protect span,
 #part-post-list table.data-inbox thead tr th.trackback span,
