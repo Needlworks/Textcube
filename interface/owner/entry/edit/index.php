@@ -189,7 +189,13 @@ if (defined('__TEXTCUBE_POST__')) {
 												break;
 											}
 										}
-
+										var starred = 1;
+										for (var i = 0; i < oForm.starred.length; i++) {
+											if (oForm.starred[i].checked) {
+												starred = oForm.starred[i].value;
+												break;
+											}
+										}
 										var entrytype = 0;
 										for (var i = 0; i < oForm.entrytype.length; i++) {
 											if (oForm.entrytype[i].checked) {
@@ -241,9 +247,10 @@ if (defined('__TEXTCUBE_POST__')) {
 											}
 											published = Math.floor(published / 1000);
 										}
-
+										
 										return (
 											"visibility=" + visibility +
+											"&starred=" + starred +
 											"&title=" + encodeURIComponent(title) +
 											"&permalink=" + encodeURIComponent(permalink) +
 											"&content=" + encodeURIComponent(content) +
@@ -712,9 +719,9 @@ if (isset($_GET['popupEditor'])) {
 										<div class="button-box two-button-box">
 											<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
 											<span class="hidden">|</span>
-											<input type="submit" id="saveButton" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
+											<input type="submit" id="saveButton" value="<?php echo _t('중간 저장');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
 											<span class="hidden">|</span>
-											<input type="submit" value="<?php echo _t('저장 후 닫기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />									
+											<input type="submit" value="<?php echo _t('저장 후 돌아가기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />									
 										</div>
 <?php
 } else {
@@ -722,9 +729,9 @@ if (isset($_GET['popupEditor'])) {
 										<div class="button-box three-button-box">
 											<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
 											<span class="hidden">|</span>
-							    	  	 		<input type="submit" id="saveButton" value="<?php echo _t('저장하기');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
+							    	  	 		<input type="submit" id="saveButton" value="<?php echo _t('중간 저장');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
 											<span class="hidden">|</span>
-							       			<input type="submit" value="<?php echo _t('저장 후 닫기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />
+							       			<input type="submit" value="<?php echo _t('저장 후 돌아가기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />
 											<span class="hidden">|</span>
 											<input type="submit" value="<?php echo _t('목록으로');?>" class="list-button input-button" onclick="returnToList();return false;" />
 										</div>
@@ -800,7 +807,7 @@ if (defined('__TEXTCUBE_POST__')) {
 												</dd>
 											</dl>
 <?php
-	$countResult = POD::queryExistence("SELECT `id` FROM `{$database['prefix']}Entries` WHERE `blogid` = ".getBlogId()." AND `visibility` = 3 LIMIT 1");
+	$countResult = POD::queryExistence("SELECT `id` FROM `{$database['prefix']}Entries` WHERE `blogid` = ".getBlogId()." AND `visibility` = 3");
 ?>
 											<dl id="status-line" class="line">
 												<dt><span class="label"><?php echo _t('공개여부');?></span></dt>
@@ -811,7 +818,16 @@ if (defined('__TEXTCUBE_POST__')) {
 													<div id="status-syndicated" class="status-syndicated"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?php echo $countResult == false ? ' onclick="viewWhatIsEolin();"' : NULL; echo (abs($entry['visibility']) == 3 ? ' checked="checked"' : '');?> /><label for="visibility_syndicated"><?php echo _t('발행');?><?php echo $countResult == true ? ' (<a href="#void" onclick="viewWhatIsEolin();">'._t('설명').'</a>)' : NULL;?></label></div>
 												</dd>
 											</dl>
-
+											
+											<dl id="finish-line" class="line">
+												<dt><span class="label"><?php echo _t('완성여부');?></span></dt>
+												<dd>
+													<div id="status-finished" class="status-finished"><input type="radio" id="write_finished" class="radio" name="starred" value="1"<?php echo (abs($entry['starred']) > 0 ? ' checked="checked"' : '');?> /><label for="write_finished"><?php echo _t('완성한 글');?></label></div>
+													<div id="status-draft" class="status-draft"><input type="radio" id="write_draft" class="radio" name="starred" value="0"<?php echo (abs($entry['starred']) == 0 ? ' checked="checked"' : '');?> /><label for="write_draft"><?php echo _t('쓰고 있는 글');?></label></div>
+													<div id="status-starred" class="status-starred"><input type="radio" id="write_starred" class="radio" name="starred" value="0"<?php echo (abs($entry['starred']) == 2 ? ' checked="checked"' : '');?> /><label for="write_starred"><?php echo _t('별표가 붙은 글');?></label></div>
+												</dd>
+											</dl>
+											
 											<dl id="power-line" class="line"<?php if($isKeyword) echo _t('style="display: none"');?>>
 												<dt><span class="label"><?php echo _t('권한');?></span></dt>
 												<dd>
@@ -827,7 +843,7 @@ if (isset($_GET['popupEditor'])) {
 									<div class="button-box two-button-box">
 										<input type="button" value="<?php echo _t('미리 보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
 										<span class="hidden">|</span>
-										<input type="submit" value="<?php echo _t('저장 후 닫기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />									
+										<input type="submit" value="<?php echo _t('저장 후 돌아가기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />									
 								</div>
 <?php
 } else {
@@ -835,7 +851,7 @@ if (isset($_GET['popupEditor'])) {
 									<div class="button-box three-button-box">
 										<input type="button" value="<?php echo _t('미리 보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
 										<span class="hidden">|</span>
-						       			<input type="submit" value="<?php echo _t('저장 후 닫기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />
+						       			<input type="submit" value="<?php echo _t('저장 후 돌아가기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />
 										<span class="hidden">|</span>
 										<input type="submit" value="<?php echo _t('목록으로');?>" class="list-button input-button" onclick="returnToList();return false;" />
 									</div>

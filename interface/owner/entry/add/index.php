@@ -5,6 +5,7 @@
 $IV = array(
 	'POST' => array(
 		'visibility' => array('int', 0, 3),
+		'starred' => array('int', 0, 2),
 		'category' => array('int', 'default' => 0),
 		'title' => array('string'),
 		'content' => array('string'),
@@ -26,6 +27,7 @@ requireModel("blog.entry");
 requireStrictRoute();
 $entry = array();
 $entry['visibility'] = $_POST['visibility'];
+$entry['starred'] = $_POST['starred'];
 $entry['category'] = empty($_POST['category']) ? 0 : $_POST['category'];
 $entry['title'] = $_POST['title'];
 if ((isset($_POST['permalink'])) && ($_POST['permalink'] != '')) {

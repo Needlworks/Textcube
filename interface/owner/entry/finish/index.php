@@ -5,22 +5,22 @@
 $IV = array(
 	'POST' => array(
 		'visibility' => array('int', 0, 3),
-		'category' => array('int', 'default' => 0),
-		'title' => array('string'),
-		'content' => array('string'),
+		'starred'    => array('int', 0, 2),
+		'category'   => array('int', 'default' => 0),
+		'title'      => array('string'),
+		'content'    => array('string'),
 		'contentFormatter' => array('string'),
-		'contentEditor' => array('string'),
-		'permalink' => array('string', 'default' => ''),
-		'location' => array('string', 'default' => '/'),
-		'tag' => array('string', 'default' => ''),
-		'acceptComment' => array(array('0', '1'), 'default' => '0'),
-		'acceptTrackback' => array(array('0', '1'), 'default' => '0'),
-		'published' => array('int', 0, 'default' => 1)
+		'contentEditor'    => array('string'),
+		'permalink'  => array('string', 'default' => ''),
+		'location'   => array('string', 'default' => '/'),
+		'tag'        => array('string', 'default' => ''),
+		'acceptComment'    => array(array('0', '1'), 'default' => '0'),
+		'acceptTrackback'  => array(array('0', '1'), 'default' => '0'),
+		'published'  => array('int', 0, 'default' => 1)
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel('blog.entry');
-
 
 requireStrictRoute();
 
@@ -36,13 +36,14 @@ if(empty($suri['id'])) {
 }
 if (empty($suri['id']) || !is_null($entry)) {
 	$entry['visibility'] = $_POST['visibility'];
-	$entry['category'] = $_POST['category'];
-	$entry['location'] = empty($_POST['location']) ? '/' : $_POST['location'];
-	$entry['tag'] = empty($_POST['tag']) ? '' : $_POST['tag'];
-	$entry['title'] = $_POST['title'];
-	$entry['content'] = $_POST['content'];
+	$entry['starred']    = $_POST['starred'];
+	$entry['category']   = $_POST['category'];
+	$entry['location']   = empty($_POST['location']) ? '/' : $_POST['location'];
+	$entry['tag']        = empty($_POST['tag']) ? '' : $_POST['tag'];
+	$entry['title']      = $_POST['title'];
+	$entry['content']    = $_POST['content'];
 	$entry['contentFormatter'] = $_POST['contentFormatter'];
-	$entry['contentEditor'] = $_POST['contentEditor'];
+	$entry['contentEditor']    = $_POST['contentEditor'];
 	if ((isset($_POST['permalink'])) && ($_POST['permalink'] != '')) {
 		$entry['slogan'] = $_POST['permalink'];
 	} else if($_POST['permalink'] == '') $entry['slogan'] = '';

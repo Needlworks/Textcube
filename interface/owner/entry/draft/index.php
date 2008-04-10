@@ -5,6 +5,7 @@
 $IV = array(
 	'POST' => array(
 		'visibility' => array('int', 0, 3),
+		'starred' => array('int', 0, 2),
 		'category' => array('int', 'default' => 0),
 		'title' => array('string'),
 		'content' => array('string'),
@@ -28,6 +29,7 @@ if(empty($suri['id'])) respond::ResultPage(1);
 $entry['id'] = $suri['id'];
 $entry['draft'] = 1;
 $entry['visibility'] = $_POST['visibility'];
+$entry['starred'] = $_POST['starred'];
 $entry['category'] = $_POST['category'];
 $entry['title'] = $_POST['title'];
 $entry['content'] = $_POST['content'];

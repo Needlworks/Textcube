@@ -5,17 +5,18 @@
 $IV = array(
 	'POST' => array(
 		'visibility' => array('int', 0, 3),
-		'category' => array('int', 'default' => 0),
-		'title' => array('string'),
-		'content' => array('string'),
+		'starred   ' => array('int', 0, 2),
+		'category'   => array('int', 'default' => 0),
+		'title'      => array('string'),
+		'content'    => array('string'),
 		'contentFormatter' => array('string'),
 		'contentEditor' => array('string'),
-		'permalink' => array('string', 'default' => ''),
-		'location' => array('string', 'default' => '/'),
-		'tag' => array('string', 'default' => ''),
-		'acceptComment' => array(array('0', '1'), 'default' => '0'),
+		'permalink'  => array('string', 'default' => ''),
+		'location'   => array('string', 'default' => '/'),
+		'tag'        => array('string', 'default' => ''),
+		'acceptComment'   => array(array('0', '1'), 'default' => '0'),
 		'acceptTrackback' => array(array('0', '1'), 'default' => '0'),
-		'published' => array('int', 0, 'default' => 1)
+		'published'  => array('int', 0, 'default' => 1)
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
@@ -31,6 +32,7 @@ if(is_null($entry)) {
 }
 if (!is_null($entry)) {
 	$entry['visibility'] = $_POST['visibility'];
+	$entry['starred'] = $_POST['starred'];
 	$entry['category'] = $_POST['category'];
 	$entry['location'] = empty($_POST['location']) ? '/' : $_POST['location'];
 	$entry['tag'] = empty($_POST['tag']) ? '' : $_POST['tag'];

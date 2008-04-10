@@ -51,6 +51,7 @@ function getEntry($blogid, $id, $draft = false) {
 				'userid'     => 0,
 				'draft'      => 0,
 				'visibility' => 0,
+				'starred'    => 1,
 				'category'   => 0,
 				'location'   => '',
 				'title'      => '',
@@ -282,7 +283,7 @@ function getEntriesWithPagingByAuthor($blogid, $author, $page, $count, $countIte
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
 }
 
-function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count, $visibility = null) {
+function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count, $visibility = null, $starred = null, $draft = null) {
 	global $database, $suri;
 	requireComponent('Eolin.PHP.Core');
 	
@@ -314,6 +315,13 @@ function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count
 			$sql .= ' AND e.visibility = '.$visibility;
 		} else {
 			$sql .= ' AND e.visibility '.$visibility;
+		}
+	}
+	if(isset($starred)) {
+		if(Validator::isInteger($starred,0,3)) {
+			$sql .= ' AND e.starred = '.$starred;
+		} else {
+			$sql .= ' AND e.starred '.$starred;
 		}
 	}
 	if (!empty($search)) {
@@ -521,7 +529,7 @@ function addEntry($blogid, $entry) {
 		$id = 1;
 	}
 	$result = POD::query("INSERT INTO {$database['prefix']}Entries 
-			(blogid, userid, id, draft, visibility, category, title, slogan, content, contentFormatter,
+			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, contentFormatter,
 			 contentEditor, location, password, acceptComment, acceptTrackback, published, created, modified,
 			 comments, trackbacks) 
 			VALUES (
@@ -530,6 +538,7 @@ function addEntry($blogid, $entry) {
 			$id,
 			0,
 			{$entry['visibility']},
+			{$entry['starred']},
 			{$entry['category']},
 			'$title',
 			'$slogan',
@@ -661,6 +670,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 			SET
 				userid             = {$entry['userid']},
 				visibility         = {$entry['visibility']},
+				starred            = {$entry['starred']},
 				category           = {$entry['category']},
 				draft              = 0,
 				location           = '$location',
@@ -796,6 +806,7 @@ function saveDraftEntry($blogid, $entry) {
 			SET
 				userid             = {$entry['userid']},
 				visibility         = {$entry['visibility']},
+				starred            = {$entry['starred']},
 				category           = {$entry['category']},
 				draft              = 1,
 				location           = '$location',
@@ -811,7 +822,7 @@ function saveDraftEntry($blogid, $entry) {
 			WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 1");
 	} else {
 		$result = POD::query("INSERT INTO {$database['prefix']}Entries 
-			(blogid, userid, id, draft, visibility, category, title, slogan, content, contentFormatter,
+			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, contentFormatter,
 			 contentEditor, location, password, acceptComment, acceptTrackback, published, created, modified,
 			 comments, trackbacks) 
 			VALUES (
@@ -820,6 +831,7 @@ function saveDraftEntry($blogid, $entry) {
 			{$entry['id']},
 			1,
 			{$entry['visibility']},
+			{$entry['starred']},
 			{$entry['category']},
 			'$title',
 			'$slogan',
@@ -1101,5 +1113,14 @@ function getEntryIdBySlogan($blogid, $slogan) {
 			AND slogan = '".POD::escapeString($slogan)."'");
 	if(!$result) return false;
 	else return $result;
+}
+
+function setEntryStar($entryId, $mark) {
+	global $database;
+	$result = POD::query("UPDATE {$database['prefix']}Entries
+		SET starred = ".$mark."
+		WHERE blogid = ".getBlogId()." AND id = ".$entryId);
+	if(!$result) return false;
+	else return true;
 }
 ?>

@@ -43,7 +43,7 @@ if (isset($_POST['category'])) {
 if (isset($_GET['visibility'])) {
 	$_POST['visibility'] = $_GET['visibility'];
 }
-
+$starred = $visibility = null;
 $tabsClass = array();
 if (isset($_POST['visibility'])) {
 	if($_POST['visibility']=='public') {
@@ -64,16 +64,21 @@ if (isset($_POST['visibility'])) {
 		$visibilityText = _t('예약');
 	} else if($_POST['visibility']=='template') {
 //		$categoryId = -4;
-		$visibility = null;
 		$tabsClass['template'] = true;
 		$visibilityText = _t('서식');
+	} else if($_POST['visibility']=='starred') {
+		$starred = 2;
+		$tabsClass['starred'] = true;
+		$visibilityText = _t('별표');
+	} else if($_POST['visibility']=='draft') {
+		$starred = 0;
+		$tabsClass['draft'] = true;
+		$visibilityText = _t('작성중');
 	} else {
-		$visibility = null;
 		$tabsClass['all'] = true;
 		$visibilityText = _t('모든');
 	}
 } else {
-	$visibility = null;
 	$tabsClass['all'] = true;
 	$visibilityText = _t('모든');
 	$_POST['visibility'] = '';
@@ -99,7 +104,7 @@ if ( isset($_POST['perPage']) && (in_array($_POST['perPage'], array(10, 15, 20, 
 if(isset($_POST['visibility']) && $_POST['visibility'] == 'template') $categoryIdforPrint = -4;
 else $categoryIdforPrint = $categoryId;	// preserves category selection even if template tab is activated.
 
-list($entries, $paging) = getEntriesWithPagingForOwner(getBlogId(), $categoryIdforPrint, $searchKeyword, $suri['page'], $perPage, $visibility);
+list($entries, $paging) = getEntriesWithPagingForOwner(getBlogId(), $categoryIdforPrint, $searchKeyword, $suri['page'], $perPage, $visibility, $starred);
 
 // query string 생성.
 $paging['postfix'] = NULL;
@@ -189,7 +194,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
 												tempTr = tempTd.parentNode;
-												tempTr.cells[7].innerHTML = "";
+												tempTr.cells[8].innerHTML = "";
 												
 												break;
 											case 1:
@@ -218,7 +223,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
 												tempTr = tempTd.parentNode;
-												tempTr.cells[7].appendChild(tempLink);
+												tempTr.cells[8].appendChild(tempLink);
 												
 												break;
 											case 2:
@@ -239,7 +244,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												
 												tempTd = document.getElementById("protectedIcon_" + entry).parentNode;
 												tempTr = tempTd.parentNode;
-												tempTr.cells[7].innerHTML = "";
+												tempTr.cells[8].innerHTML = "";
 																							
 												break;
 											case 3:
@@ -268,6 +273,28 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												
 												countSyndicated = true;
 												
+												break;
+										}
+									}
+									request.onError = function () {
+										window.location = "<?php echo $blogURL;?>/owner/entry";
+									}
+									request.send();
+								}
+								
+								function setEntryStar(entry, mark) {
+									if ((mark < 0) || (mark > 2))
+										return false;
+									var request = new HTTPRequest("<?php echo $blogURL;?>/owner/entry/star/" + entry + "?mark=" + mark);
+									request.onSuccess = function () {
+										switch (mark) {
+											case 1:
+												document.getElementById("starIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/star/<?php echo $entry['id'];?>?command=mark" onclick="setEntryStar(<?php echo $entry['id'];?>, 2); return false;" title="<?php echo _t('별표를 줍니다.');?>"><span class="text"><?php echo _t('별표');?></span></a></span>';
+												document.getElementById("starIcon_" + entry).className = 'unstar-icon';
+												break;
+											case 2:
+												document.getElementById("starIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/star/<?php echo $entry['id'];?>?command=unmark" onclick="setEntryStar(<?php echo $entry['id'];?>, 1); return false;" title="<?php echo _t('별표를 지웁니다.');?>"><span class="text"><?php echo _t('별표');?></span></a></span>';
+												document.getElementById("starIcon_" + entry).className = 'star-icon';
 												break;
 										}
 									}
@@ -579,7 +606,6 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										objTable = getParentByTagName("TABLE", getObject("trackbackIcon_" + id));
 										objTr = getParentByTagName("TR", getObject("trackbackIcon_" + id));
 										objTable.deleteRow(objTr.rowIndex + 1);
-										
 										document.getElementById("trackbackIcon_" + id).className = "trackback-off-button button";
 									} else {
 										objTable = getParentByTagName("TABLE", getObject("trackbackIcon_" + id));
@@ -590,7 +616,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										newRow.className = "hidden-layer";
 										
 										newCell = newRow.insertCell(0);
-										newCell.colSpan = 10;
+										newCell.colSpan = 11;
 										newCell.setAttribute("align", "right");
 										
 										newSection = document.createElement("DIV");
@@ -711,12 +737,14 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 							
 							<ul id="entry-tabs-box" class="tabs-box">
 								<!-- TODO : $tab['postfix'] 버그 -->
-								<li<?php echo isset($tabsClass['all']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>"><?php echo _t('모든 글');?></a></li>
-								<li<?php echo isset($tabsClass['private']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=private"><?php echo _t('비공개 글');?></a></li>
-								<li<?php echo isset($tabsClass['public']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=public"><?php echo _t('공개된 글');?></a></li>
-								<li<?php echo isset($tabsClass['protected']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=protected"><?php echo _t('보호된 글');?></a></li>
-								<li<?php echo isset($tabsClass['reserved']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=reserved"><?php echo _t('예약된 글');?></a></li>
-								<li<?php echo isset($tabsClass['template']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=template"><?php echo _t('서식');?></a></li>
+								<li class="entry-all<?php echo isset($tabsClass['all']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>"><?php echo _t('모든 글');?></a></li>
+								<li class="entry-draft<?php echo isset($tabsClass['draft']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=draft"><?php echo _t('쓰고 있는 글');?></a></li>
+								<li class="entry-starred<?php echo isset($tabsClass['starred']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=starred"><?php echo _t('별표');?></a></li>
+								<li class="entry-private<?php echo isset($tabsClass['private']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=private"><?php echo _t('비공개 글');?></a></li>
+								<li class="entry-public<?php echo isset($tabsClass['public']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=public"><?php echo _t('공개된 글');?></a></li>
+								<li class="entry-protected<?php echo isset($tabsClass['protected']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=protected"><?php echo _t('보호된 글');?></a></li>
+								<li class="entry-reserved<?php echo isset($tabsClass['reserved']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=reserved"><?php echo _t('예약된 글');?></a></li>
+								<li class="entry-template<?php echo isset($tabsClass['template']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=template"><?php echo _t('서식');?></a></li>
 							</ul>
 							
 							<form id="category-form" class="category-box" method="post" action="<?php echo $blogURL;?>/owner/entry">
@@ -768,6 +796,7 @@ if(isset($_POST['visibility'])) $returnURLpostfix .= (empty($returnURLpostfix) ?
 									<thead>
 										<tr>
 											<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" onclick="checkAll(this.checked);" /></th>
+											<th class="starred">&nbsp;</th>
 											<th class="date"><span class="text"><?php echo _t('등록일자');?></span></th>
 											<th class="status"><span class="text"><?php echo _t('상태');?></span></th>
 											<th class="syndicate"><span class="text"><?php echo _t('발행');?></span></th>
@@ -793,6 +822,17 @@ for ($i=0; $i<sizeof($entries); $i++) {
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $entry['id'];?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
+											<td class="starred"><?php
+	if($entry['starred'] == 2) {
+?>
+												<span id="starIcon_<?php echo $entry['id'];?>" class="star-icon"><a href="<?php echo $blogURL;?>/owner/entry/star/<?php echo $entry['id'];?>?command=unmark" onclick="setEntryStar(<?php echo $entry['id'];?>, 1); return false;" title="<?php echo _t('별표를 지웁니다.');?>"><span class="text"><?php echo _t('별표');?></span></a></span>
+<?php
+	} else {
+?>
+												<span id="starIcon_<?php echo $entry['id'];?>" class="unstar-icon"><a href="<?php echo $blogURL;?>/owner/entry/star/<?php echo $entry['id'];?>?command=mark" onclick="setEntryStar(<?php echo $entry['id'];?>, 2); return false;" title="<?php echo _t('별표를 줍니다.');?>"><span class="text"><?php echo _t('별표');?></span></a></span>
+<?php
+	}
+?></td>
 											<td class="date"><?php echo Timestamp::formatDate($entry['published']);?></td>
 											<td class="status">
 <?php
@@ -973,6 +1013,10 @@ if($entry['category'] < 0) {
 									<div id="data-description" class="section">
 										<h2><?php echo _t('기능 설명');?></h2>
 
+										<dl class="starred-description">
+											<dt><?php echo _t('별표');?></dt>
+											<dd><?php echo _t('중요한 글에 별표를 매깁니다.');?></dd>
+										</dl>
 										<dl class="eolin-description">
 											<dt><?php echo _t('발행');?></dt>
 											<dd><?php echo _f('%1에 글을 공개합니다.', '<a href="http://www.eolin.com" onclick="viewWhatIsEolin(); return false;">' . _t('이올린') . '</a>');?></dd>
