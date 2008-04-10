@@ -1028,6 +1028,36 @@ table.data-inbox tbody tr td.inactive-class
 
 /* Etc *******************************************************************************************/
 
+/* data description (for simple help footers) */
+#data-description
+{
+	text-align                       : right;
+}
+
+#data-description dl
+{
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : inline;
+	font-family                      : 'Lucida Grande', Tahoma, Verdana, sans-serif;
+	font-size                        : 0.93em;
+	font-weight                      : normal;
+	padding                          : 3px 0 1px 29px;
+}
+
+#data-description dl dt
+{
+	display                          : none;
+}
+
+#data-description dl dd
+{
+	display                          : inline;
+	margin                           : 0;
+	padding-right                    : 11px;
+	position                         : static;
+}
+
 /* eolin suggest */
 .eolinSuggest
 {

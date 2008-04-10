@@ -409,6 +409,18 @@ for ($i = 10; $i <= 30; $i += 5) {
 											<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 1);?>
 										</div>
 									</div>
+									
+									<div id="data-description" class="section">
+										<h2><?php echo _t('기능 설명');?></h2>
+										<dl class="ban-description">
+											<dt><?php echo _t('차단하기');?></dt>
+											<dd><?php echo _t('해당 데이터를 필터에 추가합니다.');?></dd>
+										</dl>
+										<dl class="trash-description">
+											<dt><?php echo _t('지우기');?></dt>
+											<dd><?php echo _t('선택한 링크를 삭제합니다.');?></dd>
+										</dl>
+									</div>
 								</div>
 							</form>
 							

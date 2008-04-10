@@ -91,8 +91,8 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								<thead>
 									<tr>
 										<th class="homepage"><span class="text"><?php echo _t('홈페이지 이름');?></span></th>
-										<th class="status"><span class="text"><?php echo _t('상태');?></span></th>
 										<th class="address"><span class="text"><?php echo _t('사이트 주소');?></span></th>
+										<th class="status"><span class="text"><?php echo _t('상태');?></span></th>
 										<th class="edit"><span class="text"><?php echo _t('수정');?></span></th>
 										<th class="delete"><span class="text"><?php echo _t('삭제');?></span></th>
 									</tr>
@@ -109,6 +109,7 @@ for ($i=0; $i<sizeof($links); $i++) {
 ?>
 									<tr id="link_<?php echo $link['id'];?>" class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td class="homepage"><a href="<?php echo $blogURL;?>/owner/communication/link/edit/<?php echo $link['id'];?>" title="<?php echo _t('이 링크 정보를 수정합니다.');?>"><?php echo htmlspecialchars($link['name']);?></a></td>
+										<td class="address"><a href="<?php echo htmlspecialchars($link['url']);?>" onclick="window.open(this.href); return false;" title="<?php echo _t('이 링크에 연결합니다.');?>"><?php echo htmlspecialchars($link['url']);?></a></td>
 										<td class="status">
 											
 											<span id="privateIcon_<?php echo $link['id'];?>" class="private-<?php echo (($link['visibility'] == 0) ? 'on' : 'off');?>-icon">
@@ -153,16 +154,31 @@ for ($i=0; $i<sizeof($links); $i++) {
 ?>
 											</span>
 										</td>
-										
-										<td class="address"><a href="<?php echo htmlspecialchars($link['url']);?>" onclick="window.open(this.href); return false;" title="<?php echo _t('이 링크에 연결합니다.');?>"><?php echo htmlspecialchars($link['url']);?></a></td>
 										<td class="edit"><a class="edit-button button" href="<?php echo $blogURL;?>/owner/communication/link/edit/<?php echo $link['id'];?>" title="<?php echo _t('링크 정보를 수정합니다.');?>"><span><?php echo _t('수정');?></span></a></td>
 										<td class="delete"><a class="delete-button button" href="<?php echo $blogURL;?>/owner/communication/link/delete/<?php echo $link['id'];?>" onclick="deleteLink(<?php echo $link['id'];?>); return false;" title="<?php echo _t('링크 정보를 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a></td>
 									</tr>
 <?php
 }
-if (sizeof($links) > 0) echo "									</tbody>";
+if (sizeof($links) > 0) echo "
+								</tbody>";
 ?>
 							</table>
+							
+							<hr class="hidden" />
+							
+							<div class="data-subbox">
+								<div id="data-description" class="section">
+									<h2><?php echo _t('기능 설명');?></h2>
+									<dl class="modify-description">
+										<dt><?php echo _t('수정하기');?></dt>
+										<dd><?php echo _t('링크 정보를 수정합니다.');?></dd>
+									</dl>
+									<dl class="trash-description">
+										<dt><?php echo _t('지우기');?></dt>
+										<dd><?php echo _t('선택한 링크를 삭제합니다.');?></dd>
+									</dl>
+								</div>
+							</div>
 						</div>
 <?php
 require ROOT . '/lib/piece/owner/footer.php';
