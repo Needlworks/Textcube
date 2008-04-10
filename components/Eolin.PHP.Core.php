@@ -109,6 +109,8 @@ class UTF8 {
 					break;
 			}
 		}
+		if (preg_match('/&#([0-9]{1,});/', $corrected))
+			$corrected = mb_decode_numericentity($corrected, array(0x0, 0x10000, 0, 0xfffff), 'UTF-8');
 		return $corrected;
 	}
 
