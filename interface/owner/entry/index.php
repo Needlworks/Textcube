@@ -1000,7 +1000,7 @@ if($entry['category'] < 0) {
 										</dl>
 										<dl class="protect-description">
 											<dt><?php echo _t('보호글');?></dt>
-											<dd><?php echo _t('보호글에 비밀번호를 설정합니다.');?></dd>
+											<dd><?php echo _t('보호글인 상태에서 한 번 더 아이콘을 눌러 비밀번호를 설정합니다.');?></dd>
 										</dl>
 										
 										<div id="eolinDialog" class="dialog" style="position: absolute; display: none; z-index: 100;">

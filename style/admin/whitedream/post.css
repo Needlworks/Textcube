@@ -114,10 +114,10 @@ table.data-inbox tbody tr td.ip
 
 #data-description dl.protect-description
 {
-	background-image                 : url("./image/icon_protectedsetting_single.gif");
-	background-position              : left 3px;
+	background-image                 : url("./image/icon_protected.gif");
+	background-position              : left bottom;
 	background-repeat                : no-repeat;
-	padding                          : 3px 0 1px 29px;
+	padding                          : 0 0 1px 29px;
 }
 
 /* Post *******************************************************************************************/
@@ -186,7 +186,8 @@ table.data-inbox tbody tr td.ip
 #part-post-list table.data-inbox tbody tr .category,
 #part-post-list table.data-inbox tbody tr .title,
 #part-post-list table.data-inbox tbody tr .author,
-#part-post-list table.data-inbox tbody tr .protect
+#part-post-list table.data-inbox tbody tr .protect,
+#part-post-list table.data-inbox tbody tr .trackback
 {
 	border-left                      : 1px solid #E3E3DE;
 }
