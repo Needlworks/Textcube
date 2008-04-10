@@ -92,7 +92,7 @@ function updateVisitorStatistics($blogid) {
 				$url = POD::escapeString(UTF8::lessenAsEncoding($_SERVER['HTTP_REFERER'], 255));
 				POD::query("INSERT INTO {$database['prefix']}RefererLogs values($blogid, '$host', '$url', UNIX_TIMESTAMP())");
 				POD::query("DELETE FROM {$database['prefix']}RefererLogs WHERE referred < UNIX_TIMESTAMP() - 604800");
-				if (!POD::execute("UPDATE {$database['prefix']}RefererStatistics SET count = count + 1 WHERE blogid = $blogid AND host = '$host'"))
+				if (!POD::execute("UPDATE {$database['prefix']}RefererStatistics SET count = count + 1 WHERE blogid = $blogid AND host = '$host' LIMIT 1"))
 					POD::execute("INSERT into {$database['prefix']}RefererStatistics values($blogid, '$host', 1)");
 			}
 		}
