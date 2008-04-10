@@ -122,9 +122,14 @@ table.data-inbox tbody tr td.ip
 
 /* Post *******************************************************************************************/
 
+#entry-tabs-box li.entry-starred
+{
+	margin-right                    : 40px;
+}
+
 #part-post-list h2.caption
 {
-	margin-bottom: 1.6em;
+	margin-bottom                   : 1.6em;
 }
 
 /* table header */
