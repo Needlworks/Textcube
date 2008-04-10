@@ -335,7 +335,7 @@ if($textcubeDashboard) {
 						}
 					}
 				}
-				setServiceSetting('Textcube_Notice',serialize($noticeEntries));
+				setServiceSetting('Textcube_Notice_'.$blog['language'],serialize($noticeEntries));
 			}
 		}
 
