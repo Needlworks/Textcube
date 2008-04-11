@@ -11,7 +11,7 @@ if(empty($suri['id'])) {
 	<div class="toolbar">
 		<h1 id="pageTitle"><?php echo htmlspecialchars(User::getName($blogid));?> Blog</h1>
 		<a id="backButton" class="button" href="#"></a>
-		<a class="button" href="#searchForm" onclick="searchAction(true);">Search</a>
+		<a class="button" href="#searchForm" id="searchButton" onclick="searchAction(true);">Search</a>
 	</div>
 	<ul id="home" title="<?php echo htmlspecialchars(User::getName($blogid));?> Blog" selected="true">
 	<?php

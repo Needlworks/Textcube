@@ -328,6 +328,7 @@ function preloadImages()
 function submitForm(form)
 {
     iui.showPageByHref(form.action || "POST", encodeForm(form), form.method);
+	closeKeypad();
 }
 
 function encodeForm(form)
@@ -437,4 +438,11 @@ function searchKeywordCheck(qObj){
 	}else{
 		cObj.style.display = 'none';
 	}
+}
+
+function closeKeypad(){
+	var searchButton = document.getElementById("searchButton");
+	if (searchButton != null){
+		searchButton.focus();
+	} 
 }
