@@ -8,7 +8,7 @@ requireView('iphoneView');
 if (false) {
 	fetchConfigVal();
 }
-$search = isset($_GET['qString']) ? $_GET['qString'] : $suri['value'];
+$search = isset($_GET['search']) ? $_GET['search'] : $suri['value'];
 $search = isset($_GET['q']) ? $_GET['q'] : $search; // Consider the common search query GET name. (for compatibility)
 if(strlen($search) > 0 && !empty($suri['page'])) {
 	$blog['entriesOnList'] = 8;
@@ -42,10 +42,10 @@ if(strlen($search) > 0 && !empty($suri['page'])) {
 
 		$itemsView .= '<li class="pagination">'.CRLF;
 		if(isset($paging['prev'])){
-			$itemsView .= '<a href="' .$blogURL . '/search?qString='.$search.'&page=' . $paging['prev'] . '" class="previous">Page ' . $paging['prev'] . '</a>'.CRLF;
+			$itemsView .= '<a href="' .$blogURL . '/search?search='.$search.'&page=' . $paging['prev'] . '" class="previous">Page ' . $paging['prev'] . '</a>'.CRLF;
 		}
 		if (isset($paging['next'])) {
-			$itemsView .= '<a href="' .$blogURL . '/search?qString='.$search.'&page=' . $paging['next'] . '" class="next">Page ' . $paging['next'] . '</a>'.CRLF;
+			$itemsView .= '<a href="' .$blogURL . '/search?search='.$search.'&page=' . $paging['next'] . '" class="next">Page ' . $paging['next'] . '</a>'.CRLF;
 		}
 		if ($suri['page'] > 1 && $suri['page'] != $paging['pages']) {
 			$itemsView .= '<strong>' . $suri['page'] . '</strong>'.CRLF;

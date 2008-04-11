@@ -16,7 +16,7 @@ if(empty($suri['id'])) {
 	<ul id="home" title="<?php echo htmlspecialchars(User::getName($blogid));?> Blog" selected="true">
 	<?php
 		$blogAuthor = User::getName($blogid);
-		$blogLogo = !empty($blog['logo']) ? $blogURL . "/imageResizer?f=" . $blog['logo'] . "&m=80" : "{$service['path']}/image/spacer.gif";
+		$blogLogo = !empty($blog['logo']) ? $blogURL . "/imageResizer?f=" . $blog['logo'] . "&m=80" : "{$service['path']}/style/iphone/image/textcube_logo.png";
 		$itemsView .= '<li class="blog_info">'.CRLF;
 		$itemsView .= '	<div class="logo"><img src="' . $blogLogo . '" /></div>'.CRLF;
 		$itemsView .= '	<div class="blog_container">'.CRLF;
@@ -83,7 +83,7 @@ if(empty($suri['id'])) {
             
             <div class="searchIcon"></div>
 			<img id="clearButton" class="clearButton" src="<?php echo $service['path'];?>/image/spacer.gif" onclick="cancelAction(this);" />
-			<input id="qString" type="text" name="qString" autocomplete="off" unedited="true" class="search" onkeyup="searchKeywordCheck(this);" onkeydown="searchKeywordCheck(this);" />
+			<input id="qString" type="text" name="search" autocomplete="off" unedited="true" class="search" onkeyup="searchKeywordCheck(this);" onkeydown="searchKeywordCheck(this);" />
 		</fieldset>
     </form>
 

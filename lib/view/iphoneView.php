@@ -78,18 +78,18 @@ function printIphoneCategoriesView($totalPosts, $categories) {
 function printIphonePrintTreeView($tree, $xhtml=true) {
 	if ($xhtml) {
 		$printCategory  = '<li class="category"><a href="' . htmlspecialchars($tree['link']) . '" class="link">' . htmlspecialchars($tree['label']);
-		$printCategory .= ' <span class="c_cnt">(' . $tree['value'] . ')</span>';
+		$printCategory .= ' <span class="c_cnt">' . $tree['value'] . '</span>';
 		$printCategory .= '</a></li>';
 		for ($i=0; $i<count($tree['children']); $i++) {
 			$child = $tree['children'][$i];
 			$printCategory .= '<li class="category"><a href="' . htmlspecialchars($child['link']) . '" class="link">' . htmlspecialchars($child['label']);
-			$printCategory .= ' <span class="c_cnt">(' . $child['value'] . ')</span>';
+			$printCategory .= ' <span class="c_cnt">' . $child['value'] . '</span>';
 			$printCategory .= '</a></li>';
 			if (sizeof($child['children']) > 0) {
 				for ($j=0; $j<count($child['children']); $j++) {
 					$leaf = $child['children'][$j];
 					$printCategory .= '<li class="category_sub"><a href="' . htmlspecialchars($leaf['link']) . '" class="link">&bull;&nbsp; ' . htmlspecialchars($leaf['label']);
-					$printCategory .= ' <span class="c_cnt">(' . $leaf['value'] . ')</span>';
+					$printCategory .= ' <span class="c_cnt">' . $leaf['value'] . '</span>';
 					$printCategory .= '</a></li>';
 				}
 			}
@@ -127,7 +127,7 @@ function printIphoneArchivesView($archives) {
 		}
 		$dateName = date("F Y",(mktime(0,0,0,substr($archive['period'],4),1,substr($archive['period'],0,4))));
 		$printArchive .= '<li class="archive"><a href="' . $blogURL . '/archive/' . $archive['period'] . '" class="link">' . $dateName;
-		$printArchive .= ' <span class="c_cnt">(' . $archive['count'] . ')</span>';
+		$printArchive .= ' <span class="c_cnt">' . $archive['count'] . '</span>';
 		$printArchive .= '</a></li>';
 		$oldPeriod = substr($archive['period'],0,4);
 	}
@@ -168,8 +168,8 @@ function printIphoneTagsView($tags) {
 	ob_start();
 	list($maxTagFreq, $minTagFreq) = getTagFrequencyRange();
 	foreach ($tags as $tag) {
-		$printTag .= '<li class="tag"><a href="' . $blogURL . '/tag/' . $tag['id'] . '" class="cloud' . getTagFrequency($tag, $maxTagFreq, $minTagFreq).'" >' . htmlspecialchars($tag['name']);
-		$printTag .= '</a></li>';
+		$printTag .= '<li class="tag"> <a href="' . $blogURL . '/tag/' . $tag['id'] . '" class="cloud' . getTagFrequency($tag, $maxTagFreq, $minTagFreq).'" >' . htmlspecialchars($tag['name']);
+		$printTag .= '</a> </li>';
 	}
 	$view = ob_get_contents();
 	ob_end_clean();

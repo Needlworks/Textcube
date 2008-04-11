@@ -287,8 +287,15 @@ body > ul > li.post_item > a > .post > span.description {
 }
 
 body > ul > li > a > span.c_cnt {
-	font-weight:normal;
+	display:block;
+	position:absolute;
+	top:9px;
+	right:30px;
+	text-align:right; 
+	font-weight:bold; 
+	font-size:15px;
 }
+
 body > ul > li.category_sub {
 
 }
@@ -620,45 +627,46 @@ body > ul > li.panel > .content > ul.tag_list{
 body > ul > li.panel > .content > ul.tag_list > li{
 	display:inline;
 	list-style:none;
-	line-height:1.4em;
-	margin:0;
-	padding:0 5px;
+	line-height:1.6em;
+	margin:0 5px 0 0;
+	padding:0;
 }
 body > ul > li.panel > .content > ul.tag_list > li > a{
     display: inline;
     margin: 0;
-    padding: 0;
+	padding: 2px;
+	text-shadow: none;
     text-decoration: none;
     background: none;
+	white-space: nowrap;
 }
 body > ul > li.panel > .content > ul.tag_list > li > a.cloud1{
 	font-weight: bold;
-	font-size: 2em;
+	font-size: 1.8em;
 	color: #74952F;
 }
 body > ul > li.panel > .content > ul.tag_list > li > a.cloud2{
 	font-weight: bold;
-	font-size: 1.8em;
-	color: #437CC2;
+	font-size: 1.6em;
+	color: #BC461F;
 }
 body > ul > li.panel > .content > ul.tag_list > li > a.cloud3{
 	font-weight: bold;
-	font-size: 1.5em;
+	font-size: 1.4em;
 	color: #8A59AE;
 }
 body > ul > li.panel > .content > ul.tag_list > li > a.cloud4{
 	font-size: 1.2em;
-	color: #925F52;
+	color: #437CC2;
 }
 body > ul > li.panel > .content > ul.tag_list > li > a.cloud5{
 	font-size: 1.0em;
 	color: #222;
 }
 body > ul > li.panel > .content > ul.tag_list > li > a:hover{
-	color: #8A4B98;
+	color:#fff;
+	background:#BD446E;
 }
-
-
 
 /************************************************************************************************/
 
