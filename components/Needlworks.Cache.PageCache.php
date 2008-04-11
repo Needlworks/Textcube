@@ -273,7 +273,7 @@ class globalCacheStorage extends pageCache {
 
 	function save() {
 		global $database;
-		if($this->_isChanged) return POD::queryCell("REPLACE INTO {$database['prefix']}PageCacheLog VALUES(".$this->_gBlogId.", 'globalCacheStorage', '".POD::escapeString(serialize($this->_gCacheStorage[$this->_gBlogId]))."')");
+		if($this->_isChanged) return POD::query("REPLACE INTO {$database['prefix']}PageCacheLog VALUES(".$this->_gBlogId.", 'globalCacheStorage', '".POD::escapeString(serialize($this->_gCacheStorage[$this->_gBlogId]))."')");
 	}
 	
 	function getContent($name) {
