@@ -668,6 +668,29 @@ h4
 	background-color: #faf9f8;
 }
 
+div.footnotes {
+	padding: 1em 0.5em 0 0.2em;
+	font-size: 0.9em;
+	line-height: 150%;
+	color: #555;
+}
+
+div.footnotes hr {
+	margin-bottom: 8px;
+	border: 0 none;
+	background: #999;
+	width: 30%;
+	height: 1px;
+}
+
+div.footnotes ol {
+	margin-left: 25px;
+}
+
+div.footnotes ol p {
+	margin: 0.7em;
+}
+
 /* tag, comments btn */
 
 .miscInfo
