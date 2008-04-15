@@ -12,7 +12,7 @@ function FM_Markdown_format($blogid, $id, $content, $keywords = array(), $useAbs
 		require_once 'ttml.php';
 	}
 	$view = FM_TTML_bindAttachments($id, $path, $url, $content, $useAbsolutePath, $bRssMode);
-	$view = Markdown($view);
+	$view = Markdown($view, $id);
 	if (is_array($keywords)) $view = FM_TTML_bindKeywords($keywords, $view);
 	$view = FM_TTML_bindTags($id, $view);
 	return $view;

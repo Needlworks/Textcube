@@ -49,7 +49,7 @@ define( 'MARKDOWNEXTRA_VERSION',  "1.1.7" ); # Wed 26 Sep 2007
 
 @define( 'MARKDOWN_PARSER_CLASS',  'MarkdownExtra_Parser' );
 
-function Markdown($text) {
+function Markdown($text, $salt = '') {
 #
 # Initialize the parser and return the result of its transform method.
 #
@@ -61,6 +61,7 @@ function Markdown($text) {
 	}
 
 	# Transform text using parser.
+	$parser->fn_id_prefix = $salt;
 	return $parser->transform($text);
 }
 
