@@ -133,6 +133,19 @@ if (defined('__TEXTCUBE_POST__')) {
 									request.send("fileName=" + encodeURIComponent(filename) + "&order=" + order);
 								}
 								
+								var star = <?php echo ($entry['starred'] == 2 ? 'true' : 'false');?>;
+
+								function setStar() {
+									if(star == true) {
+										star = false;
+										document.getElementById("starred").className = 'unstar-icon';
+									} else {
+										star = true;
+										document.getElementById("starred").className = 'star-icon';
+									}
+									return true;
+								}
+
 								function EntryManager() {
 									this.savedData = null;
 <?php
@@ -189,13 +202,10 @@ if (defined('__TEXTCUBE_POST__')) {
 												break;
 											}
 										}
-										var starred = 1;
-										for (var i = 0; i < oForm.starred.length; i++) {
-											if (oForm.starred[i].checked) {
-												starred = oForm.starred[i].value;
-												break;
-											}
-										}
+										var starred  = 2;
+										if(star == true) starred = 2;
+										else starred = 0;
+
 										var entrytype = 0;
 										for (var i = 0; i < oForm.entrytype.length; i++) {
 											if (oForm.entrytype[i].checked) {
@@ -558,6 +568,20 @@ if (defined('__TEXTCUBE_POST__')) {
 										<dl id="title-line" class="line">
 											<dt><label for="title" id="title-line-label"><?php echo $isKeyword ? _t('키워드') : _t('제목');?></label></dt>
 											<dd>
+											<div id="starred" class="<?php echo ($entry['starred'] == 2 ? 'star-icon' : 'unstar-icon');?>">
+<a href="#void" onclick="setStar(); return false;" title="<?php echo _t('별표를 줍니다.');?>"><span class="text"><?php echo _t('별표');?></span></a>
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												</div>
 												<input type="text" id="title" class="input-text" name="title" value="<?php echo htmlspecialchars($entry['title']);?>" onkeypress="return preventEnter(event);" size="60" />
 											</dd>
 										</dl>
@@ -816,15 +840,6 @@ if (defined('__TEXTCUBE_POST__')) {
 													<div id="status-protected" class="status-protected"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_protected" class="radio" name="visibility" value="1"<?php echo (abs($entry['visibility']) == 1 ? ' checked="checked"' : '');?> /><label for="visibility_protected"><?php echo _t('보호');?></label></div>
 													<div id="status-public" class="status-public"><input type="radio" id="visibility_public" class="radio" name="visibility" value="2"<?php echo (abs($entry['visibility']) == 2 ? ' checked="checked"' : '');?> /><label for="visibility_public"><?php echo _t('공개');?></label></div>
 													<div id="status-syndicated" class="status-syndicated"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?php echo $countResult == false ? ' onclick="viewWhatIsEolin();"' : NULL; echo (abs($entry['visibility']) == 3 ? ' checked="checked"' : '');?> /><label for="visibility_syndicated"><?php echo _t('발행');?><?php echo $countResult == true ? ' (<a href="#void" onclick="viewWhatIsEolin();">'._t('설명').'</a>)' : NULL;?></label></div>
-												</dd>
-											</dl>
-											
-											<dl id="finish-line" class="line">
-												<dt><span class="label"><?php echo _t('완성여부');?></span></dt>
-												<dd>
-													<div id="status-finished" class="status-finished"><input type="radio" id="write_finished" class="radio" name="starred" value="1"<?php echo (abs($entry['starred']) > 0 ? ' checked="checked"' : '');?> /><label for="write_finished"><?php echo _t('완성한 글');?></label></div>
-													<div id="status-draft" class="status-draft"><input type="radio" id="write_draft" class="radio" name="starred" value="0"<?php echo (abs($entry['starred']) == 0 ? ' checked="checked"' : '');?> /><label for="write_draft"><?php echo _t('쓰고 있는 글');?></label></div>
-													<div id="status-starred" class="status-starred"><input type="radio" id="write_starred" class="radio" name="starred" value="0"<?php echo (abs($entry['starred']) == 2 ? ' checked="checked"' : '');?> /><label for="write_starred"><?php echo _t('별표가 붙은 글');?></label></div>
 												</dd>
 											</dl>
 											

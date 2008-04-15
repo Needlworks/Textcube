@@ -721,7 +721,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 							
 							<ul id="entry-tabs-box" class="tabs-box">
 								<li class="entry-all<?php echo isset($tabsClass['all']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>"><?php echo _t('모든 글');?></a></li>
-								<li class="entry-draft<?php echo isset($tabsClass['draft']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=draft"><?php echo _t('쓰고 있는 글');?></a></li>
+<!--								<li class="entry-draft<?php echo isset($tabsClass['draft']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=draft"><?php echo _t('쓰고 있는 글');?></a></li>-->
 								<li class="entry-starred<?php echo isset($tabsClass['starred']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=starred"><?php echo _t('별표');?></a></li>
 								<li class="entry-private<?php echo isset($tabsClass['private']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=private"><?php echo _t('비공개 글');?></a></li>
 								<li class="entry-public<?php echo isset($tabsClass['public']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=public"><?php echo _t('공개된 글');?></a></li>
