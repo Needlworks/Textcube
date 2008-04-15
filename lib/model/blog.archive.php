@@ -14,7 +14,7 @@ function getArchives($blogid) {
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 		GROUP BY period 
 		ORDER BY period 
-		DESC LIMIT $archivesOnPage");
+		DESC LIMIT $archivesOnPage",'entry');
 	if ($result) {
 		foreach($result as $archive)
 			array_push($archives, $archive);
