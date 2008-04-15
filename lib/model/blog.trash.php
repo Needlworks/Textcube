@@ -134,7 +134,7 @@ function trashVan() {
 	}
 	if(Timestamp::getUNIXtime() - getServiceSetting('lastNoticeRead',0) > 43200) {
 		fireEvent('Cron12h',null,Timestamp::getUNIXtime());
-		removeServiceSetting('Textcube_Notice_%');
+		removeServiceSetting('Textcube_Notice_%',true);
 		setServiceSetting('lastNoticeRead',Timestamp::getUNIXtime());
 	}
 }

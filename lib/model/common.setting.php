@@ -46,10 +46,11 @@ function setServiceSetting($name, $value) {
 	return POD::execute("REPLACE INTO {$database['prefix']}ServiceSettings VALUES('$name', '$value')");
 }
 
-function removeServiceSetting($name) {
+function removeServiceSetting($name,$pruneSimilarEntries = false) {
 	global $database;
 	clearServiceSettingCache();
-	return POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".POD::escapeString($name)."'");
+	if($pruneSimilarEntries) return POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name like '".POD::escapeString($name)."'");
+	else return POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".POD::escapeString($name)."'");
 }
 
 function getBlogSetting($name, $default = null, $blogid = null) {
