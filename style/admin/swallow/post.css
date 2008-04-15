@@ -62,35 +62,6 @@ table.data-inbox tbody tr td.ip
 }
 
 /* data description */
-#data-description
-{
-	text-align                       : right;
-}
-
-#data-description dl
-{
-	background-position              : left top;
-	background-repeat                : no-repeat;
-	display                          : inline;
-	font-family                      : 'Lucida Grande', Tahoma, Verdana, sans-serif;
-	font-size                        : 0.93em;
-	font-weight                      : normal;
-	padding                          : 3px 0 1px 29px;
-}
-
-#data-description dl dt
-{
-	display                          : none;
-}
-
-#data-description dl dd
-{
-	display                          : inline;
-	margin                           : 0;
-	padding-right                    : 11px;
-	position                         : static;
-}
-
 #data-description dl.starred-description
 {
 	background-image                 : url("./image/icon_starred_single.gif");
@@ -114,17 +85,22 @@ table.data-inbox tbody tr td.ip
 
 #data-description dl.protect-description
 {
-	background-image                 : url("./image/icon_protectedsetting_single.gif");
-	background-position              : left 3px;
+	background-image                 : url("./image/icon_protected.gif");
+	background-position              : left bottom;
 	background-repeat                : no-repeat;
-	padding                          : 3px 0 1px 29px;
+	padding                          : 0 0 1px 29px;
 }
 
 /* Post *******************************************************************************************/
 
+#entry-tabs-box li.entry-starred
+{
+	margin-right                    : 40px;
+}
+
 #part-post-list h2.caption
 {
-	margin-bottom: 1.6em;
+	margin-bottom                   : 1.6em;
 }
 
 /* table header */
@@ -181,7 +157,8 @@ table.data-inbox tbody tr td.ip
 #part-post-list table.data-inbox tbody tr .category,
 #part-post-list table.data-inbox tbody tr .title,
 #part-post-list table.data-inbox tbody tr .author,
-#part-post-list table.data-inbox tbody tr .protect
+#part-post-list table.data-inbox tbody tr .protect,
+#part-post-list table.data-inbox tbody tr .trackback
 {
 	border-left                      : 1px solid #E3E3DE;
 }

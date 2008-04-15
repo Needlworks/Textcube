@@ -52,7 +52,42 @@ h3
 {
 	border                           : 1px solid #999999;
 	vertical-align                   : middle;
-	width                            : 560px;
+	width                            : 537px;
+}
+
+#starred
+{
+	width                            : 20px;
+	display                          : inline;
+	padding-right                    : 10px;
+}
+
+.star-icon span,
+.unstar-icon span
+{
+	display                          : none;
+}
+
+.star-icon a
+{
+	background-image                 : url("./image/icon_starred.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block; 
+	width                            : 16px;
+	height                           : 20px;
+	float                            : left;
+}
+
+.unstar-icon a
+{
+	background-image                 : url("./image/icon_unstarred.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block; 
+	width                            : 16px;
+	height                           : 20px;
+	float                            : left;
 }
 
 #category-line

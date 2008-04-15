@@ -585,3 +585,32 @@ table.data-inbox tbody tr td.ip
 {
 	margin                           : 0 auto 50px auto;
 }
+
+/* simple help footer ****************************************************************************/
+
+#data-description dl.modify-description
+{
+	background-image                 : url("./image/icon_modify.gif");
+	background-color                 : transparent;
+	background-position              : 8px 2px;
+	background-repeat                : no-repeat;
+}
+
+#data-description dl.ban-description
+{
+	background-image                 : url("./image/icon_block_off.gif");
+	background-color                 : transparent;
+	background-position              : 8px 2px;
+	margin                           : 0 3px 0 0;
+	background-repeat                : no-repeat;
+}
+
+#data-description dl.trash-description
+{
+	background-image                 : url("./image/icon_delete.gif");
+	background-color                 : transparent;
+	background-position              : 8px 7px;
+	height                           : 11px;
+	margin                           : 0 auto;
+	background-repeat                : no-repeat;
+}
