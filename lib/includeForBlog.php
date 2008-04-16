@@ -34,14 +34,13 @@ require ROOT .'/lib/model/blog.notice.php';
 require ROOT .'/lib/model/blog.link.php';
 require ROOT .'/lib/model/blog.locative.php';
 require ROOT .'/lib/model/blog.sidebar.php';
-require ROOT .'/lib/model/blog.statistics.php';
 require ROOT .'/lib/model/blog.trackback.php';
 require ROOT .'/lib/model/blog.tag.php';
 require ROOT .'/lib/model/blog.user.php';
 require ROOT .'/lib/model/common.setting.php';
-require ROOT .'/lib/model/common.paging.php';
 require ROOT .'/lib/model/common.plugin.php';
 require ROOT .'/lib/model/common.module.php';
+require ROOT .'/lib/model/common.legacysupport.php';
 if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of model loading');
 // Views
 require ROOT .'/lib/view/html.php';

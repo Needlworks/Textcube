@@ -28,7 +28,7 @@ require ROOT .'/lib/model/blog.skin.php';
 require ROOT .'/lib/model/common.plugin.php';
 require ROOT .'/lib/model/common.module.php';
 require ROOT .'/lib/model/common.setting.php';
-require ROOT .'/lib/model/common.paging.php';
+require ROOT .'/lib/model/common.legacysupport.php';
 // Views
 require ROOT .'/lib/view/html.php';
 require ROOT .'/lib/view/ownerView.php';
