@@ -459,7 +459,7 @@ function getRecentEntries($blogid) {
 	return $entries;
 }
 
-function addEntry($blogid, $entry) {
+function addEntry($blogid, $entry, $userid = null) {
 	global $database, $blog, $gCacheStorage;
 	requireModel("blog.attachment");
 	requireModel("blog.rss");
@@ -467,7 +467,8 @@ function addEntry($blogid, $entry) {
 	requireModel("blog.tag");
 	requireModel("blog.locative");
 
-	$entry['userid'] = getUserId();
+	if(empty($userid)) $entry['userid'] = getUserId();
+	else $entry['userid'] = $userid;
 	$entry['title'] = UTF8::lessenAsEncoding(trim($entry['title']), 255);
 	$entry['location'] = UTF8::lessenAsEncoding(trim($entry['location']), 255);
 	$entry['slogan'] = array_key_exists('slogan', $entry) ? trim($entry['slogan']) : '';
