@@ -8,7 +8,6 @@ requireLibrary('blog.skin');
 
 
 requireModel('reader.common');
-requireModel('blog.statistics');
 requireModel('blog.comment');
 requireModel('blog.trackback');
 requireModel('blog.entry');
