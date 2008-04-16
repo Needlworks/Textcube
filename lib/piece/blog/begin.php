@@ -4,9 +4,9 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 $blogid = getBlogId();
-requireModel('blog.statistics');
-updateVisitorStatistics($blogid);
-$stats = getStatistics($blogid);
+requireComponent('Textcube.Model.Statistics');
+Statistics::updateVisitorStatistics($blogid);
+$stats = Statistics::getStatistics($blogid);
 if (!empty($entries) && (count($entries) == 1))
 	$pageTitle = $entries[0]['title'];
 else
