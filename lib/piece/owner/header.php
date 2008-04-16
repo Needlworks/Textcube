@@ -212,10 +212,12 @@ include ROOT . '/language/messages.php';
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/owner.js"></script>
 <?php
-if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
+if(($service['interface'] == 'simple') || ($service['effect'])) {
+	if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
 ?>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/mootools.js"></script>
 <?php
+	}
 }
 if( isset($service['admin_script']) ) {
 	if( is_array($service['admin_script']) ) {

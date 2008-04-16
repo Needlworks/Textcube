@@ -42,6 +42,7 @@ $service['reader'] = true;
 $service['flashclipboardpoter'] = true;
 $service['allowBlogVisibilitySetting'] = true;
 $service['effect'] = false;
+$service['interface'] = 'detail';	// 'simple' or 'detail'. Default is 'detail'
 //$service['flashuploader'] = false;
 
 // Map port setting.
