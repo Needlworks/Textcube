@@ -23,7 +23,7 @@ require ROOT .'/lib/model/blog.service.php';
 require ROOT .'/lib/model/blog.blogSetting.php';
 require ROOT .'/lib/model/blog.user.php';
 require ROOT .'/lib/model/blog.fx.php';
-require ROOT .'/lib/model/common.paging.php';
+require ROOT .'/lib/model/common.legacysupport.php';
 require ROOT .'/lib/model/common.setting.php';
 require ROOT .'/lib/model/common.plugin.php';
 require ROOT .'/lib/model/reader.common.php';
