@@ -55,7 +55,7 @@ Standardizer.prototype.event = function(event) {
 		event = window.event;
 		if(event.target) return event;
 		if(event.srcElement) event.target = event.srcElement;
-		if(event.preventDefault == undefined) 
+		if(event.preventDefault == undefined)
 			event.preventDefault = function() { this.returnValue=false;};
 	};
 	return event;
@@ -147,12 +147,12 @@ PageMaster.prototype.showMessage = function(message,align,valign,timeout) {
 	oMessage._align = align;
 	oMessage._valign = valign;
 	document.body.appendChild(oMessage);
-	
+
 	var index=this._messages.push(oMessage)-1;
-	
+
 	this.updateMessages();
 	window.setTimeout("PM._hideMessage("+index+")",timeout);
-	
+
 	return index;
 };
 
@@ -172,12 +172,12 @@ PageMaster.prototype.showErrorMessage = function(message,align,valign,timeout) {
 	oMessage._align = align;
 	oMessage._valign = valign;
 	document.body.appendChild(oMessage);
-	
+
 	var index=this._messages.push(oMessage)-1;
-	
+
 	this.updateMessages();
 	window.setTimeout("PM._hideMessage("+index+")",timeout);
-	
+
 	return index;
 };
 
@@ -202,7 +202,7 @@ PageMaster.prototype.updateMessages = function() {
 				this._messages[i].style.left = (STD.getScrollLeft()+document.documentElement.clientWidth-this._messages[i].offsetWidth)+"px";
 				break;
 		};
-		
+
 		switch(this._messages[i]._valign) {
 			case"top":
 				this._messages[i].style.top = STD.getScrollTop()+"px";
@@ -233,9 +233,9 @@ PageMaster.prototype.removeRequest = function(request) {
 			break;
 		};
 	};
-	
+
 	var message="";
-	
+
 	for(var i=0;i<this._requests.length;i++) {
 		if(this._requests[i][1]!=undefined) message+=this._requests[i][1];
 	};
@@ -277,7 +277,7 @@ PageMaster.prototype.showPanel = function(panel,halign,valign) {
 				panel.style.left = (STD.getScrollLeft()+document.documentElement.clientWidth-panel.offsetWidth)+"px";
 				break;
 		};
-		
+
 		switch(valign) {
 			case"top":
 				panel.style.top = STD.getScrollTop()+"px";
@@ -358,10 +358,10 @@ function HTTPRequest() {
 				break;
 			} catch(e){};
 		};
-		
+
 		if(this._request==null) {return null;};
 	};
-	
+
 	this._properties = new Array();
 	this._attributes = new Array();
 	this._userData = new Array();
@@ -382,7 +382,7 @@ HTTPRequest.prototype.presetAttribute = function(object,attribute,success,error)
 		error=object.getAttribute(attribute);
 		if(success == error) return;
 	};
-	
+
 	object.setAttribute(attribute,success);
 	if(success == error) return;
 	this._attributes.push(new Array(object,attribute,error));
@@ -398,9 +398,11 @@ HTTPRequest.prototype.send = function() {
 				if(instance.onVerify()) instance.onSuccess();
 				else {
 					for(var i in instance._properties)
-						instance._properties[i][0][instance._properties[i][1]] = instance._properties[i][2];
+						if (instance._properties[i] instanceof Array)
+							instance._properties[i][0][instance._properties[i][1]] = instance._properties[i][2];
 					for(var i in instance._attributes)
-						instance._attributes[i][0].setAttribute(instance._attributes[i][1],instance._attributes[i][2]);
+						if (instance._attributes[i] instanceof Array)
+							instance._attributes[i][0].setAttribute(instance._attributes[i][1],instance._attributes[i][2]);
 					instance.onError();
 				};
 			};
@@ -418,7 +420,7 @@ HTTPRequest.prototype.send = function() {
 	else if(this.url.lastIndexOf("?") >= 0)
 		this._request.open(this.method,this.url+"&__T__="+(new Date()).getTime(),this.async);
 	else this._request.open(this.method,this.url+"?__T__="+(new Date()).getTime(),this.async);
-	
+
 	if(STD.isFirefox)
 		this._request.setRequestHeader("Referer",location.href);
 	if(arguments.length>0) {
@@ -426,13 +428,17 @@ HTTPRequest.prototype.send = function() {
 	}
 	if(this.content.length>0) this._request.setRequestHeader("Content-Type",this.contentType);
 	this._request.send(this.content);
-	
+
 	if(!this.async) {
 		if(this.persistent) PM.removeRequest(this);
 		if(this.onVerify()) this.onSuccess();
 		else {
-			for(var i in this._properties) this._properties[i][0][this._properties[i][1]] = this._properties[i][2];
-			for(var i in this._attributes) this._attributes[i][0].setAttribute(this._attributes[i][1],this._attributes[i][2]);
+			for(var i in this._properties)
+				if (this._properties[i] instanceof Array)
+					this._properties[i][0][this._properties[i][1]] = this._properties[i][2];
+			for(var i in this._attributes)
+				if (this._attributes[i] instanceof Array)
+					this._attributes[i][0].setAttribute(this._attributes[i][1],this._attributes[i][2]);
 			this.onError();
 		};
 	};
@@ -455,7 +461,7 @@ HTTPRequest.prototype.getText = function(path) {
 			};
 			if(j!=-1) return null;
 		};
-		
+
 		if(cursor.text) return cursor.text;
 		return this._getText(cursor);
 	} catch(e) {
@@ -506,7 +512,7 @@ FileUploadRequest.prototype.bind = function(form,target) {
 		default:
 			return false;
 	};
-	
+
 	switch(typeof(target)) {
 		case"object":
 			this._target = target;
@@ -517,7 +523,7 @@ FileUploadRequest.prototype.bind = function(form,target) {
 		default:
 			return false;
 	};
-	
+
 	if(this._form.target != this._target.name)
 		this._form.target=this._target.name;
 	STD.addEventListener(this._form);
@@ -528,7 +534,7 @@ FileUploadRequest.prototype.bind = function(form,target) {
 		PM.addRequest(this._instance,"Uploading...");
 		this.submit();
 	};
-	
+
 	this._target.addEventListener("load",FileUploadRequest.prototype._onload,false);
 	this._form._instance = this;
 	this._target._instance = this;

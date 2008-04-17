@@ -246,8 +246,7 @@ class User {
 		$password = generatePassword();
 		$authtoken = md5(generatePassword());
 	
-		$result = POD::queryRow("SELECT * FROM `{$database['prefix']}Users` WHERE loginid = '$loginid'");
-		if (!empty($result)) {
+		if (POD::queryExistence("SELECT * FROM `{$database['prefix']}Users` WHERE loginid = '$loginid'")) {
 			return 9;	// User already exists.
 		}
 	
