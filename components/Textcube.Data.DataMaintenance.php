@@ -9,27 +9,27 @@ class DataMaintenance {
 		$blogid = getBlogId();	
 		$tags = POD::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");
 		
-		mysql_query("UPDATE {$database['prefix']}BlogStatistics SET visits = 0 WHERE blogid = $blogid");
-		mysql_query("DELETE FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid");
-		mysql_query("DELETE FROM {$database['prefix']}Categories WHERE blogid = $blogid");
-		mysql_query("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid");
-		mysql_query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid");
-		mysql_query("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid");
-		mysql_query("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid");
-		mysql_query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = $blogid");
-		mysql_query("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");
-		mysql_query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid");
-		mysql_query("DELETE FROM {$database['prefix']}Links WHERE blogid = $blogid");
-		mysql_query("DELETE FROM {$database['prefix']}RefererLogs WHERE blogid = $blogid");
-		mysql_query("DELETE FROM {$database['prefix']}RefererStatistics WHERE blogid = $blogid");
-		mysql_query("DELETE FROM {$database['prefix']}Plugins WHERE blogid = $blogid");
-		//mysql_query("DELETE FROM {$database['prefix']}UserSettings WHERE user = $blogid");
+		POD::query("UPDATE {$database['prefix']}BlogStatistics SET visits = 0 WHERE blogid = $blogid");
+		POD::query("DELETE FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid");
+		POD::query("DELETE FROM {$database['prefix']}Categories WHERE blogid = $blogid");
+		POD::query("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid");
+		POD::query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid");
+		POD::query("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid");
+		POD::query("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid");
+		POD::query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = $blogid");
+		POD::query("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");
+		POD::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid");
+		POD::query("DELETE FROM {$database['prefix']}Links WHERE blogid = $blogid");
+		POD::query("DELETE FROM {$database['prefix']}RefererLogs WHERE blogid = $blogid");
+		POD::query("DELETE FROM {$database['prefix']}RefererStatistics WHERE blogid = $blogid");
+		POD::query("DELETE FROM {$database['prefix']}Plugins WHERE blogid = $blogid");
+		//POD::query("DELETE FROM {$database['prefix']}UserSettings WHERE user = $blogid");
 		
-		mysql_query("DELETE FROM {$database['prefix']}Filters WHERE blogid = $blogid");
-		mysql_query("DELETE FROM {$database['prefix']}FeedStarred WHERE blogid = $blogid");
-		mysql_query("DELETE FROM {$database['prefix']}FeedReads WHERE blogid = $blogid");
-		mysql_query("DELETE FROM {$database['prefix']}FeedGroupRelations WHERE blogid = $blogid");
-		mysql_query("DELETE FROM {$database['prefix']}FeedGroups WHERE blogid = $blogid AND id <> 0");
+		POD::query("DELETE FROM {$database['prefix']}Filters WHERE blogid = $blogid");
+		POD::query("DELETE FROM {$database['prefix']}FeedStarred WHERE blogid = $blogid");
+		POD::query("DELETE FROM {$database['prefix']}FeedReads WHERE blogid = $blogid");
+		POD::query("DELETE FROM {$database['prefix']}FeedGroupRelations WHERE blogid = $blogid");
+		POD::query("DELETE FROM {$database['prefix']}FeedGroups WHERE blogid = $blogid AND id <> 0");
 		
 		if (count($tags) > 0) 
 		{
@@ -48,7 +48,7 @@ class DataMaintenance {
 		
 		if ($removeAttachments) {
 			Path::removeFiles(Path::combine(ROOT, 'attach', $blogid));
-			mysql_query("UPDATE {$database['prefix']}BlogSettings SET logo = '' WHERE blogid = $blogid");
+			POD::query("UPDATE {$database['prefix']}BlogSettings SET logo = '' WHERE blogid = $blogid");
 		}
 	}
 }

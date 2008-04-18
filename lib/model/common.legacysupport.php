@@ -4,8 +4,26 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 /* LEGACY FUNCTION SUPPORT
-   Functions below will be deprecated after Textcube 1.7 or later.
+   Functions below will be deprecated after Textcube 1.8 or later.
 */
+
+/***** blog.teamblog *****/
+function addTeamUser($email, $name, $comment, $senderName, $senderEmail) {
+	return Blog::addUser($email, $name, $comment, $senderName, $senderEmail);
+}
+
+function changeACLonBlog($blogid, $ACLtype, $userid, $switch) {  // Change user priviledge on the blog.
+	return Blog::changeACLofUser($blogid, $userid, $ACLtype, $switch);
+}
+
+function deleteTeamblogUser($userid ,$blogid = null, $clean = true) {
+	return Blog::deleteUser($blogid, $userid, $clean);
+}
+
+function changeBlogOwner($blogid,$userid) {
+	return Blog::changeOwner($blogid, $userid);
+}
+
 /***** blog.statistics *****/
 function getStatistics($blogid) {
 	requireComponent('Textcube.Model.Statistics');

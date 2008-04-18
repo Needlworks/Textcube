@@ -61,7 +61,7 @@ class PluginCustomConfig{
 			$element.= "<field name=\"$key\" type=\"text\" ><![CDATA[$value]]></field>";
 		}
 		$xml = '<?xml version="1.0" encoding="utf-8"?><config>'.$element.'</config>';
-		$xml = mysql_real_escape_string($xml);
+		$xml = POD::escapeString($xml);
 
 		if (defined('__TISTORY__')) {
 			requireComponent('Eolin.PHP.PageCache');

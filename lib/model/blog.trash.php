@@ -75,14 +75,13 @@ function getTrashCommentsWithPagingForOwner($blogid, $category, $name, $ip, $sea
 function getTrackbackTrash($entry) {
 	global $database;
 	$trackbacks = array();
-	$result = POD::query("select * 
-			from {$database['prefix']}Trackbacks 
-			where blogid = ".getBlogId()."
+	$result = POD::queryAll("SELECT * 
+			FROM {$database['prefix']}Trackbacks 
+			WHERE blogid = ".getBlogId()."
 				AND entry = $entry 
-			order by written");
-	while ($trackback = mysql_fetch_array($result))
-		array_push($trackbacks, $trackback);
-	return $trackbacks;
+			ORDER BY written",'assoc');
+	if(!empty($result)) return $result;
+	else return array();
 }
 
 function getRecentTrackbackTrash($blogid) {
@@ -91,7 +90,7 @@ function getRecentTrackbackTrash($blogid) {
 	$trackbacks = array();
 	$sql = doesHaveOwnership() ? "SELECT * FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid ORDER BY written DESC LIMIT {$skinSetting['trackbacksOnRecent']}" : "SELECT t.* FROM {$database['prefix']}Trackbacks t, {$database['prefix']}Entries e WHERE t.blogid = $blogid AND t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 AND e.visibility >= 2 ORDER BY t.written DESC LIMIT {$skinSetting['trackbacksOnRecent']}";
 	if ($result = POD::query($sql)) {
-		while ($trackback = mysql_fetch_array($result))
+		while ($trackback = POD::fetch($result))
 			array_push($trackbacks, $trackback);
 	}
 	return $trackbacks;

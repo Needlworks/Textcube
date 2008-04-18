@@ -42,15 +42,15 @@ class Post {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND category >= 0 $filter $sort");
+		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND category >= 0 $filter $sort");
 		if ($this->_result)
-			$this->_count = mysql_num_rows($this->_result);
+			$this->_count = POD::num_rows($this->_result);
 		return $this->shift();
 	}
 	
 	function close() {
 		if (isset($this->_result)) {
-			mysql_free_result($this->_result);
+			POD::free($this->_result);
 			unset($this->_result);
 		}
 		$this->_count = 0;
@@ -59,7 +59,7 @@ class Post {
 	
 	function shift() {
 		$this->reset();
-		if ($this->_result && ($row = mysql_fetch_assoc($this->_result))) {
+		if ($this->_result && ($row = POD::fetch($this->_result))) {
 			foreach ($row as $name => $value) {
 				if ($name == 'blogid')
 					continue;
@@ -125,9 +125,9 @@ class Post {
 		if (isset($this->category)) {
 			$target = ($parentCategory = Category::getParent($this->category)) ? '(id = ' . $this->category . ' OR id = ' . $parentCategory . ')' : 'id = ' . $this->category;
 			if (isset($this->visibility) && ($this->visibility != 'private'))
-				mysql_query("UPDATE {$database['prefix']}Categories SET entries = entries + 1, entriesInLogin = entriesInLogin + 1 WHERE blogid = ".getBlogId()." AND " . $target);
+				POD::query("UPDATE {$database['prefix']}Categories SET entries = entries + 1, entriesInLogin = entriesInLogin + 1 WHERE blogid = ".getBlogId()." AND " . $target);
 			else
-				mysql_query("UPDATE {$database['prefix']}Categories SET entriesInLogin = entriesInLogin + 1 WHERE blogid = ".getBlogId()." AND " . $target);
+				POD::query("UPDATE {$database['prefix']}Categories SET entriesInLogin = entriesInLogin + 1 WHERE blogid = ".getBlogId()." AND " . $target);
 		}
 		$this->saveSlogan();
 		$this->addTags();
@@ -166,8 +166,8 @@ class Post {
 		}
 		
 		// step 2. Delete Entry
-		$result = POD::execute("DELETE FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND id = $this->id");
-		if (mysql_affected_rows() > 0) {
+		$sql = "DELETE FROM ".$database['prefix']."Entries WHERE blogid = ".getBlogId()." AND id = ".$this->id;
+		if (POD::queryCount($sql)) {
 		// step 3. Delete Comment
 			POD::execute("DELETE FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()." AND entry = $this->id");
 		
@@ -306,13 +306,11 @@ class Post {
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
 		$this->tags = array();
-		if ($result = mysql_query("SELECT name FROM {$database['prefix']}TagRelations 
+		if ($result = POD::queryColumn("SELECT name FROM {$database['prefix']}TagRelations 
 			LEFT JOIN {$database['prefix']}Tags ON id = tag 
 			WHERE blogid = ".getBlogId()." AND entry = {$this->id} 
 			ORDER BY name")) {
-			while ($row = mysql_fetch_row($result))
-				array_push($this->tags, $row[0]);
-			mysql_free_result($result);
+			$this->tags = $result;
 			return true;
 		}
 		return false;
@@ -582,9 +580,9 @@ class Post {
 	/*@static@*/
 	function correctTagsAll() {
 		global $database;
-		$targetresult = mysql_query("SELECT * FROM {$database['prefix']}TagRelations");
+		$targetresult = POD::query("SELECT * FROM {$database['prefix']}TagRelations");
 		if ($targetresult != false) {
-			while ($target = mysql_fetch_array($targetresult)) {
+			while ($target = POD::fetch($targetresult)) {
 				$oldtag = POD::queryRow("SELECT id, name FROM {$database['prefix']}Tags WHERE id = {$target['tag']}");
 				if (!is_null($oldtag)) {		
 					$tagid = POD::queryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '" . POD::escapeString($oldtag['name']) . "' LIMIT 1 ");
@@ -600,16 +598,16 @@ class Post {
 					POD::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
 				}
 			}
-			mysql_free_result($targetresult);
+			POD::free($targetresult);
 		}
 		
-		$targetresult = mysql_query("SELECT id FROM {$database['prefix']}Tags LEFT JOIN {$database['prefix']}TagRelations ON id = tag WHERE tag IS NULL");
+		$targetresult = POD::query("SELECT id FROM {$database['prefix']}Tags LEFT JOIN {$database['prefix']}TagRelations ON id = tag WHERE tag IS NULL");
 		if ($targetresult != false) {
-			while ($target = mysql_fetch_array($targetresult)) {
+			while ($target = POD::fetch($targetresult)) {
 				$tag = $target['id'];
 				POD::execute("DELETE FROM {$database['prefix']}Tags WHERE id = $tag ");
 			}
-			mysql_free_result($targetresult);
+			POD::free($targetresult);
 		}
 	}
 

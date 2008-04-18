@@ -34,7 +34,7 @@ function _getRecentComments($blogid) {
 	$limitLine = ($data['repliesList'])?$data['repliesList']:$skinSetting['commentsOnRecent'];
 	$sql = "SELECT * FROM {$database['prefix']}Comments WHERE blogid = {$blogid} AND entry>0 AND isFiltered = 0 {$repliesChk} ORDER BY written DESC LIMIT {$limitLine}";
 	if ($result = POD::query($sql)) {
-		while ($comment = mysql_fetch_array($result)) {
+		while ($comment = POD::fetch($result)) {
 			if ($data['repliesChk'] == 2) {
 				$row = POD::queryCell("select count(*) from {$database['prefix']}Comments where blogid = $blogid AND parent = ".$comment['id']);
 				$comment['replier'] = ($row)?"<img src=\"{$pluginURL}/replier.gif\" width=\"11\" height=\"9\" align=\"top\" style=\"margin-left:2px;\" alt=\"\" />":"";

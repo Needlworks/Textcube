@@ -325,7 +325,7 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 										</dl>
 									</fieldset>
 									<div class="button-box">
-										<input type="submit" class="save-button input-button" value="<?php echo _t('변경하기');?>" onclick="save(); return false;" />
+										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="save(); return false;" />
 									</div>
 								</form>
 								
@@ -349,7 +349,7 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 										</dl>
 									</fieldset>
 									<div class="button-box">
-										<input type="submit" class="save-button input-button" value="<?php echo _t('변경하기');?>" onclick="savePwd(); return false;" />
+										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="savePwd(); return false;" />
 									</div>
 								</form>
 								<form id="apikey-section" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/apikey">
@@ -370,7 +370,7 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 
 									</fieldset>
 									<div class="button-box">
-										<input type="submit" class="save-button input-button" value="<?php echo _t('변경하기');?>" onclick="saveAPIKey(); return false;" />
+										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="saveAPIKey(); return false;" />
 									</div>
 								</form>
 
@@ -427,7 +427,7 @@ if(!empty($blogs)) {
 										</dl>
 									</fieldset>
 									<div class="button-box">
-										<input type="submit" class="save-button input-button" value="<?php echo _t('변경하기');?>" onclick="changeHomepage(); return false;" />
+										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="changeHomepage(); return false;" />
 									</div>
 								</form>
 							</div>
@@ -558,13 +558,13 @@ if ($service['type'] != 'single' && Acl::check("group.creators")) {
 										</dd>
 									</dl>
 									<div class="button-box">
-										<input type="submit" class="input-button" value="<?php echo _t('초대장 발송');?>" onclick="sendInvitation(); return false;" />
+										<input type="submit" class="input-button" value="<?php echo _t('초대장 발송하기');?>" onclick="sendInvitation(); return false;" />
 									</div>
 								</form>
 								
 								<div id="list-section" class="section">
 									<dl>
-										<dt class="title"><span class="label"><?php echo _t('초대명단');?></span></dt>
+										<dt class="title"><span class="label"><?php echo _t('초대한 사람 목록');?></span></dt>
 										<dd>
 <?php
 $invitedList = getInvited(getUserId());

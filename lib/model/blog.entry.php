@@ -356,7 +356,7 @@ function getEntryWithPaging($blogid, $id, $isNotice = false) {
 		return array($entries, $paging);
 	$paging['pages'] = ($isNotice) ? getNoticesTotalCount($blogid) : getEntriesTotalCount($blogid);
 
-	for ($i = 1; $entry = mysql_fetch_array($result); $i++) {
+	for ($i = 1; $entry = POD::fetch($result); $i++) {
 		if ($entry['id'] != $id) {
 			if (array_push($paging['before'], $entry['id']) > 4) {
 				if ($i == 5) 
@@ -369,10 +369,10 @@ function getEntryWithPaging($blogid, $id, $isNotice = false) {
 		$paging['page'] = $i;
 		array_push($entries, $currentEntry);
 		$paging['after'] = array();
-		for ($i++; (count($paging['after']) < 4) && ($entry = mysql_fetch_array($result)); $i++)
+		for ($i++; (count($paging['after']) < 4) && ($entry = POD::fetch($result)); $i++)
 			array_push($paging['after'], $entry['id']);
 		if ($i < $paging['pages']) {
-			while ($entry = mysql_fetch_array($result))
+			while ($entry = POD::fetch($result))
 				$paging['last'] = $entry['id'];
 		}
 		if (count($paging['before']) > 0)
@@ -410,7 +410,7 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false) {
 	if (!$result || !$currentEntry)
 		return array($entries, $paging);
 	$paging['pages'] = ($isNotice) ? getNoticesTotalCount($blogid) : getEntriesTotalCount($blogid);
-	for ($i = 1; $entry = mysql_fetch_array($result); $i++) {
+	for ($i = 1; $entry = POD::fetch($result); $i++) {
 		if ($entry['slogan'] != $slogan) {
 			if (array_push($paging['before'], $entry['slogan']) > 4) if ($i == 5)
 				$paging['first'] = array_shift($paging['before']);
@@ -421,10 +421,10 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false) {
 		$paging['page'] = $i;
 		array_push($entries, $currentEntry);
 		$paging['after'] = array();
-		for ($i++; (count($paging['after']) < 4) && ($entry = mysql_fetch_array($result)); $i++)
+		for ($i++; (count($paging['after']) < 4) && ($entry = POD::fetch($result)); $i++)
 			array_push($paging['after'], $entry['slogan']);
 		if ($i < $paging['pages']) {
-			while ($entry = mysql_fetch_array($result))
+			while ($entry = POD::fetch($result))
 				$paging['last'] = $entry['slogan'];
 		}
 		if (count($paging['before']) > 0)
@@ -453,7 +453,7 @@ function getRecentEntries($blogid) {
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 		ORDER BY published DESC LIMIT {$skinSetting['entriesOnRecent']}");
-	while ($entry = mysql_fetch_array($result)) {
+	while ($entry = POD::fetch($result)) {
 		array_push($entries, $entry);
 	}
 	return $entries;

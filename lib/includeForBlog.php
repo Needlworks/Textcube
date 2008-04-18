@@ -41,6 +41,7 @@ require ROOT .'/lib/model/common.setting.php';
 require ROOT .'/lib/model/common.plugin.php';
 require ROOT .'/lib/model/common.module.php';
 require ROOT .'/lib/model/common.legacysupport.php';
+require ROOT .'/components/Textcube.Function.Setting.php';	//Setting component
 if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of model loading');
 // Views
 require ROOT .'/lib/view/html.php';
@@ -55,7 +56,7 @@ if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of plugin parsing');
 
 header('Content-Type: text/html; charset=utf-8');
 if(!defined('__TEXTCUBE_LOGIN__')) {
-	$blogVisibility = getBlogSetting('visibility',2);
+	$blogVisibility = setting::getBlogSettingGlobal('visibility',2);
 	if($blogVisibility == 0) requireOwnership();
 	else if($blogVisibility == 1) requireMembership();
 }

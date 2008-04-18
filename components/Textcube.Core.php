@@ -3,9 +3,10 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-/* This component contains 'User' and 'Transaction' class. */
+/* This component contains 'User', 'Blog' and 'Transaction' class. 
+   NOTE : Classes described below are actually not object. Usually they are static.*/
 
-requireComponent( "Textcube.Control.Auth" );
+requireComponent('Textcube.Control.Auth');
 
 // for Global Cache
 global $__gCacheUserNames;
@@ -180,11 +181,11 @@ class User {
 		return POD::queryExistence("SELECT userid FROM {$database['prefix']}Users WHERE userid = $userid AND password = '$password'");
 	}
 
+	/*@static@*/
 	function authorName($blogid = null,$entryId){
 		if( is_null($blogid) ) {
 			$blogid = getBlogId();
 		}
-		global $database, $entry;
 
 		// Read userId of entry from relation table.
 		$userid = getUserIdOfEntry($blogid,$entryId);
@@ -195,6 +196,7 @@ class User {
 		}
 	}
 
+	/*@static@*/
 	function changeBlog(){
 		global $database, $blogURL, $blog, $service;
 		$blogid = getBlogId();	
@@ -215,7 +217,8 @@ class User {
 		$changeBlogView .= str_repeat(TAB,7).'</select>'.CRLF;
 		return $changeBlogView;
 	}
-	
+
+	/*@static@*/
 	function changeSetting($userid, $email, $nickname) {
 		global $database;
 		if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return false;
@@ -231,7 +234,8 @@ class User {
 			return true;
 		}
 	}
-	
+
+	/*@static@*/
 	function add($email, $name) {
 		global $database, $service, $user, $blog;
 		if (empty($email))
@@ -243,8 +247,8 @@ class User {
 	
 		$loginid = POD::escapeString(UTF8::lessenAsEncoding($email, 64));	
 		$name = POD::escapeString(UTF8::lessenAsEncoding($name, 32));
-		$password = generatePassword();
-		$authtoken = md5(generatePassword());
+		$password = User::__generatePassword();
+		$authtoken = md5(User::__generatePassword());
 	
 		if (POD::queryExistence("SELECT * FROM `{$database['prefix']}Users` WHERE loginid = '$loginid'")) {
 			return 9;	// User already exists.
@@ -261,7 +265,7 @@ class User {
 		return true;
 	}
 	
-	/* TO DO : library 의존성 없애야 함. 함수를 사용하고 있습니다.  */
+	/*@static@*/
 	function remove($userid) {
 		global $database;
 		if ($userid == 1)
@@ -272,16 +276,17 @@ class User {
 		$sql = "UPDATE `{$database['prefix']}Comments` SET replier = NULL WHERE replier = ".$userid;
 		POD::execute($sql);
 		foreach ($blogs as $ownedBlog) {
-			changeBlogOwner($ownedBlog,1); // 관리자 uid로 변경
+			Blog::changeOwner($ownedBlog,1); // 관리자 uid로 변경
 		}
 		$blogs = User::getBlogs($userid);
 		foreach ($blogs as $joinedBlog) {
-			deleteTeamblogUser($userid,$joinedBlog);
+			Blog::deleteUser($joinedBlog, $userid);
 		}
 		User::removePermanent($userid);
 		return true;
 	}
 	
+	/*@static@*/
 	function removePermanent($userid) {
 		global $database;
 		if( POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1") ) {
@@ -290,8 +295,112 @@ class User {
 			return false;
 		}
 	}
+	
+	/* private functions */
+	/*@private static@*/
+	function __generatePassword() {
+		return strtolower(substr(base64_encode(rand(0x10000000, 0x70000000)), 3, 8));
+	}
 }
 
+class Blog {
+	/*@static@*/
+	function changeOwner($blogid,$userid) {
+		global $database;
+		POD::execute("UPDATE `{$database['prefix']}Teamblog` SET acl = 3 WHERE blogid = ".$blogid." and acl = " . BITWISE_OWNER);
+	
+		$acl = POD::queryCell("SELECT acl FROM {$database['prefix']}Teamblog WHERE blogid='$blogid' and userid='$userid'");
+	
+		if( $acl === null ) { // If there is no ACL, add user into the blog.
+			POD::query("INSERT INTO `{$database['prefix']}Teamblog`  
+				VALUES('$blogid', '$userid', '".BITWISE_OWNER."', UNIX_TIMESTAMP(), '0')");
+		} else {
+			POD::execute("UPDATE `{$database['prefix']}Teamblog` SET acl = ".BITWISE_OWNER." 
+				WHERE blogid = ".$blogid." and userid = " . $userid);
+		}
+		return true;
+	}
+	
+	/*@static@*/
+	/* TODO : remove model dependency (addBlog, sendInvitationMail) */
+	function addUser($email, $name, $comment, $senderName, $senderEmail) {
+		requireModel('blog.user');
+		requireModel('blog.blogSetting');
+		global $database,$service,$blogURL,$hostURL,$user,$blog;
+	
+		$blogid = getBlogId();
+		if(empty($email))
+			return 1;
+		if(!preg_match('/^[^@]+@([-a-zA-Z0-9]+\.)+[-a-zA-Z0-9]+$/',$email))
+			return array( 2, _t('이메일이 바르지 않습니다.') );
+		
+		$isUserExists = User::getUserIdByEmail($email);
+		if(empty($isUserExists)) { // If user is not exist
+			User::add($email,$name);
+		}
+		$userid = User::getUserIdByEmail($email);
+		$result = addBlog(getBlogId(), $userid, null);
+		if($result === true) {
+			return sendInvitationMail(getBlogId(), $userid, User::getName($userid), $comment, $senderName, $senderEmail);
+		}
+		return $result;
+	}
+
+	/*@static@*/
+	function deleteUser($blogid = null, $userid, $clean = true) {
+		global $database;
+		if ($blogid == null) {
+			$blogid = getBlogId();
+		}
+		POD::execute("UPDATE `{$database['prefix']}Entries` 
+			SET userid = ".User::getBlogOwner($blogid)." 
+			WHERE blogid = ".$blogid." AND userid = ".$userid);
+	
+		// Delete ACL relation.
+		if(!POD::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid='$blogid' and userid='$userid'"))
+			return false;
+		// And if there is no blog related to the specific user, delete user.
+		if($clean && !POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE userid = '$userid'")) {
+			User::removePermanent($userid);
+		}
+		return true;
+	}
+	
+	/*@static@*/
+	function changeACLofUser($blogid, $userid, $ACLtype, $switch) {  // Change user priviledge on the blog.
+		global $database;
+		if(empty($ACLtype) || empty($userid))
+			return false;
+		$acl = POD::queryCell("SELECT acl
+				FROM {$database['prefix']}Teamblog 
+				WHERE blogid='$blogid' and userid='$userid'");
+		if( $acl === null ) { // If there is no ACL, add user into the blog.
+			$name = User::getName($userid);
+			POD::query("INSERT INTO `{$database['prefix']}Teamblog`  
+					VALUES('$blogid', '$userid', '0', UNIX_TIMESTAMP(), '0')");
+			$acl = 0;
+		}
+		$bitwise = null;
+		switch( $ACLtype ) {
+			case 'admin':
+				$bitwise = BITWISE_ADMINISTRATOR;
+				break;
+			case 'editor':
+				$bitwise = BITWISE_EDITOR;
+				break;
+			default:
+				return false;
+		}
+		if( $switch ) {
+			$acl |= $bitwise;
+		} else {
+			$acl &= ~$bitwise;
+		}
+		return POD::execute("UPDATE `{$database['prefix']}Teamblog` 
+			SET acl = ".$acl." 
+			WHERE blogid = ".$blogid." and userid = ".$userid);
+	}
+}
 
 class Transaction {
 	function pickle($data) {

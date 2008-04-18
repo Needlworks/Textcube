@@ -1,14 +1,14 @@
 <?php
-/* Subscription statistics plugin for Textcube 1.6
+/* Subscription statistics plugin for Textcube 1.7
    ----------------------------------
-   Version 2.0 
+   Version 2.1 
    Needlworks development team.
 
    Creator          : inureyes
    Maintainer       : gendoh, inureyes, graphittie
 
    Created at       : 2006.9.21
-   Last modified at : 2007.11.22
+   Last modified at : 2008.4.18
  
  This plugin shows RSS subscription statistics on administration menu.
  For the detail, visit http://forum.tattersite.com/ko
@@ -276,9 +276,8 @@ function organizeRobotInfo($info)
 function getSubscriptionStatistics($blogid) {
 	global $database;
 	$statistics = array();
-	if ($result = POD::query("SELECT ip, host, useragent, subscribed, referred FROM {$database['prefix']}SubscriptionStatistics WHERE blogid = $blogid ORDER BY referred DESC")) {
-		while ($record = mysql_fetch_array($result))
-			array_push($statistics, $record);
+	if ($result = POD::queryAll("SELECT ip, host, useragent, subscribed, referred FROM {$database['prefix']}SubscriptionStatistics WHERE blogid = $blogid ORDER BY referred DESC")) {
+		return $result;
 	}
 	return $statistics;
 }
@@ -306,21 +305,21 @@ function updateSubscriptionStatistics($target, $mother) {
 	$ip = POD::escapeString($_SERVER['REMOTE_ADDR']);
 	$host = POD::escapeString(isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : '');
 	$useragent = POD::escapeString(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
-	mysql_query("insert into {$database['prefix']}SubscriptionLogs values($blogid, '$ip', '$host', '$useragent', UNIX_TIMESTAMP())");
-	mysql_query("delete from {$database['prefix']}SubscriptionLogs where referred < UNIX_TIMESTAMP() - 604800");
-	if (!mysql_query("update {$database['prefix']}SubscriptionStatistics set referred = UNIX_TIMESTAMP() where blogid = $blogid and ip = '$ip' and host = '$host' and useragent = '$useragent'") || (mysql_affected_rows() == 0))
-		mysql_query("insert into {$database['prefix']}SubscriptionStatistics values($blogid, '$ip', '$host', '$useragent', UNIX_TIMESTAMP(),UNIX_TIMESTAMP())");
+	POD::query("INSERT INTO {$database['prefix']}SubscriptionLogs values($blogid, '$ip', '$host', '$useragent', UNIX_TIMESTAMP())");
+	POD::query("DELETE FROM {$database['prefix']}SubscriptionLogs WHERE referred < UNIX_TIMESTAMP() - 604800");
+	if (!POD::queryCount("UPDATE {$database['prefix']}SubscriptionStatistics SET referred = UNIX_TIMESTAMP() WHERE blogid = $blogid AND ip = '$ip' AND host = '$host' AND useragent = '$useragent'"))
+		POD::query("INSERT INTO {$database['prefix']}SubscriptionStatistics VALUES ($blogid, '$ip', '$host', '$useragent', UNIX_TIMESTAMP(),UNIX_TIMESTAMP())");
 	return $target;
 }
 
 function PN_Subscription_setTime($target) {
-	requireComponent("Textcube.Function.misc");
+	requireComponent("Textcube.Function.Setting");
 	setting::setBlogSetting('LatestRSSrefresh',time());
 	return true;
 }
 
 function PN_Subscription_Sidebar($target) {
-	requireComponent("Textcube.Function.misc");
+	requireComponent("Textcube.Function.Setting");
 	$count = setting::getBlogSetting('SubscriberCount',null);
 	$text = '<div class="SubscriptionPanel" style="text-align:center">';
 	if($count===null) $text .= '구독 정보 갱신이 필요합니다';

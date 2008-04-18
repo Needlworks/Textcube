@@ -21,15 +21,15 @@ class ServiceSetting {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}ServiceSettings WHERE 1 $name $sort");
+		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}ServiceSettings WHERE 1 $name $sort");
 		if ($this->_result)
-			$this->_count = mysql_num_rows($this->_result);
+			$this->_count = POD::num_rows($this->_result);
 		return $this->shift();
 	}
 	
 	function close() {
 		if (isset($this->_result)) {
-			mysql_free_result($this->_result);
+			POD::free($this->_result);
 			unset($this->_result);
 		}
 		$this->_count = 0;
@@ -38,7 +38,7 @@ class ServiceSetting {
 	
 	function shift() {
 		$this->reset();
-		if ($this->_result && ($row = mysql_fetch_assoc($this->_result))) {
+		if ($this->_result && ($row = POD::fetch($this->_result))) {
 			foreach ($row as $name => $value) {
 				switch ($name) {
 					case 'value':

@@ -3,10 +3,13 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+// DBQuery version 1.7 for MySQL
+
 global $cachedResult;
 global $fileCachedResult;
 global $__gEscapeTag;
 global $__dbProperties;
+global $__gLastQueryType;
 $cachedResult = $__dbProperties = array();
 $__gEscapeTag = null;
 
@@ -65,10 +68,12 @@ class DBQuery {
 	
 	/*@static@*/
 	function queryCount($query) {
+		global $__gLastQueryType;
 		$count = 0;
 		$query = trim($query);
 		if ($result = DBQuery::query($query)) {
 			$operation = strtolower(substr($query, 0,6));
+			$__gLastQueryType = $operation;
 			switch ($operation) {
 				case 'select':
 					$count = mysql_num_rows($result);
@@ -149,6 +154,8 @@ class DBQuery {
 	
 	/*@static@*/
 	function queryAll ($query, $type = MYSQL_BOTH, $count = -1) {
+		if($type == 'assoc') $type = MYSQL_ASSOC;
+		else if ($type == 'num') $type = MYSQL_NUM;
 		return DBQuery::queryAllWithCache($query, $type, $count);
 		//return DBQuery::queryAllWithoutCache($query, $type, $count);  // Your choice. :)
 	}
@@ -201,6 +208,7 @@ class DBQuery {
 
 	/*@static@*/
 	function query($query) {
+		global $__gLastQueryType;
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);
 			$result = mysql_query($query);
@@ -208,6 +216,7 @@ class DBQuery {
 		} else {
 			$result = mysql_query($query);
 		}
+		$__gLastQueryType = strtolower(substr($query, 0,6));
 		if( stristr($query, 'update ') ||
 			stristr($query, 'insert ') ||
 			stristr($query, 'delete ') ||
@@ -251,6 +260,37 @@ class DBQuery {
 	}
 	function cacheSave() {
 		global $fileCachedResult;
+	}
+	
+	/* Raw functions (to easier adoptation) */
+	/*@static@*/
+	function num_rows($handle = null) {
+		global $__gLastQueryType;
+		switch($__gLastQueryType) {
+			case 'select':
+				return mysql_num_rows($handle);
+				break;
+			default:
+				return mysql_affected_rows($handle);
+				break;
+		}
+		return null;
+	}
+	/*@static@*/
+	function free($handle = null) {
+		mysql_free_result($handle);
+	}
+	
+	/*@static@*/
+	function fetch($handle = null, $type = 'assoc') {
+		if($type == 'array') return mysql_fetch_array($handle); // Can I use mysql_fetch_row instead?
+		else if ($type = 'row') return mysql_fetch_row($handle);
+		else return mysql_fetch_assoc($handle);
+	}
+	
+	/*@static@*/
+	function error($err = null) {
+		return mysql_error($err);
 	}
 }
 

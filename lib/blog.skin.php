@@ -84,10 +84,10 @@ class Skin {
 	
 	function Skin($name, $previewMode = false) {
 		global $service, $blogURL, $suri, $blog;
-		//$this->noneCommentMessage = getBlogSetting('noneCommentMessage');
-		//$this->singleCommentMessage = getBlogSetting('singleCommentMessage');
-		//$this->noneTrackbackMessage = getBlogSetting('noneTrackbackMessage');
-		//$this->singleTrackbackMessage = getBlogSetting('singleTrackbackMessage');
+		//$this->noneCommentMessage = setting::getBlogSettingGlobal('noneCommentMessage');
+		//$this->singleCommentMessage = setting::getBlogSettingGlobal('singleCommentMessage');
+		//$this->noneTrackbackMessage = setting::getBlogSettingGlobal('noneTrackbackMessage');
+		//$this->singleTrackbackMessage = setting::getBlogSettingGlobal('singleTrackbackMessage');
 		if($previewMode == true || !empty($service['debug_skin_cache']) || !$this->loadCache()) {
 			$this->noneCommentMessage = $blog['noneCommentMessage'];
 			$this->singleCommentMessage = $blog['singleCommentMessage'];
@@ -349,11 +349,12 @@ class Skin {
 	 */
 
 	function applyMicroformats() {
+		requireComponent('Textcube.Function.Setting');
 		/* Spam과 관련된 것이므로 강제로 넣음 http://dev.textcube.org/ticket/75 */
 		addAttribute( $this->trackback, 'a', 'href', '##_tb_rep_url_##', array( 'rel' => 'external' ) );
 		addAttribute( $this->trackback, 'a', 'href', '##_tb_rep_url_##', array( 'rel' => 'nofollow' ) );
 
-		$useMicroformat = getBlogSetting('useMicroformat',3);
+		$useMicroformat = setting::getBlogSettingGlobal('useMicroformat',3);
 		switch( $useMicroformat )
 		{ 
 			/* 1: none, 2: semantically sane, 3: insane but machine friendly */
@@ -401,6 +402,7 @@ class Skin {
 
 	function applyMF2Entry( $type, $content ) {
 		/* This function contains heavy regular expressions, but this function is called once and stored in cache by skin setup logic */
+		requireComponent('Textcube.Function.Setting');
 		$bareContent = $this->getTopLevelContent($content);
 		$content = preg_replace( "/<((br|hr|img)[^>]*)>/sm", "{{{\\1}}}", $content );
 
@@ -431,7 +433,7 @@ class Skin {
 		}
 
 		/* hAtom:updated, published */
-		if(getBlogSetting('useMicroformat',3)>2) {
+		if(setting::getBlogSettingGlobal('useMicroformat',3)>2) {
 			/* Adding published, updated date */
 			$content = preg_replace( 
 					'@(<(div|td|span|p)[^>]*>[^<>]*?\[##_article_rep_desc_##\].*?</\2>)@sm',
@@ -493,7 +495,7 @@ class Skin {
 		if( preg_match( '@<a\b[^>]*?rel=[\'"][^\'"]*bookmark[^\'"]*[\'"][^>]*>@sm', $content ) ) {
 			array_push( $this->microformatDebug, _text('Microformat-info: 제목에 bookmark를 추가합니다') );
 		} else {
-			if(getBlogSetting('useMicroformat',3)>2) {
+			if(setting::getBlogSettingGlobal('useMicroformat',3)>2) {
 				$content = str_replace( "[##_article_rep_desc_##]", "<a style=\"display:none\" href=\"[##_article_rep_link_##]\" rel=\"bookmark\" class=\"entry-title\" title=\"[##_article_rep_title_##]\">[##_article_rep_title_##]</a>\r\n[##_article_rep_desc_##]",$content );
 			}
 			array_push( $this->microformatDebug, _text('Microformat-info: 링크가 걸린 제목이 없어 보이지 않는 링크를 추가한 뒤 rel="bookmark"와 hAtom용 title을 추가하였습니다') );

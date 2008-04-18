@@ -78,7 +78,7 @@ function getTrackbacks($entry) {
 				AND entry = $entry 
 				AND isFiltered = 0 
 			order by written");
-	while ($trackback = mysql_fetch_array($result))
+	while ($trackback = POD::fetch($result))
 		array_push($trackbacks, $trackback);
 	return $trackbacks;
 }
@@ -293,7 +293,7 @@ function getTrackbackLog($blogid, $entry) {
 	global $database;
 	$result = POD::query("SELECT * FROM {$database['prefix']}TrackbackLogs WHERE blogid = $blogid AND entry = $entry");
 	$str = '';
-	while ($row = mysql_fetch_array($result)) {
+	while ($row = POD::fetch($result)) {
 		$str .= $row['id'] . ',' . $row['url'] . ',' . Timestamp::format5($row['written']) . '*';
 	}
 	return $str;
@@ -303,15 +303,15 @@ function getTrackbackLogs($blogid, $entryId) {
 	global $database;
 	$logs = array();
 	$result = POD::query("SELECT * FROM {$database['prefix']}TrackbackLogs WHERE blogid = $blogid AND entry = $entryId");
-	while ($log = mysql_fetch_array($result))
+	while ($log = POD::fetch($result))
 		array_push($logs, $log);
 	return $logs;
 }
 
 function deleteTrackbackLog($blogid, $id) {
 	global $database;
-	$result = POD::query("delete from {$database['prefix']}TrackbackLogs WHERE blogid = $blogid AND id = $id");
-	return ($result && (mysql_affected_rows() == 1)) ? true : false;
+	$result = POD::queryCount("delete from {$database['prefix']}TrackbackLogs WHERE blogid = $blogid AND id = $id");
+	return ($result == 1) ? true : false;
 }
 
 function lastIndexOf($string, $item) {

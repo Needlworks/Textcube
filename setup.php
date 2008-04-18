@@ -578,6 +578,7 @@ xml_set_object
 					case 'commentsnotifiedsiteinfo':
 					case 'dailystatistics':
 					case 'entries':
+					case 'entriesarchive':
 					case 'feedgrouprelations':
 					case 'feedgroups':
 					case 'feeditems':
@@ -711,7 +712,23 @@ xml_set_object
             $error = 13;
            echo '<li style="color:red">', _t('캐시 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'cache', '0777'), '</li>';
         }
-        
+
+        $filename = $root . '/remote';
+        if (is_dir($filename)) {
+            if (is_writable($filename))
+               echo '<li>', _t('원격 설치 디렉토리'), ': OK</li>';
+            else {
+                $error = 12;
+               echo '<li style="color:red">', _t('원격 설치 디렉토리'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0777'), '</li>';
+            }
+        } else if (mkdir($filename)) {
+			@chmod($filename, 0777);
+           echo '<li>', _t('원격 설치 디렉토리'), ': OK</li>';
+        } else {
+            $error = 13;
+           echo '<li style="color:red">', _t('원격 설치 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'cache', '0777'), '</li>';
+        }
+
         $filename = $root . '/skin/customize';
         if (is_dir($filename)) {
             if (is_writable($filename))

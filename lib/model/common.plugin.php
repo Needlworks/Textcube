@@ -111,7 +111,7 @@ function updatePluginConfig( $name , $setVal) {
 	clearPluginSettingCache();
 	CacheControl::flushItemsByPlugin($pluginName);
 	if(isset($result) && $result = '0') return $result;
-	return (mysql_error() == '') ? '0' : '1';
+	return (POD::error() == '') ? '0' : '1';
 }
 
 function getPluginInformation($plugin) {

@@ -38,10 +38,10 @@ class GuestComment {
 				AND entry = 0 
 				$filter $sort");
 		if ($this->_result) {
-			if ($this->_count = mysql_num_rows($this->_result))
+			if ($this->_count = POD::num_rows($this->_result))
 				return $this->shift();
 			else
-				mysql_free_result($this->_result);
+				POD::free($this->_result);
 		}
 		unset($this->_result);
 		return false;
@@ -49,7 +49,7 @@ class GuestComment {
 	
 	function close() {
 		if (isset($this->_result)) {
-			mysql_free_result($this->_result);
+			POD::free($this->_result);
 			unset($this->_result);
 		}
 		$this->_count = 0;
@@ -58,7 +58,7 @@ class GuestComment {
 	
 	function shift() {
 		$this->reset();
-		if ($this->_result && ($row = mysql_fetch_assoc($this->_result))) {
+		if ($this->_result && ($row = POD::fetch($this->_result))) {
 			foreach ($row as $name => $value) {
 				if ($name == 'blogid')
 					continue;

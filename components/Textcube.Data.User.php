@@ -117,7 +117,7 @@ class UserInfo {
 	
 	function close() {
 		if (isset($this->_result)) {
-			mysql_free_result($this->_result);
+			POD::free($this->_result);
 			unset($this->_result);
 		}
 		$this->_count = 0;

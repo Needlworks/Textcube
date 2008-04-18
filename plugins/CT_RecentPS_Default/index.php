@@ -1,14 +1,14 @@
 <?php
-/* Recent Entries plugin for Textcube 1.6
+/* Recent Entries plugin for Textcube 1.7
    ----------------------------------
-   Version 1.6
+   Version 1.7
    Tatter Network Foundation development team / Needlworks.
 
    Creator          : Peris
    Maintainer       : Peris, inureyes, graphittie
 
    Created at       : 2006.7.25
-   Last modified at : 2006.10.10
+   Last modified at : 2008.4.18
  
  This plugin shows recent entries on 'quilt'.
  For the detail, visit http://forum.tattersite.com/ko
@@ -26,13 +26,10 @@
 
 function _getRecentEntries($blogid){
 	global $database,$skinSetting;
-	$entries=array();
 	$visibility=doesHaveOwnership()?'':'AND visibility > 0';
-	$result=POD::query("SELECT id, title, comments FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category >= 0 ORDER BY published DESC LIMIT {$skinSetting['entriesOnRecent']}");
-	while($entry=mysql_fetch_array($result)){
-		array_push($entries,$entry);
-	}
-	return $entries;
+	$result=POD::queryAll("SELECT id, title, comments FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category >= 0 ORDER BY published DESC LIMIT {$skinSetting['entriesOnRecent']}");
+	if(!empty($result)) return $result;
+	else return array();
 }
 
 function _getRecentEntriesView($entries,$template){

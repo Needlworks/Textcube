@@ -32,15 +32,15 @@ class Notice {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = mysql_query("SELECT $fields FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND draft = 0 AND category = -2 $filter $sort");
+		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND draft = 0 AND category = -2 $filter $sort");
 		if ($this->_result)
-			$this->_count = mysql_num_rows($this->_result);
+			$this->_count = POD::num_rows($this->_result);
 		return $this->shift();
 	}
 	
 	function close() {
 		if (isset($this->_result)) {
-			mysql_free_result($this->_result);
+			POD::free($this->_result);
 			unset($this->_result);
 		}
 		$this->_count = 0;
@@ -49,7 +49,7 @@ class Notice {
 	
 	function shift() {
 		$this->reset();
-		if ($this->_result && ($row = mysql_fetch_assoc($this->_result))) {
+		if ($this->_result && ($row = POD::fetch($this->_result))) {
 			foreach ($row as $name => $value) {
 				switch ($name) {
 					case 'blogid':
@@ -110,8 +110,8 @@ class Notice {
 		if (is_numeric($id)) {
 			return false;
 		}
-		$result = mysql_query("DELETE FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND category = -2 AND id = $id");
-		if ($result && ($this->_count = mysql_affected_rows()))
+		$result = POD::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND category = -2 AND id = $id");
+		if ($result && ($this->_count = POD::num_rows($result)))
 			return true;
 		return false;
 	}

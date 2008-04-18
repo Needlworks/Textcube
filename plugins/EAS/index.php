@@ -24,8 +24,7 @@ function EAS_Call($type, $name, $title, $url, $content)
 			$sql .= ' url = \'' . POD::escapeString($url) . '\'';
 			$sql .= ' AND isFiltered > 0';
 			
-			if ($result = POD::query($sql)) {
-				$row = mysql_fetch_row($result);
+			if ($row = POD::queryRow($sql)) {
 				$count += @$row[0];
 			}
 			
@@ -38,8 +37,7 @@ function EAS_Call($type, $name, $title, $url, $content)
 			$sql .= ' AND name = \'' . POD::escapeString($name) . '\'';
 			$sql .= ' AND isFiltered > 0';
 			
-			if ($result = mysql_query($sql)) {
-				$row = mysql_fetch_row($result);
+			if ($row = POD::queryRow($sql)) {
 				$count += @$row[0];
 			}
 		}
@@ -49,8 +47,7 @@ function EAS_Call($type, $name, $title, $url, $content)
 		$sql .= ' ip = \'' . POD::escapeString($_SERVER['REMOTE_ADDR']) . '\'';
 		$sql .= ' AND isFiltered > 0';
 
-		if ($result = mysql_query($sql)) {
-			$row = mysql_fetch_row($result);
+		if ($row = POD::queryRow($sql)) {
 			$count += @$row[0];
 		}
 		

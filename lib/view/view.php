@@ -189,6 +189,7 @@ function getTrackbacksView($entry, $skin, $acceptTrackback) {
 }
 
 function getCommentView($entry, $skin) {
+	requireComponent('Textcube.Function.Setting');
 	global $database, $blogURL, $service, $suri, $paging, $contentContainer, $skinSetting, $blog;
 	static $dressCommentBlock = false;
 	if(!isset($entry)) $entry['id'] = 0;
@@ -198,14 +199,13 @@ function getCommentView($entry, $skin) {
 	requireModel("blog.comment");
 	requireLibrary('blog.skin');
 	$authorized = doesHaveOwnership();
-	$useMicroformat = getBlogSetting('useMicroformat',3);
+	$useMicroformat = setting::getBlogSettingGlobal('useMicroformat',3);
 	$fn = '';
 	$fn_nickname = '';
 	if( $useMicroformat > 1 ) {
 		$fn = 'class="fn url nickname" ';
 		$fn_nickname = 'class="fn nickname" ';
 	}
-//	$blogSetting = getBlogSettings($blogid);
 	if ($entry['id'] > 0) {
 		$prefix1 = 'rp';
 		$isComment = true;
@@ -981,6 +981,7 @@ function addXfnAttrs( $url, $xfn, & $view )
 }
 
 function getLinksView($links, $template) {
+	requireComponent('Textcube.Function.Setting');
 	global $blogURL, $skinSetting, $suri, $pathURL;
 	if( rtrim( $suri['url'], '/' ) == $pathURL ) {
 		$home = true;
@@ -988,7 +989,7 @@ function getLinksView($links, $template) {
 		$home = false;
 	}
 	ob_start();
-	$showXfn = (getBlogSetting('useMicroformat',3) > 1);
+	$showXfn = (setting::getBlogSettingGlobal('useMicroformat',3) > 1);
 	foreach ($links as $link) {
 		if((!doesHaveOwnership() && $link['visibility'] == 0) ||
 			(!doesHaveMembership() && $link['visibility'] < 2)) {
@@ -1008,12 +1009,13 @@ function getLinksView($links, $template) {
 }
 
 function getRandomTagsView($tags, $template) {
+	requireComponent('Textcube.Function.Setting');
 	global $blogURL, $service;
 	ob_start();
 	list($maxTagFreq, $minTagFreq) = getTagFrequencyRange();
 	foreach ($tags as $tag) {
 		$view = $template;
-		dress('tag_link', "$blogURL/tag/" . (getBlogSetting('useSloganOnTag',true) ? URL::encode($tag['name'],$service['useEncodedURL']) : $tag['id']), $view);
+		dress('tag_link', "$blogURL/tag/" . (setting::getBlogSettingGlobal('useSloganOnTag',true) ? URL::encode($tag['name'],$service['useEncodedURL']) : $tag['id']), $view);
 		dress('tag_name', htmlspecialchars($tag['name']), $view);
 		dress('tag_class', "cloud" . getTagFrequency($tag, $maxTagFreq, $minTagFreq), $view);
 		print $view;
@@ -1029,6 +1031,7 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 	requireModel('blog.keyword');
 	requireLibrary('blog.skin');
 	requireComponent('Textcube.Function.misc');
+	requireComponent('Textcube.Function.Setting');
 	$content = fireEvent('Format' . $type . 'Content', $content, $id);
 	$func = ($bRssMode ? 'summarizeContent' : 'formatContent');
 	$view = $func($blogid, $id, $content, $formatter, $keywords, $useAbsolutePath);
@@ -1040,14 +1043,12 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 	$view = fireEvent('View' . $type . 'Content', $view, $id);
 	
 	// image resampling
-	if (getBlogSetting('resamplingDefault') == true) {
+	if (setting::getBlogSettingGlobal('resamplingDefault') == true) {
 		preg_match_all("@<img.+src=['\"](.+)['\"](.*)/>@Usi", $view, $images, PREG_SET_ORDER);
 		$view = preg_replace("@<img.+src=['\"].+['\"].*/>@Usi", '[#####_#####_#####_image_#####_#####_#####]', $view);
 		$contentWidth = misc::getContentWidth();
 			
 		if (count($images) > 0) {
-			requireComponent('Textcube.Function.misc');
-			
 			for ($i=0; $i<count($images); $i++) {
 				if (strtolower(misc::getFileExtension($images[$i][1])) == 'gif') {
 					$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', $images[$i][0], $view, 1);
@@ -1388,8 +1389,8 @@ function printScript($filename, $obfuscate = true) {
 	return "$file //]]></script>";
 }
 
-function addOpenIDPannel( $comment, $prefix )
-{
+function addOpenIDPannel( $comment, $prefix ) {
+	requireComponent('Textcube.Function.Setting');	
 	if( !isActivePlugin( 'CL_OpenID' ) ) {
 		return $comment;
 	}
@@ -1400,7 +1401,7 @@ function addOpenIDPannel( $comment, $prefix )
 	$lastcomment = '';
 
 	$openidOnlySettingNotice = '';
-	if( getBlogSetting( 'AddCommentMode', '' ) == 'openid' ) {
+	if( setting::getBlogSettingGlobal( 'AddCommentMode', '' ) == 'openid' ) {
 		$openidOnlySettingNotice = "<b>"._text('오픈아이디로만 댓글을 남길 수 있습니다')."</b>";
 	}
 

@@ -252,10 +252,10 @@ function getFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly = 
 		} else {
 			$result = POD::query($sql);
 			$prevRow = null;
-			while ($row = mysql_fetch_array($result)) {
+			while ($row = POD::fetch($result)) {
 				if ($row['id'] == $entry) {
 					if ($position == 'before') {
-						while ($row = mysql_fetch_array($result)) {
+						while ($row = POD::fetch($result)) {
 							if ($unreadOnly == false || !$row['wasread'])
 								break;
 						}
@@ -314,9 +314,8 @@ function addFeedGroup($blogid, $title) {
 		return 2;
 	}
 	$id = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}FeedGroups WHERE blogid = $blogid") + 1;
-	POD::query("INSERT INTO {$database['prefix']}FeedGroups VALUES($blogid, $id, '$title')");
-	if (mysql_affected_rows() != 1)
-		return - 1;
+	$result = POD::queryCount("INSERT INTO {$database['prefix']}FeedGroups VALUES($blogid, $id, '$title')");
+	if ($result != 1) return - 1;
 	return 0;
 }
 
@@ -330,8 +329,8 @@ function editFeedGroup($blogid, $id, $title) {
 		return 0;
 	if ($prevTitle === null)
 		return - 1;
-	POD::query("UPDATE {$database['prefix']}FeedGroups SET title = '$title' WHERE blogid = $blogid AND id = $id");
-	if (mysql_affected_rows() != 1)
+	$result = POD::queryCount("UPDATE {$database['prefix']}FeedGroups SET title = '$title' WHERE blogid = $blogid AND id = $id");
+	if ($result != 1)
 		return - 1;
 	return 0;
 }
@@ -341,8 +340,8 @@ function deleteFeedGroup($blogid, $id) {
 	if ($id == 0)
 		return - 1;
 	POD::query("UPDATE {$database['prefix']}FeedGroupRelations SET groupId = 0 WHERE blogid = $blogid AND groupId = $id");
-	POD::query("DELETE FROM {$database['prefix']}FeedGroups WHERE id = $id");
-	if (mysql_affected_rows() != 1)
+	$result = POD::queryCount("DELETE FROM {$database['prefix']}FeedGroups WHERE id = $id");
+	if ($result != 1)
 		return 1;
 	return 0;
 }
@@ -365,7 +364,7 @@ function addFeed($blogid, $group = 0, $url, $getEntireFeed = true, $htmlURL = ''
 		if ($status > 0)
 			return $status;
 		POD::query("INSERT INTO {$database['prefix']}Feeds VALUES(null, '{$feed['xmlURL']}', '{$feed['blogURL']}', '{$feed['title']}', '{$feed['description']}', '{$feed['language']}', {$feed['modified']})");
-		$id = mysql_insert_id();
+		$id = POD::insertId();
 		POD::query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($blogid, $id, $group)");
 		saveFeedItems($id, $xml);
 	} else {
@@ -373,7 +372,7 @@ function addFeed($blogid, $group = 0, $url, $getEntireFeed = true, $htmlURL = ''
 		$blogTitle = POD::escapeString(UTF8::lessenAsEncoding($blogTitle));
 		$blogDescription = POD::escapeString(UTF8::lessenAsEncoding(stripHTML($blogDescription)));
 		POD::query("INSERT INTO {$database['prefix']}Feeds VALUES(null, '$escapedURL', '$htmlURL', '$blogTitle', '$blogDescription', 'en-US', 0)");
-		$id = mysql_insert_id();
+		$id = POD::insertId();
 		POD::query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($blogid, $id, $group)");
 	}
 	return 0;
@@ -540,10 +539,10 @@ function saveFeedItems($feedId, $xml) {
 	if($feedLife > 0)
 		$deadLine = gmmktime() - $feedLife * 86400;
 	if($result = POD::query("SELECT id FROM {$database['prefix']}FeedItems LEFT JOIN {$database['prefix']}FeedStarred ON id = item WHERE item IS NULL AND written < $deadLine"))
-		while(list($id) = mysql_fetch_row($result))
+		while(list($id) = POD::fetch($result))
 			POD::query("DELETE FROM {$database['prefix']}FeedItems WHERE id = $id");
 	if($result = POD::query("SELECT blogid, item FROM {$database['prefix']}FeedReads LEFT JOIN {$database['prefix']}FeedItems ON id = item WHERE id IS NULL"))
-		while(list($readsOwner, $readsItem) = mysql_fetch_row($result))
+		while(list($readsOwner, $readsItem) = POD::fetch($result))
 			POD::query("DELETE FROM {$database['prefix']}FeedReads WHERE blogid = $readsOwner AND item = $readsItem");
 	return true;
 }
@@ -610,7 +609,7 @@ function deleteReaderTablesByOwner($blogid) {
 	POD::query("DELETE FROM {$database['prefix']}FeedGroups WHERE blogid = $blogid");
 	POD::query("DELETE FROM {$database['prefix']}FeedSettings WHERE blogid = $blogid");
 	if($result = POD::query("SELECT feed FROM {$database['prefix']}FeedGroupRelations WHERE blogid = $blogid")) {
-		while(list($feed) = mysql_fetch_row($result)) {
+		while(list($feed) = POD::fetch($result)) {
 			deleteFeed($blogid, $feed);
 		}
 	}

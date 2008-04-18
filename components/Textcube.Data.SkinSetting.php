@@ -37,8 +37,8 @@ class SkinSetting {
 	function load($fields = '*') {
 		global $database;
 		$this->reset();
-		if ($result = mysql_query("SELECT $fields FROM {$database['prefix']}SkinSettings WHERE blogid = ".getBlogId())) {
-			if ($row = mysql_fetch_assoc($result)) {
+		if ($result = POD::query("SELECT $fields FROM {$database['prefix']}SkinSettings WHERE blogid = ".getBlogId())) {
+			if ($row = POD::fetch($result)) {
 				foreach ($row as $name => $value) {
 					if ($name == 'blogid')
 						continue;
@@ -49,10 +49,10 @@ class SkinSetting {
 					}
 					$this->$name = $value;
 				}
-				mysql_free_result($result);
+				POD::free($result);
 				return true;
 			}
-			mysql_free_result($result);
+			POD::free($result);
 		}
 		return false;
 	}

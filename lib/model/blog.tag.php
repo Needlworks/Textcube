@@ -29,7 +29,7 @@ function getTags($blogid, $entry) {
 			GROUP BY r.tag 
 			ORDER BY t.name");
 	if ($result) {
-		while ($tag = mysql_fetch_array($result))
+		while ($tag = POD::fetch($result))
 			array_push($tags, $tag);
 	}
 	return $tags;

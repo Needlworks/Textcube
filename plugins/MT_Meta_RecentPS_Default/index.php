@@ -66,7 +66,7 @@ function MT_Cover_getRecentEntries($parameters){
 		if (sizeof($entryTags) > 0) {
 			$tags = array();
 			foreach ($entryTags as $entryTag) {
-				$tags[$entryTag['name']] = "<a href=\"{$defaultURL}/tag/" . (getBlogSetting('useSloganOnTag',true) ? URL::encode($entryTag['name'],$service['useEncodedURL']) : $entryTag['id']) . '">' . htmlspecialchars($entryTag['name']) . '</a>';
+				$tags[$entryTag['name']] = "<a href=\"{$defaultURL}/tag/" . (setting::getBlogSettingGlobal('useSloganOnTag',true) ? URL::encode($entryTag['name'],$service['useEncodedURL']) : $entryTag['id']) . '">' . htmlspecialchars($entryTag['name']) . '</a>';
 			}
 			$tagLabelView = "<div class=\"post_tags\"><span>TAG : </span>".implode(",\r\n", array_values($tags))."</div>";
 		}
