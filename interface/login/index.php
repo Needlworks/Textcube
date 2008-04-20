@@ -7,6 +7,7 @@ $IV = array(
 		'loginid' => array('string', 'mandatory' => false ),
 		'password' => array('string', 'default' => null),
 		'requestURI' => array('string', 'default' => null ),
+		'refererURI' => array('string', 'default' => null ),
 		'session' => array('string' , 32, 32, 'default' => null),
 		'try' => array(array(1,2,3), 'default' => null),
 	),
@@ -14,6 +15,7 @@ $IV = array(
 		'loginid' => array('string', 'default' => null),
 		'password' => array('string', 'default' => null),
 		'requestURI' => array('string', 'default' => null),
+		'refererURI' => array('string', 'default' => null),
 		'reset' => array(array('on') ,'default' => null),
 		'save' => array('any', 'default' => null),
 		'teamblogPatch' => array('string', 'default' => null)
@@ -32,6 +34,9 @@ else if (empty($_POST['requestURI']) && !empty($_SERVER['HTTP_REFERER']) )
 	$_POST['requestURI'] = $_SERVER['HTTP_REFERER'];
 else
 	$_POST['requestURI'] = $blogURL;
+if (!empty($_GET['refererURI'])) $_POST['refererURI'] = $_GET['refererURI'];
+else $_POST['refererURI'] = $_SERVER['HTTP_REFERER'];
+
 $message = '';
 $showPasswordReset = false;
 if (isset($_GET['session']) && isset($_GET['requestURI'])) {
@@ -65,7 +70,8 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 			$redirect = $_POST['requestURI'];
 	} else {
 		global $blogURL;
-		$redirect = $blogURL;
+		$redirect = $_POST['refererURI'];
+//		$redirect = $blogURL;
 	}
 	if (empty($_SESSION['lastLoginRedirected']) || $_SESSION['lastLoginRedirected'] != $redirect) {
 		header('Location: '.($_SESSION['lastLoginRedirected'] = $redirect));
@@ -180,6 +186,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 ?>
 					<form method="get" name="openid_form" action="<?php echo $blogURL; ?>/login/openid?action=try_auth">
 						<input type="hidden" name="requestURI" value="<?php echo $_POST['requestURI']; ?>" />
+						<input type="hidden" name="refererURI" value="<?php echo $_POST['refererURI']; ?>" />
 						<input type="hidden" name="need_writers" value="1" />
 						<input type="hidden" name="action" value="try_auth" />
 						

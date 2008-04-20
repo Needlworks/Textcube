@@ -34,13 +34,14 @@ function logout() {
 
 function requireLogin() {
 	global $service, $hostURL, $blogURL;
+	if(isset($_POST['refererURI'])) $_GET['refererURI'] = $_POST['refererURI'];
 	if (!empty($service['loginURL'])) {
-		header("Location: {$service['loginURL']}?requestURI=" . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}"));
+		header("Location: {$service['loginURL']}?requestURI=" . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}") . (isset($_GET['refererURI']) ? "&refererURI=". rawurlencode($_GET['refererURI']) : ''));
 	} else {
 		if (String::endsWith($_SERVER['HTTP_HOST'], '.' . $service['domain']))
-			header("Location: $blogURL/login?requestURI=" . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}"));
+			header("Location: $blogURL/login?requestURI=" . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}") .  (isset($_GET['refererURI']) ? "&refererURI=". rawurlencode($_GET['refererURI']) : ''));
 		else
-			header('Location: ' . getBlogURL() . '/login?requestURI=' . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}"));
+			header('Location: ' . getBlogURL() . '/login?requestURI=' . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}") .  (isset($_GET['refererURI']) ? "&refererURI=". rawurlencode($_GET['refererURI']) : ''));
 	}
 	exit;
 }
