@@ -123,7 +123,7 @@ function getPluginInformation($plugin) {
 		return false;
 	if (!$xmls->open(file_get_contents(ROOT . "/plugins/$plugin/index.xml"))) {
 		error_log( "PLUGIN XML_PARSE_ERROR: ". $plugin. ": ". 
-			xml_error_string( xml_get_error_code($xmls->error['code']) ) );
+		xml_error_string($xmls->error['code']));
 		return false;
 	} else {
 		// Determine plugin scopes.
