@@ -732,6 +732,8 @@ function importer($path, $node, $line) {
 			setProgress($item++ / $items * 100, _t('방명록을 복원하고 있습니다.'));
 			$comment = new GuestComment();
 			$comment->name = $node['commenter'][0]['name'][0]['.value'];
+			if (!empty($node['commenter'][0]['id'][0]['.value']))
+				$comment->id = $node['commenter'][0]['id'][0]['.value'];
 			if (!empty($node['commenter'][0]['homepage'][0]['.value']))
 				$comment->homepage = $node['commenter'][0]['homepage'][0]['.value'];
 			if (!empty($node['commenter'][0]['ip'][0]['.value']))
@@ -750,6 +752,8 @@ function importer($path, $node, $line) {
 					$childComment->parent = $comment->id;
 					$cursor = & $node['comment'][$j];
 					$childComment->name = $cursor['commenter'][0]['name'][0]['.value'];
+					if (!empty($cursor['commenter'][0]['id'][0]['.value']))
+						$childComment->id = $cursor['commenter'][0]['id'][0]['.value'];
 					if (!empty($cursor['commenter'][0]['homepage'][0]['.value']))
 						$childComment->homepage = $cursor['commenter'][0]['homepage'][0]['.value'];
 					if (!empty($cursor['commenter'][0]['ip'][0]['.value']))
