@@ -567,10 +567,10 @@ function saveFeedItem($feedId, $item) {
 	if($feedLife > 0)
 		$deadLine = gmmktime() - $feedLife * 86400;
 	if ($id = POD::queryCell("SELECT id FROM {$database['prefix']}FeedItems WHERE permalink='{$item['permalink']}'") && $item['written'] != 0) {
-		POD::query("UPDATE {$database['prefix']}FeedItems SET author = '{$item['author']}', title = '{$item['title']}', description = '{$item['description']}', tags = '$tagString', enclosure = '$enclosureString', written = {$item['written']} WHERE id = $id");
+		$result = POD::query("UPDATE {$database['prefix']}FeedItems SET author = '{$item['author']}', title = '{$item['title']}', description = '{$item['description']}', tags = '$tagString', enclosure = '$enclosureString', written = {$item['written']} WHERE id = $id");
 		/*
 		TODO : 읽은글이 읽지않은 글로 표시되는 문제 원인이 찾아질때 까지 막아둠
-		if (mysql_affected_rows() > 0)
+		if (mysql_affected_rows($result) > 0)
 			POD::query("DELETE FROM {$database['prefix']}FeedReads WHERE item = $id");
 		*/
 	} else if($id != null) {
