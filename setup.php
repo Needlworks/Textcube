@@ -810,9 +810,9 @@ RewriteRule ^testrewrite$ setup.php [L]"
 	        fclose($fp);
 			@chmod($filename, 0666);
         
-        	if (testMyself(substr(getFingerPrint(), 0, 6) . substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.')), $path . '/testrewrite?test=now', $_SERVER['SERVER_PORT']))
+        	if (testMyself('blog' . substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.')), $path . '/testrewrite?test=now', $_SERVER['SERVER_PORT']))
             	$rewrite = 3;
-	        else if (testMyself(substr(getFingerPrint(), 0, 6) . '.' . $_SERVER['HTTP_HOST'], $path . '/testrewrite?test=now', $_SERVER['SERVER_PORT']))
+	        else if (testMyself('blog.' . $_SERVER['HTTP_HOST'], $path . '/testrewrite?test=now', $_SERVER['SERVER_PORT']))
     	        $rewrite = 2;
 	        else if (testMyself($_SERVER['HTTP_HOST'], $path . '/testrewrite?test=now', $_SERVER['SERVER_PORT']))
     	        $rewrite = 1;
@@ -1795,24 +1795,27 @@ function stripPath($path) {
 	return $path;
 }
 
-function testMyself($host, $path, $port) {
-    $socket = @fsockopen($host, $port, $errno, $errstr, 10);
-    if ($socket === false)
-        return false;
-    fputs($socket, "GET $path HTTP/1.1\r\n");
-    fputs($socket, "Host: $host\r\n");
-    fputs($socket, "User-Agent: Mozilla/4.0 (compatible; Textcube 1.5 Setup)\r\n");
-    fputs($socket, "Connection: close\r\n");
-    fputs($socket, "\r\n");
-    $response = '';
-    while (!feof($socket))
-        $response .= fgets($socket, 128);
-    fclose($socket);
+function testMyself($host, $path, $port)
+{
+	$ip = gethostbyname($host);
+	$s = socket_create( AF_INET, SOCK_STREAM, SOL_TCP );
+	if( !socket_connect( $s, $ip, $port ) ) {
+		return false;
+	}
+
+	socket_write( $s, "GET $path HTTP/1.1\r\n".
+		"Host: $host\r\n".
+		"User-Agent: Mozilla/4.0 (compatible; Textcube Setup)\r\n".
+		"Connection: close\r\n".
+		"\r\n" );
+
+	$response = socket_read( $s, 8096 );
+	socket_close($s);
     return strstr($response, getFingerPrint()) ? true : false;
 }
 
 function getFingerPrint() {
-    return md5($_SERVER['SERVER_SOFTWARE'] . $_SERVER['SERVER_SIGNATURE'] . $_SERVER['SCRIPT_FILENAME'] . phpversion());
+    return md5($_SERVER['SERVER_SOFTWARE'] . $_SERVER['SCRIPT_FILENAME'] . phpversion());
 }
 
 function checkTables($version, $prefix) {
