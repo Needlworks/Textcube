@@ -284,7 +284,7 @@ class DBQuery {
 	/*@static@*/
 	function fetch($handle = null, $type = 'assoc') {
 		if($type == 'array') return mysql_fetch_array($handle); // Can I use mysql_fetch_row instead?
-		else if ($type = 'row') return mysql_fetch_row($handle);
+		else if ($type == 'row') return mysql_fetch_row($handle);
 		else return mysql_fetch_assoc($handle);
 	}
 	

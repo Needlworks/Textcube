@@ -72,12 +72,12 @@ function getTrackbackLogsWithPagingForOwner($blogid, $category, $site, $ip, $sea
 function getTrackbacks($entry) {
 	global $database;
 	$trackbacks = array();
-	$result = POD::query("select * 
-			from {$database['prefix']}Trackbacks 
-			where blogid = ".getBlogId()." 
+	$result = POD::query("SELECT * 
+			FROM {$database['prefix']}Trackbacks 
+			WHERE blogid = ".getBlogId()." 
 				AND entry = $entry 
 				AND isFiltered = 0 
-			order by written");
+			ORDER BY written");
 	while ($trackback = POD::fetch($result))
 		array_push($trackbacks, $trackback);
 	return $trackbacks;

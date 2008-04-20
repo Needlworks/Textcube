@@ -16,7 +16,7 @@ class User {
 	/*@static@*/
 	function getName($userid = null) {
 		global $database, $__gCacheUserNames;
-		if (!isset($userid))
+		if (empty($userid))
 			$userid = getUserId();
 		if (array_key_exists($userid, $__gCacheUserNames)) {
 			return $__gCacheUserNames[$userid];
@@ -121,7 +121,7 @@ class User {
 	/*@static@*/
 	function getHomepage($userid = null) {
 		global $database;
-		if (!isset($userid)) 
+		if (!isset($userid) || empty($userid)) 
 			$userid = getUserId();
 		$info = unserialize(setting::getUserSettingGlobal('userLinkInfo','',$userid));
 		if(is_null($info)) $info = array('type' => 'default'); 
@@ -133,7 +133,7 @@ class User {
 				$homepage = getDefaultURL($info['blogid']);
 				break;
 			case "author" : 
-				$homepage = getDefaultURL($info['blogid'])."/author/".encodeURL(User::getName());
+				$homepage = getDefaultURL($info['blogid'])."/author/".encodeURL(User::getName($userid));
 				break;
 			case "default" :
 			default :
