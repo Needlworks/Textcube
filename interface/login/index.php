@@ -21,6 +21,7 @@ $IV = array(
 );
 define('__TEXTCUBE_LOGIN__',true);
 require ROOT . '/lib/includeForBlog.php';
+$blogURL = getBlogURL();
 if (isset($_GET['loginid']))
 	$_POST['loginid'] = $_GET['loginid'];
 if (isset($_GET['password']))
@@ -56,7 +57,7 @@ if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 $authResult = fireEvent('LOGIN_try_auth', false);
 
 if (doesHaveOwnership() || doesHaveMembership()) {
-	if (!empty($_POST['requestURI'])) {
+	if (doesHaveOwnership() && !empty($_POST['requestURI'])) {
 		$url = parse_url($_POST['requestURI']);
 		if ($url && isset($url['host']) && !String::endsWith( '.' . $url['host'], '.' . $service['domain']))
 			$redirect = "{$blogURL}/login?requestURI=" . rawurlencode($_POST['requestURI']) . '&session=' . rawurlencode(session_id());
@@ -66,7 +67,6 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 		global $blogURL;
 		$redirect = $blogURL;
 	}
-
 	if (empty($_SESSION['lastLoginRedirected']) || $_SESSION['lastLoginRedirected'] != $redirect) {
 		header('Location: '.($_SESSION['lastLoginRedirected'] = $redirect));
 		exit;
