@@ -582,6 +582,8 @@ function addEntry($blogid, $entry, $userid = null) {
 	if ($entry['visibility'] >= 2) {
 		CacheControl::flushAuthor($userid);
 		CacheControl::flushDBCache('entry');
+		CacheControl::flushDBCache('comment');
+		CacheControl::flushDBCache('trackback');
 		$gCacheStorage->purge();
 		clearRSS();
 	}
