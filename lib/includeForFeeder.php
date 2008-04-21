@@ -2,35 +2,42 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-// Basics
-require ROOT .'/lib/config.php';
-if($service['reader'] === false) exit;
-require ROOT .'/lib/function/string.php';
-require ROOT .'/lib/function/time.php';
-require ROOT .'/lib/function/javascript.php';
-require ROOT .'/lib/function/html.php';
-require ROOT .'/lib/function/xml.php';
-require ROOT .'/lib/function/misc.php';
-require ROOT .'/lib/function/image.php';
-require ROOT .'/lib/function/mail.php';
-require ROOT .'/lib/functions.php';
-// Library
-require ROOT .'/lib/database.php';
-//require ROOT .'/lib/locale.php';
-require ROOT .'/lib/auth.php';
-// Model
-require ROOT .'/lib/model/blog.service.php';
-require ROOT .'/lib/model/blog.blogSetting.php';
-//require ROOT .'/lib/model/blog.user.php';
-require ROOT .'/lib/model/common.setting.php';
-require ROOT .'/lib/model/common.plugin.php';
-require ROOT .'/lib/model/reader.common.php';
 
-// Initializing environment.
 define('NO_LOCALE',true);
 define('NO_ADMINPANEL',true);
-require ROOT .'/lib/initialize.php';
-//require ROOT .'/lib/plugins.php';
 
+$__requireLibrary = array(
+// Basics
+	'config',
+	'function/string',
+	'function/time',
+	'function/javascript',
+	'function/html',
+	'function/xml',
+	'function/misc',
+	'function/image',
+	'function/mail',
+	'functions',
+// Library
+	'database',
+//	'locale',
+	'auth',
+// Model
+	'model/blog.service',
+	'model/blog.blogSetting',
+//	'model/blog.user',
+	'model/common.setting',
+	'model/common.plugin',
+	'model/reader.common',
+
+// Initializing environment.
+	'initialize'
+	);
+
+if($service['reader'] === false) exit;
+foreach($__requireLibrary as $lib) {
+	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/'.$lib.'.php';
+	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
+}
 header('Content-Type: text/html; charset=utf-8');
 ?>

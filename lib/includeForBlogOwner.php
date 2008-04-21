@@ -3,44 +3,44 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-// Basics
-require ROOT .'/lib/config.php';
-require ROOT .'/lib/function/string.php';
-require ROOT .'/lib/function/time.php';
-require ROOT .'/lib/function/javascript.php';
-require ROOT .'/lib/function/html.php';
-require ROOT .'/lib/function/xml.php';
-require ROOT .'/lib/function/misc.php';
-require ROOT .'/lib/function/image.php';
-require ROOT .'/lib/function/mail.php';
-require ROOT .'/lib/functions.php';
-// Library
-require ROOT .'/lib/database.php';
-require ROOT .'/lib/locale.php';
-require ROOT .'/lib/auth.php';
-// Models
-require ROOT .'/lib/model/blog.service.php';
-require ROOT .'/lib/model/blog.blogSetting.php';
-require ROOT .'/lib/model/blog.user.php';
-require ROOT .'/lib/model/blog.category.php';
-require ROOT .'/lib/model/blog.skin.php';
-require ROOT .'/lib/model/blog.fx.php';
-require ROOT .'/lib/model/common.plugin.php';
-require ROOT .'/lib/model/common.module.php';
-require ROOT .'/lib/model/common.setting.php';
-require ROOT .'/lib/model/common.legacysupport.php';
-// Views
-require ROOT .'/lib/view/html.php';
-require ROOT .'/lib/view/ownerView.php';
-require ROOT .'/lib/view/paging.php';
-require ROOT .'/lib/view/view.php';
-
-// Initializing environment.
-require ROOT .'/lib/initialize.php';
-require ROOT .'/lib/plugins.php';
+$__requireLibrary = array(
+	'config',				// Basics
+	'function/string',
+	'function/time',
+	'function/javascript',
+	'function/html',
+	'function/xml',
+	'function/misc',
+	'function/image',
+	'function/mail',
+	'functions',
+	'database',				// Library
+	'locale',
+	'auth',
+	'model/blog.service',	// Models
+	'model/blog.blogSetting',
+	'model/blog.user',
+	'model/blog.category',
+	'model/blog.skin',
+	'model/blog.fx',
+	'model/common.plugin',
+	'model/common.module',
+	'model/common.setting',
+	'model/common.legacysupport',
+	'view/html',			// Views
+	'view/ownerView',
+	'view/paging',
+	'view/view',
+	'initialize',			// Initializing environment.
+	'plugins'
+	);
+foreach($__requireLibrary as $lib) {
+	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/'.$lib.'.php';
+	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
+}
 
 header('Content-Type: text/html; charset=utf-8');
-// Check access control list
-requireOwnership();
+
+requireOwnership();		// Check access control list
 require ROOT .'/lib/pageACL.php';
 ?>

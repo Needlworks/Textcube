@@ -3,58 +3,61 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-// Basics
-require ROOT .'/lib/config.php';
-require ROOT .'/lib/function/string.php';
-require ROOT .'/lib/function/time.php';
-require ROOT .'/lib/function/javascript.php';
-require ROOT .'/lib/function/html.php';
-require ROOT .'/lib/function/xml.php';
-require ROOT .'/lib/function/misc.php';
-require ROOT .'/lib/function/image.php';
-require ROOT .'/lib/function/mail.php';
-require ROOT .'/lib/functions.php';
-if (defined( 'TCDEBUG')) __tcSqlLogPoint('end of basic function loading');
-// Library
-require ROOT .'/lib/database.php';
-require ROOT .'/lib/locale.php';
-require ROOT .'/lib/auth.php';
-require ROOT .'/lib/blog.skin.php';
-if (defined( 'TCDEBUG')) __tcSqlLogPoint('end of blog.skin.php');
-// Models
-require ROOT .'/lib/model/blog.service.php';
-require ROOT .'/lib/model/blog.archive.php';
-require ROOT .'/lib/model/blog.attachment.php';
-require ROOT .'/lib/model/blog.blogSetting.php';
-require ROOT .'/lib/model/blog.category.php';
-require ROOT .'/lib/model/blog.comment.php';
-require ROOT .'/lib/model/blog.entry.php';
-require ROOT .'/lib/model/blog.keyword.php';
-require ROOT .'/lib/model/blog.notice.php';
-require ROOT .'/lib/model/blog.link.php';
-require ROOT .'/lib/model/blog.locative.php';
-require ROOT .'/lib/model/blog.sidebar.php';
-require ROOT .'/lib/model/blog.trackback.php';
-require ROOT .'/lib/model/blog.tag.php';
-require ROOT .'/lib/model/blog.user.php';
-require ROOT .'/lib/model/common.setting.php';
-require ROOT .'/lib/model/common.plugin.php';
-require ROOT .'/lib/model/common.module.php';
-require ROOT .'/lib/model/common.legacysupport.php';
+$__requireLibrary = array(
+	'config',					// Basics
+	'function/string',
+	'function/time',
+	'function/javascript',
+	'function/html',
+	'function/xml',
+	'function/misc',
+	'function/image',
+	'function/mail',
+	'functions',
+		'DEBUG : End of basic function loading',
+	'database',					// Library
+	'locale',
+	'auth',
+	'blog.skin',
+		'DEBUG : End of blog.skin.php',
+	'model/blog.service',		// Models
+	'model/blog.archive',
+	'model/blog.attachment',
+	'model/blog.blogSetting',
+	'model/blog.category',
+	'model/blog.comment',
+	'model/blog.entry',
+	'model/blog.keyword',
+	'model/blog.notice',
+	'model/blog.link',
+	'model/blog.locative',
+	'model/blog.sidebar',
+	'model/blog.trackback',
+	'model/blog.tag',
+	'model/blog.user',
+	'model/common.setting',
+	'model/common.plugin',
+	'model/common.module',
+	'model/common.legacysupport',
+		'DEBUG : End of model loading',
+	'view/html',				// Views
+	'view/paging',
+	'view/view',
+		'DEBUG : End of view loading',
+	'initialize',				// Initializing environment.
+		'DEBUG : End of initializing',
+	'plugins',
+		'DEBUG : End of plugin parsing'
+	);
+
 require ROOT .'/components/Textcube.Function.Setting.php';	//Setting component
-if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of model loading');
-// Views
-require ROOT .'/lib/view/html.php';
-require ROOT .'/lib/view/paging.php';
-require ROOT .'/lib/view/view.php';
-if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of view loading');
-// Initializing environment.
-require ROOT .'/lib/initialize.php';
-if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of initializing');
-require ROOT .'/lib/plugins.php';
-if (defined( 'TCDEBUG')) __tcSqlLogPoint('End of plugin parsing');
+foreach($__requireLibrary as $lib) {
+	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/'.$lib.'.php';
+	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
+}
 
 header('Content-Type: text/html; charset=utf-8');
+
 if(!defined('__TEXTCUBE_LOGIN__')) {
 	$blogVisibility = setting::getBlogSettingGlobal('visibility',2);
 	if($blogVisibility == 0) requireOwnership();
