@@ -35,6 +35,10 @@ function logout() {
 function requireLogin() {
 	global $service, $hostURL, $blogURL;
 	if(isset($_POST['refererURI'])) $_GET['refererURI'] = $_POST['refererURI'];
+	else if(isset($_SESSION['refererURI'])) { 
+		$_GET['refererURI'] = $_SESSION['refererURI'];
+		unset($_SESSION['refererURI']);
+	}
 	if (!empty($service['loginURL'])) {
 		header("Location: {$service['loginURL']}?requestURI=" . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}") . (isset($_GET['refererURI']) ? "&refererURI=". rawurlencode($_GET['refererURI']) : ''));
 	} else {
