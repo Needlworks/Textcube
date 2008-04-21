@@ -572,6 +572,8 @@ function addEntry($blogid, $entry) {
 	if ($entry['visibility'] >= 2) {
 		CacheControl::flushAuthor($userid);
 		CacheControl::flushDBCache('entry');
+		CacheControl::flushDBCache('comment');
+		CacheControl::flushDBCache('trackback');
 		$gCacheStorage->purge();
 		clearRSS();
 	}
@@ -877,6 +879,8 @@ function deleteEntry($blogid, $id) {
 		syndicateEntry($id, 'delete');
 	CacheControl::flushEntry($id);
 	CacheControl::flushDBCache('entry');
+	CacheControl::flushDBCache('comment');
+	CacheControl::flushDBCache('trackback');
 	$gCacheStorage->purge();
 	$result = POD::queryCount("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id");
 	if ($result > 0) {

@@ -98,7 +98,7 @@ function MT_Cover_getRecentEntries($parameters){
 		requireComponent('Textcube.Model.Paging');
 
 		$paging['page'] = $page;
-		$paging['total'] = getEntriesTotalCount($blogid);
+		$paging['total'] = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries e WHERE $multiple e.draft = 0 $visibility AND e.category >= 0");
 
 		$html .= getPagingView($paging, $skin->paging, $skin->pagingItem).CRLF;
 
