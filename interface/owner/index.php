@@ -5,7 +5,8 @@
 
 
 require ROOT . '/lib/includeForBlog.php';
-$refererURI = $_SERVER['HTTP_REFERER'];
+$refererURI = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 // Redirect.
-header("Location: $blogURL/owner/center/dashboard?refererURI=".$refererURI);
+$_SESSION['refererURI'] = $refererURI;
+header("Location: $blogURL/owner/center/dashboard");
 ?>
