@@ -11,7 +11,7 @@
   <author xml:lang="ko" link="http://forest.nubimaru.com"><![CDATA[신정규 (inureyes / Needlworks)]]></author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
-    <textcube>1.7777777cube>
+    <textcube>1.7</textcube>
   </requirements>
   <binding>
 	<listener event="refreshRSS">PN_Subscription_setTime</listener>
