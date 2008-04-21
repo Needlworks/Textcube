@@ -582,8 +582,6 @@ function addEntry($blogid, $entry, $userid = null) {
 	if ($entry['visibility'] >= 2) {
 		CacheControl::flushAuthor($userid);
 		CacheControl::flushDBCache('entry');
-		CacheControl::flushDBCache('comment');
-		CacheControl::flushDBCache('trackback');
 		$gCacheStorage->purge();
 		clearRSS();
 	}
@@ -943,6 +941,8 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 
 	if(updateEntriesOfCategory($blogid)) {
 		clearRSS();
+		CacheControl::flushDBCache('comment');
+		CacheControl::flushDBCache('trackback');
 		return true;	
 	}
 	return false;
@@ -970,6 +970,8 @@ function setEntryVisibility($id, $visibility) {
 
 	CacheControl::flushEntry($id);
 	CacheControl::flushDBCache('entry');
+	CacheControl::flushDBCache('comment');
+	CacheControl::flushDBCache('trackback');
 	if ($oldVisibility == 3)
 		syndicateEntry($id, 'delete');
 	else if ($visibility == 3) {
@@ -1009,6 +1011,8 @@ function protectEntry($id, $password) {
 	if($result > 0) {
 		CacheControl::flushEntry($id);
 		CacheControl::flushDBCache('entry');
+		CacheControl::flushDBCache('comment');
+		CacheControl::flushDBCache('trackback');
 		return true;
 	} else return false;
 }
