@@ -6,7 +6,7 @@
 function getEntriesTotalCount($blogid) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND e.userid = '.getUserId() : '';
+	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$count =  POD::queryCell("SELECT COUNT(*) 
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0");
@@ -16,7 +16,7 @@ function getEntriesTotalCount($blogid) {
 function getNoticesTotalCount($blogid) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND e.userid = '.getUserId() : '';
+	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	return POD::queryCell("SELECT COUNT(*) 
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category = -2");
@@ -27,7 +27,7 @@ function getEntries($blogid, $attributes = '*', $condition = false, $order = 'pu
 	if (!empty($condition))
 		$condition = 'AND ' . $condition;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND userid = '.getUserId() : '';
+	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (userid = '.getUserId().' OR visibility > 0)' : '';
 	return POD::queryAll("SELECT $attributes FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility $condition ORDER BY $order");
 }
 
@@ -131,7 +131,7 @@ function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
 		$cond = 'AND e.category >= 0';
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	}
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND e.userid = '.getUserId() : '';
+	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 
 	$sql = "SELECT e.blogid,e.userid,e.id,e.title,e.comments,e.slogan,e.published
 			FROM {$database['prefix']}Entries e 
@@ -147,7 +147,7 @@ function getEntryListWithPagingByAuthor($blogid, $author, $page, $count) {
 	$userid = User::getUserIdByName($author);
 	if(empty($userid)) return array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND e.userid = '.getUserId() : '';
+	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 
 	$sql = "SELECT e.blogid,e.userid,e.id,e.title,e.comments,e.slogan,e.published
 			FROM {$database['prefix']}Entries e 
@@ -162,7 +162,7 @@ function getEntryListWithPagingByTag($blogid, $tag, $page, $count) {
 		return array(array(), array('url'=>'','prefix'=>'','postfix'=>''));	
 	$tag = POD::escapeString($tag);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND e.userid = '.getUserId() : '';
+	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$sql = "SELECT e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.blogid = t.blogid 
@@ -175,7 +175,7 @@ function getEntryListWithPagingByPeriod($blogid, $period, $page, $count) {
 	global $database, $suri, $folderURL;
 	$cond = "AND e.published >= " . getTimeFromPeriod($period) . " AND e.published < " . getTimeFromPeriod(addPeriod($period));
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND e.userid = '.getUserId() : '';
+	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$sql = "SELECT e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond 
@@ -188,7 +188,7 @@ function getEntryListWithPagingBySearch($blogid, $search, $page, $count) {
 	$search = escapeSearchString($search);
 	$cond = strlen($search) == 0 ? 'AND 0' : "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1'.getPrivateCategoryExclusionQuery($blogid);
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND e.userid = '.getUserId() : '';
+	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$sql = "SELECT e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond
@@ -199,7 +199,7 @@ function getEntryListWithPagingBySearch($blogid, $search, $page, $count) {
 function getEntriesWithPaging($blogid, $page, $count) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND e.userid = '.getUserId() : '';
+	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
@@ -213,7 +213,7 @@ function getEntriesWithPagingByCategory($blogid, $category, $page, $count, $coun
 	if ($category === null)
 		return fetchWithPaging(null, $page, $count, "$folderURL/{$suri['value']}");
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND e.userid = '.getUserId() : '';
+	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	if ($category > 0) {
 		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category $visibility");
 		array_push($categories, $category);
@@ -237,7 +237,7 @@ function getEntriesWithPagingByTag($blogid, $tag, $page, $count, $countItem = nu
 		return fetchWithPaging(null, $page, $count, "$folderURL/{$suri['value']}");
 	$tag = POD::escapeString($tag);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND e.userid = '.getUserId() : '';
+	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
@@ -250,7 +250,7 @@ function getEntriesWithPagingByTag($blogid, $tag, $page, $count, $countItem = nu
 function getEntriesWithPagingByNotice($blogid, $page, $count, $countItem = null) {
 	global $database, $folderURL, $suri;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility = 2';
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND e.userid = '.getUserId() : '';
+	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$sql = "SELECT * 
 		FROM {$database['prefix']}Entries 
 		WHERE blogid = $blogid $visibility AND category = -2 
@@ -262,7 +262,7 @@ function getEntriesWithPagingByPeriod($blogid, $period, $page, $count) {
 	global $database, $folderURL, $suri;
 	$cond = "AND published >= " . getTimeFromPeriod($period) . " AND published < " . getTimeFromPeriod(addPeriod($period));
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND e.userid = '.getUserId() : '';
+	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
@@ -276,7 +276,7 @@ function getEntriesWithPagingBySearch($blogid, $search, $page, $count, $countIte
 	$search = escapeSearchString($search);
 	$cond = strlen($search) == 0 ? 'AND 0' : "AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND e.userid = '.getUserId() : '';
+	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
@@ -289,7 +289,7 @@ function getEntriesWithPagingByAuthor($blogid, $author, $page, $count, $countIte
 	global $database, $folderURL, $suri;
 	$userid = User::getUserIdByName($author);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND e.userid = '.getUserId() : '';
+	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$sql = "SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
@@ -354,7 +354,7 @@ function getEntryWithPaging($blogid, $id, $isNotice = false) {
 	$paging = initPaging($folderURL, '/');
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	$visibility .= ($isNotice || doesHaveOwnership())  ? '' : ' AND (c.visibility > 1 OR e.category = 0)';
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND e.userid = '.getUserId() : '';
+	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
 	$currentEntry = POD::queryRow("SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
@@ -408,7 +408,7 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false) {
 	$paging = initPaging("$blogURL/entry", '/');
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	$visibility .= ($isNotice || doesHaveOwnership()) ? '' : getPrivateCategoryExclusionQuery($blogid);
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND e.userid = '.getUserId() : '';
+	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
 
 	$currentEntry = POD::queryRow("SELECT e.*, c.label categoryLabel 
