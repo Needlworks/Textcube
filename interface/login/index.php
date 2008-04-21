@@ -35,7 +35,7 @@ else if (empty($_POST['requestURI']) && !empty($_SERVER['HTTP_REFERER']) )
 else
 	$_POST['requestURI'] = $blogURL;
 if (!empty($_GET['refererURI'])) $_POST['refererURI'] = $_GET['refererURI'];
-else $_POST['refererURI'] = $_SERVER['HTTP_REFERER'];
+else $_POST['refererURI'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 
 $message = '';
 $showPasswordReset = false;
