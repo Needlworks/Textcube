@@ -9,7 +9,12 @@
    - Choose DBMS and bind database.*/
    
 require ROOT.'/components/Needlworks.Database.php';
-if(!empty($database) && !empty($database["database"])) POD::bind($database);
+if(!empty($database) && !empty($database["database"])) {
+	if(POD::bind($database) === false) {
+		respond::MessagePage('Problem with connecting database.<br /><br />Please re-visit later.');
+		exit;
+	}
+}
 
 $database['utf8'] = (POD::charset() == 'utf8') ? true : false;
 
@@ -65,7 +70,7 @@ if (!defined('NO_INITIALIZAION')) {
    ---------------------
    - Set administration panel skin and editor template CSS. */
 
-	// 어드민 스킨 및 에디터 템플릿 설정.
+	// 관리 모드 스킨 및 에디터 템플릿 설정.
 	if(!defined('NO_ADMINPANEL')) {
 		$adminSkinSetting = array();
 		$adminSkinSetting['skin'] = "/style/admin/".getBlogSetting("adminSkin", "whitedream");

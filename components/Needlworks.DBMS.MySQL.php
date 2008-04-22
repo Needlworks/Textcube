@@ -17,8 +17,10 @@ class DBQuery {
 		// Connects DB and set environment variables
 		// $database array should contain 'server','username','password'.
 		if(!isset($database) || empty($database)) return false;
-		mysql_connect($database['server'], $database['username'], $database['password']);
-		mysql_select_db($database['database']);
+		$handle = @mysql_connect($database['server'], $database['username'], $database['password']);
+		if(!$handle) return false;
+		$handle = @mysql_select_db($database['database']);
+		if(!$handle) return false;
 
 		if (DBQuery::query('SET CHARACTER SET utf8'))
 			$__dbProperties['charset'] = 'utf8';
