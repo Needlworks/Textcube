@@ -3,7 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-$__requireLibrary = array(
+$__requireComponent = array();
+$__requireBasics = array(
 	'config',					// Basics
 	'function/string',
 	'function/time',
@@ -12,46 +13,57 @@ $__requireLibrary = array(
 	'function/xml',
 	'function/misc',
 	'function/image',
-	'function/mail',
+	'function/mail');
+$__requireLibrary = array(
 	'functions',
-		'DEBUG : End of basic function loading',
 	'database',					// Library
 	'locale',
 	'auth',
-	'blog.skin',
-		'DEBUG : End of blog.skin.php',
-	'model/blog.service',		// Models
-	'model/blog.archive',
-	'model/blog.attachment',
-	'model/blog.blogSetting',
-	'model/blog.category',
-	'model/blog.comment',
-	'model/blog.entry',
-	'model/blog.keyword',
-	'model/blog.notice',
-	'model/blog.link',
-	'model/blog.locative',
-	'model/blog.sidebar',
-	'model/blog.trackback',
-	'model/blog.tag',
-	'model/blog.user',
-	'model/common.setting',
-	'model/common.plugin',
-	'model/common.module',
-	'model/common.legacysupport',
-		'DEBUG : End of model loading',
-	'view/html',				// Views
-	'view/paging',
-	'view/view',
-		'DEBUG : End of view loading',
+	'blog.skin');
+$__requireModel = array(
+	'blog.service',				// Models
+	'blog.archive',
+	'blog.attachment',
+	'blog.blogSetting',
+	'blog.category',
+	'blog.comment',
+	'blog.entry',
+	'blog.keyword',
+	'blog.notice',
+	'blog.link',
+	'blog.locative',
+	'blog.sidebar',
+	'blog.trackback',
+	'blog.tag',
+	'blog.user',
+	'common.setting',
+	'common.plugin',
+	'common.module',
+	'common.legacysupport');
+$__requireView = array(
+	'html',						// Views
+	'paging',
+	'view');
+$__requireInit = array(
 	'initialize',				// Initializing environment.
-		'DEBUG : End of initializing',
-	'plugins',
-		'DEBUG : End of plugin parsing'
-	);
+	'plugins');
 
-require ROOT .'/components/Textcube.Function.Setting.php';	//Setting component
-foreach($__requireLibrary as $lib) {
+foreach((array_merge($__requireBasics,$__requireLibrary)) as $lib) {
+	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/'.$lib.'.php';
+	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
+}
+requireComponent('Textcube.Function.Setting');
+foreach($__requireModel as $lib) {
+	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/model/'.$lib.'.php';
+	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
+}
+
+foreach($__requireView as $lib) {
+	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/view/'.$lib.'.php';
+	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
+}
+
+foreach($__requireInit as $lib) {
 	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/'.$lib.'.php';
 	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
 }

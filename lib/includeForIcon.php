@@ -5,20 +5,30 @@
 define('NO_SESSION',true);
 define('NO_INITIALIZATION',true);
 
-$__requireLibrary = array(
-// Basics
+$__requireComponent = array();
+$__requireBasics = array(		// Basics
 	'config',
+	'function/file');
+$__requireLibrary = array(		// Library
 	'database',
-	'auth',
-// Models
-	'model/blog.service',
-//	'model/common.plugin', // Usually do not require for icons (no events).
-	'model/common.setting',
-// Initialize
-	'initialize',
-	'function/file'
-	);
-foreach($__requireLibrary as $lib) {
+	'auth');
+$__requireModel = array(		// Model
+	'blog.service',
+//	'common.plugin', // Usually do not require for icons (no events).
+	'common.setting');
+$__requireView = array();
+$__requireInit = array(		// Initialize
+	'initialize');
+foreach((array_merge($__requireBasics,$__requireLibrary)) as $lib) {
+	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/'.$lib.'.php';
+	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
+}
+foreach($__requireModel as $lib) {
+	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/model/'.$lib.'.php';
+	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
+}
+
+foreach($__requireInit as $lib) {
 	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/'.$lib.'.php';
 	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
 }

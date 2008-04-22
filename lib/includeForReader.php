@@ -3,8 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-$__requireLibrary = array(
-// Basics
+$__requireComponent = array();
+$__requireBasics = array(		// Basics
 	'config',
 	'function/string',
 	'function/time',
@@ -14,12 +14,12 @@ $__requireLibrary = array(
 	'function/misc',
 	'function/image',
 	'function/mail',
-	'functions',
-// Library
+	'functions');
+$__requireLibrary = array(		// Library
 	'database',
 	'locale',
-	'auth',
-// Model
+	'auth');
+$__requireModel = array(	
 	'model/blog.service',
 	'model/blog.blogSetting',
 	'model/blog.user',
@@ -27,20 +27,32 @@ $__requireLibrary = array(
 	'model/common.legacysupport',
 	'model/common.setting',
 	'model/common.plugin',
-	'model/reader.common',
-// View
+	'model/reader.common');
+$__requireView = array(		// View
 	'view/html',
 	'view/ownerView',
 	'view/paging',
-	'view/view',
-
-// Initializing environment.
+	'view/view');
+$__requireInit = array(		// Initializing environment.
 	'initialize',
-	'plugins'
-	);
+	'plugins');
 
 if($service['reader'] === false) exit;
-foreach($__requireLibrary as $lib) {
+foreach((array_merge($__requireBasics,$__requireLibrary)) as $lib) {
+	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/'.$lib.'.php';
+	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
+}
+foreach($__requireModel as $lib) {
+	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/model/'.$lib.'.php';
+	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
+}
+
+foreach($__requireView as $lib) {
+	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/view/'.$lib.'.php';
+	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
+}
+
+foreach($__requireInit as $lib) {
 	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/'.$lib.'.php';
 	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
 }

@@ -3,7 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-$__requireLibrary = array(
+$__requireComponent = array();
+$__requireBasics = array(
 	'config',				// Basics
 	'function/string',
 	'function/time',
@@ -12,33 +13,50 @@ $__requireLibrary = array(
 	'function/xml',
 	'function/misc',
 	'function/image',
-	'function/mail',
+	'function/mail');
+$__requireLibrary = array(
 	'functions',
 	'database',				// Library
 	'locale',
-	'auth',
-	'model/blog.service',	// Models
-	'model/blog.blogSetting',
-	'model/blog.user',
-	'model/blog.category',
-	'model/blog.skin',
-	'model/blog.fx',
-	'model/common.plugin',
-	'model/common.module',
-	'model/common.setting',
-	'model/common.legacysupport',
-	'view/html',			// Views
-	'view/ownerView',
-	'view/paging',
-	'view/view',
+	'auth');
+$__requireModel = array(
+	'blog.service',			// Models
+	'blog.blogSetting',
+	'blog.user',
+	'blog.category',
+	'blog.skin',
+	'blog.fx',
+	'common.plugin',
+	'common.module',
+	'common.setting',
+	'common.legacysupport');
+$__requireView = array(
+	'html',					// Views
+	'ownerView',
+	'paging',
+	'view');
+$__requireInit = array(
 	'initialize',			// Initializing environment.
-	'plugins'
-	);
-foreach($__requireLibrary as $lib) {
+	'plugins');
+
+foreach((array_merge($__requireBasics,$__requireLibrary)) as $lib) {
 	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/'.$lib.'.php';
 	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
 }
+foreach($__requireModel as $lib) {
+	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/model/'.$lib.'.php';
+	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
+}
 
+foreach($__requireView as $lib) {
+	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/view/'.$lib.'.php';
+	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
+}
+
+foreach($__requireInit as $lib) {
+	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/'.$lib.'.php';
+	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
+}
 header('Content-Type: text/html; charset=utf-8');
 
 requireOwnership();		// Check access control list

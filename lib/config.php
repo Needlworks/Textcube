@@ -51,18 +51,34 @@ if (@is_numeric($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80) && (
 
 // Define Binders.
 function requireComponent($name) {
+	global $__requireComponent;
 	//if (!preg_match('/^[a-zA-Z0-9\.]+$/', $name))		return;
 	$name = str_replace('Tattertools', 'Textcube',$name); // Legacy routine.
-	include_once (ROOT . "/components/$name.php");
+	if(!in_array($name,$__requireComponent)) {
+		include_once (ROOT . "/components/$name.php");
+		array_push($__requireComponent,$name);
+	}
 }
 function requireModel($name) {
-	include_once (ROOT . "/lib/model/$name.php");
+	global $__requireModel;
+	if(!in_array($name,$__requireModel)) {
+		include_once (ROOT . "/lib/model/$name.php");
+		array_push($__requireModel,$name);
+	}
 }
 function requireView($name) {
-	include_once (ROOT . "/lib/view/$name.php");
+	global $__requireView;
+	if(!in_array($name,$__requireView)) {
+		include_once (ROOT . "/lib/view/$name.php");
+		array_push($__requireView,$name);
+	}
 }
 function requireLibrary($name) {
-	include_once (ROOT . "/lib/$name.php");
+	global $__requireLibrary;
+	if(!in_array($name,$__requireLibrary)) {
+		include_once (ROOT . "/lib/$name.php");
+		array_push($__requireLibrary,$name);
+	}
 }
 
 // Include core components.

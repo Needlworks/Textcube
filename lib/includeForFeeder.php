@@ -6,8 +6,8 @@
 define('NO_LOCALE',true);
 define('NO_ADMINPANEL',true);
 
-$__requireLibrary = array(
-// Basics
+$__requireComponent = array();
+$__requireBasics = array(		// Basics
 	'config',
 	'function/string',
 	'function/time',
@@ -17,25 +17,33 @@ $__requireLibrary = array(
 	'function/misc',
 	'function/image',
 	'function/mail',
-	'functions',
-// Library
+	'functions');
+$__requireLibrary = array(		// Library
 	'database',
 //	'locale',
-	'auth',
-// Model
-	'model/blog.service',
-	'model/blog.blogSetting',
-//	'model/blog.user',
-	'model/common.setting',
-	'model/common.plugin',
-	'model/reader.common',
-
-// Initializing environment.
-	'initialize'
-	);
+	'auth');
+$__requireModel = array(		// Model
+	'blog.service',
+	'blog.blogSetting',
+//	'blog.user',
+	'common.setting',
+	'common.plugin',
+	'reader.common');
+$__requireView = array();
+$__requireInit = array(		// Initializing environment.
+	'initialize');
 
 if($service['reader'] === false) exit;
-foreach($__requireLibrary as $lib) {
+foreach((array_merge($__requireBasics,$__requireLibrary)) as $lib) {
+	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/'.$lib.'.php';
+	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
+}
+foreach($__requireModel as $lib) {
+	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/model/'.$lib.'.php';
+	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
+}
+
+foreach($__requireInit as $lib) {
 	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/'.$lib.'.php';
 	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
 }
