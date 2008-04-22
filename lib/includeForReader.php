@@ -20,19 +20,19 @@ $__requireLibrary = array(		// Library
 	'locale',
 	'auth');
 $__requireModel = array(	
-	'model/blog.service',
-	'model/blog.blogSetting',
-	'model/blog.user',
-	'model/blog.fx',
-	'model/common.legacysupport',
-	'model/common.setting',
-	'model/common.plugin',
-	'model/reader.common');
+	'blog.service',
+	'blog.blogSetting',
+	'blog.user',
+	'blog.fx',
+	'common.legacysupport',
+	'common.setting',
+	'common.plugin',
+	'reader.common');
 $__requireView = array(		// View
-	'view/html',
-	'view/ownerView',
-	'view/paging',
-	'view/view');
+	'html',
+	'ownerView',
+	'paging',
+	'view');
 $__requireInit = array(		// Initializing environment.
 	'initialize',
 	'plugins');
