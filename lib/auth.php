@@ -42,10 +42,16 @@ function requireLogin() {
 	if (!empty($service['loginURL'])) {
 		header("Location: {$service['loginURL']}?requestURI=" . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}") . (isset($_GET['refererURI']) ? "&refererURI=". rawurlencode($_GET['refererURI']) : ''));
 	} else {
-		if (String::endsWith($_SERVER['HTTP_HOST'], '.' . $service['domain']))
-			header("Location: $blogURL/login?requestURI=" . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}") .  (isset($_GET['refererURI']) ? "&refererURI=". rawurlencode($_GET['refererURI']) : ''));
-		else
-			header('Location: ' . getBlogURL() . '/login?requestURI=' . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}") .  (isset($_GET['refererURI']) ? "&refererURI=". rawurlencode($_GET['refererURI']) : ''));
+		$requestURI = rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}") .  (isset($_GET['refererURI']) ? "&refererURI=". rawurlencode($_GET['refererURI']) : '');
+		if (String::endsWith($_SERVER['HTTP_HOST'], '.' . $service['domain'])) {
+			header("Location: $blogURL/login?requestURI=" . $requestURI );
+		} else {
+			$decoded_blog = parse_url( getDefaultURL(getBlogId()) );
+			$decoded_host = parse_url( $hostURL );
+			if( $decoded_blog['host'] == $decoded_host['host'] ) {
+				header('Location: ' . getDefaultURL(getBlogId()) . '/login?requestURI=' . $requestURI );
+			}
+		}
 	}
 	exit;
 }

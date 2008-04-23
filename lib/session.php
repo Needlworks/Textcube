@@ -206,7 +206,7 @@ function authorizeSession($blogid, $userid) {
 		if ($result) {
 			@session_id($id);
 			//$service['domain'] = $service['domain'].':8888';
-			setcookie( getSessionName(), $id, 0, $session_cookie_path, $service['domain']);
+			setcookie( getSessionName(), $id, 0, $session_cookie_path, $service['session_cookie_domain']);
 			return true;
 		}
 	}

@@ -91,8 +91,14 @@ requireComponent('Textcube.Function.Respond');
 requireComponent('Needlworks.Cache.PageCache');
 
 // Include installation configuration.
+$service['session_cookie_path'] = '/';
 if(!defined('__TEXTCUBE_SETUP__')) @include ROOT . '/config.php';
 if($service['debugmode'] == true) requireComponent("Needlworks.Function.Debug");
+if( strstr( $_SERVER['HTTP_HOST'], $service['domain'] ) ) {
+	$service['session_cookie_domain'] = $service['domain'];
+} else {
+	$service['session_cookie_domain'] = $_SERVER['HTTP_HOST'];
+}
 
 // Basic POST/GET variable validation.
 if (isset($IV)) {

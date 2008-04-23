@@ -112,11 +112,14 @@ if ($service['type'] != 'single') {
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/domain/set/");
 										request.onSuccess = function() {
 											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
-											if(newDefaultDomain == 0 || newPrimaryDomain != primaryDomain) {
+alert(newDefaultDomain);
+alert(newSecondaryDomain);
+alert(secondaryDomain);
+											if(newDefaultDomain == 0) {
 												alert("<?php echo _t('변경된 1차 블로그 주소로 이동합니다');?>");
 												window.location.href = "http://" + newPrimaryDomain + ".<?php echo $service['domain'];?><?php echo $blogURL;?>/owner/setting/blog";
 											}
-											else if(newDefaultDomain == 1 && newSecondaryDomain != secondaryDomain) {
+											else if(newDefaultDomain == 1) {
 												alert("<?php echo _t('변경된 2차 블로그 주소로 이동합니다');?>");
 												window.location.href = "http://" + newSecondaryDomain + "<?php echo $blogURL;?>/owner/setting/blog";
 											}
