@@ -53,6 +53,7 @@
 			break;
 		case 'domain': default: 
 			$pathPart = ltrim(rtrim(strtok($accessInfo['fullpath'], '?'), '/'), '/');
+			if(!empty($service['path'])) $pathPart = ltrim($pathPart,$service['path']);
 			break;
 	}
 	$pathPart = strtok($pathPart,'&');
