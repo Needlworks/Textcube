@@ -1803,10 +1803,10 @@ function testMyself_socket($host, $path, $port)
 
 function testMyself($host, $path, $port)
 {
-	if( file_exists('fsockopen') ) {
+	if( function_exists('fsockopen') ) {
 		return testMyself_fsocket($host,$path,$port);
 	}
-	if( file_exists('socket_create') ) {
+	if( function_exists('socket_create') ) {
 		return testMyself_socket($host,$path,$port);
 	}
 	return false;
