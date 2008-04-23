@@ -6,6 +6,7 @@
 define('__TEXTCUBE_SETUP__',true);
 header('Content-Type: text/html; charset=utf-8');
 ini_set('display_errors', 'on');
+$__requireComponent = $__requireView = $__requireModel = $__requireLibrary = array();
 if (get_magic_quotes_gpc()) {
     foreach ($_GET as $key => $value)
         $_GET[$key] = stripslashes($value);
