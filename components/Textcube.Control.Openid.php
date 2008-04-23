@@ -510,3 +510,4 @@ class OpenIDConsumer extends OpenID {
 		echo "KILL ME, Where are you?"; exit;
 	}
 }
+?>

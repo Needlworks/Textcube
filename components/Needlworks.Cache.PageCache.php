@@ -596,6 +596,9 @@ class CodeCache {
 	function __getCodes() {
 		global $__requireComponent, $__requireView, $__requireLibrary, $__requireBasics, $__requireInit, $__requireModel;
 		$code = '';
+/*		foreach($__requireComponent as $lib) {
+			if(strpos($lib,'DEBUG') === false) $code .= file_get_contents(ROOT .'/components/'.$lib.'.php');
+		}*/
 		foreach((array_merge($__requireBasics,$__requireLibrary)) as $lib) {
 			if(strpos($lib,'DEBUG') === false) $code .= file_get_contents(ROOT .'/lib/'.$lib.'.php');
 		}

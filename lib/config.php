@@ -43,52 +43,12 @@ $service['flashclipboardpoter'] = true;
 $service['allowBlogVisibilitySetting'] = true;
 $service['effect'] = false;
 $service['interface'] = 'detail';	// 'simple' or 'detail'. Default is 'detail'
+$service['codeCache'] = false;
 //$service['flashuploader'] = false;
 
 // Map port setting.
 if (@is_numeric($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80) && ($_SERVER['SERVER_PORT'] != 443))
 	$service['port'] = $_SERVER['SERVER_PORT'];
-
-// Define Binders.
-function requireComponent($name) {
-	global $__requireComponent;
-	//if (!preg_match('/^[a-zA-Z0-9\.]+$/', $name))		return;
-	$name = str_replace('Tattertools', 'Textcube',$name); // Legacy routine.
-	if(!in_array($name,$__requireComponent)) {
-		include_once (ROOT . "/components/$name.php");
-		array_push($__requireComponent,$name);
-	}
-}
-function requireModel($name) {
-	global $__requireModel;
-	if(!in_array($name,$__requireModel)) {
-		include_once (ROOT . "/lib/model/$name.php");
-		array_push($__requireModel,$name);
-	}
-}
-function requireView($name) {
-	global $__requireView;
-	if(!in_array($name,$__requireView)) {
-		include_once (ROOT . "/lib/view/$name.php");
-		array_push($__requireView,$name);
-	}
-}
-function requireLibrary($name) {
-	global $__requireLibrary;
-	if(!in_array($name,$__requireLibrary)) {
-		include_once (ROOT . "/lib/$name.php");
-		array_push($__requireLibrary,$name);
-	}
-}
-
-// Include core components.
-// Due to the global variable scope issues, use require here instead of requireComponent.
-requireComponent('Eolin.PHP.UnifiedEnvironment');
-requireComponent('Eolin.PHP.Core');
-requireComponent('Textcube.Core');
-requireComponent('Textcube.Core.BackwardCompatibility');
-requireComponent('Textcube.Function.Respond');
-requireComponent('Needlworks.Cache.PageCache');
 
 // Include installation configuration.
 $service['session_cookie_path'] = '/';
