@@ -19,17 +19,7 @@ $__requireModel = array(		// Model
 $__requireView = array();
 $__requireInit = array(		// Initialize
 	'initialize');
-foreach((array_merge($__requireBasics,$__requireLibrary)) as $lib) {
-	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/'.$lib.'.php';
-	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
-}
-foreach($__requireModel as $lib) {
-	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/model/'.$lib.'.php';
-	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
-}
 
-foreach($__requireInit as $lib) {
-	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/'.$lib.'.php';
-	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
-}
+$codeName = 'includeForIcon.php';
+require ROOT.'/lib/include.php';
 ?>

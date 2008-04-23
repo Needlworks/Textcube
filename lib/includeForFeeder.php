@@ -34,18 +34,8 @@ $__requireInit = array(		// Initializing environment.
 	'initialize');
 
 if($service['reader'] === false) exit;
-foreach((array_merge($__requireBasics,$__requireLibrary)) as $lib) {
-	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/'.$lib.'.php';
-	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
-}
-foreach($__requireModel as $lib) {
-	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/model/'.$lib.'.php';
-	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
-}
 
-foreach($__requireInit as $lib) {
-	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/'.$lib.'.php';
-	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
-}
+$codeName = 'includeForFeeder.php';
+require ROOT.'/lib/include.php';
 header('Content-Type: text/html; charset=utf-8');
 ?>

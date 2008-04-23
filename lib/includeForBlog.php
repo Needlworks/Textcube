@@ -48,25 +48,8 @@ $__requireInit = array(
 	'initialize',				// Initializing environment.
 	'plugins');
 
-foreach((array_merge($__requireBasics,$__requireLibrary)) as $lib) {
-	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/'.$lib.'.php';
-	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
-}
-requireComponent('Textcube.Function.Setting');
-foreach($__requireModel as $lib) {
-	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/model/'.$lib.'.php';
-	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
-}
-
-foreach($__requireView as $lib) {
-	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/view/'.$lib.'.php';
-	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
-}
-
-foreach($__requireInit as $lib) {
-	if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/'.$lib.'.php';
-	else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
-}
+$codeName = 'includeForBlog.php';
+require ROOT.'/lib/include.php';
 
 header('Content-Type: text/html; charset=utf-8');
 
