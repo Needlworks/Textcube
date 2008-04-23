@@ -1796,7 +1796,23 @@ function stripPath($path) {
 	return $path;
 }
 
-function testMyself($host, $path, $port)
+function testMyself_fsocket($host, $path, $port) {
+    $socket = @fsockopen($host, $port, $errno, $errstr, 10);
+    if ($socket === false)
+        return false;
+    fputs($socket, "GET $path HTTP/1.1\r\n");
+    fputs($socket, "Host: $host\r\n");
+    fputs($socket, "User-Agent: Mozilla/4.0 (compatible; Textcube 1.5 Setup)\r\n");
+    fputs($socket, "Connection: close\r\n");
+    fputs($socket, "\r\n");
+    $response = '';
+    while (!feof($socket))
+        $response .= fgets($socket, 128);
+    fclose($socket);
+    return strstr($response, getFingerPrint()) ? true : false;
+}
+
+function testMyself_socket($host, $path, $port)
 {
 	$ip = gethostbyname($host);
 	$s = socket_create( AF_INET, SOCK_STREAM, SOL_TCP );
@@ -1813,6 +1829,17 @@ function testMyself($host, $path, $port)
 	$response = socket_read( $s, 8096 );
 	socket_close($s);
     return strstr($response, getFingerPrint()) ? true : false;
+}
+
+function testMyself($host, $path, $port)
+{
+	if( file_exists('fsockopen') ) {
+		return testMyself_fsocket($host,$path,$port);
+	}
+	if( file_exists('socket_create') ) {
+		return testMyself_socket($host,$path,$port);
+	}
+	return false;
 }
 
 function getFingerPrint() {
