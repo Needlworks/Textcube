@@ -245,7 +245,7 @@ foreach (getCategories($blogid) as $category) {
 <?php
 	}
 ?>
-							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/communication/comment">
+							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/communication/comment<?php echo (isset($tabsClass['guestbook']) ? '&status=guestbook' : '');?>">
 <?php
 	if(isset($_POST['ip'])) echo '								<input type="hidden" name="ip" value="'.$_POST['ip'].'" />'.CRLF;
 	if(isset($_POST['name'])) echo '								<input type="hidden" name="name" value="'.$_POST['name'].'" />'.CRLF;
