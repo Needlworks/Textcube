@@ -53,13 +53,14 @@ h3
 	border                           : 1px solid #999999;
 	vertical-align                   : middle;
 	width                            : 537px;
+	margin-left                      : 8px;
 }
 
 #starred
 {
 	width                            : 20px;
 	display                          : inline;
-	padding-right                    : 10px;
+	padding                          : 0 10px;
 }
 
 .star-icon span,
