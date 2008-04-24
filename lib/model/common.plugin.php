@@ -473,7 +473,7 @@ function handleDataSet( $plugin , $DATA ) {
 		return array('error' => '3' ,'customError' => '' ) ;
 	}unset($xmls);	
 	if( ! in_array($plugin, $activePlugins) ) 
-		return array('error' => '9' , 'customError'=> _t($plugin.' : 플러그인이 활성화되어 있지 않아 설정을 저장하지 못했습니다.')) ;
+		return array('error' => '9' , 'customError'=> _f('%1 : 플러그인이 활성화되어 있지 않아 설정을 저장하지 못했습니다.',$plugin));
 	$reSetting = true;
 	if( !empty( $configMappings[$plugin]['dataValHandler'] ) ) {
 		$pluginURL = "{$service['path']}/plugins/{$plugin}";
@@ -494,31 +494,14 @@ function handleDataSet( $plugin , $DATA ) {
 	return array('error' => $result , 'customError'=> '' ) ;
 }
 
-function fetchConfigVal( $DATA ) {
-	$xmls = new XMLStruct();
-	$outVal = array();
-	if( ! $xmls->open($DATA) ) {
-		unset($xmls);	
-		return null;
-	}
-	if( is_null(  $xmls->selectNodes('/config/field') )) {
-	 	unset($xmls);	
-		return null;
-	}
-	foreach ($xmls->selectNodes('/config/field') as $field) {
-		if( empty( $field['.attributes']['name'] )  || empty( $field['.attributes']['type'] ) ) {
-		 	unset($xmls);	
-			return null;
-		}
-		$outVal[$field['.attributes']['name']] = $field['.value'] ;
-	}
-	unset($xmls);	
-	return ( $outVal);
+function fetchConfigVal($DATA) {
+	requireComponent('Textcube.Function.Setting');
+	return setting::fetchConfigVal($DATA);
 }
 
 function handleConfig($plugin) {
 	global $service , $typeSchema, $pluginURL, $pluginPath, $pluginName, $configMappings, $configVal, $adminSkinSetting;
-	
+	requireComponent('Textcube.Function.Setting');	
 	$typeSchema = array(
 		'text' 
 	,	'textarea'
@@ -530,7 +513,7 @@ function handleConfig($plugin) {
 	$xmls = new XMLStruct();	
 	$CDSPval = '';
 	$i=0;
-	$dfVal =  fetchConfigVal(getCurrentSetting($plugin));
+	$dfVal =  setting::fetchConfigVal(getCurrentSetting($plugin));
 	$name = '';
 	$clientData ='[';
 	

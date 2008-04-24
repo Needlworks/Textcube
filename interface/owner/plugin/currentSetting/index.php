@@ -2,7 +2,12 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-$IV = array('GET' => array(	'Name' => array('string'), 'Tab' => array('string', 'default' => 'about')));
+$IV = array(
+	'GET' => array(
+		'Name' => array('string'),
+		'Tab' => array('string', 'default' => 'about')
+	)
+);
 require ROOT . '/lib/includeForBlogOwner.php';
 
 if (false) { // For optimization process
@@ -78,7 +83,7 @@ if (true === file_exists(ROOT . "/plugins/$pluginName/plugin-config.css")) {
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/pluginconfig.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
-			var fiednamelist = <?php echo $result['script'] ;?>;
+			var fieldnamelist = <?php echo $result['script'] ;?>;
 			
 			var errorMessage ={
 				"1": "<?php echo _t('데이터처리 오류 발생.');?>",
@@ -86,7 +91,7 @@ if (true === file_exists(ROOT . "/plugins/$pluginName/plugin-config.css")) {
 			};
 			
 			function saveConfig(plugin) {
-				var xmlcon= new Converter(document, fiednamelist) ; 
+				var xmlcon= new Converter(document, fieldnamelist) ; 
 			   	var xmlData = encodeURIComponent(xmlcon.getXMLData());
 				var request = new HTTPRequest("POST", "<?php echo $targetURL;?>");
 				PM.addRequest(request, "<?php echo _t('설정을 저장하고 있습니다.');?>");

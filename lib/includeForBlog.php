@@ -13,13 +13,15 @@ $__requireBasics = array(
 	'function/xml',
 	'function/misc',
 	'function/image',
-	'function/mail');
+	'function/mail',
+	'DEBUG : Basic functions loaded.');
 $__requireLibrary = array(
 	'functions',
 	'database',					// Library
 	'locale',
 	'auth',
-	'blog.skin');
+	'blog.skin',
+	'DEBUG : Default library loaded.');
 $__requireModel = array(
 	'blog.service',				// Models
 	'blog.archive',
@@ -39,14 +41,18 @@ $__requireModel = array(
 	'common.setting',
 	'common.plugin',
 	'common.module',
-	'common.legacysupport');
+	'common.legacysupport',
+	'DEBUG : Models loaded.');
 $__requireView = array(
 	'html',						// Views
 	'paging',
-	'view');
+	'view',
+	'DEBUG : Views loaded.');
 $__requireInit = array(
 	'initialize',				// Initializing environment.
-	'plugins');
+	'DEBUG : Initialization finished.',
+	'plugins',
+	'DEBUG : Plugin module loaded.');
 
 $codeName = 'includeForBlog.php';
 require ROOT.'/lib/include.php';

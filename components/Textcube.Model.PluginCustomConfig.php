@@ -1,4 +1,8 @@
-<?
+<?php
+/// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
+/// All rights reserved. Licensed under the GPL.
+/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+
 class PluginCustomConfig{
 	var $usable = false;
  	function PluginCustomConfig($blogid, $pluginName){
@@ -44,8 +48,8 @@ class PluginCustomConfig{
 			}
 		}
 		$configXml = POD::queryCell("SELECT settings FROM {$database['prefix']}Plugins WHERE blogid = {$this->blogid} AND name = '{$this->pluginName}'");
-		requireComponent("Textcube.Function.misc");
-		$t= misc::fetchConfigVal($configXml);
+		requireComponent("Textcube.Function.Setting");
+		$t= setting::fetchConfigVal($configXml);
 		return false==is_array($t)?array():$t;
 	}
 	

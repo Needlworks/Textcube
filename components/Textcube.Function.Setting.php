@@ -4,7 +4,10 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 class setting {
 	function fetchConfigVal( $DATA ){
-		$xmls = new XMLStruct();
+		if (is_null($DATA)) return null; // Compartibility. If data is stored as array (new method), return it.
+		if (is_array($DATA)) return $DATA;
+
+		$xmls = new XMLStruct();		// else, parse them...
 		$outVal = array();
 		if( ! $xmls->open($DATA) ) {
 			unset($xmls);	
