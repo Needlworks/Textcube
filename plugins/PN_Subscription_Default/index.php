@@ -285,8 +285,8 @@ function getSubscriptionStatistics($blogid) {
 function getSubscriptionLogsWithPage($page, $count) {  
 	global $database;
 	$blogid = getBlogId();
-	requireComponent( "Textcube.Model.Statistics");
-	return Statistics::fetchWithPaging("SELECT ip, host, useragent, referred FROM {$database['prefix']}SubscriptionLogs WHERE blogid = $blogid ORDER BY referred DESC", $page, $count);  
+	requireComponent( "Textcube.Model.Paging");
+	return Paging::fetchWithPaging("SELECT ip, host, useragent, referred FROM {$database['prefix']}SubscriptionLogs WHERE blogid = $blogid ORDER BY referred DESC", $page, $count);  
 }  
 
 function getSubscriptionLogs() {
