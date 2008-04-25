@@ -61,7 +61,9 @@ function doesHaveMembership() {
 }
 
 function requireMembership() {
+	global $hostURL;
 	if( doesHaveMembership() ) return true;
+	$_SESSION['refererURI'] = $hostURL.$_SERVER['REQUEST_URI'];
 	requireLogin();
 }
 

@@ -151,6 +151,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 					</div>
 					<form method="post" action="">
 						<input type="hidden" name="requestURI" value="<?php echo htmlspecialchars($_POST['requestURI']);?>" />
+						<input type="hidden" name="refererURI" value="<?php echo htmlspecialchars($_POST['refererURI']); ?>" />
 						<div id="basic-field-box" class="field-box">
 							<dl id="email-line">
 								<dt><label for="loginid"><?php echo _text('이메일');?></label></dt>
@@ -185,8 +186,8 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 	list( $openid_help_link, $openid_signup_link ) = fireEvent( "OpenIDAffiliateLinks", array('',''), $_POST['requestURI'] );
 ?>
 					<form method="get" name="openid_form" action="<?php echo $blogURL; ?>/login/openid?action=try_auth">
-						<input type="hidden" name="requestURI" value="<?php echo $_POST['requestURI']; ?>" />
-						<input type="hidden" name="refererURI" value="<?php echo $_POST['refererURI']; ?>" />
+						<input type="hidden" name="requestURI" value="<?php echo htmlspecialchars($_POST['requestURI']); ?>" />
+						<input type="hidden" name="refererURI" value="<?php echo htmlspecialchars($_POST['refererURI']); ?>" />
 						<input type="hidden" name="need_writers" value="1" />
 						<input type="hidden" name="action" value="try_auth" />
 						
