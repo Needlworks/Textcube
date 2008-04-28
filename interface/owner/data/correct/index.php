@@ -107,7 +107,7 @@ requireComponent('Textcube.Data.Post');
 Post::correctTagsAll();
 
 if ($result = POD::query("SELECT id, name, parent, homepage, comment, entry, isFiltered FROM {$database['prefix']}Comments WHERE blogid = $blogid")) {
-	while ($comment = mysql_fetch_assoc($result)) {
+	while ($comment = POD::fetch($result)) {
 		setProgress($item++ / $items * 100, _t('댓글과 방명록 데이터를 교정하고 있습니다.'));
 		$correction = '';
 		if (!UTF8::validate($comment['name']))
@@ -125,14 +125,14 @@ if ($result = POD::query("SELECT id, name, parent, homepage, comment, entry, isF
 			if (mysql_num_rows($r2) <= 0) {
 				trashCommentInOwner($blogid, $comment['id']);
 			}
-			mysql_free_result($r2);
+			POD::free($r2);
 		}
 	}
-	mysql_free_result($result);
+	POD::free($result);
 }
 
 if ($result = POD::query("SELECT id, url, site, subject, excerpt FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid")) {
-	while ($trackback = mysql_fetch_assoc($result)) {
+	while ($trackback = POD::fetch($result)) {
 		setProgress($item++ / $items * 100, _t('걸린 글 데이터를 교정하고 있습니다.'));
 		$correction = '';
 		if (!UTF8::validate($trackback['url']))
@@ -148,7 +148,7 @@ if ($result = POD::query("SELECT id, url, site, subject, excerpt FROM {$database
 			$corrected++;
 		}
 	}
-	mysql_free_result($result);
+	POD::free($result);
 }
 
 setProgress(100, _t('완료되었습니다.') . "($corrected)");
