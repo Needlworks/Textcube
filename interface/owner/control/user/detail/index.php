@@ -11,11 +11,29 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 requirePrivilege('group.creators');
 global $database;
 
-$userid = $suri['id'];
+$uid = $suri['id'];
 
-$usersetting= POD::queryRow("SELECT * FROM `{$database['prefix']}Users` WHERE userid = " . $userid);
+$usersetting= POD::queryRow("SELECT * FROM `{$database['prefix']}Users` WHERE userid = " . $uid);
 $usersetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}Teamblog` WHERE acl & ".BITWISE_OWNER." != 0 AND blogid = " . $blogid);
+$AuthToken = setting::getUserSettingGlobal('AuthToken',null,$uid);
 ?>
+						<script type="text/javascript"> 
+						//<![CDATA[
+
+						function makeToken(uid) {
+							var request = new HTTPRequest("<?php echo $blogURL;?>/owner/control/action/user/makeToken/?userid="+uid);
+							request.onSuccess = function() {
+								alert("<?php echo _t('임시 암호가 설정되었습니다.');?>");
+								window.location.reload();
+							}
+							request.onError = function() {
+								msg = this.getText("/response/result");
+								alert("<?php echo _t('임시 암호가 설정되지 못했습니다.');?>\r\nError : " + msg);
+							}
+							request.send();
+						}
+						</script>
+
 						<div id="part-user-about" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('사용자 정보');?></span></h2>
 							
@@ -27,7 +45,10 @@ $usersetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}
 								</div>
 								
 								<ul>
-									<?php if(POD::queryExistence("SELECT * FROM `{$database['prefix']}UserSettings` WHERE name ='AuthToken' AND userid = " . $userid)) { echo '<li><em>'._t("임시 암호가 설정되어 있습니다.").'</em></li>';}?>
+									<?php if(!is_null($AuthToken)) { ?>
+										<li><em><?php echo _t("임시 암호가 설정되어 있습니다.");?></em></li>
+										<li><em><?php echo $AuthToken;?></em></li>
+									<?php }?>
 									<li><?php echo _f('이 계정은 %1에 생성되었습니다.', date("D M j G:i:s T Y", $usersetting['created']));?></li>
                                 </ul>
 							</div>
@@ -70,7 +91,7 @@ $usersetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}
 										</tr>
 									</thead>
 									<tbody><?php
-$teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE userid = " . $userid);
+$teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE userid = " . $uid);
 	foreach ($teamblog as $row){
 		echo "<tr>";
 		echo "<td class=\"name\"><a href=\"{$blogURL}/owner/control/blog/detail/{$row['blogid']}\">".POD::queryCell("SELECT value FROM `{$database['prefix']}BlogSettings` WHERE name = 'name' AND blogid = " . $row['blogid'])."</a></td>";
@@ -89,7 +110,8 @@ $teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE u
 							</div>
 							
 							<div class="button-box">
-								<a class="button" href="<?php echo $blogURL;?>/owner/control/action/user/delete/?userid=<?php echo $userid;?>" onclick="cleanUser('<?php echo $userid;?>'); return false;"><?php echo _t('사용자 삭제');?></a>
+								<?php if (is_null($AuthToken)) { ?><a class="button" href="<?php echo $blogURL;?>/owner/control/action/user/makeToken/?userid=<?php echo $uid;?>" onclick="makeToken('<?php echo $uid;?>'); return false;"><?php echo _t('임시 암호 설정');?></a><?php } ?>
+								<a class="button" href="<?php echo $blogURL;?>/owner/control/action/user/delete/?userid=<?php echo $uid;?>" onclick="cleanUser('<?php echo $uid;?>'); return false;"><?php echo _t('사용자 삭제');?></a>
 								<a class="button" href="<?php echo $blogURL;?>/owner/control/user"><?php echo _t('돌아가기');?></a>
 							</div>
 						</div>

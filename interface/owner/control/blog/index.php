@@ -17,7 +17,6 @@ requirePrivilege('group.creators');
 
 global $blogURL;
 $page = $_GET['page'];
-if ( $service['type'] != "single" ) {
 ?>
 	<div id="part-create-newblog" class="part">
 		<h2 class="caption"><span class="main-text"><?php echo _t('새 블로그 만들기'); ?></span></h2>
@@ -36,9 +35,6 @@ if ( $service['type'] != "single" ) {
 			</div>
 		</form>
 	</div>
-<?php
-}
-?>
 	<div id="part-blog-list" class="part">
 		<h2 class="caption"><span class="main-text"><?php echo _t('블로그 목록');?></span></h2>
 		
