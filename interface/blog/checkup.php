@@ -308,7 +308,7 @@ if($currentVersion != TEXTCUBE_VERSION) {
 			showCheckupMessage(false);
 	}
 	
-	if (POD::queryCell("DESC {$database['prefix']}Users name", 'Key') != 'MUL') {
+	if (POD::queryCell("DESC {$database['prefix']}Users name", 'Key') != 'UNI') {
 		$changed = true;
 		echo '<li>', _text('id의 도용을 막기 위하여 같은 사용자 id를 사용할 수 없도록 합니다.'), ': ';
 		if($users = POD::queryAll("SELECT userid, name FROM {$database['prefix']}Users")) {
