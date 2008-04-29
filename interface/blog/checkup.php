@@ -307,6 +307,31 @@ if($currentVersion != TEXTCUBE_VERSION) {
 		else
 			showCheckupMessage(false);
 	}
+	
+	if (POD::queryCell("DESC {$database['prefix']}Users name", 'Key') != 'MUL') {
+		$changed = true;
+		echo '<li>', _text('id의 도용을 막기 위하여 같은 사용자 id를 사용할 수 없도록 합니다.'), ': ';
+		if($users = POD::queryAll("SELECT userid, name FROM {$database['prefix']}Users")) {
+			// 1 : rename duplicate names.
+			foreach($users as $user) {
+				$duplicates = POD::queryAll("SELECT userid, name FROM {$database['prefix']}Users WHERE name = '".POD::escapeString($user['name'])."' AND userid != {$user['userid']}");
+				if(!empty($duplicates)) {
+					$count = 1;
+					foreach($duplicates as $dup) {
+						POD::query("UPDATE {$database['prefix']}Users SET name = '".POD::escapeString($user['name'])."_".$count."' WHERE userid = {$user['userid']}");
+						$count++;
+					}
+				}
+			}
+			// 2: set name as unique field
+			if (POD::execute("ALTER TABLE {$database['prefix']}Users ADD UNIQUE name (name)"))
+				showCheckupMessage(true);
+			else
+				showCheckupMessage(false);
+		} else {
+			showCheckupMessage(false);
+		}
+	}
 }
 
 /***** Common parts. *****/
