@@ -227,11 +227,15 @@ class User {
 		if ($email == '' || $nickname == '') {
 			return false;
 		}
-		$result = POD::query("UPDATE `{$database['prefix']}Users` SET loginid = '$email', name = '$nickname' WHERE `userid` = $userid");
-		if (!$result) {
+		if (POD::queryExistence("SELECT * FROM `{$database['prefix']}Users` WHERE name = '$nickname' AND `userid` <> $userid")) {
 			return false;
 		} else {
-			return true;
+			$result = POD::query("UPDATE `{$database['prefix']}Users` SET loginid = '$email', name = '$nickname' WHERE `userid` = $userid");		
+			if (!$result) {
+				return false;
+			} else {
+				return true;
+			}
 		}
 	}
 
@@ -254,6 +258,10 @@ class User {
 			return 9;	// User already exists.
 		}
 	
+		if (POD::queryCell("SELECT COUNT(*) FROM `{$database['prefix']}Users` WHERE name = '$name'")) {
+			$name = $name . '.' . time();
+		}
+
 		$result = POD::query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (NULL, '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, ".getUserId().")");
 		if (empty($result)) {
 			return 11;
