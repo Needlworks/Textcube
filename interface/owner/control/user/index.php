@@ -26,9 +26,9 @@ $page = $_GET['page'];
 			<fieldset>
 				<dl>
 					<dt><?php echo _t('이름'); ?></dt>
-					<dd><input type="text" class="input-text" id="ui-name" name="ui-name" /></dd>
+					<dd><input type="text" id="ui-name" name="ui-name" /></dd>
 					<dt><?php echo _t('이메일').' ('._t('로그인 ID').')';?></dt>
-					<dd><input type="text" class="input-text" id="ui-email" name="ui-email" /></dd>
+					<dd><input type="text" id="ui-email" name="ui-email" /></dd>
 				</dl>
 			</fieldset>
 			<div class="button-box">
