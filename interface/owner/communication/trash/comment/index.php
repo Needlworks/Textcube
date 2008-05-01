@@ -14,7 +14,9 @@ if (isset($_GET['trashType'])) $_POST['trashType'] = $_GET['trashType'];
 
 $IV = array(
 	'GET' => array(
-		'page' => array('int', 1, 'default' => 1)
+		'name' => array('string', 'mandatory' => false),
+		'page' => array('int', 1, 'default' => 1),
+		'ip' => array('ip', 'mandatory' => false)
 	),
 	'POST' => array(
 		'category' => array('int', 'default' => 0),
