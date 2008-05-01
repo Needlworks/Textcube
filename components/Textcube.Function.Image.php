@@ -178,7 +178,7 @@ class Image {
 		list($waterMarkWidth, $waterMarkHeight, $waterMakrType) = getimagesize($waterMarkFile);
 		
 		// position of watermark.
-		if (eregi("^(\\-?[0-9A-Z]+) (\\-?[0-9A-Z]+)$", $position, $temp)) {
+		if (preg_match("/^(-?[0-9A-Z]+) (-?[0-9A-Z]+)$/i", $position, $temp)) {
 			$resultWidth = imagesx($this->resultImageDevice);
 			$resultHeight = imagesy($this->resultImageDevice);
 			
@@ -194,14 +194,14 @@ class Image {
 					break;
 				default:
 					// if positive, calculate x value from left.
-					if (eregi("^([1-9][0-9]*)$", $temp[1], $extra)) {
+					if (preg_match("/^([1-9][0-9]*)$/", $temp[1], $extra)) {
 						if ($extra[1] > $resultWidth - $waterMarkWidth) {
 							$xPosition = $resultWidth - $waterMarkWidth;
 						} else {
 							$xPosition = $extra[1];
 						}
 					// if negative, calculate x value from right.
-					} else if (eregi("^(\\-?[1-9][0-9]*)$", $temp[1], $extra)) {
+					} else if (preg_match("/^(-?[1-9][0-9]*)$/", $temp[1], $extra)) {
 						if ($resultWidth - $waterMarkWidth - abs($extra[1]) < 0) {
 							$xPosition = 0;
 						} else {
@@ -228,14 +228,14 @@ class Image {
 					break;
 				default:
 					// if positive, calculate y value from top.
-					if (eregi("^([1-9][0-9]*)$", $temp[2], $extra)) {
+					if (preg_match("/^([1-9][0-9]*)$/", $temp[2], $extra)) {
 						if ($extra[1] > $resultHeight - $waterMarkHeight) {
 							$yPosition = $resultHeight - $waterMarkHeight;
 						} else {
 							$yPosition = $extra[1];
 						}
 					// if negative, calculate y value from bottom.
-					} else if (eregi("^(\\-?[1-9][0-9]*)$", $temp[2], $extra)) {
+					} else if (preg_match("/^(-?[1-9][0-9]*)$/", $temp[2], $extra)) {
 						if ($resultHeight - $waterMarkHeight - abs($extra[1]) < 0) {
 							$yPosition = 0;
 						} else {

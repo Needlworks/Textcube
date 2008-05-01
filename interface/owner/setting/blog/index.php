@@ -801,7 +801,7 @@ foreach (Timezone::getList() as $timezone) {
 $currentAdminSkin = getBlogSetting("adminSkin", "whitedream");
 $dir = dir(ROOT . '/style/admin/');
 while ($tempAdminSkin = $dir->read()) {
-	if (!ereg('^[[:alnum:] _-]+$', $tempAdminSkin))
+	if (!preg_match('/^[a-zA-Z0-9 _-]+$/', $tempAdminSkin))
 		continue;
 	if (!is_dir(ROOT . '/style/admin/' . $tempAdminSkin))
 		continue;
