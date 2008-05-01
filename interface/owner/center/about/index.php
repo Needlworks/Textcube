@@ -94,6 +94,10 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 												<td class="name vcard"><a class="fn url" href="http://bringbring.com">Jaepil Koh</a></td>
 												<td class="role"><?php echo _t('Service administration panel');?></td>
 											</tr>
+											<tr>
+												<td class="name vcard"><a class="fn url" href="http://creorix.com/tc">Jun-whan Ahn</a></td>
+												<td class="role"><?php echo _t('Optimization / Bug tracking / Editor / Formatter');?></td>
+											</tr>
 										</tbody>
 									</table>
 								</div>
