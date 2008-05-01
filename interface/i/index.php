@@ -9,11 +9,11 @@ if(empty($suri['id'])) {
 	printIphoneHtmlHeader();
 	?>
 	<div class="toolbar">
-		<h1 id="pageTitle"><?php echo htmlspecialchars(User::getName($blogid));?> Blog</h1>
+		<h1 id="pageTitle"><?php echo htmlspecialchars($blog['title']);?> Blog</h1>
 		<a id="backButton" class="button" href="#"></a>
 		<a class="button" href="#searchForm" id="searchButton" onclick="searchAction(true);">Search</a>
 	</div>
-	<ul id="home" title="<?php echo htmlspecialchars(User::getName($blogid));?> Blog" selected="true">
+	<ul id="home" title="<?php echo htmlspecialchars(UTF8::lessenAsEm($blog['title'],30));?> Blog" selected="true">
 	<?php
 		$blogAuthor = User::getName($blogid);
 		$blogLogo = !empty($blog['logo']) ? $blogURL . "/imageResizer?f=" . $blog['logo'] . "&m=80" : "{$service['path']}/style/iphone/image/textcube_logo.png";
