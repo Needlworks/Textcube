@@ -41,6 +41,9 @@ function tt_xml_parser_into_struct($body) {
 			}
 			continue;
 		}
+		if( strpos( $row, ">" ) === false ) {
+			continue;
+		}
 		list($tag_inf, $val) = explode(">", $row);
 		if ($tag_nid = strpos($tag_inf, " ")) {
 			$tag = substr($tag_inf, 0, $tag_nid);
@@ -77,6 +80,9 @@ function get_remotefile($url, $mdate) {
 	if (!$fp = @fsockopen($url_stuff['host'], (isset($url_stuff['port']) ? ($url_stuff['port']) : ("80")), $errno, $errstr, 2))
 		return false;
 	else {
+		if (empty($url_stuff['path'])) {
+			$url_stuff['path'] = "/";
+		}
 		if (!empty($url_stuff['query'])) {
 			$url_stuff['path'] .= "?";
 		} else {
@@ -105,8 +111,8 @@ function get_remotefile($url, $mdate) {
 					$act = true;
 				if (($n1 = strpos($line, "Last-Modified:")) !== false)
 					$lmdate = trim(substr($line, $n1 + 14));
-				if (($n2 = strpos($line, "Location:")) !== false) {
-					$loc = trim(substr($line, $n2 + 9));
+				if ( substr($line,0,9) == "Location:" ) {
+					$loc = trim(substr($line, 9));
 					break;
 				}
 				$header .= $line;
