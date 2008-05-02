@@ -24,8 +24,8 @@ function dumbCronScheduler($checkOnly=true)
 					'6h'  => 60*60*6,
 					'12h' => 60*60*12 );
 	/* Events: Cron1m, Cron5m, Cron30m, Cron1h, Cron2h, Cron6h, Cron12h */
-	foreach( $schedules as $d => $gab ) {
-		if( $now > $gab + $dumbCronStamps[$d]    ) { 
+	foreach( $schedules as $d => $diff ) {
+		if( $now > $diff + $dumbCronStamps[$d]    ) { 
 			if( $checkOnly && eventExists("Cron$d") ) return true;
 			fireEvent( "Cron$d",  null, $now );
 			$dumbCronStamps[$d] = $now;
