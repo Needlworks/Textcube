@@ -288,6 +288,12 @@ function getPluginTableName() {
 
 /***** Events and configuration handles *****/
 
+function eventExists($event)
+{
+	global $eventMappings;
+	return isset($eventMappings[$event]);
+}
+
 function fireEvent($event, $target = null, $mother = null, $condition = true) {
 	global $service, $eventMappings, $pluginURL, $pluginPath, $configMappings, $configVal;
 	if (!$condition)
