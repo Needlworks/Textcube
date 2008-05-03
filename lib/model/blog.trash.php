@@ -56,7 +56,7 @@ function getTrashCommentsWithPagingForOwner($blogid, $category, $name, $ip, $sea
 		$postfix .= '&name=' . rawurlencode($name);
 	}
 	if (!empty($ip)) {
-		$sql .= ' AND t.ip = \'' . POD::escapeString($ip) . '\'';
+		$sql .= ' AND c.ip = \'' . POD::escapeString($ip) . '\'';
 		$postfix .= '&ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {

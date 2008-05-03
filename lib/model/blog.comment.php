@@ -151,10 +151,7 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 			$preQuery .= " AND ((name LIKE '%$search%') OR (homepage LIKE '%$search%') OR (comment LIKE '%$search%'))";
 		}
 
-		$childListTemp = array_unique(POD::queryColumn($preQuery));
-		$childList = array();
-		foreach ($childListTemp as $item)
-			if(!is_null($item)) array_push($childList, $item);
+		$childList = array_unique(POD::queryColumn($preQuery));
 		$childListStr = (count($childList) == 0) ? '' : ('OR c.id IN ( ' . implode(', ',$childList) . ' ) ') ;
 
 		$sql = "SELECT
@@ -915,8 +912,8 @@ function receiveNotifiedComment($post) {
 	$child_comment = POD::escapeString($post['r2_body']);
 	$child_url = POD::escapeString(UTF8::lessenAsEncoding($post['r2_url'],255));
 	$siteId = POD::queryCell("SELECT id FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE url = '$homepage'");
-	$insertId = getCommentsNotifiedSiteInfoMaxId() + 1;
 	if (empty($siteId)) {
+		$insertId = getCommentsNotifiedSiteInfoMaxId() + 1;
 		if (POD::execute("INSERT INTO {$database['prefix']}CommentsNotifiedSiteInfo
 			( id, title, name, url, modified)
 			VALUES ($insertId, '$title', '$name', '$homepage', UNIX_TIMESTAMP());"))
@@ -950,7 +947,7 @@ function receiveNotifiedComment($post) {
 			$blogid, NULL , $insertId, " . $entryId . ", $parentId, '$child_name', '', '$child_homepage', '', '$child_comment', '', $child_written, UNIX_TIMESTAMP(), $siteId, 1, '$child_url', $child_id, '$entryTitle', '$entryUrl')";
 	if (!POD::execute($sql))
 		return 5;
-	$sql = "UPDATE {$database['prefix']}CommentsNotified SET modified = UNIX_TIMESTAMP() WHERE id = $parentId";
+	$sql = "UPDATE {$database['prefix']}CommentsNotified SET modified = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $parentId";
 	if (!POD::execute($sql))
 		return 6;
 	return 0;
