@@ -31,6 +31,7 @@ if(empty($accessInfo)) {
 }
 
 define ('ROOT', $root);
+require ROOT.'/lib/include.php';
 require ROOT.'/lib/config.php';
 require ROOT.'/lib/database.php';
 require ROOT.'/lib/locale.php';
