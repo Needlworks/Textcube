@@ -10,6 +10,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
+								var RSSread = false;
 								function getSiteInfo() {
 									if(document.getElementById('addForm').rss.value == '') {
 										alert("<?php echo _t('RSS 주소를 입력해 주십시오.');?>\t");
@@ -29,6 +30,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										PM.removeRequest(this);
 										document.getElementById('addForm').name.value = unescape(this.getText("/response/name"));
 										document.getElementById('addForm').url.value = this.getText("/response/url");
+										RSSread = true;
 										return true;
 									}
 									request.onError = function () {
@@ -42,9 +44,28 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								
 								function addLink() {
 									var oForm = document.getElementById('addForm');
+									var addRSS = false;
 									trimAll(oForm);
 									if (!checkValue(oForm.name, "<?php echo _t('이름을 입력해 주십시오.');?>\t")) return false;
 									if (!checkValue(oForm.url, "<?php echo _t('주소를 입력해 주십시오.');?>\t")) return false;
+<?php
+if($service['reader'] != false) {
+?>
+									if (oForm.rss != '' && RSSread == true) {
+										if(confirm('<?php echo _t('이 링크의 RSS를 바깥 글 읽기에 추가하시겠습니까?\n추가하면 바깥 글 읽기 메뉴에서 해당 링크의 새 글을 읽을 수 있습니다.');?>'))
+											addRSS = true;
+									}
+<?php
+}
+?>
+									if(addRSS == true) {
+										var request = new HTTPRequest("POST", blogURL + "/owner/reader/action/feed/add/");
+										request.onSuccess = function () {
+										}
+										request.onError= function () {
+										}
+										request.send("group=0&url=" + encodeURIComponent(oForm.rss.value));
+									}
 									
 									var request = new HTTPRequest("POST", blogURL + "/owner/communication/link/add/exec/");
 									request.onSuccess = function () {
