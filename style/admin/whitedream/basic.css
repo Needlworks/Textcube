@@ -1142,6 +1142,12 @@ table.data-inbox tbody tr td.inactive-class
 	vertical-align                   : middle;
 }
 
+.wide-button
+{
+/*	width                            :100% !important;*/
+
+}
+
 input.checkbox,
 input.radio
 {

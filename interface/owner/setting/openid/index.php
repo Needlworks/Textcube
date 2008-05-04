@@ -45,20 +45,6 @@ case 1:
 	break;
 }
 
-$openidonlycomment = setting::getBlogSettingGlobal( "AddCommentMode", "" );
-if( $openidonlycomment == 'openid' ) {
-	$openidonlycomment = "checked='checked'";
-} else {
-	$openidonlycomment = "";
-}
-
-$openidlogodisplay = setting::getBlogSettingGlobal( "OpenIDLogoDisplay", 0 );
-if( $openidlogodisplay ) {
-	$openidlogodisplay = "checked='checked'";
-} else {
-	$openidlogodisplay = "";
-}
-
 /* Fetch registerred openid */
 $openid_list = array();
 for( $i=0; $i<OPENID_REGISTERS; $i++ )
@@ -69,151 +55,22 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 	}
 }
 ?>
-	<script type="text/javascript">
-		//<![CDATA[
-	function save() {
-		try {
-			var oonly = document.getElementById( 'openidonlycomment' );
-			oonly = oonly.checked ? "1" : "0";
-			var ologo = document.getElementById( 'openidlogodisplay' );
-			ologo = ologo.checked ? "1" : "0";
 
-			var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/openid/change");
-			request.onSuccess = function() {
-				PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
-			}
-			request.onError = function() {
-				alert("<?php echo _t('저장하지 못했습니다.');?>");
-			}
-			request.send("openidonlycomment="+oonly+"&openidlogodisplay="+ologo);
-		} catch(e) {
-		}
-	}
-	function setDelegate() {
-		try {
-			var odlg = document.getElementById( 'openid_for_delegation' );
-			delegatedid = odlg.options[odlg.selectedIndex].value;
-			if( !delegatedid ) {
-				alert( "<?php echo _t('블로그 주소를 오픈아이디로 사용하지 않습니다.') ?>");
-			}
-
-			var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/openid/delegate?openid_identifier=" + escape(delegatedid));
-			request.onSuccess = function() {
-				PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
-			}
-			request.onError = function() {
-				alert("<?php echo _t('저장하지 못했습니다.');?>");
-			}
-			request.send("");
-		} catch(e) {
-		}
-	}
-	//]]>
-	</script>
-	
-	<div id="part-setting-admin" class="part">
-		<h2 class="caption"><span class="main-text"><?php echo _t('댓글/방명록 설정')?></span></h2>
-		
-		<div class="data-inbox">
-			<form action="<?php echo $blogURL;?>/owner/setting/openid/change" method="post">
-				<fieldset class="container">
-					<dl>
-						<dd>
-							<input id="openidonlycomment" type="checkbox" name="openidonlycomment" <?php echo $openidonlycomment?> />
-							<label for="openidonlycomment"><?php echo _t('오픈아이디로 로그인을 해야만 댓글 및 방명록을 쓸 수 있습니다.') ?></label>
-						</dd>
-						<dd>
-							<input id="openidlogodisplay" type="checkbox" name="openidlogodisplay" <?php echo $openidlogodisplay?> />
-							<label for="openidlogodisplay"><?php echo _t('오픈아이디로 로그인하여 쓴 댓글/방명록에 오픈아이디 아이콘을 표시합니다.') ?></label>
-						</dd>
-					</dl>
-				</fieldset>
-				<div class="button-box">
-					<input type="submit" class="save-button input-button" value="<?php echo _t('변경하기');?>" onclick="save(); return false;" />
-				</div>
-			</form>
-		</div>
-	</div>
-<?php
-	if( Acl::check( 'group.owners' ) ) { /* 블로그 주소를 오픈아이디로 사용 */ 
-?>
-	
-	<div id="part-openid-blogaddress" class="part">
-		<h2 class="caption"><span class="main-text"><?php echo _t('블로그 주소를 오픈아이디로 사용')?></span></h2>
-		
-		<div class="data-inbox">
-			<form>
-				<fieldset class="container">
-					<dl>
-						<dt class="hidden"><?php echo _t('오픈아이디로 사용할 블로그 주소를 선택하세요');?></dt>
-						<dd>
-<?php
-		$currentDelegate = setting::getBlogSettingGlobal( 'OpenIDDelegate', '' );
-?>
-							<select id="openid_for_delegation">
-<?php
-		print "<option value='' >" . _t('블로그 주소를 오픈아이디로 사용하지 않음') . "</option>";
-		foreach( $openid_list as $openid_identity ) {
-			$selected = '';
-			if( $openid_identity == $currentDelegate ) {
-				$selected = "selected";
-			}
-			print "<option value='$openid_identity' $selected>" . $openid_identity . "</option>";
-		}
-?>
-							</select>
-							<input type="button" onclick="setDelegate(); return false" value="<?php echo _t('확인') ?>" class="save-button input-button" />
-						
-							<p class="text">
-								<?php echo _f('블로그 주소(%1)를 소유자 계정에 연결된 오픈아이디 중 하나에 위임하여 오픈아이디로 사용할 수 있습니다.', "$hostURL$blogURL"); ?>
-							</p>
-						</dd>
-					</dl>
-				</fieldset>
-			</form>
-		</div>
-	</div>
-	
-	<div id="part-openid-linkedopenids" class="part">
-		<h2 class="caption"><span class="main-text"><?php echo _t('소유자 계정에 연결된 오픈아이디 목록')?></span></h2>
-		<table class="data-inbox" cellspacing="0" cellpadding="0">
-			<tbody>
-<?php
-		foreach( $openid_list as $openid_identity ) {
-			print "<tr class='site'><td>" . $openid_identity . "</td></tr>";
-		}
-		if( empty( $openid_list ) ) {
-			print "<tr class='site'><td>";
-			print _t('소유자 계정에 연결된 오픈아이디가 없습니다');
-			print "</td></tr>";
-		}
-?>
-			</tbody>
-		</table>
-		<dl>
-			<dt><?php echo _t('바로 가기');?></dt>
-			<dd>
-				<a class="button" href="<?php echo $blogURL;?>/owner/setting/account"><?php echo _t('소유자 계정에 오픈아이디 연결하기');?></a>
-			</dd>
-		</dl>
-	</div>
-<?php
-} /* 소유자 계정 확인 */
-?>
-	
-	<div id="part-openid-loginhistory" class="part">
-		<h2 class="caption"><span class="main-text"><?php echo _t('오픈아이디 로그인 목록')?></span></h2>
-	
-		<table class="data-inbox" cellspacing="0" cellpadding="0">
-			<thead>
-				<tr>
-					<th class="site"><span class="text"><a href="<?php echo $menu1?>"><?php echo _t('오픈아이디 주소(이름)')?></a></span></th>
-					<th class="site"><span class="text"><a href="<?php echo $menu2?>"><?php echo _t('위임주소')?></a></span></th>
-					<th class="site"><span class="text"><a href="<?php echo $menu3?>"><?php echo _t('로그인 회수')?></a></span></th>
-					<th class="site"><span class="text"><a href="<?php echo $menu4?>"><?php echo _t('마지막 로그인')?></a></span></th>
-				</tr>
-			</thead>
-			<tbody>
+						<div id="part-openid-loginhistory" class="part">
+							<h2 class="caption"><span class="main-text"><?php echo _t('오픈아이디로 로그인한 사람들의 목록입니다')?></span></h2>
+							<div class="main-explain-box">
+								<p class="explain"><?php echo _t("이 블로그에 오픈아이디로 로그인하여 글을 남긴 사람들의 기록입니다.").' '._t('댓글을 남긴 아이디와 그에 연결된 오픈아이디를 동시에 확인할 수 있습니다.').'<br />'._t('아이디와 오픈아이디의 대조를 통하여 아이디의 사칭 여부를 판별할 수 있습니다.');?></p>
+							</div>
+							<table class="data-inbox" cellspacing="0" cellpadding="0">
+								<thead>
+									<tr>
+										<th class="site"><span class="text"><a href="<?php echo $menu1?>"><?php echo _t('오픈아이디 주소(이름)')?></a></span></th>
+										<th class="site"><span class="text"><a href="<?php echo $menu2?>"><?php echo _t('위임주소')?></a></span></th>
+										<th class="site"><span class="text"><a href="<?php echo $menu3?>"><?php echo _t('로그인 회수')?></a></span></th>
+										<th class="site"><span class="text"><a href="<?php echo $menu4?>"><?php echo _t('마지막 로그인')?></a></span></th>
+									</tr>
+								</thead>
+								<tbody>
 <?php
 $sql="SELECT * FROM {$database['prefix']}OpenIDUsers $order";
 $rec = POD::queryAll( $sql );
@@ -225,18 +82,18 @@ $nickname = "({$data['nickname']})";
 $className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 $className .= ($i == sizeof($rec) - 1) ? ' last-line' : '';
 ?>
-				<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-					<td><?php echo "{$record['openid']} {$nickname}";?></td>
-					<td><?php echo $record['delegatedid'];?></td>
-					<td><?php echo $record['loginCount'];?></td>
-					<td><?php echo Timestamp::format5($record['lastLogin']);?></td>
-				</tr>
+									<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+										<td><?php echo "{$record['openid']} {$nickname}";?></td>
+										<td><?php echo $record['delegatedid'];?></td>
+										<td><?php echo $record['loginCount'];?></td>
+										<td><?php echo Timestamp::format5($record['lastLogin']);?></td>
+									</tr>
 <?php
 }
 ?>
-			</tbody>
-		</table>
-	</div>
+								</tbody>
+							</table>
+						</div>
 <?php
 require ROOT . '/lib/piece/owner/footer.php';
 ?>

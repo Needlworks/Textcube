@@ -112,9 +112,9 @@ if ($service['type'] != 'single') {
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/domain/set/");
 										request.onSuccess = function() {
 											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
-alert(newDefaultDomain);
-alert(newSecondaryDomain);
-alert(secondaryDomain);
+//alert(newDefaultDomain);
+//alert(newSecondaryDomain);
+//alert(secondaryDomain);
 											if(newDefaultDomain == 0) {
 												alert("<?php echo _t('변경된 1차 블로그 주소로 이동합니다');?>");
 												window.location.href = "http://" + newPrimaryDomain + ".<?php echo $service['domain'];?><?php echo $blogURL;?>/owner/setting/blog";
@@ -331,6 +331,21 @@ if($service['allowBlogVisibilitySetting']){
 											PM.showErrorMessage("<?php echo _t('실패했습니다.');?>", "center", "bottom");
 										}
 										request.send();
+									}
+									try {
+										var oonly = document.getElementById( 'openidonlycomment' );
+										oonly = oonly.checked ? "1" : "0";
+										var ologo = document.getElementById( 'openidlogodisplay' );
+										ologo = ologo.checked ? "1" : "0";
+										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/openid/change");
+										request.onSuccess = function() {
+											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+										}
+										request.onError = function() {
+											PM.showErrorMessage("<?php echo _t('저장하지 못했습니다.');?>","center", "bottom");
+										}
+										request.send("openidonlycomment="+oonly+"&openidlogodisplay="+ologo);
+									} catch(e) {
 									}
 								}
 								var language = "<?php echo $blog['language'];?>";
@@ -689,25 +704,38 @@ if($service['allowBlogVisibilitySetting']){
 }
 ?>										
 										<dl id="guestbook-authority-line" class="line">
-											<dt><label for="allowCommentGuestbook"><?php echo _t('방명록 사용 권한');?></label></dt>
+											<dt><label for="allowCommentGuestbook"><?php echo _t('방명록에 대한 답글 권한');?></label></dt>
 											<dd>
 												<!--input type="checkbox" id="allowWriteGuestbook" class="checkbox" value=""<?php echo $blog['allowWriteOnGuestbook'] == '1' ? ' checked="checked"' : "";?> /><label for="allowWriteGuestbook"><?php echo _t('손님이 글쓰기 허용');?></label-->
-												<input type="checkbox" id="allowCommentGuestbook" class="checkbox" value=""<?php echo $blog['allowWriteDblCommentOnGuestbook'] == '1' ? ' checked="checked"' : "";?> /><label for="allowCommentGuestbook"><?php echo _t('손님이 댓글을 쓰는 것을 허용합니다.');?></label>
-<?php
-if( isActivePlugin( 'CL_OpenID' ) ) {
-?>
-												(<a href="<?php echo $blogURL?>/owner/setting/openid"><?php echo _t('오픈아이디 로그인 사용자에게만 댓글을 허용하도록 설정하러 가기')?></a>)
-<?php
-} else {
-												echo "<samp>(";
-												echo _t('댓글을 오픈아이디 사용자에게만 허용할 수 있습니다.');
-?>
-												<a class="button" href="<?php echo $blogURL?>/owner/plugin"><?php echo _t('오픈아이디 플러그인 설정 바로가기'); ?></a>)</samp>
-<?php
-}
-?>
+												<input type="checkbox" id="allowCommentGuestbook" class="checkbox" value=""<?php echo $blog['allowWriteDblCommentOnGuestbook'] == '1' ? ' checked="checked"' : "";?> /><label for="allowCommentGuestbook"><?php echo _t('방명록에 남긴 글에 대하여 손님이 답글을 쓰는 것을 허용합니다.');?></label>
 											</dd>
 										</dl>
+<?php
+$openidonlycomment = setting::getBlogSettingGlobal( "AddCommentMode", "" );
+if( $openidonlycomment == 'openid' ) {
+	$openidonlycomment = "checked='checked'";
+} else {
+	$openidonlycomment = "";
+}
+
+$openidlogodisplay = setting::getBlogSettingGlobal( "OpenIDLogoDisplay", 0 );
+if( $openidlogodisplay ) {
+	$openidlogodisplay = "checked='checked'";
+} else {
+	$openidlogodisplay = "";
+}
+?>
+										<dl id="comment-authority-line" class="line">
+											<dt><label for="allowCommentGuestbook"><?php echo _t('방명록 및 댓글 쓰기 권한');?></label></dt>										
+											<dd>
+												<input id="openidonlycomment" type="checkbox" name="openidonlycomment" <?php echo $openidonlycomment?> />
+												<label for="openidonlycomment"><?php echo _t('오픈아이디로 로그인을 해야만 댓글 및 방명록을 쓸 수 있습니다.').' '._t('필명을 사칭하는 경우를 방지할 수 있습니다.'); ?></label>
+												<br />
+												<input id="openidlogodisplay" type="checkbox" name="openidlogodisplay" <?php echo $openidlogodisplay?> />
+												<label for="openidlogodisplay"><?php echo _t('오픈아이디로 로그인하여 쓴 댓글/방명록에 오픈아이디 아이콘을 표시합니다.') ?></label>
+											</dd>
+										</dl>										
+										
 										<dl id="blog-iphone-ui-line" class="line">
 											<dt><span class="label"><?php echo _t('모바일 인터페이스');?></span></dt>
 											<dd>
@@ -717,7 +745,7 @@ if( isActivePlugin( 'CL_OpenID' ) ) {
 									</fieldset>
 								</div>
 								<div class="button-box">
-									<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setRSS(); return false;" />
+									<input type="submit" class="save-button input-button wide-button" value="<?php echo _t('저장하기');?>" onclick="setRSS(); return false;" />
 								</div>
 							</form>
 						</div>
@@ -779,7 +807,7 @@ foreach (Timezone::getList() as $timezone) {
 										</dl>
 									</fieldset>
 									<div class="button-box">
-										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setLocale(); return false;" />
+										<input type="submit" class="save-button input-button wide-button" value="<?php echo _t('저장하기');?>" onclick="setLocale(); return false;" />
 									</div>
 								</div>
 							</form>

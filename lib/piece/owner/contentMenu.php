@@ -78,7 +78,7 @@ if(isset($blogMenu['topMenu'])) {
 				array('menu'=>'teamblog','title'=>_t('필진 목록'),'link'=>'/owner/setting/teamblog'),
 				array('menu'=>'filter','title'=>_t('스팸 필터'),'link'=>'/owner/setting/filter'),
 				array('menu'=>'data','title'=>_t('데이터 관리'),'link'=>'/owner/data'),
-				array('menu'=>'openid','title'=>_t('오픈아이디'),'link'=>'/owner/setting/openid')
+				array('menu'=>'openid','title'=>_t('오픈아이디 목록'),'link'=>'/owner/setting/openid')
 			);
 		} else if(Acl::check('group.editors')) {
 			$blogContentMenuItem = array(

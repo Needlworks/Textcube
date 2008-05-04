@@ -197,7 +197,7 @@ foreach (getAllEditors() as $key => $value) {
 										</div>
 									</fieldset>
 									<div class="button-box">
-										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setEditorConfig(); return false;" />
+										<input type="submit" class="save-button input-button wide-button" value="<?php echo _t('저장하기');?>" onclick="setEditorConfig(); return false;" />
 									</div>
 								</div>
 							</form>
@@ -224,7 +224,7 @@ if (extension_loaded('gd')) {
 										</dl>
 									</fieldset>
 									<div class="button-box">
-										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setResample(); return false;" />
+										<input type="submit" class="save-button input-button wide-button" value="<?php echo _t('저장하기');?>" onclick="setResample(); return false;" />
 									</div>
 								</form>
 							</div>

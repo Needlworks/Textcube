@@ -147,7 +147,25 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									}
 									blogApiPassword.value = value;
 								}
-								
+								function setDelegate() {
+									try {
+										var odlg = document.getElementById( 'openid_for_delegation' );
+										delegatedid = odlg.options[odlg.selectedIndex].value;
+										if( !delegatedid ) {
+											alert( "<?php echo _t('블로그 주소를 오픈아이디로 사용하지 않습니다.') ?>");
+										}
+							
+										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/openid/delegate?openid_identifier=" + escape(delegatedid));
+										request.onSuccess = function() {
+											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+										}
+										request.onError = function() {
+											PM.showErrorMessage("<?php echo _t('저장하지 못했습니다.');?>","center","bottom");
+										}
+										request.send();
+									} catch(e) {
+									}
+								}								
 <?php
 if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 ?>
@@ -486,7 +504,7 @@ if( isActivePlugin( 'CL_OpenID' ) || Acl::check('group.administrators') ) {
 ?>
 								<form id="openid-section" class="section" method="get" action="<?php echo $blogURL;?>/owner/setting/account/openid">
 									<fieldset class="container">
-										<legend><?php echo _t('오픈아이디 연결');?></legend>
+										<legend><?php echo _t('이 아이디에 오픈아이디를 연결하기');?></legend>
 										
 										<dl id="blogger-openid-line" class="line">
 											<dt><label for="openid_identifier"><?php echo _t('오픈아이디');?></label></dt>
@@ -514,6 +532,51 @@ if( isActivePlugin( 'CL_OpenID' ) || Acl::check('group.administrators') ) {
 							</div>
 						</div>
 <!-- OPENID END -->
+
+
+
+<?php
+	if( Acl::check( 'group.owners' ) ) { /* 블로그 주소를 오픈아이디로 사용 */ 
+?>
+	
+						<div id="part-openid-blogaddress" class="part">
+							<h2 class="caption"><span class="main-text"><?php echo _t('블로그 주소를 오픈아이디로 사용하기')?></span></h2>
+							
+							<div class="main-explain-box">
+								<p class="explain"><?php echo _f('블로그 주소(%1)를 현재 아이디와 연결된 오픈아이디 중 하나에 위임하여 오픈아이디로 사용할 수 있습니다.', "$hostURL$blogURL").' '._t('위임을 통하여 이후 오픈아이디를 사용하는 다른 서비스에서 이 블로그 주소를 오픈아이디로 사용할 수 있습니다.');?></p>
+							</div>
+							
+							<div class="data-inbox">
+								<form>
+									<fieldset class="container">
+										<dl>
+											<dt class="hidden"><?php echo _t('오픈아이디로 사용할 블로그 주소를 선택하세요');?></dt>
+											<dd>
+<?php
+		$currentDelegate = setting::getBlogSettingGlobal( 'OpenIDDelegate', '' );
+?>
+												<select id="openid_for_delegation">
+<?php
+		print "<option value='' >" . _t('블로그 주소를 오픈아이디로 사용하지 않음') . "</option>";
+		foreach( $openid_list as $openid_identity ) {
+			$selected = '';
+			if( $openid_identity == $currentDelegate ) {
+				$selected = "selected";
+			}
+			print "<option value='$openid_identity' $selected>" . $openid_identity . "</option>";
+		}
+?>
+												</select>
+												<input type="button" onclick="setDelegate(); return false" value="<?php echo _t('확인') ?>" class="save-button input-button" />
+											</dd>
+										</dl>
+									</fieldset>
+								</form>
+							</div>
+						</div>
+<?php
+	}
+?>
 <?php
 if ($service['type'] != 'single' && Acl::check("group.creators")) {
 	$urlRule = getBlogURLRule();
