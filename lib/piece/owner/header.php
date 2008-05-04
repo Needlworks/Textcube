@@ -38,7 +38,7 @@ if(Acl::check('group.administrators')) {
 //}
 
 if(Acl::check('group.creators')) { 
-	array_push($blogTopMenuItem, array('menu'=>'control','title'=>_t('서비스'),'link'=>'/owner/control/blog'));
+	array_push($blogTopMenuItem, array('menu'=>'control','title'=>_t('서비스관리'),'link'=>'/owner/control/blog'));
 }
 switch($blogMenu['topMenu']) {
 	case 'center':

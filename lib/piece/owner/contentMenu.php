@@ -8,12 +8,11 @@ if(isset($blogMenu['topMenu'])) {
 			if(Acl::check('group.administrators')) {
 				$blogContentMenuItem = array(
 					array('menu'=>'dashboard','title'=>_t('조각보'),'link'=>'/owner/center/dashboard'),
-					array('menu'=>'coverpage','title'=>_t('색동'),'link'=>'/owner/center/coverpage'),
 				);
 			}
 			else{
 				$blogContentMenuItem = array(
-					array('menu'=>'dashboard','title'=>_t('조각보'),'link'=>'/owner/center/dashboard'),
+					array('menu'=>'dashboard','title'=>_t('조각보'),'link'=>'/owner/center/dashboard')
 				);
 			}
 		break;
@@ -54,8 +53,10 @@ if(isset($blogMenu['topMenu'])) {
 			$blogContentMenuItem = array(
 				array('menu'=>'skin','title'=>_t('스킨 선택'),'link'=>'/owner/skin'),
 				array('menu'=>'edit','title'=>_t('스킨 편집'),'link'=>'/owner/skin/edit'),
-				array('menu'=>'setting','title'=>_t('출력 설정'),'link'=>'/owner/skin/setting'),
-				array('menu'=>'sidebar','title'=>_t('사이드바'),'link'=>'/owner/skin/sidebar')
+				array('menu'=>'setting','title'=>_t('상세한 설정'),'link'=>'/owner/skin/setting'),
+				array('menu'=>'coverpage','title'=>_t('색동'),'link'=>'/owner/skin/coverpage'),
+				array('menu'=>'sidebar','title'=>_t('사이드바'),'link'=>'/owner/skin/sidebar'),
+				array('menu'=>'adminSkin','title'=>_t('관리자 패널 스킨 선택'),'link'=>'/owner/skin/adminSkin')
 			);
 		}
 		break;
@@ -96,8 +97,8 @@ if(isset($blogMenu['topMenu'])) {
 			$blogContentMenuItem = array(
 				array('menu'=>'blog','title'=>_t('블로그'),'link'=>'/owner/control/blog'),
 				array('menu'=>'user','title'=>_t('사용자'),'link'=>'/owner/control/user'),
+				array('menu'=>'server','title'=>_t('서버'),'link'=>'/owner/control/server'),
 				array('menu'=>'system','title'=>_t('시스템 정보'),'link'=>'/owner/control/system')
-//				array('menu'=>'etc','title'=>_t('기타 설정'),'link'=>'/owner/control/etc')
 			);
 		}
 		break;

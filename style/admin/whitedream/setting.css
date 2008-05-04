@@ -216,11 +216,6 @@ dl dd
 	margin                           : 0 auto;
 }
 
-#part-setting-mailhost
-{
-	margin-bottom: 30px;
-}
-
 /* Account ***************************************************************************************/
 
 /* account management */
@@ -876,9 +871,7 @@ div.notification-box
 
 #part-setting-resample .button-box,
 #part-setting-language .button-box,
-#part-setting-editor .button-box,
-#part-setting-admin .button-box,
-#part-setting-mailhost .button-box
+#part-setting-editor .button-box
 {
 	border-top                       : 1px solid #DDDDDD;
 	margin                           : 10px 0 20px 0;
