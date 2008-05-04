@@ -74,7 +74,7 @@ if(isset($blogMenu['topMenu'])) {
 			$blogContentMenuItem = array(
 				array('menu'=>'blog','title'=>_t('블로그'),'link'=>'/owner/setting/blog'),
 				array('menu'=>'entry','title'=>_t('글 작성'),'link'=>'/owner/setting/entry'),
-				array('menu'=>'account','title'=>_t('계정 정보'),'link'=>'/owner/setting/account'),
+				array('menu'=>'account','title'=>_t('개인 정보'),'link'=>'/owner/setting/account'),
 				array('menu'=>'teamblog','title'=>_t('팀블로그'),'link'=>'/owner/setting/teamblog'),
 				array('menu'=>'filter','title'=>_t('스팸 필터'),'link'=>'/owner/setting/filter'),
 				array('menu'=>'data','title'=>_t('데이터 관리'),'link'=>'/owner/data'),
@@ -82,11 +82,11 @@ if(isset($blogMenu['topMenu'])) {
 			);
 		} else if(Acl::check('group.editors')) {
 			$blogContentMenuItem = array(
-				array('menu'=>'account','title'=>_t('계정 정보'),'link'=>'/owner/setting/account')
+				array('menu'=>'account','title'=>_t('개인 정보'),'link'=>'/owner/setting/account')
 			);
 		} else {
 			$blogContentMenuItem = array(
-				array('menu'=>'account','title'=>_t('계정 정보'),'link'=>'/owner/setting/account')
+				array('menu'=>'account','title'=>_t('개인 정보'),'link'=>'/owner/setting/account')
 			);
 		}
 		break;

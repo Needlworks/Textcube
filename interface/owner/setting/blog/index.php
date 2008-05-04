@@ -506,7 +506,7 @@ if ($service['type'] != 'single') {
 						<hr class="hidden" />
 						
 						<div id="part-setting-profile" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('특징을 설정합니다');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('블로그 이미지 및 아이콘을 설정합니다');?></span></h2>
 							
 							<form id="icons-form" class="data-inbox" method="post" action="<?php echo parseURL($blogURL.'/owner/setting/blog/icons');?>" enctype="multipart/form-data">
 								<div id="icons-upload-section" class="section">
@@ -744,7 +744,7 @@ foreach ($supportedLanguages as $locale => $language) {
 }
 ?>
 												</select>
-												<p><?php echo _t('관리자 화면의 언어를 설정합니다.<br />한국어 블로그를 운영하고 계신다면 한국어를 선택해 주십시오.');?></p>
+												<p><?php echo _t('관리 패널 화면에서 사용할 언어를 설정합니다.');?></p>
 											</dd>
 										</dl>
 										<dl id="blog-language-line" class="line">
@@ -759,7 +759,7 @@ foreach ($supportedLanguages as $locale => $language) {
 }
 ?>
 												</select>
-												<p><?php echo _t('외부 블로그에 표시되는 메세지의 언어를 설정합니다.<br />달력이나 댓글 입력창에 적용됩니다. 한국어 블로그를 운영하고 계신다면 한국어를 선택해 주십시오.');?></p>
+												<p><?php echo _t('블로그에 표시되는 메세지의 언어를 설정합니다. 달력이나 댓글 입력창에 적용됩니다.');?></p>
 											</dd>
 										</dl>
 										<dl id="timezone-line" class="line">
@@ -774,6 +774,7 @@ foreach (Timezone::getList() as $timezone) {
 }
 ?>
 												</select>
+												<p><?php echo _t('블로그에서 사용할 시간대를 설정합니다.');?></p>
 											</dd>
 										</dl>
 									</fieldset>

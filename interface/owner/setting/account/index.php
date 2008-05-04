@@ -305,12 +305,12 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 
 
 						<div id="part-setting-account" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('계정 정보');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('로그인 정보');?></span></h2>
 							
 							<div class="data-inbox">
 								<form id="info-section" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/account">
 									<fieldset class="container">
-										<legend><?php echo _t('계정 정보');?></legend>
+										<legend><?php echo _t('개인 정보');?></legend>
 										
 										<dl id="blogger-name-line" class="line">
 											<dt><label for="nickname"><?php echo _t('필명');?></label></dt>
@@ -382,7 +382,7 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 							<h2 class="caption"><span class="main-text"><?php echo _t('대표 주소');?></span></h2>
 							
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t("댓글 및 필자 정보에 사용되는 대표 홈페이지 주소를 설정합니다.")?></p>
+								<p class="explain"><?php echo _t("댓글 및 필자 정보에 사용되는 대표 홈페이지 주소를 설정합니다. 로그인 상태에서 댓글을 달 경우 댓글에 출력되는 블로그 아이콘은 이 주소의 정보에 의하여 결정됩니다.")?></p>
 							</div>
 							
 							<div class="data-inbox">
@@ -437,7 +437,7 @@ if(!empty($blogs)) {
 						<div id="part-setting-openid" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('오픈아이디 연결');?></span></h2>
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t("오픈아이디를 현재 계정에 연결합니다.").' '._t('연결한 오픈아이디로 이 계정에 로그인 할 수 있습니다.');?></p>
+								<p class="explain"><?php echo _t("오픈아이디를 현재 아이디와 연결합니다.").' '._t('연결 후에는 연결한 오픈아이디를 사용하여 블로그에 로그인 할 수 있습니다.');?></p>
 							</div>
 							
 							<table class="data-inbox">
