@@ -34,7 +34,7 @@ if(isset($blogMenu['topMenu'])) {
 			if(Acl::check('group.administrators')) {
 				$blogContentMenuItem = array(
 					array('menu'=>'comment','title'=>_t('소통 기록'),'link'=>'/owner/communication/comment'),
-					array('menu'=>'trash','title'=>_t('휴지통'),'link'=>'/owner/communication/trash/comment'),
+					array('menu'=>'openid','title'=>_t('오픈아이디 목록'),'link'=>'/owner/communication/openid'),
 					array('menu'=>'add','title'=>_t('링크 추가'),'link'=>'/owner/communication/link/add'),
 					array('menu'=>'link','title'=>_t('링크 목록'),'link'=>'/owner/communication/link'),
 					array('menu'=>'xfn','title'=>_t('친구 링크 관리'),'link'=>'/owner/communication/xfn')
@@ -43,9 +43,9 @@ if(isset($blogMenu['topMenu'])) {
 			} else {
 				$blogContentMenuItem = array(
 					array('menu'=>'comment','title'=>_t('소통 기록'),'link'=>'/owner/communication/comment'),
-					array('menu'=>'trash','title'=>_t('휴지통'),'link'=>'/owner/communication/trash/comment'),
-					array('menu'=>'reader','title'=>_t('바깥 글 읽기'),'link'=>'/owner/communication/reader')
+					array('menu'=>'trash','title'=>_t('휴지통'),'link'=>'/owner/communication/trash/comment')
 				);
+				if($service['reader'] == true) array_push($blogContentMenuItem,array('menu'=>'reader','title'=>_t('바깥 글 읽기'),'link'=>'/owner/communication/reader'));
 			}
 		break;
 		case 'skin':
@@ -77,8 +77,7 @@ if(isset($blogMenu['topMenu'])) {
 				array('menu'=>'account','title'=>_t('개인 정보'),'link'=>'/owner/setting/account'),
 				array('menu'=>'teamblog','title'=>_t('필진 목록'),'link'=>'/owner/setting/teamblog'),
 				array('menu'=>'filter','title'=>_t('스팸 필터'),'link'=>'/owner/setting/filter'),
-				array('menu'=>'data','title'=>_t('데이터 관리'),'link'=>'/owner/data'),
-				array('menu'=>'openid','title'=>_t('오픈아이디 목록'),'link'=>'/owner/setting/openid')
+				array('menu'=>'data','title'=>_t('데이터 관리'),'link'=>'/owner/data')
 			);
 		} else if(Acl::check('group.editors')) {
 			$blogContentMenuItem = array(
@@ -145,7 +144,7 @@ if(isset($blogContentMenuItem)) {
 	if (isset($_POST['category'])) $currentCategory = $_POST['category'];
 	else if (isset($_GET['category'])) $currentCategory = $_GET['category'];
 	else $currentCategory = null;
-	if(in_array($blogMenu['contentMenu'],array('notify','trackback')))
+	if(in_array($blogMenu['contentMenu'],array('notify','trackback','trashcomment','trashtrackback')))
 		$blogMenu['contentMenu'] = 'comment';
 
 	foreach($blogContentMenuItem as $contentMenuItem) { 
@@ -160,7 +159,6 @@ if(isset($blogContentMenuItem)) {
 			$PostIdStr = $contentMenuItem['menu'];
 			if(($blogMenu['contentMenu'] == $contentMenuItem['menu'] 
 				|| (isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) 
-				|| ($contentMenuItem['menu'] == 'trash' && strpos($blogMenu['contentMenu'],'trash') !== false)
 				|| (in_array($contentMenuItem['menu'],array('blog','user')) && strpos($blogMenu['contentMenu'],'detail') !== false)
 				)) {
 				$submenuURL = $blogMenu['contentMenu'];
@@ -170,7 +168,6 @@ if(isset($blogContentMenuItem)) {
 						<li id="sub-menu-<?php echo $PostIdStr;?>"<?php echo 
 						(($blogMenu['contentMenu'] == $contentMenuItem['menu'] || 
 							(isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) ||
-							($contentMenuItem['menu'] == 'trash' && strpos($blogMenu['contentMenu'],'trash') !== false) ||
 							($contentMenuItem['menu'] == 'add' && strpos($blogMenu['contentMenu'],'add') !== false) ||
 							($contentMenuItem['menu'] == 'blog' && strpos($blogMenu['contentMenu'],'blog') !== false && strpos($blogMenu['contentMenu'],'teamblog') === false) ||
 							($contentMenuItem['menu'] == 'user' && strpos($blogMenu['contentMenu'],'user') !== false) ||

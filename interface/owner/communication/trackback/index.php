@@ -241,13 +241,10 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 }
 ?>
 							</h2>
-							<ul id="communication-tabs-box" class="tabs-box">
-								<li<?php echo isset($tabsClass['comment']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/communication/comment?page=1<?php echo $tabsClass['postfix'];?>&amp;status=comment"><?php echo _t('댓글');?></a></li>
-								<li<?php echo isset($tabsClass['guestbook']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/communication/comment?page=1<?php echo $tabsClass['postfix'];?>&amp;status=guestbook"><?php echo _t('방명록');?></a></li>
-								<li<?php echo isset($tabsClass['notify']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/communication/notify"><?php echo _t('댓글 알리미');?></a></li>
-								<li<?php echo isset($tabsClass['received']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/communication/trackback?page=1<?php echo $tabsClass['postfix'];?>&amp;status=received"><?php echo _t('걸린 글');?></a></li>
-								<li<?php echo isset($tabsClass['sent']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/communication/trackback?page=1<?php echo $tabsClass['postfix'];?>&amp;status=sent"><?php echo _t('건 글');?></a></li>
-							</ul>
+<?php
+require ROOT . '/lib/piece/owner/communicationTab.php';
+?>
+
 
 							<form id="category-form" class="category-box" method="post" action="<?php echo $blogURL;?>/owner/communication/trackback">
 								<div class="section">
@@ -307,19 +304,21 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$filteredURL = getURLForFilter($trackback['url']);
 
 	$filter = new Filter();
-	if (Filter::isFiltered('ip', $trackback['ip'])) {
+	if (isset($trackback['ip']) && Filter::isFiltered('ip', $trackback['ip'])) {
 		$isIpFiltered = true;
 	} else {
 		$isIpFiltered = false;
 	}
-
-	if (!isset($siteNumber[$trackback['site']])) {
-		$siteNumber[$trackback['site']] = $i;
-		$currentSite = $i;
+	if(isset($trackback['site'])) {
+		if (!isset($siteNumber[$trackback['site']])) {
+			$siteNumber[$trackback['site']] = $i;
+			$currentSite = $i;
+		} else {
+			$currentSite = $siteNumber[$trackback['site']];
+		}
 	} else {
-		$currentSite = $siteNumber[$trackback['site']];
+		$currentSite = $i;
 	}
-	
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($trackbacks) - 1) ? ' last-line' : '';
 ?>

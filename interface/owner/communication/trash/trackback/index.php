@@ -39,6 +39,14 @@ if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
 	setBlogSetting('rowsPerPage', $_POST['perPage']);
 }
+$tabsClass = array();
+$tabsClass['postfix'] = null;
+$tabsClass['postfix'] .= isset($_POST['category']) ? '&category='.$_POST['category'] : '';
+$tabsClass['postfix'] .= isset($_POST['site']) ? '&site='.$_POST['site'] : '';
+$tabsClass['postfix'] .= isset($_POST['ip']) ? '&ip='.$_POST['ip'] : '';
+$tabsClass['postfix'] .= isset($_POST['search']) ? '&search='.$_POST['search'] : '';
+$tabsClass['trash'] = true;
+
 list($trackbacks, $paging) = getTrashTrackbackWithPagingForOwner($blogid, $categoryId, $site, $ip, $search, $suri['page'], $perPage);
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
@@ -262,6 +270,9 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 }
 ?>
 							</h2>
+<?php
+require ROOT . '/lib/piece/owner/communicationTab.php';
+?>
 
 							<div class="main-explain-box">
 								<p class="explain"><?php echo _t('휴지통에 버려진 걸린글은 15일이 지나면 자동으로 지워집니다. 광고 걸린글의 차단 및 분석을 위하여 휴지통의 데이터를 사용하는 플러그인이 있을 수 있으므로 수동으로 지우지 않는 것을 권장합니다.');?></p>

@@ -239,8 +239,9 @@ table.data-inbox tbody tr td.ip
 
 #part-post-trash fieldset dl dd
 {
+	margin-top                       : 20px;
 	margin-left                      : 30px;
-	width: 600px;
+	width                            : 600px;
 }
 
 #part-post-trash fieldset dl dd div

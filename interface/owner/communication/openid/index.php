@@ -8,7 +8,7 @@ require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
 global $database, $blogURL, $hostURL;
 
-$menu_url = $hostURL . $blogURL . "/owner/setting/openid";
+$menu_url = $hostURL . $blogURL . "/owner/communication/openid";
 $menu1 = $menu_url . "?mode=1";
 $menu2 = $menu_url . "?mode=3";
 $menu3 = $menu_url . "?mode=5";
