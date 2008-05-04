@@ -319,6 +319,20 @@
 		color                            : #777;
 }
 
+/* Server ****************************************************************************************/
+
+#part-setting-mailhost .button-box
+{
+	border-top                       : 1px solid #DDDDDD;
+	margin                           : 10px 0 20px 0;
+	padding-top                      : 15px;
+}
+
+#part-setting-mailhost
+{
+	margin-bottom: 30px;
+}
+
 /* System ****************************************************************************************/
 
 /* general information */
