@@ -321,6 +321,13 @@ textarea
 	width                            : 180px;
 }
 
+#main-menu #menu-control
+{
+	position                         : absolute;
+	top                              : 50px;
+	right                            : 85px;
+}
+
 /* Layout Body ***********************************************************************************/
 
 #sub-menu-box
