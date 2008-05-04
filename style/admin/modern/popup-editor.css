@@ -55,6 +55,41 @@ h3
 	width                            : 560px;
 }
 
+#starred
+{
+	width                            : 20px;
+	display                          : inline;
+	padding                          : 0 10px;
+}
+
+.star-icon span,
+.unstar-icon span
+{
+	display                          : none;
+}
+
+.star-icon a
+{
+	background-image                 : url("./image/icon_starred.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block; 
+	width                            : 16px;
+	height                           : 20px;
+	float                            : left;
+}
+
+.unstar-icon a
+{
+	background-image                 : url("./image/icon_unstarred.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block; 
+	width                            : 16px;
+	height                           : 20px;
+	float                            : left;
+}
+
 #category-line
 {
 	margin-bottom                    : 3px !important;
