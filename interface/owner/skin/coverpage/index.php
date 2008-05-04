@@ -228,7 +228,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useCoverpageInit'])
 
 getBlogContentForCoverPage();
 ?>
-						<form id="part-coverpage-order" class="part" method="post" action="<?php echo parseURL($blogURL.'/owner/center/coverpage');?>">
+						<form id="part-coverpage-order" class="part" method="post" action="<?php echo parseURL($blogURL.'/owner/skin/coverpage');?>">
 							<h2 class="caption"><span class="main-text"><?php echo _t('표지를 관리합니다');?></span></h2>
 <?php
 	if(isset($skin->cover)) {
@@ -260,7 +260,7 @@ if (is_null($skin->cover) || count($coverpageMappings) == 0) {
 		$errmsg = '사용중인 표지 플러그인이 없습니다.';
 ?>
 							<ul id="coverpage-tabs-box" class="tabs-box">
-								<li class="selected"><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/coverpage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
+								<li class="selected"><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/skin/coverpage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
 							</ul>
 							
 							<div id="coverpage-box-disabled" class="data-inbox">
@@ -282,9 +282,9 @@ if (is_null($coverpageConfig)) {
 }
 ?>
 							<ul id="coverpage-tabs-box" class="tabs-box">
-								<li<?php echo $defaultModeSelected ? ' class="selected"' : NULL;?>><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/coverpage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
-								<li<?php echo $safeModeSelected ? ' class="selected"' : NULL;?>><a id="safe-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/coverpage?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a></li>
-								<li<?php echo $tagModeSelected ? ' class="selected"' : NULL;?>><a id="tag-mode-button" class="button" href="<?php echo $blogURL;?>/owner/center/coverpage?tag" title="<?php echo _t('실제 블로그 표지에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a></li>
+								<li<?php echo $defaultModeSelected ? ' class="selected"' : NULL;?>><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/skin/coverpage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
+								<li<?php echo $safeModeSelected ? ' class="selected"' : NULL;?>><a id="safe-mode-button" class="button" href="<?php echo $blogURL;?>/owner/skin/coverpage?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a></li>
+								<li<?php echo $tagModeSelected ? ' class="selected"' : NULL;?>><a id="tag-mode-button" class="button" href="<?php echo $blogURL;?>/owner/skin/coverpage?tag" title="<?php echo _t('실제 블로그 표지에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a></li>
 								<li<?php echo $initModeSelected ? ' class="selected"' : NULL;?>><a id="init-button" class="button" href="coverpage/initialize<?php echo $viewMode2;?>" onclick="if (!confirm('<?php echo _t('정말 표지의 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('표지의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a></li>
 							</ul>
 							
@@ -338,7 +338,7 @@ for ($i=0; $i<$coverpageCount; $i++) {
 <?php
 				} else {
 ?>
-														<a href="<?php echo parseURL($blogURL.'/owner/center/coverpage/order/?coverpageNumber='.$i.'&amp;targetcoverpageNumber='.$i.'&amp;modulePos='.$j.'&amp;targetPos='.($j - 1).$viewMode);?>" title="<?php echo _t('이 표지 모듈을 위로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_moveup_module.jpg" border="0" alt="<?php echo _t('위로');?>" /></a>
+														<a href="<?php echo parseURL($blogURL.'/owner/skin/coverpage/order/?coverpageNumber='.$i.'&amp;targetcoverpageNumber='.$i.'&amp;modulePos='.$j.'&amp;targetPos='.($j - 1).$viewMode);?>" title="<?php echo _t('이 표지 모듈을 위로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_moveup_module.jpg" border="0" alt="<?php echo _t('위로');?>" /></a>
 <?php
 				}
 				
@@ -348,11 +348,11 @@ for ($i=0; $i<$coverpageCount; $i++) {
 <?php
 				} else {
 ?>
-														<a href="<?php echo parseURL($blogURL.'/owner/center/coverpage/order/?coverpageNumber='.$i.'&amp;targetcoverpageNumber='.$i.'&amp;modulePos='.$j.'&amp;targetPos='.($j + 2).$viewMode);?>" title="<?php echo _t('이 표지 모듈을 아래로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_movedown_module.jpg" border="0" alt="<?php echo _t('아래로');?>" /></a>
+														<a href="<?php echo parseURL($blogURL.'/owner/skin/coverpage/order/?coverpageNumber='.$i.'&amp;targetcoverpageNumber='.$i.'&amp;modulePos='.$j.'&amp;targetPos='.($j + 2).$viewMode);?>" title="<?php echo _t('이 표지 모듈을 아래로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_movedown_module.jpg" border="0" alt="<?php echo _t('아래로');?>" /></a>
 <?php
 				}
 ?>
-														<a href="<?php echo parseURL($blogURL.'/owner/center/coverpage/delete/?coverpageNumber='.$i.'&amp;modulePos='.$j.$viewMode);?>" title="<?php echo _t('이 표지 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.gif" border="0" alt="<?php echo _t('삭제');?>" /></a>
+														<a href="<?php echo parseURL($blogURL.'/owner/skin/coverpage/delete/?coverpageNumber='.$i.'&amp;modulePos='.$j.$viewMode);?>" title="<?php echo _t('이 표지 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.gif" border="0" alt="<?php echo _t('삭제');?>" /></a>
 														<!-- TODO : coverpage plugin settting -->									
 													</div>
 <?php 
@@ -360,7 +360,7 @@ for ($i=0; $i<$coverpageCount; $i++) {
 				if (count($pluginparameters) > 0) {
 ?>
 													<div class="edit-button-box">
-														<a href="<?php echo parseURL($blogURL.'/owner/center/coverpage/edit?coverpageNumber='.$i.'&amp;modulePos='.$j.$viewMode);?>"><?php echo _t('편집');?></a>
+														<a href="<?php echo parseURL($blogURL.'/owner/skin/coverpage/edit?coverpageNumber='.$i.'&amp;modulePos='.$j.$viewMode);?>"><?php echo _t('편집');?></a>
 													</div>
 <?php 
 				}
@@ -466,7 +466,7 @@ foreach ($coverpagePluginArray as $nowKey) {
 												p2Node = p2Node.nextSibling;
 											}
 											if (p2Node != null) {
-												p2Node.href = blogURL + "/owner/center/coverpage/delete/?coverpageNumber=" + pNode.coverpageNumber + "&modulePos=" + pNode.modulePos + viewMode;
+												p2Node.href = blogURL + "/owner/skin/coverpage/delete/?coverpageNumber=" + pNode.coverpageNumber + "&modulePos=" + pNode.modulePos + viewMode;
 											}
 											
 											if ((pNode.moduleCategory == 'plugin') && (pNode.hasPropertyEdit == true)) {
@@ -492,7 +492,7 @@ foreach ($coverpagePluginArray as $nowKey) {
 								
 								function initPages()
 								{
-									dlg = dojo.widget.createWidget("popupWindow", {}, document.getElementById('body-center').firstChild, 'after');
+									dlg = dojo.widget.createWidget("popupWindow", {}, document.getElementById('body-skin').firstChild, 'after');
 									dlg.domNode.className = 'ajax-popup-window';
 									var inputs = document.getElementsByTagName("input");
 									for (i=0; i < inputs.length;) {
