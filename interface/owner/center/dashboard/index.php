@@ -233,7 +233,7 @@ if($textcubeDashboard) {
 								<h3><?php echo _t('바로가기');?></h3>
 								
 								<ul>
-									<li><a href="<?php echo $blogURL;?>/owner/entry/post"><?php echo _t('새글 쓰기');?></a></li>
+									<li><a href="<?php echo $blogURL;?>/owner/entry/post"><?php echo _t('새 글 쓰기');?></a></li>
 <?php
 		$latestEntryId = getBlogSetting('LatestEditedEntry_user'.getUserId(),0);
 		if($latestEntryId !== 0) {
@@ -246,15 +246,15 @@ if($textcubeDashboard) {
 		}
 		if(Acl::check("group.owners")) {
 ?>
-									<li><a href="<?php echo $blogURL;?>/owner/skin"><?php echo _t('스킨 변경');?></a></li>
-									<li><a href="<?php echo $blogURL;?>/owner/skin/setting"><?php echo _t('블로그 표시설정');?></a></li>
-									<li><a href="<?php echo $blogURL;?>/owner/entry/category"><?php echo _t('카테고리 변경');?></a></li>
-									<li><a href="<?php echo $blogURL;?>/owner/plugin"><?php echo _t('플러그인 관리');?></a></li>
+									<li><a href="<?php echo $blogURL;?>/owner/entry/category"><?php echo _t('카테고리 추가 또는 변경');?></a></li>
+									<li><a href="<?php echo $blogURL;?>/owner/skin"><?php echo _t('스킨 변경');?></a> / <a href="<?php echo $blogURL;?>/owner/skin/setting"><?php echo _t('스킨 상세 설정');?></a></li>
+									<li><a href="<?php echo $blogURL;?>/owner/skin/coverpage"><?php echo _t('표지 변경');?></a> / <a href="<?php echo $blogURL;?>/owner/skin/sidebar"><?php echo _t('사이드바 변경');?></a></li>									
+									<li><a href="<?php echo $blogURL;?>/owner/plugin"><?php echo _t('플러그인 켜고 끄기');?></a></li>
 <?php
 		}
 		if ($service['reader'] == true) {
 ?>
-									<li><a href="<?php echo $blogURL;?>/owner/communication/reader"><?php echo _t('RSS 리더');?></a></li>
+									<li><a href="<?php echo $blogURL;?>/owner/communication/reader"><?php echo _t('RSS로 등록한 이웃 글 보기');?></a></li>
 <?php
 		}
 ?>

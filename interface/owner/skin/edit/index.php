@@ -60,6 +60,9 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											
 											if (mode == 'skin') {
 												skinHTMLSaved = true;
+												if(document.getElementById('skin-download').innerHTML == '') {
+													document.getElementById('skin-download').innerHTML = '<a href="<?php echo $blogURL;?>/owner/skin/edit/download/?file=skin.html"><?php echo _t('내려받기');?></a>';
+												}
 											} else {
 												skinStyleSaved = true;
 											}
@@ -80,7 +83,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									currentCode = document.getElementById(mode).value;
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/skin/edit/crop/");									
 									request.onSuccess = function() {
-										PM.showMessage("<?php echo _t('불러왔습니다.');?>", "center", "bottom");
+										PM.showMessage("<?php echo _t('불러왔습니다.');?>", "center", "top");
 										document.getElementById(mode).value = this.getText("/response/code");
 										skinCode = this.getText("/response/skinCode");
 										document.getElementById('skin-'+currentTag).className = '';
@@ -178,7 +181,7 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 	$xml = file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/index.xml");
 	$xmls = new XMLStruct();
 	$xmls->open($xml, $service['encoding']);
-	$skinName = $xmls->getValue('/skin/information/name') . ($skinSetting['skin'] == "customize/$blogid" ? _t('(사용자 수정본)') : NULL);
+	$skinName = $xmls->getValue('/skin/information/name') . ($skinSetting['skin'] == "customize/$blogid" ? _t('(수정한 스킨)') : NULL);
 } else {
 	$skinName = $skinSetting['skin'];
 }
@@ -188,7 +191,7 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 							
 							<div class="data-inbox">
 								<div class="main-explain-box">
-									<p class="explain"><?php echo _t('이 곳에서 스킨을 편집할 수 있습니다. 편집이 끝난 스킨은 저장하기를 눌러 반영할 수 있습니다. 수정 중 원래 스킨으로 되돌리고 싶을 때는 되돌리기 버튼을 눌러 원래대로 되돌릴 수 있습니다.');?></p>
+									<p class="explain"><?php echo _t('이 곳에서 스킨을 편집할 수 있습니다. 편집이 끝난 스킨은 저장하기를 눌러 반영할 수 있습니다. 수정 중 원래 스킨으로 되돌리고 싶을 때는 되돌리기 버튼을 눌러 원래대로 되돌릴 수 있습니다.').'<br />'._t('수정한 파일은 내려받기 링크를 통해 다운로드 할 수 있습니다. 가장 최근에 수정한 파일을 내려 받기 위해서는 다운로드 전에 꼭 저장을 먼저 해 주시기 바랍니다. 스킨 파일은 하나의 html 파일로 되어 있기 때문에 다양한 웹 에디터를 사용해서 편집하신 후에 반영해도 문제가 없습니다. 내려받은 파일을 웹 에디터로 편집하신 후에 스킨 편집창에 붙여넣어 반영하셔도 됩니다.');?></p>
 								</div>
 								
 								
@@ -199,7 +202,7 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 									<li id="skin-rp"><a href="#" onclick="changeTab('skin','rp');return false;"><?php echo _t('댓글 영역');?></a></li>
 									<li id="skin-tb"><a href="#" onclick="changeTab('skin','tb');return false;"><?php echo _t('트랙백 영역');?></a></li>									
 									<li id="skin-list"><a href="#" onclick="changeTab('skin','list');return false;"><?php echo _t('리스트');?></a></li>
-									<li id="skin-list"><a href="#" onclick="changeTab('skin','rplist');return false;"><?php echo _t('댓글 리스트');?></a></li>	
+									<li id="skin-rplist"><a href="#" onclick="changeTab('skin','rplist');return false;"><?php echo _t('댓글 리스트');?></a></li>	
 									<li id="skin-tblist"><a href="#" onclick="changeTab('skin','tblist');return false;"><?php echo _t('트랙백 리스트');?></a></li>
 									<li id="skin-local"><a href="#" onclick="changeTab('skin','local');return false;"><?php echo _t('지역로그');?></a></li>
 									<li id="skin-tag"><a href="#" onclick="changeTab('skin','tag');return false;"><?php echo _t('태그');?></a></li>
@@ -211,7 +214,17 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 								
 								<form id="htmlSectionForm" class="section" method="post" action="<?php echo $blogURL;?>/owner/skin/edit/skin/">
 									<ul>
-										<li class="selected"><a><img src="<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/img_html_document_on.gif" alt="" /><strong>skin.html</strong></a></li>
+										<li class="selected"><a><img src="<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/img_html_document_on.gif" alt="" /><strong>skin.html</strong></a>
+											<span id="skin-download" class="download">
+<?php
+if (file_exists(ROOT . "/skin/customize/".getBlogId()."/skin.html")) {
+?>
+											<a href="<?php echo $blogURL;?>/owner/skin/edit/download/?file=skin.html"><?php echo _t('내려받기');?></a>
+<?php
+}
+?>
+											</span>
+										</li>
 									</ul>
 
 <?php

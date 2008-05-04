@@ -76,7 +76,6 @@ if ($depth > 0) {
 	$suri['directive'] = '/';
 	$suri['value'] = ltrim($url, '/');
 }
-
 if(strpos($suri['value'],'?') === 0) $suri['value'] = '';
 else $suri['value'] = strtok($suri['value'], '?');
 $suri['directive'] = strtok($suri['directive'], '?');
