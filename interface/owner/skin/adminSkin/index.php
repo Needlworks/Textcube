@@ -10,7 +10,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 							<h2 class="caption"><span class="main-text"><?php echo setDetailPanel('admin_skin_setting','link',_t('관리자 패널의 스킨을 설정합니다'));?></span></h2>
 							<form id="admin-skin-form" class="data-inbox" method="post" action="<?php echo parseURL($blogURL.'/owner/skin/adminSkin/set');?>">
 								<div class="main-explain-box">
-									<p class="explain"><?php echo _t('관리자 패널 스킨은 로그인한 후 보여지는 패널의 디자인을 다양하게 변경합니다.');?></p>
+									<p class="explain"><?php echo _t('관리자 패널 스킨은 로그인한 후 보여지는 패널의 디자인을 다양하게 변경합니다. 관리자 패널 스킨을 추가하기 위해서는 관리자 패널 스킨을 내려받아 /style/admin 디렉토리에 설치하시면 됩니다.');?></p>
 								</div>
 								<fieldset class="container">
 									<legend><?php echo _t('관리자 패널의 스킨을 설정합니다');?></legend>

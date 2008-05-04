@@ -38,9 +38,6 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									<dl>
 										<dt class="title"><span class="label"><?php	echo _t('메일 서버 설정');?></span></dt>
 										<dd>
-											<div class="line">
-											<span><?php echo _text( '운영자만이 수정할 수 있습니다' ); ?></span>
-											</div>
 
 											<div class="line">
 												<input id="useCustomSMTP" type="checkbox" class="checkbox" name="useCustomSMTP" value="1" <?php if( getServiceSetting( 'useCustomSMTP', 0 ) ) { echo "checked='checked'"; } ?> />
