@@ -46,8 +46,14 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								function setSkin(mode) {
 									var skin = document.getElementById(mode);
 									var file = document.getElementById(mode + 'FileName');
-									
+									var skinData = '';
 									if ((mode == 'skin' && skinHTMLSaved == false) || (mode == 'style' && skinStyleSaved == false)) {
+										if(mode == 'skin' && currentTag != 'all') {
+											skinData = skinCode;
+										} else {
+											skinData = skin.value;
+										}
+
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/skin/edit/skin/");
 										request.onSuccess = function() {
 											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
@@ -64,10 +70,47 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 											else
 												alert('<?php echo _t('실패했습니다.');?>');
 										}
-										request.send('mode='+mode+'&body='+encodeURIComponent(skin.value)+'&file='+ file.value);
+										request.send('mode='+mode+'&body='+encodeURIComponent(skinData)+'&file='+ file.value);
 									}
 								}
-								
+
+								var currentTag = 'all';
+								var currentCode = '';
+								function changeTab(mode,tag) {
+									currentCode = document.getElementById(mode).value;
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/skin/edit/crop/");									
+									request.onSuccess = function() {
+										PM.showMessage("<?php echo _t('불러왔습니다.');?>", "center", "bottom");
+										document.getElementById(mode).value = this.getText("/response/code");
+										skinCode = this.getText("/response/skinCode");
+										document.getElementById('skin-'+currentTag).className = '';
+										document.getElementById('skin-'+tag).className = 'selected';										
+										currentTag = tag;
+										switch(mode) {
+											case 'skin':
+											undoBuffer[0] = document.getElementById(mode).value;
+											break;
+										}
+									}
+									request.onError = function() {
+										if (this.getText("/response/msg"))
+											alert(this.getText("/response/msg"));
+										else
+											alert('<?php echo _t('실패했습니다.');?>');
+									}
+									request.send('skinCode='+encodeURIComponent(skinCode)
+										+'&currentTag='+encodeURIComponent(currentTag)
+										+'&currentCode='+encodeURIComponent(currentCode)
+										+'&nextTag='+encodeURIComponent(tag));
+								}
+								function undo(mode) {
+									switch(mode) {
+										case 'skin':
+											document.getElementById(mode).value = undoBuffer[0];
+											break;
+									}
+									return true;
+								}
 <?php
 if (count($styleFileList) > 0 && !empty($currentStyleFile) && file_exists(ROOT . "/skin/{$skinSetting['skin']}/" . $currentStyleFile)) {
 ?>		
@@ -144,6 +187,28 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 							<h2 class="caption"><span class="main-text"><?php echo _f('스킨을 편집합니다 : "%1"', $skinName);?></span></h2>
 							
 							<div class="data-inbox">
+								<div class="main-explain-box">
+									<p class="explain"><?php echo _t('이 곳에서 스킨을 편집할 수 있습니다. 편집이 끝난 스킨은 저장하기를 눌러 반영할 수 있습니다. 수정 중 원래 스킨으로 되돌리고 싶을 때는 되돌리기 버튼을 눌러 원래대로 되돌릴 수 있습니다.');?></p>
+								</div>
+								
+								
+								
+								<ul id="skin-tabs-box" class="tabs-box">
+									<li id="skin-all" class="selected"><a href="#" onclick="changeTab('skin','all');return false;"><?php echo _t('전체');?></a></li>
+									<li id="skin-article_rep"><a href="#" onclick="changeTab('skin','article_rep');return false;"><?php echo _t('본문');?></a></li>
+									<li id="skin-rp"><a href="#" onclick="changeTab('skin','rp');return false;"><?php echo _t('댓글 영역');?></a></li>
+									<li id="skin-tb"><a href="#" onclick="changeTab('skin','tb');return false;"><?php echo _t('트랙백 영역');?></a></li>									
+									<li id="skin-list"><a href="#" onclick="changeTab('skin','list');return false;"><?php echo _t('리스트');?></a></li>
+									<li id="skin-list"><a href="#" onclick="changeTab('skin','rplist');return false;"><?php echo _t('댓글 리스트');?></a></li>	
+									<li id="skin-tblist"><a href="#" onclick="changeTab('skin','tblist');return false;"><?php echo _t('트랙백 리스트');?></a></li>
+									<li id="skin-local"><a href="#" onclick="changeTab('skin','local');return false;"><?php echo _t('지역로그');?></a></li>
+									<li id="skin-tag"><a href="#" onclick="changeTab('skin','tag');return false;"><?php echo _t('태그');?></a></li>
+									<li id="skin-guest"><a href="#" onclick="changeTab('skin','guest');return false;"><?php echo _t('방명록');?></a></li>
+									<li id="skin-keyword"><a href="#" onclick="changeTab('skin','keyword');return false;"><?php echo _t('키워드');?></a></li>
+									<li id="skin-keylog_rep"><a href="#" onclick="changeTab('skin','keylog_rep');return false;"><?php echo _t('키로그');?></a></li>
+									<li id="skin-cover"><a href="#" onclick="changeTab('skin','cover');return false;"><?php echo _t('표지');?></a></li>
+								</ul>
+								
 								<form id="htmlSectionForm" class="section" method="post" action="<?php echo $blogURL;?>/owner/skin/edit/skin/">
 									<ul>
 										<li class="selected"><a><img src="<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/img_html_document_on.gif" alt="" /><strong>skin.html</strong></a></li>
@@ -164,7 +229,7 @@ if ($htmlFilePerms >= 6) {
 ?>
 									<div class="button-box">
 										<input type="hidden" id="skinFileName" name="file" value="skin.html" />
-										<input type="reset" class="reset-button input-button" value="<?php echo _t('되돌리기');?>" />
+										<input type="reset" class="reset-button input-button" onclick="undo('skin');return false;" value="<?php echo _t('되돌리기');?>" />
 										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setSkin('skin'); return false" />
 									</div>
 <?php
@@ -235,6 +300,13 @@ if (count($styleFileList) > 0) {
 ?>
 							</div>
 						</div>
+						<script type="text/javascript">
+							//<![CDATA[
+								var skinCode    = document.getElementById('skin').value;
+								var undoBuffer = new Array();
+								undoBuffer[0] = skinCode;
+							//]]>
+						</script>							
 <?php
 require ROOT . '/lib/piece/owner/footer.php';
 ?>

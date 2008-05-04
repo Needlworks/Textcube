@@ -53,7 +53,7 @@ if(isset($blogMenu['topMenu'])) {
 			$blogContentMenuItem = array(
 				array('menu'=>'skin','title'=>_t('스킨 선택'),'link'=>'/owner/skin'),
 				array('menu'=>'edit','title'=>_t('스킨 편집'),'link'=>'/owner/skin/edit'),
-				array('menu'=>'setting','title'=>_t('상세한 설정'),'link'=>'/owner/skin/setting'),
+				array('menu'=>'setting','title'=>_t('상세 설정'),'link'=>'/owner/skin/setting'),
 				array('menu'=>'coverpage','title'=>_t('색동'),'link'=>'/owner/skin/coverpage'),
 				array('menu'=>'sidebar','title'=>_t('사이드바'),'link'=>'/owner/skin/sidebar'),
 				array('menu'=>'adminSkin','title'=>_t('관리자 패널 스킨 선택'),'link'=>'/owner/skin/adminSkin')

@@ -149,10 +149,10 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 						<hr class="hidden" />
 						
 						<div id="part-skin-list" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('사용가능한 스킨 목록입니다');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('사용가능한 스킨들의 목록입니다');?></span></h2>
 							
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t('원하시는 스킨의 적용 버튼을 클릭하십시오.');?></p>
+								<p class="explain"><?php echo _t('블로그에 적용하기 원하시는 스킨의 적용 버튼을 누르면 스킨이 블로그에 반영됩니다.');?></p>
 							</div>
 							
 							<div class="data-inbox">

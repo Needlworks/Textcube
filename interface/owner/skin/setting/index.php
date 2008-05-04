@@ -140,7 +140,7 @@ $selected = 0;
 						</script>
 						
 						<div id="part-skin-setting" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo setDetailPanel('panel_skin_setting','link',_t('스킨 출력에 따른 여러 값들을 변경합니다'));?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo setDetailPanel('panel_skin_setting','link',_t('스킨에 따라 표시되는 여러 값들을 세세하게 변경합니다'));?></span></h2>
 							
 							<div id="panel_skin_setting" class="data-inbox folding">
 								<form id="skinSetting" class="section" method="post" action="<?php echo $blogURL;?>/owner/skin/setting/skin" enctype="application/x-www-form-urlencoded">
@@ -668,7 +668,7 @@ ob_end_clean();
 						<hr class="hidden" />
 						
 						<div id="part-skin-tree" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('스킨에 맞춘 분류의 출력을 변경합니다');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('분류 디자인을 변경합니다');?></span></h2>
 							
 							<form id="setSkinForm" method="post" action="<?php echo $blogURL;?>/owner/skin/setting/tree" enctype="application/x-www-form-urlencoded">
 								<div class="data-inbox">
