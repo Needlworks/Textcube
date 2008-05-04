@@ -44,7 +44,7 @@ if (Acl::check('group.creators')) {
 							<h2 class="caption"><span class="main-text"><?php echo _t('플러그인이 생성한 테이블입니다');?></span></h2>
 							
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t('플러그인이 생성한 테이블입니다. 테이블의 데이터를 삭제할 수 있습니다.');?></p>
+								<p class="explain"><?php echo _t('플러그인이 생성한 테이블입니다. 더이상 사용하지 않는 플러그인이 예전에 만든 테이블의 경우 테이블의 데이터를 삭제할 수 있습니다. 다중 사용자 모드에서 서비스를 운영하는 경우 자신이 사용하지 않더라도 다른 사용자가 해당 플러그인을 사용할 수 있으니 삭제시 유의하시기 바랍니다.');?></p>
 							</div>
 
 							<table class="data-inbox" cellspacing="0" cellpadding="0">
