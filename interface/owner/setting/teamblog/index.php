@@ -215,7 +215,10 @@ if( Acl::check('group.administrators')) {
 						</script>
 
 						<div id="part-setting-account" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('팀블로그를 관리합니다');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('이 블로그에 등록된 필자들의 권한을 설정하고 관리합니다');?></span></h2>
+							<div class="main-explain-box">
+								<p class="explain"><?php echo _t('이 블로그에 다른 필자를 등록하고 권한을 줄 수 있습니다. 필자로 등록된 경우 기본적으로 글쓰기 권한이 주어집니다. 관리자 권한의 경우 블로그의 설정을 변경할 수 있습니다. 글관리 권한의 경우 다른 필자의 글을 교정하거나 공개 정도를 변경할 수 있습니다.');?></p>
+							</div>
 							<div id="list-section" class="section">
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
@@ -310,8 +313,11 @@ if( Acl::check('group.owners')) {
 	$urlRule=getBlogURLRule();
 ?>
 						<div id="part-setting-invite" class="part">
-							<h2 class="caption"><span class="main-text"><?php	echo _t('친구를 팀원으로 초대합니다');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php	echo _t('새로운 사람을 블로그의 필진으로 초대합니다');?></span></h2>
 							
+							<div class="main-explain-box">
+								<p class="explain"><?php echo _t('새로운 사람을 블로그의 필자로 초대합니다. 초대장은 이메일을 통하여 발송됩니다. 메일 주소가 이미 블로그 서비스에 등록되어 있는 경우, 그 사용자에게 이 블로그의 필진 권한을 추가합니다. 사용자가 존재하지 않는 경우에는 새로운 사용자를 자동으로 등록하고 초대장을 발송합니다. 초대된 사람에게는 기본적으로 글쓰기 권한이 부여됩니다.');?></p>
+							</div>
 							<div class="data-inbox">
 								<form id="letter-section" class="section" method="post" action="<?php	echo $blogURL;?>/owner/setting/teamblog/invite">
 									<dl>
