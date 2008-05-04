@@ -82,7 +82,7 @@
 					var sourcePostion = e.dragObject.domNode.modulePos;
 					e.dragObject.domNode.coverpageNumber = targetCoverpage;
 				
-					var requestURL = blogURL + "/owner/center/coverpage/order?coverpageNumber=" + sourceCoverpage + "&targetCoverpageNumber=" + targetCoverpage + "&modulePos=" + sourcePostion + "&targetPos=" + targetPosition + viewMode;
+					var requestURL = blogURL + "/owner/skin/coverpage/order?coverpageNumber=" + sourceCoverpage + "&targetCoverpageNumber=" + targetCoverpage + "&modulePos=" + sourcePostion + "&targetPos=" + targetPosition + viewMode;
 					
 					var request = new HTTPRequest("POST", requestURL);
 					request.onSuccess = function () {
@@ -101,7 +101,7 @@
 					e.dragObject.domNode.coverpageNumber = targetCoverpage;
 					e.dragObject.domNode.ajaxtype = 'reorder';
 					
-					var requestURL = blogURL + "/owner/center/coverpage/register?coverpageNumber=" + targetCoverpage + "&modulePos=" + targetPosition + "&moduleId=" + e.dragObject.domNode.identifier + viewMode;
+					var requestURL = blogURL + "/owner/skin/coverpage/register?coverpageNumber=" + targetCoverpage + "&modulePos=" + targetPosition + "&moduleId=" + e.dragObject.domNode.identifier + viewMode;
 
 					var request = new HTTPRequest("POST", requestURL);
 					request.coverpage = targetCoverpage;
@@ -162,7 +162,7 @@
 			var retVal = this.parentMethod(e);
 			delete this.parentMethod;
 			
-			window.location.href = blogURL + "/owner/center/coverpage/delete?coverpageNumber=" + sourceCoverpage + "&modulePos=" + sourcePostion + viewMode;
+			window.location.href = blogURL + "/owner/skin/coverpage/delete?coverpageNumber=" + sourceCoverpage + "&modulePos=" + sourcePostion + viewMode;
 			
 			return retVal;
 		},
@@ -222,7 +222,7 @@
 			pNode = pNode.nextSibling;
 		}
 		if (pNode != null) {
-			var requestURL = blogURL + "/owner/center/coverpage/setPlugin?coverpageNumber=" + coverpage + "&modulePos=" + modulepos + "&ajaxcall=true" + viewMode;
+			var requestURL = blogURL + "/owner/skin/coverpage/setPlugin?coverpageNumber=" + coverpage + "&modulePos=" + modulepos + "&ajaxcall=true" + viewMode;
             var postData = "";
 			pNode = pNode.firstChild;
 			while (pNode != null) {
@@ -268,7 +268,7 @@
 	}
 
 	function previewPlugin(coverpage, modulepos) {
-		var requestURL = blogURL + "/owner/center/coverpage/preview?coverpageNumber=" + coverpage + "&modulePos=" + modulepos + previewMode;
+		var requestURL = blogURL + "/owner/skin/coverpage/preview?coverpageNumber=" + coverpage + "&modulePos=" + modulepos + previewMode;
 		
 		var request = new HTTPRequest("GET", requestURL);
 		request.coverpage = coverpage;
@@ -314,7 +314,7 @@
 		if (pNode != null) {
 			var newNode = document.createElement('a');
 			newNode.className = "module-close";
-			newNode.href = blogURL + "/owner/center/coverpage/delete/?coverpageNumber=" + sourceCoverpage + "&modulePos=" + sourcePostion + viewMode;
+			newNode.href = blogURL + "/owner/skin/coverpage/delete/?coverpageNumber=" + sourceCoverpage + "&modulePos=" + sourcePostion + viewMode;
 			newNode.title = decorateDragPanelString_deleteTitle;
 			newNode.innerHTML = '<img src="' + servicePath + adminSkin + '/image/img_delete_module.gif" border="0" alt="'+ commonString_delete +'" />';
 			if (pNode.nextSibling != null) {		
@@ -333,7 +333,7 @@
 	}
 
 	function editCoverpagePlugin(coverpage, modulepos) {
-		var requestURL = blogURL + "/owner/center/coverpage/edit?coverpageNumber=" + coverpage + "&modulePos=" + modulepos + "&ajaxcall=submitCoverpagePlugin(" + coverpage + "," + modulepos + ")" + viewMode;
+		var requestURL = blogURL + "/owner/skin/coverpage/edit?coverpageNumber=" + coverpage + "&modulePos=" + modulepos + "&ajaxcall=submitCoverpagePlugin(" + coverpage + "," + modulepos + ")" + viewMode;
 
 		var request = new HTTPRequest("GET", requestURL);
 		request.onSuccess = function () {
