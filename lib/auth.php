@@ -40,9 +40,9 @@ function requireLogin() {
 		unset($_SESSION['refererURI']);
 	}
 	if (!empty($service['loginURL'])) {
-		header("Location: {$service['loginURL']}?requestURI=" . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}") . (isset($_GET['refererURI']) ? "&refererURI=". rawurlencode($_GET['refererURI']) : ''));
+		header("Location: {$service['loginURL']}?requestURI=" . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}") . (isset($_GET['refererURI']) && !empty($_GET['refererURI']) ? "&refererURI=". rawurlencode($_GET['refererURI']) : ''));
 	} else {
-		$requestURI = rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}") .  (isset($_GET['refererURI']) ? "&refererURI=". rawurlencode($_GET['refererURI']) : '');
+		$requestURI = rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}") .  (isset($_GET['refererURI']) && !empty($_GET['refererURI']) ? "&refererURI=". rawurlencode($_GET['refererURI']) : '');
 		if (String::endsWith($_SERVER['HTTP_HOST'], '.' . $service['domain'])) {
 			header("Location: $blogURL/login?requestURI=" . $requestURI );
 		} else {
