@@ -26,7 +26,8 @@ function getSessionName() {
 		if( !empty($service['session_cookie']) ) {
 			$sessionName = $session['session_cookie'];
 		} else {
-			$sessionName = 'TSSESSION'.str_replace('.','',$service['domain']).str_replace('/','',$service['path']); 
+			$sessionName = 'TSSESSION'.$service['domain'].$service['path']; 
+			$sessionName = preg_replace( '/[^a-zA-Z0-9]/', '', $sessionName );
 		}
 	}
 	return $sessionName;
