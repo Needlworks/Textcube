@@ -211,7 +211,16 @@ include ROOT . '/language/messages.php';
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF4.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/owner.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/mootools10.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/moodalbox/moodalbox.js"></script>
+	<link rel="stylesheet" href="<?php echo $service['path'];?>/script/moodalbox/css/moodalbox.css" type="text/css" media="screen" />
 <?php
+/*if($service['helperPanel'] == true) {
+?>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/dojo/dojo.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/script/helpdialog.js"></script>
+<?php
+}*/
 if(($service['interface'] == 'simple') || ($service['effect'])) {
 	if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
 ?>

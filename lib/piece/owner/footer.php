@@ -92,13 +92,16 @@ if (isset($paging['next'])) {
 <?php 
 }
 ?>
+					case 191: //?
+						MOOdalBox.open("<?php echo $defaultURL."/owner/help/?subject=".$blogMenu['topMenu'].'_'.$blogMenu['contentMenu']."&lang=ko";?>","<?php echo _t('텍스트큐브 관리자 패널 도움말');?>","600 500");
+						break;
 					default:
 				}
 			}
 <?php
 	echo activateDetailPanelJS();
 ?>
-		//]]>
+	//]]>
 	</script>
 <?php
 if($service['effect'] == true) {
