@@ -93,7 +93,7 @@ if (isset($paging['next'])) {
 }
 ?>
 					case 191: //?
-						MOOdalBox.open("<?php echo $defaultURL."/owner/help/?subject=".$blogMenu['topMenu'].'_'.$blogMenu['contentMenu']."&lang=".$blog['language'];?>","","");
+						MOOdalBox.open("<?php echo $defaultURL."/owner/help/?subject=".$blogMenu['topMenu'].'_'.$blogMenu['contentMenu']."&lang=".$blog['language'];?>","","500 300");
 						break;
 					default:
 				}

@@ -6,6 +6,7 @@ left: 0;
 width: 100%;
 background-color: #000;
 cursor: pointer;
+z-index:500;
 }
 
 div#mb_center, div#mb_bottom {
@@ -13,6 +14,7 @@ position: absolute;
 left: 50%;
 overflow: hidden;
 background-color: #DDD;
+z-index:1000;
 }
 
 div#mb_center {
