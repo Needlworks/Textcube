@@ -23,7 +23,7 @@ if (!file_exists(ROOT . "/interface/owner/help/".$filename)){
 		exit;
 	} else {
 		$result = file_get_contents(ROOT . "/interface/owner/help/".$shortcutFilename);
-		echo $result;
+		echo '<div id="helper-panel">'.CRLF.$result.'</div>';
 		exit;
 	}
 }

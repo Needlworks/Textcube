@@ -216,7 +216,7 @@ if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
 ?>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/mootools10.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/moodalbox/moodalbox.js"></script>
-	<link rel="stylesheet" href="<?php echo $service['path'];?>/script/moodalbox/css/moodalbox.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="<?php echo $service['path'];?>/style/helper/moodalbox.css" type="text/css" media="screen" />
 <?php
 }
 ?>
