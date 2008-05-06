@@ -35,5 +35,5 @@ if (($module !== false) && (count($module) == 3) &&
 if ($_REQUEST['viewMode'] != '') $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST')
-	header('Location: '. $blogURL . '/owner/center/coverpage' . $_REQUEST['viewMode']);
+	header('Location: '. $blogURL . '/owner/skin/coverpage' . $_REQUEST['viewMode']);
 ?>
