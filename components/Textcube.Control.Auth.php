@@ -81,6 +81,7 @@ $requiredPrivFromUri = array(
 			'/owner/communication/comment*',
 			'/owner/communication/notify*',
 			'/owner/communication/reader',
+			'/owner/help*',
 			'/owner/setting/account*',
 			'/owner/setting/teamblog/changeBlog*',
 			'/owner/reader',

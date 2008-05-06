@@ -18,10 +18,10 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										return this.getText("/response/error") == 0;
 									}
 									request.onSuccess = function() {
-										PM.showMessage("<?php echo _t('저장하였습니다');?>", "center", "bottom");
+										PM.showMessage("<?php echo _t('저장했습니다');?>", "center", "bottom");
 									}
 									request.onError = function() {
-											alert('<?php echo _t('저장하지 못하였습니다');?>');
+											alert('<?php echo _t('저장하지 못했습니다');?>');
 									}
 									request.send("&useCustomSMTP="+useCustomSMTP+"&smtpHost="+encodeURIComponent(smtpHost)+"&smtpPort="+smtpPort);
 								}
