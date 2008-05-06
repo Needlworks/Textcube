@@ -14,15 +14,20 @@ if (false) {
 	fetchConfigVal();
 }
 $filename = $_GET['lang'].'.'.$_GET['subject'].'.html';
+$shortcutFilename = $_GET['lang'].'.shortcut.html';
 
 header('Content-Type: text/html; charset=utf-8');
 if (!file_exists(ROOT . "/interface/owner/help/".$filename)){
-	echo _t('죄송합니다. 아직 해당 메뉴에 대한 도움말이 준비되지 않았습니다.');
-	exit;
+	if (!file_exists(ROOT . "/interface/owner/help/".$shortcutFilename)){
+		echo _t('죄송합니다. 아직 해당 메뉴에 대한 도움말이 준비되지 않았습니다.');
+		exit;
+	} else {
+		$result = file_get_contents(ROOT . "/interface/owner/help/".$shortcutFilename);
+		echo $result;
+		exit;
+	}
 }
-$fileHandle = fopen(ROOT . "/interface/owner/help/".$filename,'r+');
-$result = fread($fileHandle, filesize(ROOT .  "/interface/owner/help/".$filename));
-fclose($fileHandle);
+$result = file_get_contents(ROOT . "/interface/owner/help/".$filename);
 echo $result;
 exit;
 ?>
