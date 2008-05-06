@@ -28,6 +28,6 @@ if (!file_exists(ROOT . "/interface/owner/help/".$filename)){
 	}
 }
 $result = file_get_contents(ROOT . "/interface/owner/help/".$filename);
-echo $result;
+echo '<div id="helper-panel">'.CRLF.$result.'</div>';
 exit;
 ?>
