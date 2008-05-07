@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+  <title xml:lang="ko">모바일 블로그</title>
+  <title xml:lang="en">Moblog</title>
+  <link>http://www.needlworks.org/</link>
+  <version>1.0</version>
+  <description xml:lang="en">This plugin enables Mobile blogging</description>
+  <description xml:lang="ko">모바일 블로깅을 가능하게 합니다</description>
+  <license>GPL</license>
+  <author xml:lang="en" link="http://www.needlworks.org/">Hojin Choi</author>
+  <author xml:lang="ko" link="http://www.needlworks.org/">Coolengineer</author>
+  <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
+  <scope>blog</scope>
+  <requirements>
+    <textcube>1.7</textcube>
+  </requirements>
+  <binding>
+	<listener event="/plugin/moblog/check">moblog_check</listener>
+	<listener event="Cron5m">moblog_check</listener>
+    <adminMenu>
+      <viewMethods>
+        <method>
+          <topMenu>setting</topMenu>
+          <title xml:lang="en">Mobile</title>
+          <title xml:lang="ko">모바일</title>
+          <handler>moblog_manage</handler>
+          <params>
+			  <param>
+				  <name>pop3host</name><type>string</type><mandatory>0</mandatory>
+			  </param>
+			  <param>
+				  <name>pop3port</name><type>string</type><mandatory>0</mandatory>
+			  </param>
+			  <param>
+				  <name>pop3ssl</name><type>string</type><mandatory>0</mandatory>
+			  </param>
+			  <param>
+				  <name>pop3username</name><type>string</type><mandatory>0</mandatory>
+			  </param>
+			  <param>
+				  <name>pop3password</name><type>string</type><mandatory>0</mandatory>
+			  </param>
+          </params>
+        </method>
+      </viewMethods>
+    </adminMenu>
+  </binding>
+</plugin>
