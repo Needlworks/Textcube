@@ -333,7 +333,6 @@ class Validator {
 				trigger_error("Validator: The type of '$key' is not defined", E_USER_WARNING);
 				continue;
 			}
-
 			if (isset($array[$key]) && (($rule[0] == 'file') || (strlen($array[$key]) > 0))) {
 				$value = &$array[$key];
 				if (isset($rule['min']))

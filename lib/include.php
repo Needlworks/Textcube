@@ -86,7 +86,7 @@ if($service['codeCache'] == true && file_exists(ROOT.'/cache/code/'.$codeName)) 
 		else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
 	}
 }
-if($service['codeCache'] == true && $codeCacheRead == false) {
+if($service['codecache'] == true && $codeCacheRead == false) {
 	requireComponent('Needlworks.Cache.PageCache');
 	$libCode = new CodeCache();
 	$libCode->name = $codeName;

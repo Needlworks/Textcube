@@ -44,16 +44,18 @@ class OutputWriter {
 			case 'stdout':
 			case 'gz.stdout':
 				ob_end_flush();
+				$return = true;
 				break;
 			case 'file':
-				fclose($this->_writer);
+				$return = fclose($this->_writer);
 				break;
 			case 'gz.file':
-				gzclose($this->_writer);
+				$return = gzclose($this->_writer);
 				break;
 		}
 		unset($this->_writer);
 		$this->type = 'stdout';
+		return $return;
 	}
 	
 	function flush() {

@@ -41,11 +41,17 @@ $service['debugmode'] = false;
 $service['reader'] = true;
 $service['flashclipboardpoter'] = true;
 $service['allowBlogVisibilitySetting'] = true;
+$service['disableEolinSuggestion'] = false;
 $service['effect'] = false;
 $service['interface'] = 'detail';	// 'simple' or 'detail'. Default is 'detail'
-$service['codeCache'] = false;
-//$service['flashuploader'] = false;
-
+$service['pagecache'] = true;
+$service['codecache'] = false;
+$service['skincache'] = true;
+$service['favicon_daily_traffic'] = 10;
+$service['flashuploader'] = true;
+$service['debug_session_dump'] = false;
+$service['debug_rewrite_module'] = false;
+$service['useNumericURLonRSS'] = false;
 // Map port setting.
 if (@is_numeric($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80) && ($_SERVER['SERVER_PORT'] != 443))
 	$service['port'] = $_SERVER['SERVER_PORT'];

@@ -39,6 +39,35 @@
 {
 	color                            : #FF3333;
 }
+
+fieldset
+{
+	background-image                 : none;
+	border-bottom                    : none !important;
+	border-top                       : none !important;
+	margin                           : 0;
+}
+
+dl
+{
+	border-top                       : 1px solid #FFFFFF;
+	border-bottom                    : 1px solid #FFFFFF;
+}
+
+dl dt
+{
+	padding                          : 5px 3px 0 3px;
+	text-align                       : right;
+	width                            : 210px;
+}
+
+dl dd
+{
+	line-height                      : 1.2em;
+	margin-left                      : 230px;
+	padding                          : 7px 3px 4px 3px;
+}
+
 /* Blog ******************************************************************************************/
 
 /* create new blog */
@@ -323,6 +352,30 @@
 }
 
 /* Server ****************************************************************************************/
+
+#part-control-config .section
+{
+	background-color                 : #FFF;
+	font-family                      : Verdana, Arial, Tahoma, "Lucida Grande", sans-serif;
+	margin                           : 20px 0 3px 9px;
+	padding                          : 7px;
+}
+
+#part-control-config .section dl dt
+{
+	background-color                 : #F5F5F5;
+	border-top                       : 1px solid #DDD;
+}
+
+#part-control-config .section dl dd
+{
+	border-top                       : 1px solid #FFF;
+}
+
+#part-control-config .container
+{
+	margin-top                       : 10px;
+}
 
 #part-control-mailhost .button-box
 {

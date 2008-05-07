@@ -9,7 +9,7 @@ $IV = array(
 );
 
 require ROOT . '/lib/includeForBlogOwner.php';
-requireLibrary('blog.service');
+requireModel('blog.service');
 requireStrictRoute();
 	
 $result = writeHtaccess($_POST['body']);

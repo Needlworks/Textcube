@@ -154,4 +154,54 @@ function writeHtaccess($contents) {
 		return true;
 	}
 }
+
+function writeConfigFile($settings) {
+	requireComponent('Eolin.PHP.OutputWriter');
+	$writer = new OutputWriter;
+	
+	global $database, $service;
+	
+	$config = array();
+	$contents = "<?php".CRLF."ini_set('display_errors', 'off');".CRLF;
+	// Database information. It is not allow to modify.
+	$config['server'] = $database['server'];
+	$config['database'] = $database['database'];
+	$config['username'] = $database['username'];
+	$config['password'] = $database['password'];
+	$config['prefix'] = $database['prefix'];
+	
+	foreach($config as $item => $value) {
+		$contents .= "\$database['".$item."'] = '".$value."';".CRLF;
+	}
+	$config = array();
+	$config['type'] = $service['type'];
+	$config['domain'] = $service['domain'];
+	$config['path'] = $service['path'];
+	foreach($config as $item => $value) {
+		$contents .= "\$service['".$item."'] = '".$value."';".CRLF;
+	}
+	
+	// Service-specific information.
+	foreach($settings as $item => $value) {
+		if($item == 'serviceURL') {
+			$contents .= "\$serviceURL = '".$value."';".CRLF;
+		} else if($value === true || $value === false || is_numeric($value)){
+			if($value === true) $value = 'true';
+			else if($value === false) $value = 'false';
+			$contents .= "\$service['".$item."'] = ".$value.";".CRLF;
+		} else {
+			$contents .= "\$service['".$item."'] = '".$value."';".CRLF;
+		}
+	}
+	$contents .= "?>".CRLF;
+	if (!is_writable(ROOT . "/config.php"))
+		return _f('파일 쓰기 권한이 없습니다. 웹서버가 %1 파일의 쓰기 권한을 가지고 있는지 확인하세요.','config.php');
+	$writer->openFile(ROOT . "/config.php");
+	if ($writer->write($contents) === false) {
+		$writer->close();
+		return _t('실패했습니다.');
+	}
+	$writer->close();
+	return true;
+}
 ?>
