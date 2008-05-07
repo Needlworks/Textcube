@@ -45,6 +45,7 @@ function requireLibrary($name) {
 }
 
 /***** Pre-define basic components *****/
+global $__requireComponent;
 $__requireComponent = array(
 	'Eolin.PHP.UnifiedEnvironment',
 	'Eolin.PHP.Core',
