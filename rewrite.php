@@ -43,6 +43,7 @@
 	}
 	/* Determine that which interface should be loaded. */
 	require_once 'config.php';
+	if(defined('__TEXTCUBE_NO_FANCY_URL__')) $service['type'] = 'single';
 	switch ($service['type']) {
 		case 'path': // For path-based multi blog.
 			array_splice($accessInfo['URLfragment'],0,1); 
