@@ -1,6 +1,10 @@
 <?php
+require_once "lib/includeForBlog.php";
 function errorExit($code)
 {
+	global $skin, $skinSetting, $suri, $defaultURL, $blog;
+	global $service, $blogURL, $defaultURL, $gCacheStorage;
+
 	$status_msg = array(
 		'400' => 'Bad Request',
 		'401' => 'Unauthorized',
@@ -33,8 +37,6 @@ function errorExit($code)
 	}
 	header( "HTTP/1.1 $error_header" );
 	if( in_array($code, array(404)) ) {
-	/* Copied from interface/blog/entry.php
-		require( "lib/include.php" );
 		requireModel( "common.plugin" );
 		fireEvent('OBStart');
 		require_once ROOT . '/lib/piece/blog/begin.php';
@@ -42,16 +44,20 @@ function errorExit($code)
 		dress('SKIN_head_end', $automaticLink."[##_SKIN_head_end_##]", $view);
 
 		if (empty($skin->pageError)) { 
-			dress('article_rep', '<div class="TCwarning">' . _text('Á¸ÀçÇÏÁö ¾Ê´Â ÆäÀÌÁöÀÔ´Ï´Ù.') . '</div>', $view);
+			dress('article_rep', '<div class="TCwarning">' . _text('ì¡´ì¬í•˜ì§€ ì•ŠëŠ” í˜ì´ì§€ì…ë‹ˆë‹¤.') . '</div>', $view);
 		} else {
 			dress('article_rep', NULL, $view); 
 			dress('page_error', $skin->pageError, $view);
 		}
 		require_once ROOT . '/lib/piece/blog/end.php';
 		fireEvent('OBEnd');
-	*/
+	} else {
+		echo "<html><head><body>$error_header</body></html>";
 	}
-	echo "<html><head><body>$error_header</body></html";
+
+	/* This noise is the power of our cron engine, thank you! */
+	requireModel("blog.cron");
+	checkCronJob();
 	exit;
 }
 ?>

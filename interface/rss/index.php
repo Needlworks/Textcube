@@ -21,7 +21,4 @@ $fileHandle = fopen(ROOT . "/cache/rss/$blogid.xml", 'r+');
 $result = fread($fileHandle, filesize(ROOT . "/cache/rss/$blogid.xml"));
 fclose($fileHandle);
 echo fireEvent('ViewRSS', $result);
-
-requireModel("blog.cron");
-checkCronJob();
 ?>

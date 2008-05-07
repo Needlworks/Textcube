@@ -45,11 +45,20 @@ function checkCronJob()
 	global $service,$blogURL;
 	if( !dumbCronScheduler(true) ) return;
 
+	ob_start();
 	$s = fsockopen( $_SERVER['SERVER_ADDR'], isset($service['port']) ? $service['port'] : 80 );
 	fputs( $s, "GET {$blogURL}/cron HTTP/1.1\r\n" );
 	fputs( $s, "Host: {$_SERVER['HTTP_HOST']}\r\n" );
 	fputs( $s, "\r\n");
+	while( ($x = fread($s,102400000) ) ) {
+		print $x;
+	}
 	fclose($s);
+	if( !empty($service['debugmode']) ) {
+		echo ob_get_clean();
+	} else {
+		ob_clean();
+	}
 }
 
 ?>
