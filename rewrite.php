@@ -25,7 +25,7 @@
 	if (preg_match("/pl=([0-9]+)/", $accessInfo['input'], $url)) { header("Location: ".$accessInfo['root']. $url[1]); exit;}
 	$part = strtok($accessInfo['input'], '/');
 	if (in_array($part, array('image','plugins','script','cache','skin','style','attach','thumbnail'))) {
-		if (strpos($accessInfo['input'],'cache/backup') !== false) { header("HTTP/1.0 404 Not found"); exit;}
+		if (strpos($accessInfo['input'],'cache/backup') !== false) { require "lib/error.php";errorExit(404);}
 		require_once ROOT.'/lib/function/file.php';
 		dumpWithEtag(ltrim(rtrim($part == 'thumbnail' ?
 							  preg_replace('/thumbnail/', 'cache/thumbnail', $accessInfo['input'], 1) :
@@ -72,7 +72,7 @@
 	if (empty($interfacePath)) $interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
 	define('PATH', 'interface/'.(empty($pathPart) ? '' : $pathPart.'/'));
 	unset($pathPart);
-	if (!file_exists($interfacePath)) { header("HTTP/1.0 404 Not found"); exit;}
+	if (!file_exists($interfacePath)) { require "lib/error.php";errorExit(404);}
 	if (empty($service['debugmode'])) {	@include_once $interfacePath;}
 	else {include_once $interfacePath;}
 ?>
