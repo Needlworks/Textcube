@@ -11,12 +11,15 @@
 
 .button-box input.input-button
 {
-	background-color                 : #fff;
-	background-image                 : none !important;
-	font-weight                      : bold;
-	height                           : 30px !important;
-	margin                           : 0 auto;
-	padding                          : 0 !important;
+       background-color                 : #FFFFFF;
+       background-image                 : none;
+       border                           : 1px solid #BBBBBB;
+       color                            : #000000;
+       font-weight                      : bold;
+       height                           : 2.5em;
+       line-height                      : 2.5em;
+       vertical-align                   : middle;
+       margin-bottom                    : 10px;
 }
 
 .button-box a.button
@@ -321,17 +324,30 @@
 
 /* Server ****************************************************************************************/
 
-#part-setting-mailhost .button-box
+#part-control-mailhost .button-box
 {
 	border-top                       : 1px solid #DDDDDD;
 	margin                           : 10px 0 20px 0;
 	padding-top                      : 15px;
 }
 
-#part-setting-mailhost
+#part-control-mailhost
 {
 	margin-bottom: 30px;
 }
+
+#part-control-rewrite textarea
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #999999;
+	font-family                      : Courier, 'Courier New', monospace;
+	font-size                        : 12px;
+	height                           : 250px;
+	margin-left                      : 5px !important;
+	padding                          : 0 0 0 2px;
+	width                            : 920px !important;
+}
+
 
 /* System ****************************************************************************************/
 

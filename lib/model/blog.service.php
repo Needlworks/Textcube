@@ -140,4 +140,18 @@ function getHelpURL($path) {
 	global $blog;
 	return 'http://help.tattertools.com/'.$blog['language'].'/Textcube/Menu/'.$path;
 }
+
+function writeHtaccess($contents) {
+	if (!is_writable(ROOT . "/.htaccess"))
+		return ROOT . _f('파일 쓰기 권한이 없습니다. 웹서버가 %1 파일의 쓰기 권한을 가지고 있는지 확인하세요.','.htaccess');
+	$handler = fopen(ROOT . "/.htaccess", 'w');
+	if (fwrite($handler, $contents) === false) {
+		fclose($handler);
+		return _t('실패했습니다.');
+	} else {
+		fclose($handler);
+		@chmod(ROOT . "/.htaccess", 0666);
+		return true;
+	}
+}
 ?>
