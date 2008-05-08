@@ -810,11 +810,10 @@ if(!String.prototype.indexOfCaseInsensitive) {
 function getTagChunks(string, tagName, callback) {
 	var chunks = new Array();
 	var pos1 = pos2 = 0;
-	if((pos1 = string.indexOfCaseInsensitive(new RegExp("<" + tagName + "\\s", "i"), pos2)) > -1) {
+	while ((pos1 = string.indexOfCaseInsensitive(new RegExp("<" + tagName + "\\s", "i"), pos2)) > -1) {
 		var chunk = "";
 		do {
 			if((pos2 = string.indexOfCaseInsensitive(new RegExp("</" + tagName, "i"), Math.max(pos1, pos2))) == -1) {
-				alert('return !');
 				return chunks;
 			}
 			pos2 += tagName.length + 3;
