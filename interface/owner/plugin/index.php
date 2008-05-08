@@ -349,7 +349,7 @@ if (defined('__TAB_BLOG__')) {
 <?php
 if (defined('__TAB_CENTER__') || defined('__TAB_COVERPAGE__')) {
 	$text = defined('__TAB_CENTER__') ? _t('센터로 바로 가기') : _t('표지 설정으로 바로가기');
-	$link = defined('__TAB_CENTER__') ? $blogURL . '/owner/center/dashboard' : $blogURL . '/owner/center/coverpage';
+	$link = defined('__TAB_CENTER__') ? $blogURL . '/owner/center/dashboard' : $blogURL . '/owner/skin/coverpage';
 } else {
 	$text = _t('사이드바로 바로 가기');
 	$link = $blogURL . '/owner/skin/sidebar';
