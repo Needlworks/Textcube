@@ -4,7 +4,7 @@ requireComponent( "Needlworks.Mail.Pop3" );
 class Moblog
 {
 	function Moblog( $username, $password, $host, $port = 110, $ssl = 0, 
-		$userid = 1 )
+		$userid = 1, $minsize = 10240 )
 	{
 		$this->username = $username;
 		$this->password = $password;
@@ -12,6 +12,7 @@ class Moblog
 		$this->port = $port;
 		$this->ssl = $ssl;
 		$this->userid = $userid;
+		$this->minsize = $minsize;
 
 		$this->pop3 = new Pop3();
 		$this->pop3->setLogger( array(&$this,'log') );
@@ -80,7 +81,7 @@ class Moblog
 
 	function checkSize( $size )
 	{
-		return $size < 10*1024; /* 20KB? */
+		return $size < $this->minsize;
 	}
 
 	function isMms( & $mail )
@@ -152,15 +153,18 @@ function moblog_check()
 	$pop3ssl = getBlogSetting( 'MmsPop3Ssl', 0 );
 	$pop3username = getBlogSetting( 'MmsPop3Username', '' );
 	$pop3password = getBlogSetting( 'MmsPop3Password', '' );
+	$pop3minsize = getBlogSetting( 'MmsPop3MinSize', 0 );
+	$pop3minsize *= 1024;
 	$pop3fallbackuserid = getBlogSetting( 'MmsPop3Fallbackuserid', 1 );
 
-	$moblog = new Moblog( $pop3username, $pop3password, $pop3host, $pop3port, $pop3ssl, $pop3fallbackuserid );
+	$moblog = new Moblog( $pop3username, $pop3password, $pop3host, $pop3port, $pop3ssl, $pop3fallbackuserid, $pop3minsize );
 	$moblog->check();
 	return true;
 }
 
 function moblog_manage()
 {
+	global $blogURL;
 	requireModel("common.setting");
 	if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		setBlogSetting( 'MmsPop3Host', $_POST['pop3host'] );
@@ -169,12 +173,14 @@ function moblog_manage()
 		setBlogSetting( 'MmsPop3Username', $_POST['pop3username'] );
 		setBlogSetting( 'MmsPop3Password', $_POST['pop3password'] );
 		setBlogSetting( 'MmsPop3Fallbackuserid', getUserId() );
+		setBlogSetting( 'MmsPop3MinSize', $_POST['pop3minsize'] );
 	}
 	$pop3host = getBlogSetting( 'MmsPop3Host', 'localhost' );
 	$pop3port = getBlogSetting( 'MmsPop3Port', 110 );
-	$pop3sslchecked = getBlogSetting( 'MmsPop3Ssl', 0 ) ? " checked " : "";
+	$pop3ssl = getBlogSetting( 'MmsPop3Ssl', 0 ) ? " checked=1 " : "";
 	$pop3username = getBlogSetting( 'MmsPop3Username', '' );
 	$pop3password = getBlogSetting( 'MmsPop3Password', '' );
+	$pop3minsize = getBlogSetting( 'MmsPop3MinSize', 0 );
 	$pop3fallheadercharset = getBlogSetting( 'MmsPop3Fallbackcharset', 'euc-kr' );
 ?>
 						<hr class="hidden" />
@@ -182,7 +188,7 @@ function moblog_manage()
 						<div id="part-setting-editor" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('MMS 메시지 확인용 POP3 정보');?></span></h2>
 							
-							<form id="editor-form" class="data-inbox" method="post" action="<?php echo $blogURL;?>/owner/setting/entry/editor">
+							<form id="editor-form" class="data-inbox" method="post" action="<?php echo $blogURL;?>/owner/plugin/adminMenu?name=CL_Moblog/moblog_manage">
 								<div id="editor-section" class="section">
 									<fieldset class="container">
 										<legend><?php echo _t('MMS 환경을 설정합니다');?></legend>
@@ -197,7 +203,7 @@ function moblog_manage()
 											<dt><span class="label"><?php echo _t('POP3 포트');?></span></dt>
 											<dd>
 												<input type="text" style="width:14em" class="input-text" name="pop3port" value="<?php echo $pop3port;?>" />
-												<input type="checkbox" name="pop3ssl" value="<?php echo $pop3ssl;?>" /> SSL
+												<input type="checkbox" name="pop3ssl" value="1" <?php echo $pop3ssl;?> /> SSL
 											</dd>
 										</dl>
 										<dl id="editor-line" class="line">
