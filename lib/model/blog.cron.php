@@ -43,7 +43,8 @@ function doCronJob()
 function checkCronJob()
 {
 	global $service,$blogURL;
-	if( !dumbCronScheduler(true) ) return;
+	/* Cron, only in single page request, not in a page dead link */
+	if( !empty($_SERVER['HTTP_REFERER']) || !dumbCronScheduler(true) ) return;
 
 	ob_start();
 	$s = fsockopen( $_SERVER['SERVER_ADDR'], isset($service['port']) ? $service['port'] : 80 );
