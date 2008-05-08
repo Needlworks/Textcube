@@ -8,6 +8,8 @@ requireModel("blog.link");
 $links = getLinks($blogid);
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
+
+$tabsClass['list'] = true;
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -86,10 +88,13 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 						
 						<div id="part-link-list" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('링크 목록입니다');?></span></h2>
-							
+<?php
+require ROOT . '/lib/piece/owner/linkTab.php';
+?>
 							<table class="data-inbox" cellspacing="0" cellpadding="0">
 								<thead>
 									<tr>
+										<th class="category"><span class="text"><?php echo _t('분류');?></span></th>
 										<th class="homepage"><span class="text"><?php echo _t('홈페이지 이름');?></span></th>
 										<th class="address"><span class="text"><?php echo _t('사이트 주소');?></span></th>
 										<th class="status"><span class="text"><?php echo _t('상태');?></span></th>
@@ -108,6 +113,7 @@ for ($i=0; $i<sizeof($links); $i++) {
 	$className .= ($i == sizeof($links) - 1) ? ' last-line' : '';
 ?>
 									<tr id="link_<?php echo $link['id'];?>" class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+										<td class="category"><a href="<?php echo $blogURL;?>/owner/communication/link/categoryEdit/<?php echo $link['category'];?>" title="<?php echo _t('이 카테고리 정보를 수정합니다.');?>"><?php echo (isset($link['categoryName']) ? htmlspecialchars($link['categoryName']) : _t('분류 없음'));?></a></td>
 										<td class="homepage"><a href="<?php echo $blogURL;?>/owner/communication/link/edit/<?php echo $link['id'];?>" title="<?php echo _t('이 링크 정보를 수정합니다.');?>"><?php echo htmlspecialchars($link['name']);?></a></td>
 										<td class="address"><a href="<?php echo htmlspecialchars($link['url']);?>" onclick="window.open(this.href); return false;" title="<?php echo _t('이 링크에 연결합니다.');?>"><?php echo htmlspecialchars($link['url']);?></a></td>
 										<td class="status">

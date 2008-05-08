@@ -35,9 +35,7 @@ if(isset($blogMenu['topMenu'])) {
 				$blogContentMenuItem = array(
 					array('menu'=>'comment','title'=>_t('소통 기록'),'link'=>'/owner/communication/comment'),
 					array('menu'=>'openid','title'=>_t('오픈아이디 목록'),'link'=>'/owner/communication/openid'),
-					array('menu'=>'add','title'=>_t('링크 추가'),'link'=>'/owner/communication/link/add'),
-					array('menu'=>'link','title'=>_t('링크 목록'),'link'=>'/owner/communication/link'),
-					array('menu'=>'xfn','title'=>_t('친구 링크 관리'),'link'=>'/owner/communication/xfn')
+					array('menu'=>'link','title'=>_t('링크'),'link'=>'/owner/communication/link')
 				);
 				if($service['reader'] == true) array_push($blogContentMenuItem,array('menu'=>'reader','title'=>_t('바깥 글 읽기'),'link'=>'/owner/communication/reader'));
 			} else {
@@ -146,7 +144,9 @@ if(isset($blogContentMenuItem)) {
 	else $currentCategory = null;
 	if(in_array($blogMenu['contentMenu'],array('notify','trackback','trashcomment','trashtrackback')))
 		$blogMenu['contentMenu'] = 'comment';
-
+	else if(in_array($blogMenu['contentMenu'],array('linkadd','linkedit','linkcategoryEdit','xfn')))
+		$blogMenu['contentMenu'] = 'link';
+	
 	foreach($blogContentMenuItem as $contentMenuItem) { 
 		$PostIdStr = null;
 		if(strstr($contentMenuItem['menu'], 'adminMenu?name=') !== false) {

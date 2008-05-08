@@ -332,6 +332,40 @@ if($currentVersion != TEXTCUBE_VERSION) {
 			showCheckupMessage(false);
 		}
 	}
+	if (!doesExistTable($database['prefix'] . 'LinkCategories')) {
+		$changed = true;
+		echo '<li>', _text('링크 카테고리 테이블을 만듭니다'), ': ';
+		$query = "
+		CREATE TABLE `{$database['prefix']}LinkCategories` (
+		  pid int(11) NOT NULL default '0',
+		  blogid int(11) NOT NULL default '0',
+		  id int(11) NOT NULL default '0',
+		  name varchar(128) NOT NULL,
+		  priority int(11) NOT NULL default '0',
+		  visibility tinyint(4) NOT NULL default '2',
+		  PRIMARY KEY (pid),
+		  UNIQUE KEY blogid (blogid, id)
+		) TYPE=MyISAM
+		";
+		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query)) {
+			if (POD::execute("ALTER TABLE {$database['prefix']}Links 
+					ADD category int(11) NOT NULL DEFAULT 0 AFTER id,
+					ADD pid int(11) NOT NULL DEFAULT 0 FIRST,
+					CHANGE id id int(11) NOT NULL default '0'") &&
+				POD::execute("UPDATE {$database['prefix']}Links 
+					SET pid = id") &&
+				POD::execute("ALTER TABLE {$database['prefix']}Links 
+					DROP PRIMARY KEY,
+					ADD PRIMARY KEY (pid)")) {
+				showCheckupMessage(true);
+			} else {
+				@POD::execute("DROP TABLE {$database['prefix']}LinkCategories");
+				showCheckupMessage(false);
+			}
+		} else {
+			showCheckupMessage(false);
+		}
+	}
 }
 
 /***** Common parts. *****/

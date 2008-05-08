@@ -5,16 +5,12 @@
 $IV = array(  
 	'POST' => array(
 		'id'   => array('id'),
-		'name' => array('string','min' => 0,'max' => 255),
-		'rss'  => array('string','min' => 0,'max' => 255 , 'mandatory' => false),
-		'url'  => array('string','min' => 0,'max' => 255),
-		'category'    => array('int','mandatory'=>false),
-		'newCategory' => array('string','mandatory'=>false)
+		'name' => array('string','min' => 0,'max' => 255)
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.link");
 
 requireStrictRoute();
-respond::ResultPage(updateLink($blogid, $_POST));
+respond::ResultPage(updateLinkCategory($blogid, $_POST));
 ?>

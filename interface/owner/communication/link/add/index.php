@@ -7,6 +7,8 @@ requireModel("blog.link");
 
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
+
+$tabsClass['add'] = true;
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -16,7 +18,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										alert("<?php echo _t('RSS 주소를 입력해 주십시오.');?>\t");
 										return false;		
 									}
-									
+
 									if(document.getElementById('addForm').rss.value.indexOf("http://")==-1) {
 										uri = 'http://'+document.getElementById('addForm').rss.value;
 									} else {
@@ -24,7 +26,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									}
 									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/link/site/?rss=" + uri);
 									request.onVerify = function() {
-										return (this.getText("/response/url") != "")
+										return (this.getText("/response/url") != "");
 									}
 									request.onSuccess = function () {
 										PM.removeRequest(this);
@@ -84,14 +86,21 @@ if($service['reader'] != false) {
 										}
 									}
 									PM.addRequest(request, "<?php echo _t('링크를 추가하고 있습니다.');?>");
-									request.send("name=" + encodeURIComponent(oForm.name.value) + "&url=" + encodeURIComponent(oForm.url.value) + "&rss=" + encodeURIComponent(oForm.rss.value));
+
+									request.send("name=" + encodeURIComponent(oForm.name.value) + "&url=" + encodeURIComponent(oForm.url.value) +
+									"&rss=" + encodeURIComponent(oForm.rss.value) +
+									"&category=" + encodeURIComponent(oForm.category.value) +
+									"&newCategory=" + encodeURIComponent(oForm.newCategory.value)
+									);
 								}	
 							//]]>
 						</script>
 						
 						<div id="part-link-add" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('새로운 링크를 추가합니다');?></span></h2>
-
+<?php
+require ROOT . '/lib/piece/owner/linkTab.php';
+?>
 							<div class="main-explain-box">
 								<p class="explain"><?php echo _t('RSS 주소를 입력해서 링크할 홈페이지의 정보를 읽어올 수 있습니다. 수동으로 제목과 주소를 입력하셔도 됩니다. RSS 주소를 입력해서 홈페이지의 정보를 읽어온 경우 링크를 추가할 때 바깥 글 읽기에 RSS 주소를 추가할지를 물어봅니다.');?></p>
 							</div>
@@ -109,6 +118,24 @@ if($service['reader'] != false) {
 									<dl id="homepage-address-line" class="line">
 										<dt><label for="url"><?php echo _t('홈페이지 주소');?></label></dt>
 										<dd><input type="text" id="url" class="input-text url" name="url" /></dd>
+									</dl>
+									<dl id="category-line" class="line">
+										<dt><label for="url"><?php echo _t('분류');?></label></dt>
+										<dd>
+											<select id="category" name="category">
+											<option value="0"><?php echo _t('분류 없음');?></option>
+<?php
+$categories = array();
+$categories = getLinkCategories(getBlogId());
+foreach ($categories as $category) {
+?>
+											<option value="<?php echo $category['id'];?>"><?php echo htmlspecialchars($category['name']);?></option>
+<?php
+}
+?>
+											</select>
+										</dd>
+										<dd><?php echo _t('또는 새로운 분류를 추가합니다.').' :';?><input type="text" id="newCategory" class="input-text input-category" name="newCategory" /></dd>
 									</dl>
 								</div>
 								

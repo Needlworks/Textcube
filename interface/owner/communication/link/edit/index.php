@@ -10,6 +10,8 @@ if (!$link = getLink($blogid, $suri['id']))
 $method = empty($link['rss']) ? 1 : 0;
 require ROOT . '/lib/piece/owner/header.php';
 require ROOT . '/lib/piece/owner/contentMenu.php';
+
+$tabsClass['edit'] = true;
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -44,7 +46,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									trimAll(oForm);
 									if (!checkValue(oForm.name, "<?php echo _t('이름을 입력해 주십시오.');?>\t")) return false;
 									if (!checkValue(oForm.url, "<?php echo _t('주소를 입력해 주십시오.');?>\t")) return false;
-										var request = new HTTPRequest("POST", blogURL + "/owner/communication/link/edit/exec/");
+									var request = new HTTPRequest("POST", blogURL + "/owner/communication/link/edit/exec/");
 									request.onSuccess = function () {
 										PM.removeRequest(this);
 										window.location = blogURL + "/owner/communication/link";
@@ -58,7 +60,12 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 										}
 									}
 									PM.addRequest(request, "<?php echo _t('링크를 수정하고 있습니다.');?>");
-									request.send("id=<?php echo $suri['value'];?>&name=" + encodeURIComponent(oForm.name.value) + "&url=" + encodeURIComponent(oForm.url.value) + "&rss=" + encodeURIComponent(oForm.rss.value));  
+									request.send("id=<?php echo $suri['value'];?>&name=" + encodeURIComponent(oForm.name.value) + 
+									"&url=" + encodeURIComponent(oForm.url.value) + 
+									"&rss=" + encodeURIComponent(oForm.rss.value) +
+									"&category=" + encodeURIComponent(oForm.category.value) +
+									"&newCategory=" + encodeURIComponent(oForm.newCategory.value)
+									);  
 								}
 							//]]>
 						</script>
@@ -67,7 +74,9 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 						
 						<div id="part-link-edit" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('링크 정보를 수정합니다');?></span></h2>
-							
+<?php
+require ROOT . '/lib/piece/owner/linkTab.php';
+?>
 							<form id="editForm" method="post" action="<?php echo $blogURL;?>/owner/communication/link/edit/">
 								<input type="hidden" name="id" value="<?php echo $suri['value'];?>" />
 								
@@ -83,6 +92,24 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									<dl id="homepage-address-line" class="line">
 										<dt><label for="url"><?php echo _t('홈페이지 주소');?></label></dt>
 										<dd><input type="text" class="input-text" id="url" name="url" value="<?php echo htmlspecialchars($link['url']);?>" /></dd>
+									</dl>
+									<dl id="category-line" class="line">
+										<dt><label for="url"><?php echo _t('분류');?></label></dt>
+										<dd>
+											<select id="category" name="category">
+											<option value="0"><?php echo _t('분류 없음');?></option>
+<?php
+$categories = array();
+$categories = getLinkCategories(getBlogId());
+foreach ($categories as $category) {
+?>
+											<option value="<?php echo $category['id'];?>"<?php echo ($link['category'] == $category['id'] ? ' selected="selected"' : '');?>><?php echo htmlspecialchars($category['name']);?></option>
+<?php
+}
+?>
+											</select>
+										</dd>
+										<dd><?php echo _t('또는 새로운 분류를 추가합니다.').' :';?><input type="text" id="newCategory" class="input-text input-category" name="newCategory" /></dd>
 									</dl>
 								</div>
 								

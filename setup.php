@@ -1267,16 +1267,27 @@ CREATE TABLE {$_POST['dbPrefix']}Filters (
   UNIQUE KEY blogid (blogid, type, pattern)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}Links (
+  pid int(11) NOT NULL default '0',
   blogid int(11) NOT NULL default '0',
-  id int(11) NOT NULL auto_increment,
+  id int(11) NOT NULL default '0',
   name varchar(255) NOT NULL default '',
   url varchar(255) NOT NULL default '',
   rss varchar(255) NOT NULL default '',
   written int(11) NOT NULL default '0',
   visibility tinyint(4) NOT NULL default '2',
   xfn varchar(128) NOT NULL default '',
-  PRIMARY KEY  (id),
+  PRIMARY KEY (pid),
   UNIQUE KEY blogid (blogid,url)
+) $charset;
+CREATE TABLE {$_POST['dbPrefix']}LinkCategories (
+  pid int(11) NOT NULL default '0',
+  blogid int(11) NOT NULL default '0',
+  id int(11) NOT NULL default '0',
+  name varchar(128) NOT NULL,
+  priority int(11) NOT NULL default '0',
+  visibility tinyint(4) NOT NULL default '2',
+  PRIMARY KEY (pid),
+  UNIQUE KEY blogid (blogid, id)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}OpenIDUsers (
   blogid int(11) NOT NULL default '0',
@@ -1482,6 +1493,7 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (blogid) values(1)";
 							{$_POST['dbPrefix']}Feeds,
 							{$_POST['dbPrefix']}Filters,
 							{$_POST['dbPrefix']}Links,
+							{$_POST['dbPrefix']}LinkCategories,
 							{$_POST['dbPrefix']}OpenIDUsers,
 							{$_POST['dbPrefix']}PageCacheLog,
 							{$_POST['dbPrefix']}Plugins,
@@ -1803,7 +1815,7 @@ function testMyself_fsocket($host, $path, $port) {
         return false;
     fputs($socket, "GET $path HTTP/1.1\r\n");
     fputs($socket, "Host: $host\r\n");
-    fputs($socket, "User-Agent: Mozilla/4.0 (compatible; Textcube 1.5 Setup)\r\n");
+    fputs($socket, "User-Agent: Mozilla/4.0 (compatible; Textcube 1.6 Setup)\r\n");
     fputs($socket, "Connection: close\r\n");
     fputs($socket, "\r\n");
     $response = '';
@@ -1861,6 +1873,8 @@ function checkTables($version, $prefix) {
 
 function getTables($version, $prefix) {
 	switch ($version) {
+		case '1.7':
+			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}EntriesArchive", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Links", "{$prefix}LinkCategories", "{$prefix}OpenIDUsers", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}Users", "{$prefix}UserSettings", "{$prefix}XMLRPCPingSettings", "{$prefix}Teamblog", "{$prefix}PageCacheLog");
 		case '1.6':
 			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}EntriesArchive", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Links", "{$prefix}OpenIDUsers", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}Users", "{$prefix}UserSettings", "{$prefix}XMLRPCPingSettings", "{$prefix}Teamblog", "{$prefix}PageCacheLog");
 		case '1.5':

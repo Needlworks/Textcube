@@ -16,6 +16,7 @@ if( isset( $_GET['page'] ) ) {
 	$page=$_GET['page'];
 }
 
+$tabsClass['xfn'] = true;
 list( $links, $paging ) = getLinksWithPagingForOwner($blogid, $page, 30);
 $service['admin_script'] = array( 'xfn.js' );
 require ROOT . '/lib/piece/owner/header.php';
@@ -28,7 +29,12 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 						
 						<div id="part-link-list" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('친구 관계를 설정합니다');?></span></h2>
-							
+<?php
+require ROOT . '/lib/piece/owner/linkTab.php';
+?>
+							<div class="main-explain-box">
+								<p class="explain"><?php echo _t('각 링크의 관계를 설정합니다.').' '._t('여기서 지정한 링크들의 관계는 XFN (XHTML Friends Network) 규격에 맞추어 블로그의 링크 출력시 추가 데이터로 함께 출력됩니다.');?></p>
+							</div>
 							<form method="post">
 							<input type="hidden" name="usexfn" id="usexfn" value="0" />
 							<table class="data-inbox" cellspacing="0" cellpadding="0">

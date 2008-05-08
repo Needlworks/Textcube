@@ -56,18 +56,18 @@ div#mb_bottom {
 font-family: Verdana, Helvetica, sans-serif;
 font-size: 12px;
 color: #666;
-line-height: 1.4em;
 text-align: left;
 border: 5px solid #DDD;
 border-top-style: none;
 background: #FFF url(./img_header_textcube.gif) left top no-repeat;
+height: 27px;
 }
 
 a#mb_close_link {
 display: block;
 float: right;
 width: 66px;
-height: 22px;
+height: 27px;
 background: transparent url(./closelabel.gif) no-repeat center;
 margin: 5px 0;
 }
