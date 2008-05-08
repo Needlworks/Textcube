@@ -54,7 +54,7 @@ function getBlogContentForSideBar()
 	global $blogid, $blog, $blogURL, $database, $service, $stats, $skinSetting;
 
 	global $pd_category, $pd_categoryXhtml, $pd_archive, $pd_calendar, $pd_tags, $pd_notices, $pd_recentEntry;
-	global $pd_recentComment, $pd_recentTrackback, $pd_link;
+	global $pd_recentComment, $pd_recentTrackback, $pd_link, $pd_authorList;
 	
 	$categories = getCategories($blogid);
 	$totalPosts = getEntriesTotalCount($blogid);
@@ -69,6 +69,7 @@ function getBlogContentForSideBar()
 	$pd_recentComment = getRecentComments($blogid);
 	$pd_recentTrackback = getRecentTrackbacks($blogid);
 	$pd_link = getLinks($blogid);
+	$pd_authorList = User::getUserNamesOfBlog($blogid);
 }
 
 
@@ -78,7 +79,7 @@ function pretty_dress($view)
 	
 	/* local static */
 	global $pd_category, $pd_categoryXhtml, $pd_archive, $pd_calendar, $pd_tags, $pd_notices, $pd_recentEntry;
-	global $pd_recentComment, $pd_recentTrackback, $pd_link;
+	global $pd_recentComment, $pd_recentTrackback, $pd_link, $pd_authorList;
 	
 	if (isset($_REQUEST['safe'])) {
 		// safe mode
@@ -141,7 +142,9 @@ function pretty_dress($view)
 		dress('rct_notice_rep', $itemsView, $noticeView);
 		dress('rct_notice', $noticeView, $view);
 	}
-	
+
+	list($view, $authorList) = Skin::cutSkinTag($view, 'author_rep');
+	dress('author_rep', revertTempTags(getAuthorListView($pd_authorList, $authorList)), $view);	
 	list($view, $recentEntry) = Skin::cutSkinTag($view, 'rctps_rep');	
 	dress('rctps_rep', revertTempTags(getRecentEntriesView($pd_recentEntry, $recentEntry)), $view);
 	list($view, $recentComments) = Skin::cutSkinTag($view, 'rctrp_rep');	
