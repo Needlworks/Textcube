@@ -49,6 +49,7 @@ function checkCronJob()
 	$s = fsockopen( $_SERVER['SERVER_ADDR'], isset($service['port']) ? $service['port'] : 80 );
 	fputs( $s, "GET {$blogURL}/cron HTTP/1.1\r\n" );
 	fputs( $s, "Host: {$_SERVER['HTTP_HOST']}\r\n" );
+	fputs( $s, "Referer: {$_SERVER['REQUEST_URI']} from {$_SERVER['REMOTE_ADDR']}\r\n" );
 	fputs( $s, "\r\n");
 	while( ($x = fread($s,102400000) ) ) {
 		print $x;
