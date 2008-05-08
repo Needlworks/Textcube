@@ -147,7 +147,7 @@ function pretty_dress($view)
 	}
 
 	list($view, $authorList) = Skin::cutSkinTag($view, 'author_rep');
-	dress('author_rep', revertTempTags(getAuthorListView($pd_authorList, $authorList)), $view);
+	dress('author_rep', getAuthorListView($pd_authorList, $authorList), $view);
 	list($view, $recentEntry) = Skin::cutSkinTag($view, 'rctps_rep');	
 	dress('rctps_rep', getRecentEntriesView($pd_recentEntry, $recentEntry), $view);
 	list($view, $recentComments) = Skin::cutSkinTag($view, 'rctrp_rep');	
