@@ -20,7 +20,7 @@ if(Acl::check('group.administrators')) {
 		array('menu'=>'entry','title'=>_t('글'),'link'=>'/owner/entry'),
 		array('menu'=>'communication','title'=>_t('소통'),'link'=>'/owner/communication/comment'),
 //		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader'),
-		array('menu'=>'skin','title'=>_t('스킨'),'link'=>'/owner/skin'),
+		array('menu'=>'skin','title'=>_t('꾸미기'),'link'=>'/owner/skin'),
 		array('menu'=>'plugin','title'=>_t('플러그인'),'link'=>'/owner/plugin'),	
 		array('menu'=>'setting','title'=>_t('설정'),'link'=>'/owner/setting/blog')
 		);
@@ -67,7 +67,7 @@ switch($blogMenu['topMenu']) {
 		$blogMenu['loadCSSIE7'] = array('communication');
 		break;
 	case 'skin':
-		$blogMenu['title'] = _t('스킨');
+		$blogMenu['title'] = _t('꾸미기');
 		$blogMenu['loadCSS'] = array('skin');
 		$blogMenu['loadCSSIE6'] = array('skin');
 		$blogMenu['loadCSSIE7'] = array('skin');
