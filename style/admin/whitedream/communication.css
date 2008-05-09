@@ -208,6 +208,11 @@ table.data-inbox tbody tr td.ip
 
 /* Trash *****************************************************************************************/
 
+#part-post-trash .caption
+{
+	margin-bottom: 19px;
+}
+
 #part-post-trash #search-form
 {
 	top                              : 70px;
@@ -224,7 +229,7 @@ table.data-inbox tbody tr td.ip
 	border                           : none;
 	position                         : absolute;
 	left                             : 0;
-	top                              : 140px;
+	top                              : 135px;
 }
 
 #part-post-trash fieldset dl
@@ -337,8 +342,7 @@ table.data-inbox tbody tr td.ip
 
 /* List ******************************************************************************************/
 
-#part-link-list .caption,
-.part .caption
+#part-link-list .caption
 {
 	margin-bottom                    : 25px;
 }
