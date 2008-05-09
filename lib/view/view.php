@@ -997,6 +997,7 @@ function getLinksView($links, $template) {
 		}
 		$view = "$template";
 		dress('link_url', htmlspecialchars($link['url']), $view);
+		dress('link_category', htmlspecialchars($link['categoryName']), $view);
 		if( $showXfn && $home && $link['xfn'] ) {
 			addXfnAttrs( htmlspecialchars($link['url']), htmlspecialchars($link['xfn']), $view );
 		}
