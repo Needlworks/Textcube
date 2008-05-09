@@ -84,7 +84,7 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/skin/edit/crop/");									
 									request.onSuccess = function() {
 										PM.showMessage("<?php echo _t('불러왔습니다.');?>", "center", "top");
-										document.getElementById(mode).value = this.getText("/response/code");
+										document.getElementById(mode).value = (this.getText("/response/code") ? this.getText("/response/code") : ''); 
 										skinCode = this.getText("/response/skinCode");
 										document.getElementById('skin-'+currentTag).className = '';
 										document.getElementById('skin-'+tag).className = 'selected';										
