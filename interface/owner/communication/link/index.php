@@ -113,7 +113,19 @@ for ($i=0; $i<sizeof($links); $i++) {
 	$className .= ($i == sizeof($links) - 1) ? ' last-line' : '';
 ?>
 									<tr id="link_<?php echo $link['id'];?>" class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-										<td class="category"><a href="<?php echo $blogURL;?>/owner/communication/link/categoryEdit/<?php echo $link['category'];?>" title="<?php echo _t('이 카테고리 정보를 수정합니다.');?>"<?php echo (isset($link['categoryName']) ? '' : ' class="uncategorized"');?>><?php echo (isset($link['categoryName']) ? htmlspecialchars($link['categoryName']) : _t('분류 없음'));?></a></td>
+										<td class="category">
+<?php
+if(isset($link['categoryName'])) {
+?>
+										<a href="<?php echo $blogURL;?>/owner/communication/link/categoryEdit/<?php echo $link['category'];?>" title="<?php echo _t('이 카테고리 이름을 수정합니다. 같은 카테고리의 모든 링크의 카테고리 이름이 함께 바뀝니다.');?>"<?php echo (isset($link['categoryName']) ? '' : ' class="uncategorized"');?>><?php echo (isset($link['categoryName']) ? htmlspecialchars($link['categoryName']) : _t('분류 없음'));?></a>
+<?php
+} else {
+?>
+										<a title="<?php echo _t('이 카테고리 정보는 수정할 수 없습니다.');?>" class="uncategorized"><?php echo _t('분류 없음');?></a>
+<?php
+}
+?>
+										</td>
 										<td class="homepage"><a href="<?php echo $blogURL;?>/owner/communication/link/edit/<?php echo $link['id'];?>" title="<?php echo _t('이 링크 정보를 수정합니다.');?>"><?php echo htmlspecialchars($link['name']);?></a></td>
 										<td class="address"><a href="<?php echo htmlspecialchars($link['url']);?>" onclick="window.open(this.href); return false;" title="<?php echo _t('이 링크에 연결합니다.');?>"><?php echo htmlspecialchars($link['url']);?></a></td>
 										<td class="status">
