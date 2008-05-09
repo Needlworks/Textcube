@@ -3,6 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/lib/includeForBlogOwner.php';
+$tabsClass['cover'] = true;
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireModel("blog.coverpage");
@@ -234,6 +235,10 @@ getBlogContentForCoverPage();
 						<form id="part-coverpage-order" class="part" method="post" action="<?php echo parseURL($blogURL.'/owner/skin/coverpage');?>">
 							<h2 class="caption"><span class="main-text"><?php echo _t('표지를 관리합니다');?></span></h2>
 <?php
+require ROOT . '/lib/piece/owner/skinTab.php';
+?>
+
+<?php
 	if(isset($skin->cover)) {
 ?>
 							<dl id="independent-cover-line" class="line">
@@ -262,7 +267,7 @@ if (is_null($skin->cover) || count($coverpageMappings) == 0) {
 	else
 		$errmsg = '사용중인 표지 플러그인이 없습니다.';
 ?>
-							<ul id="coverpage-tabs-box" class="tabs-box">
+							<ul id="coverpage-tabs-box" class="tabs-box right">
 								<li class="selected"><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/skin/coverpage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
 							</ul>
 							
@@ -284,7 +289,7 @@ if (is_null($coverpageConfig)) {
 	}
 }
 ?>
-							<ul id="coverpage-tabs-box" class="tabs-box">
+							<ul id="coverpage-tabs-box" class="tabs-box right">
 								<li<?php echo $defaultModeSelected ? ' class="selected"' : NULL;?>><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/skin/coverpage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
 								<li<?php echo $safeModeSelected ? ' class="selected"' : NULL;?>><a id="safe-mode-button" class="button" href="<?php echo $blogURL;?>/owner/skin/coverpage?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a></li>
 								<li<?php echo $tagModeSelected ? ' class="selected"' : NULL;?>><a id="tag-mode-button" class="button" href="<?php echo $blogURL;?>/owner/skin/coverpage?tag" title="<?php echo _t('실제 블로그 표지에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a></li>

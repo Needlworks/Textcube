@@ -3,6 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/lib/includeForBlogOwner.php';
+$tabsClass['sidebar'] = true;
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireModel("blog.entry");
@@ -216,7 +217,9 @@ getBlogContentForSideBar();
 ?>
 						<form id="part-sidebar-order" class="part" method="post" action="<?php echo parseURL($blogURL.'/owner/skin/sidebar/register'.$viewMode2);?>">
 							<h2 class="caption"><span class="main-text"><?php echo _t('사이드바 기능을 관리합니다');?></span></h2>
-							
+<?php
+require ROOT . '/lib/piece/owner/skinTab.php';
+?>
 							<div class="main-explain-box">
 								<p class="explain"><?php echo _t('블로그의 사이드바 구성을 변경할 수 있습니다. 사이드바는 블로그 화면에서 양 옆이나 위아래에 표시되는 메뉴가 있는 부분을 말합니다. 사이드바에 새로운 요소를 추가/삭제할 수 있으며 자유로운 위치 이동을 할 수 있습니다.');?></p>
 							</div>
@@ -229,7 +232,7 @@ getBlogContentForSideBar();
 <?php
 if ($sidebarCount == 0) {
 ?>
-							<ul id="sidebar-tabs-box" class="tabs-box">
+							<ul id="sidebar-tabs-box" class="tabs-box right">
 								<li class="selected"><a id="default-mode-button" class="button" href="<?php echo parseURL($blogURL.'/owner/skin/sidebar');?>" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
 							</ul>
 							
@@ -252,7 +255,7 @@ if (is_null($sidebarConfig)) {
 	}
 }
 ?>
-							<ul id="sidebar-tabs-box" class="tabs-box">
+							<ul id="sidebar-tabs-box" class="tabs-box right">
 								<li<?php echo $defaultModeSelected ? ' class="selected"' : NULL;?>><a id="default-mode-button" class="button" href="<?php echo parseURL($blogURL.'/owner/skin/sidebar');?>" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
 								<li<?php echo $safeModeSelected ? ' class="selected"' : NULL;?>><a id="safe-mode-button" class="button" href="<?php echo parseURL($blogURL.'/owner/skin/sidebar?safe');?>" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a></li>
 								<li<?php echo $tagModeSelected ? ' class="selected"' : NULL;?>><a id="tag-mode-button" class="button" href="<?php echo parseURL($blogURL.'/owner/skin/sidebar?tag');?>" title="<?php echo _t('실제 블로그 사이드바에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a></li>

@@ -520,6 +520,11 @@ h2.caption span
 	margin: 0 1px;
 }
 
+.right li
+{
+float: right !important;
+}
+
 .tabs-box li a
 {
 	padding: 0 1em;

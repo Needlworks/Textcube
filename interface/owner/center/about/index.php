@@ -20,6 +20,10 @@ require ROOT . '/lib/piece/owner/contentMenu.php';
 								<div id="XHTML-ValidIcon">
 									<img src="http://www.w3.org/Icons/valid-xhtml11-blue" alt="Valid XHTML 1.1!" />
 								</div>
+								<div id="Needlworks-Icon">
+									<img src="<?php echo $serviceURL;?>/image/needlworks.png" alt="Made by Needlworks / TNF" />
+								</div>
+								<div class="clear"></div>
 							</div>
 							
 							<div id="developer-description" class="section">

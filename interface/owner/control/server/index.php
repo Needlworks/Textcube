@@ -22,6 +22,7 @@ if (file_exists(ROOT . "/.htaccess")) {
 								return encodeURIComponent(val);
 							}
 							function setConfigFile() {
+								if(!confirm('<?php echo _f('적용하시면 기존의 %1 파일이 변경됩니다. 이 변경사항은 되돌릴 수 없습니다. 그래도 적용하시겠습니까?','config.php');?>')) return;
 								if(document.getElementById('usePageCache').checked) usePageCache = 1;
 								else usePageCache = 0;
 								if(document.getElementById('useSkinCache').checked) useSkinCache = 1;
@@ -96,6 +97,7 @@ if (file_exists(ROOT . "/.htaccess")) {
 if(!defined('__TEXTCUBE_NO_FANCY_URL__')) {
 ?>
 							function setRewrite() {
+								if(!confirm('<?php echo _f('적용하시면 기존의 %1 파일이 변경됩니다. 이 변경사항은 되돌릴 수 없습니다. 그래도 적용하시겠습니까?','.htaccess');?>')) return;
 								var htaccess = document.getElementById('rewrite');
 
 								var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/control/server/rewrite/");
