@@ -360,7 +360,7 @@ class Auth {
 
 		$blogApiPassword = getBlogSetting("blogApiPassword", "");
 
-		if ((strlen($password) == 32) && preg_match('/[0-9a-f]/i', $password)) {
+		if ((strlen($password) == 32) && preg_match('/[0-9a-f]{32}/i', $password)) {
 			$userid=getUserIdByEmail($loginid);
 			$authtoken = POD::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
 			if (!empty($authtoken)) {
