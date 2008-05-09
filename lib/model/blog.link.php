@@ -98,7 +98,7 @@ function updateLink($blogid, $link) {
 	}
 
 	$rss = isset($link['rss']) ? POD::escapeString(UTF8::lessenAsEncoding(trim($link['rss']), 255)) : '';
-	return POD::execute("UPDATE {$database['prefix']}Links
+	$result = POD::execute("UPDATE {$database['prefix']}Links
 				SET
 					category = $category,
 					name = '$name',
@@ -107,6 +107,12 @@ function updateLink($blogid, $link) {
 					written = UNIX_TIMESTAMP()
 				WHERE
 					blogid = $blogid and id = {$link['id']}");
+	// Garbage correction
+	$existCategories = POD::queryColumn("SELECT DISTINCT category FROM {$database['prefix']}Links
+			WHERE blogid = $blogid");
+	@POD::execute("DELETE FROM {$database['prefix']}LinkCategories
+			WHERE blogid = $blogid AND id NOT IN (".implode(",",$existCategories).")");
+	return $result;
 }
 
 function updateXfn($blogid, $links) {

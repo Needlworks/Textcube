@@ -411,6 +411,11 @@ table.data-inbox tbody tr td.ip
 	display                          : none;
 }
 
+#part-link-list table.data-inbox tbody tr td a.uncategorized
+{
+	color                            : #BCBCBC;
+}
+
 #part-link-list table.data-inbox thead.xfn tr th.xfn-homepage
 {
 	padding-left                     : 20px;
