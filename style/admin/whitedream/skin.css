@@ -343,6 +343,13 @@
 	padding                          : 30px 0 0 310px;
 }
 
+#treePreview
+{
+	height: 300px;
+	overflow: visible;
+	width: 300px;
+}
+
 #tree-preview-box
 {
 	background-color                 : #EEEEEE;
@@ -463,6 +470,11 @@
 #part-coverpage-order .main-explain-box .explain
 {
 	margin-bottom                    : 15px;
+}
+
+#part-coverpage-order #link-tabs-box
+{
+	margin-top                       : 20px;
 }
 
 #part-coverpage-order #direct-link-line
@@ -690,7 +702,7 @@
 
 #independent-cover-line
 {
-	margin: -40px 10px 0 0;
+	margin: -27px 10px 0 300px;
 }
 
 #independent-cover-line dt
@@ -763,6 +775,11 @@
 #part-sidebar-order .main-explain-box .explain
 {
 	margin-bottom                    : 15px;
+}
+
+#part-sidebar-order #link-tabs-box
+{
+	margin-top                       : 20px;
 }
 
 #part-sidebar-order #direct-link-line

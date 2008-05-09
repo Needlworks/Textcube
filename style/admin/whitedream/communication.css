@@ -210,7 +210,7 @@ table.data-inbox tbody tr td.ip
 
 #part-post-trash #search-form
 {
-	top                              : 115px;
+	top                              : 70px;
 }
 
 #part-post-trash .main-explain-box p
@@ -224,7 +224,7 @@ table.data-inbox tbody tr td.ip
 	border                           : none;
 	position                         : absolute;
 	left                             : 0;
-	top                              : 113px;
+	top                              : 140px;
 }
 
 #part-post-trash fieldset dl
