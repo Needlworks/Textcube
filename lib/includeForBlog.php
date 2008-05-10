@@ -45,6 +45,7 @@ $__requireModel = array(
 	'DEBUG : Models loaded.');
 $__requireView = array(
 	'html',						// Views
+	'paging',
 	'view',
 	'DEBUG : Views loaded.');
 $__requireInit = array(

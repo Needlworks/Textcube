@@ -31,6 +31,7 @@ $__requireModel = array(
 $__requireView = array(		// View
 	'html',
 	'ownerView',
+	'paging',
 	'view');
 $__requireInit = array(		// Initializing environment.
 	'initialize',
