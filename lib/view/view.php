@@ -1009,6 +1009,37 @@ function getLinksView($links, $template) {
 	return $view;
 }
 
+function getLinkListView($links) {
+	requireComponent('Textcube.Function.Setting');
+	global $blogURL, $skinSetting, $suri, $pathURL;
+	if( rtrim( $suri['url'], '/' ) == $pathURL ) {
+		$home = true;
+	} else {
+		$home = false;
+	}
+	$categoryName = null;
+	$buffer = '<ul>';
+	$showXfn = (setting::getBlogSettingGlobal('useMicroformat',3) > 1);
+	foreach ($links as $link) {
+		if((!doesHaveOwnership() && $link['visibility'] == 0) ||
+			(!doesHaveMembership() && $link['visibility'] < 2)) {
+			continue;
+		}
+		if($categoryName != $link['categoryName']) {
+			$categoryName = $link['categoryName'];
+			if(!empty($categoryName)) $buffer .= '</ul></li>';
+			$buffer .= '<li>'.htmlspecialchars($link['categoryName']).'<ul>';
+		}
+		if( $showXfn && $home && $link['xfn'] ) {
+			addXfnAttrs( htmlspecialchars($link['url']), htmlspecialchars($link['xfn']), $link['url']);
+		}
+		$buffer .= '<li><a href="'.htmlspecialchars($link['url']).'">'.fireEvent('ViewLink', htmlspecialchars(UTF8::lessenAsEm($link['name'], $skinSetting['linkLength']))).'</a></li>';
+	}
+	if(!empty($categoryName)) $buffer .= '</ul></li>';
+	$buffer .='</ul>';
+	return $buffer;
+}
+
 function getRandomTagsView($tags, $template) {
 	requireComponent('Textcube.Function.Setting');
 	global $blogURL, $service;

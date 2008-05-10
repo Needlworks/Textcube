@@ -6,14 +6,14 @@
 global $__gCacheLink;
 $__gCacheLink = array();
 
-function getLinks($blogid) {
+function getLinks($blogid, $sort="category") {
 	global $database, $__gCacheLink;
 	if(empty($__gCacheLink)) {
 		if ($result = POD::queryAll("SELECT l.*, lc.name AS categoryName
 			FROM {$database['prefix']}Links l
 			LEFT JOIN {$database['prefix']}LinkCategories lc ON lc.blogid = l.blogid AND lc.id = l.category
 			WHERE l.blogid = $blogid 
-			ORDER BY l.name")) {
+			ORDER BY lc.name, l.name")) {
 			$__gCacheLink = array();
 			foreach($result as $link) {
 				array_push($__gCacheLink, $link);
