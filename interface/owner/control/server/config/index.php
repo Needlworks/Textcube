@@ -5,7 +5,7 @@
 
 $IV = array(
 	'POST' => array(
-		'allowBlogVisibility' => array('int'),
+		'allowBlogVisibility'    => array('int'),
 		'disableEolinSuggestion' => array('int',0,1),
 		'encoding'               => array('string'),
 		'faviconDailyTraffic'    => array('int'),
@@ -32,22 +32,22 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireModel('blog.service');
 requireStrictRoute();
 $matchTable = array(
-	'timeout'=> 'timeout',
-	'skin'=>'skin',
+	'timeout' => 'timeout',
+	'skin'    =>'skin',
 	'language'=>'language',
 	'timezone'=>'timezone',
 	'encoding'=>'encoding',
-	'serviceurl' => 'serviceURL',
+	'serviceurl'  => 'serviceURL',
 	'usePageCache'=>'pagecache',
 	'useSkinCache'=>'skincache',
-	'useReader'=>'reader',
+	'useReader'   =>'reader',
 	'useNumericRSS'=>'useNumericRSS',
 	'useEncodedURL'=>'useEncodedURL',
 	'disableEolinSuggestion'=>'disableEolinSuggestion',
-	'allowBlogVisibility'=> 'allowBlogVisibilitySetting',
-	'flashClipboardPoter' => 'flashClipboardPoter',
+	'allowBlogVisibility'   => 'allowBlogVisibilitySetting',
+	'flashClipboardPoter'   => 'flashClipboardPoter',
 	'flashUploader' => 'flashUploader',
-	'useDebugMode'=>'debugmode',
+	'useDebugMode'  =>'debugmode',
 	'useSessionDebugMode' => 'debug_session_dump',
 	'useRewriteDebugMode' => 'debug_rewrite_module',
 	'faviconDailyTraffic' =>'favicon_daily_traffic'

@@ -88,7 +88,7 @@ class Skin {
 		//$this->singleCommentMessage = setting::getBlogSettingGlobal('singleCommentMessage');
 		//$this->noneTrackbackMessage = setting::getBlogSettingGlobal('noneTrackbackMessage');
 		//$this->singleTrackbackMessage = setting::getBlogSettingGlobal('singleTrackbackMessage');
-		if($previewMode == true || !empty($service['debug_skin_cache']) || !$this->loadCache()) {
+		if($previewMode == true || ($service['skincache'] != true) || !$this->loadCache()) {
 			$this->noneCommentMessage = $blog['noneCommentMessage'];
 			$this->singleCommentMessage = $blog['singleCommentMessage'];
 			$this->noneTrackbackMessage = $blog['noneTrackbackMessage'];
