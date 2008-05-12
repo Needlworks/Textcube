@@ -5,7 +5,7 @@
 define( 'OPENID_REGISTERS', 10 );
 require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 global $database, $blogURL, $hostURL;
 
 $menu_url = $hostURL . $blogURL . "/owner/communication/openid";

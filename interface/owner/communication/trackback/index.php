@@ -71,7 +71,7 @@ if(isset($tabsClass['received']) && $tabsClass['received'] == true) {
 }
 
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 
 ?>
 						<script type="text/javascript">

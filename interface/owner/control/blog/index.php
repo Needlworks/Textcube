@@ -12,7 +12,7 @@ $IV = array(
 $service['admin_script']='control.js';
 require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 requirePrivilege('group.creators');
 
 global $blogURL;

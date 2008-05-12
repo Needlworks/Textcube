@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 ?>
 						<script type="text/javascript" src="<?php echo $service['path'];?>/script/generaltag.js"></script>
 						<script type="text/javascript">

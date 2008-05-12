@@ -49,7 +49,7 @@ $tabsClass['trash'] = true;
 
 list($trackbacks, $paging) = getTrashTrackbackWithPagingForOwner($blogid, $categoryId, $site, $ip, $search, $suri['page'], $perPage);
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 ?>
 						<script type="text/javascript">
 							//<![CDATA[

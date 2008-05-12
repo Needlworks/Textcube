@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 
 // htacccess modification
 $htaccessContent = '';
@@ -12,7 +12,8 @@ if (file_exists(ROOT . "/.htaccess")) {
 	$htaccessContent = @file_get_contents(ROOT . "/.htaccess");
 }
 
-// Reads current values
+// Encodings
+$encodingList = array('UTF-8','EUC-KR','SHIFT_JIS','EUC-JP','BIG5','EUC-CN','EUC-TW','GBK');
 
 ?>
 						<script type="text/javascript">
@@ -167,22 +168,41 @@ if (!is_writable(ROOT . "/config.php")) {
 										<dl id="timezone-line" class="line">
 											<dt><span class="label"><?php echo _t('시간대');?></span></dt>
 											<dd>
-												<input id="timezone" type="text" class="input-text" name="timezone" size="13" value="<?php echo $service['timezone'];?>" />											
+												<select id="timezone" name="timezone">
+<?php
+foreach (Timezone::getList() as $timezone) {
+?>
+													<option value="<?php echo $timezone;?>"<?php echo ($timezone == $service['timezone'] ? ' selected="selected"' : '');?>><?php echo _t($timezone);?></option>
+<?php
+}
+?>
+												</select>
 												<label for="timezone"><?php echo _t('이 서비스의 기본 시간대를 설정합니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="encoding-line" class="line">
 											<dt><span class="label"><?php echo _t('인코딩');?></span></dt>
 											<dd>
-												<input id="encoding" type="text" class="input-text" name="encoding" size="13" value="<?php echo $service['encoding'];?>" />											
-												<label for="encoding"><?php echo _t('이 서비스의 기본 인코딩을 설정합니다.');?></label>
+												<select id="encoding" name="encoding">
+<?php
+foreach($encodingList as $enc) {
+?>
+													<option value="<?php echo $enc;?>"<?php if($enc==$service['encoding']) echo ' selected="selected"';?>><?php echo  htmlspecialchars($enc);?></option>
+
+<?php
+}
+//											<input id="encoding" type="text" class="input-text" name="encoding" size="13" value="<?php echo $service['encoding'];?>" />
+?>											
+												</select>
+
+<label for="encoding"><?php echo _t('이 서비스의 기본 인코딩을 설정합니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="serviceurl-line" class="line">
 											<dt><span class="label"><?php echo _t('서비스 리소스 경로');?></span></dt>
 											<dd>
 												<input id="serviceurl" type="text" class="input-text" name="serviceurl" size="45" value="<?php echo $serviceURL;?>" />											
-												<label for="serviceurl"><?php echo _t('이 서비스가 참조할 경로를 강제로 지정합니다.').'<br />'._t('정적인 파일들 (script, attach, image, style 하위 디렉토리)을 별도의 경로로 관리할 수 있습니다. 다른 웹 프로그램을 같은 도메인에서 운영할 때, 동작이 방해받는 경우 또는 서버의 로드를 분산하고 싶은 경우 지정하면 됩니다.');?></label>
+												<label for="serviceurl"><?php echo _t('이 서비스가 참조할 경로를 강제로 지정합니다.').'<br />'._t('정적인 파일들 (script, attach, image, style 하위 디렉토리)을 별도의 경로로 관리할 수 있습니다. 다른 웹 프로그램을 같은 도메인에서 운영할 때 동작이 방해받는 경우, 또는 서버에 걸리는 부하를 분산하고 싶은 경우 지정하면 됩니다.');?></label>
 											</dd>
 										</dl>	
 									</fieldset>
@@ -198,7 +218,7 @@ if (!is_writable(ROOT . "/config.php")) {
 										<dl id="skin-line" class="line">
 											<dt><span class="label"><?php echo _t('스킨 캐시 사용');?></span></dt>
 											<dd>
-												<input type="checkbox" id="useSkinCache" class="checkbox" name="useSkinCache"<?php echo $service['skincache'] ? ' checked="checked"' : '';?> /><label for="useSkinCache"><?php echo _t('스킨 캐시를 사용합니다. 페이지 캐시 설정보다 우선합니다.');?></label>
+												<input type="checkbox" id="useSkinCache" class="checkbox" name="useSkinCache"<?php echo $service['skincache'] ? ' checked="checked"' : '';?> /><label for="useSkinCache"><?php echo _t('스킨 캐시를 사용합니다.').' '._t('스킨 캐시를 사용하지 않도록 설정하면 페이지 캐시를 사용하도록 설정해도 스킨 캐시를 사용하지않습니다.').' '._t('스킨 파일을 직접 수정한 후 바로 변경된 결과를 보아야 하는 경우 스킨 캐시를 끄고 작업하시기 바랍니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="reader-line" class="line">

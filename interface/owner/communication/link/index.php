@@ -7,7 +7,7 @@ requireModel("blog.link");
 
 $links = getLinks($blogid);
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 
 $tabsClass['list'] = true;
 ?>

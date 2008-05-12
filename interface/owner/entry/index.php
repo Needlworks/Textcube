@@ -126,7 +126,7 @@ $countResult = POD::queryExistence("SELECT `id`
 		WHERE `blogid` = ".getBlogId()." AND `visibility` = 3 LIMIT 1");
 
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 ?>
 						<script type="text/javascript">
 							//<![CDATA[

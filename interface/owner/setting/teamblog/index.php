@@ -9,7 +9,7 @@ $IV = array(
 );
 require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 requireComponent( 'Textcube.Function.misc' );
 ?>
 						<script type="text/javascript">

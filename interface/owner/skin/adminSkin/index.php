@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 ?>
 						<div id="part-setting-admin" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo setDetailPanel('admin_skin_setting','link',_t('관리자 패널의 스킨을 설정합니다'));?></span></h2>

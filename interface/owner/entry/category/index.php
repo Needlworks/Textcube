@@ -95,7 +95,7 @@ if ((empty($_POST['search'])) || ($searchColumn === true)) {
 	$searchParam[1] = $_POST['search'];
 }
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 ?>
 						<script type="text/javascript">
 							//<![CDATA[

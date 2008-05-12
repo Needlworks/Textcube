@@ -50,7 +50,7 @@ $visibilityText = _t('댓글 알리미');
 
 list($comments, $paging) = getCommentsNotifiedWithPagingForOwner($blogid, '', $name, '', $search, $suri['page'], $perPage);
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 ?>
 						<script type="text/javascript">
 							//<![CDATA[

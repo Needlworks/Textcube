@@ -8,7 +8,7 @@ requireModel("blog.link");
 if (!$link = getLinkCategory($blogid, $suri['id']))
 	respond::ErrorPage(_t('링크 정보가 존재하지 않습니다.'));
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 
 $tabsClass['categoryEdit'] = true;
 

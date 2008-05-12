@@ -5,7 +5,7 @@
 
 require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 requireModel('common.plugin');
 
 // set the selected tab.

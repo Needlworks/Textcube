@@ -18,7 +18,7 @@ requireModel("blog.link");
 requireComponent('Textcube.Model.Statistics');
 
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 
 $service['pagecache'] = false; // For plugin setting update.
 

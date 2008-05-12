@@ -17,7 +17,7 @@ requireModel("blog.link");
 requireComponent('Textcube.Model.Statistics');
 
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 
 $stats = Statistics::getStatistics($blogid);
 

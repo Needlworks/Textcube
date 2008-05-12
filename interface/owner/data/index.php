@@ -9,7 +9,7 @@ if (file_exists(ROOT . "/cache/backup/$blogid.xml.gz"))
 else if (file_exists(ROOT . "/cache/backup/$blogid.xml"))
 	$backup = filemtime(ROOT . "/cache/backup/$blogid.xml");
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 requireComponent('Textcube.Function.misc');
 
 if (isset($checkFunction)) unset($checkFunction);

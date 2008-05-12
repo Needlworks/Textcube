@@ -126,7 +126,7 @@ ob_end_clean();
 
 if ($ajaxcall == false) {
 	require ROOT . '/lib/piece/owner/header.php';
-	require ROOT . '/lib/piece/owner/contentMenu.php';
+	
 }
 
 $modeParam = !empty($_REQUEST['viewMode']) ? '&' . $_REQUEST['viewMode'] : '';

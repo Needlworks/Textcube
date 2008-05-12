@@ -11,7 +11,7 @@ $IV = array(
 
 require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 requirePrivilege('group.creators');
 
 function getSymbolByQuantity($bytes) {
@@ -175,7 +175,7 @@ array_push($regexpArray, '@</table>@');
 array_push($regexpArray, '@<td class="e">(.+)</td>@Usi');
 array_push($regexpArray, '@<td class="v">(.+)</td>@Usi');
 array_push($regexpArray, '@<(br|hr) />@');
-array_push($regexpArray, '');
+//array_push($regexpArray, '');
 $resultArray = array();
 array_push($resultArray, '$1');
 array_push($resultArray, '<div id="PHPLogo"><a href="$1"><img src="$2" /></a><p>$3</p></div>');
@@ -188,7 +188,7 @@ array_push($resultArray, '</tbody></table>');
 array_push($resultArray, '<th>$1</th>');
 array_push($resultArray, '<td>$1</td>');
 array_push($resultArray, '');
-array_push($resultArray, '');
+//array_push($resultArray, '');
 
 echo preg_replace($regexpArray, $resultArray, $phpinfo);
 

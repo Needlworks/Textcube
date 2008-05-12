@@ -68,7 +68,7 @@ if (isset($_POST['returnURL']) && !empty($_POST['returnURL'])) {
 	$_GET['returnURL'] = $_POST['returnURL'];
 }
 
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 if (defined('__TEXTCUBE_POST__')) {
 	printOwnerEditorScript();
 } else {

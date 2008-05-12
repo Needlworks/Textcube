@@ -36,7 +36,7 @@ $htmlFilePerms = preg_replace('@^[0-9]{2}|[0-9]{2}$@', '', strrev(decoct(fileper
 $styleFilePerms = preg_replace('@^[0-9]{2}|[0-9]{2}$@', '', $temp = strrev(decoct(fileperms(ROOT . "/skin/{$skinSetting['skin']}/" . $currentStyleFile))));
 
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 ?>
 						<script type="text/javascript">
 							//<![CDATA[

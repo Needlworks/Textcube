@@ -20,7 +20,7 @@ $blogMenu['contentMenu'] = 'dashboard';
 
 if (!isset($_REQUEST['ajaxcall'])) {
 	require ROOT . '/lib/piece/owner/header.php';
-	require ROOT . '/lib/piece/owner/contentMenu.php';
+	
 	trashVan();
 }
 
@@ -201,7 +201,7 @@ if (false) {
 ?>	
 <?php
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useTTdashboard']))) {
-	$textcubeDashboard = getBlogSetting("textcubeDashboard");
+	$textcubeDashboard = getBlogSetting("textcubeDashboard",1);
 	if (is_null($textcubeDashboard)) {
 		setBlogSetting("textcubeDashboard", 1);
 		$textcubeDashboard = 1;
@@ -210,10 +210,10 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useTTdashboard'])))
 		$textcubeDashboard = 0;
 	}
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		setBlogSetting("textcubeDashboard", 1);
-		$textcubeDashboard = 1;
+	setBlogSetting("textcubeDashboard", 1);
+	$textcubeDashboard = 1;
 } else {
-	$textcubeDashboard = getBlogSetting("textcubeDashboard");
+	$textcubeDashboard = getBlogSetting("textcubeDashboard",1);
 }
 
 //$textcubeDashboard = getBlogSetting("textcubeDashboard");

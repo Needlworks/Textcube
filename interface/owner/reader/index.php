@@ -83,7 +83,7 @@ if ($setting['newWindow'] == 2) {
 			<div id="layout-body">
 <?php
 if(defined('__TEXTCUBE_READER_SUBMENU__')) 
-	require ROOT . '/lib/piece/owner/contentMenu.php';
+	
 ?>
 				<h2><?php echo _t('리더 서브메뉴');?></h2>
 				

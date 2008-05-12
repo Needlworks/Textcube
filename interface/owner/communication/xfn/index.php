@@ -20,7 +20,7 @@ $tabsClass['xfn'] = true;
 list( $links, $paging ) = getLinksWithPagingForOwner($blogid, $page, 30);
 $service['admin_script'] = array( 'xfn.js' );
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 ?>
 						<script type="text/javascript">
 							//<![CDATA[

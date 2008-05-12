@@ -6,7 +6,7 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.link");
 
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 
 $tabsClass['add'] = true;
 ?>

@@ -36,7 +36,7 @@ if (!empty($_POST['mode'])) {
 //	$history = $_GET['history'];
 //}
 require ROOT . '/lib/piece/owner/header.php';
-require ROOT . '/lib/piece/owner/contentMenu.php';
+
 
 function printFilterBox($mode, $title) {
 	global $service;
