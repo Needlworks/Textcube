@@ -295,6 +295,11 @@ textarea
 	color                            : #4FF;
 }
 
+#main-menu ul.sub-menu
+{
+	display                          : none;
+}
+
 #menu-center 
 {
 	margin-left                      : 200px !important;
