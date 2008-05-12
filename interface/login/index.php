@@ -40,7 +40,8 @@ else $_POST['refererURI'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REF
 $message = '';
 $showPasswordReset = false;
 if (isset($_GET['session']) && isset($_GET['requestURI'])) {
-	header('Set-Cookie: TSSESSION=' . $_GET['session'] . '; path=/; domain=' . $_SERVER['HTTP_HOST']);
+	global $service;
+	setcookie( getSessionName(), $_GET['session'], 0, $service['session_cookie_path'], $service['session_cookie_domain']);
 	header('Location: ' . $_GET['requestURI']);
 	exit;
 } else if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
