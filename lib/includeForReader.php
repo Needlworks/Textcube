@@ -37,7 +37,7 @@ $__requireInit = array(		// Initializing environment.
 	'initialize',
 	'plugins');
 
-if($service['reader'] === false) exit;
+if(isset($service['reader']) && $service['reader'] === false) exit;
 
 $codeName = 'includeForReader.php';
 require ROOT.'/lib/include.php';

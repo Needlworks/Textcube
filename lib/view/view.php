@@ -22,7 +22,11 @@ function printHtmlFooter() {
 <?php
 }
 
-function dress($tag, $value, & $contents) {
+function dress($tag, $value, & $contents, $force = false) {
+	if($force) { 
+		$contents = str_replace("[##_{$tag}_##]", $value, $contents);
+		return true;
+	}
 	if (preg_match("@\\[##_{$tag}_##\\]@iU", $contents)) {
 		$contents = str_replace("[##_{$tag}_##]", $value, $contents);
 		return true;
@@ -1018,7 +1022,7 @@ function getLinkListView($links) {
 		$home = false;
 	}
 	$categoryName = null;
-	$buffer = '<ul>';
+	$buffer = '<ul>'.CRLF;
 	$showXfn = (setting::getBlogSettingGlobal('useMicroformat',3) > 1);
 	foreach ($links as $link) {
 		if((!doesHaveOwnership() && $link['visibility'] == 0) ||
@@ -1026,17 +1030,18 @@ function getLinkListView($links) {
 			continue;
 		}
 		if($categoryName != $link['categoryName']) {
+			if(!empty($categoryName)) $buffer .= '</ul>'.CRLF.'</li>'.CRLF;
 			$categoryName = $link['categoryName'];
-			if(!empty($categoryName)) $buffer .= '</ul></li>';
-			$buffer .= '<li>'.htmlspecialchars($link['categoryName']).'<ul>';
+			$buffer .= '<li><span class="link_ct">'.htmlspecialchars($link['categoryName']).'</span>'.CRLF
+				.'<ul>'.CRLF;
 		}
 		if( $showXfn && $home && $link['xfn'] ) {
 			addXfnAttrs( htmlspecialchars($link['url']), htmlspecialchars($link['xfn']), $link['url']);
 		}
-		$buffer .= '<li><a href="'.htmlspecialchars($link['url']).'">'.fireEvent('ViewLink', htmlspecialchars(UTF8::lessenAsEm($link['name'], $skinSetting['linkLength']))).'</a></li>';
+		$buffer .= '<li><a href="'.htmlspecialchars($link['url']).'">'.fireEvent('ViewLink', htmlspecialchars(UTF8::lessenAsEm($link['name'], $skinSetting['linkLength']))).'</a></li>'.CRLF;
 	}
-	if(!empty($categoryName)) $buffer .= '</ul></li>';
-	$buffer .='</ul>';
+	if(!empty($categoryName)) $buffer .= '</ul>'.CRLF.'</li>'.CRLF;
+	$buffer .='</ul>'.CRLF;
 	return $buffer;
 }
 
