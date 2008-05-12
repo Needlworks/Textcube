@@ -126,19 +126,6 @@ function setSessionAnonymous($currentId) {
 	return false;
 }
 
-function newSession() {
-	global $database;
-	for ($i = 0; ($i < 100) && !setSessionAnonymous(); $i++) {
-		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-		$result = POD::queryCount("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) SELECT DISTINCT '$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
-		if ($result && $result > 0) {
-			session_id($id);
-			return true;
-		}
-	}
-	return false;
-}
-
 function isSessionAuthorized($id) {
 	/* OpenID and Admin sessions are treated as authorized ones*/
 	global $database;
@@ -177,7 +164,6 @@ function setSession() {
 	}
 }
 
-// Teamblog : insert userid to variable admin when member logins.
 function authorizeSession($blogid, $userid) {
 	global $database, $service;
 	$session_cookie_path = "/";
