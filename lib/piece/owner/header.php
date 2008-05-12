@@ -387,8 +387,8 @@ requireComponent('Textcube.Core');
 <?php
 foreach($blogTopMenuItem as $menuItem) {
 ?>
-						<li id="menu-<?php echo $menuItem['menu'];?>"<?php echo $menuItem['menu']==$blogMenu['topMenu'] ? ' class="selected"' : '';?> onmouseover="previewSubmenu('<?php echo $menuItem['menu'];?>')">
-							<a href="<?php echo $blogURL.$menuItem['link'];?>"><span><?php echo $menuItem['title'];?></span></a>
+						<li id="menu-<?php echo $menuItem['menu'];?>"<?php echo $menuItem['menu']==$blogMenu['topMenu'] ? ' class="selected"' : '';?>>
+							<a href="<?php echo $blogURL.$menuItem['link'];?>" onmouseover="previewSubmenu('<?php echo $menuItem['menu'];?>')"><span><?php echo $menuItem['title'];?></span></a>
 							<ul id="submenu-<?php echo $menuItem['menu'];?>" class="sub-menu">
 <?php
 	$firstChildClass = ' firstChild';
