@@ -90,7 +90,7 @@ function getTrackbackList($blogid, $search) {
 	$authorized = doesHaveOwnership() ? '' : getPrivateCategoryExclusionQuery($blogid);
 	if ($result = POD::queryAll("SELECT t.id, t.entry, t.url, t.site, t.subject, t.excerpt, t.written, e.slogan
  		FROM {$database['prefix']}Trackbacks t
-		LEFT JOIN {$database['prefix']}Entries e ON t.entry = e.id AND t.blogid = e.blogid
+		LEFT JOIN {$database['prefix']}Entries e ON t.entry = e.id AND t.blogid = e.blogid AND e.draft = 0
 		WHERE  t.blogid = $blogid
 			AND t.isFiltered = 0
 			AND t.entry > 0 $authorized 
@@ -107,7 +107,7 @@ function getRecentTrackbacks($blogid, $count = false, $guestShip = false) {
 	$sql = (doesHaveOwnership() && !$guestShip) ? "SELECT t.*, e.slogan 
 		FROM 
 			{$database['prefix']}Trackbacks t
-			LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id
+			LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0
 		WHERE 
 			t.blogid = $blogid AND t.isFiltered = 0 
 		ORDER BY 
