@@ -209,14 +209,16 @@ if( empty($blogContentMenuItem) ) {
 }
 
 foreach($adminMenuMappings as $path => $pluginAdminMenuitem) {
-	if(isset($blogContentMenuItem[$pluginAdminMenuitem['topMenu']]) && (count($blogContentMenuItem[$pluginAdminMenuitem['topMenu']]) < $pluginAdminMenuitem['contentMenuOrder'] 
-	  || $pluginAdminMenuitem['contentMenuOrder'] < 1))
-		$pluginAdminMenuitem['contentMenuOrder'] = count($blogContentMenuItem[$pluginAdminMenuitem['topMenu']]);
-	array_splice($blogContentMenuItem[$pluginAdminMenuitem['topMenu']], $pluginAdminMenuitem['contentMenuOrder'], 0, 
-		array(array('menu'=>'adminMenu?name='.$path,
-		'title'=>$pluginAdminMenuitem['title'],
-		'link'=>'/owner/plugin/adminMenu?name='.$path))
-	);
+	if(isset($blogContentMenuItem[$pluginAdminMenuitem['topMenu']])) { 
+		if(count($blogContentMenuItem[$pluginAdminMenuitem['topMenu']]) < $pluginAdminMenuitem['contentMenuOrder'] 
+		  || $pluginAdminMenuitem['contentMenuOrder'] < 1)
+			$pluginAdminMenuitem['contentMenuOrder'] = count($blogContentMenuItem[$pluginAdminMenuitem['topMenu']]);
+		array_splice($blogContentMenuItem[$pluginAdminMenuitem['topMenu']], $pluginAdminMenuitem['contentMenuOrder'], 0, 
+			array(array('menu'=>'adminMenu?name='.$path,
+			'title'=>$pluginAdminMenuitem['title'],
+			'link'=>'/owner/plugin/adminMenu?name='.$path))
+		);
+	}
 }
 $blogContentMenuItem['center'] = array_merge($blogContentMenuItem['center'] , array(array('menu'=>'about','title'=>_t('텍스트큐브는'),'link'=>'/owner/center/about')));
 // Adds 'about' panel at the last part of center panel.
