@@ -503,7 +503,7 @@ class CacheControl {
 		global $database;
 		return POD::query("DELETE FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND name like '%".(!empty($prefix) ? $prefix.'_' : '')."queryCache%'");
+			AND name like '%".(!empty($prefix) ? $prefix.'\\_' : '')."queryCache%'");
 	}
 	function purgeItems($items) {
 		if(!empty($items)) {
