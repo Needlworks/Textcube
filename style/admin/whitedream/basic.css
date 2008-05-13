@@ -292,12 +292,16 @@ textarea
 #main-menu li.selected a
 {
 	color                            : #222;
+}
 
+#main-menu li.selected a:hover
+{
+	color                            : #000;
 }
 
 #main-menu li a:hover
 {
-	color                            : #4FF;
+	color                            : #1FF;
 }
 
 #main-menu ul.sub-menu
