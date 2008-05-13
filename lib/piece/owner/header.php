@@ -209,8 +209,8 @@ if( empty($blogContentMenuItem) ) {
 }
 
 foreach($adminMenuMappings as $path => $pluginAdminMenuitem) {
-	if(count($blogContentMenuItem[$pluginAdminMenuitem['topMenu']]) < $pluginAdminMenuitem['contentMenuOrder'] 
-	  || $pluginAdminMenuitem['contentMenuOrder'] < 1)
+	if(isset($blogContentMenuItem[$pluginAdminMenuitem['topMenu']]) && (count($blogContentMenuItem[$pluginAdminMenuitem['topMenu']]) < $pluginAdminMenuitem['contentMenuOrder'] 
+	  || $pluginAdminMenuitem['contentMenuOrder'] < 1))
 		$pluginAdminMenuitem['contentMenuOrder'] = count($blogContentMenuItem[$pluginAdminMenuitem['topMenu']]);
 	array_splice($blogContentMenuItem[$pluginAdminMenuitem['topMenu']], $pluginAdminMenuitem['contentMenuOrder'], 0, 
 		array(array('menu'=>'adminMenu?name='.$path,
