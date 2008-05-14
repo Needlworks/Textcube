@@ -522,6 +522,11 @@ class Post {
 				return $this->_error('id');
 			$query->setQualifier('id', $this->id);
 		} 
+		if (isset($this->userid)) {
+			if (!Validator::number($this->userid, 1))
+				return $this->_error('userid');
+			$query->setQualifier('userid', $this->userid);
+		} 
 		if (isset($this->title))
 			$query->setAttribute('title', UTF8::lessenAsEncoding($this->title, 255), true);
 		if (isset($this->content)) {
