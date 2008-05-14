@@ -503,6 +503,10 @@ class Post {
 	function nextEntryId($id = 0) {
 		global $database;
 		$maxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId());
+		if( !$maxId ) {
+			/* Oddly, database connection is dropped frequently in this point */
+			$maxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId());
+		}
 		if($id==0)
 			return $maxId + 1;
 		else

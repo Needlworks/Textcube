@@ -16,7 +16,7 @@
   </requirements>
   <binding>
 	<listener event="/plugin/moblog/check">moblog_check</listener>
-	<listener event="Cron1m">moblog_check</listener>
+	<listener event="Cron1h">moblog_check</listener>
     <adminMenu>
       <viewMethods>
         <method>
@@ -25,6 +25,9 @@
           <title xml:lang="ko">모바일</title>
           <handler>moblog_manage</handler>
           <params>
+			  <param>
+				  <name>pop3email</name><type>string</type><mandatory>0</mandatory>
+			  </param>
 			  <param>
 				  <name>pop3host</name><type>string</type><mandatory>0</mandatory>
 			  </param>

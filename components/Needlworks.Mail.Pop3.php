@@ -168,8 +168,16 @@ class Pop3 {
 	function list_size()
 	{
 		$this->clearStatus();
+		$this->log( "Send: STAT" );
+		if( !fputs($this->ctx, "STAT\r\n") ) {
+			return false;
+		}
+		if( !$this->receiveResult(false) ) {
+			return false;
+		}
+		list( $total, $totalsize ) = split( " ", $this->status );
+
 		$this->log( "Send: LIST" );
-		error_log( "Send: LIST " );
 		if( !fputs($this->ctx, "LIST\r\n") ) {
 			return false;
 		}
@@ -182,7 +190,7 @@ class Pop3 {
 				$this->log( "Msg $number: Already filterred" );
 				continue;
 			}
-			if( $this->size_filter && call_user_func($this->size_filter, $size) ) {
+			if( $this->size_filter && call_user_func($this->size_filter, $size, $number, $total) ) {
 				$this->log( "Msg $number: Filterred by size: $size" );
 				if( isset( $this->uids[$number] ) ) {
 					unset( $this->mails[$this->uids[$number]] );

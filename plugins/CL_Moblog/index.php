@@ -13,6 +13,7 @@ class Moblog
 		$this->ssl = $ssl;
 		$this->userid = $userid;
 		$this->minsize = $minsize;
+		$this->recentCount = 100;
 
 		$this->pop3 = new Pop3();
 		$this->pop3->setLogger( array(&$this,'log') );
@@ -37,7 +38,15 @@ class Moblog
 
 	function log($msg)
 	{
-		print $msg."<br/>\n";
+		static $blocked = false;
+		if( Acl::check( 'group.administrators' ) ) {
+			print $msg."<br/>\n";
+		} else {
+			if( !$blocked ) {
+				$blocked = true;
+				print "Log message prohibited. Please login with administrator's account";
+			}
+		}
 	}
 
 	function saveUidl()
@@ -79,8 +88,11 @@ class Moblog
 		return $ret;
 	}
 
-	function checkSize( $size )
+	function checkSize( $size, $number, $total )
 	{
+		if( $number > $total - $this->recentCount ) {
+			return false;
+		}
 		return $size < $this->minsize;
 	}
 
@@ -100,6 +112,7 @@ class Moblog
 	{
 		$this->appendUid( $uid );
 		$mail = $this->pop3->parse( $lines );
+		$this->log( "Subject: " . $mail['subject'] );
 		if( !$this->isMms($mail) ) {
 			$this->log( "Dismissed: this is not an MMS message" );
 			return false;
@@ -108,6 +121,7 @@ class Moblog
 			$this->log( "Dismissed: there is no attachment" );
 			return false;
 		}
+		$this->log( "Accepted!" );
 		requireComponent( "Textcube.Data.Post" );
 
 		$post = new Post();
@@ -128,7 +142,6 @@ class Moblog
 		$post->published = time();
 		$post->add();
 
-		$this->log( "Subject: {$mail['subject']}" );
 		$this->log( "Attachment: {$mail['attachments'][0]['filename']}" );
 		requireModel( "blog.api" );
 		$att = api_addAttachment( getBlogId(), $post->id, 
@@ -167,14 +180,16 @@ function moblog_manage()
 	global $blogURL;
 	requireModel("common.setting");
 	if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+		setBlogSetting( 'MmsPop3Email', $_POST['pop3email'] );
 		setBlogSetting( 'MmsPop3Host', $_POST['pop3host'] );
 		setBlogSetting( 'MmsPop3Port', $_POST['pop3port'] );
 		setBlogSetting( 'MmsPop3Ssl', !empty($_POST['pop3ssl'])?1:0 );
 		setBlogSetting( 'MmsPop3Username', $_POST['pop3username'] );
 		setBlogSetting( 'MmsPop3Password', $_POST['pop3password'] );
 		setBlogSetting( 'MmsPop3Fallbackuserid', getUserId() );
-		setBlogSetting( 'MmsPop3MinSize', $_POST['pop3minsize'] );
+		setBlogSetting( 'MmsPop3MinSize', 0 );
 	}
+	$pop3email = getBlogSetting( 'MmsPop3Email', '' );
 	$pop3host = getBlogSetting( 'MmsPop3Host', 'localhost' );
 	$pop3port = getBlogSetting( 'MmsPop3Port', 110 );
 	$pop3ssl = getBlogSetting( 'MmsPop3Ssl', 0 ) ? " checked=1 " : "";
@@ -186,13 +201,40 @@ function moblog_manage()
 						<hr class="hidden" />
 						
 						<div id="part-setting-editor" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('MMS 메시지 확인용 POP3 정보');?></span></h2>
-							
+							<h2 class="caption"><span class="main-text"><?php echo _t('MMS 메시지 확인용 메일 환경 설정');?></span></h2>
+<?php if( !Acl::check( "group.administrators" ) ): ?>
+								<div id="editor-section" class="section">
+										<dl id="formatter-line" class="line">
+											<dt><span class="label"><?php echo _t('MMS 수신 이메일');?></span></dt>
+											<dd>
+											<?php if( empty($pop3email) ): ?>
+												<?php echo _t('비공개') ?>
+											<?php else: ?>
+												<?php echo $pop3email;?>
+											<?php endif ?>
+											</dd>
+											<dd>
+											<?php if( empty($pop3email) ): ?>
+												<?php echo _('MMS 메시지를 보내어 연동할 이메일이 공개되지 않았습니다'); ?>
+											<?php else: ?>
+												<?php echo _('이동전화를 이용하여 위 메일로 MMS 메시지를 보내면 블로그에 게시됩니다'); ?>
+											<?php endif ?>
+											</dd>
+										</dl>
+								</div>
+<?php else: ?>
 							<form id="editor-form" class="data-inbox" method="post" action="<?php echo $blogURL;?>/owner/plugin/adminMenu?name=CL_Moblog/moblog_manage">
 								<div id="editor-section" class="section">
 									<fieldset class="container">
 										<legend><?php echo _t('MMS 환경을 설정합니다');?></legend>
 										
+										<dl id="formatter-line" class="line">
+											<dt><span class="label"><?php echo _t('MMS용 이메일');?></span></dt>
+											<dd>
+												<input type="text" style="width:14em" class="input-text" name="pop3email" value="<?php echo $pop3email;?>" /> 
+												<?php echo _t('(필진에 공개 됩니다)'); ?>
+											</dd>
+										</dl>
 										<dl id="formatter-line" class="line">
 											<dt><span class="label"><?php echo _t('POP3 호스트');?></span></dt>
 											<dd>
@@ -223,8 +265,8 @@ function moblog_manage()
 									</div>
 								</div>
 							</form>
+<?php endif ?>
 						</div>
-	</form>
 <?php
 }
 ?>
