@@ -72,7 +72,7 @@ class Pop3 {
 			if( !$this->receiveResult(true) ) {
 				return false;
 			}
-			if( $this->retr_callback && count($this->results)>100 ) {
+			if( $this->retr_callback ) {
 				call_user_func( $this->retr_callback, $this->results, $this->uids[$nr] );
 			}
 		}

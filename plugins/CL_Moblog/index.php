@@ -108,10 +108,20 @@ class Moblog
 		return false;
 	}
 
+	function _getDecoratedContent( & $mail ) {
+			$alt = htmlentities($mail['attachments'][0]['filename'],ENT_QUOTES,'utf-8');
+			$content = '<p>$TEXT</p><p>[##_1C|$FILENAME|width="$WIDTH" height="$HEIGHT" alt="'.$alt.'"|_##]</p>';
+			$text = "<h3>".$mail['subject']."</h3>\r\n".(isset($mail['text'])?$mail['text']:'');
+			return str_replace( '$TEXT', $text , $content );
+	}
+
 	function retrieveCallback( $lines, $uid )
 	{
 		$this->appendUid( $uid );
 		$mail = $this->pop3->parse( $lines );
+		if( in_array( $mail['subject'], array( '제목없음' ) ) ) {
+			$mail['subject'] = '';
+		}
 		$this->log( "Subject: " . $mail['subject'] );
 		if( !$this->isMms($mail) ) {
 			$this->log( "Dismissed: this is not an MMS message" );
@@ -125,22 +135,29 @@ class Moblog
 		requireComponent( "Textcube.Data.Post" );
 
 		$post = new Post();
-		$post->userid = $this->userid;
-		$post->content = '$TEXT<br/>[##_1C|$FILENAME|width="$WIDTH" height="$HEIGHT" alt=""|_##]';
-		$post->content = str_replace( '$TEXT', isset($mail['text'])?$mail['text']:'', $post->content );
-		$post->contentFormatter = getDefaultFormatter();
-		$post->contentEditor = getDefaultEditor();
-		$post->title = $mail['subject'];
-		if( empty($post->title) ) {
-			$post->title = $post->$mail['attachments'][0]['filename'];
+		$slogan = date( "Y-m-d" );
+
+		if( $post->open( "slogan = '$slogan'" ) ) {
+			$post->content .= $this->_getDecoratedContent( $mail );
+			$post->modified = time();
+		} else {
+			$post->title = $mail['subject'];
+			$post->userid = $this->userid;
+			$post->content = $this->_getDecoratedContent( $mail );
+			$post->contentFormatter = getDefaultFormatter();
+			$post->contentEditor = getDefaultEditor();
+			$post->created = time();
+			$post->acceptComment = true;
+			$post->acceptTrackback = true;
+			$post->visibility = "public";
+			$post->published = time();
+			$post->modified = time();
+			$post->slogan = $slogan;
+			if( !$post->add() ) {
+				$this->log( "Failed: there is a problem in adding post" );
+				return false;
+			}
 		}
-		$post->created = time();
-		$post->modified = time();
-		$post->acceptComment = true;
-		$post->acceptTrackback = true;
-		$post->visibility = "public";
-		$post->published = time();
-		$post->add();
 
 		$this->log( "Attachment: {$mail['attachments'][0]['filename']}" );
 		requireModel( "blog.api" );
@@ -151,10 +168,17 @@ class Moblog
 							'size' => $mail['attachments'][0]['length']
 					) 
 			);
+		if( !$att ) {
+			$this->log( "Failed: there is a problem in attaching file" );
+			return false;
+		}
 		$post->content = str_replace( '$FILENAME', $att['name'], $post->content );
 		$post->content = str_replace( '$WIDTH', $att['width'], $post->content );
 		$post->content = str_replace( '$HEIGHT', $att['height'], $post->content );
-		$post->update();
+		if( !$post->update() ) {
+			$this->log( "Failed: there is a problem in adding post." );
+			return false;
+		}
 		return true;
 	}
 }
