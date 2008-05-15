@@ -5,7 +5,7 @@
 
 function dumbCronScheduler($checkOnly=true)
 {
-	global $service;
+	global $service, $blog;
 	requireModel('common.setting');
 	$now = Timestamp::getUNIXtime();
 
@@ -24,13 +24,24 @@ function dumbCronScheduler($checkOnly=true)
 					'6h'  => 60*60*6,
 					'12h' => 60*60*12 );
 	/* Events: Cron1m, Cron5m, Cron30m, Cron1h, Cron2h, Cron6h, Cron12h */
+	$log_file = dirname(__FILE__).DS."..".DS."..".DS."cache".DS."cronlog.txt";
+	$log = fopen( $log_file, "a" );
 	foreach( $schedules as $d => $diff ) {
 		if( $now > $diff + $dumbCronStamps[$d]    ) { 
 			if( $checkOnly && eventExists("Cron$d") ) return true;
 			fireEvent( "Cron$d",  null, $now );
+			fwrite( $log, date( 'Y-m-d H:i:s' ).' '.$blog['name']." Cron$d executed ({$_SERVER['REQUEST_URI']})\r\n" );
 			$dumbCronStamps[$d] = $now;
 		}
 	}
+	fclose($log);
+
+	/* Keep just 1000 lines */
+	$logcontent = explode( "\r\n", file_get_contents( $log_file ) );
+	$logcontent = implode( "\r\n", array_slice( $logcontent, -1000 ) );
+	$log = fopen( $log_file, "w" );
+	fwrite( $log, $logcontent );
+	fclose( $log );
 	setServiceSetting( 'dumbCronStamps', serialize( $dumbCronStamps ) );
 	return false;
 }
