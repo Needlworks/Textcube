@@ -518,6 +518,11 @@ if (isset($_GET['popupEditor'])) {
 										document.getElementById("date-line").style.display = "";
 										document.getElementById("status-line").style.display = "";
 									}
+									if (type == "type_notice") {
+										document.getElementById("permalink-prefix").innerHTML = document.getElementById("permalink-prefix").innerHTML.replace(new RegExp("/entry/$"), "/notice/");
+									} else {
+										document.getElementById("permalink-prefix").innerHTML = document.getElementById("permalink-prefix").innerHTML.replace(new RegExp("/notice/$"), "/entry/");
+									}
 									return true;
 								}
 								
@@ -805,7 +810,7 @@ printEntryFileUploadButton($entry['id']);
 											<dl id="permalink-line" class="line"<?php if($isKeyword) echo ' style="display: none"';?>>
 												<dt><label for="permalink"><?php echo _t('절대 주소');?></label></dt>
 												<dd>
-													<samp><?php echo _f('%1/entry/', link_cut(getBlogURL()));?></samp><input type="text" id="permalink" class="input-text" name="permalink" onkeypress="return preventEnter(event);" value="<?php echo htmlspecialchars($entry['slogan']);?>" />
+													<samp id="permalink-prefix"><?php echo _f('%1/entry/', link_cut(getBlogURL()));?></samp><input type="text" id="permalink" class="input-text" name="permalink" onkeypress="return preventEnter(event);" value="<?php echo htmlspecialchars($entry['slogan']);?>" />
 													<p>* <?php echo _t('입력하지 않으면 글의 제목이 절대 주소가 됩니다.');?></p>
 												</dd>
 											</dl>
