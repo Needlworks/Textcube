@@ -64,7 +64,7 @@ function decodeURL($url) {
 	if (isset($service['useEncodedURL']) && $service['useEncodedURL'])
 		return rawurldecode($url);
 	else
-		return urldecode($url);
+		return $url;
 }
 
 ?>
