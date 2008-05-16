@@ -336,17 +336,21 @@ $comment = new GuestComment();
 if ($comment->open('parent IS NULL')) {
 	$writer->write('<guestbook>');
 	do {
-		$writer->write('<comment>' . '<commenter' . ' id="' . $comment->commenter . '">' . '<name>' . htmlspecialchars(UTF8::correct($comment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::correct($comment->homepage)) . '</homepage>' . '<ip>' . $comment->ip . '</ip>' . '<openid>' . $comment->openid . '</openid>' . '</commenter>' . '<content>' . htmlspecialchars(UTF8::correct($comment->content)) . '</content>' . '<password>' . htmlspecialchars($comment->password) . '</password>' . '<secret>' . htmlspecialchars($comment->secret) . '</secret>' . '<written>' . $comment->written . '</written>');
-		$writer->write(CRLF);
-		if ($childComment = $comment->getChildren()) {
-			do {
-				$writer->write('<comment>' . '<commenter' . ' id="' . $childComment->commenter . '">' . '<name>' . htmlspecialchars(UTF8::correct($childComment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::correct($childComment->homepage)) . '</homepage>' . '<ip>' . $childComment->ip . '</ip>' . '<openid>' . $comment->openid . '</openid>' . '</commenter>' . '<content>' . htmlspecialchars(UTF8::correct($childComment->content)) . '</content>' . '<password>' . htmlspecialchars($childComment->password) . '</password>' . '<secret>' . htmlspecialchars($childComment->secret) . '</secret>' . '<written>' . $childComment->written . '</written>' . '</comment>');
-				$writer->write(CRLF);
-			} while ($childComment->shift());
-			$childComment->close();
+		if ($comment->isFiltered == 0) {
+			$writer->write('<comment>' . '<commenter' . ' id="' . $comment->commenter . '">' . '<name>' . htmlspecialchars(UTF8::correct($comment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::correct($comment->homepage)) . '</homepage>' . '<ip>' . $comment->ip . '</ip>' . '<openid>' . $comment->openid . '</openid>' . '</commenter>' . '<content>' . htmlspecialchars(UTF8::correct($comment->content)) . '</content>' . '<password>' . htmlspecialchars($comment->password) . '</password>' . '<secret>' . htmlspecialchars($comment->secret) . '</secret>' . '<written>' . $comment->written . '</written>');
+			$writer->write(CRLF);
+			if ($childComment = $comment->getChildren()) {
+				do {
+					if ($childComment->isFiltered == 0) {
+						$writer->write('<comment>' . '<commenter' . ' id="' . $childComment->commenter . '">' . '<name>' . htmlspecialchars(UTF8::correct($childComment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::correct($childComment->homepage)) . '</homepage>' . '<ip>' . $childComment->ip . '</ip>' . '<openid>' . $comment->openid . '</openid>' . '</commenter>' . '<content>' . htmlspecialchars(UTF8::correct($childComment->content)) . '</content>' . '<password>' . htmlspecialchars($childComment->password) . '</password>' . '<secret>' . htmlspecialchars($childComment->secret) . '</secret>' . '<written>' . $childComment->written . '</written>' . '</comment>');
+						$writer->write(CRLF);
+					}
+				} while ($childComment->shift());
+				$childComment->close();
+			}
+			$writer->write('</comment>');
+			$writer->write(CRLF);
 		}
-		$writer->write('</comment>');
-		$writer->write(CRLF);
 	} while ($comment->shift());
 	$writer->write('</guestbook>');
 	$writer->write(CRLF);
