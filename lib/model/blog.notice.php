@@ -24,6 +24,6 @@ function getNotice($blogid, $id) {
 function getNotices($blogid) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility = 2';
-	return POD::queryAll("SELECT id, title, published FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -2 ORDER BY published DESC");
+	return POD::queryAll("SELECT id, title, slogan, published FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -2 ORDER BY published DESC");
 }
 ?>

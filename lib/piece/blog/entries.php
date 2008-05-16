@@ -33,7 +33,7 @@ if (isset($cache->contents)) {
 	
 	foreach ($entries as $entry) {
 		if ($suri['directive'] == '/notice')
-			$permalink = "$blogURL/notice/{$entry['id']}";
+			$permalink = "$blogURL/notice/" . ($blog['useSloganOnPost'] ? URL::encode($entry['slogan'], $service['useEncodedURL']) : $entry['id']);
 		else if ($suri['directive'] == '/page')
 			$permalink = "$blogURL/page/{$entry['id']}";
 		else
@@ -55,10 +55,7 @@ if (isset($cache->contents)) {
 			dress('notice_rep_microformat_updated', Timestamp::getISO8601($entry['modified']), $entryView);
 			dress('notice_rep_date', fireEvent('ViewNoticeDate', Timestamp::format5($entry['published']), $entry['published']), $entryView);
 			dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', $entry['title'], $entry['id'])), $entryView);
-			if ($suri['directive'] == '/notice')
-				dress('notice_rep_link', "$blogURL/notice/{$entry['id']}", $entryView);
-			else
-				dress('notice_rep_link', "$blogURL/page/{$entry['id']}", $entryView);
+			dress('notice_rep_link', $permalink, $entryView);
 			
 			// 사용자가 작성한 본문은 lib/piece/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
 			$contentContainer["notice_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($blogid), 'Notice');

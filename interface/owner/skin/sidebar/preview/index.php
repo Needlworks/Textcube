@@ -143,7 +143,7 @@ function pretty_dress($view)
 		foreach ($notices as $notice) {
 			$itemView = $recentNoticeItem;
 			dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', UTF8::lessenAsEm($notice['title'], $skinSetting['recentNoticeLength']), $notice['id'])), $itemView);
-			dress('notice_rep_link', "$blogURL/notice/{$notice['id']}", $itemView);
+			dress('notice_rep_link', "$blogURL/notice/".($blog['useSloganOnPost'] ? URL::encode($notice['slogan'], $itemView) : $notice['id']), $itemView);
 			$itemsView .= $itemView;
 		}
 		dress('rct_notice_rep', $itemsView, $noticeView);
