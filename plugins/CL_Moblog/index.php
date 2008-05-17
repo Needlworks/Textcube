@@ -6,6 +6,10 @@ class Moblog
 	function Moblog( $username, $password, $host, $port = 110, $ssl = 0, 
 		$userid = 1, $minsize = 10240 )
 	{
+		global $pop3logs;
+		if( !isset($debugLogs) ) {
+			$pop3logs = array();
+		}
 		$this->username = $username;
 		$this->password = $password;
 		$this->host = $host;
@@ -17,6 +21,7 @@ class Moblog
 
 		$this->pop3 = new Pop3();
 		$this->pop3->setLogger( array(&$this,'log') );
+		$this->pop3->setStatCallback( array(&$this,'statCallback') );
 		$this->pop3->setUidFilter( array(&$this,'checkUid') );
 		$this->pop3->setSizeFilter( array(&$this,'checkSize') );
 		$this->pop3->setRetrCallback( array(&$this,'retrieveCallback') );
@@ -38,14 +43,12 @@ class Moblog
 
 	function log($msg)
 	{
-		static $blocked = false;
-		if( Acl::check( 'group.administrators' ) ) {
-			print $msg."<br/>\n";
-		} else {
-			if( !$blocked ) {
-				$blocked = true;
-				print "Log message prohibited. Please login with administrator's account";
-			}
+		$f = fopen( ROOT.DS."cache".DS."moblog.txt", "a" );
+		fwrite( $f, date('Y-m-d H:i:s')." $msg\r\n" );
+		fclose($f);
+		if( $msg[0] == '*' ) {
+			global $pop3logs;
+			array_push( $pop3logs, substr($msg,2) );
 		}
 	}
 
@@ -60,11 +63,15 @@ class Moblog
 	function check()
 	{
 		if( !$this->pop3->connect( $this->host, $this->port, $this->ssl ) ) {
+			$this->log( "* Connection failure : ".$this->host.":".$this->port.($this->ssl?"(SSL)":"(no SSL)") );
 			return false;
 		}
+		$this->log( "* Connection success : ".$this->host.":".$this->port.($this->ssl?"(SSL)":"(no SSL)") );
 		if( !$this->pop3->authorize( $this->username, $this->password ) ) {
+			$this->log( "* Authentication failure" );
 			return false;
 		}
+		$this->log( "* Authentication success" );
 
 		$this->pop3->run();
 
@@ -81,18 +88,21 @@ class Moblog
 		$this->saveUidl();
 	}
 
-	function checkUid( $uid )
+	function checkUid( $uid, $number )
 	{
 		$ret = !!strstr( $this->stored_uidl, "[$uid]" );
-//		echo "Check $uid: ".($ret?"Y":"N")."<br/>\n";
+		if( $ret ) {
+			$this->log( "Msg $number: Filterred by uid: $uid" );
+		}
 		return $ret;
 	}
 
 	function checkSize( $size, $number, $total )
 	{
-		if( $number > $total - $this->recentCount ) {
-			return false;
+		if( $number < $total - $this->recentCount ) {
+			return true;
 		}
+		$this->log( "Msg $number: Filterred by size: $size" );
 		return $size < $this->minsize;
 	}
 
@@ -115,27 +125,38 @@ class Moblog
 			return str_replace( '$TEXT', $text , $content );
 	}
 
+	function statCallback( $total, $totalsize )
+	{
+		$this->log( "* Total $total messages" );
+		$lastStat = getBlogSetting( 'MmsPop3stat', '' );
+		$stat = "$total $totalsize";
+		if( $stat == $lastStat ) {
+			$this->log( "* No new message arrived" );
+			return false;
+		}
+		setBlogSetting( 'MmsPop3stat', $stat );
+		return true;
+	}
+
 	function retrieveCallback( $lines, $uid )
 	{
+		$slogan = date( "Y-m-d" );
 		$this->appendUid( $uid );
 		$mail = $this->pop3->parse( $lines );
 		if( in_array( $mail['subject'], array( '제목없음' ) ) ) {
-			$mail['subject'] = '';
+			$mail['subject'] = date( "Y-m-d H:i:s" );
 		}
-		$this->log( "Subject: " . $mail['subject'] );
 		if( !$this->isMms($mail) ) {
-			$this->log( "Dismissed: this is not an MMS message" );
+			$this->log( "* Subject: " . $mail['subject'] . " [SKIP]" );
 			return false;
 		}
 		if( empty($mail['attachments']) ) {
-			$this->log( "Dismissed: there is no attachment" );
+			$this->log( "* Subject: " . $mail['subject'] . " [SKIP]" );
 			return false;
 		}
-		$this->log( "Accepted!" );
 		requireComponent( "Textcube.Data.Post" );
 
 		$post = new Post();
-		$slogan = date( "Y-m-d" );
 
 		if( $post->open( "slogan = '$slogan'" ) ) {
 			$post->content .= $this->_getDecoratedContent( $mail );
@@ -154,7 +175,8 @@ class Moblog
 			$post->modified = time();
 			$post->slogan = $slogan;
 			if( !$post->add() ) {
-				$this->log( "Failed: there is a problem in adding post" );
+				$this->log( "* Subject: " . $mail['subject'] . " [ERROR]" );
+				$this->log( "Failed: there is a problem in adding post : " . $post->error );
 				return false;
 			}
 		}
@@ -169,6 +191,7 @@ class Moblog
 					) 
 			);
 		if( !$att ) {
+			$this->log( "* Subject: " . $mail['subject'] . " [ERROR]" );
 			$this->log( "Failed: there is a problem in attaching file" );
 			return false;
 		}
@@ -176,15 +199,30 @@ class Moblog
 		$post->content = str_replace( '$WIDTH', $att['width'], $post->content );
 		$post->content = str_replace( '$HEIGHT', $att['height'], $post->content );
 		if( !$post->update() ) {
+			$this->log( "* Subject: " . $mail['subject'] . " [ERROR]" );
 			$this->log( "Failed: there is a problem in adding post." );
 			return false;
 		}
+		$this->log( "* Subject: " . $mail['subject'] . " [OK]" );
 		return true;
 	}
 }
 
 function moblog_check()
 {
+	if( isset($_GET['check']) && $_GET['check'] == 1 ) {
+		echo "<style>.emplog{color:red}</style>";
+		echo "<ul>";
+		echo join( "", 
+			array_map(
+				create_function( '$li', 'return preg_match( "/^\S+\s+\S+\s+\*/", $li ) ? "<li class=\"emplog\">$li</li>" : "<li>$li</li>";'), 
+				split( "\n",file_get_contents(ROOT.DS."cache".DS."moblog.txt"))
+			)
+		);
+		echo "</ul>";
+		exit;
+	}
+
 	$pop3host = getBlogSetting( 'MmsPop3Host', 'localhost' );
 	$pop3port = getBlogSetting( 'MmsPop3Port', 110 );
 	$pop3ssl = getBlogSetting( 'MmsPop3Ssl', 0 );
@@ -194,8 +232,17 @@ function moblog_check()
 	$pop3minsize *= 1024;
 	$pop3fallbackuserid = getBlogSetting( 'MmsPop3Fallbackuserid', 1 );
 
+	header( "Content-type: text/html" );
+	echo "<ul><li>";
 	$moblog = new Moblog( $pop3username, $pop3password, $pop3host, $pop3port, $pop3ssl, $pop3fallbackuserid, $pop3minsize );
+	$moblog->log( "--BEGIN--" );
 	$moblog->check();
+	$moblog->log( "-- END --" );
+	if( Acl::check( 'group.administrators' ) ) {
+		global $pop3logs;
+		print join("</li><li>",$pop3logs);
+	}
+	echo "</li></ul>";
 	return true;
 }
 
@@ -203,7 +250,7 @@ function moblog_manage()
 {
 	global $blogURL;
 	requireModel("common.setting");
-	if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+	if( Acl::check('group.administrators') && $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		setBlogSetting( 'MmsPop3Email', $_POST['pop3email'] );
 		setBlogSetting( 'MmsPop3Host', $_POST['pop3host'] );
 		setBlogSetting( 'MmsPop3Port', $_POST['pop3port'] );
@@ -239,9 +286,9 @@ function moblog_manage()
 											</dd>
 											<dd>
 											<?php if( empty($pop3email) ): ?>
-												<?php echo _('MMS 메시지를 보내어 연동할 이메일이 공개되지 않았습니다'); ?>
+												<?php echo _t('MMS 메시지를 보내어 연동할 이메일이 공개되지 않았습니다'); ?>
 											<?php else: ?>
-												<?php echo _('이동전화를 이용하여 위 메일로 MMS 메시지를 보내면 블로그에 게시됩니다'); ?>
+												<?php echo _t('이동전화를 이용하여 위 메일로 MMS 메시지를 보내면 블로그에 게시됩니다'); ?>
 											<?php endif ?>
 											</dd>
 										</dl>
@@ -289,6 +336,20 @@ function moblog_manage()
 									</div>
 								</div>
 							</form>
+							<h2 class="caption"><span class="main-text"><?php echo _t('MMS 메시지 테스트');?></span></h2>
+								<div id="editor-section" class="section">
+									<dl id="formatter-line" class="line">
+										<dt><span class="label"><?php echo _t('명령');?></span></dt>
+										<dd>
+											<input type="button" class="save-button input-button wide-button" value="<?php echo _t('로그보기');?>"  
+												onclick="document.getElementById('pop3_debug').src='<?php echo $blogURL."/plugin/moblog/check?check=1"?>'" />
+											<input type="button" class="save-button input-button wide-button" value="<?php echo _t('시험하기');?>" 
+												onclick="document.getElementById('pop3_debug').src='<?php echo $blogURL."/plugin/moblog/check"?>'" />
+										</dd>
+									</dl>
+								</div>
+								<iframe src="about:blank" class="debug_message" id="pop3_debug" style="width:100%; height:400px">
+								</iframe>
 <?php endif ?>
 						</div>
 <?php
