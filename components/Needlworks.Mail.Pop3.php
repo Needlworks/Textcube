@@ -10,6 +10,7 @@ class Pop3 {
 		$this->logger = null;
 		$this->uidl_filter = null;
 		$this->size_filter = null;
+		$this->stat_callback = null;
 		$this->retr_callback = null;
 		$this->mails = array();
 		$this->uids = array();
@@ -30,7 +31,6 @@ class Pop3 {
 		$this->clearStatus();
 		$this->ctx = fsockopen( $bSSL ? "ssl://$server" : $server, $port); 
 		if( !$this->ctx ) {
-			$this->log( "Connect failed: $server:$port" );
 			return false;
 		}
 		$line = fgets( $this->ctx, 1024 );
@@ -125,6 +125,11 @@ class Pop3 {
 		$this->size_filter =& $func;
 	}
 
+	function setStatCallback( $func )
+	{
+		$this->stat_callback =& $func;
+	}
+
 	function setRetrCallback( $func )
 	{
 		$this->retr_callback =& $func;
@@ -151,11 +156,9 @@ class Pop3 {
 		foreach( $this->results as $line ) {
 			list( $number, $uid ) = split( " ", $line );
 			if( !empty($this->filterred[$number]) ) {
-				$this->log( "Msg $number: Already filterred" );
 				continue;
 			}
-			if( $this->uidl_filter && call_user_func($this->uidl_filter, $uid) ) {
-				$this->log( "Msg $number: Filterred by uid: $uid" );
+			if( $this->uidl_filter && call_user_func($this->uidl_filter, $uid, $number) ) {
 				$this->filterred[$number] = true;
 				continue;
 			}
@@ -176,6 +179,15 @@ class Pop3 {
 			return false;
 		}
 		list( $total, $totalsize ) = split( " ", $this->status );
+		if( $this->stat_callback ) {
+			if( !call_user_func( $this->stat_callback, $total, $totalsize ) ) {
+				return false;
+			}
+		}
+
+		if( $total == 0 ) {
+			return false;
+		}
 
 		$this->log( "Send: LIST" );
 		if( !fputs($this->ctx, "LIST\r\n") ) {
@@ -187,11 +199,9 @@ class Pop3 {
 		foreach( $this->results as $line ) {
 			list( $number, $size ) = split( " ", $line );
 			if( !empty($this->filterred[$number]) ) {
-				$this->log( "Msg $number: Already filterred" );
 				continue;
 			}
 			if( $this->size_filter && call_user_func($this->size_filter, $size, $number, $total) ) {
-				$this->log( "Msg $number: Filterred by size: $size" );
 				if( isset( $this->uids[$number] ) ) {
 					unset( $this->mails[$this->uids[$number]] );
 					unset( $this->uids[$number] );
@@ -220,7 +230,7 @@ class Pop3 {
 	{
 		$count = 1000000; /* Maximum 1000000 lines! it's enough to handle 6MB bytes */
 		$line = fgets($this->ctx, 1024); 
-		$this->log( "Recv: $line" );
+		$this->log( "Recv: ".trim($line) );
 		if( !$line ) {
 			return false;
 		}
