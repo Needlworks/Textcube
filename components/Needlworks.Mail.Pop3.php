@@ -378,7 +378,7 @@ class Pop3 {
 				if( !empty($mail['content_charset']) ) {
 					$mail['text'] = iconv( $mail['content_charset'], 'utf-8', $mail['text'] );
 				} elseif( isset($this->fallback_charset) ) {
-					$mail['text'] = iconv( $this->fallback_charset, 'utf-8', $mail['text'] );
+					$mail['text'] = iconv( $this->fallback_charset, 'utf-8//IGNORE', $mail['text'] );
 				}
 			}
 		} else {
