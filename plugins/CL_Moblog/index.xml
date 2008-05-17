@@ -6,7 +6,7 @@
   <version>1.0</version>
   <description xml:lang="en">This plugin enables Mobile blogging</description>
   <description xml:lang="ko">모바일 블로깅을 가능하게 합니다</description>
-  <license>GPL</license>
+  <license>GPL 2.0</license>
   <author xml:lang="en" link="http://www.needlworks.org/">Hojin Choi</author>
   <author xml:lang="ko" link="http://www.needlworks.org/">Coolengineer</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
@@ -16,7 +16,7 @@
   </requirements>
   <binding>
 	<listener event="/plugin/moblog/check">moblog_check</listener>
-	<listener event="Cron1h">moblog_check</listener>
+	<listener event="Cron5m">moblog_check</listener>
     <adminMenu>
       <viewMethods>
         <method>
