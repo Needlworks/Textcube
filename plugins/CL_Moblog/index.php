@@ -26,7 +26,7 @@ class Moblog
 		$this->pop3->setSizeFilter( array(&$this,'checkSize') );
 		$this->pop3->setRetrCallback( array(&$this,'retrieveCallback') );
 
-		$this->uidl_file = ROOT."/cache/pop3uidl.txt";
+		$this->uidl_file = ROOT.DS."cache".DS."pop3uidl.txt";
 
 		if( file_exists( $this->uidl_file ) ) {
 			$this->stored_uidl = file_get_contents( $this->uidl_file );
