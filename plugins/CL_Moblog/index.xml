@@ -46,6 +46,9 @@
 			  <param>
 				  <name>pop3minsize</name><type>int</type><mandatory>0</mandatory>
 			  </param>
+			  <param>
+				  <name>check</name><type>int</type><mandatory>0</mandatory>
+			  </param>
           </params>
         </method>
       </viewMethods>
