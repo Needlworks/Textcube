@@ -63,15 +63,15 @@ class Moblog
 	function check()
 	{
 		if( !$this->pop3->connect( $this->host, $this->port, $this->ssl ) ) {
-			$this->log( "* Connection failure : ".$this->host.":".$this->port.($this->ssl?"(SSL)":"(no SSL)") );
+			$this->log( "* "._t("접속 실패")." : ".$this->host.":".$this->port.($this->ssl?"(SSL)":"(no SSL)") );
 			return false;
 		}
-		$this->log( "* Connection success : ".$this->host.":".$this->port.($this->ssl?"(SSL)":"(no SSL)") );
+		$this->log( "* "._t("접속 성공")." : ".$this->host.":".$this->port.($this->ssl?"(SSL)":"(no SSL)") );
 		if( !$this->pop3->authorize( $this->username, $this->password ) ) {
-			$this->log( "* Authentication failure" );
+			$this->log( "* "._t("인증 실패") );
 			return false;
 		}
-		$this->log( "* Authentication success" );
+		$this->log( "* "._t("인증 성공") );
 
 		$this->pop3->run();
 
@@ -92,7 +92,7 @@ class Moblog
 	{
 		$ret = !!strstr( $this->stored_uidl, "[$uid]" );
 		if( $ret ) {
-			$this->log( "Msg $number: Filterred by uid: $uid" );
+			$this->log( "Msg $number: "._t("이미 확인한 메일")." : $uid" );
 		}
 		return $ret;
 	}
@@ -102,7 +102,7 @@ class Moblog
 		if( $number < $total - $this->recentCount ) {
 			return true;
 		}
-		$this->log( "Msg $number: Filterred by size: $size" );
+		$this->log( "Msg $number: "._t("메일크기가 작음")." : $size" );
 		return $size < $this->minsize;
 	}
 
@@ -118,20 +118,20 @@ class Moblog
 		return false;
 	}
 
-	function _getDecoratedContent( & $mail ) {
+	function _getDecoratedContent( & $mail, $docid ) {
 			$alt = htmlentities($mail['attachments'][0]['filename'],ENT_QUOTES,'utf-8');
 			$content = '<p>$TEXT</p><p>[##_1C|$FILENAME|width="$WIDTH" height="$HEIGHT" alt="'.$alt.'"|_##]</p>';
-			$text = "<h3>".$mail['subject']."</h3>\r\n".(isset($mail['text'])?$mail['text']:'');
+			$text = "<h3 id=\"$docid\">".$mail['subject']."</h3>\r\n".(isset($mail['text'])?$mail['text']:'');
 			return str_replace( '$TEXT', $text , $content );
 	}
 
 	function statCallback( $total, $totalsize )
 	{
-		$this->log( "* Total $total messages" );
+		$this->log( "* ".sprintf( _t("총 %d개의 메시지"),$total) );
 		$lastStat = getBlogSetting( 'MmsPop3stat', '' );
 		$stat = "$total $totalsize";
 		if( $stat == $lastStat ) {
-			$this->log( "* No new message arrived" );
+			$this->log( "* "._t("새로운 메시지가 없습니다") );
 			return false;
 		}
 		setBlogSetting( 'MmsPop3stat', $stat );
@@ -141,17 +141,18 @@ class Moblog
 	function retrieveCallback( $lines, $uid )
 	{
 		$slogan = date( "Y-m-d" );
+		$docid = date( "H:i:s" );
 		$this->appendUid( $uid );
 		$mail = $this->pop3->parse( $lines );
 		if( in_array( $mail['subject'], array( '제목없음' ) ) ) {
-			$mail['subject'] = date( "Y-m-d H:i:s" );
+			$mail['subject'] = $docid;
 		}
 		if( !$this->isMms($mail) ) {
-			$this->log( "* Subject: " . $mail['subject'] . " [SKIP]" );
+			$this->log( "* "._t("메일").": " . $mail['subject'] . " [SKIP]" );
 			return false;
 		}
 		if( empty($mail['attachments']) ) {
-			$this->log( "* Subject: " . $mail['subject'] . " [SKIP]" );
+			$this->log( "* "._t("메일").": " . $mail['subject'] . " [SKIP]" );
 			return false;
 		}
 		requireComponent( "Textcube.Data.Post" );
@@ -159,7 +160,7 @@ class Moblog
 		$post = new Post();
 
 		if( $post->open( "slogan = '$slogan'" ) ) {
-			$post->content .= $this->_getDecoratedContent( $mail );
+			$post->content .= $this->_getDecoratedContent( $mail, $docid );
 			$post->modified = time();
 		} else {
 			$post->title = $mail['subject'];
@@ -175,13 +176,13 @@ class Moblog
 			$post->modified = time();
 			$post->slogan = $slogan;
 			if( !$post->add() ) {
-				$this->log( "* Subject: " . $mail['subject'] . " [ERROR]" );
-				$this->log( "Failed: there is a problem in adding post : " . $post->error );
+				$this->log( "* "._t("메일").": " . $mail['subject'] . " [ERROR]" );
+				$this->log( _t("실패: 글을 추가하지 못하였습니다")." : " . $post->error );
 				return false;
 			}
 		}
 
-		$this->log( "Attachment: {$mail['attachments'][0]['filename']}" );
+		$this->log( _t("첨부")." : {$mail['attachments'][0]['filename']}" );
 		requireModel( "blog.api" );
 		$att = api_addAttachment( getBlogId(), $post->id, 
 					array( 
@@ -191,19 +192,19 @@ class Moblog
 					) 
 			);
 		if( !$att ) {
-			$this->log( "* Subject: " . $mail['subject'] . " [ERROR]" );
-			$this->log( "Failed: there is a problem in attaching file" );
+			$this->log( "* "._t("메일").": " . $mail['subject'] . " [ERROR]" );
+			$this->log( _t("실패: 첨부파일을 추가하지 못하였습니다")." : " . $post->error );
 			return false;
 		}
 		$post->content = str_replace( '$FILENAME', $att['name'], $post->content );
 		$post->content = str_replace( '$WIDTH', $att['width'], $post->content );
 		$post->content = str_replace( '$HEIGHT', $att['height'], $post->content );
 		if( !$post->update() ) {
-			$this->log( "* Subject: " . $mail['subject'] . " [ERROR]" );
-			$this->log( "Failed: there is a problem in adding post." );
+			$this->log( "* "._t("메일").": " . $mail['subject'] . " [ERROR]" );
+			$this->log( _t("실패: 글을 추가하지 못하였습니다").". : " . $post->error );
 			return false;
 		}
-		$this->log( "* Subject: " . $mail['subject'] . " [OK]" );
+		$this->log( "* "._t("메일").": " . $mail['subject'] . " [OK]" );
 		return true;
 	}
 }
