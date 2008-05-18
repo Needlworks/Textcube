@@ -343,9 +343,9 @@ function moblog_manage()
 										<dt><span class="label"><?php echo _t('명령');?></span></dt>
 										<dd>
 											<input type="button" class="save-button input-button wide-button" value="<?php echo _t('로그보기');?>"  
-												onclick="document.getElementById('pop3_debug').src='<?php echo $blogURL."/plugin/moblog/check?check=1"?>'" />
+												onclick="document.getElementById('pop3_debug').src='<?php echo $blogURL?>/plugin/moblog/check?check=1&rnd='+((new Date()).getTime())" />
 											<input type="button" class="save-button input-button wide-button" value="<?php echo _t('시험하기');?>" 
-												onclick="document.getElementById('pop3_debug').src='<?php echo $blogURL."/plugin/moblog/check"?>'" />
+												onclick="document.getElementById('pop3_debug').src='<?php echo $blogURL?>/plugin/moblog/check?rnd='+((new Date()).getTime())" />
 										</dd>
 									</dl>
 								</div>
