@@ -372,7 +372,7 @@ class Pop3 {
 				$mail['decoded_content'] = $mail['content'];
 			}
 			$mail['length'] = strlen($mail['decoded_content']);
-			if( substr($mail['content_type'],0,4) == 'text' ) {
+			if( isset($mail['content_type']) && substr($mail['content_type'],0,4) == 'text' ) {
 				$mail['text_type'] = $mail['content_type'];
 				$mail['text'] = $mail['decoded_content'];
 				if( !empty($mail['content_charset']) ) {

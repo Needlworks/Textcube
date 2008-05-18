@@ -145,7 +145,7 @@ class Moblog
 		$this->appendUid( $uid );
 		$mail = $this->pop3->parse( $lines );
 		if( in_array( $mail['subject'], array( '제목없음' ) ) ) {
-			$mail['subject'] = $docid;
+			$mail['subject'] = $slogan;
 		}
 		if( !$this->isMms($mail) ) {
 			$this->log( "* "._t("메일").": " . $mail['subject'] . " [SKIP]" );
@@ -165,7 +165,7 @@ class Moblog
 		} else {
 			$post->title = $mail['subject'];
 			$post->userid = $this->userid;
-			$post->content = $this->_getDecoratedContent( $mail );
+			$post->content = $this->_getDecoratedContent( $mail, $docid );
 			$post->contentFormatter = getDefaultFormatter();
 			$post->contentEditor = getDefaultEditor();
 			$post->created = time();
