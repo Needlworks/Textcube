@@ -4,7 +4,7 @@ requireComponent( "Needlworks.Mail.Pop3" );
 class Moblog
 {
 	function Moblog( $username, $password, $host, $port = 110, $ssl = 0, 
-		$userid = 1, $minsize = 10240 )
+		$userid = 1, $minsize = 10240, $visibility = 2 )
 	{
 		global $pop3logs;
 		if( !isset($debugLogs) ) {
@@ -18,6 +18,8 @@ class Moblog
 		$this->userid = $userid;
 		$this->minsize = $minsize;
 		$this->recentCount = 100;
+		$this->visibility = array( "private", "protected", "public", "syndicated" );
+		$this->visibility = $this->visibility[$visibility];
 
 		$this->pop3 = new Pop3();
 		$this->pop3->setLogger( array(&$this,'log') );
@@ -121,7 +123,8 @@ class Moblog
 	function _getDecoratedContent( & $mail, $docid ) {
 			$alt = htmlentities($mail['attachments'][0]['filename'],ENT_QUOTES,'utf-8');
 			$content = '<p>$TEXT</p><p>[##_1C|$FILENAME|width="$WIDTH" height="$HEIGHT" alt="'.$alt.'"|_##]</p>';
-			$text = "<h3 id=\"$docid\">".$mail['subject']."</h3>\r\n".(isset($mail['text'])?$mail['text']:'');
+			$text = "<h3 id=\"$docid\">".(empty($mail['subject']) ? $docid : $mail['subject'])."</h3>\r\n";
+			$text .= isset($mail['text']) ? $mail['text'] : '';
 			return str_replace( '$TEXT', $text , $content );
 	}
 
@@ -145,7 +148,7 @@ class Moblog
 		$this->appendUid( $uid );
 		$mail = $this->pop3->parse( $lines );
 		if( in_array( $mail['subject'], array( '제목없음' ) ) ) {
-			$mail['subject'] = $slogan;
+			$mail['subject'] = '';
 		}
 		if( !$this->isMms($mail) ) {
 			$this->log( "* "._t("메일").": " . $mail['subject'] . " [SKIP]" );
@@ -162,8 +165,9 @@ class Moblog
 		if( $post->open( "slogan = '$slogan'" ) ) {
 			$post->content .= $this->_getDecoratedContent( $mail, $docid );
 			$post->modified = time();
+			$post->visibility = $this->visibility;
 		} else {
-			$post->title = $mail['subject'];
+			$post->title = empty($mail['subject']) ? $slogan : $mail['subject'];
 			$post->userid = $this->userid;
 			$post->content = $this->_getDecoratedContent( $mail, $docid );
 			$post->contentFormatter = getDefaultFormatter();
@@ -171,7 +175,7 @@ class Moblog
 			$post->created = time();
 			$post->acceptComment = true;
 			$post->acceptTrackback = true;
-			$post->visibility = "public";
+			$post->visibility = $this->visibility;
 			$post->published = time();
 			$post->modified = time();
 			$post->slogan = $slogan;
@@ -212,11 +216,13 @@ class Moblog
 function moblog_check()
 {
 	if( isset($_GET['check']) && $_GET['check'] == 1 ) {
-		echo "<style>.emplog{color:red}</style>";
+		echo "<style>.emplog{color:red}.oklog{color:blue}</style>";
 		echo "<ul>";
 		echo join( "", 
 			array_map(
-				create_function( '$li', 'return preg_match( "/^\S+\s+\S+\s+\*/", $li ) ? "<li class=\"emplog\">$li</li>" : "<li>$li</li>";'), 
+				create_function( '$li', 'return preg_match( "/^\S+\s+\S+\s+\*/", $li ) ? 
+						(preg_match( "/\[OK\]$/", $li ) ? "<li class=\"oklog\">$li</li>" : "<li class=\"emplog\">$li</li>") 
+						: "<li>$li</li>";'), 
 				split( "\n",file_get_contents(ROOT.DS."cache".DS."moblog.txt"))
 			)
 		);
@@ -232,10 +238,11 @@ function moblog_check()
 	$pop3minsize = getBlogSetting( 'MmsPop3MinSize', 0 );
 	$pop3minsize *= 1024;
 	$pop3fallbackuserid = getBlogSetting( 'MmsPop3Fallbackuserid', 1 );
+	$pop3visibility = getBlogSetting( 'MmsPop3Visibility', '2' );
 
-	header( "Content-type: text/html" );
-	echo "<ul><li>";
-	$moblog = new Moblog( $pop3username, $pop3password, $pop3host, $pop3port, $pop3ssl, $pop3fallbackuserid, $pop3minsize );
+	header( "Content-type: text/html; charset:utf-8" );
+	echo "<html><body><ul><li>";
+	$moblog = new Moblog( $pop3username, $pop3password, $pop3host, $pop3port, $pop3ssl, $pop3fallbackuserid, $pop3minsize, $pop3visibility );
 	$moblog->log( "--BEGIN--" );
 	$moblog->check();
 	$moblog->log( "-- END --" );
@@ -243,7 +250,7 @@ function moblog_check()
 		global $pop3logs;
 		print join("</li><li>",$pop3logs);
 	}
-	echo "</li></ul>";
+	echo "</li></ul></body></html>";
 	return true;
 }
 
@@ -258,6 +265,7 @@ function moblog_manage()
 		setBlogSetting( 'MmsPop3Ssl', !empty($_POST['pop3ssl'])?1:0 );
 		setBlogSetting( 'MmsPop3Username', $_POST['pop3username'] );
 		setBlogSetting( 'MmsPop3Password', $_POST['pop3password'] );
+		setBlogSetting( 'MmsPop3Visibility', $_POST['pop3visibility'] );
 		setBlogSetting( 'MmsPop3Fallbackuserid', getUserId() );
 		setBlogSetting( 'MmsPop3MinSize', 0 );
 	}
@@ -269,6 +277,7 @@ function moblog_manage()
 	$pop3password = getBlogSetting( 'MmsPop3Password', '' );
 	$pop3minsize = getBlogSetting( 'MmsPop3MinSize', 0 );
 	$pop3fallheadercharset = getBlogSetting( 'MmsPop3Fallbackcharset', 'euc-kr' );
+	$pop3visibility = getBlogSetting( 'MmsPop3Visibility', '2' );
 ?>
 						<hr class="hidden" />
 						
@@ -330,6 +339,15 @@ function moblog_manage()
 											<dt><span class="label"><?php echo _t('POP3 비밀번호');?></span></dt>
 											<dd>
 												<input type="password" style="width:14em" class="input-text" name="pop3password" value="<?php echo $pop3password;?>" />
+											</dd>
+										</dl>
+										<dl id="editor-line" class="line">
+											<dt><span class="label"><?php echo _t('공개여부');?></span></dt>
+											<dd>
+													<span id="status-private" class="status-private"><input type="radio" id="visibility_private" class="radio" name="pop3visibility" value="0"<?php echo ($pop3visibility == 0 ? ' checked="checked"' : '');?> /><label for="visibility_private"><?php echo _t('비공개');?></label></span>
+													<span id="status-protected" class="status-protected"><input type="radio" id="visibility_protected" class="radio" name="pop3visibility" value="1"<?php echo ($pop3visibility == 1 ? ' checked="checked"' : '');?> /><label for="visibility_protected"><?php echo _t('보호');?></label></span>
+													<span id="status-public" class="status-public"><input type="radio" id="visibility_public" class="radio" name="pop3visibility" value="2"<?php echo ($pop3visibility == 2 ? ' checked="checked"' : '');?> /><label for="visibility_public"><?php echo _t('공개');?></label></span>
+													<span id="status-syndicated" class="status-syndicated"><input type="radio" id="visibility_syndicated" class="radio" name="pop3visibility" value="3"<?php echo ($pop3visibility == 3 ? ' checked="checked"' : '');?> /><label for="visibility_syndicated"><?php echo _t('발행');?></label></span>
 											</dd>
 										</dl>
 									<div class="button-box">
