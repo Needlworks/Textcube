@@ -38,7 +38,6 @@ if (!isset($_GET['command'])) {
 		$countResult = 0;
 	} else {
 		$countResult = 1;
-		fireEvent('ChangeVisibility', $_GET['visibility'], $suri['id']);
 	}
 	respond::PrintResult(array('error' => $temp, 'countSyndicated' => $countResult), false);
 } else {

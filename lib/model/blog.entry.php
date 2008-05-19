@@ -968,10 +968,6 @@ function setEntryVisibility($id, $visibility) {
 	if ($visibility == $oldVisibility)
 		return true;
 
-	CacheControl::flushEntry($id);
-	CacheControl::flushDBCache('entry');
-	CacheControl::flushDBCache('comment');
-	CacheControl::flushDBCache('trackback');
 	if ($oldVisibility == 3)
 		syndicateEntry($id, 'delete');
 	else if ($visibility == 3) {
@@ -988,9 +984,9 @@ function setEntryVisibility($id, $visibility) {
 		SET visibility = $visibility, 
 			modified = UNIX_TIMESTAMP() 
 		WHERE blogid = $blogid AND id = $id");
-	if (!$result)
+	if (!$result)		// Error.
 		return false;
-	if ($result == 0)
+	if ($result == 0)	// Not changed.
 		return true;
 
 	if ($category >= 0) {
@@ -1001,6 +997,11 @@ function setEntryVisibility($id, $visibility) {
 		if ($category > 0)
 			updateEntriesOfCategory($blogid, $category);
 	}
+	CacheControl::flushEntry($id);
+	CacheControl::flushDBCache('entry');
+	CacheControl::flushDBCache('comment');
+	CacheControl::flushDBCache('trackback');
+	fireEvent('ChangeVisibility', $visibility, $id);
 	return true;
 }
 
