@@ -488,7 +488,7 @@ if ($service['type'] != 'single') {
 										<dl id="blog-tag-line" class="line">
 											<dt><label for="title"><?php echo _t('전문가 태그');?></label></dt>
 											<dd id="blog-tag"></dd>
-											<dd><?php echo _t('전문가 태그는 이 블로그가 어떠한 주제로 운영되는지를 표시합니다. 전문가태그 정보는 블로그의 코드에 메타 태그 형태로 명시됩니다.');?></dd>
+											<dd><?php echo _t('전문가 태그는 이 블로그가 어떠한 주제로 운영되는지를 표시합니다. 전문가태그 정보는 블로그의 코드에 메타 태그 형태로 명시되어 검색 엔진등이 참조할 수 있게 됩니다.');?></dd>
 										</dl>
 									</fieldset>
 									<script type="text/javascript">
