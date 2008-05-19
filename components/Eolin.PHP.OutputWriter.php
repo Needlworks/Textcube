@@ -6,6 +6,7 @@ class OutputWriter {
 	var $type = 'stdout';
 	
 	function OutputWriter() {
+		$this->_buffer = null;
 	}
 	
 	function openStdout() {
@@ -59,6 +60,7 @@ class OutputWriter {
 	}
 	
 	function flush() {
+		$this->_buffer = null;
 		switch ($this->type) {
 			default:
 			case 'stdout':
@@ -73,7 +75,8 @@ class OutputWriter {
 		}
 	}
 	
-	function write($data) {
+	function write($data = null) {
+		if($data == null) $data = $this->_buffer;
 		switch ($this->type) {
 			default:
 			case 'stdout':
@@ -87,6 +90,10 @@ class OutputWriter {
 			case 'gz.file':
 				return gzwrite($this->_writer, $data);
 		}
+	}
+	
+	function buffer($data,$autoLineBreak = false) {
+		$this->_buffer = $this->_buffer.($autoLineBreak ? CRLF : '').$data;
 	}
 	
 //	function start($filename = null, $mode = 'wb', $compress = null) {

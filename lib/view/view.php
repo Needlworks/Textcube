@@ -1524,4 +1524,21 @@ function addOpenIDPannel( $comment, $prefix ) {
 	$comment = $pannel.$comment."</div>";
 	return $comment;
 }
+
+function getTrackbackRDFView($blogid, $info) {
+	requireComponent('Eolin.PHP.OutputWriter');
+	$buf = new OutputWriter();
+    $buf->buffer('<!--'.CRLF);
+	$buf->buffer('<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'.CRLF);
+    $buf->buffer('      xmlns:dc="http://purl.org/dc/elements/1.1/"'.CRLF);
+    $buf->buffer('        xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">'.CRLF);
+    $buf->buffer('<rdf:Description'.CRLF);
+    $buf->buffer('   rdf:about="'.$info['permalink'].'"'.CRLF);
+    $buf->buffer('   dc:identifier="'.$info['permalink'].'"'.CRLF);
+    $buf->buffer('   dc:title="'.$info['title'].'"'.CRLF);
+    $buf->buffer('   trackback:ping="'.$info['trackbackURL'].'" />'.CRLF);
+    $buf->buffer('</rdf:RDF>'.CRLF);
+	$buf->buffer('-->'.CRLF);
+	return $buf->_buffer;
+}
 ?>

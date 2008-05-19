@@ -63,7 +63,7 @@ if (isset($cache->contents)) {
 			dress('notice_rep_author', User::getName($entry['userid']), $entryView);
 			$entriesView .= $entryView;
 
-		} else if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {	// Posts
+		} else if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {	// This is post
 			$entryView = $skin->entry;
 			$entryView = '<a id="entry_'.$entry['id'].'"></a>'.CRLF.$entryView;
 
@@ -144,7 +144,7 @@ if (isset($cache->contents)) {
 			list($tempTag, $trackbackView) = getTrackbackCountPart($entry['trackbacks'], $skin);
 			dress($tempTag, $trackbackView, $entryView);
 			$entriesView .= $entryView;
-		} else {
+		} else {	// Protected entries
 			$protectedEntryView = $skin->entryProtected;
 			$author = User::getName($entry['userid']);
 			dress('article_rep_author', fireEvent('ViewPostAuthor', $author, $entry['id']), $protectedEntryView);
@@ -162,6 +162,13 @@ if (isset($cache->contents)) {
 	}
 	if(count($entries) > 1 || (count($entries) == 1 && empty($suri['value']))) {
 		unset($totalTags);
+	}
+	if(count($entries) == 1) {	// Adds trackback RDF
+		$info = array();
+		$info['title']        = htmlspecialchars($entries[0]['title']);
+		$info['permalink']    = $permalink;
+		$info['trackbackURL'] = $defaultURL."/trackback/".$entries[0]['id'];
+		$entriesView .= getTrackbackRDFView($blogid, $info);
 	}
 	if(isset($cache)) {
 		$cache->contents = revertTempTags(removeAllTags($entriesView));
