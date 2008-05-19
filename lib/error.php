@@ -3,7 +3,7 @@ require_once "lib/includeForBlog.php";
 function errorExit($code)
 {
 	global $skin, $skinSetting, $suri, $defaultURL, $blog;
-	global $service, $blogURL, $defaultURL, $gCacheStorage;
+	global $service, $blogURL, $defaultURL, $serviceURL, $gCacheStorage;
 
 	$status_msg = array(
 		'400' => 'Bad Request',

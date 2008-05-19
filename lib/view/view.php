@@ -49,7 +49,6 @@ function getUpperView($paging) {
 	global $service, $blogURL;
 	ob_start();
 ?>
-
 	<!--
 		<?php echo TEXTCUBE_NAME." ".TEXTCUBE_VERSION.CRLF;?>
 

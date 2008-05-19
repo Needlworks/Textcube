@@ -14,7 +14,9 @@ else
 if (!isset($skin))
 	$skin = new Skin($skinSetting['skin']);
 
-$view = str_replace('[##_t3_##]', getUpperView(isset($paging) ? $paging : null) . $skin->skin . getLowerView() . getScriptsOnFoot(), $skin->outter);
+$view = $skin->outter;
+$view = str_replace('[##_SKIN_body_start_##]','[##_SKIN_body_start_##]'.getUpperView(isset($paging) ? $paging : null), $view);
+$view = str_replace('[##_SKIN_body_end_##]',getLowerView().getScriptsOnFoot().'[##_SKIN_body_end_##]', $view); // care the order for js function overloading issue.
 
 if (!empty($category)) {
 	dress('body_id',getCategoryBodyIdById($blogid,$category) ? getCategoryBodyIdById($blogid,$category) : 'tt-body-category',$view);

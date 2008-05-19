@@ -119,6 +119,9 @@ class Skin {
 			replaceSkinTag($sval, 'body');
 			insertGeneratorVersion($sval);
 			
+			$sval = str_replace('<s_t3>','',$sval);	// For Skin compatibility with < Textcube 1.7
+			$sval = str_replace('</s_t3>','',$sval);
+
 			// 사이드바 작업.
 			$sidebarCount = 0;
 			$noNameCount = 1;
@@ -282,7 +285,6 @@ class Skin {
 			list($sval, $this->recentComments) = $this->cutSkinTag($sval, 'rctrp_rep');
 			list($sval, $this->recentTrackback) = $this->cutSkinTag($sval, 'rcttb_rep');
 			list($sval, $this->s_link_rep) = $this->cutSkinTag($sval, 'link_rep');
-			list($sval, $this->skin) = $this->cutSkinTag($sval, 't3');
 			list($sval, $this->pageTitle) = $this->cutSkinTag($sval, 'page_title');
 			$this->outter = $sval;
 			$this->applyMicroformats();
@@ -542,7 +544,6 @@ class KeylogSkin {
 		$sval = str_replace('./', $origPath, $sval);
 		list($sval, $this->keylogItem) = $this->cutSkinTag($sval, 'blog_rep');
 		list($sval, $this->keylog) = $this->cutSkinTag($sval, 'blog');
-		list($sval, $this->skin) = $this->cutSkinTag($sval, 't3');
 		$this->outter = $sval;
 	}
 	
