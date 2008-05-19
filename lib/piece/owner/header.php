@@ -390,7 +390,7 @@ requireComponent('Textcube.Core');
 foreach($blogTopMenuItem as $menuItem) {
 ?>
 						<li id="menu-<?php echo $menuItem['menu'];?>"<?php echo $menuItem['menu']==$blogMenu['topMenu'] ? ' class="selected"' : '';?>>
-							<a href="<?php echo $blogURL.$menuItem['link'];?>" onmouseover="previewSubmenu('<?php echo $menuItem['menu'];?>')"><span><?php echo $menuItem['title'];?></span></a>
+							<a href="<?php echo $blogURL.$menuItem['link'];?>" onmouseover="previewSubmenu('<?php echo $menuItem['menu'];?>');return false;"><span><?php echo $menuItem['title'];?></span></a>
 							<ul id="submenu-<?php echo $menuItem['menu'];?>" class="sub-menu">
 <?php
 	$firstChildClass = ' firstChild';
@@ -503,7 +503,7 @@ if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 ?>
 				<hr class="hidden" />
 				
-				<div id="pseudo-box" onmouseover="revertSubmenu();">
+				<div id="pseudo-box">
 					<div id="data-outbox">
 <?php
 }
