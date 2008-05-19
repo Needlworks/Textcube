@@ -51,7 +51,7 @@ require ROOT . '/lib/piece/owner/header.php';
 										PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
 									}
 									request.onError = function() {
-										alert("<?php echo _t('대표 태그를 변경하지 못했습니다.');?>");
+										alert("<?php echo _t('태그를 변경하지 못했습니다.');?>");
 									}
 									request.send("tags=" + encodeURIComponent(tagValue));
 								}
@@ -486,8 +486,9 @@ if ($service['type'] != 'single') {
 										<legend><?php echo _t('블로그 태그');?></legend>
 										
 										<dl id="blog-tag-line" class="line">
-											<dt><label for="title"><?php echo _t('대표 태그');?></label></dt>
+											<dt><label for="title"><?php echo _t('전문가 태그');?></label></dt>
 											<dd id="blog-tag"></dd>
+											<dd><?php echo _t('전문가 태그는 이 블로그가 어떠한 주제로 운영되는지를 표시합니다. 전문가태그 정보는 블로그의 코드에 메타 태그 형태로 명시됩니다.');?></dd>
 										</dl>
 									</fieldset>
 									<script type="text/javascript">
