@@ -7,7 +7,8 @@ if (isset($_POST['page']))
 if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 	$IV = array(
 		'GET' => array(
-			'page' => array('int', 1, 'default' => 1)
+			'page' => array('int', 1, 'default' => 1),
+			'category' => array('int', 0, 'mandatory'=>false)
 		),
 		'POST' => array(
 			'mode' => array(array('fb')),
@@ -85,7 +86,12 @@ if(empty($suri['id'])) {  // Without id.
 	
 	require ROOT . '/lib/piece/blog/end.php';
 } else {  // With id.
-	list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
+	if(isset($_GET['category'])) { // category exists
+		list($entries, $paging) = getEntryWithPaging($blogid, $suri['id'],false,$_GET['category']);
+	} else { // Just normal entry view
+		list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
+	}
+	
 	if (isset($_POST['partial'])) { // Partial output.
 		header('Content-Type: text/plain; charset=utf-8');
 		$skin = new Skin($skinSetting['skin']);

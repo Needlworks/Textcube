@@ -6,7 +6,15 @@ require ROOT . '/lib/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }
-list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value']);
+// For category view.
+
+if(isset($_GET['category'])) { // category exists
+	if(Validator::isInteger($_GET['category'], 0)) {
+		list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value'],false,$_GET['category']);
+	}
+} else { // Just normal entry view
+	list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value']);
+}
 fireEvent('OBStart');
 require ROOT . '/lib/piece/blog/begin.php';
 

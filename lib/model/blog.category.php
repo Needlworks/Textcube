@@ -63,6 +63,21 @@ function getCategoryBodyIdById($blogid, $id) {
 	else return $result['bodyId'];
 }
 
+function getEntriesCountByCategory($blogid, $id) {
+	requireComponent('Needlworks.Cache.PageCache');
+
+	global $__gCacheCategoryRaw;
+
+	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
+	$result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id);
+	if (($id === 0) || ($result == '') || ($id === null)) {
+		return 0;
+	} else {
+		if(doesHaveOwnership() && Acl::check('group.editors')) return $result['entriesInLogin'];
+		else return $result['entries'];
+	}
+}
+
 function getCategoryLabelById($blogid, $id) {
 	requireComponent('Needlworks.Cache.PageCache');
 
