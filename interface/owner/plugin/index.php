@@ -35,6 +35,11 @@ switch ($_POST['visibility']) {
 $tabsClass = array();
 $tabsClass[$_POST['visibility']] = true;
 
+// Search.
+if(isset($_POST['search'])) {
+	$search = $_POST['search'];
+} else $search = null;
+
 // get and set align type, scope type and status type.
 $selectedSort = getBlogSetting('pluginListSortType', 'ascend');
 $selectedScopes = explode('|', getBlogSetting("pluginListScopeType_{$_POST['visibility']}", $memberScopes));
@@ -53,7 +58,12 @@ while (false !== ($plugin = $dir->read())) { // 이게 php.net에서 권장하�
 	$pluginInfo = getPluginInformation($plugin);
 	if(empty($pluginInfo)) continue;
 	if($pluginInfo['privilege'] == 'administrator' && !Acl::check('group.creators')) continue;
-
+	
+	if(!empty($search) && 
+		(stristr($pluginInfo['title'],$search) === false) && 
+		(stristr($pluginInfo['description'],$search) === false) &&
+		(stristr($pluginInfo['author'],$search) === false)) continue; // Search.
+		
 	$acceptedPathCount = 0;
 	$tempXMLPathCount = 0;
 	if(empty($pluginInfo['scope'])) continue;
@@ -230,7 +240,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/plugin/saveScope");
 
 									request.onSuccess = function() {
-										window.location.reload(true);
+										document.getElementById('part-plugin-list').submit();
 									}
 									
 									request.onError = function() {
@@ -271,6 +281,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 						</script>
 						
 						<form id="part-plugin-list" class="part" method="post" action="<?php echo parseURL($blogURL."/owner/plugin");?>">
+							<input type="hidden" name="search" value="<?php echo $search;?>" />
 							<h2 class="caption"><span class="main-text"><?php echo _t('설치된 플러그인 목록입니다');?></span></h2>
 							
 							<div class="main-explain-box">
@@ -326,7 +337,7 @@ if (defined('__TAB_BLOG__')) {
 								<dl id="status-line" class="line">
 									<dt><?php echo _t('상태');?></dt>
 									<dd id="sorting-line-status">
-										<label for="activated-plugin"><input type="checkbox" class="checkbox" id="activated-plugin" name="pluginStatus" value="activated" onclick="changeList(this)"<?php echo in_array('activated', $selectedStatus) ? ' checked="checked"' : '';?> /><?php echo defined('__TAB_ETC__') ? _t('사용중인 플러그인/모듈') : _t('사용중인 플러그인');?></label>
+										<label for="activated-plugin"><input type="checkbox" class="checkbox" id="activated-plugin" name="pluginStatus" value="activated" onclick="changeList(this);return false;"<?php echo in_array('activated', $selectedStatus) ? ' checked="checked"' : '';?> /><?php echo defined('__TAB_ETC__') ? _t('사용중인 플러그인/모듈') : _t('사용중인 플러그인');?></label>
 										<label for="deactivated-plugin"><input type="checkbox" class="checkbox" id="deactivated-plugin" name="pluginStatus" value="deactivated" onclick="changeList(this)"<?php echo in_array('deactivated', $selectedStatus) ? ' checked="checked"' : '';?> /><?php echo defined('__TAB_ETC__') ? _t('사용중이 아닌 플러그인/모듈') : _t('사용하지 않는 플러그인');?></label>
 									</dd>
 								</dl>
@@ -342,8 +353,8 @@ if (defined('__TAB_BLOG__')) {
 								<dl id="viewmode-line" class="line">
 									<dt class="hidden"><?php echo _t('출력 설정');?></dt>
 									<dd id="viewmode-line-align">
-										<input type="radio" class="radio" id="list-view" name="viewType" value="listview" onclick="changeList(this)"<?php echo $listType == 'listview' ? ' checked="checked"' : '';?> /><label for="list-view"><?php echo _t('리스트 보기');?></label>
-										<input type="radio" class="radio" id="icon-view" name="viewType" value="iconview" onclick="changeList(this)"<?php echo $listType == 'iconview' ? ' checked="checked"' : '';?> /><label for="icon-view"><?php echo _t('아이콘 보기');?></label>
+										<input type="radio" class="radio" id="list-view" name="viewType" value="listview" onclick="changeList(this);return false;"<?php echo $listType == 'listview' ? ' checked="checked"' : '';?> /><label for="list-view"><?php echo _t('리스트 보기');?></label>
+										<input type="radio" class="radio" id="icon-view" name="viewType" value="iconview" onclick="changeList(this);return false;"<?php echo $listType == 'iconview' ? ' checked="checked"' : '';?> /><label for="icon-view"><?php echo _t('아이콘 보기');?></label>
 									</dd>
 								</dl>								
 <?php
@@ -505,7 +516,15 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 						</form>
 						
 						<hr class="hidden" />
-						
+						<form id="plugin-search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/plugin">
+							<h2><?php echo _t('검색');?></h2>
+							<div class="section">
+								<label for="search"><?php echo _t('제목');?>, <?php echo _t('내용');?></label>
+								<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') {  document.getElementById('search-form').submit();return false; }" />
+								<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="document.getElementById('search-form').submit();return false;" />
+							</div>
+						</form>
+						<hr class="hidden" />
 						<div id="part-plugin-more" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('플러그인을 구하려면');?></span></h2>
 							
