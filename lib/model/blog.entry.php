@@ -411,6 +411,7 @@ function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false
 function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false, $categoryId = false) {
 	global $database;
 	global $blogURL;
+	requireModel('blog.category');
 	$entries = array();
 	$paging = initPaging("$blogURL/entry", '/');
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
