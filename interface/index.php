@@ -70,7 +70,7 @@ if(empty($suri['id'])) {  // Without id.
 	$skin = new Skin($skinSetting['skin']);
 	if(empty($suri['value']) && $suri["directive"] == "/" && count($coverpageMappings) > 0 && getBlogSetting("coverpageInitView") && isset($skin->cover)) {
 		require ROOT . '/lib/piece/blog/begin.php';
-		$automaticLink = "<link rel=\"stylesheet\" href=\"{$defaultURL}/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
+		$automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
 		dress('SKIN_head_end', $automaticLink."[##_SKIN_head_end_##]", $view);
 		dress('article_rep', '', $view);
 		dress('paging', '', $view);
@@ -78,7 +78,7 @@ if(empty($suri['id'])) {  // Without id.
 	} else {
 		list($entries, $paging) = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnPage']);
 		require ROOT . '/lib/piece/blog/begin.php';
-		$automaticLink = "<link rel=\"stylesheet\" href=\"{$defaultURL}/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
+		$automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
 		dress('SKIN_head_end', $automaticLink."[##_SKIN_head_end_##]", $view);
 		require ROOT . '/lib/piece/blog/entries.php';
 	}
@@ -96,7 +96,7 @@ if(empty($suri['id'])) {  // Without id.
 			print $view;
 	} else {
 		require ROOT . '/lib/piece/blog/begin.php';
-		$automaticLink = "<link rel=\"stylesheet\" href=\"{$defaultURL}/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
+		$automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
 		dress('SKIN_head_end', $automaticLink."[##_SKIN_head_end_##]", $view);
 		if (empty($entries)) {
 			header('HTTP/1.1 404 Not Found');
