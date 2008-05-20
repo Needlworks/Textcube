@@ -16,7 +16,7 @@ if (isset($suri['id']) || (isset($suri['value']) && strlen($suri['value']) > 0))
 	fireEvent('OBStart');
 	require ROOT . '/lib/piece/blog/begin.php';
 	
-	$automaticLink = "<link rel=\"stylesheet\" href=\"{$defaultURL}/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
+	$automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
 	dress('SKIN_head_end', $automaticLink."[##_SKIN_head_end_##]", $view);
 	
 	if (empty($entries)) {
@@ -38,7 +38,7 @@ if (isset($suri['id']) || (isset($suri['value']) && strlen($suri['value']) > 0))
 	fireEvent('OBStart');
 	require ROOT . '/lib/piece/blog/begin.php';
 	
-	$automaticLink = "<link rel=\"stylesheet\" href=\"{$defaultURL}/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
+	$automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
 	dress('SKIN_head_end', $automaticLink."[##_SKIN_head_end_##]", $view);
 	
 	require ROOT . '/lib/piece/blog/entries.php';
