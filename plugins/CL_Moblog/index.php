@@ -296,9 +296,9 @@ function moblog_manage()
 											</dd>
 											<dd>
 											<?php if( empty($pop3email) ): ?>
-												<?php echo _t('MMS 메시지를 보내어 연동할 이메일이 공개되지 않았습니다'); ?>
+												<?php echo _t('이동전화에서 보내는 이메일을 수신할 주소가 공개되지 않았습니다'); ?>
 											<?php else: ?>
-												<?php echo _t('이동전화를 이용하여 위 메일로 MMS 메시지를 보내면 블로그에 게시됩니다'); ?>
+												<?php echo _t('이동전화를 이용하여 위 메일로 이메일을 보내면 블로그에 게시됩니다'); ?>
 											<?php endif ?>
 											</dd>
 										</dl>
@@ -338,7 +338,7 @@ function moblog_manage()
 											<dt><span class="label"><?php echo _t('MMS용 이메일');?></span></dt>
 											<dd>
 												<input type="text" style="width:14em" class="input-text" name="pop3email" value="<?php echo $pop3email;?>" /> 
-												<?php echo _t('(필진에 공개 됩니다)'); ?>
+												<?php echo _t('(필진에 공개 됩니다. 사진을 찍어 이메일로 보내면 포스팅이 됩니다)'); ?>
 											</dd>
 										</dl>
 										<dl id="formatter-line" class="line">
