@@ -304,6 +304,31 @@ function moblog_manage()
 										</dl>
 								</div>
 <?php else: ?>
+							<script type="text/javascript">
+							function changehost(packedhost)
+							{
+								var h = packedhost.split( ':' );
+								document.forms['editor-form']['pop3host'].value = h[0];
+								document.forms['editor-form']['pop3port'].value = h[1];
+								document.forms['editor-form']['pop3ssl'].checked = !!parseInt(h[2]);
+							}
+							function renderhosts()
+							{
+								var hosts = "<?php echo _t('PREDEFINED POP3 HOSTS') ?>";
+								if( hosts == 'PREDEFINED POP3 HOSTS' ) {
+									hosts = "gmail:pop.gmail.com:995:1/hanmail:pop.hanmail.net:995:1/naver:pop.naver.com:110:0";
+								}
+								hosts = "Localhost:localhost:110:0/" + hosts;
+								hosts = hosts.split('/');
+								for( var i=0; i<hosts.length; i++ ) {
+									var h = hosts[i];
+									var n = h.split(':')[0];
+									var v = h.substr(n.length+1);
+									document.write( "<option value=\""+v+"\">"+n+"</option>" );
+								}
+								
+							}
+							</script>
 							<form id="editor-form" class="data-inbox" method="post" action="<?php echo $blogURL;?>/owner/plugin/adminMenu?name=CL_Moblog/moblog_manage">
 								<div id="editor-section" class="section">
 									<fieldset class="container">
@@ -320,6 +345,10 @@ function moblog_manage()
 											<dt><span class="label"><?php echo _t('POP3 호스트');?></span></dt>
 											<dd>
 												<input type="text" style="width:14em" class="input-text" name="pop3host" value="<?php echo $pop3host;?>" />
+												<select onchange="changehost(this.value)">
+												<option value=""><?php echo _t('선택하세요') ?></option>
+												<script type="text/javascript">renderhosts()</script>
+												</select>
 											</dd>
 										</dl>
 										<dl id="editor-line" class="line">
