@@ -35,6 +35,7 @@ if (getBlogId()) {
 	if(!empty($activePlugins)) {
 		if (file_exists(ROOT . "/cache/code/plugins-".getBlogId().".php")) {
 			require_once(ROOT . "/cache/code/plugins-".getBlogId().".php");
+			// TODO : set the editor / formatter count while using plugin php cache.
 		} else {
 			foreach ($activePlugins as $plugin) {
 				$version = '';
@@ -322,17 +323,16 @@ if (getBlogId()) {
 					deactivatePlugin($plugin);
 				}
 			}
-			if(empty($formatterCount)) { // Any formatter is used, add the ttml formatter.
-				activatePlugin('FM_TTML');
-			}
-			if(empty($editorCount)) { // Any editor is used, add the textcube editor.
-				activatePlugin('FM_Modern');
-			}
 			unset($xmls);
 			unset($currentTextcubeVersion, $disablePlugin, $plugin, $query, $requiredTattertoolsVersion, $requiredTextcubeVersion);
 		}
 	}
-
+	if(empty($formatterCount)) { // Any formatter is used, add the ttml formatter.
+		activatePlugin('FM_TTML');
+	}
+	if(empty($editorCount)) { // Any editor is used, add the textcube editor.
+		activatePlugin('FM_Modern');
+	}
 	// sort mapping by its name, with exception for default formatter and editor
 	function _cmpfuncByFormatterName($x, $y) {
 		global $formatterMapping;
