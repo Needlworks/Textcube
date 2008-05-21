@@ -84,15 +84,16 @@ class Skin {
 	
 	function Skin($name, $previewMode = false) {
 		global $service, $blogURL, $suri, $blog;
-		//$this->noneCommentMessage = setting::getBlogSettingGlobal('noneCommentMessage');
-		//$this->singleCommentMessage = setting::getBlogSettingGlobal('singleCommentMessage');
-		//$this->noneTrackbackMessage = setting::getBlogSettingGlobal('noneTrackbackMessage');
-		//$this->singleTrackbackMessage = setting::getBlogSettingGlobal('singleTrackbackMessage');
 		if($previewMode == true || ($service['skincache'] != true) || !$this->loadCache()) {
-			$this->noneCommentMessage = $blog['noneCommentMessage'];
-			$this->singleCommentMessage = $blog['singleCommentMessage'];
-			$this->noneTrackbackMessage = $blog['noneTrackbackMessage'];
-			$this->singleTrackbackMessage = $blog['singleTrackbackMessage'];
+			requireComponent('Textcube.Function.Setting');
+			$this->noneCommentMessage = setting::getBlogSettingGlobal('noneCommentMessage',null);
+			$this->singleCommentMessage = setting::getBlogSettingGlobal('singleCommentMessage',null);
+			$this->noneTrackbackMessage = setting::getBlogSettingGlobal('noneTrackbackMessage',null);
+			$this->singleTrackbackMessage = setting::getBlogSettingGlobal('singleTrackbackMessage',null);
+			//$this->noneCommentMessage = $blog['noneCommentMessage'];
+			//$this->singleCommentMessage = $blog['singleCommentMessage'];
+			//$this->noneTrackbackMessage = $blog['noneTrackbackMessage'];
+			//$this->singleTrackbackMessage = $blog['singleTrackbackMessage'];
 			$this->microformatDebug = array();
 			
 			if (strncmp($name, 'customize/', 10) == 0) {

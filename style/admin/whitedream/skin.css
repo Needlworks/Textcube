@@ -139,6 +139,24 @@
 	margin-bottom                    : 100px;
 }
 
+#skin-search-form
+{
+    background-color                 : transparent;
+    border                           : none;
+    margin                           : 0;
+    position                         : absolute;
+    right                            : 35px;
+    text-align                       : right;
+    top                              : 275px;
+    width                            : 25em;
+    z-index                          : 1;
+}
+   
+#skin-search-form label
+{
+    display                          : none;
+}
+
 /* Edit ******************************************************************************************/
 
 #part-skin-edit .section

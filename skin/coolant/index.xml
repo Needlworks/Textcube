@@ -34,11 +34,11 @@
 		<showListOnArchive>1</showListOnArchive>
 		<commentMessage>
 			<none>No Comment</none>
-			<single>1 Comment</single>
+			<single>a comment</single>
 		</commentMessage>
 		<trackbackMessage>
 			<none>No Trackback</none>
-			<single>1 Trackback</single>
+			<single>A trackback</single>
 		</trackbackMessage>
 		<contentWidth>450</contentWidth>
 	</default>

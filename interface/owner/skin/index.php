@@ -5,9 +5,14 @@
 require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
 
+if(isset($_POST['search'])) {
+	$search = $_POST['search'];
+} else $search = null;
+
 $skins = array();
 $dirHandler = dir(ROOT . "/skin");
 while ($file = $dirHandler->read()) {
+	$skin = array();
 	if ($file == '.' || $file == '..')
 		continue;
 	if (!file_exists(ROOT . "/skin/$file/skin.html"))
@@ -17,7 +22,32 @@ while ($file = $dirHandler->read()) {
 		$preview = "{$service['path']}/skin/$file/preview.jpg";
 	if (file_exists(ROOT . "/skin/$file/preview.gif"))
 		$preview = "{$service['path']}/skin/$file/preview.gif";
-	array_push($skins, array('name' => $file, 'path' => ROOT . "/skin/$file/", 'preview' => $preview));
+	
+	if (file_exists(ROOT . "/skin/$file/index.xml")) {
+		$xml = file_get_contents(ROOT . "/skin/$file/index.xml");
+		$xmls = new XMLStruct();
+		$xmls->open($xml, $service['encoding']);
+		$skin['skinName']     = $xmls->getValue('/skin/information/name');
+		$skin['version']  = $xmls->getValue('/skin/information/version');
+		$skin['license']  = $xmls->getValue('/skin/information/license');
+		$skin['maker']    = $xmls->getValue('/skin/author/name');
+		$skin['homepage'] = $xmls->getValue('/skin/author/homepage');
+		$skin['email']    = $xmls->getValue('/skin/author/email');
+		$skin['description'] = $xmls->getValue('/skin/information/description');
+	}
+
+	if(!empty($search) && 
+		(stristr($skin['skinName'],$search) === false) && 
+		(stristr($skin['maker'],$search) === false) &&
+		(stristr($skin['homepage'],$search) === false) &&
+		(stristr($skin['email'],$search) === false) &&
+		(stristr($skin['description'],$search) === false)) continue; // Search.
+
+	$skin['name'] = $file;
+	$skin['path'] = ROOT . "/skin/$file/";
+	$skin['preview'] = $preview;
+	
+	array_push($skins, $skin);
 }
 
 function writeValue($value, $label, $className) {
@@ -179,16 +209,13 @@ for ($i = 0; $i < count($skins); $i++) {
 										<div id="info_<?php echo $skin['name'];?>">
 											<table cellspacing="0" cellpadding="0">
 <?php
-	if (file_exists(ROOT . "/skin/{$skin['name']}/index.xml")) {
-		$xml = file_get_contents(ROOT . "/skin/{$skin['name']}/index.xml");
-		$xmls = new XMLStruct();
-		$xmls->open($xml, $service['encoding']);
-		writeValue('<span class="skin-name">' . $xmls->getValue('/skin/information/name') . '</span> <span class="version">ver.' . $xmls->getValue('/skin/information/version') . '</span>', _t('제목'), "title");
-		writeValue($xmls->getValue('/skin/information/license'), _t('저작권'), "license");
-		writeValue($xmls->getValue('/skin/author/name'), _t('만든이'), "maker");
-		writeValue($xmls->getValue('/skin/author/homepage'), _t('홈페이지'), "homepage");
-		writeValue($xmls->getValue('/skin/author/email'), _t('e-mail'), "email");
-		writeValue($xmls->getValue('/skin/information/description'), _t('설명'), "explain");
+	if (isset($skin['skinName'])) {
+		writeValue('<span class="skin-name">' . $skin['skinName'] . '</span> <span class="version">ver.' . $skin['version']. '</span>', _t('제목'), "title");
+		writeValue($skin['license'], _t('저작권'), "license");
+		writeValue($skin['maker'], _t('만든이'), "maker");
+		writeValue($skin['homepage'], _t('홈페이지'), "homepage");
+		writeValue($skin['email'], _t('e-mail'), "email");
+		writeValue($skin['description'], _t('설명'), "explain");
 	} else {
 		writeValue($skin['name'], _t('제목'));
 	}
@@ -206,8 +233,16 @@ for ($i = 0; $i < count($skins); $i++) {
 }
 ?>
 							</div>
+							<hr class="hidden" />
+							<form id="skin-search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/skin">
+								<h2><?php echo _t('검색');?></h2>
+								<div class="section">
+									<label for="search"><?php echo _t('제목');?>, <?php echo _t('내용');?></label>
+									<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') {  document.getElementById('search-form').submit();return false; }" />
+									<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="document.getElementById('search-form').submit();return false;" />
+								</div>
+							</form>
 						</div>
-								
 						<div id="part-skin-more" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('스킨을 구하려면');?></span></h2>
 							
