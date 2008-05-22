@@ -520,8 +520,8 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 							<h2><?php echo _t('검색');?></h2>
 							<div class="section">
 								<label for="search"><?php echo _t('제목');?>, <?php echo _t('내용');?></label>
-								<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') {  document.getElementById('search-form').submit();return false; }" />
-								<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="document.getElementById('search-form').submit();return false;" />
+								<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') {  document.getElementById('plugin-search-form').submit();return false; }" />
+								<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="document.getElementById('plugin-search-form').submit();return false;" />
 							</div>
 						</form>
 						<hr class="hidden" />
