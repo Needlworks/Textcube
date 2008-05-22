@@ -144,10 +144,10 @@
     background-color                 : transparent;
     border                           : none;
     margin                           : 0;
-    position                         : absolute;
-    right                            : 35px;
+    position                         : relative;
+    left                             : 630px;
     text-align                       : right;
-    top                              : 275px;
+    top                              : -38px;
     width                            : 25em;
     z-index                          : 1;
 }

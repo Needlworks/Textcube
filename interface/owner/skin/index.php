@@ -181,6 +181,15 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 						<div id="part-skin-list" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('사용가능한 스킨들의 목록입니다');?></span></h2>
 							
+							<form id="skin-search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/skin">
+								<h2><?php echo _t('검색');?></h2>
+								<div class="section">
+									<label for="search"><?php echo _t('제목');?>, <?php echo _t('내용');?></label>
+									<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') {  document.getElementById('skin-search-form').submit();return false; }" />
+									<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="document.getElementById('skin-search-form').submit();return false;" />
+								</div>
+							</form>
+							
 							<div class="main-explain-box">
 								<p class="explain"><?php echo _t('블로그에 적용하기 원하시는 스킨의 적용 버튼을 누르면 스킨이 블로그에 반영됩니다.');?></p>
 							</div>
@@ -234,14 +243,6 @@ for ($i = 0; $i < count($skins); $i++) {
 ?>
 							</div>
 							<hr class="hidden" />
-							<form id="skin-search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/skin">
-								<h2><?php echo _t('검색');?></h2>
-								<div class="section">
-									<label for="search"><?php echo _t('제목');?>, <?php echo _t('내용');?></label>
-									<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') {  document.getElementById('skin-search-form').submit();return false; }" />
-									<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="document.getElementById('skin-search-form').submit();return false;" />
-								</div>
-							</form>
 						</div>
 						<div id="part-skin-more" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('스킨을 구하려면');?></span></h2>
