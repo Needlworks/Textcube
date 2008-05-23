@@ -193,8 +193,9 @@ function copyAttachments($blogid, $originalEntryId, $targetEntryId) {
 			$attachment['path'] = "$path/{$attachment['name']}";
 		} while (file_exists($attachment['path']));
 		if(!copy($originalPath, $attachment['path'])) return 4; // copy failed.
-		if(!POD::execute("insert into {$database['prefix']}Attachments 
-			values ($blogid, 
+		if(!POD::execute("INSERT INTO {$database['prefix']}Attachments 
+			(blogid, parent, name, label, mime, size, width, height, attached, downloads, enclosure)
+			VALUES ($blogid, 
 				$targetEntryId,
 				'{$attachment['name']}',
 				'{$attachment['label']}',

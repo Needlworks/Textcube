@@ -150,8 +150,9 @@ class Post {
 		return true;
 	}
 	
-	function remove($id) { // attachment & category is own your risk!
+	function remove($id = null) { // attachment & category is own your risk!
 		global $database;
+		if(!empty($id)) $this->id = $id;
 		// step 0. Get Information
 		if (!isset($this->id) || !Validator::number($this->id, 1))
 			return $this->_error('id');
@@ -163,10 +164,16 @@ class Post {
 			return $this->_error('id');
 			
 		// step 1. Check Syndication
-		if ($old['visibility'] == 3) {
+		if ($entry['visibility'] == 3) {
 			requireComponent('Eolin.API.Syndication');
 			Syndication::leave($this->getLink());
 		}
+		
+		CacheControl::flushEntry($this->id);
+		CacheControl::flushDBCache('entry');
+		CacheControl::flushDBCache('comment');
+		CacheControl::flushDBCache('trackback');
+		$gCacheStorage->purge();
 		
 		// step 2. Delete Entry
 		$sql = "DELETE FROM ".$database['prefix']."Entries WHERE blogid = ".getBlogId()." AND id = ".$this->id;
@@ -181,18 +188,34 @@ class Post {
 			POD::execute("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = ".getBlogId()." AND entry = $this->id");
 		
 		// step 6. update Category
-			// TODO : Update Category
+			requireComponent('Textcube.Data.Category');
+			if (isset($entry['category'])) {
+				$target = ($parentCategory = Category::getParent($entry['category'])) ? '(id = ' . $entry['category'] . ' OR id = ' . $parentCategory . ')' : 'id = ' . $entry['category'];
+
+				if (isset($entry['visibility']) && ($entry['visibility'] != 1))
+					POD::query("UPDATE {$database['prefix']}Categories SET entries = entries - 1, entriesInLogin = entriesInLogin - 1 WHERE blogid = ".getBlogId()." AND " . $target);
+				else
+					POD::query("UPDATE {$database['prefix']}Categories SET entriesInLogin = entriesInLogin - 1 WHERE blogid = ".getBlogId()." AND " . $target);
+			}
 		
 		// step 7. Delete Attachment
-			// TODO : Delete Attachment
-		
+			$attachNames = POD::queryColumn("SELECT name FROM {$database['prefix']}Attachments
+				WHERE blogid = ".getBlogId()." AND parent = ".$this->id);
+			if (POD::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND parent = "$this->id)) {
+				foreach($attachNames as $attachName) {
+					if( file_exists( ROOT . "/attach/".getBlogId()."/$attachName") ) {
+						@unlink(ROOT . "/attach/".getBlogId()."/$attachName");
+					}
+				}
+			}
+	
 		// step 8. Delete Tags
 			$this->deleteTags();
 		
 		// step 9. Clear RSS
 			requireComponent('Textcube.Control.RSS');
 			RSS::refresh();
-		
+
 			return true;
 		}
 		return false;
