@@ -284,25 +284,12 @@ textarea
 
 #main-menu li.selected
 {
-	background-image                 : url("./image/bg_menu_over.png");
-	background-position              : center top;
-	background-repeat                : repeat-x;
-	height                           : 36px;
+	color                            : #ADFF2F;
 }
 
 #main-menu li.selected a
 {
-	color                            : #222;
-}
-
-#main-menu li.selected a:hover
-{
-	color                            : #222;
-}
-
-#main-menu li a:hover
-{
-	color                            : #1FF;
+	color                            : #ADFF2F;
 }
 
 #main-menu ul.sub-menu 
@@ -402,7 +389,7 @@ textarea
 #sub-menu-box
 {
 	clear                            : both;
-	height                           : 2.4em;
+	height                           : 0.4em;
 	line-height                      : 2.4em;
 	padding-left                     : 200px;
 }

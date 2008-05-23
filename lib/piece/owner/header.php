@@ -441,7 +441,7 @@ foreach($blogTopMenuItem as $menuItem) {
 			<hr class="hidden" />
 <?php
 /********** Submenu part. ***********/
-/*
+
 if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 ?>
 			<div id="layout-body">
@@ -451,11 +451,12 @@ if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 				<h2><?php echo isset($blogMenu['title']) ? _f('서브메뉴 : %1', $blogMenu['title']) : _t('서브메뉴');?></h2>
 
 <?php
-if(isset($blogContentMenuItem[$blogMenu['topMenu']])) {
+//if(isset($blogContentMenuItem[$blogMenu['topMenu']])) {
 ?>
 				<div id="sub-menu-box">
 					<ul id="sub-menu">
 <?php
+/*
 	$firstChildClass = ' firstChild';
 	$submenuURL = null;
 	foreach($blogContentMenuItem[$blogMenu['topMenu']] as $contentMenuItem) { 
@@ -501,6 +502,12 @@ if(isset($blogContentMenuItem[$blogMenu['topMenu']])) {
 <?php
 }
 */
+?>
+					<ul id="helper">
+						<li id="sub-menu-helper"><a href="<?php echo getHelpURL($helpURL);?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
+					</ul>
+				</div>
+<?php
 if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 ?>
 				<hr class="hidden" />
