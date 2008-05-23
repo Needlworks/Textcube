@@ -297,19 +297,12 @@ textarea
 
 #main-menu li.selected a:hover
 {
-	color                            : #000;
+	color                            : #222;
 }
 
-#main-menu a:hover .sub-menu
+#main-menu li a:hover
 {
-	color                            : #FFF !important;
-}
-
-#main-menu li:hover
-{
-	background-image                 : url("./image/bg_menu_selected.png");
-	background-position              : center top;
-	background-repeat                : repeat-x;
+	color                            : #1FF;
 }
 
 #main-menu ul.sub-menu 
@@ -326,12 +319,13 @@ textarea
 	color                            : #222;
     position                         : absolute;
 	z-index                          : 999;
-	top                              : 32px; 
+	top                              : 33px; 
 	left                             : 0;
-	border                           : solid 1px;
+	border                           : solid 1px #CCC;
 	background-image                 : url("./image/bg_menu_selected.png");
 	background-repeat                : no-repeat;
 	background-position              : -80px -33px;
+	padding-bottom                   : 10px;
 }
 
 #main-menu li:hover ul:hover 
@@ -343,7 +337,6 @@ textarea
 {
 	float                            : none;
 	margin                           : 0;
-	padding                          : 0;
 }
 
 #main-menu li:hover ul li.firstChild

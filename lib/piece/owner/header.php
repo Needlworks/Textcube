@@ -441,6 +441,7 @@ foreach($blogTopMenuItem as $menuItem) {
 			<hr class="hidden" />
 <?php
 /********** Submenu part. ***********/
+/*
 if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 ?>
 			<div id="layout-body">
@@ -499,6 +500,7 @@ if(isset($blogContentMenuItem[$blogMenu['topMenu']])) {
 				</div>
 <?php
 }
+*/
 if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 ?>
 				<hr class="hidden" />
