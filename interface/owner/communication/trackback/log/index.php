@@ -12,5 +12,5 @@ if ($result !== false) {
 	respond::PrintResult(array('error' => 0, 'result' => $result));
 }
 else
-	respond::PrintResult(array('error' => 1, 'msg' => mysql_error()));
+	respond::PrintResult(array('error' => 1, 'msg' => POD::error()));
 ?> 

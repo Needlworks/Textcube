@@ -29,7 +29,7 @@ if ($_GET['command'] == 'unblock') {
 	if ($filter->remove()) {
 		$isAjaxRequest ? respond::PrintResult(array('error' => 0)) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	} else {
-		$isAjaxRequest ? respond::PrintResult(array('error' => 1, 'msg' => mysql_error())) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? respond::PrintResult(array('error' => 1, 'msg' => POD::error())) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	}
 } else {
 	$filter->type = $_GET['mode'];
@@ -37,6 +37,6 @@ if ($_GET['command'] == 'unblock') {
 	if ($filter->add())
 		$isAjaxRequest ? respond::PrintResult(array('error' => 0)) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	else
-		$isAjaxRequest ? respond::PrintResult(array('error' => 1, 'msg' => mysql_error())) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? respond::PrintResult(array('error' => 1, 'msg' => POD::error())) : header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 ?>

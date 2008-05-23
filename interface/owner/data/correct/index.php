@@ -122,7 +122,7 @@ if ($result = POD::query("SELECT id, name, parent, homepage, comment, entry, isF
 		}
 		if (!is_null($comment['parent']) && ($comment['isFiltered'] == 0)) {
 			$r2 = POD::query("SELECT id FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$comment['parent']} AND isFiltered = 0");
-			if (mysql_num_rows($r2) <= 0) {
+			if (POD::num_rows($r2) <= 0) {
 				trashCommentInOwner($blogid, $comment['id']);
 			}
 			POD::free($r2);

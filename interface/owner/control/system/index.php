@@ -29,7 +29,7 @@ $dbVersion = '';
 if( $service['dbms'] == 'mysql' ) {
 	$dbVersion = POD::queryColumn("SELECT VERSION()");
 	$dbVersion = "MySQL: " . $dbVersion[0];
-	$dbStat = preg_replace( "/\\s{2,}/", "<br />", mysql_stat());
+	$dbStat = preg_replace( "/\\s{2,}/", "<br />", POD::stat());
 }
 
 /* Webserver information */

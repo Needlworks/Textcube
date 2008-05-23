@@ -37,6 +37,6 @@ requireStrictRoute();
 if (setSkinSetting($blogid, $_POST)) {
 	respond::PrintResult(array('error' => 0));
 } else {
-	respond::PrintResult(array('error' => 1, 'msg' => mysql_error()));
+	respond::PrintResult(array('error' => 1, 'msg' => POD::error()));
 }
 ?>

@@ -34,9 +34,9 @@ if($entry = POD::queryRow("SELECT e.*, c.name AS categoryName
 			FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations 
 			WHERE id = tag AND blogid = ".getBlogId()." AND entry = {$entry['id']} 
 			ORDER BY name");
-	while(list($tag) = mysql_fetch_row($result))
+	while(list($tag) = POD::fetch($result,'row'))
 		echo '<tag>', htmlspecialchars($tag), '</tag>', "\r\n";
-	mysql_free_result($result);
+	POD::free($result);
 	echo '<location>', htmlspecialchars($entry['location']), '</location>', "\r\n";
 	echo '<comments>', $entry['comments'], '</comments>', "\r\n";
 	echo '<trackbacks>', $entry['trackbacks'], '</trackbacks>', "\r\n";

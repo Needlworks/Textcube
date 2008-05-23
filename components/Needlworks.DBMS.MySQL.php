@@ -294,6 +294,11 @@ class DBQuery {
 	function error($err = null) {
 		return mysql_error($err);
 	}
+	
+	/*@static@*/
+	function stat($stat = null) {
+		return mysql_stat($stat);
+	}
 }
 
 DBQuery::cacheLoad();
