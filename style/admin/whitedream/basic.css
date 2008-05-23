@@ -264,6 +264,7 @@ textarea
 #main-menu li
 {
 	float                            : left;
+	position                         : relative;
 	margin                           : 0 3px;
 	padding                          : 0 8px;
 }
@@ -304,9 +305,41 @@ textarea
 	color                            : #1FF;
 }
 
-#main-menu ul.sub-menu
+#main-menu ul.sub-menu 
 {
 	display                          : none;
+	border                           : none;
+}
+
+#main-menu li:hover ul
+{
+	display                          : block !important;
+	width                            : 150px;
+	background-color                 : #EEE;
+	color                            : #222;
+    position                         : absolute;
+	z-index                          : 999;
+	top                              : 31px; 
+	margin-top                       : 0.1em;
+	left                             : 0;
+	border:solid 1px;
+}
+
+#main-menu li:hover ul:hover 
+{
+	display                          : block;
+}
+
+#main-menu li:hover ul:hover
+{
+	float                            : none;
+}
+
+#main-menu li:hover ul li a:link,
+#main-menu li:hover ul li a:visited
+{
+	color                            : #222;
+	display                          : block;
 }
 
 #menu-center 
