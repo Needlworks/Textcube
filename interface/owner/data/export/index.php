@@ -97,7 +97,19 @@ if ($category->open()) {
 $post = new Post();
 if ($post->open('', '*', 'published, id')) {
 	do {
-		$writer->write('<post' . ' slogan="' . htmlspecialchars($post->slogan) . '"' . $newlineStyle . '>' . '<id>' . $post->id . '</id>' . '<visibility>' . $post->visibility . '</visibility>' . '<title>' . htmlspecialchars($post->title) . '</title>' . '<content formatter="' . htmlspecialchars($post->contentFormatter) . '" editor="' . htmlspecialchars($post->contentEditor) .'">' . htmlspecialchars(UTF8::correct($post->content)) . '</content>' . '<location>' . htmlspecialchars($post->location) . '</location>' . (!is_null($post->password) ? '<password>' . htmlspecialchars($post->password) . '</password>' : '') . '<acceptComment>' . $post->acceptComment . '</acceptComment>' . '<acceptTrackback>' . $post->acceptTrackback . '</acceptTrackback>' . '<published>' . $post->published . '</published>' . '<created>' . $post->created . '</created>' . '<modified>' . $post->modified . '</modified>');
+		$writer->write('<post' . ' slogan="' . htmlspecialchars($post->slogan) . '"' . $newlineStyle . '>' . 
+			'<id>' . $post->id . '</id>' . 
+			'<visibility>' . $post->visibility . '</visibility>' . 
+			'<starred>' . $post->starred . '</starred>' . 
+			'<title>' . htmlspecialchars($post->title) . '</title>' . 
+			'<content formatter="' . htmlspecialchars($post->contentFormatter) . '" editor="' . htmlspecialchars($post->contentEditor) .'">' . htmlspecialchars(UTF8::correct($post->content)) . '</content>' . 
+			'<location>' . htmlspecialchars($post->location) . '</location>' . 
+			(!is_null($post->password) ? '<password>' . htmlspecialchars($post->password) . '</password>' : '') . 
+			'<acceptComment>' . $post->acceptComment . '</acceptComment>' . 
+			'<acceptTrackback>' . $post->acceptTrackback . '</acceptTrackback>' . 
+			'<published>' . $post->published . '</published>' . 
+			'<created>' . $post->created . '</created>' . 
+			'<modified>' . $post->modified . '</modified>');
 
 		if ($post->category)
 			$writer->write('<category>' . htmlspecialchars(Category::getLabel($post->category)) . '</category>');
@@ -164,7 +176,15 @@ if ($post->open('', '*', 'published, id')) {
 $notice = new Notice();
 if ($notice->open()) {
 	do {
-		$writer->write('<notice' . $newlineStyle . '>' . '<id>' . $notice->id . '</id>' . '<visibility>' . $notice->visibility . '</visibility>' . '<title>' . htmlspecialchars(UTF8::correct($notice->title)) . '</title>' . '<content formatter="' . htmlspecialchars($notice->contentFormatter) . '" editor="' . htmlspecialchars($notice->contentEditor) .'">' . htmlspecialchars(UTF8::correct($notice->content)) . '</content>' . '<published>' . $notice->published . '</published>' . '<created>' . $notice->created . '</created>' . '<modified>' . $notice->modified . '</modified>');
+		$writer->write('<notice' . $newlineStyle . '>' . 
+			'<id>' . $notice->id . '</id>' . 
+			'<visibility>' . $notice->visibility . '</visibility>' . 
+			'<starred>' . $notice->starred . '</starred>' . 
+			'<title>' . htmlspecialchars(UTF8::correct($notice->title)) . '</title>' . 
+			'<content formatter="' . htmlspecialchars($notice->contentFormatter) . '" editor="' . htmlspecialchars($notice->contentEditor) .'">' . htmlspecialchars(UTF8::correct($notice->content)) . '</content>' . 
+			'<published>' . $notice->published . '</published>' . 
+			'<created>' . $notice->created . '</created>' . 
+			'<modified>' . $notice->modified . '</modified>');
 
 		$writer->write(CRLF);
 		if ($attachment = $notice->getAttachments()) {
@@ -188,7 +208,15 @@ if ($notice->open()) {
 $keyword = new Keyword();
 if ($keyword->open()) {
 	do {
-		$writer->write('<keyword' . $newlineStyle . '>' . '<id>' . $keyword->id . '</id>' . '<visibility>' . $keyword->visibility . '</visibility>' . '<name>' . htmlspecialchars(UTF8::correct($keyword->name)) . '</name>' . '<description editor="' . htmlspecialchars($keyword->descriptionEditor) . '" formatter="' . htmlspecialchars($keyword->descriptionFormatter) .'">' . htmlspecialchars(UTF8::correct($keyword->description)) . '</description>' . '<published>' . $keyword->published . '</published>' . '<created>' . $keyword->created . '</created>' . '<modified>' . $keyword->modified . '</modified>');
+		$writer->write('<keyword' . $newlineStyle . '>' . 
+			'<id>' . $keyword->id . '</id>' . 
+			'<visibility>' . $keyword->visibility . '</visibility>' . 
+			'<starred>' . $keyword->starred . '</starred>' . 			
+			'<name>' . htmlspecialchars(UTF8::correct($keyword->name)) . '</name>' . 
+			'<description editor="' . htmlspecialchars($keyword->descriptionEditor) . '" formatter="' . htmlspecialchars($keyword->descriptionFormatter) .'">' . htmlspecialchars(UTF8::correct($keyword->description)) . '</description>' .
+			'<published>' . $keyword->published . '</published>' . 
+			'<created>' . $keyword->created . '</created>' . 
+			'<modified>' . $keyword->modified . '</modified>');
 
 		$writer->write(CRLF);
 		if ($attachment = $keyword->getAttachments()) {

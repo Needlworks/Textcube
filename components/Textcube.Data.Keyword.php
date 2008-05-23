@@ -11,6 +11,7 @@ class Keyword {
 		$this->error =
 		$this->id =
 		$this->visibility =
+		$this->starred =
 		$this->name =
 		$this->description =
 		$this->descriptionEditor =
@@ -100,6 +101,8 @@ class Keyword {
 		}
 		$query->setQualifier('id', $this->id);
 		
+		if (empty($this->starred))
+			$this->starred = 0;
 		if (!isset($this->published))
 			$query->setAttribute('published', 'UNIX_TIMESTAMP()');
 		if (!isset($this->created))
@@ -205,6 +208,11 @@ class Keyword {
 					break;
 			}
 		}
+		if(isset($this->starred)) {
+			$query->setAttribute('starred',$this->starred);
+		} else {
+			$query->setAttribute('starred',0);
+		}		
 		if (isset($this->published)) {
 			if (!Validator::number($this->published, 1))
 				return $this->_error('published');

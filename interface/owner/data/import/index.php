@@ -304,6 +304,9 @@ function importer($path, $node, $line) {
 			$post->id = $node['id'][0]['.value'];
 			$post->slogan = @$node['.attributes']['slogan'];
 			$post->visibility = $node['visibility'][0]['.value'];
+			if(isset($node['starred'][0]['.value'])) 
+				$post->starred = $node['starred'][0]['.value'];
+			else $post->starred = 0;
 			$post->title = $node['title'][0]['.value'];
 			$post->content = $node['content'][0]['.value'];
 			$post->contentFormatter = isset($node['content']['.attributes']['formatter']) ? $node['content']['.attributes']['formatter'] : 'ttml';
@@ -449,6 +452,9 @@ function importer($path, $node, $line) {
 			$notice = new Notice();
 			$notice->id = $node['id'][0]['.value'];
 			$notice->visibility = $node['visibility'][0]['.value'];
+			if(isset($node['starred'][0]['.value'])) 
+				$notice->starred = $node['starred'][0]['.value'];
+			else $notice->starred = 0;
 			$notice->title = $node['title'][0]['.value'];
 			$notice->content = $node['content'][0]['.value'];
 			$notice->contentFormatter = isset($node['content']['.attributes']['formatter']) ? $node['content']['.attributes']['formatter'] : getDefaultFormatter();
@@ -502,6 +508,9 @@ function importer($path, $node, $line) {
 			$keyword = new Keyword();
 			$keyword->id = $node['id'][0]['.value'];
 			$keyword->visibility = $node['visibility'][0]['.value'];
+			if(isset($node['starred'][0]['.value'])) 
+				$keyword->starred = $node['starred'][0]['.value'];
+			else $keyword->starred = 0;
 			$keyword->name = $node['name'][0]['.value'];
 			$keyword->description = $node['description'][0]['.value'];
 			$keyword->descriptionEditor = isset($node['description']['.attributes']['editor']) ? $node['description']['.attributes']['editor'] : getDefaultEditor();

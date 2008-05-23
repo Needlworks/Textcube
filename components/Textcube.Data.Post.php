@@ -12,6 +12,7 @@ class Post {
 		$this->userid = 
 		$this->id =
 		$this->visibility =
+		$this->starred =
 		$this->title =
 		$this->slogan =
 		$this->content =
@@ -101,14 +102,16 @@ class Post {
 			return $this->_error('title');
 		if (empty($this->content))
 			return $this->_error('content');
-
 		if (!$query = $this->_buildQuery())
 			return false;
 		if (!isset($this->id) || $query->doesExist() || $this->doesExist($this->id)) {
-			$this->id = $this->nextEntryId(); // Added (#300)
+			$this->id = $this->nextEntryId(); // Added (#300)
 		}
 		$query->setQualifier('id', $this->id);
 
+		if (empty($this->starred))
+			$this->starred = 0;
+		if (!$query = $this->_buildQuery())
 		if (!isset($this->published))
 			$query->setAttribute('published', 'UNIX_TIMESTAMP()');
 		if (!isset($this->created))
@@ -553,6 +556,11 @@ class Post {
 				default:
 					return $this->_error('visibility');
 			}
+		}
+		if(isset($this->starred)) {
+			$query->setAttribute('starred',$this->starred);
+		} else {
+			$query->setAttribute('starred',0);
 		}
 		if (isset($this->category)) {
 			requireComponent('Textcube.Data.Category');
