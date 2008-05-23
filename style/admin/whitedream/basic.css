@@ -302,33 +302,31 @@ textarea
 {
 	display                          : block !important;
 	width                            : 150px;
-	background-color                 : #EEE;
 	color                            : #222;
     position                         : absolute;
 	z-index                          : 999;
 	top                              : 33px; 
 	left                             : 0;
 	border                           : solid 1px #CCC;
+	background-color                 : #EEE;
 	background-image                 : url("./image/bg_menu_selected.png");
 	background-repeat                : no-repeat;
+    filter                           : alpha(opacity=90);
+	opacity                          :.90;
 	background-position              : -80px -33px;
 	padding-bottom                   : 10px;
 }
 
-#main-menu li:hover ul:hover 
-{
-	display                          : block;
-}
-
 #main-menu li:hover ul:hover
 {
+	display                          : block;
 	float                            : none;
 	margin                           : 0;
 }
 
 #main-menu li:hover ul li.firstChild
 {
-	margin-top:5px;
+	margin-top                       : 5px;
 }
 
 #main-menu li:hover ul li

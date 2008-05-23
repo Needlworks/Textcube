@@ -73,20 +73,4 @@ function rolloverClass(obj, type) {
 		}
 	}
 }
-
-var currentSubmenuContents = '';
-
-function previewSubmenu(topmenu) {
-	var menu = document.getElementById('submenu-'+topmenu);
-	contents = menu.innerHTML;
-	if(currentSubmenuContents == '') currentSubmenuContents = document.getElementById('sub-menu').innerHTML;
-	document.getElementById('sub-menu').innerHTML = contents;
-	return true;
-}
-
-function revertSubmenu() {
-	if(currentSubmenuContents == '') return true;
-	else document.getElementById('sub-menu').innerHTML = currentSubmenuContents;
-	return true;
-}
 //]]>
