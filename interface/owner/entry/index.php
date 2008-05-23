@@ -720,6 +720,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 							</span></h2>
 							
 							<ul id="entry-tabs-box" class="tabs-box">
+								<li class="entry-post"><a href="<?php echo $blogURL;?>/owner/entry/post"><?php echo _t('새 글 쓰기');?></a></li>
 								<li class="entry-all<?php echo isset($tabsClass['all']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>"><?php echo _t('모든 글');?></a></li>
 <!--								<li class="entry-draft<?php echo isset($tabsClass['draft']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=draft"><?php echo _t('쓰고 있는 글');?></a></li>-->
 								<li class="entry-starred<?php echo isset($tabsClass['starred']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=starred"><?php echo _t('별표');?></a></li>
