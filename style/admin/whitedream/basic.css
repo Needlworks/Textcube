@@ -300,9 +300,16 @@ textarea
 	color                            : #000;
 }
 
-#main-menu li a:hover
+#main-menu a:hover .sub-menu
 {
-	color                            : #1FF;
+	color                            : #FFF !important;
+}
+
+#main-menu li:hover
+{
+	background-image                 : url("./image/bg_menu_selected.png");
+	background-position              : center top;
+	background-repeat                : repeat-x;
 }
 
 #main-menu ul.sub-menu 
@@ -319,10 +326,12 @@ textarea
 	color                            : #222;
     position                         : absolute;
 	z-index                          : 999;
-	top                              : 31px; 
-	margin-top                       : 0.1em;
+	top                              : 32px; 
 	left                             : 0;
-	border:solid 1px;
+	border                           : solid 1px;
+	background-image                 : url("./image/bg_menu_selected.png");
+	background-repeat                : no-repeat;
+	background-position              : -80px -33px;
 }
 
 #main-menu li:hover ul:hover 
@@ -333,6 +342,26 @@ textarea
 #main-menu li:hover ul:hover
 {
 	float                            : none;
+	margin                           : 0;
+	padding                          : 0;
+}
+
+#main-menu li:hover ul li.firstChild
+{
+	margin-top:5px;
+}
+
+#main-menu li:hover ul li
+{
+	display                          : block;
+	width                            : 125px;
+	height                           : 27px;
+	background-image                 : none !important;
+}
+
+#main-menu li:hover ul li:hover
+{
+	background-color                 : #CCC;
 }
 
 #main-menu li:hover ul li a:link,
