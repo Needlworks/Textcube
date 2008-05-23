@@ -116,6 +116,12 @@ if(!defined('__TEXTCUBE_NO_FANCY_URL__')) {
 <?php
 }
 ?>
+							function setDefault() {
+								if(!confirm('<?php echo _f('선택하신 옵션은 %1 파일을 처음 설치할 때의 값으로 되돌립니다.','.htaccess').' '._f('적용하시면 기존의 %1 파일이 변경됩니다. 이 변경사항은 되돌릴 수 없습니다. 그래도 적용하시겠습니까?','.htaccess');?>')) return;
+								var htaccess = document.getElementById('rewrite');
+								htaccess.value = '<?php echo getDefaultHtaccess(true);?>';
+								return true;
+							}
 						//]]>
 						</script>
 
@@ -347,8 +353,9 @@ if (!is_writable(ROOT . "/.htaccess")) {
 										<textarea id="rewrite" name="htaccess" cols="100" rows="20" onkeyup="htaccessSaved=false"><?php echo htmlspecialchars($htaccessContent);?></textarea>
 									</div>
 									<div class="button-box">
+										<input type="button" class="default-button input-button" value="<?php echo _t('기본값');?>" onclick="setDefault();return false;" />
 										<input type="reset" class="reset-button input-button" value="<?php echo _t('되돌리기');?>" />
-										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setRewrite(); return false" />
+										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setRewrite(); return false;" />
 									</div>
 								</form>						
 							</div>

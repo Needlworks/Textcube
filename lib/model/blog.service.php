@@ -204,4 +204,21 @@ function writeConfigFile($settings) {
 	$writer->close();
 	return true;
 }
+
+function getDefaultHtaccess($jsPrint = false) {
+	$rootURL = substr($_SERVER['PHP_SELF'], 0, strlen($_SERVER['PHP_SELF']) - 12);
+	$source = '#<IfModule mod_url.c>
+#CheckURL Off
+#</IfModule>
+#SetEnv PRELOAD_CONFIG 1
+RewriteEngine On
+RewriteBase '.$rootURL.'/
+RewriteRule ^(thumbnail)/([0-9]+/.+)$ cache/$1/$2 [L]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^(.+[^/])$ $1/ [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ rewrite.php [L,QSA]';
+	if($jsPrint == true) $source = str_replace(array("'","\n"),array("\'",'\n'),$source);
+	return $source;
+}
 ?>
