@@ -201,7 +201,7 @@ class Post {
 		// step 7. Delete Attachment
 			$attachNames = POD::queryColumn("SELECT name FROM {$database['prefix']}Attachments
 				WHERE blogid = ".getBlogId()." AND parent = ".$this->id);
-			if (POD::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND parent = "$this->id)) {
+			if (POD::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND parent = ".$this->id)) {
 				foreach($attachNames as $attachName) {
 					if( file_exists( ROOT . "/attach/".getBlogId()."/$attachName") ) {
 						@unlink(ROOT . "/attach/".getBlogId()."/$attachName");

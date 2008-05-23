@@ -43,7 +43,6 @@ $__requireInit = array(
 $codeName = 'includeForBlogOwner.php';
 require ROOT.'/lib/include.php';
 header('Content-Type: text/html; charset=utf-8');
-
 requireOwnership();		// Check access control list
 require ROOT .'/lib/pageACL.php';
 ?>
