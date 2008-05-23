@@ -45,14 +45,14 @@ if( Acl::getIdentity('openid') ) {
 			function submitComment() {
 				var oForm = document.commentToComment;
 				var oButton = document.getElementById('commentSubmit');
-				oButton.value = '<?php echo _text('저장중');?>';
+				oButton.value = '<?php echo escapeJSInCData(_text('저장중'));?>';
 				var tempOnClick = oButton.onclick;
 				oButton.onclick = 'return false;';
 				trimAll(oForm);
 <?php 
 if (!doesHaveMembership()) {
 ?>
-				if (!checkValue(oForm.name, '<?php echo _text('이름을 입력해 주십시오.');?>')) {
+				if (!checkValue(oForm.name, '<?php echo escapeJSInCData(_text('이름을 입력해 주십시오.'));?>')) {
 					oButton.value = '<?php echo _text('완료');?>';
 					oButton.onclick = tempOnClick; 
 					return false;
@@ -60,7 +60,7 @@ if (!doesHaveMembership()) {
 <?php 
 }
 ?>
-				if (!checkValue(oForm.comment, '<?php echo _text('댓글을 입력해 주십시오.');?>')) {
+				if (!checkValue(oForm.comment, '<?php echo escapeJSInCData(_text('댓글을 입력해 주십시오.'));?>')) {
 					oButton.value = '<?php echo _text('완료');?>';
 					oButton.onclick = tempOnClick; 
 					return false;
@@ -68,7 +68,7 @@ if (!doesHaveMembership()) {
 				oForm.submit();
 			}
 			function confirmOverwrite() {
-				return confirm("<?php echo _text('관리자가 방문객의 댓글을 수정하시면 작성자 이름을 관리자 아이디로 덮어 쓰게 됩니다.\n계속 하시겠습니까?');?>");
+				return confirm("<?php echo escapeJSInCData(_text('관리자가 방문객의 댓글을 수정하시면 작성자 이름을 관리자 아이디로 덮어 쓰게 됩니다.\n계속 하시겠습니까?'));?>");
 			}
 		//]]>
 	</script>
