@@ -329,6 +329,11 @@ textarea
 	margin-top                       : 5px;
 }
 
+#main-menu li:hover ul li.selected
+{
+	font-weight                      : bold;
+}
+
 #main-menu li:hover ul li
 {
 	display                          : block;
