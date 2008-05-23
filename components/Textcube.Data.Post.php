@@ -179,13 +179,13 @@ class Post {
 		$sql = "DELETE FROM ".$database['prefix']."Entries WHERE blogid = ".getBlogId()." AND id = ".$this->id;
 		if (POD::queryCount($sql)) {
 		// step 3. Delete Comment
-			POD::execute("DELETE FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()." AND entry = $this->id");
+			POD::execute("DELETE FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()." AND entry = ".$this->id);
 		
 		// step 4. Delete Trackback
-			POD::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = ".getBlogId()." AND entry = $this->id");
+			POD::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = ".getBlogId()." AND entry = ".$this->id);
 		
 		// step 5. Delete Trackback Logs
-			POD::execute("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = ".getBlogId()." AND entry = $this->id");
+			POD::execute("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = ".getBlogId()." AND entry = ".$this->id);
 		
 		// step 6. update Category
 			requireComponent('Textcube.Data.Category');
