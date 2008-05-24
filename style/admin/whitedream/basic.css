@@ -265,7 +265,7 @@ textarea
 {
 	float                            : left;
 	position                         : relative;
-	z-index:1;
+	z-index                          : 400;   /* Workaround for IE6 positioned element bug */
 	margin                           : 0 3px;
 	padding                          : 0 8px;
 }
@@ -299,17 +299,14 @@ textarea
 	border                           : none;
 }
 
-#main-menu li a:hover {
-	z-index                          : 999 !important;
-}
-
-#main-menu li:hover ul
+#main-menu li:hover ul,
+#main-menu li a:hover table
 {
 	display                          : block !important;
 	width                            : 150px;
 	color                            : #222;
     position                         : absolute;
-	z-index                          : 999 !important;
+	z-index                          : 100 !important;
 	top                              : 33px; 
 	left                             : 0;
 	border                           : solid 1px #CCC;
@@ -322,24 +319,28 @@ textarea
 	padding-bottom                   : 10px;
 }
 
-#main-menu li:hover ul:hover
+#main-menu li:hover ul:hover,
+#main-menu li a:hover ul,
 {
 	display                          : block;
 	float                            : none;
 	margin                           : 0;
 }
 
-#main-menu li:hover ul li.firstChild
+#main-menu li:hover ul li.firstChild,
+#main-menu li a:hover ul li.firstChild
 {
 	margin-top                       : 5px;
 }
 
-#main-menu li:hover ul li.selected
+#main-menu li:hover ul li.selected,
+#main-menu li a:hover ul li.selected
 {
 	font-weight                      : bold;
 }
 
-#main-menu li:hover ul li
+#main-menu li:hover ul li,
+#main-menu li a:hover ul li,
 {
 	display                          : block;
 	width                            : 125px;
@@ -347,13 +348,16 @@ textarea
 	background-image                 : none !important;
 }
 
-#main-menu li:hover ul li:hover
+#main-menu li:hover ul li:hover,
+#main-menu li a:hover ul li a:hover
 {
 	background-color                 : #CCC;
 }
 
 #main-menu li:hover ul li a:link,
-#main-menu li:hover ul li a:visited
+#main-menu li:hover ul li a:visited,
+#main-menu li a:hover ul li a:link,
+#main-menu li a:hover ul li a:visited
 {
 	color                            : #222;
 	display                          : block;
@@ -400,38 +404,6 @@ textarea
 	height                           : 0.4em;
 	line-height                      : 2.4em;
 	padding-left                     : 200px;
-}
-
-#sub-menu li
-{
-	background-image                 : url("./image/bg_submenu_divider.png");
-	background-position              : left center;
-	background-repeat                : no-repeat;
-	float                            : left;
-	padding                          : 0 8px;
-}
-
-#sub-menu li a:link,
-#sub-menu li a:visited
-{
-	text-decoration                  : none;
-}
-
-#sub-menu li a:hover,
-#sub-menu li a:active
-{
-	text-decoration                  : underline;
-}
-
-#sub-menu li.selected a
-{
-	color                            : #000000;
-	font-weight                      : bold;
-}
-
-#sub-menu li.firstChild
-{
-	background-image                 : none !important;
 }
 
 #sub-menu-helper
