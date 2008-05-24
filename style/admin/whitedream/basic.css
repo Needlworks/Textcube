@@ -265,6 +265,7 @@ textarea
 {
 	float                            : left;
 	position                         : relative;
+	z-index:1;
 	margin                           : 0 3px;
 	padding                          : 0 8px;
 }
@@ -297,9 +298,11 @@ textarea
 	display                          : none;
 	border                           : none;
 }
+
 #main-menu li a:hover {
 	z-index                          : 999 !important;
 }
+
 #main-menu li:hover ul
 {
 	display                          : block !important;
