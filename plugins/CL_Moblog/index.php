@@ -122,12 +122,10 @@ class Moblog
 	}
 
 	function _getDecoratedContent( & $mail, $docid ) {
-			$alt = htmlentities($mail['attachments'][0]['filename'],ENT_QUOTES,'utf-8');
-			$content = '$TEXT<p>[##_1C|$FILENAME|width="$WIDTH" height="$HEIGHT" alt="'.$alt.'"|_##]</p>';
 			$text = "<h3 id=\"$docid\">$docid</h3>\r\n";
 			$text .= empty($mail['subject']) ? '' : ("<p>".$mail['subject']."</p>\r\n");
 			$text .= isset($mail['text']) ? (!stristr($mail['text'],'table')? "<p>{$mail['text']}</p>" : '') : '';
-			return str_replace( '$TEXT', $text , $content );
+			return $text;
 	}
 
 	function statCallback( $total, $totalsize )
@@ -193,27 +191,34 @@ class Moblog
 		/* 슬로건을 지워야만 문제가 발생하지 않습니다. */
 		//unset($post->slogan);
 
-		$this->log( _t("첨부")." : {$mail['attachments'][0]['filename']}" );
-		requireModel( "blog.api" );
-		$att = api_addAttachment( getBlogId(), $post->id, 
-					array( 
-							'name' => $mail['attachments'][0]['filename'], 
-							'content' => $mail['attachments'][0]['decoded_content'], 
-							'size' => $mail['attachments'][0]['length']
-					) 
-			);
-		if( !$att ) {
-			$this->log( "* "._t("메일").": " . $mail['subject'] . " [ERROR]" );
-			$this->log( _t("실패: 첨부파일을 추가하지 못하였습니다")." : " . $post->error );
-			return false;
-		}
-		$post->content = str_replace( '$FILENAME', $att['name'], $post->content );
-		$post->content = str_replace( '$WIDTH', $att['width'], $post->content );
-		$post->content = str_replace( '$HEIGHT', $att['height'], $post->content );
-		if( !$post->update() ) {
-			$this->log( "* "._t("메일").": " . $mail['subject'] . " [ERROR]" );
-			$this->log( _t("실패: 글을 추가하지 못하였습니다").". : " . $post->error );
-			return false;
+		if( count($mail['attachments']) ) {
+			requireModel( "blog.api" );
+			foreach( $mail['attachments'] as $mail_att ) {
+				$this->log( "* ". _t("첨부")." : {$mail_att['filename']}" );
+				$att = api_addAttachment( getBlogId(), $post->id, 
+							array( 
+									'name' => $mail_att['filename'], 
+									'content' => $mail_att['decoded_content'], 
+									'size' => $mail_att['length']
+							) 
+					);
+				if( !$att ) {
+					$this->log( "* "._t("메일").": " . $mail['subject'] . " [ERROR]" );
+					$this->log( _t("실패: 첨부파일을 추가하지 못하였습니다")." : " . $post->error );
+					return false;
+				}
+				$alt = htmlentities($mail_att['filename'],ENT_QUOTES,'utf-8');
+				$content ='<p>[##_1C|$FILENAME|width="$WIDTH" height="$HEIGHT" alt="'.$alt.'"|_##]</p>';
+				$content = str_replace( '$FILENAME', $att['name'], $content );
+				$content = str_replace( '$WIDTH', $att['width'], $content );
+				$content = str_replace( '$HEIGHT', $att['height'], $content );
+				$post->content .= $content;
+			}
+			if( !$post->update() ) {
+				$this->log( "* "._t("메일").": " . $mail['subject'] . " [ERROR]" );
+				$this->log( _t("실패: 첨부파일을 본문에 연결하지 못하였습니다").". : " . $post->error );
+				return false;
+			}
 		}
 		$this->log( "* "._t("메일").": " . $mail['subject'] . " [OK]" );
 		return true;

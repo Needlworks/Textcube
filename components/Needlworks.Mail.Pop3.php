@@ -64,7 +64,6 @@ class Pop3 {
 		}
 
 		foreach( $numbers as $nr ) {
-			error_log( "Send: RETR $nr" );
 			$this->log( "Send: RETR $nr" );
 			if( !fputs($this->ctx, "RETR $nr\r\n") ) {
 				return false;
@@ -143,7 +142,6 @@ class Pop3 {
 	function uidl()
 	{
 		$this->clearStatus();
-		error_log( "Send: UIDL" );
 		$this->log( "Send: UIDL" );
 		if( !fputs($this->ctx, "UIDL\r\n") ) {
 			return false;
