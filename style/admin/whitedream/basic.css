@@ -298,7 +298,8 @@ textarea
 	border                           : none;
 }
 
-#main-menu li:hover ul
+#main-menu li:hover ul,
+#main-menu li a:hover ul
 {
 	display                          : block !important;
 	width                            : 150px;

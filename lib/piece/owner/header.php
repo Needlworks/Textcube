@@ -390,7 +390,8 @@ requireComponent('Textcube.Core');
 foreach($blogTopMenuItem as $menuItem) {
 ?>
 						<li id="menu-<?php echo $menuItem['menu'];?>"<?php echo $menuItem['menu']==$blogMenu['topMenu'] ? ' class="selected"' : '';?>>
-							<a href="<?php echo $blogURL.$menuItem['link'];?>" ><span><?php echo $menuItem['title'];?></span></a>
+							<a href="<?php echo $blogURL.$menuItem['link'];?>" ><span><?php echo $menuItem['title'];?></span><!--[if IE 7]><!--></a><!--<![endif]-->
+							<!--[if lte IE 6]><table><tr><td><![endif]-->							
 							<ul id="submenu-<?php echo $menuItem['menu'];?>" class="sub-menu">
 <?php
 	$firstChildClass = ' firstChild';
@@ -430,6 +431,7 @@ foreach($blogTopMenuItem as $menuItem) {
 	}
 ?>
 							</ul>
+							<!--[if lte IE 6]></td></tr></table></a><![endif]-->
 						</li>
 <?php
 }
