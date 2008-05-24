@@ -340,7 +340,7 @@ textarea
 }
 
 #main-menu li:hover ul li,
-#main-menu li a:hover ul li,
+#main-menu li a:hover ul li
 {
 	display                          : block;
 	width                            : 125px;
