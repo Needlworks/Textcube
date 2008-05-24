@@ -24,6 +24,14 @@
 	margin-left                      : 100px !important;
 }
 
+#main-menu table
+{
+	position                         : absolute;
+	top                              : 0;
+	left                             : 0;
+	border-collapse                  : collapse;
+}
+
 #main-menu #menu-textcube
 {
 	background-image                 : url("./image/img_header_textcube.gif") !important;

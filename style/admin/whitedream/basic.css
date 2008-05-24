@@ -297,15 +297,16 @@ textarea
 	display                          : none;
 	border                           : none;
 }
-
-#main-menu li:hover ul,
-#main-menu li a:hover ul
+#main-menu li a:hover {
+	z-index                          : 999 !important;
+}
+#main-menu li:hover ul
 {
 	display                          : block !important;
 	width                            : 150px;
 	color                            : #222;
     position                         : absolute;
-	z-index                          : 999;
+	z-index                          : 999 !important;
 	top                              : 33px; 
 	left                             : 0;
 	border                           : solid 1px #CCC;
@@ -313,7 +314,7 @@ textarea
 	background-image                 : url("./image/bg_menu_selected.png");
 	background-repeat                : no-repeat;
     filter                           : alpha(opacity=90);
-	opacity                          :.90;
+	opacity                          : .90;
 	background-position              : -80px -33px;
 	padding-bottom                   : 10px;
 }
