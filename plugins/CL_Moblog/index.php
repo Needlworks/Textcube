@@ -4,7 +4,7 @@ requireComponent( "Needlworks.Mail.Pop3" );
 class Moblog
 {
 	function Moblog( $username, $password, $host, $port = 110, $ssl = 0, 
-		$userid = 1, $minsize = 10240, $visibility = 2 )
+		$userid = 1, $minsize = 10240, $visibility = 2, $category = 0 )
 	{
 		global $pop3logs;
 		if( !isset($debugLogs) ) {
@@ -20,6 +20,7 @@ class Moblog
 		$this->recentCount = 100;
 		$this->visibility = array( "private", "protected", "public", "syndicated" );
 		$this->visibility = $this->visibility[$visibility];
+		$this->category = $category;
 
 		$this->pop3 = new Pop3();
 		$this->pop3->setLogger( array(&$this,'log') );
@@ -122,9 +123,10 @@ class Moblog
 
 	function _getDecoratedContent( & $mail, $docid ) {
 			$alt = htmlentities($mail['attachments'][0]['filename'],ENT_QUOTES,'utf-8');
-			$content = '<p>$TEXT</p><p>[##_1C|$FILENAME|width="$WIDTH" height="$HEIGHT" alt="'.$alt.'"|_##]</p>';
-			$text = "<h3 id=\"$docid\">".(empty($mail['subject']) ? $docid : $mail['subject'])."</h3>\r\n";
-			$text .= isset($mail['text']) ? $mail['text'] : '';
+			$content = '$TEXT<p>[##_1C|$FILENAME|width="$WIDTH" height="$HEIGHT" alt="'.$alt.'"|_##]</p>';
+			$text = "<h3 id=\"$docid\">$docid</h3>\r\n";
+			$text .= empty($mail['subject']) ? '' : ("<p>".$mail['subject']."</p>\r\n");
+			$text .= isset($mail['text']) ? (!stristr($mail['text'],'table')? "<p>{$mail['text']}</p>" : '') : '';
 			return str_replace( '$TEXT', $text , $content );
 	}
 
@@ -163,12 +165,15 @@ class Moblog
 		$post = new Post();
 
 		if( $post->open( "slogan = '$slogan'" ) ) {
+			$this->log( "* 기존 글을 엽니다" );
 			$post->content .= $this->_getDecoratedContent( $mail, $docid );
 			$post->modified = time();
 			$post->visibility = $this->visibility;
 		} else {
+			$this->log( "* 새 글을 작성합니다" );
 			$post->title = empty($mail['subject']) ? $slogan : $mail['subject'];
 			$post->userid = $this->userid;
+			$post->category = $this->category;
 			$post->content = $this->_getDecoratedContent( $mail, $docid );
 			$post->contentFormatter = getDefaultFormatter();
 			$post->contentEditor = getDefaultEditor();
@@ -185,6 +190,8 @@ class Moblog
 				return false;
 			}
 		}
+		/* 슬로건을 지워야만 문제가 발생하지 않습니다. */
+		//unset($post->slogan);
 
 		$this->log( _t("첨부")." : {$mail['attachments'][0]['filename']}" );
 		requireModel( "blog.api" );
@@ -236,13 +243,14 @@ function moblog_check()
 	$pop3username = getBlogSetting( 'MmsPop3Username', '' );
 	$pop3password = getBlogSetting( 'MmsPop3Password', '' );
 	$pop3minsize = getBlogSetting( 'MmsPop3MinSize', 0 );
+	$pop3category = getBlogSetting( 'MmsPop3Category', 0 );
 	$pop3minsize *= 1024;
 	$pop3fallbackuserid = getBlogSetting( 'MmsPop3Fallbackuserid', 1 );
 	$pop3visibility = getBlogSetting( 'MmsPop3Visibility', '2' );
 
 	header( "Content-type: text/html; charset:utf-8" );
 	echo "<html><body><ul><li>";
-	$moblog = new Moblog( $pop3username, $pop3password, $pop3host, $pop3port, $pop3ssl, $pop3fallbackuserid, $pop3minsize, $pop3visibility );
+	$moblog = new Moblog( $pop3username, $pop3password, $pop3host, $pop3port, $pop3ssl, $pop3fallbackuserid, $pop3minsize, $pop3visibility, $pop3category );
 	$moblog->log( "--BEGIN--" );
 	$moblog->check();
 	$moblog->log( "-- END --" );
@@ -266,6 +274,7 @@ function moblog_manage()
 		setBlogSetting( 'MmsPop3Username', $_POST['pop3username'] );
 		setBlogSetting( 'MmsPop3Password', $_POST['pop3password'] );
 		setBlogSetting( 'MmsPop3Visibility', $_POST['pop3visibility'] );
+		setBlogSetting( 'MmsPop3Category', $_POST['pop3category'] );
 		setBlogSetting( 'MmsPop3Fallbackuserid', getUserId() );
 		setBlogSetting( 'MmsPop3MinSize', 0 );
 	}
@@ -276,6 +285,7 @@ function moblog_manage()
 	$pop3username = getBlogSetting( 'MmsPop3Username', '' );
 	$pop3password = getBlogSetting( 'MmsPop3Password', '' );
 	$pop3minsize = getBlogSetting( 'MmsPop3MinSize', 0 );
+	$pop3category = getBlogSetting( 'MmsPop3Category', 0 );
 	$pop3fallheadercharset = getBlogSetting( 'MmsPop3Fallbackcharset', 'euc-kr' );
 	$pop3visibility = getBlogSetting( 'MmsPop3Visibility', '2' );
 ?>
@@ -377,6 +387,26 @@ function moblog_manage()
 													<span id="status-protected" class="status-protected"><input type="radio" id="visibility_protected" class="radio" name="pop3visibility" value="1"<?php echo ($pop3visibility == 1 ? ' checked="checked"' : '');?> /><label for="visibility_protected"><?php echo _t('보호');?></label></span>
 													<span id="status-public" class="status-public"><input type="radio" id="visibility_public" class="radio" name="pop3visibility" value="2"<?php echo ($pop3visibility == 2 ? ' checked="checked"' : '');?> /><label for="visibility_public"><?php echo _t('공개');?></label></span>
 													<span id="status-syndicated" class="status-syndicated"><input type="radio" id="visibility_syndicated" class="radio" name="pop3visibility" value="3"<?php echo ($pop3visibility == 3 ? ' checked="checked"' : '');?> /><label for="visibility_syndicated"><?php echo _t('발행');?></label></span>
+											</dd>
+										</dl>
+										<dl id="editor-line" class="line">
+											<dt><span class="label"><?php echo _t('분류');?></span></dt>
+											<dd>
+												<select id="category" name="pop3category">
+													<optgroup class="category" label="<?php echo _t('분류');?>">
+			<?php foreach (getCategories(getBlogId()) as $category): ?>
+			<?php 	if ($category['id'] != 0): ?>
+														<option value="<?php echo $category['id'];?>" <?php echo $category['id'] == $pop3category ? 'selected':''?> >
+														<?php echo ($category['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($category['name']);?></option>
+			<?php	endif ?>
+			<?php 	foreach ($category['children'] as $child): ?>
+			<?php 		if ($category['id'] != 0): ?>
+														<option value="<?php echo $child['id'];?>" <?php echo $child['id'] == $pop3category ? 'selected':''?> >&nbsp;― <?php echo ($category['visibility'] > 1 && $child['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($child['name']);?></option>
+			<?php 		endif ?>
+			<?php 	endforeach ?>
+			<?php endforeach ?>
+													</optgroup>
+												</select>
 											</dd>
 										</dl>
 									<div class="button-box">

@@ -5,7 +5,7 @@
   <link>http://www.needlworks.org/</link>
   <version>1.0</version>
   <description xml:lang="en">This plugin enables Mobile blogging</description>
-  <description xml:lang="ko">모바일 블로깅을 가능하게 합니다</description>
+  <description xml:lang="ko">이동전화로 이메일을 보내면 첨부된 사진을 글로 등록합니다. 관리자화면/설정/모바일 메뉴를 확인하세요</description>
   <license>GPL 2.0</license>
   <author xml:lang="en" link="http://www.needlworks.org/">Hojin Choi</author>
   <author xml:lang="ko" link="http://www.needlworks.org/">Coolengineer</author>
@@ -48,6 +48,9 @@
 			  </param>
 			  <param>
 				  <name>pop3visibility</name><type>int</type><mandatory>0</mandatory>
+			  </param>
+			  <param>
+				  <name>pop3category</name><type>int</type><mandatory>0</mandatory>
 			  </param>
 			  <param>
 				  <name>check</name><type>int</type><mandatory>0</mandatory>
