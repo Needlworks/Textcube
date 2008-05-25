@@ -293,6 +293,12 @@ textarea
 	color                            : #ADFF2F;
 }
 
+#main-menu li:hover a,
+#main-menu li a:hover
+{
+	color                            : #FAFAA0;
+}
+
 #main-menu ul.sub-menu 
 {
 	display                          : none;
@@ -320,7 +326,7 @@ textarea
 }
 
 #main-menu li:hover ul:hover,
-#main-menu li a:hover ul,
+#main-menu li a:hover ul
 {
 	display                          : block;
 	float                            : none;
