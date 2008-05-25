@@ -356,8 +356,16 @@ function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false
 	$visibility .= ($isNotice || doesHaveOwnership())  ? '' : ' AND (c.visibility > 1 OR e.category = 0)';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
-	if($categoryId !== false) $category = 'e.category = '.$categoryId;
-
+	if($categoryId !== false) {
+		if(!$categoryId == 0) {	// Not a 'total' category.
+			$childCategories = getChildCategoryId($blogid, $categoryId);
+			if(!empty($childCategories)) {
+				$category = 'e.category IN ('.$categoryId.','.implode(",",$childCategories).')';
+			} else {
+				$category = 'e.category = '.$categoryId;
+			}
+		}
+	}
 	$currentEntry = POD::queryRow("SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
@@ -418,8 +426,16 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false, $catego
 	$visibility .= ($isNotice || doesHaveOwnership()) ? '' : getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
-	if($categoryId !== false) $category = 'e.category = '.$categoryId;
-
+	if($categoryId !== false) {
+		if(!$categoryId == 0) {	// Not a 'total' category.
+			$childCategories = getChildCategoryId($blogid, $categoryId);
+			if(!empty($childCategories)) {
+				$category = 'e.category IN ('.$categoryId.','.implode(",",$childCategories).')';
+			} else {
+				$category = 'e.category = '.$categoryId;
+			}
+		}
+	}
 	$currentEntry = POD::queryRow("SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 

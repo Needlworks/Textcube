@@ -1096,7 +1096,7 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 				if (file_exists(ROOT . "/attach/{$blogid}/{$tempFileName}")) {
 					$tempAttributes = misc::getAttributesFromString($images[$i][2]);
 					$tempOriginInfo = getimagesize(ROOT . "/attach/{$blogid}/{$tempFileName}");
-					if ($tempOriginInfo[0] > $tempAttributes['width'])
+					if (isset($tempAttributes['width']) && ($tempOriginInfo[0] > $tempAttributes['width']))
 						$newImage = resampleImage($images[$i][0], ROOT . "/attach/{$blogid}/{$tempFileName}", $useAbsolutePath);
 					else
 						$newImage = $images[$i][0];

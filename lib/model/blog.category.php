@@ -185,12 +185,21 @@ function getCategoriesSkin() {
 
 function getParentCategoryId($blogid, $id) {
 	requireComponent('Needlworks.Cache.PageCache');
-
 	global $__gCacheCategoryRaw;
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
 	if($result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id))
 		return $result['parent'];
+	return null;
+}
+
+function getChildCategoryId($blogid, $id) {
+	requireComponent('Needlworks.Cache.PageCache');
+	global $__gCacheCategoryRaw;
+
+	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
+	if($result = MMCache::queryColumn($__gCacheCategoryRaw,'parent',$id,'id'))
+		return $result;
 	return null;
 }
 
