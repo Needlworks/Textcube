@@ -141,7 +141,6 @@ switch ($service['type']) {
 $hostURL = 'http://' . $_SERVER['HTTP_HOST'] . (isset($service['port']) ? ':' . $service['port'] : '');
 $blogURL = $pathURL.getFancyURLpostfix();
 $folderURL = rtrim($blogURL . $suri['directive'], '/');
-
 if (defined('__TEXTCUBE_MOBILE__')) {
 	$blogURL .= '/m';
 }else if (defined('__TEXTCUBE_IPHONE__')) {
