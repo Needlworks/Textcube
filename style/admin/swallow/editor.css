@@ -41,6 +41,10 @@ h3
 {
 	margin-left                      : 80px;
 }
+#title-section dl dd div.starred
+{
+	margin-left:10px !important;
+}
 
 #title-section dl dd select
 {
@@ -52,15 +56,14 @@ h3
 {
 	border                           : 1px solid #999999;
 	vertical-align                   : middle;
-	width                            : 537px;
+	width                            : 500px !important;
 	margin-left                      : 8px;
 }
 
 #starred
 {
-	width                            : 20px;
+	width                            : 20px !important;
 	display                          : inline;
-	padding                          : 0 10px;
 }
 
 .star-icon span,

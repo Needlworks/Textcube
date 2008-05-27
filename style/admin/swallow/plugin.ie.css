@@ -22,3 +22,8 @@
 	letter-spacing: -1px;
 	margin-top: 3px;
 }
+
+#plugin-search-form .input-button
+{
+    line-height                      : 1.6em !important;
+}
