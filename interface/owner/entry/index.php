@@ -325,6 +325,15 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 											}
 										}
 									}
+									if(document.getElementById('allChecked').checked != checked) {
+										document.getElementById('allChecked').checked = checked;
+									}
+									if(document.getElementById('allCheckedTop').checked != checked) {
+										document.getElementById('allCheckedTop').checked = checked;
+									}									
+									if(document.getElementById('allCheckedBottom').checked != checked) {
+										document.getElementById('allCheckedBottom').checked = checked;
+									}
 								}
 								
 								function processBatch(obj) {	
@@ -718,54 +727,106 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 	}
 ?>
 							</span></h2>
+
+							<form id="category-form-top" class="category-box" method="post" action="<?php echo $blogURL;?>/owner/entry">
+								<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
+								<input type="hidden" name="visibility" value="<?php echo $_POST['visibility'];?>" />
+								
+								<ul id="entry-tabs-box" class="tabs-box">
+									<li class="entry-post"><a href="<?php echo $blogURL;?>/owner/entry/post"><?php echo _t('새 글 쓰기');?></a></li>
+									<li class="entry-all<?php echo isset($tabsClass['all']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>"><?php echo _t('모든 글');?></a>
+										<label for="category"><?php echo _t('종류');?></label>
+										<select id="category" name="category" onchange="document.getElementById('category-form-top').page.value=1; document.getElementById('category-form-top').submit()">
+											<option value="-5"<?php echo ($categoryId == -5 ? ' selected="selected"' : '');?>><?php echo _t('모든 글');?></option>
+											<optgroup class="category" label="<?php echo _t('글 종류');?>">
+												<option value="-2"<?php echo ($categoryId == -2 ? ' selected="selected"' : '');?>><?php echo _t('공지');?></option>
+												<option value="-1"<?php echo ($categoryId == -1 ? ' selected="selected"' : '');?>><?php echo _t('키워드');?></option>
+												<option value="-4"<?php echo ($categoryId == -4 ? ' selected="selected"' : '');?>><?php echo _t('서식');?></option>
+											</optgroup>
+											<optgroup class="category" label="<?php echo _t('분류');?>">
+												<option value="0"<?php echo ($categoryId == 0 ? ' selected="selected"' : '');?>><?php echo htmlspecialchars(getCategoryNameById($blogid,0) ? getCategoryNameById($blogid,0) : _t('전체'));?></option>
+	<?php
+	foreach (getCategories($blogid) as $category) {
+		if ($category['id'] != 0) {
+	?>
+												<option value="<?php echo $category['id'];?>"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '');?>><?php echo ($category['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($category['name']);?></option>
+	<?php
+		}
+		foreach ($category['children'] as $child) {
+			if ($category['id'] != 0) {
+	?>
+												<option value="<?php echo $child['id'];?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '');?>>&nbsp;― <?php echo ($category['visibility'] > 1 && $child['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($child['name']);?></option>
+	<?php
+			}
+		}
+	}
+	?>
+												<option value="-3"<?php echo ($categoryId == -3 ? ' selected="selected"' : '');?>><?php echo _t('(분류 없음)');?></option>
+											</optgroup>
+										</select>								
+									</li>
+									
+									<li class="entry-starred<?php echo isset($tabsClass['starred']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=starred"><?php echo _t('별표');?></a></li>
+									<li class="entry-private<?php echo isset($tabsClass['private']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=private"><?php echo _t('비공개 글');?></a></li>
+									<li class="entry-public<?php echo isset($tabsClass['public']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=public"><?php echo _t('공개된 글');?></a></li>
+									<li class="entry-protected<?php echo isset($tabsClass['protected']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=protected"><?php echo _t('보호된 글');?></a></li>
+									<li class="entry-reserved<?php echo isset($tabsClass['reserved']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=reserved"><?php echo _t('예약된 글');?></a></li>
+									<li class="entry-template<?php echo isset($tabsClass['template']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=template"><?php echo _t('서식');?></a></li>
+								</ul>
+							</form>
 							
-							<ul id="entry-tabs-box" class="tabs-box">
-								<li class="entry-post"><a href="<?php echo $blogURL;?>/owner/entry/post"><?php echo _t('새 글 쓰기');?></a></li>
-								<li class="entry-all<?php echo isset($tabsClass['all']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>"><?php echo _t('모든 글');?></a></li>
-<!--								<li class="entry-draft<?php echo isset($tabsClass['draft']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=draft"><?php echo _t('쓰고 있는 글');?></a></li>-->
-								<li class="entry-starred<?php echo isset($tabsClass['starred']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=starred"><?php echo _t('별표');?></a></li>
-								<li class="entry-private<?php echo isset($tabsClass['private']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=private"><?php echo _t('비공개 글');?></a></li>
-								<li class="entry-public<?php echo isset($tabsClass['public']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=public"><?php echo _t('공개된 글');?></a></li>
-								<li class="entry-protected<?php echo isset($tabsClass['protected']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=protected"><?php echo _t('보호된 글');?></a></li>
-								<li class="entry-reserved<?php echo isset($tabsClass['reserved']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=reserved"><?php echo _t('예약된 글');?></a></li>
-								<li class="entry-template<?php echo isset($tabsClass['template']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>&amp;visibility=template"><?php echo _t('서식');?></a></li>
-							</ul>
 							
-							<form id="category-form" class="category-box" method="post" action="<?php echo $blogURL;?>/owner/entry">
-								<div class="section">
-									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
-									<input type="hidden" name="visibility" value="<?php echo $_POST['visibility'];?>" />
-									<label for="category"><?php echo _t('종류');?></label>
-									<select id="category" name="category" onchange="document.getElementById('category-form').page.value=1; document.getElementById('category-form').submit()">
-										<option value="-5"<?php echo ($categoryId == -5 ? ' selected="selected"' : '');?>><?php echo _t('모든 글');?></option>
-										<optgroup class="category" label="<?php echo _t('글 종류');?>">
-											<option value="-2"<?php echo ($categoryId == -2 ? ' selected="selected"' : '');?>><?php echo _t('공지');?></option>
-											<option value="-1"<?php echo ($categoryId == -1 ? ' selected="selected"' : '');?>><?php echo _t('키워드');?></option>
-											<option value="-4"<?php echo ($categoryId == -4 ? ' selected="selected"' : '');?>><?php echo _t('서식');?></option>
-										</optgroup>
-										<optgroup class="category" label="<?php echo _t('분류');?>">
-											<option value="0"<?php echo ($categoryId == 0 ? ' selected="selected"' : '');?>><?php echo htmlspecialchars(getCategoryNameById($blogid,0) ? getCategoryNameById($blogid,0) : _t('전체'));?></option>
+							<div id="change-section-top" class="section">
+								<input type="checkbox" id="allCheckedTop" class="checkbox" onclick="checkAll(this.checked);" />
+								<span class="label"><?php echo _t('선택한 글을');?></span>
+								<select name="commandBoxTop" id="commandBoxTop" onchange="toggleDeleteButton(this)"> 
+									<option class="default" selected="selected"><?php echo _t('[행동을 지정합니다.]');?></option>
 <?php
-foreach (getCategories($blogid) as $category) {
-	if ($category['id'] != 0) {
+$categories = getCategories($blogid);
+if (count($categories) >0) {
 ?>
-											<option value="<?php echo $category['id'];?>"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '');?>><?php echo ($category['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($category['name']);?></option>
+									<optgroup class="category" label="<?php echo _t('아래의 분류로 변경합니다.');?>">
+<?php
+foreach ($categories as $category) {
+	if ($category['id']!= 0) {
+?>
+										<option class="parent-category" value="category_<?php echo $category['id'];?>" label="<?php echo htmlspecialchars($category['name']);?>"><?php echo ($category['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($category['name']);?></option>
 <?php
 	}
 	foreach ($category['children'] as $child) {
-		if ($category['id'] != 0) {
+		if ($category['id']!= 0) {
 ?>
-											<option value="<?php echo $child['id'];?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '');?>>&nbsp;― <?php echo ($category['visibility'] > 1 && $child['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($child['name']);?></option>
+										<option class="child-category" value="category_<?php echo $child['id'];?>" label="<?php echo htmlspecialchars($category['name']);?>/<?php echo htmlspecialchars($child['name']);?>">― <?php echo ($category['visibility'] > 1 && $child['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($child['name']);?></option>
 <?php
 		}
 	}
 }
 ?>
-											<option value="-3"<?php echo ($categoryId == -3 ? ' selected="selected"' : '');?>><?php echo _t('(분류 없음)');?></option>
-										</optgroup>
-									</select>
-								</div>
-							</form>
+										<option class="parent-category" value="category_-3" label="<?php echo _t('분류 없음');?>">(<?php echo _t('분류 없음');?>)</option>
+									</optgroup>
+<?php
+}
+?>
+									<optgroup class="status" label="<?php echo _t('아래의 상태로 변경합니다.');?>">
+										<option value="classify"><?php echo _t('비공개로 변경합니다.');?></option>
+										<option value="publish"><?php echo _t('공개로 변경합니다.');?></option>
+									</optgroup>
+									<optgroup class="category" label="<?php echo _t('아래의 글 종류로 변경합니다.');?>">
+										<option class="parent-category" value="category_-2" label="<?php echo _t('공지');?>"><?php echo _t('공지');?></option>
+										<option class="parent-category" value="category_-1" label="<?php echo _t('키워드');?>"><?php echo _t('키워드');?></option>
+									</optgroup>
+									<optgroup class="delete" label="<?php echo _t('삭제합니다.');?>">
+										<option value="delete"><?php echo _t('삭제합니다.');?></option>
+									</optgroup>
+								</select>
+								<input type="button" id="apply-button-top" class="apply-button input-button" value="<?php echo _t('적용');?>" onclick="processBatch(document.getElementById('commandBoxTop'));" />
+								
+							</div>
+								
+
+								
+								
+		
 							
 							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/entry">
 								<input type="hidden" name="category" value="<?php echo $categoryId;?>" />
@@ -936,10 +997,11 @@ if($entry['category'] < 0) {
 								
 								<div class="data-subbox">
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
-									
-									<div id="change-section" class="section">
+																		
+									<div id="change-section-bottom" class="section">
+										<input type="checkbox" id="allCheckedBottom" class="checkbox" onclick="checkAll(this.checked);" />									
 										<span class="label"><?php echo _t('선택한 글을');?></span>
-										<select name="commandBox" id="commandBox" onchange="toggleDeleteButton(this)"> 
+										<select name="commandBoxBottom" id="commandBoxBottom" onchange="toggleDeleteButton(this)"> 
 											<option class="default" selected="selected"><?php echo _t('[행동을 지정합니다.]');?></option>
 <?php
 	$categories = getCategories($blogid);
@@ -979,7 +1041,7 @@ if($entry['category'] < 0) {
 												<option value="delete"><?php echo _t('삭제합니다.');?></option>
 											</optgroup>
 										</select>
-										<input type="button" id="apply-button" class="apply-button input-button" value="<?php echo _t('적용');?>" onclick="processBatch(document.getElementById('commandBox'));" />
+										<input type="button" id="apply-button-bottom" class="apply-button input-button" value="<?php echo _t('적용');?>" onclick="processBatch(document.getElementById('commandBoxBottom'));" />
 									</div>
 									
 									<hr class="hidden" />
@@ -1037,7 +1099,7 @@ if($entry['category'] < 0) {
 <?php
 $pagingTemplate = '[##_paging_rep_##]';
 $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
-echo str_repeat("\t", 12).getPagingView($paging, $pagingTemplate, $pagingItemTemplate).CRLF;
+echo str_repeat("\t", 12).getPagingView($paging, $pagingTemplate, $pagingItemTemplate, false).CRLF;
 ?>
 											</span>
 											<span id="total-count"><?php echo _f('총 %1건', empty($paging['total']) ? "0" : $paging['total']);?></span>
@@ -1068,7 +1130,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 							
 							<hr class="hidden" />
 							
-							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/entry">
+							<form id="post-search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/entry">
 								<h2><?php echo _t('검색');?></h2>
 								
 								<div class="section">

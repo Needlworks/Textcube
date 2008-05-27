@@ -98,10 +98,39 @@ table.data-inbox tbody tr td.ip
 	margin-right                    : 40px;
 }
 
+#entry-tabs-box li label
+{
+	display                         : none;
+}
+
+#category
+{
+	margin                          : 0 10px;
+}
+
+#change-section-top
+{
+	background-color                 : #FFFFFF;
+	border-bottom                    : 1px solid #BBBBBB;
+	margin                           : 5px auto 0 auto;
+	padding                          : 8px;
+	width                            : 924px;
+}
+
+#change-section-bottom
+{
+	background-color                 : #EEEEEE;
+	border-top                       : 1px solid #BBBBBB;
+	margin                           : 0 auto 5px auto;
+	padding                          : 8px;
+	width                            : 924px;
+}
+   
 #part-post-list h2.caption
 {
 	margin-bottom                   : 1.6em;
 }
+
 
 /* table header */
 #part-post-list table.data-inbox tr .status
@@ -254,6 +283,25 @@ table.data-inbox tbody tr td.ip
 }
 
 #part-post-list table.data-inbox tbody tr.hidden-layer td table tr td.remove span
+{
+	display                          : none;
+}
+
+/* Search form ***********************************************************************************/
+#post-search-form
+{
+	background-color                 : transparent;
+	border                           : none;
+	margin                           : 0;
+	position                         : absolute;
+	right                            : 25px;
+	text-align                       : right;
+	top                              : 1.5em;
+	width                            : 25em;
+	z-index                          : 1;
+}
+
+#post-search-form label
 {
 	display                          : none;
 }

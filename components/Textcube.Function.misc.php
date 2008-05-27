@@ -198,9 +198,10 @@ class misc {
 		return $fileList;
 	}
 	
-	function dress($tag, $value, & $contents, $force = false) {
+	function dress($tag, $value, & $contents, $useSkinCache = false) {	
+		// NOTE : default cache option is false (components are usually used by plugin, which is not related to default SkinCache system
 		global $__gDressTags;
-		if($force == true) { // Use Textcube skin cache system. 
+		if($useSkinCache == true) { // Use Textcube skin cache system. 
 			if(strpos($tag, 'sidebar_') !== false || 
 				strpos($tag, 'sidebar_') !== false ||
 				in_array($tag, $__gDressTags) ) {

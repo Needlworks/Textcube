@@ -22,15 +22,20 @@ function printHtmlFooter() {
 <?php
 }
 
-function dress($tag, $value, & $contents) {
+function dress($tag, $value, & $contents, $useCache = true) {
 	global $__gDressTags;
-	if(strpos($tag, 'sidebar_') !== false || 
-		strpos($tag, 'coverpage_') !== false ||	
-		in_array($tag, $__gDressTags) ) {
+	if($useCache == true) {
+		if(strpos($tag, 'sidebar_') !== false || 
+			strpos($tag, 'coverpage_') !== false ||	
+			in_array($tag, $__gDressTags) ) {
+			$contents = str_replace("[##_{$tag}_##]", $value, $contents);
+			return true;
+		} else {
+			return false;
+		}
+	} else {
 		$contents = str_replace("[##_{$tag}_##]", $value, $contents);
 		return true;
-	} else {
-		return false;
 	}
 }
 
