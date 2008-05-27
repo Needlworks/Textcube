@@ -325,9 +325,6 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 											}
 										}
 									}
-									if(document.getElementById('allChecked').checked != checked) {
-										document.getElementById('allChecked').checked = checked;
-									}
 									if(document.getElementById('allCheckedTop').checked != checked) {
 										document.getElementById('allCheckedTop').checked = checked;
 									}									
@@ -336,6 +333,11 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 									}
 								}
 								
+								function processBatchByCommand(cmd) {
+									obj = new Object;
+									obj.value = cmd;
+									return processBatch(obj);
+								}
 								function processBatch(obj) {	
 									mode = obj.value;
 									if (mode.match('^category_')) {
@@ -779,8 +781,11 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 							<div id="change-section-top" class="section">
 								<input type="checkbox" id="allCheckedTop" class="checkbox" onclick="checkAll(this.checked);" />
 								<span class="label"><?php echo _t('선택한 글을');?></span>
-								<select name="commandBoxTop" id="commandBoxTop" onchange="toggleDeleteButton(this)"> 
-									<option class="default" selected="selected"><?php echo _t('[행동을 지정합니다.]');?></option>
+								<input type="button" class="input-button" onclick="processBatchByCommand('publish');return false;" value="<?php echo _t('공개');?>"/>
+								<input type="button" class="input-button" onclick="processBatchByCommand('classify');return false;" value="<?php echo _t('비공개');?>"/>
+								<?php echo _t('또는');?>
+								<select name="commandBoxTop" id="commandBoxTop" onchange="toggleDeleteButton(this);return false;"> 
+									<option class="default" selected="selected"><?php echo _t('행동을 지정합니다.');?></option>
 <?php
 $categories = getCategories($blogid);
 if (count($categories) >0) {
@@ -822,11 +827,6 @@ foreach ($categories as $category) {
 								<input type="button" id="apply-button-top" class="apply-button input-button" value="<?php echo _t('적용');?>" onclick="processBatch(document.getElementById('commandBoxTop'));" />
 								
 							</div>
-								
-
-								
-								
-		
 							
 							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/entry">
 								<input type="hidden" name="category" value="<?php echo $categoryId;?>" />
@@ -840,7 +840,7 @@ if(isset($_POST['visibility'])) $returnURLpostfix .= (empty($returnURLpostfix) ?
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" onclick="checkAll(this.checked);" /></th>
+											<th class="selection">&nbsp;</th>
 											<th class="starred">&nbsp;</th>
 											<th class="category"><span class="text"><?php echo _t('분류');?></span></th>
 											<th class="title"><span class="text"><?php echo _t('제목');?></span></th>
@@ -865,7 +865,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 		$className .= ' notice-line';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $entry['id'];?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
+											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $entry['id'];?>" onclick="document.getElementById('allCheckedTop').checked=false;document.getElementById('allCheckedBottom').checked=false; toggleThisTr(this);" /></td>
 											<td class="starred"><?php
 	if($entry['starred'] == 2) {
 ?>
@@ -1001,8 +1001,11 @@ if($entry['category'] < 0) {
 									<div id="change-section-bottom" class="section">
 										<input type="checkbox" id="allCheckedBottom" class="checkbox" onclick="checkAll(this.checked);" />									
 										<span class="label"><?php echo _t('선택한 글을');?></span>
+										<input type="button" class="input-button" onclick="processBatchByCommand('publish');return false;" value="<?php echo _t('공개');?>"/>
+										<input type="button" class="input-button" onclick="processBatchByCommand('classify');return false;" value="<?php echo _t('비공개');?>"/>
+										<?php echo _t('또는');?>
 										<select name="commandBoxBottom" id="commandBoxBottom" onchange="toggleDeleteButton(this)"> 
-											<option class="default" selected="selected"><?php echo _t('[행동을 지정합니다.]');?></option>
+											<option class="default" selected="selected"><?php echo _t('행동을 지정합니다.');?></option>
 <?php
 	$categories = getCategories($blogid);
 	if (count($categories) >0) {
