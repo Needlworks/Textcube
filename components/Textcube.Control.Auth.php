@@ -27,7 +27,7 @@ $requiredPrivFromUri = array(
 			'/owner/center/dashboard*',
 			'/owner/center/about',
 			'/owner/communication*',
-			'/owner/reader',
+			'/owner/reader*',
 			'/owner/setting*',
 			'/owner/plugin/admin*'
 			),
@@ -55,6 +55,7 @@ $requiredPrivFromUri = array(
 			'/owner/communication/trash*',
 			'/owner/communication/notify*',
 			'/owner/communication/reader',
+			'/owner/reader',
 			'/owner/plugin/admin*'
 			),
 		"group.writers" => array(
