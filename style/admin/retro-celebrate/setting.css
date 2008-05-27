@@ -39,6 +39,7 @@ dl dd
 {
 	clear                            : both;
 	text-align                       : left !important;
+	margin-top                       : 10px;
 }
 
 .part .button-box .input-button

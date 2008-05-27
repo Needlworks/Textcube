@@ -18,3 +18,8 @@
 {
 	top                              : 10em;
 }
+
+#plugin-search-form .input-button
+{
+    line-height                      : 1.6em !important;
+}

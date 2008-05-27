@@ -454,6 +454,24 @@
 	margin                           : 0 auto;
 }
 
+#plugin-search-form
+{
+    background-color                 : transparent;
+    border                           : none;
+    margin                           : 0;
+    position                         : absolute;
+    right                            : 225px;
+    text-align                       : right;
+    top                              : 11em;
+    width                            : 25em;
+    z-index                          : 1;
+}
+   
+#plugin-search-form label
+{
+    display                          : none;
+}
+
 /* Data Management *******************************************************************************/
 
 #part-plugin-table-list table thead tr th.delete span

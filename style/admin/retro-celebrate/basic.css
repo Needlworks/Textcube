@@ -326,6 +326,12 @@ textarea
 	padding-right                    : 5px !important;
 }
 
+#main-menu ul.sub-menu
+{
+	display                          : none;
+	border                           : none;
+}
+
 #main-menu #menu-textcube
 {
 	background-image                 : url("./image/img_header_textcube.gif");
@@ -349,7 +355,7 @@ textarea
 
 #menu-center,
 #menu-entry,
-#menu-link,
+#menu-communication,
 #menu-skin,
 #menu-plugin,
 #menu-setting,
@@ -365,7 +371,7 @@ textarea
 
 #menu-center a,
 #menu-entry a,
-#menu-link a,
+#menu-communication a,
 #menu-skin a,
 #menu-plugin a,
 #menu-setting a,
@@ -388,7 +394,7 @@ textarea
 {
 	height                           : 2.1em;
 	margin                           : 0 auto;
-	width                        : 960px;
+	width                            : 960px;
 }
 
 #sub-menu li
@@ -472,8 +478,13 @@ textarea
 	background-image                 : url("./image/iconHelp.gif");
 	background-position              : right 5px;
 	background-repeat                : no-repeat;
+	position                         : absolute;
+	top                              : 35px;
+	right                            : 180px;
+	height                           : 1.5em;
+	line-height                      : 1.7em;
 	float                            : right !important;
-	padding-right                    : 12px;
+	padding-right                    : 16px;
 }
 
 #sub-menu-helper a,
