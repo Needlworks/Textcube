@@ -22,12 +22,9 @@ function printHtmlFooter() {
 <?php
 }
 
-function dress($tag, $value, & $contents, $force = false) {
-	if($force) { 
-		$contents = str_replace("[##_{$tag}_##]", $value, $contents);
-		return true;
-	}
-	if (preg_match("@\\[##_{$tag}_##\\]@iU", $contents)) {
+function dress($tag, $value, & $contents) {
+	global $__gDressTags;
+	if(strpos($tag, 'sidebar_') !== false || in_array($tag, $__gDressTags) ) {
 		$contents = str_replace("[##_{$tag}_##]", $value, $contents);
 		return true;
 	} else {
@@ -36,7 +33,8 @@ function dress($tag, $value, & $contents, $force = false) {
 }
 
 function dressInsertBefore($tag, $value, & $contents) {
-	if (preg_match("@\\[##_{$tag}_##\\]@iU", $contents)) {
+	global $__gDressTags;
+	if(strpos($tag, 'sidebar_') !== false || in_array($tag, $__gDressTags) ) {
 		$tempContents = preg_split("@\\[##_{$tag}_##\\]@iU", $contents, 2);
 		$contents = $tempContents[0].$value.'[##_'.$tag.'_##]'.$tempContents[1];
 		return true;

@@ -26,13 +26,13 @@ class Paging {
 		ob_start();
 		if (isset($paging['first'])) {
 			$itemView = "$itemTemplate <span class=\"interword\">...</span> ";
-			misc::dress('paging_rep_link_num', '1', $itemView);
-			misc::dress('paging_rep_link', "href='$url$prefix{$paging['first']}$postfix'", $itemView);
+			misc::dress('paging_rep_link_num', '1', $itemView, true);
+			misc::dress('paging_rep_link', "href='$url$prefix{$paging['first']}$postfix'", $itemView, true);
 			print ($itemView);
 		} else if ($paging['page'] > 5) {
 			$itemView = "$itemTemplate <span class=\"interword\">...</span> ";
-			misc::dress('paging_rep_link_num', '1', $itemView);
-			misc::dress('paging_rep_link', "href='$url{$prefix}1$postfix'", $itemView);
+			misc::dress('paging_rep_link_num', '1', $itemView, true);
+			misc::dress('paging_rep_link', "href='$url{$prefix}1$postfix'", $itemView, true);
 			print ($itemView);
 		}
 		if (isset($paging['before']))
@@ -42,63 +42,63 @@ class Paging {
 		if (isset($paging['before'])) {
 			foreach ($paging['before'] as $value) {
 				$itemView = $itemTemplate;
-				misc::dress('paging_rep_link_num', "$page", $itemView);
-				misc::dress('paging_rep_link', "href='$url$prefix$value$postfix'", $itemView);
+				misc::dress('paging_rep_link_num', "$page", $itemView, true);
+				misc::dress('paging_rep_link', "href='$url$prefix$value$postfix'", $itemView, true);
 				print ($itemView);
 				$page++;
 			}
 		} else {
 			for ($i = 0; ($i < 4) && ($page < $paging['page']); $i++) {
 				$itemView = $itemTemplate;
-				misc::dress('paging_rep_link_num', "$page", $itemView);
-				misc::dress('paging_rep_link', "href='$url$prefix$page$postfix'", $itemView);
+				misc::dress('paging_rep_link_num', "$page", $itemView, true);
+				misc::dress('paging_rep_link', "href='$url$prefix$page$postfix'", $itemView, true);
 				print ($itemView);
 				$page++;
 			}
 		}
 		if (($page == $paging['page']) && ($page <= $paging['pages'])) {
 			$itemView = $itemTemplate;
-			misc::dress('paging_rep_link_num', "$page", $itemView);
-			misc::dress('paging_rep_link', 'class="selected"', $itemView);
+			misc::dress('paging_rep_link_num', "$page", $itemView, true);
+			misc::dress('paging_rep_link', 'class="selected"', $itemView, true);
 			print ($itemView);
 			$page++;
 		}
 		if (isset($paging['before'])) {
 			foreach ($paging['after'] as $value) {
 				$itemView = $itemTemplate;
-				misc::dress('paging_rep_link_num', "$page", $itemView);
-				misc::dress('paging_rep_link', "href='$url$prefix$value$postfix'", $itemView);
+				misc::dress('paging_rep_link_num', "$page", $itemView, true);
+				misc::dress('paging_rep_link', "href='$url$prefix$value$postfix'", $itemView, true);
 				print ($itemView);
 				$page++;
 			}
 		} else {
 			for ($i = 0; ($i < 4) && ($page <= $paging['pages']); $i++) {
 				$itemView = $itemTemplate;
-				misc::dress('paging_rep_link_num', "$page", $itemView);
-				misc::dress('paging_rep_link', "href='$url$prefix$page$postfix'", $itemView);
+				misc::dress('paging_rep_link_num', "$page", $itemView, true);
+				misc::dress('paging_rep_link', "href='$url$prefix$page$postfix'", $itemView, true);
 				print ($itemView);
 				$page++;
 			}
 		}
 		if (isset($paging['last'])) {
 			$itemView = " <span class=\"interword\">...</span> $itemTemplate";
-			misc::dress('paging_rep_link_num', "{$paging['pages']}", $itemView);
-			misc::dress('paging_rep_link', "href='$url$prefix{$paging['last']}$postfix'", $itemView);
+			misc::dress('paging_rep_link_num', "{$paging['pages']}", $itemView, true);
+			misc::dress('paging_rep_link', "href='$url$prefix{$paging['last']}$postfix'", $itemView, true);
 			print ($itemView);
 		} else if (($paging['pages'] - $paging['page']) > 4) {
 			$itemView = " <span class=\"interword\">...</span> $itemTemplate";
-			misc::dress('paging_rep_link_num', "{$paging['pages']}", $itemView);
-			misc::dress('paging_rep_link', "href='$url$prefix{$paging['pages']}$postfix'", $itemView);
+			misc::dress('paging_rep_link_num', "{$paging['pages']}", $itemView, true);
+			misc::dress('paging_rep_link', "href='$url$prefix{$paging['pages']}$postfix'", $itemView, true);
 			print ($itemView);
 		}
 		$itemsView = ob_get_contents();
 		ob_end_clean();
 		$view = $template;
-		misc::dress('prev_page', isset($paging['prev']) ? "href='$url$prefix{$paging['prev']}$postfix'" : '', $view);
-		misc::dress('paging_rep', $itemsView, $view);
-		misc::dress('next_page', isset($paging['next']) ? "href='$url$prefix{$paging['next']}$postfix'" : '', $view);
-		misc::dress('no_more_prev', isset($paging['prev']) ? '' : 'no-more-prev', $view);
-		misc::dress('no_more_next', isset($paging['next']) ? '' : 'no-more-next', $view);
+		misc::dress('prev_page', isset($paging['prev']) ? "href='$url$prefix{$paging['prev']}$postfix'" : '', $view, true);
+		misc::dress('paging_rep', $itemsView, $view, true);
+		misc::dress('next_page', isset($paging['next']) ? "href='$url$prefix{$paging['next']}$postfix'" : '', $view, true);
+		misc::dress('no_more_prev', isset($paging['prev']) ? '' : 'no-more-prev', $view, true);
+		misc::dress('no_more_next', isset($paging['next']) ? '' : 'no-more-next', $view, true);
 		
 		return $view;
 	}

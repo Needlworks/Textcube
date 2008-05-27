@@ -198,13 +198,23 @@ class misc {
 		return $fileList;
 	}
 	
-	function dress($tag, $value, & $contents) {
-		if (preg_match('/\[##_' . preg_quote($tag, '/') . '_##\]/i', $contents, $temp)) {
-			$contents = str_replace("[##_{$tag}_##]", $value, $contents);
-			return true;
+	function dress($tag, $value, & $contents, $force = false) {
+		global $__gDressTags;
+		if($force == true) { // Use Textcube skin cache system. 
+			if(strpos($tag, 'sidebar_') !== false || in_array($tag, $__gDressTags) ) {
+				$contents = str_replace("[##_{$tag}_##]", $value, $contents);
+				return true;
+			} else {
+				return false;
+			}
 		} else {
-			return false;
-		}	
+			if (preg_match('/\[##_' . preg_quote($tag, '/') . '_##\]/i', $contents, $temp)) {
+				$contents = str_replace("[##_{$tag}_##]", $value, $contents);
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 	
 	function isSpace($string) {

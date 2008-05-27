@@ -2,6 +2,9 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+
+global $__gDressTags;
+
 class Skin {
 	var $outter;
 	var $skin;
@@ -81,9 +84,12 @@ class Skin {
 
 	var $microformatDebug;
 	var $hentryExisted;
-	
+
+	var $dressTags = array();
+
 	function Skin($name, $previewMode = false) {
-		global $service, $blogURL, $suri, $blog;
+		global $service, $blogURL, $suri, $blog, $__gDressTags;
+		$__gDressTags = array();
 		if($previewMode == true || ($service['skincache'] != true) || !$this->loadCache()) {
 			requireComponent('Textcube.Function.Setting');
 			$this->noneCommentMessage = setting::getBlogSettingGlobal('noneCommentMessage',null);
@@ -120,7 +126,7 @@ class Skin {
 			replaceSkinTag($sval, 'body');
 			insertGeneratorVersion($sval);
 			
-			$sval = str_replace('<s_t3>','',$sval);	// For Skin compatibility with < Textcube 1.7
+			$sval = str_replace('<s_t3>','',$sval);	// Prune s_t3. For Skin compatibility with < Textcube 1.7
 			$sval = str_replace('</s_t3>','',$sval);
 
 			// 사이드바 작업.
@@ -183,7 +189,10 @@ class Skin {
 			$this->noneTrackbackMessage = str_replace('./', "{$service['path']}/skin/$name/", $this->noneTrackbackMessage);
 			$this->singleTrackbackMessage = str_replace('./', "{$service['path']}/skin/$name/", $this->singleTrackbackMessage);
 	
-	
+			// Store skin tags.
+			$__gDressTags = $this->getDressTags($sval);
+
+			// Cutting skin.
 			list($sval, $this->coverItem) = $this->cutSkinTag($sval, 'cover_rep');
 			list($sval, $this->cover) = $this->cutSkinTag($sval, 'cover');
 	
@@ -289,11 +298,13 @@ class Skin {
 			list($sval, $this->pageTitle) = $this->cutSkinTag($sval, 'page_title');
 			$this->outter = $sval;
 			$this->applyMicroformats();
+			$this->dressTags = $__gDressTags;
 			if($previewMode == false) $this->saveCache();
 		}
 	}
 	
 	function cutSkinTag($contents, $tag, $replace = null) {
+		global $__gDressTags;
 		if (is_null($replace)) {
 			$replace = "[##_{$tag}_##]";
 		}
@@ -306,10 +317,12 @@ class Skin {
 			return array($contents, NULL);
 		$inner = substr($contents, $begin + $tagSize, $end - $begin - $tagSize);
 		$outter = substr($contents, 0, $begin) . $replace . substr($contents, $end + $tagSize + 1);
+		array_push($__gDressTags, $tag);
 		return array($outter, $inner);
 	}
 	
 	function cutSkinReplacer($contents, $tag, $replace = null) {
+		global $__gDressTags;
 		if (is_null($replace)) {
 			$replace = "[##_{$tag}_##]";
 		}
@@ -320,7 +333,15 @@ class Skin {
 		}
 		$inner = "[##_{$tag}_##]";
 		$outter = substr($contents, 0, $pos) . $replace . substr($contents, $pos + $tagSize);
+		array_push($__gDressTags, $tag);
 		return array($outter, $inner);
+	}
+
+	function getDressTags($contents) {
+		$matches = array();
+		$result = array();
+		preg_match_all('/\[##_(.+?)_##\]/',$contents,$matches);
+		return $matches[1];
 	}
 
 	function saveCache() {
@@ -331,12 +352,14 @@ class Skin {
 	}
 	
 	function loadCache() {
+		global $__gDressTags;
 		$cache = new pageCache('skinCache');
 		if(!$cache->load()) return false;
 		$skinCache = unserialize($cache->contents);
 		foreach($skinCache as $key=>$value) {
 			$this->$key = $value;
 		}
+		$__gDressTags = $this->dressTags;
 		return true;
 	}
 
