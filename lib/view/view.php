@@ -24,7 +24,9 @@ function printHtmlFooter() {
 
 function dress($tag, $value, & $contents) {
 	global $__gDressTags;
-	if(strpos($tag, 'sidebar_') !== false || in_array($tag, $__gDressTags) ) {
+	if(strpos($tag, 'sidebar_') !== false || 
+		strpos($tag, 'coverpage_') !== false ||	
+		in_array($tag, $__gDressTags) ) {
 		$contents = str_replace("[##_{$tag}_##]", $value, $contents);
 		return true;
 	} else {
@@ -34,7 +36,9 @@ function dress($tag, $value, & $contents) {
 
 function dressInsertBefore($tag, $value, & $contents) {
 	global $__gDressTags;
-	if(strpos($tag, 'sidebar_') !== false || in_array($tag, $__gDressTags) ) {
+	if(strpos($tag, 'sidebar_') !== false || 
+		strpos($tag, 'coverpage_') !== false ||	
+		in_array($tag, $__gDressTags) ) {
 		$tempContents = preg_split("@\\[##_{$tag}_##\\]@iU", $contents, 2);
 		$contents = $tempContents[0].$value.'[##_'.$tag.'_##]'.$tempContents[1];
 		return true;

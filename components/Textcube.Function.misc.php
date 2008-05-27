@@ -201,7 +201,9 @@ class misc {
 	function dress($tag, $value, & $contents, $force = false) {
 		global $__gDressTags;
 		if($force == true) { // Use Textcube skin cache system. 
-			if(strpos($tag, 'sidebar_') !== false || in_array($tag, $__gDressTags) ) {
+			if(strpos($tag, 'sidebar_') !== false || 
+				strpos($tag, 'sidebar_') !== false ||
+				in_array($tag, $__gDressTags) ) {
 				$contents = str_replace("[##_{$tag}_##]", $value, $contents);
 				return true;
 			} else {
