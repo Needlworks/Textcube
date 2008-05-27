@@ -367,6 +367,7 @@ textarea
 {
 	color                            : #222;
 	display                          : block;
+	line-height                      : 27px;
 }
 
 #menu-center 
