@@ -487,6 +487,12 @@
 #XHTML-ValidIcon
 {
 	padding-left: 20px;
+	float:left;
+}
+
+#Needlworks-Icon
+{
+	float:left;
 }
 
 #developer-description

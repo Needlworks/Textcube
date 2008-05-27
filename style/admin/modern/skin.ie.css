@@ -8,6 +8,11 @@
 	border                           : 1px solid #FFFFFF;
 }
 
+#skin-search-form .input-button
+{
+    line-height                      : 1.6em !important;
+}
+
 /* Edit ******************************************************************************************/
 
 #part-skin-edit .section ul

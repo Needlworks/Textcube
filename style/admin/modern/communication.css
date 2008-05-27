@@ -208,9 +208,14 @@ table.data-inbox tbody tr td.ip
 
 /* Trash *****************************************************************************************/
 
+#part-post-trash .caption
+{
+	margin-bottom: 19px;
+}
+
 #part-post-trash #search-form
 {
-	top                              : 115px;
+	top                              : 70px;
 }
 
 #part-post-trash .main-explain-box p
@@ -224,7 +229,7 @@ table.data-inbox tbody tr td.ip
 	border                           : none;
 	position                         : absolute;
 	left                             : 0;
-	top                              : 113px;
+	top                              : 135px;
 }
 
 #part-post-trash fieldset dl
@@ -239,8 +244,9 @@ table.data-inbox tbody tr td.ip
 
 #part-post-trash fieldset dl dd
 {
+	margin-top                       : 20px;
 	margin-left                      : 30px;
-	width: 600px;
+	width                            : 600px;
 }
 
 #part-post-trash fieldset dl dd div
@@ -347,6 +353,7 @@ table.data-inbox tbody tr td.ip
 }
 
 #part-link-list table.data-inbox tbody tr .address,
+#part-link-list table.data-inbox tbody tr .homepage,
 #part-link-list table.data-inbox tbody tr .status,
 #part-link-list table.data-inbox tbody tr .edit,
 #part-link-list table.data-inbox tbody tr .delete,
@@ -356,17 +363,27 @@ table.data-inbox tbody tr td.ip
 }
 	
 /* table header */
+
+#part-link-list table.data-inbox thead tr th
+{
+	text-align                       : center;
+}
+
+#part-link-list table.data-inbox thead tr th.category
+{
+	padding-left                     : 20px;
+	width                            : 100px;
+}
+
 #part-link-list table.data-inbox thead tr th.homepage
 {
 	padding-left                     : 20px;
-	text-align                       : left;
 	width                            : 200px;
 }
 
 #part-link-list table.data-inbox thead tr th.address
 {
 	padding-left                     : 20px;
-	text-align                       : left;
 }
 
 #part-link-list table.data-inbox thead tr th.status
@@ -392,6 +409,11 @@ table.data-inbox tbody tr td.ip
 #part-link-list table.data-inbox thead tr th.delete span
 {
 	display                          : none;
+}
+
+#part-link-list table.data-inbox tbody tr td a.uncategorized
+{
+	color                            : #BCBCBC;
 }
 
 #part-link-list table.data-inbox thead.xfn tr th.xfn-homepage
@@ -512,19 +534,28 @@ table.data-inbox tbody tr td.ip
 #part-link-add div.data-inbox,
 #part-link-edit div.data-inbox
 {
-	height                           : 120px;
+	height                           : 200px;
+	margin                           : 25px auto 0 auto;
+	width                            : 680px;
+}
+
+#part-link-category-edit div.data-inbox
+{
+	height                           : 100px;
 	margin                           : 25px auto 0 auto;
 	width                            : 680px;
 }
 
 #part-link-add div.data-inbox dl,
-#part-link-edit div.data-inbox dl
+#part-link-edit div.data-inbox dl,
+#part-link-category-edit div.data-inbox dl
 {
 	border                           : 1px solid #FFFFFF;
 }
 
 #part-link-add div.data-inbox dl dt,
-#part-link-edit div.data-inbox dl dt
+#part-link-edit div.data-inbox dl dt,
+#part-link-category-edit div.data-inbox dl dt
 {
 	font-weight                      : normal;
 	line-height                      : 2em;
@@ -534,21 +565,30 @@ table.data-inbox tbody tr td.ip
 }
 
 #part-link-add div.data-inbox dl dd,
-#part-link-edit div.data-inbox dl dd
+#part-link-edit div.data-inbox dl dd,
+#part-link-category-edit div.data-inbox dl dd
 {
 	margin-left                      : 110px;
 	padding                          : 3px 0;
 }
 
 #part-link-add div.data-inbox dl dd .input-text,
-#part-link-edit div.data-inbox dl dd .input-text
+#part-link-edit div.data-inbox dl dd .input-text,
+#part-link-category-edit div.data-inbox dl dd .input-text
 {
 	width                            : 350px;
 }
 
+#part-link-add div.data-inbox dl dd .input-category,
+#part-link-edit div.data-inbox dl dd .input-category
+{
+	width                            : 150px !important;
+}
+
 #part-link-list .button-box,
 #part-link-add .button-box,
-#part-link-edit .button-box
+#part-link-edit .button-box,
+#part-link-category-edit .button-box
 {
 	background-color                 : #F2F2F2;
 	background-image                 : url("./image/bg_link_button_box.png");
@@ -562,7 +602,8 @@ table.data-inbox tbody tr td.ip
 
 #part-link-list .button-box .input-button,
 #part-link-add .button-box .input-button,
-#part-link-edit .button-box .input-button
+#part-link-edit .button-box .input-button,
+#part-link-category-edit .button-box .input-button
 {
 	background-color                 : #FFFFFF;
 	background-image                 : none;

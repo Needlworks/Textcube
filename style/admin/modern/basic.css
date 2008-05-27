@@ -296,6 +296,12 @@ textarea
 	margin-left                     : 30px !important;
 }
 
+#main-menu ul.sub-menu 
+{
+	display                          : none;
+	border                           : none;
+}
+
 #menu-textcube
 {
 	background-image                 : url("./image/img_header_textcube.gif");
@@ -315,6 +321,13 @@ textarea
 	display                          : block;
 	height                           : 33px;
 	width                            : 151px;
+}
+
+#main-menu #menu-control
+{
+	position                         : absolute;
+	top                              : 50px;
+	right                            : 85px;
 }
 
 /* Layout Body ***********************************************************************************/
@@ -520,6 +533,11 @@ h2.caption span
 	float: left;
 	list-style-type: none;
 	margin: 0 1px;
+}
+
+.right li
+{
+float: right !important;
 }
 
 .tabs-box li a
@@ -1142,6 +1160,12 @@ table.data-inbox tbody tr td.inactive-class
 	line-height                      : 1.8em;
 	padding                          : 0 5px !important;
 	vertical-align                   : middle;
+}
+
+.wide-button
+{
+/*	width                            :100% !important;*/
+
 }
 
 input.checkbox,
