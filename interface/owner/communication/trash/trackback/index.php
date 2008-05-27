@@ -288,7 +288,7 @@ require ROOT . '/lib/piece/owner/communicationTab.php';
 										<dt><?php echo _t('종류');?></dt>
 										<dd>
 											<div id="track-radio-comment">
-												<input type="radio" class="radio" id="track-type-comment" name="trashType" value="comment" onclick="document.getElementById('trash-form').submit()" /><label for="track-type-comment"><?php echo _t('댓글');?></label>
+												<input type="radio" class="radio" id="track-type-comment" name="trashType" value="comment" onclick="document.getElementById('trash-form').submit()" /><label for="track-type-comment"><?php echo _t('댓글 및 방명록');?></label>
 											</div>
 											<div id="track-radio-trackback">
 												<input type="radio" class="radio" id="track-type-trackback" name="trashType" value="trackback" onclick="document.getElementById('trash-form').submit()" checked="checked" /><label for="track-type-trackback"><?php echo _t('글걸기');?></label>

@@ -54,24 +54,23 @@ $tabsClass['trash'] = true;
 
 list($comments, $paging) = getTrashCommentsWithPagingForOwner($blogid, $categoryId, $name, $ip, $search, $suri['page'], $perPage);
 require ROOT . '/lib/piece/owner/header.php';
-
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
 								function deleteComment(id) {
-									if (!confirm("<?php echo _t('선택된 댓글을 삭제합니다. 계속 하시겠습니까?');?>"))
+									if (!confirm("<?php echo _t('선택된 댓글 또는 방명록을 삭제합니다. 계속 하시겠습니까?');?>"))
 										return;
 									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trash/comment/delete/" + id);
 									request.onSuccess = function () {
 										document.getElementById('list-form').submit();
 									}
 									request.onError = function () {
-										alert("<?php echo _t('댓글을 삭제하지 못했습니다.');?>");
+										alert("<?php echo _t('삭제하지 못했습니다.');?>");
 									}
 									request.send();
 								}
 								function deleteCommentAll() {
-									if (!confirm("<?php echo _t('휴지통 내의 모든 댓글을 삭제합니다. 계속 하시겠습니까?');?>"))
+									if (!confirm("<?php echo _t('휴지통 내의 모든 댓글 및 방명록을 삭제합니다. 계속 하시겠습니까?');?>"))
 										return;
 									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trash/emptyTrash/?type=1&ajaxcall");
 									request.onSuccess = function () {
@@ -84,7 +83,7 @@ require ROOT . '/lib/piece/owner/header.php';
 								}
 								
 								function deleteComments() {	
-									if (!confirm("<?php echo _t('선택된 댓글을 삭제합니다. 계속 하시겠습니까?');?>"))
+									if (!confirm("<?php echo _t('선택된 댓글 및 방명록을 삭제합니다. 계속 하시겠습니까?');?>"))
 										return false;
 									var oElement;
 									var targets = '';
@@ -99,26 +98,26 @@ require ROOT . '/lib/piece/owner/header.php';
 										document.getElementById('list-form').submit();
 									}
 									request.onError = function () {
-										alert("<?php echo _t('댓글을 삭제하지 못했습니다.');?>");
+										alert("<?php echo _t('삭제하지 못했습니다.');?>");
 									}
 									request.send("targets=" + targets);
 								}
 
 								function revertComment(id) {
-									if (!confirm("<?php echo _t('선택된 댓글을 복원합니다. 계속 하시겠습니까?');?>"))
+									if (!confirm("<?php echo _t('선택된 댓글 및 방명록을 복원합니다. 계속 하시겠습니까?');?>"))
 										return;
 									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trash/comment/revert/" + id);
 									request.onSuccess = function () {
 										document.getElementById('list-form').submit();
 									}
 									request.onError = function () {
-										alert("<?php echo _t('댓글을 복원하지 못했습니다.');?>");
+										alert("<?php echo _t('복원하지 못했습니다.');?>");
 									}
 									request.send();
 								}
 								
 								function revertComments() {	
-									if (!confirm("<?php echo _t('선택된 댓글을 복원합니다. 계속 하시겠습니까?');?>"))
+									if (!confirm("<?php echo _t('선택된 댓글 및 방명록을 복원합니다. 계속 하시겠습니까?');?>"))
 										return false;
 									var oElement;
 									var targets = '';
@@ -133,7 +132,7 @@ require ROOT . '/lib/piece/owner/header.php';
 										document.getElementById('list-form').submit();
 									}
 									request.onError = function () {
-										alert("<?php echo _t('댓글을 복원하지 못했습니다.');?>");
+										alert("<?php echo _t('복원하지 못했습니다.');?>");
 									}
 									request.send("targets=" + targets);
 								}
@@ -281,7 +280,7 @@ require ROOT . '/lib/piece/owner/communicationTab.php';
 ?>
 
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t('휴지통에 버려진 걸린글은 15일이 지나면 자동으로 지워집니다. 광고 걸린글의 차단 및 분석을 위하여 휴지통의 데이터를 사용하는 플러그인이 있을 수 있으므로 수동으로 지우지 않는 것을 권장합니다.');?></p>
+								<p class="explain"><?php echo _t('휴지통에 버려진 댓글은 15일이 지나면 자동으로 지워집니다. 광고 댓글의 차단 및 분석을 위하여 휴지통의 데이터를 사용하는 플러그인이 있을 수 있으므로 수동으로 지우지 않는 것을 권장합니다.');?></p>
 							</div>	
 
 							<form id="trash-form" method="post" action="<?php echo $blogURL;?>/owner/communication/trash">
@@ -294,7 +293,7 @@ require ROOT . '/lib/piece/owner/communicationTab.php';
 										<dt><?php echo _t('종류');?></dt>
 										<dd>
 											<div id="track-radio-comment">
-												<input type="radio" class="radio" id="track-type-comment" name="trashType" value="comment" onclick="document.getElementById('trash-form').submit()" checked="checked" /><label for="track-type-comment"><?php echo _t('댓글');?></label>
+												<input type="radio" class="radio" id="track-type-comment" name="trashType" value="comment" onclick="document.getElementById('trash-form').submit()" checked="checked" /><label for="track-type-comment"><?php echo _t('댓글 및 방명록');?></label>
 											</div>
 											<div id="track-radio-trackback">
 												<input type="radio" class="radio" id="track-type-trackback" name="trashType" value="trackback" onclick="document.getElementById('trash-form').submit()" /><label for="track-type-trackback"><?php echo _t('글걸기');?></label>
@@ -381,8 +380,15 @@ for ($i=0; $i<sizeof($comments); $i++) {
 	if ($comment['title'] != '' && $comment['parent'] != '') {
 		echo '<span class="divider"> | </span>';
 	}
-	
-	echo empty($comment['parent']) ? '' : '<span class="explain">' . _f('%1 님의 댓글에 대한 댓글',$comment['parentName']) . '</span>';
+	if($comment['entry'] == 0) {	// Guestbook case
+		if(empty($comment['parent'])) {
+			echo '<span class="explain">' . _t('방명록') . '</span>';
+		} else {
+			echo '<span class="explain">' . _f('%1 님의 방명록에 대한 댓글',$comment['parentName']) . '</span>';
+		}
+	} else {
+		echo empty($comment['parent']) ? '' : '<span class="explain">' . _f('%1 님의 댓글에 대한 댓글',$comment['parentName']) . '</span>';
+	}
 	echo "</a>";
 ?>
 												<?php echo ((!empty($comment['title']) || !empty($comment['parent'])) ? '<br />' : '');?>
