@@ -309,7 +309,7 @@ textarea
 #main-menu li a:hover table
 {
 	display                          : block !important;
-	width                            : 175px;
+	width                            : 150px;
 	color                            : #222;
     position                         : absolute;
 	z-index                          : 100 !important;
@@ -349,7 +349,7 @@ textarea
 #main-menu li a:hover ul li
 {
 	display                          : block;
-	width                            : 150px;
+	width                            : 125px;
 	height                           : 27px;
 	background-image                 : none !important;
 }
