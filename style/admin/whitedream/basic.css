@@ -413,6 +413,11 @@ textarea
 	padding-left                     : 200px;
 }
 
+#sub-menu
+{
+	display                          : none;
+}
+
 #sub-menu-helper
 {
 	background-image                 : url("./image/bg_menu_right.png") !important;

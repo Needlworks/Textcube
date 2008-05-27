@@ -41,7 +41,11 @@ function getTrashTrackbackWithPagingForOwner($blogid, $category, $site, $ip, $se
 
 function getTrashCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, $page, $count) {
 	global $database;
-	$sql = "SELECT c.*, e.title, c2.name parentName FROM {$database['prefix']}Comments c LEFT JOIN {$database['prefix']}Entries e ON c.blogid = e.blogid AND c.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.blogid = c2.blogid WHERE c.blogid = $blogid AND c.isFiltered > 0";
+	$sql = "SELECT c.*, e.title, c2.name parentName 
+		FROM {$database['prefix']}Comments c 
+		LEFT JOIN {$database['prefix']}Entries e ON c.blogid = e.blogid AND c.entry = e.id AND e.draft = 0 
+		LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.blogid = c2.blogid 
+		WHERE c.blogid = $blogid AND c.isFiltered > 0";
 
 	$postfix = '';	
 	if ($category > 0) {
@@ -49,8 +53,8 @@ function getTrashCommentsWithPagingForOwner($blogid, $category, $name, $ip, $sea
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
 		$postfix .= '&category=' . rawurlencode($category);
-	} else
-		$sql .= ' AND e.category >= 0';
+	} //else
+//		$sql .= ' AND e.category >= 0';
 	if (!empty($name)) {
 		$sql .= ' AND c.name = \'' . POD::escapeString($name) . '\'';
 		$postfix .= '&name=' . rawurlencode($name);
