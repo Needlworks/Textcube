@@ -53,8 +53,8 @@ function getTrashCommentsWithPagingForOwner($blogid, $category, $name, $ip, $sea
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
 		$postfix .= '&category=' . rawurlencode($category);
-	} //else
-//		$sql .= ' AND e.category >= 0';
+	} else
+		$sql .= ' AND (e.category >= 0 OR c.entry = 0)';
 	if (!empty($name)) {
 		$sql .= ' AND c.name = \'' . POD::escapeString($name) . '\'';
 		$postfix .= '&name=' . rawurlencode($name);
