@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <adminSkin version="1.0" language="ko">
 	<information>
-		<name>Retro (1.0 관리자 스킨)</name> 
-		<version>1.6</version>
+		<name>Retro (1.0 관리패널 스킨)</name> 
+		<version>1.7</version>
 		<description><![CDATA[1.0 코어의 관리자 스킨을 되새김질합니다.]]></description>
 		<license><![CDATA[수정, 재배포 가능합니다.]]></license>
 	</information> 

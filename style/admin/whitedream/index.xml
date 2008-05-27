@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <adminSkin version="1.1" language="ko">
 	<information>
-		<name>White Dream (1.6)</name> 
-		<version>1.6</version>
-		<description><![CDATA[관리자 화면용 스킨입니다. 
-		]]></description>
+		<name>White Dream (1.7 기본 관리패널 스킨)</name> 
+		<version>1.7</version>
+		<description><![CDATA[관리자 화면용 스킨입니다.]]></description>
 		<license><![CDATA[수정, 재배포 가능합니다.]]></license>
 	</information> 
 	<author>
