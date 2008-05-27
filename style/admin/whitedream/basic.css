@@ -247,8 +247,8 @@ textarea
 	background-image                 : url("./image/bg_menu.png");
 	background-position              : left top;
 	background-repeat                : repeat-x;
-	height                           : 2.8em;
-	line-height                      : 2.8em;
+	height                           : 40px;
+	line-height                      : 3em;
 	margin-top                       : 1px;
 }
 
@@ -257,7 +257,7 @@ textarea
 	background-image                 : url("./image/bg_menu_left.png");
 	background-position              : left top;
 	background-repeat                : no-repeat;
-	height                           : 2.8em;
+	height                           : 40px;
 	width                            : 100%;
 }
 
@@ -313,7 +313,7 @@ textarea
 	color                            : #222;
     position                         : absolute;
 	z-index                          : 100 !important;
-	top                              : 33px; 
+	top                              : 38px; 
 	left                             : 0;
 	border                           : solid 1px #CCC;
 	background-color                 : #EEE;
@@ -384,7 +384,7 @@ textarea
 	padding                          : 0 !important;
 	position                         : absolute;
 	text-indent                      : -1000px;
-	top                              : 12px;
+	top                              : 15px;
 	width                            : 180px;
 	z-index                          : 100;
 }
@@ -423,8 +423,8 @@ textarea
 	background-image                 : url("./image/bg_menu_right.png") !important;
 	background-position              : right top !important;
 	background-repeat                : no-repeat;
-	height                           : 3em;
-	line-height                      : 2.6em;
+	height                           : 40px;
+	line-height                      : 3em;
 	padding-right                    : 15px !important;
 	right                            : 9px;
 	position                         : absolute;
