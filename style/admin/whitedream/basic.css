@@ -366,7 +366,7 @@ textarea
 #main-menu li a:hover ul li a:link,
 #main-menu li a:hover ul li a:visited
 {
-	color                            : #222;
+	color                            : #222 !important;
 	display                          : block;
 	line-height                      : 27px;
 }
