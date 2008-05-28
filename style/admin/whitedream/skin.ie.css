@@ -7,6 +7,10 @@
 {
 	border                           : 1px solid #FFFFFF;
 }
+#skin-search-form
+{
+	left                             : 300px;
+}
 
 #skin-search-form .input-button
 {
@@ -33,6 +37,11 @@
 #part-skin-list #listview-box .section
 {
 	height                           : 185px !important;
+}
+
+#search-box
+{
+	top                              : -4px !important;
 }
 
 /* Edit ******************************************************************************************/

@@ -8,6 +8,11 @@
 	margin-bottom                    : 20px;
 }
 
+#skin-search-form
+{
+	left                             : 300px;
+}
+
 #part-skin-list .section .preview,
 #part-skin-current .section .preview
 {
@@ -32,6 +37,15 @@
 	background-color                 : #EFEFEF;
 }
 
+#search-box
+{
+	top                              : -4px !important;
+}
+
+#viewmode-box
+{
+	top                              : -4px !important;
+}
 /* Edit ******************************************************************************************/
 
 #part-skin-edit .section ul
