@@ -25,12 +25,16 @@
 	margin-top                       : 200px;
 }
 
+#part-skin-list #iconview-box .section .information
+{
+	width                            : 160px !important;
+}
 #part-skin-list #iconview-box .section .information .title-line
 {
 	position                         : relative;
-	top                              : 160px;
-	left                             : -158px;
-	width                            : 160px;
+	top                              : 0;
+	left                             : 0;
+	width                            : 160px !important;
 	clear                            : both;
 	margin                           : 0 !important;
 	padding                          : 0 !important;
