@@ -490,7 +490,7 @@ if(Acl::check('group.owners')) {
 								<dl id="direct-link-line" class="line">
 									<dt><?php echo _t('플러그인 설정');?></dt>
 									<dd>
-										<a class="button" href="<?php echo $blogURL;?>/owner/plugin?visibility=center"><?php echo _t('플러그인 설정 페이지로 바로가기');?></a>
+										<a class="button" href="<?php echo $blogURL;?>/owner/plugin?visibility=center"><?php echo _t('위젯 켜고 끄기');?></a>
 									</dd>
 								</dl>
 <?php

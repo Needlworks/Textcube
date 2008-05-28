@@ -170,7 +170,7 @@ if(isset($blogMenu['topMenu'])) {
 			array('menu'=>'edit','title'=>_t('스킨 편집'),'link'=>'/owner/skin/edit'),
 			array('menu'=>'setting','title'=>_t('스킨 상세 설정'),'link'=>'/owner/skin/setting'),
 			array('menu'=>'widget','title'=>_t('위젯'),'link'=>'/owner/skin/sidebar'),
-			array('menu'=>'adminSkin','title'=>_t('관리자 패널 스킨 선택'),'link'=>'/owner/skin/adminSkin')
+			array('menu'=>'adminSkin','title'=>_t('관리 패널 스킨 선택'),'link'=>'/owner/skin/adminSkin')
 		);
 	}
 	if(Acl::check('group.administrators')) {

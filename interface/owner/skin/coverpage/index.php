@@ -233,7 +233,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useCoverpageInit'])
 getBlogContentForCoverPage();
 ?>
 						<form id="part-coverpage-order" class="part" method="post" action="<?php echo parseURL($blogURL.'/owner/skin/coverpage');?>">
-							<h2 class="caption"><span class="main-text"><?php echo _t('표지를 관리합니다');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('블로그 표지를 관리합니다');?></span></h2>
 <?php
 require ROOT . '/lib/piece/owner/skinTab.php';
 ?>
@@ -245,7 +245,7 @@ require ROOT . '/lib/piece/owner/skinTab.php';
 								<dt><?php echo _t('독립패널 설정');?></dt>
 								<dd>
 									<input type="checkbox" class="checkbox" id="useCoverpageInit" name="useCoverpageInit" value="on" onclick="changeList();return false;"<?php echo $coverpageInitView == 1 ? ' checked="checked"' : NULL;?> />
-									<label for="useCoverpageInit"><?php echo _t('표지를 첫 화면으로 사용합니다');?></label>
+									<label for="useCoverpageInit"><?php echo _t('표지를 블로그의 첫 화면으로 사용합니다');?></label>
 								</dd>
 							</dl>							
 <?php
@@ -258,21 +258,21 @@ require ROOT . '/lib/piece/owner/skinTab.php';
 							
 							<dl id="direct-link-line" class="line">
 								<dt><?php echo _t('플러그인 설정');?></dt>
-								<dd><a class="button" href="<?php echo $blogURL;?>/owner/plugin?visibility=coverpage"><?php echo _t('플러그인 설정 페이지로 바로가기');?></a></dd>
+								<dd><a class="button" href="<?php echo $blogURL;?>/owner/plugin?visibility=coverpage"><?php echo _t('위젯 켜고 끄기');?></a></dd>
 							</dl>	
 <?php
 if (is_null($skin->cover) || count($coverpageMappings) == 0) {
 	if (is_null($skin->cover))
-		$errmsg = '사용중인 스킨이 표지를 지원하지 않습니다.';
+		$errmsg = _t('사용중인 스킨이 블로그 표지를 지원하지 않습니다.');
 	else
-		$errmsg = '사용중인 표지 플러그인이 없습니다.';
+		$errmsg = _t('사용중인 표지 플러그인이 없습니다.');
 ?>
 							<ul id="coverpage-tabs-box" class="tabs-box">
 								<li class="selected"><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/skin/coverpage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
 							</ul>
 							
 							<div id="coverpage-box-disabled" class="data-inbox">
-								<p><?php echo _t($errmsg);?></p>
+								<p><?php echo $errmsg;?></p>
 							</div>
 						</form>
 <?php

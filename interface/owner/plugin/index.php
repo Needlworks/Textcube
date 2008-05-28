@@ -285,13 +285,13 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 							<h2 class="caption"><span class="main-text"><?php echo _t('설치된 플러그인 목록입니다');?></span></h2>
 							
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t('블로그에 다양한 기능을 더해보세요. 원하는 기능이 든 아이콘을 눌러주면 바로 블로그의 기능이 업그레이드 됩니다.').'<br /> '._t('센터 플러그인은 로그인후 보이는 관리자 패널에 위젯을 추가해 줍니다.').' '._t('표지 플러그인은 블로그의 첫 화면이나 표지 화면에 출력되는 위젯을 추가해 줍니다.').' '._t('센터 플러그인이나 표지 플러그인은 사이드바와 같이 자유롭게 끌어서 위치를 바꿀 수 있습니다.');?></p>
+								<p class="explain"><?php echo _t('블로그에 다양한 기능을 더해보세요. 원하는 기능이 든 아이콘을 눌러주면 바로 블로그의 기능이 업그레이드 됩니다.').'<br /> '._t('알림판 위젯 플러그인은 로그인후 보이는 알림판에 위젯을 추가해 줍니다.').' '._t('블로그 표지 위젯 플러그인은 블로그의 첫 화면이나 표지 화면에 출력되는 위젯을 추가해 줍니다.').' '._t('알림판 위젯 플러그인이나 블로그 표지 플러그인은 사이드바와 같이 자유롭게 끌어서 위치를 바꿀 수 있습니다.');?></p>
 							</div>
 							
 							<ul id="plugin-tabs-box" class="tabs-box">
-								<li<?php echo isset($tabsClass['blog']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/plugin"><?php echo _t('블로그/관리자 플러그인');?></a></li>
-								<li<?php echo isset($tabsClass['center']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/plugin?visibility=center"><?php echo _t('센터 플러그인');?></a></li>
-								<li<?php echo isset($tabsClass['coverpage']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/plugin?visibility=coverpage"><?php echo _t('표지 플러그인');?></a></li>
+								<li<?php echo isset($tabsClass['blog']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/plugin"><?php echo _t('블로그/관리자 기능');?></a></li>
+								<li<?php echo isset($tabsClass['center']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/plugin?visibility=center"><?php echo _t('알림판 위젯');?></a></li>
+								<li<?php echo isset($tabsClass['coverpage']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/plugin?visibility=coverpage"><?php echo _t('블로그 표지 위젯');?></a></li>
 							</ul>
 							
 							<fieldset id="plugin-display-box">
@@ -322,11 +322,11 @@ if (defined('__TAB_BLOG__')) {
 <?php
 } else if (defined('__TAB_CENTER__')) {
 ?>
-											<li><input type="checkbox" class="checkbox" id="center-scope" name="scopeType" value="center" onclick="this.checked=true;" checked="checked" /><label id="center-scope-label" for="center-scope"<?php echo in_array('center', $selectedScopes) ? ' class="selected"' : '';?>><?php echo _t('센터 플러그인');?></label></li>
+											<li><input type="checkbox" class="checkbox" id="center-scope" name="scopeType" value="center" onclick="this.checked=true;" checked="checked" /><label id="center-scope-label" for="center-scope"<?php echo in_array('center', $selectedScopes) ? ' class="selected"' : '';?>><?php echo _t('알림판 위젯');?></label></li>
 <?php
 } else if (defined('__TAB_COVERPAGE__')) {
 ?>
-											<li><input type="checkbox" class="checkbox" id="coverpage-scope" name="scopeType" value="coverpage" onclick="this.checked=true;" checked="checked" /><label id="coverpage-scope-label" for="coverpage-scope"<?php echo in_array('coverpage', $selectedScopes) ? ' class="selected"' : '';?>><?php echo _t('표지 플러그인');?></label></li>
+											<li><input type="checkbox" class="checkbox" id="coverpage-scope" name="scopeType" value="coverpage" onclick="this.checked=true;" checked="checked" /><label id="coverpage-scope-label" for="coverpage-scope"<?php echo in_array('coverpage', $selectedScopes) ? ' class="selected"' : '';?>><?php echo _t('블로그 표지 위젯');?></label></li>
 <?php
 }
 ?>

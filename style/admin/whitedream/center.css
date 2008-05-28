@@ -17,8 +17,13 @@
 #part-center-dashboard,
 #part-center-lint
 {
-	height                           : 480px;
+	height                           : 440px;
 	position                         : relative;
+}
+
+#part-center-dashboard h2
+{
+	display                          : none;
 }
 
 #part-center-dashboard .section h3,
@@ -38,7 +43,7 @@
 {
 	position                         : absolute;
 	left                             : 10px;
-	top                              : 40px;
+	top                              : 0;
 	width                            : 200px;
 }
 
@@ -65,7 +70,7 @@
 	margin-left                      : 220px;
 	width                            : 200px;
 	position                         : absolute;
-	top                              : 40px;
+	top                              : 0;
 }
 
 #total-information h3
@@ -107,7 +112,7 @@
 {
 	position                         : absolute;
 	left                             : 10px;
-	top                              : 280px;
+	top                              : 240px;
 	width                            : 410px;
 }
 
@@ -147,7 +152,7 @@
 	width                            : 505px;
 	position                         : absolute;
 	right                            : 20px;
-	top                              : 40px;
+	top                              : 0;
 }
 
 #part-center-dashboard #myBlogInfo.section h3
@@ -167,7 +172,7 @@
 #part-center-dashboard #infoPanel
 {
 	border                           : 1px solid #d9dde0;
-	margin-top: 10px;
+	margin-top                       : 10px;
 	padding                          : 9px;
 	width                            : 485px;
 	float                            : right;

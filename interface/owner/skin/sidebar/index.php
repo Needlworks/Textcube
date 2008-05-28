@@ -226,7 +226,7 @@ require ROOT . '/lib/piece/owner/skinTab.php';
 							
 							<dl id="direct-link-line" class="line">
 								<dt><?php echo _t('플러그인 설정');?></dt>
-								<dd><a class="button" href="<?php echo parseURL($blogURL.'/owner/plugin');?>"><?php echo _t('플러그인 설정 페이지로 바로가기');?></a></dd>
+								<dd><a class="button" href="<?php echo parseURL($blogURL.'/owner/plugin');?>"><?php echo _t('위젯 켜고 끄기');?></a></dd>
 							</dl>
 							
 <?php
