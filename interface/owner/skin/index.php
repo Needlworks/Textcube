@@ -52,10 +52,10 @@ while ($file = $dirHandler->read()) {
 
 function writeValue($value, $label, $className) {
 ?>
-										<tr class="<?php echo $className;?>-line">
-											<td class="name"><?php echo $label;?></td>
-											<td class="explain"><?php echo nl2br(addLinkSense($value, ' onclick="window.open(this.href); return false;"'));?></td>
-										</tr>
+										<dl class="<?php echo $className;?>-line">
+											<dt class="name"><?php echo $label;?></dt>
+											<dd class="explain"><?php echo nl2br(addLinkSense($value, ' onclick="window.open(this.href); return false;"'));?></dd>
+										</dl>
 <?php
 }
 ?>
@@ -122,13 +122,12 @@ if (file_exists(ROOT."/skin/".$skinSetting['skin']."/preview.jpg")) {
 <?php
 }
 ?>
-									</div>
+									</div>								
 									<div class="information">
 <?php
 if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 ?>
 										<div id="currentInfo">
-											<table cellspacing="0" cellpadding="0">
 <?php
 	$xml = file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/index.xml");
 	$xmls = new XMLStruct();
@@ -140,7 +139,6 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 	writeValue($xmls->getValue('/skin/author/email'), _t('e-mail'), "email");
 	writeValue($xmls->getValue('/skin/information/description'), _t('설명'), "explain");
 ?>
-											</table>
 										</div>
 										<div class="button-box">
 											<!--span id="currentButton">
@@ -158,11 +156,6 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 											<div id="customizedTable">
 												<?php echo _t('선택하신 스킨이 존재하지 않습니다. 다른 스킨을 선택해 주시기 바랍니다.').CRLF;?>
 											</div>
-										</div>
-										<div class="button-box">
-											<!--span id="currentButton"></span-->
-											<span class="hidden">|</span>
-											<a class="edit-button button" href="<?php echo $blogURL;?>/owner/skin/edit"><span class="text"><?php echo _t('편집하기');?></span></a>
 										</div>
 <?php
 }
@@ -216,7 +209,6 @@ for ($i = 0; $i < count($skins); $i++) {
 									</div>
 									<div class="information">
 										<div id="info_<?php echo $skin['name'];?>">
-											<table cellspacing="0" cellpadding="0">
 <?php
 	if (isset($skin['skinName'])) {
 		writeValue('<span class="skin-name">' . $skin['skinName'] . '</span> <span class="version">ver.' . $skin['version']. '</span>', _t('제목'), "title");
@@ -229,7 +221,6 @@ for ($i = 0; $i < count($skins); $i++) {
 		writeValue($skin['name'], _t('제목'));
 	}
 ?>
-											</table>
 										</div>
 										<div id="button_<?php echo $skin['name'];?>" class="button-box">
 											<a class="preview-button button" href="<?php echo $blogURL;?>/owner/skin/preview/?skin=<?php echo $skin['name'];?>" onclick="window.open(this.href, &quot;<?php echo $skin['name'];?>&quot;,&quot;location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0&quot;); return false;"><span><?php echo _t('미리보기');?></span></a>
@@ -239,10 +230,11 @@ for ($i = 0; $i < count($skins); $i++) {
 									</div>
 								</div>
 <?php
+	if((($i+1) % 3) == 0) echo CRLF.TAB.TAB.TAB.TAB.TAB.TAB.'<hr class="hidden">'.CRLF;
 }
 ?>
 							</div>
-							<hr class="hidden" />
+							<hr class="hidden clear" />
 						</div>
 						<div id="part-skin-more" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('스킨을 구하려면');?></span></h2>

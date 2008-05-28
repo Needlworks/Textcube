@@ -8,23 +8,125 @@
 }
 
 /* Select ****************************************************************************************/
-
-#part-skin-list .section,
-#part-skin-current .section
+/* Layout */
+#part-skin-current,
+#part-skin-list
 {
-	clear                            : both;
-	margin-bottom                    : 20px;
-	position                         : relative;
+	float:left;
 }
 
-#part-skin-list .section .preview,
+#part-skin-current,
+#part-skin-current .data-inbox
+{
+	width                            : 240px;
+}
+
+#part-skin-list,
+#part-skin-list .data-inbox
+{
+	width                            : 700px;
+}
+
+#part-skin-list
+{
+	padding-left                     : 15px;
+}
+
+#part-skin-list .data-inbox .section
+{
+	width                            : 660px;
+	border                           : 1px dotted #EEE;
+	margin-right                     : 15px;
+	padding                          : 10px;
+}
+
+/* Current Skin */
+
 #part-skin-current .section .preview
 {
 	border                           : 1px solid #BBBBBB;
 	padding                          : 3px;
-	/*float                            : left;*/
-	position                         : absolute;
 	width                            : 150px;
+	margin                           : 0 auto;
+}
+
+#part-skin-list .section .preview
+{
+	border                           : 1px solid #BBBBBB;
+	padding                          : 3px;
+	float                            : left;
+	width                            : 150px;	
+}
+#part-skin-current .section .information
+{
+	margin-left                      : 0;
+}
+
+#part-skin-current #currentInfo
+{
+	margin-top                       : 40px;
+}
+
+#part-skin-list .section .information
+{
+	padding-left                     : 180px;
+	min-height                       : 180px;
+}
+
+
+#part-skin-current .information .explain-line .name,
+#part-skin-current .information .title-line .name,
+#part-skin-list .information .explain-line .name,
+#part-skin-list .information .title-line .name
+{
+	display                          : none;
+}
+
+#part-skin-current .information .explain-line .explain,
+#part-skin-current .information .title-line .explain,
+#part-skin-list .information .explain-line .explain,
+#part-skin-list .information .title-line .explain
+{
+	padding-left                     : 0;
+	margin-left                      : 0;
+}
+
+#part-skin-current .information .title-line .explain
+{
+	font-weight                      : bold;
+	text-align                       : center;
+}
+#part-skin-list .information .title-line .explain
+{
+	font-weight                      : bold;
+	text-align                       : center;
+	background-color:#EFEFEF;
+	border-bottom:1px solid #DDD;
+}
+
+#part-skin-current .information dt,
+#part-skin-list .information dt
+{
+	width                            : 60px;
+}
+
+#part-skin-current .information dd
+{
+	margin-left                      : 65px;
+}
+#part-skin-list .information dd
+{
+	margin-left                      : 70px;
+	border-bottom                    : 1px dotted #EEE;
+}
+
+
+/* Skin List */
+#part-skin-list .section,
+#part-skin-current .section
+{
+	margin-bottom                    : 20px;
+	position                         : relative;
 }
 
 #part-skin-list .section .preview img,
@@ -33,51 +135,9 @@
 	vertical-align                   : top;
 }
 
-#part-skin-list .section .information,
-#part-skin-current .section .information
+#part-skin-list .section .information
 {
-	margin-left                      : 190px;
-}
-
-#part-skin-list .section .information table,
-#part-skin-current .section .information table
-{
-	width                            : 750px;
-}
-
-#part-skin-list .section .information table tr td,
-#part-skin-current .section .information table tr td
-{
-	background-image                 : url("./image/bg_tbody.gif");
-	background-position              : left bottom;
-	padding                          : 8px;
-}
-
-#part-skin-list .section .information table tr td.name,
-#part-skin-current .section .information table tr td.name
-{
-	background-position              : right bottom;
-	font-weight                      : bold;
-	text-align                       : right;
-	width                            : 100px;
-}
-
-#part-skin-list .section .information table tr.title-line td.explain .version,
-#part-skin-current .section .information table tr.title-line td.explain .version
-{
-	padding-left                     : 10px;
-}
-
-#part-skin-list .section .information table tr.explain-line td.name,
-#part-skin-current .section .information table tr.explain-line td.name
-{
-	background-position              : right top;
-}
-
-#part-skin-list .section .information table tr.explain-line td.explain,
-#part-skin-current .section .information table tr.explain-line td.explain
-{
-	background-position              : left top;
+	margin-left                      : 0;
 }
 
 #part-skin-list .section .information .button-box a,
@@ -109,7 +169,7 @@
 
 #part-skin-list .section .information .button-box .preview-button
 {
-	left                             : 5px;
+	left                             : 15px;
 	position                         : absolute;
 	top                              : 170px;
 	width                            : 60px;
@@ -117,7 +177,7 @@
 
 #part-skin-list .section .information .button-box .apply-button
 {
-	left                             : 82px;
+	left                             : 92px;
 	position                         : absolute;
 	top                              : 170px;
 	width                            : 60px;
@@ -145,7 +205,7 @@
     border                           : none;
     margin                           : 0;
     position                         : relative;
-    left                             : 630px;
+    left                             : 380px;
     text-align                       : right;
     top                              : -38px;
     width                            : 25em;
