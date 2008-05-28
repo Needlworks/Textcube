@@ -265,6 +265,7 @@ textarea
 {
 	float                            : left;
 	position                         : relative;
+	height                           : 40px;
 	z-index                          : 400;   /* Workaround for IE6 positioned element bug */
 	margin                           : 0 3px;
 	padding                          : 0 8px;
