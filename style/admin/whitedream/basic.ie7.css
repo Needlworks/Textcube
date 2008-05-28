@@ -10,8 +10,8 @@
 /* main menu */
 #main-menu-box
 {
-	height                           : 3em;
-	line-height                      : 3em;
+	height                           : 40px;
+	line-height                      : 3.5em;
 }
 
 #main-menu li
@@ -19,6 +19,10 @@
 	height                           : 3em;
 }
 
+#sub-menu-helper
+{
+	line-height                      : 3.3em;
+}
 /* Layout Body ***********************************************************************************/
 
 #main-menu li.selected

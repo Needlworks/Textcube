@@ -11,7 +11,7 @@
 #main-menu-box
 {
 	height                           : 3em;
-	line-height                      : 3em;
+	line-height                      : 3.5em;
 }
 
 #main-menu li
@@ -35,6 +35,12 @@
 #main-menu #menu-textcube
 {
 	background-image                 : url("./image/img_header_textcube.gif") !important;
+}
+
+#sub-menu-helper
+{
+	height                           : 40px;
+	line-height                      : 3.3em;
 }
 
 /* Layout Body ***********************************************************************************/

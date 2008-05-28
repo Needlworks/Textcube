@@ -39,8 +39,7 @@
 
 #part-setting-resample .button-box .input-button,
 #part-setting-language .button-box .input-button,
-#part-setting-editor .button-box .input-button,
-#part-setting-admin .button-box .input-button
+#part-setting-editor .button-box .input-button
 {
 	line-height                      : 2.4em;
 }

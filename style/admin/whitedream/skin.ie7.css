@@ -50,3 +50,8 @@
 {
 	padding                          : 0;
 }
+
+#part-setting-admin .button-box .input-button
+{
+	line-height                      : 2.4em;
+}

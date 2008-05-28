@@ -1076,13 +1076,39 @@
 }
 
 /* Admin Skin *************************************************************************************/
-#part-setting-admin .button-box
+
+#part-skin-admin .button-box
 {
 	border-top                       : 1px solid #DDDDDD;
 	margin                           : 10px 0 20px 0;
 	padding-top                      : 15px;
 }
 
+#part-skin-admin dl
+{
+	background-color                 : #FFFFFF;
+}
+#part-skin-admin dl dt 
+{
+	padding                          : 5px 3px 0 3px;
+	text-align                       : right;
+	width                            : 170px;
+}
+#part-skin-admin dd
+{
+	margin-left                      : 185px;
+}
+#part-skin-admin .button-box .input-button
+{
+	background-color                 : #FFFFFF;
+	background-image                 : none;
+	border                           : 1px solid #BBBBBB;
+	color                            : #000000;
+	font-weight                      : bold;
+	height                           : 2.5em;
+	line-height                      : 2.5em;
+	vertical-align                   : middle;
+}
 
 /* classes for AJAX *******************************************************************************/
 
