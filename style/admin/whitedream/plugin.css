@@ -108,7 +108,7 @@
 #viewmode-line-align
 {
 	border                           : none !important;
-	right                            : 20px;
+	right                            : 240px;
 	padding                          : 0 !important;
 	position                         : absolute !important;
 	text-align: right;
@@ -459,13 +459,18 @@
     border                           : none;
     margin                           : 0;
     position                         : absolute;
-    right                            : 225px;
+    right                            : 25px;
     text-align                       : right;
     top                              : 20px;
     width                            : 25em;
     z-index                          : 1;
 }
-   
+
+#plugin-search-form .input-text
+{
+	width                            : 150px;
+}
+
 #plugin-search-form label
 {
     display                          : none;

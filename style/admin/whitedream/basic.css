@@ -291,7 +291,7 @@ textarea
 
 #main-menu li.selected a
 {
-	color                            : #ADFF2F;
+	color                            : #ADFF2F !important;
 }
 
 #main-menu li:hover a,

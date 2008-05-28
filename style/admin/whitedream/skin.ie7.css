@@ -10,7 +10,7 @@
 
 #skin-search-form
 {
-	left                             : 300px;
+	left                             : 190px;
 }
 
 #part-skin-list .section .preview,
@@ -29,6 +29,7 @@
 {
 	width                            : 160px !important;
 }
+
 #part-skin-list #iconview-box .section .information .title-line
 {
 	position                         : relative;
