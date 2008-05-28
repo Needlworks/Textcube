@@ -191,7 +191,7 @@ class Skin {
 	
 			// Store skin tags.
 			$__gDressTags = $this->getDressTags($sval);
-
+			var_dump($__gDressTags);
 			// Cutting skin.
 			list($sval, $this->coverItem) = $this->cutSkinTag($sval, 'cover_rep');
 			list($sval, $this->cover) = $this->cutSkinTag($sval, 'cover');
@@ -317,7 +317,7 @@ class Skin {
 			return array($contents, NULL);
 		$inner = substr($contents, $begin + $tagSize, $end - $begin - $tagSize);
 		$outter = substr($contents, 0, $begin) . $replace . substr($contents, $end + $tagSize + 1);
-		array_push($__gDressTags, $tag);
+		if(!in_array($tag, $__gDressTags)) array_push($__gDressTags, $tag);
 		return array($outter, $inner);
 	}
 	
@@ -333,7 +333,7 @@ class Skin {
 		}
 		$inner = "[##_{$tag}_##]";
 		$outter = substr($contents, 0, $pos) . $replace . substr($contents, $pos + $tagSize);
-		array_push($__gDressTags, $tag);
+		if(!in_array($tag, $__gDressTags)) array_push($__gDressTags, $tag);
 		return array($outter, $inner);
 	}
 
@@ -341,7 +341,7 @@ class Skin {
 		$matches = array();
 		$result = array();
 		preg_match_all('/\[##_(.+?)_##\]/',$contents,$matches);
-		return $matches[1];
+		return array_unique($matches[1]);
 	}
 
 	function saveCache() {

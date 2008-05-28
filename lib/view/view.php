@@ -22,7 +22,7 @@ function printHtmlFooter() {
 <?php
 }
 
-function dress($tag, $value, & $contents, $useCache = true) {
+function dress($tag, $value, & $contents, $useCache = false) {
 	global $__gDressTags;
 	if($useCache == true) {
 		if(strpos($tag, 'sidebar_') !== false || 
@@ -39,11 +39,19 @@ function dress($tag, $value, & $contents, $useCache = true) {
 	}
 }
 
-function dressInsertBefore($tag, $value, & $contents) {
+function dressInsertBefore($tag, $value, & $contents, $useCache = false) {
 	global $__gDressTags;
-	if(strpos($tag, 'sidebar_') !== false || 
-		strpos($tag, 'coverpage_') !== false ||	
-		in_array($tag, $__gDressTags) ) {
+	if($useCache == true) {
+		if(strpos($tag, 'sidebar_') !== false || 
+			strpos($tag, 'coverpage_') !== false ||	
+			in_array($tag, $__gDressTags) ) {
+			$tempContents = preg_split("@\\[##_{$tag}_##\\]@iU", $contents, 2);
+			$contents = $tempContents[0].$value.'[##_'.$tag.'_##]'.$tempContents[1];
+			return true;
+		} else {
+			return false;
+		}
+	} else if (preg_match("@\\[##_{$tag}_##\\]@iU", $contents)) {
 		$tempContents = preg_split("@\\[##_{$tag}_##\\]@iU", $contents, 2);
 		$contents = $tempContents[0].$value.'[##_'.$tag.'_##]'.$tempContents[1];
 		return true;
