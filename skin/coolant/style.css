@@ -1226,12 +1226,12 @@ form input:focus, textarea:focus
 	padding-left: 16px;
 }
 
-.coverpost .post_info .writer .preposition
+.coverpost .post_info .author .preposition
 {
 	display: none;
 }
 
-.coverpost .post_info .writer
+.coverpost .post_info .author
 {
 	background: url('./images/bullet_author.gif') no-repeat 6px 50%;
 }
