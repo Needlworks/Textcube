@@ -191,7 +191,6 @@ class Skin {
 	
 			// Store skin tags.
 			$__gDressTags = $this->getDressTags($sval);
-			var_dump($__gDressTags);
 			// Cutting skin.
 			list($sval, $this->coverItem) = $this->cutSkinTag($sval, 'cover_rep');
 			list($sval, $this->cover) = $this->cutSkinTag($sval, 'cover');
