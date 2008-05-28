@@ -7,10 +7,41 @@
 {
 	border                           : 1px solid #FFFFFF;
 }
+#skin-search-form
+{
+	left                             : 300px;
+}
 
 #skin-search-form .input-button
 {
     line-height                      : 1.6em !important;
+}
+
+#skin-search-form input.input-text
+{
+	width                            : 150px !important;
+}
+
+#part-skin-current .information dt,
+#part-skin-list .information dt
+{
+	left                             : -60px;
+	margin-left                      : 0 !important;
+}
+
+#part-skin-current .information dt
+{
+	top                              : -4px;
+}
+
+#part-skin-list #listview-box .section
+{
+	height                           : 185px !important;
+}
+
+#search-box
+{
+	top                              : -4px !important;
 }
 
 /* Edit ******************************************************************************************/
