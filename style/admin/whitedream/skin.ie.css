@@ -13,6 +13,28 @@
     line-height                      : 1.6em !important;
 }
 
+#skin-search-form input.input-text
+{
+	width                            : 150px !important;
+}
+
+#part-skin-current .information dt,
+#part-skin-list .information dt
+{
+	left                             : -60px;
+	margin-left                      : 0 !important;
+}
+
+#part-skin-current .information dt
+{
+	top                              : -4px;
+}
+
+#part-skin-list #listview-box .section
+{
+	height                           : 185px !important;
+}
+
 /* Edit ******************************************************************************************/
 
 #part-skin-edit .section ul

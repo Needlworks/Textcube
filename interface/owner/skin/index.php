@@ -9,6 +9,9 @@ if(isset($_POST['search'])) {
 	$search = $_POST['search'];
 } else $search = null;
 
+// get the list type.
+$listType = getBlogSetting('skinViewType', 'iconview');
+
 $skins = array();
 $dirHandler = dir(ROOT . "/skin");
 while ($file = $dirHandler->read()) {
@@ -97,11 +100,29 @@ function writeValue($value, $label, $className) {
 										alert(e.message);
 									}
 								}
+								function changeList(obj) {	
+									if(document.getElementById('list-view').checked == true) {
+										viewtype = 'listview';
+									} else {
+										viewtype = 'iconview';
+									}
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/skin/saveScope");
+
+									request.onSuccess = function() {
+										document.getElementById('skin-search-form').submit();
+									}
+									
+									request.onError = function() {
+										alert("<?php echo _t('선택하신 조건을 적용할 수 없었습니다.');?>");
+									}
+									
+									request.send("viewtype=" + viewtype);
+								}
 							//]]>
 						</script>
 						
 						<div id="part-skin-current" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('현재 사용중인 스킨입니다');?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t('현재 사용중인 스킨');?></span></h2>
 							
 							<div class="data-inbox">
 								<div id="currentSkin" class="section">
@@ -141,13 +162,9 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 ?>
 										</div>
 										<div class="button-box">
-											<!--span id="currentButton">
-												<a class="preview-button button" href="<?php echo $blogURL;?>/owner/skin/preview/?skin=<?php echo $skinSetting['skin'];?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('미리보기');?></span></a>
-												<span class="hidden">|</span>
-												<a class="apply-button button" href="<?php echo $blogURL;?>/owner/skin/change/?skinName=<?php echo urlencode($skinSetting['skin']);?>" onclick="selectSkin('<?php echo $skinSetting['skin'];?>'); return false;"><span class="text"><?php echo _t('적용');?></span></a>
-											</span-->
-											<span class="hidden">|</span>
 											<a class="edit-button button" href="<?php echo $blogURL;?>/owner/skin/edit"><span class="text"><?php echo _t('편집하기');?></span></a>
+											<span class="hidden">|</span>
+											<a class="setting-button button" href="<?php echo $blogURL;?>/owner/skin/setting"><span class="text"><?php echo _t('세부 설정');?></span></a>
 										</div>
 <?php
 } else {
@@ -166,28 +183,35 @@ if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/index.xml")) {
 						</div>
 						
 						<div id="currentSkinLoading" class="system-message" style="display: none;">
-							<?php echo _t('로딩 중..');?>
+							<?php echo _t('불러오는 중..');?>
 						</div>
 						
 						<hr class="hidden" />
 						
 						<div id="part-skin-list" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('사용가능한 스킨들의 목록입니다');?></span></h2>
-							
 							<form id="skin-search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/skin">
+								
 								<h2><?php echo _t('검색');?></h2>
-								<div class="section">
+								<div id="search-box" class="section">
 									<label for="search"><?php echo _t('제목');?>, <?php echo _t('내용');?></label>
 									<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') {  document.getElementById('skin-search-form').submit();return false; }" />
 									<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="document.getElementById('skin-search-form').submit();return false;" />
 								</div>
+								<dl id="viewmode-box" class="line">
+									<dt class="hidden"><?php echo _t('출력 설정');?></dt>
+									<dd id="viewmode-line-align">
+										<input type="radio" class="radio" id="list-view" name="viewType" value="listview" onclick="changeList(this);return false;"<?php echo $listType == 'listview' ? ' checked="checked"' : '';?> /><label for="list-view"><?php echo _t('리스트 보기');?></label>
+										<input type="radio" class="radio" id="icon-view" name="viewType" value="iconview" onclick="changeList(this);return false;"<?php echo $listType == 'iconview' ? ' checked="checked"' : '';?> /><label for="icon-view"><?php echo _t('아이콘 보기');?></label>
+									</dd>
+								</dl>								
 							</form>
 							
 							<div class="main-explain-box">
 								<p class="explain"><?php echo _t('블로그에 적용하기 원하시는 스킨의 적용 버튼을 누르면 스킨이 블로그에 반영됩니다.');?></p>
 							</div>
 							
-							<div class="data-inbox">
+							<div id="<?php echo $listType;?>-box" class="data-inbox">
 <?php
 $count = 0;
 for ($i = 0; $i < count($skins); $i++) {
@@ -236,6 +260,8 @@ for ($i = 0; $i < count($skins); $i++) {
 							</div>
 							<hr class="hidden clear" />
 						</div>
+						<hr class="hidden" />
+						
 						<div id="part-skin-more" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('스킨을 구하려면');?></span></h2>
 							
