@@ -75,7 +75,8 @@
 	margin                           : 0 !important;
 }
 
-#sorting-line, #viewmode-line
+#sorting-line,
+#viewmode-line
 {
 	position                         : static;
 }
@@ -100,7 +101,7 @@
 	padding                          : 0 !important;
 	position                         : absolute !important;
 	text-align: right;
-	top                              : 7em;
+	top                              : 10em;
 	width                            : 400px;
 }
 
@@ -111,7 +112,7 @@
 	padding                          : 0 !important;
 	position                         : absolute !important;
 	text-align: right;
-	top                              : 9.5em;
+	top                              : 5px;
 	width                            : 400px;
 }
 
@@ -460,7 +461,7 @@
     position                         : absolute;
     right                            : 225px;
     text-align                       : right;
-    top                              : 11em;
+    top                              : 20px;
     width                            : 25em;
     z-index                          : 1;
 }

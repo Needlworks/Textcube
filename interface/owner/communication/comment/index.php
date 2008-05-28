@@ -225,13 +225,15 @@ require ROOT . '/lib/piece/owner/communicationTab.php';
 										<option value="0"><?php echo _t('전체');?></option>
 <?php
 foreach (getCategories($blogid) as $category) {
+	if($category['id'] != 0) {
 ?>
 										<option value="<?php echo $category['id'];?>"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '');?>><?php echo htmlspecialchars($category['name']);?></option>
 <?php
-	foreach ($category['children'] as $child) {
+		foreach ($category['children'] as $child) {
 ?>
 										<option value="<?php echo $child['id'];?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '');?>>&nbsp;― <?php echo htmlspecialchars($child['name']);?></option>
 <?php
+		}
 	}
 }
 ?>
