@@ -254,7 +254,7 @@ for ($i = 0; $i < count($skins); $i++) {
 									</div>
 								</div>
 <?php
-	if((($i+1) % 3) == 0) echo CRLF.TAB.TAB.TAB.TAB.TAB.TAB.'<hr class="hidden">'.CRLF;
+	if((($i+1) % 4) == 0) echo CRLF.TAB.TAB.TAB.TAB.TAB.TAB.'<hr class="hidden list-divider" />'.CRLF;
 }
 ?>
 							</div>

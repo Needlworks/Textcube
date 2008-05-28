@@ -227,6 +227,11 @@
 	margin-bottom                    : 100px;
 }
 
+.list-divider
+{
+	height                           : 20px !important;
+}
+
 /*********** Icon view ************/
 #part-skin-list #iconview-box .section
 {
@@ -255,7 +260,7 @@
 #part-skin-list #iconview-box .section .information .title-line
 {
 	position                         : relative;
-	top                              : 48px;
+	top                              : 0;
 	clear                            : both;
 	margin                           : 0;
 	padding                          : 0;
@@ -266,7 +271,7 @@
 {
 	left                             : 5px;
 	position                         : absolute;
-	top                              : 170px;
+	top                              : 190px;
 	width                            : 60px;
 }
 
@@ -274,7 +279,7 @@
 {
 	left                             : 82px;
 	position                         : absolute;
-	top                              : 170px;
+	top                              : 190px;
 	width                            : 60px;
 }
 
