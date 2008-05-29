@@ -16,16 +16,29 @@ if (file_exists(ROOT . "/.htaccess")) {
 $encodingList = array('UTF-8','EUC-KR','SHIFT_JIS','EUC-JP','BIG5','EUC-CN','EUC-TW','GBK');
 
 // Languages
-$languageList = array('ko' => 'ko');
+$languageList = array($service['language'] => null);
 if (is_dir(ROOT.'/language/') && $handler = opendir(ROOT.'/language/')) {
 	while (($file = readdir($handler)) !== false) {
 		if (is_dir(ROOT.'/language/'.$file) || substr($file, -4) != '.php' || $file == 'messages.php') {
 			continue;
 		}
 		$file = substr($file, 0, -4);
-		$languageList[$file] = $file;
+		$languageList[$file] = null;
 	}
 }
+closedir($handler);
+
+// Skins
+$skinList = array($service['skin'] => null);
+if (is_dir(ROOT.'/skin/') && $handler = opendir(ROOT.'/skin/')) {
+	while (($file = readdir($handler)) !== false) {
+		if (!is_dir(ROOT.'/skin/') || substr($file, 0, 1) == '.' || $file == 'customize') {
+			continue;
+		}
+		$skinList[$file] = null;
+	}
+}
+closedir($handler);
 
 ?>
 						<script type="text/javascript">
@@ -165,7 +178,14 @@ if (!is_writable(ROOT . "/config.php")) {
 										<dl id="skin-line" class="line">
 											<dt><span class="label"><?php echo _t('기본 스킨');?></span></dt>
 											<dd>
-												<input id="skin" type="text" class="input-text" name="skin" size="13" value="<?php echo $service['skin'];?>" />											
+												<select id="skin" name="skin">
+<?php
+foreach ($skinList as $skin => $value) {
+?>
+													<option value="<?php echo $skin; ?>"<?php echo ($skin == $service['skin'] ? ' selected="selected"' : ''); ?>><?php echo $skin; ?></option>
+<?php
+}
+?>												</select>
 												<label for="skin"><?php echo _t('블로그의 기본 스킨을 정합니다. 반드시 존재하는 스킨의 디렉토리 이름이어야 합니다.');?></label>
 											</dd>
 										</dl>
@@ -181,7 +201,7 @@ if (!is_writable(ROOT . "/config.php")) {
 											<dd>
 												<select id="language" name="language">
 <?php
-foreach ($languageList as $lang) {
+foreach ($languageList as $lang => $value) {
 ?>
 													<option value="<?php echo $lang; ?>"<?php echo ($lang == $service['language'] ? ' selected="selected"' : ''); ?>><?php echo $lang; ?></option>
 <?php
