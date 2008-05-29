@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-function getPagingView( & $paging, & $template, & $itemTemplate, $useSkinCache = true) {
+function getPagingView( & $paging, & $template, & $itemTemplate, $useSkinCache = false) {
 	global $service;
 	if (($paging === false) || empty($paging['page'])) {
 		$paging['url'] = NULL;
