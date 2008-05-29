@@ -464,7 +464,7 @@
     right                            : 25px;
     text-align                       : right;
     top                              : 20px;
-    width                            : 25em;
+    width                            : 220px !important;
     z-index                          : 1;
 }
 

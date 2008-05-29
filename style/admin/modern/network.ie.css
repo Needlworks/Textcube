@@ -1,0 +1,52 @@
+@charset "utf-8";
+
+
+/* List ******************************************************************************************/
+
+#part-link-list table.data-inbox tbody tr td.edit
+{
+	width                            : 10px;
+}
+
+#part-link-list table.data-inbox tbody tr td.delete
+{
+	width                            : 12px;
+}
+
+/* Add/Edit **************************************************************************************/
+
+.get-info-button
+{
+	line-height                      : 1.6em !important;
+	padding                          : 0 !important;
+}
+
+.button-box .input-button
+{
+
+	padding                          : 2px 1px 0 1px !important;
+}
+
+/* Account ***************************************************************************************/
+
+#letter-section .button-box .input-button
+{
+	padding                          : 0 !important;
+}
+
+/* simple help footer ****************************************************************************/
+
+#data-description dl.modify-description
+{
+	background-position              : center left;
+	height                           : 11px;
+	margin                           : 0 auto;
+}
+
+#data-description dl.trash-description
+{
+	background-position              : center left;
+	height                           : 11px;
+	margin                           : 0 auto;
+}
+

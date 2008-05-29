@@ -104,26 +104,26 @@ h2
 
 .scrap-off-icon
 {
-	background-image                 : url("./image/reader/icon_scrap.gif");
+	background-image                 : url("./image/icon_unstarred.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	float                            : left;
-	height                           : 13px;
+	height                           : 16px;
 	margin                           : -1px 2px 0 0;
 	vertical-align                   : middle;
-	width                            : 14px;
+	width                            : 16px;
 }
 
 .scrap-on-icon
 {
-	background-image                 : url("./image/reader/icon_scrap.gif");
-	background-position              : left bottom;
+	background-image                 : url("./image/icon_starred.gif");
+	background-position              : left top;
 	background-repeat                : no-repeat;
 	float                            : left;
-	height                           : 13px;
+	height                           : 16px;
 	margin                           : -1px 2px 0 0;
 	vertical-align                   : middle;
-	width                            : 14px;
+	width                            : 16px;
 }
 
 .scrap-on-icon span,
@@ -920,28 +920,28 @@ ul#feedList li .edit-button span
 
 #listup .scrap-off-icon
 {
-	background-image                 : url("./image/reader/icon_scrap.gif");
+	background-image                 : url("./image/icon_unstarred.gif");
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	display                          : block;
 	float                            : none;
-	height                           : 13px;
-	margin                           : -1px 2px 0 0;
+	height                           : 16px;
+	margin                           : -1px 1px 0 0;
 	vertical-align                   : middle;
-	width                            : 14px;
+	width                            : 16px;
 }
 
 #listup .scrap-on-icon
 {
-	background-image                 : url("./image/reader/icon_scrap.gif");
-	background-position              : left bottom;
+	background-image                 : url("./image/icon_starred.gif");
+	background-position              : left top;
 	background-repeat                : no-repeat;
 	display                          : block;
 	float                            : none;
-	height                           : 13px;
-	margin                           : -1px 2px 0 0;
+	height                           : 16px;
+	margin                           : -1px 1px 0 0;
 	vertical-align                   : middle;
-	width                            : 14px;
+	width                            : 16px;
 }
 
 #listup .podcast-icon

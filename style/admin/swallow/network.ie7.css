@@ -1,0 +1,58 @@
+@charset "utf-8";
+
+/* Common *****************************************************************************************/
+
+.part table.data-inbox tbody tr td.delete
+{
+	width                            : 12px;
+}
+
+/* List ******************************************************************************************/
+
+#part-link-list table.data-inbox thead tr th.edit
+{
+	width                            : 12px;
+}
+
+#part-link-list table.data-inbox thead tr th.edit span
+{
+	display                          : none;
+}
+
+#part-link-list table.data-inbox tbody tr td.delete,
+#part-link-list table.data-inbox tbody tr td.edit
+{
+	width                            : 12px;
+}
+
+/* Add/Edit **************************************************************************************/
+
+.get-info-button
+{
+	line-height                      : 1.6em !important;
+}
+
+#part-link-add .button-box .input-button,
+#part-link-edit .button-box .input-button
+{
+	padding                          : 0;
+}
+
+/* Account ***************************************************************************************/
+#part-setting-account .button-box .input-button
+{
+	height                           : 2.4em;
+	line-height                      : 2.4em;
+}
+
+/* simple help footer ****************************************************************************/
+
+#data-description dl.modify-description
+{
+	background-position              : 4px 9px;
+}
+
+#data-description dl.trash-description
+{
+	background-position              : 4px 9px;
+}
