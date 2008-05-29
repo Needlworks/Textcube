@@ -261,6 +261,7 @@ foreach (getCategories($blogid) as $category) {
 											<th class="name"><span class="text"><?php echo _t('이름');?></span></th>
 											<th class="content"><span class="text"><?php echo _t('내용');?></span></th>
 											<th class="ip"><acronym title="Internet Protocol">ip</acronym></th>
+											<th class="reply"><span class="text"><?php echo _t('댓글');?></span></th>
 											<th class="delete"><span class="text"><?php echo _t('삭제');?></span></th>
 										</tr>
 									</thead>
@@ -334,9 +335,6 @@ for ($i=0; $i<sizeof($comments); $i++) {
 ?>
 												<?php echo ((!empty($comment['title']) || !empty($comment['parent'])) ? '<br />' : '');?>
 												<?php echo htmlspecialchars($comment['comment']);?>
-<?php
-	if(empty($comment['parent'])) echo '<span class="reply"><a href="#" onclick="commentComment('.$comment['id'].');return false;">'.(isset($tabsClass['guestbook']) ? _t('이 방명록에 답글을 씁니다') : _t('이 댓글에 댓글을 씁니다.')).'</a></span>';
-?>
 								 			</td>
 											<td class="ip">
 <?php
@@ -351,6 +349,11 @@ for ($i=0; $i<sizeof($comments); $i++) {
 	}
 ?>
 												<a href="?ip=<?php echo urlencode(escapeJSInAttribute($comment['ip']));?>" title="<?php echo _t('이 IP로 등록된 댓글 목록을 보여줍니다.');?>"><?php echo $comment['ip'];?></a>
+											</td>
+											<td class="reply">
+												<?php
+	if(empty($comment['parent'])) echo '<a href="'.$blogURL.'/comment/comment/'.$comment['id'].'" onclick="commentComment('.$comment['id'].');return false;"><span class="text"'.(isset($tabsClass['guestbook']) ? _t('이 방명록에 답글을 씁니다') : _t('이 댓글에 답글을 씁니다.')).'</span></a>';
+?>
 											</td>
 											<td class="delete">
 												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/communication/comment/delete/<?php echo $comment['id'];?>" onclick="deleteComment(<?php echo $comment['id'];?>); return false;" title="<?php echo _t('이 댓글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
