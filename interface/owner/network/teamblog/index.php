@@ -96,13 +96,13 @@ if( Acl::check('group.owners')) {?>
 										alert(errorStr);
 										return false;
 									}
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/teamblog/invite/");
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/network/teamblog/invite/");
 									request.onVerify = function() {
 										return this.getText("/response/error") == 0;
 									}
 									request.onSuccess = function() {
 										PM.showMessage("<?php echo _t('초대장을 발송했습니다.');?>", "center", "bottom");
-										window.location.href='<?php	echo $blogURL;?>/owner/setting/teamblog/';
+										window.location.href='<?php	echo $blogURL;?>/owner/network/teamblog/';
 									}
 									request.onError = function() {
 										switch(Number(this.getText("/response/error"))) {
@@ -167,9 +167,9 @@ if( Acl::check('group.owners')) {?>
 										if(!confirm('<?php echo _t('삭제 하시겠습니까?');?>')) 
 											return false;
 									}
-									var request = new HTTPRequest("POST", "<?php	echo $blogURL;?>/owner/setting/teamblog/deleteUser/");
+									var request = new HTTPRequest("POST", "<?php	echo $blogURL;?>/owner/network/teamblog/deleteUser/");
 									request.onSuccess = function() {
-										window.location.href="<?php 	echo $blogURL;?>/owner/setting/teamblog";
+										window.location.href="<?php 	echo $blogURL;?>/owner/network/teamblog";
 									}
 									request.onError = function() {
 										alert("<?php echo _t('실패했습니다.');?>");
@@ -183,7 +183,7 @@ if( Acl::check('group.administrators')) {
 ?>
 								function changeACL(acltype, userid, checked) {
 
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/teamblog/changeACL/");
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/network/teamblog/changeACL/");
 									request.onSuccess = function() {
 										PM.showMessage("<?php echo _t('설정을 변경했습니다.');?>", "center", "bottom");
 									}
@@ -319,7 +319,7 @@ if( Acl::check('group.owners')) {
 								<p class="explain"><?php echo _t('새로운 사람을 블로그의 필자로 초대합니다. 초대장은 이메일을 통하여 발송됩니다. 메일 주소가 이미 블로그 서비스에 등록되어 있는 경우, 그 사용자에게 이 블로그의 필진 권한을 추가합니다. 사용자가 존재하지 않는 경우에는 새로운 사용자를 자동으로 등록하고 초대장을 발송합니다. 초대된 사람에게는 기본적으로 글쓰기 권한이 부여됩니다.');?></p>
 							</div>
 							<div class="data-inbox">
-								<form id="letter-section" class="section" method="post" action="<?php	echo $blogURL;?>/owner/setting/teamblog/invite">
+								<form id="letter-section" class="section" method="post" action="<?php	echo $blogURL;?>/owner/network/teamblog/invite">
 									<dl>
 										<dt class="title"><span class="label"><?php	echo _t('초대장');?></span></dt>
 										<dd id="letter">

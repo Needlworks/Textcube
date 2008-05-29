@@ -24,6 +24,7 @@ if(Acl::check('group.administrators')) {
 		array('menu'=>'entry','title'=>_t('글'),'link'=>'/owner/entry'),
 		array('menu'=>'communication','title'=>_t('소통'),'link'=>'/owner/communication/comment'),
 //		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader'),
+		array('menu'=>'network','title'=>_t('네트워크'),'link'=>'/owner/network'),
 		array('menu'=>'skin','title'=>_t('꾸미기'),'link'=>'/owner/skin'),
 		array('menu'=>'plugin','title'=>_t('플러그인'),'link'=>'/owner/plugin'),	
 		array('menu'=>'setting','title'=>_t('설정'),'link'=>'/owner/setting/blog')
@@ -32,6 +33,8 @@ if(Acl::check('group.administrators')) {
 	$blogTopMenuItem = array(
 		array('menu'=>'center','title'=>_t('센터'),'link'=>'/owner/center/dashboard'),
 		array('menu'=>'entry','title'=>_t('글'),'link'=>'/owner/entry'),
+		array('menu'=>'communication','title'=>_t('소통'),'link'=>'/owner/communication/comment'),
+		array('menu'=>'network','title'=>_t('네트워크'),'link'=>'/owner/network'),		
 //		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader'),
 		array('menu'=>'setting','title'=>_t('설정'),'link'=>'/owner/setting/account')
 		);
@@ -70,6 +73,12 @@ switch($blogMenu['topMenu']) {
 		$blogMenu['loadCSSIE6'] = array('communication');
 		$blogMenu['loadCSSIE7'] = array('communication');
 		break;
+	case 'network':
+		$blogMenu['title'] = _t('네트워크');
+		$blogMenu['loadCSS'] = array('network');
+		$blogMenu['loadCSSIE6'] = array('network');
+		$blogMenu['loadCSSIE7'] = array('network');
+		break;
 	case 'skin':
 		$blogMenu['title'] = _t('꾸미기');
 		$blogMenu['loadCSS'] = array('skin');
@@ -102,8 +111,8 @@ switch($blogMenu['topMenu']) {
 }
 // exception for reader CSS. RSS reader will keep as an independent module.
 if(defined('__TEXTCUBE_READER_SUBMENU__') && $blogMenu['contentMenu'] == 'reader') {
-	$blogMenu['topMenu'] = 'communication';
-	$blogMenu['title'] = _t('소통');
+	$blogMenu['topMenu'] = 'network';
+	$blogMenu['title'] = _t('네트워크');
 	$blogMenu['loadCSS'] = array('reader');
 	$blogMenu['loadCSSIE6'] = array('reader');
 	$blogMenu['loadCSSIE7'] = array('reader');
@@ -154,16 +163,24 @@ if(isset($blogMenu['topMenu'])) {
 		$blogContentMenuItem['communication'] = array(
 			array('menu'=>'comment','title'=>_t('소통 기록'),'link'=>'/owner/communication/comment'),
 			array('menu'=>'openid','title'=>_t('오픈아이디 목록'),'link'=>'/owner/communication/openid'),
-			array('menu'=>'link','title'=>_t('링크'),'link'=>'/owner/communication/link')
+			array('menu'=>'trash','title'=>_t('휴지통'),'link'=>'/owner/communication/trash/comment')
 		);
-		if($service['reader'] == true) array_push($blogContentMenuItem['communication'],array('menu'=>'reader','title'=>_t('바깥 글 읽기'),'link'=>'/owner/communication/reader'));
 	} else {
 		$blogContentMenuItem['communication'] = array(
 			array('menu'=>'comment','title'=>_t('소통 기록'),'link'=>'/owner/communication/comment'),
 			array('menu'=>'trash','title'=>_t('휴지통'),'link'=>'/owner/communication/trash/comment')
 		);
-		if($service['reader'] == true) array_push($blogContentMenuItem,array('menu'=>'reader','title'=>_t('바깥 글 읽기'),'link'=>'/owner/communication/reader'));
 	}
+	if(Acl::check('group.administrators')) {
+		$blogContentMenuItem['network'] = array(
+			array('menu'=>'teamblog','title'=>_t('필진 목록'),'link'=>'/owner/network/teamblog'),			
+			array('menu'=>'link','title'=>_t('링크'),'link'=>'/owner/network/link')
+		);
+		if($service['reader'] == true) array_push($blogContentMenuItem['network'],array('menu'=>'reader','title'=>_t('바깥 글 읽기'),'link'=>'/owner/network/reader'));
+	} else {
+		$blogContentMenuItem['network'] = array();
+		if($service['reader'] == true) array_push($blogContentMenuItem,array('menu'=>'reader','title'=>_t('바깥 글 읽기'),'link'=>'/owner/network/reader'));
+	}	
 	if(Acl::check('group.administrators')) {
 		$blogContentMenuItem['skin'] = array(
 			array('menu'=>'skin','title'=>_t('스킨 선택'),'link'=>'/owner/skin'),
@@ -184,7 +201,6 @@ if(isset($blogMenu['topMenu'])) {
 			array('menu'=>'blog','title'=>_t('블로그'),'link'=>'/owner/setting/blog'),
 			array('menu'=>'entry','title'=>_t('글 작성'),'link'=>'/owner/setting/entry'),
 			array('menu'=>'account','title'=>_t('개인 정보'),'link'=>'/owner/setting/account'),
-			array('menu'=>'teamblog','title'=>_t('필진 목록'),'link'=>'/owner/setting/teamblog'),
 			array('menu'=>'filter','title'=>_t('스팸 필터'),'link'=>'/owner/setting/filter'),
 			array('menu'=>'data','title'=>_t('데이터 관리'),'link'=>'/owner/data')
 		);
