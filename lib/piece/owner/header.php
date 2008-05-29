@@ -249,10 +249,12 @@ foreach ($pluginListForCSS as $tempPluginDir) {
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie.css" />
 <?php
 // CSS for Internet Explorer 6
-foreach($blogMenu['loadCSSIE6'] as $loadCSS) {
+if (array_key_exists('loadCSSIE6', $blogMenu)) {
+	foreach($blogMenu['loadCSSIE6'] as $loadCSS) {
 ?>
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/<?php echo $loadCSS;?>.ie.css" />
 <?php
+	}
 }
 
 foreach ($pluginListForCSS as $tempPluginDir) {
@@ -268,10 +270,12 @@ foreach ($pluginListForCSS as $tempPluginDir) {
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie7.css" />
 <?php
 // CSS for Internet Explorer 7
-foreach($blogMenu['loadCSSIE7'] as $loadCSS) {
+if (array_key_exists('loadCSSIE7', $blogMenu)) {
+	foreach($blogMenu['loadCSSIE7'] as $loadCSS) {
 ?>
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/<?php echo $loadCSS;?>.ie7.css" />
 <?php
+	}
 }
 
 foreach ($pluginListForCSS as $tempPluginDir) {
