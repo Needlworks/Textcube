@@ -34,3 +34,19 @@
 	padding                          : 0 !important;
 }
 
+/* simple help footer ****************************************************************************/
+
+#data-description dl.modify-description
+{
+	background-position              : center left;
+	height                           : 11px;
+	margin                           : 0 auto;
+}
+
+#data-description dl.trash-description
+{
+	background-position              : center left;
+	height                           : 11px;
+	margin                           : 0 auto;
+}
+

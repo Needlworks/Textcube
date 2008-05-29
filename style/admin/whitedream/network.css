@@ -310,14 +310,16 @@ dl dd
 }
 
 /* Team Blog **********************************************************************************/
-.part .button-box
+#part-setting-account .button-box,
+#part-setting-invite .button-box
 {
 	clear                            : both;
 	text-align                       : left !important;
 	margin-top                       : 10px;
 }
 
-.part .button-box .input-button
+#part-setting-account .button-box .input-button,
+#part-setting-invite.button-box .input-button
 {
 	background-color                 : #FFFFFF;
 	background-image                 : none !important;
@@ -459,3 +461,33 @@ dl dd
 	width                            : auto;
 }
 
+/* simple help footer ****************************************************************************/
+
+#data-description dl.modify-description
+{
+	background-image                 : url("./image/icon_modify.gif");
+	background-color                 : transparent;
+	background-position              : 4px 4px;
+	height                           : 11px;
+	margin                           : 0 auto;
+	background-repeat                : no-repeat;
+}
+
+#data-description dl.ban-description
+{
+	background-image                 : url("./image/icon_block_off.gif");
+	background-color                 : transparent;
+	background-position              : 8px 2px;
+	margin                           : 0 3px 0 0;
+	background-repeat                : no-repeat;
+}
+
+#data-description dl.trash-description
+{
+	background-image                 : url("./image/icon_delete_single.gif");
+	background-color                 : transparent;
+	background-position              : 4px 4px;
+	height                           : 11px;
+	margin                           : 0 auto;
+	background-repeat                : no-repeat;
+}

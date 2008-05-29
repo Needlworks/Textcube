@@ -44,3 +44,15 @@
 	height                           : 2.4em;
 	line-height                      : 2.4em;
 }
+
+/* simple help footer ****************************************************************************/
+
+#data-description dl.modify-description
+{
+	background-position              : 4px 9px;
+}
+
+#data-description dl.trash-description
+{
+	background-position              : 4px 9px;
+}
