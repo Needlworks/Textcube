@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 $IV = array(  
 	'POST' => array(
-		'id'   => array('id'),
+		'id'   => array('int', 'min' => 0),
 		'name' => array('string','min' => 0,'max' => 255),
 		'rss'  => array('string','min' => 0,'max' => 255 , 'mandatory' => false),
 		'url'  => array('string','min' => 0,'max' => 255),
