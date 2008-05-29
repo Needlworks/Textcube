@@ -28,6 +28,11 @@ table.data-inbox tr .site
 	width                            : 180px;
 }
 
+table.data-inbox tr .response
+{
+	width                            : 20px;
+}
+
 table.data-inbox tr .ip
 {
 	width                            : 125px;
