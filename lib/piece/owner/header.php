@@ -161,8 +161,11 @@ if(isset($blogMenu['topMenu'])) {
 	}
 	if(Acl::check('group.administrators')) {
 		$blogContentMenuItem['communication'] = array(
-			array('menu'=>'comment','title'=>_t('소통 기록'),'link'=>'/owner/communication/comment'),
-			array('menu'=>'openid','title'=>_t('오픈아이디 목록'),'link'=>'/owner/communication/openid'),
+			array('menu'=>'comment','title'=>_t('댓글'),'link'=>'/owner/communication/comment'),
+			array('menu'=>'notify','title'=>_t('댓글 알리미'),'link'=>'/owner/communication/notify'),
+			array('menu'=>'trackback','title'=>_t('걸린 글'),'link'=>'/owner/communication/trackback?status=received'),
+			array('menu'=>'trackback','title'=>_t('건 글'),'link'=>'/owner/communication/trackback?status=sent'),
+			array('menu'=>'openid','title'=>_t('오픈아이디 기록'),'link'=>'/owner/communication/openid'),
 			array('menu'=>'trash','title'=>_t('휴지통'),'link'=>'/owner/communication/trash/comment')
 		);
 	} else {
