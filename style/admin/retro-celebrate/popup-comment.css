@@ -31,6 +31,44 @@ body
 	left                             : 12px;
 }
 
+#original-reply-box
+{
+	border                           : 1px solid #ccc;
+	padding                          : 10px;
+	height                           : 150px;
+	width                            : 390px;
+	margin                           : 0 auto 10px auto;
+	overflow-x                       : hidden;
+	overflow-y                       : scroll;
+}
+
+#original-reply-box ul
+{
+	list-style                       : none;
+}
+
+#original-reply-box .name
+{
+	font-weight                      : bold;
+	color                            : #333;
+	float                            : left;
+}
+
+#original-reply-box .date
+{
+	border-left                      : 1px solid #ddd;
+	padding-left                     : 5px;
+	margin-left                      : 5px;
+	clear                            : left;
+}
+
+#original-reply-box ul li ul
+{
+	background                       : url(image/icon_reply.gif) 20px 3px no-repeat;
+	padding-left                     : 50px;
+	margin-top                       : 10px;
+}
+
 #comment-box #command-box
 {
 	border: 1px solid #92cafb;

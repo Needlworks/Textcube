@@ -853,23 +853,23 @@ table.data-inbox tbody tr .protect .protect-off-button span
 table.data-inbox tbody tr .trackback .trackback-on-button
 {
 	background-image                 : url("./image/icon_trackback.gif");
-	background-position              : left bottom;
+	background-position              : left top;
 	display                          : block;
-	height                           : 15px;
+	height                           : 20px;
 	margin                           : 0 auto;
 	padding                          : 0;
-	width                            : 15px;
+	width                            : 20px;
 }
 
 table.data-inbox tbody tr .trackback .trackback-off-button
 {
-	background-image                 : url("./image/icon_trackback.gif");
+	background-image                 : url("./image/icon_trackback_off.gif");
 	background-position              : left top;
 	display                          : block;
-	height                           : 15px;
+	height                           : 20px;
 	margin                           : 0 auto;
 	padding                          : 0;
-	width                            : 15px;
+	width                            : 20px;
 }
 
 table.data-inbox tbody tr .trackback .trackback-on-button span,

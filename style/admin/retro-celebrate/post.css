@@ -39,14 +39,6 @@ table.data-inbox thead tr th.ip
 }
 
 /* table body */
-table.data-inbox tbody tr .date,
-table.data-inbox tbody tr .name,
-table.data-inbox tbody tr .site,
-table.data-inbox tbody tr .ip
-{
-	border-left                      : 1px solid #E3E3DE;
-}
-
 table.data-inbox tbody tr td.date,
 table.data-inbox tbody tr td.ip
 {
@@ -78,7 +70,7 @@ table.data-inbox tbody tr td.ip
 
 #data-description dl.trackback-description
 {
-	background-image                 : url("./image/icon_trackback_single.gif");
+	background-image                 : url("./image/icon_trackback_off.gif");
 	background-position              : 6px 2px;
 	background-repeat                : no-repeat;
 }
@@ -157,7 +149,7 @@ table.data-inbox tbody tr td.ip
 #part-post-list table.data-inbox thead tr th.trackback,
 #part-post-list table.data-inbox thead tr th.delete
 {
-	width                            : 20px;
+	width                            : 22px;
 }
 
 #part-post-list table.data-inbox thead tr th.starred span,
@@ -180,16 +172,6 @@ table.data-inbox tbody tr td.ip
 }
 
 /* table body */
-#part-post-list table.data-inbox tbody tr .status,
-#part-post-list table.data-inbox tbody tr .syndicate,
-#part-post-list table.data-inbox tbody tr .category,
-#part-post-list table.data-inbox tbody tr .title,
-#part-post-list table.data-inbox tbody tr .author,
-#part-post-list table.data-inbox tbody tr .protect,
-#part-post-list table.data-inbox tbody tr .trackback
-{
-	border-left                      : 1px solid #E3E3DE;
-}
 
 #part-post-list table.data-inbox tbody tr td.status
 {
@@ -213,7 +195,7 @@ table.data-inbox tbody tr td.ip
 #part-post-list table.data-inbox tbody tr.hidden-layer td
 {
 	background-image                 : none;
-	border                           : 1px solid #999999;
+	border                           : 1px solid #EEE;
 	padding                          : 10px;
 	text-align                       : right;
 }

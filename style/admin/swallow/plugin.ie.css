@@ -22,6 +22,20 @@
 	letter-spacing: -1px;
 	margin-top: 3px;
 }
+#plugin-search-form
+{
+	top                              : 18px;
+}
+
+#plugin-search-form .input-text
+{
+	width                            : 150px !important;
+}
+
+#viewmode-line-align
+{
+	top                              : 10px;
+}
 
 #plugin-search-form .input-button
 {
