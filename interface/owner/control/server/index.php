@@ -32,7 +32,10 @@ closedir($handler);
 $skinList = array($service['skin'] => null);
 if (is_dir(ROOT.'/skin/') && $handler = opendir(ROOT.'/skin/')) {
 	while (($file = readdir($handler)) !== false) {
-		if (!is_dir(ROOT.'/skin/') || substr($file, 0, 1) == '.' || $file == 'customize') {
+		if (!is_dir(ROOT.'/skin/') || in_array($file, array('.', '..', 'customize'))) {
+			continue;
+		}
+		if (!file_exists(ROOT.'/skin/'.$file.'/index.xml') || !file_exists(ROOT.'/skin/'.$file.'/skin.html')) {
 			continue;
 		}
 		$skinList[$file] = null;
