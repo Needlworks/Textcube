@@ -915,7 +915,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 												<?php echo User::getName($entry['userid']);?>
 											</td>
 											<td class="response">
-												<?php echo $entry['comments']+$entry['trackbacks'];?>
+											<a href="<?php echo $blogURL.((isset($blog['useSloganOnPost']) && $blog['useSloganOnPost'] == 1) ? '/entry/'.$entry['slogan'] : '/'.$entry['id']);?>"><?php echo $entry['comments']+$entry['trackbacks'];?></a>
 											</td>
 											<td class="date"><?php echo Timestamp::formatDate($entry['published']);?></td>
 											<td class="status">
