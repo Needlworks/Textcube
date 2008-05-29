@@ -22,7 +22,10 @@ table.data-inbox tr .ip
 {
 	width                            : 125px;
 }
-
+table.data-inbox tr .reply
+{
+	width                            : 17px;
+}
 table.data-inbox thead tr th.ip
 {
 	text-transform                   : uppercase;
@@ -32,9 +35,10 @@ table.data-inbox thead tr th.ip
 table.data-inbox tbody tr .date,
 table.data-inbox tbody tr .name,
 table.data-inbox tbody tr .site,
-table.data-inbox tbody tr .ip
+table.data-inbox tbody tr .ip,
+table.data-inbox tbody tr .reply
 {
-	border-left                      : 1px solid #E3E3DE;
+	border-bottom                    : 1px solid #E3E3DE;
 }
 
 table.data-inbox tbody tr td.date,
@@ -46,7 +50,8 @@ table.data-inbox tbody tr td.ip
 
 table.data-inbox tbody tr td.site,
 table.data-inbox tbody tr td.name,
-table.data-inbox tbody tr td.ip
+table.data-inbox tbody tr td.ip,
+table.data-inbox tbody tr td.reply
 {
 	text-align                       : left;
 }
@@ -55,7 +60,7 @@ table.data-inbox tbody tr td.ip
 
 #part-post-comment .caption
 {
-	margin-bottom: 1.6em;
+	margin-bottom                    : 1.6em;
 }
 
 #part-post-comment table.data-inbox tr .delete
@@ -63,6 +68,7 @@ table.data-inbox tbody tr td.ip
 	width                            : 12px;
 }
 
+#part-post-comment table.data-inbox thead tr th.reply span,
 #part-post-comment table.data-inbox thead tr th.delete span
 {
 	display                          : none;
@@ -70,7 +76,6 @@ table.data-inbox tbody tr td.ip
 
 #part-post-comment table.data-inbox tbody tr td.content
 {
-	border-left                      : 1px solid #E3E3DE;
 	text-align                       : left;
 }
 
@@ -91,21 +96,6 @@ table.data-inbox tbody tr td.ip
 	font-weight                      : bold;
 }
 
-#part-post-comment table.data-inbox tbody tr td.content .reply
-{
-	background-image: url("./image/returncomment.gif");
-	background-position: left center;
-	background-repeat: no-repeat;
-	display: block;
-	float: right;
-	padding-left: 11px;
-}
-
-#part-post-comment table.data-inbox tbody tr td.content .reply a
-{
-	text-decoration: underline;
-}
-
 #part-post-comment table.data-inbox tbody tr td.content .divider,
 #part-post-comment table.data-inbox tbody tr td.content .explain
 {
@@ -114,16 +104,21 @@ table.data-inbox tbody tr td.ip
 	font-family                      : 돋움, Dotum, sans-serif;
 }
 
-#part-post-comment table.data-inbox tbody tr .delete
+#part-post-comment table.data-inbox tbody tr td.reply a
 {
-	border-left                      : 1px solid #E3E3DE;
+	background-image                 : url("./image/icon_write.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 15px;
+	width                            : 16px;
 }
 
 /* Notify *****************************************************************************************/
 
 #part-post-notify .caption
 {
-	margin-bottom: 1.6em;
+	margin-bottom                    : 1.6em;
 }
 
 #part-post-notify table.data-inbox tr .delete
@@ -144,7 +139,6 @@ table.data-inbox tbody tr td.ip
 
 #part-post-notify table.data-inbox tbody tr td.content
 {
-	border-left                      : 1px solid #E3E3DE;
 	text-align                       : left;
 }
 

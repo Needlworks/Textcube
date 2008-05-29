@@ -290,7 +290,7 @@
     border                           : none;
     margin                           : 0;
     position                         : relative;
-    left                             : 280px;
+    left                             : 200px;
     text-align                       : left;
     top                              : -36px;
     width                            : 40em;
@@ -301,14 +301,16 @@
 {
     display                          : none;
 }
+
 #search-box
 {
-	float                            : left;
+	float                            : right;
+	margin-left                      : 15px;
 }
 
 #viewmode-box
 {
-	float                            : left;
+	float                            : right;
 }
 #viewmode-box dd
 {
@@ -316,7 +318,7 @@
 }
 #part-skin-list .main-explain-box
 {
-	clear                            : left;
+	clear                            : right;
 }
 
 /* Edit ******************************************************************************************/
