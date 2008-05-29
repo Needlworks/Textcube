@@ -2,6 +2,10 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+
+// NOTE : it does not support to save link category yet, 
+// due to compartibility issues with other software under 'Project Tattertools.'
+
 class Link {
 	function Link() {
 		$this->reset();
