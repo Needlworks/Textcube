@@ -1240,7 +1240,7 @@ function deleteComment(id) {
 
 function commentComment(parent) {
 	width = 460;
-	height = 380;
+	height = 600;
 	try {
 		if(openWindow != '') openWindow.close();
 	} catch (e) {}

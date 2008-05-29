@@ -101,6 +101,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 			if ($comment === false)
 				respond::ErrorPage(_text('댓글이 존재하지 않거나 패스워드가 일치하지 않습니다.'));
 			$pageTitle = _text('댓글을 수정합니다');
+			$viewMode = 'edit';
 			require ROOT . '/lib/view/replyEditorView.php';
 			exit;
 		case 'commit':

@@ -97,7 +97,43 @@ if (!doesHaveMembership()) {
 			<img src="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />
 			
 			<div class="title"><span class="text" id="title"><?php echo $pageTitle ;?></span></div>
-	      	<div id="command-box">
+<?php
+if($viewMode == 'comment') {
+	$parent = getComment(getBlogId(), $suri['id'], null, false);
+?>
+			<div id="original-reply-box">
+				<ul class="main-comment">
+					<li><span class="name"><?php echo htmlspecialchars($parent['name']);?></span></li>
+					<li><span class="date"><?php echo Timestamp::format5($parent['written']);?></span></li>
+					<li><p class="contents"><?php echo htmlspecialchars($parent['comment']);?></p></li>
+				</ul>
+<?php
+	$children = getCommentComments($parent['id']);
+	if(!empty($children)) {
+?>
+				<ul class="child-comments">
+<?php
+		foreach($children as $child) {
+?>
+					<li>
+						<ul>
+							<li><span class="name"><?php echo htmlspecialchars($child['name']);?></span></li>
+							<li><span class="date"><?php echo Timestamp::format5($child['written']);?></span></li>
+							<li><p class="contents"><?php echo htmlspecialchars($child['comment']);?></p></li>
+						</ul>
+					</li>
+<?php
+		}
+?>
+				</ul>
+<?php
+	}
+?>
+			</div>
+<?php
+}
+?>			
+			<div id="command-box">
 <?php 
 if (!doesHaveOwnership()) {
 	if (!doesHaveMembership()) {

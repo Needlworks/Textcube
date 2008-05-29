@@ -263,7 +263,7 @@ function getCommentComments($parent,$parentComment=null) {
 		WHERE blogid = ".getBlogId()."
 			AND parent = $parent
 			AND isFiltered = 0
-		ORDER BY id")) {
+		ORDER BY written")) {
 		if( $parentComment == null ) {
 			$parentComment = POD::queryRow(
 				"SELECT * FROM {$database['prefix']}Comments ".
@@ -301,20 +301,24 @@ function isCommentWriter($blogid, $commentId) {
 			AND replier = " . getUserId());
 }
 
-function getComment($blogid, $id, $password) {
+function getComment($blogid, $id, $password, $restriction = true) {
 	global $database;
 	$sql = "SELECT *
 		FROM {$database['prefix']}Comments
 		WHERE blogid = $blogid
 			AND id = $id";
-	if (!doesHaveOwnership()) {
-		if (doesHaveMembership())
-			$sql .= ' AND replier = ' . getUserId();
-		else
-			$sql .= ' AND password = \'' . md5($password) . '\'';
+	if($restriction == true) {
+		if (!doesHaveOwnership()) {
+			if (doesHaveMembership())
+				$sql .= ' AND replier = ' . getUserId();
+			else
+				$sql .= ' AND password = \'' . md5($password) . '\'';
+		}
 	}
-	if ($result = POD::queryRow($sql))
+	if ($result = POD::queryRow($sql)) {
+		if($restriction != true) $result['password'] = null; // scope.
 		return $result;
+	}
 	return false;
 }
 
