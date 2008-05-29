@@ -865,11 +865,11 @@ RewriteRule ^testrewrite$ setup.php [L]"
 <?php
 		}
 ?>
-<!--      <tr>
+      <tr>
         <th style="padding-top:10px"><strong><?php echo _t('단일 사용자');?> : </strong></th>
         <td style="padding-top:10px">
           <label for="type3"><input type="radio" id="type3" name="type" value="single" onclick="show('typeSingle');" <?php echo (empty($_POST['disableRewrite']) ? '' : 'checked="checked"');?> /><?php echo _t('단일 블로그');?></label></td>
-      </tr>-->
+      </tr>
       <tr>
         <th style="padding-top:20px"><?php echo _t('블로그 주소 예시');?></th>
         <td style="padding-top:20px; height:100px">
