@@ -1,18 +1,334 @@
-#,
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.1\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-07 18:41:09+0000\n"
-"PO-Revision-Date: 2008-03-07 18:41:09+0000\n"
-"Last-Translator: TEXTCUBE\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2008-05-30 01:08+0900\n"
+"Last-Translator: Louice P <admin@louice.net>\n"
 "Language-Team: TEXTCUBE\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "default:Asia/Seoul"
+msgstr "大韓民国(ソウル)"
+
+msgid "Asia/Seoul"
+msgstr "大韓民国(ソウル)"
+
+msgid "Asia/Tokyo"
+msgstr "日本(東京)"
+
+msgid "Asia/Shanghai"
+msgstr "中華人民共和国(北京・上海)"
+
+msgid "Asia/Taipei"
+msgstr "台湾(台北)"
+
+msgid "Asia/Calcutta"
+msgstr "インド(カルカッタ)"
+
+msgid "Europe/Berlin"
+msgstr "ドイツ(ベルリン)"
+
+msgid "Europe/Paris"
+msgstr "フランス(パリ)"
+
+msgid "Europe/London"
+msgstr "イギリス(ロンドン)"
+
+msgid "GMT"
+msgstr "国際標準時 (GMT)"
+
+msgid "America/New_York"
+msgstr "米東部標準時 (ニューヨーク)"
+
+msgid "America/Chicago"
+msgstr "米中西部標準時 (シカゴ)"
+
+msgid "America/Denver"
+msgstr "米山岳標準時 (デンバー)"
+
+msgid "America/Los_Angeles"
+msgstr "米太平洋標準時 (ロサンゼルス)"
+
+msgid "Australia/Sydney"
+msgstr "オーストラリア(シドニー)"
+
+msgid "Australia/Adelaide"
+msgstr "オーストラリア(アデレード)"
+
+msgid "Australia/Melbourne"
+msgstr "オーストラリア(メルボルン)"
+
+msgid "Australia/Darwin"
+msgstr "オーストラリア(ダーウィン)"
+
+msgid "Australia/Perth"
+msgstr "オーストラリア(パース)"
+
+msgid "%1/entry/"
+msgstr ""
+
+msgid "%H:%M:%S"
+msgstr ""
+
+msgid "%H:%M"
+msgstr ""
+
+msgid "%m/%d"
+msgstr ""
+
+msgid "%Y/%m/%d %H:%M"
+msgstr ""
+
+msgid "%Y/%m/%d"
+msgstr ""
+
+msgid "%Y/%m"
+msgstr ""
+
+msgid "%Y"
+msgstr ""
+
+msgid "ACL / i18n / XML-RPC API interface / OpenID / Microformat"
+msgstr ""
+
+msgid "ACO / ACL / i18n / XML-RPC API interface / OpenID"
+msgstr ""
+
+msgid "Action"
+msgstr ""
+
+msgid "Administrator access only."
+msgstr ""
+
+msgid "Apache Rewrite Engine"
+msgstr ""
+
+msgid "Blocked %1"
+msgstr ""
+
+msgid "Blocked \\"
+msgstr ""
+
+msgid "Blog Login"
+msgstr ""
+
+msgid "Cannot write comment."
+msgstr ""
+
+msgid "Comment delete error."
+msgstr ""
+
+msgid "Comment delete error"
+msgstr ""
+
+msgid "Comment deleted."
+msgstr ""
+
+msgid "Comment registered."
+msgstr ""
+
+msgid "Comment write blocked."
+msgstr ""
+
+msgid "Comment write error."
+msgstr ""
+
+msgid "Comments does not exist"
+msgstr ""
+
+msgid "Core / DB management / Editor / Documentation"
+msgstr ""
+
+msgid "Core creator"
+msgstr ""
+
+msgid "Default skin"
+msgstr ""
+
+msgid "Delete comment?"
+msgstr ""
+
+msgid "Delete Comment"
+msgstr ""
+
+msgid "Editor / Formatter / Module"
+msgstr ""
+
+msgid "E-mail"
+msgstr ""
+
+msgid "File Uploader"
+msgstr ""
+
+msgid "Go to comments page"
+msgstr ""
+
+msgid "Go to front page"
+msgstr ""
+
+msgid "Go to previous page"
+msgstr ""
+
+msgid "Homepage"
+msgstr ""
+
+msgid "HTML"
+msgstr ""
+
+msgid "Icon design"
+msgstr ""
+
+msgid "ImageEditor"
+msgstr ""
+
+msgid "Incorrect Password."
+msgstr ""
+
+msgid "Logo design"
+msgstr ""
+
+msgid "Mobile / Teamblog / Coverpage / Plugin"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "No handling plugin"
+msgstr ""
+
+msgid "No trackback"
+msgstr ""
+
+msgid "No"
+msgstr ""
+
+msgid "Notice moderator (English)"
+msgstr ""
+
+msgid "OFF"
+msgstr ""
+
+msgid "ON"
+msgstr ""
+
+msgid "Online manual"
+msgstr ""
+
+msgid "Optimization / Bug tracking / Editor / Formatter"
+msgstr ""
+
+msgid "Password (again)!"
+msgstr ""
+
+msgid "Password:"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "path"
+msgstr ""
+
+msgid "Permission denied."
+msgstr ""
+
+msgid "Please enter content."
+msgstr ""
+
+msgid "Please enter Password."
+msgstr ""
+
+msgid "Please enter your name."
+msgstr ""
+
+msgid "Plugin icon design"
+msgstr ""
+
+msgid "Precondition Failed"
+msgstr ""
+
+msgid "PREDEFINED POP3 HOSTS"
+msgstr ""
+
+msgid "Protected post!"
+msgstr ""
+
+msgid "RSS Reader"
+msgstr ""
+
+msgid "Secret Comment"
+msgstr ""
+
+msgid "Service administration panel"
+msgstr ""
+
+msgid "Show comment"
+msgstr ""
+
+msgid "Show front page"
+msgstr ""
+
+msgid "Show next post"
+msgstr ""
+
+msgid "Show posts"
+msgstr ""
+
+msgid "Show previous post"
+msgstr ""
+
+msgid "Show trackbacks"
+msgstr ""
+
+msgid "Site design / Manual"
+msgstr ""
+
+msgid "style=\"display: none\""
+msgstr ""
+
+msgid "Submit"
+msgstr ""
+
+msgid "TatterCamp moderator"
+msgstr ""
+
+msgid "Teamblog / Coverpage / Plugin"
+msgstr ""
+
+msgid "Technically supported by %1"
+msgstr ""
+
+msgid "Textcube - Login"
+msgstr ""
+
+msgid "UI / Sidebar / XHTML / Bug tracking"
+msgstr ""
+
+msgid "UI / Sidebar / XHTML specification / Bug tracking"
+msgstr ""
+
+msgid "View Post"
+msgstr ""
+
+msgid "Wrong E-mail or Password."
+msgstr ""
+
+msgid "Wrong password."
+msgstr ""
+
+msgid "XHTML / Textcube server / Quality Assurance"
+msgstr ""
+
+msgid "XHTML specification / Textcube main page / Quality Assurance"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
 msgid "\"%1\"에 %2 디렉토리를 생성할 수 없습니다. \"%1\"의 퍼미션을 %3(으)로 수정해 주십시오."
-msgstr "\"%1\"に %2 フォルダを作成できません。\"%1\"のパーミッションを %3に更新してください。"
+msgstr "\"%1\"に %2 フォルダーを作成できません。\"%1\"のパーミッションを %3に更新してください。"
 
 msgid "\"%1\"에 %2 파일을 생성할 수 없습니다. \"%1\"의 퍼미션을 %3(으)로 수정해 주십시오."
 msgstr "\"%1\"に %2 ファイルを作成できません。\"%1\"のパーミッションを %3に更新してください。"
@@ -23,17 +339,26 @@ msgstr "\"%1\"にアクセスできません。パーミッションを %2に更
 msgid "\"%1\"의 하위에 새 분류를 만듭니다."
 msgstr "\"%1\"から新規分類を作成します。"
 
+msgid "%1 : 플러그인이 활성화되어 있지 않아 설정을 저장하지 못했습니다."
+msgstr "%1 : 利用中のプラグインではないため設定保存に失敗しました。"
+
 msgid "%1 님의 댓글에 대한 댓글"
-msgstr "%1 さんのコメントへのコメント"
+msgstr "%1 さんへの返信コメント"
+
+msgid "%1 님의 방명록에 대한 댓글"
+msgstr "%1 さんへの返信コメント"
 
 msgid "%1 님의 블로그"
 msgstr "%1さんのブログ"
+
+msgid "%1 설정"
+msgstr "%1の設定"
 
 msgid "%1 에 달린 댓글"
 msgstr "%1に作成したコメント"
 
 msgid "%1 에 달린 트랙백"
-msgstr "%1に転送されたトラックバック"
+msgstr "%1に受信したトラックバック"
 
 msgid "%1 전"
 msgstr "%1の前"
@@ -47,8 +372,15 @@ msgstr "%1 テーブルを最適化中…"
 msgid "%1 파일을 수정하실 수 있는 권한이 없습니다."
 msgstr "%1への編集権限をお持ちしておりません。"
 
-msgid "%1개의 피드를 가져왔습니다.\\n피드를 업데이트 해 주십시오."
-msgstr "%1 つのRSSフィードを読み込みました。\\\\nRSSフィードを更新してください。"
+msgid ""
+"%1개의 피드를 가져왔습니다.\n"
+"피드를 업데이트 해 주십시오."
+msgstr ""
+"%1 件のフィードを取得しました。\n"
+"フィードを更新してください。"
+
+msgid "%1님께서 블로그의 팀원으로 초대합니다"
+msgstr "%1さんからあなたをチームブログのメンバーに招待します。"
 
 msgid "%1님을 %2님이 초대합니다"
 msgstr "%1さんが%2さんを招待します。"
@@ -60,7 +392,7 @@ msgid "%1단계"
 msgstr "第 %1 段階"
 
 msgid "%1에 글을 공개합니다."
-msgstr "%1へ記事を発行します。"
+msgstr "%1に記事発行"
 
 msgid "%1은 올바른 이메일이 아닙니다."
 msgstr "%1 は正しい形式のメール アドレスではありません。"
@@ -78,19 +410,70 @@ msgid "(비공개)"
 msgstr "(非公開)"
 
 msgid "(사용자 수정본)"
-msgstr "(利用者編集スキン)"
+msgstr "(利用者編集テーマ)"
+
+msgid "(수정한 스킨)"
+msgstr "(利用者編集テーマ)"
 
 msgid "(예: %1/123)"
 msgstr "(例: %1/123)"
 
+msgid "(예: %1/category/1)"
+msgstr "(例: %1/category/1)"
+
+msgid "(예: %1/category/101)"
+msgstr "(例: %1/category/101)"
+
+msgid "(예: %1/category/텍스트큐브)"
+msgstr "(例: %1/category/Textcube)"
+
 msgid "(예: %1/entry/텍스트큐브로-오신-것을-환영합니다)"
 msgstr "(例: %1/entry/Textcubeへ-ようこそ)"
+
+msgid "(예: %1/tag/101)"
+msgstr "(例: %1/tag/101)"
+
+msgid "(예: %1/tag/텍스트큐브)"
+msgstr "(例: %1/tag/Textcube)"
 
 msgid "(이름 없음 %1)"
 msgstr "(名称無し %1)"
 
 msgid "(찾아보기를 이용하여 사진을 선택하시면 바로 <b>변경</b> 저장됩니다)"
 msgstr "(画像を選択するとすぐに<strong>更新</strong>されます。)"
+
+msgid "(필진에 공개 됩니다. 사진을 찍어 이메일로 보내면 포스팅이 됩니다)"
+msgstr "(ここにメールを送信すると携帯電話からの記事作成ができます。)"
+
+msgid "[HTML][/HTML] 블럭을 제거합니다"
+msgstr "[HTML][/HTML]ブロックを削除します。"
+
+msgid "[비밀댓글]"
+msgstr "[非公開コメント]"
+
+msgid "[임시]"
+msgstr "[編集中]"
+
+msgid "[자동 저장 문서]"
+msgstr "[自動保存記事]"
+
+msgid "[차단됨]"
+msgstr "[拒否]"
+
+msgid "[허용됨]"
+msgstr "[許可]"
+
+msgid "<acronym title=\"Outline Processor Markup Language\">OPML</acronym> 업로드"
+msgstr "<acronym title=\"Outline Processor Markup Language\">OPML</acronym> アップロード"
+
+msgid "<acronym title=\"Rich Site Summary\">RSS</acronym> 주소"
+msgstr "<acronym title=\"Rich Site Summary\">RSS</acronym> フィード"
+
+msgid "<acronym title=\"Uniform Resource Locator\">URL</acronym> 입력"
+msgstr "<acronym title=\"Uniform Resource Locator\">URL</acronym> 入力"
+
+msgid "<p>텍스트큐브 사용을 환영합니다. 텍스트큐브(Textcube) 는 웹에서 자신의 생각이나 일상을 기록하고 표현하기 위한 도구입니다. 강력한 글 관리와 편집 기능을 통하여 쉽고 빠르게 글을 작성하고 알릴 수 있습니다. 또한 통합된 소통 기능및 RSS 바깥글 읽기 기능을 통하여 다양한 사람들과 간단하게 의견을 주고 받을 수 있습니다.</p><p>또한 텍스트큐브는 플러그인과 테마 시스템을 통하여 다양한 기능을 추가하거나 스킨을 바꾸고 편집할 수 있습니다. 뿐만 아니라 OpenID, microformat 지원 등의 기술적인 부분 및 다국어 지원을 포함한 강력한 저작 도구입니다.</p><p>사용하며 도움말이 필요할 때는 관리자 메뉴의 우측 상단의 도우미 링크를 누르시면 도움말을 보실 수 있습니다. 기타 자세한 정보는 http://www.textcube.org 를 방문해서 확인하실 수 있습니다.</p><p>이 글은 새 블로그에 자동으로 적힌 글입니다. 관리자 화면에서 언제든지 지우셔도 됩니다.</p>"
+msgstr "<p>ようこそ、Textcubeです。Textcubeはネットから自分の考えや日常を記録・表現するためのソフトウェアです。強力な記事編集機能は手安い記事作成を手伝い、コメントやトラックバック・OpenIDの履歴管理、内臓RSSリーダーや国際化対応からMircoformatへの対応などの多様な機能は便利なブログライフの最高のパートナーとなります。</p><p>また、Textcubeのプラグインとテーマシステムは利用者が要求するいろんな機能の追加と利用をお手伝いします。</p><p>管理者メニューの右上に位置する「ヘルプ」リンクはTextcubeの機能に関することを記述したページへ進めるハイパーリンクであります。</p><p>その他、詳細な情報はhttp://www.textcube.org/ をお訪ねください。</p>"
 
 msgid "1개월 뒤의 달력을 보여줍니다."
 msgstr "１ヵ月後のカレンダーを表示します。"
@@ -107,6 +490,12 @@ msgstr "1次ブログURL"
 msgid "1차 블로그 주소가 올바르지 않습니다."
 msgstr "正しくない形式の1次ブログURLです。"
 
+msgid "2007년 4월 23일 TNF의 박용주님에 의하여 S2는 텍스트큐브로 명명 되었으며, 이후 개발 기간을 거쳐 2007년 8월 16일 TNF에 의하여 텍스트큐브의 첫 정식 버전인 텍스트큐브 1.5가 발표되었습니다."
+msgstr "平成19(2007)年4月23日、Project S2の名称はTNFメンバーのパク・ヨンジュウさんによってTextcubeで決めらた。そして、平成19(2007)年8月16日にやがて初版であるTextcube 1.5が発表された。"
+
+msgid "2007년 4월 태터앤프렌즈(TNF)는 태터 네트워크 재단(TNF, Tatter Network Foundation) 계획과 함께 적극적 참여 집단인 니들웍스(Needlworks) 를 발표하였습니다. 또한 태터툴즈를 기반으로 하는 오픈소스 블로그 소프트웨어인 S2 개발 계획도 발표하였습니다."
+msgstr "平成19(2007)年4月、テト・アンド・フレンズ(TNF)はテト・ネットワーク財団(TNF=Tatter Network Foundation)の計画と共にオープンソース開発団体のNeedlworksを発足した。そして、その2つの計画と共に既存のテト・ツールズに基づいた新しいオープンソースのブログソフトウェア、Project S2を発表した。"
+
 msgid "2차 블로그 주소"
 msgstr "2次ブログURL"
 
@@ -119,15 +508,6 @@ msgstr "正しくない形式の2次ブログURLです。"
 msgid "2차 블로그 주소를 변경하지 못했습니다"
 msgstr "2次ブログURLの更新に失敗しました。"
 
-msgid "<acronym title=\"Outline Processor Markup Language\">OPML</acronym> 업로드"
-msgstr "<acronym title=\"Outline Processor Markup Language\">OPML</acronym> アップロード"
-
-msgid "<acronym title=\"Rich Site Summary\">RSS</acronym> 주소"
-msgstr "<acronym title=\"Rich Site Summary\">RSS</acronym> フィード"
-
-msgid "<acronym title=\"Uniform Resource Locator\">URL</acronym> 입력"
-msgstr "<acronym title=\"Uniform Resource Locator\">URL</acronym> 入力"
-
 msgid "API Key 설정"
 msgstr "APIキー設定"
 
@@ -137,47 +517,11 @@ msgstr "API用のパスワード"
 msgid "API 주소"
 msgstr "APIアドレス"
 
-msgid "America/Chicago"
-msgstr "米中西部標準時 (シカゴ)"
+msgid "author page"
+msgstr "作成者ページ"
 
-msgid "America/Denver"
-msgstr "米山岳標準時 (デンバー)"
-
-msgid "America/Los_Angeles"
-msgstr "米太平洋標準時 (ロサンゼルス)"
-
-msgid "America/New_York"
-msgstr "米東部標準時 (ニューヨーク)"
-
-msgid "Asia/Calcutta"
-msgstr "インド(カルカッタ)"
-
-msgid "Asia/Seoul"
-msgstr "大韓民国(ソウル)"
-
-msgid "Asia/Shanghai"
-msgstr "中華人民共和国(北京・上海)"
-
-msgid "Asia/Taipei"
-msgstr "台湾(台北)"
-
-msgid "Asia/Tokyo"
-msgstr "日本(東京)"
-
-msgid "Australia/Adelaide"
-msgstr "オーストラリア(アデレード)"
-
-msgid "Australia/Darwin"
-msgstr "オーストラリア(ダーウィン)"
-
-msgid "Australia/Melbourne"
-msgstr "オーストラリア(メルボルン)"
-
-msgid "Australia/Perth"
-msgstr "オーストラリア(パース)"
-
-msgid "Australia/Sydney"
-msgstr "オーストラリア(シドニー)"
+msgid "BlogAPI를 사용하는 편집기들은 이 블로그로 글을 보내기 위하여 'API 주소'를 사용합니다."
+msgstr "BlogAPIを利用するエディターで作成した記事をこのブログに送信するためには'APIアドレス'を必要とします。"
 
 msgid "BlogAPI에 사용할 비밀번호입니다."
 msgstr "BlogAPIから利用するパスワードです。"
@@ -197,26 +541,26 @@ msgstr "Comments テーブルから openid フィールドを作成します。"
 msgid "Developer"
 msgstr "開発者"
 
-msgid "Europe/Berlin"
-msgstr "ドイツ(ベルリン)"
-
-msgid "Europe/London"
-msgstr "イギリス(ロンドン)"
-
-msgid "Europe/Paris"
-msgstr "フランス(パリ)"
-
 msgid "FOAF 지원"
 msgstr "FOAF属性設定"
 
-msgid "GMT"
-msgstr "国際標準時 (GMT)"
+msgid "fontDisplayName:fontCode:fontFamily"
+msgstr "fontDisplayName:fontCode:fontFamily|メイリオ:Meiryo:Sans-serif|ＭＳ ゴシック:MS Gothic:Sans-serif|ＭＳ Ｐゴシック:MS PGothic:Sans-serif|MS UI Gothic:MS UI Gothic:Sans-serif|ＭＳ 明朝:MS Mincho:Serif|ＭＳ Ｐ明朝:MS PMincho:Serif"
+
+msgid "FTP 프로그램으로 권한을 수정하시거나 다음의 명령을 터미널에 붙여 넣으시면 됩니다 : %1"
+msgstr "FTPソフトウェア上から権限を調整するか、Terminalモードで接続して次の命令をご入力ください。：%1"
 
 msgid "Hall of Fame"
 msgstr "名誉の殿堂"
 
-msgid "IP 필터링"
-msgstr "IP拒否"
+msgid "htaccess 규칙을 수정합니다."
+msgstr ".htaccess規則を更新します。"
+
+msgid "http://www.google.co.kr/search?q=OpenID&amp;lr=lang_ko"
+msgstr "http://www.google.co.kr/search?q=OpenID&amp;lr=lang_ja"
+
+msgid "id의 도용을 막기 위하여 같은 사용자 id를 사용할 수 없도록 합니다."
+msgstr "IDの不正利用を防ぐため、既登録IDの再作成を禁止します。"
 
 msgid "Internationalization Contributor"
 msgstr "国際化(貢献者)"
@@ -224,14 +568,17 @@ msgstr "国際化(貢献者)"
 msgid "Internationalization Maintainer"
 msgstr "国際化"
 
+msgid "IP 필터링"
+msgstr "IP拒否"
+
+msgid "iPhone / iPod Touch로 블로그에 접속할 경우 자동으로 iPhone용 인터페이스로 이동합니다."
+msgstr "iPhone / iPod Touchでのブログ接続時、iPhone用のページを表示します。"
+
 msgid "Links 테이블에 공개 여부 설정 필드와 XFN 마이크로포맷을 위한 필드를 추가합니다."
 msgstr "Linksテーブルにリンク公開設定フィールドとXFNフィールドを作成します。"
 
 msgid "Links 테이블의 공개 여부 설정 필드의 속성을 변경합니다."
 msgstr "Linksテーブルの公開設定フィールドの属性を更新します。"
-
-msgid "MP3만 사용할 수 있습니다."
-msgstr "MP3形式のファイルのみ利用できます。"
 
 msgid "Maintainer"
 msgstr "開発管理"
@@ -252,7 +599,7 @@ msgid "Microformat-info: %1 작성자를 감싸고 있는 태그가 없어 span�
 msgstr "Microformat-info: %1を包んだタグがないため、spanタグと class=\"vcard\"属性を一緒に含めます。"
 
 msgid "Microformat-info: class=\"author\"를 사용한 스킨입니다. hAtom용 author는 삽입하지 않았습니다. 주의: 스킨에 사용된 author의 용도가 마이크로포맷과 다를 수 있습니다."
-msgstr "Microformat-info: 利用中のスキンは class=\\\\\"author\\\\\"属性を含んでいます。hAtom用の author属性は除かれます。注意：スキンが含んだ author属性は標準属性と相異する可能性があります。"
+msgstr "Microformat-info: 利用中のテーマは class=\"author\"属性を含んでいます。hAtom用の author属性は除かれます。注意：テーマが含んだ author属性は標準属性と相異する可能性があります。"
 
 msgid "Microformat-info: hAtom용 content를 추가합니다."
 msgstr "Microformat-info: hAtomようの content属性を作成"
@@ -261,7 +608,7 @@ msgid "Microformat-info: hAtom용 발행일(published,updated)을 보이지 않�
 msgstr "Microformat-info: hAtom用の発行日(published,updated)属性を非表示に転換しました。"
 
 msgid "Microformat-info: 링크가 걸린 제목이 없어 보이지 않는 링크를 추가한 뒤 rel=\"bookmark\"와 hAtom용 title을 추가하였습니다"
-msgstr "Microformat-info: ブックマークのタイトルが存在していないため、非表示ブックパックに rel=\\\\\"bookmark\\\\\"属性と hAtom用の title属性を一緒に含めます。"
+msgstr "Microformat-info: ブックマークのタイトルが存在していないため、非表示ブックパックに rel=\"bookmark\"属性と hAtom用の title属性を一緒に含めます。"
 
 msgid "Microformat-info: 본문을 감싸고 있는 태그가 없어 div를 삽입한 뒤 hAtom용 entry-content를 추가합니다."
 msgstr "Microformat-info: 記事本文を包んだタブがないため、divタグと hAtom用の entry-content属性を一緒に含めます。"
@@ -270,10 +617,10 @@ msgid "Microformat-info: 블로그 글영역 전체를 hAtom용 entry로 간주�
 msgstr "Microformat-info: 記事本文の全領域をhAtom用のentry属性とみなします。適当な class=\"hentry\"属性が必要かもしれません。"
 
 msgid "Microformat-info: 스킨에 class=\"hentry\"가 있으므로, hAtom용 entry는 삽입하지 않았습니다."
-msgstr "Microformat-info: 利用中のスキンは既に class=\"hentry\"属性を含んでいるため、hAtom用の entry属性は除かれます。"
+msgstr "Microformat-info: 利用中のテーマは既に class=\"hentry\"属性を含んでいるため、hAtom用の entry属性は除かれます。"
 
 msgid "Microformat-info: 스킨에 가능한 모든 마이크로포맷을 추가합니다."
-msgstr "Microformat-info: 利用中のスキンから全てのマイクロフォーマットを利用します。"
+msgstr "Microformat-info: 利用中のテーマから全てのマイクロフォーマットを利用します。"
 
 msgid "Microformat-info: 스킨에 마이크로포맷 자동추가하지 않도록 설정되어 있습니다."
 msgstr "Microformat-info: マイクロフォーマットの自動追加が設定されておりません。"
@@ -288,7 +635,7 @@ msgid "Microformat-info: 작성자 주위로 공백외의 문자가 있어 <span
 msgstr "Microformat-info: 作成者属性をspanタグに含めます。"
 
 msgid "Microformat-info: 작성자가 출력되지 않는 스킨입니다. 작성자를 보이지 않게 추가하였습니다."
-msgstr "Microformat-info: 利用中のスキンは作成者属性を支援しておりません。作成者属性を非表示に転換しました。"
+msgstr "Microformat-info: 利用中のテーマは作成者属性を対応しておりません。作成者属性を非表示に転換しました。"
 
 msgid "Microformat-info: 작성자에 hAtom용 class=\"author\"를 추가합니다"
 msgstr "Microformat-info: 作成者属性にhAtom用の class=\"author\"属性を含めます。"
@@ -314,6 +661,27 @@ msgstr "Microformat-warn: タイトルにhAtom用のtitle属性の作成に失�
 msgid "Microformat을 사용하지 않습니다."
 msgstr "Microformatを利用しない"
 
+msgid "MMS 메시지 테스트"
+msgstr "メール送受信テスト"
+
+msgid "MMS 메시지 확인용 POP3 정보"
+msgstr "メール用受信設定"
+
+msgid "MMS 메시지 확인용 메일 환경 설정"
+msgstr "メール用送受信設定"
+
+msgid "MMS 수신 이메일"
+msgstr "受信メッセージ"
+
+msgid "MMS 환경을 설정합니다"
+msgstr "メール用送信設定"
+
+msgid "MMS용 이메일"
+msgstr "受信用メールアドレス"
+
+msgid "MP3만 사용할 수 있습니다."
+msgstr "MP3形式のファイルのみ利用できます。"
+
 msgid "MySQL 버전"
 msgstr "MySQL バージョン"
 
@@ -326,17 +694,62 @@ msgstr "OPMLファイルを呼び込んでいます。"
 msgid "OPML 파일을 가져왔습니다."
 msgstr "OPMLファイルの呼び込みに成功しました。"
 
+msgid "Painter"
+msgstr "デザイン"
+
 msgid "PHP 버전"
 msgstr "PHPバージョン"
 
 msgid "PHP 정보"
 msgstr "PHP情報"
 
-msgid "Painter"
-msgstr "デザイン"
+msgid "POP3 비밀번호"
+msgstr "POP3 Password"
+
+msgid "POP3 아이디"
+msgstr "POP3 ID"
+
+msgid "POP3 포트"
+msgstr "POP3 Port"
+
+msgid "POP3 호스트"
+msgstr "POP3 Host"
+
+msgid "Reporter"
+msgstr "リポート"
+
+msgid "rewrite 규칙을 편집합니다"
+msgstr "rewrite規則編集"
+
+msgid "rewrite 모듈 디버그 모드 사용"
+msgstr "rewriteモジュール：Debug Mode"
+
+msgid "rewrite 모듈 디버그 모드를 디버그 모드에 추가합니다. 접근시 적용된 주소를 해석한 정보가 디버그 모드 끝에 출력됩니다."
+msgstr "rewrite Debug Modeを設定：ページ接近時に関連情報をページ下段に表示"
+
+msgid "rewrite 모듈을 사용하지 않습니다. 이 경우 단일 사용자 모드로만 동작하며, 글로 된 주소 체계(fancy-URL)를 사용할 수 없습니다."
+msgstr "Rewriteモジュールを利用しません。Rewriteモジュールを利用しないと、ブログを単一利用者モードでしか利用ができません。また、fancy-URL機能が動作できません。"
+
+msgid "rewrite 모듈을 사용하지 않습니다."
+msgstr "rewriteモジュール適用解除"
+
+msgid "rewrite 모듈의 동작을 조정하는 .htaccess 파일을 변경합니다."
+msgstr "rewriteモジュールを調整する .htaccessファイルを更新します。"
+
+msgid "Rewrite를 사용할 수 없습니다."
+msgstr "Rewriteモジュールを利用できません。"
+
+msgid "RSS 공개 범위를 변경하지 못했습니다."
+msgstr "RSS公開設定更新に失敗しました。"
 
 msgid "RSS 공개 정도"
-msgstr "RSSフィード公開設定"
+msgstr "RSS公開設定"
+
+msgid "RSS 공개 정도를 변경할 수 없습니다."
+msgstr "RSS公開設定更新に失敗しました。"
+
+msgid "RSS 글 개수를 변경하지 못했습니다."
+msgstr "RSS記事数設定の更新に失敗しました。"
 
 msgid "RSS 리더"
 msgstr "RSSリーダー"
@@ -347,11 +760,23 @@ msgstr "RSSリーダー"
 msgid "RSS 설정"
 msgstr "RSS設定"
 
+msgid "RSS 이웃글 보기 사용"
+msgstr "RSSリーダーの利用設定"
+
+msgid "RSS 주소를 fancyURL을 사용하지 않고 강제로 숫자로 설정합니다."
+msgstr "RSSの記事リンクから数字を利用"
+
+msgid "RSS 주소를 숫자로 사용"
+msgstr "RSSの記事リンクから数字を利用"
+
 msgid "RSS 주소를 입력해 주십시오."
-msgstr "RSSフィードのアドレスをご入力ください。"
+msgstr "フィードのアドレスをご入力ください。"
+
+msgid "RSS 주소를 입력해서 링크할 홈페이지의 정보를 읽어올 수 있습니다. 수동으로 제목과 주소를 입력하셔도 됩니다. RSS 주소를 입력해서 홈페이지의 정보를 읽어온 경우 링크를 추가할 때 바깥 글 읽기에 RSS 주소를 추가할지를 물어봅니다."
+msgstr "RSSフィードアドレスを入力してブックマークするページの情報の取得ができます。直接入力でもブックマークはできますが、RSS情報取得でブックマークする場合には、作成後にRSSフィードへの登録可否を尋ねます。"
 
 msgid "RSS 주소를 입력해서 링크할 홈페이지의 정보를 읽어올 수 있습니다. 수동으로 제목과 주소를 입력하셔도 됩니다."
-msgstr "RSSフィードを入力してブックマークするサイトの情報を取得できます。タイトルやURLを直接入力してもよろしいです。"
+msgstr "RSSアドレスの入力でブックマークするサイトの情報を取得できます。タイトルやURLを直接入力してもよろしいです。"
 
 msgid "RSS 파일의 글 본문은 %1를 원칙으로 합니다."
 msgstr "%1 に設定"
@@ -359,26 +784,26 @@ msgstr "%1 に設定"
 msgid "RSS 파일의 블로그 글은 최신 %1개로 갱신됩니다."
 msgstr "更新範囲は最新の %1 件の記事で設定"
 
+msgid "RSS로 등록한 이웃 글 보기"
+msgstr "RSSフィード一覧"
+
 msgid "RSS를 변경할 수 없습니다."
-msgstr "RSSアドレスの更新に失敗しました。"
+msgstr "フィードアドレスの更新に失敗しました。"
 
 msgid "RSS를 읽어오고 있습니다."
-msgstr "RSSフィード取得中…"
+msgstr "フィード更新中…"
 
 msgid "RSS를 읽어올 수 없습니다."
-msgstr "RSSフィードの取得に失敗しました。"
-
-msgid "Reporter"
-msgstr "リポート"
-
-msgid "Rewrite를 사용할 수 없습니다."
-msgstr "Rewriteモジュールを利用できません。"
+msgstr "フィードの更新に失敗しました。"
 
 msgid "Server 정보"
 msgstr "サーバー情報"
 
 msgid "SessionVisits 테이블의 블로그 정보 필드 이름을 변경합니다."
 msgstr "SessionVisits テーブルのブログ情報フィールド名称を更新します。"
+
+msgid "skin.html 파일을 수정하실 수 있는 권한이 없습니다."
+msgstr "skin.htmlへの編集権限をお持ちしておりません。"
 
 msgid "Supports"
 msgstr "サポート"
@@ -390,58 +815,25 @@ msgid "URL로 읽어오기"
 msgstr "任意のURLから取り込む"
 
 msgid "UTF8 General 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)"
-msgstr "UTF8 General 未支援（警告：日本語の支援が不完全な可能性があります。）"
+msgstr "UTF8 General 未対応（警告：日本語の対応が不完全な可能性があります。）"
 
 msgid "UTF8 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)"
-msgstr "UTF8 未支援（警告：日本語の支援が不完全な可能性があります。）"
+msgstr "UTF8 未対応（警告：日本語の対応が不完全な可能性があります。）"
+
+msgid "WYSIWYG 편집기"
+msgstr "WYSIWYGエディター"
 
 msgid "XML-RPC ping 설정을 위한 테이블을 추가합니다."
 msgstr "XML-RPC ping設定のため新規テーブルを作成します。"
 
-msgid "[HTML][/HTML] 블럭을 제거합니다"
-msgstr "[HTML][/HTML]ブロックを削除します。"
-
-msgid "[비밀댓글]"
-msgstr "[非公開コメント]"
-
-msgid "[임시]"
-msgstr "[臨時]"
-
-msgid "[자동 저장 문서]"
-msgstr "[自動保存記事]"
-
-msgid "[차단됨]"
-msgstr "[拒否]"
-
-msgid "[행동을 지정합니다.]"
-msgstr "[作業設定]"
-
-msgid "[허용됨]"
-msgstr "[許可]"
-
-msgid "author page"
-msgstr "作成者ページ"
-
-msgid "default:Asia/Seoul"
-msgstr "大韓民国(ソウル)"
-
-msgid "fontDisplayName:fontCode:fontFamily"
-msgstr "fontDisplayName:fontCode:fontFamily|メイリオ:Meiryo:Sans-serif|ＭＳ ゴシック:MS Gothic:Sans-serif|ＭＳ Ｐゴシック:MS PGothic:Sans-serif|MS UI Gothic:MS UI Gothic:Sans-serif|ＭＳ 明朝:MS Mincho:Serif|ＭＳ Ｐ明朝:MS PMincho:Serif"
-
-msgid "htaccess 규칙을 수정합니다."
-msgstr ".htaccess規則を更新します。"
-
-msgid "http://www.google.co.kr/search?q=OpenID&amp;lr=lang_ko"
-msgstr "http://www.google.co.kr/search?q=OpenID&amp;lr=lang_ja"
-
-msgid "rewrite 모듈을 사용하지 않습니다. 이 경우 단일 사용자 모드로만 동작하며, 글로 된 주소 체계(fancy-URL)를 사용할 수 없습니다."
-msgstr "Rewriteモジュールを利用しません。Rewriteモジュールを利用しないと、ブログを単一利用者モードでしか利用ができません。また、fancy-URL機能が動作できません。"
-
-msgid "skin.html 파일을 수정하실 수 있는 권한이 없습니다."
-msgstr "skin.htmlへの編集権限をお持ちしておりません。"
-
 msgid "가능한 모든 Microformat을 지원합니다."
 msgstr "全てのMicroformatを利用"
+
+msgid "가로"
+msgstr "横"
+
+msgid "가운데 정렬"
+msgstr "中央揃え"
 
 msgid "가입"
 msgstr "入会"
@@ -454,6 +846,9 @@ msgstr "取得"
 
 msgid "가족관계"
 msgstr "親族関係設定"
+
+msgid "각 링크의 관계를 설정합니다."
+msgstr "ブックマーク詳細情報設定"
 
 msgid "각 분류의 글 수를 표시합니다."
 msgstr "分類の記事数を表示"
@@ -476,8 +871,15 @@ msgstr "開発者"
 msgid "개수"
 msgstr "数"
 
-msgid "개의 피드를 가져왔습니다.\\n피드를 업데이트 해 주십시오."
-msgstr "件のRSSフィードを取り込みました。\\\\nRSSフィードを更新してください。"
+msgid ""
+"개의 피드를 가져왔습니다.\n"
+"피드를 업데이트 해 주십시오."
+msgstr ""
+"件のフィードを取得しました。\n"
+"フィードを更新してください。"
+
+msgid "개인 정보"
+msgstr "個人情報"
 
 msgid "갤러리 삽입"
 msgstr "ギャラリー挿入"
@@ -491,29 +893,38 @@ msgstr "更新"
 msgid "거부"
 msgstr "拒否"
 
+msgid "건 글 목록입니다"
+msgstr "送信トラックバック一覧"
+
+msgid "건 글"
+msgstr "送信記事"
+
 msgid "걸린 글 데이터를 교정하고 있습니다."
 msgstr "トラックバックデータを校正中…"
 
 msgid "걸린 글 보기"
 msgstr "トラックバック"
 
+msgid "걸린 글"
+msgstr "受信記事"
+
 msgid "걸린 글이 없습니다"
 msgstr "トラックバックが存在しておりません。"
-
-msgid "걸린글"
-msgstr "トラックバック"
 
 msgid "걸린글 목록입니다"
 msgstr "受信トラックバック一覧"
 
 msgid "걸린글 테이블에 광고 및 스팸 분류를 위한 휴지통 필드를 추가합니다."
-msgstr "トラックバック テーブルに広告・迷惑トラックバックを分類するためのコミ箱フィールドを作成します。"
+msgstr "トラックバック テーブルに広告・迷惑トラックバックを分類するためのごみ箱フィールドを作成します。"
 
 msgid "걸린글 테이블의 미사용 필드를 삭제합니다."
 msgstr "トラックバック テーブルの未使用フィールドを削除します。"
 
 msgid "걸린글 테이블의 인덱스를 수정합니다."
 msgstr "トラックバックテーブルのインデックスを更新します。"
+
+msgid "걸린글"
+msgstr "トラックバック"
 
 msgid "걸린글을 기본으로 펼칩니다."
 msgstr "トラックバックを基本として展開"
@@ -533,14 +944,17 @@ msgstr "トラックバックの削除に失敗しました。"
 msgid "걸린글을 지우지 못했습니다."
 msgstr "トラックバックの削除に失敗しました。"
 
-msgid "검색"
-msgstr "検索"
-
 msgid "검색 시"
 msgstr "検索時"
 
+msgid "검색"
+msgstr "検索"
+
 msgid "검색엔진이 링크 관계를 인식할 수 있도록 링크에 FOAF를 추가합니다."
 msgstr "ブックパークリレーション(FOAF属性)設定"
+
+msgid "검색엔진이 태그를 따로 인식할 수 있도록 글의 태그에 rel=tag 를 표시합니다. 태그 상자에는 적용되지 않습니다."
+msgstr "タグ連関属性表示(サイドバーは除く)"
 
 msgid "경과"
 msgstr "経過"
@@ -548,14 +962,17 @@ msgstr "経過"
 msgid "계속 진행 하시겠습니까?"
 msgstr "続きます、よろしいですか？"
 
+msgid "계속 진행하시겠습니까?"
+msgstr "よろしいですか？"
+
 msgid "계속보관"
 msgstr "永久保存"
 
+msgid "계정 삭제"
+msgstr "アカウント削除"
+
 msgid "계정 정보"
 msgstr "アカウント設定"
-
-msgid "공개"
-msgstr "公開"
 
 msgid "공개 범위"
 msgstr "公開範囲設定"
@@ -563,14 +980,14 @@ msgstr "公開範囲設定"
 msgid "공개 설정"
 msgstr "公開設定"
 
+msgid "공개"
+msgstr "公開"
+
 msgid "공개된 글"
 msgstr "公開記事"
 
 msgid "공개된 모든 글을 <acronym title=\"Rich Site Summary\">RSS</acronym>로 내보냅니다."
 msgstr "<acronym title=\"Rich Site Summary\">RSS</acronym>フィードから公開記事の全てを公開"
-
-msgid "공개로 변경합니다"
-msgstr "公開転換"
 
 msgid "공개로 변경합니다."
 msgstr "公開転換"
@@ -581,23 +998,26 @@ msgstr "公開ルール"
 msgid "공백문자는 카테고리 이름으로 사용할 수 없습니다"
 msgstr "分類名から空白を除いてください。"
 
-msgid "공지"
-msgstr "告知"
-
 msgid "공지 제목"
 msgstr "告知タイトル"
+
+msgid "공지"
+msgstr "告知"
 
 msgid "공지를 복원하고 있습니다."
 msgstr "告知を復元中…"
 
-msgid "공지사항"
-msgstr "告知"
-
 msgid "공지사항 캐시를 초기화합니다."
 msgstr "告知キャッシュをリセットします。"
 
+msgid "공지사항"
+msgstr "告知"
+
 msgid "공지사항을 가져올 수 없습니다. 잠시 후 다시 시도해 주십시오."
 msgstr "告知を取り込めません。しばらく後でもう一度試してください。"
+
+msgid "공지사항이 없습니다."
+msgstr "告知が存在しておりません。"
 
 msgid "공지와 키로그를 포함한 %1 글의 목록입니다"
 msgstr "%1 記事一覧"
@@ -609,16 +1029,28 @@ msgid "관계 없음"
 msgstr "無関係"
 
 msgid "관련글에 글을 겁니다."
-msgstr "トラックバックを転送します。"
+msgstr "トラックバック送信"
 
 msgid "관련된 글에 글을 겁니다."
-msgstr "トラックバックを転送します。"
+msgstr "トラックバック送信"
 
-msgid "관리자"
-msgstr "管理者"
+msgid "관리 패널 스킨 선택"
+msgstr "管理者テーマ設定"
+
+msgid "관리 패널 스킨은 로그인한 후 보여지는 패널의 디자인을 다양하게 변경합니다. 관리 패널 스킨을 추가하기 위해서는 관리 패널 스킨을 내려받아 /style/admin 디렉토리에 설치하시면 됩니다."
+msgstr "管理者テーマは管理者インターフェースをデザインを設定します。<br />新規管理者テーマのインストールのためには新しいテーマを /style/admin にアップロードしてください。"
+
+msgid "관리 패널 화면에서 사용할 언어를 설정합니다."
+msgstr "管理者モードの利用言語を設定します。"
+
+msgid "관리 패널의 스킨을 설정합니다"
+msgstr "管理者テーマ設定"
 
 msgid "관리자 계정과 연결된 오픈아이디"
 msgstr "管理者用OpenID"
+
+msgid "관리자 권한이 없는 오픈아이디 입니다"
+msgstr "サインインしたOpenIDは管理者権限をお持ちしてありません。"
 
 msgid "관리자 로그인 비밀번호와 동일하게 사용하실 경우 비워두시기 바랍니다."
 msgstr "管理者パスワードと一緒にするなら空のままでおいてください。"
@@ -629,20 +1061,11 @@ msgstr "管理者パスワードと一緒に"
 msgid "관리자 설정에 의해 오픈아이디로만 댓글을 남길 수 있습니다."
 msgstr "OpenIDでサインインした人のみコメントの作成ができます。"
 
-msgid "관리자 스킨을 설정합니다"
-msgstr "管理者モードのスキン設定"
-
 msgid "관리자 정보 입력"
 msgstr "管理者情報の入力"
 
 msgid "관리자 플러그인"
 msgstr "管理者プラグイン"
-
-msgid "관리자 화면 스킨"
-msgstr "管理者モードスキン"
-
-msgid "관리자 화면 스킨을 설정합니다"
-msgstr "管理者モードのスキン設定"
 
 msgid "관리자 화면 언어"
 msgstr "管理者言語設定"
@@ -653,8 +1076,15 @@ msgstr "管理者モードの言語を設定します。<br />ブログを日本
 msgid "관리자 화면의 환경 설정에서 데이터 교정을 수행하시기 바랍니다."
 msgstr "環境設定からデータ校正を行ってください。"
 
-msgid "관리자가 방문객의 댓글을 수정하시면 작성자 이름을 관리자 아이디로 덮어 쓰게 됩니다.\\n계속 하시겠습니까?"
-msgstr "管理者がゲストのコメントを更新すると作成者の名前が管理者の名前に変更されます。\\\\nよろしいですか？"
+msgid "관리자"
+msgstr "管理者"
+
+msgid ""
+"관리자가 방문객의 댓글을 수정하시면 작성자 이름을 관리자 아이디로 덮어 쓰게 됩니다.\n"
+"계속 하시겠습니까?"
+msgstr ""
+"管理者がコメントを更新すると作成者の名前が管理者の名前に変更されます。\n"
+"よろしいですか？"
 
 msgid "관리자가 아닙니다"
 msgstr "管理者ではありません。"
@@ -665,23 +1095,36 @@ msgstr "非公開コメントであります。"
 msgid "관리자만 볼 수 있는 방명록입니다."
 msgstr "非公開コメントであります。"
 
+msgid ""
+"관리자의 설정에 의해 오픈아이디로 로그인한 사용자만 댓글을 남길 수 있습니다.\r\n"
+"로그인하시겠습니까?"
+msgstr ""
+"OpenIDでサインインした人のみコメントの作成ができます。\r\n"
+"サインインしますか？"
+
+msgid "관리자의 설정에 의해 오픈아이디로 로그인한 사용자만 댓글을 남길 수 있습니다"
+msgstr "OpenIDでサインインした人のみコメントの作成ができます。"
+
 msgid "교정 대상을 확인하고 있습니다."
-msgstr "校正対象の確認中であります。"
+msgstr "校正するデータの確認中であります。"
 
 msgid "굵게"
 msgstr "太字"
 
-msgid "권한"
-msgstr "権限"
-
 msgid "권한 그룹"
 msgstr "権限"
 
+msgid "권한"
+msgstr "権限"
+
 msgid "권한이 없습니다."
-msgstr "権限がありません"
+msgstr "権限がありません。"
 
 msgid "귀하는 차단되었으므로 사용하실 수 없습니다."
-msgstr "あなたはブロックされているのでコメントの作成とトラックバックの転送ができません。"
+msgstr "あなたはブロックされているのでコメントの作成とトラックバックの送信ができません。"
+
+msgid "귀하를 %1님이 초대합니다"
+msgstr "%1さんからあなたを招待します。"
 
 msgid "그대로 두기"
 msgstr "そのままで"
@@ -719,9 +1162,6 @@ msgstr "グループを作成してください。"
 msgid "그룹을 추가하였습니다."
 msgstr "グループの作成に成功しました。"
 
-msgid "글"
-msgstr "記事"
-
 msgid "글 개수"
 msgstr "記事数"
 
@@ -744,7 +1184,7 @@ msgid "글 목록을 표시합니다."
 msgstr "記事一覧を表示"
 
 msgid "글 버전 관리및 비교를 위한 테이블을 추가합니다."
-msgstr "記事の管理やバージョン比較のための新規テーブルを作成します。"
+msgstr "記事の管理や版本比較のための新規テーブルを作成します。"
 
 msgid "글 보관함"
 msgstr "アーカイブ"
@@ -755,11 +1195,14 @@ msgstr "記事数表示"
 msgid "글 수집하기"
 msgstr "記事収集<br />"
 
+msgid "글 작성 환경을 설정합니다"
+msgstr "作成環境設定"
+
 msgid "글 작성"
 msgstr "記事作成"
 
-msgid "글 작성 환경을 설정합니다"
-msgstr "作成環境設定"
+msgid "글 작성시 태그나 지역로그를 입력할 때 이올린 서버로부터 자동 추천 단어를 받아 옵니다."
+msgstr "タグや地域ログの入力時イオリンサーバーからのおすすめのタグを表示"
 
 msgid "글 전체보기"
 msgstr "全体記事を表示"
@@ -767,20 +1210,20 @@ msgstr "全体記事を表示"
 msgid "글 종류"
 msgstr "記事タイプ"
 
-msgid "글 주소"
-msgstr "固定リンク"
-
 msgid "글 주소 표기법을 변경할 수 없습니다."
-msgstr "固定リンクの表記方法の更新に失敗しました。"
+msgstr "記事リンクの表記方法の更新に失敗しました。"
+
+msgid "글 주소"
+msgstr "記事リンク"
 
 msgid "글 테이블의 편집기와 포매터 필드를 갱신합니다."
-msgstr "記事テーブルのエディターやフォーマットテーブルを更新します。"
+msgstr "記事テーブルのエディターや作成形式テーブルを更新します。"
 
-msgid "글걸기"
-msgstr "トラックバック"
+msgid "글"
+msgstr "記事"
 
 msgid "글걸기 시도"
-msgstr "トラックバック転送"
+msgstr "トラックバック送信"
 
 msgid "글걸기 주소"
 msgstr "トラックバックアドレス"
@@ -788,8 +1231,11 @@ msgstr "トラックバックアドレス"
 msgid "글걸기 테이블에 필터 인덱스를 추가합니다."
 msgstr "トラックバックテーブルにフィルターテーブルを作成します。"
 
+msgid "글걸기"
+msgstr "トラックバック"
+
 msgid "글걸기를 시도합니다"
-msgstr "トラックバックを転送します。"
+msgstr "トラックバック送信"
 
 msgid "글관리"
 msgstr "記事管理"
@@ -807,22 +1253,25 @@ msgid "글을 건 글을 보여줍니다."
 msgstr "トラックバックを送信した記事へ進みます。"
 
 msgid "글을 걸 수 없었습니다."
-msgstr "トラックバック転送に失敗しました。"
+msgstr "トラックバック送信に失敗しました。"
 
 msgid "글을 걸 수 있게 합니다."
 msgstr "トラックバックを許可"
 
 msgid "글을 걸고 있습니다."
-msgstr "トラックバック転送中…"
+msgstr "トラックバック送信中…"
 
 msgid "글을 걸었습니다."
-msgstr "トラックバック転送に成功しました。"
+msgstr "トラックバック送信に成功しました。"
 
 msgid "글을 복원하고 있습니다."
 msgstr "記事を復元中…"
 
 msgid "글을 쓸 때 사용할 편집기와 포매터를 선택하는 필드를 추가합니다."
-msgstr "記事作成時にエディターやフォーマットを選択するため新規フィールドを作成します。"
+msgstr "記事作成時にエディターや作成形式を選択するため新規フィールドを作成します。"
+
+msgid "글을 작성할 때 사용할 편집기를 지정합니다."
+msgstr "記事作成時に利用するエディターを設定します。"
 
 msgid "글을 작성합니다"
 msgstr "記事作成"
@@ -854,11 +1303,14 @@ msgstr "金"
 msgid "금칙어를 사용하고 계시므로 댓글을 남기실 수 없습니다."
 msgstr "禁則単語が含まれております。コメントの作成に失敗しました。"
 
+msgid "기능 설명"
+msgstr "機能説明"
+
 msgid "기능"
 msgstr "機能"
 
-msgid "기능 설명"
-msgstr "機能説明"
+msgid "기본 값"
+msgstr "デフォルト"
 
 msgid "기본 도메인"
 msgstr "デフォルトドメイン"
@@ -867,16 +1319,28 @@ msgid "기본 블로그 도메인을 변경하지 못했습니다"
 msgstr "デフォルトドメインの更新に失敗しました。"
 
 msgid "기본 설정"
-msgstr "デフォルト設定"
+msgstr "基本設定"
+
+msgid "기본 스킨"
+msgstr "デフォルトテーマ"
 
 msgid "기본 스킨을 변경합니다."
-msgstr "デフォルトスキンを更新します。"
+msgstr "デフォルトテーマを更新します。"
 
 msgid "기본 편집기"
 msgstr "デフォルトエディター"
 
 msgid "기본 포매터"
-msgstr "デフォルトフォーマット"
+msgstr "基本作成形式"
+
+msgid "기본 포매터가 지정되더라도 편집기 화면에서 언제든지 다른 포매터를 글마다 지정할 수 있습니다"
+msgstr "基本作成形式を設定しても記事別々に他作成形式の利用もできます。"
+
+msgid "기본 포매터를 지정한 경우 새 글을 작성할 때 지정한 포매터를 기본값으로 사용합니다."
+msgstr "基本作成形式を設定したら新規記事の作成から設定した作成形式を基本として利用します。<br />"
+
+msgid "기본"
+msgstr "デフォルト"
 
 msgid "기본값"
 msgstr "デフォルト"
@@ -891,10 +1355,7 @@ msgid "기울임"
 msgstr "斜体"
 
 msgid "기존 버전 - %1"
-msgstr "既存版番 - %1"
-
-msgid "기타"
-msgstr "その他"
+msgstr "既存版本 - %1"
 
 msgid "기타 설정"
 msgstr "その他"
@@ -902,17 +1363,32 @@ msgstr "その他"
 msgid "기타 플러그인"
 msgstr "その他"
 
+msgid "기타"
+msgstr "その他"
+
 msgid "꺼짐"
-msgstr "利用中止"
+msgstr "解除"
+
+msgid "꾸미기"
+msgstr "テーマ"
 
 msgid "날짜"
 msgstr "日付"
+
+msgid "내려받기"
+msgstr "ダウンロード"
 
 msgid "내림차순"
 msgstr "降順"
 
 msgid "내보내기"
 msgstr "ダウンロード"
+
+msgid "내비게이션"
+msgstr "ナビゲーション"
+
+msgid "내어쓰기"
+msgstr "字上げ"
 
 msgid "내용"
 msgstr "本文"
@@ -923,8 +1399,14 @@ msgstr "本文表示"
 msgid "내용을 입력해 주십시오."
 msgstr "内容をご入力ください。"
 
+msgid "네트워크"
+msgstr "ネットワーク"
+
 msgid "년"
 msgstr "年"
+
+msgid "높이"
+msgstr "高さ"
 
 msgid "누구나 접근할 수 있도록 합니다."
 msgstr "接近制限解除"
@@ -933,19 +1415,22 @@ msgid "다른 메뉴보기"
 msgstr "他メニュー表示"
 
 msgid "다른 사람의 블로그에 단 댓글에 대한 댓글이 등록되면 알려줍니다. 알리미가 동작하기 위해서는 댓글 작성시 홈페이지 기입란에 자신의 블로그 주소를 입력하셔야 합니다."
-msgstr "他人のブログに作成したコメントに返信コメントが作成されるとお知らせします。コメントトラッカーの正常的な利用のためにはコメント作成時にURLの入力を必要とします。"
+msgstr "他人のブログに作成したコメントに返信コメントが作成されると通知します。コメントトラッカーの正常的な利用のためにはコメント作成時にURLの入力を必要とします。"
+
+msgid "다시 설정하시려면 config.php/.htaccess를 먼저 삭제하셔야 합니다."
+msgstr "リセットするためにはまずconfig.phpや.htaccessファイルを削除してください。"
+
+msgid "다시 설정하시려면 config.php를 먼저 삭제하셔야 합니다."
+msgstr "リセットするためにはまずconfig.phpや.htaccessファイルを削除してください。"
 
 msgid "다운로드"
 msgstr "ダウンロード"
 
-msgid "다음"
-msgstr "次へ"
+msgid "다음 글 보기"
+msgstr "次の記事へ"
 
 msgid "다음 글"
 msgstr "次の記事<br />"
-
-msgid "다음 글 보기"
-msgstr "次の記事へ"
 
 msgid "다음 이미지 보기"
 msgstr "次の画像"
@@ -956,11 +1441,17 @@ msgstr "次の記事が存在しておりません。"
 msgid "다음 항목을 확인하십시오."
 msgstr "次の項目を確認してください。"
 
-msgid "다중 사용자"
-msgstr "多重利用者"
+msgid "다음"
+msgstr "次へ"
+
+msgid "다중 블로그 모드에서 블로그 운영자가 블로그를 비공개로 설정하는 것을 허용합니다."
+msgstr "各管理者にブログの非公開設定権限を付与"
 
 msgid "다중 사용자 모드로 설치된 경우 블로그 관리자는 표지 기능을 이용하여 대표 블로그를 다른 블로그들에 대한 센터 기능을 하도록 구성할 수 있습니다."
-msgstr "多重利用者モードでは最高管理者はトップブログを全体ブログへのメタページに構成できます。"
+msgstr "多重利用者モードでは最高管理者はトップブログを全体利用者のメタページとして構成できます。"
+
+msgid "다중 사용자"
+msgstr "多重利用者"
 
 msgid "단일 블로그"
 msgstr "単一ブログ"
@@ -980,11 +1471,62 @@ msgstr "閉じる"
 msgid "달"
 msgstr "ヵ月"
 
+msgid "답글 보기 페이지로"
+msgstr "コメント表示ページへ"
+
+msgid "답글 보기 화면으로"
+msgstr "コメント表示ページへ"
+
+msgid "답글 보기"
+msgstr "コメント表示"
+
+msgid "답글쓰기가 차단됐습니다."
+msgstr "コメント作成が拒否されております。"
+
+msgid "답글에 답글을 작성합니다."
+msgstr "返信コメントを作成します。"
+
+msgid "답글을 삭제할 수 없습니다."
+msgstr "コメントの削除に失敗しました。"
+
+msgid "답글을 삭제할 수 없습니다"
+msgstr "コメントの削除に失敗しました。"
+
+msgid "답글을 쓸 수 없습니다."
+msgstr "コメントの作成に失敗しました。"
+
+msgid "답글을 작성할 수 없습니다."
+msgstr "コメントの作成に失敗しました。"
+
+msgid "답글이 삭제됐습니다."
+msgstr "コメントを削除しました。"
+
+msgid "답글이 삭제됐습니다"
+msgstr "コメントを削除しました。"
+
+msgid "답글이 없습니다"
+msgstr "コメントが存在しておりません。"
+
+msgid "답글이 작성됐습니다."
+msgstr "コメントを作成しました。"
+
 msgid "대기 중.."
 msgstr "待機中…"
 
+msgid "대상"
+msgstr "対象"
+
+msgid "대체 텍스트"
+msgstr "画像代替文句"
+
 msgid "대표 블로그 설정"
 msgstr "トップブログに設定"
+
+msgid "대표 블로그가 설정되었습니다."
+msgstr "トップブログに設定しました。"
+
+msgid "대표 블로그가 설정되지 못했습니다."
+msgstr "トップブログ設定に失敗しました。"
 
 msgid "대표 블로그는 삭제할 수 없습니다."
 msgstr "トップブログは削除できません。"
@@ -998,20 +1540,41 @@ msgstr "ブログタグ"
 msgid "대표 태그를 변경하지 못했습니다."
 msgstr "ブログタグの更新に失敗しました。"
 
-msgid "댓글"
-msgstr "コメント"
+msgid "댓글 RSS 파일의 블로그 글은 최신 %1개로 갱신됩니다."
+msgstr "更新範囲は最新の %1 件のコメントで設定"
+
+msgid "댓글 리스트"
+msgstr "コメント一覧"
+
+msgid "댓글 및 방명록"
+msgstr "コメント・掲示板"
+
+msgid "댓글 및 필자 정보에 사용되는 대표 홈페이지 주소를 설정합니다. 로그인 상태에서 댓글을 달 경우 댓글에 출력되는 블로그 아이콘은 이 주소의 정보에 의하여 결정됩니다."
+msgstr "作成者情報に表示するRepresenting URLを設定します。サインインしてコメントを作成したらコメントに表示されるアイコンはこのURLから情報を取得します。"
+
+msgid "댓글 및 필자 정보에 사용되는 대표 홈페이지 주소를 설정합니다."
+msgstr "作成者情報に表示するRepresenting URLを設定します。"
+
+msgid "댓글 보기 화면으로"
+msgstr "一覧ページを進む"
+
+msgid "댓글 보기"
+msgstr "コメント表示"
 
 msgid "댓글 삭제"
 msgstr "コメント削除"
 
-msgid "댓글 알리미"
-msgstr "コメントトラッカー"
-
 msgid "댓글 알리미 내용을 복원하고 있습니다."
 msgstr "コメントトラッカーの復元中です。"
 
+msgid "댓글 알리미"
+msgstr "コメントトラッカー"
+
 msgid "댓글 알리미입니다"
 msgstr "コメントトラッカー一覧"
+
+msgid "댓글 영역"
+msgstr "コメント"
 
 msgid "댓글 작성을 허용합니다."
 msgstr "コメントの作成を許可"
@@ -1026,7 +1589,7 @@ msgid "댓글, 걸린글(트랙백) 및 통합 RSS의 글은 최신 %1개로 갱
 msgstr "統合更新範囲は最新の %1 件のコメントやトラックバックで設定"
 
 msgid "댓글, 걸린글, 리퍼러가 입력될 때 아래의 단어가 포함되어 있으면 알림창을 띄우고 휴지통으로 보냅니다."
-msgstr "コメント、トラックバック、リファラがの入力時に下の単語を含めるとポップアップメッセージを出力してコミ箱へ転送します。"
+msgstr "コメント、トラックバック、リファラがの入力時に下の単語を含めるとポップアップメッセージを出力してごみ箱へ移動します。"
 
 msgid "댓글/걸린글 개수"
 msgstr "コメント<br />トラックバック"
@@ -1034,14 +1597,26 @@ msgstr "コメント<br />トラックバック"
 msgid "댓글/방명록 설정"
 msgstr "コメント・掲示板設定"
 
+msgid "댓글"
+msgstr "コメント"
+
 msgid "댓글과 방명록 데이터를 교정하고 있습니다."
 msgstr "コメントや掲示板のデータを校正中…"
+
+msgid "댓글쓰기가 차단됐습니다."
+msgstr "コメントの作成ができません。"
 
 msgid "댓글에 댓글 달기"
 msgstr "返信コメント作成"
 
+msgid "댓글에 댓글을 작성합니다."
+msgstr "返信コメント作成"
+
 msgid "댓글을 기본으로 펼칩니다."
 msgstr "コメントを基本として展開"
+
+msgid "댓글을 남긴 아이디와 그에 연결된 오픈아이디를 동시에 확인할 수 있습니다."
+msgstr "コメントを作成したIDやそれに関するOpenIDをご確認できます。"
 
 msgid "댓글을 달 수 없습니다."
 msgstr "コメントの作成に失敗しました。"
@@ -1050,6 +1625,9 @@ msgid "댓글을 복원하지 못했습니다."
 msgstr "コメントの復元に失敗しました。"
 
 msgid "댓글을 사용할 수 없습니다."
+msgstr "コメントを作成できません。"
+
+msgid "댓글을 사용할 수 없습니다"
 msgstr "コメントを作成できません。"
 
 msgid "댓글을 삭제하고 있습니다."
@@ -1061,14 +1639,23 @@ msgstr "コメントの削除に失敗しました。"
 msgid "댓글을 삭제하지 못했습니다."
 msgstr "コメントの削除に失敗しました。"
 
+msgid "댓글을 삭제할 수 없습니다."
+msgstr "コメント削除に失敗しました。"
+
+msgid "댓글을 삭제할 수 없습니다"
+msgstr "コメント削除に失敗しました。"
+
 msgid "댓글을 삭제합니다."
 msgstr "コメントを削除します。"
+
+msgid "댓글을 수정합니다."
+msgstr "コメントを編集します。"
 
 msgid "댓글을 수정합니다"
 msgstr "コメントを編集します。"
 
-msgid "댓글을 수정합니다."
-msgstr "コメントを編集します。"
+msgid "댓글을 쓸 수 없습니다."
+msgstr "コメント作成に失敗しました。"
 
 msgid "댓글을 오픈아이디 사용자에게만 허용할 수 있습니다."
 msgstr "コメント作成をOpenID利用者のみで制限します。"
@@ -1076,14 +1663,29 @@ msgstr "コメント作成をOpenID利用者のみで制限します。"
 msgid "댓글을 입력해 주십시오."
 msgstr "コメントをご入力ください。"
 
+msgid "댓글을 작성할 수 없습니다."
+msgstr "コメント作成に失敗しました。"
+
+msgid "댓글의 댓글"
+msgstr "返信コメント"
+
 msgid "댓글이 등록되었습니다."
 msgstr "コメントを作成しました。"
+
+msgid "댓글이 삭제됐습니다"
+msgstr "コメントを削除しました。"
 
 msgid "댓글이 삭제되었습니다."
 msgstr "コメントを削除しました。"
 
 msgid "댓글이 수정되었습니다."
 msgstr "コメントを更新しました。"
+
+msgid "댓글이 없습니다"
+msgstr "コメントが存在しておりません。"
+
+msgid "댓글이 작성됐습니다."
+msgstr "コメントを作成しました。"
 
 msgid "댓글이 작성된 위치로 직접 이동합니다."
 msgstr "コメントが作成されたページへ進みます。"
@@ -1101,7 +1703,7 @@ msgid "더 읽어오기"
 msgstr "追加取得"
 
 msgid "덧글및 방명록 테이블에 광고 및 스팸 분류를 위한 휴지통 필드를 추가합니다."
-msgstr "コメント・掲示板テーブルに広告・迷惑分類のためのコミ箱フィールドを作成します。"
+msgstr "コメント・掲示板テーブルに広告・迷惑分類のためのごみ箱フィールドを作成します。"
 
 msgid "데이터 관리"
 msgstr "データ管理"
@@ -1159,6 +1761,9 @@ msgstr "データを削除するためには管理者パスワードを必要と
 
 msgid "데이터를 삭제합니다"
 msgstr "データ削除"
+
+msgid "데이터를 초기화하시려면 관리자 비밀번호를 입력하십시오."
+msgstr "データをリセットするためには管理者パスワードを必要とします。"
 
 msgid "데이터베이스 사용자명"
 msgstr "データベースのユーザ名称"
@@ -1235,11 +1840,32 @@ msgstr "キャンセル"
 msgid "되돌릴 수 없습니다."
 msgstr "この作業は取り戻せません、"
 
-msgid "등록"
-msgstr "作成"
+msgid ""
+"되돌릴 수 없습니다.\t\n"
+"\n"
+"계속 진행하시겠습니까?"
+msgstr ""
+"この作業は取り戻せません、\t\n"
+"\n"
+"よろしいですか？"
+
+msgid "되돌아가기"
+msgstr "戻る"
+
+msgid "두번째 오브젝트"
+msgstr "Object #2"
+
+msgid "두번째 이미지"
+msgstr "画像 #2"
+
+msgid "들여쓰기"
+msgstr "字下げ"
 
 msgid "등록 예약 시간이 올바르지 않습니다."
 msgstr "正しくない形式の作成予約時間です。YYYY/MM/DD HH:MM 様式でご入力ください。"
+
+msgid "등록"
+msgstr "作成"
 
 msgid "등록되지 않은 소유자 E-mail 입니다."
 msgstr "一致するE-Mailアドレスが存在しておりません。"
@@ -1259,6 +1885,9 @@ msgstr "作成した内容がありません。"
 msgid "등록된 댓글 목록입니다"
 msgstr "コメント一覧"
 
+msgid "등록된 방명록 목록입니다"
+msgstr "掲示板コメント一覧"
+
 msgid "등록된 서식 목록입니다"
 msgstr "テンプレート一覧"
 
@@ -1270,6 +1899,21 @@ msgstr "個人画像を削除しました。"
 
 msgid "등록일자"
 msgstr "日付"
+
+msgid "디버그 모드 사용"
+msgstr "Debug Mode 設定"
+
+msgid "디버그 모드 조절"
+msgstr "Debug Mode 調整"
+
+msgid "디버그 모드를 사용합니다. 텍스트큐브의 모든 쿼리 실행 결과 및 코드의 에러가 발생하는 부분을 추적할 수 있습니다."
+msgstr "Debug Modeを利用：Textcubeが実行するコードやクエリの実行結果を表示"
+
+msgid "또는 새로운 분류를 추가합니다."
+msgstr "新規分類作成"
+
+msgid "또는"
+msgstr "または"
 
 msgid "또다른나"
 msgstr "自分所有"
@@ -1292,20 +1936,29 @@ msgstr "個人画像設定をリセットしました。"
 msgid "로고를 초기화합니다."
 msgstr "個人画像設定リセット"
 
+msgid "로그보기"
+msgstr "ログ表示"
+
 msgid "로그아웃"
 msgstr "サインアウト"
 
 msgid "로그아웃하고 블로그 메인으로 이동합니다."
 msgstr "サインアウトしてマイブログのトップへ進みます。"
 
-msgid "로그인"
-msgstr "サインイン"
-
 msgid "로그인 ID"
 msgstr "ID"
 
+msgid "로그인 아이디 변경"
+msgstr "IDの変更"
+
+msgid "로그인 정보"
+msgstr "サインイン情報"
+
 msgid "로그인 회수"
 msgstr "接続記録"
+
+msgid "로그인"
+msgstr "サインイン"
 
 msgid "로그인된 오픈아이디의 권한으로는 수정/삭제가 불가능합니다."
 msgstr "サインインしたOpenIDは編集・削除権限をお持ちしてありません。"
@@ -1313,8 +1966,8 @@ msgstr "サインインしたOpenIDは編集・削除権限をお持ちしてあ
 msgid "로딩 중.."
 msgstr "ロード中…"
 
-msgid "리더"
-msgstr "RSSリーダー"
+msgid "로딩되었습니다."
+msgstr "ロードしました。"
 
 msgid "리더 데이터를 복원하고 있습니다."
 msgstr "RSSリーダーのデータを復元中…"
@@ -1328,6 +1981,9 @@ msgstr "RSSリーダートップへ<br />"
 msgid "리더 환경을 설정합니다"
 msgstr "環境設定"
 
+msgid "리더"
+msgstr "RSSリーダー"
+
 msgid "리더를 만드는 과정에서 오류가 발생하였습니다."
 msgstr "RSSリーダー構成中にエラーが発生しました。"
 
@@ -1336,6 +1992,9 @@ msgstr "RSSリーダーのデーター構成を更新します。"
 
 msgid "리스트 보기"
 msgstr "リスト"
+
+msgid "리스트"
+msgstr "検索：記事一覧"
 
 msgid "리퍼러 로그 테이블의 구조를 변경합니다."
 msgstr "リファラログテーブルの構成を更新します。"
@@ -1346,8 +2005,8 @@ msgstr "リファラログを復元中…"
 msgid "리퍼러 통계를 복원하고 있습니다."
 msgstr "リファラ統計を復元中…"
 
-msgid "링크"
-msgstr "ブックマーク"
+msgid "링크 관계 관리"
+msgstr "詳細情報設定"
 
 msgid "링크 길이"
 msgstr "ブックマーク設定"
@@ -1358,20 +2017,38 @@ msgstr "ブックマーク一覧"
 msgid "링크 목록입니다"
 msgstr "ブックマーク一覧"
 
+msgid "링크 수정"
+msgstr "ブックマーク編集"
+
 msgid "링크 정보가 존재하지 않습니다."
 msgstr "ブックマーク情報が存在しておりません。"
 
 msgid "링크 정보를 삭제합니다."
 msgstr "ブックマーク削除"
 
-msgid "링크 정보를 수정합니다"
-msgstr "ブックマーク編集"
-
 msgid "링크 정보를 수정합니다."
 msgstr "ブックマーク編集"
 
+msgid "링크 정보를 수정합니다"
+msgstr "ブックマーク編集"
+
 msgid "링크 추가"
-msgstr "新規作成"
+msgstr "ブックマーク作成"
+
+msgid "링크 카테고리 수정"
+msgstr "ブックマーク分類設定"
+
+msgid "링크 카테고리 정보를 수정합니다"
+msgstr "ブックマーク分類情報を更新します。"
+
+msgid "링크 카테고리 테이블을 만듭니다"
+msgstr "ブックマーク分類テーブルを作成します。"
+
+msgid "링크 카테고리를 수정하고 있습니다."
+msgstr "ブックマーク分類を更新します。"
+
+msgid "링크"
+msgstr "ブックマーク"
 
 msgid "링크가 삭제되었습니다."
 msgstr "ブックマークを削除しました。"
@@ -1418,6 +2095,9 @@ msgstr "製作者"
 msgid "만들기"
 msgstr "作成"
 
+msgid "만약 rewrite 모듈 설정을 올바르게 했는데도 모듈 사용 여부의 검사에 문제가 있는 경우 rewrite 모듈을 사용하지 않음을 선택하시고 이 부분을 건너 뛰시기 바랍니다."
+msgstr "rewriteモジュール設定から問題を見つからなかった場合にもエラーが発生し続けるならばrewriteモジュールの利用を解除してインストールを進んでください。"
+
 msgid "매력적인"
 msgstr "魅力的"
 
@@ -1433,14 +2113,23 @@ msgstr "メインメニュー"
 msgid "메일 보낼 서버를 지정합니다"
 msgstr "メールサーバー設定"
 
+msgid "메일 서버 설정"
+msgstr "メールサーバー設定"
+
 msgid "메일 전송에 실패하였습니다."
-msgstr "メール転送に失敗しました。"
+msgstr "メール送信に失敗しました。"
+
+msgid "메일"
+msgstr "メール"
 
 msgid "메일서버 IP 주소:포트"
 msgstr "IP：Port"
 
 msgid "메일서버 지정"
-msgstr "発信サーバー設定"
+msgstr "送信サーバー設定"
+
+msgid "메일크기가 작음"
+msgstr "あまり小さなメール"
 
 msgid "명령"
 msgstr "作業"
@@ -1448,20 +2137,20 @@ msgstr "作業"
 msgid "명령을 취소하고 이 대화상자를 닫습니다."
 msgstr "作業を取り消し、このウィンドウを閉じます。"
 
-msgid "모듈"
-msgstr "モジュール"
-
 msgid "모듈 추가"
 msgstr "モジュール作成"
 
-msgid "모듈을 비활성화하지 못하였습니다."
-msgstr "モジュールを利用中止に転換できません。"
+msgid "모듈"
+msgstr "モジュール"
 
-msgid "모든"
-msgstr "全体"
+msgid "모듈을 비활성화하지 못하였습니다."
+msgstr "モジュールの解除に失敗しました。"
 
 msgid "모든 글"
 msgstr "全体記事"
+
+msgid "모든 글과 블로그가 관리자의 소유로 옮겨집니다."
+msgstr "除名するメンバーの全ての権限は最高管理者へ移転されます。"
 
 msgid "모든 만물은 책이요 그림이요 또한 거울이니"
 msgstr "この世の被造物はみな我々にとって、いわば本や、絵や、鏡のようなものだ。"
@@ -1469,8 +2158,14 @@ msgstr "この世の被造物はみな我々にとって、いわば本や、絵
 msgid "모든 피드 새로고침"
 msgstr "全体フィード更新"
 
+msgid "모든"
+msgstr "全体"
+
 msgid "모르는"
 msgstr "知らない"
+
+msgid "모바일 인터페이스"
+msgstr "モバイルページ設定"
 
 msgid "목록 한 쪽당 글 수"
 msgstr "リスト１ページ毎の記事数"
@@ -1487,14 +2182,23 @@ msgstr "リストへ"
 msgid "목요일"
 msgstr "木"
 
+msgid "문단"
+msgstr "段落"
+
 msgid "문자를 사용합니다."
 msgstr "文字を利用"
 
 msgid "문자열 길이 조절"
 msgstr "文字列の長さを調整"
 
+msgid "문제가 생길 경우에는 설치된 디렉토리의 config.php를 직접 수정하셔서 복원할 수 있습니다."
+msgstr "エラー発生時、インストールフォルダーからconfig.phpを編集して機能復元ができます。"
+
 msgid "물음표가 들어간 카테고리 이름은 사용할 수 없습니다"
 msgstr "？記号は分類名称からご利用できません。"
+
+msgid "미디어 삽입"
+msgstr "マルチメディア"
 
 msgid "미리 보기"
 msgstr "プレビュー"
@@ -1506,7 +2210,7 @@ msgid "미발행"
 msgstr "非発行"
 
 msgid "미사용"
-msgstr "利用中止"
+msgstr "解除"
 
 msgid "미스크랩 포스트"
 msgstr "未スクラップ記事"
@@ -1517,6 +2221,12 @@ msgstr "未入会"
 msgid "밑줄"
 msgstr "下線"
 
+msgid "바깥 글 읽기"
+msgstr "RSSリーダー"
+
+msgid "바깥글 보기 (RSS 리더)를 사용합니다. 끌 경우 리더가 RSS를 읽어오는 로드가 줄어들기 때문에 서버 로드가 줄어듭니다."
+msgstr "RSSリーダーを利用：RSSリーダーの解除時、サーバーの転送量が減少"
+
 msgid "바로 가기"
 msgstr "スタート"
 
@@ -1526,8 +2236,8 @@ msgstr "スタート"
 msgid "받는 사람"
 msgstr "受取人"
 
-msgid "발행"
-msgstr "発行"
+msgid "받은 글 제목"
+msgstr "タイトル"
 
 msgid "발행 방법"
 msgstr "発行し方"
@@ -1544,14 +2254,35 @@ msgstr "全体利用者は自分が作成し、イオリンへ発行した記事
 msgid "방명록 관련 조절"
 msgstr "掲示板関連設定"
 
+msgid "방명록 및 댓글 쓰기 권한"
+msgstr "掲示板・コメント作成権限"
+
 msgid "방명록 사용 권한"
 msgstr "掲示板の利用可否"
 
 msgid "방명록 한 쪽 당 %1개 글을 표시합니다."
 msgstr "掲示板の1ページ毎に %1 件の記事を表示"
 
+msgid "방명록"
+msgstr "掲示板"
+
+msgid "방명록에 남긴 글에 대하여 손님이 답글을 쓰는 것을 허용합니다."
+msgstr "掲示板から返信コメント作成の権限を設定します。"
+
+msgid "방명록에 대한 답글 권한"
+msgstr "掲示板返信コメント権限設定"
+
+msgid "방명록으로 직접 이동합니다."
+msgstr "掲示板へ進む"
+
 msgid "방명록을 복원하고 있습니다."
 msgstr "掲示板を復元中…"
+
+msgid "방명록의 댓글"
+msgstr "掲示板のコメント"
+
+msgid "배경색"
+msgstr "背景色"
 
 msgid "배우자"
 msgstr "ダンナ・ワイフ"
@@ -1595,6 +2326,9 @@ msgstr "バックアップデータをご選択ください。"
 msgid "백업파일을 올리고 있습니다."
 msgstr "バックアップデータのアップロード中であります。"
 
+msgid "백업파일을 읽어서 데이터를 복원합니다.<br />백업파일에 첨부파일이 포함되어 있으면 첨부파일도 자동으로 복원됩니다."
+msgstr "バックアップデータで復元を始まります。バックアップ時に添付ファイルを含めたなら一緒に復元させます。"
+
 msgid "백업파일을 읽어서 데이터를 복원합니다.<br />백업파일에 첨부파일이 포함되어 있으면 첨부파일도 자동으로 복원됩니다.<br />이전 버전으로부터의 데이터도 복원을 통해 가져올 수 있습니다."
 msgstr "バックアップファイルでデータを復元します。<br />バックアップ時に添付ファイルを含めたなら一緒に復元させます。Textcubeクラシックからのデータも復元で取り込めます。"
 
@@ -1619,17 +2353,20 @@ msgstr "バックアップデータが破損されたか取り込めません。
 msgid "백업파일이 올바르지 않습니다."
 msgstr "正しくない形式のバックアップデータです。"
 
-msgid "버전"
-msgstr "バージョン"
-
 msgid "버전 %1"
-msgstr "Ver. ％１"
+msgstr "Ver. ％1"
 
 msgid "버전 검사"
-msgstr "版番確認"
+msgstr "版本確認"
+
+msgid "버전"
+msgstr "版本"
 
 msgid "버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?"
 msgstr "更新事項チェックのためのファイルを作成します、よろしいですか？"
+
+msgid "번호 매긴 리스트"
+msgstr "段落番号"
 
 msgid "범위설정"
 msgstr "情報閲覧設定"
@@ -1649,11 +2386,21 @@ msgstr "更新されたデフォルトURLへ進みます。"
 msgid "변경된 블로그 주소로 이동합니다"
 msgstr "更新されたブログURLへ進みます。"
 
-msgid "변경된 스타일이 아직 저장되지 않았습니다.\\n저장하시겠습니까?"
-msgstr "更新したスタイルはまだ保存しておりません。\\\\n保存しますか？"
+msgid ""
+"변경된 스타일이 아직 저장되지 않았습니다.\n"
+"저장하시겠습니까?"
+msgstr ""
+"更新したスタイルはまだ保存しておりません。\n"
+"保存しますか？"
+
+msgid "변경시 텍스트큐브의 동작에 큰 영향을 줄 수 있으므로 주의하시기 바랍니다."
+msgstr "このファイルの編集や更新はTextcubeを起動不可能状態にさせる可能性があります。"
 
 msgid "변경하고 있습니다."
 msgstr "更新中…"
+
+msgid "변경하고자 하는 비밀번호 또는 API키를 입력해 주십시오."
+msgstr "更新しようとするパスワード、またはAPIキーをご入力ください。"
 
 msgid "변경하기"
 msgstr "更新"
@@ -1667,17 +2414,35 @@ msgstr "更新しました。"
 msgid "별칭을 입력해 주십시오."
 msgstr "ハンドルネームをご入力ください。"
 
+msgid "별표"
+msgstr "スターマーク"
+
+msgid "별표를 줍니다."
+msgstr "スターマーク表示"
+
+msgid "별표를 지웁니다."
+msgstr "スターマーク解除"
+
+msgid "보기"
+msgstr "このブログへ進む"
+
 msgid "보내는 사람"
-msgstr "発信"
+msgstr "送信"
+
+msgid "보낸 글 제목"
+msgstr "タイトル"
+
+msgid "보낸 주소"
+msgstr "着信先"
 
 msgid "보낼 메일 서버 설정"
-msgstr "発信サーバー設定"
-
-msgid "보호"
-msgstr "保護"
+msgstr "送信サーバー設定"
 
 msgid "보호 패스워드를 설정합니다."
 msgstr "保護パスワードを設定します。"
+
+msgid "보호"
+msgstr "保護"
 
 msgid "보호글"
 msgstr "保護記事"
@@ -1687,6 +2452,9 @@ msgstr "保護記事にパスワードを設定します。"
 
 msgid "보호글의 비밀번호를 변경하지 못했습니다."
 msgstr "保護記事のパスワードの更新に失敗しました。"
+
+msgid "보호글인 상태에서 한 번 더 아이콘을 눌러 비밀번호를 설정합니다."
+msgstr "保護記事のパスワードを設定"
 
 msgid "보호된 글"
 msgstr "保護記事"
@@ -1700,11 +2468,11 @@ msgstr "保護設定"
 msgid "복구"
 msgstr "復元"
 
-msgid "복원"
-msgstr "復元"
-
 msgid "복원 위치를 준비하고 있습니다."
 msgstr "復元位置を準備しております。"
+
+msgid "복원"
+msgstr "復元"
 
 msgid "복원을 위하여 외부에서 백업 파일에 접근하려면 아래의 주소를 이용하세요."
 msgstr "サーバー外部からデータ復元のためバックアップデータへ接近時、下記のURLで接近してください。"
@@ -1712,8 +2480,8 @@ msgstr "サーバー外部からデータ復元のためバックアップデー
 msgid "복원하기"
 msgstr "復元"
 
-msgid "본문"
-msgstr "本文"
+msgid "본문 테이블에 별표 및 작성 중 글 표시를 위한 필드를 추가합니다."
+msgstr "本文テーブルにスターマークや作成中の記事を表示するため新規フィールドを作成します。"
 
 msgid "본문 테이블에 작성자 정보를 위한 필드를 추가합니다."
 msgstr "本文テーブルに作成者情報フィールドを挿入します。"
@@ -1730,6 +2498,9 @@ msgstr "本文テーブルのフィールド名称を更新します。"
 msgid "본문 필터링"
 msgstr "本文拒否"
 
+msgid "본문"
+msgstr "本文"
+
 msgid "본문에 내용이 있습니다. 서식이 현재 본문 내용을 덮어쓰게 됩니다. 계속하시겠습니까?"
 msgstr "作成中の内容が存在するため選択したテンプレートが作成内容に上書きされます、よろしいですか？"
 
@@ -1745,17 +2516,17 @@ msgstr "部分公開"
 msgid "분"
 msgstr "分"
 
-msgid "분류"
-msgstr "分類"
+msgid "분류 관리 및 설정"
+msgstr "分類設定"
 
 msgid "분류 관리"
 msgstr "分類設定"
 
-msgid "분류 관리 및 설정"
-msgstr "分類設定"
-
 msgid "분류 길이"
 msgstr "分類設定"
+
+msgid "분류 디자인을 변경합니다"
+msgstr "分類設定を更新"
 
 msgid "분류 삭제"
 msgstr "分類削除"
@@ -1764,7 +2535,7 @@ msgid "분류 선택 시"
 msgstr "分類の選択時"
 
 msgid "분류 스킨 선택"
-msgstr "分類のスキン設定"
+msgstr "分類のテーマ設定"
 
 msgid "분류 없음"
 msgstr "分類なし"
@@ -1780,6 +2551,9 @@ msgstr "分類テーブルの優先順位フィールド名称を更新します
 
 msgid "분류 테이블의 이름 필드 속성을 변경합니다."
 msgstr "分類テーブルの名前フィールドの属性を更新します。"
+
+msgid "분류"
+msgstr "分類"
 
 msgid "분류는 2단까지 허용됩니다."
 msgstr "分類は2段階まで設定できます。"
@@ -1817,23 +2591,29 @@ msgstr "取り込みました。"
 msgid "불러오고 있습니다"
 msgstr "取り込んでいます。"
 
+msgid "불러오는 중.."
+msgstr "ロード中…"
+
 msgid "불러오지 못했습니다"
 msgstr "取り込みに失敗しました。"
 
-msgid "블로그"
-msgstr "ブログ"
+msgid "불러왔습니다."
+msgstr "取り込みました。"
 
 msgid "블로그 API 사용 여부"
-msgstr "ブログAPIの利用可否"
+msgstr "BlogAPIの利用可否"
 
 msgid "블로그 API 용 비밀번호"
-msgstr "ブログAPI用のパスワード"
+msgstr "BlogAPI用のパスワード"
 
 msgid "블로그 API 주소 도우미"
-msgstr "ブログAPIマネジャー"
+msgstr "BlogAPIマネジャー"
 
 msgid "블로그 ID"
 msgstr "ブログID"
+
+msgid "블로그 공개 설정 변경 허용"
+msgstr "非公開ブログ設定権限"
 
 msgid "블로그 공개 정도"
 msgstr "ブログ接近制限"
@@ -1854,10 +2634,16 @@ msgid "블로그 글을 한 쪽당 %1개 보여줍니다."
 msgstr "記事は1ページ毎に %1 件表示"
 
 msgid "블로그 로고 및 파비콘"
-msgstr "個人画像・Favicon設定"
+msgstr "個人画像・Favicon"
+
+msgid "블로그 로그인 암호가 초기화되었습니다. 이 이메일에 로그인할 수 있는 인증 정보가 포함되어 있습니다."
+msgstr "サインインパスワードをリセットしました。このメールはサインイン認証情報を含めております。"
 
 msgid "블로그 로그인 암호가 초기화되었습니다."
 msgstr "サインインパスワードをリセットしました。"
+
+msgid "블로그 로그인을 위한 임시 암호가 생성 되었습니다. 이 이메일에 로그인할 수 있는 인증 정보가 포함되어 있습니다."
+msgstr "サインイン用の任意パスワードが作成されました。このメールはサインイン認証情報を含めております。"
 
 msgid "블로그 메인으로 이동합니다."
 msgstr "マイブログのトップへ進みます。"
@@ -1868,8 +2654,17 @@ msgstr "ブログ情報"
 msgid "블로그 바로가기"
 msgstr "マイブログへ"
 
+msgid "블로그 보기"
+msgstr "このブログへ進む"
+
+msgid "블로그 삭제"
+msgstr "ブログ削除"
+
 msgid "블로그 삭제에 실패하였습니다."
 msgstr "選択したブログの削除に失敗しました。"
+
+msgid "블로그 삭제중"
+msgstr "選択ブログ削除中…"
 
 msgid "블로그 설명"
 msgstr "ブログ説明 "
@@ -1940,6 +2735,9 @@ msgstr "言語設定の更新に失敗しました。"
 msgid "블로그 언어와 시간대를 변경할 수 없습니다."
 msgstr "言語設定とタイムゾーンの更新に失敗しました。"
 
+msgid "블로그 이미지 및 아이콘을 설정합니다"
+msgstr "画像情報設定"
+
 msgid "블로그 정보"
 msgstr "ブログの情報"
 
@@ -1952,14 +2750,14 @@ msgstr "タイトル"
 msgid "블로그 제목을 변경하지 못했습니다."
 msgstr "タイトルの更新に失敗しました。"
 
-msgid "블로그 주소"
-msgstr "URL"
-
 msgid "블로그 주소 예시"
 msgstr "ブログ アドレスの例"
 
-msgid "블로그 주소(%1)를 소유자 계정에 연결된 오픈아이디 중 하나에 위임하여 오픈아이디로 사용할 수 있습니다."
+msgid "블로그 주소(%1)를 현재 아이디와 연결된 오픈아이디 중 하나에 위임하여 오픈아이디로 사용할 수 있습니다."
 msgstr "ブログアドレス(%1)をOpenIDアカウントとして利用できます。(管理者権限付与設定)"
+
+msgid "블로그 주소"
+msgstr "URL"
 
 msgid "블로그 주소가 올바르지 않습니다."
 msgstr "正しくない形式のURLです。"
@@ -1968,6 +2766,9 @@ msgid "블로그 주소를 변경하지 못했습니다"
 msgstr "URLの更新に失敗しました。"
 
 msgid "블로그 주소를 오픈아이디로 사용"
+msgstr "ブログアドレスをOpenIDとして利用"
+
+msgid "블로그 주소를 오픈아이디로 사용하기"
 msgstr "ブログアドレスをOpenIDとして利用"
 
 msgid "블로그 주소를 오픈아이디로 사용하지 않습니다."
@@ -1982,8 +2783,20 @@ msgstr "ブログタグ"
 msgid "블로그 통계 정보를 복원하고 있습니다."
 msgstr "統計情報を復元中…"
 
+msgid "블로그 파비콘이 하루에 소모하는 트래픽을 제한합니다. 단위는 Megabyte 입니다."
+msgstr "Faviconの転送量制限(MB)"
+
 msgid "블로그 표시설정"
 msgstr "表示設定"
+
+msgid "블로그 표지 위젯 플러그인은 블로그의 첫 화면이나 표지 화면에 출력되는 위젯을 추가해 줍니다."
+msgstr "そして、メタページウィジェットはブログのメタページから表示するされるプラグインのことです。<br />"
+
+msgid "블로그 표지 위젯"
+msgstr "メタページウィジェット"
+
+msgid "블로그 표지를 관리합니다"
+msgstr "メタページ管理"
 
 msgid "블로그 플러그인"
 msgstr "ブログプラグイン"
@@ -1991,8 +2804,11 @@ msgstr "ブログプラグイン"
 msgid "블로그 화면으로"
 msgstr "マイブログのトップへ<br />"
 
-msgid "블로그/관리자 플러그인"
+msgid "블로그/관리자 기능"
 msgstr "ブログ・管理者用プラグイン"
+
+msgid "블로그"
+msgstr "ブログ"
 
 msgid "블로그가 공개되지 않은 상태이기 때문에 발행할 수 없습니다."
 msgstr "非公開ブログに設定されているので記事の発行が不可能であります。"
@@ -2003,11 +2819,39 @@ msgstr "存在していないブログ、またはブログの管理者が最高
 msgid "블로그로 이동"
 msgstr "マイブログへ"
 
+msgid ""
+"블로그를 준비해 두었습니다.\n"
+"지금 바로 입주하실 수 있습니다."
+msgstr ""
+"ブログが用意されております。\n"
+"今すぐからご利用できます。"
+
+msgid "블로그를 추가하지 못했습니다."
+msgstr "新規ブログ作成に失敗しました。"
+
+msgid "블로그에 다양한 기능을 더해보세요. 원하는 기능이 든 아이콘을 눌러주면 바로 블로그의 기능이 업그레이드 됩니다."
+msgstr "プラグインでTextcubeの機能追加ができます。ここからプラグインの利用可否を設定します。"
+
+msgid "블로그에 등록된 플러그인의 설정사항을 복원 및 백업 할수 있습니다. 플러그인을 <b>'사용중'</b>으로 해놓은 것들만 백업 대상이 됩니다.<br /> 플러그인 각각의 설정값을 그대로 복원 및 백업 할수 있습니다. 텍스트큐브 v1.5 버전 이상에서만 사용할 수 있고, 복원하시려면 적어도 <b>'플러그인 설정 관리'</b> 플러그인은 <br />사용중으로 되어 있어야 합니다. 플러그인 설정 데이터 초기화 하시기 전에 반드시 백업 하시기 바랍니다."
+msgstr "現在<strong>利用中</strong>のプラグインの設定の復元・バックアップができます。Textcube1.5以上から利用ができて、復元のためにはこの<strong>プラグイン設定マネジャー</strong>を利用中に転換してください。また、プラグイン設定データのリセットの前には必ずバックアップをしてください。"
+
 msgid "블로그에 아이디가 있는 경우만 접근할 수 있도록 합니다."
 msgstr "アカウント所有者"
 
+msgid "블로그에 적용하기 원하시는 스킨의 적용 버튼을 누르면 스킨이 블로그에 반영됩니다."
+msgstr "利用するテーマの「適用」ボタンをクリックすると選択テーマの利用を始めます。"
+
 msgid "블로그에 표시되는 값들을 변경합니다"
-msgstr "出力設定"
+msgstr "詳細出力設定"
+
+msgid "블로그에 표시되는 메세지의 언어를 설정합니다. 달력이나 댓글 입력창에 적용됩니다."
+msgstr "ブログの言語を設定します。コメント作成やカレンダーから表示します。"
+
+msgid "블로그에서 사용할 시간대를 설정합니다."
+msgstr "タイムゾーンを設定します。"
+
+msgid "블로그의 기본 스킨을 정합니다. 반드시 존재하는 스킨의 디렉토리 이름이어야 합니다."
+msgstr "デフォルトテーマ設定：正しいテーマフォルダー名称をご入力ください。"
 
 msgid "블로그의 기본 정보를 설정합니다"
 msgstr "基本情報設定"
@@ -2018,16 +2862,16 @@ msgstr "ブログのサイドバーを構成します。サイドバーはブロ
 msgid "블로그의 표지 구성을 변경할 수 있습니다."
 msgstr "ブログのメタページを構成します。"
 
-msgid "비공개"
-msgstr "非公開"
-
 msgid "비공개 글"
 msgstr "非公開記事"
 
-msgid "비공개로 변경합니다"
-msgstr "非公開転換"
+msgid "비공개"
+msgstr "非公開"
 
 msgid "비공개로 변경합니다."
+msgstr "非公開転換"
+
+msgid "비공개로 변경합니다"
 msgstr "非公開転換"
 
 msgid "비밀 댓글"
@@ -2045,14 +2889,14 @@ msgstr "非公開コメントの作成者のみにこのコメントが表示さ
 msgid "비밀방문자"
 msgstr "非公開希望"
 
-msgid "비밀번호"
-msgstr "パスワード"
-
 msgid "비밀번호 변경"
 msgstr "パスワード変更"
 
 msgid "비밀번호 확인"
 msgstr "パスワード再入力"
+
+msgid "비밀번호"
+msgstr "パスワード"
 
 msgid "비밀번호가 일치하지 않습니다."
 msgstr "パスワードが一致しません。"
@@ -2061,6 +2905,9 @@ msgid "비밀번호는 6자리 이상입니다."
 msgstr "パスワードは6文字以上でご入力ください。"
 
 msgid "비밀번호는 최소 6자 이상이어야 합니다."
+msgstr "パスワードは6文字以上でご入力ください。"
+
+msgid "비밀번호는 최소 6자 이상이어야 합니다"
 msgstr "パスワードは6文字以上でご入力ください。"
 
 msgid "비밀번호를 변경하시겠습니까?"
@@ -2085,16 +2932,16 @@ msgid "사용 가능한 운영 방법은 다음과 같습니다. 선택하여 �
 msgstr "運営ルールを下記からご選択ください。"
 
 msgid "사용 불가능한 판번호"
-msgstr "利用不可のバージョン"
+msgstr "利用不可の版本"
 
-msgid "사용가능한 스킨 목록입니다"
-msgstr "スキン一覧"
+msgid "사용 안함"
+msgstr "利用しない"
+
+msgid "사용가능한 스킨들의 목록입니다"
+msgstr "テーマ一覧"
 
 msgid "사용여부"
 msgstr "利用可否"
-
-msgid "사용자"
-msgstr "メンバー"
 
 msgid "사용자 ID"
 msgstr "ID"
@@ -2107,6 +2954,9 @@ msgstr "メンバー情報"
 
 msgid "사용자 삭제"
 msgstr "メンバー除名"
+
+msgid "사용자 삭제에 실패하였습니다."
+msgstr "メンバー除名に失敗しました。"
 
 msgid "사용자 삽입 이미지"
 msgstr "添付画像"
@@ -2129,32 +2979,41 @@ msgstr "メンバー除名"
 msgid "사용자 테이블의 미사용 필드를 삭제합니다."
 msgstr "メンバーテーブルの未使用フィールドを削除します。"
 
+msgid "사용자 편의 설정을 복원하고 있습니다."
+msgstr "ユーザーインターフェース設定を復元中…"
+
 msgid "사용자 편의 설정을 복원하고 있습니다"
 msgstr "ユーザーインターフェース設定を復元中…"
 
-msgid "사용자 편의 설정을 복원하고 있습니다."
-msgstr "ユーザーインターフェース設定を復元中…"
+msgid "사용자"
+msgstr "メンバー"
+
+msgid "사용자를 추가하지 못했습니다."
+msgstr "新規メンバー作成に失敗しました。"
 
 msgid "사용중"
 msgstr "利用中"
 
 msgid "사용중이 아닌 플러그인/모듈"
-msgstr "利用していないプラグイン・モジュール"
+msgstr "解除プラグイン・モジュール"
 
 msgid "사용중인 스킨이 사이드바 기능을 지원하지 않습니다."
-msgstr "利用中のスキンがサイドバーを支援しておりません。"
+msgstr "利用中のテーマがサイドバーを対応しておりません。"
 
-msgid "사용중인 플러그인"
-msgstr "利用中のプラグイン"
+msgid "사용중인 스킨이 표지를 지원하지 않습니다."
+msgstr "利用中のテーマがメタページを対応しておりません。"
+
+msgid "사용중인 표지 플러그인이 없습니다."
+msgstr "メタページウィジェットを利用しておりません。"
 
 msgid "사용중인 플러그인/모듈"
 msgstr "利用中のプラグイン・モジュール"
 
-msgid "사용하지 않는 플러그인"
-msgstr "利用していないプラグイン"
+msgid "사용중인 플러그인"
+msgstr "利用中のプラグイン"
 
-msgid "사이드바"
-msgstr "サイドバー"
+msgid "사용하지 않는 플러그인"
+msgstr "解除プラグイン"
 
 msgid "사이드바 구성을 변경합니다"
 msgstr "サイドバー構成"
@@ -2162,8 +3021,17 @@ msgstr "サイドバー構成"
 msgid "사이드바 기능을 관리합니다"
 msgstr "サイドバーの機能設定"
 
+msgid "사이드바 변경"
+msgstr "サイドバー"
+
+msgid "사이드바 위젯"
+msgstr "サイドバー設定"
+
 msgid "사이드바 플러그인"
 msgstr "サイドバープラグイン"
+
+msgid "사이드바"
+msgstr "サイドバー"
 
 msgid "사이드바로 바로 가기"
 msgstr "サイドバー設定ページへ"
@@ -2174,6 +3042,9 @@ msgstr "サイドバーに選択されたモジュールの機能を作成しま
 msgid "사이드바의 기능을 스킨 설정 상태로 초기화합니다."
 msgstr "サイドバーの機能をデフォルト設定にリセットします。"
 
+msgid "사이트 이름"
+msgstr "サイト名称"
+
 msgid "사이트 주소"
 msgstr "URL"
 
@@ -2182,9 +3053,6 @@ msgstr "このサイトへ進みます。"
 
 msgid "사이트명"
 msgstr "サイト名称"
-
-msgid "삭제"
-msgstr "削除"
 
 msgid "삭제 대기중인 걸린글입니다"
 msgstr "削除待機中のトラックバック"
@@ -2201,8 +3069,11 @@ msgstr "削除します、よろしいですか？"
 msgid "삭제: 본 계정과의 관계를 끊습니다."
 msgstr "削除：すべての権限を解除します。"
 
+msgid "삭제"
+msgstr "削除"
+
 msgid "삭제되는 기존 사용자의 글은 전부 관리자의 글로 변환됩니다."
-msgstr "除名対象メンバーの記事は最高管理者の記事に変更されます。"
+msgstr "除名するメンバーの記事は最高管理者の記事に変更されます。"
 
 msgid "삭제되었습니다."
 msgstr "削除しました。"
@@ -2225,8 +3096,8 @@ msgstr "削除しました。"
 msgid "삭제하지 못했습니다."
 msgstr "削除に失敗しました。"
 
-msgid "삭제할 파일을 선택해 주십시오\\t"
-msgstr "削除するファイルをご選択ください。\\\\t"
+msgid "삭제할 파일을 선택해 주십시오\t"
+msgstr "削除するファイルをご選択ください。\t"
 
 msgid "삭제할 파일이 없습니다. 다시 시도하세요"
 msgstr "削除するファイルが存在しておりません。もう一度試してください。"
@@ -2234,8 +3105,14 @@ msgstr "削除するファイルが存在しておりません。もう一度試
 msgid "삭제합니다."
 msgstr "削除"
 
+msgid "삽입하기"
+msgstr "挿入"
+
 msgid "상태"
 msgstr "状態"
+
+msgid "새 글 쓰기"
+msgstr "記事作成"
 
 msgid "새 글을 쓰거나 아래의 서식들 중 하나를 선택하여 글을 쓸 수 있습니다. 서식은 자유롭게 작성하여 저장할 수 있습니다."
 msgstr "新規記事の作成時に次のリストからテンプレートの選択ができます。"
@@ -2244,12 +3121,15 @@ msgid "새 글을 씁니다"
 msgstr "新規記事作成"
 
 msgid "새 댓글"
-msgstr "新しいコメント"
+msgstr "新着コメント"
 
 msgid "새 데이터베이스 테이블"
 msgstr "新規データベーステーブル"
 
 msgid "새 블로그 만들기"
+msgstr "新規ブログ作成"
+
+msgid "새 블로그 생성"
 msgstr "新規ブログ作成"
 
 msgid "새 사용자 등록"
@@ -2264,14 +3144,36 @@ msgstr "新規記事作成"
 msgid "새로 등록된 댓글입니다."
 msgstr "新着コメント"
 
+msgid "새로운 rewrite 엔진을 사용하기 위하여 .htaccess 를 재작성합니다."
+msgstr "新規rewriteモジュールの利用のため .htaccessファイルを更新します。"
+
 msgid "새로운 링크를 추가합니다"
 msgstr "新規ブックマーク作成"
+
+msgid "새로운 메시지가 없습니다"
+msgstr "新しいメッセージが存在しておりません。"
+
+msgid "새로운 블로그가 추가되었습니다."
+msgstr "新規ブログ作成完了"
 
 msgid "새로운 비밀번호"
 msgstr "新しいパスワード"
 
-msgid "새로운 스킨을 선택하면 이전 스킨에 적용된 출력 설정들과 사이드바의 변경점은 모두 지워집니다.\\n스킨을 적용하시겠습니까?"
-msgstr "スキンを変更すると利用中のサイドバーの設定がリセットされます、\\\\nよろしいですか？"
+msgid "새로운 사람을 블로그의 필자로 초대합니다. 초대장은 이메일을 통하여 발송됩니다. 메일 주소가 이미 블로그 서비스에 등록되어 있는 경우, 그 사용자에게 이 블로그의 필진 권한을 추가합니다. 사용자가 존재하지 않는 경우에는 새로운 사용자를 자동으로 등록하고 초대장을 발송합니다. 초대된 사람에게는 기본적으로 글쓰기 권한이 부여됩니다."
+msgstr "新規メンバーを招待します。招待状はメールで送信されます。新規メンバーの場合、招待された新規メンバーはメンバー作成と一緒に投稿者権限が付与されます。既登録メンバーの場合、投稿者権限を付与してます。"
+
+msgid "새로운 사람을 블로그의 필진으로 초대합니다"
+msgstr "新規メンバー招待"
+
+msgid "새로운 사용자가 추가되었습니다."
+msgstr "新規メンバー作成完了"
+
+msgid ""
+"새로운 스킨을 선택하면 이전 스킨에 적용된 출력 설정들과 사이드바의 변경점은 모두 지워집니다.\n"
+"스킨을 적용하시겠습니까?"
+msgstr ""
+"テーマを変更すると利用中のサイドバーの設定がリセットされます、\n"
+"よろしいですか？"
 
 msgid "새로운 테이블 식별자가 올바르지 않습니다. 다시 입력해 주십시오."
 msgstr "新規テーブル識別子が正しくない形式です。またご入力ください。"
@@ -2282,20 +3184,29 @@ msgstr "新規Textcubeを設定します。"
 msgid "새로운 프로필 사진을 저장 했습니다."
 msgstr "新規個人画像を保存しました。"
 
+msgid "새창"
+msgstr "新しいウィンドウ"
+
 msgid "색동"
 msgstr "メタページ"
 
 msgid "생활반경"
 msgstr "生活"
 
+msgid "서버 저장 또는 다운로드를 선택하여 백업하세요."
+msgstr "バックアップ方法をご選択ください。"
+
+msgid "서버"
+msgstr "サーバー"
+
 msgid "서버에 %1에 백업한 파일이 존재합니다."
 msgstr "サーバーに %1の頃に保存したバックアップデータが存在しております。"
 
-msgid "서버에 <em>%1</em>에 저장된 백업파일이 있습니다."
-msgstr "サーバーに <em>%1</em>頃に保存したバックアップデータが存在しております。"
-
 msgid "서버에 <em>%1</em>에 저장된 백업파일이 있습니다. 삭제후 복원에는 이 파일을 이용하실 수 있습니다."
 msgstr "サーバーに <em>%1</em>の頃に保存したバックアップデータが存在しております。このデータを復元に利用できます。"
+
+msgid "서버에 <em>%1</em>에 저장된 백업파일이 있습니다."
+msgstr "サーバーに <em>%1</em>頃に保存したバックアップデータが存在しております。"
 
 msgid "서버에 백업파일을 저장하여 복원에 사용할 수 있습니다."
 msgstr "サーバーにバックアップを保存して復元に利用できます。"
@@ -2306,11 +3217,17 @@ msgstr "サーバーに保存"
 msgid "서버에 저장된 백업파일."
 msgstr "サーバーに保存されたバックアップデータ"
 
+msgid "서브메뉴 : %1"
+msgstr "サブメニュー：%1"
+
 msgid "서브메뉴"
 msgstr "サブメニュー"
 
-msgid "서브메뉴 : %1"
-msgstr "サブメニュー：%1"
+msgid "서비스 기능을 조정합니다"
+msgstr "総合機能設定"
+
+msgid "서비스 리소스 경로"
+msgstr "サービス"
 
 msgid "서비스 설정값 테이블의 필드 속성을 변경합니다."
 msgstr "サービス設定テーブルのフィールド属性を更新します。"
@@ -2318,14 +3235,20 @@ msgstr "サービス設定テーブルのフィールド属性を更新します
 msgid "서비스 설정을 위한 테이블을 추가합니다."
 msgstr "サービス設定のためのテーブルを作成します。"
 
-msgid "서식"
-msgstr "テンプレート"
+msgid "서비스"
+msgstr "総合機能設定"
+
+msgid "서비스관리"
+msgstr "総合機能設定"
 
 msgid "서식 목록"
 msgstr "テンプレート一覧"
 
 msgid "서식 선택"
 msgstr "テンプレート選択"
+
+msgid "서식"
+msgstr "テンプレート"
 
 msgid "서식을 반영하였습니다."
 msgstr "テンプレートを適用しました。"
@@ -2339,6 +3262,9 @@ msgstr "基本項目(フォント)"
 msgid "선택되지 않은 배경색"
 msgstr "基本項目(背景)"
 
+msgid "선택된 걸린글 기록을 지웁니다. 계속 하시겠습니까?"
+msgstr "選択した受信履歴を削除します、よろしいですか？"
+
 msgid "선택된 걸린글을 복원합니다. 계속 하시겠습니까?"
 msgstr "選択したトラックバックを復元します、よろしいですか？"
 
@@ -2349,7 +3275,7 @@ msgid "선택된 걸린글을 지웁니다. 계속 하시겠습니까?"
 msgstr "選択したトラックバックを削除します、よろしいですか？"
 
 msgid "선택된 걸린글을 휴지통으로 옮깁니다. 계속 하시겠습니까?"
-msgstr "選択したトラックバックをコミ箱へ移動します、よろしいですか？"
+msgstr "選択したトラックバックをごみ箱へ移動します、よろしいですか？"
 
 msgid "선택된 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?"
 msgstr "選択した記事や画像ファイルを完全に削除します、よろしいですか？"
@@ -2375,6 +3301,21 @@ msgstr "選択した項目を拒否リストから除きます、よろしいで
 msgid "선택된 배경색"
 msgstr "選択項目(背景)"
 
+msgid "선택된 블로그 삭제"
+msgstr "選択ブログ削除"
+
+msgid "선택된 블로그가 삭제되었습니다."
+msgstr "選択したブログの削除に成功しました。"
+
+msgid "선택된 블로그를 삭제합니다."
+msgstr "選択したブログを削除します。"
+
+msgid "선택된 사용자 삭제"
+msgstr "選択メンバー除名"
+
+msgid "선택된 사용자를 삭제합니다."
+msgstr "選択したメンバーを除名します。"
+
 msgid "선택된 사용자를 정말 삭제하시겠습니까?"
 msgstr "選択したメンバーを除名します、よろしいですか？"
 
@@ -2384,8 +3325,14 @@ msgstr "選択したテーブルを削除中…"
 msgid "선택사항"
 msgstr "オプション"
 
+msgid "선택하세요"
+msgstr "ご選択ください。"
+
 msgid "선택하신 스킨이 존재하지 않습니다. 다른 스킨을 선택해 주시기 바랍니다."
-msgstr "選択したスキンが存在しておりません。他のスキンをご選択ください。"
+msgstr "選択したテーマが存在しておりません。他のテーマをご選択ください。"
+
+msgid "선택하신 옵션은 %1 파일을 처음 설치할 때의 값으로 되돌립니다."
+msgstr "選択事項は %1 ファイルの設定をリセットします。"
 
 msgid "선택하신 조건을 적용할 수 없었습니다."
 msgstr "選択事項の適用に失敗しました。"
@@ -2393,17 +3340,20 @@ msgstr "選択事項の適用に失敗しました。"
 msgid "선택한 걸린글을"
 msgstr "選択したトラックバックを"
 
-msgid "선택한 글을"
-msgstr "選択した記事を"
-
 msgid "선택한 글을 수정합니다"
-msgstr "選択した記事を編集します。"
+msgstr "記事編集"
+
+msgid "선택한 글을"
+msgstr "選択記事の"
 
 msgid "선택한 댓글을"
-msgstr "選択したコメントを"
+msgstr "選択コメントの"
 
 msgid "선택한 두개의 파일을 글의 중앙에 정렬합니다."
 msgstr "選択した2つのファイルを中央に揃えます。"
+
+msgid "선택한 링크를 삭제합니다."
+msgstr "削除"
 
 msgid "선택한 세개의 파일을 글의 중앙에 정렬합니다."
 msgstr "選択した3つのファイルを中央に揃えます。"
@@ -2426,20 +3376,20 @@ msgstr "選択したファイルを中央に揃えます。"
 msgid "설명"
 msgstr "説明"
 
-msgid "설정"
-msgstr "設定"
-
 msgid "설정 값이 없습니다."
 msgstr "設定値がありません。"
 
 msgid "설정 테이블에 블로그 언어 설정을 위한 필드를 추가합니다."
 msgstr "設定テーブルに言語設定のためのフィールドを作成します。"
 
+msgid "설정 파일: OK (경고: \"%1\" 파일을 덮어 쓰게 됩니다.)"
+msgstr "設定ファイル: OK (警告: \"%1\"に上書きします。)"
+
 msgid "설정 파일"
 msgstr "設定ファイル"
 
-msgid "설정 파일: OK (경고: \"%1\" 파일을 덮어 쓰게 됩니다.)"
-msgstr "設定ファイル: OK (警告: \"%1\"に上書きします。)"
+msgid "설정"
+msgstr "設定"
 
 msgid "설정을 변경했습니다."
 msgstr "設定更新に成功しました。"
@@ -2449,6 +3399,9 @@ msgstr "設定データの保存中…"
 
 msgid "설치 요구 사항을 확인하고 있습니다."
 msgstr "インストールに必要な事項を確認中…"
+
+msgid "설치된 자투리 플러그인입니다"
+msgstr "既にインストールされたパネルウィジェットです。"
 
 msgid "설치된 플러그인 경로"
 msgstr "プラグインのインストールパス"
@@ -2477,23 +3430,41 @@ msgstr "引越しに成功しました。"
 msgid "성공적으로 최적화 되었습니다."
 msgstr "最適化に成功しました。"
 
+msgid "세로"
+msgstr "縦"
+
+msgid "세번째 오브젝트"
+msgstr "Object #3"
+
+msgid "세번째 이미지"
+msgstr "画像 #3"
+
+msgid "세부 설정"
+msgstr "詳細設定"
+
+msgid "세션 디버그 모드 사용"
+msgstr "Session Debug Mode設定"
+
+msgid "세션 디버그 모드를 디버그 모드에 추가합니다. 현재 사용중인 세션에 대한 정보가 디버그 모드 끝에 출력됩니다."
+msgstr "Session Debug Modeを利用：現在セッションの詳細情報を表示"
+
+msgid "세션 타임 아웃까지의 시간을 설정합니다. 단위는 초입니다."
+msgstr "Session Timeout時間設定(秒)"
+
+msgid "세션 타임아웃"
+msgstr "Session Timeout"
+
 msgid "세션 테이블의 필드 속성을 변경합니다."
 msgstr "セッションテーブルのフィールド属性を更新します。"
 
 msgid "센터"
 msgstr "スタート"
 
-msgid "센터 플러그인"
-msgstr "ウィジェット"
-
 msgid "센터로 바로 가기"
 msgstr "スタートページへ"
 
 msgid "소스를 포함한 소프트웨어에 포함된 모든 저작물(이하, 텍스트큐브)의 저작권자는 Needlworks / TNF 입니다."
 msgstr "ソースコードを含める全体項目(以下、Textcube)の著作権はNeelworks/TNFからお持ちしております。"
-
-msgid "소유자"
-msgstr "ブログ管理者"
 
 msgid "소유자 계정에 연결된 오픈아이디 목록"
 msgstr "管理者用OpenID"
@@ -2507,11 +3478,28 @@ msgstr "管理者権限付与設定"
 msgid "소유자 변경"
 msgstr "ブログ管理者変更"
 
-msgid "소유자가 변경되었습니다. \\r\\n기존의 소유자는 관리자로 변경되었습니다."
-msgstr "ブログの管理者を変更しました。\\\\r\\\\n既存のブログ管理者は一般メンバーに権限が変更されます。\\\\r\\\\nただし、管理者権限は維持します。"
+msgid "소유자"
+msgstr "ブログ管理者"
+
+msgid ""
+"소유자가 변경되었습니다. \r\n"
+"기존의 소유자는 관리자로 변경되었습니다."
+msgstr ""
+"ブログの管理者を変更しました。\r\n"
+"既存のブログ管理者は一般メンバーに権限が変更されます。\r\n"
+"ただし、管理者権限は維持します。"
 
 msgid "소유자를 변경하지 못했습니다."
 msgstr "ブログ管理者の変更に失敗しました"
+
+msgid "소통 기록"
+msgstr "送受信履歴"
+
+msgid "소통"
+msgstr "送受信履歴"
+
+msgid "속성"
+msgstr "属性"
 
 msgid "손님이 글쓰기 허용"
 msgstr "利用"
@@ -2525,17 +3513,30 @@ msgstr "水"
 msgid "수정"
 msgstr "編集"
 
-msgid "수정된 스킨을 사용중입니다. 새로운 스킨을 선택하면 수정된 스킨의 내용과 스킨에 적용된 출력 설정, 사이드바의 변경점은 모두 지워집니다.\\n스킨을 적용하시겠습니까?"
-msgstr "利用中のスキンは編集されたものです。スキンを変更すると適用中のサイドバーの設定がリセットされます、\\\\nよろしいですか？"
+msgid ""
+"수정된 스킨을 사용중입니다. 새로운 스킨을 선택하면 수정된 스킨의 내용과 스킨에 적용된 출력 설정, 사이드바의 변경점은 모두 지워집니다.\n"
+"스킨을 적용하시겠습니까?"
+msgstr ""
+"利用中のテーマは編集されたものです。テーマを変更すると適用中のサイドバーの設定がリセットされます、\n"
+"よろしいですか？"
 
 msgid "수정이 실패하였습니다."
 msgstr "更新に失敗しました。"
 
+msgid "수정하기"
+msgstr "編集"
+
+msgid "수정한 파일은 내려받기 링크를 통해 다운로드 할 수 있습니다. 가장 최근에 수정한 파일을 내려 받기 위해서는 다운로드 전에 꼭 저장을 먼저 해 주시기 바랍니다. 스킨 파일은 하나의 html 파일로 되어 있기 때문에 다양한 웹 에디터를 사용해서 편집하셔도 문제가 없습니다. 내려받은 파일을 웹 에디터로 편집하신 후에 스킨 편집창에 붙여넣는 식으로 스킨을 수정하셔도 됩니다."
+msgstr "編集テーマはダウンロードをクリックしてダウンロードができます。最新版本のダウンロードのためには必ず更新事項を保存してください。<br />テーマファイルは1つのhtmlファイルで構成しており、このファイルはDreamweaverなどのエディターからの編集ができます。"
+
 msgid "수집하지 않음"
-msgstr "収集しない"
+msgstr "収集中止"
 
 msgid "수집한 글의 보존기간"
 msgstr "保存期限"
+
+msgid "순서없는 리스트"
+msgstr "箇條書き"
 
 msgid "순위"
 msgstr "順位"
@@ -2552,77 +3553,98 @@ msgstr "スクラップ<br />"
 msgid "스크랩한 글 보기"
 msgstr "スクラップ"
 
-msgid "스킨"
-msgstr "スキン"
-
 msgid "스킨 관련 테이블에 댓글 및 글걸기 메세지 설정을 위한 필드를 삭제합니다."
-msgstr "スキンテーブルからコメントやトラックバック設定フィールドを削除します。"
+msgstr "テーマ関係のテーブルからコメントやトラックバック設定フィールドを削除します。"
 
 msgid "스킨 디렉토리"
-msgstr "スキンフォルダ"
+msgstr "テーマフォルダー"
 
 msgid "스킨 미리보기"
-msgstr "スキン プレビュー"
+msgstr "テーマプレビュー"
 
 msgid "스킨 및 트리, 플러그인의 저작권은 각 제작자에게 있습니다."
-msgstr "スキン、分類ツリーやプラグインの著作権はそれぞれの製作者がお持ちしております。"
+msgstr "テーマ、分類ツリーやプラグインの著作権はそれぞれの製作者がお持ちしております。"
 
 msgid "스킨 변경"
-msgstr "スキン変更"
+msgstr "テーマ変更"
+
+msgid "스킨 상세 설정"
+msgstr "出力設定"
 
 msgid "스킨 선택"
-msgstr "スキン選択"
+msgstr "テーマ選択"
 
 msgid "스킨 설정 테이블에 검색 결과 출력시 목록 및 글 출력 설정을 위한 필드를 추가합니다."
-msgstr "スキン設定テーブルに検索結果の出力設定のため新規フィールドを作成します。"
+msgstr "テーマ設定テーブルに検索結果の出力設定のため新規フィールドを作成します。"
 
 msgid "스킨 설정 테이블에 공지 길이 제한 필드를 추가합니다."
-msgstr "スキン設定テーブルに告知の長さを制限するフィールドを作成します。"
+msgstr "テーマ設定テーブルに告知の長さを制限するフィールドを作成します。"
 
 msgid "스킨 설정 테이블에 아카이브 출력 설정 필드를 추가합니다."
-msgstr "スキン設定テーブルにアーカイブ出力設定フィールドを作成します。"
+msgstr "テーマ設定テーブルにアーカイブ出力設定フィールドを作成します。"
 
 msgid "스킨 설정 테이블에 저자별 페이지 출력 설정을 위한 필드를 추가합니다."
-msgstr "スキン設定テーブルに投稿者情報ページの出力設定のため新規フィールドを作成します。"
+msgstr "テーマ設定テーブルに投稿者情報ページの出力設定のため新規フィールドを作成します。"
 
 msgid "스킨 설정 테이블에 태그 출력시 목록 및 글 출력 설정을 위한 필드를 추가합니다."
-msgstr "スキン設定テーブルにタグの出力設定のため新規フィールドを作成します。"
+msgstr "テーマ設定テーブルにタグの出力設定のため新規フィールドを作成します。"
 
 msgid "스킨 설정을 복원하고 있습니다."
-msgstr "スキン設定を復元中…"
+msgstr "テーマ設定を復元中…"
 
 msgid "스킨 업로드 게시판"
-msgstr "公式スキンページ"
+msgstr "公式テーマページ"
 
 msgid "스킨 정보가 존재하지 않습니다."
-msgstr "スキンの情報が存在しておりません。"
+msgstr "テーマの情報が存在しておりません。"
 
 msgid "스킨 출력에 따른 여러 값들을 변경합니다"
-msgstr "スキン出力設定"
+msgstr "テーマ出力設定"
+
+msgid "스킨 캐시 사용"
+msgstr "テーマキャッシュ設定"
+
+msgid "스킨 캐시를 사용하지 않도록 설정하면 페이지 캐시를 사용하도록 설정해도 스킨 캐시를 사용하지않습니다."
+msgstr "テーマキャッシュの解除時、ページキャッシュを設定してもテーマキャッシュは作動しません。<br />"
+
+msgid "스킨 캐시를 사용합니다."
+msgstr "テーマキャッシュ設定："
 
 msgid "스킨 테이블의 필드 이름을 변경합니다."
-msgstr "スキンテーブルのフィールド名称を更新します。"
+msgstr "テーマテーブルのフィールド名称を更新します。"
+
+msgid "스킨 파일을 직접 수정한 후 바로 변경된 결과를 보아야 하는 경우 스킨 캐시를 끄고 작업하시기 바랍니다."
+msgstr "テーマの編集後に更新結果の確認を必要としたらテーマキャッシュを解除してください。"
 
 msgid "스킨 편집"
-msgstr "スキン編集"
+msgstr "テーマ編集"
+
+msgid "스킨에 따라 표시되는 여러 값들을 세세하게 변경합니다"
+msgstr "詳細出力設定"
 
 msgid "스킨에 맞춘 분류의 출력을 변경합니다"
 msgstr "分類出力設定"
 
 msgid "스킨을 구하려면"
-msgstr "スキンの求め方"
+msgstr "テーマの求め方"
 
 msgid "스킨을 변경하지 못했습니다."
-msgstr "スキン変更に失敗しました。"
+msgstr "テーマ変更に失敗しました。"
 
 msgid "스킨을 변경합니다"
-msgstr "スキン変更"
+msgstr "テーマ変更"
 
 msgid "스킨을 편집합니다 : \"%1\""
-msgstr "スキン編集 : \"%1\""
+msgstr "テーマ編集 : \"%1\""
 
 msgid "스팸 필터"
 msgstr "拒否設定"
+
+msgid "슬라이드쇼 간격"
+msgstr "スライドショーターム"
+
+msgid "슬라이딩"
+msgstr "スライディング"
 
 msgid "슬래시가 들어간 카테고리 이름은 사용할 수 없습니다"
 msgstr "半角スラッシュ(/)は分類名称からご利用できません。"
@@ -2636,6 +3658,9 @@ msgstr "タイムゾーン"
 msgid "시스템 정보"
 msgstr "システム情報"
 
+msgid "시험하기"
+msgstr "テスト"
+
 msgid "식별자"
 msgstr "識別子"
 
@@ -2648,26 +3673,38 @@ msgstr "メタページソースから利用中のタグを表示します。"
 msgid "실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다."
 msgstr "実際出力と同じく位置調整ができるデフォルトモードです。"
 
+msgid "실패 했습니다"
+msgstr "失敗しました。"
+
+msgid "실패: 글을 추가하지 못하였습니다"
+msgstr "作業失敗：記事作成失敗"
+
+msgid "실패: 첨부파일을 추가하지 못하였습니다"
+msgstr "作業失敗：添付ファイルのアップロード失敗"
+
 msgid "실패"
 msgstr "失敗"
 
-msgid "실패 했습니다"
+msgid "실패했습니다.."
 msgstr "失敗しました。"
 
 msgid "실패했습니다."
 msgstr "失敗しました。"
 
-msgid "실패했습니다.."
-msgstr "失敗しました。"
+msgid "심플"
+msgstr "シンプル"
+
+msgid "쓰고 있는 글"
+msgstr "作成中記事"
 
 msgid "아니요"
 msgstr "いいえ"
 
-msgid "아래로"
-msgstr "下段へ"
-
 msgid "아래로 스크롤"
 msgstr "下段へスクロール<br />"
+
+msgid "아래로"
+msgstr "下段へ"
 
 msgid "아래의 글 종류로 변경합니다."
 msgstr "記事タイプ転換"
@@ -2678,8 +3715,14 @@ msgstr "分類変更"
 msgid "아래의 상태로 변경합니다."
 msgstr "状態転換"
 
+msgid "아래의 설정을 저장하셔도 반영되지 않습니다."
+msgstr "次の設定は保存されません。"
+
 msgid "아이디 또는 비밀번호가 틀렸습니다."
 msgstr "IDもしくはパスワードが一致しません。"
+
+msgid "아이디와 오픈아이디의 대조를 통하여 아이디의 사칭 여부를 판별할 수 있습니다."
+msgstr "入力名前とOpenID利用履歴を比べて名前詐称の判別ができます。"
 
 msgid "아이콘 보기"
 msgstr "アイコン"
@@ -2699,10 +3742,10 @@ msgstr "未読記事のみ表示<br />"
 msgid "안전모드"
 msgstr "セーフモード"
 
-msgid "알 수 없는 에러가 발생했습니다"
+msgid "알 수 없는 에러가 발생했습니다."
 msgstr "未知のエラーが発生しました。"
 
-msgid "알 수 없는 에러가 발생했습니다."
+msgid "알 수 없는 에러가 발생했습니다"
 msgstr "未知のエラーが発生しました。"
 
 msgid "알 수 없는 에러입니다."
@@ -2710,6 +3753,15 @@ msgstr "未知のエラーです。"
 
 msgid "알 수 없음"
 msgstr "未知"
+
+msgid "알림판 위젯 플러그인은 로그인후 보이는 알림판에 위젯을 추가해 줍니다."
+msgstr "パネルウィジェットはスタートページの管理者パネルに表示されるプラグインのことです。<br />"
+
+msgid "알림판 위젯 플러그인이나 블로그 표지 플러그인은 사이드바와 같이 자유롭게 끌어서 위치를 바꿀 수 있습니다."
+msgstr "この二種類ウィジェットはサイドバーのような位置設定ができます。"
+
+msgid "알림판 위젯"
+msgstr "ウィジェット"
 
 msgid "알림판"
 msgstr "ブログ現況"
@@ -2723,26 +3775,26 @@ msgstr "好感度"
 msgid "앰퍼샌드(&)가 들어간 카테고리 이름은 사용할 수 없습니다"
 msgstr "アンパサンド(&)は分類名称からご利用できません。"
 
-msgid "언어"
-msgstr "言語"
-
 msgid "언어 및 시간대"
 msgstr "言語設定／タイムゾーン"
 
 msgid "언어, 시간대를 설정합니다"
 msgstr "国際化設定"
 
+msgid "언어"
+msgstr "言語"
+
 msgid "업데이트 주기"
 msgstr "更新周期"
-
-msgid "업로드"
-msgstr "アップロード"
 
 msgid "업로드 중.."
 msgstr "アップロード中…"
 
 msgid "업로드 중지"
 msgstr "アップロード中止"
+
+msgid "업로드"
+msgstr "アップロード"
 
 msgid "업로드가 취소되었거나 업로드 용량 제한을 초과하였습니다."
 msgstr "アップロードがキャンセルされたかサーバーのアップロード制限容量を超過しました。"
@@ -2759,6 +3811,9 @@ msgstr "エディターモジュール"
 msgid "에디터 설정을 변경할 수 없습니다"
 msgstr "エディターの設定更新に失敗しました。"
 
+msgid "에디터에서 다중 파일 업로드를 지원하는 플래시 업로더를 사용합니다."
+msgstr "多重アップロード機能設定"
+
 msgid "엔트리 테이블의 인덱스를 수정합니다."
 msgstr "エントリテーブルのインデックスを更新します。"
 
@@ -2768,8 +3823,11 @@ msgstr "エントリテーブルのメインインデックスにdraftフィー�
 msgid "여기를 클릭하시면 로그인하여 암호를 변경하실 수 있습니다."
 msgstr "ここをクリックしてパスワードの更新ができます。(サインインを必要とします。)"
 
+msgid "여기서 지정한 링크들의 관계는 XFN (XHTML Friends Network) 규격에 맞추어 블로그의 링크 출력시 추가 데이터로 함께 출력됩니다."
+msgstr "ここから設定した情報はXFN (XHTML Friends Network) として適用します。"
+
 msgid "여러개의 사이드바 사용시 사이드바의 위치는 스킨의 구조에 따라 달라집니다."
-msgstr "複数のサイドバーの位置はスキンの設定によります。"
+msgstr "複数のサイドバーの位置はテーマの設定によります。"
 
 msgid "역할"
 msgstr "役目"
@@ -2777,11 +3835,14 @@ msgstr "役目"
 msgid "엮인글 주소가 복사되었습니다."
 msgstr "トラックバックアドレスをクリップボードにコピーしました。"
 
-msgid "연결하기"
-msgstr "権限付与"
+msgid "연결 후에는 연결한 오픈아이디를 사용하여 블로그에 로그인 할 수 있습니다."
+msgstr "委任後には委任したOpenIDでサインインできます。"
 
 msgid "연결하기: 로그인하면 본 계정의 권한을 갖습니다."
 msgstr "権限付与：サインインしたらすべての権限を付与します。"
+
+msgid "연결하기"
+msgstr "権限付与"
 
 msgid "연결하였습니다."
 msgstr "権限付与成功"
@@ -2792,8 +3853,8 @@ msgstr "リンクしたOpenIDは管理者用OpenIDとしてサインインでき
 msgid "연락처를 아는"
 msgstr "連絡先だけ"
 
-msgid "예"
-msgstr "はい"
+msgid "영어 이외의 주소 출력시 RFC1738 규격에 맞추어 주소를 인코딩한 채로 출력합니다."
+msgstr "英数以外の文字表示設定：RFC1738規格でエンコードされたURLを表示"
 
 msgid "예) textcube.idtail.com, textcube.myid.net"
 msgstr "例) textcube.idtail.com, textcube.myid.net"
@@ -2813,6 +3874,9 @@ msgstr "例: Options <strong>All</strong>"
 msgid "예: Options <b>FollowSymLinks</b>"
 msgstr "例: Options <strong>FollowSymLinks</strong>"
 
+msgid "예"
+msgstr "はい"
+
 msgid "예약"
 msgstr "予約"
 
@@ -2828,14 +3892,17 @@ msgstr "右揃え"
 msgid "오름차순"
 msgstr "昇順"
 
+msgid "오브젝트 삽입"
+msgstr "オブジェクト挿入"
+
 msgid "오직하나뿐인"
 msgstr "たった一人の"
 
-msgid "오픈아이디"
-msgstr "OpenID"
-
 msgid "오픈아이디 게스트 로그인"
 msgstr "OpenIDサインイン"
+
+msgid "오픈아이디 기록"
+msgstr "OpenID利用履歴"
 
 msgid "오픈아이디 기억"
 msgstr "OpenID保存"
@@ -2843,11 +3910,17 @@ msgstr "OpenID保存"
 msgid "오픈아이디 댓글 테이블을 기존 댓글 테이블에 병합합니다"
 msgstr "OpenIDコメントテーブルを既存のコメントテーブルと併合します。"
 
+msgid "오픈아이디 댓글 테이블을 만듭니다"
+msgstr "OpenIDコメントテーブルを作成します。"
+
 msgid "오픈아이디 로그인 목록"
 msgstr "OpenIDサインイン履歴"
 
 msgid "오픈아이디 로그인 사용자에게만 댓글을 허용하도록 설정하러 가기"
 msgstr "コメント作成権限設定"
+
+msgid "오픈아이디 로그인"
+msgstr "OpenIDサインイン"
 
 msgid "오픈아이디 발급하기"
 msgstr "OpenIDアカウント作成"
@@ -2858,8 +3931,14 @@ msgstr "OpenID利用者テーブルを作成します。"
 msgid "오픈아이디 연결"
 msgstr "OpenID設定"
 
+msgid "오픈아이디 인증 플러그인을 활성화하십시오"
+msgstr "OpenID認証プラグインを利用中に転換してください。"
+
 msgid "오픈아이디 인증"
 msgstr "OpenID Verification"
+
+msgid "오픈아이디 인증이 실패하였습니다: "
+msgstr "OpenID認証に失敗しました。: "
 
 msgid "오픈아이디 저장"
 msgstr "OpenID保存"
@@ -2873,6 +3952,12 @@ msgstr "OpenID設定ページへ"
 msgid "오픈아이디 플러그인을 사용하고 있지 않으므로, 오픈아이디는 설정할 수 없습니다. 관리자에게 문의 하십시오"
 msgstr "OpenIDプラグインを利用していないため、関連設定ができません。最高管理者に問い合わせてください。"
 
+msgid "오픈아이디(%1)로 작성하였습니다"
+msgstr "OpenID(%1)で作成しました。"
+
+msgid "오픈아이디"
+msgstr "OpenID"
+
 msgid "오픈아이디란?"
 msgstr "OpenIDとは？"
 
@@ -2885,14 +3970,29 @@ msgstr "OpenIDでサインインした利用者のみにコメント作成を許
 msgid "오픈아이디로 로그인하여 쓴 댓글/방명록에 오픈아이디 아이콘을 표시합니다."
 msgstr "OpenIDで作成したコメントにOpenIDアイコンを表示"
 
+msgid "오픈아이디로 로그인한 사람들의 목록입니다"
+msgstr "OpenID利用履歴"
+
 msgid "오픈아이디로 사용할 블로그 주소를 선택하세요"
 msgstr "OpenIDとして利用するURLをご選択ください。"
 
 msgid "오픈아이디로만 댓글을 남길 수 있습니다"
 msgstr "OpenIDでサインインした人のみコメントの作成ができます。"
 
+msgid "오픈아이디를 입력하세요"
+msgstr "OpenIDをご入力ください。"
+
 msgid "오픈아이디를 입력하지 않았거나, 도메인 없는 오픈아이디를 입력하였습니다."
 msgstr "OpenIDが入力されていないか、または正しくない形式のOpenIDです。"
+
+msgid "오픈아이디를 현재 계정에 연결합니다."
+msgstr "OpenIDを利用中のアカウントへリンクします。"
+
+msgid "오픈아이디를 현재 아이디와 연결합니다."
+msgstr "利用中の名前をOpenIDとリンクします。"
+
+msgid "오픈아이디에 도메인 부분이 없습니다. 예) textcube.idtail.com"
+msgstr "正しい形式のOpenIDをご入力ください。例) textcube.openid.ne.jp"
 
 msgid "올바르지 않은 블로그 주소입니다"
 msgstr "正しくない形式のブログアドレスです。"
@@ -2903,26 +4003,39 @@ msgstr "正しくない形式のOPMLファイルです。"
 msgid "올바른 XML 파일이 아닙니다."
 msgstr "正しくない形式のXMLファイルです。"
 
-msgid "올바른 스킨 디렉토리명이 아닙니다.\\n디렉토리명에는 알파벳, 숫자, 언더바(_), 공백문자, 대쉬(-)만 사용하실 수 있습니다."
-msgstr "正しい形式のスキンフォルダー名称ではありません。\\\\nフォルダーの名称は半角英数と下線(_)、空白文字、ダッシュ(-)のみでご入力ください。"
+msgid ""
+"올바른 스킨 디렉토리명이 아닙니다.\n"
+"디렉토리명에는 알파벳, 숫자, 언더바(_), 공백문자, 대쉬(-)만 사용하실 수 있습니다."
+msgstr ""
+"正しい形式のテーマフォルダー名称ではありません。\n"
+"フォルダーの名称は半角英数と下線(_)、空白文字、ダッシュ(-)のみでご入力ください。"
 
 msgid "올바른 피드가 아닙니다."
-msgstr "正しくない形式のRSSフィードです。"
-
-msgid "완료"
-msgstr "完了"
+msgstr "正しくない形式のフィードです。"
 
 msgid "완료."
+msgstr "完了"
+
+msgid "완료"
 msgstr "完了"
 
 msgid "완료되었습니다."
 msgstr "完了しました。"
 
 msgid "외부 블로그에 표시되는 메세지의 언어를 설정합니다.<br />달력이나 댓글 입력창에 적용됩니다. 한국어 블로그를 운영하고 계신다면 한국어를 선택해 주십시오."
-msgstr "ブログの言語設定をします。<br />スキンのカレンダーやコメント入力ウィンドウに適用されます。日本語でブログを利用したいなら日本語をご選択ください。"
+msgstr "ブログの言語設定をします。<br />テーマのカレンダーやコメント入力ウィンドウに適用されます。日本語でブログを利用したいなら日本語をご選択ください。"
 
 msgid "외부 주소"
 msgstr "URL入力"
+
+msgid "외부 편집기가 사용할 수 있는 주소를 만들어 주는 <strong>도우미</strong>입니다."
+msgstr "BlogAPIを利用するエディターから利用するAPIアドレスを作成する<strong>BlogAPIマネジャー</strong>です。"
+
+msgid "외부 프로그램 또는 BlogAPI를 지원하는 서비스들을 사용할 때, 보안상의 이유로 블로그 관리자 비밀번호를 알려주고 싶지 않은 경우 사용하시기 바랍니다."
+msgstr "この機能は、保安上の理由でBlogAPI対応のアプリケーション、またはサービスから最高管理者のパスワードでの接近を制限する時にご利用ください。"
+
+msgid "외부 프로그램에 텍스트큐브를 등록할 경우, BlogAPI 종류로는 MovableType 혹은 MetaWeblog API를 선택하시면 됩니다."
+msgstr "BlogAPI対応のアプリケーションからTextcubeを登録時にBlogAPIのタイプは MovableType 或いは MetaWeblog APIに設定してください。"
 
 msgid "왼쪽 정렬"
 msgstr "左揃え"
@@ -2930,26 +4043,29 @@ msgstr "左揃え"
 msgid "요약"
 msgstr "要約統計"
 
+msgid "운영자만이 수정할 수 있습니다"
+msgstr "設定権限は最高管理者のみがお持ちします。"
+
 msgid "운영체제"
 msgstr "OS"
 
 msgid "움베르트 에코 -장미의 이름- 중"
 msgstr "(ウンベルト＝エーコ作「薔薇の続唱」から)"
 
+msgid "원격 설치 디렉토리"
+msgstr "遠隔インストールフォルダー"
+
 msgid "원본 크기로 보기"
 msgstr "元のサイズで"
 
 msgid "원하시는 스킨의 적용 버튼을 클릭하십시오."
-msgstr "利用するスキンを選択してから「適用」ボタンをクリックしてください。"
+msgstr "利用するテーマを選択してから「適用」ボタンをクリックしてください。"
 
 msgid "월요일"
 msgstr "月"
 
 msgid "웹 설정 파일"
 msgstr "ウェブ設定ファイル"
-
-msgid "웹서버"
-msgstr "ウェブサーバー"
 
 msgid "웹서버 설정에 <b>mod_rewrite</b>의 로딩이 포함되어야 합니다."
 msgstr "ウェブサーバーの設定に <strong>mod_rewriteのモジュールのロードを含めてください。"
@@ -2960,6 +4076,9 @@ msgstr "このディレクトリに対する<em>AllowOverride</em>項目のウ�
 msgid "웹서버 설정의 이 디렉토리에 대한 <em>Options</em> 항목에 <b>FollowSymLinks</b>가 포함되거나 <b>All</b>이어야 합니다."
 msgstr "このディレクトリに対する<em>Options</em>項目のウェプサーバーの設定に</strong>FollowSymLinks</strong>を含めるか、<strong>All</strong>に設定してください。"
 
+msgid "웹서버"
+msgstr "ウェブサーバー"
+
 msgid "웹에서 백업파일 가져오기."
 msgstr "サーバーからバックアップデータを取り込む"
 
@@ -2969,17 +4088,35 @@ msgstr "W3C標準遵守範囲以内からMicroformatを利用"
 msgid "위 2와 3의 문제는 아래 내용을 웹서버 설정에 포함시켜 해결할 수 있습니다."
 msgstr "上記の2･3の問題は下の内容をウェブサーバーの設定に含ませて解決できます。"
 
+msgid "위로 스크롤"
+msgstr "上段へスクロール<br />"
+
 msgid "위로"
 msgstr "上段へ"
 
-msgid "위로 스크롤"
-msgstr "上段へスクロール<br />"
+msgid "위임을 통하여 이후 오픈아이디를 사용하는 다른 서비스에서 이 블로그 주소를 오픈아이디로 사용할 수 있습니다."
+msgstr "委任後にはこのブログのURLをOpenIDを利用する他サービスからOpenIDとしてご利用できます。"
 
 msgid "위임주소"
 msgstr "リアルアドレス"
 
+msgid "위젯 켜고 끄기"
+msgstr "ウィジェット設定ページへ"
+
+msgid "위젯"
+msgstr "ウィジェット"
+
+msgid "위치 고정"
+msgstr "位置固定"
+
 msgid "유지"
 msgstr "維持"
+
+msgid "유형"
+msgstr "タイプ"
+
+msgid "의견"
+msgstr "コメ"
 
 msgid "이 API 키는 외부에서 댓글 알리미 RSS를 참조하거나 로그인이 필요한 기능에서 원래 비밀번호 대용으로 사용합니다."
 msgstr "このAPIキーはコメントトラッカーRSSの参照、またはサインインを必要とする機能をブログ外部からの接近時に管理者パスワードの代わりにご利用できます。"
@@ -3011,20 +4148,32 @@ msgstr "%1に作成されたアカウント"
 msgid "이 계정의 업로드 허용 용량은 <em>%1</em> 바이트로 백업파일의 크기가 이를 초과하는 경우 <acronym title=\"File Transfer Protocol\">FTP</acronym> 등으로 원하시는 사이트에 업로드하신 후 이 파일의 웹 주소를 입력해서 진행하십시오. 이 경우, 보안을 위해 복원이 끝나면 반드시 그 백업파일을 웹 상에서 지우실 것을 권장합니다."
 msgstr "このサーバーのアップロード制限値は <em>%1</em> byteです。バックアップデータが制限値を超過すると、<acronym title=\"File Transfer Protocol\">FTP</acronym> で任意の場所へアップロードしてからそのURLを入力して復元を続けてください。復元が完了するとアップロードしたバックアップデータは必ず削除してください。"
 
+msgid "이 곳에서 스킨을 편집할 수 있습니다. 편집이 끝난 스킨은 저장하기를 눌러 반영할 수 있습니다. 수정 중 원래 스킨으로 되돌리고 싶을 때는 되돌리기 버튼을 눌러 원래대로 되돌릴 수 있습니다."
+msgstr "テーマの編集ができます。編集後、テーマの更新のために必ず更新事項を保存してください。<br />更新事項を保存せず元に戻したいなら「キャンセル」をクリックしてください。"
+
 msgid "이 그룹 정보를 수정합니다."
 msgstr "グループ情報編集"
 
 msgid "이 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?"
 msgstr "この記事や画像ファイルを完全に削除します、よろしいですか？"
 
+msgid "이 글걸기 기록을 삭제합니다."
+msgstr "削除"
+
 msgid "이 글에는 트랙백을 보낼 수 없습니다"
-msgstr "この記事にはトラックバックの転送ができません。"
+msgstr "この記事にはトラックバックの送信ができません。"
 
 msgid "이 기능을 사용하면 올린 이미지의 크기를 줄여 저장하는 과정에서 서버에 무리를 줄 수 있으니 주의하시기 바랍니다."
 msgstr "この機能の利用時、サーバーへの重い負荷の可能性にご注意ください。"
 
+msgid "이 기능을 사용할 경우 BlogAPI를 지원하는 다양한 외부 프로그램을 사용하여 블로그에 글을 작성할 수 있습니다."
+msgstr "この機能の利用によってBlogAPIに対応している多様なアプリケーションから記事の作成ができます。"
+
 msgid "이 대화상자를 닫습니다."
 msgstr "このポップアップを閉じます。"
+
+msgid "이 댓글에 댓글을 씁니다."
+msgstr "返信コメント作成"
 
 msgid "이 댓글을 복원합니다."
 msgstr "コメント復元"
@@ -3038,11 +4187,36 @@ msgstr "ブックマーク情報編集"
 msgid "이 링크에 연결합니다."
 msgstr "このページへ進みます。"
 
+msgid ""
+"이 링크의 RSS를 바깥 글 읽기에 추가하시겠습니까?\n"
+"추가하면 바깥 글 읽기 메뉴에서 해당 링크의 새 글을 읽을 수 있습니다."
+msgstr ""
+"取得RSS情報をRSSフィードへ登録しますか？\n"
+"フィードを登録したらRSSリーダーからの購読ができます。"
+
+msgid "이 명령은 config.php 파일을 직접 수정합니다. 또한 서비스 전체에 동시에 영향을 줍니다."
+msgstr "この作業はconfig.phpを更新します。また、ブログの利用に大きな影響を与えます。"
+
+msgid "이 방명록에 답글을 씁니다"
+msgstr "返信コメント作成"
+
 msgid "이 블로그가 사용중인 첨부파일의 총 용량은 %1입니다."
 msgstr "総使用量 %1"
 
 msgid "이 블로그는 대표 블로그입니다."
 msgstr "トップブログ"
+
+msgid "이 블로그를 삭제합니다."
+msgstr "このブログを削除"
+
+msgid "이 블로그에 다른 필자를 등록하고 권한을 줄 수 있습니다. 필자로 등록된 경우 기본적으로 글쓰기 권한이 주어집니다. 관리자 권한의 경우 블로그의 설정을 변경할 수 있습니다. 글관리 권한의 경우 다른 필자의 글을 교정하거나 공개 정도를 변경할 수 있습니다."
+msgstr "このブログから新規投稿者の登録と権限付与ができます。投稿者は記事の作成権限を、管理者はブログ設定権限を付与されます。また、記事管理権限を付与したら他人の記事の校正、公開設定の変更ができます。"
+
+msgid "이 블로그에 등록된 필자들의 권한을 설정하고 관리합니다"
+msgstr "ブログメンバー設定"
+
+msgid "이 블로그에 오픈아이디로 로그인하여 글을 남긴 사람들의 기록입니다."
+msgstr "このブログのOpenID利用履歴であります。"
 
 msgid "이 블로그에는 첨부파일이 없습니다."
 msgstr "添付ファイルを利用していない"
@@ -3057,10 +4231,13 @@ msgid "이 블로그에는 총 %1개의 댓글이 있습니다."
 msgstr "総 %1件のコメント"
 
 msgid "이 블로그의 구성원만 접근할 수 있도록 합니다."
-msgstr "チームメンバのみ"
+msgstr "チームメンバーのみ"
 
 msgid "이 사용자는 블로그의 소유자입니다."
 msgstr "このメンバーは管理者権限をお持ちしております。"
+
+msgid "이 사용자를 삭제합니다."
+msgstr "このメンバーを削除"
 
 msgid "이 사용자를 팀블로그에서 제외합니다."
 msgstr "選択メンバーをチームブログから除名します。"
@@ -3083,7 +4260,25 @@ msgstr "URL拒否設定"
 msgid "이 사이트에서 건 글 목록을 보여줍니다."
 msgstr "このサイトから受信したトラックバックを表示"
 
+msgid "이 서비스가 참조할 경로를 강제로 지정합니다."
+msgstr "サービスのパス設定"
+
+msgid "이 서비스의 기본 시간대를 설정합니다."
+msgstr "基本タイムゾーン設定"
+
+msgid "이 서비스의 기본 언어를 설정합니다."
+msgstr "基本利用言語設定"
+
+msgid "이 서비스의 기본 인코딩을 설정합니다."
+msgstr "基本エンコード設定"
+
+msgid "이 아이디에 오픈아이디를 연결하기"
+msgstr "OpenIDをリンク"
+
 msgid "이 이름으로 등록된 댓글 목록을 보여줍니다."
+msgstr "この名前で作成されたコメントを表示"
+
+msgid "이 이름으로 등록된 방명록을 보여줍니다."
 msgstr "この名前で作成されたコメントを表示"
 
 msgid "이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다."
@@ -3091,6 +4286,12 @@ msgstr "名前拒否解除"
 
 msgid "이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다."
 msgstr "名前拒否設定"
+
+msgid "이 카테고리 이름을 수정합니다. 같은 카테고리의 모든 링크의 카테고리 이름이 함께 바뀝니다."
+msgstr "分類名更新、同分類の全てのブックマークの名称が更新されます。"
+
+msgid "이 카테고리 정보는 수정할 수 없습니다."
+msgstr "情報更新不可能"
 
 msgid "이 카테고리를 비공개로 설정합니다."
 msgstr "非公開分類設定"
@@ -3129,13 +4330,13 @@ msgid "이 플러그인은 %1 라이센스를 따릅니다."
 msgstr "このプラグインは %1 で配布しております。"
 
 msgid "이 플러그인은 사용 중지 상태입니다. 클릭하시면 사용을 시작합니다."
-msgstr "利用していないプラグインです。クリックすると利用中に転換します。"
+msgstr "解除プラグインです。クリックすると利用中に転換します。"
 
 msgid "이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다."
-msgstr "利用中のプラグインです。クリックすると利用中止に転換します。"
+msgstr "利用中のプラグインです。クリックすると解除に転換します。"
 
 msgid "이 플러그인은 사용중지 상태입니다. 클릭하시면 사용을 시작합니다."
-msgstr "利用していないプラグインです。クリックすると利用中に転換します。"
+msgstr "解除プラグインです。クリックすると利用中に転換します。"
 
 msgid "이 플러그인은 현재 텍스트큐브와 호환되지 않습니다. 플러그인의 업데이트가 필요합니다."
 msgstr "このプラグインはTextcubeからはご利用できません。プラグインを更新してください。"
@@ -3144,13 +4345,13 @@ msgid "이 플러그인을 사용하시려면 Textcube %1으로 업그레이드�
 msgstr "このプラグインの利用のためにはTextcube %1に更新してください。"
 
 msgid "이 피드 정보를 수정합니다."
-msgstr "RSSフィード情報編集"
+msgstr "フィード情報編集"
 
 msgid "이 피드를 갱신 합니다."
-msgstr "RSSフィード更新"
+msgstr "フィード更新"
 
 msgid "이 피드의 원본 사이트를 새 창으로 엽니다."
-msgstr "RSSフィードの原文ページへ進む"
+msgstr "原文ページへ進む"
 
 msgid "이 필터링을 제거합니다."
 msgstr "拒否解除"
@@ -3158,8 +4359,11 @@ msgstr "拒否解除"
 msgid "이동"
 msgstr "移動"
 
-msgid "이름"
-msgstr "名前"
+msgid "이동전화를 이용하여 위 메일로 이메일을 보내면 블로그에 게시됩니다"
+msgstr "上記のメールアドレスへメールを送信すると携帯電話からの記事作成ができます。"
+
+msgid "이동전화에서 보내는 이메일을 수신할 주소가 공개되지 않았습니다"
+msgstr "携帯電話から送信したメールを受信するメールアドレスがまだ設定されておりません。"
 
 msgid "이름 변경"
 msgstr "分類名変更"
@@ -3176,6 +4380,9 @@ msgstr "名前(E-Mail)"
 msgid "이름/비밀번호로 글쓰기"
 msgstr "名前・パスワードの入力でコメントを作成"
 
+msgid "이름"
+msgstr "名前"
+
 msgid "이름순으로 표시합니다."
 msgstr "名前順で表示"
 
@@ -3188,14 +4395,14 @@ msgstr "Imaging(FLASHギャラリー)挿入"
 msgid "이메이징(플래쉬 갤러리)을 삽입합니다."
 msgstr "Imaging(FLASHギャラリー)を挿入します。"
 
-msgid "이메일"
-msgstr "メール"
-
 msgid "이메일 저장"
 msgstr "メールアドレス保存"
 
 msgid "이메일 형식이 올바르지 않습니다."
 msgstr "正しくない形式のメールアドレスです。"
+
+msgid "이메일"
+msgstr "メール"
 
 msgid "이메일이 바르지 않습니다."
 msgstr "正しくない形式のメールアドレスです。"
@@ -3222,10 +4429,13 @@ msgid "이미 존재하는 주소입니다."
 msgstr "既に存在するURLです。"
 
 msgid "이미 존재하는 피드 주소입니다."
-msgstr "既に存在するRSSフィードです。"
+msgstr "既に存在するフィードです。"
 
 msgid "이미 팀원으로 등록된 사용자입니다."
 msgstr "入会中のメンバーであります。"
+
+msgid "이미 확인한 메일"
+msgstr "既読メール"
 
 msgid "이미지 갤러리를 삽입합니다."
 msgstr "画像ギャラリーを挿入します。"
@@ -3242,11 +4452,17 @@ msgstr "画像リサンプリング設定"
 msgid "이미지 리샘플링을 통하여 올린 이미지의 크기를 줄여 저장한 후 출력하여 블로그의 트래픽을 줄여줍니다."
 msgstr "画像リサンプリングは画像の出力時にファイルのサイズを減らし、ブログのトラフィックを減少させます。<br />"
 
-msgid "이올린"
-msgstr "イオリン"
+msgid "이미지 에디터"
+msgstr "画像編集"
+
+msgid "이올린 태그 추천 사용"
+msgstr "イオリンおすすめタグ設定"
 
 msgid "이올린, 지금 만나보세요"
 msgstr "イオリン、私に会いに来て。"
+
+msgid "이올린"
+msgstr "イオリン"
 
 msgid "이올린에 발행된 글만을 RSS로 내보냅니다."
 msgstr "RSSフィードから発行記事のみを公開"
@@ -3263,14 +4479,11 @@ msgstr "イオリンとは？"
 msgid "이웃에 사는"
 msgstr "お隣さん"
 
-msgid "이전"
-msgstr "前へ"
+msgid "이전 글 보기"
+msgstr "前の記事へ"
 
 msgid "이전 글"
 msgstr "前の記事<br />"
-
-msgid "이전 글 보기"
-msgstr "前の記事へ"
 
 msgid "이전 이미지 보기"
 msgstr "前の画像"
@@ -3281,8 +4494,32 @@ msgstr "前のページへ"
 msgid "이전 포스트가 없습니다."
 msgstr "以前記事が存在しません。"
 
+msgid "이전"
+msgstr "前へ"
+
 msgid "인기도순으로 표시합니다."
 msgstr "人気度順で表示"
+
+msgid "인용구"
+msgstr "引用句"
+
+msgid "인증 성공"
+msgstr "認証成功"
+
+msgid "인증 실패"
+msgstr "認証失敗"
+
+msgid "인증이 취소되었습니다."
+msgstr "認証が取り消されました。"
+
+msgid "인증하지 못하였습니다. 아이디를 확인하세요"
+msgstr "認証に失敗しました。IDを確認してください。"
+
+msgid "인코딩"
+msgstr "エンコード"
+
+msgid "인코딩된 문자 주소 사용"
+msgstr "エンコードアドレス設定"
 
 msgid "일"
 msgstr "日"
@@ -3290,8 +4527,21 @@ msgstr "日"
 msgid "일로서 아는"
 msgstr "業務上"
 
-msgid "일반적으로 복원시 기존의 데이터를 덮어씁니다. \\n덮어쓰지 않고 백업파일을 추가하기 위해서는 백업파일을 열어 migrational=false 를 migrational=true로 바꾸셔야 합니다. 확인하신 후에 진행하시기 바랍니다.\\n계속 하시겠습니까?"
-msgstr "一般的では復元時に既存のデータに上書きします。\\\\n上書きせずバックアップの内容を追加するためにはバックアップしたファイルの migrational=false 項目を migrational=trueに転換してください。\\\\nこの事項を確認してから復元を進めてください。"
+msgid ""
+"일반적으로 복원시 기존의 데이터를 덮어씁니다. \n"
+"계속 하시겠습니까?"
+msgstr ""
+"一般的では復元時に既存のデータに上書きします、\n"
+"よろしいですか？"
+
+msgid ""
+"일반적으로 복원시 기존의 데이터를 덮어씁니다. \n"
+"덮어쓰지 않고 백업파일을 추가하기 위해서는 백업파일을 열어 migrational=false 를 migrational=true로 바꾸셔야 합니다. 확인하신 후에 진행하시기 바랍니다.\n"
+"계속 하시겠습니까?"
+msgstr ""
+"一般的では復元時に既存のデータに上書きします。\n"
+"上書きせずバックアップの内容を追加するためにはバックアップしたファイルの migrational=false 項目を migrational=trueに転換してください。\n"
+"この事項を確認してから復元を進めてください。"
 
 msgid "일별 통계 정보를 복원하고 있습니다."
 msgstr "日別統計を復元中…"
@@ -3300,19 +4550,34 @@ msgid "일요일"
 msgstr "日"
 
 msgid "읽은 글 감추기"
-msgstr "既読記事を隠す"
+msgstr "既読記事を非表示"
 
 msgid "읽지 않은 상태로 변경하였습니다."
 msgstr "未読記事に転換しました。"
 
+msgid "임시 암호 발급에 실패하였습니다."
+msgstr "任意パスワードの設定に失敗しました。"
+
+msgid "임시 암호 설정"
+msgstr "任意パスワード設定"
+
 msgid "임시 암호"
-msgstr "任意のパスワード"
+msgstr "任意パスワード"
+
+msgid "임시 암호가 설정되어 있습니다."
+msgstr "任意パスワードが設定されています。"
+
+msgid "임시 암호가 설정되었습니다."
+msgstr "任意パスワードの設定に成功しました。"
+
+msgid "임시 암호가 설정되지 못했습니다."
+msgstr "任意パスワードの設定に失敗しました。"
 
 msgid "임시 저장본을 보시겠습니까?"
-msgstr "一時保存本を見ますか？"
+msgstr "編集中の記事を見ますか？"
 
 msgid "임시 저장본이 있습니다."
-msgstr "一時保存本が存在します。"
+msgstr "編集中の記事が存在します。"
 
 msgid "임의로 생성"
 msgstr "任意作成"
@@ -3327,7 +4592,7 @@ msgid "입력하신 URL에 접속할 수 없습니다."
 msgstr "入力したURLに接続できません。"
 
 msgid "입력하지 않으면 글의 제목이 절대 주소가 됩니다."
-msgstr "入力しないと記事のタイトルが固定リンクとなります。"
+msgstr "入力しないと記事のタイトルが記事リンクとなります。"
 
 msgid "자녀"
 msgstr "子女"
@@ -3335,11 +4600,23 @@ msgstr "子女"
 msgid "자동으로 저장됨"
 msgstr "自動保存成功"
 
+msgid "자동재생"
+msgstr "自動再生"
+
+msgid "자막"
+msgstr "キャプション"
+
 msgid "자바스크립트 허용"
 msgstr "Javascript許可"
 
+msgid "자세한 설정 보기"
+msgstr "詳細設定表示"
+
 msgid "자세히 보기"
 msgstr "詳細情報"
+
+msgid "작성중"
+msgstr "作成中"
 
 msgid "작성한 글 수"
 msgstr "作成記事数"
@@ -3369,7 +4646,13 @@ msgid "잘못된 파일 형식입니다. 다시 시도하세요"
 msgstr "正しくない形式のファイルです。もう一度試してください。"
 
 msgid "잘못된 피드"
-msgstr "正しくない形式のRSSフィード"
+msgstr "正しくない形式のフィード"
+
+msgid "잠시 후 다시 시도해 주십시오."
+msgstr "しばらく後でもう一度試してください。"
+
+msgid "장면전환효과"
+msgstr "転換効果"
 
 msgid "잦은 입출력으로 비효율적이 된 데이터베이스를 최적화 합니다."
 msgstr "非効率的なデータベースを最適化します。"
@@ -3380,19 +4663,22 @@ msgstr "投稿者選択時"
 msgid "저작권"
 msgstr "著作権"
 
-msgid "저장"
-msgstr "保存"
-
 msgid "저장 완료"
 msgstr "保存完了"
 
 msgid "저장 후 닫기"
 msgstr "作成完了"
 
-msgid "저장되었습니다"
-msgstr "保存しました。"
+msgid "저장 후 돌아가기"
+msgstr "作成完了"
+
+msgid "저장"
+msgstr "保存"
 
 msgid "저장되었습니다."
+msgstr "保存しました。"
+
+msgid "저장되었습니다"
 msgstr "保存しました。"
 
 msgid "저장됨"
@@ -3425,31 +4711,49 @@ msgstr "保存に失敗しました。"
 msgid "저장하지 못했습니다."
 msgstr "保存に失敗しました。"
 
+msgid "저장하지 못했습니다"
+msgstr "保存に失敗しました。"
+
+msgid "저장했습니다"
+msgstr "保存しました。"
+
 msgid "적용"
 msgstr "適用"
 
+msgid "적용하기"
+msgstr "適用"
+
+msgid "적용하시면 기존의 %1 파일이 변경됩니다. 이 변경사항은 되돌릴 수 없습니다. 그래도 적용하시겠습니까?"
+msgstr "保存すると既存の%1に上書きします。更新後には取り戻せません、よろしいですか？"
+
 msgid "적용할 글을 선택해 주십시오."
 msgstr "適用する記事をご選択ください。"
+
+msgid "전문가 태그"
+msgstr "ブログテーマタグ"
+
+msgid "전문가 태그는 이 블로그가 어떠한 주제로 운영되는지를 표시합니다. 전문가태그 정보는 블로그의 코드에 메타 태그 형태로 명시되어 검색 엔진등이 참조할 수 있게 됩니다."
+msgstr "ブログテーマタグとはこのブログの主題を示します。ブログテーマタグは検索キーワードとして作動します。"
 
 msgid "전문분야"
 msgstr "業務関係"
 
 msgid "전송"
-msgstr "転送"
+msgstr "送信"
 
 msgid "전송로그"
-msgstr "転送ログ"
+msgstr "送信ログ"
 
 msgid "전송할 주소를 입력하세요"
-msgstr "転送するアドレスをご入力ください。"
-
-msgid "전체"
-msgstr "全体"
+msgstr "送信するアドレスをご入力ください。"
 
 msgid "전체 목록"
 msgstr "全体リスト"
 
 msgid "전체 보기"
+msgstr "全体"
+
+msgid "전체"
 msgstr "全体"
 
 msgid "전체공개"
@@ -3459,7 +4763,7 @@ msgid "전체보기"
 msgstr "全体"
 
 msgid "절대 주소"
-msgstr "固定リンク"
+msgstr "記事リンク"
 
 msgid "점검 없이 이 기능을 사용할 수 없습니다."
 msgstr "この機能の利用のためにはメインテナンスを必要とします。"
@@ -3473,8 +4777,17 @@ msgstr "接近制限を設定するとブログをアクセスするためにサ
 msgid "접근권한이 없습니다"
 msgstr "アクセス権限をお持ちしておりません。"
 
+msgid "접속 성공"
+msgstr "接続成功"
+
+msgid "접속 실패"
+msgstr "接続失敗"
+
 msgid "정렬"
 msgstr "並替え"
+
+msgid "정렬방법"
+msgstr "揃え方"
 
 msgid "정렬순서 변경"
 msgstr "並べ方の変更"
@@ -3503,14 +4816,14 @@ msgstr "情報取得"
 msgid "정보를 갱신하지 못했습니다."
 msgstr "情報更新に失敗しました。"
 
+msgid "정적인 파일들 (script, attach, image, style 하위 디렉토리)을 별도의 경로로 관리할 수 있습니다. 다른 웹 프로그램을 같은 도메인에서 운영할 때 동작이 방해받는 경우, 또는 서버에 걸리는 부하를 분산하고 싶은 경우 지정하면 됩니다."
+msgstr "Textcubeの設定により他ソフトウェアの正常的な利用ができない時やサーバー負荷の分散処理時に設定"
+
 msgid "제목"
-msgstr "タイトル"
+msgstr "名称"
 
 msgid "제목을 입력해 주십시오."
 msgstr "タイトルをご入力ください。"
-
-msgid "제어판"
-msgstr "コントロールパネル"
 
 msgid "제외할 수 없습니다"
 msgstr "除名不可"
@@ -3530,14 +4843,17 @@ msgstr "ページを見つかりません。"
 msgid "종류"
 msgstr "タイプ"
 
+msgid "죄송합니다. 아직 해당 메뉴에 대한 도움말이 준비되지 않았습니다."
+msgstr "すみません、ヘルプがまだ用意されておりません。"
+
 msgid "주소를 입력해 주십시오."
 msgstr "アドレスをご入力ください。"
 
 msgid "주소입력"
 msgstr "アドレス"
 
-msgid "중앙 정렬"
-msgstr "中央揃え"
+msgid "중간 저장"
+msgstr "保存"
 
 msgid "중앙 정렬(2 이미지)"
 msgstr "中央揃え(2画像)"
@@ -3545,11 +4861,20 @@ msgstr "中央揃え(2画像)"
 msgid "중앙 정렬(3 이미지)"
 msgstr "中央揃え(3画像)"
 
+msgid "중앙 정렬"
+msgstr "中央揃え"
+
+msgid "중요한 글에 별표를 매깁니다."
+msgstr "スターマークを表示"
+
 msgid "쥬크박스 삽입"
 msgstr "ジュークボックスを挿入"
 
 msgid "쥬크박스를 삽입합니다."
 msgstr "ジュークボックスを挿入します。"
+
+msgid "지금 설정하지 않아도 설치 이후에 관리 패널의 서비스설정-서버 에서 rewrite 관련 설정을 할 수 있습니다."
+msgstr "インストールの後に管理者メニューの「総合機能設定＞サーバー」から rewrite関連の設定ができます。"
 
 msgid "지나간 글 정보를 더 읽어옵니다."
 msgstr "既存の記事情報を追加取得します。"
@@ -3557,20 +4882,26 @@ msgstr "既存の記事情報を追加取得します。"
 msgid "지역"
 msgstr "地域"
 
+msgid "지역로그"
+msgstr "地域ログ"
+
 msgid "지역태그 스크립트를 사용할 수 없습니다. 슬래시(/)로 구분된 지역을 직접 입력해 주십시오.(예: /대한민국/서울/강남역)"
 msgstr "ローカルタグスクリプトが利用できません。半角スラッシュ(/)で区別されたローカルタグを直接ご入力ください。(例: /日本/東京/千代田区)"
 
+msgid "지우기"
+msgstr "削除"
+
 msgid "지원하지 않는 백업파일입니다."
-msgstr "支援しないバックアップファイルです。"
+msgstr "この形式のバックアップファイルには対応しておりません。"
 
 msgid "지정된 이메일로 로그인 정보가 전달되었습니다."
-msgstr "設定したメールへサインイン情報を転送しました。"
+msgstr "設定したメールへサインイン情報を送信しました。"
 
 msgid "지정하신 걸린글 기록을 삭제하시겠습니까?"
 msgstr "設定したトラックバックログを削除します、よろしいですか？"
 
 msgid "지정하신 주소로 글을 보내시겠습니까?"
-msgstr "トラックバックを転送します、よろしいですか？"
+msgstr "トラックバックを送信します、よろしいですか？"
 
 msgid "쪽 당 방명록 수"
 msgstr "1ページ毎の掲示板コメント数"
@@ -3584,23 +4915,32 @@ msgstr "ブロックされている名前を利用しているのでコメント
 msgid "차단된 홈페이지 주소를 사용하고 계시므로 댓글을 남기실 수 없습니다."
 msgstr "ブロックされているURLを利用しているのでコメントの作成ができません。"
 
+msgid "차단하기"
+msgstr "拒否"
+
 msgid "참여자를 추가하지 못하였습니다."
 msgstr "一般メンバー作成失敗"
 
 msgid "참여중"
 msgstr "入会中"
 
+msgid "참여중인 Blog"
+msgstr "ブログリンク"
+
 msgid "참여중인 블로그"
 msgstr "ブログリンク"
 
 msgid "첨부 디렉토리"
-msgstr "添付フォルダ"
+msgstr "添付フォルダー"
 
 msgid "첨부 파일이 포함되지 않는 백업파일을 사용하여 복원하여도 기존 첨부 파일을 삭제하거나 훼손시키지 않습니다."
 msgstr "添付ファイルを含まないバックアップで復元しても既存の添付ファイルを削除するか破損させません。"
 
 msgid "첨부 파일이 포함된 백업파일을 사용하여 복원할 경우, 첨부 파일의 내용은 백업파일의 내용으로 다시 작성됩니다."
 msgstr "添付ファイルを含むバックアップで復元すると、既存の添付ファイルはバックアップの内容で再作成します。"
+
+msgid "첨부"
+msgstr "添付"
 
 msgid "첨부파일을 포함하시겠습니까?"
 msgstr "添付ファイルを含みますか？"
@@ -3617,10 +4957,22 @@ msgstr "添付ファイルを含みます。"
 msgid "첨부하지 못했습니다."
 msgstr "添付に失敗しました。"
 
+msgid "첫번째 오브젝트"
+msgstr "Object #1"
+
+msgid "첫번째 이미지"
+msgstr "画像 #1"
+
+msgid "첫번째 점검"
+msgstr "First Maintanence"
+
 msgid "초"
 msgstr "秒"
 
 msgid "초기화"
+msgstr "リセット"
+
+msgid "초기화하기"
 msgstr "リセット"
 
 msgid "초대 메시지"
@@ -3629,11 +4981,21 @@ msgstr "招待のメッセージ"
 msgid "초대 메일은 발송되지 않으며, 새로 추가된 참여자는 기본 권한만을 가지게 됩니다."
 msgstr "新規メンバーは基本的な権限のみをお持ちします。"
 
+msgid "초대 취소"
+msgstr "招待キャンセル"
+
+msgid "초대를 취소하시겠습니까?"
+msgstr "招待を取り消します、よろしいですか？"
+
 msgid "초대명단"
 msgstr "招待名簿"
 
-msgid "초대받을 사람의 이름<이메일>을 적어 주십시오.\\n이메일만 적어도 됩니다."
-msgstr "招待したい人の名前<メールアドレス>をご入力ください。\\\\nメールアドレスのみ入力してもよろしいです。"
+msgid ""
+"초대받을 사람의 이름<이메일>을 적어 주십시오.\n"
+"이메일만 적어도 됩니다."
+msgstr ""
+"招待したい人の名前<メールアドレス>をご入力ください。\n"
+"メールアドレスのみ入力してもよろしいです。"
 
 msgid "초대받을 사람이 사용할 블로그 식별자를 적어 주십시오."
 msgstr "招待したい人のブログの識別子をご入力ください。"
@@ -3647,17 +5009,23 @@ msgstr "招待に応じなかった人のアカウントを削除します。"
 msgid "초대일"
 msgstr "招待日時"
 
+msgid "초대장 발송"
+msgstr "招待状送信"
+
+msgid "초대장 발송하기"
+msgstr "招待状送信"
+
 msgid "초대장"
 msgstr "招待状"
 
-msgid "초대장 발송"
-msgstr "招待状発送"
-
 msgid "초대장을 발송했습니다."
-msgstr "招待状を発送しました。"
+msgstr "招待状を送信しました。"
 
 msgid "초대취소"
 msgstr "招待キャンセル"
+
+msgid "초대한 사람 목록"
+msgstr "招待名簿"
 
 msgid "총 %1개의 블로그"
 msgstr "総 %1件"
@@ -3667,6 +5035,9 @@ msgstr "総 %1 件"
 
 msgid "총 %1명의 사용자"
 msgstr "総 %1人"
+
+msgid "총 %d개의 메시지"
+msgstr "総 %d 件のメッセージ"
 
 msgid "총 %d건"
 msgstr "総 %d件"
@@ -3698,23 +5069,23 @@ msgstr "最新記事設定"
 msgid "최근 글을 %1 글자로 표시합니다."
 msgstr "最新記事を %1 文字で表示"
 
-msgid "최근 댓글"
-msgstr "新着コメント"
-
 msgid "최근 댓글 길이"
 msgstr "新着コメント設定"
 
 msgid "최근 댓글 목록"
 msgstr "新着コメント一覧"
 
-msgid "최근 댓글 알리미"
-msgstr "新着コメントトラッカー"
-
 msgid "최근 댓글 알리미 목록"
 msgstr "新着コメントトラッカー一覧"
 
+msgid "최근 댓글 알리미"
+msgstr "新着コメントトラッカー"
+
 msgid "최근 댓글/트랙백 목록"
 msgstr "新着コメント・トラックバック"
+
+msgid "최근 댓글"
+msgstr "新着コメント"
 
 msgid "최근 댓글을 %1 글자로 표시합니다."
 msgstr "新着コメントを %1 文字で表示"
@@ -3725,11 +5096,11 @@ msgstr "サインイン履歴"
 msgid "최근 방명록"
 msgstr "新着掲示板コメント"
 
-msgid "최근 트랙백"
-msgstr "新着トラックバック"
-
 msgid "최근 트랙백 목록"
 msgstr "新着トラックバック一覧"
+
+msgid "최근 트랙백"
+msgstr "新着トラックバック"
 
 msgid "최근글(%1) 수정"
 msgstr "最近記事(%1)編集"
@@ -3737,11 +5108,23 @@ msgstr "最近記事(%1)編集"
 msgid "최근에 걸린글"
 msgstr "新着トラックバック"
 
+msgid "최근에 달린 답글"
+msgstr "新着コメント"
+
+msgid "최근에 달린 댓글"
+msgstr "新着コメント"
+
 msgid "최근에 달린 댓글을 %1개 보여줍니다."
 msgstr "新着コメントを %1 件表示"
 
 msgid "최근에 쓴 글을 %1개 보여줍니다."
 msgstr "最新記事を %1 件表示"
+
+msgid "최대너비"
+msgstr "最大幅"
+
+msgid "최대높이"
+msgstr "最大高さ"
 
 msgid "최상단 분류는 비공개로 설정할 수 없습니다."
 msgstr "最上位分類は非公開設定ができません。"
@@ -3761,20 +5144,26 @@ msgstr "最上位分類の名称変更のため分類テーブルのAutoIncrese�
 msgid "최적화 작업을 진행할 테이블을 확인하고 있습니다."
 msgstr "最適化するテーブルを確認しております…"
 
-msgid "추가"
-msgstr "作成"
+msgid "최종 접속일"
+msgstr "最近接続日"
+
+msgid "추가 가능한 모듈(스킨 기본)"
+msgstr "利用可能モジュール(テーマデフォルト)"
 
 msgid "추가 가능한 모듈"
 msgstr "利用可能モジュール"
 
-msgid "추가 가능한 모듈(스킨 기본)"
-msgstr "利用可能モジュール(スキンデフォルト)"
-
 msgid "추가 가능한 플러그인"
 msgstr "利用可能プラグイン"
 
+msgid "추가"
+msgstr "作成"
+
 msgid "추가하기"
 msgstr "作成"
+
+msgid "추가하였습니다."
+msgstr "作成に成功しました。"
 
 msgid "출력 설정"
 msgstr "出力設定"
@@ -3797,14 +5186,17 @@ msgstr "新着コメント数"
 msgid "취소"
 msgstr "キャンセル"
 
+msgid "취소선"
+msgstr "取消線"
+
 msgid "취소하기"
 msgstr "キャンセル"
 
 msgid "친구 관계를 설정합니다"
-msgstr "詳細情報設定"
+msgstr "ブックマーク情報設定"
 
 msgid "친구 링크 관리"
-msgstr "詳細情報設定"
+msgstr "ブックマーク情報設定"
 
 msgid "친구를 초대합니다"
 msgstr "新規メンバー招待"
@@ -3818,11 +5210,14 @@ msgstr "親しい度"
 msgid "친척"
 msgstr "親戚"
 
-msgid "카테고리"
-msgstr "分類"
-
 msgid "카테고리 변경"
 msgstr "分類変更"
+
+msgid "카테고리 주소"
+msgstr "分類リンク"
+
+msgid "카테고리 추가 또는 변경"
+msgstr "新規分類作成・編集"
 
 msgid "카테고리 테이블에 Body Id 설정을 위한 필드를 추가합니다."
 msgstr "分類テーブルにBodyId設定のためのフィールドを作成します。"
@@ -3830,11 +5225,17 @@ msgstr "分類テーブルにBodyId設定のためのフィールドを作成し
 msgid "카테고리 테이블에 비공개 카테고리 설정을 위한 필드를 추가합니다."
 msgstr "分類テーブルに非公開分類設定のためのフィールドを作成します。"
 
+msgid "카테고리"
+msgstr "分類"
+
 msgid "카테고리를 변경합니다"
 msgstr "分類設定"
 
 msgid "캐시 디렉토리"
 msgstr "キャッシュフォルダー"
+
+msgid "캐시 사용 조절"
+msgstr "キャッシュ設定"
 
 msgid "캐시 지우기"
 msgstr "キャッシュデータ削除"
@@ -3848,17 +5249,32 @@ msgstr "キャッシュデータの最適化に成功しました。"
 msgid "켜짐"
 msgstr "利用中"
 
+msgid "코드 붙여넣기"
+msgstr "コード貼り付け"
+
+msgid "코드"
+msgstr "コード"
+
 msgid "크기"
 msgstr "Size"
+
+msgid "크로스 브라우징을 지원하는 트랙백 복사를 위한 플래시를 사용합니다."
+msgstr "トラックバックアドレス自動コピー機能を設定"
 
 msgid "클릭 설정"
 msgstr "クリック設定"
 
-msgid "키워드"
-msgstr "キーワード"
+msgid "클릭하시면 HTML 편집기로 변경합니다."
+msgstr "HTML入力モードへ転換"
+
+msgid "키로그"
+msgstr "キーログ"
 
 msgid "키워드 통계"
 msgstr "キーワード統計"
+
+msgid "키워드"
+msgstr "キーワード"
 
 msgid "키워드를 복원하고 있습니다."
 msgstr "キーワードを復元中…"
@@ -3866,14 +5282,14 @@ msgstr "キーワードを復元中…"
 msgid "키워드명"
 msgstr "キーワード名称"
 
-msgid "태그"
-msgstr "タグ"
-
 msgid "태그 &amp; 위치"
 msgstr "タグ &amp; 位置"
 
 msgid "태그 선택 시"
 msgstr "タグ選択時"
+
+msgid "태그 연관성 명시"
+msgstr "タグリレーション"
 
 msgid "태그 입력 스크립트를 사용할 수 없습니다. 콤마(,)로 구분된 태그를 직접 입력해 주십시오.(예: 텍스트큐브, BLOG, 테스트)"
 msgstr "タグ入力スクリプトが利用できません。半角コンマ(,)で区別されたタグを直接ご入力ください。(例: Textcube, ブログ, テスト)"
@@ -3881,11 +5297,20 @@ msgstr "タグ入力スクリプトが利用できません。半角コンマ(,)
 msgid "태그 조절"
 msgstr "タグ調整"
 
+msgid "태그 주소"
+msgstr "タグリンク"
+
 msgid "태그 테이블에 인덱스 키를 추가합니다."
 msgstr "タグテーブルにインデックスキーを作成します。"
 
+msgid "태그"
+msgstr "タグ"
+
 msgid "태그관계 테이블의 인덱스를 수정합니다."
 msgstr "タグリレーションテーブルのインデックスを更新します。"
+
+msgid "태그를 변경하지 못했습니다."
+msgstr "タグの更新に失敗しました。"
 
 msgid "태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다."
 msgstr "モジュールのタイトルのみを表示します。"
@@ -3905,8 +5330,11 @@ msgstr "タグやタグリレーション情報を再計算して保存します
 msgid "태그의 정렬방법을"
 msgstr "タグの並べ方"
 
-msgid "테이블"
-msgstr "テーブル"
+msgid "테두리 없음"
+msgstr "縁なし"
+
+msgid "테두리"
+msgstr "縁"
 
 msgid "테이블 생성 권한"
 msgstr "テーブル作成権限"
@@ -3919,6 +5347,9 @@ msgstr "正しくない形式のテーブル識別子です。もう一度ご入
 
 msgid "테이블 이름"
 msgstr "テーブル名称"
+
+msgid "테이블"
+msgstr "テーブル"
 
 msgid "테이블을 생성하지 못했습니다."
 msgstr "テーブルの作成に失敗しました。"
@@ -3938,8 +5369,8 @@ msgstr "既に存在しているテーブルです。"
 msgid "테이블이 존재하지 않습니다."
 msgstr "存在しないテーブルです。"
 
-msgid "텍스트큐브"
-msgstr "Textcube"
+msgid "텍스트 상자"
+msgstr "テキストボックス"
 
 msgid "텍스트큐브 API에 사용할 비밀번호입니다."
 msgstr "Textcube APIから利用するパスワードであります。"
@@ -3971,6 +5402,9 @@ msgstr "Textcubeの設定を始めます。"
 msgid "텍스트큐브 시스템 점검이 필요합니다. 지금 점검하시겠습니까?"
 msgstr "Textcubeのメインテナンスを必要とします。今すぐにメインテナンスをお行いしますか？"
 
+msgid "텍스트큐브 오픈아이디 인증"
+msgstr "Textcube OpenID Verification"
+
 msgid "텍스트큐브 점검을 시작합니다."
 msgstr "Textcubeを点検します。"
 
@@ -3987,22 +5421,31 @@ msgid "텍스트큐브 홈페이지로 이동합니다."
 msgstr "Textcube公式サイトへ進みます。"
 
 msgid "텍스트큐브 홈페이지의 %1을 방문하시면 다양한 스킨을 다운로드 하실 수 있습니다. 일반적으로 스킨 파일을 텍스트큐브의 skin 디렉토리로 업로드하면 설치가 완료됩니다. 업로드가 완료된 스킨은 이 메뉴에서 적용 버튼을 눌러 사용하실 수 있습니다."
-msgstr "Textcube公式サイトの %1からTextcube用のスキンをダウンロードできます。インストールしたスキンの利用のため適用ボタンをクリックしてください。"
+msgstr "Textcube公式サイトの %1からTextcube用のテーマをダウンロードできます。インストールしたテーマの利用のため適用ボタンをクリックしてください。"
 
 msgid "텍스트큐브 홈페이지의 %1을 방문하시면 다양한 플러그인을 받을 수 있습니다. 받은 플러그인 파일을 텍스트큐브의 plugin 디렉토리(폴더)로 업로드하면 설치가 완료됩니다. 업로드 후, 이 페이지에서 해당 플러그인을 사용중으로 전환하여 사용을 시작할 수 있습니다."
 msgstr "Textcube公式サイトの %1からTextcube用のプラグインをダウンロードできます。インストールしたプラグインの利用のためプラグインをクリックして利用中に転換してください。"
 
 msgid "텍스트큐브 홈페이지의 스킨 업로드 게시판으로 연결합니다."
-msgstr "公式スキンページへ進みます。"
+msgstr "公式テーマページへ進みます。"
+
+msgid "텍스트큐브(Textcube) 는 웹에서 자신의 생각이나 일상을 기록하고 표현하기 위한 도구입니다."
+msgstr "Textcubeはネットから自分の考えや日常を記録・表現するためのプログラムです。"
+
+msgid "텍스트큐브"
+msgstr "Textcube"
 
 msgid "텍스트큐브가 성공적으로 설치되었습니다."
 msgstr "Textcubeをインストールしました。"
 
-msgid "텍스트큐브는"
-msgstr "Textcubeについて"
-
 msgid "텍스트큐브는 GPL 라이선스로 제공되며, 모든 사람이 자유롭게 이용할 수 있습니다."
 msgstr "Textcubeは <a href=\"http://www.gnu.org/licenses/gpl.html\" title=\"GNU GPL 文書へと進む\">GPL License</a>で提供されており、皆様がご自由に利用できます。"
+
+msgid "텍스트큐브는 개인 사용자부터 서비스 구축까지 넓은 폭으로 사용할 수 있으며, 플러그인과 테마 시스템, 다국어 지원을 통하여 무한한 확장성을 제공합니다."
+msgstr "Textcubeは個人用ブログの用途から大型サービスの構築までいろんな用途での利用ができます。Textcubeのプラグインやテーマシステム、国際化対応などで無限の拡張性を提供します。"
+
+msgid "텍스트큐브는"
+msgstr "Textcubeについて"
 
 msgid "텍스트큐브를 다시 설정합니다"
 msgstr "Textcubeをリセットします。"
@@ -4013,11 +5456,21 @@ msgstr "Textcubeのご利用ありがとうございます。"
 msgid "텍스트큐브를 점검합니다."
 msgstr "Textcubeを点検します。"
 
-msgid "텍스트큐브의 동작을 위하여 모듈이 필요한 부분마다 최소 하나 이상이 필요합니다.\\n현재 해당 모듈이 하나밖에 존재하지 않기 때문에 이 모듈의 동작을 중지시킬 수 없습니다."
-msgstr "Textcubeの正常的な動作のため、最小1つの利用中のモジュールを必要とします。\\\\n今作動中のモジュールが1つしか存在していないため、このモジュールの動作を中止できません。"
+msgid "텍스트큐브의 기능을 조정합니다."
+msgstr "Textcubeの機能を設定します。"
+
+msgid ""
+"텍스트큐브의 동작을 위하여 모듈이 필요한 부분마다 최소 하나 이상이 필요합니다.\n"
+"현재 해당 모듈이 하나밖에 존재하지 않기 때문에 이 모듈의 동작을 중지시킬 수 없습니다."
+msgstr ""
+"Textcubeの正常的な動作のため、最小1つの利用中のモジュールを必要とします。\n"
+"今作動中のモジュールが1つしか存在していないため、このモジュールの動作を中止できません。"
 
 msgid "텍스트큐브의 모든 데이터를 삭제합니다.<br />첨부파일의 삭제 여부를 선택하실 수 있습니다.<br />데이터의 복원은 백업파일을 통해서만 가능하므로 먼저 백업을 하시기 바랍니다."
 msgstr "Textcubeのデータを完全に削除します。<br />添付ファイルの削除はオプションで、データの復元はバックアップだけでできますので必ずバックアップをしてください。"
+
+msgid "텍스트큐브의 전반적인 캐시 기능을 사용합니다. 페이지 캐시, 스킨캐시, 실시간 쿼리 캐시 및 정책을 모두 포함됩니다."
+msgstr "ページキャッシュ、テーマキャッシュやリアルタイムクエリキャッシュを含む一般的なTextcubeのキャッシュ機能を設定"
 
 msgid "토요일"
 msgstr "土"
@@ -4025,17 +5478,23 @@ msgstr "土"
 msgid "통계와 관련된 구조를 변경합니다."
 msgstr "統計関連の構成を更新します。"
 
+msgid "투명전환"
+msgstr "透明転換"
+
+msgid "트랙백 리스트"
+msgstr "トラックバック一覧"
+
 msgid "트랙백 불러오기 속도를 개선하기 위하여 트랙백 테이블의 인덱스 설정을 변경합니다."
-msgstr "トラックバック動作速の改善のためトラックバックテーブルのインデックス設定を更新します。"
+msgstr "トラックバック動作速度の改善のためトラックバックテーブルのインデックス設定を更新します。"
+
+msgid "트랙백 영역"
+msgstr "トラックバック"
 
 msgid "트리 속성"
 msgstr "分類ツリー表示設定"
 
 msgid "특징을 설정합니다"
 msgstr "個人設定"
-
-msgid "팀블로그"
-msgstr "チームブログ"
 
 msgid "팀블로그 기능을 위한 테이블을 추가합니다."
 msgstr "チームブログテーブルを作成します。"
@@ -4049,6 +5508,16 @@ msgstr "チームブログ設定"
 msgid "팀블로그 제외"
 msgstr "メンバー除名"
 
+msgid ""
+"팀블로그 참여자가 추가 되었습니다.\r\n"
+"초대 메일은 발송되지 않으며, 새로 추가된 참여자는 기본 권한만을 가지게 됩니다."
+msgstr ""
+"新規メンバーを作成しました。\r\n"
+"新規メンバーは基本的な権限のみをお持ちします。"
+
+msgid "팀블로그 참여자를 추가하였습니다."
+msgstr "新規メンバーの作成に成功しました。"
+
 msgid "팀블로그 테이블의 사용자 이름 필드를 삭제합니다."
 msgstr "チームブログテーブルのメンバー名前フィールドを削除します。"
 
@@ -4061,8 +5530,14 @@ msgstr "チームブログテーブルのユーザーインターフェース設
 msgid "팀블로그 테이블의 필드 이름을 변경합니다."
 msgstr "チームブログテーブルのフィールド名称を更新します。"
 
+msgid "팀블로그"
+msgstr "チームブログ"
+
 msgid "팀블로그를 관리합니다"
 msgstr "チームブログ設定"
+
+msgid "팀블로그의 관리 패널 스킨을 변경할 경우 다른 팀원들의 관리 패널 디자인도 함께 바뀝니다."
+msgstr "管理者テーマの変更時、他メンバーのテーマ設定も一緒に更新されます。"
 
 msgid "팀원 제외"
 msgstr "メンバー除名"
@@ -4072,6 +5547,15 @@ msgstr "新規メンバー作成"
 
 msgid "팀원 추가에 실패했습니다."
 msgstr "新規メンバー作成に失敗しました。"
+
+msgid "팁을 가져올 수 없습니다."
+msgstr "ガイドブログから記事を取得できません。しばらくお待ちください…"
+
+msgid "팁이 없습니다."
+msgstr "ガイドが存在しておりません。"
+
+msgid "파비콘 트래픽"
+msgstr "Favicon転送量"
 
 msgid "파비콘"
 msgstr "Favicon"
@@ -4097,11 +5581,26 @@ msgstr "ファイル挿入"
 msgid "파일 시스템 권한"
 msgstr "ファイルシステム権限"
 
+msgid "파일 쓰기 권한이 없습니다. 웹서버가 %1 파일의 쓰기 권한을 가지고 있는지 확인하세요."
+msgstr "記録権限をお持ちしておりません。%1の記録権限をご確認ください。"
+
 msgid "파일 업로드"
 msgstr "アップロード"
 
 msgid "파일 업로드에 실패했습니다."
 msgstr "ファイルアップロードに失敗しました。"
+
+msgid "파일 주소"
+msgstr "ファイルアドレス"
+
+msgid "파일"
+msgstr "ファイル"
+
+msgid "파일명(수정불가)"
+msgstr "ファイル名称(変更不可)"
+
+msgid "파일명"
+msgstr "ファイル名称"
 
 msgid "파일을 삭제하지 못했습니다"
 msgstr "ファイル削除しませんでした。"
@@ -4110,25 +5609,34 @@ msgid "파일을 선택하십시오."
 msgstr "ファイルをご選択ください。"
 
 msgid "판번호"
-msgstr "Version"
-
-msgid "팟캐스트"
-msgstr "PodCast"
+msgstr "版本"
 
 msgid "팟캐스트 지정"
-msgstr "PodCastで設定"
+msgstr "ポッドキャストで設定"
 
 msgid "팟캐스트 포스트입니다."
-msgstr "PodCast用の記事です。"
+msgstr "ポッドキャスト用の記事"
+
+msgid "팟캐스트"
+msgstr "ポッドキャスト"
 
 msgid "팟캐스트로 지정합니다."
-msgstr "PodCastに設定します。"
+msgstr "ポッドキャストに設定"
 
 msgid "패널 가리기"
-msgstr "パネルを隠す"
+msgstr "パネル非表示"
+
+msgid "패널 보기 설정"
+msgstr "BlogAPI設定表示"
 
 msgid "패널 보기"
 msgstr "パネルビュー"
+
+msgid "패널 스킨"
+msgstr "管理者テーマ"
+
+msgid "패널 열기"
+msgstr "パネル表示"
 
 msgid "패스워드가 일치하지 않습니다."
 msgstr "パスワードが一致しません。"
@@ -4145,29 +5653,41 @@ msgstr "ページエラー"
 msgid "페이지 제목"
 msgstr "ページタイトル"
 
+msgid "페이지 캐시 사용"
+msgstr "ページキャッシュ設定"
+
 msgid "페이지 캐시를 초기화합니다."
 msgstr "ページキャッシュをリセットします。"
 
 msgid "페이지 캐싱을 위한 테이블을 추가합니다."
 msgstr "ページキャッシュのためのテーブルを作成します。"
 
+msgid "편집 환경"
+msgstr "エディター設定"
+
 msgid "편집"
 msgstr "編集"
-
-msgid "편집기"
-msgstr "エディター"
 
 msgid "편집기 없음"
 msgstr "エディターなし"
 
+msgid "편집기"
+msgstr "エディター"
+
+msgid "편집기에 미리 정한 분류로 글을 보내는 기능이 없거나, 글들을 일괄적으로 하나의 분류로 작성하고자 할 때 이 도우미를 사용해서 주소를 만든 후 복사해서 사용하시기 바랍니다."
+msgstr "エディターから分類設定に対応していないかまたは記事の分類を一括設定しようとするとマネジャーから別のAPIアドレスを作成してご利用ください。"
+
 msgid "편집하기"
 msgstr "編集"
 
-msgid "포매터"
-msgstr "フォーマット"
-
 msgid "포매터 모듈"
-msgstr "フォーマットモジュール"
+msgstr "作成形式モジュール"
+
+msgid "포매터"
+msgstr "作成形式"
+
+msgid "포매터는 글이 작성되는 형식과 이후 보여줄 때의 형식을 결정합니다."
+msgstr "作成形式は記事の作成時と表示時の出力方法を設定します。"
 
 msgid "포스트 정보가 존재하지 않습니다."
 msgstr "記事情報が存在しておりません。"
@@ -4181,28 +5701,37 @@ msgstr "記事を表示"
 msgid "포스트보기"
 msgstr "全体記事"
 
+msgid "폭"
+msgstr "幅"
+
+msgid "폰트 설정"
+msgstr "フォント設定"
+
+msgid "폰트 스타일"
+msgstr "スタイル"
+
 msgid "표시된 정보가 부족합니다."
 msgstr "表示された情報が足りません。"
 
 msgid "표시할 플러그인의 종류를 선택하세요."
 msgstr "表示するプラグインの分類をご選択ください。"
 
-msgid "표지"
-msgstr "メタページ"
+msgid "표지 변경"
+msgstr "メタページ設定"
 
 msgid "표지 설정으로 바로가기"
 msgstr "メタページ設定へ"
 
-msgid "표지 플러그인"
-msgstr "メタページプラグイン"
+msgid "표지 위젯"
+msgstr "メタページ設定"
+
+msgid "표지"
+msgstr "メタページ"
 
 msgid "표지는 블로그 첫 화면 또는 %1/cover 에 표시되는 부분입니다."
 msgstr "メタページはブログのトップページ或いは %1/cover に表示されるページのことであります。"
 
-msgid "표지를 관리합니다"
-msgstr "メタページ管理"
-
-msgid "표지를 첫 화면으로 사용합니다"
+msgid "표지를 블로그의 첫 화면으로 사용합니다"
 msgstr "メタページをトップページに設定"
 
 msgid "표지에 새로운 요소를 추가/삭제할 수 있으며 패널들을 자유롭게 배치 할 수 있습니다."
@@ -4212,7 +5741,7 @@ msgid "표지의 기능을 스킨 설정 상태로 초기화합니다."
 msgstr "メタページをリセットします。"
 
 msgid "표지의 위치는 스킨의 구조에 따라 달라집니다."
-msgstr "メタページの位置はスキンの設定によります。"
+msgstr "メタページの位置はテーマの設定によります。"
 
 msgid "프로그램 사용에 대한 유지 및 보수 등의 의무와, 사용 중 데이터 손실 등에 대한 사고책임은 모두 사용자에게 있습니다."
 msgstr "プログラムの利用についての維持及び補修などの義務と利用中のデータ損失などついての責任は全部利用者がお持ちします。"
@@ -4220,14 +5749,23 @@ msgstr "プログラムの利用についての維持及び補修などの義務
 msgid "프로필 내용"
 msgstr "自己紹介"
 
-msgid "프로필 사진"
-msgstr "個人画像"
-
 msgid "프로필 사진 초기화"
 msgstr "個人画像リセット"
 
-msgid "플러그인"
-msgstr "プラグイン"
+msgid "프로필 사진"
+msgstr "個人画像"
+
+msgid "프로필 설명이 저장되었습니다."
+msgstr "個人画像と紹介設定の保存に成功しました。"
+
+msgid "플래쉬"
+msgstr "FLASH"
+
+msgid "플래시 업로더 사용"
+msgstr "多重アップロード設定"
+
+msgid "플래시 트랙백 주소 복사 사용"
+msgstr "トラックバックアドレスコピー"
 
 msgid "플러그인 관리"
 msgstr "プラグイン設定"
@@ -4238,11 +5776,41 @@ msgstr "プラグインのデータ管理"
 msgid "플러그인 목록"
 msgstr "プラグイン一覧"
 
+msgid "플러그인 설정 데이터 백업 이미지"
+msgstr "プラグイン設定データバックアップ"
+
+msgid "플러그인 설정 데이터 백업을 시작합니다"
+msgstr "プラグイン設定データバックアップ"
+
+msgid "플러그인 설정 데이터 복원 및 백업 관리를 합니다."
+msgstr "プラグイン設定データ復元・バックアップ"
+
+msgid "플러그인 설정 데이터 복원 이미지"
+msgstr "プラグイン設定データ復元"
+
+msgid "플러그인 설정 데이터 초기화를 시작합니다"
+msgstr "プラグイン設定データリセット"
+
+msgid "플러그인 설정 데이터를 모두 초기화 합니다. 사용중인 모든 플러그인을 미사용으로 초기화 한다는 의미입니다.<br />플러그인 설정 데이터의 복원은 백업파일로만 가능하므로 먼저 백업을 하시기 바랍니다."
+msgstr "全体設定データをリセットします。利用中のプラグインは全部解除に転換されます。<br />データの復元はバックアップだけでできますので必ずバックアップをしてください。"
+
+msgid "플러그인 설정 데이터를 백업합니다"
+msgstr "プラグイン設定データバックアップ"
+
+msgid "플러그인 설정 데이터를 복원하고 있습니다. 잠시만 기다려 주십시오."
+msgstr "しばらくお待ちください…プラグイン設定データの復元中です。"
+
+msgid "플러그인 설정 데이터를 복원합니다"
+msgstr "プラグイン設定データ復元"
+
+msgid "플러그인 설정 데이터를 초기화 합니다"
+msgstr "<span style=\"font-weight:bold; color:#c11;\">プラグイン設定データリセット</span>"
+
 msgid "플러그인 설정"
 msgstr "プラグイン設定"
 
-msgid "플러그인 설정 페이지로 바로가기"
-msgstr "プラグイン設定へ"
+msgid "플러그인 설정데이터 복원을 시작합니다"
+msgstr "プラグイン設定データ復元"
 
 msgid "플러그인 설정을 복원하고 있습니다."
 msgstr "プラグイン設定を復元中…"
@@ -4259,14 +5827,17 @@ msgstr "公式プラグインページへ進みます。"
 msgid "플러그인 이름"
 msgstr "プラグイン名称"
 
-msgid "플러그인은 텍스트큐브의 기능을 확장합니다. 이 곳에서 설치된 플러그인의 사용 여부를 결정할 수 있습니다."
-msgstr "プラグインでTextcubeの機能追加ができます。ここからインストールされたプラグインの利用可否を設定します。"
+msgid "플러그인 켜고 끄기"
+msgstr "利用・解除"
+
+msgid "플러그인"
+msgstr "プラグイン"
 
 msgid "플러그인을 구하려면"
 msgstr "プラグインの求め方"
 
 msgid "플러그인을 비활성화하지 못하였습니다."
-msgstr "プラグインを利用中止に転換できません。"
+msgstr "プラグインを解除に転換できません。"
 
 msgid "플러그인을 켜거나 끕니다"
 msgstr "プラグイン設定"
@@ -4277,68 +5848,68 @@ msgstr "プラグインを利用中に転換できません。"
 msgid "플러그인이 생성한 %1 테이블의 owner 필드를 변경합니다."
 msgstr "設置されたプラグインが作成したテーブルから ownerフィールドを更新します。"
 
+msgid "플러그인이 생성한 테이블입니다. 더이상 사용하지 않는 플러그인이 예전에 만든 테이블의 경우 테이블의 데이터를 삭제할 수 있습니다. 다중 사용자 모드에서 서비스를 운영하는 경우 자신이 사용하지 않더라도 다른 사용자가 해당 플러그인을 사용할 수 있으니 삭제시 유의하시기 바랍니다."
+msgstr "設置されたプラグインが作成したデータテーブルです。ここからテーブルのデータを削除できます。多重利用者モードでは自分ではない他利用者からのプラグインデータへ接近もできますのでデータ管理にご注意ください。"
+
 msgid "플러그인이 생성한 테이블입니다"
 msgstr "設置されたプラグインが作成したテーブル一覧"
 
-msgid "플러그인이 생성한 테이블입니다. 테이블의 데이터를 삭제할 수 있습니다."
-msgstr "設置されたプラグインが作成したデータテーブルです。ここからテーブルのデータを削除できます。"
+msgid "플레이어 보이기"
+msgstr "プレイヤ表示"
 
 msgid "피드 갱신"
-msgstr "RSSフィード更新"
+msgstr "フィード更新"
 
 msgid "피드 그룹"
-msgstr "RSSフィードグループ"
+msgstr "フィードグループ"
 
 msgid "피드 등록하기"
-msgstr "RSSフィード追加"
+msgstr "新規フィード作成"
 
 msgid "피드 리스트"
-msgstr "RSSフィード一覧"
+msgstr "フィード一覧"
 
 msgid "피드 목록"
-msgstr "RSSフィード一覧"
+msgstr "フィード一覧"
 
 msgid "피드 수정하기"
-msgstr "RSSフィード編集"
-
-msgid "피드 업데이트"
-msgstr "RSSフィード更新"
+msgstr "フィード編集"
 
 msgid "피드 업데이트 중"
-msgstr "RSSフィード更新中"
+msgstr "フィード更新中"
+
+msgid "피드 업데이트"
+msgstr "フィード更新"
 
 msgid "피드 이름을 입력하세요."
-msgstr "RSSフィードの名称をご入力ください。"
+msgstr "フィードの名称をご入力ください。"
 
 msgid "피드 주소를 입력하세요."
-msgstr "RSSフィードアドレスをご入力ください。"
+msgstr "フィードアドレスをご入力ください。"
 
 msgid "피드를 가져오고 있습니다."
-msgstr "RSSフィードを取り込んでいます。"
+msgstr "フィードを取り込んでいます。"
 
 msgid "피드를 갱신 했습니다."
-msgstr "RSSフィードを更新しました。"
+msgstr "フィードを更新しました。"
 
 msgid "피드를 삭제하고 있습니다."
-msgstr "RSSフィードを削除中…"
+msgstr "フィードを削除中…"
 
 msgid "피드를 삭제했습니다."
-msgstr "RSSフィードを削除しました。"
+msgstr "フィードを削除しました。"
 
 msgid "피드를 수정하고 있습니다."
-msgstr "RSSフィードを更新中…"
+msgstr "フィードを更新中…"
 
 msgid "피드를 수정하였습니다."
-msgstr "RSSフィードを更新しました。"
+msgstr "フィードを更新しました。"
 
 msgid "피드를 읽어오고 있습니다."
-msgstr "RSSフィードを読み込んでいます。"
+msgstr "フィードを読み込んでいます。"
 
 msgid "피드를 추가하였습니다."
-msgstr "RSSフィードを追加しました。"
-
-msgid "필명"
-msgstr "名前"
+msgstr "フィードを追加しました。"
 
 msgid "필명 설정"
 msgstr "名前設定"
@@ -4346,8 +5917,20 @@ msgstr "名前設定"
 msgid "필명 스타일"
 msgstr "名前タイプ"
 
+msgid "필명 스타일이 저장되었습니다."
+msgstr "名前タイプ設定の保存に成功しました。"
+
+msgid "필명"
+msgstr "名前"
+
+msgid "필명을 사칭하는 경우를 방지할 수 있습니다."
+msgstr "(詐称の防止)"
+
 msgid "필자"
 msgstr "投稿者"
+
+msgid "필진 목록"
+msgstr "チームブログ"
 
 msgid "필터 설정을 복원하고 있습니다."
 msgstr "拒否設定を復元中…"
@@ -4361,8 +5944,12 @@ msgstr "拒否設定の削除に失敗しました。"
 msgid "필터와 관련된 구조를 변경합니다."
 msgstr "拒否構成設定を更新します。"
 
-msgid "하나의 피드를 가져왔습니다.\\n피드를 업데이트 해 주십시오."
-msgstr "1つのフィードを取り込みました。\\\\nRSSフィードを更新してください。"
+msgid ""
+"하나의 피드를 가져왔습니다.\n"
+"피드를 업데이트 해 주십시오."
+msgstr ""
+"1つのフィードを取り込みました。\n"
+"フィードを更新してください。"
 
 msgid "하드웨어"
 msgstr "ハードウェア"
@@ -4373,6 +5960,9 @@ msgstr "パスでブログを識別"
 msgid "하위 분류가 있으므로 삭제할 수 없습니다."
 msgstr "下位分類が存在しているので削除できません。"
 
+msgid "하이퍼링크"
+msgstr "ハイパーリンク"
+
 msgid "한 쪽당 글 수"
 msgstr "1ページ毎の記事数"
 
@@ -4382,20 +5972,26 @@ msgstr "1ページに %1 件の項目を表示"
 msgid "함수가 설치되어야 합니다."
 msgstr "関数がインストールされていなければなりません。"
 
-msgid "해당 테이블을 정말 삭제하시겠습니까? 사용중인 플러그인은 자동으로 해제됩니다."
-msgstr "選択したテーブルを削除します、よろしいですか？ 利用中のプラグインは利用中止に転換します。"
+msgid "해당 데이터를 필터에 추가합니다."
+msgstr "拒否設定"
 
-msgid "허용"
-msgstr "許可"
+msgid "해당 테이블을 정말 삭제하시겠습니까? 사용중인 플러그인은 자동으로 해제됩니다."
+msgstr "選択したテーブルを削除します、よろしいですか？ 利用中のプラグインは解除に転換します。"
+
+msgid "행동을 지정합니다."
+msgstr "作業設定"
 
 msgid "허용 시 문제가 발생할 수 있습니다."
 msgstr "許可するとエラーが発生する可能性があります。"
+
+msgid "허용"
+msgstr "許可"
 
 msgid "현재 공개 상태입니다."
 msgstr "公開記事"
 
 msgid "현재 그룹 내의 피드 목록"
-msgstr "グループ中のRSSフィード一覧"
+msgstr "グループ中のフィード一覧"
 
 msgid "현재 단일 블로그 모드 텍스트큐브가 설정되어 있습니다. 단일 블로그 모드에서는 대표 블로그 만이 외부에 보여집니다."
 msgstr "今Textcubeは単一ブログモードであります。単一ブログモードからはトップブログのみが表示されます。"
@@ -4407,10 +6003,13 @@ msgid "현재 로그인한 오픈아이디"
 msgstr "サインイン中のOpenID"
 
 msgid "현재 버전 - %1"
-msgstr "現在版番 - %1"
+msgstr "現在版本 - %1"
 
 msgid "현재 보호 상태입니다."
 msgstr "保護記事"
+
+msgid "현재 블로그"
+msgstr "現在ブログ"
 
 msgid "현재 비공개 상태입니다."
 msgstr "非公開記事"
@@ -4418,8 +6017,8 @@ msgstr "非公開記事"
 msgid "현재 비밀번호"
 msgstr "現在のパスワード"
 
-msgid "현재 사용중인 스킨입니다"
-msgstr "利用中のスキン"
+msgid "현재 사용중인 스킨"
+msgstr "利用中のテーマ"
 
 msgid "현재 상태를 공개로 전환합니다."
 msgstr "公開に転換"
@@ -4439,11 +6038,14 @@ msgstr "現在記事をスクラップ<br />"
 msgid "현재의 모든 데이터를 TTXML형태의 백업파일로 보관합니다.<br />첨부파일을 포함시킬 수 있으며, 복원할 경우 자동으로 첨부파일이 처리됩니다.<br />백업파일은 서버에 저장하거나 다운받으실 수 있습니다."
 msgstr "現在の全てのデータを <acronym title=\"Tattertools Backup XML\">TTXML</acronym>形式のバックアップデータとして保存します。添付ファイルを含むと、復元時に添付ファイルも一緒に復元されます。バックアップデータはサーバーに保存するかダウンロードができます。"
 
+msgid "현재의 플러그인 설정 데이터를 백업파일로 보관합니다.<br />첨부파일을 포함시킬 수 있으며, 복원할 경우 자동으로 첨부파일이 처리됩니다.<br />백업파일은 서버에 저장하거나 다운받으실 수 있습니다."
+msgstr "現在の設定データをバックアップデータとして保存します。<br />添付ファイルを含むと、復元時に添付ファイルも一緒に復元されます。バックアップデータはサーバーに保存するかダウンロードができます。"
+
+msgid "현재창"
+msgstr "現在ウィンドウ"
+
 msgid "형제,자매"
 msgstr "兄弟・姉妹"
-
-msgid "홈페이지"
-msgstr "URL"
 
 msgid "홈페이지 이름"
 msgstr "タイトル"
@@ -4460,6 +6062,12 @@ msgstr "URLをご入力ください。"
 msgid "홈페이지 필터링"
 msgstr "URL拒否"
 
+msgid "홈페이지"
+msgstr "URL"
+
+msgid "화면당 이미지 수"
+msgstr "出力画像数"
+
 msgid "화요일"
 msgstr "火"
 
@@ -4473,7 +6081,7 @@ msgid "확인되었습니다."
 msgstr "確認しました。"
 
 msgid "확장 지원"
-msgstr "拡張タイプ支援"
+msgstr "拡張タイプ対応"
 
 msgid "환경"
 msgstr "環境"
@@ -4482,35 +6090,44 @@ msgid "환경설정"
 msgstr "環境設定"
 
 msgid "환경설정-계정 정보에서 API key를 설정하시면 온라인 복원을 위한 주소를 만들 수 있습니다."
-msgstr "環境設定>アカウント情報からAPIキーを設定するとブログの遠隔復元URLが作成できます。"
+msgstr "設定>個人情報からAPIキーを設定するとブログの遠隔復元URLが作成できます。"
+
+msgid "환영합니다!"
+msgstr "ようこそ！"
 
 msgid "환영합니다. <em>%1</em>님."
 msgstr "<em>%1</em>さん、ようこそ。"
 
-msgid "휴지통"
-msgstr "コミ箱"
+msgid "효과 제거"
+msgstr "効果解除"
+
+msgid "효과없음"
+msgstr "効果なし"
 
 msgid "휴지통 내의 모든 걸린글을 삭제합니다. 계속 하시겠습니까?"
-msgstr "コミ箱中のトラックバックを全件削除します、よろしいですか？"
+msgstr "ごみ箱中のトラックバックを全件削除します、よろしいですか？"
 
 msgid "휴지통 내의 모든 댓글을 삭제합니다. 계속 하시겠습니까?"
-msgstr "コミ箱中のコメントを全件削除します、よろしいですか？"
+msgstr "ごみ箱中のコメントを全件削除します、よろしいですか？"
 
 msgid "휴지통 비우기"
 msgstr "全件削除"
 
 msgid "휴지통 테이블의 필드 속성을 변경합니다."
-msgstr "コミ箱テーブルのフィールド属性を更新します。"
+msgstr "ごみ箱テーブルのフィールド属性を更新します。"
+
+msgid "휴지통"
+msgstr "ごみ箱"
 
 msgid "휴지통에 버려진 걸린글은 15일이 지나면 자동으로 지워집니다. 광고 걸린글의 차단 및 분석을 위하여 휴지통의 데이터를 사용하는 플러그인이 있을 수 있으므로 수동으로 지우지 않는 것을 권장합니다."
-msgstr "コミ箱へ移動されたトラックバックは15日後に自動で削除されます。迷惑コメントのブロックと分析のため、或はコミ箱のデータを利用するプラグインのため直接に削除しないようにしてください。"
+msgstr "ごみ箱中のトラックバックは15日後に削除されます。迷惑コメントのブロックと分析のため、或はごみ箱のデータを利用するプラグインのため直接に削除しないでください。"
 
 msgid "휴지통에 버려진 댓글은 15일이 지나면 자동으로 지워집니다. 광고 댓글의 차단 및 분석을 위하여 휴지통의 데이터를 사용하는 플러그인이 있을 수 있으므로 수동으로 지우지 않는 것을 권장합니다."
-msgstr "コミ箱へ移動されたコメントは15日後に自動で削除されます。迷惑コメントのブロックと分析のため、或はコミ箱のデータを利用するプラグインのため直接に削除しないようにしてください。"
+msgstr "ごみ箱中のコメントは15日後に削除されます。迷惑コメントのブロックと分析のため、或はごみ箱のデータを利用するプラグインのため直接に削除しないでください。"
 
 msgid "휴지통의 걸린글을 한 번에 삭제합니다."
-msgstr "コミ箱中のトラックバックを全件削除します。"
+msgstr "ごみ箱中のトラックバックを全件削除します。"
 
 msgid "휴지통의 댓글을 한 번에 삭제합니다."
-msgstr "コミ箱中のコメントを全件削除します。"
+msgstr "ごみ箱のコメントを全件削除します。"
 
