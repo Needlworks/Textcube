@@ -175,7 +175,7 @@ table.data-inbox tbody tr td.reply
 
 #part-post-trackback .caption
 {
-	margin-bottom: 1.6em;
+	margin-bottom                    : 1.6em;
 }
 
 #part-post-trackback table.data-inbox tr .delete
@@ -323,11 +323,14 @@ table.data-inbox tbody tr td.reply
 
 /* List ******************************************************************************************/
 
-#part-link-list .caption
+#part-link-list .caption,
+#part-link-add .caption,
+#part-link-category-edit .caption
 {
 	margin-bottom                    : 25px;
 }
 
+#part-link-list div.data-inbox,
 #part-link-list table.data-inbox
 {
 	margin-bottom                    : 100px;
@@ -590,7 +593,7 @@ table.data-inbox tbody tr td.reply
 
 #part-link-list .button-box
 {
-	margin-top                    : -50px;
+	margin-top                       : -50px;
 }
 
 #part-link-list .button-box

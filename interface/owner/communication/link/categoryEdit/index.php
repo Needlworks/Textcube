@@ -38,8 +38,6 @@ $tabsClass['categoryEdit'] = true;
 							//]]>
 						</script>
 						
-						<input type="hidden" name="id" value="<?php echo $suri['id'];?>" />
-						
 						<div id="part-link-category-edit" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('링크 카테고리 정보를 수정합니다');?></span></h2>
 <?php
