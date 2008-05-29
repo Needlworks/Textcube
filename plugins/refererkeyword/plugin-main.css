@@ -1,20 +1,24 @@
 @charset "utf-8";
 
-/* Visitor ***************************************************************************************/
+/* Keyword Statistics ***************************************************************************************/
 
-/* common ---------------------------------------------------------------------------------------*/
-#part-statistics-visitor .data-inbox
+/* keyword count --------------------------------------------------------------------------------*/
+#statistics-counter-inbox
 {
 	float                            : left;
 	margin-right                     : 10px !important;
 	width                            : 200px !important;
 }
 
-/* visitor count --------------------------------------------------------------------------------*/
 #statistics-counter-inbox .label
 {
 	display                          : block;
 	text-align                       : center;
+}
+
+#statistics-counter-inbox .title
+{
+	margin-bottom                    : 10px;
 }
 
 #statistics-counter-inbox .divider
@@ -29,7 +33,8 @@
 	font-family                      : Arial, Tahoma, Verdana, sans-serif;
 	font-size                        : 300%;
 	font-weight                      : bold;
-	margin-top                       : 10px;
+	margin-top                       : 5px;
+	margin-bottom                    : 10px;
 	text-align                       : center;
 }
 
@@ -47,7 +52,7 @@
 /* log ------------------------------------------------------------------------------------------*/
 #part-statistics-log
 {
-	margin-left                      : 200px;
+	margin-left                      : 220px;
 }
 
 #part-statistics-log .caption
@@ -62,7 +67,7 @@
 
 #part-statistics-log table.data-inbox
 {
-	width : 600px;
+	width : 700px;
 }
 
 #part-statistics-log table.data-inbox tbody tr td.rank
@@ -70,3 +75,70 @@
 	background-position              : right bottom;
 	text-align                       : center;
 }
+
+#part-statistics-log .noBorderBottom
+{
+	border-bottom                    : 0px;
+}
+
+#part-statistics-log .refererurl
+{
+	border-left                    : 1px solid #E3E3DE;
+/*	border-right                    : 1px solid #E3E3DE; */
+}
+
+/* cloud ------------------------------------------------------------------------------------------*/
+#part-statistics-cloud
+{
+	margin-left                      : 220px;
+}
+
+#part-statistics-cloud .caption
+{
+	margin                           : 0;
+}
+
+#part-statistics-cloud #page-navigation
+{
+	clear                            : none;
+}
+
+#part-statistics-cloud table.data-inbox
+{
+	width : 700px;
+}
+
+#part-statistics-cloud table.data-inbox tbody tr td.keywordcloud
+{
+	border:0px;
+	text-align: justify;
+}
+
+
+#part-statistics-cloud table.data-inbox tbody tr td a.cloud1 {
+	background-color:#eee;
+	font-weight:bold;
+	font-size : 17px;
+	color : #a2348f;
+}
+#part-statistics-cloud table.data-inbox tbody tr td a.cloud2 {
+	background-color:#eee;
+	font-weight:bold;	
+	font-size : 15px;
+	color : #5a5194;
+}
+#part-statistics-cloud table.data-inbox tbody tr td a.cloud3 {
+	background-color:#eee;
+	font-size : 13px;
+	color : #c7a011;
+}
+#part-statistics-cloud table.data-inbox tbody tr td a.cloud4 {
+	background-color:#eee;
+	font-size : 13px;
+	color : #666;
+}
+#part-statistics-cloud table.data-inbox tbody tr td a.cloud5 {
+	background-color:#fafafa;
+	font-size : 12px;
+	color : #999;
+}	

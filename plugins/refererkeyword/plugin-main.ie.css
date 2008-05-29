@@ -11,9 +11,21 @@
 /* Referer ***************************************************************************************/
 
 /* log ------------------------------------------------------------------------------------------*/
+#part-statistics-log
+{
+	float                            : right;
+	margin-left                      : 5px;
+}
+
+#part-statistics-cloud
+{
+	float                            : right;
+	margin-left                      : 5px;
+}
 
 #data-outbox
 {
+	background-color : #FFFFFF;
 	height : 1px;
 }
 

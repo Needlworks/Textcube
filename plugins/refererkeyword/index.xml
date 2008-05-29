@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
   <title xml:lang="en">Keyword Statistics</title>
-  <title xml:lang="ko">키워드 통계</title>
+  <title xml:lang="ko">리퍼러 검색어 통계</title>
+  <title xml:lang="ja">キーワード統計</title>
   <link>http://forum.tattersite.com/ko/</link>
-  <version>1.2</version>
+  <version>1.2+</version>
   <description xml:lang="en">Keyword Statistics</description>
   <description xml:lang="ko">리퍼러에서 검색 키워드를 추출하여 통계를 출력합니다.</description>
+  <description xml:lang="ja">リファラからキーワードを抽出してそのランキングを見せます。</description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://moonmelody.com">Chiri (Tatter Network Foundation)</author>
-  <author xml:lang="ko" link="http://moonmelody.com"><![CDATA[치리 (태터 네트워크 재단)]]></author>
+  <author xml:lang="en" link="http://forum.tattersite.com/en">Tatter &amp; Friends (Chiri)</author>
+  <author xml:lang="ko" link="http://forum.tattersite.com/ko/">태터앤프렌즈 (치리)</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
   	<tattertools>1.1</tattertools>
@@ -19,14 +21,48 @@
       <viewMethods>
         <method>
           <title xml:lang="en">Keyword Statistics</title>
-          <title xml:lang="ko">키워드 통계</title>
+          <title xml:lang="ko">리퍼러 검색어 통계</title>
+          <title xml:lang="ja">キーワード統計</title>
           <handler>refererkeyword</handler>
 		  <topMenu>center</topMenu>
-		  <contentMenuOrder>5</contentMenuOrder>
+		  <contentMenuOrder>6</contentMenuOrder>
           <params>
-          </params>
+            <param>
+              <name>showURL</name>
+              <type>int</type>
+              <default>0</default>
+            </param>
+            <param>
+              <name>showKeywordlistLight</name>
+              <type>int</type>
+              <default></default>
+            </param>
+	  </params>
         </method>
       </viewMethods>
     </adminMenu>
+	<config dataValHandler = "KeywordStatisticsDataSet" >
+		<window width="500" height="450" />
+		<fieldset legend="통계 페이지 출력 설정" name="KSsetting1">
+			<field title="검색어 순위를 얼마큼 보여줄지 선택" name="limitRank" type="select">
+				<op value="5" checked="checked">5위까지</op>
+				<op value="10">10위까지</op>
+				<op value="15">15위까지</op>
+				<op value="3939">전부 다</op>
+				<caption> - 통계 페이지 출력시 기본적으로 몇 위까지 출력할지를 선택합니다.</caption>
+			</field>
+			<field title="검색어가 포함된 주소를 기본적으로 보여줄지 선택" name="showURL" type="select">
+				<op value="0" checked="checked">보이지 않기</op>
+				<op value="1">보이기</op>
+				<caption> - 각 순위의 검색어가 검출된 주소를 기본적으로 함께 보여줄지 선택합니다.</caption>
+			</field>
+		</fieldset>
+		<fieldset legend="통계에서 제외할 단어 설정" name="KSsetting2">
+			<field title="각 단어의 구분은 컴마［,］나 공백［ ］으로 구분해 주세요." name="WordFiltering" rows="6" cols="50" titledirection="bk" type="textarea">
+				<![CDATA[]]>
+			</field>
+
+		</fieldset>
+	</config>
   </binding>
 </plugin>
