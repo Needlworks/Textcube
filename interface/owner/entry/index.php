@@ -570,7 +570,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 											newRow.className = "hidden-layer";
 											
 											newCell = newRow.insertCell(0);
-											newCell.colSpan = 10;
+											newCell.colSpan = 11;
 											newCell.setAttribute("align", "right");
 											newSection = document.createElement("DIV");
 											newSection.className = "layer-section";
@@ -611,7 +611,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										newRow.className = "hidden-layer";
 										
 										newCell = newRow.insertCell(0);
-										newCell.colSpan = 10;
+										newCell.colSpan = 11;
 										newCell.setAttribute("align", "right");
 										
 										newSection = document.createElement("DIV");
@@ -845,6 +845,7 @@ if(isset($_POST['visibility'])) $returnURLpostfix .= (empty($returnURLpostfix) ?
 											<th class="category"><span class="text"><?php echo _t('분류');?></span></th>
 											<th class="title"><span class="text"><?php echo _t('제목');?></span></th>
 											<th class="author"><span class="text"><?php echo _t('필자');?></span></th>
+											<th class="response"><span class="text"><?php echo _t('의견');?></span></th>
 											<th class="date"><span class="text"><?php echo _t('등록일자');?></span></th>
 											<th class="status"><span class="text"><?php echo _t('상태');?></span></th>
 											<th class="syndicate"><span class="text"><?php echo _t('발행');?></span></th>											
@@ -912,6 +913,9 @@ for ($i=0; $i<sizeof($entries); $i++) {
 											</td>
 											<td class="author">
 												<?php echo User::getName($entry['userid']);?>
+											</td>
+											<td class="response">
+												<?php echo $entry['comments']+$entry['trackbacks'];?>
 											</td>
 											<td class="date"><?php echo Timestamp::formatDate($entry['published']);?></td>
 											<td class="status">
