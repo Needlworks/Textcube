@@ -161,10 +161,11 @@ if(isset($blogMenu['topMenu'])) {
 	}
 	if(Acl::check('group.administrators')) {
 		$blogContentMenuItem['communication'] = array(
-			array('menu'=>'comment','title'=>_t('댓글'),'link'=>'/owner/communication/comment'),
+			array('menu'=>'comment','title'=>_t('댓글'),'link'=>'/owner/communication/comment?status=comment'),
+			array('menu'=>'guestbook','title'=>_t('방명록'),'link'=>'/owner/communication/comment?status=guestbook'),
 			array('menu'=>'notify','title'=>_t('댓글 알리미'),'link'=>'/owner/communication/notify'),
-			array('menu'=>'trackback','title'=>_t('걸린 글'),'link'=>'/owner/communication/trackback?status=received'),
-			array('menu'=>'trackback','title'=>_t('건 글'),'link'=>'/owner/communication/trackback?status=sent'),
+			array('menu'=>'trackbackreceived','title'=>_t('걸린 글'),'link'=>'/owner/communication/trackback?status=received'),
+			array('menu'=>'trackbacksent','title'=>_t('건 글'),'link'=>'/owner/communication/trackback?status=sent'),
 			array('menu'=>'openid','title'=>_t('오픈아이디 기록'),'link'=>'/owner/communication/openid'),
 			array('menu'=>'trash','title'=>_t('휴지통'),'link'=>'/owner/communication/trash/comment')
 		);
@@ -421,8 +422,13 @@ foreach($blogTopMenuItem as $menuItem) {
 	if (isset($_POST['category'])) $currentCategory = $_POST['category'];
 	else if (isset($_GET['category'])) $currentCategory = $_GET['category'];
 	else $currentCategory = null;
-	if(in_array($blogMenu['contentMenu'],array('notify','trackback','trashcomment','trashtrackback')))
-		$blogMenu['contentMenu'] = 'comment';
+	if(isset($_POST['status'])) {
+		if(($blogMenu['contentMenu'] == 'comment') && ($_POST['status'] == 'guestbook'))
+			$blogMenu['contentMenu'] = 'guestbook';
+		else if($blogMenu['contentMenu'] == 'trackback') 
+			$blogMenu['contentMenu'] = $blogMenu['contentMenu'].$_POST['status'];
+	} else if(in_array($blogMenu['contentMenu'],array('trashcomment','trashtrackback')))
+		$blogMenu['contentMenu'] = 'trash';
 	else if(in_array($blogMenu['contentMenu'],array('linkadd','linkedit','linkcategoryEdit','xfn')))
 		$blogMenu['contentMenu'] = 'link';
 	else if(in_array($blogMenu['contentMenu'],array('coverpage','sidebar')))
