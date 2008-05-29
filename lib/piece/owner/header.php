@@ -183,7 +183,7 @@ if(isset($blogMenu['topMenu'])) {
 		if($service['reader'] == true) array_push($blogContentMenuItem['network'],array('menu'=>'reader','title'=>_t('바깥 글 읽기'),'link'=>'/owner/network/reader'));
 	} else {
 		$blogContentMenuItem['network'] = array();
-		if($service['reader'] == true) array_push($blogContentMenuItem,array('menu'=>'reader','title'=>_t('바깥 글 읽기'),'link'=>'/owner/network/reader'));
+		if($service['reader'] == true) array_push($blogContentMenuItem['network'],array('menu'=>'reader','title'=>_t('바깥 글 읽기'),'link'=>'/owner/network/reader'));
 	}	
 	if(Acl::check('group.administrators')) {
 		$blogContentMenuItem['skin'] = array(
