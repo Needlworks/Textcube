@@ -166,11 +166,6 @@ table.data-inbox tbody tr td.reply
 	display                          : none;
 }
 
-#part-post-notify table.data-inbox tbody tr .delete
-{
-	border-left                      : 1px solid #E3E3DE;
-}
-
 #part-post-notify #search-form
 {
 	top                              : 5.5em;
@@ -186,13 +181,6 @@ table.data-inbox tbody tr td.reply
 #part-post-trackback table.data-inbox tr .delete
 {
 	width                            : 12px;
-}
-
-#part-post-trackback table.data-inbox tbody tr .delete,
-#part-post-trackback table.data-inbox tbody tr .category,
-#part-post-trackback table.data-inbox tbody tr .title
-{
-	border-left                      : 1px solid #E3E3DE;
 }
 
 #part-post-trackback table.data-inbox thead tr th.delete span
@@ -273,7 +261,6 @@ table.data-inbox tbody tr td.reply
 #part-post-trash table.data-inbox tbody tr .revert,
 #part-post-trash table.data-inbox tbody tr .delete
 {
-	border-left                      : 1px solid #E3E3DE;
 	text-align                       : left;
 }
 
@@ -346,16 +333,6 @@ table.data-inbox tbody tr td.reply
 	margin-bottom                    : 100px;
 }
 
-#part-link-list table.data-inbox tbody tr .address,
-#part-link-list table.data-inbox tbody tr .homepage,
-#part-link-list table.data-inbox tbody tr .status,
-#part-link-list table.data-inbox tbody tr .edit,
-#part-link-list table.data-inbox tbody tr .delete,
-#part-link-list table.data-inbox tbody tr .xfn-edit
-{
-	border-left                      : 1px solid #E3E3DE;
-}
-	
 /* table header */
 
 #part-link-list table.data-inbox thead tr th
