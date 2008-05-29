@@ -1079,8 +1079,6 @@ class XMLStruct {
 			if (substr($xml, 0, 3) == "\xEF\xBB\xBF")
 				$xml = substr($xml, 3);
 		}
-		$xml = preg_replace('/<!--.*?-->/s', '', $xml);
-
 		$this->nsenabled = $nsenabled;
 		if( $nsenabled ) {
 			$p = xml_parser_create_ns();
