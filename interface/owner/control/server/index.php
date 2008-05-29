@@ -15,6 +15,18 @@ if (file_exists(ROOT . "/.htaccess")) {
 // Encodings
 $encodingList = array('UTF-8','EUC-KR','SHIFT_JIS','EUC-JP','BIG5','EUC-CN','EUC-TW','GBK');
 
+// Languages
+$languageList = array('ko' => 'ko');
+if (is_dir(ROOT.'/language/') && $handler = opendir(ROOT.'/language/')) {
+	while (($file = readdir($handler)) !== false) {
+		if (is_dir(ROOT.'/language/'.$file) || substr($file, -4) != '.php' || $file == 'messages.php') {
+			continue;
+		}
+		$file = substr($file, 0, -4);
+		$languageList[$file] = $file;
+	}
+}
+
 ?>
 						<script type="text/javascript">
 						//<![CDATA[
@@ -167,7 +179,14 @@ if (!is_writable(ROOT . "/config.php")) {
 										<dl id="language-line" class="line">
 											<dt><span class="label"><?php echo _t('언어');?></span></dt>
 											<dd>
-												<input id="language" type="text" class="input-text" name="language" size="5" value="<?php echo $service['language'];?>" />											
+												<select id="language" name="language">
+<?php
+foreach ($languageList as $lang) {
+?>
+													<option value="<?php echo $lang; ?>"<?php echo ($lang == $service['language'] ? ' selected="selected"' : ''); ?>><?php echo $lang; ?></option>
+<?php
+}
+?>												</select>
 												<label for="language"><?php echo _t('이 서비스의 기본 언어를 설정합니다.');?></label>
 											</dd>
 										</dl>
