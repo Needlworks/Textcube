@@ -1,7 +1,7 @@
 <?php
 /* Start plugin for Textcube 1.6
    ----------------------------------
-   Version 1.6
+   Version 1.7
    Tatter and Friends development team.
 
    Creator          : inureyes
@@ -45,7 +45,7 @@ function CT_Start_Default($target) {
 		$target .= '<li><a href="'.$blogURL.'/owner/plugin">'. _t('플러그인을 켜거나 끕니다').'</a></li>'.CRLF;
 	}
 	if($service['reader'] != false) {
-		$target .= '<li><a href="'.$blogURL.'/owner/reader">'. _t('RSS 리더를 봅니다').'</a></li>'.CRLF;
+		$target .= '<li><a href="'.$blogURL.'/owner/network/reader">'. _t('RSS 리더를 봅니다').'</a></li>'.CRLF;
 	}
 	$target .= '</ul>';
 	return $target;

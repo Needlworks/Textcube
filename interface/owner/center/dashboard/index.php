@@ -254,7 +254,7 @@ if($textcubeDashboard) {
 		}
 		if ($service['reader'] == true) {
 ?>
-									<li><a href="<?php echo $blogURL;?>/owner/communication/reader"><?php echo _t('RSS로 등록한 이웃 글 보기');?></a></li>
+									<li><a href="<?php echo $blogURL;?>/owner/network/reader"><?php echo _t('RSS로 등록한 이웃 글 보기');?></a></li>
 <?php
 		}
 ?>
