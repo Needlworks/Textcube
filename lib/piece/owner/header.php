@@ -177,7 +177,7 @@ if(isset($blogMenu['topMenu'])) {
 		$blogContentMenuItem['plugin'] = array(
 			array('menu'=>'plugin','title'=>_t('플러그인 목록'),'link'=>'/owner/plugin')
 		);
-		if(Acl::check('group.creators')) array_push($blogContentMenuItem, array('menu'=>'tableSetting','title'=>_t('플러그인 데이터 관리'),'link'=>'/owner/plugin/tableSetting'));
+		if(Acl::check('group.creators')) array_push($blogContentMenuItem['plugin'], array('menu'=>'tableSetting','title'=>_t('플러그인 데이터 관리'),'link'=>'/owner/plugin/tableSetting'));
 	}
 	if(Acl::check('group.administrators')) {
 		$blogContentMenuItem['setting'] = array(
