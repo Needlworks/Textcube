@@ -47,33 +47,49 @@ dress('search', '<form id="TTSearchForm" action="'.$blogURL.'/search/" method="g
 
 $totalPosts = getEntriesTotalCount($blogid);
 $categories = getCategories($blogid);
-dress('category', getCategoriesView($totalPosts, $categories, isset($category) ? $category : true), $view);
-dress('category_list', getCategoriesView($totalPosts, $categories, isset($category) ? $category : true, true), $view);
+
+if (preg_match("@\\[##_category_##\\]@iU", $view))
+	dress('category', getCategoriesView($totalPosts, $categories, isset($category) ? $category : true), $view, false, true);
+if (preg_match("@\\[##_category_list_##\\]@iU", $view))
+	dress('category_list', getCategoriesView($totalPosts, $categories, isset($category) ? $category : true, true), $view, false, true);
 dress('count_total', $stats['total'], $view);
 dress('count_today', $stats['today'], $view);
 dress('count_yesterday', $stats['yesterday'], $view);
-dress('archive_rep', getArchivesView(getArchives($blogid), $skin->archive), $view);
-dress('calendar', getCalendarView(getCalendar($blogid, isset($period) ? $period : true)), $view);
-dress('random_tags', getRandomTagsView(getRandomTags($blogid), $skin->randomTags), $view);
+if (preg_match("@\\[##_archive_rep_##\\]@iU", $view))
+	dress('archive_rep', getArchivesView(getArchives($blogid), $skin->archive), $view, false, true);
+if (preg_match("@\\[##_calendar_##\\]@iU", $view))
+	dress('calendar', getCalendarView(getCalendar($blogid, isset($period) ? $period : true)), $view, false, true);
+if (preg_match("@\\[##_random_tags_##\\]@iU", $view))
+	dress('random_tags', getRandomTagsView(getRandomTags($blogid), $skin->randomTags), $view, false, true);
 $noticeView = $skin->recentNotice;
-$notices = getNotices($blogid);
-if (sizeof($notices) > 0) {
-	$itemsView = '';
-	foreach ($notices as $notice) {
-		$itemView = $skin->recentNoticeItem;
-		dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', UTF8::lessenAsEm($notice['title'], $skinSetting['recentNoticeLength']), $notice['id'])), $itemView);
-		dress('notice_rep_link', "$blogURL/notice/".($blog['useSloganOnPost'] ? URL::encode($notice['slogan'], $itemView) : $notice['id']), $itemView);
-		$itemsView .= $itemView;
+
+if (preg_match("@\\[##_rct_notice_##\\]@iU", $view)) {
+	$notices = getNotices($blogid);
+	if (sizeof($notices) > 0) {
+		$itemsView = '';
+		foreach ($notices as $notice) {
+			$itemView = $skin->recentNoticeItem;
+			dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', UTF8::lessenAsEm($notice['title'], $skinSetting['recentNoticeLength']), $notice['id'])), $itemView);
+			dress('notice_rep_link', "$blogURL/notice/".($blog['useSloganOnPost'] ? URL::encode($notice['slogan'], $itemView) : $notice['id']), $itemView);
+			$itemsView .= $itemView;
+		}
+		dress('rct_notice_rep', $itemsView, $noticeView);
+		dress('rct_notice', $noticeView, $view, false, true);
 	}
-	dress('rct_notice_rep', $itemsView, $noticeView);
-	dress('rct_notice', $noticeView, $view);
 }
-dress('author_rep', getAuthorListView(User::getUserNamesOfBlog($blogid), $skin->authorList), $view);
-dress('rctps_rep', getRecentEntriesView(getRecentEntries($blogid), $skin->recentEntry), $view);
-dress('rctrp_rep', getRecentCommentsView(getRecentComments($blogid), $skin->recentComments), $view);
-dress('rcttb_rep', getRecentTrackbacksView(getRecentTrackbacks($blogid), $skin->recentTrackback), $view);
-dress('link_rep', getLinksView(getLinks($blogid), $skin->s_link_rep), $view);
-dress('link_list', getLinkListView(getLinks($blogid)), $view);
+if (preg_match("@\\[##_author_rep_##\\]@iU", $view))
+	dress('author_rep', getAuthorListView(User::getUserNamesOfBlog($blogid), $skin->authorList), $view, false, true);
+if (preg_match("@\\[##_rctps_rep_##\\]@iU", $view))
+	dress('rctps_rep', getRecentEntriesView(getRecentEntries($blogid), $skin->recentEntry), $view, false, true);
+if (preg_match("@\\[##_rctrp_rep_##\\]@iU", $view))
+	dress('rctrp_rep', getRecentCommentsView(getRecentComments($blogid), $skin->recentComments), $view, false, true);
+if (preg_match("@\\[##_rcttb_rep_##\\]@iU", $view))
+	dress('rcttb_rep', getRecentTrackbacksView(getRecentTrackbacks($blogid), $skin->recentTrackback), $view, false, true);
+if (preg_match("@\\[##_link_rep_##\\]@iU", $view))
+	dress('link_rep', getLinksView(getLinks($blogid), $skin->s_link_rep), $view, false, true);
+if (preg_match("@\\[##_link_list_##\\]@iU", $view))
+	dress('link_list', getLinkListView(getLinks($blogid)), $view, false, true);
+
 dress('rss_url', "$defaultURL/rss", $view);
 dress('response_rss_url', "$defaultURL/rss/response", $view);
 dress('comment_rss_url', "$defaultURL/rss/comment", $view);
@@ -84,26 +100,28 @@ dress('textcube_version', TEXTCUBE_VERSION, $view);
 dress('tattertools_name', TEXTCUBE_NAME, $view); // For skin legacy.
 dress('tattertools_version', TEXTCUBE_VERSION, $view);
 
-if (isset($paging)) {
-	if(isset($cache) && strpos($cache->name,'Paging')!==false) {
-		if($cache->load()) {
-			$pagingView = $cache->contents;
+if (preg_match("@\\[##_paging_##\\]@iU", $view)) {
+	if (isset($paging)) {
+		if(isset($cache) && strpos($cache->name,'Paging')!==false) {
+			if($cache->load()) {
+				$pagingView = $cache->contents;
+			} else {
+				$pagingView = getPagingView($paging, $skin->paging, $skin->pagingItem);
+				$cache->contents = $pagingView;
+				$cache->update();
+			}
 		} else {
 			$pagingView = getPagingView($paging, $skin->paging, $skin->pagingItem);
-			$cache->contents = $pagingView;
-			$cache->update();
 		}
-	} else {
-		$pagingView = getPagingView($paging, $skin->paging, $skin->pagingItem);
+		dress('paging', $pagingView, $view, false, true);
+		$url = URL::encode($paging['url'],$service['useEncodedURL']);
+		$prefix = $paging['prefix'];
+		$postfix = isset($paging['postfix']) ? $paging['postfix'] : '';
+		dress('prev_page', isset($paging['prev']) ? "href='$url$prefix{$paging['prev']}$postfix'" : '',$view);
+		dress('next_page', isset($paging['next']) ? "href='$url$prefix{$paging['next']}$postfix'" : '',$view);
+	} else if(isset($cache) && strpos($cache->name,'Paging')!==false && $cache->load()) {
+		dress('paging', $cache->contents, $view, false, true);
 	}
-	dress('paging', $pagingView, $view);
-	$url = URL::encode($paging['url'],$service['useEncodedURL']);
-	$prefix = $paging['prefix'];
-	$postfix = isset($paging['postfix']) ? $paging['postfix'] : '';
-	dress('prev_page', isset($paging['prev']) ? "href='$url$prefix{$paging['prev']}$postfix'" : '',$view);
-	dress('next_page', isset($paging['next']) ? "href='$url$prefix{$paging['next']}$postfix'" : '',$view);
-} else if(isset($cache) && strpos($cache->name,'Paging')!==false && $cache->load()) {
-	dress('paging', $cache->contents, $view);
 }
 
 // Sidebar dressing

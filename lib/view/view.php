@@ -22,7 +22,7 @@ function printHtmlFooter() {
 <?php
 }
 
-function dress($tag, $value, & $contents, $useCache = false) {
+function dress($tag, $value, & $contents, $useCache = false, $forcePatch = false) {
 	global $__gDressTags;
 	if($useCache == true) {
 		if(strpos($tag, 'sidebar_') !== false || 
@@ -34,14 +34,17 @@ function dress($tag, $value, & $contents, $useCache = false) {
 			return false;
 		}
 	} else {
-		if (preg_match("@\\[##_{$tag}_##\\]@iU", $contents)) {
+		if($forcePatch == true) {
+			$contents = str_replace("[##_{$tag}_##]", $value, $contents);
+			return true;
+		} else if (preg_match("@\\[##_{$tag}_##\\]@iU", $contents)) {
 			$contents = str_replace("[##_{$tag}_##]", $value, $contents);
 			return true;
 		} else return false;
 	}
 }
 
-function dressInsertBefore($tag, $value, & $contents, $useCache = false) {
+function dressInsertBefore($tag, $value, & $contents, $useCache = false, $forcePatch = false) {
 	global $__gDressTags;
 	if($useCache == true) {
 		if(strpos($tag, 'sidebar_') !== false || 
