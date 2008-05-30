@@ -24,7 +24,6 @@ if(isset($suri['id'])) {
 	
 	if ($isAjaxRequest) {
 		if (deleteEntry($blogid, $suri['id']) === true) {
-			fireEvent('DeletePost', $suri['id'], null);
 			respond::ResultPage(0);
 		} else {
 			respond::ResultPage(-1);
@@ -45,9 +44,6 @@ if(isset($suri['id'])) {
 		
 		if (!deleteEntry($blogid, $target))
 			respond::ResultPage(-1);
-		else {
-			fireEvent('DeletePost', $target, null);
-		}
 	}
 	respond::ResultPage(0);
 }
