@@ -589,6 +589,7 @@ xml_set_object
 					case 'feedstarred':
 					case 'feeds':
 					case 'filters':
+                    case 'linkcategories':
                     case 'links':
 					case 'openidusers':
 					case 'pagecachelog':
