@@ -211,7 +211,8 @@ class misc {
 				return false;
 			}
 		} else {
-			if (preg_match('/\[##_' . preg_quote($tag, '/') . '_##\]/i', $contents, $temp)) {
+			if (preg_match("@\\[##_{$tag}_##\\]@iU", $contents)) {
+//			if (preg_match('/\[##_' . preg_quote($tag, '/') . '_##\]/i', $contents, $temp)) {
 				$contents = str_replace("[##_{$tag}_##]", $value, $contents);
 				return true;
 			} else {
