@@ -51,10 +51,16 @@ function MT_Cover_getRecentEntries($parameters){
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
 	}
 	$multiple = ($data['coverMode']==2) ? '' : 'e.blogid = ' . getBlogId() . ' AND';
+	$privateBlogId = POD::queryColumn("SELECT blogid 
+		FROM {$database['prefix']}BlogSettings
+		WHERE name = 'visibility'
+		AND value < 2");
+	if(!empty($privateBlogId)) $privateBlogs = ' AND e.blogid NOT IN ('.implode(',',$privateBlogId).')';
+	else $privateBlogs = '';
 	list($entries, $paging) = fetchWithPaging("SELECT e.blogid, e.id, e.userid, e.title, e.content, e.slogan, e.category, e.published, e.contentFormatter, c.label
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id
-		WHERE $multiple e.draft = 0 $visibility AND e.category >= 0
+		WHERE $multiple e.draft = 0 $visibility AND e.category >= 0 $privateBlogs
 		ORDER BY published DESC", $page, $entryLength);
 
 	$html = '';
