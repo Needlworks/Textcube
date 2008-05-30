@@ -935,6 +935,7 @@ function deleteEntry($blogid, $id) {
 		
 		deleteTagsWithEntryId($blogid, $id);
 		clearRSS();
+		fireEvent('DeletePost', $id, null);
 		return true;
 	}
 	return false;
