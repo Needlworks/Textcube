@@ -469,16 +469,6 @@ if (!isset($_REQUEST['edit']) && Acl::check('group.owners')) {
 								</dl>
 <?php
 }
-if(Acl::check('group.owners')) {
-?>
-								<dl id="direct-link-line" class="line">
-									<dt><?php echo _t('플러그인 설정');?></dt>
-									<dd>
-										<a class="button" href="<?php echo $blogURL;?>/owner/plugin?visibility=center"><?php echo _t('위젯 켜고 끄기');?></a>
-									</dd>
-								</dl>
-<?php
-}
 $boardbarNumber = 0;
 $positionCounter = 0;
 $secondposition = array(0, 0);
@@ -544,6 +534,7 @@ if(Acl::check('group.owners')) {
 ?>
 								<div class="button-box">
 									<input type="submit" class="input-button" value="<?php echo _t('편집');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/center/dashboard?edit'; return false;" />
+									<input type="button" class="input-button" value="<?php echo _t('위젯 켜고 끄기');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/plugin?visibility=center'; return false;" />
 								</div>
 <?php
 	} else {
