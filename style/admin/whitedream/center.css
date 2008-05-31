@@ -49,9 +49,30 @@
 
 #shortcut-collection h3
 {
-	height                           : 38px;
-	background-image                 : url("./image/bg_title_right.png");
-	border-left                      : 1px solid #EEE;
+	display:none;
+}
+
+#shortcut-collection ul li.newPost
+{
+	background-image                 : none;
+	border-bottom                    : none;
+	margin-left                      : -15px;
+	padding                          : 10px 10px 5px 15px;
+}
+
+#shortcut-collection ul li a.newPost
+{
+	display                          : block;
+	height                           : 68px;
+	width                            : 200px;
+	background-image                 : url("./image/bg_dashboard_write.png");
+}
+
+#shortcut-collection ul li a.newPost span
+{
+	display                          : block;
+	padding-top                      : 26px;
+	margin-left                      : 70px;
 }
 
 #shortcut-collection ul li,
