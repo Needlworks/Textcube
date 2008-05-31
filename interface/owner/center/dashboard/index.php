@@ -230,7 +230,7 @@ if($textcubeDashboard) {
 							<h2 class="caption"><span class="main-text"><?php echo _t('센터');?></span></h2>
 								
 							<div id="shortcut-collection" class="section">
-								<h3><?php echo _t('바로가기');?></h3>
+								<h3 class="caption"><span><?php echo _t('바로가기');?></span></h3>
 								
 								<ul>
 									<li><a href="<?php echo $blogURL;?>/owner/entry/post"><?php echo _t('새 글 쓰기');?></a></li>
@@ -244,14 +244,6 @@ if($textcubeDashboard) {
 <?php
 			}
 		}
-		if(Acl::check("group.owners")) {
-?>
-									<li><a href="<?php echo $blogURL;?>/owner/entry/category"><?php echo _t('카테고리 추가 또는 변경');?></a></li>
-									<li><a href="<?php echo $blogURL;?>/owner/skin"><?php echo _t('스킨 변경');?></a> / <a href="<?php echo $blogURL;?>/owner/skin/setting"><?php echo _t('스킨 상세 설정');?></a></li>
-									<li><a href="<?php echo $blogURL;?>/owner/skin/coverpage"><?php echo _t('표지 변경');?></a> / <a href="<?php echo $blogURL;?>/owner/skin/sidebar"><?php echo _t('사이드바 변경');?></a></li>									
-									<li><a href="<?php echo $blogURL;?>/owner/plugin"><?php echo _t('플러그인 켜고 끄기');?></a></li>
-<?php
-		}
 		if ($service['reader'] == true) {
 ?>
 									<li><a href="<?php echo $blogURL;?>/owner/network/reader"><?php echo _t('RSS로 등록한 이웃 글 보기');?></a></li>
@@ -262,7 +254,7 @@ if($textcubeDashboard) {
 							</div>
 								
 							<div id="total-information" class="section">
-								<h3><?php echo _t('요약');?></h3>
+								<h3 class="caption"><span><?php echo _t('요약');?></span></h3>
 									
 								<table>
 									<tbody>
@@ -305,7 +297,7 @@ if($textcubeDashboard) {
 							</div>
 							
 							<div id="textcube-notice" class="section">
-								<h3><?php echo _t('공지사항');?></h3>
+								<h3 class="caption"><span><?php echo _t('공지사항');?></span></h3>
 									
 <?php
 		$noticeURL = "http://notice.textcube.org/";
@@ -368,7 +360,7 @@ if($textcubeDashboard) {
 							</div>
 
 							<div id="myBlogInfo" class="section">
-								<h3><?php echo _t('알림판');?></h3>
+								<h3 class="caption"><span><?php echo _t('알림판');?></span></h3>
 								<div id="infoPanel">
 									<table class="comment">
 										<caption><a href="<?php echo $blogURL."/owner/communication/comment";?>"><?php echo _t('최근 댓글');?></a></caption>
@@ -513,8 +505,8 @@ foreach ($newlayout as $mapping) {
 	} else {
 ?>
 									<div id="<?php echo $mapping['plugin'];?>" class="section">
-										<h3>
-											<?php echo $mapping['title'];?> 
+										<h3 class="caption">
+											<span><?php echo $mapping['title'];?>
 <?php
 		if (isset($_REQUEST['edit'])) {
 ?>
@@ -524,6 +516,7 @@ foreach ($newlayout as $mapping) {
 <?php
 		}
 ?>
+											</span>
 										</h3>
 										<?php echo handleCenters($mapping);?>
 									</div>

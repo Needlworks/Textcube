@@ -49,8 +49,9 @@
 
 #shortcut-collection h3
 {
-	background-image                 : url("./image/bg_dashboard_header3.png");
 	height                           : 38px;
+	background-image                 : url("./image/bg_title_right.png");
+	border-left                      : 1px solid #EEE;
 }
 
 #shortcut-collection ul li,
@@ -75,8 +76,9 @@
 
 #total-information h3
 {
-	background-image                 : url("./image/bg_dashboard_header3.png");
 	height                           : 38px;
+	background-image                 : url("./image/bg_title_right.png");
+	border-left                      : 1px solid #EEE;
 }
 
 #total-information table
@@ -118,8 +120,9 @@
 
 #textcube-notice h3
 {
-	background-image                 : url("./image/bg_dashboard_header4.png");
 	height                           : 38px;
+	background-image                 : url("./image/bg_title_right.png");
+	border-left                      : 1px solid #EEE;
 }
 
 #textcube-notice table
@@ -153,11 +156,6 @@
 	position                         : absolute;
 	right                            : 20px;
 	top                              : 0;
-}
-
-#part-center-dashboard #myBlogInfo.section h3
-{ 
-	background-image                 : url("./image/bg_dashboard_header2.png");
 }
 
 #part-center-dashboard #myBlogInfo table caption
@@ -282,13 +280,14 @@
 #part-center-lint-edit .section h3,
 .ajax-floating-panel h3
 {
-	background-image                 : url("./image/bg_dashboard_header.png");
 	background-position              : left top;
+	background-image                 : url("./image/bg_title_right.png");
 	background-repeat                : no-repeat;
 	font-weight                      : normal;
 	height                           : 38px;
 	line-height                      : 38px;
-	padding-left                     : 25px;
+	padding-left                     : 28px;
+	border-left                      : 1px solid #EEE;
 }
 
 #part-center-quilt .section h4,
