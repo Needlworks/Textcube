@@ -233,7 +233,7 @@ if($textcubeDashboard) {
 								<h3 class="caption"><span><?php echo _t('바로가기');?></span></h3>
 								
 								<ul>
-									<li><a href="<?php echo $blogURL;?>/owner/entry/post"><?php echo _t('새 글 쓰기');?></a></li>
+									<li class="newPost"><a class="newPost" href="<?php echo $blogURL;?>/owner/entry/post"><span><?php echo _t('새 글 쓰기');?></span></a></li>
 <?php
 		$latestEntryId = getBlogSetting('LatestEditedEntry_user'.getUserId(),0);
 		if($latestEntryId !== 0) {
@@ -248,6 +248,16 @@ if($textcubeDashboard) {
 ?>
 									<li><a href="<?php echo $blogURL;?>/owner/network/reader"><?php echo _t('RSS로 등록한 이웃 글 보기');?></a></li>
 <?php
+		}
+		if(Acl::check("group.administrators")) {
+?>
+									<li><a href="<?php echo $blogURL;?>/owner/center/dashboard/cleanup" onclick="cleanupCache();return false;"><?php echo _t('캐시 지우기');?></a></li>
+<?php
+			if(Acl::check("group.creators")) {
+?>
+									<li><a href="<?php echo $blogURL;?>/owner/data" onclick="optimizeData();return false;"><?php echo _t('저장소 최적화');?></a></li>
+<?php
+			}
 		}
 ?>
 								</ul>
@@ -276,24 +286,6 @@ if($textcubeDashboard) {
 										</tr>
 									</tbody>
 								</table>
-<?php
-		if(Acl::check("group.administrators")) {
-?>
-								<ul>
-									<li><a href="<?php echo $blogURL;?>/owner/center/dashboard/cleanup" onclick="cleanupCache();return false;"><?php echo _t('캐시 지우기');?></a></li>
-<?php
-			if(Acl::check("group.creators")) {
-?>
-									<li><a href="<?php echo $blogURL;?>/owner/data" onclick="optimizeData();return false;"><?php echo _t('저장소 최적화');?></a></li>
-								</ul>
-<?php
-			} else {
-?>
-								</ul>
-<?php
-			}
-		}
-?>
 							</div>
 							
 							<div id="textcube-notice" class="section">
