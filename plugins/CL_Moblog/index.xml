@@ -53,6 +53,15 @@
 				  <name>pop3category</name><type>int</type><mandatory>0</mandatory>
 			  </param>
 			  <param>
+				  <name>pop3allowonly</name><type>int</type><mandatory>0</mandatory>
+			  </param>
+			  <param>
+				  <name>pop3allow</name><type>string</type><mandatory>0</mandatory>
+			  </param>
+			  <param>
+				  <name>pop3subject</name><type>string</type><mandatory>0</mandatory>
+			  </param>
+			  <param>
 				  <name>check</name><type>int</type><mandatory>0</mandatory>
 			  </param>
           </params>

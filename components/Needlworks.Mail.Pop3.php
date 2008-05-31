@@ -351,10 +351,15 @@ class Pop3 {
 			}
 			if( !isset( $mail['date'] ) && preg_match( '/^Date:\s*(.*)/i', $line, $match ) ) {
 				$mail['date'] = strtotime( $match[1] );
-				$mail['date_string'] = strftime( "%Y-%m-%d %H:%M:%S", $mail['date'] );
+				$mail['date_string'] = strftime( "%Y-%m-%d", $mail['date'] );
+				$mail['time_string'] = strftime( "%H:%M:%S", $mail['date'] );
+				$mail['date_year'] =   strftime( "%Y", $mail['date'] );
+				$mail['date_month'] =  strftime( "%m", $mail['date'] );
+				$mail['date_day'] =    strftime( "%d", $mail['date'] );
 			}
-			if( !isset( $mail['from'] ) && preg_match( '/^From:.*<(.*)>/i', $line, $match ) ) {
-				$mail['from'] = $match[1];
+			if( !isset( $mail['from'] ) && preg_match( '/^From:([^<]*)<(.*)>/i', $line, $match ) ) {
+				$mail['sender'] = trim($this->decode_header($match[1]));
+				$mail['from'] = $match[2];
 			}
 			if( !isset( $mail['content_transfer_encoding'] ) && preg_match( '/^Content-Transfer-Encoding:\s*(\S+)/i', $line, $match ) ) {
 				$mail['content_transfer_encoding'] = strtolower($match[1]);

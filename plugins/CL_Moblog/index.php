@@ -3,24 +3,20 @@ requireComponent( "Needlworks.Mail.Pop3" );
 
 class Moblog
 {
-	function Moblog( $username, $password, $host, $port = 110, $ssl = 0, 
-		$userid = 1, $minsize = 10240, $visibility = 2, $category = 0 )
+	function Moblog( $options )
 	{
 		global $pop3logs;
 		if( !isset($debugLogs) ) {
 			$pop3logs = array();
 		}
-		$this->username = $username;
-		$this->password = $password;
-		$this->host = $host;
-		$this->port = $port;
-		$this->ssl = $ssl;
-		$this->userid = $userid;
-		$this->minsize = $minsize;
+		foreach( $options as $k => $v ) {
+			$this->$k = $v;
+		}
+
 		$this->recentCount = 100;
-		$this->visibility = array( "private", "protected", "public", "syndicated" );
-		$this->visibility = $this->visibility[$visibility];
-		$this->category = $category;
+		$visibilities = array( "private", "protected", "public", "syndicated" );
+		$this->visibility = $visibilities[$this->visibility];
+		$this->allow = preg_split( "@[,\s]+@", $this->allow ) ;
 
 		$this->pop3 = new Pop3();
 		$this->pop3->setLogger( array(&$this,'log') );
@@ -44,6 +40,14 @@ class Moblog
 		}
 	}
 
+	function decorate_log($s)
+	{
+		global $blogURL;
+		$s = htmlspecialchars($s);
+		$s = preg_replace( "/\(SLOGAN:([^)]+)\)/", "<a href=\"$blogURL/entry/\\1\" target=\"_blank\">click</a>", $s );
+		return $s;
+	}
+
 	function log($msg)
 	{
 		$f = fopen( ROOT.DS."cache".DS."moblog.txt", "a" );
@@ -51,7 +55,7 @@ class Moblog
 		fclose($f);
 		if( $msg[0] == '*' ) {
 			global $pop3logs;
-			array_push( $pop3logs, substr($msg,2) );
+			array_push( $pop3logs, Moblog::decorate_log(substr($msg,2)) );
 		}
 	}
 
@@ -109,9 +113,21 @@ class Moblog
 		return $size < $this->minsize;
 	}
 
-	function isMms( & $mail )
+	function isAllowed( & $mail )
 	{
+		if( isset( $mail['from'] ) && is_array( $this->allow) ) {
+			foreach( $this->allow as $a ) {
+				if( strstr( $mail['from'], $a ) !== false ) return true; 
+				if( isset($mail['sender']) && strstr( $mail['sender'], $a ) !== false ) return true; 
+			}
+		}
+		if( $this->allowonly ) {
+			$this->logMail( $mail, "SKIP, Not in ALLOW list" );
+			return false;
+		}
+
 		if( !empty($mail['mms']) ) {
+			$this->logMail( $mail, "SKIP, Not an MMS" );
 			return true;
 		}
 		if( isset($mail['return_path']) && strstr( $mail['return_path'], 'mms' ) ) {
@@ -141,21 +157,33 @@ class Moblog
 		return true;
 	}
 
+	function logMail( $mail, $result )
+	{
+		$date = isset( $mail['date_string'] ) ? "{$mail['date_string']} {$mail['time_string']} " : '';
+		$from = isset( $mail['from'] ) ? "({$mail['sender']} <{$mail['from']}>) " : '';
+		$this->log( "* "._t("메일").": {$mail['subject']} {$date} {$from}[{$result}]" );
+	}
+
 	function retrieveCallback( $lines, $uid )
 	{
-		$slogan = date( "Y-m-d" );
-		$docid = date( "H:i:s" );
 		$this->appendUid( $uid );
 		$mail = $this->pop3->parse( $lines );
+
+		if( isset( $mail['date_string'] ) ) {
+			$slogan = $mail['date_string'];
+			$docid = $mail['time_string'];
+		} else {
+			$slogan = date( "Y-m-d" );
+			$docid = date( "H:i:s" );
+		}
 		if( in_array( $mail['subject'], array( '제목없음' ) ) ) {
 			$mail['subject'] = '';
 		}
-		if( !$this->isMms($mail) ) {
-			$this->log( "* "._t("메일").": " . $mail['subject'] . " [SKIP]" );
+		if( !$this->isAllowed($mail) ) {
 			return false;
 		}
 		if( empty($mail['attachments']) ) {
-			$this->log( "* "._t("메일").": " . $mail['subject'] . " [SKIP]" );
+			$this->logMail( $mail, "SKIP" );
 			return false;
 		}
 		requireComponent( "Textcube.Data.Post" );
@@ -163,13 +191,19 @@ class Moblog
 		$post = new Post();
 
 		if( $post->open( "slogan = '$slogan'" ) ) {
-			$this->log( "* 기존 글을 엽니다" );
+			$this->log( "* 기존 글을 엽니다. (SLOGAN:$slogan)" );
 			$post->content .= $this->_getDecoratedContent( $mail, $docid );
 			$post->modified = time();
 			$post->visibility = $this->visibility;
 		} else {
-			$this->log( "* 새 글을 작성합니다" );
-			$post->title = empty($mail['subject']) ? $slogan : $mail['subject'];
+			$this->log( "* 새 글을 작성합니다. (SLOGAN:$slogan)" );
+			if( isset( $mail['date_year'] ) ) {
+				$post->title = str_replace( array('%Y','%M','%D'), 
+					array( $mail['date_year'], $mail['date_month'], $mail['date_day'] ), $this->subject );
+			} else {
+				$post->title = str_replace( array('%Y','%M','%D'), 
+					array( date("Y"), date("m"), date("d") ), $this->subject );
+			}
 			$post->userid = $this->userid;
 			$post->category = $this->category;
 			$post->content = $this->_getDecoratedContent( $mail, $docid );
@@ -183,7 +217,7 @@ class Moblog
 			$post->modified = time();
 			$post->slogan = $slogan;
 			if( !$post->add() ) {
-				$this->log( "* "._t("메일").": " . $mail['subject'] . " [ERROR]" );
+				$this->logMail( $mail, "ERROR" );
 				$this->log( _t("실패: 글을 추가하지 못하였습니다")." : " . $post->error );
 				return false;
 			}
@@ -203,7 +237,7 @@ class Moblog
 							) 
 					);
 				if( !$att ) {
-					$this->log( "* "._t("메일").": " . $mail['subject'] . " [ERROR]" );
+					$this->logMail( $mail, "ERROR" );
 					$this->log( _t("실패: 첨부파일을 추가하지 못하였습니다")." : " . $post->error );
 					return false;
 				}
@@ -215,12 +249,12 @@ class Moblog
 				$post->content .= $content;
 			}
 			if( !$post->update() ) {
-				$this->log( "* "._t("메일").": " . $mail['subject'] . " [ERROR]" );
+				$this->logMail( $mail, "ERROR" );
 				$this->log( _t("실패: 첨부파일을 본문에 연결하지 못하였습니다").". : " . $post->error );
 				return false;
 			}
 		}
-		$this->log( "* "._t("메일").": " . $mail['subject'] . " [OK]" );
+		$this->logMail( $mail, "OK" );
 		return true;
 	}
 }
@@ -228,42 +262,49 @@ class Moblog
 function moblog_check()
 {
 	if( isset($_GET['check']) && $_GET['check'] == 1 ) {
+		echo "<html><body style=\"font-size:0.9em\">";
 		echo "<style>.emplog{color:red}.oklog{color:blue}</style>";
 		echo "<ul>";
 		echo join( "", 
 			array_map(
 				create_function( '$li', 'return preg_match( "/^\S+\s+\S+\s+\*/", $li ) ? 
-						(preg_match( "/\[OK\]$/", $li ) ? "<li class=\"oklog\">$li</li>" : "<li class=\"emplog\">$li</li>") 
+						(preg_match( "/\[OK\]/", $li ) ? "<li class=\"oklog\">$li</li>" : "<li class=\"emplog\">$li</li>") 
 						: "<li>$li</li>";'), 
-				split( "\n",file_get_contents(ROOT.DS."cache".DS."moblog.txt"))
+				split( "\n",Moblog::decorate_log(file_get_contents(ROOT.DS."cache".DS."moblog.txt")))
 			)
 		);
 		echo "</ul>";
+		echo "</body></html>";
 		exit;
 	}
 
-	$pop3host = getBlogSetting( 'MmsPop3Host', 'localhost' );
-	$pop3port = getBlogSetting( 'MmsPop3Port', 110 );
-	$pop3ssl = getBlogSetting( 'MmsPop3Ssl', 0 );
-	$pop3username = getBlogSetting( 'MmsPop3Username', '' );
-	$pop3password = getBlogSetting( 'MmsPop3Password', '' );
-	$pop3minsize = getBlogSetting( 'MmsPop3MinSize', 0 );
-	$pop3category = getBlogSetting( 'MmsPop3Category', 0 );
-	$pop3minsize *= 1024;
-	$pop3fallbackuserid = getBlogSetting( 'MmsPop3Fallbackuserid', 1 );
-	$pop3visibility = getBlogSetting( 'MmsPop3Visibility', '2' );
-
 	header( "Content-type: text/html; charset:utf-8" );
-	echo "<html><body><ul><li>";
-	$moblog = new Moblog( $pop3username, $pop3password, $pop3host, $pop3port, $pop3ssl, $pop3fallbackuserid, $pop3minsize, $pop3visibility, $pop3category );
+	echo '<html>';
+	echo '<head><meta http-equiv="content-type" content="text/html; charset=utf-8" />';
+	echo '<body style="font-size:0.9em"><ul><li>';
+	$moblog = new Moblog( 
+		array( 
+			'username' => getBlogSetting( 'MmsPop3Username', '' ),
+			'password' => getBlogSetting( 'MmsPop3Password', '' ),
+			'host' => getBlogSetting( 'MmsPop3Host', 'localhost' ),
+			'port' => getBlogSetting( 'MmsPop3Port', 110 ),
+			'ssl' => getBlogSetting( 'MmsPop3Ssl', 0 ),
+			'userid' => getBlogSetting( 'MmsPop3Fallbackuserid', 1 ),
+			'minsize' => getBlogSetting( 'MmsPop3MinSize', 0 )*1024,
+			'visibility' => getBlogSetting( 'MmsPop3Visibility', '2' ),
+			'category' => getBlogSetting( 'MmsPop3Category', 0 ), 
+			'allowonly' => getBlogSetting( 'MmsPop3AllowOnly', '0' ),
+			'allow' => getBlogSetting( 'MmsPop3Allow', '' ),
+			'subject' => getBlogSetting( 'MmsPop3Subject', '%Y-%M-%D' ) ) 
+	);
 	$moblog->log( "--BEGIN--" );
 	$moblog->check();
 	$moblog->log( "-- END --" );
 	if( Acl::check( 'group.administrators' ) ) {
 		global $pop3logs;
-		print join("</li><li>",$pop3logs);
+		print join("</li>\n<li>",$pop3logs);
 	}
-	echo "</li></ul></body></html>";
+	echo "</li>\n</ul></body></html>";
 	return true;
 }
 
@@ -282,6 +323,9 @@ function moblog_manage()
 		setBlogSetting( 'MmsPop3Category', $_POST['pop3category'] );
 		setBlogSetting( 'MmsPop3Fallbackuserid', getUserId() );
 		setBlogSetting( 'MmsPop3MinSize', 0 );
+		setBlogSetting( 'MmsPop3AllowOnly', !empty($_POST['pop3allowonly'])?1:0 );
+		setBlogSetting( 'MmsPop3Allow', $_POST['pop3allow'] );
+		setBlogSetting( 'MmsPop3Subject', $_POST['pop3subject'] );
 	}
 	$pop3email = getBlogSetting( 'MmsPop3Email', '' );
 	$pop3host = getBlogSetting( 'MmsPop3Host', 'localhost' );
@@ -293,6 +337,9 @@ function moblog_manage()
 	$pop3category = getBlogSetting( 'MmsPop3Category', 0 );
 	$pop3fallheadercharset = getBlogSetting( 'MmsPop3Fallbackcharset', 'euc-kr' );
 	$pop3visibility = getBlogSetting( 'MmsPop3Visibility', '2' );
+	$pop3mmsallowonly = getBlogSetting( 'MmsPop3AllowOnly', '0' );
+	$pop3mmsallow = getBlogSetting( 'MmsPop3Allow', '' );
+	$pop3subject = getBlogSetting( 'MmsPop3Subject', '%Y-%M-%D' );
 ?>
 						<hr class="hidden" />
 						
@@ -385,6 +432,19 @@ function moblog_manage()
 												<input type="password" style="width:14em" class="input-text" name="pop3password" value="<?php echo $pop3password;?>" />
 											</dd>
 										</dl>
+									<div class="button-box">
+										<input type="submit" class="save-button input-button wide-button" value="<?php echo _t('저장하기');?>"  />
+									</div>
+								</div>
+							<h2 class="caption"><span class="main-text"><?php echo _t('글 쓰기 환경 설정');?></span></h2>
+								<div id="editor-section" class="section">
+										<dl id="editor-line" class="line">
+											<dt><span class="label"><?php echo _t('제목');?></span></dt>
+											<dd>
+												<input type="text" style="width:24em" class="input-text" id="pop3subject" name="pop3subject" value="<?php echo $pop3subject; ?>" />
+												(<?php echo _t('%Y:년, %M:월, %D:일');?>) <input type="button" value="<?php echo _t("초기화");?>" onclick="document.getElementById('pop3subject').value='%Y-%M-%D';return false;" />
+											</dd>
+										</dl>
 										<dl id="editor-line" class="line">
 											<dt><span class="label"><?php echo _t('공개여부');?></span></dt>
 											<dd>
@@ -412,6 +472,31 @@ function moblog_manage()
 			<?php endforeach ?>
 													</optgroup>
 												</select>
+											</dd>
+										</dl>
+									<div class="button-box">
+										<input type="submit" class="save-button input-button wide-button" value="<?php echo _t('저장하기');?>"  />
+									</div>
+								</div>
+							<h2 class="caption"><span class="main-text"><?php echo _t('메일 필터링 설정');?></span></h2>
+								<div id="editor-section" class="section">
+										<dl id="formatter-line" class="line">
+											<dt><span class="label"><?php echo _t('허용 목록');?></span></dt>
+											<dd>
+												<input type="radio" id="pop3allowonly" name="pop3allowonly" value="1" <?php echo $pop3mmsallowonly ? 'checked="checked"':'' ?> />
+												<label for="pop3allowonly"><?php echo _t('다음 송신자로부터 전송된 메일만 MMS로 인식하여 처리합니다') ?></label>
+											</dd>
+											<dd>
+												<input type="radio" id="pop3allowlist" name="pop3allowonly" value="0" <?php echo $pop3mmsallowonly ? '':'checked="checked"' ?> />
+												<label for="pop3allowlist"><?php echo _t('다음 송신자로부터 전송된 메일도 MMS로 인식하여 처리합니다'); ?></label>
+											</dd>
+											<dd>
+												<input type="text" maxlength="128" name="pop3allow" value="<?php echo htmlentities($pop3mmsallow)?>" style="width:90%" />
+											</dd>
+											<dd>
+												<?php echo _t('여러 개인 경우 전화번호 혹은 이메일 주소를 쉼표나 공백으로 구별하여 나열합니다') ?>
+											</dd>
+											<dd>
 											</dd>
 										</dl>
 									<div class="button-box">
