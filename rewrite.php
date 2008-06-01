@@ -22,7 +22,7 @@
 	$accessInfo['input'] = ltrim(substr($accessInfo['fullpath'],
 		strlen($accessInfo['root']) + (defined('__TEXTCUBE_NO_FANCY_URL__') ? 1 : 0)),'/');
 	// Support Tattertools 0.9x legacy address (for upgrade users)
-	if (preg_match("/pl=([0-9]+)/", $accessInfo['input'], $url)) { header("Location: ".$accessInfo['root']. $url[1]); exit;}
+	if (array_key_exists('pl', $_GET) && strval(intval($_GET['pl'])) == $_GET['pl']) { header("Location: ".$accessInfo['root'].$_GET['pl']); exit;}
 	$part = strtok($accessInfo['input'], '/');
 	if (in_array($part, array('image','plugins','script','cache','skin','style','attach','thumbnail'))) {
 		if (strpos($accessInfo['input'],'cache/backup') !== false) { require "lib/error.php";errorExit(404);}
