@@ -129,14 +129,11 @@ function trashVan() {
 	requireComponent('Eolin.PHP.Core');
 	requireModel('common.setting');
 	if(Timestamp::getUNIXtime() - getServiceSetting('lastTrashSweep',0) > 86400) {
-		fireEvent('CronDaily',null,Timestamp::getUNIXtime());
-		fireEvent('Cron24h',null,Timestamp::getUNIXtime());
 		POD::execute("DELETE FROM {$database['prefix']}Comments where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
 		POD::execute("DELETE FROM {$database['prefix']}Trackbacks where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
 		setServiceSetting('lastTrashSweep',Timestamp::getUNIXtime());
 	}
 	if(Timestamp::getUNIXtime() - getServiceSetting('lastNoticeRead',0) > 43200) {
-		fireEvent('Cron12h',null,Timestamp::getUNIXtime());
 		removeServiceSetting('Textcube_Notice_%',true);
 		setServiceSetting('lastNoticeRead',Timestamp::getUNIXtime());
 	}
