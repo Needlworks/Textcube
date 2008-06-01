@@ -109,8 +109,11 @@ class Moblog
 		if( $number < $total - $this->recentCount ) {
 			return true;
 		}
-		$this->log( "Msg $number: "._t("메일크기가 작음")." : $size" );
-		return $size < $this->minsize;
+		$ret = $size < $this->minsize;
+		if( $ret ) {
+			$this->log( "Msg $number: "._t("메일크기가 작음")." : $size" );
+		}
+		return $ret;
 	}
 
 	function isAllowed( & $mail )
@@ -127,7 +130,6 @@ class Moblog
 		}
 
 		if( !empty($mail['mms']) ) {
-			$this->logMail( $mail, "SKIP, Not an MMS" );
 			return true;
 		}
 		if( isset($mail['return_path']) && strstr( $mail['return_path'], 'mms' ) ) {
@@ -182,7 +184,7 @@ class Moblog
 		if( !$this->isAllowed($mail) ) {
 			return false;
 		}
-		if( empty($mail['attachments']) ) {
+		if( false && empty($mail['attachments']) ) {
 			$this->logMail( $mail, "SKIP" );
 			return false;
 		}
@@ -225,7 +227,7 @@ class Moblog
 		/* 슬로건을 지워야만 문제가 발생하지 않습니다. */
 		//unset($post->slogan);
 
-		if( count($mail['attachments']) ) {
+		if( isset( $mail['attachments'] ) && count($mail['attachments']) ) {
 			requireModel( "blog.api" );
 			foreach( $mail['attachments'] as $mail_att ) {
 				$this->log( "* ". _t("첨부")." : {$mail_att['filename']}" );
