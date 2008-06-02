@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 // Dashboard setting
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && 
-	(is_null($_REQUEST['edit'])) &&
+	(!isset($_REQUEST['edit'])) &&
 	(empty($_GET['useTTdashboard']))) {	// Turn off case.
 	$textcubeDashboard = getBlogSetting("textcubeDashboard",1);
 	if ($textcubeDashboard == 0) {
@@ -41,7 +41,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&
 		$textcubeDashboard = 0;
 	}
 } else if (($_SERVER['REQUEST_METHOD'] == 'POST') &&
-	is_null($_REQUEST['edit'])) {	// Turn on case.
+	!isset($_REQUEST['edit'])) {	// Turn on case.
 	setBlogSetting("textcubeDashboard", 1);
 	$textcubeDashboard = 1;
 } else {	// Just read it.
