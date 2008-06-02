@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 // Dashboard setting
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && 
-	(!isset($_REQUEST['edit'])) &&
+	(is_null($_REQUEST['edit'])) &&
 	(empty($_GET['useTTdashboard']))) {	// Turn off case.
 	$textcubeDashboard = getBlogSetting("textcubeDashboard",1);
 	if ($textcubeDashboard == 0) {
@@ -442,10 +442,10 @@ function getDefaultCenterPanel($mapping) {
 		$stats = getStatistics($blogid);
 		$latestEntryId = getBlogSetting('LatestEditedEntry_user'.getUserId(),0);
 
-		$comments = getRecentComments($blogid,5);
-		$guestbooks = getRecentGuestbook($blogid,5);
-		list($commentNotifies,$paging) = getCommentsNotifiedWithPagingForOwner($blogid,0,null,null,null,1,5);
-		$trackbacks = getRecentTrackbacks($blogid,5);
+		$comments = getRecentComments($blogid,3);
+		$guestbooks = getRecentGuestbook($blogid,3);
+		list($commentNotifies,$paging) = getCommentsNotifiedWithPagingForOwner($blogid,0,null,null,null,1,3);
+		$trackbacks = getRecentTrackbacks($blogid,3);
 		$recents = array();	// title, date, link, category
 		foreach($comments as $comment) {
 			array_push($recents, array(
@@ -475,12 +475,12 @@ function getDefaultCenterPanel($mapping) {
 			'link'    => $blogURL."/".$trackback['entry']."#trackback".$trackback['id'],
 			'category'=>'trackback'));
 		}
-/*		foreach($recents as $uniqid => $row){	// Sorting.
+		foreach($recents as $uniqid => $row){	// Sorting.
 			foreach($row as $key=>$value){
 				$sort_array[$key][$uniqid] = $value;
 			}
 		}
-		array_multisort($sort_array['date'],SORT_DESC,$recents);*/
+		array_multisort($sort_array['date'],SORT_DESC,$recents);
 ?>
 										<div id="shortcut-collection">
 											<h4 class="caption"><span><?php echo _t('바로가기');?></span></h4>
