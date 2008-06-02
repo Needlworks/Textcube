@@ -72,16 +72,19 @@ function findPlugin($item, $arrays)
 	return false;
 }
 
-if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ) {
-	
+$modified = false;
+
+if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ) {	
 	$seperatorCount = 0;
-	
 	foreach($oldcenterlayout as $item) {
 		if ($item['plugin'] == 'defaultDashboardWidget') {
-			if($textcubeDashboard == 0) continue;
-			array_push($newlayout, $item);
-			$defaultPanelShown = true;
-		} else if ($item['plugin'] == 'TextcubeSeperator') {
+			if($textcubeDashboard == 0) {
+				$modified = true;
+			} else {
+				array_push($newlayout, $item);
+				$defaultPanelShown = true;
+			}
+		} else if ($item['plugin'] == 'TextcubeSeparator') {
 			array_push($newlayout, $item);
 			$seperatorCount++;
 		} else if (($pos = findPlugin($item, $centerMappings)) !== false) {
@@ -92,7 +95,7 @@ if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ) 
 		}
 	}
 	while ($seperatorCount < 2) {
-		array_push($centerMappings, array('plugin' => 'TextcubeSeperator'));
+		array_push($centerMappings, array('plugin' => 'TextcubeSeparator'));
 		$seperatorCount++;
 	}
 	
@@ -101,16 +104,14 @@ if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ) 
 	unset($_GET['pos']);
 	unset($_GET['rel']);
 	$middlepos = (count($centerMappings) + 2)/3;
-	array_splice($centerMappings, $middlepos , 0, array(array('plugin' => 'TextcubeSeperator')));
-	array_splice($centerMappings, $middlepos * 2, 0, array(array('plugin' => 'TextcubeSeperator')));
+	array_splice($centerMappings, $middlepos , 0, array(array('plugin' => 'TextcubeSeparator')));
+	array_splice($centerMappings, $middlepos * 2, 0, array(array('plugin' => 'TextcubeSeparator')));
 	$newlayout = $addedlayout = $centerMappings;
 }
 
-$modified = false;
-
 if (count($newlayout) == 0) { // If no widget is activated, add default widget & separators
-	array_push($newlayout, array('plugin' => 'TextcubeSeperator'));
-	array_push($newlayout, array('plugin' => 'TextcubeSeperator'));
+	array_push($newlayout, array('plugin' => 'TextcubeSeparator'));
+	array_push($newlayout, array('plugin' => 'TextcubeSeparator'));
 	if($textcubeDashboard == 1) array_push($newlayout, array('plugin' => 'defaultDashboardWidget'));
 	$modified = true;
 }
@@ -130,24 +131,24 @@ if (isset($_GET['pos']) && is_numeric($_GET['pos'])) {
 		$modified = true;
 	}
 }
-
 // Checking whether the default widget is activated or not.
 $defaultWidgetPosition = 0;
 $count = 0;
 if(($textcubeDashboard == 1) && ($defaultPanelShown == false)) {	// No default widget is activated during process.
 	foreach($newlayout as $widget) {	// Double-check.
 		if($widget['plugin'] == 'defaultDashboardWidget') $defaultPanelShown = true;
-		else if($widget['plugin'] == 'TextcubeSeparator') $defaultWidgetPosition = $count;
+		else if($widget['plugin'] == 'TextcubeSeparator') $defaultWidgetPosition = $count + 1;
 		$count++;
 	}
+
 	if($defaultPanelShown == false) {
 		if($seperatorCount < 2) {
 			for($i = 0; $i < (2-$seperatorCount); $i++) {
-				array_push($newlayout, array('plugin' => 'TextcubeSeperator'));
+				array_push($newlayout, array('plugin' => 'TextcubeSeparator'));
 			}
 			array_push($newlayout, array('plugin' => 'defaultDashboardWidget'));
 		} else {
-			array_splice($newlayout, $count, 0, array(array('plugin' => 'defaultDashboardWidget')));
+			array_splice($newlayout, $defaultWidgetPosition, 0, array(array('plugin' => 'defaultDashboardWidget')));
 		}
 		$modified = true;
 	}
@@ -280,7 +281,7 @@ $secondposition = array(0, 0);
 								<div id="dojo_boardbar0" class="panel">
 <?php
 foreach ($newlayout as $mapping) {
-	if ($mapping['plugin'] == 'TextcubeSeperator') {
+	if ($mapping['plugin'] == 'TextcubeSeparator') {
 ?>
 
 								</div>
@@ -392,7 +393,7 @@ if (isset($_REQUEST['edit'])) {
 <?php
 	$positionCounter = 0;
 	foreach ($newlayout as $mapping) {
-		if ($mapping['plugin'] != 'TextcubeSeperator') {
+		if ($mapping['plugin'] != 'TextcubeSeparator') {
 ?>
 		document.getElementById('<?php echo $mapping['plugin'];?>').pos = <?php echo $positionCounter;?>;
 		new DragPanel(document.getElementById('<?php echo $mapping['plugin'];?>'), ["dashboard"]);
