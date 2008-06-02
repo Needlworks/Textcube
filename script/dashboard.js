@@ -57,7 +57,7 @@
 				var rel = insertposition - node.pos;
 				if (insertposition > node.pos) rel--;
 				if (rel == 0) return retVal;
-				var requestURL = "dashboard?ajaxcall=true&pos=" + node.pos.toString() + "&rel=" + rel.toString();
+				var requestURL = "dashboard?ajaxcall=true&edit=true&pos=" + node.pos.toString() + "&rel=" + rel.toString();
 				
 				var request = new HTTPRequest("POST", requestURL);
 				request.onSuccess = function () {

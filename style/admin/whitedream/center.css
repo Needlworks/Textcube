@@ -183,6 +183,7 @@
 	background-position              : left bottom;
 	background-repeat                : repeat-x;
 	border-left                      : 1px solid #EEE;
+	border-right                     : 1px solid #EEE;
 	line-height                      : 1em !important;
 	margin-top                       : 10px !important;
 	padding-top                      : 0 !important;
@@ -229,11 +230,12 @@
 	background-image                 : url("./image/bg_title_right.png") !important;
 	background-position              : left bottom;
 	background-repeat                : repeat-x;
-	border-left                      : 1px solid #EEE;
 	line-height                      : 1em !important;
+	border-left                      : 1px solid #EEE;
+	border-right                     : 1px solid #EEE;
 	margin-top                       : 10px !important;
 	padding-top                      : 10px !important;
-	height                           : 20px;
+	height                           : 20px !important;
 }
 
 #myBlogInfo h4.caption span
@@ -244,7 +246,7 @@
 	border-right                     : 1px solid #EEE;
 	height                           : 20px;
 	padding                          : 0;
-	line-height                      : 1.2em;
+	line-height                      : 1em;
 }
 #myBlogInfo table
 {

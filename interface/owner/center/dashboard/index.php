@@ -28,6 +28,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if (isset($_POST['pos'])) $_GET['pos'] = $_POST['pos'];
 	if (isset($_POST['rel'])) $_GET['rel'] = $_POST['rel'];
 }
+// Dashboard setting
+if (($_SERVER['REQUEST_METHOD'] == 'POST') && 
+	(is_null($_REQUEST['edit'])) &&
+	(empty($_GET['useTTdashboard']))) {	// Turn off case.
+	$textcubeDashboard = getBlogSetting("textcubeDashboard",1);
+	if ($textcubeDashboard == 0) {
+		setBlogSetting("textcubeDashboard", 1);
+		$textcubeDashboard = 1;
+	} else {
+		setBlogSetting("textcubeDashboard", 0);
+		$textcubeDashboard = 0;
+	}
+} else if (($_SERVER['REQUEST_METHOD'] == 'POST') &&
+	is_null($_REQUEST['edit'])) {	// Turn on case.
+	setBlogSetting("textcubeDashboard", 1);
+	$textcubeDashboard = 1;
+} else {	// Just read it.
+	$textcubeDashboard = getBlogSetting("textcubeDashboard",1);
+}
 
 // Layout setting
 $layout = getBlogSetting('centerLayout', '');
@@ -35,7 +54,7 @@ $newlayout = array();
 $addedlayout = array();
 $oldcenterlayout = array();
 $defaultPanelShown = false;
-$textcubeDashboard = getBlogSetting("textcubeDashboard",1);
+//$textcubeDashboard = getBlogSetting("textcubeDashboard",1);
 
 if (count($centerMappings) == 0) {		// No center widgets
 	$layout = '';
@@ -59,6 +78,7 @@ if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ) 
 	
 	foreach($oldcenterlayout as $item) {
 		if ($item['plugin'] == 'defaultDashboardWidget') {
+			if($textcubeDashboard == 0) continue;
 			array_push($newlayout, $item);
 			$defaultPanelShown = true;
 		} else if ($item['plugin'] == 'TextcubeSeperator') {
@@ -236,22 +256,6 @@ if (false) {
 }
 ?>	
 <?php
-// Using default panel
-if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useTTdashboard']))) {
-	$textcubeDashboard = getBlogSetting("textcubeDashboard",1);
-	if (is_null($textcubeDashboard)) {
-		setBlogSetting("textcubeDashboard", 1);
-		$textcubeDashboard = 1;
-	} else {
-		setBlogSetting("textcubeDashboard", 0);
-		$textcubeDashboard = 0;
-	}
-} else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	setBlogSetting("textcubeDashboard", 1);
-	$textcubeDashboard = 1;
-} else {
-	$textcubeDashboard = getBlogSetting("textcubeDashboard",1);
-}
 ?>
 						<form id="tempForm" method="post" action="<?php echo parseURL($blogURL.'/owner/center/dashboard');?>">
 							<div id="part-center-quilt<?php echo $editClass;?>" class="part">
@@ -263,7 +267,7 @@ if (!isset($_REQUEST['edit']) && Acl::check('group.owners')) {
 								<dl id="independent-notice-line" class="line">
 									<dt><?php echo _t('정보 패널 설정');?></dt>
 									<dd>
-										<input type="checkbox" class="checkbox" id="useTTdashboard" name="useTTdashboard" value="on" onclick="changeList();return false;"<?php echo $textcubeDashboard == 1 ? " checked" : NULL;?> />
+										<input type="checkbox" class="checkbox" id="useTTdashboard" name="useTTdashboard" value="on" onclick="changeList();return false;"<?php echo $textcubeDashboard == 1 ? ' checked="checked"' : NULL;?> />
 										<label for="useTTdashboard"><?php echo _t('블로그 정보를 보여주는 패널을 사용합니다');?></label>
 									</dd>
 								</dl>
@@ -272,9 +276,6 @@ if (!isset($_REQUEST['edit']) && Acl::check('group.owners')) {
 $boardbarNumber = 0;
 $positionCounter = 0;
 $secondposition = array(0, 0);
-// Pre-checking center widget information
-
-
 ?>
 								<div id="dojo_boardbar0" class="panel">
 <?php
