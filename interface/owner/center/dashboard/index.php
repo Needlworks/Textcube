@@ -562,7 +562,7 @@ function getDefaultCenterPanel($mapping) {
 														<td class="sum"><?php echo number_format($stats['yesterday']);?></td>
 													</tr>
 													<tr>
-														<td class="type"><?php echo _t('최근7일 평균');?></td>
+														<td class="type"><?php echo _t('7일 평균');?></td>
 														<td class="sum"><?php echo number_format(Statistics::getWeeklyStatistics());?></td>
 													</tr>
 													<tr>
