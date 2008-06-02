@@ -408,7 +408,7 @@ requireComponent('Textcube.Core');
 				
 				<div id="main-menu-box">
 					<ul id="main-menu">
-						<li id="menu-textcube"><a href="<?php echo TEXTCUBE_HOMEPAGE;?>" onclick="window.open(this.href); return false;" title="<?php echo _t('텍스트큐브 홈페이지로 이동합니다.');?>"><span class="text"><?php echo _t('텍스트큐브 홈페이지');?></span></a></li>
+						<li id="menu-textcube"><a href="<?php echo $blogURL.'/owner/center/dashboard';?>" onclick="window.open(this.href); return false;" title="<?php echo _t('센터로 이동합니다.');?>"><span class="text"><?php echo _t('텍스트큐브');?></span></a></li>
 						
 <?php
 foreach($blogTopMenuItem as $menuItem) {
