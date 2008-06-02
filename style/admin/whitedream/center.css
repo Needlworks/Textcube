@@ -45,7 +45,7 @@
 	padding                          : 10px;
 }
 
-#defaultDashboardWidget h3
+#defaultDashboardWidget h3.invisible
 {
 	display                          : none;
 }
@@ -116,7 +116,6 @@
 }
 
 /* total information */
-
 #total-information .posts-line,
 #total-information .visitors-line
 {
@@ -203,15 +202,14 @@
 
 #textcube-notice table
 {
-	margin                           : 0 0 25px 0;
+	margin                           : 0;
 	width                            : 280px !important;
-	font-size                        : 0.925em;
 }
 
 #textcube-notice table tbody tr td
 {
 	border-bottom                    : 1px solid #EEEEEE;
-	height                           : 28px;
+	height                           : 22px !important;
 	padding-left                     : 10px;
 	text-align                       : left;
 }
@@ -226,7 +224,6 @@
 }
 
 /* panel */
-
 #myBlogInfo h4
 {
 	background-image                 : url("./image/bg_title_right.png") !important;
@@ -235,7 +232,7 @@
 	border-left                      : 1px solid #EEE;
 	line-height                      : 1em !important;
 	margin-top                       : 10px !important;
-	padding-top                      : 0 !important;
+	padding-top                      : 10px !important;
 	height                           : 20px;
 }
 
@@ -249,15 +246,13 @@
 	padding                          : 0;
 	line-height                      : 1.2em;
 }
-
+#myBlogInfo table
+{
+	margin-bottom                    : 0 !important;
+}
 #myBlogInfo table caption
 {
 	display                          : none;
-}
-
-#infoPanel table
-{
-	width                            : 270px !important;
 }
 
 #infoPanel table thead
@@ -279,12 +274,14 @@
 	width                            : 40px;
 	border-right                     : 1px solid #DDD !important;
 }
-
+#infoPanel table td.category
+{
+	width                            : 50px;
+}
 #infoPanel table td.title
 {
-	width                            : 200px;
+	width                            : 190px;
 	overflow                         : hidden;
-	padding-left                     : 50px !important;
 }
 
 /* quilt */

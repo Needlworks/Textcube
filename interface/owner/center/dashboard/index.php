@@ -13,7 +13,7 @@ requireModel('blog.trackback');
 requireModel('blog.entry');
 requireModel('blog.trash');
 requireModel('common.setting');
-
+requireComponent('Textcube.Model.Statistics');
 
 $blogMenu['topMenu'] = 'center';
 $blogMenu['contentMenu'] = 'dashboard';
@@ -415,7 +415,7 @@ function getDefaultCenterPanel($mapping) {
 
 ?>
 									<div id="<?php echo $mapping['plugin'];?>" class="section">
-										<h3 class="caption">
+									<h3 class="caption<?php echo isset($_REQUEST['edit']) ? ' visible' : ' invisible';?>">
 											<span><?php echo _t('알림판');?>
 <?php
 	if (isset($_REQUEST['edit'])) {
@@ -428,7 +428,12 @@ function getDefaultCenterPanel($mapping) {
 											</span>
 										</h3>
 <?php
-	if (!isset($_REQUEST['edit'])) {
+	if (isset($_REQUEST['edit'])) {
+?>
+									</div>
+<?php
+		return true;
+	} else {
 		// Get default data
 		$stats = getStatistics($blogid);
 		$latestEntryId = getBlogSetting('LatestEditedEntry_user'.getUserId(),0);
@@ -463,15 +468,15 @@ function getDefaultCenterPanel($mapping) {
 			array_push($recents, array(
 			'title'   =>$trackback['subject'],
 			'date'    =>$trackback['written'],
-			'link    '=> $blogURL."/".$trackback['entry']."#trackback".$trackback['id'],
+			'link'    => $blogURL."/".$trackback['entry']."#trackback".$trackback['id'],
 			'category'=>'trackback'));
 		}
-		foreach($recents as $uniqid => $row){
+/*		foreach($recents as $uniqid => $row){
 			foreach($row as $key=>$value){
 				$sort_array[$key][$uniqid] = $value;
 			}
 		}
-		array_multisort($sort_array['date'],SORT_DESC,$recents);
+		array_multisort($sort_array['date'],SORT_DESC,$recents);*/
 ?>
 										<div id="shortcut-collection">
 											<h4 class="caption"><span><?php echo _t('바로가기');?></span></h4>
@@ -527,7 +532,7 @@ function getDefaultCenterPanel($mapping) {
 													</tr>
 													<tr>
 														<td class="type"><?php echo _t('방명록');?></td>
-														<td class="sum"></td>
+														<td class="sum"><?php echo number_format(getGuestbookCount($blogid));?></td>
 													</tr>
 													<tr>
 														<td class="type"><?php echo _t('걸린 글');?></td>
@@ -552,7 +557,7 @@ function getDefaultCenterPanel($mapping) {
 													</tr>
 													<tr>
 														<td class="type"><?php echo _t('최근7일 평균');?></td>
-														<td class="sum"></td>
+														<td class="sum"><?php echo number_format(Statistics::getWeeklyStatistics());?></td>
 													</tr>
 													<tr>
 														<td class="type"><?php echo _t('총방문자');?></td>
@@ -570,6 +575,7 @@ function getDefaultCenterPanel($mapping) {
 													<thead>
 														<tr>
 															<th scope="col" class="date"><?=_t('날짜')?></th>
+															<th scope="col" class="category"><?=_t('종류')?></th>
 															<th scope="col"><?=_t('내용')?></th>
 														</tr>
 													</thead>
@@ -579,6 +585,20 @@ function getDefaultCenterPanel($mapping) {
 ?>
 														<tr class="<?php echo $item['category'];?>">
 															<td class="date"><?php echo Timestamp::format('%m/%d',$item['date']);?></td>
+															<td class="category">
+															<?php
+			switch($item['category']) {
+				case 'trackback' : 
+					echo '<a href="'.$blogURL.'/owner/communication/trackback?status=received">'._t('걸린글').'</a>';break;
+				case 'comment' : 
+					echo '<a href="'.$blogURL.'/owner/communication/comment?status=comment">'._t('댓글').'</a>';break;
+				case 'commentNotify' : 
+					echo '<a href="'.$blogURL.'/owner/communication/notify">'._t('알리미').'</a>';break;
+				case 'guestbook' : 
+					echo '<a href="'.$blogURL.'/owner/communication/comment?status=guestbook">'._t('방명록').'</a>';break;
+			}
+?>
+															</td>
 															<td class="title"><a href="<?php echo $item['link'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($item['title'],25));?></a></td>
 														</tr>
 <?php
@@ -631,7 +651,7 @@ function getDefaultCenterPanel($mapping) {
 ?>
 													<tr>
 														<td class="date"><?php echo Timestamp::format2($item['written']);?></td>
-														<td class="title"><a href="<?php echo $item['permalink'];?>" onclick="return openLinkInNewWindow(this);" ><?php echo htmlspecialchars(UTF8::lessenAsEm($item['title'],40));?></a></td>
+														<td class="title"><a href="<?php echo $item['permalink'];?>" onclick="return openLinkInNewWindow(this);" ><?php echo htmlspecialchars(UTF8::lessenAsEm($item['title'],35));?></a></td>
 													</tr>
 <?php
 			}

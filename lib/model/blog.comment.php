@@ -968,6 +968,11 @@ function getCommentCount($blogid, $entryId = null) {
 	return POD::queryCell("SELECT comments FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0");
 }
 
+function getGuestbookCount($blogid) {
+	global $database;
+	return POD::queryCell("SELECT count(id) FROM {$database['prefix']}Comments WHERE blogid = $blogid AND entry = 0");
+}
+
 function getCommentCountPart($commentCount, &$skin) {
 	$noneCommentMessage = $skin->noneCommentMessage;
 	$singleCommentMessage = $skin->singleCommentMessage;
