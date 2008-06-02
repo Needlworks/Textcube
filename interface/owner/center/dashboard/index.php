@@ -306,7 +306,9 @@ foreach ($newlayout as $mapping) {
 ?>
 											</span>
 										</h3>
-										<?php echo handleCenters($mapping);?>
+										<?php
+		if (!isset($_REQUEST['edit'])) echo handleCenters($mapping);
+?>
 									</div>
 <?php
 	}
@@ -472,7 +474,7 @@ function getDefaultCenterPanel($mapping) {
 			'link'    => $blogURL."/".$trackback['entry']."#trackback".$trackback['id'],
 			'category'=>'trackback'));
 		}
-/*		foreach($recents as $uniqid => $row){
+/*		foreach($recents as $uniqid => $row){	// Sorting.
 			foreach($row as $key=>$value){
 				$sort_array[$key][$uniqid] = $value;
 			}
@@ -569,24 +571,23 @@ function getDefaultCenterPanel($mapping) {
 										</div>
 
 										<div id="myBlogInfo">
-											<h4 class="caption"><span><?php echo _t('알림판');?></span></h4>
-											<div id="infoPanel">
-												<table class="recent">
+											<h4 class="caption"><span><a href="<?php echo $blogURL.'/owner/communication/comment';?>"><?php echo _t('알림판');?></span></a></h4>
+											<table class="recent">
 												<caption>asdasd</caption>
-													<thead>
-														<tr>
-															<th scope="col" class="date"><?=_t('날짜')?></th>
-															<th scope="col" class="category"><?=_t('종류')?></th>
-															<th scope="col"><?=_t('내용')?></th>
-														</tr>
-													</thead>
-													<tbody>
+												<thead>
+													<tr>
+														<th scope="col" class="date"><?=_t('날짜')?></th>
+														<th scope="col" class="category"><?=_t('종류')?></th>
+														<th scope="col"><?=_t('내용')?></th>
+													</tr>
+												</thead>
+												<tbody>
 <?php
 		foreach ($recents as $item) {
 ?>
-														<tr class="<?php echo $item['category'];?>">
-															<td class="date"><?php echo Timestamp::format('%m/%d',$item['date']);?></td>
-															<td class="category">
+													<tr class="<?php echo $item['category'];?>">
+														<td class="date"><?php echo Timestamp::format('%m/%d',$item['date']);?></td>
+														<td class="category">
 															<?php
 			switch($item['category']) {
 				case 'trackback' : 
@@ -599,18 +600,16 @@ function getDefaultCenterPanel($mapping) {
 					echo '<a href="'.$blogURL.'/owner/communication/comment?status=guestbook">'._t('방명록').'</a>';break;
 			}
 ?>
-															</td>
-															<td class="title"><a href="<?php echo $item['link'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($item['title'],25));?></a></td>
-														</tr>
+														</td>
+														<td class="title"><a href="<?php echo $item['link'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($item['title'],20));?></a></td>
+													</tr>
 <?php
 		}
 ?>
-													</tbody>
-												</table>
-											</div>
-										<div id="textcube-notice">
-											<h4 class="caption"><span><?php echo _t('공지사항');?></span></h4>
-									
+												</tbody>
+											</table>
+										</div>
+								
 <?php
 		$noticeURL = "http://notice.textcube.org/";
 		$noticeURLRSS = $noticeURL.(isset($blog['language']) ? $blog['language'] : "ko")."/rss";
@@ -641,7 +640,10 @@ function getDefaultCenterPanel($mapping) {
 				setServiceSetting('Textcube_Notice_'.$blog['language'],serialize($noticeEntries));
 			}
 		}
-
+?>
+										<div id="textcube-notice">
+											<h4 class="caption"><span><a href="<?php echo $noticeURL.(isset($blog['language']) ? $blog['language'] : "ko");?>"><?php echo _t('공지사항');?></a></span></h4>
+<?php
 		if (count($noticeEntries) > 0) {
 			array_splice($noticeEntries, 3, count($noticeEntries) - 3);
 ?>
@@ -670,7 +672,6 @@ function getDefaultCenterPanel($mapping) {
 		}
 ?>
 										</div>
-									</div>
 <?php
 
 	}

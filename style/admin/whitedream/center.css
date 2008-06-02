@@ -14,34 +14,11 @@
 
 /* Dashboard *************************************************************************************/
 
-#part-center-dashboard,
-#part-center-lint
-{
-	height                           : 440px;
-	position                         : relative;
-}
-
-#part-center-dashboard h2
-{
-	display                          : none;
-}
-
-#part-center-dashboard .section h3,
-#part-center-lint .section h3
-{
-	background-position              : left top;
-	background-repeat                : no-repeat;
-	font-weight                      : normal;
-	height                           : 38px;
-	line-height                      : 38px;
-	padding-left                     : 25px;
-	margin-top                       : 10px;
-}
-
 /* Dashboard widget */
 #defaultDashboardWidget
 {
 	background-color                 : #FAFAFA;
+	width                            : 270px;
 	padding                          : 10px;
 }
 
@@ -73,12 +50,12 @@
 #shortcut-collection ul li.deleteCache,
 #shortcut-collection ul li.optimizeStorage
 {
-	float:left;
+	float                            : left;
 	background-image                 : url("./image/icon_newPost.gif");
 	background-position              : 0 center;
 	background-repeat                : no-repeat;
+	width                            : 150px;
 }
-
 
 #shortcut-collection ul li.newPost
 {
@@ -104,17 +81,6 @@
 	margin-left                      : 20px;
 }
 
-
-#shortcut-collection ul li.deleteCache
-{
-	float                            : left;
-}
-
-#shortcut-collection ul li.optimizeStorage
-{
-	float                            : left;
-}
-
 /* total information */
 #total-information .posts-line,
 #total-information .visitors-line
@@ -124,7 +90,7 @@
 
 #total-information table
 {
-	width                            : 300px;
+	width                            : 267px;
 }
 
 #total-information table thead
@@ -147,7 +113,7 @@
 #total-information table.posts-line, 
 #total-information table.visitors-line 
 {
-	width                            : 140px !important;
+	width                            : 133px !important;
 	margin                           : 0 !important;
 }
 
@@ -184,6 +150,7 @@
 	background-repeat                : repeat-x;
 	border-left                      : 1px solid #EEE;
 	border-right                     : 1px solid #EEE;
+	border-top                       : 1px solid #EEE;
 	line-height                      : 1em !important;
 	margin-top                       : 10px !important;
 	padding-top                      : 0 !important;
@@ -198,13 +165,13 @@
 	border-right                     : 1px solid #EEE;
 	height                           : 20px;
 	padding                          : 0;
-	line-height                      : 1.2em;
+	line-height                      : 1.4em;
 }
 
 #textcube-notice table
 {
 	margin                           : 0;
-	width                            : 280px !important;
+	width                            : 267px !important;
 }
 
 #textcube-notice table tbody tr td
@@ -230,12 +197,13 @@
 	background-image                 : url("./image/bg_title_right.png") !important;
 	background-position              : left bottom;
 	background-repeat                : repeat-x;
-	line-height                      : 1em !important;
+	line-height                      : 1.4em; 
 	border-left                      : 1px solid #EEE;
 	border-right                     : 1px solid #EEE;
+	border-top                       : 1px solid #EEE;
 	margin-top                       : 10px !important;
-	padding-top                      : 10px !important;
-	height                           : 20px !important;
+	padding-top                      : 0 !important;
+	height                           : 20px;
 }
 
 #myBlogInfo h4.caption span
@@ -246,7 +214,7 @@
 	border-right                     : 1px solid #EEE;
 	height                           : 20px;
 	padding                          : 0;
-	line-height                      : 1em;
+	line-height                      : 1.4em;
 }
 #myBlogInfo table
 {
@@ -257,18 +225,18 @@
 	display                          : none;
 }
 
-#infoPanel table thead
+#myBlogInfo table thead
 {
 	display                          : none;
 }
-#infoPanel table td
+#myBlogInfo table td
 {
 	height                           : 12px !important;
 	vertical-align                   : top;
 	border                           : none !important;
 	padding-bottom                   : 2px !important; 
 }
-#infoPanel table td.date
+#myBlogInfo table td.date
 {
 	font-family                      : Verdana, Tahoma, Arial, "Lucida Grande", sans-serif;
 	font-weight                      : bold;
@@ -276,13 +244,13 @@
 	width                            : 40px;
 	border-right                     : 1px solid #DDD !important;
 }
-#infoPanel table td.category
+#myBlogInfo table td.category
 {
-	width                            : 50px;
+	width                            : 40px;
 }
-#infoPanel table td.title
+#myBlogInfo table td.title
 {
-	width                            : 190px;
+	width                            : 120px;
 	overflow                         : hidden;
 }
 
@@ -295,7 +263,7 @@
 	float                            : left;
 	margin-left                      : 10px;
 	min-height                       : 100px;
-	width                            : 300px;
+	width                            : 300px; 
 }
 
 #part-center-quilt .button-box,
@@ -356,6 +324,7 @@
 	line-height                      : 38px;
 	padding-left                     : 28px;
 	border-left                      : 1px solid #EEE;
+	width                            : 270px; 
 }
 
 #part-center-quilt .section h4,
