@@ -38,33 +38,62 @@
 	margin-top                       : 10px;
 }
 
+/* Dashboard widget */
+#defaultDashboardWidget
+{
+	background-color                 : #FAFAFA;
+	padding                          : 10px;
+}
+
+#defaultDashboardWidget h3
+{
+	display                          : none;
+}
+
 /* shortcut */
 #shortcut-collection
 {
-	position                         : absolute;
 	left                             : 10px;
 	top                              : 0;
-	width                            : 200px;
 }
 
-#shortcut-collection h3
+#shortcut-collection h4,
+#total-information h4
 {
-	display:none;
+	display                          : none !important;
 }
+
+#shortcut-collection ul li
+{
+	border-bottom                    : none !important;
+}
+
+#shortcut-collection ul li.modifyPost,
+#shortcut-collection ul li.rssReader,
+#shortcut-collection ul li.deleteCache,
+#shortcut-collection ul li.optimizeStorage
+{
+	float:left;
+	background-image                 : url("./image/icon_newPost.gif");
+	background-position              : 0 center;
+	background-repeat                : no-repeat;
+}
+
 
 #shortcut-collection ul li.newPost
 {
 	background-image                 : none;
 	border-bottom                    : none;
-	margin-left                      : -15px;
-	padding                          : 10px 10px 5px 15px;
+	margin-left                      : -30px;
+	padding                          : 5px 10px 5px 35px !important;
+	float                            : left;
 }
 
 #shortcut-collection ul li a.newPost
 {
 	display                          : block;
-	height                           : 68px;
-	width                            : 200px;
+	height                           : 100px;
+	width                            : 100px;
 	background-image                 : url("./image/bg_dashboard_write.png");
 }
 
@@ -72,84 +101,111 @@
 {
 	display                          : block;
 	padding-top                      : 26px;
-	margin-left                      : 70px;
+	margin-left                      : 20px;
 }
 
-#shortcut-collection ul li,
-#total-information ul li
+
+#shortcut-collection ul li.deleteCache
 {
-	background-image                 : url("./image/icon_newPost.gif");
-	background-position              : 15px center;
-	background-repeat                : no-repeat;
-	border-bottom                    : 1px solid #EEEEEE;
-	padding                          : 6px 10px 5px 32px;
-	text-align                       : left;
+	float                            : left;
+}
+
+#shortcut-collection ul li.optimizeStorage
+{
+	float                            : left;
 }
 
 /* total information */
-#total-information
-{
-	margin-left                      : 220px;
-	width                            : 200px;
-	position                         : absolute;
-	top                              : 0;
-}
 
-#total-information h3
+#total-information .posts-line,
+#total-information .visitors-line
 {
-	height                           : 38px;
-	background-image                 : url("./image/bg_title_right.png");
-	border-left                      : 1px solid #EEE;
+	float:left;
 }
 
 #total-information table
 {
-	width                            : 200px;
+	width                            : 300px;
 }
 
-#total-information table tbody tr th
+#total-information table thead
 {
-	border-bottom                    : 1px solid #EEEEEE;
-	font-weight                      : normal;
-	height                           : 30px;
-	text-align                       : center;
-	width                            : 50%;
+	display                          : none;
+}
+
+#total-information table caption
+{
+	background-image                 : url("./image/bg_title_right.png") !important;
+	background-position              : right bottom;
+	background-repeat                : repeat-x;
+	border-left                      : 1px solid #EEE;
+	border-bottom                    : 1px solid #EEE;
+	color                            : #000;
+	margin-top                       : 10px;
+	height                           : 20px;
+}
+
+#total-information table.posts-line, 
+#total-information table.visitors-line 
+{
+	width                            : 140px !important;
+	margin                           : 0 !important;
+}
+
+#total-information table tbody tr td.type
+{
+	width                            : 100px;
+	border-right                     : none;
+}
+
+#total-information table tbody tr td.sum
+{
+	text-align                       : right !important;
 }
 
 #total-information table tbody tr td
 {
-	border-bottom                    : 1px solid #EEEEEE;
-	border-left                      : 1px solid #EEEEEE;
-	height                           : 24px;
-	padding-right                    : 10px;
+	height                           : 20px;
+	padding-right                    : 5px;
+	font-size                        : 0.9em;
 	text-align                       : right;
-}
-
-#total-information ul
-{
-	margin-top                       : 10px;
 }
 
 /* notice */
 #textcube-notice
 {
-	position                         : absolute;
-	left                             : 10px;
-	top                              : 200px;
-	width                            : 410px;
+	clear                            : left;
+	padding-top                      : 10px !important;
 }
 
-#textcube-notice h3
+#textcube-notice h4
 {
-	height                           : 38px;
-	background-image                 : url("./image/bg_title_right.png");
+	background-image                 : url("./image/bg_title_right.png") !important;
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
 	border-left                      : 1px solid #EEE;
+	line-height                      : 1em !important;
+	margin-top                       : 10px !important;
+	padding-top                      : 0 !important;
+	height                           : 20px;
+}
+
+#textcube-notice h4.caption span
+{
+	background-image                 : url("./image/bg_title_right.png") !important;
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
+	border-right                     : 1px solid #EEE;
+	height                           : 20px;
+	padding                          : 0;
+	line-height                      : 1.2em;
 }
 
 #textcube-notice table
 {
 	margin                           : 0 0 25px 0;
-	width                            : 410px;
+	width                            : 280px !important;
+	font-size                        : 0.925em;
 }
 
 #textcube-notice table tbody tr td
@@ -163,80 +219,72 @@
 #textcube-notice table tbody tr td.date
 {
 	font-family                      : Verdana, Tahoma, Arial, "Lucida Grande", sans-serif;
-	font-size                        : 0.8em;
+	font-size                        : 0.875em;
+	font-weight                      : bold;
 	padding-right                    : 10px;
 	text-align                       : right;
 }
 
 /* panel */
 
-#part-center-dashboard #myBlogInfo
+#myBlogInfo h4
 {
-	position                         : relative;
-	width                            : 505px;
-	position                         : absolute;
-	right                            : 20px;
-	top                              : 0;
+	background-image                 : url("./image/bg_title_right.png") !important;
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
+	border-left                      : 1px solid #EEE;
+	line-height                      : 1em !important;
+	margin-top                       : 10px !important;
+	padding-top                      : 0 !important;
+	height                           : 20px;
 }
 
-#part-center-dashboard #myBlogInfo table caption
+#myBlogInfo h4.caption span
 {
-	font-weight                      : bold;
-	text-align                       : left;
-	line-height                      : 23px;
-	border-bottom                    : 1px solid #e2e5e7;
+	background-image                 : url("./image/bg_title_right.png") !important;
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
+	border-right                     : 1px solid #EEE;
+	height                           : 20px;
+	padding                          : 0;
+	line-height                      : 1.2em;
 }
 
-
-#part-center-dashboard #infoPanel
-{
-	border                           : 1px solid #d9dde0;
-	margin-top                       : 10px;
-	padding                          : 9px;
-	width                            : 485px;
-	float                            : right;
-}
-
-#part-center-dashboard #infoPanel table
-{
-	width                            : 232px;
-	height                           : 130px;
-	float                            : left;
-	margin-right                     : 5px;
-	margin-bottom                    : 16px;
-}
-
-#part-center-dashboard #infoPanel table.guestbook
-{
-	clear: left;
-}
-
-#part-center-dashboard #infoPanel table th
+#myBlogInfo table caption
 {
 	display                          : none;
 }
 
-#part-center-dashboard #infoPanel table td
+#infoPanel table
 {
-	height                           : 12px;
-	background                       : url(./image/icon_dot.gif) -1px 10px no-repeat;
-	vertical-align                   : top;
+	width                            : 270px !important;
 }
 
-#part-center-dashboard #infoPanel table tr .title
+#infoPanel table thead
 {
-	padding                          : 8px 5px 2px 7px;
+	display                          : none;
+}
+#infoPanel table td
+{
+	height                           : 12px !important;
+	vertical-align                   : top;
+	border                           : none !important;
+	padding-bottom                   : 2px !important; 
+}
+#infoPanel table td.date
+{
+	font-family                      : Verdana, Tahoma, Arial, "Lucida Grande", sans-serif;
+	font-weight                      : bold;
+	font-size                        : 0.875em;
+	width                            : 40px;
+	border-right                     : 1px solid #DDD !important;
+}
+
+#infoPanel table td.title
+{
 	width                            : 200px;
 	overflow                         : hidden;
-}
-
-#part-center-dashboard #infoPanel table tr .date
-{
-	padding                          : 8px 0 2px 0;
-	width                            : 45px;
-	font                             : 0.8em Tahoma;
-	background                       : none;
-	text-align: center;
+	padding-left                     : 50px !important;
 }
 
 /* quilt */

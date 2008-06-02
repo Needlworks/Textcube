@@ -17,7 +17,7 @@ requireModel('common.setting');
 
 $blogMenu['topMenu'] = 'center';
 $blogMenu['contentMenu'] = 'dashboard';
-
+// Move spams to trash.
 if (!isset($_REQUEST['ajaxcall'])) {
 	require ROOT . '/lib/piece/owner/header.php';
 	
@@ -29,12 +29,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if (isset($_POST['rel'])) $_GET['rel'] = $_POST['rel'];
 }
 
+// Layout setting
 $layout = getBlogSetting('centerLayout', '');
 $newlayout = array();
 $addedlayout = array();
 $oldcenterlayout = array();
+$defaultPanelShown = false;
+$textcubeDashboard = getBlogSetting("textcubeDashboard",1);
 
-if (count($centerMappings) == 0) {
+if (count($centerMappings) == 0) {		// No center widgets
 	$layout = '';
 	setBlogSetting('centerLayout', '');
 	unset($_GET['pos']);
@@ -55,7 +58,10 @@ if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ) 
 	$seperatorCount = 0;
 	
 	foreach($oldcenterlayout as $item) {
-		if ($item['plugin'] == 'TatterToolsSeperator') {
+		if ($item['plugin'] == 'defaultDashboardWidget') {
+			array_push($newlayout, $item);
+			$defaultPanelShown = true;
+		} else if ($item['plugin'] == 'TextcubeSeperator') {
 			array_push($newlayout, $item);
 			$seperatorCount++;
 		} else if (($pos = findPlugin($item, $centerMappings)) !== false) {
@@ -66,7 +72,7 @@ if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ) 
 		}
 	}
 	while ($seperatorCount < 2) {
-		array_push($centerMappings, array('plugin' => 'TatterToolsSeperator'));
+		array_push($centerMappings, array('plugin' => 'TextcubeSeperator'));
 		$seperatorCount++;
 	}
 	
@@ -75,9 +81,18 @@ if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ) 
 	unset($_GET['pos']);
 	unset($_GET['rel']);
 	$middlepos = (count($centerMappings) + 2)/3;
-	array_splice($centerMappings, $middlepos , 0, array(array('plugin' => 'TatterToolsSeperator')));
-	array_splice($centerMappings, $middlepos * 2, 0, array(array('plugin' => 'TatterToolsSeperator')));
+	array_splice($centerMappings, $middlepos , 0, array(array('plugin' => 'TextcubeSeperator')));
+	array_splice($centerMappings, $middlepos * 2, 0, array(array('plugin' => 'TextcubeSeperator')));
 	$newlayout = $addedlayout = $centerMappings;
+}
+
+$modified = false;
+
+if (count($newlayout) == 0) { // If no widget is activated, add default widget & separators
+	array_push($newlayout, array('plugin' => 'TextcubeSeperator'));
+	array_push($newlayout, array('plugin' => 'TextcubeSeperator'));
+	if($textcubeDashboard == 1) array_push($newlayout, array('plugin' => 'defaultDashboardWidget'));
+	$modified = true;
 }
 
 if ((isset($_GET['pos'])) && (($_GET['pos'] < 0) || ($_GET['pos']) >= count($newlayout))) {
@@ -85,7 +100,6 @@ if ((isset($_GET['pos'])) && (($_GET['pos'] < 0) || ($_GET['pos']) >= count($new
 	unset($_GET['rel']);
 }
 
-$modified = false;
 if (isset($_GET['pos']) && is_numeric($_GET['pos'])) {
 	if (isset($_GET['rel']) && is_numeric($_GET['rel']) && (is_numeric($_GET['rel']))) {
 		$newpos = $_GET['pos'] + $_GET['rel'];
@@ -93,6 +107,28 @@ if (isset($_GET['pos']) && is_numeric($_GET['pos'])) {
 		if ($newpos >= count($newlayout)) $newpos = count($newlayout) - 1;
 		$item = array_splice($newlayout, $_GET['pos'], 1);
 		array_splice($newlayout, $newpos, 0, $item);
+		$modified = true;
+	}
+}
+
+// Checking whether the default widget is activated or not.
+$defaultWidgetPosition = 0;
+$count = 0;
+if(($textcubeDashboard == 1) && ($defaultPanelShown == false)) {	// No default widget is activated during process.
+	foreach($newlayout as $widget) {	// Double-check.
+		if($widget['plugin'] == 'defaultDashboardWidget') $defaultPanelShown = true;
+		else if($widget['plugin'] == 'TextcubeSeparator') $defaultWidgetPosition = $count;
+		$count++;
+	}
+	if($defaultPanelShown == false) {
+		if($seperatorCount < 2) {
+			for($i = 0; $i < (2-$seperatorCount); $i++) {
+				array_push($newlayout, array('plugin' => 'TextcubeSeperator'));
+			}
+			array_push($newlayout, array('plugin' => 'defaultDashboardWidget'));
+		} else {
+			array_splice($newlayout, $count, 0, array(array('plugin' => 'defaultDashboardWidget')));
+		}
 		$modified = true;
 	}
 }
@@ -200,6 +236,7 @@ if (false) {
 }
 ?>	
 <?php
+// Using default panel
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useTTdashboard']))) {
 	$textcubeDashboard = getBlogSetting("textcubeDashboard",1);
 	if (is_null($textcubeDashboard)) {
@@ -214,243 +251,6 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useTTdashboard'])))
 	$textcubeDashboard = 1;
 } else {
 	$textcubeDashboard = getBlogSetting("textcubeDashboard",1);
-}
-
-//$textcubeDashboard = getBlogSetting("textcubeDashboard");
-//if (is_null($textcubeDashboard)) {
-//	setBlogSetting("textcubeDashboard", 1);
-//	$textcubeDashboard = 1;
-//}
-
-if($textcubeDashboard) {
-	if (!isset($_REQUEST['edit'])) {
-		$stats = getStatistics($blogid);
-?>
-						<div id="part-center-dashboard" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo _t('센터');?></span></h2>
-								
-							<div id="shortcut-collection" class="section">
-								<h3 class="caption"><span><?php echo _t('바로가기');?></span></h3>
-								
-								<ul>
-									<li class="newPost"><a class="newPost" href="<?php echo $blogURL;?>/owner/entry/post"><span><?php echo _t('새 글 쓰기');?></span></a></li>
-<?php
-		$latestEntryId = getBlogSetting('LatestEditedEntry_user'.getUserId(),0);
-		if($latestEntryId !== 0) {
-			$latestEntry = getEntry($blogid,$latestEntryId);
-			if(!is_null($latestEntry)) {
-?>
-									<li><a href="<?php echo $blogURL;?>/owner/entry/edit/<?php echo $latestEntry['id'];?>"><?php echo _f('최근글(%1) 수정', htmlspecialchars(UTF8::lessenAsEm($latestEntry['title'],10)));?></a></li>
-<?php
-			}
-		}
-		if ($service['reader'] == true) {
-?>
-									<li><a href="<?php echo $blogURL;?>/owner/network/reader"><?php echo _t('RSS로 등록한 이웃 글 보기');?></a></li>
-<?php
-		}
-		if(Acl::check("group.administrators")) {
-?>
-									<li><a href="<?php echo $blogURL;?>/owner/center/dashboard/cleanup" onclick="cleanupCache();return false;"><?php echo _t('캐시 지우기');?></a></li>
-<?php
-			if(Acl::check("group.creators")) {
-?>
-									<li><a href="<?php echo $blogURL;?>/owner/data" onclick="optimizeData();return false;"><?php echo _t('저장소 최적화');?></a></li>
-<?php
-			}
-		}
-?>
-								</ul>
-							</div>
-								
-							<div id="total-information" class="section">
-								<h3 class="caption"><span><?php echo _t('요약');?></span></h3>
-									
-								<table>
-									<tbody>
-										<tr>
-											<th><?php echo _t('오늘/어제방문자');?></th>
-											<td><?php echo number_format($stats['today']) . '/' . number_format($stats['yesterday']);?></td>
-										</tr>
-										<tr>
-											<th><?php echo _t('총 방문자');?></th>
-											<td><?php echo number_format($stats['total']);?></td>
-										</tr>
-										<tr>
-											<th><?php echo _t('글 개수');?></th>
-											<td><?php echo number_format(getEntriesTotalCount($blogid));?></td>
-										</tr>
-										<tr>
-											<th><?php echo _t('댓글/걸린글 개수');?></th>
-											<td><?php echo number_format(getCommentCount($blogid)) . '/' . number_format(getTrackbackCount($blogid));?></td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-							
-							<div id="textcube-notice" class="section">
-								<h3 class="caption"><span><?php echo _t('공지사항');?></span></h3>
-									
-<?php
-		$noticeURL = "http://notice.textcube.org/";
-		$noticeURLRSS = $noticeURL.(isset($blog['language']) ? $blog['language'] : "ko")."/rss";
-
-		if(!is_null(getServiceSetting('Textcube_Notice_'.$blog['language']))) {
-			$noticeEntries = unserialize(getServiceSetting('Textcube_Notice_'.$blog['language']));
-		} else {
-			list($result, $feed, $xml) = getRemoteFeed($noticeURLRSS);
-			if ($result == 0) {
-				$xmls = new XMLStruct();
-				$xmls->setXPathBaseIndex(1);
-				$noticeEntries = array();
-				if ($xmls->open($xml, $service['encoding'])) {
-					if ($xmls->getAttribute('/rss', 'version')) {
-						for ($i = 1; $link = $xmls->getValue("/rss/channel/item[$i]/link"); $i++) {
-							$item = array('permalink' => rawurldecode($link));
-							$item['title'] = $xmls->getValue("/rss/channel/item[$i]/title");
-							if ($xmls->getValue("/rss/channel/item[$i]/pubDate"))
-								$item['written'] = parseDate($xmls->getValue("/rss/channel/item[$i]/pubDate"));
-							else if ($xmls->getValue("/rss/channel/item[$i]/dc:date"))
-								$item['written'] = parseDate($xmls->getValue("/rss/channel/item[$i]/dc:date"));
-							else
-								$item['written'] = 0;
-								array_push($noticeEntries, $item);
-						}
-					}
-				}
-				setServiceSetting('Textcube_Notice_'.$blog['language'],serialize($noticeEntries));
-			}
-		}
-
-		if (count($noticeEntries) > 0) {
-			array_splice($noticeEntries, 5, count($noticeEntries) - 5);
-?>
-								<table>
-									<tbody>
-<?php
-			foreach($noticeEntries as $item) {
-?>
-										<tr>
-											<td class="title"><a href="<?php echo $item['permalink'];?>" onclick="return openLinkInNewWindow(this);" ><?php echo htmlspecialchars(UTF8::lessenAsEm($item['title'],60));?></a></td>
-											<td class="date"><?php echo Timestamp::format2($item['written']);?></td>
-										</tr>
-<?php
-			}
-?>
-									</tbody>
-								</table>
-									
-<?php
-		} else {
-?>
-								<div id="fail-notice">
-									<?php echo _t('공지사항을 가져올 수 없습니다. 잠시 후 다시 시도해 주십시오.');?>
-								</div>
-<?php
-		}
-?>
-							</div>
-
-							<div id="myBlogInfo" class="section">
-								<h3 class="caption"><span><?php echo _t('알림판');?></span></h3>
-								<div id="infoPanel">
-									<table class="comment">
-										<caption><a href="<?php echo $blogURL."/owner/communication/comment";?>"><?php echo _t('최근 댓글');?></a></caption>
-										<thead>
-											<tr>
-												<th scope="col"><?=_t('내용')?></th>
-												<th scope="col" class="date"><?=_t('날짜')?></th>
-											</tr>
-										</thead>
-										<tbody>
-<?php
-		$comments = getRecentComments($blogid,5);
-		foreach ($comments as $comment) {
-?>
-											<tr>
-												<td class="title"><a href="<?php echo $blogURL."/".$comment['entry']."#comment".$comment['id'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 25));?></a></td>
-												<td class="date"><?php echo Timestamp::format('%m/%d',$comment['written']);?></td>
-											</tr>
-<?php
-		}
-?>
-										</tbody>
-									</table>
-									<table class="commentNotifier">
-										<caption><a href="<?php echo $blogURL."/owner/communication/notify";?>"><?php echo _t('최근 댓글 알리미');?></a></caption>
-										<thead>
-											<tr>
-												<th scope="col"><?=_t('내용')?></th>
-												<th scope="col" class="date"><?=_t('날짜')?></th>
-											</tr>
-										</thead>
-										<tbody>
-<?php
-		list($commentNotifies,$paging) = getCommentsNotifiedWithPagingForOwner($blogid,0,null,null,null,1,5);
-		foreach ($commentNotifies as $comment) {
-?>
-											<tr>
-												<td class="title"><?php echo htmlspecialchars(UTF8::lessenAsEm($comment['comment'], 25));?></td>
-												<td class="date"><?php echo Timestamp::format('%m/%d',$comment['written']);?></td>
-											</tr>
-<?php
-		}
-?>
-										</tbody>
-									</table>
-									<table class="guestbook">
-										<caption><a href="<?php echo $blogURL."/owner/communication/comment?status=guestbook";?>"><?php echo _t('최근 방명록');?></a></caption>
-										<thead>
-											<tr>
-												<th scope="col"><?=_t('내용')?></th>
-												<th scope="col" class="date"><?=_t('날짜')?></th>
-											</tr>
-										</thead>
-										<tbody>
-<?php
-		$guestbooks = getRecentGuestbook($blogid,5);
-		foreach ($guestbooks as $guestbook) {
-?>
-											<tr>
-												<td class="title"><a href="<?php echo $blogURL."/guestbook/".$guestbook['id']."#guestbook".$guestbook['id'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($guestbook['comment'], 25));?></a></td>
-												<td class="date"><?php echo Timestamp::format('%m/%d',$guestbook['written']);?></td>
-											</tr>
-<?php
-		}
-?>
-										</tbody>
-									</table>
-									<table class="trackback">
-										<caption><a href="<?php echo $blogURL."/owner/communication/trackback";?>"><?php echo _t('최근 트랙백');?></a></caption>
-										<thead>
-											<tr>
-												<th scope="col"><?=_t('내용')?></th>
-												<th scope="col" class="date"><?=_t('날짜')?></th>
-											</tr>
-										</thead>
-										<tbody>
-<?php
-		$trackbacks = getRecentTrackbacks($blogid,5);
-		foreach ($trackbacks as $trackback) {
-?>
-											<tr>
-												<td class="title"><a href="<?php echo $blogURL."/".$trackback['entry']."#trackback".$trackback['id'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($trackback['subject'], 25));?></a></td>
-												<td class="date"><?php echo Timestamp::format('%m/%d',$trackback['written']);?></td>
-											</tr>
-<?php
-		}
-?>
-										</tbody>
-									</table>
-								</div>
-
-							</div>
-						</div>
-<?php
-		unset($feed);
-		unset($xmls);
-		unset($noticeEntries);
-	}
 }
 ?>
 						<form id="tempForm" method="post" action="<?php echo parseURL($blogURL.'/owner/center/dashboard');?>">
@@ -472,11 +272,14 @@ if (!isset($_REQUEST['edit']) && Acl::check('group.owners')) {
 $boardbarNumber = 0;
 $positionCounter = 0;
 $secondposition = array(0, 0);
+// Pre-checking center widget information
+
+
 ?>
 								<div id="dojo_boardbar0" class="panel">
 <?php
 foreach ($newlayout as $mapping) {
-	if ($mapping['plugin'] == 'TatterToolsSeperator') {
+	if ($mapping['plugin'] == 'TextcubeSeperator') {
 ?>
 
 								</div>
@@ -484,6 +287,8 @@ foreach ($newlayout as $mapping) {
 <?php
 		$secondposition[$boardbarNumber] = $positionCounter;
 		$boardbarNumber++;
+	} else if ($mapping['plugin'] == 'defaultDashboardWidget') {
+		getDefaultCenterPanel($mapping);
 	} else {
 ?>
 									<div id="<?php echo $mapping['plugin'];?>" class="section">
@@ -584,7 +389,7 @@ if (isset($_REQUEST['edit'])) {
 <?php
 	$positionCounter = 0;
 	foreach ($newlayout as $mapping) {
-		if ($mapping['plugin'] != 'TatterToolsSeperator') {
+		if ($mapping['plugin'] != 'TextcubeSeperator') {
 ?>
 		document.getElementById('<?php echo $mapping['plugin'];?>').pos = <?php echo $positionCounter;?>;
 		new DragPanel(document.getElementById('<?php echo $mapping['plugin'];?>'), ["dashboard"]);
@@ -602,5 +407,255 @@ if (isset($_REQUEST['edit'])) {
 <?php
 }
 
+
+
+//************ Default Center Widget module.
+function getDefaultCenterPanel($mapping) {
+	global $blogURL,$blogid;
+
+?>
+									<div id="<?php echo $mapping['plugin'];?>" class="section">
+										<h3 class="caption">
+											<span><?php echo _t('알림판');?>
+<?php
+	if (isset($_REQUEST['edit'])) {
+?>
+											<a id="<?php echo $mapping['plugin'];?>dojoup" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter; ?>&amp;rel=-1&edit"><?php echo _t("위로");?></a>
+											<a id="<?php echo $mapping['plugin'];?>dojodown" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter;?>&amp;rel=1&edit"><?php echo _t("아래로");?></a>
+<?php
+	}
+?>
+											</span>
+										</h3>
+<?php
+	if (!isset($_REQUEST['edit'])) {
+		// Get default data
+		$stats = getStatistics($blogid);
+		$latestEntryId = getBlogSetting('LatestEditedEntry_user'.getUserId(),0);
+
+		$comments = getRecentComments($blogid,5);
+		$guestbooks = getRecentGuestbook($blogid,5);
+		list($commentNotifies,$paging) = getCommentsNotifiedWithPagingForOwner($blogid,0,null,null,null,1,5);
+		$trackbacks = getRecentTrackbacks($blogid,5);
+		$recents = array();	// title, date, link, category
+		foreach($comments as $comment) {
+			array_push($recents, array(
+			'title'   =>$comment['comment'],
+			'date'    =>$comment['written'],
+			'link'    => $blogURL."/".$comment['entry']."#comment".$comment['id'],
+			'category'=>'comment'));
+		}
+		foreach($commentNotifies as $comment) {
+			array_push($recents, array(
+			'title'   =>$comment['comment'],
+			'date'    =>$comment['written'],
+			'link'    => $blogURL."/owner/communication/notify",
+			'category'=>'commentNotify'));
+		}
+		foreach($guestbooks as $guestbook) {
+			array_push($recents, array(
+			'title'   =>$guestbook['comment'],
+			'date'    =>$guestbook['written'],
+			'link'    => $blogURL."/guestbook/".$guestbook['id']."#guestbook".$guestbook['id'],
+			'category'=>'guestbook'));
+		}
+		foreach($trackbacks as $trackback) {
+			array_push($recents, array(
+			'title'   =>$trackback['subject'],
+			'date'    =>$trackback['written'],
+			'link    '=> $blogURL."/".$trackback['entry']."#trackback".$trackback['id'],
+			'category'=>'trackback'));
+		}
+		foreach($recents as $uniqid => $row){
+			foreach($row as $key=>$value){
+				$sort_array[$key][$uniqid] = $value;
+			}
+		}
+		array_multisort($sort_array['date'],SORT_DESC,$recents);
+?>
+										<div id="shortcut-collection">
+											<h4 class="caption"><span><?php echo _t('바로가기');?></span></h4>
+											
+											<ul>
+												<li class="newPost"><a class="newPost" href="<?php echo $blogURL;?>/owner/entry/post"><span><?php echo _t('새 글 쓰기');?></span></a></li>
+<?php
+		if($latestEntryId !== 0) {
+			$latestEntry = getEntry($blogid,$latestEntryId);
+			if(!is_null($latestEntry)) {
+?>
+												<li class="modifyPost"><a href="<?php echo $blogURL;?>/owner/entry/edit/<?php echo $latestEntry['id'];?>"><?php echo _f('최근글(%1) 수정', htmlspecialchars(UTF8::lessenAsEm($latestEntry['title'],10)));?></a></li>
+<?php
+			}
+		}
+		if ($service['reader'] == true) {
+?>
+												<li class="rssReader"><a href="<?php echo $blogURL;?>/owner/network/reader"><?php echo _t('RSS로 등록한 이웃 글 보기');?></a></li>
+<?php
+		}
+		if(Acl::check("group.administrators")) {
+?>
+												<li class="deleteCache"><a href="<?php echo $blogURL;?>/owner/center/dashboard/cleanup" onclick="cleanupCache();return false;"><?php echo _t('캐시 지우기');?></a></li>
+<?php
+			if(Acl::check("group.creators")) {
+?>
+												<li class="optimizeStorage"><a href="<?php echo $blogURL;?>/owner/data" onclick="optimizeData();return false;"><?php echo _t('저장소 최적화');?></a></li>
+<?php
+			}
+		}
+?>
+												<li class="clear"></li>
+											</ul>
+										</div>
+											
+										<div id="total-information">
+											<h4 class="caption"><span><?php echo _t('요약');?></span></h4>
+												
+											<table class="posts-line">
+												<caption><?php echo _t('글');?></caption>
+												<thead>
+													<th>type</th>
+													<th>sum</th>
+												</thead>
+												<tbody>
+													<tr>
+														<td class="type"><?php echo _t('글');?></td>
+														<td class="sum"><?php echo number_format(getEntriesTotalCount($blogid));?></td>
+													</tr>
+													<tr>
+														<td class="type"><?php echo _t('댓글');?></td>
+														<td class="sum"><?php echo number_format(getCommentCount($blogid));?></td>
+													</tr>
+													<tr>
+														<td class="type"><?php echo _t('방명록');?></td>
+														<td class="sum"></td>
+													</tr>
+													<tr>
+														<td class="type"><?php echo _t('걸린 글');?></td>
+														<td class="sum"><?php echo number_format(getTrackbackCount($blogid));?></td>
+													</tr>
+												</tbody>
+											</table>
+											<table class="visitors-line">
+												<caption><?php echo _t('방문자');?></caption>
+												<thead>
+													<th>type</th>
+													<th>sum</th>
+												</thead>
+												<tbody>
+													<tr>
+														<td class="type"><?php echo _t('오늘');?></td>
+														<td class="sum"><?php echo number_format($stats['today']);?></td>
+													</tr>
+													<tr>
+														<td class="type"><?php echo _t('어제');?></td>
+														<td class="sum"><?php echo number_format($stats['yesterday']);?></td>
+													</tr>
+													<tr>
+														<td class="type"><?php echo _t('최근7일 평균');?></td>
+														<td class="sum"></td>
+													</tr>
+													<tr>
+														<td class="type"><?php echo _t('총방문자');?></td>
+														<td class="sum"><?php echo number_format($stats['total']);?></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+
+										<div id="myBlogInfo">
+											<h4 class="caption"><span><?php echo _t('알림판');?></span></h4>
+											<div id="infoPanel">
+												<table class="recent">
+												<caption>asdasd</caption>
+													<thead>
+														<tr>
+															<th scope="col" class="date"><?=_t('날짜')?></th>
+															<th scope="col"><?=_t('내용')?></th>
+														</tr>
+													</thead>
+													<tbody>
+<?php
+		foreach ($recents as $item) {
+?>
+														<tr class="<?php echo $item['category'];?>">
+															<td class="date"><?php echo Timestamp::format('%m/%d',$item['date']);?></td>
+															<td class="title"><a href="<?php echo $item['link'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($item['title'],25));?></a></td>
+														</tr>
+<?php
+		}
+?>
+													</tbody>
+												</table>
+											</div>
+										<div id="textcube-notice">
+											<h4 class="caption"><span><?php echo _t('공지사항');?></span></h4>
+									
+<?php
+		$noticeURL = "http://notice.textcube.org/";
+		$noticeURLRSS = $noticeURL.(isset($blog['language']) ? $blog['language'] : "ko")."/rss";
+
+		if(!is_null(getServiceSetting('Textcube_Notice_'.$blog['language']))) {
+			$noticeEntries = unserialize(getServiceSetting('Textcube_Notice_'.$blog['language']));
+		} else {
+			list($result, $feed, $xml) = getRemoteFeed($noticeURLRSS);
+			if ($result == 0) {
+				$xmls = new XMLStruct();
+				$xmls->setXPathBaseIndex(1);
+				$noticeEntries = array();
+				if ($xmls->open($xml, $service['encoding'])) {
+					if ($xmls->getAttribute('/rss', 'version')) {
+						for ($i = 1; $link = $xmls->getValue("/rss/channel/item[$i]/link"); $i++) {
+							$item = array('permalink' => rawurldecode($link));
+							$item['title'] = $xmls->getValue("/rss/channel/item[$i]/title");
+							if ($xmls->getValue("/rss/channel/item[$i]/pubDate"))
+								$item['written'] = parseDate($xmls->getValue("/rss/channel/item[$i]/pubDate"));
+							else if ($xmls->getValue("/rss/channel/item[$i]/dc:date"))
+								$item['written'] = parseDate($xmls->getValue("/rss/channel/item[$i]/dc:date"));
+							else
+								$item['written'] = 0;
+								array_push($noticeEntries, $item);
+						}
+					}
+				}
+				setServiceSetting('Textcube_Notice_'.$blog['language'],serialize($noticeEntries));
+			}
+		}
+
+		if (count($noticeEntries) > 0) {
+			array_splice($noticeEntries, 3, count($noticeEntries) - 3);
+?>
+											<table>
+												<tbody>
+<?php
+			foreach($noticeEntries as $item) {
+?>
+													<tr>
+														<td class="date"><?php echo Timestamp::format2($item['written']);?></td>
+														<td class="title"><a href="<?php echo $item['permalink'];?>" onclick="return openLinkInNewWindow(this);" ><?php echo htmlspecialchars(UTF8::lessenAsEm($item['title'],40));?></a></td>
+													</tr>
+<?php
+			}
+?>
+												</tbody>
+											</table>
+									
+<?php
+		} else {
+?>
+											<div id="fail-notice">
+												<?php echo _t('공지사항을 가져올 수 없습니다. 잠시 후 다시 시도해 주십시오.');?>
+											</div>
+<?php
+		}
+?>
+										</div>
+									</div>
+<?php
+
+	}
+?>
+									</div>
+<?php
+}
 require ROOT . '/lib/piece/owner/footer.php';
 ?>
