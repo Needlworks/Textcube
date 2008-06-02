@@ -42,7 +42,7 @@ body
 	padding                          : 10px;
 	height                           : 150px;
 	width                            : 390px;
-	margin                           : 0 0 10px 25px;
+	margin                           : 0 0 10px 20px;
 	overflow-x                       : hidden;
 	overflow-y                       : scroll;
 }
