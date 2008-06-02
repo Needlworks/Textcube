@@ -411,7 +411,7 @@ if (isset($_REQUEST['edit'])) {
 
 //************ Default Center Widget module.
 function getDefaultCenterPanel($mapping) {
-	global $blogURL,$blogid;
+	global $service,$blog,$blogURL,$blogid;
 
 ?>
 									<div id="<?php echo $mapping['plugin'];?>" class="section">
