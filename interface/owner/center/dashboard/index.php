@@ -442,10 +442,10 @@ function getDefaultCenterPanel($mapping) {
 		$stats = getStatistics($blogid);
 		$latestEntryId = getBlogSetting('LatestEditedEntry_user'.getUserId(),0);
 
-		$comments = getRecentComments($blogid,3);
-		$guestbooks = getRecentGuestbook($blogid,3);
-		list($commentNotifies,$paging) = getCommentsNotifiedWithPagingForOwner($blogid,0,null,null,null,1,3);
-		$trackbacks = getRecentTrackbacks($blogid,3);
+		$comments = getRecentComments($blogid,10);
+		$guestbooks = getRecentGuestbook($blogid,10);
+		list($commentNotifies,$paging) = getCommentsNotifiedWithPagingForOwner($blogid,0,null,null,null,1,10);
+		$trackbacks = getRecentTrackbacks($blogid,10);
 		$recents = array();	// title, date, link, category
 		foreach($comments as $comment) {
 			array_push($recents, array(
@@ -481,6 +481,8 @@ function getDefaultCenterPanel($mapping) {
 			}
 		}
 		array_multisort($sort_array['date'],SORT_DESC,$recents);
+		$recents = array_slice($recents, 0, 14);
+		
 ?>
 										<div id="shortcut-collection">
 											<h4 class="caption"><span><?php echo _t('바로가기');?></span></h4>
