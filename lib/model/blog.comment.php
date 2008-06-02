@@ -849,7 +849,7 @@ function notifyComment() {
 		return false;
 	}
 	$entry = (POD::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id={$comments['entry']}"));
-	if( $entry['id'] == 0) {
+	if(is_null($entry)) {
 		$r1_comment_check_url = rawurlencode("$defaultURL/guestbook/".$parentComments['id']."#guestbook".$parentComments['id']);
 		$r2_comment_check_url = rawurlencode("$defaultURL/guestbook/".$comments['id']."#guestbook".$comments['id']);
 	}else{
