@@ -112,7 +112,8 @@ if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ) 
 if (count($newlayout) == 0) { // If no widget is activated, add default widget & separators
 	array_push($newlayout, array('plugin' => 'TextcubeSeparator'));
 	array_push($newlayout, array('plugin' => 'TextcubeSeparator'));
-	if($textcubeDashboard == 1) array_push($newlayout, array('plugin' => 'defaultDashboardWidget'));
+	if($textcubeDashboard == 1) //array_push($newlayout, array('plugin' => 'defaultDashboardWidget'));
+		array_splice($newlayout, 0, 0, array(array('plugin' => 'defaultDashboardWidget')));
 	$modified = true;
 }
 
@@ -133,23 +134,24 @@ if (isset($_GET['pos']) && is_numeric($_GET['pos'])) {
 }
 // Checking whether the default widget is activated or not.
 $defaultWidgetPosition = 0;
-$count = 0;
+//$count = 0;
 if(($textcubeDashboard == 1) && ($defaultPanelShown == false)) {	// No default widget is activated during process.
 	foreach($newlayout as $widget) {	// Double-check.
 		if($widget['plugin'] == 'defaultDashboardWidget') $defaultPanelShown = true;
-		else if($widget['plugin'] == 'TextcubeSeparator') $defaultWidgetPosition = $count + 1;
-		$count++;
+//		else if($widget['plugin'] == 'TextcubeSeparator') $defaultWidgetPosition = $count + 1;
+//		$count++;
 	}
 
 	if($defaultPanelShown == false) {
-		if($seperatorCount < 2) {
+		array_splice($newlayout, 0, 0, array(array('plugin' => 'defaultDashboardWidget')));
+/*	if($seperatorCount < 2) {
 			for($i = 0; $i < (2-$seperatorCount); $i++) {
 				array_push($newlayout, array('plugin' => 'TextcubeSeparator'));
 			}
 			array_push($newlayout, array('plugin' => 'defaultDashboardWidget'));
 		} else {
 			array_splice($newlayout, $defaultWidgetPosition, 0, array(array('plugin' => 'defaultDashboardWidget')));
-		}
+		}*/
 		$modified = true;
 	}
 }
