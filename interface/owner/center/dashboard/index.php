@@ -475,12 +475,18 @@ function getDefaultCenterPanel($mapping) {
 			'link'    => $blogURL."/".$trackback['entry']."#trackback".$trackback['id'],
 			'category'=>'trackback'));
 		}
+		$sort_array = array();
 		foreach($recents as $uniqid => $row){	// Sorting.
 			foreach($row as $key=>$value){
+				if (!array_key_exists($key, $sort_array)) {
+					$sort_array[$key] = array();
+				}
 				$sort_array[$key][$uniqid] = $value;
 			}
 		}
-		array_multisort($sort_array['date'],SORT_DESC,$recents);
+		if (!empty($sort_array)) {
+			array_multisort($sort_array['date'],SORT_DESC,$recents);
+		}
 		$recents = array_slice($recents, 0, 14);
 		
 ?>
