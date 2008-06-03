@@ -39,7 +39,7 @@ if (!defined('__TEXTCUBE_EDIT__')) { ?>
 						break;
 <?php if ($service['reader']) { ?>
 					case 82: //R
-						try { window.location = "<?php echo $blogURL;?>/owner/communication/reader"; } catch(e) { };
+						try { window.location = "<?php echo $blogURL;?>/owner/network/reader"; } catch(e) { };
 						break;
 <?php
 	}
