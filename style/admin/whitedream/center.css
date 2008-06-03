@@ -77,8 +77,10 @@
 #shortcut-collection ul li a.newPost span
 {
 	display                          : block;
-	padding-top                      : 26px;
-	margin-left                      : 20px;
+	width                            : 100%;
+	padding-top                      : 80px;
+	margin                           : 0 auto;
+	text-align                       : center;
 }
 
 /* total information */
