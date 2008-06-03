@@ -279,6 +279,28 @@ if (!isset($_REQUEST['edit']) && Acl::check('group.owners')) {
 $boardbarNumber = 0;
 $positionCounter = 0;
 $secondposition = array(0, 0);
+
+if(Acl::check('group.owners')) {
+	if(!isset($_REQUEST['edit'])) {
+?>
+								<div class="button-box">
+									<input type="submit" class="input-button" value="<?php echo _t('편집');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/center/dashboard?edit'; return false;" />
+									<input type="button" class="input-button" value="<?php echo _t('위젯 켜고 끄기');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/plugin?visibility=center'; return false;" />
+								</div>
+<?php
+	} else {
+?>
+								<div class="button-box">
+									<input type="button" class="input-button" value="<?php echo _t('돌아가기');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/center/dashboard'; return false;" />
+								</div>
+<?php
+	}
+} else {
+?>
+								<div class="button-box">
+								</div>
+<?php
+}
 ?>
 								<div id="dojo_boardbar0" class="panel">
 <?php
@@ -337,8 +359,6 @@ if ($boardbarNumber < 2) {
 	$boardbarNumber++;
 	$positionCounter++;
 }
-
-// 팀블로그 :: 관리자 권한이 없으면 센터를 편집할수없다.
 
 if(Acl::check('group.owners')) {
 	if(!isset($_REQUEST['edit'])) {

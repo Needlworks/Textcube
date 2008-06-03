@@ -273,9 +273,8 @@
 #part-center-lint .button-box,
 #part-center-lint-edit .button-box
 {
-	border-top                       : 1px solid #DDDDDD;
 	clear                            : both;
-	padding                          : 15px 0;
+	padding                          : 10px 0;
 }
 
 #part-center-quilt .button-box .input-button,
@@ -403,7 +402,7 @@
 
 #independent-notice-line
 {
-	margin: -40px 10px 30px 0;
+	margin: -40px 10px 10px 0;
 }
 
 #independent-notice-line dd
