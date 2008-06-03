@@ -267,6 +267,7 @@ function api_make_post( $param, $ispublic, $postid = -1 )
 	}
 	$post->created = api_timestamp( $param['dateCreated'] );
 	$post->modified = api_timestamp( $param['dateCreated'] );
+	$post->published = api_timestamp( $param['dateCreated'] );
 	
 	$post->acceptComment = $param['mt_allow_comments'] !== 0 ? true : false;
 	$post->acceptTrackback = $param['mt_allow_pings'] !== 0 ? true : false;
@@ -274,7 +275,6 @@ function api_make_post( $param, $ispublic, $postid = -1 )
 	if( $ispublic )
 	{
 		$post->visibility = "public";
-		$post->published = api_timestamp( $param['dateCreated'] );
 	}
 	else
 	{
