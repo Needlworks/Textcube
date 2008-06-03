@@ -571,7 +571,14 @@ function getDefaultCenterPanel($mapping) {
 													</tr>
 													<tr>
 														<td class="type"><?php echo _t('7일 평균');?></td>
-														<td class="sum"><?php echo number_format(Statistics::getWeeklyStatistics());?></td>
+														<td class="sum"><?php 
+	$weekly = Statistics::getWeeklyStatistics();
+	$weeklycount = 0;
+	foreach($weekly as $day) $weeklycount += $day['visits'];
+	echo number_format($weeklycount/7);
+	unset($weekly);
+	unset($weeklycount);
+	?></td>
 													</tr>
 													<tr>
 														<td class="type"><?php echo _t('총방문자');?></td>
