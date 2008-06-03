@@ -652,8 +652,8 @@ function getDefaultCenterPanel($mapping) {
 		$noticeURL = "http://notice.textcube.org/";
 		$noticeURLRSS = $noticeURL.(isset($blog['language']) ? $blog['language'] : "ko")."/rss";
 
-		if(!is_null(getServiceSetting('Textcube_Notice_'.$blog['language']))) {
-			$noticeEntries = unserialize(getServiceSetting('Textcube_Notice_'.$blog['language']));
+		if(!is_null(getServiceSetting('TextcubeNotice'.$blog['language']))) {
+			$noticeEntries = unserialize(getServiceSetting('TextcubeNotice'.$blog['language']));
 		} else {
 			list($result, $feed, $xml) = getRemoteFeed($noticeURLRSS);
 			if ($result == 0) {
@@ -675,7 +675,7 @@ function getDefaultCenterPanel($mapping) {
 						}
 					}
 				}
-				setServiceSetting('Textcube_Notice_'.$blog['language'],serialize($noticeEntries));
+				setServiceSetting('TextcubeNotice'.$blog['language'],serialize($noticeEntries));
 			}
 		}
 ?>
