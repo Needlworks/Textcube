@@ -5,7 +5,7 @@
 
 function setBlogTitle($blogid, $title) {
 	global $blog;
-	requireModel('blog.rss');
+	requireModel('blog.feed');
 	if ($title == $blog['title'])
 		return true;
 	if(setBlogSetting('title', UTF8::lessenAsEncoding($title, 255)) === false) return false;
@@ -16,7 +16,7 @@ function setBlogTitle($blogid, $title) {
 
 function setBlogDescription($blogid, $description) {
 	global $blog;
-	requireModel('blog.rss');
+	requireModel('blog.feed');
 	if ($description == $blog['description'])
 		return true;
 	if(setBlogSetting('description',UTF8::lessenAsEncoding($description, 255)) === false) return false;
@@ -76,7 +76,7 @@ function checkBlogName($name) {
 
 function setPrimaryDomain($blogid, $name) {
 	global $database, $blog;
-	requireModel('blog.rss');
+	requireModel('blog.feed');
 	$name = UTF8::lessenAsEncoding(strtolower(trim($name)), 32);
 	if ($name == $blog['name'])
 		return 0;
@@ -96,7 +96,7 @@ function setPrimaryDomain($blogid, $name) {
 
 function setSecondaryDomain($blogid, $domain) {
 	global $database, $blog;
-	requireModel('blog.rss');
+	requireModel('blog.feed');
 	$domain = UTF8::lessenAsEncoding(strtolower(trim($domain)), 64);
 	if ($domain == $blog['secondaryDomain'])
 		return 0;
@@ -119,7 +119,7 @@ function setSecondaryDomain($blogid, $domain) {
 
 function setDefaultDomain($blogid, $default) {
 	global $blog;
-	requireModel('blog.rss');
+	requireModel('blog.feed');
 	$default = $default == 1 ? 1 : 0;
 	if (empty($blog['secondaryDomain']) && $default == 1)
 		return false;
@@ -135,7 +135,7 @@ function setDefaultDomain($blogid, $default) {
 
 function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSloganOnTag) {
 	global $blog;
-	requireModel('blog.rss');
+	requireModel('blog.feed');
 	requireComponent('Needlworks.Cache.PageCache');
 	$useSloganOnPost     = $useSloganOnPost     ? 1 : 0;
 	$useSloganOnCategory = $useSloganOnCategory ? 1 : 0;
@@ -167,7 +167,7 @@ function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSlog
 
 function publishPostEolinSyncOnRSS($blogid, $publishEolinSyncOnRSS) {
 	global $blog;
-	requireModel('blog.rss');
+	requireModel('blog.feed');
 	$publishEolinSyncOnRSS = $publishEolinSyncOnRSS ? 1 : 0;
 	if ($publishEolinSyncOnRSS == $blog['publishEolinSyncOnRSS'])
 		return true;
@@ -180,7 +180,7 @@ function publishPostEolinSyncOnRSS($blogid, $publishEolinSyncOnRSS) {
 
 function setEntriesOnRSS($blogid, $entriesOnRSS) {
 	global $blog;
-	requireModel('blog.rss');
+	requireModel('blog.feed');
 	if ($entriesOnRSS == $blog['entriesOnRSS'])
 		return true;
 	if(setBlogSetting('entriesOnRSS',$entriesOnRSS) === false) return false;
@@ -191,7 +191,7 @@ function setEntriesOnRSS($blogid, $entriesOnRSS) {
 
 function setCommentsOnRSS($blogid, $commentsOnRSS) {
 	global $blog;
-	requireModel('blog.rss');
+	requireModel('blog.feed');
 	if ($commentsOnRSS == $blog['commentsOnRSS'])
 		return true;
 	if(setBlogSetting('commentsOnRSS',$commentsOnRSS) === false) return false;
@@ -204,7 +204,7 @@ function setCommentsOnRSS($blogid, $commentsOnRSS) {
 
 function setPublishWholeOnRSS($blogid, $publishWholeOnRSS) {
 	global $blog;
-	requireModel('blog.rss');
+	requireModel('blog.feed');
 	$publishWholeOnRSS = $publishWholeOnRSS ? 1 : 0;
 	if ($publishWholeOnRSS == $blog['publishWholeOnRSS'])
 		return true;
@@ -216,7 +216,7 @@ function setPublishWholeOnRSS($blogid, $publishWholeOnRSS) {
 
 function setBlogLanguage($blogid, $language, $blogLanguage) {
 	global $blog;
-	requireModel('blog.rss');
+	requireModel('blog.feed');
 	if (($language == $blog['language']) && ($blogLanguage == $blog['blogLanguage']))
 		return true;
 	$language = UTF8::lessenAsEncoding($language, 5);

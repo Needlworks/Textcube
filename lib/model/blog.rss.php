@@ -8,7 +8,7 @@ function RSSMessage($message) {
 	return ($isPublic ? $message : _text('비공개'));
 }
 
-function refreshRSS($blogid) {
+function refreshFeed($blogid, $mode = 'both') {
 	global $database, $serviceURL, $defaultURL, $blog, $service;
 	$channel = array();
 //	$author = POD::queryCell("SELECT CONCAT(' (', name, ')') FROM {$database['prefix']}Users WHERE userid = $blogid");
@@ -64,7 +64,7 @@ function refreshRSS($blogid) {
  		if (!$blog['publishWholeOnRSS']) {
 			$content .= "<p><strong><a href=\"" . htmlspecialchars($entryURL) . "\">" . _t('글 전체보기') . "</a></strong></p>";
  		}
-
+		$row['repliesCount'] = $row['comments'] + $row['trackbacks'];
 		$item = array(
 			'id' => $row['id'], 
 			'title' => RSSMessage($row['title']), 
@@ -72,8 +72,11 @@ function refreshRSS($blogid) {
 			'categories' => array(), 'description' => RSSMessage($content), 
 			'author' => '('.RSSMessage($row['author']).')', 
 			'pubDate' => Timestamp::getRFC1123($row['published']),
+			'updDate' => Timestamp::getRFC1123($row['modified']),
 			'comments' => $entryURL . '#entry' . $row['id'] . 'comment',
-			'guid' => "$defaultURL/" . $row['id']
+			'guid' => "$defaultURL/" . $row['id'],
+			'replies' => array(
+				'count' => $row['repliesCount'])
 		);
 		if (isset($service['useNumericURLonRSS'])) {
 			if ($service['useNumericURLonRSS']==true) {
@@ -100,26 +103,50 @@ function refreshRSS($blogid) {
 		}
 		array_push($channel['items'], $item);
 	}
-	$path = ROOT . '/cache/rss';
-	if (file_exists($path)) {
-		if (!is_dir($path))
-			return false;
-	} else {
-		if (!mkdir($path))
-			return false;
-		@chmod($path, 0777);
-	}
-	$path .= "/$blogid.xml";
-	$fileHandle = fopen($path, 'w');
-	$rss = array('channel' => $channel);
-	if (fwrite($fileHandle, publishRSS($blogid, $rss))) {
+	// RSS
+	if($mode == 'both' || $mode == 'rss') {
+		$path = ROOT . '/cache/rss';
+		if (file_exists($path)) {
+			if (!is_dir($path))
+				return false;
+		} else {
+			if (!mkdir($path))
+				return false;
+			@chmod($path, 0777);
+		}
+		$path .= "/$blogid.xml";
+		$fileHandle = fopen($path, 'w');
+		$rss = array('channel' => $channel);
+		if (fwrite($fileHandle, publishRSS($blogid, $rss))) {
+			@chmod($path, 0666);
+			fireEvent('refreshRSS',$rss);
+			$result = true;
+		} else $result = false;
 		fclose($fileHandle);
-		@chmod($path, 0666);
-		fireEvent('refreshRSS',$rss);
-		return true;
 	}
-	fclose($fileHandle);
-	return false;
+	// ATOM
+	if($mode == 'both' || $mode == 'atom') {
+		$path = ROOT . '/cache/atom';
+		if (file_exists($path)) {
+			if (!is_dir($path))
+				return false;
+		} else {
+			if (!mkdir($path))
+				return false;
+			@chmod($path, 0777);
+		}
+		$path .= "/$blogid.xml";
+		$fileHandle = fopen($path, 'w');
+		$rss = array('channel' => $channel);
+		if (fwrite($fileHandle, publishATOM($blogid, $rss))) {
+			@chmod($path, 0666);
+			fireEvent('refreshATOM',$rss);
+			$result = true;
+		} else $result = false;
+		fclose($fileHandle);
+	}
+	if($result) return true;
+	else return false;
 }
 
 function initializeRSSchannel($blogid = null) {
@@ -142,7 +169,7 @@ function initializeRSSchannel($blogid = null) {
 	}
 	return $channel;
 }
-function getResponseRSSTotal($blogid) {
+function getResponseFeedTotal($blogid, $mode = 'rss') {
 	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
 	if(empty($blogid)) $blogid = getBlogId();
 	$channel = initializeRSSchannel($blogid);
@@ -153,10 +180,12 @@ function getResponseRSSTotal($blogid) {
 	$merged = array_merge($recentComment, $recentTrackback);
 	$channel['items'] = $merged;
 	$rss = array('channel' => $channel);
-	return publishRSS($blogid, $rss);
+	if($mode == 'rss') return publishRSS($blogid, $rss);
+	else if($mode == 'atom') return publishATOM($blogid, $rss);
+	return false;
 }
 
-function getResponseRSSByEntryId($blogid, $entryId) {
+function getResponseFeedByEntryId($blogid, $entryId, $mode = 'rss') {
 	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
 	if(empty($blogid)) $blogid = getBlogId();
 	$channel = initializeRSSchannel($blogid);
@@ -167,10 +196,12 @@ function getResponseRSSByEntryId($blogid, $entryId) {
 	$merged = array_merge($recentComment, $recentTrackback);
 	$channel['items'] = $merged;
 	$rss = array('channel' => $channel);
-	return publishRSS($blogid, $rss);
+	if($mode == 'rss') return publishRSS($blogid, $rss);
+	else if($mode == 'atom') return publishATOM($blogid, $rss);
+	return false;
 }
 
-function getCommentRSSTotal($blogid, $rawMode = false) {
+function getCommentFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
 	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
 	$channel = initializeRSSchannel($blogid);
 	$channel['title'] = $blog['title']. ': '._text('최근 댓글 목록');
@@ -198,10 +229,12 @@ function getCommentRSSTotal($blogid, $rawMode = false) {
 	}
 	if($rawMode == true) return $channel['items'];
 	$rss = array('channel' => $channel);
-	return publishRSS($blogid, $rss);
+	if($mode == 'rss') return publishRSS($blogid, $rss);
+	else if($mode == 'atom') return publishATOM($blogid, $rss);
+	return false;
 }
 
-function getCommentRSSByEntryId($blogid = null, $entryId, $rawMode = false) {
+function getCommentFeedByEntryId($blogid = null, $entryId, $rawMode = false, $mode = 'rss') {
 	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
 	
 	if(empty($blogid)) $blogid = getBlogId();
@@ -245,11 +278,13 @@ function getCommentRSSByEntryId($blogid = null, $entryId, $rawMode = false) {
 	}
 	if($rawMode == true) return $channel['items'];
 	$rss = array('channel' => $channel);
-	return publishRSS($blogid, $rss);
+	if($mode == 'rss') return publishRSS($blogid, $rss);
+	else if($mode == 'atom') return publishATOM($blogid, $rss);
+	return false;
 }
 
 
-function getTrackbackRSSTotal($blogid, $rawMode = false) {
+function getTrackbackFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
 	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
 
 	if(empty($blogid)) $blogid = getBlogId();
@@ -277,10 +312,12 @@ function getTrackbackRSSTotal($blogid, $rawMode = false) {
 	}
 	if($rawMode == true) return $channel['items'];
 	$rss = array('channel' => $channel);
-	return publishRSS($blogid, $rss);
+	if($mode == 'rss') return publishRSS($blogid, $rss);
+	else if($mode == 'atom') return publishATOM($blogid, $rss);
+	return false;
 }
 
-function getTrackbackRSSByEntryId($blogid = null, $entryId, $rawMode = false) {
+function getTrackbackFeedByEntryId($blogid = null, $entryId, $rawMode = false, $mode = 'rss') {
 	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
 
 	if(empty($blogid)) $blogid = getBlogId();
@@ -325,10 +362,12 @@ function getTrackbackRSSByEntryId($blogid = null, $entryId, $rawMode = false) {
 	}
 	if($rawMode == true) return $channel['items'];
 	$rss = array('channel' => $channel);
-	return publishRSS($blogid, $rss);
+	if($mode == 'rss') return publishRSS($blogid, $rss);
+	else if($mode == 'atom') return publishATOM($blogid, $rss);
+	return false;
 }
 
-function getCommentNotifiedRSSTotal($blogid) {
+function getCommentNotifiedFeedTotal($blogid, $mode = 'rss') {
 	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
 
 	if(empty($blogid)) $blogid = getBlogId();
@@ -363,7 +402,9 @@ function getCommentNotifiedRSSTotal($blogid) {
 		array_push($channel['items'], $item);
 	}
 	$rss = array('channel' => $channel);
-	return publishRSS($blogid, $rss);
+	if($mode == 'rss') return publishRSS($blogid, $rss);
+	else if($mode == 'atom') return publishATOM($blogid, $rss);
+	return false;
 }
 
 function publishRSS($blogid, $data) {
@@ -419,5 +460,50 @@ function publishRSS($blogid, $data) {
 function clearRSS() {
 	if (file_exists(ROOT . "/cache/rss/".getBlogId().".xml"))
 		@unlink(ROOT . "/cache/rss/".getBlogId().".xml");
+}
+
+
+function publishATOM($blogid, $data) {
+	global $blog;
+	$blogid = getBlogId();
+	ob_start();
+	echo '<?xml version="1.0" encoding="UTF-8"?>', CRLF;
+	echo '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:thr="http://purl.org/syndication/thread/1.0">', CRLF;
+	echo '  <title type="html">', htmlspecialchars($data['channel']['title'], ENT_QUOTES), '</title>', CRLF;
+	echo '  <id>', $data['channel']['link'], '</id', CRLF;
+	echo '  <link rel="alternate" type="text/html" hreflang="', $data['channel']['language'] ,'" href="', $data['channel']['link'] , ' />', CRLF;
+	echo '  <subtitle type="html">', htmlspecialchars($data['channel']['description'], ENT_QUOTES), '</subtitle>', CRLF;
+	echo '  <updated>', $data['channel']['pubDate'], '</updated>', CRLF;
+	echo '  <generator>', $data['channel']['generator'], '</generator>', CRLF;
+
+	foreach ($data['channel']['items'] as $item) {
+		echo '  <entry>', CRLF;
+		echo '    <title type="html">', htmlspecialchars($item['title'], ENT_QUOTES), '</title>', CRLF;
+		echo '    <link rel="alternate" type="text/html" href="', $item['link'], '" />', CRLF;
+		if(isset($item['replies'])) {
+			echo '    <link rel="replies" type="application/atom+xml" href="', $data['channel']['link'], '/atom/response/', $item['id'], '" thr:count="', $item['replies']['count'] ,'"/>', CRLF;
+		}
+		foreach ($item['categories'] as $category) {
+			if ($category = trim($category))
+				echo '    <category term="', htmlspecialchars($category, ENT_QUOTES), '" />', CRLF; 
+		}
+		echo '    <author>', CRLF;
+		echo '      <name>', htmlspecialchars($item['author'], ENT_QUOTES), '</name>', CRLF;
+		echo '    </author>', CRLF;
+		echo '    <id>', $item['link'] ,'</id>', CRLF;
+		if(isset($item['updDate']))
+			echo '    <updated>', $item['updDate'], '</updated>', CRLF;
+		echo '    <published>', $item['pubDate'], '</published>', CRLF;
+/*		if (!empty($item['enclosure'])) {
+			echo '			<enclosure url="', $item['enclosure']['url'], '" length="', $item['enclosure']['length'], '" type="', $item['enclosure']['type'], '" />', CRLF;
+		}*/
+		echo '    <summary type="html">', htmlspecialchars($item['description'], ENT_QUOTES), '</summary>', CRLF;
+
+		echo '  </entry>', CRLF;
+	}
+	echo '</feed>', CRLF;
+	$atom = ob_get_contents();
+	ob_end_clean();
+	return $atom;
 }
 ?>

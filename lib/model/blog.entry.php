@@ -511,7 +511,7 @@ function getRecentEntries($blogid) {
 function addEntry($blogid, $entry, $userid = null) {
 	global $database, $blog, $gCacheStorage;
 	requireModel("blog.attachment");
-	requireModel("blog.rss");
+	requireModel("blog.feed");
 	requireModel("blog.category");
 	requireModel("blog.tag");
 	requireModel("blog.locative");
@@ -630,7 +630,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	requireModel('blog.locative');
 	requireModel('blog.attachment');
 	requireModel('blog.category');
-	requireModel('blog.rss');
+	requireModel('blog.feed');
 
 	if($entry['id'] == 0) return false;
 	
@@ -756,7 +756,7 @@ function saveDraftEntry($blogid, $entry) {
 	requireModel('blog.locative');
 	requireModel('blog.attachment');
 	requireModel('blog.category');
-	requireModel('blog.rss');
+	requireModel('blog.feed');
 
 	if($entry['id'] == 0) return -11;
 
@@ -911,7 +911,7 @@ function updateTrackbacksOfEntry($blogid, $id) {
 
 function deleteEntry($blogid, $id) {
 	global $database, $gCacheStorage;
-	requireModel("blog.rss");
+	requireModel("blog.feed");
 	requireModel("blog.category");
 	requireModel("blog.attachment");
 	requireModel("blog.tag");
@@ -944,7 +944,7 @@ function deleteEntry($blogid, $id) {
 function changeCategoryOfEntries($blogid, $entries, $category) {
 	global $database;
 	requireModel("blog.category");
-	requireModel("blog.rss");
+	requireModel("blog.feed");
 
 	$targets = array_unique(preg_split('/,/', $entries, -1, PREG_SPLIT_NO_EMPTY));
 	if ( count($targets)<1 || !is_numeric($category) ) 
@@ -983,7 +983,7 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 
 function setEntryVisibility($id, $visibility) {
 	global $database;
-	requireModel("blog.rss");
+	requireModel("blog.feed");
 	requireModel("blog.category");
 	requireComponent('Needlworks.Cache.PageCache');
 	$blogid = getBlogId();

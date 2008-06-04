@@ -293,7 +293,7 @@ function deleteCategory($blogid, $id) {
 
 function modifyCategory($blogid, $id, $name, $bodyid) {
 	global $database;
-	requireModel('blog.rss');
+	requireModel('blog.feed');
 	if($id==0) checkRootCategoryExistence($blogid);
 	if ((empty($name)) && (empty($bodyid)))
 		return false;
@@ -577,7 +577,7 @@ function getParentCategoryVisibility($blogid, $id) {
 
 function setCategoryVisibility($blogid, $id, $visibility) {
 	global $database;
-	requireModel('blog.rss');
+	requireModel('blog.feed');
 	if($id == 0) return false;
 	$parentVisibility = getParentCategoryVisibility($blogid, $id);
 	if ($parentVisibility!==false && $parentVisibility < 2) return false; // return without changing if parent category is set to hidden.

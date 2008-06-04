@@ -155,7 +155,7 @@ function addAttachment($blogid, $parent, $file) {
 
 function deleteAttachment($blogid, $parent, $name) {
 	global $database;
-	requireModel('blog.rss');
+	requireModel('blog.feed');
 	if (!Validator::filename($name)) 
 		return false;
 	$origname = $name;
@@ -211,7 +211,7 @@ function copyAttachments($blogid, $originalEntryId, $targetEntryId) {
 	return true;
 }
 function deleteTotalAttachment($blogid) {
-	requireModel('blog.rss');
+	requireModel('blog.feed');
 	$d = dir(ROOT."/attach/$blogid");
 	while($file = $d->read()) {
 		if(is_file(ROOT."/attach/$blogid/$file"))
@@ -224,7 +224,7 @@ function deleteTotalAttachment($blogid) {
 
 function deleteAttachmentMulti($blogid, $parent, $names) {
 	global $database;
-	requireModel('blog.rss');
+	requireModel('blog.feed');
 	$files = explode('!^|', $names);
 	foreach ($files as $name) {
 		if ($name == '')
@@ -251,7 +251,7 @@ function deleteAttachments($blogid, $parent) {
 }
 
 function downloadAttachment($name) {
-	requireModel('blog.rss');
+	requireModel('blog.feed');
 	global $database;
 	$name = POD::escapeString($name);
 	POD::query("UPDATE {$database['prefix']}Attachments SET downloads = downloads + 1 WHERE blogid = ".getBlogId()." AND name = '$name'");
@@ -259,7 +259,7 @@ function downloadAttachment($name) {
 
 function setEnclosure($name, $order) {
 	global $database;
-	requireModel('blog.rss');
+	requireModel('blog.feed');
 	requireModel('blog.attachment');
 	$name = POD::escapeString($name);
 	if (($parent = POD::queryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND name = '$name'")) !== null) {
