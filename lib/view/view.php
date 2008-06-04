@@ -325,7 +325,7 @@ function getCommentView($entry, $skin) {
 				$commentItem['comment'] = '<span class="hiddenCommentTag_content">' . _text('[비밀댓글]') . '</span> ' . $commentItem['comment'];
 			} else {
 				$rp_class .= ' hiddenComment';
-				$commentItem['name'] = '<span class="hiddenCommentTag_name">' . _text('비밀방문자') . '</span>'.(doesHaveOpenIDPriv($commentItem)?$commentItem['name']:'');
+				$commentItem['name'] = '<span class="hiddenCommentTag_name">' . _text('비밀방문자') . '</span>'.(doesHaveOpenIDPriv($commentItem)?' '.$commentItem['name']:'');
 			}
 		}
 		dress($prefix1 . '_rep_class', $rp_class, $commentItemView);
