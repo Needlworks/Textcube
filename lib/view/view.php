@@ -4,8 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 function printHtmlHeader($title = '') {
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -241,10 +240,18 @@ function getCommentView($entry, $skin) {
 	if ($isComment == false) {
 		list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $suri['page'], $skinSetting['commentsOnGuestbook']);
 		foreach ($comments as $key => $value) {
-			if ($value['secret'] == 1 && !$authorized) {
-				$comments[$key]['name'] = '';
-				$comments[$key]['homepage'] = '';
-				$comments[$key]['comment'] = _text('관리자만 볼 수 있는 방명록입니다.');
+			if ($value['secret'] == 1) {
+				if ($authorized) {
+					$comments[$key]['comment'] = '<span class="hiddenCommentTag_content">' . _text('[비밀댓글]') . '</span> ' . $comment[$key]['comment'];
+				} else {
+					if( !doesHaveOpenIDPriv($value) ) {
+						$comments[$key]['name'] = _text('비밀방문자');
+						$comments[$key]['homepage'] = '';
+						$comments[$key]['comment'] = _text('관리자만 볼 수 있는 방명록입니다.');
+					} else {
+						$comments[$key]['name'] = _text('비밀방문자') .' '. $comments[$key]['name'];
+					}
+				}
 			}
 		}
 	} else {
@@ -279,7 +286,7 @@ function getCommentView($entry, $skin) {
 					$commentSubItem['comment'] = '<span class="hiddenCommentTag_content">' . _text('[비밀댓글]') . '</span> ' . $commentSubItem['comment'];
 				} else {
 					$rp_class .= ' hiddenComment';
-					$commentSubItem['name'] = '<span class="hiddenCommentTag_name">' . _text('비밀방문자') . '</span>';
+					$commentSubItem['name'] = '<span class="hiddenCommentTag_name">' . _text('비밀방문자') . '</span>'.(doesHaveOpenIDPriv($commentSubItem)?' '.$commentSubItem['name']:'');
 				}
 			}
 			dress($prefix1 . '_rep_class', $rp_class, $commentSubItemView);
@@ -318,7 +325,7 @@ function getCommentView($entry, $skin) {
 				$commentItem['comment'] = '<span class="hiddenCommentTag_content">' . _text('[비밀댓글]') . '</span> ' . $commentItem['comment'];
 			} else {
 				$rp_class .= ' hiddenComment';
-				$commentItem['name'] = '<span class="hiddenCommentTag_name">' . _text('비밀방문자') . '</span>';
+				$commentItem['name'] = '<span class="hiddenCommentTag_name">' . _text('비밀방문자') . '</span>'.(doesHaveOpenIDPriv($commentItem)?$commentItem['name']:'');
 			}
 		}
 		dress($prefix1 . '_rep_class', $rp_class, $commentItemView);
