@@ -14,18 +14,18 @@ if (false) {
 }
 $cache = new pageCache;
 if(!empty($suri['id'])) {
-	$cache->name = 'responseRSS_'.$suri['id'];
+	$cache->name = 'responseATOM_'.$suri['id'];
 	if(!$cache->load()) {
-		$result = getResponseFeedByEntryId(getBlogId(),$suri['id']);
+		$result = getResponseFeedByEntryId(getBlogId(),$suri['id'],'atom');
 		if($result !== false) {
 			$cache->contents = $result;
 			$cache->update();
 		}
 	}
 } else {
-	$cache->name = 'responseRSS';
+	$cache->name = 'responseATOM';
 	if(!$cache->load()) {
-		$result = getResponseFeedTotal(getBlogId());
+		$result = getResponseFeedTotal(getBlogId(),'atom');
 		if($result !== false) {
 			$cache->contents = $result;
 			$cache->update();
@@ -33,5 +33,5 @@ if(!empty($suri['id'])) {
 	}
 }
 header('Content-Type: text/xml; charset=utf-8');
-echo fireEvent('ViewResponseRSS', $cache->contents);
+echo fireEvent('ViewResponseATOM', $cache->contents);
 ?>

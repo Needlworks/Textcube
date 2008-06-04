@@ -9,7 +9,7 @@ $IV = array(
 	)
 );
 require ROOT . '/lib/includeForBlogOwner.php';
-requireModel('blog.rss');
+requireModel('blog.feed');
 
 requireStrictRoute();
 $result = false;

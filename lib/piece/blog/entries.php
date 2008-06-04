@@ -19,8 +19,11 @@ if (isset($cache->contents)) {
 //			'title="Comment: '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($blog['title']).'" '.
 //			'href="'.$defaultURL.'/rss/comment/'.$entry['id'].'" />'.CRLF;
 		$entryRsses .= '<link rel="alternate" type="application/rss+xml" '.
-			'title="Responses : '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($blog['title']).'" '.
-			'href="'.$defaultURL.'/rss/response/'.$entry['id'].'" />'.CRLF;
+			'title="Responses (RSS) : '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($blog['title']).'" '.
+			'href="'.$defaultURL.'/rss/response/'.$entry['id'].'" />'.CRLF.
+			'<link rel="alternate" type="application/atom+xml" '.
+			'title="Responses (ATOM) : '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($blog['title']).'" '.
+			'href="'.$defaultURL.'/atom/response/'.$entry['id'].'" />'.CRLF;
 	}
 	if( getBlogSetting('useFOAF',1) && rtrim( $suri['url'], '/' ) == $pathURL ) {
 		/* same code exists in cover.php */

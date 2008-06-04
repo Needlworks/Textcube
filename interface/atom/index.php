@@ -14,11 +14,11 @@ if (false) {
 	fetchConfigVal();
 }
 publishEntries();
-if (!file_exists(ROOT . "/cache/rss/$blogid.xml"))
-	refreshFeed($blogid,'rss');
+if (!file_exists(ROOT . "/cache/atom/$blogid.xml"))
+	refreshFeed($blogid,'atom');
 header('Content-Type: text/xml; charset=utf-8');
-$fileHandle = fopen(ROOT . "/cache/rss/$blogid.xml", 'r+');
-$result = fread($fileHandle, filesize(ROOT . "/cache/rss/$blogid.xml"));
+$fileHandle = fopen(ROOT . "/cache/atom/$blogid.xml", 'r+');
+$result = fread($fileHandle, filesize(ROOT . "/cache/atom/$blogid.xml"));
 fclose($fileHandle);
-echo fireEvent('ViewRSS', $result);
+echo fireEvent('ViewATOM', $result);
 ?>

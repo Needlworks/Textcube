@@ -6,7 +6,7 @@ define('NO_SESSION', true);
 define('__TEXTCUBE_LOGIN__',true);
 
 require ROOT . '/lib/includeForBlog.php';
-requireModel("blog.rss");
+requireModel("blog.feed");
 requireModel("blog.entry");
 
 requireStrictBlogURL();
@@ -17,7 +17,7 @@ $cache = new pageCache;
 if(!empty($suri['id'])) {
 	$cache->name = 'commentRSS_'.$suri['id'];
 	if(!$cache->load()) {
-		$result = getCommentRSSByEntryId(getBlogId(),$suri['id']);
+		$result = getCommentFeedByEntryId(getBlogId(),$suri['id']);
 		if($result !== false) {
 			$cache->contents = $result;
 			$cache->update();
@@ -26,7 +26,7 @@ if(!empty($suri['id'])) {
 } else {
 	$cache->name = 'commentRSS';
 	if(!$cache->load()) {
-		$result = getCommentRSSTotal(getBlogId());
+		$result = getCommentFeedTotal(getBlogId());
 		if($result !== false) {
 			$cache->contents = $result;
 			$cache->update();

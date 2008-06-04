@@ -175,8 +175,8 @@ function getResponseFeedTotal($blogid, $mode = 'rss') {
 	$channel = initializeRSSchannel($blogid);
 	$channel['title'] = $blog['title']. ': '._text('최근 댓글/트랙백 목록');
 
-	$recentComment = getCommentRSSTotal($blogid,true);
-	$recentTrackback = getTrackbackRSSTotal($blogid,true);
+	$recentComment = getCommentFeedTotal($blogid,true,$mode);
+	$recentTrackback = getTrackbackFeedTotal($blogid,true,$mode);
 	$merged = array_merge($recentComment, $recentTrackback);
 	$channel['items'] = $merged;
 	$rss = array('channel' => $channel);
@@ -187,14 +187,23 @@ function getResponseFeedTotal($blogid, $mode = 'rss') {
 
 function getResponseFeedByEntryId($blogid, $entryId, $mode = 'rss') {
 	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
+	
 	if(empty($blogid)) $blogid = getBlogId();
-	$channel = initializeRSSchannel($blogid);
-	$channel['title'] = $blog['title']. ': '._text('최근 댓글/트랙백 목록');
 
-	$recentComment = getCommentRSSByEntryId($blogid,$entryId,true);
-	$recentTrackback = getTrackbackRSSByEntryId($blogid,$entryId,true);
+	$entry = POD::queryRow("SELECT slogan, visibility, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
+	if(empty($entry)) return false;
+	if($entry['visibility'] < 2) return false;
+	if(in_array($entry['category'], getCategoryVisibilityList($blogid, 'private'))) return false;
+	$channel = array();
+
+	$channel = initializeRSSchannel($blogid);
+	$channel['title'] = RSSMessage($blog['title']. ': '._textf('%1에 달린 최근 댓글/트랙백 목록',$entry['slogan']));
+
+	$recentComment = getCommentFeedByEntryId($blogid,$entryId,true,$mode);
+	$recentTrackback = getTrackbackFeedByEntryId($blogid,$entryId,true,$mode);
 	$merged = array_merge($recentComment, $recentTrackback);
 	$channel['items'] = $merged;
+	
 	$rss = array('channel' => $channel);
 	if($mode == 'rss') return publishRSS($blogid, $rss);
 	else if($mode == 'atom') return publishATOM($blogid, $rss);
@@ -470,8 +479,8 @@ function publishATOM($blogid, $data) {
 	echo '<?xml version="1.0" encoding="UTF-8"?>', CRLF;
 	echo '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:thr="http://purl.org/syndication/thread/1.0">', CRLF;
 	echo '  <title type="html">', htmlspecialchars($data['channel']['title'], ENT_QUOTES), '</title>', CRLF;
-	echo '  <id>', $data['channel']['link'], '</id', CRLF;
-	echo '  <link rel="alternate" type="text/html" hreflang="', $data['channel']['language'] ,'" href="', $data['channel']['link'] , ' />', CRLF;
+	echo '  <id>', $data['channel']['link'], '</id>', CRLF;
+	echo '  <link rel="alternate" type="text/html" hreflang="', $data['channel']['language'] ,'" href="', $data['channel']['link'] , '" />', CRLF;
 	echo '  <subtitle type="html">', htmlspecialchars($data['channel']['description'], ENT_QUOTES), '</subtitle>', CRLF;
 	echo '  <updated>', $data['channel']['pubDate'], '</updated>', CRLF;
 	echo '  <generator>', $data['channel']['generator'], '</generator>', CRLF;

@@ -24,14 +24,14 @@ if (false) {
 validateAPIKey(getBlogId(),$_POST['loginid'],$_POST['key']);
 
 $cache = new pageCache;
-$cache->name = 'commentNotifiedRSS';
+$cache->name = 'commentNotifiedATOM';
 if(!$cache->load()) {
-	$result = getCommentNotifiedFeedTotal(getBlogId());
+	$result = getCommentNotifiedFeedTotal(getBlogId(),'atom');
 	if($result !== false) {
 		$cache->contents = $result;
 		$cache->update();
 	}
 }
 header('Content-Type: text/xml; charset=utf-8');
-echo fireEvent('ViewCommentNotifiedRSS', $cache->contents);
+echo fireEvent('ViewCommentNotifiedATOM', $cache->contents);
 ?>

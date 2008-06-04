@@ -3,6 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('NO_SESSION', true);
+define('__TEXTCUBE_LOGIN__',true);
 
 require ROOT . '/lib/includeForBlog.php';
 requireModel("blog.feed");
@@ -14,18 +15,18 @@ if (false) {
 }
 $cache = new pageCache;
 if(!empty($suri['id'])) {
-	$cache->name = 'responseRSS_'.$suri['id'];
+	$cache->name = 'trackbackATOM_'.$suri['id'];
 	if(!$cache->load()) {
-		$result = getResponseFeedByEntryId(getBlogId(),$suri['id']);
+		$result = getTrackbackFeedByEntryId(getBlogId(),$suri['id'],false,'atom');
 		if($result !== false) {
 			$cache->contents = $result;
 			$cache->update();
 		}
 	}
 } else {
-	$cache->name = 'responseRSS';
+	$cache->name = 'trackbackATOM';
 	if(!$cache->load()) {
-		$result = getResponseFeedTotal(getBlogId());
+		$result = getTrackbackFeedTotal(getBlogId(),false,'atom');
 		if($result !== false) {
 			$cache->contents = $result;
 			$cache->update();
@@ -33,5 +34,5 @@ if(!empty($suri['id'])) {
 	}
 }
 header('Content-Type: text/xml; charset=utf-8');
-echo fireEvent('ViewResponseRSS', $cache->contents);
+echo fireEvent('ViewTrackbackATOM', $cache->contents);
 ?>
