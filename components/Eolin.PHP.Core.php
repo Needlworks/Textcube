@@ -933,6 +933,11 @@ class Timestamp {
 	}
 
 	/*@static@*/
+	function getRFC1036($time = null) {
+		return ((isset($time) ? date('l, d-M-Y H:i:s ', $time) : date('l, d-M-Y H:i:s ')) . Timezone::getRFC822());
+	}
+
+	/*@static@*/
 	function getISO8601($time = null) {
 		return ((isset($time) ? date('Y-m-d\TH:i:s', $time) : date('Y-m-d\TH:i:s')) . Timezone::getISO8601());
 	}

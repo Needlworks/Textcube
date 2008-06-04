@@ -17,7 +17,7 @@ function refreshFeed($blogid, $mode = 'both') {
 	$channel['link'] = "$defaultURL/";
 	$channel['description'] = RSSMessage($blog['description']);
 	$channel['language'] = $blog['language'];
-	$channel['pubDate'] = Timestamp::getRFC1123();
+	$channel['pubDate'] = Timestamp::getUNIXtime();
 	$channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
 
 	if ((getBlogSetting('visibility',2) == 2) && !empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
@@ -158,7 +158,7 @@ function initializeRSSchannel($blogid = null) {
 	$channel['link'] = "$defaultURL/";
 	$channel['description'] = RSSMessage($blog['description']);
 	$channel['language'] = $blog['language'];
-	$channel['pubDate'] = Timestamp::getRFC1123();
+	$channel['pubDate'] = Timestamp::getUNIXtime();
 	$channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
 
 	if ((getBlogSetting('visibility',2) == 2) && !empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
@@ -229,7 +229,7 @@ function getCommentFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
 			'link' => $commentURL.$row['id'], 
 			'categories' => array(), 'description' => RSSMessage($content), 
 			'author' => '('.RSSMessage($row['name']).')', 
-			'pubDate' => Timestamp::getRFC1123($row['written']),
+			'pubDate' => $row['written'],
 			'comments' => $commentURL,
 			'guid' => $commentURL.$row['id']
 		);
@@ -278,7 +278,7 @@ function getCommentFeedByEntryId($blogid = null, $entryId, $rawMode = false, $mo
 			'link' => $commentURL.$row['id'], 
 			'categories' => array(), 'description' => RSSMessage($content), 
 			'author' => '('.RSSMessage($row['name']).')', 
-			'pubDate' => Timestamp::getRFC1123($row['written']),
+			'pubDate' => $row['written'],
 			'comments' => $commentURL,
 			'guid' => $commentURL.$row['id']
 		);
@@ -313,7 +313,7 @@ function getTrackbackFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
 			'link' => $trackbackURL.$row['id'], 
 			'categories' => array(), 'description' => RSSMessage($content), 
 			'author' => '('.RSSMessage(htmlspecialchars($row['site'])).')', 
-			'pubDate' => Timestamp::getRFC1123($row['written']),
+			'pubDate' => $row['written'],
 			'comments' => $trackbackURL,
 			'guid' => $trackbackURL.$row['id']
 		);
@@ -363,7 +363,7 @@ function getTrackbackFeedByEntryId($blogid = null, $entryId, $rawMode = false, $
 			'link' => $trackbackURL.$row['id'], 
 			'categories' => array(), 'description' => RSSMessage($content), 
 			'author' => '('.RSSMessage(htmlspecialchars($row['site'])).')', 
-			'pubDate' => Timestamp::getRFC1123($row['written']),
+			'pubDate' => $row['written'],
 			'comments' => $trackbackURL,
 			'guid' => $trackbackURL.$row['id']
 		);
@@ -404,7 +404,7 @@ function getCommentNotifiedFeedTotal($blogid, $mode = 'rss') {
 			'categories' => array(), 
 			'description' => RSSMessage(htmlspecialchars($row['comment'])), 
 			'author' => '('.RSSMessage(htmlspecialchars($row['name'])).')', 
-			'pubDate' => Timestamp::getRFC1123($row['written']),
+			'pubDate' => $row['written'],
 			'comments' => $row['entryUrl'],
 			'guid' => $row['url']
 		);
@@ -427,7 +427,7 @@ function publishRSS($blogid, $data) {
 	echo '		<link>', $data['channel']['link'], '</link>', CRLF;
 	echo '		<description>', htmlspecialchars($data['channel']['description'], ENT_QUOTES), '</description>', CRLF;
 	echo '		<language>', $data['channel']['language'], '</language>', CRLF;
-	echo '		<pubDate>', $data['channel']['pubDate'], '</pubDate>', CRLF;
+	echo '		<pubDate>', Timestamp::getRFC1123($data['channel']['pubDate']), '</pubDate>', CRLF;
 	echo '		<generator>', $data['channel']['generator'], '</generator>', CRLF;
 
 	if (!empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
@@ -453,7 +453,7 @@ function publishRSS($blogid, $data) {
 		echo '			<author>', htmlspecialchars($item['author'], ENT_QUOTES), '</author>', CRLF;
 		echo '			<guid>', $item['guid'], '</guid>',CRLF;
 		echo '			<comments>', $item['comments'] , '</comments>',CRLF;
-		echo '			<pubDate>', $item['pubDate'], '</pubDate>', CRLF;
+		echo '			<pubDate>', Timestamp::getRFC1123($item['pubDate']), '</pubDate>', CRLF;
 		if (!empty($item['enclosure'])) {
 			echo '			<enclosure url="', $item['enclosure']['url'], '" length="', $item['enclosure']['length'], '" type="', $item['enclosure']['type'], '" />', CRLF;
 		}
@@ -482,7 +482,7 @@ function publishATOM($blogid, $data) {
 	echo '  <id>', $data['channel']['link'], '</id>', CRLF;
 	echo '  <link rel="alternate" type="text/html" hreflang="', $data['channel']['language'] ,'" href="', $data['channel']['link'] , '" />', CRLF;
 	echo '  <subtitle type="html">', htmlspecialchars($data['channel']['description'], ENT_QUOTES), '</subtitle>', CRLF;
-	echo '  <updated>', $data['channel']['pubDate'], '</updated>', CRLF;
+	echo '  <updated>', Timestamp::getISO8601($data['channel']['pubDate']), '</updated>', CRLF;
 	echo '  <generator>', $data['channel']['generator'], '</generator>', CRLF;
 
 	foreach ($data['channel']['items'] as $item) {
@@ -501,8 +501,8 @@ function publishATOM($blogid, $data) {
 		echo '    </author>', CRLF;
 		echo '    <id>', $item['link'] ,'</id>', CRLF;
 		if(isset($item['updDate']))
-			echo '    <updated>', $item['updDate'], '</updated>', CRLF;
-		echo '    <published>', $item['pubDate'], '</published>', CRLF;
+			echo '    <updated>', Timestamp::getISO8601($item['updDate']), '</updated>', CRLF;
+		echo '    <published>', Timestamp::getISO8601($item['pubDate']), '</published>', CRLF;
 /*		if (!empty($item['enclosure'])) {
 			echo '			<enclosure url="', $item['enclosure']['url'], '" length="', $item['enclosure']['length'], '" type="', $item['enclosure']['type'], '" />', CRLF;
 		}*/

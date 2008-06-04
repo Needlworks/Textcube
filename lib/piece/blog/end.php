@@ -94,6 +94,12 @@ dress('rss_url', "$defaultURL/rss", $view);
 dress('response_rss_url', "$defaultURL/rss/response", $view);
 dress('comment_rss_url', "$defaultURL/rss/comment", $view);
 dress('trackback_rss_url', "$defaultURL/rss/trackback", $view);
+
+dress('atom_url', "$defaultURL/atom", $view);
+dress('response_atom_url', "$defaultURL/atom/response", $view);
+dress('comment_atom_url', "$defaultURL/atom/comment", $view);
+dress('trackback_atom_url', "$defaultURL/atom/trackback", $view);
+
 dress('owner_url', "$blogURL/owner", $view);
 dress('textcube_name', TEXTCUBE_NAME, $view);
 dress('textcube_version', TEXTCUBE_VERSION, $view);
