@@ -129,6 +129,9 @@ class Skin {
 			$sval = str_replace('<s_t3>','',$sval);	// Prune s_t3. For Skin compatibility with < Textcube 1.7
 			$sval = str_replace('</s_t3>','',$sval);
 
+			// Static patch. (To increase speed)
+			dressStaticElements($sval);
+			
 			// 사이드바 작업.
 			$sidebarCount = 0;
 			$noNameCount = 1;
@@ -582,6 +585,41 @@ class KeylogSkin {
 		$outter = substr($contents, 0, $begin) . "[##_{$tag}_##]" . substr($contents, $end + $tagSize + 1);
 		return array($outter, $inner);
 	}
+}
+
+function dressStaticElements(& $view) {
+	global $blogid, $blog, $defaultURL, $blogURL, $service;
+
+	$writer = User::getBlogOwnerName($blogid);
+
+	dress('title', htmlspecialchars($blog['title']), $view);
+	dress('blogger', htmlspecialchars($writer), $view);
+	dress('desc', htmlspecialchars($blog['description']), $view);
+	if (!empty($blog['logo']))
+		dress('image', "{$service['path']}/attach/$blogid/{$blog['logo']}", $view);
+	else
+		dress('image', "{$service['path']}/image/spacer.gif", $view);
+	dress('blog_link', "$blogURL/", $view);
+	dress('keylog_link', "$blogURL/keylog", $view);
+	dress('localog_link', "$blogURL/location", $view);
+	dress('taglog_link', "$blogURL/tag", $view);
+	dress('guestbook_link', "$blogURL/guestbook", $view);
+	
+	dress('rss_url', "$defaultURL/rss", $view);
+	dress('response_rss_url', "$defaultURL/rss/response", $view);
+	dress('comment_rss_url', "$defaultURL/rss/comment", $view);
+	dress('trackback_rss_url', "$defaultURL/rss/trackback", $view);
+	
+	dress('atom_url', "$defaultURL/atom", $view);
+	dress('response_atom_url', "$defaultURL/atom/response", $view);
+	dress('comment_atom_url', "$defaultURL/atom/comment", $view);
+	dress('trackback_atom_url', "$defaultURL/atom/trackback", $view);
+	
+	dress('owner_url', "$blogURL/owner", $view);
+	dress('textcube_name', TEXTCUBE_NAME, $view);
+	dress('textcube_version', TEXTCUBE_VERSION, $view);
+	dress('tattertools_name', TEXTCUBE_NAME, $view); // For skin legacy.
+	dress('tattertools_version', TEXTCUBE_VERSION, $view);
 }
 
 function removeAllTags($contents) {

@@ -5,7 +5,6 @@
 
 //handleTags($view);
 
-$writer = User::getBlogOwnerName($blogid);
 $pageTitle = trim($pageTitle);
 if (!empty($pageTitle)) {
 	$pageTitleView = $skin->pageTitle;
@@ -17,18 +16,6 @@ if (!empty($pageTitle)) {
 		dress('page_title', htmlspecialchars($pageTitle), $view);
 	}
 }
-dress('title', htmlspecialchars($blog['title']), $view);
-dress('blogger', htmlspecialchars($writer), $view);
-dress('desc', htmlspecialchars($blog['description']), $view);
-if (!empty($blog['logo']))
-	dress('image', "{$service['path']}/attach/$blogid/{$blog['logo']}", $view);
-else
-	dress('image', "{$service['path']}/image/spacer.gif", $view);
-dress('blog_link', "$blogURL/", $view);
-dress('keylog_link', "$blogURL/keylog", $view);
-dress('localog_link', "$blogURL/location", $view);
-dress('taglog_link', "$blogURL/tag", $view);
-dress('guestbook_link', "$blogURL/guestbook", $view);
 
 if(isset($totalTags)) {
 	$totalTags = array_unique($totalTags);
@@ -61,8 +48,8 @@ if (preg_match("@\\[##_calendar_##\\]@iU", $view))
 	dress('calendar', getCalendarView(getCalendar($blogid, isset($period) ? $period : true)), $view, false, true);
 if (preg_match("@\\[##_random_tags_##\\]@iU", $view))
 	dress('random_tags', getRandomTagsView(getRandomTags($blogid), $skin->randomTags), $view, false, true);
-$noticeView = $skin->recentNotice;
 
+$noticeView = $skin->recentNotice;
 if (preg_match("@\\[##_rct_notice_##\\]@iU", $view)) {
 	$notices = getNotices($blogid);
 	if (sizeof($notices) > 0) {
@@ -89,22 +76,6 @@ if (preg_match("@\\[##_link_rep_##\\]@iU", $view))
 	dress('link_rep', getLinksView(getLinks($blogid), $skin->s_link_rep), $view, false, true);
 if (preg_match("@\\[##_link_list_##\\]@iU", $view))
 	dress('link_list', getLinkListView(getLinks($blogid)), $view, false, true);
-
-dress('rss_url', "$defaultURL/rss", $view);
-dress('response_rss_url', "$defaultURL/rss/response", $view);
-dress('comment_rss_url', "$defaultURL/rss/comment", $view);
-dress('trackback_rss_url', "$defaultURL/rss/trackback", $view);
-
-dress('atom_url', "$defaultURL/atom", $view);
-dress('response_atom_url', "$defaultURL/atom/response", $view);
-dress('comment_atom_url', "$defaultURL/atom/comment", $view);
-dress('trackback_atom_url', "$defaultURL/atom/trackback", $view);
-
-dress('owner_url', "$blogURL/owner", $view);
-dress('textcube_name', TEXTCUBE_NAME, $view);
-dress('textcube_version', TEXTCUBE_VERSION, $view);
-dress('tattertools_name', TEXTCUBE_NAME, $view); // For skin legacy.
-dress('tattertools_version', TEXTCUBE_VERSION, $view);
 
 if (preg_match("@\\[##_paging_##\\]@iU", $view)) {
 	if (isset($paging)) {
