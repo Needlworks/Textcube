@@ -90,10 +90,12 @@ if (preg_match("@\\[##_paging_##\\]@iU", $view)) {
 		} else {
 			$pagingView = getPagingView($paging, $skin->paging, $skin->pagingItem);
 		}
-		dress('paging', $pagingView, $view, false, true);
+		dress('paging_list', $pagingView, $view, false, true);
+		if(count($entries) != 0) dress('paging', $pagingView, $view, false, true);
 		$url = URL::encode($paging['url'],$service['useEncodedURL']);
 		$prefix = $paging['prefix'];
 		$postfix = isset($paging['postfix']) ? $paging['postfix'] : '';
+		// prev_page, next_page for legacy support.
 		dress('prev_page', isset($paging['prev']) ? "href='$url$prefix{$paging['prev']}$postfix'" : '',$view);
 		dress('next_page', isset($paging['next']) ? "href='$url$prefix{$paging['next']}$postfix'" : '',$view);
 	} else if(isset($cache) && strpos($cache->name,'Paging')!==false && $cache->load()) {
