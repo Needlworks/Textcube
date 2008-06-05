@@ -83,6 +83,8 @@ if (is_numeric($suri['value'])) {
 	$suri['id'] = $suri['value'];
 } else {
 	$suri['value'] = decodeURL(str_replace('index.php','',$suri['value']));
+	if(is_numeric($isValue = strtok($suri['value'],'&'))) $suri['id'] = $isValue;
+	unset($isValue);
 }
 /*
 if( function_exists( 'mb_detect_encoding' ) && function_exists('iconv') ) {

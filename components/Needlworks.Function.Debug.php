@@ -371,7 +371,7 @@ TFOOT;
 		print '</table>';
 	}
 
-	global $service, $accessInfo;
+	global $service, $accessInfo, $suri;
 	if( ! empty($service['debug_session_dump'])) {
 		print '<pre>session_id = ' . session_id() . "\r\n";
 		print '$_SESSION = ';
@@ -383,6 +383,7 @@ TFOOT;
 	if( ! empty($service['debug_rewrite_module'])) {
 		print '<pre> path parser result : '."\r\n";
 		print_r( $accessInfo );
+		print_r( $suri );
 		print '</pre>';
 	}
 	if ($commentBlosk == true) echo '-->';
