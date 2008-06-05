@@ -1649,15 +1649,47 @@ form input:focus, textarea:focus
 	text-align: center;
 }
 
-#subscription .rss
+#subscription a span
 {
-	background: url('./images/btn_rss.png') left 50% no-repeat;
-	margin-top: 10px;
-	padding: .1em 0 .1em 20px;
-	font: 0.9em/2 Tahoma, Helvetica, sans-serif;
-	color: #999;
+	display: none;
+}
+#subscription a
+{
+	display:block;
+	float:left;
+	margin-left:10px;
 }
 
+#subscription .rss,
+#subscription .rss_response,
+#subscription .atom,
+#subscription .atom_response
+{
+	width:32px;
+    height:40px;
+	margin-top: 10px;
+}
+
+#subscription .rss
+{
+	background: url('./images/rss_32.png') no-repeat;
+	margin-left:30px !important;
+}
+
+#subscription .rss_response
+{
+	background: url('./images/rss_response_32.png') no-repeat;
+}
+
+#subscription .atom
+{
+	background: url('./images/atom_32.png') no-repeat;
+}
+
+#subscription .atom_response
+{
+	background: url('./images/atom_response_32.png') no-repeat;
+}
 /* search form */
 
 #searchBox
