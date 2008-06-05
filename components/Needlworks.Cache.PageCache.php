@@ -422,9 +422,15 @@ class CacheControl {
 		if(empty($entryId)) $entryId = '';
 		$cache = new pageCache;
 		$cache->name = 'commentRSS_'.$entryId;
-		$cache->purge();
+		$cache->purge(); 
 		$cache->reset();
 		$cache->name = 'commentRSS';
+		$cache->purge();
+		$cache->reset();
+		$cache->name = 'commentATOM_'.$entryId;
+		$cache->purge();
+		$cache->reset();
+		$cache->name = 'commentATOM';
 		$cache->purge();
 		CacheControl::flushResponseRSS($entryId);
 		return true;
@@ -440,6 +446,12 @@ class CacheControl {
 		$cache->reset();
 		$cache->name = 'trackbackRSS';
 		$cache->purge();
+		$cache->reset();
+		$cache->name = 'trackbackATOM_'.$entryId;
+		$cache->purge();
+		$cache->reset();
+		$cache->name = 'trackbackATOM';
+		$cache->purge();
 		CacheControl::flushResponseRSS($entryId);
 		return true;
 	}
@@ -454,6 +466,12 @@ class CacheControl {
 		$cache->reset();
 		$cache->name = 'responseRSS';
 		$cache->purge();
+		$cache->reset();
+		$cache->name = 'responseATOM_'.$entryId;
+		$cache->purge();
+		$cache->reset();
+		$cache->name = 'responseATOM';
+		$cache->purge();
 		return true;
 	}
 
@@ -461,6 +479,9 @@ class CacheControl {
 		global $database;
 		$cache = new pageCache;
 		$cache->name = 'commentNotifiedRSS';
+		$cache->purge();
+		$cache->reset();
+		$cache->name = 'commentNotifiedATOM';
 		$cache->purge();
 		return true;
 	}
