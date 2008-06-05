@@ -25,7 +25,10 @@
 	if (array_key_exists('pl', $_GET) && strval(intval($_GET['pl'])) == $_GET['pl']) { header("Location: ".$accessInfo['root'].$_GET['pl']); exit;}
 	$part = strtok($accessInfo['input'], '/');
 	if (in_array($part, array('image','plugins','script','cache','skin','style','attach','thumbnail'))) {
-		if (strpos($accessInfo['input'],'cache/backup') !== false) { require "lib/error.php";errorExit(404);}
+		if ((strpos($accessInfo['input'],'cache/backup') !== false)||
+			(strpos($accessInfo['input'],'cache/pageCache') !== false)||
+			(strpos($accessInfo['input'],'cache/import') !== false)){ require "lib/error.php";errorExit(404);}
+		var_dump('ss');
 		require_once ROOT.'/lib/function/file.php';
 		dumpWithEtag(ltrim(rtrim($part == 'thumbnail' ?
 							  preg_replace('/thumbnail/', 'cache/thumbnail', $accessInfo['input'], 1) :

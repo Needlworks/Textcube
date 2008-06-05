@@ -1590,6 +1590,7 @@ ini_set('display_errors', 'off');
 RewriteEngine On
 RewriteBase $path/
 RewriteRule ^(thumbnail)/([0-9]+/.+)$ cache/$1/$2 [L]
+RewriteRule ^(cache)/(backup|pageCache|import)/(.+[^/])$ rewrite.php [L,QSA]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^(.+[^/])$ $1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
