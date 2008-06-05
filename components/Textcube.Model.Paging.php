@@ -50,7 +50,7 @@ class Paging {
 		} else {
 			for ($i = 0; ($i < 4) && ($page < $paging['page']); $i++) {
 				$itemView = $itemTemplate;
-				misc::dress('paging_rep_link_num', "<span class=\"selected\">$page</span>", $itemView, $useCache);
+				misc::dress('paging_rep_link_num', "<span>$page</span>", $itemView, $useCache);
 				misc::dress('paging_rep_link', "href='$url$prefix$page$postfix'", $itemView, $useCache);
 				print ($itemView);
 				$page++;
@@ -58,8 +58,8 @@ class Paging {
 		}
 		if (($page == $paging['page']) && ($page <= $paging['pages'])) {
 			$itemView = $itemTemplate;
-			misc::dress('paging_rep_link_num', "<span>$page</span>", $itemView, $useCache);
-			misc::dress('paging_rep_link', 'class="selected"', $itemView, $useCache);
+			misc::dress('paging_rep_link_num', "<span class=\"selected\" >$page</span>", $itemView, $useCache);
+			misc::dress('paging_rep_link', '', $itemView, $useCache);
 			print ($itemView);
 			$page++;
 		}
