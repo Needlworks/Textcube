@@ -1271,6 +1271,7 @@ CREATE TABLE {$_POST['dbPrefix']}Links (
   pid int(11) NOT NULL default '0',
   blogid int(11) NOT NULL default '0',
   id int(11) NOT NULL default '0',
+  category int(11) NOT NULL default '0',
   name varchar(255) NOT NULL default '',
   url varchar(255) NOT NULL default '',
   rss varchar(255) NOT NULL default '',
