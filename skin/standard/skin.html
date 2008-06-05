@@ -8,6 +8,10 @@
 <link rel="alternate" type="application/rss+xml" title="[##_title_##] : comments" href="[##_comment_rss_url_##]" />
 <link rel="alternate" type="application/rss+xml" title="[##_title_##] : trackbacks" href="[##_trackback_rss_url_##]" />
 <link rel="alternate" type="application/rss+xml" title="[##_title_##] :  comments + trackbacks" href="[##_response_rss_url_##]" />
+<link rel="alternate" type="application/atom+xml" title="[##_title_##]" href="[##_atom_url_##]" />
+<link rel="alternate" type="application/atom+xml" title="[##_title_##] : comments" href="[##_comment_atom_url_##]" />
+<link rel="alternate" type="application/atom+xml" title="[##_title_##] : trackbacks" href="[##_trackback_atom_url_##]" />
+<link rel="alternate" type="application/atom+xml" title="[##_title_##] :  comments + trackbacks" href="[##_response_atom_url_##]" />
 <link rel="stylesheet" media="screen" type="text/css" href="./style.css" />
 <link rel="stylesheet" media="print" type="text/css" href="./images/print.css" />
 <link rel="shortcut icon" href="[##_blog_link_##]favicon.ico" />
@@ -275,13 +279,15 @@
 					<div class="actionTrail">
 						<a id="[##_article_rep_tb_cnt_id_##]" href="#tb" onclick="[##_article_rep_tb_link_##]"><s_tb_count> 트랙백 <span class="cnt">[##_article_rep_tb_cnt_##]</span>개</s_tb_count></a>, 
 						<a id="[##_article_rep_rp_cnt_id_##]" href="#rp" onclick="[##_article_rep_rp_link_##]"><s_rp_count> 댓글 <span class="cnt">[##_article_rep_rp_cnt_##]</span>개가 달렸습니다.</s_rp_count></a>
-						<h3>댓글+트랙백 RSS :: [##_article_rep_response_rssurl_##]</h3>
+						<h4>댓글+트랙백 RSS :: [##_article_rep_response_rssurl_##]</h4>
+						<h4>댓글+트랙백 ATOM :: [##_article_rep_response_atomurl_##]</h4>
 					</div>
 
 					<s_tb>
 						<div class="trackback">
 							<h3>트랙백 주소 :: [##_tb_address_##]</h3>
 							<h3>트랙백 RSS :: [##_article_rep_tb_rssurl_##]</h3>
+							<h3>트랙백 ATOM :: [##_article_rep_tb_atomurl_##]</h3>
 							<s_tb_container>
 								<ol>
 									<s_tb_rep>
@@ -301,7 +307,8 @@
 					<s_rp>
 						<div class="comment">
 							<h3>댓글을 달아 주세요 </h3>
-							댓글 RSS 주소 : [##_article_rep_rp_rssurl_##]
+							댓글 RSS 주소 : [##_article_rep_rp_rssurl_##]<br />
+							댓글 ATOM 주소 : [##_article_rep_rp_atomurl_##]
 							<div class="commentList">
 								<s_rp_container>
 									<ol>
