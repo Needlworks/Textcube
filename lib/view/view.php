@@ -242,7 +242,7 @@ function getCommentView($entry, $skin) {
 		foreach ($comments as $key => $value) {
 			if ($value['secret'] == 1) {
 				if ($authorized) {
-					$comments[$key]['comment'] = '<span class="hiddenCommentTag_content">' . _text('[비밀댓글]') . '</span> ' . $comment[$key]['comment'];
+					$comments[$key]['comment'] = _text('[비밀댓글]') .' '. $comments[$key]['comment'];
 				} else {
 					if( !doesHaveOpenIDPriv($value) ) {
 						$comments[$key]['name'] = _text('비밀방문자');
