@@ -17,7 +17,7 @@ if(isset($_GET['visibility'])) {
 	if (setBlogSetting('visibility',$_GET['visibility'])) {
 		CacheControl::flushCommentRSS();
 		CacheControl::flushTrackbackRSS();
-		clearRSS();
+		clearFeed();
 		$result = true;
 	}
 }

@@ -10,7 +10,7 @@ function setBlogTitle($blogid, $title) {
 		return true;
 	if(setBlogSetting('title', UTF8::lessenAsEncoding($title, 255)) === false) return false;
 	$blog['title'] = $title;
-	clearRSS();
+	clearFeed();
 	return true;
 }
 
@@ -21,7 +21,7 @@ function setBlogDescription($blogid, $description) {
 		return true;
 	if(setBlogSetting('description',UTF8::lessenAsEncoding($description, 255)) === false) return false;
 	$blog['description'] = $description;
-	clearRSS();
+	clearFeed();
 	return true;
 }
 
@@ -88,7 +88,7 @@ function setPrimaryDomain($blogid, $name) {
 		return 3;
 	if(setBlogSetting('name', $name)) {
 		$blog['name'] = $name;
-		clearRSS();
+		clearFeed();
 	} else {
 		return 0;
 	}
@@ -113,7 +113,7 @@ function setSecondaryDomain($blogid, $domain) {
 	else
 		return 2;
 	$blog['secondaryDomain'] = $domain;
-	clearRSS();
+	clearFeed();
 	return 0;
 }
 
@@ -129,7 +129,7 @@ function setDefaultDomain($blogid, $default) {
 		return false;
 	}
 	$blog['defaultDomain'] = $default;
-	clearRSS();
+	clearFeed();
 	return true;
 }
 
@@ -161,7 +161,7 @@ function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSlog
 	CacheControl::flushEntry();
 	CacheControl::flushTag();
 	fireEvent('ToggleBlogSlogan',null,$blog['useSloganOnPost']);
-	clearRSS();
+	clearFeed();
 	return true; 
 }
 
@@ -174,7 +174,7 @@ function publishPostEolinSyncOnRSS($blogid, $publishEolinSyncOnRSS) {
 	if(setBlogSetting('publishEolinSyncOnRSS',$publishEolinSyncOnRSS) === false)
 		return false;
 	$blog['publishEolinSyncOnRSS'] = $publishEolinSyncOnRSS;
-	clearRSS();
+	clearFeed();
 	return true;
 }
 
@@ -185,7 +185,7 @@ function setEntriesOnRSS($blogid, $entriesOnRSS) {
 		return true;
 	if(setBlogSetting('entriesOnRSS',$entriesOnRSS) === false) return false;
 	$blog['entriesOnRSS'] = $entriesOnRSS;
-	clearRSS();
+	clearFeed();
 	return true;
 }
 
@@ -210,7 +210,7 @@ function setPublishWholeOnRSS($blogid, $publishWholeOnRSS) {
 		return true;
 	if(setBlogSetting('publishWholeOnRSS',$publishWholeOnRSS) === false) return false;
 	$blog['publishWholeOnRSS'] = $publishWholeOnRSS;
-	clearRSS();
+	clearFeed();
 	return true;
 }
 
@@ -224,7 +224,7 @@ function setBlogLanguage($blogid, $language, $blogLanguage) {
 	if(setBlogSetting('language',$language) && setBlogSetting('blogLanguage',$blogLanguage)) {
 		$blog['language'] = $language;
 		$blog['blogLanguage'] = $blogLanguage;
-		clearRSS();
+		clearFeed();
 		return true;
 	} else return false;
 }

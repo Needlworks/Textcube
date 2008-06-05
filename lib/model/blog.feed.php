@@ -466,9 +466,11 @@ function publishRSS($blogid, $data) {
 	return $rss;
 }
 
-function clearRSS() {
+function clearFeed() {
 	if (file_exists(ROOT . "/cache/rss/".getBlogId().".xml"))
 		@unlink(ROOT . "/cache/rss/".getBlogId().".xml");
+	if (file_exists(ROOT . "/cache/atom/".getBlogId().".xml"))
+		@unlink(ROOT . "/cache/atom/".getBlogId().".xml");
 }
 
 

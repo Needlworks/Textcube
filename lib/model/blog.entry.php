@@ -615,7 +615,7 @@ function addEntry($blogid, $entry, $userid = null) {
 		CacheControl::flushAuthor($userid);
 		CacheControl::flushDBCache('entry');
 		$gCacheStorage->purge();
-		clearRSS();
+		clearFeed();
 	}
 	if (!empty($entry['tag'])) {
 		$tags = getTagsWithEntryString($entry['tag']);
@@ -746,7 +746,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 		syndicateEntry($entry['id'], 'modify');
 	POD::query("UPDATE {$database['prefix']}Attachments SET parent = {$entry['id']} WHERE blogid = $blogid AND parent = 0");
 	if ($entry['visibility'] >= 2)
-		clearRSS();
+		clearFeed();
 	return $result ? $entry['id'] : false;
 }
 
@@ -934,7 +934,7 @@ function deleteEntry($blogid, $id) {
 		deleteAttachments($blogid, $id);
 		
 		deleteTagsWithEntryId($blogid, $id);
-		clearRSS();
+		clearFeed();
 		fireEvent('DeletePost', $id, null);
 		return true;
 	}
@@ -973,7 +973,7 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 	}	
 
 	if(updateEntriesOfCategory($blogid)) {
-		clearRSS();
+		clearFeed();
 		CacheControl::flushDBCache('comment');
 		CacheControl::flushDBCache('trackback');
 		return true;	
@@ -1024,9 +1024,9 @@ function setEntryVisibility($id, $visibility) {
 
 	if ($category >= 0) {
 		if ((($oldVisibility >= 2) && ($visibility < 2)) || (($oldVisibility < 2) && ($visibility >= 2)))
-			clearRSS();
+			clearFeed();
 		if ((($oldVisibility == 3) && ($visibility <= 2)) || (($oldVisibility <= 2) && ($visibility == 3)))
-			clearRSS();
+			clearFeed();
 		if ($category > 0)
 			updateEntriesOfCategory($blogid, $category);
 	}

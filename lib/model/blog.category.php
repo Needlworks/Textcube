@@ -329,7 +329,7 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 		WHERE blogid = $blogid
 			AND id = $id");
 	if ($result)
-		clearRSS();
+		clearFeed();
 	updateEntriesOfCategory($blogid);
 	CacheControl::flushCategory($id);
 	return $result ? true : false;
@@ -587,7 +587,7 @@ function setCategoryVisibility($blogid, $id, $visibility) {
 			AND id = $id");
 	if ($result && $visibility == 1) $result = setChildCategoryVisibility($blogid, $id, $visibility);
 	if ($result)
-		clearRSS();
+		clearFeed();
 	updateEntriesOfCategory($blogid);
 	CacheControl::flushCategory($id);
 	return $result ? $visibility : false;

@@ -164,7 +164,7 @@ function deleteAttachment($blogid, $parent, $name) {
 		if( file_exists( ROOT . "/attach/$blogid/$origname") ) {
 			@unlink(ROOT . "/attach/$blogid/$origname");
 		}
-		clearRSS();
+		clearFeed();
 		return true;
 	}
 	return false;
@@ -218,7 +218,7 @@ function deleteTotalAttachment($blogid) {
 			unlink(ROOT."/attach/$blogid/$file");
 	}
 	rmdir(ROOT."/attach/$blogid/");
-	clearRSS();
+	clearFeed();
 	return true;
 }
 
@@ -238,7 +238,7 @@ function deleteAttachmentMulti($blogid, $parent, $names) {
 		} else {
 		}
 	}
-	clearRSS();
+	clearFeed();
 	return true;
 }
 
@@ -265,7 +265,7 @@ function setEnclosure($name, $order) {
 	if (($parent = POD::queryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND name = '$name'")) !== null) {
 		POD::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 0 WHERE parent = $parent AND blogid = ".getBlogId());
 		if ($order) {
-			clearRSS();
+			clearFeed();
 			return POD::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 1 WHERE blogid = ".getBlogId()." AND name = '$name'") ? 1 : 2;
 		} else
 			return 0;
