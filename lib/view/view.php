@@ -380,7 +380,7 @@ function getCommentView($entry, $skin) {
 	$default_guestname = '';
 	$default_homepage = '';
 	if (doesHaveOwnership() || ($isComment && $acceptComment == 1) || ($isComment == false) || ($useForm == false)) {
-		if (!doesHaveOwnership()) {
+//		if (!doesHaveOwnership()) {
 			$commentMemberView = ($isComment ? $skin->commentMember : $skin->guestMember);
 			if (!doesHaveMembership()) {
 				$commentGuestView = ($isComment ? $skin->commentGuest : $skin->guestGuest);
@@ -413,7 +413,7 @@ function getCommentView($entry, $skin) {
 			}
 			dress($prefix1 . '_input_is_secret', 'secret', $commentMemberView);
 			dress($prefix1 . '_member', $commentMemberView, $commentView);
-		}
+//		}
 
 		dress($prefix1 . '_input_comment', 'comment', $commentView);
 		dress($prefix1 . '_onclick_submit', "addComment(this, {$entry['id']}); return false;", $commentView);
