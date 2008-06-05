@@ -26,12 +26,12 @@ class Paging {
 		ob_start();
 		if (isset($paging['first'])) {
 			$itemView = "$itemTemplate <span class=\"interword\">...</span> ";
-			misc::dress('paging_rep_link_num', '1', $itemView, $useCache);
+			misc::dress('paging_rep_link_num', '<span>1</span>', $itemView, $useCache);
 			misc::dress('paging_rep_link', "href='$url$prefix{$paging['first']}$postfix'", $itemView, $useCache);
 			print ($itemView);
 		} else if ($paging['page'] > 5) {
 			$itemView = "$itemTemplate <span class=\"interword\">...</span> ";
-			misc::dress('paging_rep_link_num', '1', $itemView, $useCache);
+			misc::dress('paging_rep_link_num', '<span>1</span>', $itemView, $useCache);
 			misc::dress('paging_rep_link', "href='$url{$prefix}1$postfix'", $itemView, $useCache);
 			print ($itemView);
 		}
@@ -42,7 +42,7 @@ class Paging {
 		if (isset($paging['before'])) {
 			foreach ($paging['before'] as $value) {
 				$itemView = $itemTemplate;
-				misc::dress('paging_rep_link_num', "$page", $itemView, $useCache);
+				misc::dress('paging_rep_link_num', "<span>$page</span>", $itemView, $useCache);
 				misc::dress('paging_rep_link', "href='$url$prefix$value$postfix'", $itemView, $useCache);
 				print ($itemView);
 				$page++;
@@ -50,7 +50,7 @@ class Paging {
 		} else {
 			for ($i = 0; ($i < 4) && ($page < $paging['page']); $i++) {
 				$itemView = $itemTemplate;
-				misc::dress('paging_rep_link_num', "$page", $itemView, $useCache);
+				misc::dress('paging_rep_link_num', "<span class=\"selected\">$page</span>", $itemView, $useCache);
 				misc::dress('paging_rep_link', "href='$url$prefix$page$postfix'", $itemView, $useCache);
 				print ($itemView);
 				$page++;
@@ -58,7 +58,7 @@ class Paging {
 		}
 		if (($page == $paging['page']) && ($page <= $paging['pages'])) {
 			$itemView = $itemTemplate;
-			misc::dress('paging_rep_link_num', "$page", $itemView, $useCache);
+			misc::dress('paging_rep_link_num', "<span>$page</span>", $itemView, $useCache);
 			misc::dress('paging_rep_link', 'class="selected"', $itemView, $useCache);
 			print ($itemView);
 			$page++;
@@ -66,7 +66,7 @@ class Paging {
 		if (isset($paging['before'])) {
 			foreach ($paging['after'] as $value) {
 				$itemView = $itemTemplate;
-				misc::dress('paging_rep_link_num', "$page", $itemView, $useCache);
+				misc::dress('paging_rep_link_num', "<span>$page</span>", $itemView, $useCache);
 				misc::dress('paging_rep_link', "href='$url$prefix$value$postfix'", $itemView, $useCache);
 				print ($itemView);
 				$page++;
@@ -74,7 +74,7 @@ class Paging {
 		} else {
 			for ($i = 0; ($i < 4) && ($page <= $paging['pages']); $i++) {
 				$itemView = $itemTemplate;
-				misc::dress('paging_rep_link_num', "$page", $itemView, $useCache);
+				misc::dress('paging_rep_link_num', "<span>$page</span>", $itemView, $useCache);
 				misc::dress('paging_rep_link', "href='$url$prefix$page$postfix'", $itemView, $useCache);
 				print ($itemView);
 				$page++;
@@ -82,12 +82,12 @@ class Paging {
 		}
 		if (isset($paging['last'])) {
 			$itemView = " <span class=\"interword\">...</span> $itemTemplate";
-			misc::dress('paging_rep_link_num', "{$paging['pages']}", $itemView, $useCache);
+			misc::dress('paging_rep_link_num', "<span>{$paging['pages']}</span>", $itemView, $useCache);
 			misc::dress('paging_rep_link', "href='$url$prefix{$paging['last']}$postfix'", $itemView, $useCache);
 			print ($itemView);
 		} else if (($paging['pages'] - $paging['page']) > 4) {
 			$itemView = " <span class=\"interword\">...</span> $itemTemplate";
-			misc::dress('paging_rep_link_num', "{$paging['pages']}", $itemView, $useCache);
+			misc::dress('paging_rep_link_num', "<span>{$paging['pages']}</span>", $itemView, $useCache);
 			misc::dress('paging_rep_link', "href='$url$prefix{$paging['pages']}$postfix'", $itemView, $useCache);
 			print ($itemView);
 		}
