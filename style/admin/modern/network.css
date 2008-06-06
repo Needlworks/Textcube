@@ -319,7 +319,7 @@ dl dd
 }
 
 #part-setting-account .button-box .input-button,
-#part-setting-invite.button-box .input-button
+#part-setting-invite .button-box .input-button
 {
 	background-color                 : #FFFFFF;
 	background-image                 : none !important;

@@ -16,14 +16,14 @@
 
 #main-menu li
 {
-	height                           : 3em;
+	height                           : 40px;
 }
 
 /* Layout Body ***********************************************************************************/
 
 #main-menu li.selected
 {
-	height                           : 37px;
+	height                           : 40px;
 }
 
 #page-section .page-count
