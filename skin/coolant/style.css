@@ -1615,6 +1615,56 @@ form input:focus, textarea:focus
 	background-color: #eff2e3;
 }
 
+/* Link list */
+
+#linklist ol, #linklist ul
+{
+	margin-top: .3em;
+	list-style: none;
+}
+
+#linklist li
+{
+	font: 1em/1.5 AppleGothic, Dotum, '돋움', sans-serif;
+	letter-spacing: -1px;
+	border-bottom: 1px solid #eee;
+	text-align: right;
+}
+
+#linklist li ul li
+{
+	font-size: 0.925em;
+	text-align: left;
+}
+
+#linklist li a
+{
+	display: block;
+	padding: .3em 0;
+}
+
+#linklist li a:link, #linklist li a:visited
+{
+	color: #666;
+}
+
+#linklist li a:hover, #linklist li a:active
+{
+	background: #faf9f8;
+	color: #c36;
+}
+
+#linklist span
+{
+	color: #f90;
+}
+
+#linklist cite
+{
+	display: block;
+	color: #aaa;
+}
+
 /* stats */
 
 #counter dl
