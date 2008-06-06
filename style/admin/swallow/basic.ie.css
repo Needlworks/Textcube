@@ -10,13 +10,14 @@
 /* main menu */
 #main-menu-box
 {
-	height                           : 3em;
+	height                           : 40px;
 	line-height                      : 3em;
 }
 
-#main-menu li
+#main-menu li,
+#main-menu li.selected
 {
-	height                           : 3em;
+	height                           : 40px;
 }
 
 /* Layout Body ***********************************************************************************/

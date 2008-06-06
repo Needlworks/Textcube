@@ -14,124 +14,165 @@
 
 /* Dashboard *************************************************************************************/
 
-#part-center-dashboard,
-#part-center-lint
+/* Dashboard widget */
+#defaultDashboardWidget
 {
-	height                           : 440px;
-	position                         : relative;
+	background-color                 : #FAFAFA;
+	width                            : 270px;
+	padding                          : 10px;
 }
 
-#part-center-dashboard h2
+#defaultDashboardWidget h3.invisible
 {
 	display                          : none;
-}
-
-#part-center-dashboard .section h3,
-#part-center-lint .section h3
-{
-	background-position              : left top;
-	background-repeat                : no-repeat;
-	font-weight                      : normal;
-	height                           : 30px;
-	line-height                      : 32px;
-	padding-left                     : 25px;
-	margin-top                       : 10px;
 }
 
 /* shortcut */
 #shortcut-collection
 {
-	position                         : absolute;
 	left                             : 10px;
 	top                              : 0;
-	width                            : 200px;
 }
 
-#shortcut-collection h3
+#shortcut-collection h4,
+#total-information h4
 {
-	background-image                 : url("./image/bg_dashboard_header3.png");
-	height                           : 38px;
+	display                          : none !important;
 }
 
-#shortcut-collection ul li,
-#total-information ul li
+#shortcut-collection ul li
 {
+	border-bottom                    : none !important;
+}
+
+#shortcut-collection ul li.modifyPost,
+#shortcut-collection ul li.rssReader,
+#shortcut-collection ul li.deleteCache,
+#shortcut-collection ul li.optimizeStorage
+{
+	float                            : left;
 	background-image                 : url("./image/icon_newPost.gif");
-	background-position              : 15px center;
+	background-position              : 0 center;
 	background-repeat                : no-repeat;
-	border-bottom                    : 1px solid #EEEEEE;
-	padding                          : 6px 10px 5px 32px;
-	text-align                       : left;
+	width                            : 150px;
 }
 
-/* total information */
-#total-information
+#shortcut-collection ul li.newPost
 {
-	margin-left                      : 220px;
-	width                            : 200px;
+	background-image                 : none;
+	border-bottom                    : none;
+	margin-left                      : -30px;
+	padding                          : 5px 10px 5px 35px !important;
+	float                            : left;
 	position                         : absolute;
 	top                              : 40px;
 }
 
-#total-information h3
+#shortcut-collection ul li a.newPost
 {
-	background-image                 : url("./image/bg_dashboard_header3.png");
-	height                           : 38px;
+	display                          : block;
+	height                           : 100px;
+	width                            : 100px;
+	background-image                 : url("./image/bg_dashboard_write.png");
+}
+
+#shortcut-collection ul li a.newPost span
+{
+	display                          : block;
+	width                            : 100%;
+	padding-top                      : 80px;
+	margin                           : 0 auto;
+	text-align                       : center;
+}
+
+/* total information */
+#total-information .posts-line,
+#total-information .visitors-line
+{
+	float:left;
 }
 
 #total-information table
 {
-	width                            : 200px;
+	width                            : 267px;
 }
 
-#total-information table tbody tr th
+#total-information table thead
 {
-	border-bottom                    : 1px solid #EEEEEE;
-	font-weight                      : normal;
-	height                           : 30px;
-	text-align                       : center;
-	width                            : 50%;
+	display                          : none;
+}
+
+#total-information table caption
+{
+	border-left                      : 1px solid #EEE;
+	border-bottom                    : 1px solid #EEE;
+	color                            : #000;
+	margin-top                       : 10px;
+	height                           : 28px;
+}
+
+#total-information table.posts-line, 
+#total-information table.visitors-line 
+{
+	width                            : 133px !important;
+	margin                           : 0 !important;
+}
+
+#total-information table tbody tr td.type
+{
+	width                            : 100px;
+	border-right                     : none;
+}
+
+#total-information table tbody tr td.sum
+{
+	text-align                       : right !important;
 }
 
 #total-information table tbody tr td
 {
-	border-bottom                    : 1px solid #EEEEEE;
-	border-left                      : 1px solid #EEEEEE;
-	height                           : 24px;
-	padding-right                    : 10px;
+	height                           : 20px;
+	padding-right                    : 5px;
+	font-size                        : 0.9em;
 	text-align                       : right;
-}
-
-#total-information ul
-{
-	margin-top                       : 10px;
 }
 
 /* notice */
 #textcube-notice
 {
-	position                         : absolute;
-	left                             : 10px;
-	top                              : 240px;
-	width                            : 410px;
+	clear                            : left;
+	padding-top                      : 10px !important;
 }
 
-#textcube-notice h3
+#textcube-notice h4
 {
-	background-image                 : url("./image/bg_dashboard_header4.png");
-	height                           : 38px;
+	border-left                      : 1px solid #EEE;
+	border-right                     : 1px solid #EEE;
+	border-top                       : 1px solid #EEE;
+	line-height                      : 1em !important;
+	margin-top                       : 10px !important;
+	padding-top                      : 0 !important;
+	height                           : 20px;
+}
+
+#textcube-notice h4.caption span
+{
+	border-right                     : 1px solid #EEE;
+	height                           : 20px;
+	padding                          : 0;
+	line-height                      : 1.4em;
 }
 
 #textcube-notice table
 {
-	margin                           : 0 0 25px 0;
-	width                            : 410px;
+	margin                           : 0;
+	width                            : 267px !important;
 }
 
 #textcube-notice table tbody tr td
 {
 	border-bottom                    : 1px solid #EEEEEE;
-	height                           : 28px;
+	height                           : 22px !important;
 	padding-left                     : 10px;
 	text-align                       : left;
 }
@@ -139,85 +180,67 @@
 #textcube-notice table tbody tr td.date
 {
 	font-family                      : Verdana, Tahoma, Arial, "Lucida Grande", sans-serif;
-	font-size                        : 0.8em;
+	font-size                        : 0.875em;
+	font-weight                      : bold;
 	padding-right                    : 10px;
 	text-align                       : right;
 }
 
 /* panel */
-
-#part-center-dashboard #myBlogInfo
+#myBlogInfo h4
 {
-	position                         : relative;
-	width                            : 505px;
-	position                         : absolute;
-	right                            : 20px;
-	top                              : 0;
+	line-height                      : 1.4em; 
+	border-left                      : 1px solid #EEE;
+	border-right                     : 1px solid #EEE;
+	border-top                       : 1px solid #EEE;
+	margin-top                       : 10px !important;
+	padding-top                      : 0 !important;
+	height                           : 20px;
 }
 
-#part-center-dashboard #myBlogInfo.section h3
-{ 
-	background-image                 : url("./image/bg_dashboard_header2.png");
-}
-
-#part-center-dashboard #myBlogInfo table caption
+#myBlogInfo h4.caption span
 {
-	font-weight                      : bold;
-	text-align                       : left;
-	line-height                      : 23px;
-	border-bottom                    : 1px solid #e2e5e7;
+	border-right                     : 1px solid #EEE;
+	height                           : 20px;
+	padding                          : 0;
+	line-height                      : 1.4em;
 }
-
-
-#part-center-dashboard #infoPanel
+#myBlogInfo table
 {
-	border                           : 1px solid #d9dde0;
-	margin-top                       : 10px;
-	padding                          : 9px;
-	width                            : 485px;
-	float                            : right;
+	margin-bottom                    : 0 !important;
 }
-
-#part-center-dashboard #infoPanel table
-{
-	width                            : 232px;
-	height                           : 130px;
-	float                            : left;
-	margin-right                     : 5px;
-	margin-bottom                    : 16px;
-}
-
-#part-center-dashboard #infoPanel table.guestbook
-{
-	clear: left;
-}
-
-#part-center-dashboard #infoPanel table th
+#myBlogInfo table caption
 {
 	display                          : none;
 }
 
-#part-center-dashboard #infoPanel table td
+#myBlogInfo table thead
 {
-	height                           : 12px;
-	background                       : url(./image/icon_dot.gif) -1px 10px no-repeat;
+	display                          : none;
+}
+#myBlogInfo table td
+{
+	height                           : 12px !important;
 	vertical-align                   : top;
+	border                           : none !important;
+	padding-bottom                   : 2px !important; 
 }
-
-#part-center-dashboard #infoPanel table tr .title
+#myBlogInfo table td.date
 {
-	padding                          : 8px 5px 2px 7px;
-	width                            : 200px;
+	font-family                      : Verdana, Tahoma, Arial, "Lucida Grande", sans-serif;
+	font-weight                      : bold;
+	font-size                        : 0.875em;
+	width                            : 40px;
+	border-right                     : 1px solid #DDD !important;
+}
+#myBlogInfo table td.category
+{
+	width                            : 40px;
+}
+#myBlogInfo table td.title
+{
+	width                            : 120px;
 	overflow                         : hidden;
-}
-
-#part-center-dashboard #infoPanel table tr .date
-{
-	padding                          : 8px 0 2px 0;
-	width                            : 45px;
-	font                             : 0.8em Tahoma;
-	background                       : none;
-	text-align: center;
 }
 
 /* quilt */
@@ -229,7 +252,7 @@
 	float                            : left;
 	margin-left                      : 10px;
 	min-height                       : 100px;
-	width                            : 300px;
+	width                            : 300px; 
 }
 
 #part-center-quilt .button-box,
@@ -237,9 +260,8 @@
 #part-center-lint .button-box,
 #part-center-lint-edit .button-box
 {
-	border-top                       : 1px solid #DDDDDD;
 	clear                            : both;
-	padding                          : 15px 0;
+	padding                          : 10px 0;
 }
 
 #part-center-quilt .button-box .input-button,
@@ -282,13 +304,14 @@
 #part-center-lint-edit .section h3,
 .ajax-floating-panel h3
 {
-	background-image                 : url("./image/bg_dashboard_header.png");
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	font-weight                      : normal;
 	height                           : 38px;
 	line-height                      : 38px;
-	padding-left                     : 25px;
+	padding-left                     : 28px;
+	border-left                      : 1px solid #EEE;
+	width                            : 270px; 
 }
 
 #part-center-quilt .section h4,
@@ -365,7 +388,7 @@
 
 #independent-notice-line
 {
-	margin: -40px 10px 0 0;
+	margin: -40px 10px 10px 0;
 }
 
 #independent-notice-line dd

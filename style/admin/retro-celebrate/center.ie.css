@@ -2,33 +2,14 @@
 
 /* Dashboard *************************************************************************************/
 
-/* shortcut */
-#shortcut-collection h3
+#defaultDashboardWidget
 {
-	width                            : 180px;
+	padding                          : 0;
 }
 
-/* total information */
-#total-information h3
+#myBlogInfo table
 {
-	width                            : 180px;
-}
-
-#total-information table
-{
-	margin-top                       : -3px;
-}
-
-/* notice */
-#textcube-notice h3
-{
-	width                            : 390px;
-}
-
-#textcube-notice table
-{
-	margin                           : -3px 0 20px 0 !important;
-	width                            : 410px;
+	width                            : 267px !important;
 }
 
 /* quilt */
@@ -73,7 +54,7 @@
 
 #coverpage-box .section ul.coverpage
 {
-	height                       : 200px;
+	height                           : 200px;
 }
 
 #coverpage-element-box
