@@ -64,8 +64,6 @@
 	margin-left                      : -30px;
 	padding                          : 5px 10px 5px 35px !important;
 	float                            : left;
-	position                         : absolute;
-	top                              : 40px;
 }
 
 #shortcut-collection ul li a.newPost

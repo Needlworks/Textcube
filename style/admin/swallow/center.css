@@ -11,7 +11,10 @@
 {
 	margin-bottom                    : 10px;
 }
-
+.part .caption a
+{
+	color                            : #FFF !important;
+}
 /* Dashboard *************************************************************************************/
 
 /* Dashboard widget */
@@ -391,7 +394,7 @@
 
 #independent-notice-line dd
 {
-	color: #111;
+	color: #FFF;
 	text-align: right;
 }
 

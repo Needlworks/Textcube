@@ -85,7 +85,10 @@
 {
 	padding-left                     : 10px;
 }
-
+#viewmode-line
+{
+	color                            : #FFF !important;
+}
 #sorting-line-status label,
 #viewmode-line-status label
 {
