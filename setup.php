@@ -1433,7 +1433,8 @@ CREATE TABLE {$_POST['dbPrefix']}Users (
   lastLogin int(11) NOT NULL default '0',
   host int(11) NOT NULL default '0',
   PRIMARY KEY  (userid),
-  UNIQUE KEY loginid (loginid)
+  UNIQUE KEY loginid (loginid),
+  UNIQUE KEY name (name)
 ) $charset;
 CREATE TABLE {$_POST['dbPrefix']}UserSettings (
   userid int(11) NOT NULL default '0',
