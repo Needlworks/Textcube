@@ -110,5 +110,9 @@ if($service['effect'] == true) {
 <?php
 }
 ?>
+<?php if( $service['type'] == 'domain' && !empty($blog['secondaryDomain']) ){ ?>
+<iframe style="width:0;height:0;border:0" src="<?php echo getBlogURL();?>/login?requestURI=about:blank&session=<?php echo $_COOKIE[getSessionName()];?>"></iframe>
+<iframe style="width:0;height:0;border:0" src="<?php echo "http://".$blog['secondaryDomain'].$blogURL;?>/login?requestURI=about:blank&session=<?php echo $_COOKIE[getSessionName()];?>"></iframe>
+<?php } ?>
 </body>
 </html>
