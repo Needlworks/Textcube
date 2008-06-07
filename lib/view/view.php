@@ -241,9 +241,7 @@ function getCommentView($entry, $skin) {
 		list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $suri['page'], $skinSetting['commentsOnGuestbook']);
 		foreach ($comments as $key => $value) {
 			if ($value['secret'] == 1) {
-				if ($authorized) {
-					$comments[$key]['comment'] = _text('[비밀글]') .' '. $comments[$key]['comment'];
-				} else {
+				if (!$authorized) {
 					if( !doesHaveOpenIDPriv($value) ) {
 						$comments[$key]['name'] = _text('비밀방문자');
 						$comments[$key]['homepage'] = '';
@@ -283,7 +281,7 @@ function getCommentView($entry, $skin) {
 			else if ($commentSubItem['secret'] == 1) {
 				$rp_class = $prefix1 . '_secret';
 				if ($authorized) {
-					$commentSubItem['comment'] = '<span class="hiddenCommentTag_content">' . _text('[비밀글]') . '</span> ' . $commentSubItem['comment'];
+					$commentSubItem['comment'] = '<span class="hiddenCommentTag_content">' . _text('[비밀댓글]') . '</span> ' . $commentSubItem['comment'];
 				} else {
 					$rp_class .= ' hiddenComment';
 					$commentSubItem['name'] = '<span class="hiddenCommentTag_name">' . _text('비밀방문자') . '</span>'.(doesHaveOpenIDPriv($commentSubItem)?' '.$commentSubItem['name']:'');
