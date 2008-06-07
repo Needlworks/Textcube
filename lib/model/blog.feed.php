@@ -492,7 +492,7 @@ function publishATOM($blogid, $data) {
 		echo '    <title type="html">', htmlspecialchars($item['title'], ENT_QUOTES), '</title>', CRLF;
 		echo '    <link rel="alternate" type="text/html" href="', $item['link'], '" />', CRLF;
 		if(isset($item['replies'])) {
-			echo '    <link rel="replies" type="application/atom+xml" href="', $data['channel']['link'], '/atom/response/', $item['id'], '" thr:count="', $item['replies']['count'] ,'"/>', CRLF;
+			echo '    <link rel="replies" type="application/atom+xml" href="', $data['channel']['link'], 'atom/response/', $item['id'], '" thr:count="', $item['replies']['count'] ,'"/>', CRLF;
 		}
 		foreach ($item['categories'] as $category) {
 			if ($category = trim($category))
