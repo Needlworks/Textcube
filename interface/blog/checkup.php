@@ -318,10 +318,11 @@ if($currentVersion != TEXTCUBE_VERSION) {
 				if(!empty($duplicates)) {
 					$count = 1;
 					foreach($duplicates as $dup) {
-						POD::query("UPDATE {$database['prefix']}Users SET name = '".POD::escapeString($user['name'])."_".$count."' WHERE userid = {$user['userid']}");
+						POD::query("UPDATE {$database['prefix']}Users SET name = '".POD::escapeString($user['name'])."-".$count."' WHERE userid = {$user['userid']}");
 						$count++;
 					}
 				}
+				unset($duplicates);
 			}
 			// 2: set name as unique field
 			if (POD::execute("ALTER TABLE {$database['prefix']}Users ADD UNIQUE name (name)"))
