@@ -47,7 +47,7 @@ if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 } else if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 	if (resetPassword($blogid, $_POST['loginid']))
 		$message = _text('지정된 이메일로 로그인 정보가 전달되었습니다.');
-	else
+	else 
 		$message = _text('권한이 없습니다.');
 } else if (!empty($_POST['loginid']) && !empty($_POST['password'])) {
 	$isLogin = login($_POST['loginid'],$_POST['password']);
@@ -56,12 +56,9 @@ if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 		if (!doesHaveMembership() && isLoginId(getBlogId(), $_POST['loginid'])){
 			$showPasswordReset = true;
 		}
-	} else if($isLogin == 2) {
-		$message=_t('권한이 없습니다.');
 	}
 }
 $authResult = fireEvent('LOGIN_try_auth', false);
-
 if (doesHaveOwnership() || doesHaveMembership()) {
 	if (doesHaveOwnership() && !empty($_POST['requestURI'])) {
 		$url = parse_url($_POST['requestURI']);
@@ -75,12 +72,12 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 //		$redirect = $blogURL;
 	}
 	if (empty($_SESSION['lastLoginRedirected']) || $_SESSION['lastLoginRedirected'] != $redirect) {
-		header('Location: '.($_SESSION['lastLoginRedirected'] = $redirect));
-		exit;
+		$_SESSION['lastLoginRedirected'] = $redirect;
 	} else {
 		unset($_SESSION['lastLoginRedirected']);
 	}
-	$message = _text('권한이 없습니다.');
+	header('Location: '.$redirect);
+	exit;
 }
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
