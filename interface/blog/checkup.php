@@ -58,7 +58,7 @@ function clearCache() {
 	}
 
 	echo '<li>', _textf('공지사항 캐시를 초기화합니다.'), ': ';
-	if(POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = 'Textcube_Notice_%'"))
+	if(POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = 'TextcubeNotice%'"))
 		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else echo '<span class="result fail">', _text('실패'), '</span></li>';
 	$isCleared = true;
@@ -284,7 +284,7 @@ if($currentVersion != TEXTCUBE_VERSION) {
 	if (!POD::queryExistence("DESC {$database['prefix']}SkinSettings showListOnAuthor")) {
 		$changed = true;
 		echo '<li>', _text('스킨 설정 테이블에 저자별 페이지 출력 설정을 위한 필드를 추가합니다.'), ': ';
-		if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD showListOnAuthor TINYINT(4) DEFAULT 1 NOT NULL AFTER showListOnTag"))
+		if (POD::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD showListOnAuthor TINYINT(4) DEFAULT 1 NOT NULL AFTER showListOnTag"))
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
@@ -302,7 +302,7 @@ if($currentVersion != TEXTCUBE_VERSION) {
 	if (!POD::queryExistence("DESC {$database['prefix']}Entries starred")) {
 		$changed = true;
 		echo '<li>', _text('본문 테이블에 별표 및 작성 중 글 표시를 위한 필드를 추가합니다.'), ': ';
-		if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD starred TINYINT(4) DEFAULT 1 NOT NULL AFTER visibility"))
+		if (POD::execute("ALTER TABLE {$database['prefix']}Entries ADD starred TINYINT(4) DEFAULT 1 NOT NULL AFTER visibility"))
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
