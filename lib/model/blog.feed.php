@@ -71,8 +71,8 @@ function refreshFeed($blogid, $mode = 'both') {
 			'link' => $entryURL, 
 			'categories' => array(), 'description' => RSSMessage($content), 
 			'author' => '('.RSSMessage($row['author']).')', 
-			'pubDate' => Timestamp::getRFC1123($row['published']),
-			'updDate' => Timestamp::getRFC1123($row['modified']),
+			'pubDate' => $row['published'],
+			'updDate' => $row['modified'],
 			'comments' => $entryURL . '#entry' . $row['id'] . 'comment',
 			'guid' => "$defaultURL/" . $row['id'],
 			'replies' => array(
