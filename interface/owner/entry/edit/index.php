@@ -342,7 +342,7 @@ if (defined('__TEXTCUBE_POST__')) {
 											} else {
 												document.getElementById("saveButton").value = "<?php echo _t('저장됨');?>";
 												document.getElementById("saveButton").style.color = "#BBB";
-												PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+												PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 											}
 											if(entryManager.isSaved == false) {
 												entryManager.entryId = this.getText("/response/entryId");
@@ -361,7 +361,7 @@ if (defined('__TEXTCUBE_POST__')) {
 										}
 										request.onError = function () {
 											PM.removeRequest(this);
-											PM.showErrorMessage("<?php echo _t('저장하지 못했습니다.');?>", "center", "bottom");
+											PM.showErrorMessage("<?php echo _t('저장하지 못했습니다');?>", "center", "bottom");
 											this.nowsaving = false;
 										}
 										if(entryManager.autoSave != true) {
@@ -424,7 +424,7 @@ if (isset($_GET['popupEditor'])) {
 										}
 										request.onError = function () {
 											PM.removeRequest(this);
-											alert("<?php echo _t('저장하지 못했습니다.');?>");
+											alert("<?php echo _t('저장하지 못했습니다');?>");
 											this.nowsaving = false;
 										}
 										PM.addRequest(request, "<?php echo _t('저장하고 있습니다.');?>");

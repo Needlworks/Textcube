@@ -98,10 +98,10 @@ closedir($handler);
 								param += 'serviceurl='+getEncodedValueById('serviceurl');
 								var request = new HTTPRequest("POST", '<?php echo $blogURL;?>/owner/control/server/config/');
 								request.onSuccess = function() {
-									PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+									PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 								}
 								request.onError = function() {
-									PM.showErrorMessage("<?php echo _t('저장하지 못했습니다.');?>", "center", "bottom");
+									PM.showErrorMessage("<?php echo _t('저장하지 못했습니다');?>", "center", "bottom");
 								}
 								request.send(param);
 							}
@@ -131,7 +131,7 @@ if(!defined('__TEXTCUBE_NO_FANCY_URL__')) {
 
 								var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/control/server/rewrite/");
 								request.onSuccess = function() {
-									PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+									PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 								}
 								request.onError = function() {
 									if (this.getText("/response/msg"))

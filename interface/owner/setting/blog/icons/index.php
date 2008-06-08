@@ -91,7 +91,7 @@ if (!empty($_FILES['blogIcon']['tmp_name'])) {
 if (!empty($errorText)) {
 	$errorText = urlencode(implode('<br />',$errorText));
 } else {
-	$errorText = urlencode(_T('저장되었습니다.'));
+	$errorText = urlencode(_T('저장되었습니다'));
 }
 	$url = $_SERVER['HTTP_REFERER'];
 	$pos = strpos($url, '?message=');

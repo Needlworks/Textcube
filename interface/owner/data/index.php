@@ -108,7 +108,7 @@ if (false) forceCheckBlog('');
 									}
 									request.onError = function () {
 										PM.removeRequest(this);
-										alert("<?php echo _t('백업을 저장하지 못했습니다.');?>");
+										alert("<?php echo _t('백업을 저장하지 못했습니다');?>");
 									}
 									request.send();
 									hideDialog();

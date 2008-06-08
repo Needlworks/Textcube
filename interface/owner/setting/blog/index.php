@@ -16,7 +16,7 @@ require ROOT . '/lib/piece/owner/header.php';
 									if (document.getElementById('common-form').title.value != title) {
 										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/title?title=" + encodeURIComponent(document.getElementById('common-form').title.value));
 										request.onSuccess = function() {
-											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 											title = document.getElementById('common-form').title.value;
 										}
 										request.onError = function() {
@@ -27,7 +27,7 @@ require ROOT . '/lib/piece/owner/header.php';
 									if (document.getElementById('common-form').description.value != description) {
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/description/");
 										request.onSuccess = function() {
-											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 											description = document.getElementById('common-form').description.value;
 										}
 										request.onError = function() {
@@ -48,7 +48,7 @@ require ROOT . '/lib/piece/owner/header.php';
 									
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/tag/");
 									request.onSuccess = function() {
-										PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+										PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 									}
 									request.onError = function() {
 										alert("<?php echo _t('태그를 변경하지 못했습니다.');?>");
@@ -257,7 +257,7 @@ if ($service['type'] != 'single') {
 											useSlogan = document.getElementById('rss-form').useSlogan[0].checked ? 1 : 0;
 											useCSlogan = document.getElementById('rss-form').useCSlogan[0].checked ? 1 : 0;
 											useTSlogan = document.getElementById('rss-form').useTSlogan[0].checked ? 1 : 0;
-												PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+												PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 											}
 										request.onError = function() {
 											alert("<?php echo _t('글 주소 표기법을 변경할 수 없습니다.');?>");
@@ -275,7 +275,7 @@ if ($service['type'] != 'single') {
 										entriesOnRSS = document.getElementById('rss-form').entriesOnRSS.value;
 										commentsOnRSS = document.getElementById('rss-form').commentsOnRSS.value;
 										publishWholeOnRSS = document.getElementById('rss-form').publishWholeOnRSS.value;
-										PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+										PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 									}
 									request.onError = function() {
 										PM.showErrorMessage("<?php echo _t('RSS를 변경할 수 없습니다.');?>", "center", "bottom");
@@ -290,7 +290,7 @@ if ($service['type'] != 'single') {
 										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/guestbook/?comment="+isAllowCommentGuestbook+"&write=1");
 										request.onSuccess = function() {
 											allowCommentGuestbook = isAllowCommentGuestbook;
-											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 										}
 										request.onError = function() {
 											alert("<?php echo _t('실패했습니다.');?>");
@@ -308,7 +308,7 @@ if($service['allowBlogVisibilitySetting']){
 										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/visibility/?visibility="+newVisibility);
 										request.onSuccess = function() {
 											blogVisibility = newVisibility;
-											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 										}
 										request.onError = function() {
 											PM.showErrorMessage("<?php echo _t('실패했습니다.');?>", "center", "bottom");
@@ -325,7 +325,7 @@ if($service['allowBlogVisibilitySetting']){
 										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/visibility/?useiPhoneUI="+newUseiPhoneUI);
 										request.onSuccess = function() {
 											useiPhoneUI = newUseiPhoneUI;
-											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 										}
 										request.onError = function() {
 											PM.showErrorMessage("<?php echo _t('실패했습니다.');?>", "center", "bottom");
@@ -339,10 +339,10 @@ if($service['allowBlogVisibilitySetting']){
 										ologo = ologo.checked ? "1" : "0";
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/openid/change");
 										request.onSuccess = function() {
-											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 										}
 										request.onError = function() {
-											PM.showErrorMessage("<?php echo _t('저장하지 못했습니다.');?>","center", "bottom");
+											PM.showErrorMessage("<?php echo _t('저장하지 못했습니다');?>","center", "bottom");
 										}
 										request.send("openidonlycomment="+oonly+"&openidlogodisplay="+ologo);
 									} catch(e) {
@@ -360,7 +360,7 @@ if($service['allowBlogVisibilitySetting']){
 										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/timezone?timezone=" + encodeURIComponent(document.getElementById('language-form').timezone.value));
 										request.onSuccess = function() {
 											timezone = document.getElementById('language-form').timezone.value;
-											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 										}
 										request.onError = function() {
 											if (errorType == "language")
@@ -378,7 +378,7 @@ if($service['allowBlogVisibilitySetting']){
 										request.onSuccess = function() {
 											language = document.getElementById('language-form').adminLanguage.value;
 											skinLanguage = document.getElementById('language-form').blogLanguage.value;
-											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 											if (needRefresh == true) {
 												window.location.href = "<?php echo $blogURL;?>/owner/setting/blog";
 											}
@@ -411,7 +411,7 @@ if($service['allowBlogVisibilitySetting']){
 										PM.showMessage("<?php echo _t('저장하였습니다');?>", "center", "bottom");
 									}
 									request.onError = function() {
-											alert('<?php echo _t('저장하지 못하였습니다');?>');
+											alert('<?php echo _t('저장하지 못했습니다');?>');
 									}
 									request.send("&useCustomSMTP="+useCustomSMTP+"&smtpHost="+encodeURIComponent(smtpHost)+"&smtpPort="+smtpPort);
 								}

@@ -505,7 +505,7 @@ foreach ($sidebarPluginArray as $nowKey) {
 								var commonString_cancel = "<?php echo _t('취소');?>";
 								var commonString_close = "<?php echo _t('닫기');?>";
 								var commonString_saving = "<?php echo _t('저장하고 있습니다.');?>";
-								var commonString_error = "<?php echo _t('저장하지 못했습니다.');?>";
+								var commonString_error = "<?php echo _t('저장하지 못했습니다');?>";
 								
 								var viewMode = "<?php echo $viewMode3;?>";
 								var previewMode = "<?php echo $previewMode;?>";

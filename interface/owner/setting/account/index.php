@@ -49,10 +49,10 @@ require ROOT . '/lib/piece/owner/header.php';
 										}
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/account/homepage");
 										request.onSuccess = function() {
-											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 										}
 										request.onError = function() {
-											PM.showErrorMessage("<?php echo _t('저장하지 못했습니다.');?>", "center", "bottom");
+											PM.showErrorMessage("<?php echo _t('저장하지 못했습니다');?>", "center", "bottom");
 										}
 										request.send("&type=" + encodeURIComponent(type) + "&homepage=" + encodeURIComponent(homepage) + "&blogid=" + encodeURIComponent(blogid));
 									} catch(e) {
@@ -75,10 +75,10 @@ require ROOT . '/lib/piece/owner/header.php';
 										}
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/account/profile/");
 										request.onSuccess = function() {
-											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 										}
 										request.onError = function() {
-											PM.showErrorMessage("<?php echo _t('저장하지 못했습니다.');?>", "center", "bottom");
+											PM.showErrorMessage("<?php echo _t('저장하지 못했습니다');?>", "center", "bottom");
 										}
 										request.send("&email=" + encodeURIComponent(email.value) + "&nickname=" + encodeURIComponent(nickname.value));
 									} catch(e) {
@@ -157,10 +157,10 @@ require ROOT . '/lib/piece/owner/header.php';
 							
 										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/openid/delegate?openid_identifier=" + escape(delegatedid));
 										request.onSuccess = function() {
-											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 										}
 										request.onError = function() {
-											PM.showErrorMessage("<?php echo _t('저장하지 못했습니다.');?>","center","bottom");
+											PM.showErrorMessage("<?php echo _t('저장하지 못했습니다');?>","center","bottom");
 										}
 										request.send();
 									} catch(e) {

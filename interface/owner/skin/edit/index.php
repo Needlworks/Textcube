@@ -56,7 +56,7 @@ require ROOT . '/lib/piece/owner/header.php';
 
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/skin/edit/skin/");
 										request.onSuccess = function() {
-											PM.showMessage("<?php echo _t('저장되었습니다.');?>", "center", "bottom");
+											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 											
 											if (mode == 'skin') {
 												skinHTMLSaved = true;
