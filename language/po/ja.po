@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-05-30 01:08+0900\n"
+"PO-Revision-Date: 2008-06-04 23:46+0900\n"
 "Last-Translator: Louice P <admin@louice.net>\n"
 "Language-Team: TEXTCUBE\n"
 "MIME-Version: 1.0\n"
@@ -508,6 +508,9 @@ msgstr "正しくない形式の2次ブログURLです。"
 msgid "2차 블로그 주소를 변경하지 못했습니다"
 msgstr "2次ブログURLの更新に失敗しました。"
 
+msgid "7일 평균"
+msgstr "週間統計"
+
 msgid "API Key 설정"
 msgstr "APIキー設定"
 
@@ -785,7 +788,7 @@ msgid "RSS 파일의 블로그 글은 최신 %1개로 갱신됩니다."
 msgstr "更新範囲は最新の %1 件の記事で設定"
 
 msgid "RSS로 등록한 이웃 글 보기"
-msgstr "RSSフィード一覧"
+msgstr "RSSリーダー"
 
 msgid "RSS를 변경할 수 없습니다."
 msgstr "フィードアドレスの更新に失敗しました。"
@@ -2281,6 +2284,9 @@ msgstr "掲示板を復元中…"
 msgid "방명록의 댓글"
 msgstr "掲示板のコメント"
 
+msgid "방문자"
+msgstr "要約統計"
+
 msgid "배경색"
 msgstr "背景色"
 
@@ -3754,6 +3760,9 @@ msgstr "未知のエラーです。"
 msgid "알 수 없음"
 msgstr "未知"
 
+msgid "알리미"
+msgstr "トラッカ"
+
 msgid "알림판 위젯 플러그인은 로그인후 보이는 알림판에 위젯을 추가해 줍니다."
 msgstr "パネルウィジェットはスタートページの管理者パネルに表示されるプラグインのことです。<br />"
 
@@ -3774,6 +3783,9 @@ msgstr "好感度"
 
 msgid "앰퍼샌드(&)가 들어간 카테고리 이름은 사용할 수 없습니다"
 msgstr "アンパサンド(&)は分類名称からご利用できません。"
+
+msgid "어제"
+msgstr "昨日"
 
 msgid "언어 및 시간대"
 msgstr "言語設定／タイムゾーン"
@@ -3883,8 +3895,8 @@ msgstr "予約"
 msgid "예약된 글"
 msgstr "予約記事"
 
-msgid "오늘/어제방문자"
-msgstr "今日・昨日の<br />訪問者"
+msgid "오늘"
+msgstr "今日"
 
 msgid "오른쪽 정렬"
 msgstr "右揃え"
@@ -4039,9 +4051,6 @@ msgstr "BlogAPI対応のアプリケーションからTextcubeを登録時にBlo
 
 msgid "왼쪽 정렬"
 msgstr "左揃え"
-
-msgid "요약"
-msgstr "要約統計"
 
 msgid "운영자만이 수정할 수 있습니다"
 msgstr "設定権限は最高管理者のみがお持ちします。"
@@ -4688,7 +4697,7 @@ msgid "저장소 선택 시"
 msgstr "アーカイブ選択時"
 
 msgid "저장소 최적화"
-msgstr "アーカイブ最適化"
+msgstr "データ最適化"
 
 msgid "저장소에 글 목록을 %1달치만큼 보여줍니다."
 msgstr "%1 ヵ月のアーカイブを表示"
@@ -5042,11 +5051,11 @@ msgstr "総 %d 件のメッセージ"
 msgid "총 %d건"
 msgstr "総 %d件"
 
-msgid "총 방문자"
-msgstr "総訪問者"
-
 msgid "총 키워드 개수"
 msgstr "キーワードの総数"
+
+msgid "총방문자"
+msgstr "総訪問者"
 
 msgid "최근 걸린글 길이"
 msgstr "新着トラックバック設定"
@@ -5771,7 +5780,7 @@ msgid "플러그인 관리"
 msgstr "プラグイン設定"
 
 msgid "플러그인 데이터 관리"
-msgstr "プラグインのデータ管理"
+msgstr "プラグインデータ管理"
 
 msgid "플러그인 목록"
 msgstr "プラグイン一覧"
