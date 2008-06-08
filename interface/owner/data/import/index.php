@@ -616,7 +616,7 @@ function importer($path, $node, $line) {
 			$cmtNotified->siteId = $site->id;
 			$site->close();
 			$cmtNotified->remoteId = $node['remoteId'][0]['.value'];
-			$cmtNotified->entryTitle = $node['entryTitle'][0]['.value'];
+			$cmtNotified->entryTitle = (!isset($node['entryTitle'][0]['.value']) || empty($node['entryTitle'][0]['.value'])) ? 'No title' : $node['entryTitle'][0]['.value'];
 			$cmtNotified->entryUrl = $node['entryUrl'][0]['.value'];
 			if (!$cmtNotified->add())
 				user_error(__LINE__ . $cmtNotified->error);
