@@ -95,8 +95,10 @@ class CommentNotified {
 			return $this->_error('siteId');
 		if (!isset($this->remoteId))
 			return $this->_error('remoteId');
-		if (!isset($this->entryTitle))
-			return $this->_error('entryTitle');
+		if (!isset($this->entryTitle)) {
+			if($this->entry !== 0) return $this->_error('entryTitle');
+			else $this->entryTitle = 'guestbook';
+		}
 		if (!isset($this->entryUrl))
 			return $this->_error('entryUrl');
 		if (!isset($this->ip))
