@@ -17,6 +17,7 @@
   <binding>
 	<listener event="/plugin/moblog/check">moblog_check</listener>
 	<listener event="Cron5m">moblog_check</listener>
+	<listener event="Cron24h">moblog_logrotate</listener>
     <adminMenu>
       <viewMethods>
         <method>
