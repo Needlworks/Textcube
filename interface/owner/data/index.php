@@ -299,8 +299,19 @@ if(Acl::check("group.creators")) {
 									</div>
 								</div>
 								<div class="button-box">
+<?php
+if(defined('__TEXTCUBE_NO_FANCY_URL__')) {
+?>
+									<a class="server-button button" title="<?php echo _t('mod_rewrite를 사용하지 않는 경우 보안상 문제로 서버에 백업하기 기능을 지원하지 않습니다.');?>"><span class="text"><?php echo _t('서버에 저장');?></span></a>
+									<span class="hidden">|</span>
+<?php
+} else {
+?>
 									<a class="server-button button" href="#void" onclick="backupData()" title="<?php echo _t('서버에 백업파일을 저장하여 복원에 사용할 수 있습니다.');?>"><span class="text"><?php echo _t('서버에 저장');?></span></a>
 									<span class="hidden">|</span>
+<?php
+}
+?>
 									<a class="local-button button" href="#void" onclick="exportData()" title="<?php echo _t('현재 상태의 데이터를 백업하여 다운로드합니다. 서버에 저장된 백업파일은 갱신되지 않습니다.');?>"><span class="text"><?php echo _t('다운로드');?></span></a>
 									<span class="hidden">|</span>
 									<a class="close-button button" href="#void" onclick="hideDialog()" title="<?php echo _t('명령을 취소하고 이 대화상자를 닫습니다.');?>"><span class="text"><?php echo _t('취소하기');?></span></a>
