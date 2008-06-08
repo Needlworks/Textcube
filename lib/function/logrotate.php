@@ -6,13 +6,10 @@
 function cutlog( $file, $size )
 {
 	if( !file_exists($file) ) {
-	echo "HI";
 		return;
 	}
 	$st = stat( $file );
 	if( $st['size'] < $size ) {
-	print_r($st);
-	echo "HI2";
 		return;
 	}
 	$f = fopen($file, "r+");
