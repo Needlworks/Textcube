@@ -25,15 +25,16 @@
 	if (array_key_exists('pl', $_GET) && strval(intval($_GET['pl'])) == $_GET['pl']) { header("Location: ".$accessInfo['root'].$_GET['pl']); exit;}
 	$part = strtok($accessInfo['input'], '/');
 	if (in_array($part, array('image','plugins','script','cache','skin','style','attach','thumbnail'))) {
-		if ((strpos($accessInfo['input'],'cache/backup') !== false)||
-			(strpos($accessInfo['input'],'cache/pageCache') !== false)||
-			(strpos($accessInfo['input'],'cache/import') !== false)){ require "lib/error.php";errorExit(404);}
-		var_dump('ss');
-		require_once ROOT.'/lib/function/file.php';
-		dumpWithEtag(ltrim(rtrim($part == 'thumbnail' ?
-							  preg_replace('/thumbnail/', 'cache/thumbnail', $accessInfo['input'], 1) :
-							  $accessInfo['input']), '/'), '/');
-		exit;
+		$part = ltrim(rtrim($part == 'thumbnail' ?
+			  preg_replace('/thumbnail/', 'cache/thumbnail', $accessInfo['input'], 1) :
+			  $accessInfo['input']), '/');
+		if(file_exists($part)) {
+			require_once ROOT.'/lib/function/file.php';
+			dumpWithEtag($part);
+			exit;
+		} else {
+			header("HTTP/1.0 404 Not Found");exit;
+		}
 	}
 	if (strtok($part, '?') == 'setup.php') {require 'setup.php'; exit;}
 	$accessInfo['URLfragment'] = explode('/',strtok($accessInfo['input'],'?'));
