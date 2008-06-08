@@ -132,7 +132,7 @@ if (count($styleFileList) > 0 && !empty($currentStyleFile) && file_exists(ROOT .
 									request.onSuccess = function() {
 										document.getElementById('cssSectionForm').s_cache_style_css.value = this.getText("/response/content");
 										document.getElementById('cssSectionForm').file.value = file;
-										PM.showMessage("<?php echo _t('불러 왔습니다.');?>", "center", "bottom");
+										PM.showMessage("<?php echo _t('불러왔습니다.');?>", "center", "bottom");
 										skinStyleSaved = true;
 										
 										tempUL = getParentByTagName('UL', obj);
