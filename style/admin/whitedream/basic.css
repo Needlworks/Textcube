@@ -1005,6 +1005,16 @@ table.data-inbox tbody tr td.inactive-class
 	width                            : 924px;
 }
 
+#change-section-top,
+#delete-section-top
+{
+	background-color                 : #FFF;
+	border-top                       : none;
+	margin                           : 0 auto 5px auto;
+	padding                          : 8px;
+	width                            : 924px;
+}
+
 #page-navigation
 {
 	background-color                 : #FFFFFF;

@@ -279,6 +279,12 @@ foreach (getCategories($blogid) as $category) {
 ?>
 								<input type="hidden" name="status" value="sent" />
 <?php } ?>
+
+								<div id="delete-section-top" class="section">
+									<span class="label"><?php echo _t('선택한 걸린글을');?></span>
+									<input type="button" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="trashTrackbacks();return false;" />
+								</div>
+
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>

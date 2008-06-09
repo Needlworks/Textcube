@@ -253,6 +253,11 @@ foreach (getCategories($blogid) as $category) {
 	if(isset($_POST['search'])) echo '								<input type="hidden" name="search" value="'.$_POST['search'].'" />'.CRLF;
 	if(isset($_POST['withSearch'])) echo '								<input type="hidden" name="withSearch" value="'.$_POST['withSearch'].'" />'.CRLF;
 ?>
+								<div id="delete-section-top" class="section">
+									<span class="label"><?php echo _t('선택한 댓글을');?></span>
+									<input type="button" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="deleteComments();" />
+								</div>
+
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
