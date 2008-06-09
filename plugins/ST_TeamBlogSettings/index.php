@@ -156,8 +156,8 @@ function getTeamBlogSettings() {
 								<span><input <?php echo $boldCheck;?> type="checkbox" value="1" id="fontBold" onclick="styleExecCommand('fontBold', 'fontbold', 'bold');" /> <label for="fontBold"><b><?php echo _t('굵게'); ?></b></label></span>
 								<span><input <?php echo $italicCheck;?> type="checkbox" id="fontItalic" onclick="styleExecCommand('fontItalic', 'fontitalic', 'italic');" /> <label for="fontItalic"><i><?php echo _t('기울임'); ?></i></label></span>
 								<span><input <?php echo $underlineCheck;?> type="checkbox" id="fontUnderline" onclick="styleExecCommand('fontUnderline', 'fontunderline', 'underline');" /> <label for="fontUnderline"><u><?php echo _t('밑줄'); ?></u></label></span>
-								<span id="fontStyleElement">
-									<script type="text/javascript">
+								<span id="fontStyleElement"></span>
+								<script type="text/javascript">
 										//<![CDATA[
 											var colorCheck;
 											var familyCheck;
@@ -207,8 +207,7 @@ function getTeamBlogSettings() {
 											html +=	'<\/select>';
 											document.getElementById('fontStyleElement').innerHTML = html;
 										//]]>
-									</script>
-								</span>
+								</script>
 							</dd>
 						</dl>
 						<dl>
