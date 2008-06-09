@@ -8,7 +8,7 @@ if (false) {
 }
 $cache = new pageCache;
 if (strlen($suri['value'])) {
-	if(!isset($suri['id']) && (getBlogSetting('useSloganOnTag',1) == 0)) {
+	if(!isset($suri['id']) && (getBlogSetting('useSloganOnTag',1) == 1)) {
 		$tag = getTagId($blogid, $suri['value']);
 	} else {
 		$tag = $suri['id'];
