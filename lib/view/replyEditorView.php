@@ -100,6 +100,9 @@ if (!doesHaveMembership()) {
 <?php
 if($viewMode == 'comment') {
 	$parent = getComment(getBlogId(), $suri['id'], null, false);
+	if(($parent['secret'] == 1) && !doesHaveOwnership()) {
+		$parent['name'] = $parent['written'] = $parent['comment'] = _t('[비밀댓글]');
+	}
 ?>
 			<div id="original-reply-box">
 				<ul class="main-comment">
@@ -114,6 +117,9 @@ if($viewMode == 'comment') {
 				<ul class="child-comments">
 <?php
 		foreach($children as $child) {
+			if(($child['secret'] == 1) && !doesHaveOwnership()) {
+				$child['name'] = $child['written'] = $child['comment'] = _t('[비밀댓글]');
+			}
 ?>
 					<li>
 						<ul>
