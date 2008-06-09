@@ -8,7 +8,7 @@ if (false) {
 }
 
 $cache = new pageCache;
-if(!isset($suri['id'])) {
+if(!isset($suri['id']) && (getBlogSetting('useSloganOnCategory',1) == 0)) {
 	$category = empty($suri['value']) ? 0 : getCategoryIdByLabel($blogid, $suri['value']);
 } else {
 	$category = $suri['id'];
