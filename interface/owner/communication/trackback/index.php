@@ -156,13 +156,13 @@ if($tabsClass['received'] == true) {
 } else {
 ?>
 								function removeTrackbackLog(id) {
-									if (confirm("선택된 글걸기 기록을 지웁니다. 계속 하시겠습니까?")) {
+									if (confirm("<?php echo _t('선택된 글걸기 기록을 지웁니다. 계속 하시겠습니까?');?>")) {
 										var request = new HTTPRequest("<?php echo $blogURL;?>/owner/communication/trackback/log/remove/" + id);
 										request.onSuccess = function () {
 											document.getElementById('list-form').submit();
 										}
 										request.onError = function () {
-											alert("글걸기 기록을 지우지 못했습니다.");
+											alert("<?php echo _t('글걸기 기록을 지우지 못했습니다.');?>");
 										}
 										request.send();
 									}
