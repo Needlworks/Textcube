@@ -40,7 +40,7 @@ function _getRecentEntriesView($entries,$template){
 	foreach($entries as $entry){
 		$view = $template;
 		misc::dress('rctps_rep_link',"$blogURL/{$entry['id']}",$view);
-		misc::dress('rctps_rep_edit_link',"$blogURL/blogid/entry/edit/{$entry['id']}",$view);	
+		misc::dress('rctps_rep_edit_link',"$blogURL/owner/entry/edit/{$entry['id']}",$view);
 		misc::dress('rctps_rep_title',htmlspecialchars(UTF8::lessenAsEm($entry['title'],30)),$view);
 		misc::dress('rctps_rep_rp_cnt',"<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments']>0?"({$entry['comments']})":'').'</span>',$view);
 		print $view;
