@@ -68,7 +68,7 @@ function checkCronJob()
 	fputs( $s, "Host: {$_SERVER['HTTP_HOST']}\r\n" );
 	fputs( $s, "Referer: {$_SERVER['REQUEST_URI']} from {$_SERVER['REMOTE_ADDR']}\r\n" );
 	fputs( $s, "\r\n");
-	while( ($x = fread($s,102400000) ) ) {
+	while( ($x = fread($s,1024000) ) ) {
 		print $x;
 	}
 	fclose($s);

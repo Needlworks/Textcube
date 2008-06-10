@@ -84,11 +84,15 @@ pre
 	border-bottom: 1px dashed #ccc;
 }
 
-dfn, em, cite, address
+dfn, cite, address
 {
 	font-style: normal;
 }
 
+em
+{
+	font-style: italic;
+}
 /*-------------------------------*/
 
 /* heading */
