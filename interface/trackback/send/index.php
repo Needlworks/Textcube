@@ -41,7 +41,7 @@ if (is_null($entry)) {
 			function sendTrackback(id) {
 				try {
 					var trackbackField = document.getElementById('url');
-					var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/trackback/send/" + id + "?url=" + encodeURIComponent(trackbackField.value));
+					var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trackback/send/" + id + "?url=" + encodeURIComponent(trackbackField.value));
 					request.onSuccess = function() {
 						showTrackbackSender(id);
 						trackbackField.value ='';
@@ -57,7 +57,7 @@ if (is_null($entry)) {
 			}
 			
 			function showTrackbackSender(id) {
-				var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/trackback/log/" + id);
+				var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trackback/log/" + id);
 				request.onSuccess = function() {
 					resultRow = this.getText("/response/result").split('*');
 					if (resultRow.length == 1) {
@@ -91,7 +91,7 @@ if (is_null($entry)) {
 			
 			function removeTrackbackLog(id,entry) {
 				if(confirm("<?php echo _text('선택된 걸린글을 지웁니다. 계속 하시겠습니까?');?>")) {
-					var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/entry/trackback/log/remove/" + id);
+					var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trackback/log/remove/" + id);
 					request.onSuccess = function() {
 						showTrackbackSender(entry);
 					}
