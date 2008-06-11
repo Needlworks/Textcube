@@ -8,6 +8,8 @@ if (isset($_POST['page']))
 if (isset($_GET['category'])) $_POST['category'] = $_GET['category'];
 if (isset($_GET['site'])) $_POST['site'] = $_GET['site'];
 if (isset($_GET['ip'])) $_POST['ip'] = $_GET['ip'];
+if (isset($_GET['site'])) $_POST['site'] = $_GET['site'];
+if (isset($_GET['url'])) $_POST['url'] = $_GET['url'];
 if (isset($_GET['withSearch'])) $_POST['withSearch'] = $_GET['withSearch'];
 if (isset($_GET['search'])) $_POST['search'] = $_GET['search'];
 if (isset($_GET['status'])) $_POST['status'] = $_GET['status'];
@@ -20,8 +22,9 @@ $IV = array(
 	),
 	'POST' => array(
 		'category' => array('int', 'default' => 0),
-		'site' => array('string', 'mandatory' => false),
-		'ip' => array('ip', 'mandatory' => false),
+		'site' => array('string', 'default' => ''),
+		'url' => array('url', 'default' => ''),
+		'ip' => array('ip', 'default' => ''),
 		'withSearch' => array(array('on'), 'mandatory' => false),
 		'search' => array('string', 'default' => ''),
 		'perPage' => array('int', 1, 'mandatory' => false),
@@ -32,10 +35,9 @@ require ROOT . '/lib/includeForBlogOwner.php';
 requireModel("blog.trackback");
 
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
-$site = isset($_GET['site']) && !empty($_GET['site']) ? $_GET['site'] : '';
-$site = isset($_POST['site']) && !empty($_POST['site']) ? $_POST['site'] : $site;
-$ip = isset($_GET['ip']) && !empty($_GET['ip']) ? $_GET['ip'] : '';
-$ip = isset($_POST['ip']) && !empty($_POST['ip']) ? $_POST['ip'] : $ip;
+$site = empty($_POST['site']) ? '' : $_POST['site'];
+$url = empty($_POST['url']) ? '' : $_POST['url'];
+$ip = empty($_POST['ip']) ? '' : $_POST['ip'];
 $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
 $perPage = getBlogSetting('rowsPerPage', 10);
 if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
@@ -352,7 +354,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 <?php
 	}
 ?>
-											</td>
+								</td>
 											<td class="category">
 <?php
 	if (!empty($trackback['categoryName'])) {
@@ -368,6 +370,13 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 											</td>
 											<td class="title">
 												<a href="<?php echo $trackback['url'];?>" onclick="window.open(this.href); return false;" title="<?php echo _t('글을 건 글을 보여줍니다.');?>"><?php echo htmlspecialchars($trackback['subject']);?></a>
+<?php
+	if(isset($tabsClass['received'])) {
+?>
+												<span class="excerpt"><?php echo UTF8::lessenAsEm(htmlspecialchars($trackback['excerpt']),40);?></span>
+<?php
+	}
+?>
 											</td>
 <?php
 	if(isset($tabsClass['received'])) {
