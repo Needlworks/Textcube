@@ -56,6 +56,12 @@ table.data-inbox tbody tr td.reply
 	text-align                       : left;
 }
 
+table.data-inbox tbody tr td.title span.excerpt
+{
+	display                          : block;
+	color                            : #DDD;
+}
+
 /* Comment ****************************************************************************************/
 
 #part-post-comment .caption

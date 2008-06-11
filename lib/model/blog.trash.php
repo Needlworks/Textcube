@@ -5,7 +5,7 @@
 
 //require 'common.correctTT.php';
 
-function getTrashTrackbackWithPagingForOwner($blogid, $category, $site, $ip, $search, $page, $count) {
+function getTrashTrackbackWithPagingForOwner($blogid, $category, $site, $url, $ip, $search, $page, $count) {
 	global $database;
 	
 	$postfix = '';
@@ -20,6 +20,10 @@ function getTrashTrackbackWithPagingForOwner($blogid, $category, $site, $ip, $se
 	if (!empty($site)) {
 		$sql .= ' AND t.site = \'' . POD::escapeString($site) . '\'';
 		$postfix .= '&site=' . rawurlencode($site);
+	}
+	if (!empty($url)) {
+		$sql .= ' AND t.url = \'' . POD::escapeString($url) . '\'';
+		$postfix .= '&url=' . rawurlencode($url);
 	}
 	if (!empty($ip)) {
 		$sql .= ' AND t.ip = \'' . POD::escapeString($ip) . '\'';
