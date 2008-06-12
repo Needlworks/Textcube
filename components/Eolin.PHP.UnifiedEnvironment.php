@@ -25,7 +25,7 @@ if (get_magic_quotes_gpc()) {
 	$_POST = array_map('stripSlashesRecursively', $_POST);
 	$_COOKIE = array_map('stripSlashesRecursively', $_COOKIE);
 	$_ENV = array_map('stripSlashesRecursively', $_ENV);
-	$_FILES = array_map('stripSlashesRecursively', $_FILES);
+	//$_FILES = array_map('stripSlashesRecursively', $_FILES);
 	$_REQUEST = array_map('stripSlashesRecursively', $_REQUEST);
 	$_SERVER = array_map('stripSlashesRecursively', $_SERVER);
 }
