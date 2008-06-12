@@ -388,25 +388,27 @@ function addComment($blogid, & $comment) {
 
 	if (!doesHaveOwnership()) {
 		requireComponent('Textcube.Data.Filter');
-		if (Filter::isFiltered('ip', $comment['ip'])) {
-			$blockType = "ip";
-			$filtered = 1;
-		} else if (Filter::isFiltered('name', $comment['name'])) {
-			$blockType = "name";
-			$filtered = 1;
-		} else if (Filter::isFiltered('url', $comment['homepage'])) {
-			$blockType = "homepage";
-			$filtered = 1;
-		} elseif (Filter::isFiltered('content', $comment['comment'])) {
-			$blockType = "comment";
-			$filtered = 1;
-		} elseif ( !Acl::check( "group.writers" ) && !$openid &&
-			getBlogSetting('AddCommentMode', '') == 'openid' ) {
-			$blockType = "openidonly";
-			$filtered = 1;
-		} else if (!fireEvent('AddingComment', true, $comment)) {
-			$blockType = "etc";
-			$filtered = 1;
+		if (!Filter::isAllowed($comment['homepage'])) {
+			if (Filter::isFiltered('ip', $comment['ip'])) {
+				$blockType = "ip";
+				$filtered = 1;
+			} else if (Filter::isFiltered('name', $comment['name'])) {
+				$blockType = "name";
+				$filtered = 1;
+			} else if (Filter::isFiltered('url', $comment['homepage'])) {
+				$blockType = "homepage";
+				$filtered = 1;
+			} elseif (Filter::isFiltered('content', $comment['comment'])) {
+				$blockType = "comment";
+				$filtered = 1;
+			} elseif ( !Acl::check( "group.writers" ) && !$openid &&
+				getBlogSetting('AddCommentMode', '') == 'openid' ) {
+				$blockType = "openidonly";
+				$filtered = 1;
+			} else if (!fireEvent('AddingComment', true, $comment)) {
+				$blockType = "etc";
+				$filtered = 1;
+			}
 		}
 	}
 
@@ -488,16 +490,18 @@ function updateComment($blogid, $comment, $password) {
 	if (!doesHaveOwnership()) {
 		// if filtered, only block and not send to trash
 		requireComponent('Textcube.Data.Filter');
-		if (Filter::isFiltered('ip', $comment['ip']))
-			return 'blocked';
-		if (Filter::isFiltered('name', $comment['name']))
-			return 'blocked';
-		if (Filter::isFiltered('url', $comment['homepage']))
-			return 'blocked';
-		if (Filter::isFiltered('content', $comment['comment']))
-			return 'blocked';
-		if (!fireEvent('ModifyingComment', true, $comment))
-			return 'blocked';
+		if (!Filter::isAllowed($comment['homepage'])) {
+			if (Filter::isFiltered('ip', $comment['ip']))
+				return 'blocked';
+			if (Filter::isFiltered('name', $comment['name']))
+				return 'blocked';
+			if (Filter::isFiltered('url', $comment['homepage']))
+				return 'blocked';
+			if (Filter::isFiltered('content', $comment['comment']))
+				return 'blocked';
+			if (!fireEvent('ModifyingComment', true, $comment))
+				return 'blocked';
+		}
 	}
 
 	$comment['homepage'] = stripHTML($comment['homepage']);
