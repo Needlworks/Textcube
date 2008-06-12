@@ -35,7 +35,9 @@ require ROOT.'/lib/include.php';
 require ROOT.'/lib/config.php';
 require ROOT.'/lib/database.php';
 require ROOT.'/lib/locale.php';
-require ROOT.'/components/POD.Core.Legacy.php';
+requireModel('blog.blogSetting');
+requireModel('blog.entry');
+requireComponent('POD.Core.Legacy');
 if (!empty($_GET['test'])) {
 	echo getFingerPrint();
 	exit;
@@ -1538,6 +1540,7 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (blogid) values(1)";
 					break;
 				}
 			}
+			setDefaultPost(1, 1);
 		}
 		if (!$error)
 			echo '<script type="text/javascript">//<![CDATA['.CRLF.'next() //]]></script>';
