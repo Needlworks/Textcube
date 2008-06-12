@@ -292,7 +292,8 @@ function getCommentView($entry, $skin) {
 			if (dress($prefix1 . '_rep_id',($entry['id'] == 0 ? 'guestbook' : 'comment') . $commentSubItem['id'], $commentSubItemView) == false) {
 				$commentSubItemView = "<a id=\"comment{$commentSubItem['id']}\"></a>" . $commentSubItemView;
 			}
-			if (empty($commentSubItem['homepage'])) {
+			if (empty($commentSubItem['homepage']) || 
+				(($commentSubItem['secret'] == 1) && !doesHaveOwnership())) {
 				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), "<span $fn_nickname>".$commentSubItem['name']."</span>", $commentSubItem), $commentSubItemView);
 			} else {
 				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a '.$fn.'rel="external nofollow" href="' . htmlspecialchars(addProtocolSense($commentSubItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . $commentSubItem['name'] . '</a>', $commentSubItem), $commentSubItemView);
@@ -330,7 +331,8 @@ function getCommentView($entry, $skin) {
 		if (dress($prefix1 . '_rep_id', ($entry['id'] == 0 ? 'guestbook' : 'comment') . $commentItem['id'], $commentItemView) == false) {
 			$commentItemView = "<a id=\"comment{$commentItem['id']}\"></a>" . $commentItemView;
 		}
-		if (empty($commentItem['homepage'])) {
+		if (empty($commentItem['homepage']) ||
+			(($commentItem['secret'] == 1) && !doesHaveOwnership())) {
 			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), "<span $fn_nickname>".$commentItem['name']."</span>", $commentItem), $commentItemView);
 		} else {
 			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a '.$fn.'rel="external nofollow" href="' . htmlspecialchars(addProtocolSense($commentItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . $commentItem['name'] . '</a>', $commentItem), $commentItemView);
