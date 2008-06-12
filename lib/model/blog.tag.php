@@ -49,7 +49,7 @@ function getRandomTags($blogid) {
 			$tags = POD::queryAll("SELECT `name`, count(*) `cnt`, t.id FROM `{$database['prefix']}Tags` t,
 				`{$database['prefix']}TagRelations` r, 
 				`{$database['prefix']}Entries` e 
-				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
+				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid AND e.blogid = $blogid 
 				GROUP BY r.tag 
 				ORDER BY `cnt` DESC $aux");
 	} else if ($skinSetting['tagboxAlign'] == 2) {  // order by name
@@ -63,7 +63,7 @@ function getRandomTags($blogid) {
 			$tags = POD::queryAll("SELECT DISTINCT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t, 
 				`{$database['prefix']}TagRelations` r,
 				`{$database['prefix']}Entries` e 
-				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
+				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid AND e.blogid = $blogid
 				GROUP BY r.tag 
 				ORDER BY t.name $aux");
 	} else { // random
@@ -76,7 +76,7 @@ function getRandomTags($blogid) {
 			$tags = POD::queryAll("SELECT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t,
 				`{$database['prefix']}TagRelations` r,
 				`{$database['prefix']}Entries` e
-				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
+				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid AND e.blogid = $blogid
 				GROUP BY r.tag 
 				ORDER BY RAND() $aux");
 	}
