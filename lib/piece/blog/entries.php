@@ -120,7 +120,7 @@ if (isset($cache->contents)) {
 			dress('article_rep_rp_atomurl', $defaultURL.'/atom/comment/'.$entry['id'], $entryView);
 			dress('article_rep_tb_atomurl', $defaultURL.'/atom/trackback/'.$entry['id'], $entryView);
 			dress('article_rep_response_atomurl', $defaultURL.'/atom/response/'.$entry['id'], $entryView);
-			dress('article_rep_category_id',getCategoryBodyIdById($blogid,$entry['category']) ? getCategoryBodyIdById($blogid,$entry['category']) : 'tt-body-category',$entryView);
+			dress('article_rep_category_body_id',getCategoryBodyIdById($blogid,$entry['category']) ? getCategoryBodyIdById($blogid,$entry['category']) : 'tt-body-category',$entryView);
 			dress('article_rep_title', htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id'])), $entryView);
 			// 사용자가 작성한 본문은 lib/piece/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
 			$contentContainer["article_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($blogid));
