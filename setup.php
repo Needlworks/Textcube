@@ -31,18 +31,31 @@ if(empty($accessInfo)) {
 }
 
 define ('ROOT', $root);
+
+$__requireBasics = array(
+	'config',               // Basics
+	'function/string',
+	'function/time',
+	'function/javascript',
+	'function/html',
+	'function/xml',
+	'function/misc',
+	'function/image',
+	'function/mail');
+
 require ROOT.'/lib/include.php';
 require ROOT.'/lib/config.php';
 require ROOT.'/lib/database.php';
 require ROOT.'/lib/locale.php';
 requireModel('blog.blogSetting');
 requireModel('blog.entry');
+requireLibrary('auth');
 requireComponent('POD.Core.Legacy');
+
 if (!empty($_GET['test'])) {
 	echo getFingerPrint();
 	exit;
 }
-
 $baseLanguage = 'ko';
 if( !empty($_POST['Lang']) ) $baseLanguage = $_POST['Lang'];
 if( Locale::setDirectory('language') ) Locale::set( $baseLanguage );
@@ -1540,7 +1553,6 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (blogid) values(1)";
 					break;
 				}
 			}
-			setDefaultPost(1, 1);
 		}
 		if (!$error)
 			echo '<script type="text/javascript">//<![CDATA['.CRLF.'next() //]]></script>';
@@ -1555,6 +1567,12 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (blogid) values(1)";
 
         $filename = $root . '/config.php';
         $fp = fopen($filename, 'w+');
+		// For first entry addition
+		$database = array('server' => $_POST['dbServer'],
+				'database' => $_POST['dbName'],
+				'username' => $_POST['dbUser'],
+				'password' => $_POST['dbPassword'],
+				'prefix'   => $_POST['dbPrefix']);
         if ($fp) {
             fwrite($fp,
 "<?php
@@ -1620,6 +1638,9 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
                 $blogURL = "http://{$_POST['domain']}" . ($_SERVER['SERVER_PORT'] != 80 ? ":{$_SERVER['SERVER_PORT']}" : '') . "$path".(empty($_POST['disableRewrite']) ? '' : '/index.php?');
                 break;
         }
+		requireComponent('Needlworks.Database');
+		POD::bind($database);
+		setDefaultPost(1, 1);
 ?>
   <div id="inner">
     <h2><span class="step"><?php echo _t('설치완료');?></span> : <?php echo _t('텍스트큐브가 성공적으로 설치되었습니다.');?></h2>
@@ -1668,7 +1689,18 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
 				$table = $table[0];
 				$entriesMatched = preg_match('/Entries$/', $table);
 
-				if ($entriesMatched && checkTables('1.6', $prefix = substr($table, 0, strlen($table) - 7))) {
+
+				if ($entriesMatched && checkTables('1.7', $prefix = substr($table, 0, strlen($table) - 7))) {
+?>
+      <tr>
+        <th><?php echo $prefix;?></th>
+        <th>1.7</th>
+        <td><?php echo implode(', ', getTables('1.7', $prefix));?></td>
+	    <th><input type="radio" name="target" value="1.7_<?php echo $prefix;?>" <?php echo $ckeckedString;?>/></th>
+      </tr>
+<?php
+					$ckeckedString = '';
+				} else if ($entriesMatched && checkTables('1.6', $prefix = substr($table, 0, strlen($table) - 7))) {
 ?>
       <tr>
         <th><?php echo $prefix;?></th>

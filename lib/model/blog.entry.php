@@ -559,7 +559,7 @@ function addEntry($blogid, $entry, $userid = null) {
 	$contentEditor = POD::escapeString($entry['contentEditor']);
 	$password = POD::escapeString(generatePassword());
 	$location = POD::escapeString($entry['location']);
-	if (isset($entry['published']) && is_numeric($entry['published']) && ($entry['published'] >= 2)) {
+	if (!isset($entry['firstEntry']) && isset($entry['published']) && is_numeric($entry['published']) && ($entry['published'] >= 2)) {
 		$published = $entry['published'];
 		$entry['visibility'] = 0 - $entry['visibility'];
 		if($entry['visibility'] < 0) {

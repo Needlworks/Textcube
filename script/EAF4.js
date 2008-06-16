@@ -310,7 +310,7 @@ var PM=new PageMaster();
 
 HTTPRequest.prototype.namespace   = "Eolin.Application.Framework";
 HTTPRequest.prototype.name        = "Eolin HTTPXMLRequest Processor";
-HTTPRequest.prototype.verion      = "1.0";
+HTTPRequest.prototype.verion      = "1.7";
 HTTPRequest.prototype.copyright   = "Copyright (c) 2005, Tatter & Company / Needlworks / Tatter Network Foundation. All rights reserved.";
 HTTPRequest.prototype.method      = "GET";
 HTTPRequest.prototype.url         = null;
@@ -321,6 +321,7 @@ HTTPRequest.prototype.content     = "";
 HTTPRequest.prototype.async       = true;
 HTTPRequest.prototype.cache       = false;
 HTTPRequest.prototype.persistent  = true;
+HTTPRequest.prototype.timeout     = 0;
 HTTPRequest.prototype.message     = "Requesting...";
 
 HTTPRequest.prototype.onVerify = function() {
@@ -427,6 +428,10 @@ HTTPRequest.prototype.send = function() {
 		this.content=arguments[0];
 	}
 	if(this.content.length>0) this._request.setRequestHeader("Content-Type",this.contentType);
+	if(this.timeout>0) {
+		this._request.setRequestHeader("Connection","Keep-Alive");
+		this._request.setRequestHeader("Keep-Alive","timeout="+this.timeout);
+	}
 	this._request.send(this.content);
 
 	if(!this.async) {
@@ -480,6 +485,11 @@ HTTPRequest.prototype.parseURL = function(url) {
 	return url;
 };
 
+
+HTTPRequest.prototype.setTimeout = function(time) {
+	this.timeout = time;
+};	
+	
 FileUploadRequest.prototype.namespace  = "Eolin.Application.Framework";
 FileUploadRequest.prototype.name       = "Eolin File Upload Request";
 FileUploadRequest.prototype.verion     = "1.0";

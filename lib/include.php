@@ -11,6 +11,7 @@ if(!isset($__requireComponent)) $__requireComponent = array();
 if(!isset($__requireModel)) $__requireModel = array();
 if(!isset($__requireView)) $__requireView = array();
 if(!isset($__requireInit)) $__requireInit = array();
+if(!isset($service)) $service = array();
 
 /***** Define binders *****/
 function requireComponent($name) {
@@ -58,7 +59,7 @@ foreach($__requireComponent as $lib) {
 	require ROOT .'/components/'.$lib.'.php';
 } 
 /***** Loading code pieces *****/
-if((isset($service['codecache']) && $service['codecache'] == true) && file_exists(ROOT.'/cache/code/'.$codeName)) {
+if(($service['codecache'] == true) && file_exists(ROOT.'/cache/code/'.$codeName)) {
 	$codeCacheRead = true;
 	require(ROOT.'/cache/code/'.$codeName);
 } else {
@@ -87,7 +88,7 @@ if((isset($service['codecache']) && $service['codecache'] == true) && file_exist
 		else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
 	}
 }
-if((isset($service) && isset($service['codecache']))
+if(isset($service['codecache'])
 		&& $service['codecache'] == true && $codeCacheRead == false) {
 	requireComponent('Needlworks.Cache.PageCache');
 	$libCode = new CodeCache();
