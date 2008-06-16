@@ -9,6 +9,7 @@ class Post {
 
 	function reset() {
 		$this->error =
+		$this->blogid = 
 		$this->userid = 
 		$this->id =
 		$this->visibility =
@@ -31,11 +32,14 @@ class Post {
 		$this->trackbacks =
 			null;
 	}
-
+	function init() {
+		if(!isset($this->blogid)) $this->blogid = getBlogId();
+	}
 	/*@polymorphous(numeric $id, $fields, $sort)@*/
 	function open($filter = '', $fields = '*', $sort = 'published DESC') {
 		global $database;
-		$blogid = getBlogId();
+		$this->init();
+		else $blogid = $this->blogid;
 		if (is_numeric($filter))
 			$filter = 'AND id = ' . $filter;
 		else if (!empty($filter))
@@ -62,8 +66,8 @@ class Post {
 		$this->reset();
 		if ($this->_result && ($row = POD::fetch($this->_result))) {
 			foreach ($row as $name => $value) {
-				if ($name == 'blogid')
-					continue;
+//				if ($name == 'blogid')
+//					continue;
 				switch ($name) {
 					case 'visibility':
 						if ($value <= 0)
@@ -93,6 +97,7 @@ class Post {
 	
 	function add($userid = null) {
 		global $database;
+		$this->init();
 		if (isset($this->id) && !Validator::number($this->id, 1))
 			return $this->_error('id');
 		if (isset($this->category) && !Validator::number($this->category, 0))
@@ -118,9 +123,10 @@ class Post {
 			$query->setAttribute('created', 'UNIX_TIMESTAMP()');
 		if (!isset($this->modified))
 			$query->setAttribute('modified', 'UNIX_TIMESTAMP()');
+		$query->setAttribute('blogid',$this->blogid);
 		if (!isset($this->userid)){
 			$this->userid = getUserId();
-			$query->setAttribute('userid',getUserId());
+			$query->setAttribute('userid',$this->userid);
 		}
 		if (!$query->insert())
 			return $this->_error('insert');
@@ -152,6 +158,7 @@ class Post {
 	
 	function remove($id = null) { // attachment & category is own your risk!
 		global $database;
+		$this->init();
 		if(!empty($id)) $this->id = $id;
 		// step 0. Get Information
 		if (!isset($this->id) || !Validator::number($this->id, 1))
@@ -176,16 +183,16 @@ class Post {
 		$gCacheStorage->purge();
 		
 		// step 2. Delete Entry
-		$sql = "DELETE FROM ".$database['prefix']."Entries WHERE blogid = ".getBlogId()." AND id = ".$this->id;
+		$sql = "DELETE FROM ".$database['prefix']."Entries WHERE blogid = ".$this->blogid." AND id = ".$this->id;
 		if (POD::queryCount($sql)) {
 		// step 3. Delete Comment
-			POD::execute("DELETE FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()." AND entry = ".$this->id);
+			POD::execute("DELETE FROM {$database['prefix']}Comments WHERE blogid = ".$this->blogid." AND entry = ".$this->id);
 		
 		// step 4. Delete Trackback
-			POD::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = ".getBlogId()." AND entry = ".$this->id);
+			POD::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = ".$this->blogid." AND entry = ".$this->id);
 		
 		// step 5. Delete Trackback Logs
-			POD::execute("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = ".getBlogId()." AND entry = ".$this->id);
+			POD::execute("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = ".$this->blogid." AND entry = ".$this->id);
 		
 		// step 6. update Category
 			requireComponent('Textcube.Data.Category');
@@ -193,9 +200,9 @@ class Post {
 				$target = ($parentCategory = Category::getParent($entry['category'])) ? '(id = ' . $entry['category'] . ' OR id = ' . $parentCategory . ')' : 'id = ' . $entry['category'];
 
 				if (isset($entry['visibility']) && ($entry['visibility'] != 1))
-					POD::query("UPDATE {$database['prefix']}Categories SET entries = entries - 1, entriesInLogin = entriesInLogin - 1 WHERE blogid = ".getBlogId()." AND " . $target);
+					POD::query("UPDATE {$database['prefix']}Categories SET entries = entries - 1, entriesInLogin = entriesInLogin - 1 WHERE blogid = ".$this->blogid." AND " . $target);
 				else
-					POD::query("UPDATE {$database['prefix']}Categories SET entriesInLogin = entriesInLogin - 1 WHERE blogid = ".getBlogId()." AND " . $target);
+					POD::query("UPDATE {$database['prefix']}Categories SET entriesInLogin = entriesInLogin - 1 WHERE blogid = ".$this->blogid." AND " . $target);
 			}
 		
 		// step 7. Delete Attachment
@@ -288,6 +295,7 @@ class Post {
 	
 	function saveSlogan($slogan = null) {
 		global $database;
+		$this->init();
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
 		if (!Validator::number($this->userid, 1))
@@ -296,7 +304,7 @@ class Post {
 			$this->slogan = $slogan;
 
 		$query = new TableQuery($database['prefix'] . 'Entries');
-		$query->setQualifier('blogid', getBlogId());
+		$query->setQualifier('blogid',$this->blogid);
 		if(isset($this->userid)) $query->setQualifier('userid', $this->userid);
 		$query->setQualifier('id', $this->id);
 		if (!$query->doesExist())
@@ -314,7 +322,7 @@ class Post {
 			$query->setAttribute('slogan', $checkSlogan, false);
 			if (!POD::queryExistence(
 				"SELECT id FROM {$database['prefix']}Entries " 
-				. "WHERE blogid = ".getBlogId()." AND id <> {$this->id} AND slogan ='{$checkSlogan}'")
+				. "WHERE blogid = ".$this->blogid." AND id <> {$this->id} AND slogan ='{$checkSlogan}'")
 				) 
 			{
 				if (!$query->update())
@@ -329,12 +337,13 @@ class Post {
 	
 	function loadTags() {
 		global $database;
+		$this->init();
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
 		$this->tags = array();
 		if ($result = POD::queryColumn("SELECT name FROM {$database['prefix']}TagRelations 
 			LEFT JOIN {$database['prefix']}Tags ON id = tag 
-			WHERE blogid = ".getBlogId()." AND entry = {$this->id} 
+			WHERE blogid = ".$this->blogid." AND entry = {$this->id} 
 			ORDER BY name")) {
 			$this->tags = $result;
 			return true;
@@ -372,6 +381,7 @@ class Post {
 	/*@protected@*/
 	function addTags() {
 		// Don't call outside of object!
+		$this->init();
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
 		if (!is_array($this->tags)) {
@@ -381,7 +391,7 @@ class Post {
 			return true;
 		
 		requireComponent('Textcube.Data.Tag');
-		Tag::addTagsWithEntryId(getBlogId(), $this->id, $this->tags);
+		Tag::addTagsWithEntryId($this->blogid, $this->id, $this->tags);
 
 		return true;
 	}
@@ -405,12 +415,12 @@ class Post {
 	/*@protected@*/
 	function deleteTags() {
 		// Don't call outside of object!
-		global $database;
+		$this->init();
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
 		
 		requireComponent('Textcube.Data.Tag');
-		Tag::deleteTagsWithEntryId(getBlogId(), $this->id);
+		Tag::deleteTagsWithEntryId($this->blogid, $this->id);
 		
 		return true;
 	}
@@ -445,37 +455,39 @@ class Post {
 	/*@static@*/
 	function doesExist($id) {
 		global $database;
+		$this->init();
 		if (!Validator::number($id, 1))
 			return false;
-		return POD::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND id = $id AND category >= 0 AND draft = 0");
+		return POD::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".$this->blogid." AND id = $id AND category >= 0 AND draft = 0");
 	}
 	
 	/*@static@*/
 	function doesAcceptTrackback($id) {
 		global $database;
+		$this->init();
 		if (!Validator::number($id, 1))
 			return false;
 		return POD::queryExistence("SELECT id 
 			FROM {$database['prefix']}Entries 
-			WHERE blogid = ".getBlogId()." AND id = $id AND draft = 0 AND visibility > 0 AND category >= 0 AND acceptTrackback = 1");
+			WHERE blogid = ".$this->blogid." AND id = $id AND draft = 0 AND visibility > 0 AND category >= 0 AND acceptTrackback = 1");
 	}
 	
 	/*@static@*/
 	function updateComments($id = null) {
 		global $database;
-
+		$this->init();
 		if (!is_null($id) && !is_numeric($id)) {
 			return false;
 		}
 
-		$posts = (is_null($id) ? POD::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND category >= 0 AND draft = 0") : array($id));
+		$posts = (is_null($id) ? POD::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".$this->blogid." AND category >= 0 AND draft = 0") : array($id));
 		if (!is_array($posts))
 			return false;
 		$succeeded = true;
 		foreach ($posts as $id) {
-			$comments = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()." AND entry = $id AND isFiltered = 0");
+			$comments = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE blogid = ".$this->blogid." AND entry = $id AND isFiltered = 0");
 			if (!is_null($comments)) {
-				if (POD::execute("UPDATE {$database['prefix']}Entries SET comments = $comments WHERE blogid = ".getBlogId()." AND id = $id"))
+				if (POD::execute("UPDATE {$database['prefix']}Entries SET comments = $comments WHERE blogid = ".$this->blogid." AND id = $id"))
 					continue;
 			}
 			$succeeded = false;
@@ -486,20 +498,21 @@ class Post {
 	/*@static@*/
 	function updateTrackbacks($id = null) {
 		global $database;
+		$this->init();
 
 		if (!is_null($id) && !is_numeric($id)) {
 			return false;
 		}
 
-		$posts = (is_null($id) ? POD::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND category >= 0 AND draft = 0") : array($id));
+		$posts = (is_null($id) ? POD::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".$this->blogid." AND category >= 0 AND draft = 0") : array($id));
 		if (!is_array($posts))
 			return false; 
 		$succeeded = true;
 		foreach ($posts as $id) {
-			$trackbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE blogid = ".getBlogId()." AND entry = $id AND isFiltered = 0");
+			$trackbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE blogid = ".$this->blogid." AND entry = $id AND isFiltered = 0");
 			if (!is_null($trackbacks)) { 
 				if (POD::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks 
-					WHERE blogid = ".getBlogId()." AND id = $id"))
+					WHERE blogid = ".$this->blogid." AND id = $id"))
 					continue;
 			}
 			$succeeded = false;
@@ -528,10 +541,11 @@ class Post {
 	
 	function nextEntryId($id = 0) {
 		global $database;
-		$maxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId());
+		$this->init();
+		$maxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".$this->blogid;
 		if( !$maxId ) {
 			/* Oddly, database connection is dropped frequently in this point */
-			$maxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId());
+			$maxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".$this->blogid);
 		}
 		if($id==0)
 			return $maxId + 1;
@@ -541,8 +555,9 @@ class Post {
 
 	function _buildQuery() {
 		global $database;
+		$this->init();
 		$query = new TableQuery($database['prefix'] . 'Entries');
-		$query->setQualifier('blogid', getBlogId());
+		$query->setQualifier('blogid', $this->blogid);
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
