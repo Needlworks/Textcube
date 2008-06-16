@@ -189,7 +189,7 @@ else if ($_POST['step'] == 7) {
 }
 else {
 /*	
-	function tc_escape_string($string) {
+	function POD::escapeString($string) {
 		global $mysql_escaping_function;
 		return $mysql_escaping_function($string);
 	}*/
@@ -558,18 +558,18 @@ xml_set_object
     <h3>MySQL</h3>
     <ul>
 <?php
-        if (mysql_query('SET CHARACTER SET utf8'))
+        if (POD::query('SET CHARACTER SET utf8'))
            echo '<li>Character Set: OK</li>';
         else {
            echo '<li style="color:navy">Character Set: ', _t('UTF8 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)'), '</li>';
         }
-        if (mysql_query('SET SESSION collation_connection = \'utf8_general_ci\''))
+        if (POD::query('SET SESSION collation_connection = \'utf8_general_ci\''))
            echo '<li>Collation: OK</li>';
         else {
            echo '<li style="color:navy">Collation: ', _t('UTF8 General 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)'), '</li>';
         }
-        if (mysql_query("CREATE TABLE {$_POST['dbPrefix']}Setup (a INT NOT NULL)")) {
-            mysql_query("DROP TABLE {$_POST['dbPrefix']}Setup");
+        if (POD::query("CREATE TABLE {$_POST['dbPrefix']}Setup (a INT NOT NULL)")) {
+            POD::query("DROP TABLE {$_POST['dbPrefix']}Setup");
            echo '<li>', _t('테이블 생성 권한'), ': OK</li>';
         }
         else {
@@ -580,7 +580,7 @@ xml_set_object
     </ul>
 <?php
         $tables = array();
-        if ($result = mysql_query("SHOW TABLES")) {
+        if ($result = POD::query("SHOW TABLES")) {
             while ($table = mysql_fetch_array($result)) {
                 if (strncmp($table[0], $_POST['dbPrefix'], strlen($_POST['dbPrefix'])))
                     continue;
@@ -926,8 +926,8 @@ RewriteRule ^testrewrite$ setup.php [L]"
                     return true;
             }
         } else {
-			@mysql_query('SET CHARACTER SET utf8');
-			if ($result = mysql_query("SELECT loginid, password, name FROM {$_POST['dbPrefix']}Users WHERE userid = 1")) {
+			@POD::query('SET CHARACTER SET utf8');
+			if ($result = POD::query("SELECT loginid, password, name FROM {$_POST['dbPrefix']}Users WHERE userid = 1")) {
 				@list($_POST['email'], $_POST['password'], $_POST['name']) = mysql_fetch_row($result);
 				$_POST['password2'] = $_POST['password'];
 				mysql_free_result($result);
@@ -1047,17 +1047,17 @@ RewriteRule ^testrewrite$ setup.php [L]"
 			exit;
 		}
 
-		$loginid = tc_escape_string($_POST['email']);
+		$loginid = POD::escapeString($_POST['email']);
 		$password = md5($_POST['password']);
-		$name = tc_escape_string($_POST['name']);
-		$blog = tc_escape_string($_POST['blog']);
-		$baseLanguage = tc_escape_string( $_POST['Lang']);
-		$baseTimezone = tc_escape_string( substr(_t('default:Asia/Seoul'),8));
+		$name = POD::escapeString($_POST['name']);
+		$blog = POD::escapeString($_POST['blog']);
+		$baseLanguage = POD::escapeString( $_POST['Lang']);
+		$baseTimezone = POD::escapeString( substr(_t('default:Asia/Seoul'),8));
 
         $charset = 'TYPE=MyISAM DEFAULT CHARSET=utf8';
-        if (!@mysql_query('SET CHARACTER SET utf8'))
+        if (!@POD::query('SET CHARACTER SET utf8'))
             $charset = 'TYPE=MyISAM';
-        @mysql_query('SET SESSION collation_connection = \'utf8_general_ci\'');
+        @POD::query('SET SESSION collation_connection = \'utf8_general_ci\'');
         
         if ($_POST['mode'] == 'install') {
             $schema = "
@@ -1487,8 +1487,8 @@ INSERT INTO {$_POST['dbPrefix']}FeedSettings (blogid) values(1);
 INSERT INTO {$_POST['dbPrefix']}FeedGroups (blogid) values(1)";
             $query = explode(';', trim($schema));
             foreach ($query as $sub) {
-                if (!mysql_query($sub)) {
-					@mysql_query(
+                if (!POD::query($sub)) {
+					@POD::query(
 						"DROP TABLE
 							{$_POST['dbPrefix']}Attachments,
 							{$_POST['dbPrefix']}BlogSettings,
@@ -1538,7 +1538,7 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (blogid) values(1)";
 			}
         }
 		else {
-			$password2 = tc_escape_string($_POST['password']);
+			$password2 = POD::escapeString($_POST['password']);
             $schema = "
 				UPDATE {$_POST['dbPrefix']}Users SET loginid = '$loginid', name = '$name' WHERE userid = 1;
 				UPDATE {$_POST['dbPrefix']}Users SET password = '$password' WHERE userid = 1 AND password <> '$password2';
@@ -1547,7 +1547,7 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (blogid) values(1)";
 				UPDATE {$_POST['dbPrefix']}BlogSettings SET value = '$baseTimezone' where blogid = 1 AND name = 'timezone';";
             $query = explode(';', trim($schema));
             foreach ($query as $sub) {
-                if (!empty($sub) && !mysql_query($sub)) {
+                if (!empty($sub) && !POD::query($sub)) {
 					echo '<script type="text/javascript">//<![CDATA['.CRLF.'alert("', _t('정보를 갱신하지 못했습니다.'), '")//]]></script>';
 					$error = 2;
 					break;
@@ -1638,9 +1638,6 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
                 $blogURL = "http://{$_POST['domain']}" . ($_SERVER['SERVER_PORT'] != 80 ? ":{$_SERVER['SERVER_PORT']}" : '') . "$path".(empty($_POST['disableRewrite']) ? '' : '/index.php?');
                 break;
         }
-		requireComponent('Needlworks.Database');
-		POD::bind($database);
-		setDefaultPost(1, 1);
 ?>
   <div id="inner">
     <h2><span class="step"><?php echo _t('설치완료');?></span> : <?php echo _t('텍스트큐브가 성공적으로 설치되었습니다.');?></h2>
@@ -1684,7 +1681,7 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
 <?php
         $tables = array();
 		$ckeckedString = 'checked ';
-        if ($result = mysql_query("SHOW TABLES")) {
+        if ($result = POD::query("SHOW TABLES")) {
             while ($table = mysql_fetch_array($result)) {
 				$table = $table[0];
 				$entriesMatched = preg_match('/Entries$/', $table);
@@ -1816,7 +1813,7 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
         <td><?php echo implode(', ', getTables($version, $prefix));?></td>
       </tr>
 <?php
-			$result = @mysql_query('DROP TABLE ' . implode(', ', getTables($version, $prefix)));
+			$result = @POD::query('DROP TABLE ' . implode(', ', getTables($version, $prefix)));
 		}
 ?>
     </table>
@@ -1904,7 +1901,7 @@ function checkTables($version, $prefix) {
 	if (!$tables = getTables($version, $prefix))
 		return false;
 	foreach ($tables as $table) {
-		if ($result = mysql_query("DESCRIBE $table"))
+		if ($result = POD::query("DESCRIBE $table"))
 			mysql_free_result($result);
 		else 
 			return false;
