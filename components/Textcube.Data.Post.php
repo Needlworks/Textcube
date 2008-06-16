@@ -39,7 +39,6 @@ class Post {
 	function open($filter = '', $fields = '*', $sort = 'published DESC') {
 		global $database;
 		$this->init();
-		else $blogid = $this->blogid;
 		if (is_numeric($filter))
 			$filter = 'AND id = ' . $filter;
 		else if (!empty($filter))
@@ -134,9 +133,9 @@ class Post {
 		if (isset($this->category)) {
 			$target = ($parentCategory = Category::getParent($this->category)) ? '(id = ' . $this->category . ' OR id = ' . $parentCategory . ')' : 'id = ' . $this->category;
 			if (isset($this->visibility) && ($this->visibility != 'private'))
-				POD::query("UPDATE {$database['prefix']}Categories SET entries = entries + 1, entriesInLogin = entriesInLogin + 1 WHERE blogid = ".getBlogId()." AND " . $target);
+				@POD::query("UPDATE {$database['prefix']}Categories SET entries = entries + 1, entriesInLogin = entriesInLogin + 1 WHERE blogid = ".getBlogId()." AND " . $target);
 			else
-				POD::query("UPDATE {$database['prefix']}Categories SET entriesInLogin = entriesInLogin + 1 WHERE blogid = ".getBlogId()." AND " . $target);
+				@POD::query("UPDATE {$database['prefix']}Categories SET entriesInLogin = entriesInLogin + 1 WHERE blogid = ".$this->blogid." AND " . $target);
 		}
 		$this->saveSlogan();
 		$this->addTags();
@@ -542,7 +541,7 @@ class Post {
 	function nextEntryId($id = 0) {
 		global $database;
 		$this->init();
-		$maxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".$this->blogid;
+		$maxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".$this->blogid);
 		if( !$maxId ) {
 			/* Oddly, database connection is dropped frequently in this point */
 			$maxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".$this->blogid);
