@@ -521,6 +521,7 @@ function removeBlog($blogid) {
 	POD::execute("DELETE FROM {$database['prefix']}FeedSettings WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}Filters WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}Links WHERE blogid = $blogid");
+	POD::execute("DELETE FROM {$database['prefix']}LinkCategories WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}PageCachelog WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}Plugins WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}RefererLogs WHERE blogid = $blogid");
