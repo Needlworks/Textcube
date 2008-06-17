@@ -89,7 +89,7 @@ if(defined('__TEXTCUBE_READER_SUBMENU__'))
 				
 				<div id="reader-menu-box">
 					<ul id="reader-menu">
-						<li id="all-read"><a href="<?php echo $blogURL . '/owner/reader';?>"><span class="text"><?php echo _t('전체 보기');?></span></a></li>
+						<li id="all-read"><a href="<?php echo $blogURL . '/owner/network/reader';?>"><span class="text"><?php echo _t('전체 보기');?></span></a></li>
 						<li id="scrap"><span id="starredOnlyIndicator" class="scrap-off-icon bullet"><span class="text"></span></span><a href="#void" onclick="Reader.showStarredOnly(); return false;"><span class="text"><?php echo _t('스크랩한 글 보기');?></span></a></li>
 						<li id="setting" class="configureText"><a id="settingLabel" href="#void" onclick="Reader.toggleConfigure(); return false;"><span class="text"><?php echo _t('설정');?></span></a></li>
 						<li id="feed-update"><a href="#void" onclick="Reader.updateAllFeeds(); return false;"><span class="text"><?php echo _t('모든 피드 새로고침');?><span id="progress"></span></span></a></li>
@@ -260,7 +260,7 @@ if (getUserId() == 1) {
 								
 								<div id="post-list" class="data-inbox">
 									<div class="title">
-										<a id="totalList" href="<?php echo $blogURL;?>/owner/reader" title="<?php echo _t('글 목록을 전부 출력합니다.');?>"><span class="text"><?php echo _t('전체 목록');?></span></a><span class="count">(<span id="entriesShown">0</span>/<span id="entriesTotal">0</span>)</span>
+										<a id="totalList" href="<?php echo $blogURL;?>/owner/network/reader" title="<?php echo _t('글 목록을 전부 출력합니다.');?>"><span class="text"><?php echo _t('전체 목록');?></span></a><span class="count">(<span id="entriesShown">0</span>/<span id="entriesTotal">0</span>)</span>
 										<span class="hidden">|</span>
 										<a id="iconMoreEntries" href="#void" onclick="Reader.listScroll(1); return false;" title="<?php echo _t('지나간 글 정보를 더 읽어옵니다.');?>"><span class="text"><?php echo _t('더 읽어오기');?></span></a>
 									</div>
