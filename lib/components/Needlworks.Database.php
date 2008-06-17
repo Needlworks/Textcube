@@ -11,15 +11,15 @@ if (!isset($service['dbms'])) $service['dbms'] = 'mysql';
 //Database Binding
 switch($service['dbms']) {
 	case 'postgresql':
-		require_once ROOT.'/components/Needlworks.DBMS.PostgreSQL.php';
+		require_once ROOT.'/lib/components/Needlworks.DBMS.PostgreSQL.php';
 		break;
 	case 'mysql':
 	default:
-		require_once ROOT.'/components/Needlworks.DBMS.MySQL.php';
+		require_once ROOT.'/lib/components/Needlworks.DBMS.MySQL.php';
 }
 
 //if(!class_exists('POD')) require_once ROOT.'/components/POD.Core.php';
-if(!class_exists('POD')) require_once ROOT.'/components/POD.Core.Legacy.php'; //1.6 Only uses legacy routine of POD. Will be changed from 1.6.1. (or later)
+if(!class_exists('POD')) require_once ROOT.'/lib/components/POD.Core.Legacy.php'; //1.6 Only uses legacy routine of POD. Will be changed from 1.6.1. (or later)
 
 /* TableQuery */
 // class TableQuery will be depreacted after 1.6 tree.

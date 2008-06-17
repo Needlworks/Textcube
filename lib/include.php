@@ -19,7 +19,7 @@ function requireComponent($name) {
 	//if (!preg_match('/^[a-zA-Z0-9\.]+$/', $name))		return;
 	$name = str_replace('Tattertools', 'Textcube',$name); // Legacy routine.
 	if(!in_array($name,$__requireComponent)) {
-		include_once (ROOT . "/components/$name.php");
+		include_once (ROOT . "/lib/components/$name.php");
 		array_push($__requireComponent,$name);
 	}
 }
@@ -56,7 +56,7 @@ $__requireComponent = array(
 	'Textcube.Function.Respond',
 	'Needlworks.Cache.PageCache');
 foreach($__requireComponent as $lib) {
-	require ROOT .'/components/'.$lib.'.php';
+	require ROOT .'/lib/components/'.$lib.'.php';
 } 
 /***** Loading code pieces *****/
 if(($service['codecache'] == true) && file_exists(ROOT.'/cache/code/'.$codeName)) {

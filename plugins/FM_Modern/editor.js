@@ -1592,7 +1592,7 @@ TTModernEditor.prototype.command = function(command, value1, value2) {
 
 // IFRAME 내에서 발생하는 이벤트를 처리할 함수
 TTModernEditor.prototype.eventHandler = function(event) {
-	var isFunctionalKeyPressed = event.altKey || event.ctrlKey || event.shiftKey;
+	var isFunctionalKeyPressed = event.altKey || event.shiftKey;
 
 	if(STD.isIE) {
 		event = this.contentWindow.event;
