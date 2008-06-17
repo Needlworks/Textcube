@@ -120,6 +120,11 @@ if (getBlogId()) {
 							$title = htmlspecialchars($xmls->getValue('/plugin/title[lang()]'));
 							foreach ($xmls->selectNodes('/plugin/binding/center') as $center) {
 								if (!empty($center['.attributes']['handler'])) {
+									if(isset($center['.attributes']['title'])) {
+										$title = $center['.attributes']['title'];
+									} else {
+										$title = htmlspecialchars($xmls->getValue('/plugin/title[lang()]'));
+									}
 									array_push($centerMappings, array('plugin' => $plugin, 'handler' => $center['.attributes']['handler'], 'title' => $title));
 								}
 							}
