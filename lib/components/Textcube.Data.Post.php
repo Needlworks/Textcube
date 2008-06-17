@@ -309,10 +309,10 @@ class Post {
 		if (!$query->doesExist())
 			return $this->_error('id');
 
-		if (isset($this->slogan) && Post::validateSlogan($this->slogan))
+		if (isset($this->slogan) && $this->validateSlogan($this->slogan))
 			$slogan0 = $this->slogan;
 		else
-			$slogan0 = $this->slogan = Post::makeSlogan($this->title);
+			$slogan0 = $this->slogan = $this->makeSlogan($this->title);
 			
 		$slogan0 = UTF8::lessenAsEncoding($slogan0, 255);
 
@@ -384,7 +384,7 @@ class Post {
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
 		if (!is_array($this->tags)) {
-			$this->tags = Post::getTagsWithEntryString($this->tags);
+			$this->tags = $this->getTagsWithEntryString($this->tags);
 		}
 		if (empty($this->tags))
 			return true;
@@ -401,7 +401,7 @@ class Post {
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
 		if (!is_array($this->tags)) {
-			$this->tags = Post::getTagsWithEntryString($this->tags);
+			$this->tags = $this->getTagsWithEntryString($this->tags);
 
 		}
 		
@@ -451,7 +451,6 @@ class Post {
 			return $log;
 	}
 	
-	/*@static@*/
 	function doesExist($id) {
 		global $database;
 		$this->init();
@@ -460,7 +459,6 @@ class Post {
 		return POD::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".$this->blogid." AND id = $id AND category >= 0 AND draft = 0");
 	}
 	
-	/*@static@*/
 	function doesAcceptTrackback($id) {
 		global $database;
 		$this->init();
@@ -471,7 +469,6 @@ class Post {
 			WHERE blogid = ".$this->blogid." AND id = $id AND draft = 0 AND visibility > 0 AND category >= 0 AND acceptTrackback = 1");
 	}
 	
-	/*@static@*/
 	function updateComments($id = null) {
 		global $database;
 		$this->init();
@@ -494,7 +491,6 @@ class Post {
 		return $succeeded;
 	}
 	
-	/*@static@*/
 	function updateTrackbacks($id = null) {
 		global $database;
 		$this->init();
@@ -519,7 +515,6 @@ class Post {
 		return $succeeded;	
 	}
 	
-	/*@static@*/
 	function makeSlogan($title) {
 		$slogan = preg_replace('/-+/', ' ', $title);
 		$slogan = preg_replace('/[!-\/:-@\[-\^`{-~]+/', '', $slogan);
@@ -528,12 +523,10 @@ class Post {
 		return strlen($slogan) > 0 ? $slogan : 'XFile';
 	}
 	
-	/*@static@*/
 	function validateSlogan($slogan) {
 		return preg_match('/^[^!-,.\/:-@\[-\^`{-~\s]+$/', $slogan);
 	}
 	
-	/*@static@*/
 	function makePassword($plain = null) {
 		return $plain ? md5($plain) : md5(microtime());
 	}

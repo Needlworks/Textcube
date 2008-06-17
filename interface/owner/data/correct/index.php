@@ -90,21 +90,21 @@ set_time_limit(0);
 $item = 0;
 $corrected = 0;
 
-setProgress($item++ / $items * 100, _t('글의 댓글 정보를 다시 계산해서 저장합니다.'));
 requireComponent('Textcube.Data.Post');
-Post::updateComments();
+$post = new Post;
+
+setProgress($item++ / $items * 100, _t('글의 댓글 정보를 다시 계산해서 저장합니다.'));
+
+$post->updateComments();
 
 setProgress($item++ / $items * 100, _t('글의 걸린글 정보를 다시 계산해서 저장합니다.'));
-requireComponent('Textcube.Data.Post');
-Post::updateTrackbacks();
+$post->updateTrackbacks();
 
 setProgress($item++ / $items * 100, _t('분류의 글 정보를 다시 계산해서 저장합니다.'));
-requireComponent('Textcube.Data.Post');
 updateEntriesOfCategory($blogid);
 
 setProgress($item++ / $items * 100, _t('태그와 태그 관계 정보를 다시 계산해서 저장합니다.'));
-requireComponent('Textcube.Data.Post');
-Post::correctTagsAll();
+$post->correctTagsAll();
 
 if ($result = POD::query("SELECT id, name, parent, homepage, comment, entry, isFiltered FROM {$database['prefix']}Comments WHERE blogid = $blogid")) {
 	while ($comment = POD::fetch($result)) {

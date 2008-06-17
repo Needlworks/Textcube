@@ -151,7 +151,8 @@ function receiveTrackback($blogid, $entry, $title, $url, $excerpt, $site) {
 	if (empty($url))
 		return 5;
 	requireComponent('Textcube.Data.Post');
-	if (!Post::doesAcceptTrackback($entry))
+	$post = new Post;
+	if (!$post->doesAcceptTrackback($entry))
 		return 3;
 		
 	$filtered = 0;
