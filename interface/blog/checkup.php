@@ -376,9 +376,15 @@ $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));
 fclose($fp);
-if ((preg_match('@rewrite\.php@', $content) == 0 ) || (strpos($content,'[OR]') !== false) || (strpos($content,' -d') == false)) {
-	$fp = fopen($filename, "w");
+if ((preg_match('@rewrite\.php@', $content) == 0 ) || 
+		(strpos($content,'[OR]') !== false) || 
+		(strpos($content,' -d') == false) ||
+		(strpos($content,'(cache|xml|txt|log)') == false)
+		) {
 	echo '<li>', _textf('htaccess 규칙을 수정합니다.'), ': ';
+	$fp = fopen($filename.'_backup_'.Timestamp::format('%Y%m%d'), "w");
+	fwrite($fp,$content);
+	fclose($fp);
 	$content = 
 "#<IfModule mod_url.c>
 #CheckURL Off
@@ -386,9 +392,12 @@ if ((preg_match('@rewrite\.php@', $content) == 0 ) || (strpos($content,'[OR]') !
 #SetEnv PRELOAD_CONFIG 1
 RewriteEngine On
 RewriteBase ".$service['path']."/
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^(cache)+/+(.+[^/])\.(cache|xml|txt|log)$ - [NC,F,L]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^(.+[^/])$ $1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(thumbnail)/([0-9]+/.+)$ cache/$1/$2 [L]
 RewriteRule ^(.*)$ rewrite.php [L,QSA]
 ";
 	$fp = fopen($filename, "w");
