@@ -33,11 +33,12 @@ class Post {
 			null;
 	}
 	function init() {
-		if(!isset($this->blogid)) $this->blogid = getBlogId();
+		if(!isset($this->blogid) || $this->blogid === null) $this->blogid = getBlogId();
 	}
 	/*@polymorphous(numeric $id, $fields, $sort)@*/
 	function open($filter = '', $fields = '*', $sort = 'published DESC') {
 		global $database;
+		$this->close();
 		$this->init();
 		if (is_numeric($filter))
 			$filter = 'AND id = ' . $filter;
@@ -45,8 +46,7 @@ class Post {
 			$filter = 'AND ' . $filter;
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
-		$this->close();
-		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND category >= 0 $filter $sort");
+		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}Entries WHERE blogid = {$this->blogid} AND draft = 0 AND category >= 0 $filter $sort");
 		if ($this->_result)
 			$this->_count = POD::num_rows($this->_result);
 		return $this->shift();
