@@ -151,18 +151,21 @@ function receiveTrackback($blogid, $entry, $title, $url, $excerpt, $site) {
 	if (empty($url))
 		return 5;
 	requireComponent('Textcube.Data.Post');
-	if (!Post::doesAcceptTrackback($entry))
+	$post = new Post;
+	if (!$post->doesAcceptTrackback($entry))
 		return 3;
 		
 	$filtered = 0;
 	
 	requireComponent('Textcube.Data.Filter');
-	if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']) || Filter::isFiltered('url', $url))
-		$filtered = 1;
-	else if (Filter::isFiltered('content', $excerpt))
-		$filtered = 1;
-	else if (!fireEvent('AddingTrackback', true, array('entry' => $entry, 'url' => $url, 'site' => $site, 'title' => $title, 'excerpt' => $excerpt)))
-		$filtered = 1;
+	if (!Filter::isAllowed($url)) {
+		if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']) || Filter::isFiltered('url', $url))
+			$filtered = 1;
+		else if (Filter::isFiltered('content', $excerpt))
+			$filtered = 1;
+		else if (!fireEvent('AddingTrackback', true, array('entry' => $entry, 'url' => $url, 'site' => $site, 'title' => $title, 'excerpt' => $excerpt)))
+			$filtered = 1;
+	}
 
 	$title = correctTTForXmlText($title);
 	$excerpt = correctTTForXmlText($excerpt);

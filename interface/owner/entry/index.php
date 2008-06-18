@@ -420,8 +420,8 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 											request.onSuccess = function () {
 												hrefString = "<?php echo $blogURL;?>/owner/entry/";
 												queryPage = document.getElementById('list-form').page.value;
-												queryCategory = document.getElementById('category-form').category.value;
-												querySearch = document.getElementById('search-form').search.value;
+												queryCategory = document.getElementById('category-form-top').category.value;
+												querySearch = document.getElementById('post-search-form').search.value;
 												
 												queryString = "";
 												if (queryPage != "") {
@@ -666,9 +666,9 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 									request.send();
 								}
 								
-								function toggleDeleteButton(obj) {
+								function toggleDeleteButton(obj, position) {
 									index = obj.selectedIndex;
-									button = document.getElementById("apply-button");
+									button = document.getElementById("apply-button-" + position);
 									
 									if (obj.options[index].value == "delete") {
 										button.className = button.className.replace("apply-button", "delete-button");
@@ -784,7 +784,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								<input type="button" class="input-button" onclick="processBatchByCommand('publish');return false;" value="<?php echo _t('공개');?>"/>
 								<input type="button" class="input-button" onclick="processBatchByCommand('classify');return false;" value="<?php echo _t('비공개');?>"/>
 								<?php echo _t('또는');?>
-								<select name="commandBoxTop" id="commandBoxTop" onchange="toggleDeleteButton(this);return false;"> 
+								<select name="commandBoxTop" id="commandBoxTop" onchange="toggleDeleteButton(this, 'top');return false;"> 
 									<option class="default" selected="selected"><?php echo _t('행동을 지정합니다.');?></option>
 <?php
 $categories = getCategories($blogid);
@@ -1008,7 +1008,7 @@ if($entry['category'] < 0) {
 										<input type="button" class="input-button" onclick="processBatchByCommand('publish');return false;" value="<?php echo _t('공개');?>"/>
 										<input type="button" class="input-button" onclick="processBatchByCommand('classify');return false;" value="<?php echo _t('비공개');?>"/>
 										<?php echo _t('또는');?>
-										<select name="commandBoxBottom" id="commandBoxBottom" onchange="toggleDeleteButton(this)"> 
+										<select name="commandBoxBottom" id="commandBoxBottom" onchange="toggleDeleteButton(this, 'bottom');return false;"> 
 											<option class="default" selected="selected"><?php echo _t('행동을 지정합니다.');?></option>
 <?php
 	$categories = getCategories($blogid);

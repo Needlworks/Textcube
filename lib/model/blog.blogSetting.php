@@ -349,6 +349,10 @@ function addBlog($blogid, $userid, $identify) {
 	//return true; // unreachable code
 }
 
+function getDefaultPostContent() {
+	return _t('<p>텍스트큐브 사용을 환영합니다. 텍스트큐브(Textcube) 는 웹에서 자신의 생각이나 일상을 기록하고 표현하기 위한 도구입니다. 강력한 글 관리와 편집 기능을 통하여 쉽고 빠르게 글을 작성하고 알릴 수 있습니다. 또한 통합된 소통 기능및 RSS 바깥글 읽기 기능을 통하여 다양한 사람들과 간단하게 의견을 주고 받을 수 있습니다.</p><p>또한 텍스트큐브는 플러그인과 테마 시스템을 통하여 다양한 기능을 추가하거나 스킨을 바꾸고 편집할 수 있습니다. 뿐만 아니라 OpenID, microformat 지원 등의 기술적인 부분 및 다국어 지원을 포함한 강력한 저작 도구입니다.</p><p>사용하며 도움말이 필요할 때는 관리자 메뉴의 우측 상단의 도우미 링크를 누르시면 도움말을 보실 수 있습니다. 기타 자세한 정보는 http://www.textcube.org 를 방문해서 확인하실 수 있습니다.</p><p>이 글은 새 블로그에 자동으로 적힌 글입니다. 관리자 화면에서 언제든지 지우셔도 됩니다.</p>'); // 언어팩에서 자유롭게 메세지를 변경할 수 있도록 함.
+}
+
 function setDefaultPost($blogid, $userid) {
 	requireModel('blog.entry');
 	$entry = array();
@@ -364,9 +368,9 @@ function setDefaultPost($blogid, $userid) {
 	$entry['acceptComment']    = 1;
 	$entry['acceptTrackback']  = 1;
 	$entry['published']        = null;
-	$entry['content']          =
-		_t('<p>텍스트큐브 사용을 환영합니다. 텍스트큐브(Textcube) 는 웹에서 자신의 생각이나 일상을 기록하고 표현하기 위한 도구입니다. 강력한 글 관리와 편집 기능을 통하여 쉽고 빠르게 글을 작성하고 알릴 수 있습니다. 또한 통합된 소통 기능및 RSS 바깥글 읽기 기능을 통하여 다양한 사람들과 간단하게 의견을 주고 받을 수 있습니다.</p><p>또한 텍스트큐브는 플러그인과 테마 시스템을 통하여 다양한 기능을 추가하거나 스킨을 바꾸고 편집할 수 있습니다. 뿐만 아니라 OpenID, microformat 지원 등의 기술적인 부분 및 다국어 지원을 포함한 강력한 저작 도구입니다.</p><p>사용하며 도움말이 필요할 때는 관리자 메뉴의 우측 상단의 도우미 링크를 누르시면 도움말을 보실 수 있습니다. 기타 자세한 정보는 http://www.textcube.org 를 방문해서 확인하실 수 있습니다.</p><p>이 글은 새 블로그에 자동으로 적힌 글입니다. 관리자 화면에서 언제든지 지우셔도 됩니다.</p>'); // 언어팩에서 자유롭게 메세지를 변경할 수 있도록 함.
-	addEntry($blogid, $entry, $userid);
+	$entry['firstEntry']       = true;
+	$entry['content']          = getDefaultPostContent();
+	return addEntry($blogid, $entry, $userid);
 }
 
 function getInvited($userid) {
@@ -520,7 +524,8 @@ function removeBlog($blogid) {
 	POD::execute("DELETE FROM {$database['prefix']}FeedSettings WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}Filters WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}Links WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}PageCachelog WHERE blogid = $blogid");
+	POD::execute("DELETE FROM {$database['prefix']}LinkCategories WHERE blogid = $blogid");
+	POD::execute("DELETE FROM {$database['prefix']}PageCacheLog WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}Plugins WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}RefererLogs WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}RefererStatistics WHERE blogid = $blogid");
@@ -529,6 +534,7 @@ function removeBlog($blogid) {
 	POD::execute("DELETE FROM {$database['prefix']}Teamblog WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = $blogid");
+	POD::execute("DELETE FROM {$database['prefix']}XMLRPCPingSettings WHERE blogid = $blogid");
 	
 	//Delete Tags
 	if (count($tags) > 0) 

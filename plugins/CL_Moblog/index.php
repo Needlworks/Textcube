@@ -140,9 +140,14 @@ class Moblog
 	}
 
 	function _getDecoratedContent( & $mail, $docid ) {
+			if( !empty($mail['text']) && strstr($mail['text'],'magicn.com') ) {
+				$mail['text'] = preg_replace( '@.*<BODY>(.*?)<style.*@smi', '$1', $mail['text']);
+				$mail['text'] = preg_replace( '@<IMG[^>]*?cid:[^>]*?>@smi', '', $mail['text']);
+				$mail['text'] = preg_replace( '@<BR>\s*<BR>\s*<BR>@smi', '<BR>', $mail['text']);
+			}
 			$text = "<h3 id=\"$docid\">$docid</h3>\r\n";
 			$text .= empty($mail['subject']) ? '' : ("<p>".$mail['subject']."</p>\r\n");
-			$text .= isset($mail['text']) ? (!stristr($mail['text'],'table')? "<p>{$mail['text']}</p>" : '') : '';
+			$text .= "<p>{$mail['text']}</p>\r\n";
 			return $text;
 	}
 

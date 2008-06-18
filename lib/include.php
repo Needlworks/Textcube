@@ -11,6 +11,7 @@ if(!isset($__requireComponent)) $__requireComponent = array();
 if(!isset($__requireModel)) $__requireModel = array();
 if(!isset($__requireView)) $__requireView = array();
 if(!isset($__requireInit)) $__requireInit = array();
+if(!isset($service)) $service = array();
 
 /***** Define binders *****/
 function requireComponent($name) {
@@ -18,7 +19,7 @@ function requireComponent($name) {
 	//if (!preg_match('/^[a-zA-Z0-9\.]+$/', $name))		return;
 	$name = str_replace('Tattertools', 'Textcube',$name); // Legacy routine.
 	if(!in_array($name,$__requireComponent)) {
-		include_once (ROOT . "/components/$name.php");
+		include_once (ROOT . "/lib/components/$name.php");
 		array_push($__requireComponent,$name);
 	}
 }
@@ -55,10 +56,10 @@ $__requireComponent = array(
 	'Textcube.Function.Respond',
 	'Needlworks.Cache.PageCache');
 foreach($__requireComponent as $lib) {
-	require ROOT .'/components/'.$lib.'.php';
+	require ROOT .'/lib/components/'.$lib.'.php';
 } 
 /***** Loading code pieces *****/
-if((isset($service['codecache']) && $service['codecache'] == true) && file_exists(ROOT.'/cache/code/'.$codeName)) {
+if(isset($service['codecache']) && ($service['codecache'] == true) && file_exists(ROOT.'/cache/code/'.$codeName)) {
 	$codeCacheRead = true;
 	require(ROOT.'/cache/code/'.$codeName);
 } else {
@@ -87,7 +88,8 @@ if((isset($service['codecache']) && $service['codecache'] == true) && file_exist
 		else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
 	}
 }
-if($service['codecache'] == true && $codeCacheRead == false) {
+if(isset($service['codecache'])
+		&& $service['codecache'] == true && $codeCacheRead == false) {
 	requireComponent('Needlworks.Cache.PageCache');
 	$libCode = new CodeCache();
 	$libCode->name = $codeName;

@@ -103,9 +103,39 @@ class Filter {
 	/*@static@*/
 	function isFiltered($type, $value) {
 		global $database;
-		$type = POD::escapeString($type);
-		$value = POD::escapeString($value);
-		return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = '$type' AND '$value' LIKE CONCAT('%', pattern, '%')");
+
+		switch ($type) {
+			case 'ip':
+				$ip = explode('.', $value);
+				$conditions = array();
+				for ($i = 1; $i <= 4; $i++) {
+					$pattern = array_slice($ip, 0, $i);
+					if (($num = count($pattern)) < 4) {
+						for ($j = 0; $j < 4 - $num; $j++) {
+							$pattern[] = '*';
+						}
+					}
+					$conditions[] = 'pattern = "'.POD::escapeString(implode('.', $pattern)).'"';
+				}
+				if (!empty($conditions)) {
+					$conditions = ' AND ('.implode(' OR ', $conditions).')';
+				} else {
+					$conditions = ' AND 1 = 0';
+				}
+				return POD::queryExistence('SELECT * FROM '.$database['prefix'].'Filters WHERE blogid = '.getBlogId().' AND type = "ip"'.$conditions.' LIMIT 1');
+			default:
+				$type = POD::escapeString($type);
+				$value = POD::escapeString($value);
+				return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = '$type' AND '$value' LIKE CONCAT('%', pattern, '%') LIMIT 1");
+		}
+	}
+
+	/*@static@*/
+	function isAllowed($whiteurl) {
+		global $database;
+
+		$whiteurl = POD::escapeString($whiteurl);
+		return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = 'whiteurl' AND '$whiteurl' LIKE CONCAT('%', pattern, '%') LIMIT 1");
 	}
 	
 	function _buildQuery() {
@@ -123,6 +153,7 @@ class Filter {
 				case 'ip':
 				case 'name':
 				case 'url':
+				case 'whiteurl':
 					break;
 				default:
 					return $this->_error('type');

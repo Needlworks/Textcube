@@ -8,6 +8,8 @@ if (isset($_POST['page']))
 if (isset($_GET['category'])) $_POST['category'] = $_GET['category'];
 if (isset($_GET['name'])) $_POST['name'] = $_GET['name'];
 if (isset($_GET['ip'])) $_POST['ip'] = $_GET['ip'];
+if (isset($_GET['site'])) $_POST['site'] = $_GET['site'];
+if (isset($_GET['url'])) $_POST['url'] = $_GET['url'];
 if (isset($_GET['withSearch'])) $_POST['withSearch'] = $_GET['withSearch'];
 if (isset($_GET['search'])) $_POST['search'] = $_GET['search'];
 if (isset($_GET['trashType'])) $_POST['trashType'] = $_GET['trashType'];
@@ -19,6 +21,7 @@ $IV = array(
 	'POST' => array(
 		'category' => array('int', 'default' => 0),
 		'site' => array('string', 'default' => ''),
+		'url' => array('url', 'default' => ''),
 		'ip' => array('ip', 'default' => ''),
 		'withSearch' => array(array('on'), 'mandatory' => false),
 		'search' => array('string', 'default' => ''),
@@ -32,6 +35,7 @@ requireModel("blog.trash");
 
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $site = empty($_POST['site']) ? '' : $_POST['site'];
+$url = empty($_POST['url']) ? '' : $_POST['url'];
 $ip = empty($_POST['ip']) ? '' : $_POST['ip'];
 $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
 $perPage = getBlogSetting('rowsPerPage', 10); 
@@ -47,7 +51,7 @@ $tabsClass['postfix'] .= isset($_POST['ip']) ? '&ip='.$_POST['ip'] : '';
 $tabsClass['postfix'] .= isset($_POST['search']) ? '&search='.$_POST['search'] : '';
 $tabsClass['trash'] = true;
 
-list($trackbacks, $paging) = getTrashTrackbackWithPagingForOwner($blogid, $categoryId, $site, $ip, $search, $suri['page'], $perPage);
+list($trackbacks, $paging) = getTrashTrackbackWithPagingForOwner($blogid, $categoryId, $site, $url, $ip, $search, $suri['page'], $perPage);
 require ROOT . '/lib/piece/owner/header.php';
 
 ?>
@@ -357,7 +361,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 <?php
 	}
 ?>
-												<a href="<?php echo $blogURL;?>/owner/communication/trash/trackback?site=<?php echo urlencode(escapeJSInAttribute($trackback['site']));?>" title="<?php echo _t('이 사이트에서 건 글 목록을 보여줍니다.');?>"><?php echo htmlspecialchars($trackback['site']);?></a>
+												<a href="<?php echo $blogURL;?>/owner/communication/trash/trackback?url=<?php echo urlencode(escapeJSInAttribute($trackback['url']));?>" title="<?php echo _t('이 사이트에서 건 글 목록을 보여줍니다.');?>"><?php echo htmlspecialchars($trackback['site']);?></a>
 											</td>
 											<td class="category">
 <?php

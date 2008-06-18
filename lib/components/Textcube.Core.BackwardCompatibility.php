@@ -22,7 +22,7 @@ function iconvWrapper($from, $to, $str) {
 	else if (function_exists('mb_convert_encoding'))
 		return @mb_convert_encoding($str, $to, $from);
 	else {
-		include_once (ROOT . '/iconv.php');
+		include_once (ROOT . '/lib/function/iconv.php');
 		if (function_exists('iconv'))
 			return @iconv($from, $to, $str);
 		else

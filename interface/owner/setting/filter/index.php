@@ -6,7 +6,7 @@ $IV = array(
 	'POST' => array(
 		'mode' => array( array( 'ip','content' , 'url', 'name') ,'default'=>null),
 		'contentValue' => array('string' , 'default' => null),
-		'ipValue' => array('ip' , 'default' => null),
+		'ipValue' => array('string' , 'default' => null),
 		'urlValue' => array('url' , 'default' => null),
 		'nameValue' => array('string' , 'default' => null)
 	),
@@ -161,11 +161,32 @@ function printFilterBox($mode, $title) {
 									}
 									
 									if(mode == 'ip') {
-										reg = /\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/;
-										if(!reg.test(target.value)) {
-											alert("<?php echo _t('잘못된 IP 주소입니다.');?>");
-											return;
-										};
+										var valid = false;
+										if (/\b[0-9.*]+\b/.test(target.value)) {
+											var segment = target.value.split('.');
+											if (segment.length == 4) {
+												var reg = /[0-9]+/, wildcardStarted = false;
+												for (var i = 0; i < 4; i++) {
+													if (reg.test(segment[i])) {
+														if (wildcardStarted || segment[i] > 255 || segment[i] < 0) {
+															valid = false;
+															break;
+														}
+													} else {
+														if (segment[i] != '*') {
+															valid = false;
+															break;
+														}
+														wildcardStarted = true;
+													}
+													valid = true;
+												}
+											}
+											if (!valid) {
+												alert("<?php echo _t('잘못된 IP 주소입니다.');?>");
+												return;
+											}
+										}
 									}
 									
 									switch (mode) {
