@@ -59,7 +59,7 @@ foreach($__requireComponent as $lib) {
 	require ROOT .'/lib/components/'.$lib.'.php';
 } 
 /***** Loading code pieces *****/
-if(($service['codecache'] == true) && file_exists(ROOT.'/cache/code/'.$codeName)) {
+if(isset($service['codecache']) && ($service['codecache'] == true) && file_exists(ROOT.'/cache/code/'.$codeName)) {
 	$codeCacheRead = true;
 	require(ROOT.'/cache/code/'.$codeName);
 } else {
