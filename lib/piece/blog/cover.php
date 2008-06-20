@@ -7,7 +7,7 @@
 if (isset($cache->contents)) {
 	dress('cover', $cache->contents, $view);
 } else if (isset($skin)) {
-	$automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
+	$automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/resources/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
 	if( rtrim( $suri['url'], '/' ) == $pathURL ) {
 		/* same code exists in entries.php */
 		$automaticLink .= "<link rel=\"meta\" type=\"application/rdf+xml\" title=\"FOAF\" href=\"{$defaultURL}/foaf\" />\n";

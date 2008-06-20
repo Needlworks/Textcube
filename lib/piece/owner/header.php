@@ -322,7 +322,7 @@ if (file_exists(ROOT.$adminSkinSetting['editorTemplate'])) {
 <?php
 } else {
 ?>
-			var editorCSS = "/style/default-wysiwyg.css";
+			var editorCSS = "/resources/style/default-wysiwyg.css";
 <?php
 }
 
@@ -330,30 +330,30 @@ include ROOT . '/language/messages.php';
 ?>
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/byTextcube.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF4.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/owner.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/byTextcube.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/EAF4.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/common2.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/owner.js"></script>
 <?php
 if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
 ?>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/mootools10.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/moodalbox/moodalbox.js"></script>
-	<link rel="stylesheet" href="<?php echo $service['path'];?>/style/helper/moodalbox.css" type="text/css" media="screen" />
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/mootools10.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/moodalbox/moodalbox.js"></script>
+	<link rel="stylesheet" href="<?php echo $service['path'];?>/resources/style/helper/moodalbox.css" type="text/css" media="screen" />
 <?php
 }
 ?>
 <?php
 /*if($service['helperPanel'] == true) {
 ?>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/dojo/dojo.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/helpdialog.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/dojo/dojo.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/helpdialog.js"></script>
 <?php
 }*/
 if(($service['interface'] == 'simple') || ($service['effect'])) {
 	if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
 ?>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/mootools.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/mootools.js"></script>
 <?php
 	}
 }
@@ -361,18 +361,18 @@ if( isset($service['admin_script']) ) {
 	if( is_array($service['admin_script']) ) {
 		foreach( $service['admin_script'] as $src ) {
 ?>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/<?php echo $src;?>"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/<?php echo $src;?>"></script>
 <?php
 		}
 	} else {
 ?>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/<?php echo $service['admin_script'];?>"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/<?php echo $service['admin_script'];?>"></script>
 <?php
 	}
 }
 if($blogMenu['topMenu']=='entry' && in_array($blogMenu['contentMenu'],array('post','edit'))) {
 ?>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/editor3.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/editor3.js"></script>
 <?php
 }
 echo fireEvent('ShowAdminHeader', '');

@@ -6,7 +6,7 @@ require ROOT . '/lib/includeForBlogOwner.php';
 require ROOT . '/lib/piece/owner/header.php';
 
 ?>
-						<script type="text/javascript" src="<?php echo $service['path'];?>/script/generaltag.js"></script>
+						<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/generaltag.js"></script>
 						<script type="text/javascript">
 							//<![CDATA[
 								var title = "<?php echo escapeJSInCData($blog['title']);?>";

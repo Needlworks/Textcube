@@ -44,7 +44,6 @@ $__requireBasics = array(
 	'function/mail');
 
 require ROOT.'/lib/include.php';
-require ROOT.'/lib/config.php';
 require ROOT.'/lib/database.php';
 require ROOT.'/lib/locale.php';
 requireModel('blog.blogSetting');

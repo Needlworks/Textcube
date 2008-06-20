@@ -106,7 +106,7 @@ if (isset($paging['next'])) {
 <?php
 if($service['effect'] == true) {
 ?>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/owner.fx.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/owner.fx.js"></script>
 <?php
 }
 ?>

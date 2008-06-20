@@ -24,7 +24,7 @@
 	// Support Tattertools 0.9x legacy address (for upgrade users)
 	if (array_key_exists('pl', $_GET) && strval(intval($_GET['pl'])) == $_GET['pl']) { header("Location: ".$accessInfo['root'].$_GET['pl']); exit;}
 	$part = strtok($accessInfo['input'], '/');
-	if (in_array($part, array('image','plugins','script','cache','skin','style','attach','thumbnail'))) {
+	if (in_array($part, array('resource','plugins','cache','skin','attach','thumbnail'))) {
 		$part = ltrim(rtrim($part == 'thumbnail' ?
 			  preg_replace('/thumbnail/', 'cache/thumbnail', $accessInfo['input'], 1) :
 			  $accessInfo['input']), '/');

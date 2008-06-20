@@ -67,7 +67,7 @@ if (file_exists(ROOT.$adminSkinSetting['editorTemplate'])) {
 <?php
 } else {
 ?>
-			var editorCSS = "/style/default-wysiwyg.css";
+			var editorCSS = "/resources/style/default-wysiwyg.css";
 <?php
 }
 
@@ -76,12 +76,12 @@ include ROOT . '/language/messages.php';
 		//]]>
 	</script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/language/messages.php"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/byTextcube.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF4.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/gallery.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/owner.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/editor3.js"></script> 
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/byTextcube.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/EAF4.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/common2.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/gallery.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/owner.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/editor3.js"></script> 
 <?php echo fireEvent('ShowAdminHeader', ''); ?>
 </head>
 <body id="body-entry"<?php echo (empty($htmlBodyEvents) ? '' : ' '.$htmlBodyEvents);?>>

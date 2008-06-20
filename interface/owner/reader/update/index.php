@@ -25,7 +25,7 @@ ob_implicit_flush();
 	<head>
 		<title>Update all feeds</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<script type="text/javascript" src="<?php echo $serviceURL;?>/script/common2.js"></script>
+		<script type="text/javascript" src="<?php echo $serviceURL;?>/resources/script/common2.js"></script>
 		<script type="text/javascript">
 			//<![CDATA[
 				var servicePath = "<?php echo $service['path'];?>";
@@ -62,7 +62,7 @@ foreach ($feeds as $feed) {
 					try{
 						parent.Reader.startScroll("feedBox", getOffsetTop(icon) - getOffsetTop(parent.document.getElementById("feedBox")) - 50);
 					} catch(e) {alert(e.message);}
-					icon.src = servicePath + "/style/default/image/reader/iconUpdateIng.gif";
+					icon.src = servicePath + "/resources/style/default/image/reader/iconUpdateIng.gif";
 				}
 			//]]>
 		</script>		
@@ -76,10 +76,10 @@ foreach ($feeds as $feed) {
 				if(icon) {
 					switch(<?php echo $result;?>) {
 						case 0:
-							icon.src = servicePath + "/style/default/image/reader/iconUpdate.gif";
+							icon.src = servicePath + "/resources/style/default/image/reader/iconUpdate.gif";
 							break;
 						default:
-							icon.src = servicePath + "/style/default/image/reader/iconFailure.gif";
+							icon.src = servicePath + "/resources/style/default/image/reader/iconFailure.gif";
 					}			
 				}
 				progress.innerHTML = "(<?php echo sprintf('%.1f', $count * 100 / sizeof($feeds));?>%)";

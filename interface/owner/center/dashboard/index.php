@@ -178,8 +178,8 @@ $editClass = NULL;
 if (isset($_REQUEST['edit'])) {
 	$editClass = "-edit";
 ?>
-<script src="<?php echo $service['path'];?>/script/dojo/dojo.js" type="text/javascript"></script>
-<script src="<?php echo $service['path'];?>/script/dashboard.js" type="text/javascript"></script>
+<script src="<?php echo $service['path'];?>/resources/script/dojo/dojo.js" type="text/javascript"></script>
+<script src="<?php echo $service['path'];?>/resources/script/dashboard.js" type="text/javascript"></script>
 <?php
 }
 ?>

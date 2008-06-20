@@ -319,7 +319,7 @@ function printEntryFileList($attachments, $param) {
 														}
 														
 														if((new RegExp("\\.(mp3)$", "gi").exec(fileName))) {
-															var str = getEmbedCode("<?php echo $service['path'];?>/script/jukebox/flash/mini.swf","100%","100%", "jukeBox0Flash","#FFFFFF", "sounds=<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/"+fileName+"&autoplay=false", "false");
+															var str = getEmbedCode("<?php echo $service['path'];?>/resources/script/jukebox/flash/mini.swf","100%","100%", "jukeBox0Flash","#FFFFFF", "sounds=<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/"+fileName+"&autoplay=false", "false");
 															writeCode(str, 'previewSelected');
 															return false;
 														}
@@ -774,7 +774,7 @@ function printEntryFileList($attachments, $param) {
 											</script>
 											
 <?php
-	require_once ROOT.'/script/detectFlash.inc';
+	require_once ROOT.'/resources/script/detectFlash.inc';
 	$maxSize = min( return_bytes(ini_get('upload_max_filesize')) , return_bytes(ini_get('post_max_size')) );
 ?>
 
@@ -790,12 +790,12 @@ function printEntryFileList($attachments, $param) {
 														uploaderStr = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="uploader"'
 															+ 'width="0" height="0"'
 															+ 'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">'
-															+ '<param name="movie" value="<?php echo $service['path'];?>/script/uploader/uploader.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="uploadPath=<?php echo $param['uploadPath'];?>'
+															+ '<param name="movie" value="<?php echo $service['path'];?>/resources/script/uploader/uploader.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="uploadPath=<?php echo $param['uploadPath'];?>'
 															+ entryManager.entryId
 															+ '&labelingPath=<?php echo $param['labelingPath'];?>'
 															+ entryManager.entryId
 															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[getSessionName()];?>" />'
-															+ '<embed id="uploader2" src="<?php echo $service['path'];?>/script/uploader/uploader.swf" flashvars="uploadPath=<?php echo $param['uploadPath'];?>'
+															+ '<embed id="uploader2" src="<?php echo $service['path'];?>/resources/script/uploader/uploader.swf" flashvars="uploadPath=<?php echo $param['uploadPath'];?>'
 															+ entryManager.entryId
 															+ '&labelingPath=<?php echo $param['labelingPath'];?>'
 															+ entryManager.entryId

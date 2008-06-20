@@ -75,8 +75,8 @@ if (defined('__TEXTCUBE_POST__')) {
 	printOwnerEditorScript($entry['id']);
 }
 ?>
-						<script type="text/javascript" src="<?php echo $service['path'];?>/script/generaltag.js"></script>
-						<script type="text/javascript" src="<?php echo $service['path'];?>/script/locationtag.js"></script>
+						<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/generaltag.js"></script>
+						<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/locationtag.js"></script>
 						<script type="text/javascript">
 							//<![CDATA[
 								var enclosured = "<?php echo getEnclosure($entry['id']);?>";

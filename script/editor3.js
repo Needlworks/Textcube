@@ -154,7 +154,7 @@ iMazingProperties['navigation'] = 'net_imazing_show_window_navigation_simple';
 iMazingProperties['slideshowInterval'] = 10;
 iMazingProperties['page'] = 1;
 iMazingProperties['align'] = 'h';
-iMazingProperties['skinPath'] = servicePath + '/script/gallery/iMazing/';
+iMazingProperties['skinPath'] = servicePath + '/resources/script/gallery/iMazing/';
 
 function editorAddObject(editor, mode) {
 	var oSelect = document.forms[0].TCfilelist;

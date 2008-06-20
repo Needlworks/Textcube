@@ -202,8 +202,8 @@ function printIphoneHtmlHeader($title = '') {
 		<title><?php echo $title;?></title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
-		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/style/iphone/iphone.css" />
-		<script type="application/x-javascript" src="<?php echo $service['path'];?>/script/iphone/iphone.js"></script>
+		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/resources/style/iphone/iphone.css" />
+		<script type="application/x-javascript" src="<?php echo $service['path'];?>/resources/script/iphone/iphone.js"></script>
 	</head>
 	<body>
 <?php

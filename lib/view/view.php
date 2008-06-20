@@ -91,15 +91,15 @@ function getUpperView($paging) {
 		}
 	//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/EAF4.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/common2.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/gallery.js" ></script>
-    	<script type="text/javascript" src="<?php echo $service['path'];?>/script/flash.js" ></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/EAF4.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/common2.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/gallery.js" ></script>
+    	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/flash.js" ></script>
 
 <?php
 	if (doesHaveOwnership()) {
 ?>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/script/owner.js" ></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/owner.js" ></script>
 <?php
 	}
 ?>
@@ -119,12 +119,12 @@ function getUpperView($paging) {
 		'width','1',
 		'height','1',
 		'id','clipboardPoter',
-		'src','<?php echo $service['path'];?>/script/clipboardPoter/clipboardPoter',
+		'src','<?php echo $service['path'];?>/resources/script/clipboardPoter/clipboardPoter',
 		'wmode','transparent',
 		'name','clipboardPoter',
 		'allowscriptaccess','sameDomain',
 		'pluginspage','http://www.macromedia.com/go/getflashplayer',
-		'movie','<?php echo $service['path'];?>/script/clipboardPoter/clipboardPoter',
+		'movie','<?php echo $service['path'];?>/resources/script/clipboardPoter/clipboardPoter',
 		'flashvars', 'callback=onClipBorad'
 	);
 	window.clipboardPoter = document.getElementById("clipboardPoter");
@@ -1443,7 +1443,7 @@ function printFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly 
 
 function printScript($filename, $obfuscate = true) {
 	global $service, $hostURL, $blogURL;
-	if (!$file = @file_get_contents(ROOT . "/script/$filename"))
+	if (!$file = @file_get_contents(ROOT . "/resources/script/$filename"))
 		return '';
 	$file = "<script type=\"text/javascript\">//<![CDATA[" . CRLF
 		. "var servicePath=\"".$hostURL.$service['path']."\"; var blogURL=\"".$hostURL.$blogURL."/\";".$file;

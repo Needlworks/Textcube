@@ -55,7 +55,7 @@ if( !empty($_COOKIE['openid']) ) {
 				<div id="data-outbox">
 					<div id="login-box">
 						<div id="logo-box">
-							<img src="<?php echo $service['path'] ?>/style/admin/whitedream/image/logo_textcube.png" alt="<?php echo _text('텍스트큐브 로고'); ?>" />
+							<img src="<?php echo $service['path'] ?>/resources/style/admin/whitedream/image/logo_textcube.png" alt="<?php echo _text('텍스트큐브 로고'); ?>" />
 			            </div>
 			            
 			            <div class="field-box">

@@ -441,8 +441,8 @@ foreach ($coverpagePluginArray as $nowKey) {
 								<em>* <?php echo _t('표지의 위치는 스킨의 구조에 따라 달라집니다.');?></em>
 							</p>
 						</form>
-						<script src="<?php echo $service['path'];?>/script/dojo/dojo.js" type="text/javascript"></script>
-						<script src="<?php echo $service['path'];?>/script/coverpage.js" type="text/javascript"></script>
+						<script src="<?php echo $service['path'];?>/resources/script/dojo/dojo.js" type="text/javascript"></script>
+						<script src="<?php echo $service['path'];?>/resources/script/coverpage.js" type="text/javascript"></script>
 						<script type="text/javascript">
 							//<![CDATA[
 								var decorateDragPanelString_deleteTitle = "<?php echo _t('이 표지 모듈을 삭제합니다.');?>";

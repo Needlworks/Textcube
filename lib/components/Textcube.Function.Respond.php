@@ -53,7 +53,7 @@ class respond {
 	<head>
 		<title><?php echo TEXTCUBE_NAME;?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/style/owner.css" />
+		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/resources/style/owner.css" />
 	</head>
 	<body id="body-message-page">
 		<div class="message-box">
@@ -97,7 +97,7 @@ class respond {
 	<head>
 		<title><?php echo TEXTCUBE_NAME;?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/style/owner.css" />
+		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/resources/style/owner.css" />
 	</head>
 	<body id="body-message-page">
 		<div class="message-box">

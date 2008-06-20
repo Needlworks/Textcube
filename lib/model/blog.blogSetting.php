@@ -418,10 +418,10 @@ function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $sen
 		$subject = _textf('귀하를 %1님이 초대합니다', $senderName);
 	else
 		$subject = _textf('%1님을 %2님이 초대합니다', $name, $senderName);
-	$message = file_get_contents(ROOT . "/style/letter/letter.html");
+	$message = file_get_contents(ROOT . "/resources/style/letter/letter.html");
 	$message = str_replace('[##_title_##]', _text('초대장'), $message);
 	$message = str_replace('[##_content_##]', $comment, $message);
-	$message = str_replace('[##_images_##]', $serviceURL."/style/letter", $message);
+	$message = str_replace('[##_images_##]', $serviceURL."/resources/style/letter", $message);
 	$message = str_replace('[##_link_##]', getBlogURL($blogName) . '/login?loginid=' . rawurlencode($email) . '&password=' . rawurlencode($authtoken) . '&requestURI=' . rawurlencode(getBlogURL($blogName) . "/owner/setting/account?password=" . rawurlencode($password)), $message);
 	$message = str_replace('[##_go_blog_##]', getBlogURL($blogName), $message);
 	$message = str_replace('[##_link_title_##]', _text('블로그 바로가기'), $message);
