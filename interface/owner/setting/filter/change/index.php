@@ -12,7 +12,7 @@ $IV = array(
 	)
 );
 
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 requireComponent('Textcube.Data.Filter');
 

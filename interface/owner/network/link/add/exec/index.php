@@ -11,7 +11,7 @@ $IV = array(
 		'newCategory' => array('string','mandatory'=>false)
 	)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.link");
 
 requireStrictRoute();

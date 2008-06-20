@@ -8,7 +8,7 @@ $IV = array(
 		'order' => array(array('0', '1'))
 	)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel('blog.attachment');
 requireStrictRoute();
 

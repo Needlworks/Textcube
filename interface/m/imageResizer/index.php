@@ -8,7 +8,7 @@ $IV = array(
 		'f' => array('filename')
 	)
 );
-require ROOT . '/lib/includeForBlog.php';
+require ROOT . '/library/includeForBlog.php';
 requireView('mobileView');
 $imagePath = ROOT . "/attach/$blogid/{$_GET['f']}";
 if ($fp = @fopen($imagePath, 'r')) {

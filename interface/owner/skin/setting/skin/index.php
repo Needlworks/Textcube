@@ -30,7 +30,7 @@ $IV = array(
 		'useFOAF' => array('int')
 	)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireComponent('Textcube.Function.Respond');
 requireStrictRoute();
 

@@ -7,7 +7,7 @@ $IV = array(
 		'parent' => array('int')
 	)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel('blog.attachment');
 $result = getAttachmentSizeLabel($blogid, $_GET['parent']);
 respond::PrintResult(array ('error' => empty($result) ? 1 : 0, 'result' => $result));

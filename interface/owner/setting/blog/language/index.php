@@ -8,7 +8,7 @@ $IV = array(
 		'blogLanguage'=> array('string', 'default' => 'ko')
 	)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 if (!empty($_GET['language']) && setBlogLanguage($blogid, $_GET['language'], $_GET['blogLanguage'])) {
 	respond::ResultPage(true);

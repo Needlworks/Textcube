@@ -17,7 +17,7 @@ $IV = array(
 			)
 		);
 
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireModel("blog.coverpage");
@@ -125,7 +125,7 @@ $result = ob_get_contents();
 ob_end_clean();
 
 if ($ajaxcall == false) {
-	require ROOT . '/lib/piece/owner/header.php';
+	require ROOT . '/library/piece/owner/header.php';
 	
 }
 
@@ -145,7 +145,7 @@ if ($ajaxcall == false) {
 echo '	</div>';
 echo '</form>';
 if ($ajaxcall == false) {
-	require ROOT . '/lib/piece/owner/footer.php';
+	require ROOT . '/library/piece/owner/footer.php';
 }
 
 

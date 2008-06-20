@@ -2,7 +2,7 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireComponent('Textcube.Function.misc');
 // get style files list in current skin.
 $styleFileList = array();
@@ -35,7 +35,7 @@ if (file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/skin_keyword.html")) {
 $htmlFilePerms = preg_replace('@^[0-9]{2}|[0-9]{2}$@', '', strrev(decoct(fileperms(ROOT . "/skin/blog/{$skinSetting['skin']}/skin.html"))));
 $styleFilePerms = preg_replace('@^[0-9]{2}|[0-9]{2}$@', '', $temp = strrev(decoct(fileperms(ROOT . "/skin/blog/{$skinSetting['skin']}/" . $currentStyleFile))));
 
-require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/library/piece/owner/header.php';
 
 ?>
 						<script type="text/javascript">
@@ -321,5 +321,5 @@ if (count($styleFileList) > 0) {
 							//]]>
 						</script>							
 <?php
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/library/piece/owner/footer.php';
 ?>

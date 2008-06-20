@@ -5,8 +5,8 @@
 
 define('__TEXTCUBE_LOGIN__',true);
 
-require ROOT . '/lib/includeForBlog.php';
-require ROOT . '/lib/model/blog.skin.php';
+require ROOT . '/library/includeForBlog.php';
+require ROOT . '/library/model/blog.skin.php';
 
 requireModel('common.setting');
 

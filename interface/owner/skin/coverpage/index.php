@@ -2,7 +2,7 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 $tabsClass['cover'] = true;
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
@@ -17,7 +17,7 @@ requireModel("blog.link");
 
 requireComponent('Textcube.Model.Statistics');
 
-require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/library/piece/owner/header.php';
 
 
 $service['pagecache'] = false; // For plugin setting update.
@@ -235,7 +235,7 @@ getBlogContentForCoverPage();
 						<form id="part-coverpage-order" class="part" method="post" action="<?php echo parseURL($blogURL.'/owner/skin/coverpage');?>">
 							<h2 class="caption"><span class="main-text"><?php echo _t('블로그 표지를 관리합니다');?></span></h2>
 <?php
-require ROOT . '/lib/piece/owner/skinTab.php';
+require ROOT . '/library/piece/owner/skinTab.php';
 ?>
 
 <?php
@@ -276,7 +276,7 @@ if (is_null($skin->cover) || count($coverpageMappings) == 0) {
 							</div>
 						</form>
 <?php
-	require ROOT . '/lib/piece/owner/footer.php';
+	require ROOT . '/library/piece/owner/footer.php';
 	exit;
 }
 
@@ -567,5 +567,5 @@ foreach ($coverpagePluginArray as $nowKey) {
 							//]]>							
 						</script>						
 <?php
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/library/piece/owner/footer.php';
 ?>

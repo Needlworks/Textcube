@@ -2,11 +2,11 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.link");
 
 $links = getLinks($blogid);
-require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/library/piece/owner/header.php';
 
 
 $tabsClass['list'] = true;
@@ -89,7 +89,7 @@ $tabsClass['list'] = true;
 						<div id="part-link-list" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('링크 목록입니다');?></span></h2>
 <?php
-require ROOT . '/lib/piece/owner/linkTab.php';
+require ROOT . '/library/piece/owner/linkTab.php';
 ?>
 							<table class="data-inbox" cellspacing="0" cellpadding="0">
 								<thead>
@@ -199,5 +199,5 @@ if (sizeof($links) > 0) echo "
 							</div>
 						</div>
 <?php
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/library/piece/owner/footer.php';
 ?>

@@ -21,5 +21,5 @@ $__requireInit = array(		// Initialize
 	'initialize');
 
 $codeName = 'includeForIcon.php';
-require ROOT.'/lib/include.php';
+require ROOT.'/library/include.php';
 ?>

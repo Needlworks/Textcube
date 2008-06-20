@@ -2,13 +2,13 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 $backup = null;
 if (file_exists(ROOT . "/cache/backup/$blogid.xml.gz"))
 	$backup = filemtime(ROOT . "/cache/backup/$blogid.xml.gz");
 else if (file_exists(ROOT . "/cache/backup/$blogid.xml"))
 	$backup = filemtime(ROOT . "/cache/backup/$blogid.xml");
-require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/library/piece/owner/header.php';
 
 requireComponent('Textcube.Function.misc');
 
@@ -435,5 +435,5 @@ if ($backup) {
 						
 			 			<iframe id="blackhole" name="blackhole" class="hidden"></iframe>
 <?php
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/library/piece/owner/footer.php';
 ?>

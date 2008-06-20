@@ -13,7 +13,7 @@ $IV = array(
 	)
 );
 
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 
 global $openid_list;
 $openid_list = array();

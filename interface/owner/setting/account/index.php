@@ -10,8 +10,8 @@ $IV = array(
 		'password' => array('any' ,'mandatory' => false)
 	)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
-require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/piece/owner/header.php';
 
 ?>
 						<script type="text/javascript">
@@ -685,5 +685,5 @@ $invitedList = getInvited(getUserId());
 <?php
 }
 
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/library/piece/owner/footer.php';
 ?>

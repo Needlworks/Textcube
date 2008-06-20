@@ -50,7 +50,7 @@ if (!function_exists('iconv')) {
 			return mb_convert_encoding($str, $out, $in);
 		}
 	} else {
-		include_once(ROOT . '/lib/function/iconv.php');
+		include_once(ROOT . '/library/function/iconv.php');
 	}
 }
 /* Workaround for NCR treatment. (contributed by Laziel) */

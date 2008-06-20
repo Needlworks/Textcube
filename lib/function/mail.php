@@ -9,9 +9,9 @@ function encodeMail($str) {
 
 function sendEmail($senderName, $senderEmail, $name, $email, $subject, $message ) {
 	requireComponent( 'Textcube.Function.misc' );
-	include_once( ROOT."/lib/contrib/phpmailer/class.phpmailer.php" );
+	include_once( ROOT."/library/contrib/phpmailer/class.phpmailer.php" );
 	$mail = new PHPMailer();
-	$mail->SetLanguage( 'en', ROOT."/lib/contrib/phpmailer/language/" );
+	$mail->SetLanguage( 'en', ROOT."/library/contrib/phpmailer/language/" );
 	$mail->IsHTML(true);
 	$mail->CharSet  = 'utf-8';
 	$mail->From     = $senderEmail;

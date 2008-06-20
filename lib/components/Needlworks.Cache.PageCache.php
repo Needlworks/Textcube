@@ -606,18 +606,18 @@ class CodeCache {
 			if(strpos($lib,'DEBUG') === false) $code .= file_get_contents(ROOT .'/components/'.$lib.'.php');
 		}*/
 		foreach((array_merge($__requireBasics,$__requireLibrary)) as $lib) {
-			if(strpos($lib,'DEBUG') === false) $code .= file_get_contents(ROOT .'/lib/'.$lib.'.php');
+			if(strpos($lib,'DEBUG') === false) $code .= file_get_contents(ROOT .'/library/'.$lib.'.php');
 		}
 		foreach($__requireModel as $lib) {
-			if(strpos($lib,'DEBUG') === false) $code .= file_get_contents(ROOT .'/lib/model/'.$lib.'.php');
+			if(strpos($lib,'DEBUG') === false) $code .= file_get_contents(ROOT .'/library/model/'.$lib.'.php');
 		}
 		
 		foreach($__requireView as $lib) {
-			if(strpos($lib,'DEBUG') === false) $code .= file_get_contents(ROOT .'/lib/view/'.$lib.'.php');
+			if(strpos($lib,'DEBUG') === false) $code .= file_get_contents(ROOT .'/library/view/'.$lib.'.php');
 		}
 		
 		foreach($__requireInit as $lib) {
-			if(strpos($lib,'DEBUG') === false) $code .= file_get_contents(ROOT .'/lib/'.$lib.'.php');
+			if(strpos($lib,'DEBUG') === false) $code .= file_get_contents(ROOT .'/library/'.$lib.'.php');
 		}
 		$this->code = $code;
 	}

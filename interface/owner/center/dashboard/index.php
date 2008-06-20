@@ -2,7 +2,7 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 
 requireLibrary('blog.skin');
 
@@ -19,7 +19,7 @@ $blogMenu['topMenu'] = 'center';
 $blogMenu['contentMenu'] = 'dashboard';
 // Move spams to trash.
 if (!isset($_REQUEST['ajaxcall'])) {
-	require ROOT . '/lib/piece/owner/header.php';
+	require ROOT . '/library/piece/owner/header.php';
 	
 	trashVan();
 }
@@ -717,5 +717,5 @@ function getDefaultCenterPanel($mapping) {
 									</div>
 <?php
 }
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/library/piece/owner/footer.php';
 ?>

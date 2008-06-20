@@ -2,7 +2,7 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-require ROOT . '/lib/includeForBlog.php';
+require ROOT . '/library/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }
@@ -14,7 +14,7 @@ if (isset($suri['id']) || (isset($suri['value']) && strlen($suri['value']) > 0))
 		list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value'], true);
 	}
 	fireEvent('OBStart');
-	require ROOT . '/lib/piece/blog/begin.php';
+	require ROOT . '/library/piece/blog/begin.php';
 	
 	$automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/resources/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
 	dress('SKIN_head_end', $automaticLink."[##_SKIN_head_end_##]", $view);
@@ -29,20 +29,20 @@ if (isset($suri['id']) || (isset($suri['value']) && strlen($suri['value']) > 0))
 		}
 		unset($paging);
 	} else {
-		require ROOT . '/lib/piece/blog/entries.php';
+		require ROOT . '/library/piece/blog/entries.php';
 	}
-	require ROOT . '/lib/piece/blog/end.php';
+	require ROOT . '/library/piece/blog/end.php';
 	fireEvent('OBEnd');
 } else {
 	list($entries, $paging) = getEntriesWithPagingByNotice($blogid, $suri['page'], $blog['entriesOnPage']);
 	fireEvent('OBStart');
-	require ROOT . '/lib/piece/blog/begin.php';
+	require ROOT . '/library/piece/blog/begin.php';
 	
 	$automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/resources/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
 	dress('SKIN_head_end', $automaticLink."[##_SKIN_head_end_##]", $view);
 	
-	require ROOT . '/lib/piece/blog/entries.php';
-	require ROOT . '/lib/piece/blog/end.php';
+	require ROOT . '/library/piece/blog/entries.php';
+	require ROOT . '/library/piece/blog/end.php';
 	fireEvent('OBEnd');
 }
 ?>

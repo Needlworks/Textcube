@@ -10,7 +10,7 @@ $IV = array(
 	)
 );
 
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireLibrary('blog.skin');
 requireStrictRoute();
 	

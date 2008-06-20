@@ -17,7 +17,7 @@ $IV = array(
 		'returnURL' => array('string', 'mandatory' => false)
 	)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.entry");
 requireModel("blog.tag");
 requireModel("blog.locative");
@@ -59,9 +59,9 @@ if(Acl::check('group.editors')===false && !empty($suri['id'])) {
 }
 
 if (isset($_GET['popupEditor'])) {
-	require ROOT . '/lib/piece/owner/headerForPopupEditor.php';
+	require ROOT . '/library/piece/owner/headerForPopupEditor.php';
 } else {
-	require ROOT . '/lib/piece/owner/header.php';
+	require ROOT . '/library/piece/owner/header.php';
 }
 
 if (isset($_POST['returnURL']) && !empty($_POST['returnURL'])) {
@@ -929,7 +929,7 @@ switch($entry['category']) {
 						</script> 
 <?php
 if (isset($_GET['popupEditor']))
-	require ROOT . '/lib/piece/owner/footerForPopupEditor.php';
+	require ROOT . '/library/piece/owner/footerForPopupEditor.php';
 else
-	require ROOT . '/lib/piece/owner/footer.php';
+	require ROOT . '/library/piece/owner/footer.php';
 ?>

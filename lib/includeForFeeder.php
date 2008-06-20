@@ -36,6 +36,6 @@ $__requireInit = array(		// Initializing environment.
 if($service['reader'] === false) exit;
 
 $codeName = 'includeForFeeder.php';
-require ROOT.'/lib/include.php';
+require ROOT.'/library/include.php';
 header('Content-Type: text/html; charset=utf-8');
 ?>

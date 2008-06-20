@@ -39,7 +39,7 @@ function errorExit($code)
 	if( in_array($code, array(404)) ) {
 		requireModel( "common.plugin" );
 		fireEvent('OBStart');
-		require_once ROOT . '/lib/piece/blog/begin.php';
+		require_once ROOT . '/library/piece/blog/begin.php';
 		$automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/resources/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
 		dress('SKIN_head_end', $automaticLink."[##_SKIN_head_end_##]", $view);
 
@@ -49,7 +49,7 @@ function errorExit($code)
 			dress('article_rep', NULL, $view); 
 			dress('page_error', $skin->pageError, $view);
 		}
-		require_once ROOT . '/lib/piece/blog/end.php';
+		require_once ROOT . '/library/piece/blog/end.php';
 		fireEvent('OBEnd');
 	} else {
 		echo "<html><head><body>$error_header</body></html>";

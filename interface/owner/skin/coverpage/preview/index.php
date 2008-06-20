@@ -11,7 +11,7 @@ $IV = array(
 		'tag' => array('any', 'mandatory' => false)
 		)
 	);
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireModel("blog.coverpage");

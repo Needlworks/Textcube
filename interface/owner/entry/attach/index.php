@@ -12,7 +12,7 @@ if(count($_POST) > 0) {
 		)
 	);
 }
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.attachment");
 
 requireStrictRoute();

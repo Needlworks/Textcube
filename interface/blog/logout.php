@@ -13,7 +13,7 @@ $IV = array(
 	)
 );
 define('__TEXTCUBE_LOGIN__',true);
-require ROOT . '/lib/includeForBlog.php';
+require ROOT . '/library/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }

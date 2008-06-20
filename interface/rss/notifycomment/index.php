@@ -13,7 +13,7 @@ $IV = array(
 		'key' => array('string')
 		)
 );
-require ROOT . '/lib/includeForBlog.php';
+require ROOT . '/library/includeForBlog.php';
 requireModel("blog.feed");
 requireModel("blog.entry");
 

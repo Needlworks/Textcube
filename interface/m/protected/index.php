@@ -8,7 +8,7 @@ $IV = array(
 		'password' => array('string','default' => null)
 	)
 );
-require ROOT . '/lib/includeForBlog.php';
+require ROOT . '/library/includeForBlog.php';
 requireView('mobileView');
 $entry = getEntry($blogid, $suri['id']);
 if(!is_null($entry) && isset($_POST['password']) && $entry['password'] == $_POST['password']) {

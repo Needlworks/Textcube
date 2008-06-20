@@ -2,7 +2,7 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-require ROOT . '/lib/includeForBlog.php';
+require ROOT . '/library/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }
@@ -22,17 +22,17 @@ if ($skinSetting['showListOnAuthor'] != 0) {
 	} else {
 		$paging = $cache->dbContents;
 	}
-	require ROOT . '/lib/piece/blog/begin.php';
-	require ROOT . '/lib/piece/blog/list.php';
+	require ROOT . '/library/piece/blog/begin.php';
+	require ROOT . '/library/piece/blog/list.php';
 }
 
 $entries = array();
 if ($skinSetting['showListOnAuthor'] != 2) {
 	unset($cache);
 	list($entries, $paging) = getEntriesWithPagingByAuthor($blogid, $author, $suri['page'], $blog['entriesOnList'], ($skinSetting['showListOnAuthor'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
-	if($skinSetting['showListOnAuthor'] == 0) require ROOT . '/lib/piece/blog/begin.php';
-	require ROOT . '/lib/piece/blog/entries.php';
+	if($skinSetting['showListOnAuthor'] == 0) require ROOT . '/library/piece/blog/begin.php';
+	require ROOT . '/library/piece/blog/entries.php';
 }
-require ROOT . '/lib/piece/blog/end.php';
+require ROOT . '/library/piece/blog/end.php';
 
 ?>

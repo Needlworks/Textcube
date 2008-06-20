@@ -22,7 +22,7 @@ $IV = array(
 	)
 );
 define('__TEXTCUBE_LOGIN__',true);
-require ROOT . '/lib/includeForBlog.php';
+require ROOT . '/library/includeForBlog.php';
 //$blogURL = getBlogURL();
 if (isset($_GET['loginid']))
 	$_POST['loginid'] = $_GET['loginid'];

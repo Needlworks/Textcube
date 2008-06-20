@@ -5,7 +5,7 @@
 
 /* Database I/O initialization.
    ---------------------------
-   - Depends on /lib/database.php 
+   - Depends on /library/database.php 
    - Choose DBMS and bind database.*/
    
 requireComponent('Needlworks.Database');
@@ -21,10 +21,10 @@ $database['utf8'] = (POD::charset() == 'utf8') ? true : false;
 /* Path-dependent environment setting
    ----------------------------------
    */
-require ROOT.'/lib/suri.php';
+require ROOT.'/library/suri.php';
 
 /* Session initializing */
-if (!defined('NO_SESSION')) require ROOT.'/lib/session.php';
+if (!defined('NO_SESSION')) require ROOT.'/library/session.php';
 
 if (!defined('NO_INITIALIZAION')) {
 	/* Get User information */
@@ -38,7 +38,7 @@ if (!defined('NO_INITIALIZAION')) {
 
 	/* Locale initialization
    ---------------------
-   - Depends on /lib/locale.php 
+   - Depends on /library/locale.php 
    - Set current locale, load locale and language resources. */
   
 	$__locale = array(

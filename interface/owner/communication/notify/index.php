@@ -28,7 +28,7 @@ if(count($_POST) > 0) {
 		)
 	);
 }
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.comment");
 requireModel("blog.entry");
 
@@ -56,7 +56,7 @@ $tabsClass['notify'] = true;
 $visibilityText = _t('댓글 알리미');
 
 list($comments, $paging) = getCommentsNotifiedWithPagingForOwner($blogid, '', $name, '', $search, $suri['page'], $perPage);
-require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/library/piece/owner/header.php';
 
 ?>
 						<script type="text/javascript">
@@ -172,7 +172,7 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 ?>
 							</h2>
 <?php
-require ROOT . '/lib/piece/owner/communicationTab.php';
+require ROOT . '/library/piece/owner/communicationTab.php';
 ?>
 							<div class="main-explain-box">
 								<p class="explain"><?php echo _t('다른 사람의 블로그에 단 댓글에 대한 댓글이 등록되면 알려줍니다. 알리미가 동작하기 위해서는 댓글 작성시 홈페이지 기입란에 자신의 블로그 주소를 입력하셔야 합니다.');?></p>
@@ -342,5 +342,5 @@ print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 							</form>
 						</div>
 <?php
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/library/piece/owner/footer.php';
 ?>

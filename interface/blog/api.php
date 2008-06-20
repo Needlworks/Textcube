@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('__TEXTCUBE_LOGIN__',true);
-require ROOT . '/lib/includeForBlog.php';
+require ROOT . '/library/includeForBlog.php';
 
 requireComponent( "Eolin.PHP.XMLStruct" );
 requireComponent( "Eolin.PHP.XMLTree" );

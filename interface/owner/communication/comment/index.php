@@ -29,7 +29,7 @@ $IV = array(
 		'status' => array('string', 'mandatory' => false)
 	)
 );	
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireComponent('Textcube.Data.Filter');
 requireModel("blog.comment");
 requireModel("blog.entry");
@@ -71,7 +71,7 @@ if(isset($tabsClass['comment']) && $tabsClass['comment'] == true) {
 } else {
 	list($comments, $paging) = getGuestbookWithPagingForOwner($blogid, $name, $ip, $search, $suri['page'], $perPage);
 }
-require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/library/piece/owner/header.php';
 
 ?>
 						<script type="text/javascript">
@@ -212,7 +212,7 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 ?>
 							</h2>
 <?php
-require ROOT . '/lib/piece/owner/communicationTab.php';
+require ROOT . '/library/piece/owner/communicationTab.php';
 ?>
 
 <?php
@@ -447,5 +447,5 @@ for ($i = 10; $i <= 30; $i += 5) {
 							</form>
 						</div>
 <?php
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/library/piece/owner/footer.php';
 ?>
