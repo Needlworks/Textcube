@@ -164,7 +164,7 @@ class misc {
 		global $skinSetting, $service;
 		
 		$contentWidth = 400;			
-		if ($xml = @file_get_contents(ROOT."/skin/{$skinSetting['skin']}/index.xml")) {
+		if ($xml = @file_get_contents(ROOT."/skin/blog/{$skinSetting['skin']}/index.xml")) {
 			$xmls = new XMLStruct();
 			$xmls->open($xml,$service['encoding']);
 			if ($xmls->getValue('/skin/default/contentWidth')) {
