@@ -307,6 +307,7 @@ class Skin {
 	
 	function cutSkinTag($contents, $tag, $replace = null) {
 		global $__gDressTags;
+		if(!isset($__gDressTags)) $__gDressTags = array();
 		if (is_null($replace)) {
 			$replace = "[##_{$tag}_##]";
 		}
