@@ -56,7 +56,7 @@ if (!defined('NO_INITIALIZAION')) {
 	// Load administration panel locale.
 	// TODO : po지원하도록 변경해야 함.
 	if(!defined('NO_LOCALE')) {
-		Locale::setDirectory(ROOT . '/language');
+		Locale::setDirectory(ROOT . '/resources/language');
 		Locale::set(isset($blog['language']) ? $blog['language'] : $service['language']);
 
 		// Load blog screen locale.
