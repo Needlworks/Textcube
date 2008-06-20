@@ -3,24 +3,21 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 class String {
-	/*@static@*/
-	function endsWith($string, $end) {
+	static function endsWith($string, $end) {
 		$longer = strlen($string) - strlen($end);
 		if ($longer < 0)
 			return false;
 		return (strcmp(substr($string, $longer), $end) == 0);
 	}
 
-	/*@static@*/
-	function startsWith($string, $start) {
+	static function startsWith($string, $start) {
 		return (strncmp($string, $start, strlen($start)) == 0);
 	}
 }
 
 
 class UTF8 {
-	/*@static@*/
-	function validate($str, $truncated = false) {
+	static function validate($str, $truncated = false) {
 		$length = strlen($str);
 		if ($length == 0)
 			return true;
@@ -63,8 +60,7 @@ class UTF8 {
 		return true;
 	}
 
-	/*@static@*/
-	function correct($str, $broken = '') {
+	static function correct($str, $broken = '') {
 		$corrected = '';
 		$strlen = strlen($str);
 		for ($i = 0; $i < $strlen; $i++) {
@@ -114,20 +110,17 @@ class UTF8 {
 		return $corrected;
 	}
 
-	/*@static@*/
-	function bring($str, $encoding = null) {
+	static function bring($str, $encoding = null) {
 		global $service;
 		return @iconv((isset($encoding) ? $encoding : $service['encoding']), 'UTF-8', $str);
 	}
 
-	/*@static@*/
-	function convert($str, $encoding = null) {
+	static function convert($str, $encoding = null) {
 		global $service;
 		return @iconv('UTF-8', (isset($encoding) ? $encoding : $service['encoding']), $str);
 	}
 
-	/*@static@*/
-	function length($str) {
+	static function length($str) {
 		$len = strlen($str);
 		for ($i = $length = 0; $i < $len; $length++) {
 			$high = ord($str{$i});
@@ -143,8 +136,7 @@ class UTF8 {
 		return $length;
 	}
 
-	/*@static@*/
-	function lengthAsEm($str) {
+	static function lengthAsEm($str) {
 		$len = strlen($str);
 		for ($i = $length = 0; $i < $len; ) {
 			$high = ord($str{$i});
@@ -164,7 +156,7 @@ class UTF8 {
 		return $length;
 	}
 
-	function lessenAsEncoding($str, $length = 255, $tail = '...') {
+	static function lessenAsEncoding($str, $length = 255, $tail = '...') {
 		global $database;
 		if(!isset($database['utf8']) || empty($database['utf8']) || $database['utf8'] == true)
 			return UTF8::lessen($str, $length, $tail);
@@ -172,8 +164,7 @@ class UTF8 {
 			return UTF8::lessenAsByte($str, $length, $tail);
 	}
 
-	/*@static@*/
-	function lessen($str, $chars, $tail = '...') {
+	static function lessen($str, $chars, $tail = '...') {
 		if (UTF8::length($str) <= $chars)
 			$tail = '';
 		else
@@ -195,8 +186,7 @@ class UTF8 {
 		return trim(substr($str, 0, $adapted)) . $tail;
 	}
 
-	/*@static@*/
-	function lessenAsByte($str, $bytes, $tail = '...') {
+	static function lessenAsByte($str, $bytes, $tail = '...') {
 		if (strlen($str) <= $bytes)
 			$tail = '';
 		else
@@ -218,8 +208,7 @@ class UTF8 {
 		return substr($str, 0, $adapted) . $tail;
 	}
 
-	/*@static@*/
-	function lessenAsEm($str, $ems, $tail = '...') {
+	static function lessenAsEm($str, $ems, $tail = '...') {
 		if (UTF8::lengthAsEm($str) <= $ems)
 			$tail = '';
 		else
@@ -265,8 +254,7 @@ class Validator {
 	**/
 
 
-	/*@static@*/
-	function validate(&$iv) {
+	static function validate(&$iv) {
 		if (isset($iv['GET'])) {
 			if (!Validator::validateArray($_GET, $iv['GET']))
 				return false;
@@ -318,8 +306,7 @@ class Validator {
 		return true;
 	}
 
-	/*@static@*/
-	function validateArray(&$array, &$rules) {
+	static function validateArray(&$array, &$rules) {
 		// Workaround for non Fancy-URL user.
 		$cropArray = array();
 		foreach($array as $name => $value) {
@@ -455,8 +442,7 @@ class Validator {
 		return true;
 	}
 
-	/*@static@*/
-	function number($value, $min = null, $max = null) {
+	static function number($value, $min = null, $max = null) {
 		if (!is_numeric($value))
 			return false;
 		if (isset($min) && ($value < $min))
@@ -466,8 +452,7 @@ class Validator {
 		return true;
 	}
 
-	/*@static@*/
-	function isInteger($value, $min = -2147483648, $max = 2147483647) {
+	static function isInteger($value, $min = -2147483648, $max = 2147483647) {
 		if (!preg_match('/^(0|-?[1-9][0-9]{0,9})$/', $value))
 			return false;
 		if (($value < $min) || ($value > $max))
@@ -475,13 +460,11 @@ class Validator {
 		return true;
 	}
 
-	/*@static@*/
-	function id($value, $min = 1, $max = 2147483647) {
+	static function id($value, $min = 1, $max = 2147483647) {
 		return Validator::isInteger($value, $min, $max);
 	}
 
-	/*@static@*/
-	function isList($value) {
+	static function isList($value) {
 		if (!preg_match('/^[1-9][0-9]{0,9}(,[1-9][0-9]{0,9})*,?$/', $value))
 			return false;
 		return true;
@@ -490,13 +473,12 @@ class Validator {
 	/**
 	 *	Valid: Jan 1 1971 ~ Dec 31 2037 GMT
 	 */
-	/*@static@*/
-	function timestamp($value) {
+	
+	static function timestamp($value) {
 		return (Validator::isInteger($value) && ($value >= 31536000) && ($value < 2145916800));
 	}
 
-	/*@static@*/
-	function period($value, $length = null) {
+	static function period($value, $length = null) {
 		if (preg_match('/\\d+/', $value)) {
 			if (isset($length) && (strlen($value) != $length))
 				return false;
@@ -516,56 +498,46 @@ class Validator {
 		return false;
 	}
 
-	/*@static@*/
-	function ip($value) {
+	static function ip($value) {
 		return preg_match('/^\\d{1,3}(\\.\\d{1,3}){3}$/', $value);
 	}
 
-	/*@static@*/
-	function domain($value) {
+	static function domain($value) {
 		return ((strlen($value) <= 64) && preg_match('/^([[:alnum:]]+(-[[:alnum:]]+)*\\.)+[[:alnum:]]+(-[[:alnum:]]+)*$/', $value));
 	}
 
-	/*@static@*/
-	function email($value) {
+	static function email($value) {
 		if (strlen($value) > 64)
 			return false;
 		$parts = explode('@', $value, 2);
 		return ((count($parts) == 2) && preg_match('@[\\w!#\-\'*+/=?^`{-~-]+(\\.[\\w!#-\'*+/=?^`{-~-]+)*@', $parts[0]) && Validator::domain($parts[1]));
 	}
 
-	/*@static@*/
-	function language($value) {
+	static function language($value) {
 		return preg_match('/^[[:alpha:]]{2}(\-[[:alpha:]]{2})?$/', $value);
 	}
 
-	/*@static@*/
-	function filename($value) {
+	static function filename($value) {
 		return preg_match('/^\w+(\.\w+)*$/', $value);
 	}
 
-	/*@static@*/
-	function directory($value) {
+	static function directory($value) {
 		return preg_match('/^[\-\w]+( [\-\w]+)*$/', $value);
 	}
 
-	/*@static@*/
-	function path($value) {
+	static function path($value) {
 		return preg_match('/^[\-\w]+( [\-\w]+)*(\/[\-\w]+( [\-\w]+)*)*$/', $value);
 	}
 
-	/*@static@*/
-	function getBit($value) {
+	static function getBit($value) {
 		return (Validator::getBool($value) ? 1 : 0);
 	}
 
-	/*@static@*/
-	function getBool($value) {
+	static function getBool($value) {
 		return (!empty($value) && (!is_string($value) || (strcasecmp('false', $value) && strcasecmp('off', $value) && strcasecmp('no', $value))));
 	}
 
-	/*@static@*/
-	function escapeXML($string, $escape = true) {
+	static function escapeXML($string, $escape = true) {
 		if (is_null($string))
 			return null;
 		return ($escape ? htmlspecialchars($string) : str_replace('&amp;', '&', preg_replace(array('&quot;', '&lt;', '&gt;'), array('"', '<', '>'), $string)));
@@ -576,12 +548,12 @@ global $__locale, $__text, $__skinText;
 
 class Locale {
 	// Requires $__locale as global variable. (language resource information)
-	function get() {
+	static function get() {
 		global $__locale;
 		return $__locale['locale'];
 	}
 
-	function set($locale) {
+	static function set($locale) {
 		global $__locale, $__text;
 		list($common) = explode('-', $locale, 2);
 		Locale::refreshLocaleResource($locale);
@@ -597,7 +569,7 @@ class Locale {
 		return false;
 	}
 
-	function setSkinLocale($locale) {
+	static function setSkinLocale($locale) {
 		global $__locale, $__skinText;
 		list($common) = explode('-', $locale, 2);
 		Locale::refreshLocaleResource($locale);
@@ -611,12 +583,12 @@ class Locale {
 		return false;
 	}
 
-	function includeLocaleFile($languageFile) {
+	static function includeLocaleFile($languageFile) {
 		include($languageFile);
 		return $__text;
 	}
 
-	function refreshLocaleResource($locale) {
+	static function refreshLocaleResource($locale) {
 		global $__locale;
 		// po파일과 php파일의 auto convert 지원을 위한 루틴.
 		$lang_php = $__locale['directory'] . '/' . $locale . ".php";
@@ -634,7 +606,7 @@ class Locale {
 		return false;
 	}
 
-	function setDirectory($directory) {
+	static function setDirectory($directory) {
 		global $__locale;
 		if (!is_dir($directory))
 			return false;
@@ -642,13 +614,13 @@ class Locale {
 		return true;
 	}
 
-	function setDomain($domain) {
+	static function setDomain($domain) {
 		global $__locale;
 		$__locale['domain'] = $domain;
 		return true;
 	}
 
-	function match($locale) {
+	static function match($locale) {
 		global $__locale;
 		if (strcasecmp($locale, $__locale['locale']) == 0)
 			return 3;
@@ -659,7 +631,7 @@ class Locale {
 		return 0;
 	}
 
-	function getSupportedLocales() {
+	static function getSupportedLocales() {
 		global $__locale;
 		$locales = array();
 		if ($dir = dir($__locale['directory'])) {
@@ -1037,7 +1009,7 @@ class XMLStruct {
 		return null;
 	}
 
-	function XMLStruct() {
+	function __construct() {
 		$this->ns = array();
 		$this->baseindex = 0;
 	}
@@ -1319,7 +1291,7 @@ class XMLStruct {
 		return count($this->selectNodes($path));
 	}
 
-	function o($p, $n, $a) {
+	private function o($p, $n, $a) {
 		if (!isset($this->_cursor[$n]))
 			$this->_cursor[$n] = array();
 		if (empty($a))
@@ -1332,7 +1304,7 @@ class XMLStruct {
 			$this->_cursor['.stream'] = tmpfile();
 	}
 
-	function c($p, $n) {
+	private function c($p, $n) {
 		if (count($this->_cursor) != (2 + isset($this->_cursor['.attributes'])))
 			unset($this->_cursor['.value']);
 		else
@@ -1351,7 +1323,7 @@ class XMLStruct {
 		array_pop($this->_path);
 	}
 
-	function d($p, $d) {
+	private function d($p, $d) {
 		if (count($this->_cursor) != (1 + isset($this->_cursor['.value']) + isset($this->_cursor['.attributes']) + isset($this->_cursor['.stream'])))
 			return;
 		if (!$this->_cdata) {
@@ -1368,14 +1340,14 @@ class XMLStruct {
 			fwrite($this->_cursor['.stream'], $d);
 	}
 
-	function x($p, $d) {
+	private function x($p, $d) {
 		if ($d == '<![CDATA[')
 			$this->_cdata = true;
 		else if (($d == ']]>') && $this->_cdata)
 			$this->_cdata = false;
 	}
 
-	function _error($p) {
+	private function _error($p) {
 		$this->error = array(
 			'code' => xml_get_error_code($p),
 			'offset' => xml_get_current_byte_index($p),
@@ -1388,7 +1360,7 @@ class XMLStruct {
 }
 
 class URL {
-	function encode($url,$useEncodedURL = true) {
+	static function encode($url,$useEncodedURL = true) {
 		$postfix = '';
 		if(substr($url,strlen($url)-1) == '?') {
 			$url = substr($url,0,strlen($url)-1);
@@ -1400,7 +1372,7 @@ class URL {
 			return str_replace(array('%', ' ', '"', '#', '&', '\'', '<', '>', '?', '+'), array('%25', '%20', '%22', '%23', '%26', '%27', '%3C', '%3E', '%3F', '%2B'), $url).$postfix;
 	}
 
-	function decode($url,$useEncodedURL = true) {
+	static function decode($url,$useEncodedURL = true) {
 		if ($useEncodedURL == true)
 			return rawurldecode($url);
 		else

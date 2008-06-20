@@ -133,7 +133,6 @@ class respond {
 		exit;
 	}
 
-/***** private *****/
 	function PrintValue($array, $useCDATA=true) {
 		$xml = '';
 		if(is_array($array)) {

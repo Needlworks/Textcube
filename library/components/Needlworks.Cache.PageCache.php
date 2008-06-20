@@ -18,7 +18,7 @@ class pageCache {
 	var $absoluteFilePathOwner;
 	var $absoluteFilePathGuest;
 	var $error;*/
-	function pageCache($name = null){
+	function __construct($name = null){
 		$this->reset();
 		if($name != null) $this->name = $name;
 	}
@@ -106,7 +106,7 @@ class pageCache {
 		}
 	}
 
-	function getFileName(){
+	private function getFileName(){
 		if(empty($this->name)) return $this->_error('invalid name');
 		$this->realName = $this->name;
 		$this->realNameOwner = $this->name."_".getBlogId()."_owner";
@@ -120,7 +120,7 @@ class pageCache {
 		return true;
 	}
 
-	function getFileContents() {
+	private function getFileContents() {
 		if(!isset($this->absoluteFilePath)) return false;
 		if(!file_exists($this->absoluteFilePath)) {
 			return $this->_error('no file exists');
@@ -132,7 +132,7 @@ class pageCache {
 		return true;
 	}
 
-	function getdbContents() {
+	private function getdbContents() {
 		global $database;
 		return $this->getPageCacheLog();
 	}
@@ -167,7 +167,7 @@ class pageCache {
 			AND name = '".POD::escapeString($this->realName)."'"); 
 	}
 
-	function _error($error) {
+	private function _error($error) {
 		$this->error = $error;
 		return false;
 	}
@@ -180,7 +180,7 @@ class queryCache {
 	var $contents;
 	var $prefix;
 	var $error;*/
-	function queryCache($query = null, $prefix = null){
+	function __construct($query = null, $prefix = null){
 		$this->reset();
 		$this->query = $query;
 		$this->prefix = $prefix;
@@ -213,11 +213,11 @@ class queryCache {
 			return true;
 		else return false;
 	}
-	function getQueryHash(){ 
+	private function getQueryHash(){ 
 		if(empty($this->query)) return false;
 		$this->queryHash = (isset($this->prefix) ? $this->prefix.'_' : '')."queryCache_".abs(crc32($this->query));
 	}
-	function getPageCacheLog() {
+	private function getPageCacheLog() {
 		global $database;
 		if(empty($this->queryHash)) $this->getQueryHash();
 
@@ -232,14 +232,14 @@ class queryCache {
 		}
 	}
 
-	function setPageCacheLog() {
+	private function setPageCacheLog() {
 		global $database;
 		if(empty($this->queryHash)) $this->getQueryHash();
 		return POD::execute("REPLACE INTO {$database['prefix']}PageCacheLog 
 			VALUES(".getBlogId().", '".POD::escapeString($this->queryHash)."', '".tc_escape_string(serialize($this->contents))."')");
 	}
 
-	function removePageCacheLog() {
+	private function removePageCacheLog() {
 		global $database;
 		if(empty($this->queryHash)) $this->getQueryHash();
 
@@ -248,7 +248,7 @@ class queryCache {
 			AND name = '".POD::escapeString($this->queryHash)."'"); 
 	}
 
-	function _error($error) {
+	private function _error($error) {
 		$this->error = $error;
 		return false;
 	}
@@ -258,7 +258,7 @@ class queryCache {
 // blogSettings, ServiceSettings, activePlugins, etc..
 // Textcube will use it as global object.
 class globalCacheStorage extends pageCache {
-	function globalCacheStorage($blogid = null) {
+	function __construct($blogid = null) {
 		$this->_isChanged = false;
 		$this->_gCacheStorage = array();
 		if(is_null($blogid)) $this->_gBlogId = getBlogId();
@@ -599,7 +599,7 @@ class CodeCache {
 	}
 	
 	/*@ private @*/
-	function __getCodes() {
+	private function __getCodes() {
 		global $__requireComponent, $__requireView, $__requireLibrary, $__requireBasics, $__requireInit, $__requireModel;
 		$code = '';
 /*		foreach($__requireComponent as $lib) {
@@ -622,7 +622,7 @@ class CodeCache {
 		$this->code = $code;
 	}
 	
-	function _error($err = 0) {
+	private function _error($err = 0) {
 		var_dump($err);
 		return false;
 		//return $err;
