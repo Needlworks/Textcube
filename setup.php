@@ -746,7 +746,7 @@ xml_set_object
            echo '<li style="color:red">', _t('원격 설치 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'cache', '0777'), '</li>';
         }*/
 
-        $filename = $root . '/skin/customize';
+        $filename = $root . '/skin/blog/customize';
         if (is_dir($filename)) {
             if (is_writable($filename))
                echo '<li>', _t('스킨 디렉토리'), ': OK</li>';
@@ -761,6 +761,7 @@ xml_set_object
             $error = 15;
            echo '<li style="color:red">', _t('스킨 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', "$root/skin", 'customize', '0777'), '</li>';
         }
+
 ?>
     </ul>
 <?php
