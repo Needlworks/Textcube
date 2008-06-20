@@ -124,6 +124,8 @@ function getGuestbookWithPagingForOwner($blogid, $name, $ip, $search, $page, $co
 
 function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $search, $page, $count) {
 	global $database;
+	$postfix = '';
+
 	if (empty($name) && empty($ip) && empty($search)) {
 		$sql = "SELECT
 					c.*,
@@ -165,16 +167,28 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 				LEFT JOIN
 				{$database['prefix']}CommentsNotifiedSiteInfo csiteinfo ON c.siteId = csiteinfo.id
 			WHERE c.blogid = $blogid AND (c.parent is null) ";
-		if (!empty($name))
+		if (!empty($name)) {
 			$sql .= ' AND ( c.name = \'' . POD::escapeString($name) . '\') ' ;
-		if (!empty($ip))
+			$postfix .= '&name=' . rawurlencode($name);
+		}
+		if (!empty($ip)) {
 			$sql .= ' AND ( c.ip = \'' . POD::escapeString($ip) . '\') ';
+			$postfix .= '&ip=' . rawurlencode($ip);
+		}
 		if (!empty($search)) {
 			$sql .= " AND ((c.name LIKE '%$search%') OR (c.homepage LIKE '%$search%') OR (c.comment LIKE '%$search%')) ";
+			$postfix .= '&search=' . rawurlencode($search);
 		}
 		$sql .= $childListStr . ' ORDER BY c.modified DESC';
 	}
-	return fetchWithPaging($sql, $page, $count);
+
+	list($comments, $paging) = fetchWithPaging($sql, $page, $count);
+	if (strlen($postfix) > 0) {
+		$postfix .= '&withSearch=on';
+		$paging['postfix'] .= $postfix;
+	}
+
+	return array($comments, $paging);
 }
 
 function getCommentCommentsNotified($parent) {

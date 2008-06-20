@@ -4,6 +4,13 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 if (isset($_POST['page']))
 	$_GET['page'] = $_POST['page'];
+if (isset($_GET['category'])) $_POST['category'] = $_GET['category'];
+if (isset($_GET['ip'])) $_POST['ip'] = $_GET['ip'];
+if (isset($_GET['name'])) $_POST['name'] = $_GET['name'];
+if (isset($_GET['perPage'])) $_POST['perPage'] = $_GET['perPage'];
+if (isset($_GET['search'])) $_POST['search'] = $_GET['search'];
+if (isset($_GET['withSearch'])) $_POST['withSearch'] = $_GET['withSearch'];
+
 if(count($_POST) > 0) {
 	$IV = array(
 		'GET' => array(
@@ -172,6 +179,10 @@ require ROOT . '/lib/piece/owner/communicationTab.php';
 							</div>
 							
 							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/communication/notify">
+<?php
+	if(isset($_POST['search'])) echo '								<input type="hidden" name="search" value="'.$_POST['search'].'" />'.CRLF;
+	if(isset($_POST['withSearch'])) echo '								<input type="hidden" name="withSearch" value="'.$_POST['withSearch'].'" />'.CRLF;
+?>		
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
