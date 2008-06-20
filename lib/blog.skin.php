@@ -112,7 +112,7 @@ class Skin {
 				respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
 			}
 			
-			$filename = ROOT . "/skin/$name/skin.html";
+			$filename = ROOT . "/skin/blog/$name/skin.html";
 			
 			if (!is_file($filename)) {
 				respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
@@ -185,12 +185,12 @@ class Skin {
 			$this->coverpageBasicModules[0] = array();
 			$this->coverpageName[0] =_t('표지');
 	
-			$sval = str_replace('./', "{$service['path']}/skin/$name/", $sval);
+			$sval = str_replace('./', "{$service['path']}/skin/blog/$name/", $sval);
 	
-			$this->noneCommentMessage = str_replace('./', "{$service['path']}/skin/$name/", $this->noneCommentMessage);
-			$this->singleCommentMessage = str_replace('./', "{$service['path']}/skin/$name/", $this->singleCommentMessage);
-			$this->noneTrackbackMessage = str_replace('./', "{$service['path']}/skin/$name/", $this->noneTrackbackMessage);
-			$this->singleTrackbackMessage = str_replace('./', "{$service['path']}/skin/$name/", $this->singleTrackbackMessage);
+			$this->noneCommentMessage = str_replace('./', "{$service['path']}/skin/blog/$name/", $this->noneCommentMessage);
+			$this->singleCommentMessage = str_replace('./', "{$service['path']}/skin/blog/$name/", $this->singleCommentMessage);
+			$this->noneTrackbackMessage = str_replace('./', "{$service['path']}/skin/blog/$name/", $this->noneTrackbackMessage);
+			$this->singleTrackbackMessage = str_replace('./', "{$service['path']}/skin/blog/$name/", $this->singleTrackbackMessage);
 	
 			// Store skin tags.
 			$__gDressTags = $this->getDressTags($sval);
