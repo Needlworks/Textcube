@@ -201,13 +201,13 @@ function writeSkinHtml($blogid, $contents, $mode, $file) {
 	if ($mode != 'skin' && $mode != 'skin_keyword' && $mode != 'style')
 		return _t('실패했습니다.');
 	if ($skinSetting['skin'] != "customize/$blogid") {
-		if (!@file_exists(ROOT . "/skin/customize/$blogid")) {
-			if (!@mkdir(ROOT . "/skin/customize/$blogid"))
+		if (!@file_exists(ROOT . "/skin/blog/customize/$blogid")) {
+			if (!@mkdir(ROOT . "/skin/blog/customize/$blogid"))
 				return _t('권한이 없습니다.');
-			@chmod(ROOT . "/skin/customize/$blogid", 0777);
+			@chmod(ROOT . "/skin/blog/customize/$blogid", 0777);
 		}
-		deltree(ROOT . "/skin/customize/$blogid");
-		copyRecusive(ROOT . "/skin/{$skinSetting['skin']}", ROOT . "/skin/customize/$blogid");
+		deltree(ROOT . "/skin/blog/customize/$blogid");
+		copyRecusive(ROOT . "/skin/blog/{$skinSetting['skin']}", ROOT . "/skin/blog/customize/$blogid");
 	}
 	$skinSetting['skin'] = "customize/$blogid";
 	$sql = "UPDATE {$database['prefix']}SkinSettings SET skin = '{$skinSetting['skin']}' WHERE blogid = $blogid";
@@ -218,15 +218,15 @@ function writeSkinHtml($blogid, $contents, $mode, $file) {
 	//	$file = $mode . '.css';
 	//else
 	//	$file = $mode . '.html';
-	if (!is_writable(ROOT . "/skin/customize/$blogid/$file"))
-		return ROOT . _t('권한이 없습니다.') . " -> /skin/customize/$blogid/$file";
-	$handler = fopen(ROOT . "/skin/customize/$blogid/$file", 'w');
+	if (!is_writable(ROOT . "/skin/blog/customize/$blogid/$file"))
+		return ROOT . _t('권한이 없습니다.') . " -> /skin/blog/customize/$blogid/$file";
+	$handler = fopen(ROOT . "/skin/blog/customize/$blogid/$file", 'w');
 	if (fwrite($handler, $contents) === false) {
 		fclose($handler);
 		return _t('실패했습니다.');
 	} else {
 		fclose($handler);
-		@chmod(ROOT . "/skin/customize/$blogid/$file", 0666);
+		@chmod(ROOT . "/skin/blog/customize/$blogid/$file", 0666);
 		CacheControl::flushAll();
 		Skin::purgeCache();
 		return true;
@@ -235,7 +235,7 @@ function writeSkinHtml($blogid, $contents, $mode, $file) {
 
 function getCSSContent($blogid, $file) {
 	global $skinSetting;
-	return @file_get_contents(ROOT . "/skin/{$skinSetting['skin']}/$file");
+	return @file_get_contents(ROOT . "/skin/blog/{$skinSetting['skin']}/$file");
 }
 
 function setSkinSetting($blogid, $setting) {
@@ -253,7 +253,7 @@ function setSkinSetting($blogid, $setting) {
 			return _t('실패 했습니다');
 	}
 	
-	$skinpath = ROOT . '/skin/' . $skinSetting['skin'];
+	$skinpath = ROOT . '/skin/blog/' . $skinSetting['skin'];
 	if (!is_dir($skinpath))
 		return _t('실패 했습니다');
 
