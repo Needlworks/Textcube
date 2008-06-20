@@ -73,18 +73,18 @@ if (!defined('NO_INITIALIZAION')) {
 	// 관리 모드 스킨 및 에디터 템플릿 설정.
 	if(!defined('NO_ADMINPANEL')) {
 		$adminSkinSetting = array();
-		$adminSkinSetting['skin'] = "/resources/style/admin/".getBlogSetting("adminSkin", "whitedream");
+		$adminSkinSetting['skin'] = "/skin/admin/".getBlogSetting("adminSkin", "whitedream");
 		// 1.5에서 올라온 경우 스킨이 있는 경우를 위한 workaround.
-		if($adminSkinSetting['skin'] == '/resources/style/admin/default') {
+		if($adminSkinSetting['skin'] == '/skin/admin/default') {
 			setBlogSetting("adminSkin", "whitedream");
-			$adminSkinSetting['skin'] = "/resources/style/admin/whitedream";
+			$adminSkinSetting['skin'] = "/skin/admin/whitedream";
 		}
 
 		// content 본문에 removeAllTags()가 적용되는 것을 방지하기 위한 프로세스를 위한 변수.
 		$contentContainer = array();
 
-		if (file_exists(ROOT . "/skin/{$skinSetting['skin']}/wysiwyg.css"))
-			$adminSkinSetting['editorTemplate'] = "/skin/{$skinSetting['skin']}/wysiwyg.css";
+		if (file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/wysiwyg.css"))
+			$adminSkinSetting['editorTemplate'] = "/skin/blog/{$skinSetting['skin']}/wysiwyg.css";
 		else
 			$adminSkinSetting['editorTemplate'] = "/resources/style/default-wysiwyg.css";
 	}

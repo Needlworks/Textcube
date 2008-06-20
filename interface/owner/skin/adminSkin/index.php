@@ -10,7 +10,7 @@ require ROOT . '/lib/piece/owner/header.php';
 							<h2 class="caption"><span class="main-text"><?php echo setDetailPanel('admin_skin_setting','link',_t('관리 패널의 스킨을 설정합니다'));?></span></h2>
 							<form id="admin-skin-form" class="data-inbox" method="post" action="<?php echo parseURL($blogURL.'/owner/skin/adminSkin/set');?>">
 								<div class="main-explain-box">
-									<p class="explain"><?php echo _t('관리 패널 스킨은 로그인한 후 보여지는 패널의 디자인을 다양하게 변경합니다. 관리 패널 스킨을 추가하기 위해서는 관리 패널 스킨을 내려받아 /resources/style/admin 디렉토리에 설치하시면 됩니다.');?></p>
+									<p class="explain"><?php echo _t('관리 패널 스킨은 로그인한 후 보여지는 패널의 디자인을 다양하게 변경합니다. 관리 패널 스킨을 추가하기 위해서는 관리 패널 스킨을 내려받아 /skin/admin 디렉토리에 설치하시면 됩니다.');?></p>
 								</div>
 								<fieldset class="container">
 									<legend><?php echo _t('관리 패널의 스킨을 설정합니다');?></legend>
@@ -21,16 +21,16 @@ require ROOT . '/lib/piece/owner/header.php';
 											<select id="adminSkin" name="adminSkin">
 <?php
 $currentAdminSkin = getBlogSetting("adminSkin", "whitedream");
-$dir = dir(ROOT . '/resources/style/admin/');
+$dir = dir(ROOT . '/skin/admin/');
 while ($tempAdminSkin = $dir->read()) {
 	if (!preg_match('/^[a-zA-Z0-9 _-]+$/', $tempAdminSkin))
 		continue;
-	if (!is_dir(ROOT . '/resources/style/admin/' . $tempAdminSkin))
+	if (!is_dir(ROOT . '/skin/admin/' . $tempAdminSkin))
 		continue;
-	if (!file_exists(ROOT . "/resources/style/admin/$tempAdminSkin/index.xml"))
+	if (!file_exists(ROOT . "/skin/admin/$tempAdminSkin/index.xml"))
 		continue;
 	$xmls = new XMLStruct();
-	if (!$xmls->open(file_get_contents(ROOT . "/resources/style/admin/$tempAdminSkin/index.xml"))) {
+	if (!$xmls->open(file_get_contents(ROOT . "/skin/admin/$tempAdminSkin/index.xml"))) {
 		continue;
 	} else {
 		$skinDir = trim($tempAdminSkin);
