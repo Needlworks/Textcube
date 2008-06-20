@@ -10,20 +10,20 @@ function getNoticesWithPaging($blogid, $search, $page, $count) {
 		$search = escapeSearchString($search);
 		$aux = "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
 	}
-	$visibility = doesHaveOwnership() ? '' : 'AND visibility = 2';
+	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	$sql = "SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -2 $aux ORDER BY published DESC";
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
 
 function getNotice($blogid, $id) {
 	global $database;
-	$visibility = doesHaveOwnership() ? '' : 'AND visibility = 2';
+	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	return POD::queryAll("SELECT id, title, content, published FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -2 AND id = $id");
 }
 
 function getNotices($blogid) {
 	global $database;
-	$visibility = doesHaveOwnership() ? '' : 'AND visibility = 2';
+	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	return POD::queryAll("SELECT id, title, slogan, published FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -2 ORDER BY published DESC");
 }
 ?>
