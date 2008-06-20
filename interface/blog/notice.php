@@ -8,10 +8,10 @@ if (false) {
 }
 
 if (isset($suri['id']) || (isset($suri['value']) && strlen($suri['value']) > 0)) {
-	if (isset($suri['id'])) {
-		list($entries, $paging) = getEntryWithPaging($blogid, $suri['id'], true);
-	} else {
+	if (!isset($suri['id']) || (getBlogSetting('useSloganOnPost',1) == 1)) {
 		list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value'], true);
+	} else {
+		list($entries, $paging) = getEntryWithPaging($blogid, $suri['id'], true);
 	}
 	fireEvent('OBStart');
 	require ROOT . '/lib/piece/blog/begin.php';
