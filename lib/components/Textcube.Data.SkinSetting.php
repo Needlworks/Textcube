@@ -128,7 +128,7 @@ class SkinSetting {
 		if (isset($this->showListOnArchive))
 			$query->setAttribute('showListOnArchive', Validator::getBit($this->showListOnArchive));
 		if (isset($this->tree)) {
-			if (!Validator::directory($this->tree) || !file_exists(ROOT . '/image/tree/' . $this->tree))
+			if (!Validator::directory($this->tree) || !file_exists(ROOT . '/skin/tree/' . $this->tree))
 				return $this->_error('tree');
 			$query->setAttribute('tree', $this->tree, false);
 		}

@@ -173,7 +173,7 @@ function getCategoriesSkin() {
 	global $service;
 	$setting = getSkinSetting(getBlogId());
 	$skin = array('name' => "{$setting['skin']}",
-			'url'               => $service['path'] . "/image/tree/{$setting['tree']}",
+			'url'               => $service['path'] . "/skin/tree/{$setting['tree']}",
 			'labelLength'       => $setting['labelLengthOnTree'],
 			'showValue'         => $setting['showValueOnTree'],
 			'itemColor'         => "{$setting['colorOnTree']}",

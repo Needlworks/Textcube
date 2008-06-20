@@ -22,7 +22,7 @@ $selected = 0;
 if (isset($_GET['name']))
 	$skinSetting['tree'] = $_GET['name'];
 
-$skinSetting['url'] = $service['path'] . "/image/tree/{$skinSetting['tree']}";
+$skinSetting['url'] = $service['path'] . "/skin/tree/{$skinSetting['tree']}";
 $skinSetting['itemColor'] = isset($_GET['itemColor']) ? $_GET['itemColor'] : $skinSetting['colorOnTree'];
 $skinSetting['itemBgColor'] = isset($_GET['itemBgColor']) ? $_GET['itemBgColor'] : $skinSetting['bgColorOnTree'];
 $skinSetting['activeItemColor'] = isset($_GET['activeItemColor']) ? $_GET['activeItemColor'] : $skinSetting['activeColorOnTree'];

@@ -126,7 +126,7 @@ $selected = 0;
 								function changeTreeStyle() {	
 									var param = '';
 									param += 'name='+document.getElementById('tree').value+'&';
-									param += 'url=<?php echo $service['path'];?>/image/tree/'+document.getElementById('tree').value+'&';
+									param += 'url=<?php echo $service['path'];?>/skin/tree/'+document.getElementById('tree').value+'&';
 									param += 'showValue='+(document.getElementById('showValue').checked ? 1:0)+'&';
 									param += 'itemColor='+document.getElementById('colorOnTree').value+'&';
 									param += 'itemBgColor='+document.getElementById('bgColorOnTree').value+'&';
@@ -686,7 +686,7 @@ ob_end_clean();
 												<dd>
 													<select name="tree" id="tree" onchange="changeTreeStyle()">
 <?php
-$skinPath = ROOT . '/image/tree';
+$skinPath = ROOT . '/skin/tree';
 if ($dh = opendir($skinPath)) {
 	while (($file = readdir($dh)) !== false) {
 		if ($file == '.' || $file == '..')

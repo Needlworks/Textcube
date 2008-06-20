@@ -1494,7 +1494,7 @@ function addOpenIDPannel( $comment, $prefix ) {
 	$pannel_style = "style=\"width:100%; text-align:left\"";
 	$radio_style  = "style=\"width:15px;vertical-align:text-bottom;height:15px;border:0px;margin:0px;padding:0px;\"";
 	$label_style  = "style=\"display:inline;margin-top:0px;padding-left:0px;cursor:pointer\"";
-	$openid_input_style = 'style="padding-left:21px;width:165px;background-image:url('.$service['path'].'/image/icon_openid.gif'.');'.
+	$openid_input_style = 'style="padding-left:21px;width:165px;background-image:url('.$service['path'].'/resources/image/icon_openid.gif'.');'.
 					'background-repeat:no-repeat;background-position:0px center"';
 
 	if( $openid_identity ) {
