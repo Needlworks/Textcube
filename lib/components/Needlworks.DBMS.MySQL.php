@@ -297,7 +297,8 @@ class DBQuery {
 	
 	/*@static@*/
 	function stat($stat = null) {
-		return mysql_stat($stat);
+		if($stat === null) return mysql_stat();
+		else return mysql_stat($stat);
 	}
 }
 
