@@ -7,6 +7,7 @@
    Dependency : Needlworks.DBMS.{DBMS name}.php
    ROOT should be defined.
 */
+global $service;
 if (!isset($service['dbms'])) $service['dbms'] = 'mysql';
 //Database Binding
 switch($service['dbms']) {
