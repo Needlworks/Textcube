@@ -326,7 +326,7 @@ if (file_exists(ROOT.$adminSkinSetting['editorTemplate'])) {
 <?php
 }
 
-include ROOT . '/language/messages.php';
+include ROOT . '/resources/language/messages.php';
 ?>
 		//]]>
 	</script>
