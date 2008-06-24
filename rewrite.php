@@ -29,7 +29,7 @@
 			  preg_replace('/thumbnail/', 'cache/thumbnail', $accessInfo['input'], 1) :
 			  $accessInfo['input']), '/');
 		if(file_exists($part)) {
-			require_once ROOT.'/lib/function/file.php';
+			require_once ROOT.'/library/function/file.php';
 			dumpWithEtag($part);
 			exit;
 		} else {
