@@ -5,7 +5,7 @@
 function Converter(obj_document , treat_control_list ){
 	this.doc= obj_document;
 	this.targets = treat_control_list;
-	this.xmlHeader = '<?xml version="1.0" encoding="utf-8"?><config>';
+	this.xmlHeader = '<' + '?xml version="1.0" encoding="utf-8"?><config>';
 	this.xmlfooter = '</config>';
 }
 Converter.prototype.getXMLData = function(){
