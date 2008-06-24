@@ -25,7 +25,7 @@
 
 */
 
-// lib/model/comment.php : 367 line
+// library/model/comment.php : 367 line
 function _getRecentComments($blogid) {
 	global $skinSetting, $database, $configVal, $pluginURL;
 	$data = fetchConfigVal($configVal);
@@ -46,7 +46,7 @@ function _getRecentComments($blogid) {
 	return $comments;
 }
 
-// lib/view/view.php : 906 line
+// library/view/view.php : 906 line
 function _getRecentCommentsView($comments, $template) {
 	requireComponent("Eolin.PHP.Core");
 	requireComponent("Textcube.Function.misc");
@@ -68,7 +68,7 @@ function _getRecentCommentsView($comments, $template) {
 	return $view;
 }
 
-// lib/piece/blog/end.php : 48 line
+// library/piece/blog/end.php : 48 line
 function CT_RecentRP_Default($target) {
 	global $blogid;
 

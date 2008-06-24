@@ -46,7 +46,7 @@ if (isset($cache->contents)) {
 			$entryView = $skin->keylogItem;
 			dress('keylog_rep_date', fireEvent('ViewKeylogDate', Timestamp::format5($entry['published']), $entry['published']), $entryView);
 			dress('keylog_rep_title', htmlspecialchars(fireEvent('ViewKeylogTitle', $entry['title'], $entry['id'])), $entryView);
-			// 사용자가 작성한 본문은 lib/piece/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
+			// 사용자가 작성한 본문은 library/piece/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
 			$contentContainer["keylog_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], null, 'Keylog');
 			dress('keylog_rep_desc', setTempTag("keylog_{$entry['id']}"), $entryView);
 			dress('keylog_rep_author', User::getName($entry['userid']), $entryView);
@@ -60,7 +60,7 @@ if (isset($cache->contents)) {
 			dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', $entry['title'], $entry['id'])), $entryView);
 			dress('notice_rep_link', $permalink, $entryView);
 			
-			// 사용자가 작성한 본문은 lib/piece/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
+			// 사용자가 작성한 본문은 library/piece/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
 			$contentContainer["notice_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($blogid), 'Notice');
 			dress('notice_rep_desc', setTempTag("notice_{$entry['id']}"), $entryView);
 			dress('notice_rep_author', User::getName($entry['userid']), $entryView);
@@ -122,7 +122,7 @@ if (isset($cache->contents)) {
 			dress('article_rep_response_atomurl', $defaultURL.'/atom/response/'.$entry['id'], $entryView);
 			dress('article_rep_category_body_id',getCategoryBodyIdById($blogid,$entry['category']) ? getCategoryBodyIdById($blogid,$entry['category']) : 'tt-body-category',$entryView);
 			dress('article_rep_title', htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id'])), $entryView);
-			// 사용자가 작성한 본문은 lib/piece/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
+			// 사용자가 작성한 본문은 library/piece/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
 			$contentContainer["article_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($blogid));
 			dress('article_rep_desc', setTempTag("article_{$entry['id']}"), $entryView);
 			dress('article_rep_category', htmlspecialchars(empty($entry['category']) ? _text('분류없음') : $entry['categoryLabel'], $entry['id']), $entryView);

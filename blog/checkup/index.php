@@ -3,8 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('ROOT', '../..');
-require ROOT . '/lib/includeForBlog.php';
-require ROOT . '/lib/model/blog.skin.php';
+require ROOT . '/library/includeForBlog.php';
+require ROOT . '/library/model/blog.skin.php';
 
 requireModel('common.setting');
 

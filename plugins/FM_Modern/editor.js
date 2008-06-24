@@ -2145,7 +2145,7 @@ TTModernEditor.prototype.setPropertyPosition = function(flag) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// moved from lib/view/ownerView.php, printOwnerEditorScript()
+// moved from library/view/ownerView.php, printOwnerEditorScript()
 
 var s_enterURL = _t('URL을 입력하세요.');
 var s_unknownFileType = _t('알 수 없는 형식의 파일명입니다.');
@@ -2258,7 +2258,7 @@ TTModernEditor.prototype.addObject = function(data) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// moved from lib/view/ownerView.php, printEntryEditorPalette()
+// moved from library/view/ownerView.php, printEntryEditorPalette()
 
 TTModernEditor.prototype.getEditorPalette = function() {
 	var colors = ['008000', '009966', '99CC66', '999966', 'CC9900', 'D41A01',
