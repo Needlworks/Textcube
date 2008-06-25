@@ -23,7 +23,7 @@ if ((empty($comment['homepage']) || $comment['homepage'] == 'http://') ) {
 $pageHeadTitle = $pageTitle;
 if( Acl::getIdentity('openid') ) {
 	$pageHeadTitle = $pageTitle;
-	$pageTitle = "$pageTitle ( <img src=\"".$service['path']."/image/icon_openid.gif\" style=\"position:static;\" height=\"16\" width=\"16\"> ".OpenID::getDisplayName(Acl::getIdentity('openid')).")";
+	$pageTitle = "$pageTitle ( <img src=\"".$service['path']."/resources/image/icon_openid.gif\" style=\"position:static;\" height=\"16\" width=\"16\"> ".OpenID::getDisplayName(Acl::getIdentity('openid')).")";
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
