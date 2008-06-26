@@ -350,6 +350,7 @@ class Pop3 {
 				$mail['subject'] = $this->decode_header($match[1]);
 			}
 			if( !isset( $mail['date'] ) && preg_match( '/^Date:\s*(.*)/i', $line, $match ) ) {
+				$match[1] = str_replace( "Wen", "Wed", $match[1] ); /* SKT date header bug, #1036 */
 				$mail['date'] = strtotime( $match[1] );
 				$mail['date_string'] = strftime( "%Y-%m-%d", $mail['date'] );
 				$mail['time_string'] = strftime( "%H:%M:%S", $mail['date'] );
