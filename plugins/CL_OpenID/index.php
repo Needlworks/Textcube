@@ -83,7 +83,7 @@ function openid_ViewCommenter($name, $comment)
 	}
 	$openidlogodisplay = setting::getBlogSettingGlobal( "OpenIDLogoDisplay", 0 );
 	if( $openidlogodisplay ) {
-		$name = "<a href=\"".$comment['openid']."\" class=\"openid\"><img src=\"" .$service['path']. "/image/icon_openid.gif\" alt=\"OpenID Logo\" title=\"" .
+		$name = "<a href=\"".$comment['openid']."\" class=\"openid\"><img src=\"" .$service['path']. "/resources/image/icon_openid.gif\" alt=\"OpenID Logo\" title=\"" .
 			_textf("오픈아이디(%1)로 작성하였습니다", $comment['openid'] ) . "\" /></a>" . $name;
 	} else {
 		preg_match_all('@<a(.*)>(.*)</a>@Usi', $name, $temp);
