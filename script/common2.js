@@ -965,12 +965,22 @@ function processShortcut(event) {
 				window.location = blogURL + "/owner/network/reader/?forceRefresh";
 			break;
 		case 65: //A
+		case 72: //H
+		case 80: //P
 			if(prevURL)
 				window.location = prevURL;
 			break;
 		case 83: //S
+		case 76: //L
+		case 78: //N
 			if(nextURL)
 				window.location = nextURL;
+			break;
+		case 74: //J
+			window.scrollBy(0, 100);
+			break;
+		case 75: //K
+			window.scrollBy(0, -100);
 			break;
 		case 90: //Z
 			window.location = "#recentEntries";
