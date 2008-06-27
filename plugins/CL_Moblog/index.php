@@ -145,9 +145,11 @@ class Moblog
 				$mail['text'] = preg_replace( '@<IMG[^>]*?cid:[^>]*?>@smi', '', $mail['text']);
 				$mail['text'] = preg_replace( '@<BR>\s*<BR>\s*<BR>@smi', '<BR>', $mail['text']);
 			}
-			$text = "<h3 id=\"$docid\">$docid</h3>\r\n";
-			$text .= empty($mail['subject']) ? '' : ("<p>".$mail['subject']."</p>\r\n");
-			$text .= "<p>{$mail['text']}</p>\r\n";
+			$text = "<h3 class=\"moblog-title\" id=\"$docid\">$docid</h3>\r\n";
+			//$text .= empty($mail['subject']) ? '' : ("<p>".$mail['subject']."</p>\r\n");
+			if( !empty($mail['text']) ) {
+				$text .= "<div class=\"moblog-body\">{$mail['text']}</div>\r\n";
+			}
 			return $text;
 	}
 
@@ -196,10 +198,12 @@ class Moblog
 		requireComponent( "Textcube.Data.Post" );
 
 		$post = new Post();
+		$moblog_begin = "\n<div class=\"moblog-entry\">";
+		$moblog_end = "\n</div>\n";
 
 		if( $post->open( "slogan = '$slogan'" ) ) {
 			$this->log( "* 기존 글을 엽니다. (SLOGAN:$slogan)" );
-			$post->content .= $this->_getDecoratedContent( $mail, $docid );
+			$post->content .= $moblog_begin.$this->_getDecoratedContent( $mail, $docid );
 			$post->modified = time();
 			$post->visibility = $this->visibility;
 		} else {
@@ -213,7 +217,7 @@ class Moblog
 			}
 			$post->userid = $this->userid;
 			$post->category = $this->category;
-			$post->content = $this->_getDecoratedContent( $mail, $docid );
+			$post->content = $moblog_begin.$this->_getDecoratedContent( $mail, $docid );
 			$post->contentFormatter = getDefaultFormatter();
 			$post->contentEditor = getDefaultEditor();
 			$post->created = time();
@@ -234,6 +238,7 @@ class Moblog
 
 		if( isset( $mail['attachments'] ) && count($mail['attachments']) ) {
 			requireModel( "blog.api" );
+			$post->content .= "<div class=\"moblog-attachments\">\n";
 			foreach( $mail['attachments'] as $mail_att ) {
 				$this->log( "* ". _t("첨부")." : {$mail_att['filename']}" );
 				$att = api_addAttachment( getBlogId(), $post->id, 
@@ -249,17 +254,20 @@ class Moblog
 					return false;
 				}
 				$alt = htmlentities($mail_att['filename'],ENT_QUOTES,'utf-8');
-				$content ='<p>[##_1C|$FILENAME|width="$WIDTH" height="$HEIGHT" alt="'.$alt.'"|_##]</p>';
+				$content ='[##_1C|$FILENAME|width="$WIDTH" height="$HEIGHT" alt="'.$alt.'"|_##]';
 				$content = str_replace( '$FILENAME', $att['name'], $content );
 				$content = str_replace( '$WIDTH', $att['width'], $content );
 				$content = str_replace( '$HEIGHT', $att['height'], $content );
 				$post->content .= $content;
 			}
-			if( !$post->update() ) {
-				$this->logMail( $mail, "ERROR" );
-				$this->log( _t("실패: 첨부파일을 본문에 연결하지 못하였습니다").". : " . $post->error );
-				return false;
-			}
+			$post->content .= "\n</div>";
+		}
+		$post->content .= $moblog_end;
+
+		if( !$post->update() ) {
+			$this->logMail( $mail, "ERROR" );
+			$this->log( _t("실패: 첨부파일을 본문에 연결하지 못하였습니다").". : " . $post->error );
+			return false;
 		}
 		$this->logMail( $mail, "OK" );
 		return true;
