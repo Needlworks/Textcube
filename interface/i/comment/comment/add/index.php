@@ -35,7 +35,12 @@ if (!doesHaveOwnership() && empty($_GET["name_$replyId"])) {
 	$comment['ip'] = $_SERVER['REMOTE_ADDR'];
 	$result = addComment($blogid, $comment);
 	if (in_array($result, array('ip', 'name', 'homepage', 'comment', 'openidonly', 'etc'))) {
-		printIphoneErrorPage(_text('Comment write blocked.'), _textf('Blocked %1',$blogURL."/comment/".$entryId);
+		if ($result == 'openidonly') {
+			$blockMessage = _text('You have to log in with and OpenID to leave a comment.');
+		} else {
+			$blockMessage = _textf('Blocked %1', $result);
+		}
+		printIphoneErrorPage(_text('Comment write blocked.'), $blockMessage, "$blogURL/comment/$entryId");
 	} else if ($result === false) {
 		printIphoneErrorPage(_text('Comment write error.'), _text('Cannot write comment.'), "$blogURL/comment/$entryId");
 	} else {
