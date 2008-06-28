@@ -607,7 +607,7 @@ class Post {
 		if (isset($this->acceptTrackback))
 			$query->setAttribute('acceptTrackback', Validator::getBit($this->acceptTrackback));
 		if (isset($this->published)) {
-			if (!Validator::number($this->published, 1))
+			if (!Validator::number($this->published, 0))
 				return $this->_error('published');
 			$query->setAttribute('published', $this->published);
 		}
