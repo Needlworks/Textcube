@@ -241,4 +241,4 @@ var MOOdalBox = {
  * http://support.microsoft.com/default.aspx/kb/927917
  */
 // Window.onDomReady(MOOdalBox.init.bind(MOOdalBox));
-window.addEventListener("load", MOOdalBox.init.bind(MOOdalBox));
+window.addEventListener("load", MOOdalBox.init.bind(MOOdalBox),true);
