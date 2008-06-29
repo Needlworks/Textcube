@@ -76,9 +76,14 @@ function MT_Cover_getRecentEntries($parameters){
 			}
 			$tagLabelView = "<div class=\"post_tags\"><span>TAG : </span>".implode(",\r\n", array_values($tags))."</div>";
 		}
-		$categoryName = htmlspecialchars(empty($entry['category']) ? _text('분류없음') : $entry['label']);
-		$categoryLink = "{$defaultURL}/" . (empty($entry['category']) ? "category/" : "category/".encodeURL($categoryName));
-		$permalink = "{$defaultURL}/" . (setting::getBlogSettingGlobal('useSloganOnPost',true) ? "entry/" . encodeURL($entry['slogan']) : $entry['id']);
+		
+		if (empty($entry['category'])) {
+			$entry['label'] = _text('분류없음');
+			$entry['link'] = "{$defaultURL}/category";
+		} else {
+			$entry['link'] = "{$defaultURL}/category/" . (setting::getBlogSettingGlobal('useSloganOnCategory',true) ? URL::encode($entry['label'],$service['useEncodedURL']) : $entry['category']);
+		}
+		$permalink = "{$defaultURL}/" . (setting::getBlogSettingGlobal('useSloganOnPost',true) ? "entry/" . URL::encode($entry['slogan'],$service['useEncodedURL']) : $entry['id']);
 
 		$html .= '<div class="coverpost">'.CRLF;
 		if($imageName = MT_Cover_getAttachmentExtract($entry['content'])){
@@ -89,7 +94,7 @@ function MT_Cover_getRecentEntries($parameters){
 		$html .= '	<div class="content_box">';
 		$html .= '		<h2><a href="'.$permalink.'">'.htmlspecialchars($entry['title']).'</a></h2>'.CRLF;
 		$html .= '		<div class="post_info">'.CRLF;
-		$html .= '			<span class="category"><a href="'.$categoryLink.'">'.$categoryName.'</a></span>'.CRLF;
+		$html .= '			<span class="category"><a href="'.htmlspecialchars($entry['link']).'">'.htmlspecialchars($entry['label']).'</a></span>'.CRLF;
 		$html .= '			<span class="date">'.Timestamp::format5($entry['published']).'</span>'.CRLF;
 		$html .= '			<span class="author"><span class="preposition">by </span>'.User::getName($entry['userid']).'</span>'.CRLF;
 		$html .= '		</div>'.CRLF;
