@@ -38,3 +38,9 @@ select#commandBox option.default
 {
 	font-style: italic;
 }
+
+.iMazingContainer
+{
+	margin: 0 auto;
+	text-align: center;
+}
