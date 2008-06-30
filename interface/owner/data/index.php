@@ -277,7 +277,7 @@ if(Acl::check("group.creators")) {
 		} else {
 ?>
 								<p>
-								 	<?php echo _t('환경설정-계정 정보에서 API key를 설정하시면 온라인 복원을 위한 주소를 만들 수 있습니다.');?>
+								 	<?php echo _t('설정-개인 정보에서 API key를 설정하시면 온라인 복원을 위한 주소를 만들 수 있습니다.');?>
 								</p>
 <?php
 		}
