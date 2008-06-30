@@ -281,12 +281,12 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				} else {
 					$caption = '';
 				}
-				$buf .= '<div style="clear: both; text-align: center"><img src="' . ($useAbsolutePath ? $hostURL : $service['path']) . '/image/gallery/gallery_enlarge.gif" alt="' . _text('확대') . '" style="cursor:pointer" onclick="openFullScreen(\'' . $service['path'] . '/script/gallery/iMazing/embed.php?d=' . urlencode($id) . '&f=' . urlencode($params['frame']) . '&t=' . urlencode($params['transition']) . '&n=' . urlencode($params['navigation']) . '&si=' . urlencode($params['slideshowinterval']) . '&p=' . urlencode($params['page']) . '&a=' . urlencode($params['align']) . '&o=' . $blogid . '&i=' . $imgStr . '\',\'' . htmlspecialchars(str_replace("'", "&#39;", $attributes[count($attributes) - 1])) . '\',\'' . $service['path'] . '\')" />';
+				$buf .= '<div style="clear: both; text-align: center"><img src="' . ($useAbsolutePath ? $hostURL : $service['path']) . '/resources/image/gallery/gallery_enlarge.gif" alt="' . _text('확대') . '" style="cursor:pointer" onclick="openFullScreen(\'' . $service['path'] . '/resources/script/gallery/iMazing/embed.php?d=' . urlencode($id) . '&f=' . urlencode($params['frame']) . '&t=' . urlencode($params['transition']) . '&n=' . urlencode($params['navigation']) . '&si=' . urlencode($params['slideshowinterval']) . '&p=' . urlencode($params['page']) . '&a=' . urlencode($params['align']) . '&o=' . $blogid . '&i=' . $imgStr . '\',\'' . htmlspecialchars(str_replace("'", "&#39;", $attributes[count($attributes) - 1])) . '\',\'' . $service['path'] . '\')" />';
 				$buf .= '<table>';
 				$buf .= '<tr>';
 				$buf .= '<td width="' . $params['width'] . '" height="' . $params['height'] . '">';
 				$buf .= '<div id="iMazingContainer'.$id.'" class="iMazingContainer" style="width:'.$params['width'].'px; height:'.$params['height'].'px;"></div><script type="text/javascript">//<![CDATA['.CRLF;
-				$buf .= 'iMazing' . $id . 'Str = getEmbedCode(\'' . $service['path'] . '/script/gallery/iMazing/main.swf\',\'100%\',\'100%\',\'iMazing' . $id . '\',\'#FFFFFF\',"image=' . $imgStr . '&amp;frame=' . $params['frame'] . '&amp;transition=' . $params['transition'] . '&amp;navigation=' . $params['navigation'] . '&amp;slideshowInterval=' . $params['slideshowinterval'] . '&amp;page=' . $params['page'] . '&amp;align=' . $params['align'] . '&amp;skinPath=' . $service['path'] . '/script/gallery/iMazing/&amp;","false"); writeCode(iMazing' . $id . 'Str, "iMazingContainer'.$id.'");';
+				$buf .= 'iMazing' . $id . 'Str = getEmbedCode(\'' . $service['path'] . '/resources/script/gallery/iMazing/main.swf\',\'100%\',\'100%\',\'iMazing' . $id . '\',\'#FFFFFF\',"image=' . $imgStr . '&amp;frame=' . $params['frame'] . '&amp;transition=' . $params['transition'] . '&amp;navigation=' . $params['navigation'] . '&amp;slideshowInterval=' . $params['slideshowinterval'] . '&amp;page=' . $params['page'] . '&amp;align=' . $params['align'] . '&amp;skinPath=' . $service['path'] . '/resources/script/gallery/iMazing/&amp;","false"); writeCode(iMazing' . $id . 'Str, "iMazingContainer'.$id.'");';
 				$buf .= '//]]></script><noscript>';
 				for ($i = 0; $i < count($imgs); $i += 2)
 				    $buf .= '<img src="'.($useAbsolutePath ? $hostURL : $service['path']).'/attach/'.$blogid.'/'.$imgs[$i].'" alt="" />';
@@ -339,7 +339,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				
 				$buf .= '<div id="jukeBox' . $id . 'Div" style="margin-left: auto; margin-right: auto; width:' . $width . '; height:' . $height . ';"><div id="jukeBoxContainer'.$id.'" style="width:' . $width . '; height:' . $height . ';"></div>';
 				$buf .= '<script type="text/javascript">//<![CDATA['.CRLF;
-				$buf .= 'writeCode(getEmbedCode(\'' . $service['path'] . '/script/jukebox/flash/main.swf\',\'100%\',\'100%\',\'jukeBox' . $id . 'Flash\',\'#FFFFFF\',"sounds=' . $imgStr . '&amp;autoplay=' . $params['autoplay'] . '&amp;visible=' . $params['visible'] . '&amp;id=' . $id . '","false"), "jukeBoxContainer'.$id.'")';
+				$buf .= 'writeCode(getEmbedCode(\'' . $service['path'] . '/resources/script/jukebox/flash/main.swf\',\'100%\',\'100%\',\'jukeBox' . $id . 'Flash\',\'#FFFFFF\',"sounds=' . $imgStr . '&amp;autoplay=' . $params['autoplay'] . '&amp;visible=' . $params['visible'] . '&amp;id=' . $id . '","false"), "jukeBoxContainer'.$id.'")';
 				$buf .= '//]]></script><noscript>';
 				for ($i = 0; $i < count($imgs); $i++) {
 					if ($i % 2 == 0)
