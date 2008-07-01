@@ -99,7 +99,7 @@ if (isset($paging['next'])) {
 						try { window.location = "<?php echo $blogURL;?>/owner/entry"; } catch(e) { };
 						break;
 					case 51: //3
-						try { window.location = "<?php echo $blogURL;?>/owner/communication"; } catch(e) { };
+						try { window.location = "<?php echo $blogURL;?>/owner/communication/comment"; } catch(e) { };
 						break;
 					case 52: //4
 						try { window.location = "<?php echo $blogURL;?>/owner/network"; } catch(e) { };
