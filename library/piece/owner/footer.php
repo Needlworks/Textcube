@@ -102,7 +102,7 @@ if (isset($paging['next'])) {
 						try { window.location = "<?php echo $blogURL;?>/owner/communication/comment"; } catch(e) { };
 						break;
 					case 52: //4
-						try { window.location = "<?php echo $blogURL;?>/owner/network"; } catch(e) { };
+						try { window.location = "<?php echo $blogURL;?>/owner/network/link"; } catch(e) { };
 						break;
 <?php
 if (Acl::check('group.owners')) {
