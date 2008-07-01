@@ -184,7 +184,7 @@ if (false) forceCheckBlog('');
 										
 										for (var i=0; i<pluginIcons.length; ++i) {
 											var temp = pluginIcons[i].src;
-											pluginIcons[i].setAttribute('src', "<?php echo $service['path'];?>/image/spacer.gif");
+											pluginIcons[i].setAttribute('src', "<?php echo $service['path'];?>/resources/image/spacer.gif");
 											pluginIcons[i].style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' + temp + '", sizingMethod="scale")';
 										}
 									}

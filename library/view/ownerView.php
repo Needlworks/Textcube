@@ -177,7 +177,7 @@ function printEntryFileList($attachments, $param) {
 	strpos($attachments[0]['name'] ,'.gif') === false &&
 	strpos($attachments[0]['name'] ,'.jpg') === false &&
 	strpos($attachments[0]['name'] ,'.png') === false)) {
-		$fileName =  "{$service['path']}{$adminSkinSetting['skin']}/image/spacer.gif";
+		$fileName =  "{$service['path']}{$adminSkinSetting['skin']}/resources/image/spacer.gif";
 	} else {
 		$fileName = "{$service['path']}/attach/$blogid/{$attachments[0]['name']}";
 	}
@@ -312,7 +312,7 @@ function printEntryFileList($attachments, $param) {
 																	width = 90 / height * width;
 																	height = 90;
 																}
-																document.getElementById('previewSelected').innerHTML = '<img src="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/'+fileName+'?randseed='+Math.random()+'" width="' + parseInt(width) + '" height="' + parseInt(height) + '" alt="" style="margin-top: ' + ((90-height)/2) + 'px" onerror="this.src=\'<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/spacer.gif\'"/>';																
+																document.getElementById('previewSelected').innerHTML = '<img src="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/'+fileName+'?randseed='+Math.random()+'" width="' + parseInt(width) + '" height="' + parseInt(height) + '" alt="" style="margin-top: ' + ((90-height)/2) + 'px" onerror="this.src=\'<?php echo $service['path'] . $adminSkinSetting['skin'];?>/resources/image/spacer.gif\'"/>';																
 															}
 															catch(e) { }
 															return false;

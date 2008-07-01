@@ -97,7 +97,7 @@ function getTeamBlogSettings() {
 		$image = "{$serviceURL}/attach/".getBlogId()."/team/".$row['image'];
 		$imageRemoveCheck = "";
 	}else{
-		$image = "{$serviceURL}/image/spacer.gif";
+		$image = "{$serviceURL}/resources/image/spacer.gif";
 		$imageRemoveCheck = " disabled ";
 	}
 
@@ -335,7 +335,7 @@ function getAddAttachment($file){
 	$tmpImage = POD::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE blogid=".getBlogId()." and userid=".getUserId());
 	if(!POD::execute("UPDATE {$database['prefix']}TeamUserSettings SET image='".$attachment['name']."', updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
 		@unlink($attachment['path']);
-		$result = "{$serviceURL}/image/spacer.gif";
+		$result = "{$serviceURL}/resources/image/spacer.gif";
 	}else{
 		$result = "{$serviceURL}/attach/".getBlogId()."/team/".$attachment['name'];
 	}
@@ -351,7 +351,7 @@ function getDeleteAttachment($filename){
 		POD::execute("UPDATE {$database['prefix']}TeamUserSettings SET image='', updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId());
 		@unlink(ROOT."/attach/".getBlogId()."/team/".$tmpImage);
 	}
-	$result = "{$serviceURL}/image/spacer.gif";
+	$result = "{$serviceURL}/resources/image/spacer.gif";
 	return $result;
 }
 

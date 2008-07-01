@@ -115,7 +115,7 @@ if (count($_FILES) == 1) {
 ?>
 					oSelect.appendChild(oOption);
 					//oSelect.selectedIndex = oSelect.options.length - 1;
-					//window.parent.document.getElementById("selectedImage").src = "<?php echo (strncmp($attachment['mime'], 'image/', 6) == 0 ? "{$blogURL}/attach/$blogid/{$attachment['name']}" : "{$blogURL}/image/spacer.gif");?>";
+					//window.parent.document.getElementById("selectedImage").src = "<?php echo (strncmp($attachment['mime'], 'image/', 6) == 0 ? "{$blogURL}/attach/$blogid/{$attachment['name']}" : "{$blogURL}/resources/image/spacer.gif");?>";
 					parent.refreshFileSize();
 				} catch(e) {
 				alert('['+e.message+']');

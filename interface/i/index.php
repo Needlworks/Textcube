@@ -82,7 +82,7 @@ if(empty($suri['id'])) {
             <a class="button blueButton" type="submit">Search</a>
             
             <div class="searchIcon"></div>
-			<img id="clearButton" class="clearButton" src="<?php echo $service['path'];?>/image/spacer.gif" onclick="cancelAction(this);" />
+			<img id="clearButton" class="clearButton" src="<?php echo $service['path'];?>/resources/image/spacer.gif" onclick="cancelAction(this);" />
 			<input id="qString" type="text" name="search" autocomplete="off" unedited="true" class="search" onkeyup="searchKeywordCheck(this);" onkeydown="searchKeywordCheck(this);" />
 		</fieldset>
     </form>

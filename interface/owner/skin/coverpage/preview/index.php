@@ -108,7 +108,7 @@ function pretty_dress($view)
 	if (!empty($blog['logo']))
 		dress('image', "{$service['path']}/attach/$blogid/{$blog['logo']}", $view);
 	else
-		dress('image', "{$service['path']}/image/spacer.gif", $view);
+		dress('image', "{$service['path']}/resources/image/spacer.gif", $view);
 	dress('blog_link', "$blogURL/", $view);
 	dress('keylog_link', "$blogURL/keylog", $view);
 	dress('localog_link', "$blogURL/location", $view);
