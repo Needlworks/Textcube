@@ -1619,6 +1619,11 @@ form input:focus, textarea:focus
 	background-color: #eff2e3;
 }
 
+.cal_month 
+{
+	text-align: center !important;
+}
+
 /* Link list */
 
 #linklist ol, #linklist ul
