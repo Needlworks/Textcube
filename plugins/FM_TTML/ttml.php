@@ -481,10 +481,10 @@ function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderU
 			return "<span id=\"$id\"><script type=\"text/javascript\">//<![CDATA[".CRLF."writeCode(" . '\'<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" width="400px" height="300px"><param name="src" value="' . $url . '" /><param name="controller" value="true" /><param name="pluginspage" value="http://www.apple.com/QuickTime/download/" /><!--[if !IE]> <--><object type="video/quicktime" data="' . $url . '" width="400px" height="300px" class="mov"><param name="controller" value="true" /><param name="pluginspage" value="http://www.apple.com/QuickTime/download/" /></object><!--> <![endif]--></object>\'' . ", \"$id\")//]]></script></span>";
 			break;
 		default:
-			if (file_exists(ROOT . '/image/extension/' . misc::getFileExtension($fileInfo['label']) . '.gif')) {
-				return '<a class="extensionIcon" href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/extension/' . misc::getFileExtension($fileInfo['label']) . '.gif" alt="" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
+			if (file_exists(ROOT . '/resources/image/extension/' . misc::getFileExtension($fileInfo['label']) . '.gif')) {
+				return '<a class="extensionIcon" href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/resources/image/extension/' . misc::getFileExtension($fileInfo['label']) . '.gif" alt="" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
 			} else {
-				return '<a class="extensionIcon" href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/extension/unknown.gif" alt="" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
+				return '<a class="extensionIcon" href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/resources/image/extension/unknown.gif" alt="" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
 			}
 			break;
 	}
