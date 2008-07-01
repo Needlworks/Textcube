@@ -92,6 +92,42 @@ if (isset($paging['next'])) {
 <?php 
 }
 ?>
+					case 49: //1
+						try { window.location = "<?php echo $blogURL;?>/owner/center/dashboard"; } catch(e) { };
+						break;
+					case 50: //2
+						try { window.location = "<?php echo $blogURL;?>/owner/entry"; } catch(e) { };
+						break;
+					case 51: //3
+						try { window.location = "<?php echo $blogURL;?>/owner/communication/comment"; } catch(e) { };
+						break;
+					case 52: //4
+						try { window.location = "<?php echo $blogURL;?>/owner/network/link"; } catch(e) { };
+						break;
+<?php
+if (Acl::check('group.owners')) {
+?>
+					case 53: //5
+						try { window.location = "<?php echo $blogURL;?>/owner/skin"; } catch(e) { };
+						break;
+					case 54: //6
+						try { window.location = "<?php echo $blogURL;?>/owner/plugin"; } catch(e) { };
+						break;
+<?php
+}
+?>
+					case 55: //7
+						try { window.location = "<?php echo $blogURL;?>/owner/setting/blog"; } catch(e) { };
+						break;
+<?php
+if (Acl::check('group.creators')) {
+?>
+					case 56: //8
+						try { window.location = "<?php echo $blogURL;?>/owner/control/blog"; } catch(e) { };
+						break;
+<?php
+}
+?>
 					case 191: //?
 						MOOdalBox.open("<?php echo $defaultURL."/owner/help/?subject=".$blogMenu['topMenu'].'_'.$blogMenu['contentMenu']."&lang=".$blog['language'];?>","","500 300");
 						break;
