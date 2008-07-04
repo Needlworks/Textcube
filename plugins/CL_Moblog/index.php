@@ -173,6 +173,21 @@ class Moblog
 		$this->log( "* "._t("메일").": {$mail['subject']} {$date} {$from}[{$result}]" );
 	}
 
+	/**
+	 * Extract tags from {tag1,tag2,tag3,...} format string in the mms message.
+	 * $mail will be changed to be removed tags.
+	 */
+	function extractTags( & $mail )
+	{
+		$p = '/{([^}]*)}/';
+		$tags = array();
+		if( preg_match( $p, $mail['text'], $m ) ) {
+			$tags = split( ',', $m[1] );
+			$mail['text'] = preg_replace( $p, '', $mail['text'] );
+		}
+		return $tags;
+	}
+
 	function retrieveCallback( $lines, $uid )
 	{
 		$this->appendUid( $uid );
@@ -202,7 +217,13 @@ class Moblog
 		$moblog_end = "\n</div>\n";
 
 		if( $post->open( "slogan = '$slogan'" ) ) {
+			$post->loadTags();
 			$this->log( "* 기존 글을 엽니다. (SLOGAN:$slogan)" );
+			if( empty($post->tags) ) {
+				$post->tags = array();
+			}
+			$tags = $this->extractTags( $mail ); /* mail content will be changed */
+			$post->tags = array_merge( $post->tags, $tags );
 			$post->content .= $moblog_begin.$this->_getDecoratedContent( $mail, $docid );
 			$post->modified = time();
 			$post->visibility = $this->visibility;
@@ -217,6 +238,7 @@ class Moblog
 			}
 			$post->userid = $this->userid;
 			$post->category = $this->category;
+			$post->tags = $this->extractTags( $mail ); /* Go with csv string, Tag class supports both string and array */
 			$post->content = $moblog_begin.$this->_getDecoratedContent( $mail, $docid );
 			$post->contentFormatter = getDefaultFormatter();
 			$post->contentEditor = getDefaultEditor();
