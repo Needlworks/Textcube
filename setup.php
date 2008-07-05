@@ -759,7 +759,7 @@ xml_set_object
            echo '<li>', _t('스킨 디렉토리'), ': OK</li>';
         } else {
             $error = 15;
-           echo '<li style="color:red">', _t('스킨 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', "$root/skin", 'customize', '0777'), '</li>';
+           echo '<li style="color:red">', _t('스킨 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', "$root/skin/blog", 'customize', '0777'), '</li>';
         }
 
 ?>
