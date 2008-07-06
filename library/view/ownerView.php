@@ -172,12 +172,14 @@ function printOwnerEditorScript($entryId = false) {
 function printEntryFileList($attachments, $param) {
 	global $service, $blogURL, $adminSkinSetting;
 
+	$spacerURL = $service['path'].$adminSkinSetting['skin'].'/image/spacer.gif';
+
 	$blogid = getBlogId();
 	if(empty($attachments) || (
 	strpos($attachments[0]['name'] ,'.gif') === false &&
 	strpos($attachments[0]['name'] ,'.jpg') === false &&
 	strpos($attachments[0]['name'] ,'.png') === false)) {
-		$fileName =  "{$service['path']}{$adminSkinSetting['skin']}/image/spacer.gif";
+		$fileName =  $spacerURL;
 	} else {
 		$fileName = "{$service['path']}/attach/$blogid/{$attachments[0]['name']}";
 	}
@@ -312,7 +314,7 @@ function printEntryFileList($attachments, $param) {
 																	width = 90 / height * width;
 																	height = 90;
 																}
-																document.getElementById('previewSelected').innerHTML = '<img src="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/'+fileName+'?randseed='+Math.random()+'" width="' + parseInt(width) + '" height="' + parseInt(height) + '" alt="" style="margin-top: ' + ((90-height)/2) + 'px" onerror="this.src=\'<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/spacer.gif\'"/>';																
+																document.getElementById('previewSelected').innerHTML = '<img src="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/'+fileName+'?randseed='+Math.random()+'" width="' + parseInt(width) + '" height="' + parseInt(height) + '" alt="" style="margin-top: ' + ((90-height)/2) + 'px" onerror="if (this.src != \'<?php echo $spacerURL; ?>\') { this.src=\'<?php echo $spacerURL; ?>\' }"/>';																
 															}
 															catch(e) { }
 															return false;
