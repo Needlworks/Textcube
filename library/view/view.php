@@ -958,7 +958,17 @@ function getRecentNoticesView($notices, $noticeView, $noticeItemView) {
 		foreach ($notices as $notice) {
 			$itemView = $noticeItemView;
 			dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', UTF8::lessenAsEm($notice['title'], $skinSetting['recentNoticeLength']), $notice['id'])), $itemView);
-			dress('notice_rep_link', "$blogURL/notice/".($blog['useSloganOnPost'] ? URL::encode($notice['slogan'], $itemView) : $notice['id']), $itemView);
+			if($blog['useSloganOnPost']) {
+				if(isset($notice['slogan'])&& !empty($notice['slogan'])) {
+					$noticeURL = URL::encode($notice['slogan']);
+				} else {
+					$noticeURL = URL::encode($notice['title']);
+				}
+			} else {
+				$noticeURL = $notice['id'];
+			}
+			
+			dress('notice_rep_link', "$blogURL/notice/$noticeURL", $itemView);
 			$itemsView .= $itemView;
 		}
 		dress('rct_notice_rep', $itemsView, $noticeView);
