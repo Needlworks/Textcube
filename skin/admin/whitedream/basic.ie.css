@@ -7,6 +7,13 @@
 	padding-right                    : 7px;
 }
 
+#description-teamblog
+{
+	position                         : absolute;
+	top                              : 15px !important;
+	right                            : 200px;
+}
+
 /* main menu */
 #main-menu-box
 {
@@ -36,6 +43,7 @@
 #main-menu #menu-textcube
 {
 	background-image                 : url("./image/img_header_textcube.gif") !important;
+	top                              : -25px !important;
 }
 
 #sub-menu-helper
