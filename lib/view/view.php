@@ -951,6 +951,31 @@ function getAuthorListView($authorInfo, $template) {
 	return $view;
 }
 
+function getRecentNoticesView($notices, $noticeView, $noticeItemView) {
+	global $blog, $service, $blogURL, $skinSetting, $contentContainer;
+	if (sizeof($notices) > 0) {
+		$itemsView = '';
+		foreach ($notices as $notice) {
+			$itemView = $noticeItemView;
+			dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', UTF8::lessenAsEm($notice['title'], $skinSetting['recentNoticeLength']), $notice['id'])), $itemView);
+			if($blog['useSloganOnPost']) {
+				if(isset($notice['slogan'])&& !empty($notice['slogan'])) {
+					$noticeURL = URL::encode($notice['slogan']);
+				} else {
+					$noticeURL = URL::encode($notice['title']);
+				}
+			} else {
+				$noticeURL = $notice['id'];
+			}
+			
+			dress('notice_rep_link', "$blogURL/notice/$noticeURL", $itemView);
+			$itemsView .= $itemView;
+		}
+		dress('rct_notice_rep', $itemsView, $noticeView);
+	}
+	return $noticeView;
+}
+
 function getRecentEntriesView($entries, $template) {
 	global $blog, $service, $blogURL, $skinSetting, $contentContainer;
 	ob_start();
