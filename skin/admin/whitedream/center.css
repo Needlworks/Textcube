@@ -14,6 +14,12 @@
 
 /* Dashboard *************************************************************************************/
 
+#part-center-quilt h2,
+#part-center-quilt-edit h2
+{
+	display                          : none;
+}
+
 /* Dashboard widget */
 #defaultDashboardWidget
 {
@@ -402,7 +408,7 @@
 
 #independent-notice-line
 {
-	margin: -40px 10px 10px 0;
+	margin: 0 10px -35px 550px;
 }
 
 #independent-notice-line dd
