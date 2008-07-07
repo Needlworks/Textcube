@@ -684,6 +684,16 @@ h4
 	border: 1px solid #ccc;
 }
 
+.article dt
+{
+	font-weight: bold;
+}
+
+.article dd
+{
+	padding-left: 1.2em;
+}
+
 div.footnotes {
 	padding: 1em 0.5em 0 0.2em;
 	font-size: 0.9em;

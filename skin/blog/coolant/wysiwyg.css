@@ -275,4 +275,12 @@ th, td
 	border: 1px solid #ccc;
 }
 
+dt
+{
+	font-weight: bold;
+}
 
+dd
+{
+	padding-left: 1.2em;
+}
