@@ -9,6 +9,7 @@ require ROOT . '/lib/includeForBlog.php';
 require ROOT . '/lib/model/blog.skin.php';
 
 requireModel('common.setting');
+requireModel('blog.entry');
 
 if(!file_exists(ROOT . '/cache/CHECKUP')) $currentVersion = _text('첫번째 점검');
 else $currentVersion = file_get_contents(ROOT . '/cache/CHECKUP');
@@ -366,6 +367,25 @@ if($currentVersion != TEXTCUBE_VERSION) {
 		} else {
 			showCheckupMessage(false);
 		}
+	}
+	/* FROM Textcube 1.7.3 */
+	if ($notices = POD::queryAll("SELECT blogid, id, title
+		FROM {$database['prefix']}Entries 
+		WHERE category = -2
+			AND slogan = ''")) {
+		$changed = true;
+		echo '<li>', _text('fancyURL이 적용되지 않는 공지 글에 슬로건을 추가합니다.'), ': ';
+		foreach($notices as $notice) :
+			$notice['slogan'] = getSlogan($notice['title']);
+			$succeed = POD::execute("UPDATE {$database['prefix']}Entries
+				SET slogan = '".POD::escapeString($notice['slogan'])."'
+				WHERE blogid = {$notice['blogid']}
+				AND id = {$notice['id']}");
+		endforeach;
+		if($succeed)
+			showCheckupMessage(true);
+		else
+			showCheckupMessage(false);
 	}
 }
 
