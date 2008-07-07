@@ -28,6 +28,7 @@
 		$part = ltrim(rtrim($part == 'thumbnail' ?
 			  preg_replace('/thumbnail/', 'cache/thumbnail', $accessInfo['input'], 1) :
 			  $accessInfo['input']), '/');
+		$part = (($qpos = strpos($part, '?')) !== false) ? substr($part, 0, $qpos) : $part;
 		if(file_exists($part)) {
 			require_once ROOT.'/lib/function/file.php';
 			dumpWithEtag($part);
