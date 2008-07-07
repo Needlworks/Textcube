@@ -49,21 +49,11 @@ if (preg_match("@\\[##_calendar_##\\]@iU", $view))
 if (preg_match("@\\[##_random_tags_##\\]@iU", $view))
 	dress('random_tags', getRandomTagsView(getRandomTags($blogid), $skin->randomTags), $view, false, true);
 
-$noticeView = $skin->recentNotice;
 if (preg_match("@\\[##_rct_notice_##\\]@iU", $view)) {
-	$notices = getNotices($blogid);
-	if (sizeof($notices) > 0) {
-		$itemsView = '';
-		foreach ($notices as $notice) {
-			$itemView = $skin->recentNoticeItem;
-			dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', UTF8::lessenAsEm($notice['title'], $skinSetting['recentNoticeLength']), $notice['id'])), $itemView);
-			dress('notice_rep_link', "$blogURL/notice/".($blog['useSloganOnPost'] ? URL::encode($notice['slogan'], $itemView) : $notice['id']), $itemView);
-			$itemsView .= $itemView;
-		}
-		dress('rct_notice_rep', $itemsView, $noticeView);
-		dress('rct_notice', $noticeView, $view, false, true);
-	}
+	$noticeView = getRecentNoticesView(getNotices($blogid), $skin->recentNotice);
+	dress('rct_notice', $noticeView, $view, false, true);
 }
+
 if (preg_match("@\\[##_author_rep_##\\]@iU", $view))
 	dress('author_rep', getAuthorListView(User::getUserNamesOfBlog($blogid), $skin->authorList), $view, false, true);
 if (preg_match("@\\[##_rctps_rep_##\\]@iU", $view))
