@@ -951,12 +951,11 @@ function getAuthorListView($authorInfo, $template) {
 	return $view;
 }
 
-function getRecentNoticesView($notices, $noticeView) {
+function getRecentNoticesView($notices, $noticeView, $itemView) {
 	global $blog, $service, $blogURL, $skinSetting, $contentContainer;
 	if (sizeof($notices) > 0) {
 		$itemsView = '';
 		foreach ($notices as $notice) {
-			$itemView = $skin->recentNoticeItem;
 			dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', UTF8::lessenAsEm($notice['title'], $skinSetting['recentNoticeLength']), $notice['id'])), $itemView);
 			dress('notice_rep_link', "$blogURL/notice/".($blog['useSloganOnPost'] ? URL::encode($notice['slogan'], $itemView) : $notice['id']), $itemView);
 			$itemsView .= $itemView;
