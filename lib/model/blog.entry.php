@@ -351,7 +351,7 @@ function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false
 	global $database, $folderURL;
 	requireModel('blog.category');
 	$entries = array();
-	$paging = $isNotice ? initPaging("$blogURL/notice", '/') : initPaging("$blogURL/entry", '/');
+	$paging = initPaging($folderURL, '/');
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	$visibility .= ($isNotice || doesHaveOwnership())  ? '' : ' AND (c.visibility > 1 OR e.category = 0)';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
