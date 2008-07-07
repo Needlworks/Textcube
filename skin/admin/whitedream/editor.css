@@ -360,11 +360,19 @@ h3
 {
 	height                           : 200px;
 }
+/* Save -----------------------------------------------------------------------------------------*/
+#save-section
+{
+	background-color                 : #F2F2F2 !important;
+	margin                           : 0 20px 5px 0;
+	padding                          : 0 5px 3px 5px;
+	width                            : 640px !important;
+}
 
 /* tag and location -----------------------------------------------------------------------------*/
 #taglocal-section
 {
-	background-color                 : #F2F2F2 !important;
+	background-color                 : #FFFFFF !important;
 	margin                           : 0 20px 5px 0;
 	padding                          : 4px 5px 3px 5px;
 	width                            : 640px !important;

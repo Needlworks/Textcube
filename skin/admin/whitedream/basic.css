@@ -177,7 +177,7 @@ textarea
 /* main description */
 #main-description-box
 {
-	height                           : 49px;
+	height                           : 0;
 	position                         : relative;
 }
 
@@ -196,23 +196,21 @@ textarea
 	line-height                      : 33px;
 }
 
-#description-blogger
+#description-blogger span
 {
-	float                            : left;
-	margin-left                      : 210px;
+	display                          : none;
 }
 
 #description-teamblog
 {
-	background-image                 : url("./image/bg_menu_divider.gif");
-	background-position              : right top;
-	background-repeat                : no-repeat;
-	padding-right                    : 10px;
+	position                         : absolute;
+	top                              : 40px;
+	right                            : 200px;
 }
 
 #description-teamblog label
 {
-	padding-right                    : 5px;
+	display                          : none;
 }
 
 #description-blog
@@ -232,6 +230,11 @@ textarea
 	padding                          : 4px 20px 0 0;
 }
 
+#description-blog span
+{
+	display                          : none;
+}
+
 #description-logout a
 {
 	background-image                 : url("./image/img_logout.gif");
@@ -239,6 +242,11 @@ textarea
 	background-repeat                : no-repeat;
 	color                            : #222;
 	padding                          : 4px 20px 0 0;
+}
+
+#description-logout span
+{
+	display                          : none;
 }
 
 /* main menu */
@@ -380,12 +388,13 @@ textarea
 {
 	background-image                 : url("./image/img_header_textcube.png");
 	background-repeat                : no-repeat;
+	background-position              : bottom;
 	height                           : 70px;
 	left                             : 0;
 	padding                          : 0 !important;
 	position                         : absolute;
 	text-indent                      : -1000px;
-	top                              : 15px;
+	top                              : -34px;
 	width                            : 180px;
 	z-index                          : 100;
 }
@@ -400,7 +409,7 @@ textarea
 #main-menu #menu-control
 {
 	position                         : absolute;
-	top                              : 50px;
+	top                              : 1px;
 	right                            : 85px;
 }
 
@@ -429,7 +438,7 @@ textarea
 	padding-right                    : 15px !important;
 	right                            : 9px;
 	position                         : absolute;
-	top                              : 50px;
+	top                              : 1px;
 }
 
 #sub-menu-helper a

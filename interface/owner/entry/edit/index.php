@@ -573,19 +573,8 @@ if (defined('__TEXTCUBE_POST__')) {
 										<dl id="title-line" class="line">
 											<dt><label for="title" id="title-line-label"><?php echo $isKeyword ? _t('키워드') : _t('제목');?></label></dt>
 											<dd>
-											<div id="starred" class="<?php echo ($entry['starred'] == 2 ? 'star-icon' : 'unstar-icon');?>">
-<a href="#void" onclick="setStar(); return false;" title="<?php echo _t('별표를 줍니다.');?>"><span class="text"><?php echo _t('별표');?></span></a>
-												
-												
-												
-												
-												
-												
-												
-												
-												
-												
-												
+												<div id="starred" class="<?php echo ($entry['starred'] == 2 ? 'star-icon' : 'unstar-icon');?>">
+													<a href="#void" onclick="setStar(); return false;" title="<?php echo _t('별표를 줍니다.');?>"><span class="text"><?php echo _t('별표');?></span></a>
 												</div>
 												<input type="text" id="title" class="input-text" name="title" value="<?php echo htmlspecialchars($entry['title']);?>" onkeypress="return preventEnter(event);" size="60" />
 											</dd>
@@ -696,6 +685,36 @@ if (count($templateLists) == 0) {
 									
 									<hr class="hidden" />
 									
+									<div id="save-section">
+<?php
+if (isset($_GET['popupEditor'])) {
+?>
+										<div class="button-box two-button-box">
+											<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
+											<span class="hidden">|</span>
+											<input type="submit" id="saveButton" value="<?php echo _t('중간 저장');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
+											<span class="hidden">|</span>
+											<input type="submit" value="<?php echo _t('저장 후 돌아가기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />									
+										</div>
+<?php
+} else {
+?>
+										<div class="button-box three-button-box">
+											<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
+											<span class="hidden">|</span>
+							    	  	 		<input type="submit" id="saveButton" value="<?php echo _t('중간 저장');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
+											<span class="hidden">|</span>
+							       			<input type="submit" value="<?php echo _t('저장 후 돌아가기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />
+											<span class="hidden">|</span>
+											<input type="submit" value="<?php echo _t('목록으로');?>" class="list-button input-button" onclick="returnToList();return false;" />
+										</div>
+<?php
+}
+?>
+									</div>
+									
+									<hr class="hidden" />
+									
 									<div id="taglocal-section" class="section">
 										<h3><?php echo _t('태그 &amp; 위치');?></h3>
 												
@@ -739,35 +758,8 @@ if (count($templateLists) == 0) {
 												//]]>
 											</script> 
 										</div>
+									</div>
 
-										<hr class="hidden" />
-										
-<?php
-if (isset($_GET['popupEditor'])) {
-?>
-										<div class="button-box two-button-box">
-											<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
-											<span class="hidden">|</span>
-											<input type="submit" id="saveButton" value="<?php echo _t('중간 저장');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
-											<span class="hidden">|</span>
-											<input type="submit" value="<?php echo _t('저장 후 돌아가기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />									
-										</div>
-<?php
-} else {
-?>
-										<div class="button-box three-button-box">
-											<input type="button" value="<?php echo _t('미리보기');?>" class="preview-button input-button" onclick="entryManager.preview();return false;" />
-											<span class="hidden">|</span>
-							    	  	 		<input type="submit" id="saveButton" value="<?php echo _t('중간 저장');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
-											<span class="hidden">|</span>
-							       			<input type="submit" value="<?php echo _t('저장 후 돌아가기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />
-											<span class="hidden">|</span>
-											<input type="submit" value="<?php echo _t('목록으로');?>" class="list-button input-button" onclick="returnToList();return false;" />
-										</div>
-<?php
-}
-?>
-									</div>							
 									<hr class="hidden" />
 									
 									<div id="upload-section" class="section">

@@ -390,9 +390,10 @@ echo fireEvent('ShowAdminHeader', '');
 $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = ".getUserId());
 requireComponent('Textcube.Core');
 ?>
-						<li id="description-blogger"><span class="text"><?php echo _f('환영합니다. <em>%1</em>님.', htmlspecialchars($writer));?></span></li><?php
-						if ( 'single' != $service['type'] ) {
-							?>
+						<li id="description-blogger"><span class="text"><?php echo _f('환영합니다. <em>%1</em>님.', htmlspecialchars($writer));?></span></li>
+<?php
+						if ('single' != $service['type'] ) {
+?>
 						<li id="description-teamblog"><label for="teamblog"><?php echo _t('현재 블로그');?></label>
 <?php echo User::changeBlog();?>
 						</li>

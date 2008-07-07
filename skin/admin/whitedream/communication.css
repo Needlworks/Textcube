@@ -63,6 +63,13 @@ table.data-inbox tbody tr td.title span.excerpt
 }
 
 /* Comment ****************************************************************************************/
+#part-post-comment h2,
+#part-post-notify h2,
+#part-post-trackback h2,
+#part-post-trash h2
+{
+	display                          : none;
+}
 
 #part-post-comment .caption
 {

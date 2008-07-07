@@ -89,6 +89,10 @@ table.data-inbox tbody tr td.ip
 }
 
 /* Post *******************************************************************************************/
+#part-editor h2
+{
+	display                         : none;
+}
 
 #entry-tabs-box li.entry-starred
 {
