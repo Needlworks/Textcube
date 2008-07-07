@@ -351,7 +351,7 @@ function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false
 	global $database, $folderURL;
 	requireModel('blog.category');
 	$entries = array();
-	$paging = initPaging($folderURL, '/');
+	$paging = $isNotice ? initPaging("$blogURL/notice", '/') : initPaging("$blogURL/entry", '/');
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	$visibility .= ($isNotice || doesHaveOwnership())  ? '' : ' AND (c.visibility > 1 OR e.category = 0)';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
@@ -421,7 +421,7 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false, $catego
 	global $blogURL;
 	requireModel('blog.category');
 	$entries = array();
-	$paging = initPaging("$blogURL/entry", '/');
+	$paging = $isNotice ? initPaging("$blogURL/notice", '/') : initPaging("$blogURL/entry", '/');
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	$visibility .= ($isNotice || doesHaveOwnership()) ? '' : getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
