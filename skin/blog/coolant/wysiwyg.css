@@ -262,3 +262,17 @@ img.tatterFlash
 	margin: 0 auto;
 	/*width: 320px;*/
 }
+
+table
+{
+	border-collapse: collapse;
+	margin: 0.5em;
+}
+
+th, td
+{
+	padding: 0.2em 0.5em;
+	border: 1px solid #ccc;
+}
+
+
