@@ -204,7 +204,7 @@ textarea
 #description-teamblog
 {
 	position                         : absolute;
-	top                              : 40px;
+	top                              : 6px;
 	right                            : 200px;
 }
 
@@ -215,10 +215,10 @@ textarea
 
 #description-blog
 {
-	background-image                 : url("./image/bg_menu_divider.gif");
-	background-position              : right top;
-	background-repeat                : no-repeat;
-	padding-right                    : 10px;
+	position                         : absolute;
+	top                              : 15px;
+	right                            : 30px;
+	z-index                          : 50;
 }
 
 #description-blog a
@@ -227,12 +227,22 @@ textarea
 	background-position              : right center;
 	background-repeat                : no-repeat;
 	color                            : #222;
-	padding                          : 4px 20px 0 0;
+	width                            : 16px;
+	height                           : 16px;
+	display                          : block;
 }
 
 #description-blog span
 {
 	display                          : none;
+}
+
+#description-logout
+{
+	position                         : absolute;
+	top                              : 15px;
+	right                            : 5px;
+	z-index                          : 50;
 }
 
 #description-logout a
@@ -241,7 +251,9 @@ textarea
 	background-position              : right center;
 	background-repeat                : no-repeat;
 	color                            : #222;
-	padding                          : 4px 20px 0 0;
+	width                            : 16px;
+	height                           : 16px;
+	display                          : block;
 }
 
 #description-logout span
@@ -410,7 +422,7 @@ textarea
 {
 	position                         : absolute;
 	top                              : 1px;
-	right                            : 85px;
+	right                            : 135px;
 }
 
 /* Layout Body ***********************************************************************************/
@@ -434,6 +446,7 @@ textarea
 	background-position              : right top !important;
 	background-repeat                : no-repeat;
 	height                           : 40px;
+	width                            : 120px;
 	line-height                      : 3em;
 	padding-right                    : 15px !important;
 	right                            : 9px;
