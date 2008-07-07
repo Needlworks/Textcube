@@ -1401,6 +1401,8 @@ TTModernEditor.prototype.command = function(command, value1, value2) {
 				else
 					this.selectedAnchorElement.target = target;
 				getObject(this.id + "propertyHyperLink").style.display = "none";
+				if(STD.isIE)
+					this.selection.select();
 			}
 			else {
 				if(STD.isIE) {
@@ -1420,7 +1422,7 @@ TTModernEditor.prototype.command = function(command, value1, value2) {
 					link += ' target="' + target + '"';
 				link += ">";
 				if(STD.isIE) {
-				    this.selection.select();
+					this.selection.select();
 					this.selection.pasteHTML(link + this.selection.htmlText + "</a>");
 				}
 				else
