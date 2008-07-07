@@ -871,7 +871,7 @@ function getCalendarView($calendar) {
 
 	for ($week=0; $week<$lastWeek; $week++) {
 		// 주중에 현재 날짜가 포함되어 있으면 주를 현재 주 class(tt-current-week)를 부여한다.
-		if (($today + $firstWeekday) >= $week * 7 && ($today + $firstWeekday) < ($week + 1) * 7) {
+		if (($today + $firstWeekday) > $week * 7 && ($today + $firstWeekday) <= ($week + 1) * 7) {
 			echo '		<tr class="cal_week cal_current_week">'.CRLF;
 		} else {
 			echo '		<tr class="cal_week">'.CRLF;
