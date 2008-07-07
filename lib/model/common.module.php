@@ -48,6 +48,23 @@ function getFormatterInfo($formatter) {
 	return $formatterMapping[$formatter];
 }
 
+function getEntryFormatterInfo($id) {
+	global $database;
+	static $info;
+	
+	if (!Validator::id($id)) {
+		return NULL;
+	} else if (!isset($info[$id])) {
+		$query = sprintf('SELECT `contentFormatter` FROM `%sEntries` WHERE `id` = %d',
+							$database['prefix'],
+							$id
+						);
+		$info[$id] = DBQuery::queryCell($query);
+	}
+	
+	return $info[$id];
+}
+
 function formatContent($blogid, $id, $content, $formatter, $keywords = array(), $useAbsolutePath = false) {
 	$info = getFormatterInfo($formatter);
 	$func = (isset($info['formatfunc']) ? $info['formatfunc'] : 'FM_default_format');
