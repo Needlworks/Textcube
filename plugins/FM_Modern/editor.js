@@ -31,7 +31,7 @@ var TTModernEditor = function() {
 	this.textLess = "";
 
 	this.editMode = "TEXTAREA";
-	this.styleUnknown = 'style="width: 90px; height: 30px; border: 2px outset #796; background-color: #efd; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + servicePath + '/image/extension/unknown.gif\')"';
+	this.styleUnknown = 'style="width: 90px; height: 30px; border: 2px outset #796; background-color: #efd; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + servicePath + '/resources/image/extension/unknown.gif\')"';
 
 	this.buildFontMap();
 }
