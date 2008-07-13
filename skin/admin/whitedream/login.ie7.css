@@ -7,3 +7,8 @@
 	height                           : 3em;
 	line-height                      : 3em;
 }
+
+.input-text
+{
+	background-color: #f8f8f8;
+}
