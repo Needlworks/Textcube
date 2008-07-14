@@ -678,7 +678,8 @@ h4
 	margin: 0.5em;
 }
 
-.article th, td
+.article th, 
+.article td
 {
 	padding: 0.2em 0.5em;
 	border: 1px solid #ccc;
