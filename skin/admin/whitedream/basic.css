@@ -177,7 +177,7 @@ textarea
 /* main description */
 #main-description-box
 {
-	height                           : 0;
+	height                           : 49px;
 	position                         : relative;
 }
 
@@ -196,29 +196,31 @@ textarea
 	line-height                      : 33px;
 }
 
-#description-blogger span
+#description-blogger
 {
-	display                          : none;
+	float                            : left;
+	margin-left                      : 210px;
 }
 
 #description-teamblog
 {
-	position                         : absolute;
-	top                              : 6px;
-	right                            : 200px;
+	background-image                 : url("./image/bg_menu_divider.gif");
+	background-position              : right top;
+	background-repeat                : no-repeat;
+	padding-right                    : 10px;
 }
 
 #description-teamblog label
 {
-	display                          : none;
+	padding-right                    : 5px;
 }
 
 #description-blog
 {
-	position                         : absolute;
-	top                              : 15px;
-	right                            : 30px;
-	z-index                          : 50;
+	background-image                 : url("./image/bg_menu_divider.gif");
+	background-position              : right top;
+	background-repeat                : no-repeat;
+	padding-right                    : 10px;
 }
 
 #description-blog a
@@ -227,22 +229,7 @@ textarea
 	background-position              : right center;
 	background-repeat                : no-repeat;
 	color                            : #222;
-	width                            : 16px;
-	height                           : 16px;
-	display                          : block;
-}
-
-#description-blog span
-{
-	display                          : none;
-}
-
-#description-logout
-{
-	position                         : absolute;
-	top                              : 15px;
-	right                            : 5px;
-	z-index                          : 50;
+	padding                          : 4px 20px 0 0;
 }
 
 #description-logout a
@@ -251,14 +238,7 @@ textarea
 	background-position              : right center;
 	background-repeat                : no-repeat;
 	color                            : #222;
-	width                            : 16px;
-	height                           : 16px;
-	display                          : block;
-}
-
-#description-logout span
-{
-	display                          : none;
+	padding                          : 4px 20px 0 0;
 }
 
 /* main menu */
@@ -400,13 +380,12 @@ textarea
 {
 	background-image                 : url("./image/img_header_textcube.png");
 	background-repeat                : no-repeat;
-	background-position              : bottom;
 	height                           : 70px;
 	left                             : 0;
 	padding                          : 0 !important;
 	position                         : absolute;
 	text-indent                      : -1000px;
-	top                              : -34px;
+	top                              : 15px;
 	width                            : 180px;
 	z-index                          : 100;
 }
@@ -421,8 +400,8 @@ textarea
 #main-menu #menu-control
 {
 	position                         : absolute;
-	top                              : 1px;
-	right                            : 135px;
+	top                              : 50px;
+	right                            : 85px;
 }
 
 /* Layout Body ***********************************************************************************/
@@ -446,12 +425,11 @@ textarea
 	background-position              : right top !important;
 	background-repeat                : no-repeat;
 	height                           : 40px;
-	width                            : 120px;
 	line-height                      : 3em;
 	padding-right                    : 15px !important;
 	right                            : 9px;
 	position                         : absolute;
-	top                              : 1px;
+	top                              : 50px;
 }
 
 #sub-menu-helper a

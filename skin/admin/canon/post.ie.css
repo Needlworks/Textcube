@@ -1,0 +1,64 @@
+@charset "utf-8";
+
+/* Post *******************************************************************************************/
+
+#data-description dl
+{
+	font-family                      : 돋움, Dotum, sans-serif;
+	letter-spacing                   : -1px;
+}
+
+#data-description dl.eolin-description
+{
+	background-position              : 8px top;
+}
+
+#data-description dl.trackback-description
+{
+	background-position              : 6px top;
+}
+
+#data-description dl.protect-description
+{
+	background-position              : left 1px;
+}
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td .input-button
+{
+	line-height                      : 1.6em !important;
+}
+
+/* Tree ******************************************************************************************/
+
+#tree-preview-box .title
+{
+	background-position              : left 2px;
+}
+
+#property-box dl
+{
+	border-top                       : 1px solid #FFFFFF;
+	border-bottom                    : 1px solid #DDDDDD;
+}
+
+#property-box dl dt
+{
+	line-height                      : 2.3em;
+}
+
+#property-box dl dd .input-button
+{
+	line-height                      : 1.6em !important;
+}
+
+/* Trash *****************************************************************************************/
+
+#part-post-trash #search-form
+{
+	top                              : 113px;
+}
+
+.all-delete-button
+{
+	bottom                           : 75px;
+}

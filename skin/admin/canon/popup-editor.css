@@ -1,0 +1,809 @@
+@charset "utf-8";
+
+/* Common ****************************************************************************************/
+
+h3
+{
+	display                          : none;
+}
+
+/* Editor ****************************************************************************************/
+
+#editor
+{
+	margin-left                      : 10px;
+	position                         : relative;
+}
+
+/* title ----------------------------------------------------------------------------------------*/
+#title-section
+{
+	margin                           : 0 20px 0 0;
+	padding                          : 5px 3px 5px 5px;
+	width                            : 658px;
+}
+
+#title-section dl
+{
+	border                           : none;
+	margin-bottom                    : 6px;
+}
+
+#title-section dl dt
+{
+	color                            : #666666;
+	font-weight                      : bold;
+	padding                          : 0 0 3px 0;
+	width                            : 70px !important;
+}
+
+#title-section dl dd
+{
+	margin-left                      : 80px;
+}
+
+#title-section dl dd select
+{
+	vertical-align                   : middle;
+	width                            : 160px;
+}
+
+#title-line dd .input-text
+{
+	border                           : 1px solid #999999;
+	vertical-align                   : middle;
+	width                            : 500px;
+}
+
+#starred
+{
+	width                            : 20px;
+	display                          : inline;
+	padding                          : 0 10px;
+}
+
+.star-icon span,
+.unstar-icon span
+{
+	display                          : none;
+}
+
+.star-icon a
+{
+	background-image                 : url("./image/icon_starred.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block; 
+	width                            : 16px;
+	height                           : 20px;
+	float                            : left;
+}
+
+.unstar-icon a
+{
+	background-image                 : url("./image/icon_unstarred.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block; 
+	width                            : 16px;
+	height                           : 20px;
+	float                            : left;
+}
+
+#category-line
+{
+	margin-bottom                    : 3px !important;
+}
+
+#category-line dt
+{
+	padding                          : 5px 0 3px 0;
+}
+
+#category-line dd div
+{
+	display                          : inline;
+}
+
+#category-line dd label
+{
+	padding-right                    : 10px;
+}
+
+#category-line dd .radio
+{
+	vertical-align                   : middle;
+}
+
+/* textarea -------------------------------------------------------------------------------------*/
+#textarea-section
+{
+	background-color                 : #F2F2F2;
+	clear                            : both;
+	margin                           : 0 0px 0 0;
+	padding                          : 0 0 5px 0;
+	width                            : 650px;
+}
+
+#textarea-section dl.editoroption
+{
+	border                           : none;
+	height                           : 24px;
+	padding                          : 5px 5px 4px 5px;
+	position                         : relative;
+}
+
+#textarea-section dl.editoroption dt
+{
+	color                            : #6B90C3;
+	float                            : left;
+	font-weight                      : bold;
+	left                             : 0;
+	line-height                      : 24px;
+	padding                          : 0;
+	position                         : relative;
+	top                              : 0;
+	text-align                       : right;
+	width                            : 80px;
+}
+
+#textarea-section dl.editoroption dd
+{
+	float                            : left;
+	margin                           : 0 0 0 10px;
+}
+
+#textarea-section dl.editoroption dd select
+{
+	margin                           : 0;
+	vertical-align                   : middle;
+	width                            : 160px;
+}
+
+#editWindow
+{
+	height                           : 448px;
+	width                            : 644px;
+}
+
+#visualEditorWindow
+{
+	border                           : 1px solid #DDDDDD;
+	display                          : block;
+	height                           : 450px;
+	width                            : 648px;
+}
+
+#status-container
+{
+	background-color                 : #CCCCCC;
+	background-image                 : url("./image/edit/resize_bar.gif");
+	background-position              : center top;
+	background-repeat                : no-repeat;
+	cursor                           : n-resize;
+	padding                          : 3px 5px 4px 5px;
+	height                           : 0px;
+}
+
+#status-container span
+{
+	display                          : none;
+}
+
+#toolbox-container
+{
+	background-color                 : #F2F2F2;
+	line-height                      : 5px;
+	margin-top                       : 2px;
+	padding                          : 2px 5px;
+}
+
+/* property box --------------------------------------------------------------------------------*/
+.entry-editor-property
+{
+	background-color                 : #FFFFFF;
+	border                           : 2px solid #999999;
+	padding                          : 0 10px 10px 10px;
+	position                         : absolute;
+	left                             : 670px;
+	top                              : 9px;
+	width                            : 245px;
+}
+
+.entry-editor-property .entry-editor-property-option
+{
+	border-bottom                    : 1px solid #EEEEEE;
+	font-family                      : 돋움, Dotum, sans-serif;
+	font-size                        : 0.9em;
+	padding                          : 8px 0 3px 0;
+	text-align                       : right;
+}
+
+.entry-editor-property h4
+{
+	color                            : #000000;
+	display                          : block;
+	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, 굴림, Gulim, sans-serif;
+	font-size                        : 1em;
+	font-weight                      : bold;
+	margin                           : 10px 0 5px 0;
+	text-align                       : center;
+}
+
+.entry-editor-property .title
+{
+	border-bottom                    : 1px solid #666666;
+	color                            : #666666;
+	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, 굴림, Gulim, sans-serif;
+	font-weight                      : bold;
+	margin                           : 10px 0 3px 0;
+}
+
+.entry-editor-property dl
+{
+	border                           : 1px solid #FFFFFF;
+	padding-bottom                   : 1px;
+	position                         : static;
+}
+
+.entry-editor-property dl dt
+{
+	border                           : none;
+	color                            : #666666;
+	font-family                      : 돋움, Dotum, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
+	font-size                        : 0.93em;
+	font-weight                      : normal;
+	height                           : auto;
+	line-height                      : normal;
+	padding                          : 0;
+	position                         : static;
+	text-align                       : left;
+}
+
+.entry-editor-property dl dd
+{
+	height                           : auto;
+	margin-left                      : 0;
+	width                            : auto !important;
+}
+
+.entry-editor-property dl dd input.input-text
+{
+	border                           : 1px solid #92B5E8;
+	width                            : 242px;
+}
+
+.entry-editor-property dl dd select
+{
+	border                           : 1px solid #92B5E8;
+	width                            : 90px !important;
+}
+
+.entry-editor-property dl dd select.file-list
+{
+	height                           : 220px;
+	margin-bottom                    : 0;
+	width                            : 200px !important;
+}
+
+.entry-editor-property dl dd textarea
+{
+	border                           : 1px solid #92B5E8;
+	height                           : 40px;
+	width                            : 238px !important;
+}
+
+.entry-editor-property dl.resample-property-box dd
+{
+	margin-left                      : 0 !important;
+	padding                          : 5px 0 0 5px;
+}
+
+.entry-editor-property dl.file-list-line dd
+{
+	margin-left                      : 0 !important;
+}
+
+.entry-editor-property dl.file-list-line dd select
+{
+	width                            : 245px !important;
+}
+
+.entry-editor-property .button-box
+{
+	clear                            : both !important;
+	float                            : none !important;
+	margin                           : 0 0 0 auto !important;
+	padding-top                      : 10px;
+	text-align                       : right !important;
+	width                            : 220px;
+}
+
+.entry-editor-property .button-box .button
+{
+	border                           : 1px solid #666666 !important;
+	background-color                 : #EEEEEE !important;
+	background-image                 : none !important;
+	cursor                           : pointer !important;
+	display                          : inline !important;
+	float                            : none !important;
+	line-height                      : 1em;
+	padding                          : 6px 5px 3px 5px;
+	width                            : 70px !important;
+}
+
+.entry-editor-property .button-box .button:hover span
+{
+	color                            : #565656;
+	line-height                      : 1em;
+}
+
+.entry-editor-property .preview-box
+{
+	text-align                       : center;
+}
+
+.entry-editor-property .preview-box img
+{
+	border                           : 1px solid #000000;
+	margin-top                       : 5px;
+	width                            : 220px !important;
+}
+
+/* tag and location -----------------------------------------------------------------------------*/
+#taglocal-section
+{
+	background-color                 : #F2F2F2 !important;
+	margin                           : 0 20px 5px 0;
+	padding                          : 4px 5px 3px 5px;
+	width                            : 640px !important;
+}
+
+#taglocal-section dl
+{
+	border                           : none;
+	position                         : relative;
+}
+
+#taglocal-section dl dt
+{
+	color                            : #6B90C3;
+	font-weight                      : bold;
+	left                             : 0;
+	line-height                      : 20px;
+	padding                          : 0;
+	position                         : absolute;
+	top                              : 0;
+	text-align                       : right;
+	width                            : 70px;
+}
+
+#taglocal-section dl dd
+{
+	margin-left                      : 80px;
+}
+
+#taglocal-section dl dd .input-text
+{
+	border                           : 1px solid #CCCCCC;
+	margin                           : -2px 0 5px 0;
+	vertical-align                   : middle;
+	width                            : 130px;
+}
+
+#taglocal-section dl dd ul
+{
+	line-height                      : 20px;
+}
+
+#tag ul li
+{
+	background-image                 : url("./image/comma.gif");
+	background-position              : right 10px;
+	background-repeat                : no-repeat;
+	display                          : inline;
+	margin-right                     : 5px;
+	padding                          : 0 4px 0 0;
+	vertical-align                   : middle;
+}
+
+#location
+{
+	word-break                       : break-all;
+}
+
+#location ul li
+{
+	background-image                 : url("./image/location_divider.gif");
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	display                          : inline;
+	margin-right                     : 5px;
+	padding                          : 0 10px 0 0;
+	vertical-align                   : middle;
+}
+
+#taglocal-section dl dd ul li.lastChild
+{
+	background-image                 : none;
+}
+
+/* upload ---------------------------------------------------------------------------------------*/
+#upload-section
+{
+	background-color                 : #F5F5F5;
+	margin                           : 5px 20px 2px 0;
+	position                         : relative;
+	width                            : 650px;
+}
+
+#upload-section h3
+{
+	background-color                 : #FFFFFF;
+	display                          : block;
+	padding                          : 10px 10px 3px 10px;
+}
+
+#attachment-container
+{
+	position                         : relative;
+}
+
+#previewSelected
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #878787;
+	left                             : 12px;
+	position                         : absolute;
+	top                              : 10px;
+}
+
+#previewSelected span
+{
+	display                          : block;
+	margin                           : 40px auto 0 auto;
+	text-align                       : center;
+}
+
+#attachManagerSelectNest
+{
+	margin-left                      : 144px;
+	width                            : 415px;
+}
+
+#TCfilelist
+{
+	height                           : 120px;
+	margin-top                       : 10px;
+	width                            : 393px !important;
+}
+
+#fileUploadNest
+{
+	height                           : 3em;
+	padding-left                     : 144px !important;
+	overflow                         : hidden;
+	position                         : relative;
+	text-align                       : left;
+	width                            : 390px;
+}
+
+#fileUploadNest iframe
+{
+	float                            : left;
+	margin-right                     : 3px;
+}
+
+#uploaderNest
+{
+	margin-left                      : 136px;
+}
+
+#upload-section .input-button
+{
+	background-color                 : #FFFFFF;
+	background-image                 : url("./image/bg_button.png");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	border                           : 1px solid #000000;
+	display                          : inline;
+	font-size                        : 1em;
+	height                           : 2em;
+	line-height                      : 2em;
+	overflow                         : hidden;
+	padding                          : 3px 8px;
+	vertical-align                   : middle;
+}
+
+#fileSize
+{
+	margin-top                       : 5px;
+	position                         : absolute;
+	right                            : 0;
+	top                              : 0;
+}
+
+/* iframe */
+#body-editor-attachment
+{
+	background-color                 : #F5F5F5;
+}
+
+#body-editor-attachment .input-file
+{
+	font-size                        : 12px;
+}
+
+/* insert buttons */
+#insert-container
+{
+	position                         : absolute;
+	top                              : 36px;
+	right                            : 5px;
+	width                            : 100px;
+}
+
+#insert-container
+{
+	float                            : left;
+}
+
+#insert-container a
+{
+	background-repeat                : no-repeat;
+	float                            : left;
+	height                           : 25px;
+	margin                           : 2px;
+	width                            : 27px;
+}
+
+#insert-container a:link,
+#insert-container a:visited
+{
+	background-position              : left top;
+}
+
+#insert-container a:hover,
+#insert-container a:active
+{
+	background-position              : left bottom;
+}
+
+#insert-container a span
+{
+	display                          : none;
+}
+
+#insert-container .image-left
+{
+	background-image                 : url("./image/edit/attachAlignLeft2.gif");
+}
+
+#insert-container .image-center
+{
+	background-image                 : url("./image/edit/attachAlignCenter2.gif");
+}
+
+#insert-container .image-right
+{
+	background-image                 : url("./image/edit/attachAlignRight2.gif");
+}
+
+#insert-container .image-2center
+{
+	background-image                 : url("./image/edit/attachAlign2Center2.gif");
+}
+
+#insert-container .image-3center
+{
+	background-image                 : url("./image/edit/attachAlign3Center2.gif");
+}
+
+#insert-container .image-free
+{
+	background-image                 : url("./image/edit/attachAlignFree2.gif");
+}
+
+#insert-container .image-imazing
+{
+	background-image                 : url("./image/edit/attachAlignImazing2.gif");
+}
+
+#insert-container .image-sequence
+{
+	background-image                 : url("./image/edit/attachAlignSequence2.gif");
+}
+
+#insert-container .image-mp3
+{
+	background-image                 : url("./image/edit/attachMP32.gif");
+}
+
+#insert-container .image-podcast
+{
+	background-image                 : url("./image/edit/attachAlignPodcast2.gif");
+}
+
+/* power ----------------------------------------------------------------------------------------*/
+#power-section
+{
+	line-height                      : 17px;
+	margin                           : 0 20px 0 0px;
+	position                         : relative;
+	padding                          : 0 0 8px 0;
+	width                            : 650px;
+}
+
+#power-section dl
+{
+	border-bottom                    : 1px solid #DDDDDD;
+	border-top                       : 1px solid #FFFFFF;
+	position                         : relative;
+}
+
+#power-section dl dt
+{
+	font-weight                      : bold;
+	padding                          : 5px 0 3px 10px;
+	position                         : absolute;
+	text-align                       : left;
+	top                              : 0;
+	width                            : 100px;
+}
+
+#power-section dl dd
+{
+	border-left                      : 1px solid #EEEEEE;
+	padding                          : 5px 0 3px 10px;
+	margin-left                      : 130px;
+}
+
+#power-section dl dd .input-text
+{
+	margin-left                      : 2px;
+	vertical-align                   : middle;
+}
+
+dl#permalink-line dd .input-text
+{
+	border                           : 1px solid #999999;
+	width                            : 150px;
+}
+
+dl#permalink-line dd p
+{
+	font-family                      : 돋움, Dotum, sans-serif;
+	font-size                        : 0.9em;
+	letter-spacing                   : -1px;
+	padding-right                    : 5px;
+	text-align                       : right;
+}
+
+dl#date-line dd div,
+dl#status-line dd div,
+dl#entrytype-line dd div,
+dl#power-line dd div
+{
+	display                          : inline;
+}
+
+dl#power-line
+{
+	border-bottom                    : 1px solid #DDDDDD !important;
+}
+
+.publish-preserve,
+.status-protected,
+.status-public,
+.status-syndicated,
+.trackback-yes
+{
+	padding-left                     : 10px;
+}
+
+/* button box -----------------------------------------------------------------------------------*/
+.button-box
+{
+	padding                          : 20px 0;
+	width                            : 650px;
+}
+
+.button-box .input-button
+{
+	background-color                 : #FFFFFF;
+	background-image                 : none;
+	border                           : 1px solid #BBBBBB;
+	color                            : #000000;
+	font-weight                      : bold;
+	height                           : 3em;
+	line-height                      : 3em;
+	padding-top                      : 8px;
+	padding-bottom                   : 6px;
+	vertical-align                   : middle;
+}
+
+/* Eolin Dialogue ********************************************************************************/
+
+#eolinDialog
+{
+	background-color                 : #FFFFFF;
+	background-image                 : url('./image/img_eolin_head.jpg');
+	background-repeat                : no-repeat;
+	border                           : 1px solid #666666;
+	padding                          : 58px 8px 15px 8px;
+	position                         : relative;
+	width                            : 492px;
+}
+
+#eolinDialog .temp-box
+{
+	border                           : 3px solid #4783B2;
+}
+
+#eolinDialog .temp-box h4
+{
+	border-bottom                    : 1px solid #E6E6E6;
+	color                            : #284A9F;
+	font-size                        : 1em;
+	font-weight                      : bold;
+	margin                           : 20px 15px 10px 15px;
+}
+
+#eolinDialog .temp-box em
+{
+	color                            : #646464;
+	display                          : block;
+	font-weight                      : bold;
+	margin-bottom                    : 5px;
+}
+
+#eolinDialog .temp-box p
+{
+	color                            : #7C7C7C;
+	line-height                      : 1.5em;
+	margin                           : 0 17px;
+}
+
+#eolinDialog .button-box
+{
+	border-top                       : 1px solid #E6E6E6;
+	margin                           : 15px 15px 10px 15px;
+	padding                          : 15px 0 5px 0;
+	width                            : auto;
+}
+
+#eolinDialog .button-box button
+{
+	background-image                 : url('./image/bg_eolin_button.gif');
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	border                           : none;
+	color                            : #284A9F;
+	height                           : 36px;
+	width                            : 313px;
+}
+
+#eolinDialog .button-box button span
+{
+	background-image                 : url('./image/img_eolin_bullet.jpg');
+	background-position              : right top;
+	background-repeat                : no-repeat;
+	padding-right                    : 16px;
+}
+
+#eolinDialog .button-box #close-button
+{
+	background-image                 : url('./image/img_eolin_close.jpg');
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 17px;
+	position                         : absolute;
+	top                              : 10px;
+	right                            : 10px;
+	width                            : 17px;
+}
+
+#eolinDialog .button-box #close-button span
+{
+	display                          : none;
+}

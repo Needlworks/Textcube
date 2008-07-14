@@ -14,12 +14,6 @@
 
 /* Dashboard *************************************************************************************/
 
-#part-center-quilt h2,
-#part-center-quilt-edit h2
-{
-	display                          : none;
-}
-
 /* Dashboard widget */
 #defaultDashboardWidget
 {
@@ -408,24 +402,24 @@
 
 #independent-notice-line
 {
-	margin                           : 0 10px -35px 550px;
+	margin: -40px 10px 10px 0;
 }
 
 #independent-notice-line dd
 {
-	color                            : #222;
-	text-align                       : right;
+	color: #222;
+	text-align: right;
 }
 
 #independent-notice-line dt, #direct-link-line dt
 {
-	display                          : none;
+	display: none;
 }
 
 #direct-link-line
 {
-	margin                           : 25px 10px 20px 10px;
-	text-align                       : right;	
+	margin: 25px 10px 20px 10px;
+	text-align: right;	
 }
 
 #direct-link-line dd

@@ -1,0 +1,92 @@
+@charset "utf-8";
+
+/* Editor ****************************************************************************************/
+
+/* title ----------------------------------------------------------------------------------------*/
+#title-section dl dt
+{
+	left                             : -80px;
+}
+
+#category-line dt
+{
+	padding-top                      : 0 !important;
+}
+
+#category-line dd label
+{
+	padding-right                    : 10px;
+}
+
+/* textarea ------------------------------------------------------------------------------------*/
+#textarea-section dl.line
+{
+	padding-bottom                   : 1px;
+}
+
+/* property box --------------------------------------------------------------------------------*/
+.entry-editor-property dl dt
+{
+	font-size                        : 0.9em !important;
+}
+
+.entry-editor-property dl dd input.input-text
+{
+	width                            : 245px;
+}
+
+.entry-editor-property dl dd textarea
+{
+	width                            : 242px;
+}
+
+/* tag and location -----------------------------------------------------------------------------*/
+#tag-location-container dl dt
+{
+	left                             : -80px;
+	padding-top                      : 3px;
+}
+
+#tag
+{
+	word-break                       : break-all;
+}
+
+#location ul li
+{
+	margin-right                     : 2px;
+}
+
+/* upload ---------------------------------------------------------------------------------------*/
+#attachment-container
+{
+	border : 1px solid #F5F5F5;
+}
+
+#previewSelected
+{
+	top                              : 12px;
+}
+
+#upload-section .input-button
+{
+	line-height                      : 2em !important;
+	padding                          : 0 !important;
+}
+
+#fileUploadNest
+{
+	height                           : 3em;
+}
+
+/* power ----------------------------------------------------------------------------------------*/
+#power-section dl dd
+{
+	padding                          : 9px 0 5px 10px;
+}
+
+/* button box -----------------------------------------------------------------------------------*/
+.button-box .input-button
+{
+	padding                          : 2px 0 0 0 !important;
+}

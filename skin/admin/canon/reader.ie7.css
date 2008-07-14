@@ -1,0 +1,109 @@
+@charset "utf-8";
+
+/* Reader ****************************************************************************************/
+
+/* common ---------------------------------------------------------------------------------------*/
+.button span
+{
+	background-color                 : transparent !important;
+}
+
+/* menu -----------------------------------------------------------------------------------------*/
+#search
+{
+	background-position              : left 2px;
+	margin-top                       : -2px;
+}
+
+#search .input-text
+{
+	margin-top                       : 0 !important;
+	height                           : 1.5em;
+	padding                          : 0 !important;
+}
+
+#search .input-button
+{
+	line-height                      : 1.2em;
+}
+
+#sub-menu-helper
+{
+	top                              : 50px;
+}
+
+/* pannel ---------------------------------------------------------------------------------------*/
+#groupsAndFeeds .data-inbox
+{
+	width                            : 100%;
+}
+
+/* group box */
+#group-section
+{
+	margin-left                      : 6px;
+}
+
+#groupAdder .button-box .input-text
+{
+	margin-top                       : 0;
+	padding                          : 0 !important;
+	height                           : 1.55em;
+}
+
+#groupBox
+{
+	position                         : relative;
+	z-index                          : 30;
+}
+
+#groupEditor .button-box
+{
+	width                            : 213px;
+}
+
+/* feed box */
+#feed-section
+{
+	width                            : 698px;
+}
+
+#feedAdder .button-box .input-text
+{
+	margin-top                       : 0;
+	padding                          : 0 !important;
+	height                           : 1.55em;
+}
+
+ul#feedList li
+{
+	padding                          : 2px 33px 2px 16px !important;
+}
+
+#feedEditor .button-box
+{
+	width                            : 213px;
+}
+
+/* configure ------------------------------------------------------------------------------------*/
+#configure .data-inbox
+{
+	width                            : 948px;
+}
+
+/* content list ---------------------------------------------------------------------------------*/
+#post-list .button-box .button span
+{
+	font-family                      : Dotum, sans-serif;
+}
+
+/* content in detail ----------------------------------------------------------------------------*/
+#entryPermalink
+{
+	right                            : 10px;
+}
+
+#entryFoot .button-box .button
+{
+	font-family                      : Dotum, sans-serif;
+}
