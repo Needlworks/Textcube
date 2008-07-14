@@ -335,7 +335,10 @@ for ($i=0; $i<sizeof($comments); $i++) {
 		}
 	}
 	
-	echo empty($comment['parent']) ? '' : '<span class="explain">' . (isset($tabsClass['guestbook']) ? _f('%1 님의 방명록에 대한 댓글',$comment['parentName']) : _f('%1 님의 댓글에 대한 댓글',$comment['parentName'])) . '</span>';
+	if(empty($comment['parent'])) 
+		echo '<span class="explain">' . (isset($tabsClass['guestbook']) ? _f('%1 님의 방명록',$comment['name']) : _f('%1 님의 댓글',$comment['name'])) . '</span>';
+	else 
+		echo '<span class="explain">' . (isset($tabsClass['guestbook']) ? _f('%1 님의 방명록에 대한 댓글',$comment['parentName']) : _f('%1 님의 댓글에 대한 댓글',$comment['parentName'])) . '</span>';
 	echo "</a>";
 ?>
 												<?php echo ((!empty($comment['title']) || !empty($comment['parent'])) ? '<br />' : '');?>
