@@ -304,11 +304,9 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								function protectEntry(id) {
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/protect/" + id);
 									request.onSuccess = function () {
-										objTable = getParentByTagName("TABLE", getObject("protectedSettingIcon_" + id));
-										objTr = getParentByTagName("TR", getObject("protectedSettingIcon_" + id));
+										objTable = getParentByTagName("TABLE", getObject("protectedIcon_" + id));
+										objTr = getParentByTagName("TR", getObject("protectedIcon_" + id));
 										objTable.deleteRow(objTr.rowIndex + 1);
-										
-										document.getElementById("protectedSettingIcon_" + id).className = "protect-off-button button";
 									}
 									request.onError = function () {
 										alert("<?php echo _t('보호글의 비밀번호를 변경하지 못했습니다.');?>");
