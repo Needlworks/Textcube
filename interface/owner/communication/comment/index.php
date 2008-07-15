@@ -330,7 +330,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 	} else {
 		echo '<a class="entryURL" href="'.$blogURL.'/'.$comment['entry'].'#comment'.$comment['id'].'" title="'._t('댓글이 작성된 포스트로 직접 이동합니다.').'">';
 		echo '<span class="entry-title">'. htmlspecialchars($comment['title']) .'</span>';
-		if ($comment['title'] != '' && $comment['parent'] != '') {
+		if ($comment['title'] != '') {
 			echo '<span class="divider"> | </span>';
 		}
 	}
