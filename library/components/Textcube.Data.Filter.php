@@ -126,7 +126,7 @@ class Filter {
 			default:
 				$type = POD::escapeString($type);
 				$value = POD::escapeString($value);
-				return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = '$type' AND '$value' LIKE CONCAT('%', pattern, '%') LIMIT 1");
+				return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = '$type' AND '$value' ILIKE CONCAT('%', pattern, '%') LIMIT 1");
 		}
 	}
 
@@ -135,7 +135,7 @@ class Filter {
 		global $database;
 
 		$whiteurl = POD::escapeString($whiteurl);
-		return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = 'whiteurl' AND '$whiteurl' LIKE CONCAT('%', pattern, '%') LIMIT 1");
+		return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = 'whiteurl' AND '$whiteurl' ILIKE CONCAT('%', pattern, '%') LIMIT 1");
 	}
 	
 	function _buildQuery() {
