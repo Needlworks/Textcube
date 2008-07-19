@@ -39,9 +39,7 @@ function errorExit($code)
 	if( in_array($code, array(404)) ) {
 		requireModel( "common.plugin" );
 		fireEvent('OBStart');
-		require_once ROOT . '/lib/piece/blog/begin.php';
-		$automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
-		dress('SKIN_head_end', $automaticLink."[##_SKIN_head_end_##]", $view);
+		require_once ROOT . '/library/piece/blog/begin.php';
 
 		if (empty($skin->pageError)) { 
 			dress('article_rep', '<div class="TCwarning">' . _text('존재하지 않는 페이지입니다.') . '</div>', $view);
