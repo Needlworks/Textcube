@@ -71,16 +71,12 @@ if(empty($suri['id'])) {  // Without id.
 	$skin = new Skin($skinSetting['skin']);
 	if(empty($suri['value']) && $suri["directive"] == "/" && count($coverpageMappings) > 0 && getBlogSetting("coverpageInitView") && isset($skin->cover)) {
 		require ROOT . '/library/piece/blog/begin.php';
-		$automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/resources/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
-		dress('SKIN_head_end', $automaticLink."[##_SKIN_head_end_##]", $view);
 		dress('article_rep', '', $view);
 		dress('paging', '', $view);
 		require ROOT . '/library/piece/blog/cover.php';
 	} else {
 		list($entries, $paging) = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnPage']);
 		require ROOT . '/library/piece/blog/begin.php';
-		$automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/resources/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
-		dress('SKIN_head_end', $automaticLink."[##_SKIN_head_end_##]", $view);
 		require ROOT . '/library/piece/blog/entries.php';
 	}
 	
@@ -102,8 +98,6 @@ if(empty($suri['id'])) {  // Without id.
 			print $view;
 	} else {
 		require ROOT . '/library/piece/blog/begin.php';
-		$automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/resources/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
-		dress('SKIN_head_end', $automaticLink."[##_SKIN_head_end_##]", $view);
 		if (empty($entries)) {
 			header('HTTP/1.1 404 Not Found');
 			if (empty($skin->pageError)) { 

@@ -16,9 +16,6 @@ if (isset($suri['id']) || (isset($suri['value']) && strlen($suri['value']) > 0))
 	fireEvent('OBStart');
 	require ROOT . '/library/piece/blog/begin.php';
 	
-	$automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/resources/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
-	dress('SKIN_head_end', $automaticLink."[##_SKIN_head_end_##]", $view);
-	
 	if (empty($entries)) {
 		header('HTTP/1.1 404 Not Found');
 		if (empty($skin->pageError)) {
@@ -37,10 +34,6 @@ if (isset($suri['id']) || (isset($suri['value']) && strlen($suri['value']) > 0))
 	list($entries, $paging) = getEntriesWithPagingByNotice($blogid, $suri['page'], $blog['entriesOnPage']);
 	fireEvent('OBStart');
 	require ROOT . '/library/piece/blog/begin.php';
-	
-	$automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/resources/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
-	dress('SKIN_head_end', $automaticLink."[##_SKIN_head_end_##]", $view);
-	
 	require ROOT . '/library/piece/blog/entries.php';
 	require ROOT . '/library/piece/blog/end.php';
 	fireEvent('OBEnd');
