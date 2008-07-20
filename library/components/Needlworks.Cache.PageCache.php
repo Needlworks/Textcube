@@ -41,7 +41,7 @@ class pageCache {
 		null;
 	}
 
-	function create () {
+	private function create () {
 		$this->initialize();
 		if(!$this->getFileName()) return false;
 		if(file_exists($this->absoluteFilePath))
@@ -58,14 +58,14 @@ class pageCache {
 		return false;
 	}
 
-	function update () {
+	public function update () {
 		global $service;
 		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
 		$this->purge();
 		$this->create();
 	}
 
-	function load () {
+	public function load () {
 		global $service;
 		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
 		$this->initialize();
@@ -77,7 +77,7 @@ class pageCache {
 		else return false;
 	}
 
-	function initialize() {
+	private function initialize() {
 		 if (!is_dir(ROOT."/cache/pageCache/".getBlogId())){
 			 if(!is_dir(ROOT."/cache/pageCache")) {
 				 @mkdir(ROOT."/cache/pageCache");
@@ -87,7 +87,7 @@ class pageCache {
 			 @chmod(ROOT."/cache/pageCache/".getBlogId(),0777);
 		 }
 	}
-	function purge () {
+	private function purge () {
 		global $service;
 		if(isset($service['pagecache']) && $service['pagecache'] == false) return true;
 		$this->getFileName();
@@ -137,7 +137,7 @@ class pageCache {
 		return $this->getPageCacheLog();
 	}
 
-	function getPageCacheLog() {
+	private function getPageCacheLog() {
 		global $database;
 		$result = POD::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog 
 			WHERE blogid = ".getBlogId()."
@@ -152,15 +152,15 @@ class pageCache {
 		return true;
 	}
 
-	function setPageCacheLog() {
+	private function setPageCacheLog() {
 		global $database;
 		if(doesHaveOwnership()) $this->_dbContents['owner'] = $this->dbContents;
 		else $this->_dbContents['user'] = $this->dbContents;
 		return POD::execute("REPLACE INTO {$database['prefix']}PageCacheLog 
-			VALUES(".getBlogId().", '".POD::escapeString($this->realName)."', '".tc_escape_string(serialize($this->_dbContents))."')");
+			VALUES(".getBlogId().", '".POD::escapeString($this->realName)."', '".POD::escapeString(serialize($this->_dbContents))."')");
 	}
 
-	function removePageCacheLog() {
+	private function removePageCacheLog() {
 		global $database;
 		return POD::execute("DELETE FROM {$database['prefix']}PageCacheLog 
 			WHERE blogid = ".getBlogId()."
@@ -297,6 +297,7 @@ class globalCacheStorage extends pageCache {
 	}
 }
 
+// CacheControl have functions for flushing caches.
 class CacheControl {
 	function flushAll($blogid = null) {
 		global $database;
@@ -538,6 +539,8 @@ class CacheControl {
 	}
 }
 
+// MMCache is instant memory cache as table type data.
+// Supports same methods as POD raw mode.
 class MMCache{
 	/*var $variable;*/
 	
@@ -565,25 +568,25 @@ class MMCache{
 }
 
 class CodeCache {
-	function CodeCache() {
+	function __construct() {
 		$this->reset();
 	}
 	
-	function reset() {
+	private function reset() {
 		$this->code =
 		$this->name =
 		$this->fileName =
 		null;
 	}
 	
-	function initialize() {
+	private function initialize() {
 		 if (!is_dir(ROOT."/cache/code")){
 			 @mkdir(ROOT."/cache/code");
 			 @chmod(ROOT."/cache/code",0777);
 		 }
 	}
 	
-	function save() {
+	public function save() {
 		if(!empty($this->name)) $this->__getCodes();	// Get source codes.
 		if(empty($this->code)) return $this->_error(2);
 		$this->initialize();
