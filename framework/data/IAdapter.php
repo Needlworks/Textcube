@@ -5,11 +5,16 @@
 
 interface IDBAdapter
 {
-	public function connect($server, $userid, $password, array $options);
+	public function connect($server, $dbname, $userid, $password, array $options);
 	public function disconnect();
 	public function beginTransaction();
-	public function endTransaction();
+	public function endTransaction($apply = true);
 	public function query($query);
+	public static function escape($string);
 }
+
+class DBException extends Exception {}
+class ConnectionError extends DBException {}
+class QueryError extends DBException {}
 
 ?>
