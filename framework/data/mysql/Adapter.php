@@ -49,12 +49,21 @@ class Adapter implements IDBAdapter
 		return mysql_query($query);
 	}
 
-	public static function escape($string)
+	public static function escapeString($var)
 	{
-		if (is_array($string)) {
-			return array_map(escape, $string);
+		if (is_array($var)) {
+			return array_map(escapeString, $var);
 		} else {
-			return mysql_escape_string($string);
+			return mysql_escape_string($var);
+		}
+	}
+
+	public static function escapeFieldName($var)
+	{
+		if (is_array($var)) {
+			return array_map(escapeFieldName, $var);
+		} else {
+			return '`'.$var.'`';
 		}
 	}
 }
