@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-class MySQLAdapter implements IAdapter
+class PSQLAdapter implements IAdapter
 {
 	function __construct()
 	{
@@ -17,6 +17,7 @@ class MySQLAdapter implements IAdapter
 
 	public function connect($server, $dbname, $userid, $password, array $options)
 	{
+		$connection_str = "host=$server dbname=$dbname user=$userid password=$password";
 		if ($options != NULL) {
 			foreach ($options as $key => $value) {
 				switch ($key) {
@@ -26,41 +27,34 @@ class MySQLAdapter implements IAdapter
 				}
 			}
 		}
-		$this->conn = mysql_connect($server, $userid, $password);
-		if ($this->conn === FALSE) {
+		$this->conn = pg_connect($connection_str);
+		if (pg_connection_status($this->conn) === PSQL_CONNECTION_OK) {
+			pg_set_client_encoding($this->conn, 'UTF8');		
+		} else {
 			$this->conn = NULL;
-			throw new ConnectionError(mysql_error());
+			throw new ConnectionError(pg_last_error());
 		}
-		@mysql_query("SET NAMES UTF8", $this->conn);
-		@mysql_query("SET CHARACTER SET UTF8", $this->conn);
-		if (mysql_select_db($dbname, $this->conn) === FALSE)
-			throw new DBError("No such database: $dbname");
 	}
 
 	public function disconnect()
 	{
 		if ($this->conn) {
-			mysql_close($this->conn);
+			pg_close($this->conn);
 			$this->conn = NULL;
 		}
 	}
 
 	public function beginTransaction()
 	{
-		mysql_query("BEGIN", $this->conn);
+		pg_query($this->conn, "BEGIN");
 	}
 
 	public function endTransaction($apply = TRUE)
 	{
 		if ($apply)
-			mysql_query("COMMIT", $this->conn);
+			pg_query($this->conn, "COMMIT");
 		else
-			mysql_query("ROLLBACK", $this->conn);
-	}
-
-	public function query($query)
-	{
-		return mysql_query($query, $this->conn);
+			pg_query($this->conn, "ROLLBACK");
 	}
 
 	public static function escapeString($var)
@@ -68,15 +62,14 @@ class MySQLAdapter implements IAdapter
 		if (is_array($var))
 			return array_map(escapeString, $var);
 		else
-			return mysql_escape_string($var);
+			return pg_escape_string($var);
 	}
 
 	public static function escapeFieldName($var)
 	{
-		if (is_array($var))
-			return array_map(escapeFieldName, $var);
-		else
-			return '`'.$var.'`';
+		// TODO: how to do this in psql?
+		return $var;
 	}
 }
+
 ?>
