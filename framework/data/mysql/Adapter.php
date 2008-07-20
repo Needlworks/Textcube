@@ -20,6 +20,8 @@ class Adapter implements IAdapter
 	public function connect($server, $dbname, $userid, $password, array $options)
 	{
 		$this->conn = mysql_connect($server, $userid, $password);
+		if ($this->conn === false)
+			throw new ConnectionError();
 		@mysql_query("SET NAMES UTF8");
 		@mysql_query("SET CHARACTER SET UTF8");
 		mysql_query("USE $dbname");
