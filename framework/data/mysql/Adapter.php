@@ -5,7 +5,7 @@
 
 // TODO: process errors and exceptions
 
-class Adapter implements IDBAdapter
+class Adapter implements IAdapter
 {
 	function __construct()
 	{
