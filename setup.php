@@ -67,7 +67,7 @@ if (file_exists($root . '/config.php') && (filesize($root . '/config.php') > 0))
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> - Setup</title>
-<link rel="stylesheet" media="screen" type="text/css" href="./style/setup/style.css" />
+<link rel="stylesheet" media="screen" type="text/css" href="resources/style/setup/style.css" />
 <script  type="text/javascript">
 //<![CDATA[
 	function current(){ 
@@ -121,7 +121,7 @@ if (array_key_exists('phpinfo',$_GET)) {
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> - Setup</title>
-<link rel="stylesheet" media="screen" type="text/css" href="./style/setup/style.css" />
+<link rel="stylesheet" media="screen" type="text/css" href="resources/style/setup/style.css" />
 <script type="text/javascript">
 //<![CDATA[
     function init() {
