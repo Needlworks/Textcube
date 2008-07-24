@@ -411,27 +411,26 @@ textarea
 
 #sub-menu-helper
 {
-	background-image                 : url("./image/bg_menu.png") !important;
-	background-position              : right top !important;
-	background-repeat                : no-repeat;
 	height                           : 40px;
-	width                            : 120px;
+	width                            : 40px;
 	line-height                      : 3em;
-	padding-right                    : 15px !important;
-	right                            : 9px;
+	padding-right                    : 35px !important;
 	position                         : absolute;
-	top                              : 1px;
+	right                            : 9px;
+	top                              : 1px !important;
 }
 
 #sub-menu-helper a
 {
 	background-image                 : url("./image/img_helper.gif");
-	background-position              : right center;
+	background-position              : center;
 	background-repeat                : no-repeat;
-	color                            : #DDE5F1;
-	font-family                      : Dotum, AppleGothic, '돋움', '굴림', Gulim, sans-serif;
-	font-size                        : 0.9em;
-	padding                          : 0 16px !important;
+	padding                          : 0 10px !important;
+}
+
+#sub-menu-helper a span
+{
+	display                          : none;
 }
 
 /* pseudo box */

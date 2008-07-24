@@ -27,11 +27,6 @@ h2
 #reader-menu-box
 {
 	background-color                 : #FFFFFF;
-	background-image                 : url("./image/bg_body_top.png");
-	background-position              : left top;
-	background-repeat                : repeat-x;
-	border-left                      : 1px solid #BBBBBB;
-	border-right                     : 1px solid #BBBBBB;
 	margin                           : 5px auto 0 auto;
 	width                            : 980px;
 	padding                          : 5px 0 0 0;
