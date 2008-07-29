@@ -1,6 +1,6 @@
 <?php
 
-$config = NULL;
+$_configInstance = NULL;
 
 class Config {
 	function __construct() {
@@ -13,9 +13,9 @@ class Config {
 	}
 
 	static function getInstance() {
-		global $config;
-		if ($config == NULL)
-			$config = new Config();
-		return $config;
+		global $_configInstance;
+		if ($_configInstance == NULL)
+			$_configInstance = new Config();
+		return $_configInstance;
 	}
 }
