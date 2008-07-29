@@ -77,12 +77,19 @@ class Debug {
 			syslog(LOG_DEBUG, $msg);
 			break;
 		default:
-			fwrite(STDERR, $msg);
+			fwrite(STDERR, $msg . "\n");
 			break;
 		}
 	}
 
-	function writef($format, $vars) {
+	function writef() {
+		if (func_num_args() == 1)
+			$this->write(func_get_arg(0));
+		else if (func_num_args() >= 2) {
+			$format = func_get_arg(0);
+			$args = array_slice(func_get_args(), 1);
+			$this->write(vsprintf($format, $args));
+		}
 	}
 }
 ?>
