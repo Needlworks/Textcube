@@ -60,7 +60,7 @@ class PSQLAdapter implements IAdapter
 	public static function escapeString($var)
 	{
 		if (is_array($var))
-			return array_map(PSQLAdapter::escapeString, $var);
+			return array_map(array('PSQLAdapter', 'escapeString'), $var);
 		else
 			return pg_escape_string($var);
 	}

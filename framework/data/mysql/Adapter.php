@@ -66,7 +66,7 @@ class MySQLAdapter implements IAdapter
 	public static function escapeString($var)
 	{
 		if (is_array($var))
-			return array_map(MySQLAdaper::escapeString, $var);
+			return array_map(array('MySQLAdaper', 'escapeString'), $var);
 		else
 			return mysql_escape_string($var);
 	}
@@ -74,7 +74,7 @@ class MySQLAdapter implements IAdapter
 	public static function escapeFieldName($var)
 	{
 		if (is_array($var))
-			return array_map(MySQLAdapter::escapeFieldName, $var);
+			return array_map(array('MySQLAdapter', 'escapeFieldName'), $var);
 		else
 			return '`'.$var.'`';
 	}
