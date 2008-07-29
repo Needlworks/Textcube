@@ -4,13 +4,21 @@ $_configInstance = NULL;
 
 class Config {
 	function __construct() {
-
+		$this->settings = array();
 	}
 
 	function __get($name) {
-	}
-
-	function __set($name) {
+		$val = NULL;
+		switch ($name) {
+			case 'database':
+				break;
+			case 'service':
+				break;
+			default:
+				$val = $this->settings[$name];
+				break;
+		}
+		return $val;
 	}
 
 	static function getInstance() {
