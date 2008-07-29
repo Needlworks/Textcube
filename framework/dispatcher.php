@@ -18,6 +18,7 @@ if (file_exists('config.php')) {
 }
 
 /* Initialize class loader. */
+include('settings.php');
 include('loader.php');
 
 /* TODO: Unify the environment and do work-arounds. (For IIS, Apache - mod_php or fastcgi, lighttpd, and etc.) */
