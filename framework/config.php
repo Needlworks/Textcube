@@ -4,7 +4,6 @@ $_configInstance = NULL;
 
 class Config {
 	function __construct() {
-
 	}
 
 	function __get($name) {
