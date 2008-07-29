@@ -7,8 +7,18 @@
 //   is executed AT FIRST.
 //   specifies the main workflow of Textcube 2.0.
 
-/* TODO: Load config.php and vital libraries. */
-// Redirect to setup process if there's no config.php.
+define('TEXTCUBE_VERSION', '2.0');
+
+/* Load config.php. */
+if (file_exists('config.php')) {
+	require_once('config.php');
+} else {
+	echo "TODO: redirect to setup.";
+	exit;
+}
+
+/* Initialize class loader. */
+include('loader.php');
 
 /* TODO: Unify the environment and do work-arounds. (For IIS, Apache - mod_php or fastcgi, lighttpd, and etc.) */
 
@@ -19,9 +29,6 @@
 /* TODO: Session management. */
 
 /* TODO: Special pre-handlers. (favicon.ico, index.gif) */
-
-/* TODO: Load more libraries depending on handler types. (outside, admin, feeder, ...) */
-// integrate includeForBlog.php, includeForBlogOwner.php, includeForFeeder.php, etc. here.
 
 /* TODO: Load final interface handler. */
 // Check existence of interface path.
