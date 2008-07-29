@@ -4,6 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 $classPaths = array(
+	'Debug' => './debug.php',
 	'IModel' => './data/IAdapter.php',
 	'IAdapter' => './data/IModel.php',
 	'ICache' => './cache/ICache.php',
