@@ -3,11 +3,12 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-$_configInstance = NULL;
-
 class Config {
+	private static $instance;
+
 	function __construct() {
 		$this->settings = array();
+		// TODO: load settings
 	}
 
 	function __get($name) {
@@ -24,11 +25,10 @@ class Config {
 		return $val;
 	}
 
-	static function getInstance() {
-		global $_configInstance;
-		if ($_configInstance == NULL)
-			$_configInstance = new Config();
-		return $_configInstance;
+	public static function getInstance() {
+		if (!isset(self::$instance))
+			self::$instance = new Config();
+		return self::$instance;
 	}
 }
 
