@@ -57,18 +57,22 @@ function __autoload($name) {
 	static $model = array(
 		'Paging','PluginCustomConfig','Statistics','User'
 		);
+	static $base = array(
+		'Base64Stream','HTTPRequest','OutputWriter','XMLRPC');
 	if(in_array($name,$data)) {
 		require_once(ROOT . "/library/components/Textcube.Data.".$name.".php");
 	} else if (in_array($name,$model)) {
 		require_once(ROOT . "/library/components/Textcube.Model.".$name.".php");
+	} else if (in_array($name,$base)) {
+		require_once(ROOT . "/library/components/Needlworks.PHP.".$name.".php");
 	}
 }
 
 /***** Pre-define basic components *****/
 global $__requireComponent;
 $__requireComponent = array(
-	'Eolin.PHP.UnifiedEnvironment',
-	'Eolin.PHP.Core',
+	'Needlworks.PHP.UnifiedEnvironment',
+	'Needlworks.PHP.Core',
 	'Textcube.Core',
 	'Textcube.Core.BackwardCompatibility',
 	'Textcube.Control.Auth',

@@ -380,8 +380,6 @@ function sendCommentPing($entryId, $permalink, $name, $homepage) {
 			AND draft = 0
 			AND visibility = 3 
 			AND acceptComment = 1")) {
-		requireComponent('Eolin.PHP.Core');
-		requireComponent('Eolin.PHP.XMLRPC');
 		$rpc = new XMLRPC();
 		$rpc->url = TEXTCUBE_SYNC_URL;
 		$summary = array(
@@ -878,7 +876,6 @@ function notifyComment() {
 	}
 
 	$data = "url=" . rawurlencode($defaultURL) . "&mode=fb" . "&s_home_title=" . rawurlencode($blog['title']) . "&s_post_title=" . rawurlencode($entry['title']) . "&s_name=" . rawurlencode($comments['name']) . "&s_no=" . rawurlencode($comments['entry']) . "&s_url=" . rawurlencode($entryPermaLink) . "&r1_name=" . rawurlencode($parentComments['name']) . "&r1_no=" . rawurlencode($parentComments['id']) . "&r1_pno=" . rawurlencode($comments['entry']) . "&r1_rno=0" . "&r1_homepage=" . rawurlencode($parentComments['homepage']) . "&r1_regdate=" . rawurlencode($parentComments['written']) . "&r1_url=" . $r1_comment_check_url. "&r2_name=" . rawurlencode($comments['name']) . "&r2_no=" . rawurlencode($comments['id']) . "&r2_pno=" . rawurlencode($comments['entry']) . "&r2_rno=" . rawurlencode($comments['parent']) . "&r2_homepage=" . rawurlencode($comments['homepage']) . "&r2_regdate=" . rawurlencode($comments['written']) . "&r2_url=" . $r2_comment_check_url . "&r1_body=" . rawurlencode($parentComments['comment']) . "&r2_body=" . rawurlencode($comments['comment']);
-	requireComponent('Eolin.PHP.HTTPRequest');
 	if (strpos($parentComments['homepage'], "http://") === false) {
 		$homepage = 'http://' . $parentComments['homepage'];
 	} else {

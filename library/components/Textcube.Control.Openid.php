@@ -21,10 +21,9 @@ if( !file_exists("/dev/urandom") ) {
 	define('Auth_OpenID_RAND_SOURCE', null);
 }
 
-requireComponent( "Eolin.PHP.Core" );
-requireComponent( "Textcube.Core" );
-requireComponent( "Textcube.Control.Auth" );
-requireComponent( "Textcube.Function.misc" );
+requireComponent('Textcube.Core');
+requireComponent('Textcube.Control.Auth');
+requireComponent('Textcube.Function.misc');
 
 include_once OPENID_LIBRARY_ROOT."Auth/Yadis/XML.php";
 include_once XPATH_LIBRARY_ROOT."XPath.class.php";

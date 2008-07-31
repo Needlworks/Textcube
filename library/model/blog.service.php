@@ -156,7 +156,6 @@ function writeHtaccess($contents) {
 }
 
 function writeConfigFile($settings) {
-	requireComponent('Eolin.PHP.OutputWriter');
 	$writer = new OutputWriter;
 	
 	global $database, $service;

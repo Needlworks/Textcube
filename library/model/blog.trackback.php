@@ -132,8 +132,6 @@ function getRecentTrackbacks($blogid, $count = false, $guestShip = false) {
 }
 
 function sendTrackbackPing($entryId, $permalink, $url, $site, $title) {
-	requireComponent('Eolin.PHP.Core');
-	requireComponent('Eolin.PHP.XMLRPC');
 	$rpc = new XMLRPC();
 	$rpc->url = TEXTCUBE_SYNC_URL;
 	$summary = array(
@@ -240,7 +238,6 @@ function revertTrackback($blogid, $id) {
 
 function sendTrackback($blogid, $entryId, $url) {
 	global $defaultURL, $blog;
-	requireComponent('Eolin.PHP.HTTPRequest');
 	requireModel('blog.entry');
 	requireModel('blog.keyword');
 	

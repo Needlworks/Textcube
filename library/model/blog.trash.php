@@ -130,7 +130,6 @@ function restoreTrackbackTrash($blogid, $id) {
 
 function trashVan() {
    	global $database;
-	requireComponent('Eolin.PHP.Core');
 	requireModel('common.setting');
 	if(Timestamp::getUNIXtime() - getServiceSetting('lastTrashSweep',0) > 86400) {
 		POD::execute("DELETE FROM {$database['prefix']}Comments where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");

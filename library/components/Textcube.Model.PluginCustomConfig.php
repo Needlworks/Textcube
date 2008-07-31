@@ -68,7 +68,6 @@ class PluginCustomConfig{
 		$xml = POD::escapeString($xml);
 
 		if (defined('__TISTORY__')) {
-			requireComponent('Eolin.PHP.PageCache');
 			expireGlobalDressing($this->blogid);
 			DataCache::expireData('SkinCache', $this->blogid);
 			globalCacheExpire($this->blogid);

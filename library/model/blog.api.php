@@ -421,7 +421,6 @@ function api_update_attaches_with_replace($entryId)
 {
 	global $database;
 	
-	requireComponent('Eolin.PHP.Core');
 	$newFiles = POD::queryAll("SELECT name, label FROM {$database['prefix']}Attachments WHERE blogid=".getBlogId()." AND parent=0");
 	if( $newFiles ) {
 		foreach($newFiles as $newfile) {

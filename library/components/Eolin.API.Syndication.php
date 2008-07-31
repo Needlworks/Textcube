@@ -9,7 +9,6 @@ class Syndication {
 		$link = trim($link);
 		if (empty($link))
 			return false;
-		requireComponent('Eolin.PHP.HTTPRequest');
 		$request = new HTTPRequest('POST', TEXTCUBE_SYNC_URL);
 		$request->contentType = 'application/x-www-form-urlencoded; charset=utf-8';
 		return ($request->send("mode=1&path=".urlencode($link)) && (checkResponseXML($request->responseText) === 0));
@@ -21,7 +20,6 @@ class Syndication {
 		$link = trim($link);
 		if (empty($link))
 			return false;
-		requireComponent('Eolin.PHP.HTTPRequest');
 		$request = new HTTPRequest('POST', TEXTCUBE_SYNC_URL);
 		$request->contentType = 'application/x-www-form-urlencoded; charset=utf-8';
 		return ($request->send("mode=0&path=".urlencode($link)) && (checkResponseXML($request->responseText) === 0));

@@ -300,7 +300,6 @@ function getEntriesWithPagingByAuthor($blogid, $author, $page, $count, $countIte
 
 function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count, $visibility = null, $starred = null, $draft = null) {
 	global $database, $suri;
-	requireComponent('Eolin.PHP.Core');
 	
 	$teamMemberFilter = "";
 	if( ! Acl::check("group.editors", "entry.list") ) {
@@ -1053,8 +1052,6 @@ function protectEntry($id, $password) {
 
 function syndicateEntry($id, $mode) {
 	global $database, $blog, $defaultURL;
-	requireComponent('Eolin.PHP.Core');
-	requireComponent('Eolin.PHP.XMLRPC');
 	$blogid = getBlogId();
 	$rpc = new XMLRPC();
 	$rpc->url = TEXTCUBE_SYNC_URL;

@@ -101,8 +101,6 @@ function setProgress($progress, $text = null, $sub = null) {
 		flush();
 	}
 }
-requireComponent('Eolin.PHP.OutputWriter');
-requireComponent('Eolin.PHP.Base64Stream');
 switch (@$_POST['importFrom']) {
 	default:
 		finish(_t('잘못된 요청입니다.'));
@@ -123,7 +121,6 @@ switch (@$_POST['importFrom']) {
 		if (!is_dir(ROOT . '/cache/import')) {
 			finish(_t('백업파일을 저장할 공간에 권한이 없습니다.'));
 		}
-		requireComponent('Eolin.PHP.HTTPRequest');
 		$request = new HTTPRequest($_POST['backupURL']);
 		$backup = ROOT . "/cache/import/$blogid.xml";
 		$request->pathToSave = $backup;

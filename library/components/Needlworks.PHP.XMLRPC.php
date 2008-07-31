@@ -76,7 +76,6 @@ class XMLRPC {
 	}
 	
 	function call() {
-		requireComponent('Eolin.PHP.HTTPRequest');
 		if (func_num_args() < 1)
 			return false;
 		$request = new HTTPRequest();

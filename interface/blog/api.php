@@ -5,13 +5,8 @@
 define('__TEXTCUBE_LOGIN__',true);
 require ROOT . '/library/includeForBlog.php';
 
-requireComponent( "Eolin.PHP.XMLStruct" );
-requireComponent( "Eolin.PHP.XMLTree" );
-requireComponent( "Eolin.PHP.XMLRPC" );
 requireComponent( "Textcube.Control.RSS" );
 requireComponent( "Textcube.Control.Auth" );
-requireComponent( "Textcube.Data.Post" );
-requireComponent( "Textcube.Data.Category" );
 requireModel( "blog.api" );
 
 /*--------- API main ---------------*/

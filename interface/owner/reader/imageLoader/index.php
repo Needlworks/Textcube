@@ -8,7 +8,6 @@ $IV = array(
 	)
 );
 require ROOT . '/library/includeForReader.php';
-requireComponent('Eolin.PHP.HTTPRequest');
 if (preg_match('/\.jpe?g/i', $_GET['url']))
 	header('Content-type: image/jpeg');
 else if (preg_match('/\.gif/i', $_GET['url']))

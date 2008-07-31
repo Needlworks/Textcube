@@ -383,7 +383,6 @@ function getRemoteFeed($url) {
 	requireComponent('Textcube.Function.misc');
 	$xml = fireEvent('GetRemoteFeed', null, $url);
 	if (empty($xml)) {
-		requireComponent('Eolin.PHP.HTTPRequest');
 		$request = new HTTPRequest($url);
 		$request->referer = $serviceURL;
 		$request->timeout = 3;
@@ -710,7 +709,6 @@ function str_month_check($str) {
 
 function importOPMLFromURL($blogid, $url) {
 	global $database, $service;
-	requireComponent('Eolin.PHP.HTTPRequest');
 	$request = new HTTPRequest($url);
 	if (!$request->send())
 		return array('error' => 1);

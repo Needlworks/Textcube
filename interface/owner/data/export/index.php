@@ -8,8 +8,6 @@ $IV = array(
 	)
 );
 require ROOT . '/library/includeForBlogOwner.php';
-requireComponent('Eolin.PHP.OutputWriter');
-requireComponent('Eolin.PHP.Base64Stream');
 set_time_limit(0);
 $includeFileContents = Validator::getBool(@$_GET['includeFileContents']);
 $writer = new OutputWriter();

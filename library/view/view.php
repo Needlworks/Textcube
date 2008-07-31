@@ -1577,7 +1577,6 @@ function addOpenIDPannel( $comment, $prefix ) {
 }
 
 function getTrackbackRDFView($blogid, $info) {
-	requireComponent('Eolin.PHP.OutputWriter');
 	$buf = new OutputWriter();
     $buf->buffer('<!--'.CRLF);
 	$buf->buffer('<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'.CRLF);
