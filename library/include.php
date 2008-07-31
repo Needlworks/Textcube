@@ -61,7 +61,7 @@ function __autoload($name) {
 	static $base = array(
 		'Base64Stream','HTTPRequest','OutputWriter','XMLRPC','XMLTree');
 	static $function = array(
-		'Image','Setting','Respond');
+		'Image','Setting','Respond','Misc');
 	if(in_array($name,$data)) {
 		require_once(ROOT . "/library/components/Textcube.Data.".$name.".php");
 	} else if (in_array($name,$model)) {
