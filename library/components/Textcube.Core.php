@@ -133,7 +133,7 @@ class User {
 				$homepage = getDefaultURL($info['blogid']);
 				break;
 			case "author" : 
-				$homepage = getDefaultURL($info['blogid'])."/author/".encodeURL(User::getName($userid));
+				$homepage = getDefaultURL($info['blogid'])."/author/".URL::encode(User::getName($userid));
 				break;
 			case "default" :
 			default :

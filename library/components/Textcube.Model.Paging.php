@@ -19,7 +19,7 @@ class Paging {
 			$paging['next'] = NULL;
 		}
 		
-		$url = encodeURL($paging['url']);
+		$url = URL::encode($paging['url']);
 		$prefix = $paging['prefix'];
 		$postfix = isset($paging['postfix']) ? $paging['postfix'] : '';
 		ob_start();

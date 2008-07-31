@@ -82,7 +82,7 @@ $suri['directive'] = strtok($suri['directive'], '?');
 if (is_numeric($suri['value'])) {
 	$suri['id'] = $suri['value'];
 } else {
-	$suri['value'] = decodeURL(str_replace('index.php','',$suri['value']));
+	$suri['value'] = URL::decode(str_replace('index.php','',$suri['value']));
 	if(is_numeric($isValue = strtok($suri['value'],'&'))) $suri['id'] = $isValue;
 	unset($isValue);
 }
