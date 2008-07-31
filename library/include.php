@@ -58,7 +58,7 @@ function __autoload($name) {
 		'Paging','PluginCustomConfig','Statistics','User'
 		);
 	static $base = array(
-		'Base64Stream','HTTPRequest','OutputWriter','XMLRPC');
+		'Base64Stream','HTTPRequest','OutputWriter','XMLRPC','XMLTree');
 	if(in_array($name,$data)) {
 		require_once(ROOT . "/library/components/Textcube.Data.".$name.".php");
 	} else if (in_array($name,$model)) {
@@ -74,7 +74,6 @@ $__requireComponent = array(
 	'Needlworks.PHP.UnifiedEnvironment',
 	'Needlworks.PHP.Core',
 	'Textcube.Core',
-	'Textcube.Core.BackwardCompatibility',
 	'Textcube.Control.Auth',
 	'Textcube.Function.Respond',
 	'Needlworks.Cache.PageCache');

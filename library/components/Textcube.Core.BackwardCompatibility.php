@@ -5,7 +5,7 @@
 
 /***** Functions below this line is symbolic links for legacy support *****/
 /* NOTE : DO NOT USE THESE FUNCTIONS TO IMPLEMENT MODELS / PLUGINS. 
-   THESE FUNCTIONS WILL BE DEPRECATED SOON. */
+   THESE FUNCTIONS ARE DEPRECATED. NO LONGER USED. */
 
 // From Tattertools 1.0 to Tattertools 1.0.x
 function isUTF8($str) {

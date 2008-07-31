@@ -236,7 +236,7 @@ class queryCache {
 		global $database;
 		if(empty($this->queryHash)) $this->getQueryHash();
 		return POD::execute("REPLACE INTO {$database['prefix']}PageCacheLog 
-			VALUES(".getBlogId().", '".POD::escapeString($this->queryHash)."', '".tc_escape_string(serialize($this->contents))."')");
+			VALUES(".getBlogId().", '".POD::escapeString($this->queryHash)."', '".POD::escapeString(serialize($this->contents))."')");
 	}
 
 	private function removePageCacheLog() {
