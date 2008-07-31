@@ -13,7 +13,6 @@ requireModel('blog.trackback');
 requireModel('blog.entry');
 requireModel('blog.trash');
 requireModel('common.setting');
-requireComponent('Textcube.Model.Statistics');
 
 $blogMenu['topMenu'] = 'center';
 $blogMenu['contentMenu'] = 'dashboard';

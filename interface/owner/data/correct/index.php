@@ -90,7 +90,6 @@ set_time_limit(0);
 $item = 0;
 $corrected = 0;
 
-requireComponent('Textcube.Data.Post');
 $post = new Post;
 
 setProgress($item++ / $items * 100, _t('글의 댓글 정보를 다시 계산해서 저장합니다.'));

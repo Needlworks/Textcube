@@ -30,7 +30,6 @@ $IV = array(
 	)
 );	
 require ROOT . '/library/includeForBlogOwner.php';
-requireComponent('Textcube.Data.Filter');
 requireModel("blog.comment");
 requireModel("blog.entry");
 

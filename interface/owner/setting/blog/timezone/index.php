@@ -9,7 +9,8 @@ $IV = array(
 );
 require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
-if (isset($_GET['timezone']) && Timezone::set($_GET['timezone'])) {
+$timezone = new Timezone;
+if (isset($_GET['timezone']) && $timezone->set($_GET['timezone'])) {
 	setBlogSetting('timezone',$_GET['timezone']);
 	respond::ResultPage(0);
 }

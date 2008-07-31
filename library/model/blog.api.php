@@ -350,7 +350,6 @@ function api_addAttachment($blogid,$parent,$file) {
 	if ($oldFile !== null) {
 		$attachment['name'] = $oldFile;
 	} else {
-		requireComponent('Textcube.Data.Attachment');
 		$attachment['name'] = rand(1000000000, 9999999999) . $extension;
 		
 		while (Attachment::doesExist($attachment['name']))

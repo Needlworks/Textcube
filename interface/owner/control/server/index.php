@@ -218,7 +218,8 @@ foreach ($languageList as $lang => $value) {
 											<dd>
 												<select id="timezone" name="timezone">
 <?php
-foreach (Timezone::getList() as $timezone) {
+$tz = new Timezone;
+foreach ($tz->getList() as $timezone) {
 ?>
 													<option value="<?php echo $timezone;?>"<?php echo ($timezone == $service['timezone'] ? ' selected="selected"' : '');?>><?php echo _t($timezone);?></option>
 <?php

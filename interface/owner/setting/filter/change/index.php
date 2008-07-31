@@ -14,7 +14,6 @@ $IV = array(
 
 require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
-requireComponent('Textcube.Data.Filter');
 
 $isAjaxRequest = checkAjaxRequest();
 $filter = new Filter();

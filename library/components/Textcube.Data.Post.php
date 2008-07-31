@@ -194,7 +194,6 @@ class Post {
 			POD::execute("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = ".$this->blogid." AND entry = ".$this->id);
 		
 		// step 6. update Category
-			requireComponent('Textcube.Data.Category');
 			if (isset($entry['category'])) {
 				$target = ($parentCategory = Category::getParent($entry['category'])) ? '(id = ' . $entry['category'] . ' OR id = ' . $parentCategory . ')' : 'id = ' . $entry['category'];
 
@@ -286,7 +285,6 @@ class Post {
 	function getAttachments() {
 		if (!Validator::number($this->id, 1))
 			return null;
-		requireComponent('Textcube.Data.Attachment');
 		$attachment = new Attachment();
 		if ($attachment->open('parent = ' . $this->id))
 			return $attachment;
@@ -388,10 +386,7 @@ class Post {
 		}
 		if (empty($this->tags))
 			return true;
-		
-		requireComponent('Textcube.Data.Tag');
 		Tag::addTagsWithEntryId($this->blogid, $this->id, $this->tags);
-
 		return true;
 	}
 	
@@ -404,10 +399,7 @@ class Post {
 			$this->tags = $this->getTagsWithEntryString($this->tags);
 
 		}
-		
-		requireComponent('Textcube.Data.Tag');
 		Tag::modifyTagsWithEntryId(getBlogId(), $this->id, $this->tags);
-		
 		return true;
 	}
 
@@ -417,17 +409,13 @@ class Post {
 		$this->init();
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
-		
-		requireComponent('Textcube.Data.Tag');
 		Tag::deleteTagsWithEntryId($this->blogid, $this->id);
-		
 		return true;
 	}
 	
 	function getComments() {
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
-		requireComponent('Textcube.Data.Comment');
 		$comment = new Comment();
 		if ($comment->open('entry = ' . $this->id . ' AND parent IS NULL'))
 			return $comment;
@@ -436,7 +424,6 @@ class Post {
 	function getTrackbacks() {
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
-		requireComponent('Textcube.Data.Trackback');
 		$trackback = new Trackback();
 		if ($trackback->open('entry = ' . $this->id))
 			return $trackback;
@@ -445,7 +432,6 @@ class Post {
 	function getTrackbackLogs() {
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
-		requireComponent('Textcube.Data.TrackbackLog');
 		$log = new TrackbackLog();
 		if ($log->open('entry = ' . $this->id))
 			return $log;
@@ -593,7 +579,6 @@ class Post {
 			$query->setAttribute('starred',0);
 		}
 		if (isset($this->category)) {
-			requireComponent('Textcube.Data.Category');
 			if (!Category::doesExist($this->category))
 				return $this->_error('category');
 			$query->setAttribute('category', $this->category);

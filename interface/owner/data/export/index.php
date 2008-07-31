@@ -35,24 +35,6 @@ if (defined('__TEXTCUBE_BACKUP__')) {
 		exit;
 	}
 }
-requireComponent('Textcube.Data.BlogSetting');
-requireComponent('Textcube.Data.Category');
-requireComponent('Textcube.Data.Post');
-requireComponent('Textcube.Data.Notice');
-requireComponent('Textcube.Data.Keyword');
-requireComponent('Textcube.Data.Link');
-requireComponent('Textcube.Data.RefererLog');
-requireComponent('Textcube.Data.RefererStatistics');
-requireComponent('Textcube.Data.BlogStatistics');
-requireComponent('Textcube.Data.DailyStatistics');
-requireComponent('Textcube.Data.SkinSetting');
-requireComponent('Textcube.Data.PluginSetting');
-requireComponent('Textcube.Data.GuestComment');
-requireComponent('Textcube.Data.Filter');
-requireComponent('Textcube.Data.CommentNotified');
-requireComponent('Textcube.Data.CommentNotifiedSiteInfo');
-requireComponent('Textcube.Data.Feed');
-requireComponent('Textcube.Data.UserSetting');
 $newlineStyle = (!is_null(getServiceSetting('newlineStyle')) ? ' format="'.getServiceSetting('newlineStyle').'"' : '');
 $writer->write('<?xml version="1.0" encoding="utf-8" ?>');
 $writer->write('<blog type="tattertools/1.1" migrational="false">');

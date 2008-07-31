@@ -147,7 +147,6 @@ class Notice {
 	function getAttachments() {
 		if (!Validator::number($this->id, 1))
 			return null;
-		requireComponent('Textcube.Data.Attachment');
 		$attachment = new Attachment();
 		if ($attachment->open('parent = ' . $this->id))
 			return $attachment;

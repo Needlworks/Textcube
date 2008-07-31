@@ -15,8 +15,6 @@ requireModel("blog.comment");
 requireModel("blog.trackback");
 requireModel("blog.link");
 
-requireComponent('Textcube.Model.Statistics');
-
 require ROOT . '/library/piece/owner/header.php';
 
 

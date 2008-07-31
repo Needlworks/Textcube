@@ -150,14 +150,12 @@ function receiveTrackback($blogid, $entry, $title, $url, $excerpt, $site) {
 	global $database, $blog, $defaultURL;
 	if (empty($url))
 		return 5;
-	requireComponent('Textcube.Data.Post');
 	$post = new Post;
 	if (!$post->doesAcceptTrackback($entry))
 		return 3;
 		
 	$filtered = 0;
 	
-	requireComponent('Textcube.Data.Filter');
 	if (!Filter::isAllowed($url)) {
 		if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']) || Filter::isFiltered('url', $url))
 			$filtered = 1;
@@ -175,7 +173,6 @@ function receiveTrackback($blogid, $entry, $title, $url, $excerpt, $site) {
 	$title = UTF8::lessenAsEncoding($title);
 	$excerpt = UTF8::lessenAsEncoding($excerpt);
 
-	requireComponent('Textcube.Data.Trackback');
 	$trackback = new Trackback();
 	$trackback->entry = $entry;
 	$trackback->url = $url;
@@ -281,7 +278,6 @@ function sendTrackback($blogid, $entryId, $url) {
 	}
 	if ($isSuccess && (checkResponseXML($request->responseText) === 0)) {
 //		$url = POD::escapeString(UTF8::lessenAsEncoding($url, 255));
-		requireComponent('Textcube.Data.TrackbackLog');
 		$trackbacklog = new TrackbackLog;
 		$trackbacklog->entry = $entryId;
 		$trackbacklog->url = POD::escapeString(UTF8::lessenAsEncoding($url, 255));

@@ -45,6 +45,25 @@ function requireLibrary($name) {
 	}
 }
 
+/***** Autoload components *****/
+function __autoload($name) {
+	static $data = array(
+		'Attachment','BlogSetting','BlogStatistics','Category','Comment','CommentNotified',
+		'CommentNotifiedSiteInfo','DailyStatistics','DataMaintenance','Feed',
+		'Filter','GuestComment','Keyword','Link','Notice','PluginSetting','Post',
+		'RefererLog','RefererStatistics','ServiceSetting','SkinSetting','SubscriptionLog',
+		'SubscriptionStatistics','Tag','Trackback','TrackbackLog','User','UserSetting'
+		);
+	static $model = array(
+		'Paging','PluginCustomConfig','Statistics','User'
+		);
+	if(in_array($name,$data)) {
+		require_once(ROOT . "/library/components/Textcube.Data.".$name.".php");
+	} else if (in_array($name,$model)) {
+		require_once(ROOT . "/library/components/Textcube.Model.".$name.".php");
+	}
+}
+
 /***** Pre-define basic components *****/
 global $__requireComponent;
 $__requireComponent = array(

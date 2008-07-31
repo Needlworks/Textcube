@@ -212,7 +212,6 @@ $nameNumber = array();
 for ($i=0; $i<sizeof($mergedComments); $i++) {
 	$comment = $mergedComments[$i];
 	
-	requireComponent('Textcube.Data.Filter');
 	if (Filter::isFiltered('name', $comment['name']))
 		$isNameFiltered = true;
 	else

@@ -23,7 +23,6 @@ requireModel("blog.comment");
 requireModel("blog.trackback");
 requireModel("blog.link");
 
-requireComponent('Textcube.Model.Statistics');
 requireStrictRoute();
 
 $stats = Statistics::getStatistics($blogid);

@@ -49,8 +49,9 @@ if (!defined('NO_INITIALIZAION')) {
 
 	// Set timezone.
 	if(isset($database) && !empty($database['database'])) {
-		Timezone::set(isset($blog['timezone']) ? $blog['timezone'] : $service['timezone']);
-		POD::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
+		$timezone = new Timezone;
+		$timezone->set(isset($blog['timezone']) ? $blog['timezone'] : $service['timezone']);
+		POD::query('SET time_zone = \'' . $timezone->getCanonical() . '\'');
 	}
 
 	// Load administration panel locale.

@@ -15,7 +15,6 @@ $IV = array(
 	//)
 );
 require ROOT . '/library/includeForBlogOwner.php';
-requireComponent('Textcube.Data.Filter');
 if (isset($_POST['ipValue'])) {
 	$_POST['mode'] = "ip";
 } else if (isset($_POST['urlValue'])) {

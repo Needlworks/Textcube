@@ -54,7 +54,6 @@ if (!empty($_FILES['favicon']['tmp_name'])) {
 	if (Path::getExtension($_FILES['favicon']['name']) != '.ico') {
 		array_push($errorText, _t('파비콘을 변경하지 못했습니다.'));
 	} else { 
-		requireComponent('Textcube.Data.Attachment');
 		Attachment::confirmFolder();
 	
 		if (move_uploaded_file($_FILES['favicon']['tmp_name'], ROOT."/attach/$blogid/favicon.ico")) {
@@ -76,7 +75,6 @@ if (!empty($_FILES['blogIcon']['tmp_name'])) {
 	if (!in_array($fileExt, array('.gif', '.jpg', '.jpeg', '.png'))) {
 		array_push($errorText, _t('블로그 아이콘을 변경하지 못했습니다.'));
 	} else { 
-		requireComponent('Textcube.Data.Attachment');
 		Attachment::confirmFolder();
 		
 		if (move_uploaded_file($_FILES['blogIcon']['tmp_name'], ROOT . "/attach/$blogid/index.gif")) {

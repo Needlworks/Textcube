@@ -2,7 +2,7 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-class String {
+final class String {
 	static function endsWith($string, $end) {
 		$longer = strlen($string) - strlen($end);
 		if ($longer < 0)
@@ -16,7 +16,7 @@ class String {
 }
 
 
-class UTF8 {
+final class UTF8 {
 	static function validate($str, $truncated = false) {
 		$length = strlen($str);
 		if ($length == 0)
@@ -236,7 +236,7 @@ class UTF8 {
 }
 
 
-class Validator {
+final class Validator {
 	/**
 		Date-Time		::= RFC-1123 (the modification of RFC-822)
 		Language Code	::= ISO-639 2-letter
@@ -546,7 +546,7 @@ class Validator {
 
 global $__locale, $__text, $__skinText;
 
-class Locale {
+final class Locale {
 	// Requires $__locale as global variable. (language resource information)
 	static function get() {
 		global $__locale;
@@ -656,7 +656,7 @@ class Locale {
 	}
 }
 
-class Timezone {
+final class Timezone {
 	static function isGMT() {
 		return (date('Z') == 0);
 	}
@@ -792,7 +792,7 @@ class Timezone {
 }
 
 
-class Timestamp {
+final class Timestamp {
 	static function format($format = '%c', $time = null) {
 		if (isset($time))
 			return strftime(_t($format), $time);
@@ -885,7 +885,7 @@ class Timestamp {
 
 }
 
-class Path {
+final class Path {
 	static function getBaseName($path) {
 		$pattern = (strncasecmp(PHP_OS, 'WIN', 3) ? '/([^\/]+)[\/]*$/' : '/([^\/\\\\]+)[\/\\\\]*$/');
 		if (preg_match($pattern, $path, $matches))
@@ -1323,7 +1323,7 @@ class XMLStruct {
 	}
 }
 
-class URL {
+final class URL {
 	static function encode($url,$useEncodedURL = true) {
 		$postfix = '';
 		if(substr($url,strlen($url)-1) == '?') {

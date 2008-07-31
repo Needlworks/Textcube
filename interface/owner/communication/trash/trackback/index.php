@@ -325,7 +325,6 @@ $siteNumber = array();
 for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$trackback = $trackbacks[$i];
 	
-	requireComponent('Textcube.Data.Filter');
 	$isFilterURL = Filter::isFiltered('url', $trackback['url']);
 	$filteredURL = getURLForFilter($trackback['url']);
 

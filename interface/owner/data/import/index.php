@@ -132,30 +132,6 @@ switch (@$_POST['importFrom']) {
 		}
 		break;
 }
-requireComponent('Textcube.Data.DataMaintenance');
-requireComponent('Textcube.Data.BlogSetting');
-requireComponent('Textcube.Data.Category');
-requireComponent('Textcube.Data.Post');
-requireComponent('Textcube.Data.Attachment');
-requireComponent('Textcube.Data.Tag');
-requireComponent('Textcube.Data.Comment');
-requireComponent('Textcube.Data.CommentNotified');
-requireComponent('Textcube.Data.CommentNotifiedSiteInfo');
-requireComponent('Textcube.Data.Trackback');
-requireComponent('Textcube.Data.TrackbackLog');
-requireComponent('Textcube.Data.Notice');
-requireComponent('Textcube.Data.Keyword');
-requireComponent('Textcube.Data.Link');
-requireComponent('Textcube.Data.RefererLog');
-requireComponent('Textcube.Data.RefererStatistics');
-requireComponent('Textcube.Data.BlogStatistics');
-requireComponent('Textcube.Data.DailyStatistics');
-requireComponent('Textcube.Data.SkinSetting');
-requireComponent('Textcube.Data.PluginSetting');
-requireComponent('Textcube.Data.Filter');
-requireComponent('Textcube.Data.GuestComment');
-requireComponent('Textcube.Data.Feed');
-requireComponent('Textcube.Data.UserSetting');
 $migrational = false;
 $items = 0;
 $item = 0;

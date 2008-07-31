@@ -401,7 +401,6 @@ function addComment($blogid, & $comment) {
 	$filtered = 0;
 
 	if (!doesHaveOwnership()) {
-		requireComponent('Textcube.Data.Filter');
 		if (!Filter::isAllowed($comment['homepage'])) {
 			if (Filter::isFiltered('ip', $comment['ip'])) {
 				$blockType = "ip";
@@ -503,7 +502,6 @@ function updateComment($blogid, $comment, $password) {
 	$openid = Acl::getIdentity('openid');
 	if (!doesHaveOwnership()) {
 		// if filtered, only block and not send to trash
-		requireComponent('Textcube.Data.Filter');
 		if (!Filter::isAllowed($comment['homepage'])) {
 			if (Filter::isFiltered('ip', $comment['ip']))
 				return 'blocked';

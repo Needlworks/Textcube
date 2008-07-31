@@ -4,7 +4,6 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 $blogid = getBlogId();
-requireComponent('Textcube.Model.Statistics');
 Statistics::updateVisitorStatistics($blogid);
 $stats = Statistics::getStatistics($blogid);
 if (!empty($entries) && (count($entries) == 1))

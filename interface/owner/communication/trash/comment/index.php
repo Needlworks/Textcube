@@ -31,7 +31,6 @@ require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.comment");
 requireModel("blog.trash");
 
-requireComponent('Textcube.Data.Filter');
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $name = isset($_GET['name']) && !empty($_GET['name']) ? $_GET['name'] : '';
 $name = isset($_POST['name']) && !empty($_POST['name']) ? $_POST['name'] : $name;
