@@ -657,60 +657,51 @@ class Locale {
 }
 
 class Timezone {
-	/*@static@*/
-	function isGMT() {
+	static function isGMT() {
 		return (date('Z') == 0);
 	}
 
-	/*@static@*/
-	function get() {
-		$timezone = getenv('TZ');
+	static function get() {
+		$mezone = getenv('TZ');
 		if (empty($timezone))
 			$timezone = date('T');
 		return (empty($timezone) ? 'UTC' : $timezone);
 	}
 
-	/*@static@*/
-	function getOffset() {
+	static function getOffset() {
 		return (int)date('Z');
 	}
 
-	/*@static@*/
-	function getCanonical() {
+	static function getCanonical() {
 		return sprintf("%+03d:%02d", intval(Timezone::getOffset() / 3600), abs((Timezone::getOffset() / 60) % 60));
 	}
 
-	/*@static@*/
-	function getRFC822() {
+	static function getRFC822() {
 		if (Timezone::isGMT())
 			return 'GMT';
 		else
 			return sprintf("%+05d", intval(Timezone::getOffset() / 3600) * 100 + ((Timezone::getOffset() / 60) % 60));
 	}
 
-	/*@static@*/
-	function getISO8601($timezone = null) {
+	static function getISO8601($timezone = null) {
 		if (Timezone::isGMT())
 			return 'Z';
 		else
 			return sprintf("%+03d:%02d", intval(Timezone::getOffset() / 3600), abs((Timezone::getOffset() / 60) % 60));
 	}
 
-	/*@static@*/
-	function set($timezone) {
+	static function set($timezone) {
 		if ( isset( $_ENV['OS'] ) && strncmp($_ENV['OS'], 'Windows', 7) == 0)
 			$timezone = Timezone::getAlternative($timezone);
 
 		return putenv('TZ=' . $timezone);
 	}
 
-	/*@static@*/
-	function setOffset($offset) {
+	static function setOffset($offset) {
 		return Timezone::setISO8601(sprintf("%+02d:%02d", floor($offset / 3600), abs(($offset / 60) % 60)));
 	}
 
-	/*@static@*/
-	function setRFC822($timezone) {
+	static function setRFC822($timezone) {
 		if (($timezone == 'GMT') || ($timezone == 'UT'))
 			return Timezone::set('GMT');
 		else if (!is_numeric($timezone) || (strlen($timezone) != 5))
@@ -723,8 +714,7 @@ class Timezone {
 			return false;
 	}
 
-	/*@static@*/
-	function setISO8601($timezone) {
+	static function setISO8601($timezone) {
 		if ($timezone == 'Z')
 			return Timezone::set('GMT');
 		if (!preg_match('/^([-+])(\d{1,2})(:)?(\d{2})?$/', $timezone, $matches))
@@ -740,8 +730,7 @@ class Timezone {
 		return Timezone::set(implode('', $matches));
 	}
 
-	/*@static@*/
-	function getList() {
+	static function getList() {
 		return array(
 			_t_noop('Asia/Seoul'),
 			_t_noop('Asia/Tokyo'),
@@ -764,8 +753,7 @@ class Timezone {
 			);
 	}
 
-	/*@static@*/
-	function getAlternative($timezone) {
+	static function getAlternative($timezone) {
 		switch ($timezone) {
 			case 'Asia/Seoul':
 				return 'KST-9';
@@ -805,24 +793,21 @@ class Timezone {
 
 
 class Timestamp {
-	/*@static@*/
-	function format($format = '%c', $time = null) {
+	static function format($format = '%c', $time = null) {
 		if (isset($time))
 			return strftime(_t($format), $time);
 		else
 			return strftime(_t($format));
 	}
 
-	/*@static@*/
-	function formatGMT($format = '%c', $time = null) {
+	static function formatGMT($format = '%c', $time = null) {
 		if (isset($time))
 			return gmstrftime(_t($format), $time);
 		else
 			return gmstrftime(_t($format));
 	}
 
-	/*@static@*/
-	function format2($time) {
+	static function format2($time) {
 		if (date('Ymd', $time) == date('Ymd'))
 			return strftime(_t('%H:%M'), $time);
 		else if (date('Y', $time) == date('Y', time()))
@@ -831,124 +816,103 @@ class Timestamp {
 			return strftime(_t('%Y'), $time);
 	}
 
-	/*@static@*/
-	function format3($time) {
+	static function format3($time) {
 		if (date('Ymd', $time) == date('Ymd'))
 			return strftime(_t('%H:%M:%S'), $time);
 		else
 			return strftime(_t('%Y/%m/%d'), $time);
 	}
 
-	/*@static@*/
-	function format5($time = null) {
+	static function format5($time = null) {
 		return (isset($time) ? strftime(_t('%Y/%m/%d %H:%M'), $time) : strftime(_t('%Y/%m/%d %H:%M')));
 	}
 
-	/*@static@*/
-	function formatDate($time = null) {
+	static function formatDate($time = null) {
 		return (isset($time) ? strftime(_t('%Y/%m/%d'), $time) : strftime(_t('%Y/%m/%d')));
 	}
 
-	/*@static@*/
-	function formatDate2($time = null) {
+	static function formatDate2($time = null) {
 		return (isset($time) ? strftime(_t('%Y/%m'), $time) : strftime(_t('%Y/%m')));
 	}
 
-	/*@static@*/
-	function formatTime($time = null) {
+	static function formatTime($time = null) {
 		return (isset($time) ? strftime(_t('%H:%M:%S'), $time) : strftime(_t('%H:%M:%S')));
 	}
 
-	/*@static@*/
-	function get($format = 'YmdHis', $time = null) {
+	static function get($format = 'YmdHis', $time = null) {
 		return (isset($time) ? date($format, $time) : date($format));
 	}
 
-	/*@static@*/
-	function getGMT($format = 'YmdHis', $time = null) {
+	static function getGMT($format = 'YmdHis', $time = null) {
 		return (isset($time) ? gmdate($format, $time) : gmdate($format));
 	}
 
-	/*@static@*/
-	function getDate($time = null) {
+	static function getDate($time = null) {
 		return (isset($time) ? date('Ymd', $time) : date('Ymd'));
 	}
 
-	/*@static@*/
-	function getYearMonth($time = null) {
+	static function getYearMonth($time = null) {
 		return (isset($time) ? date('Ym', $time) : date('Ym'));
 	}
 
-	/*@static@*/
-	function getYear($time = null) {
+	static function getYear($time = null) {
 		return (isset($time) ? date('Y', $time) : date('Y'));
 	}
 
-	/*@static@*/
-	function getTime($time = null) {
+	static function getTime($time = null) {
 		return (isset($time) ? date('His', $time) : date('His'));
 	}
 
-	/*@static@*/
-	function getRFC1123($time = null) {
+	static function getRFC1123($time = null) {
 		return (isset($time) ? date('r', $time) : date('r'));
 	}
 
-	/*@static@*/
-	function getRFC1123GMT($time = null) {
+	static function getRFC1123GMT($time = null) {
 		return (isset($time) ? gmdate('D, d M Y H:i:s \G\M\T', $time) : gmdate('D, d M Y H:i:s \G\M\T'));
 	}
 
-	/*@static@*/
-	function getRFC1036($time = null) {
+	static function getRFC1036($time = null) {
 		return ((isset($time) ? date('l, d-M-Y H:i:s ', $time) : date('l, d-M-Y H:i:s ')) . Timezone::getRFC822());
 	}
 
-	/*@static@*/
-	function getISO8601($time = null) {
+	static function getISO8601($time = null) {
 		return ((isset($time) ? date('Y-m-d\TH:i:s', $time) : date('Y-m-d\TH:i:s')) . Timezone::getISO8601());
 	}
 
-	/*@static@*/
-	function getUNIXtime($time = null) {
+	static function getUNIXtime($time = null) {
 		return (isset($time) ? date('U', $time) : date('U'));
 	}
 
 }
 
 class Path {
-	/*@static@*/
-	function getBaseName($path) {
+	static function getBaseName($path) {
 		$pattern = (strncasecmp(PHP_OS, 'WIN', 3) ? '/([^\/]+)[\/]*$/' : '/([^\/\\\\]+)[\/\\\\]*$/');
 		if (preg_match($pattern, $path, $matches))
 			return $matches[1];
 		return '';
 	}
 
-	/*@static@*/
-	function getExtension($path) {
+	static function getExtension($path) {
 		if (preg_match('/.{1}(\.[[:alnum:]]+)$/', $path, $matches))
 			return strtolower($matches[1]);
 		else
 			return '';
 	}
 
-	/*@static@*/
-	function getExtension2($path) {
+	static function getExtension2($path) {
 		if (preg_match('/.{1}(\.[[:alnum:]]+(\.[[:alnum:]]+)?)$/', $path, $matches))
 			return strtolower($matches[1]);
 		else
 			return '';
 	}
 
-	/*@static@*/
-	function combine($path) {
+	static function combine($path) {
 		$args = func_get_args();
 		return implode('/', $args);
 	}
 
-	/*@static@*/
-	function removeFiles($directory) {
+	static function removeFiles($directory) {
 		if (!is_dir($directory))
 			return false;
 		$dir = dir($directory);
