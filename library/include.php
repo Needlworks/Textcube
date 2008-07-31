@@ -47,32 +47,35 @@ function requireLibrary($name) {
 }
 
 /***** Autoload components *****/
-function __autoload($name) {
-	$name = ucfirst($name);
-	static $data = array(
+class Autoload {
+	private static $data = array(
 		'Attachment','BlogSetting','BlogStatistics','Category','Comment','CommentNotified',
 		'CommentNotifiedSiteInfo','DailyStatistics','DataMaintenance','Feed',
 		'Filter','GuestComment','Keyword','Link','Notice','PluginSetting','Post',
 		'RefererLog','RefererStatistics','ServiceSetting','SkinSetting','SubscriptionLog',
 		'SubscriptionStatistics','Tag','Trackback','TrackbackLog','UserInfo','UserSetting'
 		);
-	static $model = array(
+	private static $model = array(
 		'Paging','PluginCustomConfig','Statistics','User'
 		);
-	static $base = array(
+	private static $base = array(
 		'Base64Stream','HTTPRequest','OutputWriter','XMLRPC','XMLTree');
-	static $function = array(
+	private static $function = array(
 		'Image','Setting','Respond','Misc');
-	if(in_array($name,$data)) {
-		require_once(ROOT . "/library/components/Textcube.Data.".$name.".php");
-	} else if (in_array($name,$model)) {
-		require_once(ROOT . "/library/components/Textcube.Model.".$name.".php");
-	} else if (in_array($name,$base)) {
-		require_once(ROOT . "/library/components/Needlworks.PHP.".$name.".php");
-	} else if (in_array($name,$function)) {
-		require_once(ROOT . "/library/components/Textcube.Function.".$name.".php");
+	public static function load($name) {
+		$name = ucfirst($name);
+		if(in_array($name,self::$data)) {
+			require_once(ROOT . "/library/components/Textcube.Data.".$name.".php");
+		} else if (in_array($name,self::$model)) {
+			require_once(ROOT . "/library/components/Textcube.Model.".$name.".php");
+		} else if (in_array($name,self::$base)) {
+			require_once(ROOT . "/library/components/Needlworks.PHP.".$name.".php");
+		} else if (in_array($name,self::$function)) {
+			require_once(ROOT . "/library/components/Textcube.Function.".$name.".php");
+		}
 	}
 }
+spl_autoload_register(array('Autoload', 'load'));
 
 /***** Pre-define basic components *****/
 global $__requireComponent;
