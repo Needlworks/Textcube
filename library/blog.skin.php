@@ -91,7 +91,6 @@ class Skin {
 		global $service, $blogURL, $suri, $blog, $__gDressTags;
 		$__gDressTags = array();
 		if($previewMode == true || ($service['skincache'] != true) || !$this->loadCache()) {
-			requireComponent('Textcube.Function.Setting');
 			$this->noneCommentMessage = setting::getBlogSettingGlobal('noneCommentMessage',null);
 			$this->singleCommentMessage = setting::getBlogSettingGlobal('singleCommentMessage',null);
 			$this->noneTrackbackMessage = setting::getBlogSettingGlobal('noneTrackbackMessage',null);
@@ -378,7 +377,6 @@ class Skin {
 	 */
 
 	function applyMicroformats() {
-		requireComponent('Textcube.Function.Setting');
 		/* Spam과 관련된 것이므로 강제로 넣음 http://dev.textcube.org/ticket/75 */
 		addAttribute( $this->trackback, 'a', 'href', '##_tb_rep_url_##', array( 'rel' => 'external' ) );
 		addAttribute( $this->trackback, 'a', 'href', '##_tb_rep_url_##', array( 'rel' => 'nofollow' ) );
@@ -431,7 +429,6 @@ class Skin {
 
 	function applyMF2Entry( $type, $content ) {
 		/* This function contains heavy regular expressions, but this function is called once and stored in cache by skin setup logic */
-		requireComponent('Textcube.Function.Setting');
 		$bareContent = $this->getTopLevelContent($content);
 		$content = preg_replace( "/<((br|hr|img)[^>]*)>/sm", "{{{\\1}}}", $content );
 

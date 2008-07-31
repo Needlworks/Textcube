@@ -32,7 +32,6 @@ if( in_array( $_GET['action'], array( 'setdelegate' ) ) ) {
 	require ROOT . '/library/includeForBlog.php';
 }
 requireComponent( "Textcube.Core" );
-requireComponent( "Textcube.Function.misc" );
 requireComponent( "Textcube.Control.Openid" );
 
 global $service;

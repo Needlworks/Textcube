@@ -380,7 +380,6 @@ function addFeed($blogid, $group = 0, $url, $getEntireFeed = true, $htmlURL = ''
 
 function getRemoteFeed($url) {
 	global $service, $serviceURL;
-	requireComponent('Textcube.Function.misc');
 	$xml = fireEvent('GetRemoteFeed', null, $url);
 	if (empty($xml)) {
 		$request = new HTTPRequest($url);

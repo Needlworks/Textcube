@@ -31,7 +31,6 @@ $IV = array(
 	)
 );
 require ROOT . '/library/includeForBlogOwner.php';
-requireComponent('Textcube.Function.Respond');
 requireStrictRoute();
 
 if (setSkinSetting($blogid, $_POST)) {

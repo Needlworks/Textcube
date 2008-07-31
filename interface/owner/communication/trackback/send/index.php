@@ -9,7 +9,6 @@ $IV = array(
 );
 require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.trackback");
-requireComponent('Textcube.Function.Respond');
 
 requireStrictRoute();
 respond::ResultPage(!empty($_GET['url']) && sendTrackback($blogid, $suri['id'], trim($_GET['url'])));

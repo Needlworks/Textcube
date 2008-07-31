@@ -8,7 +8,6 @@ function encodeMail($str) {
 }
 
 function sendEmail($senderName, $senderEmail, $name, $email, $subject, $message ) {
-	requireComponent( 'Textcube.Function.misc' );
 	include_once( ROOT."/library/contrib/phpmailer/class.phpmailer.php" );
 	$mail = new PHPMailer();
 	$mail->SetLanguage( 'en', ROOT."/library/contrib/phpmailer/language/" );

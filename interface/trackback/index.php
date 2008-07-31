@@ -14,10 +14,6 @@ $IV = array(
 	)
 );
 require ROOT . '/library/includeForBlog.php';
-requireComponent('Textcube.Function.Respond');
-if (false) {
-	fetchConfigVal();
-}
 $url = $_POST['url'];
 $title = !empty($_POST['title']) ? $_POST['title'] : '';
 $excerpt = !empty($_POST['excerpt']) ? $_POST['excerpt'] : '';

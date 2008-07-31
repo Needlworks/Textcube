@@ -16,7 +16,6 @@ if ($fp = @fopen($imagePath, 'r')) {
 	if(isset($_GET['m']) && !empty($_GET['m'])){
 		if (file_exists($imagePath)) {
 			$imageInfo = getimagesize($imagePath);
-			requireComponent('Textcube.Function.Image');
 			$cropSize = $_GET['m'];
 			$objThumbnail = new Image();
 			if ($imageInfo[0] > $imageInfo[1])

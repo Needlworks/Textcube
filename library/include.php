@@ -47,24 +47,29 @@ function requireLibrary($name) {
 
 /***** Autoload components *****/
 function __autoload($name) {
+	$name = ucfirst($name);
 	static $data = array(
 		'Attachment','BlogSetting','BlogStatistics','Category','Comment','CommentNotified',
 		'CommentNotifiedSiteInfo','DailyStatistics','DataMaintenance','Feed',
 		'Filter','GuestComment','Keyword','Link','Notice','PluginSetting','Post',
 		'RefererLog','RefererStatistics','ServiceSetting','SkinSetting','SubscriptionLog',
-		'SubscriptionStatistics','Tag','Trackback','TrackbackLog','User','UserSetting'
+		'SubscriptionStatistics','Tag','Trackback','TrackbackLog','UserInfo','UserSetting'
 		);
 	static $model = array(
 		'Paging','PluginCustomConfig','Statistics','User'
 		);
 	static $base = array(
 		'Base64Stream','HTTPRequest','OutputWriter','XMLRPC','XMLTree');
+	static $function = array(
+		'Image','Setting','Respond');
 	if(in_array($name,$data)) {
 		require_once(ROOT . "/library/components/Textcube.Data.".$name.".php");
 	} else if (in_array($name,$model)) {
 		require_once(ROOT . "/library/components/Textcube.Model.".$name.".php");
 	} else if (in_array($name,$base)) {
 		require_once(ROOT . "/library/components/Needlworks.PHP.".$name.".php");
+	} else if (in_array($name,$function)) {
+		require_once(ROOT . "/library/components/Textcube.Function.".$name.".php");
 	}
 }
 
@@ -75,7 +80,6 @@ $__requireComponent = array(
 	'Needlworks.PHP.Core',
 	'Textcube.Core',
 	'Textcube.Control.Auth',
-	'Textcube.Function.Respond',
 	'Needlworks.Cache.PageCache');
 foreach($__requireComponent as $lib) {
 	require ROOT .'/library/components/'.$lib.'.php';

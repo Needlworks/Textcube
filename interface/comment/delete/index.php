@@ -15,7 +15,6 @@ $IV = array(
 	)
 );
 require ROOT . '/library/includeForBlog.php';
-requireComponent('Textcube.Function.Respond');
 requireComponent('Textcube.Control.Openid');
 
 $blogid = getBlogId();

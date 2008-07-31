@@ -48,7 +48,6 @@ class PluginCustomConfig{
 			}
 		}
 		$configXml = POD::queryCell("SELECT settings FROM {$database['prefix']}Plugins WHERE blogid = {$this->blogid} AND name = '{$this->pluginName}'");
-		requireComponent("Textcube.Function.Setting");
 		$t= setting::fetchConfigVal($configXml);
 		return false==is_array($t)?array():$t;
 	}

@@ -211,7 +211,6 @@ function getTrackbacksView($entry, $skin, $acceptTrackback) {
 }
 
 function getCommentView($entry, $skin) {
-	requireComponent('Textcube.Function.Setting');
 	global $database, $blogURL, $service, $suri, $paging, $contentContainer, $skinSetting, $blog;
 	static $dressCommentBlock = false;
 	if(!isset($entry)) $entry['id'] = 0;
@@ -1036,7 +1035,6 @@ function addXfnAttrs( $url, $xfn, & $view )
 }
 
 function getLinksView($links, $template) {
-	requireComponent('Textcube.Function.Setting');
 	global $blogURL, $skinSetting, $suri, $pathURL;
 	if( rtrim( $suri['url'], '/' ) == $pathURL ) {
 		$home = true;
@@ -1065,7 +1063,6 @@ function getLinksView($links, $template) {
 }
 
 function getLinkListView($links) {
-	requireComponent('Textcube.Function.Setting');
 	global $blogURL, $skinSetting, $suri, $pathURL;
 	if( rtrim( $suri['url'], '/' ) == $pathURL ) {
 		$home = true;
@@ -1097,7 +1094,6 @@ function getLinkListView($links) {
 }
 
 function getRandomTagsView($tags, $template) {
-	requireComponent('Textcube.Function.Setting');
 	global $blogURL, $service;
 	ob_start();
 	list($maxTagFreq, $minTagFreq) = getTagFrequencyRange();
@@ -1118,8 +1114,6 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 	requireModel('blog.attachment');
 	requireModel('blog.keyword');
 	requireLibrary('blog.skin');
-	requireComponent('Textcube.Function.misc');
-	requireComponent('Textcube.Function.Setting');
 	$content = fireEvent('Format' . $type . 'Content', $content, $id);
 	$func = ($bRssMode ? 'summarizeContent' : 'formatContent');
 	$view = $func($blogid, $id, $content, $formatter, $keywords, $useAbsolutePath);
@@ -1478,7 +1472,6 @@ function printScript($filename, $obfuscate = true) {
 }
 
 function addOpenIDPannel( $comment, $prefix ) {
-	requireComponent('Textcube.Function.Setting');	
 	if( !isActivePlugin( 'CL_OpenID' ) ) {
 		return $comment;
 	}

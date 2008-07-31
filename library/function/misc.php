@@ -34,7 +34,6 @@ function headerEtag($etag,$length,$lastmodified) {
 }
 
 function dumpWithEtag($path) {
-	requireComponent('Textcube.Function.misc');
 	$path = urldecode($path);
 	$qIndex = strpos($path,'?');
 	if( $qIndex !== false ) {

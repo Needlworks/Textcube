@@ -3,7 +3,6 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/library/includeForFeeder.php';
-requireComponent('Textcube.Function.Respond');
 
 if (false) {
 	fetchConfigVal();

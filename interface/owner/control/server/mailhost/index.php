@@ -10,7 +10,6 @@ $IV = array(
 	)
 );
 require ROOT . '/library/includeForBlogOwner.php';
-requireComponent( 'Textcube.Function.misc' );
 requireStrictRoute();
 if (!acl::check('group.creators'))
 	respond::ResultPage(false);

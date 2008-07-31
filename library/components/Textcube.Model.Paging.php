@@ -8,7 +8,6 @@ class Paging {
 	}
 	
 	function getPagingView( & $paging, & $template, & $itemTemplate, $useCache = false) {
-		requireComponent('Textcube.Function.misc');
 		
 		if (($paging === false) || empty($paging['page'])) {
 			$paging['url'] = NULL;

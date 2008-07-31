@@ -11,7 +11,6 @@ function resampleImage($imgString, $originSrc, $useAbsolutePath) {
 		return $imgString;
 	}
 	
-	requireComponent('Textcube.Function.Image');
 	if (!is_dir(ROOT."/cache/thumbnail")) {
 		@mkdir(ROOT."/cache/thumbnail");
 		@chmod(ROOT."/cache/thumbnail", 0777);

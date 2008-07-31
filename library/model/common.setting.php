@@ -54,37 +54,30 @@ function removeServiceSetting($name,$pruneSimilarEntries = false) {
 }
 
 function getBlogSetting($name, $default = null, $blogid = null) {
-	requireComponent('Textcube.Function.Setting');
 	return setting::getBlogSettingGlobal($name, $default);
 }
 
 function setBlogSetting($name, $value, $blogid = null) {
-	requireComponent('Textcube.Function.Setting');
 	return setting::setBlogSettingGlobal($name, $value, $blogid);
 }
 
 function setBlogSettingDefault($name, $value, $blogid = null) {
-	requireComponent('Textcube.Function.Setting');
 	return setting::setBlogSettingDefault($name, $value, $blogid);
 }
 
 function removeBlogSetting($name, $blogid = null) {
-	requireComponent('Textcube.Function.Setting');
 	return setting::removeBlogSettingGlobal($name, $blogid);
 }
 
 function getUserSetting($name, $default = null, $userid = null) {
-	requireComponent('Textcube.Function.Setting');
 	return setting::getUserSettingGlobal($name, $default, $userid);
 }
 
 function setUserSetting($name, $value, $userid = null) {
-	requireComponent('Textcube.Function.Setting');
 	return setting::setUserSettingGlobal($name, $value, $userid);
 }
 
 function removeUserSetting($name, $userid = null) {
-	requireComponent('Textcube.Function.Setting');
 	return setting::removeUserSettingGlobal($name, $userid);
 }
 

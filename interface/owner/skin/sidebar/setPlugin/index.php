@@ -16,7 +16,6 @@ $ajaxcall = (isset($_REQUEST['ajaxcall']) && $_REQUEST['ajaxcall'] == true) ? tr
 require ROOT . '/library/includeForBlogOwner.php';
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
-requireComponent("Textcube.Function.Respond");
 requireStrictRoute();
 
 $skin = new Skin($skinSetting['skin']);

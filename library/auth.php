@@ -122,7 +122,6 @@ function requirePrivilege($AC) {
 }
 
 function validateAPIKey($blogid, $loginid, $key) {
-	requireComponent('Textcube.Function.Setting');
 	global $service;
 	$loginid = POD::escapeString($loginid);
 	$key = POD::escapeString($key);

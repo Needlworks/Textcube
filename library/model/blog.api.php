@@ -319,7 +319,6 @@ function api_file_hash( $content )
 function api_addAttachment($blogid,$parent,$file) {
 	global $database;
 	
-	requireComponent('Textcube.Function.misc');
 	$attachment=array();
 	$attachment['parent']=$parent?$parent:0;
 	$attachment['label']=Path::getBaseName($file['name']);

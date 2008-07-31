@@ -9,7 +9,6 @@ requireModel('blog.trash');
 requireModel('blog.trackback');
 requireModel('blog.sidebar');
 requireLibrary('blog.skin');
-requireComponent('Textcube.Function.Respond');
 
 requireStrictRoute();
 $blogid = getBlogId();

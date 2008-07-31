@@ -81,7 +81,6 @@ class Image {
 	}
 	
 	function resizeImageToContent($property, $originSrc, $imageWidth) {
-		requireComponent('Textcube.Function.misc');
 		if ( !is_readable($originSrc) ) {
 			return array($property, false);
 		}

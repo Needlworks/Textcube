@@ -18,7 +18,6 @@ if(count($_POST) > 0) {
 require ROOT . '/library/includeForBlogOwner.php';
 requireModel('blog.category');
 requireModel('blog.entry');
-requireComponent('Textcube.Function.misc');
 if (!empty($_POST['id']))
 	$selected = $_POST['id'];
 else if (empty($_GET['id']))

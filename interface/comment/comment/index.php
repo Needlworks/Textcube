@@ -14,7 +14,6 @@ $IV = array(
 );
 require ROOT . '/library/includeForBlog.php';
 requireModel('blog.comment');
-requireComponent('Textcube.Function.Respond');
 
 if (false) {
 	fetchConfigVal();

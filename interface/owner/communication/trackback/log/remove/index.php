@@ -10,7 +10,6 @@ $IV = array(
 
 require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.trackback");
-requireComponent('Textcube.Function.Respond');
 
 requireStrictRoute();
 if(isset($suri['id'])) {

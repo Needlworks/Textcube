@@ -3,7 +3,6 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/library/includeForBlogOwner.php';
-requireComponent('Textcube.Function.misc');
 // get style files list in current skin.
 $styleFileList = array();
 $tempStyleFileList = misc::getFileListByRegExp(ROOT . "/skin/blog/{$skinSetting['skin']}", '\.css$', true);

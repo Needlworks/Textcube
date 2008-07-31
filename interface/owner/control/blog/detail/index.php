@@ -7,7 +7,6 @@ $service['admin_script']='control.js';
 require ROOT . '/library/includeForBlogOwner.php';
 require ROOT . '/library/piece/owner/header.php';
 
-requireComponent('Textcube.Function.misc');
 requirePrivilege('group.creators');
 global $database;
 $bid=$suri['id'];

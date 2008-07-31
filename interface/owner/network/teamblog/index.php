@@ -9,8 +9,6 @@ $IV = array(
 );
 require ROOT . '/library/includeForBlogOwner.php';
 require ROOT . '/library/piece/owner/header.php';
-
-requireComponent( 'Textcube.Function.misc' );
 ?>
 						<script type="text/javascript">
 							//<![CDATA[

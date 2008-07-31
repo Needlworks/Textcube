@@ -4,7 +4,6 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/library/includeForBlog.php';
 requireComponent('Textcube.Control.Openid');
-requireComponent('Textcube.Function.Respond');
 
 if (false) {
 	fetchConfigVal();

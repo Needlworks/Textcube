@@ -501,13 +501,11 @@ function handleDataSet( $plugin , $DATA ) {
 }
 
 function fetchConfigVal($DATA) {
-	requireComponent('Textcube.Function.Setting');
 	return setting::fetchConfigVal($DATA);
 }
 
 function handleConfig($plugin) {
 	global $service , $typeSchema, $pluginURL, $pluginPath, $pluginName, $configMappings, $configVal, $adminSkinSetting;
-	requireComponent('Textcube.Function.Setting');	
 	$typeSchema = array(
 		'text' 
 	,	'textarea'

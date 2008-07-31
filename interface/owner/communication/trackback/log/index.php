@@ -4,7 +4,6 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.trackback");
-requireComponent('Textcube.Function.Respond');
 
 $result = getTrackbackLog($blogid, $suri['id']);
 if ($result !== false) {
