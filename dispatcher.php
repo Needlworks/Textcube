@@ -19,8 +19,8 @@ if (file_exists(ROOT.'/config.php')) {
 }
 
 /* Initialize class loader. */
-include(ROOT.'/settings.php');
-include(ROOT.'/loader.php');
+include(ROOT.'/framework/settings.php');
+include(ROOT.'/framework/loader.php');
 $config = Config::getInstance();
 
 // Parse and normalize URI. */
