@@ -8,12 +8,13 @@
    ROOT should be defined.
 */
 global $service;
-if (!isset($service['dbms'])) $service['dbms'] = 'mysql';
+if (!isset($service['dbms'])) $service['dbms'] = 'mysqli';
 //Database Binding
 switch($service['dbms']) {
 	case 'postgresql':
-		requireComponent('Needlworks.DBMS.PostgreSQL');
-		break;
+		requireComponent('Needlworks.DBMS.PostgreSQL'); break;
+	case 'mysqli':
+		requireComponent('Needlworks.DBMS.MySQLi');     break;
 	case 'mysql':
 	default:
 		requireComponent('Needlworks.DBMS.MySQL');
