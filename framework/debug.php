@@ -61,7 +61,8 @@ class Debug {
 			ftruncate($this->file);
 			break;
 		default:
-			// truncate is only supported by normal files.
+			// truncate is only supported by normal files. We just append a separator.
+			$this->write('--------------------------');
 			break;
 		}
 	}
@@ -90,6 +91,12 @@ class Debug {
 			$args = array_slice(func_get_args(), 1);
 			$this->write(vsprintf($format, $args));
 		}
+	}
+
+	function dump($var) {
+		ob_start();
+		var_dump($var);
+		$this->write(ob_get_flush());
 	}
 }
 ?>
