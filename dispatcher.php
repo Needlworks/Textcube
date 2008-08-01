@@ -34,6 +34,7 @@ try {
 	// Check existence of interface path.
 	if ($config->service['debugmode'])
 		echo $e;
+	exit;
 }
 
 /* Special pre-handlers. (favicon.ico, index.gif) */
