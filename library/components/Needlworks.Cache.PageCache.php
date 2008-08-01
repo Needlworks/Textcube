@@ -87,7 +87,7 @@ class pageCache {
 			 @chmod(ROOT."/cache/pageCache/".getBlogId(),0777);
 		 }
 	}
-	private function purge () {
+	public function purge () {
 		global $service;
 		if(isset($service['pagecache']) && $service['pagecache'] == false) return true;
 		$this->getFileName();

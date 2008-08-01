@@ -77,7 +77,7 @@ class DBQuery {
 				case 'delete':
 				case 'replac':
 				default:
-					$count = $result->affected_rows;
+					$count = self::$db->affected_rows;
 					//mysqli_free_result();
 					break;
 			}

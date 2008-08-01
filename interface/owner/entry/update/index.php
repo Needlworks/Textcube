@@ -22,7 +22,6 @@ $IV = array(
 require ROOT . '/library/includeForBlogOwner.php';
 requireModel('blog.entry');
 
-
 requireStrictRoute();
 $updateDraft = 0;
 $entry = getEntry($blogid, $suri['id']);
