@@ -6,7 +6,7 @@
 final class FrameworkAutoloader
 {
 	private static $classPaths = array(
-			'Context' => './framework/context.php',
+			'Context' => './context.php',
 			'Debug' => './debug.php',
 			'IModel' => './data/IAdapter.php',
 			'IAdapter' => './data/IModel.php',
