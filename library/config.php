@@ -59,7 +59,7 @@ if (@is_numeric($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80) && (
 // Include installation configuration.
 $service['session_cookie_path'] = '/';
 if(!defined('__TEXTCUBE_SETUP__')) @include ROOT . '/config.php';
-if($service['debugmode'] == true) requireComponent("Needlworks.Function.Debug");
+if($service['debugmode'] == true) requireComponent("Needlworks.Debug.MySQL");
 if(!empty($service['domain']) && strstr( $_SERVER['HTTP_HOST'], $service['domain'] ) ) {
 	$service['session_cookie_domain'] = $service['domain'];
 } else {
