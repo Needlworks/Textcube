@@ -23,6 +23,7 @@ include('settings.php');
 include('loader.php');
 
 /* TODO: Unify the environment and do work-arounds. (For IIS, Apache - mod_php or fastcgi, lighttpd, and etc.) */
+$context = Context::getInstance(); // automatic initialization via instanciation
 
 /* TODO: Parse and normalize URI. */
 // Structure of fancy URL:
