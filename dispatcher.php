@@ -11,34 +11,47 @@ define('TEXTCUBE_VERSION', '2.0');
 define('ROOT', '.');
 
 /* Load config.php. */
-if (file_exists('config.php')) {
-	require_once('config.php');
+if (file_exists(ROOT.'/config.php')) {
+	require_once(ROOT.'/config.php');
 } else {
-	echo "TODO: redirect to setup.";
+	require(ROOT.'/setup.php');
 	exit;
 }
 
 /* Initialize class loader. */
-include('settings.php');
-include('loader.php');
+include(ROOT.'/settings.php');
+include(ROOT.'/loader.php');
+$config = Config::getInstance();
 
+// Parse and normalize URI. */
 /* TODO: Unify the environment and do work-arounds. (For IIS, Apache - mod_php or fastcgi, lighttpd, and etc.) */
-$context = Context::getInstance(); // automatic initialization via instanciation
-
-/* TODO: Parse and normalize URI. */
 // Structure of fancy URL:
 //   host + blog prefix + interface path + pagination info + extra arguments not in $_REQUEST
+// TODO: Apply this structure to $context->accessInfo...
+try {
+	$context = Context::getInstance(); // automatic initialization via first instanciation
+} catch (URIError $e) {
+	// Check existence of interface path.
+	if ($config->service['debugmode'])
+		echo $e;
+}
+
+/* Special pre-handlers. (favicon.ico, index.gif) */
+if ($context->accessInfo['prehandler']) {
+	// Skip further processes such as session management.
+	require(ROOT.'/'.$context->accessInfo['interfacePath']);
+	exit;
+}
 
 /* TODO: Session management. */
 
-/* TODO: Special pre-handlers. (favicon.ico, index.gif) */
-
-/* TODO: Load final interface handler. */
-// Check existence of interface path.
+// TODO: Do input validation as soon as possible?
+/* Load final interface handler. */
 // Each interface...
 //   validates passed arguments through IV.
 //   specify required ACL/permissions and check them.
 //   loads its necessary libraries, models and components.
 // before actual execution.
+require(ROOT.'/'.$context->accessInfo['interfacePath']);
 
 ?>

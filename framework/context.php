@@ -54,7 +54,9 @@ final class Context
 		$interfacePath = null;
 		if (in_array($pathPart, array('favicon.ico','index.gif'))) {
 			$accessInfo['interfacePath'] = 'interface/'.$pathPart.'.php';
+			$accessInfo['prehandler'] = TRUE;
 		} else {
+			$accessInfo['prehandler'] = FALSE;
 			if (!empty($accessInfo['URLfragment']) &&
 				in_array($accessInfo['URLfragment'][0],
 						 array('api','archive','attachment','author','category','checkup','cover','cron','entry','feeder','foaf','guestbook','keylog','location','logout','notice','page','plugin','pluginForOwner','search','suggest','sync','tag','ttxml')))
