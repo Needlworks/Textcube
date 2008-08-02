@@ -29,7 +29,7 @@ class MySQLAdapter implements IAdapter
 		$this->conn = mysql_connect($server, $userid, $password);
 		if ($this->conn === FALSE) {
 			$this->conn = NULL;
-			throw new ConnectionError(mysql_error());
+			throw new DBConnectionError(mysql_error());
 		}
 		@mysql_query("SET NAMES UTF8", $this->conn);
 		@mysql_query("SET CHARACTER SET UTF8", $this->conn);
@@ -47,20 +47,20 @@ class MySQLAdapter implements IAdapter
 
 	public function beginTransaction()
 	{
-		mysql_query("BEGIN", $this->conn);
+		$this->_query("BEGIN", $this->conn);
 	}
 
 	public function endTransaction($apply = TRUE)
 	{
 		if ($apply)
-			mysql_query("COMMIT", $this->conn);
+			$this->_query("COMMIT", $this->conn);
 		else
-			mysql_query("ROLLBACK", $this->conn);
+			$this->_query("ROLLBACK", $this->conn);
 	}
 
 	public function query($query)
 	{
-		return mysql_query($query, $this->conn);
+		return $this->_query($query);
 	}
 
 	public static function escapeString($var)
@@ -77,6 +77,13 @@ class MySQLAdapter implements IAdapter
 			return array_map(array('MySQLAdapter', 'escapeFieldName'), $var);
 		else
 			return '`'.$var.'`';
+	}
+
+	private function _query($query) {
+		$result = mysql_query($query, $this->conn);
+		if ($result === FALSE)
+			throw new DBQueryError(mysql_error($this->conn));
+		return $result;
 	}
 }
 ?>

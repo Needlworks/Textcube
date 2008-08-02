@@ -15,7 +15,7 @@ interface IAdapter
 }
 
 class DBException extends Exception {}
-class ConnectionError extends DBException {}
-class QueryError extends DBException {}
+class DBConnectionError extends DBException {}
+class DBQueryError extends DBException {}
 
 ?>
