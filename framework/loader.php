@@ -8,10 +8,10 @@ final class FrameworkAutoloader
 	private static $classPaths = array(
 			'Context' => './context.php',
 			'Debug' => './debug.php',
-			'IModel' => './data/IAdapter.p'
-			'DBException' => './data/IAdapter.phhp',
-			'DBConnectionError' => './data/IAdapter.phhp',
-			'DBQueryError' => './data/IAdapter.phhp',
+			'IModel' => './data/IAdapter.php'
+			'DBException' => './data/IAdapter.php',
+			'DBConnectionError' => './data/IAdapter.php',
+			'DBQueryError' => './data/IAdapter.php',
 			'IAdapter' => './data/IModel.php',
 			'ICache' => './cache/ICache.php',
 			'Entry' => './model/Entry.phpp',
