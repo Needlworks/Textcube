@@ -52,10 +52,11 @@ function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, 
 	global $database;
 
 	$postfix = '';
-
+	if(!$isGuestbook && !Acl::check("group.editors")) $userLimit = ' AND e.userid = '.getUserId();
+	else $userLimit = '';
 	$sql = "SELECT c.*, e.title, c2.name parentName
 		FROM {$database['prefix']}Comments c
-		LEFT JOIN {$database['prefix']}Entries e ON c.blogid = e.blogid AND c.entry = e.id AND e.draft = 0
+		LEFT JOIN {$database['prefix']}Entries e ON c.blogid = e.blogid AND c.entry = e.id AND e.draft = 0$userLimit
 		LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.blogid = c2.blogid
 		WHERE c.blogid = $blogid AND c.isFiltered = 0";
 	if ($category > 0) {
@@ -682,12 +683,14 @@ function revertComment($blogid, $id, $entry, $password) {
 function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestShip = false) {
 	global $skinSetting, $database;
 	$comments = array();
+	if(!$isGuestbook && !Acl::check("group.editors")) $userLimit = ' AND e.userid = '.getUserId();
+	else $userLimit = '';
 	$sql = (doesHaveOwnership() && !$guestShip) ? "SELECT r.*, e.title, e.slogan
 		FROM
 			{$database['prefix']}Comments r
 			INNER JOIN {$database['prefix']}Entries e ON r.blogid = e.blogid AND r.entry = e.id AND e.draft = 0
 		WHERE
-			r.blogid = $blogid".($isGuestbook != false ? " AND r.entry=0" : " AND r.entry>0")." AND r.isFiltered = 0
+			r.blogid = $blogid".($isGuestbook != false ? " AND r.entry=0" : " AND r.entry>0")." AND r.isFiltered = 0$userLimit
 		ORDER BY
 			r.written
 		DESC LIMIT ".($count != false ? $count : $skinSetting['commentsOnRecent']) :
@@ -698,7 +701,7 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestSh
 			LEFT OUTER JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id
 		WHERE
 			r.blogid = $blogid AND e.draft = 0 AND e.visibility >= 2".getPrivateCategoryExclusionQuery($blogid)
-			.($isGuestbook != false ? " AND r.entry = 0" : " AND r.entry > 0")." AND r.isFiltered = 0
+			.($isGuestbook != false ? " AND r.entry = 0" : " AND r.entry > 0")." AND r.isFiltered = 0$userLimit
 		ORDER BY
 			r.written
 		DESC LIMIT
