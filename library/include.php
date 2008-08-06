@@ -65,6 +65,8 @@ class Autoload {
 		'Base64Stream','HTTPRequest','OutputWriter','XMLRPC','XMLTree','Pop3');
 	private static $function = array(
 		'Image','Setting','Respond','Misc');
+	private static $openid = array(
+		'OpenID', 'OpenIDSession', 'OpenIDConsumer');
 	public static function load($name) {
 		$name = ucfirst($name);
 		if(in_array($name,self::$data)) {
@@ -75,6 +77,8 @@ class Autoload {
 			require_once(ROOT . "/library/components/Needlworks.PHP.".$name.".php");
 		} else if (in_array($name,self::$function)) {
 			require_once(ROOT . "/library/components/Textcube.Function.".$name.".php");
+		} else if (in_array($name,self::$openid)) {
+			require_once(ROOT . "/library/components/Textcube.Control.Openid.php");
 		} else if (in_array($name,array('POD'))) {
 			require_once(ROOT . "/library/components/POD.Core.Legacy.php");
 		} else if (in_array($name,array('DBQuery'))) {
