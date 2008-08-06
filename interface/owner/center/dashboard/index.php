@@ -6,7 +6,6 @@ require ROOT . '/library/includeForBlogOwner.php';
 
 requireLibrary('blog.skin');
 
-
 requireModel('reader.common');
 requireModel('blog.comment');
 requireModel('blog.trackback');
