@@ -52,7 +52,7 @@ function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, 
 	global $database;
 
 	$postfix = '';
-	if(!Acl::check("group.editors")) $userLimit = ' AND e.userid = '.getUserId();
+	if(!$isGuestbook && !Acl::check("group.editors")) $userLimit = ' AND e.userid = '.getUserId();
 	else $userLimit = '';
 	$sql = "SELECT c.*, e.title, c2.name parentName
 		FROM {$database['prefix']}Comments c
@@ -679,7 +679,7 @@ function revertComment($blogid, $id, $entry, $password) {
 function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestShip = false) {
 	global $skinSetting, $database;
 	$comments = array();
-	if(!Acl::check("group.editors")) $userLimit = ' AND e.userid = '.getUserId();
+	if(!$isGuestbook && !Acl::check("group.editors")) $userLimit = ' AND e.userid = '.getUserId();
 	else $userLimit = '';
 	$sql = (doesHaveOwnership() && !$guestShip) ? "SELECT r.*, e.title, e.slogan
 		FROM
