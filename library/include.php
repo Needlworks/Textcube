@@ -15,14 +15,15 @@ if(!isset($service)) $service = array();
 
 /***** Define binders *****/
 function requireComponent($name) {
-	global $__requireComponent;
+	return true;
+	//global $__requireComponent;
 	//if (!preg_match('/^[a-zA-Z0-9\.]+$/', $name))		return;
-	$name = str_replace('Tattertools', 'Textcube',$name); // Legacy routine.
-	$name = str_replace('Textcube.Function.misc', 'Textcube.Function.Misc',$name); // Legacy routine ( < 1.8).
-	if(!in_array($name,$__requireComponent)) {
-		include_once (ROOT . "/library/components/$name.php");
-		array_push($__requireComponent,$name);
-	}
+	//$name = str_replace('Tattertools', 'Textcube',$name); // Legacy routine.
+	//$name = str_replace('Textcube.Function.misc', 'Textcube.Function.Misc',$name); // Legacy routine ( < 1.8).
+	//if(!in_array($name,$__requireComponent)) {
+	//	include_once (ROOT . "/library/components/$name.php");
+	//	array_push($__requireComponent,$name);
+	//}
 }
 function requireModel($name) {
 	global $__requireModel;
@@ -48,6 +49,8 @@ function requireLibrary($name) {
 
 /***** Autoload components *****/
 class Autoload {
+	private static $db = array(
+		'POD','DBQuery');
 	private static $data = array(
 		'Attachment','BlogSetting','BlogStatistics','Category','Comment','CommentNotified',
 		'CommentNotifiedSiteInfo','DailyStatistics','DataMaintenance','Feed',
@@ -72,6 +75,21 @@ class Autoload {
 			require_once(ROOT . "/library/components/Needlworks.PHP.".$name.".php");
 		} else if (in_array($name,self::$function)) {
 			require_once(ROOT . "/library/components/Textcube.Function.".$name.".php");
+		} else if (in_array($name,array('POD'))) {
+			require_once(ROOT . "/library/components/POD.Core.Legacy.php");
+		} else if (in_array($name,array('DBQuery'))) {
+			global $service;
+			if (!isset($service['dbms'])) $service['dbms'] = 'mysqli';
+			switch($service['dbms']) {
+				case 'postgresql':
+					require_once(ROOT . '/library/components/Needlworks.DBMS.PostgreSQL.php'); break;
+				case 'mysqli':
+					require_once(ROOT . '/library/components/Needlworks.DBMS.MySQLi.php');     break;
+				case 'mysql':
+				default:
+					require_once(ROOT . '/library/components/Needlworks.DBMS.MySQL.php');     break;
+			}
+			require_once(ROOT . "/library/components/Needlworks.Database.php");
 		}
 	}
 }

@@ -13,7 +13,7 @@
 // NOTE : THIS FILE CONTAINS LEGACY ROUTINE OF DBQuery ONLY.
 //        FOR USING FULL FUNCTION, INCLUDE POD.Core.php instead.
 
-requireComponent('Needlworks.Database');
+//requireComponent('Needlworks.Database');
 
 // Bypass variables are supported. ($_pod_setting);
 class POD extends DBQuery {
