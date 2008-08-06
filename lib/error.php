@@ -39,7 +39,7 @@ function errorExit($code)
 	if( in_array($code, array(404)) ) {
 		requireModel( "common.plugin" );
 		fireEvent('OBStart');
-		require_once ROOT . '/library/piece/blog/begin.php';
+		require_once ROOT . '/lib/piece/blog/begin.php';
 
 		if (empty($skin->pageError)) { 
 			dress('article_rep', '<div class="TCwarning">' . _text('존재하지 않는 페이지입니다.') . '</div>', $view);
