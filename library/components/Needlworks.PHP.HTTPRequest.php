@@ -5,7 +5,7 @@
 final class HTTPRequest {
 	var $method = 'GET', $url, $async = false, $contentType = 'application/x-www-form-urlencoded', $content = '', $eTag, $lastModified, $referer, $timeout = 10, $responseText, $pathToSave;
 	
-	function HTTPRequest() {
+	function __construct() {
 		switch (func_num_args()) {
 			case 0:
 				break;
@@ -19,7 +19,6 @@ final class HTTPRequest {
 				break;
 		}
 	}
-	
 	function send($content = null) {
 		if (empty($this->url))
 			return false;

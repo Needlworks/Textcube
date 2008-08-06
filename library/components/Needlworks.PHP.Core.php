@@ -885,6 +885,33 @@ final class Timestamp {
 
 }
 
+final class Timer {
+	/**
+		Original code is written by Crizin (crizin@gmail.com)
+	**/
+	private $start, $stop;
+	function __construct() {
+		$this->start();
+	}
+	public function start() {
+		$this->start = $this->getMicroTime();
+	}
+	public function pause() {
+		$this->stop = $this->getMicroTime();
+	}
+	public function resume() {
+		$this->start += $this->getMicroTime() - $this->stop;
+		$this->stop = 0;
+	}
+	public function fetch($decimalPlaces = 3) {
+		return sprintf('%.3f', round(($this->getMicrotime() - $this->start), $decimalPlaces));
+	}
+	private function getMicroTime() {
+		list($usec, $sec) = explode(' ', microtime());
+		return (float)$usec + (float)$sec;
+	}
+}
+
 final class Path {
 	static function getBaseName($path) {
 		$pattern = (strncasecmp(PHP_OS, 'WIN', 3) ? '/([^\/]+)[\/]*$/' : '/([^\/\\\\]+)[\/\\\\]*$/');
