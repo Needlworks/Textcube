@@ -388,14 +388,12 @@ echo fireEvent('ShowAdminHeader', '');
 					<ul id="main-description">
 <?php
 $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = ".getUserId());
-requireComponent('Textcube.Core');
 ?>
 						<li id="description-blogger"><span class="text"><?php echo _f('환영합니다. <em>%1</em>님.', htmlspecialchars($writer));?></span></li>
 <?php
 						if ('single' != $service['type'] ) {
 ?>
 						<li id="description-teamblog"><label for="teamblog"><?php echo _t('현재 블로그');?></label>
-<?php echo User::changeBlog();?>
 						</li>
 <?php } ?>
 						<li id="description-blog"><a href="<?php echo $blogURL;?>/" title="<?php echo _t('블로그 메인으로 이동합니다.');?>"><span class="text"><?php echo _t('블로그로 이동');?></span></a></li>
@@ -466,6 +464,7 @@ foreach($blogTopMenuItem as $menuItem) {
 <?php
 }
 ?>
+<?php echo User::changeBlog();?>
 					</ul>
 				</div>
 			</div>

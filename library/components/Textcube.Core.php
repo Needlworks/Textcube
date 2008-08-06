@@ -13,8 +13,8 @@ global $__gCacheUserNames;
 $__gCacheUserNames = array();
 
 class User {
-	/*@static@*/
-	function getName($userid = null) {
+	private static $__gCacheUserNames;
+	static function getName($userid = null) {
 		global $database, $__gCacheUserNames;
 		if (empty($userid))
 			$userid = getUserId();
@@ -24,8 +24,7 @@ class User {
 		return $__gCacheUserNames[$userid] = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $userid");
 	}
 	
-	/*@static@*/
-	function getUserIdByName($name) {
+	static function getUserIdByName($name) {
 		global $database, $__gCacheUserNames;
 		if (!isset($name))
 			return getUserId();
@@ -38,8 +37,7 @@ class User {
 		return $userid;
 	}
 	
-	/*@static@*/
-	function getUserNamesOfBlog($blogid) {
+	static function getUserNamesOfBlog($blogid) {
 		// TODO : Caching with global cache component. (Usually it is not changing easily.)
 		global $database;
 		$authorIds = POD::queryColumn("SELECT userid
@@ -52,8 +50,7 @@ class User {
 		return $authorInfo;
 	}
 
-	/*@static@*/
-	function getBlogOwnerName($blogid) {
+	static function getBlogOwnerName($blogid) {
 		global $database;
 		$ownerUserId = POD::queryCell("SELECT userid 
 			FROM {$database['prefix']}Teamblog
@@ -62,8 +59,7 @@ class User {
 		return User::getName($ownerUserId);
 	}
 
-	/*@static@*/
-	function getBlogOwner($blogid) {
+	static function getBlogOwner($blogid) {
 		global $database;
 		$ownerUserId = POD::queryCell("SELECT userid 
 			FROM {$database['prefix']}Teamblog
@@ -72,16 +68,14 @@ class User {
 		return $ownerUserId;
 	}
 
-	/*@static@*/
-	function getEmail($userid = null) {
+	static function getEmail($userid = null) {
 		global $database;
 		if (!isset($userid))
 			$userid = getUserId();
 		return POD::queryCell("SELECT loginid FROM {$database['prefix']}Users WHERE userid = $userid");
 	}
 
-	/*@static@*/
-	function getUserIdByEmail($loginid = null) {
+	static function getUserIdByEmail($loginid = null) {
 		global $database;
 		$loginid = trim($loginid);
 		if(!isset($loginid)) return null;
@@ -89,24 +83,21 @@ class User {
 		return POD::queryCell("SELECT userid FROM {$database['prefix']}Users WHERE loginid = '".$loginid."'");
 	}
 	
-	/*@static@*/
-	function getBlogs($userid = null) {
+	static function getBlogs($userid = null) {
 		global $database;
 		if (!isset($userid))
 			$userid = getUserId();
 		return POD::queryColumn("SELECT blogid FROM {$database['prefix']}Teamblog WHERE userid = $userid");
 	}
 
-	/*@static@*/
-	function getOwnedBlogs($userid = null) {
+	static function getOwnedBlogs($userid = null) {
 		global $database;
 		if (!isset($userid))
 			$userid = getUserId();
 		return POD::queryColumn("SELECT blogid FROM {$database['prefix']}Teamblog WHERE userid = $userid AND acl > 15");
 	}
 
-	/*@static@*/
-	function getHomepageType($userid = null) {
+	static function getHomepageType($userid = null) {
 		global $database;
 		if (!isset($userid)) 
 			$userid = getUserId();
@@ -118,8 +109,7 @@ class User {
 		return $type;
 	}
 
-	/*@static@*/
-	function getHomepage($userid = null) {
+	static function getHomepage($userid = null) {
 		global $database;
 		if (!isset($userid) || empty($userid)) 
 			$userid = getUserId();
@@ -142,7 +132,7 @@ class User {
 		return $homepage;
 	}
 
-	function setHomepage($type, $homepage, $blogid = null, $userid = null) {
+	static function setHomepage($type, $homepage, $blogid = null, $userid = null) {
 		global $database;
 		$types = array("internal","author","external","default");
 		if (!isset($userid)) //TODO : 현재 로그인 사용자의 homepage만 변경가능.setUserSetting함수 특성. 
@@ -173,16 +163,14 @@ class User {
 		return false;
 	}
 	
-	/*@static@*/
-	function confirmPassword($userid = null, $password) {
+	static function confirmPassword($userid = null, $password) {
 		global $database;
 		if(empty($userid)) $userid = getUserId(); 
 		$password = md5($password);
 		return POD::queryExistence("SELECT userid FROM {$database['prefix']}Users WHERE userid = $userid AND password = '$password'");
 	}
 
-	/*@static@*/
-	function authorName($blogid = null,$entryId){
+	static function authorName($blogid = null,$entryId){
 		if( is_null($blogid) ) {
 			$blogid = getBlogId();
 		}
@@ -196,8 +184,32 @@ class User {
 		}
 	}
 
-	/*@static@*/
-	function changeBlog(){
+	static function changeBlog(){
+		global $database, $blogURL, $blog, $service;
+		$blogid = getBlogId();	
+
+		$blogList = User::getBlogs();
+		if (count($blogList) == 0) {
+			return;
+		}
+		define('TAB6',str_repeat(TAB,6));
+		$changeBlogView = TAB6.'<li id="menu-bloglist">'.CRLF;
+		$blogListView = TAB6.TAB.'<!--[if lte IE 6]><table><tr><td><![endif]-->'.CRLF
+			.TAB6.TAB.'<ul id="submenu-bloglist" class="sub-menu">'.CRLF;
+		foreach($blogList as $info){
+			$title = UTF8::lessen(setting::getBlogSettingGlobal("title",null,$info,true), 30);
+			$title = ($title ? $title : _f('%1 님의 블로그',User::getBlogOwnerName($info)));
+			if($info == $blogid) { // Current Blog.
+				$currentBlog = TAB6.TAB.'<a href="'.$blogURL.'/owner/network/teamblog/changeBlog/?blogid='.$info.'"><span>'.$title.'</span><!--[if IE 7]><!--></a><!--<![endif]-->'.CRLF;
+			}
+			$blogListView .= TAB6.TAB.TAB.'<li id="sub-menu-'.$info.'"><a href="'.$blogURL.'/owner/network/teamblog/changeBlog/?blogid='.$info.'"><span class="text">'.$title.'</span></a></li>'.CRLF;
+		}
+		$blogListView .=TAB6.TAB.'</ul>'.CRLF
+			.TAB6.TAB.'<!--[if lte IE 6]></td></tr></table></a><![endif]-->'.CRLF;
+		$changeBlogView = $changeBlogView.$currentBlog.$blogListView.TAB6.'</li>'.CRLF;
+		return $changeBlogView;
+	}
+	/*static function changeBlog(){
 		global $database, $blogURL, $blog, $service;
 		$blogid = getBlogId();	
 
@@ -216,10 +228,9 @@ class User {
 		}
 		$changeBlogView .= str_repeat(TAB,7).'</select>'.CRLF;
 		return $changeBlogView;
-	}
+	}*/
 
-	/*@static@*/
-	function changeSetting($userid, $email, $nickname) {
+	static function changeSetting($userid, $email, $nickname) {
 		global $database;
 		if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return false;
 		$email = POD::escapeString(UTF8::lessenAsEncoding($email, 64));
@@ -294,8 +305,7 @@ class User {
 		return true;
 	}
 	
-	/*@static@*/
-	function removePermanent($userid) {
+	static function removePermanent($userid) {
 		global $database;
 		if( POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1") ) {
 			return POD::execute("DELETE FROM {$database['prefix']}Users WHERE userid = $userid");
@@ -304,9 +314,7 @@ class User {
 		}
 	}
 	
-	/* private functions */
-	/*@private static@*/
-	function __generatePassword() {
+	static function __generatePassword() {
 		return strtolower(substr(base64_encode(rand(0x10000000, 0x70000000)), 3, 8));
 	}
 }
