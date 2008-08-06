@@ -14,7 +14,15 @@ class DBQuery {
 		// Connects DB and set environment variables
 		// $database array should contain 'server','username','password'.
 		if(!isset($database) || empty($database)) return false;
-		self::$db = new mysqli($database['server'], $database['username'], $database['password'], $database['database'],8889);
+		if(!isset($database['port']) && strpos($database['server'],':')) {
+			$port = explode(":",$database['server']);
+			$database['port'] = $port[1];
+		}
+		if(isset($database['port'])) {
+			self::$db = new mysqli($database['server'], $database['username'], $database['password'], $database['database'],$database['port']);
+		} else {
+			self::$db = new mysqli($database['server'], $database['username'], $database['password'], $database['database']);
+		}
 		if(!self::$db) return false; 
 		if(!self::$db->select_db($database['database']))
 			die("Connection error :".self::$db->errorno." - ".self::$db->error);
