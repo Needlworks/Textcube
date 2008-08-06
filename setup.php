@@ -444,6 +444,7 @@ function_exists
 fwrite
 get_magic_quotes_gpc
 getimagesize
+get_class
 gmdate
 gmmktime
 gmstrftime
