@@ -62,7 +62,7 @@ class Autoload {
 		'Paging','PluginCustomConfig','Statistics','User'
 		);
 	private static $base = array(
-		'Base64Stream','HTTPRequest','OutputWriter','XMLRPC','XMLTree');
+		'Base64Stream','HTTPRequest','OutputWriter','XMLRPC','XMLTree','Pop3');
 	private static $function = array(
 		'Image','Setting','Respond','Misc');
 	public static function load($name) {
@@ -90,6 +90,9 @@ class Autoload {
 					require_once(ROOT . '/library/components/Needlworks.DBMS.MySQL.php');     break;
 			}
 			require_once(ROOT . "/library/components/Needlworks.Database.php");
+		}
+		else {
+			if(defined('TCDEBUG')) print "TC: Unregisterred auto load class: $name<br/>\n";
 		}
 	}
 }
