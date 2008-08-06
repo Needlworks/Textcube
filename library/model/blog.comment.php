@@ -684,9 +684,9 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestSh
 	$sql = (doesHaveOwnership() && !$guestShip) ? "SELECT r.*, e.title, e.slogan
 		FROM
 			{$database['prefix']}Comments r
-			INNER JOIN {$database['prefix']}Entries e ON r.blogid = e.blogid AND r.entry = e.id AND e.draft = 0
+			INNER JOIN {$database['prefix']}Entries e ON r.blogid = e.blogid AND r.entry = e.id AND e.draft = 0$userLimit
 		WHERE
-			r.blogid = $blogid".($isGuestbook != false ? " AND r.entry=0" : " AND r.entry>0")." AND r.isFiltered = 0$userLimit
+			r.blogid = $blogid".($isGuestbook != false ? " AND r.entry=0" : " AND r.entry>0")." AND r.isFiltered = 0
 		ORDER BY
 			r.written
 		DESC LIMIT ".($count != false ? $count : $skinSetting['commentsOnRecent']) :
@@ -697,7 +697,7 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestSh
 			LEFT OUTER JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id
 		WHERE
 			r.blogid = $blogid AND e.draft = 0 AND e.visibility >= 2".getPrivateCategoryExclusionQuery($blogid)
-			.($isGuestbook != false ? " AND r.entry = 0" : " AND r.entry > 0")." AND r.isFiltered = 0$userLimit
+			.($isGuestbook != false ? " AND r.entry = 0" : " AND r.entry > 0")." AND r.isFiltered = 0
 		ORDER BY
 			r.written
 		DESC LIMIT
