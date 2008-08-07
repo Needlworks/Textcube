@@ -36,7 +36,7 @@ if (isset($cache->contents)) {
 	dress('list_conform', fireEvent('ViewListHeadTitle', htmlspecialchars($list['title']) ), $listView);
 	dress('list_count', isset($list['count']) ? $list['count'] : '0', $listView);
 	$listView = fireEvent('ViewList', $listView, $list);
-	$listView = $listView.CRLF.'[##_paging_list_##]';
+	if(empty($entries)) $listView = $listView.CRLF.'[##_paging_list_##]';
 	
 	dress('list', $listView, $view);
 	if(isset($cache)) { 
