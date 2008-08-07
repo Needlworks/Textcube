@@ -1,5 +1,6 @@
 <?
 requireComponent( "Needlworks.Mail.Pop3" );
+requireModel( "common.setting" );
 
 class Moblog
 {
@@ -179,7 +180,7 @@ class Moblog
 	 */
 	function extractTags( & $mail )
 	{
-		$p = '/{([^}]*)}/';
+		$p = '/{([^}:;]*)}/';
 		$tags = array();
 		if( preg_match( $p, $mail['text'], $m ) ) {
 			$tags = split( ',', $m[1] );
@@ -355,7 +356,6 @@ function moblog_logrotate()
 function moblog_manage()
 {
 	global $blogURL;
-	requireModel("common.setting");
 	if( Acl::check('group.administrators') && $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		setBlogSetting( 'MmsPop3Email', $_POST['pop3email'] );
 		setBlogSetting( 'MmsPop3Host', $_POST['pop3host'] );
