@@ -1,8 +1,0 @@
-From Textcube 1.5, we will offer you the source version only. Do not consider the message below.
-
-------------------------
-From version 1.0, Tattertools has added multi-user support. Due to the problem about driving speed,
-we started to use the 'Hermes' optimizer, developed by Tatter and Company. Public version is 
-optimized version with it. That's why you cannot modify the source code easily.
-If you found it too hard to modify tattertools or need the original source, visit 
-http://dev.textcube.org/. You can get the original sources using Subversion.
