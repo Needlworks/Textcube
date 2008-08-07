@@ -69,10 +69,10 @@ final class Session {
 		global $database;
 		@POD::query("DELETE FROM {$database['prefix']}Sessions 
 			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
-		self::getCurrent();
+		self::gc();
 	}
 	
-	public static function getCurrent($maxLifeTime = false) {
+	public static function gc($maxLifeTime = false) {
 		global $database, $service;
 		@POD::query("DELETE FROM {$database['prefix']}Sessions 
 			WHERE updated < (UNIX_TIMESTAMP() - {$service['timeout']})");
