@@ -201,7 +201,7 @@ final class Session {
 		return false;
 	}
 	
-	public static function query($sql) {
+	private static function query($sql) {
 		global $database, $sessionDBRepair;
 		$result = POD::queryCell($sql);
 		if($result === false) {
@@ -214,7 +214,7 @@ final class Session {
 		return $result;
 	}
 	
-	public static function queryAll($sql) {
+	private static function queryAll($sql) {
 		global $database, $sessionDBRepair;
 		$result = POD::queryAll($sql);
 		if($result === false) {
