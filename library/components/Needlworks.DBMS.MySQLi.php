@@ -281,8 +281,8 @@ class DBQuery {
 	}
 	
 	public static function stat($stat = null) {
-		if($stat === null) return mysqli_stat();
-		else return mysqli_stat($stat);
+		if($stat === null) return self::$db->stat();
+		else return self::$db->stat($stat);
 	}
 }
 
