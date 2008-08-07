@@ -59,7 +59,7 @@ class Autoload {
 		'SubscriptionStatistics','Tag','Trackback','TrackbackLog','UserInfo','UserSetting'
 		);
 	private static $model = array(
-		'Paging','PluginCustomConfig','Statistics','User','Session'
+		'Paging','PluginCustomConfig','Statistics','User'
 		);
 	private static $base = array(
 		'Base64Stream','HTTPRequest','OutputWriter','XMLRPC','XMLTree','Pop3');
@@ -67,6 +67,8 @@ class Autoload {
 		'Image','Setting','Respond','Misc');
 	private static $openid = array(
 		'OpenID', 'OpenIDSession', 'OpenIDConsumer');
+	private static $control = array(
+		'Session');
 	public static function load($name) {
 		$name = ucfirst($name);
 		if(in_array($name,self::$data)) {
@@ -79,6 +81,8 @@ class Autoload {
 			require_once(ROOT . "/library/components/Textcube.Function.".$name.".php");
 		} else if (in_array($name,self::$openid)) {
 			require_once(ROOT . "/library/components/Textcube.Control.Openid.php");
+		} else if (in_array($name,self::$control)) {
+			require_once(ROOT . "/library/components/Textcube.Control.".$name.".php");
 		} else if (in_array($name,array('POD'))) {
 			require_once(ROOT . "/library/components/POD.Core.Legacy.php");
 		} else if (in_array($name,array('DBQuery'))) {
