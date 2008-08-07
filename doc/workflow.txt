@@ -7,8 +7,15 @@ Textcube Simple task flow
 Requesting
                                                         interface/~
 ------------                                                 |
-Dispatching                                             rewrite.php
+Dispatching                                           +------+------+
+                                                      |             |
+                                                   index.php    .htaccess
+                                    (without rewrite module)    (with rewrite module)
+                                                      |             |
+                                                      +------+------+
                                                              |
+                                                        rewrite.php
+                                                             |  + /config.php
                              +-------------------------------+-----------------------------+
                              |                               |                             |
                   library/includeForBlog.php  library/includeForBlogOwner.php  library/includeForReader.php
@@ -17,6 +24,8 @@ Dispatching                                             rewrite.php
                              +-------------------------------+-----------------------------+
                                                              |
                                                     /library/include.php
+                                                             |     + /library/config.php
+                                                             |     + /config.php (override)
                                                              |     + /library/component/~
                                              [Loading mandatory models / views]
                                                              |     + /library/model/~
@@ -29,7 +38,7 @@ Initializing                                      /library/initiallize.php
 Quilting                                   +-----------------+-----------------+                    
                       (Sequence defined at each interface path)      /library/piece/owner/header.php
                            /library/piece/blog/begin.php                       |
-                                           |                                   |
+                + /library/blog.skin.php   |                                   |
                            /library/piece/blog/~                          Interface code     
                                            |                                   |
                            /library/piece/blog/end.php               /library/piece/owner/footer.php

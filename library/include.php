@@ -59,7 +59,7 @@ class Autoload {
 		'SubscriptionStatistics','Tag','Trackback','TrackbackLog','UserInfo','UserSetting'
 		);
 	private static $model = array(
-		'Paging','PluginCustomConfig','Statistics','User'
+		'Paging','PluginCustomConfig','Statistics','User','Session'
 		);
 	private static $base = array(
 		'Base64Stream','HTTPRequest','OutputWriter','XMLRPC','XMLTree','Pop3');

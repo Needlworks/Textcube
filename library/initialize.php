@@ -3,12 +3,10 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-/* Database I/O initialization.
-   ---------------------------
-   - Depends on /library/database.php 
-   - Choose DBMS and bind database.*/
-   
-requireComponent('Needlworks.Database');
+/**
+     Database I/O initialization.
+   --------------------------------
+**/
 if(!empty($database) && !empty($database["database"])) {
 	if(POD::bind($database) === false) {
 		respond::MessagePage('Problem with connecting database.<br /><br />Please re-visit later.');
@@ -18,28 +16,40 @@ if(!empty($database) && !empty($database["database"])) {
 
 $database['utf8'] = (POD::charset() == 'utf8') ? true : false;
 
-/* Path-dependent environment setting
+/**
+   Path-dependent environment setting
    ----------------------------------
-   */
+**/
 require ROOT.'/library/suri.php';
 
 /* Session initializing */
-if (!defined('NO_SESSION')) require ROOT.'/library/session.php';
+if (!defined('NO_SESSION')) {
+	session_name(Session::getSessionName());
+	Session::setSession();
+	session_set_save_handler('Session::openSession', 'Session::closeSession', 'Session::readSession', 'Session::writeSession', 'Session::destroySession', 'Session::gcSession');
+	session_cache_expire(1);
+	session_set_cookie_params(0, '/', $service['domain']);
+	if (session_start() !== true) {
+		header('HTTP/1.1 503 Service Unavailable');
+	}
+}
 
+/* Get User information */
 if (!defined('NO_INITIALIZAION')) {
-	/* Get User information */
 	if (doesHaveMembership()) {
-		$user = array('id' => getUserId());
-		$user['name'] = User::getName(getUserId());
+		$user             = array('id' => getUserId());
+		$user['name']     = User::getName(getUserId());
 		$user['homepage'] = User::getHomePage();
 	} else {
 		$user = null;
 	}
 
-	/* Locale initialization
-   ---------------------
+/**
+     Locale initialization
+   -------------------------
    - Depends on /library/locale.php 
-   - Set current locale, load locale and language resources. */
+   - Set current locale, load locale and language resources. 
+**/
   
 	$__locale = array(
 		'locale' => null,
@@ -67,9 +77,11 @@ if (!defined('NO_INITIALIZAION')) {
 		Locale::setSkinLocale(isset($blog['blogLanguage']) ? $blog['blogLanguage'] : $service['language']);
 	}
 
-/* Administration panel skin and editor template initialization
-   ---------------------
-   - Set administration panel skin and editor template CSS. */
+/** 
+     Administration panel skin / editor template initialization
+   --------------------------------------------------------------
+   - Set administration panel skin and editor template CSS.
+**/
 
 	// 관리 모드 스킨 및 에디터 템플릿 설정.
 	if(!defined('NO_ADMINPANEL')) {

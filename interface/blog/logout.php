@@ -13,9 +13,6 @@ $IV = array(
 );
 define('__TEXTCUBE_LOGIN__',true);
 require ROOT . '/library/includeForBlog.php';
-if (false) {
-	fetchConfigVal();
-}
 
 if (substr($blogURL, -1) != '/') $blogURL .= '/';
 if (!isset($user['homepage']) ) $user['homepage'] = '/';
@@ -33,5 +30,4 @@ if (doesHaveMembership()) {
 }
 logout();
 header("Location: $returnURL");
-
 ?>
