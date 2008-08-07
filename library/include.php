@@ -82,7 +82,9 @@ class Autoload {
 		} else if (in_array($name,self::$openid)) {
 			require_once(ROOT . "/library/components/Textcube.Control.Openid.php");
 		} else if (in_array($name,self::$control)) {
-			require_once(ROOT . "/library/components/Textcube.Control.".$name.".php");
+			if($name == 'Session' && $service['memcached'] == true) 
+				require_once(ROOT . "/library/components/Textcube.Control.".$name.".Memcached.php");
+			else require_once(ROOT . "/library/components/Textcube.Control.".$name.".php");
 		} else if (in_array($name,array('POD'))) {
 			require_once(ROOT . "/library/components/POD.Core.Legacy.php");
 		} else if (in_array($name,array('DBQuery'))) {
