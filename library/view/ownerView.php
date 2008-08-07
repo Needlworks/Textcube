@@ -796,12 +796,12 @@ function printEntryFileList($attachments, $param) {
 															+ entryManager.entryId
 															+ '&labelingPath=<?php echo $param['labelingPath'];?>'
 															+ entryManager.entryId
-															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[getSessionName()];?>" />'
+															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[Session::getName()];?>" />'
 															+ '<embed id="uploader2" src="<?php echo $service['path'];?>/resources/script/uploader/uploader.swf" flashvars="uploadPath=<?php echo $param['uploadPath'];?>'
 															+ entryManager.entryId
 															+ '&labelingPath=<?php echo $param['labelingPath'];?>'
 															+ entryManager.entryId
-															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[getSessionName()];?>" width="1" height="1" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
+															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[Session::getName()];?>" width="1" height="1" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
 														if (hasRightVersion && (isMoz || isIE)) {
 															if(<?php echo (isset($service['flashuploader']) && $service['flashuploader'] === false) ? 'false' : 'true';?>) { writeCode(uploaderStr,'uploaderNest'); }
 														}

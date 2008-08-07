@@ -13,15 +13,15 @@ final class Session {
 		$sessionMicrotime = Timer::getMicroTime();
 	}
 	
-	public static function openSession($savePath, $sessionName) {
+	public static function open($savePath, $sessionName) {
 		return true;
 	}
 	
-	public static function closeSession() {
+	public static function close() {
 		return true;
 	}
 	
-	public static function getSessionName() {
+	public static function getName() {
 		global $service;
 		if( self::$sessionName == null ) { 
 			if( !empty($service['session_cookie']) ) {
@@ -34,16 +34,16 @@ final class Session {
 		return self::$sessionName;
 	}
 	
-	public static function readSession($id) {
+	public static function read($id) {
 		global $database, $service;
-		if ($result = self::sessionQuery("SELECT data FROM {$database['prefix']}Sessions 
+		if ($result = self::query("SELECT data FROM {$database['prefix']}Sessions 
 			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND updated >= (UNIX_TIMESTAMP() - {$service['timeout']})")) {
 			return $result;
 		}
 		return '';
 	}
 	
-	public static function writeSession($id, $data) {
+	public static function write($id, $data) {
 		global $database;
 		if (strlen($id) < 32)
 			return false;
@@ -65,18 +65,18 @@ final class Session {
 		return false;
 	}
 	
-	public static function destroySession($id, $setCookie = false) {
+	public static function destroy($id, $setCookie = false) {
 		global $database;
 		@POD::query("DELETE FROM {$database['prefix']}Sessions 
 			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
-		self::gcSession();
+		self::getCurrent();
 	}
 	
-	public static function gcSession($maxLifeTime = false) {
+	public static function getCurrent($maxLifeTime = false) {
 		global $database, $service;
 		@POD::query("DELETE FROM {$database['prefix']}Sessions 
 			WHERE updated < (UNIX_TIMESTAMP() - {$service['timeout']})");
-		$result = @self::sessionQueryAll("SELECT DISTINCT v.id, v.address 
+		$result = @self::queryAll("SELECT DISTINCT v.id, v.address 
 			FROM {$database['prefix']}SessionVisits v 
 			LEFT JOIN {$database['prefix']}Sessions s ON v.id = s.id AND v.address = s.address 
 			WHERE s.id IS NULL AND s.address IS NULL");
@@ -90,15 +90,15 @@ final class Session {
 		return true;
 	}
 	
-	public static function getAnonymousSession() {
+	private static function getAnonymousSession() {
 		global $database;
-		$result = self::sessionQuery("SELECT id FROM {$database['prefix']}Sessions WHERE address = '{$_SERVER['REMOTE_ADDR']}' AND userid IS NULL AND preexistence IS NULL");
+		$result = self::query("SELECT id FROM {$database['prefix']}Sessions WHERE address = '{$_SERVER['REMOTE_ADDR']}' AND userid IS NULL AND preexistence IS NULL");
 		if ($result)
 			return $result;
 		return false;
 	}
 	
-	public static function newAnonymousSession() {
+	private static function newAnonymousSession() {
 		global $database;
 		for ($i = 0; $i < 100; $i++) {
 			if (($id = self::getAnonymousSession()) !== false)
@@ -126,7 +126,7 @@ final class Session {
 		return false;
 	}
 	
-	public static function isSessionAuthorized($id) {
+	public static function isAuthorized($id) {
 		/* OpenID and Admin sessions are treated as authorized ones*/
 		global $database;
 		$result = POD::queryCell("SELECT id 
@@ -150,7 +150,7 @@ final class Session {
 		return false;
 	}
 	
-	public static function setSession() {
+	public static function set() {
 		self::$sessionMicrotime = Timer::getMicroTime();
 		if( !empty($_GET['TSSESSION']) ) {
 			$id = $_GET['TSSESSION'];
@@ -160,12 +160,12 @@ final class Session {
 		} else {
 			$id = '';
 		}
-		if ((strlen($id) < 32) || !self::isSessionAuthorized($id)) {
+		if ((strlen($id) < 32) || !self::isAuthorized($id)) {
 			self::setSessionAnonymous($id);
 		}
 	}
 	
-	public static function authorizeSession($blogid, $userid) {
+	public static function authorize($blogid, $userid) {
 		global $database, $service;
 		$session_cookie_path = "/";
 		if( !empty($service['session_cookie_path']) ) {
@@ -184,7 +184,7 @@ final class Session {
 				}
 			}
 		}
-		if (self::isSessionAuthorized(session_id()))
+		if (self::isAuthorized(session_id()))
 			return true;
 		for ($i = 0; $i < 100; $i++) {
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
@@ -194,14 +194,14 @@ final class Session {
 			if ($result) {
 				@session_id($id);
 				//$service['domain'] = $service['domain'].':8888';
-				setcookie( self::getSessionName(), $id, 0, $session_cookie_path, $service['session_cookie_domain']);
+				setcookie( self::getName(), $id, 0, $session_cookie_path, $service['session_cookie_domain']);
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	public static function sessionQuery($sql) {
+	public static function query($sql) {
 		global $database, $sessionDBRepair;
 		$result = POD::queryCell($sql);
 		if($result === false) {
@@ -214,7 +214,7 @@ final class Session {
 		return $result;
 	}
 	
-	public static function sessionQueryAll($sql) {
+	public static function queryAll($sql) {
 		global $database, $sessionDBRepair;
 		$result = POD::queryAll($sql);
 		if($result === false) {

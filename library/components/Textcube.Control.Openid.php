@@ -456,9 +456,9 @@ class OpenIDConsumer extends OpenID {
 		}
 
 		if( !empty($userid) && in_array( "group.writers", Acl::getCurrentPrivilege() ) ) {
-			authorizeSession($blogid, $userid);
+			Session::authorize($blogid, $userid);
 		} else {
-			authorizeSession($blogid, SESSION_OPENID_USERID );
+			Session::authorize($blogid, SESSION_OPENID_USERID );
 		}
 	}
 

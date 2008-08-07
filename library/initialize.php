@@ -24,9 +24,9 @@ require ROOT.'/library/suri.php';
 
 /* Session initializing */
 if (!defined('NO_SESSION')) {
-	session_name(Session::getSessionName());
-	Session::setSession();
-	session_set_save_handler('Session::openSession', 'Session::closeSession', 'Session::readSession', 'Session::writeSession', 'Session::destroySession', 'Session::gcSession');
+	session_name(Session::getName());
+	Session::set();
+	session_set_save_handler('Session::open', 'Session::close', 'Session::read', 'Session::write', 'Session::destroy', 'Session::getCurrent');
 	session_cache_expire(1);
 	session_set_cookie_params(0, '/', $service['domain']);
 	if (session_start() !== true) {

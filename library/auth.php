@@ -20,7 +20,7 @@ function login($loginid, $password, $preKnownPassword = null) {
 	}
 
 	if( in_array( "group.writers", Acl::getCurrentPrivilege() ) ) {
-		Session::authorizeSession($blogid, $userid);
+		Session::authorize($blogid, $userid);
 	}
 	return true;
 }
@@ -115,7 +115,6 @@ function requireStrictBlogURL() {
 }
 
 function requirePrivilege($AC) {
-	requireComponent('Textcube.Control.Auth');
 	if(Acl::check($AC)) return true;
 	else header('HTTP/1.1 404 Not found');
 	exit;
