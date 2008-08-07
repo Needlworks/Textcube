@@ -67,8 +67,10 @@ class PSQLAdapter implements IAdapter
 
 	public static function escapeFieldName($var)
 	{
-		// TODO: how to do this in psql?
-		return $var;
+		if (is_array($var))
+			return array_map(array('PSQLAdapter', 'escapeFieldName'), $var);
+		else
+			return '"'.$var.'"'
 	}
 }
 
