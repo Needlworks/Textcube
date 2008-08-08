@@ -70,6 +70,7 @@ class Autoload {
 	private static $control = array(
 		'Session');
 	public static function load($name) {
+		global $service;
 		$name = ucfirst($name);
 		if(in_array($name,self::$data)) {
 			require_once(ROOT . "/library/components/Textcube.Data.".$name.".php");
@@ -88,7 +89,6 @@ class Autoload {
 		} else if (in_array($name,array('POD'))) {
 			require_once(ROOT . "/library/components/POD.Core.Legacy.php");
 		} else if (in_array($name,array('DBQuery'))) {
-			global $service;
 			if (!isset($service['dbms'])) $service['dbms'] = 'mysqli';
 			switch($service['dbms']) {
 				case 'postgresql':
