@@ -89,7 +89,7 @@ class Autoload {
 		} else if (in_array($name,array('POD'))) {
 			require_once(ROOT . "/library/components/POD.Core.Legacy.php");
 		} else if (in_array($name,array('DBQuery'))) {
-			if (!isset($service['dbms'])) $service['dbms'] = 'mysqli';
+			if (!isset($service['dbms'])) $service['dbms'] = 'mysql';
 			switch($service['dbms']) {
 				case 'postgresql':
 					require_once(ROOT . '/library/components/Needlworks.DBMS.PostgreSQL.php'); break;
