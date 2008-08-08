@@ -23,7 +23,8 @@ $IV = array(
 		'useReader'              => array('int',0,1),
 		'useRewriteDebugMode'    => array('int',0,1),
 		'useSessionDebugMode'    => array('int',0,1),
-		'useSkinCache'           => array('int',0,1)
+		'useSkinCache'           => array('int',0,1),
+		'useMemcached'           => array('int',0,1)
 		)
 );
 
@@ -40,6 +41,7 @@ $matchTable = array(
 	'serviceurl'  => 'serviceURL',
 	'usePageCache'=>'pagecache',
 	'useSkinCache'=>'skincache',
+	'useMemcached'=>'memcached',
 	'useReader'   =>'reader',
 	'useNumericRSS'=>'useNumericRSS',
 	'useEncodedURL'=>'useEncodedURL',
