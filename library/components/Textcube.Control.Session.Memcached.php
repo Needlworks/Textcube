@@ -109,6 +109,7 @@ final class Session {
 	}
 	
 	public static function set() {
+		if(is_null(self::$mc)) self::initialize();
 		if( !empty($_GET['TSSESSION']) ) {
 			$id = $_GET['TSSESSION'];
 			$_COOKIE[session_name()] = $id;
