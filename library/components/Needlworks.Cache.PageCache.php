@@ -180,10 +180,16 @@ class queryCache {
 	var $contents;
 	var $prefix;
 	var $error;*/
+	private $mc;
 	function __construct($query = null, $prefix = null){
+		global $service, $memcached;
 		$this->reset();
 		$this->query = $query;
 		$this->prefix = $prefix;
+		if(isset($service['memcached'] && $service['memcached'] == true)) {
+			$this->mc = new Memcached;
+			$this->mc->connect(($memcached['server'] ? $memcached['server'] : 'localhost'));
+		} else $mc = null;
 	}
 	function reset() {
 		$this->query = $this->queryHash = $this->contents = $this->error = $this->prefix = null;
@@ -220,10 +226,14 @@ class queryCache {
 	private function getPageCacheLog() {
 		global $database;
 		if(empty($this->queryHash)) $this->getQueryHash();
-
-		$result = POD::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog 
-			WHERE blogid = ".getBlogId()."
-			AND name = '".POD::escapeString($this->queryHash)."'");
+		
+		if($this->mc) {
+			$result = $this->mc->get(getBlogId().'-'.$this->queryHash);
+		} else {
+			$result = POD::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog 
+				WHERE blogid = ".getBlogId()."
+				AND name = '".POD::escapeString($this->queryHash)."'");
+		}
 		if(!is_null($result)) {
 			$this->contents = unserialize($result);
 			return true;
@@ -235,17 +245,26 @@ class queryCache {
 	private function setPageCacheLog() {
 		global $database;
 		if(empty($this->queryHash)) $this->getQueryHash();
-		return POD::execute("REPLACE INTO {$database['prefix']}PageCacheLog 
-			VALUES(".getBlogId().", '".POD::escapeString($this->queryHash)."', '".POD::escapeString(serialize($this->contents))."')");
+		
+		if($this->mc) {
+			return $this->mc->set(getBlogId().'-'.$this->queryHash,POD::escapeString(serialize($this->contents)));
+		} else {
+			return POD::execute("REPLACE INTO {$database['prefix']}PageCacheLog 
+				VALUES(".getBlogId().", '".POD::escapeString($this->queryHash)."', '".POD::escapeString(serialize($this->contents))."')");
+		}
 	}
 
 	private function removePageCacheLog() {
 		global $database;
 		if(empty($this->queryHash)) $this->getQueryHash();
 
-		return POD::execute("DELETE FROM {$database['prefix']}PageCacheLog 
-			WHERE blogid = ".getBlogId()."
-			AND name = '".POD::escapeString($this->queryHash)."'"); 
+		if($this->mc) {
+			return $this->mc->delete(getBlogId().'-'.$this->queryHash);
+		} else {
+			return POD::execute("DELETE FROM {$database['prefix']}PageCacheLog 
+				WHERE blogid = ".getBlogId()."
+				AND name = '".POD::escapeString($this->queryHash)."'");
+		}
 	}
 
 	private function _error($error) {
