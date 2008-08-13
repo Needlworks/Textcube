@@ -44,7 +44,7 @@ function showCheckupMessage($stat = true) {
 }
 
 function clearCache() {
-	global $database, $changed, $errorlog;
+	global $database, $changed, $errorlog, $memcache;
 	static $isCleared = false;
 	if($isCleared == true) return true;
 	if($blogids = POD::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog")) {
@@ -57,7 +57,11 @@ function clearCache() {
 		if($errorlog == false) echo '<span class="result success">', _text('성공'), '</span></li>';
 		else echo '<span class="result fail">', _text('실패'), '</span></li>';
 	}
-
+	if(!is_null($memcache)) {
+		echo '<li>', _textf('Memcached 캐시를 초기화합니다.'), ': ';
+		if($memcache->flush())  echo '<span class="result success">', _text('성공'), '</span></li>';
+		else echo '<span class="result fail">', _text('실패'), '</span></li>';
+	}
 	echo '<li>', _textf('공지사항 캐시를 초기화합니다.'), ': ';
 	if(POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name like 'TextcubeNotice%'"))
 		echo '<span class="result success">', _text('성공'), '</span></li>';

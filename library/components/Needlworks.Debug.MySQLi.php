@@ -124,9 +124,8 @@ function __tcSqlLoggetCallstack($backtrace, $level = 0) {
 function __tcSqlLogDump()
 {
 	global $__tcSqlLog, $__tcPageEndTime;
-	global $service;
+	global $service, $memcache;
 	static $sLogPumped = false;
-	
 	if (!empty($sLogPumped)) return;
 	$sLogPumped = true;
 	
@@ -397,7 +396,7 @@ TFOOT;
 		print_r( $suri );
 		print '</pre>';
 	}
-	print '</div>'.CRLF;	
+	print '</div>'.CRLF;
 	if ($commentBlosk == true) echo '-->';
 }
 

@@ -122,8 +122,7 @@ final class Session {
 		if( !empty($service['session_cookie_path']) ) {
 			$session_cookie_path = $service['session_cookie_path'];
 		}
-		if (!is_numeric($userid))
-			return false;
+		if (!is_numeric($userid)) return false;
 		if( $userid != SESSION_OPENID_USERID ) { /* OpenID session : -1 */
 			$_SESSION['userid'] = $userid;
 			$id = session_id();
@@ -134,8 +133,7 @@ final class Session {
 				}
 			}
 		}
-		if (self::isAuthorized(session_id()))
-			return true;
+		if (self::isAuthorized(session_id())) return true;
 		for ($i = 0; $i < 100; $i++) {
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
 			$result = $memcache->set("authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}",$userid,$service['timeout']);
