@@ -43,7 +43,7 @@ function KeywordUI_bindTag($target,$mother) {
 		$keywordNames = getKeywordNames($blogid);
 		foreach($target as $tag => $tagLink) {
 			if(in_array($tag,$keywordNames) == true)
-				$tagsWithKeywords[$tag] = $tagLink."<a href=\"#\" class=\"key1\" onclick=\"openKeyword('$blogURL/keylog/".encodeURL($tag)."'); return false\"><img src=\"".$pluginURL."/images/flag_green.gif\" alt=\"Keyword ".$tag."\"/></a>";
+				$tagsWithKeywords[$tag] = $tagLink."<a href=\"#\" class=\"key1\" onclick=\"openKeyword('$blogURL/keylog/".URL::encode($tag)."'); return false\"><img src=\"".$pluginURL."/images/flag_green.gif\" alt=\"Keyword ".$tag."\"/></a>";
 			else $tagsWithKeywords[$tag] = $tagLink;
 		}
 		$target = $tagsWithKeywords;
