@@ -186,8 +186,8 @@ class queryCache {
 		$this->reset();
 		$this->query = $query;
 		$this->prefix = $prefix;
-		if(isset($service['memcached'] && $service['memcached'] == true)) {
-			$this->mc = new Memcached;
+		if(isset($service['memcached']) && $service['memcached'] == true) {
+			$this->mc = new Memcache;
 			$this->mc->connect(($memcached['server'] ? $memcached['server'] : 'localhost'));
 		} else $mc = null;
 	}
