@@ -7,7 +7,13 @@ define( 'SESSION_OPENID_USERID', -1 );
 
 final class Session {
 	private static $sessionName = null;
-	
+	private static $mc = null;	
+
+	private static function initialize() {
+		global $memcache;        /** After PHP 5.0.5, session write performs after object destruction. */
+		self::$mc = $memcache;   /** To Avoid this, just copy memcache handle into Session object.     */
+	}
+
 	public static function open($savePath, $sessionName) {
 		return true;
 	}
@@ -35,8 +41,8 @@ final class Session {
 	}
 	
 	public static function write($id, $data) {
-		global $service, $memcache;
-		return $memcache->set("sessions/{$id}/{$_SERVER['REMOTE_ADDR']}",$data,$service['timeout']);
+		global $service;
+		return self::$mc->set("sessions/{$id}/{$_SERVER['REMOTE_ADDR']}",$data,$service['timeout']);
 	}
 	
 	public static function destroy($id, $setCookie = false) {
@@ -89,6 +95,7 @@ final class Session {
 	
 	public static function isAuthorized($id) {
 		global $memcache;
+		if(is_null(self::$mc)) self::initialize();
 		/* OpenID and Admin sessions are treated as authorized ones*/
 		$userid = $memcache->get("authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
 		if(!empty($userid)) return true;
@@ -103,6 +110,7 @@ final class Session {
 	}
 	
 	public static function set() {
+		if(is_null(self::$mc)) self::initialize();
 		if( !empty($_GET['TSSESSION']) ) {
 			$id = $_GET['TSSESSION'];
 			$_COOKIE[session_name()] = $id;
