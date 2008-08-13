@@ -4,25 +4,11 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 class pageCache {
-/*	var $name;
-	var $realName;
-	var $realNameOwner;
-	var $realNameGuest;
-	var $filename;
-	var $filenameOwner;
-	var $filenameGuest;
-	var $contents;
-	var $dbContents;
-	var $_dbContents;
-	var $absoluteFilePath;
-	var $absoluteFilePathOwner;
-	var $absoluteFilePathGuest;
-	var $error;*/
 	function __construct($name = null){
 		$this->reset();
 		if($name != null) $this->name = $name;
 	}
-	function reset() {
+	public function reset() {
 		$this->name = 
 		$this->realName = 
 		$this->realNameOwner = 
@@ -175,36 +161,26 @@ class pageCache {
 }
 
 class queryCache {
-/*	var $query;
-	var $queryHash;
-	var $contents;
-	var $prefix;
-	var $error;*/
-	private $mc;
 	function __construct($query = null, $prefix = null){
-		global $service, $memcached;
+		global $service;
 		$this->reset();
 		$this->query = $query;
 		$this->prefix = $prefix;
-		if(isset($service['memcached']) && $service['memcached'] == true) {
-			$this->mc = new Memcache;
-			$this->mc->connect(($memcached['server'] ? $memcached['server'] : 'localhost'));
-		} else $mc = null;
 	}
-	function reset() {
+	public function reset() {
 		$this->query = $this->queryHash = $this->contents = $this->error = $this->prefix = null;
 	}
-	function create () {
+	public function create () {
 		$this->setPageCacheLog();
 		return true;
 	}
-	function update () {
+	public function update () {
 		global $service;
 		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
 		$this->purge();
 		$this->create();
 	}
-	function load () {
+	public function load () {
 		global $service;
 		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
 		if($this->getPageCacheLog()) {
@@ -212,7 +188,7 @@ class queryCache {
 		}
 		else return false;
 	}
-	function purge () {
+	public function purge () {
 		global $service;
 		if(isset($service['pagecache']) && $service['pagecache'] == false) return true;
 		if($this->removePageCacheLog())
@@ -224,17 +200,17 @@ class queryCache {
 		$this->queryHash = (isset($this->prefix) ? $this->prefix.'_' : '')."queryCache_".abs(crc32($this->query));
 	}
 	private function getPageCacheLog() {
-		global $database;
+		global $database, $memcache;
 		if(empty($this->queryHash)) $this->getQueryHash();
 		
-		if($this->mc) {
-			$result = $this->mc->get(getBlogId().'-'.$this->queryHash);
+		if(!is_null($memcache)) {
+			$result = $memcache->get(getBlogId().'-'.$this->queryHash);
 		} else {
 			$result = POD::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog 
 				WHERE blogid = ".getBlogId()."
 				AND name = '".POD::escapeString($this->queryHash)."'");
 		}
-		if(!is_null($result)) {
+		if(!is_null($result) && !empty($result)) {
 			$this->contents = unserialize($result);
 			return true;
 		} else {
@@ -243,11 +219,11 @@ class queryCache {
 	}
 
 	private function setPageCacheLog() {
-		global $database;
+		global $database, $memcache;
 		if(empty($this->queryHash)) $this->getQueryHash();
 		
-		if($this->mc) {
-			return $this->mc->set(getBlogId().'-'.$this->queryHash,POD::escapeString(serialize($this->contents)));
+		if(!is_null($memcache)) {
+			return $memcache->set(getBlogId().'-'.$this->queryHash,serialize($this->contents));
 		} else {
 			return POD::execute("REPLACE INTO {$database['prefix']}PageCacheLog 
 				VALUES(".getBlogId().", '".POD::escapeString($this->queryHash)."', '".POD::escapeString(serialize($this->contents))."')");
@@ -255,11 +231,11 @@ class queryCache {
 	}
 
 	private function removePageCacheLog() {
-		global $database;
+		global $database, $memcache;
 		if(empty($this->queryHash)) $this->getQueryHash();
 
-		if($this->mc) {
-			return $this->mc->delete(getBlogId().'-'.$this->queryHash);
+		if(!is_null($memcache)) {
+			return $memcache->delete(getBlogId().'-'.$this->queryHash);
 		} else {
 			return POD::execute("DELETE FROM {$database['prefix']}PageCacheLog 
 				WHERE blogid = ".getBlogId()."

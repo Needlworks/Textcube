@@ -372,8 +372,18 @@ TFOOT;
 	}
 
 	global $service, $accessInfo, $suri;
+	print '<div class="debugTable">'.CRLF;
+	print '<h4>Current Database Management System :</h4>'.CRLF.'<p>'.$service['dbms'].' '.POD::version().'</p>'.CRLF;
+	print '<h4>Cache system :</h4>'.CRLF;
+	if(isset($service['pagecache']) && $service['pagecache'] == true) print '<p>Page cache Enabled</p>'.CRLF;
+	else print '<p>Page cache Disabled</p>'.CRLF;
+	if(isset($service['skincache']) && $service['skincache'] == true) print '<p>Skin cache Enabled</p>'.CRLF;
+	else print '<p>Skin cache Disabled</p>'.CRLF;
+	if(isset($service['memcached']) && $service['memcached'] == true) print '<p>Memcached module Enabled</p>'.CRLF;
+	else print '<p>Memcached module Disabled</p>'.CRLF;
 	if( ! empty($service['debug_session_dump'])) {
-		print '<pre>session_id = ' . session_id() . "\r\n";
+		print '<h4>Session Information</h4>'.CRLF;
+		print '<pre>session_id = ' . session_id() . CRLF;
 		print '$_SESSION = ';
 		print_r( $_SESSION );
 		print '$_COOKIE = ';
@@ -381,11 +391,13 @@ TFOOT;
 		print '</pre>';
 	}
 	if( ! empty($service['debug_rewrite_module'])) {
-		print '<pre> path parser result : '."\r\n";
+		print '<h4>Path parse result</h4>'.CRLF;
+		print '<pre>'.CRLF;
 		print_r( $accessInfo );
 		print_r( $suri );
 		print '</pre>';
 	}
+	print '</div>'.CRLF;	
 	if ($commentBlosk == true) echo '-->';
 }
 

@@ -13,24 +13,9 @@
 // NOTE : THIS FILE CONTAINS LEGACY ROUTINE OF DBQuery ONLY.
 //        FOR USING FULL FUNCTION, INCLUDE POD.Core.php instead.
 
-//requireComponent('Needlworks.Database');
-
 // Bypass variables are supported. ($_pod_setting);
 class POD extends DBQuery {
 	/** Pre-definition **/
-	// 'var' is deprecated from PHP5.
-/*	var $_domain;
-	var $_prototype;
-	var $_type;
-	var $_version;
-	var $_isProducedBy;
-	var $_tablePrefix;
-	var $_numberOfClasses;
-	var $_classPointer;
-	var $_foreignKeyId;
-	var $_isCheckout;
-	var $_DBMS;*/
-
 	/** Initialization **/
 	function __construct($domain = null, $type = null, $prefix = '') {
 		requireComponent('Needlworks.Cache.PageCache');
