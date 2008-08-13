@@ -19,13 +19,11 @@ $database['utf8'] = (POD::charset() == 'utf8') ? true : false;
       Memcache module bind (if possible)
 	--------------------------------------
 **/
-global $memcache;
 $memcache = null;
-if(!empty($database) && !empty($service['memcached']) && $service['memcached'] == true):
+if(!empty($database) && !empty($service['memcached']) && $service['memcached'] == true): 
 	$memcache = new Memcache;
 	$memcache->connect((isset($memcached['server']) && $memcached['server'] ? $memcached['server'] : 'localhost'));
 endif;
-
 /**
    Path-dependent environment setting
    ----------------------------------
