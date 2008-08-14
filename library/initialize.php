@@ -24,6 +24,7 @@ if(!empty($database) && !empty($service['memcached']) && $service['memcached'] =
 	$memcache = new Memcache;
 	$memcache->connect((isset($memcached['server']) && $memcached['server'] ? $memcached['server'] : 'localhost'));
 endif;
+
 /**
    Path-dependent environment setting
    ----------------------------------
