@@ -44,7 +44,7 @@
 	/* Check the existence of config.php (whether installed or not) */
 	if (!file_exists('config.php')) {
 		if (file_exists('.htaccess')) {print "<html><body>Remove '.htaccess' file first!</body></html>";exit;}
-		print "<html><body><a id='setup' href='".rtrim($_SERVER["REQUEST_URI"],"/")."/setup.php'>Click to setup.</a></body></html>";exit;
+		header("Location: " . rtrim($_SERVER["REQUEST_URI"],"/") . "/setup.php");
 	}
 	/* Determine that which interface should be loaded. */
 	require_once 'config.php';
