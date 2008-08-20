@@ -113,6 +113,7 @@ global $__requireComponent;
 $__requireComponent = array(
 	'Needlworks.PHP.UnifiedEnvironment',
 	'Needlworks.PHP.Core',
+	'Needlworks.Core.Locale',
 	'Textcube.Core',
 	'Textcube.Control.Auth',
 	'Needlworks.Cache.PageCache');
