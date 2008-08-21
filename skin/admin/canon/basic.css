@@ -1070,9 +1070,16 @@ table.data-inbox tbody tr td.inactive-class
 	bottom                           : 0;
 }
 
-#layout-footer div
+#layout-footer address
 {
-	display                          : block; 
+	display                          : inline; 
+	float                            : right;
+}
+
+#layout-footer div #version
+{
+	display                          : inline; 
+	float                            : right;
 }
 
 /* Etc *******************************************************************************************/
