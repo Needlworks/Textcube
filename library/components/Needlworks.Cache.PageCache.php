@@ -201,15 +201,15 @@ class queryCache {
 	}
 	private function getPageCacheLog() {
 		global $database, $memcache;
-		if(empty($this->queryHash)) $this->getQueryHash();
+/*		if(empty($this->queryHash)) $this->getQueryHash();
 		
 		if(!is_null($memcache)) {
 			$result = $memcache->get(getBlogId().'-'.$this->queryHash);
-		} else {
+		} else {*/
 			$result = POD::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog 
 				WHERE blogid = ".getBlogId()."
 				AND name = '".POD::escapeString($this->queryHash)."'");
-		}
+//		}
 		if(!is_null($result) && !empty($result)) {
 			$this->contents = unserialize($result);
 			return true;
