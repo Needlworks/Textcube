@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-// Automatic menu location routine.
+/***** Automatic menu location routine. *****/
 $blogMenu = array();
 $urlFragments = preg_split('/\//',ltrim($suri['directive'],'/'));
 if(isset($urlFragments[1])) $blogMenu['topMenu'] = $urlFragments[1];
@@ -136,7 +136,8 @@ if ($blogMenu['topMenu'] == 'center' && $blogMenu['contentMenu'] == 'dashboard')
 	array_push($pluginListForCSS, $pluginDir);
 }
 unset($tempPlugin);
-/***** submenu generation part. *****/
+
+/***** Submenu generation *****/
 if(isset($blogMenu['topMenu'])) {
 	if(Acl::check('group.administrators')) {
 		$blogContentMenuItem['center'] = array(
@@ -240,8 +241,11 @@ foreach($adminMenuMappings as $path => $pluginAdminMenuitem) {
 		);
 	}
 }
+
+/** Adds 'about' panel at the last part of center panel. **/
 $blogContentMenuItem['center'] = array_merge($blogContentMenuItem['center'] , array(array('menu'=>'about','title'=>_t('텍스트큐브는'),'link'=>'/owner/center/about')));
-// Adds 'about' panel at the last part of center panel.
+
+/***** Start header output *****/
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo (isset($blog['language']) ? $blog['language'] : "ko");?>">
@@ -316,16 +320,17 @@ unset($tempPluginDir);
 			var blogURL = "<?php echo $blogURL;?>";
 			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
 <?php
-if (file_exists(ROOT.$adminSkinSetting['editorTemplate'])) {
+if (!in_array($blogMenu['contentMenu'],array('post','edit'))) {
+	if(file_exists(ROOT.$adminSkinSetting['editorTemplate'])) {
 ?>
 			var editorCSS = "<?php echo $adminSkinSetting['editorTemplate'];?>";
 <?php
-} else {
+	} else {
 ?>
 			var editorCSS = "/resources/style/default-wysiwyg.css";
 <?php
+	}
 }
-
 include ROOT . '/resources/language/messages.php';
 ?>
 		//]]>
@@ -376,6 +381,16 @@ if($blogMenu['topMenu']=='entry' && in_array($blogMenu['contentMenu'],array('pos
 <?php
 }
 echo fireEvent('ShowAdminHeader', '');
+
+/** Get Help URL **/
+$submenuURL = null;
+if(strstr($contentMenuItem['menu'], 'adminMenu?name=') !== false) { // Plugin.
+	$submenuURL = $pluginMenuValue[0];
+} else {
+	$submenuURL = $blogMenu['contentMenu'];
+}
+$helpURL = $blogMenu['topMenu'].(isset($blogMenu['contentMenu']) ? '/'.$submenuURL : '');
+
 ?>
 </head>
 <body id="body-<?php echo $blogMenu['topMenu'];?>">
@@ -396,8 +411,16 @@ $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 						<li id="description-teamblog"><label for="teamblog"><?php echo _t('현재 블로그');?></label>
 						</li>
 <?php } ?>
-						<li id="description-blog"><a href="<?php echo $blogURL;?>/" title="<?php echo _t('블로그 메인으로 이동합니다.');?>"><span class="text"><?php echo _t('블로그로 이동');?></span></a></li>
-						<li id="description-logout"><a href="<?php echo $blogURL;?>/logout" title="<?php echo _t('로그아웃하고 블로그 메인으로 이동합니다.');?>"><span class="text"><?php echo _t('로그아웃');?></span></a></li>
+					</ul>
+				</div>
+				
+				<hr class="hidden" />
+				
+				<div id="main-action-box">
+					<ul id="main-action">
+						<li id="action-helper"><a href="<?php echo getHelpURL($helpURL);?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
+						<li id="action-move-to-blog"><a href="<?php echo $blogURL;?>/" title="<?php echo _t('블로그 메인으로 이동합니다.');?>"><span class="text"><?php echo _t('블로그로 이동');?></span></a></li>
+						<li id="action-logout"><a href="<?php echo $blogURL;?>/logout" title="<?php echo _t('로그아웃하고 블로그 메인으로 이동합니다.');?>"><span class="text"><?php echo _t('로그아웃');?></span></a></li>
 					</ul>
 				</div>
 				
@@ -408,7 +431,7 @@ $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 				<div id="main-menu-box">
 					<ul id="main-menu">
 						<li id="menu-textcube"><a href="<?php echo $blogURL.'/owner/center/dashboard';?>" title="<?php echo _t('센터로 이동합니다.');?>"><span class="text"><?php echo _t('텍스트큐브');?></span></a></li>
-						
+<?php echo User::changeBlog();?>						
 <?php
 foreach($blogTopMenuItem as $menuItem) {
 ?>
@@ -464,7 +487,6 @@ foreach($blogTopMenuItem as $menuItem) {
 <?php
 }
 ?>
-<?php echo User::changeBlog();?>
 					</ul>
 				</div>
 			</div>
@@ -521,9 +543,6 @@ if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 	
 	$helpURL = $blogMenu['topMenu'].(isset($blogMenu['contentMenu']) ? '/'.$submenuURL : '');
 ?>
-					</ul>
-					<ul id="helper">
-						<li id="sub-menu-helper"><a href="<?php echo getHelpURL($helpURL);?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
 					</ul>
 				</div>
 <?php

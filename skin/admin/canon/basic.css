@@ -212,17 +212,34 @@ textarea
 	display                          : none;
 }
 
-#description-blog
+/* main action */
+#main-action-box
 {
-	position                         : absolute;
-	top                              : 15px;
-	right                            : 30px;
-	z-index                          : 50;
+	border                           : 0;
 }
 
-#description-blog a
+#main-action
 {
-	background-image                 : url("./image/img_to_my_blog.gif");
+	position                         : absolute !important;
+	top                              : 12px;
+	right                            : 0;
+}
+
+#main-action li	
+{
+	float                            : left;
+	display                          : block;
+	width                            : 20px;
+	height                           : 20px;
+}
+
+#main-action li span
+{
+	display                          : none;
+}
+
+#main-action li a
+{
 	background-position              : right center;
 	background-repeat                : no-repeat;
 	color                            : #222;
@@ -231,33 +248,19 @@ textarea
 	display                          : block;
 }
 
-#description-blog span
+#action-helper a
 {
-	display                          : none;
+	background-image                 : url("./image/img_helper.gif");
 }
 
-#description-logout
-{
-	position                         : absolute;
-	top                              : 15px;
-	right                            : 5px;
-	z-index                          : 50;
-}
-
-#description-logout a
+#action-logout a
 {
 	background-image                 : url("./image/img_logout.gif");
-	background-position              : right center;
-	background-repeat                : no-repeat;
-	color                            : #222;
-	width                            : 16px;
-	height                           : 16px;
-	display                          : block;
 }
 
-#description-logout span
+#action-move-to-blog a
 {
-	display                          : none;
+	background-image                 : url("./image/img_to_my_blog.gif");
 }
 
 /* main menu */
@@ -269,6 +272,11 @@ textarea
 	height                           : 40px;
 	line-height                      : 3em;
 	margin-top                       : 1px;
+}
+
+#menu-bloglist
+{
+	width                            : 150px;
 }
 
 #main-menu
@@ -405,30 +413,6 @@ textarea
 }
 
 #sub-menu
-{
-	display                          : none;
-}
-
-#sub-menu-helper
-{
-	height                           : 40px;
-	width                            : 40px;
-	line-height                      : 3em;
-	padding-right                    : 35px !important;
-	position                         : absolute;
-	right                            : 9px;
-	top                              : 1px !important;
-}
-
-#sub-menu-helper a
-{
-	background-image                 : url("./image/img_helper.gif");
-	background-position              : center;
-	background-repeat                : no-repeat;
-	padding                          : 0 10px !important;
-}
-
-#sub-menu-helper a span
 {
 	display                          : none;
 }
