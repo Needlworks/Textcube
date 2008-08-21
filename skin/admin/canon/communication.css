@@ -179,11 +179,6 @@ table.data-inbox tbody tr td.title span.excerpt
 	display                          : none;
 }
 
-#part-post-notify #search-form
-{
-	top                              : 5.5em;
-}
-
 /* Trackback **************************************************************************************/
 
 #part-post-trackback .caption
@@ -208,11 +203,6 @@ table.data-inbox tbody tr td.title span.excerpt
 	margin-bottom: 19px;
 }
 
-#part-post-trash #search-form
-{
-	top                              : 70px;
-}
-
 #part-post-trash .main-explain-box p
 {
 	margin-bottom                    : 50px;
@@ -224,7 +214,7 @@ table.data-inbox tbody tr td.title span.excerpt
 	border                           : none;
 	position                         : absolute;
 	left                             : 0;
-	top                              : 135px;
+	top                              : 65px;
 }
 
 #part-post-trash fieldset dl

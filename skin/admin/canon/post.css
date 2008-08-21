@@ -277,25 +277,6 @@ table.data-inbox tbody tr td.ip
 	display                          : none;
 }
 
-/* Search form ***********************************************************************************/
-#post-search-form
-{
-	background-color                 : transparent;
-	border                           : none;
-	margin                           : 0;
-	position                         : absolute;
-	right                            : 25px;
-	text-align                       : right;
-	top                              : 1.5em;
-	width                            : 25em;
-	z-index                          : 1;
-}
-
-#post-search-form label
-{
-	display                          : none;
-}
-
 /* Tree ******************************************************************************************/
 
 #part-post-tree div.data-inbox

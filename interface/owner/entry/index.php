@@ -419,7 +419,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												hrefString = "<?php echo $blogURL;?>/owner/entry/";
 												queryPage = document.getElementById('list-form').page.value;
 												queryCategory = document.getElementById('category-form-top').category.value;
-												querySearch = document.getElementById('post-search-form').search.value;
+												querySearch = document.getElementById('search-form').search.value;
 												
 												queryString = "";
 												if (queryPage != "") {
@@ -1135,7 +1135,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 							
 							<hr class="hidden" />
 							
-							<form id="post-search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/entry">
+							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/entry">
 								<h2><?php echo _t('검색');?></h2>
 								
 								<div class="section">

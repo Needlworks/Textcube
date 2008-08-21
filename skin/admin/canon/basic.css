@@ -1049,10 +1049,10 @@ table.data-inbox tbody tr td.inactive-class
 	background-color                 : transparent;
 	border                           : none;
 	margin                           : 0;
-	position                         : absolute;
+	position                         : absolute !important;
 	right                            : 25px;
 	text-align                       : right;
-	top                              : 5.5em;
+	top                              : -35px; 
 	width                            : 25em;
 	z-index                          : 1;
 }

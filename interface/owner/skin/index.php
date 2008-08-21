@@ -109,7 +109,7 @@ function writeValue($value, $label, $className) {
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/skin/saveScope");
 
 									request.onSuccess = function() {
-										document.getElementById('skin-search-form').submit();
+										document.getElementById('search-form').submit();
 									}
 									
 									request.onError = function() {
@@ -190,14 +190,16 @@ if (file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/index.xml")) {
 						
 						<div id="part-skin-list" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('사용가능한 스킨들의 목록입니다');?></span></h2>
-							<form id="skin-search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/skin">
+							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/skin">
 								
 								<h2><?php echo _t('검색');?></h2>
 								<div id="search-box" class="section">
 									<label for="search"><?php echo _t('제목');?>, <?php echo _t('내용');?></label>
-									<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') {  document.getElementById('skin-search-form').submit();return false; }" />
-									<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="document.getElementById('skin-search-form').submit();return false;" />
+									<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') {  document.getElementById('search-form').submit();return false; }" />
+									<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="document.getElementById('search-form').submit();return false;" />
 								</div>
+							</form>
+							<form id="skin-search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/skin">
 								<dl id="viewmode-box" class="line">
 									<dt class="hidden"><?php echo _t('출력 설정');?></dt>
 									<dd id="viewmode-line-align">
