@@ -364,17 +364,17 @@ h3
 #save-section
 {
 	background-color                 : #F2F2F2 !important;
-	margin                           : 0 20px 5px 0;
-	padding                          : 0 5px 3px 5px;
+	margin                           : 0 20px 0 0;
+	padding                          : 0 5px 0 5px;
 	width                            : 640px !important;
 }
 
 /* tag and location -----------------------------------------------------------------------------*/
 #taglocal-section
 {
-	background-color                 : #FFFFFF !important;
-	margin                           : 0 20px 5px 0;
-	padding                          : 4px 5px 3px 5px;
+	background-color                 : #F2F2F2 !important;
+	margin                           : 0 20px 0 0;
+	padding                          : 0 5px 3px 5px;
 	width                            : 640px !important;
 }
 
@@ -446,14 +446,14 @@ h3
 #upload-section
 {
 	background-color                 : #F5F5F5;
-	margin                           : 5px 20px 2px 0;
+	margin                           : 0 20px 2px 0;
 	position                         : relative;
 	width                            : 650px;
 }
 
 #upload-section h3
 {
-	background-color                 : #FFFFFF;
+	background-color                 : #F2F2F2;
 	display                          : block;
 	padding                          : 10px 10px 3px 10px;
 }
