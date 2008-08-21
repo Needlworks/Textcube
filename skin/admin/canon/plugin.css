@@ -108,7 +108,7 @@
 #viewmode-line-align
 {
 	border                           : none !important;
-	right                            : 240px;
+	right                            : 15px;
 	padding                          : 0 !important;
 	position                         : absolute !important;
 	text-align: right;
@@ -462,7 +462,7 @@
     right                            : 25px;
     text-align                       : right;
     top                              : 20px;
-    width                            : 220px !important;
+    width                            : 120px !important;
     z-index                          : 1;
 }
 
