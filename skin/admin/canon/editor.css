@@ -736,6 +736,13 @@ dl#power-line
 	vertical-align                   : middle;
 }
 
+.preview-button,
+.list-button
+{
+	height                           : 2em !important;
+	line-height                      : 2em !important;
+}
+
 /* Eolin Dialogue ********************************************************************************/
 
 #eolinDialog
