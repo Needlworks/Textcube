@@ -63,8 +63,7 @@ h2
 
 #sub-menu-helper
 {
-	top                              : 50px;
-	padding-top                      : 0 !important;
+	display                          : none;
 }
 
 #sub-menu-helper a
