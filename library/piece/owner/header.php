@@ -320,7 +320,7 @@ unset($tempPluginDir);
 			var blogURL = "<?php echo $blogURL;?>";
 			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
 <?php
-if (!in_array($blogMenu['contentMenu'],array('post','edit'))) {
+if (in_array($blogMenu['contentMenu'],array('post','edit'))) {
 	if(file_exists(ROOT.$adminSkinSetting['editorTemplate'])) {
 ?>
 			var editorCSS = "<?php echo $adminSkinSetting['editorTemplate'];?>";
