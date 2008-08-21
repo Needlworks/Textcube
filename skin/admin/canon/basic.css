@@ -436,6 +436,7 @@ textarea
 #layout-body
 {
 	margin-top                       : 45px;
+	margin-bottom                    : 35px;
 }
 
 /* pseudo box */
@@ -1089,13 +1090,19 @@ table.data-inbox tbody tr td.inactive-class
 #layout-footer address
 {
 	display                          : inline; 
-	float                            : right;
+	float                            : right; 
 }
 
-#layout-footer div #version
+#layout-footer #login-information,
+#layout-footer #version
 {
 	display                          : inline; 
-	float                            : right;
+	float                            : left;
+}
+
+#login-information
+{
+	width                            : 200px;
 }
 
 /* Etc *******************************************************************************************/

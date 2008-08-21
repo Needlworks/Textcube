@@ -1142,7 +1142,7 @@ ul#feedList li .edit-button span
 	font-weight                      : bold;
 	height                           : auto !important;
 	margin                           : 0 0 0 auto !important;
-	padding                          : 3px 0 1px 0 !important;
+	padding                          : 0 0 1px 0 !important;
 	text-align                       : center;
 	width                            : 140px !important;
 }
