@@ -45,10 +45,10 @@ if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 
 $tabsClass = array();
 $tabsClass['postfix'] = null;
-$tabsClass['postfix'] .= isset($_POST['category']) ? '&category='.$_POST['category'] : '';
-$tabsClass['postfix'] .= isset($_POST['name']) ? '&name='.$_POST['name'] : '';
-$tabsClass['postfix'] .= isset($_POST['ip']) ? '&ip='.$_POST['ip'] : '';
-$tabsClass['postfix'] .= isset($_POST['search']) ? '&search='.$_POST['search'] : '';
+$tabsClass['postfix'] .= isset($_POST['category']) ? '&amp;category='.$_POST['category'] : '';
+$tabsClass['postfix'] .= isset($_POST['name']) ? '&amp;name='.$_POST['name'] : '';
+$tabsClass['postfix'] .= isset($_POST['ip']) ? '&amp;ip='.$_POST['ip'] : '';
+$tabsClass['postfix'] .= isset($_POST['search']) ? '&amp;search='.$_POST['search'] : '';
 $tabsClass['trash'] = true;
 
 list($comments, $paging) = getTrashCommentsWithPagingForOwner($blogid, $categoryId, $name, $ip, $search, $suri['page'], $perPage);

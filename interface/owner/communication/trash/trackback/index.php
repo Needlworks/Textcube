@@ -45,10 +45,10 @@ if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 }
 $tabsClass = array();
 $tabsClass['postfix'] = null;
-$tabsClass['postfix'] .= isset($_POST['category']) ? '&category='.$_POST['category'] : '';
-$tabsClass['postfix'] .= isset($_POST['site']) ? '&site='.$_POST['site'] : '';
-$tabsClass['postfix'] .= isset($_POST['ip']) ? '&ip='.$_POST['ip'] : '';
-$tabsClass['postfix'] .= isset($_POST['search']) ? '&search='.$_POST['search'] : '';
+$tabsClass['postfix'] .= isset($_POST['category']) ? '&amp;category='.$_POST['category'] : '';
+$tabsClass['postfix'] .= isset($_POST['site']) ? '&amp;site='.$_POST['site'] : '';
+$tabsClass['postfix'] .= isset($_POST['ip']) ? '&amp;ip='.$_POST['ip'] : '';
+$tabsClass['postfix'] .= isset($_POST['search']) ? '&amp;search='.$_POST['search'] : '';
 $tabsClass['trash'] = true;
 
 list($trackbacks, $paging) = getTrashTrackbackWithPagingForOwner($blogid, $categoryId, $site, $url, $ip, $search, $suri['page'], $perPage);
