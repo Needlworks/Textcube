@@ -8,6 +8,8 @@ if (intval(ini_get("session.auto_start")) == 1) {
    @session_destroy();
    @ini_set('session.auto_start', '0');
 }
+if (intval(ini_get("memory_limit")) < 16)
+	@ini_set('memory_limit','16M');
 
 if (get_magic_quotes_runtime())
 	set_magic_quotes_runtime(0);
