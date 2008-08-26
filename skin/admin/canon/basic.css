@@ -219,7 +219,7 @@ textarea
 	position                         : fixed;
 	top                              : 1px;
 	right                            : 0;
-	z-index                          : 110;
+	z-index                          : 200;
 }
 
 #main-action li	
@@ -287,7 +287,7 @@ textarea
 	width                            : 100%;
 	position                         : fixed;
 	top                              : 0;
-	z-index                          : 100;
+	z-index                          : 200;
 }
 
 #menu-bloglist
@@ -1060,7 +1060,7 @@ table.data-inbox tbody tr td.inactive-class
 	text-align                       : right;
 	top                              : 10px; 
 	width                            : 25em;
-	z-index                          : 150;
+	z-index                          : 200;
 }
 
 #search-form label
