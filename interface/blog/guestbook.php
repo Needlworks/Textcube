@@ -7,7 +7,7 @@ if (false) {
 	fetchConfigVal();
 }
 if(!empty($suri['value'])) {
-	list($suri['page'] = getGuestbookPageById($blogid,$suri['value']);
+	$suri['page'] = getGuestbookPageById($blogid,$suri['value']);
 }
 list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $suri['page'], $skinSetting['commentsOnGuestbook']);
 notifyComment();
