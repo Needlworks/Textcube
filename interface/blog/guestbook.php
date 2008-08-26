@@ -7,8 +7,9 @@ if (false) {
 	fetchConfigVal();
 }
 if(!empty($suri['value'])) {
-	$suri['page'] = getGuestbookPageById($blogid,$suri['value']);
+	list($suri['page'] = getGuestbookPageById($blogid,$suri['value']);
 }
+list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $suri['page'], $skinSetting['commentsOnGuestbook']);
 notifyComment();
 require ROOT . '/library/piece/blog/begin.php';
 require ROOT . '/library/piece/blog/guestbook.php';

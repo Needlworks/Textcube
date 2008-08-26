@@ -237,7 +237,8 @@ function getCommentView($entry, $skin) {
 	$commentView = ($isComment ? $skin->comment : $skin->guest);
 	$commentItemsView = '';
 	if ($isComment == false) {
-		list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $suri['page'], $skinSetting['commentsOnGuestbook']);
+		global $comments;
+//		list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $suri['page'], $skinSetting['commentsOnGuestbook']);
 		foreach ($comments as $key => $value) {
 			if ($value['secret'] == 1) {
 				if (!$authorized) {
