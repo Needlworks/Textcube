@@ -3,6 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 ini_set('session.use_trans_sid', '0');
+ini_set('zend.ze1_compatibility_mode', 0);
 if (intval(ini_get("session.auto_start")) == 1) {
    @session_destroy();
    @ini_set('session.auto_start', '0');
