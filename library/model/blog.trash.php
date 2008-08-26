@@ -14,30 +14,30 @@ function getTrashTrackbackWithPagingForOwner($blogid, $category, $site, $url, $i
 		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
-		$postfix .= '&category=' . rawurlencode($category);
+		$postfix .= '&amp;category=' . rawurlencode($category);
 	} else
 		$sql .= ' AND e.category >= 0';
 	if (!empty($site)) {
 		$sql .= ' AND t.site = \'' . POD::escapeString($site) . '\'';
-		$postfix .= '&site=' . rawurlencode($site);
+		$postfix .= '&amp;site=' . rawurlencode($site);
 	}
 	if (!empty($url)) {
 		$sql .= ' AND t.url = \'' . POD::escapeString($url) . '\'';
-		$postfix .= '&url=' . rawurlencode($url);
+		$postfix .= '&amp;url=' . rawurlencode($url);
 	}
 	if (!empty($ip)) {
 		$sql .= ' AND t.ip = \'' . POD::escapeString($ip) . '\'';
-		$postfix .= '&ip=' . rawurlencode($ip);
+		$postfix .= '&amp;ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
 		$search = escapeSearchString($search);
 		$sql .= " AND (t.site LIKE '%$search%' OR t.subject LIKE '%$search%' OR t.excerpt LIKE '%$search%')";
-		$postfix .= '&search=' . rawurlencode($search);
+		$postfix .= '&amp;search=' . rawurlencode($search);
 	}
 	$sql .= ' ORDER BY t.written DESC';
 	list($trackbacks, $paging) =  fetchWithPaging($sql, $page, $count);
 	if (strlen($postfix) > 0) {
-		$paging['postfix'] .= $postfix . '&withSearch=on';
+		$paging['postfix'] .= $postfix . '&amp;withSearch=on';
 	}
 	return array($trackbacks, $paging);
 }
@@ -56,26 +56,26 @@ function getTrashCommentsWithPagingForOwner($blogid, $category, $name, $ip, $sea
 		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
-		$postfix .= '&category=' . rawurlencode($category);
+		$postfix .= '&amp;category=' . rawurlencode($category);
 	} else
 		$sql .= ' AND (e.category >= 0 OR c.entry = 0)';
 	if (!empty($name)) {
 		$sql .= ' AND c.name = \'' . POD::escapeString($name) . '\'';
-		$postfix .= '&name=' . rawurlencode($name);
+		$postfix .= '&amp;name=' . rawurlencode($name);
 	}
 	if (!empty($ip)) {
 		$sql .= ' AND c.ip = \'' . POD::escapeString($ip) . '\'';
-		$postfix .= '&ip=' . rawurlencode($ip);
+		$postfix .= '&amp;ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
 		$search = escapeSearchString($search);
 		$sql .= " AND (c.name LIKE '%$search%' OR c.homepage LIKE '%$search%' OR c.comment LIKE '%$search%')";
-		$postfix .= '&search=' . rawurlencode($search);
+		$postfix .= '&amp;search=' . rawurlencode($search);
 	}
 	$sql .= ' ORDER BY c.written DESC';
 	list($comments, $paging) =  fetchWithPaging($sql, $page, $count);
 	if (strlen($postfix) > 0) {
-		$paging['postfix'] .= $postfix . '&withSearch=on';
+		$paging['postfix'] .= $postfix . '&amp;withSearch=on';
 	}
 	return array($comments, $paging);
 }

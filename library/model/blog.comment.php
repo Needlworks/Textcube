@@ -63,27 +63,27 @@ function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, 
 		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
-		$postfix .= '&category=' . rawurlencode($category);
+		$postfix .= '&amp;category=' . rawurlencode($category);
 	} else
 		$sql .= ' AND e.category >= 0';
 	if (!empty($name)) {
 		$sql .= ' AND c.name = \'' . POD::escapeString($name) . '\'';
-		$postfix .= '&name=' . rawurlencode($name);
+		$postfix .= '&amp;name=' . rawurlencode($name);
 	}
 	if (!empty($ip)) {
 		$sql .= ' AND c.ip = \'' . POD::escapeString($ip) . '\'';
-		$postfix .= '&ip=' . rawurlencode($ip);
+		$postfix .= '&amp;ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
 		$search = escapeSearchString($search);
 		$sql .= " AND (c.name LIKE '%$search%' OR c.homepage LIKE '%$search%' OR c.comment LIKE '%$search%')";
-		$postfix .= '&search=' . rawurlencode($search);
+		$postfix .= '&amp;search=' . rawurlencode($search);
 	}
 
 	$sql .= ' ORDER BY c.written DESC';
 	list($comments, $paging) = fetchWithPaging($sql, $page, $count);
 	if (strlen($postfix) > 0) {
-		$postfix .= '&withSearch=on';
+		$postfix .= '&amp;withSearch=on';
 		$paging['postfix'] .= $postfix;
 	}
 
@@ -93,7 +93,7 @@ function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, 
 function getGuestbookWithPagingForOwner($blogid, $name, $ip, $search, $page, $count) {
 	global $database;
 
-	$postfix = '&status=guestbook';
+	$postfix = '&amp;status=guestbook';
 
 	$sql = "SELECT c.*, c2.name parentName
 		FROM {$database['prefix']}Comments c
@@ -101,22 +101,22 @@ function getGuestbookWithPagingForOwner($blogid, $name, $ip, $search, $page, $co
 		WHERE c.blogid = $blogid AND c.entry = 0 AND c.isFiltered = 0";
 	if (!empty($name)) {
 		$sql .= ' AND c.name = \'' . POD::escapeString($name) . '\'';
-		$postfix .= '&name=' . rawurlencode($name);
+		$postfix .= '&amp;name=' . rawurlencode($name);
 	}
 	if (!empty($ip)) {
 		$sql .= ' AND c.ip = \'' . POD::escapeString($ip) . '\'';
-		$postfix .= '&ip=' . rawurlencode($ip);
+		$postfix .= '&amp;ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
 		$search = escapeSearchString($search);
 		$sql .= " AND (c.name LIKE '%$search%' OR c.homepage LIKE '%$search%' OR c.comment LIKE '%$search%')";
-		$postfix .= '&search=' . rawurlencode($search);
+		$postfix .= '&amp;search=' . rawurlencode($search);
 	}
 
 	$sql .= ' ORDER BY c.written DESC';
 	list($comments, $paging) = fetchWithPaging($sql, $page, $count);
 	if (strlen($postfix) > 0) {
-		$postfix .= '&withSearch=on';
+		$postfix .= '&amp;withSearch=on';
 		$paging['postfix'] .= $postfix;
 	}
 
@@ -170,22 +170,22 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 			WHERE c.blogid = $blogid AND (c.parent is null) ";
 		if (!empty($name)) {
 			$sql .= ' AND ( c.name = \'' . POD::escapeString($name) . '\') ' ;
-			$postfix .= '&name=' . rawurlencode($name);
+			$postfix .= '&amp;name=' . rawurlencode($name);
 		}
 		if (!empty($ip)) {
 			$sql .= ' AND ( c.ip = \'' . POD::escapeString($ip) . '\') ';
-			$postfix .= '&ip=' . rawurlencode($ip);
+			$postfix .= '&amp;ip=' . rawurlencode($ip);
 		}
 		if (!empty($search)) {
 			$sql .= " AND ((c.name LIKE '%$search%') OR (c.homepage LIKE '%$search%') OR (c.comment LIKE '%$search%')) ";
-			$postfix .= '&search=' . rawurlencode($search);
+			$postfix .= '&amp;search=' . rawurlencode($search);
 		}
 		$sql .= $childListStr . ' ORDER BY c.modified DESC';
 	}
 
 	list($comments, $paging) = fetchWithPaging($sql, $page, $count);
 	if (strlen($postfix) > 0) {
-		$postfix .= '&withSearch=on';
+		$postfix .= '&amp;withSearch=on';
 		$paging['postfix'] .= $postfix;
 	}
 

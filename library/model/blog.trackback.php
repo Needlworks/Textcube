@@ -16,34 +16,34 @@ function getTrackbacksWithPagingForOwner($blogid, $category, $site, $ip, $search
 		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
-		$postfix .= '&category=' . rawurlencode($category);
-	} else
-		$sql .= ' AND e.category >= 0';
-	if (!empty($site)) {
-		$sql .= ' AND t.site = \'' . POD::escapeString($site) . '\'';
-		$postfix .= '&site=' . rawurlencode($site);
-	}
-	if (!empty($ip)) {
-		$sql .= ' AND t.ip = \'' . POD::escapeString($ip) . '\'';
-		$postfix .= '&ip=' . rawurlencode($ip);
-	}
-	if (!empty($search)) {
-		$search = escapeSearchString($search);
-		$sql .= " AND (t.site LIKE '%$search%' OR t.subject LIKE '%$search%' OR t.excerpt LIKE '%$search%')";
-		$postfix .= '&search=' . rawurlencode($search);
-	}
-	$sql .= ' ORDER BY t.written DESC';
-	list($trackbacks, $paging) = fetchWithPaging($sql, $page, $count);
-	if (strlen($postfix) > 0) {
-		$paging['postfix'] .= $postfix . '&withSearch=on';
-	}
-	return array($trackbacks, $paging);
+				$postfix .= '&amp;category=' . rawurlencode($category);
+				} else
+				$sql .= ' AND e.category >= 0';
+				if (!empty($site)) {
+				$sql .= ' AND t.site = \'' . POD::escapeString($site) . '\'';
+				$postfix .= '&amp;site=' . rawurlencode($site);
+				}
+				if (!empty($ip)) {
+				$sql .= ' AND t.ip = \'' . POD::escapeString($ip) . '\'';
+				$postfix .= '&amp;ip=' . rawurlencode($ip);
+				}
+				if (!empty($search)) {
+				$search = escapeSearchString($search);
+				$sql .= " AND (t.site LIKE '%$search%' OR t.subject LIKE '%$search%' OR t.excerpt LIKE '%$search%')";
+				$postfix .= '&amp;search=' . rawurlencode($search);
+				}
+				$sql .= ' ORDER BY t.written DESC';
+				list($trackbacks, $paging) = fetchWithPaging($sql, $page, $count);
+				if (strlen($postfix) > 0) {
+				$paging['postfix'] .= $postfix . '&amp;withSearch=on';
+				}
+				return array($trackbacks, $paging);
 }
 
 function getTrackbackLogsWithPagingForOwner($blogid, $category, $site, $ip, $search, $page, $count) {
 	global $database;
-	
-	$postfix = '&status=sent';
+
+	$postfix = '&amp;status=sent';
 	$sql = "SELECT t.*, e.title as subject, c.name categoryName 
 		FROM {$database['prefix']}TrackbackLogs t 
 		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
@@ -53,18 +53,18 @@ function getTrackbackLogsWithPagingForOwner($blogid, $category, $site, $ip, $sea
 		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
-		$postfix .= '&category=' . rawurlencode($category);
-	} else
-		$sql .= ' AND e.category >= 0';
-	if (!empty($search)) {
-		$search = escapeSearchString($search);
-		$sql .= " AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
-		$postfix .= '&search=' . rawurlencode($search);
-	}
-	$sql .= ' ORDER BY t.written DESC';
-	list($trackbacks, $paging) = fetchWithPaging($sql, $page, $count);
-	if (strlen($postfix) > 0) {
-		$paging['postfix'] .= $postfix . '&withSearch=on';
+				$postfix .= '&amp;category=' . rawurlencode($category);
+				} else
+				$sql .= ' AND e.category >= 0';
+				if (!empty($search)) {
+				$search = escapeSearchString($search);
+				$sql .= " AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
+				$postfix .= '&amp;search=' . rawurlencode($search);
+				}
+				$sql .= ' ORDER BY t.written DESC';
+				list($trackbacks, $paging) = fetchWithPaging($sql, $page, $count);
+				if (strlen($postfix) > 0) {
+				$paging['postfix'] .= $postfix . '&amp;withSearch=on';
 	}
 	return array($trackbacks, $paging);
 }
