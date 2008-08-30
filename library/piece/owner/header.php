@@ -425,13 +425,21 @@ $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 				</div>
 				
 				<hr class="hidden" />
+
+				<div id="main-blog-box">
+					<ul id="main-blog">
+<?php echo User::changeBlog();?>						
+					</ul>
+				</div>
+
+				<hr class="hidden" />
 				
 				<h2><?php echo _t('메인메뉴');?></h2>
 				
 				<div id="main-menu-box">
 					<ul id="main-menu">
 						<li id="menu-textcube"><a href="<?php echo $blogURL.'/owner/center/dashboard';?>" title="<?php echo _t('센터로 이동합니다.');?>"><span class="text"><?php echo _t('텍스트큐브');?></span></a></li>
-<?php echo User::changeBlog();?>						
+<?php //echo User::changeBlog();?>						
 <?php
 foreach($blogTopMenuItem as $menuItem) {
 ?>
