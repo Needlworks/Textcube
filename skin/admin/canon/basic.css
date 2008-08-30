@@ -644,7 +644,7 @@ table.data-inbox thead tr th
 table.data-inbox tbody tr td
 {
 	border-bottom                    : 1px solid #E3E3DE;
-	padding                          : 6px 8px;
+	padding                          : 1px 8px;
 	text-align                       : center;
 }
 
