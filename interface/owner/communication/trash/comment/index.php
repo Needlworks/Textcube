@@ -391,7 +391,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 	echo "</a>";
 ?>
 												<?php echo ((!empty($comment['title']) || !empty($comment['parent'])) ? '<br />' : '');?>
-												<?php echo htmlspecialchars(UTF8::lessen($comment['comment'],50));?>
+												<?php echo htmlspecialchars(UTF8::lessen($comment['comment'],80));?>
 											</td>
 											<td class="ip">
 <?php
