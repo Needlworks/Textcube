@@ -199,7 +199,7 @@ class User {
 			.TAB6.TAB.TAB.'<li id="sub-menu-intro" class="firstChild">'._t('내 블로그 목록').'</li>'.CRLF;
 		$count = false;
 		foreach($blogList as $info){
-			$title = UTF8::lessen(setting::getBlogSettingGlobal("title",null,$info,true), 20);
+			$title = UTF8::lessen(setting::getBlogSettingGlobal("title",null,$info,true), 25);
 			$title = ($title ? $title : _f('%1 님의 블로그',User::getBlogOwnerName($info)));
 			if($info == $blogid) { // Current Blog.
 				$currentBlog = TAB6.TAB.'<a href="'.$blogURL.'/owner/network/teamblog/changeBlog/?blogid='.$info.'"><span>'.UTF8::lessen(setting::getBlogSettingGlobal("title",null,$info,true), 30).'</span><!--[if IE 7]><!--></a><!--<![endif]-->'.CRLF;

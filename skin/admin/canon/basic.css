@@ -376,6 +376,16 @@ textarea
 	background-color                 : #CCC;
 }
 
+#main-blog li:hover ul li.firstChild
+{
+	border-bottom                    : 1px solid #BBB;
+}
+
+#main-blog li:hover ul li.firstChild:hover
+{
+	background-color                 : transparent !important;
+}
+
 #main-blog li:hover ul li a:link,
 #main-blog li:hover ul li a:visited,
 #main-blog li a:hover ul li a:link,
