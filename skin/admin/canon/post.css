@@ -112,22 +112,29 @@ table.data-inbox tbody tr td.ip
 #change-section-top
 {
 	background-color                 : #FFFFFF;
-	margin                           : 5px auto 0 auto;
-	padding                          : 8px;
-	width                            : 924px;
+	margin                           : 5px 0 0 0;
+	padding-top                      : 8px;
+	padding-bottom                   : 8px;
+	width                            : 100%;
 }
 
 #change-section-bottom
 {
 	background-color                 : #EEEEEE;
 	border-top                       : 1px solid #BBBBBB;
-	margin                           : 0 auto 5px auto;
-	padding                          : 8px;
-	width                            : 924px;
+	margin                           : 0 0 5px 0;
+	padding-top                      : 8px;
+	padding-bottom                   : 8px;
+	width                            : 100%;
 }
-   
+#allCheckedTop,
+#allCheckedBottom
+{
+	margin-left                     : 7px; 
+}
 #part-post-list h2.caption
 {
+	display                         : none;
 	margin-bottom                   : 1.6em;
 }
 

@@ -31,6 +31,10 @@ dl dd
 
 /* Link ******************************************************************************************/
 
+#part-link-list h2
+{
+	display                          : none;
+}
 #part-link-list .caption,
 #part-link-add .caption,
 #part-link-category-edit .caption

@@ -62,6 +62,12 @@ table.data-inbox tbody tr td.title span.excerpt
 	color                            : #DDD;
 }
 
+/* Tab     ****************************************************************************************/
+#communication-tabs-box
+{
+	display                          : none;
+}
+
 /* Comment ****************************************************************************************/
 #part-post-comment h2,
 #part-post-notify h2,
@@ -214,7 +220,7 @@ table.data-inbox tbody tr td.title span.excerpt
 	border                           : none;
 	position                         : absolute;
 	left                             : 0;
-	top                              : 65px;
+	top                              : 35px;
 }
 
 #part-post-trash fieldset dl
@@ -321,7 +327,7 @@ table.data-inbox tbody tr td.title span.excerpt
 	padding                          : 0 5px;
 	position                         : absolute;
 	right                            : 25px;
-	bottom                           : 75px;
+	top                              : 45px;
 }
 
 /* simple help footer ****************************************************************************/

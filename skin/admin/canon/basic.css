@@ -228,6 +228,7 @@ textarea
 	display                          : block;
 	width                            : 25px;
 	height                           : 40px;
+	padding-right                    : 10px;
 }
 
 #main-action li span
@@ -430,13 +431,47 @@ textarea
 
 #sub-menu
 {
-	display                          : none;
+/*	display                          : none;*/
+	z-index                          : 190;
+	position                         : fixed;
+	left                             : 0;
+	top                              : 40px;
+	width                            : 150px;
+	height                           : 100%;
+	background-color                 : #DDD;
+	border-right                     : solid 1px #BBB;
+}
+
+#sub-menu li
+{
+	border-bottom:solid 1px #BBB;
+}
+
+#sub-menu li.selected
+{
+	background-color:#CCC;
+}
+
+#sub-menu li a
+{
+	display:block;
+	width:125px;
+	padding-left:25px;
+}
+
+#sub-menu li a:hover,
+#sub-menu li:hover
+{
+	text-decoration                  : none !important;
+	background-color                 : #CCC;
 }
 
 #layout-body
 {
 	margin-top                       : 45px;
 	margin-bottom                    : 35px;
+	padding-left                     : 151px;
+	z-index                          : 150;
 }
 
 /* pseudo box */
@@ -445,13 +480,13 @@ textarea
 	background-color                 : #FFF;
 	margin                           : 0 auto;
 	position                         : relative;
-	width                            : 980px;
+/*	width                            : 100%;*/
 }
 
-#data-outbox
+/*#data-outbox
 {
 	padding                          : 10px;
-}
+}*/
 
 .part .caption,
 h2.caption
@@ -591,8 +626,8 @@ float: right !important;
 /* data inbox */
 .data-inbox
 {
-	margin                           : 2px 10px;
-	width                            : 940px;
+	margin                           : 2px 0;
+	width                            : 100%; 
 }
 
 table.data-inbox thead tr th
@@ -984,6 +1019,8 @@ table.data-inbox tbody tr td.inactive-class
 .data-subbox
 {
 	position                         : relative;
+	padding:0 !important;
+	margin:0 !important;
 }
 
 #change-section,
@@ -991,9 +1028,10 @@ table.data-inbox tbody tr td.inactive-class
 {
 	background-color                 : #EEEEEE;
 	border-top                       : 1px solid #BBBBBB;
-	margin                           : 0 auto 5px auto;
-	padding                          : 8px;
-	width                            : 924px;
+	margin                           : 0 0 5px 0;
+	padding-top                      : 8px;
+	padding-bottom                   : 8px;
+	width                            : 100%;
 }
 
 #change-section-top,
@@ -1001,9 +1039,10 @@ table.data-inbox tbody tr td.inactive-class
 {
 	background-color                 : #FFF;
 	border-top                       : none;
-	margin                           : 0 auto 5px auto;
-	padding                          : 8px;
-	width                            : 924px;
+	margin                           : 0 0 5px 0;
+	padding-top                      : 8px;
+	padding-bottom                   : 8px;
+	width                            : 100%;
 }
 
 #page-navigation
@@ -1043,6 +1082,7 @@ table.data-inbox tbody tr td.inactive-class
 	top                              : 9px;
 	right                            : 20px;
 	text-align                       : right;
+	width                            : 250px;
 }
 
 #page-section .page-count select
@@ -1056,7 +1096,7 @@ table.data-inbox tbody tr td.inactive-class
 	border                           : none;
 	margin                           : 0;
 	position                         : fixed !important;
-	right                            : 75px;
+	right                            : 110px;
 	text-align                       : right;
 	top                              : 10px; 
 	width                            : 25em;
@@ -1079,7 +1119,7 @@ table.data-inbox tbody tr td.inactive-class
 	font-family                      : Tahoma, sans-serif;
 	font-size                        : 0.9em;
 	margin                           : 0 auto;
-	padding                          : 13px 0 10px 0;
+	padding                          : 8px 0 5px 0;
 	text-align                       : center;
 	width                            : 100%;
 	position                         : fixed;
