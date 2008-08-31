@@ -68,7 +68,7 @@ class Autoload {
 	private static $openid = array(
 		'OpenID', 'OpenIDSession', 'OpenIDConsumer');
 	private static $control = array(
-		'Session');
+		'Session','RSS');
 	public static function load($name) {
 		global $service;
 		$name = ucfirst($name);

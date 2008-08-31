@@ -5,8 +5,6 @@
 define('__TEXTCUBE_LOGIN__',true);
 require ROOT . '/library/includeForBlog.php';
 
-requireComponent( "Textcube.Control.RSS" );
-requireComponent( "Textcube.Control.Auth" );
 requireModel( "blog.api" );
 
 /*--------- API main ---------------*/
