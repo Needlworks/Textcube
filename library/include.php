@@ -62,7 +62,8 @@ class Autoload {
 		'Paging','PluginCustomConfig','Statistics','User'
 		);
 	private static $base = array(
-		'Base64Stream','HTTPRequest','OutputWriter','XMLRPC','XMLTree','Pop3');
+		'Base64Stream','HTTPRequest','OutputWriter','XMLRPC','XMLRPCFault',
+		'XMLCustomType','XMLTree','Pop3');
 	private static $function = array(
 		'Image','Setting','Respond','Misc');
 	private static $openid = array(
@@ -77,7 +78,9 @@ class Autoload {
 		} else if (in_array($name,self::$model)) {
 			require_once(ROOT . "/library/components/Textcube.Model.".$name.".php");
 		} else if (in_array($name,self::$base)) {
-			require_once(ROOT . "/library/components/Needlworks.PHP.".$name.".php");
+			if(in_array($name, array('XMLRPC','XMLRPCFault','XMLCustomType')))
+				 require_once(ROOT . "/library/components/Needlworks.PHP.XMLRPC.php");
+			else require_once(ROOT . "/library/components/Needlworks.PHP.".$name.".php");
 		} else if (in_array($name,self::$function)) {
 			require_once(ROOT . "/library/components/Textcube.Function.".$name.".php");
 		} else if (in_array($name,self::$openid)) {
