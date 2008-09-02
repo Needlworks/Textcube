@@ -27,8 +27,8 @@ h2
 #reader-menu-box
 {
 	background-color                 : #FFFFFF;
-	margin                           : 5px auto 0 auto;
-	width                            : 980px;
+	margin                           : 5px 0 0 0;
+	width                            : 100%;
 	padding                          : 5px 0 0 0;
 }
 
@@ -38,7 +38,7 @@ h2
 	background-position              : right top;
 	background-repeat                : repeat-x;
 	height                           : 30px;
-	margin                           : 0 10px;
+	margin                           : 0;
 	padding                          : 7px 20px 0 0;
 }
 
