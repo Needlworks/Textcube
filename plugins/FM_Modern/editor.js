@@ -83,7 +83,7 @@ TTModernEditor.editors = {};
 // 각종 환경 초기화
 TTModernEditor.prototype.initialize = function(textarea) {
 	// execCommand가 사용가능한 경우에만 위지윅을 쓸 수 있다. (지금은 Internet Explorer, Firefox, Safari 3만 지원한다)
-	if(typeof(document.execCommand) == "undefined" || !(STD.isIE || STD.isFirefox || STD.isSafari3))
+	if(typeof(document.execCommand) == "undefined" || !(STD.isIE || STD.isFirefox || (STD.isWebkit && STD.engineVersion >= 419.3)))
 		return;
 	// Set editor mode for formatters.
 	if(this.formatter == 'textile' || this.formatter == 'markdown') {
@@ -1602,7 +1602,7 @@ TTModernEditor.prototype.eventHandler = function(event) {
 	}
 
 	// safari 3 workaround: collect the last selection range for object insertion
-	if (STD.isSafari3) {
+	if (STD.isWebkit && STD.engineVersion >= 419.3) {
 		var range = this.getSelectionRange();
 		if (range) this.lastSelectionRange = range;
 	}
@@ -1653,7 +1653,7 @@ TTModernEditor.prototype.eventHandler = function(event) {
 
 	// 이벤트가 발생하면 showProperty 함수에서 TTML 치환자인지 아닌지 판단해, TTML 치환자일 경우에 속성을 수정할 수 있는 창을 띄워주게 된다
 	if(this.selectedElement && !isFunctionalKeyPressed) {
-		if (this.showProperty(this.selectedElement) && STD.isSafari3) {
+		if (this.showProperty(this.selectedElement) && (STD.isWebkit && STD.engineVersion >= 419.3)) {
 			// safari 3 workaround: put current element in the selection
 			var range = this.contentDocument.createRange();
 			range.selectNode(this.selectedElement);
