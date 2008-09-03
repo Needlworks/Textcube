@@ -20,18 +20,35 @@ function getObject(target) {
 Standardizer.prototype.namespace = "Eolin.Application.Framework";
 Standardizer.prototype.name      = "Eolin Standardizer";
 Standardizer.prototype.verion    = "1.0";
-Standardizer.prototype.copyright = "Copyright (c) 2005,2007 Needlworks / Tatter & Company. All rights reserved.";
+Standardizer.prototype.copyright = "Copyright (c) 2005,2008 Needlworks / Tatter & Company. All rights reserved.";
 
 function Standardizer(){};
 
-Standardizer.prototype.isIE = (navigator.userAgent.indexOf("MSIE")>=0 && document.all);
-Standardizer.prototype.isIE6 = (navigator.userAgent.indexOf("MSIE 6.")>=0  && document.all);
-Standardizer.prototype.isFirefox = (navigator.userAgent.indexOf("Firefox")>=0 || navigator.userAgent.indexOf("IceWeasel")>=0);
-Standardizer.prototype.isSafari = (navigator.userAgent.indexOf("Safari")>=0);
-Standardizer.prototype.isSafari3 = (navigator.userAgent.indexOf("Safari")>=0 && navigator.userAgent.indexOf("Version/3")>0);
-Standardizer.prototype.isOpera = (!Standardizer.prototype.isIE&&(navigator.userAgent.indexOf("Opera")>=0));
-Standardizer.prototype.isMozilla = (!Standardizer.prototype.isIE && !Standardizer.prototype.isFirefox && !Standardizer.prototype.isSafari && !Standardizer.prototype.isOpera && (navigator.userAgent.indexOf("Mozilla")>=0));
-
+var ua = navigator.userAgent;
+// Microsoft Explorer
+Standardizer.prototype.isIE = (ua.indexOf("MSIE")>=0 && document.all);
+if(Standardizer.prototype.isIE) {
+	Standardizer.prototype.browserVersion  = parseFloat(ua.substr(Math.max(ua.indexOf("MSIE"),0)+4,4));
+	Standardizer.prototype.engineVersion  = Standardizer.prototype.browserVersion;
+}
+// Mozilla Firefox
+Standardizer.prototype.isFirefox = (ua.indexOf("Firefox")>=0 || ua.indexOf("IceWeasel")>=0 || ua.indexOf("Minefield")>0);
+if(Standardizer.prototype.isFirefox) {
+	Standardizer.prototype.browserVersion  = parseFloat(ua.substr(ua.indexOf("Firefox/")+8,10));
+	Standardizer.prototype.engineVersion  = parseFloat(ua.substr(Math.max(ua.indexOf("rv:"),0)+3,7));
+}
+// Webkit / safari
+webkitIndex = Math.max(ua.indexOf("WebKit"), ua.indexOf("Safari"),0);
+Standardizer.prototype.isSafari = (ua.indexOf("Safari")>=0);
+Standardizer.prototype.isWebkit = (webkitIndex > 0);
+if(Standardizer.prototype.isWebkit) {
+	Standardizer.prototype.browserVersion  = parseFloat(ua.split("Version/")[1]) || ( ( parseFloat(ua.substr(webkitIndex+7)) >= 419.3 ) ? 3 : 2 ) || 2;
+	Standardizer.prototype.engineVersion  = parseFloat(ua.substr(webkitIndex+7));
+}
+// Opera
+Standardizer.prototype.isOpera = (!Standardizer.prototype.isIE&&(ua.indexOf("Opera")>=0));
+// Mozilla-compartible
+Standardizer.prototype.isMozilla = (!Standardizer.prototype.isIE && !Standardizer.prototype.isFirefox && !Standardizer.prototype.isSafari && !Standardizer.prototype.isOpera && (ua.indexOf("Mozilla")>=0));
 Standardizer.prototype.addEventListener = function(object) {
 	if(!object.addEventListener)
 		object.addEventListener = function addEventListener(type,listener,useCapture) {
