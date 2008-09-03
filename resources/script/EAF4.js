@@ -24,14 +24,21 @@ Standardizer.prototype.copyright = "Copyright (c) 2005,2007 Needlworks / Tatter 
 
 function Standardizer(){};
 
-Standardizer.prototype.isIE = (navigator.userAgent.indexOf("MSIE")>=0 && document.all);
-Standardizer.prototype.isIE6 = (navigator.userAgent.indexOf("MSIE 6.")>=0  && document.all);
-Standardizer.prototype.isFirefox = (navigator.userAgent.indexOf("Firefox")>=0 || navigator.userAgent.indexOf("IceWeasel")>=0);
-Standardizer.prototype.isSafari = (navigator.userAgent.indexOf("Safari")>=0);
-Standardizer.prototype.isSafari3 = (navigator.userAgent.indexOf("Safari")>=0 && navigator.userAgent.indexOf("Version/3")>0);
-Standardizer.prototype.isOpera = (!Standardizer.prototype.isIE&&(navigator.userAgent.indexOf("Opera")>=0));
-Standardizer.prototype.isMozilla = (!Standardizer.prototype.isIE && !Standardizer.prototype.isFirefox && !Standardizer.prototype.isSafari && !Standardizer.prototype.isOpera && (navigator.userAgent.indexOf("Mozilla")>=0));
+var ua = navigator.userAgent;
+Standardizer.prototype.isIE = (ua.indexOf("MSIE")>=0 && document.all);
+Standardizer.prototype.isIE6 = (ua.indexOf("MSIE 6.")>=0  && document.all);
+Standardizer.prototype.isFirefox = (ua.indexOf("Firefox")>=0 || ua.indexOf("IceWeasel")>=0 || ua.indexOf("Minefield")>0);
 
+var safariIndex = Math.max(ua.indexOf("WebKit"), ua.indexOf("Safari"),0);
+Standardizer.prototype.isSafari = ((safariIndex > 0) ? true : false);
+if(Standardizer.prototype.isSafari) {
+	Standardizer.prototype.SafariVersion  = parseFloat(ua.split("Version/")[1]) || ( ( parseFloat(ua.substr(safariIndex+7)) >= 419.3 ) ? 3 : 2 ) || 2;
+	Standardizer.prototype.isSafari3 = (Standardizer.prototype.SafariVersion > 2.9) ? true : false;
+} else {
+	Standardizer.prototype.isSafari3 = false;
+}
+Standardizer.prototype.isOpera = (!Standardizer.prototype.isIE&&(ua.indexOf("Opera")>=0));
+Standardizer.prototype.isMozilla = (!Standardizer.prototype.isIE && !Standardizer.prototype.isFirefox && !Standardizer.prototype.isSafari && !Standardizer.prototype.isOpera && (ua.indexOf("Mozilla")>=0));
 Standardizer.prototype.addEventListener = function(object) {
 	if(!object.addEventListener)
 		object.addEventListener = function addEventListener(type,listener,useCapture) {
