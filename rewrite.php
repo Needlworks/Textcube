@@ -9,6 +9,8 @@
 		if(isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) $_SERVER['REQUEST_URI'] .= '?'.$_SERVER['QUERY_STRING'];
 	}
 	if (!empty($_SERVER['PRELOAD_CONFIG']) && file_exists('config.php')) require_once ROOT."/config.php";
+	if (isset($_SERVER['HTTP_X_ORIGINAL_URL']))
+		$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_ORIGINAL_URL'];
 	/* Retrieve Access Parameter Information. */
 	$accessInfo = array(
 		'host'     => $_SERVER['HTTP_HOST'],
