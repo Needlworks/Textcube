@@ -72,7 +72,7 @@ require ROOT . '/library/piece/owner/header.php';
 											</tr>
 											<tr>
 												<td class="name vcard"><a class="fn url" href="http://daybreaker.info">Kim Joongi</a></td>
-												<td class="role"><?php echo _t('XHTML / Textcube server / Quality Assurance');?></td>
+												<td class="role"><?php echo _t('XHTML / IIS Support / Textcube server / Quality Assurance');?></td>
 											</tr>
 											<tr>
 												<td class="name vcard"><a class="fn url" href="http://www.graphittie.org/blog">graphittie™</a></td>
