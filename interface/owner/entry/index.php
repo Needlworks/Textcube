@@ -840,8 +840,8 @@ if(isset($_POST['visibility'])) $returnURLpostfix .= (empty($returnURLpostfix) ?
 										<tr>
 											<th class="selection">&nbsp;</th>
 											<th class="starred">&nbsp;</th>
-											<th class="category"><span class="text"><?php echo _t('분류');?></span></th>
 											<th class="title"><span class="text"><?php echo _t('제목');?></span></th>
+											<th class="category"><span class="text"><?php echo _t('분류');?></span></th>
 											<th class="author"><span class="text"><?php echo _t('필자');?></span></th>
 											<th class="response"><span class="text"><?php echo _t('의견');?></span></th>
 											<th class="date"><span class="text"><?php echo _t('등록일자');?></span></th>
@@ -876,6 +876,16 @@ for ($i=0; $i<sizeof($entries); $i++) {
 <?php
 	}
 ?></td>
+											<td class="title">
+												<?php echo ($entry['draft'] ? ('<span class="temp-icon bullet" title="' . _t('임시 저장본이 있습니다.') . '"><span>' . _t('[임시]') . '</span></span> ') : '');?>
+<?php
+	$editmode = 'entry';
+	$entryModifyLink = $entry['id'];
+	$contentLength = 75-UTF8::length(htmlspecialchars($entry['title']));
+?>
+												<a href="<?php echo $blogURL;?>/owner/<?php echo $editmode;?>/edit/<?php echo $entryModifyLink;?>" onclick="document.getElementById('list-form').action='<?php echo $blogURL;?>/owner/<?php echo $editmode;?>/edit/<?php echo $entryModifyLink;?>'<?php echo ($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '');?>; document.getElementById('list-form').submit(); return false;"><?php echo htmlspecialchars($entry['title']);?></a>
+												<span class="description"><?php echo (($contentLength > 0) ? UTF8::lessen(strip_tags($entry['content']),$contentLength) : '');?></span>
+											</td>
 											<td class="category">
 <?php
 	if ($entry['category'] == 0) {
@@ -900,14 +910,6 @@ for ($i=0; $i<sizeof($entries); $i++) {
 <?php
 	}
 ?>
-											</td>
-											<td class="title">
-												<?php echo ($entry['draft'] ? ('<span class="temp-icon bullet" title="' . _t('임시 저장본이 있습니다.') . '"><span>' . _t('[임시]') . '</span></span> ') : '');?>
-<?php
-	$editmode = 'entry';
-	$entryModifyLink = $entry['id'];
-?>
-												<a href="<?php echo $blogURL;?>/owner/<?php echo $editmode;?>/edit/<?php echo $entryModifyLink;?>" onclick="document.getElementById('list-form').action='<?php echo $blogURL;?>/owner/<?php echo $editmode;?>/edit/<?php echo $entryModifyLink;?>'<?php echo ($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '');?>; document.getElementById('list-form').submit(); return false;"><?php echo htmlspecialchars($entry['title']);?></a>
 											</td>
 											<td class="author">
 												<?php echo User::getName($entry['userid']);?>
