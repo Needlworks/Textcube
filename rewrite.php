@@ -70,7 +70,7 @@
 	if (in_array($pathPart, array('favicon.ico','index.gif'))) {require_once 'interface/'.$pathPart.'.php';	exit;}
 	if (!empty($accessInfo['URLfragment']) &&
 		in_array($accessInfo['URLfragment'][0],
-				 array('api','archive','attachment','author','category','checkup','cover','cron','entry','feeder','foaf','guestbook','keylog','location','logout','notice','page','plugin','pluginForOwner','search','suggest','sync','tag','ttxml')))
+				 array('api','archive','attachment','author','category','checkup','cover','cron','entry','feeder','foaf','guestbook','iMazing','keylog','location','logout','notice','page','plugin','pluginForOwner','search','suggest','sync','tag','ttxml')))
 	{
 		$pathPart = $accessInfo['URLfragment'][0];
 		$interfacePath = 'interface/blog/'.$pathPart.'.php';
