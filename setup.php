@@ -402,7 +402,7 @@ function checkStep($step, $check = true) {
     <ul>
       <li><?php echo _t('하드웨어');?>: <?php echo @exec('uname -mp');?></li>
       <li><?php echo _t('운영체제');?>: <?php echo @exec('uname -sir');?></li>
-      <li><?php echo _t('웹서버');?>: <?php echo $_SERVER['SERVER_SOFTWARE'];?> <?php echo $_SERVER['SERVER_SIGNATURE'];?></li>
+      <li><?php echo _t('웹서버');?>: <?php echo $_SERVER['SERVER_SOFTWARE'];?> <?php echo isset($_SERVER['SERVER_SIGNATURE']) ? $_SERVER['SERVER_SIGNATURE'] : '(no signature)';?></li>
       <li><?php echo _t('PHP 버전');?>: <?php echo phpversion();?></li>
       <li><?php echo _t('MySQL 버전');?>: <?php echo mysql_get_server_info();?></li>
     </ul>
