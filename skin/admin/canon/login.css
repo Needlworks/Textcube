@@ -142,7 +142,7 @@ hr
 #openid_identifier
 {
 	background-color: rgba(255,255,255,0.6);
-	background-image: url("../../../image/icon_login_openid.png");
+	background-image: url("../../../resources/image/icon_login_openid.png");
 	background-position: left center;
 	background-repeat: no-repeat;
 	padding-left                     : 30px;
