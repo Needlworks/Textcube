@@ -1,0 +1,90 @@
+Textcube Installation
+---------------------
+
+Please read requirements.txt to see what softwares you need before installation.
+
+For MySQL 4.1 or above, UTF-8 for default character set and collation settings
+is strongly recommended.
+
+1. For Linux Systems:
+
+  Step 1: Make sure the directory of Textcube is accessible from Apache, and
+          has write permissions on the main directory and cache, attachment, 
+          skin, skin/customize subdirectories.
+
+          If you can't change owner or group of file/directories, you may set
+          777 permission on them.
+
+  Step 2: Create apropriate MySQL user/database if you need. Or you may consult
+          your web-hosting provider.
+
+  Step 3: Run setup.php on your web browser and follow instructions.
+
+2. For Windows Systems:
+
+  NOTE: Currently we only supports IIS 7.0 or above.
+        Also you have to download the latest trunk version (r6624 or newer) from
+        our subversion repository.
+
+  Step 1: Install and setup IIS 7, PHP, MySQL.
+
+  Step 2: Install URL Rewrite module for IIS 7.0.
+          Link : http://learn.iis.net/page.aspx/460/using-url-rewrite-module
+
+  Step 3: Grant all permissions on the Textcube directory and its subdirectories to
+          IIS_IUSRS group.
+
+  Step 4: Run setup.php on your web browser.
+          NOTE: Use 127.0.0.1 instead of localhost to avoid later login problems.
+
+  Step 5: Skip mod_rewrite related warnings during setup process.
+
+  Step 6: After setup, add $service['fancyURL'] = 2; to config.php.
+
+  Step 7: In URL Rewrite module settings on the IIS manager,
+        7-1: Open [Import rules] dialog.
+        7-2: Copy & paste rewrite rules from existing .htaccess file on your installation.
+        7-3: Insert your install path relative to your domain and wwwroot in front of
+             each pattern/condition and actions of rewrite rules.
+
+             Example:
+             If your URL is http://127.0.0.1/tcurl/ and path is C:\inetpub\wwwroot\tcpath,
+             modify it like the followings.
+             (Usually tcurl and tcpath are same.)
+
+             The original .htaccess settings:
+
+                 RewriteEngine On
+                 RewriteBase /tcurl/
+                 RewriteCond %{REQUEST_FILENAME} -f
+                 RewriteRule ^(cache)+/+(.+[^/])\.(cache|xml|txt|log)$ - [NC,F,L]
+                 RewriteCond %{REQUEST_FILENAME} -d
+                 RewriteRule ^(.+[^/])$ $1/ [L]
+                 RewriteCond %{REQUEST_FILENAME} !-f
+                 RewriteRule ^(thumbnail)/([0-9]+/.+)$ cache/$1/$2 [L]
+                 RewriteRule ^(.*)$ rewrite.php [L,QSA]
+
+             The modified .htaccess settings to be imported:
+
+                 RewriteEngine On
+                 RewriteCond %{REQUEST_FILENAME} -f
+                 RewriteRule ^tcurl/(cache)+/+(.+[^/])\.(cache|xml|txt|log)$ - [NC,F,L]
+                 RewriteCond %{REQUEST_FILENAME} -d
+                 RewriteRule ^tcurl/(.+[^/])$ tcpath/$1/ [L]
+                 RewriteCond %{REQUEST_FILENAME} !-f
+                 RewriteRule ^tcurl/(thumbnail)/([0-9]+/.+)$ tcpath/cache/$1/$2 [L]
+                 RewriteRule ^tcurl/(.*)$ tcpath/rewrite.php [L,QSA]
+
+        7-4: Finish importing.
+        7-5: Check 'Stop processing of subsequent rules' options of all imported rules
+             according to [L] flags.
+             (It's a bug of IIS' URL rewrite module currently.)
+
+  Step 8: Use it just like Textcubes with mod_rewrite enabled.
+
+  TIPS:
+   * Change upload_tmp_dir setting in php.ini to avoid permission problems with file uploads.
+     You have to grant all permissions on it to IIS_IUSRS group.
+   * To apply changes of php.ini when you use FastCGI, refresh your application pool instead
+     of restarting the web service.
+
