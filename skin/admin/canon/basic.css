@@ -284,6 +284,8 @@ textarea
 	margin-top                       : 0;
 	position                         : fixed;
 	top                              : 0;
+	width                            : 180px;
+	background-image                 : url("./image/bg_menu_title.png");
 	z-index                          : 210;
 }
 
@@ -547,6 +549,7 @@ textarea
 	clear                            : both;
 	height                           : 0.4em;
 	line-height                      : 2.4em;
+	border-right                     : solid 1px #BBB;
 }
 
 #sub-menu
@@ -558,32 +561,38 @@ textarea
 	top                              : 40px;
 	width                            : 150px;
 	height                           : 100%;
-	background-color                 : #DDD;
 	border-right                     : solid 1px #BBB;
 }
 
 #sub-menu li
 {
-	border-bottom:solid 1px #BBB;
+	background-color                 : #DDD !important;
+	background-image                 : url("./image/bg_submenu_item.gif");
+	border-bottom                    : solid 1px #BBB;
+	margin-bottom                    : 1px;
 }
 
-#sub-menu li.selected
+#sub-menu li.selected,
+#sub-menu li.selected a
 {
-	background-color:#CCC;
+	background-image                 : url("./image/bg_submenu_item_selected.gif") !important;
+	background-color                 : #CCC;
 }
 
 #sub-menu li a
 {
-	display:block;
-	width:125px;
-	padding-left:25px;
+	background-image                 : url("./image/bg_submenu_item.gif");
+	display                          : block;
+	width                            : 125px;
+	padding-left                     : 25px;
 }
 
 #sub-menu li a:hover,
 #sub-menu li:hover
 {
 	text-decoration                  : none !important;
-	background-color                 : #CCC;
+	background-image                 : url("./image/bg_submenu_item_selected.gif");
+/*	background-color                 : #CCC;*/
 }
 
 #layout-body
