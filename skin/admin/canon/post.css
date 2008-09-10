@@ -194,6 +194,11 @@ table.data-inbox tbody tr td.ip
 	padding-right                    : 5px;
 }
 
+#part-post-list table.data-inbox tbody tr td.title
+{
+	overflow                         : hidden;
+}
+
 #part-post-list table.data-inbox tbody tr td.title span.description
 {
 	color                            : #CCC;
