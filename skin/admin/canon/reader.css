@@ -24,6 +24,10 @@ h2
 }
 
 /* menu -----------------------------------------------------------------------------------------*/
+#data-outbox
+{
+	padding                          : 0 !important;
+}
 #reader-menu-box
 {
 	background-color                 : #FFFFFF;
@@ -39,7 +43,7 @@ h2
 	background-repeat                : repeat-x;
 	height                           : 30px;
 	margin                           : 0;
-	padding                          : 7px 20px 0 0;
+	padding                          : 7px 20px 0 161px;
 }
 
 #reader-menu li
@@ -412,7 +416,7 @@ ul#groupList li .edit-button span
 #feed-section
 {
 	background-color                 : #D2D2CC !important;
-	width                            : 960px;
+	width                            : 100%;
 }
 
 #feedAdder

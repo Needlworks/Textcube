@@ -217,7 +217,7 @@ textarea
 {
 	border                           : 0;
 	position                         : fixed;
-	top                              : 1px;
+	top                              : 0;
 	right                            : 0;
 	z-index                          : 220;
 }
@@ -281,7 +281,7 @@ textarea
 {
 	height                           : 40px;
 	line-height                      : 3em;
-	margin-top                       : 1px;
+	margin-top                       : 0;
 	position                         : fixed;
 	top                              : 0;
 	z-index                          : 210;
@@ -404,7 +404,7 @@ textarea
 	background-repeat                : repeat-x;
 	height                           : 40px;
 	line-height                      : 3em;
-	margin-top                       : 1px;
+	margin-top                       : 0;
 	width                            : 100%;
 	position                         : fixed;
 	top                              : 0;
@@ -590,7 +590,7 @@ textarea
 {
 	margin-top                       : 45px;
 	margin-bottom                    : 35px;
-	padding-left                     : 151px;
+/*	padding-left                     : 151px;*/
 	z-index                          : 150;
 }
 
@@ -600,13 +600,15 @@ textarea
 	background-color                 : #FFF;
 	margin                           : 0 auto;
 	position                         : relative;
+	padding-left                     : 151px;
 /*	width                            : 100%;*/
 }
 
-/*#data-outbox
+#data-outbox
 {
-	padding                          : 10px;
-}*/
+	padding                          : 0 10px 0 10px;
+/*	padding                          : 10px;*/
+}
 
 .part .caption,
 h2.caption
