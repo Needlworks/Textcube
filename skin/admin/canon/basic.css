@@ -286,123 +286,19 @@ textarea
 /* main - blog selector */
 #main-blog-box
 {
-	height                           : 40px;
+	height                           : 30px;
 	line-height                      : 3em;
 	margin-top                       : 0;
 	position                         : fixed;
-	top                              : 0;
-	width                            : 180px;
-	background-image                 : url("./image/bg_menu_title.png");
-	z-index                          : 210;
-}
-
-#main-blog li
-{
-	position                         : relative;
-	height                           : 40px;
-	z-index                          : 400;   /* Workaround for IE6 positioned element bug */
-	margin                           : 0 3px;
-	padding                          : 0 8px;
-}
-
-#main-blog li a:link,
-#main-blog li a:visited
-{
-	color                            : #FFFFFF;
-	text-decoration                  : none;
-}
-
-#main-blog li a:hover,
-#main-blog li a:active
-{
-	text-decoration                  : none;
-}
-
-#main-blog li:hover a,
-#main-blog li a:hover
-{
-	color                            : #FAFAA0;
-}
-
-#main-blog ul.sub-menu 
-{
-	display                          : none;
-	border                           : none;
-}
-
-#main-blog li:hover ul,
-#main-blog li a:hover table
-{
-	display                          : block !important;
-	width                            : 180px;
-	color                            : #222;
-    position                         : absolute;
-	z-index                          : 100 !important;
-	top                              : 40px; 
-	left                             : 0;
-	border                           : solid 1px #CCC;
-	background-color                 : #EEE;
-	background-image                 : url("./image/bg_menu_selected.png");
-	background-repeat                : no-repeat;
-    filter                           : alpha(opacity=90);
-	opacity                          : .90;
-	background-position              : -130px -33px;
-	padding-bottom                   : 3px;
-}
-
-#main-blog li:hover ul:hover,
-#main-blog li a:hover ul
-{
-	display                          : block;
-	float                            : none;
-	margin                           : 0;
-}
-
-#main-blog li:hover ul li.firstChild,
-#main-blog li a:hover ul li.firstChild
-{
-	margin-top                       : 5px;
-}
-
-#main-blog li:hover ul li.selected,
-#main-blog li a:hover ul li.selected
-{
-	font-weight                      : bold;
-}
-
-#main-blog li:hover ul li,
-#main-blog li a:hover ul li
-{
-	display                          : block;
+	bottom                           : 5px;
+	right                            : 0;
 	width                            : 160px;
-	height                           : 27px;
-	background-image                 : none !important;
+	z-index                          : 510;
 }
 
-#main-blog li:hover ul li:hover,
-#main-blog li a:hover ul li a:hover
+#blog-list
 {
-	background-color                 : #CCC;
-}
-
-#main-blog li:hover ul li.firstChild
-{
-	border-bottom                    : 1px solid #BBB;
-}
-
-#main-blog li:hover ul li.firstChild:hover
-{
-	background-color                 : transparent !important;
-}
-
-#main-blog li:hover ul li a:link,
-#main-blog li:hover ul li a:visited,
-#main-blog li a:hover ul li a:link,
-#main-blog li a:hover ul li a:visited
-{
-	color                            : #222 !important;
-	display                          : block;
-	line-height                      : 27px;
+	width                            : 150px;
 }
 
 /* main menu */
@@ -418,11 +314,6 @@ textarea
 	position                         : fixed;
 	top                              : 0;
 	z-index                          : 200;
-}
-
-#menu-center
-{
-	margin-left                      : 180px !important;
 }
 
 #main-menu
@@ -1283,6 +1174,7 @@ table.data-inbox tbody tr td.inactive-class
 {
 	display                          : inline; 
 	float                            : right; 
+	margin-right                     : 165px !important;
 }
 
 #layout-footer #login-information,

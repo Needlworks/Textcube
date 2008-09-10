@@ -427,9 +427,9 @@ $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 				<hr class="hidden" />
 
 				<div id="main-blog-box">
-					<ul id="main-blog">
-<?php echo User::changeBlog();?>						
-					</ul>
+					<div id="main-blog">
+<?php echo User::changeBlog();?>
+					</div>
 				</div>
 
 				<hr class="hidden" />

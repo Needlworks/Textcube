@@ -183,7 +183,6 @@ class User {
 			return false;
 		}
 	}
-
 	static function changeBlog(){
 		global $database, $blogURL, $blog, $service;
 		$blogid = getBlogId();	
@@ -192,46 +191,19 @@ class User {
 		if (count($blogList) == 0) {
 			return;
 		}
-		define('TAB6',str_repeat(TAB,6));
-		$changeBlogView = TAB6.'<li id="menu-bloglist">'.CRLF;
-		$blogListView = TAB6.TAB.'<!--[if lte IE 6]><table><tr><td><![endif]-->'.CRLF
-			.TAB6.TAB.'<ul id="submenu-bloglist" class="sub-menu">'.CRLF
-			.TAB6.TAB.TAB.'<li id="sub-menu-intro" class="firstChild">'._t('내 블로그 목록').'</li>'.CRLF;
-		$count = false;
-		foreach($blogList as $info){
-			$title = UTF8::lessenAsEm(setting::getBlogSettingGlobal("title",null,$info,true), 25);
-			$title = ($title ? $title : _f('%1 님의 블로그',User::getBlogOwnerName($info)));
-			if($info == $blogid) { // Current Blog.
-				$currentBlog = TAB6.TAB.'<a href="'.$blogURL.'/owner/network/teamblog/changeBlog/?blogid='.$info.'"><span>'.UTF8::lessenAsEm(setting::getBlogSettingGlobal("title",null,$info,true), 25).'</span><!--[if IE 7]><!--></a><!--<![endif]-->'.CRLF;
-			}
-			$blogListView .= TAB6.TAB.TAB.'<li id="sub-menu-'.$info.'"><a href="'.$blogURL.'/owner/network/teamblog/changeBlog/?blogid='.$info.'"><span class="text">'.$title.'</span></a></li>'.CRLF;
-		}
-		$blogListView .=TAB6.TAB.'</ul>'.CRLF
-			.TAB6.TAB.'<!--[if lte IE 6]></td></tr></table></a><![endif]-->'.CRLF;
-		$changeBlogView = $changeBlogView.$currentBlog.$blogListView.TAB6.'</li>'.CRLF;
-		return $changeBlogView;
-	}
-	/*static function changeBlog(){
-		global $database, $blogURL, $blog, $service;
-		$blogid = getBlogId();	
 
-		$blogList = User::getBlogs();
-		if (count($blogList) == 0) {
-			return;
-		}
-
-		$changeBlogView = str_repeat(TAB,7)."<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/network/teamblog/changeBlog/?blogid='+this.value\">".CRLF;
+		$changeBlogView = str_repeat(TAB,6)."<select id=\"blog-list\" onchange=\"location.href='{$blogURL}/owner/network/teamblog/changeBlog/?blogid='+this.value\">".CRLF;
 		foreach($blogList as $info){
 			$title = UTF8::lessen(setting::getBlogSettingGlobal("title",null,$info,true), 30);
 			$title = ($title ? $title : _f('%1 님의 블로그',User::getBlogOwnerName($info)));
-			$changeBlogView .= str_repeat(TAB,8).'<option value="' . $info . '"';
+			$changeBlogView .= str_repeat(TAB,7).'<option value="' . $info . '"';
 			if($info == $blogid) $changeBlogView .= ' selected="selected"';
 			$changeBlogView .= '>' . $title . '</option>'.CRLF;
 		}
-		$changeBlogView .= str_repeat(TAB,7).'</select>'.CRLF;
+		$changeBlogView .= str_repeat(TAB,6).'</select>'.CRLF;
 		return $changeBlogView;
-	}*/
-
+	}
+	
 	static function changeSetting($userid, $email, $nickname) {
 		global $database;
 		if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return false;
@@ -252,8 +224,7 @@ class User {
 		}
 	}
 
-	/*@static@*/
-	function add($email, $name) {
+	static function add($email, $name) {
 		global $database, $service, $user, $blog;
 		if (empty($email))
 			return 1;
