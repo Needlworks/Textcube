@@ -394,11 +394,17 @@ function getInfoFromTrackbackURL($url) {
 		if (preg_match('!^/(.*)/tb/([0-9]+)$!i', $pieces['path'], $match)) {
 			$result['url'] = $host.'/'.$match[1].'/'.$match[2];
 		}
-	} elseif (strtolower(substr($pieces['path'], -12)) == '/rserver.php') {
+	} elseif (stripos($pieces['path'], '/rserver.php') === 0) {
 		$result['service'] = 'tattertools';
 		parse_str($pieces['query'], $query);
-		if (isset($query['mode']) && $query['mode'] == 'tb' && array_key_exists('sl', $query)) {
-			$result['url'] = $host.preg_replace('/rserver\\.php$/i', 'index.php?pl='.$query['sl'], $pieces['path']);
+		if (isset($query['mode']) && $query['mode'] == 'tb' && isset($query['sl'])) {
+			$result['url'] = $host.substr($pieces['path'], 0, -12).'index.php?pl='.$query['sl'];
+		}
+	} elseif (stripos($pieces['path'], '/wp-trackback.php') === 0) {
+		$result['service'] = 'wordpress';
+		parse_str($pieces['query'], $query);
+		if (isset($query['p'])) {
+			$result['url'] = $host.substr($pieces['path'], 0, -16).'?p='.$query['p'];
 		}
 	} elseif (preg_match('!^/(.*)/trackback/([0-9]+)$!i', $pieces['path'], $match)) {
 		$result['service'] = array('textcube', 'tistory');
