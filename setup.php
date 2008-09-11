@@ -1689,7 +1689,7 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
           <a href="<?php echo $blogURL.'/';?>owner"><?php echo $blogURL.'/';?>owner</a></li>
       </ul>
       <p>
-		<?php if (checkIIS()) echo _t('<b>IIS Rewrtie Filter 설정</b>을 해주십시오.<br />'); ?>
+		<?php if (checkIIS()) echo _t('새로 IIS용 Rewrite 모듈을 설치하셨다면 <b>ISAPI Rewrite Filter 설정</b>을 해주십시오.<br />'); ?>
         <?php echo _t('텍스트큐브 관리 툴로 로그인 하신 후 필요사항을 수정해 주십시오.');?><br />
         <?php echo _t('텍스트큐브를 이용해 주셔서 감사합니다.');?>
       </p>
