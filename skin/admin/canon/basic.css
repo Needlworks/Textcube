@@ -286,7 +286,7 @@ textarea
 /* main - blog selector */
 #main-blog-box
 {
-	height                           : 30px;
+	height                           : 27px;
 	line-height                      : 3em;
 	margin-top                       : 0;
 	position                         : fixed;
@@ -299,6 +299,8 @@ textarea
 #blog-list
 {
 	width                            : 150px;
+	color                            : #444;
+	border                           : 1px solid #CCC;
 }
 
 /* main menu */
