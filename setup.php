@@ -30,7 +30,8 @@ if(empty($accessInfo)) {
 	$path = stripPath(substr($_SERVER['PHP_SELF'], 0, strlen($_SERVER['PHP_SELF']) - 12));
 }
 
-define ('ROOT', $root);
+if (!defined('ROOT'))
+	define ('ROOT', $root);
 
 $__requireBasics = array(
 	'config',               // Basics
