@@ -364,7 +364,50 @@ function getTrackbackCountPart($trackbackCount, &$skin) {
 }
 
 function getInfoFromTrackbackURL($url) {
-	$result = array('service'=>'etc','url'=>null,'trackbackURL'=>$url);
+	$url = trim($url);
+	$result = array('service' => 'etc', 'url' => null, 'trackbackURL' => $url);
+
+	$pieces = @parse_url($url);
+	if ($split === false) {
+		return $result;
+	}
+	$pieces['path'] = rtrim($pieces['path'], '/');
+	$host = $pieces['scheme'].'://'.$pieces['host'];
+
+	if ($pieces['host'] == 'blog.naver.com') {
+		$result['service'] = 'naver';
+		if (stripos($url, 'http://blog.naver.com/tb/') === 0) {
+			$result['url'] = 'http://blog.naver.com/'.substr($url, 25);
+		}
+	} elseif (strtolower(substr($pieces['host'], -11)) == '.egloos.com') {
+		$result['service'] = 'egloos';
+		if (stripos($pieces['path'], '/tb/') === 0) {
+			$result['url'] = $host.'/'.substr($pieces['path'], 4);
+		}
+	} elseif ($pieces['host'] == 'kr.blog.yahoo.com') {
+		$result['service'] == 'yahoo';
+		if (preg_match('!^/(.+)/trackback/[0-9]+/([0-9]+)$!i', $pieces['path'], $match)) {
+			$result['url'] = $host.'/'.$match[1].'/'.$match[2];
+		}
+	} elseif ($pieces['host'] == 'blog.daum.net') {
+		$result['service'] = 'daum';
+		if (preg_match('!^/(.*)/tb/([0-9]+)$!i', $pieces['path'], $match)) {
+			$result['url'] = $host.'/'.$match[1].'/'.$match[2];
+		}
+	} elseif (strtolower(substr($pieces['path'], -12)) == '/rserver.php') {
+		$result['service'] = 'tattertools';
+		parse_str($pieces['query'], $query);
+		if (isset($query['mode']) && $query['mode'] == 'tb' && array_key_exists('sl', $query)) {
+			$result['url'] = $host.preg_replace('/rserver\\.php$/i', 'index.php?pl='.$query['sl'], $pieces['path']);
+		}
+	} elseif (preg_match('!^/(.*)/trackback/([0-9]+)$!i', $pieces['path'], $match)) {
+		$result['service'] = array('textcube', 'tistory');
+		$result['url'] = $host.'/'.$match[1].'/'.$match[2];
+	} elseif (preg_match('!^/(.*)/trackback$!i', $pieces['path'], $match)) {
+		$result['service'] = array('wordpress', 'textcube.com');
+		$result['url'] = $host.'/'.$match[1];
+	}
+
 	return $result;
 }
 ?>
