@@ -28,10 +28,8 @@ Textcube 1.5 Requirements
 
 2. For Microsoft Windows :
 
- Currently supports IIS7 only :
-  * Windows Vista / Windows Server 2008
-  * IIS 7.0 or above
-    * with URL Rewrite module
+  * IIS 5.0 or above
+    * with ISAPI Rewrite Filter
   * PHP 5.2 or above
     * with iconv / gd module
   * MySQL 5.0 or above
