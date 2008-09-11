@@ -362,4 +362,9 @@ function getTrackbackCountPart($trackbackCount, &$skin) {
 	
 	return array("tb_count", $trackbackView);
 }
+
+function getInfoFromTrackbackURL($url) {
+	$result = array('service'=>'etc','url'=>null,'trackbackURL'=>$url);
+	return $result;
+}
 ?>
