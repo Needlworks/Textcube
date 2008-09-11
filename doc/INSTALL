@@ -52,7 +52,10 @@ is strongly recommended.
   Step 7: Copy all rewrite rules in .htaccess to IsapiRewrite4.ini as instructed.
           setup.php will generate these rules by recognizing the web server.
   
-  Step 8: Use it just like Textcubes with mod_rewrite enabled.
+  Step 8: Restart the web server or the application pool if you're using FastCGI.
+     
+     NOTE: For 64bit IIS 7.0, you have to turn on 32bit compatibility mode in advanced settings
+           of the application pool to use this rewrite filter properly.
 
   TIPS:
    * Change upload_tmp_dir setting in php.ini to avoid permission problems with file uploads.
