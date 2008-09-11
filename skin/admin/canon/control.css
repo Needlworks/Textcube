@@ -386,7 +386,7 @@ dl dd
 
 #part-control-mailhost
 {
-	margin-bottom: 30px;
+	margin-bottom                    : 30px;
 }
 
 #part-control-rewrite textarea
@@ -407,121 +407,123 @@ dl dd
 /* general information */
 #part-system-generalinfo
 {
-	margin-bottom: 30px;
+	margin-bottom                    : 30px;
+	overflow                         : hidden;
 }
 
 #part-system-generalinfo h3
 {
-	color: #000;
-	font-size: 1.2em;
-	margin: 30px 0 10px 10px;
+	color                            : #000;
+	font-size                        : 1.2em;
+	margin                           : 30px 0 10px 10px;
 }
 
 #part-system-generalinfo h4
 {
-	color: #000;
-	font-size: 1.1em;
-	margin: 30px 0 10px 10px;
+	color                            : #000;
+	font-size                        : 1.1em;
+	margin                           : 30px 0 10px 10px;
 }
 
 #part-system-generalinfo table
 {
-	width: 100%;
+	width                            : 100%;
 }
 
 #part-system-generalinfo table tr th, #part-system-generalinfo table tr td
 {
-	border-bottom: 1px solid #ddd;
-	border-top: 1px solid #ddd;
+	border-bottom                    : 1px solid #ddd;
+	border-top                       : 1px solid #ddd;
 }
 
 #part-system-generalinfo table tr th, #part-system-generalinfo table tr td
 {
-	padding: 5px;
-	text-align: left;
+	padding                          : 5px;
+	text-align                       : left;
 }
 
 #part-system-generalinfo table tbody tr th
 {
-	width: 250px;
+	width                            : 250px;
 }
 
 /* php information */
 #part-system-phpinfo
 {
-	margin-bottom: 30px;
+	margin-bottom                    : 30px;
+	overflow                         : hidden;
 }
 
 #part-system-phpinfo h3
 {
-	color: #000;
-	font-size: 1.2em;
-	margin: 30px 0 10px 10px;
+	color                            : #000;
+	font-size                        : 1.2em;
+	margin                           : 30px 0 10px 10px;
 }
 
 #part-system-phpinfo h4
 {
-	color: #000;
-	font-size: 1.1em;
-	margin: 30px 0 0 10px;
+	color                            : #000;
+	font-size                        : 1.1em;
+	margin                           : 30px 0 0 10px;
 }
 
 #part-system-phpinfo table
 {
-	margin-top: 10px;
-	width: 100%;
+	margin-top                       : 10px;
+	width                            : 100%;
 }
 
 #part-system-phpinfo table thead
 {
-	background-color: #efefef;
+	background-color                 : #efefef;
 }
 
 #part-system-phpinfo table tr th, #part-system-phpinfo table tr td
 {
-	border-bottom: 1px solid #ddd;
-	border-top: 1px solid #ddd;
+	border-bottom                    : 1px solid #ddd;
+	border-top                       : 1px solid #ddd;
 }
 
 #part-system-phpinfo table tr th, #part-system-phpinfo table tr td
 {
-	padding: 5px;
-	text-align: left;
+	padding                          : 5px;
+	text-align                       : left;
 }
 
 #part-system-phpinfo table tbody tr th
 {
-	width: 250px;
+	width                            : 250px;
 }
 
 #part-system-phpinfo form
 {
-	margin-top: -37px;
-	position: relative;
-	right: 10px;
-	text-align: right;
-	z-index: 10;
+	margin-top                       : -37px;
+	position                         : relative;
+	right                            : 10px;
+	text-align                       : right;
+	z-index                          : 10;
 }
 
 #part-system-phpinfo form label
 {
-	display: none;
+	display                          : none;
 }
 
 #PHPLogo
 {
-	margin-top: 30px;
-	text-align: center;
-	width: 150px;
+	margin-top                       : 30px;
+	text-align                       : center;
+	width                            : 150px;
 }
 
 #PHPLogo img
 {
-	border: none;
+	border                           : none;
 }
 
 #part-system-phpinfo table tr td img
 {
-	float: left;
-	margin-right: 10px;
+	float                            : left;
+	margin-right                     : 10px;
 }
