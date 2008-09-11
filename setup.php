@@ -29,6 +29,7 @@ if(empty($accessInfo)) {
 	$root = substr($_SERVER['SCRIPT_FILENAME'], 0, strlen($_SERVER['SCRIPT_FILENAME']) - 12);
 	$path = stripPath(substr($_SERVER['PHP_SELF'], 0, strlen($_SERVER['PHP_SELF']) - 12));
 }
+$_SERVER['PHP_SELF'] = rtrim($_SERVER['PHP_SELF'], '/');
 
 if (!defined('ROOT'))
 	define ('ROOT', $root);
