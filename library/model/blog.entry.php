@@ -971,7 +971,7 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 		POD::execute("UPDATE {$database['prefix']}Entries SET category = $category , visibility = $visibility WHERE blogid = $blogid AND id = $entryId");
 	}	
 
-	if(updateEntriesOfCategory($blogid)) {
+	if(updateEntriesOfCategory($blogid, $category)) {
 		clearFeed();
 		CacheControl::flushDBCache('comment');
 		CacheControl::flushDBCache('trackback');
