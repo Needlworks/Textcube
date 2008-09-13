@@ -1218,14 +1218,14 @@ table.data-inbox tbody tr td.inactive-class
 	display                          : none;
 }
 
-#search
+#search-form .input-text
 {
 	background-image                 : url("./image/bg_search_icon.gif");
 	background-position              : center right;
 	background-repeat                : no-repeat;
 }
 
-#search-box .search-button
+#search-form .search-button
 {
 	display                          : none;
 }
