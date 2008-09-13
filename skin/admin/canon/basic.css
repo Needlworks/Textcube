@@ -454,7 +454,7 @@ textarea
 	opacity                          : .90;
 	background-position              : -130px -33px;
 /*	padding-bottom                   : 10px;*/
-	padding                          : 0 8px 10px 8px;
+	padding                          : 0 0 10px 8px;
 }
 
 #main-menu li:hover ul:hover,
@@ -1201,7 +1201,7 @@ table.data-inbox tbody tr td.inactive-class
 	position                         : fixed !important;
 	top                              : 0; 
 	right                            : 100px;
-	width                            : 250px;
+	width                            : 200px;
 	height                           : 40px;
 	text-align                       : right;
 	z-index                          : 220;
@@ -1218,6 +1218,17 @@ table.data-inbox tbody tr td.inactive-class
 	display                          : none;
 }
 
+#search
+{
+	background-image                 : url("./image/bg_search_icon.gif");
+	background-position              : center right;
+	background-repeat                : no-repeat;
+}
+
+#search-box .search-button
+{
+	display                          : none;
+}
 /* Layout Footer *********************************************************************************/
 
 #layout-footer
