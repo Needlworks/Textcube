@@ -877,7 +877,8 @@ RewriteRule ^testrewrite$ setup.php [L]"
   <input type="hidden" name="dbPrefix" value="<?php echo (isset($_POST['dbPrefix']) ? $_POST['dbPrefix'] : '');?>" />
   <input type="hidden" name="checked" value="<?php echo (isset($_POST['checked']) ? $_POST['checked'] : '');?>" />
   <input type="hidden" name="domain" value="<?php echo $domain;?>" />
-  <input type="hidden" name="disableRewrite" value="<?php echo (isset($_POST['disableRewrite']) ? $_POST['disableRewrite'] : false);?>" />
+  <input type="hidden" name="disableRewrite" value="<?php echo (isset($_POST['disableRewrite']) ? $_POST['disableRewrite'] : '');?>" />
+  <input type="hidden" name="rewriteMode" value="<?php echo ($rewrite == -1) ? 'ISAPI' : 'mod_rewrite';?>" />
   <div id="inner">
   <h2><span class="step"><?php echo _f('%1단계', $step);?></span> : <?php echo _t('사용 가능한 운영 방법은 다음과 같습니다. 선택하여 주십시오.');?></h2>
   <div id="userinput">
@@ -971,7 +972,8 @@ RewriteRule ^testrewrite$ setup.php [L]"
   <input type="hidden" name="dbPrefix" value="<?php echo (isset($_POST['dbPrefix']) ? $_POST['dbPrefix'] : '');?>" />
   <input type="hidden" name="checked" value="<?php echo (isset($_POST['checked']) ? $_POST['checked'] : '');?>" />
   <input type="hidden" name="domain" value="<?php echo (isset($_POST['domain']) ? $_POST['domain'] : '');?>" />
-  <input type="hidden" name="disableRewrite" value="<?php echo (isset($_POST['disableRewrite']) ? $_POST['disableRewrite'] : false);?>" />
+  <input type="hidden" name="disableRewrite" value="<?php echo (isset($_POST['disableRewrite']) ? $_POST['disableRewrite'] : '');?>" />
+  <input type="hidden" name="rewriteMode" value="<?php echo (isset($_POST['rewriteMode']) ? $_POST['rewriteMode'] : '');?>" />
   <input type="hidden" name="type" value="<?php echo (isset($_POST['type']) ? $_POST['type'] : '');?>" />
   <div id="inner">
     <h2><span class="step"><?php echo _f('%1단계', $step);?></span> : <?php echo _t('관리자 정보 입력');?></h2>
@@ -1051,6 +1053,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
   <input type="hidden" name="checked" value="<?php echo (isset($_POST['checked']) ? $_POST['checked'] : '');?>" />
   <input type="hidden" name="domain" value="<?php echo (isset($_POST['domain']) ? $_POST['domain'] : '');?>" />
   <input type="hidden" name="disableRewrite" value="<?php echo (isset($_POST['disableRewrite']) ? $_POST['disableRewrite'] : false);?>" />
+  <input type="hidden" name="rewriteMode" value="<?php echo (isset($_POST['rewriteMode']) ? $_POST['rewriteMode'] : '');?>" />
   <input type="hidden" name="type" value="<?php echo (isset($_POST['type']) ? $_POST['type'] : '');?>" />
   <input type="hidden" name="blog" value="<?php echo (isset($_POST['blog']) ? $_POST['blog'] : '');?>" />
   <div id="inner">
@@ -1623,13 +1626,14 @@ ini_set('display_errors', 'off');
             fclose($fp);
             @chmod($filename, 0666);
         }
-      	if(!isset($_POST['disableRewrite']) || !$_POST['disableRewrite']) { 
+      	if(!isset($_POST['disableRewrite']) || !$_POST['disableRewrite']) {
 	        $filename = $root . '/.htaccess';
     	    $fp = fopen($filename, 'w+');
         
-        if (checkIIS()) {
-			// Users must copy these rules to IsapiRewrite4.ini
-			$htaccessContent = 
+			switch ($_POST['rewriteMode']) {
+			case 'ISAPI':
+				// Users must copy these rules to IsapiRewrite4.ini
+				$htaccessContent = 
 "RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^$path/(cache)+/+(.+[^/])\.(cache|xml|txt|log)$ - [NC,F,L,U]
 RewriteCond %{REQUEST_FILENAME} -d
@@ -1640,8 +1644,10 @@ RewriteCond %{QUERY_STRING} ^$
 RewriteRule ^$path/(.*)$ $path/rewrite.php [L,U]
 RewriteRule ^$path/(.*)$ $path/rewrite.php?%{QUERY_STRING} [L,U]
 ";
-        } else {
-			$htaccessContent = 
+				break;
+			case 'mod_rewrite':
+			default:
+				$htaccessContent = 
 "#<IfModule mod_url.c>
 #CheckURL Off
 #</IfModule>
@@ -1656,7 +1662,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(thumbnail)/([0-9]+/.+)$ cache/$1/$2 [L]
 RewriteRule ^(.*)$ rewrite.php [L,QSA]
 ";
-		}
+			}
 
     	    if ($fp) {
         	    fwrite($fp, $htaccessContent);
