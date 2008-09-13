@@ -97,7 +97,7 @@ if(defined('__TEXTCUBE_READER_SUBMENU__'))
 					</ul>
 				</div>
 				<div id="search-form">
-					<div class="section">
+					<div id="search-box" class="section">
 						<input type="text" id="keyword" class="input-text" onkeydown="if(event.keyCode==13) Reader.showSearch()" />
 						<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="Reader.showSearch(); return false;" />
 					</div>
