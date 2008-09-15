@@ -347,6 +347,7 @@ textarea
 #main-menu #menu-control 
 {
 	width                            : 40px;
+	background-color                 : #FFFFFF;
 }
 
 #main-menu #menu-center
@@ -417,11 +418,17 @@ textarea
 #main-menu li.selected
 {
 	color                            : #ADFF2F;
+	background-color                 : #ADFF2F !important;
 }
 
 #main-menu li.selected a
 {
 	color                            : #ADFF2F !important;
+}
+
+#main-menu li:hover
+{
+	background-color                 : #FAFAA0 !important;
 }
 
 #main-menu li:hover a,
