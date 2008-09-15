@@ -371,47 +371,111 @@ function getInfoFromTrackbackURL($url) {
 	if ($split === false) {
 		return $result;
 	}
+	$pieces['host'] = strtolower($pieces['host']);
 	$pieces['path'] = rtrim($pieces['path'], '/');
+
 	$host = $pieces['scheme'].'://'.$pieces['host'];
 
-	if ($pieces['host'] == 'blog.naver.com') {
-		$result['service'] = 'naver';
-		if (stripos($url, 'http://blog.naver.com/tb/') === 0) {
-			$result['url'] = 'http://blog.naver.com/'.substr($url, 25);
-		}
-	} elseif (strtolower(substr($pieces['host'], -11)) == '.egloos.com') {
-		$result['service'] = 'egloos';
-		if (stripos($pieces['path'], '/tb/') === 0) {
-			$result['url'] = $host.'/'.substr($pieces['path'], 4);
-		}
-	} elseif ($pieces['host'] == 'kr.blog.yahoo.com') {
-		$result['service'] == 'yahoo';
-		if (preg_match('!^/(.+)/trackback/[0-9]+/([0-9]+)$!i', $pieces['path'], $match)) {
-			$result['url'] = $host.'/'.$match[1].'/'.$match[2];
-		}
-	} elseif ($pieces['host'] == 'blog.daum.net') {
-		$result['service'] = 'daum';
-		if (preg_match('!^/(.*)/tb/([0-9]+)$!i', $pieces['path'], $match)) {
-			$result['url'] = $host.'/'.$match[1].'/'.$match[2];
-		}
-	} elseif (stripos($pieces['path'], '/rserver.php') === 0) {
-		$result['service'] = 'tattertools';
-		parse_str($pieces['query'], $query);
-		if (isset($query['mode']) && $query['mode'] == 'tb' && isset($query['sl'])) {
-			$result['url'] = $host.substr($pieces['path'], 0, -12).'index.php?pl='.$query['sl'];
-		}
-	} elseif (stripos($pieces['path'], '/wp-trackback.php') === 0) {
-		$result['service'] = 'wordpress';
-		parse_str($pieces['query'], $query);
-		if (isset($query['p'])) {
-			$result['url'] = $host.substr($pieces['path'], 0, -16).'?p='.$query['p'];
-		}
-	} elseif (preg_match('!^/(.*)/trackback/([0-9]+)$!i', $pieces['path'], $match)) {
-		$result['service'] = array('textcube', 'tistory');
-		$result['url'] = $host.'/'.$match[1].'/'.$match[2];
-	} elseif (preg_match('!^/(.*)/trackback$!i', $pieces['path'], $match)) {
-		$result['service'] = array('wordpress', 'textcube.com');
-		$result['url'] = $host.'/'.$match[1];
+	switch ($pieces['host']) {
+		case 'blog.naver.com':
+			$result['service'] = 'naver';
+			if (stripos($url, 'http://blog.naver.com/tb/') === 0) {
+				$result['url'] = 'http://blog.naver.com/'.substr($url, 25);
+			}
+			break;
+		case 'kr.blog.yahoo.com':
+			$result['service'] == 'yahoo';
+			if (preg_match('!^(.+)/trackback/[0-9]+/([0-9]+)$!i', $pieces['path'], $match)) {
+				$result['url'] = $host.$match[1].'/'.$match[2];
+			}
+			break;
+		case 'blog.daum.net':
+		case 'blog.empas.com':
+			$result['service'] = ($pieces['host'] == 'blog.daum.net' ? 'daum' : 'empas');
+			if (preg_match('!^(.+)/tb/(.+)$!i', $pieces['path'], $match)) {
+				$result['url'] = $host.$match[1].'/'.$match[2];
+			}
+			break;
+		case 'cyhome.cyworld.com':
+			$result['service'] = 'cyworld blog';
+			$result['url'] = null;
+			break;
+		case 'cytb.cyworld.com':
+			$result['service'] = 'cyworld paper';
+			$result['url'] = 'http://paper.cyworld.com'.$pieces['path'];
+			break;
+		case 'blog.paran.com':
+			$result['service'] = 'paran';
+			$result['url'] = null;
+			break;
+		case 'blog.jinbo.net':
+			$result['service'] = 'jinbo.net';
+			if (substr($pieces['path'], -14) == '/trackback.php') {
+				$result['url'] = $host.substr($pieces['path'], 0, -13).'?'.$pieces['query'];
+			}
+			break;
+		case 'blog.dreamwiz.com':
+			$result['service'] = 'dreamwiz';
+			$result['url'] = $result['trackbackURL'];
+			break;
+		case 'blog.hani.co.kr':
+			$result['service'] = 'hani';
+			if (preg_match('!^(.+)/tb/(.+)$!i', $pieces['path'], $match)) {
+				$result['url'] = $host.$match[1].'/'.$match[2];
+			}
+			break;
+		case 'blog.ohmynews.com':
+			$result['service'] = 'ohmynews';
+			if (preg_match('!^(.+)/rmfdurrl/(.+)$!i', $pieces['path'], $match)) {
+				$result['url'] = $host.$match[1].'/'.$match[2];
+			}
+			break;
+		case 'blog.joins.com':
+			$result['service'] = 'joins';
+			$result['url'] = $result['trackbackURL'];
+			break;
+		case 'blog.aladdin.co.kr':
+			$result['service'] = 'aladdin';
+			if (stripos($pieces['path'], '/trackback/') === 0) {
+				$result['url'] = $host.'/'.substr($pieces['path'], 11);
+			}
+			break;
+		default:
+			if (substr($pieces['host'], -11) == '.egloos.com') {
+				$result['service'] = 'egloos';
+				if (stripos($pieces['path'], '/tb/') === 0) {
+					$result['url'] = $host.'/'.substr($pieces['path'], 4);
+				}
+			} elseif (substr($pieces['host'], -16) == '.spaces.live.com') {
+				$result['service'] = 'live.com';
+				if (strtolower(substr($pieces['path'], -5)) == '.trak') {
+					$result['url'] = $host.substr($pieces['path'], 0, -5).'.entry';
+				}
+			} elseif ($pieces['host'] == 'www.mediamob.co.kr' || $pieces['host'] == 'mediamob.co.kr') {
+				$result['service'] = 'mediamob';
+				if (strtolower(substr($pieces['path'], -8)) == '/tb.aspx') {
+					$result['url'] = $host.substr($pieces['path'], 0, -8).'/Blog.aspx?'.$pieces['query'];
+				}
+			} elseif (stripos($pieces['path'], '/rserver.php') === 0) {
+				$result['service'] = 'tattertools';
+				parse_str($pieces['query'], $query);
+				if (isset($query['mode']) && $query['mode'] == 'tb' && isset($query['sl'])) {
+					$result['url'] = $host.substr($pieces['path'], 0, -12).'index.php?pl='.$query['sl'];
+				}
+			} elseif (stripos($pieces['path'], '/wp-trackback.php') === 0) {
+				$result['service'] = 'wordpress';
+				parse_str($pieces['query'], $query);
+				if (isset($query['p'])) {
+					$result['url'] = $host.substr($pieces['path'], 0, -16).'?p='.$query['p'];
+				}
+			} elseif (preg_match('!^(.*)/trackback/([0-9]+)$!i', $pieces['path'], $match)) {
+				$result['service'] = array('textcube', 'tistory', 'innori');
+				$result['url'] = $host.$match[1].'/'.$match[2];
+			} elseif (preg_match('!^(.+)/trackback$!i', $pieces['path'], $match)) {
+				$result['service'] = array('wordpress', 'textcube.com');
+				$result['url'] = $host.$match[1];
+			}
+			break;
 	}
 
 	return $result;
