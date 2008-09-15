@@ -434,8 +434,9 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
 	}
 }
 
-if (((!file_exists(ROOT . '/cache/CHECKUP')) || (file_get_contents(ROOT . '/cache/CHECKUP') != TEXTCUBE_VERSION)) && ($succeed == true)) {
-	if ($fp = fopen(ROOT . '/cache/CHECKUP', 'w')) {
+if (((!file_exists(ROOT . '/cache/CHECKUP')) || (trim(file_get_contents(ROOT . '/cache/CHECKUP')) != TEXTCUBE_VERSION)) && ($succeed == true)) {
+	$fp = fopen(ROOT . '/cache/CHECKUP', 'w');
+	if ($fp !== FALSE) {
 		fwrite($fp, TEXTCUBE_VERSION);
 		fclose($fp);
 		@chmod(ROOT . '/cache/CHECKUP', 0666);

@@ -196,7 +196,9 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										window.location.href = "<?php echo $blogURL;?>/checkup";
 								}
 <?php
-} else if (file_get_contents(ROOT . '/cache/CHECKUP') != TEXTCUBE_VERSION) {
+} else {
+	$current_version = trim(file_get_contents(ROOT . '/cache/CHECKUP'));
+	if ($current_version != TEXTCUBE_VERSION) {
 ?>
 								
 								window.addEventListener("load", checkTextcubeVersion, false);
@@ -205,6 +207,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										window.location.href = "<?php echo $blogURL;?>/checkup";
 								}
 <?php
+	}
 }
 if(Acl::check("group.administrators")) {
 ?>
