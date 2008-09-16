@@ -231,7 +231,19 @@ textarea
 	color                            : #222;
 	padding                          : 4px 20px 0 0;
 }
+/* main action box */
 
+#main-action-box
+{
+	position:absolute;
+	left : 10px;
+top :0;
+}
+#main-action li 
+{
+	float:left;
+	display:block;
+}
 #description-logout a
 {
 	background-image                 : url("./image/img_logout.gif");

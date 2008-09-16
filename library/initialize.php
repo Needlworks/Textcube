@@ -97,11 +97,11 @@ if (!defined('NO_INITIALIZAION')) {
 		$adminSkinSetting = array();
 		$adminSkinSetting['skin'] = "/skin/admin/".getBlogSetting("adminSkin", "canon");
 		// 1.5에서 올라온 경우 스킨이 있는 경우를 위한 workaround.
-		if(($adminSkinSetting['skin'] == '/skin/admin/default') ||
+/*		if(($adminSkinSetting['skin'] == '/skin/admin/default') ||
 		 ($adminSkinSetting['skin'] == '/skin/admin/whitedream')) {
 			setBlogSetting("adminSkin", "canon");
 			$adminSkinSetting['skin'] = "/skin/admin/canon";
-		}
+		}*/
 
 		// content 본문에 removeAllTags()가 적용되는 것을 방지하기 위한 프로세스를 위한 변수.
 		$contentContainer = array();

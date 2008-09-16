@@ -383,13 +383,12 @@ h3
 /* tag and location -----------------------------------------------------------------------------*/
 #taglocal-section
 {
-/*	background-color                 : #F2F2F2 !important;*/
-/*	margin                           : 0 20px 0 0;*/
+	background-color                 : #F2F2F2 !important;
 	margin                           : 0;
 	padding                          : 5px 5px 0 5px;
 	width                            : 570px !important;
 	height                           : 75px;
-	float                            : right !important;
+/*	float                            : right !important;*/
 }
 
 #taglocal-section dl
