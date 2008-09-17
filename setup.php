@@ -29,8 +29,10 @@ if(empty($accessInfo)) {
 	$root = substr($_SERVER['SCRIPT_FILENAME'], 0, strlen($_SERVER['SCRIPT_FILENAME']) - 12);
 	$path = stripPath(substr($_SERVER['PHP_SELF'], 0, strlen($_SERVER['PHP_SELF']) - 12));
 }
+$_SERVER['PHP_SELF'] = rtrim($_SERVER['PHP_SELF'], '/');
 
-define ('ROOT', $root);
+if (!defined('ROOT'))
+	define ('ROOT', $root);
 
 $__requireBasics = array(
 	'config',               // Basics
@@ -381,7 +383,7 @@ function checkStep($step, $check = true) {
 					return false;
 				}
 			}
-            if (!empty($_POST['checked']))
+            if (!empty($_POST['checked']) && $_POST['checked'] == 'yes')
                 return true;
         }
 		if ($_POST['mode'] == 'uninstall')
@@ -766,6 +768,18 @@ xml_set_object
 <?php
         if ($step == 33) {
             $error = 16;
+            if (checkIIS()) {
+?>
+	<h3><?php echo _t('IIS Rewrite Module');?></h3>
+	<ul style="color:red">
+		<li><?php echo _t('현재 IIS에서의 설치는 실험적으로만 지원하고 있으며 별도의 Rewrite 모듈을 사용해야 합니다.').' '._t('만약 이 페이지를 보고 계시다면 Apache mod_rewrite와 호환되지 않는 모듈을 사용 중이거나 아예 모듈이 없는 경우입니다.'); ?></li>
+		<li><?php echo _t('텍스트큐브와 호환되는 IIS용 Rewrite 모듈을 설치하려면, 오픈스소 무료 모듈을 제공하고 있는 <a href="http://www.codeplex.com/IIRF" target="_blank">Ionics Isapi Rewrite Filter 홈페이지</a>를 방문하십시오.'); ?></li>
+		<li><?php echo _t('여기서 계속 진행하여 설치를 완료한 후, 생성된 <b>.htaccess</b> 파일의 내용을 위 모듈의 설정파일(<b>IsapiRewrite4.ini</b>)에 복사하시기 바랍니다.'); ?></li>
+		<input type="hidden" name="rewriteIIS" value="yes" />
+	</ul>
+<?php
+				$error = 0;
+			} else {
 ?>
     <h3><?php echo _t('Apache Rewrite Engine');?></h3>
     <ul style="color:red">
@@ -795,6 +809,7 @@ xml_set_object
       </ul>
     </ul>
 <?php
+			}
         }
 ?>
   </div>
@@ -803,7 +818,7 @@ xml_set_object
     <a href="#" onclick="next(); return false;" title="<?php echo _t('다음');?>"><img src="style/setup/image/icon_next.gif" width="74" height="24" alt="<?php echo _t('다음');?>" /></a>
   </div>
   </div>
-  <input type="hidden" name="checked" value="<?php echo ($error ? '' : 'checked');?>" />
+  <input type="hidden" name="checked" value="<?php echo ($error > 0 ? 'no' : 'yes');?>" />
 <?php
     }
     else if ($step == 5) {
@@ -812,7 +827,7 @@ xml_set_object
                 return true;
         }
 		// mod_rewrite routine.
-		if(empty($_POST['disableRewrite'])) {
+		if(empty($_POST['disableRewrite']) && empty($_POST['rewriteIIS'])) {
 	        $filename = $root . '/.htaccess';
     	    $fp = fopen($filename, 'w+');
 	        if (!$fp) {
@@ -840,6 +855,8 @@ RewriteRule ^testrewrite$ setup.php [L]"
 				return false;
 			}
 			@unlink($filename);
+		} else if (!empty($_POST['rewriteIIS'])) {
+			$rewrite = -1;
 		} else {
 			$rewrite = 0;
 		}
@@ -854,13 +871,14 @@ RewriteRule ^testrewrite$ setup.php [L]"
   <input type="hidden" name="dbPrefix" value="<?php echo (isset($_POST['dbPrefix']) ? $_POST['dbPrefix'] : '');?>" />
   <input type="hidden" name="checked" value="<?php echo (isset($_POST['checked']) ? $_POST['checked'] : '');?>" />
   <input type="hidden" name="domain" value="<?php echo $domain;?>" />
-  <input type="hidden" name="disableRewrite" value="<?php echo (isset($_POST['disableRewrite']) ? $_POST['disableRewrite'] : false);?>" />
+  <input type="hidden" name="disableRewrite" value="<?php echo (isset($_POST['disableRewrite']) ? $_POST['disableRewrite'] : '');?>" />
+  <input type="hidden" name="rewriteMode" value="<?php echo ($rewrite == -1) ? 'ISAPI' : 'mod_rewrite';?>" />
   <div id="inner">
   <h2><span class="step"><?php echo _f('%1단계', $step);?></span> : <?php echo _t('사용 가능한 운영 방법은 다음과 같습니다. 선택하여 주십시오.');?></h2>
   <div id="userinput">
     <table class="inputs">
 <?php
-        if ($rewrite >= 1) {
+        if ($rewrite != 0) {
 ?>
       <tr>
         <th width="120"><strong><?php echo _t('다중 사용자');?> : </strong></th>
@@ -874,7 +892,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
 <?php
             }
 ?>
-        <label for="type2"><input type="radio" id="type2" name="type" value="path"<?php echo ($rewrite == 1 ? ' checked="checked"' : '');?> onclick="show('typePath');" />
+        <label for="type2"><input type="radio" id="type2" name="type" value="path"<?php echo (($rewrite == 1 || $rewrite == -1) ? ' checked="checked"' : '');?> onclick="show('typePath');" />
         <?php echo _t('하위 경로(Path)로 블로그 식별');?></label></td>
       </tr>
 <?php
@@ -948,7 +966,8 @@ RewriteRule ^testrewrite$ setup.php [L]"
   <input type="hidden" name="dbPrefix" value="<?php echo (isset($_POST['dbPrefix']) ? $_POST['dbPrefix'] : '');?>" />
   <input type="hidden" name="checked" value="<?php echo (isset($_POST['checked']) ? $_POST['checked'] : '');?>" />
   <input type="hidden" name="domain" value="<?php echo (isset($_POST['domain']) ? $_POST['domain'] : '');?>" />
-  <input type="hidden" name="disableRewrite" value="<?php echo (isset($_POST['disableRewrite']) ? $_POST['disableRewrite'] : false);?>" />
+  <input type="hidden" name="disableRewrite" value="<?php echo (isset($_POST['disableRewrite']) ? $_POST['disableRewrite'] : '');?>" />
+  <input type="hidden" name="rewriteMode" value="<?php echo (isset($_POST['rewriteMode']) ? $_POST['rewriteMode'] : '');?>" />
   <input type="hidden" name="type" value="<?php echo (isset($_POST['type']) ? $_POST['type'] : '');?>" />
   <div id="inner">
     <h2><span class="step"><?php echo _f('%1단계', $step);?></span> : <?php echo _t('관리자 정보 입력');?></h2>
@@ -1028,6 +1047,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
   <input type="hidden" name="checked" value="<?php echo (isset($_POST['checked']) ? $_POST['checked'] : '');?>" />
   <input type="hidden" name="domain" value="<?php echo (isset($_POST['domain']) ? $_POST['domain'] : '');?>" />
   <input type="hidden" name="disableRewrite" value="<?php echo (isset($_POST['disableRewrite']) ? $_POST['disableRewrite'] : false);?>" />
+  <input type="hidden" name="rewriteMode" value="<?php echo (isset($_POST['rewriteMode']) ? $_POST['rewriteMode'] : '');?>" />
   <input type="hidden" name="type" value="<?php echo (isset($_POST['type']) ? $_POST['type'] : '');?>" />
   <input type="hidden" name="blog" value="<?php echo (isset($_POST['blog']) ? $_POST['blog'] : '');?>" />
   <div id="inner">
@@ -1600,25 +1620,43 @@ ini_set('display_errors', 'off');
             fclose($fp);
             @chmod($filename, 0666);
         }
-      	if(!isset($_POST['disableRewrite']) || !$_POST['disableRewrite']) { 
+      	if(!isset($_POST['disableRewrite']) || !$_POST['disableRewrite']) {
 	        $filename = $root . '/.htaccess';
     	    $fp = fopen($filename, 'w+');
         
-		$htaccessContent = 
+			switch ($_POST['rewriteMode']) {
+			case 'ISAPI':
+				// Users must copy these rules to IsapiRewrite4.ini
+				$htaccessContent = 
+"RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^$path/(cache)+/+(.+[^/])\.(cache|xml|txt|log)$ - [NC,F,L,U]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^$path/([^?]+[^/])$ $path/$1/ [L,U]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^$path/(thumbnail)/([0-9]+/.+)$ $path/cache/$1/$2 [L,U]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^$path/(.*)$ $path/rewrite.php [L,U]
+RewriteRule ^$path/(.*)$ $path/rewrite.php?%{QUERY_STRING} [L,U]
+";
+				break;
+			case 'mod_rewrite':
+			default:
+				$htaccessContent = 
 "#<IfModule mod_url.c>
 #CheckURL Off
 #</IfModule>
 #SetEnv PRELOAD_CONFIG 1
 RewriteEngine On
 RewriteBase $path/
-RewriteRule ^(thumbnail)/([0-9]+/.+)$ cache/$1/$2 [L]
 RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^(cache)+/+(.+[^/])\.(cache|xml|txt|log)$ - [NC,F,L]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^(.+[^/])$ $1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(thumbnail)/([0-9]+/.+)$ cache/$1/$2 [L]
 RewriteRule ^(.*)$ rewrite.php [L,QSA]
 ";
+			}
 
     	    if ($fp) {
         	    fwrite($fp, $htaccessContent);
@@ -1653,6 +1691,7 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
           <a href="<?php echo $blogURL.'/';?>owner"><?php echo $blogURL.'/';?>owner</a></li>
       </ul>
       <p>
+		<?php if (checkIIS()) echo _t('새로 IIS용 Rewrite 모듈을 설치하셨다면 <b>ISAPI Rewrite Filter 설정</b>을 해주십시오.<br />'); ?>
         <?php echo _t('텍스트큐브 관리 툴로 로그인 하신 후 필요사항을 수정해 주십시오.');?><br />
         <?php echo _t('텍스트큐브를 이용해 주셔서 감사합니다.');?>
       </p>
@@ -1890,6 +1929,12 @@ function testMyself($host, $path, $port)
 	if( function_exists('socket_create') ) {
 		return testMyself_socket($host,$path,$port);
 	}
+	return false;
+}
+
+function checkIIS() {
+	if (strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== FALSE)
+		return true;
 	return false;
 }
 

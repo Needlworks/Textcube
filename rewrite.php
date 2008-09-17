@@ -9,8 +9,13 @@
 		if(isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) $_SERVER['REQUEST_URI'] .= '?'.$_SERVER['QUERY_STRING'];
 	}
 	if (!empty($_SERVER['PRELOAD_CONFIG']) && file_exists('config.php')) require_once ROOT."/config.php";
-	if (isset($_SERVER['HTTP_X_ORIGINAL_URL']))
+	// IIS 7.0 and URL Rewrite Module CTP, but non-ASCII URLs are NOT supported.
+	if (isset($_SERVER['HTTP_X_ORIGINAL_URL'])) {
 		$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_ORIGINAL_URL'];
+	} // IIS 5.x/6.0/7.0 and Ionics ISAPI Rewrite Filter
+	else if (isset($_SERVER['HTTP_X_REWRITE_URL'])) {
+		$_SERVER['REQUEST_URI'] = urldecode($_SERVER['HTTP_X_REWRITE_URL']);
+	}
 	/* Retrieve Access Parameter Information. */
 	$accessInfo = array(
 		'host'     => $_SERVER['HTTP_HOST'],
