@@ -13,7 +13,7 @@
 	if (isset($_SERVER['HTTP_X_ORIGINAL_URL'])) {
 		$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_ORIGINAL_URL'];
 	} // IIS 5.x/6.0/7.0 and Ionics ISAPI Rewrite Filter
-	else if (isset($_SERVER['HTTP_X_REWRITE_URL'])) {
+	else if (isset($_SERVER['HTTP_X_REWRITE_URL']) && strpos($_SERVER['REQUEST_URI'], 'rewrite.php') !== FALSE) {
 		$_SERVER['REQUEST_URI'] = urldecode($_SERVER['HTTP_X_REWRITE_URL']);
 	}
 	/* Retrieve Access Parameter Information. */
