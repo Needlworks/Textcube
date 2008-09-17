@@ -73,6 +73,8 @@ dd .input-text
 	font-size                        : 1.3em;
 	padding                          : 3px 0 3px 5px;
 	width                            : 208px;
+	-moz-border-radius               : 4px;
+	-webkit-border-radius            : 4px;
 }
 
 hr
@@ -102,6 +104,8 @@ hr
 {
 	background-color                 : #FFFFFF;
 	background-image                 : none !important;
+	-moz-border-radius               : 3px;
+	-webkit-border-radius            : 3px;
 	font-weight                      : bold;
 	height                           : 3em;
 	line-height                      : 3em;
