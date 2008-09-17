@@ -36,6 +36,7 @@ final class Session {
 	
 	public static function read($id) {
 		global $database, $service;
+		$query = "SELECT data FROM {$database['prefix']}Sessions WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND updated >= (UNIX_TIMESTAMP() - {$service['timeout']})";
 		if ($result = self::query("SELECT data FROM {$database['prefix']}Sessions 
 			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND updated >= (UNIX_TIMESTAMP() - {$service['timeout']})")) {
 			return $result;
@@ -54,9 +55,10 @@ final class Session {
 		if( empty($userid) ) $userid = 'null';
 		$data = POD::escapeString($data);
 		$server = POD::escapeString($_SERVER['HTTP_HOST']);
-		$request = POD::escapeString($_SERVER['REQUEST_URI']);
+		$request = POD::escapeString(substr($_SERVER['REQUEST_URI'], 0, 255));
 		$referer = isset($_SERVER['HTTP_REFERER']) ? POD::escapeString($_SERVER['HTTP_REFERER']) : '';
 		$timer = Timer::getMicroTime() - self::$sessionMicrotime;
+		$query = "UPDATE {$database['prefix']}Sessions SET userid = $userid, data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'";
 		$result = POD::queryCount("UPDATE {$database['prefix']}Sessions 
 				SET userid = $userid, data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() 
 				WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
