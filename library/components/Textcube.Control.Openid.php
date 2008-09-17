@@ -156,10 +156,12 @@ class OpenIDSession {
 
 class OpenIDConsumer extends OpenID {
 	function OpenIDConsumer($tid = null) {
-		require_once OPENID_LIBRARY_ROOT."Auth/OpenID/Consumer.php";
-		require_once OPENID_LIBRARY_ROOT."Auth/OpenID/FileStore.php";
-		require_once OPENID_LIBRARY_ROOT."Auth/OpenID/SReg.php";
-		require_once OPENID_LIBRARY_ROOT."Auth/OpenID/AX.php";
+		set_include_path(get_include_path() . PATH_SEPARATOR . OPENID_LIBRARY_ROOT);
+		require_once "Auth/OpenID/Consumer.php";
+		require_once "Auth/OpenID/FileStore.php";
+		require_once "Auth/OpenID/SReg.php";
+		require_once "Auth/OpenID/AX.php";
+		restore_include_path();
 
 		$store_path = ROOT . "/cache/_php_consumer";
 
