@@ -8,7 +8,7 @@ define( 'SESSION_OPENID_USERID', -1 );
 final class Session {
 	private static $sessionMicrotime;
 	private static $sessionName = null;
-	
+	private static $sessionDBRepair = null;	
 	function __construct() {
 		$sessionMicrotime = Timer::getMicroTime();
 	}
@@ -203,52 +203,52 @@ final class Session {
 
 	/* Customized queryset (for recovering Session tables) */
 	private static function query($sql) {
-		global $database, $sessionDBRepair;
+		global $database;
 		$result = POD::queryCell($sql);
 		if($result === false) {
-			if (!isset($sessionDBRepair)) {		
+			if (self::$sessionDBRepair === false) {		
 				@POD::query("REPAIR TABLE {$database['prefix']}Sessions, SessionVisits");
 				$result = POD::queryCell($sql);
-				$sessionDBRepair = true;
+				self::$sessionDBRepair = true;
 			}
 		}
 		return $result;
 	}
 	
 	private static function queryAll($sql) {
-		global $database, $sessionDBRepair;
+		global $database;
 		$result = POD::queryAll($sql);
 		if($result === false) {
-			if (!isset($sessionDBRepair)) {		
+			if (self::$sessionDBRepair === false) {		
 				@POD::query("REPAIR TABLE {$database['prefix']}Sessions, {$database['prefix']}SessionVisits");
 				$result = POD::queryAll($sql);
-				$sessionDBRepair = true;
+				self::$sessionDBRepair = true;
 			}
 		}
 		return $result;
 	}
 
 	private static function queryCell($sql) {
-		global $database, $sessionDBRepair;
+		global $database;
 		$result = POD::queryCell($sql);
 		if($result === false) {
-			if (!isset($sessionDBRepair)) {		
+			if (self::$sessionDBRepair === false) {		
 				@POD::query("REPAIR TABLE {$database['prefix']}Sessions, {$database['prefix']}SessionVisits");
 				$result = POD::queryCell($sql);
-				$sessionDBRepair = true;
+				self::$sessionDBRepair = true;
 			}
 		}
 		return $result;
 	}
 
 	private static function execute($sql) {
-		global $database, $sessionDBRepair;
+		global $database;
 		$result = POD::execute($sql);
 		if($result === false) {
-			if (!isset($sessionDBRepair)) {		
+			if (self::$sessionDBRepair === false) {		
 				@POD::query("REPAIR TABLE {$database['prefix']}Sessions, {$database['prefix']}SessionVisits");
 				$result = POD::execute($sql);
-				$sessionDBRepair = true;
+				self::$sessionDBRepair = true;
 			}
 		}
 		return $result;
