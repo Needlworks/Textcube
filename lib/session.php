@@ -202,10 +202,11 @@ function authorizeSession($blogid, $userid) {
 
 
 function sessionQuery($mode = 'query', $sql) {
-	global $database, $sessionDBRepair;
+	global $database;
+	static $sessionDBRepair = false;
 	$result = _sessionQuery($mode, $sql);
 	if($result === false) {
-		if (!isset($sessionDBRepair)) {		
+		if ($sessionDBRepair === false) {		
 			@POD::query("REPAIR TABLE {$database['prefix']}Sessions, {$database['prefix']}SessionVisits");
 			$result = _sessionQuery($mode, $sql);
 			$sessionDBRepair = true;
