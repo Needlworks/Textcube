@@ -67,14 +67,14 @@ final class Session {
 	
 	public static function destroy($id, $setCookie = false) {
 		global $database;
-		@POD::query("DELETE FROM {$database['prefix']}Sessions 
+		@self::query("DELETE FROM {$database['prefix']}Sessions 
 			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 		self::gc();
 	}
 	
 	public static function gc($maxLifeTime = false) {
 		global $database, $service;
-		@POD::query("DELETE FROM {$database['prefix']}Sessions 
+		@self::query("DELETE FROM {$database['prefix']}Sessions 
 			WHERE updated < (UNIX_TIMESTAMP() - {$service['timeout']})");
 		$result = @self::queryAll("SELECT DISTINCT v.id, v.address 
 			FROM {$database['prefix']}SessionVisits v 
@@ -85,7 +85,7 @@ final class Session {
 			foreach ($result as $g)
 				array_push($gc, $g);
 			foreach ($gc as $g)
-				@POD::query("DELETE FROM {$database['prefix']}SessionVisits WHERE id = '{$g[0]}' AND address = '{$g[1]}'");
+				@self::query("DELETE FROM {$database['prefix']}SessionVisits WHERE id = '{$g[0]}' AND address = '{$g[1]}'");
 		}
 		return true;
 	}
@@ -129,7 +129,7 @@ final class Session {
 	public static function isAuthorized($id) {
 		/* OpenID and Admin sessions are treated as authorized ones*/
 		global $database;
-		$result = POD::queryCell("SELECT id 
+		$result = self::queryCell("SELECT id 
 			FROM {$database['prefix']}Sessions 
 			WHERE id = '$id' 
 				AND address = '{$_SERVER['REMOTE_ADDR']}' 
@@ -141,7 +141,7 @@ final class Session {
 	
 	public static function isGuestOpenIDSession($id) {
 		global $database;
-		$result = POD::queryCell("SELECT id 
+		$result = self::queryCell("SELECT id 
 			FROM {$database['prefix']}Sessions 
 			WHERE id = '$id' 
 				AND address = '{$_SERVER['REMOTE_ADDR']}' AND userid < 0");
@@ -177,7 +177,7 @@ final class Session {
 			$_SESSION['userid'] = $userid;
 			$id = session_id();
 			if( self::isGuestOpenIDSession($id) ) {
-				$result = POD::execute("UPDATE {$database['prefix']}Sessions
+				$result = self::execute("UPDATE {$database['prefix']}Sessions
 					set userid = $userid WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 				if ($result) {
 					return true;
@@ -188,7 +188,7 @@ final class Session {
 			return true;
 		for ($i = 0; $i < 100; $i++) {
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-			$result = POD::execute("INSERT INTO {$database['prefix']}Sessions
+			$result = self::execute("INSERT INTO {$database['prefix']}Sessions
 				(id, address, userid, created, updated) 
 				VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', $userid, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 			if ($result) {
@@ -200,13 +200,14 @@ final class Session {
 		}
 		return false;
 	}
-	
+
+	/* Customized queryset (for recovering Session tables) */
 	private static function query($sql) {
 		global $database, $sessionDBRepair;
 		$result = POD::queryCell($sql);
 		if($result === false) {
 			if (!isset($sessionDBRepair)) {		
-				POD::query("REPAIR TABLE {$database['prefix']}Sessions");
+				@POD::query("REPAIR TABLE {$database['prefix']}Sessions, SessionVisits");
 				$result = POD::queryCell($sql);
 				$sessionDBRepair = true;
 			}
@@ -219,8 +220,34 @@ final class Session {
 		$result = POD::queryAll($sql);
 		if($result === false) {
 			if (!isset($sessionDBRepair)) {		
-				POD::query("REPAIR TABLE {$database['prefix']}Sessions");
+				@POD::query("REPAIR TABLE {$database['prefix']}Sessions, SessionVisits");
 				$result = POD::queryAll($sql);
+				$sessionDBRepair = true;
+			}
+		}
+		return $result;
+	}
+
+	private static function queryCell($sql) {
+		global $database, $sessionDBRepair;
+		$result = POD::queryCell($sql);
+		if($result === false) {
+			if (!isset($sessionDBRepair)) {		
+				@POD::query("REPAIR TABLE {$database['prefix']}Sessions, SessionVisits");
+				$result = POD::queryCell($sql);
+				$sessionDBRepair = true;
+			}
+		}
+		return $result;
+	}
+
+	private static function execute($sql) {
+		global $database, $sessionDBRepair;
+		$result = POD::execute($sql);
+		if($result === false) {
+			if (!isset($sessionDBRepair)) {		
+				@POD::query("REPAIR TABLE {$database['prefix']}Sessions, SessionVisits");
+				$result = POD::execute($sql);
 				$sessionDBRepair = true;
 			}
 		}
