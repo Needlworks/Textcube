@@ -220,7 +220,7 @@ final class Session {
 		$result = POD::queryAll($sql);
 		if($result === false) {
 			if (!isset($sessionDBRepair)) {		
-				@POD::query("REPAIR TABLE {$database['prefix']}Sessions, SessionVisits");
+				@POD::query("REPAIR TABLE {$database['prefix']}Sessions, {$database['prefix']}SessionVisits");
 				$result = POD::queryAll($sql);
 				$sessionDBRepair = true;
 			}
@@ -233,7 +233,7 @@ final class Session {
 		$result = POD::queryCell($sql);
 		if($result === false) {
 			if (!isset($sessionDBRepair)) {		
-				@POD::query("REPAIR TABLE {$database['prefix']}Sessions, SessionVisits");
+				@POD::query("REPAIR TABLE {$database['prefix']}Sessions, {$database['prefix']}SessionVisits");
 				$result = POD::queryCell($sql);
 				$sessionDBRepair = true;
 			}
@@ -246,7 +246,7 @@ final class Session {
 		$result = POD::execute($sql);
 		if($result === false) {
 			if (!isset($sessionDBRepair)) {		
-				@POD::query("REPAIR TABLE {$database['prefix']}Sessions, SessionVisits");
+				@POD::query("REPAIR TABLE {$database['prefix']}Sessions, {$database['prefix']}SessionVisits");
 				$result = POD::execute($sql);
 				$sessionDBRepair = true;
 			}
