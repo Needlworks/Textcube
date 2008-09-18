@@ -34,7 +34,7 @@ if ($_GET['command'] == 'unblock') {
 	$filter->type = $_GET['mode'];
 	$filter->pattern = $_GET['value'];
 	if ($filter->add())
-		$isAjaxRequest ? respond::PrintResult(array('error' => 0)) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? respond::PrintResult(array('error' => 0,'id' => $filter->id)) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	else
 		$isAjaxRequest ? respond::PrintResult(array('error' => 1, 'msg' => POD::error())) : header("Location: ".$_SERVER['HTTP_REFERER']);
 }

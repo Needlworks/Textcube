@@ -16,7 +16,7 @@ $IV = array(
 	//)
 );
 require ROOT . '/library/includeForBlogOwner.php';
-if (isset($_POST['ipValue'])) {
+/*if (isset($_POST['ipValue'])) {
 	$_POST['mode'] = "ip";
 } else if (isset($_POST['urlValue'])) {
 	$_POST['mode'] = "url";
@@ -36,7 +36,7 @@ if (!empty($_POST['mode'])) {
 }
 //if (!empty($_GET['history'])) {
 //	$history = $_GET['history'];
-//}
+//}*/
 require ROOT . '/library/piece/owner/header.php';
 
 
@@ -55,7 +55,7 @@ function printFilterBox($mode, $title) {
 									
 									<div class="filtering-words">
 										<table cellpadding="0" cellspacing="0">
-											<tbody>
+											<tbody id="filterbox-<?php echo $mode;?>">
 <?php
 	if ($filtersList) {
 		$id = 0;
@@ -87,11 +87,11 @@ function printFilterBox($mode, $title) {
 									</div>
 									
 									<div class="input-field">
-										<input type="text" class="input-text" name="<?php echo $mode;?>Value" onkeyup="if(event.keyCode=='13') {add('<?php echo $mode;?>')}" />
+<input type="text" class="input-text" name="<?php echo $mode;?>Value" onkeyup="if(event.keyCode=='13') {add('filterbox-<?php echo $mode;?>','<?php echo $mode;?>'); return false;}" />
 									</div>
 									
 									<div class="button-box">
-										<input type="submit" class="add-button input-button" value="<?php echo _t('추가하기');?>" onclick="add('<?php echo $mode;?>'); return false;" />
+										<input type="submit" class="add-button input-button" value="<?php echo _t('추가하기');?>" onclick="add('filterbox-<?php echo $mode;?>'); return false;" />
 									</div>
 <?php
 }
@@ -135,8 +135,8 @@ function printFilterBox($mode, $title) {
 									}
 									request.send();
 								}
-								
-								function add(mode) {
+
+								function add(callerId,mode,isEmpty) {
 									switch (mode) {
 										case 'ip':
 											target 	= document.getElementById('ipSection').ipValue;
@@ -193,24 +193,54 @@ function printFilterBox($mode, $title) {
 											}
 										}
 									}
+									param  = '?mode=' + mode;
+									param += '&value=' + target.value;
+									
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/filter/change/" + param);
+									request.onSuccess = function() {
+//										alert(callerId);
+										elementId = this.getText("/response/id");
+//										alert(elementId);
+										caller = document.getElementById(callerId);
 
-									switch (mode) {
-										case 'ip':
-											document.getElementById('ipSection').submit();
-											break;
-										case 'url':
-											document.getElementById('urlSection').submit();
-											break;
-										case 'content':
-											document.getElementById('contentSection').submit();
-											break;
-										case 'name':
-											document.getElementById('nameSection').submit();
-											break;
-										case 'whiteurl':
-											document.getElementById('whiteurlSection').submit();
-											break;
+//										if(caller.rows.length == 1) {
+// TODO : Case for EMPTY -> ADD -> DELETE -> ADD..
+//											caller.removeChild(caller);
+//										}
+										var tr = document.createElement("tr");
+										tr.className = "odd-line inactive-class";
+										tr.setAttribute("onmouseover", "rolloverClass(this, 'over')");
+										tr.setAttribute("onmouseout", "rolloverClass(this, 'out')");
+										var td = document.createElement("td");
+										td.className = "content";
+										td.appendChild(document.createTextNode(target.value));
+										tr.appendChild(td);
+										
+										td = null;
+										td = document.createElement("td");
+										td.className = "delete";
+										
+										var deleteA = document.createElement("A");
+										deleteA.className = "delete-button button";
+										deleteA.setAttribute("href", "#void");
+										deleteA.onclick = function() { deleteFilter(parentNode.parentNode,mode,target.value,elementId); return false;};
+										deleteA.setAttribute("title", "<?php echo _t('이 필터링을 제거합니다.');?>");
+										
+										deleteSpan = document.createElement("SPAN");
+										deleteSpan.className = "text";
+										deleteSpan.innerHTML = "<?php echo _t('삭제');?>";
+										deleteA.appendChild(deleteSpan);
+										
+										td.appendChild(deleteA);
+										
+										tr.appendChild(td);
+										caller.appendChild(tr);
 									}
+									request.onError = function() {
+										alert("<?php echo _t('예외를 추가하지 못했습니다.');?>");
+									}
+									request.send();
+									
 								}
 								
 							//]]>

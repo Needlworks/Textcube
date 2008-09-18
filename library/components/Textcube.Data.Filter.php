@@ -69,6 +69,7 @@ class Filter {
 		
 		if (!$query->insert())
 			return $this->_error('insert');
+		$this->id = POD::insertId();
 		return true;
 	}
 	
