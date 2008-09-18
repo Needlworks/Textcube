@@ -206,7 +206,7 @@ function sessionQuery($mode = 'query', $sql) {
 	$result = _sessionQuery($mode, $sql);
 	if($result === false) {
 		if (!isset($sessionDBRepair)) {		
-			POD::query("REPAIR TABLE {$database['prefix']}Sessions, SessionVisits");
+			@POD::query("REPAIR TABLE {$database['prefix']}Sessions, {$database['prefix']}SessionVisits");
 			$result = _sessionQuery($mode, $sql);
 			$sessionDBRepair = true;
 		}
