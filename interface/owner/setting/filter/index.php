@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 $IV = array(
 	'POST' => array(
-		'mode' => array( array( 'ip','content' , 'url', 'name') ,'default'=>null),
+		'mode' => array( array('ip','content','url','name','whiteurl') ,'default'=>null),
 		'contentValue' => array('string' , 'default' => null),
 		'ipValue' => array('string' , 'default' => null),
 		'urlValue' => array('url' , 'default' => null),
@@ -23,6 +23,8 @@ if (isset($_POST['ipValue'])) {
 	$_POST['mode'] = "content";
 } else if (isset($_POST['nameValue'])) {
 	$_POST['mode'] = "name";
+} else if (isset($_POST['whiteurlValue'])) {
+	$_POST['mode'] = "whiteurl";
 }
 if (!empty($_POST['mode'])) {
 	$filter = new Filter();
@@ -147,14 +149,17 @@ function printFilterBox($mode, $title) {
 										case 'name':
 											target 	= document.getElementById('nameSection').nameValue;
 											break;
+										case 'whiteurl':
+											target 	= document.getElementById('whiteurlSection').whiteurlValue;
+											break;
 									}
-									
+
 									if(target.value=="") {
 										alert("<?php echo _t('내용을 입력해 주십시오.');?>");
 										return false;
 									}
 
-									if(mode == 'url') {
+									if((mode == 'url') || (mode == 'whiteurl')) {
 										var reg = new RegExp('^http://', "gi");
 										target.value = target.value.replace(reg,'');
 									}
@@ -187,7 +192,7 @@ function printFilterBox($mode, $title) {
 											}
 										}
 									}
-									
+
 									switch (mode) {
 										case 'ip':
 											document.getElementById('ipSection').submit();
@@ -200,6 +205,9 @@ function printFilterBox($mode, $title) {
 											break;
 										case 'name':
 											document.getElementById('nameSection').submit();
+											break;
+										case 'whiteurl':
+											document.getElementById('whiteurlSection').submit();
 											break;
 									}
 								}
@@ -238,6 +246,23 @@ function printFilterBox($mode, $title) {
 								</form>
 							</div>
 						</div>
+						
+						<div id="part-setting-whitelist" class="part">
+							<h2 class="caption"><span class="main-text"><?php echo _t('필터 예외 항목을 설정합니다');?></span></h2>
+							
+							<div class="main-explain-box">
+								<p class="explain"><?php echo _t('필터 처리시 예외로 처리할 항목입니다. 예외 처리 항목은 필터보다 우선적으로 처리되므로, 주의해서 추가해야 합니다.');?></p>
+							</div>
+							
+							<div class="data-inbox">
+								<form id="whiteurlSection" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/filter">
+<?php echo printFilterBox('whiteurl', _t('예외 처리할 홈페이지'));?>
+								</form>
+								
+								<hr class="hidden" />
+							</div>
+						</div>
+
 <?php
 require ROOT . '/library/piece/owner/footer.php';
 ?>

@@ -7,7 +7,7 @@ $IV = array(
 	'GET' => array(
 		'command' => array('any', 'mandatory' => false),
 		'id' => array('id', 'mandatory' => false ),
-		'mode' => array(array('ip', 'url', 'content', 'name' ) ),
+		'mode' => array(array('ip', 'url', 'content', 'name', 'whiteurl' ) ),
 		'value' => array('string', 'mandatory' => false)
 	)
 );
