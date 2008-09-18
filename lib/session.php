@@ -203,18 +203,18 @@ function authorizeSession($blogid, $userid) {
 
 function sessionQuery($mode = 'query', $sql) {
 	global $database, $sessionDBRepair;
-	$result = __sessionQuery($mode, $sql);
+	$result = _sessionQuery($mode, $sql);
 	if($result === false) {
 		if (!isset($sessionDBRepair)) {		
 			POD::query("REPAIR TABLE {$database['prefix']}Sessions, SessionVisits");
-			$result = __sessionQuery($mode, $sql);
+			$result = _sessionQuery($mode, $sql);
 			$sessionDBRepair = true;
 		}
 	}
 	return $result;
 }
 
-function __sessionQuery($mode = 'query',$sql) {
+function _sessionQuery($mode = 'query',$sql) {
 	switch($mode) {
 		case 'execute' :
 			return POD::execute($sql);
