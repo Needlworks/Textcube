@@ -8,6 +8,7 @@ $IV = array(
 		'contentValue' => array('string' , 'default' => null),
 		'ipValue' => array('string' , 'default' => null),
 		'urlValue' => array('url' , 'default' => null),
+		'whiteurlValue' => array('url' , 'default' => null),		
 		'nameValue' => array('string' , 'default' => null)
 	),
 	//'GET' => array(
