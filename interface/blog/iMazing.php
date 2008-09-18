@@ -16,6 +16,7 @@
 
 $images = explode('*!',$_GET['i']);
 $imageStr = '';
+define('ROOT', '../..');
 require ROOT . '/lib/includeForBlog.php';
 foreach($images as $value) {
 	$imageStr .= $value.'*!';
