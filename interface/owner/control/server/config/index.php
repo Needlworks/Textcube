@@ -23,7 +23,9 @@ $IV = array(
 		'useReader'              => array('int',0,1),
 		'useRewriteDebugMode'    => array('int',0,1),
 		'useSessionDebugMode'    => array('int',0,1),
-		'useSkinCache'           => array('int',0,1)
+		'useSkinCache'           => array('int',0,1),
+		'useExternalResource'    => array('int',0,1),
+		'externalResourceURL'    => array('string', 'mandatory' => false, 'default' => '')
 		)
 );
 
@@ -43,6 +45,8 @@ $matchTable = array(
 	'useReader'   =>'reader',
 	'useNumericRSS'=>'useNumericRSS',
 	'useEncodedURL'=>'useEncodedURL',
+	'useExternalResource'=>'externalresources',
+	'externalResourceURL'=>'resourceURL',
 	'disableEolinSuggestion'=>'disableEolinSuggestion',
 	'allowBlogVisibility'   => 'allowBlogVisibilitySetting',
 	'flashClipboardPoter'   => 'flashclipboardpoter',
@@ -52,7 +56,7 @@ $matchTable = array(
 	'useRewriteDebugMode' => 'debug_rewrite_module',
 	'faviconDailyTraffic' =>'favicon_daily_traffic'
 	);
-
+/* Exceptional handling */
 $config = array();
 foreach($matchTable as $abs => $real) {
 	if($_POST[$abs] === 1) $config[$real] = true;

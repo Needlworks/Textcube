@@ -56,6 +56,8 @@ closedir($handler);
 								else usePageCache = 0;
 								if(document.getElementById('useSkinCache').checked) useSkinCache = 1;
 								else useSkinCache = 0;
+								if(document.getElementById('useExternalResource').checked) useExternalResource = 1;
+								else useExternalResource = 0;
 								if(document.getElementById('useReader').checked) useReader = 1;
 								else useReader = 0;
 								if(document.getElementById('useNumericRSS').checked) useNumericRSS = 1;
@@ -79,6 +81,7 @@ closedir($handler);
 								param = '';
 								param += 'usePageCache='+usePageCache+'&';
 								param += 'useSkinCache='+useSkinCache +'&';
+								param += 'useExternalResource='+useExternalResource +'&';
 								param += 'useReader='+useReader +'&';
 								param += 'useNumericRSS='+useNumericRSS +'&';
 								param += 'useEncodedURL='+useEncodedURL +'&';
@@ -95,13 +98,15 @@ closedir($handler);
 								param += 'language='+getEncodedValueById('language') +'&';
 								param += 'timezone='+getEncodedValueById('timezone') +'&';
 								param += 'encoding='+getEncodedValueById('encoding') +'&';
-								param += 'serviceurl='+getEncodedValueById('serviceurl');
+								param += 'serviceurl='+getEncodedValueById('serviceurl') + '&';
+								param += 'externalResourceURL='+getEncodedValueById('externalResourceURL');
 								var request = new HTTPRequest("POST", '<?php echo $blogURL;?>/owner/control/server/config/');
 								request.onSuccess = function() {
 									PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 								}
 								request.onError = function() {
 									PM.showErrorMessage("<?php echo _t('저장하지 못했습니다');?>", "center", "bottom");
+									alert(this.getText("/response/msg"));
 								}
 								request.send(param);
 							}
@@ -252,7 +257,20 @@ foreach($encodingList as $enc) {
 												<input id="serviceurl" type="text" class="input-text" name="serviceurl" size="45" value="<?php echo $serviceURL;?>" />											
 												<label for="serviceurl"><?php echo _t('이 서비스가 참조할 경로를 강제로 지정합니다.').'<br />'._t('정적인 파일들 (script, attach, image, style 하위 디렉토리)을 별도의 경로로 관리할 수 있습니다. 다른 웹 프로그램을 같은 도메인에서 운영할 때 동작이 방해받는 경우, 또는 서버에 걸리는 부하를 분산하고 싶은 경우 지정하면 됩니다.');?></label>
 											</dd>
-										</dl>	
+										</dl>
+										<dl id="externalResource-line" class="line">
+											<dt><span class="label"><?php echo _t('외부 리소스 사용');?></span></dt>
+											<dd>
+												<input type="checkbox" id="useExternalResource" class="checkbox" name="useExternalResource"<?php echo $service['externalresources'] ? ' checked="checked"' : '';?> /><label for="useExternalResource"><?php echo _t('텍스트큐브의 자바 스크립트 컴포넌트등을 외부에서 불러옵니다.').' '._f('서버의 트래픽을 줄이기 위하여 동작시 필요한 일부 리소스를 공개 텍스트큐브 리소스 저장소(%1)에서 읽어오거나 지정한 서버에서 읽어옵니다.',TEXTCUBE_RESOURCE_URL);?></label>
+											</dd>
+										</dl>
+										<dl id="externalresourceeurl-line" class="line">
+											<dt><span class="label"><?php echo _t('외부 리소스 저장소 경로');?></span></dt>
+											<dd>
+												<input id="externalResourceURL" type="text" class="input-text" name="externalResourceURL" size="45" value="<?php echo (isset($service['resourceURL']) ? $service['resourceURL'] : '');?>" />
+												<label for="externalResourceURL"><?php echo _t('외부 리소스를 사용할 경우 리소스 저장소를 임의로 지정할 수 있습니다.').'<br />'._f('이 값을 지정하지 않고 외부 리소스 사용을 선택할 경우 텍스트큐브 리소스 저장소(%1)를 기본값으로 사용합니다.',TEXTCUBE_RESOURCE_URL);?></label>
+											</dd>
+										</dl>
 									</fieldset>
 									<fieldset id="cache-container" class="container">
 										<legend><?php echo _t('캐시 사용 조절');?></legend>
