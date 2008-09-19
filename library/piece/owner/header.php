@@ -384,7 +384,7 @@ echo fireEvent('ShowAdminHeader', '');
 
 /** Get Help URL **/
 $submenuURL = null;
-if(strstr($contentMenuItem['menu'], 'adminMenu?name=') !== false) { // Plugin.
+if(strstr($blogMenu['contentMenu'], 'adminMenu?name=') !== false) { // Plugin.
 	$submenuURL = $pluginMenuValue[0];
 } else {
 	$submenuURL = $blogMenu['contentMenu'];

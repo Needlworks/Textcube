@@ -101,7 +101,7 @@ closedir($handler);
 								param += 'language='+getEncodedValueById('language') +'&';
 								param += 'timezone='+getEncodedValueById('timezone') +'&';
 								param += 'encoding='+getEncodedValueById('encoding') +'&';
-								param += 'serviceurl='+getEncodedValueById('serviceurl');
+								param += 'serviceurl='+getEncodedValueById('serviceurl') + '&';
 								param += 'externalResourceURL='+getEncodedValueById('externalResourceURL');
 								var request = new HTTPRequest("POST", '<?php echo $blogURL;?>/owner/control/server/config/');
 								request.onSuccess = function() {
@@ -109,6 +109,7 @@ closedir($handler);
 								}
 								request.onError = function() {
 									PM.showErrorMessage("<?php echo _t('저장하지 못했습니다');?>", "center", "bottom");
+									alert(this.getText("/response/msg"));
 								}
 								request.send(param);
 							}
@@ -270,7 +271,7 @@ foreach($encodingList as $enc) {
 										<dl id="externalresourceeurl-line" class="line">
 											<dt><span class="label"><?php echo _t('외부 리소스 저장소 경로');?></span></dt>
 											<dd>
-												<input id="externalResourceURL" type="text" class="input-text" name="externalResourceURL" size="45" value="<?php echo $service['resourceURL'];?>" />
+												<input id="externalResourceURL" type="text" class="input-text" name="externalResourceURL" size="45" value="<?php echo (isset($service['resourceURL']) ? $service['resourceURL'] : '');?>" />
 												<label for="externalResourceURL"><?php echo _t('외부 리소스를 사용할 경우 리소스 저장소를 임의로 지정할 수 있습니다.').'<br />'._f('이 값을 지정하지 않고 외부 리소스 사용을 선택할 경우 텍스트큐브 리소스 저장소(%1)를 기본값으로 사용합니다.',TEXTCUBE_RESOURCE_URL);?></label>
 											</dd>
 										</dl>

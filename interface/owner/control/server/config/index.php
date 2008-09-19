@@ -26,7 +26,7 @@ $IV = array(
 		'useSkinCache'           => array('int',0,1),
 		'useMemcached'           => array('int',0,1),
 		'useExternalResource'    => array('int',0,1),
-		'externalResourceURL'               => array('string')
+		'externalResourceURL'    => array('string')
 		)
 );
 
@@ -58,13 +58,15 @@ $matchTable = array(
 	'useRewriteDebugMode' => 'debug_rewrite_module',
 	'faviconDailyTraffic' =>'favicon_daily_traffic'
 	);
-
+/* Exceptional handling */
 $config = array();
 foreach($matchTable as $abs => $real) {
 	if($_POST[$abs] === 1) $config[$real] = true;
 	else if($_POST[$abs] === 0) $config[$real] = false;
 	else $config[$real] = $_POST[$abs];
 }
+
+if(empty($config['resourceURL'])) unset($config['resourceURL']);
 
 $result = writeConfigFile($config);
 if ($result === true) {
