@@ -26,7 +26,7 @@ $IV = array(
 		'useSkinCache'           => array('int',0,1),
 		'useMemcached'           => array('int',0,1),
 		'useExternalResource'    => array('int',0,1),
-		'externalResourceURL'    => array('string')
+		'externalResourceURL'    => array('string', 'mandatory' => false, 'default' => '')
 		)
 );
 
@@ -65,8 +65,6 @@ foreach($matchTable as $abs => $real) {
 	else if($_POST[$abs] === 0) $config[$real] = false;
 	else $config[$real] = $_POST[$abs];
 }
-
-if(empty($config['resourceURL'])) unset($config['resourceURL']);
 
 $result = writeConfigFile($config);
 if ($result === true) {
