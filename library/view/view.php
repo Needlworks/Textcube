@@ -91,15 +91,15 @@ function getUpperView($paging) {
 		}
 	//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/EAF4.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/common2.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/gallery.js" ></script>
-    	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/flash.js" ></script>
+	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/EAF4.js"></script>
+	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/common2.js"></script>
+	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/gallery.js" ></script>
+	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/flash.js" ></script>
 
 <?php
 	if (doesHaveOwnership()) {
 ?>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/owner.js" ></script>
+	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/owner.js" ></script>
 <?php
 	}
 ?>
@@ -125,7 +125,7 @@ function getUpperView($paging) {
 		'allowscriptaccess','sameDomain',
 		'pluginspage','http://www.macromedia.com/go/getflashplayer',
 		'movie','<?php echo $service['path'];?>/resources/script/clipboardPoter/clipboardPoter',
-		'flashvars', 'callback=onClipBorad'
+		'flashvars', 'callback=onClipBoard'
 	);
 	window.clipboardPoter = document.getElementById("clipboardPoter");
 //]]>

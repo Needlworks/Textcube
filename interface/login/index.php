@@ -95,9 +95,9 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie7.css" />
 		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/login.ie7.css" />
 	<![endif]-->
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/byTextcube.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/EAF4.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/common2.js"></script>
+	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/byTextcube.js"></script>
+	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/EAF4.js"></script>
+	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/common2.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
 			var servicePath = "<?php echo $service['path'];?>";

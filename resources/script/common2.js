@@ -1377,8 +1377,6 @@ function copyUrl(url) {
 	}
 }
 
-function onClipBorad(result) {
+function onClipBoard(result) {
 	alert(result ? messages["trackbackUrlCopied"] : messages["operationFailed"]);
 }
-
-		

@@ -8,6 +8,7 @@ define('TEXTCUBE_NAME', 'Textcube');
 define('TEXTCUBE_VERSION', '1.8 : Alpha 4');
 define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2008. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
 define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.org/');
+define('TEXTCUBE_RESOURCE_URL', 'http://resources.textcube.org/1.8');
 define('TEXTCUBE_SYNC_URL', 'http://ping.eolin.com/');
 define('CRLF', "\r\n");
 define('TAB', "	");
@@ -47,6 +48,7 @@ $service['interface'] = 'detail';	// 'simple' or 'detail'. Default is 'detail'
 $service['pagecache'] = true;
 $service['codecache'] = false;
 $service['skincache'] = true;
+$service['externalresources'] = false;
 $service['favicon_daily_traffic'] = 10;
 $service['flashuploader'] = true;
 $service['debug_session_dump'] = false;
@@ -59,6 +61,14 @@ if (@is_numeric($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80) && (
 // Include installation configuration.
 $service['session_cookie_path'] = '/';
 if(!defined('__TEXTCUBE_SETUP__')) @include ROOT . '/config.php';
+
+// Set resource path.
+if($service['externalresources']) {
+	if(isset($service['resourceURL'])) $service['resourcepath'] = $service['resourceURL'];
+	else $service['resourcepath'] = TEXTCUBE_RESOURCE_URL;
+} else {
+	$service['resourcepath'] = $service['path'].'/resources';
+}
 
 // Database setting.
 if(isset($service['dbms'])) {
