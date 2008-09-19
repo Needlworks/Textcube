@@ -24,7 +24,9 @@ $IV = array(
 		'useRewriteDebugMode'    => array('int',0,1),
 		'useSessionDebugMode'    => array('int',0,1),
 		'useSkinCache'           => array('int',0,1),
-		'useMemcached'           => array('int',0,1)
+		'useMemcached'           => array('int',0,1),
+		'useExternalResource'    => array('int',0,1),
+		'externalResourceURL'               => array('string')
 		)
 );
 
@@ -45,6 +47,8 @@ $matchTable = array(
 	'useReader'   =>'reader',
 	'useNumericRSS'=>'useNumericRSS',
 	'useEncodedURL'=>'useEncodedURL',
+	'useExternalResource'=>'externalresources',
+	'externalResourceURL'=>'resourceURL',
 	'disableEolinSuggestion'=>'disableEolinSuggestion',
 	'allowBlogVisibility'   => 'allowBlogVisibilitySetting',
 	'flashClipboardPoter'   => 'flashclipboardpoter',

@@ -64,8 +64,10 @@ if(!defined('__TEXTCUBE_SETUP__')) @include ROOT . '/config.php';
 
 // Set resource path.
 if($service['externalresources']) {
-	if(isset($service['resourceURL'])) $service['resourcepath'] = $service['resourceURL'];
-	else $service['resourcepath'] = TEXTCUBE_RESOURCE_URL;
+	if(isset($service['resourceURL']) && !empty($service['resourceURL'])) 
+		$service['resourcepath'] = $service['resourceURL'];
+	else 
+		$service['resourcepath'] = TEXTCUBE_RESOURCE_URL;
 } else {
 	$service['resourcepath'] = $service['path'].'/resources';
 }
