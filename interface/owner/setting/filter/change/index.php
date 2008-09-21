@@ -5,7 +5,7 @@
 
 $IV = array(
 	'GET' => array(
-		'command' => array('any', 'mandatory' => false),
+		'command' => array('any', 'mandatory' => false, 'default'=>'block'),
 		'id' => array('id', 'mandatory' => false ),
 		'mode' => array(array('ip', 'url', 'content', 'name', 'whiteurl' ) ),
 		'value' => array('string', 'mandatory' => false)
