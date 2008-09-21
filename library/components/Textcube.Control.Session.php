@@ -218,7 +218,7 @@ final class Session {
 		switch($mode) {
 			case 'cell':	return POD::queryCell($sql);
 			case 'row':		return POD::queryRow($sql);
-			case 'extcute':	return POD::execute($sql);
+			case 'execute':	return POD::execute($sql);
 			case 'all':		return POD::queryAll($sql);
 			case 'query':default:
 							return POD::query($sql);
