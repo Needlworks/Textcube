@@ -387,6 +387,15 @@ if($currentVersion != TEXTCUBE_VERSION) {
 		else
 			showCheckupMessage(false);
 	}
+	/* From Textcube 1.7.6 */
+	if (!strpos(POD::queryCell("DESC {$database['prefix']}Filters type", 'Type'),'whiteurl')) {
+		$changed = true;
+		echo '<li>', _text('필터 테이블에 예외 목록을 추가하기 위하여 필드 속성을 변경합니다.'), ': ';
+		if (POD::execute("ALTER TABLE {$database['prefix']}Filters CHANGE type type ENUM('content','ip','name','url','whiteurl') NOT NULL DEFAULT 'content'"))
+			showCheckupMessage(true);
+		else
+			showCheckupMessage(false);
+	}
 }
 
 /***** Common parts. *****/

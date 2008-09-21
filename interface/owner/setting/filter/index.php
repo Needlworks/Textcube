@@ -4,19 +4,19 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 $IV = array(
 	'POST' => array(
-		'mode' => array( array( 'ip','content' , 'url', 'name') ,'default'=>null),
+		'mode' => array( array('ip','content','url','name','whiteurl') ,'default'=>null),
 		'contentValue' => array('string' , 'default' => null),
 		'ipValue' => array('string' , 'default' => null),
 		'urlValue' => array('url' , 'default' => null),
+		'whiteurlValue' => array('url' , 'default' => null),		
 		'nameValue' => array('string' , 'default' => null)
 	),
 	//'GET' => array(
 	//	'history' => array( 'string' , 'default' => null )
 	//)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
-requireComponent('Textcube.Data.Filter');
-if (isset($_POST['ipValue'])) {
+require ROOT . '/library/includeForBlogOwner.php';
+/*if (isset($_POST['ipValue'])) {
 	$_POST['mode'] = "ip";
 } else if (isset($_POST['urlValue'])) {
 	$_POST['mode'] = "url";
@@ -24,6 +24,8 @@ if (isset($_POST['ipValue'])) {
 	$_POST['mode'] = "content";
 } else if (isset($_POST['nameValue'])) {
 	$_POST['mode'] = "name";
+} else if (isset($_POST['whiteurlValue'])) {
+	$_POST['mode'] = "whiteurl";
 }
 if (!empty($_POST['mode'])) {
 	$filter = new Filter();
@@ -34,8 +36,8 @@ if (!empty($_POST['mode'])) {
 }
 //if (!empty($_GET['history'])) {
 //	$history = $_GET['history'];
-//}
-require ROOT . '/lib/piece/owner/header.php';
+//}*/
+require ROOT . '/library/piece/owner/header.php';
 
 
 function printFilterBox($mode, $title) {
@@ -53,7 +55,7 @@ function printFilterBox($mode, $title) {
 									
 									<div class="filtering-words">
 										<table cellpadding="0" cellspacing="0">
-											<tbody>
+											<tbody id="filterbox-<?php echo $mode;?>"<?php echo (empty($filtersList) ? ' class="empty"' : '');?>>
 <?php
 	if ($filtersList) {
 		$id = 0;
@@ -74,7 +76,7 @@ function printFilterBox($mode, $title) {
 		}
 	} else {
 ?>
-												<tr class="odd-line inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+												<tr <?php echo (empty($filtersList) ? 'id="explainbox-'.$mode.'" ' : '');?>class="odd-line inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 													<td class="empty"><?php echo _t('등록된 내용이 없습니다.');?></td>
 												</tr>
 <?php
@@ -85,11 +87,11 @@ function printFilterBox($mode, $title) {
 									</div>
 									
 									<div class="input-field">
-										<input type="text" class="input-text" name="<?php echo $mode;?>Value" onkeyup="if(event.keyCode=='13') {add('<?php echo $mode;?>')}" />
+<input type="text" class="input-text" name="<?php echo $mode;?>Value" onkeyup="if(event.keyCode=='13') {add('filterbox-<?php echo $mode;?>','<?php echo $mode;?>'); return false;}" />
 									</div>
 									
 									<div class="button-box">
-										<input type="submit" class="add-button input-button" value="<?php echo _t('추가하기');?>" onclick="add('<?php echo $mode;?>'); return false;" />
+										<input type="submit" class="add-button input-button" value="<?php echo _t('추가하기');?>" onclick="add('filterbox-<?php echo $mode;?>','<?php echo $mode;?>'); return false;" />
 									</div>
 <?php
 }
@@ -121,11 +123,13 @@ function printFilterBox($mode, $title) {
 											tr.className = "odd-line inactive-class";
 											tr.setAttribute("onmouseover", "rolloverClass(this, 'over')");
 											tr.setAttribute("onmouseout", "rolloverClass(this, 'out')");
+											tr.id = "explainbox-"+mode;
 											var td = document.createElement("td");
 											td.className = "empty";
 											td.appendChild(document.createTextNode("<?php echo _t('등록된 내용이 없습니다.');?>"));
 											tr.appendChild(td);
 											parent.appendChild(tr);
+											parent.className = "empty";
 										}
 									}
 									request.onError = function() {
@@ -133,8 +137,8 @@ function printFilterBox($mode, $title) {
 									}
 									request.send();
 								}
-								
-								function add(mode) {
+
+								function add(callerId,mode) {
 									switch (mode) {
 										case 'ip':
 											target 	= document.getElementById('ipSection').ipValue;
@@ -148,14 +152,17 @@ function printFilterBox($mode, $title) {
 										case 'name':
 											target 	= document.getElementById('nameSection').nameValue;
 											break;
+										case 'whiteurl':
+											target 	= document.getElementById('whiteurlSection').whiteurlValue;
+											break;
 									}
-									
+
 									if(target.value=="") {
 										alert("<?php echo _t('내용을 입력해 주십시오.');?>");
 										return false;
 									}
 
-									if(mode == 'url') {
+									if((mode == 'url') || (mode == 'whiteurl')) {
 										var reg = new RegExp('^http://', "gi");
 										target.value = target.value.replace(reg,'');
 									}
@@ -188,21 +195,55 @@ function printFilterBox($mode, $title) {
 											}
 										}
 									}
+									param  = '?mode=' + mode;
+									param += '&value=' + target.value;
 									
-									switch (mode) {
-										case 'ip':
-											document.getElementById('ipSection').submit();
-											break;
-										case 'url':
-											document.getElementById('urlSection').submit();
-											break;
-										case 'content':
-											document.getElementById('contentSection').submit();
-											break;
-										case 'name':
-											document.getElementById('nameSection').submit();
-											break;
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/filter/change/" + param);
+									request.onSuccess = function() {
+//										alert(callerId);
+										elementId = this.getText("/response/id");
+//										alert(elementId);
+										caller = document.getElementById(callerId);
+
+										if((caller.rows.length == 1) && (caller.className == "empty")) {
+// TODO : Case for EMPTY -> ADD -> DELETE -> ADD..
+											caller.removeChild(document.getElementById("explainbox-"+mode));
+											caller.className = "filter";
+										}
+										var tr = document.createElement("tr");
+										tr.className = "odd-line inactive-class";
+										tr.setAttribute("onmouseover", "rolloverClass(this, 'over')");
+										tr.setAttribute("onmouseout", "rolloverClass(this, 'out')");
+										var td = document.createElement("td");
+										td.className = "content";
+										td.appendChild(document.createTextNode(target.value));
+										tr.appendChild(td);
+										
+										td = null;
+										td = document.createElement("td");
+										td.className = "delete";
+										
+										var deleteA = document.createElement("A");
+										deleteA.className = "delete-button button";
+										deleteA.setAttribute("href", "#void");
+										deleteA.onclick = function() { deleteFilter(tr,mode,target.value,elementId); return false;};
+										deleteA.setAttribute("title", "<?php echo _t('이 필터링을 제거합니다.');?>");
+										
+										deleteSpan = document.createElement("SPAN");
+										deleteSpan.className = "text";
+										deleteSpan.innerHTML = "<?php echo _t('삭제');?>";
+										deleteA.appendChild(deleteSpan);
+										
+										td.appendChild(deleteA);
+										
+										tr.appendChild(td);
+										caller.appendChild(tr);
 									}
+									request.onError = function() {
+										alert("<?php echo _t('예외를 추가하지 못했습니다.');?>");
+									}
+									request.send();
+									
 								}
 								
 							//]]>
@@ -239,6 +280,23 @@ function printFilterBox($mode, $title) {
 								</form>
 							</div>
 						</div>
+						
+						<div id="part-setting-whitelist" class="part">
+							<h2 class="caption"><span class="main-text"><?php echo _t('필터 예외 항목을 설정합니다');?></span></h2>
+							
+							<div class="main-explain-box">
+								<p class="explain"><?php echo _t('필터 처리시 예외로 처리할 항목입니다. 예외 처리 항목은 필터보다 우선적으로 처리되므로, 주의해서 추가해야 합니다.');?></p>
+							</div>
+							
+							<div class="data-inbox">
+								<form id="whiteurlSection" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/filter">
+<?php echo printFilterBox('whiteurl', _t('예외 처리할 홈페이지'));?>
+								</form>
+								
+								<hr class="hidden" />
+							</div>
+						</div>
+
 <?php
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/library/piece/owner/footer.php';
 ?>

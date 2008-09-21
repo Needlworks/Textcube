@@ -353,56 +353,65 @@ dl dd
 
 /* Filter ****************************************************************************************/
 
-#part-setting-filter
+#part-setting-filter,
+#part-setting-whitelist
 {
 	height                           : 500px;
 	padding-bottom: 30px;
 }
 
-#part-setting-filter div.data-inbox
+#part-setting-filter div.data-inbox,
+#part-setting-whitelist div.data-inbox
 {
 	margin-top                       : 20px;
 }
 
-#part-setting-filter div.data-inbox .section
+#part-setting-filter div.data-inbox .section,
+#part-setting-whitelist div.data-inbox .section
 {
 	float                            : left;
 	margin-left                      : 20px;
 	width                            : 200px;
 }
 
-#part-setting-filter div.data-inbox .section .title
+#part-setting-filter div.data-inbox .section .title,
+#part-setting-whitelist div.data-inbox .section .title
 {
 	font-weight                      : bold;
 	margin-bottom                    : 5px;
 }
 
-#part-setting-filter div.data-inbox .section table
+#part-setting-filter div.data-inbox .section table,
+#part-setting-whitelist div.data-inbox .section table
 {
 	background-color                 : #FFFFFF;
 	width                            : 100%;
 }
 
-#part-setting-filter div.data-inbox .section table tbody tr td.content
+#part-setting-filter div.data-inbox .section table tbody tr td.content,
+#part-setting-whitelist div.data-inbox .section table tbody tr td.content
 {
 	border-bottom                    : 1px solid #EFEFEF;
 	margin                           : 1px 3px 1px 3px !important;
 	padding                          : 5px 5px 3px 5px;
 }
 
-#part-setting-filter div.data-inbox .section table tbody tr td.empty
+#part-setting-filter div.data-inbox .section table tbody tr td.empty,
+#part-setting-whitelist div.data-inbox .section table tbody tr td.empty
 {
 	height                           : 300px;
 	text-align                       : center;
 }
 
-#part-setting-filter div.data-inbox .section table tbody tr td.delete
+#part-setting-filter div.data-inbox .section table tbody tr td.delete,
+#part-setting-whitelist div.data-inbox .section table tbody tr td.delete
 {
 	border-bottom                    : 1px solid #EFEFEF;
 	width                            : 20px;
 }
 
-#part-setting-filter div.data-inbox .section table tbody tr td .delete-button
+#part-setting-filter div.data-inbox .section table tbody tr td .delete-button,
+#part-setting-whitelist div.data-inbox .section table tbody tr td .delete-button
 {
 	background-color                 : transparent;
 	background-image                 : url("./image/icon_delete.gif");
@@ -414,12 +423,14 @@ dl dd
 	width                            : 11px;
 }
 
-#part-setting-filter div.data-inbox .section table tbody tr td .delete-button span
+#part-setting-filter div.data-inbox .section table tbody tr td .delete-button span,
+#part-setting-whitelist div.data-inbox .section table tbody tr td .delete-button span
 {
 	display                          : none;
 }
 
-#part-setting-filter div.data-inbox .section .filtering-words
+#part-setting-filter div.data-inbox .section .filtering-words,
+#part-setting-whitelist div.data-inbox .section .filtering-words
 {
 	border                           : 1px solid #777777;
 	height                           : 300px;
@@ -427,19 +438,22 @@ dl dd
 	padding                          : 3px;
 }
 
-#part-setting-filter div.data-inbox .section .input-text
+#part-setting-filter div.data-inbox .section .input-text,
+#part-setting-whitelist div.data-inbox .section .input-text
 {
 	margin-top                       : 2px;
 	width                            : 198px;
 }
 
-#part-setting-filter .button-box
+#part-setting-filter .button-box,
+#part-setting-whitelist .button-box
 {
 	clear                            : both;
 	margin                           : 20px 0 10px 0;
 }
 
-#part-setting-filter .button-box .add-button
+#part-setting-filter .button-box .add-button,
+#part-setting-whitelist .button-box .add-button
 {
 	margin                           : 0 auto;
 	padding                          : 0 !important;

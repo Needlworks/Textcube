@@ -5,16 +5,15 @@
 
 $IV = array(
 	'GET' => array(
-		'command' => array('any', 'mandatory' => false),
+		'command' => array('any', 'mandatory' => false, 'default'=>'block'),
 		'id' => array('id', 'mandatory' => false ),
-		'mode' => array(array('ip', 'url', 'content', 'name' ) ),
+		'mode' => array(array('ip', 'url', 'content', 'name', 'whiteurl' ) ),
 		'value' => array('string', 'mandatory' => false)
 	)
 );
 
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
-requireComponent('Textcube.Data.Filter');
 
 $isAjaxRequest = checkAjaxRequest();
 $filter = new Filter();
@@ -35,7 +34,7 @@ if ($_GET['command'] == 'unblock') {
 	$filter->type = $_GET['mode'];
 	$filter->pattern = $_GET['value'];
 	if ($filter->add())
-		$isAjaxRequest ? respond::PrintResult(array('error' => 0)) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? respond::PrintResult(array('error' => 0,'id' => $filter->id)) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	else
 		$isAjaxRequest ? respond::PrintResult(array('error' => 1, 'msg' => POD::error())) : header("Location: ".$_SERVER['HTTP_REFERER']);
 }
