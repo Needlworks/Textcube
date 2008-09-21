@@ -67,7 +67,7 @@ final class Session {
 	
 	public static function destroy($id, $setCookie = false) {
 		global $database;
-		@self::query('query',"DELETE FROM {$database['prefix']}Sessions 
+		@self::query('cell',"DELETE FROM {$database['prefix']}Sessions 
 			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 		self::gc();
 	}
@@ -92,7 +92,7 @@ final class Session {
 	
 	private static function getAnonymousSession() {
 		global $database;
-		$result = self::query('query',"SELECT id FROM {$database['prefix']}Sessions WHERE address = '{$_SERVER['REMOTE_ADDR']}' AND userid IS NULL AND preexistence IS NULL");
+		$result = self::query('cell',"SELECT id FROM {$database['prefix']}Sessions WHERE address = '{$_SERVER['REMOTE_ADDR']}' AND userid IS NULL AND preexistence IS NULL");
 		if ($result)
 			return $result;
 		return false;
@@ -104,7 +104,7 @@ final class Session {
 			if (($id = self::getAnonymousSession()) !== false)
 				return $id;
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-			$result = self::query('count',"INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+			$result = self::query('count',"INSERT INTO {$database['prefix']}Sessions (id, address, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 			if ($result > 0)
 				return $id;
 		}
