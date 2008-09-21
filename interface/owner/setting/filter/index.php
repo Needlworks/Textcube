@@ -226,7 +226,7 @@ function printFilterBox($mode, $title) {
 										var deleteA = document.createElement("A");
 										deleteA.className = "delete-button button";
 										deleteA.setAttribute("href", "#void");
-										deleteA.onclick = function() { deleteFilter(document.getElementById('filterbox-'+mode),mode,target.value,elementId); return false;};
+										deleteA.onclick = function() { deleteFilter(tr,mode,target.value,elementId); return false;};
 										deleteA.setAttribute("title", "<?php echo _t('이 필터링을 제거합니다.');?>");
 										
 										deleteSpan = document.createElement("SPAN");
