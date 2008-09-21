@@ -91,7 +91,7 @@ function printFilterBox($mode, $title) {
 									</div>
 									
 									<div class="button-box">
-										<input type="submit" class="add-button input-button" value="<?php echo _t('추가하기');?>" onclick="add('filterbox-<?php echo $mode;?>'); return false;" />
+										<input type="submit" class="add-button input-button" value="<?php echo _t('추가하기');?>" onclick="add('filterbox-<?php echo $mode;?>','<?php echo $mode;?>); return false;" />
 									</div>
 <?php
 }
@@ -136,24 +136,8 @@ function printFilterBox($mode, $title) {
 									request.send();
 								}
 
-								function add(callerId,mode,isEmpty) {
-									switch (mode) {
-										case 'ip':
-											target 	= document.getElementById('ipSection').ipValue;
-											break;
-										case 'url':
-											target 	= document.getElementById('urlSection').urlValue;
-											break;
-										case 'content':
-											target 	= document.getElementById('contentSection').contentValue;
-											break;
-										case 'name':
-											target 	= document.getElementById('nameSection').nameValue;
-											break;
-										case 'whiteurl':
-											target 	= document.getElementById('whiteurlSection').whiteurlValue;
-											break;
-									}
+								function add(callerId,mode) {
+									target = document.getElementById(mode + 'Section') ;
 
 									if(target.value=="") {
 										alert("<?php echo _t('내용을 입력해 주십시오.');?>");
