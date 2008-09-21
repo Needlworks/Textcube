@@ -35,7 +35,7 @@ function getSessionName() {
 
 function readSession($id) {
 	global $database, $service;
-	if ($result = sessionQuery('query',"SELECT data FROM {$database['prefix']}Sessions 
+	if ($result = sessionQuery('cell',"SELECT data FROM {$database['prefix']}Sessions 
 		WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND updated >= (UNIX_TIMESTAMP() - {$service['timeout']})")) {
 		return $result;
 	}
@@ -92,7 +92,7 @@ function gcSession($maxLifeTime = false) {
 
 function getAnonymousSession() {
 	global $database;
-	$result = sessionQuery('query',"SELECT id FROM {$database['prefix']}Sessions WHERE address = '{$_SERVER['REMOTE_ADDR']}' AND userid IS NULL AND preexistence IS NULL");
+	$result = sessionQuery('cell',"SELECT id FROM {$database['prefix']}Sessions WHERE address = '{$_SERVER['REMOTE_ADDR']}' AND userid IS NULL AND preexistence IS NULL");
 	if ($result)
 		return $result;
 	return false;
@@ -229,7 +229,7 @@ function _sessionQuery($mode = 'query',$sql) {
 		default :
 			return POD::query($sql);
 	}
-	return false;
+	return null;
 }
 
 session_name(getSessionName());
