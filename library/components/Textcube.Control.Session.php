@@ -8,7 +8,7 @@ define( 'SESSION_OPENID_USERID', -1 );
 final class Session {
 	private static $sessionMicrotime;
 	private static $sessionName = null;
-	private static $sessionDBRepair = null;	
+	private static $sessionDBRepair = false;	
 	function __construct() {
 		$sessionMicrotime = Timer::getMicroTime();
 	}
@@ -36,7 +36,7 @@ final class Session {
 	
 	public static function read($id) {
 		global $database, $service;
-		if ($result = self::query("SELECT data FROM {$database['prefix']}Sessions 
+		if ($result = self::query('cell',"SELECT data FROM {$database['prefix']}Sessions 
 			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND updated >= (UNIX_TIMESTAMP() - {$service['timeout']})")) {
 			return $result;
 		}
@@ -57,7 +57,7 @@ final class Session {
 		$request = POD::escapeString(substr($_SERVER['REQUEST_URI'], 0, 255));
 		$referer = isset($_SERVER['HTTP_REFERER']) ? POD::escapeString($_SERVER['HTTP_REFERER']) : '';
 		$timer = Timer::getMicroTime() - self::$sessionMicrotime;
-		$result = POD::queryCount("UPDATE {$database['prefix']}Sessions 
+		$result = self::query('count',"UPDATE {$database['prefix']}Sessions 
 				SET userid = $userid, data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() 
 				WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 		if ($result && $result == 1)
@@ -67,16 +67,16 @@ final class Session {
 	
 	public static function destroy($id, $setCookie = false) {
 		global $database;
-		@self::query("DELETE FROM {$database['prefix']}Sessions 
+		@self::query('query',"DELETE FROM {$database['prefix']}Sessions 
 			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 		self::gc();
 	}
 	
 	public static function gc($maxLifeTime = false) {
 		global $database, $service;
-		@self::query("DELETE FROM {$database['prefix']}Sessions 
+		@self::query('query',"DELETE FROM {$database['prefix']}Sessions 
 			WHERE updated < (UNIX_TIMESTAMP() - {$service['timeout']})");
-		$result = @self::queryAll("SELECT DISTINCT v.id, v.address 
+		$result = @self::query('all',"SELECT DISTINCT v.id, v.address 
 			FROM {$database['prefix']}SessionVisits v 
 			LEFT JOIN {$database['prefix']}Sessions s ON v.id = s.id AND v.address = s.address 
 			WHERE s.id IS NULL AND s.address IS NULL");
@@ -85,14 +85,14 @@ final class Session {
 			foreach ($result as $g)
 				array_push($gc, $g);
 			foreach ($gc as $g)
-				@self::query("DELETE FROM {$database['prefix']}SessionVisits WHERE id = '{$g[0]}' AND address = '{$g[1]}'");
+				@self::query('query',"DELETE FROM {$database['prefix']}SessionVisits WHERE id = '{$g[0]}' AND address = '{$g[1]}'");
 		}
 		return true;
 	}
 	
 	private static function getAnonymousSession() {
 		global $database;
-		$result = self::query("SELECT id FROM {$database['prefix']}Sessions WHERE address = '{$_SERVER['REMOTE_ADDR']}' AND userid IS NULL AND preexistence IS NULL");
+		$result = self::query('query',"SELECT id FROM {$database['prefix']}Sessions WHERE address = '{$_SERVER['REMOTE_ADDR']}' AND userid IS NULL AND preexistence IS NULL");
 		if ($result)
 			return $result;
 		return false;
@@ -104,7 +104,7 @@ final class Session {
 			if (($id = self::getAnonymousSession()) !== false)
 				return $id;
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-			$result = POD::queryCount("INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+			$result = self::query('count',"INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 			if ($result > 0)
 				return $id;
 		}
@@ -129,7 +129,7 @@ final class Session {
 	public static function isAuthorized($id) {
 		/* OpenID and Admin sessions are treated as authorized ones*/
 		global $database;
-		$result = self::queryCell("SELECT id 
+		$result = self::query('cell',"SELECT id 
 			FROM {$database['prefix']}Sessions 
 			WHERE id = '$id' 
 				AND address = '{$_SERVER['REMOTE_ADDR']}' 
@@ -141,7 +141,7 @@ final class Session {
 	
 	public static function isGuestOpenIDSession($id) {
 		global $database;
-		$result = self::queryCell("SELECT id 
+		$result = self::query('cell',"SELECT id 
 			FROM {$database['prefix']}Sessions 
 			WHERE id = '$id' 
 				AND address = '{$_SERVER['REMOTE_ADDR']}' AND userid < 0");
@@ -177,7 +177,7 @@ final class Session {
 			$_SESSION['userid'] = $userid;
 			$id = session_id();
 			if( self::isGuestOpenIDSession($id) ) {
-				$result = self::execute("UPDATE {$database['prefix']}Sessions
+				$result = self::query('execute',"UPDATE {$database['prefix']}Sessions
 					set userid = $userid WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 				if ($result) {
 					return true;
@@ -188,7 +188,7 @@ final class Session {
 			return true;
 		for ($i = 0; $i < 100; $i++) {
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-			$result = self::execute("INSERT INTO {$database['prefix']}Sessions
+			$result = self::query('execute',"INSERT INTO {$database['prefix']}Sessions
 				(id, address, userid, created, updated) 
 				VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', $userid, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
 			if ($result) {
@@ -202,56 +202,28 @@ final class Session {
 	}
 
 	/* Customized queryset (for recovering Session tables) */
-	private static function query($sql) {
+	private static function query($mode='query',$sql) {
 		global $database;
-		$result = POD::queryCell($sql);
+		$result = self::DBQuery($mode,$sql);
 		if($result === false) {
 			if (self::$sessionDBRepair === false) {		
-				@POD::query("REPAIR TABLE {$database['prefix']}Sessions, SessionVisits");
-				$result = POD::queryCell($sql);
+				@POD::query("REPAIR TABLE {$database['prefix']}Sessions, {$database['prefix']}SessionVisits");
+				$result = self::DBQuery($mode,$sql);
 				self::$sessionDBRepair = true;
 			}
 		}
 		return $result;
 	}
-	
-	private static function queryAll($sql) {
-		global $database;
-		$result = POD::queryAll($sql);
-		if($result === false) {
-			if (self::$sessionDBRepair === false) {		
-				@POD::query("REPAIR TABLE {$database['prefix']}Sessions, {$database['prefix']}SessionVisits");
-				$result = POD::queryAll($sql);
-				self::$sessionDBRepair = true;
-			}
+	private static function DBQuery($mode='query',$sql) {
+		switch($mode) {
+			case 'cell':	return POD::queryCell($sql);
+			case 'row':		return POD::queryRow($sql);
+			case 'extcute':	return POD::execute($sql);
+			case 'all':		return POD::queryAll($sql);
+			case 'query':default:
+							return POD::query($sql);
 		}
-		return $result;
-	}
-
-	private static function queryCell($sql) {
-		global $database;
-		$result = POD::queryCell($sql);
-		if($result === false) {
-			if (self::$sessionDBRepair === false) {		
-				@POD::query("REPAIR TABLE {$database['prefix']}Sessions, {$database['prefix']}SessionVisits");
-				$result = POD::queryCell($sql);
-				self::$sessionDBRepair = true;
-			}
-		}
-		return $result;
-	}
-
-	private static function execute($sql) {
-		global $database;
-		$result = POD::execute($sql);
-		if($result === false) {
-			if (self::$sessionDBRepair === false) {		
-				@POD::query("REPAIR TABLE {$database['prefix']}Sessions, {$database['prefix']}SessionVisits");
-				$result = POD::execute($sql);
-				self::$sessionDBRepair = true;
-			}
-		}
-		return $result;
+		return null;
 	}
 }
 ?>
