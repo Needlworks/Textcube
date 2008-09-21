@@ -219,6 +219,7 @@ final class Session {
 			case 'cell':	return POD::queryCell($sql);
 			case 'row':		return POD::queryRow($sql);
 			case 'execute':	return POD::execute($sql);
+			case 'count':	return POD::queryCount($sql);
 			case 'all':		return POD::queryAll($sql);
 			case 'query':default:
 							return POD::query($sql);
