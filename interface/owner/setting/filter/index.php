@@ -76,7 +76,7 @@ function printFilterBox($mode, $title) {
 		}
 	} else {
 ?>
-												<tr class="odd-line inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+												<tr <?php echo (empty($filtersList) ? 'id="explainbox-'.$mode.'" ' : '');?>class="odd-line inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 													<td class="empty"><?php echo _t('등록된 내용이 없습니다.');?></td>
 												</tr>
 <?php
@@ -123,6 +123,7 @@ function printFilterBox($mode, $title) {
 											tr.className = "odd-line inactive-class";
 											tr.setAttribute("onmouseover", "rolloverClass(this, 'over')");
 											tr.setAttribute("onmouseout", "rolloverClass(this, 'out')");
+											tr.id = "explainbox-"+mode;
 											var td = document.createElement("td");
 											td.className = "empty";
 											td.appendChild(document.createTextNode("<?php echo _t('등록된 내용이 없습니다.');?>"));
@@ -206,7 +207,7 @@ function printFilterBox($mode, $title) {
 
 										if((caller.rows.length == 1) && (caller.className == "empty")) {
 // TODO : Case for EMPTY -> ADD -> DELETE -> ADD..
-											caller.removeChild(caller);
+											caller.removeChild("explainbox-"+mode);
 										}
 										var tr = document.createElement("tr");
 										tr.className = "odd-line inactive-class";
@@ -224,7 +225,7 @@ function printFilterBox($mode, $title) {
 										var deleteA = document.createElement("A");
 										deleteA.className = "delete-button button";
 										deleteA.setAttribute("href", "#void");
-										deleteA.onclick = function() { deleteFilter(parentNode.parentNode,mode,target.value,elementId); return false;};
+										deleteA.onclick = function() { deleteFilter('filterbox-'+mode,mode,target.value,elementId); return false;};
 										deleteA.setAttribute("title", "<?php echo _t('이 필터링을 제거합니다.');?>");
 										
 										deleteSpan = document.createElement("SPAN");
