@@ -55,7 +55,7 @@ function printFilterBox($mode, $title) {
 									
 									<div class="filtering-words">
 										<table cellpadding="0" cellspacing="0">
-											<tbody id="filterbox-<?php echo $mode;?>">
+											<tbody id="filterbox-<?php echo $mode;?>"<?php echo (empty($filtersList) ? ' class="empty"' : '');?>>
 <?php
 	if ($filtersList) {
 		$id = 0;
@@ -128,6 +128,7 @@ function printFilterBox($mode, $title) {
 											td.appendChild(document.createTextNode("<?php echo _t('등록된 내용이 없습니다.');?>"));
 											tr.appendChild(td);
 											parent.appendChild(tr);
+											parent.className = "empty";
 										}
 									}
 									request.onError = function() {
@@ -203,10 +204,10 @@ function printFilterBox($mode, $title) {
 //										alert(elementId);
 										caller = document.getElementById(callerId);
 
-//										if(caller.rows.length == 1) {
+										if((caller.rows.length == 1) && (caller.className == "empty")) {
 // TODO : Case for EMPTY -> ADD -> DELETE -> ADD..
-//											caller.removeChild(caller);
-//										}
+											caller.removeChild(caller);
+										}
 										var tr = document.createElement("tr");
 										tr.className = "odd-line inactive-class";
 										tr.setAttribute("onmouseover", "rolloverClass(this, 'over')");
