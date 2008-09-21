@@ -15,30 +15,9 @@ $IV = array(
 	//	'history' => array( 'string' , 'default' => null )
 	//)
 );
-require ROOT . '/library/includeForBlogOwner.php';
-/*if (isset($_POST['ipValue'])) {
-	$_POST['mode'] = "ip";
-} else if (isset($_POST['urlValue'])) {
-	$_POST['mode'] = "url";
-} else if (isset($_POST['contentValue'])) {
-	$_POST['mode'] = "content";
-} else if (isset($_POST['nameValue'])) {
-	$_POST['mode'] = "name";
-} else if (isset($_POST['whiteurlValue'])) {
-	$_POST['mode'] = "whiteurl";
-}
-if (!empty($_POST['mode'])) {
-	$filter = new Filter();
-	$filter->type = $_POST['mode'];
-	$filter->pattern = $_POST[($_POST['mode'] . 'Value')];
-	$filter->add();
-	//$history = $_POST['mode'];
-}
-//if (!empty($_GET['history'])) {
-//	$history = $_GET['history'];
-//}*/
-require ROOT . '/library/piece/owner/header.php';
-
+require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/lib/piece/owner/header.php';
+requireComponent('Textcube.Data.Filter');
 
 function printFilterBox($mode, $title) {
 	global $service;
@@ -200,13 +179,10 @@ function printFilterBox($mode, $title) {
 									
 									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/filter/change/" + param);
 									request.onSuccess = function() {
-//										alert(callerId);
 										elementId = this.getText("/response/id");
-//										alert(elementId);
 										caller = document.getElementById(callerId);
 
 										if((caller.rows.length == 1) && (caller.className == "empty")) {
-// TODO : Case for EMPTY -> ADD -> DELETE -> ADD..
 											caller.removeChild(document.getElementById("explainbox-"+mode));
 											caller.className = "filter";
 										}
