@@ -207,7 +207,8 @@ function printFilterBox($mode, $title) {
 
 										if((caller.rows.length == 1) && (caller.className == "empty")) {
 // TODO : Case for EMPTY -> ADD -> DELETE -> ADD..
-											caller.removeChild("explainbox-"+mode);
+											caller.removeChild(document.getElementById("explainbox-"+mode));
+											caller.className = "filter";
 										}
 										var tr = document.createElement("tr");
 										tr.className = "odd-line inactive-class";
@@ -225,7 +226,7 @@ function printFilterBox($mode, $title) {
 										var deleteA = document.createElement("A");
 										deleteA.className = "delete-button button";
 										deleteA.setAttribute("href", "#void");
-										deleteA.onclick = function() { deleteFilter('filterbox-'+mode,mode,target.value,elementId); return false;};
+										deleteA.onclick = function() { deleteFilter(document.getElementById('filterbox-'+mode),mode,target.value,elementId); return false;};
 										deleteA.setAttribute("title", "<?php echo _t('이 필터링을 제거합니다.');?>");
 										
 										deleteSpan = document.createElement("SPAN");
