@@ -136,7 +136,7 @@ function printFilterBox($mode, $title) {
 									request.send();
 								}
 
-								function add(callerId,mode,isEmpty) {
+								function add(callerId,mode) {
 									switch (mode) {
 										case 'ip':
 											target 	= document.getElementById('ipSection').ipValue;
