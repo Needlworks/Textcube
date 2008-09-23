@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-23 10:22:35+0000\n"
-"PO-Revision-Date: 2008-09-23 10:22:35+0000\n"
+"POT-Creation-Date: 2008-09-23 10:55:56+0000\n"
+"PO-Revision-Date: 2008-09-23 10:55:56+0000\n"
 "Last-Translator: TEXTCUBE\n"
 "Language-Team: TEXTCUBE\n"
 "MIME-Version: 1.0\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "\"%1\"에 %2 디렉토리를 생성할 수 없습니다. \"%1\"의 퍼미션을 %3(으)로 수정해 주십시오."
-msgstr "Cannot create directory \"%2\" in \"%1\". Change \\ the permission setting of \"%1\" to \"%3\"."
+msgstr "Cannot create directory \"%2\" in \"%1\". Change \\\\ the permission setting of \"%1\" to \"%3\"."
 
 msgid "\"%1\"에 %2 파일을 생성할 수 없습니다. \"%1\"의 퍼미션을 %3(으)로 수정해 주십시오."
 msgstr "Cannot create file \"%2\" in \"%1\". Change the permission setting of \"%1\" to \"%3\""
@@ -27,13 +27,13 @@ msgid "%1 : 플러그인이 활성화되어 있지 않아 설정을 저장하지
 msgstr "%1 : Could not save setting. Maybe plugin is inactivated."
 
 msgid "%1 님의 댓글에 대한 댓글"
-msgstr "Comment about %1's comment"
+msgstr "Comment about %1\\'s comment"
 
 msgid "%1 님의 방명록에 대한 댓글"
-msgstr "Reply about %1's guestbook"
+msgstr "Reply about %1\\'s guestbook"
 
 msgid "%1 님의 블로그"
-msgstr "%1's blog"
+msgstr "%1\\'s blog"
 
 msgid "%1 블로그의 방명록"
 msgstr "Guestbook of %1 blog"
@@ -57,7 +57,7 @@ msgid "%1 파일을 수정하실 수 있는 권한이 없습니다."
 msgstr "You have no authorization to edit file %1"
 
 msgid "%1개의 피드를 가져왔습니다.\\n피드를 업데이트 해 주십시오."
-msgstr "%1 new feed(s) received.\\nPlease update the reading list."
+msgstr "%1 new feed(s) received.\\\\nPlease update the reading list."
 
 msgid "%1님을 %2님이 초대합니다"
 msgstr "%2 invites %1"
@@ -78,7 +78,7 @@ msgid "%Y:년, %M:월, %D:일"
 msgstr "%Y:Year, %M:Month, %D:Day"
 
 msgid "&copy; 2004 - 2008. 모든 저작권은 개발자 및 공헌자에게 있습니다.<br />텍스트큐브는 니들웍스/TNF에서 개발합니다.<br />텍스트큐브와 텍스트큐브 로고는 니들웍스의 상표입니다."
-msgstr "&copy; 2004 - 2008. All rights reserved for developers and contributors.<br />Textcube is developed by Needleworks/TNF.<br />Textcube and its logo are copyrighted."
+msgstr "&amp;copy; 2004 - 2008. All rights reserved for developers and contributors.&lt;br /&gt;Textcube is developed by Needleworks/TNF.&lt;br /&gt;Textcube and its logo are copyrighted."
 
 msgid "(로그인시 ID로 사용됩니다)"
 msgstr "(Default ID)"
@@ -117,7 +117,7 @@ msgid "(이름 없음 %1)"
 msgstr "(No name %1)"
 
 msgid "(찾아보기를 이용하여 사진을 선택하시면 바로 <b>변경</b> 저장됩니다)"
-msgstr "(Select picture using 'Browse' then it will be changed.)"
+msgstr "(Select picture using \\'Browse\\' then it will be changed.)"
 
 msgid "(필진에 공개 됩니다. 사진을 찍어 이메일로 보내면 포스팅이 됩니다)"
 msgstr "(Will post as author. You can add new post by taking photos and sending via E-Mail."
@@ -162,13 +162,13 @@ msgid "7일 평균"
 msgstr "Avg.7 days"
 
 msgid "<acronym title=\"Outline Processor Markup Language\">OPML</acronym> 업로드"
-msgstr "<acronym title=\"Outline Processor Markup Language\">OPML</acronym> Upload"
+msgstr "&lt;acronym title=\"Outline Processor Markup Language\"&gt;OPML&lt;/acronym&gt; Upload"
 
 msgid "<acronym title=\"Rich Site Summary\">RSS</acronym> 주소"
-msgstr "<acronym title=\"Rich Site Summary\">RSS</acronym> address"
+msgstr "&lt;acronym title=\"Rich Site Summary\"&gt;RSS&lt;/acronym&gt; address"
 
 msgid "<acronym title=\"Uniform Resource Locator\">URL</acronym> 입력"
-msgstr "Typing <acronym title=\"Uniform Resource Locator\">URL</acronym>"
+msgstr "Typing &lt;acronym title=\"Uniform Resource Locator\"&gt;URL&lt;/acronym&gt;"
 
 msgid "API Key 설정"
 msgstr "Setting API Key"
@@ -186,7 +186,7 @@ msgid "Body Id 변경"
 msgstr "Body Id"
 
 msgid "Body id는 블로그 스킨의 <acronym title=\"Cascading Style Sheet\">CSS</acronym> 활용을 위해 사용합니다.<br /> 기본값인 \"tt-body-category\"를 그냥 사용하셔도 사용에 지장은 없습니다."
-msgstr "Body Id is used for the skin <acronym title=\"Cascading Style Sheet\">CSS</acronym>.<br /> You can use \"tt-body-category\" which is the default value"
+msgstr "Body Id is used for the skin &lt;acronym title=\"Cascading Style Sheet\"&gt;CSS&lt;/acronym&gt;.&lt;br /&gt; You can use \"tt-body-category\" which is the default value"
 
 msgid "Comments 테이블에 openid 필드를 추가합니다."
 msgstr "Add OpenID field into Comments table."
@@ -360,7 +360,7 @@ msgid "http://www.google.co.kr/search?q=OpenID&amp;lr=lang_ko"
 msgstr "http://en.wikipedia.org/wiki/Openid"
 
 msgid "iMazing 갤러리는 JPG,PNG,GIF 파일만 지원됩니다\\n그 외의 형식은 목록에서 제외했습니다"
-msgstr "iMazing gallery only supports JPG, PNG, GIF file.\\nOther formats is excluded from list."
+msgstr "iMazing gallery only supports JPG, PNG, GIF file.\\\\nOther formats is excluded from list."
 
 msgid "iPhone / iPod Touch로 블로그에 접속할 경우 자동으로 iPhone용 인터페이스로 이동합니다."
 msgstr "If iPhone / iPod Touch visits blog, force them to user iPhone interface."
@@ -435,7 +435,7 @@ msgid "개수"
 msgstr "Numbers"
 
 msgid "개의 피드를 가져왔습니다.\\n피드를 업데이트 해 주십시오."
-msgstr "\\n new feeds received.Please update the reading list."
+msgstr "\\\\n new feeds received.Please update the reading list."
 
 msgid "개인 정보"
 msgstr "Personal information"
@@ -615,7 +615,7 @@ msgid "관리자 로그인 비밀번호와 동일하게 사용하실 경우 비�
 msgstr "Leave as blank if you want to use login password."
 
 msgid "관리자 비밀번호를 그대로 사용"
-msgstr "Use admin's password"
+msgstr "Use admin\\'s password"
 
 msgid "관리자 설정에 의해 오픈아이디로만 댓글을 남길 수 있습니다."
 msgstr "You have to log in with an OpenID to leave a comment."
@@ -633,7 +633,7 @@ msgid "관리자 화면의 환경 설정에서 데이터 교정을 수행하시�
 msgstr "Please correct data at Settings-Data correction menu."
 
 msgid "관리자가 방문객의 댓글을 수정하시면 작성자 이름을 관리자 아이디로 덮어 쓰게 됩니다.\\n계속 하시겠습니까?"
-msgstr "If you modify this comment, author name will be overwritten by your name.\\nContinue?"
+msgstr "If you modify this comment, author name will be overwritten by your name.\\\\nContinue?"
 
 msgid "관리자가 아닙니다"
 msgstr "Administrator access only"
@@ -1593,7 +1593,7 @@ msgid "모든 글"
 msgstr "All posts"
 
 msgid "모든 글과 블로그가 관리자의 소유로 옮겨집니다."
-msgstr "Every posts and blogs will be treated as service owner's."
+msgstr "Every posts and blogs will be treated as service owner\\'s."
 
 msgid "모든 순위를 출력합니다"
 msgstr "Show every ranking"
@@ -1743,7 +1743,7 @@ msgid "백업이 저장되었습니다."
 msgstr "Backup saved."
 
 msgid "백업파일 <acronym title=\"Uniform Resource Locator\">URL</acronym>"
-msgstr "Backup file <acronym title=\"Uniform Resource Locator\">URL</acronym>"
+msgstr "Backup file &lt;acronym title=\"Uniform Resource Locator\"&gt;URL&lt;/acronym&gt;"
 
 msgid "백업파일 URL을 입력하십시오."
 msgstr "Enter Backup file URL."
@@ -1773,7 +1773,7 @@ msgid "백업파일을 올리고 있습니다."
 msgstr "Uploading backup file"
 
 msgid "백업파일을 읽어서 데이터를 복원합니다.<br />백업파일에 첨부파일이 포함되어 있으면 첨부파일도 자동으로 복원됩니다.<br />이전 버전으로부터의 데이터도 복원을 통해 가져올 수 있습니다."
-msgstr "Restore data from the backup file.<br />Attached files and migration data will also be restored.."
+msgstr "Restore data from the backup file.&lt;br /&gt;Attached files and migration data will also be restored.."
 
 msgid "백업파일을 자신의 하드디스크로부터 직접 선택하여 데이터베이스를 복원합니다. 백업파일의 용량이 업로드 허용용량을 초과하지 않는지 주의하십시오."
 msgstr "Restore database from local backup file. Make sure the backup file size does not exceed upload file size limit."
@@ -1830,7 +1830,7 @@ msgid "변경된 블로그 주소로 이동합니다"
 msgstr "Go to the updated blog URL."
 
 msgid "변경된 스타일이 아직 저장되지 않았습니다.\\n저장하시겠습니까?"
-msgstr "Style change(s) has not been saved. \\n save the changes?"
+msgstr "Style change(s) has not been saved. \\\\n save the changes?"
 
 msgid "변경시 텍스트큐브의 동작에 큰 영향을 줄 수 있으므로 주의하시기 바랍니다."
 msgstr "It will directly affect to Textcube. Please be careful."
@@ -2061,7 +2061,7 @@ msgid "블로그 글을 한 쪽당 %1개 보여줍니다."
 msgstr "Show %1 posts per page"
 
 msgid "블로그 로고 및 파비콘"
-msgstr "Blog Logo & Favicon"
+msgstr "Blog Logo &amp; Favicon"
 
 msgid "블로그 로그인 암호가 초기화되었습니다."
 msgstr "Login password resetted."
@@ -2232,7 +2232,7 @@ msgid "블로그의 기본 정보를 설정합니다"
 msgstr "Basic settings"
 
 msgid "블로그의 사이드바 구성을 변경할 수 있습니다. 사이드바는 블로그 화면에서 양 옆이나 위아래에 표시되는 메뉴가 있는 부분을 말합니다. 사이드바에 새로운 요소를 추가/삭제할 수 있으며 자유로운 위치 이동을 할 수 있습니다."
-msgstr "Configure your blog's sidebar here. Sidebar is a collection of small widgets you can put into either side of your blog. You can drag widgets from the right to add them on top of another, or  just drag them out to delete them."
+msgstr "Configure your blog\\'s sidebar here. Sidebar is a collection of small widgets you can put into either side of your blog. You can drag widgets from the right to add them on top of another, or  just drag them out to delete them."
 
 msgid "블로그의 표지 구성을 변경할 수 있습니다."
 msgstr "You can change the Cover setting."
@@ -2298,10 +2298,10 @@ msgid "비우기에 실패하였습니다."
 msgstr "Failed to delete."
 
 msgid "비정상적인 데이터를 교정합니다.<br />동적인 캐쉬 데이터는 재계산하여 저장합니다."
-msgstr "Correcting data.<br /> Active cache data will be recalculated and saved."
+msgstr "Correcting data.&lt;br /&gt; Active cache data will be recalculated and saved."
 
 msgid "사용 가능한 운영 방법은 다음과 같습니다. 선택하여 주십시오."
-msgstr "Please select Textcube's mode of operation:"
+msgstr "Please select Textcube\\'s mode of operation:"
 
 msgid "사용 불가능한 판번호"
 msgstr "This version is not supported."
@@ -2436,7 +2436,7 @@ msgid "삭제: 본 계정과의 관계를 끊습니다."
 msgstr "Delete: Unlink the relationship from this account."
 
 msgid "삭제되는 기존 사용자의 글은 전부 관리자의 글로 변환됩니다."
-msgstr "Every entry of deleted users will be changed to Admin's one."
+msgstr "Every entry of deleted users will be changed to Admin\\'s one."
 
 msgid "삭제되었습니다."
 msgstr "Deletion complete"
@@ -2517,7 +2517,7 @@ msgid "새로운 사용자가 추가되었습니다."
 msgstr "New user has been added."
 
 msgid "새로운 스킨을 선택하면 이전 스킨에 적용된 출력 설정들과 사이드바의 변경점은 모두 지워집니다.\\n스킨을 적용하시겠습니까?"
-msgstr "If you select new skin, all the page settings and sidebar changes for old skin will be deleted. \\n Do you want to apply new skin?"
+msgstr "If you select new skin, all the page settings and sidebar changes for old skin will be deleted. \\\\n Do you want to apply new skin?"
 
 msgid "새로운 테이블 식별자가 올바르지 않습니다. 다시 입력해 주십시오."
 msgstr "Incorrect table prefix. Please re-enter"
@@ -2544,7 +2544,7 @@ msgid "서버에 <em>%1</em>에 저장된 백업파일이 있습니다."
 msgstr "Found a backup file saved on the server in the location %1"
 
 msgid "서버에 <em>%1</em>에 저장된 백업파일이 있습니다. 삭제후 복원에는 이 파일을 이용하실 수 있습니다."
-msgstr "Found a backup file saved on the server in the location <em>%1</em>. You can use this for restoration."
+msgstr "Found a backup file saved on the server in the location &lt;em&gt;%1&lt;/em&gt;. You can use this for restoration."
 
 msgid "서버에 백업파일을 저장하여 복원에 사용할 수 있습니다."
 msgstr "save backup file on the server for restoration."
@@ -2799,7 +2799,7 @@ msgid "소유자 변경"
 msgstr "Change owner"
 
 msgid "소유자가 변경되었습니다. \\r\\n기존의 소유자는 관리자로 변경되었습니다."
-msgstr "Owner changed. \\r\\nOriginal owner is changed to the administrator"
+msgstr "Owner changed. \\\\r\\\\nOriginal owner is changed to the administrator"
 
 msgid "소유자를 변경하지 못했습니다."
 msgstr "Could not change owner."
@@ -2823,7 +2823,7 @@ msgid "수정"
 msgstr "Edit"
 
 msgid "수정된 스킨을 사용중입니다. 새로운 스킨을 선택하면 수정된 스킨의 내용과 스킨에 적용된 출력 설정, 사이드바의 변경점은 모두 지워집니다.\\n스킨을 적용하시겠습니까?"
-msgstr "You are using modified skin. If you select new skin, all the page settings and sidebar changes for old skin will be deleted. \\n Do you want to apply new skin?"
+msgstr "You are using modified skin. If you select new skin, all the page settings and sidebar changes for old skin will be deleted. \\\\n Do you want to apply new skin?"
 
 msgid "수정이 실패하였습니다."
 msgstr "Modifying failed."
@@ -3039,10 +3039,10 @@ msgid "언어"
 msgstr "Language"
 
 msgid "언어 및 시간대"
-msgstr "Language &amp; Timezone"
+msgstr "Language &amp;amp; Timezone"
 
 msgid "언어, 시간대를 설정합니다"
-msgstr "Language &amp; Timezone"
+msgstr "Language &amp;amp; Timezone"
 
 msgid "업데이트 주기"
 msgstr "Update Frequency"
@@ -3108,19 +3108,19 @@ msgid "예) textcube.idtail.com, textcube.myid.net"
 msgstr "Ex.) textcube.idtail.com, textcube.myid.net"
 
 msgid "예: AllowOverride <b>All</b>"
-msgstr "e.g. AllowOverride <b>All</b>"
+msgstr "e.g. AllowOverride &lt;b&gt;All&lt;/b&gt;"
 
 msgid "예: AllowOverride <b>FileInfo</b>"
-msgstr "e.g. AllowOverride <b>FileInfo</b>"
+msgstr "e.g. AllowOverride &lt;b&gt;FileInfo&lt;/b&gt;"
 
 msgid "예: LoadModule <b>rewrite_module</b> modules/<b>mod_rewrite</b>.so"
-msgstr "e.g. LoadModule <b>rewrite_module</b> modules/<b>mod_rewrite</b>.so"
+msgstr "e.g. LoadModule &lt;b&gt;rewrite_module&lt;/b&gt; modules/&lt;b&gt;mod_rewrite&lt;/b&gt;.so"
 
 msgid "예: Options <b>All</b>"
-msgstr "e.g. Options <b>All</b>"
+msgstr "e.g. Options &lt;b&gt;All&lt;/b&gt;"
 
 msgid "예: Options <b>FollowSymLinks</b>"
-msgstr "e.g. Options <b>FollowSymLinks</b>"
+msgstr "e.g. Options &lt;b&gt;FollowSymLinks&lt;/b&gt;"
 
 msgid "예약"
 msgstr "Reserve"
@@ -3210,7 +3210,7 @@ msgid "올바른 XML 파일이 아닙니다."
 msgstr "Invalid XML File."
 
 msgid "올바른 스킨 디렉토리명이 아닙니다.\\n디렉토리명에는 알파벳, 숫자, 언더바(_), 공백문자, 대쉬(-)만 사용하실 수 있습니다."
-msgstr "Invalid theme directory name.\\nYou can use only alphabet, numeric numbers, underbar(_), null character, or dash(-)."
+msgstr "Invalid theme directory name.\\\\nYou can use only alphabet, numeric numbers, underbar(_), null character, or dash(-)."
 
 msgid "올바른 피드가 아닙니다."
 msgstr "Invalid Feed."
@@ -3255,10 +3255,10 @@ msgid "웹서버 설정에 <b>mod_rewrite</b>의 로딩이 포함되어야 합�
 msgstr "mod_rewrite loading should be included in the web server settings"
 
 msgid "웹서버 설정의 이 디렉토리에 대한 <em>AllowOverride</em> 항목에 <b>FileInfo</b>가 포함되거나 <b>All</b>이어야 합니다."
-msgstr "On the web server settings <em>AllowOverride</em> must have <b>FileInfo</b> or <b>All</b> settings."
+msgstr "On the web server settings &lt;em&gt;AllowOverride&lt;/em&gt; must have &lt;b&gt;FileInfo&lt;/b&gt; or &lt;b&gt;All&lt;/b&gt; settings."
 
 msgid "웹서버 설정의 이 디렉토리에 대한 <em>Options</em> 항목에 <b>FollowSymLinks</b>가 포함되거나 <b>All</b>이어야 합니다."
-msgstr "On the web server settings <em>Options</em> must have <b>FollowSymLinks</b> or <b>All</b> settings."
+msgstr "On the web server settings &lt;em&gt;Options&lt;/em&gt; must have &lt;b&gt;FollowSymLinks&lt;/b&gt; or &lt;b&gt;All&lt;/b&gt; settings."
 
 msgid "웹에서 백업파일 가져오기."
 msgstr "Import backup file from a server"
@@ -3516,7 +3516,7 @@ msgid "이름 필터링"
 msgstr " Name to be filtered"
 
 msgid "이름&lt;이메일&gt; 혹은 이메일"
-msgstr "Name&lt;Email&gt; or Email"
+msgstr "Name&amp;lt;Email&amp;gt; or Email"
 
 msgid "이름(e-mail)"
 msgstr "Name (e-mail)"
@@ -3588,7 +3588,7 @@ msgid "이미지 리샘플링을 설정합니다"
 msgstr "Image Resampling"
 
 msgid "이미지 리샘플링을 통하여 올린 이미지의 크기를 줄여 저장한 후 출력하여 블로그의 트래픽을 줄여줍니다."
-msgstr "Image Resampling will resize uploaded image. This will decrease blog traffic bandwidth.<br />"
+msgstr "Image Resampling will resize uploaded image. This will decrease blog traffic bandwidth.&lt;br /&gt;"
 
 msgid "이올린"
 msgstr "Eolin"
@@ -3645,7 +3645,7 @@ msgid "일로서 아는"
 msgstr "Acquaintance"
 
 msgid "일반적으로 복원시 기존의 데이터를 덮어씁니다. \\n덮어쓰지 않고 백업파일을 추가하기 위해서는 백업파일을 열어 migrational=false 를 migrational=true로 바꾸셔야 합니다. 확인하신 후에 진행하시기 바랍니다.\\n계속 하시겠습니까?"
-msgstr "Usually when restoring, original data is overwritten. \\n Not to overwrite but add backup file, open backup file and change migrational=false to migrational=true. Please check the file and proceed. \\n Do you want to continue? "
+msgstr "Usually when restoring, original data is overwritten. \\\\n Not to overwrite but add backup file, open backup file and change migrational=false to migrational=true. Please check the file and proceed. \\\\n Do you want to continue? "
 
 msgid "일별 통계 정보를 복원하고 있습니다."
 msgstr "Restoring daily stats.."
@@ -4041,7 +4041,7 @@ msgid "초대 메일은 발송되지 않으며, 새로 추가된 참여자는 �
 msgstr "Newbie will have basic permission. Invitation mail will not send to the user."
 
 msgid "초대받을 사람의 이름<이메일>을 적어 주십시오.\\n이메일만 적어도 됩니다."
-msgstr "Enter invitee`s name<Email>.\\nYou can only enter the email."
+msgstr "Enter invitee`s name&lt;Email&gt;.\\\\nYou can only enter the email."
 
 msgid "초대받을 사람이 사용할 블로그 식별자를 적어 주십시오."
 msgstr "Enter the blog name to be used by the invitee."
@@ -4305,7 +4305,7 @@ msgid "태그"
 msgstr "Tag"
 
 msgid "태그 &amp; 위치"
-msgstr "Tag &amp; Location"
+msgstr "Tag &amp;amp; Location"
 
 msgid "태그 선택 시"
 msgstr "When tag is selected"
@@ -4407,7 +4407,7 @@ msgid "텍스트큐브 관리 페이지"
 msgstr "Textcube Administration Page"
 
 msgid "텍스트큐브 글목록에서 발행버튼을 누르거나 글쓰기시 공개범위를 \"발행\"으로 체크하면 됩니다."
-msgstr "To publishthe entry, click publish button in Textcube entry list or check \\\"publish\\\" in publish option while you are writing"
+msgstr "To publishthe entry, click publish button in Textcube entry list or check \\\\\"publish\\\\\" in publish option while you are writing"
 
 msgid "텍스트큐브 로고"
 msgstr "Textcube logo"
@@ -4434,7 +4434,7 @@ msgid "텍스트큐브 홈페이지의 %1을 방문하시면 다양한 스킨을
 msgstr "More themes can be found at %1. To use the theme, upload the theme file onto the skin directory, find the downloaded theme from the list, and click to select."
 
 msgid "텍스트큐브 홈페이지의 %1을 방문하시면 다양한 플러그인을 받을 수 있습니다. 받은 플러그인 파일을 텍스트큐브의 plugin 디렉토리(폴더)로 업로드하면 설치가 완료됩니다. 업로드 후, 이 페이지에서 해당 플러그인을 사용중으로 전환하여 사용을 시작할 수 있습니다."
-msgstr "Please visit %1 at Textcube site to download more plugins. You can upload plugins into the /plugin folder of your Textcube install. Once uploaded, you can activate them here. For more information on the individual plugins, visit <a href='http://blog.textcube.org' onclick='window.open(this.href); return false;'>TNF Plugin Review</a>."
+msgstr "Please visit %1 at Textcube site to download more plugins. You can upload plugins into the /plugin folder of your Textcube install. Once uploaded, you can activate them here. For more information on the individual plugins, visit &lt;a href=\\'http://blog.textcube.org\\' onclick=\\'window.open(this.href); return false;\\'&gt;TNF Plugin Review&lt;/a&gt;."
 
 msgid "텍스트큐브 홈페이지의 스킨 업로드 게시판으로 연결합니다."
 msgstr "Connecting to the Theme upload BBS on Textcube official homepage."
@@ -4461,10 +4461,10 @@ msgid "텍스트큐브의 기능을 조정합니다."
 msgstr "Control Textcube function."
 
 msgid "텍스트큐브의 동작을 위하여 모듈이 필요한 부분마다 최소 하나 이상이 필요합니다.\\n현재 해당 모듈이 하나밖에 존재하지 않기 때문에 이 모듈의 동작을 중지시킬 수 없습니다."
-msgstr "At lease one module is needed to make Textcube work.\\n You cannot inavtivate this module because it is the only one activated. "
+msgstr "At lease one module is needed to make Textcube work.\\\\n You cannot inavtivate this module because it is the only one activated. "
 
 msgid "텍스트큐브의 모든 데이터를 삭제합니다.<br />첨부파일의 삭제 여부를 선택하실 수 있습니다.<br />데이터의 복원은 백업파일을 통해서만 가능하므로 먼저 백업을 하시기 바랍니다."
-msgstr "Erase Textcube data.<br />You can optionally choose to erase attachments.<br />Recovering data is only possible through the Restore data option so please do a backup first."
+msgstr "Erase Textcube data.&lt;br /&gt;You can optionally choose to erase attachments.&lt;br /&gt;Recovering data is only possible through the Restore data option so please do a backup first."
 
 msgid "텍스트큐브의 전반적인 캐시 기능을 사용합니다. 페이지 캐시, 스킨캐시, 실시간 쿼리 캐시 및 정책을 모두 포함됩니다."
 msgstr "Use Textcube general cache purpose. Page cache, skin cache, dynamic query cache and policy will be included."
@@ -4884,7 +4884,7 @@ msgid "필터와 관련된 구조를 변경합니다."
 msgstr "Modifying attributes related to filter."
 
 msgid "하나의 피드를 가져왔습니다.\\n피드를 업데이트 해 주십시오."
-msgstr "A feed received.\\nPlease update the feed."
+msgstr "A feed received.\\\\nPlease update the feed."
 
 msgid "하드웨어"
 msgstr "Hardware"
@@ -4974,7 +4974,7 @@ msgid "현재글 스크랩"
 msgstr "Star This Article"
 
 msgid "현재의 모든 데이터를 TTXML형태의 백업파일로 보관합니다.<br />첨부파일을 포함시킬 수 있으며, 복원할 경우 자동으로 첨부파일이 처리됩니다.<br />백업파일은 서버에 저장하거나 다운받으실 수 있습니다."
-msgstr "Store all data as TTXML backup file.<br />You can include attachments, and they will be processed automatically when restoring.<br />You can download backup file or store at the server."
+msgstr "Store all data as TTXML backup file.&lt;br /&gt;You can include attachments, and they will be processed automatically when restoring.&lt;br /&gt;You can download backup file or store at the server."
 
 msgid "현재창"
 msgstr "Current window"
@@ -5028,7 +5028,7 @@ msgid "환영합니다!"
 msgstr "Welcome!"
 
 msgid "환영합니다. <em>%1</em>님."
-msgstr "Welcome, <em>%1</em>"
+msgstr "Welcome, &lt;em&gt;%1&lt;/em&gt;"
 
 msgid "효과 제거"
 msgstr "Remove effect"
