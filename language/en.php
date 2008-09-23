@@ -1,4 +1,37 @@
-<?php
+<?php // English
+/* By Steve Yum, Lachesis & Media */
+/* By Sid. (bluemoon@postech.ac.kr) */
+/* By inureyes (inureyes@gmail.com) */
+/* By kimatg ( kimatg@gmail.com) */
+
+//$__text['Asia/Seoul'] = '';
+//$__text['Asia/Tokyo'] = '';
+//$__text['Asia/Shanghai'] = '';
+//$__text['Asia/Taipei'] = '';
+//$__text['Asia/Calcutta'] = '';
+//$__text['Europe/Berlin'] = '';
+//$__text['Europe/Paris'] = '';
+//$__text['Europe/London'] = '';
+//$__text['GMT'] = '';
+//$__text['America/New_York'] = '';
+//$__text['America/Chicago'] = '';
+//$__text['America/Denver'] = '';
+//$__text['America/Los_Angeles'] = '';
+//$__text['Australia/Sydney'] = '';
+//$__text['Australia/Melbourne'] = '';
+//$__text['Australia/Adelaide'] = '';
+//$__text['Australia/Darwin'] = '';
+//$__text['Australia/Perth'] = '';
+
+$__text['일요일'] = 'Sun';
+$__text['월요일'] = 'Mon';
+$__text['화요일'] = 'Tue';
+$__text['수요일'] = 'Wed';
+$__text['목요일'] = 'Thu';
+$__text['금요일'] = 'Fri';
+$__text['토요일'] = 'Sat';
+
+
 $__text["%1 설정"] = 'Set up %1';
 $__text["%1님께서 블로그의 팀원으로 초대합니다"] = '%1 as a teamblog leader invites you to join';
 $__text["BlogAPI를 사용하는 편집기들은 이 블로그로 글을 보내기 위하여 'API 주소'를 사용합니다."] = 'When using external blog editors, such as Ecto or MarsEdit, you can use this address.';
@@ -54,10 +87,10 @@ $__text['"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 �
 $__text['"%1"의 하위에 새 분류를 만듭니다.'] = 'Create new category under "%1"';
 $__text['%1 : 플러그인이 활성화되어 있지 않아 설정을 저장하지 못했습니다.'] = '%1 : Could not save setting. Maybe plugin is inactivated.';
 //$__text['%1 님의 댓글'] = '';
-$__text['%1 님의 댓글에 대한 댓글'] = 'Comment about %1\\'s comment';
+$__text['%1 님의 댓글에 대한 댓글'] = 'Comment about %1\'s comment';
 //$__text['%1 님의 방명록'] = '';
-$__text['%1 님의 방명록에 대한 댓글'] = 'Reply about %1\\'s guestbook';
-$__text['%1 님의 블로그'] = '%1\\'s blog';
+$__text['%1 님의 방명록에 대한 댓글'] = 'Reply about %1\'s guestbook';
+$__text['%1 님의 블로그'] = '%1\'s blog';
 $__text['%1 블로그의 방명록'] = 'Guestbook of %1 blog';
 $__text['%1 에 달린 댓글'] = 'Comment related to %1';
 $__text['%1 에 달린 트랙백'] = 'Trackback related to %1';
@@ -94,7 +127,7 @@ $__text['(예: %1/entry/텍스트큐브로-오신-것을-환영합니다)'] = '(
 $__text['(예: %1/tag/101)'] = '(ex.: %1/tag/101)';
 $__text['(예: %1/tag/텍스트큐브)'] = '(ex.: %1/tag/textcube)';
 $__text['(이름 없음 %1)'] = '(No name %1)';
-$__text['(찾아보기를 이용하여 사진을 선택하시면 바로 <b>변경</b> 저장됩니다)'] = '(Select picture using \\'Browse\\' then it will be changed.)';
+$__text['(찾아보기를 이용하여 사진을 선택하시면 바로 <b>변경</b> 저장됩니다)'] = '(Select picture using \'Browse\' then it will be changed.)';
 $__text['(필진에 공개 됩니다. 사진을 찍어 이메일로 보내면 포스팅이 됩니다)'] = '(Will post as author. You can add new post by taking photos and sending via E-Mail.';
 $__text['10위까지만 출력합니다'] = 'Show top 10 only';
 $__text['15위까지만 출력합니다'] = 'Show top 15 only';
@@ -388,7 +421,7 @@ $__text['관리 패널 화면에서 사용할 언어를 설정합니다.'] = 'Ch
 $__text['관리 패널의 스킨을 설정합니다'] = 'Setting admin. panel skin.';
 $__text['관리자 계정과 연결된 오픈아이디'] = 'OpenID linked with the admin. account.';
 $__text['관리자 로그인 비밀번호와 동일하게 사용하실 경우 비워두시기 바랍니다.'] = 'Leave as blank if you want to use login password.';
-$__text['관리자 비밀번호를 그대로 사용'] = 'Use admin\\'s password';
+$__text['관리자 비밀번호를 그대로 사용'] = 'Use admin\'s password';
 $__text['관리자 설정에 의해 오픈아이디로만 댓글을 남길 수 있습니다.'] = 'You have to log in with an OpenID to leave a comment.';
 $__text['관리자 정보 입력'] = 'Enter Admin Info';
 $__text['관리자 플러그인'] = 'Admin plugin';
@@ -717,7 +750,7 @@ $__text['모듈 추가'] = 'Add module';
 $__text['모듈'] = 'Module';
 $__text['모듈을 비활성화하지 못하였습니다.'] = 'Fail to inactivate module.';
 $__text['모든 글'] = 'All posts';
-$__text['모든 글과 블로그가 관리자의 소유로 옮겨집니다.'] = 'Every posts and blogs will be treated as service owner\\'s.';
+$__text['모든 글과 블로그가 관리자의 소유로 옮겨집니다.'] = 'Every posts and blogs will be treated as service owner\'s.';
 //$__text['모든 만물은 책이요 그림이요 또한 거울이니'] = '';
 $__text['모든 순위를 출력합니다'] = 'Show every ranking';
 $__text['모든 피드 새로고침'] = 'Refresh all feeds';
@@ -941,7 +974,7 @@ $__text['블로그에 표시되는 메세지의 언어를 설정합니다. 달�
 $__text['블로그에서 사용할 시간대를 설정합니다.'] = 'Choose timezone of this blog.';
 //$__text['블로그의 기본 스킨을 정합니다. 반드시 존재하는 스킨의 디렉토리 이름이어야 합니다.'] = '';
 $__text['블로그의 기본 정보를 설정합니다'] = 'Basic settings';
-$__text['블로그의 사이드바 구성을 변경할 수 있습니다. 사이드바는 블로그 화면에서 양 옆이나 위아래에 표시되는 메뉴가 있는 부분을 말합니다. 사이드바에 새로운 요소를 추가/삭제할 수 있으며 자유로운 위치 이동을 할 수 있습니다.'] = 'Configure your blog\\'s sidebar here. Sidebar is a collection of small widgets you can put into either side of your blog. You can drag widgets from the right to add them on top of another, or  just drag them out to delete them.';
+$__text['블로그의 사이드바 구성을 변경할 수 있습니다. 사이드바는 블로그 화면에서 양 옆이나 위아래에 표시되는 메뉴가 있는 부분을 말합니다. 사이드바에 새로운 요소를 추가/삭제할 수 있으며 자유로운 위치 이동을 할 수 있습니다.'] = 'Configure your blog\'s sidebar here. Sidebar is a collection of small widgets you can put into either side of your blog. You can drag widgets from the right to add them on top of another, or  just drag them out to delete them.';
 $__text['블로그의 표지 구성을 변경할 수 있습니다.'] = 'You can change the Cover setting.';
 $__text['비공개 글'] = 'Private post';
 $__text['비공개'] = 'Private';
@@ -964,7 +997,7 @@ $__text['비어 있는 블로그 설명'] = 'Empty blog description';
 $__text['비어 있는 타이틀'] = 'Empty title';
 $__text['비우기에 실패하였습니다.'] = 'Failed to delete.';
 $__text['비정상적인 데이터를 교정합니다.<br />동적인 캐쉬 데이터는 재계산하여 저장합니다.'] = 'Correcting data.&lt;br /&gt; Active cache data will be recalculated and saved.';
-$__text['사용 가능한 운영 방법은 다음과 같습니다. 선택하여 주십시오.'] = 'Please select Textcube\\'s mode of operation:';
+$__text['사용 가능한 운영 방법은 다음과 같습니다. 선택하여 주십시오.'] = 'Please select Textcube\'s mode of operation:';
 $__text['사용 불가능한 판번호'] = 'This version is not supported.';
 $__text['사용 안함'] = 'Do not use';
 $__text['사용가능한 스킨들의 목록입니다'] = 'Currently available skins';
@@ -1011,7 +1044,7 @@ $__text['삭제 이후에는 복원이 불가능합니다.'] = 'It is impossible
 $__text['삭제 하시겠습니까?'] = 'Do you want to delet it?';
 $__text['삭제'] = 'Delete';
 $__text['삭제: 본 계정과의 관계를 끊습니다.'] = 'Delete: Unlink the relationship from this account.';
-$__text['삭제되는 기존 사용자의 글은 전부 관리자의 글로 변환됩니다.'] = 'Every entry of deleted users will be changed to Admin\\'s one.';
+$__text['삭제되는 기존 사용자의 글은 전부 관리자의 글로 변환됩니다.'] = 'Every entry of deleted users will be changed to Admin\'s one.';
 $__text['삭제되었습니다.'] = 'Deletion complete';
 $__text['삭제된 파일 보기 설정'] = 'Set viewing option for deleted files.';
 $__text['삭제하고자 하는 테이블을 선택하여 주십시오.'] = 'Select table(s) to be deleted';
@@ -1735,7 +1768,7 @@ $__text['텍스트큐브 점검을 시작합니다.'] = 'Starts textcube mainten
 $__text['텍스트큐브 주소'] = 'Textcube URL';
 $__text['텍스트큐브 테이블을 삭제합니다'] = 'Delete Textcube Tables';
 $__text['텍스트큐브 홈페이지의 %1을 방문하시면 다양한 스킨을 다운로드 하실 수 있습니다. 일반적으로 스킨 파일을 텍스트큐브의 skin 디렉토리로 업로드하면 설치가 완료됩니다. 업로드가 완료된 스킨은 이 메뉴에서 적용 버튼을 눌러 사용하실 수 있습니다.'] = 'More themes can be found at %1. To use the theme, upload the theme file onto the skin directory, find the downloaded theme from the list, and click to select.';
-$__text['텍스트큐브 홈페이지의 %1을 방문하시면 다양한 플러그인을 받을 수 있습니다. 받은 플러그인 파일을 텍스트큐브의 plugin 디렉토리(폴더)로 업로드하면 설치가 완료됩니다. 업로드 후, 이 페이지에서 해당 플러그인을 사용중으로 전환하여 사용을 시작할 수 있습니다.'] = 'Please visit %1 at Textcube site to download more plugins. You can upload plugins into the /plugin folder of your Textcube install. Once uploaded, you can activate them here. For more information on the individual plugins, visit &lt;a href=\\'http://blog.textcube.org\\' onclick=\\'window.open(this.href); return false;\\'&gt;TNF Plugin Review&lt;/a&gt;.';
+$__text['텍스트큐브 홈페이지의 %1을 방문하시면 다양한 플러그인을 받을 수 있습니다. 받은 플러그인 파일을 텍스트큐브의 plugin 디렉토리(폴더)로 업로드하면 설치가 완료됩니다. 업로드 후, 이 페이지에서 해당 플러그인을 사용중으로 전환하여 사용을 시작할 수 있습니다.'] = 'Please visit %1 at Textcube site to download more plugins. You can upload plugins into the /plugin folder of your Textcube install. Once uploaded, you can activate them here. For more information on the individual plugins, visit &lt;a href=\'http://blog.textcube.org\' onclick=\'window.open(this.href); return false;\'&gt;TNF Plugin Review&lt;/a&gt;.';
 $__text['텍스트큐브 홈페이지의 스킨 업로드 게시판으로 연결합니다.'] = 'Connecting to the Theme upload BBS on Textcube official homepage.';
 $__text['텍스트큐브'] = 'Textcube';
 //$__text['텍스트큐브(Textcube) 는 웹에서 자신의 생각이나 일상을 기록하고 표현하기 위한 도구입니다.'] = '';
