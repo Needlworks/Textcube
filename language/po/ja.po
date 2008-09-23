@@ -1,13 +1,16 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: Textcube/1.7\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-06-09 17:49+0900\n"
-"Last-Translator: Louice P <admin@louice.net>\n"
-"Language-Team: TEXTCUBE\n"
+"PO-Revision-Date: 2008-09-21 21:35+0900\n"
+"Last-Translator: Sojeong Yoon <admin@louice.net>\n"
+"Language-Team: LSI Mobile <admin@louice.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Japanese\n"
+"X-Poedit-Country: JAPAN\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
 msgid "default:Asia/Seoul"
 msgstr "大韓民国(ソウル)"
@@ -544,6 +547,9 @@ msgstr "Comments テーブルから openid フィールドを作成します。"
 msgid "Developer"
 msgstr "開発者"
 
+msgid "fancyURL이 적용되지 않는 공지 글에 슬로건을 추가합니다."
+msgstr "fancyURLを利用しない告知記事に短縮リンクを適用します。"
+
 msgid "FOAF 지원"
 msgstr "FOAF属性設定"
 
@@ -868,6 +874,9 @@ msgstr "同居中"
 msgid "같이 일하는"
 msgstr "仲間"
 
+msgid "개"
+msgstr "件"
+
 msgid "개발자"
 msgstr "開発者"
 
@@ -952,6 +961,15 @@ msgstr "検索時"
 
 msgid "검색"
 msgstr "検索"
+
+msgid "검색어 순위 출력은"
+msgstr "キーワード表示方法"
+
+msgid "검색어명"
+msgstr "キーワード"
+
+msgid "검색어에 주로 쓰인 단어"
+msgstr "主要キーワード"
 
 msgid "검색엔진이 링크 관계를 인식할 수 있도록 링크에 FOAF를 추가합니다."
 msgstr "ブックパークリレーション(FOAF属性)設定"
@@ -1198,6 +1216,9 @@ msgstr "記事数表示"
 msgid "글 수집하기"
 msgstr "記事収集<br />"
 
+msgid "글 쓰기 환경 설정"
+msgstr "作成環境設定"
+
 msgid "글 작성 환경을 설정합니다"
 msgstr "作成環境設定"
 
@@ -1438,6 +1459,12 @@ msgstr "次の記事へ"
 msgid "다음 글"
 msgstr "次の記事<br />"
 
+msgid "다음 송신자로부터 전송된 메일도 MMS로 인식하여 처리합니다"
+msgstr "次の発信源からのメールも携帯電話から送信したメールとして認識"
+
+msgid "다음 송신자로부터 전송된 메일만 MMS로 인식하여 처리합니다"
+msgstr "次の発信源からのメールのみを携帯電話から送信したメールとして認識"
+
 msgid "다음 이미지 보기"
 msgstr "次の画像"
 
@@ -1595,7 +1622,7 @@ msgid "댓글, 걸린글(트랙백) 및 통합 RSS의 글은 최신 %1개로 갱
 msgstr "統合更新範囲は最新の %1 件のコメントやトラックバックで設定"
 
 msgid "댓글, 걸린글, 리퍼러가 입력될 때 아래의 단어가 포함되어 있으면 알림창을 띄우고 휴지통으로 보냅니다."
-msgstr "コメント、トラックバック、リファラがの入力時に下の単語を含めるとポップアップメッセージを出力してごみ箱へ移動します。"
+msgstr "コメントやトラックバック、リファラの受信時に、下のキーワードを含めているとエラーメッセージを表示しごみ箱へ転送します。"
 
 msgid "댓글/걸린글 개수"
 msgstr "コメント<br />トラックバック"
@@ -1886,7 +1913,7 @@ msgid "등록된 %1 키워드 목록입니다"
 msgstr "%1 キーワード一覧"
 
 msgid "등록된 내용이 없습니다."
-msgstr "作成した内容がありません。"
+msgstr "登録キーワードなし"
 
 msgid "등록된 댓글 목록입니다"
 msgstr "コメント一覧"
@@ -2002,6 +2029,9 @@ msgstr "リスト"
 msgid "리스트"
 msgstr "検索：記事一覧"
 
+msgid "리퍼러 검색어 통계"
+msgstr "リファラキーワード統計"
+
 msgid "리퍼러 로그 테이블의 구조를 변경합니다."
 msgstr "リファラログテーブルの構成を更新します。"
 
@@ -2065,6 +2095,9 @@ msgstr "外部アクセスができない画像"
 msgid "링크를 %1 글자로 표시합니다."
 msgstr "ブックマークを %1 文字で表示"
 
+msgid "링크를 만들 영역을 선택해주세요"
+msgstr "ハイパーリンクに指定する領域をご選択ください。"
+
 msgid "링크를 복원하고 있습니다."
 msgstr "ブックマークを復元中…"
 
@@ -2125,6 +2158,9 @@ msgstr "メールサーバー設定"
 msgid "메일 전송에 실패하였습니다."
 msgstr "メール送信に失敗しました。"
 
+msgid "메일 필터링 설정"
+msgstr "メール拒否設定"
+
 msgid "메일"
 msgstr "メール"
 
@@ -2160,6 +2196,9 @@ msgstr "除名するメンバーの全ての権限は最高管理者へ移転さ
 
 msgid "모든 만물은 책이요 그림이요 또한 거울이니"
 msgstr "この世の被造物はみな我々にとって、いわば本や、絵や、鏡のようなものだ。"
+
+msgid "모든 순위를 출력합니다"
+msgstr "全体順位表示"
 
 msgid "모든 피드 새로고침"
 msgstr "全体フィード更新"
@@ -2238,6 +2277,9 @@ msgstr "スタート"
 
 msgid "바로가기"
 msgstr "スタート"
+
+msgid "박스로 둘러쌀 영역을 선택해주세요"
+msgstr "テキストボックスに指定する領域をご選択ください。"
 
 msgid "받는 사람"
 msgstr "受取人"
@@ -2497,6 +2539,9 @@ msgstr "サーバー外部からデータ復元のためバックアップデー
 
 msgid "복원하기"
 msgstr "復元"
+
+msgid "복원하지 못했습니다."
+msgstr "復元に失敗しました。"
 
 msgid "본문 테이블에 별표 및 작성 중 글 표시를 위한 필드를 추가합니다."
 msgstr "本文テーブルにスターマークや作成中の記事を表示するため新規フィールドを作成します。"
@@ -3313,6 +3358,9 @@ msgstr "選択したコメントを削除します、よろしいですか？"
 msgid "선택된 댓글 및 방명록을 복원합니다. 계속 하시겠습니까?"
 msgstr "選択したコメントを復元します、よろしいですか？"
 
+msgid "선택된 댓글 및 방명록을 삭제합니다. 계속 하시겠습니까?"
+msgstr "選択したコメントを削除します、よろしいですか？"
+
 msgid "선택된 댓글을 삭제합니다. 계속 하시겠습니까?"
 msgstr "選択したコメントを削除します、よろしいですか？"
 
@@ -3491,6 +3539,9 @@ msgid "센터"
 msgstr "スタート"
 
 msgid "센터로 바로 가기"
+msgstr "スタートページへ"
+
+msgid "센터로 이동합니다."
 msgstr "スタートページへ"
 
 msgid "소스를 포함한 소프트웨어에 포함된 모든 저작물(이하, 텍스트큐브)의 저작권자는 Needlworks / TNF 입니다."
@@ -3913,6 +3964,9 @@ msgstr "例: Options <strong>FollowSymLinks</strong>"
 msgid "예"
 msgstr "はい"
 
+msgid "예외 처리할 홈페이지"
+msgstr "URL拒否除外設定"
+
 msgid "예약"
 msgstr "予約"
 
@@ -4120,6 +4174,9 @@ msgstr "W3C標準遵守範囲以内からMicroformatを利用"
 
 msgid "위 2와 3의 문제는 아래 내용을 웹서버 설정에 포함시켜 해결할 수 있습니다."
 msgstr "上記の2･3の問題は下の内容をウェブサーバーの設定に含ませて解決できます。"
+
+msgid "위"
+msgstr "上"
 
 msgid "위로 스크롤"
 msgstr "上段へスクロール<br />"
@@ -4332,6 +4389,12 @@ msgstr "非公開分類設定"
 msgid "이 테이블을 삭제합니다."
 msgstr "テーブル削除"
 
+msgid "이 편집기에서는 iMazing 갤러리를 지원하지 않습니다."
+msgstr "利用中の作成環境からはiMazingギャラリーの利用ができません。"
+
+msgid "이 편집기에서는 주크박스를 지원하지 않습니다."
+msgstr "利用中の作成環境からはJukeboxの利用ができません。"
+
 msgid "이 포스트를 삭제합니다."
 msgstr "記事削除"
 
@@ -4487,6 +4550,12 @@ msgstr "画像リサンプリングは画像の出力時にファイルのサイ
 
 msgid "이미지 에디터"
 msgstr "画像編集"
+
+msgid "이미지 파일만 삽입 가능합니다."
+msgstr "画像ファイルのみ挿入"
+
+msgid "이미지 파일만 적용할 수 있습니다"
+msgstr "画像ファイルのみで利用"
 
 msgid "이올린 태그 추천 사용"
 msgstr "イオリンおすすめタグ設定"
@@ -4665,6 +4734,9 @@ msgstr "お知り合い"
 
 msgid "잘못된 IP 주소입니다."
 msgstr "正しくない形式のIPアドレスです。"
+
+msgid "잘못된 OBJECT 태그입니다."
+msgstr "正しくない形式の OBJECT タグです。"
 
 msgid "잘못된 요청입니다."
 msgstr "正しくない形式のリクエストです。"
@@ -5075,6 +5147,12 @@ msgstr "総 %d 件のメッセージ"
 msgid "총 %d건"
 msgstr "総 %d件"
 
+msgid "총 검색어 개수"
+msgstr "キーワードの総数"
+
+msgid "총 리퍼러 개수"
+msgstr "リファラの総数"
+
 msgid "총 키워드 개수"
 msgstr "キーワードの総数"
 
@@ -5216,6 +5294,12 @@ msgstr "最新記事数"
 msgid "출력될 최근 댓글 수"
 msgstr "新着コメント数"
 
+msgid "출력하지 않습니다"
+msgstr "非表示"
+
+msgid "출력합니다"
+msgstr "表示"
+
 msgid "취소"
 msgstr "キャンセル"
 
@@ -5297,8 +5381,14 @@ msgstr "トラックバックアドレス自動コピー機能を設定"
 msgid "클릭 설정"
 msgstr "クリック設定"
 
+msgid "클릭하시면 HTML 모드로 변경합니다."
+msgstr "HTML編集モード"
+
 msgid "클릭하시면 HTML 편집기로 변경합니다."
 msgstr "HTML入力モードへ転換"
+
+msgid "클릭하시면 WYSIWYG 모드로 변경합니다."
+msgstr "WYSIWYG編集モード"
 
 msgid "키로그"
 msgstr "キーログ"
@@ -5608,6 +5698,12 @@ msgstr "Faviconをリセットしました。"
 msgid "파비콘을 초기화합니다."
 msgstr "Faviconリセット"
 
+msgid "파일 리스트에서 이미지를 2개 선택해 주십시오. (ctrl + 마우스 왼쪽 클릭)"
+msgstr "添付ファイルの中で2つの画像ファイルをご選択ください。"
+
+msgid "파일 리스트에서 이미지를 3개 선택해 주십시오. (ctrl + 마우스 왼쪽 클릭)"
+msgstr "添付ファイルの中で3つの画像ファイルをご選択ください。"
+
 msgid "파일 삽입"
 msgstr "ファイル挿入"
 
@@ -5764,7 +5860,13 @@ msgstr "メタページ"
 msgid "표지는 블로그 첫 화면 또는 %1/cover 에 표시되는 부분입니다."
 msgstr "メタページはブログのトップページ或いは %1/cover に表示されるページのことであります。"
 
+msgid "표지를 관리합니다"
+msgstr "メタページ設定"
+
 msgid "표지를 블로그의 첫 화면으로 사용합니다"
+msgstr "メタページをトップページに設定"
+
+msgid "표지를 첫 화면으로 사용합니다"
 msgstr "メタページをトップページに設定"
 
 msgid "표지에 새로운 요소를 추가/삭제할 수 있으며 패널들을 자유롭게 배치 할 수 있습니다."
@@ -5968,8 +6070,20 @@ msgstr "チームブログ"
 msgid "필터 설정을 복원하고 있습니다."
 msgstr "拒否設定を復元中…"
 
+msgid "필터 예외 항목을 설정합니다"
+msgstr "拒否除外設定"
+
+msgid "필터 처리시 예외로 처리할 항목입니다. 예외 처리 항목은 필터보다 우선적으로 처리되므로, 주의해서 추가해야 합니다."
+msgstr "下のキーワードを拒否設定から除外します。除外設定は拒否設定より優先的で処理するのでキーワード作成時にご注意ください。"
+
+msgid "필터 테이블에 예외 목록을 추가하기 위하여 필드 속성을 변경합니다."
+msgstr "拒否除外設定のため、拒否テーブルの属性を更新します。"
+
 msgid "필터를 설정합니다"
 msgstr "拒否設定"
+
+msgid "필터링된 리퍼러 개수"
+msgstr "ブロックされたリファラ数"
 
 msgid "필터링을 삭제하지 못했습니다."
 msgstr "拒否設定の削除に失敗しました。"
@@ -6013,6 +6127,9 @@ msgstr "選択したテーブルを削除します、よろしいですか？ �
 
 msgid "행동을 지정합니다."
 msgstr "作業設定"
+
+msgid "허용 목록"
+msgstr "許可項目"
 
 msgid "허용 시 문제가 발생할 수 있습니다."
 msgstr "許可するとエラーが発生する可能性があります。"

@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-07 18:40:57+0000\n"
-"PO-Revision-Date: 2008-03-07 18:40:57+0000\n"
+"POT-Creation-Date: 2008-09-23 10:22:28+0000\n"
+"PO-Revision-Date: 2008-09-23 10:22:28+0000\n"
 "Last-Translator: TEXTCUBE\n"
 "Language-Team: TEXTCUBE\n"
 "MIME-Version: 1.0\n"
@@ -68,8 +68,17 @@ msgstr "세계 표준 시간"
 msgid "fontDisplayName:fontCode:fontFamily"
 msgstr "fontDisplayName:fontCode:fontFamily|바탕:Batang:Serif|바탕체:BatangChe: Serif|굴림:Gulim:Sans-serif|굴림체:GulimChe:Sans-serif|돋움:Dotum:Sans-serif|돋움체:DotumChe:Sans-serif"
 
-msgid "걸린글"
-msgstr "걸린글(트랙백)"
+msgid "건 글"
+msgstr "보낸 트랙백"
+
+msgid "건 글 목록입니다"
+msgstr "보낸 트랙백 목록입니다"
+
+msgid "걸린 글"
+msgstr "받은 트랙백"
+
+msgid "걸린글 목록입니다"
+msgstr "받은 트랙백 목록입니다"
 
 msgid "걸린글을 기본으로 펼칩니다."
 msgstr "걸린글(트랙백)을 기본으로 펼칩니다."
@@ -79,6 +88,15 @@ msgstr "걸린글(트랙백)를 복원하지 못했습니다."
 
 msgid "걸린글을 지우지 못했습니다."
 msgstr "걸린글(트랙백)을 지우지 못했습니다."
+
+msgid "공지사항"
+msgstr "텍스트큐브 공지"
+
+msgid "관련글에 글을 겁니다."
+msgstr "글을 겁니다. (트랙백을 보냅니다)"
+
+msgid "글 개수"
+msgstr "글 수"
 
 msgid "글걸기"
 msgstr "글걸기(트랙백)"
@@ -92,20 +110,17 @@ msgstr "금"
 msgid "댓글, 걸린글, 리퍼러가 입력될 때 아래의 단어가 포함되어 있으면 알림창을 띄우고 휴지통으로 보냅니다."
 msgstr "댓글, 걸린글(트랙백), 리퍼러가 입력될 때 아래의 단어가 포함되어 있으면 알림창을 띄우고 휴지통으로 보냅니다."
 
-msgid "댓글/걸린글 개수"
-msgstr "댓글/걸린글(트랙백) 개수"
-
 msgid "목요일"
 msgstr "목"
+
+msgid "바깥 글 읽기"
+msgstr "RSS 바깥 글 읽기"
 
 msgid "블로그에 아이디가 있는 경우만 접근할 수 있도록 합니다."
 msgstr "이 서비스에 아이디가 있는 경우만 접근할 수 있도록 합니다."
 
 msgid "삭제 대기중인 걸린글입니다"
 msgstr "삭제 대기중인 걸린글(트랙백)입니다"
-
-msgid "색동"
-msgstr "표지"
 
 msgid "선택된 걸린글을 복원합니다. 계속 하시겠습니까?"
 msgstr "선택된 걸린글(트랙백)을 복원합니다. 계속 하시겠습니까?"
@@ -121,6 +136,12 @@ msgstr "선택된 걸린글(트랙백)을 휴지통으로 옮깁니다. 계속 �
 
 msgid "선택한 걸린글을"
 msgstr "선택한 걸린글(트랙백)을"
+
+msgid "소통"
+msgstr "커뮤니케이션"
+
+msgid "소통 기록"
+msgstr "댓글/트랙백 기록"
 
 msgid "수요일"
 msgstr "수"
@@ -147,10 +168,10 @@ msgid "일요일"
 msgstr "일"
 
 msgid "조각보"
-msgstr "센터"
+msgstr "알림판 위젯"
 
 msgid "조각보를 봅니다"
-msgstr "센터를 봅니다"
+msgstr "알림판"
 
 msgid "최근 걸린글 길이"
 msgstr "최근 걸린글(트랙백) 길이"
