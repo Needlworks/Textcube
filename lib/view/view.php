@@ -951,13 +951,14 @@ function getAuthorListView($authorInfo, $template) {
 	return $view;
 }
 
-function getRecentNoticesView($notices, $noticeView, $noticeItemView) {
+function getRecentNoticesView($notices, $noticeView, $noticeItemView, $isPage = false) {
 	global $blog, $service, $blogURL, $skinSetting, $contentContainer;
+	if($isPage) $prefix = 'page' else $prefix = 'notice';
 	if (sizeof($notices) > 0) {
 		$itemsView = '';
 		foreach ($notices as $notice) {
 			$itemView = $noticeItemView;
-			dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', UTF8::lessenAsEm($notice['title'], $skinSetting['recentNoticeLength']), $notice['id'])), $itemView);
+			dress($prefix.'_rep_title', htmlspecialchars(fireEvent('View'.$prefix.'Title', UTF8::lessenAsEm($notice['title'], $skinSetting['recentNoticeLength']), $notice['id'])), $itemView);
 			if($blog['useSloganOnPost']) {
 				if(isset($notice['slogan'])&& !empty($notice['slogan'])) {
 					$noticeURL = URL::encode($notice['slogan']);
@@ -968,10 +969,10 @@ function getRecentNoticesView($notices, $noticeView, $noticeItemView) {
 				$noticeURL = $notice['id'];
 			}
 			
-			dress('notice_rep_link', "$blogURL/notice/$noticeURL", $itemView);
+			dress($prefix.'_rep_link', "$blogURL/".$prefix."/$noticeURL", $itemView);
 			$itemsView .= $itemView;
 		}
-		dress('rct_notice_rep', $itemsView, $noticeView);
+		dress('rct_'.$prefix.'_rep', $itemsView, $noticeView);
 	}
 	return $noticeView;
 }

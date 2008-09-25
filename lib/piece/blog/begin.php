@@ -32,7 +32,7 @@ if (!empty($category)) {
 } else if (($suri['directive'] == '/' && is_numeric($suri['value'])) || $suri['directive'] == '/owner/entry/preview') {
 	dress('body_id',"tt-body-entry",$view);
 } else if ($suri['directive'] == '/') {
-	dress('body_id',"tt-body-page",$view);
+	dress('body_id',"tt-body-pages",$view);
 } else {
 	dress('body_id',"tt-body-".ltrim($suri['directive'],'/'),$view);
 }
