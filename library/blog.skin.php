@@ -213,6 +213,8 @@ class Skin {
 			list($sval, $this->keylogItem) = $this->cutSkinTag($sval, 'keylog_rep');
 			list($sval, $this->recentNoticeItem) = $this->cutSkinTag($sval, 'rct_notice_rep');
 			list($sval, $this->recentNotice) = $this->cutSkinTag($sval, 'rct_notice');
+			list($sval, $this->recentPageItem) = $this->cutSkinTag($sval, 'rct_page_rep');
+			list($sval, $this->recentPage) = $this->cutSkinTag($sval, 'rct_page');
 			list($sval, $this->locativeEntry) = $this->cutSkinTag($sval, 'local_info_rep');
 			list($sval, $this->locativeSpot) = $this->cutSkinTag($sval, 'local_spot_rep');
 			list($sval, $this->locative) = $this->cutSkinTag($sval, 'local');
