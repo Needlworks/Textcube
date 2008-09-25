@@ -5,7 +5,7 @@
 
 define('__TEXTCUBE_SETUP__',true);
 header('Content-Type: text/html; charset=utf-8');
-ini_set('display_errors', 'on');
+ini_set('display_errors', 'off');
 $__requireComponent = $__requireView = $__requireModel = $__requireLibrary = array();
 if (get_magic_quotes_gpc()) {
     foreach ($_GET as $key => $value)
@@ -675,14 +675,14 @@ xml_set_object
             }
             else {
                 $error = 8;
-               echo '<li style="color:red">', _t('웹 설정 파일'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0666'), _f('FTP 프로그램으로 권한을 수정하시거나 다음의 명령을 터미널에 붙여 넣으시면 됩니다 : %1','chmod 0666 '.$filename), '</li>';
+               echo '<li style="color:red">', _t('웹 설정 파일'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0666'), '<br />', _f('FTP 프로그램으로 권한을 수정하시거나 다음의 명령을 터미널에 붙여 넣으시면 됩니다 : %1','chmod 0666 '.$filename), '</li>';
             }
         }
         else if (is_writable($root))
            echo '<li>', _t('웹 설정 파일'), ': OK</li>';
         else {
             $error = 9;
-           echo '<li style="color:red">', _t('웹 설정 파일'), ': ', _f('"%1"에 %2 파일을 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, '.htaccess', '0777'), _f('FTP 프로그램으로 권한을 수정하시거나 다음의 명령을 터미널에 붙여 넣으시면 됩니다 : %1','chmod 0777 '.$root), '</li>';
+           echo '<li style="color:red">', _t('웹 설정 파일'), ': ', _f('"%1"에 %2 파일을 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, '.htaccess', '0777'), '<br /><span class="instruction">', _f('FTP 프로그램으로 권한을 수정하시거나 다음의 명령을 터미널에 붙여 넣으시면 됩니다 : %1','chmod 0777 '.$root), '</span></li>';
         }
         
         $filename = $root . '/config.php';
@@ -695,14 +695,14 @@ xml_set_object
             }
             else {
                 $error = 10;
-               echo '<li style="color:red">', _t('설정 파일'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0666'), '</li>';
+               echo '<li style="color:red">', _t('설정 파일'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0666'), '<br /><span class="instruction">', _f('FTP 프로그램으로 권한을 수정하시거나 다음의 명령을 터미널에 붙여 넣으시면 됩니다 : %1','chmod 0666 '.$filename), '</span></li>';
             }
         }
         else if (is_writable($root))
            echo '<li>', _t('설정 파일'), ': OK</li>';
         else {
             $error = 11;
-           echo '<li style="color:red">', _t('설정 파일'), ': ', _f('"%1"에 %2 파일을 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'config.php', '0777'), '</li>';
+           echo '<li style="color:red">', _t('설정 파일'), ': ', _f('"%1"에 %2 파일을 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'config.php', '0777'), '<br /><span class="instruction">', _f('FTP 프로그램으로 권한을 수정하시거나 다음의 명령을 터미널에 붙여 넣으시면 됩니다 : %1','chmod 0777 '.$root), '</span></li>';
         }
         
         $filename = $root . '/attach';
@@ -718,7 +718,7 @@ xml_set_object
            echo '<li>', _t('첨부 디렉토리'), ': OK</li>';
         } else {
             $error = 13;
-           echo '<li style="color:red">', _t('첨부 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'attach', '0777'), '</li>';
+           echo '<li style="color:red">', _t('첨부 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'attach', '0777'), '<br /><span class="instruction">', _f('FTP 프로그램으로 권한을 수정하시거나 다음의 명령을 터미널에 붙여 넣으시면 됩니다 : %1','chmod 0777 '.$root), '</span></li>';
         }
         
         $filename = $root . '/cache';
@@ -727,14 +727,14 @@ xml_set_object
                echo '<li>', _t('캐시 디렉토리'), ': OK</li>';
             else {
                 $error = 12;
-               echo '<li style="color:red">', _t('캐시 디렉토리'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0777'), '</li>';
+				   echo '<li style="color:red">', _t('캐시 디렉토리'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0777'), '<br /><span class="instruction">', _f('FTP 프로그램으로 권한을 수정하시거나 다음의 명령을 터미널에 붙여 넣으시면 됩니다 : %1','chmod 0777 '.$filename), '</span></li>';
             }
         } else if (mkdir($filename)) {
 			@chmod($filename, 0777);
            echo '<li>', _t('캐시 디렉토리'), ': OK</li>';
         } else {
             $error = 13;
-           echo '<li style="color:red">', _t('캐시 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'cache', '0777'), '</li>';
+           echo '<li style="color:red">', _t('캐시 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'cache', '0777'), '<br /><span class="instruction">', _f('FTP 프로그램으로 권한을 수정하시거나 다음의 명령을 터미널에 붙여 넣으시면 됩니다 : %1','chmod 0777 '.$root), '</span></li>';
         }
 
 /*        $filename = $root . '/remote';
@@ -759,14 +759,14 @@ xml_set_object
                echo '<li>', _t('스킨 디렉토리'), ': OK</li>';
             else {
                 $error = 14;
-               echo '<li style="color:red">', _t('스킨 디렉토리'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0777'), '</li>';
+               echo '<li style="color:red">', _t('스킨 디렉토리'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0777'), '<br /><span class="instruction">', _f('FTP 프로그램으로 권한을 수정하시거나 다음의 명령을 터미널에 붙여 넣으시면 됩니다 : %1','chmod 0777 '.$filename), '</span></li>';
             }
         } else if (mkdir($filename)) {
 			@chmod($filename, 0777);
            echo '<li>', _t('스킨 디렉토리'), ': OK</li>';
         } else {
             $error = 15;
-           echo '<li style="color:red">', _t('스킨 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', "$root/skin/blog", 'customize', '0777'), '</li>';
+           echo '<li style="color:red">', _t('스킨 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', "$root/skin/blog", 'customize', '0777'), '<br /><span class="instruction">', _f('FTP 프로그램으로 권한을 수정하시거나 다음의 명령을 터미널에 붙여 넣으시면 됩니다 : %1','chmod 0777 '."$root/skin/blog"), '</span></li>';
         }
 
 ?>
