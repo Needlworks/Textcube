@@ -38,7 +38,7 @@ if (isset($cache->contents)) {
 		if ($suri['directive'] == '/notice')
 			$permalink = "$blogURL/notice/" . ($blog['useSloganOnPost'] ? URL::encode($entry['slogan'], $service['useEncodedURL']) : $entry['id']);
 		else if ($suri['directive'] == '/page')
-			$permalink = "$blogURL/page/{$entry['id']}";
+			$permalink = "$blogURL/page/" . ($blog['useSloganOnPost'] ? URL::encode($entry['slogan'], $service['useEncodedURL']) : $entry['id']);
 		else
 			$permalink = "$blogURL/" . ($blog['useSloganOnPost'] ? "entry/" . URL::encode($entry['slogan'],$service['useEncodedURL']) : $entry['id']);
 
