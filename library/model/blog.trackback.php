@@ -480,4 +480,34 @@ function getInfoFromTrackbackURL($url) {
 
 	return $result;
 }
+
+function getRDFfromURL($url) {
+	requireComponent('Needlworks.PHP.HTTPRequest');
+
+	$request = new HTTPRequest($url);
+
+	if (!$request->send() || !$request->responseText) {
+		return false;
+	}
+
+	if (!preg_match('!<rdf:RDF\s+[^>]+>.*?</rdf:RDF>!s', $request->responseText, $match)) {
+		return false;
+	}
+
+	$doc = DOMDocument::loadXML($match[0]);
+	if (!$doc) {
+		return false;
+	}
+
+	$desc = $doc->getElementsByTagNameNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'Description')->item(0);
+	if ($desc === null) {
+		return false;
+	}
+
+	return array(
+		'title' => $desc->getAttributeNS('http://purl.org/dc/elements/1.1/', 'title'),
+		'url' => $desc->getAttributeNS('http://purl.org/dc/elements/1.1/', 'identifier'),
+		'trackbackURL' => $desc->getAttributeNS('http://madskills.com/public/xml/rss/module/trackback/', 'ping')
+	);
+}
 ?>
