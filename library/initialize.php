@@ -93,7 +93,7 @@ if (!defined('NO_INITIALIZAION')) {
 **/
 
 	// 관리 모드 스킨 및 에디터 템플릿 설정.
-	if(!defined('NO_ADMINPANEL')) {
+	if(defined('__TEXTCUBE_ADMINPANEL__')) {
 		$adminSkinSetting = array();
 		$adminSkinSetting['skin'] = "/skin/admin/".getBlogSetting("adminSkin", "canon");
 		// 1.5에서 올라온 경우 스킨이 있는 경우를 위한 workaround.

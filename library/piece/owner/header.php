@@ -405,12 +405,6 @@ $helpURL = $blogMenu['topMenu'].(isset($blogMenu['contentMenu']) ? '/'.$submenuU
 $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = ".getUserId());
 ?>
 						<li id="description-blogger"><span class="text"><?php echo _f('환영합니다. <em>%1</em>님.', htmlspecialchars($writer));?></span></li>
-<?php
-						if ('single' != $service['type'] ) {
-?>
-						<li id="description-teamblog"><label for="teamblog"><?php echo _t('현재 블로그');?></label>
-						</li>
-<?php } ?>
 					</ul>
 				</div>
 				
@@ -428,7 +422,13 @@ $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 
 				<div id="main-blog-box">
 					<div id="main-blog">
-<?php echo User::changeBlog();?>
+<?php
+						if ('single' != $service['type'] ) {
+?>
+						<label for="blog-list"><?php echo _t('현재 블로그');?></label>
+<?php echo User::changeBlog();
+						}
+?>
 					</div>
 				</div>
 

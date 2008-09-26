@@ -4,7 +4,6 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 define('NO_LOCALE',true);
-define('NO_ADMINPANEL',true);
 
 $__requireComponent = array();
 $__requireBasics = array(		// Basics
