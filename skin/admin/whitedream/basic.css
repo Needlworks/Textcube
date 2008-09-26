@@ -36,7 +36,7 @@ body
 	color                            : #666666;
 	font-family                      : 'Lucida Grande', Arial, AppleGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
 	font-size                        : small;
-	margin                           : 0 10px 0 10px;
+	margin                           : 0;
 }
 
 dl
@@ -173,46 +173,29 @@ textarea
 }
 
 /* Layout Header **********************************************************************************/
-
+#layout-header
+{
+	width                            : 100%;
+}
 /* main description */
 #main-description-box
 {
-	height                           : 49px;
-	position                         : relative;
+	position                         : absolute;
+	top                              : 10px;
+	left                             : 230px;
+	height                           : 29px;
+/*	position                         : relative;*/
 }
 
 #main-description
 {
-	bottom                           : 5px;
-	right                            : 10px;
-	position                         : absolute;
 	text-align                       : right;
-	width                            : 100%;
 }
 
 #main-description li
 {
 	display                          : inline;
 	line-height                      : 33px;
-}
-
-#description-blogger
-{
-	float                            : left;
-	margin-left                      : 210px;
-}
-
-#description-teamblog
-{
-	background-image                 : url("./image/bg_menu_divider.gif");
-	background-position              : right top;
-	background-repeat                : no-repeat;
-	padding-right                    : 10px;
-}
-
-#description-teamblog label
-{
-	padding-right                    : 5px;
 }
 
 #description-blog
@@ -223,34 +206,54 @@ textarea
 	padding-right                    : 10px;
 }
 
-#description-blog a
-{
-	background-image                 : url("./image/img_to_my_blog.gif");
-	background-position              : right center;
-	background-repeat                : no-repeat;
-	color                            : #222;
-	padding                          : 4px 20px 0 0;
-}
 /* main action box */
 
 #main-action-box
 {
-	position:absolute;
-	left : 10px;
-top :0;
+	position                         : absolute;
+	right                            : 10px;
+	top                              : 15px;
 }
+
 #main-action li 
 {
 	float:left;
 	display:block;
 }
-#description-logout a
+
+#action-helper
+{
+	background-image                 : url("./image/img_helper.gif");
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	color                            : #222;
+	padding                          : 4px 20px 0 10px;
+}
+
+#action-move-to-blog a
+{
+	background-image                 : url("./image/img_to_my_blog.gif");
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	color                            : #222;
+	padding                          : 4px 20px 0 10px;
+}
+
+#action-logout a
 {
 	background-image                 : url("./image/img_logout.gif");
 	background-position              : right center;
 	background-repeat                : no-repeat;
 	color                            : #222;
-	padding                          : 4px 20px 0 0;
+	padding                          : 4px 20px 0 10px;
+}
+
+/* main blog box */
+#main-blog-box
+{
+	position                         : absolute;
+	top                              : 12px;
+    right                            : 300px;
 }
 
 /* main menu */
@@ -261,7 +264,9 @@ top :0;
 	background-repeat                : repeat-x;
 	height                           : 40px;
 	line-height                      : 3em;
-	margin-top                       : 1px;
+	position                         : absolute;
+	top                              : 49px;
+	width                            : 100%;
 }
 
 #main-menu
@@ -270,7 +275,6 @@ top :0;
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	height                           : 40px;
-	width                            : 100%;
 }
 
 #main-menu li
@@ -392,20 +396,21 @@ top :0;
 {
 	background-image                 : url("./image/img_header_textcube.png");
 	background-repeat                : no-repeat;
-	height                           : 70px;
+	height                           : 78px;
 	left                             : 0;
 	padding                          : 0 !important;
 	position                         : absolute;
 	text-indent                      : -1000px;
-	top                              : 15px;
+	top                              : -42px;
 	width                            : 180px;
 	z-index                          : 100;
+	margin-left:0 !important;
 }
 
 #menu-textcube a
 {
 	display                          : block;
-	height                           : 70px;
+	height                           : 78px;
 	width                            : 180px;
 }
 
@@ -417,18 +422,15 @@ top :0;
 }
 
 /* Layout Body ***********************************************************************************/
+#layout-body
+{
+	margin-top                      : 90px;
+}
 
 #sub-menu-box
 {
 	clear                            : both;
-	height                           : 0.4em;
-	line-height                      : 2.4em;
-	padding-left                     : 200px;
-}
-
-#sub-menu
-{
-	display                          : none;
+	display                          : none;	
 }
 
 #sub-menu-helper

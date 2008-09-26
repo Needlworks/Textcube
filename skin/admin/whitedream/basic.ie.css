@@ -2,11 +2,6 @@
 
 /* Layout Header **********************************************************************************/
 
-#description-blog
-{
-	padding-right                    : 7px;
-}
-
 /* main menu */
 #main-menu-box
 {
@@ -36,15 +31,20 @@
 #main-menu #menu-textcube
 {
 	background-image                 : url("./image/img_header_textcube.gif") !important;
-}
-
-#sub-menu-helper
-{
-	height                           : 40px;
-	line-height                      : 3.3em;
+	top                              : -50px !important;
+	height                           : 90px;
 }
 
 /* Layout Body ***********************************************************************************/
+#layout-header
+{
+	z-index:2;
+}
+#layout-body
+{
+	padding-top                      : 10px !important;
+	z-index                          : 0 !important;
+}
 
 /* data subbox */
 #page-section .page-count
