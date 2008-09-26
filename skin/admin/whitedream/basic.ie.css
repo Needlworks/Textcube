@@ -2,6 +2,10 @@
 
 /* Layout Header **********************************************************************************/
 
+#action-helper
+{
+	right                            : 0 !important;
+}
 /* main menu */
 #main-menu-box
 {

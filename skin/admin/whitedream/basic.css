@@ -223,11 +223,27 @@ textarea
 
 #action-helper
 {
+	background-image                 : url("./image/bg_menu_right.png") !important;
+	background-position              : right top !important;
+	background-repeat                : no-repeat;
+	height                           : 40px;
+	line-height                      : 3em;
+	position                         : absolute;
+	right                            : -11px;
+	top                              : 34px;
+	padding                          : 0 16px !important;
+	z-index                          : 450;
+}
+
+#action-helper a
+{
 	background-image                 : url("./image/img_helper.gif");
 	background-position              : right center;
 	background-repeat                : no-repeat;
-	color                            : #222;
-	padding                          : 4px 20px 0 10px;
+	color                            : #DDE5F1;
+	font-family                      : Dotum, AppleGothic, '돋움', '굴림', Gulim, sans-serif;
+	font-size                        : 0.9em;
+	padding                          : 0 16px !important;
 }
 
 #action-move-to-blog a
