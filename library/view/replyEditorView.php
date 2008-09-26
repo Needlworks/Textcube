@@ -39,7 +39,7 @@ if( Acl::getIdentity('openid') ) {
 			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo (defined('__TEXTCUBE_ADMINPANEL__') ? $service['path'] : $service['resourcepath']);?>/script/common2.js"></script>
+	<script type="text/javascript" src="<?php echo (doesHaveOwnership() ? $service['path'] : $service['resourcepath']);?>/script/common2.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
 			function submitComment() {
