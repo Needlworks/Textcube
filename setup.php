@@ -346,6 +346,12 @@ function checkStep($step, $check = true) {
 ?>
     </table>
     </div>
+    <div id="content">
+      <ol>
+        <li><?php echo _t('데이터베이스가 해당 호스트에 먼저 생성되어 있어야 합니다.');?></li>
+        <li><?php echo _t('테이블식별자는 텍스트큐브가 사용하는 테이블이름 앞에 붙는 문자열입니다. 데이터 베이스내에 다른 어플리케이션이 사용하는 테이블이 있을 경우 구별하기 위해 사용합니다');?></li>
+      </ol>
+    </div>
     <div id="warning"><?php
         if ($error == 1)
            echo _t('데이터베이스 서버에 연결할 수 없습니다. 정보를 다시 입력해 주십시오.');
