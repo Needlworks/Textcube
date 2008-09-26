@@ -71,7 +71,7 @@ if (!defined('NO_INITIALIZAION')) {
    - Set administration panel skin and editor template CSS. */
 
 	// 관리 모드 스킨 및 에디터 템플릿 설정.
-	if(!defined('NO_ADMINPANEL')) {
+	if(defined('__TEXTCUBE_ADMINPANEL__')) {
 		$adminSkinSetting = array();
 		$adminSkinSetting['skin'] = "/style/admin/".getBlogSetting("adminSkin", "whitedream");
 		// 1.5에서 올라온 경우 스킨이 있는 경우를 위한 workaround.

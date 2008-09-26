@@ -23,6 +23,7 @@ $IV = array(
 );
 define('__TEXTCUBE_LOGIN__',true);
 require ROOT . '/lib/includeForBlog.php';
+define('__TEXTCUBE_ADMINPANEL__',true);
 //$blogURL = getBlogURL();
 if (isset($_GET['loginid']))
 	$_POST['loginid'] = $_GET['loginid'];
