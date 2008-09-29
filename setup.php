@@ -1285,7 +1285,7 @@ CREATE TABLE {$_POST['dbPrefix']}FeedSettings (
   updateCycle int(11) NOT NULL default '120',
   feedLife int(11) NOT NULL default '30',
   loadImage int(11) NOT NULL default '1',
-  allowScript int(11) NOT NULL default '1',
+  allowScript int(11) NOT NULL default '0',
   newWindow int(11) NOT NULL default '1',
   PRIMARY KEY  (blogid)
 ) $charset;
