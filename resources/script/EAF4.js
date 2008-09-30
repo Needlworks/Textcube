@@ -1,2 +1,614 @@
-eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('b 4p(16){25{1x(1t(16)){r"1h":d 12;r"v":d 16;1J:d h.2H(16)}}2j(e){d 12}};g.9.27="1m.28.1V";g.9.1D="1m g";g.9.1X="1.0";g.9.1Z="23 (c) 1W,47 2k / 1w & 22. 20 1U 1O.";b g(){};m 11=49.4v;g.9.2s=(11.1k("3U")>=0&&h.4w);a(g.9.2s){g.9.2t=1M(11.2a(3n.3p(11.1k("3U"),0)+4,4));g.9.2Q=g.9.2t}g.9.2v=(11.1k("3X")>=0||11.1k("4L")>=0||11.1k("4M")>0);a(g.9.2v){g.9.2t=1M(11.2a(11.1k("3X/")+8,10));g.9.2Q=1M(11.2a(3n.3p(11.1k("4U:"),0)+3,7))}2u=3n.3p(11.1k("4S"),11.1k("3K"),0);g.9.24=(11.1k("3K")>=0);g.9.3L=(2u>0);a(g.9.3L){g.9.2t=1M(11.43("4B/")[1])||((1M(11.2a(2u+7))>=4x.3)?3:2)||2;g.9.2Q=1M(11.2a(2u+7))}g.9.3M=(!g.9.2s&&(11.1k("4D")>=0));g.9.4H=(!g.9.2s&&!g.9.2v&&!g.9.24&&!g.9.3M&&(11.1k("4X")>=0));g.9.1b=b(v){a(!v.1b)v.1b=b 1b(1S,1T,31){6.4K("2V"+1S,1T)};a(!v.1o)v.1o=b 1o(1S,1T,31){6.41("2V"+1S,1T)}};g.9.1o=b(v){a(v.1o)d;v.1o=b 1o(1S,1T,31){6.41("2V"+1S,1T)}};g.9.k=b(k){a(1r.k){k=1r.k;a(k.16)d k;a(k.3x)k.16=k.3x;a(k.3G==1h)k.3G=b(){6.32=17}};d k};g.9.1K=b(){d(6.24?h.1n.2r:h.1c.2r)};g.9.1G=b(){d(6.24?h.1n.2p:h.1c.2p)};m s=14 g();s.1b(1r);m 4R=14 b(){6.4V="1m 4T 1V";6.1D="1m 4C";6.1X="1.0";6.1Z="23 (c) 1W, 1w & 22 / 2k / 1w 2R 2M. 20 1U 1O.";6.A=4G;6.B=4E;6.C=4F;6.D=4I;6.E=4y;6.F=4z;6.G=4A;6.H=4W;6.I=4N;6.J=4P;6.K=4e;6.L=4b;6.M=4d;6.N=4a;6.O=46;6.P=48;6.Q=4c;6.R=4f;6.S=4q;6.T=4r;6.U=4s;6.V=4u;6.W=4t;6.X=4o;6.Y=4n;6.Z=4i;6.4h=40;6.4g=38;6.4j=37;6.4k=39};p.9.27="1m.28.1V";p.9.1D="1m 3z 4m";p.9.1X="1.0";p.9.1Z="23 (c) 1W, 1w & 22 / 2k / 1w 2R 2M. 20 1U 1O.";p.9.q="&#4l;&#4O; &#5e;&#5V;&#5U;&#5S; &#5Y;&#5I;&#5R; &#5G;&#5J;&#5P;&#5N;.";b p(){6.w=12;6.u=14 1e();6.1A=14 1e();6.1F=14 1e();6.5M=12;1r.1b("3o",p.9.3w,17);1r.1b("5L",p.9.3Z,17)};p.9.3w=b(k){l.w=h.3h("3i");l.w.f.2A="2z";l.w.3j="3e 5O";l.w.f.3a="36";l.w.f.3l="5K";l.w.f.3d="3k";l.w.f.3s="1Q";l.w.f.3t="1Q";s.1b(1r);1r.1b("4Y",p.9.2i,17);1r.1b("5E",p.9.2i,17)};p.9.3C=b(){a(l.w.3g==h.1n)d;h.1n.3r(6.w);6.2i()};p.9.3B=b(){a(l.w.3g==h.1n)h.1n.3A(l.w)};p.9.2i=b(){a(l.w.3g==h.1n){l.w.f.1z=(!s.24?h.1c.2r:h.1n.2r)+"1a";l.w.f.1y=((!s.24?h.1c.2p:h.1n.2p)+h.1c.2c-l.w.2g)+"1a"};l.2q()};p.9.5Q=b(q,1E,1q,1g){a((1t(q)!="29")||(q.y==0))d-1;a(1E==1h)1E="2x";a(1q==1h)1q="2D";a(1g==1h)1g=3u;m o=h.3h("3i");o.2w=q;o.f.2A="2z";o.3j="3e 5T";o.f.3a="36";o.f.3l="5W";o.f.3d="3k";o.f.3s="1Q";o.f.3t="1Q";o.2S=1E;o.2L=1q;h.1n.3r(o);m 1u=6.u.1Y(o)-1;6.2q();1r.2Y("l.30("+1u+")",1g);d 1u};p.9.5X=b(q,1E,1q,1g){a((1t(q)!="29")||(q.y==0))d-1;a(1E==1h)1E="2x";a(1q==1h)1q="2D";a(1g==1h)1g=3u;m o=h.3h("3i");o.2w=q;o.f.2A="2z";o.3j="3e 5C";o.f.3a="36";o.f.3l="5c";o.f.3d="3k";o.f.3s="1Q";o.f.3t="1Q";o.2S=1E;o.2L=1q;h.1n.3r(o);m 1u=6.u.1Y(o)-1;6.2q();1r.2Y("l.30("+1u+")",1g);d 1u};p.9.30=b(1u){h.1n.3A(6.u[1u]);6.u.2T(1u,1,12);5a((6.u.y>0)&&(6.u[6.u.y-1]==12))6.u.5d()};p.9.2q=b(){1d(m i=0;i<6.u.y;i++){a(6.u[i]==12)5D;1x(6.u[i].2S){r"1y":6.u[i].f.1y=s.1G()+"1a";t;r"2x":6.u[i].f.1y=(s.1G()+(h.1c.2c-6.u[i].2g)/2)+"1a";t;r"3v":6.u[i].f.1y=(s.1G()+h.1c.2c-6.u[i].2g)+"1a";t};1x(6.u[i].2L){r"1z":6.u[i].f.1z=s.1K()+"1a";t;r"2D":6.u[i].f.1z=(s.1K()+(h.1c.2y-6.u[i].2C)/2)+"1a";t;r"44":6.u[i].f.1z=(s.1K()+h.1c.2y-6.u[i].2C)+"1a";t}}};p.9.2P=b(2o,q){6.1A.1Y(14 1e(2o,q));a(6.w){a(q!=1h){6.w.2w+=q;6.3C()}}};p.9.2I=b(2o){1d(m i=0;i<6.1A.y;i++){a(6.1A[i][0]==2o){6.1A.2T(i,1);t}};m q="";1d(m i=0;i<6.1A.y;i++){a(6.1A[i][1]!=1h)q+=6.1A[i][1]};a(6.w){6.w.2w=q;a(q.y==0)6.3B();1R 6.2i()}};p.9.3W=b(2B){6.1F.1Y(2B)};p.9.59=b(2B){1d(m i=0;i<6.1F.y;i++){a(6.1F[i]==2B){6.1F.2T(i,1);d}}};p.9.52=b(13,3H,1q){25{a(1t(13)=="29")13=h.2H(13);a(1t(13)!="v")d;13.f.2A="2z";13.f.50="4Z";1x(3H){r"1y":13.f.1y=s.1G()+"1a";t;1J:r"2x":13.f.1y=(s.1G()+(h.1c.2c-13.2g)/2)+"1a";t;r"3v":13.f.1y=(s.1G()+h.1c.2c-13.2g)+"1a";t};1x(1q){r"1z":13.f.1z=s.1K()+"1a";t;1J:r"2D":13.f.1z=(s.1K()+(h.1c.2y-13.2C)/2)+"1a";t;r"44":13.f.1z=(s.1K()+h.1c.2y-13.2C)+"1a";t}}2j(e){}};p.9.3Z=b(k){k=s.k(k);a(l.1A.y>0){k.32=l.q;d};1d(m i=0;i<l.1F.y;i++){a(l.1F[i].3N()){k.32=l.1F[i].q;d}}};m l=14 p();n.9.27="1m.28.1V";n.9.1D="1m 57 56";n.9.1X="1.7";n.9.1Z="23 (c) 1W, 1w & 22 / 2k / 1w 2R 2M. 20 1U 1O.";n.9.1P="3P";n.9.19=12;n.9.1I=12;n.9.3b="";n.9.3T="55/x-5i-2b-5j";n.9.2K="";n.9.1H=1L;n.9.3V=17;n.9.2J=1L;n.9.1g=0;n.9.q="5w...";n.9.2O=b(){d(6.42("/5v/1f")==0)};n.9.5u=b(){};n.9.34=b(){};n.9.2Z=b(){};b n(){1x(1B.y){r 0:t;r 1:6.19=6.2W(1B[0]);t;1J:r 3:6.1H=1B[2];r 2:6.1P=1B[0];6.19=6.2W(1B[1]);t};25{6.15=14 5x()}2j(e){m 3c=["2n.2h.5.0","2n.2h.4.0","2n.2h.3.0","2n.2h","5y.2h"];1d(m i=0;i<3c.y;i++){25{6.15=14 5B(3c[i]);t}2j(e){}};a(6.15==12){d 12}};6.1j=14 1e();6.1i=14 1e();6.5A=14 1e()};n.9.5z=b(v,2l,1C,1f){a(1f==1h){1f=v[2l];a(1C==1f)d};v[2l]=1C;a(1C==1f)d;6.1j.1Y(14 1e(v,2l,1f))};n.9.5t=b(v,2m,1C,1f){a(1f==1h){1f=v.5s(2m);a(1C==1f)d};v.33(2m,1C);a(1C==1f)d;6.1i.1Y(14 1e(v,2m,1f))};n.9.3I=b(){a(6.2J)l.2P(6);a(6.1H){m z=6;6.15.5m=b(){a(z.15.5l==4){a(z.2J)l.2I(z);a(z.2O())z.34();1R{1d(m i 2F z.1j)a(z.1j[i]2G 1e)z.1j[i][0][z.1j[i][1]]=z.1j[i][2];1d(m i 2F z.1i)a(z.1i[i]2G 1e)z.1i[i][0].33(z.1i[i][1],z.1i[i][2]);z.2Z()}}}};a(6.1P==\'3P\'){a(6.3b.y>0){6.19=6.19+6.3b;a(6.1I!=12){6.19=6.19+\'&1I=\'+6.1I}}1R{a(6.1I!=12){6.19=6.19+\'?1I=\'+6.1I}}}a(6.3V)6.15.3f(6.1P,6.19,6.1H);1R a(6.19.5n("?")>=0)6.15.3f(6.1P,6.19+"&3S="+(14 3Q()).3R(),6.1H);1R 6.15.3f(6.1P,6.19+"?3S="+(14 3Q()).3R(),6.1H);a(s.2v)6.15.2E("5q",5p.5F);a(1B.y>0){6.2K=1B[0]}a(6.2K.y>0)6.15.2E("5r-5o",6.3T);a(6.1g>0){6.15.2E("5k","3O-3J");6.15.2E("3O-3J","1g="+6.1g)}6.15.3I(6.2K);a(!6.1H){a(6.2J)l.2I(6);a(6.2O())6.34();1R{1d(m i 2F 6.1j)a(6.1j[i]2G 1e)6.1j[i][0][6.1j[i][1]]=6.1j[i][2];1d(m i 2F 6.1i)a(6.1i[i]2G 1e)6.1i[i][0].33(6.1i[i][1],6.1i[i][2]);6.2Z()}}};n.9.42=b(2U){25{a(2U==1h)d 6.15.54;m 2f=2U.43("/");a(2f[0]!="")d 12;m 1v=6.15.53.1c;a(1v.45!=2f[1])d 12;1d(m i=2;i<2f.y;i++){1d(m j=0;j<1v.2e.y;j++){a(1v.2e[j].45==2f[i]){1v=1v.2e[j];j=-1;t}};a(j!=-1)d 12};a(1v.1N)d 1v.1N;d 6.2X(1v)}2j(e){d 12}};n.9.2X=b(2d){m 1N="";a(2d.3y)1N+=2d.3y;1d(m i=0;i<2d.2e.y;i++)1N+=6.2X(2d.2e[i]);d 1N};n.9.2W=b(19){d 19};n.9.2Y=b(3F){6.1g=3F};18.9.27="1m.28.1V";18.9.1D="1m 51 58 5f";18.9.1X="1.0";18.9.1Z="23 (c) 1W, 1w & 22. 20 1U 1O.";18.9.q="3D...";18.9.3Y=17;b 18(){};18.9.3E=b(){a(1t(6.1l)=="v"){s.1o(6.1l);6.1l.1o("35",18.9.3m,17)};a(1t(6.1p)=="v"){s.1o(6.1p);6.1p.1o("3o",18.9.3q,17)}};18.9.5g=b(2b,16){6.3E();1x(1t(2b)){r"v":6.1l=2b;t;r"29":6.1l=h.2H(2b);a(6.1l)t;1J:d 17};1x(1t(16)){r"v":6.1p=16;t;r"29":6.1p=h.2H(16);a(6.1p)t;1J:d 17};a(6.1l.16!=6.1p.1D)6.1l.16=6.1p.1D;s.1b(6.1l);6.1l.1b("35",18.9.3m,17);s.1b(6.1p);6.1l.5h=b(){l.2P(6.21,"3D...");6.35()};6.1p.1b("3o",18.9.3q,17);6.1l.21=6;6.1p.21=6;d 1L};18.9.3m=b(k){k=s.k(k);k.16.21.5b(1L)};18.9.3q=b(k){k=s.k(k);m z=k.16?k.16.21:6.21;l.2I(z)};1s.9.27="1m.28.1V";1s.9.1D="1m 3z 5H";1s.9.1X="1.0";1s.9.1Z="23 (c) 1W, 1w & 22. 20 1U 1O.";1s.9.q="4Q..";1s.9.3Y=17;b 1s(2N,q){l.3W(6);1x(1B.y){1J:r 2:6.q=q;r 1:6.26=2N;t;r 0:6.26=1L;t}};1s.9.3N=b(){d 6.26};1s.9.2N=b(){6.26=1L};1s.9.4J=b(){6.26=17};',62,371,'||||||this|||prototype|if|function||return||style|Standardizer|document|||event|PM|var|HTTPRequest|oMessage|PageMaster|message|case|STD|break|_0|object|_1||length|instance||||||||||||||||||||||||||||ua|null|panel|new|_2|target|false|FileUploadRequest|url|px|addEventListener|documentElement|for|Array|error|timeout|undefined|_5|_3|indexOf|_4|Eolin|body|removeEventListener|_6|valign|window|PageHolder|typeof|index|cursor|Tatter|switch|left|top|_7|arguments|success|name|align|_8|getScrollLeft|async|id|default|getScrollTop|true|parseFloat|text|reserved|method|10px|else|type|listener|rights|Framework|2005|verion|push|copyright|All|_9|Company|Copyright|isSafari|try|_11|namespace|Application|string|substr|form|clientWidth|node|childNodes|directives|offsetWidth|XMLHTTP|_10|catch|Needlworks|property|attribute|MSXML2|request|scrollLeft|updateMessages|scrollTop|isIE|browserVersion|webkitIndex|isFirefox|innerHTML|center|clientHeight|absolute|position|holder|offsetHeight|middle|setRequestHeader|in|instanceof|getElementById|removeRequest|persistent|content|_12|Foundation|hold|onVerify|addRequest|engineVersion|Network|_13|splice|path|on|parseURL|_15|setTimeout|onError|_14|useCapture|returnValue|setAttribute|onSuccess|submit|white||||color|getfragment|objectNames|margin|ajaxMessage|open|parentNode|createElement|div|className|0px|backgroundColor|_17|Math|load|max|_16|appendChild|paddingLeft|paddingRight|3000|right|_18|srcElement|nodeValue|Page|removeChild|_19|_20|Uploading|reset|time|preventDefault|halign|send|Alive|Safari|isWebkit|isOpera|isHolding|Keep|GET|Date|getTime|__T__|contentType|MSIE|cache|addHolder|Firefox|autoDelete|_21||detachEvent|getText|split|bottom|nodeName|79|2008|80|navigator|78|76|81|77|75|82|Up|Down|90|Left|Right|50500|Master|89|88|getObject|83|84|85|87|86|userAgent|all|419|69|70|71|Version|LogViewer|Opera|66|67|65|isMozilla|68|release|attachEvent|IceWeasel|Minefield|73|51649|74|Wait|KeyCode|WebKit|AJAX|rv|framework|72|Mozilla|scroll|block|display|File|showPanel|responseXML|responseText|application|Processor|HTTPXMLRequest|Upload|removeHolder|while|setRunning|red|pop|52376|Request|bind|upload|www|urlencoded|Connection|readyState|onreadystatechange|lastIndexOf|Type|location|Referer|Content|getAttribute|presetAttribute|onExecute|response|Requesting|XMLHttpRequest|Microsoft|presetProperty|_23|ActiveXObject|ajaxErrorMessage|continue|resize|href|51080|Holder|50629|49845|navy|beforeunload|_22|45796|ajaxProcessingMessage|45768|showMessage|51060|51064|ajaxSuccessMessage|51473|47532|green|showErrorMessage|51089'.split('|'),0,{}))
+/// Copyright (c) 2005-2007. Tatter & Company / Needlworks
+/// All rights reserved. Licensed under the GPL.
+/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+//<![CDATA[
+function getObject(target) {
+	try {
+		switch(typeof(target)) {
+			case"undefined":
+				return null;
+			case"object":
+				return target;
+			default:
+				return document.getElementById(target);
+		};
+	} catch(e) {
+		return null;
+	};
+};
 
+Standardizer.prototype.namespace = "Eolin.Application.Framework";
+Standardizer.prototype.name      = "Eolin Standardizer";
+Standardizer.prototype.verion    = "1.0";
+Standardizer.prototype.copyright = "Copyright (c) 2005,2008 Needlworks / Tatter & Company. All rights reserved.";
+
+function Standardizer(){};
+
+var ua = navigator.userAgent;
+// Microsoft Explorer
+Standardizer.prototype.isIE = (ua.indexOf("MSIE")>=0 && document.all);
+if(Standardizer.prototype.isIE) {
+	Standardizer.prototype.browserVersion  = parseFloat(ua.substr(Math.max(ua.indexOf("MSIE"),0)+4,4));
+	Standardizer.prototype.engineVersion  = Standardizer.prototype.browserVersion;
+}
+// Mozilla Firefox
+Standardizer.prototype.isFirefox = (ua.indexOf("Firefox")>=0 || ua.indexOf("IceWeasel")>=0 || ua.indexOf("Minefield")>0);
+if(Standardizer.prototype.isFirefox) {
+	Standardizer.prototype.browserVersion  = parseFloat(ua.substr(ua.indexOf("Firefox/")+8,10));
+	Standardizer.prototype.engineVersion  = parseFloat(ua.substr(Math.max(ua.indexOf("rv:"),0)+3,7));
+}
+// Webkit / safari
+webkitIndex = Math.max(ua.indexOf("WebKit"), ua.indexOf("Safari"),0);
+Standardizer.prototype.isSafari = (ua.indexOf("Safari")>=0);
+Standardizer.prototype.isWebkit = (webkitIndex > 0);
+if(Standardizer.prototype.isWebkit) {
+	Standardizer.prototype.browserVersion  = parseFloat(ua.split("Version/")[1]) || ( ( parseFloat(ua.substr(webkitIndex+7)) >= 419.3 ) ? 3 : 2 ) || 2;
+	Standardizer.prototype.engineVersion  = parseFloat(ua.substr(webkitIndex+7));
+}
+// Opera
+Standardizer.prototype.isOpera = (!Standardizer.prototype.isIE&&(ua.indexOf("Opera")>=0));
+// Mozilla-compartible
+Standardizer.prototype.isMozilla = (!Standardizer.prototype.isIE && !Standardizer.prototype.isFirefox && !Standardizer.prototype.isSafari && !Standardizer.prototype.isOpera && (ua.indexOf("Mozilla")>=0));
+Standardizer.prototype.addEventListener = function(object) {
+	if(!object.addEventListener)
+		object.addEventListener = function addEventListener(type,listener,useCapture) {
+			this.attachEvent("on"+type,listener);
+		};
+	if(!object.removeEventListener)
+		object.removeEventListener = function removeEventListener(type,listener,useCapture) {
+			this.detachEvent("on"+type,listener);
+		};
+};
+
+Standardizer.prototype.removeEventListener = function(object) {
+	if(object.removeEventListener) return;
+	object.removeEventListener = function removeEventListener(type,listener,useCapture) {
+		this.detachEvent("on"+type,listener);
+	};
+};
+
+Standardizer.prototype.event = function(event) {
+	if(window.event) {
+		event = window.event;
+		if(event.target) return event;
+		if(event.srcElement) event.target = event.srcElement;
+		if(event.preventDefault == undefined)
+			event.preventDefault = function() { this.returnValue=false;};
+	};
+	return event;
+};
+
+Standardizer.prototype.getScrollTop = function() {
+	return(this.isSafari?document.body.scrollTop:document.documentElement.scrollTop);
+};
+
+Standardizer.prototype.getScrollLeft = function() {
+	return(this.isSafari?document.body.scrollLeft:document.documentElement.scrollLeft);
+};
+
+var STD=new Standardizer();
+STD.addEventListener(window);
+var KeyCode = new function() {
+	this.framework = "Eolin AJAX Framework";
+	this.name = "Eolin LogViewer";
+	this.verion = "1.0";
+	this.copyright = "Copyright (c) 2005, Tatter & Company / Needlworks / Tatter Network Foundation. All rights reserved.";
+	this.A=65;this.B=66;this.C=67;this.D=68;this.E=69;this.F=70;this.G=71;
+	this.H=72;this.I=73;this.J=74;this.K=75;this.L=76;this.M=77;this.N=78;
+	this.O=79;this.P=80;this.Q=81;this.R=82;this.S=83;this.T=84;this.U=85;
+	this.V=86;this.W=87;this.X=88;this.Y=89;this.Z=90;
+	this.Down=40;this.Up=38;this.Left=37;this.Right=39;
+};
+
+PageMaster.prototype.namespace = "Eolin.Application.Framework";
+PageMaster.prototype.name      = "Eolin Page Master";
+PageMaster.prototype.verion    = "1.0";
+PageMaster.prototype.copyright = "Copyright (c) 2005, Tatter & Company / Needlworks / Tatter Network Foundation. All rights reserved.";
+PageMaster.prototype.message   = "아직 처리중인 작업이 있습니다.";
+
+function PageMaster() {
+	this._status = null;
+	this._messages = new Array();
+	this._requests=new Array();
+	this._holders=new Array();
+	this._timer=null;
+	window.addEventListener("load",PageMaster.prototype._onLoad,false);
+	window.addEventListener("beforeunload",PageMaster.prototype._onBeforeUnload,false);
+};
+
+PageMaster.prototype._onLoad = function(event) {
+	PM._status = document.createElement("div");
+	PM._status.style.position = "absolute";
+	PM._status.className = "ajaxMessage ajaxProcessingMessage";
+	PM._status.style.color = "white";
+	PM._status.style.backgroundColor = "navy";
+	PM._status.style.margin = "0px";
+	PM._status.style.paddingLeft = "10px";
+	PM._status.style.paddingRight = "10px";
+	STD.addEventListener(window);
+	window.addEventListener("scroll",PageMaster.prototype._updateStatus,false);
+	window.addEventListener("resize",PageMaster.prototype._updateStatus,false);
+};
+
+PageMaster.prototype._showStatus = function() {
+	if(PM._status.parentNode == document.body) return;
+	document.body.appendChild(this._status);
+	this._updateStatus();
+};
+
+PageMaster.prototype._hideStatus = function(){
+	if(PM._status.parentNode==document.body) document.body.removeChild(PM._status);
+};
+
+PageMaster.prototype._updateStatus=function() {
+	if(PM._status.parentNode == document.body) {
+		PM._status.style.top = (!STD.isSafari?document.documentElement.scrollTop:document.body.scrollTop)+"px";
+		PM._status.style.left = ((!STD.isSafari?document.documentElement.scrollLeft:document.body.scrollLeft)+document.documentElement.clientWidth-PM._status.offsetWidth)+"px";
+	};
+	PM.updateMessages();
+};
+
+PageMaster.prototype.showMessage = function(message,align,valign,timeout) {
+	if((typeof(message) != "string")||(message.length == 0)) return-1;
+	if(align==undefined) align = "center";
+	if(valign==undefined) valign="middle";
+	if(timeout==undefined) timeout=3000;
+	var oMessage = document.createElement("div");
+	oMessage.innerHTML = message;oMessage.style.position="absolute";
+	oMessage.className = "ajaxMessage ajaxSuccessMessage";
+	oMessage.style.color = "white";
+	oMessage.style.backgroundColor = "green";
+	oMessage.style.margin = "0px";
+	oMessage.style.paddingLeft = "10px";
+	oMessage.style.paddingRight = "10px";
+	oMessage._align = align;
+	oMessage._valign = valign;
+	document.body.appendChild(oMessage);
+
+	var index=this._messages.push(oMessage)-1;
+
+	this.updateMessages();
+	window.setTimeout("PM._hideMessage("+index+")",timeout);
+
+	return index;
+};
+
+PageMaster.prototype.showErrorMessage = function(message,align,valign,timeout) {
+	if((typeof(message) != "string")||(message.length == 0)) return-1;
+	if(align==undefined) align = "center";
+	if(valign==undefined) valign="middle";
+	if(timeout==undefined) timeout=3000;
+	var oMessage = document.createElement("div");
+	oMessage.innerHTML = message;oMessage.style.position="absolute";
+	oMessage.className = "ajaxMessage ajaxErrorMessage";
+	oMessage.style.color = "white";
+	oMessage.style.backgroundColor = "red";
+	oMessage.style.margin = "0px";
+	oMessage.style.paddingLeft = "10px";
+	oMessage.style.paddingRight = "10px";
+	oMessage._align = align;
+	oMessage._valign = valign;
+	document.body.appendChild(oMessage);
+
+	var index=this._messages.push(oMessage)-1;
+
+	this.updateMessages();
+	window.setTimeout("PM._hideMessage("+index+")",timeout);
+
+	return index;
+};
+
+PageMaster.prototype._hideMessage = function(index) {
+	document.body.removeChild(this._messages[index]);
+	this._messages.splice(index,1,null);
+	while((this._messages.length>0) && (this._messages[this._messages.length-1] == null))
+		this._messages.pop();
+};
+
+PageMaster.prototype.updateMessages = function() {
+	for(var i=0;i<this._messages.length;i++) {
+		if(this._messages[i]==null) continue;
+		switch(this._messages[i]._align) {
+			case"left":
+				this._messages[i].style.left = STD.getScrollLeft()+"px";
+				break;
+			case"center":
+				this._messages[i].style.left = (STD.getScrollLeft()+(document.documentElement.clientWidth-this._messages[i].offsetWidth)/2)+"px";
+				break;
+			case"right":
+				this._messages[i].style.left = (STD.getScrollLeft()+document.documentElement.clientWidth-this._messages[i].offsetWidth)+"px";
+				break;
+		};
+
+		switch(this._messages[i]._valign) {
+			case"top":
+				this._messages[i].style.top = STD.getScrollTop()+"px";
+				break;
+			case"middle":
+				this._messages[i].style.top = (STD.getScrollTop()+(document.documentElement.clientHeight-this._messages[i].offsetHeight)/2)+"px";
+				break;
+			case"bottom":
+				this._messages[i].style.top = (STD.getScrollTop()+document.documentElement.clientHeight-this._messages[i].offsetHeight)+"px";
+				break;
+		};
+	};
+};
+
+PageMaster.prototype.addRequest = function(request,message) {
+	this._requests.push(new Array(request,message));
+	if(this._status) {
+		if(message!=undefined) {
+			this._status.innerHTML+=message;this._showStatus();
+		}
+	}
+};
+
+PageMaster.prototype.removeRequest = function(request) {
+	for(var i=0;i<this._requests.length;i++) {
+		if(this._requests[i][0]==request) {
+			this._requests.splice(i,1);
+			break;
+		};
+	};
+
+	var message="";
+
+	for(var i=0;i<this._requests.length;i++) {
+		if(this._requests[i][1]!=undefined) message+=this._requests[i][1];
+	};
+	if(this._status) {
+		this._status.innerHTML=message;
+		if(message.length==0) this._hideStatus();
+		else this._updateStatus();
+	};
+};
+
+PageMaster.prototype.addHolder = function(holder) {
+	this._holders.push(holder);
+};
+
+PageMaster.prototype.removeHolder = function(holder) {
+	for(var i=0;i<this._holders.length;i++) {
+		if(this._holders[i]==holder) {
+			this._holders.splice(i,1);
+			return;
+		};
+	};
+};
+
+PageMaster.prototype.showPanel = function(panel,halign,valign) {
+	try {
+		if(typeof(panel)=="string") panel=document.getElementById(panel);
+		if(typeof(panel)!="object") return;
+		panel.style.position="absolute";
+		panel.style.display="block";
+		switch(halign) {
+			case"left":
+				panel.style.left = STD.getScrollLeft()+"px";
+				break;
+			default:
+			case"center":
+				panel.style.left = (STD.getScrollLeft()+(document.documentElement.clientWidth-panel.offsetWidth)/2)+"px";
+				break;
+			case"right":
+				panel.style.left = (STD.getScrollLeft()+document.documentElement.clientWidth-panel.offsetWidth)+"px";
+				break;
+		};
+
+		switch(valign) {
+			case"top":
+				panel.style.top = STD.getScrollTop()+"px";
+				break;
+			default:
+			case"middle":
+				panel.style.top = (STD.getScrollTop()+(document.documentElement.clientHeight-panel.offsetHeight)/2)+"px";
+				break;
+			case"bottom":
+				panel.style.top=(STD.getScrollTop()+document.documentElement.clientHeight-panel.offsetHeight)+"px";
+				break;
+		};
+	} catch(e){};
+};
+
+PageMaster.prototype._onBeforeUnload = function(event) {
+	event = STD.event(event);
+	if(PM._requests.length>0) {
+		event.returnValue=PM.message;
+		return;
+	};
+	for(var i=0;i<PM._holders.length;i++) {
+		if(PM._holders[i].isHolding()) {
+			event.returnValue=PM._holders[i].message;return;
+		};
+	};
+};
+
+var PM=new PageMaster();
+
+HTTPRequest.prototype.namespace   = "Eolin.Application.Framework";
+HTTPRequest.prototype.name        = "Eolin HTTPXMLRequest Processor";
+HTTPRequest.prototype.verion      = "1.7";
+HTTPRequest.prototype.copyright   = "Copyright (c) 2005, Tatter & Company / Needlworks / Tatter Network Foundation. All rights reserved.";
+HTTPRequest.prototype.method      = "GET";
+HTTPRequest.prototype.url         = null;
+HTTPRequest.prototype.id          = null;
+HTTPRequest.prototype.getfragment = "";
+HTTPRequest.prototype.contentType = "application/x-www-form-urlencoded";
+HTTPRequest.prototype.content     = "";
+HTTPRequest.prototype.async       = true;
+HTTPRequest.prototype.cache       = false;
+HTTPRequest.prototype.persistent  = true;
+HTTPRequest.prototype.timeout     = 0;
+HTTPRequest.prototype.message     = "Requesting...";
+
+HTTPRequest.prototype.onVerify = function() {
+	return(this.getText("/response/error")==0);
+};
+
+HTTPRequest.prototype.onExecute = function(){};
+
+HTTPRequest.prototype.onSuccess = function(){};
+
+HTTPRequest.prototype.onError = function(){};
+
+function HTTPRequest() {
+	switch(arguments.length) {
+		case 0:
+			break;
+		case 1:
+			this.url=this.parseURL(arguments[0]);
+			break;
+		default:
+		case 3:
+			this.async=arguments[2];
+		case 2:
+			this.method=arguments[0];
+			this.url=this.parseURL(arguments[1]);
+			break;
+	};
+	try {
+		this._request = new XMLHttpRequest();
+	} catch(e) {
+		var objectNames = ["MSXML2.XMLHTTP.5.0","MSXML2.XMLHTTP.4.0","MSXML2.XMLHTTP.3.0","MSXML2.XMLHTTP","Microsoft.XMLHTTP"];
+		for(var i=0;i<objectNames.length;i++) {
+			try{
+				this._request=new ActiveXObject(objectNames[i]);
+				break;
+			} catch(e){};
+		};
+
+		if(this._request==null) {return null;};
+	};
+
+	this._properties = new Array();
+	this._attributes = new Array();
+	this._userData = new Array();
+};
+
+HTTPRequest.prototype.presetProperty = function(object,property,success,error) {
+	if(error == undefined) {
+		error=object[property];
+		if(success==error) return;
+	};
+	object[property] = success;
+	if(success == error) return;
+	this._properties.push(new Array(object,property,error));
+};
+
+HTTPRequest.prototype.presetAttribute = function(object,attribute,success,error) {
+	if(error==undefined) {
+		error=object.getAttribute(attribute);
+		if(success == error) return;
+	};
+
+	object.setAttribute(attribute,success);
+	if(success == error) return;
+	this._attributes.push(new Array(object,attribute,error));
+};
+
+HTTPRequest.prototype.send = function() {
+	if(this.persistent) PM.addRequest(this);
+	if(this.async) {
+		var instance = this;
+		this._request.onreadystatechange = function() {
+			if(instance._request.readyState==4) {
+				if(instance.persistent) PM.removeRequest(instance);
+				if(instance.onVerify()) instance.onSuccess();
+				else {
+					for(var i in instance._properties)
+						if (instance._properties[i] instanceof Array)
+							instance._properties[i][0][instance._properties[i][1]] = instance._properties[i][2];
+					for(var i in instance._attributes)
+						if (instance._attributes[i] instanceof Array)
+							instance._attributes[i][0].setAttribute(instance._attributes[i][1],instance._attributes[i][2]);
+					instance.onError();
+				};
+			};
+		};
+	};
+	if(this.method == 'GET'){
+		if(this.getfragment.length > 0) {
+			this.url=this.url+this.getfragment;
+			if(this.id != null) {this.url=this.url+'&id='+this.id}
+		} else {
+			if(this.id != null) {this.url=this.url+'?id='+this.id}
+		}
+	}
+	if(this.cache) this._request.open(this.method,this.url,this.async);
+	else if(this.url.lastIndexOf("?") >= 0)
+		this._request.open(this.method,this.url+"&__T__="+(new Date()).getTime(),this.async);
+	else this._request.open(this.method,this.url+"?__T__="+(new Date()).getTime(),this.async);
+
+	if(STD.isFirefox)
+		this._request.setRequestHeader("Referer",location.href);
+	if(arguments.length>0) {
+		this.content=arguments[0];
+	}
+	if(this.content.length>0) this._request.setRequestHeader("Content-Type",this.contentType);
+	if(this.timeout>0) {
+		this._request.setRequestHeader("Connection","Keep-Alive");
+		this._request.setRequestHeader("Keep-Alive","timeout="+this.timeout);
+	}
+	this._request.send(this.content);
+
+	if(!this.async) {
+		if(this.persistent) PM.removeRequest(this);
+		if(this.onVerify()) this.onSuccess();
+		else {
+			for(var i in this._properties)
+				if (this._properties[i] instanceof Array)
+					this._properties[i][0][this._properties[i][1]] = this._properties[i][2];
+			for(var i in this._attributes)
+				if (this._attributes[i] instanceof Array)
+					this._attributes[i][0].setAttribute(this._attributes[i][1],this._attributes[i][2]);
+			this.onError();
+		};
+	};
+};
+
+HTTPRequest.prototype.getText = function(path) {
+	try {
+		if(path == undefined) return this._request.responseText;
+		var directives=path.split("/");
+		if(directives[0] != "") return null;
+		var cursor = this._request.responseXML.documentElement;
+		if(cursor.nodeName!=directives[1]) return null;
+		for(var i=2;i<directives.length;i++) {
+			for(var j=0;j<cursor.childNodes.length;j++) {
+				if(cursor.childNodes[j].nodeName == directives[i]) {
+					cursor=cursor.childNodes[j];
+					j=-1;
+					break;
+				};
+			};
+			if(j!=-1) return null;
+		};
+
+		if(cursor.text) return cursor.text;
+		return this._getText(cursor);
+	} catch(e) {
+		return null;
+	};
+};
+
+HTTPRequest.prototype._getText = function(node) {
+	var text="";
+	if(node.nodeValue) text += node.nodeValue;
+	for(var i=0;i<node.childNodes.length;i++) text += this._getText(node.childNodes[i]);
+	return text;
+};
+
+HTTPRequest.prototype.parseURL = function(url) {
+	return url;
+};
+
+
+HTTPRequest.prototype.setTimeout = function(time) {
+	this.timeout = time;
+};	
+	
+FileUploadRequest.prototype.namespace  = "Eolin.Application.Framework";
+FileUploadRequest.prototype.name       = "Eolin File Upload Request";
+FileUploadRequest.prototype.verion     = "1.0";
+FileUploadRequest.prototype.copyright  = "Copyright (c) 2005, Tatter & Company. All rights reserved.";
+FileUploadRequest.prototype.message    = "Uploading...";
+FileUploadRequest.prototype.autoDelete = false;
+
+function FileUploadRequest(){};
+
+FileUploadRequest.prototype.reset = function() {
+	if(typeof(this._form)=="object") {
+		STD.removeEventListener(this._form);
+		this._form.removeEventListener("submit",FileUploadRequest.prototype._onsubmit,false);
+	};
+	if(typeof(this._target)=="object") {
+		STD.removeEventListener(this._target);
+		this._target.removeEventListener("load",FileUploadRequest.prototype._onload,false);
+	};
+};
+
+FileUploadRequest.prototype.bind = function(form,target) {
+	this.reset();
+	switch(typeof(form)) {
+		case"object":
+			this._form = form;
+			break;
+		case"string":
+			this._form = document.getElementById(form);
+			if(this._form) break;
+		default:
+			return false;
+	};
+
+	switch(typeof(target)) {
+		case"object":
+			this._target = target;
+			break;
+		case"string":
+			this._target = document.getElementById(target);
+			if(this._target) break;
+		default:
+			return false;
+	};
+
+	if(this._form.target != this._target.name)
+		this._form.target=this._target.name;
+	STD.addEventListener(this._form);
+	this._form.addEventListener("submit",FileUploadRequest.prototype._onsubmit,false);
+	STD.addEventListener(this._target);
+
+	this._form.upload = function() {
+		PM.addRequest(this._instance,"Uploading...");
+		this.submit();
+	};
+
+	this._target.addEventListener("load",FileUploadRequest.prototype._onload,false);
+	this._form._instance = this;
+	this._target._instance = this;
+	return true;
+};
+
+FileUploadRequest.prototype._onsubmit = function(event) {
+	event = STD.event(event);
+	event.target._instance.setRunning(true);
+};
+
+FileUploadRequest.prototype._onload = function(event) {
+	event = STD.event(event);
+	var instance = event.target?event.target._instance:this._instance;PM.removeRequest(instance);
+};
+
+PageHolder.prototype.namespace  = "Eolin.Application.Framework";
+PageHolder.prototype.name       = "Eolin Page Holder";
+PageHolder.prototype.verion     = "1.0";
+PageHolder.prototype.copyright  = "Copyright (c) 2005, Tatter & Company. All rights reserved.";
+PageHolder.prototype.message    = "Wait..";
+PageHolder.prototype.autoDelete = false;
+
+function PageHolder(hold,message){
+	PM.addHolder(this);
+	switch(arguments.length) {
+		default:
+		case 2:
+			this.message=message;
+		case 1:
+			this._holding=hold;
+			break;
+		case 0:
+			this._holding=true;
+			break;
+	};
+};
+
+PageHolder.prototype.isHolding = function() {
+	return this._holding;
+};
+
+PageHolder.prototype.hold = function() {
+	this._holding=true;
+};
+
+PageHolder.prototype.release=function() {
+	this._holding=false;
+};
+//]]>

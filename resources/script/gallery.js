@@ -1,2 +1,166 @@
-eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('c f(m){2.m=m;2.6=h.x(2.m);2.6.8.1J="1S:1n.1x.21(1y=0.3, 1w=1.0)";2.6.8.F="G";2.6.8.n="1v%";2.6.t=2;2.v=0;2.1z=0;2.5=0;2.9=7 w();2.d=7 w();2.n=7 w();2.q=7 w();2.u=7 w();2.Y="1E";2.X="1D";2.Z="1C";2.W="1u b";2.6=S};f.l.1F=c(9,d,n,q){2.v++;p u=7 1m();u.9=9;u.1l=c(){p 1o=2.9};2.u[2.u.z]=9;2.9[2.9.z]=9;2.n[2.n.z]=n;2.q[2.q.z]=q;2.d[2.d.z]=d};f.l.16=c(){p o=h.B("j");o.8.1t="1j";o.15="1p";o.8.1h="#1s";o.8.1i="1f 0.1r 19, 18-17";o.H=\'(\'+(2.5+1)+\'/\'+2.v+\') <a O="#Q" E="h.x(\\\'\'+2.m+\'\\\').t.1g(); r N;"><A 9="\'+M+\'/J/b/K/1q.R" 8="T-V: U;" D="\'+2.X+\'" \\/><\\/a> <a O="#Q" E="h.x(\\\'\'+2.m+\'\\\').t.1d(); r N;"><A 9="\'+M+\'/J/b/K/22.R" 8="T-V: U;" D="\'+2.Z+\'" \\/><\\/a> <a O="#Q" E="h.x(\\\'\'+2.m+\'\\\').t.1e(); r N;"><A 9="\'+M+\'/J/b/K/20.R" 8="T-V: U;" D="\'+2.Y+\'" \\/><\\/a>\';r o};f.l.1a=c(){p b=h.B("A");b.t=2;b.9=2.9[2.5];b.n=2.n[2.5];b.q=2.q[2.5];b.E=2.1c;b.D=2.W;b.8.1O="1N";r b};f.l.1b=c(){p 4=2.d[2.5];4=4.g(7 i("&14;?","k"),"<");4=4.g(7 i("&10;?","k"),">");4=4.g(7 i("&13;?","k"),"\\"");4=4.g(7 i("&#12;?","k"),"\'");4=4.g(7 i("&11;?","k"),"&");4=4.g(7 i("&14;?","k"),"<");4=4.g(7 i("&10;?","k"),">");4=4.g(7 i("&13;?","k"),"\\"");4=4.g(7 i("&#12;?","k"),"\'");4=4.g(7 i("&11;?","k"),"&");p d=h.B("j");d.8.F="G";d.8.1T="1U";d.15="1X";d.y(h.1Y(4));r d};f.l.I=c(5){2.6=h.x(2.m);s(2.v==0){p j=h.B("j");j.8.F="G";j.8.1h="#1R";j.8.1K="1j 1P";j.8.1i="1f 1V/1 19, 18-17";j.H="1Q 1M";2.6.y(j);2.6=S;r}s(1L 5=="1H")2.5=0;L{s(5<0)2.5=2.v-1;L s(5>=2.v)2.5=0;L 2.5=5}s(2.6.C)2.6.C[0].1I();2.6.H="";2.6.y(2.16());2.6.y(2.1a());2.6.y(2.1b());s(2.6.C)2.6.C[0].1Z();2.6=S};f.l.1g=c(){2.I(2.5-1)};f.l.1e=c(){2.I(2.5+1)};f.l.1d=c(){2.P()};f.l.1c=c(){2.t.P()};f.l.P=c(5){1G{1W(2.9[2.5])}1B(e){1k.1A(2.9[2.5])}};',62,127,'||this||captionText|offset|container|new|style|src||image|function|caption||TTGallery|replace|document|RegExp|div|gi|prototype|containerId|width|control|var|height|return|if|instance|imageCache|numImages|Array|getElementById|appendChild|length|img|createElement|filters|alt|onclick|textAlign|center|innerHTML|show|resources|gallery|else|servicePath|false|href|showImagePopup|void|gif|null|vertical|middle|align|altText|prevText|nextText|enlargeText|gt|amp|39|quot|lt|className|getControl|serif|Sans|Verdana|getImage|getCaption|showImagePopup2|showImagePopup1|next|bold|prev|color|font|10px|window|onload|Image|DXImageTransform|tmp|galleryControl|gallery_prev|9em|777|marginBottom|gellery|100|overlap|Microsoft|duration|imageLoaded|open|catch|ZOOM|PREVIOUS|NEXT|appendImage|try|undefined|Apply|filter|margin|typeof|IMAGES|pointer|cursor|auto|NO|888|progid|marginTop|8px|2em|open_img|galleryCaption|createTextNode|Play|gallery_next|Fade|gallery_enlarge'.split('|'),0,{}))
+/// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
+/// All rights reserved. Licensed under the GPL.
+/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+function TTGallery(containerId)
+{
+	this.containerId = containerId;
+	this.container = document.getElementById(this.containerId);
+	this.container.style.filter = "progid:DXImageTransform.Microsoft.Fade(duration=0.3, overlap=1.0)";
+	this.container.style.textAlign = "center";
+	this.container.style.width = "100%";
+	this.container.instance = this;
 
+	this.numImages = 0;
+	this.imageLoaded = 0;
+	this.offset = 0;
+
+	this.src = new Array();
+	this.caption = new Array();
+	this.width = new Array();
+	this.height = new Array();
+	this.imageCache = new Array();
+	
+	this.nextText = "NEXT";
+	this.prevText = "PREVIOUS";
+	this.enlargeText = "ZOOM";
+	this.altText = "gellery image";
+	
+	this.container = null;
+};
+
+TTGallery.prototype.appendImage = function(src, caption, width, height)
+{
+	this.numImages++;
+
+	var imageCache = new Image();
+	imageCache.src = src;
+	imageCache.onload = function() { var tmp = this.src; };
+
+	this.imageCache[this.imageCache.length] = src;
+
+	this.src[this.src.length] = src;
+	this.width[this.width.length] = width;
+	this.height[this.height.length] = height;
+	this.caption[this.caption.length] = caption;
+};
+
+TTGallery.prototype.getControl = function()
+{
+	var control = document.createElement("div");
+	control.style.marginBottom = "10px";
+	control.className = "galleryControl";
+	control.style.color = "#777";
+	control.style.font = "bold 0.9em Verdana, Sans-serif";
+	control.innerHTML = '(' + (this.offset + 1) + '/' + this.numImages + ') <a href="#void" onclick="document.getElementById(\'' + this.containerId + '\').instance.prev(); return false;"><img src="' + servicePath + '/resources/image/gallery/gallery_prev.gif" style="vertical-align: middle;" alt="' + this.prevText + '" \/><\/a> <a href="#void" onclick="document.getElementById(\'' + this.containerId + '\').instance.showImagePopup1(); return false;"><img src="' + servicePath + '/resources/image/gallery/gallery_enlarge.gif" style="vertical-align: middle;" alt="' + this.enlargeText + '" \/><\/a> <a href="#void" onclick="document.getElementById(\'' + this.containerId + '\').instance.next(); return false;"><img src="' + servicePath + '/resources/image/gallery/gallery_next.gif" style="vertical-align: middle;" alt="' + this.nextText + '" \/><\/a>';
+
+	return control;
+};
+
+TTGallery.prototype.getImage = function()
+{
+	var image = document.createElement("img");
+	image.instance = this;
+	image.src = this.src[this.offset];
+	image.width = this.width[this.offset];
+	image.height = this.height[this.offset];
+	image.onclick = this.showImagePopup2;
+	image.alt = this.altText;
+	image.style.cursor = "pointer";
+
+	return image;
+};
+
+TTGallery.prototype.getCaption = function()
+{
+	var captionText = this.caption[this.offset];
+	captionText = captionText.replace(new RegExp("&lt;?", "gi"), "<");
+	captionText = captionText.replace(new RegExp("&gt;?", "gi"), ">");
+	captionText = captionText.replace(new RegExp("&quot;?", "gi"), "\"");
+	captionText = captionText.replace(new RegExp("&#39;?", "gi"), "'");
+	captionText = captionText.replace(new RegExp("&amp;?", "gi"), "&");
+
+	captionText = captionText.replace(new RegExp("&lt;?", "gi"), "<");
+	captionText = captionText.replace(new RegExp("&gt;?", "gi"), ">");
+	captionText = captionText.replace(new RegExp("&quot;?", "gi"), "\"");
+	captionText = captionText.replace(new RegExp("&#39;?", "gi"), "'");
+	captionText = captionText.replace(new RegExp("&amp;?", "gi"), "&");
+	
+	var caption = document.createElement("div");
+	caption.style.textAlign = "center";
+	caption.style.marginTop = "8px";
+	caption.className = "galleryCaption";
+	caption.appendChild(document.createTextNode(captionText));
+
+	return caption;
+};
+
+TTGallery.prototype.show = function(offset)
+{
+    this.container = document.getElementById(this.containerId);
+    
+	if(this.numImages == 0) {
+		var div = document.createElement("div");
+		div.style.textAlign = "center";
+		div.style.color = "#888";
+		div.style.margin = "10px auto";
+		div.style.font = "bold 2em/1 Verdana, Sans-serif";
+		div.innerHTML = "NO IMAGES";
+		this.container.appendChild(div);
+		this.container = null;
+		return;
+	}
+
+	if(typeof offset == "undefined")
+		this.offset = 0;
+	else
+	{
+		if(offset < 0)
+			this.offset = this.numImages -1;
+		else if(offset >= this.numImages)
+			this.offset = 0;
+		else
+			this.offset = offset;
+	}
+
+	if(this.container.filters)
+		this.container.filters[0].Apply();
+
+	this.container.innerHTML = "";
+	this.container.appendChild(this.getControl());
+	this.container.appendChild(this.getImage());
+	this.container.appendChild(this.getCaption());
+
+	if(this.container.filters)
+		this.container.filters[0].Play();
+		
+	this.container = null;
+};
+
+TTGallery.prototype.prev = function()
+{
+	this.show(this.offset-1);
+};
+
+TTGallery.prototype.next = function()
+{
+	this.show(this.offset+1);
+};
+
+TTGallery.prototype.showImagePopup1 = function()
+{
+	this.showImagePopup();
+};
+
+TTGallery.prototype.showImagePopup2 = function()
+{
+	this.instance.showImagePopup();
+};
+
+TTGallery.prototype.showImagePopup = function(offset)
+{
+	try {
+		open_img(this.src[this.offset]);
+	} catch(e) {
+		window.open(this.src[this.offset]); 
+	}
+};
