@@ -28,12 +28,13 @@ function filterJavaScript($str, $removeScript = true) {
 				$strippedTag = str_replace($attribute, '', $strippedTag);
 			$str = str_replace($tag, $strippedTag, $str);
 		}
-		$str = preg_replace('/&#x0*([9ad]);?/ie', "chr(hexdec('\\1'))", $str);
+		$str = preg_replace('/&#x0*([0-9ad]{1,2});?/ie', "chr(hexdec('\\1'))", $str);
 		$patterns = array(
 			'/<\/?iframe.*?>/si',
 			'/<script.*?<\/script>/si',
 			'/<object.*?type=["\']?text\/x-scriptlet["\']?.*?>(.*?<\/object>)?/si',
-			'/j\s*?a\s*?v\s*?a\s*?s\s*?c\s*?r\s*?i\s*?p\s*?t\s*?:/si'
+			'/j\s*?a\s*?v\s*?a\s*?s\s*?c\s*?r\s*?i\s*?p\s*?t\s*?:/si',
+			'/<link.*?>/si'
 		);
 		$str = preg_replace($patterns, '', $str);
 	} else
