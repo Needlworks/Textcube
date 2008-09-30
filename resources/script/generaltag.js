@@ -188,10 +188,10 @@ function eolinTagFunction_showSuggestion()
 	}
 
 	/* TODO : temporary code */
-	try {
+/*	try { // 원래 IE의 z-index 오동작 관련하여 파일 상자를 가리는 코드인데, 태그박스가 아래로 내려오고 relative로 위치지정을 하지 않으므로 불필요하다.
 		document.getElementById("previewSelected").style.visibility = "hidden";
 		document.getElementById("TCfilelist").style.visibility = "hidden";
-	} catch(e) { }
+	} catch(e) { }*/
 
 	instance.suggestion.innerHTML = htmlText.toString();
 	instance.suggestion.style.display = "block";
@@ -531,10 +531,10 @@ Tag.prototype.hideSuggestion = function()
 	this.suggestion.selectedIndex = 0;
 
 	/* TODO : temporary code */
-	try {
+/*	try {
 		document.getElementById("previewSelected").style.visibility = "visible";
 		document.getElementById("TCfilelist").style.visibility = "visible";
-	} catch(e) { }
+	} catch(e) { }*/
 }
 
 // 적절한 input box로 포커스를 이동시킨다

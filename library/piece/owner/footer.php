@@ -140,13 +140,6 @@ if (Acl::check('group.creators')) {
 ?>
 	//]]>
 	</script>
-<?php
-if($service['effect'] == true) {
-?>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/owner.fx.js"></script>
-<?php
-}
-?>
 <?php if( $service['type'] == 'domain' && empty($_SESSION['sso_done']) && !empty($blog['secondaryDomain']) ){ 
 $_SESSION['sso_done'] = true; ?>
 <iframe style="width:0;height:0;border:0" src="<?php echo getBlogURL();?>/login?requestURI=about:blank&session=<?php echo $_COOKIE[getSessionName()];?>"></iframe>

@@ -684,6 +684,42 @@ if (count($templateLists) == 0) {
 									</div>
 									
 									<hr class="hidden" />
+																		
+									<div id="upload-section" class="section">
+										<h3><a href="#void" onclick="toggleLayer('upload-detail');return false;"><?php echo _t('업로드');?></a></h3>
+										<div id="upload-detail">
+											<div id="attachment-container" class="container">
+<?php
+$param = array(
+		'uploadPath'=> "$blogURL/owner/entry/attachmulti/", 
+		'singleUploadPath'=> "$blogURL/owner/entry/attach/", 
+		'deletePath'=>"$blogURL/owner/entry/detach/multi/",
+		'labelingPath'=> "$blogURL/owner/entry/attachmulti/list/", 
+		'refreshPath'=> "$blogURL/owner/entry/attachmulti/refresh/", 
+		'fileSizePath'=> "$blogURL/owner/entry/size?parent=");		
+printEntryFileList(getAttachments($blogid, $entry['id'], 'label'), $param);
+?>
+											</div>
+										
+											<div id="insert-container" class="container">
+												<a class="image-left" href="#void" onclick="editorAddObject(editor, 'Image1L');return false;" title="<?php echo _t('선택한 파일을 글의 왼쪽에 정렬합니다.');?>"><span class="text"><?php echo _t('왼쪽 정렬');?></span></a>
+												<a class="image-center" href="#void" onclick="editorAddObject(editor, 'Image1C');return false;" title="<?php echo _t('선택한 파일을 글의 중앙에 정렬합니다.');?>"><span class="text"><?php echo _t('중앙 정렬');?></span></a>
+												<a class="image-right" href="#void" onclick="editorAddObject(editor, 'Image1R');return false;" title="<?php echo _t('선택한 파일을 글의 오른쪽에 정렬합니다.');?>"><span class="text"><?php echo _t('오른쪽 정렬');?></span></a>
+												<a class="image-2center" href="#void" onclick="editorAddObject(editor, 'Image2C');return false;" title="<?php echo _t('선택한 두개의 파일을 글의 중앙에 정렬합니다.');?>"><span class="text"><?php echo _t('중앙 정렬(2 이미지)');?></span></a>
+												<a class="image-3center" href="#void" onclick="editorAddObject(editor, 'Image3C');return false;" title="<?php echo _t('선택한 세개의 파일을 글의 중앙에 정렬합니다.');?>"><span class="text"><?php echo _t('중앙 정렬(3 이미지)');?></span></a>
+												<a class="image-free" href="#void" onclick="editorAddObject(editor, 'ImageFree');return false;" title="<?php echo _t('선택한 파일을 글에 삽입합니다. 문단의 모양에 영향을 주지 않습니다.');?>"><span class="text"><?php echo _t('파일 삽입');?></span></a>
+												<a class="image-imazing" href="#void" onclick="editorAddObject(editor, 'Imazing');return false;" title="<?php echo _t('이메이징(플래쉬 갤러리)을 삽입합니다.');?>"><span class="text"><?php echo _t('이메이징(플래쉬 갤러리) 삽입');?></span></a>
+												<a class="image-sequence" href="#void" onclick="editorAddObject(editor, 'Gallery');return false;" title="<?php echo _t('이미지 갤러리를 삽입합니다.');?>"><span class="text"><?php echo _t('갤러리 삽입');?></span></a>
+												<a class="image-mp3" href="#void" onclick="editorAddObject(editor, 'Jukebox');return false;" title="<?php echo _t('쥬크박스를 삽입합니다.');?>"><span class="text"><?php echo _t('쥬크박스 삽입');?></span></a>
+												<a class="image-podcast" href="#void" onclick="setEnclosure(document.getElementById('TCfilelist').value);return false;" title="<?php echo _t('팟캐스트로 지정합니다.');?>"><span class="text"><?php echo _t('팟캐스트 지정');?></span></a>
+											</div>
+<?php
+printEntryFileUploadButton($entry['id']);
+?>
+										</div>
+									</div>
+
+									<hr class="hidden" />
 									
 									<div id="taglocal-section" class="section">
 										<h3><?php echo _t('태그 &amp; 위치');?></h3>
@@ -728,41 +764,6 @@ if (count($templateLists) == 0) {
 												//]]>
 											</script> 
 										</div>
-									</div>
-
-									<hr class="hidden" />
-									
-									<div id="upload-section" class="section">
-										<h3><?php echo _t('업로드');?></h3>
-										
-										<div id="attachment-container" class="container">
-<?php
-$param = array(
-		'uploadPath'=> "$blogURL/owner/entry/attachmulti/", 
-		'singleUploadPath'=> "$blogURL/owner/entry/attach/", 
-		'deletePath'=>"$blogURL/owner/entry/detach/multi/",
-		'labelingPath'=> "$blogURL/owner/entry/attachmulti/list/", 
-		'refreshPath'=> "$blogURL/owner/entry/attachmulti/refresh/", 
-		'fileSizePath'=> "$blogURL/owner/entry/size?parent=");		
-printEntryFileList(getAttachments($blogid, $entry['id'], 'label'), $param);
-?>
-										</div>
-										
-										<div id="insert-container" class="container">
-											<a class="image-left" href="#void" onclick="editorAddObject(editor, 'Image1L');return false;" title="<?php echo _t('선택한 파일을 글의 왼쪽에 정렬합니다.');?>"><span class="text"><?php echo _t('왼쪽 정렬');?></span></a>
-											<a class="image-center" href="#void" onclick="editorAddObject(editor, 'Image1C');return false;" title="<?php echo _t('선택한 파일을 글의 중앙에 정렬합니다.');?>"><span class="text"><?php echo _t('중앙 정렬');?></span></a>
-											<a class="image-right" href="#void" onclick="editorAddObject(editor, 'Image1R');return false;" title="<?php echo _t('선택한 파일을 글의 오른쪽에 정렬합니다.');?>"><span class="text"><?php echo _t('오른쪽 정렬');?></span></a>
-											<a class="image-2center" href="#void" onclick="editorAddObject(editor, 'Image2C');return false;" title="<?php echo _t('선택한 두개의 파일을 글의 중앙에 정렬합니다.');?>"><span class="text"><?php echo _t('중앙 정렬(2 이미지)');?></span></a>
-											<a class="image-3center" href="#void" onclick="editorAddObject(editor, 'Image3C');return false;" title="<?php echo _t('선택한 세개의 파일을 글의 중앙에 정렬합니다.');?>"><span class="text"><?php echo _t('중앙 정렬(3 이미지)');?></span></a>
-											<a class="image-free" href="#void" onclick="editorAddObject(editor, 'ImageFree');return false;" title="<?php echo _t('선택한 파일을 글에 삽입합니다. 문단의 모양에 영향을 주지 않습니다.');?>"><span class="text"><?php echo _t('파일 삽입');?></span></a>
-											<a class="image-imazing" href="#void" onclick="editorAddObject(editor, 'Imazing');return false;" title="<?php echo _t('이메이징(플래쉬 갤러리)을 삽입합니다.');?>"><span class="text"><?php echo _t('이메이징(플래쉬 갤러리) 삽입');?></span></a>
-											<a class="image-sequence" href="#void" onclick="editorAddObject(editor, 'Gallery');return false;" title="<?php echo _t('이미지 갤러리를 삽입합니다.');?>"><span class="text"><?php echo _t('갤러리 삽입');?></span></a>
-											<a class="image-mp3" href="#void" onclick="editorAddObject(editor, 'Jukebox');return false;" title="<?php echo _t('쥬크박스를 삽입합니다.');?>"><span class="text"><?php echo _t('쥬크박스 삽입');?></span></a>
-											<a class="image-podcast" href="#void" onclick="setEnclosure(document.getElementById('TCfilelist').value);return false;" title="<?php echo _t('팟캐스트로 지정합니다.');?>"><span class="text"><?php echo _t('팟캐스트 지정');?></span></a>
-										</div>
-<?php
-printEntryFileUploadButton($entry['id']);
-?>
 									</div>
 
 									<hr class="hidden" />

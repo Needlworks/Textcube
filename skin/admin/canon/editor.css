@@ -373,22 +373,26 @@ h3
 {
 /*	background-color                 : #F2F2F2 !important;*/
 /*	margin                           : 0 20px 0 0;*/
-	margin                           : 0;
+	margin                           : 0 auto;
 	padding                          : 0 5px 0 5px;
-	width                            : 350px !important;
+/*	width                            : 350px !important;*/
 	height                           : 75px;
-	float                            : right !important;
+/*	float                            : right !important;*/
 }
 
 /* tag and location -----------------------------------------------------------------------------*/
 #taglocal-section
 {
-	background-color                 : #F2F2F2 !important;
+	background-color                 : #FFFFFF !important;
 	margin                           : 0;
-	padding                          : 5px 5px 0 5px;
-	width                            : 570px !important;
-	height                           : 75px;
+	/*padding                          : 15px 5px 0 5px;*/
+	padding                          : 0;
+	width                            : 650px !important;
+	height                           : 55px;
 /*	float                            : right !important;*/
+	border-top                       : 1px solid #EEEEEE;
+	border-left                      : 1px solid #EEEEEE;
+	border-right                     : 1px solid #EEEEEE;
 }
 
 #taglocal-section dl
@@ -399,20 +403,22 @@ h3
 
 #taglocal-section dl dt
 {
-	color                            : #6B90C3;
+/*	color                            : #6B90C3;*/
+	color                            : #666;
 	font-weight                      : bold;
 	left                             : 0;
 	line-height                      : 20px;
-	padding                          : 0;
-	position                         : absolute;
-	top                              : 0;
-	text-align                       : right;
-	width                            : 40px;
+	padding                          : 0 0 0 10px;
+/*	position                         : absolute;
+	top                              : 0;*/
+	text-align                       : left;
+	width                            : 75px;
 }
 
 #taglocal-section dl dd
 {
-	margin-left                      : 50px;
+	margin-left                      : 80px;
+	border-left                      : 1px solid #EEEEEE;
 }
 
 #taglocal-section dl dd .input-text
@@ -461,9 +467,9 @@ h3
 	background-color                 : #F5F5F5;
 	margin                           : 0 20px 2px 0;
 	position                         : relative;
-	/*width                            : 650px;*/
-	width                            : 550px;
-	float                            : left;
+	width                            : 650px;
+/*	width                            : 550px;*/
+/*	float                            : left;*/
 }
 
 #upload-section h3
@@ -471,6 +477,11 @@ h3
 	background-color                 : #F2F2F2;
 	display                          : block;
 	padding                          : 10px 10px 3px 10px;
+}
+
+#upload-detail
+{
+	display                          : none;
 }
 
 #attachment-container
@@ -497,16 +508,16 @@ h3
 #attachManagerSelectNest
 {
 	margin-left                      : 144px;
-/*	width                            : 415px;*/
-	width                            : 315px;
+	width                            : 415px;
+/*	width                            : 315px;*/
 }
 
 #TCfilelist
 {
 	height                           : 120px;
 	margin-top                       : 10px;
-/*	width                            : 393px !important;*/
-	width                            : 293px !important;
+	width                            : 393px !important;
+/*	width                            : 293px !important;*/
 }
 
 #fileUploadNest
@@ -662,17 +673,21 @@ h3
 /*	background-color                 : #F5F5F5;*/
 	line-height                      : 17px;
 	margin                           : 0;
-	position                         : relative;
+	position                         : relative; 
 	padding                          : 0 0 8px 0;
-	width                            : 370px;
-	height                           : 180px;
-	float                            : left;
+	width                            : 650px;
+/*	float                            : left;*/
+/*	display                          : none;*/
+	border-left                      : 1px solid #EEEEEE;
+	border-right                      : 1px solid #EEEEEE;
+	border-bottom                      : 1px solid #EEEEEE;
 }
 
 #power-section dl
 {
-	border-bottom                    : 1px solid #DDDDDD;
-	border-top                       : 1px solid #FFFFFF;
+/*	border-bottom                    : 1px solid #DDDDDD;
+	border-top                       : 1px solid #FFFFFF;*/
+	border                           : none;
 	position                         : relative;
 }
 
@@ -725,7 +740,7 @@ dl#power-line dd div
 
 dl#power-line
 {
-	border-bottom                    : 1px solid #DDDDDD !important;
+/*	border-bottom                    : 1px solid #DDDDDD !important;*/
 }
 
 .publish-preserve,

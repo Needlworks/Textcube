@@ -330,6 +330,115 @@ table.data-inbox tbody tr td.title span.excerpt
 	top                              : 45px;
 }
 
+/* Filter ****************************************************************************************/
+
+#part-communication-filter,
+#part-communication-whitelist
+{
+	height                           : 500px;
+	padding-bottom: 30px;
+}
+
+#part-communication-filter div.data-inbox,
+#part-communication-whitelist div.data-inbox
+{
+	margin-top                       : 20px;
+}
+
+#part-communication-filter div.data-inbox .section,
+#part-communication-whitelist div.data-inbox .section
+{
+	float                            : left;
+	margin-left                      : 20px;
+	width                            : 200px;
+}
+
+#part-communication-filter div.data-inbox .section .title,
+#part-communication-whitelist div.data-inbox .section .title
+{
+	font-weight                      : bold;
+	margin-bottom                    : 5px;
+}
+
+#part-communication-filter div.data-inbox .section table,
+#part-communication-whitelist div.data-inbox .section table
+{
+	background-color                 : #FFFFFF;
+	width                            : 100%;
+}
+
+#part-communication-filter div.data-inbox .section table tbody tr td.content,
+#part-communication-whitelist div.data-inbox .section table tbody tr td.content
+{
+	border-bottom                    : 1px solid #EFEFEF;
+	margin                           : 1px 3px 1px 3px !important;
+	padding                          : 5px 5px 3px 5px;
+}
+
+#part-communication-filter div.data-inbox .section table tbody tr td.empty,
+#part-communication-whitelist div.data-inbox .section table tbody tr td.empty
+{
+	height                           : 300px;
+	text-align                       : center;
+}
+
+#part-communication-filter div.data-inbox .section table tbody tr td.delete,
+#part-communication-whitelist div.data-inbox .section table tbody tr td.delete
+{
+	border-bottom                    : 1px solid #EFEFEF;
+	width                            : 20px;
+}
+
+#part-communication-filter div.data-inbox .section table tbody tr td .delete-button,
+#part-communication-whitelist div.data-inbox .section table tbody tr td .delete-button
+{
+	background-color                 : transparent;
+	background-image                 : url("./image/icon_delete.gif");
+	background-position              : left top;
+	display                          : block;
+	height                           : 11px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 11px;
+}
+
+#part-communication-filter div.data-inbox .section table tbody tr td .delete-button span,
+#part-communication-whitelist div.data-inbox .section table tbody tr td .delete-button span
+{
+	display                          : none;
+}
+
+#part-communication-filter div.data-inbox .section .filtering-words,
+#part-communication-whitelist div.data-inbox .section .filtering-words
+{
+	border                           : 1px solid #777777;
+	height                           : 300px;
+	overflow-y                       : scroll;
+	padding                          : 3px;
+}
+
+#part-communication-filter div.data-inbox .section .input-text,
+#part-communication-whitelist div.data-inbox .section .input-text
+{
+	margin-top                       : 2px;
+	width                            : 198px;
+}
+
+#part-communication-filter .button-box,
+#part-communication-whitelist .button-box
+{
+	clear                            : both;
+	margin                           : 20px 0 10px 0;
+}
+
+#part-communication-filter .button-box .add-button,
+#part-communication-whitelist .button-box .add-button
+{
+	margin                           : 0 auto;
+	padding                          : 0 !important;
+}
+
+
 /* simple help footer ****************************************************************************/
 
 #data-description dl.modify-description

@@ -168,7 +168,8 @@ if(isset($blogMenu['topMenu'])) {
 			array('menu'=>'trackbackreceived','title'=>_t('걸린 글'),'link'=>'/owner/communication/trackback?status=received'),
 			array('menu'=>'trackbacksent','title'=>_t('건 글'),'link'=>'/owner/communication/trackback?status=sent'),
 			array('menu'=>'openid','title'=>_t('오픈아이디 기록'),'link'=>'/owner/communication/openid'),
-			array('menu'=>'trash','title'=>_t('휴지통'),'link'=>'/owner/communication/trash/comment')
+			array('menu'=>'trash','title'=>_t('휴지통'),'link'=>'/owner/communication/trash/comment'),
+			array('menu'=>'filter','title'=>_t('스팸 필터'),'link'=>'/owner/communication/filter')
 		);
 	} else {
 		$blogContentMenuItem['communication'] = array(
@@ -206,7 +207,6 @@ if(isset($blogMenu['topMenu'])) {
 			array('menu'=>'blog','title'=>_t('블로그'),'link'=>'/owner/setting/blog'),
 			array('menu'=>'entry','title'=>_t('글 작성'),'link'=>'/owner/setting/entry'),
 			array('menu'=>'account','title'=>_t('개인 정보'),'link'=>'/owner/setting/account'),
-			array('menu'=>'filter','title'=>_t('스팸 필터'),'link'=>'/owner/setting/filter'),
 			array('menu'=>'data','title'=>_t('데이터 관리'),'link'=>'/owner/data')
 		);
 	} else {

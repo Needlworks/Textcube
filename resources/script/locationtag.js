@@ -80,10 +80,10 @@ function eolinLocationTagFunction_showSuggestion()
 	}
 
 	/* TODO : temporary code */
-	try {
+/*	try {
 		document.getElementById("previewSelected").style.visibility = "hidden";
 		document.getElementById("TCfilelist").style.visibility = "hidden";
-	} catch(e) { }
+	} catch(e) { }*/
 
 	instance.suggestion.innerHTML = htmlText.toString();
 	instance.suggestion.style.display = "block";
@@ -351,10 +351,10 @@ LocationTag.prototype.hideSuggestion = function()
 	this.suggestion.selectedIndex = 0;
 
 	/* TODO : temporary code */
-	try {
+/*	try {	// 원래는 파일 업로드 상자의 z-index 의 IE 해석 오류때문에 추가되어 있는 부분인데, 태그가 파일 업로드 아래로 내려오면서 불필요해졌음.
 		document.getElementById("previewSelected").style.visibility = "visible";
 		document.getElementById("TCfilelist").style.visibility = "visible";
-	} catch(e) { }
+	} catch(e) { }*/
 }
 
 // suggestion window 커서를 위로 이동

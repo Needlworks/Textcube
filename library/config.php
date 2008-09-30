@@ -43,7 +43,6 @@ $service['reader'] = true;
 $service['flashclipboardpoter'] = true;
 $service['allowBlogVisibilitySetting'] = true;
 $service['disableEolinSuggestion'] = false;
-$service['effect'] = false;
 $service['interface'] = 'detail';	// 'simple' or 'detail'. Default is 'detail'
 $service['pagecache'] = true;
 $service['codecache'] = false;

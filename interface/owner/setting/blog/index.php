@@ -396,27 +396,6 @@ if($service['allowBlogVisibilitySetting']){
 									else if (errorType == "both")
 										alert("<?php echo _t('블로그 언어와 시간대를 변경할 수 없습니다.');?>");
 								}
-
-
-								function setSmtp() {
-									var useCustomSMTP = document.getElementById('useCustomSMTP').checked?1:0;
-									var smtpHost = document.getElementById('smtpHost').value;
-									var smtpPort = document.getElementById('smtpPort').value;
-									
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/mailhost/");
-									request.onVerify = function() {
-										return this.getText("/response/error") == 0;
-									}
-									request.onSuccess = function() {
-										PM.showMessage("<?php echo _t('저장하였습니다');?>", "center", "bottom");
-									}
-									request.onError = function() {
-											alert('<?php echo _t('저장하지 못했습니다');?>');
-									}
-									request.send("&useCustomSMTP="+useCustomSMTP+"&smtpHost="+encodeURIComponent(smtpHost)+"&smtpPort="+smtpPort);
-								}
-
-
 							//]]>
 						</script>
 						<div id="part-setting-basic" class="part">
