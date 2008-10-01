@@ -22,6 +22,7 @@ $IV = array(
 	)
 );
 define('__TEXTCUBE_LOGIN__',true);
+define('__TEXTCUBE_ADMINPANEL__',true);
 require ROOT . '/lib/includeForBlog.php';
 define('__TEXTCUBE_ADMINPANEL__',true);
 //$blogURL = getBlogURL();
