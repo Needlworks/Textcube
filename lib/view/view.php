@@ -953,7 +953,8 @@ function getAuthorListView($authorInfo, $template) {
 
 function getRecentNoticesView($notices, $noticeView, $noticeItemView, $isPage = false) {
 	global $blog, $service, $blogURL, $skinSetting, $contentContainer;
-	if($isPage) $prefix = 'page' else $prefix = 'notice';
+	if($isPage) $prefix = 'page';
+	else $prefix = 'notice';
 	if (sizeof($notices) > 0) {
 		$itemsView = '';
 		foreach ($notices as $notice) {
