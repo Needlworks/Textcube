@@ -24,6 +24,26 @@
 === IIS 지원 ===
 1.7.6부터 IIS를 공식적으로 지원합니다. 설치 방법에 대해서는 /doc/INSTALL 문서를 참고하시기 바랍니다.
 
+=== 페이지 기능을 위한 치환자 추가 ===
+1.1부터 존재했던 페이지 기능을 공식적으로 지원하기 위한 사이드바 치환자가 추가되었습니다.
+
+'페이지' 는 기존의 '공지'를 다른 형태로 쓸 수 있는 방식이며, 주로 정적인 문서를 만들 때 사용합니다. 공지 글을 쓸 경우 /notice/this-is-entry 형태의 글 주소를 갖게 되는데, /page/this-is-entry 의 형태로 접근해도 같은 페이지를 볼 수 있었습니다. 1.7.6에서는 사이드바의 출력등에서 공식적으로 페이지를 쓸 수 있도록 하기 위하여 rct_page 영역과 몇몇 치환자를 추가로 지원합니다.
+
+추가된 구분자는 <s_rct_page>, <s_rct_page_rep> 이며, <s_rct_page_rep> 영역 내에서 사용할 수 있는 치환자로 [##_page_rep_link_##], [##_page_rep_title_##] 이 있습니다.
+
+아래는 치환자를 사용하는 예입니다.
+
+<s_rct_page>
+  <div class="page module">
+    <h3>Pages</h3>
+      <ul class="box">
+      <s_rct_page_rep>
+        <li><a href="[##_page_rep_link_##]">[##_page_rep_title_##]</a> </li>
+      </s_rct_page_rep>
+      </ul>
+  </div>
+</s_rct_page>
+
 
 == v1.7.5 개발 관련 노트 ==
 
