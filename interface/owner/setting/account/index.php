@@ -578,12 +578,17 @@ if( isActivePlugin( 'CL_OpenID' ) || Acl::check('group.administrators') ) {
 	}
 ?>
 <?php
-if ($service['type'] != 'single' && Acl::check("group.creators")) {
+if ($service['type'] != 'single' && Acl::check("group.creators")):
 	$urlRule = getBlogURLRule();
 ?>
 						<div id="part-setting-invite" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('친구를 초대합니다');?></span></h2>
 							
+<?php if( !function_exists( 'mail' ) && !getServiceSetting( 'useCustomSMTP', 0 )  ) { ?>
+							<div class="main-explain-box">
+								<p class="explain"><?php echo _t('시스템에 자체에서 메일을 보낼 수가 없습니다. 외부 메일 서버를 지정해주세요.');?> <a href="<?php echo $blogURL ?>/owner/control/server"><?php echo _t('메일 서버 설정 바로가기')?></a></p>
+							</div>
+<?php } else { ?>
 							<div class="data-inbox">
 								<form id="letter-section" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/account">
 									<dl>
@@ -683,7 +688,8 @@ $invitedList = getInvited(getUserId());
 							</div>
 						</div>
 <?php
-}
+	}
+endif;
 
 require ROOT . '/lib/piece/owner/footer.php';
 ?>

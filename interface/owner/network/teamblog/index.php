@@ -315,6 +315,11 @@ if( Acl::check('group.owners')) {
 						<div id="part-setting-invite" class="part">
 							<h2 class="caption"><span class="main-text"><?php	echo _t('새로운 사람을 블로그의 필진으로 초대합니다');?></span></h2>
 							
+<?php if( !function_exists( 'mail' ) && !getServiceSetting( 'useCustomSMTP', 0 )  ) { ?>
+							<div class="main-explain-box">
+								<p class="explain"><?php echo _t('시스템에 자체에서 메일을 보낼 수가 없습니다. 외부 메일 서버를 지정해주세요.');?> <a href="<?php echo $blogURL ?>/owner/control/server"><?php echo _t('메일 서버 설정 바로가기')?></a></p>
+							</div>
+<?php } else { ?>
 							<div class="main-explain-box">
 								<p class="explain"><?php echo _t('새로운 사람을 블로그의 필자로 초대합니다. 초대장은 이메일을 통하여 발송됩니다. 메일 주소가 이미 블로그 서비스에 등록되어 있는 경우, 그 사용자에게 이 블로그의 필진 권한을 추가합니다. 사용자가 존재하지 않는 경우에는 새로운 사용자를 자동으로 등록하고 초대장을 발송합니다. 초대된 사람에게는 기본적으로 글쓰기 권한이 부여됩니다.');?></p>
 							</div>
@@ -347,6 +352,7 @@ if( Acl::check('group.owners')) {
 										<input type="submit" class="input-button" value="<?php	echo _t('초대장 발송');?>" onclick="sendInvitation(); return false;" />
 									</div>
 								</form>
+<?php } ?>
 							</div>
 						</div>
 

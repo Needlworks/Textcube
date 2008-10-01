@@ -468,7 +468,6 @@ is_numeric
 is_writable
 ksort
 ltrim
-mail
 max
 md5
 microtime
