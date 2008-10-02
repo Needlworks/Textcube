@@ -368,7 +368,7 @@ function getInfoFromTrackbackURL($url) {
 	$result = array('service' => 'etc', 'url' => null, 'trackbackURL' => $url);
 
 	$pieces = @parse_url($url);
-	if ($split === false) {
+	if ($pieces === false) {
 		return $result;
 	}
 	$pieces['host'] = strtolower($pieces['host']);
@@ -479,6 +479,12 @@ function getInfoFromTrackbackURL($url) {
 	}
 
 	return $result;
+}
+
+function getTrackbackURLFromInfo($trackbackURL, $blogType) {
+	$trackbackURL = trim($trim);
+	$pieces = @parse_url($url);
+	if (
 }
 
 function getRDFfromURL($url) {
