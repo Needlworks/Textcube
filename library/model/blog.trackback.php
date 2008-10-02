@@ -481,12 +481,6 @@ function getInfoFromTrackbackURL($url) {
 	return $result;
 }
 
-function getTrackbackURLFromInfo($trackbackURL, $blogType) {
-	$trackbackURL = trim($trim);
-	$pieces = @parse_url($url);
-	if (
-}
-
 function getRDFfromURL($url) {
 	requireComponent('Needlworks.PHP.HTTPRequest');
 
