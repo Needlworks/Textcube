@@ -99,12 +99,20 @@ final class Session {
 	}
 	
 	private static function newAnonymousSession() {
-		global $database;
+		global $database, $service;
+		$meet_again_baby = 3600;
+		if( isset($service['timeout']) ) { 
+			$meet_again_baby = $service['timeout'];
+		}
+
+ 		//If you are not a robot, subsequent UPDATE query will override to proper timestamp.
+		$meet_again_baby -= 60;
+
 		for ($i = 0; $i < 100; $i++) {
 			if (($id = self::getAnonymousSession()) !== false)
 				return $id;
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-			$result = self::query('count',"INSERT INTO {$database['prefix']}Sessions (id, address, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+			$result = self::query('count',"INSERT INTO {$database['prefix']}Sessions (id, address, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP() - $meet_again_baby)");
 			if ($result > 0)
 				return $id;
 		}
