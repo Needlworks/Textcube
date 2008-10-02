@@ -379,7 +379,7 @@ function getInfoFromTrackbackURL($url) {
 	switch ($pieces['host']) {
 		case 'blog.naver.com':
 			$result['service'] = 'naver';
-			if (stripos($url, 'http://blog.naver.com/tb/') === 0) {
+			if (strpos(strtolower($url), 'http://blog.naver.com/tb/') === 0) {
 				$result['url'] = 'http://blog.naver.com/'.substr($url, 25);
 			}
 			break;
@@ -436,14 +436,14 @@ function getInfoFromTrackbackURL($url) {
 			break;
 		case 'blog.aladdin.co.kr':
 			$result['service'] = 'aladdin';
-			if (stripos($pieces['path'], '/trackback/') === 0) {
+			if (strpos(strtolower($pieces['path']), '/trackback/') === 0) {
 				$result['url'] = $host.'/'.substr($pieces['path'], 11);
 			}
 			break;
 		default:
 			if (substr($pieces['host'], -11) == '.egloos.com') {
 				$result['service'] = 'egloos';
-				if (stripos($pieces['path'], '/tb/') === 0) {
+				if (strpos(strtolower($pieces['path']), '/tb/') === 0) {
 					$result['url'] = $host.'/'.substr($pieces['path'], 4);
 				}
 			} elseif (substr($pieces['host'], -16) == '.spaces.live.com') {
@@ -456,13 +456,13 @@ function getInfoFromTrackbackURL($url) {
 				if (strtolower(substr($pieces['path'], -8)) == '/tb.aspx') {
 					$result['url'] = $host.substr($pieces['path'], 0, -8).'/Blog.aspx?'.$pieces['query'];
 				}
-			} elseif (stripos($pieces['path'], '/rserver.php') === 0) {
+			} elseif (strpos(strtolower($pieces['path']), '/rserver.php') === 0) {
 				$result['service'] = 'tattertools';
 				parse_str($pieces['query'], $query);
 				if (isset($query['mode']) && $query['mode'] == 'tb' && isset($query['sl'])) {
 					$result['url'] = $host.substr($pieces['path'], 0, -12).'index.php?pl='.$query['sl'];
 				}
-			} elseif (stripos($pieces['path'], '/wp-trackback.php') === 0) {
+			} elseif (strpos(strtolower($pieces['path']), '/wp-trackback.php') === 0) {
 				$result['service'] = 'wordpress';
 				parse_str($pieces['query'], $query);
 				if (isset($query['p'])) {
@@ -479,6 +479,125 @@ function getInfoFromTrackbackURL($url) {
 	}
 
 	return $result;
+}
+
+function getTrackbackURLFromInfo($url, $blogType) {
+	$url = trim($url);
+
+	switch ($blogType) {
+		case 'naver':
+			if (strpos(strtolower($url), 'http://blog.naver.com/') === 0) {
+				return 'http://blog.naver.com/tb/'.substr($url, 22);
+			}
+			break;
+		case 'yahoo':
+			// TODO
+			break;
+		case 'daum':
+		case 'empas':
+		case 'hani':
+			$pieces = explode('/', substr($url, 7), 3);
+
+			if (count($pieces) >= 2) {
+				return 'http://'.$pieces[0].'/'.$pieces[1].'/tb/'.implode('/', array_slice($pieces, 2));
+			}
+			break;
+		case 'cyworld blog':
+			// TODO
+			break;
+		case 'cyworld paper':
+			if (strpos(strtolower($url), 'http://paper.cyworld.com/') === 0) {
+				return 'http://cytb.cyworld.com/'.substr($url, 25);
+			}
+			break;
+		case 'paran':
+			// TODO
+			break;
+		case 'jinbo.net':
+			$pieces = @parse_url($url);
+			if ($pieces !== false) {
+				return 'http://blog.jinbo.net/'.trim($pieces['path'], '/').'/trackback.php?'.$pieces['query'];
+			}
+			break;
+		case 'dreamwiz':
+			return $url;
+		case 'ohmynews':
+			$pieces = explode('/', substr($url, 7), 3);
+
+			if (count($pieces) >= 2) {
+				return 'http://'.$pieces[0].'/'.$pieces[1].'/rmfdurrl/'.implode('/', array_slice($pieces, 2));
+			}
+			break;
+		case 'joins':
+			return $url;
+		case 'aladdin':
+			if (strpos(strtolower($url), 'http://blog.aladdin.co.kr/') === 0) {
+				return 'http://blog.aladdin.co.kr/trackback/'.substr($url, 26);
+			}
+			break;
+		case 'egloos':
+			$position = strpos($url, '/', 7);
+			if ($position !== false) {
+				return substr($url, 0, $position).'/tb/'.substr($url, $position + 1);
+			}
+			break;
+		case 'live.com':
+			$pieces = @parse_url($url);
+			if ($pieces !== false && substr($pieces['path'], -6) == '.entry') {
+				return 'http://'.$pieces['host'].substr($pieces['path'], -6).'.trak';
+			}
+			break;
+		case 'mediamob':
+			$pieces = @parse_url($url);
+			if ($pieces !== false && substr($pieces['path'], -10) == '/Blog.aspx') {
+				return 'http://'.$pieces['host'].substr($pieces['path'], -10).'/tb.aspx?'.$pieces['query'];
+			}
+			break;
+		case 'tattertools':
+			$pieces = @parse_url($url);
+			if ($pieces !== false) {
+				parse_str($pieces['query'], $query);
+				if (isset($query['pl'])) {
+					if (substr($pieces['path'], -10) == '/index.php') {
+						$pieces['path'] = substr($pieces['path'], 0, -10);
+					}
+					return 'http://'.$pieces['host'].rtrim($pieces['path']).'/rserver.php?mode=tb&sl='.$query['pl'];
+				}
+			}
+			break;
+		case 'wordpress':
+			$pieces = @parse_url($url);
+			if ($pieces !== false) {
+				if ($pieces['p']) {
+					if (substr($pieces['path'], -10) == '/index.php') {
+						$pieces['path'] = substr($pieces['path'], 0, -10);
+					}
+					return 'http://'.$pieces['host'].rtrim($pieces['path'], '/').'/wp-trackback.php?'.$pieces['query'];
+				} else {
+					return 'http://'.$pieces['host'].rtrim($pieces['path'], '/').'/trackback';
+				}
+			}
+			break;
+		case 'textcube':
+		case 'tistory':
+		case 'innori':
+			$pieces = @parse_url($url);
+			if ($pieces !== false) {
+				$position = strrpos($pieces['path'], '/');
+				if ($position !== false) {
+					return 'http://'.$pieces['host'].substr($pieces['path'], 0, $position - 1).'/trackback/'.substr($pieces['path'], $position + 1);
+				}
+			}
+			break;
+		case 'textcube.com':
+			$pieces = @parse_url($url);
+			if ($pieces !== false) {
+				return 'http://'.$pieces['host'].rtrim($pieces['path'], '/').'/trackback';
+			}
+			break;
+	}
+
+	return false;
 }
 
 function getRDFfromURL($url) {
