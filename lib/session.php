@@ -99,6 +99,27 @@ function getAnonymousSession() {
 }
 
 function newAnonymousSession() {
+	global $database, $service;
+	$meet_again_baby = 3600;
+	if( isset($service['timeout']) ) { 
+		$meet_again_baby = $service['timeout'];
+	}
+
+	//If you are not a robot, subsequent UPDATE query will override to proper timestamp.
+	$meet_again_baby -= 60;
+
+	for ($i = 0; $i < 100; $i++) {
+		if (($id = getAnonymousSession()) !== false)
+			return $id;
+		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
+		$result = sessionQuery('count',"INSERT INTO {$database['prefix']}Sessions (id, address, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP() - $meet_again_baby)");
+		if ($result > 0)
+			return $id;
+	}
+	return false;
+}
+
+function newAnonymousSession() {
 	global $database;
 	for ($i = 0; $i < 100; $i++) {
 		if (($id = getAnonymousSession()) !== false)
