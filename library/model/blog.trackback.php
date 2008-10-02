@@ -609,24 +609,65 @@ function getRDFfromURL($url) {
 		return false;
 	}
 
-	if (!preg_match('!<rdf:RDF\s+[^>]+>.*?</rdf:RDF>!s', $request->responseText, $match)) {
+	if (!preg_match('!<rdf:RDF\s+([^>]+)>\s*(<rdf:Description\s+([^>]+)>)\s*</rdf:RDF>!s', $request->responseText, $match)) {
 		return false;
 	}
 
-	$doc = DOMDocument::loadXML($match[0]);
-	if (!$doc) {
-		return false;
-	}
+	if (class_exists('DOMDocument')) {
+		$doc = DOMDocument::loadXML($match[0]);
+		if (!$doc) {
+			return false;
+		}
+		$desc = $doc->getElementsByTagNameNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'Description')->item(0);
+		if ($desc === null) {
+			return false;
+		}
+		return array(
+			'title' => $desc->getAttributeNS('http://purl.org/dc/elements/1.1/', 'title'),
+			'url' => $desc->getAttributeNS('http://purl.org/dc/elements/1.1/', 'identifier'),
+			'trackbackURL' => $desc->getAttributeNS('http://madskills.com/public/xml/rss/module/trackback/', 'ping')
+		);
+	} else {
+		preg_match_all('/(\S+?)=(["\']?)(.*?)\2/', $match[1], $attribs, PREG_SET_ORDER);
+		$namespace = array('rdf' => 'rdf', 'dc' => 'dc', 'trackback' => 'trackback');
 
-	$desc = $doc->getElementsByTagNameNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'Description')->item(0);
-	if ($desc === null) {
-		return false;
-	}
+		print_r($attribs);
 
-	return array(
-		'title' => $desc->getAttributeNS('http://purl.org/dc/elements/1.1/', 'title'),
-		'url' => $desc->getAttributeNS('http://purl.org/dc/elements/1.1/', 'identifier'),
-		'trackbackURL' => $desc->getAttributeNS('http://madskills.com/public/xml/rss/module/trackback/', 'ping')
-	);
+		foreach ($attribs as $attrib) {
+			if (substr(strtolower($attrib[1]), 0, 6) == 'xmlns:') {
+				$name = substr($attrib[1], 6);
+
+				switch (trim($attrib[3])) {
+					case 'http://www.w3.org/1999/02/22-rdf-syntax-ns#':
+						$namespace['rdf'] = $name;
+						break;
+					case 'http://purl.org/dc/elements/1.1/':
+						$namespace['dc'] = $name;
+						break;
+					case 'http://madskills.com/public/xml/rss/module/trackback/':
+						$namespace['trackback'] = $name;
+						break;
+				}
+			}
+		}
+
+		preg_match_all('/(\S+?)=(["\']?)(.*?)\2/', $match[2], $attribs, PREG_SET_ORDER);
+		$result = array('title' => null, 'url' => null, 'trackbackURL' => null);
+
+		foreach ($attribs as $attrib) {
+			switch ($attrib[1]) {
+				case $namespace['dc'].':title':
+					$result['title'] = $attrib[3];
+					break;
+				case $namespace['dc'].':identifier':
+					$result['url'] = $attrib[3];
+					break;
+				case $namespace['trackback'].':ping':
+					$result['trackbackURL'] = $attrib[3];
+			}
+		}
+
+		return (isset($result['trackbackURL'])) ? $result : false;
+	}
 }
 ?>
