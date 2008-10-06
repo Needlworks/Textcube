@@ -54,8 +54,8 @@ function writeSession($id, $data) {
 	if( empty($userid) ) $userid = 'null';
 	$data = POD::escapeString($data);
 	$server = POD::escapeString($_SERVER['HTTP_HOST']);
-	$request = POD::escapeString($_SERVER['REQUEST_URI']);
-	$referer = isset($_SERVER['HTTP_REFERER']) ? POD::escapeString($_SERVER['HTTP_REFERER']) : '';
+	$request = POD::escapeString(substr($_SERVER['REQUEST_URI'],0,255));
+	$referer = isset($_SERVER['HTTP_REFERER']) ? POD::escapeString(substr($_SERVER['HTTP_REFERER'],0,255)) : '';
 	$timer = getMicrotimeAsFloat() - $sessionMicrotime;
 	$result = sessionQuery('count',"UPDATE {$database['prefix']}Sessions 
 			SET userid = $userid, data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() 
