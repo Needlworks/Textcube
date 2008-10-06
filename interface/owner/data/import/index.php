@@ -424,6 +424,7 @@ function importer($path, $node, $line) {
 			setProgress($item++ / $items * 100, _t('공지를 복원하고 있습니다.'));
 			$notice = new Notice();
 			$notice->id = $node['id'][0]['.value'];
+			$notice->slogan = @$node['.attributes']['slogan'];
 			$notice->visibility = $node['visibility'][0]['.value'];
 			if(isset($node['starred'][0]['.value'])) 
 				$notice->starred = $node['starred'][0]['.value'];

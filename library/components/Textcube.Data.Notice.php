@@ -14,6 +14,7 @@ class Notice {
 		$this->visibility =
 		$this->starred =
 		$this->title =
+		$this->slogan =
 		$this->content =
 		$this->contentFormatter =
 		$this->contentEditor =
@@ -102,6 +103,7 @@ class Notice {
 			$this->userid = getUserId();
 			$query->setAttribute('userid',getUserId());
 		}
+		$this->saveSlogan();
 		if (!$query->insert())
 			return $this->_error('insert');
 		
@@ -127,7 +129,9 @@ class Notice {
 			return false;
 		if (!isset($this->modified))
 			$query->setAttribute('modified', 'UNIX_TIMESTAMP()');
-		
+		if (isset($this->slogan))
+			$this->saveSlogan();
+					
 		if (!$query->update())
 			return $this->_error('update');
 		return true;
@@ -150,6 +154,48 @@ class Notice {
 		$attachment = new Attachment();
 		if ($attachment->open('parent = ' . $this->id))
 			return $attachment;
+	}
+
+	function saveSlogan($slogan = null) {
+		global $database;
+		$this->init();
+		if (!Validator::number($this->id, 1))
+			return $this->_error('id');
+		if (!Validator::number($this->userid, 1))
+			return $this->_error('userid');
+		if (isset($slogan))
+			$this->slogan = $slogan;
+
+		$query = new TableQuery($database['prefix'] . 'Entries');
+		$query->setQualifier('blogid',$this->blogid);
+		if(isset($this->userid)) $query->setQualifier('userid', $this->userid);
+		$query->setQualifier('id', $this->id);
+		if (!$query->doesExist())
+			return $this->_error('id');
+
+		if (isset($this->slogan) && $this->validateSlogan($this->slogan))
+			$slogan0 = $this->slogan;
+		else
+			$slogan0 = $this->slogan = $this->makeSlogan($this->title);
+			
+		$slogan0 = UTF8::lessenAsEncoding($slogan0, 255);
+
+		for ($i = 1; $i < 1000; $i++) {
+			$checkSlogan = POD::escapeString($this->slogan);
+			$query->setAttribute('slogan', $checkSlogan, false);
+			if (!POD::queryExistence(
+				"SELECT id FROM {$database['prefix']}Entries " 
+				. "WHERE blogid = ".$this->blogid." AND id <> {$this->id} AND slogan ='{$checkSlogan}'")
+				) 
+			{
+				if (!$query->update())
+					return $this->_error('update');
+				return true;
+			}
+			$this->slogan = UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i;
+		}
+		// if try saveSlogan again, slogan string has more $i
+		return $this->_error('limit');
 	}
 
 	/*@static@*/

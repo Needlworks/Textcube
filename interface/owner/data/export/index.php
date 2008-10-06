@@ -150,13 +150,14 @@ if ($post->open('', '*', 'published, id')) {
 			$log->close();
 		}
 		$writer->write('</post>');
+		$writer->write(CRLF);
 	} while ($post->shift());
 	$post->close();
 }
 $notice = new Notice();
 if ($notice->open()) {
 	do {
-		$writer->write('<notice' . $newlineStyle . '>' . 
+		$writer->write('<notice' . ' slogan="' . htmlspecialchars($notice->slogan) . '"' . $newlineStyle . '>' . 
 			'<id>' . $notice->id . '</id>' . 
 			'<visibility>' . $notice->visibility . '</visibility>' . 
 			'<starred>' . $notice->starred . '</starred>' . 

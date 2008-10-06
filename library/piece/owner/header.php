@@ -355,7 +355,7 @@ if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
 	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/helpdialog.js"></script>
 <?php
 }*/
-if(($service['interface'] == 'simple') || ($service['effect'])) {
+if($service['interface'] == 'simple') {
 	if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
 ?>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/mootools.js"></script>
