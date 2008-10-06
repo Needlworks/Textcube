@@ -55,7 +55,7 @@ final class Session {
 		$data = POD::escapeString($data);
 		$server = POD::escapeString($_SERVER['HTTP_HOST']);
 		$request = POD::escapeString(substr($_SERVER['REQUEST_URI'], 0, 255));
-		$referer = isset($_SERVER['HTTP_REFERER']) ? POD::escapeString($_SERVER['HTTP_REFERER']) : '';
+		$referer = isset($_SERVER['HTTP_REFERER']) ? POD::escapeString(substr($_SERVER['HTTP_REFERER'],0,255)) : '';
 		$timer = Timer::getMicroTime() - self::$sessionMicrotime;
 		$result = self::query('count',"UPDATE {$database['prefix']}Sessions 
 				SET userid = $userid, data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() 
