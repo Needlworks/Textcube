@@ -119,19 +119,6 @@ function newAnonymousSession() {
 	return false;
 }
 
-function newAnonymousSession() {
-	global $database;
-	for ($i = 0; $i < 100; $i++) {
-		if (($id = getAnonymousSession()) !== false)
-			return $id;
-		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-		$result = sessionQuery('count',"INSERT INTO {$database['prefix']}Sessions(id, address, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
-		if ($result > 0)
-			return $id;
-	}
-	return false;
-}
-
 function setSessionAnonymous($currentId) {
 	$id = getAnonymousSession();
 	if ($id !== false) {
