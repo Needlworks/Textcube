@@ -14,9 +14,9 @@ class Debug {
 		switch ($backend_name) {
 		case 'logfile':
 			// always open in append mode
-			$this->file = fopen('./debug.log', 'a');
+			$this->file = fopen(ROOT . '/cache/debug.log', 'a');
 			if ($this->file === FALSE)
-				throw new DebuggerError("Creation failed because debug.log couldn't be opened.");
+				throw new DebuggerError("Creation failed because cache/debug.log couldn't be opened.");
 			if ($options != NULL && $options['truncate'] == TRUE)
 				$this->truncate();
 			break;
