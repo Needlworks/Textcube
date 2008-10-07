@@ -103,6 +103,8 @@ class Autoload {
 					require_once(ROOT . '/library/components/Needlworks.DBMS.MySQL.php');     break;
 			}
 			require_once(ROOT . "/library/components/Needlworks.Database.php");
+		} else if (in_array($name,array('Syndication'))) {
+			require_once(ROOT . "/library/components/Eolin.API.Syndication.php");
 		}
 		else {
 			if(defined('TCDEBUG')) print "TC: Unregisterred auto load class: $name<br/>\n";

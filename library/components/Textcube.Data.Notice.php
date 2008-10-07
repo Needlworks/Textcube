@@ -158,7 +158,6 @@ class Notice {
 
 	function saveSlogan($slogan = null) {
 		global $database;
-		$this->init();
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
 		if (!Validator::number($this->userid, 1))
