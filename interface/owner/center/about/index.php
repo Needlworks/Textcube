@@ -99,7 +99,7 @@ require ROOT . '/library/piece/owner/header.php';
 												<td class="role"><?php echo _t('Service administration panel');?></td>
 											</tr>
 											<tr>
-												<td class="name vcard"><a class="fn url" href="http://creorix.com/tc">Jun-whan Ahn</a></td>
+												<td class="name vcard"><a class="fn url" href="http://junwhan.com">Jun-whan Ahn</a></td>
 												<td class="role"><?php echo _t('Optimization / Bug tracking / Editor / Formatter');?></td>
 											</tr>
 										</tbody>
