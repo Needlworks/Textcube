@@ -3,6 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+class DebuggerError extends Exception {};
+
 class Debug {
 	private $backend = 'logfile';
 	private $file = NULL;
@@ -14,7 +16,7 @@ class Debug {
 			// always open in append mode
 			$this->file = fopen('./debug.log', 'a');
 			if ($this->file === FALSE)
-				return FALSE;
+				throw new DebuggerError("Creation failed because debug.log couldn't be opened.");
 			if ($options != NULL && $options['truncate'] == TRUE)
 				$this->truncate();
 			break;
@@ -27,10 +29,13 @@ class Debug {
 			break;
 		case 'socket':
 			if ($options == NULL)
-				return FALSE;
-			$this->file = fsockopen($options['host'], $options['port']);
-			if ($this->file === FALSE)
-				return FALSE;
+				throw new DebuggerError("Insufficient options.");
+			$errno = 0;
+			if ($options['host'] == 'localhost')
+				$options['host'] = '127.0.0.1';
+			$this->file = @fsockopen($options['host'], $options['port'], $errno, $errstr, 10);
+			if ($this->file === FALSE || $errno != 0)
+				throw new DebuggerError("Creation failed due to socket error ($errno, $errstr)");
 			break;
 		default:
 			$backend_name = 'console';
