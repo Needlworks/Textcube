@@ -69,7 +69,9 @@ class Post {
 //					continue;
 				switch ($name) {
 					case 'visibility':
-						if ($value <= 0)
+						if ($value == -2)
+							$value = 'appointed';
+						else if ($value == 0)
 							$value = 'private';
 						else if ($value == 1)
 							$value = 'protected';
@@ -569,6 +571,9 @@ class Post {
 		}
 		if (isset($this->visibility)) {
 			switch ($this->visibility) {
+				case 'appointed':
+					$query->setAttribute('visibility', -2);
+					break;
 				case 'private':
 					$query->setAttribute('visibility', 0);
 					break;

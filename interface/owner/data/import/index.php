@@ -318,6 +318,8 @@ function importer($path, $node, $line) {
 			$post->published = $node['published'][0]['.value'];
 			$post->created = @$node['created'][0]['.value'];
 			$post->modified = @$node['modified'][0]['.value'];
+			if ($post->visibility == 'private' && intval($post->published) > $_SERVER['REQUEST_TIME']) // for compatibility of appointed entries
+				$post->visibility = 'appointed';
 			if ($post->slogan == '') $post->slogan = 'Untitled'.$post->id;
 			if (!empty($node['category'][0]['.value']))
 				$post->category = Category::getId($node['category'][0]['.value']);

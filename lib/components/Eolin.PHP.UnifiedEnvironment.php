@@ -34,6 +34,9 @@ if (get_magic_quotes_gpc()) {
 	$_SERVER = array_map('stripSlashesRecursively', $_SERVER);
 }
 
+if (!isset($_SERVER['REQUEST_TIME']))
+	$_SERVER['REQUEST_TIME'] = time();
+
 $host = explode(':', $_SERVER['HTTP_HOST']);
 if (count($host) > 1) {
 	$_SERVER['HTTP_HOST'] = $host[0];
