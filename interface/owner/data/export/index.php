@@ -97,10 +97,16 @@ if ($category->open()) {
 $post = new Post();
 if ($post->open('', '*', 'published, id')) {
 	do {
-		$writer->write('<post' . ' slogan="' . htmlspecialchars($post->slogan) . '"' . $newlineStyle . '>' . 
-			'<id>' . $post->id . '</id>' . 
-			'<visibility>' . $post->visibility . '</visibility>' . 
-			'<starred>' . $post->starred . '</starred>' . 
+		$writer->write('<post slogan="' . htmlspecialchars($post->slogan) . '"' . $newlineStyle . '>' . 
+			'<id>' . $post->id . '</id>');
+		if ($post->visibility == 'appointed') { // for backward compatibility
+			$writer->write('<appointed>true</appointed>');
+			$writer->write('<visibility>private</visibility>');
+		} else {
+			$writer->write('<appointed>false</appointed>');
+			$writer->write('<visibility>' . $post->visibility . '</visibility>');
+		}
+		$writer->write('<starred>' . $post->starred . '</starred>' . 
 			'<title>' . htmlspecialchars($post->title) . '</title>' . 
 			'<content formatter="' . htmlspecialchars($post->contentFormatter) . '" editor="' . htmlspecialchars($post->contentEditor) .'">' . htmlspecialchars(UTF8::correct($post->content)) . '</content>' . 
 			'<location>' . htmlspecialchars($post->location) . '</location>' . 
