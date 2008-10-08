@@ -3,14 +3,15 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-// This file...
-//   is executed AT FIRST.
-//   specifies the main workflow of Textcube 2.0.
-
+/**
+This file...
+   is executed AT FIRST.
+   specifies the main workflow of Textcube 2.0.
+*/
 define('TEXTCUBE_VERSION', '2.0');
 define('ROOT', '.');
 
-/* Load config.php. */
+/// Load config.php.
 if (file_exists(ROOT.'/config.php')) {
 	require_once(ROOT.'/config.php');
 } else {
@@ -18,7 +19,8 @@ if (file_exists(ROOT.'/config.php')) {
 	exit;
 }
 
-/* Initialize class loader. */
+/// Initialize class loader.
+include(ROOT.'/framework/base.php');
 include(ROOT.'/framework/settings.php');
 include(ROOT.'/framework/loader.php');
 $config = Config::getInstance();

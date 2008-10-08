@@ -5,9 +5,8 @@
 
 class URIError extends Exception {};
 
-final class Context
+final class Context extends Singleton
 {
-	private static $instance;
 	public $accessInfo;
 
 	private function __construct() {
@@ -92,12 +91,6 @@ final class Context
 
 	function __destruct() {
 		// Nothing to do: destruction of this class means the end of execution
-	}
-
-	public static function getInstance() {
-		if (!isset(self::$instance))
-			self::$instance = new Context();
-		return self::$instance;
 	}
 }
 ?>

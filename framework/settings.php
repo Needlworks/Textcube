@@ -3,8 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-final class Config {
-	private static $instance;
+final class Config extends Singleton {
 	private $database, $service;
 
 	function __construct() {
@@ -30,12 +29,6 @@ final class Config {
 				break;
 		}
 		return $val;
-	}
-
-	public static function getInstance() {
-		if (!isset(self::$instance))
-			self::$instance = new Config();
-		return self::$instance;
 	}
 }
 
