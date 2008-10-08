@@ -4,19 +4,28 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 /// Singleton implementation.
-class Singleton {
-	private static $instance;
+abstract class Singleton {
+	private static $instances = array();
 
-	private function __construct() {
+	protected function __construct() {
 	}
-	
-	public static function getInstance() {
-		if (!isset(self::$instance)) {
-			$className = get_class($this);
-			self::$instance = new $className();
+
+	protected static function _getInstance($className) {
+		if (!array_key_exists($className, self::$instances)) {
+			self::$instances[$className] = new $className();
 		}
-		return self::$instance;
+		return self::$instances[$className];
 	}
+
+	/*
+	// You should implement this method to the final class. (An example is below.)
+	// This is mainly because "late static bindings" is supported after PHP 5.3.
+
+	public static function getInstance() {
+		return self::_getInstance(__CLASS__);
+	}
+	*/
+	abstract public static function getInstance();
 }
 
 ?>
