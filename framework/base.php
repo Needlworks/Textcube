@@ -10,7 +10,7 @@ abstract class Singleton {
 	protected function __construct() {
 	}
 
-	protected static function _getInstance($className) {
+	final protected static function _getInstance($className) {
 		if (!array_key_exists($className, self::$instances)) {
 			self::$instances[$className] = new $className();
 		}

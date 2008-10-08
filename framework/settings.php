@@ -6,7 +6,11 @@
 final class Config extends Singleton {
 	private $database, $service;
 
-	function __construct() {
+	public static function getInstance() {
+		return self::_getInstance(__CLASS__);
+	}
+
+	protected function __construct() {
 		$this->settings = array();
 
 		// TODO: Temporary implementation: just import from config.php's global variables

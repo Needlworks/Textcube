@@ -9,7 +9,11 @@ final class Context extends Singleton
 {
 	public $accessInfo;
 
-	private function __construct() {
+	public static function getInstance() {
+		return self::_getInstance(__CLASS__);
+	}
+
+	protected function __construct() {
 		$config = Config::getInstance();
 
 		// TEMPORARY: copyed from rewrite.php
