@@ -138,10 +138,10 @@ if($tabsClass['received'] == true) {
 									request.send();
 								}
 
-								function sendTrackbackResponse(id) {
+								function sendTrackbackResponse(id,entryId) {
 									if (!confirm("<?php echo _t('선택된 걸린글에 답글로 글을 겁니다. 계속 하시겠습니까?');?>"))
 										return;
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/trackback/reply/" + id);
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/trackback/reply/" + entryId);
 									request.onSuccess = function() {
 										PM.removeRequest(this);
 										PM.showMessage("<?php echo _t('글을 걸었습니다.');?>","center", "bottom");
@@ -419,7 +419,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 												<a href="?ip=<?php echo urlencode(escapeJSInAttribute($trackback['ip']));?>" title="<?php echo _t('이 IP로 등록된 걸린글 목록을 보여줍니다.');?>"><?php echo $trackback['ip'];?></a>
 											</td>
 											<td class="trackback">
-												<a id="trackbackIcon_<?php echo $i;?>" class="trackback-off-button button" href="#void" onclick="sendTrackbackResponse(<?php echo $i;?>);return false;" title="<?php echo _t('걸린 글에 답글을 겁니다.');?>"><span class="text"><?php echo _t('글걸기');?></span></a>
+												<a id="trackbackIcon_<?php echo $i;?>" class="trackback-off-button button" href="#void" onclick="sendTrackbackResponse(<?php echo $i;?>,<?php echo $trackback['entryId'];?>);return false;" title="<?php echo _t('걸린 글에 답글을 겁니다.');?>"><span class="text"><?php echo _t('글걸기');?></span></a>
 											</td>
 <?php
 	}
