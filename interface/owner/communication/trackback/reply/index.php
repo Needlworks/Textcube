@@ -19,5 +19,5 @@ if(empty($info)) {
 	respond::ResultPage(false);
 	exit;
 }
-respond::ResultPage(!empty($_GET['url']) && sendTrackback($blogid, $suri['id'], trim($info['trackbackURL'])));
+respond::ResultPage(!empty($_POST['url']) && sendTrackback($blogid, $suri['id'], trim($info['trackbackURL'])));
 ?>

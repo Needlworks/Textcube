@@ -419,7 +419,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 												<a href="?ip=<?php echo urlencode(escapeJSInAttribute($trackback['ip']));?>" title="<?php echo _t('이 IP로 등록된 걸린글 목록을 보여줍니다.');?>"><?php echo $trackback['ip'];?></a>
 											</td>
 											<td class="trackback">
-												<a id="trackbackIcon_<?php echo $i;?>" class="trackback-off-button button" href="#void" onclick="sendTrackbackResponse(<?php echo $i;?>,<?php echo $trackback['entryId'];?>);return false;" title="<?php echo _t('걸린 글에 답글을 겁니다.');?>"><span class="text"><?php echo _t('글걸기');?></span></a>
+												<a id="trackbackIcon_<?php echo $i;?>" class="trackback-off-button button" href="#void" onclick="sendTrackbackResponse(<?php echo $i;?>,<?php echo $trackback['entry'];?>);return false;" title="<?php echo _t('걸린 글에 답글을 겁니다.');?>"><span class="text"><?php echo _t('글걸기');?></span></a>
 											</td>
 <?php
 	}
