@@ -73,12 +73,16 @@ if(isset($tabsClass['received']) && $tabsClass['received'] == true) {
 }
 
 require ROOT . '/library/piece/owner/header.php';
-
-
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
+							var URLinfo = new Array();
 <?php
+$i = 0;
+foreach($trackbacks as $trackback) {
+	echo "							URLinfo[".$i++."] = \"".escapeJSInAttribute($trackback['url'])."\";".CRLF;
+}
+
 if($tabsClass['received'] == true) {
 ?>
 							function changeState(caller, value, mode) {
@@ -133,7 +137,24 @@ if($tabsClass['received'] == true) {
 									PM.addRequest(request, "<?php echo _t('걸린글을 삭제하고 있습니다.');?>");
 									request.send();
 								}
-								
+
+								function sendTrackbackResponse(id) {
+									if (!confirm("<?php echo _t('선택된 걸린글에 답글로 글을 겁니다. 계속 하시겠습니까?');?>"))
+										return;
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/trackback/reply/" + id);
+									request.onSuccess = function() {
+										PM.removeRequest(this);
+										PM.showMessage("<?php echo _t('글을 걸었습니다.');?>","center", "bottom");
+										document.getElementById('list-form').submit();
+									}
+									request.onError = function() {
+										PM.removeRequest(this);
+										PM.showErrorMessage("<?php echo _t('글을 걸지 못했습니다.');?>","center", "bottom");
+									}
+									PM.addRequest(request, "<?php echo _t('글을 걸고 있습니다.');?>");
+									request.send("url="+URLinfo[id]);	
+								}
+															
 								function trashTrackbacks() {
 									try {
 										if (!confirm("<?php echo _t('선택된 걸린글을 지웁니다. 계속 하시겠습니까?');?>"))
@@ -298,6 +319,8 @@ foreach (getCategories($blogid) as $category) {
 <?php if(isset($tabsClass['received'])) {
 ?>
 											<th class="ip"><acronym title="Internet Protocol">ip</acronym></th>
+											<th class="action"><span class="text">동작</span></th>
+
 <?php } ?>
 											<th class="delete"><span class="text"><?php echo _t('삭제');?></span></th>
 										</tr>
@@ -394,6 +417,9 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 ?>
 
 												<a href="?ip=<?php echo urlencode(escapeJSInAttribute($trackback['ip']));?>" title="<?php echo _t('이 IP로 등록된 걸린글 목록을 보여줍니다.');?>"><?php echo $trackback['ip'];?></a>
+											</td>
+											<td class="trackback">
+												<a id="trackbackIcon_<?php echo $i;?>" class="trackback-off-button button" href="#void" onclick="sendTrackbackResponse(<?php echo $i;?>);return false;" title="<?php echo _t('걸린 글에 답글을 겁니다.');?>"><span class="text"><?php echo _t('글걸기');?></span></a>
 											</td>
 <?php
 	}
