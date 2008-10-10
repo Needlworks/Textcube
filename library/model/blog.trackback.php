@@ -618,7 +618,8 @@ function getRDFfromURL($url) {
 		if (!$doc) {
 			return false;
 		}
-		$desc = $doc->getElementsByTagNameNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'Description')->item(0);
+		$desc = $doc->getElementsByTagNameNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'Description');
+		$desc = $desc->item(0);
 		if ($desc === null) {
 			return false;
 		}
