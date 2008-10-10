@@ -625,7 +625,8 @@ function getRDFfromURL($url) {
 		if (!$doc) {
 			return false;
 		}
-		$desc = $doc->getElementsByTagNameNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'Description')->item(0);
+		$desc = $doc->getElementsByTagNameNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'Description');
+		$desc = $desc->item(0);
 		if ($desc === null) {
 			return false;
 		}
@@ -637,8 +638,6 @@ function getRDFfromURL($url) {
 	} else {
 		preg_match_all('/(\S+?)=(["\']?)(.*?)\2/', $match[1], $attribs, PREG_SET_ORDER);
 		$namespace = array('rdf' => 'rdf', 'dc' => 'dc', 'trackback' => 'trackback');
-
-		print_r($attribs);
 
 		foreach ($attribs as $attrib) {
 			if (substr(strtolower($attrib[1]), 0, 6) == 'xmlns:') {
