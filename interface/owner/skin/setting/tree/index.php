@@ -13,7 +13,7 @@ $IV = array(
 		'showValueOnTree' => array('string', 'mandatory' => false)
 	)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 if(isset($suri['id'])) {
 	$categories = getCategories($blogid);

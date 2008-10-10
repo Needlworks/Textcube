@@ -9,7 +9,7 @@ $IV = array(
 		'blogid' => array('id')
 	)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 if (User::setHomepage($_POST['type'],$_POST['homepage'],$_POST['blogid'])) {
 	$result = 0;

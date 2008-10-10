@@ -2,13 +2,13 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.link");
 
 if (!$link = getLink($blogid, $suri['id']))
 	respond::ErrorPage(_t('링크 정보가 존재하지 않습니다.'));
 $method = empty($link['rss']) ? 1 : 0;
-require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/library/piece/owner/header.php';
 
 
 $tabsClass['edit'] = true;
@@ -75,7 +75,7 @@ $tabsClass['edit'] = true;
 						<div id="part-link-edit" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('링크 정보를 수정합니다');?></span></h2>
 <?php
-require ROOT . '/lib/piece/owner/linkTab.php';
+require ROOT . '/library/piece/owner/linkTab.php';
 ?>
 							<form id="editForm" method="post" action="<?php echo $blogURL;?>/owner/network/link/edit/">
 								<input type="hidden" name="id" value="<?php echo $suri['value'];?>" />
@@ -121,5 +121,5 @@ foreach ($categories as $category) {
 							</form>
 						</div>
 <?php
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/library/piece/owner/footer.php';
 ?>

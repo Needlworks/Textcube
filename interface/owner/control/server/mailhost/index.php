@@ -9,7 +9,7 @@ $IV = array(
 		'smtpPort' => array('number', 'min' => '1', 'max' => '65535' )
 	)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireComponent( 'Textcube.Function.misc' );
 requireStrictRoute();
 if (!acl::check('group.creators'))

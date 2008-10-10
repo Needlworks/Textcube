@@ -55,7 +55,7 @@ $__requireInit = array(
 	'DEBUG : Plugin module loaded.');
 
 $codeName = 'includeForBlog.php';
-require ROOT.'/lib/include.php';
+require ROOT.'/library/include.php';
 
 header('Content-Type: text/html; charset=utf-8');
 

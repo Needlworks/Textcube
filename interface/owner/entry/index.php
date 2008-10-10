@@ -22,7 +22,7 @@ $IV = array(
 		'withSearch' => array(array('on'), 'mandatory' => false)
 	)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.trash");
 requireModel("blog.entry");
 trashVan();
@@ -125,7 +125,7 @@ $countResult = POD::queryExistence("SELECT `id`
 		FROM `{$database['prefix']}Entries` 
 		WHERE `blogid` = ".getBlogId()." AND `visibility` = 3 LIMIT 1");
 
-require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/library/piece/owner/header.php';
 
 ?>
 						<script type="text/javascript">
@@ -1147,5 +1147,5 @@ for ($i = 10; $i <= 30; $i += 5) {
 							</form>
 						</div>
 <?php
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/library/piece/owner/footer.php';
 ?>

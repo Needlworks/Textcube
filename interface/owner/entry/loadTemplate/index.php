@@ -10,7 +10,7 @@ $IV = array(
 		'entryId' => array('int', 'default' => 0)
 	)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel('blog.entry');
 
 

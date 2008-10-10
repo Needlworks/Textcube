@@ -8,7 +8,7 @@ $IV = array(
 		'owner' => array('email')
 	) 
 );
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 
 requireStrictRoute();
 requirePrivilege('group.creators');

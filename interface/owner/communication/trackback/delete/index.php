@@ -7,7 +7,7 @@ $IV = array(
 		'targets' => array('list', 'default' => '')
 	)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.trackback");
 requireComponent('Textcube.Function.Respond');
 

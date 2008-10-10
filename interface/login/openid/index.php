@@ -27,9 +27,9 @@ $IV = array(
 );
 
 if( in_array( $_GET['action'], array( 'setdelegate' ) ) ) {
-	require ROOT . '/lib/includeForBlogOwner.php';
+	require ROOT . '/library/includeForBlogOwner.php';
 } else {
-	require ROOT . '/lib/includeForBlog.php';
+	require ROOT . '/library/includeForBlog.php';
 }
 requireComponent( "Textcube.Core" );
 requireComponent( "Textcube.Function.misc" );

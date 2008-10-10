@@ -45,9 +45,9 @@ $__requireBasics = array(
 	'function/image',
 	'function/mail');
 
-require ROOT.'/lib/include.php';
-require ROOT.'/lib/database.php';
-require ROOT.'/lib/locale.php';
+require ROOT.'/library/include.php';
+require ROOT.'/library/database.php';
+require ROOT.'/library/locale.php';
 requireModel('blog.blogSetting');
 requireModel('blog.entry');
 requireLibrary('auth');

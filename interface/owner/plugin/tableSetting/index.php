@@ -3,8 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-require ROOT . '/lib/includeForBlogOwner.php';
-require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/piece/owner/header.php';
 
 
 if (Acl::check('group.creators')) {
@@ -161,5 +161,5 @@ foreach($dbtables as $dbname)
 	<h2 class="caption"><span class="main-text"><?php echo _t('블로그 소유자만 테이블을 관리할 수 있습니다.');?></span></h2>
 <?php
 }
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/library/piece/owner/footer.php';
 ?>

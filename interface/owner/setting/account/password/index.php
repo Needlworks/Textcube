@@ -8,7 +8,7 @@ $IV = array(
 		'prevPwd' => array('string','default'=>'')
 	)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 $result = false;
 $isAuthToken = getUserSetting('AuthToken',false) ? true : false;

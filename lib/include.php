@@ -19,28 +19,28 @@ function requireComponent($name) {
 	//if (!preg_match('/^[a-zA-Z0-9\.]+$/', $name))		return;
 	$name = str_replace('Tattertools', 'Textcube',$name); // Legacy routine.
 	if(!in_array($name,$__requireComponent)) {
-		include_once (ROOT . "/lib/components/$name.php");
+		include_once (ROOT . "/library/components/$name.php");
 		array_push($__requireComponent,$name);
 	}
 }
 function requireModel($name) {
 	global $__requireModel;
 	if(!in_array($name,$__requireModel)) {
-		include_once (ROOT . "/lib/model/$name.php");
+		include_once (ROOT . "/library/model/$name.php");
 		array_push($__requireModel,$name);
 	}
 }
 function requireView($name) {
 	global $__requireView;
 	if(!in_array($name,$__requireView)) {
-		include_once (ROOT . "/lib/view/$name.php");
+		include_once (ROOT . "/library/view/$name.php");
 		array_push($__requireView,$name);
 	}
 }
 function requireLibrary($name) {
 	global $__requireLibrary;
 	if(!in_array($name,$__requireLibrary)) {
-		include_once (ROOT . "/lib/$name.php");
+		include_once (ROOT . "/library/$name.php");
 		array_push($__requireLibrary,$name);
 	}
 }
@@ -56,7 +56,7 @@ $__requireComponent = array(
 	'Textcube.Function.Respond',
 	'Needlworks.Cache.PageCache');
 foreach($__requireComponent as $lib) {
-	require ROOT .'/lib/components/'.$lib.'.php';
+	require ROOT .'/library/components/'.$lib.'.php';
 } 
 /***** Loading code pieces *****/
 if(isset($service['codecache']) && ($service['codecache'] == true) && file_exists(ROOT.'/cache/code/'.$codeName)) {
@@ -69,22 +69,22 @@ if(isset($service['codecache']) && ($service['codecache'] == true) && file_exist
 		else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
 	}*/
 	foreach((array_merge($__requireBasics,$__requireLibrary)) as $lib) {
-		if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/'.$lib.'.php';
+		if(strpos($lib,'DEBUG') === false) require ROOT .'/library/'.$lib.'.php';
 		else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
 	}
 	//requireComponent('Textcube.Function.Setting');
 	foreach($__requireModel as $lib) {
-		if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/model/'.$lib.'.php';
+		if(strpos($lib,'DEBUG') === false) require ROOT .'/library/model/'.$lib.'.php';
 		else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
 	}
 	
 	foreach($__requireView as $lib) {
-		if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/view/'.$lib.'.php';
+		if(strpos($lib,'DEBUG') === false) require ROOT .'/library/view/'.$lib.'.php';
 		else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
 	}
 	
 	foreach($__requireInit as $lib) {
-		if(strpos($lib,'DEBUG') === false) require ROOT .'/lib/'.$lib.'.php';
+		if(strpos($lib,'DEBUG') === false) require ROOT .'/library/'.$lib.'.php';
 		else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
 	}
 }

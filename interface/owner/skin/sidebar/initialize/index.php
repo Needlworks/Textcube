@@ -5,7 +5,7 @@
 
 $ajaxcall = isset($_REQUEST['ajaxcall']) ? true : false;
 
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 requireLibrary('blog.skin');
 

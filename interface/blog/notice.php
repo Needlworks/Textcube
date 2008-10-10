@@ -2,7 +2,7 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-require ROOT . '/lib/includeForBlog.php';
+require ROOT . '/library/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }
@@ -14,7 +14,7 @@ if (isset($suri['id']) || (isset($suri['value']) && strlen($suri['value']) > 0))
 		list($entries, $paging) = getEntryWithPaging($blogid, $suri['id'], true);
 	}
 	fireEvent('OBStart');
-	require ROOT . '/lib/piece/blog/begin.php';
+	require ROOT . '/library/piece/blog/begin.php';
 	
 	if (empty($entries)) {
 		header('HTTP/1.1 404 Not Found');
@@ -26,16 +26,16 @@ if (isset($suri['id']) || (isset($suri['value']) && strlen($suri['value']) > 0))
 		}
 		unset($paging);
 	} else {
-		require ROOT . '/lib/piece/blog/entries.php';
+		require ROOT . '/library/piece/blog/entries.php';
 	}
-	require ROOT . '/lib/piece/blog/end.php';
+	require ROOT . '/library/piece/blog/end.php';
 	fireEvent('OBEnd');
 } else {
 	list($entries, $paging) = getEntriesWithPagingByNotice($blogid, $suri['page'], $blog['entriesOnPage']);
 	fireEvent('OBStart');
-	require ROOT . '/lib/piece/blog/begin.php';
-	require ROOT . '/lib/piece/blog/entries.php';
-	require ROOT . '/lib/piece/blog/end.php';
+	require ROOT . '/library/piece/blog/begin.php';
+	require ROOT . '/library/piece/blog/entries.php';
+	require ROOT . '/library/piece/blog/end.php';
 	fireEvent('OBEnd');
 }
 ?>

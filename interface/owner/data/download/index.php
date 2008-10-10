@@ -2,7 +2,7 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 if (file_exists(ROOT . "/cache/backup/$blogid.xml")) {
 	header('Content-Disposition: attachment; filename="Textcube-Backup-' . Timestamp::getDate(filemtime(ROOT . "/cache/backup/$blogid.xml")) . '.xml"');
 	header('Content-Description: Textcube Backup Data');

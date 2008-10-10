@@ -2,7 +2,7 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-require ROOT . '/lib/includeForBlog.php';
+require ROOT . '/library/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }
@@ -18,13 +18,13 @@ if(empty($suri['value'])) {
 }
 
 fireEvent('OBStart');
-require ROOT . '/lib/piece/blog/begin.php';
+require ROOT . '/library/piece/blog/begin.php';
 
 $automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
 dress('SKIN_head_end', $automaticLink."[##_SKIN_head_end_##]", $view);
 
 if (empty($suri['value'])) {
-	require ROOT . '/lib/piece/blog/entries.php';
+	require ROOT . '/library/piece/blog/entries.php';
 } else if (empty($entries)) {
 	header('HTTP/1.1 404 Not Found');
 	if (empty($skin->pageError)) { 
@@ -35,11 +35,11 @@ if (empty($suri['value'])) {
 	}
 	unset($paging);
 } else {
-	require ROOT . '/lib/piece/blog/entries.php';
+	require ROOT . '/library/piece/blog/entries.php';
 }
 
 
 
-require ROOT . '/lib/piece/blog/end.php';
+require ROOT . '/library/piece/blog/end.php';
 fireEvent('OBEnd');
 ?>

@@ -15,7 +15,7 @@ if(count($_POST) > 0) {
 		)
 	);
 }
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel('blog.category');
 requireModel('blog.entry');
 requireComponent('Textcube.Function.misc');
@@ -94,7 +94,7 @@ if ((empty($_POST['search'])) || ($searchColumn === true)) {
 	$searchParam[0] = $_POST['searchColumn'];
 	$searchParam[1] = $_POST['search'];
 }
-require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/library/piece/owner/header.php';
 
 ?>
 						<script type="text/javascript">
@@ -285,5 +285,5 @@ if ($selected == 0) {
 							</div>
 						</div>
 <?php
-require ROOT . '/lib/piece/owner/footer.php';
+require ROOT . '/library/piece/owner/footer.php';
 ?>

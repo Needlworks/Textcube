@@ -15,8 +15,8 @@ $IV = array(
 	//	'history' => array( 'string' , 'default' => null )
 	//)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
-require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/piece/owner/header.php';
 requireComponent('Textcube.Data.Filter');
 
 function printFilterBox($mode, $title) {

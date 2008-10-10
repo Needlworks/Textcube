@@ -13,7 +13,7 @@ $IV = array(
 		'secret' => array(array('on'), 'default' => null)
 	)
 );
-require ROOT . '/lib/includeForBlog.php';
+require ROOT . '/library/includeForBlog.php';
 requireModel('blog.comment');
 requireComponent('Textcube.Function.Respond');
 
@@ -113,5 +113,5 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 $pageTitle = _text('댓글에 댓글 달기');
 $comment = array('name' => '', 'password' => '', 'homepage' => 'http://', 'secret' => 0, 'comment' => '');
 $viewMode = 'comment';
-require ROOT . '/lib/view/replyEditorView.php';
+require ROOT . '/library/view/replyEditorView.php';
 ?>

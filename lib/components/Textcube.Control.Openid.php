@@ -3,8 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-define( 'OPENID_LIBRARY_ROOT', ROOT . "/lib/contrib/phpopenid/" );
-define( 'XPATH_LIBRARY_ROOT', ROOT . "/lib/contrib/phpxpath/" );
+define( 'OPENID_LIBRARY_ROOT', ROOT . "/library/contrib/phpopenid/" );
+define( 'XPATH_LIBRARY_ROOT', ROOT . "/library/contrib/phpxpath/" );
 define( 'Auth_OpenID_NO_MATH_SUPPORT', 1 );
 define( 'OPENID_PASSWORD', "-OPENID-" );
 

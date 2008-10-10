@@ -10,17 +10,17 @@ $IV = array(
 	)
 );
 
-require ROOT . '/lib/includeForBlog.php';
+require ROOT . '/library/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }
 fireEvent('OBStart');
-require ROOT . '/lib/piece/blog/begin.php';
+require ROOT . '/library/piece/blog/begin.php';
 if(count($coverpageMappings) > 0) {
 	dress('article_rep', '', $view);
 	dress('paging', '', $view);
-	require ROOT . '/lib/piece/blog/cover.php';
+	require ROOT . '/library/piece/blog/cover.php';
 }
-require ROOT . '/lib/piece/blog/end.php';
+require ROOT . '/library/piece/blog/end.php';
 fireEvent('OBEnd');
 ?>

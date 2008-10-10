@@ -2,7 +2,7 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-require ROOT . '/lib/includeForBlog.php';
+require ROOT . '/library/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }
@@ -10,7 +10,7 @@ if(!empty($suri['value'])) {
 	$suri['page'] = getGuestbookPageById($blogid,$suri['value']);
 }
 notifyComment();
-require ROOT . '/lib/piece/blog/begin.php';
-require ROOT . '/lib/piece/blog/guestbook.php';
-require ROOT . '/lib/piece/blog/end.php';
+require ROOT . '/library/piece/blog/begin.php';
+require ROOT . '/library/piece/blog/guestbook.php';
+require ROOT . '/library/piece/blog/end.php';
 ?>

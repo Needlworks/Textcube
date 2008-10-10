@@ -7,7 +7,7 @@ $IV = array(
 		'visibility' => array('int', 0,3)
 	)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.link");
 requireStrictRoute();
 $respond = array();

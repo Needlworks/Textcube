@@ -40,10 +40,10 @@ $__requireInit = array(		// Initializing environment.
 if(isset($service['reader']) && $service['reader'] === false) exit;
 
 $codeName = 'includeForReader.php';
-require ROOT.'/lib/include.php';
+require ROOT.'/library/include.php';
 
 header('Content-Type: text/html; charset=utf-8');
 // Check access control list
 requireOwnership();
-require ROOT.'/lib/pageACL.php';
+require ROOT.'/library/pageACL.php';
 ?>

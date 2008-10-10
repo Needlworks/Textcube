@@ -13,7 +13,7 @@ $ajaxcall = (isset($_REQUEST['ajaxcall']) && $_REQUEST['ajaxcall'] == true) ? tr
 	)
 );*/
 	
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireComponent("Textcube.Function.Respond");

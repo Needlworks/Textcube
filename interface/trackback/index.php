@@ -13,7 +13,7 @@ $IV = array(
 		'CONTENT_TYPE' => array('string', 'default' => '')
 	)
 );
-require ROOT . '/lib/includeForBlog.php';
+require ROOT . '/library/includeForBlog.php';
 requireComponent('Textcube.Function.Respond');
 if (false) {
 	fetchConfigVal();

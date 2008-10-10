@@ -12,7 +12,7 @@ $IV = array(
 		'keyword' => array('string', 'default' => '')
 	)
 );
-require ROOT . '/lib/includeForReader.php';
+require ROOT . '/library/includeForReader.php';
 $result = array('error' => '0');
 ob_start();
 printFeedEntry($blogid, $_POST['group'], $_POST['feed'], $_POST['entry'], $_POST['unread'] == '1', $_POST['starred'] == '1', $_POST['keyword'] == '' ? null : $_POST['keyword']);

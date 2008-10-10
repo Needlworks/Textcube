@@ -20,7 +20,7 @@ $IV = array(
 		'draft' => array(array('0', '1'), 'default' => '0')
 		)
 	);
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.entry");
 
 

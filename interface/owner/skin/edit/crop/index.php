@@ -11,7 +11,7 @@ $IV = array(
 		'nextTag' => array('string')
 	)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireLibrary('blog.skin');
 requireStrictRoute();
 if($_POST['currentTag'] != 'all') {

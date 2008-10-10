@@ -2,7 +2,7 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-require ROOT . '/lib/includeForBlog.php';
+require ROOT . '/library/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }
@@ -42,16 +42,16 @@ if (strlen($suri['value'])) {
 	}
 
 	// Now, print starts.
-	require ROOT . '/lib/piece/blog/begin.php';
+	require ROOT . '/library/piece/blog/begin.php';
 	$cache->reset();
 	if(getBlogSetting('useKeywordAsTag',true)==true) {
 		$cache->name = 'keyword_'.$tag.'_';
 		if($cache->load()) {
-			require ROOT . '/lib/piece/blog/entries.php';
+			require ROOT . '/library/piece/blog/entries.php';
 		} else {
 			$entries[0] = getKeylogByTitle(getBlogId(), $suri['value']);
 			if(!empty($entries[0])) {
-				require ROOT . '/lib/piece/blog/entries.php';
+				require ROOT . '/library/piece/blog/entries.php';
 				unset($entries);
 			}
 		}
@@ -59,23 +59,23 @@ if (strlen($suri['value'])) {
 	
 	if ($skinSetting['showListOnTag'] != 0) {
 		$cache = $listCache;
-		require ROOT . '/lib/piece/blog/list.php';
+		require ROOT . '/library/piece/blog/list.php';
 	}
 	unset($cache);
 	if ($skinSetting['showListOnTag'] != 2) {
 		$entries = $preservedEntries;
-		require ROOT . '/lib/piece/blog/entries.php';
+		require ROOT . '/library/piece/blog/entries.php';
 	}
 	
 } else {
-	require ROOT . '/lib/piece/blog/begin.php';
+	require ROOT . '/library/piece/blog/begin.php';
 	$cache->reset();
 	$cache->name = 'tagPage';
 	if(!$cache->load()) {
 		$siteTags = getSiteTags($blogid);
 	}
-	require ROOT . '/lib/piece/blog/siteTags.php';
+	require ROOT . '/library/piece/blog/siteTags.php';
 	unset($cache);
 }
-require ROOT . '/lib/piece/blog/end.php';
+require ROOT . '/library/piece/blog/end.php';
 ?>

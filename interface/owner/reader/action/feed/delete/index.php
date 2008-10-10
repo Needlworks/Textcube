@@ -8,7 +8,7 @@ $IV = array(
 		'group' => array('int')
 	)
 );
-require ROOT . '/lib/includeForReader.php';
+require ROOT . '/library/includeForReader.php';
 requireStrictRoute();
 $result = array('error' => deleteFeed($blogid, $_POST['id']));
 ob_start();

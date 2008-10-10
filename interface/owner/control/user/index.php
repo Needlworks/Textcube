@@ -8,10 +8,10 @@ $IV = array(
 	) 
 );
 
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 $page=(isset($_GET['page']) && $_GET['page'] >= 1 ? $_GET['page'] : 1 );
 $service['admin_script']='control.js';
-require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/library/piece/owner/header.php';
 
 requirePrivilege('group.creators');
 
@@ -95,4 +95,4 @@ $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]<
 $page=(isset($_GET['page']) ? $_GET['page'] : 1 );
 // end header
 ?>
-<?php require ROOT . '/lib/piece/owner/footer.php';?>
+<?php require ROOT . '/library/piece/owner/footer.php';?>

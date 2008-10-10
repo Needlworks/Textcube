@@ -2,7 +2,7 @@
 
 define('ROOT', '../../..');
 
-require ROOT . '/lib/includeForIcon.php';
+require ROOT . '/library/includeForIcon.php';
 
 include ("src/jpgraph.php");
 include ("src/jpgraph_scatter.php");

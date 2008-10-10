@@ -7,7 +7,7 @@ $IV = array(
 		'includeFileContents' => array(array('true', 'false'))
 	)
 );
-require ROOT . '/lib/includeForBlogOwner.php';
+require ROOT . '/library/includeForBlogOwner.php';
 requireComponent('Eolin.PHP.OutputWriter');
 requireComponent('Eolin.PHP.Base64Stream');
 set_time_limit(0);

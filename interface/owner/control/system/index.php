@@ -9,8 +9,8 @@ $IV = array(
 	) 
 );
 
-require ROOT . '/lib/includeForBlogOwner.php';
-require ROOT . '/lib/piece/owner/header.php';
+require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/piece/owner/header.php';
 
 requirePrivilege('group.creators');
 
@@ -218,4 +218,4 @@ hr {width: 600px; background-color: #cccccc; border: 0px; height: 1px; color: #0
 
 ?>
 	</div>
-<?php require ROOT . '/lib/piece/owner/footer.php';?>
+<?php require ROOT . '/library/piece/owner/footer.php';?>

@@ -7,7 +7,7 @@ $IV = array(
 		'id' => array('id'),
 	)
 );
-require ROOT . '/lib/includeForReader.php';
+require ROOT . '/library/includeForReader.php';
 requireStrictRoute();
 respond::ResultPage(markAsStar($blogid, $_POST['id'], false));
 ?>
