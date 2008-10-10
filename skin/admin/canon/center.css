@@ -26,6 +26,8 @@
 	background-color                 : #FAFAFA;
 	width                            : 270px;
 	padding                          : 10px;
+	-moz-border-radius               : 5px;
+	-webkit-border-radius            : 5px;
 }
 
 #defaultDashboardWidget h3.invisible
