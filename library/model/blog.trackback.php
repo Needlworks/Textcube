@@ -632,8 +632,6 @@ function getRDFfromURL($url) {
 		preg_match_all('/(\S+?)=(["\']?)(.*?)\2/', $match[1], $attribs, PREG_SET_ORDER);
 		$namespace = array('rdf' => 'rdf', 'dc' => 'dc', 'trackback' => 'trackback');
 
-		print_r($attribs);
-
 		foreach ($attribs as $attrib) {
 			if (substr(strtolower($attrib[1]), 0, 6) == 'xmlns:') {
 				$name = substr($attrib[1], 6);
