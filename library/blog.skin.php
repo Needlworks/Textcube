@@ -372,7 +372,6 @@ class Skin {
 		$cache = new pageCache('skinCache');
 		$cache->purge();
 		$gCacheStorage->purge();
-		Path::removeFiles(ROOT . "/skin/customize/".getBlogId()."/");
 	}
 
 	/**
