@@ -189,6 +189,7 @@ function selectSkin($blogid, $skinName) {
 	removeBlogSetting("sidebarOrder");
 	CacheControl::flushAll();
 	Skin::purgeCache();
+	Path::removeFiles(ROOT . "/skin/customize/".getBlogId()."/");
 	getSkinSetting($blogid, true); // refresh skin cache
 	return true;
 }
