@@ -87,7 +87,7 @@ function uploadImage(frm, type) {
 		frm.submit();
 		frm.imageRemove.disabled = false;
 	}else{
-		if(confirm('정말 삭제하시겠습니까?')){
+		if(confirm(_t('정말 삭제하시겠습니까?'))){
 			frm.submit();
 			frm.imageRemove.disabled = true;
 			frm.imageRemove.checked = false;
