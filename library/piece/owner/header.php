@@ -121,7 +121,7 @@ if(defined('__TEXTCUBE_READER_SUBMENU__') && $blogMenu['contentMenu'] == 'reader
 if(isset($blogMenu['topMenu']) && $blogMenu['topMenu']=='data') $blogMenu['topMenu'] = 'setting';
 $pluginListForCSS = array();
 if ($blogMenu['topMenu'] == 'center' && $blogMenu['contentMenu'] == 'dashboard') {
-	if (isset($eventMappings)) {
+	if (isset($centerMappings)) {
 		foreach ($centerMappings as $tempPlugin) {
 			array_push($pluginListForCSS, $tempPlugin['plugin']);
 		}
