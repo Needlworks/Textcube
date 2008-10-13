@@ -42,18 +42,20 @@ function markAsReadAll($blogid) {
 		FROM {$database['prefix']}FeedGroupRelations
 		WHERE blogid = $blogid");
 	if(isset($registeredFeeds)) {
-		foreach($registeredFeeds as $feed) {
-			$feedItems = POD::queryColumn("SELECT id from {$database['prefix']}FeedItems WHERE feed = $feed");
-			if(!empty($feedItems)) {
-				$readFeedItems = POD::queryColumn("SELECT item FROM {$database['prefix']}FeedReads
-					WHERE blogid = $blogid");
-				$unreadFeedItems = array_diff($readFeedItems, $feedItems);
-				if(!empty($unreadFeedItems)) {
-					foreach($unreadFeedItems as $item) {
-						POD::execute("INSERT INTO {$database['prefix']}FeedReads (blogid, item) VALUES ($blogid, $item)");
-					}
-			
+		$feedItems = array();
+		foreach($registeredFeeds as $feed) {	/// Gather feed information 
+			$feedId = POD::queryColumn("SELECT id FROM {$database['prefix']}FeedItems WHERE feed = $feed");
+			if(!empty($feedId)) array_push($feedItems,$feedId);
+		}
+		if(!empty($feedItems)) {
+			$readFeedItems = POD::queryColumn("SELECT item FROM {$database['prefix']}FeedReads
+				WHERE blogid = $blogid");
+			$unreadFeedItems = array_diff($readFeedItems, $feedItems);
+			if(!empty($unreadFeedItems)) {
+				foreach($unreadFeedItems as $item) {
+					POD::execute("INSERT INTO {$database['prefix']}FeedReads (blogid, item) VALUES ($blogid, $item)");
 				}
+			
 			}
 		}
 	}
