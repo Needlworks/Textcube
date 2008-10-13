@@ -263,8 +263,6 @@ if (getUserId() == 1) {
 									<div class="title">
 										<a id="totalList" href="<?php echo $blogURL;?>/owner/network/reader" title="<?php echo _t('글 목록을 전부 출력합니다.');?>"><span class="text"><?php echo _t('전체 목록');?></span></a><span class="count">(<span id="entriesShown">0</span>/<span id="entriesTotal">0</span>)</span>
 										<span class="hidden">|</span>
-										<a id="iconMarkAsReadAll" href="#void" onclick="Reader.markAsReadAll(); return false;" title="<?php echo _t('모든 글을 읽었다고 표시합니다.');?>"><span class="text"><?php echo _t('모두 읽은 글로 표시');?></span></a>
-										<span class="hidden">|</span>
 										<a id="iconMoreEntries" href="#void" onclick="Reader.listScroll(1); return false;" title="<?php echo _t('지나간 글 정보를 더 읽어옵니다.');?>"><span class="text"><?php echo _t('더 읽어오기');?></span></a>
 									</div>
 									
@@ -277,7 +275,9 @@ printFeedEntries($blogid);
 									<div class="button-box">
 										<a class="hide-button button" href="#void" onclick="Reader.showUnreadOnly(); return false;"><span class="text"><?php echo _t('읽은 글 감추기');?></span></a>
 										<span class="divider">-</span>
-										<a class="shortcut-button button" href="#void" onclick="document.getElementById('shortcuts').style.display = document.getElementById('shortcuts').style.display=='none' ? 'block' : 'none'"><span class="text"><?php echo _t('단축키보기');?></span></a>
+										<a class="markAsReadAll-button button" id="iconMarkAsReadAll" href="#void" onclick="Reader.markAsReadAll(); return false;" title="<?php echo _t('모든 글을 읽었다고 표시합니다.');?>"><span class="text"><?php echo _t('모두 읽은 글로 표시');?></span></a>
+										<span class="divider">-</span>
+										<a class="shortcut-button button" href="#void" onclick="document.getElementById('shortcuts').style.display = document.getElementById('shortcuts').style.display=='none' ? 'block' : 'none'"><span class="text"><?php echo _t('단축키');?></span></a>
 									</div>
 									
 									<div id="shortcuts" style="display: none;">
