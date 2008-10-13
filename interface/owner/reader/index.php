@@ -40,6 +40,7 @@ $setting = getReaderSetting($blogid);
 					var s_removingFeed = "<?php echo _t('피드를 삭제하고 있습니다.');?>";
 					var s_saved = "<?php echo _t('저장되었습니다');?>";
 					var s_markedAsUnread = "<?php echo _t('읽지 않은 상태로 변경하였습니다.');?>";
+					var s_markedAsReadAll = "<?php echo _t('모두 읽은 상태로 변경하였습니다.');?>";
 					var s_loadingList = "<?php echo _t('글 목록을 불러오고 있습니다.');?>";
 					var s_opmlImportComplete = "<?php echo _t('OPML 파일을 가져왔습니다.');?>";
 					var s_opmlUploadCompleteMulti = "<?php echo _t('개의 피드를 가져왔습니다.\n피드를 업데이트 해 주십시오.');?>";

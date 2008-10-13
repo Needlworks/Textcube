@@ -622,10 +622,9 @@ TTReader.prototype.markAsUnread = function(id)
 TTReader.prototype.markAsReadAll = function()
 {
 	var request = new HTTPRequest("POST", this.blogURL + "/owner/reader/action/mark/allread/");
-	request.presetProperty(getObject("entryTitleList" + id), "className", "unread active-class");
 	request.onSuccess = function () {
-		this.showUnreadOnly();
-		PM.showMessage(s_markedAsUnread, "center", "bottom");
+		Reader.showUnreadOnly();
+		PM.showMessage(s_markedAsReadAll, "center", "bottom");
 	}
 	request.send();
 }
