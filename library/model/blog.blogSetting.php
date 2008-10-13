@@ -5,23 +5,27 @@
 
 function setBlogTitle($blogid, $title) {
 	global $blog;
-	requireModel('blog.feed');
 	if ($title == $blog['title'])
 		return true;
 	if(setBlogSetting('title', UTF8::lessenAsEncoding($title, 255)) === false) return false;
 	$blog['title'] = $title;
+	requireModel('blog.feed');
+	requireLibrary('blog.skin');
 	clearFeed();
+	Skin::purgeCache();
 	return true;
 }
 
 function setBlogDescription($blogid, $description) {
 	global $blog;
-	requireModel('blog.feed');
 	if ($description == $blog['description'])
 		return true;
 	if(setBlogSetting('description',UTF8::lessenAsEncoding($description, 255)) === false) return false;
 	$blog['description'] = $description;
+	requireModel('blog.feed');
+	requireLibrary('blog.skin');
 	clearFeed();
+	Skin::purgeCache();
 	return true;
 }
 
