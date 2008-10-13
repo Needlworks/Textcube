@@ -619,6 +619,16 @@ TTReader.prototype.markAsUnread = function(id)
 	request.send("id=" + id);
 }
 
+TTReader.prototype.markAsReadAll = function()
+{
+	var request = new HTTPRequest("POST", this.blogURL + "/owner/reader/action/mark/allread/");
+	request.onSuccess = function () {
+		Reader.showUnreadOnly();
+		PM.showMessage(s_markedAsReadAll, "center", "bottom");
+	}
+	request.send();
+}
+
 TTReader.prototype.toggleStarred = function(id)
 {
 	if(typeof(id) == "undefined")

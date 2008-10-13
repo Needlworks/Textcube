@@ -31,6 +31,38 @@ function markAsUnread($blogid, $id) {
 	return POD::execute("DELETE FROM {$database['prefix']}FeedReads WHERE blogid = $blogid AND item = $id");
 }
 
+function markAsRead($blogid, $id) {
+	global $database;
+	return POD::execute("INSERT INTO {$database['prefix']}FeedReads (blogid, item) VALUES ($blogid, $id)");
+}
+
+function markAsReadAll($blogid) {
+	global $database;
+	$registeredFeeds = POD::queryColumn("SELECT feed 
+		FROM {$database['prefix']}FeedGroupRelations
+		WHERE blogid = $blogid");
+	if(isset($registeredFeeds)) {
+		$feedItems = array();
+		foreach($registeredFeeds as $feed) {	/// Gather feed information 
+			$feedIds = POD::queryColumn("SELECT id FROM {$database['prefix']}FeedItems WHERE feed = $feed");
+			if(!empty($feedIds)) $feedItems = array_merge($feedItems,$feedIds);
+		}
+
+		if(!empty($feedItems)) {
+			$readFeedItems = POD::queryColumn("SELECT item FROM {$database['prefix']}FeedReads
+				WHERE blogid = $blogid");
+			$unreadFeedItems = array_diff($feedItems, $readFeedItems);
+			if(!empty($unreadFeedItems)) {
+				foreach($unreadFeedItems as $item) {
+					POD::execute("INSERT INTO {$database['prefix']}FeedReads (blogid, item) VALUES ($blogid, $item)");
+				}
+			
+			}
+		}
+	}
+	return true;
+}
+
 function markAsStar($blogid, $id, $flag) {
 	global $database;
 	if (POD::queryCell("SELECT i.id FROM {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations gr, {$database['prefix']}Feeds f, {$database['prefix']}FeedItems i WHERE g.blogid = $blogid AND gr.feed = f.id AND gr.blogid = g.blogid AND gr.groupId = g.id AND f.id = i.feed AND i.id = $id")) {
