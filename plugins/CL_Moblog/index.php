@@ -422,7 +422,7 @@ function moblog_manage()
 							{
 								var hosts = "<?php echo _t('PREDEFINED POP3 HOSTS') ?>";
 								if( hosts == 'PREDEFINED POP3 HOSTS' ) {
-									hosts = "gmail:pop.gmail.com:995:1/hanmail:pop.hanmail.net:995:1/naver:pop.naver.com:110:0";
+									hosts = "gmail:pop.gmail.com:995:1/hanmail:pop.hanmail.net:995:1/naver:pop.naver.com:110:0/nate:mail.nate.com:110:0";
 								}
 								hosts = "Localhost:localhost:110:0/" + hosts;
 								hosts = hosts.split('/');
