@@ -11,7 +11,6 @@ if(isset($urlFragments[2])) $blogMenu['contentMenu'] = $urlFragments[2];
 else $blogMenu['contentMenu'] = $urlFragments[1];
 if(isset($urlFragments[3])) $blogMenu['contentMenu'] .= $urlFragments[3];
 // If admin.panel plugin, set the menu location again.
-var_dump($urlFragments);
 if(isset($urlFragments[2])&&strncmp($urlFragments[2],'adminMenu',9) == 0) {
 	if($service['fancyURL'] < 2) {
 		$plugin = isset($_GET['/owner/plugin/adminMenu?name']) ? $_GET['/owner/plugin/adminMenu?name'] : '';
