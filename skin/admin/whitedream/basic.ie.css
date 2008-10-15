@@ -30,6 +30,7 @@
 	top                              : 0;
 	left                             : 0;
 	border-collapse                  : collapse;
+	z-index: 9999;
 }
 
 #main-menu #menu-textcube
@@ -44,10 +45,15 @@
 {
 	z-index:2;
 }
+
 #layout-body
 {
 	padding-top                      : 10px !important;
-	z-index                          : 0 !important;
+}
+
+#pseudo-box
+{
+	z-index: -100;
 }
 
 /* data subbox */
