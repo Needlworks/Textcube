@@ -1093,7 +1093,7 @@ table.data-inbox tbody tr td.inactive-class
 	position                         : absolute;
 	right                            : 25px;
 	text-align                       : right;
-	top                              : 5.5em;
+	top                              : 1.5em;
 	width                            : 25em;
 	z-index                          : 1;
 }
