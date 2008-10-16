@@ -177,6 +177,7 @@ textarea
 {
 	width                            : 100%;
 }
+
 /* main description */
 #main-description-box
 {
@@ -210,8 +211,9 @@ textarea
 
 #main-action-box
 {
+	padding-right: 11px;
 	position                         : absolute;
-	right                            : 10px;
+	right                            : 0;
 	top                              : 15px;
 }
 
@@ -229,7 +231,7 @@ textarea
 	height                           : 40px;
 	line-height                      : 3em;
 	position                         : absolute;
-	right                            : -11px;
+	right                            : 0;
 	top                              : 34px;
 	padding                          : 0 16px !important;
 	z-index                          : 450;
@@ -428,13 +430,6 @@ textarea
 	display                          : block;
 	height                           : 78px;
 	width                            : 180px;
-}
-
-#main-menu #menu-control
-{
-	position                         : absolute;
-	top                              : 50px;
-	right                            : 85px;
 }
 
 /* Layout Body ***********************************************************************************/
