@@ -233,7 +233,7 @@ textarea
 	position                         : absolute;
 	right                            : 0;
 	top                              : 34px;
-	padding                          : 0 16px !important;
+	padding                          : 0 26px 0 16px !important;
 	z-index                          : 450;
 }
 
