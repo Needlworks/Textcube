@@ -2,10 +2,11 @@
 
 /* Layout Header **********************************************************************************/
 
-#action-helper
+#main-action-box
 {
-	right                            : 0 !important;
+	z-index: 1000;
 }
+
 /* main menu */
 #main-menu-box
 {
