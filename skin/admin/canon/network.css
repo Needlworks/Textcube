@@ -31,6 +31,12 @@ dl dd
 
 /* Link ******************************************************************************************/
 
+#link-tabs-box
+{
+	margin                           : -40px auto 10px auto;
+	padding-left                     : 250px;
+}
+
 #part-link-list h2
 {
 	display                          : none;

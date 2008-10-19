@@ -13,6 +13,15 @@
 
 /* Setting ***************************************************************************************/
 
+#plugin-tabs-box
+{
+	position                         : fixed;
+	top                              : 10px;
+	width                            : 500px;
+	margin                           : 0 auto 0 auto;
+	padding-left                     : 200px;
+
+}
 #part-plugin-list
 {
 	font-size: 1em;
