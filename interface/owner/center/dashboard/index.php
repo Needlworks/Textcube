@@ -184,7 +184,7 @@ if (isset($_REQUEST['edit'])) {
 						<script type="text/javascript">
 							//<![CDATA[
 								function changeList() {
-									document.getElementById("tempForm").submit();
+									document.getElementById("form-quilt").submit();
 								}
 <?php
 if (!file_exists(ROOT . '/cache/CHECKUP')) {
@@ -261,7 +261,7 @@ if (false) {
 ?>	
 <?php
 ?>
-						<form id="tempForm" method="post" action="<?php echo parseURL($blogURL.'/owner/center/dashboard');?>">
+						<form id="form-quilt" method="post" action="<?php echo parseURL($blogURL.'/owner/center/dashboard');?>">
 							<div id="part-center-quilt<?php echo $editClass;?>" class="part">
 								<h2 class="caption"><span class="main-text"><?php echo _t('조각보를 봅니다');?></span></h2>
 								

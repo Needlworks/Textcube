@@ -14,6 +14,11 @@
 
 /* Dashboard *************************************************************************************/
 
+#layout-body #part-center-quilt
+{
+	margin-top                       : -40px;
+}
+
 #part-center-quilt h2,
 #part-center-quilt-edit h2
 {
@@ -410,7 +415,7 @@
 
 #independent-notice-line
 {
-	margin                           : 0 10px -35px 550px;
+	margin                           : 0 130px -35px 0;
 }
 
 #independent-notice-line dd
