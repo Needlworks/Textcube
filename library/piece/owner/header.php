@@ -3,17 +3,20 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-// Automatic menu location routine.
+/***** Automatic menu location routine. *****/
 $blogMenu = array();
 $urlFragments = preg_split('/\//',ltrim($suri['directive'],'/'));
 if(isset($urlFragments[1])) $blogMenu['topMenu'] = $urlFragments[1];
 if(isset($urlFragments[2])) $blogMenu['contentMenu'] = $urlFragments[2];
 else $blogMenu['contentMenu'] = $urlFragments[1];
 if(isset($urlFragments[3])) $blogMenu['contentMenu'] .= $urlFragments[3];
-
 // If admin.panel plugin, set the menu location again.
 if(isset($urlFragments[2])&&strncmp($urlFragments[2],'adminMenu',9) == 0) {
-	$plugin = isset($_GET['name']) ? $_GET['name'] : '';
+	if($service['fancyURL'] < 2) {
+		$plugin = isset($_GET['/owner/plugin/adminMenu?name']) ? $_GET['/owner/plugin/adminMenu?name'] : '';
+	} else {
+		$plugin = isset($_GET['name']) ? $_GET['name'] : '';
+	}
 	$pluginDir = strtok($plugin,'/');
 	$blogMenu['topMenu'] = $adminMenuMappings[$plugin]['topMenu'];
 }
@@ -136,7 +139,8 @@ if ($blogMenu['topMenu'] == 'center' && $blogMenu['contentMenu'] == 'dashboard')
 	array_push($pluginListForCSS, $pluginDir);
 }
 unset($tempPlugin);
-/***** submenu generation part. *****/
+
+/***** Submenu generation *****/
 if(isset($blogMenu['topMenu'])) {
 	if(Acl::check('group.administrators')) {
 		$blogContentMenuItem['center'] = array(
@@ -167,7 +171,8 @@ if(isset($blogMenu['topMenu'])) {
 			array('menu'=>'trackbackreceived','title'=>_t('걸린 글'),'link'=>'/owner/communication/trackback?status=received'),
 			array('menu'=>'trackbacksent','title'=>_t('건 글'),'link'=>'/owner/communication/trackback?status=sent'),
 			array('menu'=>'openid','title'=>_t('오픈아이디 기록'),'link'=>'/owner/communication/openid'),
-			array('menu'=>'trash','title'=>_t('휴지통'),'link'=>'/owner/communication/trash/comment')
+			array('menu'=>'trash','title'=>_t('휴지통'),'link'=>'/owner/communication/trash/comment'),
+			array('menu'=>'filter','title'=>_t('스팸 필터'),'link'=>'/owner/communication/filter')
 		);
 	} else {
 		$blogContentMenuItem['communication'] = array(
@@ -205,7 +210,6 @@ if(isset($blogMenu['topMenu'])) {
 			array('menu'=>'blog','title'=>_t('블로그'),'link'=>'/owner/setting/blog'),
 			array('menu'=>'entry','title'=>_t('글 작성'),'link'=>'/owner/setting/entry'),
 			array('menu'=>'account','title'=>_t('개인 정보'),'link'=>'/owner/setting/account'),
-			array('menu'=>'filter','title'=>_t('스팸 필터'),'link'=>'/owner/setting/filter'),
 			array('menu'=>'data','title'=>_t('데이터 관리'),'link'=>'/owner/data')
 		);
 	} else {
@@ -240,8 +244,11 @@ foreach($adminMenuMappings as $path => $pluginAdminMenuitem) {
 		);
 	}
 }
+
+/** Adds 'about' panel at the last part of center panel. **/
 $blogContentMenuItem['center'] = array_merge($blogContentMenuItem['center'] , array(array('menu'=>'about','title'=>_t('텍스트큐브는'),'link'=>'/owner/center/about')));
-// Adds 'about' panel at the last part of center panel.
+
+/***** Start header output *****/
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo (isset($blog['language']) ? $blog['language'] : "ko");?>">
@@ -316,16 +323,17 @@ unset($tempPluginDir);
 			var blogURL = "<?php echo $blogURL;?>";
 			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
 <?php
-if (file_exists(ROOT.$adminSkinSetting['editorTemplate'])) {
+if (in_array($blogMenu['contentMenu'],array('post','edit'))) {
+	if(file_exists(ROOT.$adminSkinSetting['editorTemplate'])) {
 ?>
 			var editorCSS = "<?php echo $adminSkinSetting['editorTemplate'];?>";
 <?php
-} else {
+	} else {
 ?>
 			var editorCSS = "/style/default-wysiwyg.css";
 <?php
+	}
 }
-
 include ROOT . '/language/messages.php';
 ?>
 		//]]>
@@ -350,7 +358,7 @@ if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/helpdialog.js"></script>
 <?php
 }*/
-if(($service['interface'] == 'simple') || ($service['effect'])) {
+if($service['interface'] == 'simple') {
 	if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
 ?>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/script/mootools.js"></script>
@@ -376,6 +384,16 @@ if($blogMenu['topMenu']=='entry' && in_array($blogMenu['contentMenu'],array('pos
 <?php
 }
 echo fireEvent('ShowAdminHeader', '');
+
+/** Get Help URL **/
+$submenuURL = null;
+if(strstr($blogMenu['contentMenu'], 'adminMenu?name=') !== false) { // Plugin.
+	$submenuURL = $pluginMenuValue[0];
+} else {
+	$submenuURL = $blogMenu['contentMenu'];
+}
+$helpURL = $blogMenu['topMenu'].(isset($blogMenu['contentMenu']) ? '/'.$submenuURL : '');
+
 ?>
 </head>
 <body id="body-<?php echo $blogMenu['topMenu'];?>">
@@ -388,20 +406,35 @@ echo fireEvent('ShowAdminHeader', '');
 					<ul id="main-description">
 <?php
 $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = ".getUserId());
-requireComponent('Textcube.Core');
 ?>
-						<li id="description-blogger"><span class="text"><?php echo _f('환영합니다. <em>%1</em>님.', htmlspecialchars($writer));?></span></li><?php
-						if ( 'single' != $service['type'] ) {
-							?>
-						<li id="description-teamblog"><label for="teamblog"><?php echo _t('현재 블로그');?></label>
-<?php echo User::changeBlog();?>
-						</li>
-<?php } ?>
-						<li id="description-blog"><a href="<?php echo $blogURL;?>/" title="<?php echo _t('블로그 메인으로 이동합니다.');?>"><span class="text"><?php echo _t('블로그로 이동');?></span></a></li>
-						<li id="description-logout"><a href="<?php echo $blogURL;?>/logout" title="<?php echo _t('로그아웃하고 블로그 메인으로 이동합니다.');?>"><span class="text"><?php echo _t('로그아웃');?></span></a></li>
+						<li id="description-blogger"><span class="text"><?php echo _f('환영합니다. <em>%1</em>님.', htmlspecialchars($writer));?></span></li>
 					</ul>
 				</div>
 				
+				<hr class="hidden" />
+				
+				<div id="main-action-box">
+					<ul id="main-action">
+						<li id="action-helper"><a href="<?php echo getHelpURL($helpURL);?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
+						<li id="action-move-to-blog"><a href="<?php echo $blogURL;?>/" title="<?php echo _t('블로그 메인으로 이동합니다.');?>"><span class="text"><?php echo _t('블로그로 이동');?></span></a></li>
+						<li id="action-logout"><a href="<?php echo $blogURL;?>/logout" title="<?php echo _t('로그아웃하고 블로그 메인으로 이동합니다.');?>"><span class="text"><?php echo _t('로그아웃');?></span></a></li>
+					</ul>
+				</div>
+				
+				<hr class="hidden" />
+
+				<div id="main-blog-box">
+					<div id="main-blog">
+<?php
+						if ('single' != $service['type'] ) {
+?>
+						<label for="blog-list"><?php echo _t('현재 블로그');?></label>
+<?php echo User::changeBlog();
+						}
+?>
+					</div>
+				</div>
+
 				<hr class="hidden" />
 				
 				<h2><?php echo _t('메인메뉴');?></h2>
@@ -409,12 +442,12 @@ requireComponent('Textcube.Core');
 				<div id="main-menu-box">
 					<ul id="main-menu">
 						<li id="menu-textcube"><a href="<?php echo $blogURL.'/owner/center/dashboard';?>" title="<?php echo _t('센터로 이동합니다.');?>"><span class="text"><?php echo _t('텍스트큐브');?></span></a></li>
-						
+<?php //echo User::changeBlog();?>						
 <?php
 foreach($blogTopMenuItem as $menuItem) {
 ?>
 						<li id="menu-<?php echo $menuItem['menu'];?>"<?php echo $menuItem['menu']==$blogMenu['topMenu'] ? ' class="selected"' : '';?>>
-							<a href="<?php echo $blogURL.$menuItem['link'];?>"><span><?php echo $menuItem['title'];?></span><!--[if IE 7]><!--></a><!--<![endif]-->
+							<a href="<?php echo $blogURL.$menuItem['link'];?>" class="menu-name"><span><?php echo $menuItem['title'];?></span><!--[if IE 7]><!--></a><!--<![endif]-->
 							<!--[if lte IE 6]><table><tr><td><![endif]-->							
 							<ul id="submenu-<?php echo $menuItem['menu'];?>" class="sub-menu">
 <?php
@@ -521,9 +554,6 @@ if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 	
 	$helpURL = $blogMenu['topMenu'].(isset($blogMenu['contentMenu']) ? '/'.$submenuURL : '');
 ?>
-					</ul>
-					<ul id="helper">
-						<li id="sub-menu-helper"><a href="<?php echo getHelpURL($helpURL);?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
 					</ul>
 				</div>
 <?php
