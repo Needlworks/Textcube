@@ -2,9 +2,9 @@
 
 /* Layout Header **********************************************************************************/
 
-#description-blog
+#main-action-box
 {
-	padding-right                    : 7px;
+	z-index: 1000;
 }
 
 /* main menu */
@@ -31,20 +31,31 @@
 	top                              : 0;
 	left                             : 0;
 	border-collapse                  : collapse;
+	z-index: 9999;
 }
 
 #main-menu #menu-textcube
 {
 	background-image                 : url("./image/img_header_textcube.gif") !important;
-}
-
-#sub-menu-helper
-{
-	height                           : 40px;
-	line-height                      : 3.3em;
+	top                              : -50px !important;
+	height                           : 90px;
 }
 
 /* Layout Body ***********************************************************************************/
+#layout-header
+{
+	z-index:2;
+}
+
+#layout-body
+{
+	padding-top                      : 10px !important;
+}
+
+#pseudo-box
+{
+	z-index: -100;
+}
 
 /* data subbox */
 #page-section .page-count

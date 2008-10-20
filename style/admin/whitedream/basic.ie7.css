@@ -7,6 +7,11 @@
 	padding-right                    : 7px;
 }
 
+#main-action-box
+{
+	z-index: 1000;
+}
+
 /* main menu */
 #main-menu-box
 {
@@ -28,6 +33,11 @@
 #main-menu li.selected
 {
 	height                           : 40px;
+}
+
+#pseudo-box
+{
+	z-index: -100;
 }
 
 #page-section .page-count
