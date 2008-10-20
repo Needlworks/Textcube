@@ -206,15 +206,15 @@ class User {
 			return;
 		}
 
-		$changeBlogView = str_repeat(TAB,7)."<select id=\"teamblog\" onchange=\"location.href='{$blogURL}/owner/network/teamblog/changeBlog/?blogid='+this.value\">".CRLF;
+		$changeBlogView = str_repeat(TAB,6)."<select id=\"blog-list\" onchange=\"location.href='{$blogURL}/owner/network/teamblog/changeBlog/?blogid='+this.value\">".CRLF;
 		foreach($blogList as $info){
 			$title = UTF8::lessen(setting::getBlogSettingGlobal("title",null,$info,true), 30);
 			$title = ($title ? $title : _f('%1 님의 블로그',User::getBlogOwnerName($info)));
-			$changeBlogView .= str_repeat(TAB,8).'<option value="' . $info . '"';
+			$changeBlogView .= str_repeat(TAB,7).'<option value="' . $info . '"';
 			if($info == $blogid) $changeBlogView .= ' selected="selected"';
 			$changeBlogView .= '>' . $title . '</option>'.CRLF;
 		}
-		$changeBlogView .= str_repeat(TAB,7).'</select>'.CRLF;
+		$changeBlogView .= str_repeat(TAB,6).'</select>'.CRLF;
 		return $changeBlogView;
 	}
 
