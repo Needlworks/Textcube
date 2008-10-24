@@ -202,7 +202,7 @@ function getTrackbacksView($entry, $skin, $acceptTrackback) {
 		// Blocked. (Too many encoding issues with various trackback sender.)
 		//$trackbackAddress = $defaultURL."/trackback/".($blog['useSloganOnPost'] ? $entry['slogan'] : $entry['id']);
 		$trackbackAddress = $defaultURL."/trackback/".$entry['id'];
-		dress('tb_address', "<span onclick=\"copyUrl('$trackbackAddress')\">$trackbackAddress</span>", $trackbacksView);
+		dress('tb_address', "<span onclick=\"copyUrl('$trackbackAddress', this)\">$trackbackAddress</span>", $trackbacksView);
 	}
 	else
 		dress('tb_address', _t('이 글에는 트랙백을 보낼 수 없습니다'), $trackbacksView);
