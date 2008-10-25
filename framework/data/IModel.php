@@ -11,8 +11,8 @@ interface IModel
 
 	public function setField($fieldName, $value);
 	public function __set($fieldName, $value);
-	public function getField($fieldName, $value);
-	public function __get($fieldName, $value);
+	public function getField($fieldName);
+	public function __get($fieldName);
 
 	public static function findAll(array $condition);
 	public static function deleteAll(array $condition);
