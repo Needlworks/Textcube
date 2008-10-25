@@ -46,8 +46,8 @@ function showCheckupMessage($stat = true) {
 function clearCache() {
 	global $database, $changed, $errorlog, $memcache;
 	static $isCleared = false;
-	if($isCleared == true) return true;
-	if($blogids = POD::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog")) {
+	if($isCleared == true) return;
+	if(!is_null($blogids = POD::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog"))) {
 		$changed = true;
 		$errorlog = false;
 		echo '<li>', _textf('페이지 캐시를 초기화합니다.'), ': ';
@@ -316,7 +316,7 @@ if($currentVersion != TEXTCUBE_VERSION) {
 	if (POD::queryCell("DESC {$database['prefix']}Users name", 'Key') != 'UNI') {
 		$changed = true;
 		echo '<li>', _text('id의 도용을 막기 위하여 같은 사용자 id를 사용할 수 없도록 합니다.'), ': ';
-		if($users = POD::queryAll("SELECT userid, name FROM {$database['prefix']}Users")) {
+		if(!is_null($users = POD::queryAll("SELECT userid, name FROM {$database['prefix']}Users"))) {
 			// 1 : rename duplicate names.
 			foreach($users as $user) {
 				$duplicates = POD::queryAll("SELECT userid, name FROM {$database['prefix']}Users WHERE name = '".POD::escapeString($user['name'])."' AND userid != {$user['userid']}");
@@ -373,10 +373,10 @@ if($currentVersion != TEXTCUBE_VERSION) {
 		}
 	}
 	/* FROM Textcube 1.7.3 */
-	if ($notices = POD::queryAll("SELECT blogid, id, title
+	if (!is_null($notices = POD::queryAll("SELECT blogid, id, title
 		FROM {$database['prefix']}Entries 
 		WHERE category = -2
-			AND slogan = ''")) {
+			AND slogan = ''"))) {
 		$changed = true;
 		echo '<li>', _text('fancyURL이 적용되지 않는 공지 글에 슬로건을 추가합니다.'), ': ';
 		foreach($notices as $notice) :
@@ -426,7 +426,7 @@ if ((preg_match('@rewrite\.php@', $content) == 0 ) ||
 RewriteEngine On
 RewriteBase ".$service['path']."/
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^(cache)+/+(.+[^/])\.(cache|xml|txt|log)$ - [NC,F,L]
+RewriteRule ^(cache)+/+(.+[^/])\\.(cache|xml|txt|log)$ - [NC,F,L]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^(.+[^/])$ $1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
