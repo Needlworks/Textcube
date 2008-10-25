@@ -70,7 +70,7 @@ class PSQLAdapter implements IAdapter
 		if (is_array($var))
 			return array_map(array('PSQLAdapter', 'escapeFieldName'), $var);
 		else
-			return '"'.$var.'"'
+			return '"'.$var.'"';
 	}
 }
 
