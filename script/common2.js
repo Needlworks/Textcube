@@ -1368,12 +1368,14 @@ function thisMovie(movieName) {
 
 function copyUrl(url) {
 	try {
-		thisMovie('clipboardPoter').setClipBoard(url);
+		window.clipboardData.setData('Text',url);
+		window.alert(messages["trackbackUrlCopied"]);
 	} catch(e) {
-		if(isIE) {
-			window.clipboardData.setData('Text',url);
-			window.alert(messages["trackbackUrlCopied"]);
-		}
+		s = window.getSelection();
+		var r1 = document.createRange();
+		r1.setStartBefore(nest);
+		r1.setEndAfter(nest);
+		s.addRange(r1);
 	}
 }
 
