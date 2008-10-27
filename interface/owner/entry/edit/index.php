@@ -325,6 +325,10 @@ if (defined('__TEXTCUBE_POST__')) {
 											this.nowsaving = false;
 											return false;
 										}
+										if (data == entryManager.savedData) {
+											this.nowsaving = false;
+											return false;											
+										}
 										if(entryManager.isSaved == true) {
 											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/draft/"+entryManager.entryId);
 										} else {
@@ -350,7 +354,7 @@ if (defined('__TEXTCUBE_POST__')) {
 												reloadUploader();
 											}
 
-											entryManager.savedData = this.content;
+											entryManager.savedData = data;
 											if (entryManager.savedData == entryManager.getData())
 												entryManager.pageHolder.release();
 											entryManager.nowsaving = false;
