@@ -616,7 +616,6 @@ function printEntryFileList($attachments, $param) {
 														var listTemp = list.split("!^|");
 														var fileLabel = listTemp[0];
 														var fileValue = listTemp[1];
-														var fileListObj = document.getElementById("TCfilelist");
 														for(var i=0; i<fileListObj.length; i++) {
 															if (stripLabelToValue(fileLabel).indexOf(fileListObj[i].getAttribute("value")) != -1) {
 																var oOption = document.createElement("option");
@@ -629,7 +628,6 @@ function printEntryFileList($attachments, $param) {
 													}
 													
 													function newLoadItem(fileValue) {
-														var fileListObj = document.getElementById("TCfilelist");
 														var fileListObj = document.getElementById("TCfilelist");
 														for(var i=0; i<fileListObj.length; i++) {
 															if (fileValue.indexOf(fileListObj[i].getAttribute("value")) != -1) {
