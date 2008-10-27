@@ -21,7 +21,9 @@ $view = str_replace('[##_SKIN_body_end_##]',getLowerView().getScriptsOnFoot().'[
 $automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
 dress('SKIN_head_end', $automaticLink."[##_SKIN_head_end_##]", $view);
 
-if (!empty($category)) {
+if (defined('__TEXTCUBE_COVER__')) {
+	dress('body_id',"tt-body-cover",$view);
+} else if (!empty($category)) {
 	dress('body_id',getCategoryBodyIdById($blogid,$category) ? getCategoryBodyIdById($blogid,$category) : 'tt-body-category',$view);
 } else if (!empty($search)) {
 	dress('body_id',"tt-body-search",$view);
