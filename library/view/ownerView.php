@@ -612,7 +612,6 @@ function printEntryFileList($attachments, $param) {
 														var listTemp = list.split("!^|");
 														var fileLabel = listTemp[0];
 														var fileValue = listTemp[1];
-														var fileListObj = document.getElementById("TCfilelist");
 														for(var i=0; i<fileListObj.length; i++) {
 															if (stripLabelToValue(fileLabel).indexOf(fileListObj[i].getAttribute("value")) != -1) {
 																var oOption = document.createElement("option");
@@ -625,7 +624,6 @@ function printEntryFileList($attachments, $param) {
 													}
 													
 													function newLoadItem(fileValue) {
-														var fileListObj = document.getElementById("TCfilelist");
 														var fileListObj = document.getElementById("TCfilelist");
 														for(var i=0; i<fileListObj.length; i++) {
 															if (fileValue.indexOf(fileListObj[i].getAttribute("value")) != -1) {
@@ -774,12 +772,12 @@ function printEntryFileList($attachments, $param) {
 														uploaderStr = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="uploader"'
 															+ 'width="400" height="40"'
 															+ 'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">'
-															+ '<param name="movie" value="<?php echo $service['path'];?>/resources/script/uploader/uploader.swf?<?=rand()?>" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="uploadPath=<?php echo $param['uploadPath'];?>&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>&'
+															+ '<param name="movie" value="<?php echo $service['path'];?>/script/uploader/uploader.swf?<?=rand()?>" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="uploadPath=<?php echo $param['uploadPath'];?>&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>&'
 															+ entryManager.entryId
 															+ '&labelingPath=<?php echo $param['labelingPath'];?>'
 															+ entryManager.entryId
 															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[getSessionName()];?>" />'
-															+ '<embed id="uploader2" src="<?php echo $service['path'];?>/resources/script/uploader/uploader.swf?<?=rand() ?>" flashvars="uploadPath=<?php echo $param['uploadPath'];?>&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>&'
+															+ '<embed id="uploader2" src="<?php echo $service['path'];?>/script/uploader/uploader.swf?<?=rand() ?>" flashvars="uploadPath=<?php echo $param['uploadPath'];?>&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>&'
 															+ entryManager.entryId
 															+ '&labelingPath=<?php echo $param['labelingPath'];?>'
 															+ entryManager.entryId
