@@ -28,19 +28,25 @@ function getAttachments($blogid, $parent, $orderBy = null, $sort='ASC') {
 function getAttachmentsFromCache($blogid, $value, $filter = 'parent') {
 	global $__gCacheAttachment;
 	$result = array();
-	foreach($__gCacheAttachment as $id => $info) {
-		$row = array_search($value, $info);
-		if($row) array_push($result,$__gCacheAttachment[$id]);
+	if (!empty($__gCacheAttachment)) {
+		foreach($__gCacheAttachment as $id => $info) {
+			$row = array_search($value, $info);
+			if ($row !== FALSE)
+				array_push($result,$__gCacheAttachment[$id]);
+		}
 	}
 	return $result;
 }
 
 function getAttachmentFromCache($blogid, $value, $filter = 'name') {
 	global $__gCacheAttachment;
-	foreach($__gCacheAttachment as $id => $info) {
-		$row = array_search($value, $info);
-		//if($row && $row == $filter) return $__gCacheAttachment[$id];
-		if($row) return $__gCacheAttachment[$id];
+	if (!empty($__gCacheAttachment)) {
+		foreach($__gCacheAttachment as $id => $info) {
+			$row = array_search($value, $info);
+			//if($row && $row == $filter) return $__gCacheAttachment[$id];
+			if ($row !== FALSE)
+				return $__gCacheAttachment[$id];
+		}
 	}
 	return false;
 }
@@ -94,7 +100,6 @@ function getAttachmentSizeLabel($blogid=null, $parent = null) {
 
 function addAttachment($blogid, $parent, $file) {
 	global $database;
-	requireComponent('Textcube.Function.misc');
 	if (empty($file['name']) || ($file['error'] != 0))
 		return false;
 	$filename = POD::escapeString($file['name']);
@@ -172,7 +177,6 @@ function deleteAttachment($blogid, $parent, $name) {
 
 function copyAttachments($blogid, $originalEntryId, $targetEntryId) {
 	global $database;
-	requireComponent('Textcube.Function.misc');
 	$path = ROOT . "/attach/$blogid";
 	$attachments = getAttachments($blogid, $originalEntryId);
 	if(empty($attachments)) return true;
