@@ -100,6 +100,7 @@ function getAttachmentSizeLabel($blogid=null, $parent = null) {
 
 function addAttachment($blogid, $parent, $file) {
 	global $database;
+	requireComponent('Textcube.Function.misc');
 	if (empty($file['name']) || ($file['error'] != 0))
 		return false;
 	$filename = POD::escapeString($file['name']);
@@ -177,6 +178,7 @@ function deleteAttachment($blogid, $parent, $name) {
 
 function copyAttachments($blogid, $originalEntryId, $targetEntryId) {
 	global $database;
+	requireComponent('Textcube.Function.misc');
 	$path = ROOT . "/attach/$blogid";
 	$attachments = getAttachments($blogid, $originalEntryId);
 	if(empty($attachments)) return true;
