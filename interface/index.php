@@ -70,6 +70,7 @@ fireEvent('OBStart');
 if(empty($suri['id'])) {  // Without id.
 	$skin = new Skin($skinSetting['skin']);
 	if(empty($suri['value']) && $suri["directive"] == "/" && count($coverpageMappings) > 0 && getBlogSetting("coverpageInitView") && isset($skin->cover)) {
+		define('__TEXTCUBE_COVER__',true);
 		require ROOT . '/library/piece/blog/begin.php';
 		dress('article_rep', '', $view);
 		dress('paging', '', $view);
