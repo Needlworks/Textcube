@@ -777,7 +777,7 @@ function printEntryFileList($attachments, $param) {
 															+ '&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>'
 															+ '&labelingPath=<?php echo $param['labelingPath'];?>'
 															+ entryManager.entryId
-															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[Session::getName()];?>" />'
+															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[getSessionName()];?>" />'
 															+ '<embed id="uploader2" src="<?php echo $service['path'];?>/script/uploader/uploader.swf?<?php echo rand() ?>" flashvars="uploadPath=<?php echo $param['uploadPath'];?>'
 															+ entryManager.entryId
 															+ '&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>'
