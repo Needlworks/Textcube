@@ -36,7 +36,7 @@ body
 	color                            : #666666;
 	font-family                      : 'Lucida Grande', Arial, AppleGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
 	font-size                        : small;
-	margin                           : 0;
+	margin                           : 0 10px 0 10px;
 }
 
 dl
@@ -173,24 +173,21 @@ textarea
 }
 
 /* Layout Header **********************************************************************************/
-#layout-header
-{
-	width                            : 100%;
-}
 
 /* main description */
 #main-description-box
 {
-	position                         : absolute;
-	top                              : 10px;
-	left                             : 230px;
-	height                           : 29px;
-/*	position                         : relative;*/
+	height                           : 49px;
+	position                         : relative;
 }
 
 #main-description
 {
+	bottom                           : 5px;
+	right                            : 10px;
+	position                         : absolute;
 	text-align                       : right;
+	width                            : 100%;
 }
 
 #main-description li
@@ -199,12 +196,49 @@ textarea
 	line-height                      : 33px;
 }
 
+#description-blogger
+{
+	float                            : left;
+	margin-left                      : 210px;
+}
+
+#description-teamblog
+{
+	background-image                 : url("./image/bg_menu_divider.gif");
+	background-position              : right top;
+	background-repeat                : no-repeat;
+	padding-right                    : 10px;
+}
+
+#description-teamblog label
+{
+	padding-right                    : 5px;
+}
+
 #description-blog
 {
 	background-image                 : url("./image/bg_menu_divider.gif");
 	background-position              : right top;
 	background-repeat                : no-repeat;
 	padding-right                    : 10px;
+}
+
+#description-blog a
+{
+	background-image                 : url("./image/img_to_my_blog.gif");
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	color                            : #222;
+	padding                          : 4px 20px 0 0;
+}
+
+#description-logout a
+{
+	background-image                 : url("./image/img_logout.gif");
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	color                            : #222;
+	padding                          : 4px 20px 0 0;
 }
 
 /* main action box */
@@ -232,7 +266,7 @@ textarea
 	line-height                      : 3em;
 	position                         : absolute;
 	right                            : 0;
-	top                              : 34px;
+	top                              : 35px;
 	padding                          : 0 26px 0 16px !important;
 	z-index                          : 450;
 }
@@ -243,7 +277,7 @@ textarea
 	background-position              : right center;
 	background-repeat                : no-repeat;
 	color                            : #DDE5F1;
-	font-family                      : Dotum, AppleGothic, '돋움', '굴림', Gulim, sans-serif;
+	font-family                      : Dotum, AppleGothic, '굴림', Gulim, sans-serif;
 	font-size                        : 0.9em;
 	padding                          : 0 16px !important;
 }
@@ -266,14 +300,6 @@ textarea
 	padding                          : 4px 20px 0 10px;
 }
 
-/* main blog box */
-#main-blog-box
-{
-	position                         : absolute;
-	top                              : 12px;
-    right                            : 300px;
-}
-
 /* main menu */
 #main-menu-box
 {
@@ -282,9 +308,7 @@ textarea
 	background-repeat                : repeat-x;
 	height                           : 40px;
 	line-height                      : 3em;
-	position                         : absolute;
-	top                              : 49px;
-	width                            : 100%;
+	margin-top                       : 1px;
 }
 
 #main-menu
@@ -293,6 +317,7 @@ textarea
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	height                           : 40px;
+	width                            : 100%;
 }
 
 #main-menu li
@@ -414,59 +439,43 @@ textarea
 {
 	background-image                 : url("./image/img_header_textcube.png");
 	background-repeat                : no-repeat;
-	height                           : 78px;
+	height                           : 75px;
 	left                             : 0;
 	padding                          : 0 !important;
 	position                         : absolute;
 	text-indent                      : -1000px;
-	top                              : -42px;
+	top                              : 8px;
 	width                            : 180px;
 	z-index                          : 100;
-	margin-left:0 !important;
 }
 
 #menu-textcube a
 {
 	display                          : block;
-	height                           : 78px;
+	height                           : 70px;
 	width                            : 180px;
+}
+
+#main-menu #menu-control
+{
+	position                         : absolute;
+	top                              : 50px;
+	right                            : 85px;
 }
 
 /* Layout Body ***********************************************************************************/
 
-#layout-body
-{
-	margin-top                      : 100px;
-}
-
 #sub-menu-box
 {
 	clear                            : both;
-	display                          : none;	
+	height                           : 0.4em;
+	line-height                      : 2.4em;
+	padding-left                     : 200px;
 }
 
-#sub-menu-helper
+#sub-menu
 {
-	background-image                 : url("./image/bg_menu_right.png") !important;
-	background-position              : right top !important;
-	background-repeat                : no-repeat;
-	height                           : 40px;
-	line-height                      : 3em;
-	padding-right                    : 15px !important;
-	right                            : 9px;
-	position                         : absolute;
-	top                              : 50px;
-}
-
-#sub-menu-helper a
-{
-	background-image                 : url("./image/img_helper.gif");
-	background-position              : right center;
-	background-repeat                : no-repeat;
-	color                            : #DDE5F1;
-	font-family                      : Dotum, AppleGothic, '돋움', '굴림', Gulim, sans-serif;
-	font-size                        : 0.9em;
-	padding                          : 0 16px !important;
+	display                          : none;
 }
 
 /* pseudo box */
@@ -1093,7 +1102,7 @@ table.data-inbox tbody tr td.inactive-class
 	position                         : absolute;
 	right                            : 25px;
 	text-align                       : right;
-	top                              : 1.5em;
+	top                              : 5.5em;
 	width                            : 25em;
 	z-index                          : 1;
 }

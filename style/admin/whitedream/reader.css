@@ -32,7 +32,7 @@ h2
 	background-repeat                : repeat-x;
 	border-left                      : 1px solid #BBBBBB;
 	border-right                     : 1px solid #BBBBBB;
-	margin                           : 5px auto 0 auto;
+	margin                           : 30px auto 0 auto;
 	width                            : 980px;
 	padding                          : 5px 0 0 0;
 }
@@ -130,6 +130,11 @@ h2
 .scrap-off-icon span
 {
 	display                          : none;
+}
+
+#body-network #search-box
+{
+	margin-top: 30px;
 }
 
 #search

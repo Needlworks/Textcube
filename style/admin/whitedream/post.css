@@ -88,6 +88,11 @@ table.data-inbox tbody tr td.ip
 	padding                          : 0 0 1px 29px;
 }
 
+#body-entry #search
+{
+	width: 130px !important;
+}
+
 /* Post *******************************************************************************************/
 
 #entry-tabs-box li.entry-starred

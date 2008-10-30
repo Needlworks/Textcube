@@ -22,7 +22,7 @@
 
 #part-plugin-list .main-explain-box p
 {
-	margin-bottom                    : 20px;
+	margin-bottom                    : 40px;
 }
 
 #part-plugin-list fieldset
@@ -101,14 +101,14 @@
 	padding                          : 0 !important;
 	position                         : absolute !important;
 	text-align: right;
-	top                              : 10em;
+	top                              : 11.8em;
 	width                            : 400px;
 }
 
 #viewmode-line-align
 {
 	border                           : none !important;
-	right                            : 240px;
+	right                            : 20px;
 	padding                          : 0 !important;
 	position                         : absolute !important;
 	text-align: right;
@@ -474,6 +474,11 @@
 #plugin-search-form label
 {
     display                          : none;
+}
+
+#body-plugin #search-form
+{
+	top: 10.5em;
 }
 
 /* Data Management *******************************************************************************/

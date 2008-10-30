@@ -211,7 +211,11 @@
 	width                            : 60px;
 }
 
-#part-skin-list .caption,
+#part-skin-list .caption
+{
+	margin-bottom                    : 25px;
+}
+
 #part-skin-more .caption
 {
 	margin-bottom                    : 10px;
@@ -292,7 +296,7 @@
     position                         : relative;
     left                             : 200px;
     text-align                       : left;
-    top                              : -38px;
+    top                              : -56px;
     width                            : 40em;
     z-index                          : 1;
 }
