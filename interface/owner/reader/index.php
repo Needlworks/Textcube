@@ -50,7 +50,7 @@ $setting = getReaderSetting($blogid);
 					var s_loadingOPML = "<?php echo _t('OPML 파일을 가져오고 있습니다.');?>";
 				//]]>
 			</script>
-			<script type="text/javascript" src="<?php echo $service['path'];?>/script/reader.js"></script>
+			<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/reader.js"></script>
 			<script type="text/javascript">
 				//<![CDATA[
 					var Reader = new TTReader();
@@ -94,14 +94,15 @@ if(defined('__TEXTCUBE_READER_SUBMENU__'))
 						<li id="scrap"><span id="starredOnlyIndicator" class="scrap-off-icon bullet"><span class="text"></span></span><a href="#void" onclick="Reader.showStarredOnly(); return false;"><span class="text"><?php echo _t('스크랩한 글 보기');?></span></a></li>
 						<li id="setting" class="configureText"><a id="settingLabel" href="#void" onclick="Reader.toggleConfigure(); return false;"><span class="text"><?php echo _t('설정');?></span></a></li>
 						<li id="feed-update"><a href="#void" onclick="Reader.updateAllFeeds(); return false;"><span class="text"><?php echo _t('모든 피드 새로고침');?><span id="progress"></span></span></a></li>
-						<li id="search">
-							<input type="text" id="keyword" class="input-text" onkeydown="if(event.keyCode==13) Reader.showSearch()" />
-							<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="Reader.showSearch(); return false;" />
-						</li>
 						<li id="sub-menu-helper"><a href="<?php echo getHelpURL('reader');?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
 					</ul>
 				</div>
-				
+				<div id="search-form">
+					<div id="search-box" class="section">
+						<input type="text" id="keyword" class="input-text" onkeydown="if(event.keyCode==13) Reader.showSearch()" />
+						<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="Reader.showSearch(); return false;" />
+					</div>
+				</div>
 				<hr class="hidden" />
 				
 				<div id="pseudo-box">
