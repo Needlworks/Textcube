@@ -50,7 +50,7 @@ $setting = getReaderSetting($blogid);
 					var s_loadingOPML = "<?php echo _t('OPML 파일을 가져오고 있습니다.');?>";
 				//]]>
 			</script>
-			<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/reader.js"></script>
+			<script type="text/javascript" src="<?php echo $service['path'];?>/script/reader.js"></script>
 			<script type="text/javascript">
 				//<![CDATA[
 					var Reader = new TTReader();
