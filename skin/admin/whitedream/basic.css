@@ -300,6 +300,14 @@ textarea
 	padding                          : 4px 20px 0 10px;
 }
 
+/* main blog box */
+#main-blog-box
+{
+	right                            : 20Å0px;
+	position                         : absolute;
+	top                              : 13px;
+}
+
 /* main menu */
 #main-menu-box
 {
