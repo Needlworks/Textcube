@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <adminSkin version="1.1" language="ko">
 	<information>
-		<name>Modern (1.1 기본 관리패널 스킨)</name> 
+		<name xml:lang="en">Modern (Default Administrator Theme for Tattertools 1.1)</name> 
+		<name xml:lang="ko">Modern (태터툴즈 1.1 기본 관리패널 스킨)</name> 
+		<name xml:lang="ja">Modern (Tattertools 1.1の基本管理者テーマ)</name> 
 		<version>1.7</version>
-		<description><![CDATA[관리자 화면용 스킨입니다. 
-		]]></description>
-		<license><![CDATA[수정, 재배포 가능합니다.]]></license>
+		<description xml:lang="en"><![CDATA[This theme is a default admin theme of Tattertools 1.1.]]></description>
+		<description xml:lang="ko"><![CDATA[태터툴즈 1.1 관리자 화면용 스킨입니다.]]></description>
+		<description xml:lang="ja"><![CDATA[Tattertools 1.1の基本管理者テーマです。]]></description>
+		<license xml:lang="en"><![CDATA[GPL]]></license>
+		<license xml:lang="ko"><![CDATA[수정, 재배포 가능합니다.]]></license>
+		<license xml:lang="ja"><![CDATA[編集・再配布可能]]></license>
 	</information> 
 	<author>
 		<name>Needlworks</name>
