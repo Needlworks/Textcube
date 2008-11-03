@@ -546,7 +546,7 @@ function importer($path, $node, $line) {
 			if (!empty($node['registered'][0]['.value']))
 				$link->registered = $node['registered'][0]['.value'];
 			if (!empty($node['xfn'][0]['.value']))
-				$link->xfn = $node['registered'][0]['.value'];
+				$link->xfn = $node['xfn'][0]['.value'];
 			$link->id = Link::getId($link->url);
 			if ($link->id) {
 				if (!$link->update())
