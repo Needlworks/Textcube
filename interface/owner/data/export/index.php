@@ -227,7 +227,7 @@ if ($keyword->open()) {
 $link = new Link();
 if ($link->open()) {
 	do {
-		$writer->write('<link>' . '<url>' . htmlspecialchars(UTF8::correct($link->url)) . '</url>' . '<title>' . htmlspecialchars(UTF8::correct($link->title)) . '</title>' . '<feed>' . htmlspecialchars(UTF8::correct($link->feed)) . '</feed>' . '<registered>' . $link->registered . '</registered>' . '</link>');
+		$writer->write('<link>' . '<url>' . htmlspecialchars(UTF8::correct($link->url)) . '</url>' . '<title>' . htmlspecialchars(UTF8::correct($link->title)) . '</title>' . '<feed>' . htmlspecialchars(UTF8::correct($link->feed)) . '</feed>' . '<registered>' . $link->registered . '</registered>' . '<xfn>' . htmlspecialchars($link->xfn) . '</xfn>' . '</link>');
 		$writer->write(CRLF);
 	} while ($link->shift());
 	$link->close();
