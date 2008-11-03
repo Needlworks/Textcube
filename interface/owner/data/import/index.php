@@ -768,7 +768,8 @@ function importer($path, $node, $line) {
 		case '/blog/feed':
 			setProgress($item++ / $items * 100, _t('리더 데이터를 복원하고 있습니다.'));
 			$feed = new Feed();
-			$feed->group = FeedGroup::getId($node['group'][0]['.value'], true);
+			if (!empty($node['group'][0]['.value']))
+				$feed->group = FeedGroup::getId($node['group'][0]['.value'], true);
 			$feed->url = $node['url'][0]['.value'];
 			if (!$feed->add())
 				user_error(__LINE__ . $feed->error);
