@@ -18,6 +18,7 @@ class Link {
 		$this->url =
 		$this->feed =
 		$this->registered =
+		$this->xfn =
 			null;
 	}
 	
@@ -150,6 +151,12 @@ class Link {
 			if (!Validator::number($this->registered, 1))
 				return $this->_error('registered');
 			$query->setAttribute('written', $this->registered);
+		}
+		if (isset($this->xfn)) {
+			$this->xfn = UTF8::lessenAsEncoding(trim($this->xfn), 255);
+			if (empty($this->xfn))
+				return $this->_error('xfn');
+			$query->setAttribute('xfn', $this->xfn, true);
 		}
 		return $query;
 	}
