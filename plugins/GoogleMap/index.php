@@ -21,15 +21,12 @@ function GoogleMap_Header($target) {
 
 function GoogleMap_View($target, $mother) {
 	$matches = array();
-	if (preg_match('/\[##_GoogleMap(\|[^|]+)+_##\]/', $target, &$matches) == 0) {
+	if (preg_match('/\[##_GoogleMap(\|[^|]+)+_##\]/', $target, &$matches) == 0)
 		return $target;
-		// Debug Output
-		//echo "<!--\n";
-		//print_r($matches);
-		//echo "\n-->\n";
-	}
 	$id = 'GMapContainer'.$mother.rand();
-	$width = 400; $height = 400;
+	$width = 450; $height = 400;
+	$lat = 37.5193; $lng = 126.9707; $zoom = 12;
+	$default_type = 'G_HYBRID_MAP';
 	ob_start();
 ?>
 	<div id="<?php echo $id;?>" style="border: 1px solid #666; width:<?php echo $width;?>px; height:<?php echo $height;?>px;"></div>
@@ -38,7 +35,11 @@ function GoogleMap_View($target, $mother) {
 	var c = document.getElementById('<?php echo $id;?>');
 	if (GBrowserIsCompatible()) {
 		var map = new GMap2(c);
-		map.setCenter(new GLatLng(37.4419, -122.1419), 13);
+		map.setMapType(<?php echo $default_type;?>);
+		map.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
+		map.addControl(new GHierarchicalMapTypeControl());
+		map.addControl(new GLargeMapControl());
+		map.addControl(new GScaleControl());
 	} else {
 		c.innerHTML = '<p style="text-align:center; color:#c99;">Your web browser is not compatible with Google Maps.</p>';
 	}
