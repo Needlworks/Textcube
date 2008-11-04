@@ -22,7 +22,9 @@
     <config xml:lang="ko" dataValHandler="GoogleMap_ConfigHandler">
       <window width="500" height="400" />
       <fieldset legend="설정">
-        <field title="API 키" name="apiKey" type="text" value="" />
+        <field title="API 키" name="apiKey" type="text" value="">
+          <caption><![CDATA[<a href="http://code.google.com/apis/maps/signup.html" target="_blank">구글맵 API 키 얻기</a> (구글 계정 필요)]]></caption>
+        </field>
       </fieldset>
       <fieldset legend="기본 위치">
         <field title="위도" name="latitude" type="text" value="37.5193" />
@@ -35,7 +37,9 @@
       </fieldset>
       <fieldset legend="Default Location">
         <field title="Latitude" name="latitude" type="text" value="37.4171" />
-        <field title="Longitude" name="longitude" type="text" value="-122.0857" />
+        <field title="Longitude" name="longitude" type="text" value="-122.0857">
+          <caption><![CDATA[<a href="http://code.google.com/apis/maps/signup.html" target="_blank">Get your API key for Google Maps (Google Account needed)]]></caption>
+        </field>
       </fieldset>
     </config>
   </binding>
