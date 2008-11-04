@@ -64,15 +64,18 @@ function dressInsertBefore($tag, $value, & $contents, $useCache = false, $forceP
 	}
 }
 
-function getJSLibraryView() {
+function getScriptsOnHead() {
 	global $service;
+	ob_start();
 ?>
-	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/EAF4.js"></script>
-	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/common2.js"></script>
-	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/gallery.js" ></script>
-	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/flash.js" ></script>
+<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/EAF4.js"></script>
+<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/common2.js"></script>
+<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/gallery.js" ></script>
+<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/flash.js" ></script>
 <?php
-	return true;
+	$view = ob_get_contents();
+	ob_end_clean();
+	return $view;
 }
 
 function getUpperView($paging) {
