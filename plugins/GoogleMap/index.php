@@ -3,7 +3,8 @@
 // TODO: i18n
 $gmap_msg = array(
 	'COMPAT_BROWSER_MISMATCH' => '이 웹브라우저는 구글맵 API와 호환되지 않습니다.',
-	'VALIDATION_WRONG_LATLNG' => '잘못된 위도 또는 경도 값입니다.'
+	'VALIDATION_WRONG_LATLNG' => '잘못된 위도 또는 경도 값입니다.',
+	'TOOLBOX_IMGALT' => '구글맵 삽입하기',
 );
 
 function GoogleMap_AddPost($target, $mother) {
@@ -23,6 +24,24 @@ function GoogleMap_Header($target) {
 		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.com/maps?file=api&amp;v=2&amp;key=$api_key\"></script><!-- Google Map Plugin -->\n";
 		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/gmap_helper.js\"></script>\n";
 	}
+	return $target;
+}
+
+function GoogleMap_AdminHeader($target) {
+	global $suri, $pluginURL, $serviceURL;
+	if ($suri['directive'] == '/owner/entry/post' || $suri['directive'] == '/owner/entry/edit') {
+		requireComponent('Textcube.Function.Setting');
+		$config = setting::fetchConfigVal($configVal);
+		$api_key = $config['apiKey']; // should exist here
+		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.com/maps?file=api&amp;v=2&amp;key=$api_key\"></script><!-- Google Map Plugin -->\n";
+		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/gmap_helper.js\"></script>\n";
+	}
+	return $target;
+}
+
+function GoogleMap_AddToolbox($target) {
+	global $pluginURL;
+	$target .= "<img src=\"$pluginURL/images/gmap_toolbar.png\" border=\"0\" alt=\"{$gmap_msg['TOOLBOX_IMGALT']}\" onclick=\"GMapTool_Insert();\" style=\"cursor:pointer\" />\n";
 	return $target;
 }
 
