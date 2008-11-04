@@ -16,9 +16,9 @@
   <binding>
     <listener event="AddPost">GoogleMap_AddPost</listener>
     <listener event="UpdatePost">GoogleMap_UpdatePost</listener>
-    <listener event="SKIN_head_end">GoogleMap_Header</listener>
     <listener event="ViewPostContent">GoogleMap_View</listener>
     <listener event="ViewNoticeContent">GoogleMap_View</listener>
+    <tag name="SKIN_head_end" handler="GoogleMap_Header" />
     <config dataValHandler="GoogleMap_ConfigHandler">
       <window width="500" height="400" />
       <fieldset legend="설정">
