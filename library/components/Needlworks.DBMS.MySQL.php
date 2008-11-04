@@ -281,6 +281,7 @@ class DBQuery {
 	}
 	
 	public static function error($err = null) {
+		if($err === null) return mysql_error();
 		return mysql_error($err);
 	}
 	
