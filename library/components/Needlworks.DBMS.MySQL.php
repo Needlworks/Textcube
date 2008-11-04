@@ -292,7 +292,8 @@ class DBQuery {
 	
 	/*@static@*/
 	function error($err = null) {
-		return mysql_error($err);
+		if($err === null) return mysql_error();
+		else return mysql_error($err);
 	}
 	
 	/*@static@*/
