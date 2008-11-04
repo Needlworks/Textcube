@@ -51,39 +51,42 @@ function GoogleMap_View($target, $mother) {
 	requireComponent('Textcube.Function.Setting');
 	$config = setting::fetchConfigVal($configVal);
 	$matches = array();
-	// TODO: multiple matches in a single entry
-	if (preg_match('/\[##_GoogleMap((\|[^|]+)+)?_##\]/', $target, &$matches) == 0)
-		return $target;
-	$params = explode('|', $matches[1]);
-	$id = 'GMapContainer'.$mother.rand();
-	$width = 450; $height = 400;
-	$lat = !isset($params['latitude']) ? $config['latitude'] : $params['latitude'];
-	$lng = !isset($params['longitude']) ? $config['longitude'] : $params['longitude'];
-	$zoom = !isset($params['zoom']) ? 10 : $params['zoom'];
-	$default_type = 'G_HYBRID_MAP';
-	ob_start();
+	$offset = 0;
+	while (preg_match('/\[##_GoogleMap((\|[^|]+)+)?_##\]/', $target, $matches, PREG_OFFSET_CAPTURE, $offset) > 0) {
+		$parsed_params = explode('|', $matches[1][0]);
+		$params = array();
+		// TODO: customize these parameters in the WYSIWYG editor.
+		$id = 'GMapContainer'.$mother.rand();
+		$width = 450; $height = 400;
+		$lat = !isset($params['latitude']) ? $config['latitude'] : $params['latitude'];
+		$lng = !isset($params['longitude']) ? $config['longitude'] : $params['longitude'];
+		$zoom = !isset($params['zoom']) ? 10 : $params['zoom'];
+		$default_type = 'G_HYBRID_MAP';
+		ob_start();
 ?>
-	<!-- TOREMOVE: <?php print_r($params); ?> -->
-	<div id="<?php echo $id;?>" style="border: 1px solid #666; width:<?php echo $width;?>px; height:<?php echo $height;?>px;"></div>
-	<script type="text/javascript">
-	//<![CDATA[
-	var c = document.getElementById('<?php echo $id;?>');
-	if (GBrowserIsCompatible()) {
-		var map = new GMap2(c);
-		map.setMapType(<?php echo $default_type;?>);
-		map.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
-		map.addControl(new GHierarchicalMapTypeControl());
-		map.addControl(new GLargeMapControl());
-		map.addControl(new GScaleControl());
-	} else {
-		c.innerHTML = '<p style="text-align:center; color:#c99;"><?php echo htmlspecialchars($gmap_msg['COMPAT_BROWSER_MISMATCH'])?></p>';
-	}
-	//]]>
-	</script>
+		<!-- TOREMOVE: <?php print_r($parsed_params); ?> -->
+		<div id="<?php echo $id;?>" style="border: 1px solid #666; width:<?php echo $width;?>px; height:<?php echo $height;?>px;"></div>
+		<script type="text/javascript">
+		//<![CDATA[
+		var c = document.getElementById('<?php echo $id;?>');
+		if (GBrowserIsCompatible()) {
+			var map = new GMap2(c);
+			map.setMapType(<?php echo $default_type;?>);
+			map.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
+			map.addControl(new GHierarchicalMapTypeControl());
+			map.addControl(new GLargeMapControl());
+			map.addControl(new GScaleControl());
+		} else {
+			c.innerHTML = '<p style="text-align:center; color:#c99;"><?php echo htmlspecialchars($gmap_msg['COMPAT_BROWSER_MISMATCH'])?></p>';
+		}
+		//]]>
+		</script>
 <?php
-	$result = ob_get_contents();
-	ob_end_clean();
-	$target = str_replace($matches[0], $result, $target);
+		$output = ob_get_contents();
+		ob_end_clean();
+		$target = substr_replace($target, $output, $matches[0][1], strlen($matches[0][0]));
+		$offset += $matches[0][1] + strlen($output);
+	}
 	return $target;
 }
 
