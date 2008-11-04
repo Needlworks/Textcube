@@ -19,10 +19,23 @@
     <listener event="ViewPostContent">GoogleMap_View</listener>
     <listener event="ViewNoticeContent">GoogleMap_View</listener>
     <tag name="SKIN_head_end" handler="GoogleMap_Header" />
-    <config dataValHandler="GoogleMap_ConfigHandler">
+    <config xml:lang="ko" dataValHandler="GoogleMap_ConfigHandler">
       <window width="500" height="400" />
       <fieldset legend="설정">
-        <field title="API Key" name="apiKey" type="text" />
+        <field title="API 키" name="apiKey" type="text" value="" />
+      </fieldset>
+      <fieldset legend="기본 위치">
+        <field title="위도" name="latitude" type="text" value="37.5193" />
+        <field title="경도" name="longitude" type="text" value="126.9707" />
+      </fieldset>
+    </config>
+    <config xml:lang="en" dataValHandler="GoogleMap_ConfigHandler">
+      <fieldset legend="Settings">
+        <field title="API Key" name="apiKey" type="text" value="" />
+      </fieldset>
+      <fieldset legend="Default Location">
+        <field title="Latitude" name="latitude" type="text" value="37.4171" />
+        <field title="Longitude" name="longitude" type="text" value="-122.0857" />
       </fieldset>
     </config>
   </binding>

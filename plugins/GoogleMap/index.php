@@ -1,4 +1,11 @@
 <?php
+
+// TODO: i18n
+$gmap_msg = array(
+	'COMPAT_BROWSER_MISMATCH' => '이 웹브라우저는 구글맵 API와 호환되지 않습니다.',
+	'VALIDATION_WRONG_LATLNG' => '잘못된 위도 또는 경도 값입니다.'
+);
+
 function GoogleMap_AddPost($target, $mother) {
 	// TODO: Extract address information from the content
 }
@@ -20,13 +27,20 @@ function GoogleMap_Header($target) {
 }
 
 function GoogleMap_View($target, $mother) {
+	global $gmap_msg;
+	global $configVal, $pluginURL;
+	requireComponent('Textcube.Function.Setting');
+	$config = setting::fetchConfigVal($configVal);
 	$matches = array();
+	// TODO: multiple matches in a single entry
 	if (preg_match('/\[##_GoogleMap((\|[^|]+)+)_##\]/', $target, &$matches) == 0)
 		return $target;
 	$params = explode('|', $matches[1]);
 	$id = 'GMapContainer'.$mother.rand();
 	$width = 450; $height = 400;
-	$lat = 37.5193; $lng = 126.9707; $zoom = 12;
+	$lat = !isset($params['latitude']) ? $config['latitude'] : $params['latitude'];
+	$lng = !isset($params['longitude']) ? $config['longitude'] : $params['longitude'];
+	$zoom = !isset($params['zoom']) ? 10 : $params['zoom'];
 	$default_type = 'G_HYBRID_MAP';
 	ob_start();
 ?>
@@ -43,7 +57,7 @@ function GoogleMap_View($target, $mother) {
 		map.addControl(new GLargeMapControl());
 		map.addControl(new GScaleControl());
 	} else {
-		c.innerHTML = '<p style="text-align:center; color:#c99;">Your web browser is not compatible with Google Maps.</p>';
+		c.innerHTML = '<p style="text-align:center; color:#c99;"><?php echo htmlspecialchars($gmap_msg['COMPAT_BROWSER_MISMATCH'])?></p>';
 	}
 	//]]>
 	</script>
@@ -55,8 +69,12 @@ function GoogleMap_View($target, $mother) {
 }
 
 function GoogleMap_ConfigHandler($data) {
+	global $gmap_msg;
 	requireComponent('Textcube.Function.Setting');
 	$config = setting::fetchConfigVal($data);
+	if (!is_numeric($config['latitude']) || !is_numeric($config['longitude']) ||
+		$config['latitude'] < -90 || $config['latitude'] > 90 || $config['longitude'] < -180 || $config['longitude'] > 180)
+		return $gmap_msg['VALIDATION_WRONG_LATLNG'];
 	return true;
 }
 ?>
