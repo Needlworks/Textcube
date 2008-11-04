@@ -38,7 +38,7 @@
       <fieldset legend="Default Location">
         <field title="Latitude" name="latitude" type="text" value="37.4171" />
         <field title="Longitude" name="longitude" type="text" value="-122.0857">
-          <caption><![CDATA[<a href="http://code.google.com/apis/maps/signup.html" target="_blank">Get your API key for Google Maps (Google Account needed)]]></caption>
+          <caption><![CDATA[<a href="http://code.google.com/apis/maps/signup.html" target="_blank">Get your API key for Google Maps</a> (Google Account needed)]]></caption>
         </field>
       </fieldset>
     </config>
