@@ -52,7 +52,7 @@ function GoogleMap_View($target, $mother) {
 	$config = setting::fetchConfigVal($configVal);
 	$matches = array();
 	// TODO: multiple matches in a single entry
-	if (preg_match('/\[##_GoogleMap((\|[^|]+)+)_##\]/', $target, &$matches) == 0)
+	if (preg_match('/\[##_GoogleMap((\|[^|]+)+)?_##\]/', $target, &$matches) == 0)
 		return $target;
 	$params = explode('|', $matches[1]);
 	$id = 'GMapContainer'.$mother.rand();
