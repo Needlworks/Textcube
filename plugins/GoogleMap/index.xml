@@ -14,8 +14,9 @@
     <textcube>1.6</textcube>
   </requirements>
   <binding>
-    <listener event="AddPost">GoogleMap_AddPost</listener>
-    <listener event="UpdatePost">GoogleMap_UpdatePost</listener>
+    <!-- listener event="AddPost">GoogleMap_AddPost</listener -->
+    <!-- listener event="UpdatePost">GoogleMap_UpdatePost</listener -->
+    <listener event="/plugin/GMapCustomInsert/">GoogleMapUI_Customize</listener>
     <listener event="ViewPostContent">GoogleMap_View</listener>
     <listener event="ViewNoticeContent">GoogleMap_View</listener>
     <listener event="AddPostEditorToolbox">GoogleMap_AddToolbox</listener>

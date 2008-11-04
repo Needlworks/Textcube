@@ -7,7 +7,7 @@ function initializeGoogleMap() {
 }
 
 function GMapTool_Insert() {
-	alert('not implemented yet.');
+	window.open(blogURL + '/plugin/GMapCustomInsert/', 'GMapTool_Insert', 'menubar=no,toolbar=no,width=500,height=500');
 }
 
 //window.addEventListener('load', initializeGoogleMap);

@@ -1,11 +1,6 @@
 <?php
 
-// TODO: i18n
-$gmap_msg = array(
-	'COMPAT_BROWSER_MISMATCH' => '이 웹브라우저는 구글맵 API와 호환되지 않습니다.',
-	'VALIDATION_WRONG_LATLNG' => '잘못된 위도 또는 경도 값입니다.',
-	'TOOLBOX_IMGALT' => '구글맵 삽입하기',
-);
+// TODO: i18n (Ticket #1133)
 
 function GoogleMap_AddPost($target, $mother) {
 	// TODO: Extract address information from the content
@@ -22,18 +17,23 @@ function GoogleMap_Header($target) {
 	if (!is_null($config) && isset($config['apiKey'])) {
 		$api_key = $config['apiKey'];
 		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.com/maps?file=api&amp;v=2&amp;key=$api_key\"></script><!-- Google Map Plugin -->\n";
-		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/gmap_helper.js\"></script>\n";
 	}
 	return $target;
 }
 
 function GoogleMap_AdminHeader($target) {
-	global $suri, $pluginURL, $serviceURL, $configVal;
+	global $suri, $pluginURL, $blogURL, $serviceURL, $configVal;
 	if ($suri['directive'] == '/owner/entry/post' || $suri['directive'] == '/owner/entry/edit') {
 		requireComponent('Textcube.Function.Setting');
 		$config = setting::fetchConfigVal($configVal);
 		$api_key = $config['apiKey']; // should exist here
 		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.com/maps?file=api&amp;v=2&amp;key=$api_key\"></script><!-- Google Map Plugin -->\n";
+		$target .= "<script type=\"text/javascript\">
+		//<![CDATA[
+		var pluginURL = '$pluginURL';
+		var blogURL = '$blogURL';
+		//]]>
+		</script>";
 		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/gmap_helper.js\"></script>\n";
 	}
 	return $target;
@@ -41,7 +41,7 @@ function GoogleMap_AdminHeader($target) {
 
 function GoogleMap_AddToolbox($target) {
 	global $pluginURL;
-	$target .= "<img src=\"$pluginURL/images/gmap_toolbar.png\" border=\"0\" alt=\"{$gmap_msg['TOOLBOX_IMGALT']}\" onclick=\"GMapTool_Insert();\" style=\"cursor:pointer\" />\n";
+	$target .= "<img src=\"$pluginURL/images/gmap_toolbar.png\" border=\"0\" alt=\"구글맵 추가하기\" onclick=\"GMapTool_Insert();\" style=\"cursor:pointer\" />\n";
 	return $target;
 }
 
@@ -77,7 +77,7 @@ function GoogleMap_View($target, $mother) {
 			map.addControl(new GLargeMapControl());
 			map.addControl(new GScaleControl());
 		} else {
-			c.innerHTML = '<p style="text-align:center; color:#c99;"><?php echo htmlspecialchars($gmap_msg['COMPAT_BROWSER_MISMATCH'])?></p>';
+			c.innerHTML = '<p style="text-align:center; color:#c99;">이 웹브라우저는 구글맵과 호환되지 않습니다.</p>';
 		}
 		//]]>
 		</script>
@@ -96,7 +96,46 @@ function GoogleMap_ConfigHandler($data) {
 	$config = setting::fetchConfigVal($data);
 	if (!is_numeric($config['latitude']) || !is_numeric($config['longitude']) ||
 		$config['latitude'] < -90 || $config['latitude'] > 90 || $config['longitude'] < -180 || $config['longitude'] > 180)
-		return $gmap_msg['VALIDATION_WRONG_LATLNG'];
+		return '위도 또는 경도의 값이 올바르지 않습니다.';
 	return true;
+}
+
+function GoogleMapUI_Customize($target) {
+	_GMap_printHeaderForUI('구글맵 삽입하기');
+	// TODO: 각종 옵션 설정 UI
+	// TODO: 주소 추출 UI
+	// - TODO: 포스트 내용 텍스트 얻어오기 및 주소 정보 추출
+	// - TODO: Google API를 이용한 geocoding 또는 map search
+	_GMap_printFooterForUI();
+}
+
+function _GMap_printHeaderForUI($title) {
+	global $pluginURL, $blogURL, $service, $adminSkinSetting;
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Google Map Plugin: <?php echo $title;?></title>
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/post.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/edit.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/ui.css" />
+</head>
+<body>
+<div id="temp-wrap">
+<div id="all-wrap">
+	<h1><?php echo $title;?></h1>
+	<div id="layout-body">
+<?php
+}
+
+function _GMap_printFooterForUI() {
+?>
+	</div>
+</div>
+</div>
+</body>
+</html>
+<?php
 }
 ?>
