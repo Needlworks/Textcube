@@ -28,7 +28,7 @@ function GoogleMap_Header($target) {
 }
 
 function GoogleMap_AdminHeader($target) {
-	global $suri, $pluginURL, $serviceURL;
+	global $suri, $pluginURL, $serviceURL, $configVal;
 	if ($suri['directive'] == '/owner/entry/post' || $suri['directive'] == '/owner/entry/edit') {
 		requireComponent('Textcube.Function.Setting');
 		$config = setting::fetchConfigVal($configVal);
