@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+  <title xml:lang="ko">Google 맵</title>
+  <title xml:lang="en">Google Map</title>
+  <link>http://maps.google.com</link>
+  <version>1.0</version>
+  <description xml:lang="ko">포스트에서 Google 맵을 삽입할 수 있게 해주고, 지역로그 및 포스트 내 쓰인 주소 정보와 연동할 수 있도록 도와줍니다.</description>
+  <description xml:lang="en">Enables inserting Google Map into your posts and helps interlocking it and location tags or text addresses written in the posts.</description>
+  <license>GPL</license>
+  <author xml:lang="en" link="http://forum.tattersite.com/ko">Tatter Network Foundation</author>
+  <author xml:lang="ko" link="http://forum.tattersite.com/ko">태터네트워크재단</author>
+  <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="yes" accessRaw="no" />
+  <requirements>
+    <textcube>1.6</textcube>
+  </requirements>
+  <binding>
+    <listener event="AddPost">GoogleMap_AddPost</listener>
+    <listener event="UpdatePost">GoogleMap_UpdatePost</listener>
+    <listener event="SKIN_head_end">GoogleMap_Header</listener>
+    <listener event="ViewPostContent">GoogleMap_View</listener>
+    <listener event="ViewNoticeContent">GoogleMap_View</listener>
+    <config dataValHandler="GoogleMap_ConfigHandler">
+      <window width="500" height="400" />
+      <fieldset legend="설정">
+        <field title="API Key" name="apiKey" type="text" />
+      </fieldset>
+    </config>
+  </binding>
+</plugin>
