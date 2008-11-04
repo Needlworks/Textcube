@@ -21,14 +21,16 @@ function GoogleMap_Header($target) {
 
 function GoogleMap_View($target, $mother) {
 	$matches = array();
-	if (preg_match('/\[##_GoogleMap(\|[^|]+)+_##\]/', $target, &$matches) == 0)
+	if (preg_match('/\[##_GoogleMap((\|[^|]+)+)_##\]/', $target, &$matches) == 0)
 		return $target;
+	$params = explode('|', $matches[1]);
 	$id = 'GMapContainer'.$mother.rand();
 	$width = 450; $height = 400;
 	$lat = 37.5193; $lng = 126.9707; $zoom = 12;
 	$default_type = 'G_HYBRID_MAP';
 	ob_start();
 ?>
+	<!-- TOREMOVE: <?php print_r($params); ?> -->
 	<div id="<?php echo $id;?>" style="border: 1px solid #666; width:<?php echo $width;?>px; height:<?php echo $height;?>px;"></div>
 	<script type="text/javascript">
 	//<![CDATA[
