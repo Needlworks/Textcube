@@ -5,8 +5,16 @@ var map;
 
 function initialize() {
 	initializeMap();
+	$('toggleMarkerAddingMode').store('toggled', false);
 	$('toggleMarkerAddingMode').addEvent('click', function() {
-		alert('not implemented yet');
+		this.store('toggled', !this.retrieve('toggled'));
+		if (this.retrieve('toggled')) {
+			this.setProperty('class', 'toggled');
+			// TODO: attach click event handler to the GMap object.
+		} else {
+			this.setProperty('class', '');
+			// TODO: detach click event handler to the GMap object.
+		}
 	});
 	$('applyBasicSettings').addEvent('click', function() {
 		var gmp = $('GoogleMapPreview');

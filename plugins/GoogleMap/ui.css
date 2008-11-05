@@ -34,9 +34,15 @@ button {
 	-webkit-border-radius: 3px;
 	cursor: pointer;
 }
-
 button:hover {
 	background-color: #f8f8f8;
+}
+button.toggled {
+	background-color: #555;
+	color: white;
+}
+button.toggled:hover {
+	background-color: #666;
 }
 
 #controls {
