@@ -57,10 +57,10 @@ function GoogleMap_View($target, $mother) {
 	$config = setting::fetchConfigVal($configVal);
 	$matches = array();
 	$offset = 0;
-	while (preg_match('/\[##_GoogleMap((\|[^|]+)+)?_##\]/', $target, $matches, PREG_OFFSET_CAPTURE, $offset) > 0) {
-		$parsed_params = explode('|', $matches[1][0]);
-		$params = array();
+	while (preg_match('/\[##_GoogleMap\|(([^|]+)\|)?_##\]/', $target, $matches, PREG_OFFSET_CAPTURE, $offset) > 0) {
+		$params = json_decode($matches[2][0]);
 		// TODO: customize these parameters in the WYSIWYG editor.
+		// SUGGUEST: [##_GoogleMap|{JSON_REPRESENTATION_OF_PARAMETERS_WITHOUT_NEWLINES}|_##]
 		$id = 'GMapContainer'.$mother.rand();
 		$width = 450; $height = 400;
 		$lat = !isset($params['latitude']) ? $config['latitude'] : $params['latitude'];
@@ -69,7 +69,7 @@ function GoogleMap_View($target, $mother) {
 		$default_type = 'G_HYBRID_MAP';
 		ob_start();
 ?>
-		<!-- TOREMOVE: <?php print_r($parsed_params); ?> -->
+		<!-- TOREMOVE: <?php print_r($params); ?> -->
 		<div id="<?php echo $id;?>" style="border: 1px solid #666; width:<?php echo $width;?>px; height:<?php echo $height;?>px;"></div>
 		<script type="text/javascript">
 		//<![CDATA[
@@ -107,7 +107,7 @@ function GoogleMap_LocationLogView($target) {
 	$zoom = 10;
 	ob_start();
 ?>
-	<div id="<?php echo $id;?>"></div>
+	<div style="text-align:center;"><div id="<?php echo $id;?>" style="margin:0 auto;"></div></div>
 	<script type="text/javascript">
 	//<![CDATA[
 	STD.addLoadEventListener(function() {
@@ -121,7 +121,7 @@ function GoogleMap_LocationLogView($target) {
 				break;
 			}
 		if (s)
-			p.insertBefore(c, s);
+			p.insertBefore(c, s.nextSibiling);
 		c.style.width = "<?php echo $width;?>px"
 		c.style.height = "<?php echo $height;?>px";
 		if (GBrowserIsCompatible()) {
@@ -154,7 +154,34 @@ function GoogleMap_ConfigHandler($data) {
 }
 
 function GoogleMapUI_Customize($target) {
-	_GMap_printHeaderForUI('구글맵 삽입하기');
+	global $configVal, $pluginURL;
+	$config = setting::fetchConfigVal($configVal);
+	$lat = $config['latitude'];
+	$lng = $config['longitude'];
+	$default_type = 'G_HYBRID_MAP';
+	$zoom = 10;
+	_GMap_printHeaderForUI('구글맵 삽입하기', $config['apiKey']);
+?>
+	<div id="controls">
+		<button id="toggleMarkerAddingMode">마커 표시 모드</button>
+	</div>
+	<div style="text-align:center;"><div id="GoogleMapPreview" style="width:500px; height:400px; margin:0 auto;"></div></div>
+	<script type="text/javascript">
+	//<![CDATA[
+	function initializeMap() {
+		var map = new GMap2($('GoogleMapPreview'));
+		map.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
+		map.setMapType(<?php echo $default_type;?>);
+	}
+	//]]>
+	</script>
+	<fieldset>
+		<legend>기본 설정</legend>
+		<p><label>가로(px) : <input type="text" class="editControl" id="inputWidth" value="" /></label></p>
+		<p><label>세로(px) : <input type="text" class="editControl" id="inputHeight" value="" /></label></p>
+		<button id="applyBasicSettings">적용</button>
+	</fieldset>
+<?php
 	// TODO: 각종 옵션 설정 UI
 	// TODO: 주소 추출 UI
 	// - TODO: 포스트 내용 텍스트 얻어오기 및 주소 정보 추출
@@ -162,17 +189,27 @@ function GoogleMapUI_Customize($target) {
 	_GMap_printFooterForUI();
 }
 
-function _GMap_printHeaderForUI($title) {
+function _GMap_printHeaderForUI($title, $api_key) {
 	global $pluginURL, $blogURL, $service, $adminSkinSetting;
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Google Map Plugin: <?php echo $title;?></title>
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/post.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/edit.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/ui.css" />
+	<script type="text/javascript" src="http://www.google.com/jsapi?key=<?php echo $api_key;?>"></script>
+	<script type="text/javascript">
+	//<![CDATA[
+	var pluginURL = '<?php echo $pluginURL;?>';
+	var blogURL = '<?php echo $blogURL;?>';
+	google.load('maps', '2');
+	google.load('mootools', '1.2.1');
+	google.setOnLoadCallback(function() {
+		window.addEvent('unload', function() {GUnload();});
+		initialize(); // should be declared somewhere. (for now, gmap_ui.js)
+	});
+	//]]>
+	</script>
 </head>
 <body>
 <div id="temp-wrap">
