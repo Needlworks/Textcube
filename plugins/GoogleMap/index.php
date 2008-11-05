@@ -162,7 +162,7 @@ function GoogleMapUI_Customize($target) {
 	$lat = $config['latitude'];
 	$lng = $config['longitude'];
 	$default_type = 'G_HYBRID_MAP';
-	$default_width = max(misc::getContentWidth(), 500);
+	$default_width = min(misc::getContentWidth(), 500);
 	$default_height = 400;
 	$zoom = 10;
 	_GMap_printHeaderForUI('구글맵 삽입하기', $config['apiKey']);

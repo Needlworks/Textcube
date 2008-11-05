@@ -1,7 +1,42 @@
 @charset "utf-8";
 
-body {
-	margin: 0; padding: 0;
+* { margin: 0; padding: 0; }
+
+body, input, button, textarea {
 	font-family: "Trebuchet MS", Verdana, NanumGothic, MalgunGothic, sans-serif;
 	font-size: 0.9em;
+}
+
+body {
+	background: white;
+	color: black;
+}
+
+h1 {
+	margin: 10px;
+	font-size: 1.2em;
+}
+
+fieldset {
+	margin: 10px;
+	padding: 7px;
+	border: 1px solid #ccc;
+}
+
+button {
+	padding: 1px 3px 2px 3px;
+	background: #f2f2f2;
+	border: 1px solid #69c;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	cursor: pointer;
+}
+
+button:hover {
+	background-color: #f8f8f8;
+}
+
+#controls {
+	margin: 10px;
 }
