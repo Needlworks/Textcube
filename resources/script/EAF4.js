@@ -109,6 +109,21 @@ Standardizer.prototype.addUnloadEventListener = function(fn) {
 	};
 };
 
+Standardizer.prototype.querySelector = function(selector) {
+	if (document.querySelector) // Firefox 3.1+, IE8+, Webkit x.x+
+		return document.querySelector(selector);
+	// Here, we only retrieve one element that matches the selector,
+	// but this may NOT be fully compatible with W3C specification for now.
+	// (Example: ':hover' to get the currently hovered element.)
+	// TODO
+}
+
+Standardizer.prototype.querySelectorAll = function(selector) {
+	if (document.querySelectorAll) // Firefox 3.1+, IE8+, Webkit x.x+
+		return document.querySelectorAll(selector);
+	// TODO
+}
+
 var STD=new Standardizer();
 STD.addEventListener(window);
 var KeyCode = new function() {
