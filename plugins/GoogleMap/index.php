@@ -54,6 +54,7 @@ function GoogleMap_View($target, $mother) {
 	global $gmap_msg;
 	global $configVal, $pluginURL;
 	requireComponent('Textcube.Function.Setting');
+	requireComponent('Textcube.Function.Misc');
 	$config = setting::fetchConfigVal($configVal);
 	$matches = array();
 	$offset = 0;
@@ -62,10 +63,11 @@ function GoogleMap_View($target, $mother) {
 		// TODO: customize these parameters in the WYSIWYG editor.
 		// SUGGUEST: [##_GoogleMap|{JSON_REPRESENTATION_OF_PARAMETERS_WITHOUT_NEWLINES}|_##]
 		$id = 'GMapContainer'.$mother.rand();
-		$width = 450; $height = 400;
-		$lat = !isset($params['latitude']) ? $config['latitude'] : $params['latitude'];
-		$lng = !isset($params['longitude']) ? $config['longitude'] : $params['longitude'];
-		$zoom = !isset($params['zoom']) ? 10 : $params['zoom'];
+		$width = !isset($params->{width}) ? misc::getContentWidth() : $params->{width};
+		$height = !isset($params->{height}) ? 400 : $params->{height};
+		$lat = !isset($params->{center}->{latitude}) ? $config['latitude'] : $params->{center}->{latitude};
+		$lng = !isset($params->{center}->{longitude}) ? $config['longitude'] : $params->{center}->{longitude};
+		$zoom = !isset($params->{zoom}) ? 10 : $params->{zoom};
 		$default_type = 'G_HYBRID_MAP';
 		ob_start();
 ?>
@@ -155,30 +157,38 @@ function GoogleMap_ConfigHandler($data) {
 
 function GoogleMapUI_Customize($target) {
 	global $configVal, $pluginURL;
+	requireComponent('Textcube.Function.Misc');
 	$config = setting::fetchConfigVal($configVal);
 	$lat = $config['latitude'];
 	$lng = $config['longitude'];
 	$default_type = 'G_HYBRID_MAP';
+	$default_width = max(misc::getContentWidth(), 500);
+	$default_height = 400;
 	$zoom = 10;
 	_GMap_printHeaderForUI('구글맵 삽입하기', $config['apiKey']);
 ?>
 	<div id="controls">
 		<button id="toggleMarkerAddingMode">마커 표시 모드</button>
+		<button id="doInsert">본문에 삽입하기</button>
 	</div>
-	<div style="text-align:center;"><div id="GoogleMapPreview" style="width:500px; height:400px; margin:0 auto;"></div></div>
+	<div style="text-align:center;"><div id="GoogleMapPreview" style="width:<?php echo $default_width;?>px; height:<?php echo $default_height;?>px; margin:0 auto;"></div></div>
 	<script type="text/javascript">
 	//<![CDATA[
 	function initializeMap() {
-		var map = new GMap2($('GoogleMapPreview'));
+		map = new GMap2($('GoogleMapPreview'));
 		map.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
 		map.setMapType(<?php echo $default_type;?>);
+		map.addControl(new GHierarchicalMapTypeControl());
+		map.addControl(new GLargeMapControl());
+		map.addControl(new GScaleControl());
+		map.enableScrollWheelZoom();
 	}
 	//]]>
 	</script>
 	<fieldset>
 		<legend>기본 설정</legend>
-		<p><label>가로(px) : <input type="text" class="editControl" id="inputWidth" value="" /></label></p>
-		<p><label>세로(px) : <input type="text" class="editControl" id="inputHeight" value="" /></label></p>
+		<p><label>가로(px) : <input type="text" class="editControl" id="inputWidth" value="<?php echo $default_width;?>" /></label></p>
+		<p><label>세로(px) : <input type="text" class="editControl" id="inputHeight" value="<?php echo $default_height;?>" /></label></p>
 		<button id="applyBasicSettings">적용</button>
 	</fieldset>
 <?php
