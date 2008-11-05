@@ -28,10 +28,9 @@ function initialize() {
 			options.width = $('GoogleMapPreview').getSize().x;
 			options.height = $('GoogleMapPreview').getSize().y;
 			editor.command('Raw', '[##_GoogleMap|' + JSON.encode(options) + '|_##]');
+			self.close();
 		} catch (e) {
 			alert('Parent window is not accessible. Is it closed?');
-		} finally {
-			self.close();
 		}
 	});
 }

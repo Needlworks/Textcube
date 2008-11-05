@@ -46,7 +46,7 @@ function GoogleMap_AdminHeader($target) {
 
 function GoogleMap_AddToolbox($target) {
 	global $pluginURL;
-	$target .= "<img src=\"$pluginURL/images/gmap_toolbar.png\" border=\"0\" alt=\"구글맵 추가하기\" onclick=\"GMapTool_Insert();\" style=\"cursor:pointer\" />\n";
+	$target .= "<img src=\"$pluginURL/images/gmap_toolbar.gif\" border=\"0\" alt=\"구글맵 추가하기\" onclick=\"GMapTool_Insert();\" style=\"cursor:pointer\" />\n";
 	return $target;
 }
 
