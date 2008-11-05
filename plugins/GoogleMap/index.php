@@ -198,6 +198,7 @@ function _GMap_printHeaderForUI($title, $api_key) {
 	<title>Google Map Plugin: <?php echo $title;?></title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/ui.css" />
 	<script type="text/javascript" src="http://www.google.com/jsapi?key=<?php echo $api_key;?>"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/gmap_ui.js"></script>
 	<script type="text/javascript">
 	//<![CDATA[
 	var pluginURL = '<?php echo $pluginURL;?>';

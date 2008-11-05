@@ -5,7 +5,9 @@ function initialize() {
 	initializeMap();
 	// TODO: initialize event handlers
 	$('toggleMarkerAddingMode').addEvent('click', function() {
+		alert('not implemented yet');
 	});
 	$('applyBasicSettings').addEvent('click', function() {
+		alert('not implemented yet');
 	});
 }
