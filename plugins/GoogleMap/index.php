@@ -17,6 +17,11 @@ function GoogleMap_Header($target) {
 	if (!is_null($config) && isset($config['apiKey'])) {
 		$api_key = $config['apiKey'];
 		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.com/maps?file=api&amp;v=2&amp;key=$api_key\"></script><!-- Google Map Plugin -->\n";
+		$target .= "<script type=\"text/javascript\">
+		//<![CDATA[
+		STD.addUnloadEventListener(function(){GUnload();});
+		//]]>
+		</script>\n";
 	}
 	return $target;
 }

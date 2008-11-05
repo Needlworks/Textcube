@@ -90,8 +90,8 @@ Standardizer.prototype.addLoadEventListener = function(fn) {
 	if (this.isIE) {
 		var prevListener = document.onreadystatechange;
 		document.onreadystatechange = function() {
+			if (prevListener) prevListener();
 			if (document.readyState == 'complete') {
-				if (prevListener) prevListener();
 				fn();
 			}
 		};
@@ -102,6 +102,11 @@ Standardizer.prototype.addLoadEventListener = function(fn) {
 };
 
 Standardizer.prototype.addUnloadEventListener = function(fn) {
+	var prevListener = window.onunload;
+	window.onunload = function() {
+		if (prevListener) prevListener();
+		fn();
+	};
 };
 
 var STD=new Standardizer();
