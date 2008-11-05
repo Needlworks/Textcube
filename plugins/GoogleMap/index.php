@@ -95,6 +95,54 @@ function GoogleMap_View($target, $mother) {
 	return $target;
 }
 
+function GoogleMap_LocationLogView($target) {
+	global $service, $blogURL, $pluginURL;
+	requireComponent('Textcube.Function.Misc');
+	$width = misc::getContentWidth();
+	$height = intval($width * 1.2);
+	$default_type = 'G_HYBRID_MAP';
+	$id = 'LocationMap';
+	$lat = 37.52;
+	$lng = 126.98;
+	$zoom = 10;
+	ob_start();
+?>
+	<div id="<?php echo $id;?>"></div>
+	<script type="text/javascript">
+	//<![CDATA[
+	STD.addLoadEventListener(function() {
+		// TODO: clean up this parent-changing code.
+		var c = document.getElementById('<?php echo $id;?>');
+		var p = document.getElementById('location');
+		var s = undefined;
+		for (i = 0; i < p.childNodes.length; i++)
+			if (p.childNodes[i].tagName == 'h2') {
+				s = p.childNodes[i];
+				break;
+			}
+		if (s)
+			p.insertBefore(c, s);
+		c.style.width = "<?php echo $width;?>px"
+		c.style.height = "<?php echo $height;?>px";
+		if (GBrowserIsCompatible()) {
+			var map = new GMap2(c);
+			map.setMapType(<?php echo $default_type;?>);
+			map.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
+			map.addControl(new GHierarchicalMapTypeControl());
+			map.addControl(new GLargeMapControl());
+			map.addControl(new GScaleControl());
+		} else {
+			c.innerHTML = '<p style="text-align:center; color:#c99;">이 웹브라우저는 구글맵과 호환되지 않습니다.</p>';
+		}
+	});
+	//]]>
+	</script>
+<?php
+	$output = ob_get_contents();
+	ob_end_clean();
+	return $output;
+}
+
 function GoogleMap_ConfigHandler($data) {
 	global $gmap_msg;
 	requireComponent('Textcube.Function.Setting');
