@@ -112,9 +112,6 @@ function GoogleMap_LocationLogView($target) {
 	$zoom = 10;
 	ob_start();
 ?>
-	<!--
-	<?php print_r($locatives); ?>
-	-->
 	<div style="text-align:center;"><div id="<?php echo $id;?>" style="margin:0 auto;"></div></div>
 	<script type="text/javascript">
 	//<![CDATA[
@@ -146,11 +143,12 @@ function GoogleMap_LocationLogView($target) {
 			locationMap.addControl(new GLargeMapControl());
 			locationMap.addControl(new GScaleControl());
 			boundary = new GLatLngBounds(locationMap.getCenter(), locationMap.getCenter());
+			var locations = new Array();
 <?php
 	$count = 0;
 	foreach ($locatives as $locative) {
 		$locative['link'] = "$blogURL/" . ($blog['useSloganOnPost'] ? 'entry/' . URL::encode($locative['slogan'],$service['useEncodedURL']) : $locative['id']);
-		echo "\t\t\tGMap_addLocationMark(locationMap, '{$locative['location']}', '{$locative['title']}', '{$locative['link']}', boundary);\n";
+		echo "\t\t\tGMap_addLocationMark(locationMap, '{$locative['location']}', '{$locative['title']}', '{$locative['link']}', boundary, locations);\n";
 		$count++;
 	}
 ?>
