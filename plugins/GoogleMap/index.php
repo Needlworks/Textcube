@@ -133,17 +133,15 @@ function GoogleMap_LocationLogView($target) {
 		c.style.width = "<?php echo $width;?>px"
 		c.style.height = "<?php echo $height;?>px";
 		if (GBrowserIsCompatible()) {
-			var map = new GMap2(c);
-			map.setMapType(<?php echo $default_type;?>);
-			map.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
-			map.addControl(new GHierarchicalMapTypeControl());
-			map.addControl(new GLargeMapControl());
-			map.addControl(new GScaleControl());
+			locationMap = new GMap2(c);
+			locationMap.setMapType(<?php echo $default_type;?>);
+			locationMap.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
+			locationMap.addControl(new GHierarchicalMapTypeControl());
+			locationMap.addControl(new GLargeMapControl());
+			locationMap.addControl(new GScaleControl());
 <?php
 	foreach ($locatives as $locative) {
-		$path = explode('/', $locative['location']);
-		array_shift($path);
-
+		echo "GMap_addLocationMark('{$locative['location']}', '{$locative['title']}');\n";
 	}
 ?>
 		} else {
