@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-$locativeView = '';
+$locativeView = '[##_SKIN_local_rep_start_##]';
 $prevPath = array();
 foreach ($locatives as $locative) {
 	$path = explode('/', $locative['location']);
