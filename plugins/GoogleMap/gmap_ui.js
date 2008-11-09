@@ -17,10 +17,17 @@ function initialize() {
 		}
 	});
 	$('applyBasicSettings').addEvent('click', function() {
-		var gmp = $('GoogleMapPreview');
-		// TODO: 현재 동작하지 않음
-		gmp.setProperty('width', $('inputWidth').value);
-		gmp.setProperty('height', $('inputHeight').value);
+		var gmp = $(map.getContainer());
+		var w = $('inputWidth').value, h = $('inputHeight').value;
+		if (w < 150 || h < 150) {
+			alert('지도 크기가 너무 작습니다.');
+			return;
+		}
+		gmp.set('styles', {
+			'width': w + 'px',
+			'height': h + 'px'
+		});
+		map.checkResize();
 	});
 	$('doInsert').addEvent('click', function() {
 		if (!map)
