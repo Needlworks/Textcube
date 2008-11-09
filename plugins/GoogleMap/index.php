@@ -17,6 +17,7 @@ function GoogleMap_Header($target) {
 	if (!is_null($config) && isset($config['apiKey'])) {
 		$api_key = $config['apiKey'];
 		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.com/maps?file=api&amp;v=2&amp;key=$api_key\"></script><!-- Google Map Plugin -->\n";
+		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/gmap_common.js\"></script>\n";
 		$target .= "<script type=\"text/javascript\">
 		//<![CDATA[
 		STD.addUnloadEventListener(function(){GUnload();});
@@ -39,7 +40,8 @@ function GoogleMap_AdminHeader($target) {
 		var blogURL = '$blogURL';
 		//]]>
 		</script>";
-		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/gmap_helper.js\"></script>\n";
+		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/gmap_common.js\"></script>\n";
+		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/gmap_editor.js\"></script>\n";
 	}
 	return $target;
 }
@@ -98,8 +100,9 @@ function GoogleMap_View($target, $mother) {
 }
 
 function GoogleMap_LocationLogView($target) {
-	global $service, $blogURL, $pluginURL;
+	global $blogid, $service, $blogURL, $pluginURL;
 	requireComponent('Textcube.Function.Misc');
+	$locatives = getLocatives($blogid);
 	$width = misc::getContentWidth();
 	$height = intval($width * 1.2);
 	$default_type = 'G_HYBRID_MAP';
@@ -109,6 +112,9 @@ function GoogleMap_LocationLogView($target) {
 	$zoom = 10;
 	ob_start();
 ?>
+	<!--
+	<?php print_r($locatives); ?>
+	-->
 	<div style="text-align:center;"><div id="<?php echo $id;?>" style="margin:0 auto;"></div></div>
 	<script type="text/javascript">
 	//<![CDATA[
@@ -133,6 +139,13 @@ function GoogleMap_LocationLogView($target) {
 			map.addControl(new GHierarchicalMapTypeControl());
 			map.addControl(new GLargeMapControl());
 			map.addControl(new GScaleControl());
+<?php
+	foreach ($locatives as $locative) {
+		$path = explode('/', $locative['location']);
+		array_shift($path);
+
+	}
+?>
 		} else {
 			c.innerHTML = '<p style="text-align:center; color:#c99;">이 웹브라우저는 구글맵과 호환되지 않습니다.</p>';
 		}
@@ -208,6 +221,7 @@ function _GMap_printHeaderForUI($title, $api_key) {
 	<title>Google Map Plugin: <?php echo $title;?></title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/ui.css" />
 	<script type="text/javascript" src="http://www.google.com/jsapi?key=<?php echo $api_key;?>"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/gmap_common.js"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/gmap_ui.js"></script>
 	<script type="text/javascript">
 	//<![CDATA[

@@ -1,4 +1,4 @@
-// Google Map Plugin Blog-side Helper
+// Google Map Plugin WYSISYG Helper
 // - depends on EAF4.js and Google Map API v2.
 
 function initializeGoogleMap() {
