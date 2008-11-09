@@ -26,7 +26,7 @@ function GMap_addLocationMark(gmap, location_path, title, link, boundary, locati
  * @param Object locative	특정 위치에 대한 Marker 및 관련 정보와 엔트리들에 대한 정보를 담은 오브젝트
  */
 function GMap_buildLocationInfoHTML(locative) {
-	var html = '<div class="GMapInfo"><h4>이 곳에 얽힌 이야기</h4><ul>';
+	var html = '<div class="GMapInfo" style="text-align:left"><h4>' + locative.address.split(' ').pop() + '에 얽힌 이야기</h4><ul>';
 	for (i = 0; i < locative.entries.length; i++) {
 		html += '<li><a href="'+locative.entries[i].link+'">'+locative.entries[i].title+'</a></li>';
 	}
@@ -53,7 +53,7 @@ function GMap_findLocationCallback(response, gmap, address, title, link, boundar
 		}
 		if (prev == null) {
 			// Create a new marker for this location
-			var marker = new GMarker(point);
+			var marker = new GMarker(point, {'title': address.split(' ').pop()});
 			var locative = {
 				'point': point,
 				'marker': marker,

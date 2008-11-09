@@ -1,0 +1,29 @@
+@charset "utf-8";
+
+.GMapInfo {
+	text-align: left;
+}
+
+.GMapInfo ul {
+	margin: 0; padding: 0;
+}
+
+.GMapInfo li {
+	margin: 0 0 0 1em; padding: 0;
+}
+
+.GMapInfo a {
+	color: blue;
+	text-decoration: underline;
+	border: none;
+	background: none;
+}
+
+.GMapInfo a:hover {
+	color: #fc3;
+}
+
+.GMapInfo address {
+	font-size: 0.9em;
+	color: #999;
+}
