@@ -18,7 +18,7 @@ function GoogleMap_Header($target) {
 		$api_key = $config['apiKey'];
 		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/common.css\" />\n";
 		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.com/maps?file=api&amp;v=2&amp;key=$api_key\"></script>\n";
-		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/gmap_common.js\"></script>\n";
+		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/gmap_common.js?".time()."\"></script>\n";
 		$target .= "<script type=\"text/javascript\">
 		//<![CDATA[
 		STD.addUnloadEventListener(function(){GUnload();});
@@ -63,30 +63,16 @@ function GoogleMap_View($target, $mother) {
 	$matches = array();
 	$offset = 0;
 	while (preg_match('/\[##_GoogleMap\|(([^|]+)\|)?_##\]/', $target, $matches, PREG_OFFSET_CAPTURE, $offset) > 0) {
-		$params = json_decode($matches[2][0]);
-		// TODO: customize these parameters in the WYSIWYG editor.
 		// SUGGUEST: [##_GoogleMap|{JSON_REPRESENTATION_OF_PARAMETERS_WITHOUT_NEWLINES}|_##]
 		$id = 'GMapContainer'.$mother.rand();
-		$width = !isset($params->{width}) ? misc::getContentWidth() : $params->{width};
-		$height = !isset($params->{height}) ? 400 : $params->{height};
-		$lat = !isset($params->{center}->{latitude}) ? $config['latitude'] : $params->{center}->{latitude};
-		$lng = !isset($params->{center}->{longitude}) ? $config['longitude'] : $params->{center}->{longitude};
-		$zoom = !isset($params->{zoom}) ? 10 : $params->{zoom};
-		$default_type = 'G_HYBRID_MAP';
 		ob_start();
 ?>
-		<!-- TOREMOVE: <?php print_r($params); ?> -->
 		<div id="<?php echo $id;?>" style="border: 1px solid #666; width:<?php echo $width;?>px; height:<?php echo $height;?>px;"></div>
 		<script type="text/javascript">
 		//<![CDATA[
 		var c = document.getElementById('<?php echo $id;?>');
 		if (GBrowserIsCompatible()) {
-			var map = new GMap2(c);
-			map.setMapType(<?php echo $default_type;?>);
-			map.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
-			map.addControl(new GHierarchicalMapTypeControl());
-			map.addControl(new GLargeMapControl());
-			map.addControl(new GScaleControl());
+			var map = GMap_CreateMap(c, <?php echo $matches[2][0];?>);
 		} else {
 			c.innerHTML = '<p style="text-align:center; color:#c99;">이 웹브라우저는 구글맵과 호환되지 않습니다.</p>';
 		}
@@ -230,8 +216,8 @@ function _GMap_printHeaderForUI($title, $api_key) {
 	<title>Google Map Plugin: <?php echo $title;?></title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/ui.css" />
 	<script type="text/javascript" src="http://www.google.com/jsapi?key=<?php echo $api_key;?>"></script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/gmap_common.js"></script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/gmap_ui.js"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/gmap_common.js?<?php echo time();?>"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/gmap_ui.js?<?php echo time();?>"></script>
 	<script type="text/javascript">
 	//<![CDATA[
 	var pluginURL = '<?php echo $pluginURL;?>';

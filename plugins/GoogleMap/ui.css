@@ -48,3 +48,21 @@ button.toggled:hover {
 #controls {
 	margin: 10px;
 }
+
+input, textarea {
+	border: 1px solid #ccc;
+}
+.GMapInfo {
+	text-align: left !important;
+}
+.GMapInfo label {
+	float: left;
+	width: 4em;
+}
+.GMapIfno input {
+	margin-left: 4.1em;
+}
+.GMapInfo p {
+	margin: 5px;
+	clear: left;
+}

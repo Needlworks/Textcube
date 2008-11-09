@@ -75,4 +75,24 @@ function GMap_findLocationCallback(response, gmap, address, title, link, boundar
 		process_count++;
 }
 
+function GMap_CreateMap(container, options) {
+	var i;
+	container.style.width = options.width + 'px';
+	container.style.height = options.height + 'px';
+	var map = new GMap2(container);
+	map.setMapType(options.type || G_HYBRID_MAP);
+	map.setCenter(new GLatLng(options.center.latitude, options.center.longitude), options.zoom);
+	map.addControl(new GHierarchicalMapTypeControl());
+	map.addControl(new GLargeMapControl());
+	map.addControl(new GScaleControl());
+	if (options.user_markers != undefined)
+		for (i = 0; i < options.user_markers.length; i++) {
+			var um = options.user_markers[i];
+			var marker = new GMarker(new GLatLng(um.lat, um.lng));
+			marker.bindInfoWindowHtml('<div class="GMapInfo"><h4>'+um.title+'</h4><p>'+um.desc+'</p></div>');
+			map.addOverlay(marker);
+		}
+	return map;
+}
+
 /* vim: set noet ts=4 sts=4 sw=4: */
