@@ -118,18 +118,24 @@ function GoogleMap_LocationLogView($target) {
 	<div style="text-align:center;"><div id="<?php echo $id;?>" style="margin:0 auto;"></div></div>
 	<script type="text/javascript">
 	//<![CDATA[
+	var process_count = 0;
+	var polling_interval = 60; // ms
+	var boundary;
+	function locationFetchPoller(target_count) {
+		if (process_count != target_count) {
+			window.setTimeout('locationFetchPoller('+target_count+');', polling_interval);
+			return;
+		}
+		var z = locationMap.getBoundsZoomLevel(boundary);
+		if (z > 0)
+			z--;
+		if (z > 12)
+			z = 12;
+		locationMap.setZoom(z);
+		locationMap.setCenter(boundary.getCenter());
+	}
 	STD.addLoadEventListener(function() {
-		// TODO: clean up this parent-changing code.
 		var c = document.getElementById('<?php echo $id;?>');
-		var p = document.getElementById('location');
-		var s = undefined;
-		for (i = 0; i < p.childNodes.length; i++)
-			if (p.childNodes[i].tagName == 'h2') {
-				s = p.childNodes[i];
-				break;
-			}
-		if (s)
-			p.insertBefore(c, s.nextSibiling);
 		c.style.width = "<?php echo $width;?>px"
 		c.style.height = "<?php echo $height;?>px";
 		if (GBrowserIsCompatible()) {
@@ -139,12 +145,16 @@ function GoogleMap_LocationLogView($target) {
 			locationMap.addControl(new GHierarchicalMapTypeControl());
 			locationMap.addControl(new GLargeMapControl());
 			locationMap.addControl(new GScaleControl());
+			boundary = new GLatLngBounds(locationMap.getCenter(), locationMap.getCenter());
 <?php
+	$count = 0;
 	foreach ($locatives as $locative) {
 		$locative['link'] = "$blogURL/" . ($blog['useSloganOnPost'] ? 'entry/' . URL::encode($locative['slogan'],$service['useEncodedURL']) : $locative['id']);
-		echo "\t\t\tGMap_addLocationMark('{$locative['location']}', '{$locative['title']}', '{$locative['link']}');\n";
+		echo "\t\t\tGMap_addLocationMark(locationMap, '{$locative['location']}', '{$locative['title']}', '{$locative['link']}', boundary);\n";
+		$count++;
 	}
 ?>
+			window.setTimeout('locationFetchPoller(<?php echo $count;?>);', polling_interval);
 		} else {
 			c.innerHTML = '<p style="text-align:center; color:#c99;">이 웹브라우저는 구글맵과 호환되지 않습니다.</p>';
 		}
