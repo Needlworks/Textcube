@@ -127,7 +127,7 @@ function GoogleMap_LocationLogView($target) {
 			return;
 		}
 		var z = locationMap.getBoundsZoomLevel(boundary);
-		if (z > 0)
+		if (z > 8)
 			z--;
 		if (z > 12)
 			z = 12;
