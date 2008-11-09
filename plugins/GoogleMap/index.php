@@ -100,7 +100,7 @@ function GoogleMap_View($target, $mother) {
 }
 
 function GoogleMap_LocationLogView($target) {
-	global $blogid, $service, $blogURL, $pluginURL;
+	global $blogid, $blog, $blogURL, $pluginURL;
 	requireComponent('Textcube.Function.Misc');
 	$locatives = getLocatives($blogid);
 	$width = misc::getContentWidth();
@@ -141,7 +141,8 @@ function GoogleMap_LocationLogView($target) {
 			locationMap.addControl(new GScaleControl());
 <?php
 	foreach ($locatives as $locative) {
-		echo "GMap_addLocationMark('{$locative['location']}', '{$locative['title']}');\n";
+		$locative['link'] = "$blogURL/" . ($blog['useSloganOnPost'] ? 'entry/' . URL::encode($locative['slogan'],$service['useEncodedURL']) : $locative['id']);
+		echo "\t\t\tGMap_addLocationMark('{$locative['location']}', '{$locative['title']}', '{$locative['link']}');\n";
 	}
 ?>
 		} else {
