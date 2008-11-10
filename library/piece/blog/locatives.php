@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-$locativeView = '';
+$locativeView = '[##_SKIN_local_rep_start_##]';
 $prevPath = array();
 foreach ($locatives as $locative) {
 	$path = explode('/', $locative['location']);
@@ -23,5 +23,5 @@ foreach ($locatives as $locative) {
 	$locativeView .= $entryView;
 	$prevPath = $path;
 }
-dress('local', str_replace('[##_local_spot_rep_##]', $locativeView, $skin->locative), $view);
+dress('local', '[##_SKIN_local_start_##]'.str_replace('[##_local_spot_rep_##]', $locativeView, $skin->locative).'[##_SKIN_local_end_##]', $view);
 ?>

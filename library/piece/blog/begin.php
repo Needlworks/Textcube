@@ -15,7 +15,8 @@ if (!isset($skin))
 	$skin = new Skin($skinSetting['skin']);
 
 $view = $skin->outter;
-$view = str_replace('[##_SKIN_body_start_##]','[##_SKIN_body_start_##]'.getUpperView(isset($paging) ? $paging : null), $view);
+$view = str_replace('[##_SKIN_head_end_##]',getScriptsOnHead().'[##_SKIN_head_end_##]', $view); // TO DO : caching this part.
+$view = str_replace('[##_SKIN_body_start_##]',getUpperView(isset($paging) ? $paging : null).'[##_SKIN_body_start_##]', $view);
 $view = str_replace('[##_SKIN_body_end_##]',getLowerView().getScriptsOnFoot().'[##_SKIN_body_end_##]', $view); // care the order for js function overloading issue.
 
 $automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/style/system.css\" type=\"text/css\" media=\"screen\" />\n";

@@ -37,7 +37,7 @@ if(Standardizer.prototype.isFirefox) {
 	Standardizer.prototype.browserVersion  = parseFloat(ua.substr(ua.indexOf("Firefox/")+8,10));
 	Standardizer.prototype.engineVersion  = parseFloat(ua.substr(Math.max(ua.indexOf("rv:"),0)+3,7));
 }
-// Webkit / safari
+// Webkit / Safari
 webkitIndex = Math.max(ua.indexOf("WebKit"), ua.indexOf("Safari"),0);
 Standardizer.prototype.isSafari = (ua.indexOf("Safari")>=0);
 Standardizer.prototype.isWebkit = (webkitIndex > 0);
@@ -47,7 +47,7 @@ if(Standardizer.prototype.isWebkit) {
 }
 // Opera
 Standardizer.prototype.isOpera = (!Standardizer.prototype.isIE&&(ua.indexOf("Opera")>=0));
-// Mozilla-compartible
+// Mozilla-compatible
 Standardizer.prototype.isMozilla = (!Standardizer.prototype.isIE && !Standardizer.prototype.isFirefox && !Standardizer.prototype.isSafari && !Standardizer.prototype.isOpera && (ua.indexOf("Mozilla")>=0));
 Standardizer.prototype.addEventListener = function(object) {
 	if(!object.addEventListener)
@@ -85,6 +85,44 @@ Standardizer.prototype.getScrollTop = function() {
 Standardizer.prototype.getScrollLeft = function() {
 	return(this.isSafari?document.body.scrollLeft:document.documentElement.scrollLeft);
 };
+
+Standardizer.prototype.addLoadEventListener = function(fn) {
+	if (this.isIE) {
+		var prevListener = document.onreadystatechange;
+		document.onreadystatechange = function() {
+			if (prevListener) prevListener();
+			if (document.readyState == 'complete') {
+				fn();
+			}
+		};
+	} else {
+		this.addEventListener(document);
+		document.addEventListener('DOMContentLoaded', fn, false);
+	}
+};
+
+Standardizer.prototype.addUnloadEventListener = function(fn) {
+	var prevListener = window.onunload;
+	window.onunload = function() {
+		if (prevListener) prevListener();
+		fn();
+	};
+};
+
+Standardizer.prototype.querySelector = function(selector) {
+	if (document.querySelector) // Firefox 3.1+, IE8+, Webkit x.x+
+		return document.querySelector(selector);
+	// Here, we only retrieve one element that matches the selector,
+	// but this may NOT be fully compatible with W3C specification for now.
+	// (Example: ':hover' to get the currently hovered element.)
+	// TODO
+}
+
+Standardizer.prototype.querySelectorAll = function(selector) {
+	if (document.querySelectorAll) // Firefox 3.1+, IE8+, Webkit x.x+
+		return document.querySelectorAll(selector);
+	// TODO
+}
 
 var STD=new Standardizer();
 STD.addEventListener(window);
