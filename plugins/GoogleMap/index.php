@@ -88,15 +88,16 @@ function GoogleMap_View($target, $mother) {
 }
 
 function GoogleMap_LocationLogView($target) {
-	global $blogid, $blog, $blogURL, $pluginURL;
+	global $blogid, $blog, $blogURL, $pluginURL, $configVal;
 	requireComponent('Textcube.Function.Misc');
+	$config = setting::fetchConfigVal($configVal);
 	$locatives = getLocatives($blogid);
 	$width = misc::getContentWidth();
 	$height = intval($width * 1.2);
-	$default_type = 'G_HYBRID_MAP';
+	$default_type = $config['locative_maptype'];
 	$id = 'LocationMap';
-	$lat = 37.52;
-	$lng = 126.98;
+	$lat = $config['latitude'];
+	$lng = $config['longitude'];
 	$zoom = 10;
 	ob_start();
 ?>

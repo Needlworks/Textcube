@@ -27,6 +27,7 @@ function GMap_addLocationMark(gmap, location_path, title, link, boundary, locati
  */
 function GMap_buildLocationInfoHTML(locative) {
 	var html = '<div class="GMapInfo" style="text-align:left"><h4>' + locative.address.split(' ').pop() + '에 얽힌 이야기</h4><ul>';
+	var i;
 	for (i = 0; i < locative.entries.length; i++) {
 		html += '<li><a href="'+locative.entries[i].link+'">'+locative.entries[i].title+'</a></li>';
 	}
@@ -44,6 +45,7 @@ function GMap_findLocationCallback(response, gmap, address, title, link, boundar
 		var place = response.Placemark[0];
 		var point = new GLatLng(place.Point.coordinates[1], place.Point.coordinates[0]);
 		var prev = null;
+		var i;
 		// Check duplicated locations
 		for (i = 0; i < locations.length; i++) {
 			if (locations[i].point.equals(point)) {
@@ -76,22 +78,23 @@ function GMap_findLocationCallback(response, gmap, address, title, link, boundar
 }
 
 function GMap_CreateMap(container, options) {
-	var i;
 	container.style.width = options.width + 'px';
 	container.style.height = options.height + 'px';
 	var map = new GMap2(container);
+	var i;
 	map.setMapType(options.type || G_HYBRID_MAP);
 	map.setCenter(new GLatLng(options.center.latitude, options.center.longitude), options.zoom);
 	map.addControl(new GHierarchicalMapTypeControl());
 	map.addControl(new GLargeMapControl());
 	map.addControl(new GScaleControl());
-	if (options.user_markers != undefined)
+	if (options.user_markers != undefined) {
 		for (i = 0; i < options.user_markers.length; i++) {
 			var um = options.user_markers[i];
 			var marker = new GMarker(new GLatLng(um.lat, um.lng));
 			marker.bindInfoWindowHtml('<div class="GMapInfo"><h4>'+um.title+'</h4><p>'+um.desc+'</p></div>');
 			map.addOverlay(marker);
 		}
+	}
 	return map;
 }
 
