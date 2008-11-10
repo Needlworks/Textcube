@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define( 'OPENID_REGISTERS', 10 );
 require ROOT . '/library/includeForBlogOwner.php';
-require ROOT . '/library/piece/owner/header.php';
+require ROOT . '/interface/common/owner/header.php';
 
 global $database, $blogURL, $hostURL;
 
@@ -95,5 +95,5 @@ $className .= ($i == sizeof($rec) - 1) ? ' last-line' : '';
 							</table>
 						</div>
 <?php
-require ROOT . '/library/piece/owner/footer.php';
+require ROOT . '/interface/common/owner/footer.php';
 ?>

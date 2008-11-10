@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 require ROOT . '/library/includeForBlogOwner.php';
-require ROOT . '/library/piece/owner/header.php';
+require ROOT . '/interface/common/owner/header.php';
 
 requireModel('common.plugin');
 
@@ -537,5 +537,5 @@ $tempString = _f('텍스트큐브 홈페이지의 %1을 방문하시면 다양�
 							</div>
 						</div>
 <?php
-require ROOT . '/library/piece/owner/footer.php';
+require ROOT . '/interface/common/owner/footer.php';
 ?>

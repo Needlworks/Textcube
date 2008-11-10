@@ -14,7 +14,7 @@ requireModel("blog.comment");
 requireModel("blog.trackback");
 requireModel("blog.link");
 
-require ROOT . '/library/piece/owner/header.php';
+require ROOT . '/interface/common/owner/header.php';
 
 
 $stats = Statistics::getStatistics($blogid);
@@ -216,7 +216,7 @@ getBlogContentForSideBar();
 						<form id="part-sidebar-order" class="part" method="post" action="<?php echo parseURL($blogURL.'/owner/skin/sidebar/register'.$viewMode2);?>">
 							<h2 class="caption"><span class="main-text"><?php echo _t('사이드바 기능을 관리합니다');?></span></h2>
 <?php
-require ROOT . '/library/piece/owner/skinTab.php';
+require ROOT . '/interface/common/owner/skinTab.php';
 ?>
 							<div class="main-explain-box">
 								<p class="explain"><?php echo _t('블로그의 사이드바 구성을 변경할 수 있습니다. 사이드바는 블로그 화면에서 양 옆이나 위아래에 표시되는 메뉴가 있는 부분을 말합니다. 사이드바에 새로운 요소를 추가/삭제할 수 있으며 자유로운 위치 이동을 할 수 있습니다.');?></p>
@@ -239,7 +239,7 @@ if ($sidebarCount == 0) {
 							</div>
 						</form>
 <?php
-	require ROOT . '/library/piece/owner/footer.php';
+	require ROOT . '/interface/common/owner/footer.php';
 	exit;
 }
 
@@ -625,5 +625,5 @@ foreach ($sidebarPluginArray as $nowKey) {
 							//]]>							
 						</script>						
 <?php
-require ROOT . '/library/piece/owner/footer.php';
+require ROOT . '/interface/common/owner/footer.php';
 ?>

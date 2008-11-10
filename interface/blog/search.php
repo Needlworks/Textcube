@@ -14,22 +14,22 @@ if (strlen($search) > 0 && !empty($suri['page'])) {
 	$listWithPaging = getEntryListWithPagingBySearch($blogid, $search, $suri['page'], $blog['entriesOnList']);
 	$list = array('title' => $search, 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	$paging = $listWithPaging[1];
-	require ROOT . '/library/piece/blog/begin.php';
-	require ROOT . '/library/piece/blog/list.php';
+	require ROOT . '/interface/common/blog/begin.php';
+	require ROOT . '/interface/common/blog/list.php';
 }
 
 if ($suri['page'] === true || $suri['page'] === '1') {
 	$commentList = getCommentList($blogid, $search);
 	$trackbackList = getTrackbackList($blogid, $search);
-	if(!isset($view)) require ROOT . '/library/piece/blog/begin.php';
-	if(isset($commentList))   require ROOT . '/library/piece/blog/commentList.php';
-	if(isset($trackbackList)) require ROOT . '/library/piece/blog/trackbackList.php';
+	if(!isset($view)) require ROOT . '/interface/common/blog/begin.php';
+	if(isset($commentList))   require ROOT . '/interface/common/blog/commentList.php';
+	if(isset($trackbackList)) require ROOT . '/interface/common/blog/trackbackList.php';
 }
 
 if ($skinSetting['showListOnSearch'] != 2) {
-	if(!isset($view)) require ROOT . '/library/piece/blog/begin.php';
+	if(!isset($view)) require ROOT . '/interface/common/blog/begin.php';
 	list($entries, $paging) = getEntriesWithPagingBySearch($blogid, $search, $suri['page'], $blog['entriesOnList'], $blog['entriesOnList']);
-	require ROOT . '/library/piece/blog/entries.php';
+	require ROOT . '/interface/common/blog/entries.php';
 }
-require ROOT . '/library/piece/blog/end.php';
+require ROOT . '/interface/common/blog/end.php';
 ?>

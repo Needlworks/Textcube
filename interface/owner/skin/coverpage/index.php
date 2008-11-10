@@ -15,7 +15,7 @@ requireModel("blog.comment");
 requireModel("blog.trackback");
 requireModel("blog.link");
 
-require ROOT . '/library/piece/owner/header.php';
+require ROOT . '/interface/common/owner/header.php';
 
 
 $service['pagecache'] = false; // For plugin setting update.
@@ -233,7 +233,7 @@ getBlogContentForCoverPage();
 						<form id="part-coverpage-order" class="part" method="post" action="<?php echo parseURL($blogURL.'/owner/skin/coverpage');?>">
 							<h2 class="caption"><span class="main-text"><?php echo _t('블로그 표지를 관리합니다');?></span></h2>
 <?php
-require ROOT . '/library/piece/owner/skinTab.php';
+require ROOT . '/interface/common/owner/skinTab.php';
 ?>
 
 <?php
@@ -274,7 +274,7 @@ if (is_null($skin->cover) || count($coverpageMappings) == 0) {
 							</div>
 						</form>
 <?php
-	require ROOT . '/library/piece/owner/footer.php';
+	require ROOT . '/interface/common/owner/footer.php';
 	exit;
 }
 
@@ -565,5 +565,5 @@ foreach ($coverpagePluginArray as $nowKey) {
 							//]]>							
 						</script>						
 <?php
-require ROOT . '/library/piece/owner/footer.php';
+require ROOT . '/interface/common/owner/footer.php';
 ?>

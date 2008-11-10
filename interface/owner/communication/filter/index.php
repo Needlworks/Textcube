@@ -37,7 +37,7 @@ if (!empty($_POST['mode'])) {
 //if (!empty($_GET['history'])) {
 //	$history = $_GET['history'];
 //}*/
-require ROOT . '/library/piece/owner/header.php';
+require ROOT . '/interface/common/owner/header.php';
 
 
 function printFilterBox($mode, $title) {
@@ -298,5 +298,5 @@ function printFilterBox($mode, $title) {
 						</div>
 
 <?php
-require ROOT . '/library/piece/owner/footer.php';
+require ROOT . '/interface/common/owner/footer.php';
 ?>

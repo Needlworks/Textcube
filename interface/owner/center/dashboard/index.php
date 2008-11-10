@@ -17,7 +17,7 @@ $blogMenu['topMenu'] = 'center';
 $blogMenu['contentMenu'] = 'dashboard';
 // Move spams to trash.
 if (!isset($_REQUEST['ajaxcall'])) {
-	require ROOT . '/library/piece/owner/header.php';
+	require ROOT . '/interface/common/owner/header.php';
 	
 	trashVan();
 }
@@ -718,5 +718,5 @@ function getDefaultCenterPanel($mapping) {
 									</div>
 <?php
 }
-require ROOT . '/library/piece/owner/footer.php';
+require ROOT . '/interface/common/owner/footer.php';
 ?>

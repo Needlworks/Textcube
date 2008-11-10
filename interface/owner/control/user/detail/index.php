@@ -6,7 +6,7 @@
 $service['admin_script']='control.js';
 
 require ROOT . '/library/includeForBlogOwner.php';
-require ROOT . '/library/piece/owner/header.php';
+require ROOT . '/interface/common/owner/header.php';
 
 requirePrivilege('group.creators');
 global $database;
@@ -116,5 +116,5 @@ $teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE u
 							</div>
 						</div>
 <?php
-require ROOT . '/library/piece/owner/footer.php';
+require ROOT . '/interface/common/owner/footer.php';
 ?>

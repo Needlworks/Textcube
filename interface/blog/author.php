@@ -22,17 +22,17 @@ if ($skinSetting['showListOnAuthor'] != 0) {
 	} else {
 		$paging = $cache->dbContents;
 	}
-	require ROOT . '/library/piece/blog/begin.php';
-	require ROOT . '/library/piece/blog/list.php';
+	require ROOT . '/interface/common/blog/begin.php';
+	require ROOT . '/interface/common/blog/list.php';
 }
 
 $entries = array();
 if ($skinSetting['showListOnAuthor'] != 2) {
 	unset($cache);
 	list($entries, $paging) = getEntriesWithPagingByAuthor($blogid, $author, $suri['page'], $blog['entriesOnList'], ($skinSetting['showListOnAuthor'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
-	if($skinSetting['showListOnAuthor'] == 0) require ROOT . '/library/piece/blog/begin.php';
-	require ROOT . '/library/piece/blog/entries.php';
+	if($skinSetting['showListOnAuthor'] == 0) require ROOT . '/interface/common/blog/begin.php';
+	require ROOT . '/interface/common/blog/entries.php';
 }
-require ROOT . '/library/piece/blog/end.php';
+require ROOT . '/interface/common/blog/end.php';
 
 ?>

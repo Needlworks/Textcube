@@ -11,10 +11,10 @@ $skinSetting['skin'] = $_GET['skin'];
 $skin = new Skin($skinSetting['skin'], true);
 list($entries, $paging) = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnPage']);
 
-require ROOT . '/library/piece/blog/begin.php';
-require ROOT . '/library/piece/blog/entries.php';
+require ROOT . '/interface/common/blog/begin.php';
+require ROOT . '/interface/common/blog/entries.php';
 
 $pageTitle = _t('스킨 미리보기');
 
-require ROOT . '/library/piece/blog/end.php';
+require ROOT . '/interface/common/blog/end.php';
 ?>

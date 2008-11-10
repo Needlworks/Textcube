@@ -36,12 +36,12 @@ Initializing                                      /library/initiallize.php
                                                              |     + /library/session.php
 ------------                                                 |     + /resources/language/
 Quilting                                   +-----------------+-----------------+                    
-                      (Sequence defined at each interface path)      /library/piece/owner/header.php
-                           /library/piece/blog/begin.php                       |
+                      (Sequence defined at each interface path)      /interface/common/owner/header.php
+                           /interface/common/blog/begin.php                       |
                 + /library/blog.skin.php   |                                   |
-                           /library/piece/blog/~                          Interface code     
+                           /interface/common/blog/~                          Interface code     
                                            |                                   |
-                           /library/piece/blog/end.php               /library/piece/owner/footer.php
+                           /interface/common/blog/end.php               /interface/common/owner/footer.php
 ------------                               |                                   |
 Finalizing                                 +-----------------+-----------------+
 

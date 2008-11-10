@@ -15,12 +15,12 @@ if (false) {
 	fetchConfigVal();
 }
 fireEvent('OBStart');
-require ROOT . '/library/piece/blog/begin.php';
+require ROOT . '/interface/common/blog/begin.php';
 if(count($coverpageMappings) > 0) {
 	dress('article_rep', '', $view);
 	dress('paging', '', $view);
-	require ROOT . '/library/piece/blog/cover.php';
+	require ROOT . '/interface/common/blog/cover.php';
 }
-require ROOT . '/library/piece/blog/end.php';
+require ROOT . '/interface/common/blog/end.php';
 fireEvent('OBEnd');
 ?>

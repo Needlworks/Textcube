@@ -9,7 +9,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/includeForReader.php';
-require ROOT . '/library/piece/owner/header.php';
+require ROOT . '/interface/common/owner/header.php';
 
 $setting = getReaderSetting($blogid);
 ?>
@@ -332,5 +332,5 @@ if (isset($_GET['forceRefresh'])) {
 						</script>
 <?php
 }
-require ROOT . '/library/piece/owner/footer.php';
+require ROOT . '/interface/common/owner/footer.php';
 ?>

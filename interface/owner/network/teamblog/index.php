@@ -8,7 +8,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/includeForBlogOwner.php';
-require ROOT . '/library/piece/owner/header.php';
+require ROOT . '/interface/common/owner/header.php';
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -356,5 +356,5 @@ if( Acl::check('group.owners')) {
 
 <?php
 	}
-require ROOT . '/library/piece/owner/footer.php';
+require ROOT . '/interface/common/owner/footer.php';
 ?>

@@ -52,7 +52,7 @@ $tabsClass['postfix'] .= isset($_POST['search']) ? '&amp;search='.$_POST['search
 $tabsClass['trash'] = true;
 
 list($comments, $paging) = getTrashCommentsWithPagingForOwner($blogid, $categoryId, $name, $ip, $search, $suri['page'], $perPage);
-require ROOT . '/library/piece/owner/header.php';
+require ROOT . '/interface/common/owner/header.php';
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -275,7 +275,7 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 ?>
 							</h2>
 <?php
-require ROOT . '/library/piece/owner/communicationTab.php';
+require ROOT . '/interface/common/owner/communicationTab.php';
 ?>
 
 							<div class="main-explain-box">
@@ -488,5 +488,5 @@ for ($i = 10; $i <= 30; $i += 5) {
 							</div>
 						</div>
 <?php
-require ROOT . '/library/piece/owner/footer.php';
+require ROOT . '/interface/common/owner/footer.php';
 ?>

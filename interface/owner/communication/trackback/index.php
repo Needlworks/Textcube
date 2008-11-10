@@ -72,7 +72,7 @@ if(isset($tabsClass['received']) && $tabsClass['received'] == true) {
 	list($trackbacks, $paging) = getTrackbackLogsWithPagingForOwner($blogid, $categoryId, $site, $ip, $search, $suri['page'], $perPage);
 }
 
-require ROOT . '/library/piece/owner/header.php';
+require ROOT . '/interface/common/owner/header.php';
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -265,7 +265,7 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 ?>
 							</h2>
 <?php
-require ROOT . '/library/piece/owner/communicationTab.php';
+require ROOT . '/interface/common/owner/communicationTab.php';
 ?>
 
 
@@ -513,5 +513,5 @@ if(!isset($tabsClass['received'])) {
 							</form>
 						</div>
 <?php
-require ROOT . '/library/piece/owner/footer.php';
+require ROOT . '/interface/common/owner/footer.php';
 ?>

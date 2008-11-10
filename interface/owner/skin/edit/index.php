@@ -34,7 +34,7 @@ if (file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/skin_keyword.html")) {
 $htmlFilePerms = preg_replace('@^[0-9]{2}|[0-9]{2}$@', '', strrev(decoct(fileperms(ROOT . "/skin/blog/{$skinSetting['skin']}/skin.html"))));
 $styleFilePerms = preg_replace('@^[0-9]{2}|[0-9]{2}$@', '', $temp = strrev(decoct(fileperms(ROOT . "/skin/blog/{$skinSetting['skin']}/" . $currentStyleFile))));
 
-require ROOT . '/library/piece/owner/header.php';
+require ROOT . '/interface/common/owner/header.php';
 
 ?>
 						<script type="text/javascript">
@@ -320,5 +320,5 @@ if (count($styleFileList) > 0) {
 							//]]>
 						</script>							
 <?php
-require ROOT . '/library/piece/owner/footer.php';
+require ROOT . '/interface/common/owner/footer.php';
 ?>

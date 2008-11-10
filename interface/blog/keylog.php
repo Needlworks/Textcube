@@ -16,15 +16,15 @@ if (strlen($suri['value'])) {
 	$entries = getEntriesByKeyword($blogid, $keylog['title']);
 	$skinSetting['keylogSkin'] = fireEvent('setKeylogSkin');
 	if(!is_null($skinSetting['keylogSkin'])) {
-		require ROOT . '/library/piece/blog/keylog.php';
+		require ROOT . '/interface/common/blog/keylog.php';
 	} else {
 		respond::ErrorPage(_t('No handling plugin'));
 	}
 } else {
 	$keywords = getKeywordNames($blogid, true);
 	$skinSetting['keylogSkin'] = fireEvent('setKeylogSkin');
-	require ROOT . '/library/piece/blog/begin.php';
-	require ROOT . '/library/piece/blog/keywords.php';
-	require ROOT . '/library/piece/blog/end.php';
+	require ROOT . '/interface/common/blog/begin.php';
+	require ROOT . '/interface/common/blog/keywords.php';
+	require ROOT . '/interface/common/blog/end.php';
 }
 ?>

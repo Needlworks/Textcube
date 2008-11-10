@@ -11,7 +11,7 @@ if(!empty($suri['value'])) {
 }
 list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $suri['page'], $skinSetting['commentsOnGuestbook']);
 notifyComment();
-require ROOT . '/library/piece/blog/begin.php';
-require ROOT . '/library/piece/blog/guestbook.php';
-require ROOT . '/library/piece/blog/end.php';
+require ROOT . '/interface/common/blog/begin.php';
+require ROOT . '/interface/common/blog/guestbook.php';
+require ROOT . '/interface/common/blog/end.php';
 ?>

@@ -125,7 +125,7 @@ $countResult = POD::queryExistence("SELECT `id`
 		FROM `{$database['prefix']}Entries` 
 		WHERE `blogid` = ".getBlogId()." AND `visibility` = 3 LIMIT 1");
 
-require ROOT . '/library/piece/owner/header.php';
+require ROOT . '/interface/common/owner/header.php';
 
 ?>
 						<script type="text/javascript">
@@ -1149,5 +1149,5 @@ for ($i = 10; $i <= 30; $i += 5) {
 							</form>
 						</div>
 <?php
-require ROOT . '/library/piece/owner/footer.php';
+require ROOT . '/interface/common/owner/footer.php';
 ?>

@@ -7,7 +7,7 @@ if (false) {
 	fetchConfigVal();
 }
 $locatives = getLocatives($blogid);
-require ROOT . '/library/piece/blog/begin.php';
-require ROOT . '/library/piece/blog/locatives.php';
-require ROOT . '/library/piece/blog/end.php';
+require ROOT . '/interface/common/blog/begin.php';
+require ROOT . '/interface/common/blog/locatives.php';
+require ROOT . '/interface/common/blog/end.php';
 ?>

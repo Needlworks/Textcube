@@ -7,7 +7,7 @@ requireModel("blog.link");
 
 if (!$link = getLinkCategory($blogid, $suri['id']))
 	respond::ErrorPage(_t('링크 정보가 존재하지 않습니다.'));
-require ROOT . '/library/piece/owner/header.php';
+require ROOT . '/interface/common/owner/header.php';
 
 
 $tabsClass['categoryEdit'] = true;
@@ -41,7 +41,7 @@ $tabsClass['categoryEdit'] = true;
 						<div id="part-link-category-edit" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('링크 카테고리 정보를 수정합니다');?></span></h2>
 <?php
-require ROOT . '/library/piece/owner/linkTab.php';
+require ROOT . '/interface/common/owner/linkTab.php';
 ?>
 							<form id="editForm" method="post" action="<?php echo $blogURL;?>/owner/network/link/categoryEdit/">
 								<input type="hidden" name="id" value="<?php echo $suri['value'];?>" />
@@ -61,5 +61,5 @@ require ROOT . '/library/piece/owner/linkTab.php';
 							</form>
 						</div>
 <?php
-require ROOT . '/library/piece/owner/footer.php';
+require ROOT . '/interface/common/owner/footer.php';
 ?>

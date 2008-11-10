@@ -120,7 +120,7 @@ $result = ob_get_contents();
 ob_end_clean();
 
 if ($ajaxcall == false) {
-	require ROOT . '/library/piece/owner/header.php';
+	require ROOT . '/interface/common/owner/header.php';
 	
 }
 
@@ -141,6 +141,6 @@ echo '	</div>';
 echo '</form>';
 
 if ($ajaxcall == false) {
-	require ROOT . '/library/piece/owner/footer.php';
+	require ROOT . '/interface/common/owner/footer.php';
 }
 ?>

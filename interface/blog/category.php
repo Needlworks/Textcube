@@ -30,8 +30,8 @@ if ($skinSetting['showListOnCategory'] != 0) {
 	} else {
 		$paging = $cache->dbContents;
 	}
-	require ROOT . '/library/piece/blog/begin.php';
-	require ROOT . '/library/piece/blog/list.php';
+	require ROOT . '/interface/common/blog/begin.php';
+	require ROOT . '/interface/common/blog/list.php';
 }
 
 $entries = array();
@@ -39,9 +39,9 @@ if ($skinSetting['showListOnCategory'] != 2) {
 	unset($cache);
 	list($entries, $paging) = getEntriesWithPagingByCategory($blogid, $category, $suri['page'], $blog['entriesOnList'], ($skinSetting['showListOnCategory'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
 	if($skinSetting['showListOnCategory'] == 1) $skinSetting['showListWithTotalEntries'] = true;
-	if($skinSetting['showListOnCategory'] == 0) require ROOT . '/library/piece/blog/begin.php';
-	require ROOT . '/library/piece/blog/entries.php';
+	if($skinSetting['showListOnCategory'] == 0) require ROOT . '/interface/common/blog/begin.php';
+	require ROOT . '/interface/common/blog/entries.php';
 }
-require ROOT . '/library/piece/blog/end.php';
+require ROOT . '/interface/common/blog/end.php';
 
 ?>

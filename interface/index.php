@@ -71,17 +71,17 @@ if(empty($suri['id'])) {  // Without id.
 	$skin = new Skin($skinSetting['skin']);
 	if(empty($suri['value']) && $suri["directive"] == "/" && count($coverpageMappings) > 0 && getBlogSetting("coverpageInitView") && isset($skin->cover)) {
 		define('__TEXTCUBE_COVER__',true);
-		require ROOT . '/library/piece/blog/begin.php';
+		require ROOT . '/interface/common/blog/begin.php';
 		dress('article_rep', '', $view);
 		dress('paging', '', $view);
-		require ROOT . '/library/piece/blog/cover.php';
+		require ROOT . '/interface/common/blog/cover.php';
 	} else {
 		list($entries, $paging) = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnPage']);
-		require ROOT . '/library/piece/blog/begin.php';
-		require ROOT . '/library/piece/blog/entries.php';
+		require ROOT . '/interface/common/blog/begin.php';
+		require ROOT . '/interface/common/blog/entries.php';
 	}
 	
-	require ROOT . '/library/piece/blog/end.php';
+	require ROOT . '/interface/common/blog/end.php';
 } else {  // With id.
 	if(isset($_GET['category'])) { // category exists
 		list($entries, $paging) = getEntryWithPaging($blogid, $suri['id'],false,$_GET['category']);
@@ -93,12 +93,12 @@ if(empty($suri['id'])) {  // Without id.
 		header('Content-Type: text/plain; charset=utf-8');
 		$skin = new Skin($skinSetting['skin']);
 		$view = '[##_article_rep_##]';
-		require ROOT . '/library/piece/blog/entries.php';
+		require ROOT . '/interface/common/blog/entries.php';
 		$view = removeAllTags($view);
 		if ($view != '[##_article_rep_##]')
 			print $view;
 	} else {
-		require ROOT . '/library/piece/blog/begin.php';
+		require ROOT . '/interface/common/blog/begin.php';
 		if (empty($entries)) {
 			header('HTTP/1.1 404 Not Found');
 			if (empty($skin->pageError)) { 
@@ -109,9 +109,9 @@ if(empty($suri['id'])) {  // Without id.
 			}
 			unset($paging);
 		} else {
-			require ROOT . '/library/piece/blog/entries.php';
+			require ROOT . '/interface/common/blog/entries.php';
 		}
-		require ROOT . '/library/piece/blog/end.php';
+		require ROOT . '/interface/common/blog/end.php';
 	}
 }
 fireEvent('OBEnd');

@@ -14,9 +14,9 @@ if (!is_null($entry) && ($entry['category'] >= 0)) {
 	$entries[0] = $entry;
 }
 unset($entry);
-require ROOT . '/library/piece/blog/begin.php';
-require ROOT . '/library/piece/blog/entries.php';
+require ROOT . '/interface/common/blog/begin.php';
+require ROOT . '/interface/common/blog/entries.php';
 
 $pageTitle = _t('미리보기') . ' - ' . $pageTitle;
-require ROOT . '/library/piece/blog/end.php';
+require ROOT . '/interface/common/blog/end.php';
 ?>

@@ -42,16 +42,16 @@ if (strlen($suri['value'])) {
 	}
 
 	// Now, print starts.
-	require ROOT . '/library/piece/blog/begin.php';
+	require ROOT . '/interface/common/blog/begin.php';
 	$cache->reset();
 	if(getBlogSetting('useKeywordAsTag',true)==true) {
 		$cache->name = 'keyword_'.$tag.'_';
 		if($cache->load()) {
-			require ROOT . '/library/piece/blog/entries.php';
+			require ROOT . '/interface/common/blog/entries.php';
 		} else {
 			$entries[0] = getKeylogByTitle(getBlogId(), $suri['value']);
 			if(!empty($entries[0])) {
-				require ROOT . '/library/piece/blog/entries.php';
+				require ROOT . '/interface/common/blog/entries.php';
 				unset($entries);
 			}
 		}
@@ -59,23 +59,23 @@ if (strlen($suri['value'])) {
 	
 	if ($skinSetting['showListOnTag'] != 0) {
 		$cache = $listCache;
-		require ROOT . '/library/piece/blog/list.php';
+		require ROOT . '/interface/common/blog/list.php';
 	}
 	unset($cache);
 	if ($skinSetting['showListOnTag'] != 2) {
 		$entries = $preservedEntries;
-		require ROOT . '/library/piece/blog/entries.php';
+		require ROOT . '/interface/common/blog/entries.php';
 	}
 	
 } else {
-	require ROOT . '/library/piece/blog/begin.php';
+	require ROOT . '/interface/common/blog/begin.php';
 	$cache->reset();
 	$cache->name = 'tagPage';
 	if(!$cache->load()) {
 		$siteTags = getSiteTags($blogid);
 	}
-	require ROOT . '/library/piece/blog/siteTags.php';
+	require ROOT . '/interface/common/blog/siteTags.php';
 	unset($cache);
 }
-require ROOT . '/library/piece/blog/end.php';
+require ROOT . '/interface/common/blog/end.php';
 ?>

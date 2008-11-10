@@ -59,9 +59,9 @@ if(Acl::check('group.editors')===false && !empty($suri['id'])) {
 }
 
 if (isset($_GET['popupEditor'])) {
-	require ROOT . '/library/piece/owner/headerForPopupEditor.php';
+	require ROOT . '/interface/common/owner/headerForPopupEditor.php';
 } else {
-	require ROOT . '/library/piece/owner/header.php';
+	require ROOT . '/interface/common/owner/header.php';
 }
 
 if (isset($_POST['returnURL']) && !empty($_POST['returnURL'])) {
@@ -908,7 +908,7 @@ switch($entry['category']) {
 						</script> 
 <?php
 if (isset($_GET['popupEditor']))
-	require ROOT . '/library/piece/owner/footerForPopupEditor.php';
+	require ROOT . '/interface/common/owner/footerForPopupEditor.php';
 else
-	require ROOT . '/library/piece/owner/footer.php';
+	require ROOT . '/interface/common/owner/footer.php';
 ?>

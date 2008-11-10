@@ -18,13 +18,13 @@ if(empty($suri['value'])) {
 }
 
 fireEvent('OBStart');
-require ROOT . '/library/piece/blog/begin.php';
+require ROOT . '/interface/common/blog/begin.php';
 
 $automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/resources/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
 dress('SKIN_head_end', $automaticLink."[##_SKIN_head_end_##]", $view);
 
 if (empty($suri['value'])) {
-	require ROOT . '/library/piece/blog/entries.php';
+	require ROOT . '/interface/common/blog/entries.php';
 } else if (empty($entries)) {
 	header('HTTP/1.1 404 Not Found');
 	if (empty($skin->pageError)) { 
@@ -35,11 +35,11 @@ if (empty($suri['value'])) {
 	}
 	unset($paging);
 } else {
-	require ROOT . '/library/piece/blog/entries.php';
+	require ROOT . '/interface/common/blog/entries.php';
 }
 
 
 
-require ROOT . '/library/piece/blog/end.php';
+require ROOT . '/interface/common/blog/end.php';
 fireEvent('OBEnd');
 ?>

@@ -5,7 +5,7 @@
 require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.link");
 
-require ROOT . '/library/piece/owner/header.php';
+require ROOT . '/interface/common/owner/header.php';
 
 
 $tabsClass['add'] = true;
@@ -99,7 +99,7 @@ if($service['reader'] != false) {
 						<div id="part-link-add" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('새로운 링크를 추가합니다');?></span></h2>
 <?php
-require ROOT . '/library/piece/owner/linkTab.php';
+require ROOT . '/interface/common/owner/linkTab.php';
 ?>
 							<div class="main-explain-box">
 								<p class="explain"><?php echo _t('RSS 주소를 입력해서 링크할 홈페이지의 정보를 읽어올 수 있습니다. 수동으로 제목과 주소를 입력하셔도 됩니다. RSS 주소를 입력해서 홈페이지의 정보를 읽어온 경우 링크를 추가할 때 바깥 글 읽기에 RSS 주소를 추가할지를 물어봅니다.');?></p>
@@ -147,5 +147,5 @@ foreach ($categories as $category) {
 							</form>
 						</div>
 <?php
-require ROOT . '/library/piece/owner/footer.php';
+require ROOT . '/interface/common/owner/footer.php';
 ?> 

@@ -6,7 +6,7 @@ require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.link");
 
 $links = getLinks($blogid);
-require ROOT . '/library/piece/owner/header.php';
+require ROOT . '/interface/common/owner/header.php';
 
 
 $tabsClass['list'] = true;
@@ -89,7 +89,7 @@ $tabsClass['list'] = true;
 						<div id="part-link-list" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('링크 목록입니다');?></span></h2>
 <?php
-require ROOT . '/library/piece/owner/linkTab.php';
+require ROOT . '/interface/common/owner/linkTab.php';
 ?>
 							<table class="data-inbox" cellspacing="0" cellpadding="0">
 								<thead>
@@ -199,5 +199,5 @@ if (sizeof($links) > 0) echo "
 							</div>
 						</div>
 <?php
-require ROOT . '/library/piece/owner/footer.php';
+require ROOT . '/interface/common/owner/footer.php';
 ?>
