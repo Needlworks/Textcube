@@ -64,6 +64,20 @@ function dressInsertBefore($tag, $value, & $contents, $useCache = false, $forceP
 	}
 }
 
+function getScriptsOnHead() {
+	global $service;
+	ob_start();
+?>
+<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/EAF4.js"></script>
+<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/common2.js"></script>
+<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/gallery.js" ></script>
+<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/flash.js" ></script>
+<?php
+	$view = ob_get_contents();
+	ob_end_clean();
+	return $view;
+}
+
 function getUpperView($paging) {
 	global $service, $blogURL;
 	ob_start();
@@ -91,11 +105,6 @@ function getUpperView($paging) {
 		}
 	//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/EAF4.js"></script>
-	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/common2.js"></script>
-	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/gallery.js" ></script>
-	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/flash.js" ></script>
-
 <?php
 	if (doesHaveOwnership()) {
 ?>
