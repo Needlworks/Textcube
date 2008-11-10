@@ -1,18 +1,9 @@
 // Google Map Plugin UI Helper
 // - depends on MooTools and Google AJAX API with Maps
 
-// Array Remove - By John Resig (MIT Licensed)
-if (!Array.prototype.remove) {
-	Array.prototype.remove = function(from, to) {
-	  var rest = this.slice((to || from) + 1 || this.length);
-	  this.length = from < 0 ? this.length + from : from;
-	  return this.push.apply(this, rest);
-	};
-}
-
 var map;
 var listener_onclick = null;
-var user_markers = new Array();
+var user_markers = {};
 
 function initialize() {
 	initializeMap();
@@ -53,14 +44,16 @@ function initialize() {
 			options.zoom = map.getZoom();
 			options.width = $('GoogleMapPreview').getSize().x;
 			options.height = $('GoogleMapPreview').getSize().y;
-			var compact_user_markers = new Array(), i;
-			for (i = 0; i < user_markers.length; i++) {
+			var compact_user_markers = new Array();
+			var i = 0, id = '';
+			for (id in user_markers) {
 				compact_user_markers[i] = {
-					'title': user_markers[i].title,
-					'desc': user_markers[i].desc,
-					'lat': user_markers[i].marker.getLatLng().lat(),
-					'lng': user_markers[i].marker.getLatLng().lng()
+					'title': user_markers[id].title,
+					'desc': user_markers[id].desc,
+					'lat': user_markers[id].marker.getLatLng().lat(),
+					'lng': user_markers[id].marker.getLatLng().lng()
 				};
+				i++;
 			}
 			options.user_markers = compact_user_markers;
 			editor.command('Raw', '[##_GoogleMap|' + JSON.encode(options) + '|_##]');
@@ -72,32 +65,26 @@ function initialize() {
 }
 
 function findUserMarker(marker) {
-	var i;
-	for (i = 0; i < user_markers.length; i++) {
-		if (user_markers[i].marker == marker)
-			return user_markers[i];
+	var id;
+	for (id in user_markers) {
+		if (user_markers[id].marker == marker)
+			return user_markers[id];
 	}
 	return null;
 }
 
 function findUserMarkerById(id) {
 	var i;
-	for (i = 0; i < user_markers.length; i++) {
-		if (user_markers[i].id == id)
-			return user_markers[i];
+	try {
+		return user_markers[id];
+	} catch (e) {
+		return null;
 	}
-	return null;
 }
 
 function removeUserMarker(id) {
-	var i;
-	for (i = 0; i < user_markers.length; i++) {
-		if (user_markers[i].id == id) {
-			map.removeOverlay(user_markers[i].marker);
-			user_markers.remove(i);
-			break;
-		}
-	}
+	map.removeOverlay(user_markers[id].marker);
+	delete user_markers[id];
 }
 
 function GMap_onClick(overlay, latlng, overlaylatlng) {
@@ -107,13 +94,13 @@ function GMap_onClick(overlay, latlng, overlaylatlng) {
 			return;
 		}
 		var marker = new GMarker(latlng, {'clickable': true, 'draggable': true, 'bouncy': true, 'title': 'Click to edit'});
+		var id = 'um' + (new Date).valueOf() + (Math.ceil(Math.random()*90)+10);
 		GEvent.addListener(marker, 'click', GMarker_onClick);
 		GEvent.addListener(marker, 'infowindowbeforeclose', function() {
-			var um = findUserMarker(this);
-			um.title = $('info_title').value;
-			um.desc = $('info_desc').value;
+			user_markers[id].title = $('info_title').value;
+			user_markers[id].desc = $('info_desc').value;
 		});
-		user_markers.push({'marker': marker, 'title': '', 'desc': '', 'id': 'um'+(new Date).valueOf()+(Math.ceil(Math.random()*90)+10)});
+		user_markers[id] = {'marker': marker, 'title': '', 'desc': '', 'id': id};
 		map.addOverlay(marker);
 	}
 }
