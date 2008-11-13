@@ -2,8 +2,8 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-class TrackbackLog {
-	function TrackbackLog() {
+class Trackback {
+	function Trackback() {
 		$this->reset();
 	}
 
@@ -12,7 +12,12 @@ class TrackbackLog {
 		$this->id =
 		$this->entry =
 		$this->url =
-		$this->sent =
+		$this->site =
+		$this->title =
+		$this->excerpt =
+		$this->ip =
+		$this->received =
+		$this->isFiltered =
 			null;
 	}
 	
@@ -25,7 +30,7 @@ class TrackbackLog {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = ".getBlogId()." AND type = 'trackback' $filter $sort");
+		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}RemoteResponses WHERE blogid = ".getBlogId()." AND type = 'trackback' $filter $sort");
 		if ($this->_result) {
 			if ($this->_count = POD::num_rows($this->_result))
 				return $this->shift();
@@ -52,8 +57,11 @@ class TrackbackLog {
 				if ($name == 'blogid')
 					continue;
 				switch ($name) {
+					case 'subject':
+						$name = 'title';
+						break;
 					case 'written':
-						$name = 'sent';
+						$name = 'received';
 						break;
 				}
 				$this->$name = $value;
@@ -64,22 +72,28 @@ class TrackbackLog {
 	}
 	
 	function add() {
-		if (!isset($this->id))
-			$this->id = $this->nextId();
+		global $database;
+		if (!isset($this->id)) $this->id = $this->nextId();
 		else $this->id = $this->nextId($this->id);
 		if (!isset($this->entry))
 			return $this->_error('entry');
 		if (!isset($this->url))
 			return $this->_error('url');
-		
+		if (!isset($this->ip))
+			$this->ip = $_SERVER['REMOTE_ADDR'];
 		if (!$query = $this->_buildQuery())
 			return false;
 		if (!$query->hasAttribute('written'))
 			$query->setAttribute('written', 'UNIX_TIMESTAMP()');
+		if (!isset($this->isFiltered))
+			$this->isFiltered = 0;
 		
 		if (!$query->insert())
 			return $this->_error('insert');
-		
+
+		if ($this->isFiltered == 0) {
+			POD::query("UPDATE {$database['prefix']}Entries SET trackbacks = trackbacks + 1 WHERE blogid = ".getBlogId()." AND id = {$this->entry}");
+		}
 		return true;
 	}
 	
@@ -89,7 +103,7 @@ class TrackbackLog {
 	
 	function nextId($id = 0) {
 		global $database;
-		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = ".getBlogId());
+		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}RemoteResponses WHERE blogid = ".getBlogId());
 		if($id == 0)
 			return $maxId + 1;
 		else
@@ -98,7 +112,7 @@ class TrackbackLog {
 	
 	function _buildQuery() {
 		global $database;
-		$query = new TableQuery($database['prefix'] . 'RemoteResponseLogs');
+		$query = new TableQuery($database['prefix'] . 'RemoteResponses');
 		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('type', 'trackback');
 		if (isset($this->id)) {
@@ -109,18 +123,43 @@ class TrackbackLog {
 		if (isset($this->entry)) {
 			if (!Validator::number($this->entry, 1))
 				return $this->_error('entry');
-			$query->setAttribute('entry', $this->entry);
+			$query->setQualifier('entry', $this->entry);
 		}
 		if (isset($this->url)) {
 			$this->url = UTF8::lessenAsEncoding(trim($this->url), 255);
 			if (empty($this->url))
 				return $this->_error('url');
-			$query->setAttribute('url', $this->url, true);
+			$query->setQualifier('url', $this->url, true);
 		}
-		if (isset($this->sent)) {
-			if (!Validator::timestamp($this->sent))
-				return $this->_error('sent');
-			$query->setAttribute('written', $this->sent);
+		if (isset($this->site)) {
+			$this->site = UTF8::lessenAsEncoding(trim($this->site), 255);
+			$query->setAttribute('site', $this->site, true);
+		}
+		if (isset($this->title)) {
+			$this->title = UTF8::lessenAsEncoding(trim($this->title), 255);
+			$query->setAttribute('subject', $this->title, true);
+		}
+		if (isset($this->excerpt)) {
+			$this->excerpt = UTF8::lessenAsEncoding(trim($this->excerpt), 255);
+			$query->setAttribute('excerpt', $this->excerpt, true);
+		}
+		if (isset($this->ip)) {
+			if (!Validator::ip($this->ip))
+				return $this->_error('ip');
+			$query->setAttribute('ip', $this->ip, true);
+		}
+		if (isset($this->received)) {
+			if (!Validator::timestamp($this->received))
+				return $this->_error('received');
+			$query->setAttribute('written', $this->received);
+		}
+		if (isset($this->isFiltered)) {
+			if ($this->isFiltered) {
+				$query->setAttribute('isFiltered', 'UNIX_TIMESTAMP()');
+			} else {
+				$query->setAttribute('isFiltered', Validator::getBit($this->isFiltered));
+			}
+			
 		}
 		return $query;
 	}
