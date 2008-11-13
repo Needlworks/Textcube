@@ -4,134 +4,23 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 function getTrackbacksWithPagingForOwner($blogid, $category, $site, $ip, $search, $page, $count) {
-	global $database;
-	
-	$postfix = '';
-	$sql = "SELECT t.*, c.name categoryName 
-		FROM {$database['prefix']}RemoteResponses t 
-		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
-		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
-		WHERE t.blogid = $blogid AND t.isFiltered = 0";
-	if ($category > 0) {
-		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
-		array_push($categories, $category);
-		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
-				$postfix .= '&amp;category=' . rawurlencode($category);
-				} else
-				$sql .= ' AND e.category >= 0';
-				if (!empty($site)) {
-				$sql .= ' AND t.site = \'' . POD::escapeString($site) . '\'';
-				$postfix .= '&amp;site=' . rawurlencode($site);
-				}
-				if (!empty($ip)) {
-				$sql .= ' AND t.ip = \'' . POD::escapeString($ip) . '\'';
-				$postfix .= '&amp;ip=' . rawurlencode($ip);
-				}
-				if (!empty($search)) {
-				$search = escapeSearchString($search);
-				$sql .= " AND (t.site LIKE '%$search%' OR t.subject LIKE '%$search%' OR t.excerpt LIKE '%$search%')";
-				$postfix .= '&amp;search=' . rawurlencode($search);
-				}
-				$sql .= ' ORDER BY t.written DESC';
-				list($trackbacks, $paging) = fetchWithPaging($sql, $page, $count);
-				if (strlen($postfix) > 0) {
-				$paging['postfix'] .= $postfix . '&amp;withSearch=on';
-				}
-				return array($trackbacks, $paging);
+	return getRemoteResponsesWithPagingForOwner($blogid, $category, $site, $ip, $search, $page, $count, 'trackback'); 
 }
 
 function getTrackbackLogsWithPagingForOwner($blogid, $category, $site, $ip, $search, $page, $count) {
-	global $database;
-
-	$postfix = '&amp;status=sent';
-	$sql = "SELECT t.*, e.title as subject, c.name categoryName 
-		FROM {$database['prefix']}RemoteResponseLogs t 
-		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
-		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
-		WHERE t.blogid = $blogid";
-	if ($category > 0) {
-		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
-		array_push($categories, $category);
-		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
-				$postfix .= '&amp;category=' . rawurlencode($category);
-				} else
-				$sql .= ' AND e.category >= 0';
-				if (!empty($search)) {
-				$search = escapeSearchString($search);
-				$sql .= " AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
-				$postfix .= '&amp;search=' . rawurlencode($search);
-				}
-				$sql .= ' ORDER BY t.written DESC';
-				list($trackbacks, $paging) = fetchWithPaging($sql, $page, $count);
-				if (strlen($postfix) > 0) {
-				$paging['postfix'] .= $postfix . '&amp;withSearch=on';
-	}
-	return array($trackbacks, $paging);
+	return getRemoteResponseLogsWithPagingForOwner($blogid, $category, $site, $ip, $search, $page, $count, 'trackback');
 }
 
 function getTrackbacks($entry) {
-	global $database;
-	$trackbacks = array();
-	$result = POD::query("SELECT * 
-			FROM {$database['prefix']}RemoteResponses 
-			WHERE blogid = ".getBlogId()." 
-				AND entry = $entry 
-				AND isFiltered = 0 
-				AND type = 'trackback'
-			ORDER BY written");
-	while ($trackback = POD::fetch($result))
-		array_push($trackbacks, $trackback);
-	return $trackbacks;
+	return getRemoteResponses($entry, 'trackback');
 }
 
 function getTrackbackList($blogid, $search) {
-	global $database;
-	$list = array('title' => "$search", 'items' => array());
-	$search = escapeSearchString($search);
-	$authorized = doesHaveOwnership() ? '' : getPrivateCategoryExclusionQuery($blogid);
-	if ($result = POD::queryAll("SELECT t.id, t.entry, t.url, t.site, t.subject, t.excerpt, t.written, e.slogan
- 		FROM {$database['prefix']}RemoteResponses t
-		LEFT JOIN {$database['prefix']}Entries e ON t.entry = e.id AND t.blogid = e.blogid AND e.draft = 0
-		WHERE  t.blogid = $blogid
-			AND t.isFiltered = 0
-			AND t.entry > 0 $authorized 
-			AND t.type = 'trackback'
-			AND (t.excerpt like '%$search%' OR t.subject like '%$search%')")) {
-		foreach($result as $trackback)	
-			array_push($list['items'], $trackback);
-	}   
-	return $list;
+	return getRemoteResponseList($blogid, $search, 'trackback');
 }
 
 function getRecentTrackbacks($blogid, $count = false, $guestShip = false) {
-	global $database;
-	global $skinSetting;
-	$sql = (doesHaveOwnership() && !$guestShip) ? "SELECT t.*, e.slogan 
-		FROM 
-			{$database['prefix']}RemoteResponses t
-			LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0
-		WHERE 
-			t.blogid = $blogid AND t.isFiltered = 0 AND t.type = 'trackback' 
-		ORDER BY 
-			t.written 
-		DESC LIMIT ".($count != false ? $count : $skinSetting['trackbacksOnRecent']) : 
-		"SELECT t.*, e.slogan 
-		FROM 
-			{$database['prefix']}RemoteResponses t 
-			LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id
-		WHERE 
-			t.blogid = $blogid 
-			AND t.isFiltered = 0 
-			AND e.draft = 0 
-			AND e.visibility >= 2 ".getPrivateCategoryExclusionQuery($blogid)."
-			AND t.type = 'trackback'
-		ORDER BY 
-			t.written 
-		DESC LIMIT ".($count != false ? $count : $skinSetting['trackbacksOnRecent']);
-	if ($result = POD::queryAllWithDBCache($sql,'trackback')) {
-		return $result;
-	}
-	else return array();
+	return getRecentRemoteResponses($blogid, $count, $guestShip, 'trackback');
 }
 
 function sendTrackbackPing($entryId, $permalink, $url, $site, $title) {
@@ -195,48 +84,15 @@ function receiveTrackback($blogid, $entry, $title, $url, $excerpt, $site) {
 }
 
 function deleteTrackback($blogid, $id) {
-	global $database;
-	requireModel('blog.entry');
-	if (!is_numeric($id)) return null;
-	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
-	if ($entry === null)
-		return false;
-	if (!POD::execute("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id"))
-		return false;
-	CacheControl::flushDBCache('trackback');
-	if (updateTrackbacksOfEntry($blogid, $entry))
-		return $entry;
-	return false;
+	return deleteRemoteResponse($blogid, $id);
 }
 
 function trashTrackback($blogid, $id) {
-	global $database;
-	requireModel('blog.entry');
-	if (!is_numeric($id)) return null;
-	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
-	if ($entry === null)
-		return false;
-	if (!POD::query("UPDATE {$database['prefix']}RemoteResponses SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id"))
-		return false;
-	CacheControl::flushDBCache('trackback');
-	if (updateTrackbacksOfEntry($blogid, $entry))
-		return $entry;
-	return false;
+	return trackRemoteResponse($blogid, $id);
 }
 
 function revertTrackback($blogid, $id) {
-	global $database;
-	requireModel('blog.entry');
-	if (!is_numeric($id)) return null;
-	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
-	if ($entry === null)
-		return false;
-	if (!POD::execute("UPDATE {$database['prefix']}RemoteResponses SET isFiltered = 0 WHERE blogid = $blogid AND id = $id"))
-		return false;
-	CacheControl::flushDBCache('trackback');
-	if (updateTrackbacksOfEntry($blogid, $entry))
-		return $entry;
-	return false;
+	return revertRemoteResponse($blogid, $id);
 }
 
 function sendTrackback($blogid, $entryId, $url) {
@@ -289,47 +145,15 @@ function sendTrackback($blogid, $entryId, $url) {
 }
 
 function getTrackbackLog($blogid, $entry) {
-	global $database;
-	$result = POD::query("SELECT * FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid AND entry = $entry AND type = 'trackback'");
-	$str = '';
-	while ($row = POD::fetch($result)) {
-		$str .= $row['id'] . ',' . $row['url'] . ',' . Timestamp::format5($row['written']) . '*';
-	}
-	return $str;
+	return getRemoteResponseLog($blogid, $entry, 'trackback');
 }
 
 function getTrackbackLogs($blogid, $entryId) {
-	global $database;
-	$logs = array();
-	$result = POD::query("SELECT * FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid AND entry = $entryId AND type = 'trackback'");
-	while ($log = POD::fetch($result))
-		array_push($logs, $log);
-	return $logs;
+	return getRemoteResponseLogs($blogid, $entryId, 'trackback');
 }
 
 function deleteTrackbackLog($blogid, $id) {
-	global $database;
-	$result = POD::queryCount("delete from {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid AND id = $id AND type = 'trackback'");
-	return ($result == 1) ? true : false;
-}
-
-function lastIndexOf($string, $item) {
-	$index = strpos(strrev($string), strrev($item));
-	if ($index) {
-		$index = strlen($string) - strlen($item) - $index;
-		return $index;
-	} else
-		return - 1;
-}
-
-function getURLForFilter($value) {
-	$value = POD::escapeString($value);
-	$value = str_replace('http://', '', $value);
-	$lastSlashPos = lastIndexOf($value, '/');
-	if ($lastSlashPos > - 1) {
-		$value = substr($value, 0, $lastSlashPos);
-	}
-	return $value;
+	return deleteRemoteResponseLog($blogid, $id);
 }
 
 function getTrackbackCount($blogid, $entryId = null) {

@@ -900,12 +900,13 @@ function saveDraftEntry($blogid, $entry) {
 	return $result ? $entry['id'] : false;
 }
 
-function updateTrackbacksOfEntry($blogid, $id) {
+function updateRemoteResponsesOfEntry($blogid, $id) {
 	global $database;
 	$trackbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND entry = $id AND isFiltered = 0 AND type = 'trackback'");
-	if ($trackbacks === null)
+	$pingbacks  = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND entry = $id AND isFiltered = 0 AND type = 'pingback'");
+	if ($trackbacks === null || $pingbacks === null)
 		return false;
-	return POD::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks WHERE blogid = $blogid AND id = $id");
+	return POD::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks, pingbacks = $pingbacks WHERE blogid = $blogid AND id = $id");
 }
 
 function deleteEntry($blogid, $id) {
