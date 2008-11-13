@@ -30,6 +30,7 @@ class Post {
 		$this->modified =
 		$this->comments =
 		$this->trackbacks =
+		$this->pingbacks =
 			null;
 	}
 	function init() {
