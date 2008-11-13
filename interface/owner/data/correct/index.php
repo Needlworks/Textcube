@@ -97,7 +97,7 @@ setProgress($item++ / $items * 100, _t('글의 댓글 정보를 다시 계산해
 $post->updateComments();
 
 setProgress($item++ / $items * 100, _t('글의 걸린글 정보를 다시 계산해서 저장합니다.'));
-$post->updateTrackbacks();
+$post->updateRemoteResponses();
 
 setProgress($item++ / $items * 100, _t('분류의 글 정보를 다시 계산해서 저장합니다.'));
 updateEntriesOfCategory($blogid);

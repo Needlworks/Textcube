@@ -479,7 +479,7 @@ class Post {
 		return $succeeded;
 	}
 	
-	function updateTrackbacks($id = null) {
+	function updateRemoteResponses($id = null) {
 		global $database;
 		$this->init();
 
@@ -494,11 +494,16 @@ class Post {
 		foreach ($posts as $id) {
 			$trackbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = ".$this->blogid." AND entry = $id AND isFiltered = 0 AND type = 'trackback'");
 			if (!is_null($trackbacks)) { 
-				if (POD::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks 
+				if (!POD::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks 
 					WHERE blogid = ".$this->blogid." AND id = $id"))
-					continue;
+					$succeeded = false;
 			}
-			$succeeded = false;
+			$pingbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = ".$this->blogid." AND entry = $id AND isFiltered = 0 AND type = 'pingback'");
+			if (!is_null($pingbacks)) { 
+				if (!POD::execute("UPDATE {$database['prefix']}Entries SET pingbacks = $pingbacks
+					WHERE blogid = ".$this->blogid." AND id = $id"))
+					$succeeded = false;
+			}
 		}
 		return $succeeded;	
 	}
