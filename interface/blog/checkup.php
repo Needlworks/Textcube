@@ -422,7 +422,16 @@ if($currentVersion != TEXTCUBE_VERSION) {
 			showCheckupMessage(true);
 		} else
 			showCheckupMessage(false);
-	}	 
+	}	
+
+	if (!POD::queryExistence("DESC {$database['prefix']}Entries pingbacks")) {
+		$changed = true;
+		echo '<li>', _text('핑백 기능을 위해 글 테이블에 핑백 필드를 추가합니다.'), ': ';
+		if (POD::execute("ALTER TABLE {$database['prefix']}Entries ADD pingbacks int(11) NOT NULL default 0 AFTER trackbacks")) {
+			showCheckupMessage(true);
+		} else
+			showCheckupMessage(false);
+	}	
 }
 			
 /***** Common parts. *****/
