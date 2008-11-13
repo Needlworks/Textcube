@@ -580,7 +580,7 @@ function addEntry($blogid, $entry, $userid = null) {
 	$result = POD::query("INSERT INTO {$database['prefix']}Entries 
 			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, contentFormatter,
 			 contentEditor, location, password, acceptComment, acceptTrackback, published, created, modified,
-			 comments, trackbacks) 
+			 comments, trackbacks, pingbacks) 
 			VALUES (
 			$blogid,
 			$userid,
@@ -601,6 +601,7 @@ function addEntry($blogid, $entry, $userid = null) {
 			$published,
 			UNIX_TIMESTAMP(),
 			UNIX_TIMESTAMP(),
+			0,
 			0,
 			0)");
 	if (!$result)
@@ -770,7 +771,7 @@ function saveDraftEntry($blogid, $entry) {
 		$doUpdate = false;
 	}
 	// 원 글을 읽어서 몇가지 정보를 보존한다. 원래 글이 없는 경우 draft는 저장될 수 없다.
-	$origEntry = POD::queryRow("SELECT created, comments, trackbacks, password
+	$origEntry = POD::queryRow("SELECT created, comments, trackbacks, pingbacks, password
 		FROM {$database['prefix']}Entries
 		WHERE blogid = $blogid
 			AND id = ".$entry['id']."
@@ -780,6 +781,7 @@ function saveDraftEntry($blogid, $entry) {
 	$created = $origEntry['created'];
 	$comments = $origEntry['comments'];
 	$trackbacks = $origEntry['trackbacks'];
+	$pingbacks = $origEntry['pingbacks'];
 	$password = $origEntry['password'];
 	
 	if(empty($entry['userid'])) $entry['userid'] = getUserId(); 
@@ -873,7 +875,7 @@ function saveDraftEntry($blogid, $entry) {
 		$result = POD::query("INSERT INTO {$database['prefix']}Entries 
 			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, contentFormatter,
 			 contentEditor, location, password, acceptComment, acceptTrackback, published, created, modified,
-			 comments, trackbacks) 
+			 comments, trackbacks, pingbacks) 
 			VALUES (
 			$blogid,
 			{$entry['userid']},
@@ -895,7 +897,8 @@ function saveDraftEntry($blogid, $entry) {
 			$created,
 			UNIX_TIMESTAMP(),
 			$comments,
-			$trackbacks)");
+			$trackbacks,
+			$pingbacks)");
 	}
 	return $result ? $entry['id'] : false;
 }
