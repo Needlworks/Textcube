@@ -345,10 +345,11 @@ function getTrackbackFeedByEntryId($blogid = null, $entryId, $rawMode = false, $
 		$channel['link'] = $defaultURL."/".$entryId;
 	}
 	$result = POD::queryAll("SELECT * 
-		FROM {$database['prefix']}Trackbacks
+		FROM {$database['prefix']}RemoteResponses
 		WHERE blogid = ".$blogid." 
 			AND entry = ".$entryId."
-			AND isFiltered = 0");
+			AND isFiltered = 0
+			AND type = 'trackback'");
 	if (!$result)
 		$result = array();
 

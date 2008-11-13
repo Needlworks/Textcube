@@ -84,7 +84,47 @@ function removeUserSetting($name, $userid = null) {
 function getDefinedTableNames() {
 	global $database;
 	$prefix = $database['prefix'];
-	$definedTables = array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}EntriesArchive", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}OpenIDUsers", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Links", "{$prefix}LinkCategories", "{$prefix}PageCacheLog", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}Teamblog", "{$prefix}TeamEntryRelations", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}Users", "{$prefix}UserSettings", "{$prefix}XMLRPCPingSettings");
+	$definedTables = array("
+			{$prefix}Attachments", 
+			"{$prefix}BlogSettings", 
+			"{$prefix}BlogStatistics", 
+			"{$prefix}Categories", 
+			"{$prefix}Comments", 
+			"{$prefix}CommentsNotified", 
+			"{$prefix}CommentsNotifiedQueue", 
+			"{$prefix}CommentsNotifiedSiteInfo", 
+			"{$prefix}DailyStatistics", 
+			"{$prefix}Entries", 
+			"{$prefix}EntriesArchive", 
+			"{$prefix}FeedGroupRelations", 
+			"{$prefix}FeedGroups", 
+			"{$prefix}FeedItems", 
+			"{$prefix}FeedReads", 
+			"{$prefix}OpenIDUsers", 
+			"{$prefix}Feeds", 
+			"{$prefix}FeedSettings", 
+			"{$prefix}FeedStarred", 
+			"{$prefix}Filters", 
+			"{$prefix}Links", 
+			"{$prefix}LinkCategories", 
+			"{$prefix}PageCacheLog", 
+			"{$prefix}Plugins", 
+			"{$prefix}RefererLogs", 
+			"{$prefix}RefererStatistics", 
+			"{$prefix}ReservedWords", 
+			"{$prefix}ServiceSettings", 
+			"{$prefix}Sessions", 
+			"{$prefix}SessionVisits", 
+			"{$prefix}SkinSettings", 
+			"{$prefix}TagRelations", 
+			"{$prefix}Tags", 
+			"{$prefix}Teamblog", 
+			"{$prefix}TeamEntryRelations", 
+			"{$prefix}RemoteResponseLogs", 
+			"{$prefix}RemoteResponses", 
+			"{$prefix}Users", 
+			"{$prefix}UserSettings", 
+			"{$prefix}XMLRPCPingSettings");
 	return $definedTables;
 }
 ?>

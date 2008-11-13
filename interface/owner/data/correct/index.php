@@ -84,7 +84,7 @@ function setProgress($progress, $text = null, $sub = null) {
 }
 
 setProgress(0, _t('교정 대상을 확인하고 있습니다.'));
-$items = 4 + POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE blogid = $blogid") + POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid");
+$items = 4 + POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE blogid = $blogid") + POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid");
 
 set_time_limit(0);
 $item = 0;
@@ -130,7 +130,7 @@ if ($result = POD::query("SELECT id, name, parent, homepage, comment, entry, isF
 	POD::free($result);
 }
 
-if ($result = POD::query("SELECT id, url, site, subject, excerpt FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid")) {
+if ($result = POD::query("SELECT id, url, site, subject, excerpt FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid")) {
 	while ($trackback = POD::fetch($result)) {
 		setProgress($item++ / $items * 100, _t('걸린 글 데이터를 교정하고 있습니다.'));
 		$correction = '';
@@ -143,7 +143,7 @@ if ($result = POD::query("SELECT id, url, site, subject, excerpt FROM {$database
 		if (!UTF8::validate($trackback['excerpt']))
 			$correction .= ' excerpt = \'' . POD::escapeString(UTF8::correct($trackback['excerpt'], '?')) . '\'';
 		if (strlen($correction) > 0) {
-			POD::query("UPDATE {$database['prefix']}Trackbacks SET $correction WHERE blogid = $blogid AND id = {$trackback['id']}");
+			POD::query("UPDATE {$database['prefix']}RemoteResponses SET $correction WHERE blogid = $blogid AND id = {$trackback['id']}");
 			$corrected++;
 		}
 	}

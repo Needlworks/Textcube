@@ -1444,19 +1444,21 @@ CREATE TABLE {$_POST['dbPrefix']}Tags (
   PRIMARY KEY  (id),
   UNIQUE KEY name (name)
 ) $charset;
-CREATE TABLE {$_POST['dbPrefix']}TrackbackLogs (
+CREATE TABLE {$_POST['dbPrefix']}RemoteResponseLogs (
   blogid int(11) NOT NULL default '0',
   id int(11) NOT NULL,
   entry int(11) NOT NULL default '0',
+  type enum('trackback','pingback') NOT NULL default 'trackback',
   url varchar(255) NOT NULL default '',
   written int(11) NOT NULL default '0',
   PRIMARY KEY  (blogid, entry, id),
   UNIQUE KEY id (blogid, id)
 ) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Trackbacks (
+CREATE TABLE {$_POST['dbPrefix']}RemoteResponses (
   id int(11) NOT NULL,
   blogid int(11) NOT NULL default '0',
   entry int(11) NOT NULL default '0',
+  type enum('trackback','pingback') NOT NULL default 'trackback',
   url varchar(255) NOT NULL default '',
   writer int(11) default NULL,
   site varchar(255) NOT NULL default '',

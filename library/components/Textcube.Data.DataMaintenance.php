@@ -15,8 +15,8 @@ class DataMaintenance {
 		POD::query("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid");
 		POD::query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid");
 		POD::query("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid");
-		POD::query("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid");
-		POD::query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = $blogid");
+		POD::query("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid");
+		POD::query("DELETE FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid");
 		POD::query("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");
 		POD::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid");
 		POD::query("DELETE FROM {$database['prefix']}Links WHERE blogid = $blogid");

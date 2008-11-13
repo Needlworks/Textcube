@@ -117,7 +117,7 @@ $blogsetting = getBlogSettings($bid);
 								<ul>
 									<?php if ($bid == getServiceSetting("defaultBlogId",1)) { ?><li><em><?php echo _t('이 블로그는 대표 블로그입니다.');?></em></li><?php } ?>
 									<li><?php echo _f('이 블로그에는 총 %1개의 글이 있습니다.', POD::queryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE blogid = ".$bid));?></li>
-                                    <li><?php echo _f('이 블로그에는 총 %1개의 걸린글(트랙백)이 있습니다.', POD::queryCell("SELECT count(*) FROM {$database['prefix']}Trackbacks WHERE blogid = ".$bid));?></li>
+                                    <li><?php echo _f('이 블로그에는 총 %1개의 걸린글(트랙백)이 있습니다.', POD::queryCell("SELECT count(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = ".$bid." AND type = 'trackback'"));?></li>
                                     <li><?php echo _f('이 블로그에는 총 %1개의 댓글이 있습니다.', POD::queryCell("SELECT count(*) FROM {$database['prefix']}Comments WHERE blogid = ".$bid));?></li>
                                     <li><?php 
 		$attachmentSum = POD::queryCell("SELECT sum(size) FROM `{$database['prefix']}Attachments` WHERE blogid = ".$bid);

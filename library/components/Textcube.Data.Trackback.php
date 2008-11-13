@@ -30,7 +30,7 @@ class Trackback {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}Trackbacks WHERE blogid = ".getBlogId()." $filter $sort");
+		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}RemoteResponses WHERE blogid = ".getBlogId()." AND type = 'trackback' $filter $sort");
 		if ($this->_result) {
 			if ($this->_count = POD::num_rows($this->_result))
 				return $this->shift();
@@ -103,7 +103,7 @@ class Trackback {
 	
 	function nextId($id = 0) {
 		global $database;
-		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Trackbacks WHERE blogid = ".getBlogId());
+		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}RemoteResponses WHERE blogid = ".getBlogId());
 		if($id == 0)
 			return $maxId + 1;
 		else
@@ -112,8 +112,9 @@ class Trackback {
 	
 	function _buildQuery() {
 		global $database;
-		$query = new TableQuery($database['prefix'] . 'Trackbacks');
+		$query = new TableQuery($database['prefix'] . 'RemoteResponses');
 		$query->setQualifier('blogid', getBlogId());
+		$query->setQualifier('type', 'trackback');
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');

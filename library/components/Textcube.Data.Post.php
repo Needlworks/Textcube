@@ -190,10 +190,10 @@ class Post {
 			POD::execute("DELETE FROM {$database['prefix']}Comments WHERE blogid = ".$this->blogid." AND entry = ".$this->id);
 		
 		// step 4. Delete Trackback
-			POD::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = ".$this->blogid." AND entry = ".$this->id);
+			POD::execute("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = ".$this->blogid." AND entry = ".$this->id);
 		
 		// step 5. Delete Trackback Logs
-			POD::execute("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = ".$this->blogid." AND entry = ".$this->id);
+			POD::execute("DELETE FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = ".$this->blogid." AND entry = ".$this->id);
 		
 		// step 6. update Category
 			if (isset($entry['category'])) {
@@ -492,7 +492,7 @@ class Post {
 			return false; 
 		$succeeded = true;
 		foreach ($posts as $id) {
-			$trackbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE blogid = ".$this->blogid." AND entry = $id AND isFiltered = 0");
+			$trackbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = ".$this->blogid." AND entry = $id AND isFiltered = 0 AND type = 'trackback'");
 			if (!is_null($trackbacks)) { 
 				if (POD::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks 
 					WHERE blogid = ".$this->blogid." AND id = $id"))

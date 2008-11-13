@@ -902,7 +902,7 @@ function saveDraftEntry($blogid, $entry) {
 
 function updateTrackbacksOfEntry($blogid, $id) {
 	global $database;
-	$trackbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND entry = $id AND isFiltered = 0");
+	$trackbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND entry = $id AND isFiltered = 0 AND type = 'trackback'");
 	if ($trackbacks === null)
 		return false;
 	return POD::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks WHERE blogid = $blogid AND id = $id");
@@ -927,8 +927,8 @@ function deleteEntry($blogid, $id) {
 	$result = POD::queryCount("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id");
 	if ($result > 0) {
 		$result = POD::query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND entry = $id");
-		$result = POD::query("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND entry = $id");
-		$result = POD::query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = $blogid AND entry = $id");
+		$result = POD::query("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND entry = $id");
+		$result = POD::query("DELETE FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid AND entry = $id");
 		updateEntriesOfCategory($blogid, $target['category']);
 		deleteAttachments($blogid, $id);
 		

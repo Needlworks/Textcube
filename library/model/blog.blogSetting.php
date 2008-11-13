@@ -532,11 +532,11 @@ function removeBlog($blogid) {
 	POD::execute("DELETE FROM {$database['prefix']}Plugins WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}RefererLogs WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}RefererStatistics WHERE blogid = $blogid");
+	POD::execute("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid");
+	POD::execute("DELETE FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}Teamblog WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}XMLRPCPingSettings WHERE blogid = $blogid");
 	
 	//Delete Tags

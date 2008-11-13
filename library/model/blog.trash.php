@@ -9,7 +9,11 @@ function getTrashTrackbackWithPagingForOwner($blogid, $category, $site, $url, $i
 	global $database;
 	
 	$postfix = '';
-	$sql = "SELECT t.*, c.name categoryName FROM {$database['prefix']}Trackbacks t LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id WHERE t.blogid = $blogid AND t.isFiltered > 0";
+	$sql = "SELECT t.*, c.name categoryName 
+		FROM {$database['prefix']}RemoteResponses t 
+		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
+		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
+		WHERE t.blogid = $blogid AND t.isFiltered > 0 AND t.type = 'trackback'";
 	if ($category > 0) {
 		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
@@ -84,7 +88,7 @@ function getTrackbackTrash($entry) {
 	global $database;
 	$trackbacks = array();
 	$result = POD::queryAll("SELECT * 
-			FROM {$database['prefix']}Trackbacks 
+			FROM {$database['prefix']}RemoteResponses 
 			WHERE blogid = ".getBlogId()."
 				AND entry = $entry 
 			ORDER BY written",'assoc');
@@ -96,7 +100,13 @@ function getRecentTrackbackTrash($blogid) {
 	global $database;
 	global $skinSetting;
 	$trackbacks = array();
-	$sql = doesHaveOwnership() ? "SELECT * FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid ORDER BY written DESC LIMIT {$skinSetting['trackbacksOnRecent']}" : "SELECT t.* FROM {$database['prefix']}Trackbacks t, {$database['prefix']}Entries e WHERE t.blogid = $blogid AND t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 AND e.visibility >= 2 ORDER BY t.written DESC LIMIT {$skinSetting['trackbacksOnRecent']}";
+	$sql = doesHaveOwnership() ? "SELECT * FROM {$database['prefix']}RemoteResponses
+		WHERE blogid = $blogid 
+		ORDER BY written DESC LIMIT {$skinSetting['trackbacksOnRecent']}" : 
+		"SELECT t.* FROM {$database['prefix']}RemoteResponses t, 
+		{$database['prefix']}Entries e 
+		WHERE t.blogid = $blogid AND t.blogid = e.blogid AND t.entry = e.id AND t.type = 'trackback' AND e.draft = 0 AND e.visibility >= 2 
+		ORDER BY t.written DESC LIMIT {$skinSetting['trackbacksOnRecent']}";
 	if ($result = POD::query($sql)) {
 		while ($trackback = POD::fetch($result))
 			array_push($trackbacks, $trackback);
@@ -106,10 +116,10 @@ function getRecentTrackbackTrash($blogid) {
 
 function deleteTrackbackTrash($blogid, $id) {
 	global $database;
-	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND id = $id");
+	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!POD::execute("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND id = $id"))
+	if (!POD::execute("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id"))
 		return false;
 	if (updateTrackbacksOfEntry($blogid, $entry))
 		return $entry;
@@ -118,10 +128,10 @@ function deleteTrackbackTrash($blogid, $id) {
 
 function restoreTrackbackTrash($blogid, $id) {
    	global $database;
-	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND id = $id");
+	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!POD::execute("UPDATE {$database['prefix']}Trackbacks SET isFiltered = 0 WHERE blogid = $blogid AND id = $id"))
+	if (!POD::execute("UPDATE {$database['prefix']}RemoteResponses SET isFiltered = 0 WHERE blogid = $blogid AND id = $id"))
 		return false;
 	if (updateTrackbacksOfEntry($blogid, $entry))
 		return $entry;
@@ -133,7 +143,7 @@ function trashVan() {
 	requireModel('common.setting');
 	if(Timestamp::getUNIXtime() - getServiceSetting('lastTrashSweep',0) > 86400) {
 		POD::execute("DELETE FROM {$database['prefix']}Comments where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
-		POD::execute("DELETE FROM {$database['prefix']}Trackbacks where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
+		POD::execute("DELETE FROM {$database['prefix']}RemoteResponses where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
 		setServiceSetting('lastTrashSweep',Timestamp::getUNIXtime());
 	}
 	if(Timestamp::getUNIXtime() - getServiceSetting('lastNoticeRead',0) > 43200) {
@@ -150,7 +160,7 @@ function emptyTrash($comment = true)
 	if ($comment == true) {
 		POD::execute("DELETE FROM {$database['prefix']}Comments where blogid = ".$blogid." and isFiltered > 0");
 	} else {
-		POD::execute("DELETE FROM {$database['prefix']}Trackbacks where blogid = ".$blogid." and isFiltered > 0");
+		POD::execute("DELETE FROM {$database['prefix']}RemoteResponses where blogid = ".$blogid." and isFiltered > 0");
 	}
 }
 
