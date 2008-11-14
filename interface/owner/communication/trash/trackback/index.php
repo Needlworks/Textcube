@@ -30,7 +30,7 @@ $IV = array(
 );
 
 require ROOT . '/library/includeForBlogOwner.php';
-requireModel("blog.trackback");
+requireModel("blog.response.remote");
 requireModel("blog.trash");
 
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];

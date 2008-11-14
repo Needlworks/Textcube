@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/library/includeForBlogOwner.php';
-requireModel("blog.trackback");
+requireModel("blog.response.remote");
 
 
 if(isset($suri['id'])) {

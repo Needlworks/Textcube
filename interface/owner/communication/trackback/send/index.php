@@ -8,7 +8,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/includeForBlogOwner.php';
-requireModel("blog.trackback");
+requireModel("blog.response.remote");
 
 requireStrictRoute();
 respond::ResultPage(!empty($_GET['url']) && sendTrackback($blogid, $suri['id'], trim($_GET['url'])));

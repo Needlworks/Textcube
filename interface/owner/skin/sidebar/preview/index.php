@@ -19,7 +19,7 @@ requireModel("blog.archive");
 requireModel("blog.tag");
 requireModel("blog.notice");
 requireModel("blog.comment");
-requireModel("blog.trackback");
+requireModel("blog.response.remote");
 requireModel("blog.link");
 
 requireStrictRoute();

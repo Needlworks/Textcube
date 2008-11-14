@@ -32,7 +32,7 @@ $IV = array(
 	)
 );	
 require ROOT . '/library/includeForBlogOwner.php';
-requireModel("blog.trackback");
+requireModel("blog.response.remote");
 
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $site = empty($_POST['site']) ? '' : $_POST['site'];
