@@ -35,7 +35,6 @@ $__requireModel = array(
 	'blog.link',
 	'blog.locative',
 	'blog.sidebar',
-	'blog.trackback',
 	'blog.response.remote',
 	'blog.tag',
 	'blog.user',

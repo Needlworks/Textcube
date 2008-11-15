@@ -6,7 +6,7 @@
 require ROOT . '/library/includeForBlogOwner.php';
 
 requireModel('blog.trash');
-requireModel('blog.trackback');
+requireModel('blog.response.remote');
 requireModel('blog.sidebar');
 requireLibrary('blog.skin');
 

@@ -173,7 +173,7 @@ function getScriptsOnFoot() {
 
 function getTrackbacksView($entry, $skin, $acceptTrackback) {
 	global $suri, $defaultURL, $skinSetting, $blogURL, $service, $blog;
-	requireModel('blog.trackback');
+	requireModel('blog.response.remote');
 	requireLibrary('blog.skin');
 
 	$trackbacksContainer = $skin->trackbackContainer;
