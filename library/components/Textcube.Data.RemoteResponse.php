@@ -178,12 +178,13 @@ class Pingback {
 	function reset() {
 		$this->error = 
 		$this->id =
-		$this->site = // source URI
-		$this->target = // target URI
-		$this->title = // title of source page
+		$this->url = // source URI
+		$this->target = // target URI, dynamically calculated from entry id.
+		$this->title = // title of source page (may include site)
 		$this->ip = // IP of pingback client
 		$this->isFiltered =
 			null;
+		// Unused: writer, site, subject, excerpt
 	}
 
 	function open($filter = '', $fields = '*', $sort = 'written') {
