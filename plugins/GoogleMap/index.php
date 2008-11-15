@@ -94,7 +94,7 @@ function GoogleMap_LocationLogView($target) {
 	$locatives = getLocatives($blogid);
 	$width = misc::getContentWidth();
 	$height = intval($width * 1.2);
-	$default_type = $config['locative_maptype'];
+	$default_type = isset($config['locative_maptype']) ? $config['locative_maptype'] : 'G_HYBRID_MAP';
 	$id = 'LocationMap';
 	$lat = $config['latitude'];
 	$lng = $config['longitude'];
