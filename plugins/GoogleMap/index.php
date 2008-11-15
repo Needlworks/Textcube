@@ -181,9 +181,7 @@ function GoogleMapUI_Insert($target) {
 		<button id="doInsert">본문에 삽입하기</button>
 	</div>
 	<div style="text-align:center;">
-		<div id="GMapWrapper">
 		<div id="GoogleMapPreview" style="width:<?php echo $default_width;?>px; height:<?php echo $default_height;?>px; margin:0 auto;"></div>
-		</div>
 	</div>
 	<script type="text/javascript">
 	//<![CDATA[
@@ -241,7 +239,6 @@ function _GMap_printHeaderForUI($title, $api_key) {
 	</script>
 </head>
 <body>
-<div id="temp-wrap">
 <div id="all-wrap">
 	<h1><?php echo $title;?></h1>
 	<div id="layout-body">
@@ -251,7 +248,6 @@ function _GMap_printHeaderForUI($title, $api_key) {
 function _GMap_printFooterForUI() {
 ?>
 	</div>
-</div>
 </div>
 </body>
 </html>
