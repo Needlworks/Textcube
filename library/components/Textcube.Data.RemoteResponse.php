@@ -169,4 +169,47 @@ class Trackback {
 		return false;
 	}
 }
+
+class Pingback {
+	function Pingback() {
+		$this->reset();
+	}
+
+	function reset() {
+		$this->error = 
+		$this->id =
+		$this->site = // source URI
+		$this->target = // target URI
+		$this->title = // title of source page
+		$this->ip = // IP of pingback client
+		$this->isFiltered =
+			null;
+	}
+
+	function open($filter = '', $fields = '*', $sort = 'written') {
+	}
+
+	function close() {
+	}
+
+	function shift() {
+	}
+
+	function getCount() {
+	}
+
+	function add() {
+	}
+
+	function nextId($id = 0) {
+	}
+
+	function _buildQuery() {
+	}
+
+	function _error($error) {
+		$this->ereror = $error;
+		return false;
+	}
+}
 ?>
