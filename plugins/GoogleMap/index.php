@@ -164,7 +164,7 @@ function GoogleMap_ConfigHandler($data) {
 	return true;
 }
 
-function GoogleMapUI_Customize($target) {
+function GoogleMapUI_Insert($target) {
 	global $configVal, $pluginURL;
 	requireComponent('Textcube.Function.Misc');
 	$config = setting::fetchConfigVal($configVal);
@@ -180,7 +180,11 @@ function GoogleMapUI_Customize($target) {
 		<button id="toggleMarkerAddingMode">마커 표시 모드</button>
 		<button id="doInsert">본문에 삽입하기</button>
 	</div>
-	<div style="text-align:center;"><div id="GoogleMapPreview" style="width:<?php echo $default_width;?>px; height:<?php echo $default_height;?>px; margin:0 auto;"></div></div>
+	<div style="text-align:center;">
+		<div id="GMapWrapper">
+		<div id="GoogleMapPreview" style="width:<?php echo $default_width;?>px; height:<?php echo $default_height;?>px; margin:0 auto;"></div>
+		</div>
+	</div>
 	<script type="text/javascript">
 	//<![CDATA[
 	function initializeMap() {
@@ -191,20 +195,24 @@ function GoogleMapUI_Customize($target) {
 		map.addControl(new GLargeMapControl());
 		map.addControl(new GScaleControl());
 		map.enableScrollWheelZoom();
+		map.enableContinuousZoom();
 	}
 	//]]>
 	</script>
-	<fieldset>
-		<legend>기본 설정</legend>
+	<h2>지도 검색</h2>
+	<div class="accordion-elem">
+		<p><label>위치 검색 : <input type="text" class="editControl" id="inputQuery" value="" /></label><button id="queryLocation">찾기</button></p>
+		<div id="queryResult"></div>
+	</div>
+	<h2>기본 설정</h2>
+	<div class="accordion-elem">
 		<p><label>가로(px) : <input type="text" class="editControl" id="inputWidth" value="<?php echo $default_width;?>" /></label></p>
 		<p><label>세로(px) : <input type="text" class="editControl" id="inputHeight" value="<?php echo $default_height;?>" /></label></p>
-		<button id="applyBasicSettings">적용</button>
-	</fieldset>
+		<p><button id="applyBasicSettings">적용</button></p>
+	</div>
 <?php
-	// TODO: 각종 옵션 설정 UI
 	// TODO: 주소 추출 UI
 	// - TODO: 포스트 내용 텍스트 얻어오기 및 주소 정보 추출
-	// - TODO: Google API를 이용한 geocoding 또는 map search
 	_GMap_printFooterForUI();
 }
 
@@ -216,17 +224,17 @@ function _GMap_printHeaderForUI($title, $api_key) {
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Google Map Plugin: <?php echo $title;?></title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/ui.css" />
-	<script type="text/javascript" src="http://www.google.com/jsapi?key=<?php echo $api_key;?>"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/mootools-1.2.1-core-yc.js"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/mootools-1.2-more.js"></script>
+	<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=<?php echo $api_key;?>"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/gmap_common.js?<?php echo time();?>"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/gmap_ui.js?<?php echo time();?>"></script>
 	<script type="text/javascript">
 	//<![CDATA[
 	var pluginURL = '<?php echo $pluginURL;?>';
 	var blogURL = '<?php echo $blogURL;?>';
-	google.load('maps', '2');
-	google.load('mootools', '1.2.1');
-	google.setOnLoadCallback(function() {
-		window.addEvent('unload', function() {GUnload();});
+	window.addEvent('unload', function() {GUnload();});
+	window.addEvent('domready', function() {
 		initialize(); // should be declared somewhere. (for now, gmap_ui.js)
 	});
 	//]]>

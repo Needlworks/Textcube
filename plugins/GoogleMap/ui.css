@@ -17,6 +17,17 @@ h1 {
 	font-size: 1.2em;
 }
 
+h2 {
+	font-size: 1.0em;
+	background: #f2f2f2;
+	margin: 4px;
+	padding: 2px 4px;
+}
+
+p {
+	margin: 4px;
+}
+
 fieldset {
 	margin: 10px;
 	padding: 7px;
@@ -48,9 +59,16 @@ button.toggled:hover {
 #controls {
 	margin: 10px;
 }
+h2 {
+	cursor: pointer;
+}
+#GoogleMapPreview {
+	border: 3px dashed #ccc;
+}
 
 input, textarea {
 	border: 1px solid #ccc;
+	font-size: 0.9em;
 }
 .GMapInfo {
 	text-align: left !important;

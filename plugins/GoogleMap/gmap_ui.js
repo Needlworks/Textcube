@@ -1,12 +1,45 @@
 // Google Map Plugin UI Helper
-// - depends on MooTools and Google AJAX API with Maps
+// - depends on MooTools 1.2 and its "more" pack, and Google AJAX API with Maps
 
 var map;
 var listener_onclick = null;
 var user_markers = {};
+var accordion;
 
 function initialize() {
 	initializeMap();
+	map.getContainer().makeResizable();
+	map.getContainer().addEvent('resize', function(ev) {
+		map.checkResize();
+		//var size = this.getSize();
+		console.log(this);
+		//$('inputWidth').value = size.x;
+		//$('inputHeight').value = size.y;
+	});
+	map.getContainer().addEvent('mousewheel', function(ev) { ev.stop(); });
+	map.getContainer().addEvent('mousemove', function(ev) {
+		var size = this.getSize();
+		var x = ev.page.x - this.getPosition().x;
+		var y = ev.page.y - this.getPosition().y;
+		if (x < 3 && y < 3)
+			this.setStyle('cursor', 'nw-resize');
+		else if (x >= size.x - 3 && y >= size.y - 3)
+			this.setStyle('cursor', 'se-resize');
+		else if (x < 3 && y >= size.y - 3)
+			this.setStyle('cursor', 'sw-resize');
+		else if (y < 3 && x >= size.x - 3)
+			this.setStyle('cursor', 'ne-resize');
+		else if (x < 3)
+			this.setStyle('cursor', 'w-resize');
+		else if (y < 3)
+			this.setStyle('cursor', 'n-resize');
+		else if (x >= size.x - 3)
+			this.setStyle('cursor', 'e-resize');
+		else if (y >= size.y - 3)
+			this.setStyle('cursor', 's-resize');
+		else
+			this.setStyle('cursor', 'default');
+	});
 	$('toggleMarkerAddingMode').store('toggled', false);
 	$('toggleMarkerAddingMode').addEvent('click', function() {
 		this.store('toggled', !this.retrieve('toggled'));
@@ -18,6 +51,8 @@ function initialize() {
 			GEvent.removeListener(listener_onclick);
 		}
 	});
+	$('queryLocation').addEvent('click', queryLocation);
+	$('inputQuery').addEvent('keypress', function(ev) { if (ev.code == 13) queryLocation(); });
 	$('applyBasicSettings').addEvent('click', function() {
 		var gmp = $(map.getContainer());
 		var w = $('inputWidth').value, h = $('inputHeight').value;
@@ -29,7 +64,7 @@ function initialize() {
 			'width': w + 'px',
 			'height': h + 'px'
 		});
-		map.checkResize();
+		//map.checkResize();
 	});
 	$('doInsert').addEvent('click', function() {
 		if (!map)
@@ -62,6 +97,10 @@ function initialize() {
 			alert('Parent window is not accessible. Is it closed?');
 		}
 	});
+	accordion = new Accordion($$('h2'), $$('.accordion-elem'));
+}
+
+function queryLocation() {
 }
 
 function findUserMarker(marker) {
@@ -109,7 +148,7 @@ function GMarker_onClick(latlng) {
 	var um = findUserMarker(this);
 	var form = '<div class="GMapInfo">';
 	form += '<p><label for="info_title">제목 : </label><input id="info_title" type="text" value="'+um.title+'" /></p>';
-	form += '<p><label for="info_desc">설명 : </label><textarea id="info_desc" rows="5" cols="30">'+um.desc+'</textarea></p>';
+	form += '<p><label for="info_desc">설명 : </label><textarea id="info_desc" rows="3" cols="30">'+um.desc+'</textarea></p>';
 	form += '<p style="text-align:right"><a href="javascript:void(0);" onclick="removeUserMarker(\''+um.id+'\');">삭제하기</p></div>';
 	this.openInfoWindowHtml(form);
 }

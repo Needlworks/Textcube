@@ -14,7 +14,7 @@
     <textcube>1.7.7</textcube>
   </requirements>
   <binding>
-    <listener event="/plugin/GMapCustomInsert/">GoogleMapUI_Customize</listener>
+    <listener event="/plugin/GMapCustomInsert/">GoogleMapUI_Insert</listener>
     <listener event="ViewPostContent">GoogleMap_View</listener>
     <listener event="ViewNoticeContent">GoogleMap_View</listener>
     <listener event="AddPostEditorToolbox">GoogleMap_AddToolbox</listener>
