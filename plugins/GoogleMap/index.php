@@ -88,7 +88,7 @@ function GoogleMap_View($target, $mother) {
 }
 
 function GoogleMap_LocationLogView($target) {
-	global $blogid, $blog, $blogURL, $pluginURL, $configVal;
+	global $blogid, $blog, $blogURL, $pluginURL, $configVal, $service;
 	requireComponent('Textcube.Function.Misc');
 	$config = setting::fetchConfigVal($configVal);
 	$locatives = getLocatives($blogid);
