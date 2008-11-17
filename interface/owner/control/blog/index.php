@@ -110,7 +110,7 @@ $pagingTemplate = '[##_paging_rep_##]';
 $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
 ?>
 	<div id="page-navigation">
-		<span id="page-list"><?php echo getPagingView($paging, $pagingTemplate, $pagingItemTemplate);?></span>
+		<span id="page-list"><?php echo Paging::view($paging, $pagingTemplate, $pagingItemTemplate);?></span>
 		<span id="total-count"><?php echo _f('총 %1개의 블로그',$blogcount);?></span>
 	</div>
 <?php 

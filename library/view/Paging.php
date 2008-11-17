@@ -7,7 +7,7 @@ class Paging {
 		return array('url' => rtrim($url,'?'), 'prefix' => $prefix, 'postfix' => '', 'total' => 0, 'pages' => 0, 'page' => 0, 'before' => array(), 'after' => array());
 	}
 	
-	function getPagingView( & $paging, & $template, & $itemTemplate, $useCache = false) {
+	function view( & $paging, & $template, & $itemTemplate, $useCache = false) {
 		
 		if (($paging === false) || empty($paging['page'])) {
 			$paging['url'] = NULL;

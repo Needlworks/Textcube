@@ -113,7 +113,7 @@ function PN_Referer_Default()
 	$paging['prefix'] = $pluginSelfParam . '&page=';
 	$pagingTemplate = '[##_paging_rep_##]';
 	$pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
-	echo str_repeat("\t", 8).Paging::getPagingView($paging, $pagingTemplate, $pagingItemTemplate).CRLF;
+	echo str_repeat("\t", 8).Paging::view($paging, $pagingTemplate, $pagingItemTemplate).CRLF;
 ?>
 										</span>
 									</div>

@@ -1106,7 +1106,7 @@ if($entry['category'] < 0) {
 <?php
 $pagingTemplate = '[##_paging_rep_##]';
 $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
-echo str_repeat("\t", 12).getPagingView($paging, $pagingTemplate, $pagingItemTemplate, false).CRLF;
+echo str_repeat("\t", 12).Paging::view($paging, $pagingTemplate, $pagingItemTemplate, false).CRLF;
 ?>
 											</span>
 											<span id="total-count"><?php echo _f('총 %1건', empty($paging['total']) ? "0" : $paging['total']);?></span>
