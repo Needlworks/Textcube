@@ -6,7 +6,7 @@ define('__TEXTCUBE_ADMINPANEL__',true);
 
 $__requireComponent = array();
 $__requireBasics = array(		// Basics
-	'config',
+	'environment/config',
 	'function/string',
 	'function/time',
 	'function/javascript',
