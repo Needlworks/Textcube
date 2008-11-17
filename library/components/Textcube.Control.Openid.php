@@ -474,9 +474,9 @@ class OpenIDConsumer extends OpenID {
 		if( $openid ) {
 			list( $openid, $openid_server, $xrds_uri ) = $this->fetchXRDSUri( $openid );
 		}
-		if( misc::setBlogSettingGlobal( "OpenIDDelegate", $openid ) && 
-			misc::setBlogSettingGlobal( "OpenIDServer", $openid_server ) && 
-			misc::setBlogSettingGlobal( "OpenIDXRDSUri", $xrds_uri ) ) {
+		if( Misc::setBlogSettingGlobal( "OpenIDDelegate", $openid ) && 
+			Misc::setBlogSettingGlobal( "OpenIDServer", $openid_server ) && 
+			Misc::setBlogSettingGlobal( "OpenIDXRDSUri", $xrds_uri ) ) {
 			return true;
 		}
 		return false;
@@ -487,7 +487,7 @@ class OpenIDConsumer extends OpenID {
 		if( !Acl::check( array("group.administrators") ) ) {
 			return false;
 		}
-		return misc::setBlogSettingGlobal( "AddCommentMode", empty($mode) ? '' : 'openid' );
+		return Misc::setBlogSettingGlobal( "AddCommentMode", empty($mode) ? '' : 'openid' );
 	}
 
 	function setOpenIDLogoDisplay( $mode )
@@ -495,7 +495,7 @@ class OpenIDConsumer extends OpenID {
 		if( !Acl::check( array("group.administrators") ) ) {
 			return false;
 		}
-		return misc::setBlogSettingGlobal( "OpenIDLogoDisplay", $mode  );
+		return Misc::setBlogSettingGlobal( "OpenIDLogoDisplay", $mode  );
 	}
 
 	function getCommentInfo($blogid,$id){

@@ -86,7 +86,7 @@ class Image {
 		}
 		
 		list($originWidth, $originHeight, $type, $attr) = getimagesize($originSrc);		
-		$attributes = misc::getAttributesFromString($property, false);
+		$attributes = Misc::getAttributesFromString($property, false);
 		
 		// 단위 변환.
 		$onclickFlag = false;

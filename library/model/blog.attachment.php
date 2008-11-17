@@ -114,7 +114,7 @@ function addAttachment($blogid, $parent, $file) {
 	$attachment['parent'] = $parent ? $parent : 0;
 	$attachment['label'] = Path::getBaseName($file['name']);
 	$attachment['size'] = $file['size'];
-	$extension = misc::getFileExtension($attachment['label']);
+	$extension = Misc::getFileExtension($attachment['label']);
 	switch (strtolower($extension)) {
 		case 'exe':case 'php':case 'sh':case 'com':case 'bat':
 			$extension = 'xxx';
@@ -139,7 +139,7 @@ function addAttachment($blogid, $parent, $file) {
 		$attachment['width'] = $imageAttributes[0];
 		$attachment['height'] = $imageAttributes[1];
 	} else {
-		$attachment['mime'] = misc::getMIMEType($extension);
+		$attachment['mime'] = Misc::getMIMEType($extension);
 		$attachment['width'] = 0;
 		$attachment['height'] = 0;
 	}
@@ -190,7 +190,7 @@ function copyAttachments($blogid, $originalEntryId, $targetEntryId) {
 			AND id = $targetEntryId")) return 3; // target entry does not exists;
 
 	foreach($attachments as $attachment) {
-		$extension = misc::getFileExtension($attachment['label']);
+		$extension = Misc::getFileExtension($attachment['label']);
 		$originalPath = "$path/{$attachment['name']}";
 		do {
 			$attachment['name'] = rand(1000000000, 9999999999) . ".$extension";

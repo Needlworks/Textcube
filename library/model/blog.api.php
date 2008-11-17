@@ -377,7 +377,7 @@ function api_addAttachment($blogid,$parent,$file) {
 		$attachment['width']=$imageAttributes[0];
 		$attachment['height']=$imageAttributes[1];
 	}else{
-		$attachment['mime']=misc::getMIMEType($extension);
+		$attachment['mime']=Misc::getMIMEType($extension);
 		$attachment['width']=0;
 		$attachment['height']=0;
 	}

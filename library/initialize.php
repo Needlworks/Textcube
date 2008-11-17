@@ -9,7 +9,7 @@
 **/
 if(!empty($database) && !empty($database["database"])) {
 	if(POD::bind($database) === false) {
-		respond::MessagePage('Problem with connecting database.<br /><br />Please re-visit later.');
+		Respond::MessagePage('Problem with connecting database.<br /><br />Please re-visit later.');
 		exit;
 	}
 }

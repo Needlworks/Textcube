@@ -2,7 +2,7 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-class respond {
+class Respond {
 	function ResultPage($errorResult) {
 		if (is_array($errorResult) && count($errorResult) < 2) {
 			$errorResult = array_shift($errorResult);
@@ -27,13 +27,13 @@ class respond {
 		header('Content-Type: text/xml; charset=utf-8');
 		$xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 		$xml .= "<response>\n";
-		$xml .= respond::PrintValue($result, $useCDATA);
+		$xml .= Respond::PrintValue($result, $useCDATA);
 		$xml .= "</response>\n";
 		die($xml);
 	}
 	
 	function NotFoundPage($isAjaxCall = false) {
-		if($isAjaxCall) {respond::ResultPage(-1);exit;}
+		if($isAjaxCall) {Respond::ResultPage(-1);exit;}
 		header('HTTP/1.1 404 Not Found');
 		header("Connection: close");
 		exit;
@@ -90,7 +90,7 @@ class respond {
 	
 	function ErrorPage($message=NULL, $buttonValue=NULL, $buttonLink=NULL, $isAjaxCall = false) {
 		global $service;
-		if($isAjaxCall) {respond::ResultPage(-1);exit;}
+		if($isAjaxCall) {Respond::ResultPage(-1);exit;}
 ?>
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
@@ -141,13 +141,13 @@ class respond {
 					continue;
 				else if(is_array($value)) {
 					if(is_numeric($key))
-						$xml .= respond::PrintValue($value, $useCDATA)."\n";
+						$xml .= Respond::PrintValue($value, $useCDATA)."\n";
 					else
-						$xml .= "<$key>".respond::PrintValue($value, $useCDATA)."</$key>\n";
+						$xml .= "<$key>".Respond::PrintValue($value, $useCDATA)."</$key>\n";
 				}
 				else {
 					if($useCDATA)
-						$xml .= "<$key><![CDATA[".respond::escapeCData($value)."]]></$key>\n";
+						$xml .= "<$key><![CDATA[".Respond::escapeCData($value)."]]></$key>\n";
 					else
 						$xml .= "<$key>".htmlspecialchars($value)."</$key>\n";
 				}

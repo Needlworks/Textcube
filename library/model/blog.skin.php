@@ -22,7 +22,7 @@ function setTreeSetting($blogid, $setting) {
 		getSkinSetting($blogid, true); // refresh skin cache
 		return true;
 	} else {
-		respond::ErrorPage(POD::error());
+		Respond::ErrorPage(POD::error());
 	}
 }
 

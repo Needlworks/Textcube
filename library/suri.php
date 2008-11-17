@@ -16,7 +16,7 @@ if ($depth > 0) {
 	if (preg_match('@^((/+[^/]+){' . $depth . '})(.*)$@', $url, $matches))
 		$url = $matches[3];
 	else
-		respond::NotFoundPage();
+		Respond::NotFoundPage();
 }
 if ($service['type'] == 'single') {
 	$blogid = $defaultblogid;
@@ -45,11 +45,11 @@ if ($service['type'] == 'single') {
 			}
 			$url = $matches[2];
 		} else {
-			respond::NotFoundPage();
+			Respond::NotFoundPage();
 		}
 	}
 	if ($blogid === null)
-		respond::NotFoundPage();
+		Respond::NotFoundPage();
 }
 $owner = $blogid; // For legacy.(<1.5)
 
@@ -70,7 +70,7 @@ if ($depth > 0) {
 			$suri['value'] = $matches[3];
 		}
 	} else {
-		respond::NotFoundPage();
+		Respond::NotFoundPage();
 	}
 } else {
 	$suri['directive'] = '/';

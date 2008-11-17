@@ -2,7 +2,7 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-class misc {
+class Misc {
 	function getFileExtension($path) {
 		for ($i = strlen($path) - 1; $i >= 0; $i--) {
 			if ($path{$i} == '.')
@@ -53,7 +53,7 @@ class misc {
 
 	function getMIMEType($ext, $filename = null) {
 		if ($filename) {
-			return misc::getMIMEType(misc::getFileExtension($filename));
+			return Misc::getMIMEType(Misc::getFileExtension($filename));
 		} else {
 			switch (strtolower($ext)) {
 				// Image
@@ -183,7 +183,7 @@ class misc {
 				if ($tempSrc == '.' || $tempSrc == '..' || preg_match('@^\.@', $tempSrc))
 					continue;
 				if (is_dir($path . '/' . $tempSrc)) {
-					$tempList = misc::getFileListByRegExp($path . '/' . $tempSrc, $pattern, $deepScan);
+					$tempList = Misc::getFileListByRegExp($path . '/' . $tempSrc, $pattern, $deepScan);
 					if (is_array($tempList))
 						$fileList = array_merge($fileList, $tempList);
 				}
