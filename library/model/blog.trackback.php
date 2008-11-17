@@ -608,7 +608,7 @@ function getTrackbackURLFromInfo($url, $blogType) {
 }
 
 function getRDFfromURL($url) {
-	requireComponent('Needlworks.PHP.HTTPRequest');
+	requireComponent('Eolin.PHP.HTTPRequest');
 
 	$request = new HTTPRequest($url);
 
