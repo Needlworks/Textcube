@@ -80,10 +80,10 @@ if(isset($service['dbms'])) {
 if($service['debugmode'] == true) {
 	if(isset($service['dbms'])) {
 		switch($service['dbms']) {
-			case 'mysqli':         requireLibrary("components/Needlworks.Debug.MySQLi"); break;
-			case 'mysql': default: requireLibrary("components/Needlworks.Debug.MySQL"); break;
+			case 'mysqli':         requireLibrary("debug/MySQLi"); break;
+			case 'mysql': default: requireLibrary("debug/MySQL"); break;
 		}
-	} else requireLibrary("components/Needlworks.Debug.MySQL"); 
+	} else requireLibrary("debug/MySQL"); 
 }
 
 // Session cookie patch.

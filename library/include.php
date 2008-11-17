@@ -3,8 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-/***** initialization process. 
-       (humans are lazy... Aren't you?)      *****/
+/** initialization process. 
+       (humans are lazy... Aren't you?)      */
 if(!isset($__requireBasics)) $__requireBasics = array();
 if(!isset($__requireLibrary)) $__requireLibrary = array();
 if(!isset($__requireComponent)) $__requireComponent = array();
@@ -13,17 +13,9 @@ if(!isset($__requireView)) $__requireView = array();
 if(!isset($__requireInit)) $__requireInit = array();
 if(!isset($service)) $service = array();
 
-/***** Define binders *****/
+/** Define binders */
 function requireComponent($name) {
 	return true;
-	//global $__requireComponent;
-	//if (!preg_match('/^[a-zA-Z0-9\.]+$/', $name))		return;
-	//$name = str_replace('Tattertools', 'Textcube',$name); // Legacy routine.
-	//$name = str_replace('Textcube.Function.misc', 'Textcube.Function.Misc',$name); // Legacy routine ( < 1.8).
-	//if(!in_array($name,$__requireComponent)) {
-	//	include_once (ROOT . "/library/components/$name.php");
-	//	array_push($__requireComponent,$name);
-	//}
 }
 function requireModel($name) {
 	global $__requireModel;
@@ -49,81 +41,68 @@ function requireLibrary($name) {
 
 /***** Autoload components *****/
 class Autoload {
-	private static $db = array(
-		'POD','DBQuery');
-	private static $data = array(
-		'Attachment','BlogSetting','BlogStatistics','Category','Comment','CommentNotified',
-		'CommentNotifiedSiteInfo','DailyStatistics','DataMaintenance','Feed',
-		'Filter','GuestComment','Keyword','Link','Notice','PluginSetting','Post',
-		'RefererLog','RefererStatistics','ServiceSetting','SkinSetting','SubscriptionLog',
-		'SubscriptionStatistics','Tag','Trackback','TrackbackLog','UserInfo','UserSetting'
-		);
-	private static $model = array(
-		'Paging','PluginCustomConfig','Statistics','User'
-		);
-	private static $base = array(
-		'Base64Stream','HTTPRequest','OutputWriter','XMLRPC','XMLRPCFault',
-		'XMLCustomType','XMLTree','Pop3');
-	private static $function = array(
-		'Image','Setting','Respond','Misc');
-	private static $openid = array(
-		'OpenID', 'OpenIDSession', 'OpenIDConsumer');
-	private static $control = array(
-		'Session','RSS');
+	private static $drivers = array(
+		'auth'        => array('Auth','OpenID'),
+		'cache'       => array('PageCache'),
+		'data'        => array('BlogSetting','BlogStatistics','DailyStatistics',
+			'DataMaintenance','Filter','Image','MySQL','MySQLi','POD','RSS',
+			'RefererLog','RefererStatistics','ServiceSetting','Setting',
+			'Statistics','SubscriptionLog','SubscriptionStatistics','Syndication',
+			'TData','UserInfo','UserSetting'),
+		'entry'       => array(
+			'Attachment','Category','Comment','CommentNotified','CommentNotifiedSiteInfo',
+			'Feed','GuestComment','Keyword','Link','Notice','PluginSetting',
+			'Post','RemoteResponse','SkinSetting','Tag','Trackback','TrackbackLog'),
+	    'environment' => array(
+			'Base64Stream','HTTPRequest','OutputWriter','XMLRPC','XMLRPCFault',
+			'XMLCustomType','XMLTree','Pop3'),
+		'plugin'      => array('Misc','PluginCustomConfig'),
+		'session'     => array('Session'),
+		'skin'        => array(),
+		'view'        => array('BlogView','Paging','Respond'));
+	private static $relation = array();
+	public static function register() {
+		foreach (self::$drivers as $namespace => $classes) {
+			if(!empty($classes)) foreach($classes as $class) {
+				self::$relation[$class] = $namespace;
+			}
+		}	
+	}
 	public static function load($name) {
 		global $service;
 		$name = ucfirst($name);
-		if(in_array($name,self::$data)) {
-			require_once(ROOT . "/library/components/Textcube.Data.".$name.".php");
-		} else if (in_array($name,self::$model)) {
-			require_once(ROOT . "/library/components/Textcube.Model.".$name.".php");
-		} else if (in_array($name,self::$base)) {
-			if(in_array($name, array('XMLRPC','XMLRPCFault','XMLCustomType')))
-				 require_once(ROOT . "/library/components/Needlworks.PHP.XMLRPC.php");
-			else require_once(ROOT . "/library/components/Needlworks.PHP.".$name.".php");
-		} else if (in_array($name,self::$function)) {
-			require_once(ROOT . "/library/components/Textcube.Function.".$name.".php");
-		} else if (in_array($name,self::$openid)) {
-			require_once(ROOT . "/library/components/Textcube.Control.Openid.php");
-		} else if (in_array($name,self::$control)) {
-			if($name == 'Session' && isset($service['memcached']) && $service['memcached'] == true) 
-				require_once(ROOT . "/library/components/Textcube.Control.".$name.".Memcached.php");
-			else require_once(ROOT . "/library/components/Textcube.Control.".$name.".php");
-		} else if (in_array($name,array('POD'))) {
-			require_once(ROOT . "/library/components/POD.Core.Legacy.php");
-		} else if (in_array($name,array('DBQuery'))) {
+		if(empty(self::$relation)) self::register();
+		if (in_array($name,array('DBQuery'))) {
 			if (!isset($service['dbms'])) $service['dbms'] = 'mysql';
 			switch($service['dbms']) {
-				case 'postgresql':
-					require_once(ROOT . '/library/components/Needlworks.DBMS.PostgreSQL.php'); break;
-				case 'mysqli':
-					require_once(ROOT . '/library/components/Needlworks.DBMS.MySQLi.php');     break;
-				case 'mysql':
-				default:
-					require_once(ROOT . '/library/components/Needlworks.DBMS.MySQL.php');     break;
+				case 'postgresql':     $name = 'PostgreSQL'; break;
+				case 'mysqli':         $name = 'MySQLi'; break;
+				case 'mysql': default: $name = 'MySQL'; break;
 			}
-			require_once(ROOT . "/library/components/Needlworks.Database.php");
-		} else if (in_array($name,array('Syndication'))) {
-			require_once(ROOT . "/library/components/Eolin.API.Syndication.php");
-		}
-		else {
+			require_once(ROOT . "/library/data/".$name.".php");
+			require_once(ROOT . "/library/data/Database.php");
+		} else if(self::$relation[$name] == 'session' && isset($service['memcached']) && $service['memcached'] == true) {
+			require_once(ROOT . "/library/session/Session_Memcached.php");
+		} else if(empty(self::$relation[$name])) {
 			if(defined('TCDEBUG')) print "TC: Unregisterred auto load class: $name<br/>\n";
+		} else {	
+			require_once(ROOT . "/library/".self::$relation[$name]."/".$name.".php");
 		}
+
 	}
 }
 spl_autoload_register(array('Autoload', 'load'));
 
 /***** Pre-define basic components *****/
-global $__requireComponent;
-$__requireComponent = array(
-	'Needlworks.PHP.UnifiedEnvironment',
-	'Needlworks.PHP.Core',
-	'Needlworks.Core.Locale',
-	'Textcube.Core',
-	'Textcube.Control.Auth',
-	'Needlworks.Cache.PageCache');
-foreach($__requireComponent as $lib) {
-	require ROOT .'/library/components/'.$lib.'.php';
+$__coreLibrary = array(
+	'environment/Needlworks.PHP.UnifiedEnvironment',
+	'environment/Needlworks.PHP.Core',
+	'environment/Locale',
+	'data/Core',
+	'auth/Auth',
+	'cache/PageCache');
+foreach($__coreLibrary as $lib) {
+	require ROOT .'/library/'.$lib.'.php';
 } 
 /***** Loading code pieces *****/
 if(isset($service['codecache']) && ($service['codecache'] == true) && file_exists(ROOT.'/cache/code/'.$codeName)) {
@@ -131,15 +110,10 @@ if(isset($service['codecache']) && ($service['codecache'] == true) && file_exist
 	require(ROOT.'/cache/code/'.$codeName);
 } else {
 	$codeCacheRead = false;
-/*	foreach($__requireComponent as $lib) {
-		if(strpos($lib,'DEBUG') === false) require ROOT .'/components/'.$lib.'.php';
-		else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
-	}*/
 	foreach((array_merge($__requireBasics,$__requireLibrary)) as $lib) {
 		if(strpos($lib,'DEBUG') === false) require ROOT .'/library/'.$lib.'.php';
 		else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
 	}
-	//requireComponent('Textcube.Function.Setting');
 	foreach($__requireModel as $lib) {
 		if(strpos($lib,'DEBUG') === false) require ROOT .'/library/model/'.$lib.'.php';
 		else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
@@ -157,7 +131,6 @@ if(isset($service['codecache']) && ($service['codecache'] == true) && file_exist
 }
 if(isset($service['codecache'])
 		&& $service['codecache'] == true && $codeCacheRead == false) {
-	requireComponent('Needlworks.Cache.PageCache');
 	$libCode = new CodeCache();
 	$libCode->name = $codeName;
 	$libCode->save();
