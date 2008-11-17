@@ -36,6 +36,7 @@ if (getBlogId()) {
 		if (file_exists(ROOT . "/cache/code/plugins-".getBlogId().".php")) {
 			require_once(ROOT . "/cache/code/plugins-".getBlogId().".php");
 			// TODO : set the editor / formatter count while using plugin php cache.
+			// Currently disabled to prevent security hole.
 		} else {
 			foreach ($activePlugins as $plugin) {
 				$version = '';
