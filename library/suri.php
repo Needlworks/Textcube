@@ -9,8 +9,7 @@ $defaultblogid = getServiceSetting("defaultBlogId",1);
 $suri            = array('url' => $url, 'value' => '');
 $blogid          = null;
 $isStrictBlogURL = true;
-$depth           = substr_count($service['path'], '/');
-
+$depth           = substr_count($config->service['path'], '/');
 if ($depth > 0) {
 	if (preg_match('@^((/+[^/]+){' . $depth . '})(.*)$@', $url, $matches))
 		$url = $matches[3];
@@ -50,14 +49,13 @@ if ($service['type'] == 'single') {
 	if ($blogid === null)
 		Respond::NotFoundPage();
 }
-$owner = $blogid; // For legacy.(<1.5)
 
 $gCacheStorage = new globalCacheStorage; // Initialize global cache
 
 $blog = getBlogSettings($blogid);
 $skinSetting = getSkinSetting($blogid);
-if(isset($interfacePath)) {
-	$depth = substr_count($interfacePath, '/') - 1;
+if(isset($context->accessInfo['interfacePath'])) {
+	$depth = substr_count($context->accessInfo['interfacePath'], '/') - 1;
 } else {
 	$depth = substr_count(ROOT, '/');
 }

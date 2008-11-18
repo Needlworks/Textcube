@@ -393,7 +393,8 @@ TFOOT;
 	if( ! empty($service['debug_rewrite_module'])) {
 		print '<h4>Path parse result</h4>'.CRLF;
 		print '<pre> path parser result : '."\r\n";
-		print_r( $accessInfo );
+		$context = Context::getInstance();
+		print_r( $context->accessInfo );
 		print_r( $suri );
 		print '</pre>';
 	}
