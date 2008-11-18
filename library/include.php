@@ -74,12 +74,7 @@ class Autoload {
 		if(empty(self::$relation)) self::register();
 		if (in_array($name,array('DBQuery'))) {
 			if (!isset($service['dbms'])) $service['dbms'] = 'mysql';
-			switch($service['dbms']) {
-				case 'postgresql':     $name = 'PostgreSQL'; break;
-				case 'mysqli':         $name = 'MySQLi'; break;
-				case 'mysql': default: $name = 'MySQL'; break;
-			}
-			require_once(ROOT . "/library/data/".$name.".php");
+			require_once(ROOT . "/library/data/".$service['dbms']."/Adapter.php");
 			require_once(ROOT . "/library/data/Database.php");
 		} else if(self::$relation[$name] == 'session' && isset($service['memcached']) && $service['memcached'] == true) {
 			require_once(ROOT . "/library/session/Session_Memcached.php");

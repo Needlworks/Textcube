@@ -95,7 +95,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 			if($row = POD::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0 AND visibility = 3 AND acceptComment = 1"))
 				sendCommentPing($entryId, "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$row['slogan']}": $entryId), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
 		}
-		$skin = new Skin($skinSetting['skin']);
+		$skin = new BlogSkin($skinSetting['skin']);
 		if ($entryId > 0) {
 			$commentBlock = getCommentView($entry, $skin);
 			dress('article_rep_id', $entryId, $commentBlock);

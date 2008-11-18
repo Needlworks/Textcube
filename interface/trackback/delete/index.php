@@ -14,7 +14,7 @@ requireStrictRoute();
 $blogid = getBlogId();
 $entryId = trashTrackback($blogid, $suri['id']);
 if ($entryId !== false) {
-	$skin = new Skin($skinSetting['skin']);
+	$skin = new BlogSkin($skinSetting['skin']);
 	
 	$trackbackCount = getTrackbackCount($blogid, $entryId);
 	list($tempTag, $trackbackCountContent) = getTrackbackCountPart($trackbackCount, $skin);

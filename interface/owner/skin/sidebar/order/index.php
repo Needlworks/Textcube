@@ -19,7 +19,7 @@ require ROOT . '/library/includeForBlogOwner.php';
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireStrictRoute();
-$skin = new Skin($skinSetting['skin']);
+$skin = new BlogSkin($skinSetting['skin']);
 $sidebarCount = count($skin->sidebarBasicModules);
 $sidebarOrder = getSidebarModuleOrderData($sidebarCount);
 

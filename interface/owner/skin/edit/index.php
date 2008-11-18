@@ -170,7 +170,7 @@ if (count($styleFileList) > 0 && !empty($currentStyleFile) && file_exists(ROOT .
 								/* ToDo : CSS 속성제어용 자바스크립트 에디터
 								window.addEventListener("load", execLoadFunction, false);
 								function execLoadFunction() {
-									var CSSeditor = new SkinEditor();
+									var CSSeditor = new BlogSkinEditor();
 									CSSeditor.initialize('style');
 								}*/
 							//]]>
