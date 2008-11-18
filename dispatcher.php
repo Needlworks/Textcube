@@ -20,9 +20,9 @@ if (file_exists(ROOT.'/config.php')) {
 }
 
 /// Initialize class loader.
-include(ROOT.'/framework/base.php');
-include(ROOT.'/framework/settings.php');
-include(ROOT.'/framework/loader.php');
+include(ROOT.'/library/base.php');
+include(ROOT.'/library/settings.php');
+include(ROOT.'/library/loader.php');
 $config = Config::getInstance();
 
 // Parse and normalize URI. */

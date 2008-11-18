@@ -11,7 +11,7 @@ $IV = array(
 
 require ROOT . '/library/includeForBlogOwner.php';
 requireComponent( 'Textcube.Control.Openid' );
-requireLibrary('blog.skin');
+ 
 requireStrictRoute();
 
 $consumer = new OpenIDConsumer;

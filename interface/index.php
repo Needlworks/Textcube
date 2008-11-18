@@ -44,9 +44,7 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 }
 
 require ROOT . '/library/includeForBlog.php';
-if (false) {
-	fetchConfigVal();
-}
+
 // Redirect for ipod touch / iPhone
 if(setting::getBlogSettingGlobal('useiPhoneUI',true) && (isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'],'iPod') || strpos($_SERVER['HTTP_USER_AGENT'],'iPhone')))){
 	header("Location: $blogURL/i"); exit;

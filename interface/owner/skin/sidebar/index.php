@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/library/includeForBlogOwner.php';
 $tabsClass['sidebar'] = true;
-requireLibrary('blog.skin');
+ 
 requireModel("blog.sidebar");
 requireModel("blog.entry");
 requireModel("blog.archive");

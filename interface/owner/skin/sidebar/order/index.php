@@ -16,7 +16,7 @@ $IV = array(
 );
 
 require ROOT . '/library/includeForBlogOwner.php';
-requireLibrary('blog.skin');
+ 
 requireModel("blog.sidebar");
 requireStrictRoute();
 $skin = new BlogSkin($skinSetting['skin']);
