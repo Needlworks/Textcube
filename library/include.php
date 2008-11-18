@@ -42,7 +42,7 @@ function requireLibrary($name) {
 /***** Autoload components *****/
 class Autoload {
 	private static $drivers = array(
-		'auth'        => array('Auth','OpenID'),
+		'auth'        => array('Auth','OpenID',array('Privilege'=>'Auth','Acl'=>'Auth')),
 		'cache'       => array('PageCache'),
 		'data'        => array('BlogSetting','BlogStatistics','DailyStatistics',
 			'DataMaintenance','Filter','Image','MySQL','MySQLi','POD','RSS',
@@ -54,8 +54,9 @@ class Autoload {
 			'Feed','GuestComment','Keyword','Link','Notice','PluginSetting',
 			'Post','RemoteResponse','SkinSetting','Tag','Trackback','TrackbackLog'),
 	    'environment' => array(
-			'Base64Stream','HTTPRequest','OutputWriter','XMLRPC','XMLRPCFault',
-			'XMLCustomType','XMLTree','Pop3'),
+			'Base64Stream','HTTPRequest','OutputWriter','XMLRPC',
+			array('XMLRPCFault'=>'XMLRPC','XMLCustomType'=>'XMLRPC'),
+			'XMLTree','Pop3'),
 		'plugin'      => array('Misc','PluginCustomConfig'),
 		'session'     => array('Session'),
 		'skin'        => array('BlogSkin'),
@@ -64,7 +65,9 @@ class Autoload {
 	public static function register() {
 		foreach (self::$drivers as $namespace => $classes) {
 			if(!empty($classes)) foreach($classes as $class) {
-				self::$relation[$class] = $namespace;
+				if(is_array($class)) {
+					foreach($class as $module => $file) self::$relation[$module] = $namespace.'/'.$file;
+				} else self::$relation[$class] = $namespace.'/'.$class;
 			}
 		}	
 	}
@@ -79,8 +82,8 @@ class Autoload {
 		} else if(self::$relation[$name] == 'session' && isset($service['memcached']) && $service['memcached'] == true) {
 			require_once(ROOT . "/library/session/Session_Memcached.php");
 		} else if(empty(self::$relation[$name])) {
-			if(defined('TCDEBUG')) print "TC: Unregisterred auto load class: $name<br/>\n";
-		} else {	
+			if(defined('TCDEBUG')) print "Textcube: Unregisterred auto load class: $name<br/>\n";
+		} else {
 			require_once(ROOT . "/library/".self::$relation[$name]."/".$name.".php");
 		}
 

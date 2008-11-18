@@ -370,4 +370,20 @@ class XMLRPC {
         return $retString;
     }   
 }
+class XMLRPCFault {
+	var $code, $string;
+
+	function XMLRPCFault($code = 0, $string = 'Error') {
+		$this->code = $code;
+		$this->string = $string;
+	}
+}
+class XMLCustomType {
+	var $value, $name;
+	
+	function XMLCustomType($varString, $varName) {
+		$this->name = $varName;
+		$this->value = $varString;
+	}
+}
 ?>
