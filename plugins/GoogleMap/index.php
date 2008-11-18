@@ -67,7 +67,7 @@ function GoogleMap_View($target, $mother) {
 		$id = 'GMapContainer'.$mother.rand();
 		ob_start();
 ?>
-		<div id="<?php echo $id;?>" style="border: 1px solid #666; width:<?php echo $width;?>px; height:<?php echo $height;?>px;"></div>
+		<div id="<?php echo $id;?>" style="border: 1px solid #666;"></div>
 		<script type="text/javascript">
 		//<![CDATA[
 		var c = document.getElementById('<?php echo $id;?>');
@@ -131,6 +131,7 @@ function GoogleMap_LocationLogView($target) {
 			locationMap.addControl(new GHierarchicalMapTypeControl());
 			locationMap.addControl(new GLargeMapControl());
 			locationMap.addControl(new GScaleControl());
+			locationMap.enableContinuousZoom();
 			boundary = new GLatLngBounds(locationMap.getCenter(), locationMap.getCenter());
 			var locations = new Array();
 <?php
@@ -191,7 +192,7 @@ function GoogleMapUI_Insert($target) {
 		map.setMapType(<?php echo $default_type;?>);
 		map.addControl(new GHierarchicalMapTypeControl());
 		map.addControl(new GLargeMapControl());
-		map.addControl(new GScaleControl());
+		//map.addControl(new GScaleControl());
 		map.enableScrollWheelZoom();
 		map.enableContinuousZoom();
 	}
