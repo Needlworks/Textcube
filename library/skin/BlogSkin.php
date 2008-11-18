@@ -87,7 +87,7 @@ class BlogSkin {
 
 	var $dressTags = array();
 
-	function Skin($name, $previewMode = false) {
+	function __construct($name, $previewMode = false) {
 		global $service, $blogURL, $suri, $blog, $__gDressTags;
 		$__gDressTags = array();
 		if($previewMode == true || ($service['skincache'] != true) || !$this->loadCache()) {
