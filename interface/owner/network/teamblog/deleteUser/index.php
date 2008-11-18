@@ -11,7 +11,7 @@ require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 
 if (deleteTeamblogUser($_POST['userid'])) {
-	respond::ResultPage(0);
+	Respond::ResultPage(0);
 }
-respond::ResultPage(-1);
+Respond::ResultPage(-1);
 ?>

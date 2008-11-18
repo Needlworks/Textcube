@@ -9,7 +9,7 @@ if (false) {
 }
 if (strlen($suri['value'])) {
 	if(!$keylog = getKeylogByTitle($blogid, $suri['value'])) {
-		respond::ErrorPage();
+		Respond::ErrorPage();
 		exit;
 	}
 	$entries = array();
@@ -18,7 +18,7 @@ if (strlen($suri['value'])) {
 	if(!is_null($skinSetting['keylogSkin'])) {
 		require ROOT . '/interface/common/blog/keylog.php';
 	} else {
-		respond::ErrorPage(_t('No handling plugin'));
+		Respond::ErrorPage(_t('No handling plugin'));
 	}
 } else {
 	$keywords = getKeywordNames($blogid, true);

@@ -26,11 +26,11 @@ $sidebarOrderData = getSidebarModuleOrderData($sidebarCount);
 $sidebarNumber = $_REQUEST['sidebarNumber'];
 $modulePos = $_REQUEST['modulePos'];
 
-if (($sidebarNumber < 0) || ($sidebarNumber >= $sidebarCount)) respond::ErrorPage(null,null,null,$ajaxcall);
-if (!isset($sidebarOrderData[$sidebarNumber]) || !isset($sidebarOrderData[$sidebarNumber][$modulePos])) respond::ErrorPage(null,null,null,$ajaxcall);
+if (($sidebarNumber < 0) || ($sidebarNumber >= $sidebarCount)) Respond::ErrorPage(null,null,null,$ajaxcall);
+if (!isset($sidebarOrderData[$sidebarNumber]) || !isset($sidebarOrderData[$sidebarNumber][$modulePos])) Respond::ErrorPage(null,null,null,$ajaxcall);
 
 $pluginData = $sidebarOrderData[$sidebarNumber][$modulePos];
-if ($pluginData['type'] != 3) respond::ErrorPage(null,null,null,$ajaxcall);
+if ($pluginData['type'] != 3) Respond::ErrorPage(null,null,null,$ajaxcall);
 
 $plugin = $pluginData['id']['plugin'];
 $handler = $pluginData['id']['handler'];

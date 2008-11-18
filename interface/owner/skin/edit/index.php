@@ -5,7 +5,7 @@
 require ROOT . '/library/includeForBlogOwner.php';
 // get style files list in current skin.
 $styleFileList = array();
-$tempStyleFileList = misc::getFileListByRegExp(ROOT . "/skin/blog/{$skinSetting['skin']}", '\.css$', true);
+$tempStyleFileList = Misc::getFileListByRegExp(ROOT . "/skin/blog/{$skinSetting['skin']}", '\.css$', true);
 
 foreach ($tempStyleFileList as $styleFile) {
 	$styleFileList[basename($styleFile)] = $styleFile;

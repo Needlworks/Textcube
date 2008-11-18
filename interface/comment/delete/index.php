@@ -42,7 +42,7 @@ if (!empty($_POST['mode'])) {
 	switch ($_POST['mode']) {
 		case 'delete':
 			if (!list($entryId) = getCommentAttributes($blogid, $suri['id'], 'entry'))
-				respond::ErrorPage(_text('댓글이 존재하지 않습니다.'));
+				Respond::ErrorPage(_text('댓글이 존재하지 않습니다.'));
 			$result = false;
 			if (doesHaveOwnership()) {
 				$result = trashComment($blogid, $suri['id'], $entryId, isset($_POST['password']) ? $_POST['password'] : '');
@@ -86,7 +86,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 				printHtmlFooter();
 				exit;
 			} else {
-				respond::ErrorPage(_text('패스워드가 일치하지 않습니다.'));
+				Respond::ErrorPage(_text('패스워드가 일치하지 않습니다.'));
 				exit;
 			}
 			
@@ -100,7 +100,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 				$comment = getComment($blogid, $suri['id'], isset($_POST['password']) ? $_POST['password'] : '');
 			}
 			if ($comment === false)
-				respond::ErrorPage(_text('댓글이 존재하지 않거나 패스워드가 일치하지 않습니다.'));
+				Respond::ErrorPage(_text('댓글이 존재하지 않거나 패스워드가 일치하지 않습니다.'));
 			$pageTitle = _text('댓글을 수정합니다');
 			$viewMode = 'edit';
 			require ROOT . '/library/view/replyEditorView.php';
@@ -115,7 +115,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 				$comment = getComment($blogid, $suri['id'], isset($_POST['oldPassword']) ? $_POST['oldPassword'] : '');
 			}
 			if ($comment === false)
-				respond::ErrorPage(_text('댓글이 존재하지 않거나 패스워드가 일치하지 않습니다.'));
+				Respond::ErrorPage(_text('댓글이 존재하지 않거나 패스워드가 일치하지 않습니다.'));
 			if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment'])) {
 				if (!doesHaveOwnership()) {
 					$comment['name'] = $_POST['name'];
@@ -173,11 +173,11 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 					printHtmlFooter();
 					exit;
 				} else {
-					respond::ErrorPage(_text('수정이 실패하였습니다.'));
+					Respond::ErrorPage(_text('수정이 실패하였습니다.'));
 				}
 			}
 	}
-	respond::ErrorPage();
+	Respond::ErrorPage();
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">

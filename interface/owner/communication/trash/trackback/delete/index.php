@@ -9,9 +9,9 @@ requireModel("blog.response.remote");
 if(isset($suri['id'])) {
 	$isAjaxRequest = checkAjaxRequest();
 	if (deleteTrackback($blogid, $suri['id']) !== true)
-		$isAjaxRequest ? respond::ResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? Respond::ResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	else
-		$isAjaxRequest ? respond::ResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? Respond::ResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
 } else {
 	$targets = explode('~*_)', $_POST['targets']);
 	foreach($targets as $target) {
@@ -19,6 +19,6 @@ if(isset($suri['id'])) {
 			continue;
 		deleteTrackback($blogid, $target);
 	}
-	respond::ResultPage(0);
+	Respond::ResultPage(0);
 }
 ?>

@@ -13,6 +13,6 @@ $IV = array(
 require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 if (useBlogSlogan($blogid, $_POST['useSloganOnPost'],$_POST['useSloganOnCategory'],$_POST['useSloganOnTag']))
-	respond::ResultPage(0);
-respond::ResultPage( - 1);
+	Respond::ResultPage(0);
+Respond::ResultPage( - 1);
 ?>

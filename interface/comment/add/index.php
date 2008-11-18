@@ -23,7 +23,7 @@ $IV = array(
 	)
 );
 if(!Validator::validate($IV))
-	respond::PrintResult(array('error' => 1, 'description' => 'Illigal parameters'));
+	Respond::PrintResult(array('error' => 1, 'description' => 'Illigal parameters'));
 requireStrictRoute();
 header('Content-Type: text/xml; charset=utf-8');
 if (!isset($_GET['__T__']) || !isset($_POST['key']) || $_POST['key'] != md5(filemtime(ROOT . '/config.php'))) {

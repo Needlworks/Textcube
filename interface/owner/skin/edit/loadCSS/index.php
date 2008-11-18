@@ -13,7 +13,7 @@ requireStrictRoute();
 	
 $result = getCSSContent($blogid, $_POST['file']);
 if ($result === false)
-	respond::PrintResult(array('error' => 1));
+	Respond::PrintResult(array('error' => 1));
 else
-	respond::PrintResult(array('error' => 0, 'content' => $result));
+	Respond::PrintResult(array('error' => 0, 'content' => $result));
 ?>

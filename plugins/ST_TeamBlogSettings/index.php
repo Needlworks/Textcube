@@ -49,7 +49,7 @@ function getTeamProfileView($target, $mother){
 		$target .= getTeamProfile($entry['userid']);
 	}
 	if ($suri['directive'] != "/rss" && $suri['directive'] != "/sync" && $data['p1'] && !empty($data['p2']) ) {
-		misc::dress('TeamBlogProfileTag', getTeamProfile($entry['userid']), $entryView);
+		Misc::dress('TeamBlogProfileTag', getTeamProfile($entry['userid']), $entryView);
 	}
 	return $target;
 }
@@ -260,15 +260,15 @@ function getTeamContentsSave($target){
 	if(doesHaveOwnership() && doesHaveMembership()){
 		if($flag == "style"){
 			if(POD::execute("UPDATE {$database['prefix']}TeamUserSettings SET style=\"{$style}\", updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
-				respond::ResultPage(0);
+				Respond::ResultPage(0);
 			}
 		}else if($flag == "profile"){
 			$profile = POD::escapeString(UTF8::lessenAsEncoding($profile, 65535));
 			if(POD::execute("UPDATE {$database['prefix']}TeamUserSettings SET profile=\"{$profile}\", updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
-				respond::ResultPage(0);
+				Respond::ResultPage(0);
 			}
 		}
-		respond::ResultPage(-1);
+		Respond::ResultPage(-1);
 	}
 }
 
@@ -316,7 +316,7 @@ function getAddAttachment($file){
 	if(empty($file['name'])||($file['error']!=0))
 		return false;
 	$attachment = array();
-	$attachment['ext'] = misc::getFileExtension(Path::getBaseName($file['name']));
+	$attachment['ext'] = Misc::getFileExtension(Path::getBaseName($file['name']));
 	$path = ROOT."/attach/".getBlogId()."/team";
 	if(!is_dir($path)){
 		mkdir($path);

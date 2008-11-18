@@ -24,7 +24,7 @@ require ROOT . '/library/includeForBlogOwner.php';
 requireModel('blog.entry');
 
 requireStrictRoute();
-if(empty($suri['id'])) respond::ResultPage(1);
+if(empty($suri['id'])) Respond::ResultPage(1);
 $entry['id'] = $suri['id'];
 $entry['draft'] = 1;
 $entry['visibility'] = $_POST['visibility'];
@@ -47,8 +47,8 @@ if ($id > 0) {
 	$result['error'] = ($id > 0) ? 0 : 1;
 	$result['entryId'] = $id;
 	$result['suriid'] = $suri['id'];
-	respond::PrintResult($result);
+	Respond::PrintResult($result);
 } else {
-	respond::ResultPage(1);
+	Respond::ResultPage(1);
 }
 ?>

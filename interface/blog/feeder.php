@@ -8,5 +8,5 @@ if (false) {
 	fetchConfigVal();
 }
 list($status, $url) = updateRandomFeed();
-respond::PrintResult(array('error' => $status, 'url' => $url));
+Respond::PrintResult(array('error' => $status, 'url' => $url));
 ?>

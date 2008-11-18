@@ -11,7 +11,7 @@ $IV = array(
 require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 if (User::changeSetting(getUserId(), $_POST['email'], $_POST['nickname'])) {
-	respond::ResultPage(0);
+	Respond::ResultPage(0);
 }
-respond::ResultPage( - 1);
+Respond::ResultPage( - 1);
 ?>

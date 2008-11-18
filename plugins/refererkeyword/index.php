@@ -384,7 +384,7 @@ for ($i=0; $i<sizeof($keywordlist); $i++) {
 										<td class="<?php echo $urlClassName; ?>"></td>
 										<td class="refererurl">
 <?php
-			echo "<a href=\"".misc::escapeJSInAttribute($splitRefererURL)."\" onclick=\"window.open(this.href); return false;\">".UTF8::lessenAsEm(htmlspecialchars($decodeURL), 90)."</a>";
+			echo "<a href=\"".Misc::escapeJSInAttribute($splitRefererURL)."\" onclick=\"window.open(this.href); return false;\">".UTF8::lessenAsEm(htmlspecialchars($decodeURL), 90)."</a>";
 			$j++;
 		}
 		

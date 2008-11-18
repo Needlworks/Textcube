@@ -40,6 +40,6 @@ if($ajaxcall == false) {
 	if ($_SERVER['REQUEST_METHOD'] != 'POST')
 		header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
 } else {
-	respond::ResultPage(0);
+	Respond::ResultPage(0);
 }
 ?>

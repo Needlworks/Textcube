@@ -5,5 +5,5 @@
 require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.link");
 requireStrictRoute();
-respond::ResultPage(deleteLink($blogid, $suri['id']));
+Respond::ResultPage(deleteLink($blogid, $suri['id']));
 ?>

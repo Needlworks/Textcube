@@ -34,8 +34,8 @@ require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 
 if (setSkinSetting($blogid, $_POST)) {
-	respond::PrintResult(array('error' => 0));
+	Respond::PrintResult(array('error' => 0));
 } else {
-	respond::PrintResult(array('error' => 1, 'msg' => POD::error()));
+	Respond::PrintResult(array('error' => 1, 'msg' => POD::error()));
 }
 ?>

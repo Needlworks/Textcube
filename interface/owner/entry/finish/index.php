@@ -60,17 +60,17 @@ if (empty($suri['id']) || !is_null($entry)) {
 			$result = array();
 			$result['error'] = (($id !== false) === true ? 0 : 1);
 			$result['entryId'] = $id;
-			respond::PrintResult($result);
+			Respond::PrintResult($result);
 			exit;
 		}
 	} else {
 		if($id = updateEntry($blogid, $entry, $updateDraft)) {
 			fireEvent('UpdatePost', $id, $entry);
 			setBlogSetting('LatestEditedEntry_user'.getUserId(),$suri['id']);
-			respond::ResultPage(0);
+			Respond::ResultPage(0);
 			exit;
 		}
 	}
 }
-respond::ResultPage(-1);
+Respond::ResultPage(-1);
 ?>

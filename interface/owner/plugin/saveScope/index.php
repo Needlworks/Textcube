@@ -25,8 +25,8 @@ if (!setBlogSetting("pluginListScopeType_{$_POST['visibility']}", $_POST['scope'
 	setBlogSetting("pluginListStatusType_{$_POST['visibility']}", $backupStatus);
 	setBlogSetting("pluginListSortType", $backupSort);
 	setBlogSetting("pluginViewType", $backupListView);
-	respond::ResultPage(1);
+	Respond::ResultPage(1);
 } else {
-	respond::ResultPage(0);
+	Respond::ResultPage(0);
 }
 ?>

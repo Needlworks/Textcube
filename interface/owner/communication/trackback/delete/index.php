@@ -17,12 +17,12 @@ if(isset($suri['id'])) {
 	$isAjaxRequest = checkAjaxRequest();
 	
 	if (trashTrackback($blogid, $suri['id']) !== false)
-		$isAjaxRequest ? respond::ResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? Respond::ResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	else
-		$isAjaxRequest ? respond::ResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? Respond::ResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
 } else {
 	foreach(explode(',', $_POST['targets']) as $target)
 		trashTrackback($blogid, $target);
-	respond::ResultPage(0);
+	Respond::ResultPage(0);
 }
 ?>

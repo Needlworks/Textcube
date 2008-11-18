@@ -27,7 +27,7 @@ if ($_REQUEST['targetPos'] < 0 || $_REQUEST['targetPos'] > count($sidebarOrder[$
 	if ($_SERVER['REQUEST_METHOD'] != 'POST')
 		header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
 	else
-		respond::ResultPage(-1);
+		Respond::ResultPage(-1);
 } else {
 	if (($_REQUEST['sidebarNumber'] == $_REQUEST['targetSidebarNumber'])
 		&& ($_REQUEST['modulePos'] < $_REQUEST['targetPos'])) 
@@ -46,5 +46,5 @@ if ($_REQUEST['viewMode'] != '') $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMo
 if ($_SERVER['REQUEST_METHOD'] != 'POST')
 	header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
 else
-	respond::ResultPage(0);
+	Respond::ResultPage(0);
 ?>

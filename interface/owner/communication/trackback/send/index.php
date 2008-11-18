@@ -11,5 +11,5 @@ require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.response.remote");
 
 requireStrictRoute();
-respond::ResultPage(!empty($_GET['url']) && sendTrackback($blogid, $suri['id'], trim($_GET['url'])));
+Respond::ResultPage(!empty($_GET['url']) && sendTrackback($blogid, $suri['id'], trim($_GET['url'])));
 ?>

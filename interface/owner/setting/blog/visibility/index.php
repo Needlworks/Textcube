@@ -26,6 +26,6 @@ if(isset($_GET['useiPhoneUI'])) {
 	else $useiPhoneUI = false;
 	if(setBlogSetting('useiPhoneUI',$useiPhoneUI)) $result = true;
 }
-if($result)	{$gCacheStorage->purge();respond::ResultPage(0);}
-else respond::ResultPage(-1);
+if($result)	{$gCacheStorage->purge();Respond::ResultPage(0);}
+else Respond::ResultPage(-1);
 ?>

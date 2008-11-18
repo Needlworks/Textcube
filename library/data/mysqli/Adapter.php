@@ -9,7 +9,8 @@ global $fileCachedResult;
 
 class DBQuery {	
 	static $db;
-	static $cachedResult, $dbProperties, $escapeTag, $lastQueryType;
+	static $cachedResult, $escapeTag, $lastQueryType;
+	static $dbProperties = array();
 	public static function bind($database) {
 		// Connects DB and set environment variables
 		// $database array should contain 'server','username','password'.

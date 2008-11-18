@@ -11,5 +11,5 @@ require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.entry");
 
 requireStrictRoute();
-respond::ResultPage(protectEntry($suri['id'], isset($_POST['password']) ? $_POST['password'] : ''));
+Respond::ResultPage(protectEntry($suri['id'], isset($_POST['password']) ? $_POST['password'] : ''));
 ?>

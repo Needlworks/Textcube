@@ -13,9 +13,9 @@ requireStrictRoute();
 
 $result = User::remove($_GET['userid']);
 if ($result===true) {
-	respond::PrintResult(array('error' => 0));
+	Respond::PrintResult(array('error' => 0));
 }
 else {
-	respond::PrintResult(array('error' => -1 , 'result' =>$result));
+	Respond::PrintResult(array('error' => -1 , 'result' =>$result));
 }
 ?>

@@ -6,7 +6,7 @@ require ROOT . '/library/includeForBlogOwner.php';
 
 
 if(CacheControl::flushAll(getBlogId()))
-	respond::ResultPage(0);
+	Respond::ResultPage(0);
 else 
-	respond::ResultPage(-1);
+	Respond::ResultPage(-1);
 ?>

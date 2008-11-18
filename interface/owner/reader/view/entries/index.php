@@ -21,5 +21,5 @@ $entry = getFeedEntry($blogid, $_POST['group'], $_POST['feed'], 0, $_POST['unrea
 $result['firstEntryId'] = $entry['id'];
 $result['entriesShown'] = $count;
 $result['entriesTotal'] = getFeedEntriesTotalCount($blogid, $_POST['group'], $_POST['feed'], $_POST['unread'] == '1', $_POST['starred'] == '1', $_POST['keyword'] == '' ? null : $_POST['keyword']);
-respond::PrintResult($result);
+Respond::PrintResult($result);
 ?>

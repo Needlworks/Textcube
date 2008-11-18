@@ -9,5 +9,5 @@ $password = POD::queryCell("SELECT `password`
 		FROM `{$database['prefix']}Entries`
 		WHERE `blogid` = ".getBlogId()." AND `id` = {$suri['id']} AND `draft` = 0");
 if (is_null($password)) $password = '';
-respond::PrintResult(array('error' => 0, 'password' => $password));
+Respond::PrintResult(array('error' => 0, 'password' => $password));
 ?>

@@ -9,7 +9,7 @@ final class FrameworkAutoloader
 		'auth'        => array('Auth','OpenID',array('Privilege'=>'Auth','Acl'=>'Auth')),
 		'cache'       => array('PageCache','ICache'),
 		'data'        => array('BlogSetting','BlogStatistics','DailyStatistics',
-			'DataMaintenance','Filter','Image','MySQL','MySQLi','POD','RSS',
+			'DataMaintenance','Filter','Image','POD','RSS',
 			'RefererLog','RefererStatistics','ServiceSetting','Setting',
 			'Statistics','SubscriptionLog','SubscriptionStatistics','Syndication',
 			'TData','UserInfo','UserSetting',
