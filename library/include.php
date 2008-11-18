@@ -58,7 +58,7 @@ class Autoload {
 			'XMLCustomType','XMLTree','Pop3'),
 		'plugin'      => array('Misc','PluginCustomConfig'),
 		'session'     => array('Session'),
-		'skin'        => array(),
+		'skin'        => array('BlogSkin'),
 		'view'        => array('BlogView','Paging','Respond'));
 	private static $relation = array();
 	public static function register() {
