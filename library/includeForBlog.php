@@ -20,7 +20,6 @@ $__requireLibrary = array(
 	'database',					// Library
 	'locale',
 	'auth',
-	'blog.skin',
 	'DEBUG : Default library loaded.');
 $__requireModel = array(
 	'blog.service',				// Models

@@ -10,7 +10,7 @@ function setBlogTitle($blogid, $title) {
 	if(setBlogSetting('title', UTF8::lessenAsEncoding($title, 255)) === false) return false;
 	$blog['title'] = $title;
 	requireModel('blog.feed');
-	requireLibrary('blog.skin');
+	
 	clearFeed();
 	Skin::purgeCache();
 	return true;
@@ -23,7 +23,7 @@ function setBlogDescription($blogid, $description) {
 	if(setBlogSetting('description',UTF8::lessenAsEncoding($description, 255)) === false) return false;
 	$blog['description'] = $description;
 	requireModel('blog.feed');
-	requireLibrary('blog.skin');
+	
 	clearFeed();
 	Skin::purgeCache();
 	return true;

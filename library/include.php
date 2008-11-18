@@ -71,7 +71,7 @@ class Autoload {
 	public static function load($name) {
 		global $service;
 		$name = ucfirst($name);
-		if(empty(self::$relation)) self::register();
+		if(empty(self::$relation)) {self::register();}
 		if (in_array($name,array('DBQuery'))) {
 			if (!isset($service['dbms'])) $service['dbms'] = 'mysql';
 			require_once(ROOT . "/library/data/".$service['dbms']."/Adapter.php");

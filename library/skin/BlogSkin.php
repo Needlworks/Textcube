@@ -5,7 +5,7 @@
 
 global $__gDressTags;
 
-class Skin {
+class BlogSkin {
 	var $outter;
 	var $skin;
 	var $list;
