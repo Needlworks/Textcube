@@ -22,7 +22,7 @@ final class Config extends Singleton {
 		
 		// Include installation configuration.
 		$service['session_cookie_path'] = '/';
-		if(!defined('__TEXTCUBE_SETUP__')) @include ROOT . '/config.php';
+		if(!defined('__TEXTCUBE_SETUP__')) @include_once ROOT . '/config.php';
 		
 		// Set resource path.
 		if($service['externalresources']) {
@@ -35,9 +35,9 @@ final class Config extends Singleton {
 		}
 		
 		// Database setting.
-		if(isset($service['dbms'])) {
-			if($service['dbms'] == 'mysql' && class_exists('mysqli')) $service['dbms'] = 'mysqli';
-		}
+//		if(isset($service['dbms'])) {
+//			if($service['dbms'] == 'mysql' && class_exists('mysqli')) $service['dbms'] = 'mysqli';
+//		}
 		
 		// Debug mode configuration.
 		if($service['debugmode'] == true) {

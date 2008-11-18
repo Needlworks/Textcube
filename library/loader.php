@@ -60,7 +60,6 @@ final class FrameworkAutoloader
 		if(empty(self::$relation)) {self::register();}
 		if (in_array($name,array('DBQuery'))) {
 			require_once(ROOT . "/library/data/".$config->backend_name."/Adapter.php");
-			require_once(ROOT . "/library/database.php");
 		} else if(self::$relation[$name] == 'session' && isset($service['memcached']) && $service['memcached'] == true) {
 			require_once(ROOT . "/library/session/Session_Memcached.php");
 		} else if(empty(self::$relation[$name])) {
