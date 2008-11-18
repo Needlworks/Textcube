@@ -63,7 +63,7 @@ if(isset($interfacePath)) {
 	$depth = substr_count(ROOT, '/');
 }
 if ($depth > 0) {
-	if($service['fancyURL'] === 0 || $service['fancyURL'] === 1) $url = '/'.$accessInfo['input']; // Exclude /blog path.
+	if($service['fancyURL'] === 0 || $service['fancyURL'] === 1) $url = '/'.$context->accessInfo['input']; // Exclude /blog path.
 	if (preg_match('@^((/+[^/]+){' . $depth . '})/*(.*)$@', $url, $matches)) {
 		$suri['directive'] = $matches[1];
 		if ($matches[3] !== false) {

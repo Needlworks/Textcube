@@ -60,7 +60,7 @@ $basicIV = array(
 	'REDIRECT_URL' => array('string', 'mandatory' => false)
 );
 Validator::validateArray($_SERVER, $basicIV);
-/*if(isset($accessInfo)) {
+if(isset($accessInfo)) {
 	$basicIV = array(
 		'fullpath' => array('string'),
 		'input'    => array('string'),
@@ -70,7 +70,7 @@ Validator::validateArray($_SERVER, $basicIV);
 	);
 	$accessInfo['fullpath'] = urldecode($accessInfo['fullpath']);
 	Validator::validateArray($accessInfo, $basicIV);
-}*/
+}
 
 /* TODO: Database Initialization (if necessary)
 /* TODO: Parse virtual blog information (if necessary)
