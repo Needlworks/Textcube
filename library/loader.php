@@ -56,11 +56,11 @@ final class FrameworkAutoloader
 	public static function autoload($name) {
 		global $service;
 		$name = ucfirst($name);
+		$config = Config::getInstance();
 		if(empty(self::$relation)) {self::register();}
 		if (in_array($name,array('DBQuery'))) {
-			if (!isset($service['dbms'])) $service['dbms'] = 'mysql';
-			require_once(ROOT . "/library/data/".$service['dbms']."/Adapter.php");
-			require_once(ROOT . "/library/data/Database.php");
+			require_once(ROOT . "/library/data/".$config->backend_name."/Adapter.php");
+			require_once(ROOT . "/library/database.php");
 		} else if(self::$relation[$name] == 'session' && isset($service['memcached']) && $service['memcached'] == true) {
 			require_once(ROOT . "/library/session/Session_Memcached.php");
 		} else if(empty(self::$relation[$name])) {

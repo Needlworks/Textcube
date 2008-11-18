@@ -14,7 +14,6 @@ if(!empty($database) && !empty($database["database"])) {
 	}
 }
 $database['utf8'] = (POD::charset() == 'utf8') ? true : false;
-
 /**
       Memcache module bind (if possible)
 	--------------------------------------

@@ -48,7 +48,7 @@ $__coreLibrary = array(
 	'auth/Auth',
 	'cache/PageCache');
 foreach($__coreLibrary as $lib) {
-	require ROOT .'/library/'.$lib.'.php';
+	require_once ROOT .'/library/'.$lib.'.php';
 } 
 /***** Loading code pieces *****/
 if(isset($service['codecache']) && ($service['codecache'] == true) && file_exists(ROOT.'/cache/code/'.$codeName)) {
