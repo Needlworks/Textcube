@@ -111,9 +111,5 @@ if (!defined('NO_INITIALIZAION')) {
 		else
 			$adminSkinSetting['editorTemplate'] = "/resources/style/default-wysiwyg.css";
 	}
-	if (!file_exists(ROOT . '/config.php')) {
-		header('Location: ' . ROOT . '/setup.php');
-		exit;
-	}
 }
 ?>

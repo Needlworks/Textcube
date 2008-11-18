@@ -5,7 +5,7 @@
 define('__NO_ADMINPANEL__',true);
 $__requireComponent = array();
 $__requireBasics = array(
-	'environment/config',					// Basics
+	// Basics
 	'function/string',
 	'function/time',
 	'function/javascript',

@@ -10,10 +10,8 @@ This file...
 */
 define('ROOT', '.');
 
-/// Load config.php.
-if (file_exists(ROOT.'/config.php')) {
-	require_once(ROOT.'/config.php');
-} else {
+/// Check config.php.
+if (!file_exists(ROOT.'/config.php')) {
 	require(ROOT.'/setup.php');
 	exit;
 }
@@ -24,11 +22,12 @@ include(ROOT.'/library/settings.php');
 include(ROOT.'/library/loader.php');
 $config = Config::getInstance();
 
-// Parse and normalize URI. */
+/** Parse and normalize URI. */
 /* TODO: Unify the environment and do work-arounds. (For IIS, Apache - mod_php or fastcgi, lighttpd, and etc.) */
 // Structure of fancy URL:
 //   host + blog prefix + interface path + pagination info + extra arguments not in $_REQUEST
 // TODO: Apply this structure to $context->accessInfo...
+
 try {
 	$context = Context::getInstance(); // automatic initialization via first instanciation
 } catch (URIError $e) {
@@ -38,16 +37,45 @@ try {
 	exit;
 }
 
-/* Special pre-handlers. (favicon.ico, index.gif) */
+/// Special pre-handlers. (favicon.ico, index.gif)
 if ($context->accessInfo['prehandler']) {
 	// Skip further processes such as session management.
 	require(ROOT.'/'.$context->accessInfo['interfacePath']);
 	exit;
 }
 
-/* TODO: Session management. */
+/// Input Validation
+// Basic POST/GET variable validation.
+if (isset($IV)) {
+	if (!Validator::validate($IV)) {
+		header('HTTP/1.1 404 Not Found');
+		exit;
+	}
+}
+// Basic SERVER variable validation.
+$basicIV = array(
+	'SCRIPT_NAME' => array('string'),
+	'REQUEST_URI' => array('string'),
+	'REDIRECT_URL' => array('string', 'mandatory' => false)
+);
+Validator::validateArray($_SERVER, $basicIV);
+/*if(isset($accessInfo)) {
+	$basicIV = array(
+		'fullpath' => array('string'),
+		'input'    => array('string'),
+		'position' => array('string'),
+		'root'     => array('string'),
+		'input'    => array('string', 'mandatory' => false)
+	);
+	$accessInfo['fullpath'] = urldecode($accessInfo['fullpath']);
+	Validator::validateArray($accessInfo, $basicIV);
+}*/
 
-// TODO: Do input validation as soon as possible?
+/* TODO: Database Initialization (if necessary)
+/* TODO: Parse virtual blog information (if necessary)
+/* TODO: Session management. (if necessary) */
+/* TODO: ACL validation */
+
 /* Load final interface handler. */
 // Each interface...
 //   validates passed arguments through IV.

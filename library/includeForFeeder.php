@@ -7,7 +7,6 @@ define('NO_LOCALE',true);
 
 $__requireComponent = array();
 $__requireBasics = array(		// Basics
-	'environment/config',
 	'function/string',
 	'function/time',
 	'function/javascript',

@@ -18,7 +18,6 @@ class POD extends DBQuery {
 	/** Pre-definition **/
 	/** Initialization **/
 	function __construct($domain = null, $type = null, $prefix = '') {
-		requireComponent('Needlworks.Cache.PageCache');
 		global $_pod_setting;
 		if($domain != null) $this->_domain = $domain;
 		else if(isset($this->domain)) $this->_domain = $this->domain;

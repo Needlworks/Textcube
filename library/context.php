@@ -96,7 +96,8 @@ final class Context extends Singleton
 		//echo "<br />\n";
 
 		// TODO: Parse $_GET, $_POST, and etc.
-
+		if(isset($accessInfo['URLfragment'][0]) && $accessInfo['URLfragment'][0] == 'owner') $this->mode = 'owner';
+		else $this->mode = 'blog';
 		$this->accessInfo = $accessInfo;
 	}
 
