@@ -17,6 +17,7 @@ final class Config extends Singleton {
 		global $database, $service;
 		$this->database = $database;
 		$this->service = $service;
+		$this->backend_name = isset($service['dbms']) ? $service['dbms'] : 'mysql';
 	}
 
 	function __get($name) {

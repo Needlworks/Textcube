@@ -23,6 +23,13 @@ final class Context extends Singleton
 			if(isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING']))
 				$_SERVER['REQUEST_URI'] .= '?'.$_SERVER['QUERY_STRING'];
 		}
+		// IIS 7.0 and URL Rewrite Module CTP, but non-ASCII URLs are NOT supported.
+		if (isset($_SERVER['HTTP_X_ORIGINAL_URL'])) {
+			$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_ORIGINAL_URL'];
+		} // IIS 5.x/6.0/7.0 and Ionics ISAPI Rewrite Filter
+		else if (isset($_SERVER['HTTP_X_REWRITE_URL']) && strpos($_SERVER['REQUEST_URI'], 'rewrite.php') !== FALSE) {
+			$_SERVER['REQUEST_URI'] = urldecode($_SERVER['HTTP_X_REWRITE_URL']);
+		}
 		$accessInfo = array(
 			'host'      => $_SERVER['HTTP_HOST'],
 			'fullpath' => str_replace('index.php', '', $_SERVER["REQUEST_URI"]), // SUGGEST: change the name 'fullpath' to 'fullQuery'
@@ -62,7 +69,7 @@ final class Context extends Singleton
 			$accessInfo['prehandler'] = FALSE;
 			if (!empty($accessInfo['URLfragment']) &&
 				in_array($accessInfo['URLfragment'][0],
-						 array('api','archive','attachment','author','category','checkup','cover','cron','entry','feeder','foaf','guestbook','keylog','location','logout','notice','page','plugin','pluginForOwner','search','suggest','sync','tag','ttxml')))
+						 array('api','archive','attachment','author','category','checkup','cover','cron','entry','feeder','foaf','guestbook','iMazing','keylog','location','logout','notice','page','plugin','pluginForOwner','search','suggest','sync','tag','ttxml')))
 			{
 				$pathPart = $accessInfo['URLfragment'][0];
 				$interfacePath = 'interface/blog/'.$pathPart.'.php';

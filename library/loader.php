@@ -6,15 +6,15 @@
 final class FrameworkAutoloader
 {
 	private static $classPaths = array(
-			'Context' => './context.php',
-			'Debug' => './debug.php',
-			'IModel' => './data/IAdapter.php',
-			'DBException' => './data/IAdapter.php',
-			'DBConnectionError' => './data/IAdapter.php',
-			'DBQueryError' => './data/IAdapter.php',
-			'IAdapter' => './data/IModel.php',
-			'ICache' => './cache/ICache.php',
-			'Entry' => './model/Entry.phpp',
+			'Context' => './library/context.php',
+			'Debug' => './library/debug.php',
+			'IModel' => './library/data/IAdapter.php',
+			'DBException' => './library/data/IAdapter.php',
+			'DBConnectionError' => './library/data/IAdapter.php',
+			'DBQueryError' => './library/data/IAdapter.php',
+			'IAdapter' => './library/data/IModel.php',
+			'ICache' => './library/cache/ICache.php',
+			'Entry' => './library/model/Entry.php',
 		);
 
 	static function init() {

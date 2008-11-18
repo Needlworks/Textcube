@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-if(isset($accessInfo)) {$url = $accessInfo['fullpath'];} 
+if(isset($context)) {$url = $context->accessInfo['fullpath'];} 
 else { $url = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : $_SERVER['SCRIPT_NAME'];}
 $defaultblogid = getServiceSetting("defaultBlogId",1);
 

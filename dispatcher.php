@@ -8,7 +8,6 @@ This file...
    is executed AT FIRST.
    specifies the main workflow of Textcube 2.0.
 */
-define('TEXTCUBE_VERSION', '2.0');
 define('ROOT', '.');
 
 /// Load config.php.
