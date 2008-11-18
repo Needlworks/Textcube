@@ -30,19 +30,39 @@ final class Context extends Singleton
 		else if (isset($_SERVER['HTTP_X_REWRITE_URL']) && strpos($_SERVER['REQUEST_URI'], 'rewrite.php') !== FALSE) {
 			$_SERVER['REQUEST_URI'] = urldecode($_SERVER['HTTP_X_REWRITE_URL']);
 		}
+		/* Retrieve Access Parameter Information. */
 		$accessInfo = array(
 			'host'      => $_SERVER['HTTP_HOST'],
 			'fullpath' => str_replace('index.php', '', $_SERVER["REQUEST_URI"]), // SUGGEST: change the name 'fullpath' to 'fullQuery'
 			'position'  => $_SERVER["SCRIPT_NAME"],
-			'root'      => rtrim(str_replace('rewrite.php', '', $_SERVER["SCRIPT_NAME"]), 'index.php')
+			'root'      => rtrim(str_replace('dispatcher.php', '', $_SERVER["SCRIPT_NAME"]), 'index.php')
 			);
+		if (strpos($accessInfo['fullpath'],$accessInfo['root']) !== 0)
+			$accessInfo['fullpath'] = $accessInfo['root'].substr($accessInfo['fullpath'], strlen($accessInfo['root']) - 1);
 		// Workaround for compartibility with fastCGI / Other environment
 		$accessInfo['input'] = ltrim(substr($accessInfo['fullpath'],
 			strlen($accessInfo['root']) + (defined('__TEXTCUBE_NO_FANCY_URL__') ? 1 : 0)),'/');
 		// DEPRECATE?: Support for Tattertools 0.9x legacy address
-		
-		$accessInfo['URLfragment'] = explode('/',strtok($accessInfo['input'],'?'));
-		if (defined('__TEXTCUBE_NO_FANCY_URL__'))
+	$part = strtok($accessInfo['input'], '/');
+	if (in_array($part, array('resources','plugins','cache','skin','attach','thumbnail'))) {
+		$part = ltrim(rtrim($part == 'thumbnail' ?
+			  preg_replace('/thumbnail/', 'cache/thumbnail', $accessInfo['input'], 1) :
+			  $accessInfo['input']), '/');
+		$part = (($qpos = strpos($part, '?')) !== false) ? substr($part, 0, $qpos) : $part;
+		if(file_exists($part)) {
+			require_once ROOT.'/library/function/file.php';
+			dumpWithEtag($part);
+			exit;
+		} else {
+			header("HTTP/1.0 404 Not Found");exit;
+		}
+	}
+	if (strtok($part, '?') == 'setup.php') {require 'setup.php'; exit;}
+	$accessInfo['URLfragment'] = explode('/',strtok($accessInfo['input'],'?'));
+	unset($part);
+
+		/* Determine that which interface should be loaded. */
+		if (defined('__TEXTCUBE_NO_FANCY_URL__')) 
 			$config->service['type'] = 'single';
 		switch ($config->service['type']) {
 			case 'path': // For path-based multi blog.
@@ -61,6 +81,7 @@ final class Context extends Singleton
 				break;
 		}
 		$pathPart = strtok($pathPart,'&');
+		/* Load interface. */
 		$interfacePath = null;
 		if (in_array($pathPart, array('favicon.ico','index.gif'))) {
 			$accessInfo['interfacePath'] = 'interface/'.$pathPart.'.php';
@@ -87,7 +108,6 @@ final class Context extends Singleton
 			}
 			$accessInfo['interfacePath'] = $interfacePath;
 		}
-
 		// TODO: Add these to debug-mode output
 		//echo "<b>\$accessInfo : </b>";
 		//var_dump($accessInfo);
@@ -96,8 +116,6 @@ final class Context extends Singleton
 		//echo "<br />\n";
 
 		// TODO: Parse $_GET, $_POST, and etc./
-		if(isset($accessInfo['URLfragment'][0]) && $accessInfo['URLfragment'][0] == 'owner') $this->mode = 'owner';
-		else $this->mode = 'blog';
 		$this->accessInfo = $accessInfo;
 	}
 
