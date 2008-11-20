@@ -3,9 +3,6 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-// for Global Cache
-$__gCacheBlogSettings = array();
-
 function getBlogSettings($blogid) {
 	return Setting::getBlogSettingsGlobal($blogid);
 }

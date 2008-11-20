@@ -41,8 +41,6 @@ function requireLibrary($name) {
 
 /***** Pre-define basic components *****/
 $__coreLibrary = array(
-	'environment/Needlworks.PHP.UnifiedEnvironment',
-	//'environment/Needlworks.PHP.Core',
 	'environment/Locale',
 	'data/Core',
 	'auth/Auth',

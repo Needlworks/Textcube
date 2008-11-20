@@ -80,6 +80,10 @@ final class Config extends Singleton {
 		}
 		return $val;
 	}
+	
+	public function set($category, $name, $value) {
+		$this->$category[$name] = $value;	
+	}
 }
 
 ?>

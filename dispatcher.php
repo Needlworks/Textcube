@@ -15,6 +15,8 @@ if (!file_exists(ROOT.'/config.php')) {
 	require(ROOT.'/setup.php');
 	exit;
 }
+/// Initialize PHP environment.
+include(ROOT.'/library/environment/Needlworks.PHP.UnifiedEnvironment.php');
 
 /// Initialize class loader.
 include(ROOT.'/library/base.php');
@@ -59,27 +61,32 @@ $basicIV = array(
 	'REDIRECT_URL' => array('string', 'mandatory' => false)
 );
 Validator::validateArray($_SERVER, $basicIV);
-if(isset($accessInfo)) {
-	$basicIV = array(
-		'fullpath' => array('string'),
-		'input'    => array('string'),
-		'position' => array('string'),
-		'root'     => array('string'),
-		'input'    => array('string', 'mandatory' => false)
-	);
-	$accessInfo['fullpath'] = urldecode($accessInfo['fullpath']);
-	Validator::validateArray($accessInfo, $basicIV);
+
+/* Database Initialization (if necessary) */
+if(POD::bind($config->database) === false) {
+	Respond::MessagePage('Problem with connecting database.<br /><br />Please re-visit later.');
+	exit;
 }
-
-/* TODO: Database Initialization (if necessary)
-
 
 /* TODO: Parse virtual blog information (if necessary)*/
 $context->URIParser();
 $gCacheStorage = new GlobalCacheStorage;
 $context->globalVariableParser();
 
+/* TODO: Include required files */
+
 /* TODO: Session management. (if necessary) */
+if (!defined('NO_SESSION')) {
+	session_name(Session::getName());
+	Session::set();
+	session_set_save_handler( array('Session','open'), array('Session','close'), array('Session','read'), array('Session','write'), array('Session','destroy'), array('Session','gc') );
+	session_cache_expire(1);
+	session_set_cookie_params(0, '/', $service['domain']);
+	if (session_start() !== true) {
+		header('HTTP/1.1 503 Service Unavailable');
+	}
+}
+
 /* TODO: ACL validation */
 
 /* Load final interface handler. */

@@ -157,8 +157,8 @@ final class UTF8 {
 	}
 
 	static function lessenAsEncoding($str, $length = 255, $tail = '...') {
-		global $database;
-		if(!isset($database['utf8']) || empty($database['utf8']) || $database['utf8'] == true)
+		$charset = POD::charset();
+		if(!empty($charset) && $charset == 'utf8')
 			return UTF8::lessen($str, $length, $tail);
 		else
 			return UTF8::lessenAsByte($str, $length, $tail);

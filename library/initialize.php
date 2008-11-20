@@ -3,17 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-/**
-     Database I/O initialization.
-   --------------------------------
-**/
-if(!empty($database) && !empty($database["database"])) {
-	if(POD::bind($database) === false) {
-		Respond::MessagePage('Problem with connecting database.<br /><br />Please re-visit later.');
-		exit;
-	}
-}
-$database['utf8'] = (POD::charset() == 'utf8') ? true : false;
+
 /**
       Memcache module bind (if possible)
 	--------------------------------------
@@ -23,24 +13,6 @@ if(!empty($database) && !empty($service['memcached']) && $service['memcached'] =
 	$memcache = new Memcache;
 	$memcache->connect((isset($memcached['server']) && $memcached['server'] ? $memcached['server'] : 'localhost'));
 endif;
-
-/**
-   Path-dependent environment setting
-   ----------------------------------
-**/
-//require ROOT.'/library/suri.php';
-
-/* Session initializing */
-if (!defined('NO_SESSION')) {
-	session_name(Session::getName());
-	Session::set();
-	session_set_save_handler( array('Session','open'), array('Session','close'), array('Session','read'), array('Session','write'), array('Session','destroy'), array('Session','gc') );
-	session_cache_expire(1);
-	session_set_cookie_params(0, '/', $service['domain']);
-	if (session_start() !== true) {
-		header('HTTP/1.1 503 Service Unavailable');
-	}
-}
 
 /* Get User information */
 if (!defined('NO_INITIALIZAION')) {

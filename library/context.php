@@ -125,6 +125,19 @@ final class Context extends Singleton
 		//echo "<br />\n";
 
 		// TODO: Parse $_GET, $_POST, and etc./
+		
+		/// Validate URI information.
+		if(isset($accessInfo)) {
+			$basicIV = array(
+				'fullpath' => array('string'),
+				'input'    => array('string'),
+				'position' => array('string'),
+				'root'     => array('string'),
+				'input'    => array('string', 'mandatory' => false)
+			);
+			$accessInfo['fullpath'] = urldecode($accessInfo['fullpath']);
+			Validator::validateArray($accessInfo, $basicIV);
+		}
 		$this->accessInfo = $accessInfo;
 	}
 	
