@@ -11,7 +11,7 @@ final class Config extends Singleton {
 	}
 
 	protected function __construct() {
-		self::__basicConfigLoader();
+		$this->__basicConfigLoader();
 	}
 	
 	private function __basicConfigLoader() {

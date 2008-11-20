@@ -7,7 +7,7 @@ final class FrameworkAutoloader
 {
 	private static $classInfo = array(
 		'auth'        => array('Auth','OpenID',array('Privilege'=>'Auth','Acl'=>'Auth')),
-		'cache'       => array('PageCache','ICache',array('globalCacheStorage','PageCache'),
+		'cache'       => array('PageCache','ICache',array('GlobalCacheStorage'=>'PageCache')),
 		'data'        => array('BlogSetting','BlogStatistics','DailyStatistics',
 			'DataMaintenance','Filter','Image','POD','RSS',
 			'RefererLog','RefererStatistics','ServiceSetting','Setting',
@@ -54,14 +54,13 @@ final class FrameworkAutoloader
 		}	
 	}
 	public static function autoload($name) {
-		global $service;
 		$name = ucfirst($name);
 		$config = Config::getInstance();
 		if(empty(self::$relation)) {self::register();}
 		if (in_array($name,array('DBQuery'))) {
 			require_once(ROOT . "/library/data/".$config->backend_name."/Adapter.php");
 			require_once(ROOT . "/library/data/Database.php");
-		} else if(self::$relation[$name] == 'session' && isset($service['memcached']) && $service['memcached'] == true) {
+		} else if(self::$relation[$name] == 'session' && isset($config->service['memcached']) && $config->service['memcached'] == true) {
 			require_once(ROOT . "/library/session/Session_Memcached.php");
 		} else if(empty(self::$relation[$name])) {
 			if(defined('TCDEBUG')) print "Textcube: Unregisterred auto load class: $name<br/>\n";

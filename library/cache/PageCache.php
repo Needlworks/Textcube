@@ -252,11 +252,12 @@ class queryCache {
 // globalCacheStorage caches essential but 'relatively static' information, like
 // blogSettings, ServiceSettings, activePlugins, etc..
 // Textcube will use it as global object.
-class globalCacheStorage extends pageCache {
+class GlobalCacheStorage extends pageCache {
 	function __construct($blogid = null) {
+		$context = Context::getInstance();
 		$this->_isChanged = false;
 		$this->_gCacheStorage = array();
-		if(is_null($blogid)) $this->_gBlogId = getBlogId();
+		if(is_null($blogid)) $this->_gBlogId = $context->blogid;
 		else $this->_gBlogId = $blogid;
 	}
 	

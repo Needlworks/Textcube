@@ -40,7 +40,7 @@ class Setting {
 			$query->setQualifier('name',$name, true);
 			return $query->getCell('value');
 		}
-		$settings = Setting::getBlogSettingsGlobal(($blogid == null ? getBlogId() : $blogid)); 
+		$settings = setting::getBlogSettingsGlobal(($blogid == null ? getBlogId() : $blogid)); 
 		if ($settings === false) return $default;
 		if( isset($settings[$name]) ) {
 			return $settings[$name];
@@ -105,7 +105,7 @@ class Setting {
 			foreach($defaultValues as $name => $value) {
 				if(!in_array($name,$blogSettingFields)) {
 					$result[$name] = $value;
-					Setting::setBlogSettingDefault($name,$value,$blogid);
+					setting::setBlogSettingDefault($name,$value,$blogid);
 				}
 			}
 			$__gCacheBlogSettings[$blogid] = $result;
@@ -126,7 +126,7 @@ class Setting {
 	
 		if (!array_key_exists($blogid, $__gCacheBlogSettings)) {
 			// force loading
-			Setting::getBlogSettingsGlobal($blogid);
+			setting::getBlogSettingsGlobal($blogid);
 		}
 		if ($__gCacheBlogSettings[$blogid] === false) {
 			return null;
@@ -168,7 +168,7 @@ class Setting {
 	
 		if (!array_key_exists($blogid, $__gCacheBlogSettings)) {
 			// force loading
-			Setting::getBlogSettingsGlobal($blogid);
+			setting::getBlogSettingsGlobal($blogid);
 		}
 		if ($__gCacheBlogSettings[$blogid] === false) {
 			return null;
@@ -190,7 +190,7 @@ class Setting {
 
 	// For plugin-specific use.
 	function getBlogSetting($name, $default = null) {
-		$settings = Setting::getBlogSettingsGlobal(getBlogId()); // from blog.service.php
+		$settings = setting::getBlogSettingsGlobal(getBlogId()); // from blog.service.php
 		if ($settings === false) return $default;
 		$name = 'plugin_' . $name;
 		if( isset($settings[$name]) ) {
@@ -202,20 +202,20 @@ class Setting {
 	function setBlogSetting($name, $value) {
 		global $database, $blogid;
 		$name = 'plugin_' . $name;
-		return Setting::setBlogSettingGlobal($name, $value);
+		return setting::setBlogSettingGlobal($name, $value);
 	}
 	
 	function removeBlogSetting($name) {
 		global $database, $blogid;
 		$name = 'plugin_' . $name;
-		return Setting::removeBlogSettingGlobal($name);
+		return setting::removeBlogSettingGlobal($name);
 	}
 
 	// For User
 	function getUserSetting($name, $default = null) {
 		global $database, $userSetting;
 		$name = 'plugin_' . $name;
-		return Setting::getUserSettingGlobal($name, $default);
+		return setting::getUserSettingGlobal($name, $default);
 	}
 
 	function getUserSettingGlobal($name, $default = null, $userid = null, $directAccess = false) {
@@ -242,7 +242,7 @@ class Setting {
 	function setUserSetting($name, $value) {
 		global $database;
 		$name = 'plugin_' . $name;
-		return Setting::setUserSettingGlobal($name, $value);
+		return setting::setUserSettingGlobal($name, $value);
 	}
 	
 	function setUserSettingGlobal($name, $value, $userid = null) {
@@ -256,7 +256,7 @@ class Setting {
 	function removeUserSetting($name) {
 		global $database;
 		$name = 'plugin_' . $name;
-		return Setting::removeUserSettingGlobal($name);
+		return setting::removeUserSettingGlobal($name);
 	}
 
 	function removeUserSettingGlobal($name, $userid = null) {
@@ -284,6 +284,53 @@ class Setting {
 		global $database;
 		$name = 'plugin_' . $name;
 		return POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".POD::escapeString($name)."'");
+	}
+
+	function getSkinSetting($blogid, $forceReload = false) {
+		global $database, $service, $skinSetting;
+		global $__gCacheSkinSetting;
+		global $gCacheStorage;
+		if (
+			($forceReload == false) 
+			&& (isset($__gCacheSkinSetting)) 
+			&& (array_key_exists($blogid, $__gCacheSkinSetting))
+			) 
+		{
+			return $__gCacheSkinSetting[$blogid];
+		}
+		if($blogid == getBlogId() && $forceReload == false) {
+			$retval = $gCacheStorage->getContent('SkinSetting');
+			if(!empty($retval)) {
+				$__gCacheSkinSetting[$blogid] = $retval;
+				return $retval;
+			}
+		}
+		if ($retval = POD::queryRow("SELECT * FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid",MYSQL_ASSOC)) {
+			if ($retval != FALSE) {
+				if (!Validator::directory($retval['skin']) && ($retval['skin'] !="customize/$blogid")) {
+					$retval['skin'] = $service['skin'];
+				}
+				$__gCacheSkinSetting[$blogid] = $retval;
+				if($blogid == getBlogId())  $gCacheStorage->setContent('SkinSetting',$retval);
+				return $retval;
+			}
+		}
+		
+		$retval = array( 'blogid' => $blogid , 'skin' => $service['skin'], 
+			'entriesOnRecent' => 5, 'commentsOnRecent' => 5, 'commentsOnGuestbook' => 5,
+			'tagsOnTagbox' => 30, 'tagboxAlign' => 3, 'trackbacksOnRecent' => 5, 
+			'expandComment' => 1, 'expandTrackback' => 1, 
+			'recentNoticeLength' => 25, 'recentEntryLength' => 30, 
+			'recentCommentLength' => 30, 'recentTrackbackLength' => 30, 
+			'linkLength' => 30, 'showListOnCategory' => 1, 'showListOnArchive' => 1, 
+			'tree' => 'base', 
+			'colorOnTree' => '000000', 'bgColorOnTree' => '', 
+			'activeColorOnTree' => 'FFFFFF', 'activeBgColorOnTree' => '00ADEF', 
+			'labelLengthOnTree' => 27, 'showValueOnTree' => 1 );
+		
+		$__gCacheSkinSetting[$blogid] = $retval;
+		if($blogid == getBlogId())  $gCacheStorage->setContent('SkinSetting',$retval);
+		return $retval;	
 	}
 	
 	function getBlogSettingRowsPerPage($default = null) {

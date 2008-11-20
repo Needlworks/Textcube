@@ -64,13 +64,6 @@ function getUserId() {
 	return Acl::getIdentity('textcube');
 }
 
-
-function getBlogId() {
-	global $blogid;
-	return Context::$blogid;
-//	return $blogid;
-}
-
 function setBlogId($id) {
 	global $blogid;
 	$blogid = $id;

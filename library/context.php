@@ -177,10 +177,6 @@ final class Context extends Singleton
 			if ($this->blogid === null)
 				Respond::NotFoundPage();
 		}
-
-
-		$blog = Setting::getBlogSettingsGlobal($this->blogid);
-		$skinSetting = getSkinSetting($blogid);
 		
 		if(isset($context->accessInfo['interfacePath'])) {
 			$depth = substr_count($context->accessInfo['interfacePath'], '/') - 1;
@@ -223,11 +219,17 @@ final class Context extends Singleton
 	}
 	
 	private function __GValParser() {
-		global $serviceURL, $pathURL, $defaultURL, $baseURL, $pathURL, $blog, $hostURL, $folderURL, $suri;
+		global $serviceURL, $pathURL, $defaultURL, $baseURL, $pathURL, $hostURL, $folderURL;
+		global $suri, $blog, $blogid, $skinSetting;
 		$config = Config::getInstance();
-		$suri = $self->suri;
+		
+		$suri = $this->suri;
+		$blog = Setting::getBlogSettingsGlobal($this->blogid);
+		$skinSetting = Setting::getSkinSetting($this->blogid);
+		$blogid = $this->blogid;
+		
 		if (!isset($serviceURL))
-			$serviceURL = 'http://' . $config->service['domain'] . (isset($config->service['port']) ? ':' . $config->service['port'] : '') . $service['path'];
+			$serviceURL = 'http://' . $config->service['domain'] . (isset($config->service['port']) ? ':' . $config->service['port'] : '') . $config->service['path'];
 		switch ($config->service['type']) {
 			case 'domain':
 				$pathURL = $config->service['path'];
@@ -273,7 +275,7 @@ final class Context extends Singleton
 				break;
 		}
 		$hostURL = 'http://' . $_SERVER['HTTP_HOST'] . (isset($config->service['port']) ? ':' . $config->service['port'] : '');
-		$blogURL = $pathURL.getFancyURLpostfix();
+		$blogURL = $pathURL.$this->__getFancyURLpostfix();
 		$folderURL = rtrim($blogURL . $suri['directive'], '/');
 		if (defined('__TEXTCUBE_MOBILE__')) {
 			$blogURL .= '/m';
@@ -294,9 +296,25 @@ final class Context extends Singleton
 		global $database;
  		return POD::queryCell("SELECT blogid FROM {$database['prefix']}BlogSettings WHERE name = 'secondaryDomain' AND (value = '$domain' OR  value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) ."')");	
 	}
+	private function __getFancyURLpostfix() {	
+		$config = Config::getInstance();
+		switch($config->service['fancyURL']) {
+			case 0: return '/index.php?';
+			case 1: return '/?';
+			case 2:default: return '';
+		}
+	}
 	
 	function __destruct() {
 		// Nothing to do: destruction of this class means the end of execution
 	}
 }
+
+/** Support functions */
+
+function getBlogId() {
+	global $blogid;
+	return $blogid;	
+}
+
 ?>

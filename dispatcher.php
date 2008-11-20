@@ -22,7 +22,6 @@ include(ROOT.'/library/settings.php');
 include(ROOT.'/library/context.php');
 include(ROOT.'/library/loader.php');
 $config = Config::getInstance();
-
 /** Parse and normalize URI. */
 /* TODO: Unify the environment and do work-arounds. (For IIS, Apache - mod_php or fastcgi, lighttpd, and etc.) */
 // Structure of fancy URL:
@@ -73,9 +72,11 @@ if(isset($accessInfo)) {
 }
 
 /* TODO: Database Initialization (if necessary)
+
+
 /* TODO: Parse virtual blog information (if necessary)*/
-$gCacheStorage = new globalCacheStorage;
 $context->URIParser();
+$gCacheStorage = new GlobalCacheStorage;
 $context->globalVariableParser();
 
 /* TODO: Session management. (if necessary) */
