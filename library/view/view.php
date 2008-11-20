@@ -229,7 +229,7 @@ function getCommentView($entry, $skin) {
 	requireModel("blog.comment");
 	
 	$authorized = doesHaveOwnership();
-	$useMicroformat = setting::getBlogSettingGlobal('useMicroformat',3);
+	$useMicroformat = Setting::getBlogSettingGlobal('useMicroformat',3);
 	$fn = '';
 	$fn_nickname = '';
 	if( $useMicroformat > 1 ) {
@@ -1055,7 +1055,7 @@ function getLinksView($links, $template) {
 		$home = false;
 	}
 	ob_start();
-	$showXfn = (setting::getBlogSettingGlobal('useMicroformat',3) > 1);
+	$showXfn = (Setting::getBlogSettingGlobal('useMicroformat',3) > 1);
 	foreach ($links as $link) {
 		if((!doesHaveOwnership() && $link['visibility'] == 0) ||
 			(!doesHaveMembership() && $link['visibility'] < 2)) {
@@ -1084,7 +1084,7 @@ function getLinkListView($links) {
 	}
 	$categoryName = null;
 	$buffer = '<ul>'.CRLF;
-	$showXfn = (setting::getBlogSettingGlobal('useMicroformat',3) > 1);
+	$showXfn = (Setting::getBlogSettingGlobal('useMicroformat',3) > 1);
 	foreach ($links as $link) {
 		if((!doesHaveOwnership() && $link['visibility'] == 0) ||
 			(!doesHaveMembership() && $link['visibility'] < 2)) {
@@ -1112,7 +1112,7 @@ function getRandomTagsView($tags, $template) {
 	list($maxTagFreq, $minTagFreq) = getTagFrequencyRange();
 	foreach ($tags as $tag) {
 		$view = $template;
-		dress('tag_link', "$blogURL/tag/" . (setting::getBlogSettingGlobal('useSloganOnTag',true) ? URL::encode($tag['name'],$service['useEncodedURL']) : $tag['id']), $view);
+		dress('tag_link', "$blogURL/tag/" . (Setting::getBlogSettingGlobal('useSloganOnTag',true) ? URL::encode($tag['name'],$service['useEncodedURL']) : $tag['id']), $view);
 		dress('tag_name', htmlspecialchars($tag['name']), $view);
 		dress('tag_class', "cloud" . getTagFrequency($tag, $maxTagFreq, $minTagFreq), $view);
 		print $view;
@@ -1138,7 +1138,7 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 	$view = fireEvent('View' . $type . 'Content', $view, $id);
 	
 	// image resampling
-	if (setting::getBlogSettingGlobal('resamplingDefault') == true) {
+	if (Setting::getBlogSettingGlobal('resamplingDefault') == true) {
 		preg_match_all("@<img.+src=['\"](.+)['\"](.*)/>@Usi", $view, $images, PREG_SET_ORDER);
 		$view = preg_replace("@<img.+src=['\"].+['\"].*/>@Usi", '[#####_#####_#####_image_#####_#####_#####]', $view);
 		$contentWidth = Misc::getContentWidth();
@@ -1495,7 +1495,7 @@ function addOpenIDPannel( $comment, $prefix ) {
 	$lastcomment = '';
 
 	$openidOnlySettingNotice = '';
-	if( setting::getBlogSettingGlobal( 'AddCommentMode', '' ) == 'openid' ) {
+	if( Setting::getBlogSettingGlobal( 'AddCommentMode', '' ) == 'openid' ) {
 		$openidOnlySettingNotice = "<b>"._text('오픈아이디로만 댓글을 남길 수 있습니다')."</b>";
 	}
 

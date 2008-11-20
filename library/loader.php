@@ -7,7 +7,7 @@ final class FrameworkAutoloader
 {
 	private static $classInfo = array(
 		'auth'        => array('Auth','OpenID',array('Privilege'=>'Auth','Acl'=>'Auth')),
-		'cache'       => array('PageCache','ICache'),
+		'cache'       => array('PageCache','ICache',array('globalCacheStorage','PageCache'),
 		'data'        => array('BlogSetting','BlogStatistics','DailyStatistics',
 			'DataMaintenance','Filter','Image','POD','RSS',
 			'RefererLog','RefererStatistics','ServiceSetting','Setting',

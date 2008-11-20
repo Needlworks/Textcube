@@ -259,82 +259,82 @@ class Misc {
 /***** Functions below are legacy support : THEY WILL BE REMOVED AFTER 1.6 MILESTONE. *****/
 
 	function fetchConfigVal( $DATA ){
-		return setting::fetchConfigVal($DATA);
+		return Setting::fetchConfigVal($DATA);
 	}
 
 	// For Blog-scope setting
 	function getBlogSettingGlobal($name, $default = null, $blogid = null) {
-		return setting::getBlogSettingGlobal($name, $default, $blogid);
+		return Setting::getBlogSettingGlobal($name, $default, $blogid);
 	}
 
 	function getBlogSettingsGlobal($blogid = null) {
-		return setting::getBlogSettingsGlobal($blogid);
+		return Setting::getBlogSettingsGlobal($blogid);
 	}
 	
 	function setBlogSettingGlobal($name, $value, $blogid = null) {
-		return setting::setBlogSettingGlobal($name, $value, $blogid);
+		return Setting::setBlogSettingGlobal($name, $value, $blogid);
 	}
 
 	function removeBlogSettingGlobal($name, $blogid = null) {
-		return setting::removeBlogSettingsGlobal($name, $blogid);
+		return Setting::removeBlogSettingsGlobal($name, $blogid);
 	}
 
 	// For plugin-specific use.
 	function getBlogSetting($name, $default = null) {
-		return setting::getBlogSetting($name, $default);
+		return Setting::getBlogSetting($name, $default);
 	}
 	
 	function setBlogSetting($name, $value) {
-		return setting::setBlogSetting($name, $value);
+		return Setting::setBlogSetting($name, $value);
 	}
 	
 	function removeBlogSetting($name) {
-		return setting::removeBlogSetting($name);
+		return Setting::removeBlogSetting($name);
 	}
 	
 	// For User
 	function getUserSetting($name, $default = null) {
-		return setting::getUserSetting($name, $default);
+		return Setting::getUserSetting($name, $default);
 	}
 
 	function getUserSettingGlobal($name, $default = null, $userid = null) {
-		return setting::getUserSettingGlobal($name, $default, $userid);
+		return Setting::getUserSettingGlobal($name, $default, $userid);
 	}
 	
 	function setUserSetting($name, $value) {
-		return setting::setUserSetting($name, $value);
+		return Setting::setUserSetting($name, $value);
 	}
 	
 	function setUserSettingGlobal($name, $value, $userid = null) {
-		return setting::setUserSettingGlobal($name, $value, $userid);
+		return Setting::setUserSettingGlobal($name, $value, $userid);
 	}
 	
 	function removeUserSetting($name) {
-		return setting::removeUserSetting($name);
+		return Setting::removeUserSetting($name);
 	}
 
 	function removeUserSettingGlobal($name, $userid = null) {
-		return setting::removeUserSettingGlobal($name, $userid);
+		return Setting::removeUserSettingGlobal($name, $userid);
 	}
 
 	function getServiceSetting($name, $default = null) {
-		return setting::getServiceSetting($name, $default);
+		return Setting::getServiceSetting($name, $default);
 	}
 
 	function setServiceSetting($name, $value) {
-		return setting::setServiceSetting($name);
+		return Setting::setServiceSetting($name);
 	}
 
 	function removeServiceSetting($name) {
-		return setting::removeServiceSetting($name);
+		return Setting::removeServiceSetting($name);
 	}
 	
 	function getBlogSettingRowsPerPage($default = null) {
-		return setting::getBlogSettingRowsPerPage($default);
+		return Setting::getBlogSettingRowsPerPage($default);
 	}
 
 	function setBlogSettingRowsPerPage($value) {
-		return setting::setBlogSettingRowsPerPage($value);
+		return Setting::setBlogSettingRowsPerPage($value);
 	}
 }
 ?>

@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 global $__gCacheBlogSettings; // share blog.service.php
-class setting {
+class Setting {
 	function fetchConfigVal( $DATA ){
 		if (is_null($DATA)) return null; // Compartibility. If data is stored as array (new method), return it.
 		if (is_array($DATA)) return $DATA;
@@ -51,11 +51,11 @@ class setting {
 	function getBlogSettingsGlobal($blogid = null) {
 		global $database, $service, $__gCacheBlogSettings, $gCacheStorage;
 
-		if(is_null($blogid)) $blogid = getBlogId();
+		if(is_null($blogid)) $blogid = Context::$blogid;
 		if (array_key_exists($blogid, $__gCacheBlogSettings)) {
 			return $__gCacheBlogSettings[$blogid];
 		}
-		if($blogid == getBlogId()) {
+		if($blogid == Context::$blogid) {
 			$result = $gCacheStorage->getContent('BlogSettings');
 			if(!empty($result)) { 
 				$__gCacheBlogSettings[$blogid] = $result;

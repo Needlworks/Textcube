@@ -11,6 +11,10 @@ final class Config extends Singleton {
 	}
 
 	protected function __construct() {
+		self::__basicConfigLoader();
+	}
+	
+	private function __basicConfigLoader() {
 		global $database, $service;
 
 		$this->settings = array();

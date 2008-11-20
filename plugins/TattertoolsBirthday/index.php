@@ -2,7 +2,7 @@
 function TextcubeBirthday_TextcubeBirthday($target) {
 	global $configVal;
 	requireComponent('Textcube.Function.misc');
-	$data = setting::fetchConfigVal( $configVal);
+	$data = Setting::fetchConfigVal( $configVal);
 	$month = 3;
 	$day = 13;
 	if( !is_null( $data ) ){
@@ -29,7 +29,7 @@ function TextcubeBirthday_TextcubeBirthday($target) {
 }
 function TextcubeBirthdayDataSet($DATA){
 	requireComponent('Textcube.Function.misc');
-	$cfg = setting::fetchConfigVal( $DATA );
+	$cfg = Setting::fetchConfigVal( $DATA );
 	// if( $cfg['month'] != 날짜냐?) return "잘못된 날짜입니다.";
 	// 등등등등 여기서 원하는 검증을 하시고 검증 실패시 사용자에게 보여줄 에러메세지를 보내주심 됩니다.
 	// 성공하면 그냥 true

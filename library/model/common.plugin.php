@@ -501,7 +501,7 @@ function handleDataSet( $plugin , $DATA ) {
 }
 
 function fetchConfigVal($DATA) {
-	return setting::fetchConfigVal($DATA);
+	return Setting::fetchConfigVal($DATA);
 }
 
 function handleConfig($plugin) {
@@ -517,7 +517,7 @@ function handleConfig($plugin) {
 	$xmls = new XMLStruct();	
 	$CDSPval = '';
 	$i=0;
-	$dfVal =  setting::fetchConfigVal(getCurrentSetting($plugin));
+	$dfVal =  Setting::fetchConfigVal(getCurrentSetting($plugin));
 	$name = '';
 	$clientData ='[';
 	

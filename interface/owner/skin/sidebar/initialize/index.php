@@ -12,7 +12,7 @@ requireStrictRoute();
 if (!array_key_exists('viewMode', $_REQUEST)) $_REQUEST['viewMode'] = '';
 else $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];
 
-setting::removeBlogSettingGlobal('sidebarOrder');
+Setting::removeBlogSettingGlobal('sidebarOrder');
 Skin::purgeCache();
 if($ajaxcall == false) header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
 else Respond::ResultPage(0);

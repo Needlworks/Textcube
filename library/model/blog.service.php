@@ -6,22 +6,8 @@
 // for Global Cache
 $__gCacheBlogSettings = array();
 
-function getBlogidByName($name) {
-	global $database;
-	$query = new TableQuery($database['prefix'] . 'BlogSettings');
-	$query->setQualifier('name','name',true);
-	$query->setQualifier('value', $name, true);
-	return $query->getCell('blogid');
-	return false;
-}
-
-function getBlogidBySecondaryDomain($domain) {
-	global $database;
-	return POD::queryCell("SELECT blogid FROM {$database['prefix']}BlogSettings WHERE name = 'secondaryDomain' AND (value = '$domain' OR  value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "')");
-}
-
 function getBlogSettings($blogid) {
-	return setting::getBlogSettingsGlobal($blogid);
+	return Setting::getBlogSettingsGlobal($blogid);
 }
 
 function getSkinSetting($blogid, $forceReload = false) {

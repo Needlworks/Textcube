@@ -48,7 +48,7 @@ class PluginCustomConfig{
 			}
 		}
 		$configXml = POD::queryCell("SELECT settings FROM {$database['prefix']}Plugins WHERE blogid = {$this->blogid} AND name = '{$this->pluginName}'");
-		$t= setting::fetchConfigVal($configXml);
+		$t= Setting::fetchConfigVal($configXml);
 		return false==is_array($t)?array():$t;
 	}
 	

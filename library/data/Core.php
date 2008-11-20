@@ -99,7 +99,7 @@ class User {
 		global $database;
 		if (!isset($userid)) 
 			$userid = getUserId();
-		$info = unserialize(setting::getUserSettingGlobal('userLinkInfo','',$userid));
+		$info = unserialize(Setting::getUserSettingGlobal('userLinkInfo','',$userid));
 		if(!empty($info)) $type = $info['type'];
 		if (empty($type)) {
 			$type = "default";
@@ -111,7 +111,7 @@ class User {
 		global $database;
 		if (!isset($userid) || empty($userid)) 
 			$userid = getUserId();
-		$info = unserialize(setting::getUserSettingGlobal('userLinkInfo','',$userid));
+		$info = unserialize(Setting::getUserSettingGlobal('userLinkInfo','',$userid));
 		if(is_null($info)) $info = array('type' => 'default'); 
 		switch ($info['type']) {
 			case "external" :
@@ -155,7 +155,7 @@ class User {
 			return false;
 		}
 		$homepage = serialize($info);
-		if (setting::setUserSettingGlobal("userLinkInfo",$homepage, $userid)) {
+		if (Setting::setUserSettingGlobal("userLinkInfo",$homepage, $userid)) {
 			return true;
 		}
 		return false;
@@ -192,7 +192,7 @@ class User {
 
 		$changeBlogView = str_repeat(TAB,6)."<select id=\"blog-list\" onchange=\"location.href='{$blogURL}/owner/network/teamblog/changeBlog/?blogid='+this.value\">".CRLF;
 		foreach($blogList as $info){
-			$title = UTF8::lessen(setting::getBlogSettingGlobal("title",null,$info,true), 30);
+			$title = UTF8::lessen(Setting::getBlogSettingGlobal("title",null,$info,true), 30);
 			$title = ($title ? $title : _f('%1 님의 블로그',User::getBlogOwnerName($info)));
 			$changeBlogView .= str_repeat(TAB,7).'<option value="' . $info . '"';
 			if($info == $blogid) $changeBlogView .= ' selected="selected"';

@@ -691,14 +691,14 @@ if($service['allowBlogVisibilitySetting']){
 											</dd>
 										</dl>
 <?php
-$openidonlycomment = setting::getBlogSettingGlobal( "AddCommentMode", "" );
+$openidonlycomment = Setting::getBlogSettingGlobal( "AddCommentMode", "" );
 if( $openidonlycomment == 'openid' ) {
 	$openidonlycomment = "checked='checked'";
 } else {
 	$openidonlycomment = "";
 }
 
-$openidlogodisplay = setting::getBlogSettingGlobal( "OpenIDLogoDisplay", 0 );
+$openidlogodisplay = Setting::getBlogSettingGlobal( "OpenIDLogoDisplay", 0 );
 if( $openidlogodisplay ) {
 	$openidlogodisplay = "checked='checked'";
 } else {
