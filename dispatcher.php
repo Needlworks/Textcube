@@ -73,7 +73,11 @@ if(isset($accessInfo)) {
 }
 
 /* TODO: Database Initialization (if necessary)
-/* TODO: Parse virtual blog information (if necessary)
+/* TODO: Parse virtual blog information (if necessary)*/
+$gCacheStorage = new globalCacheStorage;
+$context->URIParser();
+$context->globalVariableParser();
+
 /* TODO: Session management. (if necessary) */
 /* TODO: ACL validation */
 
@@ -83,7 +87,7 @@ if(isset($accessInfo)) {
 //   specify required ACL/permissions and check them.
 //   loads its necessary libraries, models and components.
 // before actual execution.
-$gCacheStorage = new globalCacheStorage;
+
 require(ROOT.'/'.$context->accessInfo['interfacePath']);
 
 ?>

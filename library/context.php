@@ -19,6 +19,8 @@ final class Context extends Singleton
 //		self::__URIParser();
 //		self::__GValParser();
 	}
+	public function URIParser() { self::__URIParser();}
+	public function globalVariableParser() { self::__GValParser();}
 	
 	private function __URIInterpreter() {
 		$config = Config::getInstance();
