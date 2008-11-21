@@ -232,7 +232,7 @@ final class Context extends Singleton
 	}
 	
 	private function __GValParser() {
-		global $serviceURL, $pathURL, $defaultURL, $baseURL, $pathURL, $hostURL, $folderURL;
+		global $serviceURL, $pathURL, $defaultURL, $baseURL, $pathURL, $hostURL, $folderURL, $blogURL;
 		global $suri, $blog, $blogid, $skinSetting;
 		$config = Config::getInstance();
 		
