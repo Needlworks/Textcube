@@ -12,7 +12,6 @@ $IV = array(
 		'senderEmail' => array('email')
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
 requireModel('blog.user');
 requireStrictRoute();
 if (($service['type'] == 'single') || !Acl::check("group.creators"))

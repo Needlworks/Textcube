@@ -7,7 +7,6 @@ $IV = array(
 		'title' => array('string','default' => '')
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 if (!empty($_GET['title']) && setBlogTitle(getBlogId(), trim($_GET['title']))) {
 	Respond::ResultPage(0);

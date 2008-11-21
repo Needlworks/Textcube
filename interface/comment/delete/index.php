@@ -16,7 +16,6 @@ $IV = array(
 		'secret' => array(array('on'), 'default' => null)
 	)
 );
-require ROOT . '/library/includeForBlog.php';
 requireComponent('Textcube.Control.Openid');
 
 $blogid = getBlogId();

@@ -5,7 +5,6 @@
 
 $service['admin_script']='control.js';
 
-require ROOT . '/library/includeForBlogOwner.php';
 require ROOT . '/interface/common/owner/header.php';
 
 requirePrivilege('group.creators');

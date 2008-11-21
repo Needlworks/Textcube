@@ -8,7 +8,6 @@ $IV = array(
 		'url' => array('url')
 	) 
 );
-require ROOT . '/library/includeForReader.php';
 requireStrictRoute();
 $result = array('error' => addFeed(getBlogId(), $_POST['group'], $_POST['url']));
 ob_start();

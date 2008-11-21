@@ -11,7 +11,6 @@ $IV = array(
 		'senderEmail' => array('email')
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 if (!acl::check('group.owners'))
 	Respond::ResultPage(false);

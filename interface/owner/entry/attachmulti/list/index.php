@@ -8,7 +8,6 @@ $IV = array(
 	)
 );
 
-require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.attachment");
 $file = array_pop($_FILES);
 $attachment = getAttachmentByLabel($blogid, $suri['id'], $_GET['name']);

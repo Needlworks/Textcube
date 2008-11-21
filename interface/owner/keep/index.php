@@ -3,5 +3,4 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 $IV = array();
-require ROOT . '/library/includeForBlogOwner.php';
 ?>

@@ -9,7 +9,6 @@ $IV = array(
 	) 
 );
 
-require ROOT . '/library/includeForBlogOwner.php';
 require ROOT . '/interface/common/owner/header.php';
 
 requirePrivilege('group.creators');

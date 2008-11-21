@@ -13,7 +13,6 @@ $ajaxcall = (isset($_REQUEST['ajaxcall']) && $_REQUEST['ajaxcall'] == true) ? tr
 	)
 );*/
 	
-require ROOT . '/library/includeForBlogOwner.php';
  
 requireModel("blog.sidebar");
 requireStrictRoute();

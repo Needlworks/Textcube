@@ -29,7 +29,6 @@ $IV = array(
 		'status' => array('string', 'mandatory' => false)
 	)
 );	
-require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.comment");
 requireModel("blog.entry");
 

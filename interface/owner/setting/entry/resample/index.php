@@ -9,7 +9,6 @@ $IV = array(
 		)
 	);
 
-require ROOT . '/library/includeForBlogOwner.php';
 
 $isAjaxRequest = false; // checkAjaxRequest();
 

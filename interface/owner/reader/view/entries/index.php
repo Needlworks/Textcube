@@ -11,7 +11,6 @@ $IV = array(
 		'keyword'  => array('string', 'mandatory' => false)
 	)
 );
-require ROOT . '/library/includeForReader.php';
 $result = array('error' => '0');
 ob_start();
 $count = printFeedEntries($blogid, $_POST['group'], $_POST['feed'], $_POST['unread'] == '1', $_POST['starred'] == '1', $_POST['keyword'] == '' ? null : $_POST['keyword']);

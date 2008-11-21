@@ -10,7 +10,6 @@ $IV = array(
 	)
 );
 
-require ROOT . '/library/includeForBlog.php';
 if (false) {
 	fetchConfigVal();
 }

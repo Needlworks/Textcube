@@ -8,7 +8,6 @@ $IV = array(
 	) 
 );
 
-require ROOT . '/library/includeForBlogOwner.php';
 $page=(isset($_GET['page']) && $_GET['page'] >= 1 ? $_GET['page'] : 1 );
 $service['admin_script']='control.js';
 require ROOT . '/interface/common/owner/header.php';

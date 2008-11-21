@@ -7,7 +7,6 @@ $IV = array(
 'userid'=>array('id')
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 
 if (deleteTeamblogUser($_POST['userid'])) {

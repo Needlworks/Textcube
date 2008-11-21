@@ -5,7 +5,6 @@
 define('NO_SESSION', true);
 define('__TEXTCUBE_LOGIN__',true);
 
-require ROOT . '/library/includeForBlog.php';
 requireModel("blog.feed");
 requireModel("blog.entry");
 

@@ -7,7 +7,6 @@ $IV = array(
 		'targets' => array ('list','mandatory'=>false)
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.entry");
 
 

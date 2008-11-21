@@ -27,7 +27,6 @@ $IV = array(
 	)
 );
 
-require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.comment");
 requireModel("blog.trash");
 

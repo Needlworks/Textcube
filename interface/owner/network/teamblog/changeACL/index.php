@@ -9,7 +9,6 @@ $IV = array(
 		'switch'=>array('int')
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 if (changeACLonBlog(getBlogId(),$_POST['acltype'],$_POST['userid'],$_POST['switch'])) {
 	return Respond::ResultPage(true);

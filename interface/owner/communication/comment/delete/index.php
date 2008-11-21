@@ -7,7 +7,6 @@ $IV = array(
 		'targets' => array('list', 'default' => '')
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.comment");
 requireStrictRoute();
 

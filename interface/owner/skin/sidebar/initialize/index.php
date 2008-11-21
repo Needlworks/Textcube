@@ -5,7 +5,6 @@
 
 $ajaxcall = isset($_REQUEST['ajaxcall']) ? true : false;
 
-require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
  
 

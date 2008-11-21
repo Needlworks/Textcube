@@ -10,7 +10,6 @@ $IV = array(
 	)
 );
 
-require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 if (useBlogSlogan($blogid, $_POST['useSloganOnPost'],$_POST['useSloganOnCategory'],$_POST['useSloganOnTag']))
 	Respond::ResultPage(0);

@@ -9,7 +9,6 @@ $IV = array(
 		'viewMode' => array('string', 'default' => '')
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
  
 requireModel("blog.sidebar");
 $skin = new BlogSkin($skinSetting['skin']);

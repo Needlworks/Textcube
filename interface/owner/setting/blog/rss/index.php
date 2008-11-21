@@ -11,7 +11,6 @@ $IV = array(
 		'commentsOnRSS' => array('int', 'default' => 5)
 		)
 	);
-require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 
 setEntriesOnRSS($blogid, $_POST['entriesOnRSS']);

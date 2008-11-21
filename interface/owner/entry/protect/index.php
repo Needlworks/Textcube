@@ -7,7 +7,6 @@ $IV = array(
 		'password' => array('string', 'mandatory' => false)
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.entry");
 
 requireStrictRoute();

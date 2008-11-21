@@ -8,7 +8,6 @@ $IV = array(
 		'Tab' => array('string', 'default' => 'about')
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
 
 if (false) { // For optimization process
 	textTreat();

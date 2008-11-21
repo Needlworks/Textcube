@@ -14,7 +14,6 @@ $IV = array(
 		)
 	);
 
-require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.entry");
 
 requireStrictRoute();

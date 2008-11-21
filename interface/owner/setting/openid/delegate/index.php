@@ -9,7 +9,6 @@ $IV = array(
 	)
 );
 
-require ROOT . '/library/includeForBlogOwner.php';
 requireComponent( 'Textcube.Control.Openid' );
  
 requireStrictRoute();

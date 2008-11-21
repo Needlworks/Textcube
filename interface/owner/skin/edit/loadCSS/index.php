@@ -8,7 +8,6 @@ $IV = array(
 	)
 );
 
-require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 	
 $result = getCSSContent($blogid, $_POST['file']);

@@ -17,7 +17,6 @@ $IV = array(
 		'returnURL' => array('string', 'mandatory' => false)
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.entry");
 requireModel("blog.tag");
 requireModel("blog.locative");

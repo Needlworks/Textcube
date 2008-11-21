@@ -30,7 +30,6 @@ $IV = array(
 		'useFOAF' => array('int')
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 
 if (setSkinSetting($blogid, $_POST)) {

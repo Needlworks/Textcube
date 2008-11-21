@@ -12,7 +12,6 @@ $IV = array(
 	)
 );
 
-require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 
 $isAjaxRequest = checkAjaxRequest();

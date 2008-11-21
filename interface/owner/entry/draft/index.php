@@ -19,7 +19,6 @@ $IV = array(
 		'published' => array('int', 0, 'default' => 0)
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
 
 requireModel('blog.entry');
 

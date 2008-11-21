@@ -7,7 +7,6 @@ $IV = array(
 		'timezone' => array('string')
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 $timezone = new Timezone;
 if (isset($_GET['timezone']) && $timezone->set($_GET['timezone'])) {

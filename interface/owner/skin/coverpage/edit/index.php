@@ -17,7 +17,6 @@ $IV = array(
 			)
 		);
 
-require ROOT . '/library/includeForBlogOwner.php';
  
 requireModel("blog.sidebar");
 requireModel("blog.coverpage");

@@ -15,7 +15,6 @@ $IV = array(
 	//	'history' => array( 'string' , 'default' => null )
 	//)
 );
-require ROOT . '/library/includeForBlogOwner.php';
 /*if (isset($_POST['ipValue'])) {
 	$_POST['mode'] = "ip";
 } else if (isset($_POST['urlValue'])) {

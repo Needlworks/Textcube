@@ -11,7 +11,6 @@ if(empty($suri['id'])) {
 		)
 	);
 }
-require ROOT . '/library/includeForBlog.php';
 requireView('iphoneView');
 requireStrictRoute();
 

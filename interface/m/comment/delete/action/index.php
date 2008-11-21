@@ -11,7 +11,6 @@ $IV = array(
 	)
 );
 }
-require ROOT . '/library/includeForBlog.php';
 requireView('mobileView');
 requireStrictRoute();
 

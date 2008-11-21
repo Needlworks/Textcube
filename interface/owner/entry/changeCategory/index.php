@@ -8,7 +8,6 @@ $IV = array(
 		'category' => array('int')
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 requireModel("blog.entry");
 

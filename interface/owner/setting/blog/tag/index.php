@@ -7,7 +7,6 @@ $IV = array(
 		'tags' => array('string', 'default' => '')
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 //$tags = explode(trim($_POST['tags']),',');
 if (setBlogTags($blogid, trim($_POST['tags']))) {

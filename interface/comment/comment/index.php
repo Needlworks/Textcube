@@ -13,7 +13,6 @@ $IV = array(
 		'secret' => array(array('on'), 'default' => null)
 	)
 );
-require ROOT . '/library/includeForBlog.php';
 requireModel('blog.comment');
 
 if (false) {

@@ -29,7 +29,6 @@ $IV = array(
 	)
 );
 
-require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.response.remote");
 requireModel("blog.trash");
 

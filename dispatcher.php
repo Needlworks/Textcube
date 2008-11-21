@@ -75,6 +75,23 @@ $gCacheStorage = new GlobalCacheStorage;
 $context->globalVariableParser();
 
 /* TODO: Include required files */
+switch ($context->accessInfo['interfaceType']) {
+case 'blog':
+	require(ROOT.'/library/includeForBlog.php');
+	break;
+case 'feeder':
+	require(ROOT.'/library/includeForFeeder.php');
+	break;
+case 'reader':
+	require(ROOT.'/library/includeForReader.php');
+	break;
+case 'owner':
+	require(ROOT.'/library/includeForBlogOwner.php');
+	break;
+case 'icon':
+	require(ROOT.'/library/includeForIcon.php');
+	break;
+}
 
 /* TODO: Session management. (if necessary) */
 if (!defined('NO_SESSION')) {

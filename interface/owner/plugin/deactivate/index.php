@@ -7,7 +7,6 @@ $IV = array(
 		'name' => array('directory', 'default'=> null)
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
 requireModel('common.plugin');
 requireStrictRoute();
 

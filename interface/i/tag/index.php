@@ -3,7 +3,6 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('__TEXTCUBE_IPHONE__', true);
-require ROOT . '/library/includeForBlog.php';
 requireView('iphoneView');
 if (false) {
 	fetchConfigVal();

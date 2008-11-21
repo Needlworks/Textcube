@@ -7,7 +7,6 @@ $IV = array(
 		'password' => array('any' ,'mandatory' => false)
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
 require ROOT . '/interface/common/owner/header.php';
 ?>
 						<script type="text/javascript">

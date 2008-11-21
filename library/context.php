@@ -66,6 +66,14 @@ final class Context extends Singleton
 		}
 		if (strtok($part, '?') == 'setup.php') {require 'setup.php'; exit;}
 		$accessInfo['URLfragment'] = explode('/',strtok($accessInfo['input'],'?'));
+		if (isset($accessInfo['URLfragment'][0]) && isset($accessInfo['URLfragment'][1])
+		   && $accessInfo['URLfragment'][0] == 'owner' && $accessInfo['URLfragment'][1] == 'reader') {
+			$accessInfo['interfaceType'] = 'reader';
+		} else if (isset($accessInfo['URLfragment'][0]) && $accessInfo['URLfragment'][0] == 'owner') {
+			$accessInfo['interfaceType'] = 'owner';
+		} else {
+			$accessInfo['interfaceType'] = 'blog';
+		}
 		unset($part);
 
 		/* Determine that which interface should be loaded. */
@@ -132,6 +140,8 @@ final class Context extends Singleton
 				'input'    => array('string'),
 				'position' => array('string'),
 				'root'     => array('string'),
+				'interfaceType' => array('string'),
+				'interfacePath' => array('string'),
 				'input'    => array('string', 'mandatory' => false)
 			);
 			$accessInfo['fullpath'] = urldecode($accessInfo['fullpath']);

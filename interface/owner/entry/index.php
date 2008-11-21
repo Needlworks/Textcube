@@ -22,7 +22,6 @@ $IV = array(
 		'withSearch' => array(array('on'), 'mandatory' => false)
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.trash");
 requireModel("blog.entry");
 trashVan();
