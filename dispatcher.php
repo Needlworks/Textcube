@@ -24,7 +24,6 @@ require_once(ROOT.'/library/settings.php');
 require_once(ROOT.'/library/context.php');
 require_once(ROOT.'/library/loader.php');
 $config = Config::getInstance();
-require_once(ROOT.'/library/environment/Needlworks.PHP.Core.php');
 
 /** Parse and normalize URI. */
 /* TODO: Unify the environment and do work-arounds. (For IIS, Apache - mod_php or fastcgi, lighttpd, and etc.) */

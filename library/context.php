@@ -15,9 +15,7 @@ final class Context extends Singleton
 	}
 
 	protected function __construct() {
-		self::__URIInterpreter();
-//		self::__URIParser();
-//		self::__GValParser();
+		$this->__URIInterpreter();
 	}
 	public function URIParser() { self::__URIParser();}
 	public function globalVariableParser() { self::__GValParser();}
