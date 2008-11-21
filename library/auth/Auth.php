@@ -104,7 +104,7 @@ class Privilege {
 	group.readers:        Readers to $blogids's blog.
 	group.guests:         Guests
 */
-	function Privilege() {
+	function __construct() {
 	}
 
 	function expand($priv) {
@@ -346,17 +346,45 @@ class Acl {
 }
 
 class Auth {
-	function login($loginid, $password) {
-		global $blogid;
-		if( Auth::authenticate($blogid,$loginid,$password,true) === false ) {
-			return false;
+	public function login($loginid, $password, $checkOnly = true) {
+		$config = Config::getInstance();
+		$context = Context::getInstance();
+		if($checkOnly === true) {
+			if( Auth::authenticate($context->blogid,$loginid,$password,true) === false ) {
+				return false;
+			}
+			return true;
+		} else {	// Perform login process (browser)
+			$loginid = POD::escapeString($loginid);
+			$userid = Auth::authenticate($context->blogid , $loginid, $password );
+		
+			if( $userid === false ) {
+				return false;
+			}
+		
+			if (empty($_POST['save'])) {
+				setcookie('TSSESSION_LOGINID', '', time() - 31536000, $config->service['path'] . '/', $config->service['domain']);
+			} else {
+				setcookie('TSSESSION_LOGINID', $loginid, time() + 31536000, $config->service['path'] . '/', $config->service['domain']);
+			}
+		
+			if( in_array( "group.writers", Acl::getCurrentPrivilege() ) ) {
+				Session::authorize($context->blogid, $userid);
+			}
+			return true;
 		}
-		return true;
 	}
 
-	function authenticate( $blogid, $loginid, $password, $blogapi = false ) {
-		global $database;
+	public function logout() {
+		fireEvent("Logout");
+		Acl::clearAcl();
+		Transaction::clear();
+		session_destroy();
+	}
 
+	public function authenticate( $blogid, $loginid, $password, $blogapi = false ) {
+		$config = Config::getInstance();
+		
 		Acl::clearAcl();
 		$loginid = POD::escapeString($loginid);
 
@@ -364,7 +392,7 @@ class Auth {
 
 		if ((strlen($password) == 32) && preg_match('/[0-9a-f]{32}/i', $password)) {
 			$userid=getUserIdByEmail($loginid);
-			$authtoken = POD::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
+			$authtoken = POD::queryCell("SELECT value FROM {$config->database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
 			if (!empty($authtoken)) {
 				$password = POD::escapeString($password);
 				$secret = '(`password` = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $authtoken . '\')';
@@ -379,7 +407,7 @@ class Auth {
 			$secret = '`password` = \'' . md5($password) . '\'';
 		}
 
-		$session = POD::queryRow("SELECT userid, loginid, name FROM {$database['prefix']}Users WHERE loginid = '$loginid' AND $secret");
+		$session = POD::queryRow("SELECT userid, loginid, name FROM {$config->database['prefix']}Users WHERE loginid = '$loginid' AND $secret");
 		if ( empty($session) ) {
 			/* You should compare return value with '=== false' which checks with variable types*/
 			return false;
@@ -387,11 +415,23 @@ class Auth {
 		$userid = $session['userid'];
 
 		Acl::authorize( 'textcube', $userid );
-		POD::execute("UPDATE  {$database['prefix']}Users SET lastLogin = unix_timestamp() WHERE loginid = '$loginid'");
+		POD::execute("UPDATE {$config->database['prefix']}Users SET lastLogin = unix_timestamp() WHERE loginid = '$loginid'");
 //		POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
 		return $userid;
 	}
 
 }
 
+class Permission {
+	public function require($scope) {
+		switch($scope) {
+			case 'owner':
+			case 'member':
+				global $hostURL;
+				if( doesHaveMembership() ) return true;
+				$_SESSION['refererURI'] = $hostURL.$_SERVER['REQUEST_URI'];
+				requireLogin();
+		}
+	}
+}
 ?>

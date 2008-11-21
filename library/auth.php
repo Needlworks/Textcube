@@ -4,32 +4,11 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 function login($loginid, $password, $preKnownPassword = null) {
-	global $service;
-	$loginid = POD::escapeString($loginid);
-	$blogid = getBlogId();
-	$userid = Auth::authenticate($blogid , $loginid, $password );
-
-	if( $userid === false ) {
-		return false;
-	}
-
-	if (empty($_POST['save'])) {
-		setcookie('TSSESSION_LOGINID', '', time() - 31536000, $service['path'] . '/', $service['domain']);
-	} else {
-		setcookie('TSSESSION_LOGINID', $loginid, time() + 31536000, $service['path'] . '/', $service['domain']);
-	}
-
-	if( in_array( "group.writers", Acl::getCurrentPrivilege() ) ) {
-		Session::authorize($blogid, $userid);
-	}
-	return true;
+	return Auth::login($loginid, $password, false);
 }
 
 function logout() {
-	fireEvent("Logout");
-	Acl::clearAcl();
-	Transaction::clear();
-	session_destroy();
+	Auth::logout();
 }
 
 function requireLogin() {
