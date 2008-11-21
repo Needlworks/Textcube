@@ -59,15 +59,6 @@ $context->URIParser();
 $gCacheStorage = new GlobalCacheStorage;
 $context->globalVariableParser();
 
-/// Special pre-handlers. (favicon.ico, index.gif)
-if ($context->accessInfo['interfaceType'] == 'icon')
-	require(ROOT.'/library/includeForIcon.php');
-if ($context->accessInfo['prehandler']) {
-	// Skip further processes such as session management.
-	require(ROOT.'/'.$context->accessInfo['interfacePath']);
-	exit;
-}
-
 /* TODO: Include required files */
 switch ($context->accessInfo['interfaceType']) {
 case 'blog':
@@ -82,6 +73,16 @@ case 'reader':
 case 'owner':
 	require(ROOT.'/library/includeForBlogOwner.php');
 	break;
+case 'icon':
+	require(ROOT.'/library/includeForIcon.php');
+	break;
+}
+
+/// Special pre-handlers. (favicon.ico, index.gif)
+if ($context->accessInfo['prehandler']) {
+	// Skip further processes such as session management.
+	require(ROOT.'/'.$context->accessInfo['interfacePath']);
+	exit;
 }
 
 /* TODO: Session management. (if necessary) */
