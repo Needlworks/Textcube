@@ -280,7 +280,7 @@ final class Context extends Singleton
 				$pathURL = $config->service['path'];
 				$blog['primaryBlogURL'] = 'http://' . $config->service['domain'] . (isset($config->service['port']) ? ':' . $config->service['port'] : '') . $pathURL;
 				$blog['secondaryBlogURL'] = null;
-				$defaultURL = $blog['primaryBlogURL'].getFancyURLpostfix();
+				$defaultURL = $blog['primaryBlogURL'].($this->__getFancyURLpostfix());
 				if ($_SERVER['HTTP_HOST'] == $config->service['domain'])
 					$baseURL = $config->service['path'];
 				else
