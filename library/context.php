@@ -71,6 +71,9 @@ final class Context extends Singleton
 			$accessInfo['interfaceType'] = 'reader';
 		} else if (isset($accessInfo['URLfragment'][0]) && $accessInfo['URLfragment'][0] == 'owner') {
 			$accessInfo['interfaceType'] = 'owner';
+		} else if (isset($accessInfo['URLfragment'][0])
+		          && ($accessInfo['URLfragment'][0] == 'favicon.ico' || $accessInfo['URLfragment'][0] == 'index.gif')) {
+			$accessInfo['interfaceType'] = 'icon';
 		} else {
 			$accessInfo['interfaceType'] = 'blog';
 		}

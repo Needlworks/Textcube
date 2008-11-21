@@ -40,21 +40,6 @@ try {
 	exit;
 }
 
-/// Special pre-handlers. (favicon.ico, index.gif)
-if ($context->accessInfo['prehandler']) {
-	// Skip further processes such as session management.
-	require(ROOT.'/'.$context->accessInfo['interfacePath']);
-	exit;
-}
-
-/// Input Validation
-// Basic POST/GET variable validation.
-if (isset($IV)) {
-	if (!Validator::validate($IV)) {
-		header('HTTP/1.1 404 Not Found');
-		exit;
-	}
-}
 // Basic SERVER variable validation.
 $basicIV = array(
 	'SCRIPT_NAME' => array('string'),
@@ -74,6 +59,15 @@ $context->URIParser();
 $gCacheStorage = new GlobalCacheStorage;
 $context->globalVariableParser();
 
+/// Special pre-handlers. (favicon.ico, index.gif)
+if ($context->accessInfo['interfaceType'] == 'icon')
+	require(ROOT.'/library/includeForIcon.php');
+if ($context->accessInfo['prehandler']) {
+	// Skip further processes such as session management.
+	require(ROOT.'/'.$context->accessInfo['interfacePath']);
+	exit;
+}
+
 /* TODO: Include required files */
 switch ($context->accessInfo['interfaceType']) {
 case 'blog':
@@ -87,9 +81,6 @@ case 'reader':
 	break;
 case 'owner':
 	require(ROOT.'/library/includeForBlogOwner.php');
-	break;
-case 'icon':
-	require(ROOT.'/library/includeForIcon.php');
 	break;
 }
 
