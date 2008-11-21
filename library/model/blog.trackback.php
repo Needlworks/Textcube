@@ -620,7 +620,7 @@ function getRDFfromURL($url) {
 		return false;
 	}
 
-	if (class_exists('DOMDocument')) {
+/*	if (class_exists('DOMDocument')) {
 		$doc = DOMDocument::loadXML($match[0]);
 		if (!$doc) {
 			return false;
@@ -635,7 +635,7 @@ function getRDFfromURL($url) {
 			'url' => $desc->getAttributeNS('http://purl.org/dc/elements/1.1/', 'identifier'),
 			'trackbackURL' => $desc->getAttributeNS('http://madskills.com/public/xml/rss/module/trackback/', 'ping')
 		);
-	} else {
+	} else {*/
 		preg_match_all('/(\S+?)=(["\']?)(.*?)\2/', $match[1], $attribs, PREG_SET_ORDER);
 		$namespace = array('rdf' => 'rdf', 'dc' => 'dc', 'trackback' => 'trackback');
 
@@ -674,6 +674,6 @@ function getRDFfromURL($url) {
 		}
 
 		return (isset($result['trackbackURL'])) ? $result : false;
-	}
+	//}
 }
 ?>
