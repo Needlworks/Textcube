@@ -1,0 +1,86 @@
+@charset "utf-8";
+
+* { margin: 0; padding: 0; }
+
+body, input, button, textarea {
+	font-family: "Trebuchet MS", Verdana, NanumGothic, MalgunGothic, sans-serif;
+	font-size: 0.9em;
+}
+
+body {
+	background: white;
+	color: black;
+}
+
+h1 {
+	margin: 10px;
+	font-size: 1.2em;
+}
+
+h2 {
+	font-size: 1.0em;
+	background: #f2f2f2;
+	margin: 4px;
+	padding: 2px 4px;
+}
+
+p {
+	margin: 4px;
+}
+
+fieldset {
+	margin: 10px;
+	padding: 7px;
+	border: 1px solid #ccc;
+}
+
+button {
+	display: inline-block;
+	margin: 2px;
+	padding: 1px 3px 2px 3px;
+	background: #f2f2f2;
+	border: 1px solid #69c;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	cursor: pointer;
+}
+button:hover {
+	background-color: #f8f8f8;
+}
+button.toggled {
+	background-color: #555;
+	color: white;
+}
+button.toggled:hover {
+	background-color: #666;
+}
+
+#controls {
+	margin: 10px;
+}
+h2 {
+	cursor: pointer;
+}
+#GoogleMapPreview {
+	border: 3px dashed #ccc;
+}
+
+input, textarea {
+	border: 1px solid #ccc;
+	font-size: 0.9em;
+}
+.GMapInfo {
+	text-align: left !important;
+}
+.GMapInfo label {
+	float: left;
+	width: 4em;
+}
+.GMapIfno input {
+	margin-left: 4.1em;
+}
+.GMapInfo p {
+	margin: 5px;
+	clear: left;
+}

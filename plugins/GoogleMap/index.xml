@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+  <title xml:lang="ko">Google 맵</title>
+  <title xml:lang="en">Google Map</title>
+  <link>http://maps.google.com</link>
+  <version>1.0</version>
+  <description xml:lang="ko">포스트에서 Google 맵을 삽입할 수 있게 해주고, 지역로그 및 포스트 내 쓰인 주소 정보와 연동할 수 있도록 도와줍니다.</description>
+  <description xml:lang="en">Enables inserting Google Map into your posts and helps make use of it with location tags or text addresses written in the posts.</description>
+  <license>GPL</license>
+  <author xml:lang="en" link="http://forum.tattersite.com/ko">Tatter Network Foundation</author>
+  <author xml:lang="ko" link="http://forum.tattersite.com/ko">태터네트워크재단</author>
+  <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="yes" accessRaw="no" />
+  <requirements>
+    <textcube>1.7.7</textcube>
+  </requirements>
+  <binding>
+    <listener event="/plugin/GMapCustomInsert/">GoogleMapUI_Insert</listener>
+    <listener event="ViewPostContent">GoogleMap_View</listener>
+    <listener event="ViewNoticeContent">GoogleMap_View</listener>
+    <listener event="AddPostEditorToolbox">GoogleMap_AddToolbox</listener>
+    <listener event="ShowAdminHeader">GoogleMap_AdminHeader</listener>
+    <tag name="SKIN_head_end" handler="GoogleMap_Header" />
+    <tag name="SKIN_local_rep_start" handler="GoogleMap_LocationLogView" />
+    <config xml:lang="ko" dataValHandler="GoogleMap_ConfigHandler">
+      <window width="500" height="550" />
+      <fieldset legend="설정">
+        <field title="API 키" name="apiKey" type="text" size="42" value="">
+          <caption><![CDATA[<a href="http://code.google.com/apis/maps/signup.html" target="_blank">구글맵 API 키 얻기</a> (구글 계정 필요)]]></caption>
+        </field>
+      </fieldset>
+      <fieldset legend="기본 위치">
+        <field title="위도" name="latitude" type="text" value="37.5193" />
+        <field title="경도" name="longitude" type="text" value="126.9707">
+          <caption><![CDATA[지도 삽입 시 기본으로 보여질 위치와 지역로그 지도에서 기본적으로 포함될 위치를 지정합니다.]]></caption>
+        </field>
+      </fieldset>
+      <fieldset legend="지역로그 설정">
+	    <field title="기본 맵 형식" name="locative_maptype" type="select">
+	      <op value="G_NORMAL_MAP">일반 정보 지도</op>
+	      <op value="G_SATELLITE_MAP">위성 사진</op>
+	      <op value="G_HYBRID_MAP" selected="selected">위성 사진 + 정보 지도</op>
+	    </field>
+      </fieldset>
+    </config>
+    <config xml:lang="en" dataValHandler="GoogleMap_ConfigHandler">
+      <fieldset legend="Settings">
+        <field title="API Key" name="apiKey" type="text" size="42" value="">
+          <caption><![CDATA[<a href="http://code.google.com/apis/maps/signup.html" target="_blank">Get your API key for Google Maps</a> (Google Account needed)]]></caption>
+        </field>
+      </fieldset>
+      <fieldset legend="Default Location">
+        <field title="Latitude" name="latitude" type="text" value="37.4171" />
+        <field title="Longitude" name="longitude" type="text" value="-122.0857">
+          <caption><![CDATA[Sets the default location when inserting into a post and the initial location included in the location log.]]></caption>
+        </field>
+      </fieldset>
+      <fieldset legend="Location Log">
+	    <field title="Default Map Type" name="locative_maptype" type="select">
+	      <op value="G_NORMAL_MAP" checked="checked">Normal</op>
+	      <op value="G_SATELLITE_MAP">Satellite</op>
+	      <op value="G_HYBRID_MAP">Hybrid (Normal+Satellite)</op>
+	    </field>
+      </fieldset>
+    </config>
+  </binding>
+</plugin>
