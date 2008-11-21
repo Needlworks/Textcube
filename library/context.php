@@ -141,7 +141,7 @@ final class Context extends Singleton
 	}
 	
 	private function __URIParser() {
-		if(!isset($this->accessInfo)) self::__URIInterpreter();
+		if(!isset($this->accessInfo)) $this->__URIInterpreter();
 		$config = Config::getInstance();
 		$url = $this->accessInfo['fullpath'];
 		$defaultblogid = Setting::getServiceSetting("defaultBlogId",1);
@@ -189,9 +189,8 @@ final class Context extends Singleton
 			if ($this->blogid === null)
 				Respond::NotFoundPage();
 		}
-		
-		if(isset($context->accessInfo['interfacePath'])) {
-			$depth = substr_count($context->accessInfo['interfacePath'], '/') - 1;
+		if(isset($this->accessInfo['interfacePath'])) {
+			$depth = substr_count($this->accessInfo['interfacePath'], '/') - 1;
 		} else {
 			$depth = substr_count(ROOT, '/');
 		}
