@@ -16,14 +16,16 @@ if (!file_exists(ROOT.'/config.php')) {
 	exit;
 }
 /// Initialize PHP environment.
-include(ROOT.'/library/environment/Needlworks.PHP.UnifiedEnvironment.php');
+require_once(ROOT.'/library/environment/Needlworks.PHP.UnifiedEnvironment.php');
 
 /// Initialize class loader.
-include(ROOT.'/library/base.php');
-include(ROOT.'/library/settings.php');
-include(ROOT.'/library/context.php');
-include(ROOT.'/library/loader.php');
+require_once(ROOT.'/library/base.php');
+require_once(ROOT.'/library/settings.php');
+require_once(ROOT.'/library/context.php');
+require_once(ROOT.'/library/loader.php');
 $config = Config::getInstance();
+require_once(ROOT.'/library/environment/Needlworks.PHP.Core.php');
+
 /** Parse and normalize URI. */
 /* TODO: Unify the environment and do work-arounds. (For IIS, Apache - mod_php or fastcgi, lighttpd, and etc.) */
 // Structure of fancy URL:

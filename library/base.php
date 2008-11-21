@@ -27,5 +27,4 @@ abstract class Singleton {
 	*/
 	abstract public static function getInstance();
 }
-
 ?>
