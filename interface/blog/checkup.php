@@ -247,7 +247,8 @@ if($currentVersion != TEXTCUBE_VERSION) {
 			showCheckupMessage(false);
 	}
 
-	if (POD::queryCell("DESC {$database['prefix']}Trackbacks blogid", 'Key') != 'PRI') {
+	if (!POD::queryExistence("DESC {$database['prefix']}RemoteResponses blogid") &&
+		POD::queryCell("DESC {$database['prefix']}Trackbacks blogid", 'Key') != 'PRI') {
 		$changed = true;
 		echo '<li>', _text('트랙백 불러오기 속도를 개선하기 위하여 트랙백 테이블의 인덱스 설정을 변경합니다.'), ': ';
 		POD::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP INDEX written");
@@ -369,10 +370,10 @@ if($currentVersion != TEXTCUBE_VERSION) {
 		}
 	}
 	/* FROM Textcube 1.7.3 */
-	if (!is_null($notices = POD::queryAll("SELECT blogid, id, title
+	if (!is_null($notices = POD::queryAll("SELECT blogid, id, title, slogan
 		FROM {$database['prefix']}Entries 
 		WHERE category = -2
-			AND slogan = ''"))) {
+			AND slogan = ''")) && !empty($notices)) {
 		$changed = true;
 		echo '<li>', _text('fancyURL이 적용되지 않는 공지 글에 슬로건을 추가합니다.'), ': ';
 		foreach($notices as $notice) :
