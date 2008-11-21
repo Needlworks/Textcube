@@ -50,23 +50,23 @@ final class Context extends Singleton
 		$accessInfo['input'] = ltrim(substr($accessInfo['fullpath'],
 			strlen($accessInfo['root']) + (defined('__TEXTCUBE_NO_FANCY_URL__') ? 1 : 0)),'/');
 		// DEPRECATE?: Support for Tattertools 0.9x legacy address
-	$part = strtok($accessInfo['input'], '/');
-	if (in_array($part, array('resources','plugins','cache','skin','attach','thumbnail'))) {
-		$part = ltrim(rtrim($part == 'thumbnail' ?
-			  preg_replace('/thumbnail/', 'cache/thumbnail', $accessInfo['input'], 1) :
-			  $accessInfo['input']), '/');
-		$part = (($qpos = strpos($part, '?')) !== false) ? substr($part, 0, $qpos) : $part;
-		if(file_exists($part)) {
-			require_once ROOT.'/library/function/file.php';
-			dumpWithEtag($part);
-			exit;
-		} else {
-			header("HTTP/1.0 404 Not Found");exit;
+		$part = strtok($accessInfo['input'], '/');
+		if (in_array($part, array('resources','plugins','cache','skin','attach','thumbnail'))) {
+			$part = ltrim(rtrim($part == 'thumbnail' ?
+				  preg_replace('/thumbnail/', 'cache/thumbnail', $accessInfo['input'], 1) :
+				  $accessInfo['input']), '/');
+			$part = (($qpos = strpos($part, '?')) !== false) ? substr($part, 0, $qpos) : $part;
+			if(file_exists($part)) {
+				require_once ROOT.'/library/function/file.php';
+				dumpWithEtag($part);
+				exit;
+			} else {
+				header("HTTP/1.0 404 Not Found");exit;
+			}
 		}
-	}
-	if (strtok($part, '?') == 'setup.php') {require 'setup.php'; exit;}
-	$accessInfo['URLfragment'] = explode('/',strtok($accessInfo['input'],'?'));
-	unset($part);
+		if (strtok($part, '?') == 'setup.php') {require 'setup.php'; exit;}
+		$accessInfo['URLfragment'] = explode('/',strtok($accessInfo['input'],'?'));
+		unset($part);
 
 		/* Determine that which interface should be loaded. */
 		if (defined('__TEXTCUBE_NO_FANCY_URL__')) 
