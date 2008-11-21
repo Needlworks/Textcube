@@ -128,6 +128,7 @@ final class Context extends Singleton
 		if(isset($accessInfo)) {
 			$basicIV = array(
 				'fullpath' => array('string'),
+				'interfacePath' => array('string'),
 				'input'    => array('string'),
 				'position' => array('string'),
 				'root'     => array('string'),
