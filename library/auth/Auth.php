@@ -421,17 +421,4 @@ class Auth {
 	}
 
 }
-
-class Permission {
-	public function require($scope) {
-		switch($scope) {
-			case 'owner':
-			case 'member':
-				global $hostURL;
-				if( doesHaveMembership() ) return true;
-				$_SESSION['refererURI'] = $hostURL.$_SERVER['REQUEST_URI'];
-				requireLogin();
-		}
-	}
-}
 ?>
