@@ -9,6 +9,7 @@ $IV = array(
 		'blogid' => array('id')
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 if (User::setHomepage($_POST['type'],$_POST['homepage'],$_POST['blogid'])) {
 	$result = 0;
@@ -18,7 +19,7 @@ else {
 }
 //TODO : 현재 checkAjaxRequest가 동작하지 않으므로 관련부분 주석처리
 //if ( checkAjaxRequest() ) {
-	Respond::ResultPage( $result );
+	respond::ResultPage( $result );
 /*}
 else {
 	if (!$result) {
@@ -27,7 +28,7 @@ else {
 	else {
 		$message = '대표 주소 변경에 실패 하였습니다.';
 	}
-	Respond::NoticePage($message, $blogURL."/owner/setting/account");
+	respond::NoticePage($message, $blogURL."/owner/setting/account");
 }
 */
 ?>

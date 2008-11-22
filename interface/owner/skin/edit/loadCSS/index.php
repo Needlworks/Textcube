@@ -8,11 +8,12 @@ $IV = array(
 	)
 );
 
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 	
 $result = getCSSContent($blogid, $_POST['file']);
 if ($result === false)
-	Respond::PrintResult(array('error' => 1));
+	respond::PrintResult(array('error' => 1));
 else
-	Respond::PrintResult(array('error' => 0, 'content' => $result));
+	respond::PrintResult(array('error' => 0, 'content' => $result));
 ?>

@@ -9,16 +9,17 @@ $IV = array(
 	)
 );
 
+require ROOT . '/library/includeForBlogOwner.php';
 requireComponent( 'Textcube.Control.Openid' );
- 
+requireLibrary('blog.skin');
 requireStrictRoute();
 
 $consumer = new OpenIDConsumer;
 if( $consumer->setDelegate( $_GET['openid_identifier'] ) ) {
 	Skin::purgeCache();
-	Respond::ResultPage(0);
+	respond::ResultPage(0);
 } else {
-	Respond::ResultPage(-1);
+	respond::ResultPage(-1);
 }
 
 ?>

@@ -7,10 +7,11 @@ $IV = array(
 		'tags' => array('string', 'default' => '')
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 //$tags = explode(trim($_POST['tags']),',');
 if (setBlogTags($blogid, trim($_POST['tags']))) {
-	Respond::ResultPage(0);
+	respond::ResultPage(0);
 }
-Respond::ResultPage(-1);
+respond::ResultPage(-1);
 ?>

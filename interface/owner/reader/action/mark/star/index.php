@@ -9,5 +9,5 @@ $IV = array(
 );
 require ROOT . '/library/includeForReader.php';
 requireStrictRoute();
-Respond::ResultPage(markAsStar($blogid, $_POST['id'], true));
+respond::ResultPage(markAsStar($blogid, $_POST['id'], true));
 ?>

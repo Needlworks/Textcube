@@ -39,10 +39,10 @@ function _getRecentEntriesView($entries,$template){
 	ob_start();
 	foreach($entries as $entry){
 		$view = $template;
-		Misc::dress('rctps_rep_link',"$blogURL/{$entry['id']}",$view);
-		Misc::dress('rctps_rep_edit_link',"$blogURL/owner/entry/edit/{$entry['id']}",$view);
-		Misc::dress('rctps_rep_title',htmlspecialchars(UTF8::lessenAsEm($entry['title'],30)),$view);
-		Misc::dress('rctps_rep_rp_cnt',"<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments']>0?"({$entry['comments']})":'').'</span>',$view);
+		misc::dress('rctps_rep_link',"$blogURL/{$entry['id']}",$view);
+		misc::dress('rctps_rep_edit_link',"$blogURL/owner/entry/edit/{$entry['id']}",$view);
+		misc::dress('rctps_rep_title',htmlspecialchars(UTF8::lessenAsEm($entry['title'],30)),$view);
+		misc::dress('rctps_rep_rp_cnt',"<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments']>0?"({$entry['comments']})":'').'</span>',$view);
 		print $view;
 	}
 	$view=ob_get_contents();

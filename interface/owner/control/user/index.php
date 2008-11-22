@@ -8,6 +8,7 @@ $IV = array(
 	) 
 );
 
+require ROOT . '/library/includeForBlogOwner.php';
 $page=(isset($_GET['page']) && $_GET['page'] >= 1 ? $_GET['page'] : 1 );
 $service['admin_script']='control.js';
 require ROOT . '/interface/common/owner/header.php';
@@ -67,7 +68,7 @@ if($userlist){
 						<td><a href="<?php echo $blogURL;?>/owner/control/user/detail/<?php echo $row['userid']?>"><?php echo $row['loginid'];?></a></td>
 						<td><?php echo $row['name']?></td>
 						<td><?php echo ($row['lastLogin']?date("Y/m/d H:i:s T",$row['lastLogin']):'<span class="warning">'._t('아직 로그인하지 않았습니다.').'</span>');?></td>
-						<td><?php if(empty($row['lastLogin']) || null !== Setting::getUserSettingGlobal('AuthToken',null,$row['userid'])) echo Setting::getUserSettingGlobal('AuthToken',null,$row['userid']);?></td>
+						<td><?php if(empty($row['lastLogin']) || null !== setting::getUserSettingGlobal('AuthToken',null,$row['userid'])) echo setting::getUserSettingGlobal('AuthToken',null,$row['userid']);?></td>
 					</tr>
 <?php
 	}
@@ -86,7 +87,7 @@ $pagingTemplate = '[##_paging_rep_##]';
 $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
 ?>
 	<div id="page-navigation">
-		<span id="page-list"><?php echo Paging::view($paging, $pagingTemplate, $pagingItemTemplate);?></span>
+		<span id="page-list"><?php echo getPagingView($paging, $pagingTemplate, $pagingItemTemplate);?></span>
 		<span id="total-count"><?php echo _f('총 %1명의 사용자',$usercount);?></span>
 	</div>
 	

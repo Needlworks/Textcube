@@ -2,13 +2,14 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+require ROOT . '/library/includeForBlog.php';
 if (empty($suri['value']))
-	Respond::NotFoundPage();
+	respond::NotFoundPage();
 if (!$attachment = getAttachmentByOnlyName($blogid, $suri['value']))
-	Respond::NotFoundPage();
+	respond::NotFoundPage();
 $fp = fopen(ROOT . "/attach/$blogid/{$attachment['name']}", 'rb');
 if (!$fp)
-	Respond::NotFoundPage();
+	respond::NotFoundPage();
 $fstat = fstat($fp);
 if (!empty($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
 	$modifiedSince = strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']);

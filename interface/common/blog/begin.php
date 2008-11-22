@@ -11,7 +11,7 @@ if (!empty($entries) && (count($entries) == 1))
 else
 	$pageTitle = '';
 if (!isset($skin))
-	$skin = new BlogSkin($skinSetting['skin']);
+	$skin = new Skin($skinSetting['skin']);
 
 $view = $skin->outter;
 $view = str_replace('[##_SKIN_head_end_##]',getScriptsOnHead().'[##_SKIN_head_end_##]', $view); // TO DO : caching this part.

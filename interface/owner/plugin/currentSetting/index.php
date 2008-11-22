@@ -8,6 +8,7 @@ $IV = array(
 		'Tab' => array('string', 'default' => 'about')
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 
 if (false) { // For optimization process
 	textTreat();
@@ -21,11 +22,11 @@ $pluginName = $_GET['Name'];
 $tabName = $_GET['Tab'];
 $active = in_array($pluginName, $activePlugins);
 $result =  handleConfig($pluginName);
-if( is_null($result) )	Respond::NotFoundPage();
+if( is_null($result) )	respond::NotFoundPage();
 
 $xmls = new XMLStruct();
 if (!$xmls->open(file_get_contents(ROOT . "/plugins/{$pluginName}/index.xml"))) {
-	Respond::NotFoundPage();
+	respond::NotFoundPage();
 } else {
 	$pluginAttrs = array(
 						"link" => $xmls->getValue('/plugin/link[lang()]'),

@@ -13,6 +13,7 @@ $IV = array(
 		'secret' => array(array('on'), 'default' => null)
 	)
 );
+require ROOT . '/library/includeForBlog.php';
 requireModel('blog.comment');
 
 if (false) {
@@ -30,7 +31,7 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 	$comment = array();
 	list($comment['entry']) = getCommentAttributes($blogid, $suri['id'], 'entry');
 	if (count($comment) == 0)
-		Respond::ErrorPage(_text('댓글이 존재하지 않습니다.'));
+		respond::ErrorPage(_text('댓글이 존재하지 않습니다.'));
 	$comment['parent'] = $suri['id'];
 	$comment['name'] = empty($_POST['name']) ? '' : trim($_POST['name']);
 	$comment['password'] = empty($_POST['password']) ? '' : $_POST['password'];
@@ -60,7 +61,7 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 				WHERE blogid = $blogid AND id = {$comment['entry']} AND draft = 0 AND visibility = 3 AND acceptComment = 1"))
 				sendCommentPing($comment['entry'], "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$row['slogan']}": $comment['entry']), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
 		}
-		$skin = new BlogSkin($skinSetting['skin']);
+		$skin = new Skin($skinSetting['skin']);
 		printHtmlHeader();
 ?>
 <script type="text/javascript">

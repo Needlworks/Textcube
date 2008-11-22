@@ -10,8 +10,9 @@ $IV = array(
 	)
 );
 
+require ROOT . '/library/includeForBlogOwner.php';
 requireComponent( 'Textcube.Control.Openid' );
- 
+requireLibrary('blog.skin');
 requireStrictRoute();
 requireModel( 'common.plugin' );
 
@@ -21,8 +22,8 @@ if( OpenIDConsumer::setComment( $_POST['openidonlycomment'] ) &&
 		activatePlugin('CL_OpenID');
 	}
 	Skin::purgeCache();
-	Respond::ResultPage(0);
+	respond::ResultPage(0);
 } else {
-	Respond::ResultPage(-1);
+	respond::ResultPage(-1);
 }
 ?>

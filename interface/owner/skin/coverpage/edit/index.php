@@ -17,24 +17,25 @@ $IV = array(
 			)
 		);
 
- 
+require ROOT . '/library/includeForBlogOwner.php';
+requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireModel("blog.coverpage");
 
 requireStrictRoute();
 
-$skin = new BlogSkin($skinSetting['skin']);
+$skin = new Skin($skinSetting['skin']);
 $coverpageCount = count($skin->coverpageBasicModules);
 $coverpageOrderData = getCoverpageModuleOrderData($coverpageCount);
 
 $coverpageNumber = $_REQUEST['coverpageNumber'];
 $modulePos = $_REQUEST['modulePos'];
 
-if (($coverpageNumber < 0) || ($coverpageNumber >= $coverpageCount)) Respond::ErrorPage();
-if (!isset($coverpageOrderData[$coverpageNumber]) || !isset($coverpageOrderData[$coverpageNumber][$modulePos])) Respond::ErrorPage();
+if (($coverpageNumber < 0) || ($coverpageNumber >= $coverpageCount)) respond::ErrorPage();
+if (!isset($coverpageOrderData[$coverpageNumber]) || !isset($coverpageOrderData[$coverpageNumber][$modulePos])) respond::ErrorPage();
 
 $pluginData = $coverpageOrderData[$coverpageNumber][$modulePos];
-if ($pluginData['type'] != 3) Respond::ErrorPage();
+if ($pluginData['type'] != 3) respond::ErrorPage();
 
 $plugin = $pluginData['id']['plugin'];
 $handler = $pluginData['id']['handler'];

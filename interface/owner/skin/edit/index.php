@@ -2,9 +2,10 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+require ROOT . '/library/includeForBlogOwner.php';
 // get style files list in current skin.
 $styleFileList = array();
-$tempStyleFileList = Misc::getFileListByRegExp(ROOT . "/skin/blog/{$skinSetting['skin']}", '\.css$', true);
+$tempStyleFileList = misc::getFileListByRegExp(ROOT . "/skin/blog/{$skinSetting['skin']}", '\.css$', true);
 
 foreach ($tempStyleFileList as $styleFile) {
 	$styleFileList[basename($styleFile)] = $styleFile;
@@ -169,7 +170,7 @@ if (count($styleFileList) > 0 && !empty($currentStyleFile) && file_exists(ROOT .
 								/* ToDo : CSS 속성제어용 자바스크립트 에디터
 								window.addEventListener("load", execLoadFunction, false);
 								function execLoadFunction() {
-									var CSSeditor = new BlogSkinEditor();
+									var CSSeditor = new SkinEditor();
 									CSSeditor.initialize('style');
 								}*/
 							//]]>

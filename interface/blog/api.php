@@ -3,13 +3,14 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('__TEXTCUBE_LOGIN__',true);
+require ROOT . '/library/includeForBlog.php';
 
 requireModel( "blog.api" );
 
 /*--------- API main ---------------*/
 
 if (getBlogSetting('useBlogAPI', 0) != 1) {
-	Respond::NotFoundPage();
+	respond::NotFoundPage();
 	exit;
 }
 

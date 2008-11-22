@@ -7,11 +7,12 @@ $IV = array(
 		'userid' => array('id')
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 $result = cancelInvite($_POST['userid']);
 if ($result) {
-	Respond::ResultPage(0);
+	respond::ResultPage(0);
 } else {
-	Respond::ResultPage(1);
+	respond::ResultPage(1);
 }
 ?>

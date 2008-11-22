@@ -3,6 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('__TEXTCUBE_MOBILE__', true);
+require ROOT . '/library/includeForBlog.php';
 requireView('mobileView');
 requireStrictRoute();
 $replyId = $suri['id'];
@@ -16,7 +17,7 @@ $IV = array(
 	)
 );
 if(!Validator::validate($IV))
-	Respond::NotFoundPage();
+	respond::NotFoundPage();
 list($entryId) = getCommentAttributes($blogid, $replyId, 'entry');
 if (!doesHaveOwnership() && empty($_POST["name_$replyId"])) {
 	printMobileErrorPage(_text('댓글을 작성할 수 없습니다.'), _text('이름을 입력해 주십시오.'), "$blogURL/comment/comment/$replyId");

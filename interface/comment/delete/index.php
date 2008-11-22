@@ -16,6 +16,7 @@ $IV = array(
 		'secret' => array(array('on'), 'default' => null)
 	)
 );
+require ROOT . '/library/includeForBlog.php';
 requireComponent('Textcube.Control.Openid');
 
 $blogid = getBlogId();
@@ -41,7 +42,7 @@ if (!empty($_POST['mode'])) {
 	switch ($_POST['mode']) {
 		case 'delete':
 			if (!list($entryId) = getCommentAttributes($blogid, $suri['id'], 'entry'))
-				Respond::ErrorPage(_text('댓글이 존재하지 않습니다.'));
+				respond::ErrorPage(_text('댓글이 존재하지 않습니다.'));
 			$result = false;
 			if (doesHaveOwnership()) {
 				$result = trashComment($blogid, $suri['id'], $entryId, isset($_POST['password']) ? $_POST['password'] : '');
@@ -49,7 +50,7 @@ if (!empty($_POST['mode'])) {
 				$result = deleteComment($blogid, $suri['id'], $entryId, isset($_POST['password']) ? $_POST['password'] : '');
 			}			
 			if ($result == true) {
-				$skin = new BlogSkin($skinSetting['skin']);
+				$skin = new Skin($skinSetting['skin']);
 				$entry = array();
 				$entry['id'] = $entryId;
 				$entry['slogan'] = getSloganById($blogid, $entry['id']);
@@ -85,7 +86,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 				printHtmlFooter();
 				exit;
 			} else {
-				Respond::ErrorPage(_text('패스워드가 일치하지 않습니다.'));
+				respond::ErrorPage(_text('패스워드가 일치하지 않습니다.'));
 				exit;
 			}
 			
@@ -99,7 +100,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 				$comment = getComment($blogid, $suri['id'], isset($_POST['password']) ? $_POST['password'] : '');
 			}
 			if ($comment === false)
-				Respond::ErrorPage(_text('댓글이 존재하지 않거나 패스워드가 일치하지 않습니다.'));
+				respond::ErrorPage(_text('댓글이 존재하지 않거나 패스워드가 일치하지 않습니다.'));
 			$pageTitle = _text('댓글을 수정합니다');
 			$viewMode = 'edit';
 			require ROOT . '/library/view/replyEditorView.php';
@@ -114,7 +115,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 				$comment = getComment($blogid, $suri['id'], isset($_POST['oldPassword']) ? $_POST['oldPassword'] : '');
 			}
 			if ($comment === false)
-				Respond::ErrorPage(_text('댓글이 존재하지 않거나 패스워드가 일치하지 않습니다.'));
+				respond::ErrorPage(_text('댓글이 존재하지 않거나 패스워드가 일치하지 않습니다.'));
 			if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment'])) {
 				if (!doesHaveOwnership()) {
 					$comment['name'] = $_POST['name'];
@@ -139,7 +140,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 					printHtmlFooter();
 					exit;
 				} else if ($result !== false) {
-					$skin = new BlogSkin($skinSetting['skin']);
+					$skin = new Skin($skinSetting['skin']);
 					$suri['page'] = getGuestbookPageById($blogid, $suri['id']);
 					$entry = array();
 					$entry['id'] = $comment['entry'];
@@ -172,11 +173,11 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 					printHtmlFooter();
 					exit;
 				} else {
-					Respond::ErrorPage(_text('수정이 실패하였습니다.'));
+					respond::ErrorPage(_text('수정이 실패하였습니다.'));
 				}
 			}
 	}
-	Respond::ErrorPage();
+	respond::ErrorPage();
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">

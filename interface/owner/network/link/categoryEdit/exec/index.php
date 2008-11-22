@@ -8,8 +8,9 @@ $IV = array(
 		'name' => array('string','min' => 0,'max' => 255)
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.link");
 
 requireStrictRoute();
-Respond::ResultPage(updateLinkCategory($blogid, $_POST));
+respond::ResultPage(updateLinkCategory($blogid, $_POST));
 ?>

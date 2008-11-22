@@ -11,6 +11,7 @@ $IV = array(
 	)
 );
 define('__TEXTCUBE_IPHONE__', true);
+require ROOT . '/library/includeForBlog.php';
 if (isset($_GET['loginid']))
 	$_POST['loginid'] = $_GET['loginid'];
 if (isset($_GET['password']))

@@ -14,6 +14,7 @@ $IV = array(
 		)
 	);
 
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.entry");
 
 requireStrictRoute();
@@ -38,7 +39,7 @@ if (!isset($_GET['command'])) {
 	} else {
 		$countResult = 1;
 	}
-	Respond::PrintResult(array('error' => $temp, 'countSyndicated' => $countResult), false);
+	respond::PrintResult(array('error' => $temp, 'countSyndicated' => $countResult), false);
 } else {
 	switch ($_GET['command']) {
 		case "protect":

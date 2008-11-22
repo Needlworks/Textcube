@@ -28,6 +28,7 @@ if(count($_POST) > 0) {
 		)
 	);
 }
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.comment");
 requireModel("blog.entry");
 
@@ -297,7 +298,7 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 //$paging['postfix'] = '; document.getElementById('list-form').submit()';
 $pagingTemplate = '[##_paging_rep_##]';
 $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
-print Paging::view($paging, $pagingTemplate, $pagingItemTemplate);
+print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 ?>
 											</span>
 											<span id="total-count"><?php echo _f('총 %1건', empty($paging['total']) ? "0" : $paging['total']);?></span>

@@ -7,6 +7,7 @@ $IV = array(
 		'url' => array('url')
 	)
 );
+require ROOT . '/library/includeForReader.php';
 if (preg_match('/\.jpe?g/i', $_GET['url']))
 	header('Content-type: image/jpeg');
 else if (preg_match('/\.gif/i', $_GET['url']))
@@ -17,5 +18,5 @@ $request = new HTTPRequest($_GET['url']);
 if ($request->send()) {
 	echo $request->responseText;
 } else
-	Respond::NotFoundPage();
+	respond::NotFoundPage();
 ?>

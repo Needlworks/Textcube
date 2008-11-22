@@ -8,11 +8,12 @@ $IV = array(
 		'current' => array('int', 0)
 	)
 );
+require ROOT . '/library/includeForReader.php';
 requireStrictRoute();
 $result = array('error' => addFeedGroup($blogid, $_POST['title']));
 ob_start();
 printFeedGroups($blogid, $_POST['current']);
 $result['view'] = escapeCData(ob_get_contents());
 ob_end_clean();
-Respond::PrintResult($result);
+respond::PrintResult($result);
 ?>

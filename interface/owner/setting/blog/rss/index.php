@@ -11,6 +11,7 @@ $IV = array(
 		'commentsOnRSS' => array('int', 'default' => 5)
 		)
 	);
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 
 setEntriesOnRSS($blogid, $_POST['entriesOnRSS']);
@@ -20,6 +21,6 @@ setCommentsOnRSS($blogid, $_POST['commentsOnRSS']);
 setPublishWholeOnRSS($blogid, $_POST['publishWholeOnRSS']);
 publishPostEolinSyncOnRSS($blogid, $_POST['publishEolinSyncOnRSS']);
 
-Respond::ResultPage(0);
+respond::ResultPage(0);
 
 ?>

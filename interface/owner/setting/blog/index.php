@@ -2,6 +2,7 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+require ROOT . '/library/includeForBlogOwner.php';
 require ROOT . '/interface/common/owner/header.php';
 
 ?>
@@ -690,14 +691,14 @@ if($service['allowBlogVisibilitySetting']){
 											</dd>
 										</dl>
 <?php
-$openidonlycomment = Setting::getBlogSettingGlobal( "AddCommentMode", "" );
+$openidonlycomment = setting::getBlogSettingGlobal( "AddCommentMode", "" );
 if( $openidonlycomment == 'openid' ) {
 	$openidonlycomment = "checked='checked'";
 } else {
 	$openidonlycomment = "";
 }
 
-$openidlogodisplay = Setting::getBlogSettingGlobal( "OpenIDLogoDisplay", 0 );
+$openidlogodisplay = setting::getBlogSettingGlobal( "OpenIDLogoDisplay", 0 );
 if( $openidlogodisplay ) {
 	$openidlogodisplay = "checked='checked'";
 } else {

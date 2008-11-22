@@ -2,10 +2,11 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.link");
 
 if (!$link = getLinkCategory($blogid, $suri['id']))
-	Respond::ErrorPage(_t('링크 정보가 존재하지 않습니다.'));
+	respond::ErrorPage(_t('링크 정보가 존재하지 않습니다.'));
 require ROOT . '/interface/common/owner/header.php';
 
 

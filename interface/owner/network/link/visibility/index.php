@@ -7,9 +7,10 @@ $IV = array(
 		'visibility' => array('int', 0,3)
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.link");
 requireStrictRoute();
 $respond = array();
 list($result,$visibility) = toggleLinkVisibility($blogid, $suri['id'],$_POST['visibility']);
-Respond::PrintResult( array( 'error' => $result ? 0 : 1, 'visibility' => $visibility ), false );
+respond::PrintResult( array( 'error' => $result ? 0 : 1, 'visibility' => $visibility ), false );
 ?>

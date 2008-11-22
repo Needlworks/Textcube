@@ -8,18 +8,19 @@ $IV = array(
 	)
 );
 
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.response.remote");
 
 requireStrictRoute();
 if(isset($suri['id'])) {
 	if (deleteTrackbackLog($blogid, $suri['id']) !== false)
-		Respond::ResultPage(0);
+		respond::ResultPage(0);
 	else
-		Respond::ResultPage(-1);
+		respond::ResultPage(-1);
 } else if(!empty($_POST['targets'])) {
 	foreach(explode(',', $_POST['targets']) as $target)
 		deleteTrackbackLog($blogid, $target);
-	Respond::ResultPage(0);
+	respond::ResultPage(0);
 }
-Respond::ResultPage(-1);
+respond::ResultPage(-1);
 ?> 

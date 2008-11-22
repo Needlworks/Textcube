@@ -12,11 +12,12 @@ $IV = array(
 		'loaded' => array('int', 'default' => 0)
 	)
 );
+require ROOT . '/library/includeForReader.php';
 $result = array('error' => '0');
 ob_start();
 $count = printFeedEntriesMore($blogid, $_POST['group'], $_POST['feed'], $_POST['unread'] == '1', $_POST['starred'] == '1', $_POST['keyword'] == '' ? null : $_POST['keyword'], $_POST['loaded']);
 $result['count'] = $count;
 $result['view'] = escapeCData(ob_get_contents());
 ob_end_clean();
-Respond::PrintResult($result);
+respond::PrintResult($result);
 ?>

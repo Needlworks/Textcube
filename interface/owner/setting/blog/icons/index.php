@@ -21,6 +21,7 @@ $IV = array(
 	)
 );
 
+require ROOT . '/library/includeForBlogOwner.php';
 $errorText = array();
 
 // 로고 처리.

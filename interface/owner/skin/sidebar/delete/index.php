@@ -9,15 +9,16 @@ $IV = array(
 		'viewMode' => array('string', 'default' => '')
 	)
 );
- 
+require ROOT . '/library/includeForBlogOwner.php';
+requireLibrary('blog.skin');
 requireModel("blog.sidebar");
-$skin = new BlogSkin($skinSetting['skin']);
+$skin = new Skin($skinSetting['skin']);
 $sidebarCount = count($skin->sidebarBasicModules);
 $sidebarOrder = deleteSidebarModuleOrderData(getSidebarModuleOrderData($sidebarCount), $_GET['sidebarNumber'], $_GET['modulePos']);
 setBlogSetting("sidebarOrder", serialize($sidebarOrder));
 Skin::purgeCache();
 
-//Respond::ResultPage(0);
+//respond::ResultPage(0);
 if ($_GET['viewMode'] != '') $_GET['viewMode'] = '?' . $_GET['viewMode'];
 header('Location: '. $blogURL . '/owner/skin/sidebar' . $_GET['viewMode']);
 ?>

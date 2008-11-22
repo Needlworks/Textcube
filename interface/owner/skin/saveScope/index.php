@@ -7,6 +7,7 @@ $IV = array(
 		'viewtype' => array(array('listview', 'iconview'), 'mandatory' => false)
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 
 $backupListView = getBlogSetting('skinViewType');
@@ -14,8 +15,8 @@ $backupListView = getBlogSetting('skinViewType');
 // 하나라도 저장에 실패하면 롤백.
 if (!setBlogSetting("skinViewType", $_POST['viewtype'])) {
 	setBlogSetting("skinViewType", $backupListView);
-	Respond::ResultPage(1);
+	respond::ResultPage(1);
 } else {
-	Respond::ResultPage(0);
+	respond::ResultPage(0);
 }
 ?>

@@ -7,6 +7,7 @@ $IV = array(
 		'targets' => array ('list','mandatory'=>false)
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.entry");
 
 
@@ -16,16 +17,16 @@ $isAjaxRequest = checkAjaxRequest();
 if(isset($suri['id'])) {
 	if(!Acl::check("group.editors")) {
 		if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) {
-			Respond::ResultPage(-1);
+			respond::ResultPage(-1);
 			exit;
 		}
 	}			
 	
 	if ($isAjaxRequest) {
 		if (deleteEntry($blogid, $suri['id']) === true) {
-			Respond::ResultPage(0);
+			respond::ResultPage(0);
 		} else {
-			Respond::ResultPage(-1);
+			respond::ResultPage(-1);
 		}
 	} else {
 		deleteEntry($blogid, $suri['id']);
@@ -36,14 +37,14 @@ if(isset($suri['id'])) {
 		// TeamBlog check
 		if(!Acl::check( 'group.writers', 'entry.delete.' . $target )) {
 			if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) { 
-				Respond::ResultPage(-1);
+				respond::ResultPage(-1);
 				exit;
 			}
 		}
 		
 		if (!deleteEntry($blogid, $target))
-			Respond::ResultPage(-1);
+			respond::ResultPage(-1);
 	}
-	Respond::ResultPage(0);
+	respond::ResultPage(0);
 }
 ?>

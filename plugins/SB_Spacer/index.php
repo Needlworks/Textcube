@@ -27,7 +27,7 @@ function SB_Spacer($target)
 {
 	global $configVal;
 	requireComponent('Textcube.Function.misc');
-	$data = Setting::fetchConfigVal($configVal);
+	$data = setting::fetchConfigVal($configVal);
 	if(!is_null($data) && array_key_exists('height', $data)){
 		$height = $data['height'];
 	} else {
@@ -40,7 +40,7 @@ function SB_Spacer($target)
 function SB_Spacer_DataSet($data){
 	requireComponent('Textcube.Function.misc');
 	if(!is_integer(intval($data['height']))) return false;
-	$cfg = Setting::fetchConfigVal($data);
+	$cfg = setting::fetchConfigVal($data);
 	return true;
 }
 ?>

@@ -5,5 +5,5 @@
 
 require ROOT . '/library/includeForReader.php';
 requireStrictRoute();
-Respond::ResultPage(markAsReadAll($blogid));
+respond::ResultPage(markAsReadAll($blogid));
 ?>

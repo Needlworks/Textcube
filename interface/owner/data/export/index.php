@@ -7,6 +7,7 @@ $IV = array(
 		'includeFileContents' => array(array('true', 'false'))
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 set_time_limit(0);
 $includeFileContents = Validator::getBool(@$_GET['includeFileContents']);
 $writer = new OutputWriter();
@@ -325,7 +326,7 @@ if ($statistics->open()) {
 	$writer->write(CRLF);
 	$statistics->close();
 }
-$setting = new BlogSkinSetting();
+$setting = new SkinSetting();
 if ($setting->load()) {
 	$writer->write('<skin>' . '<name>' . $setting->skin . '</name>' . '<entriesOnRecent>' . $setting->entriesOnRecent . '</entriesOnRecent>' . '<commentsOnRecent>' . $setting->commentsOnRecent . '</commentsOnRecent>' . '<trackbacksOnRecent>' . $setting->trackbacksOnRecent . '</trackbacksOnRecent>' . '<commentsOnGuestbook>' . $setting->commentsOnGuestbook . '</commentsOnGuestbook>' . '<tagsOnTagbox>' . $setting->tagsOnTagbox . '</tagsOnTagbox>' . '<alignOnTagbox>' . $setting->alignOnTagbox . '</alignOnTagbox>' . '<expandComment>' . $setting->expandComment . '</expandComment>' . '<expandTrackback>' . $setting->expandTrackback . '</expandTrackback>' . '<recentNoticeLength>' . $setting->recentNoticeLength . '</recentNoticeLength>' . '<recentEntryLength>' . $setting->recentEntryLength . '</recentEntryLength>' . '<recentTrackbackLength>' . $setting->recentTrackbackLength . '</recentTrackbackLength>' . '<linkLength>' . $setting->linkLength . '</linkLength>' . '<showListOnCategory>' . $setting->showListOnCategory . '</showListOnCategory>' . '<showListOnArchive>' . $setting->showListOnArchive . '</showListOnArchive>' . '<tree>' . '<name>' . $setting->tree . '</name>' . '<color>' . $setting->colorOnTree . '</color>' . '<bgColor>' . $setting->bgColorOnTree . '</bgColor>' . '<activeColor>' . $setting->activeColorOnTree . '</activeColor>' . '<activeBgColor>' . $setting->activeBgColorOnTree . '</activeBgColor>' . '<labelLength>' . $setting->labelLengthOnTree . '</labelLength>' . '<showValue>' . $setting->showValueOnTree . '</showValue>' . '</tree>' . '</skin>');
 	$writer->write(CRLF);
@@ -390,6 +391,6 @@ $writer->write('</blog>');
 $writer->close();
 if (defined('__TEXTCUBE_BACKUP__')) {
 	@chmod(ROOT . "/cache/backup/$blogid.xml", 0666);
-	Respond::ResultPage(0);
+	respond::ResultPage(0);
 }
 ?>

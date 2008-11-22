@@ -2,12 +2,13 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+require ROOT . '/library/includeForBlog.php';
 requireModel('blog.entry');
 
 if(!Validator::filename($_GET['skin']) && $_GET['skin'] != "customize/$blogid")
-	Respond::NotFoundPage();
+	respond::NotFoundPage();
 $skinSetting['skin'] = $_GET['skin'];
-$skin = new BlogSkin($skinSetting['skin'], true);
+$skin = new Skin($skinSetting['skin'], true);
 list($entries, $paging) = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnPage']);
 
 require ROOT . '/interface/common/blog/begin.php';

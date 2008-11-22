@@ -13,6 +13,7 @@ $IV = array(
 		'CONTENT_TYPE' => array('string', 'default' => '')
 	)
 );
+require ROOT . '/library/includeForBlog.php';
 $url = $_POST['url'];
 $title = !empty($_POST['title']) ? $_POST['title'] : '';
 $excerpt = !empty($_POST['excerpt']) ? $_POST['excerpt'] : '';
@@ -25,7 +26,7 @@ if (!empty($_SERVER["CONTENT_TYPE"]) && strpos($_SERVER["CONTENT_TYPE"], 'charse
 }
 /*if(!isset($suri['id'])) $suri['id'] = getEntryIdBySlogan($blogid, $suri['value']);
 if(empty($suri['id'])) {
-	Respond::PrintResult(array('error' => 1, 'message' => 'URL is not exist or invalid'));
+	respond::PrintResult(array('error' => 1, 'message' => 'URL is not exist or invalid'));
 	exit;
 }*/
 $result = receiveTrackback($blogid, $suri['id'], $title, $url, $excerpt, $blog_name);
@@ -38,18 +39,18 @@ if ($result == 0) {
 			AND visibility = 3 
 			AND acceptComment = 1"))
 		sendTrackbackPing($suri['id'], "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$row['slogan']}": $suri['id']), $url, $blog_name, $title);
-	Respond::ResultPage(0);
+	respond::ResultPage(0);
 } else {
 	if ($result == 1) {
-		Respond::PrintResult(array('error' => 1, 'message' => 'Could not receive'));
+		respond::PrintResult(array('error' => 1, 'message' => 'Could not receive'));
 	} else if ($result == 2) {
-		Respond::PrintResult(array('error' => 1, 'message' => 'Could not receive'));
+		respond::PrintResult(array('error' => 1, 'message' => 'Could not receive'));
 	} else if ($result == 3) {
-		Respond::PrintResult(array('error' => 1, 'message' => 'The entry is not accept trackback'));
+		respond::PrintResult(array('error' => 1, 'message' => 'The entry is not accept trackback'));
 	} else if ($result == 4) {
-		Respond::PrintResult(array('error' => 1, 'message' => 'already exists trackback'));
+		respond::PrintResult(array('error' => 1, 'message' => 'already exists trackback'));
 	} else if ($result == 5) {
-		Respond::PrintResult(array('error' => 1, 'message' => 'URL is not exist or invalid'));
+		respond::PrintResult(array('error' => 1, 'message' => 'URL is not exist or invalid'));
 	}
 }
 ?> 

@@ -7,6 +7,7 @@ $IV = array(
 		'rss' => array('url')
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel('blog.link');
 
 if (!empty($_GET['rss'])) {
@@ -22,14 +23,14 @@ if (!empty($_GET['rss'])) {
 			$result['url'] = correctTTForXmlText(UTF8::correct(htmlspecialchars(trim($link))));
 		else
 			$result['url'] = correctTTForXmlText(UTF8::bring(htmlspecialchars(trim($link))));
-		Respond::PrintResult($result);
+		respond::PrintResult($result);
 	} else {
 		$result['url'] = $_GET['rss'];
 		$result['name'] = '';
-		Respond::PrintResult($result);
+		respond::PrintResult($result);
 	}
 	exit;
 } else {
-	Respond::ResultPage(-1);
+	respond::ResultPage(-1);
 }
 ?>

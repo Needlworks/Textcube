@@ -8,7 +8,7 @@ var accordion;
 
 function initialize() {
 	initializeMap();
-	map.getContainer().makeResizable({limit: {x: [150,800], y: [150,800]}});
+	map.getContainer().makeResizable();
 	map.getContainer().addEvent('resize', function(ev) {
 		map.checkResize();
 		//var size = this.getSize();

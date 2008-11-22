@@ -7,6 +7,7 @@ $IV = array(
 		'userid' => array('id')
 	) 
 );
+require ROOT . '/library/includeForBlogOwner.php';
 
 requireStrictRoute();
 requirePrivilege('group.creators');
@@ -14,11 +15,11 @@ requirePrivilege('group.creators');
 $authtoken = md5(User::__generatePassword());
 $result = POD::query("INSERT INTO `{$database['prefix']}UserSettings` (userid, name, value) VALUES ('".$_GET['userid']."', 'AuthToken', '$authtoken')");
 if ($result) {
-	Respond::PrintResult(array('error' => 0));
+	respond::PrintResult(array('error' => 0));
 	echo "s";
 }
 else {
 	$result = _t('임시 암호 발급에 실패하였습니다.');
-	Respond::PrintResult(array('error' => -1 , 'result' =>$result));
+	respond::PrintResult(array('error' => -1 , 'result' =>$result));
 }
 ?>

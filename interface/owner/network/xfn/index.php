@@ -2,6 +2,7 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.link");
 requireComponent("Textcube.Core.BackwardCompatibility");
 
@@ -159,7 +160,7 @@ if (sizeof($links) > 0) echo "									</tbody>";
 <?php
 $pagingTemplate = '[##_paging_rep_##]';
 $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
-print Paging::view($paging, $pagingTemplate, $pagingItemTemplate);
+print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 ?>
 									</span>
 									<span id="total-count"><?php echo sprintf(_t('총 %d건'), empty($paging['total']) ? "0" : $paging['total']);?></span>

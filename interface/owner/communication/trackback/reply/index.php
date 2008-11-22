@@ -7,6 +7,7 @@ $IV = array(
 		'url' => array('url', 'default'=> null)
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.response.remote");
 
 requireStrictRoute();
@@ -15,8 +16,8 @@ requireStrictRoute();
 $info  = getRDFfromURL($_POST['url']);
 if(empty($info)) {
 	/// TODO : parse trackback URL information from site address.
-	Respond::ResultPage(false);
+	respond::ResultPage(false);
 	exit;
 }
-Respond::ResultPage(!empty($_POST['url']) && sendTrackback($blogid, $suri['id'], trim($info['trackbackURL'])));
+respond::ResultPage(!empty($_POST['url']) && sendTrackback($blogid, $suri['id'], trim($info['trackbackURL'])));
 ?>

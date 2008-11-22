@@ -12,21 +12,22 @@ $IV = array(
 		'senderEmail' => array('email')
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel('blog.user');
 requireStrictRoute();
 if (($service['type'] == 'single') || !Acl::check("group.creators"))
-	Respond::ResultPage(false);
+	respond::ResultPage(false);
 $useradd = User::add($_POST['email'], $_POST['name']);
 if($useradd !== true && $useradd != 9) {
-	Respond::ResultPage($useradd);
+	respond::ResultPage($useradd);
 }
 $blogadd = addBlog(null, User::getUserIdByEmail($_POST['email']),$_POST['identify']);
 if($blogadd !== true) {
 	if($useradd != 9) { // If user is created at this time, delete that user.
 		User::removePermanent(User::getUserIdByEmail($_POST['email']));
 	}
-	Respond::ResultPage($blogadd);
+	respond::ResultPage($blogadd);
 }
 $result = sendInvitationMail(null, User::getUserIdByEmail($_POST['email']),$_POST['name'],$_POST['comment'], $_POST['senderName'], $_POST['senderEmail']);
-Respond::ResultPage($result);
+respond::ResultPage($result);
 ?>

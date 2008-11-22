@@ -11,7 +11,8 @@ $IV = array(
 		'tag' => array('any', 'mandatory' => false)
 		)
 	);
- 
+require ROOT . '/library/includeForBlogOwner.php';
+requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireModel("blog.coverpage");
 requireModel('blog.entry');
@@ -172,7 +173,7 @@ function pretty_dress($view)
 	return correctCoverpageImage($view);
 }
 
-$skin = new BlogSkin($skinSetting['skin']);
+$skin = new Skin($skinSetting['skin']);
 $coverpageCount = count($skin->coverpageBasicModules);
 getBlogContentForSideBar();
 

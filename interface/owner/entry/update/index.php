@@ -19,6 +19,7 @@ $IV = array(
 		'published'  => array('int', 0, 'default' => 1)
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel('blog.entry');
 
 requireStrictRoute();
@@ -46,8 +47,8 @@ if (!is_null($entry)) {
 	if($id = updateEntry($blogid, $entry, $updateDraft)) {
 		fireEvent('UpdatePost', $id, $entry);
 		setBlogSetting('LatestEditedEntry_user'.getUserId(),$suri['id']);
-		Respond::ResultPage(0);
+		respond::ResultPage(0);
 	}
 }
-Respond::ResultPage(-1);
+respond::ResultPage(-1);
 ?>

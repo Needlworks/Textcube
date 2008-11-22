@@ -3,6 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('__TEXTCUBE_IPHONE__', true);
+require ROOT . '/library/includeForBlog.php';
 requireView('iphoneView');
 
 requireStrictRoute();
@@ -17,7 +18,7 @@ $IV = array(
 	)
 );
 if(!Validator::validate($IV))
-	Respond::NotFoundPage();
+	respond::NotFoundPage();
 if (!doesHaveOwnership() && empty($_GET["name_$entryId"])) {
 	printIphoneErrorPage(_text('Comment write error.'), _text('Please enter your name.'), "$blogURL/comment/$entryId");
 } else if (!doesHaveOwnership() && empty($_GET["comment_$entryId"])) {

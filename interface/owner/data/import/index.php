@@ -13,6 +13,7 @@ $IV = array(
 		'backupPath' => array('file', 'default' => array() )
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -644,7 +645,7 @@ function importer($path, $node, $line) {
 			return true;
 		case '/blog/skin':
 			setProgress($item++ / $items * 100, _t('스킨 설정을 복원하고 있습니다.'));
-			$setting = new BlogSkinSetting();
+			$setting = new SkinSetting();
 			if (false) {
 				$setting->skin = $node['name'][0]['.value'];
 				if (!$setting->save())

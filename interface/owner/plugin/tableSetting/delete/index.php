@@ -8,9 +8,10 @@ $IV = array(
 		'type' => array('int', 'min' => 1, 'max' => 2),
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 if ($blogid != 1) {
-	Respond::ResultPage(1);
+	respond::ResultPage(1);
 	exit;
 }
 
@@ -27,7 +28,7 @@ if ($_REQUEST['type'] == 1) { // type 1, plugin
 	
 	$plugintablesraw = POD::queryColumn($query);
 	if (count($plugintablesraw) <= 0) {
-		Respond::ResultPage(1);
+		respond::ResultPage(1);
 		exit;
 	}
 	$plugintables = array();
@@ -35,11 +36,11 @@ if ($_REQUEST['type'] == 1) { // type 1, plugin
 		$origname = $dbname;
 		$dbname = $database['prefix'] . substr($dbname, 9);
 		if (!doesExistTable($dbname)) {
-			Respond::ResultPage(1);
+			respond::ResultPage(1);
 			exit;
 		}
 		if (in_array($dbname , $definedTables)) {
-			Respond::ResultPage(1);
+			respond::ResultPage(1);
 			exit;
 		}
 		array_push($plugintables, $dbname);
@@ -55,22 +56,22 @@ if ($_REQUEST['type'] == 1) { // type 1, plugin
 	deactivatePlugin($pluginname);
 	
 	if ($result == false) {
-		Respond::ResultPage(1);
+		respond::ResultPage(1);
 		exit;
 	}
 } else { // type 2, table
 
 	$dbname = $_REQUEST['name'];
 	if (strncmp($dbname, $database['prefix'], strlen($database['prefix'])) != 0) {
-		Respond::ResultPage(1);
+		respond::ResultPage(1);
 		exit;
 	}
 	if (in_array($dbname , $definedTables)) {
-		Respond::ResultPage(1);
+		respond::ResultPage(1);
 		exit;
 	}
 	if (!doesExistTable($dbname)) {
-		Respond::ResultPage(1);
+		respond::ResultPage(1);
 		exit;
 	}
 	
@@ -78,5 +79,5 @@ if ($_REQUEST['type'] == 1) { // type 1, plugin
 	POD::execute($query);
 }
 
-Respond::ResultPage(0);
+respond::ResultPage(0);
 ?>

@@ -15,10 +15,11 @@ $IV = array(
 	)
 );
 
- 
+require ROOT . '/library/includeForBlogOwner.php';
+requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireStrictRoute();
-$skin = new BlogSkin($skinSetting['skin']);
+$skin = new Skin($skinSetting['skin']);
 $sidebarCount = count($skin->sidebarBasicModules);
 $sidebarOrder = getSidebarModuleOrderData($sidebarCount);
 
@@ -26,7 +27,7 @@ if ($_REQUEST['targetPos'] < 0 || $_REQUEST['targetPos'] > count($sidebarOrder[$
 	if ($_SERVER['REQUEST_METHOD'] != 'POST')
 		header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
 	else
-		Respond::ResultPage(-1);
+		respond::ResultPage(-1);
 } else {
 	if (($_REQUEST['sidebarNumber'] == $_REQUEST['targetSidebarNumber'])
 		&& ($_REQUEST['modulePos'] < $_REQUEST['targetPos'])) 
@@ -45,5 +46,5 @@ if ($_REQUEST['viewMode'] != '') $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMo
 if ($_SERVER['REQUEST_METHOD'] != 'POST')
 	header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
 else
-	Respond::ResultPage(0);
+	respond::ResultPage(0);
 ?>

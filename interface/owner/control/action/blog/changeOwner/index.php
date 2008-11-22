@@ -10,11 +10,12 @@ $IV = array(
 	) 
 );
 
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 requirePrivilege('group.creators');
 
 if (changeBlogOwner($_GET['blogid'],$_GET['owner'])) {
-	return Respond::ResultPage(true);
+	return respond::ResultPage(true);
 }
-Respond::ResultPage(false);
+respond::ResultPage(false);
 ?>

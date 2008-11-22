@@ -2,6 +2,7 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+require ROOT . '/library/includeForBlogOwner.php';
 $backup = null;
 if (file_exists(ROOT . "/cache/backup/$blogid.xml.gz"))
 	$backup = filemtime(ROOT . "/cache/backup/$blogid.xml.gz");
@@ -264,7 +265,7 @@ if(Acl::check("group.creators")) {
 							<div class="notification-box">
 								<p><?php echo _f('서버에 %1에 백업한 파일이 존재합니다.',$fileTime);?></p>
 <?php
-		$apikey = Setting::getUserSettingGlobal('APIKey',null,getUserId());
+		$apikey = setting::getUserSettingGlobal('APIKey',null,getUserId());
 		if($apikey!=null) {
 ?>
 								<p>
@@ -335,7 +336,7 @@ if(defined('__TEXTCUBE_NO_FANCY_URL__')) {
 									
 									<div class="message-body">
 										<div class="explain">
-											<?php echo _f('이 계정의 업로드 허용 용량은 <em>%1</em> 바이트로 백업파일의 크기가 이를 초과하는 경우 <acronym title="File Transfer Protocol">FTP</acronym> 등으로 원하시는 사이트에 업로드하신 후 이 파일의 웹 주소를 입력해서 진행하십시오. 이 경우, 보안을 위해 복원이 끝나면 반드시 그 백업파일을 웹 상에서 지우실 것을 권장합니다.', (Misc::getNumericValue(ini_get('post_max_size')) < Misc::getNumericValue(ini_get('upload_max_filesize')) ? ini_get('post_max_size') : ini_get('upload_max_filesize')));?>
+											<?php echo _f('이 계정의 업로드 허용 용량은 <em>%1</em> 바이트로 백업파일의 크기가 이를 초과하는 경우 <acronym title="File Transfer Protocol">FTP</acronym> 등으로 원하시는 사이트에 업로드하신 후 이 파일의 웹 주소를 입력해서 진행하십시오. 이 경우, 보안을 위해 복원이 끝나면 반드시 그 백업파일을 웹 상에서 지우실 것을 권장합니다.', (misc::getNumericValue(ini_get('post_max_size')) < misc::getNumericValue(ini_get('upload_max_filesize')) ? ini_get('post_max_size') : ini_get('upload_max_filesize')));?>
 										</div>
 <?php
 if ($backup) {

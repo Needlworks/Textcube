@@ -19,6 +19,7 @@ $IV = array(
 		'published'  => array('int', 0, 'default' => 1)
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel('blog.entry');
 
 requireStrictRoute();
@@ -59,17 +60,17 @@ if (empty($suri['id']) || !is_null($entry)) {
 			$result = array();
 			$result['error'] = (($id !== false) === true ? 0 : 1);
 			$result['entryId'] = $id;
-			Respond::PrintResult($result);
+			respond::PrintResult($result);
 			exit;
 		}
 	} else {
 		if($id = updateEntry($blogid, $entry, $updateDraft)) {
 			fireEvent('UpdatePost', $id, $entry);
 			setBlogSetting('LatestEditedEntry_user'.getUserId(),$suri['id']);
-			Respond::ResultPage(0);
+			respond::ResultPage(0);
 			exit;
 		}
 	}
 }
-Respond::ResultPage(-1);
+respond::ResultPage(-1);
 ?>

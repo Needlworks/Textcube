@@ -5,6 +5,7 @@
 
 define('__TEXTCUBE_LOGIN__',true);
 
+require ROOT . '/library/includeForBlog.php';
 require ROOT . '/library/model/blog.skin.php';
 
 requireModel('common.setting');
@@ -442,7 +443,7 @@ $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));
 fclose($fp);
-if ((preg_match('@dispatcher\.php@', $content) == 0 ) || 
+if ((preg_match('@rewrite\.php@', $content) == 0 ) || 
 		(strpos($content,'[OR]') !== false) || 
 		(strpos($content,' -d') == false) ||
 		(strpos($content,'(cache|xml|txt|log)') == false)
@@ -464,7 +465,7 @@ RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^(.+[^/])$ $1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(thumbnail)/([0-9]+/.+)$ cache/$1/$2 [L]
-RewriteRule ^(.*)$ dispatcher.php [L,QSA]
+RewriteRule ^(.*)$ rewrite.php [L,QSA]
 ";
 	$fp = fopen($filename, "w");
 	if(fwrite($fp, $content)) {

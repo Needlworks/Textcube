@@ -8,11 +8,12 @@ $IV = array(
 		'blogid'=>array('id')
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 requirePrivilege('group.creators');
 
 if (deleteTeamblogUser($_GET['userid'],$_GET['blogid'],false)) {
-	Respond::ResultPage(0);
+	respond::ResultPage(0);
 }
-Respond::ResultPage(-1);
+respond::ResultPage(-1);
 ?>

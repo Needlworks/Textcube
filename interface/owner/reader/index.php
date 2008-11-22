@@ -8,6 +8,7 @@ $IV = array(
 		'forceRefresh' => array('any', 'mandatory' => false)
 	)
 );
+require ROOT . '/library/includeForReader.php';
 require ROOT . '/interface/common/owner/header.php';
 
 $setting = getReaderSetting($blogid);

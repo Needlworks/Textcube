@@ -143,7 +143,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				$items = array();
 				for ($i = 1; $i < sizeof($attributes) - 2; $i += 2)
 					array_push($items, array($attributes[$i], $attributes[$i + 1]));
-				$galleryAttributes = Misc::getAttributesFromString($attributes[sizeof($attributes) - 1]);
+				$galleryAttributes = misc::getAttributesFromString($attributes[sizeof($attributes) - 1]);
 				
 				$images = array_slice($attributes, 1, count($attributes) - 2);
 				for ($i = 0; $i < count($images); $i++) {
@@ -178,12 +178,12 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 			} else {
 				$id = "gallery$entryId$count";
 				$cssId = "tt-gallery-$entryId-$count";
-				$contentWidth = Misc::getContentWidth();
+				$contentWidth = misc::getContentWidth();
 				
 				$items = array();
 				for ($i = 1; $i < sizeof($attributes) - 2; $i += 2)
 					array_push($items, array($attributes[$i], $attributes[$i + 1]));
-				$galleryAttributes = Misc::getAttributesFromString($attributes[sizeof($attributes) - 1]);
+				$galleryAttributes = misc::getAttributesFromString($attributes[sizeof($attributes) - 1]);
 				
 				if (!isset($galleryAttributes['width']))
 					$galleryAttributes['width'] = $contentWidth;
@@ -265,7 +265,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				}
 				$buf .= $attributes[count($attributes) - 1];
 			} else {
-				$params = Misc::getAttributesFromString($attributes[sizeof($attributes) - 2]);
+				$params = misc::getAttributesFromString($attributes[sizeof($attributes) - 2]);
 				$id = $entryId . $count;
 				$imgs = array_slice($attributes, 1, count($attributes) - 3);
 				$imgStr = '';
@@ -298,7 +298,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 						echo "<a href=\"$folderURL/$sounds[$i]\">$sounds[$i]</a><br />";
 				}
 			} else {
-				$params = Misc::getAttributesFromString($attributes[sizeof($attributes) - 2]);
+				$params = misc::getAttributesFromString($attributes[sizeof($attributes) - 2]);
 				foreach ($params as $key => $value) {
 					if ($key == 'autoPlay') {
 						unset($params['autoplay']);
@@ -346,7 +346,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				$buf .= '</div>';
 			}
 		} else {
-			$contentWidth = Misc::getContentWidth();
+			$contentWidth = misc::getContentWidth();
 
 			switch (count($attributes)) {
 				case 4:
@@ -432,7 +432,7 @@ function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderU
 	else
 		$url = "$folderURL/$filename";
 	$fileInfo = getAttachmentByOnlyName($blogid, $filename);
-	switch (Misc::getFileExtension($filename)) {
+	switch (misc::getFileExtension($filename)) {
 		case 'jpg':case 'jpeg':case 'gif':case 'png':case 'bmp':
 			$bPassing = false;
 			if (defined('__TEXTCUBE_MOBILE__') || defined('__TEXTCUBE_IPHONE__')) {
@@ -481,8 +481,8 @@ function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderU
 			return "<span id=\"$id\"><script type=\"text/javascript\">//<![CDATA[".CRLF."writeCode(" . '\'<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" width="400px" height="300px"><param name="src" value="' . $url . '" /><param name="controller" value="true" /><param name="pluginspage" value="http://www.apple.com/QuickTime/download/" /><!--[if !IE]> <--><object type="video/quicktime" data="' . $url . '" width="400px" height="300px" class="mov"><param name="controller" value="true" /><param name="pluginspage" value="http://www.apple.com/QuickTime/download/" /></object><!--> <![endif]--></object>\'' . ", \"$id\")//]]></script></span>";
 			break;
 		default:
-			if (file_exists(ROOT . '/resources/image/extension/' . Misc::getFileExtension($fileInfo['label']) . '.gif')) {
-				return '<a class="extensionIcon" href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/resources/image/extension/' . Misc::getFileExtension($fileInfo['label']) . '.gif" alt="" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
+			if (file_exists(ROOT . '/resources/image/extension/' . misc::getFileExtension($fileInfo['label']) . '.gif')) {
+				return '<a class="extensionIcon" href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/resources/image/extension/' . misc::getFileExtension($fileInfo['label']) . '.gif" alt="" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
 			} else {
 				return '<a class="extensionIcon" href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/resources/image/extension/unknown.gif" alt="" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
 			}

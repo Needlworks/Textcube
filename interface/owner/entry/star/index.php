@@ -14,6 +14,7 @@ $IV = array(
 		)
 	);
 
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.entry");
 
 requireStrictRoute();
@@ -39,7 +40,7 @@ if (!isset($_GET['command'])) {
 		$countResult = 1;
 		fireEvent('ChangeStarred', $_GET['mark'], $suri['id']);
 	}
-	Respond::PrintResult(array('error' => $temp), false);
+	respond::PrintResult(array('error' => $temp), false);
 } else {
 	switch ($_GET['command']) {
 		case "unmark":

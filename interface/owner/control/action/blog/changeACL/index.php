@@ -10,10 +10,11 @@ $IV = array(
 		'switch'=>array('int')
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 requirePrivilege('group.creators');
 if (changeACLonBlog($_GET['blogid'],$_GET['acltype'],$_GET['userid'],$_GET['switch'])) {
-	return Respond::ResultPage(true);
+	return respond::ResultPage(true);
 }
-Respond::ResultPage(false);
+respond::ResultPage(false);
 ?>

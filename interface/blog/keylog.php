@@ -2,13 +2,14 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+require ROOT . '/library/includeForBlog.php';
 
 if (false) {
 	fetchConfigVal();
 }
 if (strlen($suri['value'])) {
 	if(!$keylog = getKeylogByTitle($blogid, $suri['value'])) {
-		Respond::ErrorPage();
+		respond::ErrorPage();
 		exit;
 	}
 	$entries = array();
@@ -17,7 +18,7 @@ if (strlen($suri['value'])) {
 	if(!is_null($skinSetting['keylogSkin'])) {
 		require ROOT . '/interface/common/blog/keylog.php';
 	} else {
-		Respond::ErrorPage(_t('No handling plugin'));
+		respond::ErrorPage(_t('No handling plugin'));
 	}
 } else {
 	$keywords = getKeywordNames($blogid, true);

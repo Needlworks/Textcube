@@ -11,6 +11,7 @@ $IV = array(
 		'viewtype' => array(array('listview', 'iconview'), 'mandatory' => false)
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 
 $backupScope = getBlogSetting("pluginListScopeType_{$_POST['visibility']}");
@@ -24,8 +25,8 @@ if (!setBlogSetting("pluginListScopeType_{$_POST['visibility']}", $_POST['scope'
 	setBlogSetting("pluginListStatusType_{$_POST['visibility']}", $backupStatus);
 	setBlogSetting("pluginListSortType", $backupSort);
 	setBlogSetting("pluginViewType", $backupListView);
-	Respond::ResultPage(1);
+	respond::ResultPage(1);
 } else {
-	Respond::ResultPage(0);
+	respond::ResultPage(0);
 }
 ?>

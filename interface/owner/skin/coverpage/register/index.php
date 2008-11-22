@@ -11,12 +11,13 @@ $IV = array(
 		'viewMode' => array('string', 'default' => '')
 		)
 	);
- 
+require ROOT . '/library/includeForBlogOwner.php';
+requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireModel("blog.coverpage");
 requireStrictRoute();
 
-$skin = new BlogSkin($skinSetting['skin']);
+$skin = new Skin($skinSetting['skin']);
 $coverpageCount = count($skin->coverpageBasicModules);
 
 $module = explode(':', $_REQUEST['moduleId']);

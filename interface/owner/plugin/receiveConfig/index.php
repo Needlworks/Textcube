@@ -6,11 +6,12 @@ $IV = array(	'POST' => array(	'Name' => array('string'),
 									'DATA' => array('string')
 									)
 		);
+require ROOT . '/library/includeForBlogOwner.php';
 if (false) {
     fetchConfigVal();
 }
 $pluginName = $_POST['Name'];
 $DATA = $_POST['DATA'];
 $result = handleDataSet($pluginName, $DATA );
-Respond::PrintResult($result);
+respond::PrintResult($result);
 ?>

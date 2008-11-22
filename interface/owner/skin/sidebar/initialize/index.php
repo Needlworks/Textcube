@@ -5,14 +5,15 @@
 
 $ajaxcall = isset($_REQUEST['ajaxcall']) ? true : false;
 
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
- 
+requireLibrary('blog.skin');
 
 if (!array_key_exists('viewMode', $_REQUEST)) $_REQUEST['viewMode'] = '';
 else $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];
 
-Setting::removeBlogSettingGlobal('sidebarOrder');
+setting::removeBlogSettingGlobal('sidebarOrder');
 Skin::purgeCache();
 if($ajaxcall == false) header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
-else Respond::ResultPage(0);
+else respond::ResultPage(0);
 ?>

@@ -30,6 +30,7 @@ $IV = array(
 		)
 );
 
+require ROOT . '/library/includeForBlogOwner.php';
 
 requireModel('blog.service');
 requireStrictRoute();
@@ -67,8 +68,8 @@ foreach($matchTable as $abs => $real) {
 
 $result = writeConfigFile($config);
 if ($result === true) {
-	Respond::PrintResult(array('error' => 0));
+	respond::PrintResult(array('error' => 0));
 } else {
-	Respond::PrintResult(array('error' => 1, 'msg' => $result));
+	respond::PrintResult(array('error' => 1, 'msg' => $result));
 }
 ?>

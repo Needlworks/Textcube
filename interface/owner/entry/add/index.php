@@ -20,6 +20,7 @@ $IV = array(
 		'draft' => array(array('0', '1'), 'default' => '0')
 		)
 	);
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.entry");
 
 
@@ -48,5 +49,5 @@ if ($id = addEntry($blogid, $entry)) {
 $result = array();
 $result['error'] = (($id !== false) === true ? 0 : 1);
 $result['entryId'] = $id;
-Respond::PrintResult($result);
+respond::PrintResult($result);
 ?>

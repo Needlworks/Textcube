@@ -10,14 +10,15 @@ $IV = array(
 	)
 );
 
- 
+require ROOT . '/library/includeForBlogOwner.php';
+requireLibrary('blog.skin');
 requireStrictRoute();
 	
 $result = writeSkinHtml($blogid, $_POST['body'], $_POST['mode'], $_POST['file']);
 if ($result === true) {
 	Skin::purgeCache();
-	Respond::PrintResult(array('error' => 0));
+	respond::PrintResult(array('error' => 0));
 } else {
-	Respond::PrintResult(array('error' => 1, 'msg' => $result));
+	respond::PrintResult(array('error' => 1, 'msg' => $result));
 }
 ?>

@@ -11,10 +11,11 @@ $IV = array(
 		'senderEmail' => array('email')
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 if (!acl::check('group.owners'))
-	Respond::ResultPage(false);
+	respond::ResultPage(false);
 
 $result = addTeamUser($_POST['email'], $_POST['name'], $_POST['comment'], $_POST['senderName'], $_POST['senderEmail']);
-Respond::ResultPage($result);
+respond::ResultPage($result);
 ?>

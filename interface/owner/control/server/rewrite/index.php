@@ -8,13 +8,14 @@ $IV = array(
 	)
 );
 
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel('blog.service');
 requireStrictRoute();
 	
 $result = writeHtaccess($_POST['body']);
 if ($result === true) {
-	Respond::PrintResult(array('error' => 0));
+	respond::PrintResult(array('error' => 0));
 } else {
-	Respond::PrintResult(array('error' => 1, 'msg' => $result));
+	respond::PrintResult(array('error' => 1, 'msg' => $result));
 }
 ?>

@@ -8,13 +8,14 @@ $IV = array(
 		'category' => array('int')
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 requireModel("blog.entry");
 
 
 if(changeCategoryOfEntries($blogid, $_POST['targets'], $_POST['category'])) {
-	Respond::ResultPage(0);
+	respond::ResultPage(0);
 } else {
-	Respond::ResultPage(1);
+	respond::ResultPage(1);
 }
 ?>

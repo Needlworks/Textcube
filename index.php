@@ -3,5 +3,5 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 	define('__TEXTCUBE_NO_FANCY_URL__',true);
-	require 'dispatcher.php';
+	require 'rewrite.php';
 ?>

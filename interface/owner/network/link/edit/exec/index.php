@@ -12,8 +12,9 @@ $IV = array(
 		'newCategory' => array('string','mandatory'=>false)
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.link");
 
 requireStrictRoute();
-Respond::ResultPage(updateLink($blogid, $_POST));
+respond::ResultPage(updateLink($blogid, $_POST));
 ?>

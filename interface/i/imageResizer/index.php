@@ -9,6 +9,7 @@ $IV = array(
 		'm' => array('string', 'default' => null)
 	)
 );
+require ROOT . '/library/includeForBlog.php';
 requireView('iphoneView');
 $imagePath = ROOT . "/attach/$blogid/{$_GET['f']}";
 if ($fp = @fopen($imagePath, 'r')) {
@@ -45,7 +46,7 @@ if ($fp = @fopen($imagePath, 'r')) {
 					$image = imagecreatefromwbmp($imagePath);
 					break;
 				default:
-					Respond::NotFoundPage();
+					respond::NotFoundPage();
 			}
 			$canvasWidth = 260;
 			$canvasHeight = round($imageInfo[1] * ($canvasWidth / $imageInfo[0]));
@@ -67,5 +68,5 @@ if ($fp = @fopen($imagePath, 'r')) {
 		fclose($fp);
 	}
 } else
-	Respond::NotFoundPage();
+	respond::NotFoundPage();
 ?>

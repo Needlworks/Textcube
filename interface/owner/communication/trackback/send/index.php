@@ -7,8 +7,9 @@ $IV = array(
 		'url' => array('url', 'default'=> null)
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.response.remote");
 
 requireStrictRoute();
-Respond::ResultPage(!empty($_GET['url']) && sendTrackback($blogid, $suri['id'], trim($_GET['url'])));
+respond::ResultPage(!empty($_GET['url']) && sendTrackback($blogid, $suri['id'], trim($_GET['url'])));
 ?>

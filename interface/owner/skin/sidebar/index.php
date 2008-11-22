@@ -2,8 +2,9 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+require ROOT . '/library/includeForBlogOwner.php';
 $tabsClass['sidebar'] = true;
- 
+requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireModel("blog.entry");
 requireModel("blog.archive");
@@ -206,7 +207,7 @@ for ($i=0; $i<count($sidebarMappings); $i++) {
 		);
 }
 
-$skin = new BlogSkin($skinSetting['skin']);
+$skin = new Skin($skinSetting['skin']);
 $usedSidebarBasicModule = array();
 $sidebarCount = count($skin->sidebarBasicModules);
 

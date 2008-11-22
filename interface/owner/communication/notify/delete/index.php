@@ -7,18 +7,19 @@ $IV = array(
 		'targets' => array('list', 'default' => '')
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.comment");
 requireStrictRoute();
 
 $isAjaxRequest = checkAjaxRequest();
 if(isset($suri['id'])) {
 	if (deleteCommentNotifiedInOwner($blogid, $suri['id']) === true)
-		$isAjaxRequest ? Respond::ResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? respond::ResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	else
-		$isAjaxRequest ? Respond::ResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? respond::ResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
 } else {
 	foreach(explode(',', $_POST['targets']) as $target)
 		deleteCommentNotifiedInOwner($blogid, $target, false);
-	Respond::ResultPage(0);
+	respond::ResultPage(0);
 }
 ?>

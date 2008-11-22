@@ -9,6 +9,7 @@ $IV = array(
 		)
 	);
 
+require ROOT . '/library/includeForBlogOwner.php';
 
 $isAjaxRequest = false; // checkAjaxRequest();
 
@@ -19,5 +20,5 @@ if (isset($_POST['useResamplingAsDefault']) && ($_POST['useResamplingAsDefault']
 	removeBlogSetting("resamplingDefault");
 }
 
-$isAjaxRequest ? Respond::PrintResult($errorResult) : header("Location: ".$_SERVER['HTTP_REFERER']);
+$isAjaxRequest ? respond::PrintResult($errorResult) : header("Location: ".$_SERVER['HTTP_REFERER']);
 ?>

@@ -7,15 +7,16 @@ $IV = array(
 		'blogid' => array('id')
 	) 
 );
+require ROOT . '/library/includeForBlogOwner.php';
 
 requireStrictRoute();
 requirePrivilege('group.creators');
 
 if ( setDefaultBlog($_GET['blogid'])) {
-	Respond::PrintResult(array('error' => 0));
+	respond::PrintResult(array('error' => 0));
 }
 else {
 	$result = _t('블로그가 존재하지 않거나, 블로그의 소유자가 전체 관리자가 아닙니다.');
-	Respond::PrintResult(array('error' => -1 , 'result' =>$result));
+	respond::PrintResult(array('error' => -1 , 'result' =>$result));
 }
 ?>

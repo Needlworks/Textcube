@@ -135,7 +135,7 @@ $more = false;
 		requireComponent('Tattertools.Function.misc');
 	}
 
-	$data = Setting::fetchConfigVal( $configVal);
+	$data = setting::fetchConfigVal( $configVal);
 
 
 	$showURL = 0;
@@ -384,7 +384,7 @@ for ($i=0; $i<sizeof($keywordlist); $i++) {
 										<td class="<?php echo $urlClassName; ?>"></td>
 										<td class="refererurl">
 <?php
-			echo "<a href=\"".Misc::escapeJSInAttribute($splitRefererURL)."\" onclick=\"window.open(this.href); return false;\">".UTF8::lessenAsEm(htmlspecialchars($decodeURL), 90)."</a>";
+			echo "<a href=\"".misc::escapeJSInAttribute($splitRefererURL)."\" onclick=\"window.open(this.href); return false;\">".UTF8::lessenAsEm(htmlspecialchars($decodeURL), 90)."</a>";
 			$j++;
 		}
 		
@@ -408,7 +408,7 @@ function refererkeyword_DataSet($DATA){
 		requireComponent('Tattertools.Function.misc');
 	}
 
-	$cfg = Setting::fetchConfigVal($DATA);
+	$cfg = setting::fetchConfigVal($DATA);
 
 	return true;
 }

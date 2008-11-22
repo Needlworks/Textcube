@@ -3,17 +3,18 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
+require ROOT . '/library/includeForBlogOwner.php';
 
 requireModel('blog.trash');
 requireModel('blog.response.remote');
 requireModel('blog.sidebar');
- 
+requireLibrary('blog.skin');
 
 requireStrictRoute();
 $blogid = getBlogId();
 $entryId = trashTrackback($blogid, $suri['id']);
 if ($entryId !== false) {
-	$skin = new BlogSkin($skinSetting['skin']);
+	$skin = new Skin($skinSetting['skin']);
 	
 	$trackbackCount = getTrackbackCount($blogid, $entryId);
 	list($tempTag, $trackbackCountContent) = getTrackbackCountPart($trackbackCount, $skin);
@@ -24,7 +25,7 @@ if ($entryId !== false) {
 	$trackbackListContent = getTrackbacksView($entry, $skin, true);
 }
 if ($trackbackListContent === false)
-	Respond::PrintResult(array('error' => 1));
+	respond::PrintResult(array('error' => 1));
 else
-	Respond::PrintResult(array('error' => 0, 'trackbackList' => $trackbackListContent, 'trackbackCount' => $trackbackCountContent, 'recentTrackbacks' => $recentTrackbackContent));
+	respond::PrintResult(array('error' => 0, 'trackbackList' => $trackbackListContent, 'trackbackCount' => $trackbackCountContent, 'recentTrackbacks' => $recentTrackbackContent));
 ?>

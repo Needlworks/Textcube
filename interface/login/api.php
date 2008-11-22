@@ -7,6 +7,7 @@ $IV = array(
 		'save' => array(array('on'), 'mandatory' => false)
 	)
 );
+require ROOT . '/library/includeForBlog.php';
 if (false) {
 	doesHaveMembership();
 	doesHaveOwnership();

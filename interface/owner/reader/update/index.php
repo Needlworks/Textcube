@@ -2,16 +2,17 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+require ROOT . '/library/includeForReader.php';
 requireStrictRoute();
 
 if(isset($suri['id'])) {
 	if ($feed = POD::queryRow("SELECT * 
 		FROM {$database['prefix']}Feeds 
 		WHERE id = {$suri['id']}")) {
-		Respond::ResultPage(updateFeed($feed));
+		respond::ResultPage(updateFeed($feed));
 		exit;
 	} else {
-		Respond::ResultPage(-1);
+		respond::ResultPage(-1);
 		exit;
 	}
 }

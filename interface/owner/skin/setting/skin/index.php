@@ -30,11 +30,12 @@ $IV = array(
 		'useFOAF' => array('int')
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 
 if (setSkinSetting($blogid, $_POST)) {
-	Respond::PrintResult(array('error' => 0));
+	respond::PrintResult(array('error' => 0));
 } else {
-	Respond::PrintResult(array('error' => 1, 'msg' => POD::error()));
+	respond::PrintResult(array('error' => 1, 'msg' => POD::error()));
 }
 ?>

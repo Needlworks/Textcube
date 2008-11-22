@@ -8,18 +8,19 @@ $IV = array(
 		'owner' => array('email')
 	) 
 );
+require ROOT . '/library/includeForBlogOwner.php';
 
 requireStrictRoute();
 requirePrivilege('group.creators');
 if ($uid = User::getUserIdByEmail($_GET['owner'])) {
 	$result = addBlog('',$uid, $_GET['identify']);
 	if ($result===true) {
-		Respond::PrintResult(array('error' => 0));
+		respond::PrintResult(array('error' => 0));
 	}
 	else {
-		Respond::PrintResult(array('error' => -1 , 'result' =>$result));
+		respond::PrintResult(array('error' => -1 , 'result' =>$result));
 	}
 } else {
-	Respond::PrintResult(array('error' => -2 , 'result' => _t('등록되지 않은 소유자 E-mail 입니다.')));
+	respond::PrintResult(array('error' => -2 , 'result' => _t('등록되지 않은 소유자 E-mail 입니다.')));
 }
 ?>

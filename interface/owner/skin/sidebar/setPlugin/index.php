@@ -13,25 +13,26 @@ $ajaxcall = (isset($_REQUEST['ajaxcall']) && $_REQUEST['ajaxcall'] == true) ? tr
 	)
 );*/
 	
- 
+require ROOT . '/library/includeForBlogOwner.php';
+requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireStrictRoute();
 
-$skin = new BlogSkin($skinSetting['skin']);
+$skin = new Skin($skinSetting['skin']);
 $sidebarCount = count($skin->sidebarBasicModules);
 $sidebarOrderData = getSidebarModuleOrderData($sidebarCount);
 
-if (!isset($_REQUEST['sidebarNumber']) || !is_numeric($_REQUEST['sidebarNumber'])) Respond::NotFoundPage($ajaxcall);
-if (!isset($_REQUEST['modulePos']) || !is_numeric($_REQUEST['modulePos'])) Respond::NotFoundPage($ajaxcall);
+if (!isset($_REQUEST['sidebarNumber']) || !is_numeric($_REQUEST['sidebarNumber'])) respond::NotFoundPage($ajaxcall);
+if (!isset($_REQUEST['modulePos']) || !is_numeric($_REQUEST['modulePos'])) respond::NotFoundPage($ajaxcall);
 
 $sidebarNumber = $_REQUEST['sidebarNumber'];
 $modulePos = $_REQUEST['modulePos'];
 
-if (($sidebarNumber < 0) || ($sidebarNumber >= $sidebarCount)) Respond::ErrorPage(null,null,null,$ajaxcall);
-if (!isset($sidebarOrderData[$sidebarNumber]) || !isset($sidebarOrderData[$sidebarNumber][$modulePos])) Respond::ErrorPage(null,null,null,$ajaxcall);
+if (($sidebarNumber < 0) || ($sidebarNumber >= $sidebarCount)) respond::ErrorPage(null,null,null,$ajaxcall);
+if (!isset($sidebarOrderData[$sidebarNumber]) || !isset($sidebarOrderData[$sidebarNumber][$modulePos])) respond::ErrorPage(null,null,null,$ajaxcall);
 
 $pluginData = $sidebarOrderData[$sidebarNumber][$modulePos];
-if ($pluginData['type'] != 3) Respond::ErrorPage(null,null,null,$ajaxcall);
+if ($pluginData['type'] != 3) respond::ErrorPage(null,null,null,$ajaxcall);
 
 $plugin = $pluginData['id']['plugin'];
 $handler = $pluginData['id']['handler'];
@@ -69,12 +70,12 @@ foreach($parameters as $item)
 }
 
 $sidebarOrderData[$sidebarNumber][$modulePos]['parameters'] = $newParameter;
-Setting::setBlogSettingGlobal("sidebarOrder", serialize($sidebarOrderData));
+setting::setBlogSettingGlobal("sidebarOrder", serialize($sidebarOrderData));
 Skin::purgeCache();
 if ($ajaxcall == false) {
 	if ($_REQUEST['viewMode'] != '') $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];
 	header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
 } else {
-	Respond::ResultPage(0);
+	respond::ResultPage(0);
 }
 ?>

@@ -7,12 +7,13 @@ $IV = array(
 		'names' => array('string', 'default' => null)
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.attachment");
 
 
 requireStrictRoute();
 if (!empty($_POST['names']) && deleteAttachmentMulti($blogid, $suri['id'], $_POST['names']))
-	Respond::ResultPage(0);
+	respond::ResultPage(0);
 else
-	Respond::ResultPage( - 1);
+	respond::ResultPage( - 1);
 ?>

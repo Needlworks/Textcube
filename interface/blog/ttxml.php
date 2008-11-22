@@ -11,6 +11,7 @@ $IV = array(
 	)
 );
 
+require ROOT . '/library/includeForBlog.php';
 
 requireStrictBlogURL();
 if (false) {

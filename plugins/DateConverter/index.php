@@ -40,7 +40,7 @@ function convertDateFormat($argTarget, $argType) {
 		
 	} else {
 		requireComponent('Textcube.Function.misc');
-		$tempArray = Setting::fetchConfigVal($configVal);
+		$tempArray = setting::fetchConfigVal($configVal);
 	}
 	
 	$rgDateFormat = array();

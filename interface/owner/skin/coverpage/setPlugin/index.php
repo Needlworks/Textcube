@@ -17,23 +17,24 @@ if (isset($_REQUEST['ajaxcall'])) {
 	
 if (!array_key_exists('viewMode', $_REQUEST)) $_REQUEST['viewMode'] = '';
 
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.coverpage");
 
 requireStrictRoute();
 
 $coverpageOrderData = getCoverpageModuleOrderData();
 
-if (!isset($_REQUEST['coverpageNumber']) || !is_numeric($_REQUEST['coverpageNumber'])) Respond::NotFoundPage();
-if (!isset($_REQUEST['modulePos']) || !is_numeric($_REQUEST['modulePos'])) Respond::NotFoundPage();
+if (!isset($_REQUEST['coverpageNumber']) || !is_numeric($_REQUEST['coverpageNumber'])) respond::NotFoundPage();
+if (!isset($_REQUEST['modulePos']) || !is_numeric($_REQUEST['modulePos'])) respond::NotFoundPage();
 
 $coverpageNumber = $_REQUEST['coverpageNumber'];
 $modulePos = $_REQUEST['modulePos'];
 
-if (($coverpageNumber < 0)) Respond::ErrorPage();
-if (!isset($coverpageOrderData[$coverpageNumber]) || !isset($coverpageOrderData[$coverpageNumber][$modulePos])) Respond::ErrorPage();
+if (($coverpageNumber < 0)) respond::ErrorPage();
+if (!isset($coverpageOrderData[$coverpageNumber]) || !isset($coverpageOrderData[$coverpageNumber][$modulePos])) respond::ErrorPage();
 
 $pluginData = $coverpageOrderData[$coverpageNumber][$modulePos];
-if ($pluginData['type'] != 3) Respond::ErrorPage();
+if ($pluginData['type'] != 3) respond::ErrorPage();
 
 $plugin = $pluginData['id']['plugin'];
 $handler = $pluginData['id']['handler'];

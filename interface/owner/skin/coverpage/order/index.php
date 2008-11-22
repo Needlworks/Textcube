@@ -12,14 +12,15 @@ $IV = array(
 	)
 );
 
- 
+require ROOT . '/library/includeForBlogOwner.php';
+requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireModel("blog.coverpage");
 
 
 requireStrictRoute();
 
-$skin = new BlogSkin($skinSetting['skin']);
+$skin = new Skin($skinSetting['skin']);
 $coverpageCount = count($skin->coverpageBasicModules);
 $coverpageOrder = getCoverpageModuleOrderData($coverpageCount);
 
@@ -27,7 +28,7 @@ if ($_REQUEST['targetPos'] < 0 || $_REQUEST['targetPos'] > count($coverpageOrder
 	if ($_SERVER['REQUEST_METHOD'] != 'POST')
 		header('Location: '. $blogURL . '/owner/skin/coverpage' . $_REQUEST['viewMode']);
 	else
-		Respond::ResultPage(-1);
+		respond::ResultPage(-1);
 } else {
 	if (($_REQUEST['coverpageNumber'] == $_REQUEST['targetCoverpageNumber'])
 		&& ($_REQUEST['modulePos'] < $_REQUEST['targetPos'])) 
@@ -45,5 +46,5 @@ if ($_REQUEST['viewMode'] != '') $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMo
 if ($_SERVER['REQUEST_METHOD'] != 'POST')
 	header('Location: '. $blogURL . '/owner/skin/coverpage' . $_REQUEST['viewMode']);
 else
-	Respond::ResultPage(0);
+	respond::ResultPage(0);
 ?>

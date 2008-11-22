@@ -7,6 +7,7 @@ $IV = array(
 		'targets' => array('list', 'default' => '')
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.response.remote");
 
 requireStrictRoute();
@@ -16,12 +17,12 @@ if(isset($suri['id'])) {
 	$isAjaxRequest = checkAjaxRequest();
 	
 	if (trashTrackback($blogid, $suri['id']) !== false)
-		$isAjaxRequest ? Respond::ResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? respond::ResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	else
-		$isAjaxRequest ? Respond::ResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? respond::ResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
 } else {
 	foreach(explode(',', $_POST['targets']) as $target)
 		trashTrackback($blogid, $target);
-	Respond::ResultPage(0);
+	respond::ResultPage(0);
 }
 ?>

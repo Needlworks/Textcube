@@ -7,8 +7,9 @@ $IV = array(
 		'password' => array('string', 'mandatory' => false)
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireModel("blog.entry");
 
 requireStrictRoute();
-Respond::ResultPage(protectEntry($suri['id'], isset($_POST['password']) ? $_POST['password'] : ''));
+respond::ResultPage(protectEntry($suri['id'], isset($_POST['password']) ? $_POST['password'] : ''));
 ?>

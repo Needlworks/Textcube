@@ -9,10 +9,11 @@ $IV = array(
 		'smtpPort' => array('number', 'min' => '1', 'max' => '65535' )
 	)
 );
+require ROOT . '/library/includeForBlogOwner.php';
 requireStrictRoute();
 if (!acl::check('group.creators'))
-	Respond::ResultPage(false);
+	respond::ResultPage(false);
 
 $result = setSmtpServer( empty($_POST['useCustomSMTP']) ? 0:1, $_POST['smtpHost'], $_POST['smtpPort'] );
-Respond::ResultPage($result);
+respond::ResultPage($result);
 ?>

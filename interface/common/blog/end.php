@@ -76,12 +76,12 @@ if (preg_match("@\\[##_paging_##\\]@iU", $view)) {
 			if($cache->load()) {
 				$pagingView = $cache->contents;
 			} else {
-				$pagingView = Paging::view($paging, $skin->paging, $skin->pagingItem);
+				$pagingView = getPagingView($paging, $skin->paging, $skin->pagingItem);
 				$cache->contents = $pagingView;
 				$cache->update();
 			}
 		} else {
-			$pagingView = Paging::view($paging, $skin->paging, $skin->pagingItem);
+			$pagingView = getPagingView($paging, $skin->paging, $skin->pagingItem);
 		}
 		dress('paging_list', $pagingView, $view, false, true);
 		if(!empty($entries) || $suri['directive'] == '/guestbook') dress('paging', $pagingView, $view, false, true);
