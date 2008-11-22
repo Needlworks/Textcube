@@ -15,7 +15,7 @@ $uid = $suri['id'];
 
 $usersetting= POD::queryRow("SELECT * FROM `{$database['prefix']}Users` WHERE userid = " . $uid);
 $usersetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}Teamblog` WHERE acl & ".BITWISE_OWNER." != 0 AND blogid = " . $blogid);
-$AuthToken = setting::getUserSettingGlobal('AuthToken',null,$uid);
+$AuthToken = Setting::getUserSettingGlobal('AuthToken',null,$uid);
 ?>
 						<script type="text/javascript"> 
 						//<![CDATA[

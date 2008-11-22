@@ -43,13 +43,13 @@ function getTeamAuthorStyle($target, $mother){
 function getTeamProfileView($target, $mother){
 	global $suri, $entry, $entryView, $configVal;
 	requireComponent('Textcube.Function.misc');
-	$data = setting::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTeamBlogInitConfigVal($data);
 	if ($suri['directive'] != "/rss" && $suri['directive'] != "/sync" && $data['p1'] && empty($data['p2']) ) {
 		$target .= getTeamProfile($entry['userid']);
 	}
 	if ($suri['directive'] != "/rss" && $suri['directive'] != "/sync" && $data['p1'] && !empty($data['p2']) ) {
-		misc::dress('TeamBlogProfileTag', getTeamProfile($entry['userid']), $entryView);
+		Misc::dress('TeamBlogProfileTag', getTeamProfile($entry['userid']), $entryView);
 	}
 	return $target;
 }
@@ -57,7 +57,7 @@ function getTeamProfileView($target, $mother){
 function getTeamProfile($userid){
 	global $database, $serviceURL, $configVal;
 	requireComponent('Textcube.Function.misc');
-	$data = setting::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTeamBlogInitConfigVal($data);
 	$row = POD::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =".getBlogId()." AND userid=".$userid);
 	$imageStyle = $imageTag = $html = '';
@@ -83,7 +83,7 @@ function getTeamProfile($userid){
 function getTeamBlogSettings() {
 	global $database, $serviceURL, $blogURL, $pluginURL, $configVal;
 	requireComponent('Textcube.Function.misc');
-	$data = setting::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTeamBlogInitConfigVal($data);
 ?>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/plugin-main.js"></script>
@@ -316,7 +316,7 @@ function getAddAttachment($file){
 	if(empty($file['name'])||($file['error']!=0))
 		return false;
 	$attachment = array();
-	$attachment['ext'] = misc::getFileExtension(Path::getBaseName($file['name']));
+	$attachment['ext'] = Misc::getFileExtension(Path::getBaseName($file['name']));
 	$path = ROOT."/attach/".getBlogId()."/team";
 	if(!is_dir($path)){
 		mkdir($path);
@@ -358,7 +358,7 @@ function getDeleteAttachment($filename){
 function getTeamBlogStyle($target) {
 	global $blogURL, $configVal;
 	requireComponent('Textcube.Function.misc');
-	$data = setting::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTeamBlogInitConfigVal($data);
 	if($data['cssSelect'] == 1){
 		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"{$blogURL}/plugin/teamBlogStyle/\" />".CRLF;
@@ -369,7 +369,7 @@ function getTeamBlogStyle($target) {
 function getTeamBlogStyleSet($target){
 	global $pluginURL, $configVal;
 	requireComponent('Textcube.Function.misc');
-	$data = setting::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTeamBlogInitConfigVal($data);
 	$lineColor = (strpos($data['lineColor'], "#")===0)?$data['lineColor']:"#".$data['lineColor'];
 	header('Content-type: text/css; charset=utf-8');
@@ -392,7 +392,7 @@ function getTeamBlogStyleSet($target){
 
 function getTeamBlog_DataSet($DATA){
 	requireComponent('Textcube.Function.misc');
-	$cfg = setting::fetchConfigVal($DATA);
+	$cfg = Setting::fetchConfigVal($DATA);
 	return true;
 }
 ?>

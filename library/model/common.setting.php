@@ -54,31 +54,31 @@ function removeServiceSetting($name,$pruneSimilarEntries = false) {
 }
 
 function getBlogSetting($name, $default = null, $blogid = null) {
-	return setting::getBlogSettingGlobal($name, $default);
+	return Setting::getBlogSettingGlobal($name, $default);
 }
 
 function setBlogSetting($name, $value, $blogid = null) {
-	return setting::setBlogSettingGlobal($name, $value, $blogid);
+	return Setting::setBlogSettingGlobal($name, $value, $blogid);
 }
 
 function setBlogSettingDefault($name, $value, $blogid = null) {
-	return setting::setBlogSettingDefault($name, $value, $blogid);
+	return Setting::setBlogSettingDefault($name, $value, $blogid);
 }
 
 function removeBlogSetting($name, $blogid = null) {
-	return setting::removeBlogSettingGlobal($name, $blogid);
+	return Setting::removeBlogSettingGlobal($name, $blogid);
 }
 
 function getUserSetting($name, $default = null, $userid = null) {
-	return setting::getUserSettingGlobal($name, $default, $userid);
+	return Setting::getUserSettingGlobal($name, $default, $userid);
 }
 
 function setUserSetting($name, $value, $userid = null) {
-	return setting::setUserSettingGlobal($name, $value, $userid);
+	return Setting::setUserSettingGlobal($name, $value, $userid);
 }
 
 function removeUserSetting($name, $userid = null) {
-	return setting::removeUserSettingGlobal($name, $userid);
+	return Setting::removeUserSettingGlobal($name, $userid);
 }
 
 function getDefinedTableNames() {

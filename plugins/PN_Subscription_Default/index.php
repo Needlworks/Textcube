@@ -31,7 +31,7 @@ function PN_Subscription_Default()
 	$blogid = getBlogId();
 	$temp = getSubscriptionStatistics($blogid);
 	$aggregatorInfo = organizeAggregatorInfo($temp);
-	setting::setBlogSetting('SubscriberCount',$totalSubscribers);
+	Setting::setBlogSetting('SubscriberCount',$totalSubscribers);
 	
 ?>
 						<script type="text/javascript">
@@ -51,7 +51,7 @@ function PN_Subscription_Default()
 								<dt class="aggregator"><span class="text">구독기</span></dt>
 								<dd class="aggregator"><span class="text"><?php echo sizeof($aggregatorInfo);?> 종류의 구독기 및 크롤러가 구독중입니다.</span></dd>
 								<dt class="lastRSSupdate"><span class="text">최종 RSS 갱신일</span></dt>
-								<dd class="lastRSSupdate"><span class="text"><?php echo setting::getBlogSetting('LatestRSSrefresh',null)!==null ? Timestamp::format5(setting::getBlogSetting('LatestRSSrefresh',null)) : '정보가 갱신되지 않았습니다';?></span></dd>
+								<dd class="lastRSSupdate"><span class="text"><?php echo Setting::getBlogSetting('LatestRSSrefresh',null)!==null ? Timestamp::format5(Setting::getBlogSetting('LatestRSSrefresh',null)) : '정보가 갱신되지 않았습니다';?></span></dd>
 								<dt class="updatedAggregators"><span class="text">이후 갱신된 RSS 구독기</span></dt>
 								<dd class="updatedAggregators"><span class="text"><?php echo $updatedSubscribers;?></span></dd>
 							</dl>
@@ -226,7 +226,7 @@ function organizeAggregatorInfo($info)
 	$aggregatorInfo = array();
 	$totalSubscribers = 0;
 	$updatedSubscribers = 0;
-	$latestUpdatedTime = setting::getBlogSetting('LatestRSSrefresh',null);
+	$latestUpdatedTime = Setting::getBlogSetting('LatestRSSrefresh',null);
 	for ($i=0; $i<sizeof($info); $i++) {
 		$record = $info[$i];
 		$aggregatorName = getAggregatorName($record['useragent']);
@@ -314,13 +314,13 @@ function updateSubscriptionStatistics($target, $mother) {
 
 function PN_Subscription_setTime($target) {
 	requireComponent("Textcube.Function.Setting");
-	setting::setBlogSetting('LatestRSSrefresh',time());
+	Setting::setBlogSetting('LatestRSSrefresh',time());
 	return true;
 }
 
 function PN_Subscription_Sidebar($target) {
 	requireComponent("Textcube.Function.Setting");
-	$count = setting::getBlogSetting('SubscriberCount',null);
+	$count = Setting::getBlogSetting('SubscriberCount',null);
 	$text = '<div class="SubscriptionPanel" style="text-align:center">';
 	if($count===null) $text .= '구독 정보 갱신이 필요합니다';
 	else $text .= $count.'명이 RSS를 구독하고 있습니다.';

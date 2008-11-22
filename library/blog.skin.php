@@ -91,10 +91,10 @@ class Skin {
 		global $service, $blogURL, $suri, $blog, $__gDressTags;
 		$__gDressTags = array();
 		if($previewMode == true || ($service['skincache'] != true) || !$this->loadCache()) {
-			$this->noneCommentMessage = setting::getBlogSettingGlobal('noneCommentMessage',null);
-			$this->singleCommentMessage = setting::getBlogSettingGlobal('singleCommentMessage',null);
-			$this->noneTrackbackMessage = setting::getBlogSettingGlobal('noneTrackbackMessage',null);
-			$this->singleTrackbackMessage = setting::getBlogSettingGlobal('singleTrackbackMessage',null);
+			$this->noneCommentMessage = Setting::getBlogSettingGlobal('noneCommentMessage',null);
+			$this->singleCommentMessage = Setting::getBlogSettingGlobal('singleCommentMessage',null);
+			$this->noneTrackbackMessage = Setting::getBlogSettingGlobal('noneTrackbackMessage',null);
+			$this->singleTrackbackMessage = Setting::getBlogSettingGlobal('singleTrackbackMessage',null);
 			//$this->noneCommentMessage = $blog['noneCommentMessage'];
 			//$this->singleCommentMessage = $blog['singleCommentMessage'];
 			//$this->noneTrackbackMessage = $blog['noneTrackbackMessage'];
@@ -383,7 +383,7 @@ class Skin {
 		addAttribute( $this->trackback, 'a', 'href', '##_tb_rep_url_##', array( 'rel' => 'external' ) );
 		addAttribute( $this->trackback, 'a', 'href', '##_tb_rep_url_##', array( 'rel' => 'nofollow' ) );
 
-		$useMicroformat = setting::getBlogSettingGlobal('useMicroformat',3);
+		$useMicroformat = Setting::getBlogSettingGlobal('useMicroformat',3);
 		switch( $useMicroformat )
 		{ 
 			/* 1: none, 2: semantically sane, 3: insane but machine friendly */
@@ -461,7 +461,7 @@ class Skin {
 		}
 
 		/* hAtom:updated, published */
-		if(setting::getBlogSettingGlobal('useMicroformat',3)>2) {
+		if(Setting::getBlogSettingGlobal('useMicroformat',3)>2) {
 			/* Adding published, updated date */
 			$content = preg_replace( 
 					'@(<(div|td|span|p)[^>]*>[^<>]*?\[##_article_rep_desc_##\].*?</\2>)@sm',
@@ -523,7 +523,7 @@ class Skin {
 		if( preg_match( '@<a\b[^>]*?rel=[\'"][^\'"]*bookmark[^\'"]*[\'"][^>]*>@sm', $content ) ) {
 			array_push( $this->microformatDebug, _text('Microformat-info: 제목에 bookmark를 추가합니다') );
 		} else {
-			if(setting::getBlogSettingGlobal('useMicroformat',3)>2) {
+			if(Setting::getBlogSettingGlobal('useMicroformat',3)>2) {
 				$content = str_replace( "[##_article_rep_desc_##]", "<a style=\"display:none\" href=\"[##_article_rep_link_##]\" rel=\"bookmark\" class=\"entry-title\" title=\"[##_article_rep_title_##]\">[##_article_rep_title_##]</a>\r\n[##_article_rep_desc_##]",$content );
 			}
 			array_push( $this->microformatDebug, _text('Microformat-info: 링크가 걸린 제목이 없어 보이지 않는 링크를 추가한 뒤 rel="bookmark"와 hAtom용 title을 추가하였습니다') );
