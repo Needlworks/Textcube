@@ -59,7 +59,8 @@ $context->URIParser();
 $gCacheStorage = new GlobalCacheStorage;
 $context->globalVariableParser();
 
-/* TODO: Include required files */
+/* Include required files */
+// TODO: 앞으로 autoload 기반으로 바꾸고 성능 최적화
 switch ($context->accessInfo['interfaceType']) {
 case 'blog':
 	require(ROOT.'/library/includeForBlog.php');
