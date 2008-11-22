@@ -1,0 +1,26 @@
+Wed Dec  5 13:55:15 PST 2007  cygnus@janrain.com
+  tagged 2.0.0
+
+Wed Dec  5 13:43:38 PST 2007  cygnus@janrain.com
+  * Add PAPE tests and update PAPE extension
+
+Tue Nov 27 14:22:14 PST 2007  cygnus@janrain.com
+  * Update NEWS, add specific error to complete() with query as first parameter
+
+Mon Nov 26 11:56:28 PST 2007  cygnus@cprogrammer.org
+  * [FIX #38] Replace direct usage of NO_MATH_SUPPORT with function calls
+
+Tue Nov 20 12:02:52 PST 2007  cygnus@cprogrammer.org
+  * Update example RP to use PAPE extension
+
+Tue Nov 20 12:00:42 PST 2007  cygnus@cprogrammer.org
+  * Add PAPE extension module
+
+Mon Nov 19 14:50:27 PST 2007  cygnus@cprogrammer.org
+  * Update example consumer to use getDisplayIdentifier()
+
+Mon Nov 19 12:47:01 PST 2007  cygnus@cprogrammer.org
+  * Add getDisplayIdentifier() to SuccessResponse
+
+Thu Nov 15 19:47:35 PST 2007  cygnus@cprogrammer.org
+  tagged 2.0.0-rc5
