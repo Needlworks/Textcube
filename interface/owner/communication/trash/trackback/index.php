@@ -29,7 +29,7 @@ $IV = array(
 	)
 );
 
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireModel("blog.response.remote");
 requireModel("blog.trash");
 

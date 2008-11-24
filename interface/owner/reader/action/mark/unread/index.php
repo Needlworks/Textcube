@@ -7,7 +7,7 @@ $IV = array(
 		'id' => array('id')
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 respond::ResultPage(markAsUnread($blogid, $_POST['id']));
 ?>

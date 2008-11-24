@@ -13,7 +13,7 @@ $IV = array(
 		'showValueOnTree' => array('string', 'mandatory' => false)
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 if(isset($suri['id'])) {
 	$categories = getCategories($blogid);

@@ -8,7 +8,7 @@ $IV = array(
 		'prevPwd' => array('string','default'=>'')
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 $result = false;
 $isAuthToken = getUserSetting('AuthToken',false) ? true : false;

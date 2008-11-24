@@ -15,7 +15,7 @@ if(count($_POST) > 0) {
 		)
 	);
 }
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireModel('blog.category');
 requireModel('blog.entry');
 if (!empty($_POST['id']))

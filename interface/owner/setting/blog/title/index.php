@@ -7,7 +7,7 @@ $IV = array(
 		'title' => array('string','default' => '')
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 if (!empty($_GET['title']) && setBlogTitle(getBlogId(), trim($_GET['title']))) {
 	respond::ResultPage(0);

@@ -19,7 +19,7 @@ $IV = array(
 		'published'  => array('int', 0, 'default' => 1)
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireModel('blog.entry');
 
 requireStrictRoute();

@@ -5,7 +5,7 @@
 
 define('__TEXTCUBE_LOGIN__',true);
 
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 require ROOT . '/library/model/blog.skin.php';
 
 requireModel('common.setting');

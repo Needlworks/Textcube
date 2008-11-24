@@ -30,7 +30,7 @@ $IV = array(
 		'useFOAF' => array('int')
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 
 if (setSkinSetting($blogid, $_POST)) {

@@ -8,7 +8,7 @@ $IV = array(
 		'category' => array('int')
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 requireModel("blog.entry");
 

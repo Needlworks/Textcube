@@ -7,7 +7,7 @@ $IV = array(
 		'name' => array('directory', 'default' => null)
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 if (!empty($_POST['name']) && activatePlugin($_POST['name']))
 	respond::ResultPage(0);

@@ -9,7 +9,7 @@ $IV = array(
 		'viewMode' => array('string', 'default' => '')
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireModel("blog.coverpage");

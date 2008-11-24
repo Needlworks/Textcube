@@ -10,7 +10,7 @@ $IV = array(
 		'switch'=>array('int')
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 requirePrivilege('group.creators');
 if (changeACLonBlog($_GET['blogid'],$_GET['acltype'],$_GET['userid'],$_GET['switch'])) {

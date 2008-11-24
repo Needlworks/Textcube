@@ -7,7 +7,7 @@ $IV = array(
 		'save' => array(array('on'), 'mandatory' => false)
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 if (false) {
 	doesHaveMembership();
 	doesHaveOwnership();

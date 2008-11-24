@@ -53,8 +53,8 @@ require_once (ROOT.'/library/include.php');
 /** Sending header */
 header('Content-Type: text/html; charset=utf-8');
 /** Database I/O initialization. */
-if(!empty($database) && !empty($database["database"])) {
-	if(POD::bind($database) === false) {
+if(!empty($config->database) && !empty($config->database["database"])) {
+	if(POD::bind($config->database) === false) {
 		Respond::MessagePage('Problem with connecting database.<br /><br />Please re-visit later.');
 		exit;
 	}

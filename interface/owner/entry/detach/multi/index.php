@@ -7,7 +7,7 @@ $IV = array(
 		'names' => array('string', 'default' => null)
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireModel("blog.attachment");
 
 

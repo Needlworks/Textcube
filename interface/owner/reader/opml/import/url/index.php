@@ -7,7 +7,7 @@ $VI = array(
 		'url' => array('url')
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 set_time_limit(60);
 $result = importOPMLFromURL($blogid, $_POST['url']);

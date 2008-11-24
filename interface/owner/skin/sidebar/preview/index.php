@@ -11,7 +11,7 @@ $IV = array(
 		'tag' => array('any', 'mandatory' => false)
 		)
 	);
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireModel('blog.entry');

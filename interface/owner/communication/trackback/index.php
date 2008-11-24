@@ -31,7 +31,7 @@ $IV = array(
 		'status' => array('string', 'mandatory' => false)
 	)
 );	
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireModel("blog.response.remote");
 
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];

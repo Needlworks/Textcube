@@ -16,7 +16,7 @@ $IV = array(
 		'secret' => array(array('on'), 'default' => null)
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireComponent('Textcube.Control.Openid');
 
 $blogid = getBlogId();

@@ -7,7 +7,7 @@ $IV = array(
 		'parent' => array('int')
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireModel('blog.attachment');
 $result = getAttachmentSizeLabel($blogid, $_GET['parent']);
 respond::PrintResult(array ('error' => empty($result) ? 1 : 0, 'result' => $result));

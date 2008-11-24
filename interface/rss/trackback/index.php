@@ -5,7 +5,7 @@
 define('NO_SESSION', true);
 define('__TEXTCUBE_LOGIN__',true);
 
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireModel("blog.feed");
 requireModel("blog.entry");
 

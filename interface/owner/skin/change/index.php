@@ -7,7 +7,7 @@ $IV = array(
 		'skinName' => array('directory' ,'mandatory' => false)
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 
 $isAjaxRequest = checkAjaxRequest();

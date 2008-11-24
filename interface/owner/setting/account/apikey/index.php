@@ -7,7 +7,7 @@ $IV = array(
 		'APIKey' => array('string', 'default'=>'')
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 $result = false;
 $result = changeAPIKey(getUserId(), $_POST['APIKey']);

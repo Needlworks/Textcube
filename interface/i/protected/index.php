@@ -8,7 +8,7 @@ $IV = array(
 		'password' => array('string','default' => null)
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
 $entry = getEntry($blogid, $suri['id']);
 if(!is_null($entry) && isset($_POST['password']) && $entry['password'] == $_POST['password']) {

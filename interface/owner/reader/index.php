@@ -8,7 +8,7 @@ $IV = array(
 		'forceRefresh' => array('any', 'mandatory' => false)
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 require ROOT . '/interface/common/owner/header.php';
 
 $setting = getReaderSetting($blogid);

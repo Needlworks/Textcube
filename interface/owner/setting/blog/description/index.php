@@ -7,7 +7,7 @@ $IV = array(
 		'description' => array('string', 'default' => '')
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 if (setBlogDescription($blogid, trim($_POST['description']))) {
 	respond::ResultPage(0);

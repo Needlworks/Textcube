@@ -13,7 +13,7 @@ $IV = array(
 		'key' => array('string')
 		)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireModel("blog.feed");
 requireModel("blog.entry");
 

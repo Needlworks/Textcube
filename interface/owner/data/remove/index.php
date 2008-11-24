@@ -8,7 +8,7 @@ $IV = array(
 		'removeAttachments' => array(array('0', '1'), 'dafault' => null)
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 requireComponent('Textcube.Data.DataMaintenance');
 if (empty($_POST['confirmativePassword']) || !User::confirmPassword(User::getBlogOwner(getBlogId()), $_POST['confirmativePassword']))

@@ -5,7 +5,7 @@
 
 $ajaxcall = isset($_REQUEST['ajaxcall']) ? true : false;
 
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 requireLibrary('blog.skin');
 

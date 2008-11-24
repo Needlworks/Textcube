@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 $refererURI = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 // Redirect.
 $_SESSION['refererURI'] = $refererURI;

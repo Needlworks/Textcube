@@ -20,7 +20,7 @@ $IV = array(
 		'draft' => array(array('0', '1'), 'default' => '0')
 		)
 	);
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireModel("blog.entry");
 
 

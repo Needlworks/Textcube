@@ -7,7 +7,7 @@ $IV = array(
 		'tags' => array('string', 'default' => '')
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 //$tags = explode(trim($_POST['tags']),',');
 if (setBlogTags($blogid, trim($_POST['tags']))) {

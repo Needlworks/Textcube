@@ -17,7 +17,7 @@
 $images = explode('*!',$_GET['i']);
 $imageStr = '';
 define('ROOT', '../../..');
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 foreach($images as $value) {
 	$imageStr .= $value.'*!';
 }

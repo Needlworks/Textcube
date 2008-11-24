@@ -8,7 +8,7 @@ $IV = array(
 		'owner' => array('email')
 	) 
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 
 requireStrictRoute();
 requirePrivilege('group.creators');

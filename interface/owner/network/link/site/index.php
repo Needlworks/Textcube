@@ -7,7 +7,7 @@ $IV = array(
 		'rss' => array('url')
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireModel('blog.link');
 
 if (!empty($_GET['rss'])) {

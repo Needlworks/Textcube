@@ -10,7 +10,7 @@ $IV = array(
 		'cursor' => array('number', 'min' => 1)
 	) 
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 
 global $database;

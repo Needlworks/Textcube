@@ -10,7 +10,7 @@ $IV = array(
 	)
 );
 
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 $result = array('error' => editFeedGroup($blogid, $_POST['id'], $_POST['title']));
 ob_start();

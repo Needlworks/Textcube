@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 // Redirect.
 header("Location: $blogURL/owner/control/blog");
 ?>

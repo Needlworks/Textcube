@@ -22,7 +22,7 @@ $IV = array(
 		'withSearch' => array(array('on'), 'mandatory' => false)
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireModel("blog.trash");
 requireModel("blog.entry");
 trashVan();

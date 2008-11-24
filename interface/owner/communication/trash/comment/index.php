@@ -27,7 +27,7 @@ $IV = array(
 	)
 );
 
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireModel("blog.comment");
 requireModel("blog.trash");
 

@@ -13,7 +13,7 @@ $IV = array(
 	)
 );
 
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 
 global $openid_list;
 $openid_list = array();

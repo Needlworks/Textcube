@@ -7,7 +7,7 @@ $IV = array(
 		'includeFileContents' => array(array('true', 'false'))
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 set_time_limit(0);
 $includeFileContents = Validator::getBool(@$_GET['includeFileContents']);
 $writer = new OutputWriter();

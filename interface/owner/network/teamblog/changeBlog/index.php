@@ -7,7 +7,7 @@ $IV = array(
 		'blogid'=>array('int','default'=>1)
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 if($_GET['blogid'] == 0 || empty($_GET['blogid'])) $newBlogid = getBlogId();
 else $newBlogid = $_GET['blogid'];
 

@@ -7,7 +7,7 @@ $IV = array(
 		'timezone' => array('string')
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 $timezone = new Timezone;
 if (isset($_GET['timezone']) && $timezone->set($_GET['timezone'])) {

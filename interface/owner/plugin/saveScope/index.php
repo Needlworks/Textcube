@@ -11,7 +11,7 @@ $IV = array(
 		'viewtype' => array(array('listview', 'iconview'), 'mandatory' => false)
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 
 $backupScope = getBlogSetting("pluginListScopeType_{$_POST['visibility']}");

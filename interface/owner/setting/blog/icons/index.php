@@ -21,7 +21,7 @@ $IV = array(
 	)
 );
 
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 $errorText = array();
 
 // 로고 처리.

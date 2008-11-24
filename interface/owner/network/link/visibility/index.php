@@ -7,7 +7,7 @@ $IV = array(
 		'visibility' => array('int', 0,3)
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireModel("blog.link");
 requireStrictRoute();
 $respond = array();

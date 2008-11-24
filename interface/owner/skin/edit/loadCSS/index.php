@@ -8,7 +8,7 @@ $IV = array(
 	)
 );
 
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 	
 $result = getCSSContent($blogid, $_POST['file']);

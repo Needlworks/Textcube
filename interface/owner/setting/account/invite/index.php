@@ -12,7 +12,7 @@ $IV = array(
 		'senderEmail' => array('email')
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireModel('blog.user');
 requireStrictRoute();
 if (($service['type'] == 'single') || !Acl::check("group.creators"))

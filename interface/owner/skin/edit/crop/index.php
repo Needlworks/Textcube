@@ -11,7 +11,7 @@ $IV = array(
 		'nextTag' => array('string')
 	)
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 requireLibrary('blog.skin');
 requireStrictRoute();
 if($_POST['currentTag'] != 'all') {

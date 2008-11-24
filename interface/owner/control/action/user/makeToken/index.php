@@ -7,7 +7,7 @@ $IV = array(
 		'userid' => array('id')
 	) 
 );
-require ROOT . '/library/dispatcher.php';
+require ROOT . '/library/preprocessor.php';
 
 requireStrictRoute();
 requirePrivilege('group.creators');
