@@ -9,7 +9,7 @@ $IV = array(
 		'secondaryDomain' => array('domain', 'default' => '')
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 requireStrictRoute();
 
 if(empty($_POST['secondaryDomain']) && $_POST['defaultDomain'] == 1)

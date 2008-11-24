@@ -117,14 +117,16 @@ final class Context extends Singleton
 	
 	private function __globalVariableParser() {
 		global $serviceURL, $pathURL, $defaultURL, $baseURL, $pathURL, $hostURL, $folderURL, $blogURL;
-		global $suri, $blog, $blogid, $skinSetting;
+		global $suri, $blog, $blogid, $skinSetting, $gCacheStorage;
+		$blogid = $this->blogid;
+		$gCacheStorage = new globalCacheStorage; // Initialize global cache
+
 		$config = Config::getInstance();
-		
+
 		$suri = $this->suri;
 		$blog = Setting::getBlogSettingsGlobal($this->blogid);
 		$skinSetting = Setting::getSkinSetting($this->blogid);
-		$blogid = $this->blogid;
-		
+
 		if (!isset($serviceURL))
 			$serviceURL = 'http://' . $config->service['domain'] . (isset($config->service['port']) ? ':' . $config->service['port'] : '') . $config->service['path'];
 		switch ($config->service['type']) {

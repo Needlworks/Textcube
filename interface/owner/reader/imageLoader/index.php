@@ -7,7 +7,7 @@ $IV = array(
 		'url' => array('url')
 	)
 );
-require ROOT . '/library/includeForReader.php';
+require ROOT . '/library/dispatcher.php';
 if (preg_match('/\.jpe?g/i', $_GET['url']))
 	header('Content-type: image/jpeg');
 else if (preg_match('/\.gif/i', $_GET['url']))

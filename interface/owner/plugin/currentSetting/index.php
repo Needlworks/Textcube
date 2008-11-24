@@ -8,7 +8,7 @@ $IV = array(
 		'Tab' => array('string', 'default' => 'about')
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 
 if (false) { // For optimization process
 	textTreat();

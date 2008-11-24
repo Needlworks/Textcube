@@ -2,7 +2,10 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-define('__TEXTCUBE_ADMINPANEL__',true);
+
+if(isset($config->service['reader']) && $config->service['reader'] === false) exit;
+
+define('NO_LOCALE',true);
 
 $__requireComponent = array();
 $__requireBasics = array(		// Basics
@@ -18,33 +21,16 @@ $__requireBasics = array(		// Basics
 	'functions');
 $__requireLibrary = array(		// Library
 	'database',
-	'locale',
+//	'locale',
 	'auth');
-$__requireModel = array(	
+$__requireModel = array(		// Model
 	'blog.service',
 	'blog.blogSetting',
-	'blog.user',
-	'blog.fx',
-	'common.legacysupport',
+//	'blog.user',
 	'common.setting',
 	'common.plugin',
 	'reader.common');
-$__requireView = array(		// View
-	'html',
-	'ownerView',
-	'paging',
-	'view');
+$__requireView = array();
 $__requireInit = array(		// Initializing environment.
-	'initialize',
-	'plugins');
-
-if(isset($service['reader']) && $service['reader'] === false) exit;
-
-$codeName = 'includeForReader.php';
-require ROOT.'/library/include.php';
-
-header('Content-Type: text/html; charset=utf-8');
-// Check access control list
-requireOwnership();
-require ROOT.'/library/pageACL.php';
+	'initialize');
 ?>

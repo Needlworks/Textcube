@@ -7,7 +7,7 @@ $IV = array(
 		'rss' => array('url')
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 requireModel('blog.link');
 
 if (!empty($_GET['rss'])) {

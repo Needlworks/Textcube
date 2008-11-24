@@ -7,7 +7,7 @@ $VI = array(
 		'opmlFile' => array('file')
 	)
 );
-require ROOT . '/library/includeForReader.php';
+require ROOT . '/library/dispatcher.php';
 requireStrictRoute();
 set_time_limit(60);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">

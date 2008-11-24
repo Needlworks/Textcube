@@ -7,7 +7,7 @@ $IV = array(
 		'APIKey' => array('string', 'default'=>'')
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 requireStrictRoute();
 $result = false;
 $result = changeAPIKey(getUserId(), $_POST['APIKey']);

@@ -10,7 +10,7 @@ $IV = array(
 	)
 );
 
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 requireComponent( 'Textcube.Control.Openid' );
 requireLibrary('blog.skin');
 requireStrictRoute();

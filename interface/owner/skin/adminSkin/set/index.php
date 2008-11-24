@@ -9,7 +9,7 @@ $IV = array(
 	)
 );
 
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 
 if (empty($_POST['adminSkin']) || !file_exists(ROOT."/skin/admin/{$_POST['adminSkin']}/index.xml") || !setBlogSetting("adminSkin", $_POST['adminSkin']))
 	header("Location: ".$_SERVER['HTTP_REFERER']);

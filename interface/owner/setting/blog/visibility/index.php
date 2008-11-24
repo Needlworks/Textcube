@@ -8,7 +8,7 @@ $IV = array(
 		'useiPhoneUI' => array('int',0,1,'mandatory'=>false)
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 requireModel('blog.feed');
 
 requireStrictRoute();

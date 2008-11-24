@@ -7,7 +7,7 @@ $IV = array(
 		'save' => array(array('on'), 'mandatory' => false)
 	)
 );
-require ROOT . '/library/includeForBlog.php';
+require ROOT . '/library/dispatcher.php';
 if (false) {
 	doesHaveMembership();
 	doesHaveOwnership();

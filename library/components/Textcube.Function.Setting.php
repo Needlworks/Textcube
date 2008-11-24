@@ -50,7 +50,7 @@ class Setting {
 
 	function getBlogSettingsGlobal($blogid = null) {
 		global $database, $service, $__gCacheBlogSettings, $gCacheStorage;
-
+		if(empty($__gCacheBlogSettings)) $__gCacheBlogSettings = array();
 		if(is_null($blogid)) $blogid = getBlogId();
 		if (array_key_exists($blogid, $__gCacheBlogSettings)) {
 			return $__gCacheBlogSettings[$blogid];
@@ -286,6 +286,53 @@ class Setting {
 		return POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".POD::escapeString($name)."'");
 	}
 	
+	function getSkinSetting($blogid, $forceReload = false) {
+		global $database, $service, $skinSetting;
+		global $__gCacheSkinSetting;
+		global $gCacheStorage;
+		if (
+			($forceReload == false) 
+			&& (isset($__gCacheSkinSetting)) 
+			&& (array_key_exists($blogid, $__gCacheSkinSetting))
+			) 
+		{
+			return $__gCacheSkinSetting[$blogid];
+		}
+		if($blogid == getBlogId() && $forceReload == false) {
+			$retval = $gCacheStorage->getContent('SkinSetting');
+			if(!empty($retval)) {
+				$__gCacheSkinSetting[$blogid] = $retval;
+				return $retval;
+			}
+		}
+		if ($retval = POD::queryRow("SELECT * FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid",MYSQL_ASSOC)) {
+			if ($retval != FALSE) {
+				if (!Validator::directory($retval['skin']) && ($retval['skin'] !="customize/$blogid")) {
+					$retval['skin'] = $service['skin'];
+				}
+				$__gCacheSkinSetting[$blogid] = $retval;
+				if($blogid == getBlogId())  $gCacheStorage->setContent('SkinSetting',$retval);
+				return $retval;
+			}
+		}
+		
+		$retval = array( 'blogid' => $blogid , 'skin' => $service['skin'], 
+			'entriesOnRecent' => 5, 'commentsOnRecent' => 5, 'commentsOnGuestbook' => 5,
+			'tagsOnTagbox' => 30, 'tagboxAlign' => 3, 'trackbacksOnRecent' => 5, 
+			'expandComment' => 1, 'expandTrackback' => 1, 
+			'recentNoticeLength' => 25, 'recentEntryLength' => 30, 
+			'recentCommentLength' => 30, 'recentTrackbackLength' => 30, 
+			'linkLength' => 30, 'showListOnCategory' => 1, 'showListOnArchive' => 1, 
+			'tree' => 'base', 
+			'colorOnTree' => '000000', 'bgColorOnTree' => '', 
+			'activeColorOnTree' => 'FFFFFF', 'activeBgColorOnTree' => '00ADEF', 
+			'labelLengthOnTree' => 27, 'showValueOnTree' => 1 );
+		
+		$__gCacheSkinSetting[$blogid] = $retval;
+		if($blogid == getBlogId())  $gCacheStorage->setContent('SkinSetting',$retval);
+		return $retval;	
+	}
+		
 	function getBlogSettingRowsPerPage($default = null) {
 		global $database, $blogid;
 		$value = POD::queryCell("SELECT value FROM {$database['prefix']}BlogSettings WHERE blogid = $blogid AND name = 'rowsPerPage'");

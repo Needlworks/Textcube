@@ -8,7 +8,7 @@ $IV = array(
 		'type' => array('int', 'min' => 1, 'max' => 2),
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 requireStrictRoute();
 if ($blogid != 1) {
 	respond::ResultPage(1);

@@ -39,11 +39,4 @@ $__requireView = array(
 $__requireInit = array(
 	'initialize',			// Initializing environment.
 	'plugins');
-
-
-$codeName = 'includeForBlogOwner.php';
-require ROOT.'/library/include.php';
-header('Content-Type: text/html; charset=utf-8');
-requireOwnership();		// Check access control list
-require ROOT .'/library/pageACL.php';
 ?>

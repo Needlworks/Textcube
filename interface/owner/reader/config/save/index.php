@@ -12,7 +12,7 @@ $IV = array(
 	)
 );
 
-require ROOT . '/library/includeForReader.php';
+require ROOT . '/library/dispatcher.php';
 requireStrictRoute();
 respond::ResultPage(setReaderSetting($blogid, $_POST));
 ?>

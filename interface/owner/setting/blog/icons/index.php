@@ -21,7 +21,7 @@ $IV = array(
 	)
 );
 
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 $errorText = array();
 
 // 로고 처리.

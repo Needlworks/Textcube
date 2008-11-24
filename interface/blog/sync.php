@@ -2,7 +2,7 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-require ROOT . '/library/includeForBlog.php';
+require ROOT . '/library/dispatcher.php';
 header('Content-Type: text/xml; charset=utf-8');
 echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<response>\r\n";
 list($allComments, $allTrackbacks) = POD::queryRow("SELECT 

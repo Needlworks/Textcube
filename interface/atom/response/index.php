@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('NO_SESSION', true);
 
-require ROOT . '/library/includeForBlog.php';
+require ROOT . '/library/dispatcher.php';
 requireModel("blog.feed");
 requireModel("blog.entry");
 

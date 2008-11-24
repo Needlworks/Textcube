@@ -9,7 +9,7 @@ $IV = array(
 		'keyword' => array('string', 'default' => '')
 	)
 );
-require ROOT . '/library/includeForReader.php';
+require ROOT . '/library/dispatcher.php';
 $result = array('error' => '0');
 ob_start();
 printFeedGroups($blogid, $_POST['group'], $_POST['starred'] == '1', $_POST['keyword'] == '' ? null : $_POST['keyword']);

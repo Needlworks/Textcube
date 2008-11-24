@@ -8,7 +8,7 @@ $IV = array(
 		'nickname' => array('string')
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 requireStrictRoute();
 if (User::changeSetting(getUserId(), $_POST['email'], $_POST['nickname'])) {
 	respond::ResultPage(0);

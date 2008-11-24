@@ -9,7 +9,7 @@ $IV = array(
 		'm' => array('string', 'default' => null)
 	)
 );
-require ROOT . '/library/includeForBlog.php';
+require ROOT . '/library/dispatcher.php';
 requireView('iphoneView');
 $imagePath = ROOT . "/attach/$blogid/{$_GET['f']}";
 if ($fp = @fopen($imagePath, 'r')) {

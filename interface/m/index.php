@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('__TEXTCUBE_MOBILE__', true);
-require ROOT . '/library/includeForBlog.php';
+require ROOT . '/library/dispatcher.php';
 
 // Redirect for ipod touch / iPhone
 if(strpos($_SERVER['HTTP_USER_AGENT'],'iPod') || strpos($_SERVER['HTTP_USER_AGENT'],'iPhone')){

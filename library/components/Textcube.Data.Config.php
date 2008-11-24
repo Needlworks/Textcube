@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 final class Config extends Singleton {
-	private $database, $service;
+	public $database, $service;
 
 	public static function getInstance() {
 		return self::_getInstance(__CLASS__);
@@ -60,7 +60,7 @@ final class Config extends Singleton {
 
 		$this->database = $database;
 		$this->service = $service;
-		$this->backend_name = $service['dbms'];
+		$this->backend_name = isset($service['dbms']) ? $service['dbms'] : 'mysql';
 	}
 
 	function __get($name) {

@@ -8,7 +8,7 @@ $IV = array(
 		'comment' => array(array('0', '1'))
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 requireStrictRoute();
 if (setGuestbook($blogid, $_GET['write'], $_GET['comment'])) {
 	respond::ResultPage(0);

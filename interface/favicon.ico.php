@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-require_once ROOT . '/library/includeForIcon.php';
+require_once ROOT . '/library/dispatcher.php';
 
 if( empty($icon_path) ) {
 	$icon_path = ROOT . "/attach/$blogid/favicon.ico";

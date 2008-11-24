@@ -7,7 +7,7 @@ $IV = array(
 		'viewtype' => array(array('listview', 'iconview'), 'mandatory' => false)
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 requireStrictRoute();
 
 $backupListView = getBlogSetting('skinViewType');

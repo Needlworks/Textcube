@@ -7,7 +7,7 @@ $IV = array(
 		'names' => array('string', 'default' => null)
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 requireModel("blog.attachment");
 
 

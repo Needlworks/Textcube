@@ -5,7 +5,6 @@
 define('__NO_ADMINPANEL__',true);
 $__requireComponent = array();
 $__requireBasics = array(
-	'config.default',					// Basics
 	'function/string',
 	'function/time',
 	'function/javascript',
@@ -53,15 +52,4 @@ $__requireInit = array(
 	'DEBUG : Initialization finished.',
 	'plugins',
 	'DEBUG : Plugin module loaded.');
-
-$codeName = 'includeForBlog.php';
-require ROOT.'/library/include.php';
-
-header('Content-Type: text/html; charset=utf-8');
-
-if(!defined('__TEXTCUBE_LOGIN__')) {
-	$blogVisibility = Setting::getBlogSettingGlobal('visibility',2);
-	if($blogVisibility == 0) requireOwnership();
-	else if($blogVisibility == 1) requireMembership();
-}
 ?>

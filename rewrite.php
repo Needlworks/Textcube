@@ -49,6 +49,19 @@
 	}
 	if (strtok($part, '?') == 'setup.php') {require 'setup.php'; exit;}
 	$accessInfo['URLfragment'] = explode('/',strtok($accessInfo['input'],'?'));
+
+	// Determine interface Type
+	if (isset($accessInfo['URLfragment'][0]) && isset($accessInfo['URLfragment'][1])
+		&& $accessInfo['URLfragment'][0] == 'owner' && $accessInfo['URLfragment'][1] == 'reader') {
+		$accessInfo['interfaceType'] = 'reader';
+	} else if (isset($accessInfo['URLfragment'][0]) && $accessInfo['URLfragment'][0] == 'owner') {
+		$accessInfo['interfaceType'] = 'owner';
+	} else if (isset($accessInfo['URLfragment'][0])
+		&& ($accessInfo['URLfragment'][0] == 'favicon.ico' || $accessInfo['URLfragment'][0] == 'index.gif')) {
+		$accessInfo['interfaceType'] = 'icon';
+	} else {
+		$accessInfo['interfaceType'] = 'blog';
+	}
 	unset($part);
 
 	/* Check the existence of config.php (whether installed or not) */
@@ -89,6 +102,8 @@
 	define('PATH', 'interface/'.(empty($pathPart) ? '' : $pathPart.'/'));
 	unset($pathPart);
 	if (!file_exists($interfacePath)) { require "library/error.php";errorExit(404);}
+	$accessInfo['interfacePath'] = $interfacePath;
+//	require_once (ROOT.'/library/dispatcher.php');
 	if (empty($service['debugmode'])) {	@include_once $interfacePath;}
 	else {include_once $interfacePath;}
 ?>

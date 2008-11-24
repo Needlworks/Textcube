@@ -12,7 +12,7 @@ $IV = array(
 	)
 );
 define('__TEXTCUBE_LOGIN__',true);
-require ROOT . '/library/includeForBlog.php';
+require ROOT . '/library/dispatcher.php';
 
 if (substr($blogURL, -1) != '/') $blogURL .= '/';
 if (!isset($user['homepage']) ) $user['homepage'] = '/';

@@ -9,7 +9,7 @@ $IV = array(
 		'smtpPort' => array('number', 'min' => '1', 'max' => '65535' )
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 requireStrictRoute();
 if (!acl::check('group.creators'))
 	respond::ResultPage(false);

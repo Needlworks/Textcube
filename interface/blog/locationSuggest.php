@@ -9,7 +9,7 @@ $IV = array(
 		'filter' => array('string', 'default' => '1')
 	)
 );
-require ROOT . '/library/includeForBlog.php';
+require ROOT . '/library/dispatcher.php';
 header('Content-Type: text/xml; charset=utf-8');
 $id = isset($_GET['id']) ? $_GET['id'] : false;
 $cursor = isset($_GET['cursor']) ? $_GET['cursor'] : false;

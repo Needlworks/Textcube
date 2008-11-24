@@ -7,7 +7,7 @@ $IV = array(
 		'url' => array('url', 'default'=> null)
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 requireModel("blog.response.remote");
 
 requireStrictRoute();

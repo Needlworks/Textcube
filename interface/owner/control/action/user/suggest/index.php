@@ -10,7 +10,7 @@ $IV = array(
 		'cursor' => array('number', 'min' => 1)
 	) 
 );
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 requireStrictRoute();
 
 global $database;

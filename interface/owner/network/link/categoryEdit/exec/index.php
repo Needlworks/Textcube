@@ -8,7 +8,7 @@ $IV = array(
 		'name' => array('string','min' => 0,'max' => 255)
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 requireModel("blog.link");
 
 requireStrictRoute();

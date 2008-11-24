@@ -13,7 +13,7 @@ $IV = array(
 		'viewMode' => array('string', 'default' => '')
 		)
 	);
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireStrictRoute();

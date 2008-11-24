@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('__TEXTCUBE_ADMINPANEL__',true);
 
-require ROOT . '/library/includeForBlog.php';
+require ROOT . '/library/dispatcher.php';
 $entry = getEntry($blogid, $suri['id']);
 if (is_null($entry)) {
 	respond::NotFoundPage();

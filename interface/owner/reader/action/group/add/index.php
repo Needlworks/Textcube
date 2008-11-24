@@ -8,7 +8,7 @@ $IV = array(
 		'current' => array('int', 0)
 	)
 );
-require ROOT . '/library/includeForReader.php';
+require ROOT . '/library/dispatcher.php';
 requireStrictRoute();
 $result = array('error' => addFeedGroup($blogid, $_POST['title']));
 ob_start();

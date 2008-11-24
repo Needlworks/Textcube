@@ -17,7 +17,7 @@ if (isset($_REQUEST['ajaxcall'])) {
 	
 if (!array_key_exists('viewMode', $_REQUEST)) $_REQUEST['viewMode'] = '';
 
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 requireModel("blog.coverpage");
 
 requireStrictRoute();

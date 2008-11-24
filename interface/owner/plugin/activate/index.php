@@ -7,7 +7,7 @@ $IV = array(
 		'name' => array('directory', 'default' => null)
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 requireStrictRoute();
 if (!empty($_POST['name']) && activatePlugin($_POST['name']))
 	respond::ResultPage(0);

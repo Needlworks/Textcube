@@ -43,7 +43,7 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 	);
 }
 
-require ROOT . '/library/includeForBlog.php';
+require ROOT . '/library/dispatcher.php';
 if (false) {
 	fetchConfigVal();
 }

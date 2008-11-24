@@ -9,7 +9,7 @@ $IV = array(
 		'switch'=>array('int')
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 requireStrictRoute();
 if (changeACLonBlog(getBlogId(),$_POST['acltype'],$_POST['userid'],$_POST['switch'])) {
 	return respond::ResultPage(true);

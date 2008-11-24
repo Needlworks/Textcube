@@ -27,9 +27,9 @@ $IV = array(
 );
 define('__TEXTCUBE_ADMINPANEL__',true);
 if( in_array( $_GET['action'], array( 'setdelegate' ) ) ) {
-	require ROOT . '/library/includeForBlogOwner.php';
+	require ROOT . '/library/dispatcher.php';
 } else {
-	require ROOT . '/library/includeForBlog.php';
+	require ROOT . '/library/dispatcher.php';
 }
 requireComponent( "Textcube.Core" );
 requireComponent( "Textcube.Control.Openid" );

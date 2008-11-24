@@ -19,7 +19,4 @@ $__requireModel = array(		// Model
 $__requireView = array();
 $__requireInit = array(		// Initialize
 	'initialize');
-
-$codeName = 'includeForIcon.php';
-require ROOT.'/library/include.php';
 ?>

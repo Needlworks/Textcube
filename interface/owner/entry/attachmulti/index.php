@@ -13,7 +13,7 @@ $IV = array(
 
 if (!empty($_GET['TSSESSION']))
 	$_COOKIE['TSSESSION'] = $_GET['TSSESSION'];
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 requireModel("blog.attachment");
 $file = array_pop($_FILES);
 $attachment = addAttachment($blogid, $suri['id'], $file);

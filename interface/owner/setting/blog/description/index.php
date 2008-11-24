@@ -7,7 +7,7 @@ $IV = array(
 		'description' => array('string', 'default' => '')
 	)
 );
-require ROOT . '/library/includeForBlogOwner.php';
+require ROOT . '/library/dispatcher.php';
 requireStrictRoute();
 if (setBlogDescription($blogid, trim($_POST['description']))) {
 	respond::ResultPage(0);

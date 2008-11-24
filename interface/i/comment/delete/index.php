@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 define('__TEXTCUBE_IPHONE__', true);
-require ROOT . '/library/includeForBlog.php';
+require ROOT . '/library/dispatcher.php';
 requireView('iphoneView');
 list($entryId) = getCommentAttributes($blogid, $suri['id'], 'entry');
 ?>
