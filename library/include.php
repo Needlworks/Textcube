@@ -117,6 +117,7 @@ spl_autoload_register(array('Autoload', 'load'));
 global $__requireComponent;
 $__requireComponent = array(
 	'Needlworks.PHP.UnifiedEnvironment',
+	'Needlworks.PHP.BaseClasses',
 	'Needlworks.PHP.Core',
 	'Needlworks.Core.Locale',
 	'Textcube.Core',
