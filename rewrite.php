@@ -2,7 +2,10 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-	define('ROOT', '.'); 
+	define('ROOT', '.');
+	/* Context Loading */
+	
+	
 	/* Workaround for IIS environment */
 	if(!isset($_SERVER['REQUEST_URI']) && isset($_SERVER['SCRIPT_NAME'])) {
 		$_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
