@@ -6,8 +6,6 @@
 /** Pre-define basic components */
 global $__requireBasics, $__requireComponent, $__requireLibrary, $__requireModel, $__requireView;
 $__requireComponent = array(
-	'Needlworks.PHP.UnifiedEnvironment',
-	'Needlworks.PHP.Core',
 	'Needlworks.Core.Locale',
 	'Textcube.Core',
 	'Textcube.Control.Auth',
