@@ -7,7 +7,7 @@ class URIError extends Exception {};
 
 final class Context extends Singleton
 {
-	public $accessInfo, $suri;
+	public $URLInfo, $suri;
 	public static $blogid;
 
 	public static function getInstance() {
@@ -21,15 +21,15 @@ final class Context extends Singleton
 	public function globalVariableParser() { $this->__globalVariableParser();}
 	
 	private function __URIInterpreter() {
-		global $accessInfo;
+		global $URLInfo;
 		// URI is parsed at rewrite.php. Thus skip it.
-		$this->accessInfo = $accessInfo;
+		$this->URLInfo = $URLInfo;
 	}
 	
 	private function __URIParser() {
-		if(!isset($this->accessInfo)) $this->__URIInterpreter();
+		if(!isset($this->URLInfo)) $this->__URIInterpreter();
 		$config = Config::getInstance();
-		$url = $this->accessInfo['fullpath'];
+		$url = $this->URLInfo['fullpath'];
 		$defaultblogid = Setting::getServiceSetting("defaultBlogId",1);
 		$suri            = array('url' => $url, 'value' => '');
 		$this->blogid          = null;
@@ -75,13 +75,13 @@ final class Context extends Singleton
 			if ($this->blogid === null)
 				Respond::NotFoundPage();
 		}
-		if(isset($this->accessInfo['interfacePath'])) {
-			$depth = substr_count($this->accessInfo['interfacePath'], '/') - 1;
+		if(isset($this->URLInfo['interfacePath'])) {
+			$depth = substr_count($this->URLInfo['interfacePath'], '/') - 1;
 		} else {
 			$depth = substr_count(ROOT, '/');
 		}
 		if ($depth > 0) {
-			if($config->service['fancyURL'] === 0 || $config->service['fancyURL'] === 1) $url = '/'.$self->accessInfo['input']; // Exclude /blog path.
+			if($config->service['fancyURL'] === 0 || $config->service['fancyURL'] === 1) $url = '/'.$self->URLInfo['input']; // Exclude /blog path.
 			if (preg_match('@^((/+[^/]+){' . $depth . '})/*(.*)$@', $url, $matches)) {
 				$suri['directive'] = $matches[1];
 				if ($matches[3] !== false) {

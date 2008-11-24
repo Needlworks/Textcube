@@ -5,7 +5,7 @@
 	define('ROOT', '.');
 	/* Context Loading */
 	$dispatcher = new Dispatcher;
-	
+	$URLInfo = $dispatcher->URLInfo;	
 	if (empty($service['debugmode'])) {	@include_once $dispatcher->interfacePath;}
 	else {include_once $dispatcher->interfacePath;}
 
@@ -16,7 +16,7 @@ class Dispatcher {
 		$this->URIinterpreter();
 	}
 	
-	function URIinterpreter(){
+	private function URIinterpreter() {
 		global $service;		
 		/* Workaround for IIS environment */
 		if(!isset($_SERVER['REQUEST_URI']) && isset($_SERVER['SCRIPT_NAME'])) {
