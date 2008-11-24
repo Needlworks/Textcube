@@ -52,7 +52,7 @@ class Autoload {
 	private static $db = array(
 		'POD','DBQuery');
 	private static $data = array(
-		'Attachment','BlogSetting','BlogStatistics','Category','Comment','CommentNotified',
+		'Attachment','BlogSetting','BlogStatistics','Category','Context','Comment','CommentNotified',
 		'CommentNotifiedSiteInfo','DailyStatistics','DataMaintenance','Feed',
 		'Filter','GuestComment','Keyword','Link','Notice','PluginSetting','Post',
 		'RefererLog','RefererStatistics','ServiceSetting','SkinSetting','SubscriptionLog',
