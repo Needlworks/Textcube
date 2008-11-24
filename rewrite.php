@@ -2,12 +2,14 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-	define('ROOT', '.');
-	/* Context Loading */
-	$dispatcher = new Dispatcher;
-	$URLInfo = $dispatcher->URLInfo;	
-	if (empty($service['debugmode'])) {	@include_once $dispatcher->interfacePath;}
-	else {include_once $dispatcher->interfacePath;}
+
+define('ROOT', '.');
+/** Context Loading */
+$dispatcher = new Dispatcher;
+$URLInfo = $dispatcher->URLInfo;	
+/** Interface Loading */
+if (empty($service['debugmode'])) {	@include_once $dispatcher->interfacePath;}
+else {include_once $dispatcher->interfacePath;}
 
 class Dispatcher {
 	public $URLInfo, $interfacePath;
@@ -113,8 +115,9 @@ class Dispatcher {
 		if (empty($interfacePath)) $interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
 		define('PATH', 'interface/'.(empty($pathPart) ? '' : $pathPart.'/'));
 		unset($pathPart);
-		if (!file_exists($interfacePath)) { require "library/error.php";errorExit(404);}
+		if (!file_exists($interfacePath)) { require ROOT."/library/error.php";errorExit(404);}
 		$this->URLInfo = $URLInfo;
 		$URLInfo['interfacePath'] = $this->interfacePath = $interfacePath;
+	}
 }
 ?>

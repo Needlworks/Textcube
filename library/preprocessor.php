@@ -26,7 +26,7 @@ $basicIV = array(
 	'REDIRECT_URL' => array('string', 'mandatory' => false)
 );
 Validator::validateArray($_SERVER, $basicIV);
-if(isset($accessInfo)) {
+if(isset($URLInfo)) {
 	$basicIV = array(
 		'fullpath' => array('string'),
 		'input'    => array('string'),
@@ -34,8 +34,8 @@ if(isset($accessInfo)) {
 		'root'     => array('string'),
 		'input'    => array('string', 'mandatory' => false)
 	);
-	$accessInfo['fullpath'] = urldecode($accessInfo['fullpath']);
-	Validator::validateArray($accessInfo, $basicIV);
+	$URLInfo['fullpath'] = urldecode($URLInfo['fullpath']);
+	Validator::validateArray($URLInfo, $basicIV);
 }
 
 /** Loading Configuration */
@@ -47,7 +47,7 @@ $context = Context::getInstance(); // automatic initialization via first instanc
 /** Loading debug module */
 
 /** Loading components / models / views */
-require_once (ROOT.'/library/include.'.$context->accessInfo['interfaceType'].'.php');
+require_once (ROOT.'/library/include.'.$context->URLInfo['interfaceType'].'.php');
 require_once (ROOT.'/library/include.php');
 
 /** Sending header */
@@ -111,20 +111,20 @@ if (!defined('NO_SESSION')) {
 }
   
 /** Plugin module initialization (if necessary) */ 
-if(in_array($context->accessInfo['interfaceType'], array('blog','owner','reader'))) {
+if(in_array($context->URLInfo['interfaceType'], array('blog','owner','reader'))) {
 	require_once(ROOT.'/library/plugins.php');
 }
 
 /** Access privilege Check */
 header('Content-Type: text/html; charset=utf-8');
 
-if($context->accessInfo['interfaceType'] == 'blog' && !defined('__TEXTCUBE_LOGIN__')) {
+if($context->URLInfo['interfaceType'] == 'blog' && !defined('__TEXTCUBE_LOGIN__')) {
 	$blogVisibility = Setting::getBlogSettingGlobal('visibility',2);
 	if($blogVisibility == 0) requireOwnership();
 	else if($blogVisibility == 1) requireMembership();
 }
 
-if(in_array($context->accessInfo['interfaceType'], array('owner','reader'))) {
+if(in_array($context->URLInfo['interfaceType'], array('owner','reader'))) {
 	requireOwnership();     // Check access control list
 	require ROOT .'/library/pageACL.php';
 }

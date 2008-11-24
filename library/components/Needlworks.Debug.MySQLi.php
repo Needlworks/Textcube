@@ -370,7 +370,7 @@ TFOOT;
 		print '</table>';
 	}
 
-	global $service, $accessInfo, $suri;
+	global $service, $URLInfo, $suri;
 	print '<div class="debugTable">'.CRLF;
 	print '<h4>Current Database Management System :</h4>'.CRLF.'<p>'.$service['dbms'].' '.POD::version().'</p>'.CRLF;
 	print '<h4>Cache system :</h4>'.CRLF;
@@ -392,7 +392,7 @@ TFOOT;
 	if( ! empty($service['debug_rewrite_module'])) {
 		print '<h4>Path parse result</h4>'.CRLF;
 		print '<pre>'.CRLF;
-		print_r( $accessInfo );
+		print_r( $URLInfo );
 		print_r( $suri );
 		print '</pre>';
 	}
