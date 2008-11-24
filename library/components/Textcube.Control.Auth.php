@@ -231,7 +231,7 @@ class Acl {
 			$ownership = "group.owners";
 		}
 
-		$result = POD::queryAllWithCache("SELECT blogid,acl FROM {$database['prefix']}Teamblog WHERE userid='$userid'");
+		$result = POD::queryAllWithCache("SELECT blogid,acl FROM {$database['prefix']}Privileges WHERE userid='$userid'");
 		foreach( $result as $rec ) {
 			$priv = array("group.writers", "textcube.$userid");
 
@@ -249,7 +249,7 @@ class Acl {
 		}
 
 		$blogid = getBlogId();
-		POD::execute("UPDATE  {$database['prefix']}Teamblog SET lastLogin = unix_timestamp() WHERE blogid='$blogid' AND userid='$userid'");
+		POD::execute("UPDATE  {$database['prefix']}Privileges SET lastLogin = unix_timestamp() WHERE blogid='$blogid' AND userid='$userid'");
 		return;
 	}
 

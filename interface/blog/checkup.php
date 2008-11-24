@@ -433,6 +433,14 @@ if($currentVersion != TEXTCUBE_VERSION) {
 			showCheckupMessage(true);
 		} else
 			showCheckupMessage(false);
+	}
+	if (!POD::queryExistence("DESC {$database['prefix']}Privileges acl")) {
+		$changed = true;
+		echo '<li>', _text('권한 관리 테이블의 이름을 변경합니다.'), ': ';
+		if (POD::execute("RENAME TABLE {$database['prefix']}Teamblog TO {$database['prefix']}Privileges")) {
+			showCheckupMessage(true);
+		} else
+			showCheckupMessage(false);
 	}	
 }
 			

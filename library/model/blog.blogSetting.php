@@ -259,7 +259,7 @@ function addBlog($blogid, $userid, $identify) {
 			return 2; // 2: No blog exists with specific blogid
 		}
 		// Thus, blog and user exists. Now combine both.
-		$result = POD::query("INSERT INTO `{$database['prefix']}Teamblog` 
+		$result = POD::query("INSERT INTO `{$database['prefix']}Privileges` 
 			(blogid,userid,acl,created,lastLogin) 
 			VALUES('$blogid', '$userid', '0', UNIX_TIMESTAMP(), '0')");
 		return $result;
@@ -341,7 +341,7 @@ function addBlog($blogid, $userid, $identify) {
 		setBlogSetting('defaultFormatter', 'ttml', $blogid);
 
 		//Combine user and blog.
-		if(POD::query("INSERT INTO `{$database['prefix']}Teamblog` 
+		if(POD::query("INSERT INTO `{$database['prefix']}Privileges` 
 			(blogid,userid,acl,created,lastLogin) 
 			VALUES('$blogid', '$userid', '16', UNIX_TIMESTAMP(), '0')")) {
 			setDefaultPost($blogid, $userid);
@@ -454,7 +454,7 @@ function cancelInvite($userid,$clean = true) {
 	foreach($blogidWithOwner as $blogids) {
 		if(deleteBlog($blogids) === false) return false;
 	}
-	if($clean && !POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE userid = '$userid'")) {
+	if($clean && !POD::queryAll("SELECT * FROM `{$database['prefix']}Privileges` WHERE userid = '$userid'")) {
 		User::removePermanent($userid);
 	}
 	return true;
@@ -493,7 +493,7 @@ function deleteBlog($blogid) {
 		&& POD::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $blogid")
 		&& POD::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `blogid` = $blogid")
 		&& POD::execute("DELETE FROM `{$database['prefix']}FeedGroups` WHERE `blogid` = $blogid")
-		&& POD::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE `blogid` = '$blogid'")
+		&& POD::execute("DELETE FROM `{$database['prefix']}Privileges` WHERE `blogid` = '$blogid'")
 	)
 	{
 		return true;
@@ -536,7 +536,7 @@ function removeBlog($blogid) {
 	POD::execute("DELETE FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}Teamblog WHERE blogid = $blogid");
+	POD::execute("DELETE FROM {$database['prefix']}Privileges WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}XMLRPCPingSettings WHERE blogid = $blogid");
 	
 	//Delete Tags

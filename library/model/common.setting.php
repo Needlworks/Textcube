@@ -118,7 +118,7 @@ function getDefinedTableNames() {
 			"{$prefix}SkinSettings", 
 			"{$prefix}TagRelations", 
 			"{$prefix}Tags", 
-			"{$prefix}Teamblog", 
+			"{$prefix}Privileges", 
 			"{$prefix}TeamEntryRelations", 
 			"{$prefix}RemoteResponseLogs", 
 			"{$prefix}RemoteResponses", 

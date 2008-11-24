@@ -146,7 +146,7 @@ function isLoginId($blogid, $loginid) {
 	// 팀블로그 :: 팀원 확인
 	$result = POD::queryCount("SELECT u.userid 
 			FROM {$database['prefix']}Users u, 
-				{$database['prefix']}Teamblog t 
+				{$database['prefix']}Privileges t 
 			WHERE t.blogid = $blogid 
 				AND u.loginid = '$loginid' 
 				AND t.userid = u.userid");

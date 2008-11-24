@@ -14,7 +14,7 @@ global $database;
 $uid = $suri['id'];
 
 $usersetting= POD::queryRow("SELECT * FROM `{$database['prefix']}Users` WHERE userid = " . $uid);
-$usersetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}Teamblog` WHERE acl & ".BITWISE_OWNER." != 0 AND blogid = " . $blogid);
+$usersetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}Privileges` WHERE acl & ".BITWISE_OWNER." != 0 AND blogid = " . $blogid);
 $AuthToken = Setting::getUserSettingGlobal('AuthToken',null,$uid);
 ?>
 						<script type="text/javascript"> 
@@ -91,7 +91,7 @@ $AuthToken = Setting::getUserSettingGlobal('AuthToken',null,$uid);
 										</tr>
 									</thead>
 									<tbody><?php
-$teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE userid = " . $uid);
+$teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Privileges` WHERE userid = " . $uid);
 	foreach ($teamblog as $row){
 		echo "<tr>";
 		echo "<td class=\"name\"><a href=\"{$blogURL}/owner/control/blog/detail/{$row['blogid']}\">".POD::queryCell("SELECT value FROM `{$database['prefix']}BlogSettings` WHERE name = 'name' AND blogid = " . $row['blogid'])."</a></td>";

@@ -1496,7 +1496,7 @@ CREATE TABLE {$_POST['dbPrefix']}XMLRPCPingSettings (
   type varchar(32) NOT NULL default 'xmlrpc',
   PRIMARY KEY (blogid)
 ) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Teamblog (
+CREATE TABLE {$_POST['dbPrefix']}Privileges (
   blogid int(11) NOT NULL default 1,
   userid int(11) NOT NULL default 1,
   acl int(11) NOT NULL default 0,
@@ -1506,7 +1506,7 @@ CREATE TABLE {$_POST['dbPrefix']}Teamblog (
 ) $charset;
 
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);
-INSERT INTO {$_POST['dbPrefix']}Teamblog VALUES (1, 1, 16, UNIX_TIMESTAMP(), 0);
+INSERT INTO {$_POST['dbPrefix']}Privileges VALUES (1, 1, 16, UNIX_TIMESTAMP(), 0);
 INSERT INTO {$_POST['dbPrefix']}ServiceSettings (name, value) VALUES ('newlineStyle', '1.1'); 
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'name', '$blog');
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'language', '$baseLanguage');
@@ -1558,7 +1558,7 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
 							{$_POST['dbPrefix']}SkinSettings,
 							{$_POST['dbPrefix']}TagRelations,
 							{$_POST['dbPrefix']}Tags,
-							{$_POST['dbPrefix']}Teamblog,
+							{$_POST['dbPrefix']}Privileges,
 							{$_POST['dbPrefix']}TrackbackLogs,
 							{$_POST['dbPrefix']}Trackbacks,
 							{$_POST['dbPrefix']}UserSettings,
@@ -1970,6 +1970,8 @@ function checkTables($version, $prefix) {
 
 function getTables($version, $prefix) {
 	switch ($version) {
+		case '1.8':
+			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}EntriesArchive", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Links", "{$prefix}LinkCategories", "{$prefix}OpenIDUsers", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}Users", "{$prefix}UserSettings", "{$prefix}XMLRPCPingSettings", "{$prefix}Privileges", "{$prefix}PageCacheLog");
 		case '1.7':
 			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}EntriesArchive", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Links", "{$prefix}LinkCategories", "{$prefix}OpenIDUsers", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}Users", "{$prefix}UserSettings", "{$prefix}XMLRPCPingSettings", "{$prefix}Teamblog", "{$prefix}PageCacheLog");
 		case '1.6':

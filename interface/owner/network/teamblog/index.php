@@ -235,7 +235,7 @@ if( Acl::check('group.administrators')) {
 <?php
 	$blogid = getBlogId();
 	$teamblog_user = POD::queryAll("SELECT t.*, u.loginid, u.password, u.name, u.created
-		FROM {$database['prefix']}Teamblog t, 
+		FROM {$database['prefix']}Privileges t, 
 		 	{$database['prefix']}Users u 
 		WHERE t.blogid = '$blogid' 
 			AND u.userid = t.userid 

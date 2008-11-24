@@ -41,7 +41,7 @@ class User {
 		// TODO : Caching with global cache component. (Usually it is not changing easily.)
 		global $database;
 		$authorIds = POD::queryColumn("SELECT userid
-			FROM {$database['prefix']}Teamblog
+			FROM {$database['prefix']}Privileges
 			WHERE blogid = $blogid");
 	
 		$authorInfo = POD::queryAll("SELECT userid, name
@@ -53,7 +53,7 @@ class User {
 	static function getBlogOwnerName($blogid) {
 		global $database;
 		$ownerUserId = POD::queryCell("SELECT userid 
-			FROM {$database['prefix']}Teamblog
+			FROM {$database['prefix']}Privileges
 			WHERE blogid = $blogid
 				AND acl > 15");
 		return User::getName($ownerUserId);
@@ -62,7 +62,7 @@ class User {
 	static function getBlogOwner($blogid) {
 		global $database;
 		$ownerUserId = POD::queryCell("SELECT userid 
-			FROM {$database['prefix']}Teamblog
+			FROM {$database['prefix']}Privileges
 			WHERE blogid = $blogid
 				AND acl > 15");
 		return $ownerUserId;
@@ -87,14 +87,14 @@ class User {
 		global $database;
 		if (!isset($userid))
 			$userid = getUserId();
-		return POD::queryColumn("SELECT blogid FROM {$database['prefix']}Teamblog WHERE userid = $userid");
+		return POD::queryColumn("SELECT blogid FROM {$database['prefix']}Privileges WHERE userid = $userid");
 	}
 
 	static function getOwnedBlogs($userid = null) {
 		global $database;
 		if (!isset($userid))
 			$userid = getUserId();
-		return POD::queryColumn("SELECT blogid FROM {$database['prefix']}Teamblog WHERE userid = $userid AND acl > 15");
+		return POD::queryColumn("SELECT blogid FROM {$database['prefix']}Privileges WHERE userid = $userid AND acl > 15");
 	}
 
 	static function getHomepageType($userid = null) {
@@ -296,15 +296,15 @@ class Blog {
 	/*@static@*/
 	function changeOwner($blogid,$userid) {
 		global $database;
-		POD::execute("UPDATE `{$database['prefix']}Teamblog` SET acl = 3 WHERE blogid = ".$blogid." and acl = " . BITWISE_OWNER);
+		POD::execute("UPDATE `{$database['prefix']}Privileges` SET acl = 3 WHERE blogid = ".$blogid." and acl = " . BITWISE_OWNER);
 	
-		$acl = POD::queryCell("SELECT acl FROM {$database['prefix']}Teamblog WHERE blogid='$blogid' and userid='$userid'");
+		$acl = POD::queryCell("SELECT acl FROM {$database['prefix']}Privileges WHERE blogid='$blogid' and userid='$userid'");
 	
 		if( $acl === null ) { // If there is no ACL, add user into the blog.
-			POD::query("INSERT INTO `{$database['prefix']}Teamblog`  
+			POD::query("INSERT INTO `{$database['prefix']}Privileges`  
 				VALUES('$blogid', '$userid', '".BITWISE_OWNER."', UNIX_TIMESTAMP(), '0')");
 		} else {
-			POD::execute("UPDATE `{$database['prefix']}Teamblog` SET acl = ".BITWISE_OWNER." 
+			POD::execute("UPDATE `{$database['prefix']}Privileges` SET acl = ".BITWISE_OWNER." 
 				WHERE blogid = ".$blogid." and userid = " . $userid);
 		}
 		return true;
@@ -346,10 +346,10 @@ class Blog {
 			WHERE blogid = ".$blogid." AND userid = ".$userid);
 	
 		// Delete ACL relation.
-		if(!POD::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid='$blogid' and userid='$userid'"))
+		if(!POD::execute("DELETE FROM `{$database['prefix']}Privileges` WHERE blogid='$blogid' and userid='$userid'"))
 			return false;
 		// And if there is no blog related to the specific user, delete user.
-		if($clean && !POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE userid = '$userid'")) {
+		if($clean && !POD::queryAll("SELECT * FROM `{$database['prefix']}Privileges` WHERE userid = '$userid'")) {
 			User::removePermanent($userid);
 		}
 		return true;
@@ -361,11 +361,11 @@ class Blog {
 		if(empty($ACLtype) || empty($userid))
 			return false;
 		$acl = POD::queryCell("SELECT acl
-				FROM {$database['prefix']}Teamblog 
+				FROM {$database['prefix']}Privileges 
 				WHERE blogid='$blogid' and userid='$userid'");
 		if( $acl === null ) { // If there is no ACL, add user into the blog.
 			$name = User::getName($userid);
-			POD::query("INSERT INTO `{$database['prefix']}Teamblog`  
+			POD::query("INSERT INTO `{$database['prefix']}Privileges`  
 					VALUES('$blogid', '$userid', '0', UNIX_TIMESTAMP(), '0')");
 			$acl = 0;
 		}
@@ -385,7 +385,7 @@ class Blog {
 		} else {
 			$acl &= ~$bitwise;
 		}
-		return POD::execute("UPDATE `{$database['prefix']}Teamblog` 
+		return POD::execute("UPDATE `{$database['prefix']}Privileges` 
 			SET acl = ".$acl." 
 			WHERE blogid = ".$blogid." and userid = ".$userid);
 	}
