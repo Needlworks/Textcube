@@ -16,8 +16,7 @@ if ($depth > 0) {
 	if (preg_match('@^((/+[^/]+){' . $depth . '})(.*)$@', $url, $matches))
 		$url = $matches[3];
 	else {
-		//respond::NotFoundPage();
-		$url = '/'; $depth = 0; $interfacePath = '/';
+		respond::NotFoundPage();
 	}
 }
 if ($service['type'] == 'single') {
