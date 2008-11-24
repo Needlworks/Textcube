@@ -138,7 +138,7 @@ function GoogleMap_LocationLogView($target) {
 	$count = 0;
 	foreach ($locatives as $locative) {
 		$locative['link'] = "$blogURL/" . ($blog['useSloganOnPost'] ? 'entry/' . URL::encode($locative['slogan'],$service['useEncodedURL']) : $locative['id']);
-		echo "\t\t\tGMap_addLocationMark(locationMap, '{$locative['location']}', '{$locative['title']}', '{$locative['link']}', boundary, locations);\n";
+		echo "\t\t\tGMap_addLocationMark(locationMap, '{$locative['location']}', '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), boundary, locations);\n";
 		$count++;
 	}
 ?>
