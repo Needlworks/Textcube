@@ -15,9 +15,10 @@ final class Config extends Singleton {
 	}
 	
 	private function __basicConfigLoader() {
+		global $database, $service;
 		$this->settings = array();
 		require_once(ROOT.'/library/config.default.php');	// Loading default configuration
-		if (file_exists(ROOT.'/config.php')) require_once(ROOT.'/config.php');	// Override configuration
+		if (file_exists(ROOT.'/config.php')) @include(ROOT.'/config.php');	// Override configuration
 		// Map port setting.
 		if (@is_numeric($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80) && ($_SERVER['SERVER_PORT'] != 443))
 			$service['port'] = $_SERVER['SERVER_PORT'];
@@ -45,10 +46,10 @@ final class Config extends Singleton {
 		if($service['debugmode'] == true) {
 			if(isset($service['dbms'])) {
 				switch($service['dbms']) {
-					case 'mysqli':         require_once(ROOT. "/library/Components/Needlworks.Debug.MySQLi.php"); break;
-					case 'mysql': default: require_once(ROOT. "/library/Components/Needlworks.Debug.MySQL.php"); break;
+					case 'mysqli':         require_once(ROOT. "/library/components/Needlworks.Debug.MySQLi.php"); break;
+					case 'mysql': default: require_once(ROOT. "/library/components/Needlworks.Debug.MySQL.php"); break;
 				}
-			} else require_once(ROOT. "/library/Components/Needlworks.Debug.MySQL.php");
+			} else require_once(ROOT. "/library/components/Needlworks.Debug.MySQL.php");
 		}
 		
 		// Session cookie patch.

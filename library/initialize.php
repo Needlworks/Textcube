@@ -29,6 +29,8 @@ endif;
    Path-dependent environment setting
    ----------------------------------
 **/
+
+
 require ROOT.'/library/suri.php';
 
 /* Session initializing */

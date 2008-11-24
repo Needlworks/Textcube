@@ -28,16 +28,14 @@ require_once (ROOT.'/library/include.php');
 
 /** Sending header */
 header('Content-Type: text/html; charset=utf-8');
-
 /** Database I/O initialization. */
-if(!empty($context->database) && !empty($context->database["database"])) {
-	if(POD::bind($context->database) === false) {
+if(!empty($database) && !empty($database["database"])) {
+	if(POD::bind($database) === false) {
 		Respond::MessagePage('Problem with connecting database.<br /><br />Please re-visit later.');
 		exit;
 	}
 }
 $database['utf8'] = (POD::charset() == 'utf8') ? true : false;
-
 /** Memcache module bind (if possible) */
 $memcache = null;
 if(!empty($config->database) && !empty($config->service['memcached']) && $config->service['memcached'] == true): 
