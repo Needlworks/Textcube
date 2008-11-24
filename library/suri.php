@@ -15,8 +15,10 @@ $depth           = substr_count($service['path'], '/');
 if ($depth > 0) {
 	if (preg_match('@^((/+[^/]+){' . $depth . '})(.*)$@', $url, $matches))
 		$url = $matches[3];
-	else
-		respond::NotFoundPage();
+	else {
+		//respond::NotFoundPage();
+		$url = '/'; $depth = 0; $interfacePath = '/';
+	}
 }
 if ($service['type'] == 'single') {
 	$blogid = $defaultblogid;

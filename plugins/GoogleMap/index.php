@@ -17,7 +17,7 @@ function GoogleMap_Header($target) {
 	if (!is_null($config) && isset($config['apiKey'])) {
 		$api_key = $config['apiKey'];
 		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/common.css\" />\n";
-		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.com/maps?file=api&amp;v=2&amp;key=$api_key\"></script>\n";
+		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;key=$api_key\"></script>\n";
 		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/gmap_common.js?".time()."\"></script>\n";
 		$target .= "<script type=\"text/javascript\">
 		//<![CDATA[
@@ -35,7 +35,7 @@ function GoogleMap_AdminHeader($target) {
 		$config = Setting::fetchConfigVal($configVal);
 		$api_key = $config['apiKey']; // should exist here
 		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/common.css\" />\n";
-		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.com/maps?file=api&amp;v=2&amp;key=$api_key\"></script>\n";
+		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;key=$api_key\"></script>\n";
 		$target .= "<script type=\"text/javascript\">
 		//<![CDATA[
 		var pluginURL = '$pluginURL';
@@ -225,7 +225,7 @@ function _GMap_printHeaderForUI($title, $api_key) {
 	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/ui.css" />
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/mootools-1.2.1-core-yc.js"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/mootools-1.2-more.js"></script>
-	<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=<?php echo $api_key;?>"></script>
+	<script type="text/javascript" src="http://maps.google.co.kr/maps?file=api&amp;v=2&amp;key=<?php echo $api_key;?>"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/gmap_common.js?<?php echo time();?>"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/gmap_ui.js?<?php echo time();?>"></script>
 	<script type="text/javascript">
