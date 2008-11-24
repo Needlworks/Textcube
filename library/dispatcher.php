@@ -10,12 +10,34 @@
 require_once (ROOT.'/library/components/Needlworks.PHP.BaseClasses.php');
 require_once (ROOT.'/library/components/Needlworks.PHP.Loader.php');
 
-/** Input validation */
+/** Basic POST/GET variable validation. */
+if (isset($IV)) {
+	if (!Validator::validate($IV)) {
+		header('HTTP/1.1 404 Not Found');
+		exit;
+	}
+}
+/** Basic SERVER variable validation. */
+$basicIV = array(
+	'SCRIPT_NAME' => array('string'),
+	'REQUEST_URI' => array('string'),
+	'REDIRECT_URL' => array('string', 'mandatory' => false)
+);
+Validator::validateArray($_SERVER, $basicIV);
+if(isset($accessInfo)) {
+	$basicIV = array(
+		'fullpath' => array('string'),
+		'input'    => array('string'),
+		'position' => array('string'),
+		'root'     => array('string'),
+		'input'    => array('string', 'mandatory' => false)
+	);
+	$accessInfo['fullpath'] = urldecode($accessInfo['fullpath']);
+	Validator::validateArray($accessInfo, $basicIV);
+}
 
 /** Loading Configuration */
 global $config, $context;
-//		global $serviceURL, $pathURL, $defaultURL, $baseURL, $pathURL, $hostURL, $folderURL, $blogURL;
-//		global $suri, $blog, $blogid, $skinSetting, $gCacheStorage;
 		
 $config = Config::getInstance();
 $context = Context::getInstance(); // automatic initialization via first instanciation
@@ -93,6 +115,7 @@ if(in_array($context->accessInfo['interfaceType'], array('blog','owner','reader'
 
 /** Access privilege Check */
 header('Content-Type: text/html; charset=utf-8');
+
 if($context->accessInfo['interfaceType'] == 'blog' && !defined('__TEXTCUBE_LOGIN__')) {
 	$blogVisibility = Setting::getBlogSettingGlobal('visibility',2);
 	if($blogVisibility == 0) requireOwnership();
