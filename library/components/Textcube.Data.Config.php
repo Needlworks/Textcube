@@ -15,8 +15,6 @@ final class Config extends Singleton {
 	}
 	
 	private function __basicConfigLoader() {
-		global $database, $service;
-
 		$this->settings = array();
 		require_once(ROOT.'/library/config.default.php');	// Loading default configuration
 		if (file_exists(ROOT.'/config.php')) require_once(ROOT.'/config.php');	// Override configuration

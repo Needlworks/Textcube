@@ -7,7 +7,7 @@ define('NO_INITIALIZATION',true);
 
 $__requireComponent = array();
 $__requireBasics = array(		// Basics
-	'config',
+	'config.default',
 	'function/file');
 $__requireLibrary = array(		// Library
 	'database',
