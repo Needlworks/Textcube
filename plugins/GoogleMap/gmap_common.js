@@ -77,7 +77,8 @@ function GMap_buildLocationInfoHTML(locative) {
  */
 function GMap_findLocationCallback(response, gmap, location_info, title, link, boundary, locations) {
 	if (!response || response.Status.code != 200) {
-		// alert('Can\'t retrieve this address "'+address+'"');
+		if (process_count != undefined)
+			process_count++;
 	} else {
 		var place = response.Placemark[0];
 		var point = new GLatLng(place.Point.coordinates[1], place.Point.coordinates[0]);
