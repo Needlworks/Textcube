@@ -108,8 +108,6 @@ function GoogleMap_LocationLogView($target) {
 	var polling_interval = 60; // ms
 	var boundary = null;
 	var locationMap = null;
-	if (console) // Firebug loading hack
-		console.log('start');
 	function adjustToBoundary() {
 		var z = locationMap.getBoundsZoomLevel(boundary);
 		if (z > 8)
