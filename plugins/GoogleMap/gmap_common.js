@@ -17,7 +17,7 @@ var locationMap = null;
 function GMap_addLocationMark(gmap, location_path, title, link, boundary, locations) {
 	if (!geocoder)
 		geocoder = new GClientGeocoder();
-	var address = location_path.replace(/\//g, ' ').trim();
+	var address = location_path.split('/').slice(0,4).join(' ');
 	geocoder.getLocations(address, function(response) {GMap_findLocationCallback(response, gmap, address, title, link, boundary, locations);});
 }
 
