@@ -25,7 +25,6 @@ $IV = array(
 		'tid' => array('string', 'mandatory' => false ),
 	)
 );
-define('__TEXTCUBE_ADMINPANEL__',true);
 if( in_array( $_GET['action'], array( 'setdelegate' ) ) ) {
 	require ROOT . '/library/preprocessor.php';
 } else {

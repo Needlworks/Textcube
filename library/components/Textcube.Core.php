@@ -43,7 +43,6 @@ class User {
 		$authorIds = POD::queryColumn("SELECT userid
 			FROM {$database['prefix']}Privileges
 			WHERE blogid = $blogid");
-	
 		$authorInfo = POD::queryAll("SELECT userid, name
 			FROM {$database['prefix']}Users
 			WHERE userid IN (".implode(",",$authorIds).")");

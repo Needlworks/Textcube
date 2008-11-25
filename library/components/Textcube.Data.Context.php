@@ -32,10 +32,9 @@ final class Context extends Singleton
 		$url = $this->URLInfo['fullpath'];
 		$defaultblogid = Setting::getServiceSetting("defaultBlogId",1);
 		$suri            = array('url' => $url, 'value' => '');
-		$this->blogid          = null;
+		$this->blogid    = null;
 		$isStrictBlogURL = true;
 		$depth           = substr_count($config->service['path'], '/');
-
 		if ($depth > 0) {
 			if (preg_match('@^((/+[^/]+){' . $depth . '})(.*)$@', $url, $matches))
 				$url = $matches[3];

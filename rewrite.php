@@ -63,19 +63,6 @@ class Dispatcher {
 		}
 		if (strtok($part, '?') == 'setup.php') {require 'setup.php'; exit;}
 		$URLInfo['URLfragment'] = explode('/',strtok($URLInfo['input'],'?'));
-	
-		// Determine interface Type
-		if (isset($URLInfo['URLfragment'][0]) && isset($URLInfo['URLfragment'][1])
-			&& $URLInfo['URLfragment'][0] == 'owner' && $URLInfo['URLfragment'][1] == 'reader') {
-			$URLInfo['interfaceType'] = 'reader';
-		} else if (isset($URLInfo['URLfragment'][0]) && $URLInfo['URLfragment'][0] == 'owner') {
-			$URLInfo['interfaceType'] = 'owner';
-		} else if (isset($URLInfo['URLfragment'][0])
-			&& ($URLInfo['URLfragment'][0] == 'favicon.ico' || $URLInfo['URLfragment'][0] == 'index.gif')) {
-			$URLInfo['interfaceType'] = 'icon';
-		} else {
-			$URLInfo['interfaceType'] = 'blog';
-		}
 		unset($part);
 	
 		/* Check the existence of config.php (whether installed or not) */
@@ -100,6 +87,19 @@ class Dispatcher {
 				break;
 		}
 		$pathPart = strtok($pathPart,'&');
+		// Determine interface Type
+		if (isset($URLInfo['URLfragment'][0]) && isset($URLInfo['URLfragment'][1])
+			&& $URLInfo['URLfragment'][0] == 'owner' && $URLInfo['URLfragment'][1] == 'reader') {
+			$URLInfo['interfaceType'] = 'reader';
+		} else if (isset($URLInfo['URLfragment'][0]) && in_array($URLInfo['URLfragment'][0],array('owner','login','trackback','comment'))) {
+			$URLInfo['interfaceType'] = 'owner';
+		} else if (isset($URLInfo['URLfragment'][0])
+			&& ($URLInfo['URLfragment'][0] == 'favicon.ico' || $URLInfo['URLfragment'][0] == 'index.gif')) {
+			$URLInfo['interfaceType'] = 'icon';
+		} else {
+			$URLInfo['interfaceType'] = 'blog';
+		}
+		
 		/* Load interface. */
 		$interfacePath = null;
 		if (in_array($pathPart, array('favicon.ico','index.gif'))) {require_once 'interface/'.$pathPart.'.php';	exit;}
@@ -116,8 +116,8 @@ class Dispatcher {
 		define('PATH', 'interface/'.(empty($pathPart) ? '' : $pathPart.'/'));
 		unset($pathPart);
 		if (!file_exists($interfacePath)) { require ROOT."/library/error.php";errorExit(404);}
-		$this->URLInfo = $URLInfo;
 		$URLInfo['interfacePath'] = $this->interfacePath = $interfacePath;
+		$this->URLInfo = $URLInfo;
 	}
 }
 ?>
