@@ -72,15 +72,23 @@ function eolinLocationFunction_showLocalSuggestion(id, cursor, filter)
 							return;
 						}
 
-						for(var i=0; i<locationItems.length; i++)
-							locations[locations.length] = locationItems[i].lastChild.nodeValue;
+						for(var i=0; i<locationItems.length; i++) {
+							value = locationItems[i].lastChild.nodeValue.split('/');
+							for (var j = 0; j != -1; j = filter.indexOf('/', j + 1)) {
+								if (j == 0) {
+									continue;
+								}
+								value.shift();
+							}
+							locations[locations.length] = value.join('/');
+						}
 
 						// 중복될 항목들을 미리 제거
 						for(var i=0; i<locations.length; i++)
 						{
 							for(var j=0; j<instance.suggestion.childNodes.length; j++)
 							{
-								if(locations[i] == instance.suggestion.childNodes[j].innerHTML.replace(new RegExp("<\/?strong>", "gi"), ""))
+								if(locations[i] == instance.suggestion.childNodes[j].innerHTML.replace(new RegExp("<\/?em>", "gi"), ""))
 								{
 									instance.suggestion.removeChild(instance.suggestion.childNodes[j]);
 									break;
@@ -538,7 +546,7 @@ LocationTag.prototype.requestSuggestion = function()
 	var instance = this.instance;
 
 	if(!instance.allowEolinSuggestion || (instance.input.value.trim() == "")) {
-		eolinLocationFunction_showLocalSuggestion(instance.container.getAttribute("id"), instance.cursor, "location like '/" + instance.input.value + "%'");
+		eolinLocationFunction_showLocalSuggestion(instance.container.getAttribute("id"), instance.cursor, this.getPath());
 		return;
 	}
 

@@ -23,6 +23,6 @@ if ($cursor !== false)
 echo ">\r\n";
 $tags = array();
 foreach (suggestLocatives($blogid, $filter) as $tag)
-	echo "<location>" . htmlspecialchars($tag) . "</location>\r\n";
+	echo "<location>" . htmlspecialchars(ltrim($tag, '/')) . "</location>\r\n";
 echo "</response>\r\n";
 ?>
