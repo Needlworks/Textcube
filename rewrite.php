@@ -62,7 +62,7 @@ class Dispatcher {
 			}
 		}
 		if (strtok($part, '?') == 'setup.php') {require 'setup.php'; exit;}
-		$URLInfo['URLfragment'] = explode('/',strtok($URLInfo['input'],'?'));
+		$URLInfo['fragment'] = explode('/',strtok($URLInfo['input'],'?'));
 		unset($part);
 	
 		/* Check the existence of config.php (whether installed or not) */
@@ -75,7 +75,7 @@ class Dispatcher {
 		if(defined('__TEXTCUBE_NO_FANCY_URL__')) $service['type'] = 'single';
 		switch ($service['type']) {
 			case 'path': // For path-based multi blog.
-				array_splice($URLInfo['URLfragment'],0,1); 
+				array_splice($URLInfo['fragment'],0,1); 
 				$pathPart = ltrim(rtrim(strtok(strstr($URLInfo['input'],'/'), '?'), '/'), '/');
 				break;
 			case 'single':
@@ -88,16 +88,16 @@ class Dispatcher {
 		}
 		$pathPart = strtok($pathPart,'&');
 		// Determine interface Type
-		if (isset($URLInfo['URLfragment'][0]) && $URLInfo['URLfragment'][0] == 'feeder') {
+		if (isset($URLInfo['fragment'][0]) && $URLInfo['fragment'][0] == 'feeder') {
 			$URLInfo['interfaceType'] = 'feeder';
-		} else if (isset($URLInfo['URLfragment'][0]) && isset($URLInfo['URLfragment'][1]) &&
-			($URLInfo['URLfragment'][0] == 'owner') &&
-			($URLInfo['URLfragment'][1] == 'reader' || ($URLInfo['URLfragment'][1] == 'network' && isset($URLInfo['URLFragment'][2]) && $URLInfo['URLfragment'][2] == 'reader'))) {
+		} else if (isset($URLInfo['fragment'][0]) && isset($URLInfo['fragment'][1]) &&
+			($URLInfo['fragment'][0] == 'owner') &&
+			($URLInfo['fragment'][1] == 'reader' || ($URLInfo['fragment'][1] == 'network' && isset($URLInfo['fragment'][2]) && $URLInfo['fragment'][2] == 'reader'))) {
 			$URLInfo['interfaceType'] = 'reader';
-		} else if (isset($URLInfo['URLfragment'][0]) && $URLInfo['URLfragment'][0] == 'owner') {
+		} else if (isset($URLInfo['fragment'][0]) && $URLInfo['fragment'][0] == 'owner') {
 			$URLInfo['interfaceType'] = 'owner';
-		} else if (isset($URLInfo['URLfragment'][0])
-			&& ($URLInfo['URLfragment'][0] == 'favicon.ico' || $URLInfo['URLfragment'][0] == 'index.gif')) {
+		} else if (isset($URLInfo['fragment'][0])
+			&& ($URLInfo['fragment'][0] == 'favicon.ico' || $URLInfo['fragment'][0] == 'index.gif')) {
 			$URLInfo['interfaceType'] = 'icon';
 		} else {
 			$URLInfo['interfaceType'] = 'blog';
@@ -106,14 +106,14 @@ class Dispatcher {
 		/* Load interface. */
 		$interfacePath = null;
 		if (in_array($pathPart, array('favicon.ico','index.gif'))) {require_once 'interface/'.$pathPart.'.php';	exit;}
-		if (!empty($URLInfo['URLfragment']) &&
-			in_array($URLInfo['URLfragment'][0],
+		if (!empty($URLInfo['fragment']) &&
+			in_array($URLInfo['fragment'][0],
 					 array('api','archive','attachment','author','category','checkup','cover','cron','entry','feeder','foaf','guestbook','iMazing','keylog','location','locationSuggest','logout','notice','page','plugin','pluginForOwner','search','suggest','sync','tag','ttxml')))
 		{
-			$pathPart = $URLInfo['URLfragment'][0];
+			$pathPart = $URLInfo['fragment'][0];
 			$interfacePath = 'interface/blog/'.$pathPart.'.php';
-		} else if (is_numeric(strtok(end($URLInfo['URLfragment']), '&'))) {
-			$pathPart = count($URLInfo['URLfragment'])==1 ? null : implode('/', array_slice($URLInfo['URLfragment'], 0, count($URLInfo['URLfragment']) - 1));
+		} else if (is_numeric(strtok(end($URLInfo['fragment']), '&'))) {
+			$pathPart = count($URLInfo['fragment'])==1 ? null : implode('/', array_slice($URLInfo['fragment'], 0, count($URLInfo['fragment']) - 1));
 		}
 		if (empty($interfacePath)) $interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
 		define('PATH', 'interface/'.(empty($pathPart) ? '' : $pathPart.'/'));
