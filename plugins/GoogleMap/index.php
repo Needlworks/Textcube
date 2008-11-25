@@ -139,6 +139,7 @@ function GoogleMap_LocationLogView($target) {
 	foreach ($locatives as $locative) {
 		$locative['link'] = "$blogURL/" . ($blog['useSloganOnPost'] ? 'entry/' . URL::encode($locative['slogan'],$service['useEncodedURL']) : $locative['id']);
 		$row = POD::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND address = '".POD::escapeString($locative['location'])."'");
+		echo "/*\n"; print_r($row); echo "*/\n";
 		// TODO: when to update cache?
 		if ($row == null) {
 			// query google
@@ -154,7 +155,7 @@ function GoogleMap_LocationLogView($target) {
 				if ($response_csv[0] == '200') {
 					$lat = $response_csv[2];
 					$lng = $response_csv[3];
-					POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES ('".POD::escapeString($locative['location'])."', $lat, $lng, ".getBlogId().")");
+					POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '".POD::escapeString($locative['location'])."', $lat, $lng)");
 				} else {
 					$lat = null; $lng = null;
 				}
@@ -284,7 +285,8 @@ function _GMap_printFooterForUI() {
 }
 
 function _GMap_normalizeAddress($address) {
-	return trim(implode(' ', array_slice(explode('/', $address), 0, 4)));
+	//return trim(implode(' ', array_slice(explode('/', $address), 0, 4)));
+	return trim(implode(' ', explode('/', $address)));
 }
 /* vim: set noet ts=4 sts=4 sw=4: */
 ?>
