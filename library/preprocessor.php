@@ -3,8 +3,9 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-/** Dispatcher
+/** Pre-processor - This file 
     ----------
+    
 */
 /** Loading Basic Components */
 require_once (ROOT.'/library/components/Needlworks.PHP.UnifiedEnvironment.php');
@@ -26,6 +27,7 @@ $basicIV = array(
 	'REDIRECT_URL' => array('string', 'mandatory' => false)
 );
 Validator::validateArray($_SERVER, $basicIV);
+/** Basic URI information validation. */
 if(isset($URLInfo)) {
 	$basicIV = array(
 		'fullpath' => array('string'),
@@ -45,7 +47,15 @@ $config = Config::getInstance();
 $context = Context::getInstance(); // automatic initialization via first instanciation
 
 /** Loading debug module */
-
+if($config->service['debugmode'] == true) {
+	if(isset($config->service['dbms'])) {
+		switch($config->service['dbms']) {
+			case 'mysqli':         require_once(ROOT. "/library/components/Needlworks.Debug.MySQLi.php");break;
+			case 'mysql': default: require_once(ROOT. "/library/components/Needlworks.Debug.MySQL.php"); break;
+		}
+	} else require_once(ROOT. "/library/components/Needlworks.Debug.MySQL.php");
+}
+    
 /** Loading components / models / views */
 require_once (ROOT.'/library/include.'.$context->URLInfo['interfaceType'].'.php');
 require_once (ROOT.'/library/include.php');

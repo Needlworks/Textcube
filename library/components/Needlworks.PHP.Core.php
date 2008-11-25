@@ -253,7 +253,20 @@ final class Validator {
 								local-part = dot-atom
 	**/
 
-
+	private static $queue;
+	
+	static function addRule($iv) {
+		if(empty(self::$queue)) self::$queue = array('GET'=>array(),'POST'=>array(),'REQUEST'=>array(),'SERVER'=>array(),'FILES'=>array());
+		if(isset($iv['GET'])) self::$queue['GET'] = array_merge(self::$queue['GET'],$iv['GET']);
+		if(isset($iv['POST'])) self::$queue['POST'] = array_merge(self::$queue['POST'],$iv['POST']);
+		if(isset($iv['REQUEST'])) self::$queue['REQUEST'] = array_merge(self::$queue['REQUEST'],$iv['REQUEST']);
+		if(isset($iv['SERVER'])) self::$queue['SERVER'] = array_merge(self::$queue['SERVER'],$iv['SERVER']);
+		if(isset($iv['FILES'])) self::$queue['FILES'] = array_merge(self::$queue['FILES'],$iv['FILES']);
+	}
+	static function isValid() {
+		return self::validate(self::$queue);
+	}
+	
 	static function validate(&$iv) {
 		if (isset($iv['GET'])) {
 			if (!Validator::validateArray($_GET, $iv['GET']))

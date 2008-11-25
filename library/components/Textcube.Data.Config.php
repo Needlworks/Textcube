@@ -39,18 +39,8 @@ final class Config extends Singleton {
 		}
 		
 		// Database setting.
-//		if(isset($service['dbms'])) {
-//			if($service['dbms'] == 'mysql' && class_exists('mysqli')) $service['dbms'] = 'mysqli';
-//		}
-		
-		// Debug mode configuration.
-		if($service['debugmode'] == true) {
-			if(isset($service['dbms'])) {
-				switch($service['dbms']) {
-					case 'mysqli':         require_once(ROOT. "/library/components/Needlworks.Debug.MySQLi.php"); break;
-					case 'mysql': default: require_once(ROOT. "/library/components/Needlworks.Debug.MySQL.php"); break;
-				}
-			} else require_once(ROOT. "/library/components/Needlworks.Debug.MySQL.php");
+		if(isset($service['dbms'])) {
+			if($service['dbms'] == 'mysql' && class_exists('mysqli')) $service['dbms'] = 'mysqli';
 		}
 		
 		// Session cookie patch.

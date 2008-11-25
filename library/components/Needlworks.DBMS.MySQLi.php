@@ -13,6 +13,7 @@ class DBQuery {
 	public static function bind($database) {
 		// Connects DB and set environment variables
 		// $database array should contain 'server','username','password'.
+		self::$cachedResult = self::$dbProperties = array();
 		if(!isset($database) || empty($database)) return false;
 		if(!isset($database['port']) && strpos($database['server'],':')) {
 			$port = explode(":",$database['server']);
@@ -32,7 +33,6 @@ class DBQuery {
 		else
 			self::$dbProperties['charset'] = 'default';
 		@self::query('SET SESSION collation_connection = \'utf8_general_ci\'');
-		self::$cachedResult = self::$dbProperties = array();
 		return true;
 	}
 	
