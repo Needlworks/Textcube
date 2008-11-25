@@ -108,7 +108,7 @@ function GoogleMap_LocationLogView($target) {
 	var polling_interval = 60; // ms
 	var boundary = null;
 	var locationMap = null;
-	if (console)
+	if (console) // Firebug loading hack
 		console.log('start');
 	function adjustToBoundary() {
 		var z = locationMap.getBoundsZoomLevel(boundary);
@@ -139,7 +139,6 @@ function GoogleMap_LocationLogView($target) {
 			locationMap.enableContinuousZoom();
 			locationMap.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
 			boundary = new GLatLngBounds(locationMap.getCenter()); //, new GLatLng(<?php echo $lat+0.1;?>, <?php echo $lng+0.1;?>));
-			//console.log(boundary);
 			var locations = new Array();
 <?php
 	$count = 0;
@@ -166,7 +165,7 @@ function GoogleMap_LocationLogView($target) {
 						//echo "\t\t\t/* read from api, {$locative['location']} */\n";
 						$lat = $response_csv[2];
 						$lng = $response_csv[3];
-						POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '".POD::escapeString($locative['location'])."', $lat, $lng, NOW())");
+						POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '".POD::escapeString($locative['location'])."', $lng, $lat, NOW())");
 						$found = true;
 						break;
 					} else {
@@ -194,14 +193,12 @@ function GoogleMap_LocationLogView($target) {
 		}
 		if ($found && !is_null($lat)) {
 			echo "\t\t\tGMap_addLocationMarkDirect(locationMap, {address:GMap_normalizeAddress('{$locative['location']}'), path:'{$locative['location']}'}, '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), new GLatLng($lat, $lng), boundary, locations);\n";
-			//echo "\t\t\tconsole.log('Boundary ('+boundary.getCenter()+', '+locationMap.getBoundsZoomLevel(boundary)+') affected by ($lat, $lng)');";
 		} else
 			echo "\t\t\tif (process_count != undefined) process_count++;\n";
 		$count++;
 	}
 ?>
 			//window.setTimeout('locationFetchPoller(<?php echo $count;?>);', polling_interval);
-			//console.log(boundary);
 			adjustToBoundary();
 		} else {
 			c.innerHTML = '<p style="text-align:center; color:#c99;">이 웹브라우저는 구글맵과 호환되지 않습니다.</p>';
