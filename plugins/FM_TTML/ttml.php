@@ -27,6 +27,24 @@ function FM_TTML_bindTags($id, $content) {
 	return $content;
 }
 
+class FM_TTML_KeywordBinder {
+	var $_replaceOnce;
+	var $_binded = array();
+
+	function FM_TTML_KeywordBinder($replaceOnce = true) {
+		$this->_replaceOnce = $replaceOnce;
+	}
+
+	function replace($matches) {
+		$keyword = $matches[0];
+		if (!$this->_replaceOnce || !array_key_exists($keyword, $this->_binded)) {
+			$this->_binded[$keyword] = null;
+			$keyword = fireEvent('BindKeyword', $keyword);
+		}
+		return $keyword;
+	}
+}
+
 function FM_TTML_bindKeywords($keywords, $content) {
 	if(empty($keywords)) return $content;
 
@@ -56,7 +74,7 @@ function FM_TTML_bindKeywords($keywords, $content) {
 	$pattern = array();
 	foreach ($keywords as $keyword)
 		$pattern[] = preg_quote($keyword, '/');
-	$pattern = '/(?<![a-zA-Z\x80-\xff])(?:'.implode('|',$pattern).')/e'; // 대소문자 구별 및 키워드의 단어 첫머리 처리
+	$pattern = '/(?<![a-zA-Z\x80-\xff])(?:'.implode('|',$pattern).')/'; // 대소문자 구별 및 키워드의 단어 첫머리 처리
 
 	// list of unbindable & (always) singleton elements
 	$unbindables = array('a', 'object', 'applet', 'select', 'option', 'optgroup', 'textarea',
@@ -68,9 +86,10 @@ function FM_TTML_bindKeywords($keywords, $content) {
 	$buf = '';
 	$i = 0;
 	$bindable = true;
+	$binder = new FM_TTML_KeywordBinder();
 	while (true) {
 		if ($bindable) {
-			$buf .= preg_replace($pattern, "fireEvent('BindKeyword', '\\0')", $result[$i]);
+			$buf .= preg_replace_callback($pattern, array($binder, 'replace'), $result[$i]);
 		} else {
 			$buf .= $result[$i];
 		}
