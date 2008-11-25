@@ -166,7 +166,7 @@ function GoogleMap_LocationLogView($target) {
 						// Insert for later use.
 						$lat = $response_csv[2];
 						$lng = $response_csv[3];
-						POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '".POD::escapeString($locative['location'])."', $lng, $lat, NOW())");
+						POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '".POD::escapeString($locative['location'])."', $lng, $lat, ".time().")");
 						$result = 0;
 						break;
 					} else {
@@ -182,7 +182,7 @@ function GoogleMap_LocationLogView($target) {
 			}
 			if ($result == 9) {
 				// Not found. Don't try also later.
-				POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '".POD::escapeString($locative['location'])."', NULL, NULL, NOW())");
+				POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '".POD::escapeString($locative['location'])."', NULL, NULL, ".time().")");
 			}
 		} else {
 			$lat = $row['latitude'];
