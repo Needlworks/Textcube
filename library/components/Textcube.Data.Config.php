@@ -26,7 +26,8 @@ final class Config extends Singleton {
 		// Include installation configuration.
 		$service['session_cookie_path'] = '/';
 		if(!defined('__TEXTCUBE_SETUP__')) @include_once ROOT . '/config.php';
-		
+		// Set service path.
+		if(isset($serviceURL)) $service['serviceURL'] = $serviceURL;
 		// Set resource path.
 		if($service['externalresources']) {
 			if(isset($service['resourceURL']) && !empty($service['resourceURL'])) 

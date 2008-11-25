@@ -125,7 +125,8 @@ final class Context extends Singleton
 		$suri = $this->suri;
 		$blog = Setting::getBlogSettingsGlobal($this->blogid);
 		$skinSetting = Setting::getSkinSetting($this->blogid);
-
+		
+		if(isset($config->service['serviceURL'])) $serviceURL = $config->service['serviceURL'];
 		if (!isset($serviceURL))
 			$serviceURL = 'http://' . $config->service['domain'] . (isset($config->service['port']) ? ':' . $config->service['port'] : '') . $config->service['path'];
 		switch ($config->service['type']) {
