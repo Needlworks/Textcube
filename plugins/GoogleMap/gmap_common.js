@@ -2,7 +2,6 @@
 // depends on Google Maps API
 
 var geocoder = null;
-var locationMap = null;
 
 function GMap_normalizeAddress(address) {
 	//return address.split('/').slice(0,4).join(' ');
