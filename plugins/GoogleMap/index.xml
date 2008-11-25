@@ -66,11 +66,14 @@
   <storage>
     <table>
       <name>GMapLocations</name>
-      <field><name>address</name><attribute>varchar</attribute><length>300</length><isnull>0</isnull><default></default></field>
-      <field><name>longitude</name><attribute>double</attribute><isnull>0</isnull><default>0.0</default></field>
-      <field><name>latitude</name><attribute>double</attribute><isnull>0</isnull><default>0.0</default></field>
-      <field><name>blogid</name><attribute>int</attribute><length>11</length><isnull>0</isnull><default>0</default></field>
+      <fields>
+        <field><name>address</name><attribute>varchar</attribute><length>300</length><isnull>0</isnull><default></default></field>
+        <field><name>longitude</name><attribute>double</attribute><isnull>0</isnull><default>0.0</default></field>
+        <field><name>latitude</name><attribute>double</attribute><isnull>0</isnull><default>0.0</default></field>
+        <field><name>blogid</name><attribute>int</attribute><length>11</length><isnull>0</isnull><default>0</default></field>
+      </fields>
       <key>address</key>
     </table>
   </storage>
 </plugin>
+<!-- vim: set sts=2 sw=2 et: -->
