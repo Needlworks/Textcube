@@ -91,7 +91,8 @@ class Dispatcher {
 		if (isset($URLInfo['URLfragment'][0]) && isset($URLInfo['URLfragment'][1])
 			&& $URLInfo['URLfragment'][0] == 'owner' && $URLInfo['URLfragment'][1] == 'reader') {
 			$URLInfo['interfaceType'] = 'reader';
-		} else if (isset($URLInfo['URLfragment'][0]) && in_array($URLInfo['URLfragment'][0],array('owner','login','trackback','comment'))) {
+		//} else if (isset($URLInfo['URLfragment'][0]) && in_array($URLInfo['URLfragment'][0],array('owner','login','trackback','comment'))) {
+		} else if (isset($URLInfo['URLfragment'][0]) && $URLInfo['URLfragment'][0] == 'owner') {
 			$URLInfo['interfaceType'] = 'owner';
 		} else if (isset($URLInfo['URLfragment'][0])
 			&& ($URLInfo['URLfragment'][0] == 'favicon.ico' || $URLInfo['URLfragment'][0] == 'index.gif')) {

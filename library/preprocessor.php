@@ -111,7 +111,7 @@ if (!defined('NO_SESSION')) {
 }
 
 /** Administration panel skin / editor template initialization */
-if(in_array($context->URLInfo['interfaceType'], array('owner','reader'))) {
+if(in_array($context->URLInfo['interfaceType'], array('owner','reader')) || defined('__TEXTCUBE_ADMINPANEL__')) {
 	$adminSkinSetting = array();
 	$adminSkinSetting['skin'] = "/skin/admin/".getBlogSetting("adminSkin", "canon");
 	// 1.5에서 올라온 경우 스킨이 있는 경우를 위한 workaround.

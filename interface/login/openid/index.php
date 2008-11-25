@@ -25,11 +25,9 @@ $IV = array(
 		'tid' => array('string', 'mandatory' => false ),
 	)
 );
-if( in_array( $_GET['action'], array( 'setdelegate' ) ) ) {
-	require ROOT . '/library/preprocessor.php';
-} else {
-	require ROOT . '/library/preprocessor.php';
-}
+
+require ROOT . '/library/preprocessor.php';
+
 requireComponent( "Textcube.Core" );
 requireComponent( "Textcube.Control.Openid" );
 
