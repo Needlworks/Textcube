@@ -7,7 +7,7 @@ function getEntriesTotalCount($blogid) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$count =  POD::queryCell("SELECT COUNT(*) 
+	$count =  POD::queryCell("SELECT COUNT(id) 
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0");
 	return ($count ? $count : 0);
