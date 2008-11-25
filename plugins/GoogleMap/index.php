@@ -139,35 +139,56 @@ function GoogleMap_LocationLogView($target) {
 	foreach ($locatives as $locative) {
 		$locative['link'] = "$blogURL/" . ($blog['useSloganOnPost'] ? 'entry/' . URL::encode($locative['slogan'],$service['useEncodedURL']) : $locative['id']);
 		$row = POD::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND address = '".POD::escapeString($locative['location'])."'");
-		echo "/*\n"; print_r($row); echo "*/\n";
-		// TODO: when to update cache?
-		if ($row == null) {
-			// query google
-			// TODO: recursively repeat until location is found (continuously reducing accuracy)
-			$url = "http://maps.google.co.kr/maps/geo?q=".urlencode(_GMap_normalizeAddress($locative['location']))."&output=csv&sensor=false&key={$config['apiKey']}";
-			$response = requestHttp('get', $url, false, 'text/plain');
-			if ($response === false) {
-				$lat = null; $lng = null;
-			} else {
-				// insert for later use
-				$response_mid = explode("\n", $response[1]);
-				$response_csv = explode(',', $response_mid[1]);
-				if ($response_csv[0] == '200') {
-					$lat = $response_csv[2];
-					$lng = $response_csv[3];
-					POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '".POD::escapeString($locative['location'])."', $lat, $lng)");
+		$found = false;
+		if ($row == null || empty($row)) {
+			echo "\t\t\t/* New location query */\n";
+			// Recursively repeat until location is found. (continuously reducing accuracy)
+			$addr = explode(' ', _GMap_normalizeAddress($locative['location']));
+			while (true) {
+				$url = "http://maps.google.co.kr/maps/geo?q=".urlencode(trim(implode(' ', $addr)))."&output=csv&sensor=false&key={$config['apiKey']}";
+				echo "\t\t\t/* recurse : $addr */\n";
+				$response = requestHttp('get', $url, false, 'text/plain');
+				if ($response === false) {
+					$found = false;
+					break;
 				} else {
-					$lat = null; $lng = null;
+					$response_lines = explode("\n", $response[1]);
+					$response_csv = explode(',', $response_lines[1]);
+					if ($response_csv[0] == '200') {
+						// Insert for later use.
+						echo "\t\t\t/* read from api, {$locative['location']} */\n";
+						$lat = $response_csv[2];
+						$lng = $response_csv[3];
+						POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '".POD::escapeString($locative['location'])."', $lat, $lng, NOW())");
+						$found = true;
+						break;
+					} else {
+						echo "\t\t\t/* can't retrieve result for {$locative['location']} */\n";
+						$lat = null; $lng = null;
+						$found = false;
+						if (count($addr) == 1)
+							break;
+						if (!$found)
+							array_pop($addr);
+						continue;
+					}
 				}
 			}
+			if (!$found) {
+				// Not found.
+				echo "\t\t\t/* no result for {$locative['location']} */\n";
+				POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '".POD::escapeString($locative['location'])."', NULL, NULL, NOW())");
+			}
 		} else {
+			echo "\t\t\t/* read from db : {$locative['location']} */\n";
 			$lat = $row['latitude'];
 			$lng = $row['longitude'];
+			$found = true;
 		}
-		if ($lat == null)
-			echo "\t\t\tif (process_count != undefined) process_count++\n";
-		else
+		if ($found && !is_null($lat))
 			echo "\t\t\tGMap_addLocationMarkDirect(locationMap, {address:GMap_normalizeAddress('{$locative['location']}'), path:'{$locative['location']}'}, '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), new GLatLng($lat, $lng), boundary, locations);\n";
+		else
+			echo "\t\t\tif (process_count != undefined) process_count++;\n";
 		$count++;
 	}
 ?>
