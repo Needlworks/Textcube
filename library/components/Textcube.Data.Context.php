@@ -49,7 +49,7 @@ final class Context extends Singleton
 					$this->blogid = $defaultblogid;
 				} else {
 					$domain = explode('.', $_SERVER['HTTP_HOST'], 2);
-					if ($domain[1] == $service['domain']) {
+					if ($domain[1] == $config->service['domain']) {
 						$this->blogid = $this->__getBlogidByName($domain[0]);
 						if ($this->blogid === null) 
 							$this->blogid = $this->__getBlogidBySecondaryDomain($_SERVER['HTTP_HOST']);
