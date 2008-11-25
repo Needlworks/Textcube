@@ -88,7 +88,7 @@ function GoogleMap_View($target, $mother) {
 }
 
 function GoogleMap_LocationLogView($target) {
-	global $blogid, $blog, $blogURL, $pluginURL, $configVal, $service;
+	global $blogid, $blog, $blogURL, $pluginURL, $configVal, $service, $database;
 	requireComponent('Textcube.Function.Misc');
 	$config = Setting::fetchConfigVal($configVal);
 	$locatives = getLocatives($blogid);
@@ -138,7 +138,35 @@ function GoogleMap_LocationLogView($target) {
 	$count = 0;
 	foreach ($locatives as $locative) {
 		$locative['link'] = "$blogURL/" . ($blog['useSloganOnPost'] ? 'entry/' . URL::encode($locative['slogan'],$service['useEncodedURL']) : $locative['id']);
-		echo "\t\t\tGMap_addLocationMark(locationMap, '{$locative['location']}', '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), boundary, locations);\n";
+		$row = POD::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND address = '".POD::escapeString($locative['location'])."'");
+		// TODO: when to update cache?
+		if ($row == null) {
+			// query google
+			// TODO: recursively repeat until location is found (continuously reducing accuracy)
+			$url = "http://maps.google.co.kr/maps/geo?q=".urlencode(_GMap_normalizeAddress($locative['location']))."&output=csv&sensor=false&key={$config['apiKey']}";
+			$response = requestHttp('get', $url, false, 'text/plain');
+			if ($response === false) {
+				$lat = null; $lng = null;
+			} else {
+				// insert for later use
+				$response_mid = explode("\n", $response[1]);
+				$response_csv = explode(',', $response_mid[1]);
+				if ($response_csv[0] == '200') {
+					$lat = $response_csv[2];
+					$lng = $response_csv[3];
+					POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES ('".POD::escapeString($locative['location'])."', $lat, $lng, ".getBlogId().")");
+				} else {
+					$lat = null; $lng = null;
+				}
+			}
+		} else {
+			$lat = $row['latitude'];
+			$lng = $row['longitude'];
+		}
+		if ($lat == null)
+			echo "\t\t\tif (process_count != undefined) process_count++\n";
+		else
+			echo "\t\t\tGMap_addLocationMarkDirect(locationMap, {address:GMap_normalizeAddress('{$locative['location']}'), path:'{$locative['location']}'}, '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), new GLatLng($lat, $lng), boundary, locations);\n";
 		$count++;
 	}
 ?>
@@ -253,6 +281,10 @@ function _GMap_printFooterForUI() {
 </body>
 </html>
 <?php
+}
+
+function _GMap_normalizeAddress($address) {
+	return trim(implode(' ', array_slice(explode('/', $address), 0, 4)));
 }
 /* vim: set noet ts=4 sts=4 sw=4: */
 ?>
