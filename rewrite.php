@@ -88,10 +88,12 @@ class Dispatcher {
 		}
 		$pathPart = strtok($pathPart,'&');
 		// Determine interface Type
-		if (isset($URLInfo['URLfragment'][0]) && isset($URLInfo['URLfragment'][1])
-			&& $URLInfo['URLfragment'][0] == 'owner' && $URLInfo['URLfragment'][1] == 'reader') {
+		if (isset($URLInfo['URLfragment'][0]) && $URLInfo['URLfragment'][0] == 'feeder') {
+			$URLInfo['interfaceType'] = 'feeder';
+		} else if (isset($URLInfo['URLfragment'][0]) && isset($URLInfo['URLfragment'][1]) &&
+			($URLInfo['URLfragment'][0] == 'owner') &&
+			($URLInfo['URLfragment'][1] == 'reader' || ($URLInfo['URLfragment'][1] == 'network' && isset($URLInfo['URLFragment'][2]) && $URLInfo['URLfragment'][2] == 'reader'))) {
 			$URLInfo['interfaceType'] = 'reader';
-		//} else if (isset($URLInfo['URLfragment'][0]) && in_array($URLInfo['URLfragment'][0],array('owner','login','trackback','comment'))) {
 		} else if (isset($URLInfo['URLfragment'][0]) && $URLInfo['URLfragment'][0] == 'owner') {
 			$URLInfo['interfaceType'] = 'owner';
 		} else if (isset($URLInfo['URLfragment'][0])
