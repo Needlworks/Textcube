@@ -194,7 +194,7 @@ function GoogleMap_LocationLogView($target) {
 			echo "\t\t\tGMap_addLocationMarkDirect(locationMap, {address:GMap_normalizeAddress('{$locative['location']}'), path:'{$locative['location']}'}, '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), new GLatLng($lat, $lng), boundary, locations);\n";
 			break;
 		case 1: // find in client
-			echo "\t\t\tGMap_addLocationMark(locationMap, {address:GMap_normalizeAddress('{$locative['location']}'), path:'{$locative['location']}'}, '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), boundary, locations);\n";
+			echo "\t\t\tGMap_addLocationMark(locationMap, '{$locative['location']}', '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), boundary, locations);\n";
 			break;
 		case 9:
 			echo "\t\t\tif (process_count != undefined) process_count++;\n";
