@@ -2,7 +2,11 @@
 // depends on Google Maps API
 
 var geocoder = null;
-var locationMap = null;
+
+function GMap_normalizeAddress(address) {
+	//return address.split('/').slice(0,4).join(' ');
+	return address.split('/').join(' ');
+}
 
 /**
  * @brief 지역로그와 연동되어 특정 위치와 연관된 엔트리 정보를 marker 형태로 맵에 추가한다.
@@ -17,8 +21,41 @@ var locationMap = null;
 function GMap_addLocationMark(gmap, location_path, title, link, boundary, locations) {
 	if (!geocoder)
 		geocoder = new GClientGeocoder();
-	var address = location_path.split('/').slice(0,4).join(' ');
-	geocoder.getLocations(address, function(response) {GMap_findLocationCallback(response, gmap, address, title, link, boundary, locations);});
+	var address = GMap_normalizeAddress(location_path);
+	geocoder.getLocations(address, function(response) {GMap_findLocationCallback(response, gmap, {'address': address, 'path': location_path}, title, link, boundary, locations);});
+}
+
+function GMap_addLocationMarkDirect(gmap, location_info, title, link, point, boundary, locations) {
+	var prev = null;
+	var i;
+	// Check duplicated locations
+	for (i = 0; i < locations.length; i++) {
+		if (locations[i].point.equals(point)) {
+			prev = locations[i];
+			break;
+		}
+	}
+	if (prev == null) {
+		// Create a new marker for this location
+		var marker = new GMarker(point, {'title': location_info.address.split(' ').pop()});
+		var locative = {
+			'point': point,
+			'marker': marker,
+			'address': location_info.address,
+			'entries': new Array({'title': title, 'link': link})
+		};
+		locations.push(locative);
+		marker.bindInfoWindowHtml(GMap_buildLocationInfoHTML(locative));
+		gmap.addOverlay(marker);
+		boundary.extend(point);
+	} else {
+		// Add information to the existing marker for here
+		prev.entries.push({'title': title, 'link': link});
+		prev.marker.bindInfoWindowHtml(null);
+		prev.marker.bindInfoWindowHtml(GMap_buildLocationInfoHTML(prev));
+	}
+	if (process_count != undefined)
+		process_count++;
 }
 
 /**
@@ -38,43 +75,14 @@ function GMap_buildLocationInfoHTML(locative) {
 /**
  * @brief (내부용 함수) geocoder.getLocations()에 의해 호출되는 비동기 콜백 함수
  */
-function GMap_findLocationCallback(response, gmap, address, title, link, boundary, locations) {
+function GMap_findLocationCallback(response, gmap, location_info, title, link, boundary, locations) {
 	if (!response || response.Status.code != 200) {
 		// alert('Can\'t retrieve this address "'+address+'"');
 	} else {
 		var place = response.Placemark[0];
 		var point = new GLatLng(place.Point.coordinates[1], place.Point.coordinates[0]);
-		var prev = null;
-		var i;
-		// Check duplicated locations
-		for (i = 0; i < locations.length; i++) {
-			if (locations[i].point.equals(point)) {
-				prev = locations[i];
-				break;
-			}
-		}
-		if (prev == null) {
-			// Create a new marker for this location
-			var marker = new GMarker(point, {'title': address.split(' ').pop()});
-			var locative = {
-				'point': point,
-				'marker': marker,
-				'address': address,
-				'entries': new Array({'title': title, 'link': link})
-			};
-			locations.push(locative);
-			marker.bindInfoWindowHtml(GMap_buildLocationInfoHTML(locative));
-			gmap.addOverlay(marker);
-			boundary.extend(point);
-		} else {
-			// Add information to the existing marker for here
-			prev.entries.push({'title': title, 'link': link});
-			prev.marker.bindInfoWindowHtml(null);
-			prev.marker.bindInfoWindowHtml(GMap_buildLocationInfoHTML(prev));
-		}
+		GMap_addLocationMarkDirect(gmap, location_info, title, link, point, boundary, locations);
 	}
-	if (process_count != undefined)
-		process_count++;
 }
 
 function GMap_CreateMap(container, options) {

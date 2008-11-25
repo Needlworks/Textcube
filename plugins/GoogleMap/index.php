@@ -17,7 +17,7 @@ function GoogleMap_Header($target) {
 	if (!is_null($config) && isset($config['apiKey'])) {
 		$api_key = $config['apiKey'];
 		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/common.css\" />\n";
-		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;key=$api_key\"></script>\n";
+		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=$api_key\"></script>\n";
 		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/gmap_common.js?".time()."\"></script>\n";
 		$target .= "<script type=\"text/javascript\">
 		//<![CDATA[
@@ -35,7 +35,7 @@ function GoogleMap_AdminHeader($target) {
 		$config = Setting::fetchConfigVal($configVal);
 		$api_key = $config['apiKey']; // should exist here
 		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/common.css\" />\n";
-		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;key=$api_key\"></script>\n";
+		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=$api_key\"></script>\n";
 		$target .= "<script type=\"text/javascript\">
 		//<![CDATA[
 		var pluginURL = '$pluginURL';
@@ -88,7 +88,7 @@ function GoogleMap_View($target, $mother) {
 }
 
 function GoogleMap_LocationLogView($target) {
-	global $blogid, $blog, $blogURL, $pluginURL, $configVal, $service;
+	global $blogid, $blog, $blogURL, $pluginURL, $configVal, $service, $database;
 	requireComponent('Textcube.Function.Misc');
 	$config = Setting::fetchConfigVal($configVal);
 	$locatives = getLocatives($blogid);
@@ -106,12 +106,9 @@ function GoogleMap_LocationLogView($target) {
 	//<![CDATA[
 	var process_count = 0;
 	var polling_interval = 60; // ms
-	var boundary;
-	function locationFetchPoller(target_count) {
-		if (process_count != target_count) {
-			window.setTimeout('locationFetchPoller('+target_count+');', polling_interval);
-			return;
-		}
+	var boundary = null;
+	var locationMap = null;
+	function adjustToBoundary() {
 		var z = locationMap.getBoundsZoomLevel(boundary);
 		if (z > 8)
 			z--;
@@ -120,6 +117,13 @@ function GoogleMap_LocationLogView($target) {
 		locationMap.setZoom(z);
 		locationMap.setCenter(boundary.getCenter());
 	}
+	function locationFetchPoller(target_count) {
+		if (process_count != target_count) {
+			window.setTimeout('locationFetchPoller('+target_count+');', polling_interval);
+			return;
+		}
+		adjustToBoundary();
+	}
 	STD.addLoadEventListener(function() {
 		var c = document.getElementById('<?php echo $id;?>');
 		c.style.width = "<?php echo $width;?>px"
@@ -127,22 +131,73 @@ function GoogleMap_LocationLogView($target) {
 		if (GBrowserIsCompatible()) {
 			locationMap = new GMap2(c);
 			locationMap.setMapType(<?php echo $default_type;?>);
-			locationMap.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
 			locationMap.addControl(new GHierarchicalMapTypeControl());
 			locationMap.addControl(new GLargeMapControl());
 			locationMap.addControl(new GScaleControl());
 			locationMap.enableContinuousZoom();
-			boundary = new GLatLngBounds(locationMap.getCenter(), locationMap.getCenter());
+			locationMap.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
+			boundary = new GLatLngBounds(locationMap.getCenter()); //, new GLatLng(<?php echo $lat+0.1;?>, <?php echo $lng+0.1;?>));
 			var locations = new Array();
 <?php
 	$count = 0;
 	foreach ($locatives as $locative) {
 		$locative['link'] = "$blogURL/" . ($blog['useSloganOnPost'] ? 'entry/' . URL::encode($locative['slogan'],$service['useEncodedURL']) : $locative['id']);
-		echo "\t\t\tGMap_addLocationMark(locationMap, '{$locative['location']}', '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), boundary, locations);\n";
+		$row = POD::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND address = '".POD::escapeString($locative['location'])."'");
+		$found = false;
+		if ($row == null || empty($row)) {
+			//echo "\t\t\t/* New location query */\n";
+			// Recursively repeat until location is found. (continuously reducing accuracy)
+			$addr = explode(' ', _GMap_normalizeAddress($locative['location']));
+			while (true) {
+				$url = "http://maps.google.co.kr/maps/geo?q=".urlencode(trim(implode(' ', $addr)))."&output=csv&sensor=false&key={$config['apiKey']}";
+				//echo "\t\t\t/* recurse : $addr */\n";
+				$response = requestHttp('get', $url, false, 'text/plain');
+				if ($response === false) {
+					$found = false;
+					break;
+				} else {
+					$response_lines = explode("\n", $response[1]);
+					$response_csv = explode(',', $response_lines[1]);
+					if ($response_csv[0] == '200') {
+						// Insert for later use.
+						//echo "\t\t\t/* read from api, {$locative['location']} */\n";
+						$lat = $response_csv[2];
+						$lng = $response_csv[3];
+						POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '".POD::escapeString($locative['location'])."', $lng, $lat, NOW())");
+						$found = true;
+						break;
+					} else {
+						//echo "\t\t\t/* can't retrieve result for {$locative['location']} */\n";
+						$lat = null; $lng = null;
+						$found = false;
+						if (count($addr) == 1)
+							break;
+						if (!$found)
+							array_pop($addr);
+						continue;
+					}
+				}
+			}
+			if (!$found) {
+				// Not found.
+				//echo "\t\t\t/* no result for {$locative['location']} */\n";
+				POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '".POD::escapeString($locative['location'])."', NULL, NULL, NOW())");
+			}
+		} else {
+			//echo "\t\t\t/* read from db : {$locative['location']} */\n";
+			$lat = $row['latitude'];
+			$lng = $row['longitude'];
+			$found = true;
+		}
+		if ($found && !is_null($lat)) {
+			echo "\t\t\tGMap_addLocationMarkDirect(locationMap, {address:GMap_normalizeAddress('{$locative['location']}'), path:'{$locative['location']}'}, '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), new GLatLng($lat, $lng), boundary, locations);\n";
+		} else
+			echo "\t\t\tif (process_count != undefined) process_count++;\n";
 		$count++;
 	}
 ?>
-			window.setTimeout('locationFetchPoller(<?php echo $count;?>);', polling_interval);
+			//window.setTimeout('locationFetchPoller(<?php echo $count;?>);', polling_interval);
+			adjustToBoundary();
 		} else {
 			c.innerHTML = '<p style="text-align:center; color:#c99;">이 웹브라우저는 구글맵과 호환되지 않습니다.</p>';
 		}
@@ -225,7 +280,7 @@ function _GMap_printHeaderForUI($title, $api_key) {
 	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/ui.css" />
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/mootools-1.2.1-core-yc.js"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/mootools-1.2-more.js"></script>
-	<script type="text/javascript" src="http://maps.google.co.kr/maps?file=api&amp;v=2&amp;key=<?php echo $api_key;?>"></script>
+	<script type="text/javascript" src="http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<?php echo $api_key;?>"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/gmap_common.js?<?php echo time();?>"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/gmap_ui.js?<?php echo time();?>"></script>
 	<script type="text/javascript">
@@ -253,6 +308,11 @@ function _GMap_printFooterForUI() {
 </body>
 </html>
 <?php
+}
+
+function _GMap_normalizeAddress($address) {
+	//return trim(implode(' ', array_slice(explode('/', $address), 0, 4)));
+	return trim(implode(' ', explode('/', $address)));
 }
 /* vim: set noet ts=4 sts=4 sw=4: */
 ?>
