@@ -10,6 +10,8 @@
 	3. tryAuthURI: the entrance uri of openid authentication.
  */
 
+define('__TEXTCUBE_ADMINPANEL__',true);
+
 $IV = array(
 	'GET' => array(
 		'action' => array('string', 'mandatory' => false ),

@@ -156,6 +156,16 @@ if($context->URLInfo['interfaceType'] == 'blog' && !defined('__TEXTCUBE_LOGIN__'
 
 if(in_array($context->URLInfo['interfaceType'], array('owner','reader'))) {
 	requireOwnership();     // Check access control list
-	require ROOT .'/library/pageACL.php';
+	if(!empty($_SESSION['acl'])) {
+		$requiredPriv = Aco::getRequiredPrivFromUrl( $suri['directive'] );
+		if( !empty($requiredPriv) && !Acl::check($requiredPriv) ) {
+			if( in_array( 'group.administrators', $requiredPriv ) ) {
+				header("location:".$blogURL ."/owner/center/dashboard"); exit;
+			} else {
+				header("location:".$blogURL ."/owner/entry"); exit;
+			}
+		}
+	
+	}
 }
 ?>
