@@ -82,32 +82,6 @@ $context->URIParser();
 /** Setting global variables */
 $context->globalVariableParser();
 
-/** Initializing Locale Resources */
-$__locale = array(
-	'locale' => null,
-	'directory' => './locale',
-	'domain' => null,
-	);
-
-// Set timezone.
-if(isset($config->database) && !empty($config->database['database'])) {
-	$timezone = new Timezone;
-	$timezone->set(isset($blog['timezone']) ? $blog['timezone'] : $config->service['timezone']);
-	POD::query('SET time_zone = \'' . $timezone->getCanonical() . '\'');
-}
-
-// Load administration panel locale.
-if(!defined('NO_LOCALE')) {
-	Locale::setDirectory(ROOT . '/resources/language');
-	Locale::set(isset($blog['language']) ? $blog['language'] : $service['language']);
-
-	// Load blog screen locale.
-	if (!isset($blog['blogLanguage'])) {
-		$blog['blogLanguage'] = $service['language'];
-	}
-	Locale::setSkinLocale(isset($blog['blogLanguage']) ? $blog['blogLanguage'] : $service['language']);
-}
-
 /** Initializing Session */
 if (!defined('NO_SESSION')) {
 	session_name(Session::getName());
@@ -120,24 +94,62 @@ if (!defined('NO_SESSION')) {
 	}
 }
 
-/** Administration panel skin / editor template initialization */
-if(in_array($context->URLInfo['interfaceType'], array('owner','reader')) || defined('__TEXTCUBE_ADMINPANEL__')) {
-	$adminSkinSetting = array();
-	$adminSkinSetting['skin'] = "/skin/admin/".getBlogSetting("adminSkin", "canon");
-	// 1.5에서 올라온 경우 스킨이 있는 경우를 위한 workaround.
-/*		if(($adminSkinSetting['skin'] == '/skin/admin/default') ||
-	 ($adminSkinSetting['skin'] == '/skin/admin/whitedream')) {
-		setBlogSetting("adminSkin", "canon");
-		$adminSkinSetting['skin'] = "/skin/admin/canon";
-	}*/
-	
-	// content 본문에 removeAllTags()가 적용되는 것을 방지하기 위한 프로세스를 위한 변수.
-	$contentContainer = array();
+if (!defined('NO_INITIALIZAION')) {
+	/* Get User information */
+	if (doesHaveMembership()) {
+		$user = array('id' => getUserId());
+		$user['name'] = User::getName(getUserId());
+		$user['homepage'] = User::getHomePage();
+	} else {
+		$user = null;
+	}	
 
-	if (file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/wysiwyg.css"))
-		$adminSkinSetting['editorTemplate'] = "/skin/blog/{$skinSetting['skin']}/wysiwyg.css";
-	else
-		$adminSkinSetting['editorTemplate'] = "/resources/style/default-wysiwyg.css";
+
+	/** Initializing Locale Resources */
+	$__locale = array(
+		'locale' => null,
+		'directory' => './locale',
+		'domain' => null,
+		);
+	
+	// Set timezone.
+	if(isset($config->database) && !empty($config->database['database'])) {
+		$timezone = new Timezone;
+		$timezone->set(isset($blog['timezone']) ? $blog['timezone'] : $config->service['timezone']);
+		POD::query('SET time_zone = \'' . $timezone->getCanonical() . '\'');
+	}
+	
+	// Load administration panel locale.
+	if(!defined('NO_LOCALE')) {
+		Locale::setDirectory(ROOT . '/resources/language');
+		Locale::set(isset($blog['language']) ? $blog['language'] : $service['language']);
+	
+		// Load blog screen locale.
+		if (!isset($blog['blogLanguage'])) {
+			$blog['blogLanguage'] = $service['language'];
+		}
+		Locale::setSkinLocale(isset($blog['blogLanguage']) ? $blog['blogLanguage'] : $service['language']);
+	}
+	
+	/** Administration panel skin / editor template initialization */
+	if(in_array($context->URLInfo['interfaceType'], array('owner','reader')) || defined('__TEXTCUBE_ADMINPANEL__')) {
+		$adminSkinSetting = array();
+		$adminSkinSetting['skin'] = "/skin/admin/".getBlogSetting("adminSkin", "canon");
+		// 1.5에서 올라온 경우 스킨이 있는 경우를 위한 workaround.
+	/*		if(($adminSkinSetting['skin'] == '/skin/admin/default') ||
+		 ($adminSkinSetting['skin'] == '/skin/admin/whitedream')) {
+			setBlogSetting("adminSkin", "canon");
+			$adminSkinSetting['skin'] = "/skin/admin/canon";
+		}*/
+		
+		// content 본문에 removeAllTags()가 적용되는 것을 방지하기 위한 프로세스를 위한 변수.
+		$contentContainer = array();
+	
+		if (file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/wysiwyg.css"))
+			$adminSkinSetting['editorTemplate'] = "/skin/blog/{$skinSetting['skin']}/wysiwyg.css";
+		else
+			$adminSkinSetting['editorTemplate'] = "/resources/style/default-wysiwyg.css";
+	}
 }
 	
 /** Plugin module initialization (if necessary) */ 
