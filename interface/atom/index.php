@@ -20,5 +20,7 @@ header('Content-Type: text/xml; charset=utf-8');
 $fileHandle = fopen(ROOT . "/cache/atom/$blogid.xml", 'r+');
 $result = fread($fileHandle, filesize(ROOT . "/cache/atom/$blogid.xml"));
 fclose($fileHandle);
+fireEvent('FeedOBStart');
 echo fireEvent('ViewATOM', $result);
+fireEvent('FeedOBEnd');
 ?>

@@ -33,5 +33,7 @@ if(!empty($suri['id'])) {
 	}
 }
 header('Content-Type: text/xml; charset=utf-8');
+fireEvent('FeedOBStart');
 echo fireEvent('ViewResponseATOM', $cache->contents);
+fireEvent('FeedOBEnd');
 ?>
