@@ -81,19 +81,16 @@ if(!empty($service['domain']) && strstr( $_SERVER['HTTP_HOST'], $service['domain
 }
 
 // Basic POST/GET variable validation.
-if (isset($IV)) {
-	if (!Validator::validate($IV)) {
-		header('HTTP/1.1 404 Not Found');
-		exit;
-	}
-}
+$valid = true;
+$valid = $valid && Validator::validate($IV);
+
 // Basic SERVER variable validation.
 $basicIV = array(
 	'SCRIPT_NAME' => array('string'),
 	'REQUEST_URI' => array('string'),
 	'REDIRECT_URL' => array('string', 'mandatory' => false)
 );
-Validator::validateArray($_SERVER, $basicIV);
+$valid = $valid && Validator::validateArray($_SERVER, $basicIV);
 if(isset($accessInfo)) {
 	$basicIV = array(
 		'fullpath' => array('string'),
@@ -103,6 +100,10 @@ if(isset($accessInfo)) {
 		'input'    => array('string', 'mandatory' => false)
 	);
 	$accessInfo['fullpath'] = urldecode($accessInfo['fullpath']);
-	Validator::validateArray($accessInfo, $basicIV);
+	$valid = $valid && Validator::validateArray($accessInfo, $basicIV);
+}
+if(!$valid) {
+	header('HTTP/1.1 404 Not Found');
+	exit;
 }
 ?>
