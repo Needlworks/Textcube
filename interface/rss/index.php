@@ -8,11 +8,7 @@ define('__TEXTCUBE_LOGIN__',true);
 require ROOT . '/library/preprocessor.php';
 requireModel("blog.feed");
 requireModel("blog.entry");
-
 requireStrictBlogURL();
-if (false) {
-	fetchConfigVal();
-}
 publishEntries();
 if (!file_exists(ROOT . "/cache/rss/$blogid.xml"))
 	refreshFeed($blogid,'rss');

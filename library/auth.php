@@ -108,8 +108,8 @@ function requireStrictRoute() {
 }
 
 function requireStrictBlogURL() {
-	global $isStrictBlogURL;
-	if(isset($isStrictBlogURL) && $isStrictBlogURL == true) return;
+	$context = Context::getInstance();
+	if(isset($context->isStrictBlogURL) && $context->isStrictBlogURL == true) return;
 	header('HTTP/1.1 404 Not found');
 	exit;
 }

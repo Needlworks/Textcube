@@ -8,7 +8,7 @@ class URIError extends Exception {};
 final class Context extends Singleton
 {
 	public $URLInfo, $suri;
-	public static $blogid;
+	public static $blogid, $isStrictURL;
 
 	public static function getInstance() {
 		return self::_getInstance(__CLASS__);
@@ -33,7 +33,7 @@ final class Context extends Singleton
 		$defaultblogid = Setting::getServiceSetting("defaultBlogId",1);
 		$suri            = array('url' => $url, 'value' => '');
 		$this->blogid    = null;
-		$isStrictBlogURL = true;
+		$this->isStrictBlogURL = true;
 		$depth           = substr_count($config->service['path'], '/');
 		if ($depth > 0) {
 			if (preg_match('@^((/+[^/]+){' . $depth . '})(.*)$@', $url, $matches))
@@ -64,7 +64,7 @@ final class Context extends Singleton
 					$this->blogid = $this->__getBlogidByName(strtok($matches[1],'?'));
 					if ($this->blogid === null) {
 						$this->blogid = $defaultblogid;
-						$isStrictBlogURL = false;
+						$this->isStrictBlogURL = false;
 					}
 					$url = $matches[2];
 				} else {
