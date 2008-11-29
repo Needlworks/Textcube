@@ -165,8 +165,8 @@ if (getBlogId()) {
 							}
 							unset($coverpage);
 						}
-						if($xmls->doesExist('/plugin/binding/config')) {
-							$config = $xmls->selectNode('/plugin/binding/config');
+						if($xmls->doesExist('/plugin/binding/config[lang()]')) {
+							$config = $xmls->selectNode('/plugin/binding/config[lang()]');
 							if( !empty( $config['.attributes']['dataValHandler'] ) )
 								$configMappings[$plugin] = 
 								array( 'config' => 'ok' , 'dataValHandler' => $config['.attributes']['dataValHandler'] );
