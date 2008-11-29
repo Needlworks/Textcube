@@ -374,6 +374,8 @@ if (defined('__TEXTCUBE_POST__')) {
 											PM.addRequest(request);
 										}											
 										request.send(data);
+
+										return true;
 									}
 																		
 									this.saveAndReturn = function () {
@@ -464,7 +466,9 @@ if (isset($_GET['popupEditor'])) {
 									}
 									this.preview = function () {
 										this.isPreview = true;
-										this.save();
+										if (!this.save()) {
+											window.open("<?php echo $blogURL;?>/owner/entry/preview/"+entryManager.entryId, "previewEntry"+entryManager.entryId, "location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
+										}
 										return;
 									}
 									this.savedData = this.getData();
