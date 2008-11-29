@@ -17,6 +17,7 @@ $__requireLibrary = array(
 	'functions',
 	'database',				// Library
 	'locale',
+	'blog.skin',
 	'auth');
 $__requireModel = array(
 	'blog.service',			// Models
@@ -24,6 +25,11 @@ $__requireModel = array(
 	'blog.user',
 	'blog.category',
 	'blog.skin',
+	'blog.tag',
+	'blog.keyword',
+	'blog.archive',
+	'blog.notice',
+	'blog.link',
 	'blog.fx',
 	'common.plugin',
 	'common.module',
