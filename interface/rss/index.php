@@ -20,5 +20,7 @@ header('Content-Type: text/xml; charset=utf-8');
 $fileHandle = fopen(ROOT . "/cache/rss/$blogid.xml", 'r+');
 $result = fread($fileHandle, filesize(ROOT . "/cache/rss/$blogid.xml"));
 fclose($fileHandle);
+fireEvent('FeedOBStart');
 echo fireEvent('ViewRSS', $result);
+fireEvent('FeedOBEnd');
 ?>

@@ -33,5 +33,7 @@ if(!$cache->load()) {
 	}
 }
 header('Content-Type: text/xml; charset=utf-8');
+fireEvent('FeedOBStart');
 echo fireEvent('ViewCommentNotifiedRSS', $cache->contents);
+fireEvent('FeedOBEnd');
 ?>
