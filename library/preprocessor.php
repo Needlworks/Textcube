@@ -3,32 +3,39 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-/** Pre-processor - This file 
-    ----------
-    
+/** Pre-processor 
+    -------------
+    * Performs Variable validation 
+    * Loads components and models
+    * Initialization
+    * Checks privilege 
 */
-/** Loading Basic Components */
+/** LOAD : Basic Components 
+    -----------------------
+    Loads mandatory components to perform 'Input Validation.' 
+    $IV is set before preprocessing, at interface code.
+*/
 require_once (ROOT.'/library/components/Needlworks.PHP.UnifiedEnvironment.php');
 require_once (ROOT.'/library/components/Needlworks.PHP.Core.php');
-require_once (ROOT.'/library/components/Needlworks.PHP.BaseClasses.php');
-require_once (ROOT.'/library/components/Needlworks.PHP.Loader.php');
 
-/** Basic POST/GET variable validation. */
-if (isset($IV)) {
-	if (!Validator::validate($IV)) {
-		header('HTTP/1.1 404 Not Found');
-		exit;
-	}
-}
-/** Basic SERVER variable validation. */
+/** CHECK : Basic POST/GET variable validation. 
+    -------------------------------------------
+    Drops not allowed variables. 
+*/
+$valid = true;
+if (isset($IV)) $valid = $valid && Validator::validate($IV);
+
+/// Basic SERVER variable validation to prevent hijacking possibility.
 $basicIV = array(
 	'SCRIPT_NAME' => array('string'),
 	'REQUEST_URI' => array('string'),
 	'REDIRECT_URL' => array('string', 'mandatory' => false)
 );
-Validator::validateArray($_SERVER, $basicIV);
-/** Basic URI information validation. */
+$valid = $valid && Validator::validateArray($_SERVER, $basicIV);
+
+/// Basic URI information validation. (you can skip this part.)
 if(isset($URLInfo)) {
+	$URLInfo['fullpath'] = urldecode($URLInfo['fullpath']);
 	$basicIV = array(
 		'fullpath' => array('string'),
 		'input'    => array('string'),
@@ -36,17 +43,32 @@ if(isset($URLInfo)) {
 		'root'     => array('string'),
 		'input'    => array('string', 'mandatory' => false)
 	);
-	$URLInfo['fullpath'] = urldecode($URLInfo['fullpath']);
-	Validator::validateArray($URLInfo, $basicIV);
+	$valid = $valid && Validator::validateArray($URLInfo, $basicIV);
 }
 
-/** Loading Configuration */
+/// Basic URI information validation.
+if (!$valid) {
+	header('HTTP/1.1 404 Not Found');
+	exit;
+}
+
+/** LOAD : Basic Components
+    --------------------
+    Loads singleton base class and autoloader.
+*/
+require_once (ROOT.'/library/components/Needlworks.PHP.BaseClasses.php');
+require_once (ROOT.'/library/components/Needlworks.PHP.Loader.php');
+
+/** LOAD : Configuration and Debug module (if necessary)
+    --------------------
+*/
 global $config, $context;
-		
+
+/// Loading configuration	
 $config = Config::getInstance();
 $context = Context::getInstance(); // automatic initialization via first instanciation
 
-/** Loading debug module */
+/// Loading debug module
 if($config->service['debugmode'] == true) {
 	if(isset($config->service['dbms'])) {
 		switch($config->service['dbms']) {
@@ -56,13 +78,26 @@ if($config->service['debugmode'] == true) {
 	} else require_once(ROOT. "/library/components/Needlworks.Debug.MySQL.php");
 }
     
-/** Loading components / models / views */
+/** LOAD : Required components / models / views 
+    -------------------------------------------
+    include.XXXX contains necessary file list. (XXXX : blog, owner, reader, feeder, icon)
+    Loading files from the file list.
+*/
+
+/// Reading necessary file list
 require_once (ROOT.'/library/include.'.$context->URLInfo['interfaceType'].'.php');
+/// Loading files.
 require_once (ROOT.'/library/include.php');
 
-/** Sending header */
+/** INITIALIZE : Sending header 
+    ---------------------------
+*/
 header('Content-Type: text/html; charset=utf-8');
-/** Database I/O initialization. */
+
+/** INITIALIZE : Database I/O
+    -------------------------
+    Performs database connection.
+*/
 if(!empty($config->database) && !empty($config->database["database"])) {
 	if(POD::bind($config->database) === false) {
 		Respond::MessagePage('Problem with connecting database.<br /><br />Please re-visit later.');
@@ -70,56 +105,74 @@ if(!empty($config->database) && !empty($config->database["database"])) {
 	}
 }
 $database['utf8'] = (POD::charset() == 'utf8') ? true : false;
-/** Memcache module bind (if possible) */
+/// Memcache module bind (if possible)
+global $memcache;
 $memcache = null;
 if(!empty($config->database) && !empty($config->service['memcached']) && $config->service['memcached'] == true): 
 	$memcache = new Memcache;
 	$memcache->connect((isset($memcached['server']) && $memcached['server'] ? $memcached['server'] : 'localhost'));
 endif;
 
-/** Parse URI and gather blogID and URI parameters */
+/** INITIALIZE : URI Parsing and specify parameters
+    -----------------------------------------------
+    Textcube judges blogid from its URI.
+    After parsing URI-specific variables, fetch global variables (legacy support till Textcube 2)
+*/
 $context->URIParser();
-/** Setting global variables */
+/// Setting global variables
 $context->globalVariableParser();
 
-/** Initializing Session */
+/** INITIALIZE : Session (if necessary)
+    -----------------------------------
+*/
 if (!defined('NO_SESSION')) {
 	session_name(Session::getName());
 	Session::set();
 	session_set_save_handler( array('Session','open'), array('Session','close'), array('Session','read'), array('Session','write'), array('Session','destroy'), array('Session','gc') );
 	session_cache_expire(1);
-	session_set_cookie_params(0, '/', $service['domain']);
+	session_set_cookie_params(0, '/', $config->service['domain']);
 	if (session_start() !== true) {
 		header('HTTP/1.1 503 Service Unavailable');
 	}
 }
 
+/** INITIALIZE
+    ----------
+*/
 if (!defined('NO_INITIALIZAION')) {
-	/* Get User information */
+/** User information 
+    ----------------
+    If connection is authenticated, load user information.
+*/
 	if (doesHaveMembership()) {
 		$user = array('id' => getUserId());
 		$user['name'] = User::getName(getUserId());
 		$user['homepage'] = User::getHomePage();
 	} else {
 		$user = null;
-	}	
-
-
-	/** Initializing Locale Resources */
+	}
+	
+/** Timezone
+    --------
+    Blog-specific Timezone setting.
+*/
+	if(isset($config->database) && !empty($config->database['database'])) {
+		$timezone = new Timezone;
+		$timezone->set(isset($blog['timezone']) ? $blog['timezone'] : $config->service['timezone']);
+		POD::query('SET time_zone = \'' . $timezone->getCanonical() . '\'');
+	}
+/** Locale Resources
+    ----------------
+    Loads necessary locale resource. 
+    (TODO : Reduce the capacity of i18n resource by dividing blog / adminpanel setting.
+*/
 	$__locale = array(
 		'locale' => null,
 		'directory' => './locale',
 		'domain' => null,
 		);
 	
-	// Set timezone.
-	if(isset($config->database) && !empty($config->database['database'])) {
-		$timezone = new Timezone;
-		$timezone->set(isset($blog['timezone']) ? $blog['timezone'] : $config->service['timezone']);
-		POD::query('SET time_zone = \'' . $timezone->getCanonical() . '\'');
-	}
-	
-	// Load administration panel locale.
+/// Load administration panel locale.
 	if(!defined('NO_LOCALE')) {
 		Locale::setDirectory(ROOT . '/resources/language');
 		Locale::set(isset($blog['language']) ? $blog['language'] : $service['language']);
@@ -131,7 +184,10 @@ if (!defined('NO_INITIALIZAION')) {
 		Locale::setSkinLocale(isset($blog['blogLanguage']) ? $blog['blogLanguage'] : $service['language']);
 	}
 	
-	/** Administration panel skin / editor template initialization */
+/** Administration panel skin / editor template
+    -------------------------------------------
+    When necessary, loads admin panel skin information.
+*/
 	if(in_array($context->URLInfo['interfaceType'], array('owner','reader')) || defined('__TEXTCUBE_ADMINPANEL__')) {
 		$adminSkinSetting = array();
 		$adminSkinSetting['skin'] = "/skin/admin/".getBlogSetting("adminSkin", "canon");
@@ -152,13 +208,18 @@ if (!defined('NO_INITIALIZAION')) {
 	}
 }
 	
-/** Plugin module initialization (if necessary) */ 
+/** INITIALIZE : Plugin module (if necessary)
+    -------------------------------------------
+    Load and bind specific plugin codes and initialze them.
+*/ 
 if(in_array($context->URLInfo['interfaceType'], array('blog','owner','reader'))) {
 	require_once(ROOT.'/library/plugins.php');
 }
 
-/** Access privilege Check */
-header('Content-Type: text/html; charset=utf-8');
+/** INITIALIZE : Access privilege Check 
+    -----------------------------------
+    Checks privilege setting and block user (or connection).
+*/
 
 if($context->URLInfo['interfaceType'] == 'blog' && !defined('__TEXTCUBE_LOGIN__')) {
 	$blogVisibility = Setting::getBlogSettingGlobal('visibility',2);
