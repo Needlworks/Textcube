@@ -39,7 +39,7 @@ require_once (ROOT.'/library/components/Needlworks.PHP.Core.php');
 require_once (ROOT.'/library/components/Needlworks.PHP.BaseClasses.php');
 require_once (ROOT.'/library/components/Needlworks.PHP.Loader.php');
 $__requireBasics = array(
-	'config',               // Basics
+	'config.default',               // Basics
 	'function/string',
 	'function/time',
 	'function/javascript',
