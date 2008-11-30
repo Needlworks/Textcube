@@ -322,7 +322,7 @@ function deleteTrackback($blogid, $id) {
 }
 
 function trashTrackback($blogid, $id) {
-	return trackRemoteResponse($blogid, $id);
+	return trashRemoteResponse($blogid, $id);
 }
 
 function revertTrackback($blogid, $id) {
