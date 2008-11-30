@@ -34,6 +34,10 @@ $_SERVER['PHP_SELF'] = rtrim($_SERVER['PHP_SELF'], '/');
 if (!defined('ROOT'))
 	define ('ROOT', $root);
 
+require_once (ROOT.'/library/components/Needlworks.PHP.UnifiedEnvironment.php');
+require_once (ROOT.'/library/components/Needlworks.PHP.Core.php');
+require_once (ROOT.'/library/components/Needlworks.PHP.BaseClasses.php');
+require_once (ROOT.'/library/components/Needlworks.PHP.Loader.php');
 $__requireBasics = array(
 	'config',               // Basics
 	'function/string',
