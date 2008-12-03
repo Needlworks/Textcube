@@ -11,10 +11,10 @@ function initialize() {
 	map.getContainer().makeResizable({limit: {x: [150,800], y: [150,800]}});
 	map.getContainer().addEvent('resize', function(ev) {
 		map.checkResize();
-		//var size = this.getSize();
+		var size = map.getContainer().getSize();
 		console.log(this);
-		//$('inputWidth').value = size.x;
-		//$('inputHeight').value = size.y;
+		$('inputWidth').value = size.x;
+		$('inputHeight').value = size.y;
 	});
 	map.getContainer().addEvent('mousewheel', function(ev) { ev.stop(); });
 	map.getContainer().addEvent('mousemove', function(ev) {
@@ -64,7 +64,6 @@ function initialize() {
 			'width': w + 'px',
 			'height': h + 'px'
 		});
-		//map.checkResize();
 	});
 	$('doInsert').addEvent('click', function() {
 		if (!map)
@@ -73,12 +72,14 @@ function initialize() {
 			var editor = window.opener.editor;
 			var options = {};
 			var center = map.getCenter();
+			var size = $('GoogleMapPreview').getSize();
 			options.center = {};
 			options.center.latitude = center.lat();
 			options.center.longitude = center.lng();
 			options.zoom = map.getZoom();
-			options.width = $('GoogleMapPreview').getSize().x;
-			options.height = $('GoogleMapPreview').getSize().y;
+			options.width = size.x;
+			options.height = size.y;
+			options.type = getMapTypeStr();
 			var compact_user_markers = new Array();
 			var i = 0, id = '';
 			for (id in user_markers) {
@@ -101,6 +102,20 @@ function initialize() {
 }
 
 function queryLocation() {
+}
+
+function getMapTypeStr() {
+	switch (map.getCurrentMapType()) {
+	case G_PHYSICAL_MAP:
+		return 'G_PHYSICAL_MAP';
+	case G_SATELLITE_MAP:
+		return 'G_SATELLITE_MAP';
+	case G_HYBRID_MAP:
+		return 'G_HYBRID_MAP';
+	case G_NORMAL_MAP:
+	default:
+		return 'G_NORMAL_MAP';
+	}
 }
 
 function findUserMarker(marker) {

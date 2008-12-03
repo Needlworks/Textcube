@@ -4,7 +4,6 @@
 var geocoder = null;
 
 function GMap_normalizeAddress(address) {
-	//return address.split('/').slice(0,4).join(' ');
 	return address.split('/').join(' ');
 }
 
@@ -42,6 +41,7 @@ function GMap_addLocationMarkDirect(gmap, location_info, title, link, point, bou
 			'point': point,
 			'marker': marker,
 			'address': location_info.address,
+			'address_parts': location_info.path.split('/'),
 			'entries': new Array({'title': title, 'link': link})
 		};
 		locations.push(locative);
@@ -63,7 +63,7 @@ function GMap_addLocationMarkDirect(gmap, location_info, title, link, point, bou
  * @param Object locative	특정 위치에 대한 Marker 및 관련 정보와 엔트리들에 대한 정보를 담은 오브젝트
  */
 function GMap_buildLocationInfoHTML(locative) {
-	var html = '<div class="GMapInfo" style="text-align:left"><h4>' + locative.address.split(' ').pop() + '에 얽힌 이야기</h4><ul>';
+	var html = '<div class="GMapInfo" style="text-align:left"><h4>' + locative.address_parts.pop() + '에 얽힌 이야기</h4><ul>';
 	var i;
 	for (i = 0; i < locative.entries.length; i++) {
 		html += '<li><a href="'+locative.entries[i].link+'">'+locative.entries[i].title+'</a></li>';
@@ -77,8 +77,17 @@ function GMap_buildLocationInfoHTML(locative) {
  */
 function GMap_findLocationCallback(response, gmap, location_info, title, link, boundary, locations) {
 	if (!response || response.Status.code != 200) {
-		if (process_count != undefined)
-			process_count++;
+		var new_address_parts = location_info.address.split(' ').slice(0,-1);
+		if (new_address_parts.length < 2) {
+			if (process_count != undefined)
+				process_count++;
+		} else {
+			// recursive reducing
+			var new_address = new_address_parts.join(' ');
+			var new_path = new_address_parts.join('/');
+			if (new_path[0] != '/') new_path = '/' + new_path;
+			geocoder.getLocations(new_address, function(response) {GMap_findLocationCallback(response, gmap, {'address': new_address, 'path': new_path}, title, link, boundary, locations);});
+		}
 	} else {
 		var place = response.Placemark[0];
 		var point = new GLatLng(place.Point.coordinates[1], place.Point.coordinates[0]);
@@ -91,16 +100,18 @@ function GMap_CreateMap(container, options) {
 	container.style.height = options.height + 'px';
 	var map = new GMap2(container);
 	var i;
-	map.setMapType(options.type || G_HYBRID_MAP);
-	map.setCenter(new GLatLng(options.center.latitude, options.center.longitude), options.zoom);
+	map.setMapType(eval(options.type) || G_HYBRID_MAP);
+	map.addMapType(G_PHYSICAL_MAP);
 	map.addControl(new GHierarchicalMapTypeControl());
 	map.addControl(new GLargeMapControl());
 	map.addControl(new GScaleControl());
+	map.setCenter(new GLatLng(options.center.latitude, options.center.longitude), options.zoom);
 	if (options.user_markers != undefined) {
 		for (i = 0; i < options.user_markers.length; i++) {
 			var um = options.user_markers[i];
 			var marker = new GMarker(new GLatLng(um.lat, um.lng));
-			marker.bindInfoWindowHtml('<div class="GMapInfo"><h4>'+um.title+'</h4><p>'+um.desc+'</p></div>');
+			if (um.title.trim() != '')
+				marker.bindInfoWindowHtml('<div class="GMapInfo"><h4>'+um.title+'</h4><p>'+um.desc+'</p></div>');
 			map.addOverlay(marker);
 		}
 	}

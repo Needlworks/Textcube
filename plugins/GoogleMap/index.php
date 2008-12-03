@@ -130,6 +130,7 @@ function GoogleMap_LocationLogView($target) {
 		c.style.height = "<?php echo $height;?>px";
 		if (GBrowserIsCompatible()) {
 			locationMap = new GMap2(c);
+			locationMap.addMapType(G_PHYSICAL_MAP);
 			locationMap.setMapType(<?php echo $default_type;?>);
 			locationMap.addControl(new GHierarchicalMapTypeControl());
 			locationMap.addControl(new GLargeMapControl());
@@ -249,13 +250,14 @@ function GoogleMapUI_Insert($target) {
 	//<![CDATA[
 	function initializeMap() {
 		map = new GMap2($('GoogleMapPreview'));
-		map.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
+		map.addMapType(G_PHYSICAL_MAP);
 		map.setMapType(<?php echo $default_type;?>);
 		map.addControl(new GHierarchicalMapTypeControl());
 		map.addControl(new GLargeMapControl());
 		//map.addControl(new GScaleControl());
 		map.enableScrollWheelZoom();
 		map.enableContinuousZoom();
+		map.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
 	}
 	//]]>
 	</script>
