@@ -891,7 +891,9 @@ function mt_getPostCategories()
 	$post = new Post();
 	$post->open( intval( $params[0] ) );
 
-	$cat = array( $post->category );
+	$cat = array( array( "categoryId" => $post->category, 
+			"categoryName" => api_getCategoryNameById( $post->category ),
+			"isPrimary" => true) );
 	$post->close();
 
 
