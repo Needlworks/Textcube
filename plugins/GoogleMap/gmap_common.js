@@ -77,7 +77,17 @@ function GMap_buildLocationInfoHTML(locative) {
  */
 function GMap_findLocationCallback(response, gmap, location_info, title, link, boundary, locations) {
 	if (!response || response.Status.code != 200) {
-		// alert('Can\'t retrieve this address "'+address+'"');
+		var new_address_parts = location_info.address.split(' ').slice(0,-1);
+		if (new_address_parts.length < 2) {
+			if (process_count != undefined)
+				process_count++;
+		} else {
+			// recursive reducing
+			var new_address = new_address_parts.join(' ');
+			var new_path = new_address_parts.join('/');
+			if (new_path[0] != '/') new_path = '/' + new_path;
+			geocoder.getLocations(new_address, function(response) {GMap_findLocationCallback(response, gmap, {'address': new_address, 'path': new_path}, title, link, boundary, locations);});
+		}
 	} else {
 		var place = response.Placemark[0];
 		var point = new GLatLng(place.Point.coordinates[1], place.Point.coordinates[0]);
@@ -99,7 +109,8 @@ function GMap_CreateMap(container, options) {
 		for (i = 0; i < options.user_markers.length; i++) {
 			var um = options.user_markers[i];
 			var marker = new GMarker(new GLatLng(um.lat, um.lng));
-			marker.bindInfoWindowHtml('<div class="GMapInfo"><h4>'+um.title+'</h4><p>'+um.desc+'</p></div>');
+			if (um.title.trim() != '')
+				marker.bindInfoWindowHtml('<div class="GMapInfo"><h4>'+um.title+'</h4><p>'+um.desc+'</p></div>');
 			map.addOverlay(marker);
 		}
 	}
