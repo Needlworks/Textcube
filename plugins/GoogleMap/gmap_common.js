@@ -100,7 +100,7 @@ function GMap_CreateMap(container, options) {
 	container.style.height = options.height + 'px';
 	var map = new GMap2(container);
 	var i;
-	map.setMapType(options.type || G_HYBRID_MAP);
+	map.setMapType(eval(options.type) || G_HYBRID_MAP);
 	map.setCenter(new GLatLng(options.center.latitude, options.center.longitude), options.zoom);
 	map.addControl(new GHierarchicalMapTypeControl());
 	map.addControl(new GLargeMapControl());
