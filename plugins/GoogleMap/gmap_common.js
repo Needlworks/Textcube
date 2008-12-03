@@ -101,10 +101,11 @@ function GMap_CreateMap(container, options) {
 	var map = new GMap2(container);
 	var i;
 	map.setMapType(eval(options.type) || G_HYBRID_MAP);
-	map.setCenter(new GLatLng(options.center.latitude, options.center.longitude), options.zoom);
+	map.addMapType(G_PHYSICAL_MAP);
 	map.addControl(new GHierarchicalMapTypeControl());
 	map.addControl(new GLargeMapControl());
 	map.addControl(new GScaleControl());
+	map.setCenter(new GLatLng(options.center.latitude, options.center.longitude), options.zoom);
 	if (options.user_markers != undefined) {
 		for (i = 0; i < options.user_markers.length; i++) {
 			var um = options.user_markers[i];

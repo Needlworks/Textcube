@@ -105,7 +105,7 @@ function queryLocation() {
 }
 
 function getMapTypeStr() {
-	switch (map.getCurrentMapType) {
+	switch (map.getCurrentMapType()) {
 	case G_PHYSICAL_MAP:
 		return 'G_PHYSICAL_MAP';
 	case G_SATELLITE_MAP:
