@@ -4,7 +4,6 @@
 var geocoder = null;
 
 function GMap_normalizeAddress(address) {
-	//return address.split('/').slice(0,4).join(' ');
 	return address.split('/').join(' ');
 }
 
@@ -42,6 +41,7 @@ function GMap_addLocationMarkDirect(gmap, location_info, title, link, point, bou
 			'point': point,
 			'marker': marker,
 			'address': location_info.address,
+			'address_parts': location_info.path.split('/'),
 			'entries': new Array({'title': title, 'link': link})
 		};
 		locations.push(locative);
@@ -63,7 +63,7 @@ function GMap_addLocationMarkDirect(gmap, location_info, title, link, point, bou
  * @param Object locative	특정 위치에 대한 Marker 및 관련 정보와 엔트리들에 대한 정보를 담은 오브젝트
  */
 function GMap_buildLocationInfoHTML(locative) {
-	var html = '<div class="GMapInfo" style="text-align:left"><h4>' + locative.address.split(' ').pop() + '에 얽힌 이야기</h4><ul>';
+	var html = '<div class="GMapInfo" style="text-align:left"><h4>' + locative.address_parts.pop() + '에 얽힌 이야기</h4><ul>';
 	var i;
 	for (i = 0; i < locative.entries.length; i++) {
 		html += '<li><a href="'+locative.entries[i].link+'">'+locative.entries[i].title+'</a></li>';
