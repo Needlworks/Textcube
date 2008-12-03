@@ -1708,7 +1708,7 @@ TTModernEditor.prototype.correctContent = function() {
 	}
 
 	// Make tags strict.
-	html = html.replace(new RegExp("<b([^>]*?)>(.*?)</b>", "gi"), "<strong$1>$2</strong>");
+	html = html.replace(new RegExp("<b>(.*?)</b>", "gi"), "<strong$1>$2</strong>");
 	html = html.replace(new RegExp("<i([^>]*?)>(.*?)</i>", "gi"), "<em$1>$2</em>");
 	html = html.replace(new RegExp("<u([^>]*?)>(.*?)</u>", "gi"), "<ins$1>$2</ins>");
 	html = html.replace(new RegExp("<strike([^>]*?)>(.*?)</strike>", "gi"), "<del$1>$2</del>");
