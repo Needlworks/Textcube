@@ -136,68 +136,74 @@ function GoogleMap_LocationLogView($target) {
 			locationMap.addControl(new GScaleControl());
 			locationMap.enableContinuousZoom();
 			locationMap.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
-			boundary = new GLatLngBounds(locationMap.getCenter()); //, new GLatLng(<?php echo $lat+0.1;?>, <?php echo $lng+0.1;?>));
+			boundary = new GLatLngBounds(locationMap.getCenter());
 			var locations = new Array();
 <?php
 	$count = 0;
+	$countRemoteQuery = 0;
 	foreach ($locatives as $locative) {
 		$locative['link'] = "$blogURL/" . ($blog['useSloganOnPost'] ? 'entry/' . URL::encode($locative['slogan'],$service['useEncodedURL']) : $locative['id']);
 		$row = POD::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND address = '".POD::escapeString($locative['location'])."'");
-		$found = false;
+		$result = 9; // 0 = found, 1 = find in client, 9 = not found
 		if ($row == null || empty($row)) {
-			//echo "\t\t\t/* New location query */\n";
 			// Recursively repeat until location is found. (continuously reducing accuracy)
 			$addr = explode(' ', _GMap_normalizeAddress($locative['location']));
 			while (true) {
+				if ($countRemoteQuery == 12) { // not to exceed script-running time limit
+					$result = 1;
+					break;
+				}
 				$url = "http://maps.google.co.kr/maps/geo?q=".urlencode(trim(implode(' ', $addr)))."&output=csv&sensor=false&key={$config['apiKey']}";
-				//echo "\t\t\t/* recurse : $addr */\n";
 				$response = requestHttp('get', $url, false, 'text/plain');
+				$countRemoteQuery++;
 				if ($response === false) {
-					$found = false;
+					$result = 9;
 					break;
 				} else {
 					$response_lines = explode("\n", $response[1]);
 					$response_csv = explode(',', $response_lines[1]);
 					if ($response_csv[0] == '200') {
 						// Insert for later use.
-						//echo "\t\t\t/* read from api, {$locative['location']} */\n";
 						$lat = $response_csv[2];
 						$lng = $response_csv[3];
-						POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '".POD::escapeString($locative['location'])."', $lng, $lat, NOW())");
-						$found = true;
+						POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '".POD::escapeString($locative['location'])."', $lng, $lat, ".time().")");
+						$result = 0;
 						break;
 					} else {
-						//echo "\t\t\t/* can't retrieve result for {$locative['location']} */\n";
 						$lat = null; $lng = null;
-						$found = false;
+						$result = 9;
 						if (count($addr) == 1)
 							break;
-						if (!$found)
+						if ($result == 9)
 							array_pop($addr);
 						continue;
 					}
 				}
 			}
-			if (!$found) {
-				// Not found.
-				//echo "\t\t\t/* no result for {$locative['location']} */\n";
-				POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '".POD::escapeString($locative['location'])."', NULL, NULL, NOW())");
+			if ($result == 9) {
+				// Not found. Don't try also later.
+				POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '".POD::escapeString($locative['location'])."', NULL, NULL, ".time().")");
 			}
 		} else {
-			//echo "\t\t\t/* read from db : {$locative['location']} */\n";
 			$lat = $row['latitude'];
 			$lng = $row['longitude'];
-			$found = true;
+			$result = 0;
 		}
-		if ($found && !is_null($lat)) {
+		switch ($result) {
+		case 0: // found
 			echo "\t\t\tGMap_addLocationMarkDirect(locationMap, {address:GMap_normalizeAddress('{$locative['location']}'), path:'{$locative['location']}'}, '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), new GLatLng($lat, $lng), boundary, locations);\n";
-		} else
+			break;
+		case 1: // find in client
+			echo "\t\t\tGMap_addLocationMark(locationMap, '{$locative['location']}', '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), boundary, locations);\n";
+			break;
+		case 9:
 			echo "\t\t\tif (process_count != undefined) process_count++;\n";
+		}
 		$count++;
 	}
 ?>
-			//window.setTimeout('locationFetchPoller(<?php echo $count;?>);', polling_interval);
-			adjustToBoundary();
+			window.setTimeout('locationFetchPoller(<?php echo $count;?>);', polling_interval);
+			//adjustToBoundary();
 		} else {
 			c.innerHTML = '<p style="text-align:center; color:#c99;">이 웹브라우저는 구글맵과 호환되지 않습니다.</p>';
 		}
