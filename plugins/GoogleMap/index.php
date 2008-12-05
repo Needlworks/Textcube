@@ -264,7 +264,6 @@ function GoogleMapUI_Insert($target) {
 	<h2>지도 검색</h2>
 	<div class="accordion-elem">
 		<p><label>위치 검색 : <input type="text" class="editControl" id="inputQuery" value="" /></label><button id="queryLocation">찾기</button></p>
-		<div id="queryResult"></div>
 	</div>
 	<h2>기본 설정</h2>
 	<div class="accordion-elem">
@@ -292,8 +291,6 @@ function _GMap_printHeaderForUI($title, $api_key) {
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-json.js"></script>
 	<!-- script type="text/javascript" src="<?php echo $pluginURL;?>/.js"></script -->
 	<script type="text/javascript" src="http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<?php echo $api_key;?>"></script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/common.js?<?php echo time();?>"></script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/insert.js?<?php echo time();?>"></script>
 	<script type="text/javascript">
 	//<![CDATA[
 	var pluginURL = '<?php echo $pluginURL;?>';
@@ -301,6 +298,8 @@ function _GMap_printHeaderForUI($title, $api_key) {
 	$(window).unload(GUnload);
 	//]]>
 	</script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/common.js?<?php echo time();?>"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/insert.js?<?php echo time();?>"></script>
 </head>
 <body>
 <div id="all-wrap">

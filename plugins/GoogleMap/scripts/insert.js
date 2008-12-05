@@ -4,7 +4,8 @@
 var map;
 var listener_onclick = null;
 var user_markers = {};
-//var accordion;
+var query_markers = {};
+var icon_blue;
 
 $(function() {
 	initializeMap();
@@ -17,8 +18,8 @@ $(function() {
 		})
 		.bind('resize', function(ev) {
 			map.checkResize();
-			$('#inputWidth').value = container.width();
-			$('#inputHeight').value = container.height();
+			$('#inputWidth').val(container.width());
+			$('#inputHeight').val(container.height());
 		})
 		.bind('mousewheel', function(ev) { ev.stopPropagation(); });
 	$('#toggleMarkerAddingMode')
@@ -68,9 +69,53 @@ $(function() {
 		self.close();
 	});
 	//accordion = new Accordion($$('h2'), $$('.accordion-elem'));
+	
+	icon_blue = new GIcon(G_DEFAULT_ICON, pluginURL + '/images/marker_blue.png');
 });
 
 function queryLocation() {
+	if (!geocoder)
+		geocoder = new GClientGeocoder();
+	var q = $('#inputQuery').val();
+	closeQueryResult();
+	geocoder.getLocations(q, function(response) {
+		if (!response || response.Status.code != 200) {
+			$('<div id="queryResult">검색 결과가 없습니다.</div>').insertAfter('#GoogleMapPreview');
+		} else {
+			$('<div id="queryResult"><ol></ol></div>').insertAfter('#GoogleMapPreview');
+			for (var i = 0; i < response.Placemark.length; i++) {
+				var place = response.Placemark[i];
+				var point = new GLatLng(place.Point.coordinates[1], place.Point.coordinates[0]);
+				var id = 'qm' + (new Date).valueOf() + (Math.ceil(Math.random()*90)+10);
+				$('<li><a href="#" onclick="map.panTo(new GLatLng('+point.lat()+','+point.lng()+'))">'+place.address+'</a></li>').appendTo('#queryResult ol');
+				map.setCenter(point);
+				map.setZoom(17);
+				var marker = new GMarker(point, {'title': '['+(i+1)+'] ' + place.address, 'icon': icon_blue});
+				marker.bindInfoWindowHtml('<div class="queryMarkerInfo"><p><address>'+place.address+'</address></p><p><a href="#" onclick="convertToUserMarker(\''+id+'\')">마커 고정시키기</a></p></div>');
+				map.addOverlay(marker);
+				query_markers[id] = {'marker': marker, 'id': id, 'address': place.address, 'query': q};
+			}
+		}
+		var pos = $(map.getContainer()).offset();
+		$('<div style="text-align:right"><a href="#" onclick="closeQueryResult();return false;">닫기</a></div>').appendTo('#queryResult');
+		$('#queryResult').css({top:(pos.top + 20)+'px', left:(pos.left + 60)+'px'}).fadeIn(400).fadeTo(200, 0.8);
+	});
+}
+
+function closeQueryResult() {
+	$('#queryResult').remove();
+	for (id in query_markers) {
+		map.removeOverlay(query_markers[id].marker);
+	}
+	query_markers = {};
+}
+
+function convertToUserMarker(id) {
+	var um = GMap_onClick(null, query_markers[id].marker.getLatLng(), null);
+	map.removeOverlay(query_markers[id].marker);
+	um.title = query_markers[id].query;
+	um.desc = query_markers[id].address;
+	delete query_markers[id];
 }
 
 function getMapTypeStr() {
@@ -125,6 +170,7 @@ function GMap_onClick(overlay, latlng, overlaylatlng) {
 		});
 		user_markers[id] = {'marker': marker, 'title': '', 'desc': '', 'id': id};
 		map.addOverlay(marker);
+		return user_markers[id];
 	}
 }
 
@@ -133,6 +179,6 @@ function GMarker_onClick(latlng) {
 	var form = '<div class="GMapInfo">';
 	form += '<p><label for="info_title">제목 : </label><input id="info_title" type="text" value="'+um.title+'" /></p>';
 	form += '<p><label for="info_desc">설명 : </label><textarea id="info_desc" rows="3" cols="30">'+um.desc+'</textarea></p>';
-	form += '<p style="text-align:right"><a href="javascript:void(0);" onclick="removeUserMarker(\''+um.id+'\');">삭제하기</p></div>';
+	form += '<div style="text-align:right"><a href="javascript:void(0);" onclick="removeUserMarker(\''+um.id+'\');">삭제하기</div></div>';
 	this.openInfoWindowHtml(form);
 }
