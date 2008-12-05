@@ -46,7 +46,7 @@ button {
 	cursor: pointer;
 }
 button:hover {
-	background-color: #f8f8f8;
+	background-color: #cce8ff;
 }
 button.toggled {
 	background-color: #555;
@@ -86,4 +86,23 @@ input, textarea {
 .GMapInfo p {
 	margin: 5px;
 	clear: left;
+}
+#queryResult {
+	position: absolute;
+	top: 120px;
+	left: 200px;
+	padding: 8px 8px 8px 15px;
+	background: white;
+	border: 1px solid #ccc;
+	box-shadow: 2px 2px 5px #555;
+	-moz-box-shadow: 2px 2px 5px #555;
+	-webkit-box-shadow: 2px 2px 5px #555;
+	display: none;
+	text-align: left;
+}
+#queryResult li {
+	margin: 0 0 0.3em 2em;
+}
+.queryMarkerInfo {
+	text-align: left;
 }
