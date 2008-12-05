@@ -16,9 +16,9 @@ function GoogleMap_Header($target) {
 	$config = Setting::fetchConfigVal($configVal);
 	if (!is_null($config) && isset($config['apiKey'])) {
 		$api_key = $config['apiKey'];
-		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/common.css\" />\n";
+		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/scripts/common.css\" />\n";
 		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=$api_key\"></script>\n";
-		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/gmap_common.js?".time()."\"></script>\n";
+		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/common.js?".time()."\"></script>\n";
 		$target .= "<script type=\"text/javascript\">
 		//<![CDATA[
 		STD.addUnloadEventListener(function(){GUnload();});
@@ -34,7 +34,7 @@ function GoogleMap_AdminHeader($target) {
 		requireComponent('Textcube.Function.Setting');
 		$config = Setting::fetchConfigVal($configVal);
 		$api_key = $config['apiKey']; // should exist here
-		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/common.css\" />\n";
+		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/scripts/common.css\" />\n";
 		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=$api_key\"></script>\n";
 		$target .= "<script type=\"text/javascript\">
 		//<![CDATA[
@@ -42,8 +42,8 @@ function GoogleMap_AdminHeader($target) {
 		var blogURL = '$blogURL';
 		//]]>
 		</script>";
-		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/gmap_common.js\"></script>\n";
-		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/gmap_editor.js\"></script>\n";
+		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/common.js\"></script>\n";
+		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/editor.js\"></script>\n";
 	}
 	return $target;
 }
@@ -249,12 +249,12 @@ function GoogleMapUI_Insert($target) {
 	<script type="text/javascript">
 	//<![CDATA[
 	function initializeMap() {
-		map = new GMap2($('GoogleMapPreview'));
+		map = new GMap2($('#GoogleMapPreview')[0]);
 		map.addMapType(G_PHYSICAL_MAP);
 		map.setMapType(<?php echo $default_type;?>);
 		map.addControl(new GHierarchicalMapTypeControl());
 		map.addControl(new GLargeMapControl());
-		//map.addControl(new GScaleControl());
+		map.addControl(new GScaleControl());
 		map.enableScrollWheelZoom();
 		map.enableContinuousZoom();
 		map.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
@@ -285,20 +285,20 @@ function _GMap_printHeaderForUI($title, $api_key) {
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Google Map Plugin: <?php echo $title;?></title>
-	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/ui.css" />
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/mootools-1.2.1-core-yc.js"></script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/mootools-1.2-more.js"></script>
+	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/insert.css" />
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-1.2.6.min.js"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-ui-1.6rc2.js"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-mousewheel.min.js"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-json.js"></script>
+	<!-- script type="text/javascript" src="<?php echo $pluginURL;?>/.js"></script -->
 	<script type="text/javascript" src="http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<?php echo $api_key;?>"></script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/gmap_common.js?<?php echo time();?>"></script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/gmap_ui.js?<?php echo time();?>"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/common.js?<?php echo time();?>"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/insert.js?<?php echo time();?>"></script>
 	<script type="text/javascript">
 	//<![CDATA[
 	var pluginURL = '<?php echo $pluginURL;?>';
 	var blogURL = '<?php echo $blogURL;?>';
-	window.addEvent('unload', function() {GUnload();});
-	window.addEvent('domready', function() {
-		initialize(); // should be declared somewhere. (for now, gmap_ui.js)
-	});
+	$(window).unload(GUnload);
 	//]]>
 	</script>
 </head>

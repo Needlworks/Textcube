@@ -62,8 +62,11 @@ button.toggled:hover {
 h2 {
 	cursor: pointer;
 }
-#GoogleMapPreview {
-	border: 3px dashed #ccc;
+.ui-resizable-handle {
+	background-color: #f2f2f2;
+}
+.ui-resizable-handle:hover {
+	background-color: #9cf !important;
 }
 
 input, textarea {
