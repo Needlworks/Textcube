@@ -1,6 +1,9 @@
 /// Copyright (c) 2005-2007. Tatter & Company / Needlworks
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+
+// Depends on jQuery 1.2.6 or later (from 2008/12/05, r7131)
+
 //<![CDATA[
 function getObject(target) {
 	try {
@@ -87,41 +90,27 @@ Standardizer.prototype.getScrollLeft = function() {
 };
 
 Standardizer.prototype.addLoadEventListener = function(fn) {
-	if (this.isIE) {
-		var prevListener = document.onreadystatechange;
-		document.onreadystatechange = function() {
-			if (prevListener) prevListener();
-			if (document.readyState == 'complete') {
-				fn();
-			}
-		};
-	} else {
-		this.addEventListener(document);
-		document.addEventListener('DOMContentLoaded', fn, false);
-	}
+	jQuery(fn);
 };
 
 Standardizer.prototype.addUnloadEventListener = function(fn) {
-	var prevListener = window.onunload;
-	window.onunload = function() {
-		if (prevListener) prevListener();
-		fn();
-	};
+	jQuery(document).bind('unload', fn);
 };
 
 Standardizer.prototype.querySelector = function(selector) {
-	if (document.querySelector) // Firefox 3.1+, IE8+, Webkit x.x+
-		return document.querySelector(selector);
-	// Here, we only retrieve one element that matches the selector,
-	// but this may NOT be fully compatible with W3C specification for now.
-	// (Example: ':hover' to get the currently hovered element.)
-	// TODO
+	//if (document.querySelector) // Firefox 3.1+, IE8+, Webkit x.x+
+	//	return document.querySelector(selector);
+	if (typeof(selector) != 'string')
+		return null;
+	return jQuery(selector)[0];
 }
 
 Standardizer.prototype.querySelectorAll = function(selector) {
-	if (document.querySelectorAll) // Firefox 3.1+, IE8+, Webkit x.x+
-		return document.querySelectorAll(selector);
-	// TODO
+	//if (document.querySelectorAll) // Firefox 3.1+, IE8+, Webkit x.x+
+	//	return document.querySelectorAll(selector);
+	if (typeof(selector) != 'string')
+		return null;
+	return jQuery(selector);
 }
 
 var STD=new Standardizer();
