@@ -33,7 +33,7 @@ $(function() {
 			}
 		});
 	$('#queryLocation').click(queryLocation);
-	$('#inputQuery').bind('keypress', function(ev) { if (ev.code == 13) queryLocation(); });
+	$('#inputQuery').bind('keypress', function(ev) { if (ev.which == 13) queryLocation(); });
 	$('#applyBasicSettings').click(function() {
 		var w = $('#inputWidth').val(), h = $('#inputHeight').val();
 		container.width(w).height(h);

@@ -46,7 +46,7 @@ button {
 	cursor: pointer;
 }
 button:hover {
-	background-color: #f8f8f8;
+	background-color: #cce8ff;
 }
 button.toggled {
 	background-color: #555;
