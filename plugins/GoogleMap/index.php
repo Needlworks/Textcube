@@ -288,6 +288,7 @@ function _GMap_printHeaderForUI($title, $api_key) {
 	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/insert.css" />
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-1.2.6.min.js"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-ui-1.6rc2.js"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-mousewheel.min.js"></script>
 	<!-- script type="text/javascript" src="<?php echo $pluginURL;?>/.js"></script -->
 	<script type="text/javascript" src="http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<?php echo $api_key;?>"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/common.js?<?php echo time();?>"></script>
