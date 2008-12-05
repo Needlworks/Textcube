@@ -244,11 +244,7 @@ function GoogleMapUI_Insert($target) {
 		<button id="doInsert">본문에 삽입하기</button>
 	</div>
 	<div style="text-align:center;">
-		<div id="GoogleMapWrapper">
-			<div id="GoogleMapPreview" style="width:<?php echo $default_width;?>px; height:<?php echo $default_height;?>px; margin:0 auto;"></div>
-			<div id="GMapResizerS"></div>
-			<div id="GMapResizerE"></div>
-		</div>
+		<div id="GoogleMapPreview" style="width:<?php echo $default_width;?>px; height:<?php echo $default_height;?>px; margin:0 auto;"></div>
 	</div>
 	<script type="text/javascript">
 	//<![CDATA[

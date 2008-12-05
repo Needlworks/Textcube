@@ -13,7 +13,7 @@ $(function() {
 		.resizable({
 			minWidth:300, maxWidth:800,
 			minHeight:200, maxHeight:800,
-			handles:{e:$('#GMapResizerE'), s:$('#GMapResizerS')}
+			handles:'e,s,w,se,sw'
 		})
 		.bind('resize', function(ev) {
 			map.checkResize();
