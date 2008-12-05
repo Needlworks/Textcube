@@ -18,7 +18,7 @@ function GoogleMap_Header($target) {
 		$api_key = $config['apiKey'];
 		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/scripts/common.css\" />\n";
 		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=$api_key\"></script>\n";
-		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/gmap_common.js?".time()."\"></script>\n";
+		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/common.js?".time()."\"></script>\n";
 		$target .= "<script type=\"text/javascript\">
 		//<![CDATA[
 		STD.addUnloadEventListener(function(){GUnload();});
@@ -42,8 +42,8 @@ function GoogleMap_AdminHeader($target) {
 		var blogURL = '$blogURL';
 		//]]>
 		</script>";
-		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/gmap_common.js\"></script>\n";
-		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/gmap_editor.js\"></script>\n";
+		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/common.js\"></script>\n";
+		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/editor.js\"></script>\n";
 	}
 	return $target;
 }
@@ -290,8 +290,8 @@ function _GMap_printHeaderForUI($title, $api_key) {
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-ui-1.6rc2.js"></script>
 	<!-- script type="text/javascript" src="<?php echo $pluginURL;?>/.js"></script -->
 	<script type="text/javascript" src="http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<?php echo $api_key;?>"></script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/gmap_common.js?<?php echo time();?>"></script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/gmap_ui.js?<?php echo time();?>"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/common.js?<?php echo time();?>"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/insert.js?<?php echo time();?>"></script>
 	<script type="text/javascript">
 	//<![CDATA[
 	var pluginURL = '<?php echo $pluginURL;?>';
