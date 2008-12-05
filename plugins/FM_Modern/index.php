@@ -34,7 +34,7 @@ function FM_Modern_editorinit(&$editor) {
 			editor.hasGD = <?php echo extension_loaded('gd') ? 'true' : 'false';?>;
 			editor.propertyFilePath = "<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/";
 			editor.editMode = "<?php echo $config['defaultmode'];?>";
-			editor.newLineToParagraph = <?php echo ($config['paragraphdelim'] == 'P' ? 'true' : 'false');?>;
+			editor.newLineToParagraph = <?php echo (isset($config['paragraphdelim']) && $config['paragraphdelim'] == 'P' ? 'true' : 'false');?>;
 			return editor;
 <?php
 	$result = ob_get_contents();
