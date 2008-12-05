@@ -20,7 +20,7 @@ $(function() {
 			$('#inputWidth').value = container.width();
 			$('#inputHeight').value = container.height();
 		})
-		.bind('mousewheel', function(ev) { ev.preventDefault(); });
+		.bind('mousewheel', function(ev) { ev.stopPropagation(); });
 	$('#toggleMarkerAddingMode')
 		.removeClass('toggled')
 		.click(function(ev) {
@@ -64,7 +64,7 @@ $(function() {
 			i++;
 		}
 		options.user_markers = compact_user_markers;
-		editor.command('Raw', '[##_GoogleMap|' + JSON.encode(options) + '|_##]');
+		editor.command('Raw', '[##_GoogleMap|' + $.toJSON(options) + '|_##]');
 		self.close();
 	});
 	//accordion = new Accordion($$('h2'), $$('.accordion-elem'));
