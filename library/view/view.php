@@ -68,7 +68,9 @@ function getScriptsOnHead() {
 	global $service;
 	ob_start();
 ?>
-<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/EAF4.js"></script>
+<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/jquery-1.2.6.js"></script>
+<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/EAF4.js"></script>
+<!-- script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/EAF4.js"></script -->
 <script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/common2.js"></script>
 <script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/gallery.js" ></script>
 <script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/flash.js" ></script>

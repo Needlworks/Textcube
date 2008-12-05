@@ -18,6 +18,7 @@ if (is_null($entry)) {
 	<title><?php echo _text('글걸기 시도');?></title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/popup-trackback.css" />
+	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/jquery-1.2.6.js"></script>
 	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/EAF4.js"></script>
 	<script type="text/javascript">

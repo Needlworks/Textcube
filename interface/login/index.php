@@ -98,6 +98,7 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/login.ie7.css" />
 	<![endif]-->
 	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/byTextcube.js"></script>
+	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/jquery-1.2.6.js"></script>
 	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/EAF4.js"></script>
 	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/common2.js"></script>
 	<script type="text/javascript">
