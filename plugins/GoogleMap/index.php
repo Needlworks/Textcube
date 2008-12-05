@@ -16,9 +16,9 @@ function GoogleMap_Header($target) {
 	$config = Setting::fetchConfigVal($configVal);
 	if (!is_null($config) && isset($config['apiKey'])) {
 		$api_key = $config['apiKey'];
-		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/common.css\" />\n";
+		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/scripts/common.css\" />\n";
 		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=$api_key\"></script>\n";
-		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/gmap_common.js?".time()."\"></script>\n";
+		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/gmap_common.js?".time()."\"></script>\n";
 		$target .= "<script type=\"text/javascript\">
 		//<![CDATA[
 		STD.addUnloadEventListener(function(){GUnload();});
@@ -34,7 +34,7 @@ function GoogleMap_AdminHeader($target) {
 		requireComponent('Textcube.Function.Setting');
 		$config = Setting::fetchConfigVal($configVal);
 		$api_key = $config['apiKey']; // should exist here
-		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/common.css\" />\n";
+		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/scripts/common.css\" />\n";
 		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=$api_key\"></script>\n";
 		$target .= "<script type=\"text/javascript\">
 		//<![CDATA[
@@ -42,8 +42,8 @@ function GoogleMap_AdminHeader($target) {
 		var blogURL = '$blogURL';
 		//]]>
 		</script>";
-		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/gmap_common.js\"></script>\n";
-		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/gmap_editor.js\"></script>\n";
+		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/gmap_common.js\"></script>\n";
+		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/gmap_editor.js\"></script>\n";
 	}
 	return $target;
 }
@@ -285,13 +285,13 @@ function _GMap_printHeaderForUI($title, $api_key) {
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Google Map Plugin: <?php echo $title;?></title>
-	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/ui.css" />
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/jquery-1.2.6.min.js"></script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/jquery-ui-1.6rc2.js"></script>
+	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/insert.css" />
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-1.2.6.min.js"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-ui-1.6rc2.js"></script>
 	<!-- script type="text/javascript" src="<?php echo $pluginURL;?>/.js"></script -->
 	<script type="text/javascript" src="http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<?php echo $api_key;?>"></script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/gmap_common.js?<?php echo time();?>"></script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/gmap_ui.js?<?php echo time();?>"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/gmap_common.js?<?php echo time();?>"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/gmap_ui.js?<?php echo time();?>"></script>
 	<script type="text/javascript">
 	//<![CDATA[
 	var pluginURL = '<?php echo $pluginURL;?>';
