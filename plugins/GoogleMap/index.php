@@ -244,17 +244,21 @@ function GoogleMapUI_Insert($target) {
 		<button id="doInsert">본문에 삽입하기</button>
 	</div>
 	<div style="text-align:center;">
-		<div id="GoogleMapPreview" style="width:<?php echo $default_width;?>px; height:<?php echo $default_height;?>px; margin:0 auto;"></div>
+		<div id="GoogleMapWrapper">
+			<div id="GoogleMapPreview" style="width:<?php echo $default_width;?>px; height:<?php echo $default_height;?>px; margin:0 auto;"></div>
+			<div id="GMapResizerS"></div>
+			<div id="GMapResizerE"></div>
+		</div>
 	</div>
 	<script type="text/javascript">
 	//<![CDATA[
 	function initializeMap() {
-		map = new GMap2($('GoogleMapPreview'));
+		map = new GMap2($('#GoogleMapPreview')[0]);
 		map.addMapType(G_PHYSICAL_MAP);
 		map.setMapType(<?php echo $default_type;?>);
 		map.addControl(new GHierarchicalMapTypeControl());
 		map.addControl(new GLargeMapControl());
-		//map.addControl(new GScaleControl());
+		map.addControl(new GScaleControl());
 		map.enableScrollWheelZoom();
 		map.enableContinuousZoom();
 		map.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
@@ -286,8 +290,9 @@ function _GMap_printHeaderForUI($title, $api_key) {
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Google Map Plugin: <?php echo $title;?></title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/ui.css" />
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/mootools-1.2.1-core-yc.js"></script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/mootools-1.2-more.js"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/jquery-1.2.6.min.js"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/jquery-ui-1.6rc2.js"></script>
+	<!-- script type="text/javascript" src="<?php echo $pluginURL;?>/.js"></script -->
 	<script type="text/javascript" src="http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<?php echo $api_key;?>"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/gmap_common.js?<?php echo time();?>"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/gmap_ui.js?<?php echo time();?>"></script>
@@ -295,10 +300,7 @@ function _GMap_printHeaderForUI($title, $api_key) {
 	//<![CDATA[
 	var pluginURL = '<?php echo $pluginURL;?>';
 	var blogURL = '<?php echo $blogURL;?>';
-	window.addEvent('unload', function() {GUnload();});
-	window.addEvent('domready', function() {
-		initialize(); // should be declared somewhere. (for now, gmap_ui.js)
-	});
+	$(window).unload(GUnload);
 	//]]>
 	</script>
 </head>
