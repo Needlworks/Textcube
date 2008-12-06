@@ -16,20 +16,20 @@
 
 (function($) {
 	$.path = {}; // not callable, just namespace
-	$.path.separator = '/';
+	$.path.separator = $.path.default_separator = '/';
 	$.path.join = function() {
 		// Safely join directory names with single separators between them.
 		var args = $.path.join.arguments;
 		var joined = args[0];
-		for (var i = 0; i < args.length - 1; ++i) {
-			var t1 = (args[i].charAt(0) == $.path.separator);
-			var t2 = (joined.charAt(joined.length - 1) == $.path.separator);
+		for (var i = 1; i < args.length; ++i) {
+			var t1 = (joined.charAt(joined.length - 1) == $.path.separator);
+			var t2 = (args[i].charAt(0) == $.path.separator);
 			if (t1 && t2)
-				joined += args[i+1].slice(1);
+				joined += args[i].slice(1);
 			else if (t1 || t2)
-				joined += args[i+1];
+				joined += args[i];
 			else
-				joined += $.path.separator + args[i+1];
+				joined += (joined ? $.path.separator : '') + args[i];
 		}
 		return joined;
 	}
@@ -43,7 +43,7 @@
 			if ($.plugin.locals[i].name == name) {
 				$.path.separator = '.';
 				var file = $.path.join('jquery', name, $.plugin.locals[i].version, 'js');
-				$.path.separator = '/';
+				$.path.separator = $.path.default_separator;
 				var src = $.path.join(serviceURL, resoucreURL || $.plugin.defaultResourceURL, file);
 				$('<script>').attr('type', 'text/javascript').attr('src', src).appendTo($('head'));
 				// TODO: check if loaded correctly?
