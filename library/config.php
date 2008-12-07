@@ -82,7 +82,7 @@ if(!empty($service['domain']) && strstr( $_SERVER['HTTP_HOST'], $service['domain
 
 // Basic POST/GET variable validation.
 $valid = true;
-$valid = $valid && Validator::validate($IV);
+if(isset($IV)) $valid = $valid && Validator::validate($IV);
 
 // Basic SERVER variable validation.
 $basicIV = array(
