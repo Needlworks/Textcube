@@ -2,14 +2,6 @@
 /// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-require ROOT . '/library/includeForBlog.php';
-requireComponent('Textcube.Control.Openid');
-requireComponent('Textcube.Function.Respond');
-
-if (false) {
-	fetchConfigVal();
-}
-$entryId = $suri['id'];
 $IV = array(
 	'GET' => array(
 		'__T__' => array('any', 13, 13)
@@ -23,8 +15,13 @@ $IV = array(
 		"comment_$entryId" => array('string', 'default' => '')
 	)
 );
-if(!Validator::validate($IV))
-	respond::PrintResult(array('error' => 1, 'description' => 'Illigal parameters'));
+require ROOT . '/library/includeForBlog.php';
+requireComponent('Textcube.Control.Openid');
+requireComponent('Textcube.Function.Respond');
+
+requireStrictRoute();
+
+$entryId = $suri['id'];
 requireStrictRoute();
 header('Content-Type: text/xml; charset=utf-8');
 if (!isset($_GET['__T__']) || !isset($_POST['key']) || $_POST['key'] != md5(filemtime(ROOT . '/config.php'))) {
