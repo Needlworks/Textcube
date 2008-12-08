@@ -85,7 +85,7 @@
 	if (empty($interfacePath)) $interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
 	define('PATH', 'interface/'.(empty($pathPart) ? '' : $pathPart.'/'));
 	unset($pathPart);
-	if (!file_exists($interfacePath)) { require "lib/error.php";errorExit(404);}
+	if (!file_exists($interfacePath)) { require ROOT."/library/error.php";errorExit(404);}
 	if (empty($service['debugmode'])) {	@include_once $interfacePath;}
 	else {include_once $interfacePath;}
 ?>
