@@ -17,7 +17,8 @@ if(!isset($service)) $service = array();
 function requireComponent($name) {
 	global $__requireComponent;
 	//if (!preg_match('/^[a-zA-Z0-9\.]+$/', $name))		return;
-	$name = str_replace('Tattertools', 'Textcube',$name); // Legacy routine.
+	$name = str_replace(array('Tattertools','Textcube.Function.Misc'), 
+			array('Textcube','Textcube.Function.misc'),$name); // Legacy routine.
 	if(!in_array($name,$__requireComponent)) {
 		include_once (ROOT . "/library/components/$name.php");
 		array_push($__requireComponent,$name);
