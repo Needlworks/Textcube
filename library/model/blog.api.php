@@ -526,7 +526,7 @@ function blogger_getUsersBlogs()
 	$blogs = array( 
 		array( 
 				"url" => $hostURL . $blogURL,
-				"blogid" => getBlogId(),
+				"blogid" => (string)getBlogId(),
 				"blogName" => $blog['title'],
 		) 
 	);
