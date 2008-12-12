@@ -98,6 +98,8 @@ function GoogleMap_LocationLogView($target) {
 	//console.log('a');
 	var process_count = 0;
 	var polling_interval = 100; // ms
+	var query_interval = 500; // ms
+	var query_interval_handle = null;
 	var boundary = null;
 	var locationMap = null;
 	function adjustToBoundary() {
@@ -108,6 +110,13 @@ function GoogleMap_LocationLogView($target) {
 			z = 12;
 		locationMap.setZoom(z);
 		locationMap.setCenter(boundary.getCenter());
+	}
+	function locationFetch(tofind) {
+		if (tofind.length == 0) {
+			window.clearInterval(query_interval_handle);
+			return;
+		}
+		GMap_addLocationMark.apply(this, tofind.pop());
 	}
 	function locationFetchPoller(target_count) {
 		var e = document.getElementById('gmap-progress');
@@ -134,6 +143,7 @@ function GoogleMap_LocationLogView($target) {
 			locationMap.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
 			boundary = new GLatLngBounds(locationMap.getCenter());
 			var locations = new Array();
+			var tofind = new Array();
 <?php
 	$count = 0;
 	$countRemoteQuery = 0;
@@ -152,11 +162,12 @@ function GoogleMap_LocationLogView($target) {
 		if ($found) // found, just output
 			echo "\t\t\tGMap_addLocationMarkDirect(locationMap, {address:GMap_normalizeAddress('{$locative['location']}'), path:'{$locative['location']}', original_path:'{$locative['location']}'}, '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), new GLatLng($lat, $lng), boundary, locations, false);\n";
 		else // try to find in the client
-			echo "\t\t\tGMap_addLocationMark(locationMap, '{$locative['location']}', '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), boundary, locations);\n";
+			echo "\t\t\ttofind.push([locationMap, '{$locative['location']}', '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), boundary, locations]);\n";
 		$count++;
 	}
 ?>
-			window.setTimeout('locationFetchPoller(<?php echo $count;?>);', polling_interval);
+			query_interval_handle = window.setInterval(function() {locationFetch(tofind);}, query_interval);
+			window.setTimeout(function() {locationFetchPoller(<?php echo $count;?>);}, polling_interval);
 		} else {
 			c.innerHTML = '<p style="text-align:center; color:#c99;">이 웹브라우저는 구글맵과 호환되지 않습니다.</p>';
 		}
