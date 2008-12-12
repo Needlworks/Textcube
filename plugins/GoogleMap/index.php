@@ -92,7 +92,9 @@ function GoogleMap_LocationLogView($target) {
 	$zoom = 10;
 	ob_start();
 ?>
-	<div style="text-align:center;"><div id="gmap-progress">&nbsp;</div><div id="<?php echo $id;?>" style="margin:0 auto;"></div></div>
+	<div style="text-align:center;">
+		<div id="<?php echo $id;?>" style="margin:0 auto;"></div>
+	</div>
 	<script type="text/javascript">
 	//<![CDATA[
 	//console.log('a');
@@ -100,6 +102,7 @@ function GoogleMap_LocationLogView($target) {
 	var polling_interval = 100; // ms
 	var query_interval = 500; // ms
 	var query_interval_handle = null;
+	var progress = null;
 	var boundary = null;
 	var locationMap = null;
 	function adjustToBoundary() {
@@ -120,12 +123,13 @@ function GoogleMap_LocationLogView($target) {
 	}
 	function locationFetchPoller(target_count) {
 		var e = document.getElementById('gmap-progress');
+		var p = document.getElementById('gmap-progress-meter');
 		if (process_count != target_count) {
-			e.innerHTML = 'loading... (' + process_count + ' / ' + target_count + ')';
+			progress.setProgress(process_count / target_count);
 			window.setTimeout('locationFetchPoller('+target_count+');', polling_interval);
 			return;
 		}
-		e.innerHTML = '&nbsp;';
+		locationMap.removeControl(progress);
 		adjustToBoundary();
 	}
 	STD.addLoadEventListener(function() {
@@ -141,6 +145,8 @@ function GoogleMap_LocationLogView($target) {
 			locationMap.addControl(new GScaleControl());
 			locationMap.enableContinuousZoom();
 			locationMap.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
+			progress = new GProgressControl();
+			locationMap.addControl(progress);
 			boundary = new GLatLngBounds(locationMap.getCenter());
 			var locations = new Array();
 			var tofind = new Array();
@@ -166,6 +172,7 @@ function GoogleMap_LocationLogView($target) {
 		$count++;
 	}
 ?>
+			progress.setLabel('Loading locations...');
 			query_interval_handle = window.setInterval(function() {locationFetch(tofind);}, query_interval);
 			window.setTimeout(function() {locationFetchPoller(<?php echo $count;?>);}, polling_interval);
 		} else {

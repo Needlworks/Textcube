@@ -132,4 +132,47 @@ function GMap_CreateMap(container, options) {
 	return map;
 }
 
+function GProgressControl() {}
+GProgressControl.prototype = new GControl();
+GProgressControl.prototype.initialize = function(map) {
+	var container = document.createElement('div');
+	var label = document.createElement('p');
+	var progress = document.createElement('div');
+	var progress_meter = document.createElement('div');
+	container.appendChild(label);
+	container.appendChild(progress);
+	progress.appendChild(progress_meter);
+
+	container.style.width = '200px';
+	container.style.textAlign = 'center';
+	label.style.fontFamily = 'Tahoma, Arial, sans-serif';
+	label.style.fontSize = '8pt';
+	progress.style.position = 'relative';
+	progress.style.left = '50px';
+	progress.style.width = '100px';
+	progress.style.height = '4px';
+	progress.style.padding = '1px';
+	progress.style.border = '1px solid #666';
+	progress.style.backgroundColor = 'white';
+	progress_meter.style.width = '0';
+	progress_meter.style.height = '100%';
+	progress_meter.style.backgroundColor = '#393';
+
+	this._container = container;
+	this._label = label;
+	this._progress = progress;
+	this._progress_meter = progress_meter;
+	map.getContainer().appendChild(container);
+	return container;
+}
+GProgressControl.prototype.getDefaultPosition = function() {
+	return new GControlPosition(G_ANCHOR_TOP_RIGHT, new GSize(7, 30));
+}
+GProgressControl.prototype.setLabel = function(text) {
+	this._label.innerHTML = text;
+}
+GProgressControl.prototype.setProgress = function(val) { // val in 0..1
+	this._progress_meter.style.width = parseInt(val * 100) + '%';
+}
+
 /* vim: set noet ts=4 sts=4 sw=4: */
