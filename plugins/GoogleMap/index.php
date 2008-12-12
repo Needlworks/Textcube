@@ -129,7 +129,8 @@ function GoogleMap_LocationLogView($target) {
 			window.setTimeout('locationFetchPoller('+target_count+');', polling_interval);
 			return;
 		}
-		locationMap.removeControl(progress);
+		progress.setProgress(1.0);
+		window.setTimeout(function() {locationMap.removeControl(progress);}, 200); // eyecandy
 		adjustToBoundary();
 	}
 	STD.addLoadEventListener(function() {
