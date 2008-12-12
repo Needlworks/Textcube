@@ -143,17 +143,19 @@ GProgressControl.prototype.initialize = function(map) {
 	container.appendChild(progress);
 	progress.appendChild(progress_meter);
 
-	container.style.width = '200px';
+	container.style.width = '180px';
 	container.style.textAlign = 'center';
 	label.style.fontFamily = 'Tahoma, Arial, sans-serif';
 	label.style.fontSize = '8pt';
-	progress.style.position = 'relative';
-	progress.style.left = '50px';
+	label.style.padding = '0';
+	label.style.margin = '0';
+	progress.style.marginLeft = '40px';
 	progress.style.width = '100px';
 	progress.style.height = '4px';
 	progress.style.padding = '1px';
 	progress.style.border = '1px solid #666';
 	progress.style.backgroundColor = 'white';
+	progress.style.textAlign = 'left';
 	progress_meter.style.width = '0';
 	progress_meter.style.height = '100%';
 	progress_meter.style.backgroundColor = '#393';
@@ -166,7 +168,7 @@ GProgressControl.prototype.initialize = function(map) {
 	return container;
 }
 GProgressControl.prototype.getDefaultPosition = function() {
-	return new GControlPosition(G_ANCHOR_TOP_RIGHT, new GSize(7, 30));
+	return new GControlPosition(G_ANCHOR_TOP_RIGHT, new GSize(10, 50));
 }
 GProgressControl.prototype.setLabel = function(text) {
 	this._label.innerHTML = text;
