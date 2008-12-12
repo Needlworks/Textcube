@@ -2,21 +2,13 @@
 
 // TODO: i18n (Ticket #1133)
 
-function GoogleMap_AddPost($target, $mother) {
-	// TODO: Extract address information from the content
-}
-
-function GoogleMap_UpdatePost($target, $mother) {
-	// TODO: Extract address information from the content
-}
-
 function GoogleMap_Header($target) {
 	global $configVal, $pluginURL;
 	requireComponent('Textcube.Function.Setting');
 	$config = Setting::fetchConfigVal($configVal);
 	if (!is_null($config) && isset($config['apiKey'])) {
 		$api_key = $config['apiKey'];
-		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/scripts/common.css\" />\n";
+		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/common.css\" />\n";
 		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=$api_key\"></script>\n";
 		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/common.js?".time()."\"></script>\n";
 		$target .= "<script type=\"text/javascript\">
@@ -34,7 +26,7 @@ function GoogleMap_AdminHeader($target) {
 		requireComponent('Textcube.Function.Setting');
 		$config = Setting::fetchConfigVal($configVal);
 		$api_key = $config['apiKey']; // should exist here
-		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/scripts/common.css\" />\n";
+		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/common.css\" />\n";
 		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=$api_key\"></script>\n";
 		$target .= "<script type=\"text/javascript\">
 		//<![CDATA[
@@ -55,7 +47,6 @@ function GoogleMap_AddToolbox($target) {
 }
 
 function GoogleMap_View($target, $mother) {
-	global $gmap_msg;
 	global $configVal, $pluginURL;
 	requireComponent('Textcube.Function.Setting');
 	requireComponent('Textcube.Function.Misc');
@@ -101,11 +92,17 @@ function GoogleMap_LocationLogView($target) {
 	$zoom = 10;
 	ob_start();
 ?>
-	<div style="text-align:center;"><div id="<?php echo $id;?>" style="margin:0 auto;"></div></div>
+	<div style="text-align:center;">
+		<div id="<?php echo $id;?>" style="margin:0 auto;"></div>
+	</div>
 	<script type="text/javascript">
 	//<![CDATA[
+	//console.log('a');
 	var process_count = 0;
-	var polling_interval = 60; // ms
+	var polling_interval = 100; // ms
+	var query_interval = 500; // ms
+	var query_interval_handle = null;
+	var progress = null;
 	var boundary = null;
 	var locationMap = null;
 	function adjustToBoundary() {
@@ -117,11 +114,23 @@ function GoogleMap_LocationLogView($target) {
 		locationMap.setZoom(z);
 		locationMap.setCenter(boundary.getCenter());
 	}
+	function locationFetch(tofind) {
+		if (tofind.length == 0) {
+			window.clearInterval(query_interval_handle);
+			return;
+		}
+		GMap_addLocationMark.apply(this, tofind.pop());
+	}
 	function locationFetchPoller(target_count) {
+		var e = document.getElementById('gmap-progress');
+		var p = document.getElementById('gmap-progress-meter');
 		if (process_count != target_count) {
+			progress.setProgress(process_count / target_count);
 			window.setTimeout('locationFetchPoller('+target_count+');', polling_interval);
 			return;
 		}
+		progress.setProgress(1.0);
+		window.setTimeout(function() {locationMap.removeControl(progress);}, 200); // eyecandy
 		adjustToBoundary();
 	}
 	STD.addLoadEventListener(function() {
@@ -137,74 +146,36 @@ function GoogleMap_LocationLogView($target) {
 			locationMap.addControl(new GScaleControl());
 			locationMap.enableContinuousZoom();
 			locationMap.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
+			progress = new GProgressControl();
+			locationMap.addControl(progress);
 			boundary = new GLatLngBounds(locationMap.getCenter());
 			var locations = new Array();
+			var tofind = new Array();
 <?php
 	$count = 0;
 	$countRemoteQuery = 0;
 	foreach ($locatives as $locative) {
+		//if ($count == 10) break; // for testing purpose
 		$locative['link'] = "$blogURL/" . ($blog['useSloganOnPost'] ? 'entry/' . URL::encode($locative['slogan'],$service['useEncodedURL']) : $locative['id']);
-		$row = POD::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND address = '".POD::escapeString($locative['location'])."'");
-		$result = 9; // 0 = found, 1 = find in client, 9 = not found
+		$row = POD::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND original_address = '".POD::escapeString($locative['location'])."'");
+		$found = false;
 		if ($row == null || empty($row)) {
-			// Recursively repeat until location is found. (continuously reducing accuracy)
-			$addr = explode(' ', _GMap_normalizeAddress($locative['location']));
-			while (true) {
-				if ($countRemoteQuery == 12) { // not to exceed script-running time limit
-					$result = 1;
-					break;
-				}
-				$url = "http://maps.google.co.kr/maps/geo?q=".urlencode(trim(implode(' ', $addr)))."&output=csv&sensor=false&key={$config['apiKey']}";
-				$response = requestHttp('get', $url, false, 'text/plain');
-				$countRemoteQuery++;
-				if ($response === false) {
-					$result = 9;
-					break;
-				} else {
-					$response_lines = explode("\n", $response[1]);
-					$response_csv = explode(',', $response_lines[1]);
-					if ($response_csv[0] == '200') {
-						// Insert for later use.
-						$lat = $response_csv[2];
-						$lng = $response_csv[3];
-						POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '".POD::escapeString($locative['location'])."', $lng, $lat, ".time().")");
-						$result = 0;
-						break;
-					} else {
-						$lat = null; $lng = null;
-						$result = 9;
-						if (count($addr) == 1)
-							break;
-						if ($result == 9)
-							array_pop($addr);
-						continue;
-					}
-				}
-			}
-			if ($result == 9) {
-				// Not found. Don't try also later.
-				POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '".POD::escapeString($locative['location'])."', NULL, NULL, ".time().")");
-			}
+			$found = false;
 		} else {
 			$lat = $row['latitude'];
 			$lng = $row['longitude'];
-			$result = 0;
+			$found = true;
 		}
-		switch ($result) {
-		case 0: // found
-			echo "\t\t\tGMap_addLocationMarkDirect(locationMap, {address:GMap_normalizeAddress('{$locative['location']}'), path:'{$locative['location']}'}, '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), new GLatLng($lat, $lng), boundary, locations);\n";
-			break;
-		case 1: // find in client
-			echo "\t\t\tGMap_addLocationMark(locationMap, '{$locative['location']}', '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), boundary, locations);\n";
-			break;
-		case 9:
-			echo "\t\t\tif (process_count != undefined) process_count++;\n";
-		}
+		if ($found) // found, just output
+			echo "\t\t\tGMap_addLocationMarkDirect(locationMap, {address:GMap_normalizeAddress('{$locative['location']}'), path:'{$locative['location']}', original_path:'{$locative['location']}'}, '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), new GLatLng($lat, $lng), boundary, locations, false);\n";
+		else // try to find in the client
+			echo "\t\t\ttofind.push([locationMap, '{$locative['location']}', '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), boundary, locations]);\n";
 		$count++;
 	}
 ?>
-			window.setTimeout('locationFetchPoller(<?php echo $count;?>);', polling_interval);
-			//adjustToBoundary();
+			progress.setLabel('Loading locations...');
+			query_interval_handle = window.setInterval(function() {locationFetch(tofind);}, query_interval);
+			window.setTimeout(function() {locationFetchPoller(<?php echo $count;?>);}, polling_interval);
 		} else {
 			c.innerHTML = '<p style="text-align:center; color:#c99;">이 웹브라우저는 구글맵과 호환되지 않습니다.</p>';
 		}
@@ -218,7 +189,6 @@ function GoogleMap_LocationLogView($target) {
 }
 
 function GoogleMap_ConfigHandler($data) {
-	global $gmap_msg;
 	requireComponent('Textcube.Function.Setting');
 	$config = Setting::fetchConfigVal($data);
 	if (!is_numeric($config['latitude']) || !is_numeric($config['longitude']) ||
@@ -227,7 +197,35 @@ function GoogleMap_ConfigHandler($data) {
 	return true;
 }
 
-function GoogleMapUI_Insert($target) {
+function GoogleMap_Cache() {
+	global $database;
+	$IV = array(
+		'POST' => array(
+			'original_path' => array('string', 'default'=>''),
+			'path' => array('string', 'default'=>''),
+			'lat' => array('number', 'default'=>null),
+			'lng' => array('number', 'default'=>null)
+		)
+	);
+	Validator::validate($IV);
+	if (empty($_POST['path']) || empty($_POST['original_path'])) {
+		echo 'error: empty path';
+		return;
+	}
+	$original_path_e = POD::escapeString($_POST['original_path']);
+	$path_e = POD::escapeString($_POST['path']);
+	$row = POD::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND original_address = '$original_path_e'");
+	if ($row == null || empty($row)) {
+		if (POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '$original_path_e', '$path_e', {$_POST['lng']}, {$_POST['lat']}, ".time().")"))
+			echo 'ok';
+		else
+			echo 'error: cache failed';
+	} else {
+		echo 'duplicate';
+	}
+}
+
+function GoogleMapUI_Insert() {
 	global $configVal, $pluginURL;
 	requireComponent('Textcube.Function.Misc');
 	$config = Setting::fetchConfigVal($configVal);
@@ -289,7 +287,6 @@ function _GMap_printHeaderForUI($title, $api_key) {
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-ui-1.6rc2.js"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-mousewheel.min.js"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-json.js"></script>
-	<!-- script type="text/javascript" src="<?php echo $pluginURL;?>/.js"></script -->
 	<script type="text/javascript" src="http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<?php echo $api_key;?>"></script>
 	<script type="text/javascript">
 	//<![CDATA[
@@ -318,7 +315,6 @@ function _GMap_printFooterForUI() {
 }
 
 function _GMap_normalizeAddress($address) {
-	//return trim(implode(' ', array_slice(explode('/', $address), 0, 4)));
 	return trim(implode(' ', explode('/', $address)));
 }
 /* vim: set noet ts=4 sts=4 sw=4: */

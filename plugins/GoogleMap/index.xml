@@ -15,6 +15,7 @@
   </requirements>
   <binding>
     <listener event="/plugin/GMapCustomInsert/">GoogleMapUI_Insert</listener>
+    <listener event="/plugin/GMapCache/">GoogleMap_Cache</listener>
     <listener event="ViewPostContent">GoogleMap_View</listener>
     <listener event="ViewNoticeContent">GoogleMap_View</listener>
     <listener event="AddPostEditorToolbox">GoogleMap_AddToolbox</listener>
@@ -67,12 +68,13 @@
     <table>
       <name>GMapLocations</name>
       <fields>
+        <field><name>original_address</name><attribute>varchar</attribute><length>300</length><isnull>0</isnull><default></default></field>
         <field><name>address</name><attribute>varchar</attribute><length>300</length><isnull>0</isnull><default></default></field>
         <field><name>longitude</name><attribute>double</attribute><isnull>1</isnull></field>
         <field><name>latitude</name><attribute>double</attribute><isnull>1</isnull></field>
         <field><name>updated</name><attribute>int</attribute><length>11</length><isnull>0</isnull><default>0</default></field>
       </fields>
-      <key>address</key>
+      <key>original_address</key>
     </table>
   </storage>
 </plugin>
