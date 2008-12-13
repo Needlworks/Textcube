@@ -294,22 +294,46 @@ function eventExists($event)
 	return isset($eventMappings[$event]);
 }
 
+function callbackArray($name) {
+	$listener = trim($name);
+	
+	if (strpos($listener, ',') !== false) {
+		$temp = preg_split('/\s*,\s*/', $listener);
+		
+		if (!preg_match('/^\$?[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff:]*$/', $temp[0]) || !preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff:]*$/', $temp[1]))
+			return false;
+		else
+			return $temp;
+	} else {
+		return preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $listener) ? $listener : false;
+	}
+}
+
 function fireEvent($event, $target = null, $mother = null, $condition = true) {
 	global $service, $eventMappings, $pluginURL, $pluginPath, $configMappings, $configVal;
+	
 	if (!$condition)
 		return $target;
 	if (!isset($eventMappings[$event]))
 		return $target;
 	foreach ($eventMappings[$event] as $mapping) {
 		include_once (ROOT . "/plugins/{$mapping['plugin']}/index.php");
-		if (function_exists($mapping['listener'])) {
+		
+		$listener = callbackArray($mapping['listener']);
+		
+		if ($listener == false) continue;
+		
+		if (is_array($listener) && preg_match('/^\$/', $listener[0]))
+			$listener[0] = getObjectFromGlobal(str_replace('$', '', $listener[0]));
+		
+		if ((is_array($listener) && method_exists($listener[0], $listener[1])) || function_exists($mapping['listener'])) {
 			if( !empty( $configMappings[$mapping['plugin']]['config'] ) ) 				
 				$configVal = getCurrentSetting($mapping['plugin']);
 			else
 				$configVal = null;
 			$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
 			$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
-			$target = call_user_func($mapping['listener'], $target, $mother);
+			$target = call_user_func($listener, $target, $mother);
 		}
 	}
 	return $target;
@@ -324,7 +348,15 @@ function handleTags( & $content) {
 			$target = '';
 			foreach ($tagMappings[$tag] as $mapping) {
 				include_once (ROOT . "/plugins/{$mapping['plugin']}/index.php");
-				if (function_exists($mapping['handler'])) {
+				
+				$handler = callbackArray($mapping['handler']);
+				
+				if ($handler == false) continue;
+
+				if (is_array($handler) && preg_match('/^\$/', $handler[0]))
+					$handler[0] = getObjectFromGlobal(str_replace('$', '', $handler[0]));
+				
+				if ((is_array($handler) && method_exists($handler[0], $handler[1])) || function_exists($mapping['handler'])) {
 					if( !empty( $configMappings[$mapping['plugin']]['config'] ) ) 				
 						$configVal = getCurrentSetting($mapping['plugin']);
 					else
@@ -332,7 +364,7 @@ function handleTags( & $content) {
 					$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
 					$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
 					$pluginName = $mapping['plugin'];
-					$target = call_user_func($mapping['handler'], $target);
+					$target = call_user_func($handler, $target);
 				}
 			}
 			dress($tag, $target, $content);
@@ -345,7 +377,15 @@ function handleCenters($mapping) {
 	$target = '';
 
 	include_once (ROOT . "/plugins/{$mapping['plugin']}/index.php");
-	if (function_exists($mapping['handler'])) {
+	
+	$handler = callbackArray($mapping['handler']);
+	
+	if ($handler == false) continue;
+	
+	if (is_array($handler) && preg_match('/^\$/', $handler[0]))
+		$handler[0] = getObjectFromGlobal(str_replace('$', '', $handler[0]));
+	
+	if ((is_array($handler) && method_exists($handler[0], $handler[1])) || function_exists($handler)) {
 		if( !empty( $configMappings[$mapping['plugin']]['config'] ) ) 				
 			$configVal = getCurrentSetting($mapping['plugin']);
 		else
@@ -353,7 +393,7 @@ function handleCenters($mapping) {
 		$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
 		$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
 		$pluginName = $mapping['plugin'];
-		$target = call_user_func($mapping['handler'], $target);
+		$target = call_user_func($handler, $target);
 	}
 
 	return $target;
@@ -393,11 +433,18 @@ function handleSidebars(& $sval, & $obj, $previewMode) {
 					$plugin = $currentSidebarOrder[$j]['id']['plugin'];
 					$handler = $currentSidebarOrder[$j]['id']['handler'];
 					include_once (ROOT . "/plugins/{$plugin}/index.php");
-					if (function_exists($handler)) {
+					$handler = callbackArray($handler);
+
+					if ($handler == false) continue;
+
+					if (is_array($handler) && preg_match('/^\$/', $handler[0]))
+						$handler[0] = getObjectFromGlobal(str_replace('$', '', $handler[0]));
+
+					if ((is_array($handler) && method_exists($handler[0], $handler[1])) || function_exists($handler)) {
 						$str .= "[##_temp_sidebar_element_{$i}_{$j}_##]";
 						$parameter = $currentSidebarOrder[$j]['parameters'];
 						$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"]['plugin'] = $plugin;
-						$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"]['handler'] = $handler;
+						$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"]['handler'] = call_user_func($handler);
 						$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"]['parameters'] = $parameter;
 					} else {
 						$obj->sidebarStorage["temp_sidebar_element_{$i}_{$j}"] = "";
@@ -458,7 +505,14 @@ function handleCoverpages(& $obj, $previewMode = false) {
 					else
 						$configVal ='';
 					
-					if (function_exists($handler)) {
+					$handler = callbackArray($handler);
+
+					if ($handler == false) continue;
+
+					if (is_array($handler) && preg_match('/^\$/', $handler[0]))
+						$handler[0] = getObjectFromGlobal(str_replace('$', '', $handler[0]));
+
+					if ((is_array($handler) && method_exists($handler[0], $handler[1])) || function_exists($handler)) {
 						$obj->coverpageStorage["temp_coverpage_element_{$i}_{$j}"] = call_user_func($handler, $parameters);
 					} else {
 						$obj->coverpageStorage["temp_coverpage_element_{$i}_{$j}"] = "";
@@ -486,12 +540,20 @@ function handleDataSet( $plugin , $DATA ) {
 		$pluginPath = ROOT . "/plugins/{$plugin}";
 		$pluginName = $plugin;
 		include_once (ROOT . "/plugins/{$plugin}/index.php");
-		if( function_exists( $configMappings[$plugin]['dataValHandler'] ) ) {
+		
+		$handler = callbackArray($configMappings[$plugin]['dataValHandler']);
+
+		if ($handler == false) continue;
+
+		if (is_array($handler) && preg_match('/^\$/', $handler[0]))
+			$handler[0] = getObjectFromGlobal(str_replace('$', '', $handler[0]));
+
+		if ((is_array($handler) && method_exists($handler[0], $handler[1])) || function_exists($handler)) {
 			if( !empty( $configMappings[$plugin]['config'] ) ) 				
 				$configVal = getCurrentSetting($plugin);
 			else
 				$configVal ='';
-			$reSetting = call_user_func( $configMappings[$plugin]['dataValHandler'] , $DATA);
+			$reSetting = call_user_func($handler, $DATA);
 		}
 		if( true !== $reSetting )	
 			return array( 'error' => '9', 'customError' => $reSetting)	;
@@ -535,12 +597,20 @@ function handleConfig($plugin) {
 			$pluginPath = ROOT . "/plugins/{$plugin}";
 			$pluginName = $plugin;
 			include_once (ROOT . "/plugins/$plugin/index.php");
-			if (function_exists($handler)) {
+			
+			$handler = callbackArray($handler);
+
+			if ($handler == false) continue;
+
+			if (is_array($handler) && preg_match('/^\$/', $handler[0]))
+				$handler[0] = getObjectFromGlobal(str_replace('$', '', $handler[0]));
+
+			if ((is_array($handler) && method_exists($handler[0], $handler[1])) || function_exists($handler)) {
 				if( !empty( $configMappings[$plugin]['config'] ) ) 				
 					$configVal = getCurrentSetting($plugin);
 				else
 					$configVal ='';
-				$manifest = call_user_func( $handler , $plugin );
+				$manifest = call_user_func($handler, $plugin);
 			}
 			$newXmls = new XMLStruct();
 			if($newXmls->open( $manifest) ) {	 
@@ -678,5 +748,13 @@ function radioTreat( $cmd, $dfVal, $name) {
 		$DSP .= "<label class='radiolabel' for='".$name.$cnt."'>{$option['.value']}</label >".CRLF;
 	}
 	return $DSP;
+}
+
+function registerObjectToGlobal($name, $obj) {
+	return $GLOBALS['__' . $name] = $obj;
+}
+
+function getObjectFromGlobal($name) {
+	return $GLOBALS['__' . $name];
 }
 ?>
