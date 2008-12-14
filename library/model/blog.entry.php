@@ -356,7 +356,7 @@ function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
 	if($categoryId !== false) {
-		if(!$categoryId == 0) {	// Not a 'total' category.
+		if($categoryId != 0) {	// Not a 'total' category.
 			$childCategories = getChildCategoryId($blogid, $categoryId);
 			if(!empty($childCategories)) {
 				$category = 'e.category IN ('.$categoryId.','.implode(",",$childCategories).')';
