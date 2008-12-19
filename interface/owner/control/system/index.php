@@ -158,39 +158,43 @@ for ($i=1; $i<=64; $i=abs($i*2)) {
 		</form>
 		
 <?php
-ob_start();
-phpinfo($phpinfo);
-$phpinfo = ob_get_contents();
-ob_end_clean();
+if (!in_array('phpinfo', array_map('trim', explode(',', ini_get('disable_functions'))))) {
+	ob_start();
+	phpinfo($phpinfo);
+	$phpinfo = ob_get_contents();
+	ob_end_clean();
 
-$regexpArray = array();
-array_push($regexpArray, '@.*<body.*?>(.*)</body>.*@sim');
-array_push($regexpArray, '@<table.*>\s*<tr.*><td>\s*<a href="(.+)"><img border="0" src="(.+)" alt="PHP Logo" /></a><h1 class="p">(.+)</h1>\s*</td></tr>\s*</table>@Usi');
-//array_push($regexpArray, '@<table.*>\s*<tr.*><td>\s*<a href="(.+)"><img border="0" src="(.+)" alt="Zend logo" /></a>(.+)\s*</td></tr>\s*</table>@Usi');
-array_push($regexpArray, '@<(/?)h1(.*)>@Usi');
-array_push($regexpArray, '@<(/?)h2(.*)>@Usi');
-array_push($regexpArray, '@<tr class="h">(.+)</tr>@Usi');
-array_push($regexpArray, '@<table .*>@Usi');
-array_push($regexpArray, '@</table>@');
-array_push($regexpArray, '@<td class="e">(.+)</td>@Usi');
-array_push($regexpArray, '@<td class="v">(.+)</td>@Usi');
-array_push($regexpArray, '@<(br|hr) />@');
-//array_push($regexpArray, '');
-$resultArray = array();
-array_push($resultArray, '$1');
-array_push($resultArray, '<div id="PHPLogo"><a href="$1"><img src="$2" /></a><p>$3</p></div>');
-//array_push($resultArray, '<div id="ZendLogo"><a href="$1"><img src="$2" /></a><p>$3</p></div>');
-array_push($resultArray, '<$1h3>');
-array_push($resultArray, '<$1h4>');
-array_push($resultArray, '<thead><tr>$1</tr></thead><tbody>');
-array_push($resultArray, '<table>');
-array_push($resultArray, '</tbody></table>');
-array_push($resultArray, '<th>$1</th>');
-array_push($resultArray, '<td>$1</td>');
-array_push($resultArray, '');
-//array_push($resultArray, '');
+	$regexpArray = array();
+	array_push($regexpArray, '@.*<body.*?>(.*)</body>.*@sim');
+	array_push($regexpArray, '@<table.*>\s*<tr.*><td>\s*<a href="(.+)"><img border="0" src="(.+)" alt="PHP Logo" /></a><h1 class="p">(.+)</h1>\s*</td></tr>\s*</table>@Usi');
+	//array_push($regexpArray, '@<table.*>\s*<tr.*><td>\s*<a href="(.+)"><img border="0" src="(.+)" alt="Zend logo" /></a>(.+)\s*</td></tr>\s*</table>@Usi');
+	array_push($regexpArray, '@<(/?)h1(.*)>@Usi');
+	array_push($regexpArray, '@<(/?)h2(.*)>@Usi');
+	array_push($regexpArray, '@<tr class="h">(.+)</tr>@Usi');
+	array_push($regexpArray, '@<table .*>@Usi');
+	array_push($regexpArray, '@</table>@');
+	array_push($regexpArray, '@<td class="e">(.+)</td>@Usi');
+	array_push($regexpArray, '@<td class="v">(.+)</td>@Usi');
+	array_push($regexpArray, '@<(br|hr) />@');
+	//array_push($regexpArray, '');
+	$resultArray = array();
+	array_push($resultArray, '$1');
+	array_push($resultArray, '<div id="PHPLogo"><a href="$1"><img src="$2" /></a><p>$3</p></div>');
+	//array_push($resultArray, '<div id="ZendLogo"><a href="$1"><img src="$2" /></a><p>$3</p></div>');
+	array_push($resultArray, '<$1h3>');
+	array_push($resultArray, '<$1h4>');
+	array_push($resultArray, '<thead><tr>$1</tr></thead><tbody>');
+	array_push($resultArray, '<table>');
+	array_push($resultArray, '</tbody></table>');
+	array_push($resultArray, '<th>$1</th>');
+	array_push($resultArray, '<td>$1</td>');
+	array_push($resultArray, '');
+	//array_push($resultArray, '');
 
-echo preg_replace($regexpArray, $resultArray, $phpinfo);
+	echo preg_replace($regexpArray, $resultArray, $phpinfo);
+} else {
+	echo _t('보안 문제로 인해 PHP 정보를 출력할 수 없도록 서버가 설정되어 있습니다.');
+}
 
 /* ORIGINAL embeded css from phpinfo()
 <style type="text/css"><!--
