@@ -193,7 +193,7 @@ if (!in_array('phpinfo', array_map('trim', explode(',', ini_get('disable_functio
 
 	echo preg_replace($regexpArray, $resultArray, $phpinfo);
 } else {
-	echo _t('보안 문제로 인해 PHP 정보를 출력할 수 없도록 서버가 설정되어 있습니다.');
+	echo _t('서버 정책이 보안을 위하여 PHP 정보를 출력할 수 없도록 설정되어 있습니다.');
 }
 
 /* ORIGINAL embeded css from phpinfo()
