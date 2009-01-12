@@ -84,7 +84,9 @@ if(empty($suri['id'])) {  // Without id.
 	require ROOT . '/library/piece/blog/end.php';
 } else {  // With id.
 	if(isset($_GET['category'])) { // category exists
-		list($entries, $paging) = getEntryWithPaging($blogid, $suri['id'],false,$_GET['category']);
+		if(Validator::isInteger($_GET['category'], 0)) {
+			list($entries, $paging) = getEntryWithPaging($blogid, $suri['id'],false,$_GET['category']);
+		}
 	} else { // Just normal entry view
 		list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
 	}
