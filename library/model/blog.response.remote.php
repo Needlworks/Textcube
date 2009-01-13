@@ -353,9 +353,9 @@ function sendTrackback($blogid, $entryId, $url) {
 		|| strpos($url, 'www.cine21.com/Movies/tb.php') !== false // cine21
 		;
 	if ($isNeedConvert) {
-		$title = UTF8::convert($title);
-		$excerpt = UTF8::convert($excerpt);
-		$blogTitle = UTF8::convert($blogTitle);
+		$title = UTF8::convert($title, 'EUC-KR');
+		$excerpt = UTF8::convert($excerpt, 'EUC-KR');
+		$blogTitle = UTF8::convert($blogTitle, 'EUC-KR');
 		$content = "url=" . rawurlencode($link) . "&title=" . rawurlencode($title) . "&blog_name=" . rawurlencode($blogTitle) . "&excerpt=" . rawurlencode($excerpt);
 		$request = new HTTPRequest('POST', $url);
 		$request->contentType = 'application/x-www-form-urlencoded; charset=euc-kr';
