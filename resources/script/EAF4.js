@@ -90,11 +90,13 @@ Standardizer.prototype.getScrollLeft = function() {
 };
 
 Standardizer.prototype.addLoadEventListener = function(fn) {
-	jQuery(fn);
+	if (jQuery.isFunction(fn))
+		jQuery(fn);
 };
 
 Standardizer.prototype.addUnloadEventListener = function(fn) {
-	jQuery(document).bind('unload', fn);
+	if (jQuery.isFunction(fn))
+		jQuery(document).bind('unload', fn);
 };
 
 Standardizer.prototype.querySelector = function(selector) {
@@ -103,6 +105,8 @@ Standardizer.prototype.querySelector = function(selector) {
 	if (typeof(selector) != 'string')
 		return null;
 	return jQuery(selector)[0];
+	// NOTE: Possilbe side-effect:
+	//       If you pass a html string as selector, jQuery function will return a new extended DOM node.
 }
 
 Standardizer.prototype.querySelectorAll = function(selector) {
@@ -111,6 +115,8 @@ Standardizer.prototype.querySelectorAll = function(selector) {
 	if (typeof(selector) != 'string')
 		return null;
 	return jQuery(selector);
+	// NOTE: Possilbe side-effect:
+	//       If you pass a html string as selector, jQuery function will return a new extended DOM node.
 }
 
 var STD=new Standardizer();
