@@ -80,7 +80,7 @@ final class Context extends Singleton
 			$depth = substr_count(ROOT, '/');
 		}
 		if ($depth > 0) {
-			if($config->service['fancyURL'] === 0 || $config->service['fancyURL'] === 1) $url = '/'.$self->URLInfo['input']; // Exclude /blog path.
+			if($config->service['fancyURL'] === 0 || $config->service['fancyURL'] === 1) $url = '/'.$this->URLInfo['input']; // Exclude /blog path.
 			if (preg_match('@^((/+[^/]+){' . $depth . '})/*(.*)$@', $url, $matches)) {
 				$suri['directive'] = $matches[1];
 				if ($matches[3] !== false) {
