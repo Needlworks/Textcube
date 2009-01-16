@@ -452,6 +452,11 @@ TTModernEditor.prototype.ttml2html = function() {
 // Convert HTML on designmode IFRAME to TTML format.
 TTModernEditor.prototype.html2ttml = function() {
 	var str = this.contentDocument.body.innerHTML;
+	if (STD.isWebkit) {
+		// Workaround for Webkit's misbehaviour (All closing non-html '>' are not converted to the entity '&gt;')
+		// NOTE: This solution can't process cases like ">>>>".
+		str = str.replace(new RegExp("(&lt;[^<]*?)>", "gi"), "$1&gt;");
+	}
 
 	str = str.replaceAll('<div><br /></div>','<br />');
 	// more/less handling
