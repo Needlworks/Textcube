@@ -115,7 +115,7 @@ class Feed {
 	}
 	
 	function add() {
-		global $database;
+		global $database, $blogid;
 		$this->id = null;
 		$this->url = trim($this->url);
 		if (empty($this->url))
