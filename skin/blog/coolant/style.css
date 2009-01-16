@@ -1168,7 +1168,7 @@ form input:focus, textarea:focus
 
 #keywords ul
 {
-	list-type-style: none;
+	list-style: none;
 	text-align: left;
 }
 
@@ -1176,7 +1176,7 @@ form input:focus, textarea:focus
 {
 	display: inline;
 	line-height: 2.2em
-	list-type-style: none;
+	list-style: none;
 	padding-right: 10px;
 }
 
