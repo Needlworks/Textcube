@@ -339,7 +339,8 @@ include ROOT . '/resources/language/messages.php';
 		//]]>
 	</script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/byTextcube.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/jquery/jquery-1.2.6.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/jquery/jquery-1.3.js"></script>
+	<script type="text/javascript">jQuery.noConflict();</script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/EAF4.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/owner.js"></script>
