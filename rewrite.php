@@ -118,7 +118,7 @@ class Dispatcher {
 		if (empty($interfacePath)) $interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
 		define('PATH', 'interface/'.(empty($pathPart) ? '' : $pathPart.'/'));
 		unset($pathPart);
-		if (!file_exists($interfacePath)) { require ROOT."/library/error.php";errorExit(404);}
+		if (!file_exists($interfacePath)) { $interfacePath = 'interface/freeSlogan.php'; }
 		$URLInfo['interfacePath'] = $this->interfacePath = $interfacePath;
 		$this->URLInfo = $URLInfo;
 	}
