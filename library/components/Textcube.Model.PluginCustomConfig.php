@@ -26,7 +26,7 @@ class PluginCustomConfig{
 			return false;
 		}
 		$plugin = $this->pluginName;
-		if( isset($configMappings[$plugin]) ){
+		if( !isset($configMappings[$plugin]) ){
 			$this->usable = false;
 			return false;
 		}
