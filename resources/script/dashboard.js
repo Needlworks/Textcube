@@ -1,15 +1,47 @@
 // requires jQuery's UI plugin 1.6
 (function($){
 
+function getWidgetPosition(id) {
+	var all = $('#widget-container-0').sortable('toArray');
+	all.push('TextcubeSeparator');
+	$.merge(all, $('#widget-container-1').sortable('toArray'));
+	all.push('TextcubeSeparator');
+	$.merge(all, $('#widget-container-2').sortable('toArray'));
+
+	var p = 0, i = 0;
+	for (i = 0; i < all.length; i++) {
+		if (all[i].trim() != '') {
+			if (all[i]== id)
+				return p;
+			p++;
+		}
+	}
+	return -1;
+}
+
 if (editMode) {
 	$(function() { // dom ready
 		$('.widget-container').sortable({
 			connectWith: ['.widget-container'],
+			start: function(ev, ui) {
+				var prev_pos = getWidgetPosition(ui.item.attr('id'));
+				$.data(ui.item[0], 'prev_pos', prev_pos);
+				$.data(ui.item[0], 'sent', false);
+			},
 			update: function(ev, ui) {
-				var node = ui.item;
-				// TOKNOW: TextcubeSeparator가 어떤 용도로 쓰이고 위치 계산이 정확히 어떤 방식으로 이루어지는 건가요? 기능에 비해 코드가 필요 이상으로 복잡한 것 같습니다. ㅠㅠ;
-				//console.log($('.widget-container').sortable('toArray'));
-				//var requestURL = "dashboard?ajaxcall=true&edit=true&pos=" + node.pos.toString() + "&rel=" + rel.toString();
+				if ($.data(ui.item[0], 'sent')) // prevent duplicated triggering when moving between different lists
+					return;
+				var cur_pos = getWidgetPosition(ui.item.attr('id'));
+				var prev_pos = $.data(ui.item[0], 'prev_pos');
+				var rel = 0;
+				if (prev_pos != undefined)
+					rel = cur_pos - prev_pos;
+				$.removeData(ui.item, 'prev_pos');
+				console.log(ui.item.attr('id'), prev_pos, cur_pos, rel);
+
+				var requestURL = "dashboard?ajaxcall=true&edit=true&pos=" + prev_pos + "&rel=" + rel;
+				$.post(requestURL);
+				$.data(ui.item[0], 'sent', true);
 			},
 			placeholder: 'widget-state-highlight',
 			opacity: 0.65
@@ -20,80 +52,3 @@ if (editMode) {
 
 })(jQuery);
 
-/*
-	dojo.require("dojo.dnd.HtmlDragAndDrop");
-	
-	DragPanel = function(node, type) {
-		dojo.dnd.HtmlDragSource.call(this, node, type);
-		this.dragClass = "ajax-floating-panel";
-		this.opacity = 0.9;
-	}
-	dojo.inherits(DragPanel, dojo.dnd.HtmlDragSource);
-	
-	DropPanel = function(node, type) {
-		dojo.dnd.HtmlDropTarget.call(this, node, type);
-	}
-	dojo.inherits(DropPanel, dojo.dnd.HtmlDropTarget);
-	var globalChker = true;
-	
-	function reordering() {
-		var pos = 0;
-		var pNode = document.getElementById('dojo_boardbar0').firstChild;
-		while (pNode != null) {
-			if (pNode.className == "section") pNode.pos = pos++;
-			pNode = pNode.nextSibling;
-		}
-		document.getElementById('dojo_boardbar1').plusposition = pos++;
-		pNode = document.getElementById('dojo_boardbar1').firstChild;
-		while (pNode != null) {
-			if (pNode.className == "section") pNode.pos = pos++;
-			pNode = pNode.nextSibling;
-		}
-		document.getElementById('dojo_boardbar2').plusposition = pos++;
-		pNode = document.getElementById('dojo_boardbar2').firstChild;
-		while (pNode != null) {
-			if (pNode.className == "section") pNode.pos = pos++;
-			pNode = pNode.nextSibling;
-		}
-	}
-	
-	dojo.lang.extend(DropPanel, {
-		onDrop: function(e) {
-			this.parentMethod = DropPanel.superclass.onDrop;
-			var retVal = this.parentMethod(e);
-			delete this.parentMethod;
-			
-			if ((retVal == true) && (globalChker == true)) {
-				var node = e.dragObject.domNode;
-				var prevNode = node.previousSibling;
-				var insertposition = 0;
-				while (prevNode != null) {
-					if (prevNode.className == "section") break;
-					prevNode = prevNode.previousSibling;
-				}
-				if (prevNode != null) {
-					insertposition = prevNode.pos + 1;
-				} else {
-					insertposition = this.domNode.plusposition + 1;
-				}
-				var rel = insertposition - node.pos;
-				if (insertposition > node.pos) rel--;
-				if (rel == 0) return retVal;
-				var requestURL = "dashboard?ajaxcall=true&edit=true&pos=" + node.pos.toString() + "&rel=" + rel.toString();
-				
-				var request = new HTTPRequest("POST", requestURL);
-				request.onSuccess = function () {
-				}
-				request.onError = function () {
-					globalChker = false;
-				}
-				request.onVerify = function () {
-					return true;
-				}
-				request.send();
-				reordering();
-			}
-			return retVal;
-		}
-	});
-*/
