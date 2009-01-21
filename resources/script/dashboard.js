@@ -1,12 +1,20 @@
+// requires jQuery's UI plugin 1.6
 (function($){
 
 if (editMode) {
-	$(function() {
+	$(function() { // dom ready
 		$('.widget-container').sortable({
 			connectWith: ['.widget-container'],
+			update: function(ev, ui) {
+				var node = ui.item;
+				// TOKNOW: TextcubeSeparator가 어떤 용도로 쓰이고 위치 계산이 정확히 어떤 방식으로 이루어지는 건가요? 기능에 비해 코드가 필요 이상으로 복잡한 것 같습니다. ㅠㅠ;
+				//console.log($('.widget-container').sortable('toArray'));
+				//var requestURL = "dashboard?ajaxcall=true&edit=true&pos=" + node.pos.toString() + "&rel=" + rel.toString();
+			},
 			placeholder: 'widget-state-highlight',
 			opacity: 0.65
 		});
+		$('.widget-container .section').css('cursor', 'pointer');
 	});
 }
 

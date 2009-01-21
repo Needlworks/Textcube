@@ -176,13 +176,10 @@ $editClass = NULL;
 if (isset($_REQUEST['edit'])) {
 	$editClass = "-edit";
 ?>
-<!-- script src="<?php echo $service['path'];?>/resources/script/dojo/dojo.js" type="text/javascript"></script -->
-<script src="<?php echo $service['path'];?>/resources/script/jquery/jquery.1.3.js" type="text/javascript"></script>
 <script src="<?php echo $service['path'];?>/resources/script/jquery/jquery.ui.essentials.1.6.js" type="text/javascript"></script>
 <script type="text/javascript">
 //<![CDATA[
-	jQuery.noConflict();
-<?php echo "\tvar editMode = ".isset($_REQUEST['edit']);?>
+<?php echo "\tvar editMode = ".isset($_REQUEST['edit']).";\n";?>
 //]]>
 </script>
 <script src="<?php echo $service['path'];?>/resources/script/dashboard.js" type="text/javascript"></script>
@@ -311,14 +308,14 @@ if(Acl::check('group.owners')) {
 <?php
 }
 ?>
-								<div id="dojo_boardbar0" class="panel widget-container">
+								<div id="widget-container-0" class="panel widget-container">
 <?php
 foreach ($newlayout as $mapping) {
 	if ($mapping['plugin'] == 'TextcubeSeparator') {
 ?>
 
 								</div>
-								<div id="dojo_boardbar<?php echo $boardbarNumber + 1;?>" class="panel widget-container">
+								<div id="widget-container-<?php echo $boardbarNumber + 1;?>" class="panel widget-container">
 <?php
 		$secondposition[$boardbarNumber] = $positionCounter;
 		$boardbarNumber++;
@@ -333,8 +330,8 @@ foreach ($newlayout as $mapping) {
 		if (isset($_REQUEST['edit'])) {
 ?>
 				
-											<a id="<?php echo $mapping['plugin'];?>dojoup" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter; ?>&amp;rel=-1&edit"><?php echo _t("위로");?></a>
-											<a id="<?php echo $mapping['plugin'];?>dojodown" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter;?>&amp;rel=1&edit"><?php echo _t("아래로");?></a>
+											<a class="widget-reorder-up" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter; ?>&amp;rel=-1&edit"><?php echo _t("위로");?></a>
+											<a class="widget-reorder-down" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter;?>&amp;rel=1&edit"><?php echo _t("아래로");?></a>
 <?php
 		}
 ?>
