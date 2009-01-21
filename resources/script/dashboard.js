@@ -37,7 +37,6 @@ if (editMode) {
 				if (prev_pos != undefined)
 					rel = cur_pos - prev_pos;
 				$.removeData(ui.item, 'prev_pos');
-				console.log(ui.item.attr('id'), prev_pos, cur_pos, rel);
 
 				var requestURL = "dashboard?ajaxcall=true&edit=true&pos=" + prev_pos + "&rel=" + rel;
 				$.post(requestURL);
