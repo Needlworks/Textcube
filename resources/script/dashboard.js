@@ -1,3 +1,16 @@
+(function($){
+
+if (editMode) {
+	$(function() {
+		$('.widget-container').sortable({
+			connectWith: ['.widget-container'],
+			placeholder: 'widget-state-highlight',
+			opacity: 0.65
+		});
+	});
+}
+
+})(jQuery);
 
 /*
 	dojo.require("dojo.dnd.HtmlDragAndDrop");

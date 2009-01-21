@@ -179,7 +179,12 @@ if (isset($_REQUEST['edit'])) {
 <!-- script src="<?php echo $service['path'];?>/resources/script/dojo/dojo.js" type="text/javascript"></script -->
 <script src="<?php echo $service['path'];?>/resources/script/jquery/jquery.1.3.js" type="text/javascript"></script>
 <script src="<?php echo $service['path'];?>/resources/script/jquery/jquery.ui.essentials.1.6.js" type="text/javascript"></script>
-<script type="text/javascript">jQuery.noConflict();</script>
+<script type="text/javascript">
+//<![CDATA[
+	jQuery.noConflict();
+<?php echo "\tvar editMode = ".isset($_REQUEST['edit']);?>
+//]]>
+</script>
 <script src="<?php echo $service['path'];?>/resources/script/dashboard.js" type="text/javascript"></script>
 <?php
 }
@@ -405,50 +410,6 @@ if(Acl::check("group.creators") && !isset($_REQUEST['edit'])) {
 						<iframe id="blackhole" name="blackhole" style="display: none;"></iframe>
 <?php
 }
-if (isset($_REQUEST['edit'])) {
-?>
-						<script type="text/javascript">
-							//<![CDATA[
-								(function($){
-								$(function() {
-									$('.widget-container').sortable({
-										connectWith: ['.widget-container'],
-										placeholder: 'widget-state-highlight',
-										opacity: 0.65
-									});
-								});
-								})(jQuery);
-								/*
-								var pan0 = new DropPanel(document.getElementById('dojo_boardbar0'), ["dashboard"]);
-								document.getElementById('dojo_boardbar0').plusposition = -1;
-								var pan1 = new DropPanel(document.getElementById('dojo_boardbar1'), ["dashboard"]);
-								document.getElementById('dojo_boardbar1').plusposition = <?php echo $secondposition[0];?>;
-								var pan1 = new DropPanel(document.getElementById('dojo_boardbar2'), ["dashboard"]);
-								document.getElementById('dojo_boardbar2').plusposition = <?php echo $secondposition[1];?>;
-								*/
-									
-<?php
-	$positionCounter = 0;
-	foreach ($newlayout as $mapping) {
-		echo "/*\n"; print_r($mapping); echo "*/\n";
-		if ($mapping['plugin'] != 'TextcubeSeparator') {
-?>
-		//document.getElementById('<?php echo $mapping['plugin'];?>').pos = <?php echo $positionCounter;?>;
-		// new DragPanel(document.getElementById('<?php echo $mapping['plugin'];?>'), ["dashboard"]);
-		
-		
-		//document.getElementById('<?php echo $mapping['plugin'];?>dojoup').parentNode.removeChild(document.getElementById('<?php echo $mapping['plugin'];?>dojoup'));
-		//document.getElementById('<?php echo $mapping['plugin'];?>dojodown').parentNode.removeChild(document.getElementById('<?php echo $mapping['plugin'];?>dojodown'));
-<?php
-		}
-		$positionCounter++;
-	}
-?>
-							//]]!>
-						</script>
-<?php
-}
-
 
 
 //************ Default Center Widget module.
