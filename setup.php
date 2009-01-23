@@ -1655,47 +1655,47 @@ ini_set('display_errors', 'off');
 			switch ($_POST['rewriteMode']) {
 			case 'ISAPI':
 				// Users must copy these rules to IsapiRewrite4.ini
-				$htaccessContent = 
-"RewriteRule ^$path/(thumbnail)/([0-9]+/.+)$ $path/cache/$1/$2 [L,U]
+				$htaccessContent = <<<EOF
+RewriteRule ^{$path}/(thumbnail)/([0-9]+/.+)\$ {$path}/cache/\$1/\$2 [L,U]
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^$path/(cache)+/+(.+[^/])\.(cache|xml|txt|log)$ - [NC,F,L,U]
+RewriteRule ^{$path}/(cache)+/+(.+[^/])\.(cache|xml|txt|log)\$ - [NC,F,L,U]
 RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^$path/([^?]+[^/])$ $path/$1/ [L,U]
+RewriteRule ^{$path}/([^?]+[^/])\$ {$path}/\$1/ [L,U]
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{QUERY_STRING} ^$
-RewriteRule ^$path/(.*)$ $path/rewrite.php [L,U]
-RewriteRule ^$path/(.*)$ $path/rewrite.php?%{QUERY_STRING} [L,U]
-";
+RewriteCond %{QUERY_STRING} ^\$
+RewriteRule ^{$path}/(.*)\$ {$path}/rewrite.php [L,U]
+RewriteRule ^{$path}/(.*)\$ {$path}/rewrite.php?%{QUERY_STRING} [L,U]
+EOF;
 				break;
 			case 'IISRewrite':
 				// Users must import these rules into URL Rewrite module.
-				$htaccessContent = 
-"RewriteRule ^$path/(thumbnail)/([0-9]+/.+)$ $path/cache/$1/$2 [L]
+				$htaccessContent = <<<EOF
+RewriteRule ^{$path}/(thumbnail)/([0-9]+/.+)\$ {$path}/cache/\$1/\$2 [L]
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^$path/(cache)+/+(.+[^/])\.(cache|xml|txt|log)$ - [NC,F,L]
+RewriteRule ^{$path}/(cache)+/+(.+[^/])\.(cache|xml|txt|log)\$ - [NC,F,L]
 RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^$path/([^?]+[^/])$ $path/$1/ [L]
+RewriteRule ^{$path}/([^?]+[^/])\$ {$path}/\$1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^$path/(.*)$ $path/rewrite.php [L,QSA]
-";
+RewriteRule ^{$path}/(.*)\$ {$path}/rewrite.php [L,QSA]
+EOF;
 				break;
 			case 'mod_rewrite':
 			default:
-				$htaccessContent = 
-"#<IfModule mod_url.c>
+				$htaccessContent = <<<EOF
+#<IfModule mod_url.c>
 #CheckURL Off
 #</IfModule>
 #SetEnv PRELOAD_CONFIG 1
 RewriteEngine On
-RewriteBase $path/
-RewriteRule ^(thumbnail)/([0-9]+/.+)$ cache/$1/$2 [L]
+RewriteBase {$path}/
+RewriteRule ^(thumbnail)/([0-9]+/.+)\$ cache/\$1/\$2 [L]
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^(cache)+/+(.+[^/])\.(cache|xml|txt|log)$ - [NC,F,L]
+RewriteRule ^(cache)+/+(.+[^/])\.(cache|xml|txt|log)\$ - [NC,F,L]
 RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^(.+[^/])$ $1/ [L]
+RewriteRule ^(.+[^/])\$ \$1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)$ rewrite.php [L,QSA]
-";
+RewriteRule ^(.*)\$ rewrite.php [L,QSA]
+EOF;
 			}
 
     	    if ($fp) {
