@@ -1,5 +1,5 @@
-¼º´ëÇö(Sung, Dae-Hyun. a.k.a. StudioEgo)
-Textcube google map plugin project Âü¿©¸¦ À§ÇÑ subversion TestÀÔ´Ï´Ù.
+ì„±ëŒ€í˜„(Sung, Dae-Hyun. a.k.a. StudioEgo)
+Textcube google map plugin project ì°¸ì—¬ë¥¼ ìœ„í•œ subversion Testìž…ë‹ˆë‹¤.
 Tistory : http://blog.studioego.info/
 Blog : http://studioego.info/blog
 Homepage : http://studioego.info/
