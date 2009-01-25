@@ -3,3 +3,6 @@ Textcube google map plugin project 참여를 위한 subversion Test입니다.
 Tistory : http://blog.studioego.info/
 Blog : http://studioego.info/blog
 Homepage : http://studioego.info/
+
+UTF-8로 작성하여 subversion Test.
+여기서는 충돌해결하기.
