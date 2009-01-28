@@ -32,7 +32,7 @@ if(Standardizer.prototype.isIE) {
 	Standardizer.prototype.engineVersion  = Standardizer.prototype.browserVersion;
 }
 // Mozilla Firefox
-Standardizer.prototype.isFirefox = (ua.indexOf("Firefox")>=0 || ua.indexOf("IceWeasel")>=0 || ua.indexOf("Minefield")>0);
+Standardizer.prototype.isFirefox = (ua.indexOf("Firefox")>=0 || ua.toLowerCase().indexOf("iceweasel")>=0 || ua.indexOf("Minefield")>0);
 if(Standardizer.prototype.isFirefox) {
 	Standardizer.prototype.browserVersion  = parseFloat(ua.substr(ua.indexOf("Firefox/")+8,10));
 	Standardizer.prototype.engineVersion  = parseFloat(ua.substr(Math.max(ua.indexOf("rv:"),0)+3,7));
