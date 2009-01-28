@@ -787,11 +787,14 @@ xml_set_object
 ?>
 	<h3><?php echo _t('IIS Rewrite Module');?></h3>
 	<ul style="color:red">
-		<li><?php echo _t('현재 IIS에서의 설치는 실험적으로만 지원하고 있으며 별도의 Rewrite 모듈을 사용해야 합니다.').' '._t('만약 이 페이지를 보고 계시다면 Apache mod_rewrite와 호환되지 않는 모듈을 사용 중이거나 아예 모듈이 없는 경우입니다.'); ?></li>
-		<li><?php echo _t('텍스트큐브와 호환되는 IIS용 Rewrite 모듈을 설치하려면, 오픈스소 무료 모듈을 제공하고 있는 <a href="http://www.codeplex.com/IIRF" target="_blank">Ionics Isapi Rewrite Filter 홈페이지</a>를 방문하십시오.'); ?></li>
-		<li><?php echo _t('여기서 계속 진행하여 설치를 완료한 후, 생성된 <b>.htaccess</b> 파일의 내용을 위 모듈의 설정파일(<b>IsapiRewrite4.ini</b>)에 복사하시기 바랍니다.'); ?></li>
-		<input type="hidden" name="rewriteIIS" value="yes" />
+		<li><?php echo _t('현재 IIS에서의 설치는 실험적으로만 지원하고 있으며 별도의 Rewrite 모듈을 사용해야 합니다.').' '._t('만약 이 페이지를 보고 계시다면 Apache mod_rewrite와 호환되지 않는 Rewrite 모듈을 사용 중이거나 아예 모듈이 없는 경우입니다.'); ?></li>
+		<li><?php echo _t('IIS 7.0을 사용하시는 경우 공식 URL Rewrite Module을 사용하려면 <a href="http://www.iis.net/extensions/URLRewrite">이곳에서 다운로드</a>받아 설치하시고, 계속 진행·설치 후 생성되는 <b>.htaccess</b> 파일 내용을 그대로 import해주시면 됩니다.'); ?></li>
+		<li><?php echo _t('IIS 6.0 이전 버전을 사용하시는 경우 Rewrite 모듈을 설치하려면, 오픈스소 무료 모듈을 제공하고 있는 <a href="http://www.codeplex.com/IIRF" target="_blank">Ionics Isapi Rewrite Filter 홈페이지</a>를 방문하여 설치하신 후, 계속 진행·설치 후 생성되는 <b>.htaccess</b> 파일의 내용을 위 모듈의 설정파일(<b>IsapiRewrite4.ini</b>)에 복사하시기 바랍니다.'); ?></li>
 	</ul>
+	<p>
+		<input type="radio" name="rewriteIIS" value="IISRewrite" id="rewriteIIS_Option1"><label for="rewriteIIS_Option1"><?php echo _t('IIS 7.0용 공식 URL Rewrite 모듈을 사용합니다.'); ?></label><br />
+		<input type="radio" name="rewriteIIS" value="ISAPI" id="rewriteIIS_Option2"><label for="rewriteIIS_Option2"><?php echo _t('IIS 6.0 및 그 이전 버전을 위한 오픈소스 Rewrite 모듈을 사용합니다.'); ?></label>
+	</p>
 <?php
 				$error = 0;
 			} else {
@@ -871,7 +874,14 @@ RewriteRule ^testrewrite$ setup.php [L]"
 			}
 			@unlink($filename);
 		} else if (!empty($_POST['rewriteIIS'])) {
-			$rewrite = -1;
+			switch ($_POST['rewriteIIS']) {
+			case 'ISAPI':
+				$rewrite = -1;
+				break;
+			case 'IISRewrite':
+			default:
+				$rewrite = -2;
+			}
 		} else {
 			$rewrite = 0;
 		}
@@ -887,7 +897,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
   <input type="hidden" name="checked" value="<?php echo (isset($_POST['checked']) ? $_POST['checked'] : '');?>" />
   <input type="hidden" name="domain" value="<?php echo $domain;?>" />
   <input type="hidden" name="disableRewrite" value="<?php echo (isset($_POST['disableRewrite']) ? $_POST['disableRewrite'] : '');?>" />
-  <input type="hidden" name="rewriteMode" value="<?php echo ($rewrite == -1) ? 'ISAPI' : 'mod_rewrite';?>" />
+  <input type="hidden" name="rewriteMode" value="<?php echo ($rewrite <= -1) ? $_POST['rewriteIIS'] : 'mod_rewrite';?>" />
   <div id="inner">
   <h2><span class="step"><?php echo _f('%1단계', $step);?></span> : <?php echo _t('사용 가능한 운영 방법은 다음과 같습니다. 선택하여 주십시오.');?></h2>
   <div id="userinput">
@@ -1645,35 +1655,47 @@ ini_set('display_errors', 'off');
 			switch ($_POST['rewriteMode']) {
 			case 'ISAPI':
 				// Users must copy these rules to IsapiRewrite4.ini
-				$htaccessContent = 
-"RewriteRule ^$path/(thumbnail)/([0-9]+/.+)$ $path/cache/$1/$2 [L,U]
+				$htaccessContent = <<<EOF
+RewriteRule ^{$path}/(thumbnail)/([0-9]+/.+)\$ {$path}/cache/\$1/\$2 [L,U]
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^$path/(cache)+/+(.+[^/])\.(cache|xml|txt|log)$ - [NC,F,L,U]
+RewriteRule ^{$path}/(cache)+/+(.+[^/])\.(cache|xml|txt|log)\$ - [NC,F,L,U]
 RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^$path/([^?]+[^/])$ $path/$1/ [L,U]
+RewriteRule ^{$path}/([^?]+[^/])\$ {$path}/\$1/ [L,U]
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{QUERY_STRING} ^$
-RewriteRule ^$path/(.*)$ $path/rewrite.php [L,U]
-RewriteRule ^$path/(.*)$ $path/rewrite.php?%{QUERY_STRING} [L,U]
-";
+RewriteCond %{QUERY_STRING} ^\$
+RewriteRule ^{$path}/(.*)\$ {$path}/rewrite.php [L,U]
+RewriteRule ^{$path}/(.*)\$ {$path}/rewrite.php?%{QUERY_STRING} [L,U]
+EOF;
+				break;
+			case 'IISRewrite':
+				// Users must import these rules into URL Rewrite module.
+				$htaccessContent = <<<EOF
+RewriteRule ^{$path}/(thumbnail)/([0-9]+/.+)\$ {$path}/cache/\$1/\$2 [L]
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^{$path}/(cache)+/+(.+[^/])\.(cache|xml|txt|log)\$ - [NC,F,L]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^{$path}/([^?]+[^/])\$ {$path}/\$1/ [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^{$path}/(.*)\$ {$path}/rewrite.php [L,QSA]
+EOF;
 				break;
 			case 'mod_rewrite':
 			default:
-				$htaccessContent = 
-"#<IfModule mod_url.c>
+				$htaccessContent = <<<EOF
+#<IfModule mod_url.c>
 #CheckURL Off
 #</IfModule>
 #SetEnv PRELOAD_CONFIG 1
 RewriteEngine On
-RewriteBase $path/
-RewriteRule ^(thumbnail)/([0-9]+/.+)$ cache/$1/$2 [L]
+RewriteBase {$path}/
+RewriteRule ^(thumbnail)/([0-9]+/.+)\$ cache/\$1/\$2 [L]
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^(cache)+/+(.+[^/])\.(cache|xml|txt|log)$ - [NC,F,L]
+RewriteRule ^(cache)+/+(.+[^/])\.(cache|xml|txt|log)\$ - [NC,F,L]
 RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^(.+[^/])$ $1/ [L]
+RewriteRule ^(.+[^/])\$ \$1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)$ rewrite.php [L,QSA]
-";
+RewriteRule ^(.*)\$ rewrite.php [L,QSA]
+EOF;
 			}
 
     	    if ($fp) {
@@ -1709,7 +1731,7 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
           <a href="<?php echo $blogURL.'/';?>owner"><?php echo $blogURL.'/';?>owner</a></li>
       </ul>
       <p>
-		<?php if (checkIIS()) echo _t('새로 IIS용 Rewrite 모듈을 설치하셨다면 <b>ISAPI Rewrite Filter 설정</b>을 해주십시오.<br />'); ?>
+		<?php if (checkIIS()) echo _t('새로 IIS용 Rewrite 모듈을 설치하셨다면 <b>.htaccess 내용을 모듈 설정에 적용</b>해주십시오.<br />'); ?>
         <?php echo _t('텍스트큐브 관리 툴로 로그인 하신 후 필요사항을 수정해 주십시오.');?><br />
         <?php echo _t('텍스트큐브를 이용해 주셔서 감사합니다.');?>
       </p>
