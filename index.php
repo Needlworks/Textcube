@@ -4,4 +4,5 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 	define('__TEXTCUBE_NO_FANCY_URL__',true);
 	require 'rewrite.php';
+    //test
 ?>
