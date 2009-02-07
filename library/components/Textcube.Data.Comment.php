@@ -19,6 +19,8 @@ class Comment {
 		$this->ip =
 		$this->password =
 		$this->secret =
+		$this->longitude =
+		$this->latitude =
 		$this->content =
 		$this->written =
 		$this->isFiltered =
@@ -191,6 +193,12 @@ class Comment {
 			if (empty($this->content))
 				return $this->_error('content');
 			$query->setAttribute('comment', $this->content, true);
+		}
+		if (isset($this->longitude) && Validator::number($this->longitude)) {
+			$query->setAttribute('longitude', $this->longitude, false);
+		}
+		if (isset($this->latitude) && Validator::number($this->latitude)) {
+			$query->setAttribute('latitude', $this->latitude, false);
 		}
 		if (isset($this->written)) {
 			if (!Validator::timestamp($this->written))
