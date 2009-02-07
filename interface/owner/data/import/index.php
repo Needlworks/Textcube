@@ -289,6 +289,10 @@ function importer($path, $node, $line) {
 			$post->acceptComment = $node['acceptComment'][0]['.value'];
 			$post->acceptTrackback = $node['acceptTrackback'][0]['.value'];
 			$post->published = $node['published'][0]['.value'];
+			if (isset($node['longitude'][0]['.value']))
+				$post->longitude = $node['longitude'][0]['.value'];
+			if (isset($node['latitude'][0]['.value']))
+				$post->latitude = $node['latitude'][0]['.value'];
 			$post->created = @$node['created'][0]['.value'];
 			$post->modified = @$node['modified'][0]['.value'];
 			if (($post->visibility == 'private' && intval($post->published) > $_SERVER['REQUEST_TIME']) ||
@@ -359,6 +363,10 @@ function importer($path, $node, $line) {
 					$comment->password = $cursor['password'][0]['.value'];
 					$comment->secret = $cursor['secret'][0]['.value'];
 					$comment->written = $cursor['written'][0]['.value'];
+					if (isset($cursor['longitude'][0]['.value']))
+						$comment->longitude = $cursor['longitude'][0]['.value'];
+					if (isset($cursor['latitude'][0]['.value']))
+						$comment->latitude = $cursor['latitude'][0]['.value'];
 					$comment->content = $cursor['content'][0]['.value'];
 					if (!empty($cursor['isFiltered'][0]['.value']))
 					    	$comment->isFiltered = $cursor['isFiltered'][0]['.value'];
