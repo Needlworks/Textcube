@@ -442,6 +442,27 @@ if($currentVersion != TEXTCUBE_VERSION) {
 		} else
 			showCheckupMessage(false);
 	}	
+
+	// Since 1.8
+	if (!DBQuery::queryExistence("DESC {$database['prefix']}Entries longitude")) {
+		$changed = true;
+		echo '<li>', _text('글과 위경도 좌표 연동을 위한 필드를 추가합니다.'), ': ';
+		if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD longitude FLOAT(10) NULL AFTER published") && 
+			DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD latitude FLOAT(10) NULL AFTER longitude"))
+			echo '<span class="result success">', _text('성공'), '</span></li>';
+		else
+			echo '<span class="result fail">', _text('실패'), '</span></li>';
+	}
+
+	if (!DBQuery::queryExistence("DESC {$database['prefix']}Comments longitude")) {
+		$changed = true;
+		echo '<li>', _text('댓글과 위경도 좌표 연동을 위한 필드를 추가합니다.'), ': ';
+		if (DBQuery::execute("ALTER TABLE {$database['prefix']}Comments ADD longitude FLOAT(10) NULL AFTER secret") && 
+			DBQuery::execute("ALTER TABLE {$database['prefix']}Comments ADD latitude FLOAT(10) NULL AFTER longitude"))
+			echo '<span class="result success">', _text('성공'), '</span></li>';
+		else
+			echo '<span class="result fail">', _text('실패'), '</span></li>';
+	}
 }
 			
 /***** Common parts. *****/
