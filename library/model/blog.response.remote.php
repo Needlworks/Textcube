@@ -6,7 +6,7 @@
 /** Common remote response part */
 function getRemoteResponsesWithPagingForOwner($blogid, $category, $site, $ip, $search, $page, $count, $type = null) {
 	global $database;
-	if (is_null($type)) $typeFilter = " AND t.type = '".POD::escapeString($type)."'";
+	if (!is_null($type)) $typeFilter = " AND t.type = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
 	$postfix = '';
 	$sql = "SELECT t.*, c.name categoryName 
@@ -44,7 +44,7 @@ function getRemoteResponsesWithPagingForOwner($blogid, $category, $site, $ip, $s
 
 function getRemoteResponseLogsWithPagingForOwner($blogid, $category, $site, $ip, $search, $page, $count, $type = null) {
 	global $database;
-	if (is_null($type)) $typeFilter = " AND t.type = '".POD::escapeString($type)."'";
+	if (!is_null($type)) $typeFilter = " AND t.type = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
 	$postfix = '&amp;status=sent';
 	$sql = "SELECT t.*, e.title as subject, c.name categoryName 
@@ -74,7 +74,7 @@ function getRemoteResponseLogsWithPagingForOwner($blogid, $category, $site, $ip,
 
 function getRemoteResponses($entry, $type = null) {
 	global $database;
-	if (is_null($type)) $typeFilter = " AND type = '".POD::escapeString($type)."'";
+	if (!is_null($type)) $typeFilter = " AND type = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
 	$responses = array();
 	$result = POD::query("SELECT * 
@@ -90,7 +90,7 @@ function getRemoteResponses($entry, $type = null) {
 
 function getRemoteResponseList($blogid, $search, $type = null) {
 	global $database;
-	if (is_null($type)) $typeFilter = " AND type = '".POD::escapeString($type)."'";
+	if (!is_null($type)) $typeFilter = " AND type = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
 	$list = array('title' => "$search", 'items' => array());
 	$search = escapeSearchString($search);
@@ -110,7 +110,7 @@ function getRemoteResponseList($blogid, $search, $type = null) {
 
 function getRecentRemoteResponses($blogid, $count = false, $guestShip = false, $type = null) {
 	global $database, $skinSetting;
-	if (is_null($type)) $typeFilter = " AND t.type = '".POD::escapeString($type)."'";
+	if (!is_null($type)) $typeFilter = " AND t.type = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
 	$sql = (doesHaveOwnership() && !$guestShip) ? "SELECT t.*, e.slogan 
 		FROM 
