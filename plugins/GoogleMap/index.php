@@ -82,7 +82,7 @@ function GoogleMap_LocationLogView($target) {
 	global $blogid, $blog, $blogURL, $pluginURL, $configVal, $service, $database;
 	requireComponent('Textcube.Function.Misc');
 	$config = Setting::fetchConfigVal($configVal);
-	$locatives = getLocatives($blogid);
+	$locatives =  getEntries($blogid, 'id, title, slogan, location, longitude, latitude','(length(location)>1 AND category > -1) OR (`longitude` IS NOT NULL AND `latitude` IS NOT NULL)', 'location');
 	$width = Misc::getContentWidth();
 	$height = intval($width * 1.2);
 	$default_type = isset($config['locative_maptype']) ? $config['locative_maptype'] : 'G_HYBRID_MAP';
@@ -157,14 +157,23 @@ function GoogleMap_LocationLogView($target) {
 	foreach ($locatives as $locative) {
 		//if ($count == 10) break; // for testing purpose
 		$locative['link'] = "$blogURL/" . ($blog['useSloganOnPost'] ? 'entry/' . URL::encode($locative['slogan'],$service['useEncodedURL']) : $locative['id']);
-		$row = POD::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND original_address = '".POD::escapeString($locative['location'])."'");
 		$found = false;
-		if ($row == null || empty($row)) {
-			$found = false;
-		} else {
-			$lat = $row['latitude'];
-			$lng = $row['longitude'];
-			$found = true;
+
+		if($locative['longitude']!=NULL&&$locative['latitude']!=NULL){
+			$found=true;
+			$lat=$locative['latitude'];
+			$lng=$locative['longitude'];
+			$locative['location']="위도".$lat.", 경도".$lng;
+		}
+		else{
+			$row = POD::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND original_address = '".POD::escapeString($locative['location'])."'");
+			if ($row == null || empty($row)) {
+				$found = false;
+			} else {
+				$lat = $row['latitude'];
+				$lng = $row['longitude'];
+				$found = true;
+			}
 		}
 		if ($found) // found, just output
 			echo "\t\t\tGMap_addLocationMarkDirect(locationMap, {address:GMap_normalizeAddress('{$locative['location']}'), path:'{$locative['location']}', original_path:'{$locative['location']}'}, '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), new GLatLng($lat, $lng), boundary, locations, false);\n";
