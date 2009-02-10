@@ -27,15 +27,12 @@ $openid_identity = Acl::getIdentity('openid');
 if(!Acl::check('group.administrators') && !Acl::check('group.owners')) { // If no administration permission,
 	if(!empty($replier)) {	// If replier exists, (member of the blog system)
 		if(!Acl::check('group.owners')) { // If not blog owner,
-			if(!doesHaveMembership() || $replier != getUserId()) {
+			if(!Acl::check('group.editors') && $replier != getUserId()) {
 				echo "<script type=\"text/javascript\">//<![CDATA[".CRLF
 					."alert('"._t('권한이 없습니다.')."'); window.close(); //]]></script>";
 			}
 		}
 	}
-}
-if (false) {
-	fetchConfigVal();
 }
 list($replier) = getCommentAttributes($blogid, $suri['id'], 'replier');
 if (!empty($_POST['mode'])) {
