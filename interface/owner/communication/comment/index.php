@@ -76,7 +76,7 @@ require ROOT . '/library/piece/owner/header.php';
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
-								function deleteComment(id) {
+								function deleteCommentNow(id) {
 									if (!confirm("<?php echo (isset($tabsClass['guestbook']) ? _t('선택된 방명록 글을 삭제합니다. 계속 하시겠습니까?') : _t('선택된 댓글을 삭제합니다. 계속 하시겠습니까?'));?>"))
 										return;
 									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/comment/delete/" + id);
@@ -324,6 +324,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 												<a href="?name=<?php echo urlencode(escapeJSInAttribute($comment['name'])).'&status='.(isset($tabsClass['guestbook']) ? 'guestbook' : 'comment');?>" title="<?php echo (isset($tabsClass['guestbook']) ? _t('이 이름으로 등록된 방명록을 보여줍니다.') : _t('이 이름으로 등록된 댓글 목록을 보여줍니다.'));?>"><?php echo htmlspecialchars($comment['name']);?></a>
 											</td>
 											<td class="content">
+												<div class="info">
 <?php
 	if(isset($tabsClass['guestbook'])) {
 		echo '<a class="entryURL" href="'.$blogURL.'/guestbook/'.$comment['id'].'#guestbook'.$comment['id'].'" title="'._t('방명록으로 직접 이동합니다.').'">';
@@ -340,7 +341,12 @@ for ($i=0; $i<sizeof($comments); $i++) {
 	else 
 		echo '<span class="explain">' . (isset($tabsClass['guestbook']) ? _f('%1 님의 방명록에 대한 댓글',$comment['parentName']) : _f('%1 님의 댓글에 대한 댓글',$comment['parentName'])) . '</span>';
 	echo "</a>";
+
+	if(!is_null($comment['replier'])) 
+		echo '<span class="divider"> | </span><a href="'.$blogURL.'/comment/comment/'.$comment['id'].'" onclick="modifyComment('.$comment['id'].');return false;"><span class="text">'._t('수정').'</span></a>';
+
 ?>
+												</div>
 												<?php echo ((!empty($comment['title']) || !empty($comment['parent'])) ? '<br />' : '');?>
 												<?php echo htmlspecialchars($comment['comment']);?>
 								 			</td>
@@ -360,11 +366,11 @@ for ($i=0; $i<sizeof($comments); $i++) {
 											</td>
 											<td class="reply">
 												<?php
-	if(empty($comment['parent'])) echo '<a href="'.$blogURL.'/comment/comment/'.$comment['id'].'" onclick="commentComment('.$comment['id'].');return false;"><span class="text"'.(isset($tabsClass['guestbook']) ? _t('이 방명록에 답글을 씁니다') : _t('이 댓글에 답글을 씁니다.')).'</span></a>';
+	if(empty($comment['parent'])) echo '<a href="'.$blogURL.'/comment/comment/'.$comment['id'].'" onclick="commentComment('.$comment['id'].');return false;"><span class="text">'.(isset($tabsClass['guestbook']) ? _t('이 방명록에 답글을 씁니다') : _t('이 댓글에 답글을 씁니다.')).'</span></a>';
 ?>
 											</td>
 											<td class="delete">
-												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/communication/comment/delete/<?php echo $comment['id'];?>" onclick="deleteComment(<?php echo $comment['id'];?>); return false;" title="<?php echo _t('이 댓글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
+												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/communication/comment/delete/<?php echo $comment['id'];?>" onclick="deleteCommentNow(<?php echo $comment['id'];?>); return false;" title="<?php echo _t('이 댓글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
 											</td>
 					  					</tr>
 <?php

@@ -1248,6 +1248,17 @@ function deleteComment(id) {
 	alignCenter(openWindow,width,height);
 }
 
+function modifyComment(id) {
+	width = 460;
+	height = 400;
+	try {
+		if(openWindow != '') openWindow.close();
+	} catch (e) {}
+	openWindow = window.open(blogURL + "/comment/modify/" + id, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=1,scrollbars=0,status=0,toolbar=0");
+	openWindow.focus();
+	alignCenter(openWindow,width,height);
+}
+
 function commentComment(parent) {
 	width = 460;
 	height = 600;
