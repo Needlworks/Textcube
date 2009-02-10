@@ -24,6 +24,119 @@ function eolinLocationTagFunction_WatchInputBox(id)
 	catch(e) { }
 }
 
+// 서버에서 보내오는 필터로 로컬 location suggestion
+function eolinLocationFunction_showLocalSuggestion(id, cursor, filter)
+{
+	// Container의 ID를 통해 instance를 가져온다
+	try { var instance = document.getElementById(id).instance; }
+	catch(e) { return; }
+
+	// 보내온 cursor와 현재 cursor가 같지 않으면 필요없는 데이터이므로 버린다
+	// 텍스트 박스를 벗어난 후에 도착한 데이터도 버린다
+	if(instance.cursor != cursor || !instance.isTyping)
+		return;
+
+	var input = instance.input;
+
+	// 편집중인 내용이 빈 상태면 suggestion 윈도우 감추고 리턴
+	/*if(input.value.trim() == "")
+	{
+		instance.hideSuggestion();
+		return;
+	}*/
+
+	var xmlhttp = createHttp();
+
+	if(xmlhttp)
+	{
+		xmlhttp.open("GET", blogURL + "/locationSuggest/?id=" + id + "&cursor=" + cursor + "&filter=" + (STD.isSafari ? filter : encodeURIComponent(filter)), true);
+		xmlhttp.onreadystatechange = function()
+		{
+			if(xmlhttp.readyState == 4)
+			{
+				try {
+					var doc = xmlhttp.responseXML;
+					var root = doc.getElementsByTagName("response")[0];
+					var id = root.getAttribute("id");
+					var cursor = root.getAttribute("cursor");
+
+					var instance = document.getElementById(id).instance;
+
+					if(instance.cursor == cursor)
+					{
+						var locations = new Array();
+
+						var locationItems = root.getElementsByTagName("location");
+						if(!instance.allowEolinSuggestion && locationItems.length == 0) {
+							instance.hideSuggestion();
+							return;
+						}
+
+						for(var i=0; i<locationItems.length; i++) {
+							value = locationItems[i].lastChild.nodeValue.split('/');
+							for (var j = 0; j != -1; j = filter.indexOf('/', j + 1)) {
+								if (j == 0) {
+									continue;
+								}
+								value.shift();
+							}
+							locations[locations.length] = value.join('/');
+						}
+
+						// 중복될 항목들을 미리 제거
+						for(var i=0; i<locations.length; i++)
+						{
+							for(var j=0; j<instance.suggestion.childNodes.length; j++)
+							{
+								if(locations[i] == instance.suggestion.childNodes[j].innerHTML.replace(new RegExp("<\/?em>", "gi"), ""))
+								{
+									instance.suggestion.removeChild(instance.suggestion.childNodes[j]);
+									break;
+								}
+							}
+						}
+
+						var htmlText = new StringBuffer();
+
+						for(var i=0; i<locations.length; i++)
+						{
+							htmlText.append("<li onmouseover=\"this.className='hover'\" onmouseout=\"this.className=''\" onmousedown=\"this.parentNode.instance.suggestionMouseClick(this)\" style=\"background-color: #ccb\"><em>");
+							htmlText.append(locations[i].substring(0, input.value.length).htmlspecialchars().replaceAll("&amp;", "&"));
+							htmlText.append("</em>");
+							htmlText.append(locations[i].substring(input.value.length).htmlspecialchars().replaceAll("&amp;", "&"));
+							htmlText.append("</li>");
+						}
+
+						if(instance.allowEolinSuggestion)
+							htmlText.append(instance.suggestion.innerHTML);
+							
+						instance.suggestion.innerHTML = htmlText.toString();
+
+						if(!instance.allowEolinSuggestion || instance.input.value.trim() == "") {
+							instance.suggestion.style.left = getOffsetLeft(input) + "px";
+							instance.suggestion.style.top = getOffsetTop(input) + input.offsetHeight + "px";
+							instance.suggestion.style.display = "block";
+							instance.isSuggestionShown = true;
+
+							try {
+								document.getElementById("previewSelected").style.visibility = "hidden";
+								document.getElementById("TCfilelist").style.visibility = "hidden";
+							} catch(e) { }
+							try { document.body.removeChild(instance.suggestion) } catch(e) { };
+							document.body.appendChild(instance.suggestion);
+						}
+
+						while(instance.suggestion.childNodes.length > 10)
+							instance.suggestion.removeChild(instance.suggestion.childNodes[instance.suggestion.childNodes.length-1]);
+					}
+				} catch(e) { }
+			}
+		}
+		xmlhttp.send(null);
+		delete xmlhttp;
+	}
+}
+
 // 서버에서 보내오는 내용을 실행하는 함수
 function eolinLocationTagFunction_showSuggestion()
 {
@@ -432,8 +545,10 @@ LocationTag.prototype.requestSuggestion = function()
 {
 	var instance = this.instance;
 
-	if(!instance.allowEolinSuggestion)
+	if(!instance.allowEolinSuggestion || (instance.input.value.trim() == "")) {
+		eolinLocationFunction_showLocalSuggestion(instance.container.getAttribute("id"), instance.cursor, this.getPath());
 		return;
+	}
 
 	instance.isTyping = true;
 	instance.cursor++;

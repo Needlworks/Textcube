@@ -379,7 +379,7 @@ Tag.prototype.requestSuggestion = function()
 	instance.cursor++;
 
 	if(!instance.allowEolinSuggestion || (instance.getInput().value.trim() == "")) {
-		eolinTagFunction_showLocalSuggestion(instance.container.getAttribute("id"), instance.cursor, "name like '" + instance.getInput().value + "%'")
+		eolinTagFunction_showLocalSuggestion(instance.container.getAttribute("id"), instance.cursor, instance.getInput().value)
 		return;
 	}
 
