@@ -98,7 +98,7 @@ table.data-inbox tbody tr td.title span.excerpt
 	text-align                       : left;
 }
 
-#part-post-comment table.data-inbox tbody tr td.content a
+#part-post-comment table.data-inbox tbody tr td.content div.info 
 {
 	display                          : block;
 	margin-bottom                    : 3px;
@@ -120,7 +120,12 @@ table.data-inbox tbody tr td.title span.excerpt
 {
 	color                            : #999999;
 	font-size                        : 0.9em;
-	font-family                      : 돋움, Dotum, sans-serif;
+	font-family                      : Dotum, sans-serif;
+}
+
+#part-post-comment table.data-inbox tbody tr td.reply span 
+{
+	display                          : none;
 }
 
 #part-post-comment table.data-inbox tbody tr td.reply a
