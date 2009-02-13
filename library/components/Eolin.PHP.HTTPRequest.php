@@ -97,7 +97,7 @@ class HTTPRequest {
 					break;
 				unset($this->_response);
 			}
-			if (($this->_response['status'] >= 300) && ($this->_response['status'] <= 302)) {
+			if (in_array($this->_response['status'], array(300, 301, 302, 307))) {
 				fclose($socket);
 				if (empty($this->_response['location']))
 					return false;
