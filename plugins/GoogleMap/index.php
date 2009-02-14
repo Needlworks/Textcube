@@ -73,7 +73,6 @@ function GoogleMap_View($target, $mother) {
 		$output = ob_get_contents();
 		ob_end_clean();
 		$target = substr_replace($target, $output, $matches[0][1], strlen($matches[0][0]));
-		$offset += $matches[0][1] + strlen($output);
 	}
 	return $target;
 }
