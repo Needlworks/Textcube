@@ -41,6 +41,7 @@ $(function() {
 	$('#doInsert').click(function() {
 		if (!map)
 			return;
+		map.closeInfoWindow();
 		var editor = window.opener.editor;
 		if (!editor) {
 			alert('The editor is not accessible.');
@@ -142,7 +143,6 @@ function findUserMarker(marker) {
 }
 
 function findUserMarkerById(id) {
-	var i;
 	try {
 		return user_markers[id];
 	} catch (e) {
