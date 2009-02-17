@@ -17,6 +17,7 @@ class DBQuery {
 		if(!isset($database) || empty($database)) return false;
 		if(!isset($database['port']) && strpos($database['server'],':')) {
 			$port = explode(":",$database['server']);
+			$database['server'] = $port[0];
 			$database['port'] = $port[1];
 		}
 		if(isset($database['port'])) {
