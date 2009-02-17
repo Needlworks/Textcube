@@ -364,11 +364,15 @@ class Auth {
 
 		if ((strlen($password) == 32) && preg_match('/[0-9a-f]{32}/i', $password)) { // Raw login. ( with/without auth token)
 			$userid = getUserIdByEmail($loginid);
-			$authtoken = POD::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
-			if (!empty($authtoken) && ($authtoken === $password)) {	// If user requested auth token, use it to confirm.
-				$session['userid'] = $userid;	
-			} else {	// login with md5 hash
-				$secret = '`password` = \'' . md5($password) . '\'';
+			if(!empty($userid) && !is_null($userid)) {
+				$authtoken = POD::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
+				if (!empty($authtoken) && ($authtoken === $password)) {	// If user requested auth token, use it to confirm.
+					$session['userid'] = $userid;
+				} else {	// login with md5 hash
+					$secret = '`password` = \'' . md5($password) . '\'';
+				}
+			} else {
+				return false;
 			}
 		} else if( $blogapi && !empty($blogApiPassword) ) {	// BlogAPI login
 			$password = POD::escapeString($password);
