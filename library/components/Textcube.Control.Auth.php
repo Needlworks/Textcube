@@ -356,30 +356,29 @@ class Auth {
 
 	function authenticate( $blogid, $loginid, $password, $blogapi = false ) {
 		global $database;
-
+		$session = array(); 
 		Acl::clearAcl();
 		$loginid = POD::escapeString($loginid);
 
 		$blogApiPassword = getBlogSetting("blogApiPassword", "");
 
-		if ((strlen($password) == 32) && preg_match('/[0-9a-f]{32}/i', $password)) {
-			$userid=getUserIdByEmail($loginid);
+		if ((strlen($password) == 32) && preg_match('/[0-9a-f]{32}/i', $password)) { // Raw login. ( with/without auth token)
+			$userid = getUserIdByEmail($loginid);
 			$authtoken = POD::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
-			if (!empty($authtoken)) {
-				$password = POD::escapeString($password);
-				$secret = '(`password` = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $authtoken . '\')';
-			}
-			else {
+			if (!empty($authtoken) && ($authtoken === $password)) {	// If user requested auth token, use it to confirm.
+				$session['userid'] = $userid;	
+			} else {	// login with md5 hash
 				$secret = '`password` = \'' . md5($password) . '\'';
 			}
-		} else if( $blogapi && !empty($blogApiPassword) ) {
+		} else if( $blogapi && !empty($blogApiPassword) ) {	// BlogAPI login
 			$password = POD::escapeString($password);
 			$secret = '(`password` = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $blogApiPassword . '\')';
-		} else {
+		} else {	// Normal login
 			$secret = '`password` = \'' . md5($password) . '\'';
 		}
-
-		$session = POD::queryRow("SELECT userid, loginid, name FROM {$database['prefix']}Users WHERE loginid = '$loginid' AND $secret");
+		if ( empty($session) ) {
+			$session = POD::queryRow("SELECT userid, loginid, name FROM {$database['prefix']}Users WHERE loginid = '$loginid' AND $secret");
+		}
 		if ( empty($session) ) {
 			/* You should compare return value with '=== false' which checks with variable types*/
 			return false;
@@ -393,5 +392,4 @@ class Auth {
 	}
 
 }
-
 ?>
