@@ -58,4 +58,8 @@ if (empty($skin->pageError)) {
 	dress('page_error', $skin->pageError, $view);
 }
 require ROOT . '/interface/common/blog/end.php';
+
+/* This noise is the power of our cron engine, thank you! */
+requireModel("blog.cron");
+checkCronJob();
 ?>
