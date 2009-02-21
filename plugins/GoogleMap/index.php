@@ -71,12 +71,12 @@ function GoogleMap_View($target, $mother) {
 		$id = 'GMapContainer'.$mother.rand();
 		ob_start();
 		if (defined('__TEXTCUBE_MOBILE__')) {
-			$staticimg = "http://maps.google.co.kr/staticmap?";
+			$staticimg = "http://maps.google.com/staticmap?";
 			print_r($matches[2][0]);
 			print_r("===========<br/>");
 			$json_mobile = json_decode($matches[2][0], true);
 			print_r("============<br/>");
-			echo "<img src=\"{$staticimg}center{$json_mobile['center']['latitude']},{$json_mobile['center']['longitude']}&amp;zoom={$json_mobile['zoom']}&amp;size={$json_mobile['width']}x{$json_mobile['height']}&amp;sensor=false&amp;key={$config['apiKey']}\" alt=\"Google Map Test\" />";
+			echo "<img src=\"{$staticimg}center={$json_mobile['center']['latitude']},{$json_mobile['center']['longitude']}&amp;zoom={$json_mobile['zoom']}&amp;size={$json_mobile['width']}x{$json_mobile['height']}&amp;sensor=false&amp;key={$config['apiKey']}\" alt=\"Google Map Test\" />";
 		}
 		else if(defined('__TEXTCUBE_IPHONE__')) {
 		}
