@@ -225,7 +225,7 @@ if( Acl::check('group.administrators')) {
 											<th class="name"><span class="text"><?php echo _t('이름');?></span></th>
 											<th class="email"><span class="text"><?php echo _t('이메일');?></span></th>
 											<th class="date"><span class="text"><?php echo _t('가입일');?></span></th>
-											<th class="posting"><span class="text"><?php echo _t('작성한 글 수');?></span></th>
+											<th class="posting"><span class="text"><?php echo _t('글 수');?></span></th>
 											<th class="status"><span class="text"><?php	echo _t('초대상태');?></span></th>
 											<th class="privilege"><span class="text"><?php echo _t('권한');?></span></th>
 											<th class="exclude"><span class="text"><?php	echo _t('팀블로그 제외');?></span></th>
