@@ -47,17 +47,40 @@ function GoogleMap_AddToolbox($target) {
 }
 
 function GoogleMap_View($target, $mother) {
-	global $configVal, $pluginURL;
+	global $configVal, $pluginURL, $surl;
 	requireComponent('Textcube.Function.Setting');
 	requireComponent('Textcube.Function.Misc');
 	$config = Setting::fetchConfigVal($configVal);
 	$matches = array();
 	$offset = 0;
 
+	// Mobile
+	if(defined('__TEXTCUBE_MOBILE__')) {
+		print_r("Mobile");
+	}
+	// iPhone
+	else if(defined('__TEXTCUBE_IPHONE__')) {
+		print_r("iPhone");
+	}
+	// Desktop
+	else {
+		print_r("Desktop");
+	}
 	while (preg_match('/\[##_GoogleMap\|(([^|]+)\|)?_##\]/', $target, $matches, PREG_OFFSET_CAPTURE, $offset) > 0) {
 		// SUGGUEST: [##_GoogleMap|{JSON_REPRESENTATION_OF_PARAMETERS_WITHOUT_NEWLINES}|_##]
 		$id = 'GMapContainer'.$mother.rand();
 		ob_start();
+		if (defined('__TEXTCUBE_MOBILE__')) {
+			$staticimg = "http://maps.google.co.kr/staticmap?";
+			print_r($matches[2][0]);
+			print_r("===========<br/>");
+			$json_mobile = json_decode($matches[2][0], true);
+			print_r("============<br/>");
+			echo "<img src=\"{$staticimg}center{$json_mobile['center']['latitude']},{$json_mobile['center']['longitude']}&amp;zoom={$json_mobile['zoom']}&amp;size={$json_mobile['width']}x{$json_mobile['height']}&amp;sensor=false&amp;key={$config['apiKey']}\" alt=\"Google Map Test\" />";
+		}
+		else if(defined('__TEXTCUBE_IPHONE__')) {
+		}
+		else {
 ?>
 		<div id="<?php echo $id;?>" style="border: 1px solid #666;"></div>
 		<script type="text/javascript">
@@ -71,6 +94,7 @@ function GoogleMap_View($target, $mother) {
 		//]]>
 		</script>
 <?php
+		}
 		$output = ob_get_contents();
 
 		ob_end_clean();
