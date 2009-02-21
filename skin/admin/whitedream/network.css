@@ -331,14 +331,21 @@ dl dd
 	width                            : 74px;
 }
 
-#list-section table tr td.status
+#list-section table 
 {
-	border-left: none;
+	width:900px !important;
+	margin-left:30px !important;
+	padding-left:0 !important;
 }
 
-#list-section table tr td.cancel
+#list-section table tr td.check
 {
-	border-right: none !important;
+	border-left                      : none !important;
+}
+
+#list-section table tr td.exclude
+{
+	border-right                     : none !important;
 }
 
 /* invite list */

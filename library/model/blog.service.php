@@ -108,6 +108,11 @@ function getBlogURL($name = null, $domain = null, $path = null, $type = null) {
 	}
 }
 
+function getBlogURLById($id = null, $domain = null, $path = null, $type = null) {
+	$name = getBlogName($id);
+	return getBlogURL($name, $domain, $path, $type);
+}
+
 function getFancyURLpostfix() {
 	global $service;
 	switch($service['fancyURL']) {

@@ -391,6 +391,10 @@ function getBlogName($blogid) {
 		FROM {$database['prefix']}BlogSettings
 		WHERE blogid = $blogid AND name = 'name'");
 }
+function getAuthToken($userid){
+	global $database;
+	return POD::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
+}
 
 function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $senderEmail) {
 	global $database, $service, $hostURL, $serviceURL;
@@ -402,7 +406,7 @@ function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $sen
 	$password = POD::queryCell("SELECT password
 		FROM {$database['prefix']}Users
 		WHERE userid = ".$userid);
-	$authtoken = POD::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
+	$authtoken = getAuthToken($userid);
 	$blogName = getBlogName($blogid);
 
 	if (empty($email))
@@ -426,7 +430,7 @@ function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $sen
 	$message = str_replace('[##_title_##]', _text('초대장'), $message);
 	$message = str_replace('[##_content_##]', $comment, $message);
 	$message = str_replace('[##_images_##]', $serviceURL."/resources/style/letter", $message);
-	$message = str_replace('[##_link_##]', getBlogURL($blogName) . '/login?loginid=' . rawurlencode($email) . '&password=' . rawurlencode($authtoken) . '&requestURI=' . rawurlencode(getBlogURL($blogName) . "/owner/setting/account?password=" . rawurlencode($password)), $message);
+	$message = str_replace('[##_link_##]', getInvitationLink(getBlogURL($blogName),$email, $password, $authtoken), $message);
 	$message = str_replace('[##_go_blog_##]', getBlogURL($blogName), $message);
 	$message = str_replace('[##_link_title_##]', _text('블로그 바로가기'), $message);
 	if (empty($name)) {
@@ -440,6 +444,10 @@ function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $sen
 		return array( 14, $ret[1] );
 	}
 	return true;
+}
+
+function getInvitationLink($url, $email, $password, $authtoken) {
+	return $url. '/login?loginid=' . rawurlencode($email) . '&password=' . rawurlencode($authtoken) . '&requestURI=' . rawurlencode($url . "/owner/setting/account?password=" . rawurlencode($password));
 }
 
 function cancelInvite($userid,$clean = true) {
