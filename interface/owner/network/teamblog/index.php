@@ -223,14 +223,14 @@ if( Acl::check('group.administrators')) {
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<th class="status"><input type="checkbox" name="Aclick" onclick="Check_rev()" /></th>
+											<th class="check"><input type="checkbox" name="Aclick" onclick="Check_rev()" /></th>
 											<th class="name"><span class="text"><?php echo _t('이름');?></span></th>
 											<th class="email"><span class="text"><?php echo _t('이메일');?></span></th>
 											<th class="date"><span class="text"><?php echo _t('가입일');?></span></th>
-											<th class="date"><span class="text"><?php echo _t('작성한 글 수');?></span></th>
-											<th class="cancel"><span class="text"><?php	echo _t('초대상태');?></span></th>
-											<th class="status"><span class="text"><?php echo _t('권한');?></span></th>
-											<th class="status"><span class="text"><?php	echo _t('팀블로그 제외');?></span></th>
+											<th class="posting"><span class="text"><?php echo _t('글 수');?></span></th>
+											<th class="status"><span class="text"><?php	echo _t('초대상태');?></span></th>
+											<th class="privilege"><span class="text"><?php echo _t('권한');?></span></th>
+											<th class="exclude"><span class="text"><?php	echo _t('팀블로그 제외');?></span></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -254,24 +254,34 @@ if( Acl::check('group.administrators')) {
 			$className.=($count==sizeof($teamblog_user)-1) ? ' last-line':'';
 ?>
 												<tr class="<?php echo $className;?> inactive-class">
-													<td class="status">
+													<td class="check">
 														<input type="checkbox" id="check_<?php echo $count;?>" />
 													</td>
 													<td class="name"><?php echo $value['name'];?></td>
 													<td class="email"><?php	echo  htmlspecialchars($value['loginid']);?></td>
 													<td class="date"><?php echo Timestamp::format5($value['created']);?></td>
 													<td class="posting"><?php echo $value['posting'];?></td>
+													<td class="status">
 <?php
+			$authtoken = getAuthToken($value['userid']);
 			if($value['lastLogin'] == 0) { 
 ?>
-													<td class="status"><?php echo _t('미참여');?></td>
+													<?php echo _t('미참여');?>
 <?php
+				if($value['acl'] & BITWISE_ADMINISTRATOR) {
+					$invitationURL = getInvitationLink(getBlogURLById($blogid), htmlspecialchars($value['loginid']), $value['password'], $authtoken);
+					echo '<a href="'.$invitationURL.'">'._t('초대 링크').'</a>';
+				}
 			} else { 
 ?>
-													<td class="status"><?php echo _t('참여중');?></td>
+													<?php echo _t('참여중');?>
 <?php
+				if(($value['acl'] & BITWISE_ADMINISTRATOR) && !empty($authtoken) && !is_null($authtoken)) {
+					$invitationURL = getInvitationLink(getBlogURLById($blogid), htmlspecialchars($value['loginid']), $value['password'], $authtoken);
+					echo '<a href="'.$invitationURL.'">'._t('재발급 링크').'</a>';
+				}
 			}
-?>
+?></td>
 													<td class="password">
 <?php
 			if($value['acl'] & BITWISE_OWNER) {
@@ -284,7 +294,7 @@ if( Acl::check('group.administrators')) {
 			}
 ?>
 													</td>
-													<td class="cancel">
+													<td class="exclude">
 <?php
 			if($value['acl'] & BITWISE_OWNER) {
 ?>													
