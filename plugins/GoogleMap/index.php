@@ -53,6 +53,7 @@ function GoogleMap_View($target, $mother) {
 	$config = Setting::fetchConfigVal($configVal);
 	$matches = array();
 	$offset = 0;
+
 	while (preg_match('/\[##_GoogleMap\|(([^|]+)\|)?_##\]/', $target, $matches, PREG_OFFSET_CAPTURE, $offset) > 0) {
 		// SUGGUEST: [##_GoogleMap|{JSON_REPRESENTATION_OF_PARAMETERS_WITHOUT_NEWLINES}|_##]
 		$id = 'GMapContainer'.$mother.rand();
@@ -71,8 +72,10 @@ function GoogleMap_View($target, $mother) {
 		</script>
 <?php
 		$output = ob_get_contents();
+
 		ob_end_clean();
 		$target = substr_replace($target, $output, $matches[0][1], strlen($matches[0][0]));
+		//$offset += $matches[0][1] + strlen($output) - 1; 
 	}
 	return $target;
 }
