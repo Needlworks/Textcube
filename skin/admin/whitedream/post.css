@@ -139,6 +139,11 @@ table.data-inbox tbody tr td.ip
 	width                            : 52px;
 }
 
+#part-post-list table.data-inbox tr .title .description
+{
+	color                            : #ddd;
+}
+
 #part-post-list table.data-inbox tr .syndicate
 {
 	width                            : 13px;
