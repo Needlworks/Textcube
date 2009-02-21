@@ -265,14 +265,16 @@ if( Acl::check('group.administrators')) {
 			if($value['lastLogin'] == 0) { 
 ?>
 													<?php echo _t('미참여');?>
-<?php	
-				$invitationURL = getInvitationLink(getBlogURLById($blogid), htmlspecialchars($value['loginid']), $value['password'], $authtoken);
-				echo '<a href="'.$invitationURL.'">'._t('초대 링크').'</a>';
+<?php
+				if($value['acl'] & BITWISE_ADMINISTRATOR) {
+					$invitationURL = getInvitationLink(getBlogURLById($blogid), htmlspecialchars($value['loginid']), $value['password'], $authtoken);
+					echo '<a href="'.$invitationURL.'">'._t('초대 링크').'</a>';
+				}
 			} else { 
 ?>
 													<?php echo _t('참여중');?>
 <?php
-				if(!empty($authtoken) && !is_null($authtoken)) {
+				if(($value['acl'] & BITWISE_ADMINISTRATOR) && !empty($authtoken) && !is_null($authtoken)) {
 					$invitationURL = getInvitationLink(getBlogURLById($blogid), htmlspecialchars($value['loginid']), $value['password'], $authtoken);
 					echo '<a href="'.$invitationURL.'">'._t('재발급 링크').'</a>';
 				}
