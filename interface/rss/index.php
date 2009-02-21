@@ -23,4 +23,7 @@ fclose($fileHandle);
 fireEvent('FeedOBStart');
 echo fireEvent('ViewRSS', $result);
 fireEvent('FeedOBEnd');
+
+requireModel("blog.cron");
+checkCronJob();
 ?>
