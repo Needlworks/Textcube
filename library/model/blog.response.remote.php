@@ -543,6 +543,112 @@ function getInfoFromTrackbackURL($url) {
 	return $result;
 }
 
+function getInfoFromURL($url) {
+	$url = trim($url);
+	$result = array('service' => null);
+
+	$pieces = @parse_url($url);
+	if ($pieces === false) {
+		return $result;
+	}
+	$pieces['host'] = strtolower($pieces['host']);
+	$pieces['path'] = rtrim($pieces['path'], '/');
+
+	$host = $pieces['scheme'].'://'.$pieces['host'];
+
+	switch ($pieces['host']) {
+		case 'blog.naver.com':
+			$result['service'] = 'naver';
+			break;
+		case 'kr.blog.yahoo.com':
+			$result['service'] = 'yahoo';
+			break;
+		case 'blog.daum.net':
+			$result['service'] = 'daum';
+			break;
+		case 'blog.empas.com':
+			$result['service'] = 'empas';
+			break;
+		case 'cyworld.com':
+		case 'www.cyworld.com':
+			$result['service'] = 'cyworld blog';
+			break;
+		case 'paper.cyworld.com':
+			$result['service'] = 'cyworld paper';
+			break;
+		case 'blog.paran.com':
+			$result['service'] = 'paran';
+			break;
+		case 'blog.jinbo.net':
+			$result['service'] = 'jinbo.net';
+			break;
+		case 'blog.dreamwiz.com':
+			$result['service'] = 'dreamwiz';
+			break;
+		case 'blog.hani.co.kr':
+			$result['service'] = 'hani';
+			break;
+		case 'blog.ohmynews.com':
+			$result['service'] = 'ohmynews';
+			break;
+		case 'blog.joins.com':
+			$result['service'] = 'joins';
+			break;
+		case 'blog.aladdin.co.kr':
+			$result['service'] = 'aladdin';
+			break;
+		case 'mediamob.co.kr':
+		case 'www.mediamob.co.kr':
+			$result['service'] = 'mediamob';
+			break;
+		default:
+			$chunk = array_reverse(explode('.', $pieces['host']));
+
+			switch ($chunk[1].'.'.$chunk[0]) {
+				case 'egloos.com':
+					$result['service'] = 'egloos';
+					break;
+				case 'textcube.com':
+					$result['service'] = 'textcube.com';
+					break;
+				case 'tistory.com':
+					$result['service'] = 'tistory.com';
+					break;
+				case 'blogspot.com':
+					$result['service'] = 'blogger.com';
+					break;
+				case 'wordpress.com':
+					$result['service'] = 'wordpress.com';
+					break;
+				case 'live.com':
+					if (count($chunk) > 4 && $chunk[2] == 'spaces') {
+						$result['service'] = 'live.com';
+					}
+					break;
+				default:
+					requireComponent('Needlworks.PHP.HTTPRequest');
+
+					$request = new HTTPRequest($url);
+					if ($request->send()) {
+						$html = $request->responseText;
+
+						if (strpos($html, '<meta name="generator" content="Textcube.com 2.0 Garnet" />') !== false) {
+							$result['service'] = 'textcube.com';
+						} elseif (strpos($html, '<meta name="generator" content="Blogger" />') !== false) {
+							$result['service'] = 'blogger.com';
+						} elseif (strpos($html, '<meta name="generator" content="WordPress.com" />') !== false) {
+							$result['service'] = 'wordpress.com';
+						} elseif (preg_match('@<!--\\s*Tistory [0-9]\\.[0-9]@', $html)) {
+							$result['service'] = 'tistory';
+						}
+					}
+			}
+			break;
+	}
+
+	return $result;
+}
+
 function getTrackbackURLFromInfo($url, $blogType) {
 	$url = trim($url);
 
