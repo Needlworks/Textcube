@@ -158,13 +158,12 @@ function GoogleMap_LocationLogView($target) {
 		$locative['link'] = "$blogURL/" . ($blog['useSloganOnPost'] ? 'entry/' . URL::encode($locative['slogan'],$service['useEncodedURL']) : $locative['id']);
 		$found = false;
 
-		if($locative['longitude']!=NULL&&$locative['latitude']!=NULL){
-			$found=true;
-			$lat=$locative['latitude'];
-			$lng=$locative['longitude'];
-			$locative['location']="위도".$lat.", 경도".$lng;
-		}
-		else{
+		if ($locative['longitude'] != NULL && $locative['latitude'] != NULL) {
+			$found = true;
+			$lat = $locative['latitude'];
+			$lng = $locative['longitude'];
+			$locative['location'] = "위도 : " . $lat . ", 경도 : " . $lng;
+		} else {
 			$row = POD::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND original_address = '".POD::escapeString($locative['location'])."'");
 			if ($row == null || empty($row)) {
 				$found = false;
