@@ -15,9 +15,13 @@ requireStrictRoute();
 /// First, detect trackback URL from RDF information.
 $info  = getRDFfromURL($_POST['url']);
 if(empty($info)) {
-	/// TODO : parse trackback URL information from site address.
-	respond::ResultPage(false);
-	exit;
+	$blogInfo = getInfoFromURL($_POST['url']);
+	if(!empty($blogInfo) && $blogInfo['service'] != null) {
+		$info['trackbackURL'] = getTrackbackURLFromInfo($_POST['url'],$blogInfo['service']);
+	} else {
+		respond::ResultPage(false);
+		exit;
+	}
 }
 respond::ResultPage(!empty($_POST['url']) && sendTrackback($blogid, $suri['id'], trim($info['trackbackURL'])));
 ?>
