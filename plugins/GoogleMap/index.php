@@ -54,32 +54,60 @@ function GoogleMap_View($target, $mother) {
 	$matches = array();
 	$offset = 0;
 
-	// Mobile
-	if(defined('__TEXTCUBE_MOBILE__')) {
-		print_r("Mobile");
-	}
-	// iPhone
-	else if(defined('__TEXTCUBE_IPHONE__')) {
-		print_r("iPhone");
-	}
-	// Desktop
-	else {
-		print_r("Desktop");
-	}
 	while (preg_match('/\[##_GoogleMap\|(([^|]+)\|)?_##\]/', $target, $matches, PREG_OFFSET_CAPTURE, $offset) > 0) {
 		// SUGGUEST: [##_GoogleMap|{JSON_REPRESENTATION_OF_PARAMETERS_WITHOUT_NEWLINES}|_##]
 		$id = 'GMapContainer'.$mother.rand();
 		ob_start();
+
+		// Mobile
 		if (defined('__TEXTCUBE_MOBILE__')) {
-			$staticimg = "http://maps.google.com/staticmap?";
-			print_r($matches[2][0]);
-			print_r("===========<br/>");
+			$staticimg = "http://maps.google.co.kr/staticmap?";
 			$json_mobile = json_decode($matches[2][0], true);
-			print_r("============<br/>");
-			echo "<img src=\"{$staticimg}center={$json_mobile['center']['latitude']},{$json_mobile['center']['longitude']}&amp;zoom={$json_mobile['zoom']}&amp;size={$json_mobile['width']}x{$json_mobile['height']}&amp;sensor=false&amp;key={$config['apiKey']}\" alt=\"Google Map Test\" />";
+
+			// G_SATELLITE_MAP
+			if (strcmp($json_mobile['type'], "G_SATELLITE_MAP") == 0) {
+				echo "<img src=\"{$staticimg}center={$json_mobile['center']['latitude']},{$json_mobile['center']['longitude']}&amp;zoom={$json_mobile['zoom']}&amp;size={$json_mobile['width']}x{$json_mobile['height']}&amp;maptype=satellite &amp;markers={$json_mobile['user_markers']['0']['lat']},{$json_mobile['user_markers']['0']['lng']}&amp;sensor=false&amp;key={$config['apiKey']}\" title=\"{$json_mobile['user_markers'][0]['title']} - {$json_mobile['user_markers'][0]['desc']}\" alt=\"Google Map Test\" />";
+			}
+			// G_HYBRID_MAP (satellite)
+			else if(strcmp($json_mobile['type'], "G_HYBRID_MAP") == 0) {
+				echo "<img src=\"{$staticimg}center={$json_mobile['center']['latitude']},{$json_mobile['center']['longitude']}&amp;zoom={$json_mobile['zoom']}&amp;size={$json_mobile['width']}x{$json_mobile['height']}&amp;maptype=hybrid&amp;markers={$json_mobile['user_markers']['0']['lat']},{$json_mobile['user_markers']['0']['lng']}&amp;sensor=false&amp;key={$config['apiKey']}\" title=\"{$json_mobile['user_markers'][0]['title']} - {$json_mobile['user_markers'][0]['desc']}\" alt=\"Google Map Test\" />";
+
+			}
+			// G_PHYSICAL_MAP (terrain)
+			else if(strcmp($json_mobile['type'], "G_PHYSICAL_MAP") == 0) {
+				echo "<img src=\"{$staticimg}center={$json_mobile['center']['latitude']},{$json_mobile['center']['longitude']}&amp;zoom={$json_mobile['zoom']}&amp;size={$json_mobile['width']}x{$json_mobile['height']}&amp;maptype=terrain&amp;markers={$json_mobile['user_markers']['0']['lat']},{$json_mobile['user_markers']['0']['lng']}&amp;sensor=false&amp;key={$config['apiKey']}\" title=\"{$json_mobile['user_markers'][0]['title']} - {$json_mobile['user_markers'][0]['desc']}\" alt=\"Google Map Test\" />";
+			}
+			// G_NORMAL_MAP (default roadmap)
+			else {
+				echo "<img src=\"{$staticimg}center={$json_mobile['center']['latitude']},{$json_mobile['center']['longitude']}&amp;zoom={$json_mobile['zoom']}&amp;size={$json_mobile['width']}x{$json_mobile['height']}&amp;maptype=roadmap&amp;markers={$json_mobile['user_markers']['0']['lat']},{$json_mobile['user_markers']['0']['lng']}&amp;sensor=false&amp;key={$config['apiKey']}\" title=\"{$json_mobile['user_markers'][0]['title']} - {$json_mobile['user_markers'][0]['desc']}\" alt=\"Google Map Test\" />";
+
+			}
 		}
+		// iPod Touch & iPhone
 		else if(defined('__TEXTCUBE_IPHONE__')) {
+			$staticimg = "http://maps.google.co.kr/staticmap?";
+			$json_mobile = json_decode($matches[2][0], true);
+			
+			// G_SATELLITE_MAP
+			if (strcmp($json_mobile['type'], "G_SATELLITE_MAP") == 0) {
+				echo "<img src=\"{$staticimg}center={$json_mobile['center']['latitude']},{$json_mobile['center']['longitude']}&amp;zoom={$json_mobile['zoom']}&amp;size={$json_mobile['width']}x{$json_mobile['height']}&amp;maptype=satellite &amp;markers={$json_mobile['user_markers']['0']['lat']},{$json_mobile['user_markers']['0']['lng']}&amp;sensor=false&amp;key={$config['apiKey']}\" title=\"{$json_mobile['user_markers'][0]['title']} - {$json_mobile['user_markers'][0]['desc']}\" alt=\"Google Map Test\" />";
+			}
+			// G_HYBRID_MAP (satellite)
+			else if(strcmp($json_mobile['type'], "G_HYBRID_MAP") == 0) {
+				echo "<img src=\"{$staticimg}center={$json_mobile['center']['latitude']},{$json_mobile['center']['longitude']}&amp;zoom={$json_mobile['zoom']}&amp;size={$json_mobile['width']}x{$json_mobile['height']}&amp;maptype=hybrid&amp;markers={$json_mobile['user_markers']['0']['lat']},{$json_mobile['user_markers']['0']['lng']}&amp;sensor=false&amp;key={$config['apiKey']}\" title=\"{$json_mobile['user_markers'][0]['title']} - {$json_mobile['user_markers'][0]['desc']}\" alt=\"Google Map Test\" />";
+
+			}
+			// G_PHYSICAL_MAP (terrain)
+			else if(strcmp($json_mobile['type'], "G_PHYSICAL_MAP") == 0) {
+				echo "<img src=\"{$staticimg}center={$json_mobile['center']['latitude']},{$json_mobile['center']['longitude']}&amp;zoom={$json_mobile['zoom']}&amp;size={$json_mobile['width']}x{$json_mobile['height']}&amp;maptype=terrain&amp;markers={$json_mobile['user_markers']['0']['lat']},{$json_mobile['user_markers']['0']['lng']}&amp;sensor=false&amp;key={$config['apiKey']}\" title=\"{$json_mobile['user_markers'][0]['title']} - {$json_mobile['user_markers'][0]['desc']}\" alt=\"Google Map Test\" />";
+			}
+			// G_NORMAL_MAP (default roadmap)
+			else {
+				echo "<img src=\"{$staticimg}center={$json_mobile['center']['latitude']},{$json_mobile['center']['longitude']}&amp;zoom={$json_mobile['zoom']}&amp;size={$json_mobile['width']}x{$json_mobile['height']}&amp;maptype=roadmap&amp;markers={$json_mobile['user_markers']['0']['lat']},{$json_mobile['user_markers']['0']['lng']}&amp;sensor=false&amp;key={$config['apiKey']}\" title=\"{$json_mobile['user_markers'][0]['title']} - {$json_mobile['user_markers'][0]['desc']}\" alt=\"Google Map Test\" />";
+
+			}
 		}
+		// Desktop
 		else {
 ?>
 		<div id="<?php echo $id;?>" style="border: 1px solid #666;"></div>
