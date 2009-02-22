@@ -23,6 +23,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/includeForBlogOwner.php';
+requireLibrary('blog.skin');
 requireModel("blog.trash");
 requireModel("blog.entry");
 trashVan();
