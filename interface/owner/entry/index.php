@@ -884,7 +884,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 	$contentLength = 75-UTF8::lengthAsEm(htmlspecialchars($entry['title']));
 ?>
 												<a href="<?php echo $blogURL;?>/owner/<?php echo $editmode;?>/edit/<?php echo $entryModifyLink;?>" onclick="document.getElementById('list-form').action='<?php echo $blogURL;?>/owner/<?php echo $editmode;?>/edit/<?php echo $entryModifyLink;?>'<?php echo ($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '');?>; document.getElementById('list-form').submit(); return false;"><?php echo htmlspecialchars($entry['title']);?></a>
-												<span class="description"><?php echo (($contentLength > 0) ? UTF8::lessenAsEm(strip_tags($entry['content']),$contentLength) : '');?></span>
+												<span class="description"><?php echo (($contentLength > 0) ? UTF8::lessenAsEm(removeAllTags(strip_tags($entry['content'])),$contentLength) : '');?></span>
 											</td>
 											<td class="category">
 <?php
