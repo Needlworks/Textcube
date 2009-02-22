@@ -9,7 +9,7 @@
 | ------------------------------------------------------------------------- |
 |    Author: Andy Prevost (project admininistrator)                         |
 |    Author: Brent R. Matzelle (original founder)                           |
-| Copyright (c) 2004-2008, Andy Prevost. All Rights Reserved.               |
+| Copyright (c) 2004-2009, Andy Prevost. All Rights Reserved.               |
 | Copyright (c) 2001-2003, Brent R. Matzelle                                |
 | ------------------------------------------------------------------------- |
 |   License: Distributed under the Lesser General Public License (LGPL)     |
