@@ -77,7 +77,7 @@ function GoogleMap_View($target, $mother) {
 				$imgformat = 'jpg';
 				break;
 			default:
-				$maptype = 'normal';
+				$maptype = 'roadmap';
 				$imgformat = 'png';
 				break;
 			}
