@@ -59,53 +59,35 @@ function GoogleMap_View($target, $mother) {
 		$id = 'GMapContainer'.$mother.rand();
 		ob_start();
 
-		// Mobile
-		if (defined('__TEXTCUBE_MOBILE__')) {
+		// Mobile & iPhone (differences between these will be handled later.)
+		if (defined('__TEXTCUBE_MOBILE__') || defined('__TEXTCUBE_IPHONE__')) {
 			$staticimg = "http://maps.google.co.kr/staticmap?";
-			$json_mobile = json_decode($matches[2][0], true);
-
-			// G_SATELLITE_MAP
-			if (strcmp($json_mobile['type'], "G_SATELLITE_MAP") == 0) {
-				echo "<img src=\"{$staticimg}center={$json_mobile['center']['latitude']},{$json_mobile['center']['longitude']}&amp;zoom={$json_mobile['zoom']}&amp;size={$json_mobile['width']}x{$json_mobile['height']}&amp;maptype=satellite &amp;markers={$json_mobile['user_markers']['0']['lat']},{$json_mobile['user_markers']['0']['lng']}&amp;sensor=false&amp;key={$config['apiKey']}\" title=\"{$json_mobile['user_markers'][0]['title']} - {$json_mobile['user_markers'][0]['desc']}\" alt=\"Google Map Test\" />";
+			$json = json_decode($matches[2][0], true);
+			switch ($json['type']) {
+			case 'G_SATELLITE_MAP':
+				$maptype = 'satellite';
+				$imgformat = 'jpg';
+				break;
+			case 'G_HYBRID_MAP':
+				$maptype = 'hybrid';
+				$imgformat = 'jpg';
+				break;
+			case 'G_PHYSICAL_MAP':
+				$maptype = 'terrain';
+				$imgformat = 'jpg';
+				break;
+			default:
+				$maptype = 'normal';
+				$imgformat = 'png';
+				break;
 			}
-			// G_HYBRID_MAP (satellite)
-			else if(strcmp($json_mobile['type'], "G_HYBRID_MAP") == 0) {
-				echo "<img src=\"{$staticimg}center={$json_mobile['center']['latitude']},{$json_mobile['center']['longitude']}&amp;zoom={$json_mobile['zoom']}&amp;size={$json_mobile['width']}x{$json_mobile['height']}&amp;maptype=hybrid&amp;markers={$json_mobile['user_markers']['0']['lat']},{$json_mobile['user_markers']['0']['lng']}&amp;sensor=false&amp;key={$config['apiKey']}\" title=\"{$json_mobile['user_markers'][0]['title']} - {$json_mobile['user_markers'][0]['desc']}\" alt=\"Google Map Test\" />";
-
+			$markers = '';
+			for ($i = 0; $i < count($json['user_markers']); $i++) {
+				if ($i > 0)
+					$markers .= '|';
+				$markers .= "{$json['user_markers'][$i]['lat']},{$json['user_markers'][$i]['lng']}";
 			}
-			// G_PHYSICAL_MAP (terrain)
-			else if(strcmp($json_mobile['type'], "G_PHYSICAL_MAP") == 0) {
-				echo "<img src=\"{$staticimg}center={$json_mobile['center']['latitude']},{$json_mobile['center']['longitude']}&amp;zoom={$json_mobile['zoom']}&amp;size={$json_mobile['width']}x{$json_mobile['height']}&amp;maptype=terrain&amp;markers={$json_mobile['user_markers']['0']['lat']},{$json_mobile['user_markers']['0']['lng']}&amp;sensor=false&amp;key={$config['apiKey']}\" title=\"{$json_mobile['user_markers'][0]['title']} - {$json_mobile['user_markers'][0]['desc']}\" alt=\"Google Map Test\" />";
-			}
-			// G_NORMAL_MAP (default roadmap)
-			else {
-				echo "<img src=\"{$staticimg}center={$json_mobile['center']['latitude']},{$json_mobile['center']['longitude']}&amp;zoom={$json_mobile['zoom']}&amp;size={$json_mobile['width']}x{$json_mobile['height']}&amp;maptype=roadmap&amp;markers={$json_mobile['user_markers']['0']['lat']},{$json_mobile['user_markers']['0']['lng']}&amp;sensor=false&amp;key={$config['apiKey']}\" title=\"{$json_mobile['user_markers'][0]['title']} - {$json_mobile['user_markers'][0]['desc']}\" alt=\"Google Map Test\" />";
-
-			}
-		}
-		// iPod Touch & iPhone
-		else if(defined('__TEXTCUBE_IPHONE__')) {
-			$staticimg = "http://maps.google.co.kr/staticmap?";
-			$json_mobile = json_decode($matches[2][0], true);
-			
-			// G_SATELLITE_MAP
-			if (strcmp($json_mobile['type'], "G_SATELLITE_MAP") == 0) {
-				echo "<img src=\"{$staticimg}center={$json_mobile['center']['latitude']},{$json_mobile['center']['longitude']}&amp;zoom={$json_mobile['zoom']}&amp;size={$json_mobile['width']}x{$json_mobile['height']}&amp;maptype=satellite &amp;markers={$json_mobile['user_markers']['0']['lat']},{$json_mobile['user_markers']['0']['lng']}&amp;sensor=false&amp;key={$config['apiKey']}\" title=\"{$json_mobile['user_markers'][0]['title']} - {$json_mobile['user_markers'][0]['desc']}\" alt=\"Google Map Test\" />";
-			}
-			// G_HYBRID_MAP (satellite)
-			else if(strcmp($json_mobile['type'], "G_HYBRID_MAP") == 0) {
-				echo "<img src=\"{$staticimg}center={$json_mobile['center']['latitude']},{$json_mobile['center']['longitude']}&amp;zoom={$json_mobile['zoom']}&amp;size={$json_mobile['width']}x{$json_mobile['height']}&amp;maptype=hybrid&amp;markers={$json_mobile['user_markers']['0']['lat']},{$json_mobile['user_markers']['0']['lng']}&amp;sensor=false&amp;key={$config['apiKey']}\" title=\"{$json_mobile['user_markers'][0]['title']} - {$json_mobile['user_markers'][0]['desc']}\" alt=\"Google Map Test\" />";
-
-			}
-			// G_PHYSICAL_MAP (terrain)
-			else if(strcmp($json_mobile['type'], "G_PHYSICAL_MAP") == 0) {
-				echo "<img src=\"{$staticimg}center={$json_mobile['center']['latitude']},{$json_mobile['center']['longitude']}&amp;zoom={$json_mobile['zoom']}&amp;size={$json_mobile['width']}x{$json_mobile['height']}&amp;maptype=terrain&amp;markers={$json_mobile['user_markers']['0']['lat']},{$json_mobile['user_markers']['0']['lng']}&amp;sensor=false&amp;key={$config['apiKey']}\" title=\"{$json_mobile['user_markers'][0]['title']} - {$json_mobile['user_markers'][0]['desc']}\" alt=\"Google Map Test\" />";
-			}
-			// G_NORMAL_MAP (default roadmap)
-			else {
-				echo "<img src=\"{$staticimg}center={$json_mobile['center']['latitude']},{$json_mobile['center']['longitude']}&amp;zoom={$json_mobile['zoom']}&amp;size={$json_mobile['width']}x{$json_mobile['height']}&amp;maptype=roadmap&amp;markers={$json_mobile['user_markers']['0']['lat']},{$json_mobile['user_markers']['0']['lng']}&amp;sensor=false&amp;key={$config['apiKey']}\" title=\"{$json_mobile['user_markers'][0]['title']} - {$json_mobile['user_markers'][0]['desc']}\" alt=\"Google Map Test\" />";
-
-			}
+			echo "<div class=\"googlemap\"><img src=\"{$staticimg}center={$json['center']['latitude']},{$json['center']['longitude']}&amp;zoom={$json['zoom']}&amp;size={$json['width']}x{$json['height']}&amp;maptype={$maptype}&amp;format={$imgformat}&amp;markers={$markers}&amp;sensor=false&amp;key={$config['apiKey']}\"title=\"{$json['user_markers'][0]['title']} - {$json['user_markers'][0]['desc']}\" alt=\"Google Map Test\" /></div>";
 		}
 		// Desktop
 		else {
@@ -127,7 +109,6 @@ function GoogleMap_View($target, $mother) {
 
 		ob_end_clean();
 		$target = substr_replace($target, $output, $matches[0][1], strlen($matches[0][0]));
-		//$offset += $matches[0][1] + strlen($output) - 1; 
 	}
 	return $target;
 }
