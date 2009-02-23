@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
 	<title xml:lang="en">Modern WYSIWYG Editor</title>
-	<title xml:lang="ko">텍스트큐브 위지윅 편집기</title>
+	<title xml:lang="ko">모던 위지윅 편집기</title>
 	<link>http://needlworks.org/</link>
 	<version>1.7</version>
 	<description xml:lang="en">Provides an easy-to-use WYSIWYG editor interface.</description>
