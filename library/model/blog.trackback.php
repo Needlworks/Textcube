@@ -244,6 +244,7 @@ function revertTrackback($blogid, $id) {
 function sendTrackback($blogid, $entryId, $url) {
 	global $defaultURL, $blog;
 	requireComponent('Eolin.PHP.HTTPRequest');
+	requireLibrary('blog.skin');
 	requireModel('blog.entry');
 	requireModel('blog.keyword');
 	
