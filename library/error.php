@@ -1,5 +1,5 @@
 <?php
-require_once ROOT."/library/includeForBlog.php";
+require_once ROOT."/library/include.blog.php";
 function errorExit($code)
 {
 	global $skin, $skinSetting, $suri, $defaultURL, $blog;

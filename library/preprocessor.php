@@ -121,7 +121,6 @@ endif;
 $context->URIParser();
 /// Setting global variables
 $context->globalVariableParser();
-
 /** INITIALIZE : Session (if necessary)
     -----------------------------------
 */
