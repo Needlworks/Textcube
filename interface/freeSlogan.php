@@ -3,9 +3,6 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
-if (false) {
-	fetchConfigVal();
-}
 
 if (eventExists('AccessFreeSlogan')) {
 	$info = fireEvent('AccessFreeSlogan', implode('/', $URLInfo['fragment']), $URLInfo);
@@ -49,17 +46,6 @@ if (eventExists('AccessFreeSlogan')) {
 	}
 }
 
-require ROOT . '/interface/common/blog/begin.php';
-header('HTTP/1.1 404 Not Found');
-if (empty($skin->pageError)) { 
-	dress('article_rep', '<div class="TCwarning">' . _text('존재하지 않는 페이지입니다.') . '</div>', $view);
-} else{
-	dress('article_rep', NULL, $view); 
-	dress('page_error', $skin->pageError, $view);
-}
-require ROOT . '/interface/common/blog/end.php';
-
-/* This noise is the power of our cron engine, thank you! */
-requireModel("blog.cron");
-checkCronJob();
+requireLibrary('error');
+errorExit(404);
 ?>
