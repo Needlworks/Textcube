@@ -482,6 +482,8 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 						'label' => $category1['name'], 
 						'value' => $categoryCount + $parentCategoryCount, 
 						'link' => "$blogURL/category/" . ($blog['useSloganOnCategory'] ? URL::encode($category1['label'],$service['useEncodedURL']) : $category1['id']), 
+						'rsslink' => "$blogURL/category/rss/" . ($blog['useSloganOnCategory'] ? URL::encode($category1['label'],$service['useEncodedURL']) : $category1['id']), 
+						'atomlink' => "$blogURL/category/atom" . ($blog['useSloganOnCategory'] ? URL::encode($category1['label'],$service['useEncodedURL']) : $category1['id']), 
 						'children' => $children)
 				);
 			}

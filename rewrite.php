@@ -106,14 +106,19 @@ class Dispatcher {
 		/* Load interface. */
 		$interfacePath = null;
 		if (in_array($pathPart, array('favicon.ico','index.gif'))) {require_once 'interface/'.$pathPart.'.php';	exit;}
-		if (!empty($URLInfo['fragment']) &&
-			in_array($URLInfo['fragment'][0],
-					 array('api','archive','attachment','author','category','checkup','cover','cron','entry','feeder','foaf','guestbook','iMazing','keylog','location','locationSuggest','logout','notice','page','plugin','pluginForOwner','search','suggest','sync','tag','ttxml')))
-		{
-			$pathPart = $URLInfo['fragment'][0];
-			$interfacePath = 'interface/blog/'.$pathPart.'.php';
-		} else if (is_numeric(strtok(end($URLInfo['fragment']), '&'))) {
-			$pathPart = count($URLInfo['fragment'])==1 ? null : implode('/', array_slice($URLInfo['fragment'], 0, count($URLInfo['fragment']) - 1));
+		if (!empty($URLInfo['fragment'])) {
+			if(	in_array($URLInfo['fragment'][0],
+				 array('api','archive','attachment','author','category','checkup','cover','cron','entry','feeder','foaf','guestbook','iMazing','keylog','location','locationSuggest','logout','notice','page','plugin','pluginForOwner','search','suggest','sync','tag','ttxml')))
+			{
+				$pathPart = $URLInfo['fragment'][0];
+				$interfacePath = 'interface/blog/'.$pathPart.'.php';
+			} else if (in_array($URLInfo['fragment'][0],array('rss','atom')) &&
+					$URLInfo['fragment'][1] == 'category') {
+				$pathPart = $URLInfo['fragment'][0].'/category';
+				$interfacePath = 'interface/'.$pathPart.'/index.php';
+			} else if (is_numeric(strtok(end($URLInfo['fragment']), '&'))) {
+				$pathPart = count($URLInfo['fragment'])==1 ? null : implode('/', array_slice($URLInfo['fragment'], 0, count($URLInfo['fragment']) - 1));
+			}
 		}
 		if (empty($interfacePath)) $interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
 		define('PATH', 'interface/'.(empty($pathPart) ? '' : $pathPart.'/'));

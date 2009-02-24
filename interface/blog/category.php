@@ -3,9 +3,6 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
-if (false) {
-	fetchConfigVal();
-}
 
 $cache = new pageCache;
 if(!isset($suri['id']) || (getBlogSetting('useSloganOnCategory',1) == 1)) {
