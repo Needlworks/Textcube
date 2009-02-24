@@ -396,8 +396,7 @@ function getCommentNotifiedFeedTotal($blogid, $mode = 'rss') {
 	return false;
 }
 
-function getCategoryFeedByCategoryId($blogid, $categoryId, $mode = 'rss') {
-	if(in_array($categoryId, getCategoryVisibilityList($blogid, 'private'))) return false;
+function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss') {
 
 	global $database, $serviceURL, $defaultURL, $blog, $service;
 	$channel = array();
@@ -411,7 +410,7 @@ function getCategoryFeedByCategoryId($blogid, $categoryId, $mode = 'rss') {
 			ON e.blogid = c.blogid AND e.category = c.id
 		LEFT JOIN {$database['prefix']}Users u
 			ON e.userid = u.userid
-		WHERE e.blogid = $blogid AND e.draft = 0 AND e.visibility >= ".($blog['publishEolinSyncOnRSS'] ? '2' : '3')." AND e.category = $categoryId
+		WHERE e.blogid = $blogid AND e.draft = 0 AND e.visibility >= ".($blog['publishEolinSyncOnRSS'] ? '2' : '3')." AND e.category IN (".implode(',',$categoryIds).")
 		ORDER BY e.published 
 		DESC LIMIT {$blog['entriesOnRSS']}");
 	if (!$entries)
