@@ -126,8 +126,9 @@ if (isset($cache->contents)) {
 			$contentContainer["article_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($blogid));
 			dress('article_rep_desc', setTempTag("article_{$entry['id']}"), $entryView);
 			dress('article_rep_category', htmlspecialchars(empty($entry['category']) ? _text('분류없음') : $entry['categoryLabel'], $entry['id']), $entryView);
-			dress('article_rep_category_link', "$blogURL/category/".(empty($entry['category']) ? "" : 
-($blog['useSloganOnCategory'] ? URL::encode($entry['categoryLabel'],$service['useEncodedURL']) : $entry['category'])),$entryView);
+			dress('article_rep_category_link', "$blogURL/category/".(empty($entry['category']) ? "" : ($blog['useSloganOnCategory'] ? URL::encode($entry['categoryLabel'],$service['useEncodedURL']) : $entry['category'])),$entryView);
+			dress('article_rep_category_rssurl', "$defaultURL/rss/category/".(empty($entry['category']) ? "" : ($blog['useSloganOnCategory'] ? URL::encode($entry['categoryLabel'],$service['useEncodedURL']) : $entry['category'])),$entryView);
+			dress('article_rep_category_atomurl', "$defaultURL/atom/category/".(empty($entry['category']) ? "" : ($blog['useSloganOnCategory'] ? URL::encode($entry['categoryLabel'],$service['useEncodedURL']) : $entry['category'])),$entryView);
 			dress('article_rep_microformat_published', Timestamp::getISO8601($entry['published']), $entryView);
 			dress('article_rep_microformat_updated', Timestamp::getISO8601($entry['modified']), $entryView);
 			dress('article_rep_date', fireEvent('ViewPostDate', Timestamp::format5($entry['published']), $entry['published']), $entryView);

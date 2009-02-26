@@ -144,6 +144,12 @@ table.data-inbox tbody tr td.ip
 	color                            : #ddd;
 }
 
+#part-post-list table.data-inbox tr .title
+{
+	overflow:hidden;
+	text-overflow:clip !important;
+}
+
 #part-post-list table.data-inbox tr .syndicate
 {
 	width                            : 13px;
