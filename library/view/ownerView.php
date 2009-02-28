@@ -856,13 +856,6 @@ function printEntryFileUploadButton($entryId) {
 												//]]>
 											</script>
 										<div id="fileUploadNest" class="container">
-<?php
-	if (isset($service['flashuploader']) && !$service['flashuploader']) {
-?>
-											<input type="button" id="deleteBtn" class="input-button" value="<?php echo _t('삭제하기');?>" onclick="deleteAttachment();return false" />
-<?php
-	}
-?>
 											<div id="fileSize">
 <?php 
 echo getAttachmentSizeLabel($blogid, $entryId);											
@@ -870,6 +863,14 @@ echo getAttachmentSizeLabel($blogid, $entryId);
 											</div>
 											<div id="fileDownload" class="system-message" style="display: none;"></div>
 										</div>
+										<script type="text/javascript">
+										//<![CDATA[
+										if (!DetectFlashVer(8, 0, 0) || !(isIE || isMoz) || <?php echo (isset($service['flashuploader']) && !$service['flashuploader']) ? 'true' : 'false';?>) {
+											var deleteButtonContainer = document.getElementById('fileUploadNest');
+											deleteButtonContainer.innerHTML = '<input type="button" id="deleteBtn" class="input-button" value="<?php echo _t('삭제하기');?>" onclick="deleteAttachment();return false" />' + deleteButtonContainer.innerHTML;
+										}
+										//]]>
+										</script>
 <?php
 }
 
