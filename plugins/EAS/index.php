@@ -72,7 +72,7 @@ function EAS_Call($type, $name, $title, $url, $content)
 
 function EAS_AddingTrackback($target, $mother)
 {
-	return EAS_Call(2, $mother['site'], $mother['title'], $mother['url'], $mother['excerpt']);
+	return $target && EAS_Call(2, $mother['site'], $mother['title'], $mother['url'], $mother['excerpt']);
 }
 
 function EAS_AddingComment($target, $mother)
