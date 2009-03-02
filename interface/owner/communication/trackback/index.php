@@ -319,7 +319,7 @@ foreach (getCategories($blogid) as $category) {
 <?php if(isset($tabsClass['received'])) {
 ?>
 											<th class="ip"><acronym title="Internet Protocol">ip</acronym></th>
-											<th class="action"><span class="text">동작</span></th>
+											<th class="action"><span class="text"><?php echo _t('동작');?></span></th>
 
 <?php } ?>
 											<th class="delete"><span class="text"><?php echo _t('삭제');?></span></th>
