@@ -1231,76 +1231,43 @@ function recallLastComment(caller,entryId) {
 
 var openWindow='';
 
-function alignCenter(win,width,height) {
-	try{ // sometimes fail.
-		win.moveTo(screen.width/2-width/2,screen.height/2-height/2);
+function openCenteredWindow(url, name, width, height, scrollbars) {
+	scrollbars = (scrollbars || false) ? 1 : 0;
+
+	try {
+		if (openWindow != '') {
+			openWindow.close();
+		}
 	} catch (e) {}
+
+	openWindow = window.open(url, name, "width=" + width + ",height=" + height + ",top=" + (screen.height / 2 - height / 2) + ",left=" + (screen.width / 2 - width / 2) + ",location=0,menubar=0,resizable=1,scrollbars=" + scrollbars + ",status=0,toolbar=0");
+	openWindow.focus();
+
+	return openWindow;
 }
 
 function deleteComment(id) {
-	width = 460;
-	height = 400;
-	try {
-		if(openWindow != '') openWindow.close();
-	} catch (e) {}
-	openWindow = window.open(blogURL + "/comment/delete/" + id, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=1,scrollbars=0,status=0,toolbar=0");
-	openWindow.focus();
-	alignCenter(openWindow,width,height);
+	openCenteredWindow(blogURL + "/comment/delete/" + id, "tatter", 460, 400);
 }
 
 function modifyComment(id) {
-	width = 460;
-	height = 400;
-	try {
-		if(openWindow != '') openWindow.close();
-	} catch (e) {}
-	openWindow = window.open(blogURL + "/comment/modify/" + id, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=1,scrollbars=0,status=0,toolbar=0");
-	openWindow.focus();
-	alignCenter(openWindow,width,height);
+	openCenteredWindow(blogURL + "/comment/modify/" + id, "tatter", 460, 400);
 }
 
 function commentComment(parent) {
-	width = 460;
-	height = 600;
-	try {
-		if(openWindow != '') openWindow.close();
-	} catch (e) {}
-	openWindow = window.open(blogURL + "/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=1,scrollbars=0,status=0,toolbar=0");
-	openWindow.focus();
-	alignCenter(openWindow,width,height);
+	openCenteredWindow(blogURL + "/comment/comment/" + parent, "tatter", 460, 600);
 }
 
 function editEntry(parent,child) {
-	width =  1020;
-	height = 550;
-	try {
-		if(openWindow != '') openWindow.close();
-	} catch (e) {}
-	openWindow = window.open(blogURL + "/owner/entry/edit/" + parent + "?popupEditor&returnURL=" + child,"tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
-	openWindow.focus();
-	alignCenter(openWindow,width,height);
+	openCenteredWindow(blogURL + "/owner/entry/edit/" + parent + "?popupEditor&returnURL=" + child, "tatter", 1020, 550, true);
 }
 
 function guestbookComment(parent) {
-	width = 460;
-	height = 360;
-	try {
-		if(openWindow != '') openWindow.close();
-	} catch (e) {}
-	openWindow = window.open(blogURL + "/comment/comment/" + parent, "tatter", "width="+width+",height="+height+",location=0,menubar=0,resizable=1,scrollbars=0,status=0,toolbar=0");
-	openWindow.focus();
-	alignCenter(openWindow,width,height);
+	openCenteredWindow(blogURL + "/comment/comment/" + parent, "tatter", 460, 360);
 }
 
 function sendTrackback(id) {
-	width = 700;
-	height = 500;
-	try {
-		if(openWindow != '') openWindow.close();
-	} catch (e) {}
-	openWindow = window.open(blogURL + "/trackback/send/" + id, "tatter", "width=580,height=400,location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
-	openWindow.focus();
-	alignCenter(openWindow,width,height);
+	openCenteredWindow(blogURL + "/trackback/send/" + id, "tatter", 580, 400);
 }
 
 function deleteTrackback(id, entryId) {
@@ -1377,7 +1344,7 @@ function thisMovie(movieName) {
     }
 }
 
-function copyUrl(url) {
+function copyUrl(url, nest) {
 	try {
 		window.clipboardData.setData('Text',url);
 		window.alert(messages["trackbackUrlCopied"]);
@@ -1385,7 +1352,7 @@ function copyUrl(url) {
 		s = window.getSelection();
 		var r1 = document.createRange();
 		r1.setStartBefore(nest);
-		r1.setEndAfter(nest);
+		r1.setEndAfter(nest) ;
 		s.addRange(r1);
 	}
 }
@@ -1393,5 +1360,3 @@ function copyUrl(url) {
 function onClipBoard(result) {
 	alert(result ? messages["trackbackUrlCopied"] : messages["operationFailed"]);
 }
-
-		
