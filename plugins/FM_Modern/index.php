@@ -13,7 +13,7 @@ function FM_Modern_editorinit(&$editor) {
 	requireComponent('Textcube.Function.misc');
 	requireComponent('Textcube.Function.Setting');
 	$blogid = getBlogId();
-	if (is_null($configVal)) {
+	if (is_null($configVal) || empty($configVal)) {
 		$config = array('paragraphdelim' => 'BR',
 			'defaultmode' => 'WYSIWYG');
 	} else {
@@ -23,7 +23,7 @@ function FM_Modern_editorinit(&$editor) {
 		in_array($entry['contentFormatter'],array('markdown','textile'))) {
 		$config['defaultmode'] = 'TEXTAREA';
 	} else if (!isset($config['defaultmode'])) {
-		$config['defaultmode'] = (Setting::getBlogSetting('editorMode', 1) == 1 ? 'WYSIWYG' : 'TEXTAREA');
+		$config['defaultmode'] = 'WYSIWYG';
 	}
 
 	ob_start();
