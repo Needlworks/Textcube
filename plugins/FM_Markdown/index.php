@@ -13,7 +13,6 @@ function FM_Markdown_format($blogid, $id, $content, $keywords = array(), $useAbs
 	}
 	$view = FM_TTML_bindAttachments($id, $path, $url, $content, $useAbsolutePath, $bRssMode);
 	$view = Markdown($view, $id);
-	if (is_array($keywords)) $view = FM_TTML_bindKeywords($keywords, $view);
 	$view = FM_TTML_bindTags($id, $view);
 	return $view;
 }
