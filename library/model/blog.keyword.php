@@ -80,7 +80,7 @@ class KeywordBinder {
 	var $_replaceOnce;
 	var $_binded = array();
 
-	function FM_TTML_KeywordBinder($replaceOnce = true) {
+	function KeywordBinder($replaceOnce = true) {
 		$this->_replaceOnce = $replaceOnce;
 	}
 
