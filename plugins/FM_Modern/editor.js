@@ -1523,7 +1523,7 @@ TTModernEditor.prototype.command = function(command, value1, value2) {
 								'<param name="Filename" value="' + url + '"/>' +
 								'<param name="AutoStart" value="false"/>' +
 								'<!--[if !IE]> <-->' +
-								'<object type="' + type + '" data="' + url + '" width="320" height="' + (type == "audio/mpeg" ? "50" : "240") + '">' +
+								'<object type="' + type + '" data="' + url + '" width="320" height="' + (type == "audio/mpeg" ? "20" : "240") + '">' +
 								'<param name="AutoStart" value="0"/>' +
 								'<embed pluginspage="http://www.microsoft.com/Windows/Downloads/Contents/Products/MediaPlayer/" src="' + url + '" width="320" height="' + (type == "audio/mpeg" ? "20" : "240") + '" type="application/x-mplayer2" autostart="0"></embed>' +
 								'</object>' +

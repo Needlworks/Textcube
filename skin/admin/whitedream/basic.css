@@ -202,50 +202,11 @@ textarea
 	margin-left                      : 210px;
 }
 
-#description-teamblog
-{
-	background-image                 : url("./image/bg_menu_divider.gif");
-	background-position              : right top;
-	background-repeat                : no-repeat;
-	padding-right                    : 10px;
-}
-
-#description-teamblog label
-{
-	padding-right                    : 5px;
-}
-
-#description-blog
-{
-	background-image                 : url("./image/bg_menu_divider.gif");
-	background-position              : right top;
-	background-repeat                : no-repeat;
-	padding-right                    : 10px;
-}
-
-#description-blog a
-{
-	background-image                 : url("./image/img_to_my_blog.gif");
-	background-position              : right center;
-	background-repeat                : no-repeat;
-	color                            : #222;
-	padding                          : 4px 20px 0 0;
-}
-
-#description-logout a
-{
-	background-image                 : url("./image/img_logout.gif");
-	background-position              : right center;
-	background-repeat                : no-repeat;
-	color                            : #222;
-	padding                          : 4px 20px 0 0;
-}
-
 /* main action box */
 
 #main-action-box
 {
-	padding-right: 11px;
+	padding-right                    : 11px;
 	position                         : absolute;
 	right                            : 0;
 	top                              : 15px;
@@ -253,8 +214,8 @@ textarea
 
 #main-action li 
 {
-	float:left;
-	display:block;
+	float                            : left;
+	display                          : block;
 }
 
 #action-helper

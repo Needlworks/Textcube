@@ -203,43 +203,71 @@ textarea
 	margin-left                      : 180px;
 }
 
-#description-teamblog
+/* main action box */
+
+#main-action-box
 {
-	background-image                 : url("./image/bg_menu_divider.gif");
-	background-position              : right top;
+	padding-right                    : 11px;
+	position                         : absolute;
+	right                            : 0;
+	top                              : 15px;
+}
+
+#main-action li 
+{
+	float                            : left;
+	display                          : block;
+}
+
+#action-helper
+{
+	background-image                 : url("./image/bg_menu_right.png") !important;
+	background-position              : right top !important;
 	background-repeat                : no-repeat;
-	padding-right                    : 10px;
+	height                           : 40px;
+	line-height                      : 3em;
+	position                         : absolute;
+	right                            : 0;
+	top                              : 35px;
+	padding                          : 0 26px 0 16px !important;
+	z-index                          : 450;
 }
 
-#description-teamblog label
+#action-helper a
 {
-	padding-right                    : 5px;
-}
-
-#description-blog
-{
-	background-image                 : url("./image/bg_menu_divider.gif");
-	background-position              : right top;
+	background-image                 : url("./image/img_helper.gif");
+	background-position              : right center;
 	background-repeat                : no-repeat;
-	padding-right                    : 10px;
+	color                            : #DDE5F1;
+	font-family                      : Dotum, AppleGothic, '굴림', Gulim, sans-serif;
+	font-size                        : 0.9em;
+	padding                          : 0 16px !important;
 }
 
-#description-blog a
+#action-move-to-blog a
 {
 	background-image                 : url("./image/img_to_my_blog.gif");
 	background-position              : right center;
 	background-repeat                : no-repeat;
 	color                            : #222;
-	padding                          : 4px 20px 0 0;
+	padding                          : 4px 20px 0 10px;
 }
 
-#description-logout a
+#action-logout a
 {
 	background-image                 : url("./image/img_logout.gif");
 	background-position              : right center;
 	background-repeat                : no-repeat;
 	color                            : #222;
-	padding                          : 4px 20px 0 0;
+	padding                          : 4px 20px 0 10px;
+}
+
+/* main blog box */
+#main-blog-box
+{
+	right                            : 200px;
+	position                         : absolute;
+	top                              : 13px;
 }
 
 /* main menu */
