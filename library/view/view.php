@@ -1142,7 +1142,8 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 		$view = stripHTML($view, array('a', 'abbr', 'acronym', 'address', 'b', 'blockquote', 'br', 'cite', 'code', 'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'ins', 'kbd', 'li', 'ol', 'p', 'pre', 'q', 's', 'samp', 'span', 'strike', 'strong', 'sub', 'sup', 'u', 'ul', 'var'));
 	if(!$useAbsolutePath)
 		$view = avoidFlashBorder($view);
-	
+
+	if (!empty($keywords) && is_array($keywords)) $view = bindKeywords($keywords, $view);
 	$view = fireEvent('View' . $type . 'Content', $view, $id);
 	
 	// image resampling

@@ -16,7 +16,6 @@ function FM_Textile_format($blogid, $id, $content, $keywords = array(), $useAbso
 	}
 	$view = FM_TTML_bindAttachments($id, $path, $url, $content, $useAbsolutePath, $bRssMode);
 	$view = $textile->TextileThis($view);
-	if (is_array($keywords)) $view = FM_TTML_bindKeywords($keywords, $view);
 	$view = FM_TTML_bindTags($id, $view);
 	return $view;
 }
