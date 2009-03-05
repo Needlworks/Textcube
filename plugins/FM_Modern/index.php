@@ -23,7 +23,7 @@ function FM_Modern_editorinit(&$editor) {
 		in_array($entry['contentFormatter'],array('markdown','textile'))) {
 		$config['defaultmode'] = 'TEXTAREA';
 	} else if (!isset($config['defaultmode'])) {
-		$config['defaultmode'] = (setting::getBlogSetting('editorMode', 1) == 1 ? 'WYSIWYG' : 'TEXTAREA');
+		$config['defaultmode'] = 'WYSIWYG';
 	}
 
 	ob_start();
