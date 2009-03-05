@@ -99,7 +99,7 @@ input
 kbd
 {
 	color                            : #666666;
-	font-family                      : 굴림, Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
+	font-family                      : Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
 }
 
 label
@@ -162,7 +162,7 @@ table
 textarea
 {
 	border                           : 1px solid #878787;
-	font-family                      : 굴림, Gulim, Verdana, Tahoma, Arial, 'Lucida Grande', sans-serif;
+	font-family                      : Gulim, Verdana, Tahoma, Arial, 'Lucida Grande', sans-serif;
 	font-size                        : 1em;
 }
 
@@ -242,7 +242,55 @@ textarea
 	padding-right                    : 2px;
 }
 
-#description-blog a
+#description-blogger
+{
+	display                          : none;
+}
+
+/* main action box */
+
+#main-action-box
+{
+	padding-right                    : 11px;
+	position                         : absolute;
+	right                            : 0;
+	top                              : 15px;
+}
+
+#main-action li 
+{
+	float                            : left;
+	display                          : block;
+}
+
+#action-helper
+{
+	height                           : 40px;
+	line-height                      : 3em;
+	position                         : absolute;
+	right                            : 135px;
+	top                              : 5px;
+	width                            : 70px;
+	padding                          : 0 26px 0 16px !important;
+	z-index                          : 450;
+}
+
+#action-helper a
+{
+	color                            : #DDE5F1;
+	font-family                      : Dotum, AppleGothic, '굴림', Gulim, sans-serif;
+	font-size                        : 0.9em;
+	padding                          : 0 16px !important;
+}
+
+#action-move-to-blog
+{
+	position                         : absolute;
+	right                            : 86px;
+	top                              : 15px;	
+}
+
+#action-move-to-blog a
 {
 	background-image                 : url("./image/blog.gif");
 	background-position              : left top;
@@ -252,19 +300,19 @@ textarea
 	width                            : 82px;
 }
 
-#description-blog a span
+#action-move-to-blog a span
 {
 	display                          : none;
 }
 
-#description-logout
+#action-logout
 {
 	position                         : absolute;
 	right                            : 34px;
-	top                              : 35px;
+	top                              : 15px;
 }
 
-#description-logout a
+#action-logout a
 {
 	background-image                 : url("./image/logout.gif");
 	background-position              : left top;
@@ -274,14 +322,22 @@ textarea
 	width                            : 51px;
 }
 
-#description-logout a span
+#action-logout a span
 {
 	display                          : none;
 }
 
-#description-blogger
+/* main blog box */
+#main-blog-box
 {
-	display                          : none;
+	right                            : 230px;
+	position                         : absolute;
+	top                              : 30px;
+}
+
+#main-blog-box label
+{
+	color:#EEE;	
 }
 
 /* Main Menu *************************************************************************************/
