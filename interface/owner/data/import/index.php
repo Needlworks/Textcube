@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
+/// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 ini_set('display_errors', 'off');
@@ -213,6 +213,7 @@ function scanner($path, $node, $line) {
 		case '/blog/post':
 		case '/blog/notice':
 		case '/blog/keyword':
+		case '/blog/linkCategories':
 		case '/blog/link':
 		case '/blog/logs/referer':
 		case '/blog/statistics/referer':
@@ -562,9 +563,27 @@ function importer($path, $node, $line) {
 				}
 			}
 			return true;
+		case '/blog/linkCategories':
+			setProgress($item++ / $items * 100, _t('링크를 복원하고 있습니다.'));
+			$linkCategory = new LinkCategories();
+			$linkCategory->name = $node['name'][0]['.value'];
+			$linkCategory->priority = $node['priority'][0]['.value'];
+			if (!isset($node['visibility'][0]['.value']) || empty($node['visibility'][0]['.value']))
+				$linkCategory->visibility = 2;
+			$linkCategory->id = LinkCategories::getId($linkCategory->name);
+			if ($linkCategory->id) {
+				if (!$linkCategory->update())
+					user_error(__LINE__ . $linkCategory->error);
+			} else {
+				if (!$linkCategory->add())
+					user_error(__LINE__ . $linkCategory->error);
+			}
+			return true;
 		case '/blog/link':
 			setProgress($item++ / $items * 100, _t('링크를 복원하고 있습니다.'));
 			$link = new Link();
+			if (!isset($node['category'][0]['.value']))
+				$link->category = 0;
 			$link->url = $node['url'][0]['.value'];
 			$link->title = $node['title'][0]['.value'];
 			if (!empty($node['feed'][0]['.value']))

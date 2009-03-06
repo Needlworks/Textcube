@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
+/// Copyright (c) 2004-2008, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 $IV = array(
@@ -243,10 +243,18 @@ if ($keyword->open()) {
 	} while ($keyword->shift());
 	$keyword->close();
 }
+$linkCategories = new LinkCategories();
+if ($linkCategories->open()) {
+	do {
+		$writer->write('<linkCategories>' . '<name>' . htmlspecialchars(UTF8::correct($linkCategories->name)) . '</name>' . '<priority>' . $linkCategories->priority . '</priority>' . '<visibility>' . $linkCategories->visibility . '</visibility>' . '</linkCategories>');
+		$writer->write(CRLF);
+	} while ($linkCategories->shift());
+	$linkCategories->close();
+}
 $link = new Link();
 if ($link->open()) {
 	do {
-		$writer->write('<link>' . '<url>' . htmlspecialchars(UTF8::correct($link->url)) . '</url>' . '<title>' . htmlspecialchars(UTF8::correct($link->title)) . '</title>' . '<feed>' . htmlspecialchars(UTF8::correct($link->feed)) . '</feed>' . '<registered>' . $link->registered . '</registered>' . '</link>');
+		$writer->write('<link>' . '<category>' . $link->category . '</category>' . '<url>' . htmlspecialchars(UTF8::correct($link->url)) . '</url>' . '<title>' . htmlspecialchars(UTF8::correct($link->title)) . '</title>' . '<feed>' . htmlspecialchars(UTF8::correct($link->feed)) . '</feed>' . '<registered>' . $link->registered . '</registered>' . '</link>');
 		$writer->write(CRLF);
 	} while ($link->shift());
 	$link->close();
