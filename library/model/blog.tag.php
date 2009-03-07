@@ -181,7 +181,7 @@ function suggestLocalTags($blogid, $filter) {
 		INNER JOIN {$database['prefix']}TagRelations r
 		WHERE t.id = r.tag 
 			AND r.blogid = $blogid
-			AND name LIKE \"".POD::escapeString($filter)."%\" 
+			AND $filter
 		GROUP BY tag 
 		ORDER BY cnt 
 		DESC LIMIT 10");

@@ -132,6 +132,10 @@ function eolinTagFunction_showLocalSuggestion(id, cursor, filter)
 	}
 }
 
+function eolinTagFunction_showLocalSuggestionWithoutQuery(id, cursor, filter) {
+	return eolinTagFunction_showLocalSuggestion(id, cursor, 'name like "' + filter.replace('"', '\\"') + '%"');
+}
+
 // 서버에서 보내오는 내용을 실행하는 함수
 function eolinTagFunction_showSuggestion()
 {
@@ -379,7 +383,7 @@ Tag.prototype.requestSuggestion = function()
 	instance.cursor++;
 
 	if(!instance.allowEolinSuggestion || (instance.getInput().value.trim() == "")) {
-		eolinTagFunction_showLocalSuggestion(instance.container.getAttribute("id"), instance.cursor, instance.getInput().value)
+		eolinTagFunction_showLocalSuggestionWithoutQuery(instance.container.getAttribute("id"), instance.cursor, instance.getInput().value)
 		return;
 	}
 
