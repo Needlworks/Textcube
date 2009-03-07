@@ -545,8 +545,9 @@ LocationTag.prototype.requestSuggestion = function()
 {
 	var instance = this.instance;
 
+	eolinLocationFunction_showLocalSuggestion(instance.container.getAttribute("id"), instance.cursor, this.getPath());
+
 	if(!instance.allowEolinSuggestion || (instance.input.value.trim() == "")) {
-		eolinLocationFunction_showLocalSuggestion(instance.container.getAttribute("id"), instance.cursor, this.getPath());
 		return;
 	}
 
