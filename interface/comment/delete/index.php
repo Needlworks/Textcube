@@ -155,10 +155,15 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 		
 		try {
 			var obj = opener.document.getElementById("entry<?php echo $entry['id'];?>Comment");
-			obj.innerHTML = "<?php echo str_innerHTML($tempComments);?>";
-			var recentComment = opener.document.getElementById("recentComments");
-			if(recentComment)
-				recentComment.innerHTML = "<?php echo str_innerHTML($tempRecentComments);?>";
+			if (obj != null) {
+				obj.innerHTML = "<?php echo str_innerHTML($tempComments);?>";
+				var recentComment = opener.document.getElementById("recentComments");
+				if(recentComment)
+					recentComment.innerHTML = "<?php echo str_innerHTML($tempRecentComments);?>";
+			} else {
+				var listObj = opener.document.getElementById('list-form');
+				if(listObj != null) opener.document.getElementById('list-form').submit();
+			}
 			window.close();
 			opener.openWindow = '';
 		} catch(e) {
