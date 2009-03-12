@@ -1932,7 +1932,8 @@ function testMyself_fsocket($host, $path, $port) {
         return false;
     fputs($socket, "GET $path HTTP/1.1\r\n");
     fputs($socket, "Host: $host\r\n");
-    fputs($socket, "User-Agent: Mozilla/4.0 (compatible; Textcube 1.6 Setup)\r\n");
+    fputs($socket, "User-Agent: Mozilla/4.0 (compatible; Textcube Setup)\r\n");
+    fputs($socket, "Accept-Encoding: identity\r\n");
     fputs($socket, "Connection: close\r\n");
     fputs($socket, "\r\n");
     $response = '';
@@ -1953,6 +1954,7 @@ function testMyself_socket($host, $path, $port)
 	socket_write( $s, "GET $path HTTP/1.1\r\n".
 		"Host: $host\r\n".
 		"User-Agent: Mozilla/4.0 (compatible; Textcube Setup)\r\n".
+		"Accept-Encoding: identity\r\n".
 		"Connection: close\r\n".
 		"\r\n" );
 
