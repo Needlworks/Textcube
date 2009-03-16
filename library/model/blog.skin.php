@@ -5,7 +5,7 @@
 
 function setTreeSetting($blogid, $setting) {
 	global $database;
-	Skin::purgeCache();
+	requireLibrary('blog.skin');
 	foreach ($setting as $key => $value)
 		$setting[$key] = POD::escapeString($value);
 	$sql = "
