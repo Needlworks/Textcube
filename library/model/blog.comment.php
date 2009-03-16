@@ -348,7 +348,8 @@ function getCommentList($blogid, $search) {
 		WHERE c.entry > 0
 			AND c.blogid = $blogid $authorized
 			and c.isFiltered = 0
-			and (c.comment like '%$search%' OR c.name like '%$search%')")) {
+			and (c.comment like '%$search%' OR c.name like '%$search%')
+		ORDER BY c.written")) {
 		foreach ($result as $comment)
 			array_push($list['items'], $comment);
 	}

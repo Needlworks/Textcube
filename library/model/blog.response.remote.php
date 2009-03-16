@@ -366,6 +366,7 @@ function sendTrackback($blogid, $entryId, $url) {
 		$request->contentType = 'application/x-www-form-urlencoded; charset=utf-8';
 		$isSuccess = $request->send($content);
 	}
+	
 	if ($isSuccess && (checkResponseXML($request->responseText) === 0)) {
 //		$url = POD::escapeString(UTF8::lessenAsEncoding($url, 255));
 		$trackbacklog = new TrackbackLog;
