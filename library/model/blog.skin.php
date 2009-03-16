@@ -5,6 +5,7 @@
 
 function setTreeSetting($blogid, $setting) {
 	global $database;
+	Skin::purgeCache();
 	foreach ($setting as $key => $value)
 		$setting[$key] = POD::escapeString($value);
 	$sql = "
@@ -19,6 +20,7 @@ function setTreeSetting($blogid, $setting) {
 		showValueOnTree 		= " . (empty($setting['showValueOnTree']) ? 0 : 1) . "
 	WHERE blogid = $blogid";
 	if (POD::execute($sql)) {
+		Skin::purgeCache();
 		getSkinSetting($blogid, true); // refresh skin cache
 		return true;
 	} else {
