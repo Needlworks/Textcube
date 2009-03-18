@@ -95,7 +95,9 @@ if ($post->open('', '*', 'published, id')) {
 			'<acceptTrackback>' . $post->acceptTrackback . '</acceptTrackback>' . 
 			'<published>' . $post->published . '</published>' . 
 			'<created>' . $post->created . '</created>' . 
-			'<modified>' . $post->modified . '</modified>');
+			'<modified>' . $post->modified . '</modified>' .
+			'<longitude>'. $post->longitude . '</longitude>'.
+			'<latitude>'. $post->latitude. '</latitude>');
 
 		if ($post->category)
 			$writer->write('<category>' . htmlspecialchars(Category::getLabel($post->category)) . '</category>');
@@ -120,7 +122,8 @@ if ($post->open('', '*', 'published, id')) {
 		if ($comment = $post->getComments()) {
 			do {
 				if($comment->isFiltered == 0) {
-					$writer->write('<comment>' . '<id>'. $comment->id . '</id>' . '<commenter' . ' id="' . $comment->commenter . '">' . '<name>' . htmlspecialchars(UTF8::correct($comment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::correct($comment->homepage)) . '</homepage>' . '<ip>' . $comment->ip . '</ip>' . '<openid>' . $comment->openid . '</openid>' . '</commenter>' . '<content>' . htmlspecialchars($comment->content) . '</content>' . '<password>' . htmlspecialchars($comment->password) . '</password>' . '<secret>' . htmlspecialchars($comment->secret) . '</secret>' . '<written>' . $comment->written . '</written>' . '<isFiltered>' . $comment->isFiltered . '</isFiltered>');
+					$writer->write('<comment>' . '<id>'. $comment->id . '</id>' . '<commenter' . ' id="' . $comment->commenter . '">' . '<name>' . htmlspecialchars(UTF8::correct($comment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::correct($comment->homepage)) . '</homepage>' . '<ip>' . $comment->ip . '</ip>' . '<openid>' . $comment->openid . '</openid>' . '</commenter>' .
+					'<content>' . htmlspecialchars($comment->content) . '</content>' . '<password>' . htmlspecialchars($comment->password) . '</password>' . '<secret>' . htmlspecialchars($comment->secret) . '</secret>' .'<longitude>'.$comment->longitude .'</longitude>'.'<latitude>'.$comment->latitude.'</latitude>' . '<written>' . $comment->written . '</written>' . '<isFiltered>' . $comment->isFiltered . '</isFiltered>');
 					$writer->write(CRLF);
 					if ($childComment = $comment->getChildren()) {
 						do {

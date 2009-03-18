@@ -47,16 +47,50 @@ function GoogleMap_AddToolbox($target) {
 }
 
 function GoogleMap_View($target, $mother) {
-	global $configVal, $pluginURL;
+	global $configVal, $pluginURL, $surl;
 	requireComponent('Textcube.Function.Setting');
 	requireComponent('Textcube.Function.Misc');
 	$config = Setting::fetchConfigVal($configVal);
 	$matches = array();
 	$offset = 0;
+
 	while (preg_match('/\[##_GoogleMap\|(([^|]+)\|)?_##\]/', $target, $matches, PREG_OFFSET_CAPTURE, $offset) > 0) {
 		// SUGGUEST: [##_GoogleMap|{JSON_REPRESENTATION_OF_PARAMETERS_WITHOUT_NEWLINES}|_##]
 		$id = 'GMapContainer'.$mother.rand();
 		ob_start();
+
+		// Mobile & iPhone (differences between these will be handled later.)
+		if (defined('__TEXTCUBE_MOBILE__') || defined('__TEXTCUBE_IPHONE__')) {
+			$staticimg = "http://maps.google.co.kr/staticmap?";
+			$json = json_decode($matches[2][0], true);
+			switch ($json['type']) {
+			case 'G_SATELLITE_MAP':
+				$maptype = 'satellite';
+				$imgformat = 'jpg';
+				break;
+			case 'G_HYBRID_MAP':
+				$maptype = 'hybrid';
+				$imgformat = 'jpg';
+				break;
+			case 'G_PHYSICAL_MAP':
+				$maptype = 'terrain';
+				$imgformat = 'jpg';
+				break;
+			default:
+				$maptype = 'roadmap';
+				$imgformat = 'png';
+				break;
+			}
+			$markers = '';
+			for ($i = 0; $i < count($json['user_markers']); $i++) {
+				if ($i > 0)
+					$markers .= '|';
+				$markers .= "{$json['user_markers'][$i]['lat']},{$json['user_markers'][$i]['lng']}";
+			}
+			echo "<div class=\"googlemap\"><img src=\"{$staticimg}center={$json['center']['latitude']},{$json['center']['longitude']}&amp;zoom={$json['zoom']}&amp;size={$json['width']}x{$json['height']}&amp;maptype={$maptype}&amp;format={$imgformat}&amp;markers={$markers}&amp;sensor=false&amp;key={$config['apiKey']}\"title=\"{$json['user_markers'][0]['title']} - {$json['user_markers'][0]['desc']}\" alt=\"Google Map Test\" /></div>";
+		}
+		// Desktop
+		else {
 ?>
 		<div id="<?php echo $id;?>" style="border: 1px solid #666;"></div>
 		<script type="text/javascript">
@@ -70,10 +104,11 @@ function GoogleMap_View($target, $mother) {
 		//]]>
 		</script>
 <?php
+		}
 		$output = ob_get_contents();
+
 		ob_end_clean();
 		$target = substr_replace($target, $output, $matches[0][1], strlen($matches[0][0]));
-		$offset += $matches[0][1] + strlen($output);
 	}
 	return $target;
 }
@@ -82,7 +117,7 @@ function GoogleMap_LocationLogView($target) {
 	global $blogid, $blog, $blogURL, $pluginURL, $configVal, $service, $database;
 	requireComponent('Textcube.Function.Misc');
 	$config = Setting::fetchConfigVal($configVal);
-	$locatives = getLocatives($blogid);
+	$locatives =  getEntries($blogid, 'id, title, slogan, location, longitude, latitude','(length(location)>1 AND category > -1) OR (`longitude` IS NOT NULL AND `latitude` IS NOT NULL)', 'location');
 	$width = Misc::getContentWidth();
 	$height = intval($width * 1.2);
 	$default_type = isset($config['locative_maptype']) ? $config['locative_maptype'] : 'G_HYBRID_MAP';
@@ -157,14 +192,22 @@ function GoogleMap_LocationLogView($target) {
 	foreach ($locatives as $locative) {
 		//if ($count == 10) break; // for testing purpose
 		$locative['link'] = "$blogURL/" . ($blog['useSloganOnPost'] ? 'entry/' . URL::encode($locative['slogan'],$service['useEncodedURL']) : $locative['id']);
-		$row = POD::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND original_address = '".POD::escapeString($locative['location'])."'");
 		$found = false;
-		if ($row == null || empty($row)) {
-			$found = false;
-		} else {
-			$lat = $row['latitude'];
-			$lng = $row['longitude'];
+
+		if ($locative['longitude'] != NULL && $locative['latitude'] != NULL) {
 			$found = true;
+			$lat = $locative['latitude'];
+			$lng = $locative['longitude'];
+			$locative['location'] = "위도 : " . $lat . ", 경도 : " . $lng;
+		} else {
+			$row = POD::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND original_address = '".POD::escapeString($locative['location'])."'");
+			if ($row == null || empty($row)) {
+				$found = false;
+			} else {
+				$lat = $row['latitude'];
+				$lng = $row['longitude'];
+				$found = true;
+			}
 		}
 		if ($found) // found, just output
 			echo "\t\t\tGMap_addLocationMarkDirect(locationMap, {address:GMap_normalizeAddress('{$locative['location']}'), path:'{$locative['location']}', original_path:'{$locative['location']}'}, '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), new GLatLng($lat, $lng), boundary, locations, false);\n";

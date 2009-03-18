@@ -26,6 +26,8 @@ class Post {
 		$this->acceptComment =
 		$this->acceptTrackback =
 		$this->published =
+		$this->longitude =
+		$this->latitude =
 		$this->created =
 		$this->modified =
 		$this->comments =
@@ -607,6 +609,10 @@ class Post {
 				return $this->_error('published');
 			$query->setAttribute('published', $this->published);
 		}
+		if (isset($this->longitude) && Validator::number($this->longitude))
+			$query->setAttribute('longitude', $this->longitude);
+		if (isset($this->latitude) && Validator::number($this->latitude))
+			$query->setAttribute('latitude', $this->latitude);
 		if (isset($this->created)) {
 			if (!Validator::number($this->created, 1))
 				return $this->_error('created');
