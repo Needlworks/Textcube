@@ -1,7 +1,0 @@
-안녕하세요 대략 호야지기입니다.
-Textcube google map plugin project 참여를 위한 subversion Test입니다.<-재활용
-
-노트북 액정이 깨져서 정신적으로 패닉 상태이지만 액정 깨진 노트북도 문제 없이 쓸 수 있네요ㅎㅎ
-
-UTF-8 without BOM (그리고 UNIX 형식?) 잘 맞겠죠
-저는 왜 이렇게 SVN CHECKOUT이 느린지 모르겠어요 투덜투덜
