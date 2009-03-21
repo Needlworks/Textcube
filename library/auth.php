@@ -7,8 +7,7 @@ function login($loginid, $password, $preKnownPassword = null) {
 	global $service;
 	$loginid = POD::escapeString($loginid);
 	$blogid = getBlogId();
-	$userid = Auth::authenticate($blogid , $loginid, $password );
-
+	$userid = Auth::authenticate($blogid, $loginid, $password );
 	if( $userid === false ) {
 		return false;
 	}

@@ -185,7 +185,7 @@ function authorizeSession($blogid, $userid) {
 		$id = session_id();
 		if( isGuestOpenIDSession($id) ) {
 			$result = sessionQuery('execute',"UPDATE {$database['prefix']}Sessions
-				set userid = $userid WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
+				SET userid = $userid WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 			if ($result) {
 				return true;
 			}
@@ -238,14 +238,5 @@ function _sessionQuery($mode = 'query',$sql) {
 			return POD::query($sql);
 	}
 	return null;
-}
-
-session_name(getSessionName());
-setSession();
-session_set_save_handler('openSession', 'closeSession', 'readSession', 'writeSession', 'destroySession', 'gcSession');
-session_cache_expire(1);
-session_set_cookie_params(0, '/', $service['domain']);
-if (session_start() !== true) {
-	header('HTTP/1.1 503 Service Unavailable');
 }
 ?>

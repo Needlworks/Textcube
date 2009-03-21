@@ -24,7 +24,17 @@ $database['utf8'] = (POD::charset() == 'utf8') ? true : false;
 require ROOT.'/library/suri.php';
 
 /* Session initializing */
-if (!defined('NO_SESSION')) require ROOT.'/library/session.php';
+if (!defined('NO_SESSION')) {
+	require ROOT.'/library/session.php';
+	session_name(getSessionName());
+	setSession();
+	session_set_save_handler('openSession', 'closeSession', 'readSession', 'writeSession', 'destroySession', 'gcSession');
+	session_cache_expire(1);
+	session_set_cookie_params(0, '/', $service['domain']);
+	if (session_start() !== true) {
+    	header('HTTP/1.1 503 Service Unavailable');
+	}
+}
 
 if (!defined('NO_INITIALIZAION')) {
 	/* Get User information */
