@@ -162,8 +162,8 @@ function setSession() {
 	if( !empty($_GET['TSSESSION']) ) {
 		$id = $_GET['TSSESSION'];
 		$_COOKIE[session_name()] = $id;
-	} else if ( !empty($_COOKIE[session_name()]) ) {
-		$id = $_COOKIE[session_name()];
+	} else if ( !empty($_COOKIE[getSessionName()]) ) {
+		$id = $_COOKIE[getSessionName()];
 	} else {
 		$id = '';
 	}
