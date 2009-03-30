@@ -132,6 +132,7 @@ if (!defined('NO_SESSION')) {
 	session_set_cookie_params(0, '/', $config->service['domain']);
 	if (session_start() !== true) {
 		header('HTTP/1.1 503 Service Unavailable');
+		exit;
 	}
 }
 
