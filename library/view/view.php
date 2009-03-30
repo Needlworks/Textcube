@@ -1051,7 +1051,7 @@ function getRecentTrackbacksView($trackbacks, $template) {
 
 function addWebSlice($content, $id, $title) {
 	return '<div class="hslice" id="'.$id.'">'.CRLF.
-		'<h4 class="entry-title" style="hidden">'.$title.'</h4>'.CRLF.
+		'<h4 class="entry-title" style="visibility:hidden">'.$title.'</h4>'.CRLF.
 		'<div class="entry-content">'.CRLF.$content.CRLF.'</div>'.CRLF.
 		'</div>'.CRLF;
 }
