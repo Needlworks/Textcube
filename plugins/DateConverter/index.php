@@ -49,7 +49,7 @@ function convertDateFormat($argTarget, $argType) {
 	$rgDateFormat['comment date'] = array("language" => $tempArray['language'], "format" => $tempArray['comment_date']);
 	$rgDateFormat['comment list date'] = array("language" => $tempArray['language'], "format" => $tempArray['comment_list_date']);
 	$rgDateFormat['guestbook date'] = array("language" => $tempArray['language'], "format" => $tempArray['guestbook_date']);
-	$rgDateFormat['list date'] = array("language" => $tempArray['language'], "format" => $tempArray['archive_date']);
+	$rgDateFormat['list date'] = array("language" => $tempArray['language'], "format" => $tempArray['list_date']);
 	$rgDateFormat['notice date'] = array("language" => $tempArray['language'], "format" => $tempArray['notice_date']);
 	$rgDateFormat['post date'] = array("language" => $tempArray['language'], "format" => $tempArray['post_date']);
 	$rgDateFormat['recent comment date'] = array("language" => $tempArray['language'], "format" => $tempArray['recent_comment_date']);
