@@ -986,13 +986,15 @@ function getRecentNoticesView($notices, $noticeView, $noticeItemView, $isPage = 
 			$itemsView .= $itemView;
 		}
 		dress('rct_'.$prefix.'_rep', $itemsView, $noticeView);
+		// IE webslice support
+		$noticeView = addWebSlice($noticeView, 'recentNoticeWebslice', htmlspecialchars($blog['title'].' - '._t('최근 공지'))); 
 	}
 	return $noticeView;
 }
 
 function getRecentEntriesView($entries, $template) {
 	global $blog, $service, $blogURL, $skinSetting, $contentContainer;
-	ob_start();
+	$recentEntriesView = '';
 	foreach ($entries as $entry) {
 		$view = "$template";
 		$permalink = "$blogURL/" . ($blog['useSloganOnPost'] ? "entry/" . URL::encode($entry['slogan'],$service['useEncodedURL']) : $entry['id']);
@@ -1001,17 +1003,16 @@ function getRecentEntriesView($entries, $template) {
 		dress('rctps_rep_title', setTempTag("recent_entry_{$entry['id']}"), $view);
 		dress('rctps_rep_time', fireEvent('ViewRecentPostDate', Timestamp::format2($entry['published']), $entry['published']), $view);
 		dress('rctps_rep_rp_cnt', "<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments'] > 0 ? "({$entry['comments']})" : '').'</span>', $view);
-		print $view;
+		$recentEntriesView .= $view;
 	}
-	$view = ob_get_contents();
-	ob_end_clean();
-	
-	return $view;
+	// IE webslice support
+	$recentEntriesView = addWebSlice($recentEntriesView, 'recentEntriesWebslice', htmlspecialchars($blog['title'].' - '._t('최근 글'))); 
+	return $recentEntriesView;
 }
 
 function getRecentCommentsView($comments, $template) {
 	global $blog, $service, $blogURL, $skinSetting, $contentContainer;
-	ob_start();
+	$recentCommentView = '';
 	foreach ($comments as $comment) {
 		$view = "$template";
 		dress('rctrp_rep_link', "$blogURL/".($blog['useSloganOnPost'] ? "entry/".URL::encode($comment['slogan'],$service['useEncodedURL']) : $comment['entry'])."#comment{$comment['id']}", $view);
@@ -1019,12 +1020,11 @@ function getRecentCommentsView($comments, $template) {
 		dress('rctrp_rep_desc', setTempTag("recent_comment_{$comment['id']}"), $view);
 		dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::format2($comment['written']), $comment['written']), $view);
 		dress('rctrp_rep_name', htmlspecialchars(UTF8::lessenAsEm($comment['name'], $skinSetting['recentCommentLength'])), $view);
-		print $view;
+		$recentCommentView .= $view;
 	}
-	$view = ob_get_contents();
-	ob_end_clean();
-	
-	return $view;
+	// IE webslice support
+	$recentCommentView = addWebSlice($recentCommentView, 'recentCommentWebslice', htmlspecialchars($blog['title'].' - '._t('최근 댓글'))); 
+	return $recentCommentView;
 }
 
 function getRecentTrackbacksView($trackbacks, $template) {
@@ -1044,8 +1044,14 @@ function getRecentTrackbacksView($trackbacks, $template) {
 	return $view;
 }
 
-function addXfnAttrs( $url, $xfn, & $view )
-{
+function addWebSlice($content, $id, $title) {
+	return '<div class="hslice" id="'.$id.'">'.CRLF.
+		'<h4 class="entry-title" style="hidden">'.$title.'</h4>'.CRLF.
+		'<div class="entry-content">'.CRLF.$content.CRLF.'</div>'.CRLF.
+		'</div>'.CRLF;
+}
+
+function addXfnAttrs( $url, $xfn, & $view ) {
 	$view = str_replace( "href=\"$url\"", "href=\"$url\" rel=\"$xfn\"", $view);
 	$view = str_replace( "href='$url'", "href='$url' rel=\"$xfn\"", $view);
 }

@@ -784,7 +784,7 @@ function printEntryFileList($attachments, $param) {
 															+ '&labelingPath=<?php echo $param['labelingPath'];?>'
 															+ entryManager.entryId
 															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[getSessionName()];?>" width="400" height="40" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
-														if (hasRightVersion && (isMoz || isIE)) {
+														if (hasRightVersion && (isMoz || isIE || isMinSafari3)) {
 															if(<?php echo (isset($service['flashuploader']) && !$service['flashuploader']) ? 'false' : 'true';?>) { writeCode(uploaderStr,'uploaderNest'); }
 														}
 														window.uploader= document.getElementById('uploader');
@@ -860,7 +860,7 @@ echo getAttachmentSizeLabel($blogid, $entryId);
 										</div>
 										<script type="text/javascript">
 										//<![CDATA[
-										if (!DetectFlashVer(8, 0, 0) || !(isIE || isMoz) || <?php echo (isset($service['flashuploader']) && !$service['flashuploader']) ? 'true' : 'false';?>) {
+										if (!DetectFlashVer(8, 0, 0) || !(isIE || isMoz || isMinSafari3) || <?php echo (isset($service['flashuploader']) && !$service['flashuploader']) ? 'true' : 'false';?>) {
 											var deleteButtonContainer = document.getElementById('fileUploadNest');
 											deleteButtonContainer.innerHTML = '<input type="button" id="deleteBtn" class="input-button" value="<?php echo _t('삭제하기');?>" onclick="deleteAttachment();return false" />' + deleteButtonContainer.innerHTML;
 										}
