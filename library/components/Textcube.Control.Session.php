@@ -194,7 +194,7 @@ final class Session {
 		}
 		if (self::isAuthorized(session_id()))
 			return true;
-		for ($i = 0; $i < 100; $i++) {
+		for ($i = 0; $i < 3; $i++) {
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
 			$result = self::query('execute',"INSERT INTO {$database['prefix']}Sessions
 				(id, address, userid, created, updated) 
