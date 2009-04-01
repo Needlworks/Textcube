@@ -108,7 +108,7 @@ final class Session {
  		//If you are not a robot, subsequent UPDATE query will override to proper timestamp.
 		$meet_again_baby -= 60;
 
-		for ($i = 0; $i < 100; $i++) {
+		for ($i = 0; $i < 3; $i++) {
 			if (($id = self::getAnonymousSession()) !== false)
 				return $id;
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
