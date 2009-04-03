@@ -653,10 +653,12 @@ function setTempTag($name) {
 function revertTempTags($content) {
 	global $contentContainer;
 	
-	$keys = array_keys($contentContainer);
-	for ($i=0; $i<count($keys); $i++) {
-		$content = str_replace("[#####_#####_#####_{$keys[$i]}_#####_#####_#####]", $contentContainer[$keys[$i]], $content);
-//		unset($contentContainer[$keys[$i]]);
+	if(is_array($contentContainer)) {
+		$keys = array_keys($contentContainer);
+		for ($i=0; $i<count($keys); $i++) {
+			$content = str_replace("[#####_#####_#####_{$keys[$i]}_#####_#####_#####]", $contentContainer[$keys[$i]], $content);
+//			unset($contentContainer[$keys[$i]]);
+		}
 	}
 	return $content;
 }
