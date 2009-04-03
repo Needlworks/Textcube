@@ -155,7 +155,7 @@ function getCategoryVisibilityList($blogid, $mode = 'private') {
 		}
 		if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
 		if($list = MMCache::queryColumn($__gCacheCategoryRaw,'visibility',$visibility,'id')) {
-			$__gCacheCategoryVisibilityList[$mode] = implode(', ',$list);
+			$__gCacheCategoryVisibilityList[$mode] = $list;
 		} else {
 			$__gCacheCategoryVisibilityList[$mode] = array();
 		}
@@ -166,7 +166,7 @@ function getCategoryVisibilityList($blogid, $mode = 'private') {
 function getPrivateCategoryExclusionQuery($blogid) {
 	$exclusionList = getCategoryVisibilityList($blogid, 'private');
 	if(empty($exclusionList)) return '';
-	return '  AND e.category NOT IN ('.$exclusionList.')';
+	return '  AND e.category NOT IN ('.implode(',',$exclusionList).')';
 }
 
 function getCategoriesSkin() {
