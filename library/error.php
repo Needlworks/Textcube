@@ -1,9 +1,9 @@
 <?php
-require_once ROOT."/library/include.blog.php";
+//require_once ROOT."/library/include.blog.php";
 function errorExit($code)
 {
-	global $skin, $skinSetting, $suri, $defaultURL, $blog;
-	global $service, $blogURL, $defaultURL, $serviceURL, $gCacheStorage;
+//	global $skin, $skinSetting, $suri, $defaultURL, $blog;
+//	global $service, $blogURL, $defaultURL, $serviceURL, $gCacheStorage;
 
 	$status_msg = array(
 		'400' => 'Bad Request',
@@ -36,26 +36,11 @@ function errorExit($code)
 		$error_header = "{$code} {$status_msg[$code]}";
 	}
 	header( "HTTP/1.1 $error_header" );
-	if( in_array($code, array(404)) ) {
-		requireModel( "common.plugin" );
-		fireEvent('OBStart');
-		require_once ROOT . '/interface/common/blog/begin.php';
-
-		if (empty($skin->pageError)) { 
-			dress('article_rep', '<div class="TCwarning">' . _text('존재하지 않는 페이지입니다.') . '</div>', $view);
-		} else {
-			dress('article_rep', NULL, $view); 
-			dress('page_error', $skin->pageError, $view);
-		}
-		require_once ROOT . '/interface/common/blog/end.php';
-		fireEvent('OBEnd');
-	} else {
-		echo "<html><head><body>$error_header</body></html>";
-	}
+	echo "<html><head><body>$error_header</body></html>";
 
 	/* This noise is the power of our cron engine, thank you! */
-	requireModel("blog.cron");
-	checkCronJob();
+//	requireModel("blog.cron");
+//	checkCronJob();
 	exit;
 }
 ?>

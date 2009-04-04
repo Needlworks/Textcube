@@ -78,5 +78,4 @@ function checkCronJob()
 		ob_clean();
 	}
 }
-
 ?>
