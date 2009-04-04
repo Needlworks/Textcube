@@ -124,8 +124,7 @@ class Dispatcher {
 		define('PATH', 'interface/'.(empty($pathPart) ? '' : $pathPart.'/'));
 		unset($pathPart);
 		if (!file_exists($interfacePath)) { 
-			require ROOT."/library/error.php";errorExit(404);
-		//	 $interfacePath = 'interface/freeSlogan.php'; 
+			header("HTTP/1.0 404 Not Found");exit;
 		}
 		$URLInfo['interfacePath'] = $this->interfacePath = $interfacePath;
 		$this->URLInfo = $URLInfo;
