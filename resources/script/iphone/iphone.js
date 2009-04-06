@@ -440,3 +440,64 @@ function $(id) { return document.getElementById(id); }
 function ddd() { console.log.apply(console, arguments); }
 
 })();
+
+// * adding ****************************************************************************************
+
+function looseURIEncode(string) {
+	string = string.replace(new RegExp("%", "g"), "%25");
+	string = string.replace(new RegExp("\\?", "g"), "%3F");
+	string = string.replace(new RegExp("#", "g"), "%23");
+	return string;
+}
+
+function secretToggleCheck(obj, entryId) {
+	var secretObj =  document.getElementById("secret_" + entryId);
+	if(obj.getAttribute("toggled") == "true"){
+		secretObj.value = 1;
+	} else {
+		secretObj.value = 0;
+	}
+}
+
+function emailSaveToggleCheck(obj) {
+	var saveObj =  document.getElementById("save");
+	if(obj.getAttribute("toggled") == "true"){
+		saveObj.value = 1;
+	} else {
+		saveObj.value = 0;
+	}
+}
+
+function searchAction(flag){
+	var qObj = document.getElementById('qString');
+	var cObj = document.getElementById('clearButton');
+	if(qObj.value.length > 0 && flag == false){
+		qObj.value = '';
+		cObj.style.display = 'none';
+		window.scroll(0,0);
+	}
+}
+
+function cancelAction(cObj){
+	var qObj = document.getElementById('qString');
+	if(qObj.value.length > 0){
+		qObj.value = '';
+		cObj.style.display = 'none';
+	}
+}
+
+function searchKeywordCheck(qObj){
+	var cObj = document.getElementById('clearButton');
+	if(qObj.value.length > 0){
+		cObj.style.display = 'block';
+	}else{
+		cObj.style.display = 'none';
+	}
+}
+
+function closeKeypad(){
+	var searchButton = document.getElementById("searchButton");
+	if (searchButton != null){
+		searchButton.focus();
+	} 
+}
