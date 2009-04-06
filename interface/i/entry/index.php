@@ -8,7 +8,7 @@ requireView('iphoneView');
 if (false) {
 	fetchConfigVal();
 }
-if(empty($suri['id'])) {
+if(empty($suri['id']) && empty($suri['value'])) {
 	$blog['entriesOnList'] = 8;
 	if(!$listWithPaging = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnList']))
 		$listWithPaging = array(array(), array('total' => 0));
@@ -55,7 +55,11 @@ if(empty($suri['id'])) {
 	</ul>
 <?php
 } else {
-	list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
+	if(empty($suri['value'])) {
+		list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value']);
+	} else {
+		list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
+	}
 	$entry = $entries ? $entries[0] : null;
 ?>
 	<div id="post_<?php echo $entry['id'];?>" title="View Post <?php echo $entry['id'];?>" class="panel">

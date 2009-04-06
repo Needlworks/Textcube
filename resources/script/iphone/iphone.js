@@ -1,12 +1,12 @@
 /*
- 	 Copyright (c) 2007, iUI Project Members
-	 See LICENSE.txt for licensing terms
+   Copyright (c) 2007-9, iUI Project Members
+   See LICENSE.txt for licensing terms
  */
 
 
 (function() {
 
-var slideSpeed = 25;
+var slideSpeed = 20;
 var slideInterval = 0;
 
 var currentPage = null;
@@ -17,6 +17,9 @@ var hashPrefix = "#_";
 var pageHistory = [];
 var newPageCount = 0;
 var checkTimer;
+var hasOrientationEvent = false;
+var portraitVal = "portrait";
+var landscapeVal = "landscape";
 
 // *************************************************************************************************
 
@@ -89,10 +92,10 @@ window.iui =
 
         if (args)
         {
-			req.open(method || "GET", (href + "?" + args.join("&")), true);
-			req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			req.setRequestHeader("Content-Length", args.length);
-			req.send();
+            req.open(method || "GET", href, true);
+            req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            req.setRequestHeader("Content-Length", args.length);
+            req.send(args.join("&"));
         }
         else
         {
@@ -136,7 +139,22 @@ window.iui =
             if (child.nodeType == 1 && child.getAttribute("selected") == "true")
                 return child;
         }    
-    }    
+    },
+    isNativeUrl: function(href)
+    {
+        for(var i = 0; i < iui.nativeUrlPatterns.length; i++)
+        {
+            if(href.match(iui.nativeUrlPatterns[i])) return true;
+        }
+        return false;
+    },
+    nativeUrlPatterns: [
+        new RegExp("^http:\/\/maps.google.com\/maps\?"),
+        new RegExp("^mailto:"),
+        new RegExp("^tel:"),
+        new RegExp("^http:\/\/www.youtube.com\/watch\\?v="),
+        new RegExp("^http:\/\/www.youtube.com\/v\/")
+    ]
 };
 
 // *************************************************************************************************
@@ -150,6 +168,11 @@ addEventListener("load", function(event)
     setTimeout(preloadImages, 0);
     setTimeout(checkOrientAndLocation, 0);
     checkTimer = setInterval(checkOrientAndLocation, 300);
+}, false);
+
+addEventListener("unload", function(event)
+{
+	return;
 }, false);
     
 addEventListener("click", function(event)
@@ -176,6 +199,10 @@ addEventListener("click", function(event)
             link.setAttribute("selected", "progress");
             iui.showPageByHref(link.href, null, null, link, unselect);
         }
+        else if (iui.isNativeUrl(link.href))
+        {
+            return;
+        }
         else if (!link.target)
         {
             link.setAttribute("selected", "progress");
@@ -194,26 +221,56 @@ addEventListener("click", function(event)
     if (div && hasClass(div, "toggle"))
     {
         div.setAttribute("toggled", div.getAttribute("toggled") != "true");
-        event.preventDefault();       
-
+        event.preventDefault();        
     }
 }, true);
 
+function orientChangeHandler()
+{
+  var orientation=window.orientation;
+  switch(orientation)
+  {
+    case 0:
+        setOrientation(portraitVal);
+        break;  
+        
+    case 90:
+    case -90: 
+        setOrientation(landscapeVal);
+        break;
+  }
+}
+
+if (typeof window.onorientationchange == "object")
+{
+    window.onorientationchange=orientChangeHandler;
+    hasOrientationEvent = true;
+    setTimeout(orientChangeHandler, 0);
+}
+
 function checkOrientAndLocation()
 {
-    if (window.innerWidth != currentWidth)
-    {   
-        currentWidth = window.innerWidth;
-        var orient = currentWidth == 320 ? "profile" : "landscape";
-        document.body.setAttribute("orient", orient);
-        setTimeout(scrollTo, 100, 0, 1);
+    if (!hasOrientationEvent)
+    {
+      if (window.innerWidth != currentWidth)
+      {   
+          currentWidth = window.innerWidth;
+          var orient = currentWidth == 320 ? portraitVal : landscapeVal;
+          setOrientation(orient);
+      }
     }
 
     if (location.hash != currentHash)
     {
-        var pageId = location.hash.substr(hashPrefix.length)
+        var pageId = location.hash.substr(hashPrefix.length);
         iui.showPageById(pageId);
     }
+}
+
+function setOrientation(orient)
+{
+    document.body.setAttribute("orient", orient);
+    setTimeout(scrollTo, 100, 0, 1);
 }
 
 function showDialog(page)
@@ -314,7 +371,6 @@ function slidePages(fromPage, toPage, backwards)
             fromPage.style.left = (backwards ? (100-percent) : (percent-100)) + "%"; 
             toPage.style.left = (backwards ? -percent : percent) + "%"; 
         }
-		window.scroll(0,0);
     }
 }
 
@@ -328,7 +384,6 @@ function preloadImages()
 function submitForm(form)
 {
     iui.showPageByHref(form.action || "POST", encodeForm(form), form.method);
-	closeKeypad();
 }
 
 function encodeForm(form)
@@ -338,14 +393,14 @@ function encodeForm(form)
         for (var i = 0; i < inputs.length; ++i)
         {
             if (inputs[i].name)
-                args.push(inputs[i].name + "=" + looseURIEncode(inputs[i].value));
+                args.push(inputs[i].name + "=" + escape(inputs[i].value));
         }
     }
 
     var args = [];
     encode(form.getElementsByTagName("input"));
-    encode(form.getElementsByTagName("select"));
     encode(form.getElementsByTagName("textarea"));
+    encode(form.getElementsByTagName("select"));
     return args;    
 }
 
@@ -385,64 +440,3 @@ function $(id) { return document.getElementById(id); }
 function ddd() { console.log.apply(console, arguments); }
 
 })();
-
-// * adding ****************************************************************************************
-
-function looseURIEncode(string) {
-	string = string.replace(new RegExp("%", "g"), "%25");
-	string = string.replace(new RegExp("\\?", "g"), "%3F");
-	string = string.replace(new RegExp("#", "g"), "%23");
-	return string;
-}
-
-function secretToggleCheck(obj, entryId) {
-	var secretObj =  document.getElementById("secret_" + entryId);
-	if(obj.getAttribute("toggled") == "true"){
-		secretObj.value = 1;
-	} else {
-		secretObj.value = 0;
-	}
-}
-
-function emailSaveToggleCheck(obj) {
-	var saveObj =  document.getElementById("save");
-	if(obj.getAttribute("toggled") == "true"){
-		saveObj.value = 1;
-	} else {
-		saveObj.value = 0;
-	}
-}
-
-function searchAction(flag){
-	var qObj = document.getElementById('qString');
-	var cObj = document.getElementById('clearButton');
-	if(qObj.value.length > 0 && flag == false){
-		qObj.value = '';
-		cObj.style.display = 'none';
-		window.scroll(0,0);
-	}
-}
-
-function cancelAction(cObj){
-	var qObj = document.getElementById('qString');
-	if(qObj.value.length > 0){
-		qObj.value = '';
-		cObj.style.display = 'none';
-	}
-}
-
-function searchKeywordCheck(qObj){
-	var cObj = document.getElementById('clearButton');
-	if(qObj.value.length > 0){
-		cObj.style.display = 'block';
-	}else{
-		cObj.style.display = 'none';
-	}
-}
-
-function closeKeypad(){
-	var searchButton = document.getElementById("searchButton");
-	if (searchButton != null){
-		searchButton.focus();
-	} 
-}
