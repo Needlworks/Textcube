@@ -1186,4 +1186,10 @@ function setEntryStar($entryId, $mark) {
 	if(!$result) return false;
 	else return true;
 }
+
+function getEntriesByTagId($blogid, $tagId) {
+	global $database;
+
+	return POD::queryAll('SELECT e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published FROM '.$database['prefix'].'Entries e LEFT JOIN '.$database['prefix'].'TagRelations t ON e.id = t.entry AND e.blogid = t.blogid WHERE e.blogid = '.$blogid.' AND t.tag = '.$tagId);
+}
 ?>

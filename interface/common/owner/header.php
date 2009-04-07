@@ -155,7 +155,8 @@ if(isset($blogMenu['topMenu'])) {
 		$blogContentMenuItem['entry'] = array(
 			array('menu'=>'post','title'=>_t('글쓰기'),'link'=>'/owner/entry/post'),
 			array('menu'=>'entry','title'=>_t('글 목록'),'link'=>'/owner/entry'),
-			array('menu'=>'category','title'=>_t('분류 관리'),'link'=>'/owner/entry/category')
+			array('menu'=>'category','title'=>_t('분류 관리'),'link'=>'/owner/entry/category'),
+			array('menu'=>'tag','title'=>_t('태그 관리'),'link'=>'/owner/entry/tag')
 		);
 	} else {
 		$blogContentMenuItem['entry'] = array(

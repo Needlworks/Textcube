@@ -378,4 +378,20 @@ function deleteTagsWithEntryId($blogid, $entry)
 		}
 	}
 }
+
+function deleteTagById($blogid, $id) {
+	global $database;
+
+	$result = POD::execute('DELETE FROM '.$database['prefix'].'TagRelations WHERE blogid = '.$blogid.' AND tag = '.$id);
+	if (!$result) {
+		return false;
+	}
+
+	$count = POD::queryCell('SELECT COUNT(*) FROM '.$database['prefix'].'TagRelations WHERE tag = '.$id);
+	if (intval($count) > 0) {
+		POD::execute('DELETE FROM '.$database['prefix'].'Tags WHERE id = '.$id);
+	}
+
+	return true;
+}
 ?>
