@@ -23,7 +23,7 @@ if(!empty($suri['id'])) {
 	header ("Location: $hostURL$blogURL/rss");
 	exit;
 }
-}
+
 $categoryIds = array($categoryId);
 $parent = getParentCategoryId(getBlogId(),$categoryId);
 if($parent === null) {	// It's parent. let's find childs.

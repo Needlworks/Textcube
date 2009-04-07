@@ -583,7 +583,7 @@ function getDefaultCenterPanel($mapping) {
 										</div>
 
 										<div id="myBlogInfo">
-											<h4 class="caption"><span><a href="<?php echo $blogURL.'/owner/communication/comment';?>"><?php echo _t('알림판');?></span></a></h4>
+											<h4 class="caption"><span><a href="<?php echo $blogURL.'/owner/communication/comment';?>"><?php echo _t('알림판');?></a></span></h4>
 											<table class="recent">
 												<caption>asdasd</caption>
 												<thead>
