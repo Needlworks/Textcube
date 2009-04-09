@@ -65,7 +65,7 @@ final class Session {
 	
 	private static function newAnonymousSession() {
 		global $service, $memcache;
-		for ($i = 0; $i < 100; $i++) {
+		for ($i = 0; $i < 3; $i++) {
 			if (($id = self::getAnonymousSession()) !== false)
 				return $id;
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
@@ -142,7 +142,7 @@ final class Session {
 			}
 		}
 		if (self::isAuthorized(session_id())) return true;
-		for ($i = 0; $i < 100; $i++) {
+		for ($i = 0; $i < 3; $i++) {
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
 			$result = $memcache->set("authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}",$userid,$service['timeout']);
 			
