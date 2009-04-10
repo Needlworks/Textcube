@@ -163,14 +163,19 @@ class OpenIDConsumer extends OpenID {
 		require_once "Auth/OpenID/AX.php";
 		restore_include_path();
 
-		$store_path = ROOT . "/cache/_php_consumer";
+		$store_path = ROOT . "/cache/openidstore";
 
 		if (!file_exists($store_path) &&
 			!mkdir($store_path)) {
 			print "Could not create the FileStore directory '$store_path'. ".
 				" Please check the effective permissions.";
 			exit(0);
+		} else if( false == fopen( $store_path."/check", "w" ) ) {
+			print "Could not create a file on the FileStore directory '$store_path'. ".
+				" Please check the effective permissions.";
+			exit(0);
 		}
+		unlink( $store_path."/check" );
 
 		$store = new Auth_OpenID_FileStore($store_path);
 
