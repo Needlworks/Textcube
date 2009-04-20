@@ -1,13 +1,15 @@
 <?php
-/// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
+/// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-define('ROOT', '../..');
-require ROOT . '/library/include.blog.php';
-require ROOT . '/library/include.php';
+
+define('__TEXTCUBE_LOGIN__',true);
+
+require ROOT . '/library/preprocessor.php';
 require ROOT . '/library/model/blog.skin.php';
 
 requireModel('common.setting');
+requireModel('blog.entry');
 
 if (!file_exists(ROOT . '/cache/CHECKUP') || (file_get_contents(ROOT . '/cache/CHECKUP') != TEXTCUBE_VERSION)) {
 	if ($fp = fopen(ROOT . '/cache/CHECKUP', 'w')) {
