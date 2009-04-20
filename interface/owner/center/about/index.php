@@ -140,7 +140,11 @@ require ROOT . '/interface/common/owner/header.php';
 											<tr>
 												<td class="name vcard"><span class="fn">Steve Yum</span></td>
 												<td class="role">English</td>
-											</tr>
+                                            </tr>
+											<tr>
+												<td class="name vcard"><span class="fn">Ducduy Dao</span></td>
+												<td class="role">Vietnamese</td>
+                                            </tr>
 										</tbody>
 									</table>
 								</div>
