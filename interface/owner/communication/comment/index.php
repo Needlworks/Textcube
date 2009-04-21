@@ -342,7 +342,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 		echo '<span class="explain">' . (isset($tabsClass['guestbook']) ? _f('%1 님의 방명록에 대한 댓글',$comment['parentName']) : _f('%1 님의 댓글에 대한 댓글',$comment['parentName'])) . '</span>';
 	echo "</a>";
 
-	if(!is_null($comment['replier']) && $comment['replier'] == $userid) 
+	if(!is_null($comment['replier']) && $comment['replier'] == getUserId()) 
 		echo '<span class="divider"> | </span><a href="'.$blogURL.'/comment/comment/'.$comment['id'].'" onclick="modifyComment('.$comment['id'].');return false;"><span class="text">'._t('수정').'</span></a>';
 
 ?>
