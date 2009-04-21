@@ -84,6 +84,7 @@ class setting {
 					'entriesOnPage'            => 10, 
 					'entriesOnList'            => 10, 
 					'entriesOnRSS'             => 10, 
+					'commentsOnRSS'            => 10, 
 					'publishWholeOnRSS'        => 1,
 					'publishEolinSyncOnRSS'    => 1,
 					'allowWriteOnGuestbook'    => 1,
