@@ -1,27 +1,27 @@
-/* keyword log */
+/* keylog log */
 body
 {
 	margin                  : 0;
 	background              : #FFF url(./images/bg.png) top left repeat-x;
 }
 
-#keyword
+#keylog
 {
 	padding-bottom          : 10px;
 }
 
-#keyword a
+#keylog a
 {
 	color                   : #000;
 	text-decoration         : none;
 }
 
-#keyword a:hover
+#keylog a:hover
 {
 	text-decoration         : underline;
 }
 
-#keyword h1
+#keylog h1
 {
 	margin-left             : 20px;
 	margin-top              : 10px;
@@ -34,26 +34,26 @@ body
 	background              : url(./images/bullet.gif) 0% 50% no-repeat;
 }
 
-#keyword .view
+#keylog .view
 {
 	padding                 : 50px 20px;
 	font-size               : .75em;
 	font-family             : Tahoma, Helvetica, Arial, Gulim, sans-serif;
 }
 
-#keyword .list
+#keylog .list
 {
 	margin                  : 10px;
 }
 
-#keyword .title
+#keylog .title
 {
 	margin-top              : 20px;
 	font-size               : .75em;
 	font-family             : Dotum, Arial, sans-serif;
 }
 
-#keyword ul
+#keylog ul
 {
 	padding                 : 0;
 	margin                  : 10px;
@@ -63,12 +63,12 @@ body
 	font-family             : Dotum, Arial, sans-serif;
 }
 
-#keyword .date
+#keylog .date
 {
 	color                   : #999;
 }
 
-#keyword .cnt
+#keylog .cnt
 {
 	font-size               : 1em;
 	font-family             : Tahoma, Helvetica, Arial, Dotum, sans-serif;

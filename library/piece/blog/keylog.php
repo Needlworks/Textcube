@@ -7,7 +7,7 @@
 // $entries : Posts that contain specific keyword.
 
 $skin = new KeylogSkin($skinSetting['keylogSkin']);
-$out = str_replace("[##_t3_##]", '<script type="text/javascript">//<![CDATA' . CRLF . 'var servicePath = "' . $service['path'] . '"; var blogURL = "' . $blogURL . '"; var adminSkin = "' . $adminSkinSetting['skin'] . '";//]]></script><script type="text/javascript" src="' . $service['resourcepath'] . '/script/common2.js"></script><script type="text/javascript" src="' . $service['resourcepath'] . '/script/gallery.js"></script>' . $skin->skin, $skin->outter);
+$out = str_replace("[##_SKIN_head_end_##]", '<script type="text/javascript">//<![CDATA' . CRLF . 'var servicePath = "' . $service['path'] . '"; var blogURL = "' . $blogURL . '"; var adminSkin = "' . $adminSkinSetting['skin'] . '";//]]></script><script type="text/javascript" src="' . $service['resourcepath'] . '/script/common2.js"></script><script type="text/javascript" src="' . $service['resourcepath'] . '/script/gallery.js"></script>' . $skin->skin, $skin->outter);
 $keylogView = $skin->keylog;
 $itemsView = '';
 $contentContainer = array();
@@ -26,6 +26,7 @@ dress('blog_desc', setTempTag("keyword_{$keylog['id']}"), $keylogView);
 dress('blog_conform', htmlspecialchars($keylog['title']), $keylogView);
 dress('blog', $keylogView, $out);
 dress('blog_word', htmlspecialchars($keylog['title']), $out);
+dress('body_id',"tt-body-keylog",$out);
 $out = revertTempTags(removeAllTags($out));
 fireEvent('OBStart');
 print $out;

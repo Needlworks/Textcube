@@ -570,6 +570,9 @@ class KeylogSkin {
 		$origPath = $serviceURL . substr($filename,strlen(ROOT));
 		$origPath = substr($origPath, 0, 0 - strlen(Path::getBaseName($origPath)));
 		$sval = str_replace('./', $origPath, $sval);
+		replaceSkinTag($sval, 'html');
+		replaceSkinTag($sval, 'head');
+		replaceSkinTag($sval, 'body');
 		list($sval, $this->keylogItem) = $this->cutSkinTag($sval, 'blog_rep');
 		list($sval, $this->keylog) = $this->cutSkinTag($sval, 'blog');
 		$this->outter = $sval;
