@@ -2,11 +2,9 @@
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+define('__TEXTCUBE_KEYLOG__',true);
 require ROOT . '/library/preprocessor.php';
 
-if (false) {
-	fetchConfigVal();
-}
 if (strlen($suri['value'])) {
 	if(!$keylog = getKeylogByTitle($blogid, $suri['value'])) {
 		respond::ErrorPage();
@@ -23,8 +21,6 @@ if (strlen($suri['value'])) {
 } else {
 	$keywords = getKeywordNames($blogid, true);
 	$skinSetting['keylogSkin'] = fireEvent('setKeylogSkin');
-	require ROOT . '/interface/common/blog/begin.php';
 	require ROOT . '/interface/common/blog/keywords.php';
-	require ROOT . '/interface/common/blog/end.php';
 }
 ?>
