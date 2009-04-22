@@ -21,6 +21,8 @@ if (strlen($suri['value'])) {
 } else {
 	$keywords = getKeywordNames($blogid, true);
 	$skinSetting['keylogSkin'] = fireEvent('setKeylogSkin');
+	require ROOT . '/interface/common/blog/begin.php';
 	require ROOT . '/interface/common/blog/keywords.php';
+	require ROOT . '/interface/common/blog/end.php';
 }
 ?>
