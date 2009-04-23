@@ -2,7 +2,7 @@
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-class Base64Stream {
+class Utils_Base64Stream {
 	function encode($src = null, $dest = null) {
 		if (is_string($src)) {
 			if (is_null($dest)) {

@@ -1,7 +1,4 @@
-<?
-requireComponent( "Needlworks.Mail.Pop3" );
-requireModel( "common.setting" );
-
+<?php
 class Moblog
 {
 	function Moblog( $options )
@@ -19,7 +16,7 @@ class Moblog
 		$this->visibility = $visibilities[$this->visibility];
 		$this->allow = preg_split( "@[,\s]+@", $this->allow ) ;
 
-		$this->pop3 = new Pop3();
+		$this->pop3 = new Utils_Pop3();
 		$this->pop3->setLogger( array(&$this,'log') );
 		$this->pop3->setStatCallback( array(&$this,'statCallback') );
 		$this->pop3->setUidFilter( array(&$this,'checkUid') );

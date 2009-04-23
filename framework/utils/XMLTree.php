@@ -6,7 +6,7 @@
 class XMLTree {
 	var $tree, $error;
 	
-	function XMLTree($xml = null, $encoding = null) {
+	function __construct($xml = null, $encoding = null) {
 		if (!is_null($xml))
 			$this->open($xml, $encoding);
 	}

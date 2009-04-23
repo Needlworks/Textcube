@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-class Pop3 {
+class Utils_Pop3 {
 	function Pop3()
 	{
 		$this->ctx = null;

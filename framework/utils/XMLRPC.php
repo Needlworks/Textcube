@@ -66,12 +66,12 @@
 		return $ret;
 	}
 		
-class XMLRPC {
+class Utils_XMLRPC {
 	var $url, $async = false, $methodName, $params, $result, $fault;
 	
 	var $useOldXmlRPC = false; // for 2003-before-version
 
-	function XMLRPC() {
+	function __construct() {
 		$this->_registry = array();
 	}
 	
@@ -371,19 +371,19 @@ class XMLRPC {
     }   
 }
 
-class XMLRPCFault {
+class Utils_XMLRPCFault {
 	var $code, $string;
 
-	function XMLRPCFault($code = 0, $string = 'Error') {
+	function __construct($code = 0, $string = 'Error') {
 		$this->code = $code;
 		$this->string = $string;
 	}
 }
 
-class XMLCustomType {
+class Utils_XMLCustomType {
 	var $value, $name;
 	
-	function XMLCustomType($varString, $varName) {
+	function __construct($varString, $varName) {
 		$this->name = $varName;
 		$this->value = $varString;
 	}
