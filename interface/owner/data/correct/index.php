@@ -90,7 +90,7 @@ set_time_limit(0);
 $item = 0;
 $corrected = 0;
 
-$post = new Post;
+$post = new Model_Post;
 
 setProgress($item++ / $items * 100, _t('글의 댓글 정보를 다시 계산해서 저장합니다.'));
 

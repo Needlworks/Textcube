@@ -49,7 +49,7 @@ if ($setting->load()) {
 	$writer->write('</banner>' . '<useSloganOnPost>' . Validator::getBit($setting->useSloganOnPost) . '</useSloganOnPost>' . '<postsOnPage>' . $setting->postsOnPage . '</postsOnPage>' . '<postsOnList>' . $setting->postsOnList . '</postsOnList>' . '<postsOnFeed>' . $setting->postsOnFeed . '</postsOnFeed>' . '<publishWholeOnFeed>' . Validator::getBit($setting->publishWholeOnFeed) . '</publishWholeOnFeed>' . '<acceptGuestComment>' . Validator::getBit($setting->acceptGuestComment) . '</acceptGuestComment>' . '<acceptCommentOnGuestComment>' . Validator::getBit($setting->acceptCommentOnGuestComment) . '</acceptCommentOnGuestComment>' . '<language>' . $setting->language . '</language>' . '<timezone>' . $setting->timezone . '</timezone>' . '</setting>');
 	$writer->write(CRLF);
 }
-$category = new Category();
+$category = new Model_Category();
 if ($category->open()) {
 	do {
 		if($category->id != 0) {
@@ -74,7 +74,7 @@ if ($category->open()) {
 	} while ($category->shift());
 	$category->close();
 }
-$post = new Post();
+$post = new Model_Post();
 if ($post->open('', '*', 'published, id')) {
 	do {
 		$writer->write('<post slogan="' . htmlspecialchars($post->slogan) . '"' . $newlineStyle . '>' . 
@@ -163,7 +163,7 @@ if ($post->open('', '*', 'published, id')) {
 	} while ($post->shift());
 	$post->close();
 }
-$notice = new Notice();
+$notice = new Model_Notice();
 if ($notice->open()) {
 	do {
 		$writer->write('<notice' . ' slogan="' . htmlspecialchars($notice->slogan) . '"' . $newlineStyle . '>' . 
@@ -227,7 +227,7 @@ if ($keyword->open()) {
 	} while ($keyword->shift());
 	$keyword->close();
 }
-$link = new Link();
+$link = new Model_Link();
 if ($link->open()) {
 	do {
 		$writer->write('<link>' . '<url>' . htmlspecialchars(UTF8::correct($link->url)) . '</url>' . '<title>' . htmlspecialchars(UTF8::correct($link->title)) . '</title>' . '<feed>' . htmlspecialchars(UTF8::correct($link->feed)) . '</feed>' . '<registered>' . $link->registered . '</registered>' . '<xfn>' . htmlspecialchars($link->xfn) . '</xfn>' . '</link>');
@@ -247,7 +247,7 @@ if ($log->open()) {
 	$writer->write(CRLF);
 	$log->close();
 }
-$cmtNotified = new CommentNotified();
+$cmtNotified = new Model_CommentNotified();
 $cur_siteinfo = array();
 $i = 0;
 if ($cmtNotified->open()) {
@@ -268,7 +268,7 @@ if ($cmtNotified->open()) {
 		$writer->write('<secret>' . $cmtNotified->secret . '</secret>');
 		$writer->write('<written>' . $cmtNotified->written . '</written>');
 		$writer->write('<modified>' . $cmtNotified->modified . '</modified>');
-		$site = new CommentNotifiedSiteInfo();
+		$site = new Model_CommentNotifiedSiteInfo();
 		$site->open("id = {$cmtNotified->siteId}");
 		$writer->write('<site>' . htmlspecialchars(UTF8::correct($site->url)) . '</site>');
 		$cur_siteinfo[$i] = $site->id; $i++;
@@ -285,7 +285,7 @@ if ($cmtNotified->open()) {
 	$writer->write(CRLF);
 	$cmtNotified->close();
 }
-$cmtNotifiedSite = new CommentNotifiedSiteInfo();
+$cmtNotifiedSite = new Model_CommentNotifiedSiteInfo();
 if ($cmtNotifiedSite->open()) {
 	$writer->write('<commentsNotifiedSiteInfo>');
 	do {
