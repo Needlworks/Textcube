@@ -75,7 +75,7 @@ function api_login( $id, $password )
 		$canon_id = api_get_canonical_id($id);
 		if( !$auth->login( $canon_id, $password ) )
 		{
-			return new XMLRPCFault( 1, "Authentication failed: $id($canon_id)" );
+			return new Utils_XMLRPCFault( 1, "Authentication failed: $id($canon_id)" );
 		}
 	}
 	return false;
@@ -439,7 +439,7 @@ function api_BlogAPI()
 {
 	global $blogApiFunctions;
 	if (!array_key_exists('HTTP_RAW_POST_DATA', $GLOBALS)) {
-		XMLRPC::sendFault(1, 'Invalid Method Call');
+		Utils_XMLRPC::sendFault(1, 'Invalid Method Call');
 		exit;
 	}
 	
@@ -487,13 +487,13 @@ function api_BlogAPI()
 		"mt.setPostCategories",
 		"mt.getCategoryList",
 //		"mt.supportedTextFilters", //지원안함 // 텍스트 처리하는 플러그인 리스트
-		"mt.supportedMethods", // XMLRPC 함수 리스트
+		"mt.supportedMethods", // Utils_XMLRPC 함수 리스트
 		"mt.publishPost", // rebuild post
 //		"mt.getTrackbackPings", // 인증을 안하므로 무시 // 받은 트랙백 리스트
 		"mt.getRecentPostTitles" // getRecentPosts와 거의 동일, 트래픽 프랜들리 버전
 		 );
 
-	$xmlrpc = new XMLRPC;
+	$xmlrpc = new Utils_XMLRPC;
 
 	foreach( $blogApiFunctions as $func )
 	{
@@ -560,7 +560,7 @@ function blogger_newPost()
 	if( !$post->add($params[2]) )
 	{
 		$post->close();
-		return new XMLRPCFault( 1, "Posting error" );
+		return new Utils_XMLRPCFault( 1, "Posting error" );
 	}
 
 	RSS::refresh();
@@ -820,13 +820,13 @@ function metaWeblog_newPost()
 	$post = api_make_post( $params[3], $params[4] );
 	
 	if ($post === false) {
-		return new XMLRPCFault( 1, "Textcube posting error" );
+		return new Utils_XMLRPCFault( 1, "Textcube posting error" );
 	}
 	if( !$post->add($params[1]) )
 	{
 		$error = $post->error;
 		$post->close();
-		return new XMLRPCFault( 1, "Textcube invalid field: $error" );
+		return new Utils_XMLRPCFault( 1, "Textcube invalid field: $error" );
 	}
 
 	api_update_attaches($post->id );
@@ -852,7 +852,7 @@ function mt_setPostCategories()
 	$post = new Post();
 	if( !$post->open( $params[0] ) )
 	{
-		return new XMLRPCFault( 1, "Posting error" );
+		return new Utils_XMLRPCFault( 1, "Posting error" );
 	}
 
 	$category = null;
@@ -910,7 +910,7 @@ function metaWeblog_editPost()
 	$post->created = null;
 	if( !$post )
 	{
-		return new XMLRPCFault( 1, "Textcube editing error" );
+		return new Utils_XMLRPCFault( 1, "Textcube editing error" );
 	}
 
 	$ret = $post->update();
@@ -943,7 +943,7 @@ function metaWeblog_newMediaObject()
 	$attachment = api_addAttachment( getBlogId(), 0, $file );
 	if( !$attachment )
 	{
-		return new XMLRPCFault( 1, "Can't create file" );
+		return new Utils_XMLRPCFault( 1, "Can't create file" );
 	}
 	
 	$attachurl = array ( 'url' => 'http://tt_attach_path/' .  $attachment['name']);

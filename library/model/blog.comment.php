@@ -382,7 +382,7 @@ function sendCommentPing($entryId, $permalink, $name, $homepage) {
 			AND draft = 0
 			AND visibility = 3 
 			AND acceptComment = 1")) {
-		$rpc = new XMLRPC();
+		$rpc = new Utils_XMLRPC();
 		$rpc->url = TEXTCUBE_SYNC_URL;
 		$summary = array(
 			'permalink' => $permalink,

@@ -1059,7 +1059,7 @@ function protectEntry($id, $password) {
 function syndicateEntry($id, $mode) {
 	global $database, $blog, $defaultURL;
 	$blogid = getBlogId();
-	$rpc = new XMLRPC();
+	$rpc = new Utils_XMLRPC();
 	$rpc->url = TEXTCUBE_SYNC_URL;
 	$summary = array('blogURL' => $defaultURL, 'syncURL' => "$defaultURL/sync/$id");
 	if($mode == 'create') {

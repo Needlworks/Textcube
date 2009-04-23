@@ -545,7 +545,7 @@ function removeBlog($blogid) {
 	POD::execute("DELETE FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}Privileges WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}XMLRPCPingSettings WHERE blogid = $blogid");
+	POD::execute("DELETE FROM {$database['prefix']}Utils_XMLRPCPingSettings WHERE blogid = $blogid");
 	
 	//Delete Tags
 	if (count($tags) > 0) 

@@ -2,14 +2,11 @@
 
 function EAS_Call($type, $name, $title, $url, $content)
 {
-	requireComponent('Eolin.PHP.Core');
-	requireComponent('Eolin.PHP.XMLRPC');
-	
 	global $hostURL, $blogURL, $database;
 	
 	$blogstr = $hostURL . $blogURL;
 	
-	$rpc = new XMLRPC();
+	$rpc = new Utils_XMLRPC();
 	$rpc->url = 'http://antispam.eolin.com/RPC/index.php';
 	if ($rpc->call('checkSpam', $blogstr, $type, $name, $title, $url, $content, $_SERVER['REMOTE_ADDR']) == false) 
 	{

@@ -44,7 +44,13 @@ class Autoload {
 		if($pos!==false) {
 			require_once ROOT.'/framework/'.str_replace('_','/',strtolower(substr($className,0,$pos))).'/'.substr($className,$pos+1).'.php';
 		} else {
-			require_once ROOT.'/framework/'.$className.'.php';
+			if(file_exists(ROOT.'/framework/alias/'.$className.'.php')) {
+				require_once ROOT.'/framework/alias/'.$className.'.php';
+			} else if(file_exists(ROOT.'/framework/'.$className.'.php')) {
+				require_once ROOT.'/framework/'.$className.'.php';
+			} else {
+				// TODO : Error handler here. 
+			}
 		}
 	}
 }

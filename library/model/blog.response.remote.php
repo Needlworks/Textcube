@@ -258,7 +258,7 @@ function getRecentTrackbacks($blogid, $count = false, $guestShip = false) {
 }
 
 function sendTrackbackPing($entryId, $permalink, $url, $site, $title) {
-	$rpc = new XMLRPC();
+	$rpc = new Utils_XMLRPC();
 	$rpc->url = TEXTCUBE_SYNC_URL;
 	$summary = array(
 		'permalink' => $permalink,
