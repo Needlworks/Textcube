@@ -8,27 +8,6 @@
    ROOT should be defined.
 */
 
-/* OLD DBMS HANDLER LOADING PART. WILL BE DELETED SOON.
-   
-global $service;
-if (!isset($service['dbms'])) $service['dbms'] = 'mysqli';
-//Database Binding
-switch($service['dbms']) {
-	case 'postgresql':
-		requireComponent('Needlworks.DBMS.PostgreSQL'); break;
-	case 'mysqli':
-		requireComponent('Needlworks.DBMS.MySQLi');     break;
-	case 'mysql':
-	default:
-		requireComponent('Needlworks.DBMS.MySQL');
-}*/
-
-//if(!class_exists('POD')) requireComponent('POD.Core.Legacy'); //1.6 Only uses legacy routine of POD. Will be changed from 1.6.1. (or later)
-
-/* TableQuery */
-// class TableQuery will be depreacted after 1.6 tree.
-// (Will be replaced to POD Framework)
-
 class TableQuery {
 	private $_attributes, $_qualifiers, $_query;
 	

@@ -10,13 +10,11 @@
     * Initialization
     * Checks privilege 
 */
-/** LOAD : Basic Components 
-    -----------------------
-    Loads mandatory components to perform 'Input Validation.' 
-    $IV is set before preprocessing, at interface code.
+/** Boot sequence 
 */
-require_once (ROOT.'/library/components/Needlworks.PHP.UnifiedEnvironment.php');
-require_once (ROOT.'/library/components/Needlworks.PHP.Core.php');
+foreach (new DirectoryIterator(ROOT.'/framework/boot') as $fileInfo) {
+	if($fileInfo->isFile()) require_once($fileInfo->getPathname());
+}
 
 /** CHECK : Basic POST/GET variable validation. 
     -------------------------------------------
