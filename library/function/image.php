@@ -51,7 +51,7 @@ function resampleImage($imgString, $originSrc, $useAbsolutePath) {
 		$imgString = preg_replace('/height="([^"]+)"/i', 'height="'.$tempHeight.'"', $imgString);
 		$imgString = preg_replace('/onclick="open_img\(\'([^\']+)\'\)"/', "onclick=\"open_img('$serviceURL/attach/".getBlogId()."/".$originFileName."')\"", $imgString);
 	} else {
-		$AttachedImage = new Image();
+		$AttachedImage = new Utils_Image();
 		$AttachedImage->imageFile = $originSrc;
 
 		// 리샘플링 시작.

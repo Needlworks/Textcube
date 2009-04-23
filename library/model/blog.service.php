@@ -160,7 +160,7 @@ function writeHtaccess($contents) {
 }
 
 function writeConfigFile($settings) {
-	$writer = new OutputWriter;
+	$writer = new Utils_OutputWriter;
 	
 	global $database, $service;
 	

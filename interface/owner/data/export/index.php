@@ -10,7 +10,7 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 set_time_limit(0);
 $includeFileContents = Validator::getBool(@$_GET['includeFileContents']);
-$writer = new OutputWriter();
+$writer = new Utils_OutputWriter();
 if (defined('__TEXTCUBE_BACKUP__')) {
 	if (!file_exists(ROOT . '/cache/backup')) {
 		mkdir(ROOT . '/cache/backup');
