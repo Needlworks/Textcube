@@ -228,7 +228,7 @@ function api_fix_content( $content )
 
 function api_make_post( $param, $ispublic, $postid = -1 )
 {
-	$post = new Post();
+	$post = new Model_Post();
 	if( $postid != -1 )
 	{
 		if( !$post->open( $postid ) )
@@ -536,7 +536,7 @@ function blogger_getUsersBlogs()
 function blogger_newPost()
 {
 	$params = func_get_args();
-	$post = new Post();
+	$post = new Model_Post();
 	$post->content = $params[4];
 	$post->contentFormatter = getDefaultFormatter();
 	$post->contentEditor = getDefaultEditor();
@@ -580,7 +580,7 @@ function blogger_editPost()
 		return $result;
 	}
 
-	$post = new Post();
+	$post = new Model_Post();
 	$post->title = htmlspecialchars(api_get_title( $params[4] ));
 	$post->id = intval($params[1]);
 	$post->content = $params[4];
@@ -613,7 +613,7 @@ function blogger_deletePost()
 		return $result;
 	}
 
-	$post = new Post();
+	$post = new Model_Post();
 	$id = intval( $params[1] );
 	$ret = $post->open( $id );
 	$ret = $post->remove();
@@ -632,7 +632,7 @@ function blogger_getRecentPosts()
 		return $result;
 	}
 
-	$post = new Post();
+	$post = new Model_Post();
 	$post->open();
 	$out = array();
 
@@ -658,7 +658,7 @@ function blogger_getPost()
 		return $result;
 	}
 
-	$post = new Post();
+	$post = new Model_Post();
 	$post->open( intval( $params[1] ) );
 
 	$ret = api_get_post( $post );
@@ -773,7 +773,7 @@ function metaWeblog_getRecentPosts()
 		return $result;
 	}
 
-	$post = new Post();
+	$post = new Model_Post();
 	$post->open();
 	$out = array();
 
@@ -799,7 +799,7 @@ function metaWeblog_getPost()
 		return $result;
 	}
 
-	$post = new Post();
+	$post = new Model_Post();
 	$post->open( intval( $params[0] ) );
 
 	$ret = api_get_post( $post, "mt" );
@@ -849,7 +849,7 @@ function mt_setPostCategories()
 		return $result;
 	}
 
-	$post = new Post();
+	$post = new Model_Post();
 	if( !$post->open( $params[0] ) )
 	{
 		return new Utils_XMLRPCFault( 1, "Posting error" );
@@ -885,7 +885,7 @@ function mt_getPostCategories()
 		return $result;
 	}
 
-	$post = new Post();
+	$post = new Model_Post();
 	$post->open( intval( $params[0] ) );
 
 	$cat = array( array( "categoryId" => $post->category, 
@@ -966,7 +966,7 @@ function mt_publishPost() /* postid, username, password */
 		return $result;
 	}
 
-	$post = new Post();
+	$post = new Model_Post();
 	if (! $post->open( intval( $params[0] ) ) ) {
 		return false;
 	}
@@ -983,7 +983,7 @@ function mt_getRecentPostTitles() /* blogid, username, password, count */
 		return $result;
 	}
 
-	$post = new Post();
+	$post = new Model_Post();
 	$post->open();
 	$out = array();
 

@@ -274,7 +274,7 @@ function receiveTrackback($blogid, $entry, $title, $url, $excerpt, $site) {
 	global $database, $blog, $defaultURL;
 	if (empty($url))
 		return 5;
-	$post = new Post;
+	$post = new Model_Post;
 	if (!$post->doesAcceptTrackback($entry))
 		return 3;
 		
