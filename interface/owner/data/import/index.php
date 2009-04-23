@@ -149,7 +149,7 @@ if ($items == 0)
 if (!$migrational) {
 	setProgress(0, _t('복원 위치를 준비하고 있습니다.'));
 	DataMaintenance::removeAll(false);
-	CacheControl::flushAll();
+	Cache_Control::flushAll();
 }
 $xmls->setConsumer('importer');
 if (!$xmls->openFile($backup, Validator::getBool(@$_POST['correctData']))) {
@@ -215,7 +215,7 @@ function importer($path, $node, $line) {
 	switch ($path) {
 		case '/blog/setting':
 			setProgress($item++ / $items * 100, _t('블로그 설정을 복원하고 있습니다.'));
-			$setting = new BlogSetting();
+			$setting = new Model_BlogSetting();
 			if (isset($node['title'][0]['.value']))
 				$setting->title = $node['title'][0]['.value'];
 			if (isset($node['description'][0]['.value']))

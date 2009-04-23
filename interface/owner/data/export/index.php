@@ -36,7 +36,7 @@ if (defined('__TEXTCUBE_BACKUP__')) {
 $newlineStyle = (!is_null(getServiceSetting('newlineStyle')) ? ' format="'.getServiceSetting('newlineStyle').'"' : '');
 $writer->write('<?xml version="1.0" encoding="utf-8" ?>');
 $writer->write('<blog type="tattertools/1.1" migrational="false">');
-$setting = new BlogSetting();
+$setting = new Model_BlogSetting();
 if ($setting->load()) {
 	$setting->escape();
 	$writer->write('<setting>' . '<name>' . $setting->name . '</name>' . '<secondaryDomain>' . $setting->secondaryDomain . '</secondaryDomain>' . '<defaultDomain>' . Validator::getBit($setting->defaultDomain) . '</defaultDomain>' . '<title>' . $setting->title . '</title>' . '<description>' . UTF8::correct($setting->description) . '</description>' . '<banner><name>' . $setting->banner . '</name>');

@@ -52,7 +52,7 @@ function clearCache() {
 		$errorlog = false;
 		echo '<li>', _textf('페이지 캐시를 초기화합니다.'), ': ';
 		foreach($blogids as $ids) {
-			if(CacheControl::flushAll($ids) == false) $errorlog = true; 
+			if(Cache_Control::flushAll($ids) == false) $errorlog = true; 
 		}
 		if($errorlog == false) echo '<span class="result success">', _text('성공'), '</span></li>';
 		else echo '<span class="result fail">', _text('실패'), '</span></li>';
