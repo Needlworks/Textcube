@@ -63,8 +63,8 @@ require_once (ROOT.'/library/components/Needlworks.PHP.Loader.php');
 global $config, $context;
 
 /// Loading configuration	
-$config = Config::getInstance();
-$context = Context::getInstance(); // automatic initialization via first instanciation
+$config = Model_Config::getInstance();
+$context = Model_Context::getInstance(); // automatic initialization via first instanciation
 
 /// Loading debug module
 if($config->service['debugmode'] == true) {

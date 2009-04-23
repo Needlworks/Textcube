@@ -5,7 +5,7 @@
 
 class URIError extends Exception {};
 
-final class Context extends Singleton
+final class Model_Context extends Singleton
 {
 	public $URLInfo, $suri;
 	public static $blogid, $isStrictURL;

@@ -83,7 +83,7 @@ function getScriptsOnHead() {
 
 function getUpperView($paging) {
 	global $blogURL;
-	$config = Config::getInstance();
+	$config = Model_Config::getInstance();
 	$service = $config->service;
 	ob_start();
 ?>

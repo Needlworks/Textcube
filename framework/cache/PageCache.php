@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-class pageCache {
+class Cache_pageCache {
 	function __construct($name = null){
 		$this->reset();
 		if($name != null) $this->name = $name;
@@ -160,7 +160,7 @@ class pageCache {
 
 }
 
-class queryCache {
+class Cache_queryCache {
 	function __construct($query = null, $prefix = null){
 		global $service;
 		$this->reset();
@@ -292,8 +292,8 @@ class globalCacheStorage extends pageCache {
 	}
 }
 
-// CacheControl have functions for flushing caches.
-class CacheControl {
+// Cache_Control have functions for flushing caches.
+class Cache_Control {
 	function flushAll($blogid = null) {
 		global $database;
 		if(empty($blogid)) $blogid = getBlogId();
@@ -323,8 +323,8 @@ class CacheControl {
 			AND (name like 'categoryList\\_".$categoryId."%' 
 				OR name like 'categoryRSS\\_".$categoryId."%'
 				OR name like 'categoryATOM\\_".$categoryId."%')");
-		CacheControl::purgeItems($categoryLists);
-		CacheControl::flushRSS();
+		Cache_Control::purgeItems($categoryLists);
+		Cache_Control::flushRSS();
 		unset($cache);
 		return true;
 	}
@@ -340,7 +340,7 @@ class CacheControl {
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'authorList\\_".$authorId."%')");
-		CacheControl::purgeItems($pageLists);
+		Cache_Control::purgeItems($pageLists);
 		unset($cache);
 		return true;
 	}
@@ -356,7 +356,7 @@ class CacheControl {
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'tagList\\_".$tagId."%' 
 				OR name like 'keyword\\_".$tagId."%')");
-		CacheControl::purgeItems($tagLists);
+		Cache_Control::purgeItems($tagLists);
 		$cache->reset();
 		$cache->name = 'tagPage';
 		$cache->purge();
@@ -374,7 +374,7 @@ class CacheControl {
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND name like 'keyword\\_".$tagId."%'");
-		CacheControl::purgeItems($keywordEntries);
+		Cache_Control::purgeItems($keywordEntries);
 		unset($cache);
 		return true;
 	}
@@ -389,19 +389,19 @@ class CacheControl {
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'entry\\_".$entryId."%' OR name = 'commentRSS_".$entryId."')");
-		CacheControl::purgeItems($Entries);
+		Cache_Control::purgeItems($Entries);
 		if(!empty($entryId)) {
 			$entry = POD::queryCell("SELECT userid, category FROM {$database['prefix']}Entries
 				WHERE blogid = ".getBlogId()." AND id = $entryId");
 			if(!empty($entry)) {
-				CacheControl::flushAuthor($entry['userid']);
-				CacheControl::flushCategory($entry['category']);
-				CacheControl::flushDBCache();
+				Cache_Control::flushAuthor($entry['userid']);
+				Cache_Control::flushCategory($entry['category']);
+				Cache_Control::flushDBCache();
 			}
 		} else {
-			CacheControl::flushAuthor();
-			CacheControl::flushCategory();
-			CacheControl::flushDBCache();
+			Cache_Control::flushAuthor();
+			Cache_Control::flushCategory();
+			Cache_Control::flushDBCache();
 		}
 		unset($cache);
 		return true;
@@ -409,9 +409,9 @@ class CacheControl {
 	function flushRSS() {
 		if (file_exists(ROOT . "/cache/rss/".getBlogId().".xml"))
 			@unlink(ROOT . "/cache/rss/".getBlogId().".xml");
-		CacheControl::flushCommentRSS();
-		CacheControl::flushTrackbackRSS();
-		CacheControl::flushResponseRSS();
+		Cache_Control::flushCommentRSS();
+		Cache_Control::flushTrackbackRSS();
+		Cache_Control::flushResponseRSS();
 	}
 
 	function flushCommentRSS($entryId = null) {
@@ -430,7 +430,7 @@ class CacheControl {
 		$cache->reset();
 		$cache->name = 'commentATOM';
 		$cache->purge();
-		CacheControl::flushResponseRSS($entryId);
+		Cache_Control::flushResponseRSS($entryId);
 		return true;
 	}
 	
@@ -450,7 +450,7 @@ class CacheControl {
 		$cache->reset();
 		$cache->name = 'trackbackATOM';
 		$cache->purge();
-		CacheControl::flushResponseRSS($entryId);
+		Cache_Control::flushResponseRSS($entryId);
 		return true;
 	}
 		
@@ -494,7 +494,7 @@ class CacheControl {
 				foreach ($xmls->selectNodes('/plugin/binding/listener') as $listener) {
 					if (!empty($listener['.attributes']['event']) && !empty($listener['.value'])) { // Event가 있는 경우
 						if(strpos(strtolower($listener['.attributes']['event']),'view')!==false) {
-							CacheControl::flushCategory();
+							Cache_Control::flushCategory();
 						}
 					}
 				}
@@ -503,8 +503,8 @@ class CacheControl {
 			if ($xmls->doesExist('/plugin/binding/tag')) {
 				foreach ($xmls->selectNodes('/plugin/binding/tag') as $tag) {
 					if (!empty($tag['.attributes']['name']) && !empty($tag['.attributes']['handler'])) {
-						CacheControl::flushCategory();
-						CacheControl::flushTag();
+						Cache_Control::flushCategory();
+						Cache_Control::flushTag();
 					}
 				}
 				unset($tag);
@@ -513,7 +513,7 @@ class CacheControl {
 //			TODO:	사이드바 캐시때 처리하도록 하지요.				
 //			}
 			if ($xmls->doesExist('/plugin/binding/formatter[lang()]')){
-				CacheControl::flushCategory();
+				Cache_Control::flushCategory();
 			}
 			
 		}
@@ -538,7 +538,7 @@ class CacheControl {
 
 // MMCache is instant memory cache as table type data.
 // Supports same methods as POD raw mode.
-class MMCache{
+class Cache_MMCache{
 	/*var $variable;*/
 	
 	//Variable must be the table form. (2-dimensional recursive structure)
@@ -564,7 +564,7 @@ class MMCache{
 	}
 }
 
-class CodeCache {
+class Cache_CodeCache {
 	function __construct() {
 		$this->reset();
 	}
