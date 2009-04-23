@@ -36,25 +36,25 @@ final class UTF8 {
 				if (++$i >= $length) {
 					return $truncated;
 				} else if (($str{$i} & "\xC0") == "\x80") {
+					if (++$i >= $length)
+						return $truncated;
+					else if (($str{$i} & "\xC0") == "\x80")
+						continue;
+				}
+			} else if ($high < 0xF5) {
+				if (++$i >= $length) {
+					return $truncated;
+				} else if (($str{$i} & "\xC0") == "\x80") {
+					if (++$i >= $length) {
+						return $truncated;
+					} else if (($str{$i} & "\xC0") == "\x80")  {
 						if (++$i >= $length)
 							return $truncated;
 						else if (($str{$i} & "\xC0") == "\x80")
 							continue;
 					}
-			} else if ($high < 0xF5) {
-					if (++$i >= $length) {
-						return $truncated;
-					} else if (($str{$i} & "\xC0") == "\x80") {
-							if (++$i >= $length) {
-								return $truncated;
-							} else if (($str{$i} & "\xC0") == "\x80")  {
-									if (++$i >= $length)
-										return $truncated;
-									else if (($str{$i} & "\xC0") == "\x80")
-										continue;
-								}
-						}
-				} // F5~FF is invalid by RFC 3629
+				}
+			} // F5~FF is invalid by RFC 3629
 			return false;
 		}
 		return true;
@@ -94,14 +94,14 @@ final class UTF8 {
 							$corrected .= $str{$i} . $str{$i + 1} . $str{$i + 2};
 						$i += 2;
 					} else if ($high < 0xF5) { // 4byte.
-							if (($i + 3 >= $strlen) || (($str{$i + 1} & "\xC0") != "\x80") || (($str{$i + 2} & "\xC0") != "\x80") || (($str{$i + 3} & "\xC0") != "\x80"))
-								$corrected .= $broken;
-							else
-								$corrected .= $str{$i} . $str{$i + 1} . $str{$i + 2} . $str{$i + 3};
-							$i += 3;
-						} else { // F5~FF is invalid by RFC3629.
+						if (($i + 3 >= $strlen) || (($str{$i + 1} & "\xC0") != "\x80") || (($str{$i + 2} & "\xC0") != "\x80") || (($str{$i + 3} & "\xC0") != "\x80"))
 							$corrected .= $broken;
-						}
+						else
+							$corrected .= $str{$i} . $str{$i + 1} . $str{$i + 2} . $str{$i + 3};
+						$i += 3;
+					} else { // F5~FF is invalid by RFC3629.
+						$corrected .= $broken;
+					}
 					break;
 			}
 		}

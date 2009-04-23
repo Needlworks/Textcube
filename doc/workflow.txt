@@ -1,5 +1,5 @@
 
-Textcube Simple task flow
+Textcube 1.8 Simple task flow
 =========================
                                                                         By J.K.Shin (inureyes@gmail.com)
 
@@ -16,32 +16,81 @@ Dispatching                                           +------+------+
                                                              |
                                                         rewrite.php
                                                              |  + /config.php
-                             +-------------------------------+-----------------------------+
-                             |                               |                             |
-                  library/includeForBlog.php  library/includeForBlogOwner.php  library/includeForReader.php
-                     (Weblog interface)       (Administration panel interface)       (RSS Reader)
-                             |                               |                             |
-                             +-------------------------------+-----------------------------+
+                                            (Context / URL / configuration loading)
                                                              |
+                                                      interface/*.php
+                                                    (Interface loading)
+                                                             |
+           -------------------------------------- library/preprocessor.php   (Preprocessing) -----------------
+                                                             |
+                                          Base components loading
+                                              + Environment Normalization (Unification)
+                                              + Core component loading
+                                                             |
+                                          Validation
+                                              + Basic POST/GET value validation
+                                              + System environmental parameter validation
+                                              + URI information validation
+                                                             |
+                                          Config, context object initialization.
+                                                (Automatic initialization via first instanciation)
+                                                             |
+                                          Loading required components / libraries
+                                              + library/include.XXX.php 
+                                                (specific library list due to interface)
+                                              + library/include.php
+                                                (actual library loading occurs. 
+                                                 if there is library cache, loading them instead.)
                                                     /library/include.php
                                                              |     + /library/config.php
                                                              |     + /config.php (override)
                                                              |     + /library/component/~
-                                             [Loading mandatory models / views]
+                                                             |      [Loading mandatory models / views]
                                                              |     + /library/model/~
                                                              |     + /library/view/~
 ------------                                                 |     
-Initializing                                      /library/initiallize.php
-                                                             |     + /library/suri.php
-                                                             |     + /library/session.php
-------------                                                 |     + /resources/language/
+Initializing                                                 |
+                                                             |
+                                                    If database needed,
+                              +------------------------------+--------------=====----------+
+                              |                                                            |
+                              |  Initializing database I/O                                 |
+                              |    + /library/components/Needlworks.DBMS.XXX.php           |
+                              |                                                            |
+                              |  Loading memcache module (if use)                          |
+                              |  Creating Session (if requested)                           |
+                              |     +  /library/components/Textcube.Data.Session.XXX.php   |
+                              +------------------------------+-----------------------------+
+                                                             |
+                                                 If initialization needed,
+                                   +-------------------------+------------------------+
+                                   |   Loading basic information (blog/user)          |
+                                   |   Loading and initializing timezone              |
+                                   |                                                  |
+                                   |                                                  |
+                                   |   Loading locale resource                        |
+                                   |     (if locale information is needed)            |
+                                   |                                                  |
+                                   +-------------------------+------------------------+
+                                                             |
+                                                     If plugin needed,
+                                   +--------------------------------------------------+
+                                   |    Loading plugin module (if needed)             |
+                                   |      +  /library/plugins.php                     |
+                                   +-------------------------+------------------------+
+                                                             |
+                                                 Access privilege checking
+                                                             |
+           --------------------------------------------------|------------------------------------------------
+------------                                                 |
 Quilting                                   +-----------------+-----------------+                    
                       (Sequence defined at each interface path)      /interface/common/owner/header.php
-                           /interface/common/blog/begin.php                       |
-                + /library/blog.skin.php   |                                   |
-                           /interface/common/blog/~                          Interface code     
+                           /interface/common/blog/begin.php                    |
+                                           |                                   |
+                           /interface/common/blog/XXX.php                Interface code     
                                            |                                   |
                            /interface/common/blog/end.php               /interface/common/owner/footer.php
 ------------                               |                                   |
 Finalizing                                 +-----------------+-----------------+
-
+                                                             |
+                                                            End
