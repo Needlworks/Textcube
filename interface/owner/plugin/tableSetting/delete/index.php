@@ -35,7 +35,7 @@ if ($_REQUEST['type'] == 1) { // type 1, plugin
 	foreach($plugintablesraw as $dbname) {
 		$origname = $dbname;
 		$dbname = $database['prefix'] . substr($dbname, 9);
-		if (!doesExistTable($dbname)) {
+		if (!Data_IAdapter::doesExistTable($dbname)) {
 			respond::ResultPage(1);
 			exit;
 		}
@@ -70,7 +70,7 @@ if ($_REQUEST['type'] == 1) { // type 1, plugin
 		respond::ResultPage(1);
 		exit;
 	}
-	if (!doesExistTable($dbname)) {
+	if (!Data_IAdapter::doesExistTable($dbname)) {
 		respond::ResultPage(1);
 		exit;
 	}

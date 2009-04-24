@@ -372,8 +372,9 @@ TFOOT;
 	}
 
 	global $service, $URLInfo, $suri;
+	$config = Model_Config::getInstance();
 	print '<div class="debugTable">'.CRLF;
-	print '<h4>Current Database Management System :</h4>'.CRLF.'<p>'.$service['dbms'].'</p>'.CRLF;
+	print '<h4>Current Database Management System :</h4>'.CRLF.'<p>'.$config->backend_name.'</p>'.CRLF;
 	print '<h4>Cache system :</h4>'.CRLF;
 	if(isset($service['pagecache']) && $service['pagecache'] == true) print '<p>Page cache Enabled</p>'.CRLF;
 	else print '<p>Page cache Disabled</p>'.CRLF;

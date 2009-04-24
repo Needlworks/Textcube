@@ -141,7 +141,7 @@ if($currentVersion != TEXTCUBE_VERSION) {
 		}
 	}
 
-	if (!doesExistTable($database['prefix'] . 'EntriesArchive')) {
+	if (!Data_IAdapter::doesExistTable($database['prefix'] . 'EntriesArchive')) {
 		$changed = true;
 		echo '<li>', _text('글 버전 관리및 비교를 위한 테이블을 추가합니다.'), ': ';
 		$query = "
@@ -172,7 +172,7 @@ if($currentVersion != TEXTCUBE_VERSION) {
 		}
 	}
 
-	if (!doesExistTable($database['prefix'] . 'OpenIDUsers')) {
+	if (!Data_IAdapter::doesExistTable($database['prefix'] . 'OpenIDUsers')) {
 		$changed = true;
 		echo '<li>', _text('오픈아이디 사용자 테이블을 만듭니다'), ': ';
 		$query = "
@@ -204,7 +204,7 @@ if($currentVersion != TEXTCUBE_VERSION) {
 		}
 	}
 
-	if (doesExistTable($database['prefix'] . 'OpenIDComments')) {
+	if (Data_IAdapter::doesExistTable($database['prefix'] . 'OpenIDComments')) {
 		$changed = true;
 		echo '<li>', _text('오픈아이디 댓글 테이블을 기존 댓글 테이블에 병합합니다'), ': ';
 		if (Data_IAdapter::execute("UPDATE `{$database['prefix']}Comments` AS A,`{$database['prefix']}OpenIDComments` AS B SET `A`.`openid` = `B`.`openid` WHERE `A`.`id` = `B`.`id`" )) {
@@ -339,7 +339,7 @@ if($currentVersion != TEXTCUBE_VERSION) {
 			showCheckupMessage(false);
 		}
 	}
-	if (!doesExistTable($database['prefix'] . 'LinkCategories')) {
+	if (!Data_IAdapter::doesExistTable($database['prefix'] . 'LinkCategories')) {
 		$changed = true;
 		echo '<li>', _text('링크 카테고리 테이블을 만듭니다'), ': ';
 		$query = "
@@ -444,21 +444,21 @@ if($currentVersion != TEXTCUBE_VERSION) {
 	}	
 
 	// Since 1.8
-	if (!DBQuery::queryExistence("DESC {$database['prefix']}Entries longitude")) {
+	if (!Data_IAdapter::queryExistence("DESC {$database['prefix']}Entries longitude")) {
 		$changed = true;
 		echo '<li>', _text('글과 위경도 좌표 연동을 위한 필드를 추가합니다.'), ': ';
-		if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD longitude FLOAT(10) NULL AFTER published") && 
-			DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD latitude FLOAT(10) NULL AFTER longitude"))
+		if (Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Entries ADD longitude FLOAT(10) NULL AFTER published") && 
+			Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Entries ADD latitude FLOAT(10) NULL AFTER longitude"))
 			echo '<span class="result success">', _text('성공'), '</span></li>';
 		else
 			echo '<span class="result fail">', _text('실패'), '</span></li>';
 	}
 
-	if (!DBQuery::queryExistence("DESC {$database['prefix']}Comments longitude")) {
+	if (!Data_IAdapter::queryExistence("DESC {$database['prefix']}Comments longitude")) {
 		$changed = true;
 		echo '<li>', _text('댓글과 위경도 좌표 연동을 위한 필드를 추가합니다.'), ': ';
-		if (DBQuery::execute("ALTER TABLE {$database['prefix']}Comments ADD longitude FLOAT(10) NULL AFTER secret") && 
-			DBQuery::execute("ALTER TABLE {$database['prefix']}Comments ADD latitude FLOAT(10) NULL AFTER longitude"))
+		if (Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Comments ADD longitude FLOAT(10) NULL AFTER secret") && 
+			Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Comments ADD latitude FLOAT(10) NULL AFTER longitude"))
 			echo '<span class="result success">', _text('성공'), '</span></li>';
 		else
 			echo '<span class="result fail">', _text('실패'), '</span></li>';
