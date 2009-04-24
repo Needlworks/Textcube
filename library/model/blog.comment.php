@@ -75,7 +75,7 @@ function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, 
 		$postfix .= '&amp;ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
-		$search = escapeSearchString($search);
+		$search = Data_IAdapter::escapeSearchString($search);
 		$sql .= " AND (c.name LIKE '%$search%' OR c.homepage LIKE '%$search%' OR c.comment LIKE '%$search%')";
 		$postfix .= '&amp;search=' . rawurlencode($search);
 	}
@@ -108,7 +108,7 @@ function getGuestbookWithPagingForOwner($blogid, $name, $ip, $search, $page, $co
 		$postfix .= '&amp;ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
-		$search = escapeSearchString($search);
+		$search = Data_IAdapter::escapeSearchString($search);
 		$sql .= " AND (c.name LIKE '%$search%' OR c.homepage LIKE '%$search%' OR c.comment LIKE '%$search%')";
 		$postfix .= '&amp;search=' . rawurlencode($search);
 	}
@@ -142,7 +142,7 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 		$sql .= ' ORDER BY c.modified DESC';
 	} else {
 		if (!empty($search)) {
-			$search = escapeSearchString($search);
+			$search = Data_IAdapter::escapeSearchString($search);
 		}
 
 		$preQuery = "SELECT parent FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND parent is NOT NULL";
@@ -340,7 +340,7 @@ function getComment($blogid, $id, $password, $restriction = true) {
 function getCommentList($blogid, $search) {
 	global $database;
 	$list = array('title' => "$search", 'items' => array());
-	$search = escapeSearchString($search);
+	$search = Data_IAdapter::escapeSearchString($search);
 	$authorized = doesHaveOwnership() ? '' : 'AND c.secret = 0 '.getPrivateCategoryExclusionQuery($blogid);
 	if ($result = Data_IAdapter::queryAll("SELECT c.id, c.entry, c.parent, c.name, c.comment, c.written, e.slogan
 		FROM {$database['prefix']}Comments c

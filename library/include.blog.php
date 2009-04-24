@@ -16,10 +16,8 @@ $__requireBasics = array(
 	'DEBUG : Basic functions loaded.');
 $__requireLibrary = array(
 	'functions',
-	'database',					// Library
 	'locale',
 	'auth',
-	'blog.skin',
 	'DEBUG : Default library loaded.');
 $__requireModel = array(
 	'blog.service',				// Models

@@ -30,7 +30,7 @@ function getRemoteResponsesWithPagingForOwner($blogid, $category, $site, $ip, $s
 		$postfix .= '&amp;ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
-		$search = escapeSearchString($search);
+		$search = Data_IAdapter::escapeSearchString($search);
 		$sql .= " AND (t.site LIKE '%$search%' OR t.subject LIKE '%$search%' OR t.excerpt LIKE '%$search%')";
 		$postfix .= '&amp;search=' . rawurlencode($search);
 	}
@@ -60,7 +60,7 @@ function getRemoteResponseLogsWithPagingForOwner($blogid, $category, $site, $ip,
 	} else
 		$sql .= ' AND e.category >= 0';
 	if (!empty($search)) {
-		$search = escapeSearchString($search);
+		$search = Data_IAdapter::escapeSearchString($search);
 		$sql .= " AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
 		$postfix .= '&amp;search=' . rawurlencode($search);
 	}
@@ -93,7 +93,7 @@ function getRemoteResponseList($blogid, $search, $type = null) {
 	if (!is_null($type)) $typeFilter = " AND type = '".Data_IAdapter::escapeString($type)."'";
 	else $typeFilter = '';
 	$list = array('title' => "$search", 'items' => array());
-	$search = escapeSearchString($search);
+	$search = Data_IAdapter::escapeSearchString($search);
 	$authorized = doesHaveOwnership() ? '' : getPrivateCategoryExclusionQuery($blogid);
 	if ($result = Data_IAdapter::queryAll("SELECT t.id, t.entry, t.url, t.site, t.subject, t.excerpt, t.written, e.slogan
  		FROM {$database['prefix']}RemoteResponses t

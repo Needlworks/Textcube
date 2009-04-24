@@ -172,7 +172,7 @@ function getPluginInformation($plugin) {
 
 function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 	global $database;
-	if(doesExistTable($database['prefix'] . $name)) {
+	if(Data_IAdapter::doesExistTable($database['prefix'] . $name)) {
 		$keyname = 'Database_' . $name;
 		$value = $plugin;
 		$result = getServiceSetting($keyname, null);

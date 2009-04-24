@@ -9,7 +9,6 @@ $__requireComponent = array();
 $__requireBasics = array(		// Basics
 	'function/file');
 $__requireLibrary = array(		// Library
-	'database',
 	'auth');
 $__requireModel = array(		// Model
 	'blog.service',

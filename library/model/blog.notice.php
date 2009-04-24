@@ -7,7 +7,7 @@ function getNoticesWithPaging($blogid, $search, $page, $count) {
 	global $database, $folderURL, $suri;
 	$aux = '';
 	if (($search !== true) && $search) {
-		$search = escapeSearchString($search);
+		$search = Data_IAdapter::escapeSearchString($search);
 		$aux = "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
 	}
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';

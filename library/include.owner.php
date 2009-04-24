@@ -15,9 +15,7 @@ $__requireBasics = array(
 	'function/mail');
 $__requireLibrary = array(
 	'functions',
-	'database',				// Library
 	'locale',
-	'blog.skin',
 	'auth');
 $__requireModel = array(
 	'blog.service',			// Models

@@ -187,7 +187,7 @@ function getEntryListWithPagingByPeriod($blogid, $period, $page, $count) {
 
 function getEntryListWithPagingBySearch($blogid, $search, $page, $count) {
 	global $database, $suri, $folderURL;
-	$search = escapeSearchString($search);
+	$search = Data_IAdapter::escapeSearchString($search);
 	$cond = strlen($search) == 0 ? 'AND 0' : "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1'.getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
@@ -275,7 +275,7 @@ function getEntriesWithPagingByPeriod($blogid, $period, $page, $count) {
 
 function getEntriesWithPagingBySearch($blogid, $search, $page, $count, $countItem) {
 	global $database, $folderURL, $suri;
-	$search = escapeSearchString($search);
+	$search = Data_IAdapter::escapeSearchString($search);
 	$cond = strlen($search) == 0 ? 'AND 0' : "AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
@@ -341,7 +341,7 @@ function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count
 		}
 	}
 	if (!empty($search)) {
-		$search = escapeSearchString($search);
+		$search = Data_IAdapter::escapeSearchString($search);
 		$sql .= " AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
 	}
 	$sql .= ' ORDER BY e.published DESC';

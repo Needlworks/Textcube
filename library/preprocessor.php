@@ -59,17 +59,6 @@ global $config, $context;
 $config = Model_Config::getInstance();
 $context = Model_Context::getInstance(); // automatic initialization via first instanciation
 
-/// Loading debug module
-/*
-if($config->service['debugmode'] == true) {
-	if(isset($config->service['dbms'])) {
-		switch($config->service['dbms']) {
-			case 'mysqli':         require_once(ROOT. "/library/components/Needlworks.Debug.MySQLi.php");break;
-			case 'mysql': default: require_once(ROOT. "/library/components/Needlworks.Debug.MySQL.php"); break;
-		}
-	} else require_once(ROOT. "/library/components/Needlworks.Debug.MySQL.php");
-}
-  */  
 /** LOAD : Required components / models / views 
     -------------------------------------------
     include.XXXX contains necessary file list. (XXXX : blog, owner, reader, feeder, icon)
