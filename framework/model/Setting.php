@@ -35,7 +35,7 @@ class Model_Setting {
 		global $database;
 		if(is_null($blogid)) $blogid = getBlogId();
 		if($directAccess == true) {
-			$query = new TableQuery($database['prefix']. 'BlogSettings');
+			$query = new Data_table($database['prefix']. 'BlogSettings');
 			$query->setQualifier('blogid', $blogid);
 			$query->setQualifier('name',$name, true);
 			return $query->getCell('value');
@@ -63,7 +63,7 @@ class Model_Setting {
 			}
 		}
 
-		$query = new TableQuery($database['prefix'] . 'BlogSettings');
+		$query = new Data_table($database['prefix'] . 'BlogSettings');
 		$query->setQualifier('blogid',$blogid);
 		$blogSettings = $query->getAll();
 		if( $blogSettings ) {

@@ -15,8 +15,8 @@ requireStrictRoute();
 $result = false;
 if(isset($_GET['visibility'])) {
 	if (setBlogSetting('visibility',$_GET['visibility'])) {
-		Cache_Control::flushCommentRSS();
-		Cache_Control::flushTrackbackRSS();
+		Cache_control::flushCommentRSS();
+		Cache_control::flushTrackbackRSS();
 		clearFeed();
 		$result = true;
 	}

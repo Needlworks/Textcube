@@ -9,7 +9,7 @@ class FeedGroup {
 		$name = UTF8::lessenAsEncoding($name);
 		if (empty($name))
 			return 0;
-		$query = new TableQuery($database['prefix'] . 'FeedGroups');
+		$query = new Data_table($database['prefix'] . 'FeedGroups');
 		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('title', $name, true);
 		$id = $query->getCell('id');
@@ -33,7 +33,7 @@ class FeedGroup {
 			return null;
 		if ($id == 0)
 			return '';
-		$query = new TableQuery($database['prefix'] . 'FeedGroups');
+		$query = new Data_table($database['prefix'] . 'FeedGroups');
 		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('id', $id);
 		return $query->getCell('title');

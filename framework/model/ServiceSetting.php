@@ -72,7 +72,7 @@ class Model_ServiceSetting {
 
 	function _buildQuery() {
 		global $database;
-		$query = new TableQuery($database['prefix'] . 'ServiceSettings');
+		$query = new Data_table($database['prefix'] . 'ServiceSettings');
 		$query->setQualifier('name', UTF8::lessenAsEncoding($this->name, 32), false);
 		if (isset($this->value))
 			$query->setAttribute('value', UTF8::lessenAsEncoding($this->value, 255), true);

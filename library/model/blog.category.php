@@ -16,11 +16,11 @@ function getCategoryId($blogid, $name, $parentName = false) {
 	global $__gCacheCategoryRaw;
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	if($result = MMCache::queryRow($__gCacheCategoryRaw,'name',$name)) {
+	if($result = Cache_memoryqueryRow($__gCacheCategoryRaw,'name',$name)) {
 		if($parentName == false) {
 			return $result['id'];
 		} else {
-			$parent = MMCache::queryRow($__gCacheCategoryRaw,'name',$parentName);
+			$parent = Cache_memoryqueryRow($__gCacheCategoryRaw,'name',$parentName);
 			if($parent['id'] == $result['parent']) return $result['id'];
 		}
 	}
@@ -35,7 +35,7 @@ function getCategoryIdByLabel($blogid, $label) {
 		return 0;
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	if($result = MMCache::queryRow($__gCacheCategoryRaw,'label',$label))
+	if($result = Cache_memoryqueryRow($__gCacheCategoryRaw,'label',$label))
 		return $result['id'];
 	else return null;
 }
@@ -46,7 +46,7 @@ function getCategoryNameById($blogid, $id) {
 	global $__gCacheCategoryRaw;
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	if($result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id))
+	if($result = Cache_memoryqueryRow($__gCacheCategoryRaw,'id',$id))
 		return $result['name'];
 	else return _text('전체');
 }
@@ -57,7 +57,7 @@ function getCategoryBodyIdById($blogid, $id) {
 	global $__gCacheCategoryRaw;
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	$result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id);
+	$result = Cache_memoryqueryRow($__gCacheCategoryRaw,'id',$id);
 	if (($id === 0) || ($result == '') || ($id === null))
 		return 'tt-body-category';
 	else return $result['bodyId'];
@@ -69,7 +69,7 @@ function getEntriesCountByCategory($blogid, $id) {
 	global $__gCacheCategoryRaw;
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	$result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id);
+	$result = Cache_memoryqueryRow($__gCacheCategoryRaw,'id',$id);
 	if (($id === 0) || ($result == '') || ($id === null)) {
 		return 0;
 	} else {
@@ -87,7 +87,7 @@ function getCategoryLabelById($blogid, $id) {
 		return '';
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	if($result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id))
+	if($result = Cache_memoryqueryRow($__gCacheCategoryRaw,'id',$id))
 		return $result['label'];
 	else return _text('분류 전체보기');
 }
@@ -154,7 +154,7 @@ function getCategoryVisibilityList($blogid, $mode = 'private') {
 				$visibility = 1;
 		}
 		if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-		if($list = MMCache::queryColumn($__gCacheCategoryRaw,'visibility',$visibility,'id')) {
+		if($list = Cache_memoryqueryColumn($__gCacheCategoryRaw,'visibility',$visibility,'id')) {
 			$__gCacheCategoryVisibilityList[$mode] = $list;
 		} else {
 			$__gCacheCategoryVisibilityList[$mode] = array();
@@ -188,7 +188,7 @@ function getParentCategoryId($blogid, $id) {
 	global $__gCacheCategoryRaw;
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	if($result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id))
+	if($result = Cache_memoryqueryRow($__gCacheCategoryRaw,'id',$id))
 		return $result['parent'];
 	return null;
 }
@@ -198,7 +198,7 @@ function getChildCategoryId($blogid, $id) {
 	global $__gCacheCategoryRaw;
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	if($result = MMCache::queryColumn($__gCacheCategoryRaw,'parent',$id,'id'))
+	if($result = Cache_memoryqueryColumn($__gCacheCategoryRaw,'parent',$id,'id'))
 		return $result;
 	return null;
 }

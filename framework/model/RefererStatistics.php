@@ -106,7 +106,7 @@ class Model_RefererStatistics {
 		$this->host = UTF8::lessenAsEncoding(trim($this->host), 64);
 		if (empty($this->host))
 			return $this->_error('host');
-		$query = new TableQuery($database['prefix'] . 'RefererStatistics');
+		$query = new Data_table($database['prefix'] . 'RefererStatistics');
 		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('host', $this->host, true);
 		if (isset($this->count)) {

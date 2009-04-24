@@ -98,7 +98,7 @@ class Model_SubscriptionStatistics {
 		$this->host = trim($this->host);
 		if (empty($this->host))
 			return $this->_error('host');
-		$query = new TableQuery($database['prefix'] . 'SubscriptionStatistics');
+		$query = new Data_table($database['prefix'] . 'SubscriptionStatistics');
 		$query->setQualifier('blogid', getBlogId());
 		if (isset($this->ip)) {
 			if (!Validator::ip($this->ip))

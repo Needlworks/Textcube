@@ -77,7 +77,7 @@ class Model_PluginSetting {
 			return $this->_error('name');
 		
 		global $database;
-		$query = new TableQuery($database['prefix'] . 'Plugins');
+		$query = new Data_table($database['prefix'] . 'Plugins');
 		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('name', Data_IAdapter::escapeString(UTF8::lessenAsEncoding($this->name, 255)), true);
 		if (isset($this->setting))

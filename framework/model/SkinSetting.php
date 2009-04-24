@@ -60,7 +60,7 @@ class Model_SkinSetting {
 	function save() {
 		global $database;
 		
-		$query = new TableQuery($database['prefix'] . 'SkinSettings');
+		$query = new Data_table($database['prefix'] . 'SkinSettings');
 		$query->setQualifier('blogid', getBlogId());
 		if (isset($this->skin)) {
 			if (strncmp($this->skin, 'customize/', 10) == 0) {

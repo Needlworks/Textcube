@@ -179,7 +179,7 @@ class Model_Keyword {
 	
 	function _buildQuery() {
 		global $database;
-		$query = new TableQuery($database['prefix'] . 'Entries');
+		$query = new Data_table($database['prefix'] . 'Entries');
 		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('category', -1);
 		if (isset($this->id)) {

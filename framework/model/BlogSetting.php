@@ -33,7 +33,7 @@ class Model_BlogSetting {
 		global $database;
 		$blogid = getBlogId();
 		$this->reset();
-		$query = new TableQuery($database['prefix'] . 'BlogSettings');
+		$query = new Data_table($database['prefix'] . 'BlogSettings');
 		if($query->doesExist()){
 			$query->setQualifier('blogid',$blogid);
 			$blogSettings = $query -> getAll('name,value');

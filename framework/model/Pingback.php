@@ -113,7 +113,7 @@ class Pingback {
 
 	function _buildQuery() {
 		global $database;
-		$query = new TableQuery($database['prefix'] . 'RemoteResponses');
+		$query = new Data_table($database['prefix'] . 'RemoteResponses');
 		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('type', 'pingback');
 		if (isset($this->id)) {
