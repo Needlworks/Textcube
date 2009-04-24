@@ -34,7 +34,6 @@ function printIphoneEntryContent($blogid, $userid, $id) {
 function printIphoneCategoriesView($totalPosts, $categories) {
 	global $blogURL, $service, $blog;
 	requireModel('blog.category');
-	requireLibrary('blog.skin');
 	$blogid = getBlogId();
 	$categoryCount = 0;
 	$categoryCountAll = 0;

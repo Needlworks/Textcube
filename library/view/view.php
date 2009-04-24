@@ -179,7 +179,6 @@ function getScriptsOnFoot() {
 function getTrackbacksView($entry, $skin, $acceptTrackback) {
 	global $suri, $defaultURL, $skinSetting, $blogURL, $service, $blog;
 	requireModel('blog.response.remote');
-	requireLibrary('blog.skin');
 
 	$trackbacksContainer = $skin->trackbackContainer;
 	$trackbacksView = '';
@@ -232,7 +231,6 @@ function getCommentView($entry, $skin) {
 	requireModel("common.setting");
 	requireModel("blog.entry");
 	requireModel("blog.comment");
-	requireLibrary('blog.skin');
 	$authorized = doesHaveOwnership();
 	$useMicroformat = Model_Setting::getBlogSettingGlobal('useMicroformat',3);
 	$fn = '';
@@ -452,7 +450,6 @@ function getCommentView($entry, $skin) {
 function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) {
 	global $blogURL, $service, $blog;
 	requireModel('blog.category');
-	requireLibrary('blog.skin');
 	$blogid = getBlogId();
 	$categoryCount = 0;
 	$categoryCountAll = 0;
@@ -503,7 +500,6 @@ function getCategoriesViewInOwner($totalPosts, $categories, $selected) {
 	global $blogURL;
 	$blogid = getBlogId();
 	requireModel('blog.category');
-	requireLibrary('blog.skin');
 	// Initialize root category.
 	$tree = array('id' => 0, 'label' => getCategoryNameById(getBlogId(), 0), 'value' => $totalPosts, 'link' => "$blogURL/owner/entry/category", 'children' => array());
 	foreach ($categories as $category1) {
@@ -528,7 +524,6 @@ function getCategoriesViewInOwner($totalPosts, $categories, $selected) {
 
 function getCategoriesViewInSkinSetting($totalPosts, $categories, $selected) {
 	requireModel('blog.category');
-	requireLibrary('blog.skin');
 
 	$tree = array('id' => 0, 'label' => getCategoryNameById(getBlogId(), 0), 'value' => $totalPosts, 'link' => "", 'children' => array());
 	foreach ($categories as $category1) {
@@ -548,7 +543,6 @@ function getCategoriesViewInSkinSetting($totalPosts, $categories, $selected) {
 }
 
 function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
-	requireLibrary('blog.skin');
 	requireModel('blog.entry');
 
 	global $skinSetting;
@@ -1140,7 +1134,6 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 	global $hostURL, $service;
 	requireModel('blog.attachment');
 	requireModel('blog.keyword');
-	requireLibrary('blog.skin');
 	$content = fireEvent('Format' . $type . 'Content', $content, $id);
 	$func = ($bRssMode ? 'summarizeContent' : 'formatContent');
 	$view = $func($blogid, $id, $content, $formatter, $keywords, $useAbsolutePath);

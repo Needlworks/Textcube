@@ -5,7 +5,6 @@
 
 function setTreeSetting($blogid, $setting) {
 	global $database;
-	requireLibrary('blog.skin');
 	foreach ($setting as $key => $value)
 		$setting[$key] = Data_IAdapter::escapeString($value);
 	$sql = "
@@ -64,7 +63,6 @@ function reloadSkin($blogid)
 function selectSkin($blogid, $skinName) {
 	global $database, $service;
 	requireComponent('Needlworks.Cache.PageCache');
-	requireLibrary('blog.skin');
 	$blogid = getBlogId();
 	if (empty($skinName))
 		return _t('실패했습니다.');
@@ -200,7 +198,6 @@ function writeSkinHtml($blogid, $contents, $mode, $file) {
 	global $database;
 	global $skinSetting;
 	requireComponent('Needlworks.Cache.PageCache');
-	requireLibrary('blog.skin');
 	if ($mode != 'skin' && $mode != 'skin_keyword' && $mode != 'style')
 		return _t('실패했습니다.');
 	if ($skinSetting['skin'] != "customize/$blogid") {
@@ -245,7 +242,6 @@ function setSkinSetting($blogid, $setting) {
 	global $database;
 	global $skinSetting;
 	
-	requireLibrary('blog.skin');
 	$blogid = getBlogId();
 	if (strncmp($skinSetting['skin'], 'customize/', 10) == 0) {
 		if (strcmp($skinSetting['skin'], "customize/$blogid") != 0)
