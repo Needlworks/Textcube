@@ -80,7 +80,7 @@ class KeywordBinder {
 	var $_replaceOnce;
 	var $_binded = array();
 
-	function KeywordBinder($replaceOnce = true) {
+	function __construct($replaceOnce = true) {
 		$this->_replaceOnce = $replaceOnce;
 	}
 
@@ -135,7 +135,7 @@ function bindKeywords($keywords, $content) {
 	$buf = '';
 	$i = 0;
 	$bindable = true;
-	$binder = new Model_KeywordBinder();
+	$binder = new KeywordBinder();
 	while (true) {
 		if ($bindable) {
 			$buf .= preg_replace_callback($pattern, array($binder, 'replace'), $result[$i]);

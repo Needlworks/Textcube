@@ -5,7 +5,7 @@
 class Utils_OutputWriter {
 	var $type = 'stdout';
 	
-	function OutputWriter() {
+	function __construct() {
 		$this->_buffer = null;
 	}
 	

@@ -62,7 +62,6 @@ class Model_Setting {
 				return $result;
 			}
 		}
-
 		$query = new Data_Table($database['prefix'] . 'BlogSettings');
 		$query->setQualifier('blogid',$blogid);
 		$blogSettings = $query->getAll();

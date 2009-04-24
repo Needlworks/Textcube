@@ -49,7 +49,7 @@ function getCategoryBodyIdById($blogid, $id) {
 	global $__gCacheCategoryRaw;
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	$result = Cache_memoryqueryRow($__gCacheCategoryRaw,'id',$id);
+	$result = Cache_Memory::queryRow($__gCacheCategoryRaw,'id',$id);
 	if (($id === 0) || ($result == '') || ($id === null))
 		return 'tt-body-category';
 	else return $result['bodyId'];
@@ -59,7 +59,7 @@ function getEntriesCountByCategory($blogid, $id) {
 	global $__gCacheCategoryRaw;
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	$result = Cache_memoryqueryRow($__gCacheCategoryRaw,'id',$id);
+	$result = Cache_Memory::queryRow($__gCacheCategoryRaw,'id',$id);
 	if (($id === 0) || ($result == '') || ($id === null)) {
 		return 0;
 	} else {
@@ -77,7 +77,7 @@ function getCategoryLabelById($blogid, $id) {
 		return '';
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	if($result = Cache_memoryqueryRow($__gCacheCategoryRaw,'id',$id))
+	if($result = Cache_Memory::queryRow($__gCacheCategoryRaw,'id',$id))
 		return $result['label'];
 	else return _text('분류 전체보기');
 }
