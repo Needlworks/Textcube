@@ -172,7 +172,7 @@ function pretty_dress($view)
 	return correctSidebarImage($view);
 }
 
-$skin = new Skin($skinSetting['skin']);
+$skin = new Model_BlogSkin($skinSetting['skin']);
 $sidebarCount = count($skin->sidebarBasicModules);
 getBlogContentForSideBar();
 

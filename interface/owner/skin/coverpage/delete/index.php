@@ -15,7 +15,7 @@ requireModel("blog.sidebar");
 requireModel("blog.coverpage");
 
 
-$skin = new Skin($skinSetting['skin']);
+$skin = new Model_BlogSkin($skinSetting['skin']);
 $coverpageCount = count($skin->coverpageBasicModules);
 $coverpageOrder = deleteCoverpageModuleOrderData(getCoverpageModuleOrderData($coverpageCount), $_GET['coverpageNumber'], $_GET['modulePos']);
 setBlogSetting("coverpageOrder", serialize($coverpageOrder));

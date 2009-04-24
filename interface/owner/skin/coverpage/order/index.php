@@ -20,7 +20,7 @@ requireModel("blog.coverpage");
 
 requireStrictRoute();
 
-$skin = new Skin($skinSetting['skin']);
+$skin = new Model_BlogSkin($skinSetting['skin']);
 $coverpageCount = count($skin->coverpageBasicModules);
 $coverpageOrder = getCoverpageModuleOrderData($coverpageCount);
 

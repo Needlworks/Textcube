@@ -207,7 +207,7 @@ for ($i=0; $i<count($sidebarMappings); $i++) {
 		);
 }
 
-$skin = new Skin($skinSetting['skin']);
+$skin = new Model_BlogSkin($skinSetting['skin']);
 $usedSidebarBasicModule = array();
 $sidebarCount = count($skin->sidebarBasicModules);
 

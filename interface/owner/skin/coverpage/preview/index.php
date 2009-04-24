@@ -173,7 +173,7 @@ function pretty_dress($view)
 	return correctCoverpageImage($view);
 }
 
-$skin = new Skin($skinSetting['skin']);
+$skin = new Model_BlogSkin($skinSetting['skin']);
 $coverpageCount = count($skin->coverpageBasicModules);
 getBlogContentForSideBar();
 

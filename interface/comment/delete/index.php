@@ -47,7 +47,7 @@ if (!empty($_POST['mode'])) {
 				$result = deleteComment($blogid, $suri['id'], $entryId, isset($_POST['password']) ? $_POST['password'] : '');
 			}			
 			if ($result == true) {
-				$skin = new Skin($skinSetting['skin']);
+				$skin = new Model_BlogSkin($skinSetting['skin']);
 				$entry = array();
 				$entry['id'] = $entryId;
 				$entry['slogan'] = getSloganById($blogid, $entry['id']);
@@ -137,7 +137,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 					printHtmlFooter();
 					exit;
 				} else if ($result !== false) {
-					$skin = new Skin($skinSetting['skin']);
+					$skin = new Model_BlogSkin($skinSetting['skin']);
 					$suri['page'] = getGuestbookPageById($blogid, $suri['id']);
 					$entry = array();
 					$entry['id'] = $comment['entry'];

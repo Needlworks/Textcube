@@ -19,7 +19,7 @@ requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireStrictRoute();
 
-$skin = new Skin($skinSetting['skin']);
+$skin = new Model_BlogSkin($skinSetting['skin']);
 $sidebarCount = count($skin->sidebarBasicModules);
 $sidebarOrderData = getSidebarModuleOrderData($sidebarCount);
 

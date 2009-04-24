@@ -66,7 +66,7 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') { // Treat comment notifie
 fireEvent('OBStart');
 
 if(empty($suri['id'])) {  // Without id.
-	$skin = new Skin($skinSetting['skin']);
+	$skin = new Model_BlogSkin($skinSetting['skin']);
 	if(empty($suri['value']) && $suri["directive"] == "/" && count($coverpageMappings) > 0 && getBlogSetting("coverpageInitView") && isset($skin->cover)) {
 		define('__TEXTCUBE_COVER__',true);
 		require ROOT . '/interface/common/blog/begin.php';
@@ -91,7 +91,7 @@ if(empty($suri['id'])) {  // Without id.
 	
 	if (isset($_POST['partial'])) { // Partial output.
 		header('Content-Type: text/plain; charset=utf-8');
-		$skin = new Skin($skinSetting['skin']);
+		$skin = new Model_BlogSkin($skinSetting['skin']);
 		$view = '[##_article_rep_##]';
 		require ROOT . '/interface/common/blog/entries.php';
 		$view = removeAllTags($view);

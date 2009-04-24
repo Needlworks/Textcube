@@ -208,7 +208,7 @@ for ($i=0; $i<count($coverpageMappings); $i++) {
 		);
 }
 
-$skin = new Skin($skinSetting['skin']);
+$skin = new Model_BlogSkin($skinSetting['skin']);
 $usedCoverpageBasicModule = array();
 $coverpageCount = count($skin->coverpageBasicModules);
 

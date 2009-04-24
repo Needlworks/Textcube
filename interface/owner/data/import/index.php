@@ -653,7 +653,7 @@ function importer($path, $node, $line) {
 			return true;
 		case '/blog/skin':
 			setProgress($item++ / $items * 100, _t('스킨 설정을 복원하고 있습니다.'));
-			$setting = new SkinSetting();
+			$setting = new Model_BlogSkinSetting();
 			if (false) {
 				$setting->skin = $node['name'][0]['.value'];
 				if (!$setting->save())
