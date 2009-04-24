@@ -276,7 +276,7 @@ $ipNumber = array();
 for ($i=0; $i<sizeof($comments); $i++) {
 	$comment = $comments[$i];
 	
-	$filter = new Filter();
+	$filter = new Model_Filter();
 	if (Filter::isFiltered('name', $comment['name']))
 		$isNameFiltered = true;
 	else

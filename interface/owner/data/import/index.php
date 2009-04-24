@@ -767,7 +767,7 @@ function importer($path, $node, $line) {
 			return true;
 		case '/blog/filter':
 			setProgress($item++ / $items * 100, _t('필터 설정을 복원하고 있습니다.'));
-			$filter = new Filter();
+			$filter = new Model_Filter();
 			$filter->type = $node['.attributes']['type'];
 			$filter->pattern = $node['pattern'][0]['.value'];
 			if (!$filter->add())

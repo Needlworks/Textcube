@@ -16,7 +16,7 @@ require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 
 $isAjaxRequest = checkAjaxRequest();
-$filter = new Filter();
+$filter = new Model_Filter();
 
 if ($_GET['command'] == 'unblock') {
 	if (empty($_GET['id'])) {

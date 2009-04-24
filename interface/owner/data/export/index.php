@@ -374,7 +374,7 @@ if ($comment->open('parent IS NULL')) {
 	$writer->write(CRLF);
 	$comment->close();
 }
-$filter = new Filter();
+$filter = new Model_Filter();
 if ($filter->open()) {
 	do {
 		$writer->write('<filter type="' . $filter->type . '">' . '<pattern>' . htmlspecialchars($filter->pattern) . '</pattern>' . '</filter>');

@@ -28,7 +28,7 @@ require ROOT . '/library/preprocessor.php';
 	$_POST['mode'] = "whiteurl";
 }
 if (!empty($_POST['mode'])) {
-	$filter = new Filter();
+	$filter = new Model_Filter();
 	$filter->type = $_POST['mode'];
 	$filter->pattern = $_POST[($_POST['mode'] . 'Value')];
 	$filter->add();
@@ -42,7 +42,7 @@ require ROOT . '/interface/common/owner/header.php';
 
 function printFilterBox($mode, $title) {
 	global $service;
-	$filter = new Filter();
+	$filter = new Model_Filter();
 	$filtersList = array();
 	if ($filter->open($mode, 'pattern')) {
 		do {

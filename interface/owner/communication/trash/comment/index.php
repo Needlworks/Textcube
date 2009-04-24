@@ -326,7 +326,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 	
 	($i % 2) == 1 ? $className = 'even-line' : $className = 'odd-line';
 	$comment['parent'] ? $className .= ' reply-line' : null;
-	$filter = new Filter();
+	$filter = new Model_Filter();
 	if (Filter::isFiltered('name', $comment['name']))
 		$isNameFiltered = true;
 	else

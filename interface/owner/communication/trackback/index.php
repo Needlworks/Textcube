@@ -333,7 +333,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$isFilterURL = Filter::isFiltered('url', $trackback['url']);
 	$filteredURL = getURLForFilter($trackback['url']);
 
-	$filter = new Filter();
+	$filter = new Model_Filter();
 	if (isset($trackback['ip']) && Filter::isFiltered('ip', $trackback['ip'])) {
 		$isIpFiltered = true;
 	} else {
