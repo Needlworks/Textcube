@@ -98,7 +98,7 @@ header('Content-Type: text/html; charset=utf-8');
 */
 if(!empty($config->database) && !empty($config->database["database"])) {
 	if(POD::bind($config->database) === false) {
-		Respond::MessagePage('Problem with connecting database.<br /><br />Please re-visit later.');
+		Utils_Respond::MessagePage('Problem with connecting database.<br /><br />Please re-visit later.');
 		exit;
 	}
 }

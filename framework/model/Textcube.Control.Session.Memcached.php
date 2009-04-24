@@ -3,9 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-define( 'SESSION_OPENID_USERID', -1 );
-
-final class Session {
+class Session implements ISession {
 	private static $sessionName = null;
 	private static $mc = null;	
 
