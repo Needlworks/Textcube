@@ -7,7 +7,7 @@ if (false) {
 	fetchConfigVal();
 }
 
-$cache = new Cache_page;
+$cache = new Cache_Page;
 $author = empty($suri['value']) ? '' : $suri['value'];
 $authorId = Model_User::getUserIdByName($author);
 if(empty($authorId)) exit;

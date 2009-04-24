@@ -5,7 +5,7 @@
 
 // MMCache is instant memory cache as table type data.
 // Supports same methods as POD raw mode.
-class Cache_memory{
+class Cache_Memory{
 	/*var $variable;*/
 	
 	//Variable must be the table form. (2-dimensional recursive structure)

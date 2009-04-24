@@ -14,7 +14,7 @@ requireStrictBlogURL();
 if(in_array($categoryId, getCategoryVisibilityList($blogid, 'private'))) return false;
 
 $children = array();
-$cache = new Cache_page;
+$cache = new Cache_Page;
 if(!empty($suri['id'])) {
 	$categoryId = $suri['id'];	
 } else if (!empty($suri['value'])) {

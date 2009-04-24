@@ -660,7 +660,7 @@ class POD extends DBQuery {
 	             AND WORKS ONLY WITH 'PageCache' Component in Textcube **/
 	function queryWithDBCache($query, $prefix = null, $type = MYSQL_BOTH, $count = -1) {
 //		requireComponent('Needlworks.Cache.PageCache');
-		$cache = new Cache_query($query, $prefix);
+		$cache = new Cache_Query($query, $prefix);
 		if(!$cache->load()) {
 			$cache->contents = Data_IAdapter::query($query, $type, $count);
 			$cache->update();
@@ -669,7 +669,7 @@ class POD extends DBQuery {
 	}
 	function queryAllWithDBCache($query, $prefix = null, $type = MYSQL_BOTH, $count = -1) {
 //		requireComponent('Needlworks.Cache.PageCache');
-		$cache = new Cache_query($query, $prefix);
+		$cache = new Cache_Query($query, $prefix);
 		if(!$cache->load()) {
 			$cache->contents = Data_IAdapter::queryAllWithCache($query, $type, $count);
 			$cache->update();
@@ -678,7 +678,7 @@ class POD extends DBQuery {
 	}
 	function queryRowWithDBCache($query, $prefix = null, $type = MYSQL_BOTH, $count = -1) {
 //		requireComponent('Needlworks.Cache.PageCache');
-		$cache = new Cache_query($query, $prefix);
+		$cache = new Cache_Query($query, $prefix);
 		if(!$cache->load()) {
 			$cache->contents = Data_IAdapter::queryRow($query, $type, $count);
 			$cache->update();
@@ -687,7 +687,7 @@ class POD extends DBQuery {
 	}
 	function queryColumnWithDBCache($query, $prefix = null, $type = MYSQL_BOTH, $count = -1) {
 //		requireComponent('Needlworks.Cache.PageCache');
-		$cache = new Cache_query($query, $prefix);
+		$cache = new Cache_Query($query, $prefix);
 		if(!$cache->load()) {
 			$cache->contents = Data_IAdapter::queryColumn($query, $type, $count);
 			$cache->update();

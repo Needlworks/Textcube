@@ -350,14 +350,14 @@ class Skin {
 
 	function saveCache() {
 		$skinCache = get_object_vars($this);
-		$cache = new Cache_page('skinCache');
+		$cache = new Cache_Page('skinCache');
 		$cache->contents = serialize($skinCache);
 		return $cache->update();
 	}
 	
 	function loadCache() {
 		global $__gDressTags;
-		$cache = new Cache_page('skinCache');
+		$cache = new Cache_Page('skinCache');
 		if(!$cache->load()) return false;
 		$skinCache = unserialize($cache->contents);
 		foreach($skinCache as $key=>$value) {
@@ -369,7 +369,7 @@ class Skin {
 
 	function purgeCache() {
 		global $gCacheStorage;
-		$cache = new Cache_page('skinCache');
+		$cache = new Cache_Page('skinCache');
 		$cache->purge();
 		$gCacheStorage->purge();
 	}

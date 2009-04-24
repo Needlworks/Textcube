@@ -6,7 +6,7 @@ require ROOT . '/library/preprocessor.php';
 if (false) {
 	fetchConfigVal();
 }
-$cache = new Cache_page;
+$cache = new Cache_Page;
 if (strlen($suri['value'])) {
 	if(!isset($suri['id']) || (getBlogSetting('useSloganOnTag',1) == 1)) {
 		$tag = getTagId($blogid, $suri['value']);

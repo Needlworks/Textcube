@@ -14,6 +14,6 @@ if (empty($_POST['confirmativePassword']) || !Model_User::confirmPassword(Model_
 	respond::ResultPage(1);
 $dm = new Model_DataMaintenance();
 $dm->removeAll(Validator::getBool(@$_POST['removeAttachments']));
-Cache_control::flushAll();
+Cache_Control::flushAll();
 respond::ResultPage(0);
 ?>
