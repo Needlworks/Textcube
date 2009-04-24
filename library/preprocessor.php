@@ -50,13 +50,6 @@ if (!$valid) {
 	exit;
 }
 
-/** LOAD : Basic Components
-    --------------------
-    Loads singleton base class and autoloader.
-*/
-require_once (ROOT.'/library/components/Needlworks.PHP.BaseClasses.php');
-require_once (ROOT.'/library/components/Needlworks.PHP.Loader.php');
-
 /** LOAD : Configuration and Debug module (if necessary)
     --------------------
 */
