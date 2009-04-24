@@ -54,13 +54,13 @@ function _getRecentCommentsView($comments, $template) {
 	ob_start();
 	foreach ($comments as $comment) {
 		$view = "$template";
-		Misc::dress('rctrp_rep_link', "$blogURL/{$comment['entry']}#comment{$comment['id']}", $view);
+		Utils_Misc::dress('rctrp_rep_link', "$blogURL/{$comment['entry']}#comment{$comment['id']}", $view);
 		
 		$contentContainer["recent_comment_{$comment['id']}"] = htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['comment']), 30));
-		Misc::dress('rctrp_rep_desc', setTempTag("recent_comment_{$comment['id']}"), $view);
-		Misc::dress('rctrp_rep_desc', htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['comment']), 30)), $view);
-		Misc::dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::format3($comment['written'])), $view);
-		Misc::dress('rctrp_rep_name', htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['name']),10)).$comment['secret'].$comment['replier'], $view);
+		Utils_Misc::dress('rctrp_rep_desc', setTempTag("recent_comment_{$comment['id']}"), $view);
+		Utils_Misc::dress('rctrp_rep_desc', htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['comment']), 30)), $view);
+		Utils_Misc::dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::format3($comment['written'])), $view);
+		Utils_Misc::dress('rctrp_rep_name', htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['name']),10)).$comment['secret'].$comment['replier'], $view);
 		print $view;
 	}
 	$view = ob_get_contents();

@@ -57,7 +57,7 @@ function dumpWithEtag($path) {
 	$length = $fs['size'];
 
 	if( !headerEtag($etag,$length,$lastmodified) ) {
-		header('Content-type: '.Misc::getMIMEType(null,$path)); 
+		header('Content-type: '.Utils_Misc::getMIMEType(null,$path)); 
 		$f =  fopen($path,"r");
 		if( !$f ) {
 			header("HTTP/1.0 404 Not found");

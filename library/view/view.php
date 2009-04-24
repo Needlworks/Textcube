@@ -1156,11 +1156,11 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 	if (Model_Setting::getBlogSettingGlobal('resamplingDefault') == true) {
 		preg_match_all("@<img.+src=['\"](.+)['\"](.*)/>@Usi", $view, $images, PREG_SET_ORDER);
 		$view = preg_replace("@<img.+src=['\"].+['\"].*/>@Usi", '[#####_#####_#####_image_#####_#####_#####]', $view);
-		$contentWidth = Misc::getContentWidth();
+		$contentWidth = Utils_Misc::getContentWidth();
 			
 		if (count($images) > 0) {
 			for ($i=0; $i<count($images); $i++) {
-				if (strtolower(Misc::getFileExtension($images[$i][1])) == 'gif') {
+				if (strtolower(Utils_Misc::getFileExtension($images[$i][1])) == 'gif') {
 					$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', $images[$i][0], $view, 1);
 					continue;
 				}
@@ -1168,7 +1168,7 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 				$tempFileName = array_pop(explode('/', $images[$i][1]));
 
 				if (file_exists(ROOT . "/attach/{$blogid}/{$tempFileName}")) {
-					$tempAttributes = Misc::getAttributesFromString($images[$i][2]);
+					$tempAttributes = Utils_Misc::getAttributesFromString($images[$i][2]);
 					$tempOriginInfo = getimagesize(ROOT . "/attach/{$blogid}/{$tempFileName}");
 					if (isset($tempAttributes['width']) && ($tempOriginInfo[0] > $tempAttributes['width']))
 						$newImage = resampleImage($images[$i][0], ROOT . "/attach/{$blogid}/{$tempFileName}", $useAbsolutePath);

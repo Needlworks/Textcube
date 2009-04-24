@@ -2,7 +2,7 @@
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-class Misc {
+class Utils_Misc {
 	function getFileExtension($path) {
 		for ($i = strlen($path) - 1; $i >= 0; $i--) {
 			if ($path{$i} == '.')

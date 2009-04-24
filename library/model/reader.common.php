@@ -426,7 +426,7 @@ function getRemoteFeed($url) {
 	if (!$xmls->open($xml, $service['encoding'])) {
 		if(preg_match_all('/<link .*?rel\s*=\s*[\'"]?alternate.*?>/i', $xml, $matches)) {
 			foreach($matches[0] as $link) {
-				$attributes = Misc::getAttributesFromString($link);
+				$attributes = Utils_Misc::getAttributesFromString($link);
 				if(isset($attributes['href'])) {
 					$urlInfo = parse_url($url);
 					$rssInfo = parse_url($attributes['href']);

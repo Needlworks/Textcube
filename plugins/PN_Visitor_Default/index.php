@@ -116,7 +116,7 @@ for ($i=0; $i<sizeof($temp); $i++) {
 	$className .= ($i == sizeof($temp) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="window.location.href='<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['date'];?>'">
-											<td class="date"><a href="<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['date'];?>"><?php echo Timestamp::formatDate2(Misc::getTimeFromPeriod($record['date']));?></a></td>
+											<td class="date"><a href="<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['date'];?>"><?php echo Timestamp::formatDate2(Utils_Misc::getTimeFromPeriod($record['date']));?></a></td>
 											<td class="count"><a href="<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['date'];?>"><?php echo $record['visits'];?></a></td>
 										</tr>
 <?php
@@ -144,7 +144,7 @@ if (isset($date)) {
 		$className .= ($i == sizeof($temp) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className;?> inactive-class">
-											<td class="date"><?php echo Timestamp::formatDate(Misc::getTimeFromPeriod($record['date']));?></td>
+											<td class="date"><?php echo Timestamp::formatDate(Utils_Misc::getTimeFromPeriod($record['date']));?></td>
 											<td class="count"><?php echo $record['visits'];?></td>
 										</tr>
 <?php

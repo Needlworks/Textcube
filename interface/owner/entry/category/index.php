@@ -57,8 +57,8 @@ if (empty($_GET['entries']) || $_GET['entries'] == 0)
 else
 	$entries = $_GET['entries'];
 
-if ((!empty($_POST['newCategory']) && Misc::isSpace($_POST['newCategory'])) ||
-			(!empty($_POST['modifyCategoryName']) && Misc::isSpace($_POST['modifyCategoryName']))) {
+if ((!empty($_POST['newCategory']) && Utils_Misc::isSpace($_POST['newCategory'])) ||
+			(!empty($_POST['modifyCategoryName']) && Utils_Misc::isSpace($_POST['modifyCategoryName']))) {
 	$history = '';
 	$errorMessage = _t('공백문자는 카테고리 이름으로 사용할 수 없습니다');
 } elseif ((!empty($_POST['newCategory']) && strpos($_POST['newCategory'], '/') !== false) || (!empty($_POST['modifyCategoryName']) && strpos($_POST['modifyCategoryName'], '/') !== false)) {

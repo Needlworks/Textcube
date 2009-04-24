@@ -122,7 +122,7 @@ $blogsetting = getBlogSettings($bid);
                                     <li><?php 
 		$attachmentSum = POD::queryCell("SELECT sum(size) FROM `{$database['prefix']}Attachments` WHERE blogid = ".$bid);
 		if(empty($attachmentSum)) echo _t('이 블로그에는 첨부파일이 없습니다.');
-		else echo _f('이 블로그가 사용중인 첨부파일의 총 용량은 %1입니다.', Misc::getSizeHumanReadable($attachmentSum));?></li>
+		else echo _f('이 블로그가 사용중인 첨부파일의 총 용량은 %1입니다.', Utils_Misc::getSizeHumanReadable($attachmentSum));?></li>
                                 </ul>
 							</div>
 								
