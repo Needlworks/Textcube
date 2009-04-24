@@ -7,26 +7,25 @@
 
 global $fileCachedResult;
 
-class DBQuery {	
+class DBAdapter implements IAdapter {	
 	static $db;
 	static $cachedResult, $dbProperties, $escapeTag, $lastQueryType;
-	public static function bind($database) {
+	public static function connect($server, $dbname, $userid, $password, $options) {
 		// Connects DB and set environment variables
 		// $database array should contain 'server','username','password'.
 		self::$cachedResult = self::$dbProperties = array();
-		if(!isset($database) || empty($database)) return false;
-		if(!isset($database['port']) && strpos($database['server'],':')) {
-			$port = explode(":",$database['server']);
-			$database['server'] = $port[0];
-			$database['port'] = $port[1];
+		if(!isset($options['port']) && strpos($server,':')) {
+			$serverwithport = explode(":",$server);
+			$server = $serverwithport[0];
+			$options['port'] = $serverwithport[1];
 		}
-		if(isset($database['port'])) {
-			self::$db = new mysqli($database['server'], $database['username'], $database['password'], $database['database'],$database['port']);
+		if(isset($options['port'])) {
+			self::$db = new mysqli($server, $userid, $password, $dbname,$options['port']);
 		} else {
-			self::$db = new mysqli($database['server'], $database['username'], $database['password'], $database['database']);
+			self::$db = new mysqli($server, $userid, $password, $dbname);
 		}
 		if(!self::$db) return false; 
-		if(!self::$db->select_db($database['database']))
+		if(!self::$db->select_db($dbname))
 			die("Connection error :".self::$db->errorno." - ".self::$db->error);
 
 		if (self::query('SET CHARACTER SET utf8'))
@@ -37,7 +36,7 @@ class DBQuery {
 		return true;
 	}
 	
-	public static function unbind() {
+	public static function disconnect() {
 		self::$db->close();
 		return true;
 	}
