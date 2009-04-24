@@ -41,19 +41,19 @@ requireStrictRoute();
 header('Content-Type: text/html; charset=utf-8');
 
 if(!Validator::validate($IV)) {
-	OpenIDConsumer::printErrorReturn( 'Illegal parameters', $_POST["requestURI"] );
+	Model_OpenIDConsumer::printErrorReturn( 'Illegal parameters', $_POST["requestURI"] );
 }
 
 if( $_POST["comment_type_$entryId"] != 'openid' ) {
-	OpenIDConsumer::printErrorReturn( 'Invalid comment type', $_POST["requestURI"] );
+	Model_OpenIDConsumer::printErrorReturn( 'Invalid comment type', $_POST["requestURI"] );
 }
 
 if (!isset($_GET['__T__']) || !isset($_POST['key']) || $_POST['key'] != md5(filemtime(ROOT . '/config.php'))) {
-	OpenIDConsumer::printErrorReturn( 'Illegal parameters', $_POST["requestURI"] );
+	Model_OpenIDConsumer::printErrorReturn( 'Illegal parameters', $_POST["requestURI"] );
 }
 
 if ($_POST["comment_$entryId"] == '') {
-	OpenIDConsumer::printErrorReturn( _text('본문을 입력해 주십시오.'), $_POST["requestURI"] );
+	Model_OpenIDConsumer::printErrorReturn( _text('본문을 입력해 주십시오.'), $_POST["requestURI"] );
 }
 
 $openid_identity = Acl::getIdentity('openid');
@@ -80,7 +80,7 @@ if( $openid_identity ) {
 		exit;
 	} else {
 		/* OpenID failure return path.. */
-		OpenIDConsumer::printErrorReturn($tr['openid_errormsg'], $_POST["requestURI"] );
+		Model_OpenIDConsumer::printErrorReturn($tr['openid_errormsg'], $_POST["requestURI"] );
 	}
 }
 
@@ -125,10 +125,10 @@ if (in_array($result, array("ip", "name", "homepage", "comment", "etc"))) {
 }
 
 if( $errorString ) {
-	OpenIDConsumer::printErrorReturn( $errorString, $_POST["requestURI"] );
+	Model_OpenIDConsumer::printErrorReturn( $errorString, $_POST["requestURI"] );
 }
 
-OpenIDConsumer::updateUserInfo( $userName, $userHomepage );
+Model_OpenIDConsumer::updateUserInfo( $userName, $userHomepage );
 
 header( "Location: {$_POST['requestURI']}" );
 ?>

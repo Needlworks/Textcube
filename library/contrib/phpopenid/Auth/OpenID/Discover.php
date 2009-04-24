@@ -466,7 +466,7 @@ function Auth_OpenID_discoverURI($uri, &$fetcher)
         $uri = 'http://' . $uri;
     }
 
-    $uri = Auth_OpenID::normalizeUrl($uri);
+    $uri = Auth_Model_OpenID::normalizeUrl($uri);
     return Auth_OpenID_discoverWithYadis($uri, $fetcher);
 }
 

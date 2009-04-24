@@ -21,7 +21,7 @@
 require_once 'Auth/OpenID/CryptUtil.php';
 
 /**
- * Need Auth_OpenID::bytes().
+ * Need Auth_Model_OpenID::bytes().
  */
 require_once 'Auth/OpenID.php';
 
@@ -150,9 +150,9 @@ class Auth_OpenID_MathLibrary {
             list($duplicate, $nbytes) = $duplicate_cache[$rbytes];
         } else {
             if ($rbytes[0] == "\x00") {
-                $nbytes = Auth_OpenID::bytes($rbytes) - 1;
+                $nbytes = Auth_Model_OpenID::bytes($rbytes) - 1;
             } else {
-                $nbytes = Auth_OpenID::bytes($rbytes);
+                $nbytes = Auth_Model_OpenID::bytes($rbytes);
             }
 
             $mxrand = $this->pow(256, $nbytes);

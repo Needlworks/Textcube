@@ -105,7 +105,7 @@ class Auth_OpenID_PAPE_Request extends Auth_OpenID_Extension {
         // URIs
         $this->preferred_auth_policies = array();
 
-        $policies_str = Auth_OpenID::arrayGet($args, 'preferred_auth_policies');
+        $policies_str = Auth_Model_OpenID::arrayGet($args, 'preferred_auth_policies');
         if ($policies_str) {
             foreach (explode(' ', $policies_str) as $uri) {
                 if (!in_array($uri, $this->preferred_auth_policies)) {
@@ -115,9 +115,9 @@ class Auth_OpenID_PAPE_Request extends Auth_OpenID_Extension {
         }
 
         // max_auth_age is base-10 integer number of seconds
-        $max_auth_age_str = Auth_OpenID::arrayGet($args, 'max_auth_age');
+        $max_auth_age_str = Auth_Model_OpenID::arrayGet($args, 'max_auth_age');
         if ($max_auth_age_str) {
-            $this->max_auth_age = Auth_OpenID::intval($max_auth_age_str);
+            $this->max_auth_age = Auth_Model_OpenID::intval($max_auth_age_str);
         } else {
             $this->max_auth_age = null;
         }
@@ -234,14 +234,14 @@ class Auth_OpenID_PAPE_Response extends Auth_OpenID_Extension {
     */
     function parseExtensionArgs($args, $strict=false)
     {
-        $policies_str = Auth_OpenID::arrayGet($args, 'auth_policies');
+        $policies_str = Auth_Model_OpenID::arrayGet($args, 'auth_policies');
         if ($policies_str) {
             $this->auth_policies = explode(" ", $policies_str);
         }
 
-        $nist_level_str = Auth_OpenID::arrayGet($args, 'nist_auth_level');
+        $nist_level_str = Auth_Model_OpenID::arrayGet($args, 'nist_auth_level');
         if ($nist_level_str !== null) {
-            $nist_level = Auth_OpenID::intval($nist_level_str);
+            $nist_level = Auth_Model_OpenID::intval($nist_level_str);
 
             if ($nist_level === false) {
                 if ($strict) {
@@ -258,9 +258,9 @@ class Auth_OpenID_PAPE_Response extends Auth_OpenID_Extension {
             }
         }
 
-        $auth_age_str = Auth_OpenID::arrayGet($args, 'auth_age');
+        $auth_age_str = Auth_Model_OpenID::arrayGet($args, 'auth_age');
         if ($auth_age_str !== null) {
-            $auth_age = Auth_OpenID::intval($auth_age_str);
+            $auth_age = Auth_Model_OpenID::intval($auth_age_str);
             if ($auth_age === false) {
                 if ($strict) {
                     return false;
@@ -294,7 +294,7 @@ class Auth_OpenID_PAPE_Response extends Auth_OpenID_Extension {
                 return false;
             }
 
-            $result = Auth_OpenID::intval($this->auth_age);
+            $result = Auth_Model_OpenID::intval($this->auth_age);
 
             if ($result === false) {
                 return false;

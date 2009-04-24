@@ -16,8 +16,8 @@ requireLibrary('blog.skin');
 requireStrictRoute();
 requireModel( 'common.plugin' );
 
-if( OpenIDConsumer::setComment( $_POST['openidonlycomment'] ) &&
-	OpenIDConsumer::setOpenIDLogoDisplay( $_POST['openidlogodisplay'] ) ) {
+if( Model_OpenIDConsumer::setComment( $_POST['openidonlycomment'] ) &&
+	Model_OpenIDConsumer::setOpenIDLogoDisplay( $_POST['openidlogodisplay'] ) ) {
 	if( !empty($_POST['openidonlycomment']) || !empty($_POST['openidlogodisplay']) ) {
 		activatePlugin('CL_OpenID');
 	}

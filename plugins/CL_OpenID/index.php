@@ -20,7 +20,7 @@ requireComponent( "Textcube.Function.misc" );
 function openid_Logout($target)
 {
 	requireComponent( "Textcube.Control.Openid" );
-	OpenIDConsumer::logout();
+	Model_OpenIDConsumer::logout();
 	return $target;
 }
 

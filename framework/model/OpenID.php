@@ -26,7 +26,7 @@ include_once XPATH_LIBRARY_ROOT."XPath.class.php";
 
 class Auth_Textcube_xmlparser extends XPath
 {
-	function Auth_Textcube_xmlparser()
+	function __construct()
 	{
 		$this->ns = array();
         $xmlOptions = array(XML_OPTION_CASE_FOLDING => false, XML_OPTION_SKIP_WHITE => TRUE);
@@ -80,7 +80,7 @@ class Auth_Textcube_xmlparser extends XPath
     }
 }
 
-class OpenID {
+class Model_OpenID {
 	function setCookie( $key, $value )
 	{
 		$session_cookie_path = "/";
@@ -115,8 +115,8 @@ class OpenID {
 
 }
 
-class OpenIDSession {
-	function OpenIDSession($tid) {
+class Model_OpenIDSession {
+	function __construct($tid) {
 		$this->pickle_key = $tid;
 	}
 
@@ -151,8 +151,8 @@ class OpenIDSession {
     }
 }
 
-class OpenIDConsumer extends OpenID {
-	function OpenIDConsumer($tid = null) {
+class Model_OpenIDConsumer extends Model_OpenID {
+	function __construct($tid = null) {
 		set_include_path(get_include_path() . PATH_SEPARATOR . OPENID_LIBRARY_ROOT);
 		require_once "Auth/OpenID/Consumer.php";
 		require_once "Auth/OpenID/FileStore.php";
@@ -180,7 +180,7 @@ class OpenIDConsumer extends OpenID {
 		 * Create a consumer object using the store object created earlier.
 		 */
 		if( $tid ) {
-			$this->session = new OpenIDSession( $tid );
+			$this->session = new Model_OpenIDSession( $tid );
 		} else {
 			$this->session = null;
 		}
@@ -385,8 +385,8 @@ class OpenIDConsumer extends OpenID {
 	function logout()
 	{
 		Acl::authorize('openid', null );
-		OpenID::setCookie( 'openid_auto', 'n' );
-		OpenIDConsumer::clearUserInfo();
+		Model_OpenID::setCookie( 'openid_auto', 'n' );
+		Model_OpenIDConsumer::clearUserInfo();
 	}
 
 	function clearUserInfo()
@@ -408,7 +408,7 @@ class OpenIDConsumer extends OpenID {
 
 		if( !empty($nickname) ) $data['nickname'] = $nickname;
 		if( !empty($homepage) ) $data['homepage'] = $homepage;
-		OpenIDConsumer::setUserInfo( $data['nickname'], $data['homepage'] );
+		Model_OpenIDConsumer::setUserInfo( $data['nickname'], $data['homepage'] );
 
 		$data = serialize( $data );
 		POD::execute("UPDATE {$database['prefix']}OpenIDUsers SET data='{$data}' where openid = '{$openid}'");
@@ -426,7 +426,7 @@ class OpenIDConsumer extends OpenID {
 
 		if (is_null($result)) {
 			$data = serialize( array( 'nickname' => $nickname, 'homepage' => $homepage ) );
-			OpenIDConsumer::setUserInfo( $nickname, $homepage );
+			Model_OpenIDConsumer::setUserInfo( $nickname, $homepage );
 
 			/* Owner column is used for reference, all openid records are shared */
 			POD::execute("INSERT INTO {$database['prefix']}OpenIDUsers (blogid,openid,delegatedid,firstLogin,lastLogin,loginCount,data) VALUES ($blogid,'{$openid}','{$delegatedid}',UNIX_TIMESTAMP(),UNIX_TIMESTAMP(),1,'{$data}')");
@@ -435,7 +435,7 @@ class OpenIDConsumer extends OpenID {
 
 			if( !empty($nickname) ) $data['nickname'] = $nickname;
 			if( !empty($homepage) ) $data['homepage'] = $homepage;
-			OpenIDConsumer::setUserInfo( $data['nickname'], $data['homepage'] );
+			Model_OpenIDConsumer::setUserInfo( $data['nickname'], $data['homepage'] );
 
 			$data = serialize( $data );
 			POD::execute("UPDATE {$database['prefix']}OpenIDUsers SET data='{$data}', lastLogin = UNIX_TIMESTAMP(), loginCount = loginCount + 1 where openid = '{$openid}'");

@@ -131,7 +131,7 @@ function Auth_Yadis_XRIAppendArgs($url, $args)
         $sep = '?';
     }
 
-    return $url . $sep . Auth_OpenID::httpBuildQuery($args);
+    return $url . $sep . Auth_Model_OpenID::httpBuildQuery($args);
 }
 
 function Auth_Yadis_providerIsAuthoritative($providerID, $canonicalID)

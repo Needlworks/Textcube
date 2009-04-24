@@ -56,7 +56,7 @@ function Auth_OpenID_SHA1($text)
  */
 function Auth_OpenID_HMACSHA1($key, $text)
 {
-    if (Auth_OpenID::bytes($key) > Auth_OpenID_SHA1_BLOCKSIZE) {
+    if (Auth_Model_OpenID::bytes($key) > Auth_OpenID_SHA1_BLOCKSIZE) {
         $key = Auth_OpenID_SHA1($key, true);
     }
 

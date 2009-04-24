@@ -1544,7 +1544,7 @@ function addOpenIDPannel( $comment, $prefix ) {
 					'background-repeat:no-repeat;background-position:0px center"';
 
 	if( $openid_identity ) {
-		$openid_input = '<span><a href="'.$openid_identity.'">'.OpenID::getDisplayName($openid_identity).'</a></span>'.CRLF;
+		$openid_input = '<span><a href="'.$openid_identity.'">'.Model_OpenID::getDisplayName($openid_identity).'</a></span>'.CRLF;
 		$openid_input .= '<input type="hidden" name="openid_identifier" id="openid_identifier_[##_article_rep_id_##]" value="'.htmlentities($openid_identity).'" />';
 		$openid_input = _text('현재 로그인한 오픈아이디').' '.$openid_input;
 		$_COOKIE['guestHomepage'] = $_SESSION['openid']['homepage'];

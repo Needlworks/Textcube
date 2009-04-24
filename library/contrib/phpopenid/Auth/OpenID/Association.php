@@ -330,7 +330,7 @@ class Auth_OpenID_Association {
         $pairs = array();
         $data = $message->toPostArgs();
         foreach ($signed_list as $field) {
-            $pairs[] = array($field, Auth_OpenID::arrayGet($data,
+            $pairs[] = array($field, Auth_Model_OpenID::arrayGet($data,
                                                            'openid.' .
                                                            $field, ''));
         }
@@ -406,7 +406,7 @@ function Auth_OpenID_getSessionTypes($assoc_type)
             array('DH-SHA256', 'no-encryption');
     }
 
-    return Auth_OpenID::arrayGet($assoc_to_session, $assoc_type, array());
+    return Auth_Model_OpenID::arrayGet($assoc_to_session, $assoc_type, array());
 }
 
 function Auth_OpenID_checkSessionType($assoc_type, $session_type)

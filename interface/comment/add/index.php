@@ -49,7 +49,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 		setcookie('guestHomepage', $userHomepage, time() + 2592000, "$blogURL/");
 	}
 	if( Acl::getIdentity( 'openid' ) ) {
-		OpenIDConsumer::updateUserInfo( $userName, $userHomepage );
+		Model_OpenIDConsumer::updateUserInfo( $userName, $userHomepage );
 	}
 	$comment = array();
 	$comment['entry'] = $entryId;

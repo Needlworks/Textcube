@@ -80,7 +80,7 @@
  */
 
 /**
- * Require Auth_OpenID::arrayGet().
+ * Require Auth_Model_OpenID::arrayGet().
  */
 require_once "Auth/OpenID.php";
 
@@ -283,7 +283,7 @@ class Auth_OpenID_Parse {
             return null;
         }
         $first = $matches[0];
-        return Auth_OpenID::arrayGet($first, 'href', null);
+        return Auth_Model_OpenID::arrayGet($first, 'href', null);
     }
 }
 

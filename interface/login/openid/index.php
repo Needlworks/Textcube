@@ -83,7 +83,7 @@ function TryAuthByRequest()
 		}
 	}
 	if( $errmsg ) {
-		OpenIDConsumer::printErrorReturn( $errmsg, $tr['fallbackURI'] );
+		Model_OpenIDConsumer::printErrorReturn( $errmsg, $tr['fallbackURI'] );
 		exit(0);
 	}
 
@@ -124,7 +124,7 @@ function FinishAuth()
 {
 	if( empty($_GET['tid']) ) {
 		global $blogURL;
-		OpenIDConsumer::printErrorReturn( _text('잘못된 트랜잭션입니다'), $blogURL );
+		Model_OpenIDConsumer::printErrorReturn( _text('잘못된 트랜잭션입니다'), $blogURL );
 	}
 	$tid = $_GET['tid'];
 	$consumer = new OpenIDConsumer($tid);
@@ -133,7 +133,7 @@ function FinishAuth()
 
 function LogoutOpenID()
 {
-	OpenIDConsumer::logout();
+	Model_OpenIDConsumer::logout();
 	header("HTTP/1.0 302 Moved Temporarily");
 	header("Location: ".$_GET['requestURI']);
 

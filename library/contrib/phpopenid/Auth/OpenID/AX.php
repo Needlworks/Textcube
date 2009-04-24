@@ -105,7 +105,7 @@ class Auth_OpenID_AX_Message extends Auth_OpenID_Extension {
      */
     function _checkMode($ax_args)
     {
-        $mode = Auth_OpenID::arrayGet($ax_args, 'mode');
+        $mode = Auth_Model_OpenID::arrayGet($ax_args, 'mode');
         if ($mode != $this->mode) {
             return new Auth_OpenID_AX_Error(
                             sprintf(
@@ -451,9 +451,9 @@ class Auth_OpenID_AX_FetchRequest extends Auth_OpenID_AX_Message {
                       );
                 }
 
-                $count_s = Auth_OpenID::arrayGet($ax_args, 'count.' . $alias);
+                $count_s = Auth_Model_OpenID::arrayGet($ax_args, 'count.' . $alias);
                 if ($count_s) {
-                    $count = Auth_OpenID::intval($count_s);
+                    $count = Auth_Model_OpenID::intval($count_s);
                     if (($count === false) &&
                         ($count_s === Auth_OpenID_AX_UNLIMITED_VALUES)) {
                         $count = $count_s;
@@ -480,7 +480,7 @@ class Auth_OpenID_AX_FetchRequest extends Auth_OpenID_AX_Message {
         }
 
         $required = Auth_OpenID_AX_toTypeURIs($aliases,
-                         Auth_OpenID::arrayGet($ax_args, 'required'));
+                         Auth_Model_OpenID::arrayGet($ax_args, 'required'));
 
         foreach ($required as $type_uri) {
             $attrib =& $this->requested_attributes[$type_uri];
@@ -488,7 +488,7 @@ class Auth_OpenID_AX_FetchRequest extends Auth_OpenID_AX_Message {
         }
 
         $if_available = Auth_OpenID_AX_toTypeURIs($aliases,
-                             Auth_OpenID::arrayGet($ax_args, 'if_available'));
+                             Auth_Model_OpenID::arrayGet($ax_args, 'if_available'));
 
         $all_type_uris = array_merge($required, $if_available);
 
@@ -502,7 +502,7 @@ class Auth_OpenID_AX_FetchRequest extends Auth_OpenID_AX_Message {
             }
         }
 
-        $this->update_url = Auth_OpenID::arrayGet($ax_args, 'update_url');
+        $this->update_url = Auth_Model_OpenID::arrayGet($ax_args, 'update_url');
 
         return true;
     }
@@ -656,7 +656,7 @@ class Auth_OpenID_AX_KeyValueMessage extends Auth_OpenID_AX_Message {
                 $count_key = 'count.' . $alias;
                 $count_s = $ax_args[$count_key];
 
-                $count = Auth_OpenID::intval($count_s);
+                $count = Auth_Model_OpenID::intval($count_s);
 
                 if ($count === false) {
                     return new Auth_OpenID_AX_Error(
@@ -720,7 +720,7 @@ class Auth_OpenID_AX_KeyValueMessage extends Auth_OpenID_AX_Message {
      */
     function getSingle($type_uri, $default=null)
     {
-        $values = Auth_OpenID::arrayGet($this->data, $type_uri);
+        $values = Auth_Model_OpenID::arrayGet($this->data, $type_uri);
         if (!$values) {
             return $default;
         } else if (count($values) == 1) {
@@ -887,7 +887,7 @@ class Auth_OpenID_AX_FetchResponse extends Auth_OpenID_AX_KeyValueMessage {
             $ax_args['update_url'] = $update_url;
         }
 
-        Auth_OpenID::update($ax_args, $kv_args);
+        Auth_Model_OpenID::update($ax_args, $kv_args);
 
         return $ax_args;
     }
@@ -904,7 +904,7 @@ class Auth_OpenID_AX_FetchResponse extends Auth_OpenID_AX_KeyValueMessage {
             return $result;
         }
 
-        $this->update_url = Auth_OpenID::arrayGet($ax_args, 'update_url');
+        $this->update_url = Auth_Model_OpenID::arrayGet($ax_args, 'update_url');
 
         return true;
     }
@@ -950,7 +950,7 @@ class Auth_OpenID_AX_StoreRequest extends Auth_OpenID_AX_KeyValueMessage {
     {
         $ax_args = $this->_newArgs();
         $kv_args = $this->_getExtensionKVArgs($aliases);
-        Auth_OpenID::update($ax_args, $kv_args);
+        Auth_Model_OpenID::update($ax_args, $kv_args);
         return $ax_args;
     }
 }
