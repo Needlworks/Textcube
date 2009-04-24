@@ -86,7 +86,7 @@ class Feed {
 		if (!isset($this->group) || !Validator::number($this->group, 0))
 			return $this->_error('group');
 
-		$query = new Data_table($database['prefix'] . 'Feeds');
+		$query = new Data_Table($database['prefix'] . 'Feeds');
 		$query->setQualifier('xmlURL', UTF8::lessenAsEncoding($this->url, 255), true);
 		$query->setAttribute('title', UTF8::lessenAsEncoding($this->url, 255), true);
 		if (!$query->doesExist()) {

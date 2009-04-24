@@ -141,7 +141,7 @@ class Model_Filter {
 	
 	function _buildQuery() {
 		global $database;
-		$query = new Data_table($database['prefix'] . 'Filters');
+		$query = new Data_Table($database['prefix'] . 'Filters');
 		$query->setQualifier('blogid', getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))

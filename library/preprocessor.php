@@ -117,9 +117,9 @@ $context->globalVariableParser();
     -----------------------------------
 */
 if (!defined('NO_SESSION')) {
-	session_name(ISession::getName());
-	ISession::set();
-	session_set_save_handler( array('ISession','open'), array('ISession','close'), array('ISession','read'), array('ISession','write'), array('ISession','destroy'), array('ISession','gc') );
+	session_name(Model_Session::getName());
+	Model_Session::set();
+	session_set_save_handler( array('Model_Session','open'), array('Model_Session','close'), array('Model_Session','read'), array('Model_Session','write'), array('Model_Session','destroy'), array('Model_Session','gc') );
 	session_cache_expire(1);
 	session_set_cookie_params(0, '/', $config->service['domain']);
 	if (session_start() !== true) {

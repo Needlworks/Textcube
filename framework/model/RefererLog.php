@@ -81,7 +81,7 @@ class Model_RefererLog {
 
 	function _buildQuery() {
 		global $database;
-		$query = new Data_table($database['prefix'] . 'RefererLogs');
+		$query = new Data_Table($database['prefix'] . 'RefererLogs');
 		$query->setQualifier('blogid', getBlogId());
 		if (isset($this->host)) {
 			$this->host = UTF8::lessenAsEncoding(trim($url['host']), 64);

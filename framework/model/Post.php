@@ -305,7 +305,7 @@ class Model_Post {
 		if (isset($slogan))
 			$this->slogan = $slogan;
 
-		$query = new Data_table($database['prefix'] . 'Entries');
+		$query = new Data_Table($database['prefix'] . 'Entries');
 		$query->setQualifier('blogid',$this->blogid);
 		if(isset($this->userid)) $query->setQualifier('userid', $this->userid);
 		$query->setQualifier('id', $this->id);
@@ -544,7 +544,7 @@ class Model_Post {
 	function _buildQuery() {
 		global $database;
 		$this->init();
-		$query = new Data_table($database['prefix'] . 'Entries');
+		$query = new Data_Table($database['prefix'] . 'Entries');
 		$query->setQualifier('blogid', $this->blogid);
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))

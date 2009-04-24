@@ -243,7 +243,7 @@ function addTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 	foreach($tagIDs as $tagid)
 	{
 		array_push($tagrelations, " ($blogid, $tagid, $entry) ");
-		CacheControl::flushTag($tagid);	
+		Cache_Control::flushTag($tagid);	
 	}
 	$tagRelationStr = implode(', ', $tagrelations);
 	Data_IAdapter::execute("INSERT IGNORE INTO {$database['prefix']}TagRelations VALUES $tagRelationStr");
@@ -304,7 +304,7 @@ function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 		foreach($tagIDs as $tagid)
 		{
 			array_push($tagrelations, " ($blogid, $tagid, $entry) ");
-			CacheControl::flushTag($tagid);	
+			Cache_Control::flushTag($tagid);	
 		}
 		$tagRelationStr = implode(', ', $tagrelations);
 		Data_IAdapter::execute("INSERT IGNORE INTO {$database['prefix']}TagRelations VALUES $tagRelationStr");
@@ -320,7 +320,7 @@ function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 			return; // What?
 		// Flushing pageCache
 		foreach($t1list as $tagids) {
-			CacheControl::flushTag($tagids);
+			Cache_Control::flushTag($tagids);
 		}
 		// Make string
 		$t1liststr = implode(', ', $t1list);
@@ -359,7 +359,7 @@ function deleteTagsWithEntryId($blogid, $entry)
 		$tagliststr = implode(',', $taglist);
 		
 		foreach($taglist as $tagid) {
-			CacheControl::flushTag($tagid);
+			Cache_Control::flushTag($tagid);
 		}
 		Data_IAdapter::execute("DELETE FROM {$database['prefix']}TagRelations 
 			WHERE blogid = $blogid 

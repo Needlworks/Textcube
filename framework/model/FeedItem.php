@@ -93,7 +93,7 @@ class FeedItem {
 			return false;
 		}
 
-		$query = new Data_table($database['prefix'] . 'FeedItems');
+		$query = new Data_Table($database['prefix'] . 'FeedItems');
 		$query->setQualifier('feed', $this->feed);
 		$query->setQualifier('permalink', $this->link, true);
 		$this->id = $query->getCell('id');

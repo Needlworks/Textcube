@@ -98,7 +98,7 @@ class Model_TrackbackLog {
 	
 	function _buildQuery() {
 		global $database;
-		$query = new Data_table($database['prefix'] . 'RemoteResponseLogs');
+		$query = new Data_Table($database['prefix'] . 'RemoteResponseLogs');
 		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('type', 'trackback',false);
 		if (isset($this->id)) {

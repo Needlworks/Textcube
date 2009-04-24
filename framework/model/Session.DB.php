@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-class DBSession implements ISession {
+class Model_Session implements ISession {
 	private static $sessionMicrotime;
 	private static $sessionName = null;
 	private static $sessionDBRepair = false;	

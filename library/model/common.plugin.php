@@ -51,7 +51,7 @@ function activatePlugin($name) {
 	$name = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($name, 255));
 	$result = Data_IAdapter::queryCount("INSERT INTO {$database['prefix']}Plugins VALUES (".getBlogId().", '$name', null)");
 	clearPluginSettingCache();
-	CacheControl::flushItemsByPlugin($pluginName);
+	Cache_Control::flushItemsByPlugin($pluginName);
 	return ($result == 1);
 }
 
@@ -65,7 +65,7 @@ function deactivatePlugin($name) {
 			WHERE blogid = ".getBlogId()."
 				AND name = '$name'");
 	clearPluginSettingCache();
-	CacheControl::flushItemsByPlugin($pluginName);
+	Cache_Control::flushItemsByPlugin($pluginName);
 	return true;
 }
 
@@ -109,7 +109,7 @@ function updatePluginConfig( $name , $setVal) {
 	if( $count == 1 )
 		$result = '0';
 	clearPluginSettingCache();
-	CacheControl::flushItemsByPlugin($pluginName);
+	Cache_Control::flushItemsByPlugin($pluginName);
 	if(isset($result) && $result = '0') return $result;
 	return (Data_IAdapter::error() == '') ? '0' : '1';
 }

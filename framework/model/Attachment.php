@@ -169,7 +169,7 @@ class Model_Attachment {
 			return $this->_error('name');
 
 		global $database;
-		$query = new Data_table($database['prefix'] . 'Attachments');
+		$query = new Data_Table($database['prefix'] . 'Attachments');
 		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('name', $this->name, true);
 		if (isset($this->parent)) {

@@ -368,7 +368,7 @@ function updateCommentsOfEntry($blogid, $entryId) {
 		SET comments = $commentCount
 		WHERE blogid = $blogid
 			AND id = $entryId");
-	if($entryId >=0) CacheControl::flushEntry($entryId);
+	if($entryId >=0) Cache_Control::flushEntry($entryId);
 	return $commentCount;
 }
 
@@ -477,8 +477,8 @@ function addComment($blogid, & $comment) {
 		)");
 	if ($result) {
 		$id = $insertId;
-		CacheControl::flushCommentRSS($comment['entry']);
-		CacheControl::flushDBCache('comment');
+		Cache_Control::flushCommentRSS($comment['entry']);
+		Cache_Control::flushDBCache('comment');
 		if ($parent != 'null' && $comment['secret'] < 1) {
 			$insertId = getCommentsNotifiedQueueMaxId() + 1;
 			Data_IAdapter::execute("INSERT INTO `{$database['prefix']}CommentsNotifiedQueue`
@@ -578,8 +578,8 @@ function updateComment($blogid, $comment, $password) {
 				WHERE blogid = $blogid
 					AND id = {$comment['id']} $wherePassword");
 	if($result) {
-		CacheControl::flushCommentRSS($comment['entry']); // Assume blogid = current blogid.
-		CacheControl::flushDBCache('comment');
+		Cache_Control::flushCommentRSS($comment['entry']); // Assume blogid = current blogid.
+		Cache_Control::flushDBCache('comment');
 		return true;
 	} else return false;
 }
@@ -618,8 +618,8 @@ function deleteComment($blogid, $id, $entry, $password) {
 		}
 	}
 	if(Data_IAdapter::queryCount($sql . $wherePassword)) {
-		CacheControl::flushCommentRSS($entry);
-		CacheControl::flushDBCache('comment');
+		Cache_Control::flushCommentRSS($entry);
+		Cache_Control::flushDBCache('comment');
 		updateCommentsOfEntry($blogid, $entry);
 		return true;
 	}
@@ -646,8 +646,8 @@ function trashComment($blogid, $id, $entry, $password) {
 			AND entry = $entry";
 	$affectedChildren = Data_IAdapter::queryCount($sql);
 	if ($affected + $affectedChildren > 0) {
-		CacheControl::flushCommentRSS($entry);
-		CacheControl::flushDBCache('comment');
+		Cache_Control::flushCommentRSS($entry);
+		Cache_Control::flushDBCache('comment');
 		updateCommentsOfEntry($blogid, $entry);
 		return true;
 	}
@@ -669,8 +669,8 @@ function revertComment($blogid, $id, $entry, $password) {
 			AND id = $id
 			AND entry = $entry";
 	if(Data_IAdapter::query($sql)) {
-		CacheControl::flushCommentRSS($entry);
-		CacheControl::flushDBCache('comment');
+		Cache_Control::flushCommentRSS($entry);
+		Cache_Control::flushDBCache('comment');
 		updateCommentsOfEntry($blogid, $entry);
 		return true;
 	}
@@ -774,7 +774,7 @@ function deleteCommentInOwner($blogid, $id) {
 	$entryId = Data_IAdapter::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
 	if(Data_IAdapter::queryCount("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id") == 1) {
 		if (Data_IAdapter::query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND parent = $id")) {
-			CacheControl::flushCommentRSS($entryId);
+			Cache_Control::flushCommentRSS($entryId);
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
 		}
@@ -790,8 +790,8 @@ function trashCommentInOwner($blogid, $id) {
 //	if ($result && $result == 1) {
 	if(Data_IAdapter::query("UPDATE {$database['prefix']}Comments SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id")) {
 		if (Data_IAdapter::query("UPDATE {$database['prefix']}Comments SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND parent = $id")) {
-			CacheControl::flushCommentRSS($entryId);
-			CacheControl::flushDBCache('comment');
+			Cache_Control::flushCommentRSS($entryId);
+			Cache_Control::flushDBCache('comment');
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
 		}
@@ -806,7 +806,7 @@ function revertCommentInOwner($blogid, $id) {
 	$parent = Data_IAdapter::queryCell("SELECT parent FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
 	if(Data_IAdapter::queryCount("UPDATE {$database['prefix']}Comments SET isFiltered = 0 WHERE blogid = $blogid AND id = $id") == 1) {
 		if (is_null($parent) || Data_IAdapter::query("UPDATE {$database['prefix']}Comments SET isFiltered = 0 WHERE blogid = $blogid AND id = $parent")) {
-			CacheControl::flushCommentRSS($entryId);
+			Cache_Control::flushCommentRSS($entryId);
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
 		}
@@ -824,7 +824,7 @@ function deleteCommentNotifiedInOwner($blogid, $id) {
 	if(Data_IAdapter::queryCount("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND id = $id") == 1) {
 		if (Data_IAdapter::query("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND parent = $id")) {
 			updateCommentsOfEntry($blogid, $entryId);
-			CacheControl::flushCommentNotifyRSS();
+			Cache_Control::flushCommentNotifyRSS();
 			return true;
 		}
 	}
@@ -911,7 +911,7 @@ function receiveNotifiedComment($post) {
 		return 1;
 	global $database;
 
-	CacheControl::flushCommentNotifyRSS();
+	Cache_Control::flushCommentNotifyRSS();
 	$post = fireEvent('ReceiveNotifiedComment', $post);
 	if ($post === false) return 7;
 

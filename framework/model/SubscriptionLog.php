@@ -81,7 +81,7 @@ class Model_SubscriptionLog {
 
 	function _buildQuery() {
 		global $database;
-		$query = new Data_table($database['prefix'] . 'SubscriptionLogs');
+		$query = new Data_Table($database['prefix'] . 'SubscriptionLogs');
 		$query->setQualifier('blogid', getBlogId());
 		if (isset($this->ip)) {
 			if (!Validator::ip($this->ip))

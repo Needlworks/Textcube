@@ -161,9 +161,9 @@ function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSlog
 	$blog['useSloganOnPost'] = $useSloganOnPost;
 	$blog['useSloganOnCategory'] = $useSloganOnCategory;
 	$blog['useSloganOnTag'] = $useSloganOnTag;
-	CacheControl::flushCategory();
-	CacheControl::flushEntry();
-	CacheControl::flushTag();
+	Cache_Control::flushCategory();
+	Cache_Control::flushEntry();
+	Cache_Control::flushTag();
 	fireEvent('ToggleBlogSlogan',null,$blog['useSloganOnPost']);
 	clearFeed();
 	return true; 

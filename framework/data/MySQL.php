@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-// DBQuery version 1.7 for MySQL
+// Data_IAdapter version 1.7 for MySQL
 
 global $cachedResult;
 global $fileCachedResult;
@@ -13,7 +13,7 @@ global $__gLastQueryType;
 $cachedResult = $__dbProperties = array();
 $__gEscapeTag = null;
 
-class Data_IAdapter implements IAdapter {	
+class DBAdapter implements IAdapter {	
 	public static function connect($server, $dbname, $userid, $password, $options) {
 		global $__dbProperties;
 		// Connects DB and set environment variables
@@ -49,7 +49,7 @@ class Data_IAdapter implements IAdapter {
 		global $__dbProperties;
 		if (array_key_exists('version', $__dbProperties)) return $__dbProperties['version'];
 		else {
-			$__dbProperties['version'] = DBQuery::queryCell("SHOW VARIABLES LIKE 'version'");
+			$__dbProperties['version'] = Data_IAdapter::queryCell("SHOW VARIABLES LIKE 'version'");
 			return $__dbProperties['version'];
 		}
 	}
@@ -151,7 +151,7 @@ class Data_IAdapter implements IAdapter {
 		if($type == 'assoc') $type = MYSQL_ASSOC;
 		else if ($type == 'num') $type = MYSQL_NUM;
 		return self::queryAllWithCache($query, $type, $count);
-		//return DBQuery::queryAllWithoutCache($query, $type, $count);  // Your choice. :)
+		//return Data_IAdapter::queryAllWithoutCache($query, $type, $count);  // Your choice. :)
 	}
 
 	public static function queryAllWithoutCache($query, $type = MYSQL_BOTH, $count = -1) {
@@ -212,7 +212,7 @@ class Data_IAdapter implements IAdapter {
 			stristr($query, 'insert ') ||
 			stristr($query, 'delete ') ||
 			stristr($query, 'replace ') ) {
-			DBQuery::clearCache();
+			Data_IAdapter::clearCache();
 		}
 		return $result;
 	}
@@ -289,6 +289,6 @@ class Data_IAdapter implements IAdapter {
 	}
 }
 
-//DBQuery::cacheLoad();
-//register_shutdown_function( array('DBQuery','cacheSave') );
+//Data_IAdapter::cacheLoad();
+//register_shutdown_function( array('Data_IAdapter','cacheSave') );
 ?>

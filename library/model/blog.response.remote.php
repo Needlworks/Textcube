@@ -149,8 +149,8 @@ function deleteRemoteResponse($blogid, $id) {
 		return false;
 	if (!Data_IAdapter::execute("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id"))
 		return false;
-	CacheControl::flushDBCache('trackback');
-	CacheControl::flushDBCache('remoteResponse');
+	Cache_Control::flushDBCache('trackback');
+	Cache_Control::flushDBCache('remoteResponse');
 	if (updateRemoteResponsesOfEntry($blogid, $entry))
 		return $entry;
 	return false;
@@ -165,8 +165,8 @@ function trashRemoteResponse($blogid, $id) {
 		return false;
 	if (!Data_IAdapter::query("UPDATE {$database['prefix']}RemoteResponses SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id"))
 		return false;
-	CacheControl::flushDBCache('trackback');
-	CacheControl::flushDBCache('remoteResponse');
+	Cache_Control::flushDBCache('trackback');
+	Cache_Control::flushDBCache('remoteResponse');
 	if (updateRemoteResponsesOfEntry($blogid, $entry))
 		return $entry;
 	return false;
@@ -181,8 +181,8 @@ function revertRemoteResponse($blogid, $id) {
 		return false;
 	if (!Data_IAdapter::execute("UPDATE {$database['prefix']}RemoteResponses SET isFiltered = 0 WHERE blogid = $blogid AND id = $id"))
 		return false;
-	CacheControl::flushDBCache('trackback');
-	CacheControl::flushDBCache('remoteResponse');
+	Cache_Control::flushDBCache('trackback');
+	Cache_Control::flushDBCache('remoteResponse');
 	if (updateRemoteResponsesOfEntry($blogid, $entry))
 		return $entry;
 	return false;
@@ -308,7 +308,7 @@ function receiveTrackback($blogid, $entry, $title, $url, $excerpt, $site) {
 	}
 	if ($trackback->add()) {
 		if($filtered == 0) {
-			CacheControl::flushDBCache('trackback');
+			Cache_Control::flushDBCache('trackback');
 		}
 		return ($filtered == 0) ? 0 : 3;
 	}

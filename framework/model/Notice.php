@@ -165,7 +165,7 @@ class Model_Notice {
 		if (isset($slogan))
 			$this->slogan = $slogan;
 
-		$query = new Data_table($database['prefix'] . 'Entries');
+		$query = new Data_Table($database['prefix'] . 'Entries');
 		$query->setQualifier('blogid',$this->blogid);
 		if(isset($this->userid)) $query->setQualifier('userid', $this->userid);
 		$query->setQualifier('id', $this->id);
@@ -216,7 +216,7 @@ class Model_Notice {
 	
 	function _buildQuery() {
 		global $database;
-		$query = new Data_table($database['prefix'] . 'Entries');
+		$query = new Data_Table($database['prefix'] . 'Entries');
 		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('category', -2);
 		if (isset($this->id)) {

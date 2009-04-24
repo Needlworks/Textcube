@@ -123,7 +123,7 @@ class Model_GuestComment {
 	
 	function _buildQuery() {
 		global $database;
-		$query = new Data_table($database['prefix'] . 'Comments');
+		$query = new Data_Table($database['prefix'] . 'Comments');
 		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('entry', 0);
 		if (isset($this->id)) {

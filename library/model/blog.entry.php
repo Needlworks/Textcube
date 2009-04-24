@@ -614,8 +614,8 @@ function addEntry($blogid, $entry, $userid = null) {
 	if ($entry['visibility'] == 3)
 		syndicateEntry($id, 'create');
 	if ($entry['visibility'] >= 2) {
-		CacheControl::flushAuthor($userid);
-		CacheControl::flushDBCache('entry');
+		Cache_Control::flushAuthor($userid);
+		Cache_Control::flushDBCache('entry');
 		$gCacheStorage->purge();
 		clearFeed();
 	}
@@ -741,8 +741,8 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 
 	updateEntriesOfCategory($blogid, $oldEntry['category']);
 	updateEntriesOfCategory($blogid, $entry['category']);
-	CacheControl::flushAuthor($entry['userid']);	
-	CacheControl::flushDBCache('entry');
+	Cache_Control::flushAuthor($entry['userid']);	
+	Cache_Control::flushDBCache('entry');
 	$gCacheStorage->purge();
 	if ($entry['visibility'] == 3)
 		syndicateEntry($entry['id'], 'modify');
@@ -925,10 +925,10 @@ function deleteEntry($blogid, $id) {
 	if (is_null($target)) return false;
 	if (Data_IAdapter::queryCell("SELECT visibility FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id") == 3)
 		syndicateEntry($id, 'delete');
-	CacheControl::flushEntry($id);
-	CacheControl::flushDBCache('entry');
-	CacheControl::flushDBCache('comment');
-	CacheControl::flushDBCache('trackback');
+	Cache_Control::flushEntry($id);
+	Cache_Control::flushDBCache('entry');
+	Cache_Control::flushDBCache('comment');
+	Cache_Control::flushDBCache('trackback');
 	$gCacheStorage->purge();
 	$result = Data_IAdapter::queryCount("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id");
 	if ($result > 0) {
@@ -979,8 +979,8 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 
 	if(updateEntriesOfCategory($blogid, $category)) {
 		clearFeed();
-		CacheControl::flushDBCache('comment');
-		CacheControl::flushDBCache('trackback');
+		Cache_Control::flushDBCache('comment');
+		Cache_Control::flushDBCache('trackback');
 		return true;	
 	}
 	return false;
@@ -1035,10 +1035,10 @@ function setEntryVisibility($id, $visibility) {
 		if ($category > 0)
 			updateEntriesOfCategory($blogid, $category);
 	}
-	CacheControl::flushEntry($id);
-	CacheControl::flushDBCache('entry');
-	CacheControl::flushDBCache('comment');
-	CacheControl::flushDBCache('trackback');
+	Cache_Control::flushEntry($id);
+	Cache_Control::flushDBCache('entry');
+	Cache_Control::flushDBCache('comment');
+	Cache_Control::flushDBCache('trackback');
 	fireEvent('ChangeVisibility', $visibility, $id);
 	return true;
 }
@@ -1048,10 +1048,10 @@ function protectEntry($id, $password) {
 	$password = Data_IAdapter::escapeString($password);
 	$result = Data_IAdapter::queryCount("UPDATE {$database['prefix']}Entries SET password = '$password', modified = UNIX_TIMESTAMP() WHERE blogid = ".getBlogId()." AND id = $id AND visibility = 1");
 	if($result > 0) {
-		CacheControl::flushEntry($id);
-		CacheControl::flushDBCache('entry');
-		CacheControl::flushDBCache('comment');
-		CacheControl::flushDBCache('trackback');
+		Cache_Control::flushEntry($id);
+		Cache_Control::flushDBCache('entry');
+		Cache_Control::flushDBCache('comment');
+		Cache_Control::flushDBCache('trackback');
 		return true;
 	} else return false;
 }

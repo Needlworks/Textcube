@@ -11,8 +11,6 @@ $__gCacheCategoryRaw = array();
 $__gCacheCategoryVisibilityList = array();
 
 function getCategoryId($blogid, $name, $parentName = false) {
-	requireComponent('Needlworks.Cache.PageCache');
-
 	global $__gCacheCategoryRaw;
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
@@ -28,8 +26,6 @@ function getCategoryId($blogid, $name, $parentName = false) {
 }
 
 function getCategoryIdByLabel($blogid, $label) {
-	requireComponent('Needlworks.Cache.PageCache');
-
 	global $__gCacheCategoryRaw;
 	if (empty($label))
 		return 0;
@@ -41,19 +37,15 @@ function getCategoryIdByLabel($blogid, $label) {
 }
 
 function getCategoryNameById($blogid, $id) {
-	requireComponent('Needlworks.Cache.PageCache');
-
 	global $__gCacheCategoryRaw;
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	if($result = Cache_memoryqueryRow($__gCacheCategoryRaw,'id',$id))
+	if($result = Cache_Memory::queryRow($__gCacheCategoryRaw,'id',$id))
 		return $result['name'];
 	else return _text('전체');
 }
 
 function getCategoryBodyIdById($blogid, $id) {
-	requireComponent('Needlworks.Cache.PageCache');
-
 	global $__gCacheCategoryRaw;
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
@@ -64,8 +56,6 @@ function getCategoryBodyIdById($blogid, $id) {
 }
 
 function getEntriesCountByCategory($blogid, $id) {
-	requireComponent('Needlworks.Cache.PageCache');
-
 	global $__gCacheCategoryRaw;
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
@@ -154,7 +144,7 @@ function getCategoryVisibilityList($blogid, $mode = 'private') {
 				$visibility = 1;
 		}
 		if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-		if($list = Cache_memoryqueryColumn($__gCacheCategoryRaw,'visibility',$visibility,'id')) {
+		if($list = Cache_Memory::queryColumn($__gCacheCategoryRaw,'visibility',$visibility,'id')) {
 			$__gCacheCategoryVisibilityList[$mode] = $list;
 		} else {
 			$__gCacheCategoryVisibilityList[$mode] = array();
@@ -285,7 +275,7 @@ function deleteCategory($blogid, $id) {
 
 	if (!is_numeric($id))
 		return false;
-	CacheControl::flushCategory($id);
+	Cache_Control::flushCategory($id);
 	Data_IAdapter::execute("DELETE FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id");
 	updateEntriesOfCategory($blogid);
 	return true;
@@ -331,7 +321,7 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 	if ($result)
 		clearFeed();
 	updateEntriesOfCategory($blogid);
-	CacheControl::flushCategory($id);
+	Cache_Control::flushCategory($id);
 	return $result ? true : false;
 }
 
@@ -356,7 +346,7 @@ function updateEntriesOfCategory($blogid, $id = - 1) {
 		}
 		Data_IAdapter::query("UPDATE {$database['prefix']}Categories SET entries = $countParent, entriesInLogin = $countInLoginParent, `label` = '{$row['name']}' WHERE blogid = $blogid AND id = $parent");
 	}
-	if($id >=0) CacheControl::flushCategory($id);
+	if($id >=0) Cache_Control::flushCategory($id);
 	clearCategoryCache();
 	return true;
 }
@@ -539,7 +529,7 @@ function moveCategory($blogid, $id, $direction) {
 		}
 	}
 	updateEntriesOfCategory($blogid);
-	CacheControl::flushCategory($id);
+	Cache_Control::flushCategory($id);
 }
 
 function checkRootCategoryExistence($blogid) {
@@ -589,7 +579,7 @@ function setCategoryVisibility($blogid, $id, $visibility) {
 	if ($result)
 		clearFeed();
 	updateEntriesOfCategory($blogid);
-	CacheControl::flushCategory($id);
+	Cache_Control::flushCategory($id);
 	return $result ? $visibility : false;
 }
 

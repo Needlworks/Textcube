@@ -8,7 +8,7 @@ $__gCacheBlogSettings = array();
 
 function getBlogidByName($name) {
 	global $database;
-	$query = new Data_table($database['prefix'] . 'BlogSettings');
+	$query = new Data_Table($database['prefix'] . 'BlogSettings');
 	$query->setQualifier('name','name',true);
 	$query->setQualifier('value', $name, true);
 	return $query->getCell('blogid');

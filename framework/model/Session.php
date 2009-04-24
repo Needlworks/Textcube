@@ -13,15 +13,15 @@ interface ISession {
 	public static function write($id, $data); 
 	public static function destroy($id, $setCookie = false);
 	public static function gc($maxLifeTime = false); 
-	private static function getAnonymousSession(); 
-	private static function newAnonymousSession();
+//	static function getAnonymousSession(); 
+//	static function newAnonymousSession();
 	public static function setSessionAnonymous($currentId); 
 	public static function isAuthorized($id); 
 	public static function isGuestOpenIDSession($id); 
 	public static function set(); 
 	public static function authorize($blogid, $userid); 
-	private static function query($mode='query',$sql); 
-	private static function DBQuery($mode='query',$sql); 
+//	static function query($mode='query',$sql); 
+//	static function DBQuery($mode='query',$sql); 
 }
 
 if(isset($service['memcached']) && $service['memcached'] == true) {

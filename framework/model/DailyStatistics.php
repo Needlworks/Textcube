@@ -110,7 +110,7 @@ class DailyStatistics {
 			return $this->_error('date');
 			
 		global $database;
-		$query = new Data_table($database['prefix'] . 'DailyStatistics');
+		$query = new Data_Table($database['prefix'] . 'DailyStatistics');
 		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('date', $this->date);
 		if (isset($this->visits)) {

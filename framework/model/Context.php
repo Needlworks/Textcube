@@ -118,14 +118,13 @@ final class Model_Context extends Singleton
 		global $serviceURL, $pathURL, $defaultURL, $baseURL, $pathURL, $hostURL, $folderURL, $blogURL;
 		global $suri, $blog, $blogid, $skinSetting, $gCacheStorage;
 		$blogid = $this->blogid;
-		$gCacheStorage = new Cache_globalStorage; // Initialize global cache
+		$gCacheStorage = new Cache_GlobalStorage; // Initialize global cache
 
 		$config = Model_Config::getInstance();
 
 		$suri = $this->suri;
 		$blog = Model_Setting::getBlogSettingsGlobal($this->blogid);
 		$skinSetting = Model_Setting::getSkinSetting($this->blogid);
-		
 		if(isset($config->service['serviceURL'])) $serviceURL = $config->service['serviceURL'];
 		if (!isset($serviceURL))
 			$serviceURL = 'http://' . $config->service['domain'] . (isset($config->service['port']) ? ':' . $config->service['port'] : '') . $config->service['path'];
@@ -185,7 +184,7 @@ final class Model_Context extends Singleton
 	
 	private function __getBlogIdByName($name) {
 		global $database;
-		$query = new Data_table($database['prefix'] . 'BlogSettings');
+		$query = new Data_Table($database['prefix'] . 'BlogSettings');
 		$query->setQualifier('name','name',true);
 		$query->setQualifier('value', $name, true);
 		return $query->getCell('blogid');

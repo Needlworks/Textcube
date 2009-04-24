@@ -8,7 +8,7 @@
    ROOT should be defined.
 */
 
-class Data_table {
+class Data_Table {
 	private $_attributes, $_qualifiers, $_query;
 	
 	function __construct($table = null) {
