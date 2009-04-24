@@ -13,16 +13,14 @@ global $__gLastQueryType;
 $cachedResult = $__dbProperties = array();
 $__gEscapeTag = null;
 
-class DBQuery {	
-	public static function bind($database) {
+class Data_IAdapter implements IAdapter {	
+	public static function connect($server, $dbname, $userid, $password, $options) {
 		global $__dbProperties;
 		// Connects DB and set environment variables
-		// $database array should contain 'server','username','password'.
-		if(!isset($database) || empty($database)) return false;
-		$handle = @mysql_connect($database['server'], $database['username'], $database['password']);
+		$handle = @mysql_connect($server, $userid, $password);
 		if(!$handle) return false;
-		$handle = @mysql_select_db($database['database']);
-		if(!$handle) return false;
+		$handle = @mysql_select_db($dbname);
+		if(!$handle) {return false;}
 
 		if (self::query('SET CHARACTER SET utf8'))
 			$__dbProperties['charset'] = 'utf8';
@@ -32,7 +30,7 @@ class DBQuery {
 		return true;
 	}
 	
-	public static function unbind() {
+	public static function disconnect() {
 		mysql_close();
 		return true;
 	}
@@ -291,6 +289,6 @@ class DBQuery {
 	}
 }
 
-DBQuery::cacheLoad();
-register_shutdown_function( array('DBQuery','cacheSave') );
+//DBQuery::cacheLoad();
+//register_shutdown_function( array('DBQuery','cacheSave') );
 ?>

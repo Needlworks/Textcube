@@ -5,14 +5,6 @@
 
 /** Pre-define basic components */
 global $__requireBasics, $__requireComponent, $__requireLibrary, $__requireModel, $__requireView;
-$__requireComponent = array(
-	'Needlworks.Core.Locale',
-	'Textcube.Core',
-	'Textcube.Control.Auth',
-	'Needlworks.Cache.PageCache');
-foreach($__requireComponent as $lib) {
-	require ROOT .'/library/components/'.$lib.'.php';
-} 
 /***** Loading code pieces *****/
 if(isset($service['codecache']) && ($service['codecache'] == true) && file_exists(ROOT.'/cache/code/'.$codeName)) {
 	$codeCacheRead = true;

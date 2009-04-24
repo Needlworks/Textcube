@@ -86,9 +86,9 @@ function setPrimaryDomain($blogid, $name) {
 		return 0;
 	if (!checkBlogName($name))
 		return 1;
-	if (POD::queryCount("SELECT * FROM {$database['prefix']}ReservedWords WHERE '$name' like word") > 0)
+	if (Data_IAdapter::queryCount("SELECT * FROM {$database['prefix']}ReservedWords WHERE '$name' like word") > 0)
 		return 2;
-	if (POD::queryCount("SELECT * FROM {$database['prefix']}BlogSettings WHERE name = 'name' AND value = '$name'") > 0)
+	if (Data_IAdapter::queryCount("SELECT * FROM {$database['prefix']}BlogSettings WHERE name = 'name' AND value = '$name'") > 0)
 		return 3;
 	if(setBlogSetting('name', $name)) {
 		$blog['name'] = $name;
@@ -107,7 +107,7 @@ function setSecondaryDomain($blogid, $domain) {
 	if (empty($domain))
 		setBlogSetting('secondaryDomain','');
 	else if (Validator::domain($domain)) {
-		if (POD::queryExistence("SELECT * FROM {$database['prefix']}BlogSettings 
+		if (Data_IAdapter::queryExistence("SELECT * FROM {$database['prefix']}BlogSettings 
 			WHERE blogid <> $blogid 
 				AND name = 'secondaryDomain'
 				AND (value = '$domain' OR value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "')"))
@@ -247,44 +247,44 @@ function addBlog($blogid, $userid, $identify) {
 	if(empty($userid)) {
 		$userid = 1; // If no userid, choose the service administrator.
 	} else {
-		if(!POD::queryExistence("SELECT userid
+		if(!Data_IAdapter::queryExistence("SELECT userid
 			FROM {$database['prefix']}Users
 			WHERE userid = ".$userid)) return 3; // 3: No user exists with specific userid
 	}
 
 	if(!empty($blogid)) { // If blogid,
-		if(!POD::queryExistence("SELECT blogid
+		if(!Data_IAdapter::queryExistence("SELECT blogid
 			FROM {$database['prefix']}BlogSettings
 			WHERE blogid = ".$blogid)) {
 			return 2; // 2: No blog exists with specific blogid
 		}
 		// Thus, blog and user exists. Now combine both.
-		$result = POD::query("INSERT INTO `{$database['prefix']}Privileges` 
+		$result = Data_IAdapter::query("INSERT INTO `{$database['prefix']}Privileges` 
 			(blogid,userid,acl,created,lastLogin) 
 			VALUES('$blogid', '$userid', '0', UNIX_TIMESTAMP(), '0')");
 		return $result;
 	} else { // If no blogid, create a new blog.
 		if (!preg_match('/^[a-zA-Z0-9]+$/', $identify))
 			return 4; // Wrong Blog name
-		$identify = POD::escapeString(UTF8::lessenAsEncoding($identify, 32));
+		$identify = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($identify, 32));
 
 		$blogName = $identify;
 
-		$result = POD::queryCount("SELECT * 
+		$result = Data_IAdapter::queryCount("SELECT * 
 			FROM `{$database['prefix']}ReservedWords` 
 			WHERE word = '$blogName'");
 		if ($result && $result > 0) {
 			return 60;	// Reserved blog name.
 		}
-		$result = POD::queryCount("SELECT value 
+		$result = Data_IAdapter::queryCount("SELECT value 
 			FROM `{$database['prefix']}BlogSettings` 
 			WHERE name = 'name' AND value = '$blogName'");
 		if ($result && $result > 0) {
 			return 61; // Same blogname is already exists.
 		}
-		$blogid = POD::queryCell("SELECT max(blogid)
+		$blogid = Data_IAdapter::queryCell("SELECT max(blogid)
 			FROM `{$database['prefix']}BlogSettings`") + 1;
-		$baseTimezone = POD::escapeString($service['timezone']);
+		$baseTimezone = Data_IAdapter::escapeString($service['timezone']);
 		$basicInformation = array(
 			'name'         => $identify,
 			'defaultDomain'            => 0,
@@ -316,21 +316,21 @@ function addBlog($blogid, $userid, $identify) {
 			}
 		}
 		if($isFalse == true) {
-			POD::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $blogid");
+			Data_IAdapter::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $blogid");
 			return 12;
 		}
 	
-		if(!POD::query("INSERT INTO `{$database['prefix']}SkinSettings` (blogid) VALUES ($blogid)")) {
+		if(!Data_IAdapter::query("INSERT INTO `{$database['prefix']}SkinSettings` (blogid) VALUES ($blogid)")) {
 			deleteBlog($blogid);
 			return 13;
 		}
-		if(!POD::query("INSERT INTO `{$database['prefix']}FeedSettings` 
+		if(!Data_IAdapter::query("INSERT INTO `{$database['prefix']}FeedSettings` 
 			(blogid) VALUES ($blogid)")) {
 			deleteBlog($blogid);
 			return 62;
 		}
 		
-		if(!POD::query("INSERT INTO `{$database['prefix']}FeedGroups` 
+		if(!Data_IAdapter::query("INSERT INTO `{$database['prefix']}FeedGroups` 
 			(blogid, id) 
 			VALUES ($blogid, 0)")) {
 			deleteBlog($blogid);
@@ -341,7 +341,7 @@ function addBlog($blogid, $userid, $identify) {
 		setBlogSetting('defaultFormatter', 'ttml', $blogid);
 
 		//Combine user and blog.
-		if(POD::query("INSERT INTO `{$database['prefix']}Privileges` 
+		if(Data_IAdapter::query("INSERT INTO `{$database['prefix']}Privileges` 
 			(blogid,userid,acl,created,lastLogin) 
 			VALUES('$blogid', '$userid', '16', UNIX_TIMESTAMP(), '0')")) {
 			setDefaultPost($blogid, $userid);
@@ -379,7 +379,7 @@ function setDefaultPost($blogid, $userid) {
 
 function getInvited($userid) {
 	global $database;
-	return POD::queryAll("SELECT *
+	return Data_IAdapter::queryAll("SELECT *
 		FROM {$database['prefix']}Users
 		WHERE `host` = '".$userid."'
 		ORDER BY created ASC");
@@ -387,23 +387,23 @@ function getInvited($userid) {
 
 function getBlogName($blogid) {
 	global $database;
-	return POD::queryCell("SELECT value
+	return Data_IAdapter::queryCell("SELECT value
 		FROM {$database['prefix']}BlogSettings
 		WHERE blogid = $blogid AND name = 'name'");
 }
 function getAuthToken($userid){
 	global $database;
-	return POD::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
+	return Data_IAdapter::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
 }
 
 function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $senderEmail) {
 	global $database, $service, $hostURL, $serviceURL;
 	if(empty($blogid)) {
-		$blogid = POD::queryCell("SELECT max(blogid)
+		$blogid = Data_IAdapter::queryCell("SELECT max(blogid)
 			FROM {$database['prefix']}BlogSettings"); // If no blogid, get the latest created blogid.
 	}
 	$email = getUserEmail($userid);
-	$password = POD::queryCell("SELECT password
+	$password = Data_IAdapter::queryCell("SELECT password
 		FROM {$database['prefix']}Users
 		WHERE userid = ".$userid);
 	$authtoken = getAuthToken($userid);
@@ -418,8 +418,8 @@ function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $sen
 
 	if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return 11;
 
-	//$loginid = POD::escapeString(UTF8::lessenAsEncoding($email, 64));	
-	$name = POD::escapeString(UTF8::lessenAsEncoding($name, 32));
+	//$loginid = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($email, 64));	
+	$name = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($name, 32));
 
 	//$headers = 'From: ' . encodeMail($senderName) . '<' . $senderEmail . ">\n" . 'X-Mailer: ' . TEXTCUBE_NAME . "\n" . "MIME-Version: 1.0\nContent-Type: text/html; charset=utf-8\n";
 	if (empty($name))
@@ -453,16 +453,16 @@ function getInvitationLink($url, $email, $password, $authtoken) {
 function cancelInvite($userid,$clean = true) {
 	global $database;
 	requireModel('blog.user');
-	if (POD::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `lastLogin` = 0") == 0)
+	if (Data_IAdapter::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `lastLogin` = 0") == 0)
 		return false;
-	if (POD::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `host` = ".getUserId()) === 0)
+	if (Data_IAdapter::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `host` = ".getUserId()) === 0)
 		return false;
 	
 	$blogidWithOwner = Model_User::getOwnedBlogs($userid);
 	foreach($blogidWithOwner as $blogids) {
 		if(deleteBlog($blogids) === false) return false;
 	}
-	if($clean && !POD::queryAll("SELECT * FROM `{$database['prefix']}Privileges` WHERE userid = '$userid'")) {
+	if($clean && !Data_IAdapter::queryAll("SELECT * FROM `{$database['prefix']}Privileges` WHERE userid = '$userid'")) {
 		Model_User::removePermanent($userid);
 	}
 	return true;
@@ -474,19 +474,19 @@ function changePassword($userid, $pwd, $prevPwd, $forceChange = false) {
 		return false;
 	if($forceChange === true) {
 		$pwd = md5($pwd);
-		@POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
-		return POD::execute("UPDATE `{$database['prefix']}Users` SET password = '$pwd' WHERE `userid` = $userid");
+		@Data_IAdapter::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
+		return Data_IAdapter::execute("UPDATE `{$database['prefix']}Users` SET password = '$pwd' WHERE `userid` = $userid");
 	}
 	if ((strlen($prevPwd) == 32) && preg_match('/[0-9a-f]/i', $prevPwd))
 		$secret = '(`password` = \'' . md5($prevPwd) . "' OR `password` = '$prevPwd')";
 	else
 		$secret = '`password` = \'' . md5($prevPwd) . '\'';
-	$count = POD::queryCell("SELECT count(*) FROM {$database['prefix']}Users WHERE userid = $userid and $secret");
+	$count = Data_IAdapter::queryCell("SELECT count(*) FROM {$database['prefix']}Users WHERE userid = $userid and $secret");
 	if ($count == 0)
 		return false;
 	$pwd = md5($pwd);
-	@POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
-	return POD::execute("UPDATE `{$database['prefix']}Users` SET password = '$pwd' WHERE `userid` = $userid");
+	@Data_IAdapter::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
+	return Data_IAdapter::execute("UPDATE `{$database['prefix']}Users` SET password = '$pwd' WHERE `userid` = $userid");
 }
 
 function changeAPIKey($userid, $key) {
@@ -497,11 +497,11 @@ function changeAPIKey($userid, $key) {
 function deleteBlog($blogid) {
 	global $database;
 	if($blogid == 1) return false;
-	if (POD::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $blogid")
-		&& POD::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $blogid")
-		&& POD::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `blogid` = $blogid")
-		&& POD::execute("DELETE FROM `{$database['prefix']}FeedGroups` WHERE `blogid` = $blogid")
-		&& POD::execute("DELETE FROM `{$database['prefix']}Privileges` WHERE `blogid` = '$blogid'")
+	if (Data_IAdapter::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $blogid")
+		&& Data_IAdapter::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $blogid")
+		&& Data_IAdapter::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `blogid` = $blogid")
+		&& Data_IAdapter::execute("DELETE FROM `{$database['prefix']}FeedGroups` WHERE `blogid` = $blogid")
+		&& Data_IAdapter::execute("DELETE FROM `{$database['prefix']}Privileges` WHERE `blogid` = '$blogid'")
 	)
 	{
 		return true;
@@ -514,49 +514,49 @@ function removeBlog($blogid) {
 	if (getServiceSetting("defaultBlogId",1) == $blogid) {
 		return false;
 	}
-	$tags = POD::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");
-	$feeds = POD::queryColumn("SELECT DISTINCT feeds FROM {$database['prefix']}FeedGroupRelations WHERE blogid = $blogid");
+	$tags = Data_IAdapter::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");
+	$feeds = Data_IAdapter::queryColumn("SELECT DISTINCT feeds FROM {$database['prefix']}FeedGroupRelations WHERE blogid = $blogid");
 
 	//Clear Tables
-	POD::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}BlogSettings WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}BlogStatistics WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}Categories WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}EntriesArchive WHERE blogid = $blogid");
-//	POD::execute("DELETE FROM {$database['prefix']}FeedGroupRelations WHERE blogid = $blogid"); 
-	POD::execute("DELETE FROM {$database['prefix']}FeedGroups WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}FeedReads WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}FeedStarred WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}FeedSettings WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}Filters WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}Links WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}LinkCategories WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}PageCacheLog WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}Plugins WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}RefererLogs WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}RefererStatistics WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}Privileges WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}Utils_XMLRPCPingSettings WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}BlogSettings WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}BlogStatistics WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}Categories WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}EntriesArchive WHERE blogid = $blogid");
+//	Data_IAdapter::execute("DELETE FROM {$database['prefix']}FeedGroupRelations WHERE blogid = $blogid"); 
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}FeedGroups WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}FeedReads WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}FeedStarred WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}FeedSettings WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}Filters WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}Links WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}LinkCategories WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}PageCacheLog WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}Plugins WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}RefererLogs WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}RefererStatistics WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}Privileges WHERE blogid = $blogid");
+	Data_IAdapter::execute("DELETE FROM {$database['prefix']}Utils_XMLRPCPingSettings WHERE blogid = $blogid");
 	
 	//Delete Tags
 	if (count($tags) > 0) 
 	{
 		$tagliststr = implode(', ', $tags);	// Tag id used at deleted blog.
-		$nottargets = POD::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE tag in ( $tagliststr )");	// Tag id used at other blogs.
+		$nottargets = Data_IAdapter::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE tag in ( $tagliststr )");	// Tag id used at other blogs.
 		if (count($nottargets) > 0) {
 			$nottargetstr	= implode(', ', $nottargets);
-			POD::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr ) AND id NOT IN ( $nottargetstr )");
+			Data_IAdapter::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr ) AND id NOT IN ( $nottargetstr )");
 		} else {
-			POD::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr ) ");
+			Data_IAdapter::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr ) ");
 		}
 	}
 	//Delete Feeds
@@ -570,10 +570,10 @@ function removeBlog($blogid) {
 
 	//Clear Plugin Database
 	$query = "SELECT name, value FROM {$database['prefix']}ServiceSettings WHERE name like 'Database\\_%'";
-	$plugintablesraw = POD::queryAll($query);
+	$plugintablesraw = Data_IAdapter::queryAll($query);
 	foreach($plugintablesraw as $table) {
 		$dbname = $database['prefix'] . substr($table['name'], 9);
-		POD::execute("DELETE FROM {$database['prefix']}{$dbname} WHERE blogid = $blogid");
+		Data_IAdapter::execute("DELETE FROM {$database['prefix']}{$dbname} WHERE blogid = $blogid");
 	}
 
 	//Clear RSS Cache

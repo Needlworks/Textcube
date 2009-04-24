@@ -50,10 +50,10 @@ class DBSession implements ISession {
 			$userid = Acl::getIdentity('openid') ? SESSION_OPENID_USERID : '';
 		}
 		if( empty($userid) ) $userid = 'null';
-		$data = POD::escapeString($data);
-		$server = POD::escapeString($_SERVER['HTTP_HOST']);
-		$request = POD::escapeString(substr($_SERVER['REQUEST_URI'], 0, 255));
-		$referer = isset($_SERVER['HTTP_REFERER']) ? POD::escapeString(substr($_SERVER['HTTP_REFERER'],0,255)) : '';
+		$data = Data_IAdapter::escapeString($data);
+		$server = Data_IAdapter::escapeString($_SERVER['HTTP_HOST']);
+		$request = Data_IAdapter::escapeString(substr($_SERVER['REQUEST_URI'], 0, 255));
+		$referer = isset($_SERVER['HTTP_REFERER']) ? Data_IAdapter::escapeString(substr($_SERVER['HTTP_REFERER'],0,255)) : '';
 		$timer = Timer::getMicroTime() - self::$sessionMicrotime;
 		$result = self::query('count',"UPDATE {$database['prefix']}Sessions 
 				SET userid = $userid, data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() 
@@ -213,7 +213,7 @@ class DBSession implements ISession {
 		$result = self::DBQuery($mode,$sql);
 		if($result === false) {
 			if (self::$sessionDBRepair === false) {		
-				@POD::query("REPAIR TABLE {$database['prefix']}Sessions, {$database['prefix']}SessionVisits");
+				@Data_IAdapter::query("REPAIR TABLE {$database['prefix']}Sessions, {$database['prefix']}SessionVisits");
 				$result = self::DBQuery($mode,$sql);
 				self::$sessionDBRepair = true;
 			}
@@ -222,13 +222,13 @@ class DBSession implements ISession {
 	}
 	private static function DBQuery($mode='query',$sql) {
 		switch($mode) {
-			case 'cell':	return POD::queryCell($sql);
-			case 'row':		return POD::queryRow($sql);
-			case 'execute':	return POD::execute($sql);
-			case 'count':	return POD::queryCount($sql);
-			case 'all':		return POD::queryAll($sql);
+			case 'cell':	return Data_IAdapter::queryCell($sql);
+			case 'row':		return Data_IAdapter::queryRow($sql);
+			case 'execute':	return Data_IAdapter::execute($sql);
+			case 'count':	return Data_IAdapter::queryCount($sql);
+			case 'all':		return Data_IAdapter::queryAll($sql);
 			case 'query':default:
-							return POD::query($sql);
+							return Data_IAdapter::query($sql);
 		}
 		return null;
 	}

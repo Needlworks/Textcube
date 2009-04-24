@@ -6,7 +6,7 @@ require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 
 if(isset($suri['id'])) {
-	if ($feed = POD::queryRow("SELECT * 
+	if ($feed = Data_IAdapter::queryRow("SELECT * 
 		FROM {$database['prefix']}Feeds 
 		WHERE id = {$suri['id']}")) {
 		respond::ResultPage(updateFeed($feed));
@@ -43,7 +43,7 @@ ob_implicit_flush();
 			//]]>
 		</script>
 <?php
-$feeds = POD::queryAll("SELECT f.* 
+$feeds = Data_IAdapter::queryAll("SELECT f.* 
 		FROM {$database['prefix']}Feeds f, 
 			{$database['prefix']}FeedGroups g, 
 			{$database['prefix']}FeedGroupRelations gr 

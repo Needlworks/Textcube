@@ -24,9 +24,9 @@ if ($_REQUEST['type'] == 1) { // type 1, plugin
 	$pluginname = $values[0];
 	$version = $values[1];
 
-	$query = "select name from {$database['prefix']}ServiceSettings WHERE value = '" . POD::escapeString($_REQUEST['name']) . "'";
+	$query = "select name from {$database['prefix']}ServiceSettings WHERE value = '" . Data_IAdapter::escapeString($_REQUEST['name']) . "'";
 	
-	$plugintablesraw = POD::queryColumn($query);
+	$plugintablesraw = Data_IAdapter::queryColumn($query);
 	if (count($plugintablesraw) <= 0) {
 		respond::ResultPage(1);
 		exit;
@@ -44,13 +44,13 @@ if ($_REQUEST['type'] == 1) { // type 1, plugin
 			exit;
 		}
 		array_push($plugintables, $dbname);
-		$query = "delete from {$database['prefix']}ServiceSettings WHERE name = '$origname' AND value = '" . POD::escapeString($_REQUEST['name']) . "'";
-		POD::execute($query);
+		$query = "delete from {$database['prefix']}ServiceSettings WHERE name = '$origname' AND value = '" . Data_IAdapter::escapeString($_REQUEST['name']) . "'";
+		Data_IAdapter::execute($query);
 	}
 	$result = true;
 	foreach($plugintables as $dbname) {
 		$query = "DROP TABLE {$dbname}";
-		$result = POD::execute($query) && $result;
+		$result = Data_IAdapter::execute($query) && $result;
 	}
 	
 	deactivatePlugin($pluginname);
@@ -76,7 +76,7 @@ if ($_REQUEST['type'] == 1) { // type 1, plugin
 	}
 	
 	$query = "DROP TABLE {$dbname}";
-	POD::execute($query);
+	Data_IAdapter::execute($query);
 }
 
 respond::ResultPage(0);

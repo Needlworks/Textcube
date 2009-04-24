@@ -5,7 +5,7 @@
 
 function login($loginid, $password, $preKnownPassword = null) {
 	global $service;
-	$loginid = POD::escapeString($loginid);
+	$loginid = Data_IAdapter::escapeString($loginid);
 	$blogid = getBlogId();
 	$userid = Auth::authenticate($blogid , $loginid, $password );
 
@@ -122,8 +122,8 @@ function requirePrivilege($AC) {
 
 function validateAPIKey($blogid, $loginid, $key) {
 	global $service;
-	$loginid = POD::escapeString($loginid);
-	$key = POD::escapeString($key);
+	$loginid = Data_IAdapter::escapeString($loginid);
+	$key = Data_IAdapter::escapeString($key);
 	$userid = Model_User::getUserIdByEmail($loginid);
 	if( $userid === false ) { return false; }
 	$currentAPIKey = Model_Setting::getUserSettingGlobal('APIKey',null,$userid);
@@ -141,10 +141,10 @@ function validateAPIKey($blogid, $loginid, $key) {
 
 function isLoginId($blogid, $loginid) {
 	global $database;
-	$loginid = POD::escapeString($loginid);
+	$loginid = Data_IAdapter::escapeString($loginid);
 	
 	// 팀블로그 :: 팀원 확인
-	$result = POD::queryCount("SELECT u.userid 
+	$result = Data_IAdapter::queryCount("SELECT u.userid 
 			FROM {$database['prefix']}Users u, 
 				{$database['prefix']}Privileges t 
 			WHERE t.blogid = $blogid 
@@ -166,9 +166,9 @@ function resetPassword($blogid, $loginid) {
 	if (!isLoginId($blogid, $loginid))
 		return false;
 	$userid = Model_User::getUserIdByEmail($loginid);
-	$password = POD::queryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = $userid");
+	$password = Data_IAdapter::queryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = $userid");
 	$authtoken = md5(generatePassword());
-	$result = POD::query("REPLACE INTO `{$database['prefix']}UserSettings` (userid, name, value) VALUES ('" . $userid . "', 'AuthToken', '" . $authtoken . "')");
+	$result = Data_IAdapter::query("REPLACE INTO `{$database['prefix']}UserSettings` (userid, name, value) VALUES ('" . $userid . "', 'AuthToken', '" . $authtoken . "')");
 	if(empty($result)) {
 		return false;
 	}

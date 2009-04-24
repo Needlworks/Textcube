@@ -34,15 +34,15 @@ class Model_Notice {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND draft = 0 AND category = -2 $filter $sort");
+		$this->_result = Data_IAdapter::query("SELECT $fields FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND draft = 0 AND category = -2 $filter $sort");
 		if ($this->_result)
-			$this->_count = POD::num_rows($this->_result);
+			$this->_count = Data_IAdapter::num_rows($this->_result);
 		return $this->shift();
 	}
 	
 	function close() {
 		if (isset($this->_result)) {
-			POD::free($this->_result);
+			Data_IAdapter::free($this->_result);
 			unset($this->_result);
 		}
 		$this->_count = 0;
@@ -51,7 +51,7 @@ class Model_Notice {
 	
 	function shift() {
 		$this->reset();
-		if ($this->_result && ($row = POD::fetch($this->_result))) {
+		if ($this->_result && ($row = Data_IAdapter::fetch($this->_result))) {
 			foreach ($row as $name => $value) {
 				switch ($name) {
 					case 'blogid':
@@ -115,8 +115,8 @@ class Model_Notice {
 		if (is_numeric($id)) {
 			return false;
 		}
-		$result = POD::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND category = -2 AND id = $id");
-		if ($result && ($this->_count = POD::num_rows($result)))
+		$result = Data_IAdapter::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND category = -2 AND id = $id");
+		if ($result && ($this->_count = Data_IAdapter::num_rows($result)))
 			return true;
 		return false;
 	}
@@ -180,9 +180,9 @@ class Model_Notice {
 		$slogan0 = UTF8::lessenAsEncoding($slogan0, 255);
 
 		for ($i = 1; $i < 1000; $i++) {
-			$checkSlogan = POD::escapeString($this->slogan);
+			$checkSlogan = Data_IAdapter::escapeString($this->slogan);
 			$query->setAttribute('slogan', $checkSlogan, false);
-			if (!POD::queryExistence(
+			if (!Data_IAdapter::queryExistence(
 				"SELECT id FROM {$database['prefix']}Entries " 
 				. "WHERE blogid = ".$this->blogid." AND id <> {$this->id} AND slogan ='{$checkSlogan}'")
 				) 
@@ -202,12 +202,12 @@ class Model_Notice {
 		global $database;
 		if (!Validator::number($id, 1))
 			return false;
-		return POD::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND id = $id AND category = -2 AND draft = 0");
+		return Data_IAdapter::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND id = $id AND category = -2 AND draft = 0");
 	}
 
 	function nextEntryId($id = 0) {
 		global $database;
-		$maxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId());
+		$maxId = Data_IAdapter::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId());
 		if($id==0)
 			return $maxId + 1;
 		else

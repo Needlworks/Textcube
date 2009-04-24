@@ -32,15 +32,15 @@ class Model_Keyword {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND draft = 0 AND category = -1 $filter $sort");
+		$this->_result = Data_IAdapter::query("SELECT $fields FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND draft = 0 AND category = -1 $filter $sort");
 		if ($this->_result)
-			$this->_count = POD::num_rows($this->_result);
+			$this->_count = Data_IAdapter::num_rows($this->_result);
 		return $this->shift();
 	}
 	
 	function close() {
 		if (isset($this->_result)) {
-			POD::free($this->_result);
+			Data_IAdapter::free($this->_result);
 			unset($this->_result);
 		}
 		$this->_count = 0;
@@ -49,7 +49,7 @@ class Model_Keyword {
 	
 	function shift() {
 		$this->reset();
-		if ($this->_result && ($row = POD::fetch($this->_result))) {
+		if ($this->_result && ($row = Data_IAdapter::fetch($this->_result))) {
 			foreach ($row as $name => $value) {
 				switch ($name) {
 					case 'blogid':
@@ -121,8 +121,8 @@ class Model_Keyword {
 		if (!is_numeric($id)) {
 			return false;
 		}
-		$result = POD::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND category = -1 AND id = $id ");
-		if ($result && ($this->_count = POD::num_rows($result)))
+		$result = Data_IAdapter::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND category = -1 AND id = $id ");
+		if ($result && ($this->_count = Data_IAdapter::num_rows($result)))
 			return true;
 		return false;
 	}
@@ -165,12 +165,12 @@ class Model_Keyword {
 		global $database;
 		if (!Validator::number($id, 1))
 			return false;
-		return POD::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND id = $id AND category = -1 AND draft = 0");
+		return Data_IAdapter::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND id = $id AND category = -1 AND draft = 0");
 	}
 	
 	function nextEntryId($id = 0) {
 		global $database;
-		$maxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId());
+		$maxId = Data_IAdapter::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId());
 		if($id==0)
 			return $maxId + 1;
 		else

@@ -12,7 +12,7 @@ function refreshFeed($blogid, $mode = 'both') {
 	global $database, $serviceURL, $defaultURL, $blog, $service;
 	$channel = array();
 	$channel = initializeRSSchannel($blogid);
-	$result = POD::queryAll("SELECT 
+	$result = Data_IAdapter::queryAll("SELECT 
 			e.*, 
 			c.name AS categoryName, 
 			u.name AS author
@@ -127,13 +127,13 @@ function getFeedItemByEntries($entries) {
 		}
 		if (!empty($row['id'])) {
 			$sql = "SELECT name, size, mime FROM {$database['prefix']}Attachments WHERE parent= {$row['id']} AND blogid = {$row['blogid']} AND enclosure = 1";
-			$attaches = POD::queryRow($sql);
+			$attaches = Data_IAdapter::queryRow($sql);
 			if (count($attaches) > 0) {
 				$item['enclosure'] = array('url' => "$serviceURL/attach/$blogid/{$attaches['name']}", 'length' => $attaches['size'], 'type' => $attaches['mime']);
 			}
 		}
 		array_push($item['categories'], $row['categoryName']);
-		$tag_result = POD::queryColumn("SELECT name 
+		$tag_result = Data_IAdapter::queryColumn("SELECT name 
 				FROM {$database['prefix']}Tags, 
 					{$database['prefix']}TagRelations 
 				WHERE id = tag 
@@ -169,7 +169,7 @@ function getResponseFeedByEntryId($blogid, $entryId, $mode = 'rss') {
 	
 	if(empty($blogid)) $blogid = getBlogId();
 
-	$entry = POD::queryRow("SELECT slogan, visibility, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
+	$entry = Data_IAdapter::queryRow("SELECT slogan, visibility, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
 	if(empty($entry)) return false;
 	if($entry['visibility'] < 2) return false;
 	if(in_array($entry['category'], getCategoryVisibilityList($blogid, 'private'))) return false;
@@ -227,7 +227,7 @@ function getCommentFeedByEntryId($blogid = null, $entryId, $rawMode = false, $mo
 	
 	if(empty($blogid)) $blogid = getBlogId();
 
-	$entry = POD::queryRow("SELECT slogan, visibility, title, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
+	$entry = Data_IAdapter::queryRow("SELECT slogan, visibility, title, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
 	if(empty($entry)) return false;
 	if($entry['visibility'] < 2) return false;
 	if(in_array($entry['category'], getCategoryVisibilityList($blogid, 'private'))) return false;
@@ -239,7 +239,7 @@ function getCommentFeedByEntryId($blogid = null, $entryId, $rawMode = false, $mo
 	} else {
 		$channel['link'] = $defaultURL."/".$entryId;
 	}
-	$result = POD::queryAll("SELECT *
+	$result = Data_IAdapter::queryAll("SELECT *
 		FROM {$database['prefix']}Comments
 		WHERE blogid = ".$blogid." 
 			AND entry = ".$entryId."
@@ -310,7 +310,7 @@ function getTrackbackFeedByEntryId($blogid = null, $entryId, $rawMode = false, $
 
 	if(empty($blogid)) $blogid = getBlogId();
 
-	$entry = POD::queryRow("SELECT slogan, visibility, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
+	$entry = Data_IAdapter::queryRow("SELECT slogan, visibility, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
 	if(empty($entry)) return false;
 	if($entry['visibility'] < 2) return false;
 	if(in_array($entry['category'], getCategoryVisibilityList($blogid, 'private'))) return false;
@@ -323,7 +323,7 @@ function getTrackbackFeedByEntryId($blogid = null, $entryId, $rawMode = false, $
 	} else {
 		$channel['link'] = $defaultURL."/".$entryId;
 	}
-	$result = POD::queryAll("SELECT * 
+	$result = Data_IAdapter::queryAll("SELECT * 
 		FROM {$database['prefix']}RemoteResponses
 		WHERE blogid = ".$blogid." 
 			AND entry = ".$entryId."
@@ -401,7 +401,7 @@ function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss') {
 	global $database, $serviceURL, $defaultURL, $blog, $service;
 	$channel = array();
 	$channel = initializeRSSchannel($blogid);
-	$entries = POD::queryAll("SELECT 
+	$entries = Data_IAdapter::queryAll("SELECT 
 			e.*, 
 			c.name AS categoryName, 
 			u.name AS author

@@ -47,7 +47,7 @@ class PluginCustomConfig{
 				return $__globalCache_data['pluginSettings'][$this->pluginName];
 			}
 		}
-		$configXml = POD::queryCell("SELECT settings FROM {$database['prefix']}Plugins WHERE blogid = {$this->blogid} AND name = '{$this->pluginName}'");
+		$configXml = Data_IAdapter::queryCell("SELECT settings FROM {$database['prefix']}Plugins WHERE blogid = {$this->blogid} AND name = '{$this->pluginName}'");
 		$t= Setting::fetchConfigVal($configXml);
 		return false==is_array($t)?array():$t;
 	}
@@ -64,7 +64,7 @@ class PluginCustomConfig{
 			$element.= "<field name=\"$key\" type=\"text\" ><![CDATA[$value]]></field>";
 		}
 		$xml = '<?xml version="1.0" encoding="utf-8"?><config>'.$element.'</config>';
-		$xml = POD::escapeString($xml);
+		$xml = Data_IAdapter::escapeString($xml);
 
 		if (defined('__TISTORY__')) {
 			expireGlobalDressing($this->blogid);
@@ -72,7 +72,7 @@ class PluginCustomConfig{
 			globalCacheExpire($this->blogid);
 		}
 
-		return POD::query("REPLACE INTO {$database['prefix']}Plugins (blogid, name, settings) VALUES({$this->blogid},'{$this->pluginName}', '$xml')");
+		return Data_IAdapter::query("REPLACE INTO {$database['prefix']}Plugins (blogid, name, settings) VALUES({$this->blogid},'{$this->pluginName}', '$xml')");
 	}
 	
 	/* public string null*/

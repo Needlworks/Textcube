@@ -234,7 +234,7 @@ if( Acl::check('group.administrators')) {
 									<tbody>
 <?php
 	$blogid = getBlogId();
-	$teamblog_user = POD::queryAll("SELECT t.*, u.loginid, u.password, u.name, u.created
+	$teamblog_user = Data_IAdapter::queryAll("SELECT t.*, u.loginid, u.password, u.name, u.created
 		FROM {$database['prefix']}Privileges t, 
 		 	{$database['prefix']}Users u 
 		WHERE t.blogid = '$blogid' 
@@ -245,7 +245,7 @@ if( Acl::check('group.administrators')) {
 
 	if(isset($teamblog_user)) {
 		foreach($teamblog_user as $value) {
-			$value['posting'] = POD::queryCell("SELECT count(*) 
+			$value['posting'] = Data_IAdapter::queryCell("SELECT count(*) 
 					FROM {$database['prefix']}Entries 
 					WHERE blogid = $blogid AND userid = {$value['userid']}");
 			$className= ($count%2)==1 ? 'even-line' : 'odd-line';

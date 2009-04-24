@@ -27,7 +27,7 @@ function getServiceSetting($name, $default = null) {
 	global $serviceSetting;
 	global $gCacheStorage;
 	if( empty($serviceSetting) ) {
-		$settings = POD::queryAllWithCache("SELECT name, value FROM {$database['prefix']}ServiceSettings" , MYSQL_NUM );
+		$settings = Data_IAdapter::queryAllWithCache("SELECT name, value FROM {$database['prefix']}ServiceSettings" , MYSQL_NUM );
 		foreach( $settings as $k => $v ) {
 			$serviceSetting[ $v[0] ] = $v[1];
 		}
@@ -40,17 +40,17 @@ function getServiceSetting($name, $default = null) {
 
 function setServiceSetting($name, $value) {
 	global $database;
-	$name = POD::escapeString(UTF8::lessenAsEncoding($name, 32));
-	$value = POD::escapeString($value);
+	$name = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($name, 32));
+	$value = Data_IAdapter::escapeString($value);
 	clearServiceSettingCache();
-	return POD::execute("REPLACE INTO {$database['prefix']}ServiceSettings VALUES('$name', '$value')");
+	return Data_IAdapter::execute("REPLACE INTO {$database['prefix']}ServiceSettings VALUES('$name', '$value')");
 }
 
 function removeServiceSetting($name,$pruneSimilarEntries = false) {
 	global $database;
 	clearServiceSettingCache();
-	if($pruneSimilarEntries) return POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name like '".POD::escapeString($name)."'");
-	else return POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".POD::escapeString($name)."'");
+	if($pruneSimilarEntries) return Data_IAdapter::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name like '".Data_IAdapter::escapeString($name)."'");
+	else return Data_IAdapter::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".Data_IAdapter::escapeString($name)."'");
 }
 
 function getBlogSetting($name, $default = null, $blogid = null) {

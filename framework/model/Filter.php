@@ -24,12 +24,12 @@ class Model_Filter {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = POD::query("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." $filter $sort");
+		$this->_result = Data_IAdapter::query("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." $filter $sort");
 		if ($this->_result) {
-			if ($this->_count = POD::num_rows($this->_result))
+			if ($this->_count = Data_IAdapter::num_rows($this->_result))
 				return $this->shift();
 			else
-				POD::free($this->_result);
+				Data_IAdapter::free($this->_result);
 		}
 		unset($this->_result);
 		return false;
@@ -37,7 +37,7 @@ class Model_Filter {
 	
 	function close() {
 		if (isset($this->_result)) {
-			POD::free($this->_result);
+			Data_IAdapter::free($this->_result);
 			unset($this->_result);
 		}
 		$this->_count = 0;
@@ -46,7 +46,7 @@ class Model_Filter {
 	
 	function shift() {
 		$this->reset();
-		if ($this->_result && ($row = POD::fetch($this->_result))) {
+		if ($this->_result && ($row = Data_IAdapter::fetch($this->_result))) {
 			foreach ($row as $name => $value) {
 				if ($name == 'blogid')
 					continue;
@@ -69,7 +69,7 @@ class Model_Filter {
 		
 		if (!$query->insert())
 			return $this->_error('insert');
-		$this->id = POD::insertId();
+		$this->id = Data_IAdapter::insertId();
 		return true;
 	}
 	
@@ -116,18 +116,18 @@ class Model_Filter {
 							$pattern[] = '*';
 						}
 					}
-					$conditions[] = 'pattern = "'.POD::escapeString(implode('.', $pattern)).'"';
+					$conditions[] = 'pattern = "'.Data_IAdapter::escapeString(implode('.', $pattern)).'"';
 				}
 				if (!empty($conditions)) {
 					$conditions = ' AND ('.implode(' OR ', $conditions).')';
 				} else {
 					$conditions = ' AND 1 = 0';
 				}
-				return POD::queryExistence('SELECT * FROM '.$database['prefix'].'Filters WHERE blogid = '.getBlogId().' AND type = "ip"'.$conditions.' LIMIT 1');
+				return Data_IAdapter::queryExistence('SELECT * FROM '.$database['prefix'].'Filters WHERE blogid = '.getBlogId().' AND type = "ip"'.$conditions.' LIMIT 1');
 			default:
-				$type = POD::escapeString($type);
-				$value = POD::escapeString(strtolower($value));
-				return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = '$type' AND '$value' LIKE CONCAT('%', LOWER(pattern), '%') LIMIT 1");
+				$type = Data_IAdapter::escapeString($type);
+				$value = Data_IAdapter::escapeString(strtolower($value));
+				return Data_IAdapter::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = '$type' AND '$value' LIKE CONCAT('%', LOWER(pattern), '%') LIMIT 1");
 		}
 	}
 
@@ -135,8 +135,8 @@ class Model_Filter {
 	function isAllowed($whiteurl) {
 		global $database;
 
-		$whiteurl = POD::escapeString(strtolower($whiteurl));
-		return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = 'whiteurl' AND '$whiteurl' LIKE CONCAT('%', LOWER(pattern), '%') LIMIT 1");
+		$whiteurl = Data_IAdapter::escapeString(strtolower($whiteurl));
+		return Data_IAdapter::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = 'whiteurl' AND '$whiteurl' LIKE CONCAT('%', LOWER(pattern), '%') LIMIT 1");
 	}
 	
 	function _buildQuery() {

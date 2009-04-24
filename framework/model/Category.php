@@ -34,15 +34,15 @@ class Model_Category {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." $filter $sort");
+		$this->_result = Data_IAdapter::query("SELECT $fields FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." $filter $sort");
 		if ($this->_result)
-			$this->_count = POD::num_rows($this->_result);
+			$this->_count = Data_IAdapter::num_rows($this->_result);
 		return $this->shift();
 	}
 	
 	function close() {
 		if (isset($this->_result)) {
-			POD::free($this->_result);
+			Data_IAdapter::free($this->_result);
 			unset($this->_result);
 		}
 		$this->_count = 0;
@@ -51,7 +51,7 @@ class Model_Category {
 	
 	function shift() {
 		$this->reset();
-		if ($this->_result && ($row = POD::fetch($this->_result))) {
+		if ($this->_result && ($row = Data_IAdapter::fetch($this->_result))) {
 			foreach ($row as $name => $value) {
 				if ($name == 'blogid')
 					continue;
@@ -118,7 +118,7 @@ class Model_Category {
 
 	function getNextCategoryId($id = 0) {
 		global $database;
-		$maxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()); 
+		$maxId = Data_IAdapter::queryCell("SELECT MAX(id) FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()); 
 		if($id==0)
 			return $maxId + 1;
 		else
@@ -148,7 +148,7 @@ class Model_Category {
 		if (!Validator::number($id, 0))
 			return false;
 		if ($id == 0) return true; // not specified case
-		return POD::queryExistence("SELECT id FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND id = $id");
+		return Data_IAdapter::queryExistence("SELECT id FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND id = $id");
 	}
 	
 	/*@static@*/
@@ -156,7 +156,7 @@ class Model_Category {
 		global $database;
 		if (empty($label))
 			return null;
-		return POD::queryCell("SELECT id FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND label = '" . POD::escapeString($label) . "'");
+		return Data_IAdapter::queryCell("SELECT id FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND label = '" . Data_IAdapter::escapeString($label) . "'");
 	}
 	
 	/*@static@*/
@@ -164,7 +164,7 @@ class Model_Category {
 		global $database;
 		if (!Validator::number($id, 1))
 			return null;
-		return POD::queryCell("SELECT label FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND id = $id");
+		return Data_IAdapter::queryCell("SELECT label FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND id = $id");
 	}
 
 	/*@static@*/
@@ -172,7 +172,7 @@ class Model_Category {
 		global $database;
 		if (!Validator::number($id, 1))
 			return null;
-		return POD::queryCell("SELECT parent FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND id = $id");
+		return Data_IAdapter::queryCell("SELECT parent FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND id = $id");
 	}
 
 	function _error($error) {

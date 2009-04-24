@@ -55,8 +55,8 @@ function finish($error = null) {
 		//]]>
 	</script>
 <?php 
-	$activeEditors = POD::queryColumn("SELECT DISTINCT contentEditor FROM {$database}Entries WHERE blogid = $blogid");
-	$activeFormatters = POD::queryColumn("SELECT DISTINCT contentFormatter FROM {$database}Entries WHERE blogid = $blogid");
+	$activeEditors = Data_IAdapter::queryColumn("SELECT DISTINCT contentEditor FROM {$database}Entries WHERE blogid = $blogid");
+	$activeFormatters = Data_IAdapter::queryColumn("SELECT DISTINCT contentFormatter FROM {$database}Entries WHERE blogid = $blogid");
 	if(!empty($activeEditors)) {foreach($activeEditors as $editor) activatePlugin($editor);}
 	if(!empty($activeFormatters)) {foreach($activeFormatters as $formatter) activatePlugin($formatter);}
 	echo _t('완료.');

@@ -31,7 +31,7 @@ if(Acl::check('group.writers') === false && !empty($suri['id'])) {
 	
 if (!isset($_GET['command'])) {
 	$temp = setEntryStar($suri['id'], isset($_GET['mark']) ? $_GET['mark'] : 1) == true ? 0 : 1;
-	$countResult = POD::queryExistence("SELECT `id` 
+	$countResult = Data_IAdapter::queryExistence("SELECT `id` 
 			FROM `{$database['prefix']}Entries` 
 			WHERE `blogid` = ".getBlogId()." AND `starred` = ".$_GET['mark']);
 	if ($countResult == false) {

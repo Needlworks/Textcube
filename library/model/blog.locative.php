@@ -10,7 +10,7 @@ function getLocatives($blogid) {
 function suggestLocatives($blogid, $filter) {
 	global $database;
 	$locatives = array();
-	$result = POD::queryAll('SELECT DISTINCT location, COUNT(*) cnt FROM '.$database['prefix'].'Entries WHERE blogid = '.$blogid.' AND location LIKE "'.POD::escapeString($filter).'%" GROUP BY location ORDER BY cnt DESC LIMIT 10');
+	$result = Data_IAdapter::queryAll('SELECT DISTINCT location, COUNT(*) cnt FROM '.$database['prefix'].'Entries WHERE blogid = '.$blogid.' AND location LIKE "'.Data_IAdapter::escapeString($filter).'%" GROUP BY location ORDER BY cnt DESC LIMIT 10');
 	if ($result) {
 		foreach ($result as $locative) {
 			$locatives[] = $locative[0];

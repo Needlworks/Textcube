@@ -60,6 +60,7 @@ $config = Model_Config::getInstance();
 $context = Model_Context::getInstance(); // automatic initialization via first instanciation
 
 /// Loading debug module
+/*
 if($config->service['debugmode'] == true) {
 	if(isset($config->service['dbms'])) {
 		switch($config->service['dbms']) {
@@ -68,7 +69,7 @@ if($config->service['debugmode'] == true) {
 		}
 	} else require_once(ROOT. "/library/components/Needlworks.Debug.MySQL.php");
 }
-    
+  */  
 /** LOAD : Required components / models / views 
     -------------------------------------------
     include.XXXX contains necessary file list. (XXXX : blog, owner, reader, feeder, icon)
@@ -90,12 +91,12 @@ header('Content-Type: text/html; charset=utf-8');
     Performs database connection.
 */
 if(!empty($config->database) && !empty($config->database["database"])) {
-	if(POD::bind($config->database) === false) {
+	if(Data_IAdapter::connect($config->database['server'],$config->database['database'],$config->database['username'],$config->database['password'],array()) === false) {
 		Utils_Respond::MessagePage('Problem with connecting database.<br /><br />Please re-visit later.');
 		exit;
 	}
 }
-$database['utf8'] = (POD::charset() == 'utf8') ? true : false;
+$database['utf8'] = (Data_IAdapter::charset() == 'utf8') ? true : false;
 /// Memcache module bind (if possible)
 global $memcache;
 $memcache = null;
@@ -150,7 +151,7 @@ if (!defined('NO_INITIALIZAION')) {
 	if(isset($config->database) && !empty($config->database['database'])) {
 		$timezone = new Timezone;
 		$timezone->set(isset($blog['timezone']) ? $blog['timezone'] : $config->service['timezone']);
-		POD::query('SET time_zone = \'' . $timezone->getCanonical() . '\'');
+		Data_IAdapter::query('SET time_zone = \'' . $timezone->getCanonical() . '\'');
 	}
 /** Locale Resources
     ----------------

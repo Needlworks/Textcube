@@ -9,7 +9,7 @@ function getArchives($blogid) {
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$skinSetting = getSkinSetting($blogid);
 	$archivesOnPage = $skinSetting['archivesOnPage'];
-	$result = POD::queryAllWithDBCache("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(e.published)) period, COUNT(*) count 
+	$result = Data_IAdapter::queryAllWithDBCache("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(e.published)) period, COUNT(*) count 
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 		GROUP BY period 
@@ -31,7 +31,7 @@ function getCalendar($blogid, $period) {
 	$calendar['year'] = substr($period, 0, 4);
 	$calendar['month'] = substr($period, 4, 2);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
-	$result = POD::queryAllWithDBCache("SELECT DISTINCT DAYOFMONTH(FROM_UNIXTIME(e.published)) 
+	$result = Data_IAdapter::queryAllWithDBCache("SELECT DISTINCT DAYOFMONTH(FROM_UNIXTIME(e.published)) 
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND YEAR(FROM_UNIXTIME(e.published)) = {$calendar['year']} AND MONTH(FROM_UNIXTIME(e.published)) = {$calendar['month']}",'entry');
 	if ($result) {

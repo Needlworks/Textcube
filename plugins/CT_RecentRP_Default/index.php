@@ -33,10 +33,10 @@ function _getRecentComments($blogid) {
 	$repliesChk = ($data['repliesChk'] == 1)?"":" AND replier is NULL ";
 	$limitLine = ($data['repliesList'])?$data['repliesList']:$skinSetting['commentsOnRecent'];
 	$sql = "SELECT * FROM {$database['prefix']}Comments WHERE blogid = {$blogid} AND entry>0 AND isFiltered = 0 {$repliesChk} ORDER BY written DESC LIMIT {$limitLine}";
-	if ($result = POD::query($sql)) {
-		while ($comment = POD::fetch($result)) {
+	if ($result = Data_IAdapter::query($sql)) {
+		while ($comment = Data_IAdapter::fetch($result)) {
 			if ($data['repliesChk'] == 2) {
-				$row = POD::queryCell("select count(*) from {$database['prefix']}Comments where blogid = $blogid AND parent = ".$comment['id']);
+				$row = Data_IAdapter::queryCell("select count(*) from {$database['prefix']}Comments where blogid = $blogid AND parent = ".$comment['id']);
 				$comment['replier'] = ($row)?"<img src=\"{$pluginURL}/replier.gif\" width=\"11\" height=\"9\" align=\"top\" style=\"margin-left:2px;\" alt=\"\" />":"";
 			}else{$comment['replier'] = "";}
 			$comment['secret'] = ($comment['secret'] == 1)?"<img src=\"{$pluginURL}/secret.gif\" width=\"9\" height=\"11\" style=\"margin-left:2px;\" alt=\"\" />":"";

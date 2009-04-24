@@ -43,16 +43,16 @@ function __tcSqlLogEnd( $result, $cachedResult = 0 )
 	$tcSqlQueryEndTime = explode(' ', microtime());
 	$elapsed = ($tcSqlQueryEndTime[1] - $__tcSqlQueryBeginTime[1]) + ($tcSqlQueryEndTime[0] - $__tcSqlQueryBeginTime[0]);
 	if( !$client_encoding ) {
-		$client_encoding = str_replace('_','-',mysqli_client_encoding(POD::$db));
+		$client_encoding = str_replace('_','-',mysqli_client_encoding(Data_IAdapter::$db));
 	}
 
 	if( $client_encoding != 'utf8' && function_exists('iconv') ) {
-		$__tcSqlLog[$__tcSqlLogCount]['error'] = iconv( $client_encoding, 'utf-8', mysqli_error(POD::$db));
+		$__tcSqlLog[$__tcSqlLogCount]['error'] = iconv( $client_encoding, 'utf-8', mysqli_error(Data_IAdapter::$db));
 	}
 	else {
 		$__tcSqlLog[$__tcSqlLogCount]['error'] = mysqli_error();
 	}
-	$__tcSqlLog[$__tcSqlLogCount]['errno'] = mysqli_errno(POD::$db);
+	$__tcSqlLog[$__tcSqlLogCount]['errno'] = mysqli_errno(Data_IAdapter::$db);
 
 	if( $cachedResult == 0 ) {
 		$__tcSqlLog[$__tcSqlLogCount]['elapsed'] = ceil($elapsed * 10000) / 10;
@@ -64,7 +64,7 @@ function __tcSqlLogEnd( $result, $cachedResult = 0 )
 	$__tcSqlLog[$__tcSqlLogCount]['rows'] = 0;
 	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = ($tcSqlQueryEndTime[1] - $__tcPageStartTime[1]) + ($tcSqlQueryEndTime[0] - $__tcPageStartTime[0]);
 	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = sprintf("%4.1f",ceil($__tcSqlLog[$__tcSqlLogCount]['endtime'] * 10000) / 10);
-	if( ! $cachedResult && mysqli_errno(POD::$db) == 0 ) {
+	if( ! $cachedResult && mysqli_errno(Data_IAdapter::$db) == 0 ) {
 		switch( strtolower(substr($__tcSqlLog[$__tcSqlLogCount]['sql'], 0, 6 )) )
 		{
 			case 'select':
@@ -73,7 +73,7 @@ function __tcSqlLogEnd( $result, $cachedResult = 0 )
 			case 'insert':
 			case 'delete':
 			case 'update':
-				$__tcSqlLog[$__tcSqlLogCount]['rows'] = mysqli_affected_rows(POD::$db);
+				$__tcSqlLog[$__tcSqlLogCount]['rows'] = mysqli_affected_rows(Data_IAdapter::$db);
 				break;
 		}
 	}
@@ -372,7 +372,7 @@ TFOOT;
 
 	global $service, $URLInfo, $suri;
 	print '<div class="debugTable">'.CRLF;
-	print '<h4>Current Database Management System :</h4>'.CRLF.'<p>'.$service['dbms'].' '.POD::version().'</p>'.CRLF;
+	print '<h4>Current Database Management System :</h4>'.CRLF.'<p>'.$service['dbms'].' '.Data_IAdapter::version().'</p>'.CRLF;
 	print '<h4>Cache system :</h4>'.CRLF;
 	if(isset($service['pagecache']) && $service['pagecache'] == true) print '<p>Page cache Enabled</p>'.CRLF;
 	else print '<p>Page cache Disabled</p>'.CRLF;

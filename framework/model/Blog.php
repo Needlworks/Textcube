@@ -10,15 +10,15 @@ class Model_Blog {
 	/*@static@*/
 	function changeOwner($blogid,$userid) {
 		global $database;
-		POD::execute("UPDATE `{$database['prefix']}Privileges` SET acl = 3 WHERE blogid = ".$blogid." and acl = " . BITWISE_OWNER);
+		Data_IAdapter::execute("UPDATE `{$database['prefix']}Privileges` SET acl = 3 WHERE blogid = ".$blogid." and acl = " . BITWISE_OWNER);
 	
-		$acl = POD::queryCell("SELECT acl FROM {$database['prefix']}Privileges WHERE blogid='$blogid' and userid='$userid'");
+		$acl = Data_IAdapter::queryCell("SELECT acl FROM {$database['prefix']}Privileges WHERE blogid='$blogid' and userid='$userid'");
 	
 		if( $acl === null ) { // If there is no ACL, add user into the blog.
-			POD::query("INSERT INTO `{$database['prefix']}Privileges`  
+			Data_IAdapter::query("INSERT INTO `{$database['prefix']}Privileges`  
 				VALUES('$blogid', '$userid', '".BITWISE_OWNER."', UNIX_TIMESTAMP(), '0')");
 		} else {
-			POD::execute("UPDATE `{$database['prefix']}Privileges` SET acl = ".BITWISE_OWNER." 
+			Data_IAdapter::execute("UPDATE `{$database['prefix']}Privileges` SET acl = ".BITWISE_OWNER." 
 				WHERE blogid = ".$blogid." and userid = " . $userid);
 		}
 		return true;
@@ -55,15 +55,15 @@ class Model_Blog {
 		if ($blogid == null) {
 			$blogid = getBlogId();
 		}
-		POD::execute("UPDATE `{$database['prefix']}Entries` 
+		Data_IAdapter::execute("UPDATE `{$database['prefix']}Entries` 
 			SET userid = ".Model_User::getBlogOwner($blogid)." 
 			WHERE blogid = ".$blogid." AND userid = ".$userid);
 	
 		// Delete ACL relation.
-		if(!POD::execute("DELETE FROM `{$database['prefix']}Privileges` WHERE blogid='$blogid' and userid='$userid'"))
+		if(!Data_IAdapter::execute("DELETE FROM `{$database['prefix']}Privileges` WHERE blogid='$blogid' and userid='$userid'"))
 			return false;
 		// And if there is no blog related to the specific user, delete user.
-		if($clean && !POD::queryAll("SELECT * FROM `{$database['prefix']}Privileges` WHERE userid = '$userid'")) {
+		if($clean && !Data_IAdapter::queryAll("SELECT * FROM `{$database['prefix']}Privileges` WHERE userid = '$userid'")) {
 			Model_User::removePermanent($userid);
 		}
 		return true;
@@ -74,12 +74,12 @@ class Model_Blog {
 		global $database;
 		if(empty($ACLtype) || empty($userid))
 			return false;
-		$acl = POD::queryCell("SELECT acl
+		$acl = Data_IAdapter::queryCell("SELECT acl
 				FROM {$database['prefix']}Privileges 
 				WHERE blogid='$blogid' and userid='$userid'");
 		if( $acl === null ) { // If there is no ACL, add user into the blog.
 			$name = Model_User::getName($userid);
-			POD::query("INSERT INTO `{$database['prefix']}Privileges`  
+			Data_IAdapter::query("INSERT INTO `{$database['prefix']}Privileges`  
 					VALUES('$blogid', '$userid', '0', UNIX_TIMESTAMP(), '0')");
 			$acl = 0;
 		}
@@ -99,7 +99,7 @@ class Model_Blog {
 		} else {
 			$acl &= ~$bitwise;
 		}
-		return POD::execute("UPDATE `{$database['prefix']}Privileges` 
+		return Data_IAdapter::execute("UPDATE `{$database['prefix']}Privileges` 
 			SET acl = ".$acl." 
 			WHERE blogid = ".$blogid." and userid = ".$userid);
 	}

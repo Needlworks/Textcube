@@ -17,7 +17,7 @@ function getBlogidByName($name) {
 
 function getBlogidBySecondaryDomain($domain) {
 	global $database;
-	return POD::queryCell("SELECT blogid FROM {$database['prefix']}BlogSettings WHERE name = 'secondaryDomain' AND (value = '$domain' OR  value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "')");
+	return Data_IAdapter::queryCell("SELECT blogid FROM {$database['prefix']}BlogSettings WHERE name = 'secondaryDomain' AND (value = '$domain' OR  value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "')");
 }
 
 function getBlogSettings($blogid) {
@@ -43,7 +43,7 @@ function getSkinSetting($blogid, $forceReload = false) {
 			return $retval;
 		}
 	}
-	if ($retval = POD::queryRow("SELECT * FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid",MYSQL_ASSOC)) {
+	if ($retval = Data_IAdapter::queryRow("SELECT * FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid",MYSQL_ASSOC)) {
 		if ($retval != FALSE) {
 			if (!Validator::directory($retval['skin']) && ($retval['skin'] !="customize/$blogid")) {
 				$retval['skin'] = $service['skin'];

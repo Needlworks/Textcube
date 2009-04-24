@@ -362,10 +362,10 @@ class Model_OpenIDConsumer extends Model_OpenID {
 	{
 		global $database;
 		$blogid = getBlogId();
-		$openid = POD::escapeString($openid);
+		$openid = Data_IAdapter::escapeString($openid);
 
 		$query = "SELECT openid FROM {$database['prefix']}OpenIDUsers WHERE blogid={$blogid} and openid='{$openid}'";
-		$result = POD::queryCell($query);
+		$result = Data_IAdapter::queryCell($query);
 
 		if (is_null($result)) {
 			return false;
@@ -401,9 +401,9 @@ class Model_OpenIDConsumer extends Model_OpenID {
 		if( empty($openid) ) {
 			return false;
 		}
-		$openid = POD::escapeString($openid);
+		$openid = Data_IAdapter::escapeString($openid);
 		$query = "SELECT data FROM {$database['prefix']}OpenIDUsers WHERE openid='{$openid}'";
-		$result = POD::queryCell($query);
+		$result = Data_IAdapter::queryCell($query);
 		$data = unserialize( $result );
 
 		if( !empty($nickname) ) $data['nickname'] = $nickname;
@@ -411,25 +411,25 @@ class Model_OpenIDConsumer extends Model_OpenID {
 		Model_OpenIDConsumer::setUserInfo( $data['nickname'], $data['homepage'] );
 
 		$data = serialize( $data );
-		POD::execute("UPDATE {$database['prefix']}OpenIDUsers SET data='{$data}' where openid = '{$openid}'");
+		Data_IAdapter::execute("UPDATE {$database['prefix']}OpenIDUsers SET data='{$data}' where openid = '{$openid}'");
 	}
 
 	function update($openid,$delegatedid,$nickname,$homepage=null)
 	{
 		global $database;
 		$blogid = getBlogId();
-		$openid = POD::escapeString($openid);
-		$delegatedid = POD::escapeString($delegatedid);
+		$openid = Data_IAdapter::escapeString($openid);
+		$delegatedid = Data_IAdapter::escapeString($delegatedid);
 
 		$query = "SELECT data FROM {$database['prefix']}OpenIDUsers WHERE openid='{$openid}'";
-		$result = POD::queryCell($query);
+		$result = Data_IAdapter::queryCell($query);
 
 		if (is_null($result)) {
 			$data = serialize( array( 'nickname' => $nickname, 'homepage' => $homepage ) );
 			Model_OpenIDConsumer::setUserInfo( $nickname, $homepage );
 
 			/* Owner column is used for reference, all openid records are shared */
-			POD::execute("INSERT INTO {$database['prefix']}OpenIDUsers (blogid,openid,delegatedid,firstLogin,lastLogin,loginCount,data) VALUES ($blogid,'{$openid}','{$delegatedid}',UNIX_TIMESTAMP(),UNIX_TIMESTAMP(),1,'{$data}')");
+			Data_IAdapter::execute("INSERT INTO {$database['prefix']}OpenIDUsers (blogid,openid,delegatedid,firstLogin,lastLogin,loginCount,data) VALUES ($blogid,'{$openid}','{$delegatedid}',UNIX_TIMESTAMP(),UNIX_TIMESTAMP(),1,'{$data}')");
 		} else {
 			$data = unserialize( $result );
 
@@ -438,7 +438,7 @@ class Model_OpenIDConsumer extends Model_OpenID {
 			Model_OpenIDConsumer::setUserInfo( $data['nickname'], $data['homepage'] );
 
 			$data = serialize( $data );
-			POD::execute("UPDATE {$database['prefix']}OpenIDUsers SET data='{$data}', lastLogin = UNIX_TIMESTAMP(), loginCount = loginCount + 1 where openid = '{$openid}'");
+			Data_IAdapter::execute("UPDATE {$database['prefix']}OpenIDUsers SET data='{$data}', lastLogin = UNIX_TIMESTAMP(), loginCount = loginCount + 1 where openid = '{$openid}'");
 		}
 		return;
 	}
@@ -450,8 +450,8 @@ class Model_OpenIDConsumer extends Model_OpenID {
 		Acl::authorize('openid', $openid);
 
 		$blogid = getBlogId();
-		$query = "SELECT userid FROM {$database['prefix']}UserSettings WHERE name like 'openid.%' and value='".POD::escapeString($openid)."' order by userid";
-		$result = POD::queryRow($query);
+		$query = "SELECT userid FROM {$database['prefix']}UserSettings WHERE name like 'openid.%' and value='".Data_IAdapter::escapeString($openid)."' order by userid";
+		$result = Data_IAdapter::queryRow($query);
 
 		$userid = null;
 		if( $result ) {
@@ -504,7 +504,7 @@ class Model_OpenIDConsumer extends Model_OpenID {
 		global $database;
 
 		$sql="SELECT * FROM {$database['prefix']}Comments WHERE a.blogid = $blogid AND a.id = $id";
-		return POD::queryRow($sql, MYSQL_ASSOC);
+		return Data_IAdapter::queryRow($sql, MYSQL_ASSOC);
 	}
 
 	function commentFetchHint( $comment_ids, $blogid )

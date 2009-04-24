@@ -27,9 +27,9 @@ $serverTime = strftime( "Server Time: %Y-%m-%d %H:%M:%S %z (%Z)", time() );
 /* Database version */
 $dbVersion = '';
 //if( $service['dbms'] == 'mysql' ) {
-	$dbVersion = POD::queryColumn("SELECT VERSION()");
+	$dbVersion = Data_IAdapter::queryColumn("SELECT VERSION()");
 	$dbVersion = "MySQL: " . $dbVersion[0];
-	$dbStat = preg_replace( "/\\s{2,}/", "<br />", POD::stat());
+	$dbStat = preg_replace( "/\\s{2,}/", "<br />", Data_IAdapter::stat());
 //}
 
 /* Webserver information */

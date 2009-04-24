@@ -7,7 +7,7 @@ function getEntriesTotalCount($blogid) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$count =  POD::queryCell("SELECT COUNT(id) 
+	$count =  Data_IAdapter::queryCell("SELECT COUNT(id) 
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0");
 	return ($count ? $count : 0);
@@ -17,7 +17,7 @@ function getNoticesTotalCount($blogid) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	return POD::queryCell("SELECT COUNT(*) 
+	return Data_IAdapter::queryCell("SELECT COUNT(*) 
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category = -2");
 }
@@ -28,7 +28,7 @@ function getEntries($blogid, $attributes = '*', $condition = false, $order = 'pu
 		$condition = 'AND ' . $condition;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (userid = '.getUserId().' OR visibility > 0)' : '';
-	return POD::queryAll("SELECT $attributes FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility $condition ORDER BY $order");
+	return Data_IAdapter::queryAll("SELECT $attributes FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility $condition ORDER BY $order");
 }
 
 
@@ -36,7 +36,7 @@ function getTemplates($blogid, $attributes = '*', $condition = false, $order = '
 	global $database;
 	if (!empty($condition))
 		$condition = 'AND ' . $condition;
-	return POD::queryAll("SELECT $attributes 
+	return Data_IAdapter::queryAll("SELECT $attributes 
 			FROM {$database['prefix']}Entries 
 			WHERE blogid = $blogid 
 				AND draft = 0 AND category = -4 $condition 
@@ -67,7 +67,7 @@ function getEntry($blogid, $id, $draft = false) {
 				'slogan'     => '');
 	}
 	if ($draft) {
-		$entry = POD::queryRow("SELECT * FROM {$database['prefix']}Entries 
+		$entry = Data_IAdapter::queryRow("SELECT * FROM {$database['prefix']}Entries 
 				WHERE blogid = $blogid 
 					AND id = $id 
 					AND draft = 1");
@@ -78,13 +78,13 @@ function getEntry($blogid, $id, $draft = false) {
 		else if ($entry['published'] != 0)
 			$entry['appointed'] = $entry['published'];
 		if ($id != 0)
-			$entry['published'] = POD::queryCell("SELECT published 
+			$entry['published'] = Data_IAdapter::queryCell("SELECT published 
 					FROM {$database['prefix']}Entries 
 					WHERE blogid = $blogid AND id = $id AND draft = 0");
 		return $entry;
 	} else {
 		$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-		$entry = POD::queryRow("SELECT * 
+		$entry = Data_IAdapter::queryRow("SELECT * 
 				FROM {$database['prefix']}Entries 
 				WHERE blogid = $blogid AND id = $id AND draft = 0 $visibility");
 		if (!$entry)
@@ -97,7 +97,7 @@ function getEntry($blogid, $id, $draft = false) {
 
 function getUserIdOfEntry($blogid, $id, $draft = false) {
 	global $database;
-	$result = POD::queryCell("SELECT userid 
+	$result = Data_IAdapter::queryCell("SELECT userid 
 		FROM {$database['prefix']}Entries
 		WHERE 
 			blogid = $blogid AND id = $id");
@@ -112,7 +112,7 @@ function getEntryAttributes($blogid, $id, $attributeNames) {
 		return null;
 	
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$attributes = POD::queryRow("SELECT $attributeNames FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 0 $visibility");
+	$attributes = Data_IAdapter::queryRow("SELECT $attributeNames FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 0 $visibility");
 	return $attributes;
 }
 
@@ -123,7 +123,7 @@ function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
 	if (!doesHaveOwnership() && getCategoryVisibility($blogid, $category) < 2 && $category != 0)
 		return array();
 	if ($category > 0) {
-		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
+		$categories = Data_IAdapter::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
 		if(!doesHaveOwnership()) 
 			$categories = array_diff($categories, getCategoryVisibilityList($blogid, 'private'));
@@ -162,7 +162,7 @@ function getEntryListWithPagingByTag($blogid, $tag, $page, $count) {
 	global $database, $suri, $folderURL;
 	if ($tag === null)
 		return array(array(), array('url'=>'','prefix'=>'','postfix'=>''));	
-	$tag = POD::escapeString($tag);
+	$tag = Data_IAdapter::escapeString($tag);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$sql = "SELECT e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published
@@ -217,7 +217,7 @@ function getEntriesWithPagingByCategory($blogid, $category, $page, $count, $coun
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	if ($category > 0) {
-		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category $visibility");
+		$categories = Data_IAdapter::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category $visibility");
 		array_push($categories, $category);
 		$cond = 'AND e.category IN (' . implode(', ', $categories) . ')';
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
@@ -237,7 +237,7 @@ function getEntriesWithPagingByTag($blogid, $tag, $page, $count, $countItem = nu
 	global $database, $folderURL, $suri;
 	if ($tag === null)
 		return fetchWithPaging(null, $page, $count, "$folderURL/{$suri['value']}");
-	$tag = POD::escapeString($tag);
+	$tag = Data_IAdapter::escapeString($tag);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$sql = "SELECT e.*, c.label categoryLabel 
@@ -314,7 +314,7 @@ function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count
 		LEFT JOIN {$database['prefix']}Entries d ON e.blogid = d.blogid AND e.id = d.id AND d.draft = 1 
 		WHERE e.blogid = $blogid AND e.draft = 0" . $teamMemberFilter;
 	if ($category > 0) {
-		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
+		$categories = Data_IAdapter::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
 	} else if ($category == -3) {
@@ -367,13 +367,13 @@ function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false
 			}
 		}
 	}
-	$currentEntry = POD::queryRow("SELECT e.*, c.label categoryLabel 
+	$currentEntry = Data_IAdapter::queryRow("SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid 
 			AND e.id = $id 
 			AND e.draft = 0 $visibility AND $category");
-	$result = POD::query("SELECT e.id 
+	$result = Data_IAdapter::query("SELECT e.id 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid 
@@ -388,7 +388,7 @@ function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false
 		$paging['pages'] = ($isNotice) ? getNoticesTotalCount($blogid) : getEntriesTotalCount($blogid);
 	}
 
-	for ($i = 1; $entry = POD::fetch($result); $i++) {
+	for ($i = 1; $entry = Data_IAdapter::fetch($result); $i++) {
 		if ($entry['id'] != $id) {
 			if (array_push($paging['before'], $entry['id']) > 4) {
 				if ($i == 5) 
@@ -401,10 +401,10 @@ function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false
 		$paging['page'] = $i;
 		array_push($entries, $currentEntry);
 		$paging['after'] = array();
-		for ($i++; (count($paging['after']) < 4) && ($entry = POD::fetch($result)); $i++)
+		for ($i++; (count($paging['after']) < 4) && ($entry = Data_IAdapter::fetch($result)); $i++)
 			array_push($paging['after'], $entry['id']);
 		if ($i < $paging['pages']) {
-			while ($entry = POD::fetch($result))
+			while ($entry = Data_IAdapter::fetch($result))
 				$paging['last'] = $entry['id'];
 		}
 		if (count($paging['before']) > 0)
@@ -437,14 +437,14 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false, $catego
 			}
 		}
 	}
-	$currentEntry = POD::queryRow("SELECT e.*, c.label categoryLabel 
+	$currentEntry = Data_IAdapter::queryRow("SELECT e.*, c.label categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid 
-			AND e.slogan = '".POD::escapeString($slogan)."' 
+			AND e.slogan = '".Data_IAdapter::escapeString($slogan)."' 
 			AND e.draft = 0 $visibility AND $category");
 
-	$result = POD::query("SELECT e.id, e.slogan 
+	$result = Data_IAdapter::query("SELECT e.id, e.slogan 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid 
@@ -460,7 +460,7 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false, $catego
 		$paging['pages'] = ($isNotice) ? getNoticesTotalCount($blogid) : getEntriesTotalCount($blogid);
 	}
 	
-	for ($i = 1; $entry = POD::fetch($result); $i++) {
+	for ($i = 1; $entry = Data_IAdapter::fetch($result); $i++) {
 		if ($entry['slogan'] != $slogan) {
 			if (array_push($paging['before'], $entry['slogan']) > 4) if ($i == 5)
 				$paging['first'] = array_shift($paging['before']);
@@ -471,10 +471,10 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false, $catego
 		$paging['page'] = $i;
 		array_push($entries, $currentEntry);
 		$paging['after'] = array();
-		for ($i++; (count($paging['after']) < 4) && ($entry = POD::fetch($result)); $i++)
+		for ($i++; (count($paging['after']) < 4) && ($entry = Data_IAdapter::fetch($result)); $i++)
 			array_push($paging['after'], $entry['slogan']);
 		if ($i < $paging['pages']) {
-			while ($entry = POD::fetch($result))
+			while ($entry = Data_IAdapter::fetch($result))
 				$paging['last'] = $entry['slogan'];
 		}
 		if (count($paging['before']) > 0)
@@ -499,11 +499,11 @@ function getRecentEntries($blogid) {
 	global $database, $skinSetting;
 	$entries = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
-	$result = POD::query("SELECT e.id, e.userid, e.title, e.slogan, e.comments, e.published 
+	$result = Data_IAdapter::query("SELECT e.id, e.userid, e.title, e.slogan, e.comments, e.published 
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 		ORDER BY published DESC LIMIT {$skinSetting['entriesOnRecent']}");
-	while ($entry = POD::fetch($result)) {
+	while ($entry = Data_IAdapter::fetch($result)) {
 		array_push($entries, $entry);
 	}
 	return $entries;
@@ -529,13 +529,13 @@ function addEntry($blogid, $entry, $userid = null) {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
 	}
 
-	$slogan = POD::escapeString(UTF8::lessenAsEncoding($slogan, 255));
-	$title = POD::escapeString($entry['title']);
+	$slogan = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($slogan, 255));
+	$title = Data_IAdapter::escapeString($entry['title']);
 
 	if($entry['category'] == -1) {
 		if($entry['visibility'] == 1 || $entry['visibility'] == 3)
 			return false;
-		if(POD::queryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND title = '$title' AND category = -1") > 0)
+		if(Data_IAdapter::queryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND title = '$title' AND category = -1") > 0)
 			return false;
 	}
 	
@@ -547,19 +547,19 @@ function addEntry($blogid, $entry, $userid = null) {
 		$entry['visibility'] = 0;
 	}
 
-	$result = POD::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
+	$result = Data_IAdapter::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
 	for ($i = 1; $result > 0; $i++) {
 		if ($i > 1000)
 			return false;
-		$slogan = POD::escapeString(UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i);
-		$result = POD::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
+		$slogan = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i);
+		$result = Data_IAdapter::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
 	}
 	$userid = $entry['userid'];
-	$content = POD::escapeString($entry['content']);
-	$contentFormatter = POD::escapeString($entry['contentFormatter']);
-	$contentEditor = POD::escapeString($entry['contentEditor']);
-	$password = POD::escapeString(generatePassword());
-	$location = POD::escapeString($entry['location']);
+	$content = Data_IAdapter::escapeString($entry['content']);
+	$contentFormatter = Data_IAdapter::escapeString($entry['contentFormatter']);
+	$contentEditor = Data_IAdapter::escapeString($entry['contentEditor']);
+	$password = Data_IAdapter::escapeString(generatePassword());
+	$location = Data_IAdapter::escapeString($entry['location']);
 	if (!isset($entry['firstEntry']) && isset($entry['published']) && is_numeric($entry['published']) && ($entry['published'] >= 2)) {
 		$published = $entry['published'];
 		$entry['visibility'] = 0 - $entry['visibility'];
@@ -573,13 +573,13 @@ function addEntry($blogid, $entry, $userid = null) {
 		$published = 'UNIX_TIMESTAMP()';
 	}
 	
-	$currentMaxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0");
+	$currentMaxId = Data_IAdapter::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0");
 	if(!empty($currentMaxId) && $currentMaxId > 0) {
 		$id = $currentMaxId + 1;
 	} else {
 		$id = 1;
 	}
-	$result = POD::query("INSERT INTO {$database['prefix']}Entries 
+	$result = Data_IAdapter::query("INSERT INTO {$database['prefix']}Entries 
 			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, contentFormatter,
 			 contentEditor, location, password, acceptComment, acceptTrackback, published, created, modified,
 			 comments, trackbacks, pingbacks) 
@@ -608,8 +608,8 @@ function addEntry($blogid, $entry, $userid = null) {
 			0)");
 	if (!$result)
 		return false;
-	POD::query("UPDATE {$database['prefix']}Attachments SET parent = $id WHERE blogid = $blogid AND parent = 0");
-	POD::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 1");
+	Data_IAdapter::query("UPDATE {$database['prefix']}Attachments SET parent = $id WHERE blogid = $blogid AND parent = 0");
+	Data_IAdapter::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 1");
 	updateEntriesOfCategory($blogid, $entry['category']);
 	if ($entry['visibility'] == 3)
 		syndicateEntry($id, 'create');
@@ -636,7 +636,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 
 	if($entry['id'] == 0) return false;
 	
-	$oldEntry = POD::queryRow("SELECT *
+	$oldEntry = Data_IAdapter::queryRow("SELECT *
 		FROM {$database['prefix']}Entries
 		WHERE blogid = $blogid
 		AND id = {$entry['id']}
@@ -652,13 +652,13 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	} else {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
 	}
-	$slogan = POD::escapeString(UTF8::lessenAsEncoding($slogan, 255));
-	$title = POD::escapeString($entry['title']);
+	$slogan = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($slogan, 255));
+	$title = Data_IAdapter::escapeString($entry['title']);
 
 	if($entry['category'] == -1) {
 		if($entry['visibility'] == 1 || $entry['visibility'] == 3)
 			return false;
-		if(POD::queryCell("SELECT count(*) 
+		if(Data_IAdapter::queryCell("SELECT count(*) 
 			FROM {$database['prefix']}Entries 
 			WHERE blogid = $blogid 
 				AND id <> {$entry['id']} 
@@ -676,7 +676,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 		$entry['visibility'] = 0;
 	}
 	
-	$result = POD::queryCount("SELECT slogan 
+	$result = Data_IAdapter::queryCount("SELECT slogan 
 		FROM {$database['prefix']}Entries 
 		WHERE blogid = $blogid 
 		AND slogan = '$slogan' 
@@ -684,21 +684,21 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 		AND draft = 0
 		LIMIT 1");
 	if ($result == 0) { // if changed
-		$result = POD::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
+		$result = Data_IAdapter::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
 		for ($i = 1; $result > 0; $i++) {
 			if ($i > 1000)
 				return false;
-			$slogan = POD::escapeString(UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i);
-			$result = POD::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
+			$slogan = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i);
+			$result = Data_IAdapter::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
 		}
 	}
 	$tags = getTagsWithEntryString($entry['tag']);
 	modifyTagsWithEntryId($blogid, $entry['id'], $tags);
 	
-	$location = POD::escapeString($entry['location']);
-	$content = POD::escapeString($entry['content']);
-	$contentFormatter = POD::escapeString($entry['contentFormatter']);
-	$contentEditor = POD::escapeString($entry['contentEditor']);
+	$location = Data_IAdapter::escapeString($entry['location']);
+	$content = Data_IAdapter::escapeString($entry['content']);
+	$contentFormatter = Data_IAdapter::escapeString($entry['contentFormatter']);
+	$contentEditor = Data_IAdapter::escapeString($entry['contentEditor']);
 	switch ($entry['published']) {
 		case 0:
 			$published = 'published';
@@ -718,7 +718,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 			break;
 	}
 
-	$result = POD::query("UPDATE {$database['prefix']}Entries
+	$result = Data_IAdapter::query("UPDATE {$database['prefix']}Entries
 			SET
 				userid             = {$entry['userid']},
 				visibility         = {$entry['visibility']},
@@ -737,7 +737,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 				modified           = UNIX_TIMESTAMP()
 			WHERE blogid = $blogid AND id = {$entry['id']} AND draft = $updateDraft");
 	if ($result)
-		@POD::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 1");
+		@Data_IAdapter::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 1");
 
 	updateEntriesOfCategory($blogid, $oldEntry['category']);
 	updateEntriesOfCategory($blogid, $entry['category']);
@@ -746,7 +746,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	$gCacheStorage->purge();
 	if ($entry['visibility'] == 3)
 		syndicateEntry($entry['id'], 'modify');
-	POD::query("UPDATE {$database['prefix']}Attachments SET parent = {$entry['id']} WHERE blogid = $blogid AND parent = 0");
+	Data_IAdapter::query("UPDATE {$database['prefix']}Attachments SET parent = {$entry['id']} WHERE blogid = $blogid AND parent = 0");
 	if ($entry['visibility'] >= 2)
 		clearFeed();
 	return $result ? $entry['id'] : false;
@@ -762,7 +762,7 @@ function saveDraftEntry($blogid, $entry) {
 
 	if($entry['id'] == 0) return -11;
 
-	$draftCount = POD::queryCell("SELECT count(*) FROM {$database['prefix']}Entries
+	$draftCount = Data_IAdapter::queryCell("SELECT count(*) FROM {$database['prefix']}Entries
 		WHERE blogid = $blogid
 			AND id = ".$entry['id']."
 			AND draft = 1");
@@ -773,7 +773,7 @@ function saveDraftEntry($blogid, $entry) {
 		$doUpdate = false;
 	}
 	// 원 글을 읽어서 몇가지 정보를 보존한다. 원래 글이 없는 경우 draft는 저장될 수 없다.
-	$origEntry = POD::queryRow("SELECT created, comments, trackbacks, pingbacks, password
+	$origEntry = Data_IAdapter::queryRow("SELECT created, comments, trackbacks, pingbacks, password
 		FROM {$database['prefix']}Entries
 		WHERE blogid = $blogid
 			AND id = ".$entry['id']."
@@ -795,13 +795,13 @@ function saveDraftEntry($blogid, $entry) {
 	} else {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
 	}
-	$slogan = POD::escapeString(UTF8::lessenAsEncoding($slogan, 255));
-	$title = POD::escapeString($entry['title']);
+	$slogan = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($slogan, 255));
+	$title = Data_IAdapter::escapeString($entry['title']);
 
 	if($entry['category'] == -1) {
 		if($entry['visibility'] == 1 || $entry['visibility'] == 3)
 			return false;
-		if(POD::queryCell("SELECT count(*) 
+		if(Data_IAdapter::queryCell("SELECT count(*) 
 			FROM {$database['prefix']}Entries 
 			WHERE blogid = $blogid 
 				AND id <> {$entry['id']} 
@@ -819,28 +819,28 @@ function saveDraftEntry($blogid, $entry) {
 		$entry['visibility'] = 0;
 	}
 	
-	$result = POD::queryCount("SELECT slogan 
+	$result = Data_IAdapter::queryCount("SELECT slogan 
 		FROM {$database['prefix']}Entries 
 		WHERE blogid = $blogid 
 		AND slogan = '$slogan' 
 		AND id = {$entry['id']} 
 		AND draft = 0 LIMIT 1");
 	if ($result == 0) { // if changed
-		$result = POD::queryExistence("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
+		$result = Data_IAdapter::queryExistence("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
 		for ($i = 1; $result != false; $i++) {
 			if ($i > 1000)
 				return false;
-			$slogan = POD::escapeString(UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i);
-			$result = POD::queryExistence("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
+			$slogan = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i);
+			$result = Data_IAdapter::queryExistence("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
 		}
 	}
 	$tags = getTagsWithEntryString($entry['tag']);
 	modifyTagsWithEntryId($blogid, $entry['id'], $tags);
 	
-	$location = POD::escapeString($entry['location']);
-	$content = POD::escapeString($entry['content']);
-	$contentFormatter = POD::escapeString($entry['contentFormatter']);
-	$contentEditor = POD::escapeString($entry['contentEditor']);
+	$location = Data_IAdapter::escapeString($entry['location']);
+	$content = Data_IAdapter::escapeString($entry['content']);
+	$contentFormatter = Data_IAdapter::escapeString($entry['contentFormatter']);
+	$contentEditor = Data_IAdapter::escapeString($entry['contentEditor']);
 	switch ($entry['published']) {
 		case 0:
 			$published = 'published';
@@ -855,7 +855,7 @@ function saveDraftEntry($blogid, $entry) {
 	}
 
 	if($doUpdate) {
-		$result = POD::query("UPDATE {$database['prefix']}Entries
+		$result = Data_IAdapter::query("UPDATE {$database['prefix']}Entries
 			SET
 				userid             = {$entry['userid']},
 				visibility         = {$entry['visibility']},
@@ -874,7 +874,7 @@ function saveDraftEntry($blogid, $entry) {
 				modified           = UNIX_TIMESTAMP()
 			WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 1");
 	} else {
-		$result = POD::query("INSERT INTO {$database['prefix']}Entries 
+		$result = Data_IAdapter::query("INSERT INTO {$database['prefix']}Entries 
 			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, contentFormatter,
 			 contentEditor, location, password, acceptComment, acceptTrackback, published, created, modified,
 			 comments, trackbacks, pingbacks) 
@@ -907,11 +907,11 @@ function saveDraftEntry($blogid, $entry) {
 
 function updateRemoteResponsesOfEntry($blogid, $id) {
 	global $database;
-	$trackbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND entry = $id AND isFiltered = 0 AND type = 'trackback'");
-	$pingbacks  = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND entry = $id AND isFiltered = 0 AND type = 'pingback'");
+	$trackbacks = Data_IAdapter::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND entry = $id AND isFiltered = 0 AND type = 'trackback'");
+	$pingbacks  = Data_IAdapter::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND entry = $id AND isFiltered = 0 AND type = 'pingback'");
 	if ($trackbacks === null || $pingbacks === null)
 		return false;
-	return POD::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks, pingbacks = $pingbacks WHERE blogid = $blogid AND id = $id");
+	return Data_IAdapter::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks, pingbacks = $pingbacks WHERE blogid = $blogid AND id = $id");
 }
 
 function deleteEntry($blogid, $id) {
@@ -923,18 +923,18 @@ function deleteEntry($blogid, $id) {
 
 	$target = getEntry($blogid, $id);
 	if (is_null($target)) return false;
-	if (POD::queryCell("SELECT visibility FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id") == 3)
+	if (Data_IAdapter::queryCell("SELECT visibility FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id") == 3)
 		syndicateEntry($id, 'delete');
 	CacheControl::flushEntry($id);
 	CacheControl::flushDBCache('entry');
 	CacheControl::flushDBCache('comment');
 	CacheControl::flushDBCache('trackback');
 	$gCacheStorage->purge();
-	$result = POD::queryCount("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id");
+	$result = Data_IAdapter::queryCount("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id");
 	if ($result > 0) {
-		$result = POD::query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND entry = $id");
-		$result = POD::query("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND entry = $id");
-		$result = POD::query("DELETE FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid AND entry = $id");
+		$result = Data_IAdapter::query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND entry = $id");
+		$result = Data_IAdapter::query("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND entry = $id");
+		$result = Data_IAdapter::query("DELETE FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid AND entry = $id");
 		updateEntriesOfCategory($blogid, $target['category']);
 		deleteAttachments($blogid, $id);
 		
@@ -957,14 +957,14 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 		
 	if ($category == -1) { // Check Keyword duplication
 		foreach($targets as $entryId) {
-			$title = POD::queryCell("SELECT title FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0");
+			$title = Data_IAdapter::queryCell("SELECT title FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0");
 			if (is_null($title)) return false;
-			if (POD::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id <> $entryId AND draft = 0 AND title = '$title' AND category = -1") == true) return false;
+			if (Data_IAdapter::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id <> $entryId AND draft = 0 AND title = '$title' AND category = -1") == true) return false;
 		}
 	}
 	
 	foreach($targets as $entryId) {
-		$oldVisibility = POD::queryCell("SELECT visibility FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0");
+		$oldVisibility = Data_IAdapter::queryCell("SELECT visibility FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0");
 		$visibility = 	$oldVisibility;
 		if ($category < 0) {
 			if ($visibility == 1) $visibility = 0;
@@ -974,7 +974,7 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 		if (($oldVisibility == 3) && ($visibility != 3))
 			syndicateEntry($entryId, 'delete');
 			
-		POD::execute("UPDATE {$database['prefix']}Entries SET category = $category , visibility = $visibility WHERE blogid = $blogid AND id = $entryId");
+		Data_IAdapter::execute("UPDATE {$database['prefix']}Entries SET category = $category , visibility = $visibility WHERE blogid = $blogid AND id = $entryId");
 	}	
 
 	if(updateEntriesOfCategory($blogid, $category)) {
@@ -994,7 +994,7 @@ function setEntryVisibility($id, $visibility) {
 	$blogid = getBlogId();
 	if (($visibility < 0) || ($visibility > 3))
 		return false;
-	list($oldVisibility, $category) = POD::queryRow("SELECT visibility, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 0");
+	list($oldVisibility, $category) = Data_IAdapter::queryRow("SELECT visibility, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 0");
 
 	if ($category < 0) {
 		if ($visibility == 1) $visibility = 0;
@@ -1010,7 +1010,7 @@ function setEntryVisibility($id, $visibility) {
 		syndicateEntry($id, 'delete');
 	else if ($visibility == 3) {
 		if (!syndicateEntry($id, 'create')) {
-			POD::query("UPDATE {$database['prefix']}Entries 
+			Data_IAdapter::query("UPDATE {$database['prefix']}Entries 
 				SET visibility = $oldVisibility, 
 					modified = UNIX_TIMESTAMP() 
 				WHERE blogid = $blogid AND id = $id");
@@ -1018,7 +1018,7 @@ function setEntryVisibility($id, $visibility) {
 		}
 	}
 
-	$result = POD::queryCount("UPDATE {$database['prefix']}Entries 
+	$result = Data_IAdapter::queryCount("UPDATE {$database['prefix']}Entries 
 		SET visibility = $visibility, 
 			modified = UNIX_TIMESTAMP() 
 		WHERE blogid = $blogid AND id = $id");
@@ -1045,8 +1045,8 @@ function setEntryVisibility($id, $visibility) {
 
 function protectEntry($id, $password) {
 	global $database;
-	$password = POD::escapeString($password);
-	$result = POD::queryCount("UPDATE {$database['prefix']}Entries SET password = '$password', modified = UNIX_TIMESTAMP() WHERE blogid = ".getBlogId()." AND id = $id AND visibility = 1");
+	$password = Data_IAdapter::escapeString($password);
+	$result = Data_IAdapter::queryCount("UPDATE {$database['prefix']}Entries SET password = '$password', modified = UNIX_TIMESTAMP() WHERE blogid = ".getBlogId()." AND id = $id AND visibility = 1");
 	if($result > 0) {
 		CacheControl::flushEntry($id);
 		CacheControl::flushDBCache('entry');
@@ -1070,9 +1070,9 @@ function syndicateEntry($id, $mode) {
 		$summary['permalink'] = "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$entry['slogan']}": $entry['id']);
 		$summary['title'] = $entry['title'];
 		$summary['content'] = UTF8::lessenAsByte(stripHTML(getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'])), 1023, '');
-		$summary['author'] = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = {$entry['userid']}");
+		$summary['author'] = Data_IAdapter::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = {$entry['userid']}");
 		$summary['tags'] = array();
-		foreach(POD::queryAll("SELECT DISTINCT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND blogid = $blogid AND entry = $id ORDER BY name") as $tag)
+		foreach(Data_IAdapter::queryAll("SELECT DISTINCT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND blogid = $blogid AND entry = $id ORDER BY name") as $tag)
 			array_push($summary['tags'], $tag['name']);
 		$summary['location'] = $entry['location'];
 		$summary['written'] = Timestamp::getRFC1123($entry['published']);
@@ -1089,13 +1089,13 @@ function publishEntries() {
 	$blogid = getBlogId();
 	$closestReservedTime = getBlogSetting('closestReservedPostTime',INT_MAX);
 	if($closestReservedTime < Timestamp::getUNIXtime()) {
-		$entries = POD::queryAll("SELECT id, visibility, category
+		$entries = Data_IAdapter::queryAll("SELECT id, visibility, category
 			FROM {$database['prefix']}Entries 
 			WHERE blogid = $blogid AND draft = 0 AND visibility < 0 AND published < UNIX_TIMESTAMP()");
 		if (count($entries) == 0)
 			return;
 		foreach ($entries as $entry) {
-			$result = POD::query("UPDATE {$database['prefix']}Entries 
+			$result = Data_IAdapter::query("UPDATE {$database['prefix']}Entries 
 				SET visibility = 0 
 				WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 0");
 			if ($entry['visibility'] == -3) {
@@ -1116,7 +1116,7 @@ function publishEntries() {
 				}
 			}
 		}
-		$newClosestTime = POD::queryCell("SELECT min(published)
+		$newClosestTime = Data_IAdapter::queryCell("SELECT min(published)
 			FROM {$database['prefix']}Entries
 			WHERE blogid = $blogid AND draft = 0 AND visibility < 0 AND published > UNIX_TIMESTAMP()");
 		if(!empty($newClosestTime)) setBlogSetting('closestReservedPostTime',$newClosestTime);
@@ -1161,7 +1161,7 @@ function getEntryVisibilityName($visibility) {
 
 function getSloganById($blogid, $id) {
 	global $database;
-	$result = POD::queryCell("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id");
+	$result = Data_IAdapter::queryCell("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id");
 	if (is_null($result))
 		return false;
 	else
@@ -1170,17 +1170,17 @@ function getSloganById($blogid, $id) {
 
 function getEntryIdBySlogan($blogid, $slogan) {
 	global $database;
-	$result = POD::queryCell("SELECT id
+	$result = Data_IAdapter::queryCell("SELECT id
 		FROM {$database['prefix']}Entries 
 		WHERE blogid = $blogid 
-			AND slogan = '".POD::escapeString($slogan)."'");
+			AND slogan = '".Data_IAdapter::escapeString($slogan)."'");
 	if(!$result) return false;
 	else return $result;
 }
 
 function setEntryStar($entryId, $mark) {
 	global $database;
-	$result = POD::query("UPDATE {$database['prefix']}Entries
+	$result = Data_IAdapter::query("UPDATE {$database['prefix']}Entries
 		SET starred = ".$mark."
 		WHERE blogid = ".getBlogId()." AND id = ".$entryId);
 	if(!$result) return false;
@@ -1190,6 +1190,6 @@ function setEntryStar($entryId, $mark) {
 function getEntriesByTagId($blogid, $tagId) {
 	global $database;
 
-	return POD::queryAll('SELECT e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published FROM '.$database['prefix'].'Entries e LEFT JOIN '.$database['prefix'].'TagRelations t ON e.id = t.entry AND e.blogid = t.blogid WHERE e.blogid = '.$blogid.' AND t.tag = '.$tagId);
+	return Data_IAdapter::queryAll('SELECT e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published FROM '.$database['prefix'].'Entries e LEFT JOIN '.$database['prefix'].'TagRelations t ON e.id = t.entry AND e.blogid = t.blogid WHERE e.blogid = '.$blogid.' AND t.tag = '.$tagId);
 }
 ?>

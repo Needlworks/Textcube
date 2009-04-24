@@ -26,7 +26,7 @@ list($currentTextcubeVersion) = explode(' ', TEXTCUBE_VERSION, 2);
 if (getBlogId()) {
 	if($gCacheStorage->getContent('activePlugins')) $activePlugins = $gCacheStorage->getContent('activePlugins');
 	else {
-		$activePlugins = POD::queryColumn("SELECT name FROM {$database['prefix']}Plugins WHERE blogid = ".getBlogId());
+		$activePlugins = Data_IAdapter::queryColumn("SELECT name FROM {$database['prefix']}Plugins WHERE blogid = ".getBlogId());
 		$gCacheStorage->setContent('activePlugins',$activePlugins);
 	}
 	$xmls = new XMLStruct();

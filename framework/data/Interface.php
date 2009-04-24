@@ -42,7 +42,7 @@ class TableQuery {
 		if (is_null($value))
 			$this->_attributes[$name] = 'NULL';
 		else
-			$this->_attributes[$name] = (is_null($escape) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
+			$this->_attributes[$name] = (is_null($escape) ? $value : ($escape ? '\'' . Data_IAdapter::escapeString($value) . '\'' : "'" . $value . "'"));
 	}
 	
 	public function unsetAttribute($name) {
@@ -69,7 +69,7 @@ class TableQuery {
 		if (is_null($value))
 			$this->_qualifiers[$name] = 'NULL';
 		else
-			$this->_qualifiers[$name] = (is_null($escape) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
+			$this->_qualifiers[$name] = (is_null($escape) ? $value : ($escape ? '\'' . Data_IAdapter::escapeString($value) . '\'' : "'" . $value . "'"));
 	}
 	
 	public function unsetQualifier($name) {
@@ -77,23 +77,23 @@ class TableQuery {
 	}
 	
 	public function doesExist() {
-		return POD::queryExistence('SELECT * FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
+		return Data_IAdapter::queryExistence('SELECT * FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
 	}
 	
 	public function getCell($field = '*') {
-		return POD::queryCell('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
+		return Data_IAdapter::queryCell('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
 	}
 	
 	public function getRow($field = '*') {
-		return POD::queryRow('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
+		return Data_IAdapter::queryRow('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
 	}
 	
 	public function getColumn($field = '*') {
-		return POD::queryColumn('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
+		return Data_IAdapter::queryColumn('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
 	}
 	
 	public function getAll($field = '*') {
-		return POD::queryAll('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
+		return Data_IAdapter::queryAll('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
 	}
 	
 	public function insert() {
@@ -104,8 +104,8 @@ class TableQuery {
 		if (empty($attributes))
 			return false;
 		$this->_query = 'INSERT INTO ' . $this->table . '(' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
-		if (POD::query($this->_query)) {
-			$this->id = POD::insertId();
+		if (Data_IAdapter::query($this->_query)) {
+			$this->id = Data_IAdapter::insertId();
 			return true;
 		}
 		return false;
@@ -118,7 +118,7 @@ class TableQuery {
 		foreach ($this->_attributes as $name => $value)
 			array_push($attributes, $name . '=' . $value);
 		$this->_query = 'UPDATE ' . $this->table . ' SET ' . implode(',', $attributes) . $this->_makeWhereClause();
-		if (POD::query($this->_query))
+		if (Data_IAdapter::query($this->_query))
 			return true;
 		return false;
 	}
@@ -131,8 +131,8 @@ class TableQuery {
 		if (empty($attributes))
 			return false;
 		$this->_query = 'REPLACE INTO ' . $this->table . '(' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
-		if (POD::query($this->_query)) {
-			$this->id = POD::insertId();
+		if (Data_IAdapter::query($this->_query)) {
+			$this->id = Data_IAdapter::insertId();
 			return true;
 		}
 		return false;
@@ -142,7 +142,7 @@ class TableQuery {
 		if (empty($this->table))
 			return false;
 		$this->_query = 'DELETE FROM ' . $this->table . $this->_makeWhereClause();
-		if (POD::query($this->_query))
+		if (Data_IAdapter::query($this->_query))
 			return true;
 		return false;
 	}

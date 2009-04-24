@@ -30,15 +30,15 @@ class FeedItem {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = POD::query("SELECT $fields 
+		$this->_result = Data_IAdapter::query("SELECT $fields 
 				FROM {$database['prefix']}FeedItems i 
 				JOIN {$database['prefix']}FeedGroupRelations g ON i.feed = g.feed 
 				WHERE g.blogid = $blogid $filter $sort");
 		if ($this->_result) {
-			if ($this->_count = POD::num_rows($this->_result))
+			if ($this->_count = Data_IAdapter::num_rows($this->_result))
 				return $this->shift();
 			else
-				POD::free($this->_result);
+				Data_IAdapter::free($this->_result);
 		}
 		unset($this->_result);
 		return false;
@@ -46,7 +46,7 @@ class FeedItem {
 	
 	function close() {
 		if (isset($this->_result)) {
-			POD::free($this->_result);
+			Data_IAdapter::free($this->_result);
 			unset($this->_result);
 		}
 		$this->_count = 0;
@@ -55,7 +55,7 @@ class FeedItem {
 	
 	function shift() {
 		$this->reset();
-		if ($this->_result && ($row = POD::fetch($this->_result))) {
+		if ($this->_result && ($row = Data_IAdapter::fetch($this->_result))) {
 			foreach ($row as $name => $value) {
 				if ($name == 'blogid')
 					continue;
@@ -119,21 +119,21 @@ class FeedItem {
 	function isRead() {
 		global $database;
 		if (isset($this->id))
-			return POD::queryExistence("SELECT * FROM {$database['prefix']}FeedReads WHERE blogid = ".getBlogId()." AND item = {$this->id}");
+			return Data_IAdapter::queryExistence("SELECT * FROM {$database['prefix']}FeedReads WHERE blogid = ".getBlogId()." AND item = {$this->id}");
 		return false;
 	}
 	
 	function setRead() {
 		global $database;
 		if (isset($this->id))
-			return POD::execute("INSERT INTO {$database['prefix']}FeedReads VALUES(".getBlogId().", {$this->id})");
+			return Data_IAdapter::execute("INSERT INTO {$database['prefix']}FeedReads VALUES(".getBlogId().", {$this->id})");
 		return false;
 	}
 	
 	function isStarred() {
 		global $database;
 		if (isset($this->id))
-			return POD::queryExistence("SELECT * FROM {$database['prefix']}FeedStarred 
+			return Data_IAdapter::queryExistence("SELECT * FROM {$database['prefix']}FeedStarred 
 					WHERE blogid = ".getBlogId()." AND item = {$this->id}");
 		return false;
 	}
@@ -141,7 +141,7 @@ class FeedItem {
 	function setStarred() {
 		global $database;
 		if (isset($this->id))
-			return POD::execute("INSERT INTO {$database['prefix']}FeedStarred VALUES(".getBlogId().", {$this->id})");
+			return Data_IAdapter::execute("INSERT INTO {$database['prefix']}FeedStarred VALUES(".getBlogId().", {$this->id})");
 		return false;
 	}
 }

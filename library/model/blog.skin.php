@@ -7,7 +7,7 @@ function setTreeSetting($blogid, $setting) {
 	global $database;
 	requireLibrary('blog.skin');
 	foreach ($setting as $key => $value)
-		$setting[$key] = POD::escapeString($value);
+		$setting[$key] = Data_IAdapter::escapeString($value);
 	$sql = "
 	UPDATE {$database['prefix']}SkinSettings
 	SET 
@@ -19,12 +19,12 @@ function setTreeSetting($blogid, $setting) {
 		labelLengthOnTree 		= {$setting['labelLengthOnTree']},
 		showValueOnTree 		= " . (empty($setting['showValueOnTree']) ? 0 : 1) . "
 	WHERE blogid = $blogid";
-	if (POD::execute($sql)) {
+	if (Data_IAdapter::execute($sql)) {
 		Skin::purgeCache();
 		getSkinSetting($blogid, true); // refresh skin cache
 		return true;
 	} else {
-		Utils_Respond::ErrorPage(POD::error());
+		Utils_Respond::ErrorPage(Data_IAdapter::error());
 	}
 }
 
@@ -183,7 +183,7 @@ function selectSkin($blogid, $skinName) {
 		setBlogSetting('singleTrackbackMessage', NULL);
 		$sql = "UPDATE {$database['prefix']}SkinSettings SET skin='{$skinName}' WHERE blogid = $blogid";
 	}
-	$result = POD::query($sql);
+	$result = Data_IAdapter::query($sql);
 	if (!$result) {
 		return _t('실패했습니다.');
 	}
@@ -214,7 +214,7 @@ function writeSkinHtml($blogid, $contents, $mode, $file) {
 	}
 	$skinSetting['skin'] = "customize/$blogid";
 	$sql = "UPDATE {$database['prefix']}SkinSettings SET skin = '{$skinSetting['skin']}' WHERE blogid = $blogid";
-	$result = POD::query($sql);
+	$result = Data_IAdapter::query($sql);
 	if (!$result)
 		return _t('실패했습니다.');
 	//if ($mode == 'style')
@@ -261,7 +261,7 @@ function setSkinSetting($blogid, $setting) {
 		return _t('실패 했습니다');
 
 	foreach ($setting as $key => $value) {
-		$setting[$key] = POD::escapeString($value);
+		$setting[$key] = Data_IAdapter::escapeString($value);
 	}
 	$sql = "
 	UPDATE {$database['prefix']}SkinSettings 
@@ -287,7 +287,7 @@ function setSkinSetting($blogid, $setting) {
 		recentTrackbackLength 	= ' . $setting['recentTrackbackLength'] . ',
 		linkLength 				= ' . $setting['linkLength'] . '
 	WHERE blogid =' . $blogid;
-	if (!POD::execute($sql)) {
+	if (!Data_IAdapter::execute($sql)) {
 		return false;
 	}
 	setBlogSetting('useMicroformat',$setting['useMicroformat']);

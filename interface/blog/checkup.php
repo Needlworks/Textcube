@@ -16,20 +16,20 @@ else $currentVersion = file_get_contents(ROOT . '/cache/CHECKUP');
 
 function setBlogSettingForMigration($blogid, $name, $value, $mig = null) {
 	global $database;
-	$name = POD::escapeString($name);
-	$value = POD::escapeString($value);
+	$name = Data_IAdapter::escapeString($name);
+	$value = Data_IAdapter::escapeString($value);
 	if($mig === null) 
-		return POD::execute("REPLACE INTO {$database['prefix']}BlogSettingsMig VALUES('$blogid', '$name', '$value')");
+		return Data_IAdapter::execute("REPLACE INTO {$database['prefix']}BlogSettingsMig VALUES('$blogid', '$name', '$value')");
 	else
-		return POD::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES('$blogid', '$name', '$value')");
+		return Data_IAdapter::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES('$blogid', '$name', '$value')");
 }
 
 function getBlogSettingForMigration($blogid, $name, $default = null) {
 	global $database;
-	$value = POD::queryCell("SELECT value 
+	$value = Data_IAdapter::queryCell("SELECT value 
 		FROM {$database['prefix']}BlogSettingsMig 
 		WHERE blogid = '$blogid'
-		AND name = '".POD::escapeString($name)."'");
+		AND name = '".Data_IAdapter::escapeString($name)."'");
 	return ($value === null) ? $default : $value;
 }
 
@@ -47,7 +47,7 @@ function clearCache() {
 	global $database, $changed, $errorlog, $memcache;
 	static $isCleared = false;
 	if($isCleared == true) return;
-	if(!is_null($blogids = POD::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog"))) {
+	if(!is_null($blogids = Data_IAdapter::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog"))) {
 		$changed = true;
 		$errorlog = false;
 		echo '<li>', _textf('페이지 캐시를 초기화합니다.'), ': ';
@@ -63,7 +63,7 @@ function clearCache() {
 		else echo '<span class="result fail">', _text('실패'), '</span></li>';
 	}
 	echo '<li>', _textf('공지사항 캐시를 초기화합니다.'), ': ';
-	if(POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name like 'TextcubeNotice%'"))
+	if(Data_IAdapter::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name like 'TextcubeNotice%'"))
 		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else echo '<span class="result fail">', _text('실패'), '</span></li>';
 	$isCleared = true;
@@ -104,37 +104,37 @@ global $succeed;
 $succeed = true;
 if($currentVersion != TEXTCUBE_VERSION) {
 	// From 1.6
-	if (POD::queryCell("DESC {$database['prefix']}CommentsNotified id", 'Extra') == 'auto_increment') {
+	if (Data_IAdapter::queryCell("DESC {$database['prefix']}CommentsNotified id", 'Extra') == 'auto_increment') {
 		$changed = true;
 		echo '<li>', _text('데이터베이스 호환성을 위하여 댓글 테이블의 자동 증가 설정을 제거합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}Comments CHANGE id id int(11) NOT NULL")
-			&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotified CHANGE id id int(11) NOT NULL")
-			&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotifiedQueue CHANGE id id int(11) NOT NULL")
-			&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotifiedSiteInfo CHANGE id id int(11) NOT NULL"))
+		if (Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Comments CHANGE id id int(11) NOT NULL")
+			&& Data_IAdapter::execute("ALTER TABLE {$database['prefix']}CommentsNotified CHANGE id id int(11) NOT NULL")
+			&& Data_IAdapter::execute("ALTER TABLE {$database['prefix']}CommentsNotifiedQueue CHANGE id id int(11) NOT NULL")
+			&& Data_IAdapter::execute("ALTER TABLE {$database['prefix']}CommentsNotifiedSiteInfo CHANGE id id int(11) NOT NULL"))
 			showCheckupMessage(true);
 		else {
 			showCheckupMessage(false);
 		}
 	}
 
-	if (POD::queryCell("DESC {$database['prefix']}Trackbacks id", 'Extra') == 'auto_increment') {
+	if (Data_IAdapter::queryCell("DESC {$database['prefix']}Trackbacks id", 'Extra') == 'auto_increment') {
 		$changed = true;
 		echo '<li>', _text('데이터베이스 호환성을 위하여 트랙백 테이블의 자동 증가 설정을 제거합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}Trackbacks CHANGE id id int(11) NOT NULL")
-			&& POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs CHANGE id id int(11) NOT NULL"))
+		if (Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Trackbacks CHANGE id id int(11) NOT NULL")
+			&& Data_IAdapter::execute("ALTER TABLE {$database['prefix']}TrackbackLogs CHANGE id id int(11) NOT NULL"))
 			showCheckupMessage(true);
 		else {
 			showCheckupMessage(false);
 		}
 	}
 
-	if (POD::queryCell("DESC {$database['prefix']}Comments blogid", 'Key') != 'PRI') {
+	if (Data_IAdapter::queryCell("DESC {$database['prefix']}Comments blogid", 'Key') != 'PRI') {
 		$changed = true;
 		echo '<li>', _text('데이터베이스 호환성을 위하여 댓글 테이블의 인덱스 설정을 변경합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}Comments DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, id)")
-			&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotified DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, id)")
-			&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotifiedQueue DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, id)")
-			&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotifiedSiteInfo DROP INDEX id"))
+		if (Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Comments DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, id)")
+			&& Data_IAdapter::execute("ALTER TABLE {$database['prefix']}CommentsNotified DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, id)")
+			&& Data_IAdapter::execute("ALTER TABLE {$database['prefix']}CommentsNotifiedQueue DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, id)")
+			&& Data_IAdapter::execute("ALTER TABLE {$database['prefix']}CommentsNotifiedSiteInfo DROP INDEX id"))
 			showCheckupMessage(true);
 		else {
 			showCheckupMessage(false);
@@ -165,7 +165,7 @@ if($currentVersion != TEXTCUBE_VERSION) {
 			KEY userid (userid, blogid)
 			) TYPE=MyISAM
 		";
-		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query))
+		if (Data_IAdapter::execute($query . ' DEFAULT CHARSET=utf8') || Data_IAdapter::execute($query))
 			showCheckupMessage(true);
 		else {
 			showCheckupMessage(false);
@@ -187,17 +187,17 @@ if($currentVersion != TEXTCUBE_VERSION) {
 		  PRIMARY KEY  (blogid,openid)
 		) TYPE=MyISAM
 		";
-		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query))
+		if (Data_IAdapter::execute($query . ' DEFAULT CHARSET=utf8') || Data_IAdapter::execute($query))
 			showCheckupMessage(true);
 		else {
 			showCheckupMessage(false);
 		}
 	}
 
-	if (!POD::queryExistence("DESC {$database['prefix']}Comments openid")) {
+	if (!Data_IAdapter::queryExistence("DESC {$database['prefix']}Comments openid")) {
 		$changed = true;
 		echo '<li>', _text('Comments 테이블에 openid 필드를 추가합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}Comments ADD openid varchar(128) NOT NULL DEFAULT '' AFTER id"))
+		if (Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Comments ADD openid varchar(128) NOT NULL DEFAULT '' AFTER id"))
 			showCheckupMessage(true);
 		else {
 			showCheckupMessage(false);
@@ -207,131 +207,131 @@ if($currentVersion != TEXTCUBE_VERSION) {
 	if (doesExistTable($database['prefix'] . 'OpenIDComments')) {
 		$changed = true;
 		echo '<li>', _text('오픈아이디 댓글 테이블을 기존 댓글 테이블에 병합합니다'), ': ';
-		if (POD::execute("UPDATE `{$database['prefix']}Comments` AS A,`{$database['prefix']}OpenIDComments` AS B SET `A`.`openid` = `B`.`openid` WHERE `A`.`id` = `B`.`id`" )) {
+		if (Data_IAdapter::execute("UPDATE `{$database['prefix']}Comments` AS A,`{$database['prefix']}OpenIDComments` AS B SET `A`.`openid` = `B`.`openid` WHERE `A`.`id` = `B`.`id`" )) {
 		} else {
-			$openids = POD::queryAll( "SELECT * from `{$database['prefix']}OpenIDComments`" );
+			$openids = Data_IAdapter::queryAll( "SELECT * from `{$database['prefix']}OpenIDComments`" );
 			foreach( $openids as $rec ) {
-				$_oid = POD::escapeString( $rec['openid'] );
-				POD::execute( "UPDATE `{$database['prefix']}Comments` SET `openid`='$_oid' WHERE `id`={$rec['id']}" );
+				$_oid = Data_IAdapter::escapeString( $rec['openid'] );
+				Data_IAdapter::execute( "UPDATE `{$database['prefix']}Comments` SET `openid`='$_oid' WHERE `id`={$rec['id']}" );
 			}
 		}
-		if (POD::execute("DROP TABLE `{$database['prefix']}OpenIDComments`" ) )
+		if (Data_IAdapter::execute("DROP TABLE `{$database['prefix']}OpenIDComments`" ) )
 			showCheckupMessage(true);
 		else {
 			showCheckupMessage(false);
 		}
 	}
 
-	if (POD::queryExistence("DESC {$database['prefix']}Links visible")) {
+	if (Data_IAdapter::queryExistence("DESC {$database['prefix']}Links visible")) {
 		$changed = true;
 		echo '<li>', _text('Links 테이블의 공개 여부 설정 필드의 속성을 변경합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}Links CHANGE visible visibility tinyint(4) NOT NULL DEFAULT 2")) 
+		if (Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Links CHANGE visible visibility tinyint(4) NOT NULL DEFAULT 2")) 
 			showCheckupMessage(true);
 		else {
 			showCheckupMessage(false);
 		}
 	}
 
-	if (!POD::queryExistence("DESC {$database['prefix']}Links visibility")) {
+	if (!Data_IAdapter::queryExistence("DESC {$database['prefix']}Links visibility")) {
 		$changed = true;
 		echo '<li>', _text('Links 테이블에 공개 여부 설정 필드와 XFN 마이크로포맷을 위한 필드를 추가합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}Links ADD visibility tinyint(4) NOT NULL DEFAULT 2") &&
-		   POD::execute("ALTER TABLE {$database['prefix']}Links ADD xfn varchar(128) NOT NULL DEFAULT ''"))
+		if (Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Links ADD visibility tinyint(4) NOT NULL DEFAULT 2") &&
+		   Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Links ADD xfn varchar(128) NOT NULL DEFAULT ''"))
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
 	}
 
-	if (POD::queryCell("DESC {$database['prefix']}Sessions updated", 'Key') != 'MUL') {
+	if (Data_IAdapter::queryCell("DESC {$database['prefix']}Sessions updated", 'Key') != 'MUL') {
 		$changed = true;
 		echo '<li>', _text('동시 접속자 관리를 위하여 세션 테이블의 인덱스 설정을 변경합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}Sessions ADD INDEX updated (updated)"))
+		if (Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Sessions ADD INDEX updated (updated)"))
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
 	}
 
-	if (!POD::queryExistence("DESC {$database['prefix']}RemoteResponses blogid") &&
-		POD::queryCell("DESC {$database['prefix']}Trackbacks blogid", 'Key') != 'PRI') {
+	if (!Data_IAdapter::queryExistence("DESC {$database['prefix']}RemoteResponses blogid") &&
+		Data_IAdapter::queryCell("DESC {$database['prefix']}Trackbacks blogid", 'Key') != 'PRI') {
 		$changed = true;
 		echo '<li>', _text('트랙백 불러오기 속도를 개선하기 위하여 트랙백 테이블의 인덱스 설정을 변경합니다.'), ': ';
-		POD::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP INDEX written");
-		POD::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP INDEX blogid");
-		POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs DROP INDEX id");
-		if (POD::execute("ALTER TABLE {$database['prefix']}Trackbacks 
+		Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP INDEX written");
+		Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP INDEX blogid");
+		Data_IAdapter::execute("ALTER TABLE {$database['prefix']}TrackbackLogs DROP INDEX id");
+		if (Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Trackbacks 
 				DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, id),
 				ADD INDEX blogid (blogid, isFiltered, written)")
-			&&POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs
+			&&Data_IAdapter::execute("ALTER TABLE {$database['prefix']}TrackbackLogs
 				DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, entry, id), ADD UNIQUE id (blogid, id)"))
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
 	}
 
-	if (POD::queryExistence("DESC {$database['prefix']}SessionVisits blog")) {
+	if (Data_IAdapter::queryExistence("DESC {$database['prefix']}SessionVisits blog")) {
 		$changed = true;
 		echo '<li>', _text('SessionVisits 테이블의 블로그 정보 필드 이름을 변경합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}SessionVisits CHANGE blog blogid int(11) NOT NULL DEFAULT 0") && 
-		(POD::execute("ALTER TABLE {$database['prefix']}SessionVisits DROP PRIMARY KEY, ADD PRIMARY KEY (id,address,blogid)")))
+		if (Data_IAdapter::execute("ALTER TABLE {$database['prefix']}SessionVisits CHANGE blog blogid int(11) NOT NULL DEFAULT 0") && 
+		(Data_IAdapter::execute("ALTER TABLE {$database['prefix']}SessionVisits DROP PRIMARY KEY, ADD PRIMARY KEY (id,address,blogid)")))
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
 	}
 
-	if (POD::queryCell("DESC {$database['prefix']}BlogSettings name", 'Key') != 'PRI') {
+	if (Data_IAdapter::queryCell("DESC {$database['prefix']}BlogSettings name", 'Key') != 'PRI') {
 		$changed = true;
 		echo '<li>', _text('블로그 설정 불러오기 속도를 개선하기 위하여 블로그 설정 테이블의 인덱스 설정을 변경합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}BlogSettings ADD INDEX name (name,value (32))"))
+		if (Data_IAdapter::execute("ALTER TABLE {$database['prefix']}BlogSettings ADD INDEX name (name,value (32))"))
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
 	}
 
-	if (!POD::queryExistence("DESC {$database['prefix']}SkinSettings showListOnAuthor")) {
+	if (!Data_IAdapter::queryExistence("DESC {$database['prefix']}SkinSettings showListOnAuthor")) {
 		$changed = true;
 		echo '<li>', _text('스킨 설정 테이블에 저자별 페이지 출력 설정을 위한 필드를 추가합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD showListOnAuthor TINYINT(4) DEFAULT 1 NOT NULL AFTER showListOnTag"))
+		if (Data_IAdapter::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD showListOnAuthor TINYINT(4) DEFAULT 1 NOT NULL AFTER showListOnTag"))
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
 	}
 
-	if (POD::queryCell("DESC {$database['prefix']}Entries draft", 'Key') != 'PRI') {
+	if (Data_IAdapter::queryCell("DESC {$database['prefix']}Entries draft", 'Key') != 'PRI') {
 		$changed = true;
 		echo '<li>', _text('엔트리 테이블의 주 인덱스에 draft를 추가합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}Entries DROP PRIMARY KEY, ADD PRIMARY KEY (`blogid`,`id`,`draft`,`category`,`published`)"))
+		if (Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Entries DROP PRIMARY KEY, ADD PRIMARY KEY (`blogid`,`id`,`draft`,`category`,`published`)"))
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
 	}
 	/* FROM Textcube 1.7 */
-	if (!POD::queryExistence("DESC {$database['prefix']}Entries starred")) {
+	if (!Data_IAdapter::queryExistence("DESC {$database['prefix']}Entries starred")) {
 		$changed = true;
 		echo '<li>', _text('본문 테이블에 별표 및 작성 중 글 표시를 위한 필드를 추가합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}Entries ADD starred TINYINT(4) DEFAULT 1 NOT NULL AFTER visibility"))
+		if (Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Entries ADD starred TINYINT(4) DEFAULT 1 NOT NULL AFTER visibility"))
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
 	}
 	
-	if (POD::queryCell("DESC {$database['prefix']}Users name", 'Key') != 'UNI') {
+	if (Data_IAdapter::queryCell("DESC {$database['prefix']}Users name", 'Key') != 'UNI') {
 		$changed = true;
 		echo '<li>', _text('id의 도용을 막기 위하여 같은 사용자 id를 사용할 수 없도록 합니다.'), ': ';
-		if(!is_null($users = POD::queryAll("SELECT userid, name FROM {$database['prefix']}Users"))) {
+		if(!is_null($users = Data_IAdapter::queryAll("SELECT userid, name FROM {$database['prefix']}Users"))) {
 			// 1 : rename duplicate names.
 			foreach($users as $user) {
-				$duplicates = POD::queryAll("SELECT userid, name FROM {$database['prefix']}Users WHERE name = '".POD::escapeString($user['name'])."' AND userid != {$user['userid']}");
+				$duplicates = Data_IAdapter::queryAll("SELECT userid, name FROM {$database['prefix']}Users WHERE name = '".Data_IAdapter::escapeString($user['name'])."' AND userid != {$user['userid']}");
 				if(!empty($duplicates)) {
 					$count = 1;
 					foreach($duplicates as $dup) {
-						POD::query("UPDATE {$database['prefix']}Users SET name = '".POD::escapeString($user['name'])."-".$count."' WHERE userid = {$user['userid']}");
+						Data_IAdapter::query("UPDATE {$database['prefix']}Users SET name = '".Data_IAdapter::escapeString($user['name'])."-".$count."' WHERE userid = {$user['userid']}");
 						$count++;
 					}
 				}
 				unset($duplicates);
 			}
 			// 2: set name as unique field
-			if (POD::execute("ALTER TABLE {$database['prefix']}Users ADD UNIQUE name (name)"))
+			if (Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Users ADD UNIQUE name (name)"))
 				showCheckupMessage(true);
 			else
 				showCheckupMessage(false);
@@ -354,19 +354,19 @@ if($currentVersion != TEXTCUBE_VERSION) {
 		  UNIQUE KEY blogid (blogid, id)
 		) TYPE=MyISAM
 		";
-		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query)) {
-			if (POD::execute("ALTER TABLE {$database['prefix']}Links 
+		if (Data_IAdapter::execute($query . ' DEFAULT CHARSET=utf8') || Data_IAdapter::execute($query)) {
+			if (Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Links 
 					ADD category int(11) NOT NULL DEFAULT 0 AFTER id,
 					ADD pid int(11) NOT NULL DEFAULT 0 FIRST,
 					CHANGE id id int(11) NOT NULL default '0'") &&
-				POD::execute("UPDATE {$database['prefix']}Links 
+				Data_IAdapter::execute("UPDATE {$database['prefix']}Links 
 					SET pid = id") &&
-				POD::execute("ALTER TABLE {$database['prefix']}Links 
+				Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Links 
 					DROP PRIMARY KEY,
 					ADD PRIMARY KEY (pid)")) {
 				showCheckupMessage(true);
 			} else {
-				@POD::execute("DROP TABLE {$database['prefix']}LinkCategories");
+				@Data_IAdapter::execute("DROP TABLE {$database['prefix']}LinkCategories");
 				showCheckupMessage(false);
 			}
 		} else {
@@ -374,7 +374,7 @@ if($currentVersion != TEXTCUBE_VERSION) {
 		}
 	}
 	/* FROM Textcube 1.7.3 */
-	if (!is_null($notices = POD::queryAll("SELECT blogid, id, title, slogan
+	if (!is_null($notices = Data_IAdapter::queryAll("SELECT blogid, id, title, slogan
 		FROM {$database['prefix']}Entries 
 		WHERE category = -2
 			AND slogan = ''")) && !empty($notices)) {
@@ -382,8 +382,8 @@ if($currentVersion != TEXTCUBE_VERSION) {
 		echo '<li>', _text('fancyURL이 적용되지 않는 공지 글에 슬로건을 추가합니다.'), ': ';
 		foreach($notices as $notice) :
 			$notice['slogan'] = getSlogan($notice['title']);
-			$succeed = POD::execute("UPDATE {$database['prefix']}Entries
-				SET slogan = '".POD::escapeString($notice['slogan'])."'
+			$succeed = Data_IAdapter::execute("UPDATE {$database['prefix']}Entries
+				SET slogan = '".Data_IAdapter::escapeString($notice['slogan'])."'
 				WHERE blogid = {$notice['blogid']}
 				AND id = {$notice['id']}");
 		endforeach;
@@ -393,51 +393,51 @@ if($currentVersion != TEXTCUBE_VERSION) {
 			showCheckupMessage(false);
 	}
 	/* From Textcube 1.7.6 */
-	if (!strpos(POD::queryCell("DESC {$database['prefix']}Filters type", 'Type'),'whiteurl')) {
+	if (!strpos(Data_IAdapter::queryCell("DESC {$database['prefix']}Filters type", 'Type'),'whiteurl')) {
 		$changed = true;
 		echo '<li>', _text('필터 테이블에 예외 목록을 추가하기 위하여 필드 속성을 변경합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}Filters CHANGE type type ENUM('content','ip','name','url','whiteurl') NOT NULL DEFAULT 'content'"))
+		if (Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Filters CHANGE type type ENUM('content','ip','name','url','whiteurl') NOT NULL DEFAULT 'content'"))
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
 	}
 	/* From Textcube 1.7.7 (or 1.8) */
-	if (!POD::queryExistence("DESC {$database['prefix']}RemoteResponses blogid") &&
-		!POD::queryExistence("DESC {$database['prefix']}Trackbacks type")) {
+	if (!Data_IAdapter::queryExistence("DESC {$database['prefix']}RemoteResponses blogid") &&
+		!Data_IAdapter::queryExistence("DESC {$database['prefix']}Trackbacks type")) {
 		$changed = true;
 		echo '<li>', _text('트랙백 테이블에 컨텐츠 종류를 판단하기 위한 필드를 추가합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}Trackbacks ADD type enum('trackback','pingback') NOT NULL default 'trackback' AFTER entry") && 
-			POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs ADD type enum('trackback','pingback') NOT NULL default 'trackback' AFTER entry")
+		if (Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Trackbacks ADD type enum('trackback','pingback') NOT NULL default 'trackback' AFTER entry") && 
+			Data_IAdapter::execute("ALTER TABLE {$database['prefix']}TrackbackLogs ADD type enum('trackback','pingback') NOT NULL default 'trackback' AFTER entry")
 		) {
 			showCheckupMessage(true);
 		} else
 			showCheckupMessage(false);
 	}
 	
-	if (!POD::queryExistence("DESC {$database['prefix']}RemoteResponses type")) {
+	if (!Data_IAdapter::queryExistence("DESC {$database['prefix']}RemoteResponses type")) {
 		$changed = true;
 		echo '<li>', _text('원격 댓글 지원 기능을 위해 트랙백 테이블의 이름을 변경합니다.'), ': ';
 		if (
-			POD::execute("RENAME TABLE {$database['prefix']}Trackbacks TO {$database['prefix']}RemoteResponses") && 
-			POD::execute("RENAME TABLE {$database['prefix']}TrackbackLogs TO {$database['prefix']}RemoteResponseLogs")
+			Data_IAdapter::execute("RENAME TABLE {$database['prefix']}Trackbacks TO {$database['prefix']}RemoteResponses") && 
+			Data_IAdapter::execute("RENAME TABLE {$database['prefix']}TrackbackLogs TO {$database['prefix']}RemoteResponseLogs")
 		) {
 			showCheckupMessage(true);
 		} else
 			showCheckupMessage(false);
 	}	
 
-	if (!POD::queryExistence("DESC {$database['prefix']}Entries pingbacks")) {
+	if (!Data_IAdapter::queryExistence("DESC {$database['prefix']}Entries pingbacks")) {
 		$changed = true;
 		echo '<li>', _text('핑백 기능을 위해 글 테이블에 핑백 필드를 추가합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}Entries ADD pingbacks int(11) NOT NULL default 0 AFTER trackbacks")) {
+		if (Data_IAdapter::execute("ALTER TABLE {$database['prefix']}Entries ADD pingbacks int(11) NOT NULL default 0 AFTER trackbacks")) {
 			showCheckupMessage(true);
 		} else
 			showCheckupMessage(false);
 	}
-	if (!POD::queryExistence("DESC {$database['prefix']}Privileges acl")) {
+	if (!Data_IAdapter::queryExistence("DESC {$database['prefix']}Privileges acl")) {
 		$changed = true;
 		echo '<li>', _text('권한 관리 테이블의 이름을 변경합니다.'), ': ';
-		if (POD::execute("RENAME TABLE {$database['prefix']}Teamblog TO {$database['prefix']}Privileges")) {
+		if (Data_IAdapter::execute("RENAME TABLE {$database['prefix']}Teamblog TO {$database['prefix']}Privileges")) {
 			showCheckupMessage(true);
 		} else
 			showCheckupMessage(false);

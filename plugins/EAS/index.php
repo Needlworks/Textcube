@@ -18,10 +18,10 @@ function EAS_Call($type, $name, $title, $url, $content)
 		if ($type == 2) // Trackback Case
 		{
 			$sql = 'SELECT COUNT(id) as cc FROM ' . $database['prefix'] . 'Trackbacks WHERE';
-			$sql .= ' url = \'' . POD::escapeString($url) . '\'';
+			$sql .= ' url = \'' . Data_IAdapter::escapeString($url) . '\'';
 			$sql .= ' AND isFiltered > 0';
 			
-			if ($row = POD::queryRow($sql)) {
+			if ($row = Data_IAdapter::queryRow($sql)) {
 				$count += @$row[0];
 			}
 			
@@ -29,22 +29,22 @@ function EAS_Call($type, $name, $title, $url, $content)
 			$tableName = $database['prefix'] . 'Comments';	
 
 			$sql = 'SELECT COUNT(id) as cc FROM ' . $database['prefix'] . 'Comments WHERE';
-			$sql .= ' comment = \'' . POD::escapeString($content) . '\'';
-			$sql .= ' AND homepage = \'' . POD::escapeString($url) . '\'';
-			$sql .= ' AND name = \'' . POD::escapeString($name) . '\'';
+			$sql .= ' comment = \'' . Data_IAdapter::escapeString($content) . '\'';
+			$sql .= ' AND homepage = \'' . Data_IAdapter::escapeString($url) . '\'';
+			$sql .= ' AND name = \'' . Data_IAdapter::escapeString($name) . '\'';
 			$sql .= ' AND isFiltered > 0';
 			
-			if ($row = POD::queryRow($sql)) {
+			if ($row = Data_IAdapter::queryRow($sql)) {
 				$count += @$row[0];
 			}
 		}
 
 		// Check IP
 		$sql = 'SELECT COUNT(id) as cc FROM ' . $tableName . ' WHERE';
-		$sql .= ' ip = \'' . POD::escapeString($_SERVER['REMOTE_ADDR']) . '\'';
+		$sql .= ' ip = \'' . Data_IAdapter::escapeString($_SERVER['REMOTE_ADDR']) . '\'';
 		$sql .= ' AND isFiltered > 0';
 
-		if ($row = POD::queryRow($sql)) {
+		if ($row = Data_IAdapter::queryRow($sql)) {
 			$count += @$row[0];
 		}
 		

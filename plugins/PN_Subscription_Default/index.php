@@ -276,7 +276,7 @@ function organizeRobotInfo($info)
 function getSubscriptionStatistics($blogid) {
 	global $database;
 	$statistics = array();
-	if ($result = POD::queryAll("SELECT ip, host, useragent, subscribed, referred FROM {$database['prefix']}SubscriptionStatistics WHERE blogid = $blogid ORDER BY referred DESC")) {
+	if ($result = Data_IAdapter::queryAll("SELECT ip, host, useragent, subscribed, referred FROM {$database['prefix']}SubscriptionStatistics WHERE blogid = $blogid ORDER BY referred DESC")) {
 		return $result;
 	}
 	return $statistics;
@@ -292,7 +292,7 @@ function getSubscriptionLogsWithPage($page, $count) {
 function getSubscriptionLogs() {
 	global $database;
 	$blogid = getBlogId();
-	return POD::queryAll("SELECT ip, host, useragent, referred FROM {$database['prefix']}SubscriptionLogs WHERE blogid = $blogid ORDER BY referred DESC LIMIT 1000");
+	return Data_IAdapter::queryAll("SELECT ip, host, useragent, referred FROM {$database['prefix']}SubscriptionLogs WHERE blogid = $blogid ORDER BY referred DESC LIMIT 1000");
 }
 
 function updateSubscriptionStatistics($target, $mother) {
@@ -302,13 +302,13 @@ function updateSubscriptionStatistics($target, $mother) {
 	requireComponent('Textcube.Data.Filter');
 	if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']))
 		return;
-	$ip = POD::escapeString($_SERVER['REMOTE_ADDR']);
-	$host = POD::escapeString(isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : '');
-	$useragent = POD::escapeString(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
-	POD::query("INSERT INTO {$database['prefix']}SubscriptionLogs values($blogid, '$ip', '$host', '$useragent', UNIX_TIMESTAMP())");
-	POD::query("DELETE FROM {$database['prefix']}SubscriptionLogs WHERE referred < UNIX_TIMESTAMP() - 604800");
-	if (!POD::queryCount("UPDATE {$database['prefix']}SubscriptionStatistics SET referred = UNIX_TIMESTAMP() WHERE blogid = $blogid AND ip = '$ip' AND host = '$host' AND useragent = '$useragent'"))
-		POD::query("INSERT INTO {$database['prefix']}SubscriptionStatistics VALUES ($blogid, '$ip', '$host', '$useragent', UNIX_TIMESTAMP(),UNIX_TIMESTAMP())");
+	$ip = Data_IAdapter::escapeString($_SERVER['REMOTE_ADDR']);
+	$host = Data_IAdapter::escapeString(isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : '');
+	$useragent = Data_IAdapter::escapeString(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
+	Data_IAdapter::query("INSERT INTO {$database['prefix']}SubscriptionLogs values($blogid, '$ip', '$host', '$useragent', UNIX_TIMESTAMP())");
+	Data_IAdapter::query("DELETE FROM {$database['prefix']}SubscriptionLogs WHERE referred < UNIX_TIMESTAMP() - 604800");
+	if (!Data_IAdapter::queryCount("UPDATE {$database['prefix']}SubscriptionStatistics SET referred = UNIX_TIMESTAMP() WHERE blogid = $blogid AND ip = '$ip' AND host = '$host' AND useragent = '$useragent'"))
+		Data_IAdapter::query("INSERT INTO {$database['prefix']}SubscriptionStatistics VALUES ($blogid, '$ip', '$host', '$useragent', UNIX_TIMESTAMP(),UNIX_TIMESTAMP())");
 	return $target;
 }
 

@@ -24,7 +24,7 @@ function printIphoneEntryContentView($blogid, $entry, $keywords = array()) {
 
 function printIphoneEntryContent($blogid, $userid, $id) {
 	global $database;
-	$result = POD::queryCell("SELECT content 
+	$result = Data_IAdapter::queryCell("SELECT content 
 		FROM {$database['prefix']}Entries
 		WHERE 
 			blogid = $blogid AND userid = $userid AND id = $id");
@@ -103,7 +103,7 @@ function printIphoneArchives($blogid) {
 	$archives = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$skinSetting = getSkinSetting($blogid);
-	$result = POD::queryAllWithDBCache("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(e.published)) period, COUNT(*) count 
+	$result = Data_IAdapter::queryAllWithDBCache("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(e.published)) period, COUNT(*) count 
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 		GROUP BY period 
@@ -139,21 +139,21 @@ function printIphoneTags($blogid, $flag = 'random', $max = 10) {
 	$tags = array();
 	$aux = "limit $max";
 	if ($flag == 'count') { // order by count
-			$tags = POD::queryAll("SELECT `name`, count(*) `cnt`, t.id FROM `{$database['prefix']}Tags` t,
+			$tags = Data_IAdapter::queryAll("SELECT `name`, count(*) `cnt`, t.id FROM `{$database['prefix']}Tags` t,
 				`{$database['prefix']}TagRelations` r, 
 				`{$database['prefix']}Entries` e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
 				GROUP BY r.tag 
 				ORDER BY `cnt` DESC $aux");
 	} else if ($flag == 'name') {  // order by name
-			$tags = POD::queryAll("SELECT DISTINCT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t, 
+			$tags = Data_IAdapter::queryAll("SELECT DISTINCT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t, 
 				`{$database['prefix']}TagRelations` r,
 				`{$database['prefix']}Entries` e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
 				GROUP BY r.tag 
 				ORDER BY t.name $aux");
 	} else { // random
-			$tags = POD::queryAll("SELECT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t,
+			$tags = Data_IAdapter::queryAll("SELECT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t,
 				`{$database['prefix']}TagRelations` r,
 				`{$database['prefix']}Entries` e
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 

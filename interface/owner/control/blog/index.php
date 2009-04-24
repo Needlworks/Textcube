@@ -62,8 +62,8 @@ if ( $service['type'] == "single" ) {
 <?php
 $row = 25;
 
-$bloglist = POD::queryColumn("SELECT blogid,name FROM `{$database['prefix']}BlogSettings` WHERE name = 'name' ORDER BY blogid ASC LIMIT " . ($page-1)*$row . " ,$row");
-$blogcount = POD::queryCount("SELECT blogid FROM `{$database['prefix']}BlogSettings` WHERE name = 'name'");
+$bloglist = Data_IAdapter::queryColumn("SELECT blogid,name FROM `{$database['prefix']}BlogSettings` WHERE name = 'name' ORDER BY blogid ASC LIMIT " . ($page-1)*$row . " ,$row");
+$blogcount = Data_IAdapter::queryCount("SELECT blogid FROM `{$database['prefix']}BlogSettings` WHERE name = 'name'");
 
 $pages = (int)(($blogcount-0.5) / $row)+1;
 if ($pages<$page) {
@@ -72,11 +72,11 @@ if ($pages<$page) {
 if($bloglist){
 	$tempString = "";
     foreach($bloglist as $itemBlogId) {
-		$result = POD::queryAll("SELECT * FROM `{$database['prefix']}BlogSettings` WHERE blogid = {$itemBlogId}");
+		$result = Data_IAdapter::queryAll("SELECT * FROM `{$database['prefix']}BlogSettings` WHERE blogid = {$itemBlogId}");
  		foreach($result as $row) {
  			$bsetting[$row['name']] = $row['value'];
  		}
-		$bsetting['owner']= POD::queryCell("SELECT userid FROM `{$database['prefix']}Privileges` WHERE acl & ".BITWISE_OWNER." != 0 AND blogid = " . $itemBlogId);
+		$bsetting['owner']= Data_IAdapter::queryCell("SELECT userid FROM `{$database['prefix']}Privileges` WHERE acl & ".BITWISE_OWNER." != 0 AND blogid = " . $itemBlogId);
 ?>
 				<tr id="table-blog-list_<?php echo $itemBlogId?>">
 					<td>

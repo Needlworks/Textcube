@@ -133,28 +133,28 @@ class Model_Setting {
 			return null;
 		}
 		
-		$escape_name = POD::escapeString($name);
-		$escape_value = POD::escapeString($value);
+		$escape_name = Data_IAdapter::escapeString($name);
+		$escape_value = Data_IAdapter::escapeString($value);
 		$gCacheStorage->purge();
 		if (array_key_exists($name, $__gCacheBlogSettings[$blogid])) {
 			// overwrite value
 			$__gCacheBlogSettings[$blogid][$name] = $value;
-			return POD::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, '$escape_name', '$escape_value')");
+			return Data_IAdapter::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, '$escape_name', '$escape_value')");
 		}
 		
 		// insert new value
 		$__gCacheBlogSettings[$blogid][$name] = $value;
-		return POD::execute("INSERT INTO {$database['prefix']}BlogSettings VALUES($blogid, '$escape_name', '$escape_value')");
+		return Data_IAdapter::execute("INSERT INTO {$database['prefix']}BlogSettings VALUES($blogid, '$escape_name', '$escape_value')");
 	}
 
 	function setBlogSettingDefault($name, $value, $blogid = null) {
 		global $database;
-		$name = POD::escapeString($name);
-		$value = POD::escapeString($value);
+		$name = Data_IAdapter::escapeString($name);
+		$value = Data_IAdapter::escapeString($value);
 		if($blogid === null)
-			return POD::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES(".getBlogId().", '$name', '$value')");
+			return Data_IAdapter::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES(".getBlogId().", '$name', '$value')");
 		else if(is_numeric($blogid)) {
-			return POD::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, '$name', '$value')");
+			return Data_IAdapter::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, '$name', '$value')");
 		}
 	return null;
 	}
@@ -175,13 +175,13 @@ class Model_Setting {
 			return null;
 		}
 		
-		$escape_name = POD::escapeString($name);
+		$escape_name = Data_IAdapter::escapeString($name);
 
 		if (array_key_exists($name, $__gCacheBlogSettings[$blogid])) {
 			// overwrite value
 			$gCacheStorage->purge();
 			unset($__gCacheBlogSettings[$blogid][$name]);
-			return POD::execute("DELETE FROM {$database['prefix']}BlogSettings 
+			return Data_IAdapter::execute("DELETE FROM {$database['prefix']}BlogSettings 
 				WHERE blogid = $blogid AND name = '$escape_name'");
 		}
 		
@@ -222,12 +222,12 @@ class Model_Setting {
 	function getUserSettingGlobal($name, $default = null, $userid = null, $directAccess = false) {
 		global $database, $userSetting;
 		if($directAccess !== false) {
-			return POD::queryCell("SELECT value FROM {$database['prefix']}UserSettings
+			return Data_IAdapter::queryCell("SELECT value FROM {$database['prefix']}UserSettings
 					WHERE userid = $userid");
 		}
 		if( empty($userSetting) || !isset($userSetting[$userid])) {
 			$userid = is_null($userid) ? getUserId() :  $userid;
-			$settings = POD::queryAll("SELECT name, value 
+			$settings = Data_IAdapter::queryAll("SELECT name, value 
 					FROM {$database['prefix']}UserSettings
 					WHERE userid = ".$userid, MYSQL_NUM );
 			foreach( $settings as $k => $v ) {
@@ -248,10 +248,10 @@ class Model_Setting {
 	
 	function setUserSettingGlobal($name, $value, $userid = null) {
 		global $database;
-		$name = POD::escapeString($name);
-		$value = POD::escapeString($value);
+		$name = Data_IAdapter::escapeString($name);
+		$value = Data_IAdapter::escapeString($value);
 		clearUserSettingCache();
-		return POD::execute("REPLACE INTO {$database['prefix']}UserSettings VALUES(".(is_null($userid) ? getUserId() : $userid).", '$name', '$value')");
+		return Data_IAdapter::execute("REPLACE INTO {$database['prefix']}UserSettings VALUES(".(is_null($userid) ? getUserId() : $userid).", '$name', '$value')");
 	}
 	
 	function removeUserSetting($name) {
@@ -263,28 +263,28 @@ class Model_Setting {
 	function removeUserSettingGlobal($name, $userid = null) {
 		global $database;
 		clearUserSettingCache();
-		return POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = ".(is_null($userid) ? getUserId() : $userid)." AND name = '".POD::escapeString($name)."'");
+		return Data_IAdapter::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = ".(is_null($userid) ? getUserId() : $userid)." AND name = '".Data_IAdapter::escapeString($name)."'");
 	}
 
 	function getServiceSetting($name, $default = null) {
 		global $database;
 		$name = 'plugin_' . $name;
-		$value = POD::queryCell("SELECT value FROM {$database['prefix']}ServiceSettings WHERE name = '".POD::escapeString($name)."'");
+		$value = Data_IAdapter::queryCell("SELECT value FROM {$database['prefix']}ServiceSettings WHERE name = '".Data_IAdapter::escapeString($name)."'");
 		return (is_null($value)) ? $default : $value;
 	}
 
 	function setServiceSetting($name, $value) {
 		global $database;
 		$name = 'plugin_' . $name;
-		$name = POD::escapeString(UTF8::lessenAsEncoding($name, 32));
-		$value = POD::escapeString(UTF8::lessenAsEncoding($value, 255));
-		return POD::execute("REPLACE INTO {$database['prefix']}ServiceSettings VALUES('$name', '$value')");
+		$name = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($name, 32));
+		$value = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($value, 255));
+		return Data_IAdapter::execute("REPLACE INTO {$database['prefix']}ServiceSettings VALUES('$name', '$value')");
 	}
 
 	function removeServiceSetting($name) {
 		global $database;
 		$name = 'plugin_' . $name;
-		return POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".POD::escapeString($name)."'");
+		return Data_IAdapter::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".Data_IAdapter::escapeString($name)."'");
 	}
 	
 	function getSkinSetting($blogid, $forceReload = false) {
@@ -306,7 +306,7 @@ class Model_Setting {
 				return $retval;
 			}
 		}
-		if ($retval = POD::queryRow("SELECT * FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid",MYSQL_ASSOC)) {
+		if ($retval = Data_IAdapter::queryRow("SELECT * FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid",MYSQL_ASSOC)) {
 			if ($retval != FALSE) {
 				if (!Validator::directory($retval['skin']) && ($retval['skin'] !="customize/$blogid")) {
 					$retval['skin'] = $service['skin'];
@@ -336,14 +336,14 @@ class Model_Setting {
 		
 	function getBlogSettingRowsPerPage($default = null) {
 		global $database, $blogid;
-		$value = POD::queryCell("SELECT value FROM {$database['prefix']}BlogSettings WHERE blogid = $blogid AND name = 'rowsPerPage'");
+		$value = Data_IAdapter::queryCell("SELECT value FROM {$database['prefix']}BlogSettings WHERE blogid = $blogid AND name = 'rowsPerPage'");
 		return (is_null($value)) ? $default : $value;
 	}
 
 	function setBlogSettingRowsPerPage($value) {
 		global $database, $blogid;
-		$value = POD::escapeString($value);
-		return POD::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, 'rowsPerPage', '$value')");
+		$value = Data_IAdapter::escapeString($value);
+		return Data_IAdapter::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, 'rowsPerPage', '$value')");
 	}
 }
 ?>

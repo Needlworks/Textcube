@@ -54,8 +54,8 @@ $page = $_GET['page'];
 				<tbody>
 <?php
 $row = 25;
-$userlist = POD::queryAll("SELECT * FROM `{$database['prefix']}Users` WHERE 1 ORDER BY userid LIMIT ". ($page-1) * $row .", ". $row);
-$usercount = POD::queryCount("SELECT userid FROM `{$database['prefix']}Users` WHERE 1");
+$userlist = Data_IAdapter::queryAll("SELECT * FROM `{$database['prefix']}Users` WHERE 1 ORDER BY userid LIMIT ". ($page-1) * $row .", ". $row);
+$usercount = Data_IAdapter::queryCount("SELECT userid FROM `{$database['prefix']}Users` WHERE 1");
 
 $pages = (int)(($usercount-0.5) / $row)+1;
 

@@ -49,15 +49,15 @@ class Model_Post {
 			$filter = 'AND ' . $filter;
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
-		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}Entries WHERE blogid = {$this->blogid} AND draft = 0 AND category >= 0 $filter $sort");
+		$this->_result = Data_IAdapter::query("SELECT $fields FROM {$database['prefix']}Entries WHERE blogid = {$this->blogid} AND draft = 0 AND category >= 0 $filter $sort");
 		if ($this->_result)
-			$this->_count = POD::num_rows($this->_result);
+			$this->_count = Data_IAdapter::num_rows($this->_result);
 		return $this->shift();
 	}
 	
 	function close() {
 		if (isset($this->_result)) {
-			POD::free($this->_result);
+			Data_IAdapter::free($this->_result);
 			unset($this->_result);
 		}
 		$this->_count = 0;
@@ -66,7 +66,7 @@ class Model_Post {
 	
 	function shift() {
 		$this->reset();
-		if ($this->_result && ($row = POD::fetch($this->_result))) {
+		if ($this->_result && ($row = Data_IAdapter::fetch($this->_result))) {
 			foreach ($row as $name => $value) {
 //				if ($name == 'blogid')
 //					continue;
@@ -138,9 +138,9 @@ class Model_Post {
 		if (isset($this->category)) {
 			$target = ($parentCategory = Category::getParent($this->category)) ? '(id = ' . $this->category . ' OR id = ' . $parentCategory . ')' : 'id = ' . $this->category;
 			if (isset($this->visibility) && ($this->visibility != 'private'))
-				@POD::query("UPDATE {$database['prefix']}Categories SET entries = entries + 1, entriesInLogin = entriesInLogin + 1 WHERE blogid = ".getBlogId()." AND " . $target);
+				@Data_IAdapter::query("UPDATE {$database['prefix']}Categories SET entries = entries + 1, entriesInLogin = entriesInLogin + 1 WHERE blogid = ".getBlogId()." AND " . $target);
 			else
-				@POD::query("UPDATE {$database['prefix']}Categories SET entriesInLogin = entriesInLogin + 1 WHERE blogid = ".$this->blogid." AND " . $target);
+				@Data_IAdapter::query("UPDATE {$database['prefix']}Categories SET entriesInLogin = entriesInLogin + 1 WHERE blogid = ".$this->blogid." AND " . $target);
 		}
 		$this->saveSlogan();
 		$this->addTags();
@@ -188,30 +188,30 @@ class Model_Post {
 		
 		// step 2. Delete Entry
 		$sql = "DELETE FROM ".$database['prefix']."Entries WHERE blogid = ".$this->blogid." AND id = ".$this->id;
-		if (POD::queryCount($sql)) {
+		if (Data_IAdapter::queryCount($sql)) {
 		// step 3. Delete Comment
-			POD::execute("DELETE FROM {$database['prefix']}Comments WHERE blogid = ".$this->blogid." AND entry = ".$this->id);
+			Data_IAdapter::execute("DELETE FROM {$database['prefix']}Comments WHERE blogid = ".$this->blogid." AND entry = ".$this->id);
 		
 		// step 4. Delete Trackback
-			POD::execute("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = ".$this->blogid." AND entry = ".$this->id);
+			Data_IAdapter::execute("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = ".$this->blogid." AND entry = ".$this->id);
 		
 		// step 5. Delete Trackback Logs
-			POD::execute("DELETE FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = ".$this->blogid." AND entry = ".$this->id);
+			Data_IAdapter::execute("DELETE FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = ".$this->blogid." AND entry = ".$this->id);
 		
 		// step 6. update Category
 			if (isset($entry['category'])) {
 				$target = ($parentCategory = Category::getParent($entry['category'])) ? '(id = ' . $entry['category'] . ' OR id = ' . $parentCategory . ')' : 'id = ' . $entry['category'];
 
 				if (isset($entry['visibility']) && ($entry['visibility'] != 1))
-					POD::query("UPDATE {$database['prefix']}Categories SET entries = entries - 1, entriesInLogin = entriesInLogin - 1 WHERE blogid = ".$this->blogid." AND " . $target);
+					Data_IAdapter::query("UPDATE {$database['prefix']}Categories SET entries = entries - 1, entriesInLogin = entriesInLogin - 1 WHERE blogid = ".$this->blogid." AND " . $target);
 				else
-					POD::query("UPDATE {$database['prefix']}Categories SET entriesInLogin = entriesInLogin - 1 WHERE blogid = ".$this->blogid." AND " . $target);
+					Data_IAdapter::query("UPDATE {$database['prefix']}Categories SET entriesInLogin = entriesInLogin - 1 WHERE blogid = ".$this->blogid." AND " . $target);
 			}
 		
 		// step 7. Delete Attachment
-			$attachNames = POD::queryColumn("SELECT name FROM {$database['prefix']}Attachments
+			$attachNames = Data_IAdapter::queryColumn("SELECT name FROM {$database['prefix']}Attachments
 				WHERE blogid = ".getBlogId()." AND parent = ".$this->id);
-			if (POD::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND parent = ".$this->id)) {
+			if (Data_IAdapter::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND parent = ".$this->id)) {
 				foreach($attachNames as $attachName) {
 					if( file_exists( ROOT . "/attach/".getBlogId()."/$attachName") ) {
 						@unlink(ROOT . "/attach/".getBlogId()."/$attachName");
@@ -320,9 +320,9 @@ class Model_Post {
 		$slogan0 = UTF8::lessenAsEncoding($slogan0, 255);
 
 		for ($i = 1; $i < 1000; $i++) {
-			$checkSlogan = POD::escapeString($this->slogan);
+			$checkSlogan = Data_IAdapter::escapeString($this->slogan);
 			$query->setAttribute('slogan', $checkSlogan, false);
-			if (!POD::queryExistence(
+			if (!Data_IAdapter::queryExistence(
 				"SELECT id FROM {$database['prefix']}Entries " 
 				. "WHERE blogid = ".$this->blogid." AND id <> {$this->id} AND slogan ='{$checkSlogan}'")
 				) 
@@ -343,7 +343,7 @@ class Model_Post {
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
 		$this->tags = array();
-		if ($result = POD::queryColumn("SELECT name FROM {$database['prefix']}TagRelations 
+		if ($result = Data_IAdapter::queryColumn("SELECT name FROM {$database['prefix']}TagRelations 
 			LEFT JOIN {$database['prefix']}Tags ON id = tag 
 			WHERE blogid = ".$this->blogid." AND entry = {$this->id} 
 			ORDER BY name")) {
@@ -447,7 +447,7 @@ class Model_Post {
 		$this->init();
 		if (!Validator::number($id, 1))
 			return false;
-		return POD::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".$this->blogid." AND id = $id AND category >= 0 AND draft = 0");
+		return Data_IAdapter::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".$this->blogid." AND id = $id AND category >= 0 AND draft = 0");
 	}
 	
 	function doesAcceptTrackback($id) {
@@ -455,7 +455,7 @@ class Model_Post {
 		$this->init();
 		if (!Validator::number($id, 1))
 			return false;
-		return POD::queryExistence("SELECT id 
+		return Data_IAdapter::queryExistence("SELECT id 
 			FROM {$database['prefix']}Entries 
 			WHERE blogid = ".$this->blogid." AND id = $id AND draft = 0 AND visibility > 0 AND category >= 0 AND acceptTrackback = 1");
 	}
@@ -467,14 +467,14 @@ class Model_Post {
 			return false;
 		}
 
-		$posts = (is_null($id) ? POD::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".$this->blogid." AND category >= 0 AND draft = 0") : array($id));
+		$posts = (is_null($id) ? Data_IAdapter::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".$this->blogid." AND category >= 0 AND draft = 0") : array($id));
 		if (!is_array($posts))
 			return false;
 		$succeeded = true;
 		foreach ($posts as $id) {
-			$comments = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE blogid = ".$this->blogid." AND entry = $id AND isFiltered = 0");
+			$comments = Data_IAdapter::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE blogid = ".$this->blogid." AND entry = $id AND isFiltered = 0");
 			if (!is_null($comments)) {
-				if (POD::execute("UPDATE {$database['prefix']}Entries SET comments = $comments WHERE blogid = ".$this->blogid." AND id = $id"))
+				if (Data_IAdapter::execute("UPDATE {$database['prefix']}Entries SET comments = $comments WHERE blogid = ".$this->blogid." AND id = $id"))
 					continue;
 			}
 			$succeeded = false;
@@ -490,20 +490,20 @@ class Model_Post {
 			return false;
 		}
 
-		$posts = (is_null($id) ? POD::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".$this->blogid." AND category >= 0 AND draft = 0") : array($id));
+		$posts = (is_null($id) ? Data_IAdapter::queryColumn("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".$this->blogid." AND category >= 0 AND draft = 0") : array($id));
 		if (!is_array($posts))
 			return false; 
 		$succeeded = true;
 		foreach ($posts as $id) {
-			$trackbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = ".$this->blogid." AND entry = $id AND isFiltered = 0 AND type = 'trackback'");
+			$trackbacks = Data_IAdapter::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = ".$this->blogid." AND entry = $id AND isFiltered = 0 AND type = 'trackback'");
 			if (!is_null($trackbacks)) { 
-				if (!POD::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks 
+				if (!Data_IAdapter::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks 
 					WHERE blogid = ".$this->blogid." AND id = $id"))
 					$succeeded = false;
 			}
-			$pingbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = ".$this->blogid." AND entry = $id AND isFiltered = 0 AND type = 'pingback'");
+			$pingbacks = Data_IAdapter::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = ".$this->blogid." AND entry = $id AND isFiltered = 0 AND type = 'pingback'");
 			if (!is_null($pingbacks)) { 
-				if (!POD::execute("UPDATE {$database['prefix']}Entries SET pingbacks = $pingbacks
+				if (!Data_IAdapter::execute("UPDATE {$database['prefix']}Entries SET pingbacks = $pingbacks
 					WHERE blogid = ".$this->blogid." AND id = $id"))
 					$succeeded = false;
 			}
@@ -530,10 +530,10 @@ class Model_Post {
 	function nextEntryId($id = 0) {
 		global $database;
 		$this->init();
-		$maxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".$this->blogid);
+		$maxId = Data_IAdapter::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".$this->blogid);
 		if( !$maxId ) {
 			/* Oddly, database connection is dropped frequently in this point */
-			$maxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".$this->blogid);
+			$maxId = Data_IAdapter::queryCell("SELECT MAX(id) FROM {$database['prefix']}Entries WHERE blogid = ".$this->blogid);
 		}
 		if($id==0)
 			return $maxId + 1;
@@ -629,34 +629,34 @@ class Model_Post {
 	/*@static@*/
 	function correctTagsAll() {
 		global $database;
-		$targetresult = POD::query("SELECT * FROM {$database['prefix']}TagRelations");
+		$targetresult = Data_IAdapter::query("SELECT * FROM {$database['prefix']}TagRelations");
 		if ($targetresult != false) {
-			while ($target = POD::fetch($targetresult)) {
-				$oldtag = POD::queryRow("SELECT id, name FROM {$database['prefix']}Tags WHERE id = {$target['tag']}");
+			while ($target = Data_IAdapter::fetch($targetresult)) {
+				$oldtag = Data_IAdapter::queryRow("SELECT id, name FROM {$database['prefix']}Tags WHERE id = {$target['tag']}");
 				if (!is_null($oldtag)) {		
-					$tagid = POD::queryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '" . POD::escapeString($oldtag['name']) . "' LIMIT 1 ");
+					$tagid = Data_IAdapter::queryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '" . Data_IAdapter::escapeString($oldtag['name']) . "' LIMIT 1 ");
 					if (is_null($tagid)) { 
-						POD::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
+						Data_IAdapter::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
 					} else {
 						if ($tagid == $oldtag['id']) continue;
-						if (POD::execute("UPDATE {$database['prefix']}TagRelations SET tag = $tagid WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}") == false) { // maybe duplicated tag
-							POD::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
+						if (Data_IAdapter::execute("UPDATE {$database['prefix']}TagRelations SET tag = $tagid WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}") == false) { // maybe duplicated tag
+							Data_IAdapter::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
 						}
 					}
 				} else { // Ooops!
-					POD::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
+					Data_IAdapter::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = {$target['blogid']} AND tag = {$target['tag']} AND entry = {$target['entry']}");
 				}
 			}
-			POD::free($targetresult);
+			Data_IAdapter::free($targetresult);
 		}
 		
-		$targetresult = POD::query("SELECT id FROM {$database['prefix']}Tags LEFT JOIN {$database['prefix']}TagRelations ON id = tag WHERE tag IS NULL");
+		$targetresult = Data_IAdapter::query("SELECT id FROM {$database['prefix']}Tags LEFT JOIN {$database['prefix']}TagRelations ON id = tag WHERE tag IS NULL");
 		if ($targetresult != false) {
-			while ($target = POD::fetch($targetresult)) {
+			while ($target = Data_IAdapter::fetch($targetresult)) {
 				$tag = $target['id'];
-				POD::execute("DELETE FROM {$database['prefix']}Tags WHERE id = $tag ");
+				Data_IAdapter::execute("DELETE FROM {$database['prefix']}Tags WHERE id = $tag ");
 			}
-			POD::free($targetresult);
+			Data_IAdapter::free($targetresult);
 		}
 	}
 

@@ -408,7 +408,7 @@ $helpURL = $blogMenu['topMenu'].(isset($blogMenu['contentMenu']) ? '/'.$submenuU
 				<div id="main-description-box">
 					<ul id="main-description">
 <?php
-$writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = ".getUserId());
+$writer = Data_IAdapter::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = ".getUserId());
 ?>
 						<li id="description-blogger"><span class="text"><?php echo _f('환영합니다. <em>%1</em>님.', htmlspecialchars($writer));?></span></li>
 					</ul>

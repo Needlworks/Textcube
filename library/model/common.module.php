@@ -59,7 +59,7 @@ function getEntryFormatterInfo($id) {
 							$database['prefix'],
 							$id
 						);
-		$info[$id] = POD::queryCell($query);
+		$info[$id] = Data_IAdapter::queryCell($query);
 	}
 	
 	return $info[$id];

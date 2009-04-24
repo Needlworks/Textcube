@@ -51,7 +51,7 @@ function MT_Cover_getRecentEntries($parameters){
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
 	}
 	$multiple = ($data['coverMode']==2) ? '' : 'e.blogid = ' . getBlogId() . ' AND';
-	$privateBlogId = POD::queryColumn("SELECT blogid 
+	$privateBlogId = Data_IAdapter::queryColumn("SELECT blogid 
 		FROM {$database['prefix']}BlogSettings
 		WHERE name = 'visibility'
 		AND value < 2");
@@ -109,7 +109,7 @@ function MT_Cover_getRecentEntries($parameters){
 		requireComponent('Textcube.Model.Paging');
 
 		$paging['page'] = $page;
-		$paging['total'] = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries e WHERE $multiple e.draft = 0 $visibility AND e.category >= 0");
+		$paging['total'] = Data_IAdapter::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries e WHERE $multiple e.draft = 0 $visibility AND e.category >= 0");
 
 		$html .= getPagingView($paging, $skin->paging, $skin->pagingItem).CRLF;
 

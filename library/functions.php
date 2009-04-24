@@ -45,7 +45,7 @@ function str_innerHTML($str) {
 }
 /*
 function update($sql) {
-	POD::query($sql);
+	Data_IAdapter::query($sql);
 	$result = mysql_affected_rows();
 	if ($result > 0) {
 		return $result;
@@ -59,7 +59,7 @@ function update($sql) {
 
 function select($sql) {
 	$list = array();
-	$result = POD::query($sql);
+	$result = Data_IAdapter::query($sql);
 	while ($row = mysql_fetch_array($result)) {
 		$list[] = $row;
 	}
@@ -73,7 +73,7 @@ function select($sql) {
 
 function size($sql) {
 	$list = array();
-	$result = POD::query($sql);
+	$result = Data_IAdapter::query($sql);
 	while ($row = mysql_fetch_array($result)) {
 		$list[] = $row;
 	}

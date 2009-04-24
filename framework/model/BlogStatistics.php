@@ -16,17 +16,17 @@ class Model_BlogStatistics {
 	function load() {
 		global $database;
 		$this->reset();
-		if ($result = POD::query("SELECT visits FROM {$database['prefix']}BlogStatistics WHERE blogid = ".getBlogId())) {
-			if ($row = POD::fetch($result)) {
+		if ($result = Data_IAdapter::query("SELECT visits FROM {$database['prefix']}BlogStatistics WHERE blogid = ".getBlogId())) {
+			if ($row = Data_IAdapter::fetch($result)) {
 				foreach ($row as $name => $value) {
 					if ($name == 'owner')
 						continue;
 					$this->$name = $value;
 				}
-				POD::free($result);
+				Data_IAdapter::free($result);
 				return true;
 			}
-			POD::free($result);
+			Data_IAdapter::free($result);
 		}
 		return false;
 	}

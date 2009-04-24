@@ -16,18 +16,18 @@ class Model_User {
 		if (array_key_exists($userid, $__gCacheUserNames)) {
 			return $__gCacheUserNames[$userid];
 		}
-		return $__gCacheUserNames[$userid] = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $userid");
+		return $__gCacheUserNames[$userid] = Data_IAdapter::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $userid");
 	}
 	
 	static function getUserIdByName($name) {
 		global $database, $__gCacheUserNames;
 		if (!isset($name))
 			return getUserId();
-		$name = POD::escapeString($name);
+		$name = Data_IAdapter::escapeString($name);
 		$userid = array_search($name, $__gCacheUserNames);
 		if(!empty($userid))
 			return $userid;
-		$userid = POD::queryCell("SELECT userid FROM {$database['prefix']}Users WHERE name = '".$name."'");
+		$userid = Data_IAdapter::queryCell("SELECT userid FROM {$database['prefix']}Users WHERE name = '".$name."'");
 		$__gCacheUserNames[$userid] = $name;
 		return $userid;
 	}
@@ -35,10 +35,10 @@ class Model_User {
 	static function getUserNamesOfBlog($blogid) {
 		// TODO : Caching with global cache component. (Usually it is not changing easily.)
 		global $database;
-		$authorIds = POD::queryColumn("SELECT userid
+		$authorIds = Data_IAdapter::queryColumn("SELECT userid
 			FROM {$database['prefix']}Privileges
 			WHERE blogid = $blogid");
-		$authorInfo = POD::queryAll("SELECT userid, name
+		$authorInfo = Data_IAdapter::queryAll("SELECT userid, name
 			FROM {$database['prefix']}Users
 			WHERE userid IN (".implode(",",$authorIds).")");
 		return $authorInfo;
@@ -46,7 +46,7 @@ class Model_User {
 
 	static function getBlogOwnerName($blogid) {
 		global $database;
-		$ownerUserId = POD::queryCell("SELECT userid 
+		$ownerUserId = Data_IAdapter::queryCell("SELECT userid 
 			FROM {$database['prefix']}Privileges
 			WHERE blogid = $blogid
 				AND acl > 15");
@@ -55,7 +55,7 @@ class Model_User {
 
 	static function getBlogOwner($blogid) {
 		global $database;
-		$ownerUserId = POD::queryCell("SELECT userid 
+		$ownerUserId = Data_IAdapter::queryCell("SELECT userid 
 			FROM {$database['prefix']}Privileges
 			WHERE blogid = $blogid
 				AND acl > 15");
@@ -66,29 +66,29 @@ class Model_User {
 		global $database;
 		if (!isset($userid))
 			$userid = getUserId();
-		return POD::queryCell("SELECT loginid FROM {$database['prefix']}Users WHERE userid = $userid");
+		return Data_IAdapter::queryCell("SELECT loginid FROM {$database['prefix']}Users WHERE userid = $userid");
 	}
 
 	static function getUserIdByEmail($loginid = null) {
 		global $database;
 		$loginid = trim($loginid);
 		if(!isset($loginid)) return null;
-		$loginid = POD::escapeString($loginid);
-		return POD::queryCell("SELECT userid FROM {$database['prefix']}Users WHERE loginid = '".$loginid."'");
+		$loginid = Data_IAdapter::escapeString($loginid);
+		return Data_IAdapter::queryCell("SELECT userid FROM {$database['prefix']}Users WHERE loginid = '".$loginid."'");
 	}
 	
 	static function getBlogs($userid = null) {
 		global $database;
 		if (!isset($userid))
 			$userid = getUserId();
-		return POD::queryColumn("SELECT blogid FROM {$database['prefix']}Privileges WHERE userid = $userid");
+		return Data_IAdapter::queryColumn("SELECT blogid FROM {$database['prefix']}Privileges WHERE userid = $userid");
 	}
 
 	static function getOwnedBlogs($userid = null) {
 		global $database;
 		if (!isset($userid))
 			$userid = getUserId();
-		return POD::queryColumn("SELECT blogid FROM {$database['prefix']}Privileges WHERE userid = $userid AND acl > 15");
+		return Data_IAdapter::queryColumn("SELECT blogid FROM {$database['prefix']}Privileges WHERE userid = $userid AND acl > 15");
 	}
 
 	static function getHomepageType($userid = null) {
@@ -161,7 +161,7 @@ class Model_User {
 		global $database;
 		if(empty($userid)) $userid = getUserId(); 
 		$password = md5($password);
-		return POD::queryExistence("SELECT userid FROM {$database['prefix']}Users WHERE userid = $userid AND password = '$password'");
+		return Data_IAdapter::queryExistence("SELECT userid FROM {$database['prefix']}Users WHERE userid = $userid AND password = '$password'");
 	}
 
 	static function authorName($blogid = null,$entryId){
@@ -201,15 +201,15 @@ class Model_User {
 	static function changeSetting($userid, $email, $nickname) {
 		global $database;
 		if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return false;
-		$email = POD::escapeString(UTF8::lessenAsEncoding($email, 64));
-		$nickname = POD::escapeString(UTF8::lessenAsEncoding($nickname, 32));
+		$email = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($email, 64));
+		$nickname = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($nickname, 32));
 		if ($email == '' || $nickname == '') {
 			return false;
 		}
-		if (POD::queryExistence("SELECT * FROM `{$database['prefix']}Users` WHERE name = '$nickname' AND `userid` <> $userid")) {
+		if (Data_IAdapter::queryExistence("SELECT * FROM `{$database['prefix']}Users` WHERE name = '$nickname' AND `userid` <> $userid")) {
 			return false;
 		} else {
-			$result = POD::query("UPDATE `{$database['prefix']}Users` SET loginid = '$email', name = '$nickname' WHERE `userid` = $userid");		
+			$result = Data_IAdapter::query("UPDATE `{$database['prefix']}Users` SET loginid = '$email', name = '$nickname' WHERE `userid` = $userid");		
 			if (!$result) {
 				return false;
 			} else {
@@ -227,24 +227,24 @@ class Model_User {
 	
 		if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return 11;
 	
-		$loginid = POD::escapeString(UTF8::lessenAsEncoding($email, 64));	
-		$name = POD::escapeString(UTF8::lessenAsEncoding($name, 32));
+		$loginid = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($email, 64));	
+		$name = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($name, 32));
 		$password = Model_User::__generatePassword();
 		$authtoken = md5(Model_User::__generatePassword());
 	
-		if (POD::queryExistence("SELECT * FROM `{$database['prefix']}Users` WHERE loginid = '$loginid'")) {
+		if (Data_IAdapter::queryExistence("SELECT * FROM `{$database['prefix']}Users` WHERE loginid = '$loginid'")) {
 			return 9;	// User already exists.
 		}
 	
-		if (POD::queryCell("SELECT COUNT(*) FROM `{$database['prefix']}Users` WHERE name = '$name'")) {
+		if (Data_IAdapter::queryCell("SELECT COUNT(*) FROM `{$database['prefix']}Users` WHERE name = '$name'")) {
 			$name = $name . '.' . time();
 		}
 
-		$result = POD::query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (NULL, '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, ".getUserId().")");
+		$result = Data_IAdapter::query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (NULL, '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, ".getUserId().")");
 		if (empty($result)) {
 			return 11;
 		}
-		$result = POD::query("INSERT INTO `{$database['prefix']}UserSettings` (userid, name, value) VALUES ('".Model_User::getUserIdByEmail($loginid)."', 'AuthToken', '$authtoken')");
+		$result = Data_IAdapter::query("INSERT INTO `{$database['prefix']}UserSettings` (userid, name, value) VALUES ('".Model_User::getUserIdByEmail($loginid)."', 'AuthToken', '$authtoken')");
 		if (empty($result)) {
 			return 11;
 		}
@@ -260,7 +260,7 @@ class Model_User {
 			return false;
 		$blogs = Model_User::getOwnedBlogs($userid);
 		$sql = "UPDATE `{$database['prefix']}Comments` SET replier = NULL WHERE replier = ".$userid;
-		POD::execute($sql);
+		Data_IAdapter::execute($sql);
 		foreach ($blogs as $ownedBlog) {
 			Model_Blog::changeOwner($ownedBlog,1); // 관리자 uid로 변경
 		}
@@ -274,8 +274,8 @@ class Model_User {
 	
 	static function removePermanent($userid) {
 		global $database;
-		if( POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1") ) {
-			return POD::execute("DELETE FROM {$database['prefix']}Users WHERE userid = $userid");
+		if( Data_IAdapter::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1") ) {
+			return Data_IAdapter::execute("DELETE FROM {$database['prefix']}Users WHERE userid = $userid");
 		} else {
 			return false;
 		}

@@ -65,9 +65,9 @@ $likeEscape = array ( '/_/' , '/%/' );
 $likeReplace = array ( '\\_' , '\\%' );
 $escapename = preg_replace($likeEscape, $likeReplace, $database['prefix']);
 $query = "SHOW TABLES LIKE '{$escapename}%'";
-$dbtables = POD::queryColumn($query);
+$dbtables = Data_IAdapter::queryColumn($query);
 
-$result = POD::queryRow("show variables like 'lower_case_table_names'");
+$result = Data_IAdapter::queryRow("show variables like 'lower_case_table_names'");
 $dbCaseInsensitive = ($result['Value'] == 1) ? true : false;
 
 requireModel('common.setting');
@@ -91,7 +91,7 @@ if ($dbCaseInsensitive == true) {
 }
 
 $query = "SELECT name, value FROM {$database['prefix']}ServiceSettings WHERE name like 'Database\\_%'";
-$plugintablesraw = POD::queryAll($query);
+$plugintablesraw = Data_IAdapter::queryAll($query);
 $plugintables = array();
 foreach($plugintablesraw as $table) {
 	$dbname = $database['prefix'] . substr($table['name'], 9);

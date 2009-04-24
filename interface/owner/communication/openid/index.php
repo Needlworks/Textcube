@@ -73,7 +73,7 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 								<tbody>
 <?php
 $sql="SELECT * FROM {$database['prefix']}OpenIDUsers $order";
-$rec = POD::queryAll( $sql );
+$rec = Data_IAdapter::queryAll( $sql );
 for ($i=0; $i<count($rec); $i++) {
 $record = $rec[$i];
 $data = unserialize($record['data']);

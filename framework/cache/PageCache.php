@@ -125,9 +125,9 @@ class Cache_pageCache {
 
 	private function getPageCacheLog() {
 		global $database;
-		$result = POD::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog 
+		$result = Data_IAdapter::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog 
 			WHERE blogid = ".getBlogId()."
-			AND name = '".POD::escapeString($this->realName)."'");
+			AND name = '".Data_IAdapter::escapeString($this->realName)."'");
 		if(!is_null($result)) {
 			$this->_dbContents = unserialize($result);
 			if(doesHaveOwnership()) $this->dbContents = isset($this->_dbContents['owner']) ? $this->_dbContents['owner'] : null;
@@ -142,15 +142,15 @@ class Cache_pageCache {
 		global $database;
 		if(doesHaveOwnership()) $this->_dbContents['owner'] = $this->dbContents;
 		else $this->_dbContents['user'] = $this->dbContents;
-		return POD::execute("REPLACE INTO {$database['prefix']}PageCacheLog 
-			VALUES(".getBlogId().", '".POD::escapeString($this->realName)."', '".POD::escapeString(serialize($this->_dbContents))."')");
+		return Data_IAdapter::execute("REPLACE INTO {$database['prefix']}PageCacheLog 
+			VALUES(".getBlogId().", '".Data_IAdapter::escapeString($this->realName)."', '".Data_IAdapter::escapeString(serialize($this->_dbContents))."')");
 	}
 
 	private function removePageCacheLog() {
 		global $database;
-		return POD::execute("DELETE FROM {$database['prefix']}PageCacheLog 
+		return Data_IAdapter::execute("DELETE FROM {$database['prefix']}PageCacheLog 
 			WHERE blogid = ".getBlogId()."
-			AND name = '".POD::escapeString($this->realName)."'"); 
+			AND name = '".Data_IAdapter::escapeString($this->realName)."'"); 
 	}
 
 	private function _error($error) {
@@ -206,9 +206,9 @@ class Cache_queryCache {
 		if(!is_null($memcache)) {
 			$result = $memcache->get(getBlogId().'-'.$this->queryHash);
 		} else {*/
-			$result = POD::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog 
+			$result = Data_IAdapter::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog 
 				WHERE blogid = ".getBlogId()."
-				AND name = '".POD::escapeString($this->queryHash)."'");
+				AND name = '".Data_IAdapter::escapeString($this->queryHash)."'");
 //		}
 		if(!is_null($result) && !empty($result)) {
 			$this->contents = unserialize($result);
@@ -225,8 +225,8 @@ class Cache_queryCache {
 		if(!is_null($memcache)) {
 			return $memcache->set(getBlogId().'-'.$this->queryHash,serialize($this->contents));
 		} else {
-			return POD::execute("REPLACE INTO {$database['prefix']}PageCacheLog 
-				VALUES(".getBlogId().", '".POD::escapeString($this->queryHash)."', '".POD::escapeString(serialize($this->contents))."')");
+			return Data_IAdapter::execute("REPLACE INTO {$database['prefix']}PageCacheLog 
+				VALUES(".getBlogId().", '".Data_IAdapter::escapeString($this->queryHash)."', '".Data_IAdapter::escapeString(serialize($this->contents))."')");
 		}
 	}
 
@@ -237,9 +237,9 @@ class Cache_queryCache {
 		if(!is_null($memcache)) {
 			return $memcache->delete(getBlogId().'-'.$this->queryHash);
 		} else {
-			return POD::execute("DELETE FROM {$database['prefix']}PageCacheLog 
+			return Data_IAdapter::execute("DELETE FROM {$database['prefix']}PageCacheLog 
 				WHERE blogid = ".getBlogId()."
-				AND name = '".POD::escapeString($this->queryHash)."'");
+				AND name = '".Data_IAdapter::escapeString($this->queryHash)."'");
 		}
 	}
 
@@ -262,13 +262,13 @@ class globalCacheStorage extends pageCache {
 	
 	function load() {
 		global $database;
-		$result = POD::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$this->_gBlogId." AND name = 'globalCacheStorage'");
+		$result = Data_IAdapter::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$this->_gBlogId." AND name = 'globalCacheStorage'");
 		if(isset($result)) $this->_gCacheStorage[$this->_gBlogId] = unserialize($result);
 	}
 
 	function save() {
 		global $database;
-		if($this->_isChanged) return POD::query("REPLACE INTO {$database['prefix']}PageCacheLog VALUES(".$this->_gBlogId.", 'globalCacheStorage', '".POD::escapeString(serialize($this->_gCacheStorage[$this->_gBlogId]))."')");
+		if($this->_isChanged) return Data_IAdapter::query("REPLACE INTO {$database['prefix']}PageCacheLog VALUES(".$this->_gBlogId.", 'globalCacheStorage', '".Data_IAdapter::escapeString(serialize($this->_gCacheStorage[$this->_gBlogId]))."')");
 	}
 	
 	function getContent($name) {
@@ -288,7 +288,7 @@ class globalCacheStorage extends pageCache {
 
 	function purge() {
 		global $database;
-		return POD::query("DELETE FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$this->_gBlogId." AND name = 'globalCacheStorage'");
+		return Data_IAdapter::query("DELETE FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$this->_gBlogId." AND name = 'globalCacheStorage'");
 	}
 }
 
@@ -306,7 +306,7 @@ class Cache_Control {
 			if(!@unlink($dir.'/'.$object)) return false;
 		}
 		@rmdir($dir);
-		POD::query("DELETE FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$blogid);
+		Data_IAdapter::query("DELETE FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$blogid);
 		return true;
 	}
 	
@@ -317,7 +317,7 @@ class Cache_Control {
 		else $categoryId = $categoryId.'\\_';
 		
 		$cache = new pageCache;
-		$categoryLists = POD::queryColumn("SELECT name
+		$categoryLists = Data_IAdapter::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'categoryList\\_".$categoryId."%' 
@@ -333,10 +333,10 @@ class Cache_Control {
 		global $database;
 
 		if(empty($authorId)) $authorId = '';
-		else $authorId = POD::escapeString($authorId).'\\_';
+		else $authorId = Data_IAdapter::escapeString($authorId).'\\_';
 		
 		$cache = new pageCache;
-		$pageLists = POD::queryColumn("SELECT name
+		$pageLists = Data_IAdapter::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'authorList\\_".$authorId."%')");
@@ -351,7 +351,7 @@ class Cache_Control {
 		if(empty($tagId)) $tagId = '';
 		else $tagId = $tagId.'\\_';
 		$cache = new pageCache;
-		$tagLists = POD::queryColumn("SELECT name
+		$tagLists = Data_IAdapter::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'tagList\\_".$tagId."%' 
@@ -370,7 +370,7 @@ class Cache_Control {
 		if(empty($tagId)) $tagId = '';
 		else $tagId = $tagId.'\\_';
 		$cache = new pageCache;
-		$keywordEntries = POD::queryColumn("SELECT name
+		$keywordEntries = Data_IAdapter::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND name like 'keyword\\_".$tagId."%'");
@@ -385,13 +385,13 @@ class Cache_Control {
 		if(empty($entryId)) $entryId = '';
 		else $entryId = $entryId.'\\_';
 		$cache = new pageCache;
-		$Entries = POD::queryColumn("SELECT name
+		$Entries = Data_IAdapter::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'entry\\_".$entryId."%' OR name = 'commentRSS_".$entryId."')");
 		Cache_Control::purgeItems($Entries);
 		if(!empty($entryId)) {
-			$entry = POD::queryCell("SELECT userid, category FROM {$database['prefix']}Entries
+			$entry = Data_IAdapter::queryCell("SELECT userid, category FROM {$database['prefix']}Entries
 				WHERE blogid = ".getBlogId()." AND id = $entryId");
 			if(!empty($entry)) {
 				Cache_Control::flushAuthor($entry['userid']);
@@ -520,7 +520,7 @@ class Cache_Control {
 	}
 	function flushDBCache($prefix = null) {
 		global $database;
-		return POD::query("DELETE FROM {$database['prefix']}PageCacheLog
+		return Data_IAdapter::query("DELETE FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND name like '%".(!empty($prefix) ? $prefix.'\\_' : '')."queryCache%'");
 	}

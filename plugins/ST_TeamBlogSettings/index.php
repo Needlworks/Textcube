@@ -13,7 +13,7 @@ function getTeamBlogInitConfigVal( &$data ){
 
 function getTeamAuthorStyle($target, $mother){
 	global $database, $entry;
-	$row = POD::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =" . getBlogId() . " AND userid=" . $entry['userid']);
+	$row = Data_IAdapter::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =" . getBlogId() . " AND userid=" . $entry['userid']);
 	$authorStyle = '';
 	if($row['style']){
 		$style = explode("|", $row['style']);
@@ -59,7 +59,7 @@ function getTeamProfile($userid){
 	requireComponent('Textcube.Function.misc');
 	$data = Model_Setting::fetchConfigVal($configVal);
 	getTeamBlogInitConfigVal($data);
-	$row = POD::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =".getBlogId()." AND userid=".$userid);
+	$row = Data_IAdapter::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =".getBlogId()." AND userid=".$userid);
 	$imageStyle = $imageTag = $html = '';
 	if(!empty($row['image'])){
 		$imageSrc = "{$serviceURL}/attach/".getBlogId()."/team/".$row['image'];
@@ -88,10 +88,10 @@ function getTeamBlogSettings() {
 ?>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/plugin-main.js"></script>
 <?php
-	$teamblog_user = POD::queryRow("SELECT name, loginid FROM {$database['prefix']}Users WHERE userid=".getUserId());
-	$row = POD::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =".getBlogId()." and userid=".getUserId());
+	$teamblog_user = Data_IAdapter::queryRow("SELECT name, loginid FROM {$database['prefix']}Users WHERE userid=".getUserId());
+	$row = Data_IAdapter::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =".getBlogId()." and userid=".getUserId());
 	if(!$row){
-		POD::execute("INSERT INTO {$database['prefix']}TeamUserSettings (blogid,userid,style,image,profile,updated) VALUES('".getBlogId()."','".getUserId()."','','', '',UNIX_TIMESTAMP())");
+		Data_IAdapter::execute("INSERT INTO {$database['prefix']}TeamUserSettings (blogid,userid,style,image,profile,updated) VALUES('".getBlogId()."','".getUserId()."','','', '',UNIX_TIMESTAMP())");
 	}
 	if($row['image']){
 		$image = "{$serviceURL}/attach/".getBlogId()."/team/".$row['image'];
@@ -259,12 +259,12 @@ function getTeamContentsSave($target){
 	$profile = isset($_POST['profile']) ? $_POST['profile'] : '';
 	if(doesHaveOwnership() && doesHaveMembership()){
 		if($flag == "style"){
-			if(POD::execute("UPDATE {$database['prefix']}TeamUserSettings SET style=\"{$style}\", updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
+			if(Data_IAdapter::execute("UPDATE {$database['prefix']}TeamUserSettings SET style=\"{$style}\", updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
 				respond::ResultPage(0);
 			}
 		}else if($flag == "profile"){
-			$profile = POD::escapeString(UTF8::lessenAsEncoding($profile, 65535));
-			if(POD::execute("UPDATE {$database['prefix']}TeamUserSettings SET profile=\"{$profile}\", updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
+			$profile = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($profile, 65535));
+			if(Data_IAdapter::execute("UPDATE {$database['prefix']}TeamUserSettings SET profile=\"{$profile}\", updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
 				respond::ResultPage(0);
 			}
 		}
@@ -288,7 +288,7 @@ function getImageFileUpload($target){
 				$errmsg = _t('새로운 프로필 사진을 저장 했습니다.');
 			}
 		}else if($type == "delete"){
-			$tmpImage = POD::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE blogid=".getBlogId()." and userid=".getUserId());
+			$tmpImage = Data_IAdapter::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE blogid=".getBlogId()." and userid=".getUserId());
 			if($tmpImage){
 				$result = getDeleteAttachment();
 				$errmsg = _t('등록된 프로필 사진을 삭제 하였습니다.');
@@ -332,8 +332,8 @@ function getAddAttachment($file){
 	if(!move_uploaded_file($file['tmp_name'],$attachment['path']))
 		return false;
 	@chmod($attachment['path'],0666);
-	$tmpImage = POD::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE blogid=".getBlogId()." and userid=".getUserId());
-	if(!POD::execute("UPDATE {$database['prefix']}TeamUserSettings SET image='".$attachment['name']."', updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
+	$tmpImage = Data_IAdapter::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE blogid=".getBlogId()." and userid=".getUserId());
+	if(!Data_IAdapter::execute("UPDATE {$database['prefix']}TeamUserSettings SET image='".$attachment['name']."', updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
 		@unlink($attachment['path']);
 		$result = "{$serviceURL}/resources/image/spacer.gif";
 	}else{
@@ -346,9 +346,9 @@ function getAddAttachment($file){
 
 function getDeleteAttachment($filename){
 	global $database, $serviceURL;
-	$tmpImage = POD::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE blogid=".getBlogId()." and userid=".getUserId());
+	$tmpImage = Data_IAdapter::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE blogid=".getBlogId()." and userid=".getUserId());
 	if($tmpImage){
-		POD::execute("UPDATE {$database['prefix']}TeamUserSettings SET image='', updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId());
+		Data_IAdapter::execute("UPDATE {$database['prefix']}TeamUserSettings SET image='', updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId());
 		@unlink(ROOT."/attach/".getBlogId()."/team/".$tmpImage);
 	}
 	$result = "{$serviceURL}/resources/image/spacer.gif";

@@ -322,7 +322,7 @@ function api_addAttachment($blogid,$parent,$file) {
 	$attachment=array();
 	$attachment['parent']=$parent?$parent:0;
 	$attachment['label']=Path::getBaseName($file['name']);
-	$label=POD::escapeString(UTF8::lessenAsEncoding($attachment['label'],64));
+	$label=Data_IAdapter::escapeString(UTF8::lessenAsEncoding($attachment['label'],64));
 	$attachment['size']=$file['size'];
 	$extension=Path::getExtension($attachment['label']);
 	switch(strtolower($extension)) {
@@ -344,7 +344,7 @@ function api_addAttachment($blogid,$parent,$file) {
 		@chmod($path,0777);
 	}
 	
-	$oldFile = POD::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE blogid=$blogid AND parent=$parent AND label = '$label'");
+	$oldFile = Data_IAdapter::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE blogid=$blogid AND parent=$parent AND label = '$label'");
 	
 	if ($oldFile !== null) {
 		$attachment['name'] = $oldFile;
@@ -385,7 +385,7 @@ function api_addAttachment($blogid,$parent,$file) {
 	$attachment['mime']=UTF8::lessenAsEncoding($attachment['mime'], 32);
 	
 	@chmod($attachment['path'],0666);
-	$result=POD::query("insert into {$database['prefix']}Attachments values ($blogid, {$attachment['parent']}, '{$attachment['name']}', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
+	$result=Data_IAdapter::query("insert into {$database['prefix']}Attachments values ($blogid, {$attachment['parent']}, '{$attachment['name']}', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
 	if(!$result) {
 		@unlink($attachment['path']);
 		return false;
@@ -406,12 +406,12 @@ function api_update_attaches( $parent, $attaches = null)
 {
 	global $database;
 	if (is_null($attaches)) {
-		POD::query( "update {$database['prefix']}Attachments set parent=$parent where blogid=".getBlogId()." and parent=0");		
+		Data_IAdapter::query( "update {$database['prefix']}Attachments set parent=$parent where blogid=".getBlogId()." and parent=0");		
 	} else {
 		foreach( $attaches as $att )
 		{
-			$att = POD::escapeString($att);
-			POD::query( "update {$database['prefix']}Attachments set parent=$parent where blogid=".getBlogId()." and parent=0 and name='" . $att . "'");
+			$att = Data_IAdapter::escapeString($att);
+			Data_IAdapter::query( "update {$database['prefix']}Attachments set parent=$parent where blogid=".getBlogId()." and parent=0 and name='" . $att . "'");
 		}
 	}
 }
@@ -420,11 +420,11 @@ function api_update_attaches_with_replace($entryId)
 {
 	global $database;
 	
-	$newFiles = POD::queryAll("SELECT name, label FROM {$database['prefix']}Attachments WHERE blogid=".getBlogId()." AND parent=0");
+	$newFiles = Data_IAdapter::queryAll("SELECT name, label FROM {$database['prefix']}Attachments WHERE blogid=".getBlogId()." AND parent=0");
 	if( $newFiles ) {
 		foreach($newFiles as $newfile) {
-			$newfile['label'] = POD::escapeString(UTF8::lessenAsEncoding($newfile['label'], 64));
-			$oldFile = POD::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE blogid=".getBlogId()." AND parent=$entryId AND label='{$newfile['label']}'");
+			$newfile['label'] = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($newfile['label'], 64));
+			$oldFile = Data_IAdapter::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE blogid=".getBlogId()." AND parent=$entryId AND label='{$newfile['label']}'");
 		
 			if (!is_null($oldFile)) {
 				deleteAttachment(getBlogId(), $entryId, $oldFile);

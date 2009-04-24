@@ -315,7 +315,7 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 
 <?php
 // Teamblog :: Get username.
- $teamblog_user = POD::queryRow("SELECT name, loginid 
+ $teamblog_user = Data_IAdapter::queryRow("SELECT name, loginid 
 	 FROM {$database['prefix']}Users 
 	 WHERE userid='".getUserId()."'");
 // End TeamBlog
@@ -664,7 +664,7 @@ $invitedList = getInvited(getUserId());
 		if ($value['lastLogin'] == 0) {
 ?>
 														<td class="status"><?php echo _f('%1 전', timeInterval($value['created'], time()));?></td>
-														<td class="password"><?php echo POD::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = {$value['userid']} AND name = 'AuthToken'");?></td>
+														<td class="password"><?php echo Data_IAdapter::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = {$value['userid']} AND name = 'AuthToken'");?></td>
 														<td class="cancel"><a class="cancel-button button" href="#void" onclick="cancelInvite(<?php echo $value['userid'];?>,this);return false;" title="<?php echo _t('초대에 응하지 않은 사용자의 계정을 삭제합니다.');?>"><span class="text"><?php echo _t('초대취소');?></span></a></td>
 <?php
 		} else {

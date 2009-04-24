@@ -15,22 +15,22 @@ function getTrashTrackbackWithPagingForOwner($blogid, $category, $site, $url, $i
 		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
 		WHERE t.blogid = $blogid AND t.isFiltered > 0 AND t.type = 'trackback'";
 	if ($category > 0) {
-		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
+		$categories = Data_IAdapter::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
 		$postfix .= '&amp;category=' . rawurlencode($category);
 	} else
 		$sql .= ' AND e.category >= 0';
 	if (!empty($site)) {
-		$sql .= ' AND t.site = \'' . POD::escapeString($site) . '\'';
+		$sql .= ' AND t.site = \'' . Data_IAdapter::escapeString($site) . '\'';
 		$postfix .= '&amp;site=' . rawurlencode($site);
 	}
 	if (!empty($url)) {
-		$sql .= ' AND t.url = \'' . POD::escapeString($url) . '\'';
+		$sql .= ' AND t.url = \'' . Data_IAdapter::escapeString($url) . '\'';
 		$postfix .= '&amp;url=' . rawurlencode($url);
 	}
 	if (!empty($ip)) {
-		$sql .= ' AND t.ip = \'' . POD::escapeString($ip) . '\'';
+		$sql .= ' AND t.ip = \'' . Data_IAdapter::escapeString($ip) . '\'';
 		$postfix .= '&amp;ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
@@ -57,18 +57,18 @@ function getTrashCommentsWithPagingForOwner($blogid, $category, $name, $ip, $sea
 
 	$postfix = '';	
 	if ($category > 0) {
-		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE parent = $category");
+		$categories = Data_IAdapter::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
 		$postfix .= '&amp;category=' . rawurlencode($category);
 	} else
 		$sql .= ' AND (e.category >= 0 OR c.entry = 0)';
 	if (!empty($name)) {
-		$sql .= ' AND c.name = \'' . POD::escapeString($name) . '\'';
+		$sql .= ' AND c.name = \'' . Data_IAdapter::escapeString($name) . '\'';
 		$postfix .= '&amp;name=' . rawurlencode($name);
 	}
 	if (!empty($ip)) {
-		$sql .= ' AND c.ip = \'' . POD::escapeString($ip) . '\'';
+		$sql .= ' AND c.ip = \'' . Data_IAdapter::escapeString($ip) . '\'';
 		$postfix .= '&amp;ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
@@ -87,7 +87,7 @@ function getTrashCommentsWithPagingForOwner($blogid, $category, $name, $ip, $sea
 function getTrackbackTrash($entry) {
 	global $database;
 	$trackbacks = array();
-	$result = POD::queryAll("SELECT * 
+	$result = Data_IAdapter::queryAll("SELECT * 
 			FROM {$database['prefix']}RemoteResponses 
 			WHERE blogid = ".getBlogId()."
 				AND entry = $entry 
@@ -107,8 +107,8 @@ function getRecentTrackbackTrash($blogid) {
 		{$database['prefix']}Entries e 
 		WHERE t.blogid = $blogid AND t.blogid = e.blogid AND t.entry = e.id AND t.type = 'trackback' AND e.draft = 0 AND e.visibility >= 2 
 		ORDER BY t.written DESC LIMIT {$skinSetting['trackbacksOnRecent']}";
-	if ($result = POD::query($sql)) {
-		while ($trackback = POD::fetch($result))
+	if ($result = Data_IAdapter::query($sql)) {
+		while ($trackback = Data_IAdapter::fetch($result))
 			array_push($trackbacks, $trackback);
 	}
 	return $trackbacks;
@@ -116,10 +116,10 @@ function getRecentTrackbackTrash($blogid) {
 
 function deleteTrackbackTrash($blogid, $id) {
 	global $database;
-	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
+	$entry = Data_IAdapter::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!POD::execute("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id"))
+	if (!Data_IAdapter::execute("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id"))
 		return false;
 	if (updateTrackbacksOfEntry($blogid, $entry))
 		return $entry;
@@ -128,10 +128,10 @@ function deleteTrackbackTrash($blogid, $id) {
 
 function restoreTrackbackTrash($blogid, $id) {
    	global $database;
-	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
+	$entry = Data_IAdapter::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!POD::execute("UPDATE {$database['prefix']}RemoteResponses SET isFiltered = 0 WHERE blogid = $blogid AND id = $id"))
+	if (!Data_IAdapter::execute("UPDATE {$database['prefix']}RemoteResponses SET isFiltered = 0 WHERE blogid = $blogid AND id = $id"))
 		return false;
 	if (updateTrackbacksOfEntry($blogid, $entry))
 		return $entry;
@@ -142,8 +142,8 @@ function trashVan() {
    	global $database;
 	requireModel('common.setting');
 	if(Timestamp::getUNIXtime() - getServiceSetting('lastTrashSweep',0) > 86400) {
-		POD::execute("DELETE FROM {$database['prefix']}Comments where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
-		POD::execute("DELETE FROM {$database['prefix']}RemoteResponses where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
+		Data_IAdapter::execute("DELETE FROM {$database['prefix']}Comments where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
+		Data_IAdapter::execute("DELETE FROM {$database['prefix']}RemoteResponses where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
 		setServiceSetting('lastTrashSweep',Timestamp::getUNIXtime());
 	}
 	if(Timestamp::getUNIXtime() - getServiceSetting('lastNoticeRead',0) > 43200) {
@@ -158,9 +158,9 @@ function emptyTrash($comment = true)
 	requireModel('common.setting');
 	$blogid = getBlogId();
 	if ($comment == true) {
-		POD::execute("DELETE FROM {$database['prefix']}Comments where blogid = ".$blogid." and isFiltered > 0");
+		Data_IAdapter::execute("DELETE FROM {$database['prefix']}Comments where blogid = ".$blogid." and isFiltered > 0");
 	} else {
-		POD::execute("DELETE FROM {$database['prefix']}RemoteResponses where blogid = ".$blogid." and isFiltered > 0");
+		Data_IAdapter::execute("DELETE FROM {$database['prefix']}RemoteResponses where blogid = ".$blogid." and isFiltered > 0");
 	}
 }
 

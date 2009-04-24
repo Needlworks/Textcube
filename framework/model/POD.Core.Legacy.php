@@ -38,7 +38,7 @@ class POD extends DBQuery {
 	public static function queryWithDBCache($query, $prefix = null, $type = MYSQL_BOTH, $count = -1) {
 		$cache = new queryCache($query, $prefix);
 		if(!$cache->load()) {
-			$cache->contents = POD::query($query, $type, $count);
+			$cache->contents = Data_IAdapter::query($query, $type, $count);
 			$cache->update();
 		}
 		return $cache->contents;
@@ -46,7 +46,7 @@ class POD extends DBQuery {
 	public static function queryAllWithDBCache($query, $prefix = null, $type = MYSQL_BOTH, $count = -1) {
 		$cache = new queryCache($query, $prefix);
 		if(!$cache->load()) {
-			$cache->contents = POD::queryAllWithCache($query, $type, $count);
+			$cache->contents = Data_IAdapter::queryAllWithCache($query, $type, $count);
 			$cache->update();
 		}
 		return $cache->contents;
@@ -54,7 +54,7 @@ class POD extends DBQuery {
 	public static function queryRowWithDBCache($query, $prefix = null, $type = MYSQL_BOTH, $count = -1) {
 		$cache = new queryCache($query, $prefix);
 		if(!$cache->load()) {
-			$cache->contents = POD::queryRow($query, $type, $count);
+			$cache->contents = Data_IAdapter::queryRow($query, $type, $count);
 			$cache->update();
 		}
 		return $cache->contents;
@@ -62,7 +62,7 @@ class POD extends DBQuery {
 	public static function queryColumnWithDBCache($query, $prefix = null, $type = MYSQL_BOTH, $count = -1) {
 		$cache = new queryCache($query, $prefix);
 		if(!$cache->load()) {
-			$cache->contents = POD::queryColumn($query, $type, $count);
+			$cache->contents = Data_IAdapter::queryColumn($query, $type, $count);
 			$cache->update();
 		}
 		return $cache->contents;

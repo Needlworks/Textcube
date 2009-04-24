@@ -36,12 +36,12 @@ class Comment {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()." $filter $sort");
+		$this->_result = Data_IAdapter::query("SELECT $fields FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()." $filter $sort");
 		if ($this->_result) {
-			if ($this->_count = POD::num_rows($this->_result))
+			if ($this->_count = Data_IAdapter::num_rows($this->_result))
 				return $this->shift();
 			else
-				POD::free($this->_result);
+				Data_IAdapter::free($this->_result);
 		}
 		unset($this->_result);
 		return false;
@@ -49,7 +49,7 @@ class Comment {
 	
 	function close() {
 		if (isset($this->_result)) {
-			POD::free($this->_result);
+			Data_IAdapter::free($this->_result);
 			unset($this->_result);
 		}
 		$this->_count = 0;
@@ -58,7 +58,7 @@ class Comment {
 	
 	function shift() {
 		$this->reset();
-		if ($this->_result && ($row = POD::fetch($this->_result))) {
+		if ($this->_result && ($row = Data_IAdapter::fetch($this->_result))) {
 			foreach ($row as $name => $value) {
 				if ($name == 'blogid')
 					continue;
@@ -104,7 +104,7 @@ class Comment {
 		if (isset($this->parent))
 			$this->entry = Comment::getEntry($this->parent);
 		if ((isset($this->entry)) && ($this->isFiltered == 0))
-			POD::execute("UPDATE {$database['prefix']}Entries SET comments = comments + 1 WHERE blogid = ".getBlogId()." AND id = {$this->entry}");
+			Data_IAdapter::execute("UPDATE {$database['prefix']}Entries SET comments = comments + 1 WHERE blogid = ".getBlogId()." AND id = {$this->entry}");
 		return true;
 	}
 	
@@ -125,12 +125,12 @@ class Comment {
 		global $database;
 		if (!Validator::number($id, 1))
 			return null;
-		return POD::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()." AND id = {$id}");
+		return Data_IAdapter::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId()." AND id = {$id}");
 	}
 
 	function nextId($id = 0) {
 		global $database;
-		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId());
+		$maxId = Data_IAdapter::queryCell("SELECT max(id) FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId());
 		if($id == 0)
 			return $maxId + 1;
 		else

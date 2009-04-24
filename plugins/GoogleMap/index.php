@@ -200,7 +200,7 @@ function GoogleMap_LocationLogView($target) {
 			$lng = $locative['longitude'];
 			$locative['location'] = "위도 : " . $lat . ", 경도 : " . $lng;
 		} else {
-			$row = POD::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND original_address = '".POD::escapeString($locative['location'])."'");
+			$row = Data_IAdapter::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND original_address = '".Data_IAdapter::escapeString($locative['location'])."'");
 			if ($row == null || empty($row)) {
 				$found = false;
 			} else {
@@ -255,11 +255,11 @@ function GoogleMap_Cache() {
 		echo 'error: empty path';
 		return;
 	}
-	$original_path_e = POD::escapeString($_POST['original_path']);
-	$path_e = POD::escapeString($_POST['path']);
-	$row = POD::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND original_address = '$original_path_e'");
+	$original_path_e = Data_IAdapter::escapeString($_POST['original_path']);
+	$path_e = Data_IAdapter::escapeString($_POST['path']);
+	$row = Data_IAdapter::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND original_address = '$original_path_e'");
 	if ($row == null || empty($row)) {
-		if (POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '$original_path_e', '$path_e', {$_POST['lng']}, {$_POST['lat']}, ".time().")"))
+		if (Data_IAdapter::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '$original_path_e', '$path_e', {$_POST['lng']}, {$_POST['lat']}, ".time().")"))
 			echo 'ok';
 		else
 			echo 'error: cache failed';

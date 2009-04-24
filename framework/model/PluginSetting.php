@@ -21,15 +21,15 @@ class Model_PluginSetting {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}Plugins WHERE blogid = ".getBlogId()." $name $sort");
+		$this->_result = Data_IAdapter::query("SELECT $fields FROM {$database['prefix']}Plugins WHERE blogid = ".getBlogId()." $name $sort");
 		if ($this->_result)
-			$this->_count = POD::num_rows($this->_result);
+			$this->_count = Data_IAdapter::num_rows($this->_result);
 		return $this->shift();
 	}
 	
 	function close() {
 		if (isset($this->_result)) {
-			POD::free($this->_result);
+			Data_IAdapter::free($this->_result);
 			unset($this->_result);
 		}
 		$this->_count = 0;
@@ -38,7 +38,7 @@ class Model_PluginSetting {
 	
 	function shift() {
 		$this->reset();
-		if ($this->_result && ($row = POD::fetch($this->_result))) {
+		if ($this->_result && ($row = Data_IAdapter::fetch($this->_result))) {
 			foreach ($row as $name => $value) {
 				if ($name == 'blogid')
 					continue;
@@ -79,9 +79,9 @@ class Model_PluginSetting {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'Plugins');
 		$query->setQualifier('blogid', getBlogId());
-		$query->setQualifier('name', POD::escapeString(UTF8::lessenAsEncoding($this->name, 255)), true);
+		$query->setQualifier('name', Data_IAdapter::escapeString(UTF8::lessenAsEncoding($this->name, 255)), true);
 		if (isset($this->setting))
-			$query->setAttribute('settings', POD::escapeString($this->setting), true);
+			$query->setAttribute('settings', Data_IAdapter::escapeString($this->setting), true);
 		return $query;
 	}
 

@@ -30,12 +30,12 @@ class Model_Attachment {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}Attachments WHERE blogid = $blogid $filter $sort");
+		$this->_result = Data_IAdapter::query("SELECT $fields FROM {$database['prefix']}Attachments WHERE blogid = $blogid $filter $sort");
 		if ($this->_result) {
-			if ($this->_count = POD::num_rows($this->_result))
+			if ($this->_count = Data_IAdapter::num_rows($this->_result))
 				return $this->shift();
 			else
-				POD::free($this->_result);
+				Data_IAdapter::free($this->_result);
 		}
 		unset($this->_result);
 		return false;
@@ -43,7 +43,7 @@ class Model_Attachment {
 	
 	function close() {
 		if (isset($this->_result)) {
-			POD::free($this->_result);
+			Data_IAdapter::free($this->_result);
 			unset($this->_result);
 		}
 		$this->_count = 0;
@@ -52,7 +52,7 @@ class Model_Attachment {
 	
 	function shift() {
 		$this->reset();
-		if ($this->_result && ($row = POD::fetch($this->_result))) {
+		if ($this->_result && ($row = Data_IAdapter::fetch($this->_result))) {
 			foreach ($row as $name => $value) {
 				if ($name == 'blogid')
 					continue;
@@ -100,7 +100,7 @@ class Model_Attachment {
 		global $database;
 		if (!Validator::filename($name))
 			return null;
-		return POD::queryExistence("SELECT parent FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND name = '$name'");
+		return Data_IAdapter::queryExistence("SELECT parent FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND name = '$name'");
 	}
 	
 	/*@static@*/
@@ -108,7 +108,7 @@ class Model_Attachment {
 		global $database;
 		if (!Validator::filename($name))
 			return null;
-		return POD::queryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND name = '$name'");
+		return Data_IAdapter::queryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND name = '$name'");
 	}
 	
 	/*@static@*/

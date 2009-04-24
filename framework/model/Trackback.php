@@ -30,12 +30,12 @@ class Model_Trackback {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}RemoteResponses WHERE blogid = ".getBlogId()." AND type = 'trackback' $filter $sort");
+		$this->_result = Data_IAdapter::query("SELECT $fields FROM {$database['prefix']}RemoteResponses WHERE blogid = ".getBlogId()." AND type = 'trackback' $filter $sort");
 		if ($this->_result) {
-			if ($this->_count = POD::num_rows($this->_result))
+			if ($this->_count = Data_IAdapter::num_rows($this->_result))
 				return $this->shift();
 			else
-				POD::free($this->_result);
+				Data_IAdapter::free($this->_result);
 		}
 		unset($this->_result);
 		return false;
@@ -43,7 +43,7 @@ class Model_Trackback {
 	
 	function close() {
 		if (isset($this->_result)) {
-			POD::free($this->_result);
+			Data_IAdapter::free($this->_result);
 			unset($this->_result);
 		}
 		$this->_count = 0;
@@ -52,7 +52,7 @@ class Model_Trackback {
 	
 	function shift() {
 		$this->reset();
-		if ($this->_result && ($row = POD::fetch($this->_result))) {
+		if ($this->_result && ($row = Data_IAdapter::fetch($this->_result))) {
 			foreach ($row as $name => $value) {
 				if ($name == 'blogid')
 					continue;
@@ -92,7 +92,7 @@ class Model_Trackback {
 			return $this->_error('insert');
 
 		if ($this->isFiltered == 0) {
-			POD::query("UPDATE {$database['prefix']}Entries SET trackbacks = trackbacks + 1 WHERE blogid = ".getBlogId()." AND id = {$this->entry}");
+			Data_IAdapter::query("UPDATE {$database['prefix']}Entries SET trackbacks = trackbacks + 1 WHERE blogid = ".getBlogId()." AND id = {$this->entry}");
 		}
 		return true;
 	}
@@ -103,7 +103,7 @@ class Model_Trackback {
 	
 	function nextId($id = 0) {
 		global $database;
-		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}RemoteResponses WHERE blogid = ".getBlogId());
+		$maxId = Data_IAdapter::queryCell("SELECT max(id) FROM {$database['prefix']}RemoteResponses WHERE blogid = ".getBlogId());
 		if($id == 0)
 			return $maxId + 1;
 		else
