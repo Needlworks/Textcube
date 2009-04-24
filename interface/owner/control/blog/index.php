@@ -89,7 +89,7 @@ if($bloglist){
 						<?php echo $bsetting['title']?>
 					</td>
 					<td>
-						<?php echo User::getName($bsetting['owner'])."(".User::getEmail($bsetting['owner']).")";?>
+						<?php echo Model_User::getName($bsetting['owner'])."(".Model_User::getEmail($bsetting['owner']).")";?>
 					</td><?php if ( $service['type'] != "single" ) {?>
 					<td class="name">
 						<a href="<?php echo getDefaultUrl($itemBlogId);?>"><?php echo _t("보기");?></a>

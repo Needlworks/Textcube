@@ -593,7 +593,7 @@ class KeylogSkin {
 function dressStaticElements(& $view) {
 	global $blogid, $blog, $defaultURL, $blogURL, $service;
 
-	$writer = User::getBlogOwnerName($blogid);
+	$writer = Model_User::getBlogOwnerName($blogid);
 
 	dress('title', htmlspecialchars($blog['title']), $view);
 	dress('blogger', htmlspecialchars($writer), $view);

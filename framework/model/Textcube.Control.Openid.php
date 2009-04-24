@@ -125,14 +125,14 @@ class OpenIDSession {
 
     function set($name, $value)
     {
-		$tr = Transaction::taste( $this->pickle_key );
+		$tr = Model_Transaction::taste( $this->pickle_key );
         $tr[$name] = $value;
-		Transaction::repickle( $this->pickle_key, $tr );
+		Model_Transaction::repickle( $this->pickle_key, $tr );
     }
 
     function get($name, $default=null)
     {
-		$tr = Transaction::taste( $this->pickle_key );
+		$tr = Model_Transaction::taste( $this->pickle_key );
         if (array_key_exists($name, $tr)) {
             return $tr[$name];
         } else {
@@ -142,14 +142,14 @@ class OpenIDSession {
 
     function del($name)
     {
-		$tr = Transaction::taste( $this->pickle_key );
+		$tr = Model_Transaction::taste( $this->pickle_key );
         unset($tr[$name]);
-		Transaction::repickle( $this->pickle_key, $tr );
+		Model_Transaction::repickle( $this->pickle_key, $tr );
     }
 
     function contents()
     {
-		$tr = Transaction::taste( $this->pickle_key );
+		$tr = Model_Transaction::taste( $this->pickle_key );
         return $tr;
     }
 }
@@ -258,7 +258,7 @@ class OpenIDConsumer extends OpenID {
 				$this->clearCookie( 'openid' );
 		}
 
-		$tr = Transaction::taste( $tid );
+		$tr = Model_Transaction::taste( $tid );
 		$finishURL = $tr['finishURL'];
 		$redirect_url = $auth_request->redirectURL($trust_root, $finishURL);
 
@@ -269,7 +269,7 @@ class OpenIDConsumer extends OpenID {
 	{
 		global $hostURL, $blogURL;
 		// Complete the authentication process using the server's response.
-		$tr = Transaction::taste($tid);
+		$tr = Model_Transaction::taste($tid);
 		ob_start();
 		$response = $this->consumer->complete($tr['finishURL']);
 		ob_end_clean();
@@ -308,7 +308,7 @@ class OpenIDConsumer extends OpenID {
 
 	function _redirectWithError($msg, $tid)
 	{
-		$tr = Transaction::unpickle( $tid );
+		$tr = Model_Transaction::unpickle( $tid );
 		$requestURI = $tr['requestURI'];
 		if( !empty($tr['authenticate_only']) ) {
 			$requestURI .= (strchr($requestURI,'?')===false ? "?":"&" ) . "authenticated=0";
@@ -320,7 +320,7 @@ class OpenIDConsumer extends OpenID {
 
 	function _redirectWithSucess($tid)
 	{
-		$tr = Transaction::unpickle( $tid );
+		$tr = Model_Transaction::unpickle( $tid );
 		$requestURI = $tr['requestURI'];
 		if( !empty($tr['authenticate_only']) ) {
 			$requestURI .= (strchr($requestURI,'?')===false ? "?":"&" ) . "authenticated=1";
@@ -337,9 +337,9 @@ class OpenIDConsumer extends OpenID {
 		parse_str($query,$args);
 		if( !empty($args['tid']) ) {
 			$tid = $args['tid'];
-			$tr = Transaction::taste($tid);
+			$tr = Model_Transaction::taste($tid);
 			$tr['openid_errormsg'] = $msg;
-			Transaction::repickle($tid,$tr);
+			Model_Transaction::repickle($tid,$tr);
 			header( "Location: $location" );
 		} else {
 			header("HTTP/1.0 200 OK");
@@ -479,9 +479,9 @@ class OpenIDConsumer extends OpenID {
 		if( $openid ) {
 			list( $openid, $openid_server, $xrds_uri ) = $this->fetchXRDSUri( $openid );
 		}
-		if( Misc::setBlogSettingGlobal( "OpenIDDelegate", $openid ) && 
-			Misc::setBlogSettingGlobal( "OpenIDServer", $openid_server ) && 
-			Misc::setBlogSettingGlobal( "OpenIDXRDSUri", $xrds_uri ) ) {
+		if( Utils_Misc::setBlogSettingGlobal( "OpenIDDelegate", $openid ) && 
+			Utils_Misc::setBlogSettingGlobal( "OpenIDServer", $openid_server ) && 
+			Utils_Misc::setBlogSettingGlobal( "OpenIDXRDSUri", $xrds_uri ) ) {
 			return true;
 		}
 		return false;
@@ -492,7 +492,7 @@ class OpenIDConsumer extends OpenID {
 		if( !Acl::check( array("group.administrators") ) ) {
 			return false;
 		}
-		return Misc::setBlogSettingGlobal( "AddCommentMode", empty($mode) ? '' : 'openid' );
+		return Utils_Misc::setBlogSettingGlobal( "AddCommentMode", empty($mode) ? '' : 'openid' );
 	}
 
 	function setOpenIDLogoDisplay( $mode )
@@ -500,7 +500,7 @@ class OpenIDConsumer extends OpenID {
 		if( !Acl::check( array("group.administrators") ) ) {
 			return false;
 		}
-		return Misc::setBlogSettingGlobal( "OpenIDLogoDisplay", $mode  );
+		return Utils_Misc::setBlogSettingGlobal( "OpenIDLogoDisplay", $mode  );
 	}
 
 	function getCommentInfo($blogid,$id){

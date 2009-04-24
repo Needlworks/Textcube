@@ -17,7 +17,7 @@ requireModel("blog.link");
 require ROOT . '/interface/common/owner/header.php';
 
 
-$stats = Statistics::getStatistics($blogid);
+$stats = Model_Statistics::getStatistics($blogid);
 
 function correctSidebarImage( $subject ) {
 	$pattern_with_src = '/(?:\ssrc\s*=\s*["\']?)([^\s^"^>^\']+)(?:[\s">\'])/i';
@@ -68,7 +68,7 @@ function getBlogContentForSideBar()
 	$pd_recentComment = getRecentComments($blogid);
 	$pd_recentTrackback = getRecentTrackbacks($blogid);
 	$pd_link = getLinks($blogid);
-	$pd_authorList = User::getUserNamesOfBlog($blogid);
+	$pd_authorList = Model_User::getUserNamesOfBlog($blogid);
 }
 
 
@@ -89,7 +89,7 @@ function pretty_dress($view)
 		return '<div class="sidebar-element-safebox"><p>' . nl2br(htmlspecialchars($view, ENT_QUOTES)) . '</p></div>';
 	}
 	
-	$writer = User::getBlogOwnerName($blogid);
+	$writer = Model_User::getBlogOwnerName($blogid);
 	$pageTitle = _t('페이지 제목');
 	
 	dress('page_title', htmlspecialchars($pageTitle), $view);

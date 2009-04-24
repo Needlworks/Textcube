@@ -12,7 +12,7 @@ require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 requirePrivilege('group.creators');
 
-$authtoken = md5(User::__generatePassword());
+$authtoken = md5(Model_User::__generatePassword());
 $result = POD::query("INSERT INTO `{$database['prefix']}UserSettings` (userid, name, value) VALUES ('".$_GET['userid']."', 'AuthToken', '$authtoken')");
 if ($result) {
 	respond::PrintResult(array('error' => 0));

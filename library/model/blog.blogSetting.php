@@ -414,7 +414,7 @@ function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $sen
 	if (!preg_match('/^[^@]+@([-a-zA-Z0-9]+\.)+[-a-zA-Z0-9]+$/', $email))
 		return 2;
 	if (empty($name))
-		$name = User::getName($userid);
+		$name = Model_User::getName($userid);
 
 	if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return 11;
 
@@ -458,12 +458,12 @@ function cancelInvite($userid,$clean = true) {
 	if (POD::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `host` = ".getUserId()) === 0)
 		return false;
 	
-	$blogidWithOwner = User::getOwnedBlogs($userid);
+	$blogidWithOwner = Model_User::getOwnedBlogs($userid);
 	foreach($blogidWithOwner as $blogids) {
 		if(deleteBlog($blogids) === false) return false;
 	}
 	if($clean && !POD::queryAll("SELECT * FROM `{$database['prefix']}Privileges` WHERE userid = '$userid'")) {
-		User::removePermanent($userid);
+		Model_User::removePermanent($userid);
 	}
 	return true;
 }

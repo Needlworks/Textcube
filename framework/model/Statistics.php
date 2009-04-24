@@ -5,7 +5,7 @@
 
 // Dependency : Textcube.Model.Paging (getRefererLogsWithPage)
 
-class Statistics {
+class Model_Statistics {
 	function getStatistics($blogid) {
 		global $database;
 		$stats = array('total' => 0, 'today' => 0, 'yesterday' => 0);

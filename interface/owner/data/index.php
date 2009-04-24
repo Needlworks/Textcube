@@ -270,7 +270,7 @@ if(Acl::check("group.creators")) {
 ?>
 								<p>
 									 <?php echo _t('복원을 위하여 외부에서 백업 파일에 접근하려면 아래의 주소를 이용하세요.');?></p>
-								<p class="url"><?php echo $defaultURL."/ttxml?loginid=".User::getEmail(getUserId())."&key=".$apikey;?></p>
+								<p class="url"><?php echo $defaultURL."/ttxml?loginid=".Model_User::getEmail(getUserId())."&key=".$apikey;?></p>
 <?php
 		} else {
 ?>

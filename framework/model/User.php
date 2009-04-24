@@ -3,16 +3,11 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-/* This component contains 'User', 'Blog' and 'Transaction' class. 
-   NOTE : Classes described below are actually not object. Usually they are static.*/
-
-requireComponent('Textcube.Control.Auth');
-
 // for Global Cache
 global $__gCacheUserNames;
 $__gCacheUserNames = array();
 
-class User {
+class Model_User {
 	private static $__gCacheUserNames;
 	static function getName($userid = null) {
 		global $database, $__gCacheUserNames;
@@ -55,7 +50,7 @@ class User {
 			FROM {$database['prefix']}Privileges
 			WHERE blogid = $blogid
 				AND acl > 15");
-		return User::getName($ownerUserId);
+		return Model_User::getName($ownerUserId);
 	}
 
 	static function getBlogOwner($blogid) {
@@ -122,7 +117,7 @@ class User {
 				$homepage = getDefaultURL($info['blogid']);
 				break;
 			case "author" : 
-				$homepage = getDefaultURL($info['blogid'])."/author/".URL::encode(User::getName($userid));
+				$homepage = getDefaultURL($info['blogid'])."/author/".URL::encode(Model_User::getName($userid));
 				break;
 			case "default" :
 			default :
@@ -177,7 +172,7 @@ class User {
 		// Read userId of entry from relation table.
 		$userid = getUserIdOfEntry($blogid,$entryId);
 		if(isset($userid)) {
-			return User::getName($userid);
+			return Model_User::getName($userid);
 		} else {
 			return false;
 		}
@@ -186,7 +181,7 @@ class User {
 		global $database, $blogURL, $blog, $service;
 		$blogid = getBlogId();	
 
-		$blogList = User::getBlogs();
+		$blogList = Model_User::getBlogs();
 		if (count($blogList) == 0) {
 			return;
 		}
@@ -194,7 +189,7 @@ class User {
 		$changeBlogView = str_repeat(TAB,6)."<select id=\"blog-list\" onchange=\"location.href='{$blogURL}/owner/network/teamblog/changeBlog/?blogid='+this.value\">".CRLF;
 		foreach($blogList as $info){
 			$title = UTF8::lessen(Setting::getBlogSettingGlobal("title",null,$info,true), 30);
-			$title = ($title ? $title : _f('%1 님의 블로그',User::getBlogOwnerName($info)));
+			$title = ($title ? $title : _f('%1 님의 블로그',Model_User::getBlogOwnerName($info)));
 			$changeBlogView .= str_repeat(TAB,7).'<option value="' . $info . '"';
 			if($info == $blogid) $changeBlogView .= ' selected="selected"';
 			$changeBlogView .= '>' . $title . '</option>'.CRLF;
@@ -234,8 +229,8 @@ class User {
 	
 		$loginid = POD::escapeString(UTF8::lessenAsEncoding($email, 64));	
 		$name = POD::escapeString(UTF8::lessenAsEncoding($name, 32));
-		$password = User::__generatePassword();
-		$authtoken = md5(User::__generatePassword());
+		$password = Model_User::__generatePassword();
+		$authtoken = md5(Model_User::__generatePassword());
 	
 		if (POD::queryExistence("SELECT * FROM `{$database['prefix']}Users` WHERE loginid = '$loginid'")) {
 			return 9;	// User already exists.
@@ -249,7 +244,7 @@ class User {
 		if (empty($result)) {
 			return 11;
 		}
-		$result = POD::query("INSERT INTO `{$database['prefix']}UserSettings` (userid, name, value) VALUES ('".User::getUserIdByEmail($loginid)."', 'AuthToken', '$authtoken')");
+		$result = POD::query("INSERT INTO `{$database['prefix']}UserSettings` (userid, name, value) VALUES ('".Model_User::getUserIdByEmail($loginid)."', 'AuthToken', '$authtoken')");
 		if (empty($result)) {
 			return 11;
 		}
@@ -263,17 +258,17 @@ class User {
 			return false;
 		if (!isset($userid)) 
 			return false;
-		$blogs = User::getOwnedBlogs($userid);
+		$blogs = Model_User::getOwnedBlogs($userid);
 		$sql = "UPDATE `{$database['prefix']}Comments` SET replier = NULL WHERE replier = ".$userid;
 		POD::execute($sql);
 		foreach ($blogs as $ownedBlog) {
-			Blog::changeOwner($ownedBlog,1); // 관리자 uid로 변경
+			Model_Blog::changeOwner($ownedBlog,1); // 관리자 uid로 변경
 		}
-		$blogs = User::getBlogs($userid);
+		$blogs = Model_User::getBlogs($userid);
 		foreach ($blogs as $joinedBlog) {
-			Blog::deleteUser($joinedBlog, $userid);
+			Model_Blog::deleteUser($joinedBlog, $userid);
 		}
-		User::removePermanent($userid);
+		Model_User::removePermanent($userid);
 		return true;
 	}
 	
@@ -290,174 +285,4 @@ class User {
 		return strtolower(substr(base64_encode(rand(0x10000000, 0x70000000)), 3, 8));
 	}
 }
-
-class Blog {
-	/*@static@*/
-	function changeOwner($blogid,$userid) {
-		global $database;
-		POD::execute("UPDATE `{$database['prefix']}Privileges` SET acl = 3 WHERE blogid = ".$blogid." and acl = " . BITWISE_OWNER);
-	
-		$acl = POD::queryCell("SELECT acl FROM {$database['prefix']}Privileges WHERE blogid='$blogid' and userid='$userid'");
-	
-		if( $acl === null ) { // If there is no ACL, add user into the blog.
-			POD::query("INSERT INTO `{$database['prefix']}Privileges`  
-				VALUES('$blogid', '$userid', '".BITWISE_OWNER."', UNIX_TIMESTAMP(), '0')");
-		} else {
-			POD::execute("UPDATE `{$database['prefix']}Privileges` SET acl = ".BITWISE_OWNER." 
-				WHERE blogid = ".$blogid." and userid = " . $userid);
-		}
-		return true;
-	}
-	
-	/*@static@*/
-	/* TODO : remove model dependency (addBlog, sendInvitationMail) */
-	function addUser($email, $name, $comment, $senderName, $senderEmail) {
-		requireModel('blog.user');
-		requireModel('blog.blogSetting');
-		global $database,$service,$blogURL,$hostURL,$user,$blog;
-	
-		$blogid = getBlogId();
-		if(empty($email))
-			return 1;
-		if(!preg_match('/^[^@]+@([-a-zA-Z0-9]+\.)+[-a-zA-Z0-9]+$/',$email))
-			return array( 2, _t('이메일이 바르지 않습니다.') );
-		
-		$isUserExists = User::getUserIdByEmail($email);
-		if(empty($isUserExists)) { // If user is not exist
-			User::add($email,$name);
-		}
-		$userid = User::getUserIdByEmail($email);
-		$result = addBlog(getBlogId(), $userid, null);
-		if($result === true) {
-			return sendInvitationMail(getBlogId(), $userid, User::getName($userid), $comment, $senderName, $senderEmail);
-		}
-		return $result;
-	}
-
-	/*@static@*/
-	function deleteUser($blogid = null, $userid, $clean = true) {
-		global $database;
-		if ($blogid == null) {
-			$blogid = getBlogId();
-		}
-		POD::execute("UPDATE `{$database['prefix']}Entries` 
-			SET userid = ".User::getBlogOwner($blogid)." 
-			WHERE blogid = ".$blogid." AND userid = ".$userid);
-	
-		// Delete ACL relation.
-		if(!POD::execute("DELETE FROM `{$database['prefix']}Privileges` WHERE blogid='$blogid' and userid='$userid'"))
-			return false;
-		// And if there is no blog related to the specific user, delete user.
-		if($clean && !POD::queryAll("SELECT * FROM `{$database['prefix']}Privileges` WHERE userid = '$userid'")) {
-			User::removePermanent($userid);
-		}
-		return true;
-	}
-	
-	/*@static@*/
-	function changeACLofUser($blogid, $userid, $ACLtype, $switch) {  // Change user priviledge on the blog.
-		global $database;
-		if(empty($ACLtype) || empty($userid))
-			return false;
-		$acl = POD::queryCell("SELECT acl
-				FROM {$database['prefix']}Privileges 
-				WHERE blogid='$blogid' and userid='$userid'");
-		if( $acl === null ) { // If there is no ACL, add user into the blog.
-			$name = User::getName($userid);
-			POD::query("INSERT INTO `{$database['prefix']}Privileges`  
-					VALUES('$blogid', '$userid', '0', UNIX_TIMESTAMP(), '0')");
-			$acl = 0;
-		}
-		$bitwise = null;
-		switch( $ACLtype ) {
-			case 'admin':
-				$bitwise = BITWISE_ADMINISTRATOR;
-				break;
-			case 'editor':
-				$bitwise = BITWISE_EDITOR;
-				break;
-			default:
-				return false;
-		}
-		if( $switch ) {
-			$acl |= $bitwise;
-		} else {
-			$acl &= ~$bitwise;
-		}
-		return POD::execute("UPDATE `{$database['prefix']}Privileges` 
-			SET acl = ".$acl." 
-			WHERE blogid = ".$blogid." and userid = ".$userid);
-	}
-}
-
-class Transaction {
-	function pickle($data) {
-		if( !isset( $_SESSION['pickle'] ) ) {
-			$_SESSION['pickle'] = array();
-		}
-		$tid = sprintf("%010dP%s",time(),md5( microtime(true) ));
-		while( isset( $_SESSION['pickle'][$tid] ) ) {
-			$tid = sprintf("%010dP%s",time(),md5( microtime(true) ));
-			usleep(50);
-		}
-		$_SESSION['pickle'][$tid] = $data;
-		return $tid;
-	}
-
-	function unpickle( $tid ) {
-		if( !isset( $_SESSION['pickle'] ) || !isset( $_SESSION['pickle'][$tid] ) ) {
-			return null;
-		}
-		$data = $_SESSION['pickle'][$tid];
-		unset( $_SESSION['pickle'][$tid] );
-		if( empty( $_SESSION['pickle'] ) ) {
-			unset( $_SESSION['pickle'] );
-		}
-		return $data;
-	}
-
-	function repickle( $tid, & $data ) {
-		if( empty($tid) ) {
-			return;
-		}
-		$_SESSION['pickle'][$tid] = $data;
-	}
-
-	function taste( $tid ) {
-		if( !isset( $_SESSION['pickle'] ) || !isset( $_SESSION['pickle'][$tid] ) ) {
-			return null;
-		}
-		return $_SESSION['pickle'][$tid];
-	}
-
-	function clear() {
-		if( isset( $_SESSION['pickle'] ) ) {
-			unset( $_SESSION['pickle'] );
-		}
-	}
-
-	function gc() {
-		if( !isset( $_SESSION['pickle'] ) ) {
-			return;
-		}
-		$current = time();
-		foreach( array_keys( $_SESSION['pickle'] ) as $k ) {
-			$created_time = int($k);
-			if( $created_time < $current - 3600 ) {
-				unset( $_SESSION['pickle'][$k] );
-			}
-		}
-		if( empty($_SESSION['pickle']) ) {
-			unset( $_SESSION['pickle'] );
-		}
-	}
-
-	function debug( $tid = null ) {
-		header( "X-Debug-tid: $tid" );
-		foreach( $_SESSION['pickle'][$tid] as $k => $v ) {
-			header( "X-Debug-$k: [$v]" );
-		}
-	}
-}
-
 ?>

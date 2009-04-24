@@ -100,9 +100,9 @@ function TryAuthByRequest()
 	}
 
 	$tr['requestURI'] = $requestURI;
-	$tid = Transaction::pickle( $tr );
+	$tid = Model_Transaction::pickle( $tr );
 	$tr['finishURL'] = $hostURL . $blogURL . "/login/openid?action=finish&tid=$tid";
-	Transaction::repickle( $tid, $tr );
+	Model_Transaction::repickle( $tid, $tr );
 
 	$consumer = new OpenIDConsumer($tid);
 	return $consumer->tryAuth( $tid, $openid, $remember_openid );
@@ -113,9 +113,9 @@ function TryHardcoreAuth()
 	global $hostURL, $blogURL;
 	$tr = array();
 	$tr['requestURI'] = $_GET["requestURI"];
-	$tid = Transaction::pickle( $tr );
+	$tid = Model_Transaction::pickle( $tr );
 	$tr['finishURL'] = $hostURL . $blogURL . "/login/openid?action=finish&tid=$tid";
-	Transaction::repickle( $tid, $tr );
+	Model_Transaction::repickle( $tid, $tr );
 	$consumer = new OpenIDConsumer;
 	$consumer->tryAuth( $tid, $_COOKIE['openid'], true );
 }

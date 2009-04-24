@@ -55,7 +55,7 @@ function PN_Referer_Default()
 								</thead>
 								<tbody>
 <?php
-	$temp = Statistics::getRefererStatistics(getBlogId());
+	$temp = Model_Statistics::getRefererStatistics(getBlogId());
 	for ($i=0; $i<count($temp); $i++) {
 		$record = $temp[$i];
 		
@@ -88,7 +88,7 @@ function PN_Referer_Default()
 								<tbody>
 <?php
 	$more = false;
-	list($referers, $paging) = Statistics::getRefererLogsWithPage($_GET['page'], $perPage);
+	list($referers, $paging) = Model_Statistics::getRefererLogsWithPage($_GET['page'], $perPage);
 	for ($i=0; $i<count($referers); $i++) {
 		$record = $referers[$i];
 		
@@ -113,7 +113,7 @@ function PN_Referer_Default()
 	$paging['prefix'] = $pluginSelfParam . '&page=';
 	$pagingTemplate = '[##_paging_rep_##]';
 	$pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
-	echo str_repeat("\t", 8).Paging::getPagingView($paging, $pagingTemplate, $pagingItemTemplate).CRLF;
+	echo str_repeat("\t", 8).Model_Paging::getPagingView($paging, $pagingTemplate, $pagingItemTemplate).CRLF;
 ?>
 										</span>
 									</div>

@@ -49,7 +49,7 @@ if (isset($cache->contents)) {
 			// 사용자가 작성한 본문은 interface/common/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
 			$contentContainer["keylog_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], null, 'Keylog');
 			dress('keylog_rep_desc', setTempTag("keylog_{$entry['id']}"), $entryView);
-			dress('keylog_rep_author', User::getName($entry['userid']), $entryView);
+			dress('keylog_rep_author', Model_User::getName($entry['userid']), $entryView);
 			$entriesView .= $entryView;
 			$isKeylog = true;
 		} else if ($entry['category'] == - 2) { // This is notice
@@ -63,7 +63,7 @@ if (isset($cache->contents)) {
 			// 사용자가 작성한 본문은 interface/common/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
 			$contentContainer["notice_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($blogid), 'Notice');
 			dress('notice_rep_desc', setTempTag("notice_{$entry['id']}"), $entryView);
-			dress('notice_rep_author', User::getName($entry['userid']), $entryView);
+			dress('notice_rep_author', Model_User::getName($entry['userid']), $entryView);
 			$entriesView .= $entryView;
 
 		} else if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {	// This is post
@@ -110,7 +110,7 @@ if (isset($cache->contents)) {
 				dress('s_ad_d_onclick', "deleteEntry({$entry['id']}); return false;", $managementView);
 				dress('ad_div', $managementView, $entryView);
 			}
-			$author = User::getName($entry['userid']);
+			$author = Model_User::getName($entry['userid']);
 			dress('article_rep_author', fireEvent('ViewPostAuthor', $author, $entry['id']), $entryView);
 			dress('article_rep_id', $entry['id'], $entryView);
 			dress('article_rep_link', $permalink, $entryView);
@@ -153,7 +153,7 @@ if (isset($cache->contents)) {
 			$entriesView .= $entryView;
 		} else {	// Protected entries
 			$protectedEntryView = $skin->entryProtected;
-			$author = User::getName($entry['userid']);
+			$author = Model_User::getName($entry['userid']);
 			dress('article_rep_author', fireEvent('ViewPostAuthor', $author, $entry['id']), $protectedEntryView);
 			dress('article_rep_id', $entry['id'], $protectedEntryView);
 			dress('article_rep_link', $permalink, $protectedEntryView);

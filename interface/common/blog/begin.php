@@ -4,8 +4,8 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 $blogid = getBlogId();
-Statistics::updateVisitorStatistics($blogid);
-$stats = Statistics::getStatistics($blogid);
+Model_Statistics::updateVisitorStatistics($blogid);
+$stats = Model_Statistics::getStatistics($blogid);
 if (!empty($entries) && (count($entries) == 1))
 	$pageTitle = $entries[0]['title'];
 else

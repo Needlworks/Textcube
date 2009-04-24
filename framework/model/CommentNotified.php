@@ -180,7 +180,7 @@ class CommentNotified {
 		if (isset($this->commenter)) {
 			if (!Validator::number($this->commenter, 1))
 				return $this->_error('commenter');
-			if (!$this->name = User::getName($this->commenter))
+			if (!$this->name = Model_User::getName($this->commenter))
 				return $this->_error('commenter');
 			$query->setAttribute('replier', $this->commenter);
 		}

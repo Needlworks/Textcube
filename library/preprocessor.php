@@ -144,8 +144,8 @@ if (!defined('NO_INITIALIZAION')) {
 */
 	if (doesHaveMembership()) {
 		$user = array('id' => getUserId());
-		$user['name'] = User::getName(getUserId());
-		$user['homepage'] = User::getHomePage();
+		$user['name'] = Model_User::getName(getUserId());
+		$user['homepage'] = Model_User::getHomePage();
 	} else {
 		$user = null;
 	}

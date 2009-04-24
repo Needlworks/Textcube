@@ -28,7 +28,7 @@ function login($loginid, $password, $preKnownPassword = null) {
 function logout() {
 	fireEvent("Logout");
 	Acl::clearAcl();
-	Transaction::clear();
+	Model_Transaction::clear();
 	session_destroy();
 }
 
@@ -124,11 +124,11 @@ function validateAPIKey($blogid, $loginid, $key) {
 	global $service;
 	$loginid = POD::escapeString($loginid);
 	$key = POD::escapeString($key);
-	$userid = User::getUserIdByEmail($loginid);
+	$userid = Model_User::getUserIdByEmail($loginid);
 	if( $userid === false ) { return false; }
 	$currentAPIKey = Model_Setting::getUserSettingGlobal('APIKey',null,$userid);
 	if($currentAPIKey == null) {
-		if(!User::confirmPassword($userid, $key)) {
+		if(!Model_User::confirmPassword($userid, $key)) {
 			header('HTTP/1.1 403 Forbidden');
 			exit;
 		}
@@ -165,7 +165,7 @@ function resetPassword($blogid, $loginid) {
 	global $service, $blog, $hostURL, $blogURL, $serviceURL;
 	if (!isLoginId($blogid, $loginid))
 		return false;
-	$userid = User::getUserIdByEmail($loginid);
+	$userid = Model_User::getUserIdByEmail($loginid);
 	$password = POD::queryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = $userid");
 	$authtoken = md5(generatePassword());
 	$result = POD::query("REPLACE INTO `{$database['prefix']}UserSettings` (userid, name, value) VALUES ('" . $userid . "', 'AuthToken', '" . $authtoken . "')");

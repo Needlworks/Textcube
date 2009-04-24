@@ -10,7 +10,7 @@ $IV = array(
 );
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
-if (empty($_POST['confirmativePassword']) || !User::confirmPassword(User::getBlogOwner(getBlogId()), $_POST['confirmativePassword']))
+if (empty($_POST['confirmativePassword']) || !Model_User::confirmPassword(Model_User::getBlogOwner(getBlogId()), $_POST['confirmativePassword']))
 	respond::ResultPage(1);
 $dm = new Model_DataMaintenance();
 $dm->removeAll(Validator::getBool(@$_POST['removeAttachments']));

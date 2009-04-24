@@ -143,7 +143,7 @@ $blogsetting = getBlogSettings($bid);
 	$teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE blogid = " . $bid);
 	foreach ($teamblog as $row){
 		echo "<tr>".CRLF;
-		echo "<td class=\"name\"><a href=\"{$blogURL}/owner/control/user/detail/{$row['userid']}\">".User::getName($row['userid'])."(".User::getEmail($row['userid']).")</a></td>".CRLF;
+		echo "<td class=\"name\"><a href=\"{$blogURL}/owner/control/user/detail/{$row['userid']}\">".Model_User::getName($row['userid'])."(".Model_User::getEmail($row['userid']).")</a></td>".CRLF;
 
 		if ($row['acl'] & BITWISE_OWNER) {
 			echo '<td class="role" colspan="4">'._t('이 사용자는 블로그의 소유자입니다.').'</td>'.CRLF;
@@ -180,7 +180,7 @@ $blogsetting = getBlogSettings($bid);
 										try {
 											document.getElementById("suggestContainer").innerHTML = '';
 											var ctlUserSuggestObj = new ctlUserSuggest(document.getElementById("suggestContainer"), false);
-											ctlUserSuggestObj.setValue("<?php echo User::getEmail(1);?>");
+											ctlUserSuggestObj.setValue("<?php echo Model_User::getEmail(1);?>");
 										} catch (e) {
 											document.getElementById("suggestContainer").innerHTML = '<input type="text" id="bi-owner-loginid" name="user" value="" />';
 										}

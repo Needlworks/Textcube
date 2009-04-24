@@ -351,7 +351,7 @@ if( Acl::check('group.owners')) {
 											<div id="letter-foot">
 												<div id="sender-line" class="line">
 													<label for="invitation_sender"><?php echo _t('보내는 사람');?></label>
-													<input type="text" id="invitation_sender" class="input-text" name="text2" value="<?php	echo htmlspecialchars(htmlspecialchars($user['name']).'<'.User::getEmail().'>');?>" />
+													<input type="text" id="invitation_sender" class="input-text" name="text2" value="<?php	echo htmlspecialchars(htmlspecialchars($user['name']).'<'.Model_User::getEmail().'>');?>" />
 												</div>
 											</div>
 										</dd>

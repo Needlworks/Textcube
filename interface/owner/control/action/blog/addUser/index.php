@@ -12,7 +12,7 @@ $IV = array(
 requireStrictRoute();
 requirePrivilege('group.creators');
 
-$userid = User::getUserIdByEmail($_GET['user']);
+$userid = Model_User::getUserIdByEmail($_GET['user']);
 $bid = $_GET['blogid'];
 if (empty($userid)) {
 	respond::ResultPage(array(-1,"존재하지 않는 사용자"));

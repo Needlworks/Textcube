@@ -58,7 +58,7 @@ if (preg_match("@\\[##_rct_page_##\\]@iU", $view)) {
 	dress('rct_page', $noticeView, $view, false, true);
 }
 if (preg_match("@\\[##_author_rep_##\\]@iU", $view))
-	dress('author_rep', getAuthorListView(User::getUserNamesOfBlog($blogid), $skin->authorList), $view, false, true);
+	dress('author_rep', getAuthorListView(Model_User::getUserNamesOfBlog($blogid), $skin->authorList), $view, false, true);
 if (preg_match("@\\[##_rctps_rep_##\\]@iU", $view))
 	dress('rctps_rep', getRecentEntriesView(getRecentEntries($blogid), $skin->recentEntry), $view, false, true);
 if (preg_match("@\\[##_rctrp_rep_##\\]@iU", $view))

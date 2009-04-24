@@ -405,8 +405,8 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 							
 							<div class="data-inbox">
 <?php
-$hptype = User::getHomepageType();
-$blogs = User::getBlogs();
+$hptype = Model_User::getHomepageType();
+$blogs = Model_User::getBlogs();
 $hptype = empty($blogs)?"default":$hptype;
 if ($hptype == 'internal' || 'author') {
 	$blogidforhomepage = getUserSetting("blogidforhomepage"); 
@@ -436,7 +436,7 @@ if(!empty($blogs)) {
 ?>
 												</div>
 												<div>
-												<input id="id-external-address" type="radio" name="type" value="external" <?php echo ($hptype == "external" ? "checked=\"checked\"":"");?> > <label for="id-external-address"><?php echo _t('외부 주소');?></label> <input type="text" name="homepage" id="homepage" class="input-text" value="<?php echo User::getHomepage();?>">
+												<input id="id-external-address" type="radio" name="type" value="external" <?php echo ($hptype == "external" ? "checked=\"checked\"":"");?> > <label for="id-external-address"><?php echo _t('외부 주소');?></label> <input type="text" name="homepage" id="homepage" class="input-text" value="<?php echo Model_User::getHomepage();?>">
 												</div>
 												<div>
 												<input id="id-default-value" type="radio" name="type" value="default" <?php echo ($hptype == "default" ? "checked=\"checked\"":"");?> /> <label for="id-default-value"><?php echo _t('기본값');?></label>
@@ -620,7 +620,7 @@ if ($service['type'] != 'single' && Acl::check("group.creators")):
 											<div id="letter-foot">
 												<div id="sender-line" class="line">
 													<label for="invitation_sender"><?php echo _t('보내는 사람');?></label>
-													<input type="text" id="invitation_sender" class="input-text" name="text2" value="<?php echo htmlspecialchars(htmlspecialchars($user['name']) . '<' . User::getEmail() . '>');?>" />
+													<input type="text" id="invitation_sender" class="input-text" name="text2" value="<?php echo htmlspecialchars(htmlspecialchars($user['name']) . '<' . Model_User::getEmail() . '>');?>" />
 												</div>
 											</div>
 										</dd>
@@ -651,7 +651,7 @@ $invitedList = getInvited(getUserId());
 <?php
 	$count = 0;
 	foreach ($invitedList as $value) {
-		if (count(User::getOwnedBlogs($value['userid'])) == 0) {
+		if (count(Model_User::getOwnedBlogs($value['userid'])) == 0) {
 			continue;
 		}
 		$className = ($count % 2) == 1 ? 'even-line' : 'odd-line';

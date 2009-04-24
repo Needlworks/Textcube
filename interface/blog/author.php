@@ -9,7 +9,7 @@ if (false) {
 
 $cache = new pageCache;
 $author = empty($suri['value']) ? '' : $suri['value'];
-$authorId = User::getUserIdByName($author);
+$authorId = Model_User::getUserIdByName($author);
 if(empty($authorId)) exit;
 
 if ($skinSetting['showListOnAuthor'] != 0) {

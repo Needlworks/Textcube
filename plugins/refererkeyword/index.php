@@ -155,7 +155,7 @@ if (!empty($_POST['showKeywordlistLight'])) $limitRank = $_POST['showKeywordlist
 
 
 
-$refereres = Statistics::getRefererLogs();
+$refereres = Model_Statistics::getRefererLogs();
 $keywordlist = array();
 $wordlist = array();
 $record = array();

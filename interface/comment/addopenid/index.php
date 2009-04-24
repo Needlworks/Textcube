@@ -28,7 +28,7 @@ $IV = array(
 
 $tr = array();
 if( !empty( $_GET["tid"] ) ) {
-	$tr = Transaction::unpickle( $_GET["tid"] );
+	$tr = Model_Transaction::unpickle( $_GET["tid"] );
 	$_POST = $tr['_POST'];
 	$_SERVER['HTTP_REFERER'] = $tr['HTTP_REFERER'];
 } else {
@@ -71,7 +71,7 @@ if( $openid_identity ) {
 	if( empty($tr['openid_errormsg']) ) {
 		/* OpenID request path.. */
 		global $blogURL;
-		$tid = Transaction::pickle( array('_POST' => $_POST, 'HTTP_REFERER' => $_SERVER['HTTP_REFERER'] ) );
+		$tid = Model_Transaction::pickle( array('_POST' => $_POST, 'HTTP_REFERER' => $_SERVER['HTTP_REFERER'] ) );
 		$requestURI = urlencode("$blogURL/comment/addopenid/$entryId?tid=$tid&__T__=".$_GET['__T__']);
 
 		/* eas_mode will redirect your browser to the IdP authentication page in EAS4.js addComment-onError handler */

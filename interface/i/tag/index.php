@@ -30,7 +30,7 @@ if(strlen($suri['value'])) {
 		$itemsView .= '	<span class="right">Page <span class="now_page">' . $paging['page'] . '</span> / '.$paging['pages'].'</span>'.CRLF;
 		$itemsView .= '</li>'.CRLF;
 		foreach ($list['items'] as $item) {	
-			$author = User::getName($item['userid']);
+			$author = Model_User::getName($item['userid']);
 			if($imageName = printIphoneAttachmentExtract(printIphoneEntryContent($blogid, $item['userid'], $item['id']))){
 				$imageSrc = $blogURL . '/imageResizer?f=' . $imageName . '&m=28';
 			}else{

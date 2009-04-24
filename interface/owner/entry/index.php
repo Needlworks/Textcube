@@ -912,7 +912,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 ?>
 											</td>
 											<td class="author">
-												<?php echo User::getName($entry['userid']);?>
+												<?php echo Model_User::getName($entry['userid']);?>
 											</td>
 											<td class="response">
 											<a href="<?php echo $blogURL.((isset($blog['useSloganOnPost']) && $blog['useSloganOnPost'] == 1) ? '/entry/'.$entry['slogan'] : '/'.$entry['id']).'#entry'.$entry['id'].'Comment';?>"><?php echo $entry['comments']+$entry['trackbacks'];?></a>

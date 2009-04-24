@@ -12,7 +12,7 @@ require ROOT . '/library/preprocessor.php';
 
 requireStrictRoute();
 requirePrivilege('group.creators');
-if ($uid = User::getUserIdByEmail($_GET['owner'])) {
+if ($uid = Model_User::getUserIdByEmail($_GET['owner'])) {
 	$result = addBlog('',$uid, $_GET['identify']);
 	if ($result===true) {
 		respond::PrintResult(array('error' => 0));

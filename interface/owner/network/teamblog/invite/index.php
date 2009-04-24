@@ -16,6 +16,6 @@ requireStrictRoute();
 if (!acl::check('group.owners'))
 	respond::ResultPage(false);
 
-$result = Blog::addUser($_POST['email'], $_POST['name'], $_POST['comment'], $_POST['senderName'], $_POST['senderEmail']);
+$result = Model_Blog::addUser($_POST['email'], $_POST['name'], $_POST['comment'], $_POST['senderName'], $_POST['senderEmail']);
 respond::ResultPage($result);
 ?>

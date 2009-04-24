@@ -11,7 +11,7 @@ $IV = array(
 );
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
-if (User::setHomepage($_POST['type'],$_POST['homepage'],$_POST['blogid'])) {
+if (Model_User::setHomepage($_POST['type'],$_POST['homepage'],$_POST['blogid'])) {
 	$result = 0;
 }
 else {

@@ -261,7 +261,7 @@ function getComments($entry) {
 				}
 			}
 			if(!empty($comment['replier'])) {
-				$comment['homepage'] = User::getHomepage($comment['replier']);
+				$comment['homepage'] = Model_User::getHomepage($comment['replier']);
 			}
 			array_push($comments, $comment);
 		}
@@ -297,7 +297,7 @@ function getCommentComments($parent,$parentComment=null) {
 				}
 			}
 			if(!empty($comment['replier'])) {
-				$comment['homepage'] = User::getHomepage($comment['replier']);
+				$comment['homepage'] = Model_User::getHomepage($comment['replier']);
 			}
 			array_push($comments, $comment);
 		}

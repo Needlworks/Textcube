@@ -566,7 +566,7 @@ function getDefaultCenterPanel($mapping) {
 													<tr>
 														<td class="type"><?php echo _t('7일 평균');?></td>
 														<td class="sum"><?php 
-	$weekly = Statistics::getWeeklyStatistics();
+	$weekly = Model_Statistics::getWeeklyStatistics();
 	$weeklycount = 0;
 	foreach($weekly as $day) $weeklycount += $day['visits'];
 	echo number_format($weeklycount/7);

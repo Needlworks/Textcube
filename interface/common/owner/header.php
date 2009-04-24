@@ -432,7 +432,7 @@ $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 						if ('single' != $service['type'] ) {
 ?>
 						<label for="blog-list"><?php echo _t('현재 블로그');?></label>
-<?php echo User::changeBlog();
+<?php echo Model_User::changeBlog();
 						}
 ?>
 					</div>
@@ -445,7 +445,7 @@ $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 				<div id="main-menu-box">
 					<ul id="main-menu">
 						<li id="menu-textcube"><a href="<?php echo $blogURL.'/owner/center/dashboard';?>" title="<?php echo _t('센터로 이동합니다.');?>"><span class="text"><?php echo _t('텍스트큐브');?></span></a></li>
-<?php //echo User::changeBlog();?>						
+<?php //echo Model_User::changeBlog();?>						
 <?php
 foreach($blogTopMenuItem as $menuItem) {
 ?>

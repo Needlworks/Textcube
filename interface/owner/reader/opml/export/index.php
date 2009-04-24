@@ -6,14 +6,14 @@ require ROOT . '/library/preprocessor.php';
 header("Content-type: application");
 header("Content-Disposition: attachment; filename=textcube_reader_feed_" . date("Ymd") . ".opml");
 header("Content-Description: PHP4 Generated Data");
-$writer = User::getName();
+$writer = Model_User::getName();
 echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n";
 ?>
 <opml version="1.0">
 <head>
 <title>Textcube <?php echo TEXTCUBE_VERSION;?> Reader Feeds</title>
 <ownerName><?php echo htmlspecialchars($writer);?></ownerName>
-<ownerEmail><?php echo User::getEmail();?></ownerEmail>
+<ownerEmail><?php echo Model_User::getEmail();?></ownerEmail>
 </head>
 <body>
 <?php

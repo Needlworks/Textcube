@@ -19,7 +19,7 @@ foreach ($locatives as $locative) {
 	dress('local_info_depth', $depth + 20, $entryView);
 	dress('local_info_link', "$blogURL/" . ($blog['useSloganOnPost'] ? 'entry/' . URL::encode($locative['slogan'],$service['useEncodedURL']) : $locative['id']), $entryView);
 	dress('local_info_title', htmlspecialchars($locative['title']), $entryView);
-	dress('local_info_author', User::getName($locative['userid']), $entryView);
+	dress('local_info_author', Model_User::getName($locative['userid']), $entryView);
 	$locativeView .= $entryView;
 	$prevPath = $path;
 }

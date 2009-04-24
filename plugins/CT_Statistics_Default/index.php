@@ -26,7 +26,7 @@
 function CT_Statistics_Default($target) {
 	$blogid = getBlogId();
 	requireComponent( "Textcube.Model.Statistics");
-	$stats = Statistics::getStatistics($blogid);
+	$stats = Model_Statistics::getStatistics($blogid);
 	
 	$target .= '<ul class="CT_Statistics_Default">';
 	$target .= '<li class="TotalCount"><h4>Total Counts</h4><div style="text-align:right; width:100%">';
