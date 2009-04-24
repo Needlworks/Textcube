@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-class Cache_pageCache {
+class Cache_page {
 	function __construct($name = null){
 		$this->reset();
 		if($name != null) $this->name = $name;
@@ -160,7 +160,7 @@ class Cache_pageCache {
 
 }
 
-class Cache_queryCache {
+class Cache_query {
 	function __construct($query = null, $prefix = null){
 		global $service;
 		$this->reset();
@@ -252,7 +252,7 @@ class Cache_queryCache {
 // globalCacheStorage caches essential but 'relatively static' information, like
 // blogSettings, ServiceSettings, activePlugins, etc..
 // Textcube will use it as global object.
-class globalCacheStorage extends pageCache {
+class Cache_globalStorage extends pageCache {
 	function __construct($blogid = null) {
 		$this->_isChanged = false;
 		$this->_gCacheStorage = array();
@@ -316,7 +316,7 @@ class Cache_Control {
 		if(empty($categoryId)) $categoryId = '';
 		else $categoryId = $categoryId.'\\_';
 		
-		$cache = new pageCache;
+		$cache = new Cache_page;
 		$categoryLists = Data_IAdapter::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
@@ -335,7 +335,7 @@ class Cache_Control {
 		if(empty($authorId)) $authorId = '';
 		else $authorId = Data_IAdapter::escapeString($authorId).'\\_';
 		
-		$cache = new pageCache;
+		$cache = new Cache_page;
 		$pageLists = Data_IAdapter::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
@@ -350,7 +350,7 @@ class Cache_Control {
 
 		if(empty($tagId)) $tagId = '';
 		else $tagId = $tagId.'\\_';
-		$cache = new pageCache;
+		$cache = new Cache_page;
 		$tagLists = Data_IAdapter::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
@@ -369,7 +369,7 @@ class Cache_Control {
 
 		if(empty($tagId)) $tagId = '';
 		else $tagId = $tagId.'\\_';
-		$cache = new pageCache;
+		$cache = new Cache_page;
 		$keywordEntries = Data_IAdapter::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
@@ -384,7 +384,7 @@ class Cache_Control {
 
 		if(empty($entryId)) $entryId = '';
 		else $entryId = $entryId.'\\_';
-		$cache = new pageCache;
+		$cache = new Cache_page;
 		$Entries = Data_IAdapter::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
@@ -418,7 +418,7 @@ class Cache_Control {
 		global $database;
 
 		if(empty($entryId)) $entryId = '';
-		$cache = new pageCache;
+		$cache = new Cache_page;
 		$cache->name = 'commentRSS_'.$entryId;
 		$cache->purge(); 
 		$cache->reset();
@@ -438,7 +438,7 @@ class Cache_Control {
 		global $database;
 
 		if(empty($entryId)) $entryId = '';
-		$cache = new pageCache;
+		$cache = new Cache_page;
 		$cache->name = 'trackbackRSS_'.$entryId;
 		$cache->purge();
 		$cache->reset();
@@ -458,7 +458,7 @@ class Cache_Control {
 		global $database;
 
 		if(empty($entryId)) $entryId = '';
-		$cache = new pageCache;
+		$cache = new Cache_page;
 		$cache->name = 'responseRSS_'.$entryId;
 		$cache->purge();
 		$cache->reset();
@@ -475,7 +475,7 @@ class Cache_Control {
 
 	function flushCommentNotifyRSS() {
 		global $database;
-		$cache = new pageCache;
+		$cache = new Cache_page;
 		$cache->name = 'commentNotifiedRSS';
 		$cache->purge();
 		$cache->reset();
@@ -526,7 +526,7 @@ class Cache_Control {
 	}
 	function purgeItems($items) {
 		if(!empty($items)) {
-			$cache = new pageCache;
+			$cache = new Cache_page;
 			foreach($items as $item){
 				$cache->reset();
 				$cache->name = $item;

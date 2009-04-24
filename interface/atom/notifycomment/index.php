@@ -23,7 +23,7 @@ if (false) {
 }
 validateAPIKey(getBlogId(),$_POST['loginid'],$_POST['key']);
 
-$cache = new pageCache;
+$cache = new Cache_page;
 $cache->name = 'commentNotifiedATOM';
 if(!$cache->load()) {
 	$result = getCommentNotifiedFeedTotal(getBlogId(),'atom');

@@ -48,7 +48,7 @@ class PluginCustomConfig{
 			}
 		}
 		$configXml = Data_IAdapter::queryCell("SELECT settings FROM {$database['prefix']}Plugins WHERE blogid = {$this->blogid} AND name = '{$this->pluginName}'");
-		$t= Setting::fetchConfigVal($configXml);
+		$t= Model_Setting::fetchConfigVal($configXml);
 		return false==is_array($t)?array():$t;
 	}
 	

@@ -28,9 +28,9 @@ final class Model_Context extends Singleton
 	
 	private function __URIParser() {
 		if(!isset($this->URLInfo)) $this->__URIInterpreter();
-		$config = Config::getInstance();
+		$config = Model_Config::getInstance();
 		$url = $this->URLInfo['fullpath'];
-		$defaultblogid = Setting::getServiceSetting("defaultBlogId",1);
+		$defaultblogid = Model_Setting::getServiceSetting("defaultBlogId",1);
 		$suri            = array('url' => $url, 'value' => '');
 		$this->blogid    = null;
 		$this->isStrictBlogURL = true;
@@ -118,13 +118,13 @@ final class Model_Context extends Singleton
 		global $serviceURL, $pathURL, $defaultURL, $baseURL, $pathURL, $hostURL, $folderURL, $blogURL;
 		global $suri, $blog, $blogid, $skinSetting, $gCacheStorage;
 		$blogid = $this->blogid;
-		$gCacheStorage = new globalCacheStorage; // Initialize global cache
+		$gCacheStorage = new Cache_globalStorage; // Initialize global cache
 
-		$config = Config::getInstance();
+		$config = Model_Config::getInstance();
 
 		$suri = $this->suri;
-		$blog = Setting::getBlogSettingsGlobal($this->blogid);
-		$skinSetting = Setting::getSkinSetting($this->blogid);
+		$blog = Model_Setting::getBlogSettingsGlobal($this->blogid);
+		$skinSetting = Model_Setting::getSkinSetting($this->blogid);
 		
 		if(isset($config->service['serviceURL'])) $serviceURL = $config->service['serviceURL'];
 		if (!isset($serviceURL))
@@ -196,7 +196,7 @@ final class Model_Context extends Singleton
  		return Data_IAdapter::queryCell("SELECT blogid FROM {$database['prefix']}BlogSettings WHERE name = 'secondaryDomain' AND (value = '$domain' OR  value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) ."')");	
 	}
 	private function __getFancyURLpostfix() {	
-		$config = Config::getInstance();
+		$config = Model_Config::getInstance();
 		switch($config->service['fancyURL']) {
 			case 0: return '/index.php?';
 			case 1: return '/?';

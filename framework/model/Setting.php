@@ -40,7 +40,7 @@ class Model_Setting {
 			$query->setQualifier('name',$name, true);
 			return $query->getCell('value');
 		}
-		$settings = Setting::getBlogSettingsGlobal(($blogid == null ? getBlogId() : $blogid)); 
+		$settings = Model_Setting::getBlogSettingsGlobal(($blogid == null ? getBlogId() : $blogid)); 
 		if ($settings === false) return $default;
 		if( isset($settings[$name]) ) {
 			return $settings[$name];
@@ -106,7 +106,7 @@ class Model_Setting {
 			foreach($defaultValues as $name => $value) {
 				if(!in_array($name,$blogSettingFields)) {
 					$result[$name] = $value;
-					Setting::setBlogSettingDefault($name,$value,$blogid);
+					Model_Setting::setBlogSettingDefault($name,$value,$blogid);
 				}
 			}
 			$__gCacheBlogSettings[$blogid] = $result;
@@ -127,7 +127,7 @@ class Model_Setting {
 	
 		if (!array_key_exists($blogid, $__gCacheBlogSettings)) {
 			// force loading
-			Setting::getBlogSettingsGlobal($blogid);
+			Model_Setting::getBlogSettingsGlobal($blogid);
 		}
 		if ($__gCacheBlogSettings[$blogid] === false) {
 			return null;
@@ -169,7 +169,7 @@ class Model_Setting {
 	
 		if (!array_key_exists($blogid, $__gCacheBlogSettings)) {
 			// force loading
-			Setting::getBlogSettingsGlobal($blogid);
+			Model_Setting::getBlogSettingsGlobal($blogid);
 		}
 		if ($__gCacheBlogSettings[$blogid] === false) {
 			return null;
@@ -191,7 +191,7 @@ class Model_Setting {
 
 	// For plugin-specific use.
 	function getBlogSetting($name, $default = null) {
-		$settings = Setting::getBlogSettingsGlobal(getBlogId()); // from blog.service.php
+		$settings = Model_Setting::getBlogSettingsGlobal(getBlogId()); // from blog.service.php
 		if ($settings === false) return $default;
 		$name = 'plugin_' . $name;
 		if( isset($settings[$name]) ) {
@@ -203,20 +203,20 @@ class Model_Setting {
 	function setBlogSetting($name, $value) {
 		global $database, $blogid;
 		$name = 'plugin_' . $name;
-		return Setting::setBlogSettingGlobal($name, $value);
+		return Model_Setting::setBlogSettingGlobal($name, $value);
 	}
 	
 	function removeBlogSetting($name) {
 		global $database, $blogid;
 		$name = 'plugin_' . $name;
-		return Setting::removeBlogSettingGlobal($name);
+		return Model_Setting::removeBlogSettingGlobal($name);
 	}
 
 	// For User
 	function getUserSetting($name, $default = null) {
 		global $database, $userSetting;
 		$name = 'plugin_' . $name;
-		return Setting::getUserSettingGlobal($name, $default);
+		return Model_Setting::getUserSettingGlobal($name, $default);
 	}
 
 	function getUserSettingGlobal($name, $default = null, $userid = null, $directAccess = false) {
@@ -243,7 +243,7 @@ class Model_Setting {
 	function setUserSetting($name, $value) {
 		global $database;
 		$name = 'plugin_' . $name;
-		return Setting::setUserSettingGlobal($name, $value);
+		return Model_Setting::setUserSettingGlobal($name, $value);
 	}
 	
 	function setUserSettingGlobal($name, $value, $userid = null) {
@@ -257,7 +257,7 @@ class Model_Setting {
 	function removeUserSetting($name) {
 		global $database;
 		$name = 'plugin_' . $name;
-		return Setting::removeUserSettingGlobal($name);
+		return Model_Setting::removeUserSettingGlobal($name);
 	}
 
 	function removeUserSettingGlobal($name, $userid = null) {

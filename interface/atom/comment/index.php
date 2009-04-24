@@ -13,7 +13,7 @@ requireStrictBlogURL();
 if (false) {
 	fetchConfigVal();
 }
-$cache = new pageCache;
+$cache = new Cache_page;
 if(!empty($suri['id'])) {
 	$cache->name = 'commentATOM_'.$suri['id'];
 	if(!$cache->load()) {

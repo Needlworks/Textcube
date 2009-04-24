@@ -200,7 +200,7 @@ function setCommentsOnRSS($blogid, $commentsOnRSS) {
 		return true;
 	if(setBlogSetting('commentsOnRSS',$commentsOnRSS) === false) return false;
 	$blog['commentsOnRSS'] = $commentsOnRSS;
-	$cache = new pageCache;
+	$cache = new Cache_page;
 	$cache->name = 'commentRSS';
 	$cache->purge();
 	return true;

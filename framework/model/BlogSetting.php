@@ -86,7 +86,7 @@ class Model_BlogSetting {
 
 		if (isset($this->name)) {
 			$this->name = trim($this->name);
-			if (!BlogSetting::validateName($this->name))
+			if (!BlogModel_Setting::validateName($this->name))
 				return $this->_error('name');
 			setBlogSetting('name', $this->name);
 		}
