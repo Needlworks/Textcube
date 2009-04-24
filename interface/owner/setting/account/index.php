@@ -377,7 +377,7 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 										<dl id="blogapi-password-line" class="line">
 											<dt><span class="label"><?php echo _t('API 용 비밀번호');?></span></dt>
 											<dd>
-											<input type="text" style="width:14em" class="input-text" id="TCApiPassword" name="TCApiPassword" value="<?php echo Setting::getUserSettingGlobal('APIKey',null,getUserId());?>" />
+											<input type="text" style="width:14em" class="input-text" id="TCApiPassword" name="TCApiPassword" value="<?php echo Model_Setting::getUserSettingGlobal('APIKey',null,getUserId());?>" />
 												<input type="button" class="input-button" value="<?php echo _t('임의로 생성')?>" onclick="chooseBlogPassword()" />
 												<input type="button" class="input-button" value="<?php echo _t('관리자 비밀번호를 그대로 사용')?>" onclick="clearBlogPassword()" />
 											</dd>
@@ -553,7 +553,7 @@ if( isActivePlugin( 'CL_OpenID' ) || Acl::check('group.administrators') ) {
 											<dt class="hidden"><?php echo _t('오픈아이디로 사용할 블로그 주소를 선택하세요');?></dt>
 											<dd>
 <?php
-		$currentDelegate = Setting::getBlogSettingGlobal( 'OpenIDDelegate', '' );
+		$currentDelegate = Model_Setting::getBlogSettingGlobal( 'OpenIDDelegate', '' );
 ?>
 												<select id="openid_for_delegation">
 <?php

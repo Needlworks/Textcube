@@ -12,7 +12,7 @@ requireLibrary('blog.skin');
 if (!array_key_exists('viewMode', $_REQUEST)) $_REQUEST['viewMode'] = '';
 else $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];
 
-Setting::removeBlogSettingGlobal('sidebarOrder');
+Model_Setting::removeBlogSettingGlobal('sidebarOrder');
 Skin::purgeCache();
 if($ajaxcall == false) header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
 else respond::ResultPage(0);

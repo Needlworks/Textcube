@@ -297,7 +297,7 @@ function receiveTrackback($blogid, $entry, $title, $url, $excerpt, $site) {
 	$title = UTF8::lessenAsEncoding($title);
 	$excerpt = UTF8::lessenAsEncoding($excerpt);
 
-	$trackback = new Trackback();
+	$trackback = new Model_Trackback();
 	$trackback->entry = $entry;
 	$trackback->url = $url;
 	$trackback->site = $site;
@@ -369,7 +369,7 @@ function sendTrackback($blogid, $entryId, $url) {
 	
 	if ($isSuccess && (checkResponseXML($request->responseText) === 0)) {
 //		$url = POD::escapeString(UTF8::lessenAsEncoding($url, 255));
-		$trackbacklog = new TrackbackLog;
+		$trackbacklog = new Model_TrackbackLog;
 		$trackbacklog->entry = $entryId;
 		$trackbacklog->url = POD::escapeString(UTF8::lessenAsEncoding($url, 255));
 		$trackbacklog->add();

@@ -8,7 +8,7 @@ function Tag_removeEmptyTagHelper($var)
 	return (strlen($var) > 0);
 }
 
-class Tag {
+class Model_Tag {
 	/*@static@*/
 	function addTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 	{

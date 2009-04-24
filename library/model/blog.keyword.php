@@ -135,7 +135,7 @@ function bindKeywords($keywords, $content) {
 	$buf = '';
 	$i = 0;
 	$bindable = true;
-	$binder = new KeywordBinder();
+	$binder = new Model_KeywordBinder();
 	while (true) {
 		if ($bindable) {
 			$buf .= preg_replace_callback($pattern, array($binder, 'replace'), $result[$i]);

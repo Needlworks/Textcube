@@ -81,7 +81,7 @@ function CT_RecentRP_Default($target) {
 
 function CT_RecentRP_Default_DataSet($DATA){
 	requireComponent('Textcube.Function.Setting');
-	$cfg = Setting::fetchConfigVal($DATA);
+	$cfg = Model_Setting::fetchConfigVal($DATA);
 	return true;
 }
 ?>

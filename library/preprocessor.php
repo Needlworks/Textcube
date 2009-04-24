@@ -220,7 +220,7 @@ if(in_array($context->URLInfo['interfaceType'], array('blog','owner','reader')))
 */
 
 if($context->URLInfo['interfaceType'] == 'blog' && !defined('__TEXTCUBE_LOGIN__')) {
-	$blogVisibility = Setting::getBlogSettingGlobal('visibility',2);
+	$blogVisibility = Model_Setting::getBlogSettingGlobal('visibility',2);
 	if($blogVisibility == 0) requireOwnership();
 	else if($blogVisibility == 1) requireMembership();
 }

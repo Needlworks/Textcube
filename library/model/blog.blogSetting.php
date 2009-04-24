@@ -490,8 +490,8 @@ function changePassword($userid, $pwd, $prevPwd, $forceChange = false) {
 }
 
 function changeAPIKey($userid, $key) {
-	if($key) return Setting::setUserSettingGlobal('APIKey',$key,$userid);
-	else return Setting::removeUserSettingGlobal('APIKey',$userid);
+	if($key) return Model_Setting::setUserSettingGlobal('APIKey',$key,$userid);
+	else return Model_Setting::removeUserSettingGlobal('APIKey',$userid);
 }
 
 function deleteBlog($blogid) {

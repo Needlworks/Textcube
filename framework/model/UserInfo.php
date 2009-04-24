@@ -2,12 +2,12 @@
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-class UserInfo {
+class Model_UserInfo {
+	var $_result;
 
-	function UserInfo() {
+	function __construct() {
 		$this->reset();
 	}
-	var $_result;
 	function reset() {
 		$this->userid =
 		$this->loginid =

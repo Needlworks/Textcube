@@ -195,7 +195,7 @@ if ($notice->open()) {
 	} while ($notice->shift());
 	$notice->close();
 }
-$keyword = new Keyword();
+$keyword = new Model_Keyword();
 if ($keyword->open()) {
 	do {
 		$writer->write('<keyword' . $newlineStyle . '>' . 
@@ -235,7 +235,7 @@ if ($link->open()) {
 	} while ($link->shift());
 	$link->close();
 }
-$log = new RefererLog();
+$log = new Model_RefererLog();
 if ($log->open()) {
 	$writer->write('<logs>');
 	$writer->write(CRLF);
@@ -302,7 +302,7 @@ if ($cmtNotifiedSite->open()) {
 	$writer->write(CRLF);
 	$cmtNotifiedSite->close();
 }
-$statistics = new RefererStatistics();
+$statistics = new Model_RefererStatistics();
 if ($statistics->open()) {
 	$writer->write('<statistics>');
 	do {

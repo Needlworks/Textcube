@@ -401,7 +401,7 @@ function importer($path, $node, $line) {
 			}
 			if (isset($node['trackback'])) {
 				for ($i = 0; $i < count($node['trackback']); $i++) {
-					$trackback = new Trackback();
+					$trackback = new Model_Trackback();
 					$trackback->entry = $post->id;
 					$cursor = & $node['trackback'][$i];
 					$trackback->url = $cursor['url'][0]['.value'];
@@ -420,7 +420,7 @@ function importer($path, $node, $line) {
 			}
 			if (isset($node['logs'][0]['trackback'])) {
 				for ($i = 0; $i < count($node['logs'][0]['trackback']); $i++) {
-					$log = new TrackbackLog();
+					$log = new Model_TrackbackLog();
 					$log->entry = $post->id;
 					$cursor = & $node['logs'][0]['trackback'][$i];
 					$log->url = $cursor['url'][0]['.value'];
@@ -490,7 +490,7 @@ function importer($path, $node, $line) {
 			return true;
 		case '/blog/keyword':
 			setProgress($item++ / $items * 100, _t('키워드를 복원하고 있습니다.'));
-			$keyword = new Keyword();
+			$keyword = new Model_Keyword();
 			$keyword->id = $node['id'][0]['.value'];
 			$keyword->visibility = $node['visibility'][0]['.value'];
 			if(isset($node['starred'][0]['.value'])) 
@@ -524,7 +524,7 @@ function importer($path, $node, $line) {
 					if (Attachment::doesExist($attachment->name)) {
 						if (!$attachment->add())
 							user_error(__LINE__ . $attachment->error);
-						$keyword2 = new Keyword();
+						$keyword2 = new Model_Keyword();
 						if ($keyword2->open($keyword->id, 'id, content')) {
 							$keyword2->content= str_replace($cursor['name'][0]['.value'], $attachment->name, $keyword2->content);
 							$keyword2->update();
@@ -566,7 +566,7 @@ function importer($path, $node, $line) {
 			return true;
 		case '/blog/logs/referer':
 			setProgress($item++ / $items * 100, _t('리퍼러 로그를 복원하고 있습니다.'));
-			$log = new RefererLog();
+			$log = new Model_RefererLog();
 			if (isset($node['path'][0]['.value']))
 				$log->url = $node['path'][0]['.value'];
 			else
@@ -630,7 +630,7 @@ function importer($path, $node, $line) {
 			return true;
 		case '/blog/statistics/referer':
 			setProgress($item++ / $items * 100, _t('리퍼러 통계를 복원하고 있습니다.'));
-			$statistics = new RefererStatistics();
+			$statistics = new Model_RefererStatistics();
 			$statistics->host = $node['host'][0]['.value'];
 			$statistics->count = $node['count'][0]['.value'];
 			if (!$statistics->add())

@@ -21,7 +21,7 @@ function getBlogidBySecondaryDomain($domain) {
 }
 
 function getBlogSettings($blogid) {
-	return Setting::getBlogSettingsGlobal($blogid);
+	return Model_Setting::getBlogSettingsGlobal($blogid);
 }
 
 function getSkinSetting($blogid, $forceReload = false) {

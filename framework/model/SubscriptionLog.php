@@ -1,6 +1,6 @@
 <?php
-class SubscriptionStatistics {
-	function SubscriptionStatistics() {
+class Model_SubscriptionLog {
+	function __construct() {
 		$this->reset();
 	}
 
@@ -9,12 +9,11 @@ class SubscriptionStatistics {
 		$this->ip =
 		$this->host =
 		$this->useragent =
-		$this->subscribed =
 		$this->referred =
 			null;
 	}
 	
-	function open($filter = '', $fields = '*', $sort = 'subscribed DESC') {
+	function open($filter = '', $fields = '*', $sort = 'referred DESC') {
 		global $database;
 		if (is_numeric($filter))
 			$filter = 'AND id = ' . $filter;
@@ -23,7 +22,9 @@ class SubscriptionStatistics {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}SubscriptionStatistics WHERE blogid = ".getBlogId()." $filter $sort");
+		$this->_result = POD::query("SELECT $fields 
+			FROM {$database['prefix']}SubscriptionLogs 
+			WHERE blogid = ".getBlogId()." $filter $sort");
 		if ($this->_result) {
 			if ($this->_count = POD::num_rows($this->_result))
 				return $this->shift();
@@ -56,49 +57,31 @@ class SubscriptionStatistics {
 		return false;
 	}
 	
-	function add() {
+	function add($compile = true) {
+		if (!isset($this->url))
+			return $this->_error('url');
+		$this->host = null;
+		if (!$query = $this->_buildQuery())
+			return false;
 		if (!$query->hasAttribute('referred'))
 			$query->setAttribute('referred', 'UNIX_TIMESTAMP()');
+
+		if (!$query->insert())
+			return $this->_error('insert');
 		
-		if (!$query = $this->_buildQuery())
-			return false;
-
-		if ($query->doesExist()) {
-			if (!$query->update())
-				return $this->_error('update');
-		} else if (!$query->insert()) {
-			return $this->_error('insert');
+		if ($compile) {
+			SubscriptionStatistics::compile($this->host);
 		}
 		return true;
 	}
 	
-	function update() {
-		if (!$query = $this->_buildQuery())
-			return false;
+	function getCount() {
+		return (isset($this->_count) ? $this->_count : 0);
+	}
 
-		if ($query->doesExist()) {
-			if (!$query->update())
-				return $this->_error('update');
-		} else if (!$query->insert()) {
-			return $this->_error('insert');
-		}
-		return true;
-	}
-	
-	/*@static@*/
-	function compile($host) {
-		$instance = new SubscriptionStatistics();
-		$instance->host = $host;
-		$instance->count = 1;
-		return $instance->update();
-	}
-	
 	function _buildQuery() {
 		global $database;
-		$this->host = trim($this->host);
-		if (empty($this->host))
-			return $this->_error('host');
-		$query = new TableQuery($database['prefix'] . 'SubscriptionStatistics');
+		$query = new TableQuery($database['prefix'] . 'SubscriptionLogs');
 		$query->setQualifier('blogid', getBlogId());
 		if (isset($this->ip)) {
 			if (!Validator::ip($this->ip))
@@ -109,11 +92,6 @@ class SubscriptionStatistics {
 			$query->setAttribute('host', $this->host, true);
 		if (isset($this->useragent))
 			$query->setAttribute('useragent', $this->useragent, true);
-		if (isset($this->subscribed)) {
-			if (!Validator::number($this->subscribed, 1))
-				return $this->_error('subscribed');
-			$query->setAttribute('subscribed', $this->subscribed);
-		}
 		if (isset($this->referred)) {
 			if (!Validator::number($this->referred, 1))
 				return $this->_error('referred');

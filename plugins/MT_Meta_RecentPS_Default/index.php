@@ -7,7 +7,7 @@ function MT_Cover_getRecentEntries($parameters){
 	requireComponent('Textcube.Function.misc');
 	requireModel("blog.entry");
 	requireModel("blog.tag");
-	$data = Setting::fetchConfigVal($configVal);
+	$data = Model_Setting::fetchConfigVal($configVal);
 	$data['coverMode']	= !isset($data['coverMode'])?1:$data['coverMode'];
 	if(Misc::isMetaBlog() != true) $data['coverMode'] = 1;
 	$data['screenshot']	= !isset($data['screenshot'])?1:$data['screenshot'];
@@ -72,7 +72,7 @@ function MT_Cover_getRecentEntries($parameters){
 		if (sizeof($entryTags) > 0) {
 			$tags = array();
 			foreach ($entryTags as $entryTag) {
-				$tags[$entryTag['name']] = "<a href=\"{$defaultURL}/tag/" . (Setting::getBlogSettingGlobal('useSloganOnTag',true) ? URL::encode($entryTag['name'],$service['useEncodedURL']) : $entryTag['id']) . '">' . htmlspecialchars($entryTag['name']) . '</a>';
+				$tags[$entryTag['name']] = "<a href=\"{$defaultURL}/tag/" . (Model_Setting::getBlogSettingGlobal('useSloganOnTag',true) ? URL::encode($entryTag['name'],$service['useEncodedURL']) : $entryTag['id']) . '">' . htmlspecialchars($entryTag['name']) . '</a>';
 			}
 			$tagLabelView = "<div class=\"post_tags\"><span>TAG : </span>".implode(",\r\n", array_values($tags))."</div>";
 		}
@@ -81,9 +81,9 @@ function MT_Cover_getRecentEntries($parameters){
 			$entry['label'] = _text('분류없음');
 			$entry['link'] = "{$defaultURL}/category";
 		} else {
-			$entry['link'] = "{$defaultURL}/category/" . (Setting::getBlogSettingGlobal('useSloganOnCategory',true) ? URL::encode($entry['label'],$service['useEncodedURL']) : $entry['category']);
+			$entry['link'] = "{$defaultURL}/category/" . (Model_Setting::getBlogSettingGlobal('useSloganOnCategory',true) ? URL::encode($entry['label'],$service['useEncodedURL']) : $entry['category']);
 		}
-		$permalink = "{$defaultURL}/" . (Setting::getBlogSettingGlobal('useSloganOnPost',true) ? "entry/" . URL::encode($entry['slogan'],$service['useEncodedURL']) : $entry['id']);
+		$permalink = "{$defaultURL}/" . (Model_Setting::getBlogSettingGlobal('useSloganOnPost',true) ? "entry/" . URL::encode($entry['slogan'],$service['useEncodedURL']) : $entry['id']);
 
 		$html .= '<div class="coverpost">'.CRLF;
 		if($imageName = MT_Cover_getAttachmentExtract($entry['content'])){
@@ -198,7 +198,7 @@ function MT_Cover_getAttachmentExtract($content){
 function MT_Cover_getRecentEntryStyle($target){
 	global $pluginURL, $configVal;
 	requireComponent('Textcube.Function.Setting');
-	$data = Setting::fetchConfigVal($configVal);
+	$data = Model_Setting::fetchConfigVal($configVal);
 	$data['cssSelect']	= !isset($data['cssSelect'])?1:$data['cssSelect'];
 	if($data['cssSelect'] == 1){
 		$target .= '<link rel="stylesheet" media="screen" type="text/css" href="' . $pluginURL . '/style.css" />' . CRLF;
@@ -208,7 +208,7 @@ function MT_Cover_getRecentEntryStyle($target){
 
 function MT_Cover_getRecentEntries_DataSet($DATA){
 	requireComponent('Textcube.Function.Setting');
-	$cfg = Setting::fetchConfigVal($DATA);
+	$cfg = Model_Setting::fetchConfigVal($DATA);
 
 	MT_Cover_getRecentEntries_purgeCache(null, null);
 	return true;

@@ -5,7 +5,7 @@
 function GoogleMap_Header($target) {
 	global $configVal, $pluginURL;
 	requireComponent('Textcube.Function.Setting');
-	$config = Setting::fetchConfigVal($configVal);
+	$config = Model_Setting::fetchConfigVal($configVal);
 	if (!is_null($config) && isset($config['apiKey'])) {
 		$api_key = $config['apiKey'];
 		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/common.css\" />\n";
@@ -24,7 +24,7 @@ function GoogleMap_AdminHeader($target) {
 	global $suri, $pluginURL, $blogURL, $serviceURL, $configVal;
 	if ($suri['directive'] == '/owner/entry/post' || $suri['directive'] == '/owner/entry/edit') {
 		requireComponent('Textcube.Function.Setting');
-		$config = Setting::fetchConfigVal($configVal);
+		$config = Model_Setting::fetchConfigVal($configVal);
 		$api_key = $config['apiKey']; // should exist here
 		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/common.css\" />\n";
 		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=$api_key\"></script>\n";
@@ -50,7 +50,7 @@ function GoogleMap_View($target, $mother) {
 	global $configVal, $pluginURL, $surl;
 	requireComponent('Textcube.Function.Setting');
 	requireComponent('Textcube.Function.Misc');
-	$config = Setting::fetchConfigVal($configVal);
+	$config = Model_Setting::fetchConfigVal($configVal);
 	$matches = array();
 	$offset = 0;
 
@@ -116,7 +116,7 @@ function GoogleMap_View($target, $mother) {
 function GoogleMap_LocationLogView($target) {
 	global $blogid, $blog, $blogURL, $pluginURL, $configVal, $service, $database;
 	requireComponent('Textcube.Function.Misc');
-	$config = Setting::fetchConfigVal($configVal);
+	$config = Model_Setting::fetchConfigVal($configVal);
 	$locatives =  getEntries($blogid, 'id, title, slogan, location, longitude, latitude','(length(location)>1 AND category > -1) OR (`longitude` IS NOT NULL AND `latitude` IS NOT NULL)', 'location');
 	$width = Misc::getContentWidth();
 	$height = intval($width * 1.2);
@@ -233,7 +233,7 @@ function GoogleMap_LocationLogView($target) {
 
 function GoogleMap_ConfigHandler($data) {
 	requireComponent('Textcube.Function.Setting');
-	$config = Setting::fetchConfigVal($data);
+	$config = Model_Setting::fetchConfigVal($data);
 	if (!is_numeric($config['latitude']) || !is_numeric($config['longitude']) ||
 		$config['latitude'] < -90 || $config['latitude'] > 90 || $config['longitude'] < -180 || $config['longitude'] > 180)
 		return '위도 또는 경도의 값이 올바르지 않습니다.';
@@ -271,7 +271,7 @@ function GoogleMap_Cache() {
 function GoogleMapUI_Insert() {
 	global $configVal, $pluginURL;
 	requireComponent('Textcube.Function.Misc');
-	$config = Setting::fetchConfigVal($configVal);
+	$config = Model_Setting::fetchConfigVal($configVal);
 	$lat = $config['latitude'];
 	$lng = $config['longitude'];
 	$default_type = 'G_HYBRID_MAP';

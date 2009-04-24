@@ -135,7 +135,7 @@ $more = false;
 		requireComponent('Tattertools.Function.misc');
 	}
 
-	$data = Setting::fetchConfigVal( $configVal);
+	$data = Model_Setting::fetchConfigVal( $configVal);
 
 
 	$showURL = 0;
@@ -408,7 +408,7 @@ function refererkeyword_DataSet($DATA){
 		requireComponent('Tattertools.Function.misc');
 	}
 
-	$cfg = Setting::fetchConfigVal($DATA);
+	$cfg = Model_Setting::fetchConfigVal($DATA);
 
 	return true;
 }

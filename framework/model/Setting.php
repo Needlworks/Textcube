@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 global $__gCacheBlogSettings; // share blog.service.php
-class Setting {
+class Model_Setting {
 	function fetchConfigVal( $DATA ){
 		if (is_null($DATA)) return null; // Compartibility. If data is stored as array (new method), return it.
 		if (is_array($DATA)) return $DATA;
