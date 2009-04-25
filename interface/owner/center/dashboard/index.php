@@ -3,9 +3,6 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
-
-requireLibrary('blog.skin');
-
 requireModel('reader.common');
 requireModel('blog.comment');
 requireModel('blog.response.remote');

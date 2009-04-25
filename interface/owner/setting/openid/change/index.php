@@ -12,7 +12,7 @@ $IV = array(
 
 require ROOT . '/library/preprocessor.php';
 requireComponent( 'Textcube.Control.Openid' );
-requireLibrary('blog.skin');
+
 requireStrictRoute();
 requireModel( 'common.plugin' );
 

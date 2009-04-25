@@ -16,7 +16,7 @@ $IV = array(
 );
 
 require ROOT . '/library/preprocessor.php';
-requireLibrary('blog.skin');
+
 requireModel("blog.sidebar");
 requireStrictRoute();
 $skin = new Model_BlogSkin($skinSetting['skin']);

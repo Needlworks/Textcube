@@ -11,7 +11,7 @@ $IV = array(
 );
 
 require ROOT . '/library/preprocessor.php';
-requireLibrary('blog.skin');
+
 requireStrictRoute();
 	
 $result = writeSkinHtml($blogid, $_POST['body'], $_POST['mode'], $_POST['file']);

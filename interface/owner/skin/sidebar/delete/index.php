@@ -10,7 +10,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/preprocessor.php';
-requireLibrary('blog.skin');
+
 requireModel("blog.sidebar");
 $skin = new Model_BlogSkin($skinSetting['skin']);
 $sidebarCount = count($skin->sidebarBasicModules);
