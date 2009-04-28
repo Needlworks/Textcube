@@ -327,12 +327,12 @@ for ($i=0; $i<sizeof($comments); $i++) {
 	($i % 2) == 1 ? $className = 'even-line' : $className = 'odd-line';
 	$comment['parent'] ? $className .= ' reply-line' : null;
 	$filter = new Model_Filter();
-	if (Filter::isFiltered('name', $comment['name']))
+	if (Model_Filter::isFiltered('name', $comment['name']))
 		$isNameFiltered = true;
 	else
 		$isNameFiltered = false;
 	
-	if (Filter::isFiltered('ip', $comment['ip']))
+	if (Model_Filter::isFiltered('ip', $comment['ip']))
 		$isIpFiltered = true;
 	else
 		$isIpFiltered = false;

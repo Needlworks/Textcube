@@ -277,12 +277,12 @@ for ($i=0; $i<sizeof($comments); $i++) {
 	$comment = $comments[$i];
 	
 	$filter = new Model_Filter();
-	if (Filter::isFiltered('name', $comment['name']))
+	if (Model_Filter::isFiltered('name', $comment['name']))
 		$isNameFiltered = true;
 	else
 		$isNameFiltered = false;
 	
-	if (Filter::isFiltered('ip', $comment['ip']))
+	if (Model_Filter::isFiltered('ip', $comment['ip']))
 		$isIpFiltered = true;
 	else
 		$isIpFiltered = false;

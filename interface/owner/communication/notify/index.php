@@ -212,7 +212,7 @@ $nameNumber = array();
 for ($i=0; $i<sizeof($mergedComments); $i++) {
 	$comment = $mergedComments[$i];
 	
-	if (Filter::isFiltered('name', $comment['name']))
+	if (Model_Filter::isFiltered('name', $comment['name']))
 		$isNameFiltered = true;
 	else
 		$isNameFiltered = false;

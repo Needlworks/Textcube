@@ -330,11 +330,11 @@ if (sizeof($trackbacks) > 0) echo "									<tbody>";
 $siteNumber = array();
 for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$trackback = $trackbacks[$i];
-	$isFilterURL = Filter::isFiltered('url', $trackback['url']);
+	$isFilterURL = Model_Filter::isFiltered('url', $trackback['url']);
 	$filteredURL = getURLForFilter($trackback['url']);
 
 	$filter = new Model_Filter();
-	if (isset($trackback['ip']) && Filter::isFiltered('ip', $trackback['ip'])) {
+	if (isset($trackback['ip']) && Model_Filter::isFiltered('ip', $trackback['ip'])) {
 		$isIpFiltered = true;
 	} else {
 		$isIpFiltered = false;
