@@ -4,8 +4,9 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 define('__TEXTCUBE_SETUP__',true);
+define('ROOT','.');
 header('Content-Type: text/html; charset=utf-8');
-ini_set('display_errors', 'off');
+ini_set('display_errors', 'on');
 foreach (new DirectoryIterator(ROOT.'/framework/boot') as $fileInfo) {
 	if($fileInfo->isFile()) require_once($fileInfo->getPathname());
 }
