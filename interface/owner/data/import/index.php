@@ -638,14 +638,14 @@ function importer($path, $node, $line) {
 			return true;
 		case '/blog/statistics/visits':
 			setProgress($item++ / $items * 100, _t('블로그 통계 정보를 복원하고 있습니다.'));
-			$statistics = new BlogStatistics();
+			$statistics = new Model_BlogStatistics();
 			$statistics->visits = $node['.value'];
 			if (!$statistics->add())
 				user_error(__LINE__ . $statistics->error);
 			return true;
 		case '/blog/statistics/daily':
 			setProgress($item++ / $items * 100, _t('일별 통계 정보를 복원하고 있습니다.'));
-			$statistics = new DailyStatistics();
+			$statistics = new Model_DailyStatistics();
 			$statistics->date = $node['date'][0]['.value'];
 			$statistics->visits = $node['visits'][0]['.value'];
 			if (!$statistics->add())

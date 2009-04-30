@@ -313,12 +313,12 @@ if ($statistics->open()) {
 	$writer->write(CRLF);
 	$statistics->close();
 }
-$statistics = new BlogStatistics();
+$statistics = new Model_BlogStatistics();
 if ($statistics->load()) {
 	$writer->write('<statistics>' . '<visits>' . $statistics->visits . '</visits>' . '</statistics>');
 	$writer->write(CRLF);
 }
-$statistics = new DailyStatistics();
+$statistics = new Model_DailyStatistics();
 if ($statistics->open()) {
 	$writer->write('<statistics>');
 	do {
