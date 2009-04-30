@@ -82,7 +82,7 @@ header('Content-Type: text/html; charset=utf-8');
     Performs database connection.
 */
 if(!empty($config->database) && !empty($config->database["database"])) {
-	if(Data_IAdapter::connect($config->database['server'],$config->database['database'],$config->database['username'],$config->database['password'],array()) === false) {
+	if(Data_IAdapter::connect($config->database['server'],$config->database['username'],$config->database['password'],$config->database['database'],array()) === false) {
 		Utils_Respond::MessagePage('Problem with connecting database.<br /><br />Please re-visit later.');
 		exit;
 	}

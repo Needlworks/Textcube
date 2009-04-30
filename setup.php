@@ -251,9 +251,9 @@ function checkStep($step, $check = true) {
 				case 'install':
 				case 'setup':
 					if (!empty($_POST['dbServer']) && !empty($_POST['dbName']) && !empty($_POST['dbUser']) && isset($_POST['dbPassword']) && isset($_POST['dbPrefix'])) {
-						if (!mysql_connect($_POST['dbServer'], $_POST['dbUser'], $_POST['dbPassword']))
+						if (!Data_IAdapter::connect($_POST['dbServer'], $_POST['dbUser'], $_POST['dbPassword']))
 							$error = 1;
-						else if (!mysql_select_db($_POST['dbName']))
+						else if (!Data_IAdapter::select_db($_POST['dbName']))
 							$error = 2;
 						else if (!empty($_POST['dbPrefix']) && !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['dbPrefix']))
 							$error = 3;
@@ -263,9 +263,9 @@ function checkStep($step, $check = true) {
 					break;
 				case 'uninstall':
 					if (!empty($_POST['dbServer']) && !empty($_POST['dbName']) && !empty($_POST['dbUser']) && isset($_POST['dbPassword'])) {
-						if (!mysql_connect($_POST['dbServer'], $_POST['dbUser'], $_POST['dbPassword']))
+						if (!Data_IAdapter::connect($_POST['dbServer'], $_POST['dbUser'], $_POST['dbPassword']))
 							$error = 1;
-						else if (!mysql_select_db($_POST['dbName']))
+						else if (!Data_IAdapter::select_db($_POST['dbName']))
 							$error = 2;
 						else
 							return true;
@@ -414,7 +414,7 @@ function checkStep($step, $check = true) {
       <li><?php echo _t('운영체제');?>: <?php echo @exec('uname -sir');?></li>
       <li><?php echo _t('웹서버');?>: <?php echo $_SERVER['SERVER_SOFTWARE'];?> <?php echo isset($_SERVER['SERVER_SIGNATURE']) ? $_SERVER['SERVER_SIGNATURE'] : '(no signature)';?></li>
       <li><?php echo _t('PHP 버전');?>: <?php echo phpversion();?></li>
-      <li><?php echo _t('MySQL 버전');?>: <?php echo mysql_get_server_info();?></li>
+      <li><?php echo _t('DBMS 버전');?>: <?php echo Data_IAdapter::version();?></li>
     </ul>
     <h3>PHP</h3>
     <ul>
@@ -477,17 +477,6 @@ min
 mkdir
 mktime
 move_uploaded_file
-mysql_affected_rows
-mysql_connect
-mysql_error
-mysql_escape_string
-mysql_fetch_array
-mysql_fetch_row
-mysql_insert_id
-mysql_num_rows
-mysql_query
-mysql_result
-mysql_select_db
 nl2br
 number_format
 ob_end_clean
@@ -594,7 +583,7 @@ xml_set_object
 <?php
         $tables = array();
         if ($result = Data_IAdapter::query("SHOW TABLES")) {
-            while ($table = mysql_fetch_array($result)) {
+            while ($table = Data_IAdapter:fetch($result,'array')) {
                 if (strncmp($table[0], $_POST['dbPrefix'], strlen($_POST['dbPrefix'])))
                     continue;
                 switch (strtolower(substr($table[0], strlen($_POST['dbPrefix'])))) {
@@ -968,9 +957,9 @@ RewriteRule ^testrewrite$ setup.php [L]"
         } else {
 			@Data_IAdapter::query('SET CHARACTER SET utf8');
 			if ($result = Data_IAdapter::query("SELECT loginid, password, name FROM {$_POST['dbPrefix']}Users WHERE userid = 1")) {
-				@list($_POST['email'], $_POST['password'], $_POST['name']) = mysql_fetch_row($result);
+				@list($_POST['email'], $_POST['password'], $_POST['name']) = Data_IAdapter::fetch($result,'row');
 				$_POST['password2'] = $_POST['password'];
-				mysql_free_result($result);
+				Data_IAdapter::free($result);
 			}
 			if ($result = Data_IAdapter::queryCell("SELECT value FROM {$_POST['dbPrefix']}BlogSettings 
 						WHERE blogid = 1 
@@ -1763,7 +1752,7 @@ EOF;
         $tables = array();
 		$ckeckedString = 'checked ';
         if ($result = Data_IAdapter::query("SHOW TABLES")) {
-            while ($table = mysql_fetch_array($result)) {
+            while ($table = Data_IAdapter::fetch($result,'array')) {
 				$table = $table[0];
 				$entriesMatched = preg_match('/Entries$/', $table);
 
@@ -1991,7 +1980,7 @@ function checkTables($version, $prefix) {
 		return false;
 	foreach ($tables as $table) {
 		if ($result = Data_IAdapter::query("DESCRIBE $table"))
-			mysql_free_result($result);
+			Data_IAdapter::free($result);
 		else 
 			return false;
 	}

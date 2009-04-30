@@ -14,11 +14,12 @@ $cachedResult = $__dbProperties = array();
 $__gEscapeTag = null;
 
 class DBAdapter implements IAdapter {	
-	public static function connect($server, $dbname, $userid, $password, $options) {
+	public static function connect($server, $userid, $password, $dbname = null, $options = null) {
 		global $__dbProperties;
 		// Connects DB and set environment variables
 		$handle = @mysql_connect($server, $userid, $password);
 		if(!$handle) return false;
+		if(empty($dbname)) return true;
 		$handle = @mysql_select_db($dbname);
 		if(!$handle) {return false;}
 
@@ -32,6 +33,12 @@ class DBAdapter implements IAdapter {
 	
 	public static function disconnect() {
 		mysql_close();
+		return true;
+	}
+	
+	public static function select_db($dbname) {
+		$handle = @mysql_select_db($dbname);
+		if(!$handle) return false;
 		return true;
 	}
 

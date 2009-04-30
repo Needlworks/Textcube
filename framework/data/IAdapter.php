@@ -5,8 +5,9 @@
 
 interface IAdapter {
 	/** Connection */
-	public static function connect($server, $dbname, $userid, $password, $options); 
+	public static function connect($server, $userid, $password, $dbname = null, $options = null); 
 	public static function disconnect();
+	public static function select_db($dbname);
 	/** Information */
 	public static function charset();
 	public static function dbms();
