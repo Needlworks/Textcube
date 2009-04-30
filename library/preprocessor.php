@@ -56,6 +56,8 @@ if (!$valid) {
 global $config, $context;
 
 /// Loading configuration	
+$dispatcher = Dispatcher::getInstance();
+$URLInfo = $dispatcher->URLInfo;
 $config = Model_Config::getInstance();
 $context = Model_Context::getInstance(); // automatic initialization via first instanciation
 
