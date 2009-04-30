@@ -180,6 +180,12 @@ final class Model_Context extends Singleton
 		}else if (defined('__TEXTCUBE_IPHONE__')) {
 			$blogURL .= '/i';
 		}
+		/** Write URI-dependent values onto URL member */
+		$this->URLInfo['blog'] = $blogURL;
+		$this->URLInfo['host'] = $hostURL;
+		$this->URLInfo['folder'] = $folderURL;
+		$this->URLInfo['base'] = $baseURL;
+		$this->URLInfo['default'] = $defaultURL;
 	}
 	
 	private function __getBlogIdByName($name) {
