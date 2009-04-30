@@ -7,7 +7,7 @@ class URIError extends Exception {};
 
 final class Model_Context extends Singleton
 {
-	public $URLInfo, $suri;
+	public $URLInfo, $suri, $URI;
 	public static $blogid, $isStrictURL;
 
 	public static function getInstance() {
@@ -181,11 +181,12 @@ final class Model_Context extends Singleton
 			$blogURL .= '/i';
 		}
 		/** Write URI-dependent values onto URL member */
-		$this->URLInfo['blog'] = $blogURL;
-		$this->URLInfo['host'] = $hostURL;
-		$this->URLInfo['folder'] = $folderURL;
-		$this->URLInfo['base'] = $baseURL;
-		$this->URLInfo['default'] = $defaultURL;
+		$this->URI['blog'] = $blogURL;
+		$this->URI['host'] = $hostURL;
+		$this->URI['folder'] = $folderURL;
+		$this->URI['base'] = $baseURL;
+		$this->URI['default'] = $defaultURL;
+		$this->URI['service'] = $serviceURL;
 	}
 	
 	private function __getBlogIdByName($name) {
