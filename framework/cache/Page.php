@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-class Cache_page {
+class Cache_Page {
 	function __construct($name = null){
 		$this->reset();
 		if($name != null) $this->name = $name;

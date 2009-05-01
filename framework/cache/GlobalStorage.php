@@ -6,7 +6,7 @@
 // globalCacheStorage caches essential but 'relatively static' information, like
 // blogSettings, ServiceSettings, activePlugins, etc..
 // Textcube will use it as global object.
-class Cache_globalStorage extends Cache_page {
+class Cache_globalStorage extends Cache_Page {
 	function __construct($blogid = null) {
 		$this->_isChanged = false;
 		$this->_gCacheStorage = array();

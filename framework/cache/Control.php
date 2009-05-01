@@ -27,7 +27,7 @@ class Cache_control {
 		if(empty($categoryId)) $categoryId = '';
 		else $categoryId = $categoryId.'\\_';
 		
-		$cache = new Cache_page;
+		$cache = new Cache_Page;
 		$categoryLists = Data_IAdapter::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
@@ -46,7 +46,7 @@ class Cache_control {
 		if(empty($authorId)) $authorId = '';
 		else $authorId = Data_IAdapter::escapeString($authorId).'\\_';
 		
-		$cache = new Cache_page;
+		$cache = new Cache_Page;
 		$pageLists = Data_IAdapter::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
@@ -61,7 +61,7 @@ class Cache_control {
 
 		if(empty($tagId)) $tagId = '';
 		else $tagId = $tagId.'\\_';
-		$cache = new Cache_page;
+		$cache = new Cache_Page;
 		$tagLists = Data_IAdapter::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
@@ -80,7 +80,7 @@ class Cache_control {
 
 		if(empty($tagId)) $tagId = '';
 		else $tagId = $tagId.'\\_';
-		$cache = new Cache_page;
+		$cache = new Cache_Page;
 		$keywordEntries = Data_IAdapter::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
@@ -95,7 +95,7 @@ class Cache_control {
 
 		if(empty($entryId)) $entryId = '';
 		else $entryId = $entryId.'\\_';
-		$cache = new Cache_page;
+		$cache = new Cache_Page;
 		$Entries = Data_IAdapter::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
@@ -129,7 +129,7 @@ class Cache_control {
 		global $database;
 
 		if(empty($entryId)) $entryId = '';
-		$cache = new Cache_page;
+		$cache = new Cache_Page;
 		$cache->name = 'commentRSS_'.$entryId;
 		$cache->purge(); 
 		$cache->reset();
@@ -149,7 +149,7 @@ class Cache_control {
 		global $database;
 
 		if(empty($entryId)) $entryId = '';
-		$cache = new Cache_page;
+		$cache = new Cache_Page;
 		$cache->name = 'trackbackRSS_'.$entryId;
 		$cache->purge();
 		$cache->reset();
@@ -169,7 +169,7 @@ class Cache_control {
 		global $database;
 
 		if(empty($entryId)) $entryId = '';
-		$cache = new Cache_page;
+		$cache = new Cache_Page;
 		$cache->name = 'responseRSS_'.$entryId;
 		$cache->purge();
 		$cache->reset();
@@ -186,7 +186,7 @@ class Cache_control {
 
 	function flushCommentNotifyRSS() {
 		global $database;
-		$cache = new Cache_page;
+		$cache = new Cache_Page;
 		$cache->name = 'commentNotifiedRSS';
 		$cache->purge();
 		$cache->reset();
@@ -237,7 +237,7 @@ class Cache_control {
 	}
 	function purgeItems($items) {
 		if(!empty($items)) {
-			$cache = new Cache_page;
+			$cache = new Cache_Page;
 			foreach($items as $item){
 				$cache->reset();
 				$cache->name = $item;
