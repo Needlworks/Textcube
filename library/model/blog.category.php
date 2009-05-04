@@ -14,7 +14,7 @@ function getCategoryId($blogid, $name, $parentName = false) {
 	global $__gCacheCategoryRaw;
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	if($result = Cache_memoryqueryRow($__gCacheCategoryRaw,'name',$name)) {
+	if($result = Cache_memory::queryRow($__gCacheCategoryRaw,'name',$name)) {
 		if($parentName == false) {
 			return $result['id'];
 		} else {
