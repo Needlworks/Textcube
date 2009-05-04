@@ -18,7 +18,7 @@ function getCategoryId($blogid, $name, $parentName = false) {
 		if($parentName == false) {
 			return $result['id'];
 		} else {
-			$parent = Cache_memoryqueryRow($__gCacheCategoryRaw,'name',$parentName);
+			$parent = Cache_memory::queryRow($__gCacheCategoryRaw,'name',$parentName);
 			if($parent['id'] == $result['parent']) return $result['id'];
 		}
 	}
@@ -31,7 +31,7 @@ function getCategoryIdByLabel($blogid, $label) {
 		return 0;
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	if($result = Cache_memoryqueryRow($__gCacheCategoryRaw,'label',$label))
+	if($result = Cache_memory::queryRow($__gCacheCategoryRaw,'label',$label))
 		return $result['id'];
 	else return null;
 }
