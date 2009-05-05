@@ -25,7 +25,6 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireModel("blog.trash");
 requireModel("blog.entry");
-Autoload::load('model_BlogSkin');
 trashVan();
 publishEntries();
 
