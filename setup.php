@@ -583,7 +583,7 @@ xml_set_object
 <?php
         $tables = array();
         if ($result = Data_IAdapter::query("SHOW TABLES")) {
-            while ($table = Data_IAdapter:fetch($result,'array')) {
+            while ($table = Data_IAdapter::fetch($result,'array')) {
                 if (strncmp($table[0], $_POST['dbPrefix'], strlen($_POST['dbPrefix'])))
                     continue;
                 switch (strtolower(substr($table[0], strlen($_POST['dbPrefix'])))) {
