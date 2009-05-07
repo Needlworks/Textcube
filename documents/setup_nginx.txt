@@ -1,0 +1,41 @@
+
+## Howto Install Textcube on Nginx (alpha)
+by J.P.Goh
+
+1. install nginx & mysql
+2. install fastcgi and configure it with nginx.
+3. turn on fastcgi daemon & nginx.
+4. install textcube.
+ * follow the installation guidelines and check for 'Do not use rewrite module'
+5. turn nginx daemon off
+6. add these lines to your nginx.conf
+ * Caution! Do not add these lines before install textcube!
+   Don't forget to change 'tc' in line 1 & 2 to your settings.
+   e.g. '','tt', 'blog' and etc..
+  ----------------------------
+  location /tc/  {
+  set $rewrite_base '/tc';
+  if (!-f $request_filename) {
+    rewrite ^(thumbnail)/([0-9]+/.+)$ cache/$1/$2;
+  }  
+  if ($request_filename ~* ^(cache)+/+(.+[^/])\.(cache|xml|txt|log)$) {
+    return 403;
+  }  
+  if (-d $request_filename) {
+    rewrite ^(.+[^/])$ $1/;
+  }  
+  rewrite  ^(.*)$ $rewrite_base/rewrite.php last;
+  }
+  ----------------------------
+    
+7. turn your nginx daemon on.
+8. login your blog to flush caches.
+9. Ta-da~! enjoy your textcube! :)
+
+### Misc.
+tested for tc 1.7, and 1.8 also.
+I used http://sunblu.sh/2008/04/installing-ngi ··· opard%2F as reference to make test environment.
+
+### trouble shooting
+If you have any problems with uploading, add this line in server section of your nginx.conf. "8m" means 8MB.
+client_max_body_size 8m;
