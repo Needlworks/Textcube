@@ -96,11 +96,11 @@ class DBQuery {
 
 	/*@static@*/
 	function queryCell($query, $field = 0, $useCache=true) {
-		$type = MYSQL_BOTH;
+		$type = 'both';
 		if (is_numeric($field)) {
-			$type = MYSQL_NUM;
+			$type = 'num';
 		} else {
-			$type = MYSQL_ASSOC;
+			$type = 'assoc';
 		}
 
 		if( $useCache ) {
@@ -115,7 +115,7 @@ class DBQuery {
 	}
 	
 	/*@static@*/
-	function queryRow($query, $type = MYSQL_BOTH, $useCache=true) {
+	function queryRow($query, $type = 'both', $useCache=true) {
 		if( $useCache ) {
 			$result = DBQuery::queryAllWithCache($query, $type, 1);
 		} else {
@@ -155,15 +155,14 @@ class DBQuery {
 	}
 	
 	/*@static@*/
-	function queryAll ($query, $type = MYSQL_BOTH, $count = -1) {
-		if($type == 'assoc') $type = MYSQL_ASSOC;
-		else if ($type == 'num') $type = MYSQL_NUM;
+	function queryAll ($query, $type = 'both', $count = -1) {
 		return DBQuery::queryAllWithCache($query, $type, $count);
 		//return DBQuery::queryAllWithoutCache($query, $type, $count);  // Your choice. :)
 	}
 
-	function queryAllWithoutCache($query, $type = MYSQL_BOTH, $count = -1) {
+	function queryAllWithoutCache($query, $type = 'both', $count = -1) {
 		$all = array();
+		$realtype = DBQuery::__queryType($type);
 		if ($result = DBQuery::query($query)) {
 			while ( ($count-- !=0) && $row = mysql_fetch_array($result, $type))
 				array_push($all, $row);
@@ -173,7 +172,7 @@ class DBQuery {
 		return null;
 	}
 	
-	function queryAllWithCache($query, $type = MYSQL_BOTH, $count = -1) {
+	function queryAllWithCache($query, $type = 'both', $count = -1) {
 		global $cachedResult;
 		$cacheKey = "{$query}_{$type}_{$count}";
 		if( isset( $cachedResult[$cacheKey] ) ) {
@@ -300,6 +299,19 @@ class DBQuery {
 	function stat($stat = null) {
 		if($stat === null) return mysql_stat();
 		else return mysql_stat($stat);
+	}
+	
+	/*@static@*/
+	function __queryType($type) {
+		switch(strtolower($type)) {
+			case 'num':
+				return MYSQL_NUM;
+			case 'assoc':
+				return MYSQL_ASSOC;				
+			case 'both':
+			default:
+				return MYSQL_BOTH;
+		}
 	}
 }
 

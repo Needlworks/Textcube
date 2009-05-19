@@ -189,22 +189,9 @@ else if ($_POST['step'] == 7) {
 	checkStep(8, false);
 }
 else {
-/*	
-	function POD::escapeString($string) {
-		global $mysql_escaping_function;
-		return $mysql_escaping_function($string);
-	}*/
-	
 	for ($i = 1; $i <= $_POST['step']; $i ++) {
         if (!checkStep($i))
             break;
-        if ($i == 3) {
-			if (function_exists('mysql_real_escape_string') && (mysql_real_escape_string('ㅋ') == 'ㅋ')) {
-				$mysql_escaping_function =  create_function('$string', 'return mysql_real_escape_string($string);');
-			} else {
-				$mysql_escaping_function =  create_function('$string', 'return mysql_escape_string($string);');
-			}
-		}
     }
     if ($i > $_POST['step'])
         checkStep($_POST['step'] + 1, false);
@@ -249,9 +236,10 @@ function checkStep($step, $check = true) {
 				case 'install':
 				case 'setup':
 					if (!empty($_POST['dbServer']) && !empty($_POST['dbName']) && !empty($_POST['dbUser']) && isset($_POST['dbPassword']) && isset($_POST['dbPrefix'])) {
-						if (!mysql_connect($_POST['dbServer'], $_POST['dbUser'], $_POST['dbPassword']))
+						$dbTemp = array('server'=>$_POST['dbServer'],'username'=>$_POST['dbUser'],'password'=>$_POST['dbPassword']);
+						if (!POD::bind($dbTemp))
 							$error = 1;
-						else if (!mysql_select_db($_POST['dbName']))
+						else if (!POD::select_db($_POST['dbName']))
 							$error = 2;
 						else if (!empty($_POST['dbPrefix']) && !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['dbPrefix']))
 							$error = 3;
@@ -261,9 +249,10 @@ function checkStep($step, $check = true) {
 					break;
 				case 'uninstall':
 					if (!empty($_POST['dbServer']) && !empty($_POST['dbName']) && !empty($_POST['dbUser']) && isset($_POST['dbPassword'])) {
-						if (!mysql_connect($_POST['dbServer'], $_POST['dbUser'], $_POST['dbPassword']))
+						$dbTemp = array('server'=>$_POST['dbServer'],'username'=>$_POST['dbUser'],'password'=>$_POST['dbPassword']);
+						if (!POD::bind($dbTemp))
 							$error = 1;
-						else if (!mysql_select_db($_POST['dbName']))
+						else if (!POD::select_db($_POST['dbName']))
 							$error = 2;
 						else
 							return true;
@@ -412,7 +401,7 @@ function checkStep($step, $check = true) {
       <li><?php echo _t('운영체제');?>: <?php echo @exec('uname -sir');?></li>
       <li><?php echo _t('웹서버');?>: <?php echo $_SERVER['SERVER_SOFTWARE'];?> <?php echo isset($_SERVER['SERVER_SIGNATURE']) ? $_SERVER['SERVER_SIGNATURE'] : '(no signature)';?></li>
       <li><?php echo _t('PHP 버전');?>: <?php echo phpversion();?></li>
-      <li><?php echo _t('MySQL 버전');?>: <?php echo mysql_get_server_info();?></li>
+      <li><?php echo _t('MySQL 버전');?>: <?php echo POD::version();?></li>
     </ul>
     <h3>PHP</h3>
     <ul>
@@ -475,17 +464,6 @@ min
 mkdir
 mktime
 move_uploaded_file
-mysql_affected_rows
-mysql_connect
-mysql_error
-mysql_escape_string
-mysql_fetch_array
-mysql_fetch_row
-mysql_insert_id
-mysql_num_rows
-mysql_query
-mysql_result
-mysql_select_db
 nl2br
 number_format
 ob_end_clean
@@ -587,7 +565,7 @@ xml_set_object
 <?php
         $tables = array();
         if ($result = POD::query("SHOW TABLES")) {
-            while ($table = mysql_fetch_array($result)) {
+            while ($table = POD::fetch($result,'array')) {
                 if (strncmp($table[0], $_POST['dbPrefix'], strlen($_POST['dbPrefix'])))
                     continue;
                 switch (strtolower(substr($table[0], strlen($_POST['dbPrefix'])))) {
@@ -960,9 +938,9 @@ RewriteRule ^testrewrite$ setup.php [L]"
         } else {
 			@POD::query('SET CHARACTER SET utf8');
 			if ($result = POD::query("SELECT loginid, password, name FROM {$_POST['dbPrefix']}Users WHERE userid = 1")) {
-				@list($_POST['email'], $_POST['password'], $_POST['name']) = mysql_fetch_row($result);
+				@list($_POST['email'], $_POST['password'], $_POST['name']) = POD::fetch($result,'row');
 				$_POST['password2'] = $_POST['password'];
-				mysql_free_result($result);
+				POD::free($result);
 			}
 			if ($result = POD::queryCell("SELECT value FROM {$_POST['dbPrefix']}BlogSettings 
 						WHERE blogid = 1 
@@ -1748,7 +1726,7 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
         $tables = array();
 		$ckeckedString = 'checked ';
         if ($result = POD::query("SHOW TABLES")) {
-            while ($table = mysql_fetch_array($result)) {
+            while ($table = POD::fetch($result,'array')) {
 				$table = $table[0];
 				$entriesMatched = preg_match('/Entries$/', $table);
 
@@ -1976,7 +1954,7 @@ function checkTables($version, $prefix) {
 		return false;
 	foreach ($tables as $table) {
 		if ($result = POD::query("DESCRIBE $table"))
-			mysql_free_result($result);
+			POD::free($result);
 		else 
 			return false;
 	}
