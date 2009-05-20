@@ -32,12 +32,37 @@ class Message extends Singleton {
 	public function add($message) {
 		Validator::validateiArray($message, $IV);
 		$message['id'] = $__maxid++; 
-		array_push($this->$__storage[$message['category']],$message);
+		array_push($this->__storage,$message);
 		return $message['id'];
 	}
 	public function remove($condition) {
 	}
 	public function print($mode) {
+	}
+	public function get($condition = null) {
+		$result = array();
+		if(is_null($condition)) return $this->__storage;
+		if(isset($condition['category'])) {
+			if(is_array($condition['category'])) {
+				foreach ($condition['category'] as $cat) {
+					array_push($result, MMCache::queryAll($this->__storage,'category',$cat);
+				}
+			} else {
+				array_push($result, MMCache::queryAll($this->__storage,'category',$condition['category']));
+			}
+		}
+		if(isset($condition['status'])) {
+			switch($condition['status']) {
+				case 'OK':
+					array_push($result, MMCache::queryAll($this->__storage,'status','OK'));
+				case 'WARNING':
+					array_push($result, MMCache::queryAll($this->__storage,'status','WARNING'));
+				case 'ERROR':
+				default:
+					array_push($result, MMCache::queryAll($this->__storage,'status','OK'));
+			}
+		}
+		return $result;
 	}
 }
 ?>
