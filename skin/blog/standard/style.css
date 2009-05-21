@@ -225,7 +225,8 @@ textarea        { border:1px solid #aaa;}
 .entryProtected h2, 
 .entry h2                { font-size:1.2em;  line-height:1.2em;}
 .titleWrap               { border-bottom:1px dashed #ccc;  padding-bottom:5px;  margin-bottom:10px;}
-.titleWrap .category a   { font:1em Dotum, Arial, sans-serif;  color:#888;  margin-right:6px;}
+.titleWrap .category a   { font:1em Dotum, Arial, sans-serif;  color:#888;  margin-right:3px;}
+.titleWrap .categoryFeed  { font:1em Dotum, Arial, sans-serif;  color:#888;  margin-right:6px;}
 .titleWrap .date         { font:0.9em Verdana, Helvetica, Arial, Gulim, sans-serif;  color:#888;}
 
 .entryProtected p.text   { background:url(images/imgProtected.gif) no-repeat ; padding-left:50px;}
