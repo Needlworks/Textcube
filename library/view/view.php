@@ -575,7 +575,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 			$classNames = array();
 			if ($child['id'] === $selected)
 				array_push($classNames, 'selected');
-			if ($i == count($tree['children']) - 1)
+			if ($child == end($tree['children']))
 				array_push($classNames, 'lastChild');
 			$isSelected = count($classNames) > 0 ? ' class="' . implode(' ', $classNames) . '"' : '';
 			
@@ -593,7 +593,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 				$classNames = array();
 				if ($leaf['id'] === $selected)
 					array_push($classNames, 'selected');
-				if ($j == count($child['children']) - 1)
+				if ($leaf == end($child['children']))
 					array_push($classNames, 'lastChild');
 				$isSelected = count($classNames) > 0 ? ' class="' . implode(' ', $classNames) . '"' : '';
 				
