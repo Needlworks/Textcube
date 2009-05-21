@@ -240,6 +240,7 @@ if ($service['type'] != 'single') {
 								var useCSlogan            = "<?php echo $blog['useSloganOnCategory'];?>";
 								var useTSlogan            = "<?php echo $blog['useSloganOnTag'];?>";
 								var publishEolinSyncOnRSS = "<?php echo $blog['publishEolinSyncOnRSS'];?>";
+								var useFeedViewOnCategory = "<?php echo $blog['useFeedViewOnCategory'];?>";
 								var entriesOnRSS          = "<?php echo $blog['entriesOnRSS'];?>";
 								var publishWholeOnRSS     = "<?php echo $blog['publishWholeOnRSS'];?>";
 								var allowCommentGuestbook = <?php echo $blog['allowWriteDblCommentOnGuestbook'];?>;
@@ -266,24 +267,26 @@ if ($service['type'] != 'single') {
 											+"&useSloganOnCategory="+(document.getElementById('rss-form').useCSlogan[0].checked ? 1 : 0)
 											+"&useSloganOnTag="+(document.getElementById('rss-form').useTSlogan[0].checked ? 1 : 0)
 										);
-//										}
 									} 
 									
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/rss/");
 									request.onSuccess = function() {
 										publishEolinSyncOnRSS = document.getElementById('rss-form').publishEolinSyncOnRSS[0].checked ? 1 : 0;
+										useFeedViewOnCategory = document.getElementById('rss-form').useFeedViewOnCategory[0].checked ? 1 : 0;
 										entriesOnRSS = document.getElementById('rss-form').entriesOnRSS.value;
 										commentsOnRSS = document.getElementById('rss-form').commentsOnRSS.value;
 										publishWholeOnRSS = document.getElementById('rss-form').publishWholeOnRSS.value;
 										PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 									}
 									request.onError = function() {
-										PM.showErrorMessage("<?php echo _t('RSS를 변경할 수 없습니다.');?>", "center", "bottom");
+										PM.showErrorMessage("<?php echo _t('피드 관련 설정을 변경할 수 없습니다.');?>", "center", "bottom");
 									}
+									
 									request.send("publishWholeOnRSS="+document.getElementById('rss-form').publishWholeOnRSS.value
 										+"&publishEolinSyncOnRSS="+(document.getElementById('rss-form').publishEolinSyncOnRSS[0].checked ? 1 : 0)
 										+"&entriesOnRSS="+document.getElementById('rss-form').entriesOnRSS.value
-										+"&commentsOnRSS="+document.getElementById('rss-form').commentsOnRSS.value);
+										+"&commentsOnRSS="+document.getElementById('rss-form').commentsOnRSS.value
+										+"&useFeedViewOnCategory="+document.getElementById('rss-form').useFeedViewOnCategory[0].checked ? 1 : 0);
 
 									isAllowCommentGuestbook = document.getElementById('allowCommentGuestbook').checked ? 1 : 0;
 									if ( isAllowCommentGuestbook != allowCommentGuestbook) {
@@ -590,20 +593,28 @@ if (file_exists(ROOT."/attach/$blogid/index.gif")) {
 							<form id="rss-form" class="data-inbox" method="post" action="<?php echo parseURL($blogURL.'/owner/setting/blog');?>">
 								<div id="rss-section" class="section">
 									<fieldset class="container">
-										<legend><?php echo _t('RSS 설정');?></legend>
+										<legend><?php echo _t('피드 설정');?></legend>
 										
 										<dl id="open-type-line" class="line">
-											<dt><span class="label"><?php echo _t('RSS 공개 정도');?></span></dt>
+											<dt><span class="label"><?php echo _t('피드 공개 정도');?></span></dt>
 											<dd>
-												<input type="radio" id="publishEolinSyncOnRSS1" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ? ' checked="checked"' : '');?> /><label for="publishEolinSyncOnRSS1"><span class="text"><?php echo _t('공개된 모든 글을 <acronym title="Rich Site Summary">RSS</acronym>로 내보냅니다.');?></span></label><br />
-												<input type="radio" id="publishEolinSyncOnRSS0" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ?   '' : ' checked="checked"');?> /><label for="publishEolinSyncOnRSS0"><span class="text"><?php echo _t('이올린에 발행된 글만을 RSS로 내보냅니다.');?></span></label>
+												<input type="radio" id="publishEolinSyncOnRSS1" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ? ' checked="checked"' : '');?> /><label for="publishEolinSyncOnRSS1"><span class="text"><?php echo _t('공개된 모든 글을 <acronym title="Rich Site Summary">RSS</acronym> 및 ATOM 피드로 내보냅니다.');?></span></label><br />
+												<input type="radio" id="publishEolinSyncOnRSS0" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ?   '' : ' checked="checked"');?> /><label for="publishEolinSyncOnRSS0"><span class="text"><?php echo _t('이올린에 발행된 글만을 RSS 및 ATOM 피드로 내보냅니다.');?></span></label>
+											</dd>
+										</dl>
+										
+										<dl id="category-feed-line" class="line">
+											<dt><span class="label"><?php echo _t('카테고리 피드 사용');?></span></dt>
+											<dd>
+												<input type="radio" id="useFeedViewOnCategory1" class="radio" name="useFeedViewOnCategory"<?php echo ($blog['useFeedViewOnCategory'] ? ' checked="checked"' : '');?> /><label for="useFeedViewOnCategory1"><span class="text"><?php echo _t('카테고리 목록에 ATOM 피드를 출력합니다.');?></span></label><br />
+												<input type="radio" id="useFeedViewOnCategory0" class="radio" name="useFeedViewOnCategory"<?php echo ($blog['useFeedViewOnCategory'] ?   '' : ' checked="checked"');?> /><label for="useFeedViewOnCategory0"><span class="text"><?php echo _t('카테고리 목록에서 ATOM 피드를 사용하지 않습니다.');?></span></label>
 											</dd>
 										</dl>
 
 										<dl id="post-count-line" class="line">
 											<dt><span class="label"><?php echo _t('글 개수');?></span></dt>
 											<dd>
-												<?php echo getArrayValue(explode('%1', _t('RSS 파일의 블로그 글은 최신 %1개로 갱신됩니다.')), 0);?>
+												<?php echo getArrayValue(explode('%1', _t('최근 %1 개의 블로그 글을 피드로 내보냅니다.')), 0);?>
 												<select id="entriesOnRSS" name="entriesOnRSS">
 <?php
 for ($i = 5; $i <= 30; $i += 5) {
@@ -612,10 +623,10 @@ for ($i = 5; $i <= 30; $i += 5) {
 <?php
 }
 ?>
-												</select><?php echo getArrayValue(explode('%1', _t('RSS 파일의 블로그 글은 최신 %1개로 갱신됩니다.')), 1);?>
+												</select><?php echo getArrayValue(explode('%1', _t('최근 %1 개의 글을 피드로 내보냅니다.')), 1);?>
 											</dd>
 											<dd>
-												<?php echo getArrayValue(explode('%1', _t('댓글, 걸린글(트랙백) 및 통합 RSS의 글은 최신 %1개로 갱신됩니다.')), 0);?>
+												<?php echo getArrayValue(explode('%1', _t('최근 %1 개의 댓글, 걸린글(트랙백) 및 답변을 피드로 내보냅니다.')), 0);?>
 												<select id="commentsOnRSS" name="commentsOnRSS">
 <?php
 for ($i = 5; $i <= 30; $i += 5) {
@@ -624,7 +635,7 @@ for ($i = 5; $i <= 30; $i += 5) {
 <?php
 }
 ?>
-												</select><?php echo getArrayValue(explode('%1', _t('댓글, 걸린글(트랙백) 및 통합 RSS의 글은 최신 %1개로 갱신됩니다.')), 1);?>
+												</select><?php echo getArrayValue(explode('%1', _t('최근 %1 개의 댓글, 걸린글(트랙백) 및 답변을 피드로 내보냅니다.')), 1);?>
 											</dd>
 
 										</dl>

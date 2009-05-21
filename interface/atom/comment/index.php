@@ -33,7 +33,7 @@ if(!empty($suri['id'])) {
 		}
 	}
 }
-header('Content-Type: text/xml; charset=utf-8');
+header('Content-Type: application/atom+xml; charset=utf-8');
 fireEvent('FeedOBStart');
 echo fireEvent('ViewCommentATOM', $cache->contents);
 fireEvent('FeedOBEnd');

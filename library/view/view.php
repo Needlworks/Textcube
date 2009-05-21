@@ -553,12 +553,11 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 	requireLibrary('blog.skin');
 	requireModel('blog.entry');
 
-	global $skinSetting, $defaultURL;
+	global $skinSetting, $defaultURL, $blog;
 	$skin = $skinSetting;
 	if ($embedJava == false) { // not from getCategoriesViewInSkinSetting
 		$skin = getCategoriesSkin();
 	}
-	$skin['showFeed'] = true;/************/
 	if ($xhtml) {
 		echo '<ul>'.CRLF;
 		$isSelected = ($tree['id'] === $selected) ? ' class="selected"' : '';
@@ -567,7 +566,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 		if ($skin['showValue'])
 			echo " <span class=\"c_cnt\">({$tree['value']})</span>";
 		echo "</a>".CRLF;
-		if ($skin['showFeed'])
+		if ($blog['useFeedViewOnCategory'])
 			echo ' <a href="'.$defaultURL.'/atom" class="categoryFeed"><span class="text">ATOM</span></a>'.CRLF;
 		if (sizeof($tree['children']) > 0)
 			echo '<ul>'.CRLF;
@@ -585,7 +584,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 				echo " <span class=\"c_cnt\">({$child['value']})</span>";
 			echo "</a>".CRLF;
 			
-			if ($skin['showFeed'])
+			if ($blog['useFeedViewOnCategory'])
 				echo ' <a href="'.$child['atomlink'].'" class="categoryFeed"><span class="text">ATOM</span></a>'.CRLF;
 
 			if (sizeof($child['children']) > 0)
@@ -602,7 +601,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 				if ($skin['showValue'])
 					echo " <span class=\"c_cnt\">({$leaf['value']})</span>";
 				echo "</a>".CRLF;
-				if ($skin['showFeed'])
+				if ($blog['useFeedViewOnCategory'])
 					echo '<a href="'.$leaf['atomlink'].'" class="categoryFeed"><span class="text">ATOM</span></a>'.CRLF;
 				echo "</li>".CRLF;
 			}

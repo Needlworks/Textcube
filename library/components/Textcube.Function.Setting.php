@@ -78,6 +78,7 @@ class Setting {
 					'logoLabel'                => '', 
 					'logoWidth'                => 0,
 					'logoHeight'               => 0,
+					'useFeedViewOnCategory'    => 1,
 					'useSloganOnPost'          => 1,
 					'useSloganOnCategory'      => 1,
 					'useSloganOnTag'           => 1,
@@ -268,14 +269,12 @@ class Setting {
 
 	function getServiceSetting($name, $default = null) {
 		global $database;
-		$name = 'plugin_' . $name;
 		$value = POD::queryCell("SELECT value FROM {$database['prefix']}ServiceSettings WHERE name = '".POD::escapeString($name)."'");
 		return (is_null($value)) ? $default : $value;
 	}
 
 	function setServiceSetting($name, $value) {
 		global $database;
-		$name = 'plugin_' . $name;
 		$name = POD::escapeString(UTF8::lessenAsEncoding($name, 32));
 		$value = POD::escapeString(UTF8::lessenAsEncoding($value, 255));
 		return POD::execute("REPLACE INTO {$database['prefix']}ServiceSettings VALUES('$name', '$value')");
@@ -283,7 +282,6 @@ class Setting {
 
 	function removeServiceSetting($name) {
 		global $database;
-		$name = 'plugin_' . $name;
 		return POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".POD::escapeString($name)."'");
 	}
 	

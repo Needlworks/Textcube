@@ -169,19 +169,6 @@ function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSlog
 	return true; 
 }
 
-function publishPostEolinSyncOnRSS($blogid, $publishEolinSyncOnRSS) {
-	global $blog;
-	requireModel('blog.feed');
-	$publishEolinSyncOnRSS = $publishEolinSyncOnRSS ? 1 : 0;
-	if ($publishEolinSyncOnRSS == $blog['publishEolinSyncOnRSS'])
-		return true;
-	if(setBlogSetting('publishEolinSyncOnRSS',$publishEolinSyncOnRSS) === false)
-		return false;
-	$blog['publishEolinSyncOnRSS'] = $publishEolinSyncOnRSS;
-	clearFeed();
-	return true;
-}
-
 function setEntriesOnRSS($blogid, $entriesOnRSS) {
 	global $blog;
 	requireModel('blog.feed');
@@ -203,18 +190,6 @@ function setCommentsOnRSS($blogid, $commentsOnRSS) {
 	$cache = new pageCache;
 	$cache->name = 'commentRSS';
 	$cache->purge();
-	return true;
-}
-
-function setPublishWholeOnRSS($blogid, $publishWholeOnRSS) {
-	global $blog;
-	requireModel('blog.feed');
-	$publishWholeOnRSS = $publishWholeOnRSS ? 1 : 0;
-	if ($publishWholeOnRSS == $blog['publishWholeOnRSS'])
-		return true;
-	if(setBlogSetting('publishWholeOnRSS',$publishWholeOnRSS) === false) return false;
-	$blog['publishWholeOnRSS'] = $publishWholeOnRSS;
-	clearFeed();
 	return true;
 }
 
@@ -294,6 +269,7 @@ function addBlog($blogid, $userid, $identify) {
 			'logoLabel'                => '',
 			'logoWidth'                => 0,
 			'logoHeight'               => 0,
+			'useFeedViewOnCategory'    => 1,
 			'useSloganOnPost'          => 1,
 			'useSloganOnCategory'      => 1,
 			'useSloganOnTag'           => 1,

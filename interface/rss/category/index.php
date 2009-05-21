@@ -43,7 +43,7 @@ if(!$cache->load()) {
 		$cache->update();
 	}
 }
-header('Content-Type: text/xml; charset=utf-8');
+header('Content-Type: application/rss+xml; charset=utf-8');
 fireEvent('FeedOBStart');
 echo fireEvent('ViewCategoryRSS', $cache->contents);
 fireEvent('FeedOBEnd');
