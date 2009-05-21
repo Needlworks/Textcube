@@ -468,6 +468,8 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 							'label' => $category2['name'], 
 							'value' => (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']), 
 							'link' => "$blogURL/category/" . ($blog['useSloganOnCategory'] ? URL::encode($category2['label'],$service['useEncodedURL']) : $category2['id']), 
+							'rsslink' => "$blogURL/category/rss/" . ($blog['useSloganOnCategory'] ? URL::encode($category2['label'],$service['useEncodedURL']) : $category2['id']), 
+							'atomlink' => "$blogURL/category/atom/" . ($blog['useSloganOnCategory'] ? URL::encode($category2['label'],$service['useEncodedURL']) : $category2['id']), 
 							'children' => array()
 						)
 					);
@@ -482,8 +484,8 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 						'label' => $category1['name'], 
 						'value' => $categoryCount + $parentCategoryCount, 
 						'link' => "$blogURL/category/" . ($blog['useSloganOnCategory'] ? URL::encode($category1['label'],$service['useEncodedURL']) : $category1['id']), 
-						'rsslink' => "$blogURL/category/rss/" . ($blog['useSloganOnCategory'] ? URL::encode($category1['label'],$service['useEncodedURL']) : $category1['id']), 
-						'atomlink' => "$blogURL/category/atom" . ($blog['useSloganOnCategory'] ? URL::encode($category1['label'],$service['useEncodedURL']) : $category1['id']), 
+						'rsslink' => "$blogURL/rss/category/" . ($blog['useSloganOnCategory'] ? URL::encode($category1['label'],$service['useEncodedURL']) : $category1['id']), 
+						'atomlink' => "$blogURL/atom/category/" . ($blog['useSloganOnCategory'] ? URL::encode($category1['label'],$service['useEncodedURL']) : $category1['id']), 
 						'children' => $children)
 				);
 			}
@@ -551,23 +553,25 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 	requireLibrary('blog.skin');
 	requireModel('blog.entry');
 
-	global $skinSetting;
+	global $skinSetting, $defaultURL;
 	$skin = $skinSetting;
 	if ($embedJava == false) { // not from getCategoriesViewInSkinSetting
 		$skin = getCategoriesSkin();
 	}
+	$skin['showFeed'] = true;/************/
 	if ($xhtml) {
-		echo '<ul>';
+		echo '<ul>'.CRLF;
 		$isSelected = ($tree['id'] === $selected) ? ' class="selected"' : '';
 		
-		echo "<li$isSelected><a href=\"", htmlspecialchars($tree['link']), '">', htmlspecialchars($tree['label']);
+		echo "<li$isSelected>".CRLF."<a href=\"", htmlspecialchars($tree['link']), '" class="categoryItem">', htmlspecialchars($tree['label']);
 		if ($skin['showValue'])
 			echo " <span class=\"c_cnt\">({$tree['value']})</span>";
-		echo "</a>";
+		echo "</a>".CRLF;
+		if ($skin['showFeed'])
+			echo ' <a href="'.$defaultURL.'/atom" class="categoryFeed"><span class="text">ATOM</span></a>'.CRLF;
 		if (sizeof($tree['children']) > 0)
-			echo '<ul>';
-		for ($i=0; $i<count($tree['children']); $i++) {
-			$child = $tree['children'][$i];
+			echo '<ul>'.CRLF;
+		foreach($tree['children'] as $child) {
 			
 			$classNames = array();
 			if ($child['id'] === $selected)
@@ -576,14 +580,17 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 				array_push($classNames, 'lastChild');
 			$isSelected = count($classNames) > 0 ? ' class="' . implode(' ', $classNames) . '"' : '';
 			
-			echo "<li$isSelected><a href=\"", htmlspecialchars($child['link']), '">', htmlspecialchars($child['label']);
+			echo "<li$isSelected>".CRLF."<a href=\"", htmlspecialchars($child['link']), '" class="categoryItem">', htmlspecialchars($child['label']);
 			if ($skin['showValue'])
 				echo " <span class=\"c_cnt\">({$child['value']})</span>";
-			echo "</a>";
+			echo "</a>".CRLF;
+			
+			if ($skin['showFeed'])
+				echo ' <a href="'.$child['atomlink'].'" class="categoryFeed"><span class="text">ATOM</span></a>'.CRLF;
+
 			if (sizeof($child['children']) > 0)
-				echo '<ul>';
-			for ($j=0; $j<count($child['children']); $j++) {
-				$leaf = $child['children'][$j];
+				echo '<ul>'.CRLF;
+			foreach($child['children'] as $leaf) {
 				$classNames = array();
 				if ($leaf['id'] === $selected)
 					array_push($classNames, 'selected');
@@ -591,18 +598,21 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 					array_push($classNames, 'lastChild');
 				$isSelected = count($classNames) > 0 ? ' class="' . implode(' ', $classNames) . '"' : '';
 				
-				echo "<li$isSelected><a href=\"", htmlspecialchars($leaf['link']), '">', htmlspecialchars($leaf['label']);
+				echo "<li$isSelected>".CRLF."<a href=\"", htmlspecialchars($leaf['link']), '" class="categoryItem">', htmlspecialchars($leaf['label']);
 				if ($skin['showValue'])
 					echo " <span class=\"c_cnt\">({$leaf['value']})</span>";
-				echo "</a></li>";
+				echo "</a>".CRLF;
+				if ($skin['showFeed'])
+					echo '<a href="'.$leaf['atomlink'].'" class="categoryFeed"><span class="text">ATOM</span></a>'.CRLF;
+				echo "</li>".CRLF;
 			}
 			if (sizeof($child['children']) > 0)
-				echo '</ul>';
-			echo '</li>';
+				echo '</ul>'.CRLF;
+			echo '</li>'.CRLF;
 		}
 		if (sizeof($tree['children']) > 0)
-			echo "</ul>";
-		echo '</li></ul>';
+			echo "</ul>".CRLF;
+		echo '</li>'.CRLF.'</ul>'.CRLF;
 		return;
 	}
 	$action = 0;
