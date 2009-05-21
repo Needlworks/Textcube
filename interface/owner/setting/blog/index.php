@@ -286,7 +286,7 @@ if ($service['type'] != 'single') {
 										+"&publishEolinSyncOnRSS="+(document.getElementById('rss-form').publishEolinSyncOnRSS[0].checked ? 1 : 0)
 										+"&entriesOnRSS="+document.getElementById('rss-form').entriesOnRSS.value
 										+"&commentsOnRSS="+document.getElementById('rss-form').commentsOnRSS.value
-										+"&useFeedViewOnCategory="+document.getElementById('rss-form').useFeedViewOnCategory[0].checked ? 1 : 0);
+										+"&useFeedViewOnCategory="+(document.getElementById('rss-form').useFeedViewOnCategory[0].checked ? 1 : 0));
 
 									isAllowCommentGuestbook = document.getElementById('allowCommentGuestbook').checked ? 1 : 0;
 									if ( isAllowCommentGuestbook != allowCommentGuestbook) {

@@ -14,9 +14,8 @@ $IV = array(
 	);
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
-
-setEntriesOnRSS($blogid, $_POST['entriesOnRSS']);
 setCommentsOnRSS($blogid, $_POST['commentsOnRSS']);
+setEntriesOnRSS($blogid, $_POST['entriesOnRSS']);
 
 // Feed range 
 Setting::setBlogSettingGlobal('publishWholeOnRSS',$_POST['publishWholeOnRSS']);
