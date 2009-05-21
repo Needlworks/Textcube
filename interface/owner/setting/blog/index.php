@@ -269,7 +269,7 @@ if ($service['type'] != 'single') {
 										);
 									} 
 									
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/rss/");
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/feed/");
 									request.onSuccess = function() {
 										publishEolinSyncOnRSS = document.getElementById('rss-form').publishEolinSyncOnRSS[0].checked ? 1 : 0;
 										useFeedViewOnCategory = document.getElementById('rss-form').useFeedViewOnCategory[0].checked ? 1 : 0;
