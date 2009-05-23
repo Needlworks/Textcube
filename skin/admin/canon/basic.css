@@ -462,6 +462,8 @@ textarea
 	background-position              : -130px -33px;
 /*	padding-bottom                   : 10px;*/
 	padding                          : 0 0 10px 8px;
+	-moz-box-shadow                  : 5px 5px 5px #888;
+	-webkit-box-shadow               : 5px 5px 5px #888;
 }
 
 #main-menu li:hover ul:hover,
