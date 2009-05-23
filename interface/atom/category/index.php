@@ -16,9 +16,11 @@ if(in_array($categoryId, getCategoryVisibilityList($blogid, 'private'))) return 
 $children = array();
 $cache = new Cache_Page;
 if(!empty($suri['id'])) {
-	$categoryId = $suri['id'];	
+	$categoryId = $suri['id'];
+	$categotyTitle = getCategoryNameById($categoryId);
 } else if (!empty($suri['value'])) {
  	$categoryId = getCategoryIdByLabel(getBlogId(), $suri['value']);
+ 	$categoryTitle = $suri['value'];
 } else { 	// If no category is mentioned, redirect it to total atom.
 	header ("Location: $hostURL$blogURL/atom");
 	exit;
@@ -35,13 +37,13 @@ if($parent === null) {	// It's parent. let's find childs.
 
 $cache->name = 'categoryATOM_'.$categoryId;
 if(!$cache->load()) {
-	$result = getCategoryFeedByCategoryId(getBlogId(),$categoryIds,'atom');
+	$result = getCategoryFeedByCategoryId(getBlogId(),$categoryIds,'atom',$categoryTitle);
 	if($result !== false) {
 		$cache->contents = $result;
 		$cache->update();
 	}
 }
-header('Content-Type: text/xml; charset=utf-8');
+header('Content-Type: application/atom+xml; charset=utf-8');
 fireEvent('FeedOBStart');
 echo fireEvent('ViewCategoryATOM', $cache->contents);
 fireEvent('FeedOBEnd');

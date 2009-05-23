@@ -12,7 +12,7 @@ requireStrictBlogURL();
 publishEntries();
 if (!file_exists(ROOT . "/cache/rss/$blogid.xml"))
 	refreshFeed($blogid,'rss');
-header('Content-Type: text/xml; charset=utf-8');
+header('Content-Type: application/rss+xml; charset=utf-8');
 $fileHandle = fopen(ROOT . "/cache/rss/$blogid.xml", 'r+');
 $result = fread($fileHandle, filesize(ROOT . "/cache/rss/$blogid.xml"));
 fclose($fileHandle);

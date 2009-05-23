@@ -395,6 +395,11 @@ h4
 	background: url('./images/bullet_folder.gif') no-repeat 5px 50%;
 }
 
+.subject .postInfo li.infoCategoryFeed
+{
+	padding-left:3px !important;
+}
+
 .subject li a
 {
 	font-family: AppleGothic, Dotum, '돋움', Helvetica, sans-serif;
@@ -1242,7 +1247,7 @@ form input:focus, textarea:focus
 .coverpost .post_info .category a
 {
 	color: #888;
-	margin-right: 6px;
+	margin-right: 3px;
 }
 
 .coverpost .post_info .date
@@ -1420,10 +1425,13 @@ form input:focus, textarea:focus
 	list-style: none;
 }
 
+#category li 
+{
+	border-bottom: 1px solid #eee;
+}
 #category li a
 {
-	display: block;
-	border-bottom: 1px solid #eee;
+	display: inline;
 }
 
 #category li a:link, #category li a:visited
@@ -1439,11 +1447,23 @@ form input:focus, textarea:focus
 
 /* 1 depth */
 
-#category ul li ul li a
+#category ul li ul li a.categoryItem
 {
 	padding-left: 22px;
 	background: url('./images/bullet_category.gif') no-repeat 0 50%;
-	border-bottom: 1px solid #eee;
+}
+
+#category ul a.categoryFeed,
+#category ul li ul li a.categoryFeed,
+#category ul li ul li ul li a.categoryFeed
+{
+	width:30px !important;
+	padding-left:4px;
+	background: url('./images/atom_12.png') no-repeat !important;
+}
+#category a.categoryFeed span
+{
+	display:none;
 }
 
 #category ul li ul li a:link, #category ul li ul li a:visited
@@ -1464,19 +1484,14 @@ form input:focus, textarea:focus
 	margin: 0;
 }
 
-#category ul li ul li ul li
-{
-	border-bottom: 1px solid #eee;
-}
-
-#category ul li ul li ul li a
+#category ul li ul li ul li a.categoryItem
 {
 	border: 0 none;
 	padding-left: 36px;
 	background: url('./images/bg_tree.gif') no-repeat 22px 45%;
 }
 
-#category ul li ul li ul li.lastChild a
+#category ul li ul li ul li.lastChild a.categoryItem
 {
 	background: url('./images/bg_treeEnd.gif') no-repeat 22px 45%;
 }

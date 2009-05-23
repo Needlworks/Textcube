@@ -251,6 +251,8 @@ class Moblog
 				$this->logMail( $mail, "ERROR" );
 				$this->log( _t("실패: 글을 추가하지 못하였습니다")." : " . $post->error );
 				return false;
+			} else {
+				CacheControl::flushCategory($post->category);
 			}
 		}
 		/* 슬로건을 지워야만 문제가 발생하지 않습니다. */

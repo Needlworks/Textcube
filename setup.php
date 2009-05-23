@@ -2,7 +2,9 @@
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-
+if (version_compare(PHP_VERSION, '5.2.0', 'lt')) {
+	die('PHP Version is not compatible with current Textcube version');
+}
 define('__TEXTCUBE_SETUP__',true);
 define('ROOT','.');
 header('Content-Type: text/html; charset=utf-8');

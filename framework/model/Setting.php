@@ -77,6 +77,7 @@ class Model_Setting {
 					'logoLabel'                => '', 
 					'logoWidth'                => 0,
 					'logoHeight'               => 0,
+					'useFeedViewOnCategory'    => 1,
 					'useSloganOnPost'          => 1,
 					'useSloganOnCategory'      => 1,
 					'useSloganOnTag'           => 1,
@@ -267,14 +268,12 @@ class Model_Setting {
 
 	function getServiceSetting($name, $default = null) {
 		global $database;
-		$name = 'plugin_' . $name;
 		$value = Data_IAdapter::queryCell("SELECT value FROM {$database['prefix']}ServiceSettings WHERE name = '".Data_IAdapter::escapeString($name)."'");
 		return (is_null($value)) ? $default : $value;
 	}
 
 	function setServiceSetting($name, $value) {
 		global $database;
-		$name = 'plugin_' . $name;
 		$name = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($name, 32));
 		$value = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($value, 255));
 		return Data_IAdapter::execute("REPLACE INTO {$database['prefix']}ServiceSettings VALUES('$name', '$value')");
@@ -282,7 +281,6 @@ class Model_Setting {
 
 	function removeServiceSetting($name) {
 		global $database;
-		$name = 'plugin_' . $name;
 		return Data_IAdapter::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".Data_IAdapter::escapeString($name)."'");
 	}
 	

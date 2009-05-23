@@ -16,7 +16,7 @@ if (false) {
 publishEntries();
 if (!file_exists(ROOT . "/cache/atom/$blogid.xml"))
 	refreshFeed($blogid,'atom');
-header('Content-Type: text/xml; charset=utf-8');
+header('Content-Type: application/atom+xml; charset=utf-8');
 $fileHandle = fopen(ROOT . "/cache/atom/$blogid.xml", 'r+');
 $result = fread($fileHandle, filesize(ROOT . "/cache/atom/$blogid.xml"));
 fclose($fileHandle);

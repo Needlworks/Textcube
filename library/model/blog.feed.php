@@ -396,7 +396,7 @@ function getCommentNotifiedFeedTotal($blogid, $mode = 'rss') {
 	return false;
 }
 
-function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss') {
+function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss', $categoryTitle = null) {
 
 	global $database, $serviceURL, $defaultURL, $blog, $service;
 	$channel = array();
@@ -416,6 +416,9 @@ function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss') {
 	if (!$entries)
 		$entries = array();
 	$channel['items'] = getFeedItemByEntries($entries);
+	if(!is_null($categoryTitle)) {
+		$channel['title'] = RSSMessage($blog['title']. ': '._textf('%1 카테고리 글 목록',htmlspecialchars($categoryTitle)));
+	}
 	$rss = array('channel' => $channel);
 
 	if($mode == 'rss') return publishRSS($blogid, $rss);

@@ -562,10 +562,10 @@ function blogger_newPost()
 		$post->close();
 		return new Utils_XMLRPCFault( 1, "Posting error" );
 	}
-
 	RSS::refresh();
 
 	$id = "{$post->id}";
+	fireEvent('AddPostByBlogAPI', $id, $post);
 	$post->close();
 	return $id;
 }
@@ -597,6 +597,7 @@ function blogger_editPost()
 	}
 
 	$ret = $post->update();
+	fireEvent('UpdatePostByBlogAPI', $post->id, $post);
 	$post->close();
 
 	RSS::refresh();
@@ -618,6 +619,7 @@ function blogger_deletePost()
 	$ret = $post->open( $id );
 	$ret = $post->remove();
 	deleteAttachments(getBlogId(), $id );
+	fireEvent('DeletePostByBlogAPI', $id, $post);
 
 	return $ret ? true : false;
 
@@ -830,6 +832,7 @@ function metaWeblog_newPost()
 	}
 
 	api_update_attaches($post->id );
+	fireEvent('AddPostByBlogAPI', $post->id, $post);
 	RSS::refresh();
 
 
@@ -918,6 +921,8 @@ function metaWeblog_editPost()
 	// 기존 글의 파일들 지우기 (잘 찾아서)
 	// 새로 업로드 된 파일들 옮기기
 	api_update_attaches_with_replace( $post->id );
+	fireEvent('UpdatePostByBlogAPI', $id, $post);
+	
 	RSS::refresh();
 
 	$post->close();
