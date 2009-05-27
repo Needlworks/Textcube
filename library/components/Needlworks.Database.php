@@ -8,7 +8,8 @@
    ROOT should be defined.
 */
 global $service;
-if (!isset($service['dbms'])) $service['dbms'] = 'mysql';
+//if (!isset($service['dbms'])) $service['dbms'] = 'mysql';
+if (!isset($service['dbms'])) $service['dbms'] = 'postgresql';
 //Database Binding
 switch($service['dbms']) {
 	case 'postgresql':

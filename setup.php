@@ -5,7 +5,7 @@
 
 define('__TEXTCUBE_SETUP__',true);
 header('Content-Type: text/html; charset=utf-8');
-ini_set('display_errors', 'off');
+ini_set('display_errors', 'on');
 $__requireComponent = $__requireView = $__requireModel = $__requireLibrary = array();
 if (get_magic_quotes_gpc()) {
     foreach ($_GET as $key => $value)
@@ -236,11 +236,12 @@ function checkStep($step, $check = true) {
 				case 'install':
 				case 'setup':
 					if (!empty($_POST['dbServer']) && !empty($_POST['dbName']) && !empty($_POST['dbUser']) && isset($_POST['dbPassword']) && isset($_POST['dbPrefix'])) {
-						$dbTemp = array('server'=>$_POST['dbServer'],'username'=>$_POST['dbUser'],'password'=>$_POST['dbPassword']);
+						$dbTemp = array('server'=>$_POST['dbServer'],'username'=>$_POST['dbUser'],'password'=>$_POST['dbPassword'],'port'=>$_POST['dbPort']);
+						if(!empty($_POST['dbName'])) $dbTemp['database'] = $_POST['dbName'];
 						if (!POD::bind($dbTemp))
 							$error = 1;
-						else if (!POD::select_db($_POST['dbName']))
-							$error = 2;
+//						else if (!POD::select_db($_POST['dbName']))	// select_db is deprecated.
+//							$error = 2;
 						else if (!empty($_POST['dbPrefix']) && !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['dbPrefix']))
 							$error = 3;
 						else
@@ -248,12 +249,13 @@ function checkStep($step, $check = true) {
 					}
 					break;
 				case 'uninstall':
-					if (!empty($_POST['dbServer']) && !empty($_POST['dbName']) && !empty($_POST['dbUser']) && isset($_POST['dbPassword'])) {
-						$dbTemp = array('server'=>$_POST['dbServer'],'username'=>$_POST['dbUser'],'password'=>$_POST['dbPassword']);
+					if (!empty($_POST['dbServer']) && !empty($_POST['dbName']) && !empty($_POST['dbUser']) && isset($_POST['dbPassword']) && !empty($_POST['dbPort'])) {
+						$dbTemp = array('server'=>$_POST['dbServer'],'username'=>$_POST['dbUser'],'password'=>$_POST['dbPassword'],'port'=>$_POST['dbPort']);
+						if(!empty($_POST['dbName'])) $dbTemp['database'] = $_POST['dbName'];
 						if (!POD::bind($dbTemp))
 							$error = 1;
-						else if (!POD::select_db($_POST['dbName']))
-							$error = 2;
+//						else if (!POD::select_db($_POST['dbName']))	// select_db is deprecated.
+//							$error = 2;
 						else
 							return true;
 					}
@@ -279,6 +281,12 @@ function checkStep($step, $check = true) {
         </td>
       </tr>
       <tr>
+        <th><?php echo _t('데이터베이스 포트');?> :</th>
+        <td>
+          <input type="text" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : '3389');?>" class="input<?php echo ($check && (empty($_POST['dbPort']) || ($error == 1)) ? ' input_error' : '');?>" />
+        </td>
+      </tr>
+	  <tr>
         <th><?php echo _t('데이터베이스 이름');?> :</th>
         <td>
           <input type="text" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : NULL);?>" class="input<?php echo ($check && (empty($_POST['dbName']) || ($error == 2)) ? ' input_error' : '');?>" />
@@ -388,6 +396,7 @@ function checkStep($step, $check = true) {
   <input type="hidden" name="mode" value="<?php echo $_POST['mode'];?>" />
   <input type="hidden" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : '');?>" />
   <input type="hidden" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : '');?>" />
+  <input type="hidden" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : '');?>" />
   <input type="hidden" name="dbUser" value="<?php echo (isset($_POST['dbUser']) ? $_POST['dbUser'] : '');?>" />
   <input type="hidden" name="dbPassword" value="<?php echo (isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '');?>" />
   <input type="hidden" name="dbPrefix" value="<?php echo (isset($_POST['dbPrefix']) ? $_POST['dbPrefix'] : '');?>" />
@@ -401,7 +410,8 @@ function checkStep($step, $check = true) {
       <li><?php echo _t('운영체제');?>: <?php echo @exec('uname -sir');?></li>
       <li><?php echo _t('웹서버');?>: <?php echo $_SERVER['SERVER_SOFTWARE'];?> <?php echo isset($_SERVER['SERVER_SIGNATURE']) ? $_SERVER['SERVER_SIGNATURE'] : '(no signature)';?></li>
       <li><?php echo _t('PHP 버전');?>: <?php echo phpversion();?></li>
-      <li><?php echo _t('MySQL 버전');?>: <?php echo POD::version();?></li>
+      <li><?php echo _t('데이터베이스 종류');?>: <?php echo POD::dbms();?></li>
+      <li><?php echo _f('%1 버전',POD::dbms());?>: <?php echo POD::version();?></li>
     </ul>
     <h3>PHP</h3>
     <ul>
@@ -542,16 +552,16 @@ xml_set_object
     <h3>MySQL</h3>
     <ul>
 <?php
-        if (POD::query('SET CHARACTER SET utf8'))
+        if (POD::charset() == 'utf8')
            echo '<li>Character Set: OK</li>';
         else {
            echo '<li style="color:navy">Character Set: ', _t('UTF8 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)'), '</li>';
         }
-        if (POD::query('SET SESSION collation_connection = \'utf8_general_ci\''))
+/*        if (POD::query('SET SESSION collation_connection = \'utf8_general_ci\''))
            echo '<li>Collation: OK</li>';
         else {
            echo '<li style="color:navy">Collation: ', _t('UTF8 General 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)'), '</li>';
-        }
+        }*/
         if (POD::query("CREATE TABLE {$_POST['dbPrefix']}Setup (a INT NOT NULL)")) {
             POD::query("DROP TABLE {$_POST['dbPrefix']}Setup");
            echo '<li>', _t('테이블 생성 권한'), ': OK</li>';
@@ -564,7 +574,7 @@ xml_set_object
     </ul>
 <?php
         $tables = array();
-        if ($result = POD::query("SHOW TABLES")) {
+        if ($result = POD::tableList()) {
             while ($table = POD::fetch($result,'array')) {
                 if (strncmp($table[0], $_POST['dbPrefix'], strlen($_POST['dbPrefix'])))
                     continue;
@@ -858,6 +868,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
   <input type="hidden" name="step" value="<?php echo $step;?>" />
   <input type="hidden" name="mode" value="<?php echo $_POST['mode'];?>" />
   <input type="hidden" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : '');?>" />
+  <input type="hidden" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : '');?>" />
   <input type="hidden" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : '');?>" />
   <input type="hidden" name="dbUser" value="<?php echo (isset($_POST['dbUser']) ? $_POST['dbUser'] : '');?>" />
   <input type="hidden" name="dbPassword" value="<?php echo (isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '');?>" />
@@ -953,6 +964,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
   <input type="hidden" name="step" value="<?php echo $step;?>" />
   <input type="hidden" name="mode" value="<?php echo $_POST['mode'];?>" />
   <input type="hidden" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : '');?>" />
+  <input type="hidden" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : '');?>" />
   <input type="hidden" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : '');?>" />
   <input type="hidden" name="dbUser" value="<?php echo (isset($_POST['dbUser']) ? $_POST['dbUser'] : '');?>" />
   <input type="hidden" name="dbPassword" value="<?php echo (isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '');?>" />
@@ -1033,6 +1045,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
   <input type="hidden" name="step" value="<?php echo $step;?>" />
   <input type="hidden" name="mode" value="<?php echo $_POST['mode'];?>" />
   <input type="hidden" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : '');?>" />
+  <input type="hidden" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : '');?>" />
   <input type="hidden" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : '');?>" />
   <input type="hidden" name="dbUser" value="<?php echo (isset($_POST['dbUser']) ? $_POST['dbUser'] : '');?>" />
   <input type="hidden" name="dbPassword" value="<?php echo (isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '');?>" />
@@ -1066,424 +1079,22 @@ RewriteRule ^testrewrite$ setup.php [L]"
 		$baseLanguage = POD::escapeString( $_POST['Lang']);
 		$baseTimezone = POD::escapeString( substr(_t('default:Asia/Seoul'),8));
 
-        $charset = 'TYPE=MyISAM DEFAULT CHARSET=utf8';
-        if (!@POD::query('SET CHARACTER SET utf8'))
-            $charset = 'TYPE=MyISAM';
-        @POD::query('SET SESSION collation_connection = \'utf8_general_ci\'');
+		if(POD::dbms() == 'MySQL') {
+	        $charset = 'TYPE=MyISAM DEFAULT CHARSET=utf8';
+//    	    if (!@POD::query('SET CHARACTER SET utf8'))
+  //      	    $charset = 'TYPE=MyISAM';
+	    //    @POD::query('SET SESSION collation_connection = \'utf8_general_ci\'');
+		} else {
+			$charset = '';
+		}
         
         if ($_POST['mode'] == 'install') {
-            $schema = "
-CREATE TABLE {$_POST['dbPrefix']}Attachments (
-  blogid int(11) NOT NULL default '0',
-  parent int(11) NOT NULL default '0',
-  name varchar(32) NOT NULL default '',
-  label varchar(64) NOT NULL default '',
-  mime varchar(32) NOT NULL default '',
-  size int(11) NOT NULL default '0',
-  width int(11) NOT NULL default '0',
-  height int(11) NOT NULL default '0',
-  attached int(11) NOT NULL default '0',
-  downloads int(11) NOT NULL default '0',
-  enclosure tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (blogid,name)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}BlogSettings (
-  blogid int(11) NOT NULL default '0',
-  name varchar(32) NOT NULL default '',
-  value text NOT NULL,
-  PRIMARY KEY (blogid, name)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}BlogStatistics (
-  blogid int(11) NOT NULL default '0',
-  visits int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Categories (
-  blogid int(11) NOT NULL default '0',
-  id int(11) NOT NULL,
-  parent int(11) default NULL,
-  name varchar(127) NOT NULL default '',
-  priority int(11) NOT NULL default '0',
-  entries int(11) NOT NULL default '0',
-  entriesInLogin int(11) NOT NULL default '0',
-  label varchar(255) NOT NULL default '',
-  visibility tinyint(4) NOT NULL default '2',
-  bodyId varchar(20) default NULL,
-  PRIMARY KEY (blogid,id)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Comments (
-  blogid int(11) NOT NULL default '0',
-  replier int(11) default NULL,
-  id int(11) NOT NULL,
-  openid varchar(128) NOT NULL default '',
-  entry int(11) NOT NULL default '0',
-  parent int(11) default NULL,
-  name varchar(80) NOT NULL default '',
-  password varchar(32) NOT NULL default '',
-  homepage varchar(80) NOT NULL default '',
-  secret int(1) NOT NULL default '0',
-  comment text NOT NULL,
-  ip varchar(15) NOT NULL default '',
-  written int(11) NOT NULL default '0',
-  isFiltered int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid, id),
-  KEY blogid (blogid),
-  KEY entry (entry),
-  KEY parent (parent),
-  KEY isFiltered (isFiltered)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}CommentsNotified (
-  blogid int(11) NOT NULL default '0',
-  replier int(11) default NULL,
-  id int(11) NOT NULL,
-  entry int(11) NOT NULL default '0',
-  parent int(11) default NULL,
-  name varchar(80) NOT NULL default '',
-  password varchar(32) NOT NULL default '',
-  homepage varchar(80) NOT NULL default '',
-  secret int(1) NOT NULL default '0',
-  comment text NOT NULL,
-  ip varchar(15) NOT NULL default '',
-  written int(11) NOT NULL default '0',
-  modified int(11) NOT NULL default '0',
-  siteId int(11) NOT NULL default '0',
-  isNew int(1) NOT NULL default '1',
-  url varchar(255) NOT NULL default '',
-  remoteId int(11) NOT NULL default '0',
-  entryTitle varchar(255) NOT NULL default '',
-  entryUrl varchar(255) NOT NULL default '',
-  PRIMARY KEY  (blogid, id),
-  KEY blogid (blogid),
-  KEY entry (entry)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}CommentsNotifiedQueue (
-  blogid int(11) NOT NULL default '0',
-  id int(11) NOT NULL,
-  commentId int(11) NOT NULL default '0',
-  sendStatus int(1) NOT NULL default '0',
-  checkDate int(11) NOT NULL default '0',
-  written int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid, id),
-  UNIQUE KEY commentId (commentId)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}CommentsNotifiedSiteInfo (
-  id int(11) NOT NULL,
-  title varchar(255) NOT NULL default '',
-  name varchar(255) NOT NULL default '',
-  url varchar(255) NOT NULL default '',
-  modified int(11) NOT NULL default '0',
-  PRIMARY KEY  (id),
-  UNIQUE KEY url (url),
-  UNIQUE KEY id (id)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}DailyStatistics (
-  blogid int(11) NOT NULL default '0',
-  date int(11) NOT NULL default '0',
-  visits int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid,date)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Entries (
-  blogid int(11) NOT NULL default '0',
-  userid int(11) NOT NULL default '0',
-  id int(11) NOT NULL,
-  draft tinyint(1) NOT NULL default '0',
-  visibility tinyint(4) NOT NULL default '0',
-  starred tinyint(4) NOT NULL default '1',
-  category int(11) NOT NULL default '0',
-  title varchar(255) NOT NULL default '',
-  slogan varchar(255) NOT NULL default '',
-  content mediumtext NOT NULL,
-  contentFormatter varchar(32) DEFAULT '' NOT NULL,
-  contentEditor varchar(32) DEFAULT '' NOT NULL,
-  location varchar(255) NOT NULL default '/',
-  password varchar(32) default NULL,
-  acceptComment int(1) NOT NULL default '1',
-  acceptTrackback int(1) NOT NULL default '1',
-  published int(11) NOT NULL default '0',
-  created int(11) NOT NULL default '0',
-  modified int(11) NOT NULL default '0',
-  comments int(11) NOT NULL default '0',
-  trackbacks int(11) NOT NULL default '0',
-  PRIMARY KEY (blogid, id, draft, category, published),
-  KEY visibility (visibility),
-  KEY userid (userid),
-  KEY published (published),
-  KEY id (id, category, visibility),
-  KEY blogid (blogid, published)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}EntriesArchive (
-  blogid int(11) NOT NULL default '0',
-  userid int(11) NOT NULL default '0',
-  id int(11) NOT NULL,
-  visibility tinyint(4) NOT NULL default '0',
-  category int(11) NOT NULL default '0',
-  title varchar(255) NOT NULL default '',
-  slogan varchar(255) NOT NULL default '',
-  content mediumtext NOT NULL,
-  contentFormatter varchar(32) DEFAULT '' NOT NULL,
-  contentEditor varchar(32) DEFAULT '' NOT NULL,
-  location varchar(255) NOT NULL default '/',
-  password varchar(32) default NULL,
-  created int(11) NOT NULL default '0',
-  PRIMARY KEY (blogid, id, created),
-  KEY visibility (visibility),
-  KEY blogid (blogid, id),
-  KEY userid (userid, blogid)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}FeedGroupRelations (
-  blogid int(11) NOT NULL default '0',
-  feed int(11) NOT NULL default '0',
-  groupId int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid,feed,groupId)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}FeedGroups (
-  blogid int(11) NOT NULL default '0',
-  id int(11) NOT NULL default '0',
-  title varchar(255) NOT NULL default '',
-  PRIMARY KEY  (blogid,id)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}FeedItems (
-  id int(11) NOT NULL auto_increment,
-  feed int(11) NOT NULL default '0',
-  author varchar(255) NOT NULL default '',
-  permalink varchar(255) NOT NULL default '',
-  title varchar(255) NOT NULL default '',
-  description text NOT NULL,
-  tags varchar(255) NOT NULL default '',
-  enclosure varchar(255) NOT NULL default '',
-  written int(11) NOT NULL default '0',
-  PRIMARY KEY  (id),
-  KEY feed (feed),
-  KEY written (written),
-  KEY permalink (permalink)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}FeedReads (
-  blogid int(11) NOT NULL default '0',
-  item int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid,item)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}FeedSettings (
-  blogid int(11) NOT NULL default '0',
-  updateCycle int(11) NOT NULL default '120',
-  feedLife int(11) NOT NULL default '30',
-  loadImage int(11) NOT NULL default '1',
-  allowScript int(11) NOT NULL default '2',
-  newWindow int(11) NOT NULL default '1',
-  PRIMARY KEY  (blogid)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}FeedStarred (
-  blogid int(11) NOT NULL default '0',
-  item int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid,item)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Feeds (
-  id int(11) NOT NULL auto_increment,
-  xmlURL varchar(255) NOT NULL default '',
-  blogURL varchar(255) NOT NULL default '',
-  title varchar(255) NOT NULL default '',
-  description varchar(255) NOT NULL default '',
-  language varchar(5) NOT NULL default 'en-US',
-  modified int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Filters (
-  id int(11) NOT NULL auto_increment,
-  blogid int(11) NOT NULL default '0',
-  type enum('content','ip','name','url') NOT NULL default 'content',
-  pattern varchar(255) NOT NULL default '',
-  PRIMARY KEY (id),
-  UNIQUE KEY blogid (blogid, type, pattern)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Links (
-  pid int(11) NOT NULL default '0',
-  blogid int(11) NOT NULL default '0',
-  id int(11) NOT NULL default '0',
-  category int(11) NOT NULL default '0',
-  name varchar(255) NOT NULL default '',
-  url varchar(255) NOT NULL default '',
-  rss varchar(255) NOT NULL default '',
-  written int(11) NOT NULL default '0',
-  visibility tinyint(4) NOT NULL default '2',
-  xfn varchar(128) NOT NULL default '',
-  PRIMARY KEY (pid),
-  UNIQUE KEY blogid (blogid,url)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}LinkCategories (
-  pid int(11) NOT NULL default '0',
-  blogid int(11) NOT NULL default '0',
-  id int(11) NOT NULL default '0',
-  name varchar(128) NOT NULL,
-  priority int(11) NOT NULL default '0',
-  visibility tinyint(4) NOT NULL default '2',
-  PRIMARY KEY (pid),
-  UNIQUE KEY blogid (blogid, id)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}OpenIDUsers (
-  blogid int(11) NOT NULL default '0',
-  openid varchar(128) NOT NULL,
-  delegatedid varchar(128) default NULL,
-  firstLogin int(11) default NULL,
-  lastLogin int(11) default NULL,
-  loginCount int(11) default NULL,
-  data text,
-  PRIMARY KEY  (blogid,openid)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}PageCacheLog (
-  blogid int(11) NOT NULL default '0',
-  name varchar(255) NOT NULL default '',
-  value text NOT NULL,
-  PRIMARY KEY (blogid,name)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Plugins (
-  blogid int(11) NOT NULL default '0',
-  name varchar(255) NOT NULL default '',
-  settings text,
-  PRIMARY KEY  (blogid,name)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}RefererLogs (
-  blogid int(11) NOT NULL default '0',
-  host varchar(64) NOT NULL default '',
-  url varchar(255) NOT NULL default '',
-  referred int(11) NOT NULL default '0'
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}RefererStatistics (
-  blogid int(11) NOT NULL default '0',
-  host varchar(64) NOT NULL default '',
-  count int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid,host)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}ReservedWords (
-  word varchar(16) NOT NULL default '',
-  PRIMARY KEY  (word)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}ServiceSettings (
-  name varchar(32) NOT NULL default '',
-  value text NOT NULL,
-  PRIMARY KEY  (name)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}SessionVisits (
-  id varchar(32) NOT NULL default '',
-  address varchar(15) NOT NULL default '',
-  blogid int(11) NOT NULL default '0',
-  PRIMARY KEY  (id,address,blogid)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Sessions (
-  id varchar(32) NOT NULL default '',
-  address varchar(15) NOT NULL default '',
-  userid int(11) default NULL,
-  preexistence int(11) default NULL,
-  data text default NULL,
-  server varchar(64) NOT NULL default '',
-  request varchar(255) NOT NULL default '',
-  referer varchar(255) NOT NULL default '',
-  timer float NOT NULL default '0',
-  created int(11) NOT NULL default '0',
-  updated int(11) NOT NULL default '0',
-  PRIMARY KEY  (id,address),
-  KEY updated (updated)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}SkinSettings (
-  blogid int(11) NOT NULL default '0',
-  skin varchar(32) NOT NULL default 'coolant',
-  entriesOnRecent int(11) NOT NULL default '10',
-  commentsOnRecent int(11) NOT NULL default '10',
-  commentsOnGuestbook int(11) NOT NULL default '5',
-  archivesOnPage int(11) NOT NULL default '5',
-  tagsOnTagbox tinyint(4) NOT NULL default '10',
-  tagboxAlign tinyint(4) NOT NULL default '1',
-  trackbacksOnRecent int(11) NOT NULL default '5',
-  expandComment int(1) NOT NULL default '1',
-  expandTrackback int(1) NOT NULL default '1',
-  recentNoticeLength int(11) NOT NULL default '30',
-  recentEntryLength int(11) NOT NULL default '30',
-  recentCommentLength int(11) NOT NULL default '30',
-  recentTrackbackLength int(11) NOT NULL default '30',
-  linkLength int(11) NOT NULL default '30',
-  showListOnCategory tinyint(4) NOT NULL default '1',
-  showListOnArchive tinyint(4) NOT NULL default '1',
-  showListOnTag tinyint(4) NOT NULL default '1',
-  showListOnAuthor tinyint(4) NOT NULL default '1',
-  showListOnSearch int(1) NOT NULL default '1',
-  tree varchar(32) NOT NULL default 'base',
-  colorOnTree varchar(6) NOT NULL default '000000',
-  bgColorOnTree varchar(6) NOT NULL default '',
-  activeColorOnTree varchar(6) NOT NULL default 'FFFFFF',
-  activeBgColorOnTree varchar(6) NOT NULL default '00ADEF',
-  labelLengthOnTree int(11) NOT NULL default '30',
-  showValueOnTree int(1) NOT NULL default '1',
-  PRIMARY KEY  (blogid)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}TagRelations (
-  blogid int(11) NOT NULL default '0',
-  tag int(11) NOT NULL default '0',
-  entry int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid, tag, entry),
-  KEY blogid (blogid)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Tags (
-  id int(11) NOT NULL auto_increment,
-  name varchar(255) NOT NULL default '',
-  PRIMARY KEY  (id),
-  UNIQUE KEY name (name)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}TrackbackLogs (
-  blogid int(11) NOT NULL default '0',
-  id int(11) NOT NULL,
-  entry int(11) NOT NULL default '0',
-  url varchar(255) NOT NULL default '',
-  written int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid, entry, id),
-  UNIQUE KEY id (blogid, id)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Trackbacks (
-  id int(11) NOT NULL,
-  blogid int(11) NOT NULL default '0',
-  entry int(11) NOT NULL default '0',
-  url varchar(255) NOT NULL default '',
-  writer int(11) default NULL,
-  site varchar(255) NOT NULL default '',
-  subject varchar(255) NOT NULL default '',
-  excerpt varchar(255) NOT NULL default '',
-  ip varchar(15) NOT NULL default '',
-  written int(11) NOT NULL default '0',
-  isFiltered int(11) NOT NULL default '0',
-  PRIMARY KEY (blogid, id),
-  KEY isFiltered (isFiltered),
-  KEY blogid (blogid, isFiltered, written)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Users (
-  userid int(11) NOT NULL auto_increment,
-  loginid varchar(64) NOT NULL default '',
-  password varchar(32) default NULL,
-  name varchar(32) NOT NULL default '',
-  created int(11) NOT NULL default '0',
-  lastLogin int(11) NOT NULL default '0',
-  host int(11) NOT NULL default '0',
-  PRIMARY KEY  (userid),
-  UNIQUE KEY loginid (loginid),
-  UNIQUE KEY name (name)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}UserSettings (
-  userid int(11) NOT NULL default '0',
-  name varchar(32) NOT NULL default '',
-  value text NOT NULL,
-  PRIMARY KEY (userid,name)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}XMLRPCPingSettings (
-  blogid int(11) NOT NULL default 0,
-  url varchar(255) NOT NULL default '',
-  type varchar(32) NOT NULL default 'xmlrpc',
-  PRIMARY KEY (blogid)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Teamblog (
-  blogid int(11) NOT NULL default 1,
-  userid int(11) NOT NULL default 1,
-  acl int(11) NOT NULL default 0,
-  created int(11) NOT NULL default 0,
-  lastLogin int(11) NOT NULL default 0,
-  PRIMARY KEY (blogid,userid)
-) $charset;
-
+            // Loading create schema from sql file. (DBMS specific)
+			$schema = file_get_contents(ROOT.'/library/setup/initialize.'.POD::dbms().'.sql');
+			$schema = str_replace('[##_dbPrefix_##]',$_POST['dbPrefix'],$schema);
+			$schema = str_replace('[##_charset_##]',$charset,$schema);
+			
+            $schema .= "
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);
 INSERT INTO {$_POST['dbPrefix']}Teamblog VALUES (1, 1, 16, UNIX_TIMESTAMP(), 0);
 INSERT INTO {$_POST['dbPrefix']}ServiceSettings (name, value) VALUES ('newlineStyle', '1.1'); 
@@ -1584,6 +1195,7 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
 		$database = array('server' => $_POST['dbServer'],
 				'database' => $_POST['dbName'],
 				'username' => $_POST['dbUser'],
+				'port' => $_POST['dbPort'],
 				'password' => $_POST['dbPassword'],
 				'prefix'   => $_POST['dbPrefix']);
         if ($fp) {
@@ -1592,6 +1204,7 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
 ini_set('display_errors', 'off');
 \$database['server'] = '{$_POST['dbServer']}';
 \$database['database'] = '{$_POST['dbName']}';
+\$database['port'] = '{$_POST['dbPort']}';
 \$database['username'] = '{$_POST['dbUser']}';
 \$database['password'] = '{$_POST['dbPassword']}';
 \$database['prefix'] = '{$_POST['dbPrefix']}';

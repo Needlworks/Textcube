@@ -15,7 +15,7 @@ function doesExistTable($tablename) {
 	static $tables = array();
 	if( empty($tables) ) {
 		$escapename = escapeSearchString($database['prefix']);
-		$tables = POD::queryColumn( "SHOW TABLES LIKE '{$escapename}%'" );
+		$tables = POD::tableList($escapename);
 	}
 	
 	$dbCaseInsensitive = getServiceSetting('lowercaseTableNames');

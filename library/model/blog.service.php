@@ -44,7 +44,7 @@ function getSkinSetting($blogid, $forceReload = false) {
 			return $retval;
 		}
 	}
-	if ($retval = POD::queryRow("SELECT * FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid",MYSQL_ASSOC)) {
+	if ($retval = POD::queryRow("SELECT * FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid",'assoc')) {
 		if ($retval != FALSE) {
 			if (!Validator::directory($retval['skin']) && ($retval['skin'] !="customize/$blogid")) {
 				$retval['skin'] = $service['skin'];

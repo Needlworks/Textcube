@@ -254,8 +254,8 @@ function getPluginTableName() {
 	$likeEscape = array ( '/_/' , '/%/' );
 	$likeReplace = array ( '\\_' , '\\%' );
 	$escapename = preg_replace($likeEscape, $likeReplace, $database['prefix']);
-	$query = "SHOW TABLES LIKE '{$escapename}%'";
-	$dbtables = POD::queryColumn($query);
+
+	$dbtables = POD::tableList($escapename);
 
 	$dbCaseInsensitive = getServiceSetting('lowercaseTableNames');
 	if($dbCaseInsensitive === null) {

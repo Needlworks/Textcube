@@ -19,20 +19,22 @@ class DBQuery {
 		global $__dbProperties;
 		// Connects DB and set environment variables
 		// $database array should contain 'server','username','password'.
+		var_dump($database);
 		if(!isset($database) || empty($database)) return false;
 		$sql = "host=".$database['server'];
 		if(isset($database['port'])) $sql .= " port=".$database['port'];
-		$sql .= "user=".$database['username']." password=".$database['password'];
+		$sql .= " user=".$database['username']." password=".$database['password'];
 		if(isset($database['database'])) $sql .= " dbname=".$database['database'];
+		var_dump($sql);
 		$handle = @pg_connect($sql);
 		if(!$handle) return false;
 		
 		@pg_set_client_encoding($handle, "UTF8");
 
-		if (DBQuery::query('SET CHARACTER SET utf8'))
+//		if (DBQuery::query('SET CHARACTER SET utf8'))
 			$__dbProperties['charset'] = 'utf8';
-		else
-			$__dbProperties['charset'] = 'default';
+//		else
+//			$__dbProperties['charset'] = 'default';
 		@DBQuery::query('SET SESSION collation_connection = \'utf8_general_ci\'');
 		return true;
 	}
@@ -47,16 +49,32 @@ class DBQuery {
 		if (array_key_exists('charset', $__dbProperties)) return $__dbProperties['charset'];
 		else return null;
 	}
+
 	function dbms() {
 		return 'PostgreSQL';
 	}
 
-	function version() {
+	function version($mode = 'server') {
 		global $__dbProperties;
 		if (array_key_exists('version', $__dbProperties)) return $__dbProperties['version'];
 		else {
 			$__dbProperties['version'] = pg_version();
-			return $__dbProperties['version'];
+			if($mode == 'server') return $__dbProperties['version']['server'];
+			else return $__dbProperties['version']['client'];
+		}
+	}
+	function tableList($condition = null) {
+		global $__dbProperties;
+		if (!array_key_exists('tableList', $__dbProperties)) { 
+			$__dbProperties['tableList'] = DBQuery::queryAll("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
+		}
+		if(!is_null($condition)) {
+			foreach($__dbProperties['tableList'] as $item) {
+				if(strpos($item, $condition) === 0) array_push($result, $item);
+			}
+			return $item;
+		} else {
+			return $__dbProperties['tableList'];
 		}
 	}
 
@@ -228,6 +246,7 @@ class DBQuery {
 			stristr($query, 'replace ') ) {
 			POD::clearCache();
 		}
+		var_dump($query);
 		return $result;
 	}
 	
@@ -308,7 +327,7 @@ class DBQuery {
 	}
 }
 
-POD::cacheLoad();
+DBQuery::cacheLoad();
 register_shutdown_function( array('DBQuery','cacheSave') );
 
 ?>

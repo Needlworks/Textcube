@@ -47,12 +47,27 @@ class DBQuery {
 		return 'MySQL';
 	}
 
-	function version() {
+	function version($mode = 'server') {
 		global $__dbProperties;
 		if (array_key_exists('version', $__dbProperties)) return $__dbProperties['version'];
 		else {
 			$__dbProperties['version'] = DBQuery::queryCell("SHOW VARIABLES LIKE 'version'");
 			return $__dbProperties['version'];
+		}
+	}
+	
+	function tableList($condition = null) {
+		global $__dbProperties;
+		if (!array_key_exists('tableList', $__dbProperties)) { 
+			$__dbProperties['tableList'] = DBQuery::queryAll('SHOW TABLES');
+		}
+		if(!is_null($condition)) {
+			foreach($__dbProperties['tableList'] as $item) {
+				if(strpos($item, $condition) === 0) array_push($result, $item);
+			}
+			return $item;
+		} else {
+			return $__dbProperties['tableList'];
 		}
 	}
 
