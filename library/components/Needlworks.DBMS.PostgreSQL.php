@@ -19,13 +19,13 @@ class DBQuery {
 		global $__dbProperties;
 		// Connects DB and set environment variables
 		// $database array should contain 'server','username','password'.
-		var_dump($database);
+//		var_dump($database);
 		if(!isset($database) || empty($database)) return false;
 		$sql = "host=".$database['server'];
 		if(isset($database['port'])) $sql .= " port=".$database['port'];
 		$sql .= " user=".$database['username']." password=".$database['password'];
 		if(isset($database['database'])) $sql .= " dbname=".$database['database'];
-		var_dump($sql);
+//		var_dump($sql);
 		$handle = @pg_connect($sql);
 		if(!$handle) return false;
 		
@@ -231,7 +231,7 @@ class DBQuery {
 	/*@static@*/
 	function query($query) {
 		global $__gLastQueryType;
-
+		$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compartibility issue.
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);
 			$result = pg_query($query);
@@ -246,7 +246,7 @@ class DBQuery {
 			stristr($query, 'replace ') ) {
 			POD::clearCache();
 		}
-		var_dump($query);
+//		var_dump($query);
 		return $result;
 	}
 	

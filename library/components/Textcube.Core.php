@@ -262,7 +262,7 @@ class User {
 			$name = $name . '.' . time();
 		}
 
-		$result = POD::query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (NULL, '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, ".getUserId().")");
+		$result = POD::query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (".(User::__getMaxUserId()+1).", '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, ".getUserId().")");
 		if (empty($result)) {
 			return 11;
 		}
@@ -308,6 +308,14 @@ class User {
 	/*@private static@*/
 	function __generatePassword() {
 		return strtolower(substr(base64_encode(rand(0x10000000, 0x70000000)), 3, 8));
+	}
+
+	/*@private static@*/
+	function __getMaxUserId() {
+		global $database;
+		$maxId = POD::queryCell("SELECT max(userid) FROM {$database['prefix']}Users WHERE 1");
+		if($maxId) return $maxId;
+		else return 0;
 	}
 }
 

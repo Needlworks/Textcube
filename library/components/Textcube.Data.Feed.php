@@ -126,6 +126,7 @@ class Feed {
 		$query = new TableQuery($database['prefix'] . 'Feeds');
 		$query->setQualifier('xmlURL', UTF8::lessenAsEncoding($this->url, 255), true);
 		$query->setAttribute('title', UTF8::lessenAsEncoding($this->url, 255), true);
+		$query->setAttribute('id',($this->_getMaxId()+1));
 		if (!$query->doesExist()) {
 			if (!$query->insert())
 				return $this->_error('insert');
@@ -162,6 +163,13 @@ class Feed {
 		return null;
 	}
 
+	function _getMaxId() {
+		global $database;
+		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Feeds WHERE 1");
+		if($maxId) return $maxId;
+		else return 0;
+	}
+	
 	function _error($error) {
 		$this->error = $error;
 		return false;
@@ -263,6 +271,7 @@ class FeedItem {
 		$query->setQualifier('permalink', $this->link, true);
 		$this->id = $query->getCell('id');
 		if (is_null($this->id)) {
+			$query->setAttribute('id', $this->_getMaxId()+1);
 			$query->setAttribute('title', UTF8::lessenAsEncoding($this->title, 255), true);
 			$query->setAttribute('description', $this->description, true);
 			$query->setAttribute('tags', UTF8::lessenAsEncoding($this->tags, 255), true);
@@ -308,6 +317,13 @@ class FeedItem {
 		if (isset($this->id))
 			return POD::execute("INSERT INTO {$database['prefix']}FeedStarred VALUES(".getBlogId().", {$this->id})");
 		return false;
+	}
+
+	function _getMaxId() {
+		global $database;
+		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}FeedItems WHERE 1");
+		if($maxId) return $maxId;
+		else return 0;
 	}
 }
 

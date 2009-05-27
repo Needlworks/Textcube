@@ -1095,8 +1095,8 @@ RewriteRule ^testrewrite$ setup.php [L]"
 			$schema = str_replace('[##_charset_##]',$charset,$schema);
 			
             $schema .= "
-INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);
-INSERT INTO {$_POST['dbPrefix']}Teamblog VALUES (1, 1, 16, UNIX_TIMESTAMP(), 0);
+INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', ".Timestamp::getUNIXtime().", 0, 0);
+INSERT INTO {$_POST['dbPrefix']}Teamblog VALUES (1, 1, 16, ".Timestamp::getUNIXtime().", 0);
 INSERT INTO {$_POST['dbPrefix']}ServiceSettings (name, value) VALUES ('newlineStyle', '1.1'); 
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'name', '$blog');
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'language', '$baseLanguage');
@@ -1108,7 +1108,7 @@ INSERT INTO {$_POST['dbPrefix']}Plugins VALUES (1, 'CL_OpenID', null);
 INSERT INTO {$_POST['dbPrefix']}SkinSettings (blogid) VALUES (1);
 INSERT INTO {$_POST['dbPrefix']}FeedSettings (blogid) values(1);
 INSERT INTO {$_POST['dbPrefix']}FeedGroups (blogid) values(1);
-INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibility, location, title, slogan, contentFormatter, contentEditor, starred, acceptComment, acceptTrackback, published, content) VALUES (1, 1, 1, 0, 2, '/', '".POD::escapeString(_t('환영합니다'))."', 'welcome', 'ttml', 'modern', 0, 1, 1, UNIX_TIMESTAMP(), '".POD::escapeString(getDefaultPostContent())."')";
+INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibility, location, title, slogan, contentFormatter, contentEditor, starred, acceptComment, acceptTrackback, published, content) VALUES (1, 1, 1, 0, 2, '/', '".POD::escapeString(_t('환영합니다'))."', 'welcome', 'ttml', 'modern', 0, 1, 1, ".Timestamp::getUNIXtime().", '".POD::escapeString(getDefaultPostContent())."')";
             $query = explode(';', trim($schema));
             foreach ($query as $sub) {
                 if (!POD::query($sub)) {
