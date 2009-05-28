@@ -108,7 +108,7 @@ class DBQuery {
 				case 'delete':
 				case 'replac':
 				default:
-					$count = pg_affected_rows();
+					$count = pg_affected_rows($result);
 					break;
 			}
 		}
@@ -185,7 +185,7 @@ class DBQuery {
 		$all = array();
 		$realtype = DBQuery::__queryType($type);
 		if ($result = DBQuery::query($query)) {
-			while ( ($count-- !=0) && $row = pg_fetch_array($result, $type))
+			while ( ($count-- !=0) && $row = pg_fetch_array($result, null, $realtype))
 				array_push($all, $row);
 			pg_free_result($result);
 			return $all;
@@ -244,7 +244,7 @@ class DBQuery {
 			stristr($query, 'insert ') ||
 			stristr($query, 'delete ') ||
 			stristr($query, 'replace ') ) {
-			POD::clearCache();
+			DBQuery::clearCache();
 		}
 //		var_dump($query);
 		return $result;

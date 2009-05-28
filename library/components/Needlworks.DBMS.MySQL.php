@@ -179,7 +179,7 @@ class DBQuery {
 		$all = array();
 		$realtype = DBQuery::__queryType($type);
 		if ($result = DBQuery::query($query)) {
-			while ( ($count-- !=0) && $row = mysql_fetch_array($result, $type))
+			while ( ($count-- !=0) && $row = mysql_fetch_array($result, $realtype))
 				array_push($all, $row);
 			mysql_free_result($result);
 			return $all;

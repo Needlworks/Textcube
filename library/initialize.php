@@ -15,7 +15,6 @@ if(!empty($database) && !empty($database["database"])) {
 		exit;
 	}
 }
-
 $database['utf8'] = (POD::charset() == 'utf8') ? true : false;
 
 /* Path-dependent environment setting
