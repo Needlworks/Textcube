@@ -41,26 +41,26 @@ function getRandomTags($blogid) {
 	$aux = ($skinSetting['tagsOnTagbox'] == - 1) ? '' : "limit {$skinSetting['tagsOnTagbox']}";
 	if ($skinSetting['tagboxAlign'] == 1) { // order by count
 		if (doesHaveOwnership())
-			$tags = POD::queryAll("SELECT name, count(*) cnt, t.id FROM {$database['prefix']}Tags t 
+			$tags = POD::queryAll("SELECT t.name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t 
 				INNER JOIN {$database['prefix']}TagRelations r ON r.blogid = $blogid AND r.tag = t.id
 				GROUP BY r.tag 
 				ORDER BY cnt DESC $aux");
 		else
-			$tags = POD::queryAll("SELECT name, count(*) cnt, t.id FROM {$database['prefix']}Tags t,
+			$tags = POD::queryAll("SELECT t.name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t,
 				{$database['prefix']}TagRelations r, 
 				{$database['prefix']}Entries e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid AND e.blogid = $blogid 
-				GROUP BY r.tag 
+				GROUP BY r.tag
 				ORDER BY cnt DESC $aux");
 	} else if ($skinSetting['tagboxAlign'] == 2) {  // order by name
 		if (doesHaveOwnership())
-			$tags = POD::queryAll("SELECT DISTINCT name, count(*) cnt, t.id FROM {$database['prefix']}Tags t, 
+			$tags = POD::queryAll("SELECT DISTINCT t.name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t, 
 				{$database['prefix']}TagRelations r 
 				WHERE t.id = r.tag AND r.blogid = $blogid 
 				GROUP BY r.tag 
 				ORDER BY t.name $aux");
 		else
-			$tags = POD::queryAll("SELECT DISTINCT name, count(*) cnt, t.id FROM {$database['prefix']}Tags t, 
+			$tags = POD::queryAll("SELECT DISTINCT t.name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t, 
 				{$database['prefix']}TagRelations r,
 				{$database['prefix']}Entries e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid AND e.blogid = $blogid
@@ -68,12 +68,12 @@ function getRandomTags($blogid) {
 				ORDER BY t.name $aux");
 	} else { // random
 		if (doesHaveOwnership())
-			$tags = POD::queryAll("SELECT name, count(*) cnt, t.id FROM {$database['prefix']}Tags t,
+			$tags = POD::queryAll("SELECT t.name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t,
 				{$database['prefix']}TagRelations r
 				WHERE t.id = r.tag AND r.blogid = $blogid
 				GROUP BY r.tag ORDER BY RAND() $aux");
 		else
-			$tags = POD::queryAll("SELECT name, count(*) cnt, t.id FROM {$database['prefix']}Tags t,
+			$tags = POD::queryAll("SELECT t.name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t,
 				{$database['prefix']}TagRelations r,
 				{$database['prefix']}Entries e
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid AND e.blogid = $blogid
@@ -86,7 +86,7 @@ function getRandomTags($blogid) {
 function getSiteTags($blogid) {
 	global $database;
 	if (doesHaveOwnership())
-		$names = POD::queryAll("SELECT t.id,name FROM {$database['prefix']}Tags t, 
+		$names = POD::queryAll("SELECT t.id, name FROM {$database['prefix']}Tags t, 
 			{$database['prefix']}TagRelations r 
 			WHERE t.id = r.tag AND r.blogid = $blogid 
 			GROUP BY r.tag 
@@ -110,13 +110,13 @@ function getTagFrequencyRange() {
 	$blogid = getBlogId();
 	$max = $min = 0;
 	if (doesHaveOwnership())
-		$max = POD::queryCell("SELECT count(r.entry) cnt FROM {$database['prefix']}TagRelations r 
+		$max = POD::queryCell("SELECT count(r.entry) AS cnt FROM {$database['prefix']}TagRelations r 
 			WHERE r.blogid = $blogid 
 			GROUP BY r.tag 
 			ORDER BY cnt 
 			DESC LIMIT 1");
 	else
-		$max = POD::queryCell("SELECT count(r.entry) cnt FROM {$database['prefix']}TagRelations r
+		$max = POD::queryCell("SELECT count(r.entry) AS cnt FROM {$database['prefix']}TagRelations r
 			INNER JOIN {$database['prefix']}Entries e ON r.blogid = e.blogid AND e.visibility > 0 AND r.entry = e.id
 			WHERE r.blogid = $blogid 
 			GROUP BY r.tag 
@@ -176,7 +176,7 @@ function getTagFrequency($tag, $max, $min) {
 function suggestLocalTags($blogid, $filter) {
 	global $database;
 	$tags = array();
-	$result = POD::queryAll("SELECT DISTINCT t.name, count(*) cnt 
+	$result = POD::queryAll("SELECT DISTINCT t.name, count(*) AS cnt 
 		FROM {$database['prefix']}Tags t 
 		INNER JOIN {$database['prefix']}TagRelations r
 		WHERE t.id = r.tag 

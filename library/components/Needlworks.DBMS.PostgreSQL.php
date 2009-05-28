@@ -71,8 +71,9 @@ class DBQuery {
 			return $__dbProperties['tableList'];
 		}
 	}
+
 	function setTimezone($time) {
-		return DBQuery::query('SET TIME ZONE \'' . Timezone::getISO8601() . '\'');
+		return DBQuery::query('SET TIME ZONE \'' . $time . '\'');
 	}
 
 	/*@static@*/
