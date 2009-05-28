@@ -8,7 +8,7 @@ define('TEXTCUBE_NAME', 'Textcube');
 define('TEXTCUBE_VERSION', '1.7.8 : Con moto');
 define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2009. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
 define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.org/');
-define('TEXTCUBE_RESOURCE_URL', 'http://resources.textcube.org/1.7.7');
+define('TEXTCUBE_RESOURCE_URL', 'http://resources.textcube.org/1.7.9');
 define('TEXTCUBE_SYNC_URL', 'http://ping.eolin.com/');
 define('CRLF', "\r\n");
 define('TAB', "	");
@@ -62,7 +62,7 @@ if (@is_numeric($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80) && (
 $service['session_cookie_path'] = '/';
 if(!defined('__TEXTCUBE_SETUP__')) @include ROOT . '/config.php';
 
-if($service['debugmode'] == true) requireComponent("Needlworks.Function.Debug");
+if($service['debugmode'] == true) requireComponent("Needlworks.Debug.".$database['dbms']);
 
 // Set resource path.
 if($service['externalresources']) {

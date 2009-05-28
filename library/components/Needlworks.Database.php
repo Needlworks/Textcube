@@ -9,13 +9,13 @@
 */
 global $service;
 //if (!isset($service['dbms'])) $service['dbms'] = 'mysql';
-if (!isset($service['dbms'])) $service['dbms'] = 'postgresql';
+if (!isset($database['dbms'])) $database['dbms'] = 'PostgreSQL';
 //Database Binding
-switch($service['dbms']) {
-	case 'postgresql':
+switch($database['dbms']) {
+	case 'PostgreSQL':
 		require_once ROOT.'/library/components/Needlworks.DBMS.PostgreSQL.php';
 		break;
-	case 'mysql':
+	case 'MySQL':
 	default:
 		require_once ROOT.'/library/components/Needlworks.DBMS.MySQL.php';
 }
@@ -147,12 +147,21 @@ class TableQuery {
 		$attributes = array_merge($this->_qualifiers, $this->_attributes);
 		if (empty($attributes))
 			return false;
-		$this->_query = 'REPLACE INTO ' . $this->table . '(' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
-		if (POD::query($this->_query)) {
-			$this->id = POD::insertId();
-			return true;
+		if (in_array(POD::dbms(), array('MySQL','MySQLi'))) { 
+			$this->_query = 'REPLACE INTO ' . $this->table . '(' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
+			if (POD::query($this->_query)) {
+				$this->id = POD::insertId();
+				return true;
+			}
+			return false;
+		} else {
+			$this->_query = 'SELECT count(*) FROM ' . $this->table . $this->_makeWhereClause();
+			if(POD::queryCount($this->_query) > 0) {
+				return $this->update();
+			} else {
+				return $this->insert();
+			}
 		}
-		return false;
 	}
 	
 	function delete() {

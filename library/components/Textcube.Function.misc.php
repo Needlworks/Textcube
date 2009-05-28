@@ -348,12 +348,12 @@ class misc {
 	
 	function getBlogSettingRowsPerPage($default = null) {
 		requireComponent('Textcube.Function.Setting');
-		return setting::getBlogSettingRowsPerPage($default);
+		return setting::getBlogSettingGlobal('rowsPerPage',$default);
 	}
 
 	function setBlogSettingRowsPerPage($value) {
 		requireComponent('Textcube.Function.Setting');
-		return setting::setBlogSettingRowsPerPage($value);
+		return setting::setBlogSettingGlobal('rowsPerPage', $value, getBlogId());
 	}
 }
 ?>

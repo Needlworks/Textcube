@@ -35,7 +35,7 @@ class DBQuery {
 			$__dbProperties['charset'] = 'utf8';
 //		else
 //			$__dbProperties['charset'] = 'default';
-		@DBQuery::query('SET SESSION collation_connection = \'utf8_general_ci\'');
+//		@DBQuery::query('SET SESSION collation_connection = \'utf8_general_ci\'');
 		return true;
 	}
 
