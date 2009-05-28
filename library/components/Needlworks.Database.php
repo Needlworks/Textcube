@@ -122,7 +122,7 @@ class TableQuery {
 			return false;
 		$this->_query = 'INSERT INTO ' . $this->table . '(' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
 		if (POD::query($this->_query)) {
-			$this->id = POD::insertId();
+//			$this->id = POD::insertId();
 			return true;
 		}
 		return false;
@@ -155,7 +155,7 @@ class TableQuery {
 			}
 			return false;
 		} else {
-			$this->_query = 'SELECT count(*) FROM ' . $this->table . $this->_makeWhereClause();
+			$this->_query = 'SELECT * FROM ' . $this->table . $this->_makeWhereClause();
 			if(POD::queryCount($this->_query) > 0) {
 				return $this->update();
 			} else {

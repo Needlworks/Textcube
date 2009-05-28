@@ -146,7 +146,6 @@ class setting {
 			$query->setAttribute('name', $escape_name, true);
 			$query->setAttribute('value',$escape_value, true);
 			return $query->replace();
-//			return POD::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES($blogid, '$escape_name', '$escape_value')");
 		}
 		
 		// insert new value
@@ -166,7 +165,6 @@ class setting {
 		$query->setAttribute('name', $name, true);
 		$query->setAttribute('value',$value, true);
 		return $query->replace();
-//		return POD::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES(".getBlogId().", '$name', '$value')");
 	}
 
 	function removeBlogSettingGlobal($name, $blogid = null) {

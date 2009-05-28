@@ -19,23 +19,17 @@ class DBQuery {
 		global $__dbProperties;
 		// Connects DB and set environment variables
 		// $database array should contain 'server','username','password'.
-//		var_dump($database);
 		if(!isset($database) || empty($database)) return false;
 		$sql = "host=".$database['server'];
 		if(isset($database['port'])) $sql .= " port=".$database['port'];
 		$sql .= " user=".$database['username']." password=".$database['password'];
 		if(isset($database['database'])) $sql .= " dbname=".$database['database'];
-//		var_dump($sql);
 		$handle = @pg_connect($sql);
 		if(!$handle) return false;
 		
 		@pg_set_client_encoding($handle, "UTF8");
 
-//		if (DBQuery::query('SET CHARACTER SET utf8'))
-			$__dbProperties['charset'] = 'utf8';
-//		else
-//			$__dbProperties['charset'] = 'default';
-//		@DBQuery::query('SET SESSION collation_connection = \'utf8_general_ci\'');
+		$__dbProperties['charset'] = 'utf8';
 		return true;
 	}
 
@@ -76,6 +70,9 @@ class DBQuery {
 		} else {
 			return $__dbProperties['tableList'];
 		}
+	}
+	function setTimezone($time) {
+		return DBQuery::query('SET TIME ZONE \'' . Timezone::getISO8601() . '\'');
 	}
 
 	/*@static@*/
@@ -251,7 +248,7 @@ class DBQuery {
 	}
 	
 	function insertId() {
-		return pg_insert_id();
+		return null;
 	}
 	
 	function escapeString($string, $link = null){

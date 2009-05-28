@@ -156,8 +156,13 @@ class pageCache {
 		global $database;
 		if(doesHaveOwnership()) $this->_dbContents['owner'] = $this->dbContents;
 		else $this->_dbContents['user'] = $this->dbContents;
-		return POD::execute("REPLACE INTO {$database['prefix']}PageCacheLog 
-			VALUES(".getBlogId().", '".POD::escapeString($this->realName)."', '".tc_escape_string(serialize($this->_dbContents))."')");
+		$query = new TableQuery($database['prefix'].'PageCacheLog');
+		$query->setAttribute('blogid',getBlogId());
+		$query->setAttribute('name',POD::escapeString($this->realName),true);
+		$query->setAttribute('value',POD::escapeString(serialize($this->_dbContents)),true);
+		$query->setQualifier('blogid',getBlogId());
+		$query->setQualifier('name',POD::escapeString($this->realName),true);
+		return $query->replace();
 	}
 
 	function removePageCacheLog() {
@@ -235,8 +240,15 @@ class queryCache {
 	function setPageCacheLog() {
 		global $database;
 		if(empty($this->queryHash)) $this->getQueryHash();
-		return POD::execute("REPLACE INTO {$database['prefix']}PageCacheLog 
-			VALUES(".getBlogId().", '".POD::escapeString($this->queryHash)."', '".tc_escape_string(serialize($this->contents))."')");
+		$name = POD::escapeString($this->queryHash);
+		$value = POD::escapeString(serialize($this->contents));
+		$query = new TableQuery($database['prefix'].'PageCacheLog');
+		$query->setAttribute('blogid',getBlogId());
+		$query->setAttribute('name',$name,true);
+		$query->setAttribute('value',$value,true);
+		$query->setQualifier('blogid',getBlogId());
+		$query->setQualifier('name',$name,true);
+		return $query->replace();
 	}
 
 	function removePageCacheLog() {
@@ -273,7 +285,15 @@ class globalCacheStorage extends pageCache {
 
 	function save() {
 		global $database;
-		if($this->_isChanged) return POD::query("REPLACE INTO {$database['prefix']}PageCacheLog VALUES(".$this->_gBlogId.", 'globalCacheStorage', '".POD::escapeString(serialize($this->_gCacheStorage[$this->_gBlogId]))."')");
+		if($this->_isChanged) {	
+			$query = new TableQuery($database['prefix'].'PageCacheLog');
+			$query->setAttribute('blogid',$this->_gBlogId);
+			$query->setAttribute('name','globalCacheStorage',true);
+			$query->setAttribute('value',POD::escapeString(serialize($this->_gCacheStorage[$this->_gBlogId])),true);
+			$query->setQualifier('blogid',$this->_gBlogId);
+			$query->setQualifier('name','globalCacheStorage',true);
+			return $query->replace();
+		}
 	}
 	
 	function getContent($name) {
