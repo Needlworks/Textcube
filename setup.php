@@ -44,7 +44,7 @@ $__requireBasics = array(
 	'function/misc',
 	'function/image',
 	'function/mail');
-
+if(isset($_POST['dbms'])) $database['dbms'] = $_POST['dbms'];
 require ROOT.'/library/include.php';
 require ROOT.'/library/database.php';
 require ROOT.'/library/locale.php';
@@ -274,7 +274,23 @@ function checkStep($step, $check = true) {
 			case 'install':
 			case 'setup':
 ?>
-      <tr>
+
+	  <tr>
+        <th><?php echo _t('데이터베이스 관리 시스템');?> :</th>
+        <td>
+<?php
+$dbmsSupport = array();
+if(function_exists('mysql_connect')) array_push($dbmsSupport,'MySQL');
+if(function_exists('pg_connect')) array_push($dbmsSupport,'PostgreSQL');
+foreach($dbmsSupport as $dbms) {
+?>
+	      <input type="radio" name="dbms" value="<?php echo $dbms;?>" <?php echo ((isset($_POST['dbms']) && $_POST['dbms'] == $dbms) ? 'checked="checked"' : '');?>/> <?php echo $dbms;?> 
+<?php
+}
+?>
+		</td>
+      </tr>
+	  <tr>
         <th><?php echo _t('데이터베이스 서버');?> :</th>
         <td>
           <input type="text" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : 'localhost');?>" class="input<?php echo ($check && (empty($_POST['dbServer']) || ($error == 1)) ? ' input_error' : '');?>" />
@@ -394,6 +410,7 @@ function checkStep($step, $check = true) {
 ?>
   <input type="hidden" name="step" value="4" />
   <input type="hidden" name="mode" value="<?php echo $_POST['mode'];?>" />
+  <input type="hidden" name="dbms" value="<?php echo (isset($_POST['dbms']) ? $_POST['dbms'] : '');?>" />
   <input type="hidden" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : '');?>" />
   <input type="hidden" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : '');?>" />
   <input type="hidden" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : '');?>" />
@@ -867,6 +884,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
 ?>
   <input type="hidden" name="step" value="<?php echo $step;?>" />
   <input type="hidden" name="mode" value="<?php echo $_POST['mode'];?>" />
+  <input type="hidden" name="dbms" value="<?php echo (isset($_POST['dbms']) ? $_POST['dbms'] : '');?>" />
   <input type="hidden" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : '');?>" />
   <input type="hidden" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : '');?>" />
   <input type="hidden" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : '');?>" />
@@ -948,12 +966,12 @@ RewriteRule ^testrewrite$ setup.php [L]"
             }
         } else {
 			@POD::query('SET CHARACTER SET utf8');
-			if ($result = POD::query("SELECT loginid, password, name FROM {$_POST['dbPrefix']}Users WHERE userid = 1")) {
+			if ($result = @POD::query("SELECT loginid, password, name FROM {$_POST['dbPrefix']}Users WHERE userid = 1")) {
 				@list($_POST['email'], $_POST['password'], $_POST['name']) = POD::fetch($result,'row');
 				$_POST['password2'] = $_POST['password'];
 				POD::free($result);
 			}
-			if ($result = POD::queryCell("SELECT value FROM {$_POST['dbPrefix']}BlogSettings 
+			if ($result = @POD::queryCell("SELECT value FROM {$_POST['dbPrefix']}BlogSettings 
 						WHERE blogid = 1 
 							AND name = 'name'")) {
 				$_POST['blog'] = $result;
@@ -963,6 +981,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
 ?>
   <input type="hidden" name="step" value="<?php echo $step;?>" />
   <input type="hidden" name="mode" value="<?php echo $_POST['mode'];?>" />
+  <input type="hidden" name="dbms" value="<?php echo (isset($_POST['dbms']) ? $_POST['dbms'] : '');?>" />
   <input type="hidden" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : '');?>" />
   <input type="hidden" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : '');?>" />
   <input type="hidden" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : '');?>" />
@@ -1044,6 +1063,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
 ?>
   <input type="hidden" name="step" value="<?php echo $step;?>" />
   <input type="hidden" name="mode" value="<?php echo $_POST['mode'];?>" />
+  <input type="hidden" name="dbms" value="<?php echo (isset($_POST['dbms']) ? $_POST['dbms'] : '');?>" />
   <input type="hidden" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : '');?>" />
   <input type="hidden" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : '');?>" />
   <input type="hidden" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : '');?>" />
@@ -1203,6 +1223,7 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
 "<?php
 ini_set('display_errors', 'off');
 \$database['server'] = '{$_POST['dbServer']}';
+\$database['dbms'] = '{$_POST['dbms']}';
 \$database['database'] = '{$_POST['dbName']}';
 \$database['port'] = '{$_POST['dbPort']}';
 \$database['username'] = '{$_POST['dbUser']}';
@@ -1321,6 +1342,7 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
 ?>
   <input type="hidden" name="step" value="4" />
   <input type="hidden" name="mode" value="<?php echo $_POST['mode'];?>" />
+  <input type="hidden" name="dbms" value="<?php echo (isset($_POST['dbms']) ? $_POST['dbms'] : '');?>" />
   <input type="hidden" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : '');?>" />
   <input type="hidden" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : '');?>" />
   <input type="hidden" name="dbUser" value="<?php echo (isset($_POST['dbUser']) ? $_POST['dbUser'] : '');?>" />

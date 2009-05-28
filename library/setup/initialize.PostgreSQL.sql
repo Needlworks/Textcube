@@ -211,11 +211,10 @@ CREATE TABLE [##_dbPrefix_##]Feeds (
   modified integer NOT NULL default '0',
   PRIMARY KEY  (id)
 ) [##_charset_##];
-CREATE TYPE Filters_type AS ENUM ('content','ip','name','url');
 CREATE TABLE [##_dbPrefix_##]Filters (
   id integer NOT NULL default 1,
   blogid integer NOT NULL default '0',
-  type Filters_type NOT NULL default 'content',
+  type varchar(11) NOT NULL default 'content',
   pattern varchar(255) NOT NULL default '',
   PRIMARY KEY (id)
 ) [##_charset_##];
