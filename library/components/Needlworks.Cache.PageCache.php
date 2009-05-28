@@ -278,13 +278,15 @@ class globalCacheStorage extends pageCache {
 	}
 	
 	function load() {
-		global $database;
+		global $database, $service;
+		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
 		$result = POD::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$this->_gBlogId." AND name = 'globalCacheStorage'");
 		if(isset($result)) $this->_gCacheStorage[$this->_gBlogId] = unserialize($result);
 	}
 
 	function save() {
-		global $database;
+		global $database, $service;
+		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
 		if($this->_isChanged) {	
 			$query = new TableQuery($database['prefix'].'PageCacheLog');
 			$query->setAttribute('blogid',$this->_gBlogId);
@@ -312,7 +314,8 @@ class globalCacheStorage extends pageCache {
 	}
 
 	function purge() {
-		global $database;
+		global $database, $service;
+		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
 		return POD::query("DELETE FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$this->_gBlogId." AND name = 'globalCacheStorage'");
 	}
 }

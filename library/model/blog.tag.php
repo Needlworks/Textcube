@@ -18,14 +18,14 @@ function getTags($blogid, $entry) {
 	global $database;
 	$tags = array();
 	if (doesHaveOwnership())
-		$result = POD::query("SELECT t.* FROM `{$database['prefix']}Tags` t
-			INNER JOIN `{$database['prefix']}TagRelations` r ON r.blogid = $blogid AND r.tag = t.id AND r.entry = $entry AND r.tag = t.id
+		$result = POD::query("SELECT t.* FROM {$database['prefix']}Tags t
+			INNER JOIN {$database['prefix']}TagRelations r ON r.blogid = $blogid AND r.tag = t.id AND r.entry = $entry AND r.tag = t.id
 			GROUP BY r.tag 
 			ORDER BY t.name");
 	else
-		$result = POD::query("SELECT t.* FROM `{$database['prefix']}Tags` t
-			INNER JOIN `{$database['prefix']}TagRelations` r ON r.blogid = $blogid AND r.entry = $entry AND r.tag = t.id
-			INNER JOIN `{$database['prefix']}Entries` e ON e.id = r.entry AND e.visibility > 0
+		$result = POD::query("SELECT t.* FROM {$database['prefix']}Tags t
+			INNER JOIN {$database['prefix']}TagRelations r ON r.blogid = $blogid AND r.entry = $entry AND r.tag = t.id
+			INNER JOIN {$database['prefix']}Entries e ON e.id = r.entry AND e.visibility > 0
 			GROUP BY r.tag 
 			ORDER BY t.name");
 	if ($result) {
@@ -41,41 +41,41 @@ function getRandomTags($blogid) {
 	$aux = ($skinSetting['tagsOnTagbox'] == - 1) ? '' : "limit {$skinSetting['tagsOnTagbox']}";
 	if ($skinSetting['tagboxAlign'] == 1) { // order by count
 		if (doesHaveOwnership())
-			$tags = POD::queryAll("SELECT `name`, count(*) `cnt`, t.id FROM `{$database['prefix']}Tags` t 
-				INNER JOIN `{$database['prefix']}TagRelations` r ON r.blogid = $blogid AND r.tag = t.id
+			$tags = POD::queryAll("SELECT name, count(*) cnt, t.id FROM {$database['prefix']}Tags t 
+				INNER JOIN {$database['prefix']}TagRelations r ON r.blogid = $blogid AND r.tag = t.id
 				GROUP BY r.tag 
 				ORDER BY cnt DESC $aux");
 		else
-			$tags = POD::queryAll("SELECT `name`, count(*) `cnt`, t.id FROM `{$database['prefix']}Tags` t,
-				`{$database['prefix']}TagRelations` r, 
-				`{$database['prefix']}Entries` e 
+			$tags = POD::queryAll("SELECT name, count(*) cnt, t.id FROM {$database['prefix']}Tags t,
+				{$database['prefix']}TagRelations r, 
+				{$database['prefix']}Entries e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid AND e.blogid = $blogid 
 				GROUP BY r.tag 
-				ORDER BY `cnt` DESC $aux");
+				ORDER BY cnt DESC $aux");
 	} else if ($skinSetting['tagboxAlign'] == 2) {  // order by name
 		if (doesHaveOwnership())
-			$tags = POD::queryAll("SELECT DISTINCT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t, 
-				`{$database['prefix']}TagRelations` r 
+			$tags = POD::queryAll("SELECT DISTINCT name, count(*) cnt, t.id FROM {$database['prefix']}Tags t, 
+				{$database['prefix']}TagRelations r 
 				WHERE t.id = r.tag AND r.blogid = $blogid 
 				GROUP BY r.tag 
 				ORDER BY t.name $aux");
 		else
-			$tags = POD::queryAll("SELECT DISTINCT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t, 
-				`{$database['prefix']}TagRelations` r,
-				`{$database['prefix']}Entries` e 
+			$tags = POD::queryAll("SELECT DISTINCT name, count(*) cnt, t.id FROM {$database['prefix']}Tags t, 
+				{$database['prefix']}TagRelations r,
+				{$database['prefix']}Entries e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid AND e.blogid = $blogid
 				GROUP BY r.tag 
 				ORDER BY t.name $aux");
 	} else { // random
 		if (doesHaveOwnership())
-			$tags = POD::queryAll("SELECT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t,
-				`{$database['prefix']}TagRelations` r
+			$tags = POD::queryAll("SELECT name, count(*) cnt, t.id FROM {$database['prefix']}Tags t,
+				{$database['prefix']}TagRelations r
 				WHERE t.id = r.tag AND r.blogid = $blogid
 				GROUP BY r.tag ORDER BY RAND() $aux");
 		else
-			$tags = POD::queryAll("SELECT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t,
-				`{$database['prefix']}TagRelations` r,
-				`{$database['prefix']}Entries` e
+			$tags = POD::queryAll("SELECT name, count(*) cnt, t.id FROM {$database['prefix']}Tags t,
+				{$database['prefix']}TagRelations r,
+				{$database['prefix']}Entries e
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid AND e.blogid = $blogid
 				GROUP BY r.tag 
 				ORDER BY RAND() $aux");
@@ -86,16 +86,16 @@ function getRandomTags($blogid) {
 function getSiteTags($blogid) {
 	global $database;
 	if (doesHaveOwnership())
-		$names = POD::queryAll("SELECT t.id,name FROM `{$database['prefix']}Tags` t, 
-			`{$database['prefix']}TagRelations` r 
+		$names = POD::queryAll("SELECT t.id,name FROM {$database['prefix']}Tags t, 
+			{$database['prefix']}TagRelations r 
 			WHERE t.id = r.tag AND r.blogid = $blogid 
 			GROUP BY r.tag 
 			ORDER BY t.name 
 			LIMIT 2000");
 	else
-		$names = POD::queryAll("SELECT t.id,name FROM `{$database['prefix']}Tags` t, 
-			`{$database['prefix']}TagRelations` r,
-			`{$database['prefix']}Entries` e
+		$names = POD::queryAll("SELECT t.id,name FROM {$database['prefix']}Tags t, 
+			{$database['prefix']}TagRelations r,
+			{$database['prefix']}Entries e
 			WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
 			GROUP BY r.tag 
 			ORDER BY t.name 
@@ -110,31 +110,31 @@ function getTagFrequencyRange() {
 	$blogid = getBlogId();
 	$max = $min = 0;
 	if (doesHaveOwnership())
-		$max = POD::queryCell("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r 
+		$max = POD::queryCell("SELECT count(r.entry) cnt FROM {$database['prefix']}TagRelations r 
 			WHERE r.blogid = $blogid 
 			GROUP BY r.tag 
-			ORDER BY `cnt` 
+			ORDER BY cnt 
 			DESC LIMIT 1");
 	else
-		$max = POD::queryCell("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r
-			INNER JOIN `{$database['prefix']}Entries` e ON r.blogid = e.blogid AND e.visibility > 0 AND r.entry = e.id
+		$max = POD::queryCell("SELECT count(r.entry) cnt FROM {$database['prefix']}TagRelations r
+			INNER JOIN {$database['prefix']}Entries e ON r.blogid = e.blogid AND e.visibility > 0 AND r.entry = e.id
 			WHERE r.blogid = $blogid 
 			GROUP BY r.tag 
-			ORDER BY `cnt` 
+			ORDER BY cnt 
 			DESC LIMIT 1");
 /*	if (doesHaveOwnership())
-		$min = POD::queryCell("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r 
+		$min = POD::queryCell("SELECT count(r.entry) cnt FROM {$database['prefix']}TagRelations r 
 			WHERE r.blogid = $blogid 
 			GROUP BY r.tag 
-			ORDER BY `cnt` 
+			ORDER BY cnt 
 			LIMIT 1");
 	else
-		$min = POD::queryCell("SELECT count(r.entry) `cnt` FROM `{$database['prefix']}TagRelations` r
-			INNER JOIN `{$database['prefix']}Entries` e 
+		$min = POD::queryCell("SELECT count(r.entry) cnt FROM {$database['prefix']}TagRelations r
+			INNER JOIN {$database['prefix']}Entries e 
 				ON e.blogid = r.blogid AND e.visibility > 0 AND r.entry = e.id
 			WHERE r.blogid = $blogid 
 			GROUP BY r.tag 
-			ORDER BY `cnt` 
+			ORDER BY cnt 
 			LIMIT 1");*/
 	$max = ($max === null ? 0 : $max);
 	//$min = ($min === null ? 0 : $min);
@@ -151,13 +151,13 @@ function getTagFrequency($tag, $max, $min) {
 			$tag = array('name' => $tag);
 		} 
 		if (doesHaveOwnership())
-			$count = POD::queryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t
-				INNER JOIN `{$database['prefix']}TagRelations` r ON r.tag = t.id AND r.blogid = $blogid
+			$count = POD::queryCell("SELECT count(*) FROM {$database['prefix']}Tags t
+				INNER JOIN {$database['prefix']}TagRelations r ON r.tag = t.id AND r.blogid = $blogid
 				WHERE t.name = '" . POD::escapeString($tag['name']) . "'");
 		else
-			$count = POD::queryCell("SELECT count(*) FROM `{$database['prefix']}Tags` t
-				INNER JOIN `{$database['prefix']}TagRelations` r ON r.tag = t.id AND r.blogid = $blogid 
-				INNER JOIN `{$database['prefix']}Entries` e ON e.blogid = r.blogid AND e.id = r.entry AND e.visibility > 0 
+			$count = POD::queryCell("SELECT count(*) FROM {$database['prefix']}Tags t
+				INNER JOIN {$database['prefix']}TagRelations r ON r.tag = t.id AND r.blogid = $blogid 
+				INNER JOIN {$database['prefix']}Entries e ON e.blogid = r.blogid AND e.id = r.entry AND e.visibility > 0 
 				WHERE t.name = '" . POD::escapeString($tag['name']) . "'");
 	}
 	$dist = $max / 3;

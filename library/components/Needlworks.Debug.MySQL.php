@@ -43,16 +43,16 @@ function __tcSqlLogEnd( $result, $cachedResult = 0 )
 	$tcSqlQueryEndTime = explode(' ', microtime());
 	$elapsed = ($tcSqlQueryEndTime[1] - $__tcSqlQueryBeginTime[1]) + ($tcSqlQueryEndTime[0] - $__tcSqlQueryBeginTime[0]);
 	if( !$client_encoding ) {
-		$client_encoding = str_replace('_','-',pg_client_encoding());
+		$client_encoding = str_replace('_','-',mysql_client_encoding());
 	}
 
-//	if( $client_encoding != 'utf8' && function_exists('iconv') ) {
-//		$__tcSqlLog[$__tcSqlLogCount]['error'] = iconv( $client_encoding, 'utf-8', pg_last_error());
-//	}
-//	else {
-		$__tcSqlLog[$__tcSqlLogCount]['error'] = pg_last_error();
-//	}
-	$__tcSqlLog[$__tcSqlLogCount]['errno'] = 0; //mysql_errno();
+	if( $client_encoding != 'utf8' && function_exists('iconv') ) {
+		$__tcSqlLog[$__tcSqlLogCount]['error'] = iconv( $client_encoding, 'utf-8', mysql_error());
+	}
+	else {
+		$__tcSqlLog[$__tcSqlLogCount]['error'] = mysql_error();
+	}
+	$__tcSqlLog[$__tcSqlLogCount]['errno'] = mysql_errno();
 
 	if( $cachedResult == 0 ) {
 		$__tcSqlLog[$__tcSqlLogCount]['elapsed'] = ceil($elapsed * 10000) / 10;
@@ -64,16 +64,16 @@ function __tcSqlLogEnd( $result, $cachedResult = 0 )
 	$__tcSqlLog[$__tcSqlLogCount]['rows'] = 0;
 	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = ($tcSqlQueryEndTime[1] - $__tcPageStartTime[1]) + ($tcSqlQueryEndTime[0] - $__tcPageStartTime[0]);
 	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = sprintf("%4.1f",ceil($__tcSqlLog[$__tcSqlLogCount]['endtime'] * 10000) / 10);
-	if( ! $cachedResult ) { //&& mysql_errno() == 0 ) {
+	if( ! $cachedResult && mysql_errno() == 0 ) {
 		switch( strtolower(substr($__tcSqlLog[$__tcSqlLogCount]['sql'], 0, 6 )) )
 		{
 			case 'select':
-				$__tcSqlLog[$__tcSqlLogCount]['rows'] = pg_num_rows($result);
+				$__tcSqlLog[$__tcSqlLogCount]['rows'] = mysql_num_rows($result);
 				break;
 			case 'insert':
 			case 'delete':
 			case 'update':
-				$__tcSqlLog[$__tcSqlLogCount]['rows'] = pg_affected_rows($result);
+				$__tcSqlLog[$__tcSqlLogCount]['rows'] = mysql_affected_rows();
 				break;
 		}
 	}
@@ -290,8 +290,8 @@ THEAD;
 		$backtrace = '';
 		$frame_count = 1;
 		$backtrace = __tcSqlLoggetCallstack($log['backtrace']);
-		if( $log['error'] ) {
-			$error = $log['error'];
+		if( $log['errno'] ) {
+			$error = "Error no. {$log['errno']} : {$log['error']}";
 		}
 		
 		$trclass = '';
