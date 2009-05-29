@@ -43,19 +43,9 @@ function getSkinSetting($blogid, $forceReload = false) {
 			return $retval;
 		}
 	}
-	if ($retval = POD::queryRow("SELECT * FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid",MYSQL_ASSOC)) {
-		if ($retval != FALSE) {
-			if (!Validator::directory($retval['skin']) && ($retval['skin'] !="customize/$blogid")) {
-				$retval['skin'] = $service['skin'];
-			}
-			$__gCacheSkinSetting[$blogid] = $retval;
-			if($blogid == getBlogId())  $gCacheStorage->setContent('SkinSetting',$retval);
-			return $retval;
-		}
-	}
-	
-	$retval = array( 'blogid' => $blogid , 'skin' => $service['skin'], 
-		'entriesOnRecent' => 5, 'commentsOnRecent' => 5, 'commentsOnGuestbook' => 5,
+
+	$defaultSetting = array( 'blogid' => $blogid , 'skin' => $service['skin'], 
+		'entriesOnRecent' => 5, 'commentsOnRecent' => 5, 'commentsOnGuestbook' => 5, 'archivesOnPage' => 5,
 		'tagsOnTagbox' => 30, 'tagboxAlign' => 3, 'trackbacksOnRecent' => 5, 
 		'expandComment' => 1, 'expandTrackback' => 1, 
 		'recentNoticeLength' => 25, 'recentEntryLength' => 30, 
@@ -65,10 +55,25 @@ function getSkinSetting($blogid, $forceReload = false) {
 		'colorOnTree' => '000000', 'bgColorOnTree' => '', 
 		'activeColorOnTree' => 'FFFFFF', 'activeBgColorOnTree' => '00ADEF', 
 		'labelLengthOnTree' => 27, 'showValueOnTree' => 1 );
-	
-	$__gCacheSkinSetting[$blogid] = $retval;
-	if($blogid == getBlogId())  $gCacheStorage->setContent('SkinSetting',$retval);
-	return $retval;	
+	if ($result = POD::queryRow("SELECT * FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid",'assoc')) {
+		if ($result != FALSE) {
+			if (!Validator::directory($result['skin']) && ($result['skin'] !="customize/$blogid")) {
+				$result['skin'] = $service['skin'];
+			}
+			// retval can be lower-case only parameter. thus we change it to camelcase again.
+			$retval = array();
+			foreach($defaultSetting as $name => $value) {
+				$retval[$name] = $result[strtolower($name)];	
+			}
+			$__gCacheSkinSetting[$blogid] = $retval;
+			if($blogid == getBlogId())  $gCacheStorage->setContent('SkinSetting',$retval);
+			return $retval;
+		}
+	}
+	// Default setting	
+	$__gCacheSkinSetting[$blogid] = $defaultSetting;
+	if($blogid == getBlogId())  $gCacheStorage->setContent('SkinSetting',$defaultSetting);
+	return $defaultSetting;	
 }
 
 function getDefaultURL($blogid) {

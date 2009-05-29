@@ -47,7 +47,7 @@ class DBQuery {
 		return 'MySQL';
 	}
 
-	public static function version() {
+	public static function version($mode = 'server') {
 		global $__dbProperties;
 		if (array_key_exists('version', $__dbProperties)) return $__dbProperties['version'];
 		else {
@@ -55,9 +55,29 @@ class DBQuery {
 			return $__dbProperties['version'];
 		}
 	}
+	
+	public static function tableList($condition = null) {
+		global $__dbProperties;
+		if (!array_key_exists('tableList', $__dbProperties)) { 
+			$__dbProperties['tableList'] = DBQuery::queryAll('SHOW TABLES');
+		}
+		if(!is_null($condition)) {
+			foreach($__dbProperties['tableList'] as $item) {
+				if(strpos($item, $condition) === 0) array_push($result, $item);
+			}
+			return $item;
+		} else {
+			return $__dbProperties['tableList'];
+		}
+	}
 
+	public static function setTimezone($time) {
+		return DBQuery::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
+	}
+
+	/*@static@*/
 	public static function queryExistence($query) {
-		if ($result = self::query($query)) {
+		if ($result = DBQuery::query($query)) {
 			if (mysql_num_rows($result) > 0) {
 				mysql_free_result($result);
 				return true;
@@ -159,7 +179,7 @@ class DBQuery {
 	public static function queryAllWithoutCache($query, $type = MYSQL_BOTH, $count = -1) {
 		$all = array();
 		if ($result = self::query($query)) {
-			while ( ($count-- !=0) && $row = mysql_fetch_array($result, $type))
+			while ( ($count-- !=0) && $row = mysql_fetch_array($result, $realtype))
 				array_push($all, $row);
 			mysql_free_result($result);
 			return $all;

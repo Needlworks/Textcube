@@ -168,7 +168,15 @@ function resetPassword($blogid, $loginid) {
 	$userid = User::getUserIdByEmail($loginid);
 	$password = POD::queryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = $userid");
 	$authtoken = md5(generatePassword());
-	$result = POD::query("REPLACE INTO `{$database['prefix']}UserSettings` (userid, name, value) VALUES ('" . $userid . "', 'AuthToken', '" . $authtoken . "')");
+	
+	$query = new TableQuery($database['prefix'].'UserSettings');
+	$query->setAttribute('userid',$userid);
+	$query->setAttribute('name','Authtoken',true);
+	$query->setAttribute('value',$authtoken,true);
+	$query->setQualifier('userid',$userid);
+	$query->setQualifier('name','Authtoken',true);
+	$query->replace();
+	
 	if(empty($result)) {
 		return false;
 	}

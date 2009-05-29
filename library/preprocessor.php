@@ -159,7 +159,7 @@ if (!defined('NO_INITIALIZAION')) {
 	if(isset($config->database) && !empty($config->database['database'])) {
 		$timezone = new Timezone;
 		$timezone->set(isset($blog['timezone']) ? $blog['timezone'] : $config->service['timezone']);
-		POD::query('SET time_zone = \'' . $timezone->getCanonical() . '\'');
+		POD::setTimezone(isset($blog['timezone']) ? $blog['timezone'] : $service['timezone']);
 	}
 /** Locale Resources
     ----------------

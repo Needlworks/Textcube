@@ -231,7 +231,7 @@ class Acl {
 			$ownership = "group.owners";
 		}
 
-		$result = POD::queryAllWithCache("SELECT blogid,acl FROM {$database['prefix']}Privileges WHERE userid='$userid'");
+		$result = POD::queryAllWithCache("SELECT blogid,acl FROM {$database['prefix']}Privileges WHERE userid = $userid");
 		foreach( $result as $rec ) {
 			$priv = array("group.writers", "textcube.$userid");
 
@@ -249,7 +249,7 @@ class Acl {
 		}
 
 		$blogid = getBlogId();
-		POD::execute("UPDATE  {$database['prefix']}Privileges SET lastLogin = unix_timestamp() WHERE blogid='$blogid' AND userid='$userid'");
+		POD::execute("UPDATE  {$database['prefix']}Privileges SET lastLogin = ".Timestamp::getUNIXtime()." WHERE blogid = $blogid AND userid = $userid");
 		return;
 	}
 
@@ -369,16 +369,16 @@ class Auth {
 				if (!empty($authtoken) && ($authtoken === $password)) {	// If user requested auth token, use it to confirm.
 					$session['userid'] = $userid;
 				} else {	// login with md5 hash
-					$secret = '`password` = \'' . md5($password) . '\'';
+					$secret = 'password = \'' . md5($password) . '\'';
 				}
 			} else {
 				return false;
 			}
 		} else if( $blogapi && !empty($blogApiPassword) ) {	// BlogAPI login
 			$password = POD::escapeString($password);
-			$secret = '(`password` = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $blogApiPassword . '\')';
+			$secret = '(password = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $blogApiPassword . '\')';
 		} else {	// Normal login
-			$secret = '`password` = \'' . md5($password) . '\'';
+			$secret = 'password = \'' . md5($password) . '\'';
 		}
 		if ( empty($session) ) {
 			$session = POD::queryRow("SELECT userid, loginid, name FROM {$database['prefix']}Users WHERE loginid = '$loginid' AND $secret");
@@ -390,7 +390,7 @@ class Auth {
 		$userid = $session['userid'];
 
 		Acl::authorize( 'textcube', $userid );
-		POD::execute("UPDATE  {$database['prefix']}Users SET lastLogin = unix_timestamp() WHERE loginid = '$loginid'");
+		POD::execute("UPDATE  {$database['prefix']}Users SET lastLogin = ".Timestamp::getUNIXtime()." WHERE loginid = '$loginid'");
 //		POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
 		return $userid;
 	}

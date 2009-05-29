@@ -365,10 +365,10 @@ class POD extends DBQuery {
 		var_dump($clause);
 		switch($this->_DBMS) {
 		case "PostgreSQL":
-			$this->_repository = $this->queryAllWithCache($clause,PGSQL_ASSOC);
+			$this->_repository = $this->queryAllWithCache($clause,'assoc');
 			break;
 		case "MySQL":
-			$this->_repository = $this->queryAllWithCache($clause,MYSQL_ASSOC);
+			$this->_repository = $this->queryAllWithCache($clause,'assoc');
 			break;
 		default:
 	    	$this->_repository = $this->queryAllWithCache($clause);

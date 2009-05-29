@@ -330,11 +330,11 @@ class Misc {
 	}
 	
 	function getBlogSettingRowsPerPage($default = null) {
-		return Setting::getBlogSettingRowsPerPage($default);
+		return Setting::getBlogSettingGlobal('rowsPerPage',$default);
 	}
 
 	function setBlogSettingRowsPerPage($value) {
-		return Setting::setBlogSettingRowsPerPage($value);
+		return Setting::setBlogSettingGlobal('rowsPerPage', $value, getBlogId());
 	}
 }
 ?>

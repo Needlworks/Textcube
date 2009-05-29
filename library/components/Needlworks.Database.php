@@ -10,15 +10,17 @@
 
 /* OLD DBMS HANDLER LOADING PART. WILL BE DELETED SOON.
    
-global $service;
-if (!isset($service['dbms'])) $service['dbms'] = 'mysqli';
+global $service, $database;
+if (!isset($database['dbms'])) $database['dbms'] = 'MySQL';
+//if (!isset($database['dbms'])) $database['dbms'] = 'PostgreSQL';
+
 //Database Binding
-switch($service['dbms']) {
-	case 'postgresql':
+switch($database['dbms']) {
+	case 'PostgreSQL':
 		requireComponent('Needlworks.DBMS.PostgreSQL'); break;
 	case 'mysqli':
 		requireComponent('Needlworks.DBMS.MySQLi');     break;
-	case 'mysql':
+	case 'MySQL':
 	default:
 		requireComponent('Needlworks.DBMS.MySQL');
 }*/
@@ -126,7 +128,7 @@ class TableQuery {
 			return false;
 		$this->_query = 'INSERT INTO ' . $this->table . '(' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
 		if (POD::query($this->_query)) {
-			$this->id = POD::insertId();
+//			$this->id = POD::insertId();
 			return true;
 		}
 		return false;
@@ -151,12 +153,21 @@ class TableQuery {
 		$attributes = array_merge($this->_qualifiers, $this->_attributes);
 		if (empty($attributes))
 			return false;
-		$this->_query = 'REPLACE INTO ' . $this->table . '(' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
-		if (POD::query($this->_query)) {
-			$this->id = POD::insertId();
-			return true;
+		if (in_array(POD::dbms(), array('MySQL','MySQLi'))) { 
+			$this->_query = 'REPLACE INTO ' . $this->table . '(' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
+			if (POD::query($this->_query)) {
+				$this->id = POD::insertId();
+				return true;
+			}
+			return false;
+		} else {
+			$this->_query = 'SELECT * FROM ' . $this->table . $this->_makeWhereClause();
+			if(POD::queryCount($this->_query) > 0) {
+				return $this->update();
+			} else {
+				return $this->insert();
+			}
 		}
-		return false;
 	}
 	
 	public function delete() {

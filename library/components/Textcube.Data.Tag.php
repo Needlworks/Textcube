@@ -173,5 +173,11 @@ class Tag {
 			}		
 		}
 	}
+	function _getMaxId() {
+		global $database;
+		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Filters WHERE 1");
+		if($maxId) return $maxId;
+		else return 0;
+	}
 }
 ?>

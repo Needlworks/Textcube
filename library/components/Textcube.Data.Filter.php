@@ -59,6 +59,8 @@ class Filter {
 	
 	function add() {
 		unset($this->id);
+		$this->id = $this->_getMaxId()+1;
+
 		if (!isset($this->type))
 			return $this->_error('type');
 		if (!isset($this->pattern))
@@ -138,7 +140,12 @@ class Filter {
 		$whiteurl = POD::escapeString(strtolower($whiteurl));
 		return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = 'whiteurl' AND '$whiteurl' LIKE CONCAT('%', LOWER(pattern), '%') LIMIT 1");
 	}
-	
+	function _getMaxId() {
+		global $database;
+		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Filters WHERE 1");
+		if($maxId) return $maxId;
+		else return 0;
+	}
 	function _buildQuery() {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'Filters');

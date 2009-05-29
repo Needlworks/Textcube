@@ -202,7 +202,7 @@ function getEntriesWithPaging($blogid, $page, $count) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$sql = "SELECT e.*, c.label categoryLabel 
+	$sql = "SELECT e.*, c.label AS categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
