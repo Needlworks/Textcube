@@ -333,27 +333,17 @@ class misc {
 
 	function getServiceSetting($name, $default = null) {
 		requireComponent('Textcube.Function.Setting');
-		return setting::getServiceSetting($name, $default);
+		return setting::getServiceSetting($name, $default, true);
 	}
 
 	function setServiceSetting($name, $value) {
 		requireComponent('Textcube.Function.Setting');
-		return setting::setServiceSetting($name);
+		return setting::setServiceSetting($name, $value, true);
 	}
 
 	function removeServiceSetting($name) {
 		requireComponent('Textcube.Function.Setting');
-		return setting::removeServiceSetting($name);
-	}
-	
-	function getBlogSettingRowsPerPage($default = null) {
-		requireComponent('Textcube.Function.Setting');
-		return setting::getBlogSettingGlobal('rowsPerPage',$default);
-	}
-
-	function setBlogSettingRowsPerPage($value) {
-		requireComponent('Textcube.Function.Setting');
-		return setting::setBlogSettingGlobal('rowsPerPage', $value, getBlogId());
+		return setting::removeServiceSetting($name, true);
 	}
 }
 ?>
