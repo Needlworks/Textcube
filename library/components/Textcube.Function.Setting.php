@@ -3,7 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-global $__gCacheBlogSettings; // share blog.service.php
+global $__gCacheBlogSettings, $__serviceSetting; // share blog.service.php
+$__serviceSetting = array();
 class setting {
 	function fetchConfigVal( $DATA ){
 		if (is_null($DATA)) return null; // Compartibility. If data is stored as array (new method), return it.
@@ -281,29 +282,51 @@ class setting {
 		return POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = ".(is_null($userid) ? getUserId() : $userid)." AND name = '".POD::escapeString($name)."'");
 	}
 
-	function getServiceSetting($name, $default = null) {
-		global $database;
-		$name = 'plugin_' . $name;
-		$value = POD::queryCell("SELECT value FROM {$database['prefix']}ServiceSettings WHERE name = '".POD::escapeString($name)."'");
-		return (is_null($value)) ? $default : $value;
+	function getServiceSetting($name, $value, $global = null) {
+		global $database, $__serviceSetting;
+		if(is_null($global)) $name = 'plugin_' . $name;
+		if( empty($__serviceSetting) ) {
+			$settings = POD::queryAllWithCache("SELECT name, value FROM {$database['prefix']}ServiceSettings" ,'num');
+			foreach( $settings as $k => $v ) {
+				$__serviceSetting[ $v[0] ] = $v[1];
+			}
+		}
+		if( isset($__serviceSetting[$name]) ) {
+			return $__serviceSetting[$name];
+		}
+		return $default;
 	}
-
-	function setServiceSetting($name, $value) {
-		global $database;
-		$name = 'plugin_' . $name;
+		
+	function setServiceSetting($name, $value, $global = null) {
+		global $database, $__serviceSetting;
+		if(is_null($global)) $name = 'plugin_' . $name;
 		$name = POD::escapeString(UTF8::lessenAsEncoding($name, 32));
 		$value = POD::escapeString(UTF8::lessenAsEncoding($value, 255));
 		$query = new TableQuery($database['prefix'] . 'ServiceSettings');
 		$query->setQualifier('name', $name, true);
 		$query->setAttribute('name', $name, true);
 		$query->setAttribute('value',$value, true);
+		if(!empty($__serviceSetting)) $__serviceSetting[$name] = $value;
 		return $query->replace();
 	}
 
-	function removeServiceSetting($name) {
+	function removeServiceSetting($name, $global = null) {
 		global $database;
+		if(is_null($global)) $name = 'plugin_' . $name;
 		$name = 'plugin_' . $name;
 		return POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".POD::escapeString($name)."'");
+	}
+
+	function getServiceSettingGlobal($name, $default = null) {
+		return setting::getServiceSetting($name, $default, true);
+	}
+
+	function setServiceSettingGlobal($name, $value) {
+		return setting::setServiceSetting($name, $value, true);
+	}
+
+	function removeServiceSettingGlobal($name) {
+		return setting::removeServiceSetting($name, true);
 	}
 }
 ?>

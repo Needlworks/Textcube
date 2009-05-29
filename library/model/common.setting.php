@@ -3,15 +3,13 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-global $serviceSetting;
 global $userSetting;
-$serviceSetting = array();
 $userSetting = array();
 
 function clearServiceSettingCache() {
-	global $serviceSetting;
-	if( !empty($serviceSetting) ) {
-		$serviceSetting = array();
+	global $__serviceSetting;
+	if( !empty($__serviceSetting) ) {
+		$__serviceSetting = array();
 	}
 }
 
@@ -39,11 +37,7 @@ function getServiceSetting($name, $default = null) {
 }
 
 function setServiceSetting($name, $value) {
-	global $database;
-	$name = POD::escapeString(UTF8::lessenAsEncoding($name, 32));
-	$value = POD::escapeString($value);
-	clearServiceSettingCache();
-	return POD::execute("REPLACE INTO {$database['prefix']}ServiceSettings VALUES('$name', '$value')");
+	return setting::setServiceSettingGlobal($name, $value);
 }
 
 function removeServiceSetting($name,$pruneSimilarEntries = false) {
