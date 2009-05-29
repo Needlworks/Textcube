@@ -1145,12 +1145,12 @@ RewriteRule ^testrewrite$ setup.php [L]"
         if ($_POST['mode'] == 'install') {
 			$schema = '';
 			// Compatibility layer load
-			if(file_exists(ROOT.'/library/setup/compatibility.'.POD::dbms().'.sql')) {
-				$schema = file_get_contents(ROOT.'/library/setup/compatibility.'.POD::dbms().'.sql');
+			if(file_exists(ROOT.'/resources/setup/compatibility.'.POD::dbms().'.sql')) {
+				$schema = file_get_contents(ROOT.'/resources/setup/compatibility.'.POD::dbms().'.sql');
 			}
             // Loading create schema from sql file. (DBMS specific)
 			
-			$schema .= file_get_contents(ROOT.'/library/setup/initialize.'.POD::dbms().'.sql');
+			$schema .= file_get_contents(ROOT.'/resources/setup/initialize.'.POD::dbms().'.sql');
 			$schema = str_replace('[##_dbPrefix_##]',$_POST['dbPrefix'],$schema);
 			$schema = str_replace('[##_charset_##]',$charset,$schema);
 			
