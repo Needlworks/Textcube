@@ -83,7 +83,7 @@ class Statistics {
 		if(POD::queryCount("SELECT blogid FROM {$database['prefix']}SessionVisits WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND blogid = $blogid") > 0)
 			return;
 		if (POD::queryCount("INSERT INTO {$database['prefix']}SessionVisits values('$id', '{$_SERVER['REMOTE_ADDR']}', $blogid)") > 0) {
-			if(POD::queryCount("UPDATE {$database['prefix']}BlogStatistics SET visits = visits + 1 WHERE blogid = $blogid LIMIT 1") < 1) {
+			if(POD::queryCount("UPDATE {$database['prefix']}BlogStatistics SET visits = visits + 1 WHERE blogid = $blogid") < 1) {
 				POD::execute("INSERT into {$database['prefix']}BlogStatistics values($blogid, 1)");
 			}
 			

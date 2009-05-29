@@ -240,7 +240,7 @@ function getEntriesWithPagingByTag($blogid, $tag, $page, $count, $countItem = nu
 	$tag = POD::escapeString($tag);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$sql = "SELECT e.*, c.label categoryLabel 
+	$sql = "SELECT e.*, c.label AS categoryLabel 
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.blogid = t.blogid 
@@ -265,7 +265,7 @@ function getEntriesWithPagingByPeriod($blogid, $period, $page, $count) {
 	$cond = "AND published >= " . getTimeFromPeriod($period) . " AND published < " . getTimeFromPeriod(addPeriod($period));
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$sql = "SELECT e.*, c.label categoryLabel 
+	$sql = "SELECT e.*, c.label AS categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond 
@@ -279,7 +279,7 @@ function getEntriesWithPagingBySearch($blogid, $search, $page, $count, $countIte
 	$cond = strlen($search) == 0 ? 'AND 0' : "AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$sql = "SELECT e.*, c.label categoryLabel 
+	$sql = "SELECT e.*, c.label AS categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond 

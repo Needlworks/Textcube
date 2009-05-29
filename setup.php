@@ -282,6 +282,7 @@ function checkStep($step, $check = true) {
 $dbmsSupport = array();
 if(function_exists('mysql_connect')) array_push($dbmsSupport,'MySQL');
 if(function_exists('pg_connect')) array_push($dbmsSupport,'PostgreSQL');
+if(function_exists('cubrid_connect')) array_push($dbmsSupport,'Cubrid');
 foreach($dbmsSupport as $dbms) {
 ?>
 	      <input type="radio" name="dbms" value="<?php echo $dbms;?>" <?php echo ((isset($_POST['dbms']) && $_POST['dbms'] == $dbms) ? 'checked="checked"' : '');?>/> <?php echo $dbms;?> 
