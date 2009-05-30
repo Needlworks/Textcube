@@ -126,7 +126,7 @@ class TableQuery {
 		$attributes = array_merge($this->_qualifiers, $this->_attributes);
 		if (empty($attributes))
 			return false;
-		$this->_query = 'INSERT INTO ' . $this->table . '(' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
+		$this->_query = 'INSERT INTO ' . $this->table . ' (' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
 		if (POD::query($this->_query)) {
 //			$this->id = POD::insertId();
 			return true;
@@ -154,7 +154,7 @@ class TableQuery {
 		if (empty($attributes))
 			return false;
 		if (in_array(POD::dbms(), array('MySQL','MySQLi'))) { 
-			$this->_query = 'REPLACE INTO ' . $this->table . '(' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
+			$this->_query = 'REPLACE INTO ' . $this->table . ' (' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
 			if (POD::query($this->_query)) {
 				$this->id = POD::insertId();
 				return true;
