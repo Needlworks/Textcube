@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-// DBQuery version 1.7 for MySQL
+// DBQuery version 1.8 for MySQL
 
 global $cachedResult;
 global $fileCachedResult;
@@ -14,21 +14,22 @@ $cachedResult = $__dbProperties = array();
 $__gEscapeTag = null;
 
 class DBQuery {	
+	/*@static@*/
 	public static function bind($database) {
 		global $__dbProperties;
 		// Connects DB and set environment variables
 		// $database array should contain 'server','username','password'.
 		if(!isset($database) || empty($database)) return false;
-		$handle = @mysql_connect($database['server'], $database['username'], $database['password']);
+		$handle = @mysql_connect($database['server'].(isset($database['port']) ? ':'.$database['port'] : ''), $database['username'], $database['password']);
 		if(!$handle) return false;
 		$handle = @mysql_select_db($database['database']);
 		if(!$handle) return false;
 
-		if (self::query('SET CHARACTER SET utf8'))
+		if (DBQuery::query('SET CHARACTER SET utf8'))
 			$__dbProperties['charset'] = 'utf8';
 		else
 			$__dbProperties['charset'] = 'default';
-		@self::query('SET SESSION collation_connection = \'utf8_general_ci\'');
+		@DBQuery::query('SET SESSION collation_connection = \'utf8_general_ci\'');
 		return true;
 	}
 	
@@ -42,7 +43,6 @@ class DBQuery {
 		if (array_key_exists('charset', $__dbProperties)) return $__dbProperties['charset'];
 		else return null;
 	}
-
 	public static function dbms() {
 		return 'MySQL';
 	}
@@ -87,11 +87,12 @@ class DBQuery {
 		return false;
 	}
 	
+	/*@static@*/
 	public static function queryCount($query) {
 		global $__gLastQueryType;
 		$count = 0;
 		$query = trim($query);
-		if ($result = self::query($query)) {
+		if ($result = DBQuery::query($query)) {
 			$operation = strtolower(substr($query, 0,6));
 			$__gLastQueryType = $operation;
 			switch ($operation) {
@@ -112,18 +113,19 @@ class DBQuery {
 		return $count;
 	}
 
+	/*@static@*/
 	public static function queryCell($query, $field = 0, $useCache=true) {
-		$type = MYSQL_BOTH;
+		$type = 'both';
 		if (is_numeric($field)) {
-			$type = MYSQL_NUM;
+			$type = 'num';
 		} else {
-			$type = MYSQL_ASSOC;
+			$type = 'assoc';
 		}
 
 		if( $useCache ) {
-			$result = self::queryAllWithCache($query, $type);
+			$result = DBQuery::queryAllWithCache($query, $type);
 		} else {
-			$result = self::queryAllWithoutCache($query, $type);
+			$result = DBQuery::queryAllWithoutCache($query, $type);
 		}
 		if( empty($result) ) {
 			return null;
@@ -131,11 +133,12 @@ class DBQuery {
 		return $result[0][$field];
 	}
 	
-	public static function queryRow($query, $type = MYSQL_BOTH, $useCache=true) {
+	/*@static@*/
+	public static function queryRow($query, $type = 'both', $useCache=true) {
 		if( $useCache ) {
-			$result = self::queryAllWithCache($query, $type, 1);
+			$result = DBQuery::queryAllWithCache($query, $type, 1);
 		} else {
-			$result = self::queryAllWithoutCache($query, $type, 1);
+			$result = DBQuery::queryAllWithoutCache($query, $type, 1);
 		}
 		if( empty($result) ) {
 			return null;
@@ -143,11 +146,12 @@ class DBQuery {
 		return $result[0];
 	}
 	
+	/*@static@*/
 	public static function queryColumn($query, $useCache=true) {
 		global $cachedResult;
 		$cacheKey = "{$query}_queryColumn";
 		if( $useCache && isset( $cachedResult[$cacheKey] ) ) {
-			if( function_exists( '__tcSqlLogBegin' ) ) {
+			if(function_exists( '__tcSqlLogBegin' ) ) {
 				__tcSqlLogBegin($query);
 				__tcSqlLogEnd(null,1);
 			}
@@ -156,7 +160,7 @@ class DBQuery {
 		}
 
 		$column = null;
-		if ($result = self::query($query)) {
+		if ($result = DBQuery::query($query)) {
 			$column = array();
 			while ($row = mysql_fetch_row($result))
 				array_push($column, $row[0]);
@@ -169,16 +173,16 @@ class DBQuery {
 		return $column;
 	}
 	
-	public static function queryAll ($query, $type = MYSQL_BOTH, $count = -1) {
-		if($type == 'assoc') $type = MYSQL_ASSOC;
-		else if ($type == 'num') $type = MYSQL_NUM;
-		return self::queryAllWithCache($query, $type, $count);
+	/*@static@*/
+	public static function queryAll ($query, $type = 'both', $count = -1) {
+		return DBQuery::queryAllWithCache($query, $type, $count);
 		//return DBQuery::queryAllWithoutCache($query, $type, $count);  // Your choice. :)
 	}
 
-	public static function queryAllWithoutCache($query, $type = MYSQL_BOTH, $count = -1) {
+	public static function queryAllWithoutCache($query, $type = 'both', $count = -1) {
 		$all = array();
-		if ($result = self::query($query)) {
+		$realtype = DBQuery::__queryType($type);
+		if ($result = DBQuery::query($query)) {
 			while ( ($count-- !=0) && $row = mysql_fetch_array($result, $realtype))
 				array_push($all, $row);
 			mysql_free_result($result);
@@ -187,7 +191,7 @@ class DBQuery {
 		return null;
 	}
 	
-	public static function queryAllWithCache($query, $type = MYSQL_BOTH, $count = -1) {
+	public static function queryAllWithCache($query, $type = 'both', $count = -1) {
 		global $cachedResult;
 		$cacheKey = "{$query}_{$type}_{$count}";
 		if( isset( $cachedResult[$cacheKey] ) ) {
@@ -198,28 +202,31 @@ class DBQuery {
 			$cachedResult[$cacheKey][0]++;
 			return $cachedResult[$cacheKey][1];
 		}
-		$all = self::queryAllWithoutCache($query,$type,$count);
+		$all = DBQuery::queryAllWithoutCache($query,$type,$count);
 		$cachedResult[$cacheKey] = array( 1, $all );
 		return $all;
 	}
 	
+	/*@static@*/
 	public static function execute($query) {
-		return self::query($query) ? true : false;
+		return DBQuery::query($query) ? true : false;
 	}
 
+	/*@static@*/
 	public static function multiQuery() {
 		$result = false;
 		foreach (func_get_args() as $query) {
 			if (is_array($query)) {
 				foreach ($query as $subquery)
-					if (($result = self::query($subquery)) === false)
+					if (($result = DBQuery::query($subquery)) === false)
 						return false;
-			} else if (($result = self::query($query)) === false)
+			} else if (($result = DBQuery::query($query)) === false)
 				return false;
 		}
 		return $result;
 	}
 
+	/*@static@*/
 	public static function query($query) {
 		global $__gLastQueryType;
 		if( function_exists( '__tcSqlLogBegin' ) ) {
@@ -239,10 +246,14 @@ class DBQuery {
 		return $result;
 	}
 	
+	public static function insertId() {
+		return mysql_insert_id();
+	}
+	
 	public static function escapeString($string, $link = null){
 		global $__gEscapeTag;
 		if(is_null($__gEscapeTag)) {
-			if (function_exists('mysql_real_escape_string') && (mysql_real_escape_string('ㅋ') == 'ㅋ')) {
+			if ( function_exists('mysql_real_escape_string') && (mysql_real_escape_string('ㅋ') == 'ㅋ')) {
 				$__gEscapeTag = 'real';
 			} else {
 				$__gEscapeTag = 'none';
@@ -254,8 +265,7 @@ class DBQuery {
 			return mysql_escape_string($string);
 		}
 	}
-
-/*** Instant cache functions ***/
+	
 	public static function clearCache() {
 		global $cachedResult;
 		$cachedResult = array();
@@ -272,11 +282,8 @@ class DBQuery {
 		global $fileCachedResult;
 	}
 	
-/*** Raw functions (to easier adoptation from traditional queries) ***/
-	public static function insertId() {
-		return mysql_insert_id();
-	}
-	
+	/* Raw public static functions (to easier adoptation) */
+	/*@static@*/
 	public static function num_rows($handle = null) {
 		global $__gLastQueryType;
 		switch($__gLastQueryType) {
@@ -289,28 +296,45 @@ class DBQuery {
 		}
 		return null;
 	}
-	
+	/*@static@*/
 	public static function free($handle = null) {
 		mysql_free_result($handle);
 	}
 	
+	/*@static@*/
 	public static function fetch($handle = null, $type = 'assoc') {
 		if($type == 'array') return mysql_fetch_array($handle); // Can I use mysql_fetch_row instead?
 		else if ($type == 'row') return mysql_fetch_row($handle);
 		else return mysql_fetch_assoc($handle);
 	}
 	
+	/*@static@*/
 	public static function error($err = null) {
 		if($err === null) return mysql_error();
-		return mysql_error($err);
+		else return mysql_error($err);
 	}
 	
+	/*@static@*/
 	public static function stat($stat = null) {
 		if($stat === null) return mysql_stat();
 		else return mysql_stat($stat);
+	}
+	
+	/*@static@*/
+	public static function __queryType($type) {
+		switch(strtolower($type)) {
+			case 'num':
+				return MYSQL_NUM;
+			case 'assoc':
+				return MYSQL_ASSOC;				
+			case 'both':
+			default:
+				return MYSQL_BOTH;
+		}
 	}
 }
 
 DBQuery::cacheLoad();
 register_shutdown_function( array('DBQuery','cacheSave') );
+
 ?>

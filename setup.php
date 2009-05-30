@@ -1156,7 +1156,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
 			
             $schema .= "
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', ".Timestamp::getUNIXtime().", 0, 0);
-INSERT INTO {$_POST['dbPrefix']}Previleges VALUES (1, 1, 16, ".Timestamp::getUNIXtime().", 0);
+INSERT INTO {$_POST['dbPrefix']}Privileges VALUES (1, 1, 16, ".Timestamp::getUNIXtime().", 0);
 INSERT INTO {$_POST['dbPrefix']}ServiceSettings (name, value) VALUES ('newlineStyle', '1.1'); 
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'name', '$blog');
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'language', '$baseLanguage');
@@ -1172,6 +1172,7 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
             $query = explode(';', trim($schema));
             foreach ($query as $sub) {
                 if (!POD::query($sub)) {
+					var_dump($sub);
 					@POD::query(
 						"DROP TABLE
 							{$_POST['dbPrefix']}Attachments,
@@ -1199,8 +1200,11 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
 							{$_POST['dbPrefix']}OpenIDUsers,
 							{$_POST['dbPrefix']}PageCacheLog,
 							{$_POST['dbPrefix']}Plugins,
+							{$_POST['dbPrefix']}Privileges,
 							{$_POST['dbPrefix']}RefererLogs,
 							{$_POST['dbPrefix']}RefererStatistics,
+							{$_POST['dbPrefix']}RemoteResponseLogs,
+							{$_POST['dbPrefix']}RemoteResponses,
 							{$_POST['dbPrefix']}ReservedWords,
 							{$_POST['dbPrefix']}ServiceSettings,
 							{$_POST['dbPrefix']}SessionVisits,
@@ -1208,9 +1212,6 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
 							{$_POST['dbPrefix']}SkinSettings,
 							{$_POST['dbPrefix']}TagRelations,
 							{$_POST['dbPrefix']}Tags,
-							{$_POST['dbPrefix']}Privileges,
-							{$_POST['dbPrefix']}TrackbackLogs,
-							{$_POST['dbPrefix']}Trackbacks,
 							{$_POST['dbPrefix']}UserSettings,
 							{$_POST['dbPrefix']}Users,
 							{$_POST['dbPrefix']}XMLRPCPingSettings"

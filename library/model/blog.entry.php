@@ -564,7 +564,7 @@ function addEntry($blogid, $entry, $userid = null) {
 		$published = $entry['published'];
 		$entry['visibility'] = 0 - $entry['visibility'];
 		if($entry['visibility'] < 0) {
-			$closestReservedTime = getBlogSetting('closestReservedPostTime',9999999999);
+			$closestReservedTime = getBlogSetting('closestReservedPostTime',INT_MAX);
 			if($published < $closestReservedTime) {
 				setBlogSetting('closestReservedPostTime',$published);
 			}

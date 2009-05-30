@@ -173,7 +173,7 @@ CREATE TABLE [##_dbPrefix_##]FeedGroups (
   PRIMARY KEY  (blogid,id)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]FeedItems (
-  id int(11) NOT NULL auto_increment,
+  id int(11) NOT NULL default 0,
   feed int(11) NOT NULL default '0',
   author varchar(255) NOT NULL default '',
   permalink varchar(255) NOT NULL default '',
@@ -207,7 +207,7 @@ CREATE TABLE [##_dbPrefix_##]FeedStarred (
   PRIMARY KEY  (blogid,item)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]Feeds (
-  id int(11) NOT NULL auto_increment,
+  id int(11) NOT NULL default 0,
   xmlURL varchar(255) NOT NULL default '',
   blogURL varchar(255) NOT NULL default '',
   title varchar(255) NOT NULL default '',
@@ -217,7 +217,7 @@ CREATE TABLE [##_dbPrefix_##]Feeds (
   PRIMARY KEY  (id)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]Filters (
-  id int(11) NOT NULL auto_increment,
+  id int(11) NOT NULL default 0,
   blogid int(11) NOT NULL default '0',
   type enum('content','ip','name','url') NOT NULL default 'content',
   pattern varchar(255) NOT NULL default '',
@@ -393,7 +393,7 @@ CREATE TABLE [##_dbPrefix_##]RemoteResponses (
   KEY blogid (blogid, isFiltered, written)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]Users (
-  userid int(11) NOT NULL auto_increment,
+  userid int(11) NOT NULL default 1,
   loginid varchar(64) NOT NULL default '',
   password varchar(32) default NULL,
   name varchar(32) NOT NULL default '',
