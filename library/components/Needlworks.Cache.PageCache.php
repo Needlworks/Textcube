@@ -158,10 +158,10 @@ class pageCache {
 		else $this->_dbContents['user'] = $this->dbContents;
 		$query = new TableQuery($database['prefix'].'PageCacheLog');
 		$query->setAttribute('blogid',getBlogId());
-		$query->setAttribute('name',POD::escapeString($this->realName),true);
-		$query->setAttribute('value',POD::escapeString(serialize($this->_dbContents)),true);
+		$query->setAttribute('name',$this->realName,true);
+		$query->setAttribute('value',serialize($this->_dbContents),true);
 		$query->setQualifier('blogid',getBlogId());
-		$query->setQualifier('name',POD::escapeString($this->realName),true);
+		$query->setQualifier('name',$this->realName,true);
 		return $query->replace();
 	}
 
@@ -240,8 +240,8 @@ class queryCache {
 	function setPageCacheLog() {
 		global $database;
 		if(empty($this->queryHash)) $this->getQueryHash();
-		$name = POD::escapeString($this->queryHash);
-		$value = POD::escapeString(serialize($this->contents));
+		$name = $this->queryHash;
+		$value = serialize($this->contents);
 		$query = new TableQuery($database['prefix'].'PageCacheLog');
 		$query->setAttribute('blogid',getBlogId());
 		$query->setAttribute('name',$name,true);
@@ -291,7 +291,7 @@ class globalCacheStorage extends pageCache {
 			$query = new TableQuery($database['prefix'].'PageCacheLog');
 			$query->setAttribute('blogid',$this->_gBlogId);
 			$query->setAttribute('name','globalCacheStorage',true);
-			$query->setAttribute('value',POD::escapeString(serialize($this->_gCacheStorage[$this->_gBlogId])),true);
+			$query->setAttribute('value',serialize($this->_gCacheStorage[$this->_gBlogId]),true);
 			$query->setQualifier('blogid',$this->_gBlogId);
 			$query->setQualifier('name','globalCacheStorage',true);
 			return $query->replace();
