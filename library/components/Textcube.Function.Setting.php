@@ -284,7 +284,7 @@ class Setting {
 		return POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = ".(is_null($userid) ? getUserId() : $userid)." AND name = '".POD::escapeString($name)."'");
 	}
 
-	function getServiceSetting($name, $value, $global = null) {
+	function getServiceSetting($name, $default, $global = null) {
 		global $database, $__serviceSetting;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		if( empty($__serviceSetting) ) {
@@ -392,4 +392,5 @@ class Setting {
 		if($blogid == getBlogId())  $gCacheStorage->setContent('SkinSetting',$defaultSetting);
 		return $defaultSetting;	
 	}
+}
 ?>
