@@ -132,7 +132,8 @@ class Paging {
 		$offset = ($paging['page'] - 1) * $count;
 		if ($offset < 0) $offset = 0;
 		if ($countItem !== null) $count = $countItem;
-		return array(POD::queryAll("$sql LIMIT $offset OFFSET $count"), $paging);
+		//return array(POD::queryAll("$sql LIMIT $offset OFFSET $count"), $paging);
+		return array(POD::queryAll("$sql LIMIT $count OFFSET $offset"), $paging);
 	}
 }
 ?>
