@@ -853,7 +853,7 @@ function notifyComment() {
 				CNQ.sendStatus = '0'
 				and CN.parent is not null
 			ORDER BY CNQ.id ASC
-			LIMIT 0 OFFSET 1
+			LIMIT 1 OFFSET 0
 		";
 	$queue = POD::queryRow($sql);
 	if (empty($queue) && empty($queue['queueId'])) {
