@@ -22,13 +22,11 @@ class DBQuery {
 		if(!isset($database) || empty($database)) return false;
 		$handle = @cubrid_connect($database['server'], $database['port'], $database['database'], $database['username'], $database['password']);
 		if(!$handle) return false;
-//		$handle = @cubrid_select_db($database['database']);
-//		if(!$handle) return false;
 		$__dbProperties['handle'] = $handle;	// Keeping handle
-		if (DBQuery::query('SET CHARACTER SET utf8'))
+//		if (DBQuery::query('SET CHARACTER SET utf8'))
 			$__dbProperties['charset'] = 'utf8';
-		else
-			$__dbProperties['charset'] = 'default';
+//		else
+//			$__dbProperties['charset'] = 'default';
 		@DBQuery::query('SET SESSION collation_connection = \'utf8_general_ci\'');
 		return true;
 	}
@@ -44,7 +42,7 @@ class DBQuery {
 		else return null;
 	}
 	function dbms() {
-		return 'MySQL';
+		return 'Cubrid';
 	}
 
 	function version($mode = 'server') {
@@ -56,10 +54,25 @@ class DBQuery {
 		}
 	}
 	
-	function tableList($condition = null) {
+/*	function tableList($condition = null) {
 		global $__dbProperties;
 		if (!array_key_exists('tableList', $__dbProperties)) { 
 			$__dbProperties['tableList'] = DBQuery::queryAll("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
+		}
+		if(!is_null($condition)) {
+			foreach($__dbProperties['tableList'] as $item) {
+				if(strpos($item, $condition) === 0) array_push($result, $item);
+			}
+			return $item;
+		} else {
+			return $__dbProperties['tableList'];
+		}
+	}
+*/
+	function tableList($condition = null) {
+		global $__dbProperties;
+		if (!array_key_exists('tableList', $__dbProperties)) { 
+			$__dbProperties['tableList'] = DBQuery::queryAll('select * from db_class');
 		}
 		if(!is_null($condition)) {
 			foreach($__dbProperties['tableList'] as $item) {
@@ -106,7 +119,6 @@ class DBQuery {
 				case 'replac':
 				default:
 					$count = cubrid_affected_rows();
-					//cubrid_free_result();
 					break;
 			}
 		}
@@ -185,7 +197,7 @@ class DBQuery {
 		if ($result = DBQuery::query($query)) {
 			while ( ($count-- !=0) && $row = cubrid_fetch($result, $realtype))
 				array_push($all, $row);
-			cubrid_free_result($result);
+			cubrid_close_request($result);
 			return $all;
 		}
 		return null;
@@ -228,13 +240,14 @@ class DBQuery {
 
 	/*@static@*/
 	function query($query) {
-		global $__gLastQueryType;
+		global $__gLastQueryType, $__dbProperties;
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);
-			$result = cubrid_execute($query);
+			$result = cubrid_execute($__dbProperties['handle'],$query);
 			__tcSqlLogEnd($result,0);
 		} else {
-			$result = cubrid_execute($query);
+//			var_dump($query);
+			$result = cubrid_execute($__dbProperties['handle'],$query);
 		}
 		$__gLastQueryType = strtolower(substr($query, 0,6));
 		if( stristr($query, 'update ') ||
@@ -252,18 +265,7 @@ class DBQuery {
 	
 	function escapeString($string, $link = null){
 		global $__gEscapeTag;
-		if(is_null($__gEscapeTag)) {
-			if (function_exists('cubrid_real_escape_string') && (cubrid_real_escape_string('ㅋ') == 'ㅋ')) {
-				$__gEscapeTag = 'real';
-			} else {
-				$__gEscapeTag = 'none';
-			}
-		}
-		if($__gEscapeTag == 'real') {
-			return is_null($link) ? cubrid_real_escape_string($string) : cubrid_real_escape_string($string, $link);
-		} else {
-			return cubrid_escape_string($string);
-		}
+		return preg_replace("/'/","''",$string);
 	}
 	
 	function clearCache() {
@@ -303,9 +305,8 @@ class DBQuery {
 	
 	/*@static@*/
 	function fetch($handle = null, $type = 'assoc') {
-		if($type == 'array') return cubrid_fetch_array($handle); // Can I use cubrid_fetch_row instead?
-		else if ($type == 'row') return cubrid_fetch_row($handle);
-		else return cubrid_fetch_assoc($handle);
+		$realtype = DBQuery::__queryType($type);
+		return cubrid_fetch($handle,$realtype);
 	}
 	
 	/*@static@*/

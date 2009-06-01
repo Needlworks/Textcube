@@ -567,7 +567,7 @@ xml_set_object
         }
 ?>
     </ul>
-    <h3>MySQL</h3>
+    <h3><?php echo POD::dbms();?></h3>
     <ul>
 <?php
         if (POD::charset() == 'utf8')

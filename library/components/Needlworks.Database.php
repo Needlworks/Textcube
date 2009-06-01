@@ -15,6 +15,9 @@ switch($database['dbms']) {
 	case 'PostgreSQL':
 		require_once ROOT.'/library/components/Needlworks.DBMS.PostgreSQL.php';
 		break;
+	case 'Cubrid':
+		require_once ROOT.'/library/components/Needlworks.DBMS.Cubrid.php';
+		break;
 	case 'MySQL':
 	default:
 		require_once ROOT.'/library/components/Needlworks.DBMS.MySQL.php';
