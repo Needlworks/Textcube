@@ -9,6 +9,11 @@ function Tag_removeEmptyTagHelper($var)
 }
 
 class Tag {
+	function doesExist($tag) {
+		global $database;
+		return POD::queryCount("SELECT id FROM {$database['prefix']}Tags WHERE name = '".$tag."' LIMIT 1");
+	}
+	
 	/*@static@*/
 	function addTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 	{
@@ -30,8 +35,13 @@ class Tag {
 		}
 
 		// step 1. Insert Tags
-		$tagliststr = '(\'' . implode('\') , (\'', $taglist) . '\')';
-		POD::execute("INSERT IGNORE INTO {$database['prefix']}Tags (name) VALUES $tagliststr ");
+		foreach ($taglist as $tg) {
+			if(!Tag::doesExist($tg)) {
+				@POD::execute("INSERT INTO {$database['prefix']}Tags (id, name) VALUES (".(Tag::_getMaxId()+1).",'".$tg."')");
+			}
+		}
+//		$tagliststr = '(\'' . implode('\') , (\'', $taglist) . '\')';
+//		POD::execute("INSERT IGNORE INTO {$database['prefix']}Tags (name) VALUES $tagliststr ");
 
 		// the point of Race condition
 		// if other entry is deleted, some missing tags can be exist so they are not related with this entry.
@@ -56,8 +66,11 @@ class Tag {
 			array_push($tagrelations, " ($blogid, $tagid, $entry) ");
 			CacheControl::flushTag($tagid);		
 		}
-		$tagRelationStr = implode(', ', $tagrelations);
-		POD::execute("INSERT IGNORE INTO {$database['prefix']}TagRelations VALUES $tagRelationStr");
+		foreach($tagrelations as $tr) {
+			@POD::execute("INSERT INTO {$database['prefix']}TagRelations VALUES $tr");
+		}
+		//$tagRelationStr = implode(', ', $tagrelations);
+		//POD::execute("INSERT IGNORE INTO {$database['prefix']}TagRelations VALUES $tagRelationStr");
 	}
 
 	/*@static@*/
@@ -92,8 +105,13 @@ class Tag {
 		// step 2. Insert Tag
 		if (count($insertedTagList) > 0) 
 		{
-			$tagliststr = '(\'' . implode('\') , (\'', $insertedTagList) . '\')';
-			POD::execute("INSERT IGNORE INTO {$database['prefix']}Tags (name) VALUES $tagliststr ");
+			foreach ($insertedTagList as $tg) {
+				if(!Tag::doesExist($tg)) {
+					@POD::execute("INSERT INTO {$database['prefix']}Tags (id, name) VALUES (".(Tag::_getMaxId()+1).",'".$tg."')");
+				}
+			}
+//			$tagliststr = '(\'' . implode('\') , (\'', $insertedTagList) . '\')';
+//			POD::execute("INSERT IGNORE INTO {$database['prefix']}Tags (name) VALUES $tagliststr ");
 		
 		// step 3. Insert Relation
 			$tagliststr =  '\'' . implode('\' , \'', $insertedTagList) . '\'';
@@ -115,8 +133,11 @@ class Tag {
 			{
 				array_push($tagrelations, " ($blogid, $tagid, $entry) ");
 			}
-			$tagRelationStr = implode(', ', $tagrelations);
-			POD::execute("INSERT IGNORE INTO {$database['prefix']}TagRelations VALUES $tagRelationStr");
+			foreach($tagrelations as $tr) {
+				@POD::execute("INSERT INTO {$database['prefix']}TagRelations VALUES $tr");
+			}
+			//$tagRelationStr = implode(', ', $tagrelations);
+			//POD::execute("INSERT IGNORE INTO {$database['prefix']}TagRelations VALUES $tagRelationStr");
 		}
 		
 		// step 4. Delete Tag
@@ -182,7 +203,7 @@ class Tag {
 	}
 	function _getMaxId() {
 		global $database;
-		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Filters WHERE 1");
+		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Tags WHERE 1");
 		if($maxId) return $maxId;
 		else return 0;
 	}
