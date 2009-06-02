@@ -844,7 +844,7 @@ if (defined('__TEXTCUBE_POST__')) {
 												</dd>
 											</dl>
 <?php
-	$countResult = POD::queryExistence("SELECT `id` FROM `{$database['prefix']}Entries` WHERE `blogid` = ".getBlogId()." AND `visibility` = 3");
+	$countResult = POD::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND visibility = 3");
 ?>
 											<dl id="status-line" class="line">
 												<dt><span class="label"><?php echo _t('공개여부');?></span></dt>

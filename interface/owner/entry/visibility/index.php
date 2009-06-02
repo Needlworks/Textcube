@@ -31,9 +31,9 @@ if(Acl::check('group.writers') === false && !empty($suri['id'])) {
 	
 if (!isset($_GET['command'])) {
 	$temp = setEntryVisibility($suri['id'], isset($_GET['visibility']) ? $_GET['visibility'] : 0) == true ? 0 : 1;
-	$countResult = POD::queryExistence("SELECT `id` 
-			FROM `{$database['prefix']}Entries` 
-			WHERE `blogid` = ".getBlogId()." AND `visibility` = 3");
+	$countResult = POD::queryExistence("SELECT id 
+			FROM {$database['prefix']}Entries 
+			WHERE blogid = ".getBlogId()." AND visibility = 3");
 	if ($countResult == false) {
 		$countResult = 0;
 	} else {

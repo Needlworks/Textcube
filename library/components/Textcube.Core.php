@@ -368,15 +368,15 @@ class Blog {
 		if ($blogid == null) {
 			$blogid = getBlogId();
 		}
-		POD::execute("UPDATE `{$database['prefix']}Entries` 
+		POD::execute("UPDATE {$database['prefix']}Entries 
 			SET userid = ".User::getBlogOwner($blogid)." 
 			WHERE blogid = ".$blogid." AND userid = ".$userid);
 	
 		// Delete ACL relation.
-		if(!POD::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE blogid='$blogid' and userid='$userid'"))
+		if(!POD::execute("DELETE FROM {$database['prefix']}Teamblog WHERE blogid=$blogid and userid=$userid"))
 			return false;
 		// And if there is no blog related to the specific user, delete user.
-		if($clean && !POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE userid = '$userid'")) {
+		if($clean && !POD::queryAll("SELECT * FROM {$database['prefix']}Teamblog WHERE userid = $userid")) {
 			User::removePermanent($userid);
 		}
 		return true;
@@ -389,10 +389,10 @@ class Blog {
 			return false;
 		$acl = POD::queryCell("SELECT acl
 				FROM {$database['prefix']}Teamblog 
-				WHERE blogid='$blogid' and userid='$userid'");
+				WHERE blogid=$blogid and userid=$userid");
 		if( $acl === null ) { // If there is no ACL, add user into the blog.
 			$name = User::getName($userid);
-			POD::query("INSERT INTO `{$database['prefix']}Teamblog`  
+			POD::query("INSERT INTO {$database['prefix']}Teamblog  
 					VALUES('$blogid', '$userid', '0', UNIX_TIMESTAMP(), '0')");
 			$acl = 0;
 		}
@@ -412,7 +412,7 @@ class Blog {
 		} else {
 			$acl &= ~$bitwise;
 		}
-		return POD::execute("UPDATE `{$database['prefix']}Teamblog` 
+		return POD::execute("UPDATE {$database['prefix']}Teamblog 
 			SET acl = ".$acl." 
 			WHERE blogid = ".$blogid." and userid = ".$userid);
 	}

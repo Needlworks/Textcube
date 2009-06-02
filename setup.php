@@ -1114,6 +1114,10 @@ RewriteRule ^testrewrite$ setup.php [L]"
 			// Compatibility layer load
 			if(file_exists(ROOT.'/library/setup/compatibility.'.POD::dbms().'.sql')) {
 				$schema = file_get_contents(ROOT.'/library/setup/compatibility.'.POD::dbms().'.sql');
+            	$query = explode(';', trim($schema));
+            	foreach ($query as $sub) @POD::query($sub);
+				$schema = '';
+				$query = array(); 
 			}
             // Loading create schema from sql file. (DBMS specific)
 			

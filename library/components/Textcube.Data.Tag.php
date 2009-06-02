@@ -12,6 +12,7 @@ class Tag {
 	/*@static@*/
 	function addTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
 	{
+		requireComponent('Needlworks.Cache.PageCache');
 		global $database;
 		
 		if ($taglist == null)
@@ -39,14 +40,13 @@ class Tag {
 		$tagliststr =  '\'' . implode('\' , \'', $taglist) . '\'';
 		/*
 		POD::execute("INSERT INTO {$database['prefix']}TagRelations
-								(SELECT $blogid, t.id, $entry FROM {$database['prefix']}Tags as t 
-										WHERE 
-											name in ( $tagliststr ) AND  
-											t.id NOT IN 
-												( SELECT tag FROM {$database['prefix']}TagRelations WHERE 
-													(tag = t.id) AND (entry = $entry) AND (blogid = $blogid)
-												)
-								)");
+			(SELECT $blogid, t.id, $entry FROM {$database['prefix']}Tags as t 
+				WHERE 
+				name in ( $tagliststr ) AND  
+				t.id NOT IN 
+				(tag = t.id) AND (entry = $entry) AND (blogid = $blogid)
+				)
+			)");
 		*/
 		// For MySQL 3, Simple Query Version
 		$tagIDs = POD::queryColumn("SELECT id FROM {$database['prefix']}Tags WHERE name in ( $tagliststr )");
@@ -54,6 +54,7 @@ class Tag {
 		foreach($tagIDs as $tagid)
 		{
 			array_push($tagrelations, " ($blogid, $tagid, $entry) ");
+			CacheControl::flushTag($tagid);		
 		}
 		$tagRelationStr = implode(', ', $tagrelations);
 		POD::execute("INSERT IGNORE INTO {$database['prefix']}TagRelations VALUES $tagRelationStr");
@@ -75,22 +76,18 @@ class Tag {
 		}
 		
 		// step 1. Get deleted Tag
-		$toldlist = POD::queryColumn("SELECT tag FROM {$database['prefix']}TagRelations WHERE blogid = $blogid AND entry = $entry");
-		$tmpoldtaglist	 = null;
-		if (count($toldlist) > 0) {
-			$toldliststr = implode(', ', $toldlist);
-			$tmpoldtaglist = POD::queryColumn("SELECT name FROM {$database['prefix']}Tags WHERE id IN ( $toldliststr )");
-		}
-		if (is_null($tmpoldtaglist))
+		$tmpoldtaglist = POD::queryColumn("SELECT name FROM {$database['prefix']}Tags
+			LEFT JOIN {$database['prefix']}TagRelations ON tag = id 
+			WHERE blogid = $blogid AND entry = $entry");
+		if ($tmpoldtaglist === null)
 			$tmpoldtaglist = array();
 		$oldtaglist = array();
 		foreach($tmpoldtaglist as $tag) {
 			$tag = POD::escapeString(UTF8::lessenAsEncoding(trim($tag), 255));
 			array_push($oldtaglist, $tag);
 		}
-		
 		$deletedTagList = array_diff($oldtaglist, $taglist);
-		$insertedTagList = array_diff($taglist, $oldtaglist);
+		$insertedTagList = array_diff($taglist, $oldtaglist);		
 		
 		// step 2. Insert Tag
 		if (count($insertedTagList) > 0) 
@@ -102,14 +99,14 @@ class Tag {
 			$tagliststr =  '\'' . implode('\' , \'', $insertedTagList) . '\'';
 			/*
 			POD::execute("INSERT INTO {$database['prefix']}TagRelations
-									(SELECT $blogid, t.id, $entry FROM {$database['prefix']}Tags as t 
-											WHERE 
-												name in ( $tagliststr ) AND  
-												t.id NOT IN 
-													( SELECT tag FROM {$database['prefix']}TagRelations WHERE 
-														(tag = t.id) AND (entry = $entry) AND (blogid = $blogid)
-													)
-									)");
+				(SELECT $blogid, t.id, $entry FROM {$database['prefix']}Tags as t 
+					WHERE 
+					name in ( $tagliststr ) AND  
+					t.id NOT IN 
+						( SELECT tag FROM {$database['prefix']}TagRelations WHERE 
+							(tag = t.id) AND (entry = $entry) AND (blogid = $blogid)
+						)
+					)");
 			*/
 			// For MySQL 3, Simple Query Version
 			$tagIDs = POD::queryColumn("SELECT id FROM {$database['prefix']}Tags WHERE name in ( $tagliststr )");
@@ -130,10 +127,16 @@ class Tag {
 			$t1list = POD::queryColumn("SELECT id FROM {$database['prefix']}Tags WHERE name in ( $tagliststr )");
 			if (is_null($t1list)) 
 				return; // What?
+			
+			// Flushing pageCache
+			foreach($t1list as $tagids) {
+				CacheControl::flushTag($tagids);
+			}
+			 // Make string
 			$t1liststr = implode(', ', $t1list);
 			$taglist = POD::queryColumn(
 					"SELECT tag FROM {$database['prefix']}TagRelations 
-							WHERE blogid = $blogid AND entry = $entry AND tag in ( $t1liststr )");
+						WHERE blogid = $blogid AND entry = $entry AND tag in ( $t1liststr )");
 			if (is_null($taglist)) 
 				return; // What?
 			
@@ -162,8 +165,12 @@ class Tag {
 		$taglist = POD::queryColumn("SELECT tag FROM {$database['prefix']}TagRelations WHERE blogid = $blogid AND entry = $entry");
 		if (!is_null($taglist)) {
 			$tagliststr = implode(',', $taglist);
+			foreach($taglist as $tagid) {
+				CacheControl::flushTag($tagid);
+			}
 			
-			POD::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = $blogid AND entry = $entry");
+			POD::execute("DELETE FROM {$database['prefix']}TagRelations 
+				WHERE blogid = $blogid AND entry = $entry");
 			$nottargets = POD::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE tag in ( $tagliststr )");
 			if (count($nottargets) > 0) {
 				$nottargetstr	= implode(', ', $nottargets);

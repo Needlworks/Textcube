@@ -309,7 +309,7 @@ function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count
 		$teamMemberFilter = " AND e.userid = ".getUserId();
 	}
 	
-	$sql = "SELECT e.*, c.label categoryLabel, d.id draft 
+	$sql = "SELECT e.*, c.label AS categoryLabel, d.id AS draft 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.blogid = c.blogid 
 		LEFT JOIN {$database['prefix']}Entries d ON e.blogid = d.blogid AND e.id = d.id AND d.draft = 1 
@@ -368,7 +368,7 @@ function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false
 			}
 		}
 	}
-	$currentEntry = POD::queryRow("SELECT e.*, c.label categoryLabel 
+	$currentEntry = POD::queryRow("SELECT e.*, c.label AS categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid 
@@ -438,7 +438,7 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false, $catego
 			}
 		}
 	}
-	$currentEntry = POD::queryRow("SELECT e.*, c.label categoryLabel 
+	$currentEntry = POD::queryRow("SELECT e.*, c.label AS categoryLabel 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid 
@@ -581,8 +581,8 @@ function addEntry($blogid, $entry, $userid = null) {
 		$id = 1;
 	}
 	$result = POD::query("INSERT INTO {$database['prefix']}Entries 
-			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, contentFormatter,
-			 contentEditor, location, password, acceptComment, acceptTrackback, published, created, modified,
+			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, \"contentFormatter\",
+			 \"contentEditor\", location, password, \"acceptComment\", \"acceptTrackback\", published, created, modified,
 			 comments, trackbacks) 
 			VALUES (
 			$blogid,
@@ -728,11 +728,11 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 				location           = '$location',
 				title              = '$title',
 				content            = '$content',
-				contentFormatter   = '$contentFormatter',
-				contentEditor      = '$contentEditor',
+				\"contentFormatter\"   = '$contentFormatter',
+				\"contentEditor\"      = '$contentEditor',
 				slogan             = '$slogan',
-				acceptComment      = {$entry['acceptComment']},
-				acceptTrackback    = {$entry['acceptTrackback']},
+				\"acceptComment\"      = {$entry['acceptComment']},
+				\"acceptTrackback\"    = {$entry['acceptTrackback']},
 				published          = $published,
 				modified           = UNIX_TIMESTAMP()
 			WHERE blogid = $blogid AND id = {$entry['id']} AND draft = $updateDraft");
@@ -864,18 +864,18 @@ function saveDraftEntry($blogid, $entry) {
 				location           = '$location',
 				title              = '$title',
 				content            = '$content',
-				contentFormatter   = '$contentFormatter',
-				contentEditor      = '$contentEditor',
+				\"contentFormatter\"   = '$contentFormatter',
+				\"contentEditor\"      = '$contentEditor',
 				slogan             = '$slogan',
-				acceptComment      = {$entry['acceptComment']},
-				acceptTrackback    = {$entry['acceptTrackback']},
+				\"acceptComment\"      = {$entry['acceptComment']},
+				\"acceptTrackback\"    = {$entry['acceptTrackback']},
 				published          = $published,
 				modified           = UNIX_TIMESTAMP()
 			WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 1");
 	} else {
 		$result = POD::query("INSERT INTO {$database['prefix']}Entries 
-			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, contentFormatter,
-			 contentEditor, location, password, acceptComment, acceptTrackback, published, created, modified,
+			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, \"contentFormatter\",
+			 \"contentEditor\", location, password, \"acceptComment\", \"acceptTrackback\", published, created, modified,
 			 comments, trackbacks) 
 			VALUES (
 			$blogid,
@@ -905,7 +905,7 @@ function saveDraftEntry($blogid, $entry) {
 
 function updateTrackbacksOfEntry($blogid, $id) {
 	global $database;
-	$trackbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND entry = $id AND isFiltered = 0");
+	$trackbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND entry = $id AND \"isFiltered\" = 0");
 	if ($trackbacks === null)
 		return false;
 	return POD::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks WHERE blogid = $blogid AND id = $id");

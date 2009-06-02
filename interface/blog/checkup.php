@@ -98,7 +98,7 @@ function clearCache() {
 $changed = false;
 global $succeed;
 $succeed = true;
-if($currentVersion != TEXTCUBE_VERSION) {
+if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','MySQLi'))) {
 	// From 1.6
 	if (POD::queryCell("DESC {$database['prefix']}CommentsNotified id", 'Extra') == 'auto_increment') {
 		$changed = true;
@@ -398,6 +398,7 @@ if($currentVersion != TEXTCUBE_VERSION) {
 			showCheckupMessage(false);
 	}
 }
+//if(!in_array(POD::dbms(), array('MySQL','MySQLi'))) 
 
 /***** Common parts. *****/
 if(doesHaveOwnership()) clearCache();

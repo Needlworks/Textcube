@@ -122,9 +122,9 @@ if (isset($_POST['visibility'])) {
 }
 
 // 이올린에 발행한 적이 있는지 체크.
-$countResult = POD::queryExistence("SELECT `id` 
-		FROM `{$database['prefix']}Entries` 
-		WHERE `blogid` = ".getBlogId()." AND `visibility` = 3 LIMIT 1");
+$countResult = POD::queryExistence("SELECT id 
+		FROM {$database['prefix']}Entries
+		WHERE blogid = ".getBlogId()." AND visibility = 3 LIMIT 1");
 
 require ROOT . '/library/piece/owner/header.php';
 
