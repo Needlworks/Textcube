@@ -100,7 +100,6 @@ CREATE TABLE [##_dbPrefix_##]CommentsNotifiedSiteInfo (
   PRIMARY KEY  (id)
 ) [##_charset_##];
 CREATE UNIQUE INDEX CommentsNotifiedSiteInfo_url_idx ON [##_dbPrefix_##]CommentsNotifiedSiteInfo (url);
-CREATE UNIQUE INDEX CommentsNotifiedSiteInfo_id_idx ON [##_dbPrefix_##]CommentsNotifiedSiteInfo (id);
 CREATE TABLE [##_dbPrefix_##]DailyStatistics (
   blogid integer NOT NULL default '0',
   date integer NOT NULL default '0',

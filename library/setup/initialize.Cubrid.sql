@@ -4,7 +4,7 @@ CREATE TABLE [##_dbPrefix_##]Attachments (
   name varchar(32) default '' NOT NULL,
   label varchar(64) default '' NOT NULL,
   mime varchar(32) default '' NOT NULL,
-  filesize integer default 0 NOT NULL,
+  "size" integer default 0 NOT NULL,
   width integer default 0 NOT NULL,
   height integer default 0 NOT NULL,
   attached integer default 0 NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE [##_dbPrefix_##]Attachments (
 CREATE TABLE [##_dbPrefix_##]BlogSettings (
   blogid integer default 0 NOT NULL,
   name varchar(32) default '' NOT NULL,
-  value varchar NOT NULL,
+  "value" varchar NOT NULL,
   PRIMARY KEY (blogid, name)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]BlogStatistics (
@@ -30,10 +30,10 @@ CREATE TABLE [##_dbPrefix_##]Categories (
   name varchar(127) default '' NOT NULL,
   priority integer default 0 NOT NULL,
   entries integer default 0 NOT NULL,
-  entriesInLogin integer default 0 NOT NULL,
+  "entriesInLogin" integer default 0 NOT NULL,
   label varchar(255) default '' NOT NULL,
   visibility integer default 2 NOT NULL,
-  bodyId varchar(20) default NULL,
+  "bodyId" varchar(20) default NULL,
   PRIMARY KEY (blogid,id)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]Comments (
@@ -50,7 +50,7 @@ CREATE TABLE [##_dbPrefix_##]Comments (
   comment varchar NOT NULL,
   ip varchar(15) default '' NOT NULL,
   written integer default 0 NOT NULL,
-  isFiltered integer default 0 NOT NULL,
+  "isFiltered" integer default 0 NOT NULL,
   PRIMARY KEY  (blogid, id)
 ) [##_charset_##];
 CREATE INDEX Comments_blogid_idx ON [##_dbPrefix_##]Comments (blogid);
@@ -71,12 +71,12 @@ CREATE TABLE [##_dbPrefix_##]CommentsNotified (
   ip varchar(15) default '' NOT NULL,
   written integer default 0 NOT NULL,
   modified integer default 0 NOT NULL,
-  siteId integer default 0 NOT NULL,
-  isNew integer default 1 NOT NULL,
+  "siteId" integer default 0 NOT NULL,
+  "isNew" integer default 1 NOT NULL,
   url varchar(255) default '' NOT NULL,
-  remoteId integer default 0 NOT NULL,
-  entryTitle varchar(255) default '' NOT NULL,
-  entryUrl varchar(255) default '' NOT NULL,
+  "remoteId" integer default 0 NOT NULL,
+  "entryTitle" varchar(255) default '' NOT NULL,
+  "entryUrl" varchar(255) default '' NOT NULL,
   PRIMARY KEY  (blogid, id)
 ) [##_charset_##];
 CREATE INDEX CommentsNotified_blogid_idx ON [##_dbPrefix_##]CommentsNotified (blogid);
@@ -84,9 +84,9 @@ CREATE INDEX CommentsNotified_entry_idx ON [##_dbPrefix_##]CommentsNotified (ent
 CREATE TABLE [##_dbPrefix_##]CommentsNotifiedQueue (
   blogid integer default 0 NOT NULL,
   id integer NOT NULL,
-  commentId integer default 0 NOT NULL,
-  sendStatus integer default 0 NOT NULL,
-  checkDate integer default 0 NOT NULL,
+  "commentId" integer default 0 NOT NULL,
+  "sendStatus" integer default 0 NOT NULL,
+  "checkDate" integer default 0 NOT NULL,
   written integer default 0 NOT NULL,
   PRIMARY KEY  (blogid, id)
 ) [##_charset_##];
@@ -100,30 +100,29 @@ CREATE TABLE [##_dbPrefix_##]CommentsNotifiedSiteInfo (
   PRIMARY KEY  (id)
 ) [##_charset_##];
 CREATE UNIQUE INDEX CommentsNotifiedSiteInfo_url_idx ON [##_dbPrefix_##]CommentsNotifiedSiteInfo (url);
-CREATE UNIQUE INDEX CommentsNotifiedSiteInfo_id_idx ON [##_dbPrefix_##]CommentsNotifiedSiteInfo (id);
 CREATE TABLE [##_dbPrefix_##]DailyStatistics (
   blogid integer default 0 NOT NULL,
-  date integer default 0 NOT NULL,
+  "date" integer default 0 NOT NULL,
   visits integer default 0 NOT NULL,
-  PRIMARY KEY  (blogid,date)
+  PRIMARY KEY  (blogid,"date")
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]Entries (
   blogid integer default 0 NOT NULL,
   userid integer default 0 NOT NULL,
   id integer NOT NULL,
   draft integer default 0 NOT NULL,
-  visibility integer default 0 NOT NULL,
+  visibility smallint default 0 NOT NULL,
   starred integer default 1 NOT NULL,
   category integer default 0 NOT NULL,
   title varchar(255) default '' NOT NULL,
   slogan varchar(255) default '' NOT NULL,
   content varchar NOT NULL,
-  contentFormatter varchar(32) DEFAULT '' NOT NULL,
-  contentEditor varchar(32) DEFAULT '' NOT NULL,
-  location varchar(255) NOT NULL default '/',
+  "contentFormatter" varchar(32) DEFAULT '' NOT NULL,
+  "contentEditor" varchar(32) DEFAULT '' NOT NULL,
+  location varchar(255) default '/' NOT NULL,
   password varchar(32) default NULL,
-  acceptComment integer default 1 NOT NULL,
-  acceptTrackback integer default 1 NOT NULL,
+  "acceptComment" integer default 1 NOT NULL,
+  "acceptTrackback" integer default 1 NOT NULL,
   published integer default 0 NOT NULL,
   created integer default 0 NOT NULL,
   modified integer default 0 NOT NULL,
@@ -140,14 +139,14 @@ CREATE TABLE [##_dbPrefix_##]EntriesArchive (
   blogid integer default 0 NOT NULL,
   userid integer default 0 NOT NULL,
   id integer NOT NULL,
-  visibility integer default 0 NOT NULL,
+  visibility smallint default 0 NOT NULL,
   category integer default 0 NOT NULL,
   title varchar(255) default '' NOT NULL,
   slogan varchar(255) default '' NOT NULL,
   content varchar NOT NULL,
-  contentFormatter varchar(32) DEFAULT '' NOT NULL,
-  contentEditor varchar(32) DEFAULT '' NOT NULL,
-  location varchar(255) NOT NULL default '/',
+  "contentFormatter" varchar(32) DEFAULT '' NOT NULL,
+  "contentEditor" varchar(32) DEFAULT '' NOT NULL,
+  location varchar(255) default '/' NOT NULL,
   password varchar(32) default NULL,
   created integer default 0 NOT NULL,
   PRIMARY KEY (blogid, id, created)
@@ -158,7 +157,7 @@ CREATE INDEX EntriesArchive_userid_blogid_idx ON [##_dbPrefix_##]EntriesArchive 
 CREATE TABLE [##_dbPrefix_##]FeedGroupRelations (
   blogid integer default 0 NOT NULL,
   feed integer default 0 NOT NULL,
-  groupId integer default 0 NOT NULL,
+  "groupId" integer default 0 NOT NULL,
   PRIMARY KEY  (blogid,feed,groupId)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]FeedGroups (
@@ -189,10 +188,10 @@ CREATE TABLE [##_dbPrefix_##]FeedReads (
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]FeedSettings (
   blogid integer default 0 NOT NULL,
-  updateCycle integer NOT NULL default '120',
-  feedLife integer NOT NULL default '30',
+  updateCycle integer default 120 NOT NULL,
+  feedLife integer default 30 NOT NULL,
   loadImage integer default 1 NOT NULL,
-  allowScript integer NOT NULL default '2',
+  allowScript integer default 2 NOT NULL,
   newWindow integer default 1 NOT NULL,
   PRIMARY KEY  (blogid)
 ) [##_charset_##];
@@ -207,18 +206,18 @@ CREATE TABLE [##_dbPrefix_##]Feeds (
   blogURL varchar(255) default '' NOT NULL,
   title varchar(255) default '' NOT NULL,
   description varchar(255) default '' NOT NULL,
-  language varchar(5) NOT NULL default 'en-US',
+  "language" varchar(5) default 'en-US' NOT NULL,
   modified integer default 0 NOT NULL,
   PRIMARY KEY  (id)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]Filters (
   id integer default 1 NOT NULL,
   blogid integer default 0 NOT NULL,
-  type varchar(11) NOT NULL default 'content',
+  "type" varchar(11) default 'content' NOT NULL,
   pattern varchar(255) default '' NOT NULL,
   PRIMARY KEY (id)
 ) [##_charset_##];
-CREATE UNIQUE INDEX Filters_blogid_type_pattern_idx ON [##_dbPrefix_##]Filters (blogid, type, pattern);
+CREATE UNIQUE INDEX Filters_blogid_type_pattern_idx ON [##_dbPrefix_##]Filters (blogid, "type", pattern);
 CREATE TABLE [##_dbPrefix_##]Links (
   pid integer default 0 NOT NULL,
   blogid integer default 0 NOT NULL,
@@ -228,7 +227,7 @@ CREATE TABLE [##_dbPrefix_##]Links (
   url varchar(255) default '' NOT NULL,
   rss varchar(255) default '' NOT NULL,
   written integer default 0 NOT NULL,
-  visibility integer NOT NULL default '2',
+  visibility smallint default 2 NOT NULL,
   xfn varchar(128) default '' NOT NULL,
   PRIMARY KEY (pid)
 ) [##_charset_##];
@@ -239,7 +238,7 @@ CREATE TABLE [##_dbPrefix_##]LinkCategories (
   id integer default 0 NOT NULL,
   name varchar(128) NOT NULL,
   priority integer default 0 NOT NULL,
-  visibility integer NOT NULL default '2',
+  visibility smallint default 2 NOT NULL,
   PRIMARY KEY (pid)
 ) [##_charset_##];
 CREATE UNIQUE INDEX LinkCategories_blogid_id_idx ON [##_dbPrefix_##]LinkCategories (blogid, id);
@@ -250,42 +249,42 @@ CREATE TABLE [##_dbPrefix_##]OpenIDUsers (
   firstLogin integer default NULL,
   lastLogin integer default NULL,
   loginCount integer default NULL,
-  data text,
+  "data" varchar,
   PRIMARY KEY  (blogid,openid)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]PageCacheLog (
   blogid integer default 0 NOT NULL,
   name varchar(255) default '' NOT NULL,
-  value varchar NOT NULL,
+  "value" varchar NOT NULL,
   PRIMARY KEY (blogid,name)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]Plugins (
   blogid integer default 0 NOT NULL,
   name varchar(255) default '' NOT NULL,
-  settings text,
+  settings varchar,
   PRIMARY KEY  (blogid,name)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]RefererLogs (
   blogid integer default 0 NOT NULL,
   host varchar(64) default '' NOT NULL,
   url varchar(255) default '' NOT NULL,
-  referred integer NOT NULL default 0
+  referred integer default 0 NOT NULL
 ) [##_charset_##];
 CREATE INDEX RefererLogs_blogid_referred_idx ON [##_dbPrefix_##]RefererLogs (blogid, referred);
 CREATE TABLE [##_dbPrefix_##]RefererStatistics (
   blogid integer default 0 NOT NULL,
   host varchar(64) default '' NOT NULL,
-  count integer default 0 NOT NULL,
+  "count" integer default 0 NOT NULL,
   PRIMARY KEY  (blogid,host)
 ) [##_charset_##];
-CREATE INDEX RefererStatistics_blogid_count_idx ON [##_dbPrefix_##]RefererStatistics (blogid, count);
+CREATE INDEX RefererStatistics_blogid_count_idx ON [##_dbPrefix_##]RefererStatistics (blogid, "count");
 CREATE TABLE [##_dbPrefix_##]ReservedWords (
   word varchar(16) default '' NOT NULL,
   PRIMARY KEY  (word)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]ServiceSettings (
   name varchar(32) default '' NOT NULL,
-  value varchar NOT NULL,
+  "value" varchar NOT NULL,
   PRIMARY KEY  (name)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]SessionVisits (
@@ -299,7 +298,7 @@ CREATE TABLE [##_dbPrefix_##]Sessions (
   address varchar(15) default '' NOT NULL,
   userid integer default NULL,
   preexistence integer default NULL,
-  data varchar default NULL,
+  "data" varchar default NULL,
   server varchar(64) default '' NOT NULL,
   request varchar(255) default '' NOT NULL,
   referer varchar(255) default '' NOT NULL,
@@ -311,34 +310,34 @@ CREATE TABLE [##_dbPrefix_##]Sessions (
 CREATE INDEX Sessions_updated_idx ON [##_dbPrefix_##]Sessions (updated);
 CREATE TABLE [##_dbPrefix_##]SkinSettings (
   blogid integer default 0 NOT NULL,
-  skin varchar(32) NOT NULL default 'coolant',
-  entriesOnRecent integer NOT NULL default '10',
-  commentsOnRecent integer NOT NULL default '10',
-  commentsOnGuestbook integer NOT NULL default '5',
-  archivesOnPage integer NOT NULL default '5',
-  tagsOnTagbox integer NOT NULL default '10',
-  tagboxAlign integer default 1 NOT NULL,
-  trackbacksOnRecent integer NOT NULL default '5',
-  expandComment integer default 1 NOT NULL,
-  expandTrackback integer default 1 NOT NULL,
-  recentNoticeLength integer NOT NULL default '30',
-  recentEntryLength integer NOT NULL default '30',
-  recentCommentLength integer NOT NULL default '30',
-  recentTrackbackLength integer NOT NULL default '30',
-  linkLength integer NOT NULL default '30',
-  showListOnCategory integer default 1 NOT NULL,
-  showListOnArchive integer default 1 NOT NULL,
-  showListOnTag integer default 1 NOT NULL,
-  showListOnAuthor integer default 1 NOT NULL,
-  showListOnSearch integer default 1 NOT NULL,
-  tree varchar(32) NOT NULL default 'base',
-  colorOnTree varchar(6) NOT NULL default '000000',
-  bgColorOnTree varchar(6) default '' NOT NULL,
-  activeColorOnTree varchar(6) NOT NULL default 'FFFFFF',
-  activeBgColorOnTree varchar(6) NOT NULL default '00ADEF',
-  labelLengthOnTree integer NOT NULL default '30',
-  showValueOnTree integer default 1 NOT NULL,
-  PRIMARY KEY  (blogid)
+  skin varchar(32) default 'coolant' NOT NULL,
+  "entriesOnRecent" integer default 10 NOT NULL,
+  "commentsOnRecent" integer default 10 NOT NULL,
+  "commentsOnGuestbook" integer default 5 NOT NULL,
+  "archivesOnPage" integer default 5 NOT NULL,
+  "tagsOnTagbox" integer default 10 NOT NULL,
+  "tagboxAlign" integer default 1 NOT NULL,
+  "trackbacksOnRecent" integer default 5 NOT NULL,
+  "expandComment" integer default 1 NOT NULL,
+  "expandTrackback" integer default 1 NOT NULL,
+  "recentNoticeLength" integer default 30 NOT NULL,
+  "recentEntryLength" integer default 30 NOT NULL,
+  "recentCommentLength" integer default 30 NOT NULL,
+  "recentTrackbackLength" integer default 30 NOT NULL,
+  "linkLength" integer default 30 NOT NULL,
+  "showListOnCategory" integer default 1 NOT NULL,
+  "showListOnArchive" integer default 1 NOT NULL,
+  "showListOnTag" integer default 1 NOT NULL,
+  "showListOnAuthor" integer default 1 NOT NULL,
+  "showListOnSearch" integer default 1 NOT NULL,
+  tree varchar(32) default 'base' NOT NULL,
+  "colorOnTree" varchar(6) default '000000' NOT NULL,
+  "bgColorOnTree" varchar(6) default '' NOT NULL,
+  "activeColorOnTree" varchar(6) default 'FFFFFF' NOT NULL,
+  "activeBgColorOnTree" varchar(6) default '00ADEF' NOT NULL,
+  "labelLengthOnTree" integer default 30 NOT NULL,
+  "showValueOnTree" integer default 1 NOT NULL,
+  PRIMARY KEY (blogid)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]TagRelations (
   blogid integer default 0 NOT NULL,
@@ -360,6 +359,14 @@ CREATE TABLE [##_dbPrefix_##]TrackbackLogs (
   url varchar(255) default '' NOT NULL,
   written integer default 0 NOT NULL,
   PRIMARY KEY  (blogid, entry, id)
+) [##_charset_##];
+CREATE TABLE [##_dbPrefix_##]Teamblog (
+  blogid integer default 1 NOT NULL,
+  userid integer default 1 NOT NULL,
+  acl integer default 0 NOT NULL,
+  created integer default 0 NOT NULL,
+  "lastLogin" integer default 0 NOT NULL,
+  PRIMARY KEY (blogid,userid)
 ) [##_charset_##];
 CREATE UNIQUE INDEX TrackbackLogs_blogid_id_idx ON [##_dbPrefix_##]TrackbackLogs (blogid, id);
 CREATE TABLE [##_dbPrefix_##]Trackbacks (
@@ -384,7 +391,7 @@ CREATE TABLE [##_dbPrefix_##]Users (
   password varchar(32) default NULL,
   name varchar(32) default '' NOT NULL,
   created integer default 0 NOT NULL,
-  lastLogin integer default 0 NOT NULL,
+  "lastLogin" integer default 0 NOT NULL,
   host integer default 0 NOT NULL,
   PRIMARY KEY  (userid)
 ) [##_charset_##];
@@ -393,20 +400,12 @@ CREATE UNIQUE INDEX Users_name_idx ON [##_dbPrefix_##]Users (name);
 CREATE TABLE [##_dbPrefix_##]UserSettings (
   userid integer default 0 NOT NULL,
   name varchar(32) default '' NOT NULL,
-  value varchar NOT NULL,
+  "value" varchar NOT NULL,
   PRIMARY KEY (userid,name)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]XMLRPCPingSettings (
   blogid integer default 0 NOT NULL,
   url varchar(255) default '' NOT NULL,
-  type varchar(32) NOT NULL default 'xmlrpc',
+  "type" varchar(32) default 'xmlrpc' NOT NULL,
   PRIMARY KEY (blogid)
-) [##_charset_##];
-CREATE TABLE [##_dbPrefix_##]Teamblog (
-  blogid integer default 1 NOT NULL,
-  userid integer default 1 NOT NULL,
-  acl integer default 0 NOT NULL,
-  created integer default 0 NOT NULL,
-  lastLogin integer default 0 NOT NULL,
-  PRIMARY KEY (blogid,userid)
 ) [##_charset_##];

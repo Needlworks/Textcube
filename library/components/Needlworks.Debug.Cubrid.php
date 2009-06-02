@@ -42,9 +42,10 @@ function __tcSqlLogEnd( $result, $cachedResult = 0 )
 	static $client_encoding = '';
 	$tcSqlQueryEndTime = explode(' ', microtime());
 	$elapsed = ($tcSqlQueryEndTime[1] - $__tcSqlQueryBeginTime[1]) + ($tcSqlQueryEndTime[0] - $__tcSqlQueryBeginTime[0]);
-	if( !$client_encoding ) {
-		$client_encoding = str_replace('_','-',cubrid_client_encoding());
-	}
+//	if( !$client_encoding ) {
+//		$client_encoding = str_replace('_','-',cubrid_client_encoding());
+//	}
+	$client_encoding = 'utf-8';
 
 //	if( $client_encoding != 'utf8' && function_exists('iconv') ) {
 //		$__tcSqlLog[$__tcSqlLogCount]['error'] = iconv( $client_encoding, 'utf-8', mysql_error());

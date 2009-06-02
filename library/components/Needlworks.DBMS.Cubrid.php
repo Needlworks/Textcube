@@ -27,7 +27,7 @@ class DBQuery {
 			$__dbProperties['charset'] = 'utf8';
 //		else
 //			$__dbProperties['charset'] = 'default';
-		@DBQuery::query('SET SESSION collation_connection = \'utf8_general_ci\'');
+//		@DBQuery::query('SET SESSION collation_connection = \'utf8_general_ci\'');
 		return true;
 	}
 	
@@ -243,10 +243,11 @@ class DBQuery {
 		global $__gLastQueryType, $__dbProperties;
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);
+			//var_dump($query);
 			$result = cubrid_execute($__dbProperties['handle'],$query);
 			__tcSqlLogEnd($result,0);
 		} else {
-//			var_dump($query);
+			//var_dump($query);
 			$result = cubrid_execute($__dbProperties['handle'],$query);
 		}
 		$__gLastQueryType = strtolower(substr($query, 0,6));
