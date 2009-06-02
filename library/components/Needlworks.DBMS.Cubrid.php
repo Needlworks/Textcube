@@ -32,7 +32,8 @@ class DBQuery {
 	}
 	
 	function unbind() {
-		cubrid_disconnect();
+		global $__dbProperties;
+		cubrid_disconnect($__dbProperties['handle']);
 		return true;
 	}
 

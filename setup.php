@@ -1138,7 +1138,7 @@ INSERT INTO {$_POST['dbPrefix']}FeedGroups (blogid) values(1);
 INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibility, location, title, slogan, \"contentFormatter\", \"contentEditor\", starred, \"acceptComment\", \"acceptTrackback\", published, content) VALUES (1, 1, 1, 0, 2, '/', '".POD::escapeString(_t('환영합니다'))."', 'welcome', 'ttml', 'modern', 0, 1, 1, ".Timestamp::getUNIXtime().", '".POD::escapeString(getDefaultPostContent())."')";
             $query = explode(';', trim($schema));
             foreach ($query as $sub) {
-                if (!POD::query($sub)) {
+                if (!empty($sub) && !POD::query($sub)) {
 					@POD::query(
 						"DROP TABLE
 							{$_POST['dbPrefix']}Attachments,
@@ -1193,9 +1193,9 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
             $schema = "
 				UPDATE {$_POST['dbPrefix']}Users SET loginid = '$loginid', name = '$name' WHERE userid = 1;
 				UPDATE {$_POST['dbPrefix']}Users SET password = '$password' WHERE userid = 1 AND password <> '$password2';
-				UPDATE {$_POST['dbPrefix']}BlogSettings SET value = '{$_POST['blog']}' where blogid = 1 AND name = 'name';
-				UPDATE {$_POST['dbPrefix']}BlogSettings SET value = '$baseLanguage' where blogid = 1 AND name = 'language';
-				UPDATE {$_POST['dbPrefix']}BlogSettings SET value = '$baseTimezone' where blogid = 1 AND name = 'timezone';";
+				UPDATE {$_POST['dbPrefix']}BlogSettings SET \"value\" = '{$_POST['blog']}' where blogid = 1 AND name = 'name';
+				UPDATE {$_POST['dbPrefix']}BlogSettings SET \"value\" = '$baseLanguage' where blogid = 1 AND name = 'language';
+				UPDATE {$_POST['dbPrefix']}BlogSettings SET \"value\" = '$baseTimezone' where blogid = 1 AND name = 'timezone';";
             $query = explode(';', trim($schema));
             foreach ($query as $sub) {
                 if (!empty($sub) && !POD::query($sub)) {
@@ -1205,8 +1205,10 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
 				}
 			}
 		}
-		if (!$error)
+		if (!$error) {
+			POD::unbind();
 			echo '<script type="text/javascript">//<![CDATA['.CRLF.'next() //]]></script>';
+		}
 ?>
 </body>
 </html>

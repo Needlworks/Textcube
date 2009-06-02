@@ -51,7 +51,7 @@ function __tcSqlLogEnd( $result, $cachedResult = 0 )
 //		$__tcSqlLog[$__tcSqlLogCount]['error'] = iconv( $client_encoding, 'utf-8', mysql_error());
 //	}
 //	else {
-		$__tcSqlLog[$__tcSqlLogCount]['error'] = cubrid_error_msg();
+		$__tcSqlLog[$__tcSqlLogCount]['error'] = iconv('euc-kr','utf-8',cubrid_error_msg());
 //	}
 	$__tcSqlLog[$__tcSqlLogCount]['errno'] = cubrid_error_code();
 
@@ -65,16 +65,16 @@ function __tcSqlLogEnd( $result, $cachedResult = 0 )
 	$__tcSqlLog[$__tcSqlLogCount]['rows'] = 0;
 	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = ($tcSqlQueryEndTime[1] - $__tcPageStartTime[1]) + ($tcSqlQueryEndTime[0] - $__tcPageStartTime[0]);
 	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = sprintf("%4.1f",ceil($__tcSqlLog[$__tcSqlLogCount]['endtime'] * 10000) / 10);
-	if( ! $cachedResult && mysql_errno() == 0 ) {
+	if( ! $cachedResult && cubrid_error_code() == 0 ) {
 		switch( strtolower(substr($__tcSqlLog[$__tcSqlLogCount]['sql'], 0, 6 )) )
 		{
 			case 'select':
-				$__tcSqlLog[$__tcSqlLogCount]['rows'] = mysql_num_rows($result);
+				$__tcSqlLog[$__tcSqlLogCount]['rows'] = cubrid_num_rows($result);
 				break;
 			case 'insert':
 			case 'delete':
 			case 'update':
-				$__tcSqlLog[$__tcSqlLogCount]['rows'] = mysql_affected_rows();
+				$__tcSqlLog[$__tcSqlLogCount]['rows'] = cubrid_affected_rows();
 				break;
 		}
 	}
