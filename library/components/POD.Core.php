@@ -562,7 +562,7 @@ class POD extends DBQuery {
 			return $this->_false();
 		}
 		foreach($this->_instances as $instance => $value) {
-			$condition .= "`".$instance."` = ".$value.",";
+			$condition .= "\"".$instance."\" = ".$value.",";
 		}
 		$condition = rtrim($condition,',');
 		$condition .= " WHERE pid = ".$this->_foreignKeyId;
