@@ -17,11 +17,11 @@ class ServiceSetting {
 	function open($name = '', $fields = '*', $sort = 'name') {
 		global $database;
 		if (!empty($name))
-			$name = 'AND name = \'' . $name . '\'';
+			$name = 'WHERE name = \'' . $name . '\'';
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}ServiceSettings WHERE 1 $name $sort");
+		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}ServiceSettings $name $sort");
 		if ($this->_result)
 			$this->_count = POD::num_rows($this->_result);
 		return $this->shift();

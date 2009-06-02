@@ -313,7 +313,7 @@ class User {
 	/*@private static@*/
 	function __getMaxUserId() {
 		global $database;
-		$maxId = POD::queryCell("SELECT max(userid) FROM {$database['prefix']}Users WHERE 1");
+		$maxId = POD::queryCell("SELECT max(userid) FROM {$database['prefix']}Users");
 		if($maxId) return $maxId;
 		else return 0;
 	}

@@ -244,7 +244,6 @@ class DBQuery {
 			stristr($query, 'replace ') ) {
 			DBQuery::clearCache();
 		}
-//		var_dump($query);
 		return $result;
 	}
 	

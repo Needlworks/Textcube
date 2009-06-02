@@ -202,7 +202,7 @@ class Tag {
 	}
 	function _getMaxId() {
 		global $database;
-		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Tags WHERE 1");
+		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Tags");
 		if($maxId) return $maxId;
 		else return 0;
 	}

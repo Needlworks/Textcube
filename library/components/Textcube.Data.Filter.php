@@ -141,7 +141,7 @@ class Filter {
 	}
 	function _getMaxId() {
 		global $database;
-		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Filters WHERE 1");
+		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Filters");
 		if($maxId) return $maxId;
 		else return 0;
 	}

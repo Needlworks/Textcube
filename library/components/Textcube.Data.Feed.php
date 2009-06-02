@@ -165,7 +165,7 @@ class Feed {
 
 	function _getMaxId() {
 		global $database;
-		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Feeds WHERE 1");
+		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Feeds");
 		if($maxId) return $maxId;
 		else return 0;
 	}
@@ -321,7 +321,7 @@ class FeedItem {
 
 	function _getMaxId() {
 		global $database;
-		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}FeedItems WHERE 1");
+		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}FeedItems");
 		if($maxId) return $maxId;
 		else return 0;
 	}
