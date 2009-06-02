@@ -33,7 +33,6 @@ class Tag {
 			$tag = POD::escapeString(UTF8::lessenAsEncoding(trim($tag), 255));
 			array_push($taglist, $tag);
 		}
-
 		// step 1. Insert Tags
 		foreach ($taglist as $tg) {
 			if(!Tag::doesExist($tg)) {

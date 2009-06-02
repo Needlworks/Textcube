@@ -21,22 +21,12 @@ function clearUserSettingCache() {
 }
 
 function getServiceSetting($name, $default = null) {
-	global $database;
-	global $serviceSetting;
-	global $gCacheStorage;
-	if( empty($serviceSetting) ) {
-		$settings = POD::queryAllWithCache("SELECT name, value FROM {$database['prefix']}ServiceSettings" , MYSQL_NUM );
-		foreach( $settings as $k => $v ) {
-			$serviceSetting[ $v[0] ] = $v[1];
-		}
-	}
-	if( isset($serviceSetting[$name]) ) {
-		return $serviceSetting[$name];
-	}
-	return $default;
+	requireComponent('Textcube.Function.Setting');
+	return setting::getServiceSetting($name, $default);
 }
 
 function setServiceSetting($name, $value) {
+	requireComponent('Textcube.Function.Setting');
 	return setting::setServiceSettingGlobal($name, $value);
 }
 

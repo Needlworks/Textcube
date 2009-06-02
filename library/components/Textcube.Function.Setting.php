@@ -53,7 +53,7 @@ class setting {
 		global $database, $service, $__gCacheBlogSettings, $gCacheStorage;
 
 		if(is_null($blogid)) $blogid = getBlogId();
-		if (array_key_exists($blogid, $__gCacheBlogSettings)) {
+		if (array_key_exists($blogid, $__gCacheBlogSettings) && !empty($__gCacheBlogSettings[$blogid])) {
 			return $__gCacheBlogSettings[$blogid];
 		}
 		if($blogid == getBlogId()) {

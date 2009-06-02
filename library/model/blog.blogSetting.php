@@ -259,9 +259,9 @@ function addBlog($blogid, $userid, $identify) {
 			return 2; // 2: No blog exists with specific blogid
 		}
 		// Thus, blog and user exists. Now combine both.
-		$result = POD::query("INSERT INTO `{$database['prefix']}Teamblog` 
+		$result = POD::query("INSERT INTO {$database['prefix']}Teamblog 
 			(blogid,userid,acl,created,lastLogin) 
-			VALUES('$blogid', '$userid', '0', UNIX_TIMESTAMP(), '0')");
+			VALUES('$blogid', '$userid', 0, UNIX_TIMESTAMP(), 0)");
 		return $result;
 	} else { // If no blogid, create a new blog.
 		if (!preg_match('/^[a-zA-Z0-9]+$/', $identify))
@@ -271,19 +271,19 @@ function addBlog($blogid, $userid, $identify) {
 		$blogName = $identify;
 
 		$result = POD::queryCount("SELECT * 
-			FROM `{$database['prefix']}ReservedWords` 
+			FROM {$database['prefix']}ReservedWords
 			WHERE word = '$blogName'");
 		if ($result && $result > 0) {
 			return 60;	// Reserved blog name.
 		}
 		$result = POD::queryCount("SELECT value 
-			FROM `{$database['prefix']}BlogSettings` 
+			FROM {$database['prefix']}BlogSettings 
 			WHERE name = 'name' AND value = '$blogName'");
 		if ($result && $result > 0) {
 			return 61; // Same blogname is already exists.
 		}
 		$blogid = POD::queryCell("SELECT max(blogid)
-			FROM `{$database['prefix']}BlogSettings`") + 1;
+			FROM {$database['prefix']}BlogSettings") + 1;
 		$baseTimezone = POD::escapeString($service['timezone']);
 		$basicInformation = array(
 			'name'         => $identify,
@@ -316,21 +316,21 @@ function addBlog($blogid, $userid, $identify) {
 			}
 		}
 		if($isFalse == true) {
-			POD::query("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $blogid");
+			POD::query("DELETE FROM {$database['prefix']}BlogSettings WHERE blogid = $blogid");
 			return 12;
 		}
 	
-		if(!POD::query("INSERT INTO `{$database['prefix']}SkinSettings` (blogid) VALUES ($blogid)")) {
+		if(!POD::query("INSERT INTO {$database['prefix']}SkinSettings (blogid) VALUES ($blogid)")) {
 			deleteBlog($blogid);
 			return 13;
 		}
-		if(!POD::query("INSERT INTO `{$database['prefix']}FeedSettings` 
+		if(!POD::query("INSERT INTO {$database['prefix']}FeedSettings 
 			(blogid) VALUES ($blogid)")) {
 			deleteBlog($blogid);
 			return 62;
 		}
 		
-		if(!POD::query("INSERT INTO `{$database['prefix']}FeedGroups` 
+		if(!POD::query("INSERT INTO {$database['prefix']}FeedGroups 
 			(blogid, id) 
 			VALUES ($blogid, 0)")) {
 			deleteBlog($blogid);
@@ -341,7 +341,7 @@ function addBlog($blogid, $userid, $identify) {
 		setBlogSetting('defaultFormatter', 'ttml', $blogid);
 
 		//Combine user and blog.
-		if(POD::query("INSERT INTO `{$database['prefix']}Teamblog` 
+		if(POD::query("INSERT INTO {$database['prefix']}Teamblog 
 			(blogid,userid,acl,created,lastLogin) 
 			VALUES('$blogid', '$userid', '16', UNIX_TIMESTAMP(), '0')")) {
 			setDefaultPost($blogid, $userid);
@@ -381,7 +381,7 @@ function getInvited($userid) {
 	global $database;
 	return POD::queryAll("SELECT *
 		FROM {$database['prefix']}Users
-		WHERE `host` = '".$userid."'
+		WHERE host = '".$userid."'
 		ORDER BY created ASC");
 }
 
@@ -453,16 +453,16 @@ function getInvitationLink($url, $email, $password, $authtoken) {
 function cancelInvite($userid,$clean = true) {
 	global $database;
 	requireModel('blog.user');
-	if (POD::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `lastLogin` = 0") == 0)
+	if (POD::queryCell("SELECT count(*) FROM {$database['prefix']}Users WHERE userid = $userid AND lastLogin = 0") == 0)
 		return false;
-	if (POD::queryCell("SELECT count(*) FROM `{$database['prefix']}Users` WHERE `userid` = $userid AND `host` = ".getUserId()) === 0)
+	if (POD::queryCell("SELECT count(*) FROM {$database['prefix']}Users WHERE userid = $userid AND host = ".getUserId()) === 0)
 		return false;
 	
 	$blogidWithOwner = User::getOwnedBlogs($userid);
 	foreach($blogidWithOwner as $blogids) {
 		if(deleteBlog($blogids) === false) return false;
 	}
-	if($clean && !POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE userid = '$userid'")) {
+	if($clean && !POD::queryAll("SELECT * FROM {$database['prefix']}Teamblog WHERE userid = '$userid'")) {
 		User::removePermanent($userid);
 	}
 	return true;
@@ -475,18 +475,18 @@ function changePassword($userid, $pwd, $prevPwd, $forceChange = false) {
 	if($forceChange === true) {
 		$pwd = md5($pwd);
 		@POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
-		return POD::execute("UPDATE `{$database['prefix']}Users` SET password = '$pwd' WHERE `userid` = $userid");
+		return POD::execute("UPDATE {$database['prefix']}Users SET password = '$pwd' WHERE userid = $userid");
 	}
 	if ((strlen($prevPwd) == 32) && preg_match('/[0-9a-f]/i', $prevPwd))
-		$secret = '(`password` = \'' . md5($prevPwd) . "' OR `password` = '$prevPwd')";
+		$secret = '(password = \'' . md5($prevPwd) . "' OR password = '$prevPwd')";
 	else
-		$secret = '`password` = \'' . md5($prevPwd) . '\'';
+		$secret = 'password = \'' . md5($prevPwd) . '\'';
 	$count = POD::queryCell("SELECT count(*) FROM {$database['prefix']}Users WHERE userid = $userid and $secret");
 	if ($count == 0)
 		return false;
 	$pwd = md5($pwd);
 	@POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
-	return POD::execute("UPDATE `{$database['prefix']}Users` SET password = '$pwd' WHERE `userid` = $userid");
+	return POD::execute("UPDATE {$database['prefix']}Users SET password = '$pwd' WHERE userid = $userid");
 }
 
 function changeAPIKey($userid, $key) {
@@ -498,11 +498,11 @@ function changeAPIKey($userid, $key) {
 function deleteBlog($blogid) {
 	global $database;
 	if($blogid == 1) return false;
-	if (POD::execute("DELETE FROM `{$database['prefix']}BlogSettings` WHERE `blogid` = $blogid")
-		&& POD::execute("DELETE FROM `{$database['prefix']}SkinSettings` WHERE `blogid` = $blogid")
-		&& POD::execute("DELETE FROM `{$database['prefix']}FeedSettings` WHERE `blogid` = $blogid")
-		&& POD::execute("DELETE FROM `{$database['prefix']}FeedGroups` WHERE `blogid` = $blogid")
-		&& POD::execute("DELETE FROM `{$database['prefix']}Teamblog` WHERE `blogid` = '$blogid'")
+	if (POD::execute("DELETE FROM {$database['prefix']}BlogSettings WHERE blogid = $blogid")
+		&& POD::execute("DELETE FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid")
+		&& POD::execute("DELETE FROM {$database['prefix']}FeedSettings WHERE blogid = $blogid")
+		&& POD::execute("DELETE FROM {$database['prefix']}FeedGroups WHERE blogid = $blogid")
+		&& POD::execute("DELETE FROM {$database['prefix']}Teamblog WHERE blogid = '$blogid'")
 	)
 	{
 		return true;
