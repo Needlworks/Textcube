@@ -250,7 +250,7 @@ function getComments($entry) {
 		WHERE blogid = ".getBlogId()."
 			AND entry = $entry
 			AND parent IS NULL
-			AND isFiltered = 0 $aux";
+			AND \"isFiltered\" = 0 $aux";
 	if ($result = POD::queryAll($sql)) {
 		foreach ($result as $comment) {
 			if (($comment['secret'] == 1) && !$authorized) {
@@ -277,7 +277,7 @@ function getCommentComments($parent,$parentComment=null) {
 		FROM {$database['prefix']}Comments
 		WHERE blogid = ".getBlogId()."
 			AND parent = $parent
-			AND isFiltered = 0
+			AND \"isFiltered\" = 0
 		ORDER BY written")) {
 		if( $parentComment == null ) {
 			$parentComment = POD::queryRow(
@@ -347,7 +347,7 @@ function getCommentList($blogid, $search) {
 		INNER JOIN {$database['prefix']}Entries e ON c.entry = e.id AND c.blogid = e.blogid AND e.draft = 0
 		WHERE c.entry > 0
 			AND c.blogid = $blogid $authorized
-			AND c.isFiltered = 0
+			AND c.\"isFiltered\" = 0
 			AND (c.comment like '%$search%' OR c.name like '%$search%')
 		ORDER BY c.written")) {
 		foreach ($result as $comment)
@@ -363,7 +363,7 @@ function updateCommentsOfEntry($blogid, $entryId) {
 		FROM {$database['prefix']}Comments
 		WHERE blogid = $blogid
 			AND entry = $entryId
-			AND isFiltered = 0");
+			AND \"isFiltered\" = 0");
 	POD::query("UPDATE {$database['prefix']}Entries
 		SET comments = $commentCount
 		WHERE blogid = $blogid
@@ -381,7 +381,7 @@ function sendCommentPing($entryId, $permalink, $name, $homepage) {
 			AND id = $entryId
 			AND draft = 0
 			AND visibility = 3 
-			AND acceptComment = 1")) {
+			AND \"acceptComment\" = 1")) {
 		requireComponent('Eolin.PHP.Core');
 		requireComponent('Eolin.PHP.XMLRPC');
 		$rpc = new XMLRPC();
@@ -440,7 +440,7 @@ function addComment($blogid, & $comment) {
 				AND id = {$comment['entry']}
 				AND draft = 0
 				AND visibility > 0
-				AND acceptComment = 1");
+				AND \"acceptComment\" = 1");
 		if (!$result || $result == 0)
 			return false;
 	}
@@ -841,16 +841,16 @@ function notifyComment() {
 	$sql = "SELECT
 				CN.*,
 				CNQ.id AS queueId,
-				CNQ.commentId AS commentId,
-				CNQ.sendStatus AS sendStatus,
-				CNQ.checkDate AS checkDate,
+				CNQ.\"commentId\" AS commentId,
+				CNQ.\"sendStatus\" AS sendStatus,
+				CNQ.\"checkDate\" AS checkDate,
 				CNQ.written  AS queueWritten
 			FROM
 				{$database['prefix']}CommentsNotifiedQueue AS CNQ
 			LEFT JOIN
-				{$database['prefix']}Comments AS CN ON CNQ.commentId = CN.id
+				{$database['prefix']}Comments AS CN ON CNQ.\"commentId\" = CN.id
 			WHERE
-				CNQ.sendStatus = '0'
+				CNQ.\"sendStatus\" = 0
 				and CN.parent is not null
 			ORDER BY CNQ.id ASC
 			LIMIT 1 OFFSET 0
