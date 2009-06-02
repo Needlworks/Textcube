@@ -22,12 +22,12 @@ function clearUserSettingCache() {
 
 function getServiceSetting($name, $default = null) {
 	requireComponent('Textcube.Function.Setting');
-	return setting::getServiceSetting($name, $default);
+	return Setting::getServiceSetting($name, $default);
 }
 
 function setServiceSetting($name, $value) {
 	requireComponent('Textcube.Function.Setting');
-	return setting::setServiceSettingGlobal($name, $value);
+	return Setting::setServiceSettingGlobal($name, $value);
 }
 
 function removeServiceSetting($name,$pruneSimilarEntries = false) {
@@ -39,37 +39,37 @@ function removeServiceSetting($name,$pruneSimilarEntries = false) {
 
 function getBlogSetting($name, $default = null, $blogid = null) {
 	requireComponent('Textcube.Function.Setting');
-	return setting::getBlogSettingGlobal($name, $default);
+	return Setting::getBlogSettingGlobal($name, $default);
 }
 
 function setBlogSetting($name, $value, $blogid = null) {
 	requireComponent('Textcube.Function.Setting');
-	return setting::setBlogSettingGlobal($name, $value, $blogid);
+	return Setting::setBlogSettingGlobal($name, $value, $blogid);
 }
 
 function setBlogSettingDefault($name, $value, $blogid = null) {
 	requireComponent('Textcube.Function.Setting');
-	return setting::setBlogSettingDefault($name, $value, $blogid);
+	return Setting::setBlogSettingDefault($name, $value, $blogid);
 }
 
 function removeBlogSetting($name, $blogid = null) {
 	requireComponent('Textcube.Function.Setting');
-	return setting::removeBlogSettingGlobal($name, $blogid);
+	return Setting::removeBlogSettingGlobal($name, $blogid);
 }
 
 function getUserSetting($name, $default = null, $userid = null) {
 	requireComponent('Textcube.Function.Setting');
-	return setting::getUserSettingGlobal($name, $default, $userid);
+	return Setting::getUserSettingGlobal($name, $default, $userid);
 }
 
 function setUserSetting($name, $value, $userid = null) {
 	requireComponent('Textcube.Function.Setting');
-	return setting::setUserSettingGlobal($name, $value, $userid);
+	return Setting::setUserSettingGlobal($name, $value, $userid);
 }
 
 function removeUserSetting($name, $userid = null) {
 	requireComponent('Textcube.Function.Setting');
-	return setting::removeUserSettingGlobal($name, $userid);
+	return Setting::removeUserSettingGlobal($name, $userid);
 }
 
 function getDefinedTableNames() {

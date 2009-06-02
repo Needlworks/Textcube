@@ -71,7 +71,7 @@ foreach($parameters as $item)
 }
 
 $sidebarOrderData[$sidebarNumber][$modulePos]['parameters'] = $newParameter;
-setting::setBlogSettingGlobal("sidebarOrder", serialize($sidebarOrderData));
+Setting::setBlogSettingGlobal("sidebarOrder", serialize($sidebarOrderData));
 Skin::purgeCache();
 if ($ajaxcall == false) {
 	if ($_REQUEST['viewMode'] != '') $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];

@@ -60,7 +60,7 @@ require ROOT.'/library/include.php';
 header('Content-Type: text/html; charset=utf-8');
 
 if(!defined('__TEXTCUBE_LOGIN__')) {
-	$blogVisibility = setting::getBlogSettingGlobal('visibility',2);
+	$blogVisibility = Setting::getBlogSettingGlobal('visibility',2);
 	if($blogVisibility == 0) requireOwnership();
 	else if($blogVisibility == 1) requireMembership();
 }

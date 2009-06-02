@@ -491,8 +491,8 @@ function changePassword($userid, $pwd, $prevPwd, $forceChange = false) {
 
 function changeAPIKey($userid, $key) {
 	requireComponent('Textcube.Function.Setting');
-	if($key) return setting::setUserSettingGlobal('APIKey',$key,$userid);
-	else return setting::removeUserSettingGlobal('APIKey',$userid);
+	if($key) return Setting::setUserSettingGlobal('APIKey',$key,$userid);
+	else return Setting::removeUserSettingGlobal('APIKey',$userid);
 }
 
 function deleteBlog($blogid) {

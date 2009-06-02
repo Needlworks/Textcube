@@ -22,7 +22,7 @@ function getBlogidBySecondaryDomain($domain) {
 
 function getBlogSettings($blogid) {
 	requireComponent('Textcube.Function.Setting');
-	return setting::getBlogSettingsGlobal($blogid);
+	return Setting::getBlogSettingsGlobal($blogid);
 }
 
 function getSkinSetting($blogid, $forceReload = false) {

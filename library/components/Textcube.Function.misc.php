@@ -260,90 +260,90 @@ class misc {
 
 	function fetchConfigVal( $DATA ){
 		requireComponent('Textcube.Function.Setting');
-		return setting::fetchConfigVal($DATA);
+		return Setting::fetchConfigVal($DATA);
 	}
 
 	// For Blog-scope setting
 	function getBlogSettingGlobal($name, $default = null, $blogid = null) {
 		requireComponent('Textcube.Function.Setting');
-		return setting::getBlogSettingGlobal($name, $default, $blogid);
+		return Setting::getBlogSettingGlobal($name, $default, $blogid);
 	}
 
 	function getBlogSettingsGlobal($blogid = null) {
 		requireComponent('Textcube.Function.Setting');
-		return setting::getBlogSettingsGlobal($blogid);
+		return Setting::getBlogSettingsGlobal($blogid);
 	}
 	
 	function setBlogSettingGlobal($name, $value, $blogid = null) {
 		requireComponent('Textcube.Function.Setting');
-		return setting::setBlogSettingGlobal($name, $value, $blogid);
+		return Setting::setBlogSettingGlobal($name, $value, $blogid);
 	}
 
 	function removeBlogSettingGlobal($name, $blogid = null) {
 		requireComponent('Textcube.Function.Setting');
-		return setting::removeBlogSettingsGlobal($name, $blogid);
+		return Setting::removeBlogSettingsGlobal($name, $blogid);
 	}
 
 	// For plugin-specific use.
 	function getBlogSetting($name, $default = null) {
 		requireComponent('Textcube.Function.Setting');
-		return setting::getBlogSetting($name, $default);
+		return Setting::getBlogSetting($name, $default);
 	}
 	
 	function setBlogSetting($name, $value) {
 		requireComponent('Textcube.Function.Setting');
-		return setting::setBlogSetting($name, $value);
+		return Setting::setBlogSetting($name, $value);
 	}
 	
 	function removeBlogSetting($name) {
 		requireComponent('Textcube.Function.Setting');
-		return setting::removeBlogSetting($name);
+		return Setting::removeBlogSetting($name);
 	}
 	
 	// For User
 	function getUserSetting($name, $default = null) {
 		requireComponent('Textcube.Function.Setting');
-		return setting::getUserSetting($name, $default);
+		return Setting::getUserSetting($name, $default);
 	}
 
 	function getUserSettingGlobal($name, $default = null, $userid = null) {
 		requireComponent('Textcube.Function.Setting');
-		return setting::getUserSettingGlobal($name, $default, $userid);
+		return Setting::getUserSettingGlobal($name, $default, $userid);
 	}
 	
 	function setUserSetting($name, $value) {
 		requireComponent('Textcube.Function.Setting');
-		return setting::setUserSetting($name, $value);
+		return Setting::setUserSetting($name, $value);
 	}
 	
 	function setUserSettingGlobal($name, $value, $userid = null) {
 		requireComponent('Textcube.Function.Setting');
-		return setting::setUserSettingGlobal($name, $value, $userid);
+		return Setting::setUserSettingGlobal($name, $value, $userid);
 	}
 	
 	function removeUserSetting($name) {
 		requireComponent('Textcube.Function.Setting');
-		return setting::removeUserSetting($name);
+		return Setting::removeUserSetting($name);
 	}
 
 	function removeUserSettingGlobal($name, $userid = null) {
 		requireComponent('Textcube.Function.Setting');
-		return setting::removeUserSettingGlobal($name, $userid);
+		return Setting::removeUserSettingGlobal($name, $userid);
 	}
 
 	function getServiceSetting($name, $default = null) {
 		requireComponent('Textcube.Function.Setting');
-		return setting::getServiceSetting($name, $default, true);
+		return Setting::getServiceSetting($name, $default, true);
 	}
 
 	function setServiceSetting($name, $value) {
 		requireComponent('Textcube.Function.Setting');
-		return setting::setServiceSetting($name, $value, true);
+		return Setting::setServiceSetting($name, $value, true);
 	}
 
 	function removeServiceSetting($name) {
 		requireComponent('Textcube.Function.Setting');
-		return setting::removeServiceSetting($name, true);
+		return Setting::removeServiceSetting($name, true);
 	}
 }
 ?>

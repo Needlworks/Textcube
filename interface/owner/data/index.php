@@ -267,7 +267,7 @@ if(Acl::check("group.creators")) {
 							<div class="notification-box">
 								<p><?php echo _f('서버에 %1에 백업한 파일이 존재합니다.',$fileTime);?></p>
 <?php
-		$apikey = setting::getUserSettingGlobal('APIKey',null,getUserId());
+		$apikey = Setting::getUserSettingGlobal('APIKey',null,getUserId());
 		if($apikey!=null) {
 ?>
 								<p>
