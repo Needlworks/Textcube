@@ -33,6 +33,7 @@ class DBQuery {
 	
 	function unbind() {
 		global $__dbProperties;
+		@cubrid_commit($__dbProperties['handle']);
 		cubrid_disconnect($__dbProperties['handle']);
 		return true;
 	}
@@ -90,6 +91,39 @@ class DBQuery {
 	}
 
 	/*@static@*/
+	function query($query) {
+		global $__gLastQueryType, $__dbProperties;
+		$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compartibility issue.
+
+		// Change DBMS-registered variable name.
+//		if (preg_match('/\s(SELECT.*) (FROM.*) (WHERE.*)$/si', $query, $matches)) {
+//			$from = $matches[1];
+//			var_dump($from);
+//		}
+
+		// Change LIMIT statement to ROWNUM. (for Cubrid-specific)
+		$query = preg_replace(array('/LIMIT ([0-9]+)/i','/LIMIT ([0-9]+) OFFSET ([0-9]+)/i'),array('ROWNUM between 1 and $1','ROWNUM between $1 and $2'), $query);
+
+		if( function_exists( '__tcSqlLogBegin' ) ) {
+			__tcSqlLogBegin($query);
+			//var_dump($query);
+			$result = cubrid_execute($__dbProperties['handle'],$query);
+			__tcSqlLogEnd($result,0);
+		} else {
+			//var_dump($query);
+			$result = cubrid_execute($__dbProperties['handle'],$query);
+		}
+		$__gLastQueryType = strtolower(substr($query, 0,6));
+		if( stristr($query, 'update ') ||
+			stristr($query, 'insert ') ||
+			stristr($query, 'delete ') ||
+			stristr($query, 'replace ') ) {
+			DBQuery::clearCache();
+		}
+		return $result;
+	}
+
+	/*@static@*/
 	function queryExistence($query) {
 		if ($result = DBQuery::query($query)) {
 			if (cubrid_num_rows($result) > 0) {
@@ -112,7 +146,7 @@ class DBQuery {
 			switch ($operation) {
 				case 'select':
 					$count = cubrid_num_rows($result);
-					cubrid_free_result($result);
+					cubrid_close_request($result);
 					break;
 				case 'insert':
 				case 'update':
@@ -175,9 +209,9 @@ class DBQuery {
 		$column = null;
 		if ($result = DBQuery::query($query)) {
 			$column = array();
-			while ($row = cubrid_fetch_row($result))
+			while ($row = cubrid_fetch($result))
 				array_push($column, $row[0]);
-			cubrid_free_result($result);
+			cubrid_close_request($result);
 		}
 
 		if( $useCache ) {
@@ -238,28 +272,6 @@ class DBQuery {
 		}
 		return $result;
 	}
-
-	/*@static@*/
-	function query($query) {
-		global $__gLastQueryType, $__dbProperties;
-		if( function_exists( '__tcSqlLogBegin' ) ) {
-			__tcSqlLogBegin($query);
-			//var_dump($query);
-			$result = cubrid_execute($__dbProperties['handle'],$query);
-			__tcSqlLogEnd($result,0);
-		} else {
-			//var_dump($query);
-			$result = cubrid_execute($__dbProperties['handle'],$query);
-		}
-		$__gLastQueryType = strtolower(substr($query, 0,6));
-		if( stristr($query, 'update ') ||
-			stristr($query, 'insert ') ||
-			stristr($query, 'delete ') ||
-			stristr($query, 'replace ') ) {
-			DBQuery::clearCache();
-		}
-		return $result;
-	}
 	
 	function insertId() {
 		return cubrid_insert_id();
@@ -283,7 +295,8 @@ class DBQuery {
 		global $fileCachedResult;
 	}
 	function cacheSave() {
-		global $fileCachedResult;
+		global $fileCachedResult,$__dbProperties;
+		@cubrid_commit($__dbProperties['handle']);
 	}
 	
 	/* Raw functions (to easier adoptation) */
