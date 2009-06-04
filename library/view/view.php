@@ -468,8 +468,8 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 							'label' => $category2['name'], 
 							'value' => (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']), 
 							'link' => "$blogURL/category/" . ($blog['useSloganOnCategory'] ? URL::encode($category2['label'],$service['useEncodedURL']) : $category2['id']), 
-							'rsslink' => "$blogURL/category/rss/" . ($blog['useSloganOnCategory'] ? URL::encode($category2['label'],$service['useEncodedURL']) : $category2['id']), 
-							'atomlink' => "$blogURL/category/atom/" . ($blog['useSloganOnCategory'] ? URL::encode($category2['label'],$service['useEncodedURL']) : $category2['id']), 
+							'rsslink' => "$blogURL/rss/category/" . ($blog['useSloganOnCategory'] ? URL::encode($category2['label'],$service['useEncodedURL']) : $category2['id']), 
+							'atomlink' => "$blogURL/atom/category/" . ($blog['useSloganOnCategory'] ? URL::encode($category2['label'],$service['useEncodedURL']) : $category2['id']), 
 							'children' => array()
 						)
 					);
