@@ -59,13 +59,20 @@ class DBQuery {
 	public static function tableList($condition = null) {
 		global $__dbProperties;
 		if (!array_key_exists('tableList', $__dbProperties)) { 
-			$__dbProperties['tableList'] = DBQuery::queryAll('SHOW TABLES');
+			$tableData = DBQuery::queryAll('SHOW TABLES');
+			$__dbProperties['tableList'] = array();
+			foreach($tableData as $tbl) {
+				array_push($__dbProperties['tableList'], $tbl[0]);
+			}
 		}
+		$result = array();
 		if(!is_null($condition)) {
 			foreach($__dbProperties['tableList'] as $item) {
-				if(strpos($item[0], $condition) === 0) array_push($result, $item[0]);
+				if(strpos($item, $condition) === 0) {
+					array_push($result, $item);
+				}
 			}
-			return $item;
+			return $result;
 		} else {
 			return $__dbProperties['tableList'];
 		}
