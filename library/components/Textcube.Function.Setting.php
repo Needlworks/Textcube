@@ -222,9 +222,9 @@ class Setting {
 	}
 
 	// For User
-	function getUserSetting($name, $default = null) {
+	function getUserSetting($name, $default = null, $global = null) {
 		global $database, $userSetting;
-		$name = 'plugin_' . $name;
+		if(is_null($global)) $name = 'plugin_' . $name;
 		return Setting::getUserSettingGlobal($name, $default);
 	}
 
@@ -249,9 +249,9 @@ class Setting {
 		return $default;
 	}
 	
-	function setUserSetting($name, $value) {
+	function setUserSetting($name, $value, $global = null) {
 		global $database;
-		$name = 'plugin_' . $name;
+		if(is_null($global)) $name = 'plugin_' . $name;
 		return Setting::setUserSettingGlobal($name, $value);
 	}
 	
@@ -270,9 +270,9 @@ class Setting {
 		return $query->replace();
 	}
 	
-	function removeUserSetting($name) {
+	function removeUserSetting($name, $global = null) {
 		global $database;
-		$name = 'plugin_' . $name;
+		if(is_null($global)) $name = 'plugin_' . $name;
 		return Setting::removeUserSettingGlobal($name);
 	}
 
