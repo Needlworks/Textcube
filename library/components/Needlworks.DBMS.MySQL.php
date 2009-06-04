@@ -63,7 +63,7 @@ class DBQuery {
 		}
 		if(!is_null($condition)) {
 			foreach($__dbProperties['tableList'] as $item) {
-				if(strpos($item, $condition) === 0) array_push($result, $item);
+				if(strpos($item[0], $condition) === 0) array_push($result, $item[0]);
 			}
 			return $item;
 		} else {
