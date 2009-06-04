@@ -517,6 +517,7 @@ function addEntry($blogid, $entry, $userid = null) {
 	requireModel("blog.category");
 	requireModel("blog.tag");
 	requireModel("blog.locative");
+	requireComponent('Textcube.Data.Tag');
 
 	if(empty($userid)) $entry['userid'] = getUserId();
 	else $entry['userid'] = $userid;
@@ -581,8 +582,8 @@ function addEntry($blogid, $entry, $userid = null) {
 		$id = 1;
 	}
 	$result = POD::query("INSERT INTO {$database['prefix']}Entries 
-			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, \"contentFormatter\",
-			 \"contentEditor\", location, password, \"acceptComment\", \"acceptTrackback\", published, created, modified,
+			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, contentFormatter,
+			 contentEditor, location, password, acceptComment, acceptTrackback, published, created, modified,
 			 comments, trackbacks) 
 			VALUES (
 			$blogid,
@@ -621,7 +622,7 @@ function addEntry($blogid, $entry, $userid = null) {
 	}
 	if (!empty($entry['tag'])) {
 		$tags = getTagsWithEntryString($entry['tag']);
-		addTagsWithEntryId($blogid, $id, $tags);
+		Tag::addTagsWithEntryId($blogid, $id, $tags);
 	}
 	return $id;
 }
@@ -633,6 +634,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	requireModel('blog.attachment');
 	requireModel('blog.category');
 	requireModel('blog.feed');
+	requireComponent('Textcube.Data.Tag');
 
 	if($entry['id'] == 0) return false;
 	
@@ -693,7 +695,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 		}
 	}
 	$tags = getTagsWithEntryString($entry['tag']);
-	modifyTagsWithEntryId($blogid, $entry['id'], $tags);
+	Tag::modifyTagsWithEntryId($blogid, $entry['id'], $tags);
 	
 	$location = POD::escapeString($entry['location']);
 	$content = POD::escapeString($entry['content']);
@@ -728,11 +730,11 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 				location           = '$location',
 				title              = '$title',
 				content            = '$content',
-				\"contentFormatter\"   = '$contentFormatter',
-				\"contentEditor\"      = '$contentEditor',
+				contentFormatter   = '$contentFormatter',
+				contentEditor      = '$contentEditor',
 				slogan             = '$slogan',
-				\"acceptComment\"      = {$entry['acceptComment']},
-				\"acceptTrackback\"    = {$entry['acceptTrackback']},
+				acceptComment      = {$entry['acceptComment']},
+				acceptTrackback    = {$entry['acceptTrackback']},
 				published          = $published,
 				modified           = UNIX_TIMESTAMP()
 			WHERE blogid = $blogid AND id = {$entry['id']} AND draft = $updateDraft");
@@ -759,6 +761,7 @@ function saveDraftEntry($blogid, $entry) {
 	requireModel('blog.attachment');
 	requireModel('blog.category');
 	requireModel('blog.feed');
+	requireComponent('Textcube.Data.Tag');
 
 	if($entry['id'] == 0) return -11;
 
@@ -834,7 +837,7 @@ function saveDraftEntry($blogid, $entry) {
 		}
 	}
 	$tags = getTagsWithEntryString($entry['tag']);
-	modifyTagsWithEntryId($blogid, $entry['id'], $tags);
+	Tag::modifyTagsWithEntryId($blogid, $entry['id'], $tags);
 	
 	$location = POD::escapeString($entry['location']);
 	$content = POD::escapeString($entry['content']);
@@ -864,18 +867,18 @@ function saveDraftEntry($blogid, $entry) {
 				location           = '$location',
 				title              = '$title',
 				content            = '$content',
-				\"contentFormatter\"   = '$contentFormatter',
-				\"contentEditor\"      = '$contentEditor',
+				contentFormatter   = '$contentFormatter',
+				contentEditor      = '$contentEditor',
 				slogan             = '$slogan',
-				\"acceptComment\"      = {$entry['acceptComment']},
-				\"acceptTrackback\"    = {$entry['acceptTrackback']},
+				acceptComment      = {$entry['acceptComment']},
+				acceptTrackback    = {$entry['acceptTrackback']},
 				published          = $published,
 				modified           = UNIX_TIMESTAMP()
 			WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 1");
 	} else {
 		$result = POD::query("INSERT INTO {$database['prefix']}Entries 
-			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, \"contentFormatter\",
-			 \"contentEditor\", location, password, \"acceptComment\", \"acceptTrackback\", published, created, modified,
+			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, contentFormatter,
+			 contentEditor, location, password, acceptComment, acceptTrackback, published, created, modified,
 			 comments, trackbacks) 
 			VALUES (
 			$blogid,
@@ -905,7 +908,7 @@ function saveDraftEntry($blogid, $entry) {
 
 function updateTrackbacksOfEntry($blogid, $id) {
 	global $database;
-	$trackbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND entry = $id AND \"isFiltered\" = 0");
+	$trackbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND entry = $id AND isFiltered = 0");
 	if ($trackbacks === null)
 		return false;
 	return POD::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks WHERE blogid = $blogid AND id = $id");
@@ -917,6 +920,7 @@ function deleteEntry($blogid, $id) {
 	requireModel("blog.category");
 	requireModel("blog.attachment");
 	requireModel("blog.tag");
+	requireComponent("Textcube.Data.Tag");
 
 	$target = getEntry($blogid, $id);
 	if (is_null($target)) return false;
@@ -935,7 +939,7 @@ function deleteEntry($blogid, $id) {
 		updateEntriesOfCategory($blogid, $target['category']);
 		deleteAttachments($blogid, $id);
 		
-		deleteTagsWithEntryId($blogid, $id);
+		Tag::deleteTagsWithEntryId($blogid, $id);
 		clearFeed();
 		fireEvent('DeletePost', $id, null);
 		return true;

@@ -192,27 +192,4 @@ function suggestLocalTags($blogid, $filter) {
 	}
 	return $tags;
 }
-
-function removeEmptyTagHelper($var)
-{
-	return (strlen($var) > 0);
-}
-
-function addTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
-{
-	requireComponent('Textcube.Data.Tag');
-	Tags::addTagsWithEntryId($blogid, $entry, $taglist);
-}
-
-function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
-{
-	requireComponent('Textcube.Data.Tag');
-	return Tag::modifyTagsWithEntryId($blogid, $entry, $taglist);
-}
-
-function deleteTagsWithEntryId($blogid, $entry)
-{
-	requireComponent('Textcube.Data.Tag');
-	return Tag::deleteTagsWithEntryId($blogid, $entry);
-}
 ?>

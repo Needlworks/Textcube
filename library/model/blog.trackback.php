@@ -11,7 +11,7 @@ function getTrackbacksWithPagingForOwner($blogid, $category, $site, $ip, $search
 		FROM {$database['prefix']}Trackbacks t 
 		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
 		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
-		WHERE t.blogid = $blogid AND t.\"isFiltered = 0";
+		WHERE t.blogid = $blogid AND t.isFiltered = 0";
 	if ($category > 0) {
 		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
@@ -76,7 +76,7 @@ function getTrackbacks($entry) {
 			FROM {$database['prefix']}Trackbacks 
 			WHERE blogid = ".getBlogId()." 
 				AND entry = $entry 
-				AND \"isFiltered\" = 0 
+				AND isFiltered = 0 
 			ORDER BY written");
 	while ($trackback = POD::fetch($result))
 		array_push($trackbacks, $trackback);
@@ -92,7 +92,7 @@ function getTrackbackList($blogid, $search) {
  		FROM {$database['prefix']}Trackbacks t
 		LEFT JOIN {$database['prefix']}Entries e ON t.entry = e.id AND t.blogid = e.blogid AND e.draft = 0
 		WHERE  t.blogid = $blogid
-			AND t.\"isFiltered\" = 0
+			AND t.isFiltered = 0
 			AND t.entry > 0 $authorized 
 			AND (t.excerpt like '%$search%' OR t.subject like '%$search%')")) {
 		foreach($result as $trackback)	
@@ -109,7 +109,7 @@ function getRecentTrackbacks($blogid, $count = false, $guestShip = false) {
 			{$database['prefix']}Trackbacks t
 			LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0
 		WHERE 
-			t.blogid = $blogid AND t.\"isFiltered\" = 0 
+			t.blogid = $blogid AND t.isFiltered = 0 
 		ORDER BY 
 			t.written 
 		DESC LIMIT ".($count != false ? $count : $skinSetting['trackbacksOnRecent']) : 
@@ -119,7 +119,7 @@ function getRecentTrackbacks($blogid, $count = false, $guestShip = false) {
 			LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id
 		WHERE 
 			t.blogid = $blogid 
-			AND t.\"isFiltered\" = 0 
+			AND t.isFiltered = 0 
 			AND e.draft = 0 
 			AND e.visibility >= 2 ".getPrivateCategoryExclusionQuery($blogid)." 
 		ORDER BY 

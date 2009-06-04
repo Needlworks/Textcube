@@ -12,7 +12,7 @@ function getTrashTrackbackWithPagingForOwner($blogid, $category, $site, $url, $i
 	$sql = "SELECT t.*, c.name AS categoryName FROM {$database['prefix']}Trackbacks t 
 		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
 		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
-		WHERE t.blogid = $blogid AND t.\"isFiltered\" > 0";
+		WHERE t.blogid = $blogid AND t.isFiltered > 0";
 	if ($category > 0) {
 		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
@@ -52,7 +52,7 @@ function getTrashCommentsWithPagingForOwner($blogid, $category, $name, $ip, $sea
 		FROM {$database['prefix']}Comments c 
 		LEFT JOIN {$database['prefix']}Entries e ON c.blogid = e.blogid AND c.entry = e.id AND e.draft = 0 
 		LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.blogid = c2.blogid 
-		WHERE c.blogid = $blogid AND c.\"isFiltered\" > 0";
+		WHERE c.blogid = $blogid AND c.isFiltered > 0";
 
 	$postfix = '';	
 	if ($category > 0) {
@@ -130,7 +130,7 @@ function restoreTrackbackTrash($blogid, $id) {
 	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!POD::execute("UPDATE {$database['prefix']}Trackbacks SET \"isFiltered\" = 0 WHERE blogid = $blogid AND id = $id"))
+	if (!POD::execute("UPDATE {$database['prefix']}Trackbacks SET isFiltered = 0 WHERE blogid = $blogid AND id = $id"))
 		return false;
 	if (updateTrackbacksOfEntry($blogid, $entry))
 		return $entry;
@@ -142,8 +142,8 @@ function trashVan() {
 	requireComponent('Eolin.PHP.Core');
 	requireModel('common.setting');
 	if(Timestamp::getUNIXtime() - getServiceSetting('lastTrashSweep',0) > 86400) {
-		POD::execute("DELETE FROM {$database['prefix']}Comments where \"isFiltered\" < UNIX_TIMESTAMP() - 1296000 AND \"isFiltered\" > 0");
-		POD::execute("DELETE FROM {$database['prefix']}Trackbacks where \"isFiltered\" < UNIX_TIMESTAMP() - 1296000 AND \"isFiltered\" > 0");
+		POD::execute("DELETE FROM {$database['prefix']}Comments where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
+		POD::execute("DELETE FROM {$database['prefix']}Trackbacks where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
 		setServiceSetting('lastTrashSweep',Timestamp::getUNIXtime());
 	}
 	if(Timestamp::getUNIXtime() - getServiceSetting('lastNoticeRead',0) > 43200) {
@@ -158,9 +158,9 @@ function emptyTrash($comment = true)
 	requireModel('common.setting');
 	$blogid = getBlogId();
 	if ($comment == true) {
-		POD::execute("DELETE FROM {$database['prefix']}Comments where blogid = ".$blogid." and \"isFiltered\" > 0");
+		POD::execute("DELETE FROM {$database['prefix']}Comments where blogid = ".$blogid." and isFiltered > 0");
 	} else {
-		POD::execute("DELETE FROM {$database['prefix']}Trackbacks where blogid = ".$blogid." and \"isFiltered\" > 0");
+		POD::execute("DELETE FROM {$database['prefix']}Trackbacks where blogid = ".$blogid." and isFiltered > 0");
 	}
 }
 
