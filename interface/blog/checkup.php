@@ -102,7 +102,7 @@ function clearCache() {
 $changed = false;
 global $succeed;
 $succeed = true;
-if($currentVersion != TEXTCUBE_VERSION) {
+if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','MySQLi'))) {
 	// From 1.6
 	if (POD::queryCell("DESC {$database['prefix']}CommentsNotified id", 'Extra') == 'auto_increment') {
 		$changed = true;
@@ -464,7 +464,7 @@ if($currentVersion != TEXTCUBE_VERSION) {
 			echo '<span class="result fail">', _text('실패'), '</span></li>';
 	}
 }
-			
+
 /***** Common parts. *****/
 if(doesHaveOwnership()) clearCache();
 

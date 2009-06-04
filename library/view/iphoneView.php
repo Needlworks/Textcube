@@ -139,23 +139,23 @@ function printIphoneTags($blogid, $flag = 'random', $max = 10) {
 	$tags = array();
 	$aux = "limit $max";
 	if ($flag == 'count') { // order by count
-			$tags = POD::queryAll("SELECT `name`, count(*) `cnt`, t.id FROM `{$database['prefix']}Tags` t,
-				`{$database['prefix']}TagRelations` r, 
-				`{$database['prefix']}Entries` e 
+			$tags = POD::queryAll("SELECT name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t,
+				{$database['prefix']}TagRelations r, 
+				{$database['prefix']}Entries e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
-				GROUP BY r.tag 
-				ORDER BY `cnt` DESC $aux");
+				GROUP BY r.tag, name, cnt, t.id
+				ORDER BY cnt DESC $aux");
 	} else if ($flag == 'name') {  // order by name
-			$tags = POD::queryAll("SELECT DISTINCT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t, 
-				`{$database['prefix']}TagRelations` r,
-				`{$database['prefix']}Entries` e 
+			$tags = POD::queryAll("SELECT DISTINCT name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t, 
+				{$database['prefix']}TagRelations r,
+				{$database['prefix']}Entries e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
-				GROUP BY r.tag 
+				GROUP BY r.tag, name, cnt, t.id 
 				ORDER BY t.name $aux");
 	} else { // random
-			$tags = POD::queryAll("SELECT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t,
-				`{$database['prefix']}TagRelations` r,
-				`{$database['prefix']}Entries` e
+			$tags = POD::queryAll("SELECT name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t,
+				{$database['prefix']}TagRelations r,
+				{$database['prefix']}Entries e
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
 				GROUP BY r.tag 
 				ORDER BY RAND() $aux");

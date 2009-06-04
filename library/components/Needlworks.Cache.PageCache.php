@@ -275,7 +275,7 @@ class globalCacheStorage extends pageCache {
 	function load() {
 		global $database, $service;
 		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
-		$result = POD::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$this->_gBlogId." AND name = 'globalCacheStorage'");
+		$result = POD::queryCell("SELECT \"value\" FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$this->_gBlogId." AND name = 'globalCacheStorage'");
 		if(isset($result)) $this->_gCacheStorage[$this->_gBlogId] = unserialize($result);
 	}
 

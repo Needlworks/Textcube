@@ -1458,8 +1458,8 @@ form input:focus, textarea:focus
 #category ul li ul li ul li a.categoryFeed
 {
 	width:30px !important;
-	padding-left:4px;
-	background: url('./images/atom_12.png') no-repeat !important;
+	padding-left:30px;
+	background: url('./images/atom_12.png') no-repeat center !important;
 }
 #category a.categoryFeed span
 {

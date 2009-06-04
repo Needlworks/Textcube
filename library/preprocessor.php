@@ -70,11 +70,8 @@ $context = Context::getInstance(); // automatic initialization via first instanc
 
 /// Loading debug module
 if($config->service['debugmode'] == true) {
-	if(isset($config->service['dbms'])) {
-		switch($config->service['dbms']) {
-			case 'mysqli':         require_once(ROOT. "/library/components/Needlworks.Debug.MySQLi.php");break;
-			case 'mysql': default: require_once(ROOT. "/library/components/Needlworks.Debug.MySQL.php"); break;
-		}
+	if(isset($config->database['dbms'])) {
+		require_once(ROOT. "/library/components/Needlworks.Debug.".$config->database['dbms'].".php");
 	} else require_once(ROOT. "/library/components/Needlworks.Debug.MySQL.php");
 }
     

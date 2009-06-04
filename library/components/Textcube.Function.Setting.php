@@ -53,7 +53,7 @@ class Setting {
 		global $database, $service, $__gCacheBlogSettings, $gCacheStorage;
 		if(empty($__gCacheBlogSettings)) $__gCacheBlogSettings = array();
 		if(is_null($blogid)) $blogid = getBlogId();
-		if (array_key_exists($blogid, $__gCacheBlogSettings)) {
+		if (array_key_exists($blogid, $__gCacheBlogSettings) && !empty($__gCacheBlogSettings[$blogid])) {
 			return $__gCacheBlogSettings[$blogid];
 		}
 		if($blogid == getBlogId()) {
@@ -288,7 +288,7 @@ class Setting {
 		global $database, $__serviceSetting;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		if( empty($__serviceSetting) ) {
-			$settings = POD::queryAllWithCache("SELECT name, value FROM {$database['prefix']}ServiceSettings" ,'num');
+			$settings = POD::queryAllWithCache("SELECT name, \"value\" FROM {$database['prefix']}ServiceSettings" ,'num');
 			foreach( $settings as $k => $v ) {
 				$__serviceSetting[ $v[0] ] = $v[1];
 			}
@@ -320,15 +320,15 @@ class Setting {
 	}
 
 	function getServiceSettingGlobal($name, $default = null) {
-		return setting::getServiceSetting($name, $default, true);
+		return Setting::getServiceSetting($name, $default, true);
 	}
 
 	function setServiceSettingGlobal($name, $value) {
-		return setting::setServiceSetting($name, $value, true);
+		return Setting::setServiceSetting($name, $value, true);
 	}
 
 	function removeServiceSettingGlobal($name) {
-		return setting::removeServiceSetting($name, true);
+		return Setting::removeServiceSetting($name, true);
 	}
 	
 	function getSkinSetting($blogid, $forceReload = false) {

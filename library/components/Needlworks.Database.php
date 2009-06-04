@@ -20,6 +20,9 @@ switch($database['dbms']) {
 		requireComponent('Needlworks.DBMS.PostgreSQL'); break;
 	case 'mysqli':
 		requireComponent('Needlworks.DBMS.MySQLi');     break;
+	case 'Cubrid':
+		require_once ROOT.'/library/components/Needlworks.DBMS.Cubrid.php';
+		break;
 	case 'MySQL':
 	default:
 		requireComponent('Needlworks.DBMS.MySQL');
@@ -182,7 +185,7 @@ class TableQuery {
 	private function _makeWhereClause() {
 		$clause = '';
 		foreach ($this->_qualifiers as $name => $value)
-			$clause .= (strlen($clause) ? ' AND ' : '') . $name . '=' . $value;
+			$clause .= (strlen($clause) ? ' AND ' : '') . '"'. $name . '"=' . $value;
 		return (strlen($clause) ? ' WHERE ' . $clause : '');
 	}
 }

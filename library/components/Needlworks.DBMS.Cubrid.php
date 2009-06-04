@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-// DBQuery version 1.8 for MySQL
+// DBQuery version 1.7 for Cubrid
 
 global $cachedResult;
 global $fileCachedResult;
@@ -15,55 +15,70 @@ $__gEscapeTag = null;
 
 class DBQuery {	
 	/*@static@*/
-	public static function bind($database) {
+	function bind($database) {
 		global $__dbProperties;
 		// Connects DB and set environment variables
 		// $database array should contain 'server','username','password'.
 		if(!isset($database) || empty($database)) return false;
-		$handle = @mysql_connect($database['server'].(isset($database['port']) ? ':'.$database['port'] : ''), $database['username'], $database['password']);
+		$handle = @cubrid_connect($database['server'], $database['port'], $database['database'], $database['username'], $database['password']);
 		if(!$handle) return false;
-		$handle = @mysql_select_db($database['database']);
-		if(!$handle) return false;
-
-		if (DBQuery::query('SET CHARACTER SET utf8'))
+		$__dbProperties['handle'] = $handle;	// Keeping handle
+//		if (DBQuery::query('SET CHARACTER SET utf8'))
 			$__dbProperties['charset'] = 'utf8';
-		else
-			$__dbProperties['charset'] = 'default';
-		@DBQuery::query('SET SESSION collation_connection = \'utf8_general_ci\'');
+//		else
+//			$__dbProperties['charset'] = 'default';
+//		@DBQuery::query('SET SESSION collation_connection = \'utf8_general_ci\'');
 		return true;
 	}
 	
-	public static function unbind() {
-		mysql_close();
+	function unbind() {
+		global $__dbProperties;
+		@cubrid_commit($__dbProperties['handle']);
+		cubrid_disconnect($__dbProperties['handle']);
 		return true;
 	}
 
-	public static function charset() {
+	function charset() {
 		global $__dbProperties;
 		if (array_key_exists('charset', $__dbProperties)) return $__dbProperties['charset'];
 		else return null;
 	}
-	public static function dbms() {
-		return 'MySQL';
+	function dbms() {
+		return 'Cubrid';
 	}
 
-	public static function version($mode = 'server') {
+	function version($mode = 'server') {
 		global $__dbProperties;
 		if (array_key_exists('version', $__dbProperties)) return $__dbProperties['version'];
 		else {
-			$__dbProperties['version'] = DBQuery::queryCell("SHOW VARIABLES LIKE 'version'");
+			$__dbProperties['version'] = cubrid_version();
 			return $__dbProperties['version'];
 		}
 	}
 	
-	public static function tableList($condition = null) {
+/*	function tableList($condition = null) {
 		global $__dbProperties;
 		if (!array_key_exists('tableList', $__dbProperties)) { 
-			$__dbProperties['tableList'] = DBQuery::queryAll('SHOW TABLES');
+			$__dbProperties['tableList'] = DBQuery::queryAll("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
 		}
 		if(!is_null($condition)) {
 			foreach($__dbProperties['tableList'] as $item) {
-				if(strpos($item[0], $condition) === 0) array_push($result, $item[0]);
+				if(strpos($item, $condition) === 0) array_push($result, $item);
+			}
+			return $item;
+		} else {
+			return $__dbProperties['tableList'];
+		}
+	}
+*/
+	function tableList($condition = null) {
+		global $__dbProperties;
+		if (!array_key_exists('tableList', $__dbProperties)) { 
+			$__dbProperties['tableList'] = DBQuery::queryAll('select * from db_class');
+		}
+		if(!is_null($condition)) {
+			foreach($__dbProperties['tableList'] as $item) {
+				if(strpos($item, $condition) === 0) array_push($result, $item);
 			}
 			return $item;
 		} else {
@@ -71,24 +86,57 @@ class DBQuery {
 		}
 	}
 
-	public static function setTimezone($time) {
+	function setTimezone($time) {
 		return DBQuery::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
 	}
 
 	/*@static@*/
-	public static function queryExistence($query) {
+	function query($query) {
+		global $__gLastQueryType, $__dbProperties;
+		$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compartibility issue.
+
+		// Change DBMS-registered variable name.
+//		if (preg_match('/\s(SELECT.*) (FROM.*) (WHERE.*)$/si', $query, $matches)) {
+//			$from = $matches[1];
+//			var_dump($from);
+//		}
+
+		// Change LIMIT statement to ROWNUM. (for Cubrid-specific)
+		$query = preg_replace(array('/LIMIT ([0-9]+)/i','/LIMIT ([0-9]+) OFFSET ([0-9]+)/i'),array('ROWNUM between 1 and $1','ROWNUM between $1 and $2'), $query);
+
+		if( function_exists( '__tcSqlLogBegin' ) ) {
+			__tcSqlLogBegin($query);
+			//var_dump($query);
+			$result = cubrid_execute($__dbProperties['handle'],$query);
+			__tcSqlLogEnd($result,0);
+		} else {
+			//var_dump($query);
+			$result = cubrid_execute($__dbProperties['handle'],$query);
+		}
+		$__gLastQueryType = strtolower(substr($query, 0,6));
+		if( stristr($query, 'update ') ||
+			stristr($query, 'insert ') ||
+			stristr($query, 'delete ') ||
+			stristr($query, 'replace ') ) {
+			DBQuery::clearCache();
+		}
+		return $result;
+	}
+
+	/*@static@*/
+	function queryExistence($query) {
 		if ($result = DBQuery::query($query)) {
-			if (mysql_num_rows($result) > 0) {
-				mysql_free_result($result);
+			if (cubrid_num_rows($result) > 0) {
+				cubrid_free_result($result);
 				return true;
 			}
-			mysql_free_result($result);
+			cubrid_free_result($result);
 		}
 		return false;
 	}
 	
 	/*@static@*/
-	public static function queryCount($query) {
+	function queryCount($query) {
 		global $__gLastQueryType;
 		$count = 0;
 		$query = trim($query);
@@ -97,16 +145,15 @@ class DBQuery {
 			$__gLastQueryType = $operation;
 			switch ($operation) {
 				case 'select':
-					$count = mysql_num_rows($result);
-					mysql_free_result($result);
+					$count = cubrid_num_rows($result);
+					cubrid_close_request($result);
 					break;
 				case 'insert':
 				case 'update':
 				case 'delete':
 				case 'replac':
 				default:
-					$count = mysql_affected_rows();
-					//mysql_free_result();
+					$count = cubrid_affected_rows();
 					break;
 			}
 		}
@@ -114,7 +161,7 @@ class DBQuery {
 	}
 
 	/*@static@*/
-	public static function queryCell($query, $field = 0, $useCache=true) {
+	function queryCell($query, $field = 0, $useCache=true) {
 		$type = 'both';
 		if (is_numeric($field)) {
 			$type = 'num';
@@ -134,7 +181,7 @@ class DBQuery {
 	}
 	
 	/*@static@*/
-	public static function queryRow($query, $type = 'both', $useCache=true) {
+	function queryRow($query, $type = 'both', $useCache=true) {
 		if( $useCache ) {
 			$result = DBQuery::queryAllWithCache($query, $type, 1);
 		} else {
@@ -147,11 +194,11 @@ class DBQuery {
 	}
 	
 	/*@static@*/
-	public static function queryColumn($query, $useCache=true) {
+	function queryColumn($query, $useCache=true) {
 		global $cachedResult;
 		$cacheKey = "{$query}_queryColumn";
 		if( $useCache && isset( $cachedResult[$cacheKey] ) ) {
-			if(function_exists( '__tcSqlLogBegin' ) ) {
+			if( function_exists( '__tcSqlLogBegin' ) ) {
 				__tcSqlLogBegin($query);
 				__tcSqlLogEnd(null,1);
 			}
@@ -162,9 +209,9 @@ class DBQuery {
 		$column = null;
 		if ($result = DBQuery::query($query)) {
 			$column = array();
-			while ($row = mysql_fetch_row($result))
+			while ($row = cubrid_fetch($result))
 				array_push($column, $row[0]);
-			mysql_free_result($result);
+			cubrid_close_request($result);
 		}
 
 		if( $useCache ) {
@@ -174,24 +221,24 @@ class DBQuery {
 	}
 	
 	/*@static@*/
-	public static function queryAll ($query, $type = 'both', $count = -1) {
+	function queryAll ($query, $type = 'both', $count = -1) {
 		return DBQuery::queryAllWithCache($query, $type, $count);
 		//return DBQuery::queryAllWithoutCache($query, $type, $count);  // Your choice. :)
 	}
 
-	public static function queryAllWithoutCache($query, $type = 'both', $count = -1) {
+	function queryAllWithoutCache($query, $type = 'both', $count = -1) {
 		$all = array();
 		$realtype = DBQuery::__queryType($type);
 		if ($result = DBQuery::query($query)) {
-			while ( ($count-- !=0) && $row = mysql_fetch_array($result, $realtype))
+			while ( ($count-- !=0) && $row = cubrid_fetch($result, $realtype))
 				array_push($all, $row);
-			mysql_free_result($result);
+			cubrid_close_request($result);
 			return $all;
 		}
 		return null;
 	}
 	
-	public static function queryAllWithCache($query, $type = 'both', $count = -1) {
+	function queryAllWithCache($query, $type = 'both', $count = -1) {
 		global $cachedResult;
 		$cacheKey = "{$query}_{$type}_{$count}";
 		if( isset( $cachedResult[$cacheKey] ) ) {
@@ -208,12 +255,12 @@ class DBQuery {
 	}
 	
 	/*@static@*/
-	public static function execute($query) {
+	function execute($query) {
 		return DBQuery::query($query) ? true : false;
 	}
 
 	/*@static@*/
-	public static function multiQuery() {
+	function multiQuery() {
 		$result = false;
 		foreach (func_get_args() as $query) {
 			if (is_array($query)) {
@@ -225,48 +272,17 @@ class DBQuery {
 		}
 		return $result;
 	}
-
-	/*@static@*/
-	public static function query($query) {
-		global $__gLastQueryType;
-		if( function_exists( '__tcSqlLogBegin' ) ) {
-			__tcSqlLogBegin($query);
-			$result = mysql_query($query);
-			__tcSqlLogEnd($result,0);
-		} else {
-			$result = mysql_query($query);
-		}
-		$__gLastQueryType = strtolower(substr($query, 0,6));
-		if( stristr($query, 'update ') ||
-			stristr($query, 'insert ') ||
-			stristr($query, 'delete ') ||
-			stristr($query, 'replace ') ) {
-			DBQuery::clearCache();
-		}
-		return $result;
+	
+	function insertId() {
+		return cubrid_insert_id();
 	}
 	
-	public static function insertId() {
-		return mysql_insert_id();
-	}
-	
-	public static function escapeString($string, $link = null){
+	function escapeString($string, $link = null){
 		global $__gEscapeTag;
-		if(is_null($__gEscapeTag)) {
-			if ( function_exists('mysql_real_escape_string') && (mysql_real_escape_string('ㅋ') == 'ㅋ')) {
-				$__gEscapeTag = 'real';
-			} else {
-				$__gEscapeTag = 'none';
-			}
-		}
-		if($__gEscapeTag == 'real') {
-			return is_null($link) ? mysql_real_escape_string($string) : mysql_real_escape_string($string, $link);
-		} else {
-			return mysql_escape_string($string);
-		}
+		return preg_replace("/'/","''",$string);
 	}
 	
-	public static function clearCache() {
+	function clearCache() {
 		global $cachedResult;
 		$cachedResult = array();
 		if( function_exists( '__tcSqlLogBegin' ) ) {
@@ -275,61 +291,61 @@ class DBQuery {
 		}
 	}
 
-	public static function cacheLoad() {
+	function cacheLoad() {
 		global $fileCachedResult;
 	}
-	public static function cacheSave() {
-		global $fileCachedResult;
+	function cacheSave() {
+		global $fileCachedResult,$__dbProperties;
+		@cubrid_commit($__dbProperties['handle']);
 	}
 	
-	/* Raw public static functions (to easier adoptation) */
+	/* Raw functions (to easier adoptation) */
 	/*@static@*/
-	public static function num_rows($handle = null) {
+	function num_rows($handle = null) {
 		global $__gLastQueryType;
 		switch($__gLastQueryType) {
 			case 'select':
-				return mysql_num_rows($handle);
+				return cubrid_num_rows($handle);
 				break;
 			default:
-				return mysql_affected_rows($handle);
+				return cubrid_affected_rows($handle);
 				break;
 		}
 		return null;
 	}
 	/*@static@*/
-	public static function free($handle = null) {
-		mysql_free_result($handle);
+	function free($handle = null) {
+		cubrid_free_result($handle);
 	}
 	
 	/*@static@*/
-	public static function fetch($handle = null, $type = 'assoc') {
-		if($type == 'array') return mysql_fetch_array($handle); // Can I use mysql_fetch_row instead?
-		else if ($type == 'row') return mysql_fetch_row($handle);
-		else return mysql_fetch_assoc($handle);
+	function fetch($handle = null, $type = 'assoc') {
+		$realtype = DBQuery::__queryType($type);
+		return cubrid_fetch($handle,$realtype);
 	}
 	
 	/*@static@*/
-	public static function error($err = null) {
-		if($err === null) return mysql_error();
-		else return mysql_error($err);
+	function error($err = null) {
+		if($err === null) return cubrid_error();
+		else return cubrid_error($err);
 	}
 	
 	/*@static@*/
-	public static function stat($stat = null) {
-		if($stat === null) return mysql_stat();
-		else return mysql_stat($stat);
+	function stat($stat = null) {
+		if($stat === null) return cubrid_stat();
+		else return cubrid_stat($stat);
 	}
 	
 	/*@static@*/
-	public static function __queryType($type) {
+	function __queryType($type) {
 		switch(strtolower($type)) {
 			case 'num':
-				return MYSQL_NUM;
+				return CUBRID_NUM;
 			case 'assoc':
-				return MYSQL_ASSOC;				
+				return CUBRID_ASSOC;				
 			case 'both':
 			default:
-				return MYSQL_BOTH;
+				return CUBRID_BOTH;
 		}
 	}
 }

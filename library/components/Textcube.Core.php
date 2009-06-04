@@ -211,10 +211,10 @@ class User {
 		if ($email == '' || $nickname == '') {
 			return false;
 		}
-		if (POD::queryExistence("SELECT * FROM `{$database['prefix']}Users` WHERE name = '$nickname' AND `userid` <> $userid")) {
+		if (POD::queryExistence("SELECT * FROM {$database['prefix']}Users WHERE name = '$nickname' AND userid <> $userid")) {
 			return false;
 		} else {
-			$result = POD::query("UPDATE `{$database['prefix']}Users` SET loginid = '$email', name = '$nickname' WHERE `userid` = $userid");		
+			$result = POD::query("UPDATE {$database['prefix']}Users SET loginid = '$email', name = '$nickname' WHERE userid = $userid");		
 			if (!$result) {
 				return false;
 			} else {
@@ -237,19 +237,19 @@ class User {
 		$password = User::__generatePassword();
 		$authtoken = md5(User::__generatePassword());
 	
-		if (POD::queryExistence("SELECT * FROM `{$database['prefix']}Users` WHERE loginid = '$loginid'")) {
+		if (POD::queryExistence("SELECT * FROM {$database['prefix']}Users WHERE loginid = '$loginid'")) {
 			return 9;	// User already exists.
 		}
 	
-		if (POD::queryCell("SELECT COUNT(*) FROM `{$database['prefix']}Users` WHERE name = '$name'")) {
+		if (POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Users WHERE name = '$name'")) {
 			$name = $name . '.' . time();
 		}
 
-		$result = POD::query("INSERT INTO `{$database['prefix']}Users` (userid, loginid, password, name, created, lastLogin, host) VALUES (".(User::__getMaxUserId()+1).", '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, ".getUserId().")");
+		$result = POD::query("INSERT INTO {$database['prefix']}Users (userid, loginid, password, name, created, lastLogin, host) VALUES (".(User::__getMaxUserId()+1).", '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, ".getUserId().")");
 		if (empty($result)) {
 			return 11;
 		}
-		$result = POD::query("INSERT INTO `{$database['prefix']}UserSettings` (userid, name, value) VALUES ('".User::getUserIdByEmail($loginid)."', 'AuthToken', '$authtoken')");
+		$result = POD::query("INSERT INTO {$database['prefix']}UserSettings (userid, name, value) VALUES ('".User::getUserIdByEmail($loginid)."', 'AuthToken', '$authtoken')");
 		if (empty($result)) {
 			return 11;
 		}
@@ -264,7 +264,7 @@ class User {
 		if (!isset($userid)) 
 			return false;
 		$blogs = User::getOwnedBlogs($userid);
-		$sql = "UPDATE `{$database['prefix']}Comments` SET replier = NULL WHERE replier = ".$userid;
+		$sql = "UPDATE {$database['prefix']}Comments SET replier = NULL WHERE replier = ".$userid;
 		POD::execute($sql);
 		foreach ($blogs as $ownedBlog) {
 			Blog::changeOwner($ownedBlog,1); // 관리자 uid로 변경
@@ -293,7 +293,7 @@ class User {
 	/*@private static@*/
 	function __getMaxUserId() {
 		global $database;
-		$maxId = POD::queryCell("SELECT max(userid) FROM {$database['prefix']}Users WHERE 1");
+		$maxId = POD::queryCell("SELECT max(userid) FROM {$database['prefix']}Users");
 		if($maxId) return $maxId;
 		else return 0;
 	}
@@ -303,15 +303,15 @@ class Blog {
 	/*@static@*/
 	function changeOwner($blogid,$userid) {
 		global $database;
-		POD::execute("UPDATE `{$database['prefix']}Privileges` SET acl = 3 WHERE blogid = ".$blogid." and acl = " . BITWISE_OWNER);
+		POD::execute("UPDATE {$database['prefix']}Privileges SET acl = 3 WHERE blogid = ".$blogid." and acl = " . BITWISE_OWNER);
 	
 		$acl = POD::queryCell("SELECT acl FROM {$database['prefix']}Privileges WHERE blogid='$blogid' and userid='$userid'");
 	
 		if( $acl === null ) { // If there is no ACL, add user into the blog.
-			POD::query("INSERT INTO `{$database['prefix']}Privileges`  
+			POD::query("INSERT INTO {$database['prefix']}Privileges  
 				VALUES('$blogid', '$userid', '".BITWISE_OWNER."', UNIX_TIMESTAMP(), '0')");
 		} else {
-			POD::execute("UPDATE `{$database['prefix']}Privileges` SET acl = ".BITWISE_OWNER." 
+			POD::execute("UPDATE {$database['prefix']}Privileges SET acl = ".BITWISE_OWNER." 
 				WHERE blogid = ".$blogid." and userid = " . $userid);
 		}
 		return true;
@@ -348,15 +348,15 @@ class Blog {
 		if ($blogid == null) {
 			$blogid = getBlogId();
 		}
-		POD::execute("UPDATE `{$database['prefix']}Entries` 
+		POD::execute("UPDATE {$database['prefix']}Entries 
 			SET userid = ".User::getBlogOwner($blogid)." 
 			WHERE blogid = ".$blogid." AND userid = ".$userid);
 	
 		// Delete ACL relation.
-		if(!POD::execute("DELETE FROM `{$database['prefix']}Privileges` WHERE blogid='$blogid' and userid='$userid'"))
+		if(!POD::execute("DELETE FROM {$database['prefix']}Privileges WHERE blogid='$blogid' and userid='$userid'"))
 			return false;
 		// And if there is no blog related to the specific user, delete user.
-		if($clean && !POD::queryAll("SELECT * FROM `{$database['prefix']}Privileges` WHERE userid = '$userid'")) {
+		if($clean && !POD::queryAll("SELECT * FROM {$database['prefix']}Privileges WHERE userid = '$userid'")) {
 			User::removePermanent($userid);
 		}
 		return true;
@@ -369,11 +369,11 @@ class Blog {
 			return false;
 		$acl = POD::queryCell("SELECT acl
 				FROM {$database['prefix']}Privileges 
-				WHERE blogid='$blogid' and userid='$userid'");
+				WHERE blogid=$blogid and userid=$userid");
 		if( $acl === null ) { // If there is no ACL, add user into the blog.
 			$name = User::getName($userid);
-			POD::query("INSERT INTO `{$database['prefix']}Privileges`  
-					VALUES('$blogid', '$userid', '0', UNIX_TIMESTAMP(), '0')");
+			POD::query("INSERT INTO {$database['prefix']}Privileges  
+					VALUES($blogid, $userid, 0, UNIX_TIMESTAMP(), 0)");
 			$acl = 0;
 		}
 		$bitwise = null;
@@ -392,7 +392,7 @@ class Blog {
 		} else {
 			$acl &= ~$bitwise;
 		}
-		return POD::execute("UPDATE `{$database['prefix']}Privileges` 
+		return POD::execute("UPDATE {$database['prefix']}Privileges 
 			SET acl = ".$acl." 
 			WHERE blogid = ".$blogid." and userid = ".$userid);
 	}

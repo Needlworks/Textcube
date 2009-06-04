@@ -350,11 +350,11 @@ function updateEntriesOfCategory($blogid, $id = - 1) {
 			$rowChild['name'] = POD::escapeString(UTF8::lessenAsEncoding($rowChild['name'], 127));
 			$countChild = POD::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND visibility > 0 AND category = {$rowChild['id']}");
 			$countInLogInChild = POD::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND category = {$rowChild['id']}");
-			POD::query("UPDATE {$database['prefix']}Categories SET entries = $countChild, entriesInLogin = $countInLogInChild, `label` = '$label' WHERE blogid = $blogid AND id = {$rowChild['id']}");
+			POD::query("UPDATE {$database['prefix']}Categories SET entries = $countChild, entriesInLogin = $countInLogInChild, label = '$label' WHERE blogid = $blogid AND id = {$rowChild['id']}");
 			$countParent += $countChild;
 			$countInLoginParent += $countInLogInChild;
 		}
-		POD::query("UPDATE {$database['prefix']}Categories SET entries = $countParent, entriesInLogin = $countInLoginParent, `label` = '{$row['name']}' WHERE blogid = $blogid AND id = $parent");
+		POD::query("UPDATE {$database['prefix']}Categories SET entries = $countParent, entriesInLogin = $countInLoginParent, label = '{$row['name']}' WHERE blogid = $blogid AND id = $parent");
 	}
 	if($id >=0) CacheControl::flushCategory($id);
 	clearCategoryCache();
@@ -423,8 +423,8 @@ function moveCategory($blogid, $id, $direction) {
 		// 자신이 2 depth를 가지지 않은 1 depth 카테고리이거나, 위치를 바꿀 대상이 없는 경우.
 		} else {
 			// 위치를 바꿀 대상 카테고리에 같은 이름이 존재하는지 판별.
-			$myName = POD::queryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId AND blogid = $blogid");
-			$overlapCount = POD::queryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` = $nextId AND blogid = $blogid");
+			$myName = POD::queryCell("SELECT name FROM {$database['prefix']}Categories WHERE id = $myId AND blogid = $blogid");
+			$overlapCount = POD::queryCell("SELECT count(*) FROM {$database['prefix']}Categories WHERE name = '$myName' AND parent = $nextId AND blogid = $blogid");
 			// 같은 이름이 없으면 이동 시작.
 			if ($overlapCount == 0) {
 				$sql = "UPDATE {$database['prefix']}Categories
@@ -471,11 +471,11 @@ function moveCategory($blogid, $id, $direction) {
 	} else {
 		// 위치를 바꿀 대상이 1 depth이면.
 		if ($nextId == 'NULL') {
-			$myName = POD::escapeString(POD::queryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId and `blogid` = $blogid"));
-			$overlapCount = POD::queryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` IS NULL AND `blogid` = $blogid");
+			$myName = POD::escapeString(POD::queryCell("SELECT name FROM {$database['prefix']}Categories WHERE id = $myId and blogid = $blogid"));
+			$overlapCount = POD::queryCell("SELECT count(*) FROM {$database['prefix']}Categories WHERE name = '$myName' AND parent IS NULL AND blogid = $blogid");
 			// 1 depth에 같은 이름이 있으면 2 depth로 직접 이동.
 			if ($overlapCount > 0) {
-				$sql = "SELECT `id`, `parent`, `priority` FROM `{$database['prefix']}Categories` WHERE `parent` IS NULL AND `blogid` = $blogid AND `priority` $sign $parentPriority ORDER BY `priority` $arrange";
+				$sql = "SELECT id, parent, priority FROM {$database['prefix']}Categories WHERE parent IS NULL AND blogid = $blogid AND priority $sign $parentPriority ORDER BY priority $arrange";
 				$result = POD::queryAll($sql);
 				foreach($result as $row) {
 					$nextId = $row['id'];
@@ -483,15 +483,15 @@ function moveCategory($blogid, $id, $direction) {
 					$nextPriority = $row['priority'];
 
 					// 위치를 바꿀 대상 카테고리에 같은 이름이 존재하는지 판별.
-					$myName = POD::escapeString(POD::queryCell("SELECT `name` FROM `{$database['prefix']}Categories` WHERE `id` = $myId AND `blogid` = $blogid"));
-					$overlapCount = POD::queryCell("SELECT count(*) FROM `{$database['prefix']}Categories` WHERE `name` = '$myName' AND `parent` = $nextId AND `blogid` = $blogid");
+					$myName = POD::escapeString(POD::queryCell("SELECT name FROM {$database['prefix']}Categories WHERE id = $myId AND blogid = $blogid"));
+					$overlapCount = POD::queryCell("SELECT count(*) FROM {$database['prefix']}Categories WHERE name = '$myName' AND parent = $nextId AND blogid = $blogid");
 					// 같은 이름이 없으면 이동 시작.
 					if ($overlapCount == 0) {
-						$sql = "UPDATE `{$database['prefix']}Categories`
+						$sql = "UPDATE {$database['prefix']}Categories
 									SET
-										`parent` = $nextId
+										parent = $nextId
 									WHERE
-										`id` = $myId AND `blogid` = $blogid";
+										id = $myId AND blogid = $blogid";
 						POD::query($sql);
 							break;
 					}

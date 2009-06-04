@@ -42,17 +42,18 @@ function __tcSqlLogEnd( $result, $cachedResult = 0 )
 	static $client_encoding = '';
 	$tcSqlQueryEndTime = explode(' ', microtime());
 	$elapsed = ($tcSqlQueryEndTime[1] - $__tcSqlQueryBeginTime[1]) + ($tcSqlQueryEndTime[0] - $__tcSqlQueryBeginTime[0]);
-	if( !$client_encoding ) {
-		$client_encoding = str_replace('_','-',mysql_client_encoding());
-	}
+//	if( !$client_encoding ) {
+//		$client_encoding = str_replace('_','-',cubrid_client_encoding());
+//	}
+	$client_encoding = 'utf-8';
 
-	if( $client_encoding != 'utf8' && function_exists('iconv') ) {
-		$__tcSqlLog[$__tcSqlLogCount]['error'] = iconv( $client_encoding, 'utf-8', mysql_error());
-	}
-	else {
-		$__tcSqlLog[$__tcSqlLogCount]['error'] = mysql_error();
-	}
-	$__tcSqlLog[$__tcSqlLogCount]['errno'] = mysql_errno();
+//	if( $client_encoding != 'utf8' && function_exists('iconv') ) {
+//		$__tcSqlLog[$__tcSqlLogCount]['error'] = iconv( $client_encoding, 'utf-8', mysql_error());
+//	}
+//	else {
+		$__tcSqlLog[$__tcSqlLogCount]['error'] = iconv('euc-kr','utf-8',cubrid_error_msg());
+//	}
+	$__tcSqlLog[$__tcSqlLogCount]['errno'] = cubrid_error_code();
 
 	if( $cachedResult == 0 ) {
 		$__tcSqlLog[$__tcSqlLogCount]['elapsed'] = ceil($elapsed * 10000) / 10;
@@ -64,16 +65,16 @@ function __tcSqlLogEnd( $result, $cachedResult = 0 )
 	$__tcSqlLog[$__tcSqlLogCount]['rows'] = 0;
 	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = ($tcSqlQueryEndTime[1] - $__tcPageStartTime[1]) + ($tcSqlQueryEndTime[0] - $__tcPageStartTime[0]);
 	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = sprintf("%4.1f",ceil($__tcSqlLog[$__tcSqlLogCount]['endtime'] * 10000) / 10);
-	if( ! $cachedResult && mysql_errno() == 0 ) {
+	if( ! $cachedResult && cubrid_error_code() == 0 ) {
 		switch( strtolower(substr($__tcSqlLog[$__tcSqlLogCount]['sql'], 0, 6 )) )
 		{
 			case 'select':
-				$__tcSqlLog[$__tcSqlLogCount]['rows'] = mysql_num_rows($result);
+				$__tcSqlLog[$__tcSqlLogCount]['rows'] = cubrid_num_rows($result);
 				break;
 			case 'insert':
 			case 'delete':
 			case 'update':
-				$__tcSqlLog[$__tcSqlLogCount]['rows'] = mysql_affected_rows();
+				$__tcSqlLog[$__tcSqlLogCount]['rows'] = cubrid_affected_rows();
 				break;
 		}
 	}
@@ -193,12 +194,7 @@ function __tcSqlLogDump()
 		background-color: #dedede;
 		text-align: center;
 	}
-
-	.debugTable ul
-	{
-		list-style-type:circle;
-	}
-
+	
 	tr.debugSQLLine .rows
 	{
 		text-align: center;
@@ -376,19 +372,8 @@ TFOOT;
 		print '</table>';
 	}
 
-	global $service, $URLInfo, $suri, $database;
-	print '<div class="debugTable">'.CRLF;
-	print '<h4>Current Database Management System :</h4>'.CRLF.'<p>'.$database['dbms'].'</p>'.CRLF;
-	print '<h4>Cache system :</h4>'.CRLF.'<ul>'.CRLF;
-	if(isset($service['pagecache']) && $service['pagecache'] == true) print '<li>Page cache Enabled</li>'.CRLF;
-	else print '<li>Page cache Disabled</li>'.CRLF;
-	if(isset($service['skincache']) && $service['skincache'] == true) print '<li>Skin cache Enabled</li>'.CRLF;
-	else print '<li>Skin cache Disabled</li>'.CRLF;
-	if(isset($service['memcached']) && $service['memcached'] == true) print '<li>Memcached module Enabled</li>'.CRLF;
-	else print '<li>Memcached module Disabled</li>'.CRLF;
-	print '</ul>'.CRLF;
+	global $service, $accessInfo, $suri;
 	if( ! empty($service['debug_session_dump'])) {
-		print '<h4>Session Information</h4>'.CRLF;
 		print '<pre>session_id = ' . session_id() . "\r\n";
 		print '$_SESSION = ';
 		print_r( $_SESSION );
@@ -397,13 +382,11 @@ TFOOT;
 		print '</pre>';
 	}
 	if( ! empty($service['debug_rewrite_module'])) {
-		print '<h4>Path parse result</h4>'.CRLF;
 		print '<pre> path parser result : '."\r\n";
-		print_r( $URLInfo );
+		print_r( $accessInfo );
 		print_r( $suri );
 		print '</pre>';
 	}
-	print '</div>'.CRLF;
 	if ($commentBlosk == true) echo '-->';
 }
 

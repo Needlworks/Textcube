@@ -82,16 +82,8 @@ class Autoload {
 		} else if (in_array($name,array('POD'))) {
 			require_once(ROOT . "/library/components/POD.Core.Legacy.php");
 		} else if (in_array($name,array('DBQuery'))) {
-			if (!isset($service['dbms'])) $service['dbms'] = 'mysql';
-			switch(strtolower($service['dbms'])) {
-				case 'postgresql':
-					require_once(ROOT . '/library/components/Needlworks.DBMS.PostgreSQL.php'); break;
-				case 'mysqli':
-					require_once(ROOT . '/library/components/Needlworks.DBMS.MySQLi.php');     break;
-				case 'mysql':
-				default:
-					require_once(ROOT . '/library/components/Needlworks.DBMS.MySQL.php');     break;
-			}
+			if (!isset($database['dbms'])) $database['dbms'] = 'MySQL';
+			require_once(ROOT . '/library/components/Needlworks.DBMS.'.$database['dbms'].'.php'); 
 			require_once(ROOT . "/library/components/Needlworks.Database.php");
 		} else if (in_array($name,array('Syndication'))) {
 			require_once(ROOT . "/library/components/Eolin.API.Syndication.php");

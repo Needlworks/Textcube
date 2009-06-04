@@ -9,11 +9,11 @@ function getRemoteResponsesWithPagingForOwner($blogid, $category, $site, $ip, $s
 	if (!is_null($type)) $typeFilter = " AND t.type = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
 	$postfix = '';
-	$sql = "SELECT t.*, c.name categoryName 
+	$sql = "SELECT t.*, c.name AS categoryName 
 		FROM {$database['prefix']}RemoteResponses t 
 		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
 		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
-		WHERE t.blogid = $blogid AND t.isFiltered = 0 $typeFilter";
+		WHERE t.blogid = $blogid AND t.\"isFiltered\" = 0 $typeFilter";
 	if ($category > 0) {
 		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
@@ -47,7 +47,7 @@ function getRemoteResponseLogsWithPagingForOwner($blogid, $category, $site, $ip,
 	if (!is_null($type)) $typeFilter = " AND t.type = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
 	$postfix = '&amp;status=sent';
-	$sql = "SELECT t.*, e.title as subject, c.name categoryName 
+	$sql = "SELECT t.*, e.title AS subject, c.name AS categoryName 
 		FROM {$database['prefix']}RemoteResponseLogs t 
 		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
 		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
@@ -81,7 +81,7 @@ function getRemoteResponses($entry, $type = null) {
 			FROM {$database['prefix']}RemoteResponses 
 			WHERE blogid = ".getBlogId()." 
 				AND entry = $entry 
-				AND isFiltered = 0 $typeFilter 
+				AND \"isFiltered\" = 0 $typeFilter 
 			ORDER BY written");
 	while ($response = POD::fetch($result))
 		array_push($responses, $response);
@@ -99,7 +99,7 @@ function getRemoteResponseList($blogid, $search, $type = null) {
  		FROM {$database['prefix']}RemoteResponses t
 		LEFT JOIN {$database['prefix']}Entries e ON t.entry = e.id AND t.blogid = e.blogid AND e.draft = 0
 		WHERE  t.blogid = $blogid
-			AND t.isFiltered = 0
+			AND t.\"isFiltered\" = 0
 			AND t.entry > 0 $authorized $typeFilter 
 			AND (t.excerpt like '%$search%' OR t.subject like '%$search%')")) {
 		foreach($result as $response)	
@@ -117,7 +117,7 @@ function getRecentRemoteResponses($blogid, $count = false, $guestShip = false, $
 			{$database['prefix']}RemoteResponses t
 			LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0
 		WHERE 
-			t.blogid = $blogid AND t.isFiltered = 0 $typeFilter 
+			t.blogid = $blogid AND t.\"isFiltered\" = 0 $typeFilter 
 		ORDER BY 
 			t.written 
 		DESC LIMIT ".($count != false ? $count : $skinSetting['trackbacksOnRecent']) : 
@@ -127,7 +127,7 @@ function getRecentRemoteResponses($blogid, $count = false, $guestShip = false, $
 			LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id
 		WHERE 
 			t.blogid = $blogid 
-			AND t.isFiltered = 0 
+			AND t.\"isFiltered\" = 0 
 			AND e.draft = 0 
 			AND e.visibility >= 2 ".getPrivateCategoryExclusionQuery($blogid)."
 			$typeFilter
@@ -163,7 +163,7 @@ function trashRemoteResponse($blogid, $id) {
 	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!POD::query("UPDATE {$database['prefix']}RemoteResponses SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id"))
+	if (!POD::query("UPDATE {$database['prefix']}RemoteResponses SET \"isFiltered\" = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id"))
 		return false;
 	CacheControl::flushDBCache('trackback');
 	CacheControl::flushDBCache('remoteResponse');
@@ -179,7 +179,7 @@ function revertRemoteResponse($blogid, $id) {
 	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!POD::execute("UPDATE {$database['prefix']}RemoteResponses SET isFiltered = 0 WHERE blogid = $blogid AND id = $id"))
+	if (!POD::execute("UPDATE {$database['prefix']}RemoteResponses SET \"isFiltered\" = 0 WHERE blogid = $blogid AND id = $id"))
 		return false;
 	CacheControl::flushDBCache('trackback');
 	CacheControl::flushDBCache('remoteResponse');
@@ -220,7 +220,7 @@ function deleteRemoteResponseLog($blogid, $id) {
 function getRemoteResponseCount($blogid, $entryId = null) {
 	global $database;
 	if (is_null($entryId)) {
-		$result = POD::queryRow("SELECT SUM(trackbacks) as t, SUM(pingbacks) as p
+		$result = POD::queryRow("SELECT SUM(trackbacks) AS t, SUM(pingbacks) AS p
 				FROM {$database['prefix']}Entries 
 				WHERE blogid = $blogid 
 					AND draft= 0");

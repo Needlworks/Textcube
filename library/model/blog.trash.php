@@ -9,11 +9,11 @@ function getTrashTrackbackWithPagingForOwner($blogid, $category, $site, $url, $i
 	global $database;
 	
 	$postfix = '';
-	$sql = "SELECT t.*, c.name categoryName 
+	$sql = "SELECT t.*, c.name AS categoryName 
 		FROM {$database['prefix']}RemoteResponses t 
 		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
 		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
-		WHERE t.blogid = $blogid AND t.isFiltered > 0 AND t.type = 'trackback'";
+		WHERE t.blogid = $blogid AND t.\"isFiltered\" > 0 AND t.type = 'trackback'";
 	if ($category > 0) {
 		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
@@ -49,11 +49,11 @@ function getTrashTrackbackWithPagingForOwner($blogid, $category, $site, $url, $i
 
 function getTrashCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, $page, $count) {
 	global $database;
-	$sql = "SELECT c.*, e.title, c2.name parentName 
+	$sql = "SELECT c.*, e.title, c2.name AS parentName 
 		FROM {$database['prefix']}Comments c 
 		LEFT JOIN {$database['prefix']}Entries e ON c.blogid = e.blogid AND c.entry = e.id AND e.draft = 0 
 		LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.blogid = c2.blogid 
-		WHERE c.blogid = $blogid AND c.isFiltered > 0";
+		WHERE c.blogid = $blogid AND c.\"isFiltered\" > 0";
 
 	$postfix = '';	
 	if ($category > 0) {
@@ -102,7 +102,8 @@ function getRecentTrackbackTrash($blogid) {
 	$trackbacks = array();
 	$sql = doesHaveOwnership() ? "SELECT * FROM {$database['prefix']}RemoteResponses
 		WHERE blogid = $blogid 
-		ORDER BY written DESC LIMIT {$skinSetting['trackbacksOnRecent']}" : 
+		ORDER BY written 
+		DESC LIMIT {$skinSetting['trackbacksOnRecent']}" : 
 		"SELECT t.* FROM {$database['prefix']}RemoteResponses t, 
 		{$database['prefix']}Entries e 
 		WHERE t.blogid = $blogid AND t.blogid = e.blogid AND t.entry = e.id AND t.type = 'trackback' AND e.draft = 0 AND e.visibility >= 2 
@@ -131,7 +132,7 @@ function restoreTrackbackTrash($blogid, $id) {
 	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!POD::execute("UPDATE {$database['prefix']}RemoteResponses SET isFiltered = 0 WHERE blogid = $blogid AND id = $id"))
+	if (!POD::execute("UPDATE {$database['prefix']}RemoteResponses SET \"isFiltered\" = 0 WHERE blogid = $blogid AND id = $id"))
 		return false;
 	if (updateTrackbacksOfEntry($blogid, $entry))
 		return $entry;
@@ -142,8 +143,8 @@ function trashVan() {
    	global $database;
 	requireModel('common.setting');
 	if(Timestamp::getUNIXtime() - getServiceSetting('lastTrashSweep',0) > 86400) {
-		POD::execute("DELETE FROM {$database['prefix']}Comments where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
-		POD::execute("DELETE FROM {$database['prefix']}RemoteResponses where isFiltered < UNIX_TIMESTAMP() - 1296000 AND isFiltered > 0");
+		POD::execute("DELETE FROM {$database['prefix']}Comments where \"isFiltered\" < UNIX_TIMESTAMP() - 1296000 AND \"isFiltered\" > 0");
+		POD::execute("DELETE FROM {$database['prefix']}RemoteResponses where \"isFiltered\" < UNIX_TIMESTAMP() - 1296000 AND \"isFiltered\" > 0");
 		setServiceSetting('lastTrashSweep',Timestamp::getUNIXtime());
 	}
 	if(Timestamp::getUNIXtime() - getServiceSetting('lastNoticeRead',0) > 43200) {
@@ -158,9 +159,9 @@ function emptyTrash($comment = true)
 	requireModel('common.setting');
 	$blogid = getBlogId();
 	if ($comment == true) {
-		POD::execute("DELETE FROM {$database['prefix']}Comments where blogid = ".$blogid." and isFiltered > 0");
+		POD::execute("DELETE FROM {$database['prefix']}Comments where blogid = ".$blogid." and \"isFiltered\" > 0");
 	} else {
-		POD::execute("DELETE FROM {$database['prefix']}RemoteResponses where blogid = ".$blogid." and isFiltered > 0");
+		POD::execute("DELETE FROM {$database['prefix']}RemoteResponses where blogid = ".$blogid." and \"isFiltered\" > 0");
 	}
 }
 

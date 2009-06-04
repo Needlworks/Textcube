@@ -55,7 +55,7 @@ function getEntryFormatterInfo($id) {
 	if (!Validator::id($id)) {
 		return NULL;
 	} else if (!isset($info[$id])) {
-		$query = sprintf('SELECT `contentFormatter` FROM `%sEntries` WHERE `id` = %d',
+		$query = sprintf('SELECT contentFormatter FROM %sEntries WHERE id = %d',
 							$database['prefix'],
 							$id
 						);
