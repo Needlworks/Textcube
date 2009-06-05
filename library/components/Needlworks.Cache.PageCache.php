@@ -141,7 +141,7 @@ class pageCache {
 		global $database;
 		$result = POD::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog 
 			WHERE blogid = ".getBlogId()."
-			AND name = '".POD::escapeString($this->realName)."'");
+			AND name = '".POD::escapeString($this->realName)."' LIMIT 1");
 		if(!is_null($result)) {
 			$this->_dbContents = unserialize($result);
 			if(doesHaveOwnership()) $this->dbContents = isset($this->_dbContents['owner']) ? $this->_dbContents['owner'] : null;
@@ -280,7 +280,7 @@ class globalCacheStorage extends pageCache {
 	function load() {
 		global $database, $service;
 		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
-		$result = POD::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$this->_gBlogId." AND name = 'globalCacheStorage'");
+		$result = POD::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$this->_gBlogId." AND name = 'globalCacheStorage' LIMIT 1");
 		if(isset($result)) $this->_gCacheStorage[$this->_gBlogId] = unserialize($result);
 	}
 

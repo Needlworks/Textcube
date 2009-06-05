@@ -97,8 +97,9 @@ class DBQuery {
 
 		/// Bypassing compartiblitiy issue : will be replace to NAF2.
 		$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compartibility issue.
-		$keepingWords = array('VALUES'=>'TW1');
-		foreach($keepingWords as $orig=>$target) $query = str_replace($orig, $target, $query); 
+		$keepingWords = array('VALUES'=>'TW1','updated'=>'TW2');
+		foreach($keepingWords as $orig=>$target) $query = str_ireplace($orig, $target, $query); 
+		
 		$caseSensiviveReservedWords = array(
 			"isFiltered","entriesInLogin","siteId", "isNew", "remoteId", "entryTitle",
 			"entryUrl","commentId","sendStatus","checkDate",
@@ -106,29 +107,31 @@ class DBQuery {
 			"groupId",
 			"updateCycle","feedLife","loadImage", "allowScript","newWindow", // Feed
 			"xmlURL","blogURL","firstLogin","lastLogin","loginCount",
-			"value", "data");	// Cubrid-specific. (reserved word);
+			"value", "data", "date");	// Cubrid-specific. (reserved word);
 			
 		foreach ($caseSensiviveReservedWords as $word) {
 			$query = str_replace($word, "\"".$word."\"", $query);
 		}
-		foreach($keepingWords as $orig=>$target) $query = str_replace($target, $orig, $query); 
+		foreach($keepingWords as $orig=>$target) $query = str_ireplace($target, $orig, $query); 
+
 		// Change LIMIT statement to ROWNUM. (for Cubrid-specific)
 		// 1. find ORDER BY or not.
-		$rowFunc = (stripos($query, "ORDER BY")!==false) ? "GROUPBY_NUM()" : "ROWNUM";
-
+		$rowFunc = (stripos($query, "GROUP BY")!==false) ? "GROUPBY_NUM()" : "ROWNUM";
 		// 2. fetch them.
+		
 		$query = preg_replace(
 		array(
-			'/WHERE (.*) LIMIT ([0-9]+) OFFSET 0/i',
-			'/WHERE (.*) LIMIT ([0-9]+) OFFSET ([0-9]+)/i',
-			'/WHERE (.*) LIMIT 1/i',
-			'/WHERE (.*) LIMIT ([0-9]+)/i'),
+			'/WHERE (.*) LIMIT ([0-9]+) OFFSET 0/si',
+			'/WHERE (.*) LIMIT ([0-9]+) OFFSET ([0-9]+)/si',
+			'/WHERE (.*) LIMIT 1/si',
+			'/WHERE (.*) LIMIT ([0-9]+)/si'),
 		array(
 			'WHERE '.$rowFunc.' = $2 AND $1',	
 			'WHERE '.$rowFunc.' between $2 and ($2+$3) AND $1',
 			'WHERE '.$rowFunc.' = 1 AND $1',
 			'WHERE '.$rowFunc.' between 1 and $2 AND $1'),
 		$query);
+
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);
 			$result = cubrid_execute($__dbProperties['handle'],$query);
@@ -153,7 +156,7 @@ class DBQuery {
 				cubrid_free_result($result);
 				return true;
 			}
-			cubrid_free_result($result);
+			cubrid_close_request($result);
 		}
 		return false;
 	}

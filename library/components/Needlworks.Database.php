@@ -158,8 +158,8 @@ class TableQuery {
 			}
 			return false;
 		} else {
-			$this->_query = 'SELECT * FROM ' . $this->table . $this->_makeWhereClause();
-			if(POD::queryCount($this->_query) > 0) {
+			$this->_query = 'SELECT * FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1';
+			if(POD::queryExistence($this->_query)) {
 				return $this->update();
 			} else {
 				return $this->insert();
