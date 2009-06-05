@@ -87,6 +87,7 @@ class DBQuery {
 	}
 
 	function setTimezone($time) {
+		return true;
 		return DBQuery::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
 	}
 
@@ -96,6 +97,8 @@ class DBQuery {
 
 		/// Bypassing compartiblitiy issue : will be replace to NAF2.
 		$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compartibility issue.
+		$keepingWords = array('VALUES'=>'TW1');
+		foreach($keepingWords as $orig=>$target) $query = str_replace($orig, $target, $query); 
 		$caseSensiviveReservedWords = array(
 			"isFiltered","entriesInLogin","siteId", "isNew", "remoteId", "entryTitle",
 			"entryUrl","commentId","sendStatus","checkDate",
@@ -108,27 +111,29 @@ class DBQuery {
 		foreach ($caseSensiviveReservedWords as $word) {
 			$query = str_replace($word, "\"".$word."\"", $query);
 		}
-		
+		foreach($keepingWords as $orig=>$target) $query = str_replace($target, $orig, $query); 
 		// Change LIMIT statement to ROWNUM. (for Cubrid-specific)
 		// 1. find ORDER BY or not.
-		$rowFunc = (stripos($query, "ORDER BY")!==false) ? 'GROUPBY_NUM()' : 'ROWNUM';
-		
-		// 2. fetch them.
-		$query = preg_replace(array(
-			'/WHERE ([a-zA-Z0-9]+) LIMIT ([0-9]+)/i',
-			'/WHERE ([a-zA-Z0-9]+) LIMIT ([0-9]+) OFFSET ([0-9]+)/i'),
-		array(
-			'WHERE '.$rowFunc.' between 1 and $2 AND '.$1,
-			'WHERE '.$rowFunc.' between $2 and $3 AND '.$1), 
-		$query);
+		$rowFunc = (stripos($query, "ORDER BY")!==false) ? "GROUPBY_NUM()" : "ROWNUM";
 
+		// 2. fetch them.
+		$query = preg_replace(
+		array(
+			'/WHERE (.*) LIMIT ([0-9]+) OFFSET 0/i',
+			'/WHERE (.*) LIMIT ([0-9]+) OFFSET ([0-9]+)/i',
+			'/WHERE (.*) LIMIT 1/i',
+			'/WHERE (.*) LIMIT ([0-9]+)/i'),
+		array(
+			'WHERE '.$rowFunc.' = $2 AND $1',	
+			'WHERE '.$rowFunc.' between $2 and ($2+$3) AND $1',
+			'WHERE '.$rowFunc.' = 1 AND $1',
+			'WHERE '.$rowFunc.' between 1 and $2 AND $1'),
+		$query);
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);
-			//var_dump($query);
 			$result = cubrid_execute($__dbProperties['handle'],$query);
 			__tcSqlLogEnd($result,0);
 		} else {
-			//var_dump($query);
 			$result = cubrid_execute($__dbProperties['handle'],$query);
 		}
 		$__gLastQueryType = strtolower(substr($query, 0,6));

@@ -286,7 +286,7 @@ class Setting {
 		global $database, $__serviceSetting;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		if( empty($__serviceSetting) ) {
-			$settings = POD::queryAllWithCache("SELECT name, \"value\" FROM {$database['prefix']}ServiceSettings" ,'num');
+			$settings = POD::queryAllWithCache("SELECT name, value FROM {$database['prefix']}ServiceSettings" ,'num');
 			foreach( $settings as $k => $v ) {
 				$__serviceSetting[ $v[0] ] = $v[1];
 			}

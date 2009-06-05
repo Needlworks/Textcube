@@ -179,7 +179,7 @@ class TableQuery {
 	function _makeWhereClause() {
 		$clause = '';
 		foreach ($this->_qualifiers as $name => $value)
-			$clause .= (strlen($clause) ? ' AND ' : '') . '"'. $name . '"=' . $value;
+			$clause .= (strlen($clause) ? ' AND ' : '') . $name . '=' . $value;
 		return (strlen($clause) ? ' WHERE ' . $clause : '');
 	}
 }
