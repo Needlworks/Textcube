@@ -61,7 +61,7 @@ function getSkinSetting($blogid, $forceReload = false) {
 			if (!Validator::directory($result['skin']) && ($result['skin'] !="customize/$blogid")) {
 				$result['skin'] = $service['skin'];
 			}
-			// retval can be lower-case only parameter. thus we change it to camelcase again.
+			// retval can be lower-case only parameter as DBMS. thus we change it to camelcase again.
 //			$retval = array();
 //			foreach($defaultSetting as $name => $value) {
 //				$retval[$name] = $result[strtolower($name)];	

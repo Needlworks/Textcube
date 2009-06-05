@@ -229,7 +229,19 @@ class DBQuery {
 	/*@static@*/
 	function query($query) {
 		global $__gLastQueryType;
+		/// Bypassing compartiblitiy issue : will be replace to NAF2.
 		$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compartibility issue.
+		$caseSensiviveReservedWords = array(
+			"isFiltered","entriesInLogin","siteId", "isNew", "remoteId", "entryTitle",
+			"entryUrl","commentId","sendStatus","checkDate",
+			"contentFormatter","contentEditor","acceptTrackback","acceptComment", // Entry
+			"groupId",
+			"updateCycle","feedLife","loadImage", "allowScript","newWindow", // Feed
+			"xmlURL","blogURL","firstLogin","lastLogin","loginCount");
+		foreach ($caseSensiviveReservedWords as $word) {
+			$query = str_replace($word, "\"".$word."\"", $query);
+		}
+		
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);
 			$result = pg_query($query);
