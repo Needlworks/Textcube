@@ -109,15 +109,18 @@ class DBQuery {
 			$query = str_replace($word, "\"".$word."\"", $query);
 		}
 		
-
-		// Change DBMS-registered variable name.
-//		if (preg_match('/\s(SELECT.*) (FROM.*) (WHERE.*)$/si', $query, $matches)) {
-//			$from = $matches[1];
-//			var_dump($from);
-//		}
-
 		// Change LIMIT statement to ROWNUM. (for Cubrid-specific)
-		$query = preg_replace(array('/LIMIT ([0-9]+)/i','/LIMIT ([0-9]+) OFFSET ([0-9]+)/i'),array('ROWNUM between 1 and $1','ROWNUM between $1 and $2'), $query);
+		// 1. find ORDER BY or not.
+		$rowFunc = (stripos($query, "ORDER BY")!==false) ? 'GROUPBY_NUM()' : 'ROWNUM';
+		
+		// 2. fetch them.
+		$query = preg_replace(array(
+			'/WHERE ([a-zA-Z0-9]+) LIMIT ([0-9]+)/i',
+			'/WHERE ([a-zA-Z0-9]+) LIMIT ([0-9]+) OFFSET ([0-9]+)/i'),
+		array(
+			'WHERE '.$rowFunc.' between 1 and $2 AND '.$1,
+			'WHERE '.$rowFunc.' between $2 and $3 AND '.$1), 
+		$query);
 
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);

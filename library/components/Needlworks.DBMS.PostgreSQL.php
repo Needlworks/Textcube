@@ -77,6 +77,39 @@ class DBQuery {
 	}
 
 	/*@static@*/
+	function query($query) {
+		global $__gLastQueryType;
+		/// Bypassing compartiblitiy issue : will be replace to NAF2.
+		$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compartibility issue.
+		$caseSensiviveReservedWords = array(
+			"isFiltered","entriesInLogin","siteId", "isNew", "remoteId", "entryTitle",
+			"entryUrl","commentId","sendStatus","checkDate",
+			"contentFormatter","contentEditor","acceptTrackback","acceptComment", // Entry
+			"groupId",
+			"updateCycle","feedLife","loadImage", "allowScript","newWindow", // Feed
+			"xmlURL","blogURL","firstLogin","lastLogin","loginCount");
+		foreach ($caseSensiviveReservedWords as $word) {
+			$query = str_replace($word, "\"".$word."\"", $query);
+		}
+		
+		if( function_exists( '__tcSqlLogBegin' ) ) {
+			__tcSqlLogBegin($query);
+			$result = pg_query($query);
+			__tcSqlLogEnd($result,0);
+		} else {
+			$result = pg_query($query);
+		}
+		$__gLastQueryType = strtolower(substr($query, 0,6));
+		if( stristr($query, 'update ') ||
+			stristr($query, 'insert ') ||
+			stristr($query, 'delete ') ||
+			stristr($query, 'replace ') ) {
+			DBQuery::clearCache();
+		}
+		return $result;
+	}
+	
+	/*@static@*/
 	function queryExistence($query) {
 		if ($result = DBQuery::query($query)) {
 			if (pg_num_rows($result) > 0) {
@@ -222,39 +255,6 @@ class DBQuery {
 						return false;
 			} else if (($result = DBQuery::query($query)) === false)
 				return false;
-		}
-		return $result;
-	}
-	
-	/*@static@*/
-	function query($query) {
-		global $__gLastQueryType;
-		/// Bypassing compartiblitiy issue : will be replace to NAF2.
-		$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compartibility issue.
-		$caseSensiviveReservedWords = array(
-			"isFiltered","entriesInLogin","siteId", "isNew", "remoteId", "entryTitle",
-			"entryUrl","commentId","sendStatus","checkDate",
-			"contentFormatter","contentEditor","acceptTrackback","acceptComment", // Entry
-			"groupId",
-			"updateCycle","feedLife","loadImage", "allowScript","newWindow", // Feed
-			"xmlURL","blogURL","firstLogin","lastLogin","loginCount");
-		foreach ($caseSensiviveReservedWords as $word) {
-			$query = str_replace($word, "\"".$word."\"", $query);
-		}
-		
-		if( function_exists( '__tcSqlLogBegin' ) ) {
-			__tcSqlLogBegin($query);
-			$result = pg_query($query);
-			__tcSqlLogEnd($result,0);
-		} else {
-			$result = pg_query($query);
-		}
-		$__gLastQueryType = strtolower(substr($query, 0,6));
-		if( stristr($query, 'update ') ||
-			stristr($query, 'insert ') ||
-			stristr($query, 'delete ') ||
-			stristr($query, 'replace ') ) {
-			DBQuery::clearCache();
 		}
 		return $result;
 	}
