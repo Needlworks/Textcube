@@ -705,8 +705,7 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestSh
 			.($isGuestbook != false ? " AND r.entry = 0" : " AND r.entry > 0")." AND r.isfiltered = 0
 		ORDER BY
 			r.written
-		DESC LIMIT
-			".($count != false ? $count : $skinSetting['commentsonrecent']);
+		DESC LIMIT ".($count != false ? $count : $skinSetting['commentsonrecent']);
 	if ($result = POD::queryAllWithDBCache($sql,'comment')) {
 		foreach($result as $comment) {
 			if (($comment['secret'] == 1) && !doesHaveOwnership()) {
