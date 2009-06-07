@@ -40,8 +40,12 @@ class TableQuery {
 		$this->id = null;
 		$this->_attributes = array();
 		$this->_qualifiers = array();
-		$this->_capsulates = array();
 		$this->_reservedFields = POD::reservedFieldNames();
+		if(!empty($this->_reservedFields)) {
+			foreach($this->_reservedFields as $reserved) {
+				$this->_isReserved[$reserved] = true;
+			}
+		}
 	}
 	
 	function resetAttributes() {
@@ -142,7 +146,8 @@ class TableQuery {
 			return false;
 		$attributes = array();
 		foreach ($this->_attributes as $name => $value)
-			array_push($attributes, $name . '=' . $value);
+			array_push($attributes, 
+				(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) . '=' . $value);
 		$this->_query = 'UPDATE ' . $this->table . ' SET ' . implode(',', $attributes) . $this->_makeWhereClause();
 		if (POD::query($this->_query))
 			return true;
@@ -156,8 +161,9 @@ class TableQuery {
 		$attributes = array_merge($this->_qualifiers, $this->_attributes);
 		if (empty($attributes))
 			return false;
+		$attributeFields = $this->_capsulateFields(array_keys($attributes));
 		if (in_array(POD::dbms(), array('MySQL','MySQLi'))) { // Those supports 'REPLACE'
-			$this->_query = 'REPLACE INTO ' . $this->table . ' (' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
+			$this->_query = 'REPLACE INTO ' . $this->table . ' (' . implode(',', $attributeFields) . ') VALUES(' . implode(',', $attributes) . ')';
 			if (POD::query($this->_query)) {
 				$this->id = POD::insertId();
 				return true;
@@ -185,12 +191,14 @@ class TableQuery {
 	function _makeWhereClause() {
 		$clause = '';
 		foreach ($this->_qualifiers as $name => $value)
-			$clause .= (strlen($clause) ? ' AND ' : '') . $name . '=' . $value;
+			$clause .= (strlen($clause) ? ' AND ' : '') . 
+				(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) .
+				'=' . $value;
 		return (strlen($clause) ? ' WHERE ' . $clause : '');
 	}
 
 	function _treatReservedFields($fields) {
-		if(is_null($this->_reservedFields)) return $fields;
+		if(empty($this->_reservedFields)) return $fields;
 		else {
 			$requestedFields = explode(',',str_replace(' ','',$fields));
 			return implode(',',$this->_capsulateFields($requestedFields));
@@ -198,16 +206,15 @@ class TableQuery {
 	}
 
 	function _capsulateFields($requestedFieldArray) {
-		$intersect = array_intersect($requestedFieldArray, $this->_reservedFields);
-		if(!empty($intersect)) {
-			$escapedFields = array();
-			foreach($intersect as $int) {
-				array_push($escapedFields, '"'.$int.'"');
+		$escapedFields = array();
+		foreach ($requestedFieldArray as $req) {
+			if(array_key_exists($req,$this->_isReserved)) {
+				array_push($escapedFields, '"'.$req.'"');
+			} else {
+				array_push($escapedFields,$req);
 			}
-			return array_merge(array_diff($requestedFieldArray, $this->_reservedFields),$escapedFields);
-		} else {
-			return $requestedFieldArray; 
 		}
+		return $escapedFields;
 	}
 }
 ?>
