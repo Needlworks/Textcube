@@ -105,6 +105,7 @@ class TableQuery {
 	}
 	
 	function getRow($field = '*') {
+		$field = $this->_treatReservedNames($field);
 		return POD::queryRow('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
 	}
 	
@@ -150,7 +151,7 @@ class TableQuery {
 		$attributes = array_merge($this->_qualifiers, $this->_attributes);
 		if (empty($attributes))
 			return false;
-		if (in_array(POD::dbms(), array('MySQL','MySQLi'))) { 
+		if (in_array(POD::dbms(), array('MySQL','MySQLi'))) { // Those supports 'REPLACE'
 			$this->_query = 'REPLACE INTO ' . $this->table . ' (' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
 			if (POD::query($this->_query)) {
 				$this->id = POD::insertId();
@@ -181,6 +182,24 @@ class TableQuery {
 		foreach ($this->_qualifiers as $name => $value)
 			$clause .= (strlen($clause) ? ' AND ' : '') . $name . '=' . $value;
 		return (strlen($clause) ? ' WHERE ' . $clause : '');
+	}
+
+	function _treatReservedFields($fields) {
+		$reservedFields = POD::reservedFieldNames();
+		if(is_null($reservedFields)) return $fields;
+		else {
+			$requestedFields = explode(',',str_replace(' ','',$fields));
+			$intersect = array_intersect($requestedFields, $reservedFields);
+			if(!empty($intersect)) {
+				$escapedFields = array();
+				foreach($intersect as $int) {
+					array_push($escapedFields, '"'.$int.'"');
+				}
+				return implode(',',array_merge(array_diff($requestedFields, $reservedFields),$escapedFields));
+			} else {
+				return $fields;
+			}
+		}
 	}
 }
 ?>

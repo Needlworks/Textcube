@@ -400,7 +400,7 @@ class OpenIDConsumer extends OpenID {
 			return false;
 		}
 		$openid = POD::escapeString($openid);
-		$query = "SELECT data FROM {$database['prefix']}OpenIDUsers WHERE openid='{$openid}'";
+		$query = "SELECT openidinfo FROM {$database['prefix']}OpenIDUsers WHERE openid='{$openid}'";
 		$result = POD::queryCell($query);
 		$data = unserialize( $result );
 
@@ -409,7 +409,7 @@ class OpenIDConsumer extends OpenID {
 		OpenIDConsumer::setUserInfo( $data['nickname'], $data['homepage'] );
 
 		$data = serialize( $data );
-		POD::execute("UPDATE {$database['prefix']}OpenIDUsers SET data='{$data}' where openid = '{$openid}'");
+		POD::execute("UPDATE {$database['prefix']}OpenIDUsers SET openidinfo='{$data}' WHERE openid = '{$openid}'");
 	}
 
 	function update($openid,$delegatedid,$nickname,$homepage=null)
@@ -419,7 +419,7 @@ class OpenIDConsumer extends OpenID {
 		$openid = POD::escapeString($openid);
 		$delegatedid = POD::escapeString($delegatedid);
 
-		$query = "SELECT data FROM {$database['prefix']}OpenIDUsers WHERE openid='{$openid}'";
+		$query = "SELECT openidinfo FROM {$database['prefix']}OpenIDUsers WHERE openid='{$openid}'";
 		$result = POD::queryCell($query);
 
 		if (is_null($result)) {
@@ -427,7 +427,7 @@ class OpenIDConsumer extends OpenID {
 			OpenIDConsumer::setUserInfo( $nickname, $homepage );
 
 			/* Owner column is used for reference, all openid records are shared */
-			POD::execute("INSERT INTO {$database['prefix']}OpenIDUsers (blogid,openid,delegatedid,firstlogin,lastlogin,logincount,data) VALUES ($blogid,'{$openid}','{$delegatedid}',UNIX_TIMESTAMP(),UNIX_TIMESTAMP(),1,'{$data}')");
+			POD::execute("INSERT INTO {$database['prefix']}OpenIDUsers (blogid,openid,delegatedid,firstlogin,lastlogin,logincount,openidinfo) VALUES ($blogid,'{$openid}','{$delegatedid}',UNIX_TIMESTAMP(),UNIX_TIMESTAMP(),1,'{$data}')");
 		} else {
 			$data = unserialize( $result );
 
@@ -436,7 +436,7 @@ class OpenIDConsumer extends OpenID {
 			OpenIDConsumer::setUserInfo( $data['nickname'], $data['homepage'] );
 
 			$data = serialize( $data );
-			POD::execute("UPDATE {$database['prefix']}OpenIDUsers SET data='{$data}', lastlogin = UNIX_TIMESTAMP(), logincount = logincount + 1 where openid = '{$openid}'");
+			POD::execute("UPDATE {$database['prefix']}OpenIDUsers SET openidinfo='{$data}', lastlogin = UNIX_TIMESTAMP(), logincount = logincount + 1 WHERE openid = '{$openid}'");
 		}
 		return;
 	}
@@ -448,7 +448,7 @@ class OpenIDConsumer extends OpenID {
 		Acl::authorize('openid', $openid);
 
 		$blogid = getBlogId();
-		$query = "SELECT userid FROM {$database['prefix']}UserSettings WHERE name like 'openid.%' and value='".POD::escapeString($openid)."' order by userid";
+		$query = "SELECT userid FROM {$database['prefix']}UserSettings WHERE name LIKE 'openid.%' and value='".POD::escapeString($openid)."' ORDER BY userid ASC";
 		$result = POD::queryRow($query);
 
 		$userid = null;

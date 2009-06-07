@@ -76,6 +76,10 @@ class DBQuery {
 		return DBQuery::query('SET TIME ZONE \'' . $time . '\'');
 	}
 
+	function reservedFieldNames() {
+		return null;
+	}
+
 	/*@static@*/
 	function query($query) {
 		global $__gLastQueryType;

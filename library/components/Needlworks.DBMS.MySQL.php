@@ -74,7 +74,9 @@ class DBQuery {
 	function setTimezone($time) {
 		return DBQuery::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
 	}
-
+	function reservedFieldNames() {
+		return null;
+	}
 	/*@static@*/
 	function queryExistence($query) {
 		if ($result = DBQuery::query($query)) {
