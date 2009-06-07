@@ -40,6 +40,8 @@ class TableQuery {
 		$this->id = null;
 		$this->_attributes = array();
 		$this->_qualifiers = array();
+		$this->_capsulates = array();
+		$this->_reservedFields = POD::reservedFieldNames();
 	}
 	
 	function resetAttributes() {
@@ -101,19 +103,22 @@ class TableQuery {
 	}
 	
 	function getCell($field = '*') {
+		$field = $this->_treatReservedFields($field);
 		return POD::queryCell('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
 	}
 	
 	function getRow($field = '*') {
-		$field = $this->_treatReservedNames($field);
+		$field = $this->_treatReservedFields($field);
 		return POD::queryRow('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
 	}
 	
 	function getColumn($field = '*') {
+		$field = $this->_treatReservedFields($field);
 		return POD::queryColumn('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
 	}
 	
 	function getAll($field = '*') {
+		$field = $this->_treatReservedFields($field);
 		return POD::queryAll('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
 	}
 	
@@ -124,7 +129,7 @@ class TableQuery {
 		$attributes = array_merge($this->_qualifiers, $this->_attributes);
 		if (empty($attributes))
 			return false;
-		$this->_query = 'INSERT INTO ' . $this->table . ' (' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
+		$this->_query = 'INSERT INTO ' . $this->table . ' (' . implode(',', $this->_capsulateFields(array_keys($attributes))) . ') VALUES(' . implode(',', $attributes) . ')';
 		if (POD::query($this->_query)) {
 //			$this->id = POD::insertId();
 			return true;
@@ -185,20 +190,23 @@ class TableQuery {
 	}
 
 	function _treatReservedFields($fields) {
-		$reservedFields = POD::reservedFieldNames();
-		if(is_null($reservedFields)) return $fields;
+		if(is_null($this->_reservedFields)) return $fields;
 		else {
 			$requestedFields = explode(',',str_replace(' ','',$fields));
-			$intersect = array_intersect($requestedFields, $reservedFields);
-			if(!empty($intersect)) {
-				$escapedFields = array();
-				foreach($intersect as $int) {
-					array_push($escapedFields, '"'.$int.'"');
-				}
-				return implode(',',array_merge(array_diff($requestedFields, $reservedFields),$escapedFields));
-			} else {
-				return $fields;
+			return implode(',',$this->_capsulateFields($requestedFields));
+		}
+	}
+
+	function _capsulateFields($requestedFieldArray) {
+		$intersect = array_intersect($requestedFieldArray, $this->_reservedFields);
+		if(!empty($intersect)) {
+			$escapedFields = array();
+			foreach($intersect as $int) {
+				array_push($escapedFields, '"'.$int.'"');
 			}
+			return array_merge(array_diff($requestedFieldArray, $this->_reservedFields),$escapedFields);
+		} else {
+			return $requestedFieldArray; 
 		}
 	}
 }
