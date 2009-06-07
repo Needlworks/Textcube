@@ -101,14 +101,7 @@ class DBQuery {
 			$keepingWords = array('VALUES'=>'TW1','updated'=>'TW2');
 			foreach($keepingWords as $orig=>$target) $query = str_ireplace($orig, $target, $query); 
 			
-			$caseSensiviveReservedWords = array(
-				"isfiltered","entriesinlogin","siteid", "isnew", "remoteid", "entrytitle",
-				"entryurl","commentid","sendstatus","checkdate","bodyid",
-				"contentformatter","contenteditor","accepttrackback","acceptcomment", // Entry
-				"groupid",
-				"updatecycle","feedlife","loadimage", "allowscript","newwindow", // Feed
-				"xmlurl","blogURL","firstlogin","lastlogin","logincount",
-				"value", "data", "date");	// Cubrid-specific. (reserved word);
+			$caseSensiviveReservedWords = array("value", "data", "date");	// Cubrid-specific. (reserved word);
 				
 			foreach ($caseSensiviveReservedWords as $word) {
 				$query = str_replace($word, "\"".$word."\"", $query);
