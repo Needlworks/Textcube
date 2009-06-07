@@ -14,7 +14,7 @@ class UserInfo {
 		$this->password =
 		$this->name =
 		$this->created =
-		$this->lastLogin =
+		$this->lastlogin =
 		$this->host =
 		$this->_result =
 			null;
@@ -44,8 +44,8 @@ class UserInfo {
 			return $this->_error('name');
 		if(!isset($this->created))		
 			return $this->_error('created');
-		if(!isset($this->lastLogin))		
-			return $this->_error('lastLogin');
+		if(!isset($this->lastlogin))		
+			return $this->_error('lastlogin');
 		if(!isset($this->host))		
 			return $this->_error('host');		
 		if (!$query = $this->_buildQuery())
@@ -104,7 +104,7 @@ class UserInfo {
 	}
 	
 	function getLastLogin() {
-		if (is_null($this->lastLogin)) 
+		if (is_null($this->lastlogin)) 
 			$this->getUser();
 		return $this->LastLogin;
 	}
@@ -162,10 +162,10 @@ class UserInfo {
 			$query->setAttribute('created', $this->created);
 		}
 		
-		if (isset($this->lastLogin)) {
-			if (!Validator::number($this->lastLogin, 1))
-				return $this->_error('lastLogin');
-			$query->setAttribute('lastLogin', $this->lastLogin);
+		if (isset($this->lastlogin)) {
+			if (!Validator::number($this->lastlogin, 1))
+				return $this->_error('lastlogin');
+			$query->setAttribute('lastlogin', $this->lastlogin);
 		}
 		
 		if (isset($this->host)) {

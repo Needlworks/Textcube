@@ -20,7 +20,7 @@ function FM_Modern_editorinit(&$editor) {
 		$config = Setting::fetchConfigVal($configVal);
 	}
 	if (in_array(Setting::getBlogSettingGlobal('defaultFormatter','html'),array('markdown','textile')) ||
-		in_array($entry['contentFormatter'],array('markdown','textile'))) {
+		in_array($entry['contentformatter'],array('markdown','textile'))) {
 		$config['defaultmode'] = 'TEXTAREA';
 	} else if (!isset($config['defaultmode'])) {
 		$config['defaultmode'] = 'WYSIWYG';

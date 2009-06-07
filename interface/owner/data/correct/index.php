@@ -106,7 +106,7 @@ updateEntriesOfCategory($blogid);
 setProgress($item++ / $items * 100, _t('태그와 태그 관계 정보를 다시 계산해서 저장합니다.'));
 $post->correctTagsAll();
 
-if ($result = POD::query("SELECT id, name, parent, homepage, comment, entry, isFiltered FROM {$database['prefix']}Comments WHERE blogid = $blogid")) {
+if ($result = POD::query("SELECT id, name, parent, homepage, comment, entry, isfiltered FROM {$database['prefix']}Comments WHERE blogid = $blogid")) {
 	while ($comment = POD::fetch($result)) {
 		setProgress($item++ / $items * 100, _t('댓글과 방명록 데이터를 교정하고 있습니다.'));
 		$correction = '';
@@ -120,8 +120,8 @@ if ($result = POD::query("SELECT id, name, parent, homepage, comment, entry, isF
 			POD::query("UPDATE {$database['prefix']}Comments SET $correction WHERE blogid = $blogid AND id = {$comment['id']}");
 			$corrected++;
 		}
-		if (!is_null($comment['parent']) && ($comment['isFiltered'] == 0)) {
-			$r2 = POD::query("SELECT id FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$comment['parent']} AND isFiltered = 0");
+		if (!is_null($comment['parent']) && ($comment['isfiltered'] == 0)) {
+			$r2 = POD::query("SELECT id FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$comment['parent']} AND isfiltered = 0");
 			if (POD::num_rows($r2) <= 0) {
 				trashCommentInOwner($blogid, $comment['id']);
 			}

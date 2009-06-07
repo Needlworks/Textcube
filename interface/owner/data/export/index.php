@@ -66,7 +66,7 @@ if ($setting->load()) {
 			Base64Stream::encode(ROOT . "/attach/$blogid/{$setting->banner}", $writer);
 		$writer->write('</content>');
 	}
-	$writer->write('</banner>' . '<useSloganOnPost>' . Validator::getBit($setting->useSloganOnPost) . '</useSloganOnPost>' . '<postsOnPage>' . $setting->postsOnPage . '</postsOnPage>' . '<postsOnList>' . $setting->postsOnList . '</postsOnList>' . '<postsOnFeed>' . $setting->postsOnFeed . '</postsOnFeed>' . '<publishWholeOnFeed>' . Validator::getBit($setting->publishWholeOnFeed) . '</publishWholeOnFeed>' . '<acceptGuestComment>' . Validator::getBit($setting->acceptGuestComment) . '</acceptGuestComment>' . '<acceptCommentOnGuestComment>' . Validator::getBit($setting->acceptCommentOnGuestComment) . '</acceptCommentOnGuestComment>' . '<language>' . $setting->language . '</language>' . '<timezone>' . $setting->timezone . '</timezone>' . '</setting>');
+	$writer->write('</banner>' . '<useSloganOnPost>' . Validator::getBit($setting->useSloganOnPost) . '</useSloganOnPost>' . '<postsOnPage>' . $setting->postsOnPage . '</postsOnPage>' . '<postsOnList>' . $setting->postsOnList . '</postsOnList>' . '<postsOnFeed>' . $setting->postsOnFeed . '</postsOnFeed>' . '<publishWholeOnFeed>' . Validator::getBit($setting->publishWholeOnFeed) . '</publishWholeOnFeed>' . '<acceptGuestComment>' . Validator::getBit($setting->acceptGuestComment) . '</acceptGuestComment>' . '<acceptcommentOnGuestComment>' . Validator::getBit($setting->acceptcommentOnGuestComment) . '</acceptcommentOnGuestComment>' . '<language>' . $setting->language . '</language>' . '<timezone>' . $setting->timezone . '</timezone>' . '</setting>');
 	$writer->write(CRLF);
 }
 $category = new Category();
@@ -108,11 +108,11 @@ if ($post->open('', '*', 'published, id')) {
 		}
 		$writer->write('<starred>' . $post->starred . '</starred>' . 
 			'<title>' . htmlspecialchars($post->title) . '</title>' . 
-			'<content formatter="' . htmlspecialchars($post->contentFormatter) . '" editor="' . htmlspecialchars($post->contentEditor) .'">' . htmlspecialchars(UTF8::correct($post->content)) . '</content>' . 
+			'<content formatter="' . htmlspecialchars($post->contentformatter) . '" editor="' . htmlspecialchars($post->contenteditor) .'">' . htmlspecialchars(UTF8::correct($post->content)) . '</content>' . 
 			'<location>' . htmlspecialchars($post->location) . '</location>' . 
 			(!is_null($post->password) ? '<password>' . htmlspecialchars($post->password) . '</password>' : '') . 
-			'<acceptComment>' . $post->acceptComment . '</acceptComment>' . 
-			'<acceptTrackback>' . $post->acceptTrackback . '</acceptTrackback>' . 
+			'<acceptComment>' . $post->acceptcomment . '</acceptComment>' . 
+			'<acceptTrackback>' . $post->accepttrackback . '</acceptTrackback>' . 
 			'<published>' . $post->published . '</published>' . 
 			'<created>' . $post->created . '</created>' . 
 			'<modified>' . $post->modified . '</modified>');
@@ -139,13 +139,13 @@ if ($post->open('', '*', 'published, id')) {
 		}
 		if ($comment = $post->getComments()) {
 			do {
-				if($comment->isFiltered == 0) {
-					$writer->write('<comment>' . '<id>'. $comment->id . '</id>' . '<commenter' . ' id="' . $comment->commenter . '">' . '<name>' . htmlspecialchars(UTF8::correct($comment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::correct($comment->homepage)) . '</homepage>' . '<ip>' . $comment->ip . '</ip>' . '<openid>' . $comment->openid . '</openid>' . '</commenter>' . '<content>' . htmlspecialchars($comment->content) . '</content>' . '<password>' . htmlspecialchars($comment->password) . '</password>' . '<secret>' . htmlspecialchars($comment->secret) . '</secret>' . '<written>' . $comment->written . '</written>' . '<isFiltered>' . $comment->isFiltered . '</isFiltered>');
+				if($comment->isfiltered == 0) {
+					$writer->write('<comment>' . '<id>'. $comment->id . '</id>' . '<commenter' . ' id="' . $comment->commenter . '">' . '<name>' . htmlspecialchars(UTF8::correct($comment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::correct($comment->homepage)) . '</homepage>' . '<ip>' . $comment->ip . '</ip>' . '<openid>' . $comment->openid . '</openid>' . '</commenter>' . '<content>' . htmlspecialchars($comment->content) . '</content>' . '<password>' . htmlspecialchars($comment->password) . '</password>' . '<secret>' . htmlspecialchars($comment->secret) . '</secret>' . '<written>' . $comment->written . '</written>' . '<isFiltered>' . $comment->isfiltered . '</isFiltered>');
 					$writer->write(CRLF);
 					if ($childComment = $comment->getChildren()) {
 						do {
-							if($childComment->isFiltered == 0) {
-								$writer->write('<comment>' . '<id>' . $childComment->id . '</id>' . '<commenter' . ' id="' . $childComment->commenter . '"' . '>' . '<name>' . htmlspecialchars(UTF8::correct($childComment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::correct($childComment->homepage)) . '</homepage>' . '<ip>' . $childComment->ip . '</ip>' . '<openid>' . $comment->openid . '</openid>' . '</commenter>' . '<content>' . htmlspecialchars($childComment->content) . '</content>' . '<password>' . htmlspecialchars($childComment->password) . '</password>' . '<secret>' . htmlspecialchars($childComment->secret) . '</secret>' . '<written>' . $childComment->written . '</written>' . '<isFiltered>' . $childComment->isFiltered . '</isFiltered>' . '</comment>');
+							if($childComment->isfiltered == 0) {
+								$writer->write('<comment>' . '<id>' . $childComment->id . '</id>' . '<commenter' . ' id="' . $childComment->commenter . '"' . '>' . '<name>' . htmlspecialchars(UTF8::correct($childComment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::correct($childComment->homepage)) . '</homepage>' . '<ip>' . $childComment->ip . '</ip>' . '<openid>' . $comment->openid . '</openid>' . '</commenter>' . '<content>' . htmlspecialchars($childComment->content) . '</content>' . '<password>' . htmlspecialchars($childComment->password) . '</password>' . '<secret>' . htmlspecialchars($childComment->secret) . '</secret>' . '<written>' . $childComment->written . '</written>' . '<isFiltered>' . $childComment->isfiltered . '</isFiltered>' . '</comment>');
 							$writer->write(CRLF);
 							}
 						} while ($childComment->shift());
@@ -159,8 +159,8 @@ if ($post->open('', '*', 'published, id')) {
 		}
 		if ($trackback = $post->getTrackbacks()) {
 			do {
-				if($trackback->isFiltered == 0) {
-					$writer->write('<trackback>' . '<url>' . htmlspecialchars(UTF8::correct($trackback->url)) . '</url>' . '<site>' . htmlspecialchars(UTF8::correct($trackback->site)) . '</site>' . '<title>' . htmlspecialchars(UTF8::correct($trackback->title)) . '</title>' . '<excerpt>' . htmlspecialchars(UTF8::correct($trackback->excerpt)) . '</excerpt>' . '<ip>' . $trackback->ip . '</ip>' . '<received>' . $trackback->received . '</received>' . '<isFiltered>' . $trackback->isFiltered . '</isFiltered>' . '</trackback>');
+				if($trackback->isfiltered == 0) {
+					$writer->write('<trackback>' . '<url>' . htmlspecialchars(UTF8::correct($trackback->url)) . '</url>' . '<site>' . htmlspecialchars(UTF8::correct($trackback->site)) . '</site>' . '<title>' . htmlspecialchars(UTF8::correct($trackback->title)) . '</title>' . '<excerpt>' . htmlspecialchars(UTF8::correct($trackback->excerpt)) . '</excerpt>' . '<ip>' . $trackback->ip . '</ip>' . '<received>' . $trackback->received . '</received>' . '<isFiltered>' . $trackback->isfiltered . '</isFiltered>' . '</trackback>');
 					$writer->write(CRLF);
 				}
 			} while ($trackback->shift());
@@ -187,7 +187,7 @@ if ($notice->open()) {
 			'<visibility>' . $notice->visibility . '</visibility>' . 
 			'<starred>' . $notice->starred . '</starred>' . 
 			'<title>' . htmlspecialchars(UTF8::correct($notice->title)) . '</title>' . 
-			'<content formatter="' . htmlspecialchars($notice->contentFormatter) . '" editor="' . htmlspecialchars($notice->contentEditor) .'">' . htmlspecialchars(UTF8::correct($notice->content)) . '</content>' . 
+			'<content formatter="' . htmlspecialchars($notice->contentformatter) . '" editor="' . htmlspecialchars($notice->contenteditor) .'">' . htmlspecialchars(UTF8::correct($notice->content)) . '</content>' . 
 			'<published>' . $notice->published . '</published>' . 
 			'<created>' . $notice->created . '</created>' . 
 			'<modified>' . $notice->modified . '</modified>');
@@ -293,15 +293,15 @@ if ($cmtNotified->open()) {
 		$writer->write('<written>' . $cmtNotified->written . '</written>');
 		$writer->write('<modified>' . $cmtNotified->modified . '</modified>');
 		$site = new CommentNotifiedSiteInfo();
-		$site->open("id = {$cmtNotified->siteId}");
+		$site->open("id = {$cmtNotified->siteid}");
 		$writer->write('<site>' . htmlspecialchars(UTF8::correct($site->url)) . '</site>');
 		$cur_siteinfo[$i] = $site->id; $i++;
 		$site->close();
-		$writer->write('<remoteId>' . $cmtNotified->remoteId . '</remoteId>');
-		$writer->write('<isNew>' . $cmtNotified->isNew . '</isNew>');
+		$writer->write('<remoteId>' . $cmtNotified->remoteid . '</remoteId>');
+		$writer->write('<isNew>' . $cmtNotified->isnew . '</isNew>');
 		$writer->write('<url>' . htmlspecialchars(UTF8::correct($cmtNotified->url)). '</url>');
-		$writer->write('<entryTitle>' . htmlspecialchars(UTF8::correct($cmtNotified->entryTitle)). '</entryTitle>');
-		$writer->write('<entryUrl>' . htmlspecialchars(UTF8::correct($cmtNotified->entryUrl)). '</entryUrl>');
+		$writer->write('<entryTitle>' . htmlspecialchars(UTF8::correct($cmtNotified->entrytitle)). '</entryTitle>');
+		$writer->write('<entryUrl>' . htmlspecialchars(UTF8::correct($cmtNotified->entryurl)). '</entryUrl>');
 		$writer->write('</comment>');		
 		$writer->write(CRLF);
 	} while ($cmtNotified->shift());
@@ -355,7 +355,32 @@ if ($statistics->open()) {
 }
 $setting = new SkinSetting();
 if ($setting->load()) {
-	$writer->write('<skin>' . '<name>' . $setting->skin . '</name>' . '<entriesOnRecent>' . $setting->entriesOnRecent . '</entriesOnRecent>' . '<commentsOnRecent>' . $setting->commentsOnRecent . '</commentsOnRecent>' . '<trackbacksOnRecent>' . $setting->trackbacksOnRecent . '</trackbacksOnRecent>' . '<commentsOnGuestbook>' . $setting->commentsOnGuestbook . '</commentsOnGuestbook>' . '<tagsOnTagbox>' . $setting->tagsOnTagbox . '</tagsOnTagbox>' . '<alignOnTagbox>' . $setting->alignOnTagbox . '</alignOnTagbox>' . '<expandComment>' . $setting->expandComment . '</expandComment>' . '<expandTrackback>' . $setting->expandTrackback . '</expandTrackback>' . '<recentNoticeLength>' . $setting->recentNoticeLength . '</recentNoticeLength>' . '<recentEntryLength>' . $setting->recentEntryLength . '</recentEntryLength>' . '<recentTrackbackLength>' . $setting->recentTrackbackLength . '</recentTrackbackLength>' . '<linkLength>' . $setting->linkLength . '</linkLength>' . '<showListOnCategory>' . $setting->showListOnCategory . '</showListOnCategory>' . '<showListOnArchive>' . $setting->showListOnArchive . '</showListOnArchive>' . '<tree>' . '<name>' . $setting->tree . '</name>' . '<color>' . $setting->colorOnTree . '</color>' . '<bgColor>' . $setting->bgColorOnTree . '</bgColor>' . '<activeColor>' . $setting->activeColorOnTree . '</activeColor>' . '<activeBgColor>' . $setting->activeBgColorOnTree . '</activeBgColor>' . '<labelLength>' . $setting->labelLengthOnTree . '</labelLength>' . '<showValue>' . $setting->showValueOnTree . '</showValue>' . '</tree>' . '</skin>');
+	$writer->write('<skin>' . 
+		'<name>' . $setting->skin . '</name>' . 
+		'<entriesOnRecent>' . $setting->entriesonrecent . '</entriesOnRecent>' . 
+		'<commentsOnRecent>' . $setting->commentsonrecent . '</commentsOnRecent>' . 
+		'<trackbacksOnRecent>' . $setting->trackbacksonrecent . '</trackbacksOnRecent>' . 
+		'<commentsOnGuestbook>' . $setting->commentsonguestbook . '</commentsOnGuestbook>' . 
+		'<tagsOnTagbox>' . $setting->tagsontagbox . '</tagsOnTagbox>' . 
+		'<alignOnTagbox>' . $setting->alignOnTagbox . '</alignOnTagbox>' . 
+		'<expandComment>' . $setting->expandcomment . '</expandComment>' . 
+		'<expandTrackback>' . $setting->expandtrackback . '</expandTrackback>' . 
+		'<recentNoticeLength>' . $setting->recentnoticelength . '</recentNoticeLength>' . 
+		'<recentEntryLength>' . $setting->recententrylength . '</recentEntryLength>' . 
+		'<recentTrackbackLength>' . $setting->recenttrackbacklength . '</recentTrackbackLength>' . 
+		'<linkLength>' . $setting->linklength . '</linkLength>' . 
+		'<showListOnCategory>' . $setting->showlistoncategory . '</showListOnCategory>' . 
+		'<showListOnArchive>' . $setting->showlistonarchive . '</showListOnArchive>' . 
+		'<tree>' . 
+			'<name>' . $setting->tree . '</name>' . 
+			'<color>' . $setting->colorontree . '</color>' . 
+			'<bgColor>' . $setting->bgcolorontree . '</bgColor>' . 
+			'<activeColor>' . $setting->activecolorontree . '</activeColor>' . 
+			'<activeBgColor>' . $setting->activebgcolorontree . '</activeBgColor>' . 
+			'<labelLength>' . $setting->labellengthontree . '</labelLength>' . 
+			'<showValue>' . $setting->showvalueontree . '</showValue>' . 
+		'</tree>' . 
+	'</skin>');
 	$writer->write(CRLF);
 }
 $setting = new PluginSetting();
@@ -378,12 +403,12 @@ $comment = new GuestComment();
 if ($comment->open('parent IS NULL')) {
 	$writer->write('<guestbook>');
 	do {
-		if ($comment->isFiltered == 0) {
+		if ($comment->isfiltered == 0) {
 			$writer->write('<comment>' . '<commenter' . ' id="' . $comment->commenter . '">' . '<name>' . htmlspecialchars(UTF8::correct($comment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::correct($comment->homepage)) . '</homepage>' . '<ip>' . $comment->ip . '</ip>' . '<openid>' . $comment->openid . '</openid>' . '</commenter>' . '<content>' . htmlspecialchars(UTF8::correct($comment->content)) . '</content>' . '<password>' . htmlspecialchars($comment->password) . '</password>' . '<secret>' . htmlspecialchars($comment->secret) . '</secret>' . '<written>' . $comment->written . '</written>');
 			$writer->write(CRLF);
 			if ($childComment = $comment->getChildren()) {
 				do {
-					if ($childComment->isFiltered == 0) {
+					if ($childComment->isfiltered == 0) {
 						$writer->write('<comment>' . '<commenter' . ' id="' . $childComment->commenter . '">' . '<name>' . htmlspecialchars(UTF8::correct($childComment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::correct($childComment->homepage)) . '</homepage>' . '<ip>' . $childComment->ip . '</ip>' . '<openid>' . $comment->openid . '</openid>' . '</commenter>' . '<content>' . htmlspecialchars(UTF8::correct($childComment->content)) . '</content>' . '<password>' . htmlspecialchars($childComment->password) . '</password>' . '<secret>' . htmlspecialchars($childComment->secret) . '</secret>' . '<written>' . $childComment->written . '</written>' . '</comment>');
 						$writer->write(CRLF);
 					}

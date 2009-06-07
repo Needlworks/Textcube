@@ -171,7 +171,7 @@ function getScriptsOnFoot() {
 	} else return '';
 }
 
-function getTrackbacksView($entry, $skin, $acceptTrackback) {
+function getTrackbacksView($entry, $skin, $accepttrackback) {
 	global $suri, $defaultURL, $skinSetting, $blogURL, $service, $blog;
 	requireModel('blog.trackback');
 	requireLibrary('blog.skin');
@@ -199,7 +199,7 @@ function getTrackbacksView($entry, $skin, $acceptTrackback) {
 		$trackbacksContainer = '';
 	}
 
-	if ($skinSetting['expandTrackback'] == 1 || (($suri['url'] != $blogURL.'/index.php' && $suri['url'] != $service['path'].'/index.php') && ($suri['directive'] == '/' || $suri['directive'] == '/entry') && $suri['value'] != '')) {
+	if ($skinSetting['expandtrackback'] == 1 || (($suri['url'] != $blogURL.'/index.php' && $suri['url'] != $service['path'].'/index.php') && ($suri['directive'] == '/' || $suri['directive'] == '/entry') && $suri['value'] != '')) {
 		$style = 'block';
 	} else {
 		$style = 'none';
@@ -207,7 +207,7 @@ function getTrackbacksView($entry, $skin, $acceptTrackback) {
 	$trackbacksView = "<div id=\"entry{$entry['id']}Trackback\" style=\"display:$style\">" . str_replace('[##_tb_container_##]', $trackbacksContainer, $skin->trackbacks) . '</div>';
 
 
-	if($acceptTrackback) {
+	if($accepttrackback) {
 		// Blocked. (Too many encoding issues with various trackback sender.)
 		//$trackbackAddress = $defaultURL."/trackback/".($blog['useSloganOnPost'] ? $entry['slogan'] : $entry['id']);
 		$trackbackAddress = $defaultURL."/trackback/".$entry['id'];
@@ -249,7 +249,7 @@ function getCommentView($entry, $skin) {
 	if ($isComment == false) {
 		global $comments;
 		if(!isset($comments)) {
-			list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $suri['page'], $skinSetting['commentsOnGuestbook']);
+			list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $suri['page'], $skinSetting['commentsonguestbook']);
 		}
 		foreach ($comments as $key => $value) {
 			if ($value['secret'] == 1) {
@@ -371,7 +371,7 @@ function getCommentView($entry, $skin) {
 		dress($prefix1 . '_container', $commentContainer, $commentView);
 	}
 
-	$acceptComment = POD::queryCell("SELECT acceptComment FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = {$entry['id']}");
+	$acceptcomment = POD::queryCell("SELECT acceptcomment FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = {$entry['id']}");
 
 	$useForm = false;
 	$openid_identity = Acl::getIdentity('openid');
@@ -391,7 +391,7 @@ function getCommentView($entry, $skin) {
 
 	$default_guestname = '';
 	$default_homepage = '';
-	if (doesHaveOwnership() || ($isComment && $acceptComment == 1) || ($isComment == false) || ($useForm == false)) {
+	if (doesHaveOwnership() || ($isComment && $acceptcomment == 1) || ($isComment == false) || ($useForm == false)) {
 //		if (!doesHaveOwnership()) {
 			$commentMemberView = ($isComment ? $skin->commentMember : $skin->guestMember);
 			if (!doesHaveMembership()) {
@@ -462,16 +462,16 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 					array_push($children, 
 						array('id' => $category2['id'], 
 							'label' => $category2['name'], 
-							'value' => (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']), 
+							'value' => (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']), 
 							'link' => "$blogURL/category/" . ($blog['useSloganOnCategory'] ? URL::encode($category2['label'],$service['useEncodedURL']) : $category2['id']), 
 							'children' => array()
 						)
 					);
-					$categoryCount = $categoryCount + (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']);
+					$categoryCount = $categoryCount + (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']);
 				}
-				$categoryCountAll = $categoryCountAll + (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']);
+				$categoryCountAll = $categoryCountAll + (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']);
 			}
-			$parentCategoryCount = (doesHaveOwnership() ? $category1['entriesInLogin'] - $categoryCountAll : $category1['entries'] - $categoryCountAll);
+			$parentCategoryCount = (doesHaveOwnership() ? $category1['entriesinlogin'] - $categoryCountAll : $category1['entries'] - $categoryCountAll);
 			if($category1['id'] != 0) {
 				array_push($tree['children'], 
 					array('id' => $category1['id'], 
@@ -504,13 +504,13 @@ function getCategoriesViewInOwner($totalPosts, $categories, $selected) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {
 			if(getCategoryVisibility($blogid, $category1['id']) == 2) {
-				array_push($children, array('id' => $category2['id'], 'label' => (getCategoryVisibility($blogid, $category2['id'])==2 ? $category2['name'] : _t('(비공개)').' '.$category2['name']), 'value' =>  $category2['entriesInLogin'], 'link' => "$blogURL/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
+				array_push($children, array('id' => $category2['id'], 'label' => (getCategoryVisibility($blogid, $category2['id'])==2 ? $category2['name'] : _t('(비공개)').' '.$category2['name']), 'value' =>  $category2['entriesinlogin'], 'link' => "$blogURL/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
 			} else {
-				array_push($children, array('id' => $category2['id'], 'label' => '[!] '.(getCategoryVisibility($blogid, $category2['id'])==2 ? $category2['name'] : _t('(비공개)').' '.$category2['name']), 'value' =>  $category2['entriesInLogin'], 'link' => "$blogURL/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
+				array_push($children, array('id' => $category2['id'], 'label' => '[!] '.(getCategoryVisibility($blogid, $category2['id'])==2 ? $category2['name'] : _t('(비공개)').' '.$category2['name']), 'value' =>  $category2['entriesinlogin'], 'link' => "$blogURL/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
 			}
 		}
 		if($category1['id'] != 0) {
-			array_push($tree['children'], array('id' => $category1['id'], 'label' => (getCategoryVisibility($blogid, $category1['id'])==2 ? $category1['name'] : _t('(비공개)').' '.$category1['name']), 'value' => $category1['entriesInLogin'], 'link' => "$blogURL/owner/entry/category/?&id={$category1['id']}&entries={$category1['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category1['name']), 'children' => $children));
+			array_push($tree['children'], array('id' => $category1['id'], 'label' => (getCategoryVisibility($blogid, $category1['id'])==2 ? $category1['name'] : _t('(비공개)').' '.$category1['name']), 'value' => $category1['entriesinlogin'], 'link' => "$blogURL/owner/entry/category/?&id={$category1['id']}&entries={$category1['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category1['name']), 'children' => $children));
 		}
 	}
 	ob_start();
@@ -528,10 +528,10 @@ function getCategoriesViewInSkinSetting($totalPosts, $categories, $selected) {
 	foreach ($categories as $category1) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {
-			array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']), 'link' => "", 'children' => array()));
+			array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']), 'link' => "", 'children' => array()));
 		}
 		if($category1['id'] != 0) {
-			array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => (doesHaveOwnership() ? $category1['entriesInLogin'] : $category1['entries']), 'link' => "", 'children' => $children));
+			array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => (doesHaveOwnership() ? $category1['entriesinlogin'] : $category1['entries']), 'link' => "", 'children' => $children));
 		}
 	}
 	ob_start();
@@ -706,9 +706,9 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 					} else{
 						var oLevel = document.getElementById("category_" + i);
 						var oChild = oLevel.getElementsByTagName("table")[0];
-						oChild.style.color ='#'+skin['colorOnTree'];
-						oChild.style.backgroundColor ='#'+skin['bgColorOnTree'];
-						var oLevel = document.getElementById('text_'+i).style.color='#'+skin['colorOnTree'];
+						oChild.style.color ='#'+skin['colorontree'];
+						oChild.style.backgroundColor ='#'+skin['bgcolorontree'];
+						var oLevel = document.getElementById('text_'+i).style.color='#'+skin['colorontree'];
 						alert(document.getElementById('text_'+i).style.color);
 				}
 				}
@@ -971,7 +971,7 @@ function getRecentNoticesView($notices, $noticeView, $noticeItemView, $isPage = 
 		$itemsView = '';
 		foreach ($notices as $notice) {
 			$itemView = $noticeItemView;
-			dress($prefix.'_rep_title', htmlspecialchars(fireEvent('View'.$prefix.'Title', UTF8::lessenAsEm($notice['title'], $skinSetting['recentNoticeLength']), $notice['id'])), $itemView);
+			dress($prefix.'_rep_title', htmlspecialchars(fireEvent('View'.$prefix.'Title', UTF8::lessenAsEm($notice['title'], $skinSetting['recentnoticelength']), $notice['id'])), $itemView);
 			if($blog['useSloganOnPost']) {
 				if(isset($notice['slogan'])&& !empty($notice['slogan'])) {
 					$noticeURL = URL::encode($notice['slogan']);
@@ -999,7 +999,7 @@ function getRecentEntriesView($entries, $template) {
 		$view = "$template";
 		$permalink = "$blogURL/" . ($blog['useSloganOnPost'] ? "entry/" . URL::encode($entry['slogan'],$service['useEncodedURL']) : $entry['id']);
 		dress('rctps_rep_link', $permalink, $view);
-		$contentContainer["recent_entry_{$entry['id']}"] = htmlspecialchars(UTF8::lessenAsEm($entry['title'], $skinSetting['recentEntryLength']));
+		$contentContainer["recent_entry_{$entry['id']}"] = htmlspecialchars(UTF8::lessenAsEm($entry['title'], $skinSetting['recententrylength']));
 		dress('rctps_rep_title', setTempTag("recent_entry_{$entry['id']}"), $view);
 		dress('rctps_rep_time', fireEvent('ViewRecentPostDate', Timestamp::format2($entry['published']), $entry['published']), $view);
 		dress('rctps_rep_rp_cnt', "<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments'] > 0 ? "({$entry['comments']})" : '').'</span>', $view);
@@ -1016,10 +1016,10 @@ function getRecentCommentsView($comments, $template) {
 	foreach ($comments as $comment) {
 		$view = "$template";
 		dress('rctrp_rep_link', "$blogURL/".($blog['useSloganOnPost'] ? "entry/".URL::encode($comment['slogan'],$service['useEncodedURL']) : $comment['entry'])."#comment{$comment['id']}", $view);
-		$contentContainer["recent_comment_{$comment['id']}"] = htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['comment']), $skinSetting['recentCommentLength']));
+		$contentContainer["recent_comment_{$comment['id']}"] = htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['comment']), $skinSetting['recentcommentlength']));
 		dress('rctrp_rep_desc', setTempTag("recent_comment_{$comment['id']}"), $view);
 		dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::format2($comment['written']), $comment['written']), $view);
-		dress('rctrp_rep_name', htmlspecialchars(UTF8::lessenAsEm($comment['name'], $skinSetting['recentCommentLength'])), $view);
+		dress('rctrp_rep_name', htmlspecialchars(UTF8::lessenAsEm($comment['name'], $skinSetting['recentcommentlength'])), $view);
 		$recentCommentView .= $view;
 	}
 	// IE webslice support
@@ -1034,9 +1034,9 @@ function getRecentTrackbacksView($trackbacks, $template) {
 		$view = "$template";
 		dress('rcttb_rep_link', "$blogURL/".($blog['useSloganOnPost'] ? "entry/".URL::encode($trackback['slogan'],$service['useEncodedURL']) : $trackback['entry'])."#trackback{$trackback['id']}", $view);
 		
-		dress('rcttb_rep_desc', htmlspecialchars(UTF8::lessenAsEm($trackback['subject'], $skinSetting['recentTrackbackLength'])), $view);
+		dress('rcttb_rep_desc', htmlspecialchars(UTF8::lessenAsEm($trackback['subject'], $skinSetting['recenttrackbacklength'])), $view);
 		dress('rcttb_rep_time', fireEvent('ViewRecentTrackbackDate', Timestamp::format2($trackback['written']), $trackback['written']), $view);
-		dress('rcttb_rep_name', htmlspecialchars(UTF8::lessenAsEm($trackback['site'], $skinSetting['recentTrackbackLength'])), $view);
+		dress('rcttb_rep_name', htmlspecialchars(UTF8::lessenAsEm($trackback['site'], $skinSetting['recenttrackbacklength'])), $view);
 		print $view;
 	}
 	$view = ob_get_contents();
@@ -1077,7 +1077,7 @@ function getLinksView($links, $template) {
 		if( $showXfn && $home && $link['xfn'] ) {
 			addXfnAttrs( htmlspecialchars($link['url']), htmlspecialchars($link['xfn']), $view );
 		}
-		dress('link_site', fireEvent('ViewLink', htmlspecialchars(UTF8::lessenAsEm($link['name'], $skinSetting['linkLength']))), $view);
+		dress('link_site', fireEvent('ViewLink', htmlspecialchars(UTF8::lessenAsEm($link['name'], $skinSetting['linklength']))), $view);
 		print $view;
 	}
 	$view = ob_get_contents();
@@ -1110,7 +1110,7 @@ function getLinkListView($links) {
 		if( $showXfn && $home && $link['xfn'] ) {
 			addXfnAttrs( htmlspecialchars($link['url']), htmlspecialchars($link['xfn']), $link['url']);
 		}
-		$buffer .= '<li><a href="'.htmlspecialchars($link['url']).'">'.fireEvent('ViewLink', htmlspecialchars(UTF8::lessenAsEm($link['name'], $skinSetting['linkLength']))).'</a></li>'.CRLF;
+		$buffer .= '<li><a href="'.htmlspecialchars($link['url']).'">'.fireEvent('ViewLink', htmlspecialchars(UTF8::lessenAsEm($link['name'], $skinSetting['linklength']))).'</a></li>'.CRLF;
 	}
 	if(!empty($categoryName)) $buffer .= '</ul>'.CRLF.'</li>'.CRLF;
 	$buffer .='</ul>'.CRLF;
@@ -1278,7 +1278,7 @@ function printFeeds($blogid, $group = 0, $starredOnly = false, $searchKeyword = 
 															<div class="button-box">
 																<a id="iconFeedStatus<?php echo $feed['id'];?>" class="update-button button" onclick="Reader.updateFeed(<?php echo $feed['id'];?>, '<?php echo _t('피드를 갱신 했습니다.');?>'); event.cancelBubble=true; return false;" title="<?php echo _t('이 피드를 갱신 합니다.');?>"><span class="text"><?php echo _t('피드 갱신');?></span></a>
 																<span class="divider">|</span>
-																<a class="edit-button button" href="#void" onclick="Reader.editFeed(<?php echo $feed['id'];?>, '<?php echo escapeJSInAttribute($feed['xmlURL']);?>')" title="<?php echo _t('이 피드 정보를 수정합니다.');?>"><span class="text"><?php echo _t('수정');?></span></a>
+																<a class="edit-button button" href="#void" onclick="Reader.editFeed(<?php echo $feed['id'];?>, '<?php echo escapeJSInAttribute($feed['xmlurl']);?>')" title="<?php echo _t('이 피드 정보를 수정합니다.');?>"><span class="text"><?php echo _t('수정');?></span></a>
 															</div>
 														</li>
 <?php
@@ -1340,7 +1340,7 @@ function printFeedEntries($blogid, $group = 0, $feed = 0, $unreadOnly = false, $
 		$className .= ($count == 0) ? ' active-class' : ' inactive-class';
 		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="'._t('팟캐스트 포스트입니다.').'"><span class="text">' . _t('팟캐스트') . '</span></span>' : '';
 ?>
-														<tr id="entryTitleList<?php echo $entry['id'];?>" class="<?php echo $className;?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id'];?>)">
+														<tr id="entrytitleList<?php echo $entry['id'];?>" class="<?php echo $className;?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id'];?>)">
 															<td>
 																<div class="icons">
 <?php
@@ -1381,7 +1381,7 @@ function printFeedEntries($blogid, $group = 0, $feed = 0, $unreadOnly = false, $
 <?php
 	if (isset($firstEntryId)) {
 ?>
-														Reader.selectedEntryObject = document.getElementById("entryTitleList<?php echo $firstEntryId;?>").parentNode;
+														Reader.selectedEntryObject = document.getElementById("entrytitleList<?php echo $firstEntryId;?>").parentNode;
 <?php
 	}
 ?>
@@ -1403,7 +1403,7 @@ function printFeedEntriesMore($blogid, $group = 0, $feed = 0, $unreadOnly = fals
 		$class .= ' inactive-class';
 		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="'._t('팟캐스트 포스트입니다.').'"><span class="text">' . _t('팟캐스트') . '</span></span>' : '';
 ?>
-													<tr id="entryTitleList<?php echo $entry['id'];?>" class="<?php echo $class;?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id'];?>)">
+													<tr id="entrytitleList<?php echo $entry['id'];?>" class="<?php echo $class;?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id'];?>)">
 														<td>
 															<div class="icons">
 <?php

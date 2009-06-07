@@ -241,11 +241,11 @@ class Moblog
 			$post->category = $this->category;
 			$post->tags = $this->extractTags( $mail ); /* Go with csv string, Tag class supports both string and array */
 			$post->content = $moblog_begin.$this->_getDecoratedContent( $mail, $docid );
-			$post->contentFormatter = getDefaultFormatter();
-			$post->contentEditor = getDefaultEditor();
+			$post->contentformatter = getDefaultFormatter();
+			$post->contenteditor = getDefaultEditor();
 			$post->created = time();
-			$post->acceptComment = true;
-			$post->acceptTrackback = true;
+			$post->acceptcomment = true;
+			$post->accepttrackback = true;
 			$post->visibility = $this->visibility;
 			$post->published = time();
 			$post->modified = time();

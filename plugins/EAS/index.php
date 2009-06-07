@@ -22,7 +22,7 @@ function EAS_Call($type, $name, $title, $url, $content)
 		{
 			$sql = 'SELECT COUNT(id) as cc FROM ' . $database['prefix'] . 'Trackbacks WHERE';
 			$sql .= ' url = \'' . POD::escapeString($url) . '\'';
-			$sql .= ' AND isFiltered > 0';
+			$sql .= ' AND isfiltered > 0';
 			
 			if ($row = POD::queryRow($sql)) {
 				$count += @$row[0];
@@ -35,7 +35,7 @@ function EAS_Call($type, $name, $title, $url, $content)
 			$sql .= ' comment = \'' . POD::escapeString($content) . '\'';
 			$sql .= ' AND homepage = \'' . POD::escapeString($url) . '\'';
 			$sql .= ' AND name = \'' . POD::escapeString($name) . '\'';
-			$sql .= ' AND isFiltered > 0';
+			$sql .= ' AND isfiltered > 0';
 			
 			if ($row = POD::queryRow($sql)) {
 				$count += @$row[0];
@@ -45,7 +45,7 @@ function EAS_Call($type, $name, $title, $url, $content)
 		// Check IP
 		$sql = 'SELECT COUNT(id) as cc FROM ' . $tableName . ' WHERE';
 		$sql .= ' ip = \'' . POD::escapeString($_SERVER['REMOTE_ADDR']) . '\'';
-		$sql .= ' AND isFiltered > 0';
+		$sql .= ' AND isfiltered > 0';
 
 		if ($row = POD::queryRow($sql)) {
 			$count += @$row[0];

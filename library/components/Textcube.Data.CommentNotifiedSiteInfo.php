@@ -110,7 +110,7 @@ class CommentNotifiedSiteInfo {
 		if (!Validator::number($this->id, 1))
 			return null;
 		$comment = new CommentNotified();
-		if ($comment->open('siteId = ' . $this->id))
+		if ($comment->open('siteid = ' . $this->id))
 			return $comment;
 	}
 	

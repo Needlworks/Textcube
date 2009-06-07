@@ -57,7 +57,7 @@ function MT_Cover_getRecentEntries($parameters){
 		AND value < 2");
 	if(!empty($privateBlogId)) $privateBlogs = ' AND e.blogid NOT IN ('.implode(',',$privateBlogId).')';
 	else $privateBlogs = '';
-	list($entries, $paging) = fetchWithPaging("SELECT e.blogid, e.id, e.userid, e.title, e.content, e.slogan, e.category, e.published, e.contentFormatter, c.label
+	list($entries, $paging) = fetchWithPaging("SELECT e.blogid, e.id, e.userid, e.title, e.content, e.slogan, e.category, e.published, e.contentformatter, c.label
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id
 		WHERE $multiple e.draft = 0 $visibility AND e.category >= 0 $privateBlogs

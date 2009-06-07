@@ -150,8 +150,8 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			title varchar(255) NOT NULL default '',
 			slogan varchar(255) NOT NULL default '',
 			content mediumtext NOT NULL,
-			contentFormatter varchar(32) DEFAULT '' NOT NULL,
-			contentEditor varchar(32) DEFAULT '' NOT NULL,
+			contentformatter varchar(32) DEFAULT '' NOT NULL,
+			contenteditor varchar(32) DEFAULT '' NOT NULL,
 			location varchar(255) NOT NULL default '/',
 			password varchar(32) default NULL,
 			created int(11) NOT NULL default '0',
@@ -176,9 +176,9 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		  blogid int(11) NOT NULL default '0',
 		  openid varchar(128) NOT NULL,
 		  delegatedid varchar(128) default NULL,
-		  firstLogin int(11) default NULL,
-		  lastLogin int(11) default NULL,
-		  loginCount int(11) default NULL,
+		  firstlogin int(11) default NULL,
+		  lastlogin int(11) default NULL,
+		  logincount int(11) default NULL,
 		  data text,
 		  PRIMARY KEY  (blogid,openid)
 		) TYPE=MyISAM
@@ -256,7 +256,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs DROP INDEX id");
 		if (POD::execute("ALTER TABLE {$database['prefix']}Trackbacks 
 				DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, id),
-				ADD INDEX blogid (blogid, isFiltered, written)")
+				ADD INDEX blogid (blogid, isfiltered, written)")
 			&&POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs
 				DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, entry, id), ADD UNIQUE id (blogid, id)"))
 			showCheckupMessage(true);
@@ -283,10 +283,10 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			showCheckupMessage(false);
 	}
 
-	if (!POD::queryExistence("DESC {$database['prefix']}SkinSettings showListOnAuthor")) {
+	if (!POD::queryExistence("DESC {$database['prefix']}SkinSettings showlistonauthor")) {
 		$changed = true;
 		echo '<li>', _text('스킨 설정 테이블에 저자별 페이지 출력 설정을 위한 필드를 추가합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD showListOnAuthor TINYINT(4) DEFAULT 1 NOT NULL AFTER showListOnTag"))
+		if (POD::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD showlistonauthor TINYINT(4) DEFAULT 1 NOT NULL AFTER showlistontag"))
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);

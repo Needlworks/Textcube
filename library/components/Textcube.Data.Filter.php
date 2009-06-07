@@ -103,7 +103,7 @@ class Filter {
 	}
 	
 	/*@static@*/
-	function isFiltered($type, $value) {
+	function isfiltered($type, $value) {
 		global $database;
 
 		switch ($type) {

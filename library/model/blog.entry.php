@@ -59,10 +59,10 @@ function getEntry($blogid, $id, $draft = false) {
 				'location'   => '',
 				'title'      => '',
 				'content'    => '',
-				'contentFormatter' => getDefaultFormatter(),
-				'contentEditor'    => getDefaultEditor(),
-				'acceptComment'    => 1,
-				'acceptTrackback'  => 1,
+				'contentformatter' => getDefaultFormatter(),
+				'contenteditor'    => getDefaultEditor(),
+				'acceptcomment'    => 1,
+				'accepttrackback'  => 1,
 				'published'  => time(),
 				'slogan'     => '');
 	}
@@ -503,7 +503,7 @@ function getRecentEntries($blogid) {
 	$result = POD::query("SELECT e.id, e.userid, e.title, e.slogan, e.comments, e.published 
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
-		ORDER BY published DESC LIMIT {$skinSetting['entriesOnRecent']}");
+		ORDER BY published DESC LIMIT {$skinSetting['entriesonrecent']}");
 	while ($entry = POD::fetch($result)) {
 		array_push($entries, $entry);
 	}
@@ -558,8 +558,8 @@ function addEntry($blogid, $entry, $userid = null) {
 	}
 	$userid = $entry['userid'];
 	$content = POD::escapeString($entry['content']);
-	$contentFormatter = POD::escapeString($entry['contentFormatter']);
-	$contentEditor = POD::escapeString($entry['contentEditor']);
+	$contentformatter = POD::escapeString($entry['contentformatter']);
+	$contenteditor = POD::escapeString($entry['contenteditor']);
 	$password = POD::escapeString(generatePassword());
 	$location = POD::escapeString($entry['location']);
 	if (!isset($entry['firstEntry']) && isset($entry['published']) && is_numeric($entry['published']) && ($entry['published'] >= 2)) {
@@ -582,8 +582,8 @@ function addEntry($blogid, $entry, $userid = null) {
 		$id = 1;
 	}
 	$result = POD::query("INSERT INTO {$database['prefix']}Entries 
-			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, contentFormatter,
-			 contentEditor, location, password, acceptComment, acceptTrackback, published, created, modified,
+			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, contentformatter,
+			 contenteditor, location, password, acceptcomment, accepttrackback, published, created, modified,
 			 comments, trackbacks) 
 			VALUES (
 			$blogid,
@@ -596,12 +596,12 @@ function addEntry($blogid, $entry, $userid = null) {
 			'$title',
 			'$slogan',
 			'$content',
-			'$contentFormatter',
-			'$contentEditor',
+			'$contentformatter',
+			'$contenteditor',
 			'$location',
 			'$password',
-			{$entry['acceptComment']},
-			{$entry['acceptTrackback']},
+			{$entry['acceptcomment']},
+			{$entry['accepttrackback']},
 			$published,
 			UNIX_TIMESTAMP(),
 			UNIX_TIMESTAMP(),
@@ -699,8 +699,8 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	
 	$location = POD::escapeString($entry['location']);
 	$content = POD::escapeString($entry['content']);
-	$contentFormatter = POD::escapeString($entry['contentFormatter']);
-	$contentEditor = POD::escapeString($entry['contentEditor']);
+	$contentformatter = POD::escapeString($entry['contentformatter']);
+	$contenteditor = POD::escapeString($entry['contenteditor']);
 	switch ($entry['published']) {
 		case 0:
 			$published = 'published';
@@ -730,11 +730,11 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 				location           = '$location',
 				title              = '$title',
 				content            = '$content',
-				contentFormatter   = '$contentFormatter',
-				contentEditor      = '$contentEditor',
+				contentformatter   = '$contentformatter',
+				contenteditor      = '$contenteditor',
 				slogan             = '$slogan',
-				acceptComment      = {$entry['acceptComment']},
-				acceptTrackback    = {$entry['acceptTrackback']},
+				acceptcomment      = {$entry['acceptcomment']},
+				accepttrackback    = {$entry['accepttrackback']},
 				published          = $published,
 				modified           = UNIX_TIMESTAMP()
 			WHERE blogid = $blogid AND id = {$entry['id']} AND draft = $updateDraft");
@@ -841,8 +841,8 @@ function saveDraftEntry($blogid, $entry) {
 	
 	$location = POD::escapeString($entry['location']);
 	$content = POD::escapeString($entry['content']);
-	$contentFormatter = POD::escapeString($entry['contentFormatter']);
-	$contentEditor = POD::escapeString($entry['contentEditor']);
+	$contentformatter = POD::escapeString($entry['contentformatter']);
+	$contenteditor = POD::escapeString($entry['contenteditor']);
 	switch ($entry['published']) {
 		case 0:
 			$published = 'published';
@@ -867,18 +867,18 @@ function saveDraftEntry($blogid, $entry) {
 				location           = '$location',
 				title              = '$title',
 				content            = '$content',
-				contentFormatter   = '$contentFormatter',
-				contentEditor      = '$contentEditor',
+				contentformatter   = '$contentformatter',
+				contenteditor      = '$contenteditor',
 				slogan             = '$slogan',
-				acceptComment      = {$entry['acceptComment']},
-				acceptTrackback    = {$entry['acceptTrackback']},
+				acceptcomment      = {$entry['acceptcomment']},
+				accepttrackback    = {$entry['accepttrackback']},
 				published          = $published,
 				modified           = UNIX_TIMESTAMP()
 			WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 1");
 	} else {
 		$result = POD::query("INSERT INTO {$database['prefix']}Entries 
-			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, contentFormatter,
-			 contentEditor, location, password, acceptComment, acceptTrackback, published, created, modified,
+			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, contentformatter,
+			 contenteditor, location, password, acceptcomment, accepttrackback, published, created, modified,
 			 comments, trackbacks) 
 			VALUES (
 			$blogid,
@@ -891,12 +891,12 @@ function saveDraftEntry($blogid, $entry) {
 			'$title',
 			'$slogan',
 			'$content',
-			'$contentFormatter',
-			'$contentEditor',
+			'$contentformatter',
+			'$contenteditor',
 			'$location',
 			'$password',
-			{$entry['acceptComment']},
-			{$entry['acceptTrackback']},
+			{$entry['acceptcomment']},
+			{$entry['accepttrackback']},
 			$published,
 			$created,
 			UNIX_TIMESTAMP(),
@@ -908,7 +908,7 @@ function saveDraftEntry($blogid, $entry) {
 
 function updateTrackbacksOfEntry($blogid, $id) {
 	global $database;
-	$trackbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND entry = $id AND isFiltered = 0");
+	$trackbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND entry = $id AND isfiltered = 0");
 	if ($trackbacks === null)
 		return false;
 	return POD::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks WHERE blogid = $blogid AND id = $id");
@@ -1072,7 +1072,7 @@ function syndicateEntry($id, $mode) {
 		$summary['language'] = $blog['language'];
 		$summary['permalink'] = "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$entry['slogan']}": $entry['id']);
 		$summary['title'] = $entry['title'];
-		$summary['content'] = UTF8::lessenAsByte(stripHTML(getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'])), 1023, '');
+		$summary['content'] = UTF8::lessenAsByte(stripHTML(getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'])), 1023, '');
 		$summary['author'] = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = {$entry['userid']}");
 		$summary['tags'] = array();
 		foreach(POD::queryAll("SELECT DISTINCT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND blogid = $blogid AND entry = $id ORDER BY name") as $tag)

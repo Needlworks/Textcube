@@ -58,7 +58,7 @@ class Feed {
 			null;
 	}
 	
-	function open($filter = '', $fields = 'f.*, g.groupId', $sort = 'id') {
+	function open($filter = '', $fields = 'f.*, g.groupid', $sort = 'id') {
 		global $database;
 		if (is_numeric($filter))
 			$filter = 'AND id = ' . $filter;
@@ -94,7 +94,7 @@ class Feed {
 				if ($name == 'blogid')
 					continue;
 				switch ($name) {
-					case 'xmlURL':
+					case 'xmlurl':
 						$name = 'url';
 						break;
 					case 'blogURL':
@@ -103,7 +103,7 @@ class Feed {
 					case 'written':
 						$name = 'registered';
 						break;
-					case 'groupId':
+					case 'groupid':
 						$name = 'group';
 						break;
 				}
@@ -124,7 +124,7 @@ class Feed {
 			return $this->_error('group');
 
 		$query = new TableQuery($database['prefix'] . 'Feeds');
-		$query->setQualifier('xmlURL', UTF8::lessenAsEncoding($this->url, 255), true);
+		$query->setQualifier('xmlurl', UTF8::lessenAsEncoding($this->url, 255), true);
 		$query->setAttribute('title', UTF8::lessenAsEncoding($this->url, 255), true);
 		$query->setAttribute('id',($this->_getMaxId()+1));
 		if (!$query->doesExist()) {
@@ -136,7 +136,7 @@ class Feed {
 		$query->reset($database['prefix'] . 'FeedGroupRelations');
 		$query->setQualifier('blogid', $blogid);
 		$query->setQualifier('feed', $this->id);
-		$query->setQualifier('groupId', $this->group);
+		$query->setQualifier('groupid', $this->group);
 		if (!$query->doesExist()) {
 			if (!$query->insert())
 				return $this->_error('insert');

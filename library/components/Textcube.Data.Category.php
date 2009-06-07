@@ -59,7 +59,7 @@ class Category {
 					case 'entries':
 						$name = 'exposedPosts';
 						break;
-					case 'entriesInLogin':
+					case 'entriesinlogin':
 						$name = 'posts';
 						break;
 				}

@@ -249,7 +249,7 @@ class Acl {
 		}
 
 		$blogid = getBlogId();
-		POD::execute("UPDATE  {$database['prefix']}Teamblog SET lastLogin = ".Timestamp::getUNIXtime()." WHERE blogid = $blogid AND userid = $userid");
+		POD::execute("UPDATE  {$database['prefix']}Teamblog SET lastlogin = ".Timestamp::getUNIXtime()." WHERE blogid = $blogid AND userid = $userid");
 		return;
 	}
 
@@ -390,7 +390,7 @@ class Auth {
 		$userid = $session['userid'];
 
 		Acl::authorize( 'textcube', $userid );
-		POD::execute("UPDATE  {$database['prefix']}Users SET lastLogin = ".Timestamp::getUNIXtime()." WHERE loginid = '$loginid'");
+		POD::execute("UPDATE  {$database['prefix']}Users SET lastlogin = ".Timestamp::getUNIXtime()." WHERE loginid = '$loginid'");
 //		POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
 		return $userid;
 	}

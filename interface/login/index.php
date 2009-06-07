@@ -72,10 +72,10 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 		$redirect = $_POST['refererURI'];
 //		$redirect = $blogURL;
 	}
-	if (empty($_SESSION['lastLoginRedirected']) || $_SESSION['lastLoginRedirected'] != $redirect) {
-		$_SESSION['lastLoginRedirected'] = $redirect;
+	if (empty($_SESSION['lastloginRedirected']) || $_SESSION['lastloginRedirected'] != $redirect) {
+		$_SESSION['lastloginRedirected'] = $redirect;
 	} else {
-		unset($_SESSION['lastLoginRedirected']);
+		unset($_SESSION['lastloginRedirected']);
 	}
 	header('Location: '.$redirect);
 	exit;

@@ -26,7 +26,7 @@ if ($suri['page'] === true || $suri['page'] === '1') {
 	if(isset($trackbackList)) require ROOT . '/library/piece/blog/trackbackList.php';
 }
 
-if ($skinSetting['showListOnSearch'] != 2) {
+if ($skinSetting['showlistonsearch'] != 2) {
 	if(!isset($view)) require ROOT . '/library/piece/blog/begin.php';
 	list($entries, $paging) = getEntriesWithPagingBySearch($blogid, $search, $suri['page'], $blog['entriesOnList'], $blog['entriesOnList']);
 	require ROOT . '/library/piece/blog/entries.php';

@@ -15,69 +15,69 @@ $selected = 0;
 								}
 								
 								function setSkin() {
-									if(document.getElementById('showListOnCategoryTitles').checked) 
-										showListOnCategory = 2;
-									else if(document.getElementById('showListOnCategoryContents').checked) 
-										showListOnCategory = 0;
-									else if(document.getElementById('showListOnCategorySome').checked) 
-										showListOnCategory = 3;
+									if(document.getElementById('showlistoncategoryTitles').checked) 
+										showlistoncategory = 2;
+									else if(document.getElementById('showlistoncategoryContents').checked) 
+										showlistoncategory = 0;
+									else if(document.getElementById('showlistoncategorySome').checked) 
+										showlistoncategory = 3;
 									else 
-										showListOnCategory = 1;
+										showlistoncategory = 1;
 									
-									if(document.getElementById('showListOnArchiveTitles').checked) 
-										showListOnArchive = 2;
-									else if(document.getElementById('showListOnArchiveContents').checked) 
-										showListOnArchive = 0;
-									else if(document.getElementById('showListOnArchiveSome').checked) 
-										showListOnArchive = 3;
+									if(document.getElementById('showlistonarchiveTitles').checked) 
+										showlistonarchive = 2;
+									else if(document.getElementById('showlistonarchiveContents').checked) 
+										showlistonarchive = 0;
+									else if(document.getElementById('showlistonarchiveSome').checked) 
+										showlistonarchive = 3;
 									else 
-										showListOnArchive = 1;
+										showlistonarchive = 1;
 
-									if(document.getElementById('showListOnTagTitles').checked) 
-										showListOnTag = 2;
-									else if(document.getElementById('showListOnTagContents').checked) 
-										showListOnTag = 0;
-									else if(document.getElementById('showListOnTagSome').checked) 
-										showListOnTag = 3;
+									if(document.getElementById('showlistontagTitles').checked) 
+										showlistontag = 2;
+									else if(document.getElementById('showlistontagContents').checked) 
+										showlistontag = 0;
+									else if(document.getElementById('showlistontagSome').checked) 
+										showlistontag = 3;
 									else 
-										showListOnTag = 1;
+										showlistontag = 1;
 										
-									if(document.getElementById('showListOnAuthorTitles').checked) 
-										showListOnAuthor = 2;
-									else if(document.getElementById('showListOnAuthorContents').checked) 
-										showListOnAuthor = 0;
-									else if(document.getElementById('showListOnAuthorSome').checked) 
-										showListOnAuthor = 3;
+									if(document.getElementById('showlistonauthorTitles').checked) 
+										showlistonauthor = 2;
+									else if(document.getElementById('showlistonauthorContents').checked) 
+										showlistonauthor = 0;
+									else if(document.getElementById('showlistonauthorSome').checked) 
+										showlistonauthor = 3;
 									else 
-										showListOnAuthor = 1;
+										showlistonauthor = 1;
 										
-									if(document.getElementById('showListOnSearchTitles').checked) 
-										showListOnSearch = 2;
+									if(document.getElementById('showlistonsearchTitles').checked) 
+										showlistonsearch = 2;
 									else 
-										showListOnSearch = 1;
+										showlistonsearch = 1;
 									
-									if(document.getElementById('expandComment').checked) 
-										expandComment = 1;
+									if(document.getElementById('expandcomment').checked) 
+										expandcomment = 1;
 									else 
-										expandComment = 0;
+										expandcomment = 0;
 									
-									if(document.getElementById('expandTrackback').checked) 
-										expandTrackback = 1;
+									if(document.getElementById('expandtrackback').checked) 
+										expandtrackback = 1;
 									else 
-										expandTrackback = 0;
+										expandtrackback = 0;
 																		
 									if(document.getElementById('useFOAF').checked)
 										useFOAF = 1;
 									else 
 										useFOAF = 0;
 									
-									var tagboxAlign = 1;
-									if (document.getElementById('tagboxAlignUsed')	.checked) {
-										tagboxAlign = 1;
-									} else if(document.getElementById('tagboxAlignName').checked) {
-										tagboxAlign = 2;
+									var tagboxalign = 1;
+									if (document.getElementById('tagboxalignUsed')	.checked) {
+										tagboxalign = 1;
+									} else if(document.getElementById('tagboxalignName').checked) {
+										tagboxalign = 2;
 									} else {
-										tagboxAlign = 3;
+										tagboxalign = 3;
 									}
 									
 									if (document.getElementById('microformatNone').checked) {
@@ -91,25 +91,25 @@ $selected = 0;
 									param  = '';
 									param += 'entriesOnPage='+getValueById('entriesOnPage') +'&';
 									param += 'entriesOnList='+getValueById('entriesOnList') +'&';
-									param += 'entriesOnRecent='+getValueById('entriesOnRecent') +'&';
-									param += 'commentsOnRecent='+getValueById('commentsOnRecent') +'&';
-									param += 'commentsOnGuestbook='+getValueById('commentsOnGuestbook') +'&';
-									param += 'archivesOnPage='+getValueById('archivesOnPage') +'&';
-									param += 'tagboxAlign='+tagboxAlign +'&';
-									param += 'tagsOnTagbox='+getValueById('tagsOnTagbox') +'&';
-									param += 'trackbacksOnRecent='+getValueById('trackbacksOnRecent') +'&';
-									param += 'showListOnCategory='+showListOnCategory +'&';
-									param += 'showListOnArchive='+showListOnArchive +'&';
-									param += 'showListOnTag='+showListOnTag +'&';
-									param += 'showListOnAuthor='+showListOnAuthor +'&';
-									param += 'showListOnSearch='+showListOnSearch +'&';
-									param += 'expandComment='+expandComment +'&';				
-									param += 'expandTrackback='+expandTrackback +'&';
-									param += 'recentNoticeLength='+getValueById('recentNoticeLength') +'&';
-									param += 'recentEntryLength='+getValueById('recentEntryLength') +'&';
-									param += 'recentCommentLength='+getValueById('recentCommentLength') +'&';
-									param += 'recentTrackbackLength='+getValueById('recentTrackbackLength') +'&';				
-									param += 'linkLength='+getValueById('linkLength') +'&';
+									param += 'entriesonrecent='+getValueById('entriesonrecent') +'&';
+									param += 'commentsonrecent='+getValueById('commentsonrecent') +'&';
+									param += 'commentsonguestbook='+getValueById('commentsonguestbook') +'&';
+									param += 'archivesonpage='+getValueById('archivesonpage') +'&';
+									param += 'tagboxalign='+tagboxalign +'&';
+									param += 'tagsontagbox='+getValueById('tagsontagbox') +'&';
+									param += 'trackbacksonrecent='+getValueById('trackbacksonrecent') +'&';
+									param += 'showlistoncategory='+showlistoncategory +'&';
+									param += 'showlistonarchive='+showlistonarchive +'&';
+									param += 'showlistontag='+showlistontag +'&';
+									param += 'showlistonauthor='+showlistonauthor +'&';
+									param += 'showlistonsearch='+showlistonsearch +'&';
+									param += 'expandcomment='+expandcomment +'&';				
+									param += 'expandtrackback='+expandtrackback +'&';
+									param += 'recentnoticelength='+getValueById('recentnoticelength') +'&';
+									param += 'recententrylength='+getValueById('recententrylength') +'&';
+									param += 'recentcommentlength='+getValueById('recentcommentlength') +'&';
+									param += 'recenttrackbacklength='+getValueById('recenttrackbacklength') +'&';				
+									param += 'linklength='+getValueById('linklength') +'&';
 									param += 'useMicroformat='+ useMicroformat +'&';
 									param += 'useFOAF='+ useFOAF +'&';
 
@@ -128,11 +128,11 @@ $selected = 0;
 									param += 'name='+document.getElementById('tree').value+'&';
 									param += 'url=<?php echo $service['path'];?>/image/tree/'+document.getElementById('tree').value+'&';
 									param += 'showValue='+(document.getElementById('showValue').checked ? 1:0)+'&';
-									param += 'itemColor='+document.getElementById('colorOnTree').value+'&';
-									param += 'itemBgColor='+document.getElementById('bgColorOnTree').value+'&';
-									param += 'activeItemColor='+document.getElementById('activeColorOnTree').value+'&';
-									param += 'activeItemBgColor='+document.getElementById('activeBgColorOnTree').value+'&';
-									param += 'labelLength='+document.getElementById('labelLengthOnTree').value+'&';
+									param += 'itemColor='+document.getElementById('colorontree').value+'&';
+									param += 'itemBgColor='+document.getElementById('bgcolorontree').value+'&';
+									param += 'activeItemColor='+document.getElementById('activecolorontree').value+'&';
+									param += 'activeItemBgColor='+document.getElementById('activebgcolorontree').value+'&';
+									param += 'labelLength='+document.getElementById('labellengthontree').value+'&';
 									
 									document.getElementById('treePreview').src="<?php echo $blogURL;?>/owner/skin/setting/tree/preview/?"+param;
 								}
@@ -200,10 +200,10 @@ ob_end_clean();
 ob_start();
 ?>
 
-												<select id="entriesOnRecent" name="entriesOnRecent">
+												<select id="entriesonrecent" name="entriesonrecent">
 <?php
 for ($i = 1; $i <= 30; $i++) {
-	if ($i == $skinSetting['entriesOnRecent'])
+	if ($i == $skinSetting['entriesonrecent'])
 		$checked = ' selected="selected"';
 	else
 		$checked = '';
@@ -225,10 +225,10 @@ ob_end_clean();
 ob_start();
 ?>
 
-												<select id="commentsOnRecent" name="commentsOnRecent">
+												<select id="commentsonrecent" name="commentsonrecent">
 <?php
 for ($i = 1; $i <= 30; $i++) {
-	if ($i == $skinSetting['commentsOnRecent'])
+	if ($i == $skinSetting['commentsonrecent'])
 		$checked = ' selected="selected"';
 	else
 		$checked = '';
@@ -250,10 +250,10 @@ ob_end_clean();
 ob_start();
 ?>
 
-												<select id="trackbacksOnRecent" name="trackbacksOnRecent">
+												<select id="trackbacksonrecent" name="trackbacksonrecent">
 <?php
 for ($i = 1; $i <= 30; $i++) {
-	if ($i == $skinSetting['trackbacksOnRecent'])
+	if ($i == $skinSetting['trackbacksonrecent'])
 		$checked = ' selected="selected"';
 	else
 		$checked = '';
@@ -275,10 +275,10 @@ ob_end_clean();
 ob_start();
 ?>
 
-												<select id="archivesOnPage" name="archivesOnPage">
+												<select id="archivesonpage" name="archivesonpage">
 <?php
 for ($i = 1; $i < 36; $i++) {
-	if ($i == $skinSetting['archivesOnPage'])
+	if ($i == $skinSetting['archivesonpage'])
 		$checked = ' selected="selected"';
 	else
 		$checked = '';
@@ -287,12 +287,12 @@ for ($i = 1; $i < 36; $i++) {
 <?php
 }
 for ($i = 36; $i < 120; $i = $i + 12) {
-	if ($i == $skinSetting['archivesOnPage']) {
+	if ($i == $skinSetting['archivesonpage']) {
 		$checked = ' selected="selected"';
-	} else if (($i < $skinSetting['archivesOnPage']) && (($i + 12) > $skinSetting['archivesOnPage'])) {
+	} else if (($i < $skinSetting['archivesonpage']) && (($i + 12) > $skinSetting['archivesonpage'])) {
 		$checked = ' selected="selected"';
 ?>
-													<option value="<?php echo $skinSetting['archivesOnPage'];?>" <?php echo $checked;?>><?php echo $i;?></option>
+													<option value="<?php echo $skinSetting['archivesonpage'];?>" <?php echo $checked;?>><?php echo $i;?></option>
 <?php
 		$checked = '';
 	} else {
@@ -320,51 +320,51 @@ ob_end_clean();
 										<dl id="category-click-line" class="line">
 											<dt><span class="label"><?php echo _t('분류 선택 시');?></span></dt>
 											<dd>
-												<input type="radio" id="showListOnCategoryTitles" class="radio" name="showListOnCategory" value="titles"<?php echo ($skinSetting['showListOnCategory'] == 2) ? ' checked="checked"' : '';?> /> <label for="showListOnCategoryTitles"><?php echo _t('글 목록을 표시합니다.');?></label><br />
-												<input type="radio" id="showListOnCategoryContents" class="radio" name="showListOnCategory" value="contents"<?php echo ($skinSetting['showListOnCategory'] == 0) ? ' checked="checked"' : '';?> /> <label for="showListOnCategoryContents"><?php echo _t('글 내용을 표시합니다.');?></label><br />
-												<input type="radio" id="showListOnCategorySome" class="radio" name="showListOnCategory" value="some"<?php echo ($skinSetting['showListOnCategory'] == 3) ? ' checked="checked"' : '';?> /> <label for="showListOnCategorySome"><?php echo _t('목록과 한 쪽당 글 수 만큼 글을 표시합니다.');?></label><br />
-												<input type="radio" id="showListOnCategoryAll" class="radio" name="showListOnCategory" value="all"<?php echo ($skinSetting['showListOnCategory'] == 1) ? ' checked="checked"' : '';?> /> <label for="showListOnCategoryAll"><?php echo _t('목록과 함께 해당되는 모든 글을 표시합니다.');?></label>
+												<input type="radio" id="showlistoncategoryTitles" class="radio" name="showlistoncategory" value="titles"<?php echo ($skinSetting['showlistoncategory'] == 2) ? ' checked="checked"' : '';?> /> <label for="showlistoncategoryTitles"><?php echo _t('글 목록을 표시합니다.');?></label><br />
+												<input type="radio" id="showlistoncategoryContents" class="radio" name="showlistoncategory" value="contents"<?php echo ($skinSetting['showlistoncategory'] == 0) ? ' checked="checked"' : '';?> /> <label for="showlistoncategoryContents"><?php echo _t('글 내용을 표시합니다.');?></label><br />
+												<input type="radio" id="showlistoncategorySome" class="radio" name="showlistoncategory" value="some"<?php echo ($skinSetting['showlistoncategory'] == 3) ? ' checked="checked"' : '';?> /> <label for="showlistoncategorySome"><?php echo _t('목록과 한 쪽당 글 수 만큼 글을 표시합니다.');?></label><br />
+												<input type="radio" id="showlistoncategoryAll" class="radio" name="showlistoncategory" value="all"<?php echo ($skinSetting['showlistoncategory'] == 1) ? ' checked="checked"' : '';?> /> <label for="showlistoncategoryAll"><?php echo _t('목록과 함께 해당되는 모든 글을 표시합니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="archive-click-line" class="line">
 											<dt><span class="label"><?php echo _t('저장소 선택 시');?></span></dt>
 											<dd>
-												<input type="radio" id="showListOnArchiveTitles" class="radio" name="showListOnArchive" value="titles"<?php echo ($skinSetting['showListOnArchive'] == 2) ? ' checked="checked"' : '';?> /> <label for="showListOnArchiveTitles"><?php echo _t('글 목록을 표시합니다.');?></label><br />
-												<input type="radio" id="showListOnArchiveContents" class="radio" name="showListOnArchive" value="contents"<?php echo ($skinSetting['showListOnArchive'] == 0) ? ' checked="checked"' : '';?> /> <label for="showListOnArchiveContents"><?php echo _t('글 내용을 표시합니다.');?></label><br />
-												<input type="radio" id="showListOnArchiveSome" class="radio" name="showListOnArchive" value="some"<?php echo ($skinSetting['showListOnArchive'] == 3) ? ' checked="checked"' : '';?> /> <label for="showListOnArchiveSome"><?php echo _t('목록과 한 쪽당 글 수 만큼 글을 표시합니다.');?></label><br />
-												<input type="radio" id="showListOnArchiveAll" class="radio" name="showListOnArchive" value="all"<?php echo ($skinSetting['showListOnArchive'] == 1) ? ' checked="checked"' : '';?> /> <label for="showListOnArchiveAll"><?php echo _t('목록과 함께 해당되는 모든 글을 표시합니다.');?></label>
+												<input type="radio" id="showlistonarchiveTitles" class="radio" name="showlistonarchive" value="titles"<?php echo ($skinSetting['showlistonarchive'] == 2) ? ' checked="checked"' : '';?> /> <label for="showlistonarchiveTitles"><?php echo _t('글 목록을 표시합니다.');?></label><br />
+												<input type="radio" id="showlistonarchiveContents" class="radio" name="showlistonarchive" value="contents"<?php echo ($skinSetting['showlistonarchive'] == 0) ? ' checked="checked"' : '';?> /> <label for="showlistonarchiveContents"><?php echo _t('글 내용을 표시합니다.');?></label><br />
+												<input type="radio" id="showlistonarchiveSome" class="radio" name="showlistonarchive" value="some"<?php echo ($skinSetting['showlistonarchive'] == 3) ? ' checked="checked"' : '';?> /> <label for="showlistonarchiveSome"><?php echo _t('목록과 한 쪽당 글 수 만큼 글을 표시합니다.');?></label><br />
+												<input type="radio" id="showlistonarchiveAll" class="radio" name="showlistonarchive" value="all"<?php echo ($skinSetting['showlistonarchive'] == 1) ? ' checked="checked"' : '';?> /> <label for="showlistonarchiveAll"><?php echo _t('목록과 함께 해당되는 모든 글을 표시합니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="tag-click-line" class="line">
 											<dt><span class="label"><?php echo _t('태그 선택 시');?></span></dt>
 											<dd>
-												<input type="radio" id="showListOnTagTitles" class="radio" name="showListOnTag" value="titles"<?php echo ($skinSetting['showListOnTag'] == 2) ? ' checked="checked"' : '';?> /> <label for="showListOnTagTitles"><?php echo _t('글 목록을 표시합니다.');?></label><br />
-												<input type="radio" id="showListOnTagContents" class="radio" name="showListOnTag" value="contents"<?php echo ($skinSetting['showListOnTag'] == 0) ? ' checked="checked"' : '';?> /> <label for="showListOnTagContents"><?php echo _t('글 내용을 표시합니다.');?></label><br />
-												<input type="radio" id="showListOnTagSome" class="radio" name="showListOnTag" value="some"<?php echo ($skinSetting['showListOnTag'] == 3) ? ' checked="checked"' : '';?> /> <label for="showListOnTagSome"><?php echo _t('목록과 한 쪽당 글 수 만큼 글을 표시합니다.');?></label><br />
-												<input type="radio" id="showListOnTagAll" class="radio" name="showListOnTag" value="all"<?php echo ($skinSetting['showListOnTag'] == 1) ? ' checked="checked"' : '';?> /> <label for="showListOnTagAll"><?php echo _t('목록과 함께 해당되는 모든 글을 표시합니다.');?></label>
+												<input type="radio" id="showlistontagTitles" class="radio" name="showlistontag" value="titles"<?php echo ($skinSetting['showlistontag'] == 2) ? ' checked="checked"' : '';?> /> <label for="showlistontagTitles"><?php echo _t('글 목록을 표시합니다.');?></label><br />
+												<input type="radio" id="showlistontagContents" class="radio" name="showlistontag" value="contents"<?php echo ($skinSetting['showlistontag'] == 0) ? ' checked="checked"' : '';?> /> <label for="showlistontagContents"><?php echo _t('글 내용을 표시합니다.');?></label><br />
+												<input type="radio" id="showlistontagSome" class="radio" name="showlistontag" value="some"<?php echo ($skinSetting['showlistontag'] == 3) ? ' checked="checked"' : '';?> /> <label for="showlistontagSome"><?php echo _t('목록과 한 쪽당 글 수 만큼 글을 표시합니다.');?></label><br />
+												<input type="radio" id="showlistontagAll" class="radio" name="showlistontag" value="all"<?php echo ($skinSetting['showlistontag'] == 1) ? ' checked="checked"' : '';?> /> <label for="showlistontagAll"><?php echo _t('목록과 함께 해당되는 모든 글을 표시합니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="author-click-line" class="line">
 											<dt><span class="label"><?php echo _t('저자 선택 시');?></span></dt>
 											<dd>
-												<input type="radio" id="showListOnAuthorTitles" class="radio" name="showListOnAuthor" value="titles"<?php echo ($skinSetting['showListOnAuthor'] == 2) ? ' checked="checked"' : '';?> /> <label for="showListOnAuthorTitles"><?php echo _t('글 목록을 표시합니다.');?></label><br />
-												<input type="radio" id="showListOnAuthorContents" class="radio" name="showListOnAuthor" value="contents"<?php echo ($skinSetting['showListOnAuthor'] == 0) ? ' checked="checked"' : '';?> /> <label for="showListOnAuthorContents"><?php echo _t('글 내용을 표시합니다.');?></label><br />
-												<input type="radio" id="showListOnAuthorSome" class="radio" name="showListOnAuthor" value="some"<?php echo ($skinSetting['showListOnAuthor'] == 3) ? ' checked="checked"' : '';?> /> <label for="showListOnAuthorSome"><?php echo _t('목록과 한 쪽당 글 수 만큼 글을 표시합니다.');?></label><br />
-												<input type="radio" id="showListOnAuthorAll" class="radio" name="showListOnAuthor" value="all"<?php echo ($skinSetting['showListOnAuthor'] == 1) ? ' checked="checked"' : '';?> /> <label for="showListOnAuthorAll"><?php echo _t('목록과 함께 해당되는 모든 글을 표시합니다.');?></label>
+												<input type="radio" id="showlistonauthorTitles" class="radio" name="showlistonauthor" value="titles"<?php echo ($skinSetting['showlistonauthor'] == 2) ? ' checked="checked"' : '';?> /> <label for="showlistonauthorTitles"><?php echo _t('글 목록을 표시합니다.');?></label><br />
+												<input type="radio" id="showlistonauthorContents" class="radio" name="showlistonauthor" value="contents"<?php echo ($skinSetting['showlistonauthor'] == 0) ? ' checked="checked"' : '';?> /> <label for="showlistonauthorContents"><?php echo _t('글 내용을 표시합니다.');?></label><br />
+												<input type="radio" id="showlistonauthorSome" class="radio" name="showlistonauthor" value="some"<?php echo ($skinSetting['showlistonauthor'] == 3) ? ' checked="checked"' : '';?> /> <label for="showlistonauthorSome"><?php echo _t('목록과 한 쪽당 글 수 만큼 글을 표시합니다.');?></label><br />
+												<input type="radio" id="showlistonauthorAll" class="radio" name="showlistonauthor" value="all"<?php echo ($skinSetting['showlistonauthor'] == 1) ? ' checked="checked"' : '';?> /> <label for="showlistonauthorAll"><?php echo _t('목록과 함께 해당되는 모든 글을 표시합니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="search-click-line" class="line">
 											<dt><span class="label"><?php echo _t('검색 시');?></span></dt>
 											<dd>
-												<input type="radio" id="showListOnSearchTitles" class="radio" name="showListOnSearch" value="titles"<?php echo ($skinSetting['showListOnSearch'] == 2) ? ' checked="checked"' : '';?> /> <label for="showListOnSearchTitles"><?php echo _t('글 목록을 표시합니다.');?></label><br />
-												<input type="radio" id="showListOnSearchAll" class="radio" name="showListOnSearch" value="all"<?php echo ($skinSetting['showListOnSearch'] == 1) ? ' checked="checked"' : '';?> /> <label for="showListOnSearchAll"><?php echo _t('목록과 함께 해당되는 모든 글을 표시합니다.');?></label>
+												<input type="radio" id="showlistonsearchTitles" class="radio" name="showlistonsearch" value="titles"<?php echo ($skinSetting['showlistonsearch'] == 2) ? ' checked="checked"' : '';?> /> <label for="showlistonsearchTitles"><?php echo _t('글 목록을 표시합니다.');?></label><br />
+												<input type="radio" id="showlistonsearchAll" class="radio" name="showlistonsearch" value="all"<?php echo ($skinSetting['showlistonsearch'] == 1) ? ' checked="checked"' : '';?> /> <label for="showlistonsearchAll"><?php echo _t('목록과 함께 해당되는 모든 글을 표시합니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="post-click-line" class="line">
 											<dt><span class="label"><?php echo _t('글을 표시할 때');?></span></dt>
 											<dd>
-												<input type="checkbox" id="expandComment" class="checkbox" name="expandComment"<?php echo $skinSetting['expandComment'] ? ' checked="checked"' : '';?> /><label for="expandComment"><?php echo _t('댓글을 기본으로 펼칩니다.');?></label><br />
-												<input type="checkbox" id="expandTrackback" class="checkbox" name="expandTrackback"<?php echo $skinSetting['expandTrackback'] ? ' checked="checked"' : '';?> /><label for="expandTrackback"><?php echo _t('걸린글을 기본으로 펼칩니다.');?></label>
+												<input type="checkbox" id="expandcomment" class="checkbox" name="expandcomment"<?php echo $skinSetting['expandcomment'] ? ' checked="checked"' : '';?> /><label for="expandcomment"><?php echo _t('댓글을 기본으로 펼칩니다.');?></label><br />
+												<input type="checkbox" id="expandtrackback" class="checkbox" name="expandtrackback"<?php echo $skinSetting['expandtrackback'] ? ' checked="checked"' : '';?> /><label for="expandtrackback"><?php echo _t('걸린글을 기본으로 펼칩니다.');?></label>
 											</dd>
 										</dl>
 									</fieldset>
@@ -375,10 +375,10 @@ ob_end_clean();
 ob_start();
 ?>
 
-												<select id="recentNoticeLength" name="recentNoticeLength">
+												<select id="recentnoticelength" name="recentnoticelength">
 <?php
 for ($i = 3; $i < 50; $i++) {
-	if ($i == $skinSetting['recentNoticeLength'])
+	if ($i == $skinSetting['recentnoticelength'])
 		$checked = ' selected="selected"';
 	else
 		$checked = '';
@@ -387,12 +387,12 @@ for ($i = 3; $i < 50; $i++) {
 <?php
 }
 for ($i = 50; $i < 1000; $i = $i + 50) {
-	if ($i == $skinSetting['recentNoticeLength']) {
+	if ($i == $skinSetting['recentnoticelength']) {
 		$checked = ' selected="selected"';
-	} else if (($i < $skinSetting['recentNoticeLength']) && (($i + 50) > $skinSetting['recentNoticeLength'])) {
+	} else if (($i < $skinSetting['recentnoticelength']) && (($i + 50) > $skinSetting['recentnoticelength'])) {
 		$checked = ' selected="selected"';
 ?>
-													<option value="<?php echo $skinSetting['recentNoticeLength'];?>" <?php echo $checked;?>><?php echo $skinSetting['recentNoticeLength'];?></option>
+													<option value="<?php echo $skinSetting['recentnoticelength'];?>" <?php echo $checked;?>><?php echo $skinSetting['recentnoticelength'];?></option>
 <?php
 		$checked = '';
 	} else {
@@ -418,10 +418,10 @@ ob_end_clean();
 ob_start();
 ?>
 
-												<select id="recentEntryLength" name="recentEntryLength">
+												<select id="recententrylength" name="recententrylength">
 <?php
 for ($i = 3; $i < 50; $i++) {
-	if ($i == $skinSetting['recentEntryLength'])
+	if ($i == $skinSetting['recententrylength'])
 		$checked = ' selected="selected"';
 	else
 		$checked = '';
@@ -430,12 +430,12 @@ for ($i = 3; $i < 50; $i++) {
 <?php
 }
 for ($i = 50; $i < 1000; $i = $i + 50) {
-	if ($i == $skinSetting['recentEntryLength']) {
+	if ($i == $skinSetting['recententrylength']) {
 		$checked = ' selected="selected"';
-	} else if (($i < $skinSetting['recentEntryLength']) && (($i + 50) > $skinSetting['recentEntryLength'])) {
+	} else if (($i < $skinSetting['recententrylength']) && (($i + 50) > $skinSetting['recententrylength'])) {
 		$checked = ' selected="selected"';
 ?>
-													<option value="<?php echo $skinSetting['recentEntryLength'];?>" <?php echo $checked;?>><?php echo $skinSetting['recentEntryLength'];?></option>
+													<option value="<?php echo $skinSetting['recententrylength'];?>" <?php echo $checked;?>><?php echo $skinSetting['recententrylength'];?></option>
 <?php
 		$checked = '';
 	} else {
@@ -460,10 +460,10 @@ ob_end_clean();
 ob_start();
 ?>
 
-												<select id="recentCommentLength" name="recentCommentLength">
+												<select id="recentcommentlength" name="recentcommentlength">
 <?php
 for ($i = 3; $i < 50; $i++) {
-	if ($i == $skinSetting['recentCommentLength'])
+	if ($i == $skinSetting['recentcommentlength'])
 		$checked = ' selected="selected"';
 	else
 		$checked = '';
@@ -472,12 +472,12 @@ for ($i = 3; $i < 50; $i++) {
 <?php
 }
 for ($i = 50; $i < 1000; $i = $i + 50) {
-	if ($i == $skinSetting['recentCommentLength']) {
+	if ($i == $skinSetting['recentcommentlength']) {
 		$checked = ' selected="selected"';
-	} else if (($i < $skinSetting['recentCommentLength']) && (($i + 50) > $skinSetting['recentCommentLength'])) {
+	} else if (($i < $skinSetting['recentcommentlength']) && (($i + 50) > $skinSetting['recentcommentlength'])) {
 		$checked = ' selected="selected"';
 ?>
-													<option value="<?php echo $skinSetting['recentCommentLength'];?>" <?php echo $checked;?>><?php echo $skinSetting['recentCommentLength'];?></option>
+													<option value="<?php echo $skinSetting['recentcommentlength'];?>" <?php echo $checked;?>><?php echo $skinSetting['recentcommentlength'];?></option>
 <?php
 		$checked = '';
 	} else {
@@ -501,10 +501,10 @@ ob_end_clean();
 ob_start();
 ?>
 
-												<select id="recentTrackbackLength" name="recentTrackbackLength">
+												<select id="recenttrackbacklength" name="recenttrackbacklength">
 <?php
 for ($i = 3; $i < 50; $i++) {
-	if ($i == $skinSetting['recentTrackbackLength'])
+	if ($i == $skinSetting['recenttrackbacklength'])
 		$checked = ' selected="selected"';
 	else
 		$checked = '';
@@ -513,12 +513,12 @@ for ($i = 3; $i < 50; $i++) {
 <?php
 }
 for ($i = 50; $i < 1000; $i = $i + 50) {
-	if ($i == $skinSetting['recentTrackbackLength']) {
+	if ($i == $skinSetting['recenttrackbacklength']) {
 		$checked = ' selected="selected"';
-	} else if (($i < $skinSetting['recentTrackbackLength']) && (($i + 50) > $skinSetting['recentTrackbackLength'])) {
+	} else if (($i < $skinSetting['recenttrackbacklength']) && (($i + 50) > $skinSetting['recenttrackbacklength'])) {
 		$checked = ' selected="selected"';
 ?>
-														<option value="<?php echo $skinSetting['recentTrackbackLength'];?>" <?php echo $checked;?>><?php echo $skinSetting['recentTrackbackLength'];?></option>
+														<option value="<?php echo $skinSetting['recenttrackbacklength'];?>" <?php echo $checked;?>><?php echo $skinSetting['recenttrackbacklength'];?></option>
 <?php
 		$checked = '';
 	} else {
@@ -542,10 +542,10 @@ ob_end_clean();
 ob_start();
 ?>
 
-												<select id="linkLength" name="linkLength">
+												<select id="linklength" name="linklength">
 <?php
 for ($i = 3; $i <= 80; $i++) {
-	if ($i == $skinSetting['linkLength'])
+	if ($i == $skinSetting['linklength'])
 		$checked = ' selected="selected"';
 	else
 		$checked = '';
@@ -590,21 +590,21 @@ ob_end_clean();
 										<dl id="tag-align-line" class="line">
 											<dt><span class="label"><?php echo _t('태그의 정렬방법을');?></span></dt>
 											<dd>
-												<input type="radio" id="tagboxAlignUsed" class="radio" name="tagboxAlign" value="1" <?php echo ($skinSetting['tagboxAlign'] == 1 ? 'checked = "checked"' : '');?> /><label for="tagboxAlignUsed"><?php echo _t('인기도순으로 표시합니다.');?></label><br />
-												<input type="radio" id="tagboxAlignName" class="radio" name="tagboxAlign" value="2" <?php echo ($skinSetting['tagboxAlign'] == 2 ? 'checked = "checked"' : '');?> /><label for="tagboxAlignName"><?php echo _t('이름순으로 표시합니다.');?></label><br />
-												<input type="radio" id="tagboxAlignRandom" class="radio" name="tagboxAlign" value="3" <?php echo ($skinSetting['tagboxAlign'] == 3 ? 'checked = "checked"' : '');?> /><label for="tagboxAlignRandom"><?php echo _t('임의로 표시합니다.');?></label>
+												<input type="radio" id="tagboxalignUsed" class="radio" name="tagboxalign" value="1" <?php echo ($skinSetting['tagboxalign'] == 1 ? 'checked = "checked"' : '');?> /><label for="tagboxalignUsed"><?php echo _t('인기도순으로 표시합니다.');?></label><br />
+												<input type="radio" id="tagboxalignName" class="radio" name="tagboxalign" value="2" <?php echo ($skinSetting['tagboxalign'] == 2 ? 'checked = "checked"' : '');?> /><label for="tagboxalignName"><?php echo _t('이름순으로 표시합니다.');?></label><br />
+												<input type="radio" id="tagboxalignRandom" class="radio" name="tagboxalign" value="3" <?php echo ($skinSetting['tagboxalign'] == 3 ? 'checked = "checked"' : '');?> /><label for="tagboxalignRandom"><?php echo _t('임의로 표시합니다.');?></label>
 											</dd>
 										</dl>
 <?php
 ob_start();
 ?>
 
-												<select id="tagsOnTagbox" name="tagsOnTagbox">
+												<select id="tagsontagbox" name="tagsontagbox">
 <?php
 for ($i = 10; $i <= 200; $i += 10) {
-	if ($i == $skinSetting['tagsOnTagbox']) {
+	if ($i == $skinSetting['tagsontagbox']) {
 		$checked = ' selected="selected"';
-	} else if (($i < $skinSetting['tagsOnTagbox']) && (($i + 10) > $skinSetting['tagsOnTagbox'])) {
+	} else if (($i < $skinSetting['tagsontagbox']) && (($i + 10) > $skinSetting['tagsontagbox'])) {
 		$checked = ' selected="selected"';
 ?>
 													<option value="<?php echo $i;?>" <?php echo $checked;?>><?php echo $i;?></option>
@@ -618,7 +618,7 @@ for ($i = 10; $i <= 200; $i += 10) {
 <?php
 }
 ?>
-													<option value="-1" <?php echo $skinSetting['tagsOnTagbox'] == - 1 ? 'selected = "selected"' : '';?>><?php echo _t('전체');?></option>
+													<option value="-1" <?php echo $skinSetting['tagsontagbox'] == - 1 ? 'selected = "selected"' : '';?>><?php echo _t('전체');?></option>
 												</select>
 <?php
 $arg = ob_get_contents();
@@ -636,10 +636,10 @@ ob_end_clean();
 ob_start();
 ?>
 
-												<select id="commentsOnGuestbook" name="commentsOnGuestbook">
+												<select id="commentsonguestbook" name="commentsonguestbook">
 <?php
 for ($i = 1; $i <= 30; $i++) {
-	if ($i == $skinSetting['commentsOnGuestbook'])
+	if ($i == $skinSetting['commentsonguestbook'])
 		$checked = ' selected="selected"';
 	else
 		$checked = '';
@@ -705,28 +705,28 @@ if ($dh = opendir($skinPath)) {
 												</dd>
 											</dl>
 											<dl id="selected-color-line" class="line">
-												<dt><label for="activeColorOnTree"><?php echo _t('선택된 글자색');?></label></dt>
-												<dd><input type="text" id="activeColorOnTree" class="input-text" name="activeColorOnTree" value="<?php echo $skinSetting['activeColorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
+												<dt><label for="activecolorontree"><?php echo _t('선택된 글자색');?></label></dt>
+												<dd><input type="text" id="activecolorontree" class="input-text" name="activecolorontree" value="<?php echo $skinSetting['activecolorontree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 											</dl>
 											<dl id="selected-bgcolor-line" class="line">
-												<dt><label for="activeBgColorOnTree"><?php echo _t('선택된 배경색');?></label></dt>
-												<dd><input type="text" id="activeBgColorOnTree" class="input-text" name="activeBgColorOnTree" value="<?php echo $skinSetting['activeBgColorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
+												<dt><label for="activebgcolorontree"><?php echo _t('선택된 배경색');?></label></dt>
+												<dd><input type="text" id="activebgcolorontree" class="input-text" name="activebgcolorontree" value="<?php echo $skinSetting['activebgcolorontree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 											</dl>
 											<dl id="unselected-color-line" class="line">
-												<dt><label for="colorOnTree"><?php echo _t('선택되지 않은 글자색');?></label></dt>
-												<dd><input type="text" id="colorOnTree" class="input-text" name="colorOnTree" value="<?php echo $skinSetting['colorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
+												<dt><label for="colorontree"><?php echo _t('선택되지 않은 글자색');?></label></dt>
+												<dd><input type="text" id="colorontree" class="input-text" name="colorontree" value="<?php echo $skinSetting['colorontree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 											</dl>
 											<dl id="unselected-bgcolor-line" class="line">
-												<dt><label for="bgColorOnTree"><?php echo _t('선택되지 않은 배경색');?></label></dt>
-												<dd><input type="text" id="bgColorOnTree" class="input-text" name="bgColorOnTree" value="<?php echo $skinSetting['bgColorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
+												<dt><label for="bgcolorontree"><?php echo _t('선택되지 않은 배경색');?></label></dt>
+												<dd><input type="text" id="bgcolorontree" class="input-text" name="bgcolorontree" value="<?php echo $skinSetting['bgcolorontree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 											</dl>
 											<dl id="label-length-line" class="line">
-												<dt><label for="labelLengthOnTree"><?php echo _t('분류 길이');?></label></dt>
-												<dd><?php echo _f('분류를 %1 글자로 표시합니다.', '<input type="text" id="labelLengthOnTree" class="input-text" name="labelLengthOnTree" value="' . $skinSetting['labelLengthOnTree'] . '" size="3" maxlength="6" onchange="changeTreeStyle()" />');?></dd>
+												<dt><label for="labellengthontree"><?php echo _t('분류 길이');?></label></dt>
+												<dd><?php echo _f('분류를 %1 글자로 표시합니다.', '<input type="text" id="labellengthontree" class="input-text" name="labellengthontree" value="' . $skinSetting['labellengthontree'] . '" size="3" maxlength="6" onchange="changeTreeStyle()" />');?></dd>
 											</dl>
 											<dl id="count-display-line" class="line">
 												<dt><label for="showValue"><?php echo _t('글 수 출력');?></label></dt>
-												<dd><input type="checkbox" class="checkbox" id="showValue" name="showValueOnTree" onclick="changeTreeStyle()" <?php echo $skinSetting['showValueOnTree'] ? 'checked="checked"' : '';?> /><label for="showValue"><?php echo _t('각 분류의 글 수를 표시합니다.');?></label></dd>
+												<dd><input type="checkbox" class="checkbox" id="showValue" name="showvalueontree" onclick="changeTreeStyle()" <?php echo $skinSetting['showvalueontree'] ? 'checked="checked"' : '';?> /><label for="showValue"><?php echo _t('각 분류의 글 수를 표시합니다.');?></label></dd>
 											</dl>
 										</fieldset>
 									

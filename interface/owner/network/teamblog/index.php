@@ -264,7 +264,7 @@ if( Acl::check('group.administrators')) {
 													<td class="status">
 <?php
 			$authtoken = getAuthToken($value['userid']);
-			if($value['lastLogin'] == 0) { 
+			if($value['lastlogin'] == 0) { 
 ?>
 													<?php echo _t('미참여');?>
 <?php

@@ -427,7 +427,7 @@ class OpenIDConsumer extends OpenID {
 			OpenIDConsumer::setUserInfo( $nickname, $homepage );
 
 			/* Owner column is used for reference, all openid records are shared */
-			POD::execute("INSERT INTO {$database['prefix']}OpenIDUsers (blogid,openid,delegatedid,firstLogin,lastLogin,loginCount,data) VALUES ($blogid,'{$openid}','{$delegatedid}',UNIX_TIMESTAMP(),UNIX_TIMESTAMP(),1,'{$data}')");
+			POD::execute("INSERT INTO {$database['prefix']}OpenIDUsers (blogid,openid,delegatedid,firstlogin,lastlogin,logincount,data) VALUES ($blogid,'{$openid}','{$delegatedid}',UNIX_TIMESTAMP(),UNIX_TIMESTAMP(),1,'{$data}')");
 		} else {
 			$data = unserialize( $result );
 
@@ -436,7 +436,7 @@ class OpenIDConsumer extends OpenID {
 			OpenIDConsumer::setUserInfo( $data['nickname'], $data['homepage'] );
 
 			$data = serialize( $data );
-			POD::execute("UPDATE {$database['prefix']}OpenIDUsers SET data='{$data}', lastLogin = UNIX_TIMESTAMP(), loginCount = loginCount + 1 where openid = '{$openid}'");
+			POD::execute("UPDATE {$database['prefix']}OpenIDUsers SET data='{$data}', lastlogin = UNIX_TIMESTAMP(), logincount = logincount + 1 where openid = '{$openid}'");
 		}
 		return;
 	}

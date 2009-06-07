@@ -59,7 +59,7 @@ function refreshFeed($blogid, $mode = 'both') {
 	foreach($result as $row) {
 		$entryURL = $defaultURL . '/' . ($blog['useSloganOnPost'] ? 'entry/' . rawurlencode($row['slogan']) : $row['id']);
 
-		$content = getEntryContentView($blogid, $row['id'], $row['content'], $row['contentFormatter'], true, 'Post', true, true);
+		$content = getEntryContentView($blogid, $row['id'], $row['content'], $row['contentformatter'], true, 'Post', true, true);
 		$content = preg_replace('/<a href=("|\')(#[^\1]+)\1/i', '<a href=$1' . htmlspecialchars($entryURL) . '$2$1', $content);
  		if (!$blog['publishWholeOnRSS']) {
 			$content .= "<p><strong><a href=\"" . htmlspecialchars($entryURL) . "\">" . _t('글 전체보기') . "</a></strong></p>";
@@ -264,7 +264,7 @@ function getCommentFeedByEntryId($blogid = null, $entryId, $rawMode = false, $mo
 		FROM {$database['prefix']}Comments
 		WHERE blogid = ".$blogid." 
 			AND entry = ".$entryId."
-			AND isFiltered = 0");
+			AND isfiltered = 0");
 	if (!$result)
 		$result = array();
 
@@ -348,7 +348,7 @@ function getTrackbackFeedByEntryId($blogid = null, $entryId, $rawMode = false, $
 		FROM {$database['prefix']}Trackbacks
 		WHERE blogid = ".$blogid." 
 			AND entry = ".$entryId."
-			AND isFiltered = 0");
+			AND isfiltered = 0");
 	if (!$result)
 		$result = array();
 
@@ -399,13 +399,13 @@ function getCommentNotifiedFeedTotal($blogid, $mode = 'rss') {
 	foreach($mergedComments as $row) {
 		$item = array(
 			'id' => $row['id'], 
-			'title' => RSSMessage($row['entryTitle']), 
+			'title' => RSSMessage($row['entrytitle']), 
 			'link' => $row['url'], 
 			'categories' => array(), 
 			'description' => RSSMessage(htmlspecialchars($row['comment'])), 
 			'author' => '('.RSSMessage(htmlspecialchars($row['name'])).')', 
 			'pubDate' => $row['written'],
-			'comments' => $row['entryUrl'],
+			'comments' => $row['entryurl'],
 			'guid' => $row['url']
 		);
 		array_push($channel['items'], $item);

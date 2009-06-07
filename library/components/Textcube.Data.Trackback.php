@@ -17,7 +17,7 @@ class Trackback {
 		$this->excerpt =
 		$this->ip =
 		$this->received =
-		$this->isFiltered =
+		$this->isfiltered =
 			null;
 	}
 	
@@ -85,13 +85,13 @@ class Trackback {
 			return false;
 		if (!$query->hasAttribute('written'))
 			$query->setAttribute('written', 'UNIX_TIMESTAMP()');
-		if (!isset($this->isFiltered))
-			$this->isFiltered = 0;
+		if (!isset($this->isfiltered))
+			$this->isfiltered = 0;
 		
 		if (!$query->insert())
 			return $this->_error('insert');
 
-		if ($this->isFiltered == 0) {
+		if ($this->isfiltered == 0) {
 			POD::query("UPDATE {$database['prefix']}Entries SET trackbacks = trackbacks + 1 WHERE blogid = ".getBlogId()." AND id = {$this->entry}");
 		}
 		return true;
@@ -152,11 +152,11 @@ class Trackback {
 				return $this->_error('received');
 			$query->setAttribute('written', $this->received);
 		}
-		if (isset($this->isFiltered)) {
-			if ($this->isFiltered) {
-				$query->setAttribute('isFiltered', 'UNIX_TIMESTAMP()');
+		if (isset($this->isfiltered)) {
+			if ($this->isfiltered) {
+				$query->setAttribute('isfiltered', 'UNIX_TIMESTAMP()');
 			} else {
-				$query->setAttribute('isFiltered', Validator::getBit($this->isFiltered));
+				$query->setAttribute('isfiltered', Validator::getBit($this->isfiltered));
 			}
 			
 		}

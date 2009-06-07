@@ -9,13 +9,13 @@ $IV = array(
 		'category'   => array('int', 'default' => 0),
 		'title'      => array('string'),
 		'content'    => array('string'),
-		'contentFormatter' => array('string'),
-		'contentEditor'    => array('string'),
+		'contentformatter' => array('string'),
+		'contenteditor'    => array('string'),
 		'permalink'  => array('string', 'default' => ''),
 		'location'   => array('string', 'default' => '/'),
 		'tag'        => array('string', 'default' => ''),
-		'acceptComment'    => array(array('0', '1'), 'default' => '0'),
-		'acceptTrackback'  => array(array('0', '1'), 'default' => '0'),
+		'acceptcomment'    => array(array('0', '1'), 'default' => '0'),
+		'accepttrackback'  => array(array('0', '1'), 'default' => '0'),
 		'published'  => array('int', 0, 'default' => 1)
 	)
 );
@@ -42,13 +42,13 @@ if (empty($suri['id']) || !is_null($entry)) {
 	$entry['tag']        = empty($_POST['tag']) ? '' : $_POST['tag'];
 	$entry['title']      = $_POST['title'];
 	$entry['content']    = $_POST['content'];
-	$entry['contentFormatter'] = $_POST['contentFormatter'];
-	$entry['contentEditor']    = $_POST['contentEditor'];
+	$entry['contentformatter'] = $_POST['contentformatter'];
+	$entry['contenteditor']    = $_POST['contenteditor'];
 	if ((isset($_POST['permalink'])) && ($_POST['permalink'] != '')) {
 		$entry['slogan'] = $_POST['permalink'];
 	} else if($_POST['permalink'] == '') $entry['slogan'] = '';
-	$entry['acceptComment'] = empty($_POST['acceptComment']) ? 0 : 1;
-	$entry['acceptTrackback'] = empty($_POST['acceptTrackback']) ? 0 : 1;
+	$entry['acceptcomment'] = empty($_POST['acceptcomment']) ? 0 : 1;
+	$entry['accepttrackback'] = empty($_POST['accepttrackback']) ? 0 : 1;
 	$entry['published'] = empty($_POST['published']) ? 0 : $_POST['published'];
 	$entry['draft'] = 0;
 	if(strpos($entry['slogan'],'TCDraftPost') === 0) $entry['slogan'] = $entry['title'];

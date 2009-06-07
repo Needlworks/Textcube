@@ -12,17 +12,17 @@ function setReaderSetting($blogid, $setting) {
 	global $database;
 	$sql = "UPDATE {$database['prefix']}FeedSettings SET ";
 	if (getUserId() == 1) {
-		if (isset($setting['updateCycle']))
-			POD::query("UPDATE {$database['prefix']}FeedSettings SET updateCycle = {$setting['updateCycle']}");
-		if (isset($setting['feedLife']))
-			POD::query("UPDATE {$database['prefix']}FeedSettings SET feedLife = {$setting['feedLife']}");
+		if (isset($setting['updatecycle']))
+			POD::query("UPDATE {$database['prefix']}FeedSettings SET updatecycle = {$setting['updatecycle']}");
+		if (isset($setting['feedlife']))
+			POD::query("UPDATE {$database['prefix']}FeedSettings SET feedlife = {$setting['feedlife']}");
 	}
-	if (!empty($setting['loadImage']))
-		$sql .= "loadImage = {$setting['loadImage']}, ";
-	if (!empty($setting['allowScript']))
-		$sql .= "allowScript = {$setting['allowScript']}, ";
-	if (!empty($setting['newWindow']))
-		$sql .= "newWindow = {$setting['newWindow']}, ";
+	if (!empty($setting['loadimage']))
+		$sql .= "loadimage = {$setting['loadimage']}, ";
+	if (!empty($setting['allowscript']))
+		$sql .= "allowscript = {$setting['allowscript']}, ";
+	if (!empty($setting['newwindow']))
+		$sql .= "newwindow = {$setting['newwindow']}, ";
 	return POD::execute("$sql blogid = blogid WHERE blogid = $blogid");
 }
 
@@ -65,7 +65,7 @@ function markAsReadAll($blogid) {
 
 function markAsStar($blogid, $id, $flag) {
 	global $database;
-	if (POD::queryCell("SELECT i.id FROM {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations gr, {$database['prefix']}Feeds f, {$database['prefix']}FeedItems i WHERE g.blogid = $blogid AND gr.feed = f.id AND gr.blogid = g.blogid AND gr.groupId = g.id AND f.id = i.feed AND i.id = $id")) {
+	if (POD::queryCell("SELECT i.id FROM {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations gr, {$database['prefix']}Feeds f, {$database['prefix']}FeedItems i WHERE g.blogid = $blogid AND gr.feed = f.id AND gr.blogid = g.blogid AND gr.groupid = g.id AND f.id = i.feed AND i.id = $id")) {
 		if ($flag)
 			POD::query("REPLACE INTO {$database['prefix']}FeedStarred VALUES($blogid, $id)");
 		else
@@ -94,7 +94,7 @@ function getFeedGroups($blogid, $starredOnly = false, $searchKeyword = null) {
 				ON
 					r.blogid = $blogid AND
 					r.blogid = g.blogid AND
-					g.id = r.groupId
+					g.id = r.groupid
 				LEFT JOIN
 					{$database['prefix']}FeedItems i
 				ON
@@ -124,7 +124,7 @@ function getFeeds($blogid, $group = 0, $starredOnly = false, $searchKeyword = nu
 	}
 	$condition .= ($group == 0) ? '' : " AND g.id = $group";
 	$sql = "SELECT
-					f.id, f.xmlURL, f.blogURL, f.title, f.description, f.modified
+					f.id, f.xmlurl, f.blogURL, f.title, f.description, f.modified
 				FROM
 					{$database['prefix']}FeedGroups g,
 					{$database['prefix']}FeedGroupRelations r,
@@ -141,7 +141,7 @@ function getFeeds($blogid, $group = 0, $starredOnly = false, $searchKeyword = nu
 				WHERE
 					r.blogid = $blogid AND
 					r.blogid = g.blogid AND
-					g.id = r.groupId AND
+					g.id = r.groupid AND
 					r.feed = f.id
 					$condition
 				GROUP BY f.id
@@ -185,7 +185,7 @@ function getFeedEntriesTotalCount($blogid, $group = 0, $feed = 0, $unreadOnly = 
 				WHERE
 					r.blogid = $blogid AND
 					r.blogid = g.blogid AND
-					g.id = r.groupId AND
+					g.id = r.groupid AND
 					r.feed = f.id
 					$condition";
 	return POD::queryCell($sql);
@@ -224,7 +224,7 @@ function getFeedEntries($blogid, $group = 0, $feed = 0, $unreadOnly = false, $st
 				WHERE
 					r.blogid = $blogid AND
 					r.blogid = g.blogid AND
-					g.id = r.groupId AND
+					g.id = r.groupid AND
 					r.feed = f.id AND
 					f.id = i.feed
 					$condition
@@ -269,7 +269,7 @@ function getFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly = 
 					WHERE
 						r.blogid = $blogid AND
 						r.blogid = g.blogid AND
-						g.id = r.groupId AND
+						g.id = r.groupid AND
 						r.feed = f.id AND
 						f.id = i.feed
 						$condition
@@ -278,7 +278,7 @@ function getFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly = 
 		if ($position == 'current') {
 			if ($row = POD::queryRow("$sql LIMIT 1")) {
 				$row['description'] = adjustRelativePathImage($row['description'], $row['permalink']);
-				$row['description'] = filterJavaScript($row['description'], ($setting['allowScript'] == 1 ? false : true));
+				$row['description'] = filterJavaScript($row['description'], ($setting['allowscript'] == 1 ? false : true));
 			}
 			return $row;
 		} else {
@@ -295,7 +295,7 @@ function getFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly = 
 							POD::query("REPLACE INTO {$database['prefix']}FeedReads VALUES($blogid, {$row['id']})");
 						if ($row) {
 							$row['description'] = adjustRelativePathImage($row['description'], $row['permalink']);
-							$row['description'] = filterJavaScript($row['description'], ($setting['allowScript'] == 1 ? false : true));
+							$row['description'] = filterJavaScript($row['description'], ($setting['allowscript'] == 1 ? false : true));
 						}
 						return $row;
 					} else if ($position == 'after') {
@@ -303,7 +303,7 @@ function getFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly = 
 							POD::query("REPLACE INTO {$database['prefix']}FeedReads VALUES($blogid, {$prevRow['id']})");
 						if ($prevRow) {
 							$prevRow['description'] = adjustRelativePathImage($prevRow['description'], $row['permalink']);
-							$prevRow['description'] = filterJavaScript($prevRow['description'], ($setting['allowScript'] == 1 ? false : true));
+							$prevRow['description'] = filterJavaScript($prevRow['description'], ($setting['allowscript'] == 1 ? false : true));
 						}
 						return $prevRow;
 					}
@@ -326,12 +326,12 @@ function getFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly = 
 						r.blogid = $blogid AND
 						r.blogid = g.blogid AND
 						r.feed = f.id AND
-						r.groupId = g.id AND
+						r.groupid = g.id AND
 						i.id = $entry AND
 						f.id = i.feed";
 		if ($row = POD::queryRow($sql)) {
 			$row['description'] = adjustRelativePathImage($row['description'], $row['permalink']);
-			$row['description'] = filterJavaScript($row['description'], ($setting['allowScript'] == 1 ? false : true));
+			$row['description'] = filterJavaScript($row['description'], ($setting['allowscript'] == 1 ? false : true));
 		}
 		return $row;
 	}
@@ -371,7 +371,7 @@ function deleteFeedGroup($blogid, $id) {
 	global $database;
 	if ($id == 0)
 		return - 1;
-	POD::query("UPDATE {$database['prefix']}FeedGroupRelations SET groupId = 0 WHERE blogid = $blogid AND groupId = $id");
+	POD::query("UPDATE {$database['prefix']}FeedGroupRelations SET groupid = 0 WHERE blogid = $blogid AND groupid = $id");
 	$result = POD::queryCount("DELETE FROM {$database['prefix']}FeedGroups WHERE id = $id");
 	if ($result != 1)
 		return 1;
@@ -384,10 +384,10 @@ function addFeed($blogid, $group = 0, $url, $getEntireFeed = true, $htmlURL = ''
 		$url = 'http://'.$url;
 	$url = rtrim($url, '/');
 	$escapedURL = POD::escapeString($url);
-	if (POD::queryExistence("SELECT f.id FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations r WHERE r.blogid = $blogid AND r.blogid = g.blogid AND r.feed = f.id AND r.groupId = g.id AND f.xmlURL = '$escapedURL'")) {
+	if (POD::queryExistence("SELECT f.id FROM {$database['prefix']}Feeds f, {$database['prefix']}FeedGroups g, {$database['prefix']}FeedGroupRelations r WHERE r.blogid = $blogid AND r.blogid = g.blogid AND r.feed = f.id AND r.groupid = g.id AND f.xmlurl = '$escapedURL'")) {
 		return 1;
 	}
-	if ($id = POD::queryCell("SELECT id FROM {$database['prefix']}Feeds WHERE xmlURL = '$escapedURL'")) {
+	if ($id = POD::queryCell("SELECT id FROM {$database['prefix']}Feeds WHERE xmlurl = '$escapedURL'")) {
 		POD::query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($blogid, $id, $group)");
 		return 0;
 	}
@@ -395,7 +395,7 @@ function addFeed($blogid, $group = 0, $url, $getEntireFeed = true, $htmlURL = ''
 		list($status, $feed, $xml) = getRemoteFeed($url);
 		if ($status > 0)
 			return $status;
-		POD::query("INSERT INTO {$database['prefix']}Feeds VALUES(null, '{$feed['xmlURL']}', '{$feed['blogURL']}', '{$feed['title']}', '{$feed['description']}', '{$feed['language']}', {$feed['modified']})");
+		POD::query("INSERT INTO {$database['prefix']}Feeds VALUES(null, '{$feed['xmlurl']}', '{$feed['blogURL']}', '{$feed['title']}', '{$feed['description']}', '{$feed['language']}', {$feed['modified']})");
 		$id = POD::insertId();
 		POD::query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($blogid, $id, $group)");
 		saveFeedItems($id, $xml);
@@ -423,7 +423,7 @@ function getRemoteFeed($url) {
 			return array(2, null, null);
 		$xml = $request->responseText;
 	}
-	$feed = array('xmlURL' => (isset($request) ? $request->url : $url));
+	$feed = array('xmlurl' => (isset($request) ? $request->url : $url));
 	$xmls = new XMLStruct();
 	if (!$xmls->open($xml, $service['encoding'])) {
 		if(preg_match_all('/<link .*?rel\s*=\s*[\'"]?alternate.*?>/i', $xml, $matches)) {
@@ -487,7 +487,7 @@ function getRemoteFeed($url) {
 	} else
 		return array(3, null, null);
 
-	$feed['xmlURL'] = POD::escapeString(UTF8::lessenAsEncoding(UTF8::correct($feed['xmlURL'])));
+	$feed['xmlurl'] = POD::escapeString(UTF8::lessenAsEncoding(UTF8::correct($feed['xmlurl'])));
 	$feed['blogURL'] = POD::escapeString(UTF8::lessenAsEncoding(UTF8::correct($feed['blogURL'])));
 	$feed['title'] = POD::escapeString(UTF8::lessenAsEncoding(UTF8::correct($feed['title'])));
 	$feed['description'] = POD::escapeString(UTF8::lessenAsEncoding(UTF8::correct(stripHTML($feed['description']))));
@@ -567,9 +567,9 @@ function saveFeedItems($feedId, $xml) {
 	} else
 		return false;
 	$deadLine = 0;
-	$feedLife = POD::queryCell("SELECT feedLife FROM {$database['prefix']}FeedSettings");
-	if($feedLife > 0)
-		$deadLine = gmmktime() - $feedLife * 86400;
+	$feedlife = POD::queryCell("SELECT feedlife FROM {$database['prefix']}FeedSettings");
+	if($feedlife > 0)
+		$deadLine = gmmktime() - $feedlife * 86400;
 	if($result = POD::query("SELECT id FROM {$database['prefix']}FeedItems LEFT JOIN {$database['prefix']}FeedStarred ON id = item WHERE item IS NULL AND written < $deadLine"))
 		while(list($id) = POD::fetch($result))
 			POD::query("DELETE FROM {$database['prefix']}FeedItems WHERE id = $id");
@@ -594,9 +594,9 @@ function saveFeedItem($feedId, $item) {
 	if ($item['written'] > gmmktime() + 86400)
 		return false;
 	$deadLine = 0;
-	$feedLife = POD::queryCell("SELECT feedLife FROM {$database['prefix']}FeedSettings");
-	if($feedLife > 0)
-		$deadLine = gmmktime() - $feedLife * 86400;
+	$feedlife = POD::queryCell("SELECT feedlife FROM {$database['prefix']}FeedSettings");
+	if($feedlife > 0)
+		$deadLine = gmmktime() - $feedlife * 86400;
 	if ($id = POD::queryCell("SELECT id FROM {$database['prefix']}FeedItems WHERE permalink='{$item['permalink']}'") && $item['written'] != 0) {
 		$result = POD::query("UPDATE {$database['prefix']}FeedItems SET author = '{$item['author']}', title = '{$item['title']}', description = '{$item['description']}', tags = '$tagString', enclosure = '$enclosureString', written = {$item['written']} WHERE id = $id");
 		/*
@@ -616,7 +616,7 @@ function saveFeedItem($feedId, $item) {
 
 function editFeed($blogid, $feedId, $oldGroupId, $newGroupId, $url) {
 	global $database;
-	POD::query("UPDATE {$database['prefix']}FeedGroupRelations SET groupId = $newGroupId WHERE blogid = $blogid AND feed = $feedId AND groupId = $oldGroupId");
+	POD::query("UPDATE {$database['prefix']}FeedGroupRelations SET groupid = $newGroupId WHERE blogid = $blogid AND feed = $feedId AND groupid = $oldGroupId");
 	return 0;
 }
 
@@ -650,11 +650,11 @@ function deleteReaderTablesByOwner($blogid) {
 
 function updateRandomFeed() {
 	global $database;
-	$updateCycle = POD::queryCell("SELECT updateCycle FROM {$database['prefix']}FeedSettings LIMIT 1");
-	if($updateCycle != 0) {
-		if ($feed = POD::queryRow("SELECT * FROM {$database['prefix']}Feeds WHERE modified < " . (gmmktime() - ($updateCycle * 60)) . " ORDER BY RAND() LIMIT 1")) {
+	$updatecycle = POD::queryCell("SELECT updatecycle FROM {$database['prefix']}FeedSettings LIMIT 1");
+	if($updatecycle != 0) {
+		if ($feed = POD::queryRow("SELECT * FROM {$database['prefix']}Feeds WHERE modified < " . (gmmktime() - ($updatecycle * 60)) . " ORDER BY RAND() LIMIT 1")) {
 			setServiceSetting('lastFeedUpdate',gmmktime());
-			return array(updateFeed($feed), $feed['xmlURL']);
+			return array(updateFeed($feed), $feed['xmlurl']);
 		}
 	}
 	return array(1, 'No feeds to update');
@@ -664,12 +664,12 @@ function updateFeed($feedRow) {
 	global $database;
 	if($feedRow['modified'] > gmmktime() - 300)
 		return true;
-	list($status, $feed, $xml) = getRemoteFeed($feedRow['xmlURL']);
+	list($status, $feed, $xml) = getRemoteFeed($feedRow['xmlurl']);
 	if ($status > 0) {
-		POD::execute("UPDATE {$database['prefix']}Feeds SET modified = 0 WHERE xmlURL = '{$feedRow['xmlURL']}'");
+		POD::execute("UPDATE {$database['prefix']}Feeds SET modified = 0 WHERE xmlurl = '{$feedRow['xmlurl']}'");
 		return $status;
 	} else {
-		POD::execute("UPDATE {$database['prefix']}Feeds SET blogURL = '{$feed['blogURL']}', title = '{$feed['title']}', description = '{$feed['description']}', language = '{$feed['language']}', modified = " . gmmktime() . " WHERE xmlURL = '{$feedRow['xmlURL']}'");
+		POD::execute("UPDATE {$database['prefix']}Feeds SET blogURL = '{$feed['blogURL']}', title = '{$feed['title']}', description = '{$feed['description']}', language = '{$feed['language']}', modified = " . gmmktime() . " WHERE xmlurl = '{$feedRow['xmlurl']}'");
 		return saveFeedItems($feedRow['id'], $xml) ? 0 : 1;
 	}
 }

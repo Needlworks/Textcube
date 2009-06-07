@@ -59,7 +59,7 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 	} else if (addComment($blogid, $comment) !== false) {
 		if(!$comment['secret']) {
 			if($row = POD::queryRow("SELECT * FROM {$database['prefix']}Entries 
-				WHERE blogid = $blogid AND id = {$comment['entry']} AND draft = 0 AND visibility = 3 AND acceptComment = 1"))
+				WHERE blogid = $blogid AND id = {$comment['entry']} AND draft = 0 AND visibility = 3 AND acceptcomment = 1"))
 				sendCommentPing($comment['entry'], "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$row['slogan']}": $comment['entry']), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
 		}
 		$skin = new Skin($skinSetting['skin']);

@@ -5,12 +5,12 @@
 $IV = array(
 	'POST' => array(
 		'tree' => array('string', 'default' => 'base'),
-		'colorOnTree' => array('string', 'default' => '000000'),
-		'bgColorOnTree' => array('string', 'default' => ''),
-		'activeColorOnTree' => array('string', 'default' => '000000'),
-		'activeBgColorOnTree' => array('string', 'default' => ''),
-		'labelLengthOnTree' => array('int', 'default' => 30),
-		'showValueOnTree' => array('string', 'mandatory' => false)
+		'colorontree' => array('string', 'default' => '000000'),
+		'bgcolorontree' => array('string', 'default' => ''),
+		'activecolorontree' => array('string', 'default' => '000000'),
+		'activebgcolorontree' => array('string', 'default' => ''),
+		'labellengthontree' => array('int', 'default' => 30),
+		'showvalueontree' => array('string', 'mandatory' => false)
 	)
 );
 require ROOT . '/library/includeForBlogOwner.php';

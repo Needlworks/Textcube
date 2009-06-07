@@ -55,8 +55,8 @@ function finish($error = null) {
 		//]]>
 	</script>
 <?php 
-	$activeEditors = POD::queryColumn("SELECT DISTINCT contentEditor FROM {$database}Entries WHERE blogid = $blogid");
-	$activeFormatters = POD::queryColumn("SELECT DISTINCT contentFormatter FROM {$database}Entries WHERE blogid = $blogid");
+	$activeEditors = POD::queryColumn("SELECT DISTINCT contenteditor FROM {$database}Entries WHERE blogid = $blogid");
+	$activeFormatters = POD::queryColumn("SELECT DISTINCT contentformatter FROM {$database}Entries WHERE blogid = $blogid");
 	if(!empty($activeEditors)) {foreach($activeEditors as $editor) activatePlugin($editor);}
 	if(!empty($activeFormatters)) {foreach($activeFormatters as $formatter) activatePlugin($formatter);}
 	echo _t('완료.');
@@ -262,8 +262,8 @@ function importer($path, $node, $line) {
 				$setting->publishWholeOnFeed = $node['publishWholeOnFeed'][0]['.value'];
 			if (isset($node['acceptGuestComment'][0]['.value']))
 				$setting->acceptGuestComment = $node['acceptGuestComment'][0]['.value'];
-			if (isset($node['acceptCommentOnGuestComment'][0]['.value']))
-				$setting->acceptCommentOnGuestComment = $node['acceptCommentOnGuestComment'][0]['.value'];
+			if (isset($node['acceptcommentOnGuestComment'][0]['.value']))
+				$setting->acceptcommentOnGuestComment = $node['acceptcommentOnGuestComment'][0]['.value'];
 			if (isset($node['language'][0]['.value']))
 				$setting->language = $node['language'][0]['.value'];
 			if (isset($node['timezone'][0]['.value']))
@@ -310,12 +310,12 @@ function importer($path, $node, $line) {
 			else $post->starred = 0;
 			$post->title = $node['title'][0]['.value'];
 			$post->content = $node['content'][0]['.value'];
-			$post->contentFormatter = isset($node['content']['.attributes']['formatter']) ? $node['content']['.attributes']['formatter'] : 'ttml';
-			$post->contentEditor = isset($node['content']['.attributes']['editor']) ? $node['content']['.attributes']['editor'] : 'modern';
+			$post->contentformatter = isset($node['content']['.attributes']['formatter']) ? $node['content']['.attributes']['formatter'] : 'ttml';
+			$post->contenteditor = isset($node['content']['.attributes']['editor']) ? $node['content']['.attributes']['editor'] : 'modern';
 			$post->location = $node['location'][0]['.value'];
 			$post->password = isset($node['password'][0]['.value']) ? $node['password'][0]['.value'] : null;
-			$post->acceptComment = $node['acceptComment'][0]['.value'];
-			$post->acceptTrackback = $node['acceptTrackback'][0]['.value'];
+			$post->acceptcomment = $node['acceptComment'][0]['.value'];
+			$post->accepttrackback = $node['acceptTrackback'][0]['.value'];
 			$post->published = $node['published'][0]['.value'];
 			$post->created = @$node['created'][0]['.value'];
 			$post->modified = @$node['modified'][0]['.value'];
@@ -389,7 +389,7 @@ function importer($path, $node, $line) {
 					$comment->written = $cursor['written'][0]['.value'];
 					$comment->content = $cursor['content'][0]['.value'];
 					if (!empty($cursor['isFiltered'][0]['.value']))
-					    	$comment->isFiltered = $cursor['isFiltered'][0]['.value'];
+					    	$comment->isfiltered = $cursor['isFiltered'][0]['.value'];
 					if (!$comment->add())
 						user_error(__LINE__ . $comment->error);
 					if (isset($node['comment'][$i]['comment'])) {
@@ -461,8 +461,8 @@ function importer($path, $node, $line) {
 			else $notice->starred = 0;
 			$notice->title = $node['title'][0]['.value'];
 			$notice->content = $node['content'][0]['.value'];
-			$notice->contentFormatter = isset($node['content']['.attributes']['formatter']) ? $node['content']['.attributes']['formatter'] : getDefaultFormatter();
-			$notice->contentEditor = isset($node['content']['.attributes']['editor']) ? $node['content']['.attributes']['editor'] : getDefaultEditor();
+			$notice->contentformatter = isset($node['content']['.attributes']['formatter']) ? $node['content']['.attributes']['formatter'] : getDefaultFormatter();
+			$notice->contenteditor = isset($node['content']['.attributes']['editor']) ? $node['content']['.attributes']['editor'] : getDefaultEditor();
 			$notice->published = $node['published'][0]['.value'];
 			$notice->created = @$node['created'][0]['.value'];
 			$notice->modified = @$node['modified'][0]['.value'];
@@ -626,7 +626,7 @@ function importer($path, $node, $line) {
 			$cmtNotified->written = $node['written'][0]['.value'];
 			$cmtNotified->modified = $node['modified'][0]['.value'];
 			$cmtNotified->url = $node['url'][0]['.value'];
-			$cmtNotified->isNew = $node['isNew'][0]['.value'];
+			$cmtNotified->isnew = $node['isNew'][0]['.value'];
 			$site = new CommentNotifiedSiteInfo();
 			if (!$site->open("url = '{$node['site'][0]['.value']}'")) {
 				$site->title = '';
@@ -635,11 +635,11 @@ function importer($path, $node, $line) {
 				$site->url = $node['site'][0]['.value'];
 				$site->add();
 			}
-			$cmtNotified->siteId = $site->id;
+			$cmtNotified->siteid = $site->id;
 			$site->close();
-			$cmtNotified->remoteId = $node['remoteId'][0]['.value'];
-			$cmtNotified->entryTitle = (!isset($node['entryTitle'][0]['.value']) || empty($node['entryTitle'][0]['.value'])) ? 'No title' : $node['entryTitle'][0]['.value'];
-			$cmtNotified->entryUrl = $node['entryUrl'][0]['.value'];
+			$cmtNotified->remoteid = $node['remoteid'][0]['.value'];
+			$cmtNotified->entrytitle = (!isset($node['entryTitle'][0]['.value']) || empty($node['entryTitle'][0]['.value'])) ? 'No title' : $node['entrytitle'][0]['.value'];
+			$cmtNotified->entryurl = $node['entryUrl'][0]['.value'];
 			if (!$cmtNotified->add())
 				user_error(__LINE__ . $cmtNotified->error);
 			return true;
@@ -695,30 +695,30 @@ function importer($path, $node, $line) {
 					user_error(__LINE__ . $setting->error);
 				$setting->skin = null;
 			}
-			$setting->entriesOnRecent = $node['entriesOnRecent'][0]['.value'];
-			$setting->commentsOnRecent = $node['commentsOnRecent'][0]['.value'];
-			$setting->trackbacksOnRecent = $node['trackbacksOnRecent'][0]['.value'];
-			$setting->commentsOnGuestbook = $node['commentsOnGuestbook'][0]['.value'];
-			$setting->tagsOnTagbox = $node['tagsOnTagbox'][0]['.value'];
+			$setting->entriesonrecent = $node['entriesOnRecent'][0]['.value'];
+			$setting->commentsonrecent = $node['commentsOnRecent'][0]['.value'];
+			$setting->trackbacksonrecent = $node['trackbacksOnRecent'][0]['.value'];
+			$setting->commentsonguestbook = $node['commentsOnGuestbook'][0]['.value'];
+			$setting->tagsontagbox = $node['tagsOnTagbox'][0]['.value'];
 			$setting->alignOnTagbox = $node['alignOnTagbox'][0]['.value'];
-			$setting->expandComment = $node['expandComment'][0]['.value'];
-			$setting->expandTrackback = $node['expandTrackback'][0]['.value'];
+			$setting->expandcomment = $node['expandComment'][0]['.value'];
+			$setting->expandtrackback = $node['expandCrackback'][0]['.value'];
 			if (!empty($node['recentNoticeLength'][0]['.value']))
-				$setting->recentNoticeLength = $node['recentNoticeLength'][0]['.value'];
-			$setting->recentEntryLength = $node['recentEntryLength'][0]['.value'];
-			$setting->recentTrackbackLength = $node['recentTrackbackLength'][0]['.value'];
-			$setting->linkLength = $node['linkLength'][0]['.value'];
-			$setting->showListOnCategory = $node['showListOnCategory'][0]['.value'];
-			$setting->showListOnArchive = $node['showListOnArchive'][0]['.value'];
+				$setting->recentnoticelength = $node['recentNoticeLength'][0]['.value'];
+			$setting->recententrylength = $node['recentEntryLength'][0]['.value'];
+			$setting->recenttrackbacklength = $node['recentTrackbackLength'][0]['.value'];
+			$setting->linklength = $node['linkLength'][0]['.value'];
+			$setting->showlistoncategory = $node['showListOnCategory'][0]['.value'];
+			$setting->showlistonarchive = $node['showListOnArchive'][0]['.value'];
 			if (isset($node['tree'])) {
 				$cursor = & $node['tree'][0];
 				$setting->tree = $cursor['name'][0]['.value'];
-				$setting->colorOnTree = $cursor['color'][0]['.value'];
-				$setting->bgColorOnTree = $cursor['bgColor'][0]['.value'];
-				$setting->activeColorOnTree = $cursor['activeColor'][0]['.value'];
-				$setting->activeBgColorOnTree = $cursor['activeBgColor'][0]['.value'];
-				$setting->labelLengthOnTree = $cursor['labelLength'][0]['.value'];
-				$setting->showValueOnTree = $cursor['showValue'][0]['.value'];
+				$setting->colorontree = $cursor['color'][0]['.value'];
+				$setting->bgcolorontree = $cursor['bgColor'][0]['.value'];
+				$setting->activecolorontree = $cursor['activeColor'][0]['.value'];
+				$setting->activebgcolorontree = $cursor['activeBgColor'][0]['.value'];
+				$setting->labellengthontree = $cursor['labelLength'][0]['.value'];
+				$setting->showvalueontree = $cursor['showValue'][0]['.value'];
 			}
 			if (!$setting->save())
 				user_error(__LINE__ . $setting->error);

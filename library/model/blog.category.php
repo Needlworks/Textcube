@@ -60,7 +60,7 @@ function getCategoryBodyIdById($blogid, $id) {
 	$result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id);
 	if (($id === 0) || ($result == '') || ($id === null))
 		return 'tt-body-category';
-	else return $result['bodyId'];
+	else return $result['bodyid'];
 }
 
 function getEntriesCountByCategory($blogid, $id) {
@@ -73,7 +73,7 @@ function getEntriesCountByCategory($blogid, $id) {
 	if (($id === 0) || ($result == '') || ($id === null)) {
 		return 0;
 	} else {
-		if(doesHaveOwnership() && Acl::check('group.editors')) return $result['entriesInLogin'];
+		if(doesHaveOwnership() && Acl::check('group.editors')) return $result['entriesinlogin'];
 		else return $result['entries'];
 	}
 }
@@ -174,12 +174,12 @@ function getCategoriesSkin() {
 	$setting = getSkinSetting(getBlogId());
 	$skin = array('name' => "{$setting['skin']}",
 			'url'               => $service['path'] . "/image/tree/{$setting['tree']}",
-			'labelLength'       => $setting['labelLengthOnTree'],
-			'showValue'         => $setting['showValueOnTree'],
-			'itemColor'         => "{$setting['colorOnTree']}",
-			'itemBgColor'       => "{$setting['bgColorOnTree']}",
-			'activeItemColor'   => "{$setting['activeColorOnTree']}",
-			'activeItemBgColor' => "{$setting['activeBgColorOnTree']}", );
+			'labelLength'       => $setting['labellengthontree'],
+			'showValue'         => $setting['showvalueontree'],
+			'itemColor'         => "{$setting['colorontree']}",
+			'itemBgColor'       => "{$setting['bgcolorontree']}",
+			'activeItemColor'   => "{$setting['activecolorontree']}",
+			'activeItemBgColor' => "{$setting['activebgcolorontree']}", );
 	return $skin;
 }
 
@@ -275,7 +275,7 @@ function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
 		$newId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Categories WHERE blogid = $blogid") + 1;
 	}
 
-	$result = POD::query("INSERT INTO {$database['prefix']}Categories (blogid, id, parent, name, priority, entries, entriesInLogin, label, visibility) VALUES ($blogid, $newId, $parent, '$name', $newPriority, 0, 0, '$label', 2)");
+	$result = POD::query("INSERT INTO {$database['prefix']}Categories (blogid, id, parent, name, priority, entries, entriesinlogin, label, visibility) VALUES ($blogid, $newId, $parent, '$name', $newPriority, 0, 0, '$label', 2)");
 	updateEntriesOfCategory($blogid);
 	return $result ? true : false;
 }
@@ -311,7 +311,7 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 	$bodyid = POD::escapeString(UTF8::lessenAsEncoding($bodyid, 20));
 	if(POD::queryExistence("SELECT name
 		FROM {$database['prefix']}Categories
-		WHERE blogid = $blogid AND name = '".$name."' AND bodyId = '".$bodyid."'"))
+		WHERE blogid = $blogid AND name = '".$name."' AND bodyid = '".$bodyid."'"))
 		return false;
 	$label = POD::escapeString(UTF8::lessenAsEncoding(empty($label) ? $name : "$label/$name", 255));
 	$sql = "SELECT *
@@ -325,7 +325,7 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 	$result = POD::query("UPDATE {$database['prefix']}Categories
 		SET name = '$name',
 			label = '$label',
-			bodyId = '$bodyid'
+			bodyid = '$bodyid'
 		WHERE blogid = $blogid
 			AND id = $id");
 	if ($result)
@@ -350,11 +350,11 @@ function updateEntriesOfCategory($blogid, $id = - 1) {
 			$rowChild['name'] = POD::escapeString(UTF8::lessenAsEncoding($rowChild['name'], 127));
 			$countChild = POD::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND visibility > 0 AND category = {$rowChild['id']}");
 			$countInLogInChild = POD::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND category = {$rowChild['id']}");
-			POD::query("UPDATE {$database['prefix']}Categories SET entries = $countChild, entriesInLogin = $countInLogInChild, label = '$label' WHERE blogid = $blogid AND id = {$rowChild['id']}");
+			POD::query("UPDATE {$database['prefix']}Categories SET entries = $countChild, entriesinlogin = $countInLogInChild, label = '$label' WHERE blogid = $blogid AND id = {$rowChild['id']}");
 			$countParent += $countChild;
 			$countInLoginParent += $countInLogInChild;
 		}
-		POD::query("UPDATE {$database['prefix']}Categories SET entries = $countParent, entriesInLogin = $countInLoginParent, label = '{$row['name']}' WHERE blogid = $blogid AND id = $parent");
+		POD::query("UPDATE {$database['prefix']}Categories SET entries = $countParent, entriesinlogin = $countInLoginParent, label = '{$row['name']}' WHERE blogid = $blogid AND id = $parent");
 	}
 	if($id >=0) CacheControl::flushCategory($id);
 	clearCategoryCache();

@@ -33,7 +33,7 @@ CREATE TABLE [##_dbPrefix_##]Categories (
   entriesInLogin int(11) NOT NULL default '0',
   label varchar(255) NOT NULL default '',
   visibility tinyint(4) NOT NULL default '2',
-  bodyId varchar(20) default NULL,
+  bodyid varchar(20) default NULL,
   PRIMARY KEY (blogid,id)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]Comments (
@@ -50,12 +50,12 @@ CREATE TABLE [##_dbPrefix_##]Comments (
   comment text NOT NULL,
   ip varchar(15) NOT NULL default '',
   written int(11) NOT NULL default '0',
-  isFiltered int(11) NOT NULL default '0',
+  isfiltered int(11) NOT NULL default '0',
   PRIMARY KEY  (blogid, id),
   KEY blogid (blogid),
   KEY entry (entry),
   KEY parent (parent),
-  KEY isFiltered (isFiltered)
+  KEY isfiltered (isfiltered)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]CommentsNotified (
   blogid int(11) NOT NULL default '0',
@@ -71,12 +71,12 @@ CREATE TABLE [##_dbPrefix_##]CommentsNotified (
   ip varchar(15) NOT NULL default '',
   written int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
-  siteId int(11) NOT NULL default '0',
-  isNew int(1) NOT NULL default '1',
+  siteid int(11) NOT NULL default '0',
+  isnew int(1) NOT NULL default '1',
   url varchar(255) NOT NULL default '',
-  remoteId int(11) NOT NULL default '0',
-  entryTitle varchar(255) NOT NULL default '',
-  entryUrl varchar(255) NOT NULL default '',
+  remoteid int(11) NOT NULL default '0',
+  entrytitle varchar(255) NOT NULL default '',
+  entryurl varchar(255) NOT NULL default '',
   PRIMARY KEY  (blogid, id),
   KEY blogid (blogid),
   KEY entry (entry)
@@ -84,12 +84,12 @@ CREATE TABLE [##_dbPrefix_##]CommentsNotified (
 CREATE TABLE [##_dbPrefix_##]CommentsNotifiedQueue (
   blogid int(11) NOT NULL default '0',
   id int(11) NOT NULL,
-  commentId int(11) NOT NULL default '0',
-  sendStatus int(1) NOT NULL default '0',
-  checkDate int(11) NOT NULL default '0',
+  commentid int(11) NOT NULL default '0',
+  sendstatus int(1) NOT NULL default '0',
+  checkdate int(11) NOT NULL default '0',
   written int(11) NOT NULL default '0',
   PRIMARY KEY  (blogid, id),
-  UNIQUE KEY commentId (commentId)
+  UNIQUE KEY commentid (commentid)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]CommentsNotifiedSiteInfo (
   id int(11) NOT NULL,
@@ -118,12 +118,12 @@ CREATE TABLE [##_dbPrefix_##]Entries (
   title varchar(255) NOT NULL default '',
   slogan varchar(255) NOT NULL default '',
   content mediumtext NOT NULL,
-  contentFormatter varchar(32) DEFAULT '' NOT NULL,
-  contentEditor varchar(32) DEFAULT '' NOT NULL,
+  contentformatter varchar(32) DEFAULT '' NOT NULL,
+  contenteditor varchar(32) DEFAULT '' NOT NULL,
   location varchar(255) NOT NULL default '/',
   password varchar(32) default NULL,
-  acceptComment int(1) NOT NULL default '1',
-  acceptTrackback int(1) NOT NULL default '1',
+  acceptcomment int(1) NOT NULL default '1',
+  accepttrackback int(1) NOT NULL default '1',
   published int(11) NOT NULL default '0',
   created int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
@@ -145,8 +145,8 @@ CREATE TABLE [##_dbPrefix_##]EntriesArchive (
   title varchar(255) NOT NULL default '',
   slogan varchar(255) NOT NULL default '',
   content mediumtext NOT NULL,
-  contentFormatter varchar(32) DEFAULT '' NOT NULL,
-  contentEditor varchar(32) DEFAULT '' NOT NULL,
+  contentformatter varchar(32) DEFAULT '' NOT NULL,
+  contenteditor varchar(32) DEFAULT '' NOT NULL,
   location varchar(255) NOT NULL default '/',
   password varchar(32) default NULL,
   created int(11) NOT NULL default '0',
@@ -158,8 +158,8 @@ CREATE TABLE [##_dbPrefix_##]EntriesArchive (
 CREATE TABLE [##_dbPrefix_##]FeedGroupRelations (
   blogid int(11) NOT NULL default '0',
   feed int(11) NOT NULL default '0',
-  groupId int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid,feed,groupId)
+  groupid int(11) NOT NULL default '0',
+  PRIMARY KEY  (blogid,feed,groupid)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]FeedGroups (
   blogid int(11) NOT NULL default '0',
@@ -189,11 +189,11 @@ CREATE TABLE [##_dbPrefix_##]FeedReads (
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]FeedSettings (
   blogid int(11) NOT NULL default '0',
-  updateCycle int(11) NOT NULL default '120',
-  feedLife int(11) NOT NULL default '30',
-  loadImage int(11) NOT NULL default '1',
-  allowScript int(11) NOT NULL default '2',
-  newWindow int(11) NOT NULL default '1',
+  updatecycle int(11) NOT NULL default '120',
+  feedlife int(11) NOT NULL default '30',
+  loadimage int(11) NOT NULL default '1',
+  allowscript int(11) NOT NULL default '2',
+  newwindow int(11) NOT NULL default '1',
   PRIMARY KEY  (blogid)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]FeedStarred (
@@ -203,7 +203,7 @@ CREATE TABLE [##_dbPrefix_##]FeedStarred (
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]Feeds (
   id int(11) NOT NULL auto_increment,
-  xmlURL varchar(255) NOT NULL default '',
+  xmlurl varchar(255) NOT NULL default '',
   blogURL varchar(255) NOT NULL default '',
   title varchar(255) NOT NULL default '',
   description varchar(255) NOT NULL default '',
@@ -247,9 +247,9 @@ CREATE TABLE [##_dbPrefix_##]OpenIDUsers (
   blogid int(11) NOT NULL default '0',
   openid varchar(128) NOT NULL,
   delegatedid varchar(128) default NULL,
-  firstLogin int(11) default NULL,
-  lastLogin int(11) default NULL,
-  loginCount int(11) default NULL,
+  firstlogin int(11) default NULL,
+  lastlogin int(11) default NULL,
+  logincount int(11) default NULL,
   data text,
   PRIMARY KEY  (blogid,openid)
 ) [##_charset_##];
@@ -310,32 +310,32 @@ CREATE TABLE [##_dbPrefix_##]Sessions (
 CREATE TABLE [##_dbPrefix_##]SkinSettings (
   blogid int(11) NOT NULL default '0',
   skin varchar(32) NOT NULL default 'coolant',
-  entriesOnRecent int(11) NOT NULL default '10',
-  commentsOnRecent int(11) NOT NULL default '10',
-  commentsOnGuestbook int(11) NOT NULL default '5',
-  archivesOnPage int(11) NOT NULL default '5',
-  tagsOnTagbox tinyint(4) NOT NULL default '10',
-  tagboxAlign tinyint(4) NOT NULL default '1',
-  trackbacksOnRecent int(11) NOT NULL default '5',
-  expandComment int(1) NOT NULL default '1',
-  expandTrackback int(1) NOT NULL default '1',
-  recentNoticeLength int(11) NOT NULL default '30',
-  recentEntryLength int(11) NOT NULL default '30',
-  recentCommentLength int(11) NOT NULL default '30',
-  recentTrackbackLength int(11) NOT NULL default '30',
-  linkLength int(11) NOT NULL default '30',
-  showListOnCategory tinyint(4) NOT NULL default '1',
-  showListOnArchive tinyint(4) NOT NULL default '1',
-  showListOnTag tinyint(4) NOT NULL default '1',
-  showListOnAuthor tinyint(4) NOT NULL default '1',
-  showListOnSearch int(1) NOT NULL default '1',
+  entriesonrecent int(11) NOT NULL default '10',
+  commentsonrecent int(11) NOT NULL default '10',
+  commentsonguestbook int(11) NOT NULL default '5',
+  archivesonpage int(11) NOT NULL default '5',
+  tagsontagbox tinyint(4) NOT NULL default '10',
+  tagboxalign tinyint(4) NOT NULL default '1',
+  trackbacksonrecent int(11) NOT NULL default '5',
+  expandcomment int(1) NOT NULL default '1',
+  expandtrackback int(1) NOT NULL default '1',
+  recentnoticelength int(11) NOT NULL default '30',
+  recententrylength int(11) NOT NULL default '30',
+  recentcommentlength int(11) NOT NULL default '30',
+  recenttrackbacklength int(11) NOT NULL default '30',
+  linklength int(11) NOT NULL default '30',
+  showlistoncategory tinyint(4) NOT NULL default '1',
+  showlistonarchive tinyint(4) NOT NULL default '1',
+  showlistontag tinyint(4) NOT NULL default '1',
+  showlistonauthor tinyint(4) NOT NULL default '1',
+  showlistonsearch int(1) NOT NULL default '1',
   tree varchar(32) NOT NULL default 'base',
-  colorOnTree varchar(6) NOT NULL default '000000',
-  bgColorOnTree varchar(6) NOT NULL default '',
-  activeColorOnTree varchar(6) NOT NULL default 'FFFFFF',
-  activeBgColorOnTree varchar(6) NOT NULL default '00ADEF',
-  labelLengthOnTree int(11) NOT NULL default '30',
-  showValueOnTree int(1) NOT NULL default '1',
+  colorontree varchar(6) NOT NULL default '000000',
+  bgcolorontree varchar(6) NOT NULL default '',
+  activecolorontree varchar(6) NOT NULL default 'FFFFFF',
+  activebgcolorontree varchar(6) NOT NULL default '00ADEF',
+  labellengthontree int(11) NOT NULL default '30',
+  showvalueontree int(1) NOT NULL default '1',
   PRIMARY KEY  (blogid)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]TagRelations (
@@ -371,10 +371,10 @@ CREATE TABLE [##_dbPrefix_##]Trackbacks (
   excerpt varchar(255) NOT NULL default '',
   ip varchar(15) NOT NULL default '',
   written int(11) NOT NULL default '0',
-  isFiltered int(11) NOT NULL default '0',
+  isfiltered int(11) NOT NULL default '0',
   PRIMARY KEY (blogid, id),
-  KEY isFiltered (isFiltered),
-  KEY blogid (blogid, isFiltered, written)
+  KEY isfiltered (isfiltered),
+  KEY blogid (blogid, isfiltered, written)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]Users (
   userid int(11) NOT NULL auto_increment,
@@ -382,7 +382,7 @@ CREATE TABLE [##_dbPrefix_##]Users (
   password varchar(32) default NULL,
   name varchar(32) NOT NULL default '',
   created int(11) NOT NULL default '0',
-  lastLogin int(11) NOT NULL default '0',
+  lastlogin int(11) NOT NULL default '0',
   host int(11) NOT NULL default '0',
   PRIMARY KEY  (userid),
   UNIQUE KEY loginid (loginid),
@@ -405,6 +405,6 @@ CREATE TABLE [##_dbPrefix_##]Teamblog (
   userid int(11) NOT NULL default 1,
   acl int(11) NOT NULL default 0,
   created int(11) NOT NULL default 0,
-  lastLogin int(11) NOT NULL default 0,
+  lastlogin int(11) NOT NULL default 0,
   PRIMARY KEY (blogid,userid)
 ) [##_charset_##];

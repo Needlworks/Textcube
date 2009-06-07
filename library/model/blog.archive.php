@@ -8,13 +8,13 @@ function getArchives($blogid) {
 	$archives = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$skinSetting = getSkinSetting($blogid);
-	$archivesOnPage = $skinSetting['archivesOnPage'];
+	$archivesonpage = $skinSetting['archivesonpage'];
 	$result = POD::queryAllWithDBCache("SELECT EXTRACT(YEAR FROM FROM_UNIXTIME(e.published)) AS year, EXTRACT(MONTH FROM FROM_UNIXTIME(e.published)) AS month, COUNT(*) AS count 
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 		GROUP BY year, month 
 		ORDER BY year, month
-		DESC LIMIT $archivesOnPage",'entry');
+		DESC LIMIT $archivesonpage",'entry');
 	if ($result) {
 		foreach($result as $archive) {
 			$archive['period'] = $archive['year'].sprintf("%02d",$archive['month']);

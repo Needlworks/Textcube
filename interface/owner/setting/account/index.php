@@ -661,7 +661,7 @@ $invitedList = getInvited(getUserId());
 														<td class="email"><?php echo htmlspecialchars($value['name']);?>(<?php echo htmlspecialchars($value['loginid']);?>)</td>
 														<td class="date"><?php echo Timestamp::format5($value['created']);?></td>
 <?php
-		if ($value['lastLogin'] == 0) {
+		if ($value['lastlogin'] == 0) {
 ?>
 														<td class="status"><?php echo _f('%1 전', timeInterval($value['created'], time()));?></td>
 														<td class="password"><?php echo POD::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = {$value['userid']} AND name = 'AuthToken'");?></td>

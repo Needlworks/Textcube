@@ -262,7 +262,7 @@ class User {
 			$name = $name . '.' . time();
 		}
 
-		$result = POD::query("INSERT INTO {$database['prefix']}Users (userid, loginid, password, name, created, lastLogin, host) VALUES (".(User::__getMaxUserId()+1).", '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, ".getUserId().")");
+		$result = POD::query("INSERT INTO {$database['prefix']}Users (userid, loginid, password, name, created, lastlogin, host) VALUES (".(User::__getMaxUserId()+1).", '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, ".getUserId().")");
 		if (empty($result)) {
 			return 11;
 		}

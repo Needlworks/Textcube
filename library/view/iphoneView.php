@@ -6,7 +6,7 @@
 function printIphoneEntryContentView($blogid, $entry, $keywords = array()) {
 	global $blogURL;
 	if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password']))))
-		print '<div class="entry_body">'.(getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], $keywords)).'</div>';
+		print '<div class="entry_body">'.(getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'], $keywords)).'</div>';
 	else
 	{
 	?>
@@ -48,16 +48,16 @@ function printIphoneCategoriesView($totalPosts, $categories) {
 					array_push($children, 
 						array('id' => $category2['id'], 
 							'label' => $category2['name'], 
-							'value' => (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']), 
+							'value' => (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']), 
 							'link' => "$blogURL/category/" . $category2['id'], 
 							'children' => array()
 						)
 					);
-					$categoryCount = $categoryCount + (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']);
+					$categoryCount = $categoryCount + (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']);
 				}
-				$categoryCountAll = $categoryCountAll + (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']);
+				$categoryCountAll = $categoryCountAll + (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']);
 			}
-			$parentCategoryCount = (doesHaveOwnership() ? $category1['entriesInLogin'] - $categoryCountAll : $category1['entries'] - $categoryCountAll);
+			$parentCategoryCount = (doesHaveOwnership() ? $category1['entriesinlogin'] - $categoryCountAll : $category1['entries'] - $categoryCountAll);
 			if($category1['id'] != 0) {
 				array_push($tree['children'], 
 					array('id' => $category1['id'], 
@@ -188,7 +188,7 @@ function printIphoneLinksView($links) {
 			(!doesHaveMembership() && $link['visibility'] < 2)) {
 			continue;
 		}
-		$linkView .= '<li><a href="' . htmlspecialchars($link['url']) . '" class="link" target="_blank">' . htmlspecialchars(UTF8::lessenAsEm($link['name'], $skinSetting['linkLength'])) . '</a></li>'.CRLF;
+		$linkView .= '<li><a href="' . htmlspecialchars($link['url']) . '" class="link" target="_blank">' . htmlspecialchars(UTF8::lessenAsEm($link['name'], $skinSetting['linklength'])) . '</a></li>'.CRLF;
 	}
 	return $linkView;
 }

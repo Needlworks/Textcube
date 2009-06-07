@@ -82,12 +82,12 @@ class DBQuery {
 		/// Bypassing compartiblitiy issue : will be replace to NAF2.
 		$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compartibility issue.
 		$caseSensiviveReservedWords = array(
-			"isFiltered","entriesInLogin","siteId", "isNew", "remoteId", "entryTitle",
-			"entryUrl","commentId","sendStatus","checkDate",
-			"contentFormatter","contentEditor","acceptTrackback","acceptComment", // Entry
-			"groupId",
-			"updateCycle","feedLife","loadImage", "allowScript","newWindow", // Feed
-			"xmlURL","blogURL","firstLogin","lastLogin","loginCount");
+			"isfiltered","entriesinlogin","siteid", "isnew", "remoteid", "entrytitle",
+			"entryurl","commentid","sendstatus","checkdate",
+			"contentformatter","contenteditor","accepttrackback","acceptcomment", // Entry
+			"groupid",
+			"updatecycle","feedlife","loadimage", "allowscript","newwindow", // Feed
+			"xmlurl","blogURL","firstlogin","lastlogin","logincount");
 		foreach ($caseSensiviveReservedWords as $word) {
 			$query = str_replace($word, "\"".$word."\"", $query);
 		}

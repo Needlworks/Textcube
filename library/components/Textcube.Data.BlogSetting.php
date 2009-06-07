@@ -23,7 +23,7 @@ class BlogSetting {
 		$this->postsOnFeed =		
 		$this->publishWholeOnFeed =
 		$this->acceptGuestComment =
-		$this->acceptCommentOnGuestComment =
+		$this->acceptcommentOnGuestComment =
 		$this->language =
 		$this->timezone =
 			null;
@@ -61,14 +61,14 @@ class BlogSetting {
 							$name = 'acceptGuestComment';
 							break;
 						case 'allowWriteDblCommentOnGuestbook':
-							$name = 'acceptCommentOnGuestComment';
+							$name = 'acceptcommentOnGuestComment';
 							break;
 						case 'defaultDomain':
 						case 'useSloganOnPost':
 						case 'useSloganOnCategory':
 						case 'useSloganOnTag':
 						case 'acceptGuestComment':
-						case 'acceptCommentOnGuestComment':
+						case 'acceptcommentOnGuestComment':
 							$value = $value ? true : false;
 							break;
 					}
@@ -136,8 +136,8 @@ class BlogSetting {
 			setBlogSetting('publishWholeOnRSS', Validator::getBit($this->publishWholeOnFeed));
 		if (isset($this->acceptGuestComment))
 			setBlogSetting('allowWriteOnGuestbook', Validator::getBit($this->acceptGuestComment));
-		if (isset($this->acceptCommentOnGuestComment))
-			setBlogSetting('allowWriteDblCommentOnGuestbook', Validator::getBit($this->acceptCommentOnGuestComment));
+		if (isset($this->acceptcommentOnGuestComment))
+			setBlogSetting('allowWriteDblCommentOnGuestbook', Validator::getBit($this->acceptcommentOnGuestComment));
 		if (isset($this->language)) {
 			if (!Validator::language($this->language))
 				return $this->_error('language');

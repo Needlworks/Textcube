@@ -15,8 +15,8 @@ class Notice {
 		$this->starred =
 		$this->title =
 		$this->content =
-		$this->contentFormatter =
-		$this->contentEditor =
+		$this->contentformatter =
+		$this->contenteditor =
 		$this->published =
 		$this->created =
 		$this->modified =
@@ -184,8 +184,8 @@ class Notice {
 			$query->setAttribute('title', $this->title, true);
 		if (isset($this->content)) {
 			$query->setAttribute('content', $this->content, true);
-			$query->setAttribute('contentFormatter', $this->contentFormatter, true);
-			$query->setAttribute('contentEditor', $this->contentEditor, true);
+			$query->setAttribute('contentformatter', $this->contentformatter, true);
+			$query->setAttribute('contenteditor', $this->contenteditor, true);
 		}
 		if (isset($this->visibility)) {
 			switch ($this->visibility) {

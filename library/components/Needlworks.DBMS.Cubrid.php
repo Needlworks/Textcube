@@ -102,12 +102,12 @@ class DBQuery {
 			foreach($keepingWords as $orig=>$target) $query = str_ireplace($orig, $target, $query); 
 			
 			$caseSensiviveReservedWords = array(
-				"isFiltered","entriesInLogin","siteId", "isNew", "remoteId", "entryTitle",
-				"entryUrl","commentId","sendStatus","checkDate","bodyId",
-				"contentFormatter","contentEditor","acceptTrackback","acceptComment", // Entry
-				"groupId",
-				"updateCycle","feedLife","loadImage", "allowScript","newWindow", // Feed
-				"xmlURL","blogURL","firstLogin","lastLogin","loginCount",
+				"isfiltered","entriesinlogin","siteid", "isnew", "remoteid", "entrytitle",
+				"entryurl","commentid","sendstatus","checkdate","bodyid",
+				"contentformatter","contenteditor","accepttrackback","acceptcomment", // Entry
+				"groupid",
+				"updatecycle","feedlife","loadimage", "allowscript","newwindow", // Feed
+				"xmlurl","blogURL","firstlogin","lastlogin","logincount",
 				"value", "data", "date");	// Cubrid-specific. (reserved word);
 				
 			foreach ($caseSensiviveReservedWords as $word) {

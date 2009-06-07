@@ -69,10 +69,10 @@ class Keyword {
 					case 'content':
 						$name = 'description';
 						break;
-					case 'contentFormatter':
+					case 'contentformatter':
 						$name = 'descriptionFormatter';
 						break;
-					case 'contentEditor':
+					case 'contenteditor':
 						$name = 'descriptionEditor';
 						break;
 				}
@@ -192,8 +192,8 @@ class Keyword {
 			$query->setAttribute('title', $this->name, true);
 		if (isset($this->description)) {
 			$query->setAttribute('content', $this->description, true);
-			$query->setAttribute('contentFormatter', $this->descriptionFormatter, true);
-			$query->setAttribute('contentEditor', $this->descriptionEditor, true);
+			$query->setAttribute('contentformatter', $this->descriptionFormatter, true);
+			$query->setAttribute('contenteditor', $this->descriptionEditor, true);
 		}
 		if (isset($this->visibility)) {
 			switch ($this->visibility) {

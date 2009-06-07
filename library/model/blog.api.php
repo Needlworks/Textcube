@@ -238,8 +238,8 @@ function api_make_post( $param, $ispublic, $postid = -1 )
 	}
 	
 	$post->content = api_fix_content( $param['description'] );
-	$post->contentFormatter = getDefaultFormatter();
-	$post->contentEditor = getDefaultEditor();
+	$post->contentformatter = getDefaultFormatter();
+	$post->contenteditor = getDefaultEditor();
 	$post->title = $param['title'];
 	
 	//$param['mt_excerpt'] = array_key_exists('mt_excerpt', $param) ? $param['mt_excerpt'] : '';
@@ -269,8 +269,8 @@ function api_make_post( $param, $ispublic, $postid = -1 )
 	$post->modified = api_timestamp( $param['dateCreated'] );
 	$post->published = api_timestamp( $param['dateCreated'] );
 	
-	$post->acceptComment = $param['mt_allow_comments'] !== 0 ? true : false;
-	$post->acceptTrackback = $param['mt_allow_pings'] !== 0 ? true : false;
+	$post->acceptcomment = $param['mt_allow_comments'] !== 0 ? true : false;
+	$post->accepttrackback = $param['mt_allow_pings'] !== 0 ? true : false;
 	
 	if( $ispublic )
 	{
@@ -301,8 +301,8 @@ function api_get_post( $post, $type = "bl" )
 			"permaLink" => $hostURL . $blogURL . "/" . $post->id ,
 			"description" => ($type == "mt" ? $post->content : "" ),
 			"content" => $post->content,
-			"mt_allow_comments" => $post->acceptComment ? 1 : 0,
-			"mt_allow_pings" => $post->acceptTrackback ? 1 : 0,
+			"mt_allow_comments" => $post->acceptcomment ? 1 : 0,
+			"mt_allow_pings" => $post->accepttrackback ? 1 : 0,
 			"mt_keywords" => join( ",", $post->tags )
 			);
 }
@@ -541,8 +541,8 @@ function blogger_newPost()
 	$params = func_get_args();
 	$post = new Post();
 	$post->content = $params[4];
-	$post->contentFormatter = getDefaultFormatter();
-	$post->contentEditor = getDefaultEditor();
+	$post->contentformatter = getDefaultFormatter();
+	$post->contenteditor = getDefaultEditor();
 	$post->title = htmlspecialchars(api_get_title($params[4]));
 
 	if( $params[5] )
@@ -587,8 +587,8 @@ function blogger_editPost()
 	$post->title = htmlspecialchars(api_get_title( $params[4] ));
 	$post->id = intval($params[1]);
 	$post->content = $params[4];
-	$post->contentFormatter = getDefaultFormatter();
-	$post->contentEditor = getDefaultEditor();
+	$post->contentformatter = getDefaultFormatter();
+	$post->contenteditor = getDefaultEditor();
 
 	if( $params[5] )
 	{
