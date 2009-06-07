@@ -53,10 +53,10 @@ CREATE TABLE [##_dbPrefix_##]Comments (
   isfiltered integer NOT NULL default '0',
   PRIMARY KEY  (blogid, id)
 ) [##_charset_##];
-CREATE INDEX Comments_blogid_idx ON [##_dbPrefix_##]Comments (blogid);
-CREATE INDEX Comments_entry_idx ON [##_dbPrefix_##]Comments (entry);
-CREATE INDEX Comments_parent_idx ON [##_dbPrefix_##]Comments (parent);
-CREATE INDEX Comments_isfiltered_idx ON [##_dbPrefix_##]Comments (isfiltered);
+CREATE INDEX [##_dbPrefix_##]Comments_blogid_idx ON [##_dbPrefix_##]Comments (blogid);
+CREATE INDEX [##_dbPrefix_##]Comments_entry_idx ON [##_dbPrefix_##]Comments (entry);
+CREATE INDEX [##_dbPrefix_##]Comments_parent_idx ON [##_dbPrefix_##]Comments (parent);
+CREATE INDEX [##_dbPrefix_##]Comments_isfiltered_idx ON [##_dbPrefix_##]Comments (isfiltered);
 CREATE TABLE [##_dbPrefix_##]CommentsNotified (
   blogid integer NOT NULL default '0',
   replier integer default NULL,
@@ -79,8 +79,8 @@ CREATE TABLE [##_dbPrefix_##]CommentsNotified (
   entryurl varchar(255) NOT NULL default '',
   PRIMARY KEY  (blogid, id)
 ) [##_charset_##];
-CREATE INDEX CommentsNotified_blogid_idx ON [##_dbPrefix_##]CommentsNotified (blogid);
-CREATE INDEX CommentsNotified_entry_idx ON [##_dbPrefix_##]CommentsNotified (entry);
+CREATE INDEX [##_dbPrefix_##]CommentsNotified_blogid_idx ON [##_dbPrefix_##]CommentsNotified (blogid);
+CREATE INDEX [##_dbPrefix_##]CommentsNotified_entry_idx ON [##_dbPrefix_##]CommentsNotified (entry);
 CREATE TABLE [##_dbPrefix_##]CommentsNotifiedQueue (
   blogid integer NOT NULL default '0',
   id integer NOT NULL,
@@ -90,7 +90,7 @@ CREATE TABLE [##_dbPrefix_##]CommentsNotifiedQueue (
   written integer NOT NULL default '0',
   PRIMARY KEY  (blogid, id)
 ) [##_charset_##];
-CREATE UNIQUE INDEX CommentsNotifiedQueue_commentid_idx ON [##_dbPrefix_##]CommentsNotifiedQueue (commentid);
+CREATE UNIQUE INDEX [##_dbPrefix_##]CommentsNotifiedQueue_commentid_idx ON [##_dbPrefix_##]CommentsNotifiedQueue (commentid);
 CREATE TABLE [##_dbPrefix_##]CommentsNotifiedSiteInfo (
   id integer NOT NULL,
   title varchar(255) NOT NULL default '',
@@ -99,10 +99,10 @@ CREATE TABLE [##_dbPrefix_##]CommentsNotifiedSiteInfo (
   modified integer NOT NULL default '0',
   PRIMARY KEY  (id)
 ) [##_charset_##];
-CREATE UNIQUE INDEX CommentsNotifiedSiteInfo_url_idx ON [##_dbPrefix_##]CommentsNotifiedSiteInfo (url);
+CREATE UNIQUE INDEX [##_dbPrefix_##]CommentsNotifiedSiteInfo_url_idx ON [##_dbPrefix_##]CommentsNotifiedSiteInfo (url);
 CREATE TABLE [##_dbPrefix_##]DailyStatistics (
   blogid integer NOT NULL default '0',
-  date integer NOT NULL default '0',
+  datemark integer NOT NULL default '0',
   visits integer NOT NULL default '0',
   PRIMARY KEY  (blogid,date)
 ) [##_charset_##];
@@ -130,11 +130,11 @@ CREATE TABLE [##_dbPrefix_##]Entries (
   trackbacks integer NOT NULL default '0',
   PRIMARY KEY (blogid, id, draft, category, published)
 ) [##_charset_##];
-CREATE INDEX Entries_visibility_idx ON [##_dbPrefix_##]Entries (visibility);
-CREATE INDEX Entries_userid_idx ON [##_dbPrefix_##]Entries (userid);
-CREATE INDEX Entries_published_idx ON [##_dbPrefix_##]Entries (published);
-CREATE INDEX Entries_id_category_visibility_idx ON [##_dbPrefix_##]Entries (id, category, visibility);
-CREATE INDEX Entries_blogid_published_idx ON [##_dbPrefix_##]Entries (blogid, published);
+CREATE INDEX [##_dbPrefix_##]Entries_visibility_idx ON [##_dbPrefix_##]Entries (visibility);
+CREATE INDEX [##_dbPrefix_##]Entries_userid_idx ON [##_dbPrefix_##]Entries (userid);
+CREATE INDEX [##_dbPrefix_##]Entries_published_idx ON [##_dbPrefix_##]Entries (published);
+CREATE INDEX [##_dbPrefix_##]Entries_id_category_visibility_idx ON [##_dbPrefix_##]Entries (id, category, visibility);
+CREATE INDEX [##_dbPrefix_##]Entries_blogid_published_idx ON [##_dbPrefix_##]Entries (blogid, published);
 CREATE TABLE [##_dbPrefix_##]EntriesArchive (
   blogid integer NOT NULL default '0',
   userid integer NOT NULL default '0',
@@ -151,9 +151,9 @@ CREATE TABLE [##_dbPrefix_##]EntriesArchive (
   created integer NOT NULL default '0',
   PRIMARY KEY (blogid, id, created)
 ) [##_charset_##];
-CREATE INDEX EntriesArchive_visibility_idx ON [##_dbPrefix_##]EntriesArchive (visibility);
-CREATE INDEX EntriesArchive_blogid__id_idx ON [##_dbPrefix_##]EntriesArchive (blogid, id);
-CREATE INDEX EntriesArchive_userid_blogid_idx ON [##_dbPrefix_##]EntriesArchive (userid, blogid);
+CREATE INDEX [##_dbPrefix_##]EntriesArchive_visibility_idx ON [##_dbPrefix_##]EntriesArchive (visibility);
+CREATE INDEX [##_dbPrefix_##]EntriesArchive_blogid__id_idx ON [##_dbPrefix_##]EntriesArchive (blogid, id);
+CREATE INDEX [##_dbPrefix_##]EntriesArchive_userid_blogid_idx ON [##_dbPrefix_##]EntriesArchive (userid, blogid);
 CREATE TABLE [##_dbPrefix_##]FeedGroupRelations (
   blogid integer NOT NULL default '0',
   feed integer NOT NULL default '0',
@@ -178,9 +178,9 @@ CREATE TABLE [##_dbPrefix_##]FeedItems (
   written integer NOT NULL default '0',
   PRIMARY KEY  (id)
 ) [##_charset_##];
-CREATE INDEX FeedItems_feed_idx ON [##_dbPrefix_##]FeedItems (feed);
-CREATE INDEX FeedItems_written_idx ON [##_dbPrefix_##]FeedItems (written);
-CREATE INDEX FeedItems_permalink_idx ON [##_dbPrefix_##]FeedItems (permalink);
+CREATE INDEX [##_dbPrefix_##]FeedItems_feed_idx ON [##_dbPrefix_##]FeedItems (feed);
+CREATE INDEX [##_dbPrefix_##]FeedItems_written_idx ON [##_dbPrefix_##]FeedItems (written);
+CREATE INDEX [##_dbPrefix_##]FeedItems_permalink_idx ON [##_dbPrefix_##]FeedItems (permalink);
 CREATE TABLE [##_dbPrefix_##]FeedReads (
   blogid integer NOT NULL default '0',
   item integer NOT NULL default '0',
@@ -213,11 +213,11 @@ CREATE TABLE [##_dbPrefix_##]Feeds (
 CREATE TABLE [##_dbPrefix_##]Filters (
   id integer NOT NULL default 1,
   blogid integer NOT NULL default '0',
-  type varchar(11) NOT NULL default 'content',
+  filtertype varchar(11) NOT NULL default 'content',
   pattern varchar(255) NOT NULL default '',
   PRIMARY KEY (id)
 ) [##_charset_##];
-CREATE UNIQUE INDEX Filters_blogid_type_pattern_idx ON [##_dbPrefix_##]Filters (blogid, type, pattern);
+CREATE UNIQUE INDEX [##_dbPrefix_##]Filters_blogid_filtertype_pattern_idx ON [##_dbPrefix_##]Filters (blogid, filtertype, pattern);
 CREATE TABLE [##_dbPrefix_##]Links (
   pid integer NOT NULL default '0',
   blogid integer NOT NULL default '0',
@@ -231,7 +231,7 @@ CREATE TABLE [##_dbPrefix_##]Links (
   xfn varchar(128) NOT NULL default '',
   PRIMARY KEY (pid)
 ) [##_charset_##];
-CREATE UNIQUE INDEX Links_blogid_url_idx ON [##_dbPrefix_##]Links (blogid, url);
+CREATE UNIQUE INDEX [##_dbPrefix_##]Links_blogid_url_idx ON [##_dbPrefix_##]Links (blogid, url);
 CREATE TABLE [##_dbPrefix_##]LinkCategories (
   pid integer NOT NULL default '0',
   blogid integer NOT NULL default '0',
@@ -241,7 +241,7 @@ CREATE TABLE [##_dbPrefix_##]LinkCategories (
   visibility integer NOT NULL default '2',
   PRIMARY KEY (pid)
 ) [##_charset_##];
-CREATE UNIQUE INDEX LinkCategories_blogid_id_idx ON [##_dbPrefix_##]LinkCategories (blogid, id);
+CREATE UNIQUE INDEX [##_dbPrefix_##]LinkCategories_blogid_id_idx ON [##_dbPrefix_##]LinkCategories (blogid, id);
 CREATE TABLE [##_dbPrefix_##]OpenIDUsers (
   blogid integer NOT NULL default '0',
   openid varchar(128) NOT NULL,
@@ -249,7 +249,7 @@ CREATE TABLE [##_dbPrefix_##]OpenIDUsers (
   firstlogin integer default NULL,
   lastlogin integer default NULL,
   logincount integer default NULL,
-  data text,
+  openidinfo text,
   PRIMARY KEY  (blogid,openid)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]PageCacheLog (
@@ -270,14 +270,14 @@ CREATE TABLE [##_dbPrefix_##]RefererLogs (
   url varchar(255) NOT NULL default '',
   referred integer NOT NULL default '0'
 ) [##_charset_##];
-CREATE INDEX RefererLogs_blogid_referred_idx ON [##_dbPrefix_##]RefererLogs (blogid, referred);
+CREATE INDEX [##_dbPrefix_##]RefererLogs_blogid_referred_idx ON [##_dbPrefix_##]RefererLogs (blogid, referred);
 CREATE TABLE [##_dbPrefix_##]RefererStatistics (
   blogid integer NOT NULL default '0',
   host varchar(64) NOT NULL default '',
   count integer NOT NULL default '0',
   PRIMARY KEY  (blogid,host)
 ) [##_charset_##];
-CREATE INDEX RefererStatistics_blogid_count_idx ON [##_dbPrefix_##]RefererStatistics (blogid, count);
+CREATE INDEX [##_dbPrefix_##]RefererStatistics_blogid_count_idx ON [##_dbPrefix_##]RefererStatistics (blogid, count);
 CREATE TABLE [##_dbPrefix_##]ReservedWords (
   word varchar(16) NOT NULL default '',
   PRIMARY KEY  (word)
@@ -298,7 +298,7 @@ CREATE TABLE [##_dbPrefix_##]Sessions (
   address varchar(15) NOT NULL default '',
   userid integer default NULL,
   preexistence integer default NULL,
-  data text default NULL,
+  privilege text default NULL,
   server varchar(64) NOT NULL default '',
   request varchar(255) NOT NULL default '',
   referer varchar(255) NOT NULL default '',
@@ -307,7 +307,7 @@ CREATE TABLE [##_dbPrefix_##]Sessions (
   updated integer NOT NULL default '0',
   PRIMARY KEY  (id,address)
 ) [##_charset_##];
-CREATE INDEX Sessions_updated_idx ON [##_dbPrefix_##]Sessions (updated);
+CREATE INDEX [##_dbPrefix_##]Sessions_updated_idx ON [##_dbPrefix_##]Sessions (updated);
 CREATE TABLE [##_dbPrefix_##]SkinSettings (
   blogid integer NOT NULL default '0',
   skin varchar(32) NOT NULL default 'coolant',
@@ -345,13 +345,13 @@ CREATE TABLE [##_dbPrefix_##]TagRelations (
   entry integer NOT NULL default '0',
   PRIMARY KEY  (blogid, tag, entry)
 ) [##_charset_##];
-CREATE INDEX TagRelations_blogid_idx ON [##_dbPrefix_##]TagRelations (blogid);
+CREATE INDEX [##_dbPrefix_##]TagRelations_blogid_idx ON [##_dbPrefix_##]TagRelations (blogid);
 CREATE TABLE [##_dbPrefix_##]Tags (
   id integer NOT NULL default 1,
   name varchar(255) NOT NULL default '',
   PRIMARY KEY (id)
 ) [##_charset_##];
-CREATE UNIQUE INDEX Tags_name_idx ON [##_dbPrefix_##]Tags (name);
+CREATE UNIQUE INDEX [##_dbPrefix_##]Tags_name_idx ON [##_dbPrefix_##]Tags (name);
 CREATE TABLE [##_dbPrefix_##]TrackbackLogs (
   blogid integer NOT NULL default '0',
   id integer NOT NULL,
@@ -360,7 +360,7 @@ CREATE TABLE [##_dbPrefix_##]TrackbackLogs (
   written integer NOT NULL default '0',
   PRIMARY KEY  (blogid, entry, id)
 ) [##_charset_##];
-CREATE UNIQUE INDEX TrackbackLogs_blogid_id_idx ON [##_dbPrefix_##]TrackbackLogs (blogid, id);
+CREATE UNIQUE INDEX [##_dbPrefix_##]TrackbackLogs_blogid_id_idx ON [##_dbPrefix_##]TrackbackLogs (blogid, id);
 CREATE TABLE [##_dbPrefix_##]Trackbacks (
   id integer NOT NULL,
   blogid integer NOT NULL default '0',
@@ -375,8 +375,8 @@ CREATE TABLE [##_dbPrefix_##]Trackbacks (
   isfiltered integer NOT NULL default '0',
   PRIMARY KEY (blogid, id)
 ) [##_charset_##];
-CREATE INDEX Trackbacks_isfiltered_idx ON [##_dbPrefix_##]Trackbacks (isfiltered);
-CREATE INDEX Trackbacks_blogid_isfiltered_written_idx ON [##_dbPrefix_##]Trackbacks (blogid, isfiltered, written);
+CREATE INDEX [##_dbPrefix_##]Trackbacks_isfiltered_idx ON [##_dbPrefix_##]Trackbacks (isfiltered);
+CREATE INDEX [##_dbPrefix_##]Trackbacks_blogid_isfiltered_written_idx ON [##_dbPrefix_##]Trackbacks (blogid, isfiltered, written);
 CREATE TABLE [##_dbPrefix_##]Users (
   userid integer NOT NULL default 1,
   loginid varchar(64) NOT NULL default '',
@@ -387,8 +387,8 @@ CREATE TABLE [##_dbPrefix_##]Users (
   host integer NOT NULL default '0',
   PRIMARY KEY  (userid)
 ) [##_charset_##];
-CREATE UNIQUE INDEX Users_loginid_idx ON [##_dbPrefix_##]Users (loginid);
-CREATE UNIQUE INDEX Users_name_idx ON [##_dbPrefix_##]Users (name);
+CREATE UNIQUE INDEX [##_dbPrefix_##]Users_loginid_idx ON [##_dbPrefix_##]Users (loginid);
+CREATE UNIQUE INDEX [##_dbPrefix_##]Users_name_idx ON [##_dbPrefix_##]Users (name);
 CREATE TABLE [##_dbPrefix_##]UserSettings (
   userid integer NOT NULL default '0',
   name varchar(32) NOT NULL default '',
@@ -398,7 +398,7 @@ CREATE TABLE [##_dbPrefix_##]UserSettings (
 CREATE TABLE [##_dbPrefix_##]XMLRPCPingSettings (
   blogid integer NOT NULL default 0,
   url varchar(255) NOT NULL default '',
-  type varchar(32) NOT NULL default 'xmlrpc',
+  pingtype varchar(32) NOT NULL default 'xmlrpc',
   PRIMARY KEY (blogid)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]Teamblog (

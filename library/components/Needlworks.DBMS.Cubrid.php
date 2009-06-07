@@ -84,10 +84,10 @@ class DBQuery {
 		/// Bypassing compatiblitiy issue : will be replace to NAF2.
 		if($compatibility) {
 			$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compatibility issue.
-			$keepingWords = array('VALUES'=>'TW1','updated'=>'TW2','checkdate'=>'TW3');
+			$keepingWords = array('VALUES'=>'TW1');
 			foreach($keepingWords as $orig=>$target) $query = str_ireplace($orig, $target, $query); 
 			
-			$caseSensiviveReservedWords = array("value", "data", "date", "type");	// Cubrid-specific. (reserved word);
+			$caseSensiviveReservedWords = array("value");	// Cubrid-specific. (reserved word);
 				
 			foreach ($caseSensiviveReservedWords as $word) {
 				$query = str_replace($word, "\"".$word."\"", $query);

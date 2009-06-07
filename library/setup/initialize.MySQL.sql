@@ -1,4 +1,4 @@
-﻿CREATE TABLE [##_dbPrefix_##]Attachments (
+CREATE TABLE [##_dbPrefix_##]Attachments (
   blogid int(11) NOT NULL default '0',
   parent int(11) NOT NULL default '0',
   name varchar(32) NOT NULL default '',
@@ -103,7 +103,7 @@ CREATE TABLE [##_dbPrefix_##]CommentsNotifiedSiteInfo (
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]DailyStatistics (
   blogid int(11) NOT NULL default '0',
-  date int(11) NOT NULL default '0',
+  datemark int(11) NOT NULL default '0',
   visits int(11) NOT NULL default '0',
   PRIMARY KEY  (blogid,date)
 ) [##_charset_##];
@@ -214,7 +214,7 @@ CREATE TABLE [##_dbPrefix_##]Feeds (
 CREATE TABLE [##_dbPrefix_##]Filters (
   id int(11) NOT NULL auto_increment,
   blogid int(11) NOT NULL default '0',
-  type enum('content','ip','name','url') NOT NULL default 'content',
+  filtertype enum('content','ip','name','url') NOT NULL default 'content',
   pattern varchar(255) NOT NULL default '',
   PRIMARY KEY (id),
   UNIQUE KEY blogid (blogid, type, pattern)
@@ -250,7 +250,7 @@ CREATE TABLE [##_dbPrefix_##]OpenIDUsers (
   firstlogin int(11) default NULL,
   lastlogin int(11) default NULL,
   logincount int(11) default NULL,
-  data text,
+  openidinfo text,
   PRIMARY KEY  (blogid,openid)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]PageCacheLog (
@@ -297,7 +297,7 @@ CREATE TABLE [##_dbPrefix_##]Sessions (
   address varchar(15) NOT NULL default '',
   userid int(11) default NULL,
   preexistence int(11) default NULL,
-  data text default NULL,
+  privilege text default NULL,
   server varchar(64) NOT NULL default '',
   request varchar(255) NOT NULL default '',
   referer varchar(255) NOT NULL default '',
@@ -397,7 +397,7 @@ CREATE TABLE [##_dbPrefix_##]UserSettings (
 CREATE TABLE [##_dbPrefix_##]XMLRPCPingSettings (
   blogid int(11) NOT NULL default 0,
   url varchar(255) NOT NULL default '',
-  type varchar(32) NOT NULL default 'xmlrpc',
+  pingtype varchar(32) NOT NULL default 'xmlrpc',
   PRIMARY KEY (blogid)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]Teamblog (
