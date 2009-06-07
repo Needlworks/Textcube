@@ -91,7 +91,7 @@ function getSiteTags($blogid) {
 			{$database['prefix']}TagRelations r 
 			WHERE t.id = r.tag AND r.blogid = $blogid 
 			GROUP BY r.tag, t.id, name
-			ORDER BY t.name 
+			ORDER BY t.name ASC
 			LIMIT 2000");
 	else
 		$names = POD::queryAll("SELECT t.id, t.name FROM {$database['prefix']}Tags t, 
@@ -99,7 +99,7 @@ function getSiteTags($blogid) {
 			{$database['prefix']}Entries e
 			WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
 			GROUP BY r.tag, t.id, t.name
-			ORDER BY t.name 
+			ORDER BY t.name ASC
 			LIMIT 2000");
 	if(!empty($names)) return $names;
 	else $names = array();

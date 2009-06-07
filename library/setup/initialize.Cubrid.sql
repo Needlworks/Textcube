@@ -206,18 +206,18 @@ CREATE TABLE [##_dbPrefix_##]Feeds (
   blogURL varchar(255) default '' NOT NULL,
   title varchar(255) default '' NOT NULL,
   description varchar(255) default '' NOT NULL,
-  language varchar(5) default 'en-US' NOT NULL,
+  "language" varchar(5) default 'en-US' NOT NULL,
   modified integer default 0 NOT NULL,
   PRIMARY KEY  (id)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]Filters (
   id integer default 1 NOT NULL,
   blogid integer default 0 NOT NULL,
-  type varchar(11) default 'content' NOT NULL,
+  "type" varchar(11) default 'content' NOT NULL,
   pattern varchar(255) default '' NOT NULL,
   PRIMARY KEY (id)
 ) [##_charset_##];
-CREATE UNIQUE INDEX Filters_blogid_type_pattern_idx ON [##_dbPrefix_##]Filters (blogid, type, pattern);
+CREATE UNIQUE INDEX Filters_blogid_type_pattern_idx ON [##_dbPrefix_##]Filters (blogid, "type", pattern);
 CREATE TABLE [##_dbPrefix_##]Links (
   pid integer default 0 NOT NULL,
   blogid integer default 0 NOT NULL,
@@ -274,10 +274,10 @@ CREATE INDEX RefererLogs_blogid_referred_idx ON [##_dbPrefix_##]RefererLogs (blo
 CREATE TABLE [##_dbPrefix_##]RefererStatistics (
   blogid integer default 0 NOT NULL,
   host varchar(64) default '' NOT NULL,
-  count integer default 0 NOT NULL,
+  "count" integer default 0 NOT NULL,
   PRIMARY KEY  (blogid,host)
 ) [##_charset_##];
-CREATE INDEX RefererStatistics_blogid_count_idx ON [##_dbPrefix_##]RefererStatistics (blogid, count);
+CREATE INDEX RefererStatistics_blogid_count_idx ON [##_dbPrefix_##]RefererStatistics (blogid, "count");
 CREATE TABLE [##_dbPrefix_##]ReservedWords (
   word varchar(16) default '' NOT NULL,
   PRIMARY KEY  (word)
@@ -406,6 +406,6 @@ CREATE TABLE [##_dbPrefix_##]UserSettings (
 CREATE TABLE [##_dbPrefix_##]XMLRPCPingSettings (
   blogid integer default 0 NOT NULL,
   url varchar(255) default '' NOT NULL,
-  type varchar(32) default 'xmlrpc' NOT NULL,
+  "type" varchar(32) default 'xmlrpc' NOT NULL,
   PRIMARY KEY (blogid)
 ) [##_charset_##];

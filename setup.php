@@ -1143,7 +1143,15 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
             $query = explode(';', trim($schema));
             foreach ($query as $sub) {
                 if (!empty($sub) && !POD::query($sub, false)) {
-					@POD::query(
+					$tables = getTables('1.7',$_POST['dbPrefix']);
+					foreach ($tables as $table) {
+						if (POD::dbms()=='Cubrid') {
+							@POD::query("DROP ".$table);
+						} else {
+							@POD::query("DROP TABLE ".$table);
+						}
+					}
+			/*		@POD::query(
 						"DROP TABLE
 							{$_POST['dbPrefix']}Attachments,
 							{$_POST['dbPrefix']}BlogSettings,
@@ -1185,7 +1193,7 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
 							{$_POST['dbPrefix']}UserSettings,
 							{$_POST['dbPrefix']}Users,
 							{$_POST['dbPrefix']}XMLRPCPingSettings"
-					);
+					);*/
 					echo '<script type="text/javascript">//<![CDATA['.CRLF.'alert("', _t('테이블을 생성하지 못했습니다.'), '")//]]></script>';
 					$error = 1;
 					break;

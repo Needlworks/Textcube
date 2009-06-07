@@ -55,28 +55,14 @@ class DBQuery {
 			return $__dbProperties['version'];
 		}
 	}
-	
-/*	function tableList($condition = null) {
-		global $__dbProperties;
-		if (!array_key_exists('tableList', $__dbProperties)) { 
-			$__dbProperties['tableList'] = DBQuery::queryAll("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
-		}
-		if(!is_null($condition)) {
-			foreach($__dbProperties['tableList'] as $item) {
-				if(strpos($item, $condition) === 0) array_push($result, $item);
-			}
-			return $item;
-		} else {
-			return $__dbProperties['tableList'];
-		}
-	}
-*/
+
 	function tableList($condition = null) {
 		global $__dbProperties;
 		if (!array_key_exists('tableList', $__dbProperties)) { 
-			$__dbProperties['tableList'] = DBQuery::queryAll('select * from db_class');
+			$__dbProperties['tableList'] = DBQuery::queryColumn("SELECT class_name FROM db_class WHERE is_system_class = 'NO'");
 		}
 		if(!is_null($condition)) {
+			var_dump($__dbProperties['tableList']);
 			foreach($__dbProperties['tableList'] as $item) {
 				if(strpos($item, $condition) === 0) array_push($result, $item);
 			}
@@ -98,10 +84,10 @@ class DBQuery {
 		/// Bypassing compatiblitiy issue : will be replace to NAF2.
 		if($compatibility) {
 			$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compatibility issue.
-			$keepingWords = array('VALUES'=>'TW1','updated'=>'TW2');
+			$keepingWords = array('VALUES'=>'TW1','updated'=>'TW2','checkdate'=>'TW3');
 			foreach($keepingWords as $orig=>$target) $query = str_ireplace($orig, $target, $query); 
 			
-			$caseSensiviveReservedWords = array("value", "data", "date");	// Cubrid-specific. (reserved word);
+			$caseSensiviveReservedWords = array("value", "data", "date", "type");	// Cubrid-specific. (reserved word);
 				
 			foreach ($caseSensiviveReservedWords as $word) {
 				$query = str_replace($word, "\"".$word."\"", $query);
@@ -110,21 +96,34 @@ class DBQuery {
 
 			// Change LIMIT statement to ROWNUM. (for Cubrid-specific)
 			// 1. find ORDER BY or not.
-			$rowFunc = (stripos($query, "GROUP BY")!==false) ? "GROUPBY_NUM()" : "ROWNUM";
-			// 2. fetch them.
-			
-			$query = preg_replace(
-			array(
-				'/WHERE (.*) LIMIT ([0-9]+) OFFSET 0/si',
-				'/WHERE (.*) LIMIT ([0-9]+) OFFSET ([0-9]+)/si',
-				'/WHERE (.*) LIMIT 1/si',
-				'/WHERE (.*) LIMIT ([0-9]+)/si'),
-			array(
-				'WHERE '.$rowFunc.' = $2 AND $1',	
-				'WHERE '.$rowFunc.' between ($3+1) and ($2+$3) AND $1',
-				'WHERE '.$rowFunc.' = 1 AND $1',
-				'WHERE '.$rowFunc.' between 1 and $2 AND $1'),
-			$query);
+			if(stripos($query, "GROUP BY")!==false) {
+				$origPagingInst = array(
+					'/GROUP BY(.*)(ORDER BY)(.*)([AD]ESC) LIMIT ([0-9]+) OFFSET 0/si',
+					'/GROUP BY(.*)(ORDER BY)(.*)([AD]ESC) LIMIT ([0-9]+) OFFSET ([0-9]+)/si',
+					'/GROUP BY(.*)(ORDER BY)(.*)([AD]ESC) LIMIT 1(^[0-9])/si',
+					'/GROUP BY(.*)(ORDER BY)(.*)([AD]ESC) LIMIT ([0-9]+)/si'
+				);
+				$descPagingInst = array(
+					'GROUP BY $1 HAVING GROUPBY_NUM() = $5 $2 $3 $4',
+					'GROUP BY $1 HAVING GROUPBY_NUM() BETWEEN ($6+1) AND $5 $2 $3 $4',
+					'GROUP BY $1 HAVING GROUPBY_NUM() = 1 $2 $3 $4',
+					'GROUP BY $1 HAVING GROUPBY_NUM() BETWEEN 1 AND $5 $2 $3 $4'
+				);
+			} else {
+				$origPagingInst = array(
+					'/WHERE(.*)LIMIT ([0-9]+) OFFSET 0/si',
+					'/WHERE(.*)LIMIT ([0-9]+) OFFSET ([0-9]+)/si',
+					'/WHERE(.*)LIMIT 1(^[0-9])/si',
+					'/WHERE(.*)LIMIT ([0-9]+)/si'
+					);
+				$descPagingInst = array(
+					'WHERE ROWNUM between 1 and $2 AND $1',	
+					'WHERE ROWNUM between ($3+1) and ($2+$3) AND $1',
+					'WHERE ROWNUM = 1 AND $1',
+					'WHERE ROWNUM between 1 and $2 AND $1'
+					);
+			}
+			$query = preg_replace($origPagingInst, $descPagingInst,$query);
 		}
 
 		if( function_exists( '__tcSqlLogBegin' ) ) {
@@ -148,7 +147,7 @@ class DBQuery {
 	function queryExistence($query) {
 		if ($result = DBQuery::query($query)) {
 			if (cubrid_num_rows($result) > 0) {
-				cubrid_free_result($result);
+				cubrid_close_request($result);
 				return true;
 			}
 			cubrid_close_request($result);
@@ -174,7 +173,7 @@ class DBQuery {
 				case 'delete':
 				case 'replac':
 				default:
-					$count = cubrid_affected_rows();
+					$count = cubrid_affected_rows($result);
 					break;
 			}
 		}
@@ -336,7 +335,7 @@ class DBQuery {
 	}
 	/*@static@*/
 	function free($handle = null) {
-		cubrid_free_result($handle);
+		cubrid_close_request($handle);
 	}
 	
 	/*@static@*/

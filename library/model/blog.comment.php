@@ -853,8 +853,7 @@ function notifyComment() {
 				CNQ.sendstatus = 0
 				and CN.parent is not null
 			ORDER BY CNQ.id ASC
-			LIMIT 1 OFFSET 0
-		";
+			LIMIT 1 OFFSET 0";
 	$queue = POD::queryRow($sql);
 	if (empty($queue) && empty($queue['queueId'])) {
 		//POD::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
