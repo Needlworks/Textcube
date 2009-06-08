@@ -269,12 +269,6 @@ function checkStep($step, $check = true) {
     <h2><span class="step"><?php echo _f('%1단계', 3);?></span> : <?php echo _t('작업 정보를 입력해 주십시오.');?></h2>
     <div id="userinput">
     <table class="inputs">
-<?php
-		switch ($_POST['mode']) {
-			case 'install':
-			case 'setup':
-?>
-
 	  <tr>
         <th><?php echo _t('데이터베이스 관리 시스템');?> :</th>
         <td>
@@ -321,6 +315,11 @@ foreach($dbmsSupport as $dbms) {
           <input type="password" name="dbPassword" value="<?php echo (isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '');?>" class="input<?php echo ($check && ($error == 1) ? ' input_error' : '');?>" />
         </td>
       </tr>
+<?php
+		switch ($_POST['mode']) {
+			case 'install':
+			case 'setup':
+?>      
       <tr>
         <th><?php echo _t('테이블 식별자');?> :</th>
         <td>
@@ -330,32 +329,7 @@ foreach($dbmsSupport as $dbms) {
 <?php
 				break;
 			case 'uninstall':
-?>
-      <tr>
-        <th><?php echo _t('데이터베이스 서버');?> :</th>
-        <td>
-          <input type="text" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : 'localhost');?>" class="input<?php echo ($check && (empty($_POST['dbServer']) || ($error == 1)) ? ' input_error' : '');?>" />
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo _t('데이터베이스 이름');?> :</th>
-        <td>
-          <input type="text" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : NULL);?>" class="input<?php echo ($check && (empty($_POST['dbName']) || ($error == 2)) ? ' input_error' : '');?>" />
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo _t('데이터베이스 사용자명');?> :</th>
-        <td>
-          <input type="text" name="dbUser" value="<?php echo (isset($_POST['dbUser']) ? $_POST['dbUser'] : '');?>" class="input<?php echo ($check && (empty($_POST['dbUser']) || $error) ? ' input_error' : '');?>" />
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo _t('데이터베이스 암호');?> :</th>
-        <td>
-          <input type="password" name="dbPassword" value="<?php echo (isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '');?>" class="input<?php echo ($check && ($error == 1) ? ' input_error' : '');?>" />
-        </td>
-      </tr>
-<?php
+				break;
 		}
 ?>
     </table>

@@ -104,7 +104,7 @@ CREATE TABLE [##_dbPrefix_##]DailyStatistics (
   blogid integer NOT NULL default '0',
   datemark integer NOT NULL default '0',
   visits integer NOT NULL default '0',
-  PRIMARY KEY  (blogid,date)
+  PRIMARY KEY  (blogid,datemark)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]Entries (
   blogid integer NOT NULL default '0',
