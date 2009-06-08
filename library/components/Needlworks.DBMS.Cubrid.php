@@ -318,11 +318,16 @@ class DBQuery {
 	function cacheLoad() {
 		global $fileCachedResult;
 	}
+
 	function cacheSave() {
+		@DBQuery::commit();
+	}
+	
+	function commit() {
 		global $fileCachedResult,$__dbProperties;
 		@cubrid_commit($__dbProperties['handle']);
 	}
-	
+
 	/* Raw functions (to easier adoptation) */
 	/*@static@*/
 	function num_rows($handle = null) {

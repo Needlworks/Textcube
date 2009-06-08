@@ -273,8 +273,13 @@ class DBQuery {
 	function cacheLoad() {
 		global $fileCachedResult;
 	}
+
 	function cacheSave() {
 		global $fileCachedResult;
+	}
+
+	function commit() { 
+		return true; // Auto commit.
 	}
 
 	/* Raw functions (to easier adoptation) */

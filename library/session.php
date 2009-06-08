@@ -57,11 +57,14 @@ function writeSession($id, $data) {
 	$request = POD::escapeString(substr($_SERVER['REQUEST_URI'],0,255));
 	$referer = isset($_SERVER['HTTP_REFERER']) ? POD::escapeString(substr($_SERVER['HTTP_REFERER'],0,255)) : '';
 	$timer = getMicrotimeAsFloat() - $sessionMicrotime;
+
 	$result = sessionQuery('count',"UPDATE {$database['prefix']}Sessions 
 			SET userid = $userid, privilege = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() 
 			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
-	if ($result && $result == 1)
+	if ($result && $result == 1) {
+		@POD::commit();
 		return true;
+	}
 	return false;
 }
 

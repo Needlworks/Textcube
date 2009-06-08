@@ -283,7 +283,9 @@ class DBQuery {
 	function cacheSave() {
 		global $fileCachedResult;
 	}
-	
+	function commit() { 
+		return true; // Auto commit.
+	}
 	/* Raw functions (to easier adoptation) */
 	/*@static@*/
 	function num_rows($handle = null) {
