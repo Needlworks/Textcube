@@ -42,6 +42,8 @@ class TableQuery {
 		$this->_qualifiers = array();
 		$this->_relations = array();
 		$this->_filters = array();
+		$this->_order = array();	
+		$this->_limitation = array();	
 		$this->_reservedFields = POD::reservedFieldNames();
 		if(!empty($this->_reservedFields)) {
 			foreach($this->_reservedFields as $reserved) {
@@ -103,11 +105,11 @@ class TableQuery {
 		if (is_null($condition)) {
 			$this->_qualifiers[$name] = 'NULL';
 		} else {
-			if(!is_null($escape) && in_array(strtolower($condition), array('equals','not','like'))) { 	// Legacy mode
+/*			if(!is_null($escape) && in_array(strtolower($condition), array('equals','not','like'))) { 	// Legacy mode
 				$escape = $value;
 				$value = $condition;
 				$condition = null;
-			}
+			}*/
 			if(is_null($condition)) {
 				$this->_qualifiers[$name] = (is_null($escape) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
 				$this->_relations[$name] = '=';
@@ -131,6 +133,25 @@ class TableQuery {
 	function unsetQualifier($name) {
 		unset($this->_qualifiers[$name]);
 		unset($this->_relations[$name]);
+	}
+
+	function setOrder($standard, $order = 'ASC') {
+		$this->_order['attribute'] = $standard;
+		if(!in_array(strtoupper($order, array('ASC','DESC')))) $order = 'ASC';
+		$this->_order['order'] = $order;
+	}
+
+	function unsetOrder() {
+		$this->_order = array();	
+	}
+	
+	function setLimit($count, $offset = 0) {
+		$this->_limit['count'] = $count;
+		$this->_limit['offset'] = $offset;
+	}
+
+	function unsetLimit() {
+		$this->_limit = array();	
 	}
 	
 	function doesExist() {
@@ -221,10 +242,13 @@ class TableQuery {
 	
 	function _makeWhereClause() {
 		$clause = '';
-		foreach ($this->_qualifiers as $name => $value)
+		foreach ($this->_qualifiers as $name => $value) {
 			$clause .= (strlen($clause) ? ' AND ' : '') . 
 				(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) .
 				' '.$this->_relations[$name] . ' ' . $value;
+		}
+		if(!empty($this->_order)) $clause .= ' ORDER BY '._treatReservedFields($this->_order['standard']).' '.$this->_order['order'];
+		if(!empty($this->_limit)) $clause .= ' LIMIT '.$this->_limit['count'].' OFFSET '.$this->_limit['offset'];
 		return (strlen($clause) ? ' WHERE ' . $clause : '');
 	}
 
