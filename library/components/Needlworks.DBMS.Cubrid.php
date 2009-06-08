@@ -73,7 +73,7 @@ class DBQuery {
 	}
 
 	function reservedFieldNames() {
-		return array('date','value','data');
+		return array('date','value','data','count','year','month');
 	}
 
 	function setTimezone($time) {
@@ -88,18 +88,7 @@ class DBQuery {
 		/// Bypassing compatiblitiy issue : will be replace to NAF2.
 		if($compatibility) {
 			$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compatibility issue.
-/*			$keepingWords = array('VALUES'=>'TW1');
-			foreach($keepingWords as $orig=>$target) $query = str_ireplace($orig, $target, $query); 
-			
-			$caseSensiviveReservedWords = array("value");	// Cubrid-specific. (reserved word);
-				
-			foreach ($caseSensiviveReservedWords as $word) {
-				$query = str_replace($word, "\"".$word."\"", $query);
-			}
-			foreach($keepingWords as $orig=>$target) $query = str_ireplace($target, $orig, $query); 
-*/
-			// Change LIMIT statement to ROWNUM. (for Cubrid-specific)
-			// 1. find ORDER BY or not.
+
 			if(stripos($query, "GROUP BY")!==false) {
 				$origPagingInst = array(
 					'/GROUP BY(.*)(ORDER BY)(.*)([AD]ESC) LIMIT ([0-9]+) OFFSET 0/si',
