@@ -45,6 +45,8 @@ class TableQuery {
 			foreach($this->_reservedFields as $reserved) {
 				$this->_isReserved[$reserved] = true;
 			}
+		} else {
+			$this->_isReserved = array();
 		}
 	}
 	

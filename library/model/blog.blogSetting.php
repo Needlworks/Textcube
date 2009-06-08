@@ -393,7 +393,10 @@ function getBlogName($blogid) {
 }
 function getAuthToken($userid){
 	global $database;
-	return POD::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
+	$query = new TableQuery($database['prefix'].'UserSettings');
+	$query->setQualifier('userid', $userid);
+	$query->setQualifier('name', 'AuthToken', true);
+	return $query->getCell('value');
 }
 
 function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $senderEmail) {
@@ -462,7 +465,7 @@ function cancelInvite($userid,$clean = true) {
 	foreach($blogidWithOwner as $blogids) {
 		if(deleteBlog($blogids) === false) return false;
 	}
-	if($clean && !POD::queryAll("SELECT * FROM {$database['prefix']}Teamblog WHERE userid = '$userid'")) {
+	if($clean && !POD::queryAll("SELECT * FROM {$database['prefix']}Teamblog WHERE userid = $userid")) {
 		User::removePermanent($userid);
 	}
 	return true;
@@ -474,7 +477,7 @@ function changePassword($userid, $pwd, $prevPwd, $forceChange = false) {
 		return false;
 	if($forceChange === true) {
 		$pwd = md5($pwd);
-		@POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
+		@POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = $userid AND name = 'AuthToken' LIMIT 1");
 		return POD::execute("UPDATE {$database['prefix']}Users SET password = '$pwd' WHERE userid = $userid");
 	}
 	if ((strlen($prevPwd) == 32) && preg_match('/[0-9a-f]/i', $prevPwd))
@@ -485,7 +488,7 @@ function changePassword($userid, $pwd, $prevPwd, $forceChange = false) {
 	if ($count == 0)
 		return false;
 	$pwd = md5($pwd);
-	@POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
+	@POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = $userid AND name = 'AuthToken' LIMIT 1");
 	return POD::execute("UPDATE {$database['prefix']}Users SET password = '$pwd' WHERE userid = $userid");
 }
 
@@ -502,7 +505,7 @@ function deleteBlog($blogid) {
 		&& POD::execute("DELETE FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid")
 		&& POD::execute("DELETE FROM {$database['prefix']}FeedSettings WHERE blogid = $blogid")
 		&& POD::execute("DELETE FROM {$database['prefix']}FeedGroups WHERE blogid = $blogid")
-		&& POD::execute("DELETE FROM {$database['prefix']}Teamblog WHERE blogid = '$blogid'")
+		&& POD::execute("DELETE FROM {$database['prefix']}Teamblog WHERE blogid = $blogid")
 	)
 	{
 		return true;
@@ -570,6 +573,7 @@ function removeBlog($blogid) {
 	}
 
 	//Clear Plugin Database
+	// TODO : encapsulate with 'value' 
 	$query = "SELECT name, value FROM {$database['prefix']}ServiceSettings WHERE name like 'Database\\_%'";
 	$plugintablesraw = POD::queryAll($query);
 	foreach($plugintablesraw as $table) {

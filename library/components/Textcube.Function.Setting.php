@@ -151,8 +151,8 @@ class Setting {
 		$__gCacheBlogSettings[$blogid][$name] = $value;
 		$query = new TableQuery($database['prefix'] . 'BlogSettings');
 		$query->setAttribute('blogid', $blogid);
-		$query->setAttribute('name',$name);
-		$query->settAttribute('value',$value);
+		$query->setAttribute('name',$name, true);
+		$query->setAttribute('value',$value, true);
 		return $query->insert();
 	}
 
