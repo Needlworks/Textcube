@@ -297,7 +297,7 @@ class User {
 	/*@static@*/
 	function removePermanent($userid) {
 		global $database;
-		if( POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1") ) {
+		if( POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = $userid AND name = 'AuthToken' LIMIT 1") ) {
 			return POD::execute("DELETE FROM {$database['prefix']}Users WHERE userid = $userid");
 		} else {
 			return false;
@@ -325,11 +325,11 @@ class Blog {
 		global $database;
 		POD::execute("UPDATE {$database['prefix']}Teamblog SET acl = 3 WHERE blogid = ".$blogid." and acl = " . BITWISE_OWNER);
 	
-		$acl = POD::queryCell("SELECT acl FROM {$database['prefix']}Teamblog WHERE blogid='$blogid' and userid='$userid'");
+		$acl = POD::queryCell("SELECT acl FROM {$database['prefix']}Teamblog WHERE blogid=$blogid and userid=$userid");
 	
 		if( $acl === null ) { // If there is no ACL, add user into the blog.
 			POD::query("INSERT INTO {$database['prefix']}Teamblog  
-				VALUES('$blogid', '$userid', '".BITWISE_OWNER."', UNIX_TIMESTAMP(), '0')");
+				VALUES($blogid, $userid, '".BITWISE_OWNER."', UNIX_TIMESTAMP(), 0)");
 		} else {
 			POD::execute("UPDATE {$database['prefix']}Teamblog SET acl = ".BITWISE_OWNER." 
 				WHERE blogid = ".$blogid." and userid = " . $userid);
@@ -393,7 +393,7 @@ class Blog {
 		if( $acl === null ) { // If there is no ACL, add user into the blog.
 			$name = User::getName($userid);
 			POD::query("INSERT INTO {$database['prefix']}Teamblog  
-					VALUES('$blogid', '$userid', '0', UNIX_TIMESTAMP(), '0')");
+					VALUES($blogid, $userid, 0, UNIX_TIMESTAMP(), 0)");
 			$acl = 0;
 		}
 		$bitwise = null;

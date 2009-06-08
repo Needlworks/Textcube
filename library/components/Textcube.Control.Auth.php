@@ -231,7 +231,7 @@ class Acl {
 			$ownership = "group.owners";
 		}
 
-		$result = POD::queryAllWithCache("SELECT blogid ,acl FROM {$database['prefix']}Teamblog WHERE userid = $userid");
+		$result = POD::queryAllWithCache("SELECT blogid, acl FROM {$database['prefix']}Teamblog WHERE userid = $userid");
 		foreach( $result as $rec ) {
 			$priv = array("group.writers", "textcube.$userid");
 
@@ -365,7 +365,10 @@ class Auth {
 		if ((strlen($password) == 32) && preg_match('/[0-9a-f]{32}/i', $password)) { // Raw login. ( with/without auth token)
 			$userid = getUserIdByEmail($loginid);
 			if(!empty($userid) && !is_null($userid)) {
-				$authtoken = POD::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = $userid AND name = 'AuthToken' LIMIT 1");
+				$query = new TableQuery($database['prefix']. 'UserSettings');
+				$query->setQualifier('userid',$userid);
+				$query->setQualifier('name','AuthToken',true);
+				$authtoken = $query->getCell('value');
 				if (!empty($authtoken) && ($authtoken === $password)) {	// If user requested auth token, use it to confirm.
 					$session['userid'] = $userid;
 				} else {	// login with md5 hash
