@@ -139,9 +139,10 @@ class pageCache {
 
 	function getPageCacheLog() {
 		global $database;
-		$result = POD::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog 
-			WHERE blogid = ".getBlogId()."
-			AND name = '".POD::escapeString($this->realName)."' LIMIT 1");
+		$query = new TableQuery($database['prefix'].'PageCacheLog');
+		$query->setQualifier('blogid',getBlogId());
+		$query->setQualifier('name',$this->realName,true);
+		$result = $query->getCell('value');
 		if(!is_null($result)) {
 			$this->_dbContents = unserialize($result);
 			if(doesHaveOwnership()) $this->dbContents = isset($this->_dbContents['owner']) ? $this->_dbContents['owner'] : null;
@@ -167,9 +168,10 @@ class pageCache {
 
 	function removePageCacheLog() {
 		global $database;
-		return POD::execute("DELETE FROM {$database['prefix']}PageCacheLog 
-			WHERE blogid = ".getBlogId()."
-			AND name = '".POD::escapeString($this->realName)."'"); 
+		$query = new TableQuery($database['prefix'].'PageCacheLog');
+		$query->setQualifier('blogid',getBlogId());
+		$query->setQualifier('name',$this->realName,true);
+		return $query->delete();
 	}
 
 	function _error($error) {
@@ -225,10 +227,10 @@ class queryCache {
 	function getPageCacheLog() {
 		global $database;
 		if(empty($this->queryHash)) $this->getQueryHash();
-
-		$result = POD::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog 
-			WHERE blogid = ".getBlogId()."
-			AND name = '".POD::escapeString($this->queryHash)."'");
+		$query = new TableQuery($database['prefix'].'PageCacheLog');
+		$query->setQualifier('blogid',getBlogId());
+		$query->setQualifier('name',$this->queryHash,true);
+		$result = $query->getCell('value');
 		if(!is_null($result)) {
 			$this->contents = unserialize($result);
 			return true;
@@ -254,10 +256,10 @@ class queryCache {
 	function removePageCacheLog() {
 		global $database;
 		if(empty($this->queryHash)) $this->getQueryHash();
-
-		return POD::execute("DELETE FROM {$database['prefix']}PageCacheLog 
-			WHERE blogid = ".getBlogId()."
-			AND name = '".POD::escapeString($this->queryHash)."'"); 
+		$query = new TableQuery($database['prefix'].'PageCacheLog');
+		$query->setQualifier('blogid',getBlogId());
+		$query->setQualifier('name',$this->queryHash,true);
+		return $query->delete();
 	}
 
 	function _error($error) {
@@ -280,7 +282,10 @@ class globalCacheStorage extends pageCache {
 	function load() {
 		global $database, $service;
 		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
-		$result = POD::queryCell("SELECT value FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$this->_gBlogId." AND name = 'globalCacheStorage' LIMIT 1");
+		$query = new TableQuery($database['prefix'].'PageCacheLog');
+		$query->setQualifier('blogid',$this->_gBlogId);
+		$query->setQualifier('name','globalCacheStorage',true);
+		$result = $query->getCell('value');
 		if(isset($result)) $this->_gCacheStorage[$this->_gBlogId] = unserialize($result);
 	}
 
@@ -316,7 +321,10 @@ class globalCacheStorage extends pageCache {
 	function purge() {
 		global $database, $service;
 		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
-		return POD::query("DELETE FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$this->_gBlogId." AND name = 'globalCacheStorage'");
+		$query = new TableQuery($database['prefix'].'PageCacheLog');
+		$query->setQualifier('blogid',$this->_gBlogId);
+		$query->setQualifier('name','globalCacheStorage',true);
+		return $query->delete();		
 	}
 }
 
@@ -333,7 +341,9 @@ class CacheControl {
 			if(!@unlink($dir.'/'.$object)) return false;
 		}
 		@rmdir($dir);
-		POD::query("DELETE FROM {$database['prefix']}PageCacheLog WHERE blogid = ".$blogid);
+		$query = new TableQuery($database['prefix'].'PageCacheLog');
+		$query->setQualifier('blogid',$blogid);
+		$query->delete();
 		return true;
 	}
 	
