@@ -375,7 +375,7 @@ function getCommentView($entry, $skin) {
 		dress($prefix1 . '_container', $commentContainer, $commentView);
 	}
 
-	$acceptComment = POD::queryCell("SELECT \"acceptComment\" FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = {$entry['id']}");
+	$acceptComment = POD::queryCell("SELECT acceptComment FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = {$entry['id']}");
 
 	$useForm = false;
 	$openid_identity = Acl::getIdentity('openid');
