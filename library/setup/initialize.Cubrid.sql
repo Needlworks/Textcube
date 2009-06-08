@@ -217,7 +217,7 @@ CREATE TABLE [##_dbPrefix_##]Filters (
   pattern varchar(255) default '' NOT NULL,
   PRIMARY KEY (id)
 ) [##_charset_##];
-CREATE UNIQUE INDEX [##_dbPrefix_##]Filters_blogid_type_pattern_idx ON [##_dbPrefix_##]Filters (blogid, "type", pattern);
+CREATE UNIQUE INDEX [##_dbPrefix_##]Filters_blogid_filtertype_pattern_idx ON [##_dbPrefix_##]Filters (blogid, filtertype, pattern);
 CREATE TABLE [##_dbPrefix_##]Links (
   pid integer default 0 NOT NULL,
   blogid integer default 0 NOT NULL,

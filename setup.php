@@ -1355,9 +1355,9 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
 <?php
         $tables = array();
 		$ckeckedString = 'checked ';
-        if ($result = POD::query("SHOW TABLES")) {
-            while ($table = POD::fetch($result,'array')) {
-				$table = $table[0];
+        if ($result = POD::tableList()) {
+            foreach($result as $table) {
+				//$table = $table[0];
 				$entriesMatched = preg_match('/Entries$/', $table);
 
 
