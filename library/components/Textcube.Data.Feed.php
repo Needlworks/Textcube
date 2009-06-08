@@ -10,14 +10,14 @@ class FeedGroup {
 		if (empty($name))
 			return 0;
 		$query = new TableQuery($database['prefix'] . 'FeedGroups');
-		$query->setQualifier('blogid', getBlogId());
-		$query->setQualifier('title', $name, true);
+		$query->setQualifier('blogid', 'equals', getBlogId());
+		$query->setQualifier('title', 'equals', $name, true);
 		$id = $query->getCell('id');
 		if (is_null($id) && $add) {
 			$query->unsetQualifier('title');
 			$id = $query->getCell('MAX(id) + 1');
-			$query->setQualifier('id', $id);
-			$query->setQualifier('title', $name, true);
+			$query->setQualifier('id', 'equals', $id);
+			$query->setQualifier('title', 'equals', $name, true);
 			if ($query->insert())
 				return $id;
 			else
@@ -34,8 +34,8 @@ class FeedGroup {
 		if ($id == 0)
 			return '';
 		$query = new TableQuery($database['prefix'] . 'FeedGroups');
-		$query->setQualifier('blogid', getBlogId());
-		$query->setQualifier('id', $id);
+		$query->setQualifier('blogid', 'equals', getBlogId());
+		$query->setQualifier('id', 'equals', $id);
 		return $query->getCell('title');
 	}
 }
@@ -124,7 +124,7 @@ class Feed {
 			return $this->_error('group');
 
 		$query = new TableQuery($database['prefix'] . 'Feeds');
-		$query->setQualifier('xmlurl', UTF8::lessenAsEncoding($this->url, 255), true);
+		$query->setQualifier('xmlurl', 'equals', UTF8::lessenAsEncoding($this->url, 255), true);
 		$query->setAttribute('title', UTF8::lessenAsEncoding($this->url, 255), true);
 		$query->setAttribute('id',($this->_getMaxId()+1));
 		if (!$query->doesExist()) {
@@ -134,9 +134,9 @@ class Feed {
 		$this->id = $query->getCell('id');
 		
 		$query->reset($database['prefix'] . 'FeedGroupRelations');
-		$query->setQualifier('blogid', $blogid);
-		$query->setQualifier('feed', $this->id);
-		$query->setQualifier('groupid', $this->group);
+		$query->setQualifier('blogid', 'equals',$blogid);
+		$query->setQualifier('feed', 'equals',$this->id);
+		$query->setQualifier('groupid', 'equals',$this->group);
 		if (!$query->doesExist()) {
 			if (!$query->insert())
 				return $this->_error('insert');
@@ -267,8 +267,8 @@ class FeedItem {
 		}
 
 		$query = new TableQuery($database['prefix'] . 'FeedItems');
-		$query->setQualifier('feed', $this->feed);
-		$query->setQualifier('permalink', $this->link, true);
+		$query->setQualifier('feed', 'equals', $this->feed);
+		$query->setQualifier('permalink', 'equals', $this->link, true);
 		$this->id = $query->getCell('id');
 		if (is_null($this->id)) {
 			$query->setAttribute('id', $this->_getMaxId()+1);

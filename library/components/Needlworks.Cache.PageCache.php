@@ -140,8 +140,8 @@ class pageCache {
 	function getPageCacheLog() {
 		global $database;
 		$query = new TableQuery($database['prefix'].'PageCacheLog');
-		$query->setQualifier('blogid',getBlogId());
-		$query->setQualifier('name',$this->realName,true);
+		$query->setQualifier('blogid','equals',getBlogId());
+		$query->setQualifier('name','equals',$this->realName,true);
 		$result = $query->getCell('value');
 		if(!is_null($result)) {
 			$this->_dbContents = unserialize($result);
@@ -161,16 +161,16 @@ class pageCache {
 		$query->setAttribute('blogid',getBlogId());
 		$query->setAttribute('name',$this->realName,true);
 		$query->setAttribute('value',serialize($this->_dbContents),true);
-		$query->setQualifier('blogid',getBlogId());
-		$query->setQualifier('name',$this->realName,true);
+		$query->setQualifier('blogid','equals',getBlogId());
+		$query->setQualifier('name','equals',$this->realName,true);
 		return $query->replace();
 	}
 
 	function removePageCacheLog() {
 		global $database;
 		$query = new TableQuery($database['prefix'].'PageCacheLog');
-		$query->setQualifier('blogid',getBlogId());
-		$query->setQualifier('name',$this->realName,true);
+		$query->setQualifier('blogid','equals',getBlogId());
+		$query->setQualifier('name','equals',$this->realName,true);
 		return $query->delete();
 	}
 
@@ -228,8 +228,8 @@ class queryCache {
 		global $database;
 		if(empty($this->queryHash)) $this->getQueryHash();
 		$query = new TableQuery($database['prefix'].'PageCacheLog');
-		$query->setQualifier('blogid',getBlogId());
-		$query->setQualifier('name',$this->queryHash,true);
+		$query->setQualifier('blogid','equals',getBlogId());
+		$query->setQualifier('name','equals',$this->queryHash,true);
 		$result = $query->getCell('value');
 		if(!is_null($result)) {
 			$this->contents = unserialize($result);
@@ -248,8 +248,8 @@ class queryCache {
 		$query->setAttribute('blogid',getBlogId());
 		$query->setAttribute('name',$name,true);
 		$query->setAttribute('value',$value,true);
-		$query->setQualifier('blogid',getBlogId());
-		$query->setQualifier('name',$name,true);
+		$query->setQualifier('blogid','equals',getBlogId());
+		$query->setQualifier('name','equals',$name,true);
 		return $query->replace();
 	}
 
@@ -257,8 +257,8 @@ class queryCache {
 		global $database;
 		if(empty($this->queryHash)) $this->getQueryHash();
 		$query = new TableQuery($database['prefix'].'PageCacheLog');
-		$query->setQualifier('blogid',getBlogId());
-		$query->setQualifier('name',$this->queryHash,true);
+		$query->setQualifier('blogid','equals',getBlogId());
+		$query->setQualifier('name','equals',$this->queryHash,true);
 		return $query->delete();
 	}
 
@@ -283,8 +283,8 @@ class globalCacheStorage extends pageCache {
 		global $database, $service;
 		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
 		$query = new TableQuery($database['prefix'].'PageCacheLog');
-		$query->setQualifier('blogid',$this->_gBlogId);
-		$query->setQualifier('name','globalCacheStorage',true);
+		$query->setQualifier('blogid','equals',$this->_gBlogId);
+		$query->setQualifier('name','equals','globalCacheStorage',true);
 		$result = $query->getCell('value');
 		if(isset($result)) $this->_gCacheStorage[$this->_gBlogId] = unserialize($result);
 	}
@@ -297,8 +297,8 @@ class globalCacheStorage extends pageCache {
 			$query->setAttribute('blogid',$this->_gBlogId);
 			$query->setAttribute('name','globalCacheStorage',true);
 			$query->setAttribute('value',serialize($this->_gCacheStorage[$this->_gBlogId]),true);
-			$query->setQualifier('blogid',$this->_gBlogId);
-			$query->setQualifier('name','globalCacheStorage',true);
+			$query->setQualifier('blogid','equals',$this->_gBlogId);
+			$query->setQualifier('name','equals','globalCacheStorage',true);
 			return $query->replace();
 		}
 	}
@@ -322,8 +322,8 @@ class globalCacheStorage extends pageCache {
 		global $database, $service;
 		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
 		$query = new TableQuery($database['prefix'].'PageCacheLog');
-		$query->setQualifier('blogid',$this->_gBlogId);
-		$query->setQualifier('name','globalCacheStorage',true);
+		$query->setQualifier('blogid','equals',$this->_gBlogId);
+		$query->setQualifier('name','equals','globalCacheStorage',true);
 		return $query->delete();		
 	}
 }
@@ -342,7 +342,7 @@ class CacheControl {
 		}
 		@rmdir($dir);
 		$query = new TableQuery($database['prefix'].'PageCacheLog');
-		$query->setQualifier('blogid',$blogid);
+		$query->setQualifier('blogid','equals',$blogid);
 		$query->delete();
 		return true;
 	}

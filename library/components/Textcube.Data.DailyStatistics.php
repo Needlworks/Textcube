@@ -111,8 +111,8 @@ class DailyStatistics {
 			
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'DailyStatistics');
-		$query->setQualifier('blogid', getBlogId());
-		$query->setQualifier('datemark', $this->date);
+		$query->setQualifier('blogid', 'equals', getBlogId());
+		$query->setQualifier('datemark', 'equals', $this->date);
 		if (isset($this->visits)) {
 			if (!Validator::number($this->visits, 1))
 				return $this->_error('visits');

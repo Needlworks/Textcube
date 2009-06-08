@@ -394,8 +394,8 @@ function getBlogName($blogid) {
 function getAuthToken($userid){
 	global $database;
 	$query = new TableQuery($database['prefix'].'UserSettings');
-	$query->setQualifier('userid', $userid);
-	$query->setQualifier('name', 'AuthToken', true);
+	$query->setQualifier('userid', 'equals', $userid);
+	$query->setQualifier('name', 'equals', 'AuthToken', true);
 	return $query->getCell('value');
 }
 

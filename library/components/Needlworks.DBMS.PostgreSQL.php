@@ -60,13 +60,14 @@ class DBQuery {
 	function tableList($condition = null) {
 		global $__dbProperties;
 		if (!array_key_exists('tableList', $__dbProperties)) { 
-			$__dbProperties['tableList'] = DBQuery::queryAll("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
+			$__dbProperties['tableList'] = DBQuery::queryColumn("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
 		}
 		if(!is_null($condition)) {
+			$result = array();
 			foreach($__dbProperties['tableList'] as $item) {
 				if(strpos($item, $condition) === 0) array_push($result, $item);
 			}
-			return $item;
+			return $result;
 		} else {
 			return $__dbProperties['tableList'];
 		}

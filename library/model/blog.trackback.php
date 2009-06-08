@@ -7,7 +7,7 @@ function getTrackbacksWithPagingForOwner($blogid, $category, $site, $ip, $search
 	global $database;
 	
 	$postfix = '';
-	$sql = "SELECT t.*, c.name categoryName 
+	$sql = "SELECT t.*, c.name AS categoryName 
 		FROM {$database['prefix']}Trackbacks t 
 		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
 		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
@@ -44,7 +44,7 @@ function getTrackbackLogsWithPagingForOwner($blogid, $category, $site, $ip, $sea
 	global $database;
 	
 	$postfix = '&status=sent';
-	$sql = "SELECT t.*, e.title as subject, c.name categoryName 
+	$sql = "SELECT t.*, e.title AS subject, c.name AS categoryName 
 		FROM {$database['prefix']}TrackbackLogs t 
 		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
 		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
@@ -314,7 +314,7 @@ function getTrackbackLogs($blogid, $entryId) {
 
 function deleteTrackbackLog($blogid, $id) {
 	global $database;
-	$result = POD::queryCount("delete from {$database['prefix']}TrackbackLogs WHERE blogid = $blogid AND id = $id");
+	$result = POD::queryCount("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = $blogid AND id = $id");
 	return ($result == 1) ? true : false;
 }
 

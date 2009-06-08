@@ -88,7 +88,7 @@ class Notice {
 		if (!isset($this->id) || $query->doesExist() || $this->doesExist($this->id)) {
 			$this->id = $this->nextEntryId();
 		}
-		$query->setQualifier('id', $this->id);
+		$query->setQualifier('id', 'equals', $this->id);
 		
 		if (empty($this->starred))
 			$this->starred = 0;
@@ -173,12 +173,12 @@ class Notice {
 	function _buildQuery() {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'Entries');
-		$query->setQualifier('blogid', getBlogId());
-		$query->setQualifier('category', -2);
+		$query->setQualifier('blogid', 'equals', getBlogId());
+		$query->setQualifier('category', 'equals', -2);
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
-			$query->setQualifier('id', $this->id);
+			$query->setQualifier('id', 'equals', $this->id);
 		}
 		if (isset($this->title))
 			$query->setAttribute('title', $this->title, true);

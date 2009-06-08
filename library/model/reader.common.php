@@ -107,7 +107,7 @@ function getFeedGroups($blogid, $starredOnly = false, $searchKeyword = null) {
 				WHERE
 					g.blogid = $blogid
 					$condition
-				GROUP BY g.id
+				GROUP BY g.id, g.title
 				ORDER BY g.title";
 	return POD::queryAll($sql);
 }
@@ -144,7 +144,7 @@ function getFeeds($blogid, $group = 0, $starredOnly = false, $searchKeyword = nu
 					g.id = r.groupid AND
 					r.feed = f.id
 					$condition
-				GROUP BY f.id
+				GROUP BY f.id, f.xmlurl, f.blogURL, f.title, f.description, f.modified
 				ORDER BY f.title";
 	return POD::queryAll($sql);
 }
@@ -205,7 +205,7 @@ function getFeedEntries($blogid, $group = 0, $feed = 0, $unreadOnly = false, $st
 	$condition .= ($feed == 0) ? '' : " AND f.id = $feed";
 	$condition .= ($unreadOnly == false) ? '' : ' AND rd.item IS NULL';
 	$sql = "SELECT
-					s.item, i.id, i.title entry_title, i.enclosure, f.title blog_title, i.written, i.tags, i.author, rd.item wasread
+					s.item, i.id, i.title AS entry_title, i.enclosure, f.title AS blog_title, i.written, i.tags, i.author, rd.item AS wasread
 				FROM
 					{$database['prefix']}FeedGroups g,
 					{$database['prefix']}FeedGroupRelations r,
@@ -228,9 +228,9 @@ function getFeedEntries($blogid, $group = 0, $feed = 0, $unreadOnly = false, $st
 					r.feed = f.id AND
 					f.id = i.feed
 					$condition
-				GROUP BY i.id
+				GROUP BY i.id, s.item, entry_title, i.enclosure, blog_title, i.written, i.tags, i.author, wasread
 				ORDER BY i.written DESC, i.id DESC";
-	$sql .= " LIMIT $offset, " . ($offset == 0 ? 100 : min($offset, 400));
+	$sql .= " LIMIT " . ($offset == 0 ? 100 : min($offset, 400)). " OFFSET ".$offset;
 	return POD::queryAll($sql);
 }
 
@@ -250,7 +250,7 @@ function getFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly = 
 		$condition .= ($group == 0) ? '' : " AND g.id = $group";
 		$condition .= ($feed == 0) ? '' : " AND f.id = $feed";
 		$sql = "SELECT
-						i.id, i.title entry_title, i.description, f.title blog_title, i.author, i.written, i.tags, i.permalink, rd.item wasread, f.language, enclosure
+						i.id, i.title AS entry_title, i.description, f.title AS blog_title, i.author, i.written, i.tags, i.permalink, rd.item AS wasread, f.language, enclosure
 					FROM
 						{$database['prefix']}FeedGroups g,
 						{$database['prefix']}FeedGroupRelations r,
@@ -273,7 +273,7 @@ function getFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly = 
 						r.feed = f.id AND
 						f.id = i.feed
 						$condition
-					GROUP BY i.id
+					GROUP BY i.id, entry_title, i.description, blog_title, i.author, i.written, i.tags, i.permalink, wasread, f.language, enclosure
 					ORDER BY i.written DESC, i.id DESC";
 		if ($position == 'current') {
 			if ($row = POD::queryRow("$sql LIMIT 1")) {
@@ -316,7 +316,7 @@ function getFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly = 
 	} else {
 		POD::query("REPLACE INTO {$database['prefix']}FeedReads VALUES($blogid, $entry)");
 		$sql = "SELECT
-						i.id, i.title entry_title, i.description, f.title blog_title, i.author, i.written, i.tags, i.permalink, f.language, enclosure
+						i.id, i.title AS entry_title, i.description, f.title AS blog_title, i.author, i.written, i.tags, i.permalink, f.language, enclosure
 					FROM
 						{$database['prefix']}FeedGroups g,
 						{$database['prefix']}FeedGroupRelations r,

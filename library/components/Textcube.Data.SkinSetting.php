@@ -61,7 +61,7 @@ class SkinSetting {
 		global $database;
 		
 		$query = new TableQuery($database['prefix'] . 'SkinSettings');
-		$query->setQualifier('blogid', getBlogId());
+		$query->setQualifier('blogid', 'equals', getBlogId());
 		if (isset($this->skin)) {
 			if (strncmp($this->skin, 'customize/', 10) == 0) {
 				if (strcmp($this->skin, "customize/".getBlogId()) != 0)

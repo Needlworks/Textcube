@@ -9,8 +9,8 @@ $__gCacheBlogSettings = array();
 function getBlogidByName($name) {
 	global $database;
 	$query = new TableQuery($database['prefix'] . 'BlogSettings');
-	$query->setQualifier('name','name',true);
-	$query->setQualifier('value', $name, true);
+	$query->setQualifier('name','equals', 'name',true);
+	$query->setQualifier('value', 'equals', $name, true);
 	return $query->getCell('blogid');
 	return false;
 }
@@ -62,11 +62,11 @@ function getSkinSetting($blogid, $forceReload = false) {
 				$result['skin'] = $service['skin'];
 			}
 			// retval can be lower-case only parameter as DBMS. thus we change it to camelcase again.
-			$retval = array();
-			foreach($defaultSetting as $name => $value) {
-				$retval[$name] = $result[strtolower($name)];	
-			}
-//			$retval = $result;
+//			$retval = array();
+//			foreach($defaultSetting as $name => $value) {
+//				$retval[$name] = $result[strtolower($name)];	
+//			}
+			$retval = $result;
 			$__gCacheSkinSetting[$blogid] = $retval;
 			if($blogid == getBlogId())  $gCacheStorage->setContent('SkinSetting',$retval);
 			return $retval;

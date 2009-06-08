@@ -35,7 +35,7 @@ class BlogSetting {
 		$this->reset();
 		$query = new TableQuery($database['prefix'] . 'BlogSettings');
 		if($query->doesExist()){
-			$query->setQualifier('blogid',$blogid);
+			$query->setQualifier('blogid','equals',$blogid);
 			$blogSettings = $query -> getAll('name,value');
 			if(isset($blogSettings)){
 				foreach ($blogSettings as $blogSetting) {

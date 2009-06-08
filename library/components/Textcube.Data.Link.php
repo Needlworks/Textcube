@@ -143,27 +143,27 @@ class Link {
 	function _buildQuery() {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'Links');
-		$query->setQualifier('blogid', getBlogId());
+		$query->setQualifier('blogid', 'equals', getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
-			$query->setQualifier('id', $this->id);
+			$query->setQualifier('id', 'equals', $this->id);
 		}
 		if (isset($this->pid)) {
 			if (!Validator::number($this->pid, 1))
 				return $this->_error('pid');
-			$query->setQualifier('pid', $this->pid);
+			$query->setQualifier('pid', 'equals', $this->pid);
 		}
 		if (isset($this->category)) {
 			if (intval($this->category)<0) 
 				return $this->_error('category');
-			$query->setQualifier('category', $this->category);
+			$query->setQualifier('category', 'equals', $this->category);
 		}		
 		if (isset($this->url)) {
 			$this->url = UTF8::lessenAsEncoding(trim($this->url), 255);
 			if (empty($this->url))
 				return $this->_error('url');
-			$query->setQualifier('url', $this->url, true);
+			$query->setQualifier('url', 'equals', $this->url, true);
 		}
 		if (isset($this->title)) {
 			$this->title = UTF8::lessenAsEncoding(trim($this->title), 255);
@@ -316,32 +316,32 @@ class LinkCategories {
 	function _buildQuery() {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'LinkCategories');
-		$query->setQualifier('blogid', getBlogId());
+		$query->setQualifier('blogid', 'equals', getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
-			$query->setQualifier('id', $this->id);
+			$query->setQualifier('id', 'equals', $this->id);
 		}
 		if (isset($this->pid)) {
 			if (!Validator::number($this->pid, 1))
 				return $this->_error('pid');
-			$query->setQualifier('pid', $this->pid);
+			$query->setQualifier('pid', 'equals', $this->pid);
 		}
 		if (isset($this->priority)) {
 			if (intval($this->priority)<0) 
 				return $this->_error('category');
-			$query->setQualifier('priority', $this->priority);
+			$query->setQualifier('priority', 'equals', $this->priority);
 		}
 		if (isset($this->name)) {
 			$this->url = UTF8::lessenAsEncoding(trim($this->name), 255);
 			if (empty($this->name))
 				return $this->_error('name');
-			$query->setQualifier('name', $this->name, true);
+			$query->setQualifier('name', 'equals', $this->name, true);
 		}
 		if (isset($this->visibility)) {
 			if (intval($this->visibility)<0) 
 				return $this->_error('visibility');
-			$query->setQualifier('visibility', $this->visibility);
+			$query->setQualifier('visibility', 'equals', $this->visibility);
 		}
 		return $query;
 	}

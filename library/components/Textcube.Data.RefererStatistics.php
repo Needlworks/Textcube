@@ -107,8 +107,8 @@ class RefererStatistics {
 		if (empty($this->host))
 			return $this->_error('host');
 		$query = new TableQuery($database['prefix'] . 'RefererStatistics');
-		$query->setQualifier('blogid', getBlogId());
-		$query->setQualifier('host', $this->host, true);
+		$query->setQualifier('blogid', 'equals', getBlogId());
+		$query->setQualifier('host', 'equals', $this->host, true);
 		if (isset($this->count)) {
 			if (!Validator::number($this->count, 1))
 				return $this->_error('count');

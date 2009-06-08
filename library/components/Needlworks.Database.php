@@ -24,10 +24,10 @@ switch($database['dbms']) {
 }
 
 //if(!class_exists('POD')) require_once ROOT.'/components/POD.Core.php';
-if(!class_exists('POD')) require_once ROOT.'/library/components/POD.Core.Legacy.php'; //1.6 Only uses legacy routine of POD. Will be changed from 1.6.1. (or later)
+if(!class_exists('POD')) require_once ROOT.'/library/components/POD.Core.Legacy.php'; //1.6 Only uses legacy routine of POD. Will be changed from 1.8 (or later)
 
 /* TableQuery */
-// class TableQuery will be depreacted after 1.6 tree.
+// class TableQuery will be depreacted after 1.8 tree.
 // (Will be replaced to POD Framework)
 
 class TableQuery {
@@ -40,6 +40,8 @@ class TableQuery {
 		$this->id = null;
 		$this->_attributes = array();
 		$this->_qualifiers = array();
+		$this->_relations = array();
+		$this->_filters = array();
 		$this->_reservedFields = POD::reservedFieldNames();
 		if(!empty($this->_reservedFields)) {
 			foreach($this->_reservedFields as $reserved) {
@@ -79,6 +81,7 @@ class TableQuery {
 	
 	function resetQualifiers() {
 		$this->_qualifiers = array();
+		$this->_relations = array();
 	}
 	
 	function getQualifiersCount() {
@@ -93,15 +96,41 @@ class TableQuery {
 		return $this->_qualifiers[$name];
 	}
 	
-	function setQualifier($name, $value, $escape = null) {
-		if (is_null($value))
+	function setQualifier($name, $condition, $value = null, $escape = null) {
+	//OR, setQualifier($name, $value, $escape = null) - Legacy mode 
+	//OR, setQualifier(string(name_condition_value), $escape = null)     - Descriptive mode (NOT implemented)
+	//OR, setQualifier($name, NULL)
+		if (is_null($condition)) {
 			$this->_qualifiers[$name] = 'NULL';
-		else
-			$this->_qualifiers[$name] = (is_null($escape) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
+		} else {
+			if(!is_null($escape) && in_array(strtolower($condition), array('equals','not','like'))) { 	// Legacy mode
+				$escape = $value;
+				$value = $condition;
+				$condition = null;
+			}
+			if(is_null($condition)) {
+				$this->_qualifiers[$name] = (is_null($escape) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
+				$this->_relations[$name] = '=';
+			} else {
+				switch(strtolower($condition)) {
+					case 'equals':
+						$this->_relations[$name] = '=';
+						break;
+					case 'not':
+						$this->_relations[$name] = 'NOT';
+						break;
+					case 'like':
+					default:
+						$this->_relations[$name] = 'LIKE';
+				}
+				$this->_qualifiers[$name] = (is_null($escape) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
+			}
+		}
 	}
 	
 	function unsetQualifier($name) {
 		unset($this->_qualifiers[$name]);
+		unset($this->_relations[$name]);
 	}
 	
 	function doesExist() {
@@ -195,7 +224,7 @@ class TableQuery {
 		foreach ($this->_qualifiers as $name => $value)
 			$clause .= (strlen($clause) ? ' AND ' : '') . 
 				(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) .
-				'=' . $value;
+				' '.$this->_relations[$name] . ' ' . $value;
 		return (strlen($clause) ? ' WHERE ' . $clause : '');
 	}
 

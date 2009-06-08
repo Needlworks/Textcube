@@ -127,12 +127,12 @@ class UserInfo {
 	function _buildQuery() {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'Users');
-		$query->setQualifier('userid', getUserId());
+		$query->setQualifier('userid', 'equals', getUserId());
 		
 		if (isset($this->userid)) {
 			if (!Validator::number($this->userid, 1))
 				return $this->_error('userid');
-			$query->setQualifier('userid', $this->userid);
+			$query->setQualifier('userid', 'equals', $this->userid);
 		}
 		
 		if (isset($this->loginid)) {

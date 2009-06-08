@@ -137,7 +137,7 @@ class CommentNotifiedSiteInfo {
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
-			$query->setQualifier('id', $this->id);
+			$query->setQualifier('id', 'equals',$this->id);
 		}
 		if (isset($this->title)) {
 			$this->title = UTF8::lessenAsEncoding(trim($this->title), 255);

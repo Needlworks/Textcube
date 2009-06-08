@@ -366,8 +366,8 @@ class Auth {
 			$userid = getUserIdByEmail($loginid);
 			if(!empty($userid) && !is_null($userid)) {
 				$query = new TableQuery($database['prefix']. 'UserSettings');
-				$query->setQualifier('userid',$userid);
-				$query->setQualifier('name','AuthToken',true);
+				$query->setQualifier('userid','equals',$userid);
+				$query->setQualifier('name','equals','AuthToken',true);
 				$authtoken = $query->getCell('value');
 				if (!empty($authtoken) && ($authtoken === $password)) {	// If user requested auth token, use it to confirm.
 					$session['userid'] = $userid;

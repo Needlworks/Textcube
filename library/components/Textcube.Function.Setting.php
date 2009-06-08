@@ -37,8 +37,8 @@ class Setting {
 		if(is_null($blogid)) $blogid = getBlogId();
 		if($directAccess == true) {
 			$query = new TableQuery($database['prefix']. 'BlogSettings');
-			$query->setQualifier('blogid', $blogid);
-			$query->setQualifier('name',$name, true);
+			$query->setQualifier('blogid', 'equals', $blogid);
+			$query->setQualifier('name', 'equals', $name, true);
 			return $query->getCell('value');
 		}
 		$settings = Setting::getBlogSettingsGlobal(($blogid == null ? getBlogId() : $blogid)); 
@@ -65,7 +65,7 @@ class Setting {
 		}
 
 		$query = new TableQuery($database['prefix'] . 'BlogSettings');
-		$query->setQualifier('blogid',$blogid);
+		$query->setQualifier('blogid', 'equals', $blogid);
 		$blogSettings = $query->getAll();
 		if( $blogSettings ) {
 			$result = array();
@@ -139,8 +139,8 @@ class Setting {
 			// overwrite value
 			$__gCacheBlogSettings[$blogid][$name] = $value;
 			$query = new TableQuery($database['prefix'] . 'BlogSettings');
-			$query->setQualifier('blogid', $blogid);
-			$query->setQualifier('name', $name, true);
+			$query->setQualifier('blogid', 'equals', $blogid);
+			$query->setQualifier('name', 'equals', $name, true);
 			$query->setAttribute('blogid', $blogid);
 			$query->setAttribute('name', $name, true);
 			$query->setAttribute('value',$value, true);
@@ -160,8 +160,8 @@ class Setting {
 		global $database;
 		if(is_null($blogid)) $blogid = getBlogId();
 		$query = new TableQuery($database['prefix'] . 'BlogSettings');
-		$query->setQualifier('blogid', $blogid);
-		$query->setQualifier('name', $name, true);
+		$query->setQualifier('blogid', 'equals', $blogid);
+		$query->setQualifier('name', 'equals', $name, true);
 		$query->setAttribute('blogid', $blogid);
 		$query->setAttribute('name', $name, true);
 		$query->setAttribute('value',$value, true);
@@ -191,8 +191,8 @@ class Setting {
 			$gCacheStorage->purge();
 			unset($__gCacheBlogSettings[$blogid][$name]);
 			$query = new TableQuery($database['prefix'] . 'BlogSettings');
-			$query->setQualifier('blogid',$blogid);
-			$query->setQualifier('name',$name);
+			$query->setQualifier('blogid','equals', $blogid);
+			$query->setQualifier('name','equals', $name);
 			return $query->delete();
 		}
 		
@@ -234,14 +234,14 @@ class Setting {
 		global $database, $userSetting;
 		if($directAccess !== false) {
 			$query = new TableQuery($database['prefix'] . 'UserSettings');
-			$query->setQualifier('userid',$userid);
-			$query->setQualifier('name',$name, true);
+			$query->setQualifier('userid','equals', $userid);
+			$query->setQualifier('name','equals', $name, true);
 			return $query->getCell('value');
 		}
 		if( empty($userSetting) || !isset($userSetting[$userid])) {
 			$userid = is_null($userid) ? getUserId() :  $userid;
 			$query = new TableQuery($database['prefix'] . 'UserSettings');
-			$query->setQualifier('userid',$userid);
+			$query->setQualifier('userid','equals', $userid);
 			$settings = $query->getAll('name, value');	
 			foreach( $settings as $k => $v ) {
 				$userSetting[$userid][ $v[0] ] = $v[1];
@@ -262,12 +262,10 @@ class Setting {
 	function setUserSettingGlobal($name, $value, $userid = null) {
 		global $database;
 		if(is_null($userid)) $userid = getUserId();
-		$name = POD::escapeString($name);
-		$value = POD::escapeString($value);
 		clearUserSettingCache();
 		$query = new TableQuery($database['prefix'] . 'UserSettings');
-		$query->setQualifier('userid', $userid);
-		$query->setQualifier('name', $name, true);
+		$query->setQualifier('userid', 'equals', $userid);
+		$query->setQualifier('name', 'equals', $name, true);
 		$query->setAttribute('userid', $userid);
 		$query->setAttribute('name', $name, true);
 		$query->setAttribute('value',$value, true);
@@ -284,8 +282,8 @@ class Setting {
 		global $database;
 		clearUserSettingCache();
 		$query = new TableQuery($database['prefix'] . 'UserSettings');
-		$query->setQualifier('userid',(is_null($userid) ? getUserId() : $userid));
-		$query->setQualifier('name',$name,true);
+		$query->setQualifier('userid', 'equals', (is_null($userid) ? getUserId() : $userid));
+		$query->setQualifier('name','equals', $name,true);
 		return $query->delete();
 	}
 
@@ -311,7 +309,7 @@ class Setting {
 		$name = UTF8::lessenAsEncoding($name, 32);
 		$value = UTF8::lessenAsEncoding($value, 255);
 		$query = new TableQuery($database['prefix'] . 'ServiceSettings');
-		$query->setQualifier('name', $name, true);
+		$query->setQualifier('name', 'equals', $name, true);
 		$query->setAttribute('name', $name, true);
 		$query->setAttribute('value',$value, true);
 		if(!empty($__serviceSetting)) $__serviceSetting[$name] = $value;
@@ -323,7 +321,7 @@ class Setting {
 		if(is_null($global)) $name = 'plugin_' . $name;
 		$name = 'plugin_' . $name;
 		$query = new TableQuery($database['prefix'] . 'ServiceSettings');
-		$query->setQualifier('name',$name,true);
+		$query->setQualifier('name','equals', $name,true);
 		return $query->delete();
 	}
 

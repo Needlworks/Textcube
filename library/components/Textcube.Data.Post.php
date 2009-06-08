@@ -113,7 +113,7 @@ class Post {
 		if (!isset($this->id) || $query->doesExist() || $this->doesExist($this->id)) {
 			$this->id = $this->nextEntryId(); // Added (#300)
 		}
-		$query->setQualifier('id', $this->id);
+		$query->setQualifier('id', 'equals', $this->id);
 
 		if (empty($this->starred))
 			$this->starred = 0;
@@ -305,9 +305,9 @@ class Post {
 			$this->slogan = $slogan;
 
 		$query = new TableQuery($database['prefix'] . 'Entries');
-		$query->setQualifier('blogid',$this->blogid);
-		if(isset($this->userid)) $query->setQualifier('userid', $this->userid);
-		$query->setQualifier('id', $this->id);
+		$query->setQualifier('blogid', 'equals', $this->blogid);
+		if(isset($this->userid)) $query->setQualifier('userid', 'equals', $this->userid);
+		$query->setQualifier('id', 'equals', $this->id);
 		if (!$query->doesExist())
 			return $this->_error('id');
 
@@ -551,16 +551,16 @@ class Post {
 		global $database;
 		$this->init();
 		$query = new TableQuery($database['prefix'] . 'Entries');
-		$query->setQualifier('blogid', $this->blogid);
+		$query->setQualifier('blogid', 'equals', $this->blogid);
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
-			$query->setQualifier('id', $this->id);
+			$query->setQualifier('id', 'equals', $this->id);
 		} 
 		if (isset($this->userid)) {
 			if (!Validator::number($this->userid, 1))
 				return $this->_error('userid');
-			$query->setQualifier('userid', $this->userid);
+			$query->setQualifier('userid', 'equals', $this->userid);
 		} 
 		if (isset($this->title))
 			$query->setAttribute('title', UTF8::lessenAsEncoding($this->title, 255), true);

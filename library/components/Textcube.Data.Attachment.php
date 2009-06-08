@@ -170,8 +170,8 @@ class Attachment {
 
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'Attachments');
-		$query->setQualifier('blogid', getBlogId());
-		$query->setQualifier('name', $this->name, true);
+		$query->setQualifier('blogid', 'equals', getBlogId());
+		$query->setQualifier('name', 'equals', $this->name, true);
 		if (isset($this->parent)) {
 			if (!Validator::number($this->parent, -1))
 				return $this->_error('parent');

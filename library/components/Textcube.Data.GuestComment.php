@@ -124,12 +124,12 @@ class GuestComment {
 	function _buildQuery() {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'Comments');
-		$query->setQualifier('blogid', getBlogId());
-		$query->setQualifier('entry', 0);
+		$query->setQualifier('blogid', 'equals', getBlogId());
+		$query->setQualifier('entry', 'equals', 0);
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
-			$query->setQualifier('id', $this->id);
+			$query->setQualifier('id', 'equals', $this->id);
 		}
 		if (isset($this->parent)) {
 			if (!Validator::number($this->parent, 1))

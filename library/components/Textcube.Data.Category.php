@@ -80,17 +80,17 @@ class Category {
 			return $this->_error('name');
 		
 		$query = new TableQuery($database['prefix'] . 'Categories');
-		$query->setQualifier('blogid', getBlogId());
+		$query->setQualifier('blogid', 'equals', getBlogId());
 		if (isset($this->parent)) {
 			if (is_null($parentLabel = Category::getLabel($this->parent)))
 				return $this->_error('parent');
-			$query->setQualifier('parent', $this->parent);
+			$query->setQualifier('parent', 'equals', $this->parent);
 			$query->setAttribute('label', UTF8::lessenAsEncoding($parentLabel . '/' . $this->name, 255), true);
 		} else {
 			$query->setQualifier('parent', null);
 			$query->setAttribute('label', $this->name, true);
 		}
-		$query->setQualifier('name', $this->name, true);
+		$query->setQualifier('name', 'equals', $this->name, true);
 
 		if (isset($this->priority)) {
 			if (!is_numeric($this->priority))
@@ -108,7 +108,7 @@ class Category {
 
 		if (!isset($this->id)) {
 			$this->id = $this->getNextCategoryId();
-			$query->setQualifier('id', $this->id);
+			$query->setQualifier('id', 'equals', $this->id);
 		}
 
 		if (!$query->insert())

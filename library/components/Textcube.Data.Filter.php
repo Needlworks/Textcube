@@ -148,11 +148,11 @@ class Filter {
 	function _buildQuery() {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'Filters');
-		$query->setQualifier('blogid', getBlogId());
+		$query->setQualifier('blogid','equals',  getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
-			$query->setQualifier('id', $this->id);
+			$query->setQualifier('id', 'equals', $this->id);
 		}
 		if (isset($this->filtertype)) {
 			switch ($this->filtertype) {
@@ -168,7 +168,7 @@ class Filter {
 			if (isset($this->id))
 				$query->setAttribute('filtertype', $this->type, false);
 			else
-				$query->setQualifier('filtertype', $this->type, false);
+				$query->setQualifier('filtertype', 'equals', $this->type, false);
 		}
 		if (isset($this->pattern)) {
 			$this->pattern = UTF8::lessenAsEncoding(trim($this->pattern), 255);
@@ -177,7 +177,7 @@ class Filter {
 			if (isset($this->id))
 				$query->setAttribute('pattern', $this->pattern, true);
 			else
-				$query->setQualifier('pattern', $this->pattern, true);
+				$query->setQualifier('pattern', 'equals', $this->pattern, true);
 		}
 		return $query;
 	}

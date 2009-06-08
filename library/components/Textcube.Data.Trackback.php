@@ -113,22 +113,22 @@ class Trackback {
 	function _buildQuery() {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'Trackbacks');
-		$query->setQualifier('blogid', getBlogId());
+		$query->setQualifier('blogid', 'equals', getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
-			$query->setQualifier('id', $this->id);
+			$query->setQualifier('id', 'equals', $this->id);
 		}
 		if (isset($this->entry)) {
 			if (!Validator::number($this->entry, 1))
 				return $this->_error('entry');
-			$query->setQualifier('entry', $this->entry);
+			$query->setQualifier('entry', 'equals', $this->entry);
 		}
 		if (isset($this->url)) {
 			$this->url = UTF8::lessenAsEncoding(trim($this->url), 255);
 			if (empty($this->url))
 				return $this->_error('url');
-			$query->setQualifier('url', $this->url, true);
+			$query->setQualifier('url', 'equals', $this->url, true);
 		}
 		if (isset($this->site)) {
 			$this->site = UTF8::lessenAsEncoding(trim($this->site), 255);

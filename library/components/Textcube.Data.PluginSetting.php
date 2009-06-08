@@ -78,10 +78,10 @@ class PluginSetting {
 		
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'Plugins');
-		$query->setQualifier('blogid', getBlogId());
-		$query->setQualifier('name', POD::escapeString(UTF8::lessenAsEncoding($this->name, 255)), true);
+		$query->setQualifier('blogid', 'equals', getBlogId());
+		$query->setQualifier('name', 'equals', UTF8::lessenAsEncoding($this->name, 255), true);
 		if (isset($this->setting))
-			$query->setAttribute('settings', POD::escapeString($this->setting), true);
+			$query->setAttribute('settings', $this->setting), true);
 		return $query;
 	}
 

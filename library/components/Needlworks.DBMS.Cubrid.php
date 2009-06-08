@@ -62,11 +62,11 @@ class DBQuery {
 			$__dbProperties['tableList'] = DBQuery::queryColumn("SELECT class_name FROM db_class WHERE is_system_class = 'NO'");
 		}
 		if(!is_null($condition)) {
-			var_dump($__dbProperties['tableList']);
+			$result = array();
 			foreach($__dbProperties['tableList'] as $item) {
-				if(strpos($item, $condition) === 0) array_push($result, $item);
+				if(strpos($item, $condition) === 0) {array_push($result, $item);}
 			}
-			return $item;
+			return $result;
 		} else {
 			return $__dbProperties['tableList'];
 		}
