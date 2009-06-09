@@ -88,8 +88,20 @@ class DBQuery {
 		/// Bypassing compatiblitiy issue : will be replace to NAF2.
 		if($compatibility) {
 			$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compatibility issue.
-
-			if(stripos($query, "GROUP BY")!==false) {
+			if(stripos($query, "ORDER BY")!==false) {
+				$origPagingInst = array(
+					'/([AD]ESC) LIMIT ([0-9]+) OFFSET 0/si',
+					'/([AD]ESC) LIMIT ([0-9]+) OFFSET ([0-9]+)/si',
+					'/([AD]ESC) LIMIT 1(^[0-9])/si',
+					'/([AD]ESC) LIMIT ([0-9]+)/si'
+				);
+				$descPagingInst = array(
+					'$1 FOR ORDERBY_NUM() BETWEEN 1 AND $2',
+					'$1 FOR ORDERBY_NUM() BETWEEN ($3+1) AND ($2+$3)',
+					'$1 FOR ORDERBY_NUM() = 1',
+					'$1 FOR ORDERBY_NUM() BETWEEN 1 AND $2'
+				);
+			} else if(stripos($query, "GROUP BY")!==false) {
 				$origPagingInst = array(
 					'/GROUP BY(.*)(ORDER BY)(.*)([AD]ESC) LIMIT ([0-9]+) OFFSET 0/si',
 					'/GROUP BY(.*)(ORDER BY)(.*)([AD]ESC) LIMIT ([0-9]+) OFFSET ([0-9]+)/si',
@@ -110,10 +122,10 @@ class DBQuery {
 					'/WHERE(.*)LIMIT ([0-9]+)/si'
 					);
 				$descPagingInst = array(
-					'WHERE ROWNUM between 1 and $2 AND $1',	
-					'WHERE ROWNUM between ($3+1) and ($2+$3) AND $1',
+					'WHERE ROWNUM BETWEEN 1 AND $2 AND $1',	
+					'WHERE ROWNUM BETWEEN ($3+1) AND ($2+$3) AND $1',
 					'WHERE ROWNUM = 1 AND $1',
-					'WHERE ROWNUM between 1 and $2 AND $1'
+					'WHERE ROWNUM BETWEEN 1 AND $2 AND $1'
 					);
 			}
 			$query = preg_replace($origPagingInst, $descPagingInst,$query);
