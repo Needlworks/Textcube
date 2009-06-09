@@ -9,6 +9,7 @@ function getArchives($blogid) {
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$skinSetting = getSkinSetting($blogid);
 	$archivesonpage = $skinSetting['archivesonpage'];
+	
 	switch (POD::dbms()) {
 		case 'PostgreSQL':
 			$sql = "SELECT EXTRACT(YEAR FROM FROM_UNIXTIME(e.published)) AS year, EXTRACT(MONTH FROM FROM_UNIXTIME(e.published)) AS month, COUNT(*) AS count 
@@ -26,12 +27,13 @@ function getArchives($blogid) {
 			}
 			break;
 		case 'Cubrid':
-			$sql = "SELECT TO_CHAR(to_timestamp('09:00:00 AM 01/01/1970')+e.published, 'YYYYMM') period,         COUNT(*) \"count\"
+			$sql = "SELECT TO_CHAR(to_timestamp('09:00:00 AM 01/01/1970')+e.published, 'YYYYMM') period, 
+				COUNT(*) \"count\"
 				FROM {$database['prefix']}Entries e
 				WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 				GROUP BY TO_CHAR(to_timestamp('09:00:00 AM 01/01/1970')+e.published, 'YYYYMM') 
 				ORDER BY period
-				DESC FOR ORDERBY_NUM() BETWEEN 1 AND $archivesOnPage";
+				DESC FOR ORDERBY_NUM() BETWEEN 1 AND $archivesonpage";
 			$result = POD::queryAllWithDBCache($sql, 'entry');
 			if($result) {
 				foreach($result as $archive)

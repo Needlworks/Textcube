@@ -90,10 +90,10 @@ class DBQuery {
 			$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compatibility issue.
 			if(stripos($query, "ORDER BY")!==false) {
 				$origPagingInst = array(
-					'/([AD]ESC) LIMIT ([0-9]+) OFFSET 0/si',
-					'/([AD]ESC) LIMIT ([0-9]+) OFFSET ([0-9]+)/si',
-					'/([AD]ESC) LIMIT 1(^[0-9])/si',
-					'/([AD]ESC) LIMIT ([0-9]+)/si'
+					'/(ASC|DESC) LIMIT ([0-9]+) OFFSET 0/si',
+					'/(ASC|DESC) LIMIT ([0-9]+) OFFSET ([0-9]+)/si',
+					'/(ASC|DESC) LIMIT 1(^[0-9])/si',
+					'/(ASC|DESC) LIMIT ([0-9]+)/si'
 				);
 				$descPagingInst = array(
 					'$1 FOR ORDERBY_NUM() BETWEEN 1 AND $2',
@@ -103,10 +103,10 @@ class DBQuery {
 				);
 			} else if(stripos($query, "GROUP BY")!==false) {
 				$origPagingInst = array(
-					'/GROUP BY(.*)(ORDER BY)(.*)([AD]ESC) LIMIT ([0-9]+) OFFSET 0/si',
-					'/GROUP BY(.*)(ORDER BY)(.*)([AD]ESC) LIMIT ([0-9]+) OFFSET ([0-9]+)/si',
-					'/GROUP BY(.*)(ORDER BY)(.*)([AD]ESC) LIMIT 1(^[0-9])/si',
-					'/GROUP BY(.*)(ORDER BY)(.*)([AD]ESC) LIMIT ([0-9]+)/si'
+					'/GROUP BY(.*)(ORDER BY)(.*)(ASC|DESC) LIMIT ([0-9]+) OFFSET 0/si',
+					'/GROUP BY(.*)(ORDER BY)(.*)(ASC|DESC) LIMIT ([0-9]+) OFFSET ([0-9]+)/si',
+					'/GROUP BY(.*)(ORDER BY)(.*)(ASC|DESC) LIMIT 1(^[0-9])/si',
+					'/GROUP BY(.*)(ORDER BY)(.*)(ASC|DESC) LIMIT ([0-9]+)/si'
 				);
 				$descPagingInst = array(
 					'GROUP BY $1 HAVING GROUPBY_NUM() = $5 $2 $3 $4',
