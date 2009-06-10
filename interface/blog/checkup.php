@@ -431,11 +431,9 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 				CHANGE entryTitle entrytitle varchar(255) NOT NULL DEFAULT '',
 				CHANGE entryURL entryurl varchar(255) NOT NULL DEFAULT ''")
 			&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotifiedQueue
-				DROP UNIQUE KEY commentId,
 				CHANGE commentId commentid int(11) NOT NULL default 0,
 				CHANGE sendStatus sendstatus int(1) NOT NULL default 0,
-				CHANGE checkDate checkdate int(11) NOT NULL DEFAULT 0,
-				ADD UNIQUE KEY commentid (commentid)")
+				CHANGE checkDate checkdate int(11) NOT NULL DEFAULT 0")
 			&& POD::execute("ALTER TABLE {$database['prefix']}DailyStatistics
 				DROP PRIMARY KEY,
 				CHANGE date datemark int(11) NOT NULL default 0,
@@ -451,7 +449,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			&& POD::execute("ALTER TABLE {$database['prefix']}FeedGroupRelations
 				DROP PRIMARY KEY,
 				CHANGE groupId groupid int(11) NOT NULL default 0,
-				ADD PRIMARY KEY (blog, feed, groupid)")
+				ADD PRIMARY KEY (blogid, feed, groupid)")
 			&& POD::execute("ALTER TABLE {$database['prefix']}FeedSettings
 				CHANGE updateCycle updatecycle int(11) NOT NULL DEFAULT 120,
 				CHANGE feedLife feedlife int(11) NOT NULL DEFAULT 30,
@@ -495,7 +493,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 				CHANGE activeColorOnTree activecolorontree varchar(6) NOT NULL default 'FFFFFF',
 				CHANGE activeBgColorOnTree activebgcolorontree varchar(6) NOT NULL default '00ADEF',
 				CHANGE labelLengthOnTree labellengthontree int(11) NOT NULL default '30',
-				CHANGE showValueOnTree showvalueontree int(1) NOT NULL default '1')
+				CHANGE showValueOnTree showvalueontree int(1) NOT NULL default '1'")
 			&& POD::execute("ALTER TABLE {$database['prefix']}Trackbacks
 				DROP KEY isFiltered, 
 				CHANGE isFiltered isfiltered int(11) NOT NULL default 0,

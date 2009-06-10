@@ -62,15 +62,16 @@ class DBQuery {
 			$__dbProperties['tableList'] = DBQuery::queryAll('SHOW TABLES');
 		}
 		if(!is_null($condition)) {
+			$result = array();
 			foreach($__dbProperties['tableList'] as $item) {
 				if(strpos($item[0], $condition) === 0) array_push($result, $item[0]);
 			}
-			return $item;
+			return $result;
 		} else {
 			return $__dbProperties['tableList'];
 		}
 	}
-
+	
 	function setTimezone($time) {
 		return DBQuery::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
 	}
