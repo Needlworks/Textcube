@@ -511,9 +511,8 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		else {
 			showCheckupMessage(false);
 		}
-	}		
+	}	
 }
-//if(!in_array(POD::dbms(), array('MySQL','MySQLi'))) 
 
 /***** Common parts. *****/
 if(doesHaveOwnership()) clearCache();
