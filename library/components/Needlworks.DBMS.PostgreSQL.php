@@ -82,11 +82,12 @@ class DBQuery {
 	}
 
 	/*@static@*/
-	function query($query) {
+	function query($query $compatiblity = true) {
 		global $__gLastQueryType;
-		/// Bypassing compartiblitiy issue : will be replace to NAF2.
-		$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compartibility issue.
-		
+		/// Bypassing compatiblitiy issue : will be replace to NAF2.
+		if($compatibility) {
+		$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compatibility issue.
+		}		
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);
 			$result = pg_query($query);

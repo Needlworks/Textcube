@@ -30,7 +30,7 @@ CREATE TABLE [##_dbPrefix_##]Categories (
   name varchar(127) NOT NULL default '',
   priority int(11) NOT NULL default '0',
   entries int(11) NOT NULL default '0',
-  entriesInLogin int(11) NOT NULL default '0',
+  entriesinlogin int(11) NOT NULL default '0',
   label varchar(255) NOT NULL default '',
   visibility tinyint(4) NOT NULL default '2',
   bodyid varchar(20) default NULL,

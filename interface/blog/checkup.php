@@ -150,8 +150,8 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			title varchar(255) NOT NULL default '',
 			slogan varchar(255) NOT NULL default '',
 			content mediumtext NOT NULL,
-			contentformatter varchar(32) DEFAULT '' NOT NULL,
-			contenteditor varchar(32) DEFAULT '' NOT NULL,
+			contentFormatter varchar(32) DEFAULT '' NOT NULL,
+			contentEditor varchar(32) DEFAULT '' NOT NULL,
 			location varchar(255) NOT NULL default '/',
 			password varchar(32) default NULL,
 			created int(11) NOT NULL default '0',
@@ -176,9 +176,9 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		  blogid int(11) NOT NULL default '0',
 		  openid varchar(128) NOT NULL,
 		  delegatedid varchar(128) default NULL,
-		  firstlogin int(11) default NULL,
-		  lastlogin int(11) default NULL,
-		  logincount int(11) default NULL,
+		  firstLogin int(11) default NULL,
+		  lastLogin int(11) default NULL,
+		  loginCount int(11) default NULL,
 		  data text,
 		  PRIMARY KEY  (blogid,openid)
 		) TYPE=MyISAM
@@ -256,7 +256,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs DROP INDEX id");
 		if (POD::execute("ALTER TABLE {$database['prefix']}Trackbacks 
 				DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, id),
-				ADD INDEX blogid (blogid, isfiltered, written)")
+				ADD INDEX blogid (blogid, isFiltered, written)")
 			&&POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs
 				DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, entry, id), ADD UNIQUE id (blogid, id)"))
 			showCheckupMessage(true);
@@ -283,10 +283,10 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			showCheckupMessage(false);
 	}
 
-	if (!POD::queryExistence("DESC {$database['prefix']}SkinSettings showlistonauthor")) {
+	if (!POD::queryExistence("DESC {$database['prefix']}SkinSettings showListOnAuthor")) {
 		$changed = true;
 		echo '<li>', _text('스킨 설정 테이블에 저자별 페이지 출력 설정을 위한 필드를 추가합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD showlistonauthor TINYINT(4) DEFAULT 1 NOT NULL AFTER showlistontag"))
+		if (POD::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD showListOnAuthor TINYINT(4) DEFAULT 1 NOT NULL AFTER showListOnTag"))
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
@@ -397,6 +397,121 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		else
 			showCheckupMessage(false);
 	}
+	/* From Textcube 1.7.9 (backport branch) */
+	if (POD::queryCell("DESC {$database['prefix']}FeedItems id", 'Extra') == 'auto_increment') {
+		$changed = true;
+		echo '<li>', _text('다양한 데이터베이스 엔진 호환성을 위하여 자동 증가 설정을 제거합니다.'), ': ';
+		if (
+			POD::execute("ALTER TABLE {$database['prefix']}FeedItems CHANGE id id int(11) NOT NULL")
+			&& POD::execute("ALTER TABLE {$database['prefix']}Feeds CHANGE id id int(11) NOT NULL")
+			&& POD::execute("ALTER TABLE {$database['prefix']}Filters CHANGE id id int(11) NOT NULL")
+			&& POD::execute("ALTER TABLE {$database['prefix']}Tags CHANGE id id int(11) NOT NULL")
+			&& POD::execute("ALTER TABLE {$database['prefix']}Users CHANGE userid userid int(11) NOT NULL")
+			)
+			showCheckupMessage(true);
+		else {
+			showCheckupMessage(false);
+		}
+	}
+	if (POD::queryExistence("DESC {$database['prefix']}Categories bodyId")) {
+		$changed = true;
+		echo '<li>', _text('다양한 데이터베이스 엔진 호환성을 위하여 모든 필드의 이름을 소문자로 변환합니다.'), ': ';
+		if (
+			POD::execute("ALTER TABLE {$database['prefix']}Categories 
+				CHANGE entriesInLogin entriesinlogin int(11) NOT NULL default 0,
+				CHANGE bodyId bodyid varchar(20) DEFAULT NULL")
+			&& POD::execute("ALTER TABLE {$database['prefix']}Comments 
+				DROP KEY isFiltered,
+				CHANGE isFiltered isfiltered int(11) NOT NULL DEFAULT 0,
+				ADD KEY isfiltered (isfiltered)")
+			&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotified 
+				CHANGE siteId siteid int(11) NOT NULL default 0,
+				CHANGE isNew isnew int(1) NOT NULL default 1,
+				CHANGE remoteId remoteid int(11) NOT NULL DEFAULT 0,
+				CHANGE entryTitle entrytitle varchar(255) NOT NULL DEFAULT '',
+				CHANGE entryURL entryurl varchar(255) NOT NULL DEFAULT ''")
+			&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotifiedQueue
+				DROP UNIQUE KEY commentId,
+				CHANGE commentId commentid int(11) NOT NULL default 0,
+				CHANGE sendStatus sendstatus int(1) NOT NULL default 0,
+				CHANGE checkDate checkdate int(11) NOT NULL DEFAULT 0,
+				ADD UNIQUE KEY commentid (commentid)")
+			&& POD::execute("ALTER TABLE {$database['prefix']}DailyStatistics
+				DROP PRIMARY KEY,
+				CHANGE date datemark int(11) NOT NULL default 0,
+				ADD PRIMARY KEY (blogid, datemark)")				
+			&& POD::execute("ALTER TABLE {$database['prefix']}Entries
+				CHANGE contentFormatter contentformatter varchar(32) DEFAULT '' NOT NULL,
+				CHANGE contentEditor contenteditor varchar(32) DEFAULT '' NOT NULL,
+				CHANGE acceptComment acceptcomment int(1) NOT NULL DEFAULT 1,
+				CHANGE acceptTrackback accepttrackback int(1) NOT NULL DEFAULT 1")
+			&& POD::execute("ALTER TABLE {$database['prefix']}EntriesArchive
+				CHANGE contentFormatter contentformatter varchar(32) DEFAULT '' NOT NULL,
+				CHANGE contentEditor contenteditor varchar(32) DEFAULT '' NOT NULL")				
+			&& POD::execute("ALTER TABLE {$database['prefix']}FeedGroupRelations
+				DROP PRIMARY KEY,
+				CHANGE groupId groupid int(11) NOT NULL default 0,
+				ADD PRIMARY KEY (blog, feed, groupid)")
+			&& POD::execute("ALTER TABLE {$database['prefix']}FeedSettings
+				CHANGE updateCycle updatecycle int(11) NOT NULL DEFAULT 120,
+				CHANGE feedLife feedlife int(11) NOT NULL DEFAULT 30,
+				CHANGE loadImage loadimge int(11) NOT NULL DEFAULT 1,
+				CHANGE allowScript allowscript int(11) NOT NULL DEFAULT 2,
+				CHANGE newWindow newwindow int(11) NOT NULL DEFAULT 1")
+			&& POD::execute("ALTER TABLE {$database['prefix']}Feeds
+				CHANGE xmlURL xmlurl varchar(255) NOT NULL DEFAULT '',
+				CHANGE blogURL blogurl varchar(255) NOT NULL DEFAULT ''")			
+			&& POD::execute("ALTER TABLE {$database['prefix']}OpenIDUsers 
+				CHANGE firstLogin firstlogin int(11) default NULL,
+				CHANGE lastLogin lastlogin int(11) default NULL")
+			&& POD::execute("ALTER TABLE {$database['prefix']}OpenIDUsers
+				CHANGE data openidinfo text, 
+				CHANGE firstLogin firstlogin int(11) default NULL,
+				CHANGE lastLogin lastlogin int(11) default NULL")
+			&& POD::execute("ALTER TABLE {$database['prefix']}Sessions
+				CHANGE data privilege text")										
+			&& POD::execute("ALTER TABLE {$database['prefix']}SkinSettings
+				CHANGE entriesOnRecent entriesonrecent int(11) NOT NULL default '10',
+				CHANGE commentsOnRecent commentsonrecent int(11) NOT NULL default '10',
+				CHANGE commentsOnGuestbook commentsonguestbook int(11) NOT NULL default '5',
+				CHANGE archivesOnPage archivesonpage int(11) NOT NULL default '5',
+				CHANGE tagsOnTagbox tagsontagbox tinyint(4) NOT NULL default '10',
+				CHANGE tagboxAlign tagboxalign tinyint(4) NOT NULL default '1',
+				CHANGE trackbacksOnRecent trackbacksonrecent int(11) NOT NULL default '5',
+				CHANGE expandComment expandcomment int(1) NOT NULL default '1',
+				CHANGE expandTrackback expandtrackback int(1) NOT NULL default '1',
+				CHANGE recentNoticeLength recentnoticelength int(11) NOT NULL default '30',
+				CHANGE recentEntryLength recententrylength int(11) NOT NULL default '30',
+				CHANGE recentCommentLength recentcommentlength int(11) NOT NULL default '30',
+				CHANGE recentTrackbackLength recenttrackbacklength int(11) NOT NULL default '30',
+				CHANGE linkLength linklength int(11) NOT NULL default '30',
+				CHANGE showListOnCategory showlistoncategory tinyint(4) NOT NULL default '1',
+				CHANGE showListOnArchive showlistonarchive tinyint(4) NOT NULL default '1',
+				CHANGE showListOnTag showlistontag tinyint(4) NOT NULL default '1',
+				CHANGE showListOnAuthor showlistonauthor tinyint(4) NOT NULL default '1',
+				CHANGE showListOnSearch showlistonsearch int(1) NOT NULL default '1',
+				CHANGE colorOnTree colorontree varchar(6) NOT NULL default '000000',
+				CHANGE bgColorOnTree bgcolorontree varchar(6) NOT NULL default '',
+				CHANGE activeColorOnTree activecolorontree varchar(6) NOT NULL default 'FFFFFF',
+				CHANGE activeBgColorOnTree activebgcolorontree varchar(6) NOT NULL default '00ADEF',
+				CHANGE labelLengthOnTree labellengthontree int(11) NOT NULL default '30',
+				CHANGE showValueOnTree showvalueontree int(1) NOT NULL default '1')
+			&& POD::execute("ALTER TABLE {$database['prefix']}Trackbacks
+				DROP KEY isFiltered, 
+				CHANGE isFiltered isfiltered int(11) NOT NULL default 0,
+				ADD KEY isfiltered (isfiltered)")
+			&& POD::execute("ALTER TABLE {$database['prefix']}Users
+				CHANGE lastLogin lastlogin int(11) NOT NULL default 0")
+			&& POD::execute("ALTER TABLE {$database['prefix']}Teamblog
+				CHANGE lastLogin lastlogin int(11) NOT NULL default 0")
+			&& POD::execute("ALTER TABLE {$database['prefix']}XMLRPCPingSettings
+				CHANGE type pingtype varchar(32) NOT NULL default 'xmlrpc'")				
+			)
+			showCheckupMessage(true);
+		else {
+			showCheckupMessage(false);
+		}
+	}		
 }
 //if(!in_array(POD::dbms(), array('MySQL','MySQLi'))) 
 
