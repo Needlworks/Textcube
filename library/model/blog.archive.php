@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-function getArchives($blogid) {
+function getArchives($blogid, $option = 'yearmonth') {
 	global $database;
 	$archives = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
@@ -12,22 +12,39 @@ function getArchives($blogid) {
 	
 	switch (POD::dbms()) {
 		case 'PostgreSQL':
+			if($option == 'year') $format = 'year';
+			else if ($option == 'month') $format = 'month';
+			else $format = 'year, month';
 			$sql = "SELECT EXTRACT(YEAR FROM FROM_UNIXTIME(e.published)) AS year, EXTRACT(MONTH FROM FROM_UNIXTIME(e.published)) AS month, COUNT(*) AS count 
 				FROM {$database['prefix']}Entries e
 				WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
-				GROUP BY year, month 
-				ORDER BY year, month
+				GROUP BY $format 
+				ORDER BY $format
 				DESC LIMIT $archivesonpage";
 			$result = POD::queryAllWithDBCache($sql, 'entry');
 			if ($result) {
 				foreach($result as $archive) {
-					$archive['period'] = $archive['year'].sprintf("%02d",$archive['month']);
+					switch ($option) {
+						case 'year':
+							$archive['period'] = $archive['year'];
+							break;
+						case 'month':
+							$archive['period'] = sprintf("%02d",$archive['month']);
+							break;
+						case 'yearmonth':
+						default:
+							$archive['period'] = $archive['year'].sprintf("%02d",$archive['month']);
+							break;
+					}
 					array_push($archives, $archive);
 				}
 			}
 			break;
 		case 'Cubrid':
-			$sql = "SELECT TO_CHAR(to_timestamp('09:00:00 AM 01/01/1970')+e.published, 'YYYYMM') period, 
+			if($option == 'year') $format = 'YYYY';
+			else if ($option == 'month') $format = 'MM';
+			else $format = 'YYYYMM';
+			$sql = "SELECT TO_CHAR(to_timestamp('09:00:00 AM 01/01/1970')+e.published, '$format') period, 
 				COUNT(*) \"count\"
 				FROM {$database['prefix']}Entries e
 				WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
@@ -43,7 +60,10 @@ function getArchives($blogid) {
 		case 'MySQL':
 		case 'MySQLi':
 		default:
-			$sql = "SELECT EXTRACT(year_month FROM FROM_UNIXTIME(e.published)) period, COUNT(*) count 
+			if($option == 'year') $format = 'year';
+			else if ($option == 'month') $format = 'month';
+			else $format = 'year_month';
+			$sql = "SELECT EXTRACT($format FROM FROM_UNIXTIME(e.published)) period, COUNT(*) count 
 				FROM {$database['prefix']}Entries e
 				WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 				GROUP BY period 
