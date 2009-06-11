@@ -15,6 +15,7 @@ if(!empty($database) && !empty($database["database"])) {
 		exit;
 	}
 }
+
 $database['utf8'] = (POD::charset() == 'utf8') ? true : false;
 
 /* Path-dependent environment setting
@@ -27,7 +28,6 @@ if (!defined('NO_SESSION')) {
 	require_once ROOT.'/library/session.php';
 	startSession();
 }
-
 if (!defined('NO_INITIALIZAION')) {
 	/* Get User information */
 	if (doesHaveMembership()) {

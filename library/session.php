@@ -215,7 +215,6 @@ function authorizeSession($blogid, $userid) {
 function sessionQuery($mode = 'query', $sql) {
 	global $database;
 	static $sessionDBRepair = false;
-	dumpAsFile($sql);
 	$result = _sessionQuery($mode, $sql);
 	if($result === false) {
 		if ($sessionDBRepair === false) {		
