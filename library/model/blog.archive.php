@@ -68,7 +68,7 @@ function getArchives($blogid, $option = 'yearmonth') {
 				WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 				GROUP BY period 
 				ORDER BY period 
-				DESC LIMIT $archivesOnPage";
+				DESC LIMIT $archivesonpage";
 			$result = POD::queryAllWithDBCache($sql, 'entry');
 			if ($result) {
 				foreach($result as $archive)
