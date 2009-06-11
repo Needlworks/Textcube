@@ -1339,6 +1339,7 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
   <input type="hidden" name="mode" value="<?php echo $_POST['mode'];?>" />
   <input type="hidden" name="dbms" value="<?php echo (isset($_POST['dbms']) ? $_POST['dbms'] : '');?>" />
   <input type="hidden" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : '');?>" />
+  <input type="hidden" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : '');?>" />
   <input type="hidden" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : '');?>" />
   <input type="hidden" name="dbUser" value="<?php echo (isset($_POST['dbUser']) ? $_POST['dbUser'] : '');?>" />
   <input type="hidden" name="dbPassword" value="<?php echo (isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '');?>" />
