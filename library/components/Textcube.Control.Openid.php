@@ -501,8 +501,8 @@ class OpenIDConsumer extends OpenID {
 	function getCommentInfo($blogid,$id){
 		global $database;
 
-		$sql="SELECT * FROM {$database['prefix']}Comments WHERE a.blogid = $blogid AND a.id = $id";
-		return POD::queryRow($sql, MYSQL_ASSOC);
+		$sql="SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id";
+		return POD::queryRow($sql, 'assoc');
 	}
 
 	function commentFetchHint( $comment_ids, $blogid )

@@ -49,7 +49,7 @@ class POD extends DBQuery {
 	/** Additional features for Textcube **/
 	/** NOTICE : PARTS BELOW EXTENDS DBQuery Class WHICH IS THE BASE OF POD
 	             AND WORKS ONLY WITH 'PageCache' Component in Textcube **/
-	function queryWithDBCache($query, $prefix = null, $type = MYSQL_BOTH, $count = -1) {
+	function queryWithDBCache($query, $prefix = null, $type = 'both', $count = -1) {
 //		requireComponent('Needlworks.Cache.PageCache');
 		$cache = new queryCache($query, $prefix);
 		if(!$cache->load()) {
@@ -58,7 +58,7 @@ class POD extends DBQuery {
 		}
 		return $cache->contents;
 	}
-	function queryAllWithDBCache($query, $prefix = null, $type = MYSQL_BOTH, $count = -1) {
+	function queryAllWithDBCache($query, $prefix = null, $type = 'both', $count = -1) {
 //		requireComponent('Needlworks.Cache.PageCache');
 		$cache = new queryCache($query, $prefix);
 		if(!$cache->load()) {
@@ -67,7 +67,7 @@ class POD extends DBQuery {
 		}
 		return $cache->contents;
 	}
-	function queryRowWithDBCache($query, $prefix = null, $type = MYSQL_BOTH, $count = -1) {
+	function queryRowWithDBCache($query, $prefix = null, $type = 'both', $count = -1) {
 //		requireComponent('Needlworks.Cache.PageCache');
 		$cache = new queryCache($query, $prefix);
 		if(!$cache->load()) {

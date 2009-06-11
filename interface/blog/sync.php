@@ -8,7 +8,7 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<response>\r\n";
 list($allComments, $allTrackbacks) = POD::queryRow("SELECT 
 		SUM(comments), SUM(trackbacks) 
 		FROM {$database['prefix']}Entries 
-		WHERE blogid = ".getBlogId()." AND draft = 0 AND visibility = 3", MYSQL_NUM);
+		WHERE blogid = ".getBlogId()." AND draft = 0 AND visibility = 3", 'num');
 if($entry = POD::queryRow("SELECT e.*, c.name AS categoryName 
 			FROM {$database['prefix']}Entries e 
 			LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
