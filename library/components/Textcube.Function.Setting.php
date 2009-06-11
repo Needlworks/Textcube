@@ -201,25 +201,20 @@ class Setting {
 	}
 
 	// For plugin-specific use.
-	function getBlogSetting($name, $default = null) {
-		$settings = Setting::getBlogSettingsGlobal(getBlogId()); // from blog.service.php
-		if ($settings === false) return $default;
-		$name = 'plugin_' . $name;
-		if( isset($settings[$name]) ) {
-			return $settings[$name];
-		}
-		return $default;
+	function getBlogSetting($name, $default = null, $global = null) {
+		if(is_null($global)) $name = 'plugin_' . $name;
+		return Setting::getBlogSettingGlobal($name, $default, getBlogId(), false);
 	}
 	
-	function setBlogSetting($name, $value) {
+	function setBlogSetting($name, $value, $global = null) {
 		global $database, $blogid;
-		$name = 'plugin_' . $name;
+		if(is_null($global)) $name = 'plugin_' . $name;
 		return Setting::setBlogSettingGlobal($name, $value);
 	}
 	
-	function removeBlogSetting($name) {
+	function removeBlogSetting($name, $global = null) {
 		global $database, $blogid;
-		$name = 'plugin_' . $name;
+		if(is_null($global)) $name = 'plugin_' . $name;
 		return Setting::removeBlogSettingGlobal($name);
 	}
 
