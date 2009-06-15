@@ -212,12 +212,12 @@ CREATE TABLE [##_dbPrefix_##]Feeds (
   PRIMARY KEY  (id)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]Filters (
-  id int(11) NOT NULL auto_increment,
+  id int(11) NOT NULL default 0, 
   blogid int(11) NOT NULL default '0',
   filtertype enum('content','ip','name','url') NOT NULL default 'content',
   pattern varchar(255) NOT NULL default '',
   PRIMARY KEY (id),
-  UNIQUE KEY blogid (blogid, type, pattern)
+  UNIQUE KEY blogid (blogid, filtertype, pattern)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]Links (
   pid int(11) NOT NULL default '0',
