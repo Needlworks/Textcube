@@ -3,7 +3,6 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 ini_set('display_errors', 'off');
-$_POST['importFrom'] = 'server';
 $IV = array(
 	'POST' => array(
 		'importFrom' => array(array('server', 'uploaded', 'web')),
@@ -15,7 +14,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/includeForBlogOwner.php';
-//requireStrictRoute();
+requireStrictRoute();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
