@@ -91,7 +91,7 @@ function getTeamBlogSettings() {
 	$teamblog_user = POD::queryRow("SELECT name, loginid FROM {$database['prefix']}Users WHERE userid=".getUserId());
 	$row = POD::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =".getBlogId()." and userid=".getUserId());
 	if(!$row){
-		POD::execute("INSERT INTO {$database['prefix']}TeamUserSettings (blogid,userid,style,image,profile,updated) VALUES('".getBlogId()."','".getUserId()."','','', '',UNIX_TIMESTAMP())");
+		POD::execute("INSERT INTO {$database['prefix']}TeamUserSettings (blogid,userid,style,image,profile,updated) VALUES(".getBlogId().",".getUserId().",'','', '',UNIX_TIMESTAMP())");
 	}
 	if($row['image']){
 		$image = "{$serviceURL}/attach/".getBlogId()."/team/".$row['image'];
