@@ -617,12 +617,12 @@ class Post {
 			$query->setAttribute('published', $this->published);
 		}
 		if (isset($this->created)) {
-			if (!Validator::number($this->created, 1))
+			if (!Validator::number($this->created, 0))
 				return $this->_error('created');
 			$query->setAttribute('created', $this->created);
 		}
 		if (isset($this->modified)) {
-			if (!Validator::number($this->modified, 1))
+			if (!Validator::number($this->modified, 0))
 				return $this->_error('modified');
 			$query->setAttribute('modified', $this->modified);
 		}
