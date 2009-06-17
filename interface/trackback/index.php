@@ -37,7 +37,7 @@ if ($result == 0) {
 			AND id = {$suri['id']} 
 			AND draft = 0 
 			AND visibility = 3 
-			AND acceptComment = 1"))
+			AND acceptcomment = 1"))
 		sendTrackbackPing($suri['id'], "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$row['slogan']}": $suri['id']), $url, $blog_name, $title);
 	respond::ResultPage(0);
 } else {

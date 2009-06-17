@@ -61,14 +61,16 @@ if (Acl::check('group.creators')) {
 <?php
 
 
-$likeEscape = array ( '/_/' , '/%/' );
-$likeReplace = array ( '\\_' , '\\%' );
-$escapename = preg_replace($likeEscape, $likeReplace, $database['prefix']);
-$query = "SHOW TABLES LIKE '{$escapename}%'";
-$dbtables = POD::queryColumn($query);
-
-$result = POD::queryRow("show variables like 'lower_case_table_names'");
-$dbCaseInsensitive = ($result['Value'] == 1) ? true : false;
+//$likeEscape = array ( '/_/' , '/%/' );
+//$likeReplace = array ( '\\_' , '\\%' );
+//$escapename = preg_replace($likeEscape, $likeReplace, $database['prefix']);
+$dbtables = POD::tableList($database['prefix']);
+if(in_array(POD::dbms(),array('MySQL','MySQLi'))) {
+	$result = POD::queryRow("SHOW VARIABLES LIKE 'lower_case_table_names'");
+	$dbCaseInsensitive = ($result['Value'] == 1) ? true : false;
+} else {
+	$dbCaseInsensitive = true;
+}
 
 requireModel('common.setting');
 $definedTables = getDefinedTableNames();
@@ -89,9 +91,9 @@ if ($dbCaseInsensitive == true) {
 	}
 	$dbtables = array_values(array_diff($dbtables, $definedTables));
 }
-
-$query = "SELECT name, value FROM {$database['prefix']}ServiceSettings WHERE name like 'Database\\_%'";
-$plugintablesraw = POD::queryAll($query);
+$query = new TableQuery($database['prefix'].'ServiceSettings');
+$query->setQualifier('name','like','Database%',true);
+$plugintablesraw = $query->getAll('name,value');
 $plugintables = array();
 foreach($plugintablesraw as $table) {
 	$dbname = $database['prefix'] . substr($table['name'], 9);

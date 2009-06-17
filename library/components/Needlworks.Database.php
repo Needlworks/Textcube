@@ -28,10 +28,10 @@ switch($database['dbms']) {
 		requireComponent('Needlworks.DBMS.MySQL');
 }*/
 
-//if(!class_exists('POD')) requireComponent('POD.Core.Legacy'); //1.6 Only uses legacy routine of POD. Will be changed from 1.6.1. (or later)
+//if(!class_exists('POD')) requireComponent('POD.Core.Legacy'); //1.6 Only uses legacy routine of POD. Will be changed from 1.8. (or later)
 
 /* TableQuery */
-// class TableQuery will be depreacted after 1.6 tree.
+// class TableQuery will be depreacted after 1.8 tree.
 // (Will be replaced to POD Framework)
 
 class TableQuery {
@@ -46,6 +46,18 @@ class TableQuery {
 		$this->id = null;
 		$this->_attributes = array();
 		$this->_qualifiers = array();
+		$this->_relations = array();
+		$this->_filters = array();
+		$this->_order = array();	
+		$this->_limitation = array();	
+		$this->_reservedFields = POD::reservedFieldNames();
+		if(!empty($this->_reservedFields)) {
+			foreach($this->_reservedFields as $reserved) {
+				$this->_isReserved[$reserved] = true;
+			}
+		} else {
+			$this->_isReserved = array();
+		}
 	}
 	
 	public function resetAttributes() {
@@ -77,6 +89,7 @@ class TableQuery {
 	
 	public function resetQualifiers() {
 		$this->_qualifiers = array();
+		$this->_relations = array();
 	}
 	
 	public function getQualifiersCount() {
@@ -91,15 +104,60 @@ class TableQuery {
 		return $this->_qualifiers[$name];
 	}
 	
-	public function setQualifier($name, $value, $escape = null) {
-		if (is_null($value))
+	public function setQualifier($name, $condition, $value = null, $escape = null) {
+	//OR, setQualifier($name, $value, $escape = null) - Legacy mode 
+	//OR, setQualifier(string(name_condition_value), $escape = null)     - Descriptive mode (NOT implemented)
+	//OR, setQualifier($name, NULL)
+		if (is_null($condition)) {
 			$this->_qualifiers[$name] = 'NULL';
-		else
-			$this->_qualifiers[$name] = (is_null($escape) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
+		} else {
+/*			if(!is_null($escape) && in_array(strtolower($condition), array('equals','not','like'))) { 	// Legacy mode
+				$escape = $value;
+				$value = $condition;
+				$condition = null;
+			}*/
+			if(is_null($condition)) {
+				$this->_qualifiers[$name] = (is_null($escape) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
+				$this->_relations[$name] = '=';
+			} else {
+				switch(strtolower($condition)) {
+					case 'equals':
+						$this->_relations[$name] = '=';
+						break;
+					case 'not':
+						$this->_relations[$name] = 'NOT';
+						break;
+					case 'like':
+					default:
+						$this->_relations[$name] = 'LIKE';
+				}
+				$this->_qualifiers[$name] = (is_null($escape) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
+			}
+		}
 	}
 	
 	public function unsetQualifier($name) {
 		unset($this->_qualifiers[$name]);
+		unset($this->_relations[$name]);
+	}
+
+	public function setOrder($standard, $order = 'ASC') {
+		$this->_order['attribute'] = $standard;
+		if(!in_array(strtoupper($order, array('ASC','DESC')))) $order = 'ASC';
+		$this->_order['order'] = $order;
+	}
+
+	public function unsetOrder() {
+		$this->_order = array();	
+	}
+	
+	public function setLimit($count, $offset = 0) {
+		$this->_limit['count'] = $count;
+		$this->_limit['offset'] = $offset;
+	}
+
+	public function unsetLimit() {
+		$this->_limit = array();	
 	}
 	
 	public function doesExist() {
@@ -107,18 +165,22 @@ class TableQuery {
 	}
 	
 	public function getCell($field = '*') {
+		$field = $this->_treatReservedFields($field);
 		return POD::queryCell('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
 	}
 	
 	public function getRow($field = '*') {
+		$field = $this->_treatReservedFields($field);
 		return POD::queryRow('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
 	}
 	
 	public function getColumn($field = '*') {
+		$field = $this->_treatReservedFields($field);
 		return POD::queryColumn('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
 	}
 	
 	public function getAll($field = '*') {
+		$field = $this->_treatReservedFields($field);
 		return POD::queryAll('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
 	}
 	
@@ -129,7 +191,7 @@ class TableQuery {
 		$attributes = array_merge($this->_qualifiers, $this->_attributes);
 		if (empty($attributes))
 			return false;
-		$this->_query = 'INSERT INTO ' . $this->table . ' (' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
+		$this->_query = 'INSERT INTO ' . $this->table . ' (' . implode(',', $this->_capsulateFields(array_keys($attributes))) . ') VALUES(' . implode(',', $attributes) . ')';
 		if (POD::query($this->_query)) {
 //			$this->id = POD::insertId();
 			return true;
@@ -142,7 +204,8 @@ class TableQuery {
 			return false;
 		$attributes = array();
 		foreach ($this->_attributes as $name => $value)
-			array_push($attributes, $name . '=' . $value);
+			array_push($attributes, 
+				(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) . '=' . $value);
 		$this->_query = 'UPDATE ' . $this->table . ' SET ' . implode(',', $attributes) . $this->_makeWhereClause();
 		if (POD::query($this->_query))
 			return true;
@@ -156,16 +219,17 @@ class TableQuery {
 		$attributes = array_merge($this->_qualifiers, $this->_attributes);
 		if (empty($attributes))
 			return false;
-		if (in_array(POD::dbms(), array('MySQL','MySQLi'))) { 
-			$this->_query = 'REPLACE INTO ' . $this->table . ' (' . implode(',', array_keys($attributes)) . ') VALUES(' . implode(',', $attributes) . ')';
+		$attributeFields = $this->_capsulateFields(array_keys($attributes));
+		if (in_array(POD::dbms(), array('MySQL','MySQLi'))) { // Those supports 'REPLACE'
+			$this->_query = 'REPLACE INTO ' . $this->table . ' (' . implode(',', $attributeFields) . ') VALUES(' . implode(',', $attributes) . ')';
 			if (POD::query($this->_query)) {
 				$this->id = POD::insertId();
 				return true;
 			}
 			return false;
 		} else {
-			$this->_query = 'SELECT * FROM ' . $this->table . $this->_makeWhereClause();
-			if(POD::queryCount($this->_query) > 0) {
+			$this->_query = 'SELECT * FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1';
+			if(POD::queryExistence($this->_query)) {
 				return $this->update();
 			} else {
 				return $this->insert();
@@ -184,9 +248,34 @@ class TableQuery {
 	
 	private function _makeWhereClause() {
 		$clause = '';
-		foreach ($this->_qualifiers as $name => $value)
-			$clause .= (strlen($clause) ? ' AND ' : '') . ''. $name . '=' . $value;
+		foreach ($this->_qualifiers as $name => $value) {
+			$clause .= (strlen($clause) ? ' AND ' : '') . 
+				(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) .
+				' '.$this->_relations[$name] . ' ' . $value;
+		}
+		if(!empty($this->_order)) $clause .= ' ORDER BY '._treatReservedFields($this->_order['standard']).' '.$this->_order['order'];
+		if(!empty($this->_limit)) $clause .= ' LIMIT '.$this->_limit['count'].' OFFSET '.$this->_limit['offset'];
 		return (strlen($clause) ? ' WHERE ' . $clause : '');
+	}
+
+	function _treatReservedFields($fields) {
+		if(empty($this->_reservedFields)) return $fields;
+		else {
+			$requestedFields = explode(',',str_replace(' ','',$fields));
+			return implode(',',$this->_capsulateFields($requestedFields));
+		}
+	}
+
+	function _capsulateFields($requestedFieldArray) {
+		$escapedFields = array();
+		foreach ($requestedFieldArray as $req) {
+			if(array_key_exists($req,$this->_isReserved)) {
+				array_push($escapedFields, '"'.$req.'"');
+			} else {
+				array_push($escapedFields,$req);
+			}
+		}
+		return $escapedFields;
 	}
 }
 ?>

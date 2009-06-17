@@ -21,12 +21,12 @@ class CommentNotified {
 		$this->ip =
 		$this->written =
 		$this->modified =
-		$this->siteId =
-		$this->isNew =
+		$this->siteid =
+		$this->isnew =
 		$this->url =
-		$this->remoteId =
-		$this->entryTitle =
-		$this->entryUrl =
+		$this->remoteid =
+		$this->entrytitle =
+		$this->entryurl =
 			null;
 	}
 	
@@ -91,22 +91,22 @@ class CommentNotified {
 			return $this->_error('commenter');
 		if (!isset($this->content))
 			return $this->_error('content');
-		if (!isset($this->siteId))
-			return $this->_error('siteId');
-		if (!isset($this->remoteId))
-			return $this->_error('remoteId');
-		if (!isset($this->entryTitle)) {
-			if($this->entry !== 0) return $this->_error('entryTitle');
-			else $this->entryTitle = 'guestbook';
+		if (!isset($this->siteid))
+			return $this->_error('siteid');
+		if (!isset($this->remoteid))
+			return $this->_error('remoteid');
+		if (!isset($this->entrytitle)) {
+			if($this->entry !== 0) return $this->_error('entrytitle');
+			else $this->entrytitle = 'guestbook';
 		}
-		if (!isset($this->entryUrl))
-			return $this->_error('entryUrl');
+		if (!isset($this->entryurl))
+			return $this->_error('entryurl');
 		if (!isset($this->ip))
 			$this->ip = $_SERVER['REMOTE_ADDR'];
 		else if (empty($this->ip))
 			$this->ip = '127.0.0.1'; // Temporary patch: 현재 댓글 알리미에 IP가 기록되지 않으므로 validation 통과를 위한 트릭
-		if (!isset($this->isNew))
-			$this->isNew = 0;
+		if (!isset($this->isnew))
+			$this->isnew = 0;
 		if (!isset($this->secret))
 			$this->secret = 0;
 		
@@ -158,11 +158,11 @@ class CommentNotified {
 	function _buildQuery() {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'CommentsNotified');
-		$query->setQualifier('blogid', getBlogId());
+		$query->setQualifier('blogid', 'equals',getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
-			$query->setQualifier('id', $this->id);
+			$query->setQualifier('id', 'equals', $this->id);
 		}
 		if (isset($this->entry)) {
 			if (!Validator::number($this->entry, 0))
@@ -201,8 +201,8 @@ class CommentNotified {
 		}
 		if (isset($this->secret))
 			$query->setAttribute('secret', Validator::getBit($this->secret));
-		if (isset($this->isNew))
-			$query->setAttribute('isNew', Validator::getBit($this->isNew));
+		if (isset($this->isnew))
+			$query->setAttribute('isnew', Validator::getBit($this->isnew));
 		if (isset($this->content)) {
 			$this->content = trim($this->content);
 			if (empty($this->content))
@@ -219,15 +219,15 @@ class CommentNotified {
 				return $this->_error('modified');
 			$query->setAttribute('modified', $this->modified);
 		}
-		if (isset($this->siteId)) {
+		if (isset($this->siteid)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
-			$query->setAttribute('siteId', $this->siteId);
+			$query->setAttribute('siteid', $this->siteid);
 		}
-		if (isset($this->remoteId)) {
+		if (isset($this->remoteid)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
-			$query->setAttribute('remoteId', $this->remoteId);
+			$query->setAttribute('remoteid', $this->remoteid);
 		}
 		if (isset($this->url) && !empty($this->url)) {
 			// TODO: url validator doesn't validate correctly?
@@ -235,16 +235,16 @@ class CommentNotified {
 			//	return $this->_error('url');
 			$query->setAttribute('url', $this->url, true);
 		}
-		if (isset($this->entryTitle)) {
-			$this->entryTitle = UTF8::lessenAsEncoding(trim($this->entryTitle), 255);
-			if (empty($this->entryTitle))
-				return $this->_error('entryTitle');
-			$query->setAttribute('entryTitle', $this->entryTitle, true);
+		if (isset($this->entrytitle)) {
+			$this->entrytitle = UTF8::lessenAsEncoding(trim($this->entrytitle), 255);
+			if (empty($this->entrytitle))
+				return $this->_error('entrytitle');
+			$query->setAttribute('entrytitle', $this->entrytitle, true);
 		}
-		if (isset($this->entryUrl)) {
-			//if (!Validator::url($this->entryUrl))
-			//	return $this->_error('entryUrl');
-			$query->setAttribute('entryUrl', $this->entryUrl, true);
+		if (isset($this->entryurl)) {
+			//if (!Validator::url($this->entryurl))
+			//	return $this->_error('entryurl');
+			$query->setAttribute('entryurl', $this->entryurl, true);
 		}
 		if (isset($this->password)) {
 			$this->password = UTF8::lessenAsEncoding($this->password, 32);

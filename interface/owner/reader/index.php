@@ -63,12 +63,12 @@ $setting = getReaderSetting($blogid);
 					STD.addEventListener(window);
 					window.addEventListener("scroll", function() { Reader.setListPosition(); }, false);
 <?php
-if ($setting['loadImage'] == 2) {
+if ($setting['loadimage'] == 2) {
 ?>
 					Reader.optionForceLoadImage = true;
 <?php
 }
-if ($setting['newWindow'] == 2) {
+if ($setting['newwindow'] == 2) {
 ?>
 					Reader.optionForceNewWindow = true;
 <?php
@@ -149,29 +149,29 @@ if (getUserId() == 1) {
 											<legend class="title"><?php echo _t('리더 환경을 설정합니다');?></legend>
 											
 											<dl id="update-line" class="line">
-												<dt><label for="updateCycle"><?php echo _t('업데이트 주기');?></label></dt>
+												<dt><label for="updatecycle"><?php echo _t('업데이트 주기');?></label></dt>
 												<dd>
-													<select id="updateCycle" name="updateCycle">
-														<option value="0"<?php echo $setting['updateCycle'] == 0 ? ' selected="selected"' : '';?>><?php echo _t('수집하지 않음');?></option>
-														<option value="60"<?php echo $setting['updateCycle'] == 60 ? ' selected="selected"' : '';?>>1<?php echo _t('시간');?></option>
-														<option value="120"<?php echo $setting['updateCycle'] == 120 ? ' selected="selected"' : '';?>>2<?php echo _t('시간');?></option>
-														<option value="240"<?php echo $setting['updateCycle'] == 240 ? ' selected="selected"' : '';?>>4<?php echo _t('시간');?></option>
-														<option value="480"<?php echo $setting['updateCycle'] == 480 ? ' selected="selected"' : '';?>>8<?php echo _t('시간');?></option>
-														<option value="960"<?php echo $setting['updateCycle'] == 960 ? ' selected="selected"' : '';?>>16<?php echo _t('시간');?></option>
+													<select id="updatecycle" name="updatecycle">
+														<option value="0"<?php echo $setting['updatecycle'] == 0 ? ' selected="selected"' : '';?>><?php echo _t('수집하지 않음');?></option>
+														<option value="60"<?php echo $setting['updatecycle'] == 60 ? ' selected="selected"' : '';?>>1<?php echo _t('시간');?></option>
+														<option value="120"<?php echo $setting['updatecycle'] == 120 ? ' selected="selected"' : '';?>>2<?php echo _t('시간');?></option>
+														<option value="240"<?php echo $setting['updatecycle'] == 240 ? ' selected="selected"' : '';?>>4<?php echo _t('시간');?></option>
+														<option value="480"<?php echo $setting['updatecycle'] == 480 ? ' selected="selected"' : '';?>>8<?php echo _t('시간');?></option>
+														<option value="960"<?php echo $setting['updatecycle'] == 960 ? ' selected="selected"' : '';?>>16<?php echo _t('시간');?></option>
 													</select>
 												</dd>
 											</dl>
 											<dl id="period-line" class="line">
-												<dt><label for="feedLife"><?php echo _t('수집한 글의 보존기간');?></label></dt>
+												<dt><label for="feedlife"><?php echo _t('수집한 글의 보존기간');?></label></dt>
 												<dd>
-													<select id="feedLife" name="feedLife">
-														<option value="10"<?php echo $setting['feedLife'] == 10 ? ' selected="selected"' : '';?>>10<?php echo _t('일');?></option>
-														<option value="20"<?php echo $setting['feedLife'] == 20 ? ' selected="selected"' : '';?>>20<?php echo _t('일');?></option>
-														<option value="30"<?php echo $setting['feedLife'] == 30 ? ' selected="selected"' : '';?>>30<?php echo _t('일');?></option>
-														<option value="45"<?php echo $setting['feedLife'] == 45 ? ' selected="selected"' : '';?>>45<?php echo _t('일');?></option>
-														<option value="60"<?php echo $setting['feedLife'] == 60 ? ' selected="selected"' : '';?>>60<?php echo _t('일');?></option>
-														<option value="90"<?php echo $setting['feedLife'] == 90 ? ' selected="selected"' : '';?>>90<?php echo _t('일');?></option>
-														<option value="0"<?php echo $setting['feedLife'] == 0 ? ' selected="selected"' : '';?>><?php echo _t('계속보관');?></option>
+													<select id="feedlife" name="feedlife">
+														<option value="10"<?php echo $setting['feedlife'] == 10 ? ' selected="selected"' : '';?>>10<?php echo _t('일');?></option>
+														<option value="20"<?php echo $setting['feedlife'] == 20 ? ' selected="selected"' : '';?>>20<?php echo _t('일');?></option>
+														<option value="30"<?php echo $setting['feedlife'] == 30 ? ' selected="selected"' : '';?>>30<?php echo _t('일');?></option>
+														<option value="45"<?php echo $setting['feedlife'] == 45 ? ' selected="selected"' : '';?>>45<?php echo _t('일');?></option>
+														<option value="60"<?php echo $setting['feedlife'] == 60 ? ' selected="selected"' : '';?>>60<?php echo _t('일');?></option>
+														<option value="90"<?php echo $setting['feedlife'] == 90 ? ' selected="selected"' : '';?>>90<?php echo _t('일');?></option>
+														<option value="0"<?php echo $setting['feedlife'] == 0 ? ' selected="selected"' : '';?>><?php echo _t('계속보관');?></option>
 													</select>
 												</dd>
 											</dl>
@@ -181,23 +181,23 @@ if (getUserId() == 1) {
 											<dl id="image-line" class="line">
 												<dt><span class="label"><?php echo _t('링크가 차단된 이미지');?></span></dt>
 												<dd>
-													<div class="image-get-yes"><input type="radio" id="loadImage2" class="radio" name="loadImage" value="2"<?php echo $setting['loadImage'] == 2 ? ' checked="checked"' : '';?> /><label for="loadImage2"><?php echo _t('강제로 읽어오기');?></label></div>
-													<div class="image-get-no"><input type="radio" id="loadImage1" class="radio" name="loadImage" value="1"<?php echo $setting['loadImage'] == 1 ? ' checked="checked"' : '';?> /><label for="loadImage1"><?php echo _t('그대로 두기');?></label></div>
+													<div class="image-get-yes"><input type="radio" id="loadimage2" class="radio" name="loadimage" value="2"<?php echo $setting['loadimage'] == 2 ? ' checked="checked"' : '';?> /><label for="loadimage2"><?php echo _t('강제로 읽어오기');?></label></div>
+													<div class="image-get-no"><input type="radio" id="loadimage1" class="radio" name="loadimage" value="1"<?php echo $setting['loadimage'] == 1 ? ' checked="checked"' : '';?> /><label for="loadimage1"><?php echo _t('그대로 두기');?></label></div>
 												</dd>
 											</dl>
 											<dl id="javascript-line" class="line">
 												<dt><span class="label"><?php echo _t('자바스크립트 허용');?></span></dt>
 												<dd>
-													<div class="javascript-yes"><input type="radio" id="allowScript1" class="radio" name="allowScript" value="1"<?php echo $setting['allowScript'] == 1 ? ' checked="checked"' : '';?> /><label for="allowScript1"><?php echo _t('허용');?></label></div>
-													<div class="javascript-no"><input type="radio" id="allowScript2" class="radio" name="allowScript" value="2"<?php echo $setting['allowScript'] == 2 ? ' checked="checked"' : '';?> /><label for="allowScript2"><?php echo _t('거부');?></label></div>
+													<div class="javascript-yes"><input type="radio" id="allowscript1" class="radio" name="allowscript" value="1"<?php echo $setting['allowscript'] == 1 ? ' checked="checked"' : '';?> /><label for="allowscript1"><?php echo _t('허용');?></label></div>
+													<div class="javascript-no"><input type="radio" id="allowscript2" class="radio" name="allowscript" value="2"<?php echo $setting['allowscript'] == 2 ? ' checked="checked"' : '';?> /><label for="allowscript2"><?php echo _t('거부');?></label></div>
 													<em><?php echo _t('허용 시 문제가 발생할 수 있습니다.');?></em>
 												</dd>
 											</dl>
 											<dl id="link-line" class="line">
 												<dt><span class="label"><?php echo _t('링크');?></span></dt>
 												<dd>
-													<div class="window-self"><input type="radio" id="newWindow1" class="radio" name="newWindow" value="1"<?php echo $setting['newWindow'] == 1 ? ' checked="checked"' : '';?> /><label for="newWindow1"><?php echo _t('기본값');?></label></div>
-													<div class="window-blank"><input type="radio" id="newWindow2" class="radio" name="newWindow" value="2"<?php echo $setting['newWindow'] == 2 ? ' checked="checked"' : '';?> /><label for="newWindow2"><?php echo _t('새 창으로');?></label></div>
+													<div class="window-self"><input type="radio" id="newwindow1" class="radio" name="newwindow" value="1"<?php echo $setting['newwindow'] == 1 ? ' checked="checked"' : '';?> /><label for="newwindow1"><?php echo _t('기본값');?></label></div>
+													<div class="window-blank"><input type="radio" id="newwindow2" class="radio" name="newwindow" value="2"<?php echo $setting['newwindow'] == 2 ? ' checked="checked"' : '';?> /><label for="newwindow2"><?php echo _t('새 창으로');?></label></div>
 												</dd>
 											</dl>
 										</fieldset>

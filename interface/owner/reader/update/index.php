@@ -50,7 +50,7 @@ $feeds = POD::queryAll("SELECT f.*
 		WHERE g.blogid = $blogid 
 			AND gr.feed = f.id 
 			AND gr.blogid = g.blogid 
-			AND gr.groupId = g.id 
+			AND gr.groupid = g.id 
 		ORDER BY f.title");
 $count = 0;
 foreach ($feeds as $feed) {
@@ -72,7 +72,7 @@ foreach ($feeds as $feed) {
 ?>
 		<script type="text/javascript">
 			//<![CDATA[
-				/* update complete : [<?php echo $result;?>] <?php echo $feed['xmlURL'];?> */
+				/* update complete : [<?php echo $result;?>] <?php echo $feed['xmlurl'];?> */
 				if(icon) {
 					switch(<?php echo $result;?>) {
 						case 0:

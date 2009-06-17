@@ -8,7 +8,7 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<response>\r\n";
 list($allComments, $allTrackbacks) = POD::queryRow("SELECT 
 		SUM(comments), SUM(trackbacks) 
 		FROM {$database['prefix']}Entries 
-		WHERE blogid = ".getBlogId()." AND draft = 0 AND visibility = 3", MYSQL_NUM);
+		WHERE blogid = ".getBlogId()." AND draft = 0 AND visibility = 3", 'num');
 if($entry = POD::queryRow("SELECT e.*, c.name AS categoryName 
 			FROM {$database['prefix']}Entries e 
 			LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
@@ -27,7 +27,7 @@ if($entry = POD::queryRow("SELECT e.*, c.name AS categoryName
 	echo '<entry>', "\r\n";
 	echo '<permalink>', htmlspecialchars("$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$entry['slogan']}": $entry['id'])), '</permalink>', "\r\n";
 	echo '<title>', htmlspecialchars($entry['title']), '</title>', "\r\n";
-	echo '<content>', htmlspecialchars(getEntryContentView($blogid, $suri['id'], $entry['content'], $entry['contentFormatter'])), '</content>', "\r\n";
+	echo '<content>', htmlspecialchars(getEntryContentView($blogid, $suri['id'], $entry['content'], $entry['contentformatter'])), '</content>', "\r\n";
 	echo '<author>', htmlspecialchars(POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = ".$entry['userid'])), '</author>', "\r\n";
 	echo '<category>', htmlspecialchars($entry['categoryName']), '</category>', "\r\n";
 	$result = POD::query("SELECT name 

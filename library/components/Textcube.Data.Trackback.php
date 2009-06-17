@@ -17,7 +17,7 @@ class Trackback {
 		$this->excerpt =
 		$this->ip =
 		$this->received =
-		$this->isFiltered =
+		$this->isfiltered =
 			null;
 	}
 	
@@ -85,13 +85,13 @@ class Trackback {
 			return false;
 		if (!$query->hasAttribute('written'))
 			$query->setAttribute('written', 'UNIX_TIMESTAMP()');
-		if (!isset($this->isFiltered))
-			$this->isFiltered = 0;
+		if (!isset($this->isfiltered))
+			$this->isfiltered = 0;
 		
 		if (!$query->insert())
 			return $this->_error('insert');
 
-		if ($this->isFiltered == 0) {
+		if ($this->isfiltered == 0) {
 			POD::query("UPDATE {$database['prefix']}Entries SET trackbacks = trackbacks + 1 WHERE blogid = ".getBlogId()." AND id = {$this->entry}");
 		}
 		return true;
@@ -113,23 +113,23 @@ class Trackback {
 	function _buildQuery() {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'RemoteResponses');
-		$query->setQualifier('blogid', getBlogId());
+		$query->setQualifier('blogid', 'equals', getBlogId());
 		$query->setQualifier('type', 'trackback', false);
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
-			$query->setQualifier('id', $this->id);
+			$query->setQualifier('id', 'equals', $this->id);
 		}
 		if (isset($this->entry)) {
 			if (!Validator::number($this->entry, 1))
 				return $this->_error('entry');
-			$query->setQualifier('entry', $this->entry);
+			$query->setQualifier('entry', 'equals', $this->entry);
 		}
 		if (isset($this->url)) {
 			$this->url = UTF8::lessenAsEncoding(trim($this->url), 255);
 			if (empty($this->url))
 				return $this->_error('url');
-			$query->setQualifier('url', $this->url, true);
+			$query->setQualifier('url', 'equals', $this->url, true);
 		}
 		if (isset($this->site)) {
 			$this->site = UTF8::lessenAsEncoding(trim($this->site), 255);
@@ -153,11 +153,11 @@ class Trackback {
 				return $this->_error('received');
 			$query->setAttribute('written', $this->received);
 		}
-		if (isset($this->isFiltered)) {
-			if ($this->isFiltered) {
-				$query->setAttribute('isFiltered', 'UNIX_TIMESTAMP()');
+		if (isset($this->isfiltered)) {
+			if ($this->isfiltered) {
+				$query->setAttribute('isfiltered', 'UNIX_TIMESTAMP()');
 			} else {
-				$query->setAttribute('isFiltered', Validator::getBit($this->isFiltered));
+				$query->setAttribute('isfiltered', Validator::getBit($this->isfiltered));
 			}
 			
 		}

@@ -13,7 +13,7 @@ $menu1 = $menu_url . "?mode=1";
 $menu2 = $menu_url . "?mode=3";
 $menu3 = $menu_url . "?mode=5";
 $menu4 = $menu_url . "?mode=7";
-$order = "order by lastLogin desc";
+$order = "order by lastlogin desc";
 
 $mode = preg_replace( '/.*?mode=(\d)/', '\1', $_SERVER["QUERY_STRING"]);
 if( !is_numeric($mode) ) { $mode = 7; };
@@ -26,16 +26,16 @@ case 3:
 	$menu2 = $menu_url . "?mode=2"; $order = "order by delegatedid desc";
 	break;
 case 4:
-	$menu3 = $menu_url . "?mode=5"; $order = "order by loginCount asc";
+	$menu3 = $menu_url . "?mode=5"; $order = "order by logincount asc";
 	break;
 case 5:
-	$menu3 = $menu_url . "?mode=4"; $order = "order by loginCount desc";
+	$menu3 = $menu_url . "?mode=4"; $order = "order by logincount desc";
 	break;
 case 6:
-	$menu4 = $menu_url . "?mode=7"; $order = "order by lastLogin asc";
+	$menu4 = $menu_url . "?mode=7"; $order = "order by lastlogin asc";
 	break;
 case 7:
-	$menu4 = $menu_url . "?mode=6"; $order = "order by lastLogin desc";
+	$menu4 = $menu_url . "?mode=6"; $order = "order by lastlogin desc";
 	break;
 case 0:
 	$menu1 = $menu_url . "?mode=1"; $order = "order by openid asc";
@@ -85,8 +85,8 @@ $className .= ($i == sizeof($rec) - 1) ? ' last-line' : '';
 									<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td><?php echo "{$record['openid']} {$nickname}";?></td>
 										<td><?php echo $record['delegatedid'];?></td>
-										<td><?php echo $record['loginCount'];?></td>
-										<td><?php echo Timestamp::format5($record['lastLogin']);?></td>
+										<td><?php echo $record['logincount'];?></td>
+										<td><?php echo Timestamp::format5($record['lastlogin']);?></td>
 									</tr>
 <?php
 }

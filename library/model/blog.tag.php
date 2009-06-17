@@ -38,8 +38,8 @@ function getTags($blogid, $entry) {
 function getRandomTags($blogid) {
 	global $database, $skinSetting;
 	$tags = array();
-	$aux = ($skinSetting['tagsOnTagbox'] == - 1) ? '' : "limit {$skinSetting['tagsOnTagbox']}";
-	if ($skinSetting['tagboxAlign'] == 1) { // order by count
+	$aux = ($skinSetting['tagsontagbox'] == - 1) ? '' : "LIMIT {$skinSetting['tagsontagbox']}";
+	if ($skinSetting['tagboxalign'] == 1) { // order by count
 		if (doesHaveOwnership())
 			$tags = POD::queryAll("SELECT t.name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t 
 				INNER JOIN {$database['prefix']}TagRelations r ON r.blogid = $blogid AND r.tag = t.id
@@ -52,7 +52,7 @@ function getRandomTags($blogid) {
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid AND e.blogid = $blogid 
 				GROUP BY r.tag, t.name, t.id
 				ORDER BY cnt DESC $aux");
-	} else if ($skinSetting['tagboxAlign'] == 2) {  // order by name
+	} else if ($skinSetting['tagboxalign'] == 2) {  // order by name
 		if (doesHaveOwnership())
 			$tags = POD::queryAll("SELECT DISTINCT t.name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t, 
 				{$database['prefix']}TagRelations r 
@@ -91,7 +91,7 @@ function getSiteTags($blogid) {
 			{$database['prefix']}TagRelations r 
 			WHERE t.id = r.tag AND r.blogid = $blogid 
 			GROUP BY r.tag, t.id, name
-			ORDER BY t.name 
+			ORDER BY t.name ASC
 			LIMIT 2000");
 	else
 		$names = POD::queryAll("SELECT t.id, t.name FROM {$database['prefix']}Tags t, 
@@ -99,7 +99,7 @@ function getSiteTags($blogid) {
 			{$database['prefix']}Entries e
 			WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
 			GROUP BY r.tag, t.id, t.name
-			ORDER BY t.name 
+			ORDER BY t.name ASC
 			LIMIT 2000");
 	if(!empty($names)) return $names;
 	else $names = array();
@@ -191,29 +191,6 @@ function suggestLocalTags($blogid, $filter) {
 			array_push($tags, $tag[0]);
 	}
 	return $tags;
-}
-
-function removeEmptyTagHelper($var)
-{
-	return (strlen($var) > 0);
-}
-
-function addTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
-{
-	requireComponent('Textcube.Data.Tag');
-	Tags::addTagsWithEntryId($blogid, $entry, $taglist);
-}
-
-function modifyTagsWithEntryId($blogid, $entry, /*string array*/$taglist)
-{
-	requireComponent('Textcube.Data.Tag');
-	return Tag::modifyTagsWithEntryId($blogid, $entry, $taglist);
-}
-
-function deleteTagsWithEntryId($blogid, $entry)
-{
-	requireComponent('Textcube.Data.Tag');
-	return Tag::deleteTagsWithEntryId($blogid, $entry);
 }
 
 function deleteTagById($blogid, $id) {

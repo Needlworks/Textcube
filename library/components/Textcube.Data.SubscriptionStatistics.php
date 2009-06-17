@@ -99,7 +99,7 @@ class SubscriptionStatistics {
 		if (empty($this->host))
 			return $this->_error('host');
 		$query = new TableQuery($database['prefix'] . 'SubscriptionStatistics');
-		$query->setQualifier('blogid', getBlogId());
+		$query->setQualifier('blogid', 'equals', getBlogId());
 		if (isset($this->ip)) {
 			if (!Validator::ip($this->ip))
 				return $this->_error('ip');

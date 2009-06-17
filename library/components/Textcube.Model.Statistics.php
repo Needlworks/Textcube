@@ -12,11 +12,11 @@ class Statistics {
 		$result = POD::queryCell("SELECT visits FROM {$database['prefix']}BlogStatistics WHERE blogid = $blogid");
 		if (!empty($result)) $stats['total'] = $result;
 		
-		$result = POD::queryAll("SELECT date, visits FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid AND date in ('" . Timestamp::getDate()."','".Timestamp::getDate(time()-86400)."')");
+		$result = POD::queryAll("SELECT datemark, visits FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid AND datemark in (" . Timestamp::getDate().",".Timestamp::getDate(time()-86400).")");
 		$stat['today'] = $stat['yesterday'] = 0;
 		foreach($result as $data) {
-			if($data['date'] == Timestamp::getDate()) $stats['today'] = $data['visits'];
-			if($data['date'] == Timestamp::getDate(time()-86400)) $stats['yesterday'] = $data['visits'];
+			if($data['datemark'] == Timestamp::getDate()) $stats['today'] = $data['visits'];
+			if($data['datemark'] == Timestamp::getDate(time()-86400)) $stats['yesterday'] = $data['visits'];
 		}
 	
 		return $stats;
@@ -24,28 +24,28 @@ class Statistics {
 
 	function getDailyStatistics($period) {
 		global $database, $blogid;
-		return POD::queryAll("SELECT date, visits 
+		return POD::queryAll("SELECT datemark, visits 
 			FROM {$database['prefix']}DailyStatistics 
 			WHERE blogid = $blogid 
-				AND LEFT(date, 6) = $period 
-			ORDER BY date DESC");
+				AND LEFT(datemark, 6) = $period 
+			ORDER BY datemark DESC");
 	}
 	
 	function getWeeklyStatistics() {
 		global $database, $blogid;
 		$now_day = date('Ymd', strtotime("now"));
 		$old_day = date('Ymd', strtotime("-1 week"));
-		return POD::queryAll("SELECT date, visits FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid AND date BETWEEN $old_day AND $now_day ORDER BY date DESC");
+		return POD::queryAll("SELECT datemark, visits FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid AND datemark BETWEEN $old_day AND $now_day ORDER BY datemark DESC");
 	}
 
 	function getMonthlyStatistics($blogid) {
 		global $database;
 		$statistics = array();
-		if ($result = POD::queryAll("SELECT left(date, 6) date, sum(visits) visits 
+		if ($result = POD::queryAll("SELECT left(datemark, 6) datemark, sum(visits) visits 
 			FROM {$database['prefix']}DailyStatistics 
 			WHERE blogid = $blogid 
-			GROUP BY left(date, 6) 
-			ORDER BY date DESC")) {
+			GROUP BY left(datemark, 6) 
+			ORDER BY datemark DESC")) {
 			foreach($result as $record)
 				array_push($statistics, $record);
 		}
@@ -87,7 +87,7 @@ class Statistics {
 			}
 			
 			$period = Timestamp::getDate();
-			if(POD::queryCount("UPDATE {$database['prefix']}DailyStatistics SET visits = visits + 1 WHERE blogid = $blogid AND \"date\" = $period LIMIT 1") < 1) {
+			if(POD::queryCount("UPDATE {$database['prefix']}DailyStatistics SET visits = visits + 1 WHERE blogid = $blogid AND datemark = $period LIMIT 1") < 1) {
 				POD::execute("INSERT into {$database['prefix']}DailyStatistics values($blogid, $period, 1)");
 			}
 			if (!empty($_SERVER['HTTP_REFERER'])) {

@@ -69,10 +69,10 @@ class Keyword {
 					case 'content':
 						$name = 'description';
 						break;
-					case 'contentFormatter':
+					case 'contentformatter':
 						$name = 'descriptionFormatter';
 						break;
-					case 'contentEditor':
+					case 'contenteditor':
 						$name = 'descriptionEditor';
 						break;
 				}
@@ -99,7 +99,7 @@ class Keyword {
 		if (!isset($this->id) || $query->doesExist() || $this->doesExist($this->id)) {
 			$this->id = $this->nextEntryId();
 		}
-		$query->setQualifier('id', $this->id);
+		$query->setQualifier('id', 'equals', $this->id);
 		
 		if (empty($this->starred))
 			$this->starred = 0;
@@ -180,19 +180,19 @@ class Keyword {
 	function _buildQuery() {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'Entries');
-		$query->setQualifier('blogid', getBlogId());
-		$query->setQualifier('category', -1);
+		$query->setQualifier('blogid', 'equals', getBlogId());
+		$query->setQualifier('category', 'equals', -1);
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
-			$query->setQualifier('id', $this->id);
+			$query->setQualifier('id', 'equals', $this->id);
 		}
 		if (isset($this->name))
 			$query->setAttribute('title', $this->name, true);
 		if (isset($this->description)) {
 			$query->setAttribute('content', $this->description, true);
-			$query->setAttribute('contentFormatter', $this->descriptionFormatter, true);
-			$query->setAttribute('contentEditor', $this->descriptionEditor, true);
+			$query->setAttribute('contentformatter', $this->descriptionFormatter, true);
+			$query->setAttribute('contenteditor', $this->descriptionEditor, true);
 		}
 		if (isset($this->visibility)) {
 			switch ($this->visibility) {

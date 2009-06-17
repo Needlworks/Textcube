@@ -36,7 +36,7 @@ final class Session {
 	
 	public static function read($id) {
 		global $database, $service;
-		if ($result = self::query('cell',"SELECT data FROM {$database['prefix']}Sessions 
+		if ($result = self::query('cell',"SELECT privilege FROM {$database['prefix']}Sessions 
 			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND updated >= (UNIX_TIMESTAMP() - {$service['timeout']})")) {
 			return $result;
 		}
@@ -58,7 +58,7 @@ final class Session {
 		$referer = isset($_SERVER['HTTP_REFERER']) ? POD::escapeString(substr($_SERVER['HTTP_REFERER'],0,255)) : '';
 		$timer = Timer::getMicroTime() - self::$sessionMicrotime;
 		$result = self::query('count',"UPDATE {$database['prefix']}Sessions 
-				SET userid = $userid, data = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() 
+				SET userid = $userid, privilege = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() 
 				WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 		if ($result && $result == 1)
 			return true;

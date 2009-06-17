@@ -1,14 +1,14 @@
 <?php
-/* Visitor statistics plugin for Textcube 1.1
+/* Visitor statistics plugin for Textcube 1.7
    ----------------------------------
-   Version 1.1
+   Version 1.7
    Tatter and Friends development team.
 
    Creator          : inureyes
    Maintainer       : gendoh, inureyes, graphittie
 
    Created at       : 2006.9.21
-   Last modified at : 2007.2.4
+   Last modified at : 2009.6.17
  
  This plugin shows visitor statistics on administration menu.
  For the detail, visit http://forum.tattersite.com/ko

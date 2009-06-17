@@ -21,7 +21,7 @@ foreach (getFeeds($blogid) as $feed) {
 $feed['title'] = str_replace('\\\'', '\'', escapeJSInAttribute($feed['title']));
 $feed['description'] = str_replace('\\\'', '\'', escapeJSInAttribute($feed['description']));
 ?>
-<outline text="<?php echo $feed['title'];?>" description="<?php echo $feed['description'];?>" htmlUrl="<?php echo escapeJSInAttribute($feed['blogURL']);?>" title="<?php echo $feed['title'];?>" type="rss" version="RSS" xmlUrl="<?php echo escapeJSInAttribute($feed['xmlURL']);?>" />
+<outline text="<?php echo $feed['title'];?>" description="<?php echo $feed['description'];?>" htmlUrl="<?php echo escapeJSInAttribute($feed['blogURL']);?>" title="<?php echo $feed['title'];?>" type="rss" version="RSS" xmlUrl="<?php echo escapeJSInAttribute($feed['xmlurl']);?>" />
 <?php
 }
 ?>

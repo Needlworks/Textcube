@@ -55,62 +55,87 @@ class DBQuery {
 			return $__dbProperties['version'];
 		}
 	}
-	
-/*	function tableList($condition = null) {
-		global $__dbProperties;
-		if (!array_key_exists('tableList', $__dbProperties)) { 
-			$__dbProperties['tableList'] = DBQuery::queryAll("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
-		}
-		if(!is_null($condition)) {
-			foreach($__dbProperties['tableList'] as $item) {
-				if(strpos($item, $condition) === 0) array_push($result, $item);
-			}
-			return $item;
-		} else {
-			return $__dbProperties['tableList'];
-		}
-	}
-*/
+
 	function tableList($condition = null) {
 		global $__dbProperties;
 		if (!array_key_exists('tableList', $__dbProperties)) { 
-			$__dbProperties['tableList'] = DBQuery::queryAll('select * from db_class');
+			$__dbProperties['tableList'] = DBQuery::queryColumn("SELECT class_name FROM db_class WHERE is_system_class = 'NO'");
 		}
 		if(!is_null($condition)) {
+			$result = array();
 			foreach($__dbProperties['tableList'] as $item) {
-				if(strpos($item, $condition) === 0) array_push($result, $item);
+				if(strpos($item, $condition) === 0) {array_push($result, $item);}
 			}
-			return $item;
+			return $result;
 		} else {
 			return $__dbProperties['tableList'];
 		}
 	}
 
+	function reservedFieldNames() {
+		return array('date','value','data','count','year','month');
+	}
+
 	function setTimezone($time) {
+		return true;
 		return DBQuery::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
 	}
 
 	/*@static@*/
-	function query($query) {
+	function query($query, $compatibility = true) {
 		global $__gLastQueryType, $__dbProperties;
-		$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compartibility issue.
 
-		// Change DBMS-registered variable name.
-//		if (preg_match('/\s(SELECT.*) (FROM.*) (WHERE.*)$/si', $query, $matches)) {
-//			$from = $matches[1];
-//			var_dump($from);
-//		}
-
-		// Change LIMIT statement to ROWNUM. (for Cubrid-specific)
-		$query = preg_replace(array('/LIMIT ([0-9]+)/i','/LIMIT ([0-9]+) OFFSET ([0-9]+)/i'),array('ROWNUM between 1 and $1','ROWNUM between $1 and $2'), $query);
+		/// Bypassing compatiblitiy issue : will be replace to NAF2.
+		if($compatibility) {
+			$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compatibility issue.
+			if(stripos($query, "ORDER BY")!==false) {
+				$origPagingInst = array(
+					'/(ASC|DESC) LIMIT ([0-9]+) OFFSET 0/si',
+					'/(ASC|DESC) LIMIT ([0-9]+) OFFSET ([0-9]+)/si',
+					'/(ASC|DESC) LIMIT 1(^[0-9])/si',
+					'/(ASC|DESC) LIMIT ([0-9]+)/si'
+				);
+				$descPagingInst = array(
+					'$1 FOR ORDERBY_NUM() BETWEEN 1 AND $2',
+					'$1 FOR ORDERBY_NUM() BETWEEN ($3+1) AND ($2+$3)',
+					'$1 FOR ORDERBY_NUM() = 1',
+					'$1 FOR ORDERBY_NUM() BETWEEN 1 AND $2'
+				);
+			} else if(stripos($query, "GROUP BY")!==false) {
+				$origPagingInst = array(
+					'/GROUP BY(.*)(ORDER BY)(.*)(ASC|DESC) LIMIT ([0-9]+) OFFSET 0/si',
+					'/GROUP BY(.*)(ORDER BY)(.*)(ASC|DESC) LIMIT ([0-9]+) OFFSET ([0-9]+)/si',
+					'/GROUP BY(.*)(ORDER BY)(.*)(ASC|DESC) LIMIT 1(^[0-9])/si',
+					'/GROUP BY(.*)(ORDER BY)(.*)(ASC|DESC) LIMIT ([0-9]+)/si'
+				);
+				$descPagingInst = array(
+					'GROUP BY $1 HAVING GROUPBY_NUM() = $5 $2 $3 $4',
+					'GROUP BY $1 HAVING GROUPBY_NUM() BETWEEN ($6+1) AND $5 $2 $3 $4',
+					'GROUP BY $1 HAVING GROUPBY_NUM() = 1 $2 $3 $4',
+					'GROUP BY $1 HAVING GROUPBY_NUM() BETWEEN 1 AND $5 $2 $3 $4'
+				);
+			} else {
+				$origPagingInst = array(
+					'/WHERE(.*)LIMIT ([0-9]+) OFFSET 0/si',
+					'/WHERE(.*)LIMIT ([0-9]+) OFFSET ([0-9]+)/si',
+					'/WHERE(.*)LIMIT 1(^[0-9])/si',
+					'/WHERE(.*)LIMIT ([0-9]+)/si'
+					);
+				$descPagingInst = array(
+					'WHERE ROWNUM BETWEEN 1 AND $2 AND $1',	
+					'WHERE ROWNUM BETWEEN ($3+1) AND ($2+$3) AND $1',
+					'WHERE ROWNUM = 1 AND $1',
+					'WHERE ROWNUM BETWEEN 1 AND $2 AND $1'
+					);
+			}
+			$query = preg_replace($origPagingInst, $descPagingInst,$query);
+		}
 
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);
-			//var_dump($query);
 			$result = cubrid_execute($__dbProperties['handle'],$query);
 			__tcSqlLogEnd($result,0);
 		} else {
-			//var_dump($query);
 			$result = cubrid_execute($__dbProperties['handle'],$query);
 		}
 		$__gLastQueryType = strtolower(substr($query, 0,6));
@@ -127,10 +152,10 @@ class DBQuery {
 	function queryExistence($query) {
 		if ($result = DBQuery::query($query)) {
 			if (cubrid_num_rows($result) > 0) {
-				cubrid_free_result($result);
+				cubrid_close_request($result);
 				return true;
 			}
-			cubrid_free_result($result);
+			cubrid_close_request($result);
 		}
 		return false;
 	}
@@ -153,7 +178,7 @@ class DBQuery {
 				case 'delete':
 				case 'replac':
 				default:
-					$count = cubrid_affected_rows();
+					$count = cubrid_affected_rows($result);
 					break;
 			}
 		}
@@ -294,11 +319,16 @@ class DBQuery {
 	function cacheLoad() {
 		global $fileCachedResult;
 	}
+
 	function cacheSave() {
+		@DBQuery::commit();
+	}
+	
+	function commit() {
 		global $fileCachedResult,$__dbProperties;
 		@cubrid_commit($__dbProperties['handle']);
 	}
-	
+
 	/* Raw functions (to easier adoptation) */
 	/*@static@*/
 	function num_rows($handle = null) {
@@ -315,7 +345,7 @@ class DBQuery {
 	}
 	/*@static@*/
 	function free($handle = null) {
-		cubrid_free_result($handle);
+		cubrid_close_request($handle);
 	}
 	
 	/*@static@*/

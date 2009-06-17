@@ -46,13 +46,13 @@ if (getBlogId()) {
 					$requiredTextcubeVersion = $xmls->getValue('/plugin/requirements/textcube');
 					
 					if (!is_null($requiredTattertoolsVersion) && !is_null($requiredTextcubeVersion)) {
-						if ($currentTextcubeVersion < $requiredTattertoolsVersion && $currentTextcubeVersion < $requiredTextcubeVersion)
+						if (version_compare($currentTextcubeVersion,$requiredTattertoolsVersion) == -1 && version_compare($currentTextcubeVersion,$requiredTextcubeVersion) == -1)
 							$disablePlugin = true;
 					} else if (!is_null($requiredTattertoolsVersion) && is_null($requiredTextcubeVersion)) {
-						if ($currentTextcubeVersion < $requiredTattertoolsVersion)
+						if (version_compare($currentTextcubeVersion,$requiredTattertoolsVersion) == -1)
 							$disablePlugin = true;
 					} else if (is_null($requiredTattertoolsVersion) && !is_null($requiredTextcubeVersion)) {
-						if ($currentTextcubeVersion < $requiredTextcubeVersion)
+						if (version_compare($currentTextcubeVersion,$requiredTextcubeVersion) == -1)
 							$disablePlugin = true;
 					}
 					

@@ -235,7 +235,7 @@ function addBlog($blogid, $userid, $identify) {
 		}
 		// Thus, blog and user exists. Now combine both.
 		$result = POD::query("INSERT INTO {$database['prefix']}Privileges
-			(blogid,userid,acl,created,lastLogin) 
+			(blogid,userid,acl,created,lastlogin) 
 			VALUES($blogid, $userid, 0, UNIX_TIMESTAMP(), 0)");
 		return $result;
 	} else { // If no blogid, create a new blog.
@@ -318,7 +318,7 @@ function addBlog($blogid, $userid, $identify) {
 
 		//Combine user and blog.
 		if(POD::query("INSERT INTO {$database['prefix']}Privileges 
-			(blogid,userid,acl,created,lastLogin) 
+			(blogid,userid,acl,created,lastlogin) 
 			VALUES($blogid, $userid, 16, UNIX_TIMESTAMP(), 0)")) {
 			setDefaultPost($blogid, $userid);
 			return true;
@@ -342,11 +342,11 @@ function setDefaultPost($blogid, $userid) {
 	$entry['tag']              = '';
 	$entry['title']            = _t('환영합니다!');
 	$entry['slogan']           = 'welcome';
-	$entry['contentFormatter'] = 'ttml';
-	$entry['contentEditor']    = 'modern';
+	$entry['contentformatter'] = 'ttml';
+	$entry['contenteditor']    = 'modern';
 	$entry['starred']          = 0;
-	$entry['acceptComment']    = 1;
-	$entry['acceptTrackback']  = 1;
+	$entry['acceptcomment']    = 1;
+	$entry['accepttrackback']  = 1;
 	$entry['published']        = null;
 	$entry['firstEntry']       = true;
 	$entry['content']          = getDefaultPostContent();
@@ -369,7 +369,10 @@ function getBlogName($blogid) {
 }
 function getAuthToken($userid){
 	global $database;
-	return POD::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
+	$query = new TableQuery($database['prefix'].'UserSettings');
+	$query->setQualifier('userid', 'equals', $userid);
+	$query->setQualifier('name', 'equals', 'AuthToken', true);
+	return $query->getCell('value');
 }
 
 function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $senderEmail) {
@@ -429,7 +432,7 @@ function getInvitationLink($url, $email, $password, $authtoken) {
 function cancelInvite($userid,$clean = true) {
 	global $database;
 	requireModel('blog.user');
-	if (POD::queryCell("SELECT count(*) FROM {$database['prefix']}Users WHERE userid = $userid AND lastLogin = 0") == 0)
+	if (POD::queryCell("SELECT count(*) FROM {$database['prefix']}Users WHERE userid = $userid AND lastlogin = 0") == 0)
 		return false;
 	if (POD::queryCell("SELECT count(*) FROM {$database['prefix']}Users WHERE userid = $userid AND host = ".getUserId()) === 0)
 		return false;
@@ -450,7 +453,7 @@ function changePassword($userid, $pwd, $prevPwd, $forceChange = false) {
 		return false;
 	if($forceChange === true) {
 		$pwd = md5($pwd);
-		@POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
+		@POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = $userid AND name = 'AuthToken' LIMIT 1");
 		return POD::execute("UPDATE {$database['prefix']}Users SET password = '$pwd' WHERE userid = $userid");
 	}
 	if ((strlen($prevPwd) == 32) && preg_match('/[0-9a-f]/i', $prevPwd))
@@ -461,7 +464,7 @@ function changePassword($userid, $pwd, $prevPwd, $forceChange = false) {
 	if ($count == 0)
 		return false;
 	$pwd = md5($pwd);
-	@POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
+	@POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = $userid AND name = 'AuthToken' LIMIT 1");
 	return POD::execute("UPDATE {$database['prefix']}Users SET password = '$pwd' WHERE userid = $userid");
 }
 
@@ -545,6 +548,7 @@ function removeBlog($blogid) {
 	}
 
 	//Clear Plugin Database
+	// TODO : encapsulate with 'value' 
 	$query = "SELECT name, value FROM {$database['prefix']}ServiceSettings WHERE name like 'Database\\_%'";
 	$plugintablesraw = POD::queryAll($query);
 	foreach($plugintablesraw as $table) {

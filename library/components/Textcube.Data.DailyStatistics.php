@@ -13,10 +13,10 @@ class DailyStatistics {
 			null;
 	}
 	
-	function open($filter = '', $fields = '*', $sort = 'date DESC') {
+	function open($filter = '', $fields = '*', $sort = 'datemark DESC') {
 		global $database;
 		if (is_numeric($filter))
-			$filter = 'AND date = ' . $filter;
+			$filter = 'AND datemark = ' . $filter;
 		else if (!empty($filter))
 			$filter = 'AND ' . $filter;
 		if (!empty($sort))
@@ -111,8 +111,8 @@ class DailyStatistics {
 			
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'DailyStatistics');
-		$query->setQualifier('blogid', getBlogId());
-		$query->setQualifier('date', $this->date);
+		$query->setQualifier('blogid', 'equals', getBlogId());
+		$query->setQualifier('datemark', 'equals', $this->date);
 		if (isset($this->visits)) {
 			if (!Validator::number($this->visits, 1))
 				return $this->_error('visits');

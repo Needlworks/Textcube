@@ -99,12 +99,12 @@ class TrackbackLog {
 	function _buildQuery() {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'RemoteResponseLogs');
-		$query->setQualifier('blogid', getBlogId());
+		$query->setQualifier('blogid', 'equals', getBlogId());
 		$query->setQualifier('type', 'trackback',false);
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
-			$query->setQualifier('id', $this->id);
+			$query->setQualifier('id', 'equals', $this->id);
 		}
 		if (isset($this->entry)) {
 			if (!Validator::number($this->entry, 1))

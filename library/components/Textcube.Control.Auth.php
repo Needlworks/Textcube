@@ -360,12 +360,15 @@ class Auth {
 		Acl::clearAcl();
 		$loginid = POD::escapeString($loginid);
 
-		$blogApiPassword = getBlogSetting("blogApiPassword", "");
+		$blogApiPassword = Setting::getBlogSettingGlobal("blogApiPassword", "");
 
 		if ((strlen($password) == 32) && preg_match('/[0-9a-f]{32}/i', $password)) { // Raw login. ( with/without auth token)
 			$userid = getUserIdByEmail($loginid);
 			if(!empty($userid) && !is_null($userid)) {
-				$authtoken = POD::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
+				$query = new TableQuery($database['prefix']. 'UserSettings');
+				$query->setQualifier('userid','equals',$userid);
+				$query->setQualifier('name','equals','AuthToken',true);
+				$authtoken = $query->getCell('value');
 				if (!empty($authtoken) && ($authtoken === $password)) {	// If user requested auth token, use it to confirm.
 					$session['userid'] = $userid;
 				} else {	// login with md5 hash
@@ -390,7 +393,7 @@ class Auth {
 		$userid = $session['userid'];
 
 		Acl::authorize( 'textcube', $userid );
-		POD::execute("UPDATE  {$database['prefix']}Users SET lastLogin = ".Timestamp::getUNIXtime()." WHERE loginid = '$loginid'");
+		POD::execute("UPDATE {$database['prefix']}Users SET lastlogin = ".Timestamp::getUNIXtime()." WHERE loginid = '$loginid'");
 //		POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
 		return $userid;
 	}

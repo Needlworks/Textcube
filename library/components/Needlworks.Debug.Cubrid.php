@@ -74,7 +74,7 @@ function __tcSqlLogEnd( $result, $cachedResult = 0 )
 			case 'insert':
 			case 'delete':
 			case 'update':
-				$__tcSqlLog[$__tcSqlLogCount]['rows'] = cubrid_affected_rows();
+				$__tcSqlLog[$__tcSqlLogCount]['rows'] = cubrid_affected_rows($result);
 				break;
 		}
 	}

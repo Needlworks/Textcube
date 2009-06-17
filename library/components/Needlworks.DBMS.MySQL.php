@@ -67,6 +67,7 @@ class DBQuery {
 		}
 		$result = array();
 		if(!is_null($condition)) {
+			$result = array();
 			foreach($__dbProperties['tableList'] as $item) {
 				if(strpos($item, $condition) === 0) {
 					array_push($result, $item);
@@ -77,11 +78,13 @@ class DBQuery {
 			return $__dbProperties['tableList'];
 		}
 	}
-
+	
 	public static function setTimezone($time) {
 		return DBQuery::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
 	}
-
+	function reservedFieldNames() {
+		return null;
+	}
 	/*@static@*/
 	public static function queryExistence($query) {
 		if ($result = DBQuery::query($query)) {
@@ -288,7 +291,9 @@ class DBQuery {
 	public static function cacheSave() {
 		global $fileCachedResult;
 	}
-	
+	function commit() { 
+		return true; // Auto commit.
+	}
 	/* Raw public static functions (to easier adoptation) */
 	/*@static@*/
 	public static function num_rows($handle = null) {

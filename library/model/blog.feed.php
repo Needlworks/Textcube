@@ -243,7 +243,7 @@ function getCommentFeedByEntryId($blogid = null, $entryId, $rawMode = false, $mo
 		FROM {$database['prefix']}Comments
 		WHERE blogid = ".$blogid." 
 			AND entry = ".$entryId."
-			AND isFiltered = 0");
+			AND isfiltered = 0");
 	if (!$result)
 		$result = array();
 
@@ -327,7 +327,7 @@ function getTrackbackFeedByEntryId($blogid = null, $entryId, $rawMode = false, $
 		FROM {$database['prefix']}RemoteResponses
 		WHERE blogid = ".$blogid." 
 			AND entry = ".$entryId."
-			AND isFiltered = 0
+			AND isfiltered = 0
 			AND type = 'trackback'");
 	if (!$result)
 		$result = array();
@@ -379,13 +379,13 @@ function getCommentNotifiedFeedTotal($blogid, $mode = 'rss') {
 	foreach($mergedComments as $row) {
 		$item = array(
 			'id' => $row['id'], 
-			'title' => RSSMessage($row['entryTitle']), 
+			'title' => RSSMessage($row['entrytitle']), 
 			'link' => $row['url'], 
 			'categories' => array(), 
 			'description' => RSSMessage(htmlspecialchars($row['comment'])), 
 			'author' => '('.RSSMessage(htmlspecialchars($row['name'])).')', 
 			'pubDate' => $row['written'],
-			'comments' => $row['entryUrl'],
+			'comments' => $row['entryurl'],
 			'guid' => $row['url']
 		);
 		array_push($channel['items'], $item);

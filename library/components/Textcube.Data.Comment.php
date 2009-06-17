@@ -23,7 +23,7 @@ class Comment {
 		$this->latitude =
 		$this->content =
 		$this->written =
-		$this->isFiltered =
+		$this->isfiltered =
 			null;
 	}
 	
@@ -90,8 +90,8 @@ class Comment {
 			return $this->_error('content');
 		if (!isset($this->ip))
 			$this->ip = $_SERVER['REMOTE_ADDR'];
-		if (!isset($this->isFiltered))
-			$this->isFiltered = 0;
+		if (!isset($this->isfiltered))
+			$this->isfiltered = 0;
 		
 		if (!$query = $this->_buildQuery())
 			return false;
@@ -103,7 +103,7 @@ class Comment {
 		
 		if (isset($this->parent))
 			$this->entry = Comment::getEntry($this->parent);
-		if ((isset($this->entry)) && ($this->isFiltered == 0))
+		if ((isset($this->entry)) && ($this->isfiltered == 0))
 			POD::execute("UPDATE {$database['prefix']}Entries SET comments = comments + 1 WHERE blogid = ".getBlogId()." AND id = {$this->entry}");
 		return true;
 	}
@@ -140,11 +140,11 @@ class Comment {
 	function _buildQuery() {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'Comments');
-		$query->setQualifier('blogid', getBlogId());
+		$query->setQualifier('blogid', 'equals',getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
-			$query->setQualifier('id', $this->id);
+			$query->setQualifier('id', 'equals',$this->id);
 		}
 		if (isset($this->entry)) {
 			if (!Validator::number($this->entry, 1))
@@ -205,8 +205,8 @@ class Comment {
 				return $this->_error('written');
 			$query->setAttribute('written', $this->written);
 		}
-		if (isset($this->isFiltered)) {
-			$query->setAttribute('isFiltered', Validator::getBit($this->isFiltered));
+		if (isset($this->isfiltered)) {
+			$query->setAttribute('isfiltered', Validator::getBit($this->isfiltered));
 		}
 		if (isset($this->password)) {
 			$this->password = UTF8::lessenAsEncoding($this->password, 32);

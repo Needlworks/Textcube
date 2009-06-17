@@ -50,7 +50,7 @@ foreach($images as $value) {
 			   "height" , "100%",
 			   "src" , "<?php echo $service['path'];?>/resources/script/gallery/iMazing/main",
 			   "FlashVars", "image=<?php echo $imageStr;?>&frame=<?php echo $_GET["f"];?>&transition=<?php echo $_GET["t"];?>&navigation=<?php echo $_GET["n"];?>&slideshowInterval=<?php echo $_GET["si"];?>&page=<?php echo $_GET["p"];?>&align=<?php echo $_GET["a"];?>&skinPath=<?php echo $service['path'];?>/resources/script/gallery/iMazing/&",
-			   "allowScriptAccess", "sameDomain", 
+			   "allowscriptAccess", "sameDomain", 
 			   "menu", "false");
 		//]]>
 		</script>

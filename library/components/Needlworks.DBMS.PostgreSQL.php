@@ -60,13 +60,14 @@ class DBQuery {
 	function tableList($condition = null) {
 		global $__dbProperties;
 		if (!array_key_exists('tableList', $__dbProperties)) { 
-			$__dbProperties['tableList'] = DBQuery::queryAll("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
+			$__dbProperties['tableList'] = DBQuery::queryColumn("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
 		}
 		if(!is_null($condition)) {
+			$result = array();
 			foreach($__dbProperties['tableList'] as $item) {
 				if(strpos($item, $condition) === 0) array_push($result, $item);
 			}
-			return $item;
+			return $result;
 		} else {
 			return $__dbProperties['tableList'];
 		}
@@ -76,6 +77,34 @@ class DBQuery {
 		return DBQuery::query('SET TIME ZONE \'' . $time . '\'');
 	}
 
+	function reservedFieldNames() {
+		return null;
+	}
+
+	/*@static@*/
+	function query($query $compatiblity = true) {
+		global $__gLastQueryType;
+		/// Bypassing compatiblitiy issue : will be replace to NAF2.
+		if($compatibility) {
+		$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compatibility issue.
+		}		
+		if( function_exists( '__tcSqlLogBegin' ) ) {
+			__tcSqlLogBegin($query);
+			$result = pg_query($query);
+			__tcSqlLogEnd($result,0);
+		} else {
+			$result = pg_query($query);
+		}
+		$__gLastQueryType = strtolower(substr($query, 0,6));
+		if( stristr($query, 'update ') ||
+			stristr($query, 'insert ') ||
+			stristr($query, 'delete ') ||
+			stristr($query, 'replace ') ) {
+			DBQuery::clearCache();
+		}
+		return $result;
+	}
+	
 	/*@static@*/
 	function queryExistence($query) {
 		if ($result = DBQuery::query($query)) {
@@ -226,27 +255,6 @@ class DBQuery {
 		return $result;
 	}
 	
-	/*@static@*/
-	function query($query) {
-		global $__gLastQueryType;
-		$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compartibility issue.
-		if( function_exists( '__tcSqlLogBegin' ) ) {
-			__tcSqlLogBegin($query);
-			$result = pg_query($query);
-			__tcSqlLogEnd($result,0);
-		} else {
-			$result = pg_query($query);
-		}
-		$__gLastQueryType = strtolower(substr($query, 0,6));
-		if( stristr($query, 'update ') ||
-			stristr($query, 'insert ') ||
-			stristr($query, 'delete ') ||
-			stristr($query, 'replace ') ) {
-			DBQuery::clearCache();
-		}
-		return $result;
-	}
-	
 	function insertId() {
 		return null;
 	}
@@ -267,8 +275,13 @@ class DBQuery {
 	function cacheLoad() {
 		global $fileCachedResult;
 	}
+
 	function cacheSave() {
 		global $fileCachedResult;
+	}
+
+	function commit() { 
+		return true; // Auto commit.
 	}
 
 	/* Raw functions (to easier adoptation) */

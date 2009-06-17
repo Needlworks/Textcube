@@ -35,7 +35,7 @@ class POD extends DBQuery {
 	/** Additional features for Textcube **/
 	/** NOTICE : PARTS BELOW EXTENDS DBQuery Class WHICH IS THE BASE OF POD
 	             AND WORKS ONLY WITH 'PageCache' Component in Textcube **/
-	public static function queryWithDBCache($query, $prefix = null, $type = MYSQL_BOTH, $count = -1) {
+	public static function queryWithDBCache($query, $prefix = null, $type = 'both', $count = -1) {
 		$cache = new queryCache($query, $prefix);
 		if(!$cache->load()) {
 			$cache->contents = POD::query($query, $type, $count);
@@ -43,7 +43,7 @@ class POD extends DBQuery {
 		}
 		return $cache->contents;
 	}
-	public static function queryAllWithDBCache($query, $prefix = null, $type = MYSQL_BOTH, $count = -1) {
+	public static function queryAllWithDBCache($query, $prefix = null, $type = 'both', $count = -1) {
 		$cache = new queryCache($query, $prefix);
 		if(!$cache->load()) {
 			$cache->contents = POD::queryAllWithCache($query, $type, $count);
@@ -51,7 +51,7 @@ class POD extends DBQuery {
 		}
 		return $cache->contents;
 	}
-	public static function queryRowWithDBCache($query, $prefix = null, $type = MYSQL_BOTH, $count = -1) {
+	public static function queryRowWithDBCache($query, $prefix = null, $type = 'both', $count = -1) {
 		$cache = new queryCache($query, $prefix);
 		if(!$cache->load()) {
 			$cache->contents = POD::queryRow($query, $type, $count);
@@ -59,7 +59,7 @@ class POD extends DBQuery {
 		}
 		return $cache->contents;
 	}
-	public static function queryColumnWithDBCache($query, $prefix = null, $type = MYSQL_BOTH, $count = -1) {
+	public static function queryColumnWithDBCache($query, $prefix = null, $type = 'both', $count = -1) {
 		$cache = new queryCache($query, $prefix);
 		if(!$cache->load()) {
 			$cache->contents = POD::queryColumn($query, $type, $count);

@@ -13,7 +13,7 @@ function getRemoteResponsesWithPagingForOwner($blogid, $category, $site, $ip, $s
 		FROM {$database['prefix']}RemoteResponses t 
 		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
 		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
-		WHERE t.blogid = $blogid AND t.isFiltered = 0 $typeFilter";
+		WHERE t.blogid = $blogid AND t.isfiltered = 0 $typeFilter";
 	if ($category > 0) {
 		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
@@ -81,7 +81,7 @@ function getRemoteResponses($entry, $type = null) {
 			FROM {$database['prefix']}RemoteResponses 
 			WHERE blogid = ".getBlogId()." 
 				AND entry = $entry 
-				AND isFiltered = 0 $typeFilter 
+				AND isfiltered = 0 $typeFilter 
 			ORDER BY written");
 	while ($response = POD::fetch($result))
 		array_push($responses, $response);
@@ -99,7 +99,7 @@ function getRemoteResponseList($blogid, $search, $type = null) {
  		FROM {$database['prefix']}RemoteResponses t
 		LEFT JOIN {$database['prefix']}Entries e ON t.entry = e.id AND t.blogid = e.blogid AND e.draft = 0
 		WHERE  t.blogid = $blogid
-			AND t.isFiltered = 0
+			AND t.isfiltered = 0
 			AND t.entry > 0 $authorized $typeFilter 
 			AND (t.excerpt like '%$search%' OR t.subject like '%$search%')")) {
 		foreach($result as $response)	
@@ -117,23 +117,23 @@ function getRecentRemoteResponses($blogid, $count = false, $guestShip = false, $
 			{$database['prefix']}RemoteResponses t
 			LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0
 		WHERE 
-			t.blogid = $blogid AND t.isFiltered = 0 $typeFilter 
+			t.blogid = $blogid AND t.isfiltered = 0 $typeFilter 
 		ORDER BY 
 			t.written 
-		DESC LIMIT ".($count != false ? $count : $skinSetting['trackbacksOnRecent']) : 
+		DESC LIMIT ".($count != false ? $count : $skinSetting['trackbacksonrecent']) : 
 		"SELECT t.*, e.slogan 
 		FROM 
 			{$database['prefix']}RemoteResponses t 
 			LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id
 		WHERE 
 			t.blogid = $blogid 
-			AND t.isFiltered = 0 
+			AND t.isfiltered = 0 
 			AND e.draft = 0 
 			AND e.visibility >= 2 ".getPrivateCategoryExclusionQuery($blogid)."
 			$typeFilter
 		ORDER BY 
 			t.written 
-		DESC LIMIT ".($count != false ? $count : $skinSetting['trackbacksOnRecent']);
+		DESC LIMIT ".($count != false ? $count : $skinSetting['trackbacksonrecent']);
 	if ($result = POD::queryAllWithDBCache($sql,'remoteResponse')) {
 		return $result;
 	}
@@ -304,7 +304,7 @@ function receiveTrackback($blogid, $entry, $title, $url, $excerpt, $site) {
 	$trackback->title = $title;
 	$trackback->excerpt = $excerpt;
 	if ($filtered > 0) {
-		$trackback->isFiltered = true;
+		$trackback->isfiltered = true;
 	}
 	if ($trackback->add()) {
 		if($filtered == 0) {
@@ -339,7 +339,7 @@ function sendTrackback($blogid, $entryId, $url) {
 		return false;
 	$link = "$defaultURL/$entryId";
 	$title = fireEvent('ViewPostTitle', $entry['title'], $entry['id']);
-	$entry['content'] = getEntryContentView($blogid, $entryId, $entry['content'], $entry['contentFormatter'], getKeywordNames($blogid));
+	$entry['content'] = getEntryContentView($blogid, $entryId, $entry['content'], $entry['contentformatter'], getKeywordNames($blogid));
 	$excerpt = str_tag_on(UTF8::lessen(removeAllTags(stripHTML($entry['content'])), 255));
 	$blogTitle = $blog['title'];
 	$isNeedConvert = 

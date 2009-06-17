@@ -92,7 +92,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 		$entry['id'] = $entryId;
 		$entry['slogan'] = getSloganById($blogid, $entryId);
 		if(!$comment['secret']) {
-			if($row = POD::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0 AND visibility = 3 AND acceptComment = 1"))
+			if($row = POD::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0 AND visibility = 3 AND acceptcomment = 1"))
 				sendCommentPing($entryId, "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$row['slogan']}": $entryId), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
 		}
 		$skin = new Skin($skinSetting['skin']);

@@ -17,14 +17,14 @@ class Post {
 		$this->title =
 		$this->slogan =
 		$this->content =
-		$this->contentFormatter =
-		$this->contentEditor =
+		$this->contentformatter =
+		$this->contenteditor =
 		$this->category =
 		$this->tags =
 		$this->location =
 		$this->password =
-		$this->acceptComment =
-		$this->acceptTrackback =
+		$this->acceptcomment =
+		$this->accepttrackback =
 		$this->published =
 		$this->longitude =
 		$this->latitude =
@@ -87,8 +87,8 @@ class Post {
 						if (empty($value))
 							$value = null;
 						break;
-					case 'acceptComment':
-					case 'acceptTrackback':
+					case 'acceptcomment':
+					case 'accepttrackback':
 						$value = $value ? true : false;
 						break;
 				}
@@ -116,7 +116,7 @@ class Post {
 		if (!isset($this->id) || $query->doesExist() || $this->doesExist($this->id)) {
 			$this->id = $this->nextEntryId(); // Added (#300)
 		}
-		$query->setQualifier('id', $this->id);
+		$query->setQualifier('id', 'equals', $this->id);
 
 		if (empty($this->starred))
 			$this->starred = 0;
@@ -138,9 +138,9 @@ class Post {
 		if (isset($this->category)) {
 			$target = ($parentCategory = Category::getParent($this->category)) ? '(id = ' . $this->category . ' OR id = ' . $parentCategory . ')' : 'id = ' . $this->category;
 			if (isset($this->visibility) && ($this->visibility != 'private'))
-				@POD::query("UPDATE {$database['prefix']}Categories SET entries = entries + 1, entriesInLogin = entriesInLogin + 1 WHERE blogid = ".getBlogId()." AND " . $target);
+				@POD::query("UPDATE {$database['prefix']}Categories SET entries = entries + 1, entriesinlogin = entriesinlogin + 1 WHERE blogid = ".getBlogId()." AND " . $target);
 			else
-				@POD::query("UPDATE {$database['prefix']}Categories SET entriesInLogin = entriesInLogin + 1 WHERE blogid = ".$this->blogid." AND " . $target);
+				@POD::query("UPDATE {$database['prefix']}Categories SET entriesinlogin = entriesinlogin + 1 WHERE blogid = ".$this->blogid." AND " . $target);
 		}
 		$this->saveSlogan();
 		$this->addTags();
@@ -203,9 +203,9 @@ class Post {
 				$target = ($parentCategory = Category::getParent($entry['category'])) ? '(id = ' . $entry['category'] . ' OR id = ' . $parentCategory . ')' : 'id = ' . $entry['category'];
 
 				if (isset($entry['visibility']) && ($entry['visibility'] != 1))
-					POD::query("UPDATE {$database['prefix']}Categories SET entries = entries - 1, entriesInLogin = entriesInLogin - 1 WHERE blogid = ".$this->blogid." AND " . $target);
+					POD::query("UPDATE {$database['prefix']}Categories SET entries = entries - 1, entriesinlogin = entriesinlogin - 1 WHERE blogid = ".$this->blogid." AND " . $target);
 				else
-					POD::query("UPDATE {$database['prefix']}Categories SET entriesInLogin = entriesInLogin - 1 WHERE blogid = ".$this->blogid." AND " . $target);
+					POD::query("UPDATE {$database['prefix']}Categories SET entriesinlogin = entriesinlogin - 1 WHERE blogid = ".$this->blogid." AND " . $target);
 			}
 		
 		// step 7. Delete Attachment
@@ -306,9 +306,9 @@ class Post {
 			$this->slogan = $slogan;
 
 		$query = new TableQuery($database['prefix'] . 'Entries');
-		$query->setQualifier('blogid',$this->blogid);
-		if(isset($this->userid)) $query->setQualifier('userid', $this->userid);
-		$query->setQualifier('id', $this->id);
+		$query->setQualifier('blogid', 'equals', $this->blogid);
+		if(isset($this->userid)) $query->setQualifier('userid', 'equals', $this->userid);
+		$query->setQualifier('id', 'equals', $this->id);
 		if (!$query->doesExist())
 			return $this->_error('id');
 
@@ -457,7 +457,7 @@ class Post {
 			return false;
 		return POD::queryExistence("SELECT id 
 			FROM {$database['prefix']}Entries 
-			WHERE blogid = ".$this->blogid." AND id = $id AND draft = 0 AND visibility > 0 AND category >= 0 AND acceptTrackback = 1");
+			WHERE blogid = ".$this->blogid." AND id = $id AND draft = 0 AND visibility > 0 AND category >= 0 AND accepttrackback = 1");
 	}
 	
 	function updateComments($id = null) {
@@ -472,7 +472,7 @@ class Post {
 			return false;
 		$succeeded = true;
 		foreach ($posts as $id) {
-			$comments = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE blogid = ".$this->blogid." AND entry = $id AND isFiltered = 0");
+			$comments = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE blogid = ".$this->blogid." AND entry = $id AND isfiltered = 0");
 			if (!is_null($comments)) {
 				if (POD::execute("UPDATE {$database['prefix']}Entries SET comments = $comments WHERE blogid = ".$this->blogid." AND id = $id"))
 					continue;
@@ -495,7 +495,7 @@ class Post {
 			return false; 
 		$succeeded = true;
 		foreach ($posts as $id) {
-			$trackbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = ".$this->blogid." AND entry = $id AND isFiltered = 0 AND type = 'trackback'");
+			$trackbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = ".$this->blogid." AND entry = $id AND isfiltered = 0 AND type = 'trackback'");
 			if (!is_null($trackbacks)) { 
 				if (!POD::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks 
 					WHERE blogid = ".$this->blogid." AND id = $id"))
@@ -545,23 +545,23 @@ class Post {
 		global $database;
 		$this->init();
 		$query = new TableQuery($database['prefix'] . 'Entries');
-		$query->setQualifier('blogid', $this->blogid);
+		$query->setQualifier('blogid', 'equals', $this->blogid);
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
-			$query->setQualifier('id', $this->id);
+			$query->setQualifier('id', 'equals', $this->id);
 		} 
 		if (isset($this->userid)) {
 			if (!Validator::number($this->userid, 1))
 				return $this->_error('userid');
-			$query->setQualifier('userid', $this->userid);
+			$query->setQualifier('userid', 'equals', $this->userid);
 		} 
 		if (isset($this->title))
 			$query->setAttribute('title', UTF8::lessenAsEncoding($this->title, 255), true);
 		if (isset($this->content)) {
 			$query->setAttribute('content', $this->content, true);
-			$query->setAttribute('contentFormatter', $this->contentFormatter, true);
-			$query->setAttribute('contentEditor', $this->contentEditor, true);
+			$query->setAttribute('contentformatter', $this->contentformatter, true);
+			$query->setAttribute('contenteditor', $this->contenteditor, true);
 		}
 		if (isset($this->visibility)) {
 			switch ($this->visibility) {
@@ -600,10 +600,10 @@ class Post {
 			$query->setAttribute('location', UTF8::lessenAsEncoding($this->location, 255), true);
 		if (isset($this->password))
 			$query->setAttribute('password', $this->password, true);
-		if (isset($this->acceptComment))
-			$query->setAttribute('acceptComment', Validator::getBit($this->acceptComment));
-		if (isset($this->acceptTrackback))
-			$query->setAttribute('acceptTrackback', Validator::getBit($this->acceptTrackback));
+		if (isset($this->acceptcomment))
+			$query->setAttribute('acceptcomment', Validator::getBit($this->acceptcomment));
+		if (isset($this->accepttrackback))
+			$query->setAttribute('accepttrackback', Validator::getBit($this->accepttrackback));
 		if (isset($this->published)) {
 			if (!Validator::number($this->published, 0))
 				return $this->_error('published');
@@ -614,12 +614,12 @@ class Post {
 		if (isset($this->latitude) && Validator::number($this->latitude))
 			$query->setAttribute('latitude', $this->latitude);
 		if (isset($this->created)) {
-			if (!Validator::number($this->created, 1))
+			if (!Validator::number($this->created, 0))
 				return $this->_error('created');
 			$query->setAttribute('created', $this->created);
 		}
 		if (isset($this->modified)) {
-			if (!Validator::number($this->modified, 1))
+			if (!Validator::number($this->modified, 0))
 				return $this->_error('modified');
 			$query->setAttribute('modified', $this->modified);
 		}

@@ -4,11 +4,11 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 $IV = array(
 	'POST' => array(
-		'updateCycle' => array('int', 0),
-		'feedLife' => array('int', 0),
-		'loadImage' => array(array('1', '2')),
-		'allowScript' => array(array('1', '2')),
-		'newWindow' => array(array('1', '2')) 
+		'updatecycle' => array('int', 0),
+		'feedlife' => array('int', 0),
+		'loadimage' => array(array('1', '2')),
+		'allowscript' => array(array('1', '2')),
+		'newwindow' => array(array('1', '2')) 
 	)
 );
 

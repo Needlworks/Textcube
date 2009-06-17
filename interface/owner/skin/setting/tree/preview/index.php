@@ -23,20 +23,20 @@ if (isset($_GET['name']))
 	$skinSetting['tree'] = $_GET['name'];
 
 $skinSetting['url'] = $service['path'] . "/skin/tree/{$skinSetting['tree']}";
-$skinSetting['itemColor'] = isset($_GET['itemColor']) ? $_GET['itemColor'] : $skinSetting['colorOnTree'];
-$skinSetting['itemBgColor'] = isset($_GET['itemBgColor']) ? $_GET['itemBgColor'] : $skinSetting['bgColorOnTree'];
-$skinSetting['activeItemColor'] = isset($_GET['activeItemColor']) ? $_GET['activeItemColor'] : $skinSetting['activeColorOnTree'];
-$skinSetting['activeItemBgColor'] = isset($_GET['activeItemBgColor']) ? $_GET['activeItemBgColor'] : $skinSetting['activeBgColorOnTree'];
-$skinSetting['labelLength'] = isset($_GET['labelLength']) ? $_GET['labelLength'] : $skinSetting['labelLengthOnTree'];
-$skinSetting['showValue'] = isset($_GET['showValue']) ? $_GET['showValue'] : $skinSetting['showValueOnTree'];
+$skinSetting['itemColor'] = isset($_GET['itemColor']) ? $_GET['itemColor'] : $skinSetting['colorontree'];
+$skinSetting['itemBgColor'] = isset($_GET['itemBgColor']) ? $_GET['itemBgColor'] : $skinSetting['bgcolorontree'];
+$skinSetting['activeItemColor'] = isset($_GET['activeItemColor']) ? $_GET['activeItemColor'] : $skinSetting['activecolorontree'];
+$skinSetting['activeItemBgColor'] = isset($_GET['activeItemBgColor']) ? $_GET['activeItemBgColor'] : $skinSetting['activebgcolorontree'];
+$skinSetting['labelLength'] = isset($_GET['labelLength']) ? $_GET['labelLength'] : $skinSetting['labellengthontree'];
+$skinSetting['showValue'] = isset($_GET['showValue']) ? $_GET['showValue'] : $skinSetting['showvalueontree'];
 
 
 if (isset($_GET['activeItemBgColor']))
-	$skinSetting['activeBgColorOnTree'] = $_GET['activeItemBgColor'];
+	$skinSetting['activebgcolorontree'] = $_GET['activeItemBgColor'];
 if (isset($_GET['labelLength']))
-	$skinSetting['labelLengthOnTree'] = $_GET['labelLength'];
+	$skinSetting['labellengthontree'] = $_GET['labelLength'];
 if (isset($_GET['showValue']))
-	$skinSetting['showValueOnTree'] = $_GET['showValue'];
+	$skinSetting['showvalueontree'] = $_GET['showValue'];
 ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">

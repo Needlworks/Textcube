@@ -82,7 +82,7 @@ class RefererLog {
 	function _buildQuery() {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'RefererLogs');
-		$query->setQualifier('blogid', getBlogId());
+		$query->setQualifier('blogid', 'equals', getBlogId());
 		if (isset($this->host)) {
 			$this->host = UTF8::lessenAsEncoding(trim($url['host']), 64);
 			if (empty($this->host))
