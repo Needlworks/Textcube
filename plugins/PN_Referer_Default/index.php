@@ -1,14 +1,14 @@
 <?php
-/* Referer statistics plugin for Textcube 1.1
+/* Referer statistics plugin for Textcube 1.7
    ----------------------------------
-   Version 1.0
+   Version 1.7
    Tatter and Friends development team.
 
    Creator          : inureyes
    Maintainer       : gendoh, inureyes, graphittie
 
    Created at       : 2006.8.15
-   Last modified at : 2006.10.27
+   Last modified at : 2009.6.17
  
  This plugin shows referer statistics on administration menu.
  For the detail, visit http://forum.tattersite.com/ko
@@ -32,12 +32,12 @@ function PN_Referer_Default()
 	if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['page']))
 		$_GET['page'] = $_POST['page'];
 	
-	$page = Setting::getBlogSettingRowsPerPage(20);
+	$page = Setting::getBlogSetting('RowsPerPage',20,true);
 	
 	if (empty($_POST['perPage'])) {  
 		$perPage = $page;  
 	} else if ($page != $_POST['perPage']) {  
-		Setting::setBlogSettingRowsPerPage($_POST['perPage']);  
+		Setting::setBlogSetting('RowsPerPage',$_POST['perPage'],true);  
 		$perPage = $_POST['perPage'];  
 	} else {  
 		$perPage = $_POST['perPage'];  
