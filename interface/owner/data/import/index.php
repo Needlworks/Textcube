@@ -32,7 +32,7 @@ requireStrictRoute();
 <body>
 <?php
 function finish($error = null) {
-	global $migrational;
+	global $migrational, $blogid, $database;
 ?>
 	<script type="text/javascript">
 		//<![CDATA[
