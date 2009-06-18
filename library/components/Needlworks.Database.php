@@ -26,6 +26,35 @@ switch($database['dbms']) {
 //if(!class_exists('POD')) require_once ROOT.'/components/POD.Core.php';
 if(!class_exists('POD')) require_once ROOT.'/library/components/POD.Core.Legacy.php'; //1.6 Only uses legacy routine of POD. Will be changed from 1.8 (or later)
 
+// DB-related function. will be merged into DBMS unification function.
+function escapeSearchString($str) {
+	return is_string($str) ? str_replace('_', '\_', str_replace('%', '\%', POD::escapeString($str, null))) : $str;
+}
+
+function doesExistTable($tablename) {
+	requireModel('common.setting');
+
+	global $database;
+	static $tables = array();
+	if( empty($tables) ) {
+		$tables = POD::tableList($database['prefix']);
+	}
+	
+	$dbCaseInsensitive = getServiceSetting('lowercaseTableNames');
+	if($dbCaseInsensitive === null) {
+		if(in_array(POD::dbms(),array('MySQL','MySQLi')) {
+			$result = POD::queryRow("SHOW VARIABLES LIKE 'lower_case_table_names'");
+			$dbCaseInsensitive = ($result['Value'] == 1) ? 1 : 0;
+		} else $dbCaseInsensitive = 1;
+		setServiceSetting('lowercaseTableNames',$dbCaseInsensitive);
+	}
+	if($dbCaseInsensitive == 1) $tablename = strtolower($tablename);
+	if( in_array( $tablename, $tables ) ) {
+		return true;
+	}
+	return false;
+}
+
 /* TableQuery */
 // class TableQuery will be depreacted after 1.8 tree.
 // (Will be replaced to POD Framework)
