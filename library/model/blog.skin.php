@@ -290,10 +290,10 @@ function setSkinSetting($blogid, $setting) {
 	if (!POD::execute($sql)) {
 		return false;
 	}
-	setBlogSetting('useMicroformat',$setting['useMicroformat']);
-	setBlogSetting('useFOAF',(($setting['useFOAF'] == 1) ? 1: 0));
-	setBlogSetting('entriesOnPage',$setting['entriesOnPage']);
-	setBlogSetting('entriesOnList',$setting['entriesOnList']);
+	Setting::setBlogSetting('useMicroformat',$setting['useMicroformat'],true);
+	Setting::setBlogSetting('useFOAF',(($setting['useFOAF'] == 1) ? 1: 0),true);
+	Setting::setBlogSetting('entriesOnPage',$setting['entriesOnPage'],true);
+	Setting::setBlogSetting('entriesOnList',$setting['entriesOnList'],true);
 	CacheControl::flushCategory();
 	CacheControl::flushTag();
 	Skin::purgeCache();
