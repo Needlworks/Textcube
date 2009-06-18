@@ -494,13 +494,13 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 				CHANGE activeBgColorOnTree activebgcolorontree varchar(6) NOT NULL default '00ADEF',
 				CHANGE labelLengthOnTree labellengthontree int(11) NOT NULL default '30',
 				CHANGE showValueOnTree showvalueontree int(1) NOT NULL default '1'")
-			&& POD::execute("ALTER TABLE {$database['prefix']}Trackbacks
+			&& POD::execute("ALTER TABLE {$database['prefix']}RemoteResponses
 				DROP KEY isFiltered, 
 				CHANGE isFiltered isfiltered int(11) NOT NULL default 0,
 				ADD KEY isfiltered (isfiltered)")
 			&& POD::execute("ALTER TABLE {$database['prefix']}Users
 				CHANGE lastLogin lastlogin int(11) NOT NULL default 0")
-			&& POD::execute("ALTER TABLE {$database['prefix']}Teamblog
+			&& POD::execute("ALTER TABLE {$database['prefix']}Privileges
 				CHANGE lastLogin lastlogin int(11) NOT NULL default 0")
 			&& POD::execute("ALTER TABLE {$database['prefix']}XMLRPCPingSettings
 				CHANGE type pingtype varchar(32) NOT NULL default 'xmlrpc'")				

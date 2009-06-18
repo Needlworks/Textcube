@@ -275,6 +275,7 @@ function checkStep($step, $check = true) {
 <?php
 $dbmsSupport = array();
 if(function_exists('mysql_connect')) array_push($dbmsSupport,'MySQL');
+if(function_exists('mysqli_connect')) array_push($dbmsSupport,'MySQLi');
 if(function_exists('pg_connect')) array_push($dbmsSupport,'PostgreSQL');
 if(function_exists('cubrid_connect')) array_push($dbmsSupport,'Cubrid');
 foreach($dbmsSupport as $dbms) {

@@ -177,24 +177,30 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 		$value = $plugin;
 		$result = getServiceSetting($keyname, null);
 		if (is_null($result)) {
-			$keyname = POD::escapeString(UTF8::lessenAsEncoding($keyname, 32));
-			$value = POD::escapeString(UTF8::lessenAsEncoding($plugin . '/' . $version , 255));
-			POD::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value'");
+			$keyname = UTF8::lessenAsEncoding($keyname, 32);
+			$value = UTF8::lessenAsEncoding($plugin . '/' . $version , 255);
+			$query = new TableQuery($database['prefix']. 'ServiceSettings');
+			$query->setAttribute('name',$keyname,true);
+			$query->setAttribute('value',$value,true);
+			$query->insert();
 		} else {
-			$keyname = POD::escapeString(UTF8::lessenAsEncoding($keyname, 32));
-			$value = POD::escapeString(UTF8::lessenAsEncoding($plugin . '/' . $version , 255));
+			$keyname = UTF8::lessenAsEncoding($keyname, 32);
+			$value = UTF8::lessenAsEncoding($plugin . '/' . $version , 255);
 			$values = explode('/', $result, 2);
 			if (strcmp($plugin, $values[0]) != 0) { // diff plugin
 				return false; // nothing can be done
 			} else if (strcmp($version, $values[1]) != 0) {
-				POD::execute("UPDATE {$database['prefix']}ServiceSettings SET value ='$value' WHERE name='$keyname'");
+				$query = new TableQuery($database['prefix']. 'ServiceSettings');
+				$query->setQualifier('name','equals',$keyname,true);
+				$query->setAttribute('value',$value,true);
+				$query->update();
 				$eventName = 'UpdateDB_' . $name;
 				fireEvent($eventName, $values[1]);
 			}
 		}
 		return true;
 	} else {
-		$query = "CREATE TABLE {$database['prefix']}{$name} (blogid int(11) NOT NULL default '0',";
+		$query = "CREATE TABLE {$database['prefix']}{$name} (blogid int(11) NOT NULL default 0,";
 		$isaiExists = false;
 		$index = '';
 		foreach($fields as $field) {

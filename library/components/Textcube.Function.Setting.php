@@ -282,7 +282,7 @@ class Setting {
 		return $query->delete();
 	}
 
-	function getServiceSetting($name, $default, $global = null) {
+	function getServiceSetting($name, $default = null, $global = null) {
 		global $database, $__serviceSetting;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		if( empty($__serviceSetting) ) {
@@ -302,7 +302,6 @@ class Setting {
 		global $database, $__serviceSetting;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		$name = UTF8::lessenAsEncoding($name, 32);
-		$value = UTF8::lessenAsEncoding($value, 255);
 		$query = new TableQuery($database['prefix'] . 'ServiceSettings');
 		$query->setQualifier('name', 'equals', $name, true);
 		$query->setAttribute('name', $name, true);

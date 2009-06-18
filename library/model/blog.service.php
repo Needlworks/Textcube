@@ -67,7 +67,6 @@ function getSkinSetting($blogid, $forceReload = false) {
 				$retval[$name] = $result[strtolower($name)];
 				$retval[strtolower($name)] = $retval[$name];
 			}
-//			$retval = $result;
 			$__gCacheSkinSetting[$blogid] = $retval;
 			if($blogid == getBlogId())  $gCacheStorage->setContent('SkinSetting',$retval);
 			return $retval;
