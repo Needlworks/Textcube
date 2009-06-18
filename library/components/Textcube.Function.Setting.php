@@ -304,7 +304,6 @@ class Setting {
 		global $database, $__serviceSetting;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		$name = UTF8::lessenAsEncoding($name, 32);
-		$value = UTF8::lessenAsEncoding($value, 255);
 		$query = new TableQuery($database['prefix'] . 'ServiceSettings');
 		$query->setQualifier('name', 'equals', $name, true);
 		$query->setAttribute('name', $name, true);
