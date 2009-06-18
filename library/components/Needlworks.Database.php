@@ -42,7 +42,7 @@ function doesExistTable($tablename) {
 	
 	$dbCaseInsensitive = getServiceSetting('lowercaseTableNames');
 	if($dbCaseInsensitive === null) {
-		if(in_array(POD::dbms(),array('MySQL','MySQLi')) {
+		if(in_array(POD::dbms(),array('MySQL','MySQLi'))) {
 			$result = POD::queryRow("SHOW VARIABLES LIKE 'lower_case_table_names'");
 			$dbCaseInsensitive = ($result['Value'] == 1) ? 1 : 0;
 		} else $dbCaseInsensitive = 1;
