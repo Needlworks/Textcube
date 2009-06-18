@@ -284,7 +284,7 @@ class Setting {
 		return $query->delete();
 	}
 
-	function getServiceSetting($name, $default, $global = null) {
+	function getServiceSetting($name, $default = null, $global = null) {
 		global $database, $__serviceSetting;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		if( empty($__serviceSetting) ) {
