@@ -45,27 +45,28 @@ function getSkinSetting($blogid, $forceReload = false) {
 	}
 
 	$defaultSetting = array( 'blogid' => $blogid , 'skin' => $service['skin'], 
-		'entriesonrecent' => 5, 'commentsonrecent' => 5, 'commentsonguestbook' => 5, 'archivesonpage' => 5,
-		'tagsontagbox' => 30, 'tagboxalign' => 3, 'trackbacksonrecent' => 5, 
-		'expandcomment' => 1, 'expandtrackback' => 1, 
-		'recentnoticelength' => 25, 'recententrylength' => 30, 
-		'recentcommentlength' => 30, 'recenttrackbacklength' => 30, 
-		'linklength' => 30, 'showlistoncategory' => 1, 'showlistonarchive' => 1, 
+		'entriesOnRecent' => 5, 'commentsOnRecent' => 5, 'commentsOnGuestbook' => 5, 'archivesOnPage' => 5,
+		'tagsOnTagbox' => 30, 'tagboxAlign' => 3, 'trackbacksOnRecent' => 5, 
+		'expandComment' => 1, 'expandTrackback' => 1, 
+		'recentNoticeLength' => 25, 'recentEntryLength' => 30, 
+		'recentCommentLength' => 30, 'recentTrackbackLength' => 30, 
+		'linkLength' => 30, 'showListOnCategory' => 1, 'showListOnArchive' => 1, 
 		'tree' => 'base', 
-		'colorontree' => '000000', 'bgcolorontree' => '', 
-		'activecolorontree' => 'FFFFFF', 'activebgcolorontree' => '00ADEF', 
-		'labellengthontree' => 27, 'showvalueontree' => 1 );
+		'colorOnTree' => '000000', 'bgColorOnTree' => '', 
+		'activeColorOnTree' => 'FFFFFF', 'activeBgColorOnTree' => '00ADEF', 
+		'labelLengthOnTree' => 27, 'showValueOnTree' => 1 );
 	if ($result = POD::queryRow("SELECT * FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid",'assoc')) {
 		if ($result != FALSE) {
 			if (!Validator::directory($result['skin']) && ($result['skin'] !="customize/$blogid")) {
 				$result['skin'] = $service['skin'];
 			}
 			// retval can be lower-case only parameter as DBMS. thus we change it to camelcase again.
-//			$retval = array();
-//			foreach($defaultSetting as $name => $value) {
-//				$retval[$name] = $result[strtolower($name)];	
-//			}
-			$retval = $result;
+			$retval = array();
+			foreach($defaultSetting as $name => $value) {
+				$retval[$name] = $result[strtolower($name)];
+				$retval[strtolower($name)] = $retval[$name];
+			}
+//			$retval = $result;
 			$__gCacheSkinSetting[$blogid] = $retval;
 			if($blogid == getBlogId())  $gCacheStorage->setContent('SkinSetting',$retval);
 			return $retval;
