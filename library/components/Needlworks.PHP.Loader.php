@@ -61,7 +61,7 @@ class Autoload {
 	private static $control = array(
 		'Session','RSS');
 	public static function load($name) {
-		global $service;
+		global $service, $database;
 		$name = ucfirst($name);
 		if(in_array($name,self::$data)) {
 			require_once(ROOT . "/library/components/Textcube.Data.".$name.".php");

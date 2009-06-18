@@ -50,7 +50,7 @@ function __tcSqlLogEnd( $result, $cachedResult = 0 )
 		$__tcSqlLog[$__tcSqlLogCount]['error'] = iconv( $client_encoding, 'utf-8', mysqli_error(POD::$db));
 	}
 	else {
-		$__tcSqlLog[$__tcSqlLogCount]['error'] = mysqli_error();
+		$__tcSqlLog[$__tcSqlLogCount]['error'] = mysqli_error(POD::$db);
 	}
 	$__tcSqlLog[$__tcSqlLogCount]['errno'] = mysqli_errno(POD::$db);
 
@@ -372,7 +372,7 @@ TFOOT;
 
 	global $service, $URLInfo, $suri;
 	print '<div class="debugTable">'.CRLF;
-	print '<h4>Current Database Management System :</h4>'.CRLF.'<p>'.$service['dbms'].' '.POD::version().'</p>'.CRLF;
+	print '<h4>Current Database Management System :</h4>'.CRLF.'<p>'.POD::dbms().' '.POD::version().'</p>'.CRLF;
 	print '<h4>Cache system :</h4>'.CRLF;
 	if(isset($service['pagecache']) && $service['pagecache'] == true) print '<p>Page cache Enabled</p>'.CRLF;
 	else print '<p>Page cache Disabled</p>'.CRLF;

@@ -378,7 +378,7 @@ TFOOT;
 
 	global $service, $URLInfo, $suri, $database;
 	print '<div class="debugTable">'.CRLF;
-	print '<h4>Current Database Management System :</h4>'.CRLF.'<p>'.$database['dbms'].'</p>'.CRLF;
+	print '<h4>Current Database Management System :</h4>'.CRLF.'<p>'.POD::dbms().'</p>'.CRLF;
 	print '<h4>Cache system :</h4>'.CRLF.'<ul>'.CRLF;
 	if(isset($service['pagecache']) && $service['pagecache'] == true) print '<li>Page cache Enabled</li>'.CRLF;
 	else print '<li>Page cache Disabled</li>'.CRLF;

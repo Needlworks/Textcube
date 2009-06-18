@@ -28,8 +28,8 @@ class DBQuery {
 		if(!self::$db) return false; 
 		if(!self::$db->select_db($database['database']))
 			die("Connection error :".self::$db->errorno." - ".self::$db->error);
-
-		if (self::query('SET CHARACTER SET utf8'))
+		self::$db->autocommit(false);	// Turns off autocommit.
+		if (self::$db->set_charset("utf8"))
 			self::$dbProperties['charset'] = 'utf8';
 		else
 			self::$dbProperties['charset'] = 'default';
@@ -191,7 +191,7 @@ class DBQuery {
 		$all = array();
 		$realtype = self::__queryType($type);
 		if ($result = self::query($query)) {
-			while ( ($count-- !=0) && $row = $result->fetch_array($type))
+			while ( ($count-- !=0) && $row = $result->fetch_array($realtype))
 				array_push($all, $row);
 			$result->free();
 			return $all;
@@ -280,14 +280,17 @@ class DBQuery {
 	public static function cacheSave() {
 		global $fileCachedResult;
 	}
-	
-	function commit() { 
-		return true; // Auto commit.
+	public function rollback() {
+		return self::$db->rollback();
+	}
+	public function commit() { 
+		self::$db->commit(); // Auto commit.
+		return true;
 	}
 		
 /*** Raw functions (to easier adoptation from traditional queries) ***/
 	public static function insertId() {
-		return mysqli_insert_id();
+		return self::$db->insert_id;
 	}
 	
 	public static function num_rows($handle = null) {
@@ -296,7 +299,7 @@ class DBQuery {
 				return mysqli_num_rows($handle);
 				break;
 			default:
-				return mysqli_affected_rows($handle);
+				return self::$db->affected_rows;
 				break;
 		}
 		return null;
