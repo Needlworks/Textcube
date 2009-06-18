@@ -186,8 +186,8 @@ final class Context extends Singleton
 	private function __getBlogIdByName($name) {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'BlogSettings');
-		$query->setQualifier('name','name',true);
-		$query->setQualifier('value', $name, true);
+		$query->setQualifier('name','equals','name',true);
+		$query->setQualifier('value', 'equals', $name, true);
 		return $query->getCell('blogid');
 		return false;	
 	}
