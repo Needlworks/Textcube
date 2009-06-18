@@ -16,8 +16,7 @@ $__requireBasics = array(
 	'function/image',
 	'function/mail');
 $__requireLibrary = array(
-	'functions',
-	'database',				// Library
+	'functions',			// Library
 	'locale',
 	'auth');
 $__requireModel = array(
