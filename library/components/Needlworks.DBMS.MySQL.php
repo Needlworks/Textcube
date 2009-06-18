@@ -5,31 +5,28 @@
 
 // DBQuery version 1.8 for MySQL
 
-global $cachedResult;
 global $fileCachedResult;
-global $__gEscapeTag;
-global $__dbProperties;
-global $__gLastQueryType;
-$cachedResult = $__dbProperties = array();
-$__gEscapeTag = null;
 
-class DBQuery {	
+class DBQuery {
+	static $db;
+	static $cachedResult, $dbProperties, $escapeTag, $lastQueryType;
+		
 	/*@static@*/
 	public static function bind($database) {
-		global $__dbProperties;
+		self::$cachedResult = self::$dbProperties = array();
 		// Connects DB and set environment variables
 		// $database array should contain 'server','username','password'.
 		if(!isset($database) || empty($database)) return false;
-		$handle = @mysql_connect($database['server'].(isset($database['port']) ? ':'.$database['port'] : ''), $database['username'], $database['password']);
-		if(!$handle) return false;
-		$handle = @mysql_select_db($database['database']);
-		if(!$handle) return false;
+		self::$db = @mysql_connect($database['server'].(isset($database['port']) ? ':'.$database['port'] : ''), $database['username'], $database['password']);
+		if(!self::$db) return false;
+		self::$db = @mysql_select_db($database['database']);
+		if(!self::$db) return false;
 
-		if (DBQuery::query('SET CHARACTER SET utf8'))
-			$__dbProperties['charset'] = 'utf8';
+		if (self::query('SET CHARACTER SET utf8'))
+			self::$dbProperties['charset'] = 'utf8';
 		else
-			$__dbProperties['charset'] = 'default';
-		@DBQuery::query('SET SESSION collation_connection = \'utf8_general_ci\'');
+			self::$dbProperties['charset'] = 'default';
+		@self::query('SET SESSION collation_connection = \'utf8_general_ci\'');
 		return true;
 	}
 	
@@ -39,8 +36,8 @@ class DBQuery {
 	}
 
 	public static function charset() {
-		global $__dbProperties;
-		if (array_key_exists('charset', $__dbProperties)) return $__dbProperties['charset'];
+		global self::$dbProperties;
+		if (array_key_exists('charset', self::$dbProperties)) return self::$dbProperties['charset'];
 		else return null;
 	}
 	public static function dbms() {
@@ -48,46 +45,46 @@ class DBQuery {
 	}
 
 	public static function version($mode = 'server') {
-		global $__dbProperties;
-		if (array_key_exists('version', $__dbProperties)) return $__dbProperties['version'];
+		global self::$dbProperties;
+		if (array_key_exists('version', self::$dbProperties)) return self::$dbProperties['version'];
 		else {
-			$__dbProperties['version'] = DBQuery::queryCell("SHOW VARIABLES LIKE 'version'");
-			return $__dbProperties['version'];
+			self::$dbProperties['version'] = self::queryCell("SHOW VARIABLES LIKE 'version'");
+			return self::$dbProperties['version'];
 		}
 	}
 	
 	public static function tableList($condition = null) {
-		global $__dbProperties;
-		if (!array_key_exists('tableList', $__dbProperties)) { 
-			$tableData = DBQuery::queryAll('SHOW TABLES');
-			$__dbProperties['tableList'] = array();
+		global self::$dbProperties;
+		if (!array_key_exists('tableList', self::$dbProperties)) { 
+			$tableData = self::queryAll('SHOW TABLES');
+			self::$dbProperties['tableList'] = array();
 			foreach($tableData as $tbl) {
-				array_push($__dbProperties['tableList'], $tbl[0]);
+				array_push(self::$dbProperties['tableList'], $tbl[0]);
 			}
 		}
 		$result = array();
 		if(!is_null($condition)) {
 			$result = array();
-			foreach($__dbProperties['tableList'] as $item) {
+			foreach(self::$dbProperties['tableList'] as $item) {
 				if(strpos($item, $condition) === 0) {
 					array_push($result, $item);
 				}
 			}
 			return $result;
 		} else {
-			return $__dbProperties['tableList'];
+			return self::$dbProperties['tableList'];
 		}
 	}
 	
 	public static function setTimezone($time) {
-		return DBQuery::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
+		return self::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
 	}
 	function reservedFieldNames() {
 		return null;
 	}
 	/*@static@*/
 	public static function queryExistence($query) {
-		if ($result = DBQuery::query($query)) {
+		if ($result = self::query($query)) {
 			if (mysql_num_rows($result) > 0) {
 				mysql_free_result($result);
 				return true;
@@ -99,12 +96,12 @@ class DBQuery {
 	
 	/*@static@*/
 	public static function queryCount($query) {
-		global $__gLastQueryType;
+		global self::$LastQueryType;
 		$count = 0;
 		$query = trim($query);
-		if ($result = DBQuery::query($query)) {
+		if ($result = self::query($query)) {
 			$operation = strtolower(substr($query, 0,6));
-			$__gLastQueryType = $operation;
+			self::$LastQueryType = $operation;
 			switch ($operation) {
 				case 'select':
 					$count = mysql_num_rows($result);
@@ -133,9 +130,9 @@ class DBQuery {
 		}
 
 		if( $useCache ) {
-			$result = DBQuery::queryAllWithCache($query, $type);
+			$result = self::queryAllWithCache($query, $type);
 		} else {
-			$result = DBQuery::queryAllWithoutCache($query, $type);
+			$result = self::queryAllWithoutCache($query, $type);
 		}
 		if( empty($result) ) {
 			return null;
@@ -146,9 +143,9 @@ class DBQuery {
 	/*@static@*/
 	public static function queryRow($query, $type = 'both', $useCache=true) {
 		if( $useCache ) {
-			$result = DBQuery::queryAllWithCache($query, $type, 1);
+			$result = self::queryAllWithCache($query, $type, 1);
 		} else {
-			$result = DBQuery::queryAllWithoutCache($query, $type, 1);
+			$result = self::queryAllWithoutCache($query, $type, 1);
 		}
 		if( empty($result) ) {
 			return null;
@@ -158,19 +155,19 @@ class DBQuery {
 	
 	/*@static@*/
 	public static function queryColumn($query, $useCache=true) {
-		global $cachedResult;
+		global self::$cachedResult;
 		$cacheKey = "{$query}_queryColumn";
-		if( $useCache && isset( $cachedResult[$cacheKey] ) ) {
+		if( $useCache && isset( self::$cachedResult[$cacheKey] ) ) {
 			if(function_exists( '__tcSqlLogBegin' ) ) {
 				__tcSqlLogBegin($query);
 				__tcSqlLogEnd(null,1);
 			}
-			$cachedResult[$cacheKey][0]++;
-			return $cachedResult[$cacheKey][1];
+			self::$cachedResult[$cacheKey][0]++;
+			return self::$cachedResult[$cacheKey][1];
 		}
 
 		$column = null;
-		if ($result = DBQuery::query($query)) {
+		if ($result = self::query($query)) {
 			$column = array();
 			while ($row = mysql_fetch_row($result))
 				array_push($column, $row[0]);
@@ -178,21 +175,21 @@ class DBQuery {
 		}
 
 		if( $useCache ) {
-			$cachedResult[$cacheKey] = array( 1, $column );
+			self::$cachedResult[$cacheKey] = array( 1, $column );
 		}
 		return $column;
 	}
 	
 	/*@static@*/
 	public static function queryAll ($query, $type = 'both', $count = -1) {
-		return DBQuery::queryAllWithCache($query, $type, $count);
-		//return DBQuery::queryAllWithoutCache($query, $type, $count);  // Your choice. :)
+		return self::queryAllWithCache($query, $type, $count);
+		//return self::queryAllWithoutCache($query, $type, $count);  // Your choice. :)
 	}
 
 	public static function queryAllWithoutCache($query, $type = 'both', $count = -1) {
 		$all = array();
-		$realtype = DBQuery::__queryType($type);
-		if ($result = DBQuery::query($query)) {
+		$realtype = self::__queryType($type);
+		if ($result = self::query($query)) {
 			while ( ($count-- !=0) && $row = mysql_fetch_array($result, $realtype))
 				array_push($all, $row);
 			mysql_free_result($result);
@@ -202,24 +199,24 @@ class DBQuery {
 	}
 	
 	public static function queryAllWithCache($query, $type = 'both', $count = -1) {
-		global $cachedResult;
+		global self::$cachedResult;
 		$cacheKey = "{$query}_{$type}_{$count}";
-		if( isset( $cachedResult[$cacheKey] ) ) {
+		if( isset( self::$cachedResult[$cacheKey] ) ) {
 			if( function_exists( '__tcSqlLogBegin' ) ) {
 				__tcSqlLogBegin($query);
 				__tcSqlLogEnd(null,1);
 			}
-			$cachedResult[$cacheKey][0]++;
-			return $cachedResult[$cacheKey][1];
+			self::$cachedResult[$cacheKey][0]++;
+			return self::$cachedResult[$cacheKey][1];
 		}
-		$all = DBQuery::queryAllWithoutCache($query,$type,$count);
-		$cachedResult[$cacheKey] = array( 1, $all );
+		$all = self::queryAllWithoutCache($query,$type,$count);
+		self::$cachedResult[$cacheKey] = array( 1, $all );
 		return $all;
 	}
 	
 	/*@static@*/
 	public static function execute($query) {
-		return DBQuery::query($query) ? true : false;
+		return self::query($query) ? true : false;
 	}
 
 	/*@static@*/
@@ -228,9 +225,9 @@ class DBQuery {
 		foreach (func_get_args() as $query) {
 			if (is_array($query)) {
 				foreach ($query as $subquery)
-					if (($result = DBQuery::query($subquery)) === false)
+					if (($result = self::query($subquery)) === false)
 						return false;
-			} else if (($result = DBQuery::query($query)) === false)
+			} else if (($result = self::query($query)) === false)
 				return false;
 		}
 		return $result;
@@ -238,7 +235,7 @@ class DBQuery {
 
 	/*@static@*/
 	public static function query($query) {
-		global $__gLastQueryType;
+		global self::$LastQueryType;
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);
 			$result = mysql_query($query);
@@ -246,12 +243,12 @@ class DBQuery {
 		} else {
 			$result = mysql_query($query);
 		}
-		$__gLastQueryType = strtolower(substr($query, 0,6));
+		self::$LastQueryType = strtolower(substr($query, 0,6));
 		if( stristr($query, 'update ') ||
 			stristr($query, 'insert ') ||
 			stristr($query, 'delete ') ||
 			stristr($query, 'replace ') ) {
-			DBQuery::clearCache();
+			self::clearCache();
 		}
 		return $result;
 	}
@@ -261,15 +258,15 @@ class DBQuery {
 	}
 	
 	public static function escapeString($string, $link = null){
-		global $__gEscapeTag;
-		if(is_null($__gEscapeTag)) {
+		global self::$escapeTag;
+		if(is_null(self::$escapeTag)) {
 			if ( function_exists('mysql_real_escape_string') && (mysql_real_escape_string('ㅋ') == 'ㅋ')) {
-				$__gEscapeTag = 'real';
+				self::$escapeTag = 'real';
 			} else {
-				$__gEscapeTag = 'none';
+				self::$escapeTag = 'none';
 			}
 		}
-		if($__gEscapeTag == 'real') {
+		if(self::$escapeTag == 'real') {
 			return is_null($link) ? mysql_real_escape_string($string) : mysql_real_escape_string($string, $link);
 		} else {
 			return mysql_escape_string($string);
@@ -277,8 +274,8 @@ class DBQuery {
 	}
 	
 	public static function clearCache() {
-		global $cachedResult;
-		$cachedResult = array();
+		global self::$cachedResult;
+		self::$cachedResult = array();
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin("Cache cleared");
 			__tcSqlLogEnd(null,2);
@@ -297,8 +294,8 @@ class DBQuery {
 	/* Raw public static functions (to easier adoptation) */
 	/*@static@*/
 	public static function num_rows($handle = null) {
-		global $__gLastQueryType;
-		switch($__gLastQueryType) {
+		global self::$LastQueryType;
+		switch(self::$LastQueryType) {
 			case 'select':
 				return mysql_num_rows($handle);
 				break;

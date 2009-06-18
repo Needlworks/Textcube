@@ -59,6 +59,37 @@ class DBQuery {
 		}
 	}
 
+	public static function tableList($condition = null) {
+		global $__dbProperties;
+		if (!array_key_exists('tableList', $__dbProperties)) { 
+			$tableData = self::queryAll('SHOW TABLES');
+			$__dbProperties['tableList'] = array();
+			foreach($tableData as $tbl) {
+				array_push($__dbProperties['tableList'], $tbl[0]);
+			}
+		}
+		$result = array();
+		if(!is_null($condition)) {
+			$result = array();
+			foreach($__dbProperties['tableList'] as $item) {
+				if(strpos($item, $condition) === 0) {
+					array_push($result, $item);
+				}
+			}
+			return $result;
+		} else {
+			return $__dbProperties['tableList'];
+		}
+	}
+	
+	public static function setTimezone($time) {
+		return self::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
+	}
+	
+	function reservedFieldNames() {
+		return null;
+	}
+	
 	public static function queryExistence($query) {
 		if ($result = self::query($query)) {
 			if ($result->num_rows > 0) {
@@ -113,7 +144,7 @@ class DBQuery {
 		return $result[0][$field];
 	}
 	
-	public static function queryRow($query, $type = MYSQL_BOTH, $useCache=true) {
+	public static function queryRow($query, $type = 'both', $useCache=true) {
 		if( $useCache ) {
 			$result = self::queryAllWithCache($query, $type, 1);
 		} else {
@@ -151,15 +182,14 @@ class DBQuery {
 		return $column;
 	}
 	
-	public static function queryAll ($query, $type = MYSQL_BOTH, $count = -1) {
-		if($type == 'assoc') $type = MYSQL_ASSOC;
-		else if ($type == 'num') $type = MYSQL_NUM;
+	public static function queryAll ($query, $type = 'both', $count = -1) {
 		return self::queryAllWithCache($query, $type, $count);
 		//return self::queryAllWithoutCache($query, $type, $count);  // Your choice. :)
 	}
 
-	public static function queryAllWithoutCache($query, $type = MYSQL_BOTH, $count = -1) {
+	public static function queryAllWithoutCache($query, $type = 'both', $count = -1) {
 		$all = array();
+		$realtype = self::__queryType($type);
 		if ($result = self::query($query)) {
 			while ( ($count-- !=0) && $row = $result->fetch_array($type))
 				array_push($all, $row);
@@ -169,7 +199,7 @@ class DBQuery {
 		return null;
 	}
 	
-	public static function queryAllWithCache($query, $type = MYSQL_BOTH, $count = -1) {
+	public static function queryAllWithCache($query, $type = 'both', $count = -1) {
 		$cacheKey = "{$query}_{$type}_{$count}";
 		if( isset( $cachedResult[$cacheKey] ) ) {
 			if( function_exists( '__tcSqlLogBegin' ) ) {
@@ -246,10 +276,15 @@ class DBQuery {
 	public static function cacheLoad() {
 		global $fileCachedResult;
 	}
+	
 	public static function cacheSave() {
 		global $fileCachedResult;
 	}
 	
+	function commit() { 
+		return true; // Auto commit.
+	}
+		
 /*** Raw functions (to easier adoptation from traditional queries) ***/
 	public static function insertId() {
 		return mysqli_insert_id();
@@ -284,6 +319,18 @@ class DBQuery {
 	public static function stat($stat = null) {
 		if($stat === null) return self::$db->stat();
 		else return self::$db->stat($stat);
+	}
+	
+	public static function __queryType($type) {
+		switch(strtolower($type)) {
+			case 'num':
+				return MYSQL_NUM;
+			case 'assoc':
+				return MYSQL_ASSOC;				
+			case 'both':
+			default:
+				return MYSQL_BOTH;
+		}
 	}
 }
 
