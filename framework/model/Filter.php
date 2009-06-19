@@ -136,7 +136,7 @@ class Model_Filter {
 		global $database;
 
 		$whiteurl = Data_IAdapter::escapeString(strtolower($whiteurl));
-		return Data_IAdapter::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = 'whiteurl' AND '$whiteurl' LIKE CONCAT('%', LOWER(pattern), '%') LIMIT 1");
+		return !Data_IAdapter::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = 'whiteurl' AND '$whiteurl' LIKE CONCAT('%', LOWER(pattern), '%') LIMIT 1");
 	}
 	
 	function _buildQuery() {
