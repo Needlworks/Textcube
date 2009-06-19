@@ -300,7 +300,7 @@ function updateSubscriptionStatistics($target, $mother) {
 	$blogid = getBlogId();
 	$period = Timestamp::getDate();
 	requireComponent('Textcube.Data.Filter');
-	if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']))
+	if (Model_Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']))
 		return;
 	$ip = Data_IAdapter::escapeString($_SERVER['REMOTE_ADDR']);
 	$host = Data_IAdapter::escapeString(isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : '');

@@ -27,13 +27,13 @@ class Utils_Respond {
 		header('Content-Type: text/xml; charset=utf-8');
 		$xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 		$xml .= "<response>\n";
-		$xml .= Respond::PrintValue($result, $useCDATA);
+		$xml .= Utils_Respond::PrintValue($result, $useCDATA);
 		$xml .= "</response>\n";
 		die($xml);
 	}
 	
 	function NotFoundPage($isAjaxCall = false) {
-		if($isAjaxCall) {Respond::ResultPage(-1);exit;}
+		if($isAjaxCall) {Utils_Respond::ResultPage(-1);exit;}
 		header('HTTP/1.1 404 Not Found');
 		header("Connection: close");
 		exit;
@@ -90,7 +90,7 @@ class Utils_Respond {
 	
 	function ErrorPage($message=NULL, $buttonValue=NULL, $buttonLink=NULL, $isAjaxCall = false) {
 		global $service;
-		if($isAjaxCall) {Respond::ResultPage(-1);exit;}
+		if($isAjaxCall) {Utils_Respond::ResultPage(-1);exit;}
 ?>
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
@@ -141,13 +141,13 @@ class Utils_Respond {
 					continue;
 				else if(is_array($value)) {
 					if(is_numeric($key))
-						$xml .= Respond::PrintValue($value, $useCDATA)."\n";
+						$xml .= Utils_Respond::PrintValue($value, $useCDATA)."\n";
 					else
-						$xml .= "<$key>".Respond::PrintValue($value, $useCDATA)."</$key>\n";
+						$xml .= "<$key>".Utils_Respond::PrintValue($value, $useCDATA)."</$key>\n";
 				}
 				else {
 					if($useCDATA)
-						$xml .= "<$key><![CDATA[".Respond::escapeCData($value)."]]></$key>\n";
+						$xml .= "<$key><![CDATA[".Utils_Respond::escapeCData($value)."]]></$key>\n";
 					else
 						$xml .= "<$key>".htmlspecialchars($value)."</$key>\n";
 				}

@@ -11,5 +11,5 @@ require ROOT . '/library/preprocessor.php';
 requireModel("blog.response.remote");
 
 requireStrictRoute();
-respond::ResultPage(!empty($_GET['url']) && sendTrackback($blogid, $suri['id'], trim($_GET['url'])));
+Utils_Respond::ResultPage(!empty($_GET['url']) && sendTrackback($blogid, $suri['id'], trim($_GET['url'])));
 ?>

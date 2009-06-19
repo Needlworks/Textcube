@@ -14,8 +14,8 @@ requireStrictRoute();
 	
 $result = writeHtaccess($_POST['body']);
 if ($result === true) {
-	respond::PrintResult(array('error' => 0));
+	Utils_Respond::PrintResult(array('error' => 0));
 } else {
-	respond::PrintResult(array('error' => 1, 'msg' => $result));
+	Utils_Respond::PrintResult(array('error' => 1, 'msg' => $result));
 }
 ?>

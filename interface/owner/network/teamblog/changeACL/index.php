@@ -12,7 +12,7 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 if (changeACLonBlog(getBlogId(),$_POST['acltype'],$_POST['userid'],$_POST['switch'])) {
-	return respond::ResultPage(true);
+	return Utils_Respond::ResultPage(true);
 }
-respond::ResultPage(false);
+Utils_Respond::ResultPage(false);
 ?>

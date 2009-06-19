@@ -9,10 +9,10 @@ if(isset($suri['id'])) {
 	if ($feed = Data_IAdapter::queryRow("SELECT * 
 		FROM {$database['prefix']}Feeds 
 		WHERE id = {$suri['id']}")) {
-		respond::ResultPage(updateFeed($feed));
+		Utils_Respond::ResultPage(updateFeed($feed));
 		exit;
 	} else {
-		respond::ResultPage(-1);
+		Utils_Respond::ResultPage(-1);
 		exit;
 	}
 }

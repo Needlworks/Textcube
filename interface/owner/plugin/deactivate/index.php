@@ -11,14 +11,14 @@ require ROOT . '/library/preprocessor.php';
 requireModel('common.plugin');
 requireStrictRoute();
 
-if(empty($_POST['name'])) respond::ResultPage(1);
+if(empty($_POST['name'])) Utils_Respond::ResultPage(1);
 $pluginInfo = getPluginInformation(trim($_POST['name']));
 $pluginScope = $pluginInfo['scope'];
 if(in_array('editor',$pluginScope) && $editorCount == 1)
-	respond::ResultPage(2);
+	Utils_Respond::ResultPage(2);
 if(in_array('formatter',$pluginScope) && $formatterCount == 1)
-	respond::ResultPage(2);
+	Utils_Respond::ResultPage(2);
 if (deactivatePlugin($_POST['name']))
-	respond::ResultPage(0);
-respond::ResultPage(1);
+	Utils_Respond::ResultPage(0);
+Utils_Respond::ResultPage(1);
 ?>

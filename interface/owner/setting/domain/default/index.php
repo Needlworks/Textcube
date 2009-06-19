@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
 if (setDefaultDomain($blogid, $suri['id'])) {
-	respond::ResultPage(0);
+	Utils_Respond::ResultPage(0);
 }
-respond::ResultPage( - 1);
+Utils_Respond::ResultPage( - 1);
 ?>

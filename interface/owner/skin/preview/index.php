@@ -6,7 +6,7 @@ require ROOT . '/library/preprocessor.php';
 requireModel('blog.entry');
 
 if(!Validator::filename($_GET['skin']) && $_GET['skin'] != "customize/$blogid")
-	respond::NotFoundPage();
+	Utils_Respond::NotFoundPage();
 $skinSetting['skin'] = $_GET['skin'];
 $skin = new Model_BlogSkin($skinSetting['skin'], true);
 list($entries, $paging) = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnPage']);

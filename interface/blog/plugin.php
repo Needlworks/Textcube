@@ -6,5 +6,5 @@ require ROOT . '/library/preprocessor.php';
 
 fireEvent($suri['directive'] . '/' . $suri['value']);
 if (!headers_sent())
-	respond::NotFoundPage();
+	Utils_Respond::NotFoundPage();
 ?>

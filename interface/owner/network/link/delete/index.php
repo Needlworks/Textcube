@@ -5,5 +5,5 @@
 require ROOT . '/library/preprocessor.php';
 requireModel("blog.link");
 requireStrictRoute();
-respond::ResultPage(deleteLink($blogid, $suri['id']));
+Utils_Respond::ResultPage(deleteLink($blogid, $suri['id']));
 ?>

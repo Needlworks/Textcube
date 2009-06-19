@@ -260,15 +260,15 @@ function getTeamContentsSave($target){
 	if(doesHaveOwnership() && doesHaveMembership()){
 		if($flag == "style"){
 			if(Data_IAdapter::execute("UPDATE {$database['prefix']}TeamUserSettings SET style=\"{$style}\", updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
-				respond::ResultPage(0);
+				Utils_Respond::ResultPage(0);
 			}
 		}else if($flag == "profile"){
 			$profile = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($profile, 65535));
 			if(Data_IAdapter::execute("UPDATE {$database['prefix']}TeamUserSettings SET profile=\"{$profile}\", updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
-				respond::ResultPage(0);
+				Utils_Respond::ResultPage(0);
 			}
 		}
-		respond::ResultPage(-1);
+		Utils_Respond::ResultPage(-1);
 	}
 }
 

@@ -64,7 +64,7 @@ class Model_Statistics {
 
 	function getRefererLogsWithPage($page, $count) {  
 		global $database, $blogid;
-		return Paging::fetchWithPaging("SELECT host, url, referred FROM {$database['prefix']}RefererLogs WHERE blogid = $blogid ORDER BY referred DESC", $page, $count);  
+		return Model_Paging::fetchWithPaging("SELECT host, url, referred FROM {$database['prefix']}RefererLogs WHERE blogid = $blogid ORDER BY referred DESC", $page, $count);  
 	}
 
 	function getRefererLogs() {
@@ -93,7 +93,7 @@ class Model_Statistics {
 			if (!empty($_SERVER['HTTP_REFERER'])) {
 				$referer = parse_url($_SERVER['HTTP_REFERER']);
 				if (!empty($referer['host']) && (($referer['host'] != $_SERVER['HTTP_HOST']) || (strncmp($referer['path'], $blogURL, strlen($blogURL)) != 0))) {
-					if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']) || Filter::isFiltered('url', $_SERVER['HTTP_REFERER']))
+					if (Model_Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']) || Model_Filter::isFiltered('url', $_SERVER['HTTP_REFERER']))
 						return;
 					if (!fireEvent('AddingRefererLog', true, array('host' => $referer['host'], 'url' => $_SERVER['HTTP_REFERER'])))
 						return;

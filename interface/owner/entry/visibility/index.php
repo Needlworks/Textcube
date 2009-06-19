@@ -39,7 +39,7 @@ if (!isset($_GET['command'])) {
 	} else {
 		$countResult = 1;
 	}
-	respond::PrintResult(array('error' => $temp, 'countSyndicated' => $countResult), false);
+	Utils_Respond::PrintResult(array('error' => $temp, 'countSyndicated' => $countResult), false);
 } else {
 	switch ($_GET['command']) {
 		case "protect":

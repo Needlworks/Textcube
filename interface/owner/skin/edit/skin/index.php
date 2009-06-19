@@ -17,8 +17,8 @@ requireStrictRoute();
 $result = writeSkinHtml($blogid, $_POST['body'], $_POST['mode'], $_POST['file']);
 if ($result === true) {
 	Skin::purgeCache();
-	respond::PrintResult(array('error' => 0));
+	Utils_Respond::PrintResult(array('error' => 0));
 } else {
-	respond::PrintResult(array('error' => 1, 'msg' => $result));
+	Utils_Respond::PrintResult(array('error' => 1, 'msg' => $result));
 }
 ?>

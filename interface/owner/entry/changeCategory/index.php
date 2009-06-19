@@ -14,8 +14,8 @@ requireModel("blog.entry");
 
 
 if(changeCategoryOfEntries($blogid, $_POST['targets'], $_POST['category'])) {
-	respond::ResultPage(0);
+	Utils_Respond::ResultPage(0);
 } else {
-	respond::ResultPage(1);
+	Utils_Respond::ResultPage(1);
 }
 ?>

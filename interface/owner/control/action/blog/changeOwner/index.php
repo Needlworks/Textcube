@@ -15,7 +15,7 @@ requireStrictRoute();
 requirePrivilege('group.creators');
 
 if (changeBlogOwner($_GET['blogid'],$_GET['owner'])) {
-	return respond::ResultPage(true);
+	return Utils_Respond::ResultPage(true);
 }
-respond::ResultPage(false);
+Utils_Respond::ResultPage(false);
 ?>

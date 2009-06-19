@@ -11,6 +11,6 @@ require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 $result = false;
 $result = changeAPIKey(getUserId(), $_POST['APIKey']);
-if($result) respond::ResultPage(0);
-else respond::ResultPage(-1);
+if($result) Utils_Respond::ResultPage(0);
+else Utils_Respond::ResultPage(-1);
 ?>

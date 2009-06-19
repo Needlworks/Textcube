@@ -10,9 +10,9 @@ if(isset($suri['id'])) {
 	$isAjaxRequest = checkAjaxRequest();
 	
 	if (revertCommentInOwner($blogid, $suri['id']) === true)
-		$isAjaxRequest ? respond::ResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? Utils_Respond::ResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	else
-		$isAjaxRequest ? respond::ResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? Utils_Respond::ResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
 } else {
 	$targets = explode('~*_)', $_POST['targets']);
 	for ($i = 0; $i < count($targets); $i++) {
@@ -20,6 +20,6 @@ if(isset($suri['id'])) {
 			continue;
 		revertCommentInOwner($blogid, $targets[$i], false);
 	}
-	respond::ResultPage(0);
+	Utils_Respond::ResultPage(0);
 }
 ?>

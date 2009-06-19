@@ -12,8 +12,8 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 if (!acl::check('group.creators'))
-	respond::ResultPage(false);
+	Utils_Respond::ResultPage(false);
 
 $result = setSmtpServer( empty($_POST['useCustomSMTP']) ? 0:1, $_POST['smtpHost'], $_POST['smtpPort'] );
-respond::ResultPage($result);
+Utils_Respond::ResultPage($result);
 ?>

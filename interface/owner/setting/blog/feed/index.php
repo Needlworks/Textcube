@@ -25,5 +25,5 @@ Setting::setBlogSettingGlobal('publishEolinSyncOnRSS',$_POST['publishEolinSyncOn
 Setting::setBlogSettingGlobal('useFeedViewOnCategory',$_POST['useFeedViewOnCategory']);
 
 clearFeed();
-respond::ResultPage(0);
+Utils_Respond::ResultPage(0);
 ?>

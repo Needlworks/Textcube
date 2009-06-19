@@ -16,5 +16,5 @@ require ROOT . '/library/preprocessor.php';
 requireModel("blog.link");
 
 requireStrictRoute();
-respond::ResultPage(updateLink($blogid, $_POST));
+Utils_Respond::ResultPage(updateLink($blogid, $_POST));
 ?>

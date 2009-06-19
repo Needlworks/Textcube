@@ -18,7 +18,7 @@ $sidebarOrder = deleteSidebarModuleOrderData(getSidebarModuleOrderData($sidebarC
 setBlogSetting("sidebarOrder", serialize($sidebarOrder));
 Skin::purgeCache();
 
-//respond::ResultPage(0);
+//Utils_Respond::ResultPage(0);
 if ($_GET['viewMode'] != '') $_GET['viewMode'] = '?' . $_GET['viewMode'];
 header('Location: '. $blogURL . '/owner/skin/sidebar' . $_GET['viewMode']);
 ?>

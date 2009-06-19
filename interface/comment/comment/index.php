@@ -31,7 +31,7 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 	$comment = array();
 	list($comment['entry']) = getCommentAttributes($blogid, $suri['id'], 'entry');
 	if (count($comment) == 0)
-		respond::ErrorPage(_text('댓글이 존재하지 않습니다.'));
+		Utils_Respond::ErrorPage(_text('댓글이 존재하지 않습니다.'));
 	$comment['parent'] = $suri['id'];
 	$comment['name'] = empty($_POST['name']) ? '' : trim($_POST['name']);
 	$comment['password'] = empty($_POST['password']) ? '' : $_POST['password'];

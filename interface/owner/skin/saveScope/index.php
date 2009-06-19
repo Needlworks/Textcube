@@ -15,8 +15,8 @@ $backupListView = getBlogSetting('skinViewType');
 // 하나라도 저장에 실패하면 롤백.
 if (!setBlogSetting("skinViewType", $_POST['viewtype'])) {
 	setBlogSetting("skinViewType", $backupListView);
-	respond::ResultPage(1);
+	Utils_Respond::ResultPage(1);
 } else {
-	respond::ResultPage(0);
+	Utils_Respond::ResultPage(0);
 }
 ?>

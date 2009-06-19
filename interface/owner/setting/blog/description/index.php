@@ -10,7 +10,7 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 if (setBlogDescription($blogid, trim($_POST['description']))) {
-	respond::ResultPage(0);
+	Utils_Respond::ResultPage(0);
 }
-respond::ResultPage(-1);
+Utils_Respond::ResultPage(-1);
 ?>

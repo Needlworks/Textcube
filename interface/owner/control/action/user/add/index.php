@@ -14,10 +14,10 @@ requireStrictRoute();
 
 $result = Model_User::add($_GET['email'], $_GET['name']);
 if ($result===true) {
-	respond::PrintResult(array('error' => 0));
+	Utils_Respond::PrintResult(array('error' => 0));
 }
 else {
-	respond::PrintResult(array('error' => -1 , 'result' =>$result));
+	Utils_Respond::PrintResult(array('error' => -1 , 'result' =>$result));
 }
 
 ?>

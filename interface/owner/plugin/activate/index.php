@@ -10,6 +10,6 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 if (!empty($_POST['name']) && activatePlugin($_POST['name']))
-	respond::ResultPage(0);
-respond::ResultPage(1);
+	Utils_Respond::ResultPage(0);
+Utils_Respond::ResultPage(1);
 ?>

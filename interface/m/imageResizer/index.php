@@ -28,7 +28,7 @@ if ($fp = @fopen($imagePath, 'r')) {
 				$image = imagecreatefromwbmp($imagePath);
 				break;
 			default:
-				respond::NotFoundPage();
+				Utils_Respond::NotFoundPage();
 		}
 		$canvasWidth = 240;
 		$canvasHeight = round($imageInfo[1] * ($canvasWidth / $imageInfo[0]));
@@ -49,5 +49,5 @@ if ($fp = @fopen($imagePath, 'r')) {
 	}
 	fclose($fp);
 } else
-	respond::NotFoundPage();
+	Utils_Respond::NotFoundPage();
 ?>

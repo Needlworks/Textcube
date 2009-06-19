@@ -26,7 +26,7 @@ if (!empty($_SERVER["CONTENT_TYPE"]) && strpos($_SERVER["CONTENT_TYPE"], 'charse
 }
 /*if(!isset($suri['id'])) $suri['id'] = getEntryIdBySlogan($blogid, $suri['value']);
 if(empty($suri['id'])) {
-	respond::PrintResult(array('error' => 1, 'message' => 'URL is not exist or invalid'));
+	Utils_Respond::PrintResult(array('error' => 1, 'message' => 'URL is not exist or invalid'));
 	exit;
 }*/
 $result = receiveTrackback($blogid, $suri['id'], $title, $url, $excerpt, $blog_name);
@@ -39,18 +39,18 @@ if ($result == 0) {
 			AND visibility = 3 
 			AND acceptComment = 1"))
 		sendTrackbackPing($suri['id'], "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$row['slogan']}": $suri['id']), $url, $blog_name, $title);
-	respond::ResultPage(0);
+	Utils_Respond::ResultPage(0);
 } else {
 	if ($result == 1) {
-		respond::PrintResult(array('error' => 1, 'message' => 'Could not receive'));
+		Utils_Respond::PrintResult(array('error' => 1, 'message' => 'Could not receive'));
 	} else if ($result == 2) {
-		respond::PrintResult(array('error' => 1, 'message' => 'Could not receive'));
+		Utils_Respond::PrintResult(array('error' => 1, 'message' => 'Could not receive'));
 	} else if ($result == 3) {
-		respond::PrintResult(array('error' => 1, 'message' => 'The entry is not accept trackback'));
+		Utils_Respond::PrintResult(array('error' => 1, 'message' => 'The entry is not accept trackback'));
 	} else if ($result == 4) {
-		respond::PrintResult(array('error' => 1, 'message' => 'already exists trackback'));
+		Utils_Respond::PrintResult(array('error' => 1, 'message' => 'already exists trackback'));
 	} else if ($result == 5) {
-		respond::PrintResult(array('error' => 1, 'message' => 'URL is not exist or invalid'));
+		Utils_Respond::PrintResult(array('error' => 1, 'message' => 'URL is not exist or invalid'));
 	}
 }
 ?> 

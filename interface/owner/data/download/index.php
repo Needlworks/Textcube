@@ -10,6 +10,6 @@ if (file_exists(ROOT . "/cache/backup/$blogid.xml")) {
 	header('Content-Type: application/xml');
 	readfile(ROOT . "/cache/backup/$blogid.xml");
 } else {
-	respond::NotFoundPage();
+	Utils_Respond::NotFoundPage();
 }
 ?>

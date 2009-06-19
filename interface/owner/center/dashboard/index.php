@@ -165,7 +165,7 @@ unset($layout);
 unset($oldcenterlayout);
 
 if (isset($_REQUEST['ajaxcall'])) {
-	respond::ResultPage(0);
+	Utils_Respond::ResultPage(0);
 	exit;
 }
 

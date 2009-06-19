@@ -19,5 +19,5 @@ $count = printFeedEntriesMore($blogid, $_POST['group'], $_POST['feed'], $_POST['
 $result['count'] = $count;
 $result['view'] = escapeCData(ob_get_contents());
 ob_end_clean();
-respond::PrintResult($result);
+Utils_Respond::PrintResult($result);
 ?>

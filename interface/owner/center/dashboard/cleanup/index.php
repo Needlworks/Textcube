@@ -6,7 +6,7 @@ require ROOT . '/library/preprocessor.php';
 
 
 if(Cache_Control::flushAll(getBlogId()))
-	respond::ResultPage(0);
+	Utils_Respond::ResultPage(0);
 else 
-	respond::ResultPage(-1);
+	Utils_Respond::ResultPage(-1);
 ?>

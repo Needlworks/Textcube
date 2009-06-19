@@ -394,6 +394,6 @@ $writer->write('</blog>');
 $writer->close();
 if (defined('__TEXTCUBE_BACKUP__')) {
 	@chmod(ROOT . "/cache/backup/$blogid.xml", 0666);
-	respond::ResultPage(0);
+	Utils_Respond::ResultPage(0);
 }
 ?>

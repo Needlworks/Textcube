@@ -13,6 +13,6 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 if (useBlogSlogan($blogid, $_POST['useSloganOnPost'],$_POST['useSloganOnCategory'],$_POST['useSloganOnTag']))
-	respond::ResultPage(0);
-respond::ResultPage( - 1);
+	Utils_Respond::ResultPage(0);
+Utils_Respond::ResultPage( - 1);
 ?>

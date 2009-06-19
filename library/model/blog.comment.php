@@ -401,17 +401,17 @@ function addComment($blogid, & $comment) {
 	$filtered = 0;
 
 	if (!doesHaveOwnership()) {
-		if (!Filter::isAllowed($comment['homepage'])) {
-			if (Filter::isFiltered('ip', $comment['ip'])) {
+		if (!Model_Filter::isAllowed($comment['homepage'])) {
+			if (Model_Filter::isFiltered('ip', $comment['ip'])) {
 				$blockType = "ip";
 				$filtered = 1;
-			} else if (Filter::isFiltered('name', $comment['name'])) {
+			} else if (Model_Filter::isFiltered('name', $comment['name'])) {
 				$blockType = "name";
 				$filtered = 1;
-			} else if (Filter::isFiltered('url', $comment['homepage'])) {
+			} else if (Model_Filter::isFiltered('url', $comment['homepage'])) {
 				$blockType = "homepage";
 				$filtered = 1;
-			} elseif (Filter::isFiltered('content', $comment['comment'])) {
+			} elseif (Model_Filter::isFiltered('content', $comment['comment'])) {
 				$blockType = "comment";
 				$filtered = 1;
 			} elseif ( !Acl::check( "group.writers" ) && !$openid &&
@@ -502,14 +502,14 @@ function updateComment($blogid, $comment, $password) {
 	$openid = Acl::getIdentity('openid');
 	if (!doesHaveOwnership()) {
 		// if filtered, only block and not send to trash
-		if (!Filter::isAllowed($comment['homepage'])) {
-			if (Filter::isFiltered('ip', $comment['ip']))
+		if (!Model_Filter::isAllowed($comment['homepage'])) {
+			if (Model_Filter::isFiltered('ip', $comment['ip']))
 				return 'blocked';
-			if (Filter::isFiltered('name', $comment['name']))
+			if (Model_Filter::isFiltered('name', $comment['name']))
 				return 'blocked';
-			if (Filter::isFiltered('url', $comment['homepage']))
+			if (Model_Filter::isFiltered('url', $comment['homepage']))
 				return 'blocked';
-			if (Filter::isFiltered('content', $comment['comment']))
+			if (Model_Filter::isFiltered('content', $comment['comment']))
 				return 'blocked';
 			if (!fireEvent('ModifyingComment', true, $comment))
 				return 'blocked';

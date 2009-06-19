@@ -47,8 +47,8 @@ if (!is_null($entry)) {
 	if($id = updateEntry($blogid, $entry, $updateDraft)) {
 		fireEvent('UpdatePost', $id, $entry);
 		setBlogSetting('LatestEditedEntry_user'.getUserId(),$suri['id']);
-		respond::ResultPage(0);
+		Utils_Respond::ResultPage(0);
 	}
 }
-respond::ResultPage(-1);
+Utils_Respond::ResultPage(-1);
 ?>

@@ -8,7 +8,7 @@ requireModel("blog.attachment");
 
 requireStrictRoute();
 if (!empty($_GET['name']) && deleteAttachment($blogid, $suri['id'], $_GET['name']))
-	respond::ResultPage(0);
+	Utils_Respond::ResultPage(0);
 else
-	respond::ResultPage(-1);
+	Utils_Respond::ResultPage(-1);
 ?>

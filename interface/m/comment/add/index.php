@@ -18,7 +18,7 @@ $IV = array(
 	)
 );
 if(!Validator::validate($IV))
-	respond::NotFoundPage();
+	Utils_Respond::NotFoundPage();
 if (!doesHaveOwnership() && empty($_POST["name_$entryId"])) {
 	printMobileErrorPage(_text('댓글을 작성할 수 없습니다.'), _text('이름을 입력해 주십시오.'), "$blogURL/comment/$entryId");
 } else if (!doesHaveOwnership() && empty($_POST["comment_$entryId"])) {

@@ -12,7 +12,7 @@ requireStrictRoute();
 $timezone = new Timezone;
 if (isset($_GET['timezone']) && $timezone->set($_GET['timezone'])) {
 	setBlogSetting('timezone',$_GET['timezone']);
-	respond::ResultPage(0);
+	Utils_Respond::ResultPage(0);
 }
-respond::ResultPage( - 1);
+Utils_Respond::ResultPage( - 1);
 ?>

@@ -40,7 +40,7 @@ if (!isset($_GET['command'])) {
 		$countResult = 1;
 		fireEvent('ChangeStarred', $_GET['mark'], $suri['id']);
 	}
-	respond::PrintResult(array('error' => $temp), false);
+	Utils_Respond::PrintResult(array('error' => $temp), false);
 } else {
 	switch ($_GET['command']) {
 		case "unmark":

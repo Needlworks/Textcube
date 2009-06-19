@@ -15,5 +15,5 @@ require ROOT . '/library/preprocessor.php';
 requireModel("blog.link");
 
 requireStrictRoute();
-respond::ResultPage(addLink($blogid, $_POST));
+Utils_Respond::ResultPage(addLink($blogid, $_POST));
 ?>

@@ -24,7 +24,7 @@ if ($entryId !== false) {
 	$trackbackListContent = getTrackbacksView($entry, $skin, true);
 }
 if ($trackbackListContent === false)
-	respond::PrintResult(array('error' => 1));
+	Utils_Respond::PrintResult(array('error' => 1));
 else
-	respond::PrintResult(array('error' => 0, 'trackbackList' => $trackbackListContent, 'trackbackCount' => $trackbackCountContent, 'recentTrackbacks' => $recentTrackbackContent));
+	Utils_Respond::PrintResult(array('error' => 0, 'trackbackList' => $trackbackListContent, 'trackbackCount' => $trackbackCountContent, 'recentTrackbacks' => $recentTrackbackContent));
 ?>

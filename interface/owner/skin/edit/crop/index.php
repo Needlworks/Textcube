@@ -26,5 +26,5 @@ if($_POST['nextTag'] != 'all') {
 $result = array("error"=>"0",
 	"code"=>$inner,
 	'skinCode'=>$refCode);
-respond::PrintResult($result);
+Utils_Respond::PrintResult($result);
 ?>
