@@ -166,7 +166,7 @@ class Po2php
 
 function po2php( $source_file, $target_file )
 {
-	$converter = new Po2php();
+	$converter = new Locale_Po2php();
 	$converter->open($source_file);
 	$converter->save($target_file);
 }
