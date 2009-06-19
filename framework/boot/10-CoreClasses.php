@@ -638,7 +638,7 @@ final class Locale {
 		// po파일이 더 최근에 갱신되었으면 php파일을 갱신한다.
 		if($time_po && $time_po > $time_php ) {
 			requireComponent('Needlworks.Core.Locale');
-			$langConvert = new Po2php;
+			$langConvert = new Locale_Po2php;
 			$langConvert->open($lang_po);
 			$langConvert->save($lang_php);
 		}
