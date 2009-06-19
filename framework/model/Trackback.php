@@ -83,6 +83,7 @@ class Model_Trackback {
 			$this->ip = $_SERVER['REMOTE_ADDR'];
 		if (!$query = $this->_buildQuery())
 			return false;
+		
 		if (!$query->hasAttribute('written'))
 			$query->setAttribute('written', 'UNIX_TIMESTAMP()');
 		if (!isset($this->isFiltered))
@@ -114,7 +115,7 @@ class Model_Trackback {
 		global $database;
 		$query = new Data_Table($database['prefix'] . 'RemoteResponses');
 		$query->setQualifier('blogid', getBlogId());
-		$query->setQualifier('type', 'trackback');
+		$query->setQualifier('type', 'trackback', true);
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
