@@ -8,7 +8,7 @@ define('__TEXTCUBE_ADMINPANEL__',true);
 require ROOT . '/library/preprocessor.php';
 $entry = getEntry($blogid, $suri['id']);
 if (is_null($entry)) {
-	respond::NotFoundPage();
+	Utils_Respond::NotFoundPage();
 	exit;
 }
 ?>
