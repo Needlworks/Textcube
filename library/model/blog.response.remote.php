@@ -280,10 +280,10 @@ function receiveTrackback($blogid, $entry, $title, $url, $excerpt, $site) {
 		
 	$filtered = 0;
 	
-	if (!Filter::isAllowed($url)) {
-		if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']) || Filter::isFiltered('url', $url))
+	if (!Model_Filter::isAllowed($url)) {
+		if (Model_Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']) || Model_Filter::isFiltered('url', $url))
 			$filtered = 1;
-		else if (Filter::isFiltered('content', $excerpt))
+		else if (Model_Filter::isFiltered('content', $excerpt))
 			$filtered = 1;
 		else if (!fireEvent('AddingTrackback', true, array('entry' => $entry, 'url' => $url, 'site' => $site, 'title' => $title, 'excerpt' => $excerpt)))
 			$filtered = 1;
