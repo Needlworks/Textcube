@@ -368,6 +368,8 @@ function handleSidebars(& $sval, & $obj, $previewMode) {
 	// id : type1=sidebar i, type2=handler id, type3=plug-in handler name
 	// parameters : type1=sidebar j, blah blah~
 	
+	requireModel('blog.sidebar');
+	
 	$sidebarCount = count($obj->sidebarBasicModules);
 	$sidebarAllOrders = getSidebarModuleOrderData($sidebarCount);
 	if ($previewMode == true) {
