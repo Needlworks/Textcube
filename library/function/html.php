@@ -3,7 +3,16 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 function stripHTML($text, $allowTags = array()) {
-	$text = strip_tags($text, implode('', array_map(create_function('$item', 'return "<{$item}>";'), $allowTags)))
+	$text = preg_replace('/<(script|style)[^>]*>.*?<\/\1>/si', '', $text);
+	if(count($allowTags) == 0)
+		$text = preg_replace('/<[\w\/!]+[^>]*>/', '', $text);
+	else {
+		preg_match_all('/<\/?([\w!]+)[^>]*?>/s', $text, $matches);
+		for($i=0; $i<count($matches[0]); $i++) {
+			if (!in_array(strtolower($matches[1][$i]), $allowTags))
+				$text = str_replace($matches[0][$i], '', $text);
+		}
+	}
 	$text = preg_replace('/&nbsp;?|\xc2\xa0\x20/', ' ', $text);
 	$text = trim(preg_replace('/\s+/', ' ', $text));
 	if(!empty($text))
