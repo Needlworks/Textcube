@@ -60,5 +60,5 @@ if( !$approvedToSend ) {
 	header( "HTTP/1.0 503 Service Unavailable" );
 	exit;
 }
-( $icon_path );
+dumpWithEtag( $icon_path );
 ?>
