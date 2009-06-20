@@ -309,7 +309,10 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
 				$configVal = null;
 			$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
 			$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
-			$target = call_user_func($mapping['listener'], $target, $mother);
+			if ($condition === true)
+				$target = call_user_func($mapping['listener'], $target, $mother);
+			else
+				$target = call_user_func($mapping['listener'], $target, $mother, $condition);
 		}
 	}
 	return $target;
