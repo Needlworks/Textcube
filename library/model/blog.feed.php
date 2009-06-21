@@ -101,7 +101,7 @@ function getFeedItemByEntries($entries) {
 	foreach($entries as $row) {
 		$entryURL = $defaultURL . '/' . ($blog['useSloganOnPost'] ? 'entry/' . rawurlencode($row['slogan']) : $row['id']);
 
-		$content = getEntryContentView($row['blogid'], $row['id'], $row['content'], $row['contentFormatter'], true, 'Post', true, 'rss');
+		$content = getEntryContentView($row['blogid'], $row['id'], $row['content'], $row['contentFormatter'], true, 'Post', true, true);
 		$content = preg_replace('/<a href=("|\')(#[^\1]+)\1/i', '<a href=$1' . htmlspecialchars($entryURL) . '$2$1', $content);
  		if (!$blog['publishWholeOnRSS']) {
 			$content .= "<p><strong><a href=\"" . htmlspecialchars($entryURL) . "\">" . _t('글 전체보기') . "</a></strong></p>";
@@ -109,7 +109,7 @@ function getFeedItemByEntries($entries) {
 		$row['repliesCount'] = $row['comments'] + $row['trackbacks'];
 		$item = array(
 			'id' => $row['id'], 
-			'title' => RSSMessage(fireEvent('ViewPostTitle', $row['title'], $row['id'], 'rss')), 
+			'title' => RSSMessage(fireEvent('ViewPostTitle', $row['title'], $row['id'])), 
 			'link' => $entryURL, 
 			'categories' => array(), 'description' => RSSMessage($content), 
 			'author' => '('.RSSMessage($row['author']).')', 
