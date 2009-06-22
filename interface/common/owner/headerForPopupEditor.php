@@ -77,7 +77,7 @@ include ROOT . '/resources/language/messages.php';
 	</script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/language/messages.php"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/byTextcube.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/jquery/jquery-1.3.2.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/jquery/jquery-<?php echo JQUERY-VERSION;?>.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/EAF4.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/common2.js"></script>

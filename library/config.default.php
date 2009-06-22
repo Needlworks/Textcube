@@ -13,6 +13,7 @@ define('TEXTCUBE_SYNC_URL', 'http://ping.eolin.com/');
 define('CRLF', "\r\n");
 define('TAB', "	");
 define('INT_MAX',2147483647);
+define('JQUERY_VERSION','1.3.2');
 if( strstr( PHP_OS, "WIN") !== false ) {
 	define('DS', "\\");
 } else {
