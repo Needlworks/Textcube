@@ -21,9 +21,8 @@ final class Context extends Singleton
 	public function globalVariableParser() { $this->__globalVariableParser();}
 	
 	private function __URIInterpreter() {
-		global $URLInfo;
-		// URI is parsed at rewrite.php. Thus skip it.
-		$this->URLInfo = $URLInfo;
+		$dispatcher = Dispatcher::getInstance();
+		$this->URLInfo = $dispatcher->URLInfo;
 	}
 	
 	private function __URIParser() {
