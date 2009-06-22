@@ -172,4 +172,76 @@ function dumpWithEtag($path) {
 	}
 }
 
+function copyRecusive($source, $target, $chkPrint = false) {
+	if (Path::getBaseName($source) == "." || Path::getBaseName($source) == "..") {
+		return;
+	}
+	if (!is_dir($source)) {
+		copy($source, $target);
+		return;
+	}
+	if (!file_exists($target) || !is_dir($target)) {
+		mkdir($target);
+		@chmod($target, 0777);
+	}
+	$d = dir($source);
+	while ($entry = $d->read()) {
+		copyRecusive("$source/$entry", "$target/$entry", $chkPrint);
+	}
+	$d->close();
+}
+
+function copyRecusive($source, $target, $chkPrint = false) {
+	if (Path::getBaseName($source) == "." || Path::getBaseName($source) == "..") {
+		return;
+	}
+	if (!is_dir($source)) {
+		copy($source, $target);
+		return;
+	}
+	if (!file_exists($target) || !is_dir($target)) {
+		mkdir($target);
+		@chmod($target, 0777);
+	}
+	$d = dir($source);
+	while ($entry = $d->read()) {
+		copyRecusive("$source/$entry", "$target/$entry", $chkPrint);
+	}
+	$d->close();
+}
+
+function deltree($dir) {
+	$d = dir($dir);
+	while ($f = $d->read()) {
+		if ($f != "." && $f != "..") {
+			if (is_dir($dir . $f)) {
+				deltree($dir . $f . "/");
+				rmdir($dir . $f);
+			}
+			if (is_file($dir . $f))
+				unlink($dir . $f);
+		}
+	}
+	$d->close();
+}
+
+function deleteFilesByRegExp($path, $regexp) {
+	$path = rtrim($path, '/') . '/';
+	
+	if (!file_exists($path))
+		return false;
+	
+	$handle = opendir($path);
+	while ($tempFile = readdir($handle)) {
+		if ($tempFile == '.' || $tempFile != '..') {
+			continue;
+		}
+		if ($regexp == '*') {
+			@unlink($path.$tempFile);
+		} elseif (preg_match($regexp, $tempFile, $temp)) {
+			@unlink($path.$tempFile);
+		}
+	}
+	return true;
+}
 ?>

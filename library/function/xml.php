@@ -170,4 +170,16 @@ function get_siteinfo($xmlinfo) {
 function correctTTForXmlText($text) {
 	return str_replace('&quot;', '"', str_replace('&#39;', '\'', $text));
 }
+
+function checkResponseXML($responseText) {
+	global $service;
+
+	$xmls = new XMLStruct();
+	if(!$xmls->open(trim($responseText), $service['encoding']))
+		return false;
+	if(($error = $xmls->getValue('/response/error')) !== null)
+		return intval($error);
+	else
+		return false;
+}
 ?>

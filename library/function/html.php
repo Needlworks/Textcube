@@ -2,6 +2,7 @@
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+
 function stripHTML($text, $allowTags = array()) {
 	$text = preg_replace('/<(script|style)[^>]*>.*?<\/\1>/si', '', $text);
 	if(count($allowTags) == 0)
@@ -18,6 +19,12 @@ function stripHTML($text, $allowTags = array()) {
 	if(!empty($text))
 		$text = str_replace(array('&#39;', '&apos;', '&quot;'), array('\'', '\'', '"'), $text);
 	return $text;
+}
+
+function str_innerHTML($str) {
+	$pattern = array( '/\r\n|\r|\n/' , '@</@' , '@"@');
+	$replace = array( ''             , '<\/'  , '\"' );
+	return preg_replace($pattern, $replace, $str);
 }
 
 function nl2brWithHTML($str) {
@@ -48,6 +55,11 @@ function nl2brWithHTML($str) {
 		}
 	}
 	return $out;
+}
+
+function parseURL($path) {
+	// Reserved.
+	return $path;
 }
 
 function addLinkSense($text, $attributes = '') {

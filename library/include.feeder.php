@@ -16,8 +16,7 @@ $__requireBasics = array(		// Basics
 	'function/xml',
 	'function/misc',
 	'function/image',
-	'function/mail',
-	'functions');
+	'function/mail');
 $__requireLibrary = array(		// Library
 //	'locale',
 	'auth');
