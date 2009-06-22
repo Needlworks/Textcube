@@ -106,7 +106,8 @@ function getUpperView($paging) {
 			"trackbackUrlCopied": "<?php echo _text('엮인글 주소가 복사되었습니다.');?>",
 			"operationFailed": "<?php echo _text('실패했습니다.');?>",
 			"confirmTrackbackDelete": "<?php echo _text('선택된 글걸기를 삭제합니다. 계속 하시겠습니까?');?>",
-			"confirmEntryDelete": "<?php echo _text('이 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?');?>"
+			"confirmEntryDelete": "<?php echo _text('이 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?');?>",
+			"onSaving": "<?php echo _text('저장하고 있습니다');?>"
 		}
 	//]]>
 	</script>

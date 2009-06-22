@@ -1002,7 +1002,7 @@ function processShortcut(event) {
 var commentSavingNow = false;
 function addComment(caller, entryId) {
 	if(commentSavingNow == true) {
-		alert(_t('저장하고 있습니다.'));
+		alert(messages['onSaving']);
 		return false;
 	}
 	var oForm = findFormObject(caller);
