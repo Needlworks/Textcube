@@ -171,8 +171,11 @@ if (!defined('NO_INITIALIZAION')) {
 	
 /// Load administration panel locale.
 	if(!defined('NO_LOCALE')) {
+		if($context->URLInfo['interfaceType'] == 'reader') { $languageMode = 'owner'; }
+		else $languageMode = $context->URLInfo['interfaceType'];
 		Locale::setDirectory(ROOT . '/resources/language');
-		Locale::set(isset($blog['language']) ? $blog['language'] : $service['language']);
+		Locale::set(isset($blog['language']) ? $blog['language'] : $service['language'],$languageMode);
+		unset($languageMode);
 	
 		// Load blog screen locale.
 		if (!isset($blog['blogLanguage'])) {

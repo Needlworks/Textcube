@@ -99,6 +99,10 @@ class Dispatcher {
 		} else if (isset($URLInfo['fragment'][0])
 			&& ($URLInfo['fragment'][0] == 'favicon.ico' || $URLInfo['fragment'][0] == 'index.gif')) {
 			$URLInfo['interfaceType'] = 'icon';
+		} else if (isset($URLInfo['fragment'][0]) && $URLInfo['fragment'][0] == 'i') { 
+			$URLInfo['interfaceType'] = 'mobile';
+		} else if (isset($URLInfo['fragment'][0]) && $URLInfo['fragment'][0] == 'checkup') { 
+			$URLInfo['interfaceType'] = 'checkup';
 		} else {
 			$URLInfo['interfaceType'] = 'blog';
 		}

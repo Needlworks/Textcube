@@ -88,7 +88,7 @@ class Statistics {
 			
 			$period = Timestamp::getDate();
 			if(POD::queryCount("UPDATE {$database['prefix']}DailyStatistics SET visits = visits + 1 WHERE blogid = $blogid AND datemark = $period LIMIT 1") < 1) {
-				POD::execute("INSERT into {$database['prefix']}DailyStatistics values($blogid, $period, 1)");
+				POD::execute("INSERT INTO {$database['prefix']}DailyStatistics VALUES ($blogid, $period, 1)");
 			}
 			if (!empty($_SERVER['HTTP_REFERER'])) {
 				$referer = parse_url($_SERVER['HTTP_REFERER']);
