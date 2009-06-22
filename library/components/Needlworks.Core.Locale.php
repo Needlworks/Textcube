@@ -3,7 +3,120 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-class Po2php
+global $__locale, $__text, $__skinText;
+
+final class Locale {
+	// Requires $__locale as global variable. (language resource information)
+	static function get() {
+		global $__locale;
+		return $__locale['locale'];
+	}
+
+	static function set($locale, $scope = 'owner') {
+		global $__locale, $__text;
+		list($common) = explode('-', $locale, 2);
+//		Locale::refreshLocaleResource($locale);
+		if (file_exists($__locale['directory'] . '/' . $locale . '/'.$scope.'.php')) {
+			include($__locale['directory'] . '/' . $locale . '/'.$scope.'.php');
+			$__locale['locale'] = $locale;
+			return true;
+		} else if (($common != $locale) && file_exists($__locale['directory'] . '/' . $common . '/'.$scope.'.php')) {
+			include($__locale['directory'] . '/' . $common . '/'.$scope.'.php');
+			$__locale['locale'] = $common;
+			return true;
+		}
+		return false;
+	}
+
+	static function setSkinLocale($locale) {
+		global $__locale, $__skinText;
+		list($common) = explode('-', $locale, 2);
+//		Locale::refreshLocaleResource($locale);
+		if (file_exists($__locale['directory'] . '/' . $locale . '.php')) {
+			$__skinText = Locale::includeLocaleFile($__locale['directory'] . '/' . $locale . '/blog.php');
+			return true;
+		} else if (($common != $locale) && file_exists($__locale['directory'] . '/' . $common . '/blog.php')) {
+			$__skinText = Locale::includeLocaleFile($__locale['directory'] . '/' . $common . '/blog.php');
+			return true;
+		}
+		return false;
+	}
+
+	static function includeLocaleFile($languageFile) {
+		include($languageFile);
+		return $__text;
+	}
+
+	static function refreshLocaleResource($locale) {
+		global $__locale;
+		// po파일과 php파일의 auto convert 지원을 위한 루틴.
+		$lang_php = $__locale['directory'] . '/' . $locale . ".php";
+		$lang_po = $__locale['directory'] . '/po/' . $locale . ".po";
+		// 두 파일 중 최근에 갱신된 것을 찾는다.
+		$time_po = filemtime( $lang_po );
+		$time_php = filemtime( $lang_php );
+		// po파일이 더 최근에 갱신되었으면 php파일을 갱신한다.
+		if($time_po && $time_po > $time_php ) {
+			requireComponent('Needlworks.Core.Locale');
+			$langConvert = new Po2php;
+			$langConvert->open($lang_po);
+			$langConvert->save($lang_php);
+		}
+		return false;
+	}
+
+	static function setDirectory($directory) {
+		global $__locale;
+		if (!is_dir($directory))
+			return false;
+		$__locale['directory'] = $directory;
+		return true;
+	}
+
+	static function setDomain($domain) {
+		global $__locale;
+		$__locale['domain'] = $domain;
+		return true;
+	}
+
+	static function match($locale) {
+		global $__locale;
+		if (strcasecmp($locale, $__locale['locale']) == 0)
+			return 3;
+		else if (strncasecmp($locale, $__locale['locale'], 2) == 0)
+			return 2;
+		else if (strncasecmp($locale, 'en', 2) == 0)
+			return 1;
+		return 0;
+	}
+
+	static function getSupportedLocales() {
+		global $__locale;
+		$locales = array();
+		if ($dir = dir($__locale['directory'])) {
+			while (($entry = $dir->read()) !== false) {
+				if (!is_dir($__locale['directory'] . '/' . $entry))
+					continue;
+//				$locale = substr($entry, 0, strpos($entry, '.'));
+				$locale = $entry;
+				if (empty($locale) || $locale == 'messages' || $locale == 'po')
+					continue;
+				if ($fp = fopen($__locale['directory'] . '/' . $entry . '/description.php', 'r')) {
+					$desc = fgets($fp);
+					if (preg_match('/<\?(php)?\s*\/\/\s*(.+)/', $desc, $matches))
+						$locales[$locale] = _t(trim($matches[2]));
+					else
+						$locales[$locale] = $locale;
+					fclose($fp);
+				}
+			}
+			$dir->close();
+		}
+		return $locales;
+	}
+}
+
+final class Po2php
 {
 	var $msgs;
 	var $nomsgs;
