@@ -191,25 +191,6 @@ function copyRecusive($source, $target, $chkPrint = false) {
 	$d->close();
 }
 
-function copyRecusive($source, $target, $chkPrint = false) {
-	if (Path::getBaseName($source) == "." || Path::getBaseName($source) == "..") {
-		return;
-	}
-	if (!is_dir($source)) {
-		copy($source, $target);
-		return;
-	}
-	if (!file_exists($target) || !is_dir($target)) {
-		mkdir($target);
-		@chmod($target, 0777);
-	}
-	$d = dir($source);
-	while ($entry = $d->read()) {
-		copyRecusive("$source/$entry", "$target/$entry", $chkPrint);
-	}
-	$d->close();
-}
-
 function deltree($dir) {
 	$d = dir($dir);
 	while ($f = $d->read()) {
