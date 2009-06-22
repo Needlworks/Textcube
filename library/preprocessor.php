@@ -165,7 +165,7 @@ if (!defined('NO_INITIALIZAION')) {
 */
 	$__locale = array(
 		'locale' => null,
-		'directory' => './locale',
+		'directory' => '/resources/locale',
 		'domain' => null,
 		);
 	
@@ -173,7 +173,7 @@ if (!defined('NO_INITIALIZAION')) {
 	if(!defined('NO_LOCALE')) {
 		if($context->URLInfo['interfaceType'] == 'reader') { $languageMode = 'owner'; }
 		else $languageMode = $context->URLInfo['interfaceType'];
-		Locale::setDirectory(ROOT . '/resources/language');
+		Locale::setDirectory(ROOT . '/resources/locale');
 		Locale::set(isset($blog['language']) ? $blog['language'] : $service['language'],$languageMode);
 		unset($languageMode);
 	
