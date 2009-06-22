@@ -8,7 +8,7 @@ require_once ROOT . '/library/preprocessor.php';
 if( empty($icon_path) ) {
 	$icon_path = ROOT . "/attach/$blogid/favicon.ico";
 	if( !file_exists($icon_path) ) {
-		$icon_path = ROOT . '/image/icon_favicon_default.ico';
+		$icon_path = ROOT . '/resources/image/icon_favicon_default.ico';
 	}
 }
 
