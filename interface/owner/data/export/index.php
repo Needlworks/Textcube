@@ -25,7 +25,7 @@ if (defined('__TEXTCUBE_BACKUP__')) {
 	}
 } else {
 	if ($writer->openStdout()) {
-		header('Content-Disposition: attachment; filename="Textcube-Backup-' . Timestamp::getDate() . '.xml"');
+		header('Content-Disposition: attachment; filename="Textcube-Backup-' . getBlogName($blogid) ."-". Timestamp::getDate() . '.xml"');
 		header('Content-Description: Textcube Backup Data');
 		header('Content-Transfer-Encoding: binary');
 		header('Content-Type: application/xml');
