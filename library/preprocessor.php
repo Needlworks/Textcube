@@ -52,7 +52,6 @@ if (!$valid) {
     --------------------
     Loads singleton base class and autoloader.
 */
-require_once (ROOT.'/library/components/Needlworks.PHP.Loader.php');
 
 /** LOAD : Configuration and Debug module (if necessary)
     --------------------
@@ -66,8 +65,8 @@ $context = Context::getInstance(); // automatic initialization via first instanc
 /// Loading debug module
 if($config->service['debugmode'] == true) {
 	if(isset($config->database['dbms'])) {
-		require_once(ROOT. "/library/components/Needlworks.Debug.".$config->database['dbms'].".php");
-	} else require_once(ROOT. "/library/components/Needlworks.Debug.MySQL.php");
+		require_once(ROOT. "/framework/legacy/Needlworks.Debug.".$config->database['dbms'].".php");
+	} else require_once(ROOT. "/framework/legacy/Needlworks.Debug.MySQL.php");
 }
     
 /** LOAD : Required components / models / views 
