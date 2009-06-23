@@ -93,7 +93,7 @@ final class Dispatcher {
 		}
 		$pathPart = strtok($pathPart,'&');
 		// Determine interface Type
-		if (isset($URLInfo['fragment'][0]) {
+		if (isset($URLInfo['fragment'][0])) {
 			if (isset($URLInfo['fragment'][1]) &&
 			($URLInfo['fragment'][0] == 'owner') &&
 			($URLInfo['fragment'][1] == 'reader' || ($URLInfo['fragment'][1] == 'network' && isset($URLInfo['fragment'][2]) && $URLInfo['fragment'][2] == 'reader'))) {
