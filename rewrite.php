@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 define('ROOT', '.');
-require_once(ROOT.'/library/components/Textcube.Core.Dispatcher.php');
+require_once(ROOT.'/framework/Dispatcher.php');
 /** Dispatching Interface request via URI */
 $dispatcher = Dispatcher::getInstance();
 /** Interface Loading */
