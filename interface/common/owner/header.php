@@ -335,7 +335,7 @@ if (in_array($blogMenu['contentMenu'],array('post','edit'))) {
 <?php
 	}
 }
-include ROOT . '/resources/language/messages.php';
+include ROOT . '/resources/locale/messages.php';
 ?>
 		//]]>
 	</script>

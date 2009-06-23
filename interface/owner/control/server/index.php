@@ -17,12 +17,13 @@ $encodingList = array('UTF-8','EUC-KR','SHIFT_JIS','EUC-JP','BIG5','EUC-CN','EUC
 
 // Languages
 $languageList = array($service['language'] => null);
-if (is_dir(ROOT.'/resources/language/') && $handler = opendir(ROOT.'/resources/language/')) {
+if (is_dir(ROOT.'/resources/locale/') && $handler = opendir(ROOT.'/resources/locale/')) {
 	while (($file = readdir($handler)) !== false) {
-		if (is_dir(ROOT.'/resources/language/'.$file) || substr($file, -4) != '.php' || $file == 'messages.php') {
+		//if (is_dir(ROOT.'/resources/locale/'.$file) || substr($file, -4) != '.php' || $file == 'messages.php') {
+		if (!is_dir(ROOT.'/resources/locale/'.$file) || $file == 'po') {
 			continue;
 		}
-		$file = substr($file, 0, -4);
+//		$file = substr($file, 0, -4);
 		$languageList[$file] = null;
 	}
 }

@@ -71,11 +71,11 @@ if (file_exists(ROOT.$adminSkinSetting['editorTemplate'])) {
 <?php
 }
 
-include ROOT . '/resources/language/messages.php';
+include ROOT . '/resources/locale/messages.php';
 ?>
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/language/messages.php"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/locale/messages.php"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/byTextcube.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
