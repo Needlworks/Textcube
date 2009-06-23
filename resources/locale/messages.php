@@ -7,7 +7,7 @@ if (!defined('ROOT')) {
 
 // TODO: generalize for multiple language support e.g. skin language
 $setting = getBlogSettings($blogid);
-require $setting['language'].'.php';
+require $setting['language'].'/owner.php';
 
 echo "__text = {\n";
 foreach ($__text as $key => $value) {
