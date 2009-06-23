@@ -93,24 +93,41 @@ final class Dispatcher {
 		}
 		$pathPart = strtok($pathPart,'&');
 		// Determine interface Type
-		if (isset($URLInfo['fragment'][0]) && $URLInfo['fragment'][0] == 'feeder') {
-			$URLInfo['interfaceType'] = 'feeder';
-		} else if (isset($URLInfo['fragment'][0]) && isset($URLInfo['fragment'][1]) &&
+		if (isset($URLInfo['fragment'][0]) {
+			if (isset($URLInfo['fragment'][1]) &&
 			($URLInfo['fragment'][0] == 'owner') &&
 			($URLInfo['fragment'][1] == 'reader' || ($URLInfo['fragment'][1] == 'network' && isset($URLInfo['fragment'][2]) && $URLInfo['fragment'][2] == 'reader'))) {
-			$URLInfo['interfaceType'] = 'reader';
-		} else if (isset($URLInfo['fragment'][0]) && $URLInfo['fragment'][0] == 'owner') {
-			$URLInfo['interfaceType'] = 'owner';
-		} else if (isset($URLInfo['fragment'][0])
-			&& ($URLInfo['fragment'][0] == 'favicon.ico' || $URLInfo['fragment'][0] == 'index.gif')) {
-			$URLInfo['interfaceType'] = 'icon';
+				$URLInfo['interfaceType'] = 'reader';
+			} else {
+				switch($URLInfo['fragment'][0]) {
+					case 'feeder':
+						$URLInfo['interfaceType'] = 'feeder';
+						break;
+					case 'owner':
+						$URLInfo['interfaceType'] = 'owner';
+						break;
+					case 'favicon.ico':
+					case 'index.gif':
+						$URLInfo['interfaceType'] = 'icon';
+						break;
+					case 'i':
+						$URLInfo['interfaceType'] = 'mobile';
+						break;
+					case 'checkup':
+						$URLInfo['interfaceType'] = 'checkup';
+						break;
+					default:
+						$URLInfo['interfaceType'] = 'blog';
+						break;
+				}
+			}	
 		} else {
 			$URLInfo['interfaceType'] = 'blog';
 		}
 		
 		/* Load interface. */
 		$interfacePath = null;
-		if (in_array($pathPart, array('favicon.ico','index.gif'))) {
+		if ($URLInfo['interfaceType'] == 'icon') {
 			$URLInfo['interfacePath'] = $this->interfacePath = 'interface/'.$pathPart.'.php';
 			$this->URLInfo = $URLInfo;
 		} else {
