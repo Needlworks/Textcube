@@ -64,29 +64,29 @@ class Autoload {
 		global $service, $database;
 		$name = ucfirst($name);
 		if(in_array($name,self::$data)) {
-			require_once(ROOT . "/library/components/Textcube.Data.".$name.".php");
+			require_once(ROOT . "/framework/legacy/Textcube.Data.".$name.".php");
 		} else if (in_array($name,self::$model)) {
-			require_once(ROOT . "/library/components/Textcube.Model.".$name.".php");
+			require_once(ROOT . "/framework/legacy/Textcube.Model.".$name.".php");
 		} else if (in_array($name,self::$base)) {
 			if(in_array($name, array('XMLRPC','XMLRPCFault','XMLCustomType')))
-				 require_once(ROOT . "/library/components/Needlworks.PHP.XMLRPC.php");
-			else require_once(ROOT . "/library/components/Needlworks.PHP.".$name.".php");
+				 require_once(ROOT . "/framework/legacy/Needlworks.PHP.XMLRPC.php");
+			else require_once(ROOT . "/framework/legacy/Needlworks.PHP.".$name.".php");
 		} else if (in_array($name,self::$function)) {
-			require_once(ROOT . "/library/components/Textcube.Function.".$name.".php");
+			require_once(ROOT . "/framework/legacy/Textcube.Function.".$name.".php");
 		} else if (in_array($name,self::$openid)) {
-			require_once(ROOT . "/library/components/Textcube.Control.Openid.php");
+			require_once(ROOT . "/framework/legacy/Textcube.Control.Openid.php");
 		} else if (in_array($name,self::$control)) {
 			if($name == 'Session' && isset($service['memcached']) && $service['memcached'] == true) 
-				require_once(ROOT . "/library/components/Textcube.Control.".$name.".Memcached.php");
-			else require_once(ROOT . "/library/components/Textcube.Control.".$name.".php");
+				require_once(ROOT . "/framework/legacy/Textcube.Control.".$name.".Memcached.php");
+			else require_once(ROOT . "/framework/legacy/Textcube.Control.".$name.".php");
 		} else if (in_array($name,array('POD'))) {
-			require_once(ROOT . "/library/components/POD.Core.Legacy.php");
+			require_once(ROOT . "/framework/legacy/POD.Core.Legacy.php");
 		} else if (in_array($name,array('DBQuery'))) {
 			if (!isset($database['dbms'])) $database['dbms'] = 'MySQL';
-			require_once(ROOT . '/library/components/Needlworks.DBMS.'.$database['dbms'].'.php'); 
-			require_once(ROOT . "/library/components/Needlworks.Database.php");
+			require_once(ROOT . '/framework/legacy/Needlworks.DBMS.'.$database['dbms'].'.php'); 
+			require_once(ROOT . "/framework/legacy/Needlworks.Database.php");
 		} else if (in_array($name,array('Syndication'))) {
-			require_once(ROOT . "/library/components/Eolin.API.Syndication.php");
+			require_once(ROOT . "/framework/legacy/Eolin.API.Syndication.php");
 		}
 		else {
 			if(defined('TCDEBUG')) print "TC: Unregisterred auto load class: $name<br/>\n";

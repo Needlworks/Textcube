@@ -3,7 +3,9 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-/** Binders */
+
+require_once(ROOT.'/framework/legacy/Needlworks.PHP.Loader.php');
+/*
 global $__requireBasics, $__requireLibrary, $__requireComponent, $__requireModel, $__requireView;
 if(!isset($__requireBasics)) $__requireBasics = array();
 if(!isset($__requireLibrary)) $__requireLibrary = array();
@@ -38,16 +40,19 @@ function requireLibrary($name) {
 	}
 }
 
-/** Autoload components */
 class Autoload {
 	static function load($className) {
 		$pos =strrpos($className,'_');
 		if($pos!==false) {
 			require_once ROOT.'/framework/'.str_replace('_','/',strtolower(substr($className,0,$pos))).'/'.substr($className,$pos+1).'.php';
 		} else {
-			if(file_exists(ROOT.'/framework/alias/'.$className.'.php')) {
+			// Legacy for Textcube 1.8
+			if(file_exists(ROOT.'/framework/legacy/'.$className.'.php')) {
+				require_once ROOT.'/framework/legacy/'.$className.'.php';
+			// Original structure (NAF2)
+			} else if (file_exists(ROOT.'/framework/alias/'.$className.'.php')) {
 				require_once ROOT.'/framework/alias/'.$className.'.php';
-			} else if(file_exists(ROOT.'/framework/'.$className.'.php')) {
+			} else if (file_exists(ROOT.'/framework/'.$className.'.php')) {
 				require_once ROOT.'/framework/'.$className.'.php';
 			} else {
 				// TODO : Error handler here. 
@@ -55,5 +60,5 @@ class Autoload {
 		}
 	}
 }
-spl_autoload_register(array('Autoload', 'load'));
+spl_autoload_register(array('Autoload', 'load'));*/
 ?>
