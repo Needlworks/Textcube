@@ -3,44 +3,34 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-// DBQuery version 1.7 for Cubrid
+// DBQuery version 1.8 for Cubrid
 
 global $cachedResult;
 global $fileCachedResult;
-global $__gEscapeTag;
-global $__dbProperties;
-global $__gLastQueryType;
-$cachedResult = $__dbProperties = array();
-$__gEscapeTag = null;
+$cachedResult = self::$dbProperties = array();
 
 class DBQuery {	
+	static $dbProperties;
 	/*@static@*/
 	function bind($database) {
-		global $__dbProperties;
 		// Connects DB and set environment variables
 		// $database array should contain 'server','username','password'.
 		if(!isset($database) || empty($database)) return false;
 		$handle = @cubrid_connect($database['server'], $database['port'], $database['database'], $database['username'], $database['password']);
 		if(!$handle) return false;
-		$__dbProperties['handle'] = $handle;	// Keeping handle
-//		if (DBQuery::query('SET CHARACTER SET utf8'))
-			$__dbProperties['charset'] = 'utf8';
-//		else
-//			$__dbProperties['charset'] = 'default';
-//		@DBQuery::query('SET SESSION collation_connection = \'utf8_general_ci\'');
+		self::$dbProperties['handle'] = $handle;	// Keeping handle
+		self::$dbProperties['charset'] = 'utf8';
 		return true;
 	}
 	
 	function unbind() {
-		global $__dbProperties;
-		@cubrid_commit($__dbProperties['handle']);
-		cubrid_disconnect($__dbProperties['handle']);
+		@cubrid_commit(self::$dbProperties['handle']);
+		cubrid_disconnect(self::$dbProperties['handle']);
 		return true;
 	}
 
 	function charset() {
-		global $__dbProperties;
-		if (array_key_exists('charset', $__dbProperties)) return $__dbProperties['charset'];
+		if (array_key_exists('charset', self::$dbProperties)) return self::$dbProperties['charset'];
 		else return null;
 	}
 	function dbms() {
@@ -48,27 +38,25 @@ class DBQuery {
 	}
 
 	function version($mode = 'server') {
-		global $__dbProperties;
-		if (array_key_exists('version', $__dbProperties)) return $__dbProperties['version'];
+		if (array_key_exists('version', self::$dbProperties)) return self::$dbProperties['version'];
 		else {
-			$__dbProperties['version'] = cubrid_version();
-			return $__dbProperties['version'];
+			self::$dbProperties['version'] = cubrid_version();
+			return self::$dbProperties['version'];
 		}
 	}
 
 	function tableList($condition = null) {
-		global $__dbProperties;
-		if (!array_key_exists('tableList', $__dbProperties)) { 
-			$__dbProperties['tableList'] = DBQuery::queryColumn("SELECT class_name FROM db_class WHERE is_system_class = 'NO'");
+		if (!array_key_exists('tableList', self::$dbProperties)) { 
+			self::$dbProperties['tableList'] = self::queryColumn("SELECT class_name FROM db_class WHERE is_system_class = 'NO'");
 		}
 		if(!is_null($condition)) {
 			$result = array();
-			foreach($__dbProperties['tableList'] as $item) {
+			foreach(self::$dbProperties['tableList'] as $item) {
 				if(strpos($item, $condition) === 0) {array_push($result, $item);}
 			}
 			return $result;
 		} else {
-			return $__dbProperties['tableList'];
+			return self::$dbProperties['tableList'];
 		}
 	}
 
@@ -78,13 +66,11 @@ class DBQuery {
 
 	function setTimezone($time) {
 		return true;
-		return DBQuery::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
+		return self::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
 	}
 
 	/*@static@*/
 	function query($query, $compatibility = true) {
-		global $__gLastQueryType, $__dbProperties;
-
 		/// Bypassing compatiblitiy issue : will be replace to NAF2.
 		if($compatibility) {
 			$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compatibility issue.
@@ -133,24 +119,24 @@ class DBQuery {
 
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);
-			$result = cubrid_execute($__dbProperties['handle'],$query);
+			$result = cubrid_execute(self::$dbProperties['handle'],$query);
 			__tcSqlLogEnd($result,0);
 		} else {
-			$result = cubrid_execute($__dbProperties['handle'],$query);
+			$result = cubrid_execute(self::$dbProperties['handle'],$query);
 		}
-		$__gLastQueryType = strtolower(substr($query, 0,6));
+		self::$lastQueryType = strtolower(substr($query, 0,6));
 		if( stristr($query, 'update ') ||
 			stristr($query, 'insert ') ||
 			stristr($query, 'delete ') ||
 			stristr($query, 'replace ') ) {
-			DBQuery::clearCache();
+			self::clearCache();
 		}
 		return $result;
 	}
 
 	/*@static@*/
 	function queryExistence($query) {
-		if ($result = DBQuery::query($query)) {
+		if ($result = self::query($query)) {
 			if (cubrid_num_rows($result) > 0) {
 				cubrid_close_request($result);
 				return true;
@@ -162,12 +148,11 @@ class DBQuery {
 	
 	/*@static@*/
 	function queryCount($query) {
-		global $__gLastQueryType;
 		$count = 0;
 		$query = trim($query);
-		if ($result = DBQuery::query($query)) {
+		if ($result = self::query($query)) {
 			$operation = strtolower(substr($query, 0,6));
-			$__gLastQueryType = $operation;
+			self::$lastQueryType = $operation;
 			switch ($operation) {
 				case 'select':
 					$count = cubrid_num_rows($result);
@@ -195,9 +180,9 @@ class DBQuery {
 		}
 
 		if( $useCache ) {
-			$result = DBQuery::queryAllWithCache($query, $type);
+			$result = self::queryAllWithCache($query, $type);
 		} else {
-			$result = DBQuery::queryAllWithoutCache($query, $type);
+			$result = self::queryAllWithoutCache($query, $type);
 		}
 		if( empty($result) ) {
 			return null;
@@ -208,9 +193,9 @@ class DBQuery {
 	/*@static@*/
 	function queryRow($query, $type = 'both', $useCache=true) {
 		if( $useCache ) {
-			$result = DBQuery::queryAllWithCache($query, $type, 1);
+			$result = self::queryAllWithCache($query, $type, 1);
 		} else {
-			$result = DBQuery::queryAllWithoutCache($query, $type, 1);
+			$result = self::queryAllWithoutCache($query, $type, 1);
 		}
 		if( empty($result) ) {
 			return null;
@@ -220,7 +205,6 @@ class DBQuery {
 	
 	/*@static@*/
 	function queryColumn($query, $useCache=true) {
-		global $cachedResult;
 		$cacheKey = "{$query}_queryColumn";
 		if( $useCache && isset( $cachedResult[$cacheKey] ) ) {
 			if( function_exists( '__tcSqlLogBegin' ) ) {
@@ -232,7 +216,7 @@ class DBQuery {
 		}
 
 		$column = null;
-		if ($result = DBQuery::query($query)) {
+		if ($result = self::query($query)) {
 			$column = array();
 			while ($row = cubrid_fetch($result))
 				array_push($column, $row[0]);
@@ -247,14 +231,14 @@ class DBQuery {
 	
 	/*@static@*/
 	function queryAll ($query, $type = 'both', $count = -1) {
-		return DBQuery::queryAllWithCache($query, $type, $count);
-		//return DBQuery::queryAllWithoutCache($query, $type, $count);  // Your choice. :)
+		return self::queryAllWithCache($query, $type, $count);
+		//return self::queryAllWithoutCache($query, $type, $count);  // Your choice. :)
 	}
 
 	function queryAllWithoutCache($query, $type = 'both', $count = -1) {
 		$all = array();
-		$realtype = DBQuery::__queryType($type);
-		if ($result = DBQuery::query($query)) {
+		$realtype = self::__queryType($type);
+		if ($result = self::query($query)) {
 			while ( ($count-- !=0) && $row = cubrid_fetch($result, $realtype))
 				array_push($all, $row);
 			cubrid_close_request($result);
@@ -264,7 +248,6 @@ class DBQuery {
 	}
 	
 	function queryAllWithCache($query, $type = 'both', $count = -1) {
-		global $cachedResult;
 		$cacheKey = "{$query}_{$type}_{$count}";
 		if( isset( $cachedResult[$cacheKey] ) ) {
 			if( function_exists( '__tcSqlLogBegin' ) ) {
@@ -274,14 +257,14 @@ class DBQuery {
 			$cachedResult[$cacheKey][0]++;
 			return $cachedResult[$cacheKey][1];
 		}
-		$all = DBQuery::queryAllWithoutCache($query,$type,$count);
+		$all = self::queryAllWithoutCache($query,$type,$count);
 		$cachedResult[$cacheKey] = array( 1, $all );
 		return $all;
 	}
 	
 	/*@static@*/
 	function execute($query) {
-		return DBQuery::query($query) ? true : false;
+		return self::query($query) ? true : false;
 	}
 
 	/*@static@*/
@@ -290,9 +273,9 @@ class DBQuery {
 		foreach (func_get_args() as $query) {
 			if (is_array($query)) {
 				foreach ($query as $subquery)
-					if (($result = DBQuery::query($subquery)) === false)
+					if (($result = self::query($subquery)) === false)
 						return false;
-			} else if (($result = DBQuery::query($query)) === false)
+			} else if (($result = self::query($query)) === false)
 				return false;
 		}
 		return $result;
@@ -303,7 +286,6 @@ class DBQuery {
 	}
 	
 	function escapeString($string, $link = null){
-		global $__gEscapeTag;
 		return preg_replace("/'/","''",$string);
 	}
 	
@@ -321,19 +303,18 @@ class DBQuery {
 	}
 
 	function cacheSave() {
-		@DBQuery::commit();
+		@self::commit();
 	}
 	
 	function commit() {
-		global $fileCachedResult,$__dbProperties;
-		@cubrid_commit($__dbProperties['handle']);
+		global $fileCachedResult;
+		@cubrid_commit(self::$dbProperties['handle']);
 	}
 
 	/* Raw functions (to easier adoptation) */
 	/*@static@*/
 	function num_rows($handle = null) {
-		global $__gLastQueryType;
-		switch($__gLastQueryType) {
+		switch(self::$lastQueryType) {
 			case 'select':
 				return cubrid_num_rows($handle);
 				break;
@@ -350,7 +331,7 @@ class DBQuery {
 	
 	/*@static@*/
 	function fetch($handle = null, $type = 'assoc') {
-		$realtype = DBQuery::__queryType($type);
+		$realtype = self::__queryType($type);
 		return cubrid_fetch($handle,$realtype);
 	}
 	

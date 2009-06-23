@@ -28,7 +28,8 @@ class DBQuery {
 		if(!self::$db) return false; 
 		if(!self::$db->select_db($database['database']))
 			die("Connection error :".self::$db->errorno." - ".self::$db->error);
-		self::$db->autocommit(false);	// Turns off autocommit.
+		//self::$db->autocommit(false);	// Turns off autocommit.
+		self::$db->autocommit(true);	// Turns off autocommit.
 		if (self::$db->set_charset("utf8"))
 			self::$dbProperties['charset'] = 'utf8';
 		else
