@@ -479,7 +479,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			showCheckupMessage(false);
 		}
 	}
-	if (POD::queryExistence("DESC {$database['prefix']}Categories bodyId")) {
+	if (!POD::queryExistence("DESC {$database['prefix']}DailyStatistics datemark")) {
 		$changed = true;
 		echo '<li>', _text('다양한 데이터베이스 엔진 호환성을 위하여 모든 필드의 이름을 소문자로 변환합니다.'), ': ';
 		if (
