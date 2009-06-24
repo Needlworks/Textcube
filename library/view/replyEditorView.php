@@ -87,7 +87,7 @@ if (!doesHaveMembership()) {
 ?>
 <body<?php echo $writerClass;?> onload="document.commentToComment.comment.focus()">
 <?php 
-}z
+}
 ?>
 	<form name="commentToComment" method="post" action="<?php echo ($_POST['mode'] == 'edit' ? $blogURL . '/comment/delete/' . $suri['id'] : $suri['url']);?>">
 		<input type="hidden" name="mode" value="commit" />
