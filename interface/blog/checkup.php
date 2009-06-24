@@ -575,7 +575,18 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		else {
 			showCheckupMessage(false);
 		}
-	}	
+	}
+
+	if (!POD::queryExistence("DESC {$database['prefix']}Filters filtertype")) {
+		$changed = true;
+		echo '<li>', _text('필터 호환성을 위하여 필드의 이름을 변경합니다.'), ': ';
+		if (POD::execute("ALTER TABLE {$database['prefix']}Filters
+				CHANGE type filtertype enum('content','ip','name','url','whiteurl') NOT NULL default 'content'")) {
+			showCheckupMessage(true);
+		} else {
+			showCheckupMessage(false);
+		}
+	}
 }
 
 /***** Common parts. *****/
