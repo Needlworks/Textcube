@@ -17,7 +17,7 @@ if(empty($suri['id'])) {
 	<?php
 		$blogAuthor = User::getName($blogid);
 		$blogLogo = !empty($blog['logo']) ? $blogURL . "/imageResizer?f=" . $blog['logo'] . "&m=80" : "{$service['path']}/resources/style/iphone/image/textcube_logo.png";
-		$itemsView .= '<li class="blog_info">'.CRLF;
+		$itemsView = '<li class="blog_info">'.CRLF;
 		$itemsView .= '	<div class="logo"><img src="' . $blogLogo . '" /></div>'.CRLF;
 		$itemsView .= '	<div class="blog_container">'.CRLF;
 		$itemsView .= '		<span class="title">' . htmlspecialchars($blog['title']). '</span>'.CRLF;

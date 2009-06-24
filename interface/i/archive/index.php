@@ -19,7 +19,7 @@ if(isset($period)) {
 	?>
 	<ul class="posts" id="archive_<?php echo $suri['page'];?>" title="<?php echo getPeriodLabel($period);?>" selected="false">
 	<?php
-		$itemsView .= '<li class="group">'.CRLF;
+		$itemsView = '<li class="group">'.CRLF;
 		$itemsView .= '	<span class="left">' . getPeriodLabel($period) . ' ('.$list['count'].')</span>'.CRLF;
 		$itemsView .= '	<span class="right">Page <span class="now_page">' . $paging['page'] . '</span> / '.$paging['pages'].'</span>'.CRLF;
 		$itemsView .= '</li>'.CRLF;
