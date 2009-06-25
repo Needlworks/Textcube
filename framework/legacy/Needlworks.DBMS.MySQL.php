@@ -185,10 +185,14 @@ class DBQuery {
 		$all = array();
 		$realtype = self::__queryType($type);
 		if ($result = self::query($query)) {
-			while ( ($count-- !=0) && $row = mysql_fetch_array($result, $realtype))
-				array_push($all, $row);
-			mysql_free_result($result);
-			return $all;
+			if (is_resource($result)) {
+				while ( ($count-- !=0) && $row = mysql_fetch_array($result, $realtype))
+					array_push($all, $row);
+				mysql_free_result($result);
+				return $all;
+			} else {
+				return $result;
+			}
 		}
 		return null;
 	}
