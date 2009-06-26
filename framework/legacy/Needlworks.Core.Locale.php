@@ -95,8 +95,8 @@ final class Locale {
 		$locales = array();
 		if ($dir = dir($__locale['directory'])) {
 			while (($entry = $dir->read()) !== false) {
-				if (!is_dir($__locale['directory'] . '/' . $entry))
-					continue;
+				if (!is_dir($__locale['directory'] . '/' . $entry)) continue;
+				if (in_array($__locale['directory'],array('..','.'))) continue;
 //				$locale = substr($entry, 0, strpos($entry, '.'));
 				$locale = $entry;
 				if (empty($locale) || $locale == 'messages' || $locale == 'po')
