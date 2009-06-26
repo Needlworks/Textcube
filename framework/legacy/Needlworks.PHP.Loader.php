@@ -87,6 +87,8 @@ class Autoload {
 			require_once(ROOT . "/framework/legacy/Needlworks.Database.php");
 		} else if (in_array($name,array('Syndication'))) {
 			require_once(ROOT . "/framework/legacy/Eolin.API.Syndication.php");
+		} else if (in_array($name,array('Locale'))) {
+			require_once(ROOT . "/framework/legacy/Needlworks.Core.Locale.php");
 		}
 		else {
 			if(defined('TCDEBUG')) print "TC: Unregisterred auto load class: $name<br/>\n";

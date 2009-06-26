@@ -159,7 +159,7 @@ if (!defined('NO_INITIALIZAION')) {
 */
 	$__locale = array(
 		'locale' => null,
-		'directory' => '/resources/locale',
+		'directory' => ROOT.'/resources/locale',
 		'domain' => null,
 		);
 	

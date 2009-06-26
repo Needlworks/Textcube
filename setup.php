@@ -6,7 +6,13 @@
 define('__TEXTCUBE_SETUP__',true);
 header('Content-Type: text/html; charset=utf-8');
 ini_set('display_errors', 'on');
-$__requireComponent = $__requireView = $__requireModel = $__requireLibrary = array();
+
+define('ROOT','.');
+
+foreach (new DirectoryIterator(ROOT.'/framework/boot') as $fileInfo) {
+	if($fileInfo->isFile()) require_once($fileInfo->getPathname());
+}
+
 if (get_magic_quotes_gpc()) {
     foreach ($_GET as $key => $value)
         $_GET[$key] = stripslashes($value);
@@ -34,10 +40,6 @@ $_SERVER['PHP_SELF'] = rtrim($_SERVER['PHP_SELF'], '/');
 if (!defined('ROOT'))
 	define ('ROOT', $root);
 
-require_once (ROOT.'/library/components/Needlworks.PHP.UnifiedEnvironment.php');
-require_once (ROOT.'/library/components/Needlworks.PHP.Core.php');
-require_once (ROOT.'/library/components/Needlworks.PHP.BaseClasses.php');
-require_once (ROOT.'/library/components/Needlworks.PHP.Loader.php');
 $__requireBasics = array(
 	'config.default',               // Basics
 	'function/string',

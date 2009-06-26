@@ -17,11 +17,11 @@ final class Locale {
 		list($common) = explode('-', $locale, 2);
 //		Locale::refreshLocaleResource($locale);
 		if (file_exists($__locale['directory'] . '/' . $locale . '/'.$scope.'.php')) {
-			include($__locale['directory'] . '/' . $locale . '/'.$scope.'.php');
+			include_once($__locale['directory'] . '/' . $locale . '/'.$scope.'.php');
 			$__locale['locale'] = $locale;
 			return true;
 		} else if (($common != $locale) && file_exists($__locale['directory'] . '/' . $common . '/'.$scope.'.php')) {
-			include($__locale['directory'] . '/' . $common . '/'.$scope.'.php');
+			include_once($__locale['directory'] . '/' . $common . '/'.$scope.'.php');
 			$__locale['locale'] = $common;
 			return true;
 		}
