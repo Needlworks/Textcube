@@ -28,6 +28,7 @@ abstract class Singleton {
 	abstract public static function getInstance();
 }
 
+/// String manipulation class
 final class String {
 	static function endsWith($string, $end) {
 		$longer = strlen($string) - strlen($end);
@@ -41,7 +42,8 @@ final class String {
 	}
 }
 
-
+/// Unicode string manipulation class. 
+/// (PHP built-in functions work incorrectly.)
 final class UTF8 {
 	static function validate($str, $truncated = false) {
 		$length = strlen($str);

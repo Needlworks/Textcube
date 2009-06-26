@@ -50,12 +50,11 @@ $__requireBasics = array(
 	'function/mail');
 if(isset($_POST['dbms'])) $database['dbms'] = $_POST['dbms'];
 require ROOT.'/library/include.php';
-require ROOT.'/library/database.php';
 require ROOT.'/library/locale.php';
+
 requireModel('blog.blogSetting');
 requireModel('blog.entry');
 requireLibrary('auth');
-requireComponent('POD.Core.Legacy');
 
 if (!empty($_GET['test'])) {
 	echo getFingerPrint();
