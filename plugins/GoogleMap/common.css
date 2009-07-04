@@ -27,3 +27,51 @@
 	font-size: 0.9em;
 	color: #999;
 }
+
+dl#toolbox-googlemap {
+	display: inline-block;
+	height: 22px;
+}
+
+dl#toolbox-googlemap dd.command-box {
+	float: left;
+	margin: 0;
+	padding: 0;
+	border-top: 1px solid #bbb;
+	border-bottom: 1px solid #bbb;
+	background: -webkit-gradient(linear, left 10, left bottom, from(#fff), to(#eee));
+}
+dl#toolbox-googlemap dd.command-box:hover {
+	background: -webkit-gradient(linear, left 10, left bottom, from(#f2f2f2), to(#ddd));
+}
+dl#toolbox-googlemap dd.command-box:active {
+	background: -webkit-gradient(linear, left 10, left bottom, to(#f2f2f2), from(#ddd));
+}
+
+dl#toolbox-googlemap dd.command-box a.button {
+	display: block;
+	border-right: 1px solid #bbb;
+	padding: 0 6px 0 24px;
+	line-height: 22px;
+	background: transparent;
+	background-repeat: no-repeat !important;
+	background-position: 3px center !important;
+	color: black;
+	text-decoration: none;
+}
+
+dl#toolbox-googlemap dd.command-box:first-child a.button {
+	border-left: 1px solid #bbb;
+}
+
+dl#toolbox-googlemap dd.command-box a.button:hover {
+	text-decoration: none;
+}
+
+dl#toolbox-googlemap dd.command-box #gmap-insertMap {
+	background-image: url(./images/toolbox-map.png);
+}
+
+dl#toolbox-googlemap dd.command-box #gmap-getLocation {
+	background-image: url(./images/toolbox-location.png);
+}

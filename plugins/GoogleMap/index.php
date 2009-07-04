@@ -42,7 +42,10 @@ function GoogleMap_AdminHeader($target) {
 
 function GoogleMap_AddToolbox($target) {
 	global $pluginURL;
-	$target .= "<img src=\"$pluginURL/images/gmap_toolbar.gif\" border=\"0\" alt=\"구글맵 추가하기\" onclick=\"GMapTool_Insert();\" style=\"cursor:pointer\" />\n";
+	$target .= "<dl id=\"toolbox-googlemap\">";
+	$target .= "<dd class=\"command-box\"><a class=\"button\" id=\"gmap-insertMap\" href=\"#insertGoogleMap\" onclick=\"GMapTool_insertMap(); return false;\">구글맵 추가하기</a></dd>";
+	$target .= "<dd class=\"command-box\"><a class=\"button\" href=\"#getLocation\" id=\"gmap-getLocation\" onclick=\"GMapTool_getLocation(); return false;\">현재 위치 알아내기</a></dd>";
+	$target .= "</dl>";
 	return $target;
 }
 
@@ -268,7 +271,7 @@ function GoogleMap_Cache() {
 	}
 }
 
-function GoogleMapUI_Insert() {
+function GoogleMapUI_InsertMap() {
 	global $configVal, $pluginURL;
 	requireComponent('Textcube.Function.Misc');
 	$config = Setting::fetchConfigVal($configVal);
@@ -318,6 +321,65 @@ function GoogleMapUI_Insert() {
 	_GMap_printFooterForUI();
 }
 
+function GoogleMapUI_GetLocation() {
+	global $configVal, $pluginURL;
+	requireComponent('Textcube.Function.Misc');
+	$config = Setting::fetchConfigVal($configVal);
+	$lat = $config['latitude'];
+	$lng = $config['longitude'];
+	$default_type = 'G_HYBRID_MAP';
+	$default_width = 500;
+	$default_height = 400;
+	$zoom = 10;
+	_GMap_printHeaderForUI('현재 위치 알아내기', $config['apiKey']);
+?>
+	<h2>이용 안내</h2>
+	<p>웹브라우저가 제공하는 Geolocation 서비스를 이용하여 현재 위치 정보를 가져옵니다. 정확도는 사용하고 계신 기기나 지역에 따라 다를 수 있습니다. <a href="#help">(자세히 알아보기)</a></p>
+	<p><span id="availability"></span><span id="status"></span></p>
+	<h2>미리보기</h2>
+	<div style="text-align:center;">
+		<div id="GoogleMapPreview" style="width:<?php echo $default_width;?>px; height:<?php echo $default_height;?>px; margin:0 auto;"></div>
+	</div>
+	<script type="text/javascript">
+	//<![CDATA[
+	function initializeMap() {
+		map = new GMap2($('#GoogleMapPreview')[0]);
+		map.addMapType(G_PHYSICAL_MAP);
+		map.setMapType(<?php echo $default_type;?>);
+		map.addControl(new GHierarchicalMapTypeControl());
+		map.addControl(new GLargeMapControl());
+		map.addControl(new GScaleControl());
+		map.enableScrollWheelZoom();
+		map.enableContinuousZoom();
+		map.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
+	}
+	//]]>
+	</script>
+	<script type="text/javascript">
+	//<![CDATA[
+	$(document).ready(function() {
+		if (navigator.geolocation) {
+			$('#availability').html('현재 웹브라우저는 Geolocation 기능을 지원합니다. <button id="getLocation">위치 가져오기</button>')
+			$('#getLocation').click(function() {
+				$('#status').html('<img src="<?php echo $pluginURL; ?>/images/icon_loading.gif" style="vertical-align:middle" width="16" height="16" alt="가져오는 중..." />');
+				navigator.geolocation.getCurrentPosition(function(pos) {
+					map.setCenter(new GLatLng(pos.coords.latitude, pos.coords.longitude), 10);
+					$('#status').html('가져오기 완료.');
+				}, function(error) {
+					alert('위치 정보를 가져오는 데 실패하였습니다. ('+error.code+', '+error.message+')');
+					$('#status').html('가져오기 실패.');
+				});
+			});
+		} else {
+			$('#availability').html('현재 웹브라우저는 Geolocation 기능을 지원하지 않습니다.')
+		}
+	});
+	//]]>
+	</script>
+<?php
+	_GMap_printFooterForUI();
+}
+
 function _GMap_printHeaderForUI($title, $api_key) {
 	global $pluginURL, $blogURL, $service, $adminSkinSetting;
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -325,7 +387,7 @@ function _GMap_printHeaderForUI($title, $api_key) {
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Google Map Plugin: <?php echo $title;?></title>
-	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/insert.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/popup.css" />
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-1.2.6.min.js"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-ui-1.6rc2.js"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-mousewheel.min.js"></script>

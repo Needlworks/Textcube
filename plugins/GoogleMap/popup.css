@@ -37,23 +37,33 @@ fieldset {
 button {
 	display: inline-block;
 	margin: 2px;
-	padding: 1px 3px 2px 3px;
+	padding: 0 6px;
+	line-height: 20px;
 	background: #f2f2f2;
-	border: 1px solid #69c;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e4e4e4));
+	border: 1px solid #bbb;
 	border-radius: 3px;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	cursor: pointer;
 }
 button:hover {
-	background-color: #cce8ff;
+	border-color: #999;
+	background: #D7E0EE;
+	background: -webkit-gradient(linear, left top, left bottom, from(#EFF2FB), to(#B5D5EC));
+}
+button:active {
+	background: -webkit-gradient(linear, left top, left bottom, to(#C7DDF4), from(#A9C9F0));
 }
 button.toggled {
+	border-color: #222;
 	background-color: #555;
+	background: -webkit-gradient(linear, left top, left bottom, from(#444), to(#666));
 	color: white;
 }
 button.toggled:hover {
 	background-color: #666;
+	background: -webkit-gradient(linear, left top, left bottom, from(#555), to(#777));
 }
 
 #controls {
@@ -71,6 +81,11 @@ h2 {
 
 input, textarea {
 	border: 1px solid #ccc;
+	padding: 1px;
+	line-height: 17px;
+	background: -webkit-gradient(linear, left top, 0 10, from(#eee), to(#fff));
+	-webkit-background-origin: padding-box;
+	-webkit-background-clip: content-box;
 	font-size: 0.9em;
 }
 .GMapInfo {
@@ -105,4 +120,8 @@ input, textarea {
 }
 .queryMarkerInfo {
 	text-align: left;
+}
+#status {
+	font-size: 8pt;
+	color: #555;
 }

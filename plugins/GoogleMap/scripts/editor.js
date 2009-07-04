@@ -5,8 +5,12 @@ function initializeGoogleMap() {
 	// Nothing to do currently.
 }
 
-function GMapTool_Insert() {
+function GMapTool_insertMap() {
 	window.open(blogURL + '/plugin/GMapCustomInsert/', 'GMapTool_Insert', 'menubar=no,toolbar=no,width=550,height=650,scrollbars=yes');
+}
+
+function GMapTool_getLocation() {
+	window.open(blogURL + '/plugin/GMapGetLocation/', 'GMapTool_GetLocation', 'menubar=no,toolbar=no,width=550,height=650,scrollbars=no');
 }
 
 STD.addUnloadEventListener(function() { GUnload(); });
