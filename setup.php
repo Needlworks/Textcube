@@ -1252,7 +1252,7 @@ ini_set('display_errors', 'off');
 				// Users must copy these rules to IsapiRewrite4.ini
 				$htaccessContent = 
 "RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^$path/(cache)+/+(.+[^/])\.(cache|xml|txt|log)$ - [NC,F,L,U]
+RewriteRule ^$path/(cache)+/+(.+[^/]).(cache|xml|txt|log)$ - [NC,F,L,U]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^$path/([^?]+[^/])$ $path/$1/ [L,U]
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -1267,7 +1267,7 @@ RewriteRule ^$path/(.*)$ $path/rewrite.php?%{QUERY_STRING} [L,U]
 				$htaccessContent = 
 "RewriteRule ^$path/(thumbnail)/([0-9]+/.+)$ $path/cache/$1/$2 [L]
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^$path/(cache)+/+(.+[^/])\.(cache|xml|txt|log)$ - [NC,F,L]
+RewriteRule ^$path/(cache)+/+(.+[^/]).(cache|xml|txt|log)$ - [NC,F,L]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^$path/([^?]+[^/])$ $path/$1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -1284,7 +1284,7 @@ RewriteRule ^$path/(.*)$ $path/rewrite.php [L,QSA]
 RewriteEngine On
 RewriteBase $path/
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^(cache)+/+(.+[^/])\.(cache|xml|txt|log)$ - [NC,F,L]
+RewriteRule ^(cache)+/+(.+[^/]).(cache|xml|txt|log)$ - [NC,F,L]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^(.+[^/])$ $1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
