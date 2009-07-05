@@ -200,7 +200,7 @@ else {
 		return $mysql_escaping_function($string);
 	}*/
 	
-	for ($i = 1; $i <= $_POST['step']; $i ++) {
+/*	for ($i = 1; $i <= $_POST['step']; $i ++) {
         if (!checkStep($i))
             break;
         if ($i == 3) {
@@ -210,7 +210,7 @@ else {
 				$mysql_escaping_function =  create_function('$string', 'return mysql_escape_string($string);');
 			}
 		}
-    }
+    }*/
     if ($i > $_POST['step'])
         checkStep($_POST['step'] + 1, false);
 }
@@ -485,17 +485,6 @@ min
 mkdir
 mktime
 move_uploaded_file
-mysql_affected_rows
-mysql_connect
-mysql_error
-mysql_escape_string
-mysql_fetch_array
-mysql_fetch_row
-mysql_insert_id
-mysql_num_rows
-mysql_query
-mysql_result
-mysql_select_db
 nl2br
 number_format
 ob_end_clean
@@ -977,9 +966,9 @@ RewriteRule ^testrewrite$ setup.php [L]"
         } else {
 			@POD::query('SET CHARACTER SET utf8');
 			if ($result = @POD::query("SELECT loginid, password, name FROM {$_POST['dbPrefix']}Users WHERE userid = 1")) {
-				@list($_POST['email'], $_POST['password'], $_POST['name']) = mysql_fetch_row($result);
+				@list($_POST['email'], $_POST['password'], $_POST['name']) = POD::fetch($result,'row');
 				$_POST['password2'] = $_POST['password'];
-				mysql_free_result($result);
+				POD::free($result);
 			}
 			if ($result = @POD::queryCell("SELECT value FROM {$_POST['dbPrefix']}BlogSettings 
 						WHERE blogid = 1 
@@ -1620,7 +1609,7 @@ function checkTables($version, $prefix) {
 		return false;
 	foreach ($tables as $table) {
 		if ($result = POD::query("DESCRIBE $table"))
-			mysql_free_result($result);
+			POD::free($result);
 		else 
 			return false;
 	}
