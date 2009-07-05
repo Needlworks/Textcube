@@ -601,7 +601,7 @@ xml_set_object
 <?php
         $tables = array();
         if ($result = POD::tableList()) {
-            while ($table = mysql_fetch_array($result)) {
+            while ($table = POD::fetch($result,'assoc')) {
                 if (strncmp($table[0], $_POST['dbPrefix'], strlen($_POST['dbPrefix'])))
                     continue;
                 switch (strtolower(substr($table[0], strlen($_POST['dbPrefix'])))) {
