@@ -281,7 +281,7 @@ function GoogleMapUI_InsertMap() {
 	$default_width = min(Misc::getContentWidth(), 500);
 	$default_height = 400;
 	$zoom = 10;
-	_GMap_printHeaderForUI('구글맵 삽입하기', $config['apiKey']);
+	_GMap_printHeaderForUI('구글맵 삽입하기', 'insert', $config['apiKey']);
 ?>
 	<div id="controls">
 		<button id="toggleMarkerAddingMode">마커 표시 모드</button>
@@ -331,7 +331,7 @@ function GoogleMapUI_GetLocation() {
 	$default_width = 500;
 	$default_height = 400;
 	$zoom = 10;
-	_GMap_printHeaderForUI('현재 위치 알아내기', $config['apiKey']);
+	_GMap_printHeaderForUI('현재 위치 알아내기', 'getlocation', $config['apiKey']);
 ?>
 	<h2>이용 안내</h2>
 	<p>웹브라우저가 제공하는 Geolocation 서비스를 이용하여 현재 위치 정보를 가져옵니다. 정확도는 사용하고 계신 기기나 지역에 따라 다를 수 있습니다. <a href="#help">(자세히 알아보기)</a></p>
@@ -385,6 +385,7 @@ function GoogleMapUI_GetLocation() {
 		} else {
 			$('#availability').html('현재 웹브라우저는 Geolocation 기능을 지원하지 않습니다.')
 		}
+		initializeMap();
 	});
 	//]]>
 	</script>
@@ -392,7 +393,7 @@ function GoogleMapUI_GetLocation() {
 	_GMap_printFooterForUI();
 }
 
-function _GMap_printHeaderForUI($title, $api_key) {
+function _GMap_printHeaderForUI($title, $jsName, $api_key) {
 	global $pluginURL, $blogURL, $service, $adminSkinSetting;
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -413,7 +414,7 @@ function _GMap_printHeaderForUI($title, $api_key) {
 	//]]>
 	</script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/common.js?<?php echo time();?>"></script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/insert.js?<?php echo time();?>"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/<?php echo $jsName; ?>.js?<?php echo time();?>"></script>
 </head>
 <body>
 <div id="all-wrap">
