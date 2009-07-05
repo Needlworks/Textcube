@@ -364,10 +364,22 @@ function GoogleMapUI_GetLocation() {
 				$('#status').html('<img src="<?php echo $pluginURL; ?>/images/icon_loading.gif" style="vertical-align:middle" width="16" height="16" alt="가져오는 중..." />');
 				navigator.geolocation.getCurrentPosition(function(pos) {
 					map.setCenter(new GLatLng(pos.coords.latitude, pos.coords.longitude), 10);
-					$('#status').html('가져오기 완료.');
+					$('#status').html('가져오기 성공.');
 				}, function(error) {
-					alert('위치 정보를 가져오는 데 실패하였습니다. ('+error.code+', '+error.message+')');
-					$('#status').html('가져오기 실패.');
+					switch (error.code) {
+					case 1:
+						msg = '권한 없음';
+						break;
+					case 2:
+						msg = '위치정보 없음'
+						break;
+					case 3:
+						msg = '시간 제한 초과'
+						break;
+					default:
+						msg = '알 수 없는 오류';
+					}
+					$('#status').html('실패 ('+msg+')');
 				});
 			});
 		} else {
