@@ -97,9 +97,12 @@ function queryLocation() {
 				query_markers[id] = {'marker': marker, 'id': id, 'address': place.address, 'query': q};
 			}
 		}
-		var pos = $(map.getContainer()).offset();
-		$('<div style="text-align:right"><a href="#" onclick="closeQueryResult();return false;">닫기</a></div>').appendTo('#queryResult');
-		$('#queryResult').css({top:(pos.top + 20)+'px', left:(pos.left + 60)+'px'}).fadeIn(400).fadeTo(200, 0.8);
+		var container = map.getContainer();
+		var pos = $(container).offset();
+		// TODO: get the height of the whole document in a cross-browsing way
+		var from_bottom = document.body.scrollHeight - (pos.top + $(container).height());
+		$('<div style="text-align:right"><a href="#" class="ui-action" onclick="closeQueryResult();return false;">닫기</a></div>').appendTo('#queryResult');
+		$('#queryResult').css({bottom:(from_bottom + 40)+'px', left:(pos.left + 60)+'px'}).fadeIn(400).fadeTo(200, 1);
 	});
 }
 

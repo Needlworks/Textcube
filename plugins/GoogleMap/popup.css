@@ -104,23 +104,36 @@ input, textarea {
 	clear: left;
 }
 #queryResult {
+	display: none;
 	position: absolute;
-	top: 120px;
 	left: 200px;
+	right: 60px;
 	padding: 8px 8px 8px 15px;
 	background: white;
+	background-color: rgba(255,255,255,0.85);
 	border: 1px solid #ccc;
-	box-shadow: 2px 2px 5px #555;
+	box-shadow: 2px 2px 5px rgba(0,0,0,0.7);
 	-moz-box-shadow: 2px 2px 5px #555;
-	-webkit-box-shadow: 2px 2px 5px #555;
-	display: none;
+	-webkit-box-shadow: 2px 2px 5px rgba(0,0,0,0.7);
 	text-align: left;
+	font-size: 0.9em;
 }
 #queryResult li {
 	margin: 0 0 0.3em 2em;
 }
+#queryResult li a {
+	color: #06c;
+	text-decoration: none;
+}
+#queryResult li a:hover {
+	text-decoration: underline;
+}
 .queryMarkerInfo {
 	text-align: left;
+}
+.ui-action {
+	font-size: 8pt;
+	color: #555;
 }
 #status {
 	font-size: 8pt;
