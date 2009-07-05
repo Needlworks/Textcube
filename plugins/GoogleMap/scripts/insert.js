@@ -7,7 +7,7 @@ var user_markers = {};
 var query_markers = {};
 var icon_blue;
 
-$(function() {
+$(document).ready(function() {
 	initializeMap();
 	var container = $(map.getContainer());
 	container

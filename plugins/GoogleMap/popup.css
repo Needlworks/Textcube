@@ -40,7 +40,7 @@ button {
 	padding: 0 6px;
 	line-height: 20px;
 	background: #f2f2f2;
-	background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#e4e4e4));
+	background-image: -webkit-gradient(linear, left 10, left bottom, from(#fff), to(#eee));
 	border: 1px solid #bbb;
 	border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -49,21 +49,22 @@ button {
 }
 button:hover {
 	border-color: #999;
-	background: #D7E0EE;
-	background: -webkit-gradient(linear, left top, left bottom, from(#EFF2FB), to(#B5D5EC));
+	background: #e8e8e8;
+	background-image: -webkit-gradient(linear, left 10, left bottom, from(#fafafa), to(#ddd));
 }
 button:active {
-	background: -webkit-gradient(linear, left top, left bottom, to(#C7DDF4), from(#A9C9F0));
+	background-color: #d6d6d6;
+	background-image: -webkit-gradient(linear, left 10, left bottom, to(#f2f2f2), from(#ddd));
 }
 button.toggled {
 	border-color: #222;
 	background-color: #555;
-	background: -webkit-gradient(linear, left top, left bottom, from(#444), to(#666));
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#444), to(#666));
 	color: white;
 }
 button.toggled:hover {
 	background-color: #666;
-	background: -webkit-gradient(linear, left top, left bottom, from(#555), to(#777));
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#555), to(#777));
 }
 
 #controls {
