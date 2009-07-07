@@ -1081,8 +1081,17 @@ function syndicateEntry($id, $mode) {
 		$summary['location'] = $entry['location'];
 		$summary['written'] = Timestamp::getRFC1123($entry['published']);
 	}
-	if(!$rpc->call("sync.$mode", $summary))
+	if(!$rpc->call("sync.$mode", $summary)) {
 		return false;
+	} else {
+		if($mode == 'create') {
+			fireEvent('CreateSyndicateEntry', $id, $summary);
+		} else if($mode == 'modify') {
+			fireEvent('ModifySyndicateEntry', $id, $summary);
+		} else if($mode == 'delete') {
+			fireEvent('DeleteSyndicateEntry', $id, $summary);
+		}
+	}
 	if($rpc->fault)
 		return false;
 	return true;
