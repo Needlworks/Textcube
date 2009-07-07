@@ -1085,11 +1085,11 @@ function syndicateEntry($id, $mode) {
 		return false;
 	} else {
 		if($mode == 'create') {
-			fireEvent('CreateSyndicateEntry', $id, $summary);
+			fireEvent('CreatePostSyndicate', $id, $summary);
 		} else if($mode == 'modify') {
-			fireEvent('ModifySyndicateEntry', $id, $summary);
+			fireEvent('ModifyPostSyndicate', $id, $summary);
 		} else if($mode == 'delete') {
-			fireEvent('DeleteSyndicateEntry', $id, $summary);
+			fireEvent('DeletePostSyndicate', $id, $summary);
 		}
 	}
 	if($rpc->fault)
