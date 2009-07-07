@@ -10,7 +10,7 @@ class Filter {
 	function reset() {
 		$this->error =
 		$this->id =
-		$this->filtertype =
+		$this->type =
 		$this->pattern =
 			null;
 	}
@@ -20,7 +20,7 @@ class Filter {
 		if (is_numeric($filter))
 			$filter = 'AND id = ' . $filter;
 		else if (!empty($filter))
-			$filter = 'AND filtertype = \'' . $filter . '\'';
+			$filter = 'AND type = \'' . $filter . '\'';
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
@@ -61,8 +61,8 @@ class Filter {
 		unset($this->id);
 		$this->id = $this->_getMaxId()+1;
 
-		if (!isset($this->filtertype))
-			return $this->_error('filtertype');
+		if (!isset($this->type))
+			return $this->_error('type');
 		if (!isset($this->pattern))
 			return $this->_error('pattern');
 
@@ -71,7 +71,6 @@ class Filter {
 		
 		if (!$query->insert())
 			return $this->_error('insert');
-		$this->id = POD::insertId();
 		return true;
 	}
 	
@@ -88,7 +87,7 @@ class Filter {
 	}
 	
 	function remove() {
-		if (!isset($this->id) && (!isset($this->filtertype) || !isset($this->pattern)))
+		if (!isset($this->id) && (!isset($this->type) || !isset($this->pattern)))
 			return $this->_error('id');
 
 		if (!$query = $this->_buildQuery())
@@ -125,11 +124,11 @@ class Filter {
 				} else {
 					$conditions = ' AND 1 = 0';
 				}
-				return POD::queryExistence('SELECT * FROM '.$database['prefix'].'Filters WHERE blogid = '.getBlogId().' AND filtertype = "ip"'.$conditions.' LIMIT 1');
+				return POD::queryExistence('SELECT * FROM '.$database['prefix'].'Filters WHERE blogid = '.getBlogId().' AND type = "ip"'.$conditions.' LIMIT 1');
 			default:
 				$type = POD::escapeString($type);
 				$value = POD::escapeString(strtolower($value));
-				return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND filtertype = '$type' AND '$value' LIKE CONCAT('%', LOWER(pattern), '%') LIMIT 1");
+				return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = '$type' AND '$value' LIKE CONCAT('%', LOWER(pattern), '%') LIMIT 1");
 		}
 	}
 
@@ -138,7 +137,7 @@ class Filter {
 		global $database;
 
 		$whiteurl = POD::escapeString(strtolower($whiteurl));
-		return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND filtertype = 'whiteurl' AND '$whiteurl' LIKE CONCAT('%', LOWER(pattern), '%') LIMIT 1");
+		return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = 'whiteurl' AND '$whiteurl' LIKE CONCAT('%', LOWER(pattern), '%') LIMIT 1");
 	}
 	function _getMaxId() {
 		global $database;
@@ -155,8 +154,8 @@ class Filter {
 				return $this->_error('id');
 			$query->setQualifier('id', 'equals', $this->id);
 		}
-		if (isset($this->filtertype)) {
-			switch ($this->filtertype) {
+		if (isset($this->type)) {
+			switch ($this->type) {
 				case 'content':
 				case 'ip':
 				case 'name':
@@ -164,12 +163,12 @@ class Filter {
 				case 'whiteurl':
 					break;
 				default:
-					return $this->_error('filtertype');
+					return $this->_error('type');
 			}
 			if (isset($this->id))
-				$query->setAttribute('filtertype', $this->type, false);
+				$query->setAttribute('type', $this->type, false);
 			else
-				$query->setQualifier('filtertype', 'equals', $this->type, false);
+				$query->setQualifier('type', 'equals', $this->type, false);
 		}
 		if (isset($this->pattern)) {
 			$this->pattern = UTF8::lessenAsEncoding(trim($this->pattern), 255);
