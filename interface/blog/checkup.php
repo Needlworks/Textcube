@@ -14,20 +14,20 @@ requireModel('blog.entry');
 if(!file_exists(ROOT . '/cache/CHECKUP')) $currentVersion = _text('첫번째 점검');
 else $currentVersion = file_get_contents(ROOT . '/cache/CHECKUP');
 
-function setBlogSettingForMigration($blogid, $name, $value, $mig = null) {
+function setSkinSettingForMigration($blogid, $name, $value, $mig = null) {
 	global $database;
 	$name = POD::escapeString($name);
 	$value = POD::escapeString($value);
 	if($mig === null) 
-		return POD::execute("REPLACE INTO {$database['prefix']}BlogSettingsMig VALUES('$blogid', '$name', '$value')");
+		return POD::execute("REPLACE INTO {$database['prefix']}SkinSettingsMig VALUES('$blogid', '$name', '$value')");
 	else
-		return POD::execute("REPLACE INTO {$database['prefix']}BlogSettings VALUES('$blogid', '$name', '$value')");
+		return POD::execute("REPLACE INTO {$database['prefix']}SkinSettings VALUES('$blogid', '$name', '$value')");
 }
 
-function getBlogSettingForMigration($blogid, $name, $default = null) {
+function getSkinSettingForMigration($blogid, $name, $default = null) {
 	global $database;
 	$value = POD::queryCell("SELECT value 
-		FROM {$database['prefix']}BlogSettingsMig 
+		FROM {$database['prefix']}SkinSettingsMig 
 		WHERE blogid = '$blogid'
 		AND name = '".POD::escapeString($name)."'");
 	return ($value === null) ? $default : $value;
@@ -450,9 +450,9 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		echo '<li>', _text('글과 위경도 좌표 연동을 위한 필드를 추가합니다.'), ': ';
 		if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD longitude FLOAT(10) NULL AFTER published") && 
 			DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD latitude FLOAT(10) NULL AFTER longitude"))
-			echo '<span class="result success">', _text('성공'), '</span></li>';
+			showCheckupMessage(true);
 		else
-			echo '<span class="result fail">', _text('실패'), '</span></li>';
+			showCheckupMessage(false);
 	}
 
 	if (!DBQuery::queryExistence("DESC {$database['prefix']}Comments longitude")) {
@@ -460,9 +460,9 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		echo '<li>', _text('댓글과 위경도 좌표 연동을 위한 필드를 추가합니다.'), ': ';
 		if (DBQuery::execute("ALTER TABLE {$database['prefix']}Comments ADD longitude FLOAT(10) NULL AFTER secret") && 
 			DBQuery::execute("ALTER TABLE {$database['prefix']}Comments ADD latitude FLOAT(10) NULL AFTER longitude"))
-			echo '<span class="result success">', _text('성공'), '</span></li>';
+			showCheckupMessage(true);
 		else
-			echo '<span class="result fail">', _text('실패'), '</span></li>';
+			showCheckupMessage(false);
 	}
 	/* From Textcube 1.7.9 (backport branch) */
 	if (POD::queryCell("DESC {$database['prefix']}FeedItems id", 'Extra') == 'auto_increment') {
@@ -480,6 +480,89 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			showCheckupMessage(false);
 		}
 	}
+
+	if (POD::queryExistence("DESC {$database['prefix']}SkinSettings recentCommentLength")
+	|| POD::queryExistence("DESC {$database['prefix']}SkinSettings recentCommentLength")
+	) {
+		$changed = true;
+		echo '<li>', _text('스킨 설정 테이블의 구조를 변경합니다.'), ': ';
+		if(POD::queryExistence("DESC {$database['prefix']}SkinSettings recentCommentLength")) {
+			$lowerChar = true;	
+		} else $lowerChar = false;
+		$query = "
+			CREATE TABLE {$database['prefix']}SkinSettingsMig (
+				blogid int(11) NOT NULL default 0,
+				name varchar(32) NOT NULL default '',
+				value text NOT NULL,
+				PRIMARY KEY (blogid,name)
+			) TYPE=MyISAM
+		";
+		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query)) {
+			$query = new TableQuery($database['prefix'] . 'SkinSettings');
+			if($query->doesExist()) {
+				$changed = true;
+				$fieldnames = array(
+					'entriesOnRecent',
+					'commentsOnRecent',
+					'commentsOnGuestbook',
+					'archivesOnPage',
+					'tagsOnTagbox',
+					'tagboxAlign',
+					'trackbacksOnRecent',
+					'expandComment',
+					'expandTrackback',
+					'recentNoticeLength',
+					'recentEntryLength',
+					'recentCommentLength',
+					'recentTrackbackLength',
+					'linkLength',
+					'showListOnCategory',
+					'showListOnArchive',
+					'showListOnTag',
+					'showListOnAuthor',
+					'showListOnSearch',
+					'colorOnTree',
+					'bgColorOnTree',
+					'activeColorOnTree',
+					'activeBgColorOnTree',
+					'labelLengthOnTree',
+					'showValueOnTree');
+				$queryString = implode(',',$fieldnames);
+				if($lowerChar) $queryString = strtolower($queryString);
+				if ($skinSettings = $query->getAll($queryString)) {
+					foreach($skinSettings as $skinSetting) {
+						foreach($fieldnames as $fieldname) {
+							if($lowerChar) {
+								$origFieldName = strtolower($fieldname);
+							} else $origFieldName = $fieldname;
+							setSkinSettingForMigration($skinSetting['blogid'],$fieldname,$skinSetting[$origFieldName]);
+						}
+					}
+					$checked = true;
+					foreach($skinSettings as $skinSetting) {
+						foreach($fieldnames as $fieldname) { 
+							if($lowerChar) {
+								$origFieldName = strtolower($fieldname);
+							} else $origFieldName = $fieldname;
+							if(getSkinSettingForMigration($skinSetting['blogid'],$fieldname) != $skinSetting[$origFieldName]) {$checked = false;break;}
+						}
+					}
+					unset($blogSettings);
+					if($checked == false) {
+						POD::execute("DROP TABLE {$database['prefix']}SkinSettingsMig");
+						showCheckupMessage(false);
+					} else {
+						// Change Table
+						POD::execute("DROP TABLE {$database['prefix']}SkinSettings");
+						POD::execute("RENAME TABLE {$database['prefix']}SkinSettingsMig TO {$database['prefix']}SkinSettings");
+						showCheckupMessage(true);
+					}
+				} else showCheckupMessage(false);
+			} else showCheckupMessage(false);
+		} else showCheckupMessage(false);
+	}
+	
+	
 	if (!POD::queryExistence("DESC {$database['prefix']}DailyStatistics datemark")) {
 		$changed = true;
 		echo '<li>', _text('다양한 데이터베이스 엔진 호환성을 위하여 모든 필드의 이름을 소문자로 변환합니다.'), ': ';

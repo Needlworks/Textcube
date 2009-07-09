@@ -261,35 +261,9 @@ function setSkinSetting($blogid, $setting) {
 		return _t('실패 했습니다');
 
 	foreach ($setting as $key => $value) {
-		$setting[$key] = POD::escapeString($value);
+		Setting::setSkinSetting($key, $value, $blogid);
 	}
-	$sql = "
-	UPDATE {$database['prefix']}SkinSettings 
-	SET 
-		skin 					= \"" . $skinSetting['skin'] . "\",
-		entriesOnRecent			= " . $setting['entriesOnRecent'] . ',
-		commentsOnRecent			= ' . $setting['commentsOnRecent'] . ',
-		commentsOnGuestbook		= ' . $setting['commentsOnGuestbook'] . ',
-		archivesOnPage	 		= ' . $setting['archivesOnPage'] . ',
-		tagsOnTagbox			= ' . $setting['tagsOnTagbox'] . ',
-		tagboxAlign				= ' . $setting['tagboxAlign'] . ',
-		trackbacksOnRecent		= ' . $setting['trackbacksOnRecent'] . ',
-		showListOnCategory		= ' . $setting['showListOnCategory'] . ',
-		showListOnArchive		= ' . $setting['showListOnArchive'] . ',
-		showListOnTag			= ' . $setting['showListOnTag'] . ',
-		showListOnAuthor			= ' . $setting['showListOnAuthor'] . ',
-		showListOnSearch			= ' . $setting['showListOnSearch'] . ',
-		expandComment				= ' . $setting['expandComment'] . ',
-		expandTrackback			= ' . $setting['expandTrackback'] . ',
-		recentNoticeLength 		= ' . $setting['recentNoticeLength'] . ',
-		recentEntryLength 		= ' . $setting['recentEntryLength'] . ',
-		recentCommentLength 		= ' . $setting['recentCommentLength'] . ',
-		recentTrackbackLength 	= ' . $setting['recentTrackbackLength'] . ',
-		linkLength 				= ' . $setting['linkLength'] . '
-	WHERE blogid =' . $blogid;
-	if (!POD::execute($sql)) {
-		return false;
-	}
+	Setting::setSkinSetting('skin', $skinSetting['skin'], $blogid);
 	Setting::setBlogSetting('useMicroformat',$setting['useMicroformat'],true);
 	Setting::setBlogSetting('useFOAF',(($setting['useFOAF'] == 1) ? 1: 0),true);
 	Setting::setBlogSetting('entriesOnPage',$setting['entriesOnPage'],true);
