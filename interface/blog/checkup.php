@@ -287,7 +287,8 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			showCheckupMessage(false);
 	}
 
-	if (!POD::queryExistence("DESC {$database['prefix']}SkinSettings showListOnAuthor")) {
+	if (!POD::queryExistence("DESC {$database['prefix']}SkinSettings value") &&
+	!POD::queryExistence("DESC {$database['prefix']}SkinSettings showListOnAuthor")) {
 		$changed = true;
 		echo '<li>', _text('스킨 설정 테이블에 저자별 페이지 출력 설정을 위한 필드를 추가합니다.'), ': ';
 		if (POD::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD showListOnAuthor TINYINT(4) DEFAULT 1 NOT NULL AFTER showListOnTag"))
@@ -502,6 +503,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			if($query->doesExist()) {
 				$changed = true;
 				$fieldnames = array(
+					'blogid',
 					'entriesOnRecent',
 					'commentsOnRecent',
 					'commentsOnGuestbook',
