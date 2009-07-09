@@ -502,7 +502,7 @@ function getRecentEntries($blogid) {
 	$result = POD::query("SELECT e.id, e.userid, e.title, e.slogan, e.comments, e.published 
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
-		ORDER BY published DESC LIMIT {$skinSetting['entriesonrecent']}");
+		ORDER BY published DESC LIMIT {$skinSetting['entriesOnRecent']}");
 	while ($entry = POD::fetch($result)) {
 		array_push($entries, $entry);
 	}

@@ -120,7 +120,7 @@ function getRecentRemoteResponses($blogid, $count = false, $guestShip = false, $
 			t.blogid = $blogid AND t.isfiltered = 0 $typeFilter 
 		ORDER BY 
 			t.written 
-		DESC LIMIT ".($count != false ? $count : $skinSetting['trackbacksonrecent']) : 
+		DESC LIMIT ".($count != false ? $count : $skinSetting['trackbacksOnRecent']) : 
 		"SELECT t.*, e.slogan 
 		FROM 
 			{$database['prefix']}RemoteResponses t 
@@ -133,7 +133,7 @@ function getRecentRemoteResponses($blogid, $count = false, $guestShip = false, $
 			$typeFilter
 		ORDER BY 
 			t.written 
-		DESC LIMIT ".($count != false ? $count : $skinSetting['trackbacksonrecent']);
+		DESC LIMIT ".($count != false ? $count : $skinSetting['trackbacksOnRecent']);
 	if ($result = POD::queryAllWithDBCache($sql,'remoteResponse')) {
 		return $result;
 	}

@@ -174,12 +174,12 @@ function getCategoriesSkin() {
 	$setting = getSkinSetting(getBlogId());
 	$skin = array('name' => "{$setting['skin']}",
 			'url'               => $service['path'] . "/skin/tree/{$setting['tree']}",
-			'labelLength'       => $setting['labellengthontree'],
-			'showValue'         => $setting['showvalueontree'],
-			'itemColor'         => "{$setting['colorontree']}",
-			'itemBgColor'       => "{$setting['bgcolorontree']}",
-			'activeItemColor'   => "{$setting['activecolorontree']}",
-			'activeItemBgColor' => "{$setting['activebgcolorontree']}", );
+			'labelLength'       => $setting['labelLengthOnTree'],
+			'showValue'         => $setting['showValueOnTree'],
+			'itemColor'         => "{$setting['colorOnTree']}",
+			'itemBgColor'       => "{$setting['bgcolorOnTree']}",
+			'activeItemColor'   => "{$setting['activecolorOnTree']}",
+			'activeItemBgColor' => "{$setting['activebgcolorOnTree']}", );
 	return $skin;
 }
 

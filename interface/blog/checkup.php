@@ -535,32 +535,6 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 				CHANGE lastLogin lastlogin int(11) default NULL")
 			&& POD::execute("ALTER TABLE {$database['prefix']}Sessions
 				CHANGE data privilege text")										
-			&& POD::execute("ALTER TABLE {$database['prefix']}SkinSettings
-				CHANGE entriesOnRecent entriesonrecent int(11) NOT NULL default '10',
-				CHANGE commentsOnRecent commentsonrecent int(11) NOT NULL default '10',
-				CHANGE commentsOnGuestbook commentsonguestbook int(11) NOT NULL default '5',
-				CHANGE archivesOnPage archivesonpage int(11) NOT NULL default '5',
-				CHANGE tagsOnTagbox tagsontagbox tinyint(4) NOT NULL default '10',
-				CHANGE tagboxAlign tagboxalign tinyint(4) NOT NULL default '1',
-				CHANGE trackbacksOnRecent trackbacksonrecent int(11) NOT NULL default '5',
-				CHANGE expandComment expandcomment int(1) NOT NULL default '1',
-				CHANGE expandTrackback expandtrackback int(1) NOT NULL default '1',
-				CHANGE recentNoticeLength recentnoticelength int(11) NOT NULL default '30',
-				CHANGE recentEntryLength recententrylength int(11) NOT NULL default '30',
-				CHANGE recentCommentLength recentcommentlength int(11) NOT NULL default '30',
-				CHANGE recentTrackbackLength recenttrackbacklength int(11) NOT NULL default '30',
-				CHANGE linkLength linklength int(11) NOT NULL default '30',
-				CHANGE showListOnCategory showlistoncategory tinyint(4) NOT NULL default '1',
-				CHANGE showListOnArchive showlistonarchive tinyint(4) NOT NULL default '1',
-				CHANGE showListOnTag showlistontag tinyint(4) NOT NULL default '1',
-				CHANGE showListOnAuthor showlistonauthor tinyint(4) NOT NULL default '1',
-				CHANGE showListOnSearch showlistonsearch int(1) NOT NULL default '1',
-				CHANGE colorOnTree colorontree varchar(6) NOT NULL default '000000',
-				CHANGE bgColorOnTree bgcolorontree varchar(6) NOT NULL default '',
-				CHANGE activeColorOnTree activecolorontree varchar(6) NOT NULL default 'FFFFFF',
-				CHANGE activeBgColorOnTree activebgcolorontree varchar(6) NOT NULL default '00ADEF',
-				CHANGE labelLengthOnTree labellengthontree int(11) NOT NULL default '30',
-				CHANGE showValueOnTree showvalueontree int(1) NOT NULL default '1'")
 			&& POD::execute("ALTER TABLE {$database['prefix']}RemoteResponses
 				DROP KEY isFiltered, 
 				CHANGE isFiltered isfiltered int(11) NOT NULL default 0,

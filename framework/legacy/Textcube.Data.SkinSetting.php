@@ -10,27 +10,27 @@ class SkinSetting {
 	function reset() {
 		$this->error =
 		$this->skin =
-		$this->entriesonrecent =
-		$this->commentsonrecent =
-		$this->trackbacksonrecent =
-		$this->commentsonguestbook =
-		$this->tagsontagbox =
+		$this->entriesOnRecent =
+		$this->commentsOnRecent =
+		$this->trackbacksOnRecent =
+		$this->commentsOnGuestbook =
+		$this->tagsOnTagbox =
 		$this->alignOnTagbox =
-		$this->expandcomment =
-		$this->expandtrackback =
-		$this->recentnoticelength =
-		$this->recententrylength =
-		$this->recenttrackbacklength =
-		$this->linklength =
-		$this->showlistoncategory =
-		$this->showlistonarchive =
+		$this->expandComment =
+		$this->expandTrackback =
+		$this->recentNoticeLength =
+		$this->recentEntryLength =
+		$this->recentTrackbackLength =
+		$this->linkLength =
+		$this->showListOnCategory =
+		$this->showListOnArchive =
 		$this->tree =
-		$this->colorontree =
-		$this->bgcolorontree =
-		$this->activecolorontree =
-		$this->activebgcolorontree =
-		$this->labellengthontree =
-		$this->showvalueontree =
+		$this->colorOnTree =
+		$this->bgcolorOnTree =
+		$this->activecolorOnTree =
+		$this->activebgcolorOnTree =
+		$this->labelLengthOnTree =
+		$this->showValueOnTree =
 			null;
 	}
 	
@@ -43,7 +43,7 @@ class SkinSetting {
 					if ($name == 'blogid')
 						continue;
 					switch ($name) {
-						case 'tagboxalign':
+						case 'tagboxAlign':
 							$name = 'alignOnTagbox';
 							break;
 					}
@@ -74,79 +74,79 @@ class SkinSetting {
 				return $this->_error('skin');
 			$query->setAttribute('skin', $this->skin, false);
 		}
-		if (isset($this->entriesonrecent)) {
-			if (!Validator::number($this->entriesonrecent, 1))
-				return $this->_error('entriesonrecent');
-			$query->setAttribute('entriesonrecent', $this->entriesonrecent);
+		if (isset($this->entriesOnRecent)) {
+			if (!Validator::number($this->entriesOnRecent, 1))
+				return $this->_error('entriesOnRecent');
+			$query->setAttribute('entriesOnRecent', $this->entriesOnRecent);
 		}
-		if (isset($this->commentsonrecent)) {
-			if (!Validator::number($this->commentsonrecent, 1))
-				return $this->_error('commentsonrecent');
-			$query->setAttribute('commentsonrecent', $this->commentsonrecent);
+		if (isset($this->commentsOnRecent)) {
+			if (!Validator::number($this->commentsOnRecent, 1))
+				return $this->_error('commentsOnRecent');
+			$query->setAttribute('commentsOnRecent', $this->commentsOnRecent);
 		}
-		if (isset($this->trackbacksonrecent)) {
-			if (!Validator::number($this->trackbacksonrecent, 1))
-				return $this->_error('trackbacksonrecent');
-			$query->setAttribute('trackbacksonrecent', $this->trackbacksonrecent);
+		if (isset($this->trackbacksOnRecent)) {
+			if (!Validator::number($this->trackbacksOnRecent, 1))
+				return $this->_error('trackbacksOnRecent');
+			$query->setAttribute('trackbacksOnRecent', $this->trackbacksOnRecent);
 		}
-		if (isset($this->commentsonguestbook)) {
-			if (!Validator::number($this->commentsonguestbook, 1))
-				return $this->_error('commentsonguestbook');
-			$query->setAttribute('commentsonguestbook', $this->commentsonguestbook);
+		if (isset($this->commentsOnGuestbook)) {
+			if (!Validator::number($this->commentsOnGuestbook, 1))
+				return $this->_error('commentsOnGuestbook');
+			$query->setAttribute('commentsOnGuestbook', $this->commentsOnGuestbook);
 		}
-		if (isset($this->tagsontagbox)) {
-			if (!Validator::number($this->tagsontagbox, 1))
-				return $this->_error('tagsontagbox');
-			$query->setAttribute('tagsontagbox', $this->tagsontagbox);
+		if (isset($this->tagsOnTagbox)) {
+			if (!Validator::number($this->tagsOnTagbox, 1))
+				return $this->_error('tagsOnTagbox');
+			$query->setAttribute('tagsOnTagbox', $this->tagsOnTagbox);
 		}
 		if (isset($this->alignOnTagbox)) {
 			if (!Validator::number($this->alignOnTagbox, 1, 3))
 				return $this->_error('alignOnTagbox');
-			$query->setAttribute('tagboxalign', $this->alignOnTagbox);
+			$query->setAttribute('tagboxAlign', $this->alignOnTagbox);
 		}
-		if (isset($this->expandcomment))
-			$query->setAttribute('expandcomment', Validator::getBit($this->expandcomment));
-		if (isset($this->expandtrackback))
-			$query->setAttribute('expandtrackback', Validator::getBit($this->expandtrackback));
-		if (isset($this->recentnoticelength)) {
-			if (!Validator::number($this->recentnoticelength, 0))
-				return $this->_error('recentnoticelength');
-			$query->setAttribute('recentnoticelength', $this->recentnoticelength);
+		if (isset($this->expandComment))
+			$query->setAttribute('expandComment', Validator::getBit($this->expandComment));
+		if (isset($this->expandTrackback))
+			$query->setAttribute('expandTrackback', Validator::getBit($this->expandTrackback));
+		if (isset($this->recentNoticeLength)) {
+			if (!Validator::number($this->recentNoticeLength, 0))
+				return $this->_error('recentNoticeLength');
+			$query->setAttribute('recentNoticeLength', $this->recentNoticeLength);
 		}
-		if (isset($this->recenttrackbacklength)) {
-			if (!Validator::number($this->recenttrackbacklength, 0))
-				return $this->_error('recenttrackbacklength');
-			$query->setAttribute('recenttrackbacklength', $this->recenttrackbacklength);
+		if (isset($this->recentTrackbackLength)) {
+			if (!Validator::number($this->recentTrackbackLength, 0))
+				return $this->_error('recentTrackbackLength');
+			$query->setAttribute('recentTrackbackLength', $this->recentTrackbackLength);
 		}
-		if (isset($this->linklength)) {
-			if (!Validator::number($this->linklength, 0))
-				return $this->_error('linklength');
-			$query->setAttribute('linklength', $this->linklength);
+		if (isset($this->linkLength)) {
+			if (!Validator::number($this->linkLength, 0))
+				return $this->_error('linkLength');
+			$query->setAttribute('linkLength', $this->linkLength);
 		}
-		if (isset($this->showlistoncategory))
-			$query->setAttribute('showlistoncategory', Validator::getBit($this->showlistoncategory));
-		if (isset($this->showlistonarchive))
-			$query->setAttribute('showlistonarchive', Validator::getBit($this->showlistonarchive));
+		if (isset($this->showListOnCategory))
+			$query->setAttribute('showListOnCategory', Validator::getBit($this->showListOnCategory));
+		if (isset($this->showListOnArchive))
+			$query->setAttribute('showListOnArchive', Validator::getBit($this->showListOnArchive));
 		if (isset($this->tree)) {
 			if (!Validator::directory($this->tree) || !file_exists(ROOT . '/skin/tree/' . $this->tree))
 				return $this->_error('tree');
 			$query->setAttribute('tree', $this->tree, false);
 		}
-		if (isset($this->colorontree))
-			$query->setAttribute('colorontree', $this->colorontree, true);
-		if (isset($this->bgcolorontree))
-			$query->setAttribute('bgcolorontree', $this->bgcolorontree, true);
-		if (isset($this->activecolorontree))
-			$query->setAttribute('activecolorontree', $this->activecolorontree, true);
-		if (isset($this->activebgcolorontree))
-			$query->setAttribute('activebgcolorontree', $this->activebgcolorontree, true);
-		if (isset($this->labellengthontree)) {
-			if (!Validator::number($this->labellengthontree, 0))
-				return $this->_error('labellengthontree');
-			$query->setAttribute('labellengthontree', $this->labellengthontree);
+		if (isset($this->colorOnTree))
+			$query->setAttribute('colorOnTree', $this->colorOnTree, true);
+		if (isset($this->bgcolorOnTree))
+			$query->setAttribute('bgcolorOnTree', $this->bgcolorOnTree, true);
+		if (isset($this->activecolorOnTree))
+			$query->setAttribute('activecolorOnTree', $this->activecolorOnTree, true);
+		if (isset($this->activebgcolorOnTree))
+			$query->setAttribute('activebgcolorOnTree', $this->activebgcolorOnTree, true);
+		if (isset($this->labelLengthOnTree)) {
+			if (!Validator::number($this->labelLengthOnTree, 0))
+				return $this->_error('labelLengthOnTree');
+			$query->setAttribute('labelLengthOnTree', $this->labelLengthOnTree);
 		}
-		if (isset($this->showvalueontree))
-			$query->setAttribute('showvalueontree', Validator::getBit($this->showvalueontree));
+		if (isset($this->showValueOnTree))
+			$query->setAttribute('showValueOnTree', Validator::getBit($this->showValueOnTree));
 			
 		if ($query->update())
 			return true;

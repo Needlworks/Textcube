@@ -205,7 +205,7 @@ function getTrackbacksView($entry, $skin, $accepttrackback) {
 		$trackbacksContainer = '';
 	}
 
-	if ($skinSetting['expandtrackback'] == 1 || (($suri['url'] != $blogURL.'/index.php' && $suri['url'] != $service['path'].'/index.php') && ($suri['directive'] == '/' || $suri['directive'] == '/entry') && $suri['value'] != '')) {
+	if ($skinSetting['expandTrackback'] == 1 || (($suri['url'] != $blogURL.'/index.php' && $suri['url'] != $service['path'].'/index.php') && ($suri['directive'] == '/' || $suri['directive'] == '/entry') && $suri['value'] != '')) {
 		$style = 'block';
 	} else {
 		$style = 'none';
@@ -254,7 +254,7 @@ function getCommentView($entry, $skin) {
 	if ($isComment == false) {
 		global $comments;
 		if(!isset($comments)) {
-			list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $suri['page'], $skinSetting['commentsonguestbook']);
+			list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $suri['page'], $skinSetting['commentsOnGuestbook']);
 		}
 		foreach ($comments as $key => $value) {
 			if ($value['secret'] == 1) {
@@ -722,9 +722,9 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 					} else{
 						var oLevel = document.getElementById("category_" + i);
 						var oChild = oLevel.getElementsByTagName("table")[0];
-						oChild.style.color ='#'+skin['colorontree'];
-						oChild.style.backgroundColor ='#'+skin['bgcolorontree'];
-						var oLevel = document.getElementById('text_'+i).style.color='#'+skin['colorontree'];
+						oChild.style.color ='#'+skin['colorOnTree'];
+						oChild.style.backgroundColor ='#'+skin['bgcolorOnTree'];
+						var oLevel = document.getElementById('text_'+i).style.color='#'+skin['colorOnTree'];
 						alert(document.getElementById('text_'+i).style.color);
 				}
 				}
@@ -986,7 +986,7 @@ function getRecentNoticesView($notices, $noticeView, $noticeItemView, $isPage = 
 		$itemsView = '';
 		foreach ($notices as $notice) {
 			$itemView = $noticeItemView;
-			dress($prefix.'_rep_title', htmlspecialchars(fireEvent('View'.$prefix.'Title', UTF8::lessenAsEm($notice['title'], $skinSetting['recentnoticelength']), $notice['id'])), $itemView);
+			dress($prefix.'_rep_title', htmlspecialchars(fireEvent('View'.$prefix.'Title', UTF8::lessenAsEm($notice['title'], $skinSetting['recentNoticeLength']), $notice['id'])), $itemView);
 			if($blog['useSloganOnPost']) {
 				if(isset($notice['slogan'])&& !empty($notice['slogan'])) {
 					$noticeURL = URL::encode($notice['slogan']);
@@ -1014,7 +1014,7 @@ function getRecentEntriesView($entries, $template) {
 		$view = "$template";
 		$permalink = "$blogURL/" . ($blog['useSloganOnPost'] ? "entry/" . URL::encode($entry['slogan'],$service['useEncodedURL']) : $entry['id']);
 		dress('rctps_rep_link', $permalink, $view);
-		$contentContainer["recent_entry_{$entry['id']}"] = htmlspecialchars(UTF8::lessenAsEm($entry['title'], $skinSetting['recententrylength']));
+		$contentContainer["recent_entry_{$entry['id']}"] = htmlspecialchars(UTF8::lessenAsEm($entry['title'], $skinSetting['recentEntryLength']));
 		dress('rctps_rep_title', setTempTag("recent_entry_{$entry['id']}"), $view);
 		dress('rctps_rep_time', fireEvent('ViewRecentPostDate', Timestamp::format2($entry['published']), $entry['published']), $view);
 		dress('rctps_rep_rp_cnt', "<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments'] > 0 ? "({$entry['comments']})" : '').'</span>', $view);
@@ -1031,10 +1031,10 @@ function getRecentCommentsView($comments, $template) {
 	foreach ($comments as $comment) {
 		$view = "$template";
 		dress('rctrp_rep_link', "$blogURL/".($blog['useSloganOnPost'] ? "entry/".URL::encode($comment['slogan'],$service['useEncodedURL']) : $comment['entry'])."#comment{$comment['id']}", $view);
-		$contentContainer["recent_comment_{$comment['id']}"] = htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['comment']), $skinSetting['recentcommentlength']));
+		$contentContainer["recent_comment_{$comment['id']}"] = htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['comment']), $skinSetting['recentCommentLength']));
 		dress('rctrp_rep_desc', setTempTag("recent_comment_{$comment['id']}"), $view);
 		dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::format2($comment['written']), $comment['written']), $view);
-		dress('rctrp_rep_name', htmlspecialchars(UTF8::lessenAsEm($comment['name'], $skinSetting['recentcommentlength'])), $view);
+		dress('rctrp_rep_name', htmlspecialchars(UTF8::lessenAsEm($comment['name'], $skinSetting['recentCommentLength'])), $view);
 		$recentCommentView .= $view;
 	}
 	// IE webslice support
@@ -1049,9 +1049,9 @@ function getRecentTrackbacksView($trackbacks, $template) {
 		$view = "$template";
 		dress('rcttb_rep_link', "$blogURL/".($blog['useSloganOnPost'] ? "entry/".URL::encode($trackback['slogan'],$service['useEncodedURL']) : $trackback['entry'])."#trackback{$trackback['id']}", $view);
 		
-		dress('rcttb_rep_desc', htmlspecialchars(UTF8::lessenAsEm($trackback['subject'], $skinSetting['recenttrackbacklength'])), $view);
+		dress('rcttb_rep_desc', htmlspecialchars(UTF8::lessenAsEm($trackback['subject'], $skinSetting['recentTrackbackLength'])), $view);
 		dress('rcttb_rep_time', fireEvent('ViewRecentTrackbackDate', Timestamp::format2($trackback['written']), $trackback['written']), $view);
-		dress('rcttb_rep_name', htmlspecialchars(UTF8::lessenAsEm($trackback['site'], $skinSetting['recenttrackbacklength'])), $view);
+		dress('rcttb_rep_name', htmlspecialchars(UTF8::lessenAsEm($trackback['site'], $skinSetting['recentTrackbackLength'])), $view);
 		print $view;
 	}
 	$view = ob_get_contents();
@@ -1091,7 +1091,7 @@ function getLinksView($links, $template) {
 		if( $showXfn && $home && $link['xfn'] ) {
 			addXfnAttrs( htmlspecialchars($link['url']), htmlspecialchars($link['xfn']), $view );
 		}
-		dress('link_site', fireEvent('ViewLink', htmlspecialchars(UTF8::lessenAsEm($link['name'], $skinSetting['linklength']))), $view);
+		dress('link_site', fireEvent('ViewLink', htmlspecialchars(UTF8::lessenAsEm($link['name'], $skinSetting['linkLength']))), $view);
 		print $view;
 	}
 	$view = ob_get_contents();
@@ -1123,7 +1123,7 @@ function getLinkListView($links) {
 		if( $showXfn && $home && $link['xfn'] ) {
 			addXfnAttrs( htmlspecialchars($link['url']), htmlspecialchars($link['xfn']), $link['url']);
 		}
-		$buffer .= '<li><a href="'.htmlspecialchars($link['url']).'">'.fireEvent('ViewLink', htmlspecialchars(UTF8::lessenAsEm($link['name'], $skinSetting['linklength']))).'</a></li>'.CRLF;
+		$buffer .= '<li><a href="'.htmlspecialchars($link['url']).'">'.fireEvent('ViewLink', htmlspecialchars(UTF8::lessenAsEm($link['name'], $skinSetting['linkLength']))).'</a></li>'.CRLF;
 	}
 	if(!empty($categoryName)) $buffer .= '</ul>'.CRLF.'</li>'.CRLF;
 	$buffer .='</ul>'.CRLF;

@@ -9,7 +9,7 @@ if (false) {
 if(!empty($suri['value'])) {
 	$suri['page'] = getGuestbookPageById($blogid,$suri['value']);
 }
-list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $suri['page'], $skinSetting['commentsonguestbook']);
+list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $suri['page'], $skinSetting['commentsOnGuestbook']);
 notifyComment();
 require ROOT . '/interface/common/blog/begin.php';
 require ROOT . '/interface/common/blog/guestbook.php';

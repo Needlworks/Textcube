@@ -8,7 +8,7 @@ function getArchives($blogid, $option = 'yearmonth') {
 	$archives = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$skinSetting = getSkinSetting($blogid);
-	$archivesonpage = $skinSetting['archivesonpage'];
+	$archivesOnPage = $skinSetting['archivesOnPage'];
 	
 	switch (POD::dbms()) {
 		case 'PostgreSQL':
@@ -20,7 +20,7 @@ function getArchives($blogid, $option = 'yearmonth') {
 				WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 				GROUP BY $format 
 				ORDER BY $format
-				DESC LIMIT $archivesonpage";
+				DESC LIMIT $archivesOnPage";
 			$result = POD::queryAllWithDBCache($sql, 'entry');
 			if ($result) {
 				foreach($result as $archive) {
@@ -50,7 +50,7 @@ function getArchives($blogid, $option = 'yearmonth') {
 				WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 				GROUP BY TO_CHAR(to_timestamp('09:00:00 AM 01/01/1970')+e.published, 'YYYYMM') 
 				ORDER BY period
-				DESC FOR ORDERBY_NUM() BETWEEN 1 AND $archivesonpage";
+				DESC FOR ORDERBY_NUM() BETWEEN 1 AND $archivesOnPage";
 			$result = POD::queryAllWithDBCache($sql, 'entry');
 			if($result) {
 				foreach($result as $archive)
@@ -68,7 +68,7 @@ function getArchives($blogid, $option = 'yearmonth') {
 				WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 				GROUP BY period 
 				ORDER BY period 
-				DESC LIMIT $archivesonpage";
+				DESC LIMIT $archivesOnPage";
 			$result = POD::queryAllWithDBCache($sql, 'entry');
 			if ($result) {
 				foreach($result as $archive)

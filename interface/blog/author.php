@@ -12,7 +12,7 @@ $author = empty($suri['value']) ? '' : $suri['value'];
 $authorId = User::getUserIdByName($author);
 if(empty($authorId)) exit;
 
-if ($skinSetting['showlistonauthor'] != 0) {
+if ($skinSetting['showListOnAuthor'] != 0) {
 	$cache->name = 'authorList_'.$authorId."_".$suri['page']."_";
 	if (!$cache->load()) {
 		if(!$listWithPaging = getEntryListWithPagingByAuthor($blogid, $author, $suri['page'], $blog['entriesOnList']))
@@ -27,10 +27,10 @@ if ($skinSetting['showlistonauthor'] != 0) {
 }
 
 $entries = array();
-if ($skinSetting['showlistonauthor'] != 2) {
+if ($skinSetting['showListOnAuthor'] != 2) {
 	unset($cache);
-	list($entries, $paging) = getEntriesWithPagingByAuthor($blogid, $author, $suri['page'], $blog['entriesOnList'], ($skinSetting['showlistonauthor'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
-	if($skinSetting['showlistonauthor'] == 0) require ROOT . '/interface/common/blog/begin.php';
+	list($entries, $paging) = getEntriesWithPagingByAuthor($blogid, $author, $suri['page'], $blog['entriesOnList'], ($skinSetting['showListOnAuthor'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
+	if($skinSetting['showListOnAuthor'] == 0) require ROOT . '/interface/common/blog/begin.php';
 	require ROOT . '/interface/common/blog/entries.php';
 }
 require ROOT . '/interface/common/blog/end.php';

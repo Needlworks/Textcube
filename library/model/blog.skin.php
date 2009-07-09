@@ -12,12 +12,12 @@ function setTreeSetting($blogid, $setting) {
 	UPDATE {$database['prefix']}SkinSettings
 	SET 
 		tree 					= '{$setting['tree']}',
-		colorontree				= '{$setting['colorontree']}',
-		bgcolorontree 			= '{$setting['bgcolorontree']}',
-		activecolorontree		= '{$setting['activecolorontree']}',
-		activebgcolorontree 	= '{$setting['activebgcolorontree']}',
-		labellengthontree 		= {$setting['labellengthontree']},
-		showvalueontree 		= " . (empty($setting['showvalueontree']) ? 0 : 1) . "
+		colorOnTree				= '{$setting['colorOnTree']}',
+		bgcolorOnTree 			= '{$setting['bgcolorOnTree']}',
+		activecolorOnTree		= '{$setting['activecolorOnTree']}',
+		activebgcolorOnTree 	= '{$setting['activebgcolorOnTree']}',
+		labelLengthOnTree 		= {$setting['labelLengthOnTree']},
+		showValueOnTree 		= " . (empty($setting['showValueOnTree']) ? 0 : 1) . "
 	WHERE blogid = $blogid";
 	if (POD::execute($sql)) {
 		Skin::purgeCache();
@@ -86,73 +86,73 @@ function selectSkin($blogid, $skinName) {
 		$assignments = array("skin='$skinName'");
 		$value = $xmls->getValue('/skin/default/recentEntries');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, "entriesonrecent=$value");
+			array_push($assignments, "entriesOnRecent=$value");
 		$value = $xmls->getValue('/skin/default/recentComments');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, "commentsonrecent=$value");
+			array_push($assignments, "commentsOnRecent=$value");
 		$value = $xmls->getValue('/skin/default/itemsOnGuestbook');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, "commentsonguestbook=$value");
+			array_push($assignments, "commentsOnGuestbook=$value");
 		$value = $xmls->getValue('/skin/default/tagsInCloud');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, "tagsontagbox=$value");
+			array_push($assignments, "tagsOnTagbox=$value");
 		$value = $xmls->getValue('/skin/default/sortInCloud');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, "tagboxalign=$value");
+			array_push($assignments, "tagboxAlign=$value");
 		$value = $xmls->getValue('/skin/default/recentTrackbacks');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, "trackbacksonrecent=$value");
-		$value = $xmls->getValue('/skin/default/expandcomment');
+			array_push($assignments, "trackbacksOnRecent=$value");
+		$value = $xmls->getValue('/skin/default/expandComment');
 		if (isset($value))
-			array_push($assignments, 'expandcomment=' . ($value ? '1' : '0'));
-		$value = $xmls->getValue('/skin/default/expandtrackback');
+			array_push($assignments, 'expandComment=' . ($value ? '1' : '0'));
+		$value = $xmls->getValue('/skin/default/expandTrackback');
 		if (isset($value))
-			array_push($assignments, 'expandtrackback=' . ($value ? '1' : '0'));
+			array_push($assignments, 'expandTrackback=' . ($value ? '1' : '0'));
 		$value = $xmls->getValue('/skin/default/lengthOfRecentNotice');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, "recentnoticelength=$value");
+			array_push($assignments, "recentNoticeLength=$value");
 		$value = $xmls->getValue('/skin/default/lengthOfRecentEntry');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, "recententrylength=$value");
+			array_push($assignments, "recentEntryLength=$value");
 		$value = $xmls->getValue('/skin/default/lengthOfRecentComment');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, "recentcommentlength=$value");
+			array_push($assignments, "recentCommentLength=$value");
 		$value = $xmls->getValue('/skin/default/lengthOfRecentTrackback');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, "recenttrackbacklength=$value");
+			array_push($assignments, "recentTrackbackLength=$value");
 		$value = $xmls->getValue('/skin/default/lengthOfLink');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, "linklength=$value");
-		$value = $xmls->getValue('/skin/default/showlistoncategory');
+			array_push($assignments, "linkLength=$value");
+		$value = $xmls->getValue('/skin/default/showListOnCategory');
 		if (isset($value))
-			array_push($assignments, "showlistoncategory=$value");
-		$value = $xmls->getValue('/skin/default/showlistonarchive');
+			array_push($assignments, "showListOnCategory=$value");
+		$value = $xmls->getValue('/skin/default/showListOnArchive');
 		if (isset($value))
-			array_push($assignments, "showlistonarchive=$value");
-		$value = $xmls->getValue('/skin/default/showlistontag');
+			array_push($assignments, "showListOnArchive=$value");
+		$value = $xmls->getValue('/skin/default/showListOnTag');
 		if (isset($value))
-			array_push($assignments, "showlistontag=$value");
-		$value = $xmls->getValue('/skin/default/showlistonsearch');
+			array_push($assignments, "showListOnTag=$value");
+		$value = $xmls->getValue('/skin/default/showListOnSearch');
 		if (isset($value))
-			array_push($assignments, "showlistonsearch=$value");
+			array_push($assignments, "showListOnSearch=$value");
 		$value = $xmls->getValue('/skin/default/tree/color');
 		if (isset($value))
-			array_push($assignments, "colorontree='$value'");
+			array_push($assignments, "colorOnTree='$value'");
 		$value = $xmls->getValue('/skin/default/tree/bgColor');
 		if (isset($value))
-			array_push($assignments, "bgcolorontree='$value'");
+			array_push($assignments, "bgcolorOnTree='$value'");
 		$value = $xmls->getValue('/skin/default/tree/activeColor');
 		if (isset($value))
-			array_push($assignments, "activecolorontree='$value'");
+			array_push($assignments, "activecolorOnTree='$value'");
 		$value = $xmls->getValue('/skin/default/tree/activeBgColor');
 		if (isset($value))
-			array_push($assignments, "activebgcolorontree='$value'");
+			array_push($assignments, "activebgcolorOnTree='$value'");
 		$value = $xmls->getValue('/skin/default/tree/labelLength');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, "labellengthontree=$value");
+			array_push($assignments, "labelLengthOnTree=$value");
 		$value = $xmls->getValue('/skin/default/tree/showValue');
 		if (isset($value))
-			array_push($assignments, 'showvalueontree=' . ($value ? '1' : '0'));
+			array_push($assignments, 'showValueOnTree=' . ($value ? '1' : '0'));
 		$sql = "UPDATE {$database['prefix']}SkinSettings SET " . implode(',', $assignments) . " WHERE blogid = $blogid";
 		
 		// none/single/multiple
@@ -267,25 +267,25 @@ function setSkinSetting($blogid, $setting) {
 	UPDATE {$database['prefix']}SkinSettings 
 	SET 
 		skin 					= \"" . $skinSetting['skin'] . "\",
-		entriesonrecent			= " . $setting['entriesonrecent'] . ',
-		commentsonrecent			= ' . $setting['commentsonrecent'] . ',
-		commentsonguestbook		= ' . $setting['commentsonguestbook'] . ',
-		archivesonpage	 		= ' . $setting['archivesonpage'] . ',
-		tagsontagbox			= ' . $setting['tagsontagbox'] . ',
-		tagboxalign				= ' . $setting['tagboxalign'] . ',
-		trackbacksonrecent		= ' . $setting['trackbacksonrecent'] . ',
-		showlistoncategory		= ' . $setting['showlistoncategory'] . ',
-		showlistonarchive		= ' . $setting['showlistonarchive'] . ',
-		showlistontag			= ' . $setting['showlistontag'] . ',
-		showlistonauthor			= ' . $setting['showlistonauthor'] . ',
-		showlistonsearch			= ' . $setting['showlistonsearch'] . ',
-		expandcomment				= ' . $setting['expandcomment'] . ',
-		expandtrackback			= ' . $setting['expandtrackback'] . ',
-		recentnoticelength 		= ' . $setting['recentnoticelength'] . ',
-		recententrylength 		= ' . $setting['recententrylength'] . ',
-		recentcommentlength 		= ' . $setting['recentcommentlength'] . ',
-		recenttrackbacklength 	= ' . $setting['recenttrackbacklength'] . ',
-		linklength 				= ' . $setting['linklength'] . '
+		entriesOnRecent			= " . $setting['entriesOnRecent'] . ',
+		commentsOnRecent			= ' . $setting['commentsOnRecent'] . ',
+		commentsOnGuestbook		= ' . $setting['commentsOnGuestbook'] . ',
+		archivesOnPage	 		= ' . $setting['archivesOnPage'] . ',
+		tagsOnTagbox			= ' . $setting['tagsOnTagbox'] . ',
+		tagboxAlign				= ' . $setting['tagboxAlign'] . ',
+		trackbacksOnRecent		= ' . $setting['trackbacksOnRecent'] . ',
+		showListOnCategory		= ' . $setting['showListOnCategory'] . ',
+		showListOnArchive		= ' . $setting['showListOnArchive'] . ',
+		showListOnTag			= ' . $setting['showListOnTag'] . ',
+		showListOnAuthor			= ' . $setting['showListOnAuthor'] . ',
+		showListOnSearch			= ' . $setting['showListOnSearch'] . ',
+		expandComment				= ' . $setting['expandComment'] . ',
+		expandTrackback			= ' . $setting['expandTrackback'] . ',
+		recentNoticeLength 		= ' . $setting['recentNoticeLength'] . ',
+		recentEntryLength 		= ' . $setting['recentEntryLength'] . ',
+		recentCommentLength 		= ' . $setting['recentCommentLength'] . ',
+		recentTrackbackLength 	= ' . $setting['recentTrackbackLength'] . ',
+		linkLength 				= ' . $setting['linkLength'] . '
 	WHERE blogid =' . $blogid;
 	if (!POD::execute($sql)) {
 		return false;

@@ -31,7 +31,7 @@ function _getRecentComments($blogid) {
 	$data = fetchConfigVal($configVal);
 	$comments = array();
 	$repliesChk = ($data['repliesChk'] == 1)?"":" AND replier is NULL ";
-	$limitLine = ($data['repliesList'])?$data['repliesList']:$skinSetting['commentsonrecent'];
+	$limitLine = ($data['repliesList'])?$data['repliesList']:$skinSetting['commentsOnRecent'];
 	$sql = "SELECT * FROM {$database['prefix']}Comments WHERE blogid = {$blogid} AND entry>0 AND isfiltered = 0 {$repliesChk} ORDER BY written DESC LIMIT {$limitLine}";
 	if ($result = POD::query($sql)) {
 		while ($comment = POD::fetch($result)) {

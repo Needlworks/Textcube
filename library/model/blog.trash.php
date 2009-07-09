@@ -103,11 +103,11 @@ function getRecentTrackbackTrash($blogid) {
 	$sql = doesHaveOwnership() ? "SELECT * FROM {$database['prefix']}RemoteResponses
 		WHERE blogid = $blogid 
 		ORDER BY written 
-		DESC LIMIT {$skinSetting['trackbacksonrecent']}" : 
+		DESC LIMIT {$skinSetting['trackbacksOnRecent']}" : 
 		"SELECT t.* FROM {$database['prefix']}RemoteResponses t, 
 		{$database['prefix']}Entries e 
 		WHERE t.blogid = $blogid AND t.blogid = e.blogid AND t.entry = e.id AND t.type = 'trackback' AND e.draft = 0 AND e.visibility >= 2 
-		ORDER BY t.written DESC LIMIT {$skinSetting['trackbacksonrecent']}";
+		ORDER BY t.written DESC LIMIT {$skinSetting['trackbacksOnRecent']}";
 	if ($result = POD::query($sql)) {
 		while ($trackback = POD::fetch($result))
 			array_push($trackbacks, $trackback);

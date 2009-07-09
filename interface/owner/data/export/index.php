@@ -333,28 +333,28 @@ $setting = new SkinSetting();
 if ($setting->load()) {
 	$writer->write('<skin>' . 
 		'<name>' . $setting->skin . '</name>' . 
-		'<entriesOnRecent>' . $setting->entriesonrecent . '</entriesOnRecent>' . 
-		'<commentsOnRecent>' . $setting->commentsonrecent . '</commentsOnRecent>' . 
-		'<trackbacksOnRecent>' . $setting->trackbacksonrecent . '</trackbacksOnRecent>' . 
-		'<commentsOnGuestbook>' . $setting->commentsonguestbook . '</commentsOnGuestbook>' . 
-		'<tagsOnTagbox>' . $setting->tagsontagbox . '</tagsOnTagbox>' . 
+		'<entriesOnRecent>' . $setting->entriesOnRecent . '</entriesOnRecent>' . 
+		'<commentsOnRecent>' . $setting->commentsOnRecent . '</commentsOnRecent>' . 
+		'<trackbacksOnRecent>' . $setting->trackbacksOnRecent . '</trackbacksOnRecent>' . 
+		'<commentsOnGuestbook>' . $setting->commentsOnGuestbook . '</commentsOnGuestbook>' . 
+		'<tagsOnTagbox>' . $setting->tagsOnTagbox . '</tagsOnTagbox>' . 
 		'<alignOnTagbox>' . $setting->alignOnTagbox . '</alignOnTagbox>' . 
-		'<expandComment>' . $setting->expandcomment . '</expandComment>' . 
-		'<expandTrackback>' . $setting->expandtrackback . '</expandTrackback>' . 
-		'<recentNoticeLength>' . $setting->recentnoticelength . '</recentNoticeLength>' . 
-		'<recentEntryLength>' . $setting->recententrylength . '</recentEntryLength>' . 
-		'<recentTrackbackLength>' . $setting->recenttrackbacklength . '</recentTrackbackLength>' . 
-		'<linkLength>' . $setting->linklength . '</linkLength>' . 
-		'<showListOnCategory>' . $setting->showlistoncategory . '</showListOnCategory>' . 
-		'<showListOnArchive>' . $setting->showlistonarchive . '</showListOnArchive>' . 
+		'<expandComment>' . $setting->expandComment . '</expandComment>' . 
+		'<expandTrackback>' . $setting->expandTrackback . '</expandTrackback>' . 
+		'<recentNoticeLength>' . $setting->recentNoticeLength . '</recentNoticeLength>' . 
+		'<recentEntryLength>' . $setting->recentEntryLength . '</recentEntryLength>' . 
+		'<recentTrackbackLength>' . $setting->recentTrackbackLength . '</recentTrackbackLength>' . 
+		'<linkLength>' . $setting->linkLength . '</linkLength>' . 
+		'<showListOnCategory>' . $setting->showListOnCategory . '</showListOnCategory>' . 
+		'<showListOnArchive>' . $setting->showListOnArchive . '</showListOnArchive>' . 
 		'<tree>' . 
 			'<name>' . $setting->tree . '</name>' . 
-			'<color>' . $setting->colorontree . '</color>' . 
-			'<bgColor>' . $setting->bgcolorontree . '</bgColor>' . 
-			'<activeColor>' . $setting->activecolorontree . '</activeColor>' . 
-			'<activeBgColor>' . $setting->activebgcolorontree . '</activeBgColor>' . 
-			'<labelLength>' . $setting->labellengthontree . '</labelLength>' . 
-			'<showValue>' . $setting->showvalueontree . '</showValue>' . 
+			'<color>' . $setting->colorOnTree . '</color>' . 
+			'<bgColor>' . $setting->bgcolorOnTree . '</bgColor>' . 
+			'<activeColor>' . $setting->activecolorOnTree . '</activeColor>' . 
+			'<activeBgColor>' . $setting->activebgcolorOnTree . '</activeBgColor>' . 
+			'<labelLength>' . $setting->labelLengthOnTree . '</labelLength>' . 
+			'<showValue>' . $setting->showValueOnTree . '</showValue>' . 
 		'</tree>' . 
 	'</skin>');
 	$writer->write(CRLF);

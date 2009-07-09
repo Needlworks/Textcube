@@ -70,10 +70,10 @@ function getBlogSettingForMigration($blogid, $name, $default = null) {
 					<ul id="processList">
 <?php
 $changed = false;
-if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings recentnoticelength")) { // Since 1.0.1
+if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings recentNoticeLength")) { // Since 1.0.1
 	$changed = true;
 	echo '<li>', _text('스킨 설정 테이블에 공지 길이 제한 필드를 추가합니다.'), ': ';
-	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD recentnoticelength INT DEFAULT 30 NOT NULL AFTER expandtrackback"))
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD recentNoticeLength INT DEFAULT 30 NOT NULL AFTER expandTrackback"))
 		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
 		echo '<span class="result fail">', _text('실패'), '</span></li>';
@@ -234,10 +234,10 @@ if (DBQuery::queryCell("DESC {$database['prefix']}BlogSettings language", 'Type'
 	else
 		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
-if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings archivesonpage")) { // Since 1.1
+if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings archivesOnPage")) { // Since 1.1
 	$changed = true;
 	echo '<li>', _text('스킨 설정 테이블에 아카이브 출력 설정 필드를 추가합니다.'), ': ';
-	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD archivesonpage INT DEFAULT 5 NOT NULL AFTER commentsonguestbook"))
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD archivesOnPage INT DEFAULT 5 NOT NULL AFTER commentsOnGuestbook"))
 		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
 		echo '<span class="result fail">', _text('실패'), '</span></li>';
@@ -453,19 +453,19 @@ if (DBQuery::queryCell("DESC {$database['prefix']}Trackbacks isfiltered", 'Key')
 		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
-if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings showlistontag")) {
+if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings showListOnTag")) {
 	$changed = true;
 	echo '<li>', _text('스킨 설정 테이블에 태그 출력시 목록 및 글 출력 설정을 위한 필드를 추가합니다.'), ': ';
-	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD showlistontag INT(1) DEFAULT 1 NOT NULL AFTER showlistonarchive"))
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD showListOnTag INT(1) DEFAULT 1 NOT NULL AFTER showListOnArchive"))
 		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
 		echo '<span class="result fail">', _text('실패'), '</span></li>';
 }
 
-if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings showlistonsearch")) { // Since 1.1.1.1
+if (!DBQuery::queryExistence("DESC {$database['prefix']}SkinSettings showListOnSearch")) { // Since 1.1.1.1
 	$changed = true;
 	echo '<li>', _text('스킨 설정 테이블에 검색 결과 출력시 목록 및 글 출력 설정을 위한 필드를 추가합니다.'), ': ';
-	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD showlistonsearch INT(1) DEFAULT 1 NOT NULL AFTER showlistontag"))
+	if (DBQuery::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD showListOnSearch INT(1) DEFAULT 1 NOT NULL AFTER showListOnTag"))
 		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else
 		echo '<span class="result fail">', _text('실패'), '</span></li>';

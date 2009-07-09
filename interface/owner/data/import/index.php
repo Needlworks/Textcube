@@ -660,30 +660,30 @@ function importer($path, $node, $line) {
 					user_error(__LINE__ . $setting->error);
 				$setting->skin = null;
 			}
-			$setting->entriesonrecent = $node['entriesOnRecent'][0]['.value'];
-			$setting->commentsonrecent = $node['commentsOnRecent'][0]['.value'];
-			$setting->trackbacksonrecent = $node['trackbacksOnRecent'][0]['.value'];
-			$setting->commentsonguestbook = $node['commentsOnGuestbook'][0]['.value'];
-			$setting->tagsontagbox = $node['tagsOnTagbox'][0]['.value'];
+			$setting->entriesOnRecent = $node['entriesOnRecent'][0]['.value'];
+			$setting->commentsOnRecent = $node['commentsOnRecent'][0]['.value'];
+			$setting->trackbacksOnRecent = $node['trackbacksOnRecent'][0]['.value'];
+			$setting->commentsOnGuestbook = $node['commentsOnGuestbook'][0]['.value'];
+			$setting->tagsOnTagbox = $node['tagsOnTagbox'][0]['.value'];
 			$setting->alignOnTagbox = $node['alignOnTagbox'][0]['.value'];
-			$setting->expandcomment = $node['expandComment'][0]['.value'];
-			$setting->expandtrackback = $node['expandCrackback'][0]['.value'];
+			$setting->expandComment = $node['expandComment'][0]['.value'];
+			$setting->expandTrackback = $node['expandCrackback'][0]['.value'];
 			if (!empty($node['recentNoticeLength'][0]['.value']))
-				$setting->recentnoticelength = $node['recentNoticeLength'][0]['.value'];
-			$setting->recententrylength = $node['recentEntryLength'][0]['.value'];
-			$setting->recenttrackbacklength = $node['recentTrackbackLength'][0]['.value'];
-			$setting->linklength = $node['linkLength'][0]['.value'];
-			$setting->showlistoncategory = $node['showListOnCategory'][0]['.value'];
-			$setting->showlistonarchive = $node['showListOnArchive'][0]['.value'];
+				$setting->recentNoticeLength = $node['recentNoticeLength'][0]['.value'];
+			$setting->recentEntryLength = $node['recentEntryLength'][0]['.value'];
+			$setting->recentTrackbackLength = $node['recentTrackbackLength'][0]['.value'];
+			$setting->linkLength = $node['linkLength'][0]['.value'];
+			$setting->showListOnCategory = $node['showListOnCategory'][0]['.value'];
+			$setting->showListOnArchive = $node['showListOnArchive'][0]['.value'];
 			if (isset($node['tree'])) {
 				$cursor = & $node['tree'][0];
 				$setting->tree = $cursor['name'][0]['.value'];
-				$setting->colorontree = $cursor['color'][0]['.value'];
-				$setting->bgcolorontree = $cursor['bgColor'][0]['.value'];
-				$setting->activecolorontree = $cursor['activeColor'][0]['.value'];
-				$setting->activebgcolorontree = $cursor['activeBgColor'][0]['.value'];
-				$setting->labellengthontree = $cursor['labelLength'][0]['.value'];
-				$setting->showvalueontree = $cursor['showValue'][0]['.value'];
+				$setting->colorOnTree = $cursor['color'][0]['.value'];
+				$setting->bgcolorOnTree = $cursor['bgColor'][0]['.value'];
+				$setting->activecolorOnTree = $cursor['activeColor'][0]['.value'];
+				$setting->activebgcolorOnTree = $cursor['activeBgColor'][0]['.value'];
+				$setting->labelLengthOnTree = $cursor['labelLength'][0]['.value'];
+				$setting->showValueOnTree = $cursor['showValue'][0]['.value'];
 			}
 			if (!$setting->save())
 				user_error(__LINE__ . $setting->error);
