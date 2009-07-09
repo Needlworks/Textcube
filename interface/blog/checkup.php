@@ -504,6 +504,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 				$changed = true;
 				$fieldnames = array(
 					'blogid',
+					'skin',
 					'entriesOnRecent',
 					'commentsOnRecent',
 					'commentsOnGuestbook',
@@ -523,6 +524,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 					'showListOnTag',
 					'showListOnAuthor',
 					'showListOnSearch',
+					'tree',
 					'colorOnTree',
 					'bgColorOnTree',
 					'activeColorOnTree',
