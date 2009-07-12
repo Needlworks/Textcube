@@ -355,40 +355,6 @@ function GoogleMapUI_GetLocation() {
 	}
 	//]]>
 	</script>
-	<script type="text/javascript">
-	//<![CDATA[
-	$(document).ready(function() {
-		if (navigator.geolocation) {
-			$('#availability').html('현재 웹브라우저는 Geolocation 기능을 지원합니다. <button id="getLocation">위치 가져오기</button>')
-			$('#getLocation').click(function() {
-				$('#status').html('<img src="<?php echo $pluginURL; ?>/images/icon_loading.gif" style="vertical-align:middle" width="16" height="16" alt="가져오는 중..." />');
-				navigator.geolocation.getCurrentPosition(function(pos) {
-					map.setCenter(new GLatLng(pos.coords.latitude, pos.coords.longitude), 10);
-					$('#status').html('가져오기 성공.');
-				}, function(error) {
-					switch (error.code) {
-					case 1:
-						msg = '권한 없음';
-						break;
-					case 2:
-						msg = '위치정보 없음'
-						break;
-					case 3:
-						msg = '시간 제한 초과'
-						break;
-					default:
-						msg = '알 수 없는 오류';
-					}
-					$('#status').html('실패 ('+msg+')');
-				});
-			});
-		} else {
-			$('#availability').html('현재 웹브라우저는 Geolocation 기능을 지원하지 않습니다.')
-		}
-		initializeMap();
-	});
-	//]]>
-	</script>
 <?php
 	_GMap_printFooterForUI();
 }

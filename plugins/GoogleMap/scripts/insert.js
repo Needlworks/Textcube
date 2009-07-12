@@ -1,5 +1,5 @@
 // Google Map Plugin UI Helper
-// - depends on jQuery 1.2.6, jQuery UI plugin 1.6, and Google Maps API
+// - depends on jQuery 1.3.2, jQuery UI plugin 1.7.2, and Google Maps API
 
 var map;
 var listener_onclick = null;
