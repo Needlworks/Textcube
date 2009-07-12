@@ -867,6 +867,14 @@ if (isset($_GET['popupEditor'])) {
 								<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 								<input type="hidden" name="withSearch" value="<?php echo (empty($_POST['search']) ? '' : 'on');?>" />
 								<input type="hidden" name="search" value="<?php echo (isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '');?>" />
+<?php
+if (isset($entry['latitude']) && !is_null($entry['latitude'])) {
+?>
+								<input type="hidden" name="latitude" value="<?php echo $entry['latitude'];?>" />
+								<input type="hidden" name="longitude" value="<?php echo $entry['longitude'];?>" />
+<?php
+}
+?>
 							</div>
 						</form>
 						<div id="feather" class="clear"></div>

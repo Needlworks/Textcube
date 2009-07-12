@@ -13,6 +13,8 @@ $IV = array(
 		'contenteditor' => array('string'),
 		'permalink' => array('string', 'default' => ''),
 		'location' => array('string', 'default' => '/'),
+		'latitude'   => array('number', 'default' => null, 'min' => -90.0, 'max' => 90.0),
+		'longitude'   => array('number', 'default' => null, 'min' => -180.0, 'max' => 180.0),
 		'tag' => array('string', 'default' => ''),
 		'acceptcomment' => array(array('0', '1'), 'default' => '0'),
 		'accepttrackback' => array(array('0', '1'), 'default' => '0'),
@@ -35,6 +37,8 @@ $entry['content'] = $_POST['content'];
 $entry['contentformatter'] = $_POST['contentformatter'];
 $entry['contenteditor'] = $_POST['contenteditor'];
 $entry['location'] = empty($_POST['location']) ? '/' : $_POST['location'];
+$entry['latitude'] = empty($_POST['latitude']) ? null : $_POST['latitude'];
+$entry['longitude'] = empty($_POST['longitude']) ? null : $_POST['longitude'];
 $entry['tag'] = empty($_POST['tag']) ? '' : $_POST['tag'];
 $entry['slogan'] = $_POST['permalink'];
 $entry['acceptcomment'] = empty($_POST['acceptcomment']) ? 0 : 1;

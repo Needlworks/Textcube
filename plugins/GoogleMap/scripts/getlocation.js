@@ -39,6 +39,9 @@ $(document).ready(function() {
 						alert('The editor is not accessible.');
 						return;
 					}
+					if (opener.jQuery('input[name=latitude]').length == 0) {
+						opener.jQuery('#editor-form').append('<input type="hidden" name="latitude" value="" /><input type="hidden" name="longitude" value="" />');	
+					}
 					opener.jQuery('input[name=latitude]').val(position.coords.latitude);
 					opener.jQuery('input[name=longitude]').val(position.coords.longitude);
 					window.close();

@@ -57,6 +57,8 @@ function getEntry($blogid, $id, $draft = false) {
 				'starred'    => 1,
 				'category'   => 0,
 				'location'   => '',
+				'latitude'   => null,
+				'longitude'  => null,
 				'title'      => '',
 				'content'    => '',
 				'contentformatter' => getDefaultFormatter(),
@@ -561,6 +563,8 @@ function addEntry($blogid, $entry, $userid = null) {
 	$contenteditor = POD::escapeString($entry['contenteditor']);
 	$password = POD::escapeString(generatePassword());
 	$location = POD::escapeString($entry['location']);
+	$latitude = isset($entry['latitude']) && !is_null($entry['latitude']) ? $entry['latitude'] : 'NULL';
+	$longitude = isset($entry['longitude']) && !is_null($entry['longitude']) ? $entry['longitude'] : 'NULL';
 	if (!isset($entry['firstEntry']) && isset($entry['published']) && is_numeric($entry['published']) && ($entry['published'] >= 2)) {
 		$published = $entry['published'];
 		$entry['visibility'] = 0 - $entry['visibility'];
@@ -582,7 +586,7 @@ function addEntry($blogid, $entry, $userid = null) {
 	}
 	$result = POD::query("INSERT INTO {$database['prefix']}Entries 
 			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, contentformatter,
-			 contenteditor, location, password, acceptcomment, accepttrackback, published, created, modified,
+			 contenteditor, location, latitude, longitude, password, acceptcomment, accepttrackback, published, created, modified,
 			 comments, trackbacks, pingbacks) 
 			VALUES (
 			$blogid,
@@ -598,6 +602,8 @@ function addEntry($blogid, $entry, $userid = null) {
 			'$contentformatter',
 			'$contenteditor',
 			'$location',
+			$latitude,
+			$longitude,
 			'$password',
 			{$entry['acceptcomment']},
 			{$entry['accepttrackback']},
@@ -698,6 +704,8 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	Tag::modifyTagsWithEntryId($blogid, $entry['id'], $tags);
 	
 	$location = POD::escapeString($entry['location']);
+	$latitude = isset($entry['latitude']) && !is_null($entry['latitude']) ? $entry['latitude'] : 'NULL';
+	$longitude = isset($entry['longitude']) && !is_null($entry['longitude']) ? $entry['longitude'] : 'NULL';
 	$content = POD::escapeString($entry['content']);
 	$contentformatter = POD::escapeString($entry['contentformatter']);
 	$contenteditor = POD::escapeString($entry['contenteditor']);
@@ -728,6 +736,8 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 				category           = {$entry['category']},
 				draft              = 0,
 				location           = '$location',
+				latitude           = $latitude,
+				longitude          = $longitude,
 				title              = '$title',
 				content            = '$content',
 				contentformatter   = '$contentformatter',
@@ -841,6 +851,8 @@ function saveDraftEntry($blogid, $entry) {
 	Tag::modifyTagsWithEntryId($blogid, $entry['id'], $tags);
 	
 	$location = POD::escapeString($entry['location']);
+	$latitude = isset($entry['latitude']) && !is_null($entry['latitude']) ? $entry['latitude'] : 'NULL';
+	$longitude = isset($entry['longitude']) && !is_null($entry['longitude']) ? $entry['longitude'] : 'NULL';
 	$content = POD::escapeString($entry['content']);
 	$contentformatter = POD::escapeString($entry['contentformatter']);
 	$contenteditor = POD::escapeString($entry['contenteditor']);
@@ -866,6 +878,8 @@ function saveDraftEntry($blogid, $entry) {
 				category           = {$entry['category']},
 				draft              = 1,
 				location           = '$location',
+				latitude           = $latitude,
+				longitude          = $longitude,
 				title              = '$title',
 				content            = '$content',
 				contentformatter   = '$contentformatter',
