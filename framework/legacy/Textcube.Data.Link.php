@@ -171,6 +171,45 @@ class Link {
 		$this->_count = 0;
 		$this->reset();
 	}
+
+class LinkCategories {
+	function LinkCategories() {
+		$this->reset();
+	}
+
+	function reset() {
+		$this->error =
+		$this->id =
+		$this->pid =
+		$this->name =
+		$this->priority =
+		$this->visibility =
+			null;
+	}
+	
+	function open($filter = '', $fields = '*', $sort = 'id') {
+		global $database;
+		if (is_numeric($filter))
+			$filter = 'AND id = ' . $filter;
+		else if (!empty($filter))
+			$filter = 'AND ' . $filter;
+		if (!empty($sort))
+			$sort = 'ORDER BY ' . $sort;
+		$this->close();
+		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}LinkCategories WHERE blogid = ".getBlogId()." $filter $sort");
+		if ($this->_result)
+			$this->_count = POD::num_rows($this->_result);
+		return $this->shift();
+	}
+	
+	function close() {
+		if (isset($this->_result)) {
+			POD::free($this->_result);
+			unset($this->_result);
+		}
+		$this->_count = 0;
+		$this->reset();
+	}
 	
 	function shift() {
 		$this->reset();
