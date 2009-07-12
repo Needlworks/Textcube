@@ -1,5 +1,5 @@
 // Google Map Plugin WYSISYG Helper
-// - depends on EAF4.js and Google Map API v2.
+// - depends on EAF4.js, Google Map API v2, and jQuery 1.3.2 or higher included in Textcube 1.8 or higher.
 
 function initializeGoogleMap() {
 	// nothing to do.
