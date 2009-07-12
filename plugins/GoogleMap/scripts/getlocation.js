@@ -9,7 +9,7 @@ $(document).ready(function() {
 		$('#availability').html('현재 웹브라우저는 Geolocation 기능을 지원합니다. <button id="getLocation">위치 가져오기</button>')
 		$('#getLocation').click(function() {
 			if (mode == 'started') {
-				$('#status').html('<img src="<?php echo $pluginURL; ?>/images/icon_loading.gif" style="vertical-align:middle" width="16" height="16" alt="가져오는 중..." />');
+				$('#status').html('<img src="'+pluginURL+'/images/icon_loading.gif" style="vertical-align:middle" width="16" height="16" alt="가져오는 중..." />');
 				navigator.geolocation.getCurrentPosition(function(pos) {
 					map.setCenter(new GLatLng(pos.coords.latitude, pos.coords.longitude), 10);
 					position = pos;
