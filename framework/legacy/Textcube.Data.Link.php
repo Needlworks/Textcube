@@ -171,6 +171,7 @@ class Link {
 		$this->_count = 0;
 		$this->reset();
 	}
+}
 
 class LinkCategories {
 	function LinkCategories() {
