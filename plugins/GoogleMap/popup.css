@@ -3,7 +3,7 @@
 * { margin: 0; padding: 0; }
 
 body, input, button, textarea {
-	font-family: "Trebuchet MS", Verdana, NanumGothic, MalgunGothic, sans-serif;
+	font-family: "Trebuchet MS", "Verdana", "Nanum Gothic", "나눔고딕", "Malgun Gothic", sans-serif;
 	font-size: 0.85em;
 }
 
