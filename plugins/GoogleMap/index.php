@@ -288,7 +288,7 @@ function GoogleMapUI_InsertMap() {
 		<button id="doInsert">본문에 삽입하기</button>
 	</div>
 	<div style="text-align:center;">
-		<div id="GoogleMapPreview" style="width:<?php echo $default_width;?>px; height:<?php echo $default_height;?>px; margin:0 auto;"></div>
+		<div class="ui-widget-content" id="GoogleMapPreview" style="width:<?php echo $default_width;?>px; height:<?php echo $default_height;?>px; margin:0 auto;"></div>
 	</div>
 	<script type="text/javascript">
 	//<![CDATA[
@@ -401,8 +401,8 @@ function _GMap_printHeaderForUI($title, $jsName, $api_key) {
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Google Map Plugin: <?php echo $title;?></title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/popup.css" />
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-1.2.6.min.js"></script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-ui-1.6rc2.js"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-1.3.2.min.js"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-ui-1.7.2.custom.min.js"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-mousewheel.min.js"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-json.js"></script>
 	<script type="text/javascript" src="http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<?php echo $api_key;?>"></script>

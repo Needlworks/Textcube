@@ -39,16 +39,16 @@ dl#toolbox-googlemap dd.command-box {
 	padding: 0;
 	border-top: 1px solid #bbb;
 	border-bottom: 1px solid #bbb;
-	background-color: #f2f2f2;
-	background-image: -webkit-gradient(linear, left 10, left bottom, from(#fff), to(#eee));
+	background-color: #fbfbfb;
+	background-image: -webkit-gradient(linear, left 14, left bottom, from(#fff), to(#eee));
 }
 dl#toolbox-googlemap dd.command-box:hover {
-	background-color: #ddd;
-	background-image: -webkit-gradient(linear, left 10, left bottom, from(#f2f2f2), to(#ddd));
+	background-color: #f2f2f2;
+	background-image: -webkit-gradient(linear, left 14, left bottom, from(#fbfbfb), to(#ddd));
 }
 dl#toolbox-googlemap dd.command-box:active {
-	background-color: #d6d6d6;
-	background-image: -webkit-gradient(linear, left 10, left bottom, to(#f2f2f2), from(#ddd));
+	background-color: #ddd;
+	background-image: -webkit-gradient(linear, left 14, left bottom, to(#f8f8f8), from(#ddd));
 }
 
 dl#toolbox-googlemap dd.command-box a.button {

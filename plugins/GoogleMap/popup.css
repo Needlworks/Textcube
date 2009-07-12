@@ -4,7 +4,7 @@
 
 body, input, button, textarea {
 	font-family: "Trebuchet MS", Verdana, NanumGothic, MalgunGothic, sans-serif;
-	font-size: 0.9em;
+	font-size: 0.85em;
 }
 
 body {
@@ -15,13 +15,16 @@ body {
 h1 {
 	margin: 10px;
 	font-size: 1.2em;
+	text-shadow: 0 1px 2px rgba(0,10,30,0.6);
 }
 
 h2 {
 	font-size: 1.0em;
-	background: #f2f2f2;
-	margin: 4px;
-	padding: 2px 4px;
+	background: #f2f2f2 url(./images/bg-h2.png) repeat-x left top;
+	color: white;
+	text-shadow: 0 0 2px black;
+	margin: 10px 4px;
+	padding: 3px 5px;
 }
 
 p {
@@ -73,18 +76,24 @@ button.toggled:hover {
 h2 {
 	cursor: pointer;
 }
-.ui-resizable-handle {
-	background-color: #f2f2f2;
-}
-.ui-resizable-handle:hover {
-	background-color: #9cf !important;
-}
+.ui-resizable { position: relative; }
+.ui-resizable-handle { position: absolute;font-size: 0.1px;z-index: 99999; display: block; background: #f8f8f8; }
+.ui-resizable-handle:hover { background-color: #bce5ff; }
+.ui-resizable-disabled .ui-resizable-handle, .ui-resizable-autohide .ui-resizable-handle { display: none; }
+.ui-resizable-n { cursor: n-resize; height: 8px; width: 100%; top: -8px; left: 0px; }
+.ui-resizable-s { cursor: s-resize; height: 8px; width: 100%; bottom: -8px; left: 0px; }
+.ui-resizable-e { cursor: e-resize; width: 8px; right: -8px; top: 0px; height: 100%; }
+.ui-resizable-w { cursor: w-resize; width: 8px; left: -8px; top: 0px; height: 100%; }
+.ui-resizable-se { cursor: se-resize; width: 8px; height: 8px; right: -8px; bottom: -8px; background-image: url(./images/ui-resizable-grabber-se.gif); background-repeat: no-repeat; background-position: right bottom; }
+.ui-resizable-sw { cursor: sw-resize; width: 8px; height: 8px; left: -8px; bottom: -8px; background-image: url(./images/ui-resizable-grabber-sw.gif); background-repeat: no-repeat; background-position: left bottom;}
+.ui-resizable-nw { cursor: nw-resize; width: 8px; height: 8px; left: -8px; top: -8px; }
+.ui-resizable-ne { cursor: ne-resize; width: 8px; height: 8px; right: -8px; top: -8px;}
 
 input, textarea {
 	border: 1px solid #ccc;
 	padding: 1px;
 	line-height: 17px;
-	background: -webkit-gradient(linear, left top, 0 10, from(#eee), to(#fff));
+	background: white -webkit-gradient(linear, left top, 0 10, from(#eee), to(#fff));
 	-webkit-background-origin: padding-box;
 	-webkit-background-clip: content-box;
 	font-size: 0.9em;
@@ -111,10 +120,9 @@ input, textarea {
 	padding: 8px 8px 8px 15px;
 	background: white;
 	background-color: rgba(255,255,255,0.85);
-	border: 1px solid #ccc;
-	box-shadow: 2px 2px 5px rgba(0,0,0,0.7);
-	-moz-box-shadow: 2px 2px 5px #555;
-	-webkit-box-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+	box-shadow: 0 2px 5px rgba(0,0,0,0.7);
+	-moz-box-shadow: 0 1px 5px rgba(0,0,0,0.7);
+	-webkit-box-shadow: 0 1px 5px rgba(0,0,0,0.7);
 	text-align: left;
 	font-size: 0.9em;
 }

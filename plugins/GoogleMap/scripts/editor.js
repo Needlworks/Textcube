@@ -6,11 +6,11 @@ function initializeGoogleMap() {
 }
 
 function GMapTool_insertMap() {
-	window.open(blogURL + '/plugin/GMapCustomInsert/', 'GMapTool_Insert', 'menubar=no,toolbar=no,width=550,height=650,scrollbars=yes');
+	window.open(blogURL + '/plugin/GMapCustomInsert/', 'GMapTool_Insert', 'menubar=no,toolbar=no,width=550,height=680,scrollbars=yes');
 }
 
 function GMapTool_getLocation() {
-	window.open(blogURL + '/plugin/GMapGetLocation/', 'GMapTool_GetLocation', 'menubar=no,toolbar=no,width=550,height=650,scrollbars=no');
+	window.open(blogURL + '/plugin/GMapGetLocation/', 'GMapTool_GetLocation', 'menubar=no,toolbar=no,width=550,height=600,scrollbars=no');
 }
 
 STD.addUnloadEventListener(function() { GUnload(); });
