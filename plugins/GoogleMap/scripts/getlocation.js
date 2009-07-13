@@ -33,10 +33,10 @@ $(document).ready(function() {
 					$('#status').html('실패 ('+msg+')');
 				});
 			} else if (mode == 'set') {
-				if (confirm('이 좌표를 현재 작성 중인 포스트의 좌표로 설정하시겠습니까?')) {
+				if (confirm('('+position.coords.latitude+', '+position.coords.longitude+') 이 좌표를 현재 작성 중인 포스트의 좌표로 설정하시겠습니까?')) {
 					var opener = window.opener;
 					if (!opener) {
-						alert('The editor is not accessible.');
+						alert('Error: The editor is not accessible.');
 						return;
 					}
 					if (opener.jQuery('input[name=latitude]').length == 0) {
