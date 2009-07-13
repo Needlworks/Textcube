@@ -102,7 +102,7 @@ function queryLocation() {
 		// TODO: get the height of the whole document in a cross-browsing way
 		var from_bottom = document.body.scrollHeight - (pos.top + $(container).height());
 		$('<div style="text-align:right"><a href="#" class="ui-action" onclick="closeQueryResult();return false;">닫기</a></div>').appendTo('#queryResult');
-		$('#queryResult').css({bottom:(from_bottom + 40)+'px', left:(pos.left + 60)+'px'}).fadeIn(400).fadeTo(200, 1);
+		$('#queryResult').css({'z-index':100000, bottom:(from_bottom + 40)+'px', left:(pos.left + 60)+'px'}).fadeIn(400).fadeTo(200, 1);
 	});
 }
 
