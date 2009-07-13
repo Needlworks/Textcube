@@ -8,8 +8,9 @@ function GoogleMap_Header($target) {
 	$config = Setting::fetchConfigVal($configVal);
 	if (!is_null($config) && isset($config['apiKey'])) {
 		$api_key = $config['apiKey'];
+		$use_sensor = $config['useSensor'] ? 'true' : 'false';
 		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/common.css\" />\n";
-		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=$api_key\"></script>\n";
+		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=$use_sensor&amp;key=$api_key\"></script>\n";
 		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/common.js?".time()."\"></script>\n";
 		$target .= "<script type=\"text/javascript\">
 		//<![CDATA[
@@ -26,8 +27,9 @@ function GoogleMap_AdminHeader($target) {
 		requireComponent('Textcube.Function.Setting');
 		$config = Setting::fetchConfigVal($configVal);
 		$api_key = $config['apiKey']; // should exist here
+		$use_sensor = $config['useSensor'] ? 'true' : 'false';
 		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/common.css\" />\n";
-		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=$api_key\"></script>\n";
+		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=$use_sensor&amp;key=$api_key\"></script>\n";
 		$target .= "<script type=\"text/javascript\">
 		//<![CDATA[
 		var pluginURL = '$pluginURL';
@@ -90,7 +92,8 @@ function GoogleMap_View($target, $mother) {
 					$markers .= '|';
 				$markers .= "{$json['user_markers'][$i]['lat']},{$json['user_markers'][$i]['lng']}";
 			}
-			echo "<div class=\"googlemap\"><img src=\"{$staticimg}center={$json['center']['latitude']},{$json['center']['longitude']}&amp;zoom={$json['zoom']}&amp;size={$json['width']}x{$json['height']}&amp;maptype={$maptype}&amp;format={$imgformat}&amp;markers={$markers}&amp;sensor=false&amp;key={$config['apiKey']}\"title=\"{$json['user_markers'][0]['title']} - {$json['user_markers'][0]['desc']}\" alt=\"Google Map Test\" /></div>";
+			$use_sensor = $config['useSensor'] ? 'true' : 'false';
+			echo "<div class=\"googlemap\"><img src=\"{$staticimg}center={$json['center']['latitude']},{$json['center']['longitude']}&amp;zoom={$json['zoom']}&amp;size={$json['width']}x{$json['height']}&amp;maptype={$maptype}&amp;format={$imgformat}&amp;markers={$markers}&amp;sensor={$use_sensor}&amp;key={$config['apiKey']}\"title=\"{$json['user_markers'][0]['title']} - {$json['user_markers'][0]['desc']}\" alt=\"Google Map Test\" /></div>";
 		}
 		// Desktop
 		else {
@@ -240,6 +243,7 @@ function GoogleMap_ConfigHandler($data) {
 	if (!is_numeric($config['latitude']) || !is_numeric($config['longitude']) ||
 		$config['latitude'] < -90 || $config['latitude'] > 90 || $config['longitude'] < -180 || $config['longitude'] > 180)
 		return '위도 또는 경도의 값이 올바르지 않습니다.';
+	$config['useSensor'] = !isset($config['useSensor']) ? true : false;
 	return true;
 }
 
@@ -281,7 +285,7 @@ function GoogleMapUI_InsertMap() {
 	$default_width = min(Misc::getContentWidth(), 500);
 	$default_height = 400;
 	$zoom = 10;
-	_GMap_printHeaderForUI('구글맵 삽입하기', 'insert', $config['apiKey']);
+	_GMap_printHeaderForUI('구글맵 삽입하기', 'insert', $config['apiKey'], $config['useSensor'] ? 'true' : 'false');
 ?>
 	<div id="controls">
 		<button id="toggleMarkerAddingMode">마커 표시 모드</button>
@@ -359,7 +363,7 @@ function GoogleMapUI_GetLocation() {
 	_GMap_printFooterForUI();
 }
 
-function _GMap_printHeaderForUI($title, $jsName, $api_key) {
+function _GMap_printHeaderForUI($title, $jsName, $api_key, $use_sensor) {
 	global $pluginURL, $blogURL, $service, $adminSkinSetting;
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -371,7 +375,7 @@ function _GMap_printHeaderForUI($title, $jsName, $api_key) {
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-ui-1.7.2.custom.min.js"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-mousewheel.min.js"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-json.js"></script>
-	<script type="text/javascript" src="http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<?php echo $api_key;?>"></script>
+	<script type="text/javascript" src="http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=<?php echo $use_sensor;?>&amp;key=<?php echo $api_key;?>"></script>
 	<script type="text/javascript">
 	//<![CDATA[
 	var pluginURL = '<?php echo $pluginURL;?>';
