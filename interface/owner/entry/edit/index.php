@@ -17,6 +17,7 @@ $IV = array(
 		'returnURL' => array('string', 'mandatory' => false)
 	)
 );
+
 require ROOT . '/library/preprocessor.php';
 requireModel("blog.entry");
 requireModel("blog.tag");
@@ -233,6 +234,16 @@ if (defined('__TEXTCUBE_POST__')) {
 										} catch(e) {
 											locationValue = oForm.location.value;
 										}
+
+										var latitudeValue = "";
+										try {
+											latitudeValue = jQuery('input[name=latitude]').val()
+										} catch(e) {}
+
+										var longitudeValue = "";
+										try {
+											longitudeValue = jQuery('input[name=longitude]').val()
+										} catch(e) {}
 								
 										var tagValue = "";
 										try {
@@ -269,6 +280,8 @@ if (defined('__TEXTCUBE_POST__')) {
 											"&published=" + published +
 											"&category=" + ((entrytype!=0) ? entrytype : oForm.category.value) +
 											"&location=" + encodeURIComponent(locationValue) +
+											"&latitude=" + encodeURIComponent(latitudeValue) +
+											"&longitude=" + encodeURIComponent(longitudeValue) +
 											"&tag=" + encodeURIComponent(tagValue) +
 											"&acceptcomment=" + (oForm.acceptcomment.checked ? 1 : 0) +
 											"&accepttrackback=" + (oForm.accepttrackback.checked ? 1 : 0)
