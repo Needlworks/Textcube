@@ -46,25 +46,29 @@ class XMLTree {
 	}
 	
 	function & selectNode($path) {
-		static $null_node = null;
 		$p = explode('/', $path);
-		if (array_shift($p) != '')
-			return $null_node;
+		if (array_shift($p) != '') {
+			$ret = null;
+			return $ret;
+		}
 		$c = &$this->tree;
-		
 		while ($d = array_shift($p)) {
 			$o = 0;
 			if ($d{strlen($d) - 1} == ']') {
-				@list($d, $o) = explode('[', $d, 2);
-				if (is_null($o))
-					return null;
+				@list($d, $o) = split('\[', $d, 2);
+				if ($o === null) {
+					$ret = null;
+					return $ret;
+				}
 				$o = substr($o, 0, strlen($o) - 1);
-				if (!is_numeric($o))
-					return null;
+				if (!is_numeric($o)) {
+					$ret = null;
+					return $ret;
+				}
 			}
-			for ($i = 0; $i < count($c); $i++) {
+			for ($i = 0; $i < count($c["children"]); $i++) {
 				if (isset($c['children'][$i]['name']) && ($c['children'][$i]['name'] == $d)) {
-					if ($o <= 1) {
+					if ($o == 0) {
 						$c = &$c['children'][$i];
 						$i = true;
 						break;
@@ -72,8 +76,11 @@ class XMLTree {
 					$o--;
 				}
 			}
-			if ($i !== true)
-				return $null_node;
+			if ($i !== true) {
+				$ret = null;
+				return $ret;
+			}
+				
 		}
 		return $c;
 	}
