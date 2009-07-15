@@ -137,7 +137,7 @@ class Filter {
 		global $database;
 
 		$whiteurl = POD::escapeString(strtolower($whiteurl));
-		return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = 'whiteurl' AND '$whiteurl' LIKE CONCAT('%', LOWER(pattern), '%') LIMIT 1");
+		return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND filtertype = 'whiteurl' AND '$whiteurl' LIKE CONCAT('%', LOWER(pattern), '%') LIMIT 1");
 	}
 	function _getMaxId() {
 		global $database;
