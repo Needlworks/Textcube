@@ -20,7 +20,7 @@ class Filter {
 		if (is_numeric($filter))
 			$filter = 'AND id = ' . $filter;
 		else if (!empty($filter))
-			$filter = 'AND type = \'' . $filter . '\'';
+			$filter = 'AND filtertype = \'' . $filter . '\'';
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
@@ -166,9 +166,9 @@ class Filter {
 					return $this->_error('type');
 			}
 			if (isset($this->id))
-				$query->setAttribute('type', $this->type, false);
+				$query->setAttribute('filtertype', $this->type, false);
 			else
-				$query->setQualifier('type', 'equals', $this->type, false);
+				$query->setQualifier('filtertype', 'equals', $this->type, false);
 		}
 		if (isset($this->pattern)) {
 			$this->pattern = UTF8::lessenAsEncoding(trim($this->pattern), 255);
