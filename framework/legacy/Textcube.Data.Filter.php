@@ -124,11 +124,11 @@ class Filter {
 				} else {
 					$conditions = ' AND 1 = 0';
 				}
-				return POD::queryExistence('SELECT * FROM '.$database['prefix'].'Filters WHERE blogid = '.getBlogId().' AND type = "ip"'.$conditions.' LIMIT 1');
+				return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND filtertype = 'ip'".$conditions.' LIMIT 1');
 			default:
 				$type = POD::escapeString($type);
 				$value = POD::escapeString(strtolower($value));
-				return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND type = '$type' AND '$value' LIKE CONCAT('%', LOWER(pattern), '%') LIMIT 1");
+				return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND filtertype = '$type' AND pattern LIKE '%".strtolower($value)."%' LIMIT 1");
 		}
 	}
 
