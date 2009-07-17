@@ -120,6 +120,8 @@ CREATE TABLE [##_dbPrefix_##]Entries (
   contentformatter varchar(32) DEFAULT '' NOT NULL,
   contenteditor varchar(32) DEFAULT '' NOT NULL,
   location varchar(255) default '/' NOT NULL,
+  latitude float default NULL,
+  longitude float default NULL,
   password varchar(32) default NULL,
   acceptcomment integer default 1 NOT NULL,
   accepttrackback integer default 1 NOT NULL,
@@ -148,6 +150,8 @@ CREATE TABLE [##_dbPrefix_##]EntriesArchive (
   contentformatter varchar(32) DEFAULT '' NOT NULL,
   contenteditor varchar(32) DEFAULT '' NOT NULL,
   location varchar(255) default '/' NOT NULL,
+  latitude float default NULL,
+  longitude float default NULL,
   password varchar(32) default NULL,
   created integer default 0 NOT NULL,
   PRIMARY KEY (blogid, id, created)

@@ -449,8 +449,10 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 	if (!DBQuery::queryExistence("DESC {$database['prefix']}Entries longitude")) {
 		$changed = true;
 		echo '<li>', _text('글과 위경도 좌표 연동을 위한 필드를 추가합니다.'), ': ';
-		if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD longitude FLOAT(10) NULL AFTER published") && 
-			DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD latitude FLOAT(10) NULL AFTER longitude"))
+		if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD longitude FLOAT(10) NULL AFTER location") && 
+			DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD latitude FLOAT(10) NULL AFTER longitude") &&
+			DBQuery::execute("ALTER TABLE {$database['prefix']}EntriesArchive ADD longitude FLOAT(10) NULL AFTER location") &&
+			DBQuery::execute("ALTER TABLE {$database['prefix']}EntriesArchive ADD latitude FLOAT(10) NULL AFTER longitude"))
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
