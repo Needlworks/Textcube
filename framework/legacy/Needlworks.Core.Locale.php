@@ -86,7 +86,7 @@ final class Locale extends Singleton {
 		return 0;
 	}
 
-	static function getSupportedLocales() {
+	public function getSupportedLocales() {
 		$locales = array();
 		if ($dir = dir($this->directory)) {
 			while (($entry = $dir->read()) !== false) {

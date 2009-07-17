@@ -755,7 +755,8 @@ if( $openidlogodisplay ) {
 											<dd>
 												<select id="admin-language" name="adminLanguage">
 <?php
-$supportedLanguages = Locale::getSupportedLocales();
+$locale = Locale::getInstance();
+$supportedLanguages = $locale->getSupportedLocales();
 foreach ($supportedLanguages as $locale => $language) {
 ?>
 													<option value="<?php echo $locale;?>"<?php echo ($locale == $blog['language'] ? ' selected="selected"' : '');?>><?php echo $language;?></option>
