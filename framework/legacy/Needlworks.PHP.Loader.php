@@ -53,13 +53,14 @@ class Autoload {
 		);
 	private static $base = array(
 		'Base64Stream','HTTPRequest','OutputWriter','XMLRPC','XMLRPCFault',
-		'XMLCustomType','XMLTree','Pop3');
+		'XMLCustomType','XMLTree','Pop3','CommunicationFeed');
 	private static $function = array(
 		'Image','Setting','Respond','Misc');
 	private static $openid = array(
 		'OpenID', 'OpenIDSession', 'OpenIDConsumer');
 	private static $control = array(
 		'Session','RSS');
+	private static $newmodel = array('Line','OpenSearchProvider');
 	public static function load($name) {
 		global $service, $database;
 		$name = ucfirst($name);
@@ -89,8 +90,9 @@ class Autoload {
 			require_once(ROOT . "/framework/legacy/Eolin.API.Syndication.php");
 		} else if (in_array($name,array('Locale'))) {
 			require_once(ROOT . "/framework/legacy/Needlworks.Core.Locale.php");
-		}
-		else {
+		} else if (in_array($name,self::$newmodel)) {
+			require_once(ROOT . "/framework/model/".$name.'.php');
+		} else {
 			if(defined('TCDEBUG')) print "TC: Unregisterred auto load class: $name<br/>\n";
 		}
 	}

@@ -651,6 +651,28 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			showCheckupMessage(false);
 		}
 	}
+
+	if (!doesExistTable($database['prefix'] . 'Lines')) {
+		$changed = true;
+		echo '<li>', _text('라인 기능을 위한 테이블을 만듭니다'), ': ';
+		$query = "
+		CREATE TABLE {$database['prefix']}Lines (
+		  id int(11) NOT NULL default 0,
+		  blogid int(11) NOT NULL default 0,
+		  category varchar(11) NOT NULL default 'public', 
+		  content varchar(512) NOT NULL default '', 
+		  created int(11) NOT NULL default 0,
+		  PRIMARY KEY (id),
+		  UNIQUE KEY (blogid, created),
+		  KEY (blogid, category, created)
+		) TYPE=MyISAM
+		";
+		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query))
+			showCheckupMessage(true);
+		else {
+			showCheckupMessage(false);
+		}
+	}
 }
 
 /***** Common parts. *****/

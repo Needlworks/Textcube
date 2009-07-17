@@ -76,6 +76,9 @@ class Skin {
 	var $coverpageStorage = array();
 	var $coverpageOriginalContent = array();
 	var $coverpageName = array();
+	
+	var $line;
+	var $lineItem;
 
 	var $noneCommentMessage;
 	var $singleCommentMessage;
@@ -196,19 +199,27 @@ class Skin {
 			// Cutting skin.
 			list($sval, $this->coverItem) = $this->cutSkinTag($sval, 'cover_rep');
 			list($sval, $this->cover) = $this->cutSkinTag($sval, 'cover');
+			
+			list($sval, $this->lineItem) = $this->cutSkinTag($sval, 'line_rep');
+			list($sval, $this->line) = $this->cutSkinTag($sval, 'line');
 	
 			list($sval, $this->listItem) = $this->cutSkinTag($sval, 'list_rep');
 			list($sval, $this->list) = $this->cutSkinTag($sval, 'list');
+
 			list($sval, $this->commentListItem) = $this->cutSkinTag($sval, 'rplist_rep');
 			list($sval, $this->commentList) = $this->cutSkinTag($sval, 'rplist');
+
 			list($sval, $this->trackbackListItem) = $this->cutSkinTag($sval, 'tblist_rep');
 			list($sval, $this->trackbackList) = $this->cutSkinTag($sval, 'tblist');
+
 			list($sval, $this->rss_rep) = $this->cutSkinTag($sval, 'rss_rep');
 			list($sval, $this->rss_date) = $this->cutSkinTag($sval, 'rss_date');
 			list($sval, $this->rss) = $this->cutSkinTag($sval, 'rss');
+
 			list($sval, $this->keywordItem) = $this->cutSkinTag($sval, 'keyword_rep');
 			list($sval, $this->keywordGroup) = $this->cutSkinTag($sval, 'keyword_date_rep');
 			list($sval, $this->keyword) = $this->cutSkinTag($sval, 'keyword');
+
 			list($sval, $this->noticeItem) = $this->cutSkinTag($sval, 'notice_rep');
 			list($sval, $this->keylogItem) = $this->cutSkinTag($sval, 'keylog_rep');
 			list($sval, $this->recentNoticeItem) = $this->cutSkinTag($sval, 'rct_notice_rep');

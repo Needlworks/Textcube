@@ -134,9 +134,7 @@ class TableQuery {
 	}
 	
 	public function setQualifier($name, $condition, $value = null, $escape = null) {
-	//OR, setQualifier($name, $value, $escape = null) - Legacy mode 
 	//OR, setQualifier(string(name_condition_value), $escape = null)     - Descriptive mode (NOT implemented)
-	//OR, setQualifier($name, NULL)
 		if (is_null($condition)) {
 			$this->_qualifiers[$name] = 'NULL';
 		} else {
@@ -145,23 +143,26 @@ class TableQuery {
 				$value = $condition;
 				$condition = null;
 			}*/
-			if(is_null($condition)) {
-				$this->_qualifiers[$name] = (is_null($escape) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
-				$this->_relations[$name] = '=';
-			} else {
-				switch(strtolower($condition)) {
-					case 'equals':
-						$this->_relations[$name] = '=';
-						break;
-					case 'not':
-						$this->_relations[$name] = 'NOT';
-						break;
-					case 'like':
-					default:
-						$this->_relations[$name] = 'LIKE';
-				}
-				$this->_qualifiers[$name] = (is_null($escape) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
+			switch(strtolower($condition)) {
+				case 'equals':
+					$this->_relations[$name] = '=';
+					break;
+				case 'not':
+					$this->_relations[$name] = 'NOT';
+					break;
+				case 'bigger':
+				case '>':
+					$this->_relations[$name] = '>';
+					break;
+				case 'smaller':
+				case '<':
+					$this->_relations[$name] = '<';
+					break;
+				case 'like':
+				default:
+					$this->_relations[$name] = 'LIKE';
 			}
+			$this->_qualifiers[$name] = (is_null($escape) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
 		}
 	}
 	
@@ -172,7 +173,7 @@ class TableQuery {
 
 	public function setOrder($standard, $order = 'ASC') {
 		$this->_order['attribute'] = $standard;
-		if(!in_array(strtoupper($order, array('ASC','DESC')))) $order = 'ASC';
+		if(!in_array(strtoupper($order), array('ASC','DESC'))) $order = 'ASC';
 		$this->_order['order'] = $order;
 	}
 
@@ -282,7 +283,7 @@ class TableQuery {
 				(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) .
 				' '.$this->_relations[$name] . ' ' . $value;
 		}
-		if(!empty($this->_order)) $clause .= ' ORDER BY '._treatReservedFields($this->_order['standard']).' '.$this->_order['order'];
+		if(!empty($this->_order)) $clause .= ' ORDER BY '.$this->_treatReservedFields($this->_order['attribute']).' '.$this->_order['order'];
 		if(!empty($this->_limit)) $clause .= ' LIMIT '.$this->_limit['count'].' OFFSET '.$this->_limit['offset'];
 		return (strlen($clause) ? ' WHERE ' . $clause : '');
 	}

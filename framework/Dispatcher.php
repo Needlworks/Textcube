@@ -133,7 +133,7 @@ final class Dispatcher {
 		} else {
 			if (!empty($URLInfo['fragment'])) {
 				if(	in_array($URLInfo['fragment'][0],
-					 array('api','archive','attachment','author','category','checkup','cover','cron','entry','feeder','foaf','guestbook','iMazing','keylog','location','locationSuggest','logout','notice','page','plugin','pluginForOwner','search','suggest','sync','tag','ttxml')))
+					 array('api','archive','attachment','author','category','checkup','cover','cron','entry','feeder','foaf','guestbook','iMazing','keylog','location','locationSuggest','logout','notice','page','plugin','pluginForOwner','search','suggest','sync','tag','ttxml','line')))
 				{
 					$pathPart = $URLInfo['fragment'][0];
 					$interfacePath = 'interface/blog/'.$pathPart.'.php';

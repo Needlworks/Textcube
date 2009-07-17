@@ -132,6 +132,89 @@ class XMLTree {
 		return count($n['children']);
 	}
 
+/// Private functions
+/// PHP4 does not support private methods. Thus these methods are access-free.
+/// We DO NOT recommend to use these methods using direct-access
+
+	/// Recursively attach XML Documentation object
+	function leap(&$cursor) {
+		if(!is_array($cursor)) { // terminal.
+			$this->_xmlcontent .= $cursor;
+			return;
+		} else {	// Non-terminal
+			$this->_xmlcontent .= '<'.$cursor['name'];
+			if(isset($cursor['attributes'])) {
+				foreach($cursor['attributes'] as $type => $value) {
+					$this->_xmlcontent .= ' '.$type.'="'.$value.'"';
+				}
+			}
+			$this->_xmlcontent .= '>';
+			if(isset($cursor['children'])) {
+				if(!is_array($cursor['children'])) {
+					$this->_xmlcontent .= $cursor['children'];
+				} else {
+					for($i = 0; $i < count($cursor['children']); $i++) {
+						$this->leap(&$cursor['children'][$i]);
+					}
+				}				
+			}
+			$this->_xmlcontent .= '</'.$cursor['name'].'>';
+		}
+	}
+	/// Generate XML contents based on current tree
+	function generate() {
+		$this->_cursor = &$this->tree;
+		$this->_xmlcontent = '<?xml version="1.0" encoding="utf-8"?>';
+		if(isset($this->_cursor['children'])) {
+			for($i = 0; $i < count($this->_cursor['children']); $i++) {
+				$this->leap(&$this->_cursor['children'][$i]);
+			}
+		}
+	}
+		
+	/// Set the value to specific path.
+	function setValue($path, $content, $type = null) {
+		if (!$this->doesExist($path)) {
+			$this->createNode($path);
+		}
+		$n = &$this->selectNode($path);
+		array_push($n['children'], $content);
+		if(!is_null($type)) $this->addAttribute($path, 'type', $type);
+	}
+	
+	/// Create node to documentation tree
+	function createNode($path) {
+		$this->_cursor = &$this->tree;
+		$branch = explode('/',ltrim($path,'/'));
+		foreach($branch as &$fork) {
+			$growth = true;
+			if(isset($this->_cursor['children'])) {
+				for($count = 0; $count < count($this->_cursor['children']); $count++) {
+					if(isset($this->_cursor['children'][$count]['name']) && $this->_cursor['children'][$count]['name'] == $fork) {
+						$growth = false;
+						break;
+					}
+				}
+			} else {
+				$this->_cursor['children'] = array();
+			}
+			if($growth) {
+				array_push($this->_cursor['children'], array('name' => $fork, 'children' => array()));
+				$this->_cursor = &$this->_cursor['children'][count($this->_cursor['children']) - 1];
+			} else {
+				$this->_cursor = &$this->_cursor['children'][$count];
+			}
+		}
+		$this->_cursor = &$this->tree;
+	}
+	
+	/// Adds attribute to path.
+	function addAttribute($path, $name, $value) {
+		$n = &$this->selectNode($path);
+		if(!isset($n['attributes'])) $n['attributes'] = array();
+		$n['attributes'][$name] = $value;
+	}
+	
 	function o($p, $n, $a) {
 		if (empty($a))
 			array_push($this->_cursor['children'], array('name' => $n, 'children' => array(), '_' => &$this->_cursor));
