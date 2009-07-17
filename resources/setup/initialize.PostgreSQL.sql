@@ -319,34 +319,9 @@ CREATE TABLE [##_dbPrefix_##]Sessions (
 CREATE INDEX [##_dbPrefix_##]Sessions_updated_idx ON [##_dbPrefix_##]Sessions (updated);
 CREATE TABLE [##_dbPrefix_##]SkinSettings (
   blogid integer NOT NULL default '0',
-  skin varchar(32) NOT NULL default 'coolant',
-  entriesonrecent integer NOT NULL default '10',
-  commentsonrecent integer NOT NULL default '10',
-  commentsonguestbook integer NOT NULL default '5',
-  archivesonpage integer NOT NULL default '5',
-  tagsontagbox integer NOT NULL default '10',
-  tagboxalign integer NOT NULL default '1',
-  trackbacksonrecent integer NOT NULL default '5',
-  expandcomment integer NOT NULL default '1',
-  expandtrackback integer NOT NULL default '1',
-  recentnoticelength integer NOT NULL default '30',
-  recententrylength integer NOT NULL default '30',
-  recentcommentlength integer NOT NULL default '30',
-  recenttrackbacklength integer NOT NULL default '30',
-  linklength integer NOT NULL default '30',
-  showlistoncategory integer NOT NULL default '1',
-  showlistonarchive integer NOT NULL default '1',
-  showlistontag integer NOT NULL default '1',
-  showlistonauthor integer NOT NULL default '1',
-  showlistonsearch integer NOT NULL default '1',
-  tree varchar(32) NOT NULL default 'base',
-  colorontree varchar(6) NOT NULL default '000000',
-  bgcolorontree varchar(6) NOT NULL default '',
-  activecolorontree varchar(6) NOT NULL default 'FFFFFF',
-  activebgcolorontree varchar(6) NOT NULL default '00ADEF',
-  labellengthontree integer NOT NULL default '30',
-  showvalueontree integer NOT NULL default '1',
-  PRIMARY KEY  (blogid)
+  name varchar(32) NOT NULL default '',
+  value text NOT NULL,
+  PRIMARY KEY (blogid, name)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]TagRelations (
   blogid integer NOT NULL default '0',

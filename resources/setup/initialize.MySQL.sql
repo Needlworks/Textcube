@@ -323,34 +323,9 @@ CREATE TABLE [##_dbPrefix_##]Sessions (
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]SkinSettings (
   blogid int(11) NOT NULL default '0',
-  skin varchar(32) NOT NULL default 'coolant',
-  entriesonrecent int(11) NOT NULL default '10',
-  commentsonrecent int(11) NOT NULL default '10',
-  commentsonguestbook int(11) NOT NULL default '5',
-  archivesonpage int(11) NOT NULL default '5',
-  tagsontagbox tinyint(4) NOT NULL default '10',
-  tagboxalign tinyint(4) NOT NULL default '1',
-  trackbacksonrecent int(11) NOT NULL default '5',
-  expandcomment int(1) NOT NULL default '1',
-  expandtrackback int(1) NOT NULL default '1',
-  recentnoticelength int(11) NOT NULL default '30',
-  recententrylength int(11) NOT NULL default '30',
-  recentcommentlength int(11) NOT NULL default '30',
-  recenttrackbacklength int(11) NOT NULL default '30',
-  linklength int(11) NOT NULL default '30',
-  showlistoncategory tinyint(4) NOT NULL default '1',
-  showlistonarchive tinyint(4) NOT NULL default '1',
-  showlistontag tinyint(4) NOT NULL default '1',
-  showlistonauthor tinyint(4) NOT NULL default '1',
-  showlistonsearch int(1) NOT NULL default '1',
-  tree varchar(32) NOT NULL default 'base',
-  colorontree varchar(6) NOT NULL default '000000',
-  bgcolorontree varchar(6) NOT NULL default '',
-  activecolorontree varchar(6) NOT NULL default 'FFFFFF',
-  activebgcolorontree varchar(6) NOT NULL default '00ADEF',
-  labellengthontree int(11) NOT NULL default '30',
-  showvalueontree int(1) NOT NULL default '1',
-  PRIMARY KEY  (blogid)
+  name varchar(32) NOT NULL default '',
+  value text NOT NULL,
+  PRIMARY KEY (blogid, name)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]TagRelations (
   blogid int(11) NOT NULL default '0',
