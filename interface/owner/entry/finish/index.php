@@ -14,14 +14,13 @@ $IV = array(
 		'permalink'  => array('string', 'default' => ''),
 		'location'   => array('string', 'default' => '/'),
 		'latitude'   => array('number', 'default' => null, 'min' => -90.0, 'max' => 90.0, 'bypass' => true),
-		'longitude'   => array('number', 'default' => null, 'min' => -180.0, 'max' => 180.0),
+		'longitude'   => array('number', 'default' => null, 'min' => -180.0, 'max' => 180.0, 'bypass' => true),
 		'tag'        => array('string', 'default' => ''),
 		'acceptcomment'    => array(array('0', '1'), 'default' => '0'),
 		'accepttrackback'  => array(array('0', '1'), 'default' => '0'),
 		'published'  => array('int', 0, 'default' => 1)
 	)
 );
-
 require ROOT . '/library/preprocessor.php';
 requireModel('blog.entry');
 

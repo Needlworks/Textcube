@@ -239,12 +239,16 @@ if (defined('__TEXTCUBE_POST__')) {
 										try {
 											latitudeValue = jQuery('input[name=latitude]').val()
 										} catch(e) {}
-
+										if(latitudeValue == 'undefined') {
+											latitudeValue = null;
+										}
 										var longitudeValue = "";
 										try {
 											longitudeValue = jQuery('input[name=longitude]').val()
 										} catch(e) {}
-								
+										if(longitudeValue == 'undefined') {
+											longitudeValue = null;
+										}
 										var tagValue = "";
 										try {
 											tagValue = oTag.getValues().join(",");
