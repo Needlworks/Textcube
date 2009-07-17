@@ -896,7 +896,8 @@ class XMLStruct {
 			} else {
 				$lang = "";
 			}
-			switch (Locale::match($lang)) {
+			$locale = Locale::getInstance();
+			switch ($locale->match($lang)) {
 				case 3:
 					$matched = $param[$i];
 					unset($secondBest);
@@ -1113,7 +1114,9 @@ class XMLStruct {
 					} else {
 						$lang = "";
 					}
-					switch (Locale::match($lang)) {
+					$locale = Locale::getInstance();
+
+					switch ($locale->match($lang)) {
 						case 3:
 							$cursor = &$cursor[$name][$i];
 							return $cursor;

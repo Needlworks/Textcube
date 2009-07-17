@@ -157,25 +157,23 @@ if (!defined('NO_INITIALIZAION')) {
     Loads necessary locale resource. 
     (TODO : Reduce the capacity of i18n resource by dividing blog / adminpanel setting.
 */
-	$__locale = array(
-		'locale' => null,
-		'directory' => ROOT.'/resources/locale',
-		'domain' => null,
-		);
 	
 /// Load administration panel locale.
 	if(!defined('NO_LOCALE')) {
 		if($context->URLInfo['interfaceType'] == 'reader') { $languageMode = 'owner'; }
 		else $languageMode = $context->URLInfo['interfaceType'];
-		Locale::setDirectory(ROOT . '/resources/locale');
-		Locale::set(isset($blog['language']) ? $blog['language'] : $service['language'],$languageMode);
-		unset($languageMode);
-	
-		// Load blog screen locale.
-		if (!isset($blog['blogLanguage'])) {
-			$blog['blogLanguage'] = $service['language'];
+		
+		$locale = Locale::getInstance();
+		$locale->setDirectory(ROOT . '/resources/locale');
+		if($languageMode == 'owner') {
+			$language = isset($blog['language']) ? $blog['language'] : $service['language'];
+		} else {
+			$language = isset($blog['blogLanguage']) ? $blog['blogLanguage'] : $service['language'];
 		}
-		Locale::setSkinLocale(isset($blog['blogLanguage']) ? $blog['blogLanguage'] : $service['language']);
+			
+		$locale->set($language,$languageMode);
+		unset($languageMode);
+		unset($language);
 	}
 	
 /** Administration panel skin / editor template

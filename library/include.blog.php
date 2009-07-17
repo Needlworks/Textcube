@@ -15,7 +15,6 @@ $__requireBasics = array(
 	'function/mail',
 	'DEBUG : Basic functions loaded.');
 $__requireLibrary = array(
-	'locale',
 	'auth',
 	'blog.skin',
 	'DEBUG : Default library loaded.');

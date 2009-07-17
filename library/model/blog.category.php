@@ -177,9 +177,9 @@ function getCategoriesSkin() {
 			'labelLength'       => $setting['labelLengthOnTree'],
 			'showValue'         => $setting['showValueOnTree'],
 			'itemColor'         => "{$setting['colorOnTree']}",
-			'itemBgColor'       => "{$setting['bgcolorOnTree']}",
-			'activeItemColor'   => "{$setting['activecolorOnTree']}",
-			'activeItemBgColor' => "{$setting['activebgcolorOnTree']}", );
+			'itemBgColor'       => "{$setting['bgColorOnTree']}",
+			'activeItemColor'   => "{$setting['activeColorOnTree']}",
+			'activeItemBgColor' => "{$setting['activeBgColorOnTree']}", );
 	return $skin;
 }
 

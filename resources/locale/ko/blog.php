@@ -1,7 +1,6 @@
 <?php // 한국어
 /* contributed by inureyes */
 /* contributed by spirited */ 
-
 /* 지역 표시 */
 $__text['Asia/Seoul'] = '대한민국';
 $__text['Asia/Tokyo'] = '일본';

@@ -3,61 +3,64 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-global $__locale, $__text, $__skinText;
-
-final class Locale {
-	// Requires $__locale as global variable. (language resource information)
-	static function get() {
-		global $__locale;
-		return $__locale['locale'];
+final class Locale extends Singleton {
+	static $directory, $domain, $locale, $resource;
+	public static function getInstance() {
+		return self::_getInstance(__CLASS__);
+	}
+		
+	public function get() {
+		return $this->locale;
 	}
 
-	static function set($locale, $scope = 'owner') {
-		global $__locale, $__text;
+	public function set($locale, $scope = 'owner') {
 		list($common) = explode('-', $locale, 2);
 //		Locale::refreshLocaleResource($locale);
-		if (file_exists($__locale['directory'] . '/' . $locale . '/'.$scope.'.php')) {
-			include_once($__locale['directory'] . '/' . $locale . '/'.$scope.'.php');
-			$__locale['locale'] = $locale;
+		if($scope != 'owner') {
+			$scope = 'blog';
+		}
+		if (file_exists($this->directory . '/' . $locale . '/'.$scope.'.php')) { // If locale file exists
+			$this->resource[$scope] = $this->includeLocaleFile($this->directory . '/' . $locale . '/'.$scope.'.php');
+			$this->locale[$scope] = $locale;
+			$this->domain = $scope;
 			return true;
-		} else if (($common != $locale) && file_exists($__locale['directory'] . '/' . $common . '/'.$scope.'.php')) {
-			include_once($__locale['directory'] . '/' . $common . '/'.$scope.'.php');
-			$__locale['locale'] = $common;
+		} else if (($common != $locale) && file_exists($this->directory . '/' . $common . '/'.$scope.'.php')) {
+			$this->resource[$scope] = $this->includeLocaleFile($this->directory . '/' . $common . '/'.$scope.'.php');
+			$this->locale[$scope] = $common;
+			$this->domain = $scope;
 			return true;
 		}
 		return false;
 	}
 
-	static function setSkinLocale($locale) {
+	public function setSkinLocale($locale) {
 		global $__locale, $__skinText;
 		list($common) = explode('-', $locale, 2);
 //		Locale::refreshLocaleResource($locale);
-		if (file_exists($__locale['directory'] . '/' . $locale . '.php')) {
-			$__skinText = Locale::includeLocaleFile($__locale['directory'] . '/' . $locale . '/blog.php');
+		if (file_exists($this->directory . '/' . $locale . '.php')) {
+			$__skinText = Locale::includeLocaleFile($this->directory . '/' . $locale . '/blog.php');
 			return true;
-		} else if (($common != $locale) && file_exists($__locale['directory'] . '/' . $common . '/blog.php')) {
-			$__skinText = Locale::includeLocaleFile($__locale['directory'] . '/' . $common . '/blog.php');
+		} else if (($common != $locale) && file_exists($this->directory . '/' . $common . '/blog.php')) {
+			$__skinText = Locale::includeLocaleFile($this->directory . '/' . $common . '/blog.php');
 			return true;
 		}
 		return false;
 	}
 
-	static function includeLocaleFile($languageFile) {
-		include($languageFile);
+	private function includeLocaleFile($languageFile) {
+		include_once($languageFile);
 		return $__text;
 	}
 
-	static function refreshLocaleResource($locale) {
-		global $__locale;
+	public function refreshLocaleResource($locale) {
 		// po파일과 php파일의 auto convert 지원을 위한 루틴.
-		$lang_php = $__locale['directory'] . '/' . $locale . ".php";
-		$lang_po = $__locale['directory'] . '/po/' . $locale . ".po";
+		$lang_php = $this->directory . '/' . $locale . ".php";
+		$lang_po = $this->directory . '/po/' . $locale . ".po";
 		// 두 파일 중 최근에 갱신된 것을 찾는다.
 		$time_po = filemtime( $lang_po );
 		$time_php = filemtime( $lang_php );
 		// po파일이 더 최근에 갱신되었으면 php파일을 갱신한다.
 		if($time_po && $time_po > $time_php ) {
-			requireComponent('Needlworks.Core.Locale');
 			$langConvert = new Po2php;
 			$langConvert->open($lang_po);
 			$langConvert->save($lang_php);
@@ -65,25 +68,18 @@ final class Locale {
 		return false;
 	}
 
-	static function setDirectory($directory) {
-		global $__locale;
+	public function setDirectory($directory) {
 		if (!is_dir($directory))
 			return false;
-		$__locale['directory'] = $directory;
+		$this->directory = $directory;
 		return true;
 	}
 
-	static function setDomain($domain) {
-		global $__locale;
-		$__locale['domain'] = $domain;
-		return true;
-	}
-
-	static function match($locale) {
-		global $__locale;
-		if (strcasecmp($locale, $__locale['locale']) == 0)
+	public function match($locale, $scope = null) {
+		if(is_null($scope)) $scope = $this->domain;
+		if (strcasecmp($locale, $this->locale[$scope]) == 0)
 			return 3;
-		else if (strncasecmp($locale, $__locale['locale'], 2) == 0)
+		else if (strncasecmp($locale, $this->locale[$scope], 2) == 0)
 			return 2;
 		else if (strncasecmp($locale, 'en', 2) == 0)
 			return 1;
@@ -91,17 +87,16 @@ final class Locale {
 	}
 
 	static function getSupportedLocales() {
-		global $__locale;
 		$locales = array();
-		if ($dir = dir($__locale['directory'])) {
+		if ($dir = dir($this->directory)) {
 			while (($entry = $dir->read()) !== false) {
-				if (!is_dir($__locale['directory'] . '/' . $entry)) continue;
-				if (in_array($__locale['directory'],array('..','.'))) continue;
+				if (!is_dir($this->directory. '/' . $entry)) continue;
+				if (in_array($this->directory,array('..','.'))) continue;
 //				$locale = substr($entry, 0, strpos($entry, '.'));
 				$locale = $entry;
 				if (empty($locale) || $locale == 'messages' || $locale == 'po')
 					continue;
-				if ($fp = fopen($__locale['directory'] . '/' . $entry . '/description.php', 'r')) {
+				if ($fp = fopen($this->directory . '/' . $entry . '/description.php', 'r')) {
 					$desc = fgets($fp);
 					if (preg_match('/<\?(php)?\s*\/\/\s*(.+)/', $desc, $matches))
 						$locales[$locale] = _t(trim($matches[2]));
@@ -289,5 +284,55 @@ final class Po2php
 		$this->open($source_file);
 		$this->save($target_file);
 	}
+}
+
+/// Functions related to Locale object.
+
+function _t_noop($t) {
+	/* just for extracting by xgettext */
+	return $t;
+}
+
+// Administration panel language resource.
+// Translate text only.
+function _t($t) {
+	global $__locale, $__text;
+	$locale = Locale::getInstance();
+	if(isset($locale->resource['owner']) && isset($locale->resource['owner'][$t])) {
+		return $locale->resource['owner'][$t];	
+	} else return $t;
+}
+
+// Text with parameters.
+function _f($t) {
+	$t = _t($t);
+	if (func_num_args() <= 1)
+		return $t;
+	for ($i = 1; $i < func_num_args(); $i++) {
+		$arg = func_get_arg($i);
+		$t = str_replace('%' . $i, $arg, $t);
+	}
+	return $t;
+}
+
+// Function for skin language resource.
+// _t() follows the admin panel locale setting, however _text() follows the skin locale setting.
+function _text($t) {
+	global $__locale, $__text;
+	$locale = Locale::getInstance();
+	if(isset($locale->resource['blog']) && isset($locale->resource['blog'][$t])) {
+		return $locale->resource['blog'][$t];	
+	} else return $t;
+}
+
+function _textf($t) {
+	$t = _text($t);
+	if (func_num_args() <= 1)
+		return $t;
+	for ($i = 1; $i < func_num_args(); $i++) {
+		$arg = func_get_arg($i);
+		$t = str_replace('%' . $i, $arg, $t);
+	}
+	return $t;
 }
 ?>
