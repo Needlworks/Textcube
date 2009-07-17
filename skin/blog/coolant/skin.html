@@ -31,11 +31,11 @@
 			<li class="tab_home"><a href="[##_blog_link_##]">Home</a></li>
 			<li class="tab_cover"><a href="[##_blog_link_##]cover">Cover</a></li>
 			<li class="tab_notice"><a href="[##_blog_link_##]notice">Notice</a></li>
-			<li class="tab_line"><a href="[##_blog_link_##]line">Lines</a></li>
 			<li class="tab_tag"><a href="[##_taglog_link_##]">Tag List</a></li>
 			<li class="tab_location"><a href="[##_localog_link_##]">Location Log</a></li>
 			<li class="tab_keyword"><a href="[##_blog_link_##]keylog">Keywords</a></li>
 			<li class="tab_guestbook"><a href="[##_guestbook_link_##]">Guest Book</a></li>
+			<li class="tab_line"><a href="[##_blog_link_##]line">Lines</a></li>
 		</ul>
 	</div>
 	<hr />
@@ -101,7 +101,10 @@
 			</s_tblist>
 			<s_line>
 			<div class="Line">
-				<h3>Lines</h3>
+				<h3>Lines
+				<a href="[##_line_rssurl_##]" onclick="window.open(this.href); return false"><img src="./images/rss_12.png" alt="RSS Icon" /></a>
+				<a href="[##_line_atomurl_##]" onclick="window.open(this.href); return false"><img src="./images/atom_12.png" alt="ATOM Icon" /></a>
+				</h3>
 				<s_line_rep>
 					<span class="date">[##_line_rep_regdate_##]</span>
 					<span class="content">[##_line_rep_content_##]</span> 
@@ -618,13 +621,6 @@
 			</div>
 			</s_sidebar_element>
 
-			<s_sidebar_element>
-			<!-- 이올린 배너 -->
-			<div id="eolinBanner" class="banner module">
-				<a href="http://www.eolin.com" onclick="window.open(this.href); return false"><img src="./images/logo_eolin.gif" alt="Eolin" /></a>
-			</div>
-			</s_sidebar_element>
-			
 			<s_sidebar_element>
 			<!-- RSS 아이콘 -->
 			<div id="subscription" class="module">

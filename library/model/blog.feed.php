@@ -148,6 +148,27 @@ function getFeedItemByEntries($entries) {
 	return $channelItems;
 }
 
+function getFeedItemByLines($lines) {
+	global $database, $serviceURL, $defaultURL, $blog, $service;
+	$channelItems = array();
+	foreach($lines as $row) {
+		$entryURL = $defaultURL . '/line#' . ($row['id']);
+		$content = $row['content'];
+		$item = array(
+			'id' => $row['id'], 
+			'title' => RSSMessage(Timestamp::format5($row['created'])), 
+			'link' => $entryURL, 
+			'categories' => array(), 
+			'description' => RSSMessage($content), 
+			'pubDate' => $row['created'],
+			'updDate' => $row['created'],
+			'guid' => "$defaultURL/" . $row['id'],
+		);
+		array_push($channelItems, $item);
+	}
+	return $channelItems;
+}
+
 function getResponseFeedTotal($blogid, $mode = 'rss') {
 	global $database, $serviceURL, $defaultURL, $blogURL, $blog, $service;
 	if(empty($blogid)) $blogid = getBlogId();
@@ -426,6 +447,27 @@ function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss', $cate
 	return false;
 }
 
+function getLinesFeed($blogid, $category = 'public', $mode = 'atom') {
+	global $blog;
+	$channel = array();
+	$channel = initializeRSSchannel($blogid);	
+	$lineobj = Line::getInstance();
+	$lineobj->reset();
+	$lineobj->setFilter(array('created','bigger',Timestamp::getUNIXTime()-86400));
+	$lineobj->setFilter(array('blogid','equals',$blogid));
+	$lineobj->setFilter(array('category','equals',$category,true));
+	$lines = $lineobj->get();
+	
+	$channel['items'] = getFeedItemByLines($lines);
+	$channel['title'] = RSSMessage($blog['title']. ': '._text('Lines'));
+
+	$rss = array('channel' => $channel);
+
+	if($mode == 'rss') return publishRSS($blogid, $rss);
+	else if($mode == 'atom') return publishATOM($blogid, $rss);
+	return false;
+}
+
 function publishRSS($blogid, $data) {
 	global $blog;
 	$blogid = getBlogId();
@@ -508,9 +550,11 @@ function publishATOM($blogid, $data) {
 			if ($category = trim($category))
 				echo '    <category term="', htmlspecialchars($category, ENT_QUOTES), '" />', CRLF; 
 		}
-		echo '    <author>', CRLF;
-		echo '      <name>', htmlspecialchars($item['author'], ENT_QUOTES), '</name>', CRLF;
-		echo '    </author>', CRLF;
+		if(isset($item['author'])) {
+			echo '    <author>', CRLF;
+			echo '      <name>', htmlspecialchars($item['author'], ENT_QUOTES), '</name>', CRLF;
+			echo '    </author>', CRLF;
+		}
 		echo '    <id>', $item['link'] ,'</id>', CRLF;
 		if(isset($item['updDate']))
 			echo '    <updated>', Timestamp::getISO8601($item['updDate']), '</updated>', CRLF;
