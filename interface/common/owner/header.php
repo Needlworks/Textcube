@@ -200,10 +200,11 @@ if(isset($blogMenu['topMenu'])) {
 	if(Acl::check('group.administrators')) {
 		$blogContentMenuItem['skin'] = array(
 			array('menu'=>'skin','title'=>_t('스킨 선택'),'link'=>'/owner/skin'),
+			array('menu'=>'adminSkin','title'=>_t('관리 패널 스킨 선택'),'link'=>'/owner/skin/adminSkin'),
 			array('menu'=>'edit','title'=>_t('스킨 편집'),'link'=>'/owner/skin/edit'),
 			array('menu'=>'setting','title'=>_t('스킨 상세 설정'),'link'=>'/owner/skin/setting'),
-			array('menu'=>'widget','title'=>_t('위젯'),'link'=>'/owner/skin/sidebar'),
-			array('menu'=>'adminSkin','title'=>_t('관리 패널 스킨 선택'),'link'=>'/owner/skin/adminSkin')
+			array('menu'=>'sidebar','title'=>_t('사이드바 위젯'),'link'=>'/owner/skin/sidebar'),
+			array('menu'=>'coverpage','title'=>_t('표지 위젯'),'link'=>'/owner/skin/coverpage')
 		);
 	}
 	if(Acl::check('group.administrators')) {
@@ -491,8 +492,8 @@ foreach($blogTopMenuItem as $menuItem) {
 		$blogMenu['contentMenu'] = 'trash';
 	else if(in_array($blogMenu['contentMenu'],array('linkadd','linkedit','linkcategoryEdit','xfn')))
 		$blogMenu['contentMenu'] = 'link';
-	else if(in_array($blogMenu['contentMenu'],array('coverpage','sidebar')))
-		$blogMenu['contentMenu'] = 'widget';
+//	else if(in_array($blogMenu['contentMenu'],array('coverpage','sidebar')))
+//		$blogMenu['contentMenu'] = 'widget';
 		
 	foreach($blogContentMenuItem[$menuItem['menu']] as &$contentMenuItem) {
 		$PostIdStr = null;
