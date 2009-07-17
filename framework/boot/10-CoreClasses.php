@@ -367,6 +367,8 @@ final class Validator {
 					$rule[1] = $rule['min'];
 				if (isset($rule['max']))
 					$rule[2] = $rule['max'];
+				if (isset($rule['bypass']))
+					$rule[3] = $rule['bypass'];
 
 				switch ($rule[0]) {
 					case 'any':
@@ -382,11 +384,11 @@ final class Validator {
 						$array[$key] = Validator::getBool($value);
 						break;
 					case 'number':
-						if (!Validator::number($value, (isset($rule[1]) ? $rule[1] : null), (isset($rule[2]) ? $rule[2] : null)))
+						if (!Validator::number($value, (isset($rule[1]) ? $rule[1] : null), (isset($rule[2]) ? $rule[2] : null), (isset($rule[3]) ? $rule[3] : false)))
 							return false;
 						break;
 					case 'int':
-						if (!Validator::isInteger($value, (isset($rule[1]) ? $rule[1] : -2147483648), (isset($rule[2]) ? $rule[2] : 2147483647)))
+						if (!Validator::isInteger($value, (isset($rule[1]) ? $rule[1] : -2147483648), (isset($rule[2]) ? $rule[2] : 2147483647), (isset($rule[3]) ? $rule[3] : false)))
 							return false;
 						break;
 					case 'id':
@@ -483,21 +485,25 @@ final class Validator {
 		return true;
 	}
 
-	static function number($value, $min = null, $max = null) {
-		if (!is_numeric($value))
+	static function number($value, $min = null, $max = null, $bypass = false) {
+		if (($bypass === false) && !is_numeric($value))
 			return false;
-		if (isset($min) && ($value < $min))
-			return false;
-		if (isset($max) && ($value > $max))
-			return false;
+		if(!is_null($value)) {
+			if (isset($min) && ($value < $min))
+				return false;
+			if (isset($max) && ($value > $max))
+				return false;
+		}
 		return true;
 	}
 
-	static function isInteger($value, $min = -2147483648, $max = 2147483647) {
-		if (!preg_match('/^(0|-?[1-9][0-9]{0,9})$/', $value))
+	static function isInteger($value, $min = -2147483648, $max = 2147483647, $bypass = false) {
+		if (($bypass === false) && !preg_match('/^(0|-?[1-9][0-9]{0,9})$/', $value))
 			return false;
-		if (($value < $min) || ($value > $max))
-			return false;
+		if(!is_null($value)) {
+			if (($value < $min) || ($value > $max))
+				return false;
+		}
 		return true;
 	}
 

@@ -89,6 +89,8 @@ final class HTTPRequest {
 						case 'last-modified':
 						case 'location':
 						case 'transfer-encoding':
+						case 'X-Pingback':
+						case 'X-CommunicationFeed':
 							$this->_response[$header[0]] = trim($header[1]);
 							break;
 					}

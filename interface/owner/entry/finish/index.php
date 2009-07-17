@@ -13,7 +13,7 @@ $IV = array(
 		'contenteditor'    => array('string'),
 		'permalink'  => array('string', 'default' => ''),
 		'location'   => array('string', 'default' => '/'),
-		'latitude'   => array('number', 'default' => null, 'min' => -90.0, 'max' => 90.0),
+		'latitude'   => array('number', 'default' => null, 'min' => -90.0, 'max' => 90.0, 'bypass' => true),
 		'longitude'   => array('number', 'default' => null, 'min' => -180.0, 'max' => 180.0),
 		'tag'        => array('string', 'default' => ''),
 		'acceptcomment'    => array(array('0', '1'), 'default' => '0'),
