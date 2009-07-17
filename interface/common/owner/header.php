@@ -153,15 +153,21 @@ if(isset($blogMenu['topMenu'])) {
 	}
 	if(Acl::check('group.editors')) {
 		$blogContentMenuItem['entry'] = array(
-			array('menu'=>'post','title'=>_t('글쓰기'),'link'=>'/owner/entry/post'),
 			array('menu'=>'entry','title'=>_t('글 목록'),'link'=>'/owner/entry'),
+			array('menu'=>'post','title'=>_t('글 쓰기'),'link'=>'/owner/entry/post'),
+			array('menu'=>'notice','title'=>_t('공지 쓰기'),'link'=>'/owner/entry/post?category=-2'),
+			array('menu'=>'keylog','title'=>_t('키워드 만들기'),'link'=>'/owner/entry/post?category=-1'),
+			array('menu'=>'template','title'=>_t('서식 만들기'),'link'=>'/owner/entry/post?category=-4'),
 			array('menu'=>'category','title'=>_t('분류 관리'),'link'=>'/owner/entry/category'),
 			array('menu'=>'tag','title'=>_t('태그 관리'),'link'=>'/owner/entry/tag')
 		);
 	} else {
 		$blogContentMenuItem['entry'] = array(
+			array('menu'=>'entry','title'=>_t('글 목록'),'link'=>'/owner/entry'),
 			array('menu'=>'post','title'=>_t('글쓰기'),'link'=>'/owner/entry/post'),
-			array('menu'=>'entry','title'=>_t('글 목록'),'link'=>'/owner/entry')
+			array('menu'=>'post','title'=>_t('공지 쓰기'),'link'=>'/owner/entry/post?category=-2'),
+			array('menu'=>'post','title'=>_t('키워드 만들기'),'link'=>'/owner/entry/post?category=-1'),
+			array('menu'=>'post','title'=>_t('서식 만들기'),'link'=>'/owner/entry/post?category=-4')
 		);
 	}
 	if(Acl::check('group.administrators')) {
@@ -381,7 +387,7 @@ if( isset($service['admin_script']) ) {
 <?php
 	}
 }
-if($blogMenu['topMenu']=='entry' && in_array($blogMenu['contentMenu'],array('post','edit'))) {
+if($blogMenu['topMenu']=='entry' && in_array($blogMenu['contentMenu'],array('post','edit','keylog','template','notice'))) {
 ?>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/editor3.js"></script>
 <?php
@@ -455,9 +461,27 @@ foreach($blogTopMenuItem as $menuItem) {
 							<ul id="submenu-<?php echo $menuItem['menu'];?>" class="sub-menu">
 <?php
 	$firstChildClass = ' firstChild';
-	if (isset($_POST['category'])) $currentCategory = $_POST['category'];
+	if(isset($_POST['category']) && isset($_GET['category'])) {
+		$_POST['category'] == $_GET['category'];
+	}
+/*	if (isset($_POST['category'])) $currentCategory = $_POST['category'];
 	else if (isset($_GET['category'])) $currentCategory = $_GET['category'];
-	else $currentCategory = null;
+	else $currentCategory = null;*/
+	if($blogMenu['contentMenu'] == 'post' && isset($_GET['category'])) {
+		switch($_GET['category']) {
+			case -1:
+				$blogMenu['contentMenu'] = 'keylog';
+				break;
+			case -2:
+				$blogMenu['contentMenu'] = 'notice';
+				break;
+			case -4:
+				$blogMenu['contentMenu'] = 'template';
+				break;
+			default:
+		}
+	}
+	$currentCategory = null;
 	if(isset($_POST['status'])) {
 		if(($blogMenu['contentMenu'] == 'comment') && ($_POST['status'] == 'guestbook'))
 			$blogMenu['contentMenu'] = 'guestbook';
@@ -470,7 +494,7 @@ foreach($blogTopMenuItem as $menuItem) {
 	else if(in_array($blogMenu['contentMenu'],array('coverpage','sidebar')))
 		$blogMenu['contentMenu'] = 'widget';
 		
-	foreach($blogContentMenuItem[$menuItem['menu']] as $contentMenuItem) { 
+	foreach($blogContentMenuItem[$menuItem['menu']] as &$contentMenuItem) {
 		$PostIdStr = null;
 		if(strstr($contentMenuItem['menu'], 'adminMenu?name=') !== false) {
 			$pluginMenuValue = explode('/',substr($contentMenuItem['menu'], 15));

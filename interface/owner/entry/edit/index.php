@@ -68,7 +68,19 @@ if (isset($_GET['popupEditor'])) {
 if (isset($_POST['returnURL']) && !empty($_POST['returnURL'])) {
 	$_GET['returnURL'] = $_POST['returnURL'];
 }
-
+switch($entry['category']) {
+	case -1:
+		$titleText = _t('키워드');
+		break;
+	case -2:
+		$titleText = _t('공지');
+		break;
+	case -4:
+		$titleText = _t('서식');
+		break;
+	default:
+		$titleText = _t('글');
+}
 
 if (defined('__TEXTCUBE_POST__')) {
 	printOwnerEditorScript();
@@ -583,11 +595,10 @@ if (isset($_GET['popupEditor'])) {
 							<div id="part-editor" class="part">
 								<h2 class="caption"><span class="main-text"><?php
 
-
 if (defined('__TEXTCUBE_POST__')) {
-	echo _t('글을 작성합니다');
+	echo _f('%1 작성',$titleText);
 } else {
-	echo _t('선택한 글을 수정합니다');
+	echo _f('선택한 %1 수정',$titleText);
 }
 ?></span></h2>
 									
