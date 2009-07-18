@@ -81,7 +81,7 @@ printFormatterSelectScript();
 									return false;
 								}
 
-								function refreshLineSearch() {
+								function refreshLineSearch(mode) {
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/entry/refreshLine");
 									request.onSuccess = function() {
 										PM.showMessage("<?php echo _t('갱신되었습니다');?>", "center", "bottom");
@@ -89,7 +89,7 @@ printFormatterSelectScript();
 									request.onError = function() {
 										alert("<?php echo _t('갱신할 수 없었습니다');?>");
 									}
-									request.send();
+									request.send('mode='+mode);
 								}
 								
 								
@@ -239,7 +239,8 @@ foreach (getAllEditors() as $key => $value) {
 										<dl id="line-password-line" class="line">
 											<dt><span class="label"><?php echo _t('Line 글쓰기를 검색 공급자에 추가하기');?></span></dt>
 											<dd>
-												<input type="button" class="input-button" value="<?php echo _t('검색 표시줄에 Line 글쓰기 추가하기')?>" onclick="addLineSearch();" />
+												<input type="button" class="input-button" value="<?php echo _t('검색 표시줄에 Line 글쓰기 추가하기')?> (<?php echo _t('공개');?>)" onclick="addLineSearch('public');" />
+												<input type="button" class="input-button" value="<?php echo _t('검색 표시줄에 Line 글쓰기 추가하기')?> (<?php echo _t('비공개');?>)" onclick="addLineSearch('private');" />
 												<input type="button" class="input-button" value="<?php echo _t('새로 고침')?>" onclick="refreshLineSearch();" />
 											</dd>
 											<dd>
