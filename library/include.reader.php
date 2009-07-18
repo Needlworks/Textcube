@@ -18,7 +18,6 @@ $__requireBasics = array(		// Basics
 	'function/image',
 	'function/mail');
 $__requireLibrary = array(		// Library
-	'locale',
 	'auth');
 $__requireModel = array(	
 	'blog.service',
