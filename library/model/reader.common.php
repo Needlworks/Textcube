@@ -395,16 +395,28 @@ function addFeed($blogid, $group = 0, $url, $getEntireFeed = true, $htmlURL = ''
 		list($status, $feed, $xml) = getRemoteFeed($url);
 		if ($status > 0)
 			return $status;
-		POD::query("INSERT INTO {$database['prefix']}Feeds VALUES(null, '{$feed['xmlurl']}', '{$feed['blogURL']}', '{$feed['title']}', '{$feed['description']}', '{$feed['language']}', {$feed['modified']})");
-		$id = POD::insertId();
+
+		$id = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Feeds");
+		if (!$id) {
+			$id = 0;
+		}
+		$id++;
+
+		POD::query("INSERT INTO {$database['prefix']}Feeds VALUES($id, '{$feed['xmlurl']}', '{$feed['blogURL']}', '{$feed['title']}', '{$feed['description']}', '{$feed['language']}', {$feed['modified']})");
 		POD::query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($blogid, $id, $group)");
 		saveFeedItems($id, $xml);
 	} else {
 		$htmlURL = POD::escapeString(UTF8::lessenAsEncoding($htmlURL));
 		$blogTitle = POD::escapeString(UTF8::lessenAsEncoding($blogTitle));
 		$blogDescription = POD::escapeString(UTF8::lessenAsEncoding(stripHTML($blogDescription)));
-		POD::query("INSERT INTO {$database['prefix']}Feeds VALUES(null, '$escapedURL', '$htmlURL', '$blogTitle', '$blogDescription', 'en-US', 0)");
-		$id = POD::insertId();
+
+		$id = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Feeds");
+		if (!$id) {
+			$id = 0;
+		}
+		$id++;
+
+		POD::query("INSERT INTO {$database['prefix']}Feeds VALUES($id, '$escapedURL', '$htmlURL', '$blogTitle', '$blogDescription', 'en-US', 0)");
 		POD::query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($blogid, $id, $group)");
 	}
 	return 0;
@@ -606,8 +618,15 @@ function saveFeedItem($feedId, $item) {
 		return false;
 	} else {
 		if ($item['written'] == 0) $item['written'] = gmmktime();
-		if ($item['written'] > $deadLine)
-			POD::query("INSERT INTO {$database['prefix']}FeedItems VALUES(null, $feedId, '{$item['author']}', '{$item['permalink']}', '{$item['title']}', '{$item['description']}', '$tagString', '$enclosureString', {$item['written']})");
+		if ($item['written'] > $deadLine) {
+			$id = POD::queryCell("SELECT max(id) FROM {$database['prefix']}FeedItems");
+			if (!$id) {
+				$id = 0;
+			}
+			$id++;
+
+			POD::query("INSERT INTO {$database['prefix']}FeedItems VALUES($id, $feedId, '{$item['author']}', '{$item['permalink']}', '{$item['title']}', '{$item['description']}', '$tagString', '$enclosureString', {$item['written']})");
+		}
 	}
 	return true;
 }
