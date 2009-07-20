@@ -112,7 +112,7 @@ function getFeedItemByEntries($entries) {
 			'title' => RSSMessage($row['title']), 
 			'link' => $entryURL, 
 			'categories' => array(), 'description' => RSSMessage($content), 
-			'author' => '('.RSSMessage($row['author']).')', 
+			'author' => RSSMessage($row['author']), 
 			'pubDate' => $row['published'],
 			'updDate' => $row['modified'],
 			'comments' => $entryURL . '#entry' . $row['id'] . 'comment',
@@ -228,7 +228,7 @@ function getCommentFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
 			'title' => RSSMessage(UTF8::lessen($row['title'],30).' : '._textf('%1님의 댓글',$row['name'])), 
 			'link' => $commentURL.$row['id'], 
 			'categories' => array(), 'description' => RSSMessage($content), 
-			'author' => '('.RSSMessage($row['name']).')', 
+			'author' => RSSMessage($row['name']), 
 			'pubDate' => $row['written'],
 			'comments' => $commentURL,
 			'guid' => $commentURL.$row['id']
@@ -277,7 +277,7 @@ function getCommentFeedByEntryId($blogid = null, $entryId, $rawMode = false, $mo
 			'title' => RSSMessage(_textf('%1님의 댓글',$row['name'] )), 
 			'link' => $commentURL.$row['id'], 
 			'categories' => array(), 'description' => RSSMessage($content), 
-			'author' => '('.RSSMessage($row['name']).')', 
+			'author' => RSSMessage($row['name']), 
 			'pubDate' => $row['written'],
 			'comments' => $commentURL,
 			'guid' => $commentURL.$row['id']
@@ -312,7 +312,7 @@ function getTrackbackFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
 			'title' => RSSMessage($row['subject']), 
 			'link' => $trackbackURL.$row['id'], 
 			'categories' => array(), 'description' => RSSMessage($content), 
-			'author' => '('.RSSMessage(htmlspecialchars($row['site'])).')', 
+			'author' => RSSMessage(htmlspecialchars($row['site'])), 
 			'pubDate' => $row['written'],
 			'comments' => $trackbackURL,
 			'guid' => $trackbackURL.$row['id']
@@ -363,7 +363,7 @@ function getTrackbackFeedByEntryId($blogid = null, $entryId, $rawMode = false, $
 			'title' => RSSMessage($row['subject']), 
 			'link' => $trackbackURL.$row['id'], 
 			'categories' => array(), 'description' => RSSMessage($content), 
-			'author' => '('.RSSMessage(htmlspecialchars($row['site'])).')', 
+			'author' => RSSMessage(htmlspecialchars($row['site'])), 
 			'pubDate' => $row['written'],
 			'comments' => $trackbackURL,
 			'guid' => $trackbackURL.$row['id']
@@ -404,7 +404,7 @@ function getCommentNotifiedFeedTotal($blogid, $mode = 'rss') {
 			'link' => $row['url'], 
 			'categories' => array(), 
 			'description' => RSSMessage(htmlspecialchars($row['comment'])), 
-			'author' => '('.RSSMessage(htmlspecialchars($row['name'])).')', 
+			'author' => RSSMessage(htmlspecialchars($row['name'])), 
 			'pubDate' => $row['written'],
 			'comments' => $row['entryurl'],
 			'guid' => $row['url']
