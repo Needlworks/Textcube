@@ -660,7 +660,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		  id int(11) NOT NULL default 0,
 		  blogid int(11) NOT NULL default 0,
 		  category varchar(11) NOT NULL default 'public', 
-		  content varchar(512) NOT NULL default '', 
+		  content mediumtext NOT NULL default '', 
 		  created int(11) NOT NULL default 0,
 		  PRIMARY KEY (id),
 		  UNIQUE KEY (blogid, created),

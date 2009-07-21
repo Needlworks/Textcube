@@ -223,6 +223,16 @@ CREATE TABLE [##_dbPrefix_##]Filters (
   PRIMARY KEY (id)
 ) [##_charset_##];
 CREATE UNIQUE INDEX [##_dbPrefix_##]Filters_blogid_filtertype_pattern_idx ON [##_dbPrefix_##]Filters (blogid, filtertype, pattern);
+CREATE TABLE [##_dbPrefix_##]Lines (
+  id integer NOT NULL default 0,
+  blogid integer NOT NULL default 0,
+  category varchar(11) NOT NULL default 'public', 
+  content varchar(512) NOT NULL default '', 
+  created integer NOT NULL default 0,
+  PRIMARY KEY (id)
+) [##_charset_##];
+CREATE UNIQUE INDEX [##_dbPrefix_##]Lines_blogid_created_idx ON [##_dbPrefix_##]Lines (blogid, created);
+CREATE INDEX [##_dbPrefix_##]Lines_blogid_category_created_idx ON [##_dbPrefix_##]Lines (blogid, category, created);
 CREATE TABLE [##_dbPrefix_##]Links (
   pid integer NOT NULL default '0',
   blogid integer NOT NULL default '0',

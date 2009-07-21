@@ -226,6 +226,16 @@ CREATE TABLE [##_dbPrefix_##]Filters (
   PRIMARY KEY (id),
   UNIQUE KEY blogid (blogid, filtertype, pattern)
 ) [##_charset_##];
+CREATE TABLE [##_dbPrefix_##]Lines (
+  id int(11) NOT NULL default 0,
+  blogid int(11) NOT NULL default 0,
+  category varchar(11) NOT NULL default 'public', 
+  content mediumtext NOT NULL default '', 
+  created int(11) NOT NULL default 0,
+  PRIMARY KEY (id),
+  UNIQUE KEY (blogid, created),
+  KEY (blogid, category, created)
+) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]Links (
   pid int(11) NOT NULL default '0',
   blogid int(11) NOT NULL default '0',
