@@ -358,6 +358,18 @@ textarea
 	right                            : 85px;
 }
 
+#main-menu li.divider
+{
+	height                           : 3px !important;
+	border-bottom                    : 1px solid #bbb;
+}
+
+#main-menu li.divider span,
+#sub-menu li.divider
+{
+	display                          : none;
+}
+
 /* Layout Body ***********************************************************************************/
 
 #sub-menu-box
