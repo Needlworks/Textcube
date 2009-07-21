@@ -817,7 +817,38 @@ final class Timestamp {
 	static function getUNIXtime($time = null) {
 		return (isset($time) ? date('U', $time) : date('U'));
 	}
+		
+	static function getHumanReadable($time = null, $from = null) {
+		if(is_null($from)) $deviation = Timestamp::getUNIXtime() - Timestamp::getUNIXtime($time);
+		else $deviation = Timestamp::getUNIXtime($from) - Timestamp::getUNIXtime($time);
 
+		if($deviation > 0) { // Past.
+			if ($deviation < 60) {
+				return _f('%1초 전',$deviation);		
+			} else if ($deviation < 3600) {
+				return _f('%1분 전',intval($deviation/60));
+			} else if ($deviation < 86400) {
+				return _f('%1시간 전',intval($deviation/3600));
+			} else if ($deviation < 604800) {
+				return _f('%1일 전',intval($deviation/86400));
+			} else {
+				return _f('%1주 전',intval($deviation/604800));
+			}
+		} else {
+			$deviation = abs($deviation);
+			if ($deviation < 60) {
+				return _f('%1초 후',$deviation);		
+			} else if ($deviation < 3600) {
+				return _f('%1분 후',intval($deviation/60));
+			} else if ($deviation < 86400) {
+				return _f('%1시간 후',intval($deviation/3600));
+			} else if ($deviation < 604800) {
+				return _f('%1일 후',intval($deviation/86400));
+			} else {
+				return _f('%1주 후',intval($deviation/604800));
+			}			
+		}					
+	}	
 }
 
 final class Timer {

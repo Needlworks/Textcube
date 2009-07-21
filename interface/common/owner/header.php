@@ -154,6 +154,7 @@ if(isset($blogMenu['topMenu'])) {
 	if(Acl::check('group.editors')) {
 		$blogContentMenuItem['entry'] = array(
 			array('menu'=>'entry','title'=>_t('글 목록'),'link'=>'/owner/entry'),
+			array('menu'=>'line','title'=>_t('라인 관리'),'link'=>'/owner/entry/line'),
 			array('menu'=>'divider','title'=> '-','link'=>'/'),
 			array('menu'=>'post','title'=>_t('글 쓰기'),'link'=>'/owner/entry/post'),
 			array('menu'=>'notice','title'=>_t('공지 쓰기'),'link'=>'/owner/entry/post?category=-2'),
@@ -566,7 +567,7 @@ if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 <?php
 	$firstChildClass = ' firstChild';
 	$submenuURL = null;
-	foreach($blogContentMenuItem[$blogMenu['topMenu']] as $contentMenuItem) { 
+	foreach($blogContentMenuItem[$blogMenu['topMenu']] as $contentMenuItem) {
 		$PostIdStr = null;
 		if(strstr($contentMenuItem['menu'], 'adminMenu?name=') !== false) {
 			$pluginMenuValue = explode('/',substr($contentMenuItem['menu'], 15));

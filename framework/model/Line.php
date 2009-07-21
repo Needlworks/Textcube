@@ -74,9 +74,45 @@ final class Line extends Singleton {
 	}
 
 /// Aliases
+	/// conditions [array(page=>value<int>, linesforpage=>value<int>)]
 	public function getWithConditions($conditions) {
-		
-	}	
+		global $database;
+		$count = 10;
+		$offset = 0;
+		if(isset($conditions['page'])) $page = $conditions['page'];
+		if(isset($conditions['linesforpage'])) {
+			$count = $conditions['linesforpage'];
+			$offset = ($page - 1) * $count;
+		}
+		$query = new TableQuery($database['prefix'].'Lines');
+		if(isset($conditions['category'])) $query->setQualifier('category','equals',$conditions['category'],true);
+		if(isset($conditions['blogid'])) $query->setQualifier('blogid','equals',$conditions['blogid']);
+		else $query->setQualifier('blogid','equals',getBlogId());
+		if(isset($conditions['keyword'])) {
+			$query->setQualifier('content','like',$conditions['keyword'],true);
+		}
+		$query->setLimit($count, $offset);
+		$query->setOrder('created','desc');
+		return $query->getAll();
+	}
+
+/// Methods for specific function.
+	/// conditions [array(page=>value<int>, linesforpage=>value<int>)]
+	public function getFormattedList($conditions) {
+		//data [array(id, blogid, category, content, 
+		$data = $this->getWithConditions($conditions);
+		$view = '';
+		foreach($data as $d) {
+			$template = $conditions['template'];
+			$d['created'] = Timestamp::getHumanReadable($d['created']);
+			foreach($conditions['dress'] as $tag => $match) {
+				dress($tag, $d[$match],$template);
+			}
+			$view .= $template;
+		}
+		return $view;
+	}
+
 /// Private members	
 	private function validate() {
 		if(is_null($this->id)) $this->id = $this->getNextId();

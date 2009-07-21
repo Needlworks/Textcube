@@ -11,12 +11,14 @@ if (isset($cache->contents)) {
 	$itemsView = '';
 	$printDate = '';
 	foreach ($lines as $item) {
+		$time = Timestamp::getHumanReadable($item['created']);
+		/*
 		if($printDate != Timestamp::formatDate($item['created'])) {
 			$time = Timestamp::format5($item['created']);
 			$printDate = Timestamp::formatDate($item['created']);
 		} else {
 			$time = Timestamp::format('%H:%M',$item['created']);
-		}
+		}*/
 		$itemsView .= str_replace(
 			array(
 				'[##_line_rep_regdate_##]',

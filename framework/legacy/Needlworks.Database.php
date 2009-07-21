@@ -162,7 +162,12 @@ class TableQuery {
 				default:
 					$this->_relations[$name] = 'LIKE';
 			}
-			$this->_qualifiers[$name] = (is_null($escape) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
+			$this->_qualifiers[$name] = (is_null($escape) ? 
+					$value : ($escape ? '\'' . 
+						POD::escapeString(
+							(($this->_relations[$name] == 'LIKE') ? '%'.$value.'%' : $value)
+						) . 
+				'\'' : "'" . $value . "'"));
 		}
 	}
 	
