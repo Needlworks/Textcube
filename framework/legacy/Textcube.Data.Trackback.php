@@ -114,7 +114,7 @@ class Trackback {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'RemoteResponses');
 		$query->setQualifier('blogid', 'equals', getBlogId());
-		$query->setQualifier('type', 'trackback', false);
+		$query->setQualifier('type', 'equals', 'trackback', false);
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
