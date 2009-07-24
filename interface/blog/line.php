@@ -12,7 +12,14 @@ if(isset($_GET['key']) && isset($_GET['content'])) {
 	$password = Setting::getBlogSetting('LinePassword', null, true);
 	if($password == $_GET['key']) {
 		$lineobj->content = $_GET['content'];
-		$lineobj->showResult($lineobj->add());
+		$result = $lineobj->add();
+		$cache = new pageCache;
+		$cache->name = 'linesATOM';
+		$cache->purge();
+		$cache->reset();
+		$cache->name = 'linesRSS';
+		$cache->purge();
+		$lineobj->showResult($result);
 	}
 } else {
 	/// Prints public lines
@@ -27,4 +34,5 @@ if(isset($_GET['key']) && isset($_GET['content'])) {
 	require ROOT . '/interface/common/blog/end.php';
 	fireEvent('OBEnd');
 }
+exit;
 ?>
