@@ -5,31 +5,39 @@
 $IV = array(
 	'GET' => array(
 		'key' => array('string','default'=>''),
+		'mode' => array('string','default'=>'url'),
 		'content' => array('string','default'=>''),
 		'page' => array('int',1,'default'=>'')
 	),
 	'POST' => array(
 		'key' => array('string','default'=>''),
+		'mode' => array('string','default'=>'url'),
 		'content' => array('string','default'=>'')
 	)
 );
 
 require ROOT . '/library/preprocessor.php';
 
-if(!empty($_POST['key']) && !empty($_POST['content'])) {
-	$key = $_POST['key'];
+if(!empty($_POST['content'])) {
+	if(!empty($_POST['key'])) {
+		$key = $_POST['key'];
+	} else {
+		$key = null;
+	}
 	$content = $_POST['content'];
+	$mode = $_POST['mode'];
 } else {
 	$key = $_GET['key'];
 	$content = $_GET['content'];
-}	
+	$mode = $_GET['mode'];
+}
 
 $lineobj = Line::getInstance();
 $lineobj->reset();
 // If line comes.
-if(!empty($key) && !empty($content)) {
+if(!empty($content)) {
 	$password = Setting::getBlogSetting('LinePassword', null, true);
-	if($password == $key) {
+	if(($password === $key) || doesHaveOwnership()) {
 		$lineobj->content = $content;
 		$result = $lineobj->add();
 		$cache = new pageCache;
@@ -38,7 +46,10 @@ if(!empty($key) && !empty($content)) {
 		$cache->reset();
 		$cache->name = 'linesRSS';
 		$cache->purge();
-		$lineobj->showResult($result);
+		if($mode == 'url') $lineobj->showResult($result);
+		else {
+			Respond::ResultPage(0);
+		}
 	}
 } else {
 	/// Prints public lines

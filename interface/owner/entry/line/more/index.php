@@ -40,7 +40,7 @@ if(empty($contentView)) {
 	$buttonView = '';
 } else {
 	$m = _t('더 보기');
-	$buttonView = '<input type="submit" class="more-button" value="'._t('더 보기').'" onclick="getMoreContent('.($conditions['page']+1).','.$conditions['linesforpage'].');return false;" />';
+	$buttonView = '<input type="submit" class="more-button" value="'._t('더 보기').'" onclick="getMoreContent('.($conditions['page']+1).','.$conditions['linesforpage'].',\'bottom\');return false;" />';
 }
 $result = array('error'=>0,'contentView'=> $contentView,'buttonView'=>$buttonView);
 Respond::PrintResult($result);

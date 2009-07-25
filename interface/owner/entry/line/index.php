@@ -58,7 +58,7 @@ $view = $line->getFormattedList($conditions);
 $m = _t('더 보기');
 $nextPage = $conditions['page'] + 1;
 $button['template'] = <<< EOS
-				<input type="submit" class="more-button" value="{$m}" onclick="getMoreContent({$nextPage},{$conditions['linesforpage']});return false;" />
+				<input type="submit" class="more-button" value="{$m}" onclick="getMoreContent({$nextPage},{$conditions['linesforpage']},'bottom');return false;" />
 EOS
 ?>
 						<script type="text/javascript">
@@ -76,17 +76,15 @@ EOS
 								PM.addRequest(request, "<?php echo _t('라인을 삭제하고 있습니다.');?>");
 								request.send("id="+id);
 							}
-							function getMoreContent(page,lines) {
+							
+							function getMoreContent(page,lines,mode) {
 								var request = new HTTPRequest("POST","<?php echo $blogURL;?>/owner/entry/line/more/");
 								request.onSuccess = function () {
 									PM.removeRequest(this);
 									contentView = this.getText("/response/contentView");
 									buttonView = this.getText("/response/buttonView");
-									Ocontent = document.getElementById("line-content");
-									Pcontent = document.getElementById("line-more-page");
-									Ocontent.innerHTML = Ocontent.innerHTML+contentView;
-									Pcontent.innerHTML = buttonView;
-
+									if(page == 1 && lines == 1) buttonView = "";
+									updateList(contentView, buttonView, mode);
 									PM.showMessage("<?php echo _t('새 라인을 불러왔습니다.');?>", "center", "bottom");
 								}
 								request.onError = function () {
@@ -98,6 +96,38 @@ EOS
 									+"&lines="+lines<?php
 									if(isset($conditions['category'])) echo '+"&category="+'.$conditions['category'];
 									if(isset($conditions['keyword'])) echo '+"&keyword='.htmlspecialchars($searchKeyword).'"';?>);
+							}
+							
+							function updateList(contentView, buttonView, position) {
+								Ocontent = document.getElementById("line-content");
+								Pcontent = document.getElementById("line-more-page");
+								if(position == "top") {
+									Ocontent.innerHTML = contentView+Ocontent.innerHTML;
+								} else {
+									Ocontent.innerHTML = Ocontent.innerHTML+contentView;
+								}
+								if(buttonView != "") Pcontent.innerHTML = buttonView;
+								return true;							
+							}
+							
+							function writeLine() {
+								contentForm = document.getElementById("line-write");
+								content = contentForm.value;
+								
+								var request = new HTTPRequest("POST","<?php echo $blogURL;?>/line/");
+								request.onSuccess = function () {
+									PM.removeRequest(this);
+									PM.showMessage("<?php echo _t('새 라인을 저장했습니다.');?>", "center", "bottom");
+									getMoreContent(1,1,"top");
+									Icontent = document.getElementById("line-write");
+									Icontent.value = '<?php echo _t('내용을 입력하세요');?>';
+								}
+								request.onError = function () {
+									PM.removeRequest(this);
+									alert("<?php echo _t('라인을 저장할 수 없었습니다.');?>");
+								}
+								PM.addRequest(request, "<?php echo _t('라인을 저장하고 있습니다.');?>");
+								request.send("content="+content+"&mode=ajax");				
 							}
 							//]]>
 						</script>
@@ -116,6 +146,11 @@ EOS
 							<hr class="hidden" />
 							
 							<div id="line-content-box">
+								<form id="line-write-form" method="post" action="<?php echo $blogURL;?>/line">
+									<input type="text" id="line-write" value="<?php echo _t('내용을 입력하세요');?>" onkeypress="if (event.keyCode == 13) { return false; }" onclick="if(this.value=='<?php echo _t('내용을 입력하세요');?>') { this.value = ''}" />
+									<input type="submit" class="input-button" value="<?php echo _t('라인 쓰기');?>" onclick="writeLine();return false;" />
+
+								</form>
 								<div id="line-content">
 <?php echo $view;?>
 								</div>
