@@ -178,15 +178,15 @@ TTReader.prototype.selectFeed = function(caller, id)
 TTReader.prototype.selectEntry = function(id)
 {
 	this.refreshEntry(this.selectedGroup, this.selectedFeed, id);
-	tempClass = document.getElementById("entryTitleList" + this.selectedEntry).className;
-	document.getElementById("entryTitleList" + this.selectedEntry).className = tempClass.replace(/active-class/, "inactive-class");
+	tempClass = document.getElementById("entrytitleList" + this.selectedEntry).className;
+	document.getElementById("entrytitleList" + this.selectedEntry).className = tempClass.replace(/active-class/, "inactive-class");
 	this.selectedEntry = id;
 	this.selectEntryObject(id);
 }
 
 TTReader.prototype.selectEntryObject = function(id)
 {
-	var caller = getObject("entryTitleList" + id);
+	var caller = getObject("entrytitleList" + id);
 	if(caller) {
 		this.selectedEntryObject = caller;
 		this.selectedEntryObject.className = "read active-class";
@@ -255,7 +255,7 @@ TTReader.prototype.refreshEntryList = function(group, feed)
 		getObject("listup").innerHTML = this.getText("/response/view");
 		Reader.selectedEntry = this.getText("/response/firstEntryId");
 		try {
-			Reader.selectedEntryObject = getObject("entryTitleList" + Reader.selectedEntry).parentNode;
+			Reader.selectedEntryObject = getObject("entrytitleList" + Reader.selectedEntry).parentNode;
 		} catch(e) {
 			Reader.selectedEntryObject = null;
 		}
@@ -313,7 +313,7 @@ TTReader.prototype.refreshEntry = function(group, feed, entry)
 		getObject("blogTitle").innerHTML = this.getText("/response/blog");
 		getObject("entry").innerHTML = this.getText("/response/view");
 		try {
-			getObject("entryTitleList" + Reader.selectedEntry).className = "read active-class";
+			getObject("entrytitleList" + Reader.selectedEntry).className = "read active-class";
 		} catch(e) { }
 		
 		Reader.setListPosition(true);
@@ -357,7 +357,7 @@ TTReader.prototype.nextEntry = function()
 	var request = new HTTPRequest("POST", this.blogURL + "/owner/reader/view/entry/previous/");
 	request.onSuccess = function () {
 		if(this.getText("/response/id") != 0) {
-			if(getObject("entryTitleList" + this.getText("/response/id")) == null)
+			if(getObject("entrytitleList" + this.getText("/response/id")) == null)
 				Reader.listScroll(true);
 			Reader.selectedEntry = this.getText("/response/id");
 			Reader.selectEntry(Reader.selectedEntry);
@@ -612,7 +612,7 @@ TTReader.prototype.saveSetting = function()
 TTReader.prototype.markAsUnread = function(id)
 {
 	var request = new HTTPRequest("POST", this.blogURL + "/owner/reader/action/mark/unread/");
-	request.presetProperty(getObject("entryTitleList" + id), "className", "unread active-class");
+	request.presetProperty(getObject("entrytitleList" + id), "className", "unread active-class");
 	request.onSuccess = function () {
 		PM.showMessage(s_markedAsUnread, "center", "bottom");
 	}
