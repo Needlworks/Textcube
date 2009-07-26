@@ -5,6 +5,7 @@
 
 $__requireComponent = array();
 $__requireBasics = array(
+	'function/file',
 	'function/string',
 	'function/time',
 	'function/javascript',
