@@ -654,7 +654,7 @@ function replaceSkinTag( & $contents, $tag) {
 }
 
 function insertGeneratorVersion(&$contents) {
-	$pattern = '/(<head.*>)/Ui';
+	$pattern = '/(<head>)/Ui';
 	$replacement = '$1'.CRLF.'<meta name="generator" content="'.TEXTCUBE_NAME.' '.TEXTCUBE_VERSION.'" />';
 
 	$contents = preg_replace($pattern, $replacement, $contents);
