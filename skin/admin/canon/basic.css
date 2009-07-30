@@ -693,48 +693,48 @@ h2.caption span
 /* tab */
 .tabs-box
 {
-	background-image: url('./image/bg_tabbox.jpg');
-	background-position: left bottom;
-	line-height: 2.3em;
-	list-style-type: none;
-	height: 2.55em;
-	overflow: hidden;
-	padding-left: 10px;
+	background-image                 : url('./image/bg_tabbox.jpg');
+	background-position              : left bottom;
+	line-height                      : 2.3em;
+	list-style-type                  : none;
+	height                           : 2.55em;
+	overflow                         : hidden;
+	padding-left                     : 10px;
 }
 .tabs-box li
 {
 	background-image                 : url("./image/bg_submenu_item_selected.gif");
-	background-color: #EFEFEF;
-	border: 1px solid #D9D9D9;
-	border-bottom: 1px solid #B9B9B9;
-	cursor: pointer;
-	display: block;
-	float: left;
-	list-style-type: none;
-	margin: 0 1px;
+	background-color                 : #EFEFEF;
+	border                           : 1px solid #D9D9D9;
+	border-bottom                    : 1px solid #B9B9B9;
+	cursor                           : pointer;
+	display                          : block;
+	float                            : left;
+	list-style-type                  : none;
+	margin                           : 0 1px;
 }
 
 .right li
 {
-float: right !important;
+	float                            : right !important;
 }
 
 .tabs-box li a
 {
-	padding: 0 1em;
-	text-decoration: none;
+	padding                          : 0 1em;
+	text-decoration                  : none;
 }
 
 .tabs-box li.selected
 {
-	background-image: none;
-	background-color: #FFF;
-	border-bottom: 1px solid #FFF;
+	background-image                 : none;
+	background-color                 : #FFF;
+	border-bottom                    : 1px solid #FFF;
 }
 
 .tabs-box li.selected a
 {
-	cursor: default;
+	cursor                           : default;
 }
 
 /* category form */
