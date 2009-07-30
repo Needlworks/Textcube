@@ -26,7 +26,7 @@ $conditions['template'] = <<<EOS
 			<dl id="line_[##_id_##]" class="line">
 				<dt class="date">[##_date_##]</dt>
 				<dd class="content">[##_content_##]</dd>
-				<dd class="delete" onclick="deleteLine('[##_id_##]');return false;">{$d}</dd>
+				<dd class="delete input-button" onclick="deleteLine('[##_id_##]');return false;">{$d}</dd>
 			</dl>
 EOS;
 $conditions['dress'] = array('id'=>'id','date'=>'created','content'=>'content');
@@ -36,11 +36,11 @@ if(empty($contentView)) {
 	$contentView = '
 			<dl class="end">
 				<dt class="date"></dt>
-				<dd class="content">'._t('더이상 라인이 없습니다').'</dd>';
+				<dd class="content">'._t('더이상 라인이 없습니다').'</dd></dl>';
 	$buttonView = '';
 } else {
 	$m = _t('더 보기');
-	$buttonView = '<input type="submit" class="more-button" value="'._t('더 보기').'" onclick="getMoreContent('.($conditions['page']+1).','.$conditions['linesforpage'].',\'bottom\');return false;" />';
+	$buttonView = '<input type="submit" class="more-button input-button" value="'._t('더 보기').'" onclick="getMoreContent('.($conditions['page']+1).','.$conditions['linesforpage'].',\'bottom\');return false;" />';
 }
 $result = array('error'=>0,'contentView'=> $contentView,'buttonView'=>$buttonView);
 Respond::PrintResult($result);

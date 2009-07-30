@@ -49,7 +49,7 @@ $conditions['template'] = <<<EOS
 			<dl id="line_[##_id_##]" class="line">
 				<dt class="date">[##_date_##]</dt>
 				<dd class="content">[##_content_##]</dd>
-				<dd class="delete" onclick="deleteLine('[##_id_##]');return false;">{$d}</dd>
+				<dd class="delete input-button" onclick="deleteLine('[##_id_##]');return false;">{$d}</dd>
 			</dl>
 EOS;
 $conditions['dress'] = array('id'=>'id','date'=>'created','content'=>'content');
@@ -58,7 +58,7 @@ $view = $line->getFormattedList($conditions);
 $m = _t('더 보기');
 $nextPage = $conditions['page'] + 1;
 $button['template'] = <<< EOS
-				<input type="submit" class="more-button" value="{$m}" onclick="getMoreContent({$nextPage},{$conditions['linesforpage']},'bottom');return false;" />
+				<input type="submit" class="more-button input-button" value="{$m}" onclick="getMoreContent({$nextPage},{$conditions['linesforpage']},'bottom');return false;" />
 EOS
 ?>
 						<script type="text/javascript">
