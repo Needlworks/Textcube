@@ -1190,16 +1190,20 @@ form input:focus, textarea:focus
 /* line */
 
 /*-------------------------------*/
-.Line .content
+.line dl.box
 {
-	color: #666;
+	border:1px solid #f5f5f5;
+	border-bottom:2px solid #f1f1f1;
+	border-right:2px solid #f1f1f1;
+	padding:10px; 
+	-moz-border-radius:4px; 
+	-webkit-border-radius:4px;
+	margin-bottom:10px;
 }
-
-.Line .date
+.line dl.box dt
 {
-	color: #AAE;
+	border-bottom: 1px solid #eee;
 }
-
 /*-------------------------------*/
 
 /* cover */
