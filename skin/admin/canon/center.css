@@ -461,6 +461,13 @@
 	padding-right                    : 15px;
 }
 
+.widget-container .section
+{
+	border                           : 1px solid #eee;
+	-moz-border-radius               : 6px;
+	-webkit-border-radius            : 6px;
+}
+
 /* system dialog --------------------------------------------------------------------------------*/
 .part .system-dialog
 {

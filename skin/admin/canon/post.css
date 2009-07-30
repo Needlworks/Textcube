@@ -294,6 +294,57 @@ table.data-inbox tbody tr td.ip
 	display                          : none;
 }
 
+/* Line *******************************************************************************************/
+
+#part-post-line #line-content-box
+{
+	margin-top                       : 10px;
+	margin-bottom                    : 25px;
+}
+
+#line-write-form #line-write
+{
+	width                            : 850px;
+}
+
+#line-write-form .input-button
+{
+	width                            : 100px;
+}
+
+#line-content dl
+{
+	border                           : 1px solid #eee;
+	border-radius                    : 6px;
+	-moz-border-radius               : 6px;
+	-webkit-border-radius            : 6px;
+	margin                           : 10px;
+}
+
+#line-content dl dt
+{
+	margin                           : 10px;	
+}
+
+#line-content dd.delete
+{
+	width                            : 40px;
+	text-align                       : center;
+	position                         : relative;
+	top                              : -10px;
+	margin-left                      : 880px;
+	margin-bottom                    : 10px;
+}
+
+#line-more-page .more-button
+{
+	width                            : 100% !important;
+	display                          : block;
+	border-radius                    : 6px;
+	-moz-border-radius               : 6px;
+	-webkit-border-radius            : 6px;
+}
+
 /* Tree ******************************************************************************************/
 
 #part-post-tree div.data-inbox
