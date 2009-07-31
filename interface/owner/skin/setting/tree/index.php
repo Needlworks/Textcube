@@ -17,7 +17,7 @@ require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 if(isset($suri['id'])) {
 	$categories = getCategories($blogid);
-	respond::PrintResult(array('code' => urlencode(getCategoriesViewInSkinSetting(getEntriesTotalCount($blogid), getCategories($blogid), $suri['id']))));
+	Respond::PrintResult(array('code' => urlencode(getCategoriesViewInSkinSetting(getEntriesTotalCount($blogid), getCategories($blogid), $suri['id']))));
 	exit;
 } else {
 	if (setTreeSetting($blogid, $_POST)) {

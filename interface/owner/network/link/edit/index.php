@@ -6,7 +6,7 @@ require ROOT . '/library/preprocessor.php';
 requireModel("blog.link");
 
 if (!$link = getLink($blogid, $suri['id']))
-	respond::ErrorPage(_t('링크 정보가 존재하지 않습니다.'));
+	Respond::ErrorPage(_t('링크 정보가 존재하지 않습니다.'));
 $method = empty($link['rss']) ? 1 : 0;
 require ROOT . '/interface/common/owner/header.php';
 

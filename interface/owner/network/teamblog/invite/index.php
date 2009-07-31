@@ -14,8 +14,8 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 if (!acl::check('group.owners'))
-	respond::ResultPage(false);
+	Respond::ResultPage(false);
 
 $result = Blog::addUser($_POST['email'], $_POST['name'], $_POST['comment'], $_POST['senderName'], $_POST['senderEmail']);
-respond::ResultPage($result);
+Respond::ResultPage($result);
 ?>

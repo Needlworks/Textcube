@@ -12,7 +12,7 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 
 if (empty($_POST['adminSkin']) || !file_exists(ROOT."/skin/admin/{$_POST['adminSkin']}/index.xml") || !setBlogSetting("adminSkin", $_POST['adminSkin']))
-	respond::ResultPage(false);
+	Respond::ResultPage(false);
 else
-	respond::ResultPage(true);
+	Respond::ResultPage(true);
 ?>

@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-final class Config extends Singleton {
+final class Model_Config extends Singleton {
 	public $database, $service;
 
 	public static function getInstance() {

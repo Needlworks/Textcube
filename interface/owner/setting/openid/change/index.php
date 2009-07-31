@@ -22,8 +22,8 @@ if( OpenIDConsumer::setComment( $_POST['openidonlycomment'] ) &&
 		activatePlugin('CL_OpenID');
 	}
 	Skin::purgeCache();
-	respond::ResultPage(0);
+	Respond::ResultPage(0);
 } else {
-	respond::ResultPage(-1);
+	Respond::ResultPage(-1);
 }
 ?>

@@ -10,7 +10,7 @@ requireModel( "blog.api" );
 /*--------- API main ---------------*/
 
 if (Setting::getBlogSettingGlobal('useBlogAPI', 0) != 1) {
-	respond::NotFoundPage();
+	Respond::NotFoundPage();
 	exit;
 }
 

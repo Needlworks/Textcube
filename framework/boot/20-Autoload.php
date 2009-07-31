@@ -39,7 +39,7 @@ function requireLibrary($name) {
 		array_push($__requireLibrary,$name);
 	}
 }
-
+*/
 class Autoload {
 	static function load($className) {
 		$pos =strrpos($className,'_');
@@ -60,5 +60,5 @@ class Autoload {
 		}
 	}
 }
-spl_autoload_register(array('Autoload', 'load'));*/
+spl_autoload_register(array('Autoload', 'load'));
 ?>

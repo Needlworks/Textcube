@@ -2,12 +2,10 @@
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+
 require ROOT . '/library/preprocessor.php';
 requireComponent('Textcube.Control.Openid');
 
-if (false) {
-	fetchConfigVal();
-}
 $entryId = $suri['id'];
 $IV = array(
 	'GET' => array(
@@ -22,8 +20,9 @@ $IV = array(
 		"comment_$entryId" => array('string', 'default' => '')
 	)
 );
+
 if(!Validator::validate($IV))
-	respond::PrintResult(array('error' => 1, 'description' => 'Illegal parameters'));
+	Respond::PrintResult(array('error' => 1, 'description' => 'Illegal parameters'));
 requireStrictRoute();
 header('Content-Type: text/xml; charset=utf-8');
 if (!isset($_GET['__T__']) || !isset($_POST['key']) || $_POST['key'] != md5(filemtime(ROOT . '/config.php'))) {

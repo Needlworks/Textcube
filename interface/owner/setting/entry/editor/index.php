@@ -11,13 +11,13 @@ if(array_key_exists('useBlogAPI',  $_REQUEST)) {
 } else $useBlogAPI = '0';
 
 if (!array_key_exists('defaultEditor',$_REQUEST) || !array_key_exists('defaultFormatter',$_REQUEST))
-	respond::ResultPage( -1);
+	Respond::ResultPage( -1);
 
 if (setBlogSetting("defaultEditor", $_REQUEST['defaultEditor']) 
 		&& setBlogSetting("defaultFormatter", $_REQUEST['defaultFormatter']) 
 		&& setBlogSetting("useBlogAPI", $useBlogAPI) 
 		&& setBlogSetting("blogApiPassword", $_REQUEST['blogApiPassword']) ) {
-	respond::ResultPage(0);
+	Respond::ResultPage(0);
 }
-respond::ResultPage( -1);
+Respond::ResultPage( -1);
 ?>

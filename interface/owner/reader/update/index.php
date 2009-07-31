@@ -9,10 +9,10 @@ if(isset($suri['id'])) {
 	if ($feed = POD::queryRow("SELECT * 
 		FROM {$database['prefix']}Feeds 
 		WHERE id = {$suri['id']}")) {
-		respond::ResultPage(updateFeed($feed));
+		Respond::ResultPage(updateFeed($feed));
 		exit;
 	} else {
-		respond::ResultPage(-1);
+		Respond::ResultPage(-1);
 		exit;
 	}
 }

@@ -5,5 +5,5 @@
 
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
-respond::ResultPage(markAsReadAll($blogid));
+Respond::ResultPage(markAsReadAll($blogid));
 ?>

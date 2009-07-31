@@ -11,8 +11,8 @@ require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 $result = cancelInvite($_POST['userid']);
 if ($result) {
-	respond::ResultPage(0);
+	Respond::ResultPage(0);
 } else {
-	respond::ResultPage(1);
+	Respond::ResultPage(1);
 }
 ?>

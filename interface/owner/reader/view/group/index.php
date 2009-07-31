@@ -15,5 +15,5 @@ ob_start();
 printFeedGroups($blogid, $_POST['group'], $_POST['starred'] == '1', $_POST['keyword'] == '' ? null : $_POST['keyword']);
 $result['view'] = escapeCData(ob_get_contents());
 ob_end_clean();
-respond::PrintResult($result);
+Respond::PrintResult($result);
 ?>

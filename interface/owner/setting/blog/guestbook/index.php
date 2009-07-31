@@ -11,7 +11,7 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 if (setGuestbook($blogid, $_GET['write'], $_GET['comment'])) {
-	respond::ResultPage(0);
+	Respond::ResultPage(0);
 }
-respond::ResultPage( - 1);
+Respond::ResultPage( - 1);
 ?>

@@ -5,7 +5,7 @@
 
 class URIError extends Exception {};
 
-final class Context extends Singleton
+final class Model_Context extends Singleton
 {
 	public $URLInfo, $suri;
 	public static $blogid, $isStrictURL;
@@ -27,7 +27,7 @@ final class Context extends Singleton
 	
 	private function __URIParser() {
 		if(!isset($this->URLInfo)) $this->__URIInterpreter();
-		$config = Config::getInstance();
+		$config = Model_Config::getInstance();
 		$url = $this->URLInfo['fullpath'];
 		$defaultblogid = Setting::getServiceSetting("defaultBlogId",1);
 		$suri            = array('url' => $url, 'value' => '');
@@ -74,7 +74,12 @@ final class Context extends Singleton
 				Respond::NotFoundPage();
 		}
 		if(isset($this->URLInfo['interfacePath'])) {
-			$depth = substr_count($this->URLInfo['interfacePath'], '/') - 1;
+			if(strpos($this->URLInfo['interfacePath'],'interface/blog/comment') === 0 ||
+				strpos($this->URLInfo['interfacePath'],'interface/blog/trackback') === 0) {
+				$depth = substr_count($this->URLInfo['interfacePath'], '/') - 2;
+			} else {
+				$depth = substr_count($this->URLInfo['interfacePath'], '/') - 1;
+			}
 		} else {
 			$depth = substr_count(ROOT, '/');
 		}
@@ -119,7 +124,7 @@ final class Context extends Singleton
 		$blogid = $this->blogid;
 		$gCacheStorage = new globalCacheStorage; // Initialize global cache
 
-		$config = Config::getInstance();
+		$config = Model_Config::getInstance();
 
 		$suri = $this->suri;
 		$blog = Setting::getBlogSettingsGlobal($this->blogid);
@@ -195,7 +200,7 @@ final class Context extends Singleton
  		return POD::queryCell("SELECT blogid FROM {$database['prefix']}BlogSettings WHERE name = 'secondaryDomain' AND (value = '$domain' OR  value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) ."')");	
 	}
 	private function __getFancyURLpostfix() {	
-		$config = Config::getInstance();
+		$config = Model_Config::getInstance();
 		switch($config->service['fancyURL']) {
 			case 0: return '/index.php?';
 			case 1: return '/?';

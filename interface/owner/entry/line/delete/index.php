@@ -10,14 +10,14 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 
-$line = Line::getInstance();
+$line = Model_Line::getInstance();
 $line->reset();
 $line->setFilter(array('blogid','equals',getBlogId()));
 $line->setFilter(array('id','equals',$_POST['id']));
 
 if($line->delete()) {
-	respond::ResultPage(0);
+	Respond::ResultPage(0);
 } else {
-	respond::ResultPage(-1);
+	Respond::ResultPage(-1);
 }
 ?>

@@ -14,5 +14,5 @@ $IV = array(
 
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
-respond::ResultPage(setReaderSetting($blogid, $_POST));
+Respond::ResultPage(setReaderSetting($blogid, $_POST));
 ?>

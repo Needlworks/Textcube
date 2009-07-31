@@ -31,11 +31,11 @@ $coverpageOrderData = getCoverpageModuleOrderData($coverpageCount);
 $coverpageNumber = $_REQUEST['coverpageNumber'];
 $modulePos = $_REQUEST['modulePos'];
 
-if (($coverpageNumber < 0) || ($coverpageNumber >= $coverpageCount)) respond::ErrorPage();
-if (!isset($coverpageOrderData[$coverpageNumber]) || !isset($coverpageOrderData[$coverpageNumber][$modulePos])) respond::ErrorPage();
+if (($coverpageNumber < 0) || ($coverpageNumber >= $coverpageCount)) Respond::ErrorPage();
+if (!isset($coverpageOrderData[$coverpageNumber]) || !isset($coverpageOrderData[$coverpageNumber][$modulePos])) Respond::ErrorPage();
 
 $pluginData = $coverpageOrderData[$coverpageNumber][$modulePos];
-if ($pluginData['type'] != 3) respond::ErrorPage();
+if ($pluginData['type'] != 3) Respond::ErrorPage();
 
 $plugin = $pluginData['id']['plugin'];
 $handler = $pluginData['id']['handler'];

@@ -11,7 +11,7 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 if (!empty($_GET['language']) && setBlogLanguage($blogid, $_GET['language'], $_GET['blogLanguage'])) {
-	respond::ResultPage(true);
+	Respond::ResultPage(true);
 }
-respond::ResultPage(false);
+Respond::ResultPage(false);
 ?>

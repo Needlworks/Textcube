@@ -19,7 +19,7 @@ else {
 }
 //TODO : 현재 checkAjaxRequest가 동작하지 않으므로 관련부분 주석처리
 //if ( checkAjaxRequest() ) {
-	respond::ResultPage( $result );
+	Respond::ResultPage( $result );
 /*}
 else {
 	if (!$result) {
@@ -28,7 +28,7 @@ else {
 	else {
 		$message = '대표 주소 변경에 실패 하였습니다.';
 	}
-	respond::NoticePage($message, $blogURL."/owner/setting/account");
+	Respond::NoticePage($message, $blogURL."/owner/setting/account");
 }
 */
 ?>

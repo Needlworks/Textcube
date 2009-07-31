@@ -132,18 +132,35 @@ final class Dispatcher {
 			$this->URLInfo = $URLInfo;
 		} else {
 			if (!empty($URLInfo['fragment'])) {
-				if(	in_array($URLInfo['fragment'][0],
-					 array('api','archive','attachment','author','category','checkup','cover','cron','entry','feeder','foaf','guestbook','iMazing','keylog','location','locationSuggest','logout','notice','page','plugin','pluginForOwner','search','suggest','sync','tag','ttxml','line','cfeed')))
-				{
-					$pathPart = $URLInfo['fragment'][0];
-					$interfacePath = 'interface/blog/'.$pathPart.'.php';
-				} else if (in_array($URLInfo['fragment'][0],array('rss','atom')) &&
-						$URLInfo['fragment'][1] == 'category') {
-					$pathPart = $URLInfo['fragment'][0].'/category';
-					$interfacePath = 'interface/'.$pathPart.'/index.php';
-				} else if (is_numeric(strtok(end($URLInfo['fragment']), '&'))) {
-					$pathPart = count($URLInfo['fragment'])==1 ? null : implode('/', array_slice($URLInfo['fragment'], 0, count($URLInfo['fragment']) - 1));
+				if (is_numeric(strtok(end($URLInfo['fragment']), '&'))) {
+					array_pop($URLInfo['fragment']);	
+				//	$pathPart = count($URLInfo['fragment'])==1 ? null : implode('/', array_slice($URLInfo['fragment'], 0, count($URLInfo['fragment']) - 1));
 				}
+				if(isset($URLInfo['fragment'][0])) {
+					switch($URLInfo['fragment'][0]) {
+						case 'api': case 'archive': case 'attachment': case 'author':
+						case 'category':  case 'cfeed': case 'checkup': case 'cover': case 'cron': 
+						case 'entry': case 'feeder': case 'foaf': case 'guestbook': case 'iMazing': 
+						case 'keylog': case 'line': case 'location': case 'locationSuggest': 
+						case 'logout': case 'notice': case 'page': case 'plugin': case 'pluginForOwner': 
+						case 'search': case 'suggest': case 'sync': case 'tag': case 'ttxml': 
+							$pathPart = $URLInfo['fragment'][0];
+							$interfacePath = 'interface/blog/'.$pathPart.'.php';
+							break;
+						case 'rss': case 'atom':
+							if($URLInfo['fragment'][1] == 'category') {
+								$pathPart = $URLInfo['fragment'][0].'/category';
+								$interfacePath = 'interface/'.$pathPart.'/index.php';							
+							}
+							break;
+						case 'comment': case 'trackback':
+							$pathPart = implode("/",$URLInfo['fragment']);
+							$interfacePath = 'interface/blog/'.$pathPart.'/index.php';
+							break;
+						default:
+					}
+				}
+				
 			}
 			if (empty($interfacePath)) $interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
 			define('PATH', 'interface/'.(empty($pathPart) ? '' : $pathPart.'/'));

@@ -20,7 +20,7 @@ $coverpageCount = count($skin->coverpageBasicModules);
 $coverpageOrder = deleteCoverpageModuleOrderData(getCoverpageModuleOrderData($coverpageCount), $_GET['coverpageNumber'], $_GET['modulePos']);
 setBlogSetting("coverpageOrder", serialize($coverpageOrder));
 
-//respond::PrintResult(array('error' => 0));
+//Respond::PrintResult(array('error' => 0));
 if ($_GET['viewMode'] != '') $_GET['viewMode'] = '?' . $_GET['viewMode'];
 header('Location: '. $blogURL . '/owner/skin/coverpage' . $_GET['viewMode']);
 ?>

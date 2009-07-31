@@ -68,8 +68,8 @@ foreach($matchTable as $abs => $real) {
 
 $result = writeConfigFile($config);
 if ($result === true) {
-	respond::PrintResult(array('error' => 0));
+	Respond::PrintResult(array('error' => 0));
 } else {
-	respond::PrintResult(array('error' => 1, 'msg' => $result));
+	Respond::PrintResult(array('error' => 1, 'msg' => $result));
 }
 ?>

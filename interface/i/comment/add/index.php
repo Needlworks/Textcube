@@ -18,7 +18,7 @@ $IV = array(
 	)
 );
 if(!Validator::validate($IV))
-	respond::NotFoundPage();
+	Respond::NotFoundPage();
 if (!doesHaveOwnership() && empty($_GET["name_$entryId"])) {
 	printIphoneErrorPage(_text('Comment write error.'), _text('Please enter your name.'), "$blogURL/comment/$entryId");
 } else if (!doesHaveOwnership() && empty($_GET["comment_$entryId"])) {

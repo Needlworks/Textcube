@@ -53,7 +53,7 @@ $conditions['template'] = <<<EOS
 			</dl>
 EOS;
 $conditions['dress'] = array('id'=>'id','date'=>'created','content'=>'content');
-$line = Line::getInstance();
+$line = Model_Line::getInstance();
 $view = $line->getFormattedList($conditions);
 $m = _t('더 보기');
 $nextPage = $conditions['page'] + 1;

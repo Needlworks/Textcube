@@ -18,5 +18,5 @@ $request = new HTTPRequest($_GET['url']);
 if ($request->send()) {
 	echo $request->responseText;
 } else
-	respond::NotFoundPage();
+	Respond::NotFoundPage();
 ?>

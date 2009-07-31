@@ -4,6 +4,6 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
-if(Setting::removeBlogSetting('LineSetting',true)) respond::ResultPage(0);
-else respond::ResultPage(-1);
+if(Setting::removeBlogSetting('LineSetting',true)) Respond::ResultPage(0);
+else Respond::ResultPage(-1);
 ?>

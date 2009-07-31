@@ -451,7 +451,7 @@ function getLinesFeed($blogid, $category = 'public', $mode = 'atom') {
 	global $blog;
 	$channel = array();
 	$channel = initializeRSSchannel($blogid);	
-	$lineobj = Line::getInstance();
+	$lineobj = Model_Line::getInstance();
 	$lineobj->reset();
 	$lineobj->setFilter(array('created','bigger',Timestamp::getUNIXTime()-86400));
 	$lineobj->setFilter(array('blogid','equals',$blogid));

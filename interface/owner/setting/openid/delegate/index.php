@@ -17,9 +17,9 @@ requireStrictRoute();
 $consumer = new OpenIDConsumer;
 if( $consumer->setDelegate( $_GET['openid_identifier'] ) ) {
 	Skin::purgeCache();
-	respond::ResultPage(0);
+	Respond::ResultPage(0);
 } else {
-	respond::ResultPage(-1);
+	Respond::ResultPage(-1);
 }
 
 ?>

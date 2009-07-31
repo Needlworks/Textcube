@@ -38,11 +38,11 @@ function requireLibrary($name) {
 }
 
 /** Autoload components */
-class Autoload {
+class Autoload_Legacy {
 	private static $db = array(
 		'POD','DBQuery');
 	private static $data = array(
-		'Attachment','BlogSetting','BlogStatistics','Category','Config','Context','Comment','CommentNotified',
+		'Attachment','BlogSetting','BlogStatistics','Category','Comment','CommentNotified',
 		'CommentNotifiedSiteInfo','DailyStatistics','DataMaintenance','Feed',
 		'Filter','GuestComment','Keyword','Link','Notice','PluginSetting','Post',
 		'RefererLog','RefererStatistics','ServiceSetting','SkinSetting','SubscriptionLog',
@@ -97,5 +97,5 @@ class Autoload {
 		}
 	}
 }
-spl_autoload_register(array('Autoload', 'load'));
+spl_autoload_register(array('Autoload_Legacy', 'load'));
 ?>

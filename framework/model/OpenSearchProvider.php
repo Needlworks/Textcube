@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 
-class OpenSearchProvider extends XMLTree {
+class Model_OpenSearchProvider extends XMLTree {
 	
 	/// Set the descriptors to DOM tree
 	function setDescriptor ($name, $content, $type = null) {

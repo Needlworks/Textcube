@@ -32,7 +32,7 @@ if(!empty($_POST['content'])) {
 	$mode = $_GET['mode'];
 }
 
-$lineobj = Line::getInstance();
+$lineobj = Model_Line::getInstance();
 $lineobj->reset();
 // If line comes.
 if(!empty($content)) {

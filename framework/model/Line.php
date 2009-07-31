@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-final class Line extends Singleton {
+final class Model_Line extends Singleton {
 	private $filter = array();
 	public function __constructor() {
 		$this->reset();

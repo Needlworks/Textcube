@@ -260,15 +260,15 @@ function getTeamContentsSave($target){
 	if(doesHaveOwnership() && doesHaveMembership()){
 		if($flag == "style"){
 			if(POD::execute("UPDATE {$database['prefix']}TeamUserSettings SET style=\"{$style}\", updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
-				respond::ResultPage(0);
+				Respond::ResultPage(0);
 			}
 		}else if($flag == "profile"){
 			$profile = POD::escapeString(UTF8::lessenAsEncoding($profile, 65535));
 			if(POD::execute("UPDATE {$database['prefix']}TeamUserSettings SET profile=\"{$profile}\", updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
-				respond::ResultPage(0);
+				Respond::ResultPage(0);
 			}
 		}
-		respond::ResultPage(-1);
+		Respond::ResultPage(-1);
 	}
 }
 
