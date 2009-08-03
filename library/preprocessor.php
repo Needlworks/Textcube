@@ -176,6 +176,7 @@ if (!defined('NO_INITIALIZAION')) {
 		$locale->setDirectory(ROOT . '/resources/locale/'.$languageDomain);
 		$locale->set($language,$languageDomain);
 		$locale->setDomain($languageDomain);
+		$locale->setDefaultLanguage($language);
 		unset($languageDomain);
 		unset($language);
 	}

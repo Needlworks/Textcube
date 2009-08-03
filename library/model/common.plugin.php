@@ -315,7 +315,19 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
 				$configVal = null;
 			$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
 			$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
+			// Loading locale resource
+			$languageDomain = null;
+			if(is_dir($pluginPath . '/locale/')) {
+				$locale = Locale::getInstance();
+				$languageDomain = $locale->domain;
+				if(file_exists($pluginPath.'/locale/'.$locale->defaultLanguage.'.php')) {
+					$locale->setDirectory($pluginPath.'/locale');
+					$locale->set($locale->defaultLanguage, $mapping['plugin']);
+					$locale->domain = $mapping['plugin'];
+				}
+			}
 			$target = call_user_func($mapping['listener'], $target, $mother);
+			if(!is_null($languageDomain)) $locale->domain = $languageDomain;
 		}
 	}
 	return $target;
@@ -338,7 +350,19 @@ function handleTags( & $content) {
 					$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
 					$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
 					$pluginName = $mapping['plugin'];
+					// Loading locale resource
+					$languageDomain = null;
+					if(is_dir($pluginPath . '/locale/')) {
+						$locale = Locale::getInstance();
+						$languageDomain = $locale->domain;
+						if(file_exists($pluginPath.'/locale/'.$locale->defaultLanguage.'.php')) {
+							$locale->setDirectory($pluginPath.'/locale');
+							$locale->set($locale->defaultLanguage, $mapping['plugin']);
+							$locale->domain = $mapping['plugin'];
+						}
+					}					
 					$target = call_user_func($mapping['handler'], $target);
+					if(!is_null($languageDomain)) $locale->domain = $languageDomain;
 				}
 			}
 			dress($tag, $target, $content);
@@ -359,7 +383,19 @@ function handleCenters($mapping) {
 		$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
 		$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
 		$pluginName = $mapping['plugin'];
+		// Loading locale resource
+		$languageDomain = null;
+		if(is_dir($pluginPath . '/locale/')) {
+			$locale = Locale::getInstance();
+			$languageDomain = $locale->domain;
+			if(file_exists($pluginPath.'/locale/'.$locale->defaultLanguage.'.php')) {
+				$locale->setDirectory($pluginPath.'/locale');
+				$locale->set($locale->defaultLanguage, $pluginName);
+				$locale->domain = $mapping['plugin'];
+			}
+		}		
 		$target = call_user_func($mapping['handler'], $target);
+		if(!is_null($languageDomain)) $locale->domain = $languageDomain;		
 	}
 
 	return $target;
@@ -465,7 +501,19 @@ function handleCoverpages(& $obj, $previewMode = false) {
 						$configVal ='';
 					
 					if (function_exists($handler)) {
+						// Loading locale resource
+						$languageDomain = null;
+						if(is_dir($pluginPath . '/locale/')) {
+							$locale = Locale::getInstance();
+							$languageDomain = $locale->domain;
+							if(file_exists($pluginPath.'/locale/'.$locale->defaultLanguage.'.php')) {
+								$locale->setDirectory($pluginPath.'/locale');
+								$locale->set($locale->defaultLanguage, $plugin);
+								$locale->domain = $plugin;
+							}
+						}												
 						$obj->coverpageStorage["temp_coverpage_element_{$i}_{$j}"] = call_user_func($handler, $parameters);
+						if(!is_null($languageDomain)) $locale->domain = $languageDomain;		
 					} else {
 						$obj->coverpageStorage["temp_coverpage_element_{$i}_{$j}"] = "";
 					}
@@ -497,7 +545,20 @@ function handleDataSet( $plugin , $DATA ) {
 				$configVal = getCurrentSetting($plugin);
 			else
 				$configVal ='';
+			// Loading locale resource
+			$languageDomain = null;
+			if(is_dir($pluginPath . '/locale/')) {
+				$locale = Locale::getInstance();
+				$languageDomain = $locale->domain;
+				if(file_exists($pluginPath.'/locale/'.$locale->defaultLanguage.'.php')) {
+					$locale->setDirectory($pluginPath.'/locale');
+					$locale->set($locale->defaultLanguage, $pluginName);
+					$locale->domain = $pluginName;
+				}
+			}
+				
 			$reSetting = call_user_func( $configMappings[$plugin]['dataValHandler'] , $DATA);
+			if(!is_null($languageDomain)) $locale->domain = $languageDomain;	
 		}
 		if( true !== $reSetting )	
 			return array( 'error' => '9', 'customError' => $reSetting)	;
@@ -546,7 +607,10 @@ function handleConfig($plugin) {
 					$configVal = getCurrentSetting($plugin);
 				else
 					$configVal ='';
+					
+					
 				$manifest = call_user_func( $handler , $plugin );
+				if(!is_null($languageDomain)) $locale->domain = $languageDomain;		
 			}
 			$newXmls = new XMLStruct();
 			if($newXmls->open( $manifest) ) {	 

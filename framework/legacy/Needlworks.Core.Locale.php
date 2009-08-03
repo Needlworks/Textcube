@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 final class Locale extends Singleton {
-	static $directory, $domain, $locale, $resource;
+	static $directory, $domain, $locale, $resource, $defaultLanguage;
 	public static function getInstance() {
 		return self::_getInstance(__CLASS__);
 	}
@@ -62,7 +62,10 @@ final class Locale extends Singleton {
 		$this->domain = $domain;
 		return true;
 	}
-
+	public function setDefaultLanguage($language) {
+		$this->defaultLanguage = $language;
+		return true;	
+	}
 	public function match($locale, $domain = null) {
 		if(is_null($domain)) $domain = $this->domain;
 		if (strcasecmp($locale, $this->locale[$domain]) == 0)
@@ -78,11 +81,11 @@ final class Locale extends Singleton {
 		$locales = array();
 		if (is_dir($this->directory)) {
 			foreach(new DirectoryIterator($this->directory) as $locale) {
-				if(!$locale->isDir()) continue;
+				if($locale->isDir()) continue;
 				if(strpos($locale->getFilename(),'.') === 0) continue;
 				
 				$entry = strtok($locale->getFilename(),'.');
-				if ($fp = fopen($locale->getPathname() . '/' . $locale->getFilename(), 'r')) {
+				if ($fp = fopen($locale->getPathname(), 'r')) {
 					$desc = fgets($fp);
 					if (preg_match('/<\?(php)?\s*\/\/\s*(.+)/', $desc, $matches))
 						$locales[$entry] = _t(trim($matches[2]));

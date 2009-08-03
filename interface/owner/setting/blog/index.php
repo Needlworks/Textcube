@@ -756,6 +756,7 @@ if( $openidlogodisplay ) {
 												<select id="admin-language" name="adminLanguage">
 <?php
 $locale = Locale::getInstance();
+$locale->setDirectory(ROOT.'/resource/locale/description');
 $supportedLanguages = $locale->getSupportedLocales();
 foreach ($supportedLanguages as $locale => $language) {
 ?>
