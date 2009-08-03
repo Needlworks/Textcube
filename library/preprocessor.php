@@ -164,19 +164,19 @@ if (!defined('NO_INITIALIZAION')) {
 	
 /// Load administration panel locale.
 	if(!defined('NO_LOCALE')) {
-		if($context->URLInfo['interfaceType'] == 'reader') { $languageMode = 'owner'; }
-		else $languageMode = $context->URLInfo['interfaceType'];
+		if($context->URLInfo['interfaceType'] == 'reader') { $languageDomain = 'owner'; }
+		else $languageDomain = $context->URLInfo['interfaceType'];
 		
-		$locale = Locale::getInstance();
-		$locale->setDirectory(ROOT . '/resources/locale');
-		if($languageMode == 'owner') {
+		if($languageDomain == 'owner') {
 			$language = isset($blog['language']) ? $blog['language'] : $service['language'];
 		} else {
 			$language = isset($blog['blogLanguage']) ? $blog['blogLanguage'] : $service['language'];
 		}
-			
-		$locale->set($language,$languageMode);
-		unset($languageMode);
+		$locale = Locale::getInstance();
+		$locale->setDirectory(ROOT . '/resources/locale/'.$languageDomain);
+		$locale->set($language,$languageDomain);
+		$locale->setDomain($languageDomain);
+		unset($languageDomain);
 		unset($language);
 	}
 	
