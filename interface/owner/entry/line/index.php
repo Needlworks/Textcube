@@ -67,6 +67,8 @@ EOS
 								var request = new HTTPRequest("POST","<?php echo $blogURL;?>/owner/entry/line/delete/");
 								request.onSuccess = function () {
 									PM.removeRequest(this);
+									deleteBlock = document.getElementById("line_"+id);
+									deleteBlock.parentNode.removeChild(deleteBlock);
 									PM.showMessage("<?php echo _t('라인을 삭제하였습니다.');?>", "center", "bottom");
 								}
 								request.onError = function () {
