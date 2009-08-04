@@ -304,7 +304,8 @@ table.data-inbox tbody tr td.ip
 
 #line-write-form #line-write
 {
-	width                            : 850px;
+	width                            : 80%;
+	margin-left                      : 15px;
 }
 
 #line-write-form .input-button
@@ -319,6 +320,7 @@ table.data-inbox tbody tr td.ip
 	-moz-border-radius               : 6px;
 	-webkit-border-radius            : 6px;
 	margin                           : 10px;
+	height                           : 48px;
 }
 
 #line-content dl dt
@@ -326,16 +328,31 @@ table.data-inbox tbody tr td.ip
 	margin                           : 10px;	
 }
 
-#line-content dd.delete
+#line-content dd.content
 {
-	width                            : 40px;
-	text-align                       : center;
-	position                         : relative;
-	top                              : -10px;
-	margin-left                      : 880px;
-	margin-bottom                    : 10px;
+	margin-top                       : 10px;
+	width                            : 80%;
+	line-height                      : 130%;
 }
 
+#line-content dd.delete
+{
+	background-image                 : url("./image/icon_delete.gif");
+	background-position              : left bottom;
+	width                            : 12px !important;
+	height                           : 12px !important;
+	margin                           : 0;
+	padding                          : 0 !important;
+	position                         : absolute;
+	top                              : 15px;
+	right                            : 15px;
+	border                           : 0;
+}
+
+#line-content dd.delete span
+{
+	display                          : none;
+}
 #line-more-page .more-button
 {
 	width                            : 100% !important;
