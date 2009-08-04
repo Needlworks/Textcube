@@ -40,6 +40,7 @@ if(!empty($content)) {
 	if(($password === $key) || doesHaveOwnership()) {
 		$lineobj->content = $content;
 		$result = $lineobj->add();
+		fireEvent('AddLine',$result, $lineobj);
 		$cache = new pageCache;
 		$cache->name = 'linesATOM';
 		$cache->purge();
