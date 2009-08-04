@@ -61,6 +61,7 @@ function linePost_save() {
 	request.onSuccess = function () {
 		PM.removeRequest(this);
 		PM.showMessage(_t("저장되었습니다"), "center", "bottom");
+		document.getElementById("linePost_widget_textarea").value = "";
 	}
 	request.onError = function() {
 		PM.removeRequest(this);
