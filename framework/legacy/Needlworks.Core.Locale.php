@@ -30,6 +30,7 @@ final class Locale extends Singleton {
 	}
 
 	private function includeLocaleFile($languageFile) {
+		$__text = array();
 		include_once($languageFile);
 		return $__text;
 	}
