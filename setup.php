@@ -60,7 +60,9 @@ if (!empty($_GET['test'])) {
 }
 $baseLanguage = 'ko';
 if( !empty($_POST['Lang']) ) $baseLanguage = $_POST['Lang'];
-if( Locale::setDirectory('language') ) Locale::set( $baseLanguage );
+$locale = Locale::getInstance();
+$locale->setDomain('setup');
+if( Locale::setDirectory(ROOT.'/resource/locale/setup') ) Locale::set( $baseLanguage , "setup");
 
 if (file_exists($root . '/config.php') && (filesize($root . '/config.php') > 0)) {
     header('HTTP/1.1 503 Service Unavailable');
@@ -287,11 +289,11 @@ if(function_exists('pg_connect')) array_push($dbmsSupport,'PostgreSQL');
 if(function_exists('cubrid_connect')) array_push($dbmsSupport,'Cubrid');
 foreach($dbmsSupport as $dbms) {
 ?>
-	      <input type="radio" name="dbms" value="<?php echo $dbms;?>" <?php echo (((isset($_POST['dbms']) && $_POST['dbms'] == $dbms)||(!isset($_POST['dbms']) && $dbms == $dbmsSupport[0])) ? 'default' : '');?>/> <?php echo $dbms;?> 
+	      <input type="radio" name="dbms" value="<?php echo $dbms;?>" <?php echo (((isset($_POST['dbms']) && $_POST['dbms'] == $dbms)||(!isset($_POST['dbms']) && $dbms == $dbmsSupport[0])) ? 'checked' : '');?>/> <?php echo $dbms;?> 
 <?php
 }
 ?>
-		</td>
+         </td>
       </tr>
 	  <tr>
         <th><?php echo _t('데이터베이스 서버');?> :</th>
