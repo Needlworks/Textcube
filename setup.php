@@ -62,7 +62,7 @@ $baseLanguage = 'ko';
 if( !empty($_POST['Lang']) ) $baseLanguage = $_POST['Lang'];
 $locale = Locale::getInstance();
 $locale->setDomain('setup');
-if( Locale::setDirectory(ROOT.'/resource/locale/setup') ) Locale::set( $baseLanguage , "setup");
+if( $locale->setDirectory(ROOT.'/resource/locale/setup') ) $locale->set( $baseLanguage , "setup");
 
 if (file_exists($root . '/config.php') && (filesize($root . '/config.php') > 0)) {
     header('HTTP/1.1 503 Service Unavailable');
@@ -93,9 +93,9 @@ if (file_exists($root . '/config.php') && (filesize($root . '/config.php') > 0))
 				
 				<p class="message">
 <?php
-	if( Locale::setDirectory(ROOT.'/resources/locale/setup')) {
+	if( $locale->setDirectory(ROOT.'/resources/locale/setup')) {
 		$currentLang = isset($_REQUEST['Lang']) ? $_REQUEST['Lang'] : '';
-		$availableLanguages =   Locale::getSupportedLocales(); 
+		$availableLanguages =   $locale->getSupportedLocales(); 
 ?> 
 Select Language : <select name="Lang" id = "Lang" onchange= "current();" > 
 <?php
@@ -1519,7 +1519,8 @@ EOF;
 }
  
 function drawSetLang( $currentLang = "ko"  ,$curPosition = 'Norm' /*or 'Err'*/ ){ 
-	if( Locale::setDirectory(ROOT.'/resources/locale/setup'))   $availableLanguages =   Locale::getSupportedLocales(); 
+	$locale = Locale::getInstance();
+	if( $locale->setDirectory(ROOT.'/resources/locale/setup'))   $availableLanguages =   $locale->getSupportedLocales(); 
 	else return false; 
 ?> 
 Select Default Language : <select name="Lang" id = "Lang" onchange= "current();return false;" > 
