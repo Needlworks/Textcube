@@ -67,6 +67,8 @@ if($config->service['debugmode'] == true) {
 	if(isset($config->database['dbms'])) {
 		require_once(ROOT. "/framework/legacy/Needlworks.Debug.".$config->database['dbms'].".php");
 	} else require_once(ROOT. "/framework/legacy/Needlworks.Debug.MySQL.php");
+} else {
+	if(!function_exists('dumpAsFile')) function dumpAsFile($dummy){}
 }
     
 /** LOAD : Required components / models / views 
