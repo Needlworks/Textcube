@@ -129,69 +129,73 @@ if (array_key_exists('phpinfo',$_GET)) {
 <link rel="stylesheet" media="screen" type="text/css" href="./resources/style/setup/style.css" />
 <script type="text/javascript">
 //<![CDATA[
-    function init() {
-    }
+	function init() {
+	}
     
-    function previous() {
-    }
+	function previous() {
+	}
 
 	function current(){ 
-		document.getElementById("step").value ="" ; 
-		document.getElementById("setup").submit() ; 
+		document.getElementById("step").value =""; 
+		document.getElementById("setup").submit(); 
 	} 
 	
-    function next(type) {
+	function next(type) {
 		if (type != undefined)
 			document.getElementById("setupMode").value = type;
-        document.getElementById("setup").submit();
-    }
+		document.getElementById("setup").submit();
+	}
     
-    function show(id) {
-        if (document.getElementById("typeDomain"))
-            document.getElementById("typeDomain").style.display = "none";
-        if (document.getElementById("typePath"))
-            document.getElementById("typePath").style.display = "none";
-        if (document.getElementById("typeSingle"))
-            document.getElementById("typeSingle").style.display = "none";
-        if (document.getElementById(id))
-            document.getElementById(id).style.display = "block";
-    }
+	function show(id) {
+		if (document.getElementById("typeDomain"))
+			document.getElementById("typeDomain").style.display = "none";
+		if (document.getElementById("typePath"))
+			document.getElementById("typePath").style.display = "none";
+		if (document.getElementById("typeSingle"))
+			document.getElementById("typeSingle").style.display = "none";
+		if (document.getElementById(id))
+			document.getElementById(id).style.display = "block";
+	}
 //]]>
 </script>
 </head>
 <body onload="init()">
 <div id="container">
-  <form id="setup" name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
-  <div id="title"><h1><img src="./resources/style/setup/image/title.gif" width="253" height="44" alt="<?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> Setup" /></h1></div>
-  <input type="hidden" name="Lang" id="Lang" value="<?php echo $baseLanguage;?>" />
+<form id="setup" name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
+	<div id="title">
+		<h1><img src="./resources/style/setup/image/title.gif" width="253" height="44" alt="<?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> Setup" /></h1>
+	</div>
+	<input type="hidden" name="Lang" id="Lang" value="<?php echo $baseLanguage;?>" />
 <?php
 if (empty($_POST['step'])) {
 ?>
-  <div id="inner">
-    <input type="hidden" name="step" value="1" />
-    <h2><span class="step"><?php echo _f('%1단계', 1);?></span> : <?php echo _t('텍스트큐브 설치를 시작합니다.');?></h2>
-		<div id="langSel" > <?php drawSetLang( $baseLanguage, 'Norm');?></div> 
-    <div id="info"><b><?php echo TEXTCUBE_VERSION;?></b><br />
-      <?php echo TEXTCUBE_COPYRIGHT;?><br />
-      Homepage: <a href="<?php echo TEXTCUBE_HOMEPAGE;?>"><?php echo TEXTCUBE_HOMEPAGE;?></a></div>
-    <div id="content">
-      <ol>
-        <li><?php echo _t('소스를 포함한 소프트웨어에 포함된 모든 저작물(이하, 텍스트큐브)의 저작권자는 Needlworks / TNF 입니다.');?></li>
-        <li><?php echo _t('텍스트큐브는 GPL 라이선스로 제공되며, 모든 사람이 자유롭게 이용할 수 있습니다.');?></li>
-        <li><?php echo _t('프로그램 사용에 대한 유지 및 보수 등의 의무와, 사용 중 데이터 손실 등에 대한 사고책임은 모두 사용자에게 있습니다.');?></li>
-        <li><?php echo _t('스킨 및 트리, 플러그인의 저작권은 각 제작자에게 있습니다.');?></li>
-      </ol>
-    </div>
-  <div id="navigation">
-    <a href="#" onclick="next(); return false;" title="<?php echo _t('다음');?>"><img src="./resources/style/setup/image/icon_next.gif" width="74" height="24" alt="<?php echo _t('다음');?>" /></a>
-  </div>
-  </div>
+	<div id="inner">
+		<input type="hidden" name="step" value="1" />
+		<h2><span class="step"><?php echo _f('%1단계', 1);?></span> : <?php echo _t('텍스트큐브 설치를 시작합니다.');?></h2>
+		<div id="langSel" >
+		<?php drawSetLang( $baseLanguage, 'Norm');?>
+		</div> 
+		<div id="info"><b><?php echo TEXTCUBE_VERSION;?></b><br />
+			<?php echo TEXTCUBE_COPYRIGHT;?><br />
+			Homepage: <a href="<?php echo TEXTCUBE_HOMEPAGE;?>"><?php echo TEXTCUBE_HOMEPAGE;?></a>
+		</div>
+		<div id="content">
+			<ol>
+				<li><?php echo _t('소스를 포함한 소프트웨어에 포함된 모든 저작물(이하, 텍스트큐브)의 저작권자는 Needlworks / TNF 입니다.');?></li>
+				<li><?php echo _t('텍스트큐브는 GPL 라이선스로 제공되며, 모든 사람이 자유롭게 이용할 수 있습니다.');?></li>
+				<li><?php echo _t('프로그램 사용에 대한 유지 및 보수 등의 의무와, 사용 중 데이터 손실 등에 대한 사고책임은 모두 사용자에게 있습니다.');?></li>
+				<li><?php echo _t('스킨 및 트리, 플러그인의 저작권은 각 제작자에게 있습니다.');?></li>
+			</ol>
+		</div>
+		<div id="navigation">
+			<a href="#" onclick="next(); return false;" title="<?php echo _t('다음');?>"><img src="./resources/style/setup/image/icon_next.gif" width="74" height="24" alt="<?php echo _t('다음');?>" /></a>
+		</div>
+	</div>
 <?php
 }
 else if ($_POST['step'] == 7) {
 	checkStep(8, false);
-}
-else {
+} else {
 /*	
 	function POD::escapeString($string) {
 		global $mysql_escaping_function;
@@ -1523,10 +1527,12 @@ function drawSetLang( $currentLang = "ko"  ,$curPosition = 'Norm' /*or 'Err'*/ )
 	if( $locale->setDirectory(ROOT.'/resources/locale/setup'))   $availableLanguages =   $locale->getSupportedLocales(); 
 	else return false; 
 ?> 
-Select Default Language : <select name="Lang" id = "Lang" onchange= "current();" > 
+		Select Default Language : 
+		<select name="Lang" id = "Lang" onchange= "current();" > 
 <?php      foreach( $availableLanguages as $key => $value) 
-			print('<option value="'.$key.'" '.( $key == $currentLang ? ' selected="selected" ' : '').' >'.$value.'</option>'); 
-?></select>
+			print('			<option value="'.$key.'" '.( $key == $currentLang ? ' selected="selected" ' : '').'>'.$value.'</option>'.CRLF); 
+?>
+		</select>
 <?php 
 	return true;
 }
