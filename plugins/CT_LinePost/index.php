@@ -51,12 +51,14 @@ function linePost_widget_Javascript($target) {
 //<![CDATA[
 function linePost_getData() {
 	var content = trim(document.getElementById("linePost_widget_textarea").value);
+	if(content == "") return null;
 	return ("content=" + content +
 			"&mode=ajax");
 }
 function linePost_save() {
 	/// Set default values.
 	var data = linePost_getData();
+	if(data == null) return false;
 	var request = new HTTPRequest("POST", "{$blogURL}/line/");
 	request.onSuccess = function () {
 		PM.removeRequest(this);
