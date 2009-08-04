@@ -45,8 +45,8 @@ function GoogleMap_AdminHeader($target) {
 function GoogleMap_AddToolbox($target) {
 	global $pluginURL;
 	$target .= "<dl id=\"toolbox-googlemap\">";
-	$target .= "<dd class=\"command-box\"><a class=\"button\" id=\"gmap-insertMap\" href=\"#insertGoogleMap\" onclick=\"GMapTool_insertMap(); return false;\">구글맵 추가하기</a></dd>";
-	$target .= "<dd class=\"command-box\"><a class=\"button\" href=\"#getLocation\" id=\"gmap-getLocation\" onclick=\"GMapTool_getLocation(); return false;\">현재 위치 알아내기</a></dd>";
+	$target .= "<dd class=\"command-box\"><a class=\"button\" id=\"gmap-insertMap\" href=\"#insertGoogleMap\" onclick=\"GMapTool_insertMap(); return false;\">"._t("구글맵 추가하기")."</a></dd>";
+	$target .= "<dd class=\"command-box\"><a class=\"button\" href=\"#getLocation\" id=\"gmap-getLocation\" onclick=\"GMapTool_getLocation(); return false;\">"._t("현재 위치 알아내기")."</a></dd>";
 	$target .= "</dl>";
 	return $target;
 }
@@ -105,7 +105,7 @@ function GoogleMap_View($target, $mother) {
 		if (GBrowserIsCompatible()) {
 			var map = GMap_CreateMap(c, <?php echo $matches[2][0];?>);
 		} else {
-			c.innerHTML = '<p style="text-align:center; color:#c99;">이 웹브라우저는 구글맵과 호환되지 않습니다.</p>';
+			c.innerHTML = '<p style="text-align:center; color:#c99;"><?php echo _t("이 웹브라우저는 구글맵과 호환되지 않습니다.");?></p>';
 		}
 		//]]>
 		</script>
@@ -204,7 +204,7 @@ function GoogleMap_LocationLogView($target) {
 			$found = true;
 			$lat = $locative['latitude'];
 			$lng = $locative['longitude'];
-			$locative['location'] = "위도 : " . $lat . ", 경도 : " . $lng;
+			$locative['location'] = _t("위도")." : " . $lat . ", "._t("경도")." : " . $lng;
 		} else {
 			$row = POD::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND original_address = '".POD::escapeString($locative['location'])."'");
 			if ($row == null || empty($row)) {
@@ -226,7 +226,7 @@ function GoogleMap_LocationLogView($target) {
 			query_interval_handle = window.setInterval(function() {locationFetch(tofind);}, query_interval);
 			window.setTimeout(function() {locationFetchPoller(<?php echo $count;?>);}, polling_interval);
 		} else {
-			c.innerHTML = '<p style="text-align:center; color:#c99;">이 웹브라우저는 구글맵과 호환되지 않습니다.</p>';
+			c.innerHTML = '<p style="text-align:center; color:#c99;"><?php echo _t("이 웹브라우저는 구글맵과 호환되지 않습니다.");?></p>';
 		}
 	});
 	//]]>
@@ -285,11 +285,11 @@ function GoogleMapUI_InsertMap() {
 	$default_width = min(Misc::getContentWidth(), 500);
 	$default_height = 400;
 	$zoom = 10;
-	_GMap_printHeaderForUI('구글맵 삽입하기', 'insert', $config['apiKey'], $config['useSensor'] ? 'true' : 'false');
+	_GMap_printHeaderForUI(_t('구글맵 삽입하기'), 'insert', $config['apiKey'], $config['useSensor'] ? 'true' : 'false');
 ?>
 	<div id="controls">
-		<button id="toggleMarkerAddingMode">마커 표시 모드</button>
-		<button id="doInsert">본문에 삽입하기</button>
+		<button id="toggleMarkerAddingMode"><?php echo _t("마커 표시 모드");?></button>
+		<button id="doInsert"><?php echo _t("본문에 삽입하기");?></button>
 	</div>
 	<div style="text-align:center;">
 		<div class="ui-widget-content" id="GoogleMapPreview" style="width:<?php echo $default_width;?>px; height:<?php echo $default_height;?>px; margin:0 auto;"></div>
@@ -309,15 +309,15 @@ function GoogleMapUI_InsertMap() {
 	}
 	//]]>
 	</script>
-	<h2>지도 검색</h2>
+	<h2><?php echo _t("지도 검색");?></h2>
 	<div class="accordion-elem">
-		<p><label>위치 검색 : <input type="text" class="editControl" id="inputQuery" value="" /></label><button id="queryLocation">찾기</button></p>
+		<p><label><?php echo _t("위치 검색");?> : <input type="text" class="editControl" id="inputQuery" value="" /></label><button id="queryLocation"><?php echo _t("찾기");?></button></p>
 	</div>
-	<h2>기본 설정</h2>
+	<h2><?php echo _t("기본 설정");?></h2>
 	<div class="accordion-elem">
-		<p><label>가로(px) : <input type="text" class="editControl" id="inputWidth" value="<?php echo $default_width;?>" /></label></p>
-		<p><label>세로(px) : <input type="text" class="editControl" id="inputHeight" value="<?php echo $default_height;?>" /></label></p>
-		<p><button id="applyBasicSettings">적용</button></p>
+		<p><label><?php echo _t("가로");?>(px) : <input type="text" class="editControl" id="inputWidth" value="<?php echo $default_width;?>" /></label></p>
+		<p><label><?php echo _t("세로");?>(px) : <input type="text" class="editControl" id="inputHeight" value="<?php echo $default_height;?>" /></label></p>
+		<p><button id="applyBasicSettings"><?php echo _t("적용");?></button></p>
 	</div>
 <?php
 	// TODO: 주소 추출 UI
@@ -335,10 +335,10 @@ function GoogleMapUI_GetLocation() {
 	$default_width = 500;
 	$default_height = 400;
 	$zoom = 10;
-	_GMap_printHeaderForUI('현재 위치 알아내기', 'getlocation', $config['apiKey']);
+	_GMap_printHeaderForUI(_t('현재 위치 알아내기'), 'getlocation', $config['apiKey']);
 ?>
-	<h2>이용 안내</h2>
-	<p>웹브라우저가 제공하는 Geolocation 서비스를 이용하여 현재 위치 정보를 가져옵니다. 정확도는 사용하고 계신 기기나 지역에 따라 다를 수 있습니다. <a href="#help">(자세히 알아보기)</a></p>
+	<h2><?php echo _t("이용 안내");?></h2>
+	<p><?php echo _t("웹브라우저가 제공하는 Geolocation 서비스를 이용하여 현재 위치 정보를 가져옵니다. 정확도는 사용하고 계신 기기나 지역에 따라 다를 수 있습니다.");?> <a href="#help">(<?php echo _t("자세히 알아보기");?>)</a></p>
 	<p><span id="availability"></span><span id="status"></span></p>
 	<h2>미리보기</h2>
 	<div style="text-align:center;">

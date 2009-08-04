@@ -44,13 +44,13 @@ function PN_Referer_Default()
 	}  
 ?>
 						<div id="part-statistics-rank" class="part">
-							<h2 class="caption"><span class="main-text">리퍼러 순위</span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t("리퍼러 순위");?></span></h2>
 							
 							<table class="data-inbox" cellspacing="0" cellpadding="0">
 								<thead>
 									<tr>
-										<th class="number"><span class="text">순위</span></th>
-										<th class="site"><span class="text">리퍼러</span></th>
+										<th class="number"><span class="text"><?php echo _t("순위");?></span></th>
+										<th class="site"><span class="text"><?php echo _t("리퍼러");?></span></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -76,7 +76,7 @@ function PN_Referer_Default()
 						<hr class="hidden" />
 						
 						<form id="part-statistics-log" class="part" method="post" action="<?php echo $pluginMenuURL;?>">
-							<h2 class="caption"><span class="main-text">리퍼러 로그</span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo _t("리퍼러 로그");?></span></h2>
 							
 							<table class="data-inbox" cellspacing="0" cellpadding="0">
 								<thead>

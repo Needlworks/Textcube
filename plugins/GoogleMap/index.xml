@@ -3,7 +3,7 @@
   <title xml:lang="ko">Google 맵</title>
   <title xml:lang="en">Google Map</title>
   <link>http://maps.google.com</link>
-  <version>1.0</version>
+  <version>1.1</version>
   <description xml:lang="ko">포스트에서 Google 맵을 삽입할 수 있게 해주고, 지역로그 및 포스트 내 쓰인 주소 정보와 연동할 수 있도록 도와줍니다.</description>
   <description xml:lang="en">Enables inserting Google Map into your posts and helps make use of it with location tags or text addresses written in the posts.</description>
   <license>GPL</license>

@@ -13,13 +13,13 @@ function TextcubeBirthday_TextcubeBirthday($target) {
 	if ($dDay < 0)
 		$dDay = intval((gmmktime(0, 0, 0, $month, $day, gmdate('Y') + 1) - time()) / 86400);
 	if ($dDay == 0)
-		$message = '<span class="congratu">탄생을 축하합니다!</span>';
+		$message = '<span class="congratu">'._t("탄생을 축하합니다!").'</span>';
 	else
-		$message = "<span>앞으로 {$dDay}일 남음</span>";
+		$message = "<span>"._f("앞으로 %1일 남음", $dDay_)."</span>";
 	ob_start();
 ?>
       <div class="listbox">
-        <h3>텍스트큐브 생일</h3>
+        <h3><?php echo _t("텍스트큐브 생일");?></h3>
         <div style="text-align:center"><?php echo $month;?>월 <?php echo $day;?>일: <?php echo $message;?></div>
       </div>
 <?php

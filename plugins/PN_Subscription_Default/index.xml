@@ -3,7 +3,7 @@
   <title xml:lang="en">Feed Subscription Log</title>
   <title xml:lang="ko">피드 구독 통계</title>
   <link>http://needlworks.org/</link>
-  <version>2.1</version>
+  <version>2.3</version>
   <description xml:lang="en">Shows Feed Subscription Log using Textcube Components.</description>
   <description xml:lang="ko">텍스트큐브 컴포넌트를 이용하여 피드 구독 통계를 보여줍니다.</description>
   <license>GPL</license>
