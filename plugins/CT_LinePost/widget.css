@@ -2,9 +2,9 @@
 
 #linePost_widget {}
 #linePost_widget_textarea {width:90%; height:70px; margin:10px;margin-bottom:2px; border:1px solid #DDD;}
-#linePost_widget_category {width:90%;margin-bottom:5px;}
-#linePost_widget_category .radio {width:15px !important;}
-#linePost_widget_category label {width:55px !important;}
+/*#linePost_widget .radio {width:15px !important;}
+#linePost_widget label {width:55px !important;}*/
 #linePost_widget_button {width:100%;margin-left:0;background-color:#EEE;border:1px solid #ccc;}
 #linePost_public,
-#linePost_private { display:none;}
+#linePost_private,
+#linePost_widget label { display:none;}
