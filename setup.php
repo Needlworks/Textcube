@@ -170,7 +170,7 @@ if (array_key_exists('phpinfo',$_GET)) {
 if (empty($_POST['step'])) {
 ?>
 	<div id="inner">
-		<input type="hidden" name="step" value="1" />
+		<input type="hidden" id="step" name="step" value="1" />
 		<h2><span class="step"><?php echo _f('%1단계', 1);?></span> : <?php echo _t('텍스트큐브 설치를 시작합니다.');?></h2>
 		<div id="langSel" >
 		<?php drawSetLang( $baseLanguage, 'Norm');?>
