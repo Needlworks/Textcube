@@ -1523,7 +1523,7 @@ function drawSetLang( $currentLang = "ko"  ,$curPosition = 'Norm' /*or 'Err'*/ )
 	if( $locale->setDirectory(ROOT.'/resources/locale/setup'))   $availableLanguages =   $locale->getSupportedLocales(); 
 	else return false; 
 ?> 
-Select Default Language : <select name="Lang" id = "Lang" onchange= "current();return false;" > 
+Select Default Language : <select name="Lang" id = "Lang" onchange= "current();" > 
 <?php      foreach( $availableLanguages as $key => $value) 
 			print('<option value="'.$key.'" '.( $key == $currentLang ? ' selected="selected" ' : '').' >'.$value.'</option>'); 
 ?></select>
