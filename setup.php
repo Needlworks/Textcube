@@ -93,7 +93,7 @@ if (file_exists($root . '/config.php') && (filesize($root . '/config.php') > 0))
 				
 				<p class="message">
 <?php
-	if( Locale::setDirectory('language')) {
+	if( Locale::setDirectory(ROOT.'/resources/locale/setup')) {
 		$currentLang = isset($_REQUEST['Lang']) ? $_REQUEST['Lang'] : '';
 		$availableLanguages =   Locale::getSupportedLocales(); 
 ?> 
@@ -1519,13 +1519,13 @@ EOF;
 }
  
 function drawSetLang( $currentLang = "ko"  ,$curPosition = 'Norm' /*or 'Err'*/ ){ 
-	if( Locale::setDirectory('language'))   $availableLanguages =   Locale::getSupportedLocales(); 
+	if( Locale::setDirectory(ROOT.'/resources/locale/setup'))   $availableLanguages =   Locale::getSupportedLocales(); 
 	else return false; 
 ?> 
 Select Default Language : <select name="Lang" id = "Lang" onchange= "current();return false;" > 
 <?php      foreach( $availableLanguages as $key => $value) 
 			print('<option value="'.$key.'" '.( $key == $currentLang ? ' selected="selected" ' : '').' >'.$value.'</option>'); 
-?></select> 
+?></select>
 <?php 
 	return true;
 }
