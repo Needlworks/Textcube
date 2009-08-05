@@ -24,9 +24,6 @@ requireModel("blog.tag");
 requireModel("blog.locative");
 requireModel("blog.attachment");
 
-if (false) {
-	fetchConfigVal();
-}
 $isKeyword = false;
 define('__TEXTCUBE_EDIT__', true);
 if (defined('__TEXTCUBE_POST__'))

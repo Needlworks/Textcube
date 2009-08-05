@@ -24,7 +24,7 @@ final class Dispatcher {
     }
     
 	private function URIinterpreter() {
-		global $service;		
+		global $service;
 		/* Workaround for IIS environment */
 		if(!isset($_SERVER['REQUEST_URI']) && isset($_SERVER['SCRIPT_NAME'])) {
 			$_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
@@ -134,7 +134,7 @@ final class Dispatcher {
 			if (!empty($URLInfo['fragment'])) {
 				if (is_numeric(strtok(end($URLInfo['fragment']), '&'))) {
 					array_pop($URLInfo['fragment']);	
-				//	$pathPart = count($URLInfo['fragment'])==1 ? null : implode('/', array_slice($URLInfo['fragment'], 0, count($URLInfo['fragment']) - 1));
+					$pathPart = count($URLInfo['fragment'])==1 ? null : implode('/', $URLInfo['fragment']);
 				}
 				if(isset($URLInfo['fragment'][0])) {
 					switch($URLInfo['fragment'][0]) {
