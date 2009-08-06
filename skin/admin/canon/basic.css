@@ -1445,16 +1445,33 @@ input.input-text
 
 .ajaxProcessingMessage, .ajaxSuccessMessage
 {
-	background-image: url('./image/bg_gray_textcube.gif') !important;
-	background-color: #dedede !important;
-	border: 1px solid #999 !important;
-	color: #000 !important;
+	background-image                 : url('./image/bg_gray_textcube.gif') !important;
+	background-color                 : #dedede !important;
+	border                           : 1px solid #999 !important;
+	color                            : #000 !important;
+    filter                           : alpha(opacity=90);
+	opacity                          : .90;
+}
+.ajaxProcessingMessage
+{
+	-moz-border-radius-bottomleft    : 6px;
+	-webkit-border-bottom-left-radius: 6px;
 }
 
+.ajaxSuccessMessage,
 .ajaxErrorMessage
 {
-	background-image: url('./image/bg_pink_textcube.gif') !important;
-	border: 1px solid #ff5f62 !important;
-	background-color: #fcebeb !important;
-	color: #000 !important;
+	-moz-border-radius-topleft       : 6px;
+	-moz-border-radius-topright      : 6px;
+	-webkit-border-top-left-radius   : 6px;
+	-webkit-border-top-right-radius  : 6px;
+}
+.ajaxErrorMessage
+{
+	background-image                 : url('./image/bg_pink_textcube.gif') !important;
+	border                           : 1px solid #ff5f62 !important;
+	background-color                 : #fcebeb !important;
+	color                            : #000 !important;
+    filter                           : alpha(opacity=90);
+	opacity                          : .90;
 }
