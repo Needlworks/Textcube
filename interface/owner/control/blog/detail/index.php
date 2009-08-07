@@ -140,7 +140,7 @@ $blogsetting = getBlogSettings($bid);
 									</thead>
 									<tbody>
 <?php
-	$teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE blogid = " . $bid);
+	$teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Privileges` WHERE blogid = " . $bid);
 	foreach ($teamblog as $row){
 		echo "<tr>".CRLF;
 		echo "<td class=\"name\"><a href=\"{$blogURL}/owner/control/user/detail/{$row['userid']}\">".User::getName($row['userid'])."(".User::getEmail($row['userid']).")</a></td>".CRLF;
