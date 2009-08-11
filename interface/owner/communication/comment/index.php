@@ -188,6 +188,14 @@ require ROOT . '/interface/common/owner/header.php';
 										objTR.className = objTR.className.replace('active', 'inactive');
 									}
 								}
+
+								function toggleCheckbox(obj) {
+									if (obj.checked == true) {
+										obj.checked = false;
+									} else {
+										obj.checked = true;
+									}
+								}
 							//]]>
 						</script>
 						
@@ -305,8 +313,8 @@ for ($i=0; $i<sizeof($comments); $i++) {
 	$className .= $comment['parent'] ? ' reply-line' : null;
 	$className .= ($i == sizeof($comments) - 1) ? ' last-line' : '';
 ?>
-										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"  onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this.elements[0]);"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id'];?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
+										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over');return false;" onmouseout="rolloverClass(this, 'out');return false">
+											<td class="selection" onclick="document.getElementById('allChecked').checked=false; toggleCheckbox(this.childNodes[0]);toggleThisTr(this.childNodes[0]);"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id'];?>" /></td>
 											<td class="date"><?php echo Timestamp::formatDate($comment['written']);?></td>
 											<td class="name">
 <?php
