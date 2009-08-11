@@ -128,7 +128,7 @@ class Filter {
 			default:
 				$type = POD::escapeString($type);
 				$value = POD::escapeString(strtolower($value));
-				return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND filtertype = '$type' AND pattern LIKE '%".strtolower($value)."%' LIMIT 1");
+				return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND filtertype = '$type' AND '$value' LIKE CONCAT('%', LOWER(pattern), '%') LIMIT 1");
 		}
 	}
 
