@@ -227,12 +227,6 @@ if($tabsClass['received'] == true) {
 									}
 								}
 								
-								window.addEventListener("load", execLoadFunction, false);
-								function execLoadFunction() {
-									document.getElementById('allChecked').disabled = false;
-									removeItselfById('category-move-button');
-								}
-								
 								function toggleThisTr(obj) {
 									objTR = getParentByTagName("TR", obj);
 									
@@ -242,6 +236,20 @@ if($tabsClass['received'] == true) {
 										objTR.className = objTR.className.replace('active', 'inactive');
 									}
 								}
+								
+								function toggleCheckbox(obj) {
+									if (obj.checked == true) {
+										obj.checked = false;
+									} else {
+										obj.checked = true;
+									}
+								}
+								
+								window.addEventListener("load", execLoadFunction, false);
+								function execLoadFunction() {
+									document.getElementById('allChecked').disabled = false;
+									removeItselfById('category-move-button');
+								}																
 							//]]>
 						</script>
 						
@@ -352,8 +360,8 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($trackbacks) - 1) ? ' last-line' : '';
 ?>
-										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $trackback['id'];?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
+										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over'); return false;" onmouseout="rolloverClass(this, 'out'); return false;" onclick="document.getElementById('allChecked').checked=false; toggleCheckbox(this.childNodes[0]); toggleThisTr(this.childNodes[0]); return false;">
+											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $trackback['id'];?>" /></td>
 											<td class="date"><?php echo Timestamp::formatDate($trackback['written']);?></td>
 											<td class="site">
 <?php
