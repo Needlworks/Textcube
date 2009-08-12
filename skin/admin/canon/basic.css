@@ -632,6 +632,7 @@ h2.caption
 	margin-bottom                    : 10px;
 	overflow                         : hidden;
 	padding-left                     : 60px;
+	border-left                      : 1px solid #eee;
 }
 
 .part .caption span,
@@ -644,6 +645,7 @@ h2.caption span
 	display                          : block;
 	height                           : 38px;
 	line-height                      : 38px;
+	border-right                     : 1px solid #eee;
 }
 
 .part .panel-setting
