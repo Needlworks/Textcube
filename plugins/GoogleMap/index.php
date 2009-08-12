@@ -8,7 +8,7 @@ function GoogleMap_Header($target) {
 	$config = Setting::fetchConfigVal($configVal);
 	if (!is_null($config) && isset($config['apiKey'])) {
 		$api_key = $config['apiKey'];
-		$use_sensor = $config['useSensor'] ? 'true' : 'false';
+		$use_sensor = (isset($config['useSensor']) && $config['useSensor']) ? 'true' : 'false';
 		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/common.css\" />\n";
 		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=$use_sensor&amp;key=$api_key\"></script>\n";
 		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/common.js?".time()."\"></script>\n";

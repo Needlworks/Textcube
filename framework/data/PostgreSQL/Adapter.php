@@ -15,7 +15,7 @@ $__gEscapeTag = null;
 
 class DBAdapter implements IAdapter {	
 	/*@static@*/
-	function bind($database) {
+	public static function bind($database) {
 		global $__dbProperties;
 		// Connects DB and set environment variables
 		// $database array should contain 'server','username','password'.
@@ -33,22 +33,22 @@ class DBAdapter implements IAdapter {
 		return true;
 	}
 
-	function unbind() {
+	public static function unbind() {
 		pg_close();
 		return true;
 	}
 
-	function charset() {
+	public static function charset() {
 		global $__dbProperties;
 		if (array_key_exists('charset', $__dbProperties)) return $__dbProperties['charset'];
 		else return null;
 	}
 
-	function dbms() {
+	public static function dbms() {
 		return 'PostgreSQL';
 	}
 
-	function version($mode = 'server') {
+	public static function version($mode = 'server') {
 		global $__dbProperties;
 		if (array_key_exists('version', $__dbProperties)) return $__dbProperties['version'];
 		else {
@@ -57,7 +57,7 @@ class DBAdapter implements IAdapter {
 			else return $__dbProperties['version']['client'];
 		}
 	}
-	function tableList($condition = null) {
+	public static function tableList($condition = null) {
 		global $__dbProperties;
 		if (!array_key_exists('tableList', $__dbProperties)) { 
 			$__dbProperties['tableList'] = DBAdapter::queryColumn("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
@@ -73,22 +73,22 @@ class DBAdapter implements IAdapter {
 		}
 	}
 
-	function setTimezone($time) {
+	public static function setTimezone($time) {
 		return DBAdapter::query('SET TIME ZONE \'' . $time . '\'');
 	}
 
-	function reservedFieldNames() {
+	public static function reservedFieldNames() {
 		return null;
 	}
 
 	/*@static@*/
-	function query($query $compatiblity = true) {
+	public static function query($query $compatiblity = true) {
 		global $__gLastQueryType;
 		/// Bypassing compatiblitiy issue : will be replace to NAF2.
 		if($compatibility) {
 			$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compatibility issue.
 		}		
-		if( function_exists( '__tcSqlLogBegin' ) ) {
+		if( public static function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);
 			$result = pg_query($query);
 			__tcSqlLogEnd($result,0);
@@ -106,7 +106,7 @@ class DBAdapter implements IAdapter {
 	}
 	
 	/*@static@*/
-	function queryExistence($query) {
+	public static function queryExistence($query) {
 		if ($result = DBAdapter::query($query)) {
 			if (pg_num_rows($result) > 0) {
 				pg_free_result($result);
@@ -118,7 +118,7 @@ class DBAdapter implements IAdapter {
 	}
 
 	/*@static@*/
-	function queryCount($query) {
+	public static function queryCount($query) {
 		global $__gLastQueryType;
 		$count = 0;
 		$query = trim($query);
@@ -143,7 +143,7 @@ class DBAdapter implements IAdapter {
 	}
 		
 	/*@static@*/
-	function queryCell($query, $field = 0, $useCache=true) {
+	public static function queryCell($query, $field = 0, $useCache=true) {
 		$type = 'both';
 		if (is_numeric($field)) {
 			$type = 'num';
@@ -163,7 +163,7 @@ class DBAdapter implements IAdapter {
 	}
 	
 	/*@static@*/
-	function queryRow($query, $type = 'both', $useCache=true) {
+	public static function queryRow($query, $type = 'both', $useCache=true) {
 		if( $useCache ) {
 			$result = POD::queryAllWithCache($query, $type, 1);
 		} else {
@@ -176,11 +176,11 @@ class DBAdapter implements IAdapter {
 	}
 	
 	/*@static@*/
-	function queryColumn($query, $useCache=true) {
+	public static function queryColumn($query, $useCache=true) {
 		global $cachedResult;
 		$cacheKey = "{$query}_queryColumn";
 		if( $useCache && isset( $cachedResult[$cacheKey] ) ) {
-			if( function_exists( '__tcSqlLogBegin' ) ) {
+			if( public static function_exists( '__tcSqlLogBegin' ) ) {
 				__tcSqlLogBegin($query);
 				__tcSqlLogEnd(null,1);
 			}
@@ -203,12 +203,12 @@ class DBAdapter implements IAdapter {
 	}
 	
 	/*@static@*/
-	function queryAll($query, $type = 'both', $count = -1) {
+	public static function queryAll($query, $type = 'both', $count = -1) {
 		return DBAdapter::queryAllWithCache($query, $type, $count);
 		//return DBAdapter::queryAllWithoutCache($query, $type, $count);  // Your choice. :)
 	}
 
-	function queryAllWithoutCache($query, $type = 'both', $count = -1) {
+	public static function queryAllWithoutCache($query, $type = 'both', $count = -1) {
 		$all = array();
 		$realtype = DBAdapter::__queryType($type);
 		if ($result = DBAdapter::query($query)) {
@@ -220,11 +220,11 @@ class DBAdapter implements IAdapter {
 		return null;
 	}
 		
-	function queryAllWithCache($query, $type = 'both', $count = -1) {
+	public static function queryAllWithCache($query, $type = 'both', $count = -1) {
 		global $cachedResult;
 		$cacheKey = "{$query}_{$type}_{$count}";
 		if( isset( $cachedResult[$cacheKey] ) ) {
-			if( function_exists( '__tcSqlLogBegin' ) ) {
+			if( public static function_exists( '__tcSqlLogBegin' ) ) {
 				__tcSqlLogBegin($query);
 				__tcSqlLogEnd(null,1);
 			}
@@ -237,12 +237,12 @@ class DBAdapter implements IAdapter {
 	}
 	
 	/*@static@*/
-	function execute($query) {
+	public static function execute($query) {
 		return DBAdapter::query($query) ? true : false;
 	}
 	
 	/*@static@*/
-	function multiQuery() {
+	public static function multiQuery() {
 		$result = false;
 		foreach (func_get_args() as $query) {
 			if (is_array($query)) {
@@ -255,38 +255,38 @@ class DBAdapter implements IAdapter {
 		return $result;
 	}
 	
-	function insertId() {
+	public static function insertId() {
 		return null;
 	}
 	
-	function escapeString($string, $link = null){
+	public static function escapeString($string, $link = null){
 		return pg_escape_string($string);
 	}
 	
-	function clearCache() {
+	public static function clearCache() {
 		global $cachedResult;
 		$cachedResult = array();
-		if( function_exists( '__tcSqlLogBegin' ) ) {
+		if( public static function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin("Cache cleared");
 			__tcSqlLogEnd(null,2);
 		}
 	}
 
-	function cacheLoad() {
+	public static function cacheLoad() {
 		global $fileCachedResult;
 	}
 
-	function cacheSave() {
+	public static function cacheSave() {
 		global $fileCachedResult;
 	}
 
-	function commit() { 
+	public static function commit() { 
 		return true; // Auto commit.
 	}
 
-	/* Raw functions (to easier adoptation) */
+	/* Raw public static functions (to easier adoptation) */
 	/*@static@*/
-	function num_rows($handle = null) {
+	public static function num_rows($handle = null) {
 		global $__gLastQueryType;
 		switch($__gLastQueryType) {
 			case 'select':
@@ -300,31 +300,31 @@ class DBAdapter implements IAdapter {
 	}
 	
 	/*@static@*/
-	function free($handle = null) {
+	public static function free($handle = null) {
 		pg_free_result($handle);
 	}
 	
 	/*@static@*/
-	function fetch($handle = null, $type = 'assoc') {
+	public static function fetch($handle = null, $type = 'assoc') {
 		if($type == 'array') return pg_fetch_array($handle); // Can I use mysql_fetch_row instead?
 		else if ($type == 'row') return pg_fetch_row($handle);
 		else return pg_fetch_assoc($handle);
 	}
 	
 	/*@static@*/
-	function error($err = null) {
+	public static function error($err = null) {
 		if($err === null) return pg_error();
 		else return pg_error($err);
 	}
 	
 	/*@static@*/
-	function stat($stat = null) {
+	public static function stat($stat = null) {
 		if($stat === null) return mysql_stat();
 		else return mysql_stat($stat);
 	}
 	
 	/*@static@*/
-	function __queryType($type) {
+	public static function __queryType($type) {
 		switch(strtolower($type)) {
 			case 'num':
 				return PGSQL_NUM;

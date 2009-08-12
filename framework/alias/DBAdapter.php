@@ -5,7 +5,7 @@
 
 	$config = Model_Config::getInstance();
 	$dbms = 'mysql';
-	if(isset($config->database['dbms'])) $dbms = strtolower($config->database['dbms']);
+	if(isset($config->database['dbms'])) $dbms = $config->database['dbms'];
 	require_once(ROOT."/framework/data/IAdapter.php");	
 	require_once(ROOT."/framework/data/".$dbms."/Adapter.php");
 	DBAdapter::cacheLoad();

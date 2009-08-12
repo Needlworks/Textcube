@@ -280,10 +280,10 @@ class DBAdapter implements IAdapter {
 	public static function cacheSave() {
 		global $fileCachedResult;
 	}
-	public function rollback() {
+	public static function rollback() {
 		return self::$db->rollback();
 	}
-	public function commit() { 
+	public static function commit() { 
 		self::$db->commit(); // Auto commit.
 		return true;
 	}
