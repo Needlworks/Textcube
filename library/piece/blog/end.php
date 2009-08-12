@@ -59,14 +59,26 @@ if (preg_match("@\\[##_rct_page_##\\]@iU", $view)) {
 }
 if (preg_match("@\\[##_author_rep_##\\]@iU", $view))
 	dress('author_rep', getAuthorListView(User::getUserNamesOfBlog($blogid), $skin->authorList), $view, false, true);
-if (preg_match("@\\[##_rctps_rep_##\\]@iU", $view))
-	dress('rctps_rep', getRecentEntriesView(getRecentEntries($blogid), $skin->recentEntry), $view, false, true);
-if (preg_match("@\\[##_rctrp_rep_##\\]@iU", $view))
-	dress('rctrp_rep', getRecentCommentsView(getRecentComments($blogid), $skin->recentComments), $view, false, true);
-if (preg_match("@\\[##_rcttb_rep_##\\]@iU", $view))
-	dress('rcttb_rep', getRecentTrackbacksView(getRecentTrackbacks($blogid), $skin->recentTrackback), $view, false, true);
+
+// Recent items
+if (preg_match("@\\[##_rctps_##\\]@iU", $view)) {
+	dress('rctps', getRecentEntriesView(getRecentEntries($blogid), $skin->recentEntry, $skin->recentEntryItem), $view, false, true);
+} else if (preg_match("@\\[##_rctps_rep_##\\]@iU", $view)) {
+	dress('rctps_rep', getRecentEntriesView(getRecentEntries($blogid), null, $skin->recentEntryItem), $view, false, true);
+}
+if (preg_match("@\\[##_rctrp_##\\]@iU", $view)) {
+	dress('rctrp', getRecentCommentsView(getRecentComments($blogid), $skin->recentComment, $skin->recentCommentItem), $view, false, true);
+} else if (preg_match("@\\[##_rctrp_rep_##\\]@iU", $view)) {
+	dress('rctrp_rep', getRecentCommentsView(getRecentComments($blogid), null, $skin->recentCommentItem), $view, false, true);
+}
+if (preg_match("@\\[##_rcttb_##\\]@iU", $view)) {
+	dress('rcttb', getRecentTrackbacksView(getRecentTrackbacks($blogid), $skin->recentTrackback, $skin->recentTrackbackItem), $view, false, true);
+} else if (preg_match("@\\[##_rcttb_rep_##\\]@iU", $view)) {
+	dress('rcttb_rep', getRecentTrackbacksView(getRecentTrackbacks($blogid), null, $skin->recentTrackbackItem), $view, false, true);
+}
+// ETC
 if (preg_match("@\\[##_link_rep_##\\]@iU", $view))
-	dress('link_rep', getLinksView(getLinks($blogid), $skin->s_link_rep), $view, false, true);
+	dress('link_rep', getLinksView(getLinks($blogid), $skin->link_rep), $view, false, true);
 if (preg_match("@\\[##_link_list_##\\]@iU", $view))
 	dress('link_list', getLinkListView(getLinks($blogid)), $view, false, true);
 

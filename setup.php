@@ -46,7 +46,7 @@ $__requireBasics = array(
 	'function/mail');
 if(isset($_POST['dbms'])) $database['dbms'] = $_POST['dbms'];
 require ROOT.'/library/include.php';
-require ROOT.'/library/database.php';
+//require ROOT.'/library/database.php';
 require ROOT.'/library/locale.php';
 requireModel('blog.blogSetting');
 requireModel('blog.entry');
@@ -221,7 +221,7 @@ function checkStep($step, $check = true) {
   <div id="inner">
     <h2><span class="step"><?php echo _f('%1단계', 2);?></span> : <?php echo _t('작업 유형을 선택해 주십시오.');?></h2>
     <div style="text-align:center">
-      <div style="width:300px; padding:40px 0px 40px 0px">
+      <div style="width:100%; padding:40px 0px 40px 0px">
         <div style="margin:20px;"><input type="button" value="<?php echo _t('새로운 텍스트큐브를 설정합니다');?>" style="width:100%; height:40px; font-size:14px" onclick="next('install');return false;" /></div>
         <div style="margin:20px;"><input type="button" value="<?php echo _t('텍스트큐브를 다시 설정합니다');?>" style="width:100%; height:40px; font-size:14px" onclick="next('setup');return false;" /></div>
         <div style="margin:20px;"><input type="button" value="<?php echo _t('텍스트큐브 테이블을 삭제합니다');?>" style="width:100%; height:40px; font-size:14px" onclick="next('uninstall');return false;" /></div>
@@ -280,7 +280,7 @@ if(function_exists('pg_connect')) array_push($dbmsSupport,'PostgreSQL');
 if(function_exists('cubrid_connect')) array_push($dbmsSupport,'Cubrid');
 foreach($dbmsSupport as $dbms) {
 ?>
-	      <input type="radio" name="dbms" value="<?php echo $dbms;?>" <?php echo ((isset($_POST['dbms']) && $_POST['dbms'] == $dbms) ? 'checked="checked"' : '');?>/> <?php echo $dbms;?> 
+	      <input type="radio" name="dbms" value="<?php echo $dbms;?>" <?php echo (((isset($_POST['dbms']) && $_POST['dbms'] == $dbms)||(!isset($_POST['dbms']) && $dbms == $dbmsSupport[0])) ? 'default' : '');?>/> <?php echo $dbms;?> 
 <?php
 }
 ?>

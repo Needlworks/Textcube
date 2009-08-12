@@ -295,10 +295,15 @@ class Skin {
 			list($sval, $this->archive) = $this->cutSkinTag($sval, 'archive_rep');
 			list($sval, $this->search) = $this->cutSkinTag($sval, 'search');
 			list($sval, $this->authorList) = $this->cutSkinTag($sval, 'author_rep');
-			list($sval, $this->recentEntry) = $this->cutSkinTag($sval, 'rctps_rep');
-			list($sval, $this->recentComments) = $this->cutSkinTag($sval, 'rctrp_rep');
-			list($sval, $this->recentTrackback) = $this->cutSkinTag($sval, 'rcttb_rep');
-			list($sval, $this->s_link_rep) = $this->cutSkinTag($sval, 'link_rep');
+			
+			list($sval, $this->recentEntryItem) = $this->cutSkinTag($sval, 'rctps_rep');
+			list($sval, $this->recentEntry) = $this->cutSkinTag($sval, 'rctps');
+			list($sval, $this->recentCommentItem) = $this->cutSkinTag($sval, 'rctrp_rep');
+			list($sval, $this->recentComment) = $this->cutSkinTag($sval, 'rctrp');
+			list($sval, $this->recentTrackbackItem) = $this->cutSkinTag($sval, 'rcttb_rep');
+			list($sval, $this->recentTrackback) = $this->cutSkinTag($sval, 'rcttb');
+			
+			list($sval, $this->link_rep) = $this->cutSkinTag($sval, 'link_rep');
 			list($sval, $this->pageTitle) = $this->cutSkinTag($sval, 'page_title');
 			$this->outter = $sval;
 			$this->applyMicroformats();
