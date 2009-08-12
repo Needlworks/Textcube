@@ -19,7 +19,7 @@ requireModel('blog.comment');
 if (false) {
 	fetchConfigVal();
 }
-if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']) && !empty($_POST['mode']) && ($_POST['mode'] == 'commit')) {
+if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']) && !empty($_POST['mode']) && ($_POST['mode'] == 'commit') || !Setting::getBlogSettingGlobal('acceptComments',1)) {
 	if (!empty($_POST['name']))
 		setcookie('guestName', $_POST['name'], time() + 2592000, "$blogURL/");
 	if (!empty($_POST['homepage']) && ($_POST['homepage'] != 'http://')) {

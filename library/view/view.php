@@ -213,7 +213,7 @@ function getTrackbacksView($entry, $skin, $accepttrackback) {
 	$trackbacksView = "<div id=\"entry{$entry['id']}Trackback\" style=\"display:$style\">" . str_replace('[##_tb_container_##]', $trackbacksContainer, $skin->trackbacks) . '</div>';
 
 
-	if(Setting::getBlogSetting('acceptTrackbacks',1) && $accepttrackback) {
+	if(Setting::getBlogSettingGlobal('acceptTrackbacks',1) && $accepttrackback) {
 		// Blocked. (Too many encoding issues with various trackback sender.)
 		//$trackbackAddress = $defaultURL."/trackback/".($blog['useSloganOnPost'] ? $entry['slogan'] : $entry['id']);
 		$trackbackAddress = $defaultURL."/trackback/".$entry['id'];
@@ -396,7 +396,7 @@ function getCommentView($entry, $skin) {
 
 	$default_guestname = '';
 	$default_homepage = '';
-	if (doesHaveOwnership() || ($isComment && $acceptcomment == 1 && Setting::getBlogSetting('acceptComments',1)) || ($isComment == false) || ($useForm == false)) {
+	if (doesHaveOwnership() || ($isComment && $acceptcomment == 1 && Setting::getBlogSettingGlobal('acceptComments',1)) || ($isComment == false) || ($useForm == false)) {
 //		if (!doesHaveOwnership()) {
 			$commentMemberView = ($isComment ? $skin->commentMember : $skin->guestMember);
 			if (!doesHaveMembership()) {

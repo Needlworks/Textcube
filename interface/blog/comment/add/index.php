@@ -25,7 +25,7 @@ if(!Validator::validate($IV))
 	Respond::PrintResult(array('error' => 1, 'description' => 'Illegal parameters'));
 requireStrictRoute();
 header('Content-Type: text/xml; charset=utf-8');
-if (!isset($_GET['__T__']) || !isset($_POST['key']) || $_POST['key'] != md5(filemtime(ROOT . '/config.php'))) {
+if (!isset($_GET['__T__']) || !isset($_POST['key']) || $_POST['key'] != md5(filemtime(ROOT . '/config.php')) || !Setting::getBlogSettingGlobal('acceptComments',1)) {
 	print ("<?xml version=\"1.0\" encoding=\"utf-8\"?><response><error>0</error><commentBlock></commentBlock><recentCommentBlock></recentCommentBlock></response>");
 	exit;
 }

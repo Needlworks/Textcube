@@ -14,6 +14,11 @@ $IV = array(
 	)
 );
 require ROOT . '/library/preprocessor.php';
+if(!Setting::getBlogSetting('acceptTrackbacks',1)) {
+	Respond::PrintResult(array('error' => 1, 'message' => 'The entry does not accept trackback'));
+	exit;	
+}
+
 $url = $_POST['url'];
 $title = !empty($_POST['title']) ? $_POST['title'] : '';
 $excerpt = !empty($_POST['excerpt']) ? $_POST['excerpt'] : '';
@@ -46,7 +51,7 @@ if ($result == 0) {
 	} else if ($result == 2) {
 		Respond::PrintResult(array('error' => 1, 'message' => 'Could not receive'));
 	} else if ($result == 3) {
-		Respond::PrintResult(array('error' => 1, 'message' => 'The entry is not accept trackback'));
+		Respond::PrintResult(array('error' => 1, 'message' => 'The entry does not accept trackback'));
 	} else if ($result == 4) {
 		Respond::PrintResult(array('error' => 1, 'message' => 'already exists trackback'));
 	} else if ($result == 5) {
