@@ -138,11 +138,6 @@ class TableQuery {
 		if (is_null($condition)) {
 			$this->_qualifiers[$name] = 'NULL';
 		} else {
-/*			if(!is_null($escape) && in_array(strtolower($condition), array('equals','not','like'))) { 	// Legacy mode
-				$escape = $value;
-				$value = $condition;
-				$condition = null;
-			}*/
 			switch(strtolower($condition)) {
 				case 'equals':
 				case 'eq':
