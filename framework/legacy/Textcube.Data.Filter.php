@@ -150,6 +150,7 @@ class Filter {
 		if($maxId) return $maxId;
 		else return 0;
 	}
+
 	function _buildQuery() {
 		global $database;
 		$query = new TableQuery($database['prefix'] . 'Filters');
