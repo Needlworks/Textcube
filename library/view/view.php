@@ -1002,7 +1002,9 @@ function getRecentNoticesView($notices, $noticeView, $noticeItemView, $isPage = 
 		}
 		dress('rct_'.$prefix.'_rep', $itemsView, $noticeView);
 		// IE webslice support
-		$noticeView = addWebSlice($noticeView, 'recentNoticeWebslice', htmlspecialchars($blog['title'].' - '._t('최근 공지'))); 
+		if(Setting::getBlogSettingGlobal('useMicroformat',3) == 3) {
+			$noticeView = addWebSlice($noticeView, 'recentNoticeWebslice', htmlspecialchars($blog['title'].' - '._t('최근 공지'))); 
+		}
 	}
 	return $noticeView;
 }
@@ -1023,7 +1025,9 @@ function getRecentEntriesView($entries, $entriesView = null, $template) {
 	if(!is_null($entriesView)) {
 		dress('rctps_rep',$recentEntriesView, $entriesView);
 		// IE webslice support
-		$recentEntriesView = addWebSlice($entriesView, 'recentEntriesWebslice', htmlspecialchars($blog['title'].' - '._t('최근 글'))); 
+		if(Setting::getBlogSettingGlobal('useMicroformat',3) == 3) {
+			$recentEntriesView = addWebSlice($entriesView, 'recentEntriesWebslice', htmlspecialchars($blog['title'].' - '._t('최근 글'))); 
+		} else return $entriesView;
 	}
 	return $recentEntriesView;
 }
@@ -1043,7 +1047,9 @@ function getRecentCommentsView($comments, $commentView = null, $template) {
 	if(!is_null($commentView)) {
 		dress('rctrp_rep',$recentCommentView, $commentView);
 		// IE webslice support
-		$recentCommentView = addWebSlice($commentView, 'recentCommentWebslice', htmlspecialchars($blog['title'].' - '._t('최근 댓글'))); 
+		if(Setting::getBlogSettingGlobal('useMicroformat',3) == 3) {
+			$recentCommentView = addWebSlice($commentView, 'recentCommentWebslice', htmlspecialchars($blog['title'].' - '._t('최근 댓글'))); 
+		} else return $commentView;
 	}
 	return $recentCommentView;
 }
@@ -1063,7 +1069,9 @@ function getRecentTrackbacksView($trackbacks, $trackbackView = null, $template) 
 	if(!is_null($trackbackView)) {
 		dress('rctrp_rep',$recentTrackbackView, $trackbackView);
 		// IE webslice support
-		$recentTrackbackView = addWebSlice($trackbackView, 'recentCommentWebslice', htmlspecialchars($blog['title'].' - '._t('최근 댓글'))); 
+		if(Setting::getBlogSettingGlobal('useMicroformat',3) == 3) {
+			$recentTrackbackView = addWebSlice($trackbackView, 'recentCommentWebslice', htmlspecialchars($blog['title'].' - '._t('최근 댓글'))); 
+		} else return $trackbackView;
 	}
 	return $recentTrackbackView;
 }
