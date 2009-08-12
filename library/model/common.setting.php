@@ -108,6 +108,7 @@ function getDefinedTableNames() {
 			"{$prefix}RemoteResponses", 
 			"{$prefix}Users", 
 			"{$prefix}UserSettings", 
+			"{$prefix}Widgets", 
 			"{$prefix}XMLRPCPingSettings");
 	return $definedTables;
 }

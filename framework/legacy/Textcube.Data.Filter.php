@@ -136,9 +136,14 @@ class Filter {
 	function isAllowed($whiteurl) {
 		global $database;
 
-		$whiteurl = POD::escapeString(strtolower($whiteurl));
-		return POD::queryExistence("SELECT * FROM {$database['prefix']}Filters WHERE blogid = ".getBlogId()." AND filtertype = 'whiteurl' AND '$whiteurl' LIKE CONCAT('%', LOWER(pattern), '%') LIMIT 1");
+		$whiteurl = strtolower($whiteurl);
+		$query = new TableQuery($database['prefix'].'Filters');
+		$query->setQualifier('blogid','equals',getBlogId());
+		$query->setQualifier('filtertype','equals','whiteurl',true);
+		$query->setQualifier('pattern','like',$whiteurl, true);
+		return $query->doesExist();
 	}
+	
 	function _getMaxId() {
 		global $database;
 		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Filters");

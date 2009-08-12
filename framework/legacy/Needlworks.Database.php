@@ -145,18 +145,32 @@ class TableQuery {
 			}*/
 			switch(strtolower($condition)) {
 				case 'equals':
+				case 'eq':
 					$this->_relations[$name] = '=';
 					break;
 				case 'not':
+				case 'neq':
 					$this->_relations[$name] = 'NOT';
 					break;
 				case 'bigger':
+				case 'b':
 				case '>':
 					$this->_relations[$name] = '>';
 					break;
 				case 'smaller':
+				case 's':
 				case '<':
 					$this->_relations[$name] = '<';
+					break;
+				case 'bigger or same':
+				case 'beq':
+				case '>=':
+					$this->_relations[$name] = '>=';
+					break;
+				case 'smaller or same':
+				case 'seq':
+				case '<=':
+					$this->_relations[$name] = '<=';
 					break;
 				case 'like':
 				default:

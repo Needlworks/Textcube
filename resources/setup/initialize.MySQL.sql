@@ -397,6 +397,25 @@ CREATE TABLE [##_dbPrefix_##]UserSettings (
   value text NOT NULL,
   PRIMARY KEY (userid,name)
 ) [##_charset_##];
+CREATE TABLE [##_dbPrefix_##]Widgets (
+  id int(11) NOT NULL default 1,
+  blogid int(11) NOT NULL default 1,
+  title varchar(64) NOT NULL default 'Widget',
+  author varchar(32) NOT NULL default 'Textcube',
+  email varchar(32) DEFAULT NULL,
+  screenshot varchar(128) DEFAULT NULL,
+  thumbnail varchar(128) DEFAULT NULL,
+  titleurl varchar(128) DEFAULT NULL,
+  authorlink varchar(128) default null,
+  authorlocation varchar(32) default null,
+  authorphoto varchar(128) DEFAULT NULL,
+  height int(11) DEFAULT NULL,
+  scrolling int(1) default 0,
+  feature varchar(32) default 'opensocial',
+  content text NOT NULL default '',
+  PRIMARY KEY(id),
+  KEY(blogid)
+) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]XMLRPCPingSettings (
   blogid int(11) NOT NULL default 0,
   url varchar(255) NOT NULL default '',

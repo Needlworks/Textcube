@@ -484,9 +484,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		}
 	}
 
-	if (POD::queryExistence("DESC {$database['prefix']}SkinSettings recentCommentLength")
-	|| POD::queryExistence("DESC {$database['prefix']}SkinSettings recentCommentLength")
-	) {
+	if (POD::queryExistence("DESC {$database['prefix']}SkinSettings recentCommentLength")) {
 		$changed = true;
 		echo '<li>', _text('스킨 설정 테이블의 구조를 변경합니다.'), ': ';
 		if(POD::queryExistence("DESC {$database['prefix']}SkinSettings recentCommentLength")) {
@@ -673,6 +671,37 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			showCheckupMessage(false);
 		}
 	}
+	
+	if (!doesExistTable($database['prefix'] . 'Widgets')) {
+		$changed = true;
+		echo '<li>', _text('위젯 기능 및 오픈소셜 지원을 위한 테이블을 만듭니다'), ': ';
+		$query = "
+		CREATE TABLE {$database['prefix']}Widgets (
+		  id int(11) NOT NULL default 1,
+		  blogid int(11) NOT NULL default 1,
+		  title varchar(64) NOT NULL default 'Widget',
+		  author varchar(32) NOT NULL default 'Textcube',
+		  email varchar(32) DEFAULT NULL,
+		  screenshot varchar(128) DEFAULT NULL,
+		  thumbnail varchar(128) DEFAULT NULL,
+		  titleurl varchar(128) DEFAULT NULL,
+		  authorlink varchar(128) default null,
+		  authorlocation varchar(32) default null,
+		  authorphoto varchar(128) DEFAULT NULL,
+		  height int(11) DEFAULT NULL,
+		  scrolling int(1) default 0,
+		  feature varchar(32) default 'opensocial',
+		  content text NOT NULL default '',
+		  PRIMARY KEY(id),
+		  KEY(blogid)
+		) TYPE=MyISAM
+		";
+		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query))
+			showCheckupMessage(true);
+		else {
+			showCheckupMessage(false);
+		}
+	}	
 }
 
 /***** Common parts. *****/
