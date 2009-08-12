@@ -22,14 +22,14 @@ final class Model_Line extends Singleton {
 		$this->created = null;
 		$this->filter = array();
 		$this->_error = array();
-		$query = new TableQuery($database['prefix'].'Lines');
+		$query = new DBModel($database['prefix'].'Lines');
 	}
 /// Methods for managing	
 	public function add() {
 		global $database;
 		if(is_null($this->created)) $this->created = Timestamp::getUNIXTime();
 		if(!$this->validate()) return false;
-		$query = new TableQuery($database['prefix'].'Lines');
+		$query = new DBModel($database['prefix'].'Lines');
 		$query->setAttribute('id',$this->id);
 		$query->setAttribute('blogid',$this->blogid);
 		$query->setAttribute('category',$this->category,true);
@@ -41,7 +41,7 @@ final class Model_Line extends Singleton {
 	public function delete(){
 		global $database;
 		if(empty($this->filter)) return $this->error('Filter empty');
-		$query = new TableQuery($database['prefix'].'Lines');
+		$query = new DBModel($database['prefix'].'Lines');
 		foreach($this->filter as $filter) {
 			if(count($filter) == 3) {
 				$query->setQualifier($filter[0],$filter[1],$filter[2]);
@@ -55,7 +55,7 @@ final class Model_Line extends Singleton {
 	public function get($fields = '*') {
 		global $database;
 		if(empty($this->filter)) return $this->error('Filter empty');
-		$query = new TableQuery($database['prefix'].'Lines');
+		$query = new DBModel($database['prefix'].'Lines');
 		foreach($this->filter as $filter) {
 			if(count($filter) == 3) {
 				$query->setQualifier($filter[0],$filter[1],$filter[2]);
@@ -84,7 +84,7 @@ final class Model_Line extends Singleton {
 			$count = $conditions['linesforpage'];
 			$offset = ($page - 1) * $count;
 		}
-		$query = new TableQuery($database['prefix'].'Lines');
+		$query = new DBModel($database['prefix'].'Lines');
 		if(isset($conditions['category'])) $query->setQualifier('category','equals',$conditions['category'],true);
 		if(isset($conditions['blogid'])) $query->setQualifier('blogid','equals',$conditions['blogid']);
 		else $query->setQualifier('blogid','equals',getBlogId());
@@ -125,7 +125,7 @@ final class Model_Line extends Singleton {
 	
 	private function getNextId() {
 		global $database;
-		$query = new TableQuery($database['prefix'].'Lines');
+		$query = new DBModel($database['prefix'].'Lines');
 		$maxId = $query->getCell('MAX(id)');
 		if(!empty($maxId)) return $maxId + 1;
 		else return 1;

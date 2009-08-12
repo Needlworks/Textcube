@@ -79,7 +79,7 @@ class Category {
 		if (empty($this->name))
 			return $this->_error('name');
 		
-		$query = new TableQuery($database['prefix'] . 'Categories');
+		$query = new DBModel($database['prefix'] . 'Categories');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		if (isset($this->parent)) {
 			if (is_null($parentLabel = Category::getLabel($this->parent)))

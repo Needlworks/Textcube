@@ -112,7 +112,7 @@ class Trackback {
 	
 	function _buildQuery() {
 		global $database;
-		$query = new TableQuery($database['prefix'] . 'RemoteResponses');
+		$query = new DBModel($database['prefix'] . 'RemoteResponses');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		$query->setQualifier('type', 'equals', 'trackback', false);
 		if (isset($this->id)) {

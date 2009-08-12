@@ -446,23 +446,23 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 	}	
 
 	// Since 1.8
-	if (!DBQuery::queryExistence("DESC {$database['prefix']}Entries longitude")) {
+	if (!DBAdapter::queryExistence("DESC {$database['prefix']}Entries longitude")) {
 		$changed = true;
 		echo '<li>', _text('글과 위경도 좌표 연동을 위한 필드를 추가합니다.'), ': ';
-		if (DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD longitude FLOAT(10) NULL AFTER location") && 
-			DBQuery::execute("ALTER TABLE {$database['prefix']}Entries ADD latitude FLOAT(10) NULL AFTER longitude") &&
-			DBQuery::execute("ALTER TABLE {$database['prefix']}EntriesArchive ADD longitude FLOAT(10) NULL AFTER location") &&
-			DBQuery::execute("ALTER TABLE {$database['prefix']}EntriesArchive ADD latitude FLOAT(10) NULL AFTER longitude"))
+		if (DBAdapter::execute("ALTER TABLE {$database['prefix']}Entries ADD longitude FLOAT(10) NULL AFTER location") && 
+			DBAdapter::execute("ALTER TABLE {$database['prefix']}Entries ADD latitude FLOAT(10) NULL AFTER longitude") &&
+			DBAdapter::execute("ALTER TABLE {$database['prefix']}EntriesArchive ADD longitude FLOAT(10) NULL AFTER location") &&
+			DBAdapter::execute("ALTER TABLE {$database['prefix']}EntriesArchive ADD latitude FLOAT(10) NULL AFTER longitude"))
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
 	}
 
-	if (!DBQuery::queryExistence("DESC {$database['prefix']}Comments longitude")) {
+	if (!DBAdapter::queryExistence("DESC {$database['prefix']}Comments longitude")) {
 		$changed = true;
 		echo '<li>', _text('댓글과 위경도 좌표 연동을 위한 필드를 추가합니다.'), ': ';
-		if (DBQuery::execute("ALTER TABLE {$database['prefix']}Comments ADD longitude FLOAT(10) NULL AFTER secret") && 
-			DBQuery::execute("ALTER TABLE {$database['prefix']}Comments ADD latitude FLOAT(10) NULL AFTER longitude"))
+		if (DBAdapter::execute("ALTER TABLE {$database['prefix']}Comments ADD longitude FLOAT(10) NULL AFTER secret") && 
+			DBAdapter::execute("ALTER TABLE {$database['prefix']}Comments ADD latitude FLOAT(10) NULL AFTER longitude"))
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
@@ -499,7 +499,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			) TYPE=MyISAM
 		";
 		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query)) {
-			$query = new TableQuery($database['prefix'] . 'SkinSettings');
+			$query = new DBModel($database['prefix'] . 'SkinSettings');
 			if($query->doesExist()) {
 				$changed = true;
 				$fieldnames = array(

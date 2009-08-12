@@ -179,7 +179,7 @@ class Keyword {
 	
 	function _buildQuery() {
 		global $database;
-		$query = new TableQuery($database['prefix'] . 'Entries');
+		$query = new DBModel($database['prefix'] . 'Entries');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		$query->setQualifier('category', 'equals', -1);
 		if (isset($this->id)) {

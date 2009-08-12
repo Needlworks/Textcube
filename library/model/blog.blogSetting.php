@@ -369,7 +369,7 @@ function getBlogName($blogid) {
 }
 function getAuthToken($userid){
 	global $database;
-	$query = new TableQuery($database['prefix'].'UserSettings');
+	$query = new DBModel($database['prefix'].'UserSettings');
 	$query->setQualifier('userid', 'equals', $userid);
 	$query->setQualifier('name', 'equals', 'AuthToken', true);
 	return $query->getCell('value');

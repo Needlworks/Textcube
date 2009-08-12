@@ -110,7 +110,7 @@ class DailyStatistics {
 			return $this->_error('date');
 			
 		global $database;
-		$query = new TableQuery($database['prefix'] . 'DailyStatistics');
+		$query = new DBModel($database['prefix'] . 'DailyStatistics');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		$query->setQualifier('datemark', 'equals', $this->date);
 		if (isset($this->visits)) {

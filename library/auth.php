@@ -169,7 +169,7 @@ function resetPassword($blogid, $loginid) {
 	$password = POD::queryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = $userid");
 	$authtoken = md5(generatePassword());
 	
-	$query = new TableQuery($database['prefix'].'UserSettings');
+	$query = new DBModel($database['prefix'].'UserSettings');
 	$query->setAttribute('userid',$userid);
 	$query->setAttribute('name','Authtoken',true);
 	$query->setAttribute('value',$authtoken,true);

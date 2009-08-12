@@ -137,7 +137,7 @@ class Filter {
 		global $database;
 
 		$whiteurl = strtolower($whiteurl);
-		$query = new TableQuery($database['prefix'].'Filters');
+		$query = new DBModel($database['prefix'].'Filters');
 		$query->setQualifier('blogid','equals',getBlogId());
 		$query->setQualifier('filtertype','equals','whiteurl',true);
 		$query->setQualifier(POD::escapeString($whiteurl), 'like',"('%' || LOWER(pattern) || '%')");
@@ -153,7 +153,7 @@ class Filter {
 
 	function _buildQuery() {
 		global $database;
-		$query = new TableQuery($database['prefix'] . 'Filters');
+		$query = new DBModel($database['prefix'] . 'Filters');
 		$query->setQualifier('blogid','equals',  getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))

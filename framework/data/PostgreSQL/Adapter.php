@@ -13,7 +13,7 @@ global $__gLastQueryType;
 $cachedResult = $__dbProperties = array();
 $__gEscapeTag = null;
 
-class DBQuery {	
+class DBAdapter implements IAdapter {	
 	/*@static@*/
 	function bind($database) {
 		global $__dbProperties;
@@ -60,7 +60,7 @@ class DBQuery {
 	function tableList($condition = null) {
 		global $__dbProperties;
 		if (!array_key_exists('tableList', $__dbProperties)) { 
-			$__dbProperties['tableList'] = DBQuery::queryColumn("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
+			$__dbProperties['tableList'] = DBAdapter::queryColumn("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
 		}
 		if(!is_null($condition)) {
 			$result = array();
@@ -74,7 +74,7 @@ class DBQuery {
 	}
 
 	function setTimezone($time) {
-		return DBQuery::query('SET TIME ZONE \'' . $time . '\'');
+		return DBAdapter::query('SET TIME ZONE \'' . $time . '\'');
 	}
 
 	function reservedFieldNames() {
@@ -100,14 +100,14 @@ class DBQuery {
 			stristr($query, 'insert ') ||
 			stristr($query, 'delete ') ||
 			stristr($query, 'replace ') ) {
-			DBQuery::clearCache();
+			DBAdapter::clearCache();
 		}
 		return $result;
 	}
 	
 	/*@static@*/
 	function queryExistence($query) {
-		if ($result = DBQuery::query($query)) {
+		if ($result = DBAdapter::query($query)) {
 			if (pg_num_rows($result) > 0) {
 				pg_free_result($result);
 				return true;
@@ -122,7 +122,7 @@ class DBQuery {
 		global $__gLastQueryType;
 		$count = 0;
 		$query = trim($query);
-		if ($result = DBQuery::query($query)) {
+		if ($result = DBAdapter::query($query)) {
 			$operation = strtolower(substr($query, 0,6));
 			$__gLastQueryType = $operation;
 			switch ($operation) {
@@ -154,7 +154,7 @@ class DBQuery {
 		if( $useCache ) {
 			$result = POD::queryAllWithCache($query, $type);
 		} else {
-			$result = DBQuery::queryAllWithoutCache($query, $type);
+			$result = DBAdapter::queryAllWithoutCache($query, $type);
 		}
 		if( empty($result) ) {
 			return null;
@@ -167,7 +167,7 @@ class DBQuery {
 		if( $useCache ) {
 			$result = POD::queryAllWithCache($query, $type, 1);
 		} else {
-			$result = DBQuery::queryAllWithoutCache($query, $type, 1);
+			$result = DBAdapter::queryAllWithoutCache($query, $type, 1);
 		}
 		if( empty($result) ) {
 			return null;
@@ -189,7 +189,7 @@ class DBQuery {
 		}
 
 		$column = null;
-		if ($result = DBQuery::query($query)) {
+		if ($result = DBAdapter::query($query)) {
 			$column = array();
 			while ($row = pg_fetch_row($result))
 				array_push($column, $row[0]);
@@ -204,14 +204,14 @@ class DBQuery {
 	
 	/*@static@*/
 	function queryAll($query, $type = 'both', $count = -1) {
-		return DBQuery::queryAllWithCache($query, $type, $count);
-		//return DBQuery::queryAllWithoutCache($query, $type, $count);  // Your choice. :)
+		return DBAdapter::queryAllWithCache($query, $type, $count);
+		//return DBAdapter::queryAllWithoutCache($query, $type, $count);  // Your choice. :)
 	}
 
 	function queryAllWithoutCache($query, $type = 'both', $count = -1) {
 		$all = array();
-		$realtype = DBQuery::__queryType($type);
-		if ($result = DBQuery::query($query)) {
+		$realtype = DBAdapter::__queryType($type);
+		if ($result = DBAdapter::query($query)) {
 			while ( ($count-- !=0) && $row = pg_fetch_array($result, null, $realtype))
 				array_push($all, $row);
 			pg_free_result($result);
@@ -231,14 +231,14 @@ class DBQuery {
 			$cachedResult[$cacheKey][0]++;
 			return $cachedResult[$cacheKey][1];
 		}
-		$all = DBQuery::queryAllWithoutCache($query,$type,$count);
+		$all = DBAdapter::queryAllWithoutCache($query,$type,$count);
 		$cachedResult[$cacheKey] = array( 1, $all );
 		return $all;
 	}
 	
 	/*@static@*/
 	function execute($query) {
-		return DBQuery::query($query) ? true : false;
+		return DBAdapter::query($query) ? true : false;
 	}
 	
 	/*@static@*/
@@ -247,9 +247,9 @@ class DBQuery {
 		foreach (func_get_args() as $query) {
 			if (is_array($query)) {
 				foreach ($query as $subquery)
-					if (($result = DBQuery::query($subquery)) === false)
+					if (($result = DBAdapter::query($subquery)) === false)
 						return false;
-			} else if (($result = DBQuery::query($query)) === false)
+			} else if (($result = DBAdapter::query($query)) === false)
 				return false;
 		}
 		return $result;
@@ -336,8 +336,4 @@ class DBQuery {
 		}
 	}
 }
-
-DBQuery::cacheLoad();
-register_shutdown_function( array('DBQuery','cacheSave') );
-
 ?>

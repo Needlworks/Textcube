@@ -125,7 +125,7 @@ class pageCache {
 
 	private function getPageCacheLog() {
 		global $database;
-		$query = new TableQuery($database['prefix'].'PageCacheLog');
+		$query = new DBModel($database['prefix'].'PageCacheLog');
 		$query->setQualifier('blogid','equals',getBlogId());
 		$query->setQualifier('name','equals',$this->realName,true);
 		$result = $query->getCell('value');
@@ -143,7 +143,7 @@ class pageCache {
 		global $database;
 		if(doesHaveOwnership()) $this->_dbContents['owner'] = $this->dbContents;
 		else $this->_dbContents['user'] = $this->dbContents;
-		$query = new TableQuery($database['prefix'].'PageCacheLog');
+		$query = new DBModel($database['prefix'].'PageCacheLog');
 		$query->setAttribute('blogid',getBlogId());
 		$query->setAttribute('name',$this->realName,true);
 		$query->setAttribute('value',serialize($this->_dbContents),true);
@@ -154,7 +154,7 @@ class pageCache {
 
 	private function removePageCacheLog() {
 		global $database;
-		$query = new TableQuery($database['prefix'].'PageCacheLog');
+		$query = new DBModel($database['prefix'].'PageCacheLog');
 		$query->setQualifier('blogid','equals',getBlogId());
 		$query->setQualifier('name','equals',$this->realName,true);
 		return $query->delete();
@@ -213,7 +213,7 @@ class queryCache {
 		if(!is_null($memcache)) {
 			$result = $memcache->get(getBlogId().'-'.$this->queryHash);
 		} else {
-			$query = new TableQuery($database['prefix'].'PageCacheLog');
+			$query = new DBModel($database['prefix'].'PageCacheLog');
 			$query->setQualifier('blogid','equals',getBlogId());
 			$query->setQualifier('name','equals',$this->queryHash,true);
 			$result = $query->getCell('value');
@@ -236,7 +236,7 @@ class queryCache {
 
 			$name = $this->queryHash;
 			$value = serialize($this->contents);
-			$query = new TableQuery($database['prefix'].'PageCacheLog');
+			$query = new DBModel($database['prefix'].'PageCacheLog');
 			$query->setAttribute('blogid',getBlogId());
 			$query->setAttribute('name',$name,true);
 			$query->setAttribute('value',$value,true);
@@ -253,7 +253,7 @@ class queryCache {
 		if(!is_null($memcache)) {
 			return $memcache->delete(getBlogId().'-'.$this->queryHash);
 		} else {
-			$query = new TableQuery($database['prefix'].'PageCacheLog');
+			$query = new DBModel($database['prefix'].'PageCacheLog');
 			$query->setQualifier('blogid','equals',getBlogId());
 			$query->setQualifier('name','equals',$this->queryHash,true);
 			return $query->delete();
@@ -280,7 +280,7 @@ class globalCacheStorage extends pageCache {
 	function load() {
 		global $database, $service;
 		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
-		$query = new TableQuery($database['prefix'].'PageCacheLog');
+		$query = new DBModel($database['prefix'].'PageCacheLog');
 		$query->setQualifier('blogid','equals',$this->_gBlogId);
 		$query->setQualifier('name','equals','globalCacheStorage',true);
 		$result = $query->getCell('value');
@@ -291,7 +291,7 @@ class globalCacheStorage extends pageCache {
 		global $database, $service;
 		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
 		if($this->_isChanged) {	
-			$query = new TableQuery($database['prefix'].'PageCacheLog');
+			$query = new DBModel($database['prefix'].'PageCacheLog');
 			$query->setAttribute('blogid',$this->_gBlogId);
 			$query->setAttribute('name','globalCacheStorage',true);
 			$query->setAttribute('value',serialize($this->_gCacheStorage[$this->_gBlogId]),true);
@@ -319,7 +319,7 @@ class globalCacheStorage extends pageCache {
 	function purge() {
 		global $database, $service;
 		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
-		$query = new TableQuery($database['prefix'].'PageCacheLog');
+		$query = new DBModel($database['prefix'].'PageCacheLog');
 		$query->setQualifier('blogid','equals',$this->_gBlogId);
 		$query->setQualifier('name','equals','globalCacheStorage',true);
 		return $query->delete();		
@@ -340,7 +340,7 @@ class CacheControl {
 			if(!@unlink($dir.'/'.$object)) return false;
 		}
 		@rmdir($dir);
-		$query = new TableQuery($database['prefix'].'PageCacheLog');
+		$query = new DBModel($database['prefix'].'PageCacheLog');
 		$query->setQualifier('blogid','equals',$blogid);
 		$query->delete();
 		return true;

@@ -36,7 +36,7 @@ class Setting {
 		global $database;
 		if(is_null($blogid)) $blogid = getBlogId();
 		if($directAccess == true) {
-			$query = new TableQuery($database['prefix']. 'BlogSettings');
+			$query = new DBModel($database['prefix']. 'BlogSettings');
 			$query->setQualifier('blogid', 'equals', $blogid);
 			$query->setQualifier('name', 'equals', $name, true);
 			return $query->getCell('value');
@@ -64,7 +64,7 @@ class Setting {
 			}
 		}
 
-		$query = new TableQuery($database['prefix'] . 'BlogSettings');
+		$query = new DBModel($database['prefix'] . 'BlogSettings');
 		$query->setQualifier('blogid', 'equals', $blogid);
 		$blogSettings = $query->getAll();
 		if( $blogSettings ) {
@@ -139,7 +139,7 @@ class Setting {
 		if (array_key_exists($name, $__gCacheBlogSettings[$blogid])) {
 			// overwrite value
 			$__gCacheBlogSettings[$blogid][$name] = $value;
-			$query = new TableQuery($database['prefix'] . 'BlogSettings');
+			$query = new DBModel($database['prefix'] . 'BlogSettings');
 			$query->setQualifier('blogid', 'equals', $blogid);
 			$query->setQualifier('name', 'equals', $name, true);
 			$query->setAttribute('blogid', $blogid);
@@ -150,7 +150,7 @@ class Setting {
 		
 		// insert new value
 		$__gCacheBlogSettings[$blogid][$name] = $value;
-		$query = new TableQuery($database['prefix'] . 'BlogSettings');
+		$query = new DBModel($database['prefix'] . 'BlogSettings');
 		$query->setAttribute('blogid', $blogid);
 		$query->setAttribute('name',$name, true);
 		$query->setAttribute('value',$value, true);
@@ -160,7 +160,7 @@ class Setting {
 	function setBlogSettingDefault($name, $value, $blogid = null) {
 		global $database;
 		if(is_null($blogid)) $blogid = getBlogId();
-		$query = new TableQuery($database['prefix'] . 'BlogSettings');
+		$query = new DBModel($database['prefix'] . 'BlogSettings');
 		$query->setQualifier('blogid', 'equals', $blogid);
 		$query->setQualifier('name', 'equals', $name, true);
 		$query->setAttribute('blogid', $blogid);
@@ -191,7 +191,7 @@ class Setting {
 			// overwrite value
 			$gCacheStorage->purge();
 			unset($__gCacheBlogSettings[$blogid][$name]);
-			$query = new TableQuery($database['prefix'] . 'BlogSettings');
+			$query = new DBModel($database['prefix'] . 'BlogSettings');
 			$query->setQualifier('blogid','equals', $blogid);
 			$query->setQualifier('name','equals', $name);
 			return $query->delete();
@@ -229,14 +229,14 @@ class Setting {
 	function getUserSettingGlobal($name, $default = null, $userid = null, $directAccess = false) {
 		global $database, $userSetting;
 		if($directAccess !== false) {
-			$query = new TableQuery($database['prefix'] . 'UserSettings');
+			$query = new DBModel($database['prefix'] . 'UserSettings');
 			$query->setQualifier('userid','equals', $userid);
 			$query->setQualifier('name','equals', $name, true);
 			return $query->getCell('value');
 		}
 		if( empty($userSetting) || !isset($userSetting[$userid])) {
 			$userid = is_null($userid) ? getUserId() :  $userid;
-			$query = new TableQuery($database['prefix'] . 'UserSettings');
+			$query = new DBModel($database['prefix'] . 'UserSettings');
 			$query->setQualifier('userid','equals', $userid);
 			$settings = $query->getAll('name, value');	
 			foreach( $settings as $k => $v ) {
@@ -259,7 +259,7 @@ class Setting {
 		global $database;
 		if(is_null($userid)) $userid = getUserId();
 		clearUserSettingCache();
-		$query = new TableQuery($database['prefix'] . 'UserSettings');
+		$query = new DBModel($database['prefix'] . 'UserSettings');
 		$query->setQualifier('userid', 'equals', $userid);
 		$query->setQualifier('name', 'equals', $name, true);
 		$query->setAttribute('userid', $userid);
@@ -278,7 +278,7 @@ class Setting {
 		global $database;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		clearUserSettingCache();
-		$query = new TableQuery($database['prefix'] . 'UserSettings');
+		$query = new DBModel($database['prefix'] . 'UserSettings');
 		$query->setQualifier('userid', 'equals', (is_null($userid) ? getUserId() : $userid));
 		$query->setQualifier('name','equals', $name,true);
 		return $query->delete();
@@ -288,7 +288,7 @@ class Setting {
 		global $database, $__serviceSetting;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		if( empty($__serviceSetting) ) {
-			$query = new TableQuery($database['prefix'] . 'ServiceSettings');
+			$query = new DBModel($database['prefix'] . 'ServiceSettings');
 			$settings = $query->getAll('name, value');
 			foreach( $settings as $k => $v ) {
 				$__serviceSetting[ $v[0] ] = $v[1];
@@ -304,7 +304,7 @@ class Setting {
 		global $database, $__serviceSetting;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		$name = UTF8::lessenAsEncoding($name, 32);
-		$query = new TableQuery($database['prefix'] . 'ServiceSettings');
+		$query = new DBModel($database['prefix'] . 'ServiceSettings');
 		$query->setQualifier('name', 'equals', $name, true);
 		$query->setAttribute('name', $name, true);
 		$query->setAttribute('value',$value, true);
@@ -316,7 +316,7 @@ class Setting {
 		global $database;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		$name = 'plugin_' . $name;
-		$query = new TableQuery($database['prefix'] . 'ServiceSettings');
+		$query = new DBModel($database['prefix'] . 'ServiceSettings');
 		$query->setQualifier('name','equals', $name,true);
 		return $query->delete();
 	}
@@ -348,7 +348,7 @@ class Setting {
 			}
 		}
 
-		$query = new TableQuery($database['prefix'] . 'SkinSettings');
+		$query = new DBModel($database['prefix'] . 'SkinSettings');
 		$query->setQualifier('blogid', 'equals', $blogid);
 		$skinSettings = $query->getAll();
 		if( $skinSettings ) {
@@ -402,7 +402,7 @@ class Setting {
 	function setSkinSettingDefault($name, $value, $blogid = null) {
 		global $database;
 		if(is_null($blogid)) $blogid = getBlogId();
-		$query = new TableQuery($database['prefix'] . 'SkinSettings');
+		$query = new DBModel($database['prefix'] . 'SkinSettings');
 		$query->setQualifier('blogid', 'equals', $blogid);
 		$query->setQualifier('name', 'equals', $name, true);
 		$query->setAttribute('blogid', $blogid);
@@ -431,7 +431,7 @@ class Setting {
 		if (array_key_exists($name, $__gCacheSkinSettings[$blogid])) {
 			// overwrite value
 			$__gCacheSkinSettings[$blogid][$name] = $value;
-			$query = new TableQuery($database['prefix'] . 'SkinSettings');
+			$query = new DBModel($database['prefix'] . 'SkinSettings');
 			$query->setQualifier('blogid', 'equals', $blogid);
 			$query->setQualifier('name', 'equals', $name, true);
 			$query->setAttribute('blogid', $blogid);
@@ -442,7 +442,7 @@ class Setting {
 		
 		// insert new value
 		$__gCacheSkinSettings[$blogid][$name] = $value;
-		$query = new TableQuery($database['prefix'] . 'SkinSettings');
+		$query = new DBModel($database['prefix'] . 'SkinSettings');
 		$query->setAttribute('blogid', $blogid);
 		$query->setAttribute('name',$name, true);
 		$query->setAttribute('value',$value, true);

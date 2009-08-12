@@ -139,7 +139,7 @@ class Comment {
 
 	function _buildQuery() {
 		global $database;
-		$query = new TableQuery($database['prefix'] . 'Comments');
+		$query = new DBModel($database['prefix'] . 'Comments');
 		$query->setQualifier('blogid', 'equals',getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))

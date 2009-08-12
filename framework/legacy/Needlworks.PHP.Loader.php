@@ -80,12 +80,6 @@ class Autoload_Legacy {
 			if($name == 'Session' && isset($service['memcached']) && $service['memcached'] == true) 
 				require_once(ROOT . "/framework/legacy/Textcube.Control.".$name.".Memcached.php");
 			else require_once(ROOT . "/framework/legacy/Textcube.Control.".$name.".php");
-		} else if (in_array($name,array('POD'))) {
-			require_once(ROOT . "/framework/legacy/POD.Core.Legacy.php");
-		} else if (in_array($name,array('DBQuery'))) {
-			if (!isset($database['dbms'])) $database['dbms'] = 'MySQL';
-			require_once(ROOT . '/framework/legacy/Needlworks.DBMS.'.$database['dbms'].'.php'); 
-			require_once(ROOT . "/framework/legacy/Needlworks.Database.php");
 		} else if (in_array($name,array('Syndication'))) {
 			require_once(ROOT . "/framework/legacy/Eolin.API.Syndication.php");
 		} else if (in_array($name,array('Locale'))) {

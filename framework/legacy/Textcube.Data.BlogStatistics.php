@@ -74,7 +74,7 @@ class BlogStatistics {
 	
 	function _buildQuery() {
 		global $database;
-		$query = new TableQuery($database['prefix'] . 'BlogStatistics');
+		$query = new DBModel($database['prefix'] . 'BlogStatistics');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		if (isset($this->visits)) {
 			if (!Validator::number($this->visits, 0))

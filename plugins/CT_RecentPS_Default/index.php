@@ -26,7 +26,7 @@
 
 function _getRecentEntries($blogid){
 	global $database,$skinSetting;
-	$query = new TableQuery($database['prefix'].'Entries');
+	$query = new DBModel($database['prefix'].'Entries');
 	$query->setQualifier('blogid','equals',$blogid);
 	$query->setQualifier('draft','equals',0);
 	if(doesHaveOwnership()) {

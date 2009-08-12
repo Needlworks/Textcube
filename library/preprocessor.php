@@ -65,8 +65,8 @@ $context = Model_Context::getInstance(); // automatic initialization via first i
 /// Loading debug module
 if($config->service['debugmode'] == true) {
 	if(isset($config->database['dbms'])) {
-		require_once(ROOT. "/framework/legacy/Needlworks.Debug.".$config->database['dbms'].".php");
-	} else require_once(ROOT. "/framework/legacy/Needlworks.Debug.MySQL.php");
+		require_once(ROOT. "/framework/data/".$config->database['dbms']."/Debug.php");
+	} else require_once(ROOT. "/framework/data/MySQL/Debug.php");
 } else {
 	if(!function_exists('dumpAsFile')) {function dumpAsFile($dummy){}}
 }

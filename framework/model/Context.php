@@ -189,7 +189,7 @@ final class Model_Context extends Singleton
 	
 	private function __getBlogIdByName($name) {
 		global $database;
-		$query = new TableQuery($database['prefix'] . 'BlogSettings');
+		$query = new DBModel($database['prefix'] . 'BlogSettings');
 		$query->setQualifier('name','equals','name',true);
 		$query->setQualifier('value', 'equals', $name, true);
 		return $query->getCell('blogid');

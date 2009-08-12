@@ -91,7 +91,7 @@ if ($dbCaseInsensitive == true) {
 	}
 	$dbtables = array_values(array_diff($dbtables, $definedTables));
 }
-$query = new TableQuery($database['prefix'].'ServiceSettings');
+$query = new DBModel($database['prefix'].'ServiceSettings');
 $query->setQualifier('name','like','Database%',true);
 $plugintablesraw = $query->getAll('name,value');
 $plugintables = array();

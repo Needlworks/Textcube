@@ -3,33 +3,6 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-/* Common database I/O routine.
-   Dependency : Needlworks.DBMS.{DBMS name}.php
-   ROOT should be defined.
-*/
-
-/* OLD DBMS HANDLER LOADING PART. WILL BE DELETED SOON.
-   
-global $service, $database;
-if (!isset($database['dbms'])) $database['dbms'] = 'MySQL';
-//if (!isset($database['dbms'])) $database['dbms'] = 'PostgreSQL';
-
-//Database Binding
-switch($database['dbms']) {
-	case 'PostgreSQL':
-		requireComponent('Needlworks.DBMS.PostgreSQL'); break;
-	case 'mysqli':
-		requireComponent('Needlworks.DBMS.MySQLi');     break;
-	case 'Cubrid':
-		require_once ROOT.'/library/components/Needlworks.DBMS.Cubrid.php';
-		break;
-	case 'MySQL':
-	default:
-		requireComponent('Needlworks.DBMS.MySQL');
-}*/
-
-//if(!class_exists('POD')) requireComponent('POD.Core.Legacy'); //1.6 Only uses legacy routine of POD. Will be changed from 1.8. (or later)
-
 // DB-related function. will be merged into DBMS unification function.
 function escapeSearchString($str) {
 	return is_string($str) ? str_replace('_', '\_', str_replace('%', '\%', POD::escapeString($str, null))) : $str;
@@ -59,11 +32,9 @@ function doesExistTable($tablename) {
 	return false;
 }
 
-/* TableQuery */
-// class TableQuery will be depreacted after 1.8 tree.
-// (Will be replaced to POD Framework)
+/* DBModel */
 
-class TableQuery {
+class DBModel {
 	private $_attributes, $_qualifiers, $_query;
 	
 	function __construct($table = null) {

@@ -14,23 +14,9 @@
 //        FOR USING FULL FUNCTION, INCLUDE POD.Core.php instead.
 
 // Bypass variables are supported. ($_pod_setting);
-class POD extends DBQuery {
+class POD extends DBAdapter {
 	/** Pre-definition **/
 	/** Initialization **/
-	function __construct($domain = null, $type = null, $prefix = '') {
-		requireComponent('Needlworks.Cache.PageCache');
-		global $_pod_setting;
-		if($domain != null) $this->_domain = $domain;
-		else if(isset($this->domain)) $this->_domain = $this->domain;
-		if($type != null) {$this->_prototype = $this->_type = $type;}
-		else if(isset($this->prototype)) {$this->_prototype = $this->_type = $this->prototype;}
-		if(!empty($prefix)) $this->_tablePrefix = $prefix;
-		else if(isset($_pod_setting['tablePrefix'])) $this->_tablePrefix = $_pod_setting['tablePrefix'];
-		else $this->_tablePrefix = '';
-		if(isset($_pod_setting['DBMS'])) $this->_DBMS = $_pod_setting['DBMS'];
-		$this->reset();
-		// Should check bind state!
-	}
 
 	/** Additional features for Textcube **/
 	/** NOTICE : PARTS BELOW EXTENDS DBQuery Class WHICH IS THE BASE OF POD

@@ -5,12 +5,10 @@
 
 // DBQuery version 1.8 for Cubrid
 
-global $cachedResult;
 global $fileCachedResult;
-$cachedResult = self::$dbProperties = array();
 
-class DBQuery {	
-	static $dbProperties;
+class DBAdapter implements IAdapter {	
+	static $dbProperties, $cachedResult;
 	/*@static@*/
 	function bind($database) {
 		// Connects DB and set environment variables
@@ -206,13 +204,13 @@ class DBQuery {
 	/*@static@*/
 	function queryColumn($query, $useCache=true) {
 		$cacheKey = "{$query}_queryColumn";
-		if( $useCache && isset( $cachedResult[$cacheKey] ) ) {
+		if( $useCache && isset( self::$cachedResult[$cacheKey] ) ) {
 			if( function_exists( '__tcSqlLogBegin' ) ) {
 				__tcSqlLogBegin($query);
 				__tcSqlLogEnd(null,1);
 			}
-			$cachedResult[$cacheKey][0]++;
-			return $cachedResult[$cacheKey][1];
+			self::$cachedResult[$cacheKey][0]++;
+			return self::$cachedResult[$cacheKey][1];
 		}
 
 		$column = null;
@@ -224,7 +222,7 @@ class DBQuery {
 		}
 
 		if( $useCache ) {
-			$cachedResult[$cacheKey] = array( 1, $column );
+			self::$cachedResult[$cacheKey] = array( 1, $column );
 		}
 		return $column;
 	}
@@ -249,16 +247,16 @@ class DBQuery {
 	
 	function queryAllWithCache($query, $type = 'both', $count = -1) {
 		$cacheKey = "{$query}_{$type}_{$count}";
-		if( isset( $cachedResult[$cacheKey] ) ) {
+		if( isset( self::$cachedResult[$cacheKey] ) ) {
 			if( function_exists( '__tcSqlLogBegin' ) ) {
 				__tcSqlLogBegin($query);
 				__tcSqlLogEnd(null,1);
 			}
-			$cachedResult[$cacheKey][0]++;
-			return $cachedResult[$cacheKey][1];
+			self::$cachedResult[$cacheKey][0]++;
+			return self::$cachedResult[$cacheKey][1];
 		}
 		$all = self::queryAllWithoutCache($query,$type,$count);
-		$cachedResult[$cacheKey] = array( 1, $all );
+		self::$cachedResult[$cacheKey] = array( 1, $all );
 		return $all;
 	}
 	
@@ -290,8 +288,8 @@ class DBQuery {
 	}
 	
 	function clearCache() {
-		global $cachedResult;
-		$cachedResult = array();
+		global self::$cachedResult;
+		self::$cachedResult = array();
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin("Cache cleared");
 			__tcSqlLogEnd(null,2);
@@ -361,7 +359,7 @@ class DBQuery {
 	}
 }
 
-DBQuery::cacheLoad();
+DBAdapter::cacheLoad();
 register_shutdown_function( array('DBQuery','cacheSave') );
 
 ?>
