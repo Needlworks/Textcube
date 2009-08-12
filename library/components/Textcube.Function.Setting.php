@@ -330,5 +330,120 @@ class Setting {
 	function removeServiceSettingGlobal($name) {
 		return Setting::removeServiceSetting($name, true);
 	}
+	function getSkinSetting($blogid, $forceReload = false) {
+		global $database, $service, $__gCacheSkinSettings, $gCacheStorage;
+		if(empty($__gCacheSkinSettings)) $__gCacheSkinSettings = array();
+		if(is_null($blogid)) $blogid = getBlogId();
+		if (array_key_exists($blogid, $__gCacheSkinSettings) && !empty($__gCacheSkinSettings[$blogid])) {
+			return $__gCacheSkinSettings[$blogid];
+		}
+		if($blogid == getBlogId()) {
+			$result = $gCacheStorage->getContent('SkinSettings');
+			if(!empty($result)) { 
+				$__gCacheSkinSettings[$blogid] = $result;
+				return $result;
+			}
+		}
+
+		$query = new TableQuery($database['prefix'] . 'SkinSettings');
+		$query->setQualifier('blogid', 'equals', $blogid);
+		$skinSettings = $query->getAll();
+		if( $skinSettings ) {
+			$result = array();
+			$skinSettingFields = array();
+			$defaultValues = array(
+				'blogid' => $blogid , 
+				'skin' => $service['skin'], 
+				'entriesOnRecent' => 5, 
+				'commentsOnRecent' => 5, 
+				'commentsOnGuestbook' => 5, 
+				'archivesOnPage' => 5,
+				'tagsOnTagbox' => 30, 
+				'tagboxAlign' => 3, 
+				'trackbacksOnRecent' => 5, 
+				'expandComment' => 1, 
+				'expandTrackback' => 1, 
+				'recentNoticeLength' => 25, 
+				'recentEntryLength' => 30, 
+				'recentCommentLength' => 30, 
+				'recentTrackbackLength' => 30, 
+				'linkLength' => 30, 
+				'showListOnCategory' => 1, 
+				'showListOnArchive' => 1, 
+				'tree' => 'base', 
+				'colorOnTree' => '000000', 
+				'bgColorOnTree' => '', 
+				'activeColorOnTree' => 'FFFFFF', 
+				'activeBgColorOnTree' => '00ADEF', 
+				'labelLengthOnTree' => 27, 
+				'showValueOnTree' => 1 );						
+			foreach($skinSettings as $skinSetting) {
+				$result[$skinSetting['name']] = $skinSetting['value'];
+				if(array_key_exists($skinSetting['name'],$defaultValues)) {
+					array_push($skinSettingFields, $skinSetting['name']);
+				}
+			}
+			foreach($defaultValues as $name => $value) {
+				if(!in_array($name,$skinSettingFields)) {
+					$result[$name] = $value;
+					Setting::setSkinSettingDefault($name,$value,$blogid);
+				}
+			}
+			$__gCacheSkinSettings[$blogid] = $result;
+			if($blogid == getBlogId()) $gCacheStorage->setContent('SkinSettings', $result);
+			return $result;
+		}
+		$__gCacheSkinSettings[$blogid] = false;
+		return false;
+	}
+	function setSkinSettingDefault($name, $value, $blogid = null) {
+		global $database;
+		if(is_null($blogid)) $blogid = getBlogId();
+		$query = new TableQuery($database['prefix'] . 'SkinSettings');
+		$query->setQualifier('blogid', 'equals', $blogid);
+		$query->setQualifier('name', 'equals', $name, true);
+		$query->setAttribute('blogid', $blogid);
+		$query->setAttribute('name', $name, true);
+		$query->setAttribute('value',$value, true);
+		return $query->replace();
+	}	
+	
+	function setSkinSetting($name, $value, $blogid = null) {
+		global $database;
+		global $__gCacheSkinSettings;
+		global $gCacheStorage;
+	
+		if (is_null($blogid)) $blogid = getBlogId();
+		if (!is_numeric($blogid)) return null;
+	
+		if (!array_key_exists($blogid, $__gCacheSkinSettings)) {
+			// force loading
+			Setting::getSkinSetting($blogid,false);
+		}
+		if ($__gCacheBlogSettings[$blogid] === false) {
+			return null;
+		}
+		
+		$gCacheStorage->purge();
+		if (array_key_exists($name, $__gCacheSkinSettings[$blogid])) {
+			// overwrite value
+			$__gCacheSkinSettings[$blogid][$name] = $value;
+			$query = new TableQuery($database['prefix'] . 'SkinSettings');
+			$query->setQualifier('blogid', 'equals', $blogid);
+			$query->setQualifier('name', 'equals', $name, true);
+			$query->setAttribute('blogid', $blogid);
+			$query->setAttribute('name', $name, true);
+			$query->setAttribute('value',$value, true);
+			return $query->replace();
+		}
+		
+		// insert new value
+		$__gCacheSkinSettings[$blogid][$name] = $value;
+		$query = new TableQuery($database['prefix'] . 'SkinSettings');
+		$query->setAttribute('blogid', $blogid);
+		$query->setAttribute('name',$name, true);
+		$query->setAttribute('value',$value, true);
+		return $query->insert();
+	}	
 }
 ?>

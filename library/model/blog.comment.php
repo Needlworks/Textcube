@@ -694,7 +694,7 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestSh
 			r.blogid = $blogid".($isGuestbook != false ? " AND r.entry=0" : " AND r.entry>0")." AND r.isfiltered = 0
 		ORDER BY
 			r.written
-		DESC LIMIT ".($count != false ? $count : $skinSetting['commentsonrecent']) :
+		DESC LIMIT ".($count != false ? $count : $skinSetting['commentsOnRecent']) :
 		"SELECT r.*, e.title, e.slogan
 		FROM
 			{$database['prefix']}Comments r
@@ -705,7 +705,7 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestSh
 			.($isGuestbook != false ? " AND r.entry = 0" : " AND r.entry > 0")." AND r.isfiltered = 0
 		ORDER BY
 			r.written
-		DESC LIMIT ".($count != false ? $count : $skinSetting['commentsonrecent']);
+		DESC LIMIT ".($count != false ? $count : $skinSetting['commentsOnRecent']);
 	if ($result = POD::queryAllWithDBCache($sql,'comment')) {
 		foreach($result as $comment) {
 			if (($comment['secret'] == 1) && !doesHaveOwnership()) {
@@ -731,7 +731,7 @@ function getRecentGuestbook($blogid,$count = false) {
 			r.blogid = $blogid AND r.entry = 0 AND r.isfiltered = 0
 		ORDER BY
 			r.written
-		DESC LIMIT ".($count != false ? $count : $skinSetting['commentsonrecent']);
+		DESC LIMIT ".($count != false ? $count : $skinSetting['commentsOnRecent']);
 
 	if ($result = POD::queryAll($sql)) {
 		foreach($result as $comment) {
@@ -768,7 +768,7 @@ function getGuestbookPageById($blogid, $id) {
 			return false;
 		}
 	}
-	return intval($order / $skinSetting['commentsonguestbook'])+1;
+	return intval($order / $skinSetting['commentsOnGuestbook'])+1;
 }
 
 function deleteCommentInOwner($blogid, $id) {

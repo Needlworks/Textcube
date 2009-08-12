@@ -33,6 +33,25 @@ function getBlogSettingForMigration($blogid, $name, $default = null) {
 	return ($value === null) ? $default : $value;
 }
 
+function setSkinSettingForMigration($blogid, $name, $value, $mig = null) {
+	global $database;
+	$name = POD::escapeString($name);
+	$value = POD::escapeString($value);
+	if($mig === null) 
+		return POD::execute("REPLACE INTO {$database['prefix']}SkinSettingsMig VALUES('$blogid', '$name', '$value')");
+	else
+		return POD::execute("REPLACE INTO {$database['prefix']}SkinSettings VALUES('$blogid', '$name', '$value')");
+}
+
+function getSkinSettingForMigration($blogid, $name, $default = null) {
+	global $database;
+	$value = POD::queryCell("SELECT value 
+		FROM {$database['prefix']}SkinSettingsMig 
+		WHERE blogid = '$blogid'
+		AND name = '".POD::escapeString($name)."'");
+	return ($value === null) ? $default : $value;
+}
+
 function showCheckupMessage($stat = true) {
 	global $succeed;
 	if($stat) {
@@ -413,6 +432,89 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			showCheckupMessage(false);
 		}
 	}
+
+	if (POD::queryExistence("DESC {$database['prefix']}SkinSettings recentCommentLength")) {
+		$changed = true;
+		echo '<li>', _text('스킨 설정 테이블의 구조를 변경합니다.'), ': ';
+		if(POD::queryExistence("DESC {$database['prefix']}SkinSettings recentCommentLength")) {
+			$lowerChar = true;	
+		} else $lowerChar = false;
+		$query = "
+			CREATE TABLE {$database['prefix']}SkinSettingsMig (
+				blogid int(11) NOT NULL default 0,
+				name varchar(32) NOT NULL default '',
+				value text NOT NULL,
+				PRIMARY KEY (blogid,name)
+			) TYPE=MyISAM
+		";
+		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query)) {
+			$query = new TableQuery($database['prefix'] . 'SkinSettings');
+			if($query->doesExist()) {
+				$changed = true;
+				$fieldnames = array(
+					'blogid',
+					'skin',
+					'entriesOnRecent',
+					'commentsOnRecent',
+					'commentsOnGuestbook',
+					'archivesOnPage',
+					'tagsOnTagbox',
+					'tagboxAlign',
+					'trackbacksOnRecent',
+					'expandComment',
+					'expandTrackback',
+					'recentNoticeLength',
+					'recentEntryLength',
+					'recentCommentLength',
+					'recentTrackbackLength',
+					'linkLength',
+					'showListOnCategory',
+					'showListOnArchive',
+					'showListOnTag',
+					'showListOnAuthor',
+					'showListOnSearch',
+					'tree',
+					'colorOnTree',
+					'bgColorOnTree',
+					'activeColorOnTree',
+					'activeBgColorOnTree',
+					'labelLengthOnTree',
+					'showValueOnTree');
+				$queryString = implode(',',$fieldnames);
+				if($lowerChar) $queryString = strtolower($queryString);
+				if ($skinSettings = $query->getAll($queryString)) {
+					foreach($skinSettings as $skinSetting) {
+						foreach($fieldnames as $fieldname) {
+							if($lowerChar) {
+								$origFieldName = strtolower($fieldname);
+							} else $origFieldName = $fieldname;
+							setSkinSettingForMigration($skinSetting['blogid'],$fieldname,$skinSetting[$origFieldName]);
+						}
+					}
+					$checked = true;
+					foreach($skinSettings as $skinSetting) {
+						foreach($fieldnames as $fieldname) { 
+							if($lowerChar) {
+								$origFieldName = strtolower($fieldname);
+							} else $origFieldName = $fieldname;
+							if(getSkinSettingForMigration($skinSetting['blogid'],$fieldname) != $skinSetting[$origFieldName]) {$checked = false;break;}
+						}
+					}
+					unset($blogSettings);
+					if($checked == false) {
+						POD::execute("DROP TABLE {$database['prefix']}SkinSettingsMig");
+						showCheckupMessage(false);
+					} else {
+						// Change Table
+						POD::execute("DROP TABLE {$database['prefix']}SkinSettings");
+						POD::execute("RENAME TABLE {$database['prefix']}SkinSettingsMig TO {$database['prefix']}SkinSettings");
+						showCheckupMessage(true);
+					}
+				} else showCheckupMessage(false);
+			} else showCheckupMessage(false);
+		} else showCheckupMessage(false);
+	}
+	
 	if (!POD::queryExistence("DESC {$database['prefix']}DailyStatistics datemark")) {
 		$changed = true;
 		echo '<li>', _text('다양한 데이터베이스 엔진 호환성을 위하여 모든 필드의 이름을 소문자로 변환합니다.'), ': ';
@@ -468,32 +570,6 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 				CHANGE lastLogin lastlogin int(11) default NULL")
 			&& POD::execute("ALTER TABLE {$database['prefix']}Sessions
 				CHANGE data privilege text")										
-			&& POD::execute("ALTER TABLE {$database['prefix']}SkinSettings
-				CHANGE entriesOnRecent entriesonrecent int(11) NOT NULL default '10',
-				CHANGE commentsOnRecent commentsonrecent int(11) NOT NULL default '10',
-				CHANGE commentsOnGuestbook commentsonguestbook int(11) NOT NULL default '5',
-				CHANGE archivesOnPage archivesonpage int(11) NOT NULL default '5',
-				CHANGE tagsOnTagbox tagsontagbox tinyint(4) NOT NULL default '10',
-				CHANGE tagboxAlign tagboxalign tinyint(4) NOT NULL default '1',
-				CHANGE trackbacksOnRecent trackbacksonrecent int(11) NOT NULL default '5',
-				CHANGE expandComment expandcomment int(1) NOT NULL default '1',
-				CHANGE expandTrackback expandtrackback int(1) NOT NULL default '1',
-				CHANGE recentNoticeLength recentnoticelength int(11) NOT NULL default '30',
-				CHANGE recentEntryLength recententrylength int(11) NOT NULL default '30',
-				CHANGE recentCommentLength recentcommentlength int(11) NOT NULL default '30',
-				CHANGE recentTrackbackLength recenttrackbacklength int(11) NOT NULL default '30',
-				CHANGE linkLength linklength int(11) NOT NULL default '30',
-				CHANGE showListOnCategory showlistoncategory tinyint(4) NOT NULL default '1',
-				CHANGE showListOnArchive showlistonarchive tinyint(4) NOT NULL default '1',
-				CHANGE showListOnTag showlistontag tinyint(4) NOT NULL default '1',
-				CHANGE showListOnAuthor showlistonauthor tinyint(4) NOT NULL default '1',
-				CHANGE showListOnSearch showlistonsearch int(1) NOT NULL default '1',
-				CHANGE colorOnTree colorontree varchar(6) NOT NULL default '000000',
-				CHANGE bgColorOnTree bgcolorontree varchar(6) NOT NULL default '',
-				CHANGE activeColorOnTree activecolorontree varchar(6) NOT NULL default 'FFFFFF',
-				CHANGE activeBgColorOnTree activebgcolorontree varchar(6) NOT NULL default '00ADEF',
-				CHANGE labelLengthOnTree labellengthontree int(11) NOT NULL default '30',
-				CHANGE showValueOnTree showvalueontree int(1) NOT NULL default '1'")
 			&& POD::execute("ALTER TABLE {$database['prefix']}RemoteResponses
 				DROP KEY isFiltered, 
 				CHANGE isFiltered isfiltered int(11) NOT NULL default 0,
