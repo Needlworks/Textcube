@@ -52,7 +52,7 @@ class DBAdapter implements IAdapter {
 		return 'MySQLi';
 	}
 
-	public static function version() {
+	public static function version($mode = "server") {
 		if (array_key_exists('version', self::$dbProperties)) return self::$dbProperties['version'];
 		else {
 			self::$dbProperties['version'] = self::queryCell("SHOW VARIABLES LIKE 'version'");
