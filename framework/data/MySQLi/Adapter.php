@@ -86,7 +86,7 @@ class DBAdapter implements IAdapter {
 		return self::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
 	}
 	
-	function reservedFieldNames() {
+	public static function reservedFieldNames() {
 		return null;
 	}
 	
