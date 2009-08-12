@@ -245,10 +245,8 @@ if ($service['type'] != 'single') {
 								var publishWholeOnRSS     = "<?php echo $blog['publishWholeOnRSS'];?>";
 								var allowCommentGuestbook = <?php echo $blog['allowWriteDblCommentOnGuestbook'];?>;
 								var blogVisibility        = <?php echo $blog['visibility'];?>;
-								var useiPhoneUI           = <?php echo (getBlogSetting('useiPhoneUI',true) ? 1 : 0);?>;
 
-								//var allowWriteGuestbook = <?php echo $blog['allowWriteOnGuestbook'];?>;
-								function setRSS() {
+								function setPolicy() {
 									if (document.getElementById('rss-form').useSlogan[useSlogan].checked == true
 										|| document.getElementById('rss-form').useCSlogan[useCSlogan].checked == true
 										|| document.getElementById('rss-form').useTSlogan[useTSlogan].checked == true) {
@@ -324,17 +322,20 @@ if($service['allowBlogVisibilitySetting']){
 
 									if(document.getElementById('useiPhoneUI').checked) newUseiPhoneUI = 1;
 									else newUseiPhoneUI = 0;
-									if ( useiPhoneUI != newUseiPhoneUI) {
-										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/visibility/?useiPhoneUI="+newUseiPhoneUI);
-										request.onSuccess = function() {
-											useiPhoneUI = newUseiPhoneUI;
-											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
-										}
-										request.onError = function() {
-											PM.showErrorMessage("<?php echo _t('실패했습니다.');?>", "center", "bottom");
-										}
-										request.send();
+									if(document.getElementById('acceptComments').checked) acceptComments = 0;
+									else acceptComments = 1;
+									if(document.getElementById('acceptTrackbacks').checked) acceptTrackbacks = 0;
+									else acceptTrackbacks = 1;
+									
+									var request2 = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/visibility/");
+									request2.onSuccess = function() {
+										PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 									}
+									request2.onError = function() {
+										PM.showErrorMessage("<?php echo _t('실패했습니다.');?>", "center", "bottom");
+									}
+									request2.send("useiPhoneUI="+newUseiPhoneUI+"&acceptComments="+acceptComments+"&acceptTrackbacks="+acceptTrackbacks);
+
 									try {
 										var oonly = document.getElementById( 'openidonlycomment' );
 										oonly = oonly.checked ? "1" : "0";
@@ -715,6 +716,20 @@ if( $openidlogodisplay ) {
 } else {
 	$openidlogodisplay = "";
 }
+
+$acceptComments = Setting::getBlogSettingGlobal( "acceptComments", 1 );
+if( $acceptComments ) {
+	$acceptComments = "";
+} else {
+	$acceptComments = "checked='checked'";
+}
+$acceptTrackbacks = Setting::getBlogSettingGlobal( "acceptTrackbacks", 1 );
+if( $acceptTrackbacks ) {
+	$acceptTrackbacks = "";
+} else {
+	$acceptTrackbacks = "checked='checked'";
+}
+
 ?>
 										<dl id="comment-authority-line" class="line">
 											<dt><label for="allowCommentGuestbook"><?php echo _t('방명록 및 댓글 쓰기 권한');?></label></dt>										
@@ -725,8 +740,19 @@ if( $openidlogodisplay ) {
 												<input id="openidlogodisplay" type="checkbox" name="openidlogodisplay" <?php echo $openidlogodisplay?> />
 												<label for="openidlogodisplay"><?php echo _t('오픈아이디로 로그인하여 쓴 댓글/방명록에 오픈아이디 아이콘을 표시합니다.') ?></label>
 											</dd>
-										</dl>										
-										
+										</dl>
+																			
+										<dl id="accept-response-line" class="line">
+											<dt><label for="acceptResponses"><?php echo _t('댓글 및 글걸기 차단');?></label></dt>										
+											<dd>
+												<input id="acceptComments" type="checkbox" name="acceptComment" <?php echo $acceptComments;?> />
+												<label for="acceptComments"><?php echo _t('블로그의 모든 글에 댓글을 달 수 없도록 합니다.'); ?></label>
+												<br />
+												<input id="acceptTrackbacks" type="checkbox" name="acceptTrackback" <?php echo $acceptTrackbacks;?> />
+												<label for="acceptTrackbacks"><?php echo _t('블로그의 모든 글에 트랙백 및 핑백을 보낼 수 없도록 합니다.') ?></label>
+											</dd>
+										</dl>
+																				
 										<dl id="blog-iphone-ui-line" class="line">
 											<dt><span class="label"><?php echo _t('모바일 인터페이스');?></span></dt>
 											<dd>
@@ -736,7 +762,7 @@ if( $openidlogodisplay ) {
 									</fieldset>
 								</div>
 								<div class="button-box">
-									<input type="submit" class="save-button input-button wide-button" value="<?php echo _t('저장하기');?>" onclick="setRSS(); return false;" />
+									<input type="submit" class="save-button input-button wide-button" value="<?php echo _t('저장하기');?>" onclick="setPolicy(); return false;" />
 								</div>
 							</form>
 						</div>
