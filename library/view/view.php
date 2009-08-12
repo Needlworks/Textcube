@@ -213,7 +213,7 @@ function getTrackbacksView($entry, $skin, $accepttrackback) {
 	$trackbacksView = "<div id=\"entry{$entry['id']}Trackback\" style=\"display:$style\">" . str_replace('[##_tb_container_##]', $trackbacksContainer, $skin->trackbacks) . '</div>';
 
 
-	if($accepttrackback) {
+	if(Setting::getBlogSetting('acceptTrackbacks',1) && $accepttrackback) {
 		// Blocked. (Too many encoding issues with various trackback sender.)
 		//$trackbackAddress = $defaultURL."/trackback/".($blog['useSloganOnPost'] ? $entry['slogan'] : $entry['id']);
 		$trackbackAddress = $defaultURL."/trackback/".$entry['id'];
@@ -396,7 +396,7 @@ function getCommentView($entry, $skin) {
 
 	$default_guestname = '';
 	$default_homepage = '';
-	if (doesHaveOwnership() || ($isComment && $acceptcomment == 1) || ($isComment == false) || ($useForm == false)) {
+	if (doesHaveOwnership() || ($isComment && $acceptcomment == 1 && Setting::getBlogSetting('acceptComments',1)) || ($isComment == false) || ($useForm == false)) {
 //		if (!doesHaveOwnership()) {
 			$commentMemberView = ($isComment ? $skin->commentMember : $skin->guestMember);
 			if (!doesHaveMembership()) {
@@ -1070,7 +1070,7 @@ function getRecentTrackbacksView($trackbacks, $trackbackView = null, $template) 
 		dress('rctrp_rep',$recentTrackbackView, $trackbackView);
 		// IE webslice support
 		if(Setting::getBlogSettingGlobal('useMicroformat',3) == 3) {
-			$recentTrackbackView = addWebSlice($trackbackView, 'recentCommentWebslice', htmlspecialchars($blog['title'].' - '._t('최근 댓글'))); 
+			$recentTrackbackView = addWebSlice($trackbackView, 'recentCommentWebslice', htmlspecialchars($blog['title'].' - '._t('최근 트랙백'))); 
 		} else return $trackbackView;
 	}
 	return $recentTrackbackView;
