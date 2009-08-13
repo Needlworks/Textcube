@@ -87,6 +87,36 @@ class DBAdapter implements IAdapter {
 		/// Bypassing compatiblitiy issue : will be replace to NAF2.
 		if($compatibility) {
 			$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compatibility issue.
+
+			// CONCAT
+			$ppos = -1;
+			$length = strlen($query);
+			do {
+				$pos = strpos($query, '\'', $ppos + 1);
+				if ($pos === false) {
+					$pos = strlen($query);
+				}
+
+				while (true) {
+					$concat = stripos($query, 'CONCAT', $ppos + 1);
+					if ($concat === false || $concat >= $pos) {
+						break;
+					}
+
+					$query = substr($query, 0, $concat).preg_replace_callback('/CONCAT\\s*\\((.*)\\)/i', array(__CLASS__, '__concatCallback'), substr($query, $concat), 1);
+
+					$pos = strpos($query, '\'', $ppos + 1);
+					$length = strlen($query);
+				}
+
+				$ppos = $pos;
+				while ($ppos < $length) {
+					$ppos = strpos($query, '\'', $ppos + 1);
+					if ($query[$ppos - 1] != '\\') {
+						break;
+					}
+				}
+			} while ($ppos < $length);
 		}		
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);

@@ -113,6 +113,36 @@ class DBAdapter implements IAdapter {
 					);
 			}
 			$query = preg_replace($origPagingInst, $descPagingInst,$query);
+
+			// CONCAT
+			$ppos = -1;
+			$length = strlen($query);
+			do {
+				$pos = strpos($query, '\'', $ppos + 1);
+				if ($pos === false) {
+					$pos = strlen($query);
+				}
+
+				while (true) {
+					$concat = stripos($query, 'CONCAT', $ppos + 1);
+					if ($concat === false || $concat >= $pos) {
+						break;
+					}
+
+					$query = substr($query, 0, $concat).preg_replace_callback('/CONCAT\\s*\\((.*)\\)/i', array(__CLASS__, '__concatCallback'), substr($query, $concat), 1);
+
+					$pos = strpos($query, '\'', $ppos + 1);
+					$length = strlen($query);
+				}
+
+				$ppos = $pos;
+				while ($ppos < $length) {
+					$ppos = strpos($query, '\'', $ppos + 1);
+					if ($query[$ppos - 1] != '\\') {
+						break;
+					}
+				}
+			} while ($ppos < $length);
 		}
 
 		if( function_exists( '__tcSqlLogBegin' ) ) {
@@ -130,6 +160,10 @@ class DBAdapter implements IAdapter {
 			self::clearCache();
 		}
 		return $result;
+	}
+
+	private static function __concatCallback($match) {
+		return '('.preg_replace('/(?<!\\\\\')\\s*,\\s*/', ' || ', $match[1]).')';
 	}
 
 	/*@static@*/
