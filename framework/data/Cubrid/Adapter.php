@@ -115,7 +115,7 @@ class DBAdapter implements IAdapter {
 			$query = preg_replace($origPagingInst, $descPagingInst,$query);
 		}
 
-		if( public static function_exists( '__tcSqlLogBegin' ) ) {
+		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);
 			$result = cubrid_execute(self::$dbProperties['handle'],$query);
 			__tcSqlLogEnd($result,0);
@@ -205,7 +205,7 @@ class DBAdapter implements IAdapter {
 	public static function queryColumn($query, $useCache=true) {
 		$cacheKey = "{$query}_queryColumn";
 		if( $useCache && isset( self::$cachedResult[$cacheKey] ) ) {
-			if( public static function_exists( '__tcSqlLogBegin' ) ) {
+			if( function_exists( '__tcSqlLogBegin' ) ) {
 				__tcSqlLogBegin($query);
 				__tcSqlLogEnd(null,1);
 			}
@@ -248,7 +248,7 @@ class DBAdapter implements IAdapter {
 	public static function queryAllWithCache($query, $type = 'both', $count = -1) {
 		$cacheKey = "{$query}_{$type}_{$count}";
 		if( isset( self::$cachedResult[$cacheKey] ) ) {
-			if( public static function_exists( '__tcSqlLogBegin' ) ) {
+			if( function_exists( '__tcSqlLogBegin' ) ) {
 				__tcSqlLogBegin($query);
 				__tcSqlLogEnd(null,1);
 			}
@@ -290,7 +290,7 @@ class DBAdapter implements IAdapter {
 	public static function clearCache() {
 		global self::$cachedResult;
 		self::$cachedResult = array();
-		if( public static function_exists( '__tcSqlLogBegin' ) ) {
+		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin("Cache cleared");
 			__tcSqlLogEnd(null,2);
 		}
