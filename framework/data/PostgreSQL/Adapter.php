@@ -134,6 +134,10 @@ class DBAdapter implements IAdapter {
 		}
 		return $result;
 	}
+
+	private static function __concatCallback($match) {
+		return '('.preg_replace('/(?<!\\\\\')\\s*,\\s*/', ' || ', $match[1]).')';
+	}
 	
 	/*@static@*/
 	public static function queryExistence($query) {
