@@ -88,10 +88,11 @@ final class Locale extends Singleton {
 				$entry = strtok($locale->getFilename(),'.');
 				if ($fp = fopen($locale->getPathname(), 'r')) {
 					$desc = fgets($fp);
-					if (preg_match('/<\?(php)?\s*\/\/\s*(.+)/', $desc, $matches))
+					if (preg_match('/<\?(php)?\s*\/\/\s*(.+)/', $desc, $matches)) {
 						$locales[$entry] = _t(trim($matches[2]));
-					else
+					} else {
 						$locales[$entry] = $entry;
+					}
 					fclose($fp);
 				}
 			}

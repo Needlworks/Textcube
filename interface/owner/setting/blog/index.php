@@ -4,7 +4,6 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
 require ROOT . '/interface/common/owner/header.php';
-
 ?>
 						<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/generaltag.js"></script>
 						<script type="text/javascript">
@@ -782,7 +781,7 @@ if( $acceptTrackbacks ) {
 												<select id="admin-language" name="adminLanguage">
 <?php
 $locale = Locale::getInstance();
-$locale->setDirectory(ROOT.'/resource/locale/description');
+$locale->setDirectory(ROOT.'/resource/locale/owner');
 $supportedLanguages = $locale->getSupportedLocales();
 foreach ($supportedLanguages as $locale => $language) {
 ?>
@@ -799,6 +798,9 @@ foreach ($supportedLanguages as $locale => $language) {
 											<dd>
 												<select id="blog-language" name="blogLanguage">
 <?php
+$locale = Locale::getInstance();
+$locale->setDirectory(ROOT.'/resource/locale/blog');
+$supportedLanguages = $locale->getSupportedLocales();
 foreach ($supportedLanguages as $locale => $language) {
 ?>
 													<option value="<?php echo $locale;?>"<?php echo ($locale == $blog['blogLanguage'] ? ' selected="selected"' : '');?>><?php echo $language;?></option>

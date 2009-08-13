@@ -60,7 +60,6 @@ class Autoload_Legacy {
 		'OpenID', 'OpenIDSession', 'OpenIDConsumer');
 	private static $control = array(
 		'Session','RSS');
-	private static $newmodel = array('Line','OpenSearchProvider');
 	public static function load($name) {
 		global $service, $database;
 		$name = ucfirst($name);
@@ -82,10 +81,6 @@ class Autoload_Legacy {
 			else require_once(ROOT . "/framework/legacy/Textcube.Control.".$name.".php");
 		} else if (in_array($name,array('Syndication'))) {
 			require_once(ROOT . "/framework/legacy/Eolin.API.Syndication.php");
-		} else if (in_array($name,array('Locale'))) {
-			require_once(ROOT . "/framework/legacy/Needlworks.Core.Locale.php");
-		} else if (in_array($name,self::$newmodel)) {
-			require_once(ROOT . "/framework/model/".$name.'.php');
 		} else {
 //			if(defined('TCDEBUG')) print "TC: Unregisterred auto load class from legacy repository : $name<br/>\n";
 		}

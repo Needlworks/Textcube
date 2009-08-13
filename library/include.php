@@ -7,7 +7,6 @@
 global $__requireBasics, $__requireComponent, $__requireLibrary, $__requireModel, $__requireView;
 $__requireComponent = array(
 	'Textcube.Core',
-	'Needlworks.Core.Locale',
 	'Needlworks.Cache.PageCache');
 foreach($__requireComponent as $lib) {
 	require ROOT .'/framework/legacy/'.$lib.'.php';

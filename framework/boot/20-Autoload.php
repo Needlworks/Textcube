@@ -49,6 +49,8 @@ class Autoload {
 			// Original structure (NAF2)
 			if (file_exists(ROOT.'/framework/alias/'.$className.'.php')) {
 				require_once ROOT.'/framework/alias/'.$className.'.php';
+			} else if (file_exists(ROOT.'/framework/'.strtolower($className).'/'.$className.'.php')) {
+				require_once ROOT.'/framework/'.strtolower($className).'/'.$className.'.php';
 			} else if (file_exists(ROOT.'/framework/'.$className.'.php')) {
 				require_once ROOT.'/framework/'.$className.'.php';
 			} else {
