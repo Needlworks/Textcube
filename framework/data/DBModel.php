@@ -34,14 +34,19 @@ function doesExistTable($tablename) {
 
 /* DBModel */
 
-class DBModel {
-	private $_attributes, $_qualifiers, $_query;
-	
+class DBModel extends Singleton {
+	protected $_attributes, $_qualifiers, $_query;
+	protected $_relations, $_filters, $_order, $_limitation, $table, $id, $_reservedFields, $_isReserved;
+			
 	function __construct($table = null) {
 		$this->reset($table);
 	}
 	
-	public function reset($table = null) {
+	public static function getInstance() {
+		return self::_getInstance(__CLASS__);
+	}
+		
+	public function reset($table) {
 		$this->table = $table;
 		$this->id = null;
 		$this->_attributes = array();
@@ -49,14 +54,14 @@ class DBModel {
 		$this->_relations = array();
 		$this->_filters = array();
 		$this->_order = array();	
-		$this->_limitation = array();	
+		$this->_limitation = array();
+		$this->_isReserved = array();
+		
 		$this->_reservedFields = POD::reservedFieldNames();
 		if(!empty($this->_reservedFields)) {
 			foreach($this->_reservedFields as $reserved) {
 				$this->_isReserved[$reserved] = true;
 			}
-		} else {
-			$this->_isReserved = array();
 		}
 	}
 	
@@ -261,8 +266,9 @@ class DBModel {
 		return false;
 	}
 	
-	private function _makeWhereClause() {
+	protected function _makeWhereClause() {
 		$clause = '';
+		
 		foreach ($this->_qualifiers as $name => $value) {
 			$clause .= (strlen($clause) ? ' AND ' : '') . 
 				(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) .
@@ -273,7 +279,7 @@ class DBModel {
 		return (strlen($clause) ? ' WHERE ' . $clause : '');
 	}
 
-	function _treatReservedFields($fields) {
+	protected function _treatReservedFields($fields) {
 		if(empty($this->_reservedFields)) return $fields;
 		else {
 			$requestedFields = explode(',',str_replace(' ','',$fields));
@@ -281,7 +287,7 @@ class DBModel {
 		}
 	}
 
-	function _capsulateFields($requestedFieldArray) {
+	protected function _capsulateFields($requestedFieldArray) {
 		$escapedFields = array();
 		foreach ($requestedFieldArray as $req) {
 			if(array_key_exists($req,$this->_isReserved)) {

@@ -196,11 +196,6 @@ if (empty($_POST['step'])) {
 else if ($_POST['step'] == 7) {
 	checkStep(8, false);
 } else {
-/*	
-	function POD::escapeString($string) {
-		global $mysql_escaping_function;
-		return $mysql_escaping_function($string);
-	}*/
 	
 	for ($i = 1; $i <= $_POST['step']; $i ++) {
         if (!checkStep($i))

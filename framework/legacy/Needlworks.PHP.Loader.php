@@ -87,7 +87,7 @@ class Autoload_Legacy {
 		} else if (in_array($name,self::$newmodel)) {
 			require_once(ROOT . "/framework/model/".$name.'.php');
 		} else {
-			if(defined('TCDEBUG')) print "TC: Unregisterred auto load class from legacy repository : $name<br/>\n";
+//			if(defined('TCDEBUG')) print "TC: Unregisterred auto load class from legacy repository : $name<br/>\n";
 		}
 	}
 }

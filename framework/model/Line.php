@@ -3,9 +3,12 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-final class Model_Line extends Singleton {
+final class Model_Line extends DBModel {
 	private $filter = array();
-	public function __constructor() {
+
+	public function __construct() {
+		global $database;
+		parent::reset($database['prefix']."Lines");
 		$this->reset();
 	}
 
@@ -14,7 +17,6 @@ final class Model_Line extends Singleton {
 	}
 		
 	public function reset() {
-		global $database;		
 		$this->id = null;
 		$this->blogid = getBlogId();
 		$this->category = 'public';
@@ -22,49 +24,44 @@ final class Model_Line extends Singleton {
 		$this->created = null;
 		$this->filter = array();
 		$this->_error = array();
-		$query = new DBModel($database['prefix'].'Lines');
 	}
+
 /// Methods for managing	
 	public function add() {
-		global $database;
 		if(is_null($this->created)) $this->created = Timestamp::getUNIXTime();
 		if(!$this->validate()) return false;
-		$query = new DBModel($database['prefix'].'Lines');
-		$query->setAttribute('id',$this->id);
-		$query->setAttribute('blogid',$this->blogid);
-		$query->setAttribute('category',$this->category,true);
-		$query->setAttribute('content',$this->content,true);
-		$query->setAttribute('created',$this->created);
-		return $query->insert();
+		$this->setAttribute('id',$this->id);
+		$this->setAttribute('blogid',$this->blogid);
+		$this->setAttribute('category',$this->category,true);
+		$this->setAttribute('content',$this->content,true);
+		$this->setAttribute('created',$this->created);
+		return $this->insert();
 	}
 	
 	public function delete(){
 		global $database;
 		if(empty($this->filter)) return $this->error('Filter empty');
-		$query = new DBModel($database['prefix'].'Lines');
 		foreach($this->filter as $filter) {
 			if(count($filter) == 3) {
-				$query->setQualifier($filter[0],$filter[1],$filter[2]);
+				$this->setQualifier($filter[0],$filter[1],$filter[2]);
 			} else {
-				$query->setQualifier($filter[0],$filter[1],$filter[2],$filter[3]);			
+				$this->setQualifier($filter[0],$filter[1],$filter[2],$filter[3]);			
 			}
 		}
-		return $query->delete();
+		return $this->delete();
 	}
 /// Methods for querying
 	public function get($fields = '*') {
-		global $database;
 		if(empty($this->filter)) return $this->error('Filter empty');
-		$query = new DBModel($database['prefix'].'Lines');
 		foreach($this->filter as $filter) {
 			if(count($filter) == 3) {
-				$query->setQualifier($filter[0],$filter[1],$filter[2]);
+				$this->setQualifier($filter[0],$filter[1],$filter[2]);
 			} else {
-				$query->setQualifier($filter[0],$filter[1],$filter[2],$filter[3]);			
+				$this->setQualifier($filter[0],$filter[1],$filter[2],$filter[3]);			
 			}
 		}
-		$query->setOrder('created','desc');
-		return $query->getAll($fields);		
+		$this->setOrder('created','desc');
+		return $this->getAll($fields);		
 	}
 	
 	/// @input condition<array> [array(name, condition, value, [need_escaping])]
@@ -76,7 +73,6 @@ final class Model_Line extends Singleton {
 /// Aliases
 	/// conditions [array(page=>value<int>, linesforpage=>value<int>)]
 	public function getWithConditions($conditions) {
-		global $database;
 		$count = 10;
 		$offset = 0;
 		if(isset($conditions['page'])) $page = $conditions['page'];
@@ -84,16 +80,15 @@ final class Model_Line extends Singleton {
 			$count = $conditions['linesforpage'];
 			$offset = ($page - 1) * $count;
 		}
-		$query = new DBModel($database['prefix'].'Lines');
-		if(isset($conditions['category'])) $query->setQualifier('category','equals',$conditions['category'],true);
-		if(isset($conditions['blogid'])) $query->setQualifier('blogid','equals',$conditions['blogid']);
-		else $query->setQualifier('blogid','equals',getBlogId());
+		if(isset($conditions['category'])) $this->setQualifier('category','equals',$conditions['category'],true);
+		if(isset($conditions['blogid'])) $this->setQualifier('blogid','equals',$conditions['blogid']);
+		else $this->setQualifier('blogid','equals',getBlogId());
 		if(isset($conditions['keyword'])) {
-			$query->setQualifier('content','like',$conditions['keyword'],true);
+			$this->setQualifier('content','like',$conditions['keyword'],true);
 		}
-		$query->setLimit($count, $offset);
-		$query->setOrder('created','desc');
-		return $query->getAll();
+		$this->setLimit($count, $offset);
+		$this->setOrder('created','desc');
+		return $this->getAll();
 	}
 
 /// Methods for specific function.
@@ -125,8 +120,7 @@ final class Model_Line extends Singleton {
 	
 	private function getNextId() {
 		global $database;
-		$query = new DBModel($database['prefix'].'Lines');
-		$maxId = $query->getCell('MAX(id)');
+		$maxId = $this->getCell('MAX(id)');
 		if(!empty($maxId)) return $maxId + 1;
 		else return 1;
 	}

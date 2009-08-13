@@ -54,9 +54,10 @@ if(!empty($content)) {
 	}
 } else {
 	/// Prints public lines
-	$lineobj->setFilter(array('created','bigger',(Timestamp::getUNIXTime()-86400)));
+//	$lineobj->setFilter(array('created','bigger',(Timestamp::getUNIXTime()-86400)));
 	$lineobj->setFilter(array('category','equals','public',true));
-
+	$lineobj->setLimit(20);
+	$lineobj->setOrder('created','desc');
 	$lines = $lineobj->get();
 
 	fireEvent('OBStart');

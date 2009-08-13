@@ -33,7 +33,9 @@ $tags = getSiteTags($blogid);
 
 require ROOT . '/interface/common/owner/header.php';
 ?>
-
+						<div id="part-post-tag" class="part">
+							<h2 class="caption"><span class="main-text"><?php echo _t('태그를 관리합니다');?></span></h2>
+						</div>
 <?php
 require ROOT . '/interface/common/owner/footer.php';
 ?>
