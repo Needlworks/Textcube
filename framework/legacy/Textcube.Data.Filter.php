@@ -140,7 +140,7 @@ class Filter {
 		$query = new DBModel($database['prefix'].'Filters');
 		$query->setQualifier('blogid','equals',getBlogId());
 		$query->setQualifier('filtertype','equals','whiteurl',true);
-		$query->setQualifier(POD::escapeString($whiteurl), 'like',"('%' || LOWER(pattern) || '%')");
+		$query->setQualifier(POD::escapeString($whiteurl), 'like', "CONCAT('%', LOWER(pattern), '%')");
 		return $query->doesExist();
 	}
 	
