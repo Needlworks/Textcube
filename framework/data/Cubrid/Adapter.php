@@ -129,7 +129,28 @@ class DBAdapter implements IAdapter {
 						break;
 					}
 
-					$query = substr($query, 0, $concat).preg_replace_callback('/CONCAT\\s*\\((.*)\\)/i', array(__CLASS__, '__concatCallback'), substr($query, $concat), 1);
+					$depth = 0;
+					$quote = null;
+					for ($i = $concat + 6; $i < $length; $i++) {
+						if ($quote === null) {
+							if ($query[$i] == '\'' || $query[$i] == '"') {
+								$quote = $query[$i];
+							} elseif ($query[$i] == ',') {
+								$query = substr($query, 0, $i).' || '.substr($query, $i + 1);
+							} elseif ($query[$i] == '(') {
+								$depth++;
+							} elseif ($query[$i] == ')') {
+								if (--$depth == 0) {
+									break;
+								}
+							}
+						} else {
+							if ($query[$i] == $quote && $query[$i - 1] != '\\') {
+								$quote = null;
+							}
+						}
+					}
+					$query = substr($query, 0, $concat).substr($query, $concat + 6);
 
 					$pos = strpos($query, '\'', $ppos + 1);
 					$length = strlen($query);
@@ -160,10 +181,6 @@ class DBAdapter implements IAdapter {
 			self::clearCache();
 		}
 		return $result;
-	}
-
-	private static function __concatCallback($match) {
-		return '('.preg_replace('/(?<!\\\\\')\\s*,\\s*/', ' || ', $match[1]).')';
 	}
 
 	/*@static@*/
