@@ -82,13 +82,13 @@ class DBAdapter implements IAdapter {
 	}
 
 	/*@static@*/
-	public static function query($query $compatiblity = true) {
+	public static function query($query, $compatiblity = true) {
 		global $__gLastQueryType;
 		/// Bypassing compatiblitiy issue : will be replace to NAF2.
 		if($compatibility) {
 			$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compatibility issue.
 		}		
-		if( public static function_exists( '__tcSqlLogBegin' ) ) {
+		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);
 			$result = pg_query($query);
 			__tcSqlLogEnd($result,0);
@@ -180,7 +180,7 @@ class DBAdapter implements IAdapter {
 		global $cachedResult;
 		$cacheKey = "{$query}_queryColumn";
 		if( $useCache && isset( $cachedResult[$cacheKey] ) ) {
-			if( public static function_exists( '__tcSqlLogBegin' ) ) {
+			if( function_exists( '__tcSqlLogBegin' ) ) {
 				__tcSqlLogBegin($query);
 				__tcSqlLogEnd(null,1);
 			}
@@ -224,7 +224,7 @@ class DBAdapter implements IAdapter {
 		global $cachedResult;
 		$cacheKey = "{$query}_{$type}_{$count}";
 		if( isset( $cachedResult[$cacheKey] ) ) {
-			if( public static function_exists( '__tcSqlLogBegin' ) ) {
+			if( function_exists( '__tcSqlLogBegin' ) ) {
 				__tcSqlLogBegin($query);
 				__tcSqlLogEnd(null,1);
 			}
@@ -266,7 +266,7 @@ class DBAdapter implements IAdapter {
 	public static function clearCache() {
 		global $cachedResult;
 		$cachedResult = array();
-		if( public static function_exists( '__tcSqlLogBegin' ) ) {
+		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin("Cache cleared");
 			__tcSqlLogEnd(null,2);
 		}
