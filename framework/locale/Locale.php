@@ -53,8 +53,9 @@ final class Locale extends Singleton {
 	}*/
 
 	public function setDirectory($directory) {
-		if (!is_dir($directory))
+		if (!is_dir($directory)) {
 			return false;
+		}
 		$this->directory = $directory;
 		return true;
 	}
