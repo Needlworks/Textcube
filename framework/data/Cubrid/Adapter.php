@@ -113,9 +113,60 @@ class DBAdapter implements IAdapter {
 					);
 			}
 			$query = preg_replace($origPagingInst, $descPagingInst,$query);
+
+			// CONCAT
+			$ppos = -1;
+			$length = strlen($query);
+			do {
+				$pos = strpos($query, '\'', $ppos + 1);
+				if ($pos === false) {
+					$pos = strlen($query);
+				}
+
+				while (true) {
+					$concat = stripos($query, 'CONCAT', $ppos + 1);
+					if ($concat === false || $concat >= $pos) {
+						break;
+					}
+
+					$depth = 0;
+					$quote = null;
+					for ($i = $concat + 6; $i < $length; $i++) {
+						if ($quote === null) {
+							if ($query[$i] == '\'' || $query[$i] == '"') {
+								$quote = $query[$i];
+							} elseif ($query[$i] == ',') {
+								$query = substr($query, 0, $i).' || '.substr($query, $i + 1);
+							} elseif ($query[$i] == '(') {
+								$depth++;
+							} elseif ($query[$i] == ')') {
+								if (--$depth == 0) {
+									break;
+								}
+							}
+						} else {
+							if ($query[$i] == $quote && $query[$i - 1] != '\\') {
+								$quote = null;
+							}
+						}
+					}
+					$query = substr($query, 0, $concat).substr($query, $concat + 6);
+
+					$pos = strpos($query, '\'', $ppos + 1);
+					$length = strlen($query);
+				}
+
+				$ppos = $pos;
+				while ($ppos < $length) {
+					$ppos = strpos($query, '\'', $ppos + 1);
+					if ($query[$ppos - 1] != '\\') {
+						break;
+					}
+				}
+			} while ($ppos < $length);
 		}
 
-		if( public static function_exists( '__tcSqlLogBegin' ) ) {
+		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);
 			$result = cubrid_execute(self::$dbProperties['handle'],$query);
 			__tcSqlLogEnd($result,0);
@@ -205,7 +256,7 @@ class DBAdapter implements IAdapter {
 	public static function queryColumn($query, $useCache=true) {
 		$cacheKey = "{$query}_queryColumn";
 		if( $useCache && isset( self::$cachedResult[$cacheKey] ) ) {
-			if( public static function_exists( '__tcSqlLogBegin' ) ) {
+			if( function_exists( '__tcSqlLogBegin' ) ) {
 				__tcSqlLogBegin($query);
 				__tcSqlLogEnd(null,1);
 			}
@@ -248,7 +299,7 @@ class DBAdapter implements IAdapter {
 	public static function queryAllWithCache($query, $type = 'both', $count = -1) {
 		$cacheKey = "{$query}_{$type}_{$count}";
 		if( isset( self::$cachedResult[$cacheKey] ) ) {
-			if( public static function_exists( '__tcSqlLogBegin' ) ) {
+			if( function_exists( '__tcSqlLogBegin' ) ) {
 				__tcSqlLogBegin($query);
 				__tcSqlLogEnd(null,1);
 			}
@@ -290,7 +341,7 @@ class DBAdapter implements IAdapter {
 	public static function clearCache() {
 		global self::$cachedResult;
 		self::$cachedResult = array();
-		if( public static function_exists( '__tcSqlLogBegin' ) ) {
+		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin("Cache cleared");
 			__tcSqlLogEnd(null,2);
 		}
@@ -357,7 +408,6 @@ class DBAdapter implements IAdapter {
 				return CUBRID_BOTH;
 		}
 	}
-	
 	public static function fieldType($abstractType) {
 		if(isset($typeTable[$abstractType])) return $typeTable[$abstractType];
 	}
