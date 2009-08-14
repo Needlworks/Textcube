@@ -386,5 +386,16 @@ class DBAdapter implements IAdapter {
 				return PGSQL_BOTH;
 		}
 	}
+	
+	public static function fieldType($abstractType) {
+		if(isset($typeTable[$abstractType])) return $typeTable[$abstractType];
+	}
+	
+	static $typeTable = array(
+		"integer" => "integer",
+		"float"	=> "float",
+		"timestamp"	=> "integer",
+		"mediumtext" => "varchar(512)",
+		"text"	=> "text");
 }
 ?>

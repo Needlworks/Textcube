@@ -335,5 +335,16 @@ class DBAdapter implements IAdapter {
 				return MYSQL_BOTH;
 		}
 	}
+	
+	public static function fieldType($abstractType) {
+		if(isset($typeTable[$abstractType])) return $typeTable[$abstractType];
+	}
+	
+	static $typeTable = array(
+		"integer" => "int",
+		"float"	=> "float",
+		"timestamp"	=> "int",
+		"mediumtext" => "mediumtext",
+		"text"	=> "text");	
 }
 ?>

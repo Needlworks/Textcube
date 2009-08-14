@@ -4,14 +4,17 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 interface IAdapter {
+	/// DBMS Connection
 	public static function bind($database);
 	public static function unbind();
+	/// DBMS Information
 	public static function charset();
 	public static function dbms();
 	public static function version($mode = 'server');
 	public static function tableList($condition = null);
 	public static function setTimezone($time);
 	public static function reservedFieldNames();
+	/// Querying
 	public static function queryExistence($query);
 	public static function queryCount($query);
 	public static function queryCell($query, $field = 0, $useCache=true);
@@ -28,13 +31,16 @@ interface IAdapter {
 	public static function clearCache();
 	public static function cacheLoad();
 	public static function cacheSave();
+	/// Transaction
 	public static function commit();
+	/// RAW connection
 	public static function num_rows($handle = null);
 	public static function free($handle = null);
 	public static function fetch($handle = null, $type = 'assoc');
 	public static function error($err = null);
 	public static function stat($stat = null);
 	public static function __queryType($type);
+	/// Model Creation
+	public static function fieldType($abstractType);
 }
-
 ?>

@@ -16,7 +16,7 @@ final class Model_Line extends DBModel {
 		return self::_getInstance(__CLASS__);
 	}
 		
-	public function reset() {
+	public function reset($param = null) {
 		$this->id = null;
 		$this->blogid = getBlogId();
 		$this->category = 'public';
@@ -138,5 +138,33 @@ final class Model_Line extends DBModel {
 		$this->_error['message'] = $state;
 		return false;
 	}
+	
+	protected $structure = array(
+		"id"	=> array(
+			"type"		=> "integer",
+			"isNull"	=> false
+			),
+		"blogid"	=> array(
+			"type"		=> "integer",
+			"isNull"	=> false,
+			"default"	=> 1
+			),
+		"category"	=> array(
+			"type"		=> "varchar",
+			"length"	=> 11,
+			"isNull"	=> false,
+			"default"	=> "public"
+			),
+		"content"	=>	array(
+			"type"		=> "mediumtext",
+			"isNull"	=> false
+			),
+		"created"	=> array(
+			"type"		=> "timestamp",
+			"isNull"	=> false,
+			"default"	=> 0
+			)
+	);
+			
 }
 ?>

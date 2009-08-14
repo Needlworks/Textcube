@@ -132,7 +132,6 @@ foreach ($coverpageElements as $element) {
 	dress($element, $skin->coverpageStorage[$element], $view);
 }
 $view = revertTempTags(removeAllTags($view));
-
 print $view;
 $gCacheStorage->save();
 ?>

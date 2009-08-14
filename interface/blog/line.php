@@ -59,7 +59,6 @@ if(!empty($content)) {
 	$lineobj->setLimit(20);
 	$lineobj->setOrder('created','desc');
 	$lines = $lineobj->get();
-
 	fireEvent('OBStart');
 	require ROOT . '/interface/common/blog/begin.php';
 	require ROOT . '/interface/common/blog/line.php';

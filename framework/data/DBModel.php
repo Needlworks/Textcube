@@ -9,15 +9,13 @@ function escapeSearchString($str) {
 }
 
 function doesExistTable($tablename) {
-	requireModel('common.setting');
-
 	global $database;
 	static $tables = array();
 	if( empty($tables) ) {
 		$tables = POD::tableList($database['prefix']);
 	}
 	
-	$dbCaseInsensitive = getServiceSetting('lowercaseTableNames');
+	$dbCaseInsensitive = Setting::getServiceSetting('lowercaseTableNames',null,'global');
 	if($dbCaseInsensitive === null) {
 		if(in_array(POD::dbms(),array('MySQL','MySQLi'))) {
 			$result = POD::queryRow("SHOW VARIABLES LIKE 'lower_case_table_names'");
@@ -34,7 +32,7 @@ function doesExistTable($tablename) {
 
 /* DBModel */
 
-class DBModel extends Singleton {
+class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_query;
 	protected $_relations, $_filters, $_order, $_limitation, $table, $id, $_reservedFields, $_isReserved;
 			
@@ -46,7 +44,7 @@ class DBModel extends Singleton {
 		return self::_getInstance(__CLASS__);
 	}
 		
-	public function reset($table) {
+	public function reset($table = null) {
 		$this->table = $table;
 		$this->id = null;
 		$this->_attributes = array();
@@ -264,6 +262,42 @@ class DBModel extends Singleton {
 		if (POD::query($this->_query))
 			return true;
 		return false;
+	}
+	
+	/// To use create() method, $this->structure variable must be defined.
+	public function create() {
+		if(!isset($this->structure) || empty($this->structure) || !is_array($this->structure)) return false;
+		/// TO DO : implementing create method by structure
+		$sql = "CREATE ".$this->table." (".CRLF;	
+	
+		foreach($this->structure as $field => $attributes) {
+			$sql .= $field;
+			$type = $length = $isNull = $default = "";
+			foreach($attributes as $attr => $value) {
+				if($attr == "type") {	// Type casting
+					$type = POD::fieldType($type);
+				}
+				if($attr == "isNull") {
+					$isNull = $value;	
+				}
+				if($attr == "default") {
+					$default = $value;	
+				}
+			}
+			$sql .= ' '.$type.(!empty($length) ? "(".$length.")" : "")
+				.' '.($default ? 'DEFAULT '.(in_array($type, array("integer","timestamp","float")) ? $default : '"'.$default.'"') : "")
+				.' '.($isNull ? "NULL" : "NOT NULL")
+				.CRLF;
+		}
+		$sql .= ")";
+		return POD::execute($sql);
+	}
+	
+	public function discard() {
+		$this->_query = 'DROP '. $this->table;
+		if(POD::query($this->_query))
+			return true;
+		return false;	
 	}
 	
 	protected function _makeWhereClause() {
