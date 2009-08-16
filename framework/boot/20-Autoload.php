@@ -15,7 +15,7 @@ function import () {
 		$paths = explode(".",$libPath);
 		if(end($paths) == "*") {
 			array_pop($paths);
-			foreach (new DirectoryIterator(ROOT.'/framework/'.implode("/",$paths) as $fileInfo) {
+			foreach (new DirectoryIterator(ROOT.'/framework/'.implode("/",$paths)) as $fileInfo) {
 				if($fileInfo->isFile()) require_once($fileInfo->getPathname());
 			}
 		} else {
