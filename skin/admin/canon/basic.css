@@ -506,6 +506,7 @@ textarea
 	width                            : 125px;
 	height                           : 27px;
 	background-image                 : none !important;
+	border                           : 1px solid #EEE;
 }
 
 #main-menu li:hover ul li:hover,
