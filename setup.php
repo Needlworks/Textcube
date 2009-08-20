@@ -568,10 +568,10 @@ xml_set_object
 <?php
         $tables = array();
         if ($result = POD::tableList()) {
-            while ($table = POD::fetch($result,'array')) {
-                if (strncmp($table[0], $_POST['dbPrefix'], strlen($_POST['dbPrefix'])))
+            foreach($result as $table) {
+                if (strncmp($table, $_POST['dbPrefix'], strlen($_POST['dbPrefix'])))
                     continue;
-                switch (strtolower(substr($table[0], strlen($_POST['dbPrefix'])))) {
+                switch (strtolower(substr($table, strlen($_POST['dbPrefix'])))) {
                     case 'attachments':
                     case 'blogsettings':
                     case 'blogstatistics':
@@ -611,7 +611,7 @@ xml_set_object
 					case 'usersettings':
                     case 'users':
                     case 'xmlrpcpingsettings':
-                        $tables[count($tables)] = $table[0];
+                        $tables[count($tables)] = $table;
                         break;
                 }
             }
