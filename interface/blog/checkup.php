@@ -302,7 +302,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			showCheckupMessage(false);
 	}
 
-	if (!POD::queryExistence("DESC {$database['prefix']}SkinSettings showListOnAuthor")) {
+	if (!POD::queryExistence("DESC {$database['prefix']}SkinSettings showListOnAuthor") && !POD::queryExistence("DESC {$database['prefix']}SkinSettings value")) {
 		$changed = true;
 		echo '<li>', _text('스킨 설정 테이블에 저자별 페이지 출력 설정을 위한 필드를 추가합니다.'), ': ';
 		if (POD::execute("ALTER TABLE {$database['prefix']}SkinSettings ADD showListOnAuthor TINYINT(4) DEFAULT 1 NOT NULL AFTER showListOnTag"))
@@ -408,7 +408,8 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			showCheckupMessage(false);
 	}
 	/* From Textcube 1.7.6 */
-	if (!strpos(POD::queryCell("DESC {$database['prefix']}Filters type", 'Type'),'whiteurl')) {
+	if (!strpos(POD::queryCell("DESC {$database['prefix']}Filters type", 'Type'),'whiteurl') &&
+		!strpos(POD::queryCell("DESC {$database['prefix']}Filters filtertype", 'Type'),'whiteurl')) {
 		$changed = true;
 		echo '<li>', _text('필터 테이블에 예외 목록을 추가하기 위하여 필드 속성을 변경합니다.'), ': ';
 		if (POD::execute("ALTER TABLE {$database['prefix']}Filters CHANGE type type ENUM('content','ip','name','url','whiteurl') NOT NULL DEFAULT 'content'"))
