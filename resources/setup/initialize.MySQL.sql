@@ -221,7 +221,7 @@ CREATE TABLE [##_dbPrefix_##]Feeds (
 CREATE TABLE [##_dbPrefix_##]Filters (
   id int(11) NOT NULL default 0, 
   blogid int(11) NOT NULL default '0',
-  filtertype enum('content','ip','name','url') NOT NULL default 'content',
+  filtertype enum('content','ip','name','url','whiteurl') NOT NULL default 'content',
   pattern varchar(255) NOT NULL default '',
   PRIMARY KEY (id),
   UNIQUE KEY blogid (blogid, filtertype, pattern)
