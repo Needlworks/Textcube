@@ -53,7 +53,7 @@ if (!empty($_POST['mode'])) {
 				$entry['slogan'] = getSloganById($blogid, $entry['id']);
 				printHtmlHeader();
 				$tempComments = revertTempTags(removeAllTags(getCommentView($entry, $skin)));
-				$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments));
+				$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments, $skin->recentCommentItem));
 ?>
 <script type="text/javascript">
 	//<![CDATA[
@@ -147,7 +147,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 					}
 					printHtmlHeader();
 					$tempComments = revertTempTags(removeAllTags(getCommentView($entry, $skin)));
-					$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments));
+					$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments, $skin->recentCommentItem));
 ?>
 <script type="text/javascript">
 	//<![CDATA[		

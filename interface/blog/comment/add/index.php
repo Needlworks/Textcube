@@ -99,7 +99,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 			$commentBlock = getCommentView($entry, $skin);
 			dress('article_rep_id', $entryId, $commentBlock);
 			$commentBlock = escapeCData(revertTempTags(removeAllTags($commentBlock)));
-			$recentCommentBlock = escapeCData(revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments)));
+			$recentCommentBlock = escapeCData(revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments, $skin->recentCommentItem)));
 			$commentCount = getCommentCount($blogid, $entryId);
 			$commentCount = ($commentCount > 0) ? $commentCount : 0;
 			list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
@@ -109,7 +109,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 			dress('article_rep_id', $entryId, $commentBlock);
 			$commentBlock = escapeCData(revertTempTags(removeAllTags($commentBlock)));
 			$commentCount = 0;
-			$recentCommentBlock = escapeCData(revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments)));
+			$recentCommentBlock = escapeCData(revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComments, $skin->recentCommentItem)));
 		}
 		echo '<?xml version="1.0" encoding="utf-8"?><response><error>0</error><commentView>'.$commentView.'</commentView><commentCount>'.$commentCount.'</commentCount><commentBlock><![CDATA[', $commentBlock, ']]></commentBlock><recentCommentBlock><![CDATA[', $recentCommentBlock, ']]></recentCommentBlock></response>';
 	}
