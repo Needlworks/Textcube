@@ -250,7 +250,7 @@ function startSession() {
 	setSession();
 	session_set_save_handler('openSession', 'closeSession', 'readSession', 'writeSession', 'destroySession', 'gcSession');
 	session_cache_expire(1);
-	session_set_cookie_params(0, '/', $service['domain']);
+	session_set_cookie_params(0, '/', $service['session_cookie_domain']);
 	if (session_start() !== true) {
 		header('HTTP/1.1 503 Service Unavailable');
 		exit;
