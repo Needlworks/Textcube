@@ -23,12 +23,13 @@ final class Session {
 	}
 	
 	public static function getName() {
-		global $service;
+		$config = Model_Config::getInstance();
+		if(is_null(self::$mc)) self::initialize();
 		if( self::$sessionName == null ) { 
 			if( !empty($service['session_cookie']) ) {
-				self::$sessionName = $session['session_cookie'];
+				self::$sessionName = $config->service['session_cookie'];
 			} else {
-				self::$sessionName = 'TSSESSION'.$service['domain'].$service['path']; 
+				self::$sessionName = 'TSSESSION'.$config->service['domain'].$config->service['path']; 
 				self::$sessionName = preg_replace( '/[^a-zA-Z0-9]/', '', self::$sessionName );
 			}
 		}
@@ -36,8 +37,8 @@ final class Session {
 	}
 	
 	public static function read($id) {
-		global $service, $memcache;
-		return $memcache->get("sessions/{$id}/{$_SERVER['REMOTE_ADDR']}");
+		if(is_null(self::$mc)) self::initialize();
+		return self::$mc->get("sessions/{$id}/{$_SERVER['REMOTE_ADDR']}");
 	}
 	
 	public static function write($id, $data) {
@@ -46,10 +47,9 @@ final class Session {
 	}
 	
 	public static function destroy($id, $setCookie = false) {
-		global $memcache;
-		$memcache->delete("sessions/{$id}/{$_SERVER['REMOTE_ADDR']}");
-		$memcache->delete("anonymousSession/{$_SERVER['REMOTE_ADDR']}");
-		return $memcache->delete("authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
+		self::$mc->delete("sessions/{$id}/{$_SERVER['REMOTE_ADDR']}");
+		self::$mc->delete("anonymousSession/{$_SERVER['REMOTE_ADDR']}");
+		return self::$mc->delete("authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
 	}
 	
 	public static function gc($maxLifeTime = false) {
@@ -57,21 +57,20 @@ final class Session {
 	}
 	
 	private static function getAnonymousSession() {
-		global $memcache;
-		$anonymousSessionId = $memcache->get("anonymousSession/{$_SERVER['REMOTE_ADDR']}");
+		$anonymousSessionId = self::$mc->get("anonymousSession/{$_SERVER['REMOTE_ADDR']}");
 		if(!empty($anonymousSessionId)) return $anonymousSessionId;
 		else return false;
 	}
 	
 	private static function newAnonymousSession() {
-		global $service, $memcache;
+		$config = Model_Config::getInstance();
 		for ($i = 0; $i < 3; $i++) {
 			if (($id = self::getAnonymousSession()) !== false)
 				return $id;
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-			$result = $memcache->set("sessions/{$id}/{$_SERVER['REMOTE_ADDR']}",true,$service['timeout']);
+			$result = self::$mc->set("sessions/{$id}/{$_SERVER['REMOTE_ADDR']}",true,$config->service['timeout']);
 			if ($result > 0) {
-				$result = $memcache->set("anonymousSession/{$_SERVER['REMOTE_ADDR']}",$id,$service['timeout']);
+				$result = self::$mc->set("anonymousSession/{$_SERVER['REMOTE_ADDR']}",$id,$config->service['timeout']);
 				return $id;
 			}
 		}
@@ -94,17 +93,16 @@ final class Session {
 	}
 	
 	public static function isAuthorized($id) {
-		global $memcache;
 		if(is_null(self::$mc)) self::initialize();
 		/* OpenID and Admin sessions are treated as authorized ones*/
-		$userid = $memcache->get("authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
+		$userid = self::$mc->get("authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
 		if(!empty($userid)) return true;
 		else return false;
 	}
 	
 	public static function isGuestOpenIDSession($id) {
-		global $memcache;
-		$userid = $memcache->get("authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
+		if(is_null(self::$mc)) self::initialize();
+		$userid = self::$mc->get("authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
 		if(!empty($userid) && $userid < 0) return true;
 		else return false;
 	}
@@ -125,17 +123,18 @@ final class Session {
 	}
 	
 	public static function authorize($blogid, $userid) {
-		global $database, $service, $memcache;
+		if(is_null(self::$mc)) self::initialize();
+		$config = Model_Config::getInstance();
 		$session_cookie_path = "/";
-		if( !empty($service['session_cookie_path']) ) {
-			$session_cookie_path = $service['session_cookie_path'];
+		if( !empty($config->service['session_cookie_path']) ) {
+			$session_cookie_path = $config->service['session_cookie_path'];
 		}
 		if (!is_numeric($userid)) return false;
 		if( $userid != SESSION_OPENID_USERID ) { /* OpenID session : -1 */
 			$_SESSION['userid'] = $userid;
 			$id = session_id();
 			if( self::isGuestOpenIDSession($id) ) {
-				$result = $memcache->set("authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}",$userid,$service['timeout']);
+				$result = self::$mc->set("authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}",$userid,$config->service['timeout']);
 				if ($result) {
 					return true;
 				}
@@ -144,11 +143,11 @@ final class Session {
 		if (self::isAuthorized(session_id())) return true;
 		for ($i = 0; $i < 3; $i++) {
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-			$result = $memcache->set("authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}",$userid,$service['timeout']);
+			$result = self::$mc->set("authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}",$userid,$config->service['timeout']);
 			
 			if ($result) {
 				@session_id($id);
-				setcookie( self::getName(), $id, 0, $session_cookie_path, $service['session_cookie_domain']);
+				setcookie( self::getName(), $id, 0, $session_cookie_path, $config->service['session_cookie_domain']);
 				return true;
 			}
 		}

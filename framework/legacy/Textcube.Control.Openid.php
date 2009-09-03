@@ -86,9 +86,10 @@ class Auth_Textcube_xmlparser extends XPath
 class OpenID {
 	function setCookie( $key, $value )
 	{
+		$config = Model_Config::getInstance();
 		$session_cookie_path = "/";
-		if( !empty($service['session_cookie_path']) ) {
-			$session_cookie_path = $service['session_cookie_path'];
+		if( !empty($config->service['session_cookie_path']) ) {
+			$session_cookie_path = $config->service['session_cookie_path'];
 		}
 		if( !headers_sent() ) {
 			setcookie( $key, $value, time()+3600*24*30, $session_cookie_path );
@@ -97,9 +98,10 @@ class OpenID {
 
 	function clearCookie( $key )
 	{
+		$config = Model_Config::getInstance();
 		$session_cookie_path = "/";
-		if( !empty($service['session_cookie_path']) ) {
-			$session_cookie_path = $service['session_cookie_path'];
+		if( !empty($config->service['session_cookie_path']) ) {
+			$session_cookie_path = $config->service['session_cookie_path'];
 		}
 		if( !headers_sent() ) {
 			setcookie( $key, '', time()-3600, $session_cookie_path );
@@ -155,7 +157,7 @@ class OpenIDSession {
 }
 
 class OpenIDConsumer extends OpenID {
-	function OpenIDConsumer($tid = null) {
+	function __construct($tid = null) {
 		set_include_path(get_include_path() . PATH_SEPARATOR . OPENID_LIBRARY_ROOT);
 		require_once "Auth/OpenID/Consumer.php";
 		require_once "Auth/OpenID/FileStore.php";
