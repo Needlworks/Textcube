@@ -67,7 +67,7 @@ if (preg_match("@\\[##_rctps_##\\]@iU", $view)) {
 	dress('rctps_rep', getRecentEntriesView(getRecentEntries($blogid), null, $skin->recentEntryItem), $view, false, true);
 }
 if (preg_match("@\\[##_rctrp_##\\]@iU", $view)) {
-	dress('rctrp', getRecentCommentsView(getRecentComments($blogid), $skin->recentComments, $skin->recentCommentItem), $view, false, true);
+	dress('rctrp', getRecentCommentsView(getRecentComments($blogid), $skin->recentComment, $skin->recentCommentItem), $view, false, true);
 } else if (preg_match("@\\[##_rctrp_rep_##\\]@iU", $view)) {
 	dress('rctrp_rep', getRecentCommentsView(getRecentComments($blogid), null, $skin->recentCommentItem), $view, false, true);
 }
