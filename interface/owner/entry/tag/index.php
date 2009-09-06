@@ -24,8 +24,11 @@ if (!empty($_POST['deleteTag'])) {
 }
 
 if (!empty($_POST['modifyTag']) && !empty($_POST['newName'])) {
-	renameTag($blogid, $_POST['modifyTag'], $_POST['newName']);
-	Respond::ResultPage(0);
+	$newTagId = renameTag($blogid, $_POST['modifyTag'], $_POST['newName']);
+	$newTagList = getTagListTemplate(getSiteTags($blogid));
+	$newEntryList = '<a href="'.$blogURL.'/owner/entry/?tagId='.$newTagId.'">'._f('"%1" 태그를 갖는 모든 글의 목록을 봅니다',$_POST['newName']).'</a>';
+	$result = array('error'=>0, 'tagId' => $newTagId, 'entryList' => $newEntryList, 'tagList' => $newTagList);	
+	Respond::PrintResult($result);
 	exit;
 }
 
@@ -44,6 +47,15 @@ if(isset($suri['value']) && !empty($suri['value']) ) {
 } else {
 	$list = null;	
 }
+
+function getTagListTemplate($tags) {
+	$view = '';
+	foreach($tags as $t):
+		$view .= '<span id="tag'.$t['id'].'" class="tag"><a href="#" class="tag" onclick="updateTagPanel('.$t['id'].');return false;">'.$t['name'].'</a></span> ';
+	endforeach;
+	return $view;
+}
+
 require ROOT . '/interface/common/owner/header.php';
 ?>
 						<script type="text/javascript">
@@ -113,9 +125,10 @@ require ROOT . '/interface/common/owner/header.php';
 									PM.removeRequest(this);
 									updatePanel("tag-name",newName);
 									tagEntryList = this.getText("/response/entryList");
-									updatePanel("tag-entry-list",
-									'<?php echo _t('선택된 태그가 없습니다.');?>');
-									tagId = 0;
+									updatePanel("tag-entry-list",tagEntryList);
+									tagList = this.getText("/response/tagList");
+									tagId = this.getText("/response/tagId");
+									updatePanel("tag-cloud",tagList);
 									PM.showMessage("<?php echo _t('태그를 수정하였습니다.');?>", "center", "bottom");
 								}
 								request.onError = function () {
@@ -136,9 +149,7 @@ require ROOT . '/interface/common/owner/header.php';
 						<div id="tag-content-box">
 							<div id="tag-cloud">
 <?php
-	foreach($tags as $t):
-		echo '<span id="tag'.$t['id'].'" class="tag"><a href="#" class="tag" onclick="updateTagPanel('.$t['id'].');return false;">'.$t['name'].'</a></span> ';
-	endforeach;
+	echo getTagListTemplate($tags);
 ?>
 							</div>
 							<div id="tag-panel">
