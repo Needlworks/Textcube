@@ -146,8 +146,8 @@ table.data-inbox tbody tr td.ip
 
 #part-post-list table.data-inbox tr .title
 {
-	overflow:hidden;
-	text-overflow:clip !important;
+	overflow                         : hidden;
+	text-overflow                    : clip !important;
 }
 
 #part-post-list table.data-inbox tr .syndicate
@@ -447,6 +447,52 @@ table.data-inbox tbody tr td.ip
 #treeComponent .branch3
 {
 	cursor                           : pointer;
+}
+
+/* Tag administration ****************************************************************************/
+#tag-content-box
+{
+	height                           : 300px;
+}
+
+#tag-cloud
+{
+	width                            : 45%;
+	height                           : 300px;
+	float                            : left;
+	border-right                     : 1px solid #DDD;
+}
+
+#tag-entries
+{
+	padding                          : 0;
+	margin:0;
+	width                            : 50%;
+	float                            : left;
+}
+
+#tag-entries span.notice
+{
+	margin-top                       : 100px;
+	text-align                       : center;
+	color                            : #666;
+}
+
+#tag-entries table
+{
+	padding-left                     : 0;
+	width                            : 90%;
+}
+
+#tag-entries table.data-inbox tr .date
+{
+	width                            : 80px;	
+}
+
+#tag-entries table.data-inbox tr .title
+{
+	overflow                         : hidden;
+	text-overflow                    : clip !important;
 }
 
 /* Eolin Dialogue ********************************************************************************/
