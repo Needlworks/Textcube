@@ -49,6 +49,7 @@ $requiredPrivFromUri = array(
 			'/owner/entry/preview*',
 			'/owner/entry/protect*',
 			'/owner/entry/size*',
+			'/owner/entry/tag*',
 			'/owner/entry/update*',
 			'/owner/entry/visibility*',
 			'/owner/communication/comment*',
