@@ -212,4 +212,37 @@ function deleteTagById($blogid, $id) {
 
 	return true;
 }
+
+
+function addTag($blogid, $name) {
+	global $database;
+	$tagId = getTagId($blogid,$name);
+	if(empty($tagId)) {
+		$query = DBModel::getInstance();
+		$query->reset($database['prefix']."Tags");
+		$insertId = Tag::_getMaxId()+1;
+		$query->setAttribute('id',$insertId);
+		$query->setAttribute('name',$name,true);
+		if($query->insert()) return $insertId;
+		else return false;
+	} else return $tagId;
+}
+
+function renameTag($blogid, $id, $name) {
+	// 1. If tag with new name already exists, skip the tag creation process.
+	// 2. If tag with new name does not exist in this service, create new tag.
+	// 3. Modify the tag relation information
+	// 4. If older tag is not used anymore, drop the tag.
+	global $database;
+	$oldTagId = $id;
+	$newTagId = addTag($blogid, $name);
+	$query = DBModel::getInstance();
+	$query->reset($database['prefix']."TagRelations");
+	$query->setAttribute('tag',$newTagId);
+	$query->setQualifier('blogid','equals',$blogid);
+	$query->setQualifier('tag','equals',$oldTagId);
+	$query->update();
+	deleteTagById($blogid, $oldTagId);
+	return $newTagId;
+}
 ?>

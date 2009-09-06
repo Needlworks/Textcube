@@ -11,6 +11,7 @@ $IV = array(
 		'category' => array('int', 'mandatory' => false),
 		'visibility' => array('string', 'mandatory' => false),
 		'page' => array('int', 1, 'default' => 1),
+		'tagId' => array('int', 1, 'mandatory' => false),		
 		'search' => array('string', 'mandatory' => false)
 	),
 	'POST' => array(
@@ -91,6 +92,13 @@ if (isset($_POST['search']) && !empty($_POST['search']))
 else if (isset($_GET['search']) && !empty($_GET['search']))
 	$searchKeyword = trim($_GET['search']);
 
+// 태그 목록 출력
+if (isset($_GET['tagId']) && !empty($_GET['tagId'])) {
+	$tag = intval($_GET['tagId']);	
+} else {
+	$tag = null;
+}
+
 // 페이지당 출력되는 포스트 수.
 $perPage = getBlogSetting('rowsPerPage', 10);
 if ( isset($_POST['perPage']) && (in_array($_POST['perPage'], array(10, 15, 20, 25, 30)))) {
@@ -104,7 +112,7 @@ if ( isset($_POST['perPage']) && (in_array($_POST['perPage'], array(10, 15, 20, 
 if(isset($_POST['visibility']) && $_POST['visibility'] == 'template') $categoryIdforPrint = -4;
 else $categoryIdforPrint = $categoryId;	// preserves category selection even if template tab is activated.
 
-list($entries, $paging) = getEntriesWithPagingForOwner(getBlogId(), $categoryIdforPrint, $searchKeyword, $suri['page'], $perPage, $visibility, $starred);
+list($entries, $paging) = getEntriesWithPagingForOwner(getBlogId(), $categoryIdforPrint, $searchKeyword, $suri['page'], $perPage, $visibility, $starred, null, $tag);
 
 // query string 생성.
 $paging['postfix'] = NULL;

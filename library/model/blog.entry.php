@@ -302,7 +302,7 @@ function getEntriesWithPagingByAuthor($blogid, $author, $page, $count, $countIte
 	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
 }
 
-function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count, $visibility = null, $starred = null, $draft = null) {
+function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count, $visibility = null, $starred = null, $draft = null, $tag = null) {
 	global $database, $suri;
 	
 	$teamMemberFilter = "";
@@ -310,11 +310,11 @@ function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count
 		$teamMemberFilter = " AND e.userid = ".getUserId();
 	}
 	
-	$sql = "SELECT e.*, c.label AS categoryLabel, d.id AS draft 
+	$sqlTable = "SELECT e.*, c.label AS categoryLabel, d.id AS draft 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.blogid = c.blogid 
-		LEFT JOIN {$database['prefix']}Entries d ON e.blogid = d.blogid AND e.id = d.id AND d.draft = 1 
-		WHERE e.blogid = $blogid AND e.draft = 0" . $teamMemberFilter;
+		LEFT JOIN {$database['prefix']}Entries d ON e.blogid = d.blogid AND e.id = d.id AND d.draft = 1 ";
+	$sql = " WHERE e.blogid = $blogid AND e.draft = 0" . $teamMemberFilter;
 	if ($category > 0) {
 		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
@@ -346,8 +346,13 @@ function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count
 		$search = escapeSearchString($search);
 		$sql .= " AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
 	}
+	if (!empty($tag)) {
+		$sqlTable .= " LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.blogid = t.blogid ";
+		$sql .= ' AND t.tag = '.$tag;
+	}
+
 	$sql .= ' ORDER BY e.published DESC';
-	return fetchWithPaging($sql, $page, $count);
+	return fetchWithPaging($sqlTable.$sql, $page, $count);
 }
 
 function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false) {
