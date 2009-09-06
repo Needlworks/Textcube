@@ -91,6 +91,7 @@ final class Session {
 	}
 	
 	private static function getAnonymousSession() {
+		$config = Model_Config::getInstance();
 		$result = self::query('cell',"SELECT id FROM {$config->database['prefix']}Sessions WHERE address = '{$_SERVER['REMOTE_ADDR']}' AND userid IS NULL AND preexistence IS NULL");
 		if ($result)
 			return $result;
