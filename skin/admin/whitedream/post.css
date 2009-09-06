@@ -463,37 +463,21 @@ table.data-inbox tbody tr td.ip
 	border-right                     : 1px solid #DDD;
 }
 
-#tag-entries
+#tag-panel
 {
-	padding                          : 0;
-	margin:0;
+	padding                          : 0 0 0 15px;
+	margin                           : 0;
 	width                            : 50%;
 	float                            : left;
 }
 
-#tag-entries span.notice
+#tag-panel span.notice
 {
 	margin-top                       : 100px;
 	text-align                       : center;
 	color                            : #666;
 }
 
-#tag-entries table
-{
-	padding-left                     : 0;
-	width                            : 90%;
-}
-
-#tag-entries table.data-inbox tr .date
-{
-	width                            : 80px;	
-}
-
-#tag-entries table.data-inbox tr .title
-{
-	overflow                         : hidden;
-	text-overflow                    : clip !important;
-}
 
 /* Eolin Dialogue ********************************************************************************/
 
