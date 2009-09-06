@@ -5,13 +5,16 @@
 
 function getTagId($blogid, $name) {
 	global $database;
-	$name = POD::escapeString($name);
-	return POD::queryCell("SELECT id FROM {$database['prefix']}Tags WHERE name = '$name'");
+	$query = new DBModel($database['prefix']."Tags");
+	$query->setQualifier('name','equals',$name,true);
+	return $query->getCell('id');
 }
 
 function getTagById($blogid, $id) {
 	global $database;
-	return POD::queryCell("SELECT name FROM {$database['prefix']}Tags WHERE id = $id");
+	$query = new DBModel($database['prefix']."Tags");
+	$query->setQualifier('id','equals',$id);
+	return $query->getCell('name');
 }
 
 function getTags($blogid, $entry) {
@@ -196,13 +199,14 @@ function suggestLocalTags($blogid, $filter) {
 function deleteTagById($blogid, $id) {
 	global $database;
 
+	/// delete relation
 	$result = POD::execute('DELETE FROM '.$database['prefix'].'TagRelations WHERE blogid = '.$blogid.' AND tag = '.$id);
 	if (!$result) {
 		return false;
 	}
-
+	
 	$count = POD::queryCell('SELECT COUNT(*) FROM '.$database['prefix'].'TagRelations WHERE tag = '.$id);
-	if (intval($count) > 0) {
+	if (intval($count) == 0) {
 		POD::execute('DELETE FROM '.$database['prefix'].'Tags WHERE id = '.$id);
 	}
 

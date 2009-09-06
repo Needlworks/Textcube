@@ -19,6 +19,8 @@ requireModel('blog.entry');
 
 if (!empty($_POST['deleteTag'])) {
 	deleteTagById($blogid, $_POST['deleteTag']);
+	Respond::ResultPage(0);
+	exit;
 }
 
 if (!empty($_POST['id']) && !empty($_POST['category'])) {
@@ -40,26 +42,55 @@ require ROOT . '/interface/common/owner/header.php';
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
+							var tagId = 0;
 							function updateTagPanel(id) {
 								var request = new HTTPRequest("POST","<?php echo $blogURL;?>/owner/entry/tag/panel/");
 								request.onSuccess = function () {
 									PM.removeRequest(this);
-									entryView = this.getText("/response/entryView");
-									updatePanel(entryView);
-									PM.showMessage("<?php echo _t('태그에 해당되는 글 목록을 불러왔습니다.');?>", "center", "bottom");
+									tagName = this.getText("/response/tagName");
+									updatePanel("tag-name",tagName);
+									document.getElementById('tag-newname').value = tagName;
+									numberOfPosts = this.getText("/response/numberOfPosts");
+									updatePanel("tag-number-of-posts-value",numberOfPosts);
+									tagEntryList = this.getText("/response/entryList");
+									updatePanel("tag-entry-list",tagEntryList);
+									tagId = id;
+									PM.showMessage("<?php echo _t('태그 정보를 불러왔습니다.');?>", "center", "bottom");
 								}
 								request.onError = function () {
 									PM.removeRequest(this);
-									PM.showErrorMessage("<?php echo _t('글 목록을 불러올 수 없었습니다.');?>","center","bottom");
+									PM.showErrorMessage("<?php echo _t('태그 정보를 불러올 수 없었습니다.');?>","center","bottom");
 								}
-								PM.addRequest(request, "<?php echo _t('글 목록을 불러오고 있습니다.');?>");
+								PM.addRequest(request, "<?php echo _t('태그 정보를 불러오고 있습니다.');?>");
 								request.send("tagId="+id);
 							}
-							function updatePanel(contentView) {
-								Econtent = document.getElementById("tag-entries");
-								Econtent.innerHTML = contentView;
+							
+							function updatePanel(id,view) {
+								Econtent = document.getElementById(id);
+								Econtent.innerHTML = view;
 								return true;							
-							}							
+							}
+							
+							function deleteTag() {
+								var request = new HTTPRequest("POST","<?php echo $blogURL;?>/owner/entry/tag/");
+								request.onSuccess = function () {
+									PM.removeRequest(this);
+									updatePanel("tag-name",'<?php echo _t('선택되지 않았습니다.');?>');
+									document.getElementById('tag-newname').value = '';
+									updatePanel("tag-number-of-posts-value",0);
+									tagEntryList = this.getText("/response/entryList");
+									updatePanel("tag-entry-list",
+									'<?php echo _t('선택된 태그가 없습니다.');?>');
+									tagId = 0;
+									PM.showMessage("<?php echo _t('태그를 삭제하였습니다.');?>", "center", "bottom");
+								}
+								request.onError = function () {
+									PM.removeRequest(this);
+									PM.showErrorMessage("<?php echo _t('태그를 삭제할 수 없었습니다.');?>","center","bottom");
+								}
+								PM.addRequest(request, "<?php echo _t('태그를 삭제하고 있습니다.');?>");
+								request.send("deleteTag="+tagId);
+							}
 							//]]>
 						</script>
 						<div id="part-post-tag" class="part">
@@ -85,22 +116,23 @@ require ROOT . '/interface/common/owner/header.php';
 								</dl>
 								<dl>
 									<dt><?php echo _t('글목록');?></dt>
-									<dd>
-										<span class="text"><?php echo _t('이 태그를 갖는 모든 글의 목록을 봅니다');?></span>
+									<dd id="tag-entry-list">
+										<span class="text"><?php echo _t('선택된 태그가 없습니다.');?></span>
 									</dd>
 								</dl>
 								<dl>
 									<dt><?php echo _t('태그 이름 변경');?></dt>
 									<dd>
 										<input type="text" id="tag-newname" class="input-text" name="tag-newname" value="" />
+										<input type="button" id="tagRename" class="input-button" name="tagRename" value="<?php echo _t('변경');?>" />
 										<br />
-										<label for="tagnewname"><?php echo _t('현재의 태그를 새로운 이름으로 변경합니다. 같은 태그를 가지고 있는 모든 글의 태그 이름이 함께 바뀌게 됩니다.');?></label>
+										<label for="tag-newname"><?php echo _t('현재의 태그를 새로운 이름으로 변경합니다. 같은 태그를 가지고 있는 모든 글의 태그 이름이 함께 바뀌게 됩니다.');?></label>
 									</dd>
 								</dl>
 								<dl>
 									<dt><?php echo _t('태그 삭제');?></dt>
 									<dd>
-										<input type="button" id="tagDelete" class="input-button" name="tagDelete" value="<?php echo _t('삭제');?>" />
+										<input type="button" id="tagDelete" class="input-button" name="tagDelete" value="<?php echo _t('삭제');?>" onclick="deleteTag();return false;" />
 										<br />
 										<label for="tagName"><?php echo _t('이 태그를 삭제합니다. 같은 태그를 가지고 있는 모든 글에서 이 태그가 삭제됩니다.');?></label>
 									</dd>
