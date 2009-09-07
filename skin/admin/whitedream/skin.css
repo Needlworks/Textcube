@@ -404,7 +404,6 @@
 #part-skin-edit .section .button-box .input-button
 {
 	background-color                 : #FFFFFF;
-	background-image                 : none;
 	border                           : 1px solid #BBBBBB;
 	color                            : #000000;
 	font-weight                      : bold;
@@ -466,7 +465,6 @@
 #part-skin-setting .section .button-box .input-button
 {
 	background-color                 : #FFFFFF;
-	background-image                 : none;
 	border                           : 1px solid #BBBBBB;
 	color                            : #000000;
 	font-weight                      : bold;
@@ -611,7 +609,6 @@
 #part-skin-tree .section .button-box .input-button
 {
 	background-color                 : #FFFFFF;
-	background-image                 : none;
 	border                           : 1px solid #BBBBBB;
 	color                            : #000000;
 	font-weight                      : bold;
@@ -1269,7 +1266,6 @@
 #part-skin-admin .button-box .input-button
 {
 	background-color                 : #FFFFFF;
-	background-image                 : none;
 	border                           : 1px solid #BBBBBB;
 	color                            : #000000;
 	font-weight                      : bold;
@@ -1321,7 +1317,6 @@
 .ajax-popup-window .button-box .input-button
 {
 	background-color                 : #FFFFFF;
-	background-image                 : none;
 	border                           : 1px solid #BBBBBB;
 	color                            : #000000;
 	font-weight                      : bold;
