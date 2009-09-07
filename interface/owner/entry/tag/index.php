@@ -153,20 +153,20 @@ require ROOT . '/interface/common/owner/header.php';
 ?>
 							</div>
 							<div id="tag-panel">
-								<dl>
-									<dt><?php echo _t('현재 태그');?></dt>
+								<dl class="line">
+									<dt><span class="label"><?php echo _t('현재 태그');?></span></dt>
 									<dd id="tag-name"><?php echo _t('선택되지 않았습니다.');?></dd>
 
 									<dd id="tag-number-of-posts"><?php echo _t('해당 태그가 포함된 글 수');?> :  <span id="tag-number-of-posts-value" class="text">0</span></dd>
 								</dl>
-								<dl>
+								<dl class="line">
 									<dt><?php echo _t('글목록');?></dt>
 									<dd id="tag-entry-list">
 										<span class="text"><?php echo _t('선택된 태그가 없습니다.');?></span>
 									</dd>
 								</dl>
-								<dl>
-									<dt><?php echo _t('태그 이름 변경');?></dt>
+								<dl class="line">
+									<dt><span class="label"><?php echo _t('태그 이름 변경');?></span></dt>
 									<dd>
 										<input type="text" id="tag-newname" class="input-text" name="tag-newname" value="" />
 										<input type="button" id="tagRename" class="input-button" name="tagRename" value="<?php echo _t('변경');?>" onclick="modifyTag();return false;" />
@@ -174,8 +174,8 @@ require ROOT . '/interface/common/owner/header.php';
 										<label for="tag-newname"><?php echo _t('현재의 태그를 새로운 이름으로 변경합니다.').'<br />'._t('같은 태그를 가지고 있는 모든 글의 태그 이름이 함께 바뀌게 됩니다.').' '._t('입력한 이름의 태그가 이미 있는 경우, 하나의 태그로 합쳐지게 됩니다.');?></label>
 									</dd>
 								</dl>
-								<dl>
-									<dt><?php echo _t('태그 삭제');?></dt>
+								<dl class="line">
+									<dt><span class="label"><?php echo _t('태그 삭제');?></span></dt>
 									<dd>
 										<input type="button" id="tagDelete" class="input-button" name="tagDelete" value="<?php echo _t('삭제');?>" onclick="deleteTag();return false;" />
 										<br />
