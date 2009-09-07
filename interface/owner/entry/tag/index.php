@@ -183,6 +183,7 @@ require ROOT . '/interface/common/owner/header.php';
 									</dd>
 								</dl>
 							</div>
+							<hr class="clear" />
 						</div>
 
 						<hr class="hidden clear" />

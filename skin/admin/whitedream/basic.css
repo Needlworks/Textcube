@@ -1223,7 +1223,7 @@ table.data-inbox tbody tr td.inactive-class
 	clear                            : both;
 	height                           : 0;
 	overflow                         : hidden;
-	width                            : 100px;
+/*	width                            : 100px;*/
 }
 
 .input-button
