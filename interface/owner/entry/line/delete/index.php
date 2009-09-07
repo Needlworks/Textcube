@@ -15,7 +15,7 @@ $line->reset();
 $line->setFilter(array('blogid','equals',getBlogId()));
 $line->setFilter(array('id','equals',$_POST['id']));
 
-if($line->delete()) {
+if($line->remove()) {
 	fireEvent('DeleteLine',0,$line);
 	Respond::ResultPage(0);
 } else {

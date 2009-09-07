@@ -38,7 +38,7 @@ final class Model_Line extends DBModel {
 		return $this->insert();
 	}
 	
-	public function delete(){
+	public function remove(){
 		global $database;
 		if(empty($this->filter)) return $this->error('Filter empty');
 		foreach($this->filter as $filter) {
