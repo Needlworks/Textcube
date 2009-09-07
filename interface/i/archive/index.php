@@ -26,7 +26,11 @@ if(isset($period)) {
 		foreach ($list['items'] as $item) {	
 			$author = User::getName($item['userid']);
 			if($imageName = printIphoneAttachmentExtract(printIphoneEntryContent($blogid, $item['userid'], $item['id']))){
-				$imageSrc = $blogURL . '/imageResizer?f=' . $imageName . '&m=28';
+				if(!stristr($imageName, 'http://') ){
+					$imageSrc = $blogURL . '/imageResizer?f=' . $imageName . '&m=28';
+				}else{
+					$imageSrc = $imageName;
+				}
 			}else{
 				$imageSrc = $service['path'] . '/resources/style/iphone/image/noPostThumb.png';
 			}
