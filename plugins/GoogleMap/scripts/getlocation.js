@@ -51,5 +51,4 @@ $(document).ready(function() {
 	} else {
 		$('#availability').html('현재 웹브라우저는 Geolocation 기능을 지원하지 않습니다.')
 	}
-	initializeMap();
 });

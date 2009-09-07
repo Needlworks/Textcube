@@ -21,7 +21,9 @@
     <listener event="ViewNoticeContent">GoogleMap_View</listener>
     <listener event="AddPostEditorToolbox">GoogleMap_AddToolbox</listener>
     <listener event="ShowAdminHeader">GoogleMap_AdminHeader</listener>
+    <listener event="ShowAdminFooter">GoogleMap_AdminFooter</listener>
     <tag name="SKIN_head_end" handler="GoogleMap_Header" />
+    <tag name="SKIN_body_end" handler="GoogleMap_Footer" />
     <tag name="SKIN_local_rep_start" handler="GoogleMap_LocationLogView" />
     <config xml:lang="ko" dataValHandler="GoogleMap_ConfigHandler">
       <window width="500" height="550" />

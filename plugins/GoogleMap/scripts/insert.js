@@ -8,7 +8,6 @@ var query_markers = {};
 var icon_blue;
 
 $(document).ready(function() {
-	initializeMap();
 	var container = $(map.getContainer());
 	container
 		.resizable({

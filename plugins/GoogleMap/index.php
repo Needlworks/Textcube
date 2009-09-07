@@ -10,13 +10,12 @@ function GoogleMap_Header($target) {
 		$api_key = $config['apiKey'];
 		$use_sensor = (isset($config['useSensor']) && $config['useSensor']) ? 'true' : 'false';
 		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/common.css\" />\n";
-		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=$use_sensor&amp;key=$api_key\"></script>\n";
-		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/common.js?".time()."\"></script>\n";
+		$target .= "<script type=\"text/javascript\" src=\"http://www.google.com/jsapi?key=$api_key\"></script>\n";
 		$target .= "<script type=\"text/javascript\">
-		//<![CDATA[
-		STD.addUnloadEventListener(function(){GUnload();});
-		//]]>
-		</script>\n";
+//<![CDATA[
+	var GMapRequired = false;
+//]]>
+</script>\n";
 	}
 	return $target;
 }
@@ -29,13 +28,49 @@ function GoogleMap_AdminHeader($target) {
 		$api_key = $config['apiKey']; // should exist here
 		$use_sensor = $config['useSensor'] ? 'true' : 'false';
 		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/common.css\" />\n";
-		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=$use_sensor&amp;key=$api_key\"></script>\n";
+		$target .= "<script type=\"text/javascript\" src=\"http://www.google.com/jsapi?key=$api_key\"></script>\n";
 		$target .= "<script type=\"text/javascript\">
-		//<![CDATA[
-		var pluginURL = '$pluginURL';
-		var blogURL = '$blogURL';
-		//]]>
-		</script>";
+//<![CDATA[
+	var pluginURL = '$pluginURL';
+	var blogURL = '$blogURL';
+	var GMapRequired = false;
+//]]>
+</script>";
+	}
+	return $target;
+}
+
+function GoogleMap_Footer($target) {
+	global $configVal, $pluginURL;
+	requireComponent('Textcube.Function.Setting');
+	$config = Setting::fetchConfigVal($configVal);
+	if (!is_null($config) && isset($config['apiKey'])) {
+		$target .= "<script type=\"text/javascript\">
+//<![CDATA[
+	if (GMapRequired) {
+		google.load('maps', '2');
+		STD.addUnloadEventListener(function(){GUnload();});
+	}
+//]]>
+</script>\n";
+		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/common.js?".time()."\"></script>\n";
+	}
+	return $target;
+}
+
+function GoogleMap_AdminFooter($target) {
+	global $configVal, $pluginURL;
+	requireComponent('Textcube.Function.Setting');
+	$config = Setting::fetchConfigVal($configVal);
+	if (!is_null($config) && isset($config['apiKey'])) {
+		$target .= "<script type=\"text/javascript\">
+//<![CDATA[
+	if (GMapRequired) {
+		google.load('maps', '2');
+		STD.addUnloadEventListener(function(){GUnload();});
+	}
+//]]>
+</script>\n";
 		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/common.js\"></script>\n";
 		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/editor.js\"></script>\n";
 	}
@@ -101,12 +136,15 @@ function GoogleMap_View($target, $mother) {
 		<div id="<?php echo $id;?>" style="border: 1px solid #666;"></div>
 		<script type="text/javascript">
 		//<![CDATA[
-		var c = document.getElementById('<?php echo $id;?>');
-		if (GBrowserIsCompatible()) {
-			var map = GMap_CreateMap(c, <?php echo $matches[2][0];?>);
-		} else {
-			c.innerHTML = '<p style="text-align:center; color:#c99;"><?php echo _t("이 웹브라우저는 구글맵과 호환되지 않습니다.");?></p>';
-		}
+		GMapRequired = true;
+		STD.addLoadEventListener(function() {
+			var c = document.getElementById('<?php echo $id;?>');
+			if (GBrowserIsCompatible()) {
+				var map = GMap_CreateMap(c, <?php echo $matches[2][0];?>);
+			} else {
+				c.innerHTML = '<p style="text-align:center; color:#c99;"><?php echo _t("이 웹브라우저는 구글맵과 호환되지 않습니다.");?></p>';
+			}
+		});
 		//]]>
 		</script>
 <?php
@@ -138,7 +176,7 @@ function GoogleMap_LocationLogView($target) {
 	</div>
 	<script type="text/javascript">
 	//<![CDATA[
-	//console.log('a');
+	GMapRequired = true;
 	var process_count = 0;
 	var polling_interval = 100; // ms
 	var query_interval = 500; // ms
@@ -296,7 +334,8 @@ function GoogleMapUI_InsertMap() {
 	</div>
 	<script type="text/javascript">
 	//<![CDATA[
-	function initializeMap() {
+	GMapRequired = true;
+	$(document).ready(function() {
 		map = new GMap2($('#GoogleMapPreview')[0]);
 		map.addMapType(G_PHYSICAL_MAP);
 		map.setMapType(<?php echo $default_type;?>);
@@ -306,7 +345,7 @@ function GoogleMapUI_InsertMap() {
 		map.enableScrollWheelZoom();
 		map.enableContinuousZoom();
 		map.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
-	}
+	});
 	//]]>
 	</script>
 	<h2><?php echo _t("지도 검색");?></h2>
@@ -322,7 +361,7 @@ function GoogleMapUI_InsertMap() {
 <?php
 	// TODO: 주소 추출 UI
 	// - TODO: 포스트 내용 텍스트 얻어오기 및 주소 정보 추출
-	_GMap_printFooterForUI();
+	_GMap_printFooterForUI('insert');
 }
 
 function GoogleMapUI_GetLocation() {
@@ -346,7 +385,8 @@ function GoogleMapUI_GetLocation() {
 	</div>
 	<script type="text/javascript">
 	//<![CDATA[
-	function initializeMap() {
+	GMapRequired = true;
+	$(document).ready(function() {
 		map = new GMap2($('#GoogleMapPreview')[0]);
 		map.addMapType(G_PHYSICAL_MAP);
 		map.setMapType(<?php echo $default_type;?>);
@@ -356,11 +396,11 @@ function GoogleMapUI_GetLocation() {
 		map.enableScrollWheelZoom();
 		map.enableContinuousZoom();
 		map.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
-	}
+	});
 	//]]>
 	</script>
 <?php
-	_GMap_printFooterForUI();
+	_GMap_printFooterForUI('getlocation');
 }
 
 function _GMap_printHeaderForUI($title, $jsName, $api_key, $use_sensor) {
@@ -375,16 +415,14 @@ function _GMap_printHeaderForUI($title, $jsName, $api_key, $use_sensor) {
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-ui-1.7.2.custom.min.js"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-mousewheel.min.js"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-json.js"></script>
-	<script type="text/javascript" src="http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=<?php echo $use_sensor;?>&amp;key=<?php echo $api_key;?>"></script>
+	<script type="text/javascript" src="http://www.google.com/jsapi?key=<?php echo $api_key;?>"></script>
 	<script type="text/javascript">
 	//<![CDATA[
 	var pluginURL = '<?php echo $pluginURL;?>';
 	var blogURL = '<?php echo $blogURL;?>';
-	$(window).unload(GUnload);
+	var GMapRequired = false;
 	//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/common.js?<?php echo time();?>"></script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/<?php echo $jsName; ?>.js?<?php echo time();?>"></script>
 </head>
 <body>
 <div id="all-wrap">
@@ -393,8 +431,19 @@ function _GMap_printHeaderForUI($title, $jsName, $api_key, $use_sensor) {
 <?php
 }
 
-function _GMap_printFooterForUI() {
+function _GMap_printFooterForUI($jsName) {
+	global $pluginURL;
 ?>
+	<script type="text/javascript">
+	//<![CDATA[
+	if (GMapRequired) {
+		google.load('maps', '2');
+		$(window).unload(function() {GUnload();});
+	}
+	//]]>
+	</script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/common.js?<?php echo time();?>"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/<?php echo $jsName; ?>.js?<?php echo time();?>"></script>
 	</div>
 </div>
 </body>

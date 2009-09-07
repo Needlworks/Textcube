@@ -132,7 +132,7 @@ function GMap_CreateMap(container, options) {
 	return map;
 }
 
-function GProgressControl() {}
+GProgressControl = function() {}
 GProgressControl.prototype = new GControl();
 GProgressControl.prototype.initialize = function(map) {
 	var container = document.createElement('div');

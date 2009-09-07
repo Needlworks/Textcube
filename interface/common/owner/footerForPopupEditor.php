@@ -34,5 +34,7 @@
 			}
 		//]]>
 	</script>
+
+	<?php echo fireEvent('ShowAdminFooter', ''); ?>
 </body>
 </html>
