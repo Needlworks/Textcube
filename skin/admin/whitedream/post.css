@@ -452,13 +452,14 @@ table.data-inbox tbody tr td.ip
 /* Tag administration ****************************************************************************/
 #tag-content-box
 {
-	height                           : 300px;
+	min-height                       : 300px;
 }
 
 #tag-cloud
 {
 	width                            : 45%;
-	height                           : 300px;
+	min-height                       : 300px;
+	padding-right                    : 10px;
 	float                            : left;
 	border-right                     : 1px solid #DDD;
 }

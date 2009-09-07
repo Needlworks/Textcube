@@ -181,7 +181,8 @@ require ROOT . '/interface/common/owner/header.php';
 										<br />
 										<label for="tagName"><?php echo _t('이 태그를 삭제합니다. 같은 태그를 가지고 있는 모든 글에서 이 태그가 삭제됩니다.');?></label>
 									</dd>
-								</dl>								
+								</dl>
+							</div>
 						</div>
 
 						<hr class="hidden clear" />
