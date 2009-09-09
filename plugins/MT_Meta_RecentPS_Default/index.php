@@ -13,6 +13,7 @@ function MT_Cover_getRecentEntries($parameters){
 	$data['screenshot']	= !isset($data['screenshot']) ? 1 : $data['screenshot'];
 	$data['screenshotSize']	= !isset($data['screenshotSize']) ? 90 : $data['screenshotSize'];
 	$data['paging'] = !isset($data['paging'])?'2':$data['paging'];
+	$data['contentLength']	= !isset($data['contentLength']) ? 250 : $data['contentLength'];
 
 	if (isset($parameters['preview'])) {
 		// preview mode
@@ -99,7 +100,7 @@ function MT_Cover_getRecentEntries($parameters){
 		$html .= '			<span class="date">'.Timestamp::format5($entry['published']).'</span>'.CRLF;
 		$html .= '			<span class="author"><span class="preposition">by </span>'.User::getName($entry['userid']).'</span>'.CRLF;
 		$html .= '		</div>'.CRLF;
-		$html .= '		<div class="post_content">'.htmlspecialchars(UTF8::lessenAsEm(removeAllTags(stripHTML($entry['content'])),250)).'</div>'.CRLF;
+		$html .= '		<div class="post_content">'.htmlspecialchars(UTF8::lessenAsEm(removeAllTags(stripHTML($entry['content'])), $data['contentLength'])).'</div>'.CRLF;
 		$html .=		$tagLabelView;
 		$html .= '		<div class="clear"></div>'.CRLF;
 		$html .= '	</div>';
@@ -310,6 +311,7 @@ function MT_Cover_getRecentEntries_ConfigOut_ko($plugin) {
 	$manifest .= '			<op value="1" checked="checked"><![CDATA[적용&nbsp;]]></op>'.CRLF;
 	$manifest .= '			<op value="2">미적용</op>'.CRLF;
 	$manifest .= '		</field>'.CRLF;
+	$manifest .= '		<field title="본문 길이 :" name="contentLength" type="text" size="5" value="250" />'.CRLF;
 	$manifest .= '	</fieldset>'.CRLF;
 	$manifest .= '</config>'.CRLF;
 
@@ -342,6 +344,7 @@ function MT_Cover_getRecentEntries_ConfigOut_en($plugin) {
 	$manifest .= '			<op value="1" checked="checked"><![CDATA[Apply&nbsp;]]></op>'.CRLF;
 	$manifest .= '			<op value="2">Not apply</op>'.CRLF;
 	$manifest .= '		</field>'.CRLF;
+	$manifest .= '		<field title="Content length :" name="contentLength" type="text" size="5" value="250" />'.CRLF;
 	$manifest .= '	</fieldset>'.CRLF;
 	$manifest .= '</config>'.CRLF;
 
