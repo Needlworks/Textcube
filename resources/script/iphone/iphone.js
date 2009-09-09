@@ -394,7 +394,7 @@ function encodeForm(form)
         for (var i = 0; i < inputs.length; ++i)
         {
             if (inputs[i].name)
-                args.push(inputs[i].name + "=" + escape(inputs[i].value));
+                args.push(inputs[i].name + "=" + looseURIEncode(inputs[i].value));
         }
     }
 

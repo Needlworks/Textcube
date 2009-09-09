@@ -222,6 +222,124 @@ function printIphoneAttachmentExtract($content){
 	return $result;
 }
 
+function printIphoneImageResizer($blogid, $filename, $cropSize){
+	global $serviceURL;
+	requireComponent('Textcube.Function.misc');
+
+	if (!is_dir(ROOT."/cache/thumbnail")) {
+		@mkdir(ROOT."/cache/thumbnail");
+		@chmod(ROOT."/cache/thumbnail", 0777);
+	}
+	if (!is_dir(ROOT."/cache/thumbnail/" . $blogid)) {
+		@mkdir(ROOT."/cache/thumbnail/" . $blogid);
+		@chmod(ROOT."/cache/thumbnail/" . $blogid, 0777);
+	}
+	if (!is_dir(ROOT."/cache/thumbnail/" . $blogid . "/iphoneThumbnail/")) {
+		@mkdir(ROOT."/cache/thumbnail/" . $blogid . "/iphoneThumbnail/");
+		@chmod(ROOT."/cache/thumbnail/" . $blogid . "/iphoneThumbnail/", 0777);
+	}
+	
+	$thumbFilename = $filename;
+	$imageURL = "{$serviceURL}/attach/{$blogid}/{$filename}";
+	if (extension_loaded('gd')) {	
+		if (stristr($filename, 'http://')) {
+			$thumbFilename = printIphoneRemoteImageFilename($filename);
+		}
+
+		$thumbnailSrc = ROOT . "/cache/thumbnail/{$blogid}/iphoneThumbnail/th_{$thumbFilename}";
+		if (!file_exists($thumbnailSrc)) {
+			$imageURL = printIphoneCropProcess($blogid, $filename, $cropSize);
+		} else {
+			$imageURL = "{$serviceURL}/thumbnail/{$blogid}/iphoneThumbnail/th_{$thumbFilename}";
+		}
+	} else {
+		if (stristr($filename, 'http://')) {
+			$imageURL = $filename;
+		}
+	}
+	return $imageURL;
+}
+
+function printIphoneCropProcess($blogid, $filename, $cropSize) {
+	global $serviceURL;
+	$tempFile = null;
+	$imageURL = null;
+	if(stristr($filename, 'http://') ){
+		list($originSrc, $filename, $tempFile) = printIphoneCreateRemoteImage($blogid, $filename);
+	} else {
+		$originSrc = ROOT . "/attach/{$blogid}/{$filename}";
+	}
+
+	$thumbnailSrc = ROOT . "/cache/thumbnail/{$blogid}/iphoneThumbnail/th_{$filename}";
+	if (file_exists($originSrc)) {
+		requireComponent('Textcube.Function.Image');
+		$imageInfo = getimagesize($originSrc);
+
+		$objThumbnail = new Image();
+		if ($imageInfo[0] > $imageInfo[1])
+			list($tempWidth, $tempHeight) = $objThumbnail->calcOptimizedImageSize($imageInfo[0], $imageInfo[1], NULL, $cropSize);
+		else
+			list($tempWidth, $tempHeight) = $objThumbnail->calcOptimizedImageSize($imageInfo[0], $imageInfo[1], $cropSize, null);
+
+		$objThumbnail->imageFile = $originSrc;
+		if ($objThumbnail->resample($tempWidth, $tempHeight) && $objThumbnail->cropRectBySize($cropSize, $cropSize)) {
+			$imageURL = "{$serviceURL}/thumbnail/{$blogid}/iphoneThumbnail/th_{$filename}";
+			$objThumbnail->saveAsFile($thumbnailSrc);
+		}
+
+		unset($objThumbnail);
+		if($tempFile) unlink($originSrc);
+	} else {
+		$imageURL = null;
+	}
+
+	return $imageURL;
+}
+
+function printIphoneCreateRemoteImage($blogid, $filename) {
+	$fileObject = false;
+	$tmpDirectory = ROOT . "/cache/thumbnail/{$blogid}/iphoneThumbnail/";
+	$tempFilename = tempnam($tmpDirectory, "remote_");
+	$fileObject = @fopen($tempFilename, "w");
+
+	if ($fileObject) {
+		$originSrc = $tempFilename;
+		$remoteImage = printIphoneHTTPRemoteImage($filename);
+		$filename = printIphoneRemoteImageFilename($filename);
+		fwrite($fileObject, $remoteImage);
+		fclose($fileObject);
+		return array($originSrc, $filename, true);
+	} else {
+		return array(null, null, null);
+	}
+}
+
+function printIphoneHTTPRemoteImage($remoteImage) {
+    $response = '';
+	$remoteStuff = parse_url($remoteImage);
+	$port = isset($remoteStuff['port']) ? $remoteStuff['port'] : 80;
+
+	$socket = @fsockopen($remoteStuff['host'], $port);
+    fputs($socket, "GET " . $remoteStuff['path'] . " HTTP/1.1\r\n");
+    fputs($socket, "Host: " . $remoteStuff['host'] . "\r\n");
+    fputs($socket, "User-Agent: Mozilla/4.0 (compatible; Textcube)\r\n");
+    fputs($socket, "Accept-Encoding: identity\r\n");
+    fputs($socket, "Connection: close\r\n");
+    fputs($socket, "\r\n");
+
+	while ($buffer = fread($socket, 1024)) {
+		$response .= $buffer;
+	}
+
+	preg_match('/Content-Length: ([0-9]+)/', $response, $matches);
+	return substr($response, - $matches[1]);
+}
+
+function printIphoneRemoteImageFilename($filename) {
+	$filename = md5($filename) . "." . Misc::getFileExtension($filename);
+	return $filename;
+}
+
 function printIphoneHtmlFooter() {
 ?>
 	</body>

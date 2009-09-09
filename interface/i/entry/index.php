@@ -24,11 +24,7 @@ if(empty($suri['id']) && empty($suri['value'])) {
 		foreach ($list['items'] as $item) {	
 			$author = User::getName($item['userid']);
 			if($imageName = printIphoneAttachmentExtract($item['content'])){
-				if(!stristr($imageName, 'http://') ){
-					$imageSrc = $blogURL . '/imageResizer?f=' . $imageName . '&m=28';
-				}else{
-					$imageSrc = $imageName;
-				}
+				$imageSrc = printIphoneImageResizer($blogid, $imageName, 28);
 			}else{
 				$imageSrc = $service['path'] . '/resources/style/iphone/image/noPostThumb.png';
 			}

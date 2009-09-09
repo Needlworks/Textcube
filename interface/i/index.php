@@ -16,7 +16,7 @@ if(empty($suri['id'])) {
 	<ul id="home" title="<?php echo htmlspecialchars(UTF8::lessenAsEm($blog['title'],30));?> Blog" selected="true">
 	<?php
 		$blogAuthor = User::getName($blogid);
-		$blogLogo = !empty($blog['logo']) ? $blogURL . "/imageResizer?f=" . $blog['logo'] . "&m=80" : "{$service['path']}/resources/style/iphone/image/textcube_logo.png";
+		$blogLogo = !empty($blog['logo']) ? printIphoneImageResizer($blogid, $blog['logo'], 80) : "{$service['path']}/resources/style/iphone/image/textcube_logo.png";
 		$itemsView = '<li class="blog_info">'.CRLF;
 		$itemsView .= '	<div class="logo"><img src="' . $blogLogo . '" /></div>'.CRLF;
 		$itemsView .= '	<div class="blog_container">'.CRLF;
