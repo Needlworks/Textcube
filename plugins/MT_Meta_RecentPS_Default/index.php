@@ -8,9 +8,10 @@ function MT_Cover_getRecentEntries($parameters){
 	requireModel("blog.entry");
 	requireModel("blog.tag");
 	$data = Setting::fetchConfigVal($configVal);
-	$data['coverMode']	= !isset($data['coverMode'])?1:$data['coverMode'];
+	$data['coverMode']	= !isset($data['coverMode']) ? 1 : $data['coverMode'];
 	if(Misc::isMetaBlog() != true) $data['coverMode'] = 1;
-	$data['screenshot']	= !isset($data['screenshot'])?1:$data['screenshot'];
+	$data['screenshot']	= !isset($data['screenshot']) ? 1 : $data['screenshot'];
+	$data['screenshotSize']	= !isset($data['screenshotSize']) ? 90 : $data['screenshotSize'];
 	$data['paging'] = !isset($data['paging'])?'2':$data['paging'];
 
 	if (isset($parameters['preview'])) {
@@ -87,7 +88,7 @@ function MT_Cover_getRecentEntries($parameters){
 
 		$html .= '<div class="coverpost">'.CRLF;
 		if($imageName = MT_Cover_getAttachmentExtract($entry['content'])){
-			if(($tempImageSrc = MT_Cover_getImageResizer($blogid, $imageName)) && ($data['screenshot'] == 1)){
+			if(($tempImageSrc = MT_Cover_getImageResizer($blogid, $imageName, $data['screenshotSize'])) && ($data['screenshot'] == 1)){
 				$html .= '<div class="img_preview"><a href="'.$permalink.'"><img src="'.$tempImageSrc.'" alt="" /></a></div>'.CRLF;
 			}
 		}
@@ -143,43 +144,112 @@ function MT_Cover_getRecentEntries_purgeCache($target, $mother) {
 	return $target;
 }
 
-function MT_Cover_getImageResizer($blogid, $filename){
+function MT_Cover_getImageResizer($blogid, $filename, $cropSize){
 	global $serviceURL;
-
-	$originSrc = ROOT . "/attach/{$blogid}/{$filename}";
-	$currentBlogId = getBlogId();
-	$cropSize = 90;
-
-	if (file_exists($originSrc)) {
-		$imageInfo = getimagesize($originSrc);
-		$newSrc = ROOT . "/cache/thumbnail/{$currentBlogId}/coverPostThumbnail/th_{$filename}";
-		$imageURL = "{$serviceURL}/attach/{$currentBlogId}/{$filename}";
-
-		if (extension_loaded('gd')) {
-			if (!file_exists($newSrc)) {
-				requireComponent('Textcube.Function.Image');
-
-				$objThumbnail = new Image();
-				if ($imageInfo[0] > $imageInfo[1])
-					list($tempWidth, $tempHeight) = $objThumbnail->calcOptimizedImageSize($imageInfo[0], $imageInfo[1], NULL, 90);
-				else
-					list($tempWidth, $tempHeight) = $objThumbnail->calcOptimizedImageSize($imageInfo[0], $imageInfo[1], 90, null);
-
-				$objThumbnail->imageFile = $originSrc;
-				if ($objThumbnail->resample($tempWidth, $tempHeight) && $objThumbnail->cropRectBySize($cropSize, $cropSize)) {
-					$imageURL = "{$serviceURL}/thumbnail/{$currentBlogId}/coverPostThumbnail/th_{$filename}";
-					$objThumbnail->saveAsFile($newSrc);
-				}
-				unset($objThumbnail);
-			} else {
-				$imageURL = "{$serviceURL}/thumbnail/{$currentBlogId}/coverPostThumbnail/th_{$filename}";
-			}
+	$tempFile = null;
+	$thumbFilename = $filename;
+	$imageURL = "{$serviceURL}/attach/{$blogid}/{$filename}";
+	if (extension_loaded('gd')) {	
+		if (stristr($filename, 'http://') ) {
+			$thumbFilename = MT_Cover_getRemoteImageFilename($filename);
 		}
 
-		return $imageURL;
+		$thumbnailSrc = ROOT . "/cache/thumbnail/{$blogid}/coverPostThumbnail/th_{$thumbFilename}";
+		if (!file_exists($thumbnailSrc)) {
+			$imageURL = MT_Cover_getCropProcess($blogid, $filename, $cropSize);
+		} else {
+			$imageURL = "{$serviceURL}/thumbnail/{$blogid}/coverPostThumbnail/th_{$thumbFilename}";
+			$imageInfo = getimagesize($thumbnailSrc);
+			if ($imageInfo[0] != $cropSize) {
+				$imageURL = MT_Cover_getCropProcess($blogid, $filename, $cropSize);
+			}
+		}
 	} else {
-		return NULL;
+		if(stristr($filename, 'http://') ){
+			$imageURL = $filename;
+		}
 	}
+	return $imageURL;
+}
+
+function MT_Cover_getCropProcess($blogid, $filename, $cropSize) {
+	global $serviceURL;
+	$tempFile = null;
+	$imageURL = null;
+	if(stristr($filename, 'http://') ){
+		list($originSrc, $filename, $tempFile) = MT_Cover_getCreateRemoteImage($blogid, $filename);
+	} else {
+		$originSrc = ROOT . "/attach/{$blogid}/{$filename}";
+	}
+
+	$thumbnailSrc = ROOT . "/cache/thumbnail/{$blogid}/coverPostThumbnail/th_{$filename}";
+	if (file_exists($originSrc)) {
+		requireComponent('Textcube.Function.Image');
+		$imageInfo = getimagesize($originSrc);
+
+		$objThumbnail = new Image();
+		if ($imageInfo[0] > $imageInfo[1])
+			list($tempWidth, $tempHeight) = $objThumbnail->calcOptimizedImageSize($imageInfo[0], $imageInfo[1], NULL, $cropSize);
+		else
+			list($tempWidth, $tempHeight) = $objThumbnail->calcOptimizedImageSize($imageInfo[0], $imageInfo[1], $cropSize, null);
+
+		$objThumbnail->imageFile = $originSrc;
+		if ($objThumbnail->resample($tempWidth, $tempHeight) && $objThumbnail->cropRectBySize($cropSize, $cropSize)) {
+			$imageURL = "{$serviceURL}/thumbnail/{$blogid}/coverPostThumbnail/th_{$filename}";
+			$objThumbnail->saveAsFile($thumbnailSrc);
+		}
+
+		unset($objThumbnail);
+		if($tempFile) unlink($originSrc);
+	} else {
+		$imageURL = null;
+	}
+
+	return $imageURL;
+}
+
+function MT_Cover_getCreateRemoteImage($blogid, $filename) {
+	$fileObject = false;
+	$tmpDirectory = ROOT . "/cache/thumbnail/{$blogid}/coverPostThumbnail/";
+	$tempFilename = tempnam($tmpDirectory, "remote_");
+	$fileObject = @fopen($tempFilename, "w");
+
+	if ($fileObject) {
+		$originSrc = $tempFilename;
+		$remoteImage = MT_Cover_getHTTPRemoteImage($filename);
+		$filename = MT_Cover_getRemoteImageFilename($filename);
+		fwrite($fileObject, $remoteImage);
+		fclose($fileObject);
+		return array($originSrc, $filename, true);
+	} else {
+		return array(null, null, null);
+	}
+}
+
+function MT_Cover_getHTTPRemoteImage($remoteImage) {
+    $response = '';
+	$remoteStuff = parse_url($remoteImage);
+	$port = isset($remoteStuff['port']) ? $remoteStuff['port'] : 80;
+
+	$socket = @fsockopen($remoteStuff['host'], $port);
+    fputs($socket, "GET " . $remoteStuff['path'] . " HTTP/1.1\r\n");
+    fputs($socket, "Host: " . $remoteStuff['host'] . "\r\n");
+    fputs($socket, "User-Agent: Mozilla/4.0 (compatible; Textcube)\r\n");
+    fputs($socket, "Accept-Encoding: identity\r\n");
+    fputs($socket, "Connection: close\r\n");
+    fputs($socket, "\r\n");
+
+	while ($buffer = fread($socket, 1024)) {
+		$response .= $buffer;
+	}
+
+	preg_match('/Content-Length: ([0-9]+)/', $response, $matches);
+	return substr($response, - $matches[1]);
+}
+
+function MT_Cover_getRemoteImageFilename($filename) {
+	$filename = md5($filename) . "." . Misc::getFileExtension($filename);
+	return $filename;
 }
 
 function MT_Cover_getAttachmentExtract($content){
@@ -188,8 +258,8 @@ function MT_Cover_getAttachmentExtract($content){
 		$split = explode("|", $matches[0][0]);
 		$result = $split[1];
 	}else if(preg_match_all('/<img[^>]+?src=("|\')?([^\'">]*?)("|\')/si', $content, $matches)) {
-		if( !stristr('http://', $matches[2][0]) ){
-			$result = basename($matches[2][0]);
+		if( stristr($matches[2][0], 'http://') ){
+			$result = $matches[2][0];
 		}
 	}
 	return $result;
@@ -221,7 +291,7 @@ function MT_Cover_getRecentEntries_ConfigOut_ko($plugin) {
 
 	$manifest .= '<?xml version="1.0" encoding="utf-8"?>'.CRLF;
 	$manifest .= '<config dataValHandler="MT_Cover_getRecentEntries_DataSet" >'.CRLF;
-	$manifest .= '	<window width="500" height="298" />'.CRLF;
+	$manifest .= '	<window width="500" height="345" />'.CRLF;
 	$manifest .= '	<fieldset legend="표지 출력 설정">'.CRLF;
 	$manifest .= '		<field title="출력 형태 :" name="coverMode" type="radio"  >'.CRLF;
 	$manifest .= '			<op value="1" checked="checked"><![CDATA[단일 사용자&nbsp;]]></op>'.CRLF;
@@ -235,6 +305,7 @@ function MT_Cover_getRecentEntries_ConfigOut_ko($plugin) {
 	$manifest .= '			<op value="1" checked="checked"><![CDATA[적용&nbsp;]]></op>'.CRLF;
 	$manifest .= '			<op value="2">미적용</op>'.CRLF;
 	$manifest .= '		</field>'.CRLF;
+	$manifest .= '		<field title="스크린 샷 크기 :" name="screenshotSize" type="text" size="5" value="90" />'.CRLF;
 	$manifest .= '		<field title="CSS 적용 :" name="cssSelect" type="radio"  >'.CRLF;
 	$manifest .= '			<op value="1" checked="checked"><![CDATA[적용&nbsp;]]></op>'.CRLF;
 	$manifest .= '			<op value="2">미적용</op>'.CRLF;
@@ -252,7 +323,7 @@ function MT_Cover_getRecentEntries_ConfigOut_en($plugin) {
 
 	$manifest .= '<?xml version="1.0" encoding="utf-8"?>'.CRLF;
 	$manifest .= '<config dataValHandler="MT_Cover_getRecentEntries_DataSet" >'.CRLF;
-	$manifest .= '	<window width="500" height="298" />'.CRLF;
+	$manifest .= '	<window width="500" height="345" />'.CRLF;
 	$manifest .= '	<fieldset legend="Cover list setup">'.CRLF;
 	$manifest .= '		<field title="List mode :" name="coverMode" type="radio"  >'.CRLF;
 	$manifest .= '			<op value="1" checked="checked"><![CDATA[Single user&nbsp;]]></op>'.CRLF;
@@ -262,10 +333,11 @@ function MT_Cover_getRecentEntries_ConfigOut_en($plugin) {
 	$manifest .= '			<op value="1"><![CDATA[Apply&nbsp;]]></op>'.CRLF;
 	$manifest .= '			<op value="2" checked="checked">Not apply</op>'.CRLF;
 	$manifest .= '		</field>'.CRLF;
-	$manifest .= '		<field title="Screenshot:" name="screenshot" type="radio"  >'.CRLF;
+	$manifest .= '		<field title="Screenshot :" name="screenshot" type="radio"  >'.CRLF;
 	$manifest .= '			<op value="1" checked="checked"><![CDATA[Apply&nbsp;]]></op>'.CRLF;
 	$manifest .= '			<op value="2">Not apply</op>'.CRLF;
 	$manifest .= '		</field>'.CRLF;
+	$manifest .= '		<field title="Screenshot size:" name="screenshotSize" type="text" size="5" value="90" />'.CRLF;
 	$manifest .= '		<field title="Apply CSS :" name="cssSelect" type="radio"  >'.CRLF;
 	$manifest .= '			<op value="1" checked="checked"><![CDATA[Apply&nbsp;]]></op>'.CRLF;
 	$manifest .= '			<op value="2">Not apply</op>'.CRLF;
