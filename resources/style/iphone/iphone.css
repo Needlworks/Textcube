@@ -309,7 +309,7 @@ body > ul > li.category_sub > a {
 body > .dialog {
     top: 0;
     width: 100%;
-    min-height: 417px;
+    min-height: 417px !important;
 	z-index: 2;
     padding: 0;
     text-align: right;
@@ -533,6 +533,9 @@ fieldset > .row:last-child {
     -webkit-border-radius: 8px;
     border: 1px solid #999999;
 	padding:10px;
+}
+.panel > .content img {
+	max-width:260px;
 }
 
 .content .entry_body ul,
