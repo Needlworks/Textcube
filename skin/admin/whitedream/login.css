@@ -101,11 +101,20 @@ hr
 
 .input-button
 {
-	background-color                 : #FFFFFF;
-	background-image                 : none !important;
-	font-weight                      : bold;
-	height                           : 3em;
-	line-height                      : 3em;
+	background-color                 : #fff;
+	background-image                 : url("./image/bg_submenu_item.gif");
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
+	border                           : 1px solid #777;
+	border-radius                    : 5px;
+	-moz-border-radius               : 5px;
+	-webkit-border-radius            : 5px;
+	cursor                           : pointer;
+	font-size                        : 1em;
+	height                           : 2em;
+	line-height                      : 2em;
+	padding                          : 0 5px !important;
+	vertical-align                   : middle;
 }
 
 #message-box
