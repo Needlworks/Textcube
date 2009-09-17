@@ -330,7 +330,7 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
 			$target = call_user_func($mapping['listener'], $target, $mother);
 			/// unload.
 			if(!is_null($languageDomain)) $locale->domain = $languageDomain;
-			unset($pluginURL, $pluginPath, $pluginName);
+			$pluginURL = $pluginPath = $pluginName = "";
 		}
 	}
 	return $target;
@@ -366,7 +366,7 @@ function handleTags( & $content) {
 					}					
 					$target = call_user_func($mapping['handler'], $target);
 					if(!is_null($languageDomain)) $locale->domain = $languageDomain;
-					unset($pluginURL, $pluginPath, $pluginName);
+					$pluginURL = $pluginPath = $pluginName = "";
 				}
 			}
 			dress($tag, $target, $content);
@@ -400,7 +400,7 @@ function handleCenters($mapping) {
 		}		
 		$target = call_user_func($mapping['handler'], $target);
 		if(!is_null($languageDomain)) $locale->domain = $languageDomain;
-		unset($pluginURL, $pluginPath, $pluginName);
+		$pluginURL = $pluginPath = $pluginName = "";
 	}
 
 	return $target;
@@ -519,8 +519,8 @@ function handleCoverpages(& $obj, $previewMode = false) {
 							}
 						}												
 						$obj->coverpageStorage["temp_coverpage_element_{$i}_{$j}"] = call_user_func($handler, $parameters);
-						if(!is_null($languageDomain)) $locale->domain = $languageDomain;		
-						unset($pluginURL, $pluginPath, $pluginName);
+						if(!is_null($languageDomain)) $locale->domain = $languageDomain;
+						$pluginURL = $pluginPath = $pluginName = "";
 					} else {
 						$obj->coverpageStorage["temp_coverpage_element_{$i}_{$j}"] = "";
 					}
@@ -565,7 +565,7 @@ function handleDataSet( $plugin , $DATA ) {
 			}
 				
 			$reSetting = call_user_func( $configMappings[$plugin]['dataValHandler'] , $DATA);
-			unset($pluginURL, $pluginPath, $pluginName);
+			$pluginURL = $pluginPath = $pluginName = "";
 			if(!is_null($languageDomain)) $locale->domain = $languageDomain;	
 		}
 		if( true !== $reSetting )	
@@ -619,7 +619,7 @@ function handleConfig($plugin) {
 					
 				$manifest = call_user_func( $handler , $plugin );
 				if(!is_null($languageDomain)) $locale->domain = $languageDomain;		
-				unset($pluginURL, $pluginPath, $pluginName);
+				$pluginURL = $pluginPath = $pluginName = "";
 			}
 			$newXmls = new XMLStruct();
 			if($newXmls->open( $manifest) ) {	 
