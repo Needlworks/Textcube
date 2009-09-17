@@ -301,7 +301,7 @@ function eventExists($event)
 }
 
 function fireEvent($event, $target = null, $mother = null, $condition = true) {
-	global $service, $eventMappings, $pluginURL, $pluginPath, $configMappings, $configVal;
+	global $service, $eventMappings, $pluginURL, $pluginPath, $pluginName, $configMappings, $configVal;
 	if (!$condition)
 		return $target;
 	if (!isset($eventMappings[$event]))
@@ -315,6 +315,7 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
 				$configVal = null;
 			$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
 			$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
+			$pluginName = $mapping['plugin'];
 			// Loading locale resource
 			$languageDomain = null;
 			if(is_dir($pluginPath . '/locale/')) {
@@ -327,7 +328,9 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
 				}
 			}
 			$target = call_user_func($mapping['listener'], $target, $mother);
+			/// unload.
 			if(!is_null($languageDomain)) $locale->domain = $languageDomain;
+			unset($pluginURL, $pluginPath, $pluginName);
 		}
 	}
 	return $target;
@@ -363,6 +366,7 @@ function handleTags( & $content) {
 					}					
 					$target = call_user_func($mapping['handler'], $target);
 					if(!is_null($languageDomain)) $locale->domain = $languageDomain;
+					unset($pluginURL, $pluginPath, $pluginName);
 				}
 			}
 			dress($tag, $target, $content);
@@ -395,7 +399,8 @@ function handleCenters($mapping) {
 			}
 		}		
 		$target = call_user_func($mapping['handler'], $target);
-		if(!is_null($languageDomain)) $locale->domain = $languageDomain;		
+		if(!is_null($languageDomain)) $locale->domain = $languageDomain;
+		unset($pluginURL, $pluginPath, $pluginName);
 	}
 
 	return $target;
@@ -495,6 +500,7 @@ function handleCoverpages(& $obj, $previewMode = false) {
 					$parameters = $currentCoverpageOrder[$j]['parameters'];
 					$pluginURL = "{$service['path']}/plugins/{$plugin}";
 					$pluginPath = ROOT . "/plugins/{$plugin}";
+					$pluginName = $plugin;
 					if( !empty( $configMappings[$plugin]['config'] ) ) 				
 						$configVal = getCurrentSetting($plugin);
 					else
@@ -514,6 +520,7 @@ function handleCoverpages(& $obj, $previewMode = false) {
 						}												
 						$obj->coverpageStorage["temp_coverpage_element_{$i}_{$j}"] = call_user_func($handler, $parameters);
 						if(!is_null($languageDomain)) $locale->domain = $languageDomain;		
+						unset($pluginURL, $pluginPath, $pluginName);
 					} else {
 						$obj->coverpageStorage["temp_coverpage_element_{$i}_{$j}"] = "";
 					}
@@ -558,6 +565,7 @@ function handleDataSet( $plugin , $DATA ) {
 			}
 				
 			$reSetting = call_user_func( $configMappings[$plugin]['dataValHandler'] , $DATA);
+			unset($pluginURL, $pluginPath, $pluginName);
 			if(!is_null($languageDomain)) $locale->domain = $languageDomain;	
 		}
 		if( true !== $reSetting )	
@@ -611,6 +619,7 @@ function handleConfig($plugin) {
 					
 				$manifest = call_user_func( $handler , $plugin );
 				if(!is_null($languageDomain)) $locale->domain = $languageDomain;		
+				unset($pluginURL, $pluginPath, $pluginName);
 			}
 			$newXmls = new XMLStruct();
 			if($newXmls->open( $manifest) ) {	 
