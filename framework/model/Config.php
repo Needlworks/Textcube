@@ -53,6 +53,22 @@ final class Model_Config extends Singleton {
 		$this->database = $database;
 		$this->service = $service;
 		$this->backend_name = isset($service['dbms']) ? $service['dbms'] : 'mysql';
+		$this->updateContext();
+	}
+
+	public function updateContext($ns = null) {
+		$context = Model_Context::getInstance();
+		if(!is_null($ns)) {
+			$configs = array($ns);
+		} else {
+			$context->setProperty('backend_name',$this->backend_name);
+			$configs = array('database','service');
+		}
+		foreach ($configs as $namespace):
+			foreach ($this->$namespace as $k => $v):
+				$context->setProperty($k,$v,$namespace);
+			endforeach;
+		endforeach;
 	}
 
 	function __get($name) {

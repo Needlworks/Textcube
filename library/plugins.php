@@ -12,7 +12,6 @@ $storageMappings      = array();
 $storageKeymappings   = array();
 $adminMenuMappings    = array();
 $adminHandlerMappings = array();
-
 $configMappings       = array();
 $baseConfigPost = $service['path'].'/owner/setting/plugins/currentSetting';
 $configPost  = '';

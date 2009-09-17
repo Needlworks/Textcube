@@ -59,14 +59,14 @@ if (!$valid) {
 global $config, $context, $uri;
 
 /// Loading configuration	
-$config = Model_Config::getInstance();
 $context = Model_Context::getInstance(); // automatic initialization via first instanciation
-$uri = Model_URIHandler::getInstance();
+$config  = Model_Config::getInstance();
+$uri     = Model_URIHandler::getInstance();
 
 /// Loading debug module
-if($config->service['debugmode'] == true) {
-	if(isset($config->database['dbms'])) {
-		require_once(ROOT. "/framework/data/".$config->database['dbms']."/Debug.php");
+if($context->getProperty('service.debugmode') == true) {
+	if(!is_null($context->getProperty('database.dbms'))) {
+		require_once(ROOT. "/framework/data/".$context->getProperty('database.dbms')."/Debug.php");
 	} else require_once(ROOT. "/framework/data/MySQL/Debug.php");
 } else {
 	if(!function_exists('dumpAsFile')) {function dumpAsFile($dummy){}}
@@ -79,7 +79,7 @@ if($config->service['debugmode'] == true) {
 */
 
 /// Reading necessary file list
-require_once (ROOT.'/library/include.'.$uri->URLInfo['interfaceType'].'.php');
+require_once (ROOT.'/library/include.'.$uri->uri['interfaceType'].'.php');
 /// Loading files.
 require_once (ROOT.'/library/include.php');
 
@@ -96,8 +96,15 @@ if(defined('__TEXTCUBE_HEADER_XML__')) {
     -------------------------
     Performs database connection.
 */
-if(!empty($config->database) && !empty($config->database["database"])) {
-	if(POD::bind($config->database) === false) {
+if(!is_null($context->getProperty('database.database'))) {
+	$context->useNamespace('database');
+	$db['database'] = $context->getProperty('database');
+	$db['server']   = $context->getProperty('server');
+	$db['port']     = $context->getProperty('port');
+	$db['username'] = $context->getProperty('username');
+	$db['password'] = $context->getProperty('password');
+	$context->useNamespace();
+	if(POD::bind($db) === false) {
 		Respond::MessagePage('Problem with connecting database.<br /><br />Please re-visit later.');
 		exit;
 	}
@@ -106,9 +113,9 @@ $database['utf8'] = (POD::charset() == 'utf8') ? true : false;
 /// Memcache module bind (if possible)
 global $memcache;
 $memcache = null;
-if(!empty($config->database) && !empty($config->service['memcached']) && $config->service['memcached'] == true): 
+if($context->getProperty('service.memcached') == true): 
 	$memcache = new Memcache;
-	$memcache->connect((isset($memcached['server']) && $memcached['server'] ? $memcached['server'] : 'localhost'));
+	$memcache->connect((!is_null($context->getProperty('memcached.server')) ? $context->getProperty('memcached.server') : 'localhost'));
 endif;
 
 /** INITIALIZE : URI Parsing and specify parameters
@@ -130,7 +137,7 @@ if (!defined('NO_SESSION')) {
 	Session::set();
 	session_set_save_handler( array('Session','open'), array('Session','close'), array('Session','read'), array('Session','write'), array('Session','destroy'), array('Session','gc') );
 	session_cache_expire(1);
-	session_set_cookie_params(0, '/', $config->service['session_cookie_domain']);
+	session_set_cookie_params(0, '/', $context->getProperty('service.session_cookie_domain'));
 	if (session_start() !== true) {
 		header('HTTP/1.1 503 Service Unavailable');
 		exit;
@@ -157,10 +164,10 @@ if (!defined('NO_INITIALIZAION')) {
     --------
     Blog-specific Timezone setting.
 */
-	if(isset($config->database) && !empty($config->database['database'])) {
+	if(!is_null($context->getProperty('database.database'))) {
 		$timezone = new Timezone;
-		$timezone->set(isset($blog['timezone']) ? $blog['timezone'] : $config->service['timezone']);
-		POD::setTimezone(isset($blog['timezone']) ? $blog['timezone'] : $service['timezone']);
+		$timezone->set(isset($blog['timezone']) ? $blog['timezone'] : $context->getProperty('service.timezone'));
+		POD::setTimezone(isset($blog['timezone']) ? $blog['timezone'] : $context->getProperty('service.timezone'));
 	}
 /** Locale Resources
     ----------------
@@ -170,8 +177,8 @@ if (!defined('NO_INITIALIZAION')) {
 	
 /// Load administration panel locale.
 	if(!defined('NO_LOCALE')) {
-		if($context->getProperty('interfaceType') == 'reader') { $languageDomain = 'owner'; }
-		else $languageDomain = $context->getProperty('interfaceType');
+		if($context->getProperty('uri.interfaceType') == 'reader') { $languageDomain = 'owner'; }
+		else $languageDomain = $context->getProperty('uri.interfaceType');
 		
 		if($languageDomain == 'owner') {
 			$language = isset($blog['language']) ? $blog['language'] : $service['language'];
@@ -191,7 +198,7 @@ if (!defined('NO_INITIALIZAION')) {
     -------------------------------------------
     When necessary, loads admin panel skin information.
 */
-	if(in_array($context->getProperty('interfaceType'), array('owner','reader')) || defined('__TEXTCUBE_ADMINPANEL__')) {
+	if(in_array($context->getProperty('uri.interfaceType'), array('owner','reader')) || defined('__TEXTCUBE_ADMINPANEL__')) {
 		$adminSkinSetting = array();
 		$adminSkinSetting['skin'] = "/skin/admin/".getBlogSetting("adminSkin", "canon");
 		// 1.5에서 올라온 경우 스킨이 있는 경우를 위한 workaround.
@@ -214,8 +221,8 @@ if (!defined('NO_INITIALIZAION')) {
 /** INITIALIZE : Plugin module (if necessary)
     -------------------------------------------
     Load and bind specific plugin codes and initialze them.
-*/ 
-if(in_array($context->getProperty('interfaceType'), array('blog','owner','reader','mobile'))) {
+*/
+if(in_array($context->getProperty('uri.interfaceType'), array('blog','owner','reader','mobile'))) {
 	require_once(ROOT.'/library/plugins.php');
 }
 
@@ -224,13 +231,13 @@ if(in_array($context->getProperty('interfaceType'), array('blog','owner','reader
     Checks privilege setting and block user (or connection).
 */
 
-if($context->getProperty('interfaceType') == 'blog' && !defined('__TEXTCUBE_LOGIN__')) {
+if($context->getProperty('uri.interfaceType') == 'blog' && !defined('__TEXTCUBE_LOGIN__')) {
 	$blogVisibility = Setting::getBlogSettingGlobal('visibility',2);
 	if($blogVisibility == 0) requireOwnership();
 	else if($blogVisibility == 1) requireMembership();
 }
 
-if(in_array($context->getProperty('interfaceType'), array('owner','reader'))) {
+if(in_array($context->getProperty('uri.interfaceType'), array('owner','reader'))) {
 	requireOwnership();     // Check access control list
 	if(!empty($_SESSION['acl'])) {
 		$requiredPriv = Aco::getRequiredPrivFromUrl( $suri['directive'] );

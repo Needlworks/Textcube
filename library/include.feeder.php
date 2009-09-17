@@ -28,6 +28,4 @@ $__requireModel = array(		// Model
 	'common.plugin',
 	'reader.common');
 $__requireView = array();
-$__requireInit = array(		// Initializing environment.
-	'initialize');
 ?>

@@ -7,7 +7,7 @@ class URIError extends Exception {};
 
 final class Model_URIHandler extends Singleton
 {
-	public $URLInfo, $suri;
+	public $uri, $suri;
 	public static $blogid;
 	public static function getInstance() {
 		return self::_getInstance(__CLASS__);
@@ -22,17 +22,17 @@ final class Model_URIHandler extends Singleton
 
 	private function __URIInterpreter() {
 		$dispatcher = Dispatcher::getInstance();
-		$this->URLInfo = $dispatcher->URLInfo;
+		$this->uri = $dispatcher->URLInfo;
 	}
 	
 	private function __URIParser() {
-		if(!isset($this->URLInfo)) $this->__URIInterpreter();
+		if(!isset($this->uri)) $this->__URIInterpreter();
 		$config = Model_Config::getInstance();
-		$url = $this->URLInfo['fullpath'];
+		$url = $this->uri['fullpath'];
 		$defaultblogid = Setting::getServiceSetting("defaultBlogId",1);
 		$suri            = array('url' => $url, 'value' => '');
 		$this->blogid    = null;
-		$this->isStrictBlogURL = true;
+		$this->uri['isStrictBlogURL'] = true;
 		$depth           = substr_count($config->service['path'], '/');
 		if ($depth > 0) {
 			if (preg_match('@^((/+[^/]+){' . $depth . '})(.*)$@', $url, $matches))
@@ -63,7 +63,7 @@ final class Model_URIHandler extends Singleton
 					$this->blogid = $this->__getBlogidByName(strtok($matches[1],'?'));
 					if ($this->blogid === null) {
 						$this->blogid = $defaultblogid;
-						$this->isStrictBlogURL = false;
+						$this->uri['isStrictBlogURL']= false;
 					}
 					$url = $matches[2];
 				} else {
@@ -73,18 +73,18 @@ final class Model_URIHandler extends Singleton
 			if ($this->blogid === null)
 				Respond::NotFoundPage();
 		}
-		if(isset($this->URLInfo['interfacePath'])) {
-			if(strpos($this->URLInfo['interfacePath'],'interface/blog/comment') === 0 ||
-				strpos($this->URLInfo['interfacePath'],'interface/blog/trackback') === 0) {
-				$depth = substr_count($this->URLInfo['interfacePath'], '/') - 2;
+		if(isset($this->uri['interfacePath'])) {
+			if(strpos($this->uri['interfacePath'],'interface/blog/comment') === 0 ||
+				strpos($this->uri['interfacePath'],'interface/blog/trackback') === 0) {
+				$depth = substr_count($this->uri['interfacePath'], '/') - 2;
 			} else {
-				$depth = substr_count($this->URLInfo['interfacePath'], '/') - 1;
+				$depth = substr_count($this->uri['interfacePath'], '/') - 1;
 			}
 		} else {
 			$depth = substr_count(ROOT, '/');
 		}
 		if ($depth > 0) {
-			if($config->service['fancyURL'] === 0 || $config->service['fancyURL'] === 1) $url = '/'.$this->URLInfo['input']; // Exclude /blog path.
+			if($config->service['fancyURL'] === 0 || $config->service['fancyURL'] === 1) $url = '/'.$this->uri['input']; // Exclude /blog path.
 			if (preg_match('@^((/+[^/]+){' . $depth . '})/*(.*)$@', $url, $matches)) {
 				$suri['directive'] = $matches[1];
 				if ($matches[3] !== false) {
@@ -178,9 +178,11 @@ final class Model_URIHandler extends Singleton
 		$folderURL = rtrim($blogURL . $suri['directive'], '/');
 		if (defined('__TEXTCUBE_MOBILE__')) {
 			$blogURL .= '/m';
-		}else if (defined('__TEXTCUBE_IPHONE__')) {
+		} else if (defined('__TEXTCUBE_IPHONE__')) {
 			$blogURL .= '/i';
 		}
+		$this->blog = $blog;
+		$this->updateContext('blog');
 	}
 	
 	private function __getBlogIdByName($name) {
@@ -204,11 +206,18 @@ final class Model_URIHandler extends Singleton
 		}
 	}
 	
-	function updateContext() {
+	function updateContext($ns = null) {
 		$context = Model_Context::getInstance();
-		if(!empty($this->URLInfo) && is_array($this->URLInfo)) {
-			foreach ($this->URLInfo as $key => $value) {
-				$context->setProperty($key,$value);
+		if(!is_null($ns)) {
+			$info = array($ns);
+		} else {
+			$info = array('uri','blog');
+		}
+		foreach ($info as $namespace) {
+			if(!empty($this->$namespace) && is_array($this->$namespace)) {
+				foreach ($this->$namespace as $key => $value) {
+					$context->setProperty($key,$value,$namespace);
+				}
 			}
 		}
 		if(isset($this->suri)) $context->setProperty('suri',$this->suri);

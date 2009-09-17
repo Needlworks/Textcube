@@ -44,9 +44,4 @@ $__requireView = array(
 	'paging',
 	'view',
 	'DEBUG : Views loaded.');
-$__requireInit = array(
-	'initialize',				// Initializing environment.
-	'DEBUG : Initialization finished.',
-	'plugins',
-	'DEBUG : Plugin module loaded.');
 ?>

@@ -38,7 +38,4 @@ $__requireView = array(
 	'ownerView',
 	'paging',
 	'view');
-$__requireInit = array(
-	'initialize',			// Initializing environment.
-	'plugins');
 ?>

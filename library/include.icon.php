@@ -15,6 +15,4 @@ $__requireModel = array(		// Model
 //	'common.plugin', // Usually do not require for icons (no events).
 	'common.setting');
 $__requireView = array();
-$__requireInit = array(		// Initialize
-	'initialize');
 ?>
