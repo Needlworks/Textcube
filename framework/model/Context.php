@@ -9,7 +9,7 @@ final class Model_Context extends Singleton
 {
 	public $URLInfo, $suri;
 	public static $blogid, $isStrictURL;
-
+	private static $__property;
 	public static function getInstance() {
 		return self::_getInstance(__CLASS__);
 	}
@@ -19,7 +19,11 @@ final class Model_Context extends Singleton
 	}
 	public function URIParser() { $this->__URIParser();}
 	public function globalVariableParser() { $this->__globalVariableParser();}
-	
+	public function setProperty($key,$value) { $this->__property[$key] = $value; }
+	public function getProperty($key) {
+		if (isset($this->__property[$key])) return $this->__property[$key];
+		else return null;
+	}
 	private function __URIInterpreter() {
 		$dispatcher = Dispatcher::getInstance();
 		$this->URLInfo = $dispatcher->URLInfo;
