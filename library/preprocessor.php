@@ -56,11 +56,12 @@ if (!$valid) {
 /** LOAD : Configuration and Debug module (if necessary)
     --------------------
 */
-global $config, $context;
+global $config, $context, $uri;
 
 /// Loading configuration	
 $config = Model_Config::getInstance();
 $context = Model_Context::getInstance(); // automatic initialization via first instanciation
+$uri = Model_URIHandler::getInstance();
 
 /// Loading debug module
 if($config->service['debugmode'] == true) {
@@ -78,7 +79,7 @@ if($config->service['debugmode'] == true) {
 */
 
 /// Reading necessary file list
-require_once (ROOT.'/library/include.'.$context->URLInfo['interfaceType'].'.php');
+require_once (ROOT.'/library/include.'.$uri->URLInfo['interfaceType'].'.php');
 /// Loading files.
 require_once (ROOT.'/library/include.php');
 
@@ -115,9 +116,12 @@ endif;
     Textcube judges blogid from its URI.
     After parsing URI-specific variables, fetch global variables (legacy support till Textcube 2)
 */
-$context->URIParser();
+$uri = Model_URIHandler::getInstance();
+
+$uri->URIParser();
 /// Setting global variables
-$context->globalVariableParser();
+$uri->globalVariableParser();
+
 /** INITIALIZE : Session (if necessary)
     -----------------------------------
 */
@@ -166,8 +170,8 @@ if (!defined('NO_INITIALIZAION')) {
 	
 /// Load administration panel locale.
 	if(!defined('NO_LOCALE')) {
-		if($context->URLInfo['interfaceType'] == 'reader') { $languageDomain = 'owner'; }
-		else $languageDomain = $context->URLInfo['interfaceType'];
+		if($context->getProperty('interfaceType') == 'reader') { $languageDomain = 'owner'; }
+		else $languageDomain = $context->getProperty('interfaceType');
 		
 		if($languageDomain == 'owner') {
 			$language = isset($blog['language']) ? $blog['language'] : $service['language'];
@@ -187,7 +191,7 @@ if (!defined('NO_INITIALIZAION')) {
     -------------------------------------------
     When necessary, loads admin panel skin information.
 */
-	if(in_array($context->URLInfo['interfaceType'], array('owner','reader')) || defined('__TEXTCUBE_ADMINPANEL__')) {
+	if(in_array($context->getProperty('interfaceType'), array('owner','reader')) || defined('__TEXTCUBE_ADMINPANEL__')) {
 		$adminSkinSetting = array();
 		$adminSkinSetting['skin'] = "/skin/admin/".getBlogSetting("adminSkin", "canon");
 		// 1.5에서 올라온 경우 스킨이 있는 경우를 위한 workaround.
@@ -211,7 +215,7 @@ if (!defined('NO_INITIALIZAION')) {
     -------------------------------------------
     Load and bind specific plugin codes and initialze them.
 */ 
-if(in_array($context->URLInfo['interfaceType'], array('blog','owner','reader','mobile'))) {
+if(in_array($context->getProperty('interfaceType'), array('blog','owner','reader','mobile'))) {
 	require_once(ROOT.'/library/plugins.php');
 }
 
@@ -220,13 +224,13 @@ if(in_array($context->URLInfo['interfaceType'], array('blog','owner','reader','m
     Checks privilege setting and block user (or connection).
 */
 
-if($context->URLInfo['interfaceType'] == 'blog' && !defined('__TEXTCUBE_LOGIN__')) {
+if($context->getProperty('interfaceType') == 'blog' && !defined('__TEXTCUBE_LOGIN__')) {
 	$blogVisibility = Setting::getBlogSettingGlobal('visibility',2);
 	if($blogVisibility == 0) requireOwnership();
 	else if($blogVisibility == 1) requireMembership();
 }
 
-if(in_array($context->URLInfo['interfaceType'], array('owner','reader'))) {
+if(in_array($context->getProperty('interfaceType'), array('owner','reader'))) {
 	requireOwnership();     // Check access control list
 	if(!empty($_SESSION['acl'])) {
 		$requiredPriv = Aco::getRequiredPrivFromUrl( $suri['directive'] );

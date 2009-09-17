@@ -109,7 +109,7 @@ function requireStrictRoute() {
 
 function requireStrictBlogURL() {
 	$context = Model_Context::getInstance();
-	if(isset($context->isStrictBlogURL) && $context->isStrictBlogURL == true) return;
+	if($context->getProperty('isStrictBlogURL') == true) return;
 	header('HTTP/1.1 404 Not found');
 	exit;
 }
