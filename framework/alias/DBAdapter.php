@@ -3,9 +3,9 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-	$config = Model_Config::getInstance();
+	$context = Model_Context::getInstance();
 	$dbms = 'mysql';
-	if(isset($config->database['dbms'])) $dbms = $config->database['dbms'];
+	if(!is_null($context->getProperty('database.dbms'))) $dbms = $context->getProperty('database.dbms');
 	require_once(ROOT."/framework/data/IAdapter.php");	
 	require_once(ROOT."/framework/data/".$dbms."/Adapter.php");
 	DBAdapter::cacheLoad();

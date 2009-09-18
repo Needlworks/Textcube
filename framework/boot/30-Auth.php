@@ -207,11 +207,12 @@ class Aco {
 
 class Acl {
 
-	function Acl() {
+	function __construct() {
+		$this->context = Model_Context::getInstance();
 	}
 
 	function authorize( $domain, $userid ) {
-		global $database;
+		$context = Model_Context::getInstance();
 		if( !isset( $_SESSION['identity'] ) ) {
 			$_SESSION['identity'] = array();
 		}
@@ -232,8 +233,7 @@ class Acl {
 		} else {
 			$ownership = "group.owners";
 		}
-
-		$result = POD::queryAllWithCache("SELECT blogid,acl FROM {$database['prefix']}Privileges WHERE userid = $userid");
+		$result = POD::queryAllWithCache("SELECT blogid,acl FROM {$context->getProperty('database.prefix')}Privileges WHERE userid = $userid");
 		foreach( $result as $rec ) {
 			$priv = array("group.writers", "textcube.$userid");
 
@@ -251,7 +251,13 @@ class Acl {
 		}
 
 		$blogid = getBlogId();
-		POD::execute("UPDATE  {$database['prefix']}Privileges SET lastLogin = ".Timestamp::getUNIXtime()." WHERE blogid = $blogid AND userid = $userid");
+		$data = DBModel::getInstance();
+		$data->reset($context->getProperty('database.prefix'));
+		$data->setQualifier('blogid','equals',$blogid);
+		$data->setQualifier('userid','equals',$userid);
+		$data->setAttribute('lastLogin',Timestamp::getUNIXtime());
+		$data->update();	
+//		POD::execute("UPDATE {$this->context->getProperty('database.prefix')}Privileges SET lastLogin = ".Timestamp::getUNIXtime()." WHERE blogid = $blogid AND userid = $userid");
 		return;
 	}
 

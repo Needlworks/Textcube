@@ -185,8 +185,8 @@ final class UTF8 {
 	}
 
 	static function lessenAsEncoding($str, $length = 255, $tail = '...') {
-		global $database;
-		if(!isset($database['utf8']) || empty($database['utf8']) || $database['utf8'] == true)
+		$context = Model_Context::getInstance();
+		if($context->getProperty('database.utf8') != true)
 			return UTF8::lessen($str, $length, $tail);
 		else
 			return UTF8::lessenAsByte($str, $length, $tail);

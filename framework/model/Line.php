@@ -7,8 +7,8 @@ final class Model_Line extends DBModel {
 	private $filter = array();
 
 	public function __construct() {
-		global $database;
-		parent::reset($database['prefix']."Lines");
+		$this->context = Model_Context::getInstance();
+		parent::reset($this->context->getProperty('database.prefix')."Lines");
 		$this->reset();
 	}
 
@@ -39,7 +39,6 @@ final class Model_Line extends DBModel {
 	}
 	
 	public function remove(){
-		global $database;
 		if(empty($this->filter)) return $this->error('Filter empty');
 		foreach($this->filter as $filter) {
 			if(count($filter) == 3) {
@@ -119,11 +118,11 @@ final class Model_Line extends DBModel {
 	}
 	
 	private function getNextId() {
-		global $database;
 		$maxId = $this->getCell('MAX(id)');
 		if(!empty($maxId)) return $maxId + 1;
 		else return 1;
 	}
+
 	public function showResult($result) {
 		echo "<html><head></head><body>";
 		echo '<script type="text/javascript">alert("';

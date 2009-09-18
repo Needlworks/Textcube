@@ -373,6 +373,7 @@ class Setting {
 				'linkLength' => 30, 
 				'showListOnCategory' => 1, 
 				'showListOnArchive' => 1, 
+				'showListOnTag' => 1, 
 				'tree' => 'base', 
 				'colorOnTree' => '000000', 
 				'bgColorOnTree' => '', 
