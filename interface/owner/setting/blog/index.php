@@ -745,7 +745,7 @@ if( $acceptTrackbacks ) {
 											<dt><label for="acceptResponses"><?php echo _t('댓글 및 글걸기 차단');?></label></dt>										
 											<dd>
 												<input id="acceptComments" type="checkbox" name="acceptComment" <?php echo $acceptComments;?> />
-												<label for="acceptComments"><?php echo _t('블로그의 모든 글에 댓글을 달 수 없도록 합니다.'); ?></label>
+												<label for="acceptComments"><?php echo _t('블로그의 모든 글에 댓글및 방명록을 달 수 없도록 합니다.'); ?></label>
 												<br />
 												<input id="acceptTrackbacks" type="checkbox" name="acceptTrackback" <?php echo $acceptTrackbacks;?> />
 												<label for="acceptTrackbacks"><?php echo _t('블로그의 모든 글에 트랙백 및 핑백을 보낼 수 없도록 합니다.') ?></label>
