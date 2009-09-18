@@ -126,8 +126,13 @@ endif;
 $uri = Model_URIHandler::getInstance();
 
 $uri->URIParser();
+$uri->VariableParser();
+
 /// Setting global variables
-$uri->globalVariableParser();
+//if($context->getProperty('service.legacyMode') == true) {
+	$legacy = Model_LegacySupport::getInstance();
+	$legacy->addSupport('URLglobals');
+//}
 
 /** INITIALIZE : Session (if necessary)
     -----------------------------------

@@ -49,7 +49,19 @@ final class Model_Context extends Singleton
 		if(is_null($ns)) $this->__namespace = null;
 		else $this->__namespace = $ns;
 	}
-	
+	public function getNamespace() {
+		return $this->__namespace;
+	}
+
+	public function getAllFromNamespace($ns) {
+		$result = array();
+		$len = strlen($ns)+1;
+		foreach($this->__property as $k => $v) {
+			if(strpos($k,$ns) === 0) $result[substr($k,$len)] = $v;
+		}
+		return $result;
+	}
+
 	function __destruct() {
 		// Nothing to do: destruction of this class means the end of execution
 	}

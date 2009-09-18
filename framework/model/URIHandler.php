@@ -18,19 +18,19 @@ final class Model_URIHandler extends Singleton
 	}
 
 	public function URIParser() { $this->__URIParser();}
-	public function globalVariableParser() { $this->__globalVariableParser();}
+	public function VariableParser() { $this->__URIvariableParser();}
 
 	private function __URIInterpreter() {
 		$dispatcher = Dispatcher::getInstance();
-		$this->uri = $dispatcher->URLInfo;
+		$this->uri = $dispatcher->uri;
 	}
 	
 	private function __URIParser() {
 		if(!isset($this->uri)) $this->__URIInterpreter();
-		$config = Model_Config::getInstance();
-		$url = $this->uri['fullpath'];
-		$defaultblogid = Setting::getServiceSetting("defaultBlogId",1);
-		$suri            = array('url' => $url, 'value' => '');
+		$config          = Model_Config::getInstance();
+		$url             = $this->uri['fullpath'];
+		$defaultblogid   = Setting::getServiceSetting("defaultBlogId",1);
+		$this->suri            = array('url' => $url, 'value' => '');
 		$this->blogid    = null;
 		$this->uri['isStrictBlogURL'] = true;
 		$depth           = substr_count($config->service['path'], '/');
@@ -86,124 +86,105 @@ final class Model_URIHandler extends Singleton
 		if ($depth > 0) {
 			if($config->service['fancyURL'] === 0 || $config->service['fancyURL'] === 1) $url = '/'.$this->uri['input']; // Exclude /blog path.
 			if (preg_match('@^((/+[^/]+){' . $depth . '})/*(.*)$@', $url, $matches)) {
-				$suri['directive'] = $matches[1];
+				$this->suri['directive'] = $matches[1];
 				if ($matches[3] !== false) {
-					$suri['value'] = $matches[3];
+					$this->suri['value'] = $matches[3];
 				}
 			} else {
 				Respond::NotFoundPage();
 			}
 		} else {
-			$suri['directive'] = '/';
-			$suri['value'] = ltrim($url, '/');
+			$this->suri['directive'] = '/';
+			$this->suri['value'] = ltrim($url, '/');
 		}
-		if(strpos($suri['value'],'?') === 0) $suri['value'] = '';
-		else $suri['value'] = strtok($suri['value'], '?');
-		$suri['directive'] = strtok($suri['directive'], '?');
-		if (is_numeric($suri['value'])) {
-			$suri['id'] = $suri['value'];
+		if(strpos($this->suri['value'],'?') === 0) $this->suri['value'] = '';
+		else $this->suri['value'] = strtok($this->suri['value'], '?');
+		$this->suri['directive'] = strtok($this->suri['directive'], '?');
+		if (is_numeric($this->suri['value'])) {
+			$this->suri['id'] = $this->suri['value'];
 		} else {
-			$suri['value'] = URL::decode(str_replace('index.php','',$suri['value']));
-			if(is_numeric($isValue = strtok($suri['value'],'&'))) $suri['id'] = $isValue;
+			$this->suri['value'] = URL::decode(str_replace('index.php','',$this->suri['value']));
+			if(is_numeric($isValue = strtok($this->suri['value'],'&'))) $this->suri['id'] = $isValue;
 			unset($isValue);
 		}
 
 		// Parse page.
-		$suri['page'] = empty($_POST['page']) ? (empty($_GET['page']) ? true : $_GET['page']) : $_POST['page'];
-		$this->suri = $suri;
-		$this->updateContext();	
+		$this->suri['page'] = empty($_POST['page']) ? (empty($_GET['page']) ? true : $_GET['page']) : $_POST['page'];
 	}
 	
-	private function __globalVariableParser() {
-		global $serviceURL, $pathURL, $defaultURL, $baseURL, $pathURL, $hostURL, $folderURL, $blogURL;
+	private function __URIvariableParser() {
 		global $suri, $blog, $blogid, $skinSetting, $gCacheStorage;
-		$blogid = $this->blogid;
+		$blogid        = $this->blogid;
 		$gCacheStorage = new globalCacheStorage; // Initialize global cache
+		$context       = Model_Context::getInstance();
 
-		$config = Model_Config::getInstance();
-
-		$suri = $this->suri;
-		$blog = Setting::getBlogSettingsGlobal($this->blogid);
+		$suri        = $this->suri;
+		$blog        = Setting::getBlogSettingsGlobal($this->blogid);
 		$skinSetting = Setting::getSkinSetting($this->blogid);
-		
-		if(isset($config->service['serviceURL'])) $serviceURL = $config->service['serviceURL'];
-		if (!isset($serviceURL))
-			$serviceURL = 'http://' . $config->service['domain'] . (isset($config->service['port']) ? ':' . $config->service['port'] : '') . $config->service['path'];
-		switch ($config->service['type']) {
+		if(!is_null($context->getProperty('service.serviceURL'))) {
+			$this->uri['service'] = $context->getProperty('service.serviceURL');
+			}
+		if (!isset($this->uri['service'])) {
+			$this->uri['service'] = 'http://' . $context->getProperty('service.domain') . (is_null($context->getProperty('service.port')) ? ':' . $context->getProperty('service.port') : '') . $context->getProperty('service.path');
+		}
+	
+		$context->useNamespace('service');
+		switch ($context->getProperty('service.type')) {
 			case 'domain':
-				$pathURL = $config->service['path'];
-				$blog['primaryBlogURL'] = 'http://' . $blog['name'] . '.' . $config->service['domain'] . (isset($config->service['port']) ? ':' . $config->service['port'] : '') . $pathURL;
+				$this->uri['path'] = $context->getProperty('path');
+				$blog['primaryBlogURL'] = 'http://' . $blog['name'] . '.' . $context->getProperty('domain') . (!is_null($context->getProperty('port')) ? ':' . $context->getProperty('port') : '') . $this->uri['path'];
 				if( !empty($blog['secondaryDomain']) )
-					$blog['secondaryBlogURL'] = 'http://' . $blog['secondaryDomain'] . (isset($config->service['port']) ? ':' . $config->service['port'] : '') . $pathURL;
+					$blog['secondaryBlogURL'] = 'http://' . $blog['secondaryDomain'] . (!is_null($context->getProperty('port')) ? ':' . $context->getProperty('port') : '') . $this->uri['path'];
 				else
 					$blog['secondaryBlogURL'] = null;
 				if ($blog['defaultDomain']) {
-					$defaultURL = $blog['secondaryBlogURL'];
+					$this->uri['default'] = $blog['secondaryBlogURL'];
 					if ($_SERVER['HTTP_HOST'] == $blog['secondaryDomain'])
-						$baseURL = $config->service['path'];
+						$this->uri['base'] = $context->getProperty('path');
 					else
-						$baseURL = $defaultURL;
+						$this->uri['base'] = $this->uri['default'];
 				} else {
-					$defaultURL = $blog['primaryBlogURL'];
-					if ($_SERVER['HTTP_HOST'] == ($blog['name'] . '.' . $config->service['domain']))
-						$baseURL = $config->service['path'];
+					$this->uri['default'] = $blog['primaryBlogURL'];
+					if ($_SERVER['HTTP_HOST'] == ($blog['name'] . '.' . $context->getProperty('domain')))
+						$this->uri['base'] = $context->getProperty('path');
 					else
-						$baseURL = $defaultURL;
+						$this->uri['base'] = $this->uri['default'];
 				}
 				break;
 			case 'path':
-				$pathURL = $config->service['path'] . '/' . $blog['name'];
-				$blog['primaryBlogURL'] = 'http://' . $config->service['domain'] . (isset($config->service['port']) ? ':' . $config->service['port'] : '') . $pathURL;
+				$this->uri['path'] = $context->getProperty('path') . '/' . $blog['name'];
+				$blog['primaryBlogURL'] = 'http://' . $context->getProperty('domain') . (!is_null($context->getProperty('port')) ? ':' . $context->getProperty('port') : '') . $this->uri['path'];
 				$blog['secondaryBlogURL'] = null;
-				$defaultURL = $blog['primaryBlogURL'];
-				if ($_SERVER['HTTP_HOST'] == $config->service['domain'])
-					$baseURL = $config->service['path'] . '/' . $blog['name'];
+				$this->uri['default'] = $blog['primaryBlogURL'];
+				if ($_SERVER['HTTP_HOST'] == $context->getProperty('domain'))
+					$this->uri['base'] = $context->getProperty('path') . '/' . $blog['name'];
 				else
-					$baseURL = $defaultURL;
+					$this->uri['base'] = $this->uri['default'];
 				break;
 			case 'single':
 			default:
-				$pathURL = $config->service['path'];
-				$blog['primaryBlogURL'] = 'http://' . $config->service['domain'] . (isset($config->service['port']) ? ':' . $config->service['port'] : '') . $pathURL;
+				$this->uri['path'] = $context->getProperty('path');
+				$blog['primaryBlogURL'] = 'http://' . $context->getProperty('domain') . (!is_null($context->getProperty('port')) ? ':' . $context->getProperty('port') : '') . $this->uri['path'];
 				$blog['secondaryBlogURL'] = null;
-				$defaultURL = $blog['primaryBlogURL'].($this->__getFancyURLpostfix());
-				if ($_SERVER['HTTP_HOST'] == $config->service['domain'])
-					$baseURL = $config->service['path'];
+				$this->uri['default'] = $blog['primaryBlogURL'].($this->__getFancyURLpostfix());
+				if ($_SERVER['HTTP_HOST'] == $context->getProperty('domain'))
+					$this->uri['base'] = $context->getProperty('path');
 				else
-					$baseURL = $defaultURL;
+					$this->uri['base'] = $this->uri['default'];
 				break;
 		}
-		$hostURL = 'http://' . $_SERVER['HTTP_HOST'] . (isset($config->service['port']) ? ':' . $config->service['port'] : '');
-		$blogURL = $pathURL.$this->__getFancyURLpostfix();
-		$folderURL = rtrim($blogURL . $suri['directive'], '/');
+		$this->uri['host'] = 'http://' . $_SERVER['HTTP_HOST'] . (!is_null($context->getProperty('port')) ? ':' . $context->getProperty('port') : '');
+		$this->uri['blog'] = $this->uri['path'].$this->__getFancyURLpostfix();
+		$this->uri['folder'] = rtrim($this->uri['blog'] . $suri['directive'], '/');
+
 		if (defined('__TEXTCUBE_MOBILE__')) {
-			$blogURL .= '/m';
+			$this->uri['blog'] .= '/m';
 		} else if (defined('__TEXTCUBE_IPHONE__')) {
-			$blogURL .= '/i';
+			$this->uri['blog'] .= '/i';
 		}
+
 		$this->blog = $blog;
-		$this->updateContext('blog');
-	}
-	
-	private function __getBlogIdByName($name) {
-		global $database;
-		$query = new DBModel($database['prefix'] . 'BlogSettings');
-		$query->setQualifier('name','equals','name',true);
-		$query->setQualifier('value', 'equals', $name, true);
-		return $query->getCell('blogid');
-		return false;	
-	}
-	private function __getBlogIdBySecondaryDomain($domain) {
-		global $database;
- 		return POD::queryCell("SELECT blogid FROM {$database['prefix']}BlogSettings WHERE name = 'secondaryDomain' AND (value = '$domain' OR  value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) ."')");	
-	}
-	private function __getFancyURLpostfix() {	
-		$config = Model_Config::getInstance();
-		switch($config->service['fancyURL']) {
-			case 0: return '/index.php?';
-			case 1: return '/?';
-			case 2:default: return '';
-		}
+		$this->updateContext();
 	}
 	
 	function updateContext($ns = null) {
@@ -211,7 +192,7 @@ final class Model_URIHandler extends Singleton
 		if(!is_null($ns)) {
 			$info = array($ns);
 		} else {
-			$info = array('uri','blog');
+			$info = array('uri','blog','suri');
 		}
 		foreach ($info as $namespace) {
 			if(!empty($this->$namespace) && is_array($this->$namespace)) {
@@ -220,7 +201,29 @@ final class Model_URIHandler extends Singleton
 				}
 			}
 		}
-		if(isset($this->suri)) $context->setProperty('suri',$this->suri);
+	}
+
+	private function __getBlogIdByName($name) {
+		global $database;
+		$query = new DBModel($database['prefix'] . 'BlogSettings');
+		$query->setQualifier('name','equals','name',true);
+		$query->setQualifier('value', 'equals', $name, true);
+		return $query->getCell('blogid');
+		return false;	
+	}
+
+	private function __getBlogIdBySecondaryDomain($domain) {
+		global $database;
+ 		return POD::queryCell("SELECT blogid FROM {$database['prefix']}BlogSettings WHERE name = 'secondaryDomain' AND (value = '$domain' OR  value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) ."')");	
+	}
+
+	private function __getFancyURLpostfix() {	
+		$config = Model_Config::getInstance();
+		switch($config->service['fancyURL']) {
+			case 0: return '/index.php?';
+			case 1: return '/?';
+			case 2:default: return '';
+		}
 	}
 	
 	function __destruct() {

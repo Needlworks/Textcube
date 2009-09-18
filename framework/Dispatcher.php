@@ -6,7 +6,7 @@
 final class Dispatcher {
 	private static $instances = array();
 	
-	public $URLInfo, $interfacePath;
+	public $uri, $interfacePath;
 	
 	protected function __construct() {
 		$this->URIinterpreter();
@@ -39,24 +39,24 @@ final class Dispatcher {
 			$_SERVER['REQUEST_URI'] = urldecode($_SERVER['HTTP_X_REWRITE_URL']);
 		}
 		/* Retrieve Access Parameter Information. */
-		$URLInfo = array(
+		$uri = array(
 			'host'     => $_SERVER['HTTP_HOST'],
 			'fullpath' => str_replace('index.php', '', $_SERVER["REQUEST_URI"]),
 			'position' => $_SERVER["SCRIPT_NAME"],
 			'root'     => rtrim(str_replace('rewrite.php', '', $_SERVER["SCRIPT_NAME"]), 'index.php')
 			);
-		if (strpos($URLInfo['fullpath'],$URLInfo['root']) !== 0)
-			$URLInfo['fullpath'] = $URLInfo['root'].substr($URLInfo['fullpath'], strlen($URLInfo['root']) - 1);
+		if (strpos($uri['fullpath'],$uri['root']) !== 0)
+			$uri['fullpath'] = $uri['root'].substr($uri['fullpath'], strlen($uri['root']) - 1);
 		// Workaround for compartibility with fastCGI / Other environment
-		$URLInfo['input'] = ltrim(substr($URLInfo['fullpath'],
-			strlen($URLInfo['root']) + (defined('__TEXTCUBE_NO_FANCY_URL__') ? 1 : 0)),'/');
+		$uri['input'] = ltrim(substr($uri['fullpath'],
+			strlen($uri['root']) + (defined('__TEXTCUBE_NO_FANCY_URL__') ? 1 : 0)),'/');
 		// Support Tattertools 0.9x legacy address (for upgrade users)
-		if (array_key_exists('pl', $_GET) && strval(intval($_GET['pl'])) == $_GET['pl']) { header("Location: ".$URLInfo['root'].$_GET['pl']); exit;}
-		$part = strtok($URLInfo['input'], '/');
+		if (array_key_exists('pl', $_GET) && strval(intval($_GET['pl'])) == $_GET['pl']) { header("Location: ".$uri['root'].$_GET['pl']); exit;}
+		$part = strtok($uri['input'], '/');
 		if (in_array($part, array('resources','plugins','cache','skin','attach','thumbnail'))) {
 			$part = ltrim(rtrim($part == 'thumbnail' ?
-				  preg_replace('/thumbnail/', 'cache/thumbnail', $URLInfo['input'], 1) :
-				  $URLInfo['input']), '/');
+				  preg_replace('/thumbnail/', 'cache/thumbnail', $uri['input'], 1) :
+				  $uri['input']), '/');
 			$part = (($qpos = strpos($part, '?')) !== false) ? substr($part, 0, $qpos) : $part;
 			if(file_exists($part)) {
 				require_once ROOT.'/library/function/file.php';
@@ -67,7 +67,7 @@ final class Dispatcher {
 			}
 		}
 		if (strtok($part, '?') == 'setup.php') {require 'setup.php'; exit;}
-		$URLInfo['fragment'] = explode('/',strtok($URLInfo['input'],'?'));
+		$uri['fragment'] = explode('/',strtok($uri['input'],'?'));
 		unset($part);
 	
 		/* Check the existence of config.php (whether installed or not) */
@@ -80,81 +80,81 @@ final class Dispatcher {
 		if(defined('__TEXTCUBE_NO_FANCY_URL__')) $service['type'] = 'single';
 		switch ($service['type']) {
 			case 'path': // For path-based multi blog.
-				array_splice($URLInfo['fragment'],0,1); 
-				$pathPart = ltrim(rtrim(strtok(strstr($URLInfo['input'],'/'), '?'), '/'), '/');
+				array_splice($uri['fragment'],0,1); 
+				$pathPart = ltrim(rtrim(strtok(strstr($uri['input'],'/'), '?'), '/'), '/');
 				break;
 			case 'single':
-				$pathPart = (strpos($URLInfo['input'],'?') !== 0 ? ltrim(rtrim(strtok($URLInfo['input'], '?'), '/'), '/') : '');
+				$pathPart = (strpos($uri['input'],'?') !== 0 ? ltrim(rtrim(strtok($uri['input'], '?'), '/'), '/') : '');
 				break;
 			case 'domain': default: 
-				$pathPart = ltrim(rtrim(strtok($URLInfo['fullpath'], '?'), '/'), '/');
+				$pathPart = ltrim(rtrim(strtok($uri['fullpath'], '?'), '/'), '/');
 				if(!empty($service['path'])) $pathPart = ltrim($pathPart,$service['path']);
 				break;
 		}
 		$pathPart = strtok($pathPart,'&');
 		// Determine interface Type
-		if (isset($URLInfo['fragment'][0])) {
-			if (isset($URLInfo['fragment'][1]) &&
-			($URLInfo['fragment'][0] == 'owner') &&
-			($URLInfo['fragment'][1] == 'reader' || ($URLInfo['fragment'][1] == 'network' && isset($URLInfo['fragment'][2]) && $URLInfo['fragment'][2] == 'reader'))) {
-				$URLInfo['interfaceType'] = 'reader';
+		if (isset($uri['fragment'][0])) {
+			if (isset($uri['fragment'][1]) &&
+			($uri['fragment'][0] == 'owner') &&
+			($uri['fragment'][1] == 'reader' || ($uri['fragment'][1] == 'network' && isset($uri['fragment'][2]) && $uri['fragment'][2] == 'reader'))) {
+				$uri['interfaceType'] = 'reader';
 			} else {
-				switch($URLInfo['fragment'][0]) {
+				switch($uri['fragment'][0]) {
 					case 'feeder':
-						$URLInfo['interfaceType'] = 'feeder';
+						$uri['interfaceType'] = 'feeder';
 						break;
 					case 'owner':
-						$URLInfo['interfaceType'] = 'owner';
+						$uri['interfaceType'] = 'owner';
 						break;
 					case 'favicon.ico':
 					case 'index.gif':
-						$URLInfo['interfaceType'] = 'icon';
+						$uri['interfaceType'] = 'icon';
 						break;
 					case 'i':
-						$URLInfo['interfaceType'] = 'mobile';
+						$uri['interfaceType'] = 'mobile';
 						break;
 					case 'checkup':
-						$URLInfo['interfaceType'] = 'checkup';
+						$uri['interfaceType'] = 'checkup';
 						break;
 					default:
-						$URLInfo['interfaceType'] = 'blog';
+						$uri['interfaceType'] = 'blog';
 						break;
 				}
 			}	
 		} else {
-			$URLInfo['interfaceType'] = 'blog';
+			$uri['interfaceType'] = 'blog';
 		}
 		
 		/* Load interface. */
 		$interfacePath = null;
-		if ($URLInfo['interfaceType'] == 'icon') {
-			$URLInfo['interfacePath'] = $this->interfacePath = 'interface/'.$pathPart.'.php';
-			$this->URLInfo = $URLInfo;
+		if ($uri['interfaceType'] == 'icon') {
+			$uri['interfacePath'] = $this->interfacePath = 'interface/'.$pathPart.'.php';
+			$this->uri = $uri;
 		} else {
-			if (!empty($URLInfo['fragment'])) {
-				if (is_numeric(strtok(end($URLInfo['fragment']), '&'))) {
-					array_pop($URLInfo['fragment']);	
-					$pathPart = count($URLInfo['fragment'])==1 ? null : implode('/', $URLInfo['fragment']);
+			if (!empty($uri['fragment'])) {
+				if (is_numeric(strtok(end($uri['fragment']), '&'))) {
+					array_pop($uri['fragment']);	
+					$pathPart = count($uri['fragment'])==1 ? null : implode('/', $uri['fragment']);
 				}
-				if(isset($URLInfo['fragment'][0])) {
-					switch($URLInfo['fragment'][0]) {
+				if(isset($uri['fragment'][0])) {
+					switch($uri['fragment'][0]) {
 						case 'api': case 'archive': case 'attachment': case 'author':
 						case 'category':  case 'cfeed': case 'checkup': case 'cover': case 'cron': 
 						case 'entry': case 'feeder': case 'foaf': case 'guestbook': case 'iMazing': 
 						case 'keylog': case 'line': case 'location': case 'locationSuggest': 
 						case 'logout': case 'notice': case 'page': case 'plugin': case 'pluginForOwner': 
 						case 'search': case 'suggest': case 'sync': case 'tag': case 'ttxml': 
-							$pathPart = $URLInfo['fragment'][0];
+							$pathPart = $uri['fragment'][0];
 							$interfacePath = 'interface/blog/'.$pathPart.'.php';
 							break;
 						case 'rss': case 'atom':
-							if($URLInfo['fragment'][1] == 'category') {
-								$pathPart = $URLInfo['fragment'][0].'/category';
+							if($uri['fragment'][1] == 'category') {
+								$pathPart = $uri['fragment'][0].'/category';
 								$interfacePath = 'interface/'.$pathPart.'/index.php';							
 							}
 							break;
 						case 'comment': case 'trackback':
-							$pathPart = implode("/",$URLInfo['fragment']);
+							$pathPart = implode("/",$uri['fragment']);
 							$interfacePath = 'interface/blog/'.$pathPart.'/index.php';
 							break;
 						default:
@@ -168,8 +168,8 @@ final class Dispatcher {
 			if (!file_exists($interfacePath)) { 
 				header("HTTP/1.0 404 Not Found");exit;
 			}
-			$URLInfo['interfacePath'] = $this->interfacePath = $interfacePath;
-			$this->URLInfo = $URLInfo;
+			$uri['interfacePath'] = $this->interfacePath = $interfacePath;
+			$this->uri = $uri;
 		}
 	}
 }
