@@ -69,7 +69,7 @@ function printFormatterSelectScript() {
 }
 
 function printOwnerEditorScript($entryId = false) {
-	global $database, $skin, $hostURL, $blogURL, $service;
+	global $database, $skin, $hostURL, $blogURL, $service, $pluginURL, $pluginName;
 	$blogid = getBlogId();
 
 	$contentWidth = 500;
@@ -131,9 +131,10 @@ function printOwnerEditorScript($entryId = false) {
 		switch (key) {
 <?php
 	foreach (getAllEditors() as $id => $editor) {
-		getEditorInfo($id); // explicitly loads plugin code
+		getEditorInfo($id); // explicitly loads plugin code ($pluginURL, $pluginName returned as global)
 		if (isset($editor['initfunc']) && function_exists($editor['initfunc'])) {
 			echo "\t\tcase '".addslashes($id)."': {\n".call_user_func($editor['initfunc'], $editor)."\t\t}\n";
+			$pluginURL = $pluginName = "";
 		}
 	}
 ?>

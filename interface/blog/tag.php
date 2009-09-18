@@ -18,7 +18,6 @@ if (strlen($suri['value'])) {
 	$entryCache =
 	$listCache =
 		null;
-
 	if ($skinSetting['showListOnTag'] != 0) {
 		$cache->reset();
 		$cache->name = 'tagList_'.$tag.'_'.$suri['page'].'_';
