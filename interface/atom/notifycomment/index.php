@@ -18,9 +18,6 @@ requireModel("blog.feed");
 requireModel("blog.entry");
 
 requireStrictBlogURL();
-if (false) {
-	fetchConfigVal();
-}
 validateAPIKey(getBlogId(),$_POST['loginid'],$_POST['key']);
 
 $cache = new pageCache;

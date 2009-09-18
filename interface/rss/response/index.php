@@ -14,7 +14,7 @@ if (false) {
 }
 $cache = new pageCache;
 if(!empty($suri['id'])) {
-	$cache->name = 'responseRSS_'.$suri['id'];
+	$cache->name = 'responseRSS-'.$suri['id'];
 	if(!$cache->load()) {
 		$result = getResponseFeedByEntryId(getBlogId(),$suri['id']);
 		if($result !== false) {

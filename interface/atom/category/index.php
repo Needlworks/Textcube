@@ -35,7 +35,7 @@ if($parent === null) {	// It's parent. let's find childs.
 	}
 }
 
-$cache->name = 'categoryATOM_'.$categoryId;
+$cache->name = 'categoryATOM-'.$categoryId;
 if(!$cache->load()) {
 	$result = getCategoryFeedByCategoryId(getBlogId(),$categoryIds,'atom',$categoryTitle);
 	if($result !== false) {

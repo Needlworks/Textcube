@@ -35,7 +35,7 @@ if($parent === null) {	// It's parent. let's find childs.
 	}
 }
 
-$cache->name = 'categoryRSS_'.$categoryId;
+$cache->name = 'categoryRSS-'.$categoryId;
 if(!$cache->load()) {
 	$result = getCategoryFeedByCategoryId(getBlogId(),$categoryIds,'rss',$categoryTitle);
 	if($result !== false) {

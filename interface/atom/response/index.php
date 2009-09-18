@@ -14,7 +14,7 @@ if (false) {
 }
 $cache = new pageCache;
 if(!empty($suri['id'])) {
-	$cache->name = 'responseATOM_'.$suri['id'];
+	$cache->name = 'responseATOM-'.$suri['id'];
 	if(!$cache->load()) {
 		$result = getResponseFeedByEntryId(getBlogId(),$suri['id'],'atom');
 		if($result !== false) {
