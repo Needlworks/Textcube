@@ -294,10 +294,11 @@
     border                           : none;
     margin                           : 0;
     position                         : relative;
-    left                             : 200px;
+    left                             : 0;
     text-align                       : left;
     top                              : -56px;
-    width                            : 40em;
+    width                            : 200px;
+	padding-left                     : 250px;
     z-index                          : 1;
 }
 
@@ -306,10 +307,15 @@
     display                          : none;
 }
 
-#search-box
+#search-form
 {
-	float                            : right;
 	margin-left                      : 15px;
+	top                              : 20px;
+}
+
+#search-box #search
+{
+	width                            : 140px;
 }
 
 #viewmode-box

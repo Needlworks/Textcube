@@ -318,7 +318,8 @@ table.data-inbox tbody tr td.ip
 
 #line-write-form #line-write
 {
-	width                            : 850px;
+	width                            : 830px;
+	margin-left                      : 10px;
 }
 
 #line-write-form .input-button
