@@ -4,7 +4,6 @@
 
 function GoogleMap_Header($target) {
 	global $configVal, $pluginURL;
-	requireComponent('Textcube.Function.Setting');
 	$config = Setting::fetchConfigVal($configVal);
 	if (!is_null($config) && isset($config['apiKey'])) {
 		$use_sensor = (isset($config['useSensor']) && $config['useSensor']) ? 'true' : 'false';
@@ -23,7 +22,6 @@ EOS;
 function GoogleMap_AdminHeader($target) {
 	global $suri, $pluginURL, $blogURL, $serviceURL, $configVal;
 	if ($suri['directive'] == '/owner/entry/post' || $suri['directive'] == '/owner/entry/edit') {
-		requireComponent('Textcube.Function.Setting');
 		$config = Setting::fetchConfigVal($configVal);
 		$use_sensor = $config['useSensor'] ? 'true' : 'false';
 		$target .= <<<EOS
@@ -45,7 +43,6 @@ function GoogleMap_Footer($target) {
 	global $configVal, $pluginURL;
 	$context = Model_Context::getInstance();
 	if ($context->getProperty('is_used')) {
-		requireComponent('Textcube.Function.Setting');
 		$config = Setting::fetchConfigVal($configVal);
 		if (!is_null($config) && isset($config['apiKey'])) {
 			$api_key = $config['apiKey'];
@@ -72,8 +69,8 @@ EOS;
 
 function GoogleMap_AdminFooter($target) {
 	global $configVal, $pluginURL;
+	$context = Model_Context::getInstance();
 	if ($context->getProperty('is_used')) {
-		requireComponent('Textcube.Function.Setting');
 		$config = Setting::fetchConfigVal($configVal);
 		if (!is_null($config) && isset($config['apiKey'])) {
 			$api_key = $config['apiKey'];
@@ -100,10 +97,12 @@ EOS;
 
 function GoogleMap_AddToolbox($target) {
 	global $pluginURL;
+	$m_addGoogleMap = _t("구글맵 추가하기");
+	$m_getPosition = _t("현재 위치 알아내기");
 	$target .= <<<EOS
 <dl id="toolbox-googlemap">
-	<dd class="command-box"><a class="button" id="gmap-insertMap" href="#insertGoogleMap" onclick="GMapTool_insertMap(); return false;">"._t("구글맵 추가하기")."</a></dd>
-	<dd class="command-box"><a class="button" href="#getLocation" id="gmap-getLocation" onclick="GMapTool_getLocation(); return false;">"._t("현재 위치 알아내기")."</a></dd>
+	<dd class="command-box"><a class="button" id="gmap-insertMap" href="#insertGoogleMap" onclick="GMapTool_insertMap(); return false;">$m_addGoogleMap</a></dd>
+	<dd class="command-box"><a class="button" href="#getLocation" id="gmap-getLocation" onclick="GMapTool_getLocation(); return false;">$m_getPosition</a></dd>
 	</dl>
 EOS;
 	return $target;
@@ -114,8 +113,6 @@ function GoogleMap_View($target, $mother) {
 	$context = Model_Context::getInstance();
 	if ($context->getProperty('is_used') === null)
 		$context->setProperty('is_used', false);
-	requireComponent('Textcube.Function.Setting');
-	requireComponent('Textcube.Function.Misc');
 	$config = Setting::fetchConfigVal($configVal);
 	$matches = array();
 	$offset = 0;
@@ -188,7 +185,6 @@ function GoogleMap_LocationLogView($target) {
 	global $blogid, $blog, $blogURL, $pluginURL, $configVal, $service, $database;
 	$context = Model_Context::getInstance();
 	$context->setProperty('is_used', true);
-	requireComponent('Textcube.Function.Misc');
 	$config = Setting::fetchConfigVal($configVal);
 	$locatives =  getEntries($blogid, 'id, title, slogan, location, longitude, latitude','(length(location)>1 AND category > -1) OR (`longitude` IS NOT NULL AND `latitude` IS NOT NULL)', 'location');
 	$width = Misc::getContentWidth();
@@ -304,7 +300,6 @@ function GoogleMap_LocationLogView($target) {
 }
 
 function GoogleMap_ConfigHandler($data) {
-	requireComponent('Textcube.Function.Setting');
 	$config = Setting::fetchConfigVal($data);
 	if (!is_numeric($config['latitude']) || !is_numeric($config['longitude']) ||
 		$config['latitude'] < -90 || $config['latitude'] > 90 || $config['longitude'] < -180 || $config['longitude'] > 180)
@@ -343,7 +338,6 @@ function GoogleMap_Cache() {
 
 function GoogleMapUI_InsertMap() {
 	global $configVal, $pluginURL;
-	requireComponent('Textcube.Function.Misc');
 	$config = Setting::fetchConfigVal($configVal);
 	$lat = $config['latitude'];
 	$lng = $config['longitude'];
@@ -393,7 +387,6 @@ function GoogleMapUI_InsertMap() {
 
 function GoogleMapUI_GetLocation() {
 	global $configVal, $pluginURL;
-	requireComponent('Textcube.Function.Misc');
 	$config = Setting::fetchConfigVal($configVal);
 	$lat = $config['latitude'];
 	$lng = $config['longitude'];

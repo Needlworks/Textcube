@@ -176,7 +176,7 @@ function getNumberOfSubscribers($useragent)
 {
 	$agentPattern = array(
 		'Bloglines' => 'subscribers',
-		'HanRSS' => 'subscribers',
+		'HanRSS' => ' subscribers',
 		'Feedfetcher-Google' => 'subscribers',
 		'Netvibes' => 'subscribers',
 		'NewsGatorOnline' => 'subscribers',
