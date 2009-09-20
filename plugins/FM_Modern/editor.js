@@ -238,6 +238,8 @@ TTModernEditor.prototype.initialize = function(textarea) {
 }
 
 TTModernEditor.prototype.finalize = function() {
+	return true;	// From 1.8, we do not need to finalize DOM
+	// Codes below is legacy code.
 	this.resizer.finalize();
 
 	var textarea = this.textarea;
