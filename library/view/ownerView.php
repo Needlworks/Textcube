@@ -127,24 +127,27 @@ function printOwnerEditorScript($entryId = false) {
 			entryManager.saveAuto();
 	}
 
-	function getEditor(key) {
-		switch (key) {
+	function getEditor() {
 <?php
+	$context = Model_Context::getInstance();
+	$setEditor = $context->getProperty('editor.key');
+	/// CHANGED FROM 1.8 : Editor only loads what user is using.
 	foreach (getAllEditors() as $id => $editor) {
-		getEditorInfo($id); // explicitly loads plugin code ($pluginURL, $pluginName returned as global)
-		if (isset($editor['initfunc']) && function_exists($editor['initfunc'])) {
-			echo "\t\tcase '".addslashes($id)."': {\n".call_user_func($editor['initfunc'], $editor)."\t\t}\n";
-			$pluginURL = $pluginName = "";
+		if($id == $setEditor) {
+			getEditorInfo($id); // explicitly loads plugin code ($pluginURL, $pluginName returned as global)
+			if (isset($editor['initfunc']) && function_exists($editor['initfunc'])) {
+				echo "\t\t\n".call_user_func($editor['initfunc'], $editor)."\t\t\n";
+				$pluginURL = $pluginName = "";
+			}
 		}
 	}
 ?>
-		}
 		return new TTDefaultEditor();
 	}
 
 	var editor = null;
 	function setCurrentEditor(key,formatter) {
-		var neweditor = getEditor(key);
+		var neweditor = getEditor();
 		if (neweditor == null) {
 			if (editor == null) {
 				// this indicates currently selected editor is unavailable;
@@ -162,6 +165,28 @@ function printOwnerEditorScript($entryId = false) {
 		editor.formatter = formatter;
 		editor.initialize(document.getElementById("editWindow"));
 		return true;
+	}
+
+	function changeEditor(key, formatter) {
+		if (!confirm("<?php echo _t('really?');?>")) {
+			return false;
+		}
+		if (editor != null) {
+			try { editor.syncTextarea(); } catch(e) {}
+			editor.finalize();
+		}
+		// 4
+		entryManager.saveDraft();
+		entryManager.saveDraft();
+		var url = '<?php echo $blogURL."/owner/entry/edit/";?>'+entryManager.entryId+'&editor='+key;
+		if ( entryManager.isSaved == true) {
+			url = url+'&draft=true';
+		}
+		if ( entryManager.returnURL != null ) {
+			url = url+'&returnURL='+entryManager.returnURL;			
+		}
+		window.location = url;
+		//alert(url);		
 	}
 //]]>
 </script>

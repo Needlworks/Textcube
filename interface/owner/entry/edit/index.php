@@ -7,13 +7,14 @@ $IV = array(
 		'draft'       => array('any', 'mandatory' => false),
 		'popupEditor' => array('any', 'mandatory' => false),
 		'returnURL'   => array('string', 'mandatory' => false),
-		'slogan'   => array('string', 'mandatory' => false),
-		'category'    => array('int', 'default' => 0)
+		'slogan'      => array('string', 'mandatory' => false),
+		'category'    => array('int', 'default' => 0),
+		'editor'      => array('string', 'mandatory' => false)
 	),
 	'POST' => array(
 		'category'  => array('int', 'default' => 0),
 		'search'    => array('string', 'default' => ''),
-		'slogan'   => array('string', 'mandatory' => false),
+		'slogan'    => array('string', 'mandatory' => false),
 		'returnURL' => array('string', 'mandatory' => false)
 	)
 );
@@ -23,6 +24,8 @@ requireModel("blog.entry");
 requireModel("blog.tag");
 requireModel("blog.locative");
 requireModel("blog.attachment");
+
+$context = Model_Context::getInstance();
 
 $isKeyword = false;
 define('__TEXTCUBE_EDIT__', true);
@@ -78,6 +81,13 @@ switch($entry['category']) {
 	default:
 		$titleText = _t('글');
 }
+
+$editors = getAllEditors();
+if (isset($_GET['editor']) && in_array($_GET['editor'],array_keys($editors))) {
+	$entry['contenteditor'] = $_GET['editor'];
+}
+
+$context->setProperty('editor.key',$entry['contenteditor']);
 
 if (defined('__TEXTCUBE_POST__')) {
 	printOwnerEditorScript();
@@ -369,7 +379,7 @@ if (isset($_GET['returnURL'])) {
 											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/draft/"+entryManager.entryId);
 										} else {
 											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/add/");
-										
+										}
 										if(entryManager.autoSave != true) {
 											request.message = "<?php echo _t('저장하고 있습니다.');?>";
 										}
@@ -671,7 +681,7 @@ if (defined('__TEXTCUBE_POST__')) {
 											<dt><label for="contenteditor"><?php echo _t('편집기');?></label></dt>
 											<dd><select id="contenteditor" name="contenteditor" onfocus="return saveEditor(this);" onchange="return setEditor(this) &amp;&amp; changeEditor(this.value);">
 <?php
-	foreach (getAllEditors() as $key => $editor) {
+	foreach ($editors as $key => $editor) {
 ?>
 												<option value="<?php echo htmlspecialchars($key);?>"<?php echo ($entry['contenteditor'] == $key ? ' selected="selected"' : '');?>><?php echo htmlspecialchars($editor['name']);?></option>
 <?php
