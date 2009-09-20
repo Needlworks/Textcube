@@ -178,12 +178,12 @@ function printOwnerEditorScript($entryId = false) {
 		// 4
 		entryManager.saveDraft();
 		entryManager.saveDraft();
-		var url = '<?php echo $blogURL."/owner/entry/edit/";?>'+entryManager.entryId+'&editor='+key;
+		var url = '<?php echo $blogURL."/owner/entry/edit/";?>'+entryManager.entryId+'?editor='+key;
 		if ( entryManager.isSaved == true) {
 			url = url+'&draft=true';
 		}
 		if ( entryManager.returnURL != null ) {
-			url = url+'&returnURL='+entryManager.returnURL;			
+			url = url+'&returnURL='+encodeURIComponent(entryManager.returnURL);			
 		}
 		window.location = url;
 		//alert(url);		
