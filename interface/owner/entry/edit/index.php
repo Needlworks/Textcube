@@ -180,11 +180,21 @@ if (defined('__TEXTCUBE_POST__')) {
 									this.pageHolder.isHolding = function () {
 										return (entryManager.savedData != entryManager.getData());
 									}
-									
+<?php
+if (isset($_GET['returnURL'])) {
+?>
+									this.returnURL = "<?php echo escapeJSInCData($_GET['returnURL']);?>";
+<?php
+} else {
+?>
+									this.returnURL = null;
+<?php
+}
+?>							
 									this.getData = function (check) {
 										if (check == undefined)
 											check = false;
-										var oForm = document.forms[0];
+										var oForm = document.getElementById('editor-form');
 										
 										var title = trim(oForm.title.value);
 										var permalink = trim(oForm.permalink.value);
@@ -359,7 +369,7 @@ if (defined('__TEXTCUBE_POST__')) {
 											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/draft/"+entryManager.entryId);
 										} else {
 											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/add/");
-										}
+										
 										if(entryManager.autoSave != true) {
 											request.message = "<?php echo _t('저장하고 있습니다.');?>";
 										}
@@ -469,7 +479,7 @@ if (isset($_GET['popupEditor'])) {
 										document.getElementById("saveButton").value = "<?php echo _t('저장하기');?>";
 										document.getElementById("saveButton").style.color = "#000";
 										if (this.timer == null)
-											this.timer = window.setTimeout("entryManager.saveDraft()", 5000);
+											this.timer = window.setTimeout(entryManager.saveDraft, 5000);
 										else
 											this.delay = true;
 									}
@@ -484,7 +494,7 @@ if (isset($_GET['popupEditor'])) {
 										if (this.delay) {
 											this.delay = false;
 											this.autoSave = false;
-											this.timer = window.setTimeout("entryManager.saveDraft()", 5000);
+											this.timer = window.setTimeout(entryManager.saveDraft, 5000);
 											return;
 										}
 										this.save();
@@ -659,7 +669,7 @@ if (defined('__TEXTCUBE_POST__')) {
 ?>
 											</select></dd>
 											<dt><label for="contenteditor"><?php echo _t('편집기');?></label></dt>
-											<dd><select id="contenteditor" name="contenteditor" onfocus="return saveEditor(this);" onchange="return setEditor(this) &amp;&amp; setCurrentEditor(this.value);">
+											<dd><select id="contenteditor" name="contenteditor" onfocus="return saveEditor(this);" onchange="return setEditor(this) &amp;&amp; changeEditor(this.value);">
 <?php
 	foreach (getAllEditors() as $key => $editor) {
 ?>
@@ -827,7 +837,7 @@ if (defined('__TEXTCUBE_POST__')) {
 ?>
 													<div class="publish-preserve">
 														<input type="radio" id="publishedPreserve" class="radio" name="published" value="2" <?php echo (isset($entry['appointed']) ? 'checked="checked"' : '');?> /><label for="publishedPreserve" onclick="document.getElementById('appointed').select()"><?php echo _t('예약');?></label>
-														<input type="text" id="appointed" class="input-text" name="appointed" value="<?php echo Timestamp::format5(isset($entry['appointed']) ? $entry['appointed'] : $entry['published']);?>" onfocus="document.forms[0].published[document.forms[0].published.length - 1].checked = true" onkeypress="return preventEnter(event);" />
+														<input type="text" id="appointed" class="input-text" name="appointed" value="<?php echo Timestamp::format5(isset($entry['appointed']) ? $entry['appointed'] : $entry['published']);?>" onfocus="document.getElementById('editor-form').published[document.getElementById('editor-form').published.length - 1].checked = true" onkeypress="return preventEnter(event);" />
 													</div>
 												</dd>
 											</dl>
@@ -930,6 +940,7 @@ if (isset($entry['latitude']) && !is_null($entry['latitude'])) {
 								entryManager = new EntryManager();
 								reloadUploader();
 								window.setInterval("entryManager.saveDraft();", 300000);
+								window.setTimeout(entryManager.saveDraft, 5000);
 								checkCategory('<?php
 switch($entry['category']) {
 	case -1:
