@@ -127,7 +127,7 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	this.textarea = textarea;
 	if(this.editMode == "WYSIWYG")
 		this.textarea.style.display = "none";
-
+	
 	// 디자인모드의 IFRAME을 생성한다
 	this.iframe = document.createElement("iframe");
 	this.iframe.id = "tatterVisualEditor";
@@ -167,7 +167,7 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	// Changing to browser desingmode.
 	try { this.contentDocument.designMode = "on"; }
 	catch(e) { return; }
-
+	
 	// IFRAME 안에 HTML을 작성한다
 	// Put HTML code into IFRAME
 	this.contentDocument.open("text/html", "replace");
@@ -193,6 +193,7 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	// Connect event handlers occurring in IFRAME
 	STD.addEventListener(this.contentDocument);
 	var eventHandler = function(event) { _this.eventHandler(event); };
+	
 	this.contentDocument.addEventListener("mousedown", eventHandler, false);
 	this.contentDocument.addEventListener("mouseup", eventHandler, false);
 	this.contentDocument.addEventListener("keydown", eventHandler, false);
@@ -201,7 +202,7 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	this.contentDocument.addEventListener("keyup", eventHandler, false);
 
 	this.lastSelectionRange = null;
-
+	
 	// editor height resize event
 	var target = (this.editMode == "WYSIWYG" ? this.iframe : textarea);
 	this.resizer = new TTEditorResizer(target, getObject('status-container'), [document, this.contentDocument]);
@@ -230,9 +231,12 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	var scrollEventHandler = function() { _this.setPropertyPosition(); return true; };
 	this.scrollEventHandler_bounded = scrollEventHandler;
 	window.addEventListener("scroll", scrollEventHandler, false);
-
+	
 	if(this.editMode == "TEXTAREA")
 		this.iframe.style.display = "none";
+	// 데이터 싱크 과정.
+//	if(this.editMode == "WYSIWYG")
+//		this.syncEditorWindow();
 	// 가끔씩 Firefox에서 커서가 움직이지 않는 문제 수정
 	if(!STD.isIE) setTimeout(function() { try { _this.contentDocument.designMode='on'; } catch (e) {} }, 100);
 }

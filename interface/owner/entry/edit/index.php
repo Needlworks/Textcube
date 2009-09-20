@@ -950,7 +950,7 @@ if (isset($entry['latitude']) && !is_null($entry['latitude'])) {
 								entryManager = new EntryManager();
 								reloadUploader();
 								window.setInterval("entryManager.saveDraft();", 300000);
-								window.setTimeout(entryManager.saveDraft, 5000);
+								//window.setTimeout(entryManager.saveDraft, 5000);
 								checkCategory('<?php
 switch($entry['category']) {
 	case -1:

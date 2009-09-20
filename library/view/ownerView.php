@@ -157,10 +157,10 @@ function printOwnerEditorScript($entryId = false) {
 				return false;
 			}
 		}
-		if (editor != null) {
-			try { editor.syncTextarea(); } catch(e) {}
-			editor.finalize();
-		}
+//		if (editor != null) {
+//			try { editor.syncTextarea(); } catch(e) {}
+//			editor.finalize();
+//		}
 		editor = neweditor;
 		editor.formatter = formatter;
 		editor.initialize(document.getElementById("editWindow"));
@@ -168,19 +168,19 @@ function printOwnerEditorScript($entryId = false) {
 	}
 
 	function changeEditor(key, formatter) {
-		if (!confirm("<?php echo _t('really?');?>")) {
+		if (!confirm("<?php echo _t('정말로 에디터를 변경하시겠습니까?');?>")) {
 			return false;
 		}
 		if (editor != null) {
 			try { editor.syncTextarea(); } catch(e) {}
-			alert('synched');
+//			alert('synched');
 			editor.finalize();
 		}
 		// 4
-		alert('finalized');
+//		alert('finalized');
 		entryManager.saveDraft();
 	//	entryManager.saveDraft();
-	alert('saved');
+//		alert('saved');
 		var url = '<?php echo $blogURL."/owner/entry/edit/";?>'+entryManager.entryId+'?editor='+key;
 		if ( entryManager.isSaved == true) {
 			url = url+'&draft=true';
@@ -188,7 +188,7 @@ function printOwnerEditorScript($entryId = false) {
 		if ( entryManager.returnURL != null ) {
 			url = url+'&returnURL='+encodeURIComponent(entryManager.returnURL);			
 		}
-			alert('link : '+url);
+//			alert('link : '+url);
 		window.location = url;
 		//alert(url);		
 	}
