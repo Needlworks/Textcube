@@ -79,6 +79,8 @@ if(!empty($service['domain']) && strstr( $_SERVER['HTTP_HOST'], $service['domain
 } else {
 	$service['session_cookie_domain'] = $_SERVER['HTTP_HOST'];
 }
+if ($service['session_cookie_domain'] == 'localhost') 
+	$service['session_cookie_domain'] = null; 
 
 // Basic POST/GET variable validation.
 $valid = true;
