@@ -49,6 +49,8 @@ final class Model_Config extends Singleton {
 		} else {
 			$service['session_cookie_domain'] = $_SERVER['HTTP_HOST'];
 		}
+		if ($service['session_cookie_domain'] == 'localhost')
+			$service['session_cookie_domain'] = null;
 
 		$this->database = $database;
 		$this->service = $service;
