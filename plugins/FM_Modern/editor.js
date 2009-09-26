@@ -122,7 +122,6 @@ TTModernEditor.prototype.initialize = function(textarea) {
 
 	// style given textarea
 	textarea.className += ' moderneditor-textarea';
-
 	// 원래 있던 TEXTAREA의 핸들을 저장해둔다
 	this.textarea = textarea;
 	if(this.editMode == "WYSIWYG")
@@ -294,7 +293,6 @@ TTModernEditor.prototype.syncEditorWindow = function() {
 // Convert TTML-format to HTML view
 TTModernEditor.prototype.ttml2html = function() {
 	var str = this.textarea.value;
-
 	// Safari 3 / webkit에서 디자인모드에 자동으로 붙이는 주석 제거
 	str = str.replaceAll('class="Apple-style-span"','');
 	str = str.replaceAll('class="webkit-block-placeholder"','');
@@ -373,7 +371,7 @@ TTModernEditor.prototype.ttml2html = function() {
 
 		str = str.replaceAll(search, replace);
 	}
-
+	
 	// iMazing 처리
 	var regImazing = new RegExp("\\[##_iMazing\\|(.*?)_##\\]", "");
 	while(result = regImazing.exec(str)) {
@@ -391,6 +389,7 @@ TTModernEditor.prototype.ttml2html = function() {
 
 		str = str.replaceAll(search, replace);
 	}
+
 
 	// Gallery 처리
 	var regGallery = new RegExp("\\[##_Gallery\\|(.*?)_##\\]", "");
@@ -433,10 +432,11 @@ TTModernEditor.prototype.ttml2html = function() {
 
 	// Object manipulation
 	var objects = getTagChunks(str, "object");
-	for(i in objects) {
-		str = str.replaceAll(objects[i], '<img class="tatterObject" src="' + servicePath + adminSkin + '/image/spacer.gif"' + this.parseImageSize(objects[i], "string", "css") + ' longDesc="' + this.objectSerialize(objects[i]) + '" />');
+	if ( objects.length > 0 ) {
+		for(i in objects) {
+			str = str.replaceAll(objects[i], '<img class="tatterObject" src="' + servicePath + adminSkin + '/image/spacer.gif"' + this.parseImageSize(objects[i], "string", "css") + ' longDesc="' + this.objectSerialize(objects[i]) + '" />');
+		}
 	}
-
 	// Flash manipulation
 	var regEmbed = new RegExp("<embed([^<]*?)application/x-shockwave-flash(.*?)></embed>", "i");
 	while(result = regEmbed.exec(str)) {
@@ -450,7 +450,6 @@ TTModernEditor.prototype.ttml2html = function() {
 	    var body = result[0];
 	    str = str.replaceAll(body, '<img class="tatterEmbed" src="' + servicePath + adminSkin + '/image/spacer.gif"' + this.parseImageSize(body, "string", "css") + ' longDesc="' + this.parseAttribute(body, "src") + '"/>');
 	}
-
 	return str;
 }
 
