@@ -5,11 +5,11 @@
 require ROOT . '/library/preprocessor.php';
 header('Content-Type: text/xml; charset=utf-8');
 echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<response>\r\n";
-list($allComments, $allTrackbacks) = Data_IAdapter::queryRow("SELECT 
+list($allComments, $allTrackbacks) = POD::queryRow("SELECT 
 		SUM(comments), SUM(trackbacks) 
 		FROM {$database['prefix']}Entries 
-		WHERE blogid = ".getBlogId()." AND draft = 0 AND visibility = 3", MYSQL_NUM);
-if($entry = Data_IAdapter::queryRow("SELECT e.*, c.name AS categoryName 
+		WHERE blogid = ".getBlogId()." AND draft = 0 AND visibility = 3", 'num');
+if($entry = POD::queryRow("SELECT e.*, c.name AS categoryName 
 			FROM {$database['prefix']}Entries e 
 			LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 			WHERE e.blogid = ".getBlogId()." AND e.id = {$suri['id']} AND e.draft = 0 AND e.visibility = 3")) {
@@ -27,16 +27,16 @@ if($entry = Data_IAdapter::queryRow("SELECT e.*, c.name AS categoryName
 	echo '<entry>', "\r\n";
 	echo '<permalink>', htmlspecialchars("$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$entry['slogan']}": $entry['id'])), '</permalink>', "\r\n";
 	echo '<title>', htmlspecialchars($entry['title']), '</title>', "\r\n";
-	echo '<content>', htmlspecialchars(getEntryContentView($blogid, $suri['id'], $entry['content'], $entry['contentFormatter'])), '</content>', "\r\n";
-	echo '<author>', htmlspecialchars(Data_IAdapter::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = ".$entry['userid'])), '</author>', "\r\n";
+	echo '<content>', htmlspecialchars(getEntryContentView($blogid, $suri['id'], $entry['content'], $entry['contentformatter'])), '</content>', "\r\n";
+	echo '<author>', htmlspecialchars(POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = ".$entry['userid'])), '</author>', "\r\n";
 	echo '<category>', htmlspecialchars($entry['categoryName']), '</category>', "\r\n";
-	$result = Data_IAdapter::query("SELECT name 
+	$result = POD::query("SELECT name 
 			FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations 
 			WHERE id = tag AND blogid = ".getBlogId()." AND entry = {$entry['id']} 
 			ORDER BY name");
-	while(list($tag) = Data_IAdapter::fetch($result,'row'))
+	while(list($tag) = POD::fetch($result,'row'))
 		echo '<tag>', htmlspecialchars($tag), '</tag>', "\r\n";
-	Data_IAdapter::free($result);
+	POD::free($result);
 	echo '<location>', htmlspecialchars($entry['location']), '</location>', "\r\n";
 	echo '<comments>', $entry['comments'], '</comments>', "\r\n";
 	echo '<trackbacks>', $entry['trackbacks'], '</trackbacks>', "\r\n";

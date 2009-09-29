@@ -10,17 +10,17 @@ $IV = array(
 	)
 );
 require ROOT . '/library/preprocessor.php';
-
+requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireModel("blog.coverpage");
 
 
-$skin = new Model_BlogSkin($skinSetting['skin']);
+$skin = new Skin($skinSetting['skin']);
 $coverpageCount = count($skin->coverpageBasicModules);
 $coverpageOrder = deleteCoverpageModuleOrderData(getCoverpageModuleOrderData($coverpageCount), $_GET['coverpageNumber'], $_GET['modulePos']);
 setBlogSetting("coverpageOrder", serialize($coverpageOrder));
 
-//Utils_Respond::PrintResult(array('error' => 0));
+//Respond::PrintResult(array('error' => 0));
 if ($_GET['viewMode'] != '') $_GET['viewMode'] = '?' . $_GET['viewMode'];
 header('Location: '. $blogURL . '/owner/skin/coverpage' . $_GET['viewMode']);
 ?>

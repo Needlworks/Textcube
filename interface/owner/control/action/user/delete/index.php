@@ -11,11 +11,11 @@ $IV = array(
 );
 requireStrictRoute();
 
-$result = Model_User::remove($_GET['userid']);
+$result = User::remove($_GET['userid']);
 if ($result===true) {
-	Utils_Respond::PrintResult(array('error' => 0));
+	Respond::PrintResult(array('error' => 0));
 }
 else {
-	Utils_Respond::PrintResult(array('error' => -1 , 'result' =>$result));
+	Respond::PrintResult(array('error' => -1 , 'result' =>$result));
 }
 ?>

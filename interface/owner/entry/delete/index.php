@@ -17,16 +17,16 @@ $isAjaxRequest = checkAjaxRequest();
 if(isset($suri['id'])) {
 	if(!Acl::check("group.editors")) {
 		if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) {
-			Utils_Respond::ResultPage(-1);
+			Respond::ResultPage(-1);
 			exit;
 		}
 	}			
 	
 	if ($isAjaxRequest) {
 		if (deleteEntry($blogid, $suri['id']) === true) {
-			Utils_Respond::ResultPage(0);
+			Respond::ResultPage(0);
 		} else {
-			Utils_Respond::ResultPage(-1);
+			Respond::ResultPage(-1);
 		}
 	} else {
 		deleteEntry($blogid, $suri['id']);
@@ -37,14 +37,14 @@ if(isset($suri['id'])) {
 		// TeamBlog check
 		if(!Acl::check( 'group.writers', 'entry.delete.' . $target )) {
 			if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) { 
-				Utils_Respond::ResultPage(-1);
+				Respond::ResultPage(-1);
 				exit;
 			}
 		}
 		
 		if (!deleteEntry($blogid, $target))
-			Utils_Respond::ResultPage(-1);
+			Respond::ResultPage(-1);
 	}
-	Utils_Respond::ResultPage(0);
+	Respond::ResultPage(0);
 }
 ?>

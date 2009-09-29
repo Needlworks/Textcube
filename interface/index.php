@@ -46,7 +46,7 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 require ROOT . '/library/preprocessor.php';
 
 // Redirect for ipod touch / iPhone
-if(Model_Setting::getBlogSettingGlobal('useiPhoneUI',true) && (isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'],'iPod') || strpos($_SERVER['HTTP_USER_AGENT'],'iPhone')))){
+if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && (isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'],'iPod') || strpos($_SERVER['HTTP_USER_AGENT'],'iPhone')))){
 	header("Location: $blogURL/i"); exit;
 }
 
@@ -66,7 +66,7 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') { // Treat comment notifie
 fireEvent('OBStart');
 
 if(empty($suri['id'])) {  // Without id.
-	$skin = new Model_BlogSkin($skinSetting['skin']);
+	$skin = new Skin($skinSetting['skin']);
 	if(empty($suri['value']) && $suri["directive"] == "/" && count($coverpageMappings) > 0 && getBlogSetting("coverpageInitView") && isset($skin->cover)) {
 		define('__TEXTCUBE_COVER__',true);
 		require ROOT . '/interface/common/blog/begin.php';
@@ -91,7 +91,7 @@ if(empty($suri['id'])) {  // Without id.
 	
 	if (isset($_POST['partial'])) { // Partial output.
 		header('Content-Type: text/plain; charset=utf-8');
-		$skin = new Model_BlogSkin($skinSetting['skin']);
+		$skin = new Skin($skinSetting['skin']);
 		$view = '[##_article_rep_##]';
 		require ROOT . '/interface/common/blog/entries.php';
 		$view = removeAllTags($view);

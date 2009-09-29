@@ -1,14 +1,14 @@
 <?php
-/* Recent Entries plugin for Textcube 1.7
+/* Recent Entries plugin for Textcube 1.8
    ----------------------------------
-   Version 1.7
+   Version 1.8
    Tatter Network Foundation development team / Needlworks.
 
    Creator          : Peris
    Maintainer       : Peris, inureyes, graphittie
 
    Created at       : 2006.7.25
-   Last modified at : 2008.4.18
+   Last modified at : 2009.8.12
  
  This plugin shows recent entries on 'quilt'.
  For the detail, visit http://forum.tattersite.com/ko
@@ -26,23 +26,29 @@
 
 function _getRecentEntries($blogid){
 	global $database,$skinSetting;
-	$visibility=doesHaveOwnership()?'':'AND visibility > 0';
-	$result=Data_IAdapter::queryAll("SELECT id, title, comments FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category >= 0 ORDER BY published DESC LIMIT {$skinSetting['entriesOnRecent']}");
+	$query = new DBModel($database['prefix'].'Entries');
+	$query->setQualifier('blogid','equals',$blogid);
+	$query->setQualifier('draft','equals',0);
+	if(doesHaveOwnership()) {
+		$query->setQualifier('visibility','bigger',0);
+	}
+	$query->setQualifier('category','bigger or same',0);
+	$query->setLimit(8);
+	$query->setOrder('published','desc');
+	$result = $query->getAll('id,title,comments');
 	if(!empty($result)) return $result;
 	else return array();
 }
 
 function _getRecentEntriesView($entries,$template){
-	requireComponent("Eolin.PHP.Core");
-	requireComponent("Textcube.Function.misc");
 	global $blogURL,$skinSetting;
 	ob_start();
 	foreach($entries as $entry){
 		$view = $template;
-		Utils_Misc::dress('rctps_rep_link',"$blogURL/{$entry['id']}",$view);
-		Utils_Misc::dress('rctps_rep_edit_link',"$blogURL/owner/entry/edit/{$entry['id']}",$view);
-		Utils_Misc::dress('rctps_rep_title',htmlspecialchars(UTF8::lessenAsEm($entry['title'],30)),$view);
-		Utils_Misc::dress('rctps_rep_rp_cnt',"<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments']>0?"({$entry['comments']})":'').'</span>',$view);
+		Misc::dress('rctps_rep_link',"$blogURL/{$entry['id']}",$view);
+		Misc::dress('rctps_rep_edit_link',"$blogURL/owner/entry/edit/{$entry['id']}",$view);
+		Misc::dress('rctps_rep_title',htmlspecialchars(UTF8::lessenAsEm($entry['title'],30)),$view);
+		Misc::dress('rctps_rep_rp_cnt',"<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments']>0?"({$entry['comments']})":'').'</span>',$view);
 		print $view;
 	}
 	$view=ob_get_contents();

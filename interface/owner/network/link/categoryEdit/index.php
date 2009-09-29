@@ -6,7 +6,7 @@ require ROOT . '/library/preprocessor.php';
 requireModel("blog.link");
 
 if (!$link = getLinkCategory($blogid, $suri['id']))
-	Utils_Respond::ErrorPage(_t('링크 정보가 존재하지 않습니다.'));
+	Respond::ErrorPage(_t('링크 정보가 존재하지 않습니다.'));
 require ROOT . '/interface/common/owner/header.php';
 
 

@@ -135,7 +135,7 @@ $more = false;
 		requireComponent('Tattertools.Function.misc');
 	}
 
-	$data = Model_Setting::fetchConfigVal( $configVal);
+	$data = Setting::fetchConfigVal( $configVal);
 
 
 	$showURL = 0;
@@ -155,7 +155,7 @@ if (!empty($_POST['showKeywordlistLight'])) $limitRank = $_POST['showKeywordlist
 
 
 
-$refereres = Model_Statistics::getRefererLogs();
+$refereres = Statistics::getRefererLogs();
 $keywordlist = array();
 $wordlist = array();
 $record = array();
@@ -384,7 +384,7 @@ for ($i=0; $i<sizeof($keywordlist); $i++) {
 										<td class="<?php echo $urlClassName; ?>"></td>
 										<td class="refererurl">
 <?php
-			echo "<a href=\"".Utils_Misc::escapeJSInAttribute($splitRefererURL)."\" onclick=\"window.open(this.href); return false;\">".UTF8::lessenAsEm(htmlspecialchars($decodeURL), 90)."</a>";
+			echo "<a href=\"".Misc::escapeJSInAttribute($splitRefererURL)."\" onclick=\"window.open(this.href); return false;\">".UTF8::lessenAsEm(htmlspecialchars($decodeURL), 90)."</a>";
 			$j++;
 		}
 		
@@ -408,7 +408,7 @@ function refererkeyword_DataSet($DATA){
 		requireComponent('Tattertools.Function.misc');
 	}
 
-	$cfg = Model_Setting::fetchConfigVal($DATA);
+	$cfg = Setting::fetchConfigVal($DATA);
 
 	return true;
 }

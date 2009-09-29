@@ -7,9 +7,9 @@ if (false) {
 	fetchConfigVal();
 }
 
-$cache = new Cache_Page;
+$cache = new pageCache;
 $author = empty($suri['value']) ? '' : $suri['value'];
-$authorId = Model_User::getUserIdByName($author);
+$authorId = User::getUserIdByName($author);
 if(empty($authorId)) exit;
 
 if ($skinSetting['showListOnAuthor'] != 0) {

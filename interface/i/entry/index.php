@@ -15,16 +15,16 @@ if(empty($suri['id']) && empty($suri['value'])) {
 	$list = array('title' => (empty($suri['value']) ? getCategoryLabelById($blogid, 0) : $suri['value']), 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	$paging = $listWithPaging[1];
 	?>
-	<ul class="posts" id="blog_posts_<?php echo $suri['page'];?>" selected="false">
+	<ul class="posts" id="blog_posts_<?php echo $suri['page'];?>" title="Posts" selected="false">
 	<?php
-		$itemsView .= '<li class="group">'.CRLF;
+		$itemsView = '<li class="group">'.CRLF;
 		$itemsView .= '	<span class="left">Post List ('.$list['count'].')</span>'.CRLF;
 		$itemsView .= '	<span class="right">Page <span class="now_page">' . $paging['page'] . '</span> / '.$paging['pages'].'</span>'.CRLF;
 		$itemsView .= '</li>'.CRLF;
 		foreach ($list['items'] as $item) {	
-			$author = Model_User::getName($item['userid']);
+			$author = User::getName($item['userid']);
 			if($imageName = printIphoneAttachmentExtract($item['content'])){
-				$imageSrc = $blogURL . '/imageResizer?f=' . $imageName . '&m=28';
+				$imageSrc = printIphoneImageResizer($blogid, $imageName, 28);
 			}else{
 				$imageSrc = $service['path'] . '/resources/style/iphone/image/noPostThumb.png';
 			}

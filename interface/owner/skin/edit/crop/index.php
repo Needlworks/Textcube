@@ -12,7 +12,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/preprocessor.php';
-
+requireLibrary('blog.skin');
 requireStrictRoute();
 if($_POST['currentTag'] != 'all') {
 	list($refCode, $inner) = Skin::cutSkinTag($_POST['skinCode'], $_POST['currentTag'],
@@ -26,5 +26,5 @@ if($_POST['nextTag'] != 'all') {
 $result = array("error"=>"0",
 	"code"=>$inner,
 	'skinCode'=>$refCode);
-Utils_Respond::PrintResult($result);
+Respond::PrintResult($result);
 ?>

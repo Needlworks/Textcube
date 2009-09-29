@@ -35,6 +35,7 @@
 			<li class="tab_location"><a href="[##_localog_link_##]">Location Log</a></li>
 			<li class="tab_keyword"><a href="[##_blog_link_##]keylog">Keywords</a></li>
 			<li class="tab_guestbook"><a href="[##_guestbook_link_##]">Guest Book</a></li>
+			<li class="tab_line"><a href="[##_blog_link_##]line">Lines</a></li>
 		</ul>
 	</div>
 	<hr />
@@ -98,6 +99,20 @@
 				</ol>
 			</div>
 			</s_tblist>
+			<s_line>
+			<div class="line">
+				<h3>Lines
+				<a href="[##_line_rssurl_##]" onclick="window.open(this.href); return false"><img src="./images/rss_12.png" alt="RSS Icon" /></a>
+				<a href="[##_line_atomurl_##]" onclick="window.open(this.href); return false"><img src="./images/atom_12.png" alt="ATOM Icon" /></a>
+				</h3>
+				<s_line_rep>
+                   <dl class="box">
+                       <dt class="date">[##_line_rep_regdate_##]</li>
+                       <dd class="content">[##_line_rep_content_##]</li>
+                   </dl>
+                </s_line_rep>
+			</div>
+			</s_line>
 			<s_local>
 			<div id="location">
 				<div class="subject">
@@ -519,6 +534,7 @@
 			<s_sidebar_element>
 			<!-- Recent posts -->
 			<div class="recent module">
+				<s_rctps>
 				<h3>Recent Posts</h3>
 				<ol id="recentEntries">
 					<s_rctps_rep>
@@ -530,12 +546,14 @@
 					</li>
 					</s_rctps_rep>
 				</ol>
+				</s_rctps>
 			</div>
 			</s_sidebar_element>
 
 			<s_sidebar_element>
 			<!-- Recent comments -->
 			<div class="recent module">
+				<s_rctrp>
 				<h3>Recent Comments</h3>
 				<ol id="recentComments">
 					<s_rctrp_rep>
@@ -547,12 +565,14 @@
 					</li>
 					</s_rctrp_rep>
 				</ol>
+				</s_rctrp>
 			</div>
 			</s_sidebar_element>
 
 			<s_sidebar_element>
 			<!-- Recent trackbacks -->
 			<div class="recent module">
+				<s_rcttb>
 				<h3>Recent Trackbacks</h3>
 				<ol id="recentTrackbacks">
 					<s_rcttb_rep>
@@ -564,6 +584,7 @@
 					</li>
 					</s_rcttb_rep>
 				</ol>
+				</s_rcttb>
 			</div>
 			</s_sidebar_element>
 
@@ -608,13 +629,6 @@
 			</div>
 			</s_sidebar_element>
 
-			<s_sidebar_element>
-			<!-- 이올린 배너 -->
-			<div id="eolinBanner" class="banner module">
-				<a href="http://www.eolin.com" onclick="window.open(this.href); return false"><img src="./images/logo_eolin.gif" alt="Eolin" /></a>
-			</div>
-			</s_sidebar_element>
-			
 			<s_sidebar_element>
 			<!-- RSS 아이콘 -->
 			<div id="subscription" class="module">

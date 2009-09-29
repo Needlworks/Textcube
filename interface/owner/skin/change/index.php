@@ -14,8 +14,8 @@ $isAjaxRequest = checkAjaxRequest();
 $result = $isAjaxRequest ? selectSkin($blogid, $_POST['skinName']) : selectSkin($blogid, $_GET['skinName']);
 
 if ($result === true) {
-	$isAjaxRequest ? Utils_Respond::PrintResult(array('error' => 0)) : header("Location: ".$_SERVER['HTTP_REFERER']);
+	$isAjaxRequest ? Respond::PrintResult(array('error' => 0)) : header("Location: ".$_SERVER['HTTP_REFERER']);
 } else {
-	$isAjaxRequest ? Utils_Respond::PrintResult(array('error' => 1, 'msg' => _t('스킨을 변경하지 못했습니다.'))) : header("Location: ".$_SERVER['HTTP_REFERER']);
+	$isAjaxRequest ? Respond::PrintResult(array('error' => 1, 'msg' => _t('스킨을 변경하지 못했습니다.'))) : header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 ?>

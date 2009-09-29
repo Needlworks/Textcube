@@ -9,13 +9,15 @@ $IV = array(
 		'category' => array('int', 'default' => 0),
 		'title' => array('string'),
 		'content' => array('string'),
-		'contentFormatter' => array('string'),
-		'contentEditor' => array('string'),
+		'contentformatter' => array('string'),
+		'contenteditor' => array('string'),
 		'permalink' => array('string', 'default' => ''),
 		'location' => array('string', 'default' => '/'),
+		'latitude'   => array('number', 'default' => null, 'min' => -90.0, 'max' => 90.0, 'bypass'=>true),
+		'longitude'   => array('number', 'default' => null, 'min' => -180.0, 'max' => 180.0, 'bypass'=>true),
 		'tag' => array('string', 'default' => ''),
-		'acceptComment' => array(array('0', '1'), 'default' => '0'),
-		'acceptTrackback' => array(array('0', '1'), 'default' => '0'),
+		'acceptcomment' => array(array('0', '1'), 'default' => '0'),
+		'accepttrackback' => array(array('0', '1'), 'default' => '0'),
 		'published' => array('int', 0, 'default' => 0)
 	)
 );
@@ -24,7 +26,7 @@ require ROOT . '/library/preprocessor.php';
 requireModel('blog.entry');
 
 requireStrictRoute();
-if(empty($suri['id'])) Utils_Respond::ResultPage(1);
+if(empty($suri['id'])) Respond::ResultPage(1);
 $entry['id'] = $suri['id'];
 $entry['draft'] = 1;
 $entry['visibility'] = $_POST['visibility'];
@@ -32,13 +34,15 @@ $entry['starred'] = $_POST['starred'];
 $entry['category'] = $_POST['category'];
 $entry['title'] = $_POST['title'];
 $entry['content'] = $_POST['content'];
-$entry['contentFormatter'] = $_POST['contentFormatter'];
-$entry['contentEditor'] = $_POST['contentEditor'];
+$entry['contentformatter'] = $_POST['contentformatter'];
+$entry['contenteditor'] = $_POST['contenteditor'];
 $entry['location'] = empty($_POST['location']) ? '/' : $_POST['location'];
+$entry['latitude'] = empty($_POST['latitude']) ? null : $_POST['latitude'];
+$entry['longitude'] = empty($_POST['longitude']) ? null : $_POST['longitude'];
 $entry['tag'] = empty($_POST['tag']) ? '' : $_POST['tag'];
 $entry['slogan'] = $_POST['permalink'];
-$entry['acceptComment'] = empty($_POST['acceptComment']) ? 0 : 1;
-$entry['acceptTrackback'] = empty($_POST['acceptTrackback']) ? 0 : 1;
+$entry['acceptcomment'] = empty($_POST['acceptcomment']) ? 0 : 1;
+$entry['accepttrackback'] = empty($_POST['accepttrackback']) ? 0 : 1;
 $entry['published'] = empty($_POST['published']) ? 0 : $_POST['published'];
 $id = saveDraftEntry($blogid, $entry);
 if ($id > 0) {
@@ -47,8 +51,8 @@ if ($id > 0) {
 	$result['error'] = ($id > 0) ? 0 : 1;
 	$result['entryId'] = $id;
 	$result['suriid'] = $suri['id'];
-	Utils_Respond::PrintResult($result);
+	Respond::PrintResult($result);
 } else {
-	Utils_Respond::ResultPage(1);
+	Respond::ResultPage(1);
 }
 ?>

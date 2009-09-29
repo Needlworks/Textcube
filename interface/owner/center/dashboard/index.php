@@ -3,6 +3,9 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
+
+requireLibrary('blog.skin');
+
 requireModel('reader.common');
 requireModel('blog.comment');
 requireModel('blog.response.remote');
@@ -165,7 +168,7 @@ unset($layout);
 unset($oldcenterlayout);
 
 if (isset($_REQUEST['ajaxcall'])) {
-	Utils_Respond::ResultPage(0);
+	Respond::ResultPage(0);
 	exit;
 }
 
@@ -563,7 +566,7 @@ function getDefaultCenterPanel($mapping) {
 													<tr>
 														<td class="type"><?php echo _t('7일 평균');?></td>
 														<td class="sum"><?php 
-	$weekly = Model_Statistics::getWeeklyStatistics();
+	$weekly = Statistics::getWeeklyStatistics();
 	$weeklycount = 0;
 	foreach($weekly as $day) $weeklycount += $day['visits'];
 	echo number_format($weeklycount/7);

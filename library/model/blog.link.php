@@ -9,7 +9,7 @@ $__gCacheLink = array();
 function getLinks($blogid, $sort="category") {
 	global $database, $__gCacheLink;
 	if(empty($__gCacheLink)) {
-		if ($result = Data_IAdapter::queryAll("SELECT l.*, lc.name AS categoryName
+		if ($result = POD::queryAll("SELECT l.*, lc.name AS categoryName
 			FROM {$database['prefix']}Links l
 			LEFT JOIN {$database['prefix']}LinkCategories lc ON lc.blogid = l.blogid AND lc.id = l.category
 			WHERE l.blogid = $blogid 
@@ -33,7 +33,7 @@ function getLinksWithPagingForOwner($blogid, $page, $count) {
 
 function getLink($blogid, $id) {
 	global $database, $__gCacheLink;
-	return Data_IAdapter::queryRow("SELECT l.*, lc.name AS categoryName
+	return POD::queryRow("SELECT l.*, lc.name AS categoryName
 			FROM {$database['prefix']}Links l 
 			LEFT JOIN {$database['prefix']}LinkCategories lc ON lc.blogid = l.blogid AND lc.id = l.category
 			WHERE l.blogid = $blogid AND l.id = $id");
@@ -41,13 +41,13 @@ function getLink($blogid, $id) {
 
 function deleteLink($blogid, $id) {
 	global $database;
-	$result = Data_IAdapter::execute("DELETE FROM {$database['prefix']}Links WHERE blogid = $blogid AND id = $id");
+	$result = POD::execute("DELETE FROM {$database['prefix']}Links WHERE blogid = $blogid AND id = $id");
 	return ($result) ? true : false;
 }
 
 function toggleLinkVisibility($blogid, $id, $visibility) {
 	global $database;
-	$result = Data_IAdapter::execute("UPDATE {$database['prefix']}Links SET visibility = $visibility WHERE blogid = $blogid AND id = $id");
+	$result = POD::execute("UPDATE {$database['prefix']}Links SET visibility = $visibility WHERE blogid = $blogid AND id = $id");
 	return array( ($result) ? true : false, $visibility );
 }
 
@@ -59,10 +59,10 @@ function addLink($blogid, $link) {
 	if (empty($name) || empty($url))
 		return - 1;
 	$category = (isset($link['category'])) ? $link['category'] : 0;
-	$name = Data_IAdapter::escapeString($name);
-	$url = Data_IAdapter::escapeString($url);
+	$name = POD::escapeString($name);
+	$url = POD::escapeString($url);
 	if(isset($link['newCategory']) && !empty($link['newCategory'])) { // Add new category information
-		$newCategoryTitle = Data_IAdapter::escapeString(UTF8::lessenAsEncoding(trim($link['newCategory']), 255));
+		$newCategoryTitle = POD::escapeString(UTF8::lessenAsEncoding(trim($link['newCategory']), 255));
 		$newCategoryId = addLinkCategory($blogid, $newCategoryTitle);
 		if(!empty($newCategoryId)) $category = $newCategoryId;
 		else return false;
@@ -71,10 +71,10 @@ function addLink($blogid, $link) {
 	$id = getMaxIdOfLink() + 1;
 	$pid = getMaxPidOfLink() + 1;
 
-	$rss = isset($link['rss']) ? Data_IAdapter::escapeString(UTF8::lessenAsEncoding(trim($link['rss']), 255)) : '';
-	if (Data_IAdapter::queryCell("SELECT id FROM {$database['prefix']}Links WHERE blogid = $blogid AND url = '$url'"))
+	$rss = isset($link['rss']) ? POD::escapeString(UTF8::lessenAsEncoding(trim($link['rss']), 255)) : '';
+	if (POD::queryCell("SELECT id FROM {$database['prefix']}Links WHERE blogid = $blogid AND url = '$url'"))
 		return 1;
-	if (Data_IAdapter::execute("INSERT INTO {$database['prefix']}Links (pid, blogid, id,category,name,url,rss,written) VALUES ($pid, $blogid, $id, $category, '$name', '$url', '$rss', UNIX_TIMESTAMP())"))
+	if (POD::execute("INSERT INTO {$database['prefix']}Links (pid, blogid, id,category,name,url,rss,written) VALUES ($pid, $blogid, $id, $category, '$name', '$url', '$rss', UNIX_TIMESTAMP())"))
 		return 0;
 	else
 		return - 1;
@@ -88,8 +88,8 @@ function updateLink($blogid, $link) {
 	if (empty($name) || empty($url))
 		return false;
 	$category = (isset($link['category'])) ? $link['category'] : 0;
-	$name = Data_IAdapter::escapeString($name);
-	$url = Data_IAdapter::escapeString($url);
+	$name = POD::escapeString($name);
+	$url = POD::escapeString($url);
 
 	if(isset($link['newCategory']) && !empty($link['newCategory'])) { // Add new category information
 		$newCategoryTitle = UTF8::lessenAsEncoding(trim($link['newCategory']), 255);
@@ -97,8 +97,8 @@ function updateLink($blogid, $link) {
 		if(!empty($newCategoryId)) $category = $newCategoryId;
 	}
 
-	$rss = isset($link['rss']) ? Data_IAdapter::escapeString(UTF8::lessenAsEncoding(trim($link['rss']), 255)) : '';
-	$result = Data_IAdapter::execute("UPDATE {$database['prefix']}Links
+	$rss = isset($link['rss']) ? POD::escapeString(UTF8::lessenAsEncoding(trim($link['rss']), 255)) : '';
+	$result = POD::execute("UPDATE {$database['prefix']}Links
 				SET
 					category = $category,
 					name = '$name',
@@ -108,9 +108,9 @@ function updateLink($blogid, $link) {
 				WHERE
 					blogid = $blogid and id = {$link['id']}");
 	// Garbage correction
-	$existCategories = Data_IAdapter::queryColumn("SELECT DISTINCT category FROM {$database['prefix']}Links
+	$existCategories = POD::queryColumn("SELECT DISTINCT category FROM {$database['prefix']}Links
 			WHERE blogid = $blogid");
-	@Data_IAdapter::execute("DELETE FROM {$database['prefix']}LinkCategories
+	@POD::execute("DELETE FROM {$database['prefix']}LinkCategories
 			WHERE blogid = $blogid AND id NOT IN (".implode(",",$existCategories).")");
 	return $result;
 }
@@ -121,8 +121,8 @@ function updateXfn($blogid, $links) {
 	foreach( $links as $k => $v ) {
 		if( substr($k,0,3) == 'xfn' ) {
 			$id = substr( $k, 3 );
-			$xfn = Data_IAdapter::escapeString($v);
-			Data_IAdapter::execute("update {$database['prefix']}Links
+			$xfn = POD::escapeString($v);
+			POD::execute("update {$database['prefix']}Links
 				set
 					xfn = '$xfn',
 					written = UNIX_TIMESTAMP()
@@ -133,14 +133,14 @@ function updateXfn($blogid, $links) {
 }
 function getLinkCategories($blogid) {
 	global $database;
-	return Data_IAdapter::queryAll("SELECT * FROM {$database['prefix']}LinkCategories
+	return POD::queryAll("SELECT * FROM {$database['prefix']}LinkCategories
 			WHERE blogid = $blogid");
 }
 
 function addLinkCategory($blogid, $categoryTitle) {
 	global $database;
-	$categoryTitle = Data_IAdapter::escapeString($categoryTitle);
-	$id = Data_IAdapter::queryCell("SELECT id FROM {$database['prefix']}LinkCategories
+	$categoryTitle = POD::escapeString($categoryTitle);
+	$id = POD::queryCell("SELECT id FROM {$database['prefix']}LinkCategories
 		WHERE blogid = $blogid AND name = '".$categoryTitle."'");
 	if(!empty($id)) {
 		return $id;
@@ -149,7 +149,7 @@ function addLinkCategory($blogid, $categoryTitle) {
 		$id = getMaxIdOfLinkCategory($blogid) + 1;
 		$priority = 0;
 		$visibility = 2; // Default visibility
-		if(Data_IAdapter::query("INSERT INTO {$database['prefix']}LinkCategories
+		if(POD::query("INSERT INTO {$database['prefix']}LinkCategories
 			(pid, blogid, id, name, priority, visibility) VALUES
 			($pid, $blogid, $id, '$categoryTitle', $priority, $visibility)")) {
 			return $id;
@@ -161,10 +161,10 @@ function addLinkCategory($blogid, $categoryTitle) {
 
 function updateLinkCategory($blogid, $category) {
 	global $database;
-	$categoryTitle = Data_IAdapter::escapeString($category['name']);
+	$categoryTitle = POD::escapeString($category['name']);
 	$id = $category['id'];
 	
-	if(Data_IAdapter::query("UPDATE {$database['prefix']}LinkCategories
+	if(POD::query("UPDATE {$database['prefix']}LinkCategories
 		SET
 			name = '".$categoryTitle."'
 			WHERE blogid = $blogid AND id = $id")) {
@@ -176,9 +176,9 @@ function updateLinkCategory($blogid, $category) {
 
 function deleteLinkCategory($blogid, $id) {
 	global $database;
-	if(Data_IAdapter::query("DELETE FROM {$database['prefix']}LinkCategories
+	if(POD::query("DELETE FROM {$database['prefix']}LinkCategories
 		WHERE blogid = $blogid AND id = $id")) {
-		Data_IAdapter::execute("UPDATE {$database['prefix']}Links
+		POD::execute("UPDATE {$database['prefix']}Links
 			SET category = 0
 			WHERE blogid = $blogid AND category = $id");
 		return true;
@@ -189,7 +189,7 @@ function deleteLinkCategory($blogid, $id) {
 
 function getLinkCategory($blogid, $id) {
 	global $database;
-	return Data_IAdapter::queryRow("SELECT * 
+	return POD::queryRow("SELECT * 
 			FROM {$database['prefix']}LinkCategories 
 			WHERE blogid = $blogid AND id = $id");
 }
@@ -197,27 +197,27 @@ function getLinkCategory($blogid, $id) {
 function getMaxIdOfLink($blogid = null) {
 	global $database;
 	if(empty($blogid)) $blogid = getBlogId();
-	$id = Data_IAdapter::queryCell("SELECT max(id) FROM {$database['prefix']}Links
+	$id = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Links
 			WHERE blogid = $blogid");
 	return (empty($id) ? 0 : $id);
 }
 
 function getMaxPidOfLink() {
 	global $database;
-	$id = Data_IAdapter::queryCell("SELECT max(pid) FROM {$database['prefix']}Links");
+	$id = POD::queryCell("SELECT max(pid) FROM {$database['prefix']}Links");
 	return (empty($id) ? 0 : $id);
 }
 
 function getMaxIdOfLinkCategory($blogid = null) {
 	global $database;
 	if(empty($blogid)) $blogid = getBlogId();	
-	$id = Data_IAdapter::queryCell("SELECT max(id) FROM {$database['prefix']}LinkCategories
+	$id = POD::queryCell("SELECT max(id) FROM {$database['prefix']}LinkCategories
 			WHERE blogid = $blogid");
 	return (empty($id) ? 0 : $id);
 }
 function getMaxPidOfLinkCategory() {
 	global $database;
-	$id = Data_IAdapter::queryCell("SELECT max(pid) FROM {$database['prefix']}LinkCategories");
+	$id = POD::queryCell("SELECT max(pid) FROM {$database['prefix']}LinkCategories");
 	return (empty($id) ? 0 : $id);
 }
 

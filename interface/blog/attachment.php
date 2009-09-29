@@ -4,12 +4,12 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
 if (empty($suri['value']))
-	Utils_Respond::NotFoundPage();
+	Respond::NotFoundPage();
 if (!$attachment = getAttachmentByOnlyName($blogid, $suri['value']))
-	Utils_Respond::NotFoundPage();
+	Respond::NotFoundPage();
 $fp = fopen(ROOT . "/attach/$blogid/{$attachment['name']}", 'rb');
 if (!$fp)
-	Utils_Respond::NotFoundPage();
+	Respond::NotFoundPage();
 $fstat = fstat($fp);
 if (!empty($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
 	$modifiedSince = strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']);

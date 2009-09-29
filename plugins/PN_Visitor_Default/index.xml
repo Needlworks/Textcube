@@ -4,7 +4,7 @@
   <title xml:lang="ko">방문자 기록</title>
   <title xml:lang="ja">詳細統計</title>
   <link>http://needlworks.org/</link>
-  <version>1.1.1.1</version>
+  <version>1.7.9</version>
   <description xml:lang="en">Default Visitor log Plugin</description>
   <description xml:lang="ko">텍스트큐브 컴포넌트를 이용하여 방문자 기록을 보여줍니다.</description>
   <description xml:lang="ja">テト・ツールズのコンポーネントを利用して、詳細な統計情報を見せます。</description>
@@ -14,7 +14,7 @@
   <author xml:lang="ja" link="http://needlworks.org">Needlworks</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
-    <textcube>1.5</textcube>
+    <textcube>1.7.9</textcube>
   </requirements>
   <binding>
     <adminMenu>

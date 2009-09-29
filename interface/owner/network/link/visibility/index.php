@@ -12,5 +12,5 @@ requireModel("blog.link");
 requireStrictRoute();
 $respond = array();
 list($result,$visibility) = toggleLinkVisibility($blogid, $suri['id'],$_POST['visibility']);
-Utils_Respond::PrintResult( array( 'error' => $result ? 0 : 1, 'visibility' => $visibility ), false );
+Respond::PrintResult( array( 'error' => $result ? 0 : 1, 'visibility' => $visibility ), false );
 ?>

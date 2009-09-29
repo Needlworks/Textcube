@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
 $tabsClass['cover'] = true;
-
+requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireModel("blog.coverpage");
 requireModel("blog.entry");
@@ -20,7 +20,7 @@ require ROOT . '/interface/common/owner/header.php';
 
 $service['pagecache'] = false; // For plugin setting update.
 
-$stats = Model_Statistics::getStatistics($blogid);
+$stats = Statistics::getStatistics($blogid);
 
 function correctCoverpageImage( $subject ) {
 	$pattern_with_src = '/(?:\ssrc\s*=\s*["\']?)([^\s^"^>^\']+)(?:[\s">\'])/i';
@@ -71,7 +71,7 @@ function getBlogContentForCoverPage()
 	$pd_recentComment = getRecentComments($blogid);
 	$pd_recentTrackback = getRecentTrackbacks($blogid);
 	$pd_link = getLinks($blogid);
-	$pd_authorList = Model_User::getUserNamesOfBlog($blogid);
+	$pd_authorList = User::getUserNamesOfBlog($blogid);
 }
 
 
@@ -92,7 +92,7 @@ function pretty_dress($view)
 		return '<div class="coverpage-element-safebox"><p>' . nl2br(htmlspecialchars($view, ENT_QUOTES)) . '</p></div>';
 	}
 	
-	$writer = Model_User::getBlogOwnerName($blogid);
+	$writer = User::getBlogOwnerName($blogid);
 	$pageTitle = _t('페이지 제목');
 	
 	dress('page_title', htmlspecialchars($pageTitle), $view);
@@ -208,7 +208,7 @@ for ($i=0; $i<count($coverpageMappings); $i++) {
 		);
 }
 
-$skin = new Model_BlogSkin($skinSetting['skin']);
+$skin = new Skin($skinSetting['skin']);
 $usedCoverpageBasicModule = array();
 $coverpageCount = count($skin->coverpageBasicModules);
 

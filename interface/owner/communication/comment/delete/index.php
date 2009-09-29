@@ -14,12 +14,12 @@ requireStrictRoute();
 $isAjaxRequest = checkAjaxRequest();
 if(isset($suri['id'])) {
 	if (trashCommentInOwner($blogid, $suri['id']) === true)
-		$isAjaxRequest ? Utils_Respond::ResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? Respond::ResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	else
-		$isAjaxRequest ? Utils_Respond::ResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? Respond::ResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
 } else {
 	foreach(explode(',', $_POST['targets']) as $target)
 		trashCommentInOwner($blogid, $target);
-	Utils_Respond::ResultPage(0);
+	Respond::ResultPage(0);
 }
 ?>

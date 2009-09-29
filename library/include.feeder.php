@@ -16,10 +16,8 @@ $__requireBasics = array(		// Basics
 	'function/xml',
 	'function/misc',
 	'function/image',
-	'function/mail',
-	'functions');
+	'function/mail');
 $__requireLibrary = array(		// Library
-	'database',
 //	'locale',
 	'auth');
 $__requireModel = array(		// Model
@@ -30,6 +28,4 @@ $__requireModel = array(		// Model
 	'common.plugin',
 	'reader.common');
 $__requireView = array();
-$__requireInit = array(		// Initializing environment.
-	'initialize');
 ?>

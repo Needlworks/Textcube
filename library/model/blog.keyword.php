@@ -6,21 +6,21 @@
 function getKeywordCount($blogid) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	return Data_IAdapter::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -1");
+	return POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -1");
 }
 
 function getKeywordNames($blogid) {
 	global $database;
 	$names = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$names = Data_IAdapter::queryColumn("SELECT title FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -1 ORDER BY char_length(title) DESC");
+	$names = POD::queryColumn("SELECT title FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -1 ORDER BY char_length(title) DESC");
 	return $names;
 }
 
 function getKeywords($blogid) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	return Data_IAdapter::queryAll("SELECT * 
+	return POD::queryAll("SELECT * 
 		FROM {$database['prefix']}Entries 
 		WHERE blogid = $blogid 
 			AND draft = 0 $visibility 
@@ -32,7 +32,7 @@ function getKeywordsWithPaging($blogid, $search, $page, $count) {
 	global $database, $folderURL, $suri;
 	$aux = '';
 	if (($search !== true) && $search) {
-		$search = Data_IAdapter::escapeString($search);
+		$search = POD::escapeString($search);
 		$aux = "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
 	}
 
@@ -52,9 +52,9 @@ function getKeyword($blogid, $keyword) {
 
 function getKeylogByTitle($blogid, $title) {	
 	global $database;
-	$title = Data_IAdapter::escapeString($title);
+	$title = POD::escapeString($title);
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	return Data_IAdapter::queryRow("SELECT * 
+	return POD::queryRow("SELECT * 
 			FROM {$database['prefix']}Entries 
 			WHERE blogid = $blogid 
 				AND draft = 0 $visibility 
@@ -65,9 +65,9 @@ function getKeylogByTitle($blogid, $title) {
 
 function getEntriesByKeyword($blogid, $keyword) {	
 	global $database;
-	$keyword = Data_IAdapter::escapeString($keyword);
+	$keyword = POD::escapeString($keyword);
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
-	return Data_IAdapter::queryAll("SELECT id, userid, title, category, comments, published 
+	return POD::queryAll("SELECT id, userid, title, category, comments, published 
 			FROM {$database['prefix']}Entries 
 			WHERE blogid = $blogid 
 				AND draft = 0 $visibility 
@@ -80,7 +80,7 @@ class KeywordBinder {
 	var $_replaceOnce;
 	var $_binded = array();
 
-	function __construct($replaceOnce = true) {
+	function KeywordBinder($replaceOnce = true) {
 		$this->_replaceOnce = $replaceOnce;
 	}
 

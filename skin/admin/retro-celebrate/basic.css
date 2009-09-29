@@ -446,6 +446,18 @@ textarea
 	padding-left                     : 24px;
 }
 
+#main-menu li.divider
+{
+	height                           : 3px !important;
+	border-bottom                    : 1px solid #bbb;
+}
+
+#main-menu li.divider span
+{
+	display                          : none;
+}
+
+
 /* Sub Menu **************************************************************************************/
 
 #sub-menu

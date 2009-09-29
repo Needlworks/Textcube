@@ -48,7 +48,7 @@ class Auth_OpenID_FileStore extends Auth_OpenID_OpenIDStore {
      */
     function Auth_OpenID_FileStore($directory)
     {
-        if (!Auth_Model_OpenID::ensureDir($directory)) {
+        if (!Auth_OpenID::ensureDir($directory)) {
             trigger_error('Not a directory and failed to create: '
                           . $directory, E_USER_ERROR);
         }
@@ -88,9 +88,9 @@ class Auth_OpenID_FileStore extends Auth_OpenID_OpenIDStore {
      */
     function _setup()
     {
-        return (Auth_Model_OpenID::ensureDir($this->nonce_dir) &&
-                Auth_Model_OpenID::ensureDir($this->association_dir) &&
-                Auth_Model_OpenID::ensureDir($this->temp_dir));
+        return (Auth_OpenID::ensureDir($this->nonce_dir) &&
+                Auth_OpenID::ensureDir($this->association_dir) &&
+                Auth_OpenID::ensureDir($this->temp_dir));
     }
 
     /**
@@ -576,7 +576,7 @@ class Auth_OpenID_FileStore extends Auth_OpenID_OpenIDStore {
     function _filenameEscape($str)
     {
         $filename = "";
-        $b = Auth_Model_OpenID::toBytes($str);
+        $b = Auth_OpenID::toBytes($str);
 
         for ($i = 0; $i < count($b); $i++) {
             $c = $b[$i];

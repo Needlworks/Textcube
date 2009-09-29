@@ -2,11 +2,10 @@
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+
 require ROOT . '/library/preprocessor.php';
-if (false) {
-	fetchConfigVal();
-}
-$cache = new Cache_Page;
+
+$cache = new pageCache;
 if (strlen($suri['value'])) {
 	if(!isset($suri['id']) || (getBlogSetting('useSloganOnTag',1) == 1)) {
 		$tag = getTagId($blogid, $suri['value']);
@@ -19,7 +18,6 @@ if (strlen($suri['value'])) {
 	$entryCache =
 	$listCache =
 		null;
-
 	if ($skinSetting['showListOnTag'] != 0) {
 		$cache->reset();
 		$cache->name = 'tagList_'.$tag.'_'.$suri['page'].'_';

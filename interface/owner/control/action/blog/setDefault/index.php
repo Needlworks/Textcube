@@ -13,10 +13,10 @@ requireStrictRoute();
 requirePrivilege('group.creators');
 
 if ( setDefaultBlog($_GET['blogid'])) {
-	Utils_Respond::PrintResult(array('error' => 0));
+	Respond::PrintResult(array('error' => 0));
 }
 else {
 	$result = _t('블로그가 존재하지 않거나, 블로그의 소유자가 전체 관리자가 아닙니다.');
-	Utils_Respond::PrintResult(array('error' => -1 , 'result' =>$result));
+	Respond::PrintResult(array('error' => -1 , 'result' =>$result));
 }
 ?>

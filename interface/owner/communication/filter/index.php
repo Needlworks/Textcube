@@ -28,7 +28,7 @@ require ROOT . '/library/preprocessor.php';
 	$_POST['mode'] = "whiteurl";
 }
 if (!empty($_POST['mode'])) {
-	$filter = new Model_Filter();
+	$filter = new Filter();
 	$filter->type = $_POST['mode'];
 	$filter->pattern = $_POST[($_POST['mode'] . 'Value')];
 	$filter->add();
@@ -42,7 +42,7 @@ require ROOT . '/interface/common/owner/header.php';
 
 function printFilterBox($mode, $title) {
 	global $service;
-	$filter = new Model_Filter();
+	$filter = new Filter();
 	$filtersList = array();
 	if ($filter->open($mode, 'pattern')) {
 		do {
@@ -115,6 +115,8 @@ function printFilterBox($mode, $title) {
 									
 									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/filter/change/" + param);
 									request.onSuccess = function() {
+										PM.removeRequest(this);
+										PM.showMessage("<?php echo _t('필터를 삭제하였습니다.');?>", "center", "bottom");							
 										var parent = caller.parentNode;
 										parent.removeChild(caller);
 										
@@ -133,8 +135,11 @@ function printFilterBox($mode, $title) {
 										}
 									}
 									request.onError = function() {
+										PM.removeRequest(this);
+										PM.showErrorMessage("<?php echo _t('필터를 삭제하지 못했습니다.');?>", "center", "bottom");							
 										alert("<?php echo _t('필터링을 삭제하지 못했습니다.');?>");
 									}
+									PM.addRequest(request, "<?php echo _t('삭제하고 있습니다.');?>");
 									request.send();
 								}
 
@@ -200,9 +205,9 @@ function printFilterBox($mode, $title) {
 									
 									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/filter/change/" + param);
 									request.onSuccess = function() {
-//										alert(callerId);
+										PM.removeRequest(this);
+										PM.showMessage("<?php echo _t('필터를 추가하였습니다.');?>", "center", "bottom");
 										elementId = this.getText("/response/id");
-//										alert(elementId);
 										caller = document.getElementById(callerId);
 
 										if((caller.rows.length == 1) && (caller.className == "empty")) {
@@ -240,8 +245,11 @@ function printFilterBox($mode, $title) {
 										caller.appendChild(tr);
 									}
 									request.onError = function() {
+										PM.removeRequest(this);
+										PM.showErrorMessage("<?php echo _t('필터를 추가하지 못했습니다.');?>", "center", "bottom");
 										alert("<?php echo _t('예외를 추가하지 못했습니다.');?>");
 									}
+									PM.addRequest(request, "<?php echo _t('추가하고 있습니다.');?>");
 									request.send();
 									
 								}

@@ -18,24 +18,24 @@ $IV = array(
 		);
 
 require ROOT . '/library/preprocessor.php';
-
+requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireModel("blog.coverpage");
 
 requireStrictRoute();
 
-$skin = new Model_BlogSkin($skinSetting['skin']);
+$skin = new Skin($skinSetting['skin']);
 $coverpageCount = count($skin->coverpageBasicModules);
 $coverpageOrderData = getCoverpageModuleOrderData($coverpageCount);
 
 $coverpageNumber = $_REQUEST['coverpageNumber'];
 $modulePos = $_REQUEST['modulePos'];
 
-if (($coverpageNumber < 0) || ($coverpageNumber >= $coverpageCount)) Utils_Respond::ErrorPage();
-if (!isset($coverpageOrderData[$coverpageNumber]) || !isset($coverpageOrderData[$coverpageNumber][$modulePos])) Utils_Respond::ErrorPage();
+if (($coverpageNumber < 0) || ($coverpageNumber >= $coverpageCount)) Respond::ErrorPage();
+if (!isset($coverpageOrderData[$coverpageNumber]) || !isset($coverpageOrderData[$coverpageNumber][$modulePos])) Respond::ErrorPage();
 
 $pluginData = $coverpageOrderData[$coverpageNumber][$modulePos];
-if ($pluginData['type'] != 3) Utils_Respond::ErrorPage();
+if ($pluginData['type'] != 3) Respond::ErrorPage();
 
 $plugin = $pluginData['id']['plugin'];
 $handler = $pluginData['id']['handler'];

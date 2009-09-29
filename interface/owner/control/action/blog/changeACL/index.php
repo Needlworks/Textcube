@@ -14,7 +14,7 @@ require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 requirePrivilege('group.creators');
 if (changeACLonBlog($_GET['blogid'],$_GET['acltype'],$_GET['userid'],$_GET['switch'])) {
-	return Utils_Respond::ResultPage(true);
+	return Respond::ResultPage(true);
 }
-Utils_Respond::ResultPage(false);
+Respond::ResultPage(false);
 ?>

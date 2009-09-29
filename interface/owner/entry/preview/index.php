@@ -4,6 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
 requireModel('blog.entry');
+requireModel('blog.sidebar');
 $entries = array();
 if (is_null($entry = getEntry($blogid, $suri['id'], true)))
 	$entry = getEntry($blogid, $suri['id'], false);

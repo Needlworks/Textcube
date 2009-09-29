@@ -24,7 +24,8 @@ function dumbCronScheduler($checkOnly=true)
 					'6h'  => 60*60*6,
 					'12h' => 60*60*12,
 					'24h' => 60*60*24,
-					'Daily' => 60*60*24 );
+					'Daily' => 60*60*24,
+					'1w'  => 60*60*24*7 );
 	/* Events: Cron1m, Cron5m, Cron30m, Cron1h, Cron2h, Cron6h, Cron12h */
 	$log_file = dirname(__FILE__).DS."..".DS."..".DS."cache".DS."cronlog.txt";
 	$log = fopen( $log_file, "a" );
@@ -35,6 +36,10 @@ function dumbCronScheduler($checkOnly=true)
 		if( $now > $diff + $dumbCronStamps[$d] ) { 
 			if( $checkOnly && eventExists("Cron$d") ) return true;
 			fireEvent( "Cron$d",  null, $now );
+			if($d == '6h') {
+				requireModel('blog.trash');
+				trashVan();
+			}
 			fwrite( $log, date( 'Y-m-d H:i:s' ).' '.$blog['name']." Cron$d executed ({$_SERVER['REQUEST_URI']})\r\n" );
 			$dumbCronStamps[$d] = $now;
 		}

@@ -2,6 +2,8 @@
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+
+/// @brief Environment unifier.
 ini_set('session.use_trans_sid', '0');
 ini_set('zend.ze1_compatibility_mode', 0);
 if (intval(ini_get("session.auto_start")) == 1) {

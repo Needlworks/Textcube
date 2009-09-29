@@ -2,16 +2,17 @@
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
-if (version_compare(PHP_VERSION, '5.2.0', 'lt')) {
-	die('PHP Version is not compatible with current Textcube version');
-}
+
 define('__TEXTCUBE_SETUP__',true);
-define('ROOT','.');
 header('Content-Type: text/html; charset=utf-8');
 ini_set('display_errors', 'on');
+
+define('ROOT','.');
+
 foreach (new DirectoryIterator(ROOT.'/framework/boot') as $fileInfo) {
 	if($fileInfo->isFile()) require_once($fileInfo->getPathname());
 }
+
 if (get_magic_quotes_gpc()) {
     foreach ($_GET as $key => $value)
         $_GET[$key] = stripslashes($value);
@@ -36,9 +37,6 @@ if(empty($accessInfo)) {
 }
 $_SERVER['PHP_SELF'] = rtrim($_SERVER['PHP_SELF'], '/');
 
-if (!defined('ROOT'))
-	define ('ROOT', $root);
-
 $__requireBasics = array(
 	'config.default',               // Basics
 	'function/string',
@@ -49,9 +47,8 @@ $__requireBasics = array(
 	'function/misc',
 	'function/image',
 	'function/mail');
-
+if(isset($_POST['dbms'])) $database['dbms'] = $_POST['dbms'];
 require ROOT.'/library/include.php';
-require ROOT.'/library/locale.php';
 
 requireModel('blog.blogSetting');
 requireModel('blog.entry');
@@ -63,7 +60,9 @@ if (!empty($_GET['test'])) {
 }
 $baseLanguage = 'ko';
 if( !empty($_POST['Lang']) ) $baseLanguage = $_POST['Lang'];
-if( Locale::setDirectory('language') ) Locale::set( $baseLanguage );
+$locale = Locale::getInstance();
+$locale->setDomain('setup');
+if( $locale->setDirectory(ROOT.'/resource/locale/setup') ) $locale->set( $baseLanguage , "setup");
 
 if (file_exists($root . '/config.php') && (filesize($root . '/config.php') > 0)) {
     header('HTTP/1.1 503 Service Unavailable');
@@ -94,9 +93,9 @@ if (file_exists($root . '/config.php') && (filesize($root . '/config.php') > 0))
 				
 				<p class="message">
 <?php
-	if( Locale::setDirectory('language')) {
+	if( $locale->setDirectory(ROOT.'/resources/locale/setup')) {
 		$currentLang = isset($_REQUEST['Lang']) ? $_REQUEST['Lang'] : '';
-		$availableLanguages =   Locale::getSupportedLocales(); 
+		$availableLanguages =   $locale->getSupportedLocales(); 
 ?> 
 Select Language : <select name="Lang" id = "Lang" onchange= "current();" > 
 <?php
@@ -130,85 +129,77 @@ if (array_key_exists('phpinfo',$_GET)) {
 <link rel="stylesheet" media="screen" type="text/css" href="./resources/style/setup/style.css" />
 <script type="text/javascript">
 //<![CDATA[
-    function init() {
-    }
+	function init() {
+	}
     
-    function previous() {
-    }
+	function previous() {
+	}
 
 	function current(){ 
-		document.getElementById("step").value ="" ; 
-		document.getElementById("setup").submit() ; 
+		document.getElementById("step").value =""; 
+		document.getElementById("setup").submit(); 
 	} 
 	
-    function next(type) {
+	function next(type) {
 		if (type != undefined)
 			document.getElementById("setupMode").value = type;
-        document.getElementById("setup").submit();
-    }
+		document.getElementById("setup").submit();
+	}
     
-    function show(id) {
-        if (document.getElementById("typeDomain"))
-            document.getElementById("typeDomain").style.display = "none";
-        if (document.getElementById("typePath"))
-            document.getElementById("typePath").style.display = "none";
-        if (document.getElementById("typeSingle"))
-            document.getElementById("typeSingle").style.display = "none";
-        if (document.getElementById(id))
-            document.getElementById(id).style.display = "block";
-    }
+	function show(id) {
+		if (document.getElementById("typeDomain"))
+			document.getElementById("typeDomain").style.display = "none";
+		if (document.getElementById("typePath"))
+			document.getElementById("typePath").style.display = "none";
+		if (document.getElementById("typeSingle"))
+			document.getElementById("typeSingle").style.display = "none";
+		if (document.getElementById(id))
+			document.getElementById(id).style.display = "block";
+	}
 //]]>
 </script>
 </head>
 <body onload="init()">
 <div id="container">
-  <form id="setup" name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
-  <div id="title"><h1><img src="./resources/style/setup/image/title.gif" width="253" height="44" alt="<?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> Setup" /></h1></div>
-  <input type="hidden" name="Lang" id="Lang" value="<?php echo $baseLanguage;?>" />
+<form id="setup" name="setup" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
+	<div id="title">
+		<h1><img src="./resources/style/setup/image/title.gif" width="253" height="44" alt="<?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> Setup" /></h1>
+	</div>
+	<input type="hidden" name="Lang" id="Lang" value="<?php echo $baseLanguage;?>" />
 <?php
 if (empty($_POST['step'])) {
 ?>
-  <div id="inner">
-    <input type="hidden" name="step" value="1" />
-    <h2><span class="step"><?php echo _f('%1단계', 1);?></span> : <?php echo _t('텍스트큐브 설치를 시작합니다.');?></h2>
-		<div id="langSel" > <?php drawSetLang( $baseLanguage, 'Norm');?></div> 
-    <div id="info"><b><?php echo TEXTCUBE_VERSION;?></b><br />
-      <?php echo TEXTCUBE_COPYRIGHT;?><br />
-      Homepage: <a href="<?php echo TEXTCUBE_HOMEPAGE;?>"><?php echo TEXTCUBE_HOMEPAGE;?></a></div>
-    <div id="content">
-      <ol>
-        <li><?php echo _t('소스를 포함한 소프트웨어에 포함된 모든 저작물(이하, 텍스트큐브)의 저작권자는 Needlworks / TNF 입니다.');?></li>
-        <li><?php echo _t('텍스트큐브는 GPL 라이선스로 제공되며, 모든 사람이 자유롭게 이용할 수 있습니다.');?></li>
-        <li><?php echo _t('프로그램 사용에 대한 유지 및 보수 등의 의무와, 사용 중 데이터 손실 등에 대한 사고책임은 모두 사용자에게 있습니다.');?></li>
-        <li><?php echo _t('스킨 및 트리, 플러그인의 저작권은 각 제작자에게 있습니다.');?></li>
-      </ol>
-    </div>
-  <div id="navigation">
-    <a href="#" onclick="next(); return false;" title="<?php echo _t('다음');?>"><img src="./resources/style/setup/image/icon_next.gif" width="74" height="24" alt="<?php echo _t('다음');?>" /></a>
-  </div>
-  </div>
+	<div id="inner">
+		<input type="hidden" id="step" name="step" value="1" />
+		<h2><span class="step"><?php echo _f('%1단계', 1);?></span> : <?php echo _t('텍스트큐브 설치를 시작합니다.');?></h2>
+		<div id="langSel" >
+		<?php drawSetLang( $baseLanguage, 'Norm');?>
+		</div> 
+		<div id="info"><b><?php echo TEXTCUBE_VERSION;?></b><br />
+			<?php echo TEXTCUBE_COPYRIGHT;?><br />
+			Homepage: <a href="<?php echo TEXTCUBE_HOMEPAGE;?>"><?php echo TEXTCUBE_HOMEPAGE;?></a>
+		</div>
+		<div id="content">
+			<ol>
+				<li><?php echo _t('소스를 포함한 소프트웨어에 포함된 모든 저작물(이하, 텍스트큐브)의 저작권자는 Needlworks / TNF 입니다.');?></li>
+				<li><?php echo _t('텍스트큐브는 GPL 라이선스로 제공되며, 모든 사람이 자유롭게 이용할 수 있습니다.');?></li>
+				<li><?php echo _t('프로그램 사용에 대한 유지 및 보수 등의 의무와, 사용 중 데이터 손실 등에 대한 사고책임은 모두 사용자에게 있습니다.');?></li>
+				<li><?php echo _t('스킨 및 트리, 플러그인의 저작권은 각 제작자에게 있습니다.');?></li>
+			</ol>
+		</div>
+		<div id="navigation">
+			<a href="#" onclick="next(); return false;" title="<?php echo _t('다음');?>"><img src="./resources/style/setup/image/icon_next.gif" width="74" height="24" alt="<?php echo _t('다음');?>" /></a>
+		</div>
+	</div>
 <?php
 }
 else if ($_POST['step'] == 7) {
 	checkStep(8, false);
-}
-else {
-/*	
-	function Data_IAdapter::escapeString($string) {
-		global $mysql_escaping_function;
-		return $mysql_escaping_function($string);
-	}*/
+} else {
 	
 	for ($i = 1; $i <= $_POST['step']; $i ++) {
         if (!checkStep($i))
             break;
-        if ($i == 3) {
-			if (function_exists('mysql_real_escape_string') && (mysql_real_escape_string('ㅋ') == 'ㅋ')) {
-				$mysql_escaping_function =  create_function('$string', 'return mysql_real_escape_string($string);');
-			} else {
-				$mysql_escaping_function =  create_function('$string', 'return mysql_escape_string($string);');
-			}
-		}
     }
     if ($i > $_POST['step'])
         checkStep($_POST['step'] + 1, false);
@@ -238,7 +229,7 @@ function checkStep($step, $check = true) {
   <div id="inner">
     <h2><span class="step"><?php echo _f('%1단계', 2);?></span> : <?php echo _t('작업 유형을 선택해 주십시오.');?></h2>
     <div style="text-align:center">
-      <div style="width:300px; padding:40px 0px 40px 0px">
+      <div style="width:100%; padding:40px 0px 40px 0px">
         <div style="margin:20px;"><input type="button" value="<?php echo _t('새로운 텍스트큐브를 설정합니다');?>" style="width:100%; height:40px; font-size:14px" onclick="next('install');return false;" /></div>
         <div style="margin:20px;"><input type="button" value="<?php echo _t('텍스트큐브를 다시 설정합니다');?>" style="width:100%; height:40px; font-size:14px" onclick="next('setup');return false;" /></div>
         <div style="margin:20px;"><input type="button" value="<?php echo _t('텍스트큐브 테이블을 삭제합니다');?>" style="width:100%; height:40px; font-size:14px" onclick="next('uninstall');return false;" /></div>
@@ -253,10 +244,12 @@ function checkStep($step, $check = true) {
 				case 'install':
 				case 'setup':
 					if (!empty($_POST['dbServer']) && !empty($_POST['dbName']) && !empty($_POST['dbUser']) && isset($_POST['dbPassword']) && isset($_POST['dbPrefix'])) {
-						if (!Data_IAdapter::connect($_POST['dbServer'], $_POST['dbUser'], $_POST['dbPassword']))
+						$dbTemp = array('server'=>$_POST['dbServer'],'username'=>$_POST['dbUser'],'password'=>$_POST['dbPassword'],'port'=>$_POST['dbPort']);
+						if(!empty($_POST['dbName'])) $dbTemp['database'] = $_POST['dbName'];
+						if (!POD::bind($dbTemp))
 							$error = 1;
-						else if (!Data_IAdapter::select_db($_POST['dbName']))
-							$error = 2;
+//						else if (!POD::select_db($_POST['dbName']))	// select_db is deprecated.
+//							$error = 2;
 						else if (!empty($_POST['dbPrefix']) && !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['dbPrefix']))
 							$error = 3;
 						else
@@ -264,11 +257,13 @@ function checkStep($step, $check = true) {
 					}
 					break;
 				case 'uninstall':
-					if (!empty($_POST['dbServer']) && !empty($_POST['dbName']) && !empty($_POST['dbUser']) && isset($_POST['dbPassword'])) {
-						if (!Data_IAdapter::connect($_POST['dbServer'], $_POST['dbUser'], $_POST['dbPassword']))
+					if (!empty($_POST['dbServer']) && !empty($_POST['dbName']) && !empty($_POST['dbUser']) && isset($_POST['dbPassword']) && !empty($_POST['dbPort'])) {
+						$dbTemp = array('server'=>$_POST['dbServer'],'username'=>$_POST['dbUser'],'password'=>$_POST['dbPassword'],'port'=>$_POST['dbPort']);
+						if(!empty($_POST['dbName'])) $dbTemp['database'] = $_POST['dbName'];
+						if (!POD::bind($dbTemp))
 							$error = 1;
-						else if (!Data_IAdapter::select_db($_POST['dbName']))
-							$error = 2;
+//						else if (!POD::select_db($_POST['dbName']))	// select_db is deprecated.
+//							$error = 2;
 						else
 							return true;
 					}
@@ -282,18 +277,36 @@ function checkStep($step, $check = true) {
     <h2><span class="step"><?php echo _f('%1단계', 3);?></span> : <?php echo _t('작업 정보를 입력해 주십시오.');?></h2>
     <div id="userinput">
     <table class="inputs">
+	  <tr>
+        <th><?php echo _t('데이터베이스 관리 시스템');?> :</th>
+        <td>
 <?php
-		switch ($_POST['mode']) {
-			case 'install':
-			case 'setup':
+$dbmsSupport = array();
+if(function_exists('mysql_connect')) array_push($dbmsSupport,'MySQL');
+if(function_exists('mysqli_connect')) array_push($dbmsSupport,'MySQLi');
+if(function_exists('pg_connect')) array_push($dbmsSupport,'PostgreSQL');
+if(function_exists('cubrid_connect')) array_push($dbmsSupport,'Cubrid');
+foreach($dbmsSupport as $dbms) {
 ?>
-      <tr>
+	      <input type="radio" name="dbms" value="<?php echo $dbms;?>" <?php echo (((isset($_POST['dbms']) && $_POST['dbms'] == $dbms)||(!isset($_POST['dbms']) && $dbms == $dbmsSupport[0])) ? 'checked' : '');?>/> <?php echo $dbms;?> 
+<?php
+}
+?>
+         </td>
+      </tr>
+	  <tr>
         <th><?php echo _t('데이터베이스 서버');?> :</th>
         <td>
           <input type="text" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : 'localhost');?>" class="input<?php echo ($check && (empty($_POST['dbServer']) || ($error == 1)) ? ' input_error' : '');?>" />
         </td>
       </tr>
       <tr>
+        <th><?php echo _t('데이터베이스 포트');?> :</th>
+        <td>
+          <input type="text" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : '3389');?>" class="input<?php echo ($check && (empty($_POST['dbPort']) || ($error == 1)) ? ' input_error' : '');?>" />
+        </td>
+      </tr>
+	  <tr>
         <th><?php echo _t('데이터베이스 이름');?> :</th>
         <td>
           <input type="text" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : NULL);?>" class="input<?php echo ($check && (empty($_POST['dbName']) || ($error == 2)) ? ' input_error' : '');?>" />
@@ -311,6 +324,11 @@ function checkStep($step, $check = true) {
           <input type="password" name="dbPassword" value="<?php echo (isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '');?>" class="input<?php echo ($check && ($error == 1) ? ' input_error' : '');?>" />
         </td>
       </tr>
+<?php
+		switch ($_POST['mode']) {
+			case 'install':
+			case 'setup':
+?>      
       <tr>
         <th><?php echo _t('테이블 식별자');?> :</th>
         <td>
@@ -320,32 +338,7 @@ function checkStep($step, $check = true) {
 <?php
 				break;
 			case 'uninstall':
-?>
-      <tr>
-        <th><?php echo _t('데이터베이스 서버');?> :</th>
-        <td>
-          <input type="text" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : 'localhost');?>" class="input<?php echo ($check && (empty($_POST['dbServer']) || ($error == 1)) ? ' input_error' : '');?>" />
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo _t('데이터베이스 이름');?> :</th>
-        <td>
-          <input type="text" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : NULL);?>" class="input<?php echo ($check && (empty($_POST['dbName']) || ($error == 2)) ? ' input_error' : '');?>" />
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo _t('데이터베이스 사용자명');?> :</th>
-        <td>
-          <input type="text" name="dbUser" value="<?php echo (isset($_POST['dbUser']) ? $_POST['dbUser'] : '');?>" class="input<?php echo ($check && (empty($_POST['dbUser']) || $error) ? ' input_error' : '');?>" />
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo _t('데이터베이스 암호');?> :</th>
-        <td>
-          <input type="password" name="dbPassword" value="<?php echo (isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '');?>" class="input<?php echo ($check && ($error == 1) ? ' input_error' : '');?>" />
-        </td>
-      </tr>
-<?php
+				break;
 		}
 ?>
     </table>
@@ -401,8 +394,10 @@ function checkStep($step, $check = true) {
 ?>
   <input type="hidden" name="step" value="4" />
   <input type="hidden" name="mode" value="<?php echo $_POST['mode'];?>" />
+  <input type="hidden" name="dbms" value="<?php echo (isset($_POST['dbms']) ? $_POST['dbms'] : '');?>" />
   <input type="hidden" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : '');?>" />
   <input type="hidden" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : '');?>" />
+  <input type="hidden" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : '');?>" />
   <input type="hidden" name="dbUser" value="<?php echo (isset($_POST['dbUser']) ? $_POST['dbUser'] : '');?>" />
   <input type="hidden" name="dbPassword" value="<?php echo (isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '');?>" />
   <input type="hidden" name="dbPrefix" value="<?php echo (isset($_POST['dbPrefix']) ? $_POST['dbPrefix'] : '');?>" />
@@ -416,7 +411,8 @@ function checkStep($step, $check = true) {
       <li><?php echo _t('운영체제');?>: <?php echo @exec('uname -sir');?></li>
       <li><?php echo _t('웹서버');?>: <?php echo $_SERVER['SERVER_SOFTWARE'];?> <?php echo isset($_SERVER['SERVER_SIGNATURE']) ? $_SERVER['SERVER_SIGNATURE'] : '(no signature)';?></li>
       <li><?php echo _t('PHP 버전');?>: <?php echo phpversion();?></li>
-      <li><?php echo _t('DBMS 버전');?>: <?php echo Data_IAdapter::version();?></li>
+      <li><?php echo _t('데이터베이스 종류');?>: <?php echo POD::dbms();?></li>
+      <li><?php echo _f('%1 버전',POD::dbms());?>: <?php echo POD::version();?></li>
     </ul>
     <h3>PHP</h3>
     <ul>
@@ -536,7 +532,12 @@ xml_set_object
             if (!function_exists($function))
                 array_push($required, $function);
         }
-        if (count($required) == 0) {
+		if (version_compare(PHP_VERSION, '5.2.0') === -1) {
+			$error = 4;
+?>
+                <span style="color:red"><?php echo _f('PHP 버전이 낮습니다. 설치를 위해서는 최소한 %1 이상의 버전이 필요합니다.','5.2.0');?></span>
+<?php
+		} else if (count($required) == 0) {
 ?>
                   <li>OK</li>
 <?php
@@ -551,29 +552,23 @@ xml_set_object
 <?php
             }
         }
-		if (version_compare(PHP_VERSION, '5.2.0') === -1) {
-			$error = 4;
-?>
-                <span style="color:red"><?php echo _f('PHP 버전이 낮습니다. 설치를 위해서는 최소한 %1 이상의 버전이 필요합니다.','5.2.0');?></span>
-<?php
-		}
 ?>
     </ul>
-    <h3>MySQL</h3>
+    <h3><?php echo POD::dbms();?></h3>
     <ul>
 <?php
-        if (Data_IAdapter::query('SET CHARACTER SET utf8'))
+        if (POD::charset() == 'utf8')
            echo '<li>Character Set: OK</li>';
         else {
            echo '<li style="color:navy">Character Set: ', _t('UTF8 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)'), '</li>';
         }
-        if (Data_IAdapter::query('SET SESSION collation_connection = \'utf8_general_ci\''))
+/*        if (POD::query('SET SESSION collation_connection = \'utf8_general_ci\''))
            echo '<li>Collation: OK</li>';
         else {
            echo '<li style="color:navy">Collation: ', _t('UTF8 General 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)'), '</li>';
-        }
-        if (Data_IAdapter::query("CREATE TABLE {$_POST['dbPrefix']}Setup (a INT NOT NULL)")) {
-            Data_IAdapter::query("DROP TABLE {$_POST['dbPrefix']}Setup");
+        }*/
+        if (POD::query("CREATE TABLE {$_POST['dbPrefix']}Setup (a INT NOT NULL)")) {
+            POD::query("DROP TABLE {$_POST['dbPrefix']}Setup");
            echo '<li>', _t('테이블 생성 권한'), ': OK</li>';
         }
         else {
@@ -584,11 +579,11 @@ xml_set_object
     </ul>
 <?php
         $tables = array();
-        if ($result = Data_IAdapter::query("SHOW TABLES")) {
-            while ($table = Data_IAdapter::fetch($result,'array')) {
-                if (strncmp($table[0], $_POST['dbPrefix'], strlen($_POST['dbPrefix'])))
+        if ($result = POD::tableList()) {
+            foreach($result as $table) {
+                if (strncmp($table, $_POST['dbPrefix'], strlen($_POST['dbPrefix'])))
                     continue;
-                switch (strtolower(substr($table[0], strlen($_POST['dbPrefix'])))) {
+                switch (strtolower(substr($table, strlen($_POST['dbPrefix'])))) {
                     case 'attachments':
                     case 'blogsettings':
                     case 'blogstatistics':
@@ -628,7 +623,7 @@ xml_set_object
 					case 'usersettings':
                     case 'users':
                     case 'xmlrpcpingsettings':
-                        $tables[count($tables)] = $table[0];
+                        $tables[count($tables)] = $table;
                         break;
                 }
             }
@@ -878,7 +873,9 @@ RewriteRule ^testrewrite$ setup.php [L]"
 ?>
   <input type="hidden" name="step" value="<?php echo $step;?>" />
   <input type="hidden" name="mode" value="<?php echo $_POST['mode'];?>" />
+  <input type="hidden" name="dbms" value="<?php echo (isset($_POST['dbms']) ? $_POST['dbms'] : '');?>" />
   <input type="hidden" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : '');?>" />
+  <input type="hidden" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : '');?>" />
   <input type="hidden" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : '');?>" />
   <input type="hidden" name="dbUser" value="<?php echo (isset($_POST['dbUser']) ? $_POST['dbUser'] : '');?>" />
   <input type="hidden" name="dbPassword" value="<?php echo (isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '');?>" />
@@ -957,13 +954,13 @@ RewriteRule ^testrewrite$ setup.php [L]"
                     return true;
             }
         } else {
-			@Data_IAdapter::query('SET CHARACTER SET utf8');
-			if ($result = Data_IAdapter::query("SELECT loginid, password, name FROM {$_POST['dbPrefix']}Users WHERE userid = 1")) {
-				@list($_POST['email'], $_POST['password'], $_POST['name']) = Data_IAdapter::fetch($result,'row');
+			@POD::query('SET CHARACTER SET utf8');
+			if ($result = @POD::query("SELECT loginid, password, name FROM {$_POST['dbPrefix']}Users WHERE userid = 1")) {
+				@list($_POST['email'], $_POST['password'], $_POST['name']) = POD::fetch($result,'row');
 				$_POST['password2'] = $_POST['password'];
-				Data_IAdapter::free($result);
+				POD::free($result);
 			}
-			if ($result = Data_IAdapter::queryCell("SELECT value FROM {$_POST['dbPrefix']}BlogSettings 
+			if ($result = @POD::queryCell("SELECT value FROM {$_POST['dbPrefix']}BlogSettings 
 						WHERE blogid = 1 
 							AND name = 'name'")) {
 				$_POST['blog'] = $result;
@@ -973,7 +970,9 @@ RewriteRule ^testrewrite$ setup.php [L]"
 ?>
   <input type="hidden" name="step" value="<?php echo $step;?>" />
   <input type="hidden" name="mode" value="<?php echo $_POST['mode'];?>" />
+  <input type="hidden" name="dbms" value="<?php echo (isset($_POST['dbms']) ? $_POST['dbms'] : '');?>" />
   <input type="hidden" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : '');?>" />
+  <input type="hidden" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : '');?>" />
   <input type="hidden" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : '');?>" />
   <input type="hidden" name="dbUser" value="<?php echo (isset($_POST['dbUser']) ? $_POST['dbUser'] : '');?>" />
   <input type="hidden" name="dbPassword" value="<?php echo (isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '');?>" />
@@ -1053,7 +1052,9 @@ RewriteRule ^testrewrite$ setup.php [L]"
 ?>
   <input type="hidden" name="step" value="<?php echo $step;?>" />
   <input type="hidden" name="mode" value="<?php echo $_POST['mode'];?>" />
+  <input type="hidden" name="dbms" value="<?php echo (isset($_POST['dbms']) ? $_POST['dbms'] : '');?>" />
   <input type="hidden" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : '');?>" />
+  <input type="hidden" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : '');?>" />
   <input type="hidden" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : '');?>" />
   <input type="hidden" name="dbUser" value="<?php echo (isset($_POST['dbUser']) ? $_POST['dbUser'] : '');?>" />
   <input type="hidden" name="dbPassword" value="<?php echo (isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '');?>" />
@@ -1080,441 +1081,42 @@ RewriteRule ^testrewrite$ setup.php [L]"
 			exit;
 		}
 
-		$loginid = Data_IAdapter::escapeString($_POST['email']);
+		$loginid = POD::escapeString($_POST['email']);
 		$password = md5($_POST['password']);
-		$name = Data_IAdapter::escapeString($_POST['name']);
-		$blog = Data_IAdapter::escapeString($_POST['blog']);
-		$baseLanguage = Data_IAdapter::escapeString( $_POST['Lang']);
-		$baseTimezone = Data_IAdapter::escapeString( substr(_t('default:Asia/Seoul'),8));
+		$name = POD::escapeString($_POST['name']);
+		$blog = POD::escapeString($_POST['blog']);
+		$baseLanguage = POD::escapeString( $_POST['Lang']);
+		$baseTimezone = POD::escapeString( substr(_t('default:Asia/Seoul'),8));
 
-        $charset = 'TYPE=MyISAM DEFAULT CHARSET=utf8';
-        if (!@Data_IAdapter::query('SET CHARACTER SET utf8'))
-            $charset = 'TYPE=MyISAM';
-        @Data_IAdapter::query('SET SESSION collation_connection = \'utf8_general_ci\'');
+		if(POD::dbms() == 'MySQL') {
+	        $charset = 'TYPE=MyISAM DEFAULT CHARSET=utf8';
+//    	    if (!@POD::query('SET CHARACTER SET utf8'))
+  //      	    $charset = 'TYPE=MyISAM';
+	    //    @POD::query('SET SESSION collation_connection = \'utf8_general_ci\'');
+		} else {
+			$charset = '';
+		}
         
         if ($_POST['mode'] == 'install') {
-            $schema = "
-CREATE TABLE {$_POST['dbPrefix']}Attachments (
-  blogid int(11) NOT NULL default '0',
-  parent int(11) NOT NULL default '0',
-  name varchar(32) NOT NULL default '',
-  label varchar(64) NOT NULL default '',
-  mime varchar(32) NOT NULL default '',
-  size int(11) NOT NULL default '0',
-  width int(11) NOT NULL default '0',
-  height int(11) NOT NULL default '0',
-  attached int(11) NOT NULL default '0',
-  downloads int(11) NOT NULL default '0',
-  enclosure tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (blogid,name)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}BlogSettings (
-  blogid int(11) NOT NULL default '0',
-  name varchar(32) NOT NULL default '',
-  value text NOT NULL,
-  PRIMARY KEY (blogid, name)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}BlogStatistics (
-  blogid int(11) NOT NULL default '0',
-  visits int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Categories (
-  blogid int(11) NOT NULL default '0',
-  id int(11) NOT NULL,
-  parent int(11) default NULL,
-  name varchar(127) NOT NULL default '',
-  priority int(11) NOT NULL default '0',
-  entries int(11) NOT NULL default '0',
-  entriesInLogin int(11) NOT NULL default '0',
-  label varchar(255) NOT NULL default '',
-  visibility tinyint(4) NOT NULL default '2',
-  bodyId varchar(20) default NULL,
-  PRIMARY KEY (blogid,id)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Comments (
-  blogid int(11) NOT NULL default '0',
-  replier int(11) default NULL,
-  id int(11) NOT NULL,
-  openid varchar(128) NOT NULL default '',
-  entry int(11) NOT NULL default '0',
-  parent int(11) default NULL,
-  name varchar(80) NOT NULL default '',
-  password varchar(32) NOT NULL default '',
-  homepage varchar(80) NOT NULL default '',
-  secret int(1) NOT NULL default '0',
-  longitude FLOAT(10) NULL,
-  latitude FLOAT(10) NULL,
-  comment text NOT NULL,
-  ip varchar(15) NOT NULL default '',
-  written int(11) NOT NULL default '0',
-  isFiltered int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid, id),
-  KEY blogid (blogid),
-  KEY entry (entry),
-  KEY parent (parent),
-  KEY isFiltered (isFiltered)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}CommentsNotified (
-  blogid int(11) NOT NULL default '0',
-  replier int(11) default NULL,
-  id int(11) NOT NULL,
-  entry int(11) NOT NULL default '0',
-  parent int(11) default NULL,
-  name varchar(80) NOT NULL default '',
-  password varchar(32) NOT NULL default '',
-  homepage varchar(80) NOT NULL default '',
-  secret int(1) NOT NULL default '0',
-  comment text NOT NULL,
-  ip varchar(15) NOT NULL default '',
-  written int(11) NOT NULL default '0',
-  modified int(11) NOT NULL default '0',
-  siteId int(11) NOT NULL default '0',
-  isNew int(1) NOT NULL default '1',
-  url varchar(255) NOT NULL default '',
-  remoteId int(11) NOT NULL default '0',
-  entryTitle varchar(255) NOT NULL default '',
-  entryUrl varchar(255) NOT NULL default '',
-  PRIMARY KEY  (blogid, id),
-  KEY blogid (blogid),
-  KEY entry (entry)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}CommentsNotifiedQueue (
-  blogid int(11) NOT NULL default '0',
-  id int(11) NOT NULL,
-  commentId int(11) NOT NULL default '0',
-  sendStatus int(1) NOT NULL default '0',
-  checkDate int(11) NOT NULL default '0',
-  written int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid, id),
-  UNIQUE KEY commentId (commentId)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}CommentsNotifiedSiteInfo (
-  id int(11) NOT NULL,
-  title varchar(255) NOT NULL default '',
-  name varchar(255) NOT NULL default '',
-  url varchar(255) NOT NULL default '',
-  modified int(11) NOT NULL default '0',
-  PRIMARY KEY  (id),
-  UNIQUE KEY url (url),
-  UNIQUE KEY id (id)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}DailyStatistics (
-  blogid int(11) NOT NULL default '0',
-  date int(11) NOT NULL default '0',
-  visits int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid,date)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Entries (
-  blogid int(11) NOT NULL default '0',
-  userid int(11) NOT NULL default '0',
-  id int(11) NOT NULL,
-  draft tinyint(1) NOT NULL default '0',
-  visibility tinyint(4) NOT NULL default '0',
-  starred tinyint(4) NOT NULL default '1',
-  category int(11) NOT NULL default '0',
-  title varchar(255) NOT NULL default '',
-  slogan varchar(255) NOT NULL default '',
-  content mediumtext NOT NULL,
-  contentFormatter varchar(32) DEFAULT '' NOT NULL,
-  contentEditor varchar(32) DEFAULT '' NOT NULL,
-  location varchar(255) NOT NULL default '/',
-  password varchar(32) default NULL,
-  acceptComment int(1) NOT NULL default '1',
-  acceptTrackback int(1) NOT NULL default '1',
-  published int(11) NOT NULL default '0',
-  longitude FLOAT(10) NULL,
-  latitude FLOAT(10) NULL,
-  created int(11) NOT NULL default '0',
-  modified int(11) NOT NULL default '0',
-  comments int(11) NOT NULL default '0',
-  trackbacks int(11) NOT NULL default '0',
-  pingbacks int(11) NOT NULL default '0',
-  PRIMARY KEY (blogid, id, draft, category, published),
-  KEY visibility (visibility),
-  KEY userid (userid),
-  KEY published (published),
-  KEY id (id, category, visibility),
-  KEY blogid (blogid, published)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}EntriesArchive (
-  blogid int(11) NOT NULL default '0',
-  userid int(11) NOT NULL default '0',
-  id int(11) NOT NULL,
-  visibility tinyint(4) NOT NULL default '0',
-  category int(11) NOT NULL default '0',
-  title varchar(255) NOT NULL default '',
-  slogan varchar(255) NOT NULL default '',
-  content mediumtext NOT NULL,
-  contentFormatter varchar(32) DEFAULT '' NOT NULL,
-  contentEditor varchar(32) DEFAULT '' NOT NULL,
-  location varchar(255) NOT NULL default '/',
-  password varchar(32) default NULL,
-  created int(11) NOT NULL default '0',
-  PRIMARY KEY (blogid, id, created),
-  KEY visibility (visibility),
-  KEY blogid (blogid, id),
-  KEY userid (userid, blogid)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}FeedGroupRelations (
-  blogid int(11) NOT NULL default '0',
-  feed int(11) NOT NULL default '0',
-  groupId int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid,feed,groupId)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}FeedGroups (
-  blogid int(11) NOT NULL default '0',
-  id int(11) NOT NULL default '0',
-  title varchar(255) NOT NULL default '',
-  PRIMARY KEY  (blogid,id)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}FeedItems (
-  id int(11) NOT NULL auto_increment,
-  feed int(11) NOT NULL default '0',
-  author varchar(255) NOT NULL default '',
-  permalink varchar(255) NOT NULL default '',
-  title varchar(255) NOT NULL default '',
-  description text NOT NULL,
-  tags varchar(255) NOT NULL default '',
-  enclosure varchar(255) NOT NULL default '',
-  written int(11) NOT NULL default '0',
-  PRIMARY KEY  (id),
-  KEY feed (feed),
-  KEY written (written),
-  KEY permalink (permalink)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}FeedReads (
-  blogid int(11) NOT NULL default '0',
-  item int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid,item)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}FeedSettings (
-  blogid int(11) NOT NULL default '0',
-  updateCycle int(11) NOT NULL default '120',
-  feedLife int(11) NOT NULL default '30',
-  loadImage int(11) NOT NULL default '1',
-  allowScript int(11) NOT NULL default '2',
-  newWindow int(11) NOT NULL default '1',
-  PRIMARY KEY  (blogid)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}FeedStarred (
-  blogid int(11) NOT NULL default '0',
-  item int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid,item)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Feeds (
-  id int(11) NOT NULL auto_increment,
-  xmlURL varchar(255) NOT NULL default '',
-  blogURL varchar(255) NOT NULL default '',
-  title varchar(255) NOT NULL default '',
-  description varchar(255) NOT NULL default '',
-  language varchar(5) NOT NULL default 'en-US',
-  modified int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Filters (
-  id int(11) NOT NULL auto_increment,
-  blogid int(11) NOT NULL default '0',
-  type enum('content','ip','name','url') NOT NULL default 'content',
-  pattern varchar(255) NOT NULL default '',
-  PRIMARY KEY (id),
-  UNIQUE KEY blogid (blogid, type, pattern)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Links (
-  pid int(11) NOT NULL default '0',
-  blogid int(11) NOT NULL default '0',
-  id int(11) NOT NULL default '0',
-  category int(11) NOT NULL default '0',
-  name varchar(255) NOT NULL default '',
-  url varchar(255) NOT NULL default '',
-  rss varchar(255) NOT NULL default '',
-  written int(11) NOT NULL default '0',
-  visibility tinyint(4) NOT NULL default '2',
-  xfn varchar(128) NOT NULL default '',
-  PRIMARY KEY (pid),
-  UNIQUE KEY blogid (blogid,url)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}LinkCategories (
-  pid int(11) NOT NULL default '0',
-  blogid int(11) NOT NULL default '0',
-  id int(11) NOT NULL default '0',
-  name varchar(128) NOT NULL,
-  priority int(11) NOT NULL default '0',
-  visibility tinyint(4) NOT NULL default '2',
-  PRIMARY KEY (pid),
-  UNIQUE KEY blogid (blogid, id)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}OpenIDUsers (
-  blogid int(11) NOT NULL default '0',
-  openid varchar(128) NOT NULL,
-  delegatedid varchar(128) default NULL,
-  firstLogin int(11) default NULL,
-  lastLogin int(11) default NULL,
-  loginCount int(11) default NULL,
-  data text,
-  PRIMARY KEY  (blogid,openid)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}PageCacheLog (
-  blogid int(11) NOT NULL default '0',
-  name varchar(255) NOT NULL default '',
-  value text NOT NULL,
-  PRIMARY KEY (blogid,name)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Plugins (
-  blogid int(11) NOT NULL default '0',
-  name varchar(255) NOT NULL default '',
-  settings text,
-  PRIMARY KEY  (blogid,name)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}RefererLogs (
-  blogid int(11) NOT NULL default '0',
-  host varchar(64) NOT NULL default '',
-  url varchar(255) NOT NULL default '',
-  referred int(11) NOT NULL default '0'
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}RefererStatistics (
-  blogid int(11) NOT NULL default '0',
-  host varchar(64) NOT NULL default '',
-  count int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid,host)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}ReservedWords (
-  word varchar(16) NOT NULL default '',
-  PRIMARY KEY  (word)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}ServiceSettings (
-  name varchar(32) NOT NULL default '',
-  value text NOT NULL,
-  PRIMARY KEY  (name)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}SessionVisits (
-  id varchar(32) NOT NULL default '',
-  address varchar(15) NOT NULL default '',
-  blogid int(11) NOT NULL default '0',
-  PRIMARY KEY  (id,address,blogid)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Sessions (
-  id varchar(32) NOT NULL default '',
-  address varchar(15) NOT NULL default '',
-  userid int(11) default NULL,
-  preexistence int(11) default NULL,
-  data text default NULL,
-  server varchar(64) NOT NULL default '',
-  request varchar(255) NOT NULL default '',
-  referer varchar(255) NOT NULL default '',
-  timer float NOT NULL default '0',
-  created int(11) NOT NULL default '0',
-  updated int(11) NOT NULL default '0',
-  PRIMARY KEY  (id,address),
-  KEY updated (updated)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}SkinSettings (
-  blogid int(11) NOT NULL default '0',
-  skin varchar(32) NOT NULL default 'coolant',
-  entriesOnRecent int(11) NOT NULL default '10',
-  commentsOnRecent int(11) NOT NULL default '10',
-  commentsOnGuestbook int(11) NOT NULL default '5',
-  archivesOnPage int(11) NOT NULL default '5',
-  tagsOnTagbox tinyint(4) NOT NULL default '10',
-  tagboxAlign tinyint(4) NOT NULL default '1',
-  trackbacksOnRecent int(11) NOT NULL default '5',
-  expandComment int(1) NOT NULL default '1',
-  expandTrackback int(1) NOT NULL default '1',
-  recentNoticeLength int(11) NOT NULL default '30',
-  recentEntryLength int(11) NOT NULL default '30',
-  recentCommentLength int(11) NOT NULL default '30',
-  recentTrackbackLength int(11) NOT NULL default '30',
-  linkLength int(11) NOT NULL default '30',
-  showListOnCategory tinyint(4) NOT NULL default '1',
-  showListOnArchive tinyint(4) NOT NULL default '1',
-  showListOnTag tinyint(4) NOT NULL default '1',
-  showListOnAuthor tinyint(4) NOT NULL default '1',
-  showListOnSearch int(1) NOT NULL default '1',
-  tree varchar(32) NOT NULL default 'base',
-  colorOnTree varchar(6) NOT NULL default '000000',
-  bgColorOnTree varchar(6) NOT NULL default '',
-  activeColorOnTree varchar(6) NOT NULL default 'FFFFFF',
-  activeBgColorOnTree varchar(6) NOT NULL default '00ADEF',
-  labelLengthOnTree int(11) NOT NULL default '30',
-  showValueOnTree int(1) NOT NULL default '1',
-  PRIMARY KEY  (blogid)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}TagRelations (
-  blogid int(11) NOT NULL default '0',
-  tag int(11) NOT NULL default '0',
-  entry int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid, tag, entry),
-  KEY blogid (blogid)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Tags (
-  id int(11) NOT NULL auto_increment,
-  name varchar(255) NOT NULL default '',
-  PRIMARY KEY  (id),
-  UNIQUE KEY name (name)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}RemoteResponseLogs (
-  blogid int(11) NOT NULL default '0',
-  id int(11) NOT NULL,
-  entry int(11) NOT NULL default '0',
-  type enum('trackback','pingback') NOT NULL default 'trackback',
-  url varchar(255) NOT NULL default '',
-  written int(11) NOT NULL default '0',
-  PRIMARY KEY  (blogid, entry, id),
-  UNIQUE KEY id (blogid, id)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}RemoteResponses (
-  id int(11) NOT NULL,
-  blogid int(11) NOT NULL default '0',
-  entry int(11) NOT NULL default '0',
-  type enum('trackback','pingback') NOT NULL default 'trackback',
-  url varchar(255) NOT NULL default '',
-  writer int(11) default NULL,
-  site varchar(255) default '',
-  subject varchar(255) default '',
-  excerpt varchar(255) default '',
-  ip varchar(15) NOT NULL default '',
-  written int(11) NOT NULL default '0',
-  isFiltered int(11) NOT NULL default '0',
-  PRIMARY KEY (blogid, id),
-  KEY isFiltered (isFiltered),
-  KEY blogid (blogid, isFiltered, written)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Users (
-  userid int(11) NOT NULL auto_increment,
-  loginid varchar(64) NOT NULL default '',
-  password varchar(32) default NULL,
-  name varchar(32) NOT NULL default '',
-  created int(11) NOT NULL default '0',
-  lastLogin int(11) NOT NULL default '0',
-  host int(11) NOT NULL default '0',
-  PRIMARY KEY  (userid),
-  UNIQUE KEY loginid (loginid),
-  UNIQUE KEY name (name)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}UserSettings (
-  userid int(11) NOT NULL default '0',
-  name varchar(32) NOT NULL default '',
-  value text NOT NULL,
-  PRIMARY KEY (userid,name)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}XMLRPCPingSettings (
-  blogid int(11) NOT NULL default 0,
-  url varchar(255) NOT NULL default '',
-  type varchar(32) NOT NULL default 'xmlrpc',
-  PRIMARY KEY (blogid)
-) $charset;
-CREATE TABLE {$_POST['dbPrefix']}Privileges (
-  blogid int(11) NOT NULL default 1,
-  userid int(11) NOT NULL default 1,
-  acl int(11) NOT NULL default 0,
-  created int(11) NOT NULL default 0,
-  lastLogin int(11) NOT NULL default 0,
-  PRIMARY KEY (blogid,userid)
-) $charset;
-
-INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', UNIX_TIMESTAMP(), 0, 0);
-INSERT INTO {$_POST['dbPrefix']}Privileges VALUES (1, 1, 16, UNIX_TIMESTAMP(), 0);
-INSERT INTO {$_POST['dbPrefix']}ServiceSettings (name, value) VALUES ('newlineStyle', '1.1'); 
+			$schema = '';
+			// Compatibility layer load
+			if(file_exists(ROOT.'/resources/setup/compatibility.'.POD::dbms().'.sql')) {
+				$schema = file_get_contents(ROOT.'/resources/setup/compatibility.'.POD::dbms().'.sql');
+            	$query = explode(';', trim($schema));
+            	foreach ($query as $sub) @POD::query($sub);
+				$schema = '';
+				$query = array(); 
+			}
+            // Loading create schema from sql file. (DBMS specific)
+			
+			$schema .= file_get_contents(ROOT.'/resources/setup/initialize.'.POD::dbms().'.sql');
+			$schema = str_replace('[##_dbPrefix_##]',$_POST['dbPrefix'],$schema);
+			$schema = str_replace('[##_charset_##]',$charset,$schema);
+			
+            $schema .= "
+INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', ".Timestamp::getUNIXtime().", 0, 0);
+INSERT INTO {$_POST['dbPrefix']}Privileges VALUES (1, 1, 16, ".Timestamp::getUNIXtime().", 0);
+INSERT INTO {$_POST['dbPrefix']}ServiceSettings VALUES ('newlineStyle', '1.1'); 
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'name', '$blog');
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'language', '$baseLanguage');
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'blogLanguage', '$baseLanguage');
@@ -1525,11 +1127,19 @@ INSERT INTO {$_POST['dbPrefix']}Plugins VALUES (1, 'CL_OpenID', null);
 INSERT INTO {$_POST['dbPrefix']}SkinSettings (blogid) VALUES (1);
 INSERT INTO {$_POST['dbPrefix']}FeedSettings (blogid) values(1);
 INSERT INTO {$_POST['dbPrefix']}FeedGroups (blogid) values(1);
-INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibility, location, title, slogan, contentFormatter, contentEditor, starred, acceptComment, acceptTrackback, published, content) VALUES (1, 1, 1, 0, 2, '/', '".Data_IAdapter::escapeString(_t('환영합니다'))."', 'welcome', 'ttml', 'modern', 0, 1, 1, UNIX_TIMESTAMP(), '".Data_IAdapter::escapeString(getDefaultPostContent())."')";
+INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibility, location, title, slogan, contentformatter, contenteditor, starred, acceptcomment, accepttrackback, published, content) VALUES (1, 1, 1, 0, 2, '/', '".POD::escapeString(_t('환영합니다'))."', 'welcome', 'ttml', 'modern', 0, 1, 1, ".Timestamp::getUNIXtime().", '".POD::escapeString(getDefaultPostContent())."')";
             $query = explode(';', trim($schema));
             foreach ($query as $sub) {
-                if (!Data_IAdapter::query($sub)) {
-					@Data_IAdapter::query(
+                if (!empty($sub) && !POD::query($sub, false)) {
+					$tables = getTables('1.7',$_POST['dbPrefix']);
+					foreach ($tables as $table) {
+						if (POD::dbms()=='Cubrid') {
+							@POD::query("DROP ".$table);
+						} else {
+							@POD::query("DROP TABLE ".$table);
+						}
+					}
+			/*		@POD::query(
 						"DROP TABLE
 							{$_POST['dbPrefix']}Attachments,
 							{$_POST['dbPrefix']}BlogSettings,
@@ -1556,8 +1166,11 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
 							{$_POST['dbPrefix']}OpenIDUsers,
 							{$_POST['dbPrefix']}PageCacheLog,
 							{$_POST['dbPrefix']}Plugins,
+							{$_POST['dbPrefix']}Privileges,
 							{$_POST['dbPrefix']}RefererLogs,
 							{$_POST['dbPrefix']}RefererStatistics,
+							{$_POST['dbPrefix']}RemoteResponseLogs,
+							{$_POST['dbPrefix']}RemoteResponses,
 							{$_POST['dbPrefix']}ReservedWords,
 							{$_POST['dbPrefix']}ServiceSettings,
 							{$_POST['dbPrefix']}SessionVisits,
@@ -1565,13 +1178,10 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
 							{$_POST['dbPrefix']}SkinSettings,
 							{$_POST['dbPrefix']}TagRelations,
 							{$_POST['dbPrefix']}Tags,
-							{$_POST['dbPrefix']}Privileges,
-							{$_POST['dbPrefix']}TrackbackLogs,
-							{$_POST['dbPrefix']}Trackbacks,
 							{$_POST['dbPrefix']}UserSettings,
 							{$_POST['dbPrefix']}Users,
 							{$_POST['dbPrefix']}XMLRPCPingSettings"
-					);
+					);*/
 					echo '<script type="text/javascript">//<![CDATA['.CRLF.'alert("', _t('테이블을 생성하지 못했습니다.'), '")//]]></script>';
 					$error = 1;
 					break;
@@ -1579,24 +1189,26 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
 			}
         }
 		else {
-			$password2 = Data_IAdapter::escapeString($_POST['password']);
+			$password2 = POD::escapeString($_POST['password']);
             $schema = "
 				UPDATE {$_POST['dbPrefix']}Users SET loginid = '$loginid', name = '$name' WHERE userid = 1;
 				UPDATE {$_POST['dbPrefix']}Users SET password = '$password' WHERE userid = 1 AND password <> '$password2';
-				UPDATE {$_POST['dbPrefix']}BlogSettings SET value = '{$_POST['blog']}' where blogid = 1 AND name = 'name';
-				UPDATE {$_POST['dbPrefix']}BlogSettings SET value = '$baseLanguage' where blogid = 1 AND name = 'language';
-				UPDATE {$_POST['dbPrefix']}BlogSettings SET value = '$baseTimezone' where blogid = 1 AND name = 'timezone';";
+				UPDATE {$_POST['dbPrefix']}BlogSettings SET \"value\" = '{$_POST['blog']}' where blogid = 1 AND name = 'name';
+				UPDATE {$_POST['dbPrefix']}BlogSettings SET \"value\" = '$baseLanguage' where blogid = 1 AND name = 'language';
+				UPDATE {$_POST['dbPrefix']}BlogSettings SET \"value\" = '$baseTimezone' where blogid = 1 AND name = 'timezone';";
             $query = explode(';', trim($schema));
             foreach ($query as $sub) {
-                if (!empty($sub) && !Data_IAdapter::query($sub)) {
+                if (!empty($sub) && !POD::query($sub)) {
 					echo '<script type="text/javascript">//<![CDATA['.CRLF.'alert("', _t('정보를 갱신하지 못했습니다.'), '")//]]></script>';
 					$error = 2;
 					break;
 				}
 			}
 		}
-		if (!$error)
+		if (!$error) {
+			POD::unbind();
 			echo '<script type="text/javascript">//<![CDATA['.CRLF.'next() //]]></script>';
+		}
 ?>
 </body>
 </html>
@@ -1612,6 +1224,7 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
 		$database = array('server' => $_POST['dbServer'],
 				'database' => $_POST['dbName'],
 				'username' => $_POST['dbUser'],
+				'port' => $_POST['dbPort'],
 				'password' => $_POST['dbPassword'],
 				'prefix'   => $_POST['dbPrefix']);
         if ($fp) {
@@ -1619,7 +1232,9 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
 "<?php
 ini_set('display_errors', 'off');
 \$database['server'] = '{$_POST['dbServer']}';
+\$database['dbms'] = '{$_POST['dbms']}';
 \$database['database'] = '{$_POST['dbName']}';
+\$database['port'] = '{$_POST['dbPort']}';
 \$database['username'] = '{$_POST['dbUser']}';
 \$database['password'] = '{$_POST['dbPassword']}';
 \$database['prefix'] = '{$_POST['dbPrefix']}';
@@ -1651,7 +1266,7 @@ ini_set('display_errors', 'off');
 				$htaccessContent = <<<EOF
 RewriteRule ^{$path}/(thumbnail)/([0-9]+/.+)\$ {$path}/cache/\$1/\$2 [L,U]
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^{$path}/(cache)+/+(.+[^/])\.(cache|xml|txt|log)\$ - [NC,F,L,U]
+RewriteRule ^{$path}/(cache)+/+(.+[^/]).(cache|xml|txt|log)\$ - [NC,F,L,U]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^{$path}/([^?]+[^/])\$ {$path}/\$1/ [L,U]
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -1665,7 +1280,7 @@ EOF;
 				$htaccessContent = <<<EOF
 RewriteRule ^{$path}/(thumbnail)/([0-9]+/.+)\$ {$path}/cache/\$1/\$2 [L]
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^{$path}/(cache)+/+(.+[^/])\.(cache|xml|txt|log)\$ - [NC,F,L]
+RewriteRule ^{$path}/(cache)+/+(.+[^/]).(cache|xml|txt|log)\$ - [NC,F,L]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^{$path}/([^?]+[^/])\$ {$path}/\$1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -1683,7 +1298,7 @@ RewriteEngine On
 RewriteBase {$path}/
 RewriteRule ^(thumbnail)/([0-9]+/.+)\$ cache/\$1/\$2 [L]
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^(cache)+/+(.+[^/])\.(cache|xml|txt|log)\$ - [NC,F,L]
+RewriteRule ^(cache)+/+(.+[^/]).(cache|xml|txt|log)\$ - [NC,F,L]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^(.+[^/])\$ \$1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -1736,7 +1351,9 @@ EOF;
 ?>
   <input type="hidden" name="step" value="4" />
   <input type="hidden" name="mode" value="<?php echo $_POST['mode'];?>" />
+  <input type="hidden" name="dbms" value="<?php echo (isset($_POST['dbms']) ? $_POST['dbms'] : '');?>" />
   <input type="hidden" name="dbServer" value="<?php echo (isset($_POST['dbServer']) ? $_POST['dbServer'] : '');?>" />
+  <input type="hidden" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : '');?>" />
   <input type="hidden" name="dbName" value="<?php echo (isset($_POST['dbName']) ? $_POST['dbName'] : '');?>" />
   <input type="hidden" name="dbUser" value="<?php echo (isset($_POST['dbUser']) ? $_POST['dbUser'] : '');?>" />
   <input type="hidden" name="dbPassword" value="<?php echo (isset($_POST['dbPassword']) ? htmlspecialchars($_POST['dbPassword']) : '');?>" />
@@ -1753,9 +1370,9 @@ EOF;
 <?php
         $tables = array();
 		$ckeckedString = 'checked ';
-        if ($result = Data_IAdapter::query("SHOW TABLES")) {
-            while ($table = Data_IAdapter::fetch($result,'array')) {
-				$table = $table[0];
+        if ($result = POD::tableList()) {
+            foreach($result as $table) {
+				//$table = $table[0];
 				$entriesMatched = preg_match('/Entries$/', $table);
 
 
@@ -1885,7 +1502,7 @@ EOF;
         <td><?php echo implode(', ', getTables($version, $prefix));?></td>
       </tr>
 <?php
-			$result = @Data_IAdapter::query('DROP TABLE ' . implode(', ', getTables($version, $prefix)));
+			$result = @POD::query('DROP TABLE ' . implode(', ', getTables($version, $prefix)));
 		}
 ?>
     </table>
@@ -1901,13 +1518,16 @@ EOF;
 }
  
 function drawSetLang( $currentLang = "ko"  ,$curPosition = 'Norm' /*or 'Err'*/ ){ 
-	if( Locale::setDirectory('language'))   $availableLanguages =   Locale::getSupportedLocales(); 
+	$locale = Locale::getInstance();
+	if( $locale->setDirectory(ROOT.'/resources/locale/setup'))   $availableLanguages =   $locale->getSupportedLocales(); 
 	else return false; 
 ?> 
-Select Default Language : <select name="Lang" id = "Lang" onchange= "current();return false;" > 
+		Select Default Language : 
+		<select name="Lang" id = "Lang" onchange= "current();" > 
 <?php      foreach( $availableLanguages as $key => $value) 
-			print('<option value="'.$key.'" '.( $key == $currentLang ? ' selected="selected" ' : '').' >'.$value.'</option>'); 
-?></select> 
+			print('			<option value="'.$key.'" '.( $key == $currentLang ? ' selected="selected" ' : '').'>'.$value.'</option>'.CRLF); 
+?>
+		</select>
 <?php 
 	return true;
 }
@@ -1981,8 +1601,8 @@ function checkTables($version, $prefix) {
 	if (!$tables = getTables($version, $prefix))
 		return false;
 	foreach ($tables as $table) {
-		if ($result = Data_IAdapter::query("DESCRIBE $table"))
-			Data_IAdapter::free($result);
+		if ($result = POD::query("DESCRIBE $table"))
+			POD::free($result);
 		else 
 			return false;
 	}
@@ -1992,7 +1612,7 @@ function checkTables($version, $prefix) {
 function getTables($version, $prefix) {
 	switch ($version) {
 		case '1.8':
-			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}EntriesArchive", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Links", "{$prefix}LinkCategories", "{$prefix}OpenIDUsers", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}Users", "{$prefix}UserSettings", "{$prefix}XMLRPCPingSettings", "{$prefix}Privileges", "{$prefix}PageCacheLog");
+			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}EntriesArchive", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Links", "{$prefix}LinkCategories", "{$prefix}OpenIDUsers", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}Users", "{$prefix}UserSettings", "{$prefix}Widgets", "{$prefix}XMLRPCPingSettings", "{$prefix}Privileges", "{$prefix}PageCacheLog");
 		case '1.7':
 			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}EntriesArchive", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Links", "{$prefix}LinkCategories", "{$prefix}OpenIDUsers", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}Users", "{$prefix}UserSettings", "{$prefix}XMLRPCPingSettings", "{$prefix}Teamblog", "{$prefix}PageCacheLog");
 		case '1.6':

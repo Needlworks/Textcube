@@ -30,7 +30,7 @@ function CT_Start_Default($target) {
 	$target .= '<ul>';
 	$target .= '<li><a href="'.$blogURL.'/owner/entry/post">'. _t('새 글을 씁니다').'</a></li>'.CRLF;
 
-	$latestEntryId = Model_Setting::getBlogSettingGlobal('LatestEditedEntry_user'.getUserId(),0);
+	$latestEntryId = Setting::getBlogSettingGlobal('LatestEditedEntry_user'.getUserId(),0);
 	if($latestEntryId !== 0){
 		$latestEntry = CT_Start_Default_getEntry($blogid,$latestEntryId);
 		if($latestEntry!=false){
@@ -57,7 +57,7 @@ function CT_Start_Default_getEntry($blogid, $id) {
 		return null;
 	}
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$entry = Data_IAdapter::queryRow("SELECT id,title,visibility FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 0 $visibility");
+	$entry = POD::queryRow("SELECT id,title,visibility FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 0 $visibility");
 	if (!$entry)
 		return false;
 	return $entry;

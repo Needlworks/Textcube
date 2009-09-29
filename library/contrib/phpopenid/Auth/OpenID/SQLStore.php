@@ -498,7 +498,7 @@ class Auth_OpenID_SQLStore extends Auth_OpenID_OpenIDStore {
     function _octify($str)
     {
         $result = "";
-        for ($i = 0; $i < Auth_Model_OpenID::bytes($str); $i++) {
+        for ($i = 0; $i < Auth_OpenID::bytes($str); $i++) {
             $ch = substr($str, $i, 1);
             if ($ch == "\\") {
                 $result .= "\\\\\\\\";

@@ -11,14 +11,14 @@ $IV = array(
 );
 
 require ROOT . '/library/preprocessor.php';
-
+requireLibrary('blog.skin');
 requireStrictRoute();
 	
 $result = writeSkinHtml($blogid, $_POST['body'], $_POST['mode'], $_POST['file']);
 if ($result === true) {
 	Skin::purgeCache();
-	Utils_Respond::PrintResult(array('error' => 0));
+	Respond::PrintResult(array('error' => 0));
 } else {
-	Utils_Respond::PrintResult(array('error' => 1, 'msg' => $result));
+	Respond::PrintResult(array('error' => 1, 'msg' => $result));
 }
 ?>

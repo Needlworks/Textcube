@@ -53,8 +53,8 @@ function KeywordUI_bindTag($target,$mother) {
 
 function KeywordUI_handleConfig($data){
 	requireComponent('Textcube.Function.misc');
-	$config = Model_Setting::fetchConfigVal($data);
-	if($config['useKeywordAsTag'] == true) Model_Setting::setBlogSettingGlobal('useKeywordAsTag',true);
+	$config = Setting::fetchConfigVal($data);
+	if($config['useKeywordAsTag'] == true) Setting::setBlogSettingGlobal('useKeywordAsTag',true);
 	return true;
 }
 

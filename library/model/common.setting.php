@@ -3,15 +3,13 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-global $serviceSetting;
 global $userSetting;
-$serviceSetting = array();
 $userSetting = array();
 
 function clearServiceSettingCache() {
-	global $serviceSetting;
-	if( !empty($serviceSetting) ) {
-		$serviceSetting = array();
+	global $__serviceSetting;
+	if( !empty($__serviceSetting) ) {
+		$__serviceSetting = array();
 	}
 }
 
@@ -23,62 +21,48 @@ function clearUserSettingCache() {
 }
 
 function getServiceSetting($name, $default = null) {
-	global $database;
-	global $serviceSetting;
-	global $gCacheStorage;
-	if( empty($serviceSetting) ) {
-		$settings = Data_IAdapter::queryAllWithCache("SELECT name, value FROM {$database['prefix']}ServiceSettings" , MYSQL_NUM );
-		foreach( $settings as $k => $v ) {
-			$serviceSetting[ $v[0] ] = $v[1];
-		}
-	}
-	if( isset($serviceSetting[$name]) ) {
-		return $serviceSetting[$name];
-	}
-	return $default;
+	requireComponent('Textcube.Function.Setting');
+	return Setting::getServiceSetting($name, $default, true);
 }
 
 function setServiceSetting($name, $value) {
-	global $database;
-	$name = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($name, 32));
-	$value = Data_IAdapter::escapeString($value);
-	clearServiceSettingCache();
-	return Data_IAdapter::execute("REPLACE INTO {$database['prefix']}ServiceSettings VALUES('$name', '$value')");
+	requireComponent('Textcube.Function.Setting');
+	return Setting::setServiceSettingGlobal($name, $value);
 }
 
 function removeServiceSetting($name,$pruneSimilarEntries = false) {
 	global $database;
 	clearServiceSettingCache();
-	if($pruneSimilarEntries) return Data_IAdapter::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name like '".Data_IAdapter::escapeString($name)."'");
-	else return Data_IAdapter::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".Data_IAdapter::escapeString($name)."'");
+	if($pruneSimilarEntries) return POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name like '".POD::escapeString($name)."'");
+	else return POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".POD::escapeString($name)."'");
 }
 
 function getBlogSetting($name, $default = null, $blogid = null) {
-	return Model_Setting::getBlogSettingGlobal($name, $default);
+	return Setting::getBlogSettingGlobal($name, $default);
 }
 
 function setBlogSetting($name, $value, $blogid = null) {
-	return Model_Setting::setBlogSettingGlobal($name, $value, $blogid);
+	return Setting::setBlogSettingGlobal($name, $value, $blogid);
 }
 
 function setBlogSettingDefault($name, $value, $blogid = null) {
-	return Model_Setting::setBlogSettingDefault($name, $value, $blogid);
+	return Setting::setBlogSettingDefault($name, $value, $blogid);
 }
 
 function removeBlogSetting($name, $blogid = null) {
-	return Model_Setting::removeBlogSettingGlobal($name, $blogid);
+	return Setting::removeBlogSettingGlobal($name, $blogid);
 }
 
 function getUserSetting($name, $default = null, $userid = null) {
-	return Model_Setting::getUserSettingGlobal($name, $default, $userid);
+	return Setting::getUserSettingGlobal($name, $default, $userid);
 }
 
 function setUserSetting($name, $value, $userid = null) {
-	return Model_Setting::setUserSettingGlobal($name, $value, $userid);
+	return Setting::setUserSettingGlobal($name, $value, $userid);
 }
 
 function removeUserSetting($name, $userid = null) {
-	return Model_Setting::removeUserSettingGlobal($name, $userid);
+	return Setting::removeUserSettingGlobal($name, $userid);
 }
 
 function getDefinedTableNames() {
@@ -124,7 +108,8 @@ function getDefinedTableNames() {
 			"{$prefix}RemoteResponses", 
 			"{$prefix}Users", 
 			"{$prefix}UserSettings", 
-			"{$prefix}Utils_XMLRPCPingSettings");
+			"{$prefix}Widgets", 
+			"{$prefix}XMLRPCPingSettings");
 	return $definedTables;
 }
 ?>

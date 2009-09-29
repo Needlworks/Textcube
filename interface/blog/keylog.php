@@ -7,7 +7,7 @@ require ROOT . '/library/preprocessor.php';
 
 if (strlen($suri['value'])) {
 	if(!$keylog = getKeylogByTitle($blogid, $suri['value'])) {
-		Utils_Respond::ErrorPage();
+		Respond::ErrorPage();
 		exit;
 	}
 	$entries = array();
@@ -16,7 +16,7 @@ if (strlen($suri['value'])) {
 	if(!is_null($skinSetting['keylogSkin'])) {
 		require ROOT . '/interface/common/blog/keylog.php';
 	} else {
-		Utils_Respond::ErrorPage(_t('No handling plugin'));
+		Respond::ErrorPage(_t('No handling plugin'));
 	}
 } else {
 	$keywords = getKeywordNames($blogid, true);

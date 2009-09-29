@@ -18,8 +18,6 @@
 #defaultDashboardWidget
 {
 	background-color                 : #FAFAFA;
-	width                            : 270px;
-	padding                          : 10px;
 }
 
 #defaultDashboardWidget h3.invisible
@@ -283,7 +281,6 @@
 #part-center-lint-edit .button-box .input-button
 {
 	background-color                 : #FFFFFF;
-	background-image                 : none !important;
 	font-weight                      : bold;
 	height                           : 30px;
 }
@@ -436,6 +433,13 @@
 	background-position              : right center;
 	background-repeat                : no-repeat;
 	padding-right                    : 15px;
+}
+
+.widget-container .section
+{
+	border                           : 1px solid #eee;
+	-moz-border-radius               : 6px;
+	-webkit-border-radius            : 6px;
 }
 
 /* system dialog --------------------------------------------------------------------------------*/
@@ -786,7 +790,6 @@
 .ajax-popup-window .button-box .input-button
 {
 	background-color                 : #FFFFFF;
-	background-image                 : none;
 	border                           : 1px solid #BBBBBB;
 	color                            : #000000;
 	font-weight                      : bold;

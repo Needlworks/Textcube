@@ -18,8 +18,8 @@ if (false) {
 	fetchConfigVal();
 }
 if(validateAPIKey($blogid, $_GET['loginid'], $_GET['key'])) {
-	$userid = Model_User::getUserIdByEmail($_GET['loginid']);
-	if(in_array($blogid, Model_User::getOwnedBlogs($userid))) { 
+	$userid = User::getUserIdByEmail($_GET['loginid']);
+	if(in_array($blogid, User::getOwnedBlogs($userid))) { 
 		if (file_exists(ROOT . "/cache/backup/$blogid.xml")) {
 			header('Content-Type: text/xml; charset=utf-8');
 			$fileHandle = fopen(ROOT . "/cache/backup/$blogid.xml", 'r+');

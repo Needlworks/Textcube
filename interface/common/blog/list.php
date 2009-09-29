@@ -10,7 +10,7 @@ if (isset($cache->contents)) {
 	$listView = $skin->list;
 	$itemsView = '';
 	foreach ($list['items'] as $item) {	
-		$author = Model_User::getName($item['userid']);
+		$author = User::getName($item['userid']);
 		$itemsView .= str_replace(
 			array(
 				'[##_list_rep_regdate_##]',

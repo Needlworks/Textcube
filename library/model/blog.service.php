@@ -8,72 +8,29 @@ $__gCacheBlogSettings = array();
 
 function getBlogidByName($name) {
 	global $database;
-	$query = new Data_Table($database['prefix'] . 'BlogSettings');
-	$query->setQualifier('name','name',true);
-	$query->setQualifier('value', $name, true);
+	$query = new DBModel($database['prefix'] . 'BlogSettings');
+	$query->setQualifier('name','equals', 'name',true);
+	$query->setQualifier('value', 'equals', $name, true);
 	return $query->getCell('blogid');
 	return false;
 }
 
 function getBlogidBySecondaryDomain($domain) {
 	global $database;
-	return Data_IAdapter::queryCell("SELECT blogid FROM {$database['prefix']}BlogSettings WHERE name = 'secondaryDomain' AND (value = '$domain' OR  value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "')");
+	return POD::queryCell("SELECT blogid FROM {$database['prefix']}BlogSettings WHERE name = 'secondaryDomain' AND (value = '$domain' OR  value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "')");
 }
 
 function getBlogSettings($blogid) {
-	return Model_Setting::getBlogSettingsGlobal($blogid);
+	return Setting::getBlogSettingsGlobal($blogid);
 }
 
 function getSkinSetting($blogid, $forceReload = false) {
-	global $database, $service, $skinSetting;
-	global $__gCacheSkinSetting;
-	global $gCacheStorage;
-	if (
-		($forceReload == false) 
-		&& (isset($__gCacheSkinSetting)) 
-		&& (array_key_exists($blogid, $__gCacheSkinSetting))
-		) 
-	{
-		return $__gCacheSkinSetting[$blogid];
-	}
-	if($blogid == getBlogId() && $forceReload == false) {
-		$retval = $gCacheStorage->getContent('SkinSetting');
-		if(!empty($retval)) {
-			$__gCacheSkinSetting[$blogid] = $retval;
-			return $retval;
-		}
-	}
-	if ($retval = Data_IAdapter::queryRow("SELECT * FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid",MYSQL_ASSOC)) {
-		if ($retval != FALSE) {
-			if (!Validator::directory($retval['skin']) && ($retval['skin'] !="customize/$blogid")) {
-				$retval['skin'] = $service['skin'];
-			}
-			$__gCacheSkinSetting[$blogid] = $retval;
-			if($blogid == getBlogId())  $gCacheStorage->setContent('SkinSetting',$retval);
-			return $retval;
-		}
-	}
-	
-	$retval = array( 'blogid' => $blogid , 'skin' => $service['skin'], 
-		'entriesOnRecent' => 5, 'commentsOnRecent' => 5, 'commentsOnGuestbook' => 5,
-		'tagsOnTagbox' => 30, 'tagboxAlign' => 3, 'trackbacksOnRecent' => 5, 
-		'expandComment' => 1, 'expandTrackback' => 1, 
-		'recentNoticeLength' => 25, 'recentEntryLength' => 30, 
-		'recentCommentLength' => 30, 'recentTrackbackLength' => 30, 
-		'linkLength' => 30, 'showListOnCategory' => 1, 'showListOnArchive' => 1, 
-		'tree' => 'base', 
-		'colorOnTree' => '000000', 'bgColorOnTree' => '', 
-		'activeColorOnTree' => 'FFFFFF', 'activeBgColorOnTree' => '00ADEF', 
-		'labelLengthOnTree' => 27, 'showValueOnTree' => 1 );
-	
-	$__gCacheSkinSetting[$blogid] = $retval;
-	if($blogid == getBlogId())  $gCacheStorage->setContent('SkinSetting',$retval);
-	return $retval;	
+	return Setting::getSkinSetting($blogid, $forceReload);
 }
 
 function getDefaultURL($blogid) {
 	global $database, $service;
-	$blog = getBlogSettings( $blogid );
+	$blog = Setting::getBlogSettingsGlobal( $blogid );
 	switch ($service['type']) {
 		case 'domain':
 			if ($blog['defaultDomain'] && $blog['secondaryDomain'])
@@ -160,7 +117,7 @@ function writeHtaccess($contents) {
 }
 
 function writeConfigFile($settings) {
-	$writer = new Utils_OutputWriter;
+	$writer = new OutputWriter;
 	
 	global $database, $service;
 	

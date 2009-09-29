@@ -3,7 +3,7 @@
   <title xml:lang="ko">Google 맵</title>
   <title xml:lang="en">Google Map</title>
   <link>http://maps.google.com</link>
-  <version>1.0</version>
+  <version>1.1</version>
   <description xml:lang="ko">포스트에서 Google 맵을 삽입할 수 있게 해주고, 지역로그 및 포스트 내 쓰인 주소 정보와 연동할 수 있도록 도와줍니다.</description>
   <description xml:lang="en">Enables inserting Google Map into your posts and helps make use of it with location tags or text addresses written in the posts.</description>
   <license>GPL</license>
@@ -14,19 +14,26 @@
     <textcube>1.7.7</textcube>
   </requirements>
   <binding>
-    <listener event="/plugin/GMapCustomInsert/">GoogleMapUI_Insert</listener>
+    <listener event="/plugin/GMapCustomInsert/">GoogleMapUI_InsertMap</listener>
+    <listener event="/plugin/GMapGetLocation/">GoogleMapUI_GetLocation</listener>
     <listener event="/plugin/GMapCache/">GoogleMap_Cache</listener>
     <listener event="ViewPostContent">GoogleMap_View</listener>
     <listener event="ViewNoticeContent">GoogleMap_View</listener>
     <listener event="AddPostEditorToolbox">GoogleMap_AddToolbox</listener>
     <listener event="ShowAdminHeader">GoogleMap_AdminHeader</listener>
+    <listener event="ShowAdminFooter">GoogleMap_AdminFooter</listener>
     <tag name="SKIN_head_end" handler="GoogleMap_Header" />
+    <tag name="SKIN_body_end" handler="GoogleMap_Footer" />
     <tag name="SKIN_local_rep_start" handler="GoogleMap_LocationLogView" />
     <config xml:lang="ko" dataValHandler="GoogleMap_ConfigHandler">
       <window width="500" height="550" />
       <fieldset legend="설정">
         <field title="API 키" name="apiKey" type="text" size="42" value="">
           <caption><![CDATA[<a href="http://code.google.com/apis/maps/signup.html" target="_blank">구글맵 API 키 얻기</a> (구글 계정 필요)]]></caption>
+        </field>
+        <field title="Sensor :" name="sensors" type="checkbox">
+		  <op name="useSensor" value="1"><![CDATA[위치 센서 사용 여부]]></op>
+          <caption><![CDATA[모바일 기기 등에서 GPS와 같은 위치 센서를 사용할 경우 체크하세요.]]></caption>
         </field>
       </fieldset>
       <fieldset legend="기본 위치">
@@ -47,6 +54,10 @@
       <fieldset legend="Settings">
         <field title="API Key" name="apiKey" type="text" size="42" value="">
           <caption><![CDATA[<a href="http://code.google.com/apis/maps/signup.html" target="_blank">Get your API key for Google Maps</a> (Google Account needed)]]></caption>
+        </field>
+        <field title="Sensor :" name="sensors" type="checkbox">
+		  <op name="useSensor" value="1"><![CDATA[Use any location sensor?]]></op>
+          <caption><![CDATA[Check if youa are using location sensor like GPS.]]></caption>
         </field>
       </fieldset>
       <fieldset legend="Default Location">

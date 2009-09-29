@@ -234,7 +234,7 @@ if( Acl::check('group.administrators')) {
 									<tbody>
 <?php
 	$blogid = getBlogId();
-	$teamblog_user = Data_IAdapter::queryAll("SELECT t.*, u.loginid, u.password, u.name, u.created
+	$teamblog_user = POD::queryAll("SELECT t.*, u.loginid, u.password, u.name, u.created
 		FROM {$database['prefix']}Privileges t, 
 		 	{$database['prefix']}Users u 
 		WHERE t.blogid = '$blogid' 
@@ -245,7 +245,7 @@ if( Acl::check('group.administrators')) {
 
 	if(isset($teamblog_user)) {
 		foreach($teamblog_user as $value) {
-			$value['posting'] = Data_IAdapter::queryCell("SELECT count(*) 
+			$value['posting'] = POD::queryCell("SELECT count(*) 
 					FROM {$database['prefix']}Entries 
 					WHERE blogid = $blogid AND userid = {$value['userid']}");
 			$className= ($count%2)==1 ? 'even-line' : 'odd-line';
@@ -262,7 +262,7 @@ if( Acl::check('group.administrators')) {
 													<td class="status">
 <?php
 			$authtoken = getAuthToken($value['userid']);
-			if($value['lastLogin'] == 0) { 
+			if($value['lastlogin'] == 0) { 
 ?>
 													<?php echo _t('미참여');?>
 <?php
@@ -351,7 +351,7 @@ if( Acl::check('group.owners')) {
 											<div id="letter-foot">
 												<div id="sender-line" class="line">
 													<label for="invitation_sender"><?php echo _t('보내는 사람');?></label>
-													<input type="text" id="invitation_sender" class="input-text" name="text2" value="<?php	echo htmlspecialchars(htmlspecialchars($user['name']).'<'.Model_User::getEmail().'>');?>" />
+													<input type="text" id="invitation_sender" class="input-text" name="text2" value="<?php	echo htmlspecialchars(htmlspecialchars($user['name']).'<'.User::getEmail().'>');?>" />
 												</div>
 											</div>
 										</dd>

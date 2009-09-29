@@ -13,7 +13,7 @@ requireModel("blog.attachment");
 
 requireStrictRoute();
 if (!empty($_POST['names']) && deleteAttachmentMulti($blogid, $suri['id'], $_POST['names']))
-	Utils_Respond::ResultPage(0);
+	Respond::ResultPage(0);
 else
-	Utils_Respond::ResultPage( - 1);
+	Respond::ResultPage( - 1);
 ?>

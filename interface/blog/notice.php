@@ -3,9 +3,6 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
-if (false) {
-	fetchConfigVal();
-}
 
 if (isset($suri['id']) || (isset($suri['value']) && strlen($suri['value']) > 0)) {
 	if (!isset($suri['id']) || (getBlogSetting('useSloganOnPost',1) == 1)) {

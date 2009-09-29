@@ -23,14 +23,14 @@ if (!empty($_GET['rss'])) {
 			$result['url'] = correctTTForXmlText(UTF8::correct(htmlspecialchars(trim($link))));
 		else
 			$result['url'] = correctTTForXmlText(UTF8::bring(htmlspecialchars(trim($link))));
-		Utils_Respond::PrintResult($result);
+		Respond::PrintResult($result);
 	} else {
 		$result['url'] = $_GET['rss'];
 		$result['name'] = '';
-		Utils_Respond::PrintResult($result);
+		Respond::PrintResult($result);
 	}
 	exit;
 } else {
-	Utils_Respond::ResultPage(-1);
+	Respond::ResultPage(-1);
 }
 ?>

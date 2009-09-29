@@ -12,12 +12,12 @@ $IV = array(
 		)
 	);
 require ROOT . '/library/preprocessor.php';
-
+requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireModel("blog.coverpage");
 requireStrictRoute();
 
-$skin = new Model_BlogSkin($skinSetting['skin']);
+$skin = new Skin($skinSetting['skin']);
 $coverpageCount = count($skin->coverpageBasicModules);
 
 $module = explode(':', $_REQUEST['moduleId']);

@@ -1,0 +1,10 @@
+@charset "utf-8"
+
+#linePost_widget { width:298px;}
+#linePost_widget_textarea {width:293px; height:70px; margin-left:0;margin-top:0;margin-bottom:7px; border:1px solid #DDD;}
+/*#linePost_widget .radio {width:15px !important;}
+#linePost_widget label {width:55px !important;}*/
+#linePost_widget_button {width:100%;margin-left:0;background-color:#EEE;border:1px solid #ccc;}
+#linePost_public,
+#linePost_private,
+#linePost_widget label { display:none;}

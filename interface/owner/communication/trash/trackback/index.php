@@ -325,11 +325,11 @@ $siteNumber = array();
 for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$trackback = $trackbacks[$i];
 	
-	$isFilterURL = Model_Filter::isFiltered('url', $trackback['url']);
+	$isFilterURL = Filter::isFiltered('url', $trackback['url']);
 	$filteredURL = getURLForFilter($trackback['url']);
 
-	$filter = new Model_Filter();
-	if (Model_Filter::isFiltered('ip', $trackback['ip'])) {
+	$filter = new Filter();
+	if (Filter::isFiltered('ip', $trackback['ip'])) {
 		$isIpFiltered = true;
 	} else {
 		$isIpFiltered = false;

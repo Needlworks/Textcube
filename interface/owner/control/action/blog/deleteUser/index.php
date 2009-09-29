@@ -13,7 +13,7 @@ requireStrictRoute();
 requirePrivilege('group.creators');
 
 if (deleteTeamblogUser($_GET['userid'],$_GET['blogid'],false)) {
-	Utils_Respond::ResultPage(0);
+	Respond::ResultPage(0);
 }
-Utils_Respond::ResultPage(-1);
+Respond::ResultPage(-1);
 ?>

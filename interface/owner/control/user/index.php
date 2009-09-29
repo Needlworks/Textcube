@@ -54,8 +54,8 @@ $page = $_GET['page'];
 				<tbody>
 <?php
 $row = 25;
-$userlist = Data_IAdapter::queryAll("SELECT * FROM `{$database['prefix']}Users` WHERE 1 ORDER BY userid LIMIT ". ($page-1) * $row .", ". $row);
-$usercount = Data_IAdapter::queryCount("SELECT userid FROM `{$database['prefix']}Users` WHERE 1");
+$userlist = POD::queryAll("SELECT * FROM `{$database['prefix']}Users` WHERE 1 ORDER BY userid LIMIT ". ($page-1) * $row .", ". $row);
+$usercount = POD::queryCount("SELECT userid FROM `{$database['prefix']}Users` WHERE 1");
 
 $pages = (int)(($usercount-0.5) / $row)+1;
 
@@ -67,8 +67,8 @@ if($userlist){
 						<td><?php echo $row['userid']?></td>
 						<td><a href="<?php echo $blogURL;?>/owner/control/user/detail/<?php echo $row['userid']?>"><?php echo $row['loginid'];?></a></td>
 						<td><?php echo $row['name']?></td>
-						<td><?php echo ($row['lastLogin']?date("Y/m/d H:i:s T",$row['lastLogin']):'<span class="warning">'._t('아직 로그인하지 않았습니다.').'</span>');?></td>
-						<td><?php if(empty($row['lastLogin']) || null !== Model_Setting::getUserSettingGlobal('AuthToken',null,$row['userid'])) echo Model_Setting::getUserSettingGlobal('AuthToken',null,$row['userid']);?></td>
+						<td><?php echo ($row['lastlogin']?date("Y/m/d H:i:s T",$row['lastlogin']):'<span class="warning">'._t('아직 로그인하지 않았습니다.').'</span>');?></td>
+						<td><?php if(empty($row['lastlogin']) || null !== Setting::getUserSettingGlobal('AuthToken',null,$row['userid'])) echo Setting::getUserSettingGlobal('AuthToken',null,$row['userid']);?></td>
 					</tr>
 <?php
 	}

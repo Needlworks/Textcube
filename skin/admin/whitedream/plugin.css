@@ -461,7 +461,7 @@
     position                         : absolute;
     right                            : 25px;
     text-align                       : right;
-    top                              : 20px;
+    top                              : 10px;
     width                            : 220px !important;
     z-index                          : 1;
 }
@@ -478,7 +478,7 @@
 
 #body-plugin #search-form
 {
-	top: 10.5em;
+	top                              : 1.5em;
 }
 
 /* Data Management *******************************************************************************/

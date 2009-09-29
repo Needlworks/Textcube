@@ -7,13 +7,13 @@ $ajaxcall = isset($_REQUEST['ajaxcall']) ? true : false;
 
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
-
+requireLibrary('blog.skin');
 
 if (!array_key_exists('viewMode', $_REQUEST)) $_REQUEST['viewMode'] = '';
 else $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];
 
-Model_Setting::removeBlogSettingGlobal('sidebarOrder');
+Setting::removeBlogSettingGlobal('sidebarOrder');
 Skin::purgeCache();
 if($ajaxcall == false) header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
-else Utils_Respond::ResultPage(0);
+else Respond::ResultPage(0);
 ?>

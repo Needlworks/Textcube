@@ -1187,6 +1187,25 @@ form input:focus, textarea:focus
 
 /*-------------------------------*/
 
+/* line */
+
+/*-------------------------------*/
+.line dl.box
+{
+	border:1px solid #f5f5f5;
+	border-bottom:2px solid #f1f1f1;
+	border-right:2px solid #f1f1f1;
+	padding:10px; 
+	-moz-border-radius:4px; 
+	-webkit-border-radius:4px;
+	margin-bottom:10px;
+}
+.line dl.box dt
+{
+	border-bottom: 1px solid #eee;
+}
+/*-------------------------------*/
+
 /* cover */
 
 /*-------------------------------*/
@@ -1458,8 +1477,8 @@ form input:focus, textarea:focus
 #category ul li ul li ul li a.categoryFeed
 {
 	width:30px !important;
-	padding-left:4px;
-	background: url('./images/atom_12.png') no-repeat !important;
+	padding-left:30px;
+	background: url('./images/atom_12.png') no-repeat center !important;
 }
 #category a.categoryFeed span
 {

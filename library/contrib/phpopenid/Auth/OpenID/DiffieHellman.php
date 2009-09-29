@@ -124,7 +124,7 @@ class Auth_OpenID_DiffieHellman {
         $hash_dh_shared = $hash_func($dh_shared_str);
 
         $xsecret = "";
-        for ($i = 0; $i < Auth_Model_OpenID::bytes($secret); $i++) {
+        for ($i = 0; $i < Auth_OpenID::bytes($secret); $i++) {
             $xsecret .= chr(ord($secret[$i]) ^ ord($hash_dh_shared[$i]));
         }
 

@@ -6,13 +6,13 @@ require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 
 if(isset($suri['id'])) {
-	if ($feed = Data_IAdapter::queryRow("SELECT * 
+	if ($feed = POD::queryRow("SELECT * 
 		FROM {$database['prefix']}Feeds 
 		WHERE id = {$suri['id']}")) {
-		Utils_Respond::ResultPage(updateFeed($feed));
+		Respond::ResultPage(updateFeed($feed));
 		exit;
 	} else {
-		Utils_Respond::ResultPage(-1);
+		Respond::ResultPage(-1);
 		exit;
 	}
 }
@@ -43,14 +43,14 @@ ob_implicit_flush();
 			//]]>
 		</script>
 <?php
-$feeds = Data_IAdapter::queryAll("SELECT f.* 
+$feeds = POD::queryAll("SELECT f.* 
 		FROM {$database['prefix']}Feeds f, 
 			{$database['prefix']}FeedGroups g, 
 			{$database['prefix']}FeedGroupRelations gr 
 		WHERE g.blogid = $blogid 
 			AND gr.feed = f.id 
 			AND gr.blogid = g.blogid 
-			AND gr.groupId = g.id 
+			AND gr.groupid = g.id 
 		ORDER BY f.title");
 $count = 0;
 foreach ($feeds as $feed) {
@@ -72,7 +72,7 @@ foreach ($feeds as $feed) {
 ?>
 		<script type="text/javascript">
 			//<![CDATA[
-				/* update complete : [<?php echo $result;?>] <?php echo $feed['xmlURL'];?> */
+				/* update complete : [<?php echo $result;?>] <?php echo $feed['xmlurl'];?> */
 				if(icon) {
 					switch(<?php echo $result;?>) {
 						case 0:

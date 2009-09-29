@@ -60,7 +60,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				$items = array();
 				for ($i = 1; $i < sizeof($attributes) - 2; $i += 2)
 					array_push($items, array($attributes[$i], $attributes[$i + 1]));
-				$galleryAttributes = Utils_Misc::getAttributesFromString($attributes[sizeof($attributes) - 1]);
+				$galleryAttributes = misc::getAttributesFromString($attributes[sizeof($attributes) - 1]);
 				
 				$images = array_slice($attributes, 1, count($attributes) - 2);
 				for ($i = 0; $i < count($images); $i++) {
@@ -95,12 +95,12 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 			} else {
 				$id = "gallery$entryId$count";
 				$cssId = "tt-gallery-$entryId-$count";
-				$contentWidth = Utils_Misc::getContentWidth();
+				$contentWidth = misc::getContentWidth();
 				
 				$items = array();
 				for ($i = 1; $i < sizeof($attributes) - 2; $i += 2)
 					array_push($items, array($attributes[$i], $attributes[$i + 1]));
-				$galleryAttributes = Utils_Misc::getAttributesFromString($attributes[sizeof($attributes) - 1]);
+				$galleryAttributes = misc::getAttributesFromString($attributes[sizeof($attributes) - 1]);
 				
 				if (!isset($galleryAttributes['width']))
 					$galleryAttributes['width'] = $contentWidth;
@@ -182,7 +182,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				}
 				$buf .= $attributes[count($attributes) - 1];
 			} else {
-				$params = Utils_Misc::getAttributesFromString($attributes[sizeof($attributes) - 2]);
+				$params = misc::getAttributesFromString($attributes[sizeof($attributes) - 2]);
 				$id = $entryId . $count;
 				$imgs = array_slice($attributes, 1, count($attributes) - 3);
 				$imgStr = '';
@@ -198,9 +198,9 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				} else {
 					$caption = '';
 				}
-				$buf .= '<div style="clear: both; text-align: center"><img src="' . ($useAbsolutePath ? $hostURL : $service['path']) . '/resources/image/gallery/gallery_enlarge.gif" alt="' . _text('확대') . '" style="cursor:pointer" onclick="openFullScreen(\'' . $service['path'] . '/iMazing?d=' . urlencode($id) . '&f=' . urlencode($params['frame']) . '&t=' . urlencode($params['transition']) . '&n=' . urlencode($params['navigation']) . '&si=' . urlencode($params['slideshowinterval']) . '&p=' . urlencode($params['page']) . '&a=' . urlencode($params['align']) . '&o=' . $blogid . '&i=' . $imgStr . '\',\'' . htmlspecialchars(str_replace("'", "&#39;", $attributes[count($attributes) - 1])) . '\',\'' . $service['path'] . '\')" />';
+				$buf .= '<div style="clear: both; text-align: center"><img src="' . ($useAbsolutePath ? $hostURL : $service['path']) . '/image/gallery/gallery_enlarge.gif" alt="' . _text('확대') . '" style="cursor:pointer" onclick="openFullScreen(\'' . $service['path'] . '/iMazing?d=' . urlencode($id) . '&f=' . urlencode($params['frame']) . '&t=' . urlencode($params['transition']) . '&n=' . urlencode($params['navigation']) . '&si=' . urlencode($params['slideshowinterval']) . '&p=' . urlencode($params['page']) . '&a=' . urlencode($params['align']) . '&o=' . $blogid . '&i=' . $imgStr . '\',\'' . htmlspecialchars(str_replace("'", "&#39;", $attributes[count($attributes) - 1])) . '\',\'' . $service['path'] . '\')" />';
 				$buf .= '<div id="iMazingContainer'.$id.'" class="iMazingContainer" style="width:'.$params['width'].'px; height:'.$params['height'].'px;"></div><script type="text/javascript">//<![CDATA['.CRLF;
-				$buf .= 'iMazing' . $id . 'Str = getEmbedCode(\'' . $service['path'] . '/resources/script/gallery/iMazing/main.swf\',\'100%\',\'100%\',\'iMazing' . $id . '\',\'#FFFFFF\',"image=' . $imgStr . '&amp;frame=' . $params['frame'] . '&amp;transition=' . $params['transition'] . '&amp;navigation=' . $params['navigation'] . '&amp;slideshowInterval=' . $params['slideshowinterval'] . '&amp;page=' . $params['page'] . '&amp;align=' . $params['align'] . '&amp;skinPath=' . $service['path'] . '/resources/script/gallery/iMazing/&amp;","false"); writeCode(iMazing' . $id . 'Str, "iMazingContainer'.$id.'");';
+				$buf .= 'iMazing' . $id . 'Str = getEmbedCode(\'' . $service['path'] . '/script/gallery/iMazing/main.swf\',\'100%\',\'100%\',\'iMazing' . $id . '\',\'#FFFFFF\',"image=' . $imgStr . '&amp;frame=' . $params['frame'] . '&amp;transition=' . $params['transition'] . '&amp;navigation=' . $params['navigation'] . '&amp;slideshowInterval=' . $params['slideshowinterval'] . '&amp;page=' . $params['page'] . '&amp;align=' . $params['align'] . '&amp;skinPath=' . $service['path'] . '/script/gallery/iMazing/&amp;","false"); writeCode(iMazing' . $id . 'Str, "iMazingContainer'.$id.'");';
 				$buf .= '//]]></script><noscript>';
 				for ($i = 0; $i < count($imgs); $i += 2)
 				    $buf .= '<img src="'.($useAbsolutePath ? $hostURL : $service['path']).'/attach/'.$blogid.'/'.$imgs[$i].'" alt="" />';
@@ -215,7 +215,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 						echo "<a href=\"$folderURL/$sounds[$i]\">$sounds[$i]</a><br />";
 				}
 			} else {
-				$params = Utils_Misc::getAttributesFromString($attributes[sizeof($attributes) - 2]);
+				$params = misc::getAttributesFromString($attributes[sizeof($attributes) - 2]);
 				foreach ($params as $key => $value) {
 					if ($key == 'autoPlay') {
 						unset($params['autoplay']);
@@ -251,7 +251,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				
 				$buf .= '<div id="jukeBox' . $id . 'Div" style="margin-left: auto; margin-right: auto; width:' . $width . '; height:' . $height . ';"><div id="jukeBoxContainer'.$id.'" style="width:' . $width . '; height:' . $height . ';"></div>';
 				$buf .= '<script type="text/javascript">//<![CDATA['.CRLF;
-				$buf .= 'writeCode(getEmbedCode(\'' . $service['path'] . '/resources/script/jukebox/flash/main.swf\',\'100%\',\'100%\',\'jukeBox' . $id . 'Flash\',\'#FFFFFF\',"sounds=' . $imgStr . '&amp;autoplay=' . $params['autoplay'] . '&amp;visible=' . $params['visible'] . '&amp;id=' . $id . '","false"), "jukeBoxContainer'.$id.'")';
+				$buf .= 'writeCode(getEmbedCode(\'' . $service['path'] . '/script/jukebox/flash/main.swf\',\'100%\',\'100%\',\'jukeBox' . $id . 'Flash\',\'#FFFFFF\',"sounds=' . $imgStr . '&amp;autoplay=' . $params['autoplay'] . '&amp;visible=' . $params['visible'] . '&amp;id=' . $id . '","false"), "jukeBoxContainer'.$id.'")';
 				$buf .= '//]]></script><noscript>';
 				for ($i = 0; $i < count($imgs); $i++) {
 					if ($i % 2 == 0)
@@ -263,7 +263,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				$buf .= '</div>';
 			}
 		} else {
-			$contentWidth = Utils_Misc::getContentWidth();
+			$contentWidth = misc::getContentWidth();
 
 			switch (count($attributes)) {
 				case 4:
@@ -349,7 +349,7 @@ function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderU
 	else
 		$url = "$folderURL/$filename";
 	$fileInfo = getAttachmentByOnlyName($blogid, $filename);
-	switch (Utils_Misc::getFileExtension($filename)) {
+	switch (misc::getFileExtension($filename)) {
 		case 'jpg':case 'jpeg':case 'gif':case 'png':case 'bmp':
 			$bPassing = false;
 			if (defined('__TEXTCUBE_MOBILE__') || defined('__TEXTCUBE_IPHONE__')) {
@@ -398,10 +398,10 @@ function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderU
 			return "<span id=\"$id\"><script type=\"text/javascript\">//<![CDATA[".CRLF."writeCode(" . '\'<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" width="400px" height="300px"><param name="src" value="' . $url . '" /><param name="controller" value="true" /><param name="pluginspage" value="http://www.apple.com/QuickTime/download/" /><!--[if !IE]> <--><object type="video/quicktime" data="' . $url . '" width="400px" height="300px" class="mov"><param name="controller" value="true" /><param name="pluginspage" value="http://www.apple.com/QuickTime/download/" /></object><!--> <![endif]--></object>\'' . ", \"$id\")//]]></script></span>";
 			break;
 		default:
-			if (file_exists(ROOT . '/resources/image/extension/' . Utils_Misc::getFileExtension($fileInfo['label']) . '.gif')) {
-				return '<a class="extensionIcon" href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/resources/image/extension/' . Utils_Misc::getFileExtension($fileInfo['label']) . '.gif" alt="" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
+			if (file_exists(ROOT . '/image/extension/' . misc::getFileExtension($fileInfo['label']) . '.gif')) {
+				return '<a class="extensionIcon" href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/extension/' . misc::getFileExtension($fileInfo['label']) . '.gif" alt="" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
 			} else {
-				return '<a class="extensionIcon" href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/resources/image/extension/unknown.gif" alt="" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
+				return '<a class="extensionIcon" href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $hostURL : '') . $service['path'] . '/image/extension/unknown.gif" alt="" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
 			}
 			break;
 	}

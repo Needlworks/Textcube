@@ -4,14 +4,14 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
 $blogid = getBlogId();
-Model_Statistics::updateVisitorStatistics($blogid);
-$stats = Model_Statistics::getStatistics($blogid);
+Statistics::updateVisitorStatistics($blogid);
+$stats = Statistics::getStatistics($blogid);
 if (!empty($entries) && (count($entries) == 1))
 	$pageTitle = $entries[0]['title'];
 else
 	$pageTitle = '';
 if (!isset($skin))
-	$skin = new Model_BlogSkin($skinSetting['skin']);
+	$skin = new Skin($skinSetting['skin']);
 
 $view = $skin->outter;
 $view = str_replace('[##_SKIN_head_end_##]',getScriptsOnHead().'[##_SKIN_head_end_##]', $view); // TO DO : caching this part.

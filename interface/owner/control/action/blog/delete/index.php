@@ -16,14 +16,14 @@ $items = split(",",$_GET['item']);
 
 if (in_array(getServiceSetting("defaultBlogId",1),$items)) {
 	$result = _t('대표 블로그는 삭제할 수 없습니다.');
-	Utils_Respond::PrintResult(array('error' => -1 , 'result' =>$result));
+	Respond::PrintResult(array('error' => -1 , 'result' =>$result));
 }
 
 foreach ($items as $item) {
 	$result = removeBlog($item);
 	if ($result!==true) {
-		Utils_Respond::PrintResult(array('error' => -1 , 'result' =>$result));
+		Respond::PrintResult(array('error' => -1 , 'result' =>$result));
 	}
 }
-Utils_Respond::PrintResult(array('error' => 0));
+Respond::PrintResult(array('error' => 0));
 ?>

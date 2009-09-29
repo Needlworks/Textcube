@@ -10,9 +10,9 @@ if(isset($suri['id'])) {
 	$isAjaxRequest = checkAjaxRequest();
 
 	if (revertTrackback($blogid, $suri['id']) !== true)
-		$isAjaxRequest ? Utils_Respond::ResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? Respond::ResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	else
-		$isAjaxRequest ? Utils_Respond::ResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
+		$isAjaxRequest ? Respond::ResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
 } else {
 	$targets = explode('~*_)', $_POST['targets']);
 	foreach($targets as $target) {
@@ -20,6 +20,6 @@ if(isset($suri['id'])) {
 			continue;
 		revertTrackback($blogid, $target);
 	}
-	Utils_Respond::ResultPage(0);
+	Respond::ResultPage(0);
 }
 ?>

@@ -7,7 +7,7 @@ function getNoticesWithPaging($blogid, $search, $page, $count) {
 	global $database, $folderURL, $suri;
 	$aux = '';
 	if (($search !== true) && $search) {
-		$search = Data_IAdapter::escapeSearchString($search);
+		$search = escapeSearchString($search);
 		$aux = "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
 	}
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
@@ -18,12 +18,12 @@ function getNoticesWithPaging($blogid, $search, $page, $count) {
 function getNotice($blogid, $id) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
-	return Data_IAdapter::queryAll("SELECT id, title, content, published FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -2 AND id = $id");
+	return POD::queryAll("SELECT id, title, content, published FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -2 AND id = $id");
 }
 
 function getNotices($blogid) {
 	global $database;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
-	return Data_IAdapter::queryAll("SELECT id, title, slogan, published FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -2 ORDER BY published DESC");
+	return POD::queryAll("SELECT id, title, slogan, published FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -2 ORDER BY published DESC");
 }
 ?>

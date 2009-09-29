@@ -19,9 +19,9 @@ if(empty($info)) {
 	if(!empty($blogInfo) && $blogInfo['service'] != null) {
 		$info['trackbackURL'] = getTrackbackURLFromInfo($_POST['url'],$blogInfo['service']);
 	} else {
-		Utils_Respond::ResultPage(false);
+		Respond::ResultPage(false);
 		exit;
 	}
 }
-Utils_Respond::ResultPage(!empty($_POST['url']) && sendTrackback($blogid, $suri['id'], trim($info['trackbackURL'])));
+Respond::ResultPage(!empty($_POST['url']) && sendTrackback($blogid, $suri['id'], trim($info['trackbackURL'])));
 ?>

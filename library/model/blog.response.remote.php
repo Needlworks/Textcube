@@ -6,31 +6,31 @@
 /** Common remote response part */
 function getRemoteResponsesWithPagingForOwner($blogid, $category, $site, $ip, $search, $page, $count, $type = null) {
 	global $database;
-	if (!is_null($type)) $typeFilter = " AND t.type = '".Data_IAdapter::escapeString($type)."'";
+	if (!is_null($type)) $typeFilter = " AND t.type = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
 	$postfix = '';
-	$sql = "SELECT t.*, c.name categoryName 
+	$sql = "SELECT t.*, c.name AS categoryName 
 		FROM {$database['prefix']}RemoteResponses t 
 		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
 		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
-		WHERE t.blogid = $blogid AND t.isFiltered = 0 $typeFilter";
+		WHERE t.blogid = $blogid AND t.isfiltered = 0 $typeFilter";
 	if ($category > 0) {
-		$categories = Data_IAdapter::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
+		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
 				$postfix .= '&amp;category=' . rawurlencode($category);
 	} else
 		$sql .= ' AND e.category >= 0';
 	if (!empty($site)) {
-		$sql .= ' AND t.site = \'' . Data_IAdapter::escapeString($site) . '\'';
+		$sql .= ' AND t.site = \'' . POD::escapeString($site) . '\'';
 			$postfix .= '&amp;site=' . rawurlencode($site);
 	}
 	if (!empty($ip)) {
-		$sql .= ' AND t.ip = \'' . Data_IAdapter::escapeString($ip) . '\'';
+		$sql .= ' AND t.ip = \'' . POD::escapeString($ip) . '\'';
 		$postfix .= '&amp;ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
-		$search = Data_IAdapter::escapeSearchString($search);
+		$search = escapeSearchString($search);
 		$sql .= " AND (t.site LIKE '%$search%' OR t.subject LIKE '%$search%' OR t.excerpt LIKE '%$search%')";
 		$postfix .= '&amp;search=' . rawurlencode($search);
 	}
@@ -44,23 +44,23 @@ function getRemoteResponsesWithPagingForOwner($blogid, $category, $site, $ip, $s
 
 function getRemoteResponseLogsWithPagingForOwner($blogid, $category, $site, $ip, $search, $page, $count, $type = null) {
 	global $database;
-	if (!is_null($type)) $typeFilter = " AND t.type = '".Data_IAdapter::escapeString($type)."'";
+	if (!is_null($type)) $typeFilter = " AND t.type = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
 	$postfix = '&amp;status=sent';
-	$sql = "SELECT t.*, e.title as subject, c.name categoryName 
+	$sql = "SELECT t.*, e.title AS subject, c.name AS categoryName 
 		FROM {$database['prefix']}RemoteResponseLogs t 
 		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
 		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
 		WHERE t.blogid = $blogid $typeFilter";
 	if ($category > 0) {
-		$categories = Data_IAdapter::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
+		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
 		$postfix .= '&amp;category=' . rawurlencode($category);
 	} else
 		$sql .= ' AND e.category >= 0';
 	if (!empty($search)) {
-		$search = Data_IAdapter::escapeSearchString($search);
+		$search = escapeSearchString($search);
 		$sql .= " AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
 		$postfix .= '&amp;search=' . rawurlencode($search);
 	}
@@ -74,32 +74,32 @@ function getRemoteResponseLogsWithPagingForOwner($blogid, $category, $site, $ip,
 
 function getRemoteResponses($entry, $type = null) {
 	global $database;
-	if (!is_null($type)) $typeFilter = " AND type = '".Data_IAdapter::escapeString($type)."'";
+	if (!is_null($type)) $typeFilter = " AND type = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
 	$responses = array();
-	$result = Data_IAdapter::query("SELECT * 
+	$result = POD::query("SELECT * 
 			FROM {$database['prefix']}RemoteResponses 
 			WHERE blogid = ".getBlogId()." 
 				AND entry = $entry 
-				AND isFiltered = 0 $typeFilter 
+				AND isfiltered = 0 $typeFilter 
 			ORDER BY written");
-	while ($response = Data_IAdapter::fetch($result))
+	while ($response = POD::fetch($result))
 		array_push($responses, $response);
 	return $responses;
 }
 
 function getRemoteResponseList($blogid, $search, $type = null) {
 	global $database;
-	if (!is_null($type)) $typeFilter = " AND type = '".Data_IAdapter::escapeString($type)."'";
+	if (!is_null($type)) $typeFilter = " AND type = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
 	$list = array('title' => "$search", 'items' => array());
-	$search = Data_IAdapter::escapeSearchString($search);
+	$search = escapeSearchString($search);
 	$authorized = doesHaveOwnership() ? '' : getPrivateCategoryExclusionQuery($blogid);
-	if ($result = Data_IAdapter::queryAll("SELECT t.id, t.entry, t.url, t.site, t.subject, t.excerpt, t.written, e.slogan
+	if ($result = POD::queryAll("SELECT t.id, t.entry, t.url, t.site, t.subject, t.excerpt, t.written, e.slogan
  		FROM {$database['prefix']}RemoteResponses t
 		LEFT JOIN {$database['prefix']}Entries e ON t.entry = e.id AND t.blogid = e.blogid AND e.draft = 0
 		WHERE  t.blogid = $blogid
-			AND t.isFiltered = 0
+			AND t.isfiltered = 0
 			AND t.entry > 0 $authorized $typeFilter 
 			AND (t.excerpt like '%$search%' OR t.subject like '%$search%')")) {
 		foreach($result as $response)	
@@ -110,14 +110,14 @@ function getRemoteResponseList($blogid, $search, $type = null) {
 
 function getRecentRemoteResponses($blogid, $count = false, $guestShip = false, $type = null) {
 	global $database, $skinSetting;
-	if (!is_null($type)) $typeFilter = " AND t.type = '".Data_IAdapter::escapeString($type)."'";
+	if (!is_null($type)) $typeFilter = " AND t.type = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
 	$sql = (doesHaveOwnership() && !$guestShip) ? "SELECT t.*, e.slogan 
 		FROM 
 			{$database['prefix']}RemoteResponses t
 			LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0
 		WHERE 
-			t.blogid = $blogid AND t.isFiltered = 0 $typeFilter 
+			t.blogid = $blogid AND t.isfiltered = 0 $typeFilter 
 		ORDER BY 
 			t.written 
 		DESC LIMIT ".($count != false ? $count : $skinSetting['trackbacksOnRecent']) : 
@@ -127,14 +127,14 @@ function getRecentRemoteResponses($blogid, $count = false, $guestShip = false, $
 			LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id
 		WHERE 
 			t.blogid = $blogid 
-			AND t.isFiltered = 0 
+			AND t.isfiltered = 0 
 			AND e.draft = 0 
 			AND e.visibility >= 2 ".getPrivateCategoryExclusionQuery($blogid)."
 			$typeFilter
 		ORDER BY 
 			t.written 
 		DESC LIMIT ".($count != false ? $count : $skinSetting['trackbacksOnRecent']);
-	if ($result = Data_IAdapter::queryAllWithDBCache($sql,'remoteResponse')) {
+	if ($result = POD::queryAllWithDBCache($sql,'remoteResponse')) {
 		return $result;
 	}
 	else return array();
@@ -144,13 +144,13 @@ function deleteRemoteResponse($blogid, $id) {
 	global $database;
 	requireModel('blog.entry');
 	if (!is_numeric($id)) return null;
-	$entry = Data_IAdapter::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
+	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!Data_IAdapter::execute("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id"))
+	if (!POD::execute("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id"))
 		return false;
-	Cache_Control::flushDBCache('trackback');
-	Cache_Control::flushDBCache('remoteResponse');
+	CacheControl::flushDBCache('trackback');
+	CacheControl::flushDBCache('remoteResponse');
 	if (updateRemoteResponsesOfEntry($blogid, $entry))
 		return $entry;
 	return false;
@@ -160,13 +160,13 @@ function trashRemoteResponse($blogid, $id) {
 	global $database;
 	requireModel('blog.entry');
 	if (!is_numeric($id)) return null;
-	$entry = Data_IAdapter::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
+	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!Data_IAdapter::query("UPDATE {$database['prefix']}RemoteResponses SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id"))
+	if (!POD::query("UPDATE {$database['prefix']}RemoteResponses SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id"))
 		return false;
-	Cache_Control::flushDBCache('trackback');
-	Cache_Control::flushDBCache('remoteResponse');
+	CacheControl::flushDBCache('trackback');
+	CacheControl::flushDBCache('remoteResponse');
 	if (updateRemoteResponsesOfEntry($blogid, $entry))
 		return $entry;
 	return false;
@@ -176,13 +176,13 @@ function revertRemoteResponse($blogid, $id) {
 	global $database;
 	requireModel('blog.entry');
 	if (!is_numeric($id)) return null;
-	$entry = Data_IAdapter::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
+	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!Data_IAdapter::execute("UPDATE {$database['prefix']}RemoteResponses SET isFiltered = 0 WHERE blogid = $blogid AND id = $id"))
+	if (!POD::execute("UPDATE {$database['prefix']}RemoteResponses SET isFiltered = 0 WHERE blogid = $blogid AND id = $id"))
 		return false;
-	Cache_Control::flushDBCache('trackback');
-	Cache_Control::flushDBCache('remoteResponse');
+	CacheControl::flushDBCache('trackback');
+	CacheControl::flushDBCache('remoteResponse');
 	if (updateRemoteResponsesOfEntry($blogid, $entry))
 		return $entry;
 	return false;
@@ -191,10 +191,10 @@ function revertRemoteResponse($blogid, $id) {
 function getRemoteResponseLog($blogid, $entry, $type = null) {
 	global $database;
 	if($type === null) $filter = '';
-	else $filter = " AND type = '".Data_IAdapter::escapeString($type)."'";
-	$result = Data_IAdapter::query("SELECT * FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid AND entry = $entry $filter");
+	else $filter = " AND type = '".POD::escapeString($type)."'";
+	$result = POD::query("SELECT * FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid AND entry = $entry $filter");
 	$str = '';
-	while ($row = Data_IAdapter::fetch($result)) {
+	while ($row = POD::fetch($result)) {
 		$str .= $row['id'] . ',' . $row['url'] . ',' . Timestamp::format5($row['written']) . '*';
 	}
 	return $str;
@@ -203,30 +203,30 @@ function getRemoteResponseLog($blogid, $entry, $type = null) {
 function getRemoteResponseLogs($blogid, $entryId, $type = null) {
 	global $database;
 	if($type === null) $filter = '';
-	else $filter = " AND type = '".Data_IAdapter::escapeString($type)."'";
+	else $filter = " AND type = '".POD::escapeString($type)."'";
 	$logs = array();
-	$result = Data_IAdapter::query("SELECT * FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid AND entry = $entryId $filter");
-	while ($log = Data_IAdapter::fetch($result))
+	$result = POD::query("SELECT * FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid AND entry = $entryId $filter");
+	while ($log = POD::fetch($result))
 		array_push($logs, $log);
 	return $logs;
 }
 
 function deleteRemoteResponseLog($blogid, $id) {
 	global $database;
-	$result = Data_IAdapter::queryCount("DELETE FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid AND id = $id");
+	$result = POD::queryCount("DELETE FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid AND id = $id");
 	return ($result == 1) ? true : false;
 }
 
 function getRemoteResponseCount($blogid, $entryId = null) {
 	global $database;
 	if (is_null($entryId)) {
-		$result = Data_IAdapter::queryRow("SELECT SUM(trackbacks) as t, SUM(pingbacks) as p
+		$result = POD::queryRow("SELECT SUM(trackbacks) AS t, SUM(pingbacks) AS p
 				FROM {$database['prefix']}Entries 
 				WHERE blogid = $blogid 
 					AND draft= 0");
 		return $result['t'] + $result ['p'];
 	} else {
-		$result = Data_IAdapter::queryRow("SELECT trackbacks, pingbacks 
+		$result = POD::queryRow("SELECT trackbacks, pingbacks 
 			FROM {$database['prefix']}Entries 
 			WHERE blogid = $blogid 
 				AND id = $entryId 
@@ -258,7 +258,7 @@ function getRecentTrackbacks($blogid, $count = false, $guestShip = false) {
 }
 
 function sendTrackbackPing($entryId, $permalink, $url, $site, $title) {
-	$rpc = new Utils_XMLRPC();
+	$rpc = new XMLRPC();
 	$rpc->url = TEXTCUBE_SYNC_URL;
 	$summary = array(
 		'permalink' => $permalink,
@@ -274,16 +274,16 @@ function receiveTrackback($blogid, $entry, $title, $url, $excerpt, $site) {
 	global $database, $blog, $defaultURL;
 	if (empty($url))
 		return 5;
-	$post = new Model_Post;
+	$post = new Post;
 	if (!$post->doesAcceptTrackback($entry))
 		return 3;
 		
 	$filtered = 0;
 	
-	if (!Model_Filter::isAllowed($url)) {
-		if (Model_Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']) || Model_Filter::isFiltered('url', $url))
+	if (!Filter::isAllowed($url)) {
+		if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']) || Filter::isFiltered('url', $url))
 			$filtered = 1;
-		else if (Model_Filter::isFiltered('content', $excerpt))
+		else if (Filter::isFiltered('content', $excerpt))
 			$filtered = 1;
 		else if (!fireEvent('AddingTrackback', true, array('entry' => $entry, 'url' => $url, 'site' => $site, 'title' => $title, 'excerpt' => $excerpt)))
 			$filtered = 1;
@@ -297,18 +297,18 @@ function receiveTrackback($blogid, $entry, $title, $url, $excerpt, $site) {
 	$title = UTF8::lessenAsEncoding($title);
 	$excerpt = UTF8::lessenAsEncoding($excerpt);
 
-	$trackback = new Model_Trackback();
+	$trackback = new Trackback();
 	$trackback->entry = $entry;
 	$trackback->url = $url;
 	$trackback->site = $site;
 	$trackback->title = $title;
 	$trackback->excerpt = $excerpt;
 	if ($filtered > 0) {
-		$trackback->isFiltered = true;
+		$trackback->isfiltered = true;
 	}
 	if ($trackback->add()) {
 		if($filtered == 0) {
-			Cache_Control::flushDBCache('trackback');
+			CacheControl::flushDBCache('trackback');
 		}
 		return ($filtered == 0) ? 0 : 3;
 	}
@@ -339,7 +339,7 @@ function sendTrackback($blogid, $entryId, $url) {
 		return false;
 	$link = "$defaultURL/$entryId";
 	$title = fireEvent('ViewPostTitle', $entry['title'], $entry['id']);
-	$entry['content'] = getEntryContentView($blogid, $entryId, $entry['content'], $entry['contentFormatter'], getKeywordNames($blogid));
+	$entry['content'] = getEntryContentView($blogid, $entryId, $entry['content'], $entry['contentformatter'], getKeywordNames($blogid));
 	$excerpt = str_tag_on(UTF8::lessen(removeAllTags(stripHTML($entry['content'])), 255));
 	$blogTitle = $blog['title'];
 	$isNeedConvert = 
@@ -368,12 +368,12 @@ function sendTrackback($blogid, $entryId, $url) {
 	}
 	
 	if ($isSuccess && (checkResponseXML($request->responseText) === 0)) {
-//		$url = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($url, 255));
-		$trackbacklog = new Model_TrackbackLog;
+//		$url = POD::escapeString(UTF8::lessenAsEncoding($url, 255));
+		$trackbacklog = new TrackbackLog;
 		$trackbacklog->entry = $entryId;
-		$trackbacklog->url = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($url, 255));
+		$trackbacklog->url = POD::escapeString(UTF8::lessenAsEncoding($url, 255));
 		$trackbacklog->add();
-//		Data_IAdapter::query("INSERT INTO {$database['prefix']}TrackbackLogs VALUES ($blogid, '', $entryId, '$url', UNIX_TIMESTAMP())");
+//		POD::query("INSERT INTO {$database['prefix']}TrackbackLogs VALUES ($blogid, '', $entryId, '$url', UNIX_TIMESTAMP())");
 		return true;
 	}
 	return false;
@@ -394,11 +394,11 @@ function deleteTrackbackLog($blogid, $id) {
 function getTrackbackCount($blogid, $entryId = null) {
 	global $database;
 	if (is_null($entryId))
-		return Data_IAdapter::queryCell("SELECT SUM(trackbacks) 
+		return POD::queryCell("SELECT SUM(trackbacks) 
 				FROM {$database['prefix']}Entries 
 				WHERE blogid = $blogid 
 					AND draft= 0");
-	return Data_IAdapter::queryCell("SELECT trackbacks 
+	return POD::queryCell("SELECT trackbacks 
 			FROM {$database['prefix']}Entries 
 			WHERE blogid = $blogid 
 				AND id = $entryId 
@@ -841,7 +841,7 @@ function getRDFfromURL($url) {
 
 /** ETC */
 function getURLForFilter($value) {
-	$value = Data_IAdapter::escapeString($value);
+	$value = POD::escapeString($value);
 	$value = str_replace('http://', '', $value);
 	$lastSlashPos = lastIndexOf($value, '/');
 	if ($lastSlashPos > - 1) {

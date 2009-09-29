@@ -10,10 +10,10 @@ $IV = array(
 );
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
-if (empty($_POST['confirmativePassword']) || !Model_User::confirmPassword(Model_User::getBlogOwner(getBlogId()), $_POST['confirmativePassword']))
-	Utils_Respond::ResultPage(1);
-$dm = new Model_DataMaintenance();
-$dm->removeAll(Validator::getBool(@$_POST['removeAttachments']));
-Cache_Control::flushAll();
-Utils_Respond::ResultPage(0);
+requireComponent('Textcube.Data.DataMaintenance');
+if (empty($_POST['confirmativePassword']) || !User::confirmPassword(User::getBlogOwner(getBlogId()), $_POST['confirmativePassword']))
+	Respond::ResultPage(1);
+DataMaintenance::removeAll(Validator::getBool(@$_POST['removeAttachments']));
+CacheControl::flushAll();
+Respond::ResultPage(0);
 ?>

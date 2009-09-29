@@ -11,7 +11,7 @@ require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 
 if (deleteTeamblogUser($_POST['userid'])) {
-	Utils_Respond::ResultPage(0);
+	Respond::ResultPage(0);
 }
-Utils_Respond::ResultPage(-1);
+Respond::ResultPage(-1);
 ?>

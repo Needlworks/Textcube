@@ -122,12 +122,11 @@ TTModernEditor.prototype.initialize = function(textarea) {
 
 	// style given textarea
 	textarea.className += ' moderneditor-textarea';
-
 	// 원래 있던 TEXTAREA의 핸들을 저장해둔다
 	this.textarea = textarea;
 	if(this.editMode == "WYSIWYG")
 		this.textarea.style.display = "none";
-
+	
 	// 디자인모드의 IFRAME을 생성한다
 	this.iframe = document.createElement("iframe");
 	this.iframe.id = "tatterVisualEditor";
@@ -167,7 +166,7 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	// Changing to browser desingmode.
 	try { this.contentDocument.designMode = "on"; }
 	catch(e) { return; }
-
+	
 	// IFRAME 안에 HTML을 작성한다
 	// Put HTML code into IFRAME
 	this.contentDocument.open("text/html", "replace");
@@ -193,6 +192,7 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	// Connect event handlers occurring in IFRAME
 	STD.addEventListener(this.contentDocument);
 	var eventHandler = function(event) { _this.eventHandler(event); };
+	
 	this.contentDocument.addEventListener("mousedown", eventHandler, false);
 	this.contentDocument.addEventListener("mouseup", eventHandler, false);
 	this.contentDocument.addEventListener("keydown", eventHandler, false);
@@ -201,7 +201,7 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	this.contentDocument.addEventListener("keyup", eventHandler, false);
 
 	this.lastSelectionRange = null;
-
+	
 	// editor height resize event
 	var target = (this.editMode == "WYSIWYG" ? this.iframe : textarea);
 	this.resizer = new TTEditorResizer(target, getObject('status-container'), [document, this.contentDocument]);
@@ -230,14 +230,19 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	var scrollEventHandler = function() { _this.setPropertyPosition(); return true; };
 	this.scrollEventHandler_bounded = scrollEventHandler;
 	window.addEventListener("scroll", scrollEventHandler, false);
-
+	
 	if(this.editMode == "TEXTAREA")
 		this.iframe.style.display = "none";
+	// 데이터 싱크 과정.
+//	if(this.editMode == "WYSIWYG")
+//		this.syncEditorWindow();
 	// 가끔씩 Firefox에서 커서가 움직이지 않는 문제 수정
 	if(!STD.isIE) setTimeout(function() { try { _this.contentDocument.designMode='on'; } catch (e) {} }, 100);
 }
 
 TTModernEditor.prototype.finalize = function() {
+	return true;	// From 1.8, we do not need to finalize DOM
+	// Codes below is legacy code.
 	this.resizer.finalize();
 
 	var textarea = this.textarea;
@@ -288,7 +293,6 @@ TTModernEditor.prototype.syncEditorWindow = function() {
 // Convert TTML-format to HTML view
 TTModernEditor.prototype.ttml2html = function() {
 	var str = this.textarea.value;
-
 	// Safari 3 / webkit에서 디자인모드에 자동으로 붙이는 주석 제거
 	str = str.replaceAll('class="Apple-style-span"','');
 	str = str.replaceAll('class="webkit-block-placeholder"','');
@@ -367,7 +371,7 @@ TTModernEditor.prototype.ttml2html = function() {
 
 		str = str.replaceAll(search, replace);
 	}
-
+	
 	// iMazing 처리
 	var regImazing = new RegExp("\\[##_iMazing\\|(.*?)_##\\]", "");
 	while(result = regImazing.exec(str)) {
@@ -385,6 +389,7 @@ TTModernEditor.prototype.ttml2html = function() {
 
 		str = str.replaceAll(search, replace);
 	}
+
 
 	// Gallery 처리
 	var regGallery = new RegExp("\\[##_Gallery\\|(.*?)_##\\]", "");
@@ -427,10 +432,11 @@ TTModernEditor.prototype.ttml2html = function() {
 
 	// Object manipulation
 	var objects = getTagChunks(str, "object");
-	for(i in objects) {
-		str = str.replaceAll(objects[i], '<img class="tatterObject" src="' + servicePath + adminSkin + '/image/spacer.gif"' + this.parseImageSize(objects[i], "string", "css") + ' longDesc="' + this.objectSerialize(objects[i]) + '" />');
+	if ( objects.length > 0 ) {
+		for(i in objects) {
+			str = str.replaceAll(objects[i], '<img class="tatterObject" src="' + servicePath + adminSkin + '/image/spacer.gif"' + this.parseImageSize(objects[i], "string", "css") + ' longDesc="' + this.objectSerialize(objects[i]) + '" />');
+		}
 	}
-
 	// Flash manipulation
 	var regEmbed = new RegExp("<embed([^<]*?)application/x-shockwave-flash(.*?)></embed>", "i");
 	while(result = regEmbed.exec(str)) {
@@ -444,7 +450,6 @@ TTModernEditor.prototype.ttml2html = function() {
 	    var body = result[0];
 	    str = str.replaceAll(body, '<img class="tatterEmbed" src="' + servicePath + adminSkin + '/image/spacer.gif"' + this.parseImageSize(body, "string", "css") + ' longDesc="' + this.parseAttribute(body, "src") + '"/>');
 	}
-
 	return str;
 }
 

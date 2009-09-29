@@ -11,5 +11,5 @@ require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 set_time_limit(60);
 $result = importOPMLFromURL($blogid, $_POST['url']);
-Utils_Respond::PrintResult($result);
+Respond::PrintResult($result);
 ?>

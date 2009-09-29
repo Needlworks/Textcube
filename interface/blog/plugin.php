@@ -3,8 +3,10 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
-
+if (false) {
+	fetchConfigVal();
+}
 fireEvent($suri['directive'] . '/' . $suri['value']);
 if (!headers_sent())
-	Utils_Respond::NotFoundPage();
+	Respond::NotFoundPage();
 ?>

@@ -75,7 +75,7 @@ function api_login( $id, $password )
 		$canon_id = api_get_canonical_id($id);
 		if( !$auth->login( $canon_id, $password ) )
 		{
-			return new Utils_XMLRPCFault( 1, "Authentication failed: $id($canon_id)" );
+			return new XMLRPCFault( 1, "Authentication failed: $id($canon_id)" );
 		}
 	}
 	return false;
@@ -228,7 +228,7 @@ function api_fix_content( $content )
 
 function api_make_post( $param, $ispublic, $postid = -1 )
 {
-	$post = new Model_Post();
+	$post = new Post();
 	if( $postid != -1 )
 	{
 		if( !$post->open( $postid ) )
@@ -238,8 +238,8 @@ function api_make_post( $param, $ispublic, $postid = -1 )
 	}
 	
 	$post->content = api_fix_content( $param['description'] );
-	$post->contentFormatter = getDefaultFormatter();
-	$post->contentEditor = getDefaultEditor();
+	$post->contentformatter = getDefaultFormatter();
+	$post->contenteditor = getDefaultEditor();
 	$post->title = $param['title'];
 	
 	//$param['mt_excerpt'] = array_key_exists('mt_excerpt', $param) ? $param['mt_excerpt'] : '';
@@ -269,8 +269,8 @@ function api_make_post( $param, $ispublic, $postid = -1 )
 	$post->modified = api_timestamp( $param['dateCreated'] );
 	$post->published = api_timestamp( $param['dateCreated'] );
 	
-	$post->acceptComment = $param['mt_allow_comments'] !== 0 ? true : false;
-	$post->acceptTrackback = $param['mt_allow_pings'] !== 0 ? true : false;
+	$post->acceptcomment = $param['mt_allow_comments'] !== 0 ? true : false;
+	$post->accepttrackback = $param['mt_allow_pings'] !== 0 ? true : false;
 	
 	if( $ispublic )
 	{
@@ -301,8 +301,8 @@ function api_get_post( $post, $type = "bl" )
 			"permaLink" => $hostURL . $blogURL . "/" . $post->id ,
 			"description" => ($type == "mt" ? $post->content : "" ),
 			"content" => $post->content,
-			"mt_allow_comments" => $post->acceptComment ? 1 : 0,
-			"mt_allow_pings" => $post->acceptTrackback ? 1 : 0,
+			"mt_allow_comments" => $post->acceptcomment ? 1 : 0,
+			"mt_allow_pings" => $post->accepttrackback ? 1 : 0,
 			"mt_keywords" => join( ",", $post->tags )
 			);
 }
@@ -322,7 +322,7 @@ function api_addAttachment($blogid,$parent,$file) {
 	$attachment=array();
 	$attachment['parent']=$parent?$parent:0;
 	$attachment['label']=Path::getBaseName($file['name']);
-	$label=Data_IAdapter::escapeString(UTF8::lessenAsEncoding($attachment['label'],64));
+	$label=POD::escapeString(UTF8::lessenAsEncoding($attachment['label'],64));
 	$attachment['size']=$file['size'];
 	$extension=Path::getExtension($attachment['label']);
 	switch(strtolower($extension)) {
@@ -344,7 +344,7 @@ function api_addAttachment($blogid,$parent,$file) {
 		@chmod($path,0777);
 	}
 	
-	$oldFile = Data_IAdapter::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE blogid=$blogid AND parent=$parent AND label = '$label'");
+	$oldFile = POD::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE blogid=$blogid AND parent=$parent AND label = '$label'");
 	
 	if ($oldFile !== null) {
 		$attachment['name'] = $oldFile;
@@ -377,7 +377,7 @@ function api_addAttachment($blogid,$parent,$file) {
 		$attachment['width']=$imageAttributes[0];
 		$attachment['height']=$imageAttributes[1];
 	}else{
-		$attachment['mime']=Utils_Misc::getMIMEType($extension);
+		$attachment['mime']=Misc::getMIMEType($extension);
 		$attachment['width']=0;
 		$attachment['height']=0;
 	}
@@ -385,7 +385,7 @@ function api_addAttachment($blogid,$parent,$file) {
 	$attachment['mime']=UTF8::lessenAsEncoding($attachment['mime'], 32);
 	
 	@chmod($attachment['path'],0666);
-	$result=Data_IAdapter::query("insert into {$database['prefix']}Attachments values ($blogid, {$attachment['parent']}, '{$attachment['name']}', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
+	$result=POD::query("insert into {$database['prefix']}Attachments values ($blogid, {$attachment['parent']}, '{$attachment['name']}', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
 	if(!$result) {
 		@unlink($attachment['path']);
 		return false;
@@ -406,12 +406,12 @@ function api_update_attaches( $parent, $attaches = null)
 {
 	global $database;
 	if (is_null($attaches)) {
-		Data_IAdapter::query( "update {$database['prefix']}Attachments set parent=$parent where blogid=".getBlogId()." and parent=0");		
+		POD::query( "update {$database['prefix']}Attachments set parent=$parent where blogid=".getBlogId()." and parent=0");		
 	} else {
 		foreach( $attaches as $att )
 		{
-			$att = Data_IAdapter::escapeString($att);
-			Data_IAdapter::query( "update {$database['prefix']}Attachments set parent=$parent where blogid=".getBlogId()." and parent=0 and name='" . $att . "'");
+			$att = POD::escapeString($att);
+			POD::query( "update {$database['prefix']}Attachments set parent=$parent where blogid=".getBlogId()." and parent=0 and name='" . $att . "'");
 		}
 	}
 }
@@ -420,11 +420,11 @@ function api_update_attaches_with_replace($entryId)
 {
 	global $database;
 	
-	$newFiles = Data_IAdapter::queryAll("SELECT name, label FROM {$database['prefix']}Attachments WHERE blogid=".getBlogId()." AND parent=0");
+	$newFiles = POD::queryAll("SELECT name, label FROM {$database['prefix']}Attachments WHERE blogid=".getBlogId()." AND parent=0");
 	if( $newFiles ) {
 		foreach($newFiles as $newfile) {
-			$newfile['label'] = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($newfile['label'], 64));
-			$oldFile = Data_IAdapter::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE blogid=".getBlogId()." AND parent=$entryId AND label='{$newfile['label']}'");
+			$newfile['label'] = POD::escapeString(UTF8::lessenAsEncoding($newfile['label'], 64));
+			$oldFile = POD::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE blogid=".getBlogId()." AND parent=$entryId AND label='{$newfile['label']}'");
 		
 			if (!is_null($oldFile)) {
 				deleteAttachment(getBlogId(), $entryId, $oldFile);
@@ -439,7 +439,7 @@ function api_BlogAPI()
 {
 	global $blogApiFunctions;
 	if (!array_key_exists('HTTP_RAW_POST_DATA', $GLOBALS)) {
-		Utils_XMLRPC::sendFault(1, 'Invalid Method Call');
+		XMLRPC::sendFault(1, 'Invalid Method Call');
 		exit;
 	}
 	
@@ -487,13 +487,13 @@ function api_BlogAPI()
 		"mt.setPostCategories",
 		"mt.getCategoryList",
 //		"mt.supportedTextFilters", //지원안함 // 텍스트 처리하는 플러그인 리스트
-		"mt.supportedMethods", // Utils_XMLRPC 함수 리스트
+		"mt.supportedMethods", // XMLRPC 함수 리스트
 		"mt.publishPost", // rebuild post
 //		"mt.getTrackbackPings", // 인증을 안하므로 무시 // 받은 트랙백 리스트
 		"mt.getRecentPostTitles" // getRecentPosts와 거의 동일, 트래픽 프랜들리 버전
 		 );
 
-	$xmlrpc = new Utils_XMLRPC;
+	$xmlrpc = new XMLRPC;
 
 	foreach( $blogApiFunctions as $func )
 	{
@@ -536,10 +536,10 @@ function blogger_getUsersBlogs()
 function blogger_newPost()
 {
 	$params = func_get_args();
-	$post = new Model_Post();
+	$post = new Post();
 	$post->content = $params[4];
-	$post->contentFormatter = getDefaultFormatter();
-	$post->contentEditor = getDefaultEditor();
+	$post->contentformatter = getDefaultFormatter();
+	$post->contenteditor = getDefaultEditor();
 	$post->title = htmlspecialchars(api_get_title($params[4]));
 
 	if( $params[5] )
@@ -560,7 +560,7 @@ function blogger_newPost()
 	if( !$post->add($params[2]) )
 	{
 		$post->close();
-		return new Utils_XMLRPCFault( 1, "Posting error" );
+		return new XMLRPCFault( 1, "Posting error" );
 	}
 	RSS::refresh();
 
@@ -580,12 +580,12 @@ function blogger_editPost()
 		return $result;
 	}
 
-	$post = new Model_Post();
+	$post = new Post();
 	$post->title = htmlspecialchars(api_get_title( $params[4] ));
 	$post->id = intval($params[1]);
 	$post->content = $params[4];
-	$post->contentFormatter = getDefaultFormatter();
-	$post->contentEditor = getDefaultEditor();
+	$post->contentformatter = getDefaultFormatter();
+	$post->contenteditor = getDefaultEditor();
 
 	if( $params[5] )
 	{
@@ -614,7 +614,7 @@ function blogger_deletePost()
 		return $result;
 	}
 
-	$post = new Model_Post();
+	$post = new Post();
 	$id = intval( $params[1] );
 	$ret = $post->open( $id );
 	$ret = $post->remove();
@@ -634,7 +634,7 @@ function blogger_getRecentPosts()
 		return $result;
 	}
 
-	$post = new Model_Post();
+	$post = new Post();
 	$post->open();
 	$out = array();
 
@@ -660,7 +660,7 @@ function blogger_getPost()
 		return $result;
 	}
 
-	$post = new Model_Post();
+	$post = new Post();
 	$post->open( intval( $params[1] ) );
 
 	$ret = api_get_post( $post );
@@ -775,7 +775,7 @@ function metaWeblog_getRecentPosts()
 		return $result;
 	}
 
-	$post = new Model_Post();
+	$post = new Post();
 	$post->open();
 	$out = array();
 
@@ -801,7 +801,7 @@ function metaWeblog_getPost()
 		return $result;
 	}
 
-	$post = new Model_Post();
+	$post = new Post();
 	$post->open( intval( $params[0] ) );
 
 	$ret = api_get_post( $post, "mt" );
@@ -822,13 +822,13 @@ function metaWeblog_newPost()
 	$post = api_make_post( $params[3], $params[4] );
 	
 	if ($post === false) {
-		return new Utils_XMLRPCFault( 1, "Textcube posting error" );
+		return new XMLRPCFault( 1, "Textcube posting error" );
 	}
 	if( !$post->add($params[1]) )
 	{
 		$error = $post->error;
 		$post->close();
-		return new Utils_XMLRPCFault( 1, "Textcube invalid field: $error" );
+		return new XMLRPCFault( 1, "Textcube invalid field: $error" );
 	}
 
 	api_update_attaches($post->id );
@@ -852,10 +852,10 @@ function mt_setPostCategories()
 		return $result;
 	}
 
-	$post = new Model_Post();
+	$post = new Post();
 	if( !$post->open( $params[0] ) )
 	{
-		return new Utils_XMLRPCFault( 1, "Posting error" );
+		return new XMLRPCFault( 1, "Posting error" );
 	}
 
 	$category = null;
@@ -888,7 +888,7 @@ function mt_getPostCategories()
 		return $result;
 	}
 
-	$post = new Model_Post();
+	$post = new Post();
 	$post->open( intval( $params[0] ) );
 
 	$cat = array( array( "categoryId" => $post->category, 
@@ -913,7 +913,7 @@ function metaWeblog_editPost()
 	$post->created = null;
 	if( !$post )
 	{
-		return new Utils_XMLRPCFault( 1, "Textcube editing error" );
+		return new XMLRPCFault( 1, "Textcube editing error" );
 	}
 
 	$ret = $post->update();
@@ -948,7 +948,7 @@ function metaWeblog_newMediaObject()
 	$attachment = api_addAttachment( getBlogId(), 0, $file );
 	if( !$attachment )
 	{
-		return new Utils_XMLRPCFault( 1, "Can't create file" );
+		return new XMLRPCFault( 1, "Can't create file" );
 	}
 	
 	$attachurl = array ( 'url' => 'http://tt_attach_path/' .  $attachment['name']);
@@ -971,7 +971,7 @@ function mt_publishPost() /* postid, username, password */
 		return $result;
 	}
 
-	$post = new Model_Post();
+	$post = new Post();
 	if (! $post->open( intval( $params[0] ) ) ) {
 		return false;
 	}
@@ -988,7 +988,7 @@ function mt_getRecentPostTitles() /* blogid, username, password, count */
 		return $result;
 	}
 
-	$post = new Model_Post();
+	$post = new Post();
 	$post->open();
 	$out = array();
 

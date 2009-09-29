@@ -14,7 +14,7 @@ function getAttachments($blogid, $parent, $orderBy = null, $sort='ASC') {
 		}
 	}
 	$attachments = array();
-	if ($result = Data_IAdapter::queryAll("SELECT * 
+	if ($result = POD::queryAll("SELECT * 
 		FROM {$database['prefix']}Attachments 
 		WHERE blogid = $blogid AND parent = $parent ".( is_null($orderBy ) ? '' : "ORDER BY $orderBy $sort"))) {
 		foreach($result as $attachment) {
@@ -66,8 +66,8 @@ function getAttachmentByOnlyName($blogid, $name) {
 	if(!empty($__gCacheAttachment) && $result = getAttachmentFromCache($blogid, $name, 'name')) {
 		return $result;
 	} else {
-		$newAttachment = Data_IAdapter::queryRow("SELECT * FROM {$database['prefix']}Attachments 
-			WHERE blogid = $blogid AND name = '".Data_IAdapter::escapeString($name)."'");
+		$newAttachment = POD::queryRow("SELECT * FROM {$database['prefix']}Attachments 
+			WHERE blogid = $blogid AND name = '".POD::escapeString($name)."'");
 		array_push($__gCacheAttachment,$newAttachment);
 		return $newAttachment;
 	}
@@ -77,8 +77,8 @@ function getAttachmentByLabel($blogid, $parent, $label) {
 	global $database;
 	if ($parent === false)
 		$parent = 0;
-	$label = Data_IAdapter::escapeString($label);
-	return Data_IAdapter::queryRow("SELECT * FROM {$database['prefix']}Attachments WHERE blogid = $blogid AND parent = $parent AND label = '$label'");
+	$label = POD::escapeString($label);
+	return POD::queryRow("SELECT * FROM {$database['prefix']}Attachments WHERE blogid = $blogid AND parent = $parent AND label = '$label'");
 }
 
 function getAttachmentSize($blogid=null, $parent = null) {
@@ -90,7 +90,7 @@ function getAttachmentSize($blogid=null, $parent = null) {
 		$blogidStr = "blogid = $blogid ";
 	if ($parent == 0 || !empty($parent))
 		$parentStr = "AND parent = $parent";
-	return Data_IAdapter::queryCell("SELECT sum(size) FROM {$database['prefix']}Attachments WHERE $blogidStr $parentStr");
+	return POD::queryCell("SELECT sum(size) FROM {$database['prefix']}Attachments WHERE $blogidStr $parentStr");
 }
 
 function getAttachmentSizeLabel($blogid=null, $parent = null) {
@@ -102,8 +102,8 @@ function addAttachment($blogid, $parent, $file) {
 	global $database;
 	if (empty($file['name']) || ($file['error'] != 0))
 		return false;
-	$filename = Data_IAdapter::escapeString($file['name']);
-	if (Data_IAdapter::queryCell("SELECT count(*) 
+	$filename = POD::escapeString($file['name']);
+	if (POD::queryCell("SELECT count(*) 
 		FROM {$database['prefix']}Attachments 
 		WHERE blogid=$blogid 
 			AND parent=$parent 
@@ -114,7 +114,7 @@ function addAttachment($blogid, $parent, $file) {
 	$attachment['parent'] = $parent ? $parent : 0;
 	$attachment['label'] = Path::getBaseName($file['name']);
 	$attachment['size'] = $file['size'];
-	$extension = Utils_Misc::getFileExtension($attachment['label']);
+	$extension = Misc::getFileExtension($attachment['label']);
 	switch (strtolower($extension)) {
 		case 'exe':case 'php':case 'sh':case 'com':case 'bat':
 			$extension = 'xxx';
@@ -139,18 +139,18 @@ function addAttachment($blogid, $parent, $file) {
 		$attachment['width'] = $imageAttributes[0];
 		$attachment['height'] = $imageAttributes[1];
 	} else {
-		$attachment['mime'] = Utils_Misc::getMIMEType($extension);
+		$attachment['mime'] = Misc::getMIMEType($extension);
 		$attachment['width'] = 0;
 		$attachment['height'] = 0;
 	}
 	if (!move_uploaded_file($file['tmp_name'], $attachment['path']))
 		return false;
 	@chmod($attachment['path'], 0666);
-	$name = Data_IAdapter::escapeString($attachment['name']);
-	$label = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($attachment['label'], 64));
+	$name = POD::escapeString($attachment['name']);
+	$label = POD::escapeString(UTF8::lessenAsEncoding($attachment['label'], 64));
 	$attachment['mime'] = UTF8::lessenAsEncoding($attachment['mime'], 32);
 	
-	$result = Data_IAdapter::execute("INSERT INTO {$database['prefix']}Attachments VALUES ($blogid, {$attachment['parent']}, '$name', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
+	$result = POD::execute("INSERT INTO {$database['prefix']}Attachments VALUES ($blogid, {$attachment['parent']}, '$name', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
 	if (!$result) {
 		@unlink($attachment['path']);
 		return false;
@@ -164,8 +164,8 @@ function deleteAttachment($blogid, $parent, $name) {
 	if (!Validator::filename($name)) 
 		return false;
 	$origname = $name;
-	$name = Data_IAdapter::escapeString($name);
-	if (Data_IAdapter::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid AND name = '$name'")) {
+	$name = POD::escapeString($name);
+	if (POD::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid AND name = '$name'")) {
 		if( file_exists( ROOT . "/attach/$blogid/$origname") ) {
 			@unlink(ROOT . "/attach/$blogid/$origname");
 		}
@@ -180,24 +180,24 @@ function copyAttachments($blogid, $originalEntryId, $targetEntryId) {
 	$path = ROOT . "/attach/$blogid";
 	$attachments = getAttachments($blogid, $originalEntryId);
 	if(empty($attachments)) return true;
-	if(!Data_IAdapter::queryCell("SELECT id 
+	if(!POD::queryCell("SELECT id 
 		FROM {$database['prefix']}Entries
 		WHERE blogid = $blogid
 			AND id = $originalEntryId")) return 2; // original entry does not exists;
-	if(!Data_IAdapter::queryCell("SELECT id 
+	if(!POD::queryCell("SELECT id 
 		FROM {$database['prefix']}Entries
 		WHERE blogid = $blogid
 			AND id = $targetEntryId")) return 3; // target entry does not exists;
 
 	foreach($attachments as $attachment) {
-		$extension = Utils_Misc::getFileExtension($attachment['label']);
+		$extension = Misc::getFileExtension($attachment['label']);
 		$originalPath = "$path/{$attachment['name']}";
 		do {
 			$attachment['name'] = rand(1000000000, 9999999999) . ".$extension";
 			$attachment['path'] = "$path/{$attachment['name']}";
 		} while (file_exists($attachment['path']));
 		if(!copy($originalPath, $attachment['path'])) return 4; // copy failed.
-		if(!Data_IAdapter::execute("INSERT INTO {$database['prefix']}Attachments 
+		if(!POD::execute("INSERT INTO {$database['prefix']}Attachments 
 			(blogid, parent, name, label, mime, size, width, height, attached, downloads, enclosure)
 			VALUES ($blogid, 
 				$targetEntryId,
@@ -236,8 +236,8 @@ function deleteAttachmentMulti($blogid, $parent, $names) {
 		if (!Validator::filename($name)) 
 			continue;
 		$origname = $name;
-		$name = Data_IAdapter::escapeString($name);
-		if (Data_IAdapter::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid AND parent = $parent AND name = '$name'")) {
+		$name = POD::escapeString($name);
+		if (POD::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid AND parent = $parent AND name = '$name'")) {
 			unlink(ROOT . "/attach/$blogid/$origname");
 		} else {
 		}
@@ -257,20 +257,20 @@ function deleteAttachments($blogid, $parent) {
 function downloadAttachment($name) {
 	requireModel('blog.feed');
 	global $database;
-	$name = Data_IAdapter::escapeString($name);
-	Data_IAdapter::query("UPDATE {$database['prefix']}Attachments SET downloads = downloads + 1 WHERE blogid = ".getBlogId()." AND name = '$name'");
+	$name = POD::escapeString($name);
+	POD::query("UPDATE {$database['prefix']}Attachments SET downloads = downloads + 1 WHERE blogid = ".getBlogId()." AND name = '$name'");
 }
 
 function setEnclosure($name, $order) {
 	global $database;
 	requireModel('blog.feed');
 	requireModel('blog.attachment');
-	$name = Data_IAdapter::escapeString($name);
-	if (($parent = Data_IAdapter::queryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND name = '$name'")) !== null) {
-		Data_IAdapter::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 0 WHERE parent = $parent AND blogid = ".getBlogId());
+	$name = POD::escapeString($name);
+	if (($parent = POD::queryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND name = '$name'")) !== null) {
+		POD::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 0 WHERE parent = $parent AND blogid = ".getBlogId());
 		if ($order) {
 			clearFeed();
-			return Data_IAdapter::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 1 WHERE blogid = ".getBlogId()." AND name = '$name'") ? 1 : 2;
+			return POD::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 1 WHERE blogid = ".getBlogId()." AND name = '$name'") ? 1 : 2;
 		} else
 			return 0;
 	} else
@@ -281,7 +281,7 @@ function getEnclosure($entry) {
 	global $database;
 	if ($entry < 0)
 		return null;
-	return Data_IAdapter::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE parent = $entry AND enclosure = 1 AND blogid = ".getBlogId());
+	return POD::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE parent = $entry AND enclosure = 1 AND blogid = ".getBlogId());
 }
 
 function return_bytes($val) {

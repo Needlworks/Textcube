@@ -9,5 +9,5 @@ $IV = array(
 );
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
-Utils_Respond::ResultPage(markAsStar($blogid, $_POST['id'], false));
+Respond::ResultPage(markAsStar($blogid, $_POST['id'], false));
 ?>

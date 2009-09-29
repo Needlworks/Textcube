@@ -23,7 +23,7 @@ if (false) {
 }
 validateAPIKey(getBlogId(),$_POST['loginid'],$_POST['key']);
 
-$cache = new Cache_Page;
+$cache = new pageCache;
 $cache->name = 'commentNotifiedRSS';
 if(!$cache->load()) {
 	$result = getCommentNotifiedFeedTotal(getBlogId());

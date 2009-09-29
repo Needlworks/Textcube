@@ -69,12 +69,12 @@ function printFormatterSelectScript() {
 }
 
 function printOwnerEditorScript($entryId = false) {
-	global $database, $skin, $hostURL, $blogURL, $service;
+	global $database, $skin, $hostURL, $blogURL, $service, $pluginURL, $pluginName;
 	$blogid = getBlogId();
 
 	$contentWidth = 500;
 	
-	if($skin = Data_IAdapter::queryCell("SELECT skin FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid")) {
+	if($skin = POD::queryCell("SELECT skin FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid")) {
 		if($xml = @file_get_contents(ROOT."/skin/blog/$skin/index.xml")) {
 			$xmls = new XMLStruct();
 			$xmls->open($xml, $service['encoding']);
@@ -127,23 +127,27 @@ function printOwnerEditorScript($entryId = false) {
 			entryManager.saveAuto();
 	}
 
-	function getEditor(key) {
-		switch (key) {
+	function getEditor() {
 <?php
+	$context = Model_Context::getInstance();
+	$setEditor = $context->getProperty('editor.key');
+	/// CHANGED FROM 1.8 : Editor only loads what user is using.
 	foreach (getAllEditors() as $id => $editor) {
-		getEditorInfo($id); // explicitly loads plugin code
-		if (isset($editor['initfunc']) && function_exists($editor['initfunc'])) {
-			echo "\t\tcase '".addslashes($id)."': {\n".call_user_func($editor['initfunc'], $editor)."\t\t}\n";
+		if($id == $setEditor) {
+			getEditorInfo($id); // explicitly loads plugin code ($pluginURL, $pluginName returned as global)
+			if (isset($editor['initfunc']) && function_exists($editor['initfunc'])) {
+				echo "\t\t\n".call_user_func($editor['initfunc'], $editor)."\t\t\n";
+				$pluginURL = $pluginName = "";
+			}
 		}
 	}
 ?>
-		}
 		return new TTDefaultEditor();
 	}
 
 	var editor = null;
 	function setCurrentEditor(key,formatter) {
-		var neweditor = getEditor(key);
+		var neweditor = getEditor();
 		if (neweditor == null) {
 			if (editor == null) {
 				// this indicates currently selected editor is unavailable;
@@ -153,14 +157,40 @@ function printOwnerEditorScript($entryId = false) {
 				return false;
 			}
 		}
-		if (editor != null) {
-			try { editor.syncTextarea(); } catch(e) {}
-			editor.finalize();
-		}
+//		if (editor != null) {
+//			try { editor.syncTextarea(); } catch(e) {}
+//			editor.finalize();
+//		}
 		editor = neweditor;
 		editor.formatter = formatter;
 		editor.initialize(document.getElementById("editWindow"));
 		return true;
+	}
+
+	function changeEditor(key, formatter) {
+		if (!confirm("<?php echo _t('정말로 에디터를 변경하시겠습니까?');?>")) {
+			return false;
+		}
+		if (editor != null) {
+			try { editor.syncTextarea(); } catch(e) {}
+//			alert('synched');
+			editor.finalize();
+		}
+		// 4
+//		alert('finalized');
+		entryManager.saveDraft();
+	//	entryManager.saveDraft();
+//		alert('saved');
+		var url = '<?php echo $blogURL."/owner/entry/edit/";?>'+entryManager.entryId+'?editor='+key;
+		if ( entryManager.isSaved == true) {
+			url = url+'&draft=true';
+		}
+		if ( entryManager.returnURL != null ) {
+			url = url+'&returnURL='+encodeURIComponent(entryManager.returnURL);			
+		}
+//			alert('link : '+url);
+		window.location = url;
+		//alert(url);		
 	}
 //]]>
 </script>
@@ -328,8 +358,8 @@ function printEntryFileList($attachments, $param) {
 														
 														if((new RegExp("\\.(swf)$", "gi").exec(fileName))) {			
 															
-															code = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="100%" height="100%"><param name="movie" value="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/'+fileName+'"/><param name="allowScriptAccess" value="sameDomain" /><param name="menu" value="false" /><param name="quality" value="high" /><param name="bgcolor" value="#FFFFFF"/>';
-															code += '<!--[if !IE]> <--><object type="application/x-shockwave-flash" data="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/'+fileName+'" width="100%" height="100%"><param name="allowScriptAccess" value="sameDomain" /><param name="menu" value="false" /><param name="quality" value="high" /><param name="bgcolor" value="#FFFFFF"/><\/object><!--> <![endif]--><\/object>';
+															code = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="100%" height="100%"><param name="movie" value="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/'+fileName+'"/><param name="allowscriptAccess" value="sameDomain" /><param name="menu" value="false" /><param name="quality" value="high" /><param name="bgcolor" value="#FFFFFF"/>';
+															code += '<!--[if !IE]> <--><object type="application/x-shockwave-flash" data="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/'+fileName+'" width="100%" height="100%"><param name="allowscriptAccess" value="sameDomain" /><param name="menu" value="false" /><param name="quality" value="high" /><param name="bgcolor" value="#FFFFFF"/><\/object><!--> <![endif]--><\/object>';
 															
 															writeCode(code,'previewSelected');
 															return false;
@@ -781,13 +811,13 @@ function printEntryFileList($attachments, $param) {
 															+ '&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>'
 															+ '&labelingPath=<?php echo $param['labelingPath'];?>'
 															+ entryManager.entryId
-															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[Model_Session::getName()];?>" />'
+															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[Session::getName()];?>" />'
 															+ '<embed id="uploader2" src="<?php echo $service['path'];?>/resources/script/uploader/uploader.swf?<?php echo rand() ?>" flashvars="uploadPath=<?php echo $param['uploadPath'];?>'
 															+ entryManager.entryId
 															+ '&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>'
 															+ '&labelingPath=<?php echo $param['labelingPath'];?>'
 															+ entryManager.entryId
-															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[Model_Session::getName()];?>" width="400" height="40" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
+															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[Session::getName()];?>" width="400" height="40" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
 															
 														if (hasRightVersion && (isMoz || isIE || isMinSafari3)) {
 															if(<?php echo (isset($service['flashuploader']) && !$service['flashuploader']) ? 'false' : 'true';?>) { writeCode(uploaderStr,'uploaderNest'); }
@@ -885,11 +915,11 @@ function getAttachmentValue($attachment) {
 
 function getPrettyAttachmentLabel($attachment) {
 	if (strpos($attachment['mime'], 'image') === 0)
-		return "{$attachment['label']} ({$attachment['width']}x{$attachment['height']} / ".Utils_Misc::getSizeHumanReadable($attachment['size']).')';
+		return "{$attachment['label']} ({$attachment['width']}x{$attachment['height']} / ".Misc::getSizeHumanReadable($attachment['size']).')';
 	else if(strpos($attachment['mime'], 'audio') !== 0 && strpos($attachment['mime'], 'video') !== 0) {
 		if ($attachment['downloads']>0)
-			return "{$attachment['label']} (".Utils_Misc::getSizeHumanReadable($attachment['size']).' / '._t('다운로드').':'.$attachment['downloads'].')';		
+			return "{$attachment['label']} (".Misc::getSizeHumanReadable($attachment['size']).' / '._t('다운로드').':'.$attachment['downloads'].')';		
 	}
-	return "{$attachment['label']} (".Utils_Misc::getSizeHumanReadable($attachment['size']).')';
+	return "{$attachment['label']} (".Misc::getSizeHumanReadable($attachment['size']).')';
 }
 ?>

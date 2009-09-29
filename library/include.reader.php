@@ -16,10 +16,8 @@ $__requireBasics = array(		// Basics
 	'function/xml',
 	'function/misc',
 	'function/image',
-	'function/mail',
-	'functions');
+	'function/mail');
 $__requireLibrary = array(		// Library
-	'locale',
 	'auth');
 $__requireModel = array(	
 	'blog.service',
@@ -35,7 +33,4 @@ $__requireView = array(		// View
 	'ownerView',
 	'paging',
 	'view');
-$__requireInit = array(		// Initializing environment.
-	'initialize',
-	'plugins');
 ?>

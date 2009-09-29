@@ -212,7 +212,7 @@ $nameNumber = array();
 for ($i=0; $i<sizeof($mergedComments); $i++) {
 	$comment = $mergedComments[$i];
 	
-	if (Model_Filter::isFiltered('name', $comment['name']))
+	if (Filter::isFiltered('name', $comment['name']))
 		$isNameFiltered = true;
 	else
 		$isNameFiltered = false;
@@ -255,10 +255,10 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 <?php
 		}
 	} else {										
-		echo '<a class="entryURL" href="'.$comment['entryUrl'].'" onclick="window.open(this.href); return false;" title="'._t('댓글이 작성된 포스트로 직접 이동합니다.').'">';
-		echo '<span class="entry-title">'. htmlspecialchars($comment['entryTitle']) .'</span>';
+		echo '<a class="entryURL" href="'.$comment['entryurl'].'" onclick="window.open(this.href); return false;" title="'._t('댓글이 작성된 포스트로 직접 이동합니다.').'">';
+		echo '<span class="entry-title">'. htmlspecialchars($comment['entrytitle']) .'</span>';
 		
-		if ($comment['entryTitle'] != '' && $comment['parent'] != '') {
+		if ($comment['entrytitle'] != '' && $comment['parent'] != '') {
 			echo '<span class="divider"> | </span>';
 		}
 		

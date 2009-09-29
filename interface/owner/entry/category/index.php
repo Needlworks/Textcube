@@ -57,8 +57,8 @@ if (empty($_GET['entries']) || $_GET['entries'] == 0)
 else
 	$entries = $_GET['entries'];
 
-if ((!empty($_POST['newCategory']) && Utils_Misc::isSpace($_POST['newCategory'])) ||
-			(!empty($_POST['modifyCategoryName']) && Utils_Misc::isSpace($_POST['modifyCategoryName']))) {
+if ((!empty($_POST['newCategory']) && Misc::isSpace($_POST['newCategory'])) ||
+			(!empty($_POST['modifyCategoryName']) && Misc::isSpace($_POST['modifyCategoryName']))) {
 	$history = '';
 	$errorMessage = _t('공백문자는 카테고리 이름으로 사용할 수 없습니다');
 } elseif ((!empty($_POST['newCategory']) && strpos($_POST['newCategory'], '/') !== false) || (!empty($_POST['modifyCategoryName']) && strpos($_POST['modifyCategoryName'], '/') !== false)) {
@@ -75,7 +75,7 @@ if ((!empty($_POST['newCategory']) && Utils_Misc::isSpace($_POST['newCategory'])
 	if(empty($history)) $errorMessage = _t('같은 이름의 카테고리가 이미 존재합니다');
 } else if (!empty($_POST['modifyCategoryName']) || !empty($_POST['modifyCategoryBodyId'])) {
 	$history = modifyCategory($blogid, $_POST['id'], trim($_POST['modifyCategoryName']),trim($_POST['modifyCategoryBodyId'])) ? 'document.getElementById("modifyCategoryName").select();' : '';
-	$tempParentId = Data_IAdapter::queryCell("SELECT `parent` FROM `{$database['prefix']}Categories` WHERE `id` = {$_POST['id']} AND `blogid` = ".getBlogId());
+	$tempParentId = POD::queryCell("SELECT `parent` FROM `{$database['prefix']}Categories` WHERE `id` = {$_POST['id']} AND `blogid` = ".getBlogId());
 	if (preg_match('/^[0-9]+$/', $tempParentId, $temp)) {
 		$depth = 2;
 	} else {

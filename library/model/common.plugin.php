@@ -48,10 +48,10 @@ function activatePlugin($name) {
 		return false;
 	}
 	$pluginName = $name;
-	$name = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($name, 255));
-	$result = Data_IAdapter::queryCount("INSERT INTO {$database['prefix']}Plugins VALUES (".getBlogId().", '$name', null)");
+	$name = POD::escapeString(UTF8::lessenAsEncoding($name, 255));
+	$result = POD::queryCount("INSERT INTO {$database['prefix']}Plugins VALUES (".getBlogId().", '$name', null)");
 	clearPluginSettingCache();
-	Cache_Control::flushItemsByPlugin($pluginName);
+	CacheControl::flushItemsByPlugin($pluginName);
 	return ($result == 1);
 }
 
@@ -60,12 +60,12 @@ function deactivatePlugin($name) {
 	if (!in_array($name, $activePlugins))
 		return false;
 	$pluginName = $name;
-	$name = Data_IAdapter::escapeString($name);
-	Data_IAdapter::query("DELETE FROM {$database['prefix']}Plugins 
+	$name = POD::escapeString($name);
+	POD::query("DELETE FROM {$database['prefix']}Plugins 
 			WHERE blogid = ".getBlogId()."
 				AND name = '$name'");
 	clearPluginSettingCache();
-	Cache_Control::flushItemsByPlugin($pluginName);
+	CacheControl::flushItemsByPlugin($pluginName);
 	return true;
 }
 
@@ -75,7 +75,7 @@ function getCurrentSetting($name) {
 	if( !in_array( $name , $activePlugins))
 		return false;
 	if( empty($pluginSetting) ) {
-		$settings = Data_IAdapter::queryAllWithCache("SELECT name, settings 
+		$settings = POD::queryAllWithCache("SELECT name, settings 
 				FROM {$database['prefix']}Plugins 
 				WHERE blogid = ".getBlogId(), MYSQL_NUM );
 		foreach( $settings as $k => $v ) {
@@ -98,9 +98,9 @@ function updatePluginConfig( $name , $setVal) {
 	if (!in_array($name, $activePlugins))
 		return false;
 	$pluginName = $name;
-	$name = Data_IAdapter::escapeString( UTF8::lessenAsEncoding($name, 255) ) ;
-	$setVal = Data_IAdapter::escapeString( $setVal ) ;
-	$count = Data_IAdapter::queryCount(
+	$name = POD::escapeString( UTF8::lessenAsEncoding($name, 255) ) ;
+	$setVal = POD::escapeString( $setVal ) ;
+	$count = POD::queryCount(
 		"UPDATE {$database['prefix']}Plugins 
 			SET settings = '$setVal' 
 			WHERE blogid = ".getBlogId()."
@@ -109,9 +109,9 @@ function updatePluginConfig( $name , $setVal) {
 	if( $count == 1 )
 		$result = '0';
 	clearPluginSettingCache();
-	Cache_Control::flushItemsByPlugin($pluginName);
+	CacheControl::flushItemsByPlugin($pluginName);
 	if(isset($result) && $result = '0') return $result;
-	return (Data_IAdapter::error() == '') ? '0' : '1';
+	return (POD::error() == '') ? '0' : '1';
 }
 
 function getPluginInformation($plugin) {
@@ -172,29 +172,35 @@ function getPluginInformation($plugin) {
 
 function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 	global $database;
-	if(Data_IAdapter::doesExistTable($database['prefix'] . $name)) {
+	if(doesExistTable($database['prefix'] . $name)) {
 		$keyname = 'Database_' . $name;
 		$value = $plugin;
 		$result = getServiceSetting($keyname, null);
 		if (is_null($result)) {
-			$keyname = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($keyname, 32));
-			$value = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($plugin . '/' . $version , 255));
-			Data_IAdapter::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value'");
+			$keyname = UTF8::lessenAsEncoding($keyname, 32);
+			$value = UTF8::lessenAsEncoding($plugin . '/' . $version , 255);
+			$query = new DBModel($database['prefix']. 'ServiceSettings');
+			$query->setAttribute('name',$keyname,true);
+			$query->setAttribute('value',$value,true);
+			$query->insert();
 		} else {
-			$keyname = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($keyname, 32));
-			$value = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($plugin . '/' . $version , 255));
+			$keyname = UTF8::lessenAsEncoding($keyname, 32);
+			$value = UTF8::lessenAsEncoding($plugin . '/' . $version , 255);
 			$values = explode('/', $result, 2);
 			if (strcmp($plugin, $values[0]) != 0) { // diff plugin
 				return false; // nothing can be done
 			} else if (strcmp($version, $values[1]) != 0) {
-				Data_IAdapter::execute("UPDATE {$database['prefix']}ServiceSettings SET value ='$value' WHERE name='$keyname'");
+				$query = new DBModel($database['prefix']. 'ServiceSettings');
+				$query->setQualifier('name','equals',$keyname,true);
+				$query->setAttribute('value',$value,true);
+				$query->update();
 				$eventName = 'UpdateDB_' . $name;
 				fireEvent($eventName, $values[1]);
 			}
 		}
 		return true;
 	} else {
-		$query = "CREATE TABLE {$database['prefix']}{$name} (blogid int(11) NOT NULL default '0',";
+		$query = "CREATE TABLE {$database['prefix']}{$name} (blogid int(11) NOT NULL default 0,";
 		$isaiExists = false;
 		$index = '';
 		foreach($fields as $field) {
@@ -208,7 +214,7 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 				}
 			}
 			$isNull = ($field['isnull'] == 0) ? ' NOT NULL ' : ' NULL ';
-			$defaultValue = is_null($field['default']) ? '' : " DEFAULT '" . Data_IAdapter::escapeString($field['default']) . "' ";
+			$defaultValue = is_null($field['default']) ? '' : " DEFAULT '" . POD::escapeString($field['default']) . "' ";
 			$fieldLength = ($field['length'] >= 0) ? "(".$field['length'].")" : '';
 			$sentence = $field['name'] . " " . $field['attribute'] . $fieldLength . $isNull . $defaultValue . $ai . ",";
 			$query .= $sentence;
@@ -218,11 +224,11 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 		$query .= " PRIMARY KEY (" . implode(',',$keys) . ")";
 		$query .= $index;
 		$query .= ") TYPE=MyISAM ";
-		$query .= (Data_IAdapter::charset() == 'utf8') ? 'DEFAULT CHARSET=utf8' : '';
-		if (Data_IAdapter::execute($query)) {
-				$keyname = Data_IAdapter::escapeString(UTF8::lessenAsEncoding('Database_' . $name, 32));
-				$value = Data_IAdapter::escapeString(UTF8::lessenAsEncoding($plugin . '/' . $version , 255));
-				Data_IAdapter::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value'");
+		$query .= (POD::charset() == 'utf8') ? 'DEFAULT CHARSET=utf8' : '';
+		if (POD::execute($query)) {
+				$keyname = POD::escapeString(UTF8::lessenAsEncoding('Database_' . $name, 32));
+				$value = POD::escapeString(UTF8::lessenAsEncoding($plugin . '/' . $version , 255));
+				POD::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value'");
 			return true;
 		}
 		else return false;
@@ -233,16 +239,16 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 
 function clearPluginTable($name) {
 	global $database;
-	$name = Data_IAdapter::escapeString($name);
-	$count = Data_IAdapter::queryCount("DELETE FROM {$database['prefix']}{$name} WHERE blogid = ".getBlogId());
+	$name = POD::escapeString($name);
+	$count = POD::queryCount("DELETE FROM {$database['prefix']}{$name} WHERE blogid = ".getBlogId());
 	return ($count == 1);
 }
 
 function deletePluginTable($name) {
 	global $database;
 	if(getBlogId() !== 0) return false;
-	$name = Data_IAdapter::escapeString($name);
-	Data_IAdapter::query("DROP {$database['prefix']}{$name}");
+	$name = POD::escapeString($name);
+	POD::query("DROP {$database['prefix']}{$name}");
 	return true;
 }
 
@@ -254,12 +260,12 @@ function getPluginTableName() {
 	$likeEscape = array ( '/_/' , '/%/' );
 	$likeReplace = array ( '\\_' , '\\%' );
 	$escapename = preg_replace($likeEscape, $likeReplace, $database['prefix']);
-	$query = "SHOW TABLES LIKE '{$escapename}%'";
-	$dbtables = Data_IAdapter::queryColumn($query);
+
+	$dbtables = POD::tableList($escapename);
 
 	$dbCaseInsensitive = getServiceSetting('lowercaseTableNames');
 	if($dbCaseInsensitive === null) {
-		$result = Data_IAdapter::queryRow("SHOW VARIABLES LIKE 'lower_case_table_names'");
+		$result = POD::queryRow("SHOW VARIABLES LIKE 'lower_case_table_names'");
 		$dbCaseInsensitive = ($result['Value'] == 1) ? 1 : 0;
 		setServiceSetting('lowercaseTableNames',$dbCaseInsensitive);
 	}
@@ -295,7 +301,7 @@ function eventExists($event)
 }
 
 function fireEvent($event, $target = null, $mother = null, $condition = true) {
-	global $service, $eventMappings, $pluginURL, $pluginPath, $configMappings, $configVal;
+	global $service, $eventMappings, $pluginURL, $pluginPath, $pluginName, $configMappings, $configVal;
 	if (!$condition)
 		return $target;
 	if (!isset($eventMappings[$event]))
@@ -309,7 +315,22 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
 				$configVal = null;
 			$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
 			$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
+			$pluginName = $mapping['plugin'];
+			// Loading locale resource
+			$languageDomain = null;
+			if(is_dir($pluginPath . '/locale/')) {
+				$locale = Locale::getInstance();
+				$languageDomain = $locale->domain;
+				if(file_exists($pluginPath.'/locale/'.$locale->defaultLanguage.'.php')) {
+					$locale->setDirectory($pluginPath.'/locale');
+					$locale->set($locale->defaultLanguage, $mapping['plugin']);
+					$locale->domain = $mapping['plugin'];
+				}
+			}
 			$target = call_user_func($mapping['listener'], $target, $mother);
+			/// unload.
+			if(!is_null($languageDomain)) $locale->domain = $languageDomain;
+			$pluginURL = $pluginPath = $pluginName = "";
 		}
 	}
 	return $target;
@@ -332,7 +353,20 @@ function handleTags( & $content) {
 					$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
 					$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
 					$pluginName = $mapping['plugin'];
+					// Loading locale resource
+					$languageDomain = null;
+					if(is_dir($pluginPath . '/locale/')) {
+						$locale = Locale::getInstance();
+						$languageDomain = $locale->domain;
+						if(file_exists($pluginPath.'/locale/'.$locale->defaultLanguage.'.php')) {
+							$locale->setDirectory($pluginPath.'/locale');
+							$locale->set($locale->defaultLanguage, $mapping['plugin']);
+							$locale->domain = $mapping['plugin'];
+						}
+					}					
 					$target = call_user_func($mapping['handler'], $target);
+					if(!is_null($languageDomain)) $locale->domain = $languageDomain;
+					$pluginURL = $pluginPath = $pluginName = "";
 				}
 			}
 			dress($tag, $target, $content);
@@ -353,7 +387,20 @@ function handleCenters($mapping) {
 		$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
 		$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
 		$pluginName = $mapping['plugin'];
+		// Loading locale resource
+		$languageDomain = null;
+		if(is_dir($pluginPath . '/locale/')) {
+			$locale = Locale::getInstance();
+			$languageDomain = $locale->domain;
+			if(file_exists($pluginPath.'/locale/'.$locale->defaultLanguage.'.php')) {
+				$locale->setDirectory($pluginPath.'/locale');
+				$locale->set($locale->defaultLanguage, $pluginName);
+				$locale->domain = $mapping['plugin'];
+			}
+		}		
 		$target = call_user_func($mapping['handler'], $target);
+		if(!is_null($languageDomain)) $locale->domain = $languageDomain;
+		$pluginURL = $pluginPath = $pluginName = "";
 	}
 
 	return $target;
@@ -367,8 +414,6 @@ function handleSidebars(& $sval, & $obj, $previewMode) {
 	// type : 1=skin text, 2=default handler, 3=plug-in
 	// id : type1=sidebar i, type2=handler id, type3=plug-in handler name
 	// parameters : type1=sidebar j, blah blah~
-	
-	requireModel('blog.sidebar');
 	
 	$sidebarCount = count($obj->sidebarBasicModules);
 	$sidebarAllOrders = getSidebarModuleOrderData($sidebarCount);
@@ -424,7 +469,7 @@ function handleSidebars(& $sval, & $obj, $previewMode) {
 	if (count($newSidebarAllOrders) > 0) {
 		if (($previewMode == false) && !is_null($sidebarAllOrders)) {
 			setBlogSetting("sidebarOrder", serialize($sidebarAllOrders));
-			Model_BlogSkin::purgeCache();
+			Skin::purgeCache();
 		}
 	}
 }
@@ -455,13 +500,27 @@ function handleCoverpages(& $obj, $previewMode = false) {
 					$parameters = $currentCoverpageOrder[$j]['parameters'];
 					$pluginURL = "{$service['path']}/plugins/{$plugin}";
 					$pluginPath = ROOT . "/plugins/{$plugin}";
+					$pluginName = $plugin;
 					if( !empty( $configMappings[$plugin]['config'] ) ) 				
 						$configVal = getCurrentSetting($plugin);
 					else
 						$configVal ='';
 					
 					if (function_exists($handler)) {
+						// Loading locale resource
+						$languageDomain = null;
+						if(is_dir($pluginPath . '/locale/')) {
+							$locale = Locale::getInstance();
+							$languageDomain = $locale->domain;
+							if(file_exists($pluginPath.'/locale/'.$locale->defaultLanguage.'.php')) {
+								$locale->setDirectory($pluginPath.'/locale');
+								$locale->set($locale->defaultLanguage, $plugin);
+								$locale->domain = $plugin;
+							}
+						}												
 						$obj->coverpageStorage["temp_coverpage_element_{$i}_{$j}"] = call_user_func($handler, $parameters);
+						if(!is_null($languageDomain)) $locale->domain = $languageDomain;
+						$pluginURL = $pluginPath = $pluginName = "";
 					} else {
 						$obj->coverpageStorage["temp_coverpage_element_{$i}_{$j}"] = "";
 					}
@@ -493,7 +552,21 @@ function handleDataSet( $plugin , $DATA ) {
 				$configVal = getCurrentSetting($plugin);
 			else
 				$configVal ='';
+			// Loading locale resource
+			$languageDomain = null;
+			if(is_dir($pluginPath . '/locale/')) {
+				$locale = Locale::getInstance();
+				$languageDomain = $locale->domain;
+				if(file_exists($pluginPath.'/locale/'.$locale->defaultLanguage.'.php')) {
+					$locale->setDirectory($pluginPath.'/locale');
+					$locale->set($locale->defaultLanguage, $pluginName);
+					$locale->domain = $pluginName;
+				}
+			}
+				
 			$reSetting = call_user_func( $configMappings[$plugin]['dataValHandler'] , $DATA);
+			$pluginURL = $pluginPath = $pluginName = "";
+			if(!is_null($languageDomain)) $locale->domain = $languageDomain;	
 		}
 		if( true !== $reSetting )	
 			return array( 'error' => '9', 'customError' => $reSetting)	;
@@ -503,7 +576,7 @@ function handleDataSet( $plugin , $DATA ) {
 }
 
 function fetchConfigVal($DATA) {
-	return Model_Setting::fetchConfigVal($DATA);
+	return Setting::fetchConfigVal($DATA);
 }
 
 function handleConfig($plugin) {
@@ -519,7 +592,7 @@ function handleConfig($plugin) {
 	$xmls = new XMLStruct();	
 	$CDSPval = '';
 	$i=0;
-	$dfVal =  Model_Setting::fetchConfigVal(getCurrentSetting($plugin));
+	$dfVal =  Setting::fetchConfigVal(getCurrentSetting($plugin));
 	$name = '';
 	$clientData ='[';
 	
@@ -542,7 +615,11 @@ function handleConfig($plugin) {
 					$configVal = getCurrentSetting($plugin);
 				else
 					$configVal ='';
+					
+					
 				$manifest = call_user_func( $handler , $plugin );
+				if(!is_null($languageDomain)) $locale->domain = $languageDomain;		
+				$pluginURL = $pluginPath = $pluginName = "";
 			}
 			$newXmls = new XMLStruct();
 			if($newXmls->open( $manifest) ) {	 

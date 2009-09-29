@@ -15,6 +15,6 @@ $isAuthToken = getUserSetting('AuthToken',false) ? true : false;
 if($_POST['pwd'] != '' && (($_POST['prevPwd'] != '') || ($isAuthToken != false))) {
 	$result = changePassword(getUserId(), $_POST['pwd'], $_POST['prevPwd'], $isAuthToken);
 }
-if($result) Utils_Respond::ResultPage(0);
-else Utils_Respond::ResultPage(-1);
+if($result) Respond::ResultPage(0);
+else Respond::ResultPage(-1);
 ?>

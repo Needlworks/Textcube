@@ -84,13 +84,13 @@ function setProgress($progress, $text = null, $sub = null) {
 }
 
 setProgress(0, _t('교정 대상을 확인하고 있습니다.'));
-$items = 4 + Data_IAdapter::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE blogid = $blogid") + Data_IAdapter::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid");
+$items = 4 + POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Comments WHERE blogid = $blogid") + POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid");
 
 set_time_limit(0);
 $item = 0;
 $corrected = 0;
 
-$post = new Model_Post;
+$post = new Post;
 
 setProgress($item++ / $items * 100, _t('글의 댓글 정보를 다시 계산해서 저장합니다.'));
 
@@ -105,49 +105,49 @@ updateEntriesOfCategory($blogid);
 setProgress($item++ / $items * 100, _t('태그와 태그 관계 정보를 다시 계산해서 저장합니다.'));
 $post->correctTagsAll();
 
-if ($result = Data_IAdapter::query("SELECT id, name, parent, homepage, comment, entry, isFiltered FROM {$database['prefix']}Comments WHERE blogid = $blogid")) {
-	while ($comment = Data_IAdapter::fetch($result)) {
+if ($result = POD::query("SELECT id, name, parent, homepage, comment, entry, isfiltered FROM {$database['prefix']}Comments WHERE blogid = $blogid")) {
+	while ($comment = POD::fetch($result)) {
 		setProgress($item++ / $items * 100, _t('댓글과 방명록 데이터를 교정하고 있습니다.'));
 		$correction = '';
 		if (!UTF8::validate($comment['name']))
-			$correction .= ' name = \'' . Data_IAdapter::escapeString(UTF8::correct($comment['name'], '?')) . '\'';
+			$correction .= ' name = \'' . POD::escapeString(UTF8::correct($comment['name'], '?')) . '\'';
 		if (!UTF8::validate($comment['homepage']))
-			$correction .= ' homepage = \'' . Data_IAdapter::escapeString(UTF8::correct($comment['homepage'], '?')) . '\'';
+			$correction .= ' homepage = \'' . POD::escapeString(UTF8::correct($comment['homepage'], '?')) . '\'';
 		if (!UTF8::validate($comment['comment']))
-			$correction .= ' comment = \'' . Data_IAdapter::escapeString(UTF8::correct($comment['comment'], '?')) . '\'';
+			$correction .= ' comment = \'' . POD::escapeString(UTF8::correct($comment['comment'], '?')) . '\'';
 		if (strlen($correction) > 0) {
-			Data_IAdapter::query("UPDATE {$database['prefix']}Comments SET $correction WHERE blogid = $blogid AND id = {$comment['id']}");
+			POD::query("UPDATE {$database['prefix']}Comments SET $correction WHERE blogid = $blogid AND id = {$comment['id']}");
 			$corrected++;
 		}
-		if (!is_null($comment['parent']) && ($comment['isFiltered'] == 0)) {
-			$r2 = Data_IAdapter::query("SELECT id FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$comment['parent']} AND isFiltered = 0");
-			if (Data_IAdapter::num_rows($r2) <= 0) {
+		if (!is_null($comment['parent']) && ($comment['isfiltered'] == 0)) {
+			$r2 = POD::query("SELECT id FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$comment['parent']} AND isfiltered = 0");
+			if (POD::num_rows($r2) <= 0) {
 				trashCommentInOwner($blogid, $comment['id']);
 			}
-			Data_IAdapter::free($r2);
+			POD::free($r2);
 		}
 	}
-	Data_IAdapter::free($result);
+	POD::free($result);
 }
 
-if ($result = Data_IAdapter::query("SELECT id, url, site, subject, excerpt FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid")) {
-	while ($trackback = Data_IAdapter::fetch($result)) {
+if ($result = POD::query("SELECT id, url, site, subject, excerpt FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid")) {
+	while ($trackback = POD::fetch($result)) {
 		setProgress($item++ / $items * 100, _t('걸린 글 데이터를 교정하고 있습니다.'));
 		$correction = '';
 		if (!UTF8::validate($trackback['url']))
-			$correction .= ' url = \'' . Data_IAdapter::escapeString(UTF8::correct($trackback['url'], '?')) . '\'';
+			$correction .= ' url = \'' . POD::escapeString(UTF8::correct($trackback['url'], '?')) . '\'';
 		if (!UTF8::validate($trackback['site']))
-			$correction .= ' site = \'' . Data_IAdapter::escapeString(UTF8::correct($trackback['site'], '?')) . '\'';
+			$correction .= ' site = \'' . POD::escapeString(UTF8::correct($trackback['site'], '?')) . '\'';
 		if (!UTF8::validate($trackback['subject']))
-			$correction .= ' subject = \'' . Data_IAdapter::escapeString(UTF8::correct($trackback['subject'], '?')) . '\'';
+			$correction .= ' subject = \'' . POD::escapeString(UTF8::correct($trackback['subject'], '?')) . '\'';
 		if (!UTF8::validate($trackback['excerpt']))
-			$correction .= ' excerpt = \'' . Data_IAdapter::escapeString(UTF8::correct($trackback['excerpt'], '?')) . '\'';
+			$correction .= ' excerpt = \'' . POD::escapeString(UTF8::correct($trackback['excerpt'], '?')) . '\'';
 		if (strlen($correction) > 0) {
-			Data_IAdapter::query("UPDATE {$database['prefix']}RemoteResponses SET $correction WHERE blogid = $blogid AND id = {$trackback['id']}");
+			POD::query("UPDATE {$database['prefix']}RemoteResponses SET $correction WHERE blogid = $blogid AND id = {$trackback['id']}");
 			$corrected++;
 		}
 	}
-	Data_IAdapter::free($result);
+	POD::free($result);
 }
 
 setProgress(100, _t('완료되었습니다.') . "($corrected)");

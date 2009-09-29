@@ -6,20 +6,20 @@ define('NO_SESSION', true);
 define('__TEXTCUBE_LOGIN__',true);
 
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.feed");
-requireModel("blog.entry");
+//requireModel("blog.entry");
 requireModel("blog.category");
 
 requireStrictBlogURL();
-if(in_array($categoryId, getCategoryVisibilityList($blogid, 'private'))) return false;
 
 $children = array();
-$cache = new Cache_Page;
+$cache = new pageCache;
 if(!empty($suri['id'])) {
 	$categoryId = $suri['id'];
+	if(in_array($categoryId, getCategoryVisibilityList($blogid, 'private'))) return false;
 	$categotyTitle = getCategoryNameById($categoryId);
 } else if (!empty($suri['value'])) {
  	$categoryId = getCategoryIdByLabel(getBlogId(), $suri['value']);
+	if(in_array($categoryId, getCategoryVisibilityList($blogid, 'private'))) return false;
  	$categoryTitle = $suri['value'];
 } else { 	// If no category is mentioned, redirect it to total atom.
 	header ("Location: $hostURL$blogURL/atom");
@@ -35,8 +35,9 @@ if($parent === null) {	// It's parent. let's find childs.
 	}
 }
 
-$cache->name = 'categoryATOM_'.$categoryId;
+$cache->name = 'categoryATOM-'.$categoryId;
 if(!$cache->load()) {
+	requireModel("blog.feed");
 	$result = getCategoryFeedByCategoryId(getBlogId(),$categoryIds,'atom',$categoryTitle);
 	if($result !== false) {
 		$cache->contents = $result;

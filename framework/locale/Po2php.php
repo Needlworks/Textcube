@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-class Locale_Po2php
+final class Po2php
 {
 	var $msgs;
 	var $nomsgs;
@@ -177,4 +177,3 @@ class Locale_Po2php
 		$this->save($target_file);
 	}
 }
-?>

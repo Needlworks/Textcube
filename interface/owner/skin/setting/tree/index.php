@@ -6,9 +6,9 @@ $IV = array(
 	'POST' => array(
 		'tree' => array('string', 'default' => 'base'),
 		'colorOnTree' => array('string', 'default' => '000000'),
-		'bgColorOnTree' => array('string', 'default' => ''),
-		'activeColorOnTree' => array('string', 'default' => '000000'),
-		'activeBgColorOnTree' => array('string', 'default' => ''),
+		'bgcolorOnTree' => array('string', 'default' => ''),
+		'activecolorOnTree' => array('string', 'default' => '000000'),
+		'activebgcolorOnTree' => array('string', 'default' => ''),
 		'labelLengthOnTree' => array('int', 'default' => 30),
 		'showValueOnTree' => array('string', 'mandatory' => false)
 	)
@@ -17,7 +17,7 @@ require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 if(isset($suri['id'])) {
 	$categories = getCategories($blogid);
-	Utils_Respond::PrintResult(array('code' => urlencode(getCategoriesViewInSkinSetting(getEntriesTotalCount($blogid), getCategories($blogid), $suri['id']))));
+	Respond::PrintResult(array('code' => urlencode(getCategoriesViewInSkinSetting(getEntriesTotalCount($blogid), getCategories($blogid), $suri['id']))));
 	exit;
 } else {
 	if (setTreeSetting($blogid, $_POST)) {

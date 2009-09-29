@@ -140,7 +140,7 @@ class Auth_OpenID {
         $data = array();
 
         if ($query_str !== null) {
-            $data = Auth_Model_OpenID::params_from_string($query_str);
+            $data = Auth_OpenID::params_from_string($query_str);
         } else if (!array_key_exists('REQUEST_METHOD', $_SERVER)) {
             // Do nothing.
         } else {
@@ -153,7 +153,7 @@ class Auth_OpenID {
           // going to emulate the behavior of some other environments
           // by defaulting to GET and overwriting with POST if POST
           // data is available.
-          $data = Auth_Model_OpenID::params_from_string($_SERVER['QUERY_STRING']);
+          $data = Auth_OpenID::params_from_string($_SERVER['QUERY_STRING']);
 
           if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $str = file_get_contents('php://input');
@@ -161,7 +161,7 @@ class Auth_OpenID {
             if ($str === false) {
               $post = array();
             } else {
-              $post = Auth_Model_OpenID::params_from_string($str);
+              $post = Auth_OpenID::params_from_string($str);
             }
 
             $data = array_merge($data, $post);
@@ -202,7 +202,7 @@ class Auth_OpenID {
         if (is_dir($dir_name) || @mkdir($dir_name)) {
             return true;
         } else {
-            if (Auth_Model_OpenID::ensureDir(dirname($dir_name))) {
+            if (Auth_OpenID::ensureDir(dirname($dir_name))) {
                 return is_dir($dir_name) || @mkdir($dir_name);
             } else {
                 return false;
@@ -241,7 +241,7 @@ class Auth_OpenID {
                 return $fallback;
             }
         } else {
-            trigger_error("Auth_Model_OpenID::arrayGet (key = ".$key.") expected " .
+            trigger_error("Auth_OpenID::arrayGet (key = ".$key.") expected " .
                           "array as first parameter, got " .
                           gettype($arr), E_USER_WARNING);
 
@@ -340,7 +340,7 @@ class Auth_OpenID {
             $sep = '&';
         }
 
-        return $url . $sep . Auth_Model_OpenID::httpBuildQuery($args);
+        return $url . $sep . Auth_OpenID::httpBuildQuery($args);
     }
 
     /**
@@ -487,7 +487,7 @@ class Auth_OpenID {
             $tail[0] = '/';
         }
 
-        $url = Auth_Model_OpenID::urlunparse($parsed['scheme'], $parsed['host'],
+        $url = Auth_OpenID::urlunparse($parsed['scheme'], $parsed['host'],
                                        $parsed['port'], $tail[0], $tail[1]);
 
         assert(is_string($url));

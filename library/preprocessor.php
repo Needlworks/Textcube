@@ -10,8 +10,6 @@
     * Initialization
     * Checks privilege 
 */
-/** Boot sequence 
-*/
 foreach (new DirectoryIterator(ROOT.'/framework/boot') as $fileInfo) {
 	if($fileInfo->isFile()) require_once($fileInfo->getPathname());
 }
@@ -50,17 +48,30 @@ if (!$valid) {
 	exit;
 }
 
+/** LOAD : Basic Components
+    --------------------
+    Loads singleton base class and autoloader.
+*/
+
 /** LOAD : Configuration and Debug module (if necessary)
     --------------------
 */
-global $config, $context;
+global $config, $context, $uri;
 
 /// Loading configuration	
-$dispatcher = Dispatcher::getInstance();
-$URLInfo = $dispatcher->URLInfo;
-$config = Model_Config::getInstance();
 $context = Model_Context::getInstance(); // automatic initialization via first instanciation
+$config  = Model_Config::getInstance();
+$uri     = Model_URIHandler::getInstance();
 
+/// Loading debug module
+if($context->getProperty('service.debugmode') == true) {
+	if(!is_null($context->getProperty('database.dbms'))) {
+		require_once(ROOT. "/framework/data/".$context->getProperty('database.dbms')."/Debug.php");
+	} else require_once(ROOT. "/framework/data/MySQL/Debug.php");
+} else {
+	if(!function_exists('dumpAsFile')) {function dumpAsFile($dummy){}}
+}
+    
 /** LOAD : Required components / models / views 
     -------------------------------------------
     include.XXXX contains necessary file list. (XXXX : blog, owner, reader, feeder, icon)
@@ -68,32 +79,43 @@ $context = Model_Context::getInstance(); // automatic initialization via first i
 */
 
 /// Reading necessary file list
-require_once (ROOT.'/library/include.'.$context->URLInfo['interfaceType'].'.php');
+require_once (ROOT.'/library/include.'.$uri->uri['interfaceType'].'.php');
 /// Loading files.
 require_once (ROOT.'/library/include.php');
 
 /** INITIALIZE : Sending header 
     ---------------------------
 */
-header('Content-Type: text/html; charset=utf-8');
+if(defined('__TEXTCUBE_HEADER_XML__')) {
+	header('Content-Type: text/xml; charset=utf-8');
+} else {
+	header('Content-Type: text/html; charset=utf-8');
+}
 
 /** INITIALIZE : Database I/O
     -------------------------
     Performs database connection.
 */
-if(!empty($config->database) && !empty($config->database["database"])) {
-	if(Data_IAdapter::connect($config->database['server'],$config->database['username'],$config->database['password'],$config->database['database'],array()) === false) {
-		Utils_Respond::MessagePage('Problem with connecting database.<br /><br />Please re-visit later.');
+if(!is_null($context->getProperty('database.database'))) {
+	$context->useNamespace('database');
+	$db['database'] = $context->getProperty('database');
+	$db['server']   = $context->getProperty('server');
+	$db['port']     = $context->getProperty('port');
+	$db['username'] = $context->getProperty('username');
+	$db['password'] = $context->getProperty('password');
+	$context->useNamespace();
+	if(POD::bind($db) === false) {
+		Respond::MessagePage('Problem with connecting database.<br /><br />Please re-visit later.');
 		exit;
 	}
 }
-$database['utf8'] = (Data_IAdapter::charset() == 'utf8') ? true : false;
+$database['utf8'] = (POD::charset() == 'utf8') ? true : false;
 /// Memcache module bind (if possible)
 global $memcache;
 $memcache = null;
-if(!empty($config->database) && !empty($config->service['memcached']) && $config->service['memcached'] == true): 
+if($context->getProperty('service.memcached') == true): 
 	$memcache = new Memcache;
-	$memcache->connect((isset($memcached['server']) && $memcached['server'] ? $memcached['server'] : 'localhost'));
+	$memcache->connect((!is_null($context->getProperty('memcached.server')) ? $context->getProperty('memcached.server') : 'localhost'));
 endif;
 
 /** INITIALIZE : URI Parsing and specify parameters
@@ -101,19 +123,26 @@ endif;
     Textcube judges blogid from its URI.
     After parsing URI-specific variables, fetch global variables (legacy support till Textcube 2)
 */
-$context->URIParser();
+$uri = Model_URIHandler::getInstance();
+
+$uri->URIParser();
+$uri->VariableParser();
+
 /// Setting global variables
-$context->globalVariableParser();
+//if($context->getProperty('service.legacyMode') == true) {
+	$legacy = Model_LegacySupport::getInstance();
+	$legacy->addSupport('URLglobals');
+//}
 
 /** INITIALIZE : Session (if necessary)
     -----------------------------------
 */
 if (!defined('NO_SESSION')) {
-	session_name(Model_Session::getName());
-	Model_Session::set();
-	session_set_save_handler( array('Model_Session','open'), array('Model_Session','close'), array('Model_Session','read'), array('Model_Session','write'), array('Model_Session','destroy'), array('Model_Session','gc') );
+	session_name(Session::getName());
+	Session::set();
+	session_set_save_handler( array('Session','open'), array('Session','close'), array('Session','read'), array('Session','write'), array('Session','destroy'), array('Session','gc') );
 	session_cache_expire(1);
-	session_set_cookie_params(0, '/', $config->service['domain']);
+	session_set_cookie_params(0, '/', $context->getProperty('service.session_cookie_domain'));
 	if (session_start() !== true) {
 		header('HTTP/1.1 503 Service Unavailable');
 		exit;
@@ -130,8 +159,8 @@ if (!defined('NO_INITIALIZAION')) {
 */
 	if (doesHaveMembership()) {
 		$user = array('id' => getUserId());
-		$user['name'] = Model_User::getName(getUserId());
-		$user['homepage'] = Model_User::getHomePage();
+		$user['name'] = User::getName(getUserId());
+		$user['homepage'] = User::getHomePage();
 	} else {
 		$user = null;
 	}
@@ -140,41 +169,49 @@ if (!defined('NO_INITIALIZAION')) {
     --------
     Blog-specific Timezone setting.
 */
-	if(isset($config->database) && !empty($config->database['database'])) {
+	if(!is_null($context->getProperty('database.database'))) {
 		$timezone = new Timezone;
-		$timezone->set(isset($blog['timezone']) ? $blog['timezone'] : $config->service['timezone']);
-		@Data_IAdapter::query('SET time_zone = \'' . $timezone->getCanonical() . '\'');
+		$timezone->set(isset($blog['timezone']) ? $blog['timezone'] : $context->getProperty('service.timezone'));
+		POD::setTimezone(isset($blog['timezone']) ? $blog['timezone'] : $context->getProperty('service.timezone'));
 	}
 /** Locale Resources
     ----------------
     Loads necessary locale resource. 
     (TODO : Reduce the capacity of i18n resource by dividing blog / adminpanel setting.
 */
-	$__locale = array(
-		'locale' => null,
-		'directory' => './locale',
-		'domain' => null,
-		);
 	
 /// Load administration panel locale.
 	if(!defined('NO_LOCALE')) {
-		Locale::setDirectory(ROOT . '/resources/language');
-		Locale::set(isset($blog['language']) ? $blog['language'] : $service['language']);
-	
-		// Load blog screen locale.
-		if (!isset($blog['blogLanguage'])) {
-			$blog['blogLanguage'] = $service['language'];
+		if($context->getProperty('uri.interfaceType') == 'reader') { $languageDomain = 'owner'; }
+		else $languageDomain = $context->getProperty('uri.interfaceType');
+		
+		if($languageDomain == 'owner') {
+			$language = isset($blog['language']) ? $blog['language'] : $service['language'];
+		} else {
+			$language = isset($blog['blogLanguage']) ? $blog['blogLanguage'] : $service['language'];
 		}
-		Locale::setSkinLocale(isset($blog['blogLanguage']) ? $blog['blogLanguage'] : $service['language']);
+		$locale = Locale::getInstance();
+		$locale->setDirectory(ROOT . '/resources/locale/'.$languageDomain);
+		$locale->set($language,$languageDomain);
+		$locale->setDomain($languageDomain);
+		$locale->setDefaultLanguage($language);
+		unset($languageDomain);
+		unset($language);
 	}
 	
 /** Administration panel skin / editor template
     -------------------------------------------
     When necessary, loads admin panel skin information.
 */
-	if(in_array($context->URLInfo['interfaceType'], array('owner','reader')) || defined('__TEXTCUBE_ADMINPANEL__')) {
+	if(in_array($context->getProperty('uri.interfaceType'), array('owner','reader')) || defined('__TEXTCUBE_ADMINPANEL__')) {
 		$adminSkinSetting = array();
 		$adminSkinSetting['skin'] = "/skin/admin/".getBlogSetting("adminSkin", "canon");
+		// 1.5에서 올라온 경우 스킨이 있는 경우를 위한 workaround.
+	/*		if(($adminSkinSetting['skin'] == '/skin/admin/default') ||
+		 ($adminSkinSetting['skin'] == '/skin/admin/whitedream')) {
+			setBlogSetting("adminSkin", "canon");
+			$adminSkinSetting['skin'] = "/skin/admin/canon";
+		}*/
 		
 		// content 본문에 removeAllTags()가 적용되는 것을 방지하기 위한 프로세스를 위한 변수.
 		$contentContainer = array();
@@ -189,8 +226,8 @@ if (!defined('NO_INITIALIZAION')) {
 /** INITIALIZE : Plugin module (if necessary)
     -------------------------------------------
     Load and bind specific plugin codes and initialze them.
-*/ 
-if(in_array($context->URLInfo['interfaceType'], array('blog','owner','reader'))) {
+*/
+if(in_array($context->getProperty('uri.interfaceType'), array('blog','owner','reader','mobile'))) {
 	require_once(ROOT.'/library/plugins.php');
 }
 
@@ -199,13 +236,13 @@ if(in_array($context->URLInfo['interfaceType'], array('blog','owner','reader')))
     Checks privilege setting and block user (or connection).
 */
 
-if($context->URLInfo['interfaceType'] == 'blog' && !defined('__TEXTCUBE_LOGIN__')) {
-	$blogVisibility = Model_Setting::getBlogSettingGlobal('visibility',2);
+if($context->getProperty('uri.interfaceType') == 'blog' && !defined('__TEXTCUBE_LOGIN__')) {
+	$blogVisibility = Setting::getBlogSettingGlobal('visibility',2);
 	if($blogVisibility == 0) requireOwnership();
 	else if($blogVisibility == 1) requireMembership();
 }
 
-if(in_array($context->URLInfo['interfaceType'], array('owner','reader'))) {
+if(in_array($context->getProperty('uri.interfaceType'), array('owner','reader'))) {
 	requireOwnership();     // Check access control list
 	if(!empty($_SESSION['acl'])) {
 		$requiredPriv = Aco::getRequiredPrivFromUrl( $suri['directive'] );

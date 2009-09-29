@@ -23,7 +23,7 @@ if (!is_null($entry = getEntry($blogid, $_POST['templateId']))) {
 		$entry['published'] = 'UNIX_TIMESTAMP()';
 		$id = addEntry($blogid,$entry);
 	} else {
-		if($_POST['entryId'] == 0) Utils_Respond::ResultPage(1);
+		if($_POST['entryId'] == 0) Respond::ResultPage(1);
 		$id = $_POST['entryId'];
 	}
 	// Delete original attachments.
@@ -33,8 +33,8 @@ if (!is_null($entry = getEntry($blogid, $_POST['templateId']))) {
 			"title"=>$entry['title'],
 			"content"=>$entry['content'],
 			"entryId"=>$id);
-		Utils_Respond::PrintResult($result);
+		Respond::PrintResult($result);
 	}
 }
-Utils_Respond::ResultPage(1);
+Respond::ResultPage(1);
 ?>

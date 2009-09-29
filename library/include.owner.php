@@ -5,6 +5,7 @@
 
 $__requireComponent = array();
 $__requireBasics = array(
+	'function/file',
 	'function/string',
 	'function/time',
 	'function/javascript',
@@ -14,8 +15,7 @@ $__requireBasics = array(
 	'function/image',
 	'function/mail');
 $__requireLibrary = array(
-	'functions',
-	'locale',
+	'blog.skin',
 	'auth');
 $__requireModel = array(
 	'blog.service',			// Models
@@ -38,7 +38,4 @@ $__requireView = array(
 	'ownerView',
 	'paging',
 	'view');
-$__requireInit = array(
-	'initialize',			// Initializing environment.
-	'plugins');
 ?>

@@ -410,7 +410,7 @@ class Auth_OpenID_Consumer {
         }
 
         if ($query === null) {
-            $query = Auth_Model_OpenID::getQuery();
+            $query = Auth_OpenID::getQuery();
         }
 
         $loader = new Auth_OpenID_ServiceEndpointLoader();
@@ -653,7 +653,7 @@ class Auth_OpenID_GenericConsumer {
                               'id_res' => '_complete_id_res',
                               );
 
-        $method = Auth_Model_OpenID::arrayGet($mode_methods, $mode,
+        $method = Auth_OpenID::arrayGet($mode_methods, $mode,
                                         '_completeInvalid');
 
         return call_user_func_array(array(&$this, $method),
@@ -748,7 +748,7 @@ class Auth_OpenID_GenericConsumer {
         // signed list fields)
         $result = $this->_idResCheckForFields($message);
 
-        if (Auth_Model_OpenID::isFailure($result)) {
+        if (Auth_OpenID::isFailure($result)) {
             return $result;
         }
 
@@ -762,7 +762,7 @@ class Auth_OpenID_GenericConsumer {
         // Verify discovery information:
         $result = $this->_verifyDiscoveryResults($message, $endpoint);
 
-        if (Auth_Model_OpenID::isFailure($result)) {
+        if (Auth_OpenID::isFailure($result)) {
             return $result;
         }
 
@@ -771,13 +771,13 @@ class Auth_OpenID_GenericConsumer {
         $result = $this->_idResCheckSignature($message,
                                               $endpoint->server_url);
 
-        if (Auth_Model_OpenID::isFailure($result)) {
+        if (Auth_OpenID::isFailure($result)) {
             return $result;
         }
 
         $result = $this->_idResCheckNonce($message, $endpoint);
 
-        if (Auth_Model_OpenID::isFailure($result)) {
+        if (Auth_OpenID::isFailure($result)) {
             return $result;
         }
 
@@ -785,7 +785,7 @@ class Auth_OpenID_GenericConsumer {
                                             Auth_OpenID_NO_DEFAULT);
         $signed_list = explode(',', $signed_list_str);
 
-        $signed_fields = Auth_Model_OpenID::addPrefix($signed_list, "openid.");
+        $signed_fields = Auth_OpenID::addPrefix($signed_list, "openid.");
 
         return new Auth_OpenID_SuccessResponse($endpoint, $message,
                                                $signed_fields);
@@ -805,7 +805,7 @@ class Auth_OpenID_GenericConsumer {
         // original message.
         $result = Auth_OpenID_GenericConsumer::_verifyReturnToArgs(
                                            $message->toPostArgs());
-        if (Auth_Model_OpenID::isFailure($result)) {
+        if (Auth_OpenID::isFailure($result)) {
             return false;
         }
 
@@ -846,8 +846,8 @@ class Auth_OpenID_GenericConsumer {
                 return false;
             }
 
-            if (Auth_Model_OpenID::arrayGet($return_to_parts, $component) !==
-                Auth_Model_OpenID::arrayGet($msg_return_to_parts, $component)) {
+            if (Auth_OpenID::arrayGet($return_to_parts, $component) !==
+                Auth_OpenID::arrayGet($msg_return_to_parts, $component)) {
                 return false;
             }
         }
@@ -877,7 +877,7 @@ class Auth_OpenID_GenericConsumer {
         $q = array();
         if (array_key_exists('query', $parsed_url)) {
             $rt_query = $parsed_url['query'];
-            $q = Auth_Model_OpenID::parse_str($rt_query);
+            $q = Auth_OpenID::parse_str($rt_query);
         }
 
         foreach ($q as $rt_key => $rt_value) {
@@ -899,7 +899,7 @@ class Auth_OpenID_GenericConsumer {
         // in the signed return_to.
         $bare_args = $message->getArgs(Auth_OpenID_BARE_NS);
         foreach ($bare_args as $key => $value) {
-            if (Auth_Model_OpenID::arrayGet($q, $key) != $value) {
+            if (Auth_OpenID::arrayGet($q, $key) != $value) {
                 return new Auth_OpenID_FailureResponse(null,
                   sprintf("Parameter %s = %s not in return_to URL",
                           $key, $value));
@@ -1005,7 +1005,7 @@ class Auth_OpenID_GenericConsumer {
                                                         $to_match_1_0);
             }
 
-            if (Auth_Model_OpenID::isFailure($result)) {
+            if (Auth_OpenID::isFailure($result)) {
                 // oidutil.log("Error attempting to use stored
                 //             discovery information: " + str(e))
                 //             oidutil.log("Attempting discovery to
@@ -1043,7 +1043,7 @@ class Auth_OpenID_GenericConsumer {
         // claimed identifier with a fragment to discovered
         // information.
         list($defragged_claimed_id, $_) =
-            Auth_Model_OpenID::urldefrag($to_match->claimed_id);
+            Auth_OpenID::urldefrag($to_match->claimed_id);
 
         if ($defragged_claimed_id != $endpoint->claimed_id) {
             return new Auth_OpenID_FailureResponse($endpoint,
@@ -1134,10 +1134,10 @@ class Auth_OpenID_GenericConsumer {
             // common case.
             $result = $this->_verifyDiscoverySingle($endpoint, $to_match);
 
-            if (Auth_Model_OpenID::isFailure($result)) {
+            if (Auth_OpenID::isFailure($result)) {
                 $endpoint = $this->_discoverAndVerify($to_match);
 
-                if (Auth_Model_OpenID::isFailure($endpoint)) {
+                if (Auth_OpenID::isFailure($endpoint)) {
                     return $endpoint;
                 }
             }
@@ -1182,7 +1182,7 @@ class Auth_OpenID_GenericConsumer {
         foreach ($services as $endpoint) {
             $result = $this->_verifyDiscoverySingle($endpoint, $to_match);
 
-            if (!Auth_Model_OpenID::isFailure($result)) {
+            if (!Auth_OpenID::isFailure($result)) {
                 // It matches, so discover verification has
                 // succeeded. Return this endpoint.
                 return $endpoint;
@@ -1499,7 +1499,7 @@ class Auth_OpenID_GenericConsumer {
         $assoc = $this->_requestAssociation(
                            $endpoint, $assoc_type, $session_type);
 
-        if (Auth_Model_OpenID::isFailure($assoc)) {
+        if (Auth_OpenID::isFailure($assoc)) {
             return null;
         }
 
@@ -1596,7 +1596,7 @@ class Auth_OpenID_GenericConsumer {
               'expires_in missing from association response');
         }
 
-        $expires_in = Auth_Model_OpenID::intval($expires_in_str);
+        $expires_in = Auth_OpenID::intval($expires_in_str);
         if ($expires_in === false) {
             return null;
         }
@@ -1832,7 +1832,7 @@ class Auth_OpenID_AuthRequest {
     function getMessage($realm, $return_to=null, $immediate=false)
     {
         if ($return_to) {
-            $return_to = Auth_Model_OpenID::appendArgs($return_to,
+            $return_to = Auth_OpenID::appendArgs($return_to,
                                                  $this->return_to_args);
         } else if ($immediate) {
             // raise ValueError(
@@ -1907,7 +1907,7 @@ class Auth_OpenID_AuthRequest {
     {
         $message = $this->getMessage($realm, $return_to, $immediate);
 
-        if (Auth_Model_OpenID::isFailure($message)) {
+        if (Auth_OpenID::isFailure($message)) {
             return $message;
         }
 
@@ -1927,7 +1927,7 @@ class Auth_OpenID_AuthRequest {
     {
         $message = $this->getMessage($realm, $return_to, $immediate);
 
-        if (Auth_Model_OpenID::isFailure($message)) {
+        if (Auth_OpenID::isFailure($message)) {
             return $message;
         }
 

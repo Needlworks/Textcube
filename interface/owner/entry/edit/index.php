@@ -7,25 +7,26 @@ $IV = array(
 		'draft'       => array('any', 'mandatory' => false),
 		'popupEditor' => array('any', 'mandatory' => false),
 		'returnURL'   => array('string', 'mandatory' => false),
-		'slogan'   => array('string', 'mandatory' => false),
-		'category'    => array('int', 'default' => 0)
+		'slogan'      => array('string', 'mandatory' => false),
+		'category'    => array('int', 'default' => 0),
+		'editor'      => array('string', 'mandatory' => false)
 	),
 	'POST' => array(
 		'category'  => array('int', 'default' => 0),
 		'search'    => array('string', 'default' => ''),
-		'slogan'   => array('string', 'mandatory' => false),
+		'slogan'    => array('string', 'mandatory' => false),
 		'returnURL' => array('string', 'mandatory' => false)
 	)
 );
+
 require ROOT . '/library/preprocessor.php';
 requireModel("blog.entry");
 requireModel("blog.tag");
 requireModel("blog.locative");
 requireModel("blog.attachment");
 
-if (false) {
-	fetchConfigVal();
-}
+$context = Model_Context::getInstance();
+
 $isKeyword = false;
 define('__TEXTCUBE_EDIT__', true);
 if (defined('__TEXTCUBE_POST__'))
@@ -37,7 +38,7 @@ if (isset($_GET['draft'])) {
 	$entry = getEntry(getBlogId(), $suri['id'], false);
 }
 if (is_null($entry)) {
-	Utils_Respond::ErrorPage(_t('포스트 정보가 존재하지 않습니다.'));
+	Respond::ErrorPage(_t('포스트 정보가 존재하지 않습니다.'));
 	$isKeyword = ($entry['category'] == -1);
 }
 
@@ -67,7 +68,26 @@ if (isset($_GET['popupEditor'])) {
 if (isset($_POST['returnURL']) && !empty($_POST['returnURL'])) {
 	$_GET['returnURL'] = $_POST['returnURL'];
 }
+switch($entry['category']) {
+	case -1:
+		$titleText = _t('키워드');
+		break;
+	case -2:
+		$titleText = _t('공지');
+		break;
+	case -4:
+		$titleText = _t('서식');
+		break;
+	default:
+		$titleText = _t('글');
+}
 
+$editors = getAllEditors();
+if (isset($_GET['editor']) && in_array($_GET['editor'],array_keys($editors))) {
+	$entry['contenteditor'] = $_GET['editor'];
+}
+
+$context->setProperty('editor.key',$entry['contenteditor']);
 
 if (defined('__TEXTCUBE_POST__')) {
 	printOwnerEditorScript();
@@ -170,11 +190,21 @@ if (defined('__TEXTCUBE_POST__')) {
 									this.pageHolder.isHolding = function () {
 										return (entryManager.savedData != entryManager.getData());
 									}
-									
+<?php
+if (isset($_GET['returnURL'])) {
+?>
+									this.returnURL = "<?php echo escapeJSInCData($_GET['returnURL']);?>";
+<?php
+} else {
+?>
+									this.returnURL = null;
+<?php
+}
+?>							
 									this.getData = function (check) {
 										if (check == undefined)
 											check = false;
-										var oForm = document.forms[0];
+										var oForm = document.getElementById('editor-form');
 										
 										var title = trim(oForm.title.value);
 										var permalink = trim(oForm.permalink.value);
@@ -233,7 +263,21 @@ if (defined('__TEXTCUBE_POST__')) {
 										} catch(e) {
 											locationValue = oForm.location.value;
 										}
-								
+
+										var latitudeValue = "";
+										try {
+											latitudeValue = jQuery('input[name=latitude]').val()
+										} catch(e) {}
+										if(latitudeValue == undefined) {
+											latitudeValue = null;
+										}
+										var longitudeValue = "";
+										try {
+											longitudeValue = jQuery('input[name=longitude]').val()
+										} catch(e) {}
+										if(longitudeValue == undefined) {
+											longitudeValue = null;
+										}
 										var tagValue = "";
 										try {
 											tagValue = oTag.getValues().join(",");
@@ -264,14 +308,16 @@ if (defined('__TEXTCUBE_POST__')) {
 											"&title=" + encodeURIComponent(title) +
 											"&permalink=" + encodeURIComponent(permalink) +
 											"&content=" + encodeURIComponent(content) +
-											"&contentFormatter=" + encodeURIComponent(oForm.contentFormatter.value) +
-											"&contentEditor=" + encodeURIComponent(oForm.contentEditor.value) +
+											"&contentformatter=" + encodeURIComponent(oForm.contentformatter.value) +
+											"&contenteditor=" + encodeURIComponent(oForm.contenteditor.value) +
 											"&published=" + published +
 											"&category=" + ((entrytype!=0) ? entrytype : oForm.category.value) +
 											"&location=" + encodeURIComponent(locationValue) +
+											"&latitude=" + encodeURIComponent(latitudeValue) +
+											"&longitude=" + encodeURIComponent(longitudeValue) +
 											"&tag=" + encodeURIComponent(tagValue) +
-											"&acceptComment=" + (oForm.acceptComment.checked ? 1 : 0) +
-											"&acceptTrackback=" + (oForm.acceptTrackback.checked ? 1 : 0)
+											"&acceptcomment=" + (oForm.acceptcomment.checked ? 1 : 0) +
+											"&accepttrackback=" + (oForm.accepttrackback.checked ? 1 : 0)
 										);
 									}
 									
@@ -443,7 +489,7 @@ if (isset($_GET['popupEditor'])) {
 										document.getElementById("saveButton").value = "<?php echo _t('저장하기');?>";
 										document.getElementById("saveButton").style.color = "#000";
 										if (this.timer == null)
-											this.timer = window.setTimeout("entryManager.saveDraft()", 5000);
+											this.timer = window.setTimeout(entryManager.saveDraft, 5000);
 										else
 											this.delay = true;
 									}
@@ -458,7 +504,7 @@ if (isset($_GET['popupEditor'])) {
 										if (this.delay) {
 											this.delay = false;
 											this.autoSave = false;
-											this.timer = window.setTimeout("entryManager.saveDraft()", 5000);
+											this.timer = window.setTimeout(entryManager.saveDraft, 5000);
 											return;
 										}
 										this.save();
@@ -566,11 +612,10 @@ if (isset($_GET['popupEditor'])) {
 							<div id="part-editor" class="part">
 								<h2 class="caption"><span class="main-text"><?php
 
-
 if (defined('__TEXTCUBE_POST__')) {
-	echo _t('글을 작성합니다');
+	echo _f('%1 작성',$titleText);
 } else {
-	echo _t('선택한 글을 수정합니다');
+	echo _f('선택한 %1 수정',$titleText);
 }
 ?></span></h2>
 									
@@ -623,22 +668,22 @@ if (defined('__TEXTCUBE_POST__')) {
 										<h3><?php echo _t('본문');?></h3>
 										
 										<dl class="editoroption">
-											<dt><label for="contentFormatter"><?php echo _t('포매터');?></label></dt>
-											<dd><select id="contentFormatter" name="contentFormatter" onchange="return setFormatter(this.value, document.getElementById('contentEditor'), setCurrentEditor);">
+											<dt><label for="contentformatter"><?php echo _t('포매터');?></label></dt>
+											<dd><select id="contentformatter" name="contentformatter" onchange="return setFormatter(this.value, document.getElementById('contenteditor'), setCurrentEditor);">
 <?php
 	foreach (getAllFormatters() as $key => $formatter) {
 ?>
-												<option value="<?php echo htmlspecialchars($key);?>"<?php echo ($entry['contentFormatter'] == $key ? ' selected="selected"' : '');?>><?php echo htmlspecialchars($formatter['name']);?></option>
+												<option value="<?php echo htmlspecialchars($key);?>"<?php echo ($entry['contentformatter'] == $key ? ' selected="selected"' : '');?>><?php echo htmlspecialchars($formatter['name']);?></option>
 <?php
 	}
 ?>
 											</select></dd>
-											<dt><label for="contentEditor"><?php echo _t('편집기');?></label></dt>
-											<dd><select id="contentEditor" name="contentEditor" onfocus="return saveEditor(this);" onchange="return setEditor(this) &amp;&amp; setCurrentEditor(this.value);">
+											<dt><label for="contenteditor"><?php echo _t('편집기');?></label></dt>
+											<dd><select id="contenteditor" name="contenteditor" onfocus="return saveEditor(this);" onchange="return setEditor(this) &amp;&amp; changeEditor(this.value);">
 <?php
-	foreach (getAllEditors() as $key => $editor) {
+	foreach ($editors as $key => $editor) {
 ?>
-												<option value="<?php echo htmlspecialchars($key);?>"<?php echo ($entry['contentEditor'] == $key ? ' selected="selected"' : '');?>><?php echo htmlspecialchars($editor['name']);?></option>
+												<option value="<?php echo htmlspecialchars($key);?>"<?php echo ($entry['contenteditor'] == $key ? ' selected="selected"' : '');?>><?php echo htmlspecialchars($editor['name']);?></option>
 <?php
 	}
 ?>
@@ -684,10 +729,10 @@ if (count($templateLists) == 0) {
 								 		</div>
 										
 										<script type="text/javascript">//<![CDATA[
-											var contentFormatterObj = document.getElementById('contentFormatter');
-											var contentEditorObj = document.getElementById('contentEditor');
-											setFormatter(contentFormatterObj.value, contentEditorObj, false);
-											setCurrentEditor(contentEditorObj.value);
+											var contentformatterObj = document.getElementById('contentformatter');
+											var contenteditorObj = document.getElementById('contenteditor');
+											setFormatter(contentformatterObj.value, contenteditorObj, false);
+											setCurrentEditor(contenteditorObj.value);
 										//]]></script>
 									</div>
 									
@@ -802,12 +847,12 @@ if (defined('__TEXTCUBE_POST__')) {
 ?>
 													<div class="publish-preserve">
 														<input type="radio" id="publishedPreserve" class="radio" name="published" value="2" <?php echo (isset($entry['appointed']) ? 'checked="checked"' : '');?> /><label for="publishedPreserve" onclick="document.getElementById('appointed').select()"><?php echo _t('예약');?></label>
-														<input type="text" id="appointed" class="input-text" name="appointed" value="<?php echo Timestamp::format5(isset($entry['appointed']) ? $entry['appointed'] : $entry['published']);?>" onfocus="document.forms[0].published[document.forms[0].published.length - 1].checked = true" onkeypress="return preventEnter(event);" />
+														<input type="text" id="appointed" class="input-text" name="appointed" value="<?php echo Timestamp::format5(isset($entry['appointed']) ? $entry['appointed'] : $entry['published']);?>" onfocus="document.getElementById('editor-form').published[document.getElementById('editor-form').published.length - 1].checked = true" onkeypress="return preventEnter(event);" />
 													</div>
 												</dd>
 											</dl>
 <?php
-	$countResult = Data_IAdapter::queryExistence("SELECT `id` FROM `{$database['prefix']}Entries` WHERE `blogid` = ".getBlogId()." AND `visibility` = 3");
+	$countResult = POD::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND visibility = 3");
 ?>
 											<dl id="status-line" class="line">
 												<dt><span class="label"><?php echo _t('공개여부');?></span></dt>
@@ -822,8 +867,8 @@ if (defined('__TEXTCUBE_POST__')) {
 											<dl id="power-line" class="line"<?php if($isKeyword) echo _t('style="display: none"');?>>
 												<dt><span class="label"><?php echo _t('권한');?></span></dt>
 												<dd>
-													<div class="comment-yes"><input type="checkbox" id="acceptComment" class="checkbox" name="acceptComment"<?php echo ($entry['acceptComment'] ? ' checked="checked"' : '');?> /><label for="acceptComment"><span class="text"><?php echo _t('댓글 작성을 허용합니다.');?></span></label></div>
-												  	<div class="trackback-yes"><input type="checkbox" id="acceptTrackback" class="checkbox" name="acceptTrackback"<?php echo ($entry['acceptTrackback'] ? ' checked="checked"' : '');?> /><label for="acceptTrackback"><span class="text"><?php echo _t('글을 걸 수 있게 합니다.');?></span></label></div>
+													<div class="comment-yes"><input type="checkbox" id="acceptcomment" class="checkbox" name="acceptcomment"<?php echo ($entry['acceptcomment'] ? ' checked="checked"' : '');?> /><label for="acceptcomment"><span class="text"><?php echo _t('댓글 작성을 허용합니다.');?></span></label></div>
+												  	<div class="trackback-yes"><input type="checkbox" id="accepttrackback" class="checkbox" name="accepttrackback"<?php echo ($entry['accepttrackback'] ? ' checked="checked"' : '');?> /><label for="accepttrackback"><span class="text"><?php echo _t('글을 걸 수 있게 합니다.');?></span></label></div>
 												</dd>
 											</dl>
 										</div>
@@ -867,6 +912,14 @@ if (isset($_GET['popupEditor'])) {
 								<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 								<input type="hidden" name="withSearch" value="<?php echo (empty($_POST['search']) ? '' : 'on');?>" />
 								<input type="hidden" name="search" value="<?php echo (isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '');?>" />
+<?php
+if (isset($entry['latitude']) && !is_null($entry['latitude'])) {
+?>
+								<input type="hidden" name="latitude" value="<?php echo $entry['latitude'];?>" />
+								<input type="hidden" name="longitude" value="<?php echo $entry['longitude'];?>" />
+<?php
+}
+?>
 							</div>
 						</form>
 						<div id="feather" class="clear"></div>
@@ -897,6 +950,7 @@ if (isset($_GET['popupEditor'])) {
 								entryManager = new EntryManager();
 								reloadUploader();
 								window.setInterval("entryManager.saveDraft();", 300000);
+								//window.setTimeout(entryManager.saveDraft, 5000);
 								checkCategory('<?php
 switch($entry['category']) {
 	case -1:

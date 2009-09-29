@@ -28,6 +28,7 @@ abstract class Singleton {
 	abstract public static function getInstance();
 }
 
+/// String manipulation class
 final class String {
 	static function endsWith($string, $end) {
 		$longer = strlen($string) - strlen($end);
@@ -41,7 +42,8 @@ final class String {
 	}
 }
 
-
+/// Unicode string manipulation class. 
+/// (PHP built-in functions work incorrectly.)
 final class UTF8 {
 	static function validate($str, $truncated = false) {
 		$length = strlen($str);
@@ -183,8 +185,8 @@ final class UTF8 {
 	}
 
 	static function lessenAsEncoding($str, $length = 255, $tail = '...') {
-		global $database;
-		if(!isset($database['utf8']) || empty($database['utf8']) || $database['utf8'] == true)
+		$context = Model_Context::getInstance();
+		if($context->getProperty('database.utf8') != true)
 			return UTF8::lessen($str, $length, $tail);
 		else
 			return UTF8::lessenAsByte($str, $length, $tail);
@@ -365,6 +367,8 @@ final class Validator {
 					$rule[1] = $rule['min'];
 				if (isset($rule['max']))
 					$rule[2] = $rule['max'];
+				if (isset($rule['bypass']))
+					$rule[3] = $rule['bypass'];
 
 				switch ($rule[0]) {
 					case 'any':
@@ -380,11 +384,11 @@ final class Validator {
 						$array[$key] = Validator::getBool($value);
 						break;
 					case 'number':
-						if (!Validator::number($value, (isset($rule[1]) ? $rule[1] : null), (isset($rule[2]) ? $rule[2] : null)))
+						if (!Validator::number($value, (isset($rule[1]) ? $rule[1] : null), (isset($rule[2]) ? $rule[2] : null), (isset($rule[3]) ? $rule[3] : false)))
 							return false;
 						break;
 					case 'int':
-						if (!Validator::isInteger($value, (isset($rule[1]) ? $rule[1] : -2147483648), (isset($rule[2]) ? $rule[2] : 2147483647)))
+						if (!Validator::isInteger($value, (isset($rule[1]) ? $rule[1] : -2147483648), (isset($rule[2]) ? $rule[2] : 2147483647), (isset($rule[3]) ? $rule[3] : false)))
 							return false;
 						break;
 					case 'id':
@@ -481,21 +485,25 @@ final class Validator {
 		return true;
 	}
 
-	static function number($value, $min = null, $max = null) {
-		if (!is_numeric($value))
+	static function number($value, $min = null, $max = null, $bypass = false) {
+		if (($bypass === false) && !is_numeric($value))
 			return false;
-		if (isset($min) && ($value < $min))
-			return false;
-		if (isset($max) && ($value > $max))
-			return false;
+		if(!is_null($value)) {
+			if (isset($min) && ($value < $min))
+				return false;
+			if (isset($max) && ($value > $max))
+				return false;
+		}
 		return true;
 	}
 
-	static function isInteger($value, $min = -2147483648, $max = 2147483647) {
-		if (!preg_match('/^(0|-?[1-9][0-9]{0,9})$/', $value))
+	static function isInteger($value, $min = -2147483648, $max = 2147483647, $bypass = false) {
+		if (($bypass === false) && !preg_match('/^(0|-?[1-9][0-9]{0,9})$/', $value))
 			return false;
-		if (($value < $min) || ($value > $max))
-			return false;
+		if(!is_null($value)) {
+			if (($value < $min) || ($value > $max))
+				return false;
+		}
 		return true;
 	}
 
@@ -580,118 +588,6 @@ final class Validator {
 		if (is_null($string))
 			return null;
 		return ($escape ? htmlspecialchars($string) : str_replace('&amp;', '&', preg_replace(array('&quot;', '&lt;', '&gt;'), array('"', '<', '>'), $string)));
-	}
-}
-
-global $__locale, $__text, $__skinText;
-
-final class Locale {
-	// Requires $__locale as global variable. (language resource information)
-	static function get() {
-		global $__locale;
-		return $__locale['locale'];
-	}
-
-	static function set($locale) {
-		global $__locale, $__text;
-		list($common) = explode('-', $locale, 2);
-		Locale::refreshLocaleResource($locale);
-		if (file_exists($__locale['directory'] . '/' . $locale . '.php')) {
-			include($__locale['directory'] . '/' . $locale . '.php');
-			$__locale['locale'] = $locale;
-			return true;
-		} else if (($common != $locale) && file_exists($__locale['directory'] . '/' . $common . '.php')) {
-			include($__locale['directory'] . '/' . $common . '.php');
-			$__locale['locale'] = $common;
-			return true;
-		}
-		return false;
-	}
-
-	static function setSkinLocale($locale) {
-		global $__locale, $__skinText;
-		list($common) = explode('-', $locale, 2);
-		Locale::refreshLocaleResource($locale);
-		if (file_exists($__locale['directory'] . '/' . $locale . '.php')) {
-			$__skinText = Locale::includeLocaleFile($__locale['directory'] . '/' . $locale . '.php');
-			return true;
-		} else if (($common != $locale) && file_exists($__locale['directory'] . '/' . $common . '.php')) {
-			$__skinText = Locale::includeLocaleFile($__locale['directory'] . '/' . $common . '.php');
-			return true;
-		}
-		return false;
-	}
-
-	static function includeLocaleFile($languageFile) {
-		include($languageFile);
-		return $__text;
-	}
-
-	static function refreshLocaleResource($locale) {
-		global $__locale;
-		// po파일과 php파일의 auto convert 지원을 위한 루틴.
-		$lang_php = $__locale['directory'] . '/' . $locale . ".php";
-		$lang_po = $__locale['directory'] . '/po/' . $locale . ".po";
-		// 두 파일 중 최근에 갱신된 것을 찾는다.
-		$time_po = filemtime( $lang_po );
-		$time_php = filemtime( $lang_php );
-		// po파일이 더 최근에 갱신되었으면 php파일을 갱신한다.
-		if($time_po && $time_po > $time_php ) {
-			requireComponent('Needlworks.Core.Locale');
-			$langConvert = new Locale_Po2php;
-			$langConvert->open($lang_po);
-			$langConvert->save($lang_php);
-		}
-		return false;
-	}
-
-	static function setDirectory($directory) {
-		global $__locale;
-		if (!is_dir($directory))
-			return false;
-		$__locale['directory'] = $directory;
-		return true;
-	}
-
-	static function setDomain($domain) {
-		global $__locale;
-		$__locale['domain'] = $domain;
-		return true;
-	}
-
-	static function match($locale) {
-		global $__locale;
-		if (strcasecmp($locale, $__locale['locale']) == 0)
-			return 3;
-		else if (strncasecmp($locale, $__locale['locale'], 2) == 0)
-			return 2;
-		else if (strncasecmp($locale, 'en', 2) == 0)
-			return 1;
-		return 0;
-	}
-
-	static function getSupportedLocales() {
-		global $__locale;
-		$locales = array();
-		if ($dir = dir($__locale['directory'])) {
-			while (($entry = $dir->read()) !== false) {
-				if (!is_file($__locale['directory'] . '/' . $entry))
-					continue;
-				$locale = substr($entry, 0, strpos($entry, '.'));
-				if (empty($locale) || $locale == 'messages')
-					continue;
-				if ($fp = fopen($__locale['directory'] . '/' . $entry, 'r')) {
-					$desc = fgets($fp);
-					if (preg_match('/<\?(php)?\s*\/\/\s*(.+)/', $desc, $matches))
-						$locales[$locale] = _t(trim($matches[2]));
-					else
-						$locales[$locale] = $locale;
-					fclose($fp);
-				}
-			}
-			$dir->close();
-		}
-		return $locales;
 	}
 }
 
@@ -921,7 +817,38 @@ final class Timestamp {
 	static function getUNIXtime($time = null) {
 		return (isset($time) ? date('U', $time) : date('U'));
 	}
+		
+	static function getHumanReadable($time = null, $from = null) {
+		if(is_null($from)) $deviation = Timestamp::getUNIXtime() - Timestamp::getUNIXtime($time);
+		else $deviation = Timestamp::getUNIXtime($from) - Timestamp::getUNIXtime($time);
 
+		if($deviation > 0) { // Past.
+			if ($deviation < 60) {
+				return _f('%1초 전',$deviation);		
+			} else if ($deviation < 3600) {
+				return _f('%1분 전',intval($deviation/60));
+			} else if ($deviation < 86400) {
+				return _f('%1시간 전',intval($deviation/3600));
+			} else if ($deviation < 604800) {
+				return _f('%1일 전',intval($deviation/86400));
+			} else {
+				return _f('%1주 전',intval($deviation/604800));
+			}
+		} else {
+			$deviation = abs($deviation);
+			if ($deviation < 60) {
+				return _f('%1초 후',$deviation);		
+			} else if ($deviation < 3600) {
+				return _f('%1분 후',intval($deviation/60));
+			} else if ($deviation < 86400) {
+				return _f('%1시간 후',intval($deviation/3600));
+			} else if ($deviation < 604800) {
+				return _f('%1일 후',intval($deviation/86400));
+			} else {
+				return _f('%1주 후',intval($deviation/604800));
+			}			
+		}					
+	}	
 }
 
 final class Timer {
@@ -1006,7 +933,8 @@ class XMLStruct {
 			} else {
 				$lang = "";
 			}
-			switch (Locale::match($lang)) {
+			$locale = Locale::getInstance();
+			switch ($locale->match($lang)) {
 				case 3:
 					$matched = $param[$i];
 					unset($secondBest);
@@ -1223,7 +1151,9 @@ class XMLStruct {
 					} else {
 						$lang = "";
 					}
-					switch (Locale::match($lang)) {
+					$locale = Locale::getInstance();
+
+					switch ($locale->match($lang)) {
 						case 3:
 							$cursor = &$cursor[$name][$i];
 							return $cursor;

@@ -4,18 +4,17 @@
 
 function GoogleMap_Header($target) {
 	global $configVal, $pluginURL;
-	requireComponent('Textcube.Function.Setting');
-	$config = Model_Setting::fetchConfigVal($configVal);
+	$config = Setting::fetchConfigVal($configVal);
 	if (!is_null($config) && isset($config['apiKey'])) {
-		$api_key = $config['apiKey'];
-		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/common.css\" />\n";
-		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=$api_key\"></script>\n";
-		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/common.js?".time()."\"></script>\n";
-		$target .= "<script type=\"text/javascript\">
-		//<![CDATA[
-		STD.addUnloadEventListener(function(){GUnload();});
-		//]]>
-		</script>\n";
+		$use_sensor = (isset($config['useSensor']) && $config['useSensor']) ? 'true' : 'false';
+		$target .= <<<EOS
+<link rel="stylesheet" type="text/css" href="$pluginURL/common.css" />
+<script type="text/javascript">
+//<![CDATA[
+	var GMapCallbacks = [];
+//]]>
+</script>
+EOS;
 	}
 	return $target;
 }
@@ -23,38 +22,104 @@ function GoogleMap_Header($target) {
 function GoogleMap_AdminHeader($target) {
 	global $suri, $pluginURL, $blogURL, $serviceURL, $configVal;
 	if ($suri['directive'] == '/owner/entry/post' || $suri['directive'] == '/owner/entry/edit') {
-		requireComponent('Textcube.Function.Setting');
-		$config = Model_Setting::fetchConfigVal($configVal);
-		$api_key = $config['apiKey']; // should exist here
-		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$pluginURL/common.css\" />\n";
-		$target .= "<script type=\"text/javascript\" src=\"http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=$api_key\"></script>\n";
-		$target .= "<script type=\"text/javascript\">
-		//<![CDATA[
-		var pluginURL = '$pluginURL';
-		var blogURL = '$blogURL';
-		//]]>
-		</script>";
-		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/common.js\"></script>\n";
-		$target .= "<script type=\"text/javascript\" src=\"$pluginURL/scripts/editor.js\"></script>\n";
+		$config = Setting::fetchConfigVal($configVal);
+		$use_sensor = $config['useSensor'] ? 'true' : 'false';
+		$target .= <<<EOS
+<link rel="stylesheet" type="text/css" href="$pluginURL/common.css" />
+<script type="text/javascript" src="$pluginURL/scripts/editor.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+	var pluginURL = '$pluginURL';
+	var blogURL = '$blogURL';
+	var GMapCallbacks = [];
+//]]>
+</script>
+EOS;
+	}
+	return $target;
+}
+
+function GoogleMap_Footer($target) {
+	global $configVal, $pluginURL;
+	$context = Model_Context::getInstance();
+	if ($context->getProperty('is_used')) {
+		$config = Setting::fetchConfigVal($configVal);
+		if (!is_null($config) && isset($config['apiKey'])) {
+			$api_key = $config['apiKey'];
+			$target .= <<<EOS
+<script type="text/javascript" src="http://www.google.com/jsapi?key=$api_key"></script>
+<script type="text/javascript">
+//<![CDATA[
+	google.setOnLoadCallback(function() {
+		STD.addUnloadEventListener(function(){GUnload();});
+		jQuery.getScript('$pluginURL/scripts/common.js', function() {
+			var i;
+			for (i = 0; i < GMapCallbacks.length; i++)
+				GMapCallbacks[i]();
+		});
+	});
+	google.load('maps', '2');
+//]]>
+</script>
+EOS;
+		}
+	}
+	return $target;
+}
+
+function GoogleMap_AdminFooter($target) {
+	global $configVal, $pluginURL;
+	$context = Model_Context::getInstance();
+	if ($context->getProperty('is_used')) {
+		$config = Setting::fetchConfigVal($configVal);
+		if (!is_null($config) && isset($config['apiKey'])) {
+			$api_key = $config['apiKey'];
+			$target .= <<<EOS
+<script type="text/javascript" src="http://www.google.com/jsapi?key=$api_key"></script>
+<script type="text/javascript">
+//<![CDATA[
+	google.setOnLoadCallback(function() {
+		STD.addUnloadEventListener(function(){GUnload();});
+		jQuery.getScript('$pluginURL/scripts/common.js', function() {
+			var i;
+			for (i = 0; i < GMapCallbacks.length; i++)
+				GMapCallbacks[i]();
+		});
+	});
+	google.load('maps', '2');
+//]]>
+</script>;
+EOS;
+		}
 	}
 	return $target;
 }
 
 function GoogleMap_AddToolbox($target) {
 	global $pluginURL;
-	$target .= "<img src=\"$pluginURL/images/gmap_toolbar.gif\" border=\"0\" alt=\"구글맵 추가하기\" onclick=\"GMapTool_Insert();\" style=\"cursor:pointer\" />\n";
+	$m_addGoogleMap = _t("구글맵 추가하기");
+	$m_getPosition = _t("현재 위치 알아내기");
+	$target .= <<<EOS
+<dl id="toolbox-googlemap">
+	<dd class="command-box"><a class="button" id="gmap-insertMap" href="#insertGoogleMap" onclick="GMapTool_insertMap(); return false;">$m_addGoogleMap</a></dd>
+	<dd class="command-box"><a class="button" href="#getLocation" id="gmap-getLocation" onclick="GMapTool_getLocation(); return false;">$m_getPosition</a></dd>
+	</dl>
+EOS;
 	return $target;
 }
 
 function GoogleMap_View($target, $mother) {
 	global $configVal, $pluginURL, $surl;
-	requireComponent('Textcube.Function.Setting');
-	requireComponent('Textcube.Function.Misc');
-	$config = Model_Setting::fetchConfigVal($configVal);
+	$context = Model_Context::getInstance();
+	if ($context->getProperty('is_used') === null)
+		$context->setProperty('is_used', false);
+	$config = Setting::fetchConfigVal($configVal);
 	$matches = array();
 	$offset = 0;
 
+
 	while (preg_match('/\[##_GoogleMap\|(([^|]+)\|)?_##\]/', $target, $matches, PREG_OFFSET_CAPTURE, $offset) > 0) {
+		$context->setProperty('is_used', true);
 		// SUGGUEST: [##_GoogleMap|{JSON_REPRESENTATION_OF_PARAMETERS_WITHOUT_NEWLINES}|_##]
 		$id = 'GMapContainer'.$mother.rand();
 		ob_start();
@@ -87,7 +152,8 @@ function GoogleMap_View($target, $mother) {
 					$markers .= '|';
 				$markers .= "{$json['user_markers'][$i]['lat']},{$json['user_markers'][$i]['lng']}";
 			}
-			echo "<div class=\"googlemap\"><img src=\"{$staticimg}center={$json['center']['latitude']},{$json['center']['longitude']}&amp;zoom={$json['zoom']}&amp;size={$json['width']}x{$json['height']}&amp;maptype={$maptype}&amp;format={$imgformat}&amp;markers={$markers}&amp;sensor=false&amp;key={$config['apiKey']}\"title=\"{$json['user_markers'][0]['title']} - {$json['user_markers'][0]['desc']}\" alt=\"Google Map Test\" /></div>";
+			$use_sensor = $config['useSensor'] ? 'true' : 'false';
+			echo "<div class=\"googlemap\"><img src=\"{$staticimg}center={$json['center']['latitude']},{$json['center']['longitude']}&amp;zoom={$json['zoom']}&amp;size={$json['width']}x{$json['height']}&amp;maptype={$maptype}&amp;format={$imgformat}&amp;markers={$markers}&amp;sensor={$use_sensor}&amp;key={$config['apiKey']}\"title=\"{$json['user_markers'][0]['title']} - {$json['user_markers'][0]['desc']}\" alt=\"Google Map Test\" /></div>";
 		}
 		// Desktop
 		else {
@@ -95,12 +161,14 @@ function GoogleMap_View($target, $mother) {
 		<div id="<?php echo $id;?>" style="border: 1px solid #666;"></div>
 		<script type="text/javascript">
 		//<![CDATA[
-		var c = document.getElementById('<?php echo $id;?>');
-		if (GBrowserIsCompatible()) {
-			var map = GMap_CreateMap(c, <?php echo $matches[2][0];?>);
-		} else {
-			c.innerHTML = '<p style="text-align:center; color:#c99;">이 웹브라우저는 구글맵과 호환되지 않습니다.</p>';
-		}
+		GMapCallbacks.push(function() {
+			var c = document.getElementById('<?php echo $id;?>');
+			if (GBrowserIsCompatible()) {
+				var map = GMap_CreateMap(c, <?php echo $matches[2][0];?>);
+			} else {
+				c.innerHTML = '<p style="text-align:center; color:#c99;"><?php echo _t("이 웹브라우저는 구글맵과 호환되지 않습니다.");?></p>';
+			}
+		});
 		//]]>
 		</script>
 <?php
@@ -115,10 +183,11 @@ function GoogleMap_View($target, $mother) {
 
 function GoogleMap_LocationLogView($target) {
 	global $blogid, $blog, $blogURL, $pluginURL, $configVal, $service, $database;
-	requireComponent('Textcube.Function.Misc');
-	$config = Model_Setting::fetchConfigVal($configVal);
+	$context = Model_Context::getInstance();
+	$context->setProperty('is_used', true);
+	$config = Setting::fetchConfigVal($configVal);
 	$locatives =  getEntries($blogid, 'id, title, slogan, location, longitude, latitude','(length(location)>1 AND category > -1) OR (`longitude` IS NOT NULL AND `latitude` IS NOT NULL)', 'location');
-	$width = Utils_Misc::getContentWidth();
+	$width = Misc::getContentWidth();
 	$height = intval($width * 1.2);
 	$default_type = isset($config['locative_maptype']) ? $config['locative_maptype'] : 'G_HYBRID_MAP';
 	$id = 'LocationMap';
@@ -132,7 +201,6 @@ function GoogleMap_LocationLogView($target) {
 	</div>
 	<script type="text/javascript">
 	//<![CDATA[
-	//console.log('a');
 	var process_count = 0;
 	var polling_interval = 100; // ms
 	var query_interval = 500; // ms
@@ -168,7 +236,7 @@ function GoogleMap_LocationLogView($target) {
 		window.setTimeout(function() {locationMap.removeControl(progress);}, 200); // eyecandy
 		adjustToBoundary();
 	}
-	STD.addLoadEventListener(function() {
+	GMapCallbacks.push(function() {
 		var c = document.getElementById('<?php echo $id;?>');
 		c.style.width = "<?php echo $width;?>px"
 		c.style.height = "<?php echo $height;?>px";
@@ -198,9 +266,9 @@ function GoogleMap_LocationLogView($target) {
 			$found = true;
 			$lat = $locative['latitude'];
 			$lng = $locative['longitude'];
-			$locative['location'] = "위도 : " . $lat . ", 경도 : " . $lng;
+			$locative['location'] = _t("위도")." : " . $lat . ", "._t("경도")." : " . $lng;
 		} else {
-			$row = Data_IAdapter::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND original_address = '".Data_IAdapter::escapeString($locative['location'])."'");
+			$row = POD::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND original_address = '".POD::escapeString($locative['location'])."'");
 			if ($row == null || empty($row)) {
 				$found = false;
 			} else {
@@ -220,7 +288,7 @@ function GoogleMap_LocationLogView($target) {
 			query_interval_handle = window.setInterval(function() {locationFetch(tofind);}, query_interval);
 			window.setTimeout(function() {locationFetchPoller(<?php echo $count;?>);}, polling_interval);
 		} else {
-			c.innerHTML = '<p style="text-align:center; color:#c99;">이 웹브라우저는 구글맵과 호환되지 않습니다.</p>';
+			c.innerHTML = '<p style="text-align:center; color:#c99;"><?php echo _t("이 웹브라우저는 구글맵과 호환되지 않습니다.");?></p>';
 		}
 	});
 	//]]>
@@ -232,11 +300,11 @@ function GoogleMap_LocationLogView($target) {
 }
 
 function GoogleMap_ConfigHandler($data) {
-	requireComponent('Textcube.Function.Setting');
-	$config = Model_Setting::fetchConfigVal($data);
+	$config = Setting::fetchConfigVal($data);
 	if (!is_numeric($config['latitude']) || !is_numeric($config['longitude']) ||
 		$config['latitude'] < -90 || $config['latitude'] > 90 || $config['longitude'] < -180 || $config['longitude'] > 180)
 		return '위도 또는 경도의 값이 올바르지 않습니다.';
+	$config['useSensor'] = !isset($config['useSensor']) ? true : false;
 	return true;
 }
 
@@ -255,11 +323,11 @@ function GoogleMap_Cache() {
 		echo 'error: empty path';
 		return;
 	}
-	$original_path_e = Data_IAdapter::escapeString($_POST['original_path']);
-	$path_e = Data_IAdapter::escapeString($_POST['path']);
-	$row = Data_IAdapter::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND original_address = '$original_path_e'");
+	$original_path_e = POD::escapeString($_POST['original_path']);
+	$path_e = POD::escapeString($_POST['path']);
+	$row = POD::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND original_address = '$original_path_e'");
 	if ($row == null || empty($row)) {
-		if (Data_IAdapter::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '$original_path_e', '$path_e', {$_POST['lng']}, {$_POST['lat']}, ".time().")"))
+		if (POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '$original_path_e', '$path_e', {$_POST['lng']}, {$_POST['lat']}, ".time().")"))
 			echo 'ok';
 		else
 			echo 'error: cache failed';
@@ -268,28 +336,27 @@ function GoogleMap_Cache() {
 	}
 }
 
-function GoogleMapUI_Insert() {
+function GoogleMapUI_InsertMap() {
 	global $configVal, $pluginURL;
-	requireComponent('Textcube.Function.Misc');
-	$config = Model_Setting::fetchConfigVal($configVal);
+	$config = Setting::fetchConfigVal($configVal);
 	$lat = $config['latitude'];
 	$lng = $config['longitude'];
 	$default_type = 'G_HYBRID_MAP';
-	$default_width = min(Utils_Misc::getContentWidth(), 500);
+	$default_width = min(Misc::getContentWidth(), 500);
 	$default_height = 400;
 	$zoom = 10;
-	_GMap_printHeaderForUI('구글맵 삽입하기', $config['apiKey']);
+	_GMap_printHeaderForUI(_t('구글맵 삽입하기'), 'insert', $config['apiKey'], $config['useSensor'] ? 'true' : 'false');
 ?>
 	<div id="controls">
-		<button id="toggleMarkerAddingMode">마커 표시 모드</button>
-		<button id="doInsert">본문에 삽입하기</button>
+		<button id="toggleMarkerAddingMode"><?php echo _t("마커 표시 모드");?></button>
+		<button id="doInsert"><?php echo _t("본문에 삽입하기");?></button>
 	</div>
 	<div style="text-align:center;">
-		<div id="GoogleMapPreview" style="width:<?php echo $default_width;?>px; height:<?php echo $default_height;?>px; margin:0 auto;"></div>
+		<div class="ui-widget-content" id="GoogleMapPreview" style="width:<?php echo $default_width;?>px; height:<?php echo $default_height;?>px; margin:0 auto;"></div>
 	</div>
 	<script type="text/javascript">
 	//<![CDATA[
-	function initializeMap() {
+	GMapCallbacks.push(function() {
 		map = new GMap2($('#GoogleMapPreview')[0]);
 		map.addMapType(G_PHYSICAL_MAP);
 		map.setMapType(<?php echo $default_type;?>);
@@ -299,47 +366,82 @@ function GoogleMapUI_Insert() {
 		map.enableScrollWheelZoom();
 		map.enableContinuousZoom();
 		map.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
-	}
+	});
 	//]]>
 	</script>
-	<h2>지도 검색</h2>
+	<h2><?php echo _t("지도 검색");?></h2>
 	<div class="accordion-elem">
-		<p><label>위치 검색 : <input type="text" class="editControl" id="inputQuery" value="" /></label><button id="queryLocation">찾기</button></p>
+		<p><label><?php echo _t("위치 검색");?> : <input type="text" class="editControl" id="inputQuery" value="" /></label><button id="queryLocation"><?php echo _t("찾기");?></button></p>
 	</div>
-	<h2>기본 설정</h2>
+	<h2><?php echo _t("기본 설정");?></h2>
 	<div class="accordion-elem">
-		<p><label>가로(px) : <input type="text" class="editControl" id="inputWidth" value="<?php echo $default_width;?>" /></label></p>
-		<p><label>세로(px) : <input type="text" class="editControl" id="inputHeight" value="<?php echo $default_height;?>" /></label></p>
-		<p><button id="applyBasicSettings">적용</button></p>
+		<p><label><?php echo _t("가로");?>(px) : <input type="text" class="editControl" id="inputWidth" value="<?php echo $default_width;?>" /></label></p>
+		<p><label><?php echo _t("세로");?>(px) : <input type="text" class="editControl" id="inputHeight" value="<?php echo $default_height;?>" /></label></p>
+		<p><button id="applyBasicSettings"><?php echo _t("적용");?></button></p>
 	</div>
 <?php
 	// TODO: 주소 추출 UI
 	// - TODO: 포스트 내용 텍스트 얻어오기 및 주소 정보 추출
-	_GMap_printFooterForUI();
+	_GMap_printFooterForUI('insert');
 }
 
-function _GMap_printHeaderForUI($title, $api_key) {
-	global $pluginURL, $blogURL, $service, $adminSkinSetting;
+function GoogleMapUI_GetLocation() {
+	global $configVal, $pluginURL;
+	$config = Setting::fetchConfigVal($configVal);
+	$lat = $config['latitude'];
+	$lng = $config['longitude'];
+	$default_type = 'G_HYBRID_MAP';
+	$default_width = 500;
+	$default_height = 400;
+	$zoom = 10;
+	_GMap_printHeaderForUI(_t('현재 위치 알아내기'), 'getlocation', $config['apiKey']);
+?>
+	<h2><?php echo _t("이용 안내");?></h2>
+	<p><?php echo _t("웹브라우저가 제공하는 Geolocation 서비스를 이용하여 현재 위치 정보를 가져옵니다. 정확도는 사용하고 계신 기기나 지역에 따라 다를 수 있습니다.");?> <a href="#help">(<?php echo _t("자세히 알아보기");?>)</a></p>
+	<p><span id="availability"></span><span id="status"></span></p>
+	<h2>미리보기</h2>
+	<div style="text-align:center;">
+		<div id="GoogleMapPreview" style="width:<?php echo $default_width;?>px; height:<?php echo $default_height;?>px; margin:0 auto;"></div>
+	</div>
+	<script type="text/javascript">
+	//<![CDATA[
+	GMapCallbacks.push(function() {
+		map = new GMap2($('#GoogleMapPreview')[0]);
+		map.addMapType(G_PHYSICAL_MAP);
+		map.setMapType(<?php echo $default_type;?>);
+		map.addControl(new GHierarchicalMapTypeControl());
+		map.addControl(new GLargeMapControl());
+		map.addControl(new GScaleControl());
+		map.enableScrollWheelZoom();
+		map.enableContinuousZoom();
+		map.setCenter(new GLatLng(<?php echo $lat;?>, <?php echo $lng;?>), <?php echo $zoom;?>);
+	});
+	//]]>
+	</script>
+<?php
+	_GMap_printFooterForUI('getlocation');
+}
+
+function _GMap_printHeaderForUI($title, $jsName, $api_key, $use_sensor) {
+	global $pluginURL, $blogURL;
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Google Map Plugin: <?php echo $title;?></title>
-	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/insert.css" />
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-1.2.6.min.js"></script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-ui-1.6rc2.js"></script>
+	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/popup.css" />
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-1.3.2.min.js"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-ui-1.7.2.custom.min.js"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-mousewheel.min.js"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-json.js"></script>
-	<script type="text/javascript" src="http://maps.google.co.kr/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<?php echo $api_key;?>"></script>
+	<script type="text/javascript" src="http://www.google.com/jsapi?key=<?php echo $api_key;?>"></script>
 	<script type="text/javascript">
 	//<![CDATA[
 	var pluginURL = '<?php echo $pluginURL;?>';
 	var blogURL = '<?php echo $blogURL;?>';
-	$(window).unload(GUnload);
+	var GMapCallbacks = [];
 	//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/common.js?<?php echo time();?>"></script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/insert.js?<?php echo time();?>"></script>
 </head>
 <body>
 <div id="all-wrap">
@@ -348,8 +450,23 @@ function _GMap_printHeaderForUI($title, $api_key) {
 <?php
 }
 
-function _GMap_printFooterForUI() {
+function _GMap_printFooterForUI($jsName) {
+	global $pluginURL;
 ?>
+	<script type="text/javascript">
+	//<![CDATA[
+	google.load('maps', '2');
+	google.setOnLoadCallback(function() {
+		$(window).unload(function() {GUnload();});
+		jQuery.getScript('<?php echo $pluginURL;?>/scripts/common.js', function() {
+			var i;
+			for (i = 0; i < GMapCallbacks.length; i++)
+				GMapCallbacks[i]();
+			jQuery.getScript('<?php echo $pluginURL;?>/scripts/<?php echo $jsName; ?>.js');
+		});
+	});
+	//]]>
+	</script>
 	</div>
 </div>
 </body>

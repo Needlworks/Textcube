@@ -116,13 +116,13 @@ $blogsetting = getBlogSettings($bid);
 								
 								<ul>
 									<?php if ($bid == getServiceSetting("defaultBlogId",1)) { ?><li><em><?php echo _t('이 블로그는 대표 블로그입니다.');?></em></li><?php } ?>
-									<li><?php echo _f('이 블로그에는 총 %1개의 글이 있습니다.', Data_IAdapter::queryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE blogid = ".$bid));?></li>
-                                    <li><?php echo _f('이 블로그에는 총 %1개의 걸린글(트랙백)이 있습니다.', Data_IAdapter::queryCell("SELECT count(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = ".$bid." AND type = 'trackback'"));?></li>
-                                    <li><?php echo _f('이 블로그에는 총 %1개의 댓글이 있습니다.', Data_IAdapter::queryCell("SELECT count(*) FROM {$database['prefix']}Comments WHERE blogid = ".$bid));?></li>
+									<li><?php echo _f('이 블로그에는 총 %1개의 글이 있습니다.', POD::queryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE blogid = ".$bid));?></li>
+                                    <li><?php echo _f('이 블로그에는 총 %1개의 걸린글(트랙백)이 있습니다.', POD::queryCell("SELECT count(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = ".$bid." AND type = 'trackback'"));?></li>
+                                    <li><?php echo _f('이 블로그에는 총 %1개의 댓글이 있습니다.', POD::queryCell("SELECT count(*) FROM {$database['prefix']}Comments WHERE blogid = ".$bid));?></li>
                                     <li><?php 
-		$attachmentSum = Data_IAdapter::queryCell("SELECT sum(size) FROM `{$database['prefix']}Attachments` WHERE blogid = ".$bid);
+		$attachmentSum = POD::queryCell("SELECT sum(size) FROM `{$database['prefix']}Attachments` WHERE blogid = ".$bid);
 		if(empty($attachmentSum)) echo _t('이 블로그에는 첨부파일이 없습니다.');
-		else echo _f('이 블로그가 사용중인 첨부파일의 총 용량은 %1입니다.', Utils_Misc::getSizeHumanReadable($attachmentSum));?></li>
+		else echo _f('이 블로그가 사용중인 첨부파일의 총 용량은 %1입니다.', Misc::getSizeHumanReadable($attachmentSum));?></li>
                                 </ul>
 							</div>
 								
@@ -140,10 +140,10 @@ $blogsetting = getBlogSettings($bid);
 									</thead>
 									<tbody>
 <?php
-	$teamblog = Data_IAdapter::queryAll("SELECT * FROM `{$database['prefix']}Teamblog` WHERE blogid = " . $bid);
+	$teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Privileges` WHERE blogid = " . $bid);
 	foreach ($teamblog as $row){
 		echo "<tr>".CRLF;
-		echo "<td class=\"name\"><a href=\"{$blogURL}/owner/control/user/detail/{$row['userid']}\">".Model_User::getName($row['userid'])."(".Model_User::getEmail($row['userid']).")</a></td>".CRLF;
+		echo "<td class=\"name\"><a href=\"{$blogURL}/owner/control/user/detail/{$row['userid']}\">".User::getName($row['userid'])."(".User::getEmail($row['userid']).")</a></td>".CRLF;
 
 		if ($row['acl'] & BITWISE_OWNER) {
 			echo '<td class="role" colspan="4">'._t('이 사용자는 블로그의 소유자입니다.').'</td>'.CRLF;
@@ -180,7 +180,7 @@ $blogsetting = getBlogSettings($bid);
 										try {
 											document.getElementById("suggestContainer").innerHTML = '';
 											var ctlUserSuggestObj = new ctlUserSuggest(document.getElementById("suggestContainer"), false);
-											ctlUserSuggestObj.setValue("<?php echo Model_User::getEmail(1);?>");
+											ctlUserSuggestObj.setValue("<?php echo User::getEmail(1);?>");
 										} catch (e) {
 											document.getElementById("suggestContainer").innerHTML = '<input type="text" id="bi-owner-loginid" name="user" value="" />';
 										}

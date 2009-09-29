@@ -2,11 +2,14 @@
 
 function EAS_Call($type, $name, $title, $url, $content)
 {
+	requireComponent('Eolin.PHP.Core');
+	requireComponent('Eolin.PHP.XMLRPC');
+	
 	global $hostURL, $blogURL, $database;
 	
 	$blogstr = $hostURL . $blogURL;
 	
-	$rpc = new Utils_XMLRPC();
+	$rpc = new XMLRPC();
 	$rpc->url = 'http://antispam.eolin.com/RPC/index.php';
 	if ($rpc->call('checkSpam', $blogstr, $type, $name, $title, $url, $content, $_SERVER['REMOTE_ADDR']) == false) 
 	{
@@ -18,10 +21,10 @@ function EAS_Call($type, $name, $title, $url, $content)
 		if ($type == 2) // Trackback Case
 		{
 			$sql = 'SELECT COUNT(id) as cc FROM ' . $database['prefix'] . 'Trackbacks WHERE';
-			$sql .= ' url = \'' . Data_IAdapter::escapeString($url) . '\'';
-			$sql .= ' AND isFiltered > 0';
+			$sql .= ' url = \'' . POD::escapeString($url) . '\'';
+			$sql .= ' AND isfiltered > 0';
 			
-			if ($row = Data_IAdapter::queryRow($sql)) {
+			if ($row = POD::queryRow($sql)) {
 				$count += @$row[0];
 			}
 			
@@ -29,22 +32,22 @@ function EAS_Call($type, $name, $title, $url, $content)
 			$tableName = $database['prefix'] . 'Comments';	
 
 			$sql = 'SELECT COUNT(id) as cc FROM ' . $database['prefix'] . 'Comments WHERE';
-			$sql .= ' comment = \'' . Data_IAdapter::escapeString($content) . '\'';
-			$sql .= ' AND homepage = \'' . Data_IAdapter::escapeString($url) . '\'';
-			$sql .= ' AND name = \'' . Data_IAdapter::escapeString($name) . '\'';
-			$sql .= ' AND isFiltered > 0';
+			$sql .= ' comment = \'' . POD::escapeString($content) . '\'';
+			$sql .= ' AND homepage = \'' . POD::escapeString($url) . '\'';
+			$sql .= ' AND name = \'' . POD::escapeString($name) . '\'';
+			$sql .= ' AND isfiltered > 0';
 			
-			if ($row = Data_IAdapter::queryRow($sql)) {
+			if ($row = POD::queryRow($sql)) {
 				$count += @$row[0];
 			}
 		}
 
 		// Check IP
 		$sql = 'SELECT COUNT(id) as cc FROM ' . $tableName . ' WHERE';
-		$sql .= ' ip = \'' . Data_IAdapter::escapeString($_SERVER['REMOTE_ADDR']) . '\'';
-		$sql .= ' AND isFiltered > 0';
+		$sql .= ' ip = \'' . POD::escapeString($_SERVER['REMOTE_ADDR']) . '\'';
+		$sql .= ' AND isfiltered > 0';
 
-		if ($row = Data_IAdapter::queryRow($sql)) {
+		if ($row = POD::queryRow($sql)) {
 			$count += @$row[0];
 		}
 		

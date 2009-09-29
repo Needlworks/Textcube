@@ -15,9 +15,8 @@ $__requireBasics = array(
 	'function/mail',
 	'DEBUG : Basic functions loaded.');
 $__requireLibrary = array(
-	'functions',
-	'locale',
 	'auth',
+	'blog.skin',
 	'DEBUG : Default library loaded.');
 $__requireModel = array(
 	'blog.service',				// Models
@@ -45,9 +44,4 @@ $__requireView = array(
 	'paging',
 	'view',
 	'DEBUG : Views loaded.');
-$__requireInit = array(
-	'initialize',				// Initializing environment.
-	'DEBUG : Initialization finished.',
-	'plugins',
-	'DEBUG : Plugin module loaded.');
 ?>

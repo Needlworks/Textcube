@@ -11,7 +11,7 @@ require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 //$tags = explode(trim($_POST['tags']),',');
 if (setBlogTags($blogid, trim($_POST['tags']))) {
-	Utils_Respond::ResultPage(0);
+	Respond::ResultPage(0);
 }
-Utils_Respond::ResultPage(-1);
+Respond::ResultPage(-1);
 ?>

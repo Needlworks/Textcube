@@ -75,6 +75,24 @@ printFormatterSelectScript();
 									}
 									blogApiPassword.value = value;
 								}
+								
+								function addLineSearch() {
+									window.external.AddSearchProvider('<?php echo $defaultURL.'/owner/setting/entry/addline';?>');
+									return false;
+								}
+
+								function refreshLineSearch(mode) {
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/entry/refreshLine");
+									request.onSuccess = function() {
+										PM.showMessage("<?php echo _t('갱신되었습니다');?>", "center", "bottom");
+									}
+									request.onError = function() {
+										alert("<?php echo _t('갱신할 수 없었습니다');?>");
+									}
+									request.send('mode='+mode);
+								}
+								
+								
 							//]]>
 						</script>
 			
@@ -199,6 +217,38 @@ foreach (getAllEditors() as $key => $value) {
 									<div class="button-box">
 										<input type="submit" class="save-button input-button wide-button" value="<?php echo _t('저장하기');?>" onclick="setEditorConfig(); return false;" />
 									</div>
+								</div>
+							</form>
+						</div>
+
+						<hr class="hidden" />
+						
+						<div id="part-setting-line" class="part">
+							<h2 class="caption"><span class="main-text"><?php echo _t('라인 작성 환경을 설정합니다');?></span></h2>
+							
+							<form id="line-form" class="data-inbox" method="post" action="<?php echo $blogURL;?>/owner/setting/entry/line">
+								<div id="line-section" class="section">
+									<fieldset class="container">
+										<legend><?php echo _t('라인 작성 환경을 설정합니다');?></legend>
+										
+
+
+<?php echo setDetailPanel('panelLineSetting','button');?>
+										<div id="panelLineSetting" class="folding">
+										
+										<dl id="line-password-line" class="line">
+											<dt><span class="label"><?php echo _t('Line 글쓰기를 검색 공급자에 추가하기');?></span></dt>
+											<dd>
+												<input type="button" class="input-button" value="<?php echo _t('검색 표시줄에 Line 글쓰기 추가하기')?> (<?php echo _t('공개');?>)" onclick="addLineSearch('public');" />
+												<input type="button" class="input-button" value="<?php echo _t('검색 표시줄에 Line 글쓰기 추가하기')?> (<?php echo _t('비공개');?>)" onclick="addLineSearch('private');" />
+												<input type="button" class="input-button" value="<?php echo _t('새로 고침')?>" onclick="refreshLineSearch();" />
+											</dd>
+											<dd>
+												<p><label for="LinePassword"><?php echo _t('Line은 짧은 글로 생각이나 느낌을 정리하기 위한 기능입니다.').'<br />'._t('옆의 링크를 누르면 지금 사용하시는 브라우저의 검색 입력줄에 이 블로그의 Line이 추가됩니다.').' '._t('추가한 후에는 브라우저의 검색 입력줄에서 추가된 Line을 선택하고 글을 입력하여 바로 Line을 쓸 수 있습니다.').' '._t('공공 장소의 컴퓨터에서는 추가하지 마시기 바랍니다. 만약 실수로 추가하신 경우, 옆의 새로 고침 버튼을 눌러 Line의 비밀 번호를 변경하면, 기존에 등록한 검색 표시줄에서 글을 쓸 수 없게 됩니다.');?></label></p>
+											</dd>
+										</dl>
+										</div>
+									</fieldset>
 								</div>
 							</form>
 						</div>

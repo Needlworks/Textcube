@@ -292,6 +292,57 @@ table.data-inbox tbody tr td.ip
 	display                          : none;
 }
 
+/* Line *******************************************************************************************/
+
+#part-post-line #line-content-box
+{
+	margin-top                       : 10px;
+	margin-bottom                    : 25px;
+}
+
+#line-write-form #line-write
+{
+	width                            : 850px;
+}
+
+#line-write-form .input-button
+{
+	width                            : 100px;
+}
+
+#line-content dl
+{
+	border                           : 1px solid #eee;
+	border-radius                    : 6px;
+	-moz-border-radius               : 6px;
+	-webkit-border-radius            : 6px;
+	margin                           : 10px;
+}
+
+#line-content dl dt
+{
+	margin                           : 10px;	
+}
+
+#line-content dd.delete
+{
+	width                            : 40px;
+	text-align                       : center;
+	position                         : relative;
+	top                              : -10px;
+	margin-left                      : 880px;
+	margin-bottom                    : 10px;
+}
+
+#line-more-page .more-button
+{
+	width                            : 100% !important;
+	display                          : block;
+	border-radius                    : 6px;
+	-moz-border-radius               : 6px;
+	-webkit-border-radius            : 6px;
+}
+
 /* Tree ******************************************************************************************/
 
 #part-post-tree div.data-inbox
@@ -381,7 +432,55 @@ table.data-inbox tbody tr td.ip
 {
 	cursor                           : pointer;
 }
+/* Tag administration ****************************************************************************/
+#tag-content-box
+{
+	min-height                       : 300px;
+}
 
+#tag-content-box dl
+{
+	border-bottom                    : 1px solid #DDDDDD;
+}
+
+#tag-content-box dl dt
+{
+	color                            : #6C90C3;
+	font-weight                      : bold;
+	padding                          : 6px 0;
+	text-align                       : right;
+	width                            : 110px;
+}
+
+#tag-content-box dl dd
+{
+	margin-left                      : 125px;
+	padding                          : 6px 0;
+}
+
+#tag-cloud
+{
+	width                            : 45%;
+	min-height                       : 300px;
+	padding-right                    : 10px;
+	float                            : left;
+	border-right                     : 1px solid #DDD;
+}
+
+#tag-panel
+{
+	padding                          : 0 0 0 15px;
+	margin                           : 0;
+	width                            : 50%;
+	float                            : left;
+}
+
+#tag-panel span.notice
+{
+	margin-top                       : 100px;
+	text-align                       : center;
+	color                            : #666;
+}
 /* Eolin Dialogue ********************************************************************************/
 
 #eolinDialog

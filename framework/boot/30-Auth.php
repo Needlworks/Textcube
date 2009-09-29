@@ -44,6 +44,7 @@ $requiredPrivFromUri = array(
 			'/owner/entry/draft*',
 			'/owner/entry/finish*',
 			'/owner/entry/edit*',
+			'/owner/entry/line*',
 			'/owner/entry/loadTemplate*',
 			'/owner/entry/post*',
 			'/owner/entry/preview*',
@@ -71,6 +72,7 @@ $requiredPrivFromUri = array(
 			'/owner/entry/draft*',
 			'/owner/entry/finish*',
 			'/owner/entry/edit*',
+			'/owner/entry/line*',
 			'/owner/entry/loadTemplate*',
 			'/owner/entry/post*',
 			'/owner/entry/preview*',
@@ -205,11 +207,12 @@ class Aco {
 
 class Acl {
 
-	function Acl() {
+	function __construct() {
+		$this->context = Model_Context::getInstance();
 	}
 
 	function authorize( $domain, $userid ) {
-		global $database;
+		$context = Model_Context::getInstance();
 		if( !isset( $_SESSION['identity'] ) ) {
 			$_SESSION['identity'] = array();
 		}
@@ -230,8 +233,7 @@ class Acl {
 		} else {
 			$ownership = "group.owners";
 		}
-
-		$result = Data_IAdapter::queryAllWithCache("SELECT blogid,acl FROM {$database['prefix']}Privileges WHERE userid='$userid'");
+		$result = POD::queryAllWithCache("SELECT blogid,acl FROM {$context->getProperty('database.prefix')}Privileges WHERE userid = $userid");
 		foreach( $result as $rec ) {
 			$priv = array("group.writers", "textcube.$userid");
 
@@ -249,7 +251,13 @@ class Acl {
 		}
 
 		$blogid = getBlogId();
-		Data_IAdapter::execute("UPDATE  {$database['prefix']}Privileges SET lastLogin = unix_timestamp() WHERE blogid='$blogid' AND userid='$userid'");
+		$data = DBModel::getInstance();
+		$data->reset($context->getProperty('database.prefix'));
+		$data->setQualifier('blogid','equals',$blogid);
+		$data->setQualifier('userid','equals',$userid);
+		$data->setAttribute('lastLogin',Timestamp::getUNIXtime());
+		$data->update();	
+//		POD::execute("UPDATE {$this->context->getProperty('database.prefix')}Privileges SET lastLogin = ".Timestamp::getUNIXtime()." WHERE blogid = $blogid AND userid = $userid");
 		return;
 	}
 
@@ -358,30 +366,33 @@ class Auth {
 		global $database;
 		$session = array(); 
 		Acl::clearAcl();
-		$loginid = Data_IAdapter::escapeString($loginid);
+		$loginid = POD::escapeString($loginid);
 
-		$blogApiPassword = getBlogSetting("blogApiPassword", "");
+		$blogApiPassword = Setting::getBlogSettingGlobal("blogApiPassword", "");
 
 		if ((strlen($password) == 32) && preg_match('/[0-9a-f]{32}/i', $password)) { // Raw login. ( with/without auth token)
 			$userid = getUserIdByEmail($loginid);
 			if(!empty($userid) && !is_null($userid)) {
-				$authtoken = Data_IAdapter::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
+				$query = new DBModel($database['prefix']. 'UserSettings');
+				$query->setQualifier('userid','equals',$userid);
+				$query->setQualifier('name','equals','AuthToken',true);
+				$authtoken = $query->getCell('value');
 				if (!empty($authtoken) && ($authtoken === $password)) {	// If user requested auth token, use it to confirm.
 					$session['userid'] = $userid;
 				} else {	// login with md5 hash
-					$secret = '`password` = \'' . md5($password) . '\'';
+					$secret = 'password = \'' . md5($password) . '\'';
 				}
 			} else {
 				return false;
 			}
 		} else if( $blogapi && !empty($blogApiPassword) ) {	// BlogAPI login
-			$password = Data_IAdapter::escapeString($password);
-			$secret = '(`password` = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $blogApiPassword . '\')';
+			$password = POD::escapeString($password);
+			$secret = '(password = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $blogApiPassword . '\')';
 		} else {	// Normal login
-			$secret = '`password` = \'' . md5($password) . '\'';
+			$secret = 'password = \'' . md5($password) . '\'';
 		}
 		if ( empty($session) ) {
-			$session = Data_IAdapter::queryRow("SELECT userid, loginid, name FROM {$database['prefix']}Users WHERE loginid = '$loginid' AND $secret");
+			$session = POD::queryRow("SELECT userid, loginid, name FROM {$database['prefix']}Users WHERE loginid = '$loginid' AND $secret");
 		}
 		if ( empty($session) ) {
 			/* You should compare return value with '=== false' which checks with variable types*/
@@ -390,8 +401,8 @@ class Auth {
 		$userid = $session['userid'];
 
 		Acl::authorize( 'textcube', $userid );
-		Data_IAdapter::execute("UPDATE  {$database['prefix']}Users SET lastLogin = unix_timestamp() WHERE loginid = '$loginid'");
-//		Data_IAdapter::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
+		POD::execute("UPDATE {$database['prefix']}Users SET lastlogin = ".Timestamp::getUNIXtime()." WHERE loginid = '$loginid'");
+//		POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
 		return $userid;
 	}
 

@@ -1,14 +1,14 @@
 <?php
-/* Visitor statistics plugin for Textcube 1.1
+/* Visitor statistics plugin for Textcube 1.7
    ----------------------------------
-   Version 1.1
+   Version 1.7
    Tatter and Friends development team.
 
    Creator          : inureyes
    Maintainer       : gendoh, inureyes, graphittie
 
    Created at       : 2006.9.21
-   Last modified at : 2007.2.4
+   Last modified at : 2009.6.17
  
  This plugin shows visitor statistics on administration menu.
  For the detail, visit http://forum.tattersite.com/ko
@@ -29,7 +29,7 @@ function PN_Visitor_Default()
 	$blogid = getBlogId();
 	requireComponent( "Textcube.Model.Statistics");
 	requireComponent('Textcube.Function.misc');
-	$stats = Model_Statistics::getStatistics($blogid);
+	$stats = Statistics::getStatistics($blogid);
 	$date = isset($_GET['date']) ? $_GET['date'] : date('Ym', strtotime("now"));
 ?>
 <!-- This tab space below this line is inserted for the indentation of original admin page -->
@@ -108,16 +108,16 @@ function PN_Visitor_Default()
 									</thead>
 									<tbody>
 <?php
-$temp = Model_Statistics::getMonthlyStatistics($blogid);
+$temp = Statistics::getMonthlyStatistics($blogid);
 for ($i=0; $i<sizeof($temp); $i++) {
 	$record = $temp[$i];
 	
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($temp) - 1) ? ' last-line' : '';
 ?>
-										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="window.location.href='<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['date'];?>'">
-											<td class="date"><a href="<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['date'];?>"><?php echo Timestamp::formatDate2(Utils_Misc::getTimeFromPeriod($record['date']));?></a></td>
-											<td class="count"><a href="<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['date'];?>"><?php echo $record['visits'];?></a></td>
+										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="window.location.href='<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['datemark'];?>'">
+											<td class="date"><a href="<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['datemark'];?>"><?php echo Timestamp::formatDate2(Misc::getTimeFromPeriod($record['datemark']));?></a></td>
+											<td class="count"><a href="<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['datemark'];?>"><?php echo $record['visits'];?></a></td>
 										</tr>
 <?php
 }
@@ -136,7 +136,7 @@ for ($i=0; $i<sizeof($temp); $i++) {
 									<tbody>
 <?php
 if (isset($date)) {
-	$temp = Model_Statistics::getDailyStatistics($date);
+	$temp = Statistics::getDailyStatistics($date);
 	for ($i=0; $i<sizeof($temp); $i++) {
 		$record = $temp[$i];
 		
@@ -144,7 +144,7 @@ if (isset($date)) {
 		$className .= ($i == sizeof($temp) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className;?> inactive-class">
-											<td class="date"><?php echo Timestamp::formatDate(Utils_Misc::getTimeFromPeriod($record['date']));?></td>
+											<td class="date"><?php echo Timestamp::formatDate(Misc::getTimeFromPeriod($record['datemark']));?></td>
 											<td class="count"><?php echo $record['visits'];?></td>
 										</tr>
 <?php
@@ -166,7 +166,7 @@ function PN_Visitor_Default_set()
 	requireComponent( "Textcube.Model.Statistics");
 	$isAjaxRequest = isset($_REQUEST['ajaxcall']) ? true : false;
 	if ($isAjaxRequest) {
-		$result = Model_Statistics::setTotalStatistics($blogid) ? 0 : -1;
+		$result = Statistics::setTotalStatistics($blogid) ? 0 : -1;
 		header('Content-Type: text/xml; charset=utf-8');
 		print ("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<response>\n<error>$result</error>\n</response>");
 		exit;

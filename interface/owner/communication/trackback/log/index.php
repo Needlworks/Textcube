@@ -8,8 +8,8 @@ requireModel("blog.response.remote");
 $result = getTrackbackLog($blogid, $suri['id']);
 if ($result !== false) {
 	$result = str_replace(' ', '&nbsp;', $result);
-	Utils_Respond::PrintResult(array('error' => 0, 'result' => $result));
+	Respond::PrintResult(array('error' => 0, 'result' => $result));
 }
 else
-	Utils_Respond::PrintResult(array('error' => 1, 'msg' => Data_IAdapter::error()));
+	Respond::PrintResult(array('error' => 1, 'msg' => POD::error()));
 ?> 

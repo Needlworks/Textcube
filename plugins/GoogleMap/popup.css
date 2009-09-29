@@ -1,0 +1,149 @@
+@charset "utf-8";
+
+* { margin: 0; padding: 0; }
+
+body, input, button, textarea {
+	font-family: "Trebuchet MS", "Verdana", "Nanum Gothic", "나눔고딕", "Malgun Gothic", sans-serif;
+	font-size: 0.85em;
+}
+
+body {
+	background: white;
+	color: black;
+}
+
+h1 {
+	margin: 10px;
+	font-size: 1.2em;
+	text-shadow: 0 1px 2px rgba(0,10,30,0.6);
+}
+
+h2 {
+	font-size: 1.0em;
+	background: #f2f2f2 url(./images/bg-h2.png) repeat-x left top;
+	color: white;
+	text-shadow: 0 0 2px black;
+	margin: 10px 4px;
+	padding: 3px 5px;
+}
+
+p {
+	margin: 4px;
+}
+
+fieldset {
+	margin: 10px;
+	padding: 7px;
+	border: 1px solid #ccc;
+}
+
+button {
+	display: inline-block;
+	margin: 2px;
+	padding: 0 6px;
+	line-height: 20px;
+	background: #f2f2f2;
+	background-image: -webkit-gradient(linear, left 10, left bottom, from(#fff), to(#eee));
+	border: 1px solid #bbb;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	cursor: pointer;
+}
+button:hover {
+	border-color: #999;
+	background: #e8e8e8;
+	background-image: -webkit-gradient(linear, left 10, left bottom, from(#fafafa), to(#ddd));
+}
+button:active {
+	background-color: #d6d6d6;
+	background-image: -webkit-gradient(linear, left 10, left bottom, to(#f2f2f2), from(#ddd));
+}
+button.toggled {
+	border-color: #222;
+	background-color: #555;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#444), to(#666));
+	color: white;
+}
+button.toggled:hover {
+	background-color: #666;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#555), to(#777));
+}
+
+#controls {
+	margin: 10px;
+}
+h2 {
+	cursor: pointer;
+}
+.ui-resizable { position: relative; }
+.ui-resizable-handle { position: absolute;font-size: 0.1px;z-index: 99999; display: block; background: #f8f8f8; }
+.ui-resizable-handle:hover { background-color: #bce5ff; }
+.ui-resizable-disabled .ui-resizable-handle, .ui-resizable-autohide .ui-resizable-handle { display: none; }
+.ui-resizable-n { cursor: n-resize; height: 8px; width: 100%; top: -8px; left: 0px; }
+.ui-resizable-s { cursor: s-resize; height: 8px; width: 100%; bottom: -8px; left: 0px; }
+.ui-resizable-e { cursor: e-resize; width: 8px; right: -8px; top: 0px; height: 100%; }
+.ui-resizable-w { cursor: w-resize; width: 8px; left: -8px; top: 0px; height: 100%; }
+.ui-resizable-se { cursor: se-resize; width: 8px; height: 8px; right: -8px; bottom: -8px; background-image: url(./images/ui-resizable-grabber-se.gif); background-repeat: no-repeat; background-position: right bottom; }
+.ui-resizable-sw { cursor: sw-resize; width: 8px; height: 8px; left: -8px; bottom: -8px; background-image: url(./images/ui-resizable-grabber-sw.gif); background-repeat: no-repeat; background-position: left bottom;}
+.ui-resizable-nw { cursor: nw-resize; width: 8px; height: 8px; left: -8px; top: -8px; }
+.ui-resizable-ne { cursor: ne-resize; width: 8px; height: 8px; right: -8px; top: -8px;}
+
+input, textarea {
+	border: 1px solid #ccc;
+	padding: 1px;
+	line-height: 17px;
+	background: white -webkit-gradient(linear, left top, 0 10, from(#eee), to(#fff));
+	-webkit-background-origin: padding-box;
+	-webkit-background-clip: content-box;
+	font-size: 0.9em;
+}
+.GMapInfo {
+	text-align: left !important;
+}
+.GMapInfo label {
+	float: left;
+	width: 4em;
+}
+.GMapIfno input {
+	margin-left: 4.1em;
+}
+.GMapInfo p {
+	margin: 5px;
+	clear: left;
+}
+#queryResult {
+	display: none;
+	position: absolute;
+	left: 200px;
+	right: 60px;
+	padding: 8px 8px 8px 15px;
+	background: white;
+	background-color: rgba(255,255,255,0.85);
+	box-shadow: 0 2px 5px rgba(0,0,0,0.7);
+	-moz-box-shadow: 0 1px 5px rgba(0,0,0,0.7);
+	-webkit-box-shadow: 0 1px 5px rgba(0,0,0,0.7);
+	text-align: left;
+	font-size: 0.9em;
+}
+#queryResult li {
+	margin: 0 0 0.3em 2em;
+}
+#queryResult li a {
+	color: #06c;
+	text-decoration: none;
+}
+#queryResult li a:hover {
+	text-decoration: underline;
+}
+.queryMarkerInfo {
+	text-align: left;
+}
+.ui-action {
+	font-size: 8pt;
+	color: #555;
+}
+#status {
+	font-size: 8pt;
+	color: #555;
+}

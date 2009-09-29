@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
 $tabsClass['sidebar'] = true;
-
+requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireModel("blog.entry");
 requireModel("blog.archive");
@@ -17,7 +17,7 @@ requireModel("blog.link");
 require ROOT . '/interface/common/owner/header.php';
 
 
-$stats = Model_Statistics::getStatistics($blogid);
+$stats = Statistics::getStatistics($blogid);
 
 function correctSidebarImage( $subject ) {
 	$pattern_with_src = '/(?:\ssrc\s*=\s*["\']?)([^\s^"^>^\']+)(?:[\s">\'])/i';
@@ -68,7 +68,7 @@ function getBlogContentForSideBar()
 	$pd_recentComment = getRecentComments($blogid);
 	$pd_recentTrackback = getRecentTrackbacks($blogid);
 	$pd_link = getLinks($blogid);
-	$pd_authorList = Model_User::getUserNamesOfBlog($blogid);
+	$pd_authorList = User::getUserNamesOfBlog($blogid);
 }
 
 
@@ -89,7 +89,7 @@ function pretty_dress($view)
 		return '<div class="sidebar-element-safebox"><p>' . nl2br(htmlspecialchars($view, ENT_QUOTES)) . '</p></div>';
 	}
 	
-	$writer = Model_User::getBlogOwnerName($blogid);
+	$writer = User::getBlogOwnerName($blogid);
 	$pageTitle = _t('페이지 제목');
 	
 	dress('page_title', htmlspecialchars($pageTitle), $view);
@@ -207,7 +207,7 @@ for ($i=0; $i<count($sidebarMappings); $i++) {
 		);
 }
 
-$skin = new Model_BlogSkin($skinSetting['skin']);
+$skin = new Skin($skinSetting['skin']);
 $usedSidebarBasicModule = array();
 $sidebarCount = count($skin->sidebarBasicModules);
 

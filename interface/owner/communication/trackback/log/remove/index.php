@@ -14,13 +14,13 @@ requireModel("blog.response.remote");
 requireStrictRoute();
 if(isset($suri['id'])) {
 	if (deleteTrackbackLog($blogid, $suri['id']) !== false)
-		Utils_Respond::ResultPage(0);
+		Respond::ResultPage(0);
 	else
-		Utils_Respond::ResultPage(-1);
+		Respond::ResultPage(-1);
 } else if(!empty($_POST['targets'])) {
 	foreach(explode(',', $_POST['targets']) as $target)
 		deleteTrackbackLog($blogid, $target);
-	Utils_Respond::ResultPage(0);
+	Respond::ResultPage(0);
 }
-Utils_Respond::ResultPage(-1);
+Respond::ResultPage(-1);
 ?> 

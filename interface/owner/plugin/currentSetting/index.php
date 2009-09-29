@@ -22,11 +22,11 @@ $pluginName = $_GET['Name'];
 $tabName = $_GET['Tab'];
 $active = in_array($pluginName, $activePlugins);
 $result =  handleConfig($pluginName);
-if( is_null($result) )	Utils_Respond::NotFoundPage();
+if( is_null($result) )	Respond::NotFoundPage();
 
 $xmls = new XMLStruct();
 if (!$xmls->open(file_get_contents(ROOT . "/plugins/{$pluginName}/index.xml"))) {
-	Utils_Respond::NotFoundPage();
+	Respond::NotFoundPage();
 } else {
 	$pluginAttrs = array(
 						"link" => $xmls->getValue('/plugin/link[lang()]'),
@@ -79,7 +79,7 @@ if (true === file_exists(ROOT . "/plugins/$pluginName/plugin-config.css")) {
 <?php
 }
 ?>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/jquery/jquery-1.3.2.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/EAF4.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/pluginconfig.js"></script>

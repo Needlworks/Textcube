@@ -24,17 +24,17 @@ requireStrictRoute();
 
 $coverpageOrderData = getCoverpageModuleOrderData();
 
-if (!isset($_REQUEST['coverpageNumber']) || !is_numeric($_REQUEST['coverpageNumber'])) Utils_Respond::NotFoundPage();
-if (!isset($_REQUEST['modulePos']) || !is_numeric($_REQUEST['modulePos'])) Utils_Respond::NotFoundPage();
+if (!isset($_REQUEST['coverpageNumber']) || !is_numeric($_REQUEST['coverpageNumber'])) Respond::NotFoundPage();
+if (!isset($_REQUEST['modulePos']) || !is_numeric($_REQUEST['modulePos'])) Respond::NotFoundPage();
 
 $coverpageNumber = $_REQUEST['coverpageNumber'];
 $modulePos = $_REQUEST['modulePos'];
 
-if (($coverpageNumber < 0)) Utils_Respond::ErrorPage();
-if (!isset($coverpageOrderData[$coverpageNumber]) || !isset($coverpageOrderData[$coverpageNumber][$modulePos])) Utils_Respond::ErrorPage();
+if (($coverpageNumber < 0)) Respond::ErrorPage();
+if (!isset($coverpageOrderData[$coverpageNumber]) || !isset($coverpageOrderData[$coverpageNumber][$modulePos])) Respond::ErrorPage();
 
 $pluginData = $coverpageOrderData[$coverpageNumber][$modulePos];
-if ($pluginData['type'] != 3) Utils_Respond::ErrorPage();
+if ($pluginData['type'] != 3) Respond::ErrorPage();
 
 $plugin = $pluginData['id']['plugin'];
 $handler = $pluginData['id']['handler'];

@@ -9,5 +9,5 @@ $IV = array(
 );
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
-Utils_Respond::ResultPage(markAsUnread($blogid, $_POST['id']));
+Respond::ResultPage(markAsUnread($blogid, $_POST['id']));
 ?>

@@ -12,18 +12,18 @@ $IV = array(
 
 require ROOT . '/library/preprocessor.php';
 requireComponent( 'Textcube.Control.Openid' );
-
+requireLibrary('blog.skin');
 requireStrictRoute();
 requireModel( 'common.plugin' );
 
-if( Model_OpenIDConsumer::setComment( $_POST['openidonlycomment'] ) &&
-	Model_OpenIDConsumer::setOpenIDLogoDisplay( $_POST['openidlogodisplay'] ) ) {
+if( OpenIDConsumer::setComment( $_POST['openidonlycomment'] ) &&
+	OpenIDConsumer::setOpenIDLogoDisplay( $_POST['openidlogodisplay'] ) ) {
 	if( !empty($_POST['openidonlycomment']) || !empty($_POST['openidlogodisplay']) ) {
 		activatePlugin('CL_OpenID');
 	}
 	Skin::purgeCache();
-	Utils_Respond::ResultPage(0);
+	Respond::ResultPage(0);
 } else {
-	Utils_Respond::ResultPage(-1);
+	Respond::ResultPage(-1);
 }
 ?>

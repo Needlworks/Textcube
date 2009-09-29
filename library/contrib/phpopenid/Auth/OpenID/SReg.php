@@ -263,7 +263,7 @@ class Auth_OpenID_SRegRequest extends Auth_OpenID_SRegBase {
     {
         foreach (array('required', 'optional') as $list_name) {
             $required = ($list_name == 'required');
-            $items = Auth_Model_OpenID::arrayGet($args, $list_name);
+            $items = Auth_OpenID::arrayGet($args, $list_name);
             if ($items) {
                 foreach (explode(',', $items) as $field_name) {
                     if (!$this->requestField($field_name, $required, $strict)) {
@@ -275,7 +275,7 @@ class Auth_OpenID_SRegRequest extends Auth_OpenID_SRegBase {
             }
         }
 
-        $this->policy_url = Auth_Model_OpenID::arrayGet($args, 'policy_url');
+        $this->policy_url = Auth_OpenID::arrayGet($args, 'policy_url');
 
         return true;
     }
@@ -448,7 +448,7 @@ class Auth_OpenID_SRegResponse extends Auth_OpenID_SRegBase {
         $obj->ns_uri = $request->ns_uri;
 
         foreach ($request->allRequestedFields() as $field) {
-            $value = Auth_Model_OpenID::arrayGet($data, $field);
+            $value = Auth_OpenID::arrayGet($data, $field);
             if ($value !== null) {
                 $obj->data[$field] = $value;
             }
@@ -509,7 +509,7 @@ class Auth_OpenID_SRegResponse extends Auth_OpenID_SRegBase {
             return null;
         }
 
-        return Auth_Model_OpenID::arrayGet($this->data, $field_name, $default);
+        return Auth_OpenID::arrayGet($this->data, $field_name, $default);
     }
 
     function contents()

@@ -10,8 +10,8 @@ $IV = array(
 );
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
-if (Model_User::changeSetting(getUserId(), $_POST['email'], $_POST['nickname'])) {
-	Utils_Respond::ResultPage(0);
+if (User::changeSetting(getUserId(), $_POST['email'], $_POST['nickname'])) {
+	Respond::ResultPage(0);
 }
-Utils_Respond::ResultPage( - 1);
+Respond::ResultPage( - 1);
 ?>

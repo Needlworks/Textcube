@@ -11,7 +11,7 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 if ($blogid != 1) {
-	Utils_Respond::ResultPage(1);
+	Respond::ResultPage(1);
 	exit;
 }
 
@@ -24,60 +24,60 @@ if ($_REQUEST['type'] == 1) { // type 1, plugin
 	$pluginname = $values[0];
 	$version = $values[1];
 
-	$query = "select name from {$database['prefix']}ServiceSettings WHERE value = '" . Data_IAdapter::escapeString($_REQUEST['name']) . "'";
+	$query = "select name from {$database['prefix']}ServiceSettings WHERE value = '" . POD::escapeString($_REQUEST['name']) . "'";
 	
-	$plugintablesraw = Data_IAdapter::queryColumn($query);
+	$plugintablesraw = POD::queryColumn($query);
 	if (count($plugintablesraw) <= 0) {
-		Utils_Respond::ResultPage(1);
+		Respond::ResultPage(1);
 		exit;
 	}
 	$plugintables = array();
 	foreach($plugintablesraw as $dbname) {
 		$origname = $dbname;
 		$dbname = $database['prefix'] . substr($dbname, 9);
-		if (!Data_IAdapter::doesExistTable($dbname)) {
-			Utils_Respond::ResultPage(1);
+		if (!doesExistTable($dbname)) {
+			Respond::ResultPage(1);
 			exit;
 		}
 		if (in_array($dbname , $definedTables)) {
-			Utils_Respond::ResultPage(1);
+			Respond::ResultPage(1);
 			exit;
 		}
 		array_push($plugintables, $dbname);
-		$query = "delete from {$database['prefix']}ServiceSettings WHERE name = '$origname' AND value = '" . Data_IAdapter::escapeString($_REQUEST['name']) . "'";
-		Data_IAdapter::execute($query);
+		$query = "delete from {$database['prefix']}ServiceSettings WHERE name = '$origname' AND value = '" . POD::escapeString($_REQUEST['name']) . "'";
+		POD::execute($query);
 	}
 	$result = true;
 	foreach($plugintables as $dbname) {
 		$query = "DROP TABLE {$dbname}";
-		$result = Data_IAdapter::execute($query) && $result;
+		$result = POD::execute($query) && $result;
 	}
 	
 	deactivatePlugin($pluginname);
 	
 	if ($result == false) {
-		Utils_Respond::ResultPage(1);
+		Respond::ResultPage(1);
 		exit;
 	}
 } else { // type 2, table
 
 	$dbname = $_REQUEST['name'];
 	if (strncmp($dbname, $database['prefix'], strlen($database['prefix'])) != 0) {
-		Utils_Respond::ResultPage(1);
+		Respond::ResultPage(1);
 		exit;
 	}
 	if (in_array($dbname , $definedTables)) {
-		Utils_Respond::ResultPage(1);
+		Respond::ResultPage(1);
 		exit;
 	}
-	if (!Data_IAdapter::doesExistTable($dbname)) {
-		Utils_Respond::ResultPage(1);
+	if (!doesExistTable($dbname)) {
+		Respond::ResultPage(1);
 		exit;
 	}
 	
 	$query = "DROP TABLE {$dbname}";
-	Data_IAdapter::execute($query);
+	POD::execute($query);
 }
 
-Utils_Respond::ResultPage(0);
+Respond::ResultPage(0);
 ?>

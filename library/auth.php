@@ -5,7 +5,7 @@
 
 function login($loginid, $password, $preKnownPassword = null) {
 	global $service;
-	$loginid = Data_IAdapter::escapeString($loginid);
+	$loginid = POD::escapeString($loginid);
 	$blogid = getBlogId();
 	$userid = Auth::authenticate($blogid , $loginid, $password );
 
@@ -20,7 +20,7 @@ function login($loginid, $password, $preKnownPassword = null) {
 	}
 
 	if( in_array( "group.writers", Acl::getCurrentPrivilege() ) ) {
-		Model_Session::authorize($blogid, $userid);
+		Session::authorize($blogid, $userid);
 	}
 	return true;
 }
@@ -28,7 +28,7 @@ function login($loginid, $password, $preKnownPassword = null) {
 function logout() {
 	fireEvent("Logout");
 	Acl::clearAcl();
-	Model_Transaction::clear();
+	Transaction::clear();
 	session_destroy();
 }
 
@@ -109,7 +109,7 @@ function requireStrictRoute() {
 
 function requireStrictBlogURL() {
 	$context = Model_Context::getInstance();
-	if(isset($context->isStrictBlogURL) && $context->isStrictBlogURL == true) return;
+	if($context->getProperty('uri.isStrictBlogURL') == true) return;
 	header('HTTP/1.1 404 Not found');
 	exit;
 }
@@ -122,13 +122,13 @@ function requirePrivilege($AC) {
 
 function validateAPIKey($blogid, $loginid, $key) {
 	global $service;
-	$loginid = Data_IAdapter::escapeString($loginid);
-	$key = Data_IAdapter::escapeString($key);
-	$userid = Model_User::getUserIdByEmail($loginid);
+	$loginid = POD::escapeString($loginid);
+	$key = POD::escapeString($key);
+	$userid = User::getUserIdByEmail($loginid);
 	if( $userid === false ) { return false; }
-	$currentAPIKey = Model_Setting::getUserSettingGlobal('APIKey',null,$userid);
+	$currentAPIKey = Setting::getUserSettingGlobal('APIKey',null,$userid);
 	if($currentAPIKey == null) {
-		if(!Model_User::confirmPassword($userid, $key)) {
+		if(!User::confirmPassword($userid, $key)) {
 			header('HTTP/1.1 403 Forbidden');
 			exit;
 		}
@@ -141,10 +141,10 @@ function validateAPIKey($blogid, $loginid, $key) {
 
 function isLoginId($blogid, $loginid) {
 	global $database;
-	$loginid = Data_IAdapter::escapeString($loginid);
+	$loginid = POD::escapeString($loginid);
 	
 	// 팀블로그 :: 팀원 확인
-	$result = Data_IAdapter::queryCount("SELECT u.userid 
+	$result = POD::queryCount("SELECT u.userid 
 			FROM {$database['prefix']}Users u, 
 				{$database['prefix']}Privileges t 
 			WHERE t.blogid = $blogid 
@@ -165,10 +165,18 @@ function resetPassword($blogid, $loginid) {
 	global $service, $blog, $hostURL, $blogURL, $serviceURL;
 	if (!isLoginId($blogid, $loginid))
 		return false;
-	$userid = Model_User::getUserIdByEmail($loginid);
-	$password = Data_IAdapter::queryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = $userid");
+	$userid = User::getUserIdByEmail($loginid);
+	$password = POD::queryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = $userid");
 	$authtoken = md5(generatePassword());
-	$result = Data_IAdapter::query("REPLACE INTO `{$database['prefix']}UserSettings` (userid, name, value) VALUES ('" . $userid . "', 'AuthToken', '" . $authtoken . "')");
+	
+	$query = new DBModel($database['prefix'].'UserSettings');
+	$query->setAttribute('userid',$userid);
+	$query->setAttribute('name','Authtoken',true);
+	$query->setAttribute('value',$authtoken,true);
+	$query->setQualifier('userid',$userid);
+	$query->setQualifier('name','Authtoken',true);
+	$query->replace();
+	
 	if(empty($result)) {
 		return false;
 	}

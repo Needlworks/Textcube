@@ -612,7 +612,7 @@ class Auth_OpenID_AssociateRequest extends Auth_OpenID_Request {
             }
         }
 
-        $session_class = Auth_Model_OpenID::arrayGet(
+        $session_class = Auth_OpenID::arrayGet(
            Auth_OpenID_AssociateRequest::getSessionClasses(),
            $session_type);
 
@@ -1512,7 +1512,7 @@ class Auth_OpenID_Decoder {
                                                "No mode value in message");
         }
 
-        $handlerCls = Auth_Model_OpenID::arrayGet($this->handlers, $mode,
+        $handlerCls = Auth_OpenID::arrayGet($this->handlers, $mode,
                                             $this->defaultDecoder($message));
 
         if (!is_a($handlerCls, 'Auth_OpenID_ServerError')) {
@@ -1688,7 +1688,7 @@ class Auth_OpenID_Server {
     function decodeRequest($query=null)
     {
         if ($query === null) {
-            $query = Auth_Model_OpenID::getQuery();
+            $query = Auth_OpenID::getQuery();
         }
 
         return $this->decoder->decode($query);

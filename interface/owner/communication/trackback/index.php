@@ -227,12 +227,6 @@ if($tabsClass['received'] == true) {
 									}
 								}
 								
-								window.addEventListener("load", execLoadFunction, false);
-								function execLoadFunction() {
-									document.getElementById('allChecked').disabled = false;
-									removeItselfById('category-move-button');
-								}
-								
 								function toggleThisTr(obj) {
 									objTR = getParentByTagName("TR", obj);
 									
@@ -242,6 +236,20 @@ if($tabsClass['received'] == true) {
 										objTR.className = objTR.className.replace('active', 'inactive');
 									}
 								}
+								
+								function toggleCheckbox(obj) {
+									if (obj.checked == true) {
+										obj.checked = false;
+									} else {
+										obj.checked = true;
+									}
+								}
+								
+								window.addEventListener("load", execLoadFunction, false);
+								function execLoadFunction() {
+									document.getElementById('allChecked').disabled = false;
+									removeItselfById('category-move-button');
+								}																
 							//]]>
 						</script>
 						
@@ -330,11 +338,11 @@ if (sizeof($trackbacks) > 0) echo "									<tbody>";
 $siteNumber = array();
 for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$trackback = $trackbacks[$i];
-	$isFilterURL = Model_Filter::isFiltered('url', $trackback['url']);
+	$isFilterURL = Filter::isFiltered('url', $trackback['url']);
 	$filteredURL = getURLForFilter($trackback['url']);
 
-	$filter = new Model_Filter();
-	if (isset($trackback['ip']) && Model_Filter::isFiltered('ip', $trackback['ip'])) {
+	$filter = new Filter();
+	if (isset($trackback['ip']) && Filter::isFiltered('ip', $trackback['ip'])) {
 		$isIpFiltered = true;
 	} else {
 		$isIpFiltered = false;
@@ -352,8 +360,8 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($trackbacks) - 1) ? ' last-line' : '';
 ?>
-										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $trackback['id'];?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
+										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over'); return false;" onmouseout="rolloverClass(this, 'out'); return false;">
+											<td class="selection" onclick="document.getElementById('allChecked').checked=false; toggleCheckbox(this.childNodes[0]); toggleThisTr(this.childNodes[0]); return false;"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $trackback['id'];?>" onclick="toggleCheckbox(this); return false;" /></td>
 											<td class="date"><?php echo Timestamp::formatDate($trackback['written']);?></td>
 											<td class="site">
 <?php

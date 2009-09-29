@@ -12,12 +12,12 @@ $IV = array(
 );
 requireStrictRoute();
 
-$result = Model_User::add($_GET['email'], $_GET['name']);
+$result = User::add($_GET['email'], $_GET['name']);
 if ($result===true) {
-	Utils_Respond::PrintResult(array('error' => 0));
+	Respond::PrintResult(array('error' => 0));
 }
 else {
-	Utils_Respond::PrintResult(array('error' => -1 , 'result' =>$result));
+	Respond::PrintResult(array('error' => -1 , 'result' =>$result));
 }
 
 ?>

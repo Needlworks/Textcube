@@ -12,7 +12,6 @@ $storageMappings      = array();
 $storageKeymappings   = array();
 $adminMenuMappings    = array();
 $adminHandlerMappings = array();
-
 $configMappings       = array();
 $baseConfigPost = $service['path'].'/owner/setting/plugins/currentSetting';
 $configPost  = '';
@@ -26,7 +25,7 @@ list($currentTextcubeVersion) = explode(' ', TEXTCUBE_VERSION, 2);
 if (getBlogId()) {
 	if($gCacheStorage->getContent('activePlugins')) $activePlugins = $gCacheStorage->getContent('activePlugins');
 	else {
-		$activePlugins = Data_IAdapter::queryColumn("SELECT name FROM {$database['prefix']}Plugins WHERE blogid = ".getBlogId());
+		$activePlugins = POD::queryColumn("SELECT name FROM {$database['prefix']}Plugins WHERE blogid = ".getBlogId());
 		$gCacheStorage->setContent('activePlugins',$activePlugins);
 	}
 	$xmls = new XMLStruct();
@@ -46,13 +45,13 @@ if (getBlogId()) {
 					$requiredTextcubeVersion = $xmls->getValue('/plugin/requirements/textcube');
 					
 					if (!is_null($requiredTattertoolsVersion) && !is_null($requiredTextcubeVersion)) {
-						if ($currentTextcubeVersion < $requiredTattertoolsVersion && $currentTextcubeVersion < $requiredTextcubeVersion)
+						if (version_compare($currentTextcubeVersion,$requiredTattertoolsVersion) == -1 && version_compare($currentTextcubeVersion,$requiredTextcubeVersion) == -1)
 							$disablePlugin = true;
 					} else if (!is_null($requiredTattertoolsVersion) && is_null($requiredTextcubeVersion)) {
-						if ($currentTextcubeVersion < $requiredTattertoolsVersion)
+						if (version_compare($currentTextcubeVersion,$requiredTattertoolsVersion) == -1)
 							$disablePlugin = true;
 					} else if (is_null($requiredTattertoolsVersion) && !is_null($requiredTextcubeVersion)) {
-						if ($currentTextcubeVersion < $requiredTextcubeVersion)
+						if (version_compare($currentTextcubeVersion,$requiredTextcubeVersion) == -1)
 							$disablePlugin = true;
 					}
 					

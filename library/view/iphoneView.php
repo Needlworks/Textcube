@@ -6,7 +6,7 @@
 function printIphoneEntryContentView($blogid, $entry, $keywords = array()) {
 	global $blogURL;
 	if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password']))))
-		print '<div class="entry_body">'.(getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], $keywords)).'</div>';
+		print '<div class="entry_body">'.(getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'], $keywords)).'</div>';
 	else
 	{
 	?>
@@ -24,7 +24,7 @@ function printIphoneEntryContentView($blogid, $entry, $keywords = array()) {
 
 function printIphoneEntryContent($blogid, $userid, $id) {
 	global $database;
-	$result = Data_IAdapter::queryCell("SELECT content 
+	$result = POD::queryCell("SELECT content 
 		FROM {$database['prefix']}Entries
 		WHERE 
 			blogid = $blogid AND userid = $userid AND id = $id");
@@ -34,6 +34,7 @@ function printIphoneEntryContent($blogid, $userid, $id) {
 function printIphoneCategoriesView($totalPosts, $categories) {
 	global $blogURL, $service, $blog;
 	requireModel('blog.category');
+	requireLibrary('blog.skin');
 	$blogid = getBlogId();
 	$categoryCount = 0;
 	$categoryCountAll = 0;
@@ -47,16 +48,16 @@ function printIphoneCategoriesView($totalPosts, $categories) {
 					array_push($children, 
 						array('id' => $category2['id'], 
 							'label' => $category2['name'], 
-							'value' => (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']), 
+							'value' => (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']), 
 							'link' => "$blogURL/category/" . $category2['id'], 
 							'children' => array()
 						)
 					);
-					$categoryCount = $categoryCount + (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']);
+					$categoryCount = $categoryCount + (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']);
 				}
-				$categoryCountAll = $categoryCountAll + (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']);
+				$categoryCountAll = $categoryCountAll + (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']);
 			}
-			$parentCategoryCount = (doesHaveOwnership() ? $category1['entriesInLogin'] - $categoryCountAll : $category1['entries'] - $categoryCountAll);
+			$parentCategoryCount = (doesHaveOwnership() ? $category1['entriesinlogin'] - $categoryCountAll : $category1['entries'] - $categoryCountAll);
 			if($category1['id'] != 0) {
 				array_push($tree['children'], 
 					array('id' => $category1['id'], 
@@ -102,7 +103,7 @@ function printIphoneArchives($blogid) {
 	$archives = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$skinSetting = getSkinSetting($blogid);
-	$result = Data_IAdapter::queryAllWithDBCache("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(e.published)) period, COUNT(*) count 
+	$result = POD::queryAllWithDBCache("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(e.published)) period, COUNT(*) count 
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 		GROUP BY period 
@@ -138,23 +139,23 @@ function printIphoneTags($blogid, $flag = 'random', $max = 10) {
 	$tags = array();
 	$aux = "limit $max";
 	if ($flag == 'count') { // order by count
-			$tags = Data_IAdapter::queryAll("SELECT `name`, count(*) `cnt`, t.id FROM `{$database['prefix']}Tags` t,
-				`{$database['prefix']}TagRelations` r, 
-				`{$database['prefix']}Entries` e 
+			$tags = POD::queryAll("SELECT name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t,
+				{$database['prefix']}TagRelations r, 
+				{$database['prefix']}Entries e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
-				GROUP BY r.tag 
-				ORDER BY `cnt` DESC $aux");
+				GROUP BY r.tag, name, cnt, t.id
+				ORDER BY cnt DESC $aux");
 	} else if ($flag == 'name') {  // order by name
-			$tags = Data_IAdapter::queryAll("SELECT DISTINCT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t, 
-				`{$database['prefix']}TagRelations` r,
-				`{$database['prefix']}Entries` e 
+			$tags = POD::queryAll("SELECT DISTINCT name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t, 
+				{$database['prefix']}TagRelations r,
+				{$database['prefix']}Entries e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
-				GROUP BY r.tag 
+				GROUP BY r.tag, name, cnt, t.id 
 				ORDER BY t.name $aux");
 	} else { // random
-			$tags = Data_IAdapter::queryAll("SELECT name, count(*) cnt, t.id FROM `{$database['prefix']}Tags` t,
-				`{$database['prefix']}TagRelations` r,
-				`{$database['prefix']}Entries` e
+			$tags = POD::queryAll("SELECT name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t,
+				{$database['prefix']}TagRelations r,
+				{$database['prefix']}Entries e
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
 				GROUP BY r.tag 
 				ORDER BY RAND() $aux");
@@ -214,11 +215,129 @@ function printIphoneAttachmentExtract($content){
 		$split = explode("|", $matches[0][0]);
 		$result = $split[1];
 	}else if(preg_match_all('/<img[^>]+?src=("|\')?([^\'">]*?)("|\')/si', $content, $matches)) {
-		if( !stristr('http://', $matches[2][0]) ){
-			$result = basename($matches[2][0]);
+		if(stristr($matches[2][0], 'http://') ){
+			$result = $matches[2][0];
 		}
 	}
 	return $result;
+}
+
+function printIphoneImageResizer($blogid, $filename, $cropSize){
+	global $serviceURL;
+	requireComponent('Textcube.Function.misc');
+
+	if (!is_dir(ROOT."/cache/thumbnail")) {
+		@mkdir(ROOT."/cache/thumbnail");
+		@chmod(ROOT."/cache/thumbnail", 0777);
+	}
+	if (!is_dir(ROOT."/cache/thumbnail/" . $blogid)) {
+		@mkdir(ROOT."/cache/thumbnail/" . $blogid);
+		@chmod(ROOT."/cache/thumbnail/" . $blogid, 0777);
+	}
+	if (!is_dir(ROOT."/cache/thumbnail/" . $blogid . "/iphoneThumbnail/")) {
+		@mkdir(ROOT."/cache/thumbnail/" . $blogid . "/iphoneThumbnail/");
+		@chmod(ROOT."/cache/thumbnail/" . $blogid . "/iphoneThumbnail/", 0777);
+	}
+	
+	$thumbFilename = $filename;
+	$imageURL = "{$serviceURL}/attach/{$blogid}/{$filename}";
+	if (extension_loaded('gd')) {	
+		if (stristr($filename, 'http://')) {
+			$thumbFilename = printIphoneRemoteImageFilename($filename);
+		}
+
+		$thumbnailSrc = ROOT . "/cache/thumbnail/{$blogid}/iphoneThumbnail/th_{$thumbFilename}";
+		if (!file_exists($thumbnailSrc)) {
+			$imageURL = printIphoneCropProcess($blogid, $filename, $cropSize);
+		} else {
+			$imageURL = "{$serviceURL}/thumbnail/{$blogid}/iphoneThumbnail/th_{$thumbFilename}";
+		}
+	} else {
+		if (stristr($filename, 'http://')) {
+			$imageURL = $filename;
+		}
+	}
+	return $imageURL;
+}
+
+function printIphoneCropProcess($blogid, $filename, $cropSize) {
+	global $serviceURL;
+	$tempFile = null;
+	$imageURL = null;
+	if(stristr($filename, 'http://') ){
+		list($originSrc, $filename, $tempFile) = printIphoneCreateRemoteImage($blogid, $filename);
+	} else {
+		$originSrc = ROOT . "/attach/{$blogid}/{$filename}";
+	}
+
+	$thumbnailSrc = ROOT . "/cache/thumbnail/{$blogid}/iphoneThumbnail/th_{$filename}";
+	if (file_exists($originSrc)) {
+		requireComponent('Textcube.Function.Image');
+		$imageInfo = getimagesize($originSrc);
+
+		$objThumbnail = new Image();
+		if ($imageInfo[0] > $imageInfo[1])
+			list($tempWidth, $tempHeight) = $objThumbnail->calcOptimizedImageSize($imageInfo[0], $imageInfo[1], NULL, $cropSize);
+		else
+			list($tempWidth, $tempHeight) = $objThumbnail->calcOptimizedImageSize($imageInfo[0], $imageInfo[1], $cropSize, null);
+
+		$objThumbnail->imageFile = $originSrc;
+		if ($objThumbnail->resample($tempWidth, $tempHeight) && $objThumbnail->cropRectBySize($cropSize, $cropSize)) {
+			$imageURL = "{$serviceURL}/thumbnail/{$blogid}/iphoneThumbnail/th_{$filename}";
+			$objThumbnail->saveAsFile($thumbnailSrc);
+		}
+
+		unset($objThumbnail);
+		if($tempFile) unlink($originSrc);
+	} else {
+		$imageURL = null;
+	}
+
+	return $imageURL;
+}
+
+function printIphoneCreateRemoteImage($blogid, $filename) {
+	$fileObject = false;
+	$tmpDirectory = ROOT . "/cache/thumbnail/{$blogid}/iphoneThumbnail/";
+	$tempFilename = tempnam($tmpDirectory, "remote_");
+	$fileObject = @fopen($tempFilename, "w");
+
+	if ($fileObject) {
+		$originSrc = $tempFilename;
+		$remoteImage = printIphoneHTTPRemoteImage($filename);
+		$filename = printIphoneRemoteImageFilename($filename);
+		fwrite($fileObject, $remoteImage);
+		fclose($fileObject);
+		return array($originSrc, $filename, true);
+	} else {
+		return array(null, null, null);
+	}
+}
+
+function printIphoneHTTPRemoteImage($remoteImage) {
+    $response = '';
+	$remoteStuff = parse_url($remoteImage);
+	$port = isset($remoteStuff['port']) ? $remoteStuff['port'] : 80;
+
+	$socket = @fsockopen($remoteStuff['host'], $port);
+    fputs($socket, "GET " . $remoteStuff['path'] . " HTTP/1.1\r\n");
+    fputs($socket, "Host: " . $remoteStuff['host'] . "\r\n");
+    fputs($socket, "User-Agent: Mozilla/4.0 (compatible; Textcube)\r\n");
+    fputs($socket, "Accept-Encoding: identity\r\n");
+    fputs($socket, "Connection: close\r\n");
+    fputs($socket, "\r\n");
+
+	while ($buffer = fread($socket, 1024)) {
+		$response .= $buffer;
+	}
+
+	preg_match('/Content-Length: ([0-9]+)/', $response, $matches);
+	return substr($response, - $matches[1]);
+}
+
+function printIphoneRemoteImageFilename($filename) {
+	$filename = md5($filename) . "." . Misc::getFileExtension($filename);
+	return $filename;
 }
 
 function printIphoneHtmlFooter() {

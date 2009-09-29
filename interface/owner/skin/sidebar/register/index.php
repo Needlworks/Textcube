@@ -14,11 +14,11 @@ $IV = array(
 		)
 	);
 require ROOT . '/library/preprocessor.php';
-
+requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireStrictRoute();
 
-$skin = new Model_BlogSkin($skinSetting['skin']);
+$skin = new Skin($skinSetting['skin']);
 $sidebarCount = count($skin->sidebarBasicModules);
 
 $module = explode(':', $_REQUEST['moduleId']);
@@ -40,6 +40,6 @@ if($ajaxcall == false) {
 	if ($_SERVER['REQUEST_METHOD'] != 'POST')
 		header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
 } else {
-	Utils_Respond::ResultPage(0);
+	Respond::ResultPage(0);
 }
 ?>

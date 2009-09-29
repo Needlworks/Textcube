@@ -47,9 +47,9 @@ if (isset($cache->contents)) {
 			dress('keylog_rep_date', fireEvent('ViewKeylogDate', Timestamp::format5($entry['published']), $entry['published']), $entryView);
 			dress('keylog_rep_title', htmlspecialchars(fireEvent('ViewKeylogTitle', $entry['title'], $entry['id'])), $entryView);
 			// 사용자가 작성한 본문은 interface/common/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
-			$contentContainer["keylog_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], null, 'Keylog');
+			$contentContainer["keylog_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'], null, 'Keylog');
 			dress('keylog_rep_desc', setTempTag("keylog_{$entry['id']}"), $entryView);
-			dress('keylog_rep_author', Model_User::getName($entry['userid']), $entryView);
+			dress('keylog_rep_author', User::getName($entry['userid']), $entryView);
 			$entriesView .= $entryView;
 			$isKeylog = true;
 		} else if ($entry['category'] == - 2) { // This is notice
@@ -61,16 +61,16 @@ if (isset($cache->contents)) {
 			dress('notice_rep_link', $permalink, $entryView);
 			
 			// 사용자가 작성한 본문은 interface/common/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
-			$contentContainer["notice_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($blogid), 'Notice');
+			$contentContainer["notice_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'], getKeywordNames($blogid), 'Notice');
 			dress('notice_rep_desc', setTempTag("notice_{$entry['id']}"), $entryView);
-			dress('notice_rep_author', Model_User::getName($entry['userid']), $entryView);
+			dress('notice_rep_author', User::getName($entry['userid']), $entryView);
 			$entriesView .= $entryView;
 
 		} else if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {	// This is post
 			$entryView = $skin->entry;
 			$entryView = '<a id="entry_'.$entry['id'].'"></a>'.CRLF.$entryView;
 
-			dress('tb', getTrackbacksView($entry, $skin, $entry['acceptTrackback']), $entryView);
+			dress('tb', getTrackbacksView($entry, $skin, $entry['accepttrackback']), $entryView);
 			if ($skinSetting['expandComment'] == 1 || (($suri['directive'] == '/' || $suri['directive'] == '/entry') && $suri['value'] != '')) {
 				$style = 'block';
 			} else {
@@ -110,7 +110,7 @@ if (isset($cache->contents)) {
 				dress('s_ad_d_onclick', "deleteEntry({$entry['id']}); return false;", $managementView);
 				dress('ad_div', $managementView, $entryView);
 			}
-			$author = Model_User::getName($entry['userid']);
+			$author = User::getName($entry['userid']);
 			dress('article_rep_author', fireEvent('ViewPostAuthor', $author, $entry['id']), $entryView);
 			dress('article_rep_id', $entry['id'], $entryView);
 			dress('article_rep_link', $permalink, $entryView);
@@ -123,7 +123,7 @@ if (isset($cache->contents)) {
 			dress('article_rep_category_body_id',getCategoryBodyIdById($blogid,$entry['category']) ? getCategoryBodyIdById($blogid,$entry['category']) : 'tt-body-category',$entryView);
 			dress('article_rep_title', htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id'])), $entryView);
 			// 사용자가 작성한 본문은 interface/common/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
-			$contentContainer["article_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentFormatter'], getKeywordNames($blogid));
+			$contentContainer["article_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'], getKeywordNames($blogid));
 			dress('article_rep_desc', setTempTag("article_{$entry['id']}"), $entryView);
 			dress('article_rep_category', htmlspecialchars(empty($entry['category']) ? _text('분류없음') : $entry['categoryLabel'], $entry['id']), $entryView);
 			dress('article_rep_category_link', "$blogURL/category/".(empty($entry['category']) ? "" : ($blog['useSloganOnCategory'] ? URL::encode($entry['categoryLabel'],$service['useEncodedURL']) : $entry['category'])),$entryView);
@@ -133,7 +133,7 @@ if (isset($cache->contents)) {
 			dress('article_rep_microformat_updated', Timestamp::getISO8601($entry['modified']), $entryView);
 			dress('article_rep_date', fireEvent('ViewPostDate', Timestamp::format5($entry['published']), $entry['published']), $entryView);
 			dress('entry_archive_link', "$blogURL/archive/" . Timestamp::getDate($entry['published']), $entryView);
-			if ($entry['acceptComment'] || ($entry['comments'] > 0))
+			if ($entry['acceptcomment'] || ($entry['comments'] > 0))
 				dress('article_rep_rp_link', "toggleLayer('entry{$entry['id']}Comment'); return false", $entryView);
 			else
 				dress('article_rep_rp_link', "return false", $entryView);
@@ -142,7 +142,7 @@ if (isset($cache->contents)) {
 			list($tempTag, $commentView) = getCommentCountPart($entry['comments'], $skin);
 			dress($tempTag, $commentView, $entryView);
 		
-			if ($entry['acceptTrackback'] || ($entry['trackbacks'] > 0))
+			if ($entry['accepttrackback'] || ($entry['trackbacks'] > 0))
 				dress('article_rep_tb_link', "toggleLayer('entry{$entry['id']}Trackback'); return false", $entryView);
 			else
 				dress('article_rep_tb_link', "return false", $entryView);
@@ -153,7 +153,7 @@ if (isset($cache->contents)) {
 			$entriesView .= $entryView;
 		} else {	// Protected entries
 			$protectedEntryView = $skin->entryProtected;
-			$author = Model_User::getName($entry['userid']);
+			$author = User::getName($entry['userid']);
 			dress('article_rep_author', fireEvent('ViewPostAuthor', $author, $entry['id']), $protectedEntryView);
 			dress('article_rep_id', $entry['id'], $protectedEntryView);
 			dress('article_rep_link', $permalink, $protectedEntryView);

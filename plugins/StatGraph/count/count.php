@@ -14,7 +14,7 @@ if ((isset($_REQUEST['blogid'])) && is_numeric($_REQUEST['blogid'])) {
 
 requireComponent('Eolin.PHP.Core');
 requireComponent('Textcube.Model.Statistics');
-$row = Model_Statistics::getWeeklyStatistics();
+$row = Statistics::getWeeklyStatistics();
 
 $row = array_reverse($row);
 

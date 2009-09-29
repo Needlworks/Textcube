@@ -237,7 +237,7 @@ for ($i = 0; $i < count($skins); $i++) {
 										<div id="info_<?php echo $skin['name'];?>">
 <?php
 	if (isset($skin['skinName'])) {
-		writeValue('<span class="skin-name">' . $skin['skinName'] . '</span> <span class="version">ver.' . $skin['version']. '</span>', _t('제목'), "title");
+		writeValue('<span class="skin-name">' . ($listType == 'iconview' ? UTF8::lessenAsEm($skin['skinName'],15) : $skin['skinName']) . '</span> <span class="version">' . ($listType == 'iconview' ? UTF8::lessenAsEm($skin['version'],5,'') : $skin['version']) . '</span>', _t('제목'), "title");
 		writeValue($skin['license'], _t('저작권'), "license");
 		writeValue($skin['maker'], _t('만든이'), "maker");
 		writeValue($skin['homepage'], _t('홈페이지'), "homepage");

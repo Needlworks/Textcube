@@ -13,13 +13,13 @@ require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 
 if(empty($_POST['secondaryDomain']) && $_POST['defaultDomain'] == 1)
-	Utils_Respond::ResultPage(4);
+	Respond::ResultPage(4);
 else if( ($result = setPrimaryDomain($blogid, $_POST['primaryDomain'])) > 0 )
-	Utils_Respond::PrintResult(array('error' => 2, 'msg' => $result));
+	Respond::PrintResult(array('error' => 2, 'msg' => $result));
 else if( ($result = setSecondaryDomain($blogid, $_POST['secondaryDomain'])) > 0 )
-	Utils_Respond::PrintResult(array('error' => 3, 'msg' => $result));
+	Respond::PrintResult(array('error' => 3, 'msg' => $result));
 else if(!setDefaultDomain($blogid, $_POST['defaultDomain']))
-	Utils_Respond::ResultPage(1);
+	Respond::ResultPage(1);
 else
-	Utils_Respond::ResultPage(0);
+	Respond::ResultPage(0);
 ?>

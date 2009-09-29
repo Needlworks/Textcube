@@ -12,20 +12,20 @@ $IV = array(
 requireStrictRoute();
 requirePrivilege('group.creators');
 
-$userid = Model_User::getUserIdByEmail($_GET['user']);
+$userid = User::getUserIdByEmail($_GET['user']);
 $bid = $_GET['blogid'];
 if (empty($userid)) {
-	Utils_Respond::ResultPage(array(-1,"존재하지 않는 사용자"));
+	Respond::ResultPage(array(-1,"존재하지 않는 사용자"));
 }
 
-$acl = Data_IAdapter::queryCell("SELECT acl FROM {$database['prefix']}Privileges WHERE blogid='$bid' and userid='$userid'");
+$acl = POD::queryCell("SELECT acl FROM {$database['prefix']}Privileges WHERE blogid='$bid' and userid='$userid'");
 
 if( $acl === null ) { // If there is no ACL, add user into the blog.
-	Data_IAdapter::query("INSERT INTO `{$database['prefix']}Privileges`  
+	POD::query("INSERT INTO `{$database['prefix']}Privileges`  
 		VALUES('$bid', '$userid',0, UNIX_TIMESTAMP(), '0')");
-	Utils_Respond::ResultPage(0);
+	Respond::ResultPage(0);
 }
 else {
-	Utils_Respond::ResultPage(array(-2,"이미 참여중인 사용자"));
+	Respond::ResultPage(array(-2,"이미 참여중인 사용자"));
 }
 ?>

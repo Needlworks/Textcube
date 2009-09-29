@@ -20,7 +20,7 @@ requireComponent( "Textcube.Function.misc" );
 function openid_Logout($target)
 {
 	requireComponent( "Textcube.Control.Openid" );
-	Model_OpenIDConsumer::logout();
+	OpenIDConsumer::logout();
 	return $target;
 }
 
@@ -50,9 +50,9 @@ function openid_hardcore_login($target)
 function openid_add_delegate($target)
 {
 	global $suri;
-	$openid_delegate = Model_Setting::getBlogSettingGlobal( 'OpenIDDelegate', '' );
-	$openid_server = Model_Setting::getBlogSettingGlobal( 'OpenIDServer', '' );
-	$openid_xrduri = Model_Setting::getBlogSettingGlobal( 'OpenIDXRDSUri', '' );
+	$openid_delegate = Setting::getBlogSettingGlobal( 'OpenIDDelegate', '' );
+	$openid_server = Setting::getBlogSettingGlobal( 'OpenIDServer', '' );
+	$openid_xrduri = Setting::getBlogSettingGlobal( 'OpenIDXRDSUri', '' );
 	if( empty($openid_delegate) ) {
 		return $target;
 	}
@@ -81,7 +81,7 @@ function openid_ViewCommenter($name, $comment)
 	if( empty($comment['openid']) ) {
 		return $name;
 	}
-	$openidlogodisplay = Model_Setting::getBlogSettingGlobal( "OpenIDLogoDisplay", 0 );
+	$openidlogodisplay = Setting::getBlogSettingGlobal( "OpenIDLogoDisplay", 0 );
 	if( $openidlogodisplay ) {
 		$name = "<a href=\"".$comment['openid']."\" class=\"openid\"><img src=\"" .$service['path']. "/resources/image/icon_openid.gif\" alt=\"OpenID Logo\" title=\"" .
 			_textf("오픈아이디(%1)로 작성하였습니다", $comment['openid'] ) . "\" /></a>" . $name;

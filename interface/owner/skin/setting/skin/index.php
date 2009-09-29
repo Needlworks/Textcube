@@ -34,8 +34,8 @@ require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 
 if (setSkinSetting($blogid, $_POST)) {
-	Utils_Respond::PrintResult(array('error' => 0));
+	Respond::PrintResult(array('error' => 0));
 } else {
-	Utils_Respond::PrintResult(array('error' => 1, 'msg' => Data_IAdapter::error()));
+	Respond::PrintResult(array('error' => 1, 'msg' => POD::error()));
 }
 ?>

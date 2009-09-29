@@ -32,11 +32,11 @@ function _getRecentComments($blogid) {
 	$comments = array();
 	$repliesChk = ($data['repliesChk'] == 1)?"":" AND replier is NULL ";
 	$limitLine = ($data['repliesList'])?$data['repliesList']:$skinSetting['commentsOnRecent'];
-	$sql = "SELECT * FROM {$database['prefix']}Comments WHERE blogid = {$blogid} AND entry>0 AND isFiltered = 0 {$repliesChk} ORDER BY written DESC LIMIT {$limitLine}";
-	if ($result = Data_IAdapter::query($sql)) {
-		while ($comment = Data_IAdapter::fetch($result)) {
+	$sql = "SELECT * FROM {$database['prefix']}Comments WHERE blogid = {$blogid} AND entry>0 AND isfiltered = 0 {$repliesChk} ORDER BY written DESC LIMIT {$limitLine}";
+	if ($result = POD::query($sql)) {
+		while ($comment = POD::fetch($result)) {
 			if ($data['repliesChk'] == 2) {
-				$row = Data_IAdapter::queryCell("select count(*) from {$database['prefix']}Comments where blogid = $blogid AND parent = ".$comment['id']);
+				$row = POD::queryCell("select count(*) from {$database['prefix']}Comments where blogid = $blogid AND parent = ".$comment['id']);
 				$comment['replier'] = ($row)?"<img src=\"{$pluginURL}/replier.gif\" width=\"11\" height=\"9\" align=\"top\" style=\"margin-left:2px;\" alt=\"\" />":"";
 			}else{$comment['replier'] = "";}
 			$comment['secret'] = ($comment['secret'] == 1)?"<img src=\"{$pluginURL}/secret.gif\" width=\"9\" height=\"11\" style=\"margin-left:2px;\" alt=\"\" />":"";
@@ -54,13 +54,13 @@ function _getRecentCommentsView($comments, $template) {
 	ob_start();
 	foreach ($comments as $comment) {
 		$view = "$template";
-		Utils_Misc::dress('rctrp_rep_link', "$blogURL/{$comment['entry']}#comment{$comment['id']}", $view);
+		Misc::dress('rctrp_rep_link', "$blogURL/{$comment['entry']}#comment{$comment['id']}", $view);
 		
 		$contentContainer["recent_comment_{$comment['id']}"] = htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['comment']), 30));
-		Utils_Misc::dress('rctrp_rep_desc', setTempTag("recent_comment_{$comment['id']}"), $view);
-		Utils_Misc::dress('rctrp_rep_desc', htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['comment']), 30)), $view);
-		Utils_Misc::dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::format3($comment['written'])), $view);
-		Utils_Misc::dress('rctrp_rep_name', htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['name']),10)).$comment['secret'].$comment['replier'], $view);
+		Misc::dress('rctrp_rep_desc', setTempTag("recent_comment_{$comment['id']}"), $view);
+		Misc::dress('rctrp_rep_desc', htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['comment']), 30)), $view);
+		Misc::dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::format3($comment['written'])), $view);
+		Misc::dress('rctrp_rep_name', htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['name']),10)).$comment['secret'].$comment['replier'], $view);
 		print $view;
 	}
 	$view = ob_get_contents();
@@ -81,7 +81,7 @@ function CT_RecentRP_Default($target) {
 
 function CT_RecentRP_Default_DataSet($DATA){
 	requireComponent('Textcube.Function.Setting');
-	$cfg = Model_Setting::fetchConfigVal($DATA);
+	$cfg = Setting::fetchConfigVal($DATA);
 	return true;
 }
 ?>

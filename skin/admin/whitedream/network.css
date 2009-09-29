@@ -288,7 +288,6 @@ dl dd
 #part-link-category-edit .button-box .input-button
 {
 	background-color                 : #FFFFFF;
-	background-image                 : none;
 	border                           : 1px solid #BBBBBB;
 	color                            : #000000;
 	font-weight                      : bold;
@@ -322,7 +321,6 @@ dl dd
 #part-setting-invite .button-box .input-button
 {
 	background-color                 : #FFFFFF;
-	background-image                 : none !important;
 	display                          : block;
 	font-weight                      : bold;
 	height                           : 30px !important;

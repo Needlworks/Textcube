@@ -111,6 +111,11 @@ hr
 	line-height                      : 3em;
 }
 
+.input-button:hover
+{
+	border                           : 1px solid #444;
+}
+
 #message-box
 {
 	background-color                 : rgba(242,242,242,0.7);

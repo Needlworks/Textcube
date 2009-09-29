@@ -32,7 +32,7 @@ requireStrictRoute();
 <body>
 <?php
 function finish($error = null) {
-	global $migrational;
+	global $migrational, $blogid, $database;
 ?>
 	<script type="text/javascript">
 		//<![CDATA[
@@ -55,8 +55,8 @@ function finish($error = null) {
 		//]]>
 	</script>
 <?php 
-	$activeEditors = Data_IAdapter::queryColumn("SELECT DISTINCT contentEditor FROM {$database}Entries WHERE blogid = $blogid");
-	$activeFormatters = Data_IAdapter::queryColumn("SELECT DISTINCT contentFormatter FROM {$database}Entries WHERE blogid = $blogid");
+	$activeEditors = POD::queryColumn("SELECT DISTINCT contenteditor FROM {$database}Entries WHERE blogid = $blogid");
+	$activeFormatters = POD::queryColumn("SELECT DISTINCT contentformatter FROM {$database}Entries WHERE blogid = $blogid");
 	if(!empty($activeEditors)) {foreach($activeEditors as $editor) activatePlugin($editor);}
 	if(!empty($activeFormatters)) {foreach($activeFormatters as $formatter) activatePlugin($formatter);}
 	echo _t('완료.');
@@ -149,7 +149,7 @@ if ($items == 0)
 if (!$migrational) {
 	setProgress(0, _t('복원 위치를 준비하고 있습니다.'));
 	DataMaintenance::removeAll(false);
-	Cache_Control::flushAll();
+	CacheControl::flushAll();
 }
 $xmls->setConsumer('importer');
 if (!$xmls->openFile($backup, Validator::getBool(@$_POST['correctData']))) {
@@ -215,7 +215,7 @@ function importer($path, $node, $line) {
 	switch ($path) {
 		case '/blog/setting':
 			setProgress($item++ / $items * 100, _t('블로그 설정을 복원하고 있습니다.'));
-			$setting = new Model_BlogSetting();
+			$setting = new BlogSetting();
 			if (isset($node['title'][0]['.value']))
 				$setting->title = $node['title'][0]['.value'];
 			if (isset($node['description'][0]['.value']))
@@ -234,8 +234,8 @@ function importer($path, $node, $line) {
 				$setting->publishWholeOnFeed = $node['publishWholeOnFeed'][0]['.value'];
 			if (isset($node['acceptGuestComment'][0]['.value']))
 				$setting->acceptGuestComment = $node['acceptGuestComment'][0]['.value'];
-			if (isset($node['acceptCommentOnGuestComment'][0]['.value']))
-				$setting->acceptCommentOnGuestComment = $node['acceptCommentOnGuestComment'][0]['.value'];
+			if (isset($node['acceptcommentOnGuestComment'][0]['.value']))
+				$setting->acceptcommentOnGuestComment = $node['acceptcommentOnGuestComment'][0]['.value'];
 			if (isset($node['language'][0]['.value']))
 				$setting->language = $node['language'][0]['.value'];
 			if (isset($node['timezone'][0]['.value']))
@@ -252,7 +252,7 @@ function importer($path, $node, $line) {
 			return true;
 		case '/blog/category':
 			setProgress($item++ / $items * 100, _t('분류를 복원하고 있습니다.'));
-			$category = new Model_Category();
+			$category = new Category();
 			$category->name = $node['name'][0]['.value'];
 			$category->priority = $node['priority'][0]['.value'];
 			if (isset($node['root'][0]['.value'])) $category->id = 0;
@@ -260,7 +260,7 @@ function importer($path, $node, $line) {
 				user_error(__LINE__ . $category->error);
 			if (isset($node['category'])) {
 				for ($i = 0; $i < count($node['category']); $i++) {
-					$childCategory = new Model_Category();
+					$childCategory = new Category();
 					$childCategory->parent = $category->id;
 					$cursor = & $node['category'][$i];
 					$childCategory->name = $cursor['name'][0]['.value'];
@@ -273,7 +273,7 @@ function importer($path, $node, $line) {
 			return true;
 		case '/blog/post':
 			setProgress($item++ / $items * 100, _t('글을 복원하고 있습니다.'));
-			$post = new Model_Post();
+			$post = new Post();
 			$post->id = $node['id'][0]['.value'];
 			$post->slogan = @$node['.attributes']['slogan'];
 			$post->visibility = $node['visibility'][0]['.value'];
@@ -282,12 +282,12 @@ function importer($path, $node, $line) {
 			else $post->starred = 0;
 			$post->title = $node['title'][0]['.value'];
 			$post->content = $node['content'][0]['.value'];
-			$post->contentFormatter = isset($node['content']['.attributes']['formatter']) ? $node['content']['.attributes']['formatter'] : 'ttml';
-			$post->contentEditor = isset($node['content']['.attributes']['editor']) ? $node['content']['.attributes']['editor'] : 'modern';
+			$post->contentformatter = isset($node['content']['.attributes']['formatter']) ? $node['content']['.attributes']['formatter'] : 'ttml';
+			$post->contenteditor = isset($node['content']['.attributes']['editor']) ? $node['content']['.attributes']['editor'] : 'modern';
 			$post->location = $node['location'][0]['.value'];
 			$post->password = isset($node['password'][0]['.value']) ? $node['password'][0]['.value'] : null;
-			$post->acceptComment = $node['acceptComment'][0]['.value'];
-			$post->acceptTrackback = $node['acceptTrackback'][0]['.value'];
+			$post->acceptcomment = $node['acceptComment'][0]['.value'];
+			$post->accepttrackback = $node['acceptTrackback'][0]['.value'];
 			$post->published = $node['published'][0]['.value'];
 			if (isset($node['longitude'][0]['.value']))
 				$post->longitude = $node['longitude'][0]['.value'];
@@ -329,7 +329,7 @@ function importer($path, $node, $line) {
 					if (!$attachment->add()) {
 						user_error(__LINE__ . $attachment->error);
 					} else if ($cursor['name'][0]['.value'] != $attachment->name) {
-						$post2 = new Model_Post();
+						$post2 = new Post();
 						if ($post2->open($post->id, 'id, content')) {
 							$post2->content = str_replace($cursor['name'][0]['.value'], $attachment->name, $post2->content);
                             $post2->loadTags();
@@ -348,7 +348,7 @@ function importer($path, $node, $line) {
 			}
 			if (isset($node['comment'])) {
 				for ($i = 0; $i < count($node['comment']); $i++) {
-					$comment = new Model_Comment();
+					$comment = new Comment();
 					$comment->entry = $post->id;
 					$cursor = & $node['comment'][$i];
 					$comment->name = $cursor['commenter'][0]['name'][0]['.value'];
@@ -369,12 +369,12 @@ function importer($path, $node, $line) {
 						$comment->latitude = $cursor['latitude'][0]['.value'];
 					$comment->content = $cursor['content'][0]['.value'];
 					if (!empty($cursor['isFiltered'][0]['.value']))
-					    	$comment->isFiltered = $cursor['isFiltered'][0]['.value'];
+					    	$comment->isfiltered = $cursor['isFiltered'][0]['.value'];
 					if (!$comment->add())
 						user_error(__LINE__ . $comment->error);
 					if (isset($node['comment'][$i]['comment'])) {
 						for ($j = 0; $j < count($node['comment'][$i]['comment']); $j++) {
-							$childComment = new Model_Comment();
+							$childComment = new Comment();
 							$childComment->entry = $post->id;
 							$childComment->parent = $comment->id;
 							$cursor = & $node['comment'][$i]['comment'][$j];
@@ -401,7 +401,7 @@ function importer($path, $node, $line) {
 			}
 			if (isset($node['trackback'])) {
 				for ($i = 0; $i < count($node['trackback']); $i++) {
-					$trackback = new Model_Trackback();
+					$trackback = new Trackback();
 					$trackback->entry = $post->id;
 					$cursor = & $node['trackback'][$i];
 					$trackback->url = $cursor['url'][0]['.value'];
@@ -420,7 +420,7 @@ function importer($path, $node, $line) {
 			}
 			if (isset($node['logs'][0]['trackback'])) {
 				for ($i = 0; $i < count($node['logs'][0]['trackback']); $i++) {
-					$log = new Model_TrackbackLog();
+					$log = new TrackbackLog();
 					$log->entry = $post->id;
 					$cursor = & $node['logs'][0]['trackback'][$i];
 					$log->url = $cursor['url'][0]['.value'];
@@ -433,7 +433,7 @@ function importer($path, $node, $line) {
 			return true;
 		case '/blog/notice':
 			setProgress($item++ / $items * 100, _t('공지를 복원하고 있습니다.'));
-			$notice = new Model_Notice();
+			$notice = new Notice();
 			$notice->id = $node['id'][0]['.value'];
 			$notice->slogan = @$node['.attributes']['slogan'];
 			$notice->visibility = $node['visibility'][0]['.value'];
@@ -442,8 +442,8 @@ function importer($path, $node, $line) {
 			else $notice->starred = 0;
 			$notice->title = $node['title'][0]['.value'];
 			$notice->content = $node['content'][0]['.value'];
-			$notice->contentFormatter = isset($node['content']['.attributes']['formatter']) ? $node['content']['.attributes']['formatter'] : getDefaultFormatter();
-			$notice->contentEditor = isset($node['content']['.attributes']['editor']) ? $node['content']['.attributes']['editor'] : getDefaultEditor();
+			$notice->contentformatter = isset($node['content']['.attributes']['formatter']) ? $node['content']['.attributes']['formatter'] : getDefaultFormatter();
+			$notice->contenteditor = isset($node['content']['.attributes']['editor']) ? $node['content']['.attributes']['editor'] : getDefaultEditor();
 			$notice->published = $node['published'][0]['.value'];
 			$notice->created = @$node['created'][0]['.value'];
 			$notice->modified = @$node['modified'][0]['.value'];
@@ -468,7 +468,7 @@ function importer($path, $node, $line) {
 					if (Attachment::doesExist($attachment->name)) {
 						if (!$attachment->add())
 							user_error(__LINE__ . $attachment->error);
-						$notice2 = new Model_Notice();
+						$notice2 = new Notice();
 						if ($notice2->open($notice->id, 'id, content')) {
 							$notice2->content = str_replace($cursor['name'][0]['.value'], $attachment->name, $notice2->content);
 							$notice2->update();
@@ -490,7 +490,7 @@ function importer($path, $node, $line) {
 			return true;
 		case '/blog/keyword':
 			setProgress($item++ / $items * 100, _t('키워드를 복원하고 있습니다.'));
-			$keyword = new Model_Keyword();
+			$keyword = new Keyword();
 			$keyword->id = $node['id'][0]['.value'];
 			$keyword->visibility = $node['visibility'][0]['.value'];
 			if(isset($node['starred'][0]['.value'])) 
@@ -524,7 +524,7 @@ function importer($path, $node, $line) {
 					if (Attachment::doesExist($attachment->name)) {
 						if (!$attachment->add())
 							user_error(__LINE__ . $attachment->error);
-						$keyword2 = new Model_Keyword();
+						$keyword2 = new Keyword();
 						if ($keyword2->open($keyword->id, 'id, content')) {
 							$keyword2->content= str_replace($cursor['name'][0]['.value'], $attachment->name, $keyword2->content);
 							$keyword2->update();
@@ -546,7 +546,7 @@ function importer($path, $node, $line) {
 			return true;
 		case '/blog/link':
 			setProgress($item++ / $items * 100, _t('링크를 복원하고 있습니다.'));
-			$link = new Model_Link();
+			$link = new Link();
 			$link->url = $node['url'][0]['.value'];
 			$link->title = $node['title'][0]['.value'];
 			if (!empty($node['feed'][0]['.value']))
@@ -566,7 +566,7 @@ function importer($path, $node, $line) {
 			return true;
 		case '/blog/logs/referer':
 			setProgress($item++ / $items * 100, _t('리퍼러 로그를 복원하고 있습니다.'));
-			$log = new Model_RefererLog();
+			$log = new RefererLog();
 			if (isset($node['path'][0]['.value']))
 				$log->url = $node['path'][0]['.value'];
 			else
@@ -577,7 +577,7 @@ function importer($path, $node, $line) {
 			return true;
 		case '/blog/commentsNotified/comment':
 			setProgress($item++ / $items * 100, _t('댓글 알리미 내용을 복원하고 있습니다.'));
-			$cmtNotified = new Model_CommentNotified();
+			$cmtNotified = new CommentNotified();
 			$cmtNotified->id = $node['id'][0]['.value'];
 			$cursor = & $node['commenter'][0];
 			$cmtNotified->name = $cursor['name'][0]['.value'];
@@ -591,8 +591,8 @@ function importer($path, $node, $line) {
 			$cmtNotified->written = $node['written'][0]['.value'];
 			$cmtNotified->modified = $node['modified'][0]['.value'];
 			$cmtNotified->url = $node['url'][0]['.value'];
-			$cmtNotified->isNew = $node['isNew'][0]['.value'];
-			$site = new Model_CommentNotifiedSiteInfo();
+			$cmtNotified->isnew = $node['isNew'][0]['.value'];
+			$site = new CommentNotifiedSiteInfo();
 			if (!$site->open("url = '{$node['site'][0]['.value']}'")) {
 				$site->title = '';
 				$site->name = '';
@@ -600,17 +600,17 @@ function importer($path, $node, $line) {
 				$site->url = $node['site'][0]['.value'];
 				$site->add();
 			}
-			$cmtNotified->siteId = $site->id;
+			$cmtNotified->siteid = $site->id;
 			$site->close();
-			$cmtNotified->remoteId = $node['remoteId'][0]['.value'];
-			$cmtNotified->entryTitle = (!isset($node['entryTitle'][0]['.value']) || empty($node['entryTitle'][0]['.value'])) ? 'No title' : $node['entryTitle'][0]['.value'];
-			$cmtNotified->entryUrl = $node['entryUrl'][0]['.value'];
+			$cmtNotified->remoteid = $node['remoteid'][0]['.value'];
+			$cmtNotified->entrytitle = (!isset($node['entryTitle'][0]['.value']) || empty($node['entryTitle'][0]['.value'])) ? 'No title' : $node['entrytitle'][0]['.value'];
+			$cmtNotified->entryurl = $node['entryUrl'][0]['.value'];
 			if (!$cmtNotified->add())
 				user_error(__LINE__ . $cmtNotified->error);
 			return true;
 		case '/blog/commentsNotifiedSiteInfo/site':
 			setProgress($item++ / $items * 100, _t('댓글 알리미 내용을 복원하고 있습니다.'));
-			$cmtNotifiedSite = new Model_CommentNotifiedSiteInfo();
+			$cmtNotifiedSite = new CommentNotifiedSiteInfo();
 			if ($cmtNotifiedSite->open("url = '{$node['url'][0]['.value']}'")) {
 				if (intval($node['modified'][0]['.value']) > intval($cmtNotifiedSite->modified)) {
 					$cmtNotifiedSite->title = $node['title'][0]['.value'];
@@ -630,7 +630,7 @@ function importer($path, $node, $line) {
 			return true;
 		case '/blog/statistics/referer':
 			setProgress($item++ / $items * 100, _t('리퍼러 통계를 복원하고 있습니다.'));
-			$statistics = new Model_RefererStatistics();
+			$statistics = new RefererStatistics();
 			$statistics->host = $node['host'][0]['.value'];
 			$statistics->count = $node['count'][0]['.value'];
 			if (!$statistics->add())
@@ -638,14 +638,14 @@ function importer($path, $node, $line) {
 			return true;
 		case '/blog/statistics/visits':
 			setProgress($item++ / $items * 100, _t('블로그 통계 정보를 복원하고 있습니다.'));
-			$statistics = new Model_BlogStatistics();
+			$statistics = new BlogStatistics();
 			$statistics->visits = $node['.value'];
 			if (!$statistics->add())
 				user_error(__LINE__ . $statistics->error);
 			return true;
 		case '/blog/statistics/daily':
 			setProgress($item++ / $items * 100, _t('일별 통계 정보를 복원하고 있습니다.'));
-			$statistics = new Model_DailyStatistics();
+			$statistics = new DailyStatistics();
 			$statistics->date = $node['date'][0]['.value'];
 			$statistics->visits = $node['visits'][0]['.value'];
 			if (!$statistics->add())
@@ -653,7 +653,7 @@ function importer($path, $node, $line) {
 			return true;
 		case '/blog/skin':
 			setProgress($item++ / $items * 100, _t('스킨 설정을 복원하고 있습니다.'));
-			$setting = new Model_BlogSkinSetting();
+			$setting = new SkinSetting();
 			if (false) {
 				$setting->skin = $node['name'][0]['.value'];
 				if (!$setting->save())
@@ -667,7 +667,7 @@ function importer($path, $node, $line) {
 			$setting->tagsOnTagbox = $node['tagsOnTagbox'][0]['.value'];
 			$setting->alignOnTagbox = $node['alignOnTagbox'][0]['.value'];
 			$setting->expandComment = $node['expandComment'][0]['.value'];
-			$setting->expandTrackback = $node['expandTrackback'][0]['.value'];
+			$setting->expandTrackback = $node['expandCrackback'][0]['.value'];
 			if (!empty($node['recentNoticeLength'][0]['.value']))
 				$setting->recentNoticeLength = $node['recentNoticeLength'][0]['.value'];
 			$setting->recentEntryLength = $node['recentEntryLength'][0]['.value'];
@@ -679,9 +679,9 @@ function importer($path, $node, $line) {
 				$cursor = & $node['tree'][0];
 				$setting->tree = $cursor['name'][0]['.value'];
 				$setting->colorOnTree = $cursor['color'][0]['.value'];
-				$setting->bgColorOnTree = $cursor['bgColor'][0]['.value'];
-				$setting->activeColorOnTree = $cursor['activeColor'][0]['.value'];
-				$setting->activeBgColorOnTree = $cursor['activeBgColor'][0]['.value'];
+				$setting->bgcolorOnTree = $cursor['bgColor'][0]['.value'];
+				$setting->activecolorOnTree = $cursor['activeColor'][0]['.value'];
+				$setting->activebgcolorOnTree = $cursor['activeBgColor'][0]['.value'];
 				$setting->labelLengthOnTree = $cursor['labelLength'][0]['.value'];
 				$setting->showValueOnTree = $cursor['showValue'][0]['.value'];
 			}
@@ -767,7 +767,7 @@ function importer($path, $node, $line) {
 			return true;
 		case '/blog/filter':
 			setProgress($item++ / $items * 100, _t('필터 설정을 복원하고 있습니다.'));
-			$filter = new Model_Filter();
+			$filter = new Filter();
 			$filter->type = $node['.attributes']['type'];
 			$filter->pattern = $node['pattern'][0]['.value'];
 			if (!$filter->add())

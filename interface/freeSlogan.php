@@ -10,12 +10,12 @@ if (eventExists('AccessFreeSlogan')) {
 	if (Validator::id($info)) {
 		$entries = array();
 		
-		$objEntry = new Model_Notice();
+		$objEntry = new Notice();
 		
 		if ($objEntry->doesExist($info)) {
 			list($entries) = getEntryWithPaging($blogid, $info, true);
 		} else {
-			$objEntry = new Model_Post();
+			$objEntry = new Post();
 			
 			if ($objEntry->doesExist($info))
 				list($entries, $paging) = getEntryWithPaging($blogid, $info);

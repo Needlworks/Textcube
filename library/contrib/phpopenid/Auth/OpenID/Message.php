@@ -71,7 +71,7 @@ function Auth_OpenID_registerNamespaceAlias($namespace_uri, $alias)
 {
     global $Auth_OpenID_registered_aliases;
 
-    if (Auth_Model_OpenID::arrayGet($Auth_OpenID_registered_aliases,
+    if (Auth_OpenID::arrayGet($Auth_OpenID_registered_aliases,
                               $alias) == $namespace_uri) {
         return true;
     }
@@ -98,7 +98,7 @@ function Auth_OpenID_removeNamespaceAlias($namespace_uri, $alias)
 {
     global $Auth_OpenID_registered_aliases;
 
-    if (Auth_Model_OpenID::arrayGet($Auth_OpenID_registered_aliases,
+    if (Auth_OpenID::arrayGet($Auth_OpenID_registered_aliases,
                               $alias) === $namespace_uri) {
         unset($Auth_OpenID_registered_aliases[$alias]);
         return true;
@@ -686,7 +686,7 @@ class Auth_OpenID_Message {
     {
         // Generate a GET URL with the parameters in this message
         // attached as query parameters.
-        return Auth_Model_OpenID::appendArgs($base_url, $this->toPostArgs());
+        return Auth_OpenID::appendArgs($base_url, $this->toPostArgs());
     }
 
     function toKVForm()
@@ -707,7 +707,7 @@ class Auth_OpenID_Message {
         }
 
         sort($args);
-        return Auth_Model_OpenID::httpBuildQuery($args);
+        return Auth_OpenID::httpBuildQuery($args);
     }
 
     /**

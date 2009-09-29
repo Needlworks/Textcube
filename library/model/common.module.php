@@ -15,12 +15,15 @@ function getDefaultEditor() {
 function& getAllEditors() { global $editorMapping; return $editorMapping; }
 
 function getEditorInfo($editor) {
-	global $editorMapping;
+	global $editorMapping, $pluginURL, $pluginName;
+	$context = Model_Context::getInstance();
 	if (!isset($editorMapping[$editor])) {
 		reset($editorMapping);
 		$editor = key($editorMapping); // gives first declared (thought to be default) editor
 	}
 	if (isset($editorMapping[$editor]['plugin'])) {
+		$pluginURL = $context->getProperty('service.path').'/plugins/'.$editorMapping[$editor]['plugin'];
+		$pluginName = $editorMapping[$editor]['plugin'];
 		include_once ROOT . "/plugins/{$editorMapping[$editor]['plugin']}/index.php";
 	}
 	return $editorMapping[$editor];
@@ -55,11 +58,11 @@ function getEntryFormatterInfo($id) {
 	if (!Validator::id($id)) {
 		return NULL;
 	} else if (!isset($info[$id])) {
-		$query = sprintf('SELECT `contentFormatter` FROM `%sEntries` WHERE `id` = %d',
+		$query = sprintf('SELECT contentformatter FROM %sEntries WHERE id = %d',
 							$database['prefix'],
 							$id
 						);
-		$info[$id] = Data_IAdapter::queryCell($query);
+		$info[$id] = POD::queryCell($query);
 	}
 	
 	return $info[$id];

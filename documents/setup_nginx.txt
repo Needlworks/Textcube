@@ -1,6 +1,6 @@
 
 ## Howto Install Textcube on Nginx (alpha)
-by J.P.Goh
+by Jaepil Koh
 
 1. install nginx & mysql
 2. install fastcgi and configure it with nginx.

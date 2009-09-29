@@ -315,7 +315,7 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 
 <?php
 // Teamblog :: Get username.
- $teamblog_user = Data_IAdapter::queryRow("SELECT name, loginid 
+ $teamblog_user = POD::queryRow("SELECT name, loginid 
 	 FROM {$database['prefix']}Users 
 	 WHERE userid='".getUserId()."'");
 // End TeamBlog
@@ -377,7 +377,7 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 										<dl id="blogapi-password-line" class="line">
 											<dt><span class="label"><?php echo _t('API 용 비밀번호');?></span></dt>
 											<dd>
-											<input type="text" style="width:14em" class="input-text" id="TCApiPassword" name="TCApiPassword" value="<?php echo Model_Setting::getUserSettingGlobal('APIKey',null,getUserId());?>" />
+											<input type="text" style="width:14em" class="input-text" id="TCApiPassword" name="TCApiPassword" value="<?php echo Setting::getUserSettingGlobal('APIKey',null,getUserId());?>" />
 												<input type="button" class="input-button" value="<?php echo _t('임의로 생성')?>" onclick="chooseBlogPassword()" />
 												<input type="button" class="input-button" value="<?php echo _t('관리자 비밀번호를 그대로 사용')?>" onclick="clearBlogPassword()" />
 											</dd>
@@ -405,8 +405,8 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 							
 							<div class="data-inbox">
 <?php
-$hptype = Model_User::getHomepageType();
-$blogs = Model_User::getBlogs();
+$hptype = User::getHomepageType();
+$blogs = User::getBlogs();
 $hptype = empty($blogs)?"default":$hptype;
 if ($hptype == 'internal' || 'author') {
 	$blogidforhomepage = getUserSetting("blogidforhomepage"); 
@@ -436,7 +436,7 @@ if(!empty($blogs)) {
 ?>
 												</div>
 												<div>
-												<input id="id-external-address" type="radio" name="type" value="external" <?php echo ($hptype == "external" ? "checked=\"checked\"":"");?> > <label for="id-external-address"><?php echo _t('외부 주소');?></label> <input type="text" name="homepage" id="homepage" class="input-text" value="<?php echo Model_User::getHomepage();?>">
+												<input id="id-external-address" type="radio" name="type" value="external" <?php echo ($hptype == "external" ? "checked=\"checked\"":"");?> > <label for="id-external-address"><?php echo _t('외부 주소');?></label> <input type="text" name="homepage" id="homepage" class="input-text" value="<?php echo User::getHomepage();?>">
 												</div>
 												<div>
 												<input id="id-default-value" type="radio" name="type" value="default" <?php echo ($hptype == "default" ? "checked=\"checked\"":"");?> /> <label for="id-default-value"><?php echo _t('기본값');?></label>
@@ -553,7 +553,7 @@ if( isActivePlugin( 'CL_OpenID' ) || Acl::check('group.administrators') ) {
 											<dt class="hidden"><?php echo _t('오픈아이디로 사용할 블로그 주소를 선택하세요');?></dt>
 											<dd>
 <?php
-		$currentDelegate = Model_Setting::getBlogSettingGlobal( 'OpenIDDelegate', '' );
+		$currentDelegate = Setting::getBlogSettingGlobal( 'OpenIDDelegate', '' );
 ?>
 												<select id="openid_for_delegation">
 <?php
@@ -620,7 +620,7 @@ if ($service['type'] != 'single' && Acl::check("group.creators")):
 											<div id="letter-foot">
 												<div id="sender-line" class="line">
 													<label for="invitation_sender"><?php echo _t('보내는 사람');?></label>
-													<input type="text" id="invitation_sender" class="input-text" name="text2" value="<?php echo htmlspecialchars(htmlspecialchars($user['name']) . '<' . Model_User::getEmail() . '>');?>" />
+													<input type="text" id="invitation_sender" class="input-text" name="text2" value="<?php echo htmlspecialchars(htmlspecialchars($user['name']) . '<' . User::getEmail() . '>');?>" />
 												</div>
 											</div>
 										</dd>
@@ -651,7 +651,7 @@ $invitedList = getInvited(getUserId());
 <?php
 	$count = 0;
 	foreach ($invitedList as $value) {
-		if (count(Model_User::getOwnedBlogs($value['userid'])) == 0) {
+		if (count(User::getOwnedBlogs($value['userid'])) == 0) {
 			continue;
 		}
 		$className = ($count % 2) == 1 ? 'even-line' : 'odd-line';
@@ -661,10 +661,10 @@ $invitedList = getInvited(getUserId());
 														<td class="email"><?php echo htmlspecialchars($value['name']);?>(<?php echo htmlspecialchars($value['loginid']);?>)</td>
 														<td class="date"><?php echo Timestamp::format5($value['created']);?></td>
 <?php
-		if ($value['lastLogin'] == 0) {
+		if ($value['lastlogin'] == 0) {
 ?>
 														<td class="status"><?php echo _f('%1 전', timeInterval($value['created'], time()));?></td>
-														<td class="password"><?php echo Data_IAdapter::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = {$value['userid']} AND name = 'AuthToken'");?></td>
+														<td class="password"><?php echo POD::queryCell("SELECT value FROM {$database['prefix']}UserSettings WHERE userid = {$value['userid']} AND name = 'AuthToken'");?></td>
 														<td class="cancel"><a class="cancel-button button" href="#void" onclick="cancelInvite(<?php echo $value['userid'];?>,this);return false;" title="<?php echo _t('초대에 응하지 않은 사용자의 계정을 삭제합니다.');?>"><span class="text"><?php echo _t('초대취소');?></span></a></td>
 <?php
 		} else {

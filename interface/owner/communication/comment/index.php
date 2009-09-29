@@ -188,6 +188,14 @@ require ROOT . '/interface/common/owner/header.php';
 										objTR.className = objTR.className.replace('active', 'inactive');
 									}
 								}
+
+								function toggleCheckbox(obj) {
+									if (obj.checked == true) {
+										obj.checked = false;
+									} else {
+										obj.checked = true;
+									}
+								}
 							//]]>
 						</script>
 						
@@ -276,13 +284,13 @@ $ipNumber = array();
 for ($i=0; $i<sizeof($comments); $i++) {
 	$comment = $comments[$i];
 	
-	$filter = new Model_Filter();
-	if (Model_Filter::isFiltered('name', $comment['name']))
+	$filter = new Filter();
+	if (Filter::isFiltered('name', $comment['name']))
 		$isNameFiltered = true;
 	else
 		$isNameFiltered = false;
 	
-	if (Model_Filter::isFiltered('ip', $comment['ip']))
+	if (Filter::isFiltered('ip', $comment['ip']))
 		$isIpFiltered = true;
 	else
 		$isIpFiltered = false;
@@ -305,8 +313,8 @@ for ($i=0; $i<sizeof($comments); $i++) {
 	$className .= $comment['parent'] ? ' reply-line' : null;
 	$className .= ($i == sizeof($comments) - 1) ? ' last-line' : '';
 ?>
-										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id'];?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
+										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over');return false;" onmouseout="rolloverClass(this, 'out');return false">
+											<td class="selection" onclick="document.getElementById('allChecked').checked=false; toggleCheckbox(this.childNodes[0]);toggleThisTr(this.childNodes[0]);"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id'];?>" onclick="toggleCheckbox(this); return false;" /></td>
 											<td class="date"><?php echo Timestamp::formatDate($comment['written']);?></td>
 											<td class="name">
 <?php

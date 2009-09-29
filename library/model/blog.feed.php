@@ -12,7 +12,7 @@ function refreshFeed($blogid, $mode = 'both') {
 	global $database, $serviceURL, $defaultURL, $blog, $service;
 	$channel = array();
 	$channel = initializeRSSchannel($blogid);
-	$result = Data_IAdapter::queryAll("SELECT 
+	$result = POD::queryAll("SELECT 
 			e.*, 
 			c.name AS categoryName, 
 			u.name AS author
@@ -101,7 +101,7 @@ function getFeedItemByEntries($entries) {
 	foreach($entries as $row) {
 		$entryURL = $defaultURL . '/' . ($blog['useSloganOnPost'] ? 'entry/' . rawurlencode($row['slogan']) : $row['id']);
 
-		$content = getEntryContentView($row['blogid'], $row['id'], $row['content'], $row['contentFormatter'], true, 'Post', true, true);
+		$content = getEntryContentView($row['blogid'], $row['id'], $row['content'], $row['contentformatter'], true, 'Post', true, true);
 		$content = preg_replace('/<a href=("|\')(#[^\1]+)\1/i', '<a href=$1' . htmlspecialchars($entryURL) . '$2$1', $content);
  		if (!$blog['publishWholeOnRSS']) {
 			$content .= "<p><strong><a href=\"" . htmlspecialchars($entryURL) . "\">" . _t('글 전체보기') . "</a></strong></p>";
@@ -109,10 +109,10 @@ function getFeedItemByEntries($entries) {
 		$row['repliesCount'] = $row['comments'] + $row['trackbacks'];
 		$item = array(
 			'id' => $row['id'], 
-			'title' => RSSMessage(fireEvent('ViewPostTitle', $row['title'], $row['id'])), 
+			'title' => RSSMessage($row['title']), 
 			'link' => $entryURL, 
 			'categories' => array(), 'description' => RSSMessage($content), 
-			'author' => '('.RSSMessage($row['author']).')', 
+			'author' => RSSMessage($row['author']), 
 			'pubDate' => $row['published'],
 			'updDate' => $row['modified'],
 			'comments' => $entryURL . '#entry' . $row['id'] . 'comment',
@@ -127,13 +127,13 @@ function getFeedItemByEntries($entries) {
 		}
 		if (!empty($row['id'])) {
 			$sql = "SELECT name, size, mime FROM {$database['prefix']}Attachments WHERE parent= {$row['id']} AND blogid = {$row['blogid']} AND enclosure = 1";
-			$attaches = Data_IAdapter::queryRow($sql);
+			$attaches = POD::queryRow($sql);
 			if (count($attaches) > 0) {
 				$item['enclosure'] = array('url' => "$serviceURL/attach/$blogid/{$attaches['name']}", 'length' => $attaches['size'], 'type' => $attaches['mime']);
 			}
 		}
 		array_push($item['categories'], $row['categoryName']);
-		$tag_result = Data_IAdapter::queryColumn("SELECT name 
+		$tag_result = POD::queryColumn("SELECT name 
 				FROM {$database['prefix']}Tags, 
 					{$database['prefix']}TagRelations 
 				WHERE id = tag 
@@ -143,6 +143,27 @@ function getFeedItemByEntries($entries) {
 		foreach($tag_result as $tag) {
 			array_push($item['categories'], $tag);
 		}
+		array_push($channelItems, $item);
+	}
+	return $channelItems;
+}
+
+function getFeedItemByLines($lines) {
+	global $database, $serviceURL, $defaultURL, $blog, $service;
+	$channelItems = array();
+	foreach($lines as $row) {
+		$entryURL = $defaultURL . '/line#' . ($row['id']);
+		$content = $row['content'];
+		$item = array(
+			'id' => $row['id'], 
+			'title' => RSSMessage(Timestamp::format5($row['created'])), 
+			'link' => $entryURL, 
+			'categories' => array(), 
+			'description' => RSSMessage($content), 
+			'pubDate' => $row['created'],
+			'updDate' => $row['created'],
+			'guid' => "$defaultURL/" . $row['id'],
+		);
 		array_push($channelItems, $item);
 	}
 	return $channelItems;
@@ -169,7 +190,7 @@ function getResponseFeedByEntryId($blogid, $entryId, $mode = 'rss') {
 	
 	if(empty($blogid)) $blogid = getBlogId();
 
-	$entry = Data_IAdapter::queryRow("SELECT slogan, visibility, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
+	$entry = POD::queryRow("SELECT slogan, visibility, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
 	if(empty($entry)) return false;
 	if($entry['visibility'] < 2) return false;
 	if(in_array($entry['category'], getCategoryVisibilityList($blogid, 'private'))) return false;
@@ -207,7 +228,7 @@ function getCommentFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
 			'title' => RSSMessage(UTF8::lessen($row['title'],30).' : '._textf('%1님의 댓글',$row['name'])), 
 			'link' => $commentURL.$row['id'], 
 			'categories' => array(), 'description' => RSSMessage($content), 
-			'author' => '('.RSSMessage($row['name']).')', 
+			'author' => RSSMessage($row['name']), 
 			'pubDate' => $row['written'],
 			'comments' => $commentURL,
 			'guid' => $commentURL.$row['id']
@@ -227,7 +248,7 @@ function getCommentFeedByEntryId($blogid = null, $entryId, $rawMode = false, $mo
 	
 	if(empty($blogid)) $blogid = getBlogId();
 
-	$entry = Data_IAdapter::queryRow("SELECT slogan, visibility, title, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
+	$entry = POD::queryRow("SELECT slogan, visibility, title, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
 	if(empty($entry)) return false;
 	if($entry['visibility'] < 2) return false;
 	if(in_array($entry['category'], getCategoryVisibilityList($blogid, 'private'))) return false;
@@ -239,11 +260,11 @@ function getCommentFeedByEntryId($blogid = null, $entryId, $rawMode = false, $mo
 	} else {
 		$channel['link'] = $defaultURL."/".$entryId;
 	}
-	$result = Data_IAdapter::queryAll("SELECT *
+	$result = POD::queryAll("SELECT *
 		FROM {$database['prefix']}Comments
 		WHERE blogid = ".$blogid." 
 			AND entry = ".$entryId."
-			AND isFiltered = 0");
+			AND isfiltered = 0");
 	if (!$result)
 		$result = array();
 
@@ -256,7 +277,7 @@ function getCommentFeedByEntryId($blogid = null, $entryId, $rawMode = false, $mo
 			'title' => RSSMessage(_textf('%1님의 댓글',$row['name'] )), 
 			'link' => $commentURL.$row['id'], 
 			'categories' => array(), 'description' => RSSMessage($content), 
-			'author' => '('.RSSMessage($row['name']).')', 
+			'author' => RSSMessage($row['name']), 
 			'pubDate' => $row['written'],
 			'comments' => $commentURL,
 			'guid' => $commentURL.$row['id']
@@ -291,7 +312,7 @@ function getTrackbackFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
 			'title' => RSSMessage($row['subject']), 
 			'link' => $trackbackURL.$row['id'], 
 			'categories' => array(), 'description' => RSSMessage($content), 
-			'author' => '('.RSSMessage(htmlspecialchars($row['site'])).')', 
+			'author' => RSSMessage(htmlspecialchars($row['site'])), 
 			'pubDate' => $row['written'],
 			'comments' => $trackbackURL,
 			'guid' => $trackbackURL.$row['id']
@@ -310,7 +331,7 @@ function getTrackbackFeedByEntryId($blogid = null, $entryId, $rawMode = false, $
 
 	if(empty($blogid)) $blogid = getBlogId();
 
-	$entry = Data_IAdapter::queryRow("SELECT slogan, visibility, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
+	$entry = POD::queryRow("SELECT slogan, visibility, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
 	if(empty($entry)) return false;
 	if($entry['visibility'] < 2) return false;
 	if(in_array($entry['category'], getCategoryVisibilityList($blogid, 'private'))) return false;
@@ -323,11 +344,11 @@ function getTrackbackFeedByEntryId($blogid = null, $entryId, $rawMode = false, $
 	} else {
 		$channel['link'] = $defaultURL."/".$entryId;
 	}
-	$result = Data_IAdapter::queryAll("SELECT * 
+	$result = POD::queryAll("SELECT * 
 		FROM {$database['prefix']}RemoteResponses
 		WHERE blogid = ".$blogid." 
 			AND entry = ".$entryId."
-			AND isFiltered = 0
+			AND isfiltered = 0
 			AND type = 'trackback'");
 	if (!$result)
 		$result = array();
@@ -342,7 +363,7 @@ function getTrackbackFeedByEntryId($blogid = null, $entryId, $rawMode = false, $
 			'title' => RSSMessage($row['subject']), 
 			'link' => $trackbackURL.$row['id'], 
 			'categories' => array(), 'description' => RSSMessage($content), 
-			'author' => '('.RSSMessage(htmlspecialchars($row['site'])).')', 
+			'author' => RSSMessage(htmlspecialchars($row['site'])), 
 			'pubDate' => $row['written'],
 			'comments' => $trackbackURL,
 			'guid' => $trackbackURL.$row['id']
@@ -379,13 +400,13 @@ function getCommentNotifiedFeedTotal($blogid, $mode = 'rss') {
 	foreach($mergedComments as $row) {
 		$item = array(
 			'id' => $row['id'], 
-			'title' => RSSMessage($row['entryTitle']), 
+			'title' => RSSMessage($row['entrytitle']), 
 			'link' => $row['url'], 
 			'categories' => array(), 
 			'description' => RSSMessage(htmlspecialchars($row['comment'])), 
-			'author' => '('.RSSMessage(htmlspecialchars($row['name'])).')', 
+			'author' => RSSMessage(htmlspecialchars($row['name'])), 
 			'pubDate' => $row['written'],
-			'comments' => $row['entryUrl'],
+			'comments' => $row['entryurl'],
 			'guid' => $row['url']
 		);
 		array_push($channel['items'], $item);
@@ -401,7 +422,7 @@ function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss', $cate
 	global $database, $serviceURL, $defaultURL, $blog, $service;
 	$channel = array();
 	$channel = initializeRSSchannel($blogid);
-	$entries = Data_IAdapter::queryAll("SELECT 
+	$entries = POD::queryAll("SELECT 
 			e.*, 
 			c.name AS categoryName, 
 			u.name AS author
@@ -419,6 +440,27 @@ function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss', $cate
 	if(!is_null($categoryTitle)) {
 		$channel['title'] = RSSMessage($blog['title']. ': '._textf('%1 카테고리 글 목록',htmlspecialchars($categoryTitle)));
 	}
+	$rss = array('channel' => $channel);
+
+	if($mode == 'rss') return publishRSS($blogid, $rss);
+	else if($mode == 'atom') return publishATOM($blogid, $rss);
+	return false;
+}
+
+function getLinesFeed($blogid, $category = 'public', $mode = 'atom') {
+	global $blog;
+	$channel = array();
+	$channel = initializeRSSchannel($blogid);	
+	$lineobj = Model_Line::getInstance();
+	$lineobj->reset();
+	$lineobj->setFilter(array('created','bigger',Timestamp::getUNIXTime()-86400));
+	$lineobj->setFilter(array('blogid','equals',$blogid));
+	$lineobj->setFilter(array('category','equals',$category,true));
+	$lines = $lineobj->get();
+	
+	$channel['items'] = getFeedItemByLines($lines);
+	$channel['title'] = RSSMessage($blog['title']. ': '._text('Lines'));
+
 	$rss = array('channel' => $channel);
 
 	if($mode == 'rss') return publishRSS($blogid, $rss);
@@ -508,9 +550,11 @@ function publishATOM($blogid, $data) {
 			if ($category = trim($category))
 				echo '    <category term="', htmlspecialchars($category, ENT_QUOTES), '" />', CRLF; 
 		}
-		echo '    <author>', CRLF;
-		echo '      <name>', htmlspecialchars($item['author'], ENT_QUOTES), '</name>', CRLF;
-		echo '    </author>', CRLF;
+		if(isset($item['author'])) {
+			echo '    <author>', CRLF;
+			echo '      <name>', htmlspecialchars($item['author'], ENT_QUOTES), '</name>', CRLF;
+			echo '    </author>', CRLF;
+		}
 		echo '    <id>', $item['link'] ,'</id>', CRLF;
 		if(isset($item['updDate']))
 			echo '    <updated>', Timestamp::getISO8601($item['updDate']), '</updated>', CRLF;

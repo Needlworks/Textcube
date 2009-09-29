@@ -20,10 +20,10 @@ if ($_GET['type'] == 1) {
 } else if ($_GET['type'] == 2) {
 	emptyTrash(false);
 } else {
-	Utils_Respond::NotFoundPage();
+	Respond::NotFoundPage();
 }
 
-if (array_key_exists('ajaxcall', $_GET)) Utils_Respond::ResultPage(0);
+if (array_key_exists('ajaxcall', $_GET)) Respond::ResultPage(0);
 else {
 	if ($_GET['type'] == 1) header("Location: " . $blogURL  . '/owner/communication/trash/comment' );
 	else if ($_GET['type'] == 2) header("Location: " . $blogURL  . '/owner/communication/trash/trackback' );

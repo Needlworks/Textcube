@@ -24,7 +24,7 @@ function URLkeeper($target)
 	global $hostURL, $blogURL;
 	global $configVal;
 	requireComponent('Tattertools.Function.misc');
-	$data = Model_Setting::fetchConfigVal( $configVal);
+	$data = Setting::fetchConfigVal( $configVal);
 	$config  = $data['viewForm'];
 	$target .= '
 <script type="text/javascript">

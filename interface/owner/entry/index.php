@@ -11,6 +11,7 @@ $IV = array(
 		'category' => array('int', 'mandatory' => false),
 		'visibility' => array('string', 'mandatory' => false),
 		'page' => array('int', 1, 'default' => 1),
+		'tagId' => array('int', 1, 'mandatory' => false),		
 		'search' => array('string', 'mandatory' => false)
 	),
 	'POST' => array(
@@ -91,6 +92,13 @@ if (isset($_POST['search']) && !empty($_POST['search']))
 else if (isset($_GET['search']) && !empty($_GET['search']))
 	$searchKeyword = trim($_GET['search']);
 
+// 태그 목록 출력
+if (isset($_GET['tagId']) && !empty($_GET['tagId'])) {
+	$tag = intval($_GET['tagId']);	
+} else {
+	$tag = null;
+}
+
 // 페이지당 출력되는 포스트 수.
 $perPage = getBlogSetting('rowsPerPage', 10);
 if ( isset($_POST['perPage']) && (in_array($_POST['perPage'], array(10, 15, 20, 25, 30)))) {
@@ -104,7 +112,7 @@ if ( isset($_POST['perPage']) && (in_array($_POST['perPage'], array(10, 15, 20, 
 if(isset($_POST['visibility']) && $_POST['visibility'] == 'template') $categoryIdforPrint = -4;
 else $categoryIdforPrint = $categoryId;	// preserves category selection even if template tab is activated.
 
-list($entries, $paging) = getEntriesWithPagingForOwner(getBlogId(), $categoryIdforPrint, $searchKeyword, $suri['page'], $perPage, $visibility, $starred);
+list($entries, $paging) = getEntriesWithPagingForOwner(getBlogId(), $categoryIdforPrint, $searchKeyword, $suri['page'], $perPage, $visibility, $starred, null, $tag);
 
 // query string 생성.
 $paging['postfix'] = NULL;
@@ -121,9 +129,9 @@ if (isset($_POST['visibility'])) {
 }
 
 // 이올린에 발행한 적이 있는지 체크.
-$countResult = Data_IAdapter::queryExistence("SELECT `id` 
-		FROM `{$database['prefix']}Entries` 
-		WHERE `blogid` = ".getBlogId()." AND `visibility` = 3 LIMIT 1");
+$countResult = POD::queryExistence("SELECT id 
+		FROM {$database['prefix']}Entries
+		WHERE blogid = ".getBlogId()." AND visibility = 3 LIMIT 1");
 
 require ROOT . '/interface/common/owner/header.php';
 
@@ -715,15 +723,15 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 							<h2 class="caption"><span class="main-text">
 <?php
 	if(isset($tabsClass['template']) && $tabsClass['template'] == true) {
-		echo _t('등록된 서식 목록입니다');
+		echo _t('서식 목록입니다');
 	} else if ($categoryId == -1) { 
-		echo _f('등록된 %1 키워드 목록입니다', $visibilityText);
+		echo _f('%1 키워드 목록입니다', $visibilityText);
 	} else if ($categoryId == -2) {
-		echo _f('등록된 %1 공지 목록입니다', $visibilityText);
+		echo _f('%1 공지 목록입니다', $visibilityText);
 	} else if ($categoryId == -5) {
 		echo _f('공지와 키로그를 포함한 %1 글의 목록입니다', $visibilityText);
 	} else {
-		echo _f('등록된 %1 글 목록입니다', $visibilityText);
+		echo _f('%1 글 목록입니다', $visibilityText);
 	}
 ?>
 							</span></h2>
@@ -733,7 +741,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								<input type="hidden" name="visibility" value="<?php echo $_POST['visibility'];?>" />
 								
 								<ul id="entry-tabs-box" class="tabs-box">
-									<li class="entry-post"><a href="<?php echo $blogURL;?>/owner/entry/post"><?php echo _t('새 글 쓰기');?></a></li>
+									<li class="entry-post"><a href="<?php echo $blogURL;?>/owner/entry/post<?php echo (isset($_POST['category']) ? '?category='.$_POST['category'] : '')?>"><?php echo _t('새 글 쓰기');?></a></li>
 									<li class="entry-all<?php echo isset($tabsClass['all']) ? ' selected' : NULL;?>"><a href="<?php echo $blogURL;?>/owner/entry?page=1<?php echo $tab['postfix'];?>"><?php echo _t('모든 글');?></a>
 										<label for="category"><?php echo _t('종류');?></label>
 										<select id="category" name="category" onchange="document.getElementById('category-form-top').page.value=1; document.getElementById('category-form-top').submit()">
@@ -912,7 +920,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 ?>
 											</td>
 											<td class="author">
-												<?php echo Model_User::getName($entry['userid']);?>
+												<?php echo User::getName($entry['userid']);?>
 											</td>
 											<td class="response">
 											<a href="<?php echo $blogURL.((isset($blog['useSloganOnPost']) && $blog['useSloganOnPost'] == 1) ? '/entry/'.$entry['slogan'] : '/'.$entry['id']).'#entry'.$entry['id'].'Comment';?>"><?php echo $entry['comments']+$entry['trackbacks'];?></a>

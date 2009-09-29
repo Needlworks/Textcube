@@ -16,7 +16,8 @@ require ROOT . '/interface/common/owner/header.php';
 									<q xml:lang="la" title="<?php echo _t('모든 만물은 책이요 그림이요 또한 거울이니');?>">Omnis mundi creatura quasi liber et pictura nobis est, et speculum</q><br />
 									<cite><?php echo _t('움베르트 에코 -장미의 이름- 중');?></cite>
 								</p>
-								<div id="copyright"><?php echo _t('&copy; 2004 - 2008. 모든 저작권은 개발자 및 공헌자에게 있습니다.<br />텍스트큐브는 니들웍스/TNF에서 개발합니다.<br />텍스트큐브와 텍스트큐브 로고는 니들웍스의 상표입니다.');?></div>
+								<p class="explain"><?php echo _t('사회적으로도, 인간적으로도 가장 높은 곳 까지 올라갔던 한국의 한 프로그래머에게 이번 판을 헌정합니다.');?></p>
+								<div id="copyright"><?php echo _t('&copy; 2004 - 2009. 모든 저작권은 개발자 및 공헌자에게 있습니다.<br />텍스트큐브는 니들웍스/TNF에서 개발합니다.<br />텍스트큐브와 텍스트큐브 로고는 니들웍스의 상표입니다.');?></div>
 								<div id="XHTML-ValidIcon">
 									<img src="http://www.w3.org/Icons/valid-xhtml11-blue" alt="Valid XHTML 1.1!" />
 								</div>
@@ -277,7 +278,7 @@ require ROOT . '/interface/common/owner/header.php';
 								<div id="reporter-container" class="container">
 									<h4><?php echo _t('Reporter');?></h4>
 									
-									<p>마모루, 건더기, 유마, 섭이, JCrew, cirrus, 작은인장, 김종찬, 김정훈, BLue, 소필, webthink, 일모리, lunamoth, 빌리디안, 티즈, rooine, baragi74, soonJin, Juno, 딘제, iarchitect, Rukxer, gofeel, Ever_K, BlueOcean, thessando, advck1123, danew, 엉뚱이, 마잇, 하노아, Naive, mintstate, 바둥이, expansor, 싸이친구, rhapsody, 제주시티, funny4u, 안용열, lacovnk, laziel, 랜덤여신, McFuture, subyis, leokim, diasozo, Ikaris Cyrus Faust, DARKLiCH, 주성애비, dikafryo, 이일환, Chiri, htna, Milfy, filmstyle, citta, 날개달기, vampelf, 비나무, FeelSoGood, 헤이, 밤하늘, raziel, U클래스, pom., bellblog, ataiger, onesound, mountaineer, jkm0114, 컴Ting, okto79, 보물섬, daydreamer, 너른호수, envia, Enistia, 정두원, 엘다, Capricorn</p>
+									<p>마모루, 건더기, 유마, 섭이, JCrew, cirrus, 작은인장, 김종찬, 김정훈, BLue, 소필, webthink, 일모리, lunamoth, 빌리디안, 티즈, rooine, baragi74, soonJin, Juno, 딘제, iarchitect, Rukxer, gofeel, Ever_K, BlueOcean, thessando, advck1123, danew, 엉뚱이, 마잇, 하노아, Naive, mintstate, 바둥이, expansor, 싸이친구, rhapsody, 제주시티, funny4u, 안용열, lacovnk, laziel, 랜덤여신, McFuture, subyis, leokim, diasozo, Ikaris Cyrus Faust, DARKLiCH, 주성애비, dikafryo, 이일환, Chiri, htna, Milfy, filmstyle, citta, 날개달기, vampelf, 비나무, FeelSoGood, 헤이, 밤하늘, raziel, U클래스, pom., bellblog, ataiger, onesound, mountaineer, jkm0114, 컴Ting, okto79, 보물섬, daydreamer, 너른호수, envia, Enistia, 정두원, 엘다, Capricorn, Kimatg, 47GPS</p>
 								</div>
 							</div>
 						</div>

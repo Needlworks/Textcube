@@ -68,7 +68,7 @@ function getScriptsOnHead() {
 	global $service;
 	ob_start();
 ?>
-<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/jquery/jquery-1.3.2.js"></script>
+<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 <script type="text/javascript">jQuery.noConflict();</script>
 <script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/EAF4.js"></script>
 <!-- script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/EAF4.js"></script -->
@@ -177,9 +177,10 @@ function getScriptsOnFoot() {
 	} else return '';
 }
 
-function getTrackbacksView($entry, $skin, $acceptTrackback) {
+function getTrackbacksView($entry, $skin, $accepttrackback) {
 	global $suri, $defaultURL, $skinSetting, $blogURL, $service, $blog;
 	requireModel('blog.response.remote');
+	requireLibrary('blog.skin');
 
 	$trackbacksContainer = $skin->trackbackContainer;
 	$trackbacksView = '';
@@ -212,7 +213,7 @@ function getTrackbacksView($entry, $skin, $acceptTrackback) {
 	$trackbacksView = "<div id=\"entry{$entry['id']}Trackback\" style=\"display:$style\">" . str_replace('[##_tb_container_##]', $trackbacksContainer, $skin->trackbacks) . '</div>';
 
 
-	if($acceptTrackback) {
+	if(Setting::getBlogSettingGlobal('acceptTrackbacks',1) && $accepttrackback) {
 		// Blocked. (Too many encoding issues with various trackback sender.)
 		//$trackbackAddress = $defaultURL."/trackback/".($blog['useSloganOnPost'] ? $entry['slogan'] : $entry['id']);
 		$trackbackAddress = $defaultURL."/trackback/".$entry['id'];
@@ -232,8 +233,9 @@ function getCommentView($entry, $skin) {
 	requireModel("common.setting");
 	requireModel("blog.entry");
 	requireModel("blog.comment");
+	requireLibrary('blog.skin');
 	$authorized = doesHaveOwnership();
-	$useMicroformat = Model_Setting::getBlogSettingGlobal('useMicroformat',3);
+	$useMicroformat = Setting::getBlogSettingGlobal('useMicroformat',3);
 	$fn = '';
 	$fn_nickname = '';
 	if( $useMicroformat > 1 ) {
@@ -374,7 +376,7 @@ function getCommentView($entry, $skin) {
 		dress($prefix1 . '_container', $commentContainer, $commentView);
 	}
 
-	$acceptComment = Data_IAdapter::queryCell("SELECT `acceptComment` FROM `{$database['prefix']}Entries` WHERE `blogid` = $blogid AND `id` = {$entry['id']}");
+	$acceptcomment = POD::queryCell("SELECT acceptcomment FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = {$entry['id']}");
 
 	$useForm = false;
 	$openid_identity = Acl::getIdentity('openid');
@@ -394,7 +396,7 @@ function getCommentView($entry, $skin) {
 
 	$default_guestname = '';
 	$default_homepage = '';
-	if (doesHaveOwnership() || ($isComment && $acceptComment == 1) || ($isComment == false) || ($useForm == false)) {
+	if (doesHaveOwnership() || ($isComment && $acceptcomment == 1 && Setting::getBlogSettingGlobal('acceptComments',1)) || ($isComment == false) || ($useForm == false)) {
 //		if (!doesHaveOwnership()) {
 			$commentMemberView = ($isComment ? $skin->commentMember : $skin->guestMember);
 			if (!doesHaveMembership()) {
@@ -451,6 +453,7 @@ function getCommentView($entry, $skin) {
 function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) {
 	global $blogURL, $service, $blog;
 	requireModel('blog.category');
+	requireLibrary('blog.skin');
 	$blogid = getBlogId();
 	$categoryCount = 0;
 	$categoryCountAll = 0;
@@ -464,18 +467,18 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 					array_push($children, 
 						array('id' => $category2['id'], 
 							'label' => $category2['name'], 
-							'value' => (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']), 
+							'value' => (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']), 
 							'link' => "$blogURL/category/" . ($blog['useSloganOnCategory'] ? URL::encode($category2['label'],$service['useEncodedURL']) : $category2['id']), 
-							'rsslink' => "$blogURL/category/rss/" . ($blog['useSloganOnCategory'] ? URL::encode($category2['label'],$service['useEncodedURL']) : $category2['id']), 
-							'atomlink' => "$blogURL/category/atom/" . ($blog['useSloganOnCategory'] ? URL::encode($category2['label'],$service['useEncodedURL']) : $category2['id']), 
+							'rsslink' => "$blogURL/rss/category/" . ($blog['useSloganOnCategory'] ? URL::encode($category2['label'],$service['useEncodedURL']) : $category2['id']), 
+							'atomlink' => "$blogURL/atom/category/" . ($blog['useSloganOnCategory'] ? URL::encode($category2['label'],$service['useEncodedURL']) : $category2['id']), 
 							'children' => array()
 						)
 					);
-					$categoryCount = $categoryCount + (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']);
+					$categoryCount = $categoryCount + (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']);
 				}
-				$categoryCountAll = $categoryCountAll + (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']);
+				$categoryCountAll = $categoryCountAll + (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']);
 			}
-			$parentCategoryCount = (doesHaveOwnership() ? $category1['entriesInLogin'] - $categoryCountAll : $category1['entries'] - $categoryCountAll);
+			$parentCategoryCount = (doesHaveOwnership() ? $category1['entriesinlogin'] - $categoryCountAll : $category1['entries'] - $categoryCountAll);
 			if($category1['id'] != 0) {
 				array_push($tree['children'], 
 					array('id' => $category1['id'], 
@@ -503,19 +506,20 @@ function getCategoriesViewInOwner($totalPosts, $categories, $selected) {
 	global $blogURL;
 	$blogid = getBlogId();
 	requireModel('blog.category');
+	requireLibrary('blog.skin');
 	// Initialize root category.
 	$tree = array('id' => 0, 'label' => getCategoryNameById(getBlogId(), 0), 'value' => $totalPosts, 'link' => "$blogURL/owner/entry/category", 'children' => array());
 	foreach ($categories as $category1) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {
 			if(getCategoryVisibility($blogid, $category1['id']) == 2) {
-				array_push($children, array('id' => $category2['id'], 'label' => (getCategoryVisibility($blogid, $category2['id'])==2 ? $category2['name'] : _t('(비공개)').' '.$category2['name']), 'value' =>  $category2['entriesInLogin'], 'link' => "$blogURL/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
+				array_push($children, array('id' => $category2['id'], 'label' => (getCategoryVisibility($blogid, $category2['id'])==2 ? $category2['name'] : _t('(비공개)').' '.$category2['name']), 'value' =>  $category2['entriesinlogin'], 'link' => "$blogURL/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
 			} else {
-				array_push($children, array('id' => $category2['id'], 'label' => '[!] '.(getCategoryVisibility($blogid, $category2['id'])==2 ? $category2['name'] : _t('(비공개)').' '.$category2['name']), 'value' =>  $category2['entriesInLogin'], 'link' => "$blogURL/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
+				array_push($children, array('id' => $category2['id'], 'label' => '[!] '.(getCategoryVisibility($blogid, $category2['id'])==2 ? $category2['name'] : _t('(비공개)').' '.$category2['name']), 'value' =>  $category2['entriesinlogin'], 'link' => "$blogURL/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
 			}
 		}
 		if($category1['id'] != 0) {
-			array_push($tree['children'], array('id' => $category1['id'], 'label' => (getCategoryVisibility($blogid, $category1['id'])==2 ? $category1['name'] : _t('(비공개)').' '.$category1['name']), 'value' => $category1['entriesInLogin'], 'link' => "$blogURL/owner/entry/category/?&id={$category1['id']}&entries={$category1['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category1['name']), 'children' => $children));
+			array_push($tree['children'], array('id' => $category1['id'], 'label' => (getCategoryVisibility($blogid, $category1['id'])==2 ? $category1['name'] : _t('(비공개)').' '.$category1['name']), 'value' => $category1['entriesinlogin'], 'link' => "$blogURL/owner/entry/category/?&id={$category1['id']}&entries={$category1['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category1['name']), 'children' => $children));
 		}
 	}
 	ob_start();
@@ -527,15 +531,16 @@ function getCategoriesViewInOwner($totalPosts, $categories, $selected) {
 
 function getCategoriesViewInSkinSetting($totalPosts, $categories, $selected) {
 	requireModel('blog.category');
+	requireLibrary('blog.skin');
 
 	$tree = array('id' => 0, 'label' => getCategoryNameById(getBlogId(), 0), 'value' => $totalPosts, 'link' => "", 'children' => array());
 	foreach ($categories as $category1) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {
-			array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => (doesHaveOwnership() ? $category2['entriesInLogin'] : $category2['entries']), 'link' => "", 'children' => array()));
+			array_push($children, array('id' => $category2['id'], 'label' => $category2['name'], 'value' => (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']), 'link' => "", 'children' => array()));
 		}
 		if($category1['id'] != 0) {
-			array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => (doesHaveOwnership() ? $category1['entriesInLogin'] : $category1['entries']), 'link' => "", 'children' => $children));
+			array_push($tree['children'], array('id' => $category1['id'], 'label' => $category1['name'], 'value' => (doesHaveOwnership() ? $category1['entriesinlogin'] : $category1['entries']), 'link' => "", 'children' => $children));
 		}
 	}
 	ob_start();
@@ -546,6 +551,7 @@ function getCategoriesViewInSkinSetting($totalPosts, $categories, $selected) {
 }
 
 function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
+	requireLibrary('blog.skin');
 	requireModel('blog.entry');
 
 	global $skinSetting, $defaultURL, $blog;
@@ -557,12 +563,13 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 		echo '<ul>'.CRLF;
 		$isSelected = ($tree['id'] === $selected) ? ' class="selected"' : '';
 		
-		echo "<li$isSelected>".CRLF."<a href=\"", htmlspecialchars($tree['link']), '" class="categoryItem">', htmlspecialchars($tree['label']);
+		echo "<li$isSelected>".CRLF;
+		if ($blog['useFeedViewOnCategory'])
+			echo ' <a href="'.$defaultURL.'/atom" class="categoryFeed"><span class="text">ATOM</span></a>'.CRLF;
+		echo "<a href=\"", htmlspecialchars($tree['link']), '" class="categoryItem">', htmlspecialchars($tree['label']);
 		if ($skin['showValue'])
 			echo " <span class=\"c_cnt\">({$tree['value']})</span>";
 		echo "</a>".CRLF;
-		if ($blog['useFeedViewOnCategory'])
-			echo ' <a href="'.$defaultURL.'/atom" class="categoryFeed"><span class="text">ATOM</span></a>'.CRLF;
 		if (sizeof($tree['children']) > 0)
 			echo '<ul>'.CRLF;
 		foreach($tree['children'] as $child) {
@@ -574,14 +581,14 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 				array_push($classNames, 'lastChild');
 			$isSelected = count($classNames) > 0 ? ' class="' . implode(' ', $classNames) . '"' : '';
 			
-			echo "<li$isSelected>".CRLF."<a href=\"", htmlspecialchars($child['link']), '" class="categoryItem">', htmlspecialchars($child['label']);
+			echo "<li$isSelected>".CRLF;
+			if ($blog['useFeedViewOnCategory'])
+				echo ' <a href="'.$child['atomlink'].'" class="categoryFeed"><span class="text">ATOM</span></a>'.CRLF;
+			echo "<a href=\"", htmlspecialchars($child['link']), '" class="categoryItem">', htmlspecialchars($child['label']);
 			if ($skin['showValue'])
 				echo " <span class=\"c_cnt\">({$child['value']})</span>";
 			echo "</a>".CRLF;
 			
-			if ($blog['useFeedViewOnCategory'])
-				echo ' <a href="'.$child['atomlink'].'" class="categoryFeed"><span class="text">ATOM</span></a>'.CRLF;
-
 			if (sizeof($child['children']) > 0)
 				echo '<ul>'.CRLF;
 			foreach($child['children'] as $leaf) {
@@ -592,12 +599,13 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 					array_push($classNames, 'lastChild');
 				$isSelected = count($classNames) > 0 ? ' class="' . implode(' ', $classNames) . '"' : '';
 				
-				echo "<li$isSelected>".CRLF."<a href=\"", htmlspecialchars($leaf['link']), '" class="categoryItem">', htmlspecialchars($leaf['label']);
+				echo "<li$isSelected>".CRLF;
+				if ($blog['useFeedViewOnCategory'])
+					echo '<a href="'.$leaf['atomlink'].'" class="categoryFeed"><span class="text">ATOM</span></a>'.CRLF;
+				echo "<a href=\"", htmlspecialchars($leaf['link']), '" class="categoryItem">', htmlspecialchars($leaf['label']);
 				if ($skin['showValue'])
 					echo " <span class=\"c_cnt\">({$leaf['value']})</span>";
 				echo "</a>".CRLF;
-				if ($blog['useFeedViewOnCategory'])
-					echo '<a href="'.$leaf['atomlink'].'" class="categoryFeed"><span class="text">ATOM</span></a>'.CRLF;
 				echo "</li>".CRLF;
 			}
 			if (sizeof($child['children']) > 0)
@@ -717,7 +725,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 						var oLevel = document.getElementById("category_" + i);
 						var oChild = oLevel.getElementsByTagName("table")[0];
 						oChild.style.color ='#'+skin['colorOnTree'];
-						oChild.style.backgroundColor ='#'+skin['bgColorOnTree'];
+						oChild.style.backgroundColor ='#'+skin['bgcolorOnTree'];
 						var oLevel = document.getElementById('text_'+i).style.color='#'+skin['colorOnTree'];
 						alert(document.getElementById('text_'+i).style.color);
 				}
@@ -996,12 +1004,14 @@ function getRecentNoticesView($notices, $noticeView, $noticeItemView, $isPage = 
 		}
 		dress('rct_'.$prefix.'_rep', $itemsView, $noticeView);
 		// IE webslice support
-		$noticeView = addWebSlice($noticeView, 'recentNoticeWebslice', htmlspecialchars($blog['title'].' - '._t('최근 공지'))); 
+		if(Setting::getBlogSettingGlobal('useMicroformat',3) == 3) {
+			$noticeView = addWebSlice($noticeView, 'recentNoticeWebslice', htmlspecialchars($blog['title'].' - '._t('최근 공지'))); 
+		}
 	}
 	return $noticeView;
 }
 
-function getRecentEntriesView($entries, $template) {
+function getRecentEntriesView($entries, $entriesView = null, $template) {
 	global $blog, $service, $blogURL, $skinSetting, $contentContainer;
 	$recentEntriesView = '';
 	foreach ($entries as $entry) {
@@ -1014,12 +1024,17 @@ function getRecentEntriesView($entries, $template) {
 		dress('rctps_rep_rp_cnt', "<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments'] > 0 ? "({$entry['comments']})" : '').'</span>', $view);
 		$recentEntriesView .= $view;
 	}
-	// IE webslice support
-	$recentEntriesView = addWebSlice($recentEntriesView, 'recentEntriesWebslice', htmlspecialchars($blog['title'].' - '._t('최근 글'))); 
+	if(!is_null($entriesView)) {
+		dress('rctps_rep',$recentEntriesView, $entriesView);
+		// IE webslice support
+		if(Setting::getBlogSettingGlobal('useMicroformat',3) == 3) {
+			$recentEntriesView = addWebSlice($entriesView, 'recentEntriesWebslice', htmlspecialchars($blog['title'].' - '._t('최근 글'))); 
+		} else return $entriesView;
+	}
 	return $recentEntriesView;
 }
 
-function getRecentCommentsView($comments, $template) {
+function getRecentCommentsView($comments, $commentView = null, $template) {
 	global $blog, $service, $blogURL, $skinSetting, $contentContainer;
 	$recentCommentView = '';
 	foreach ($comments as $comment) {
@@ -1031,14 +1046,19 @@ function getRecentCommentsView($comments, $template) {
 		dress('rctrp_rep_name', htmlspecialchars(UTF8::lessenAsEm($comment['name'], $skinSetting['recentCommentLength'])), $view);
 		$recentCommentView .= $view;
 	}
-	// IE webslice support
-	$recentCommentView = addWebSlice($recentCommentView, 'recentCommentWebslice', htmlspecialchars($blog['title'].' - '._t('최근 댓글'))); 
+	if(!is_null($commentView)) {
+		dress('rctrp_rep',$recentCommentView, $commentView);
+		// IE webslice support
+		if(Setting::getBlogSettingGlobal('useMicroformat',3) == 3) {
+			$recentCommentView = addWebSlice($commentView, 'recentCommentWebslice', htmlspecialchars($blog['title'].' - '._t('최근 댓글'))); 
+		} else return $commentView;
+	}
 	return $recentCommentView;
 }
 
-function getRecentTrackbacksView($trackbacks, $template) {
+function getRecentTrackbacksView($trackbacks, $trackbackView = null, $template) {
 	global $blogURL, $blog, $skinSetting, $service;
-	ob_start();
+	$recentTrackbackView = '';
 	foreach ($trackbacks as $trackback) {
 		$view = "$template";
 		dress('rcttb_rep_link', "$blogURL/".($blog['useSloganOnPost'] ? "entry/".URL::encode($trackback['slogan'],$service['useEncodedURL']) : $trackback['entry'])."#trackback{$trackback['id']}", $view);
@@ -1046,11 +1066,16 @@ function getRecentTrackbacksView($trackbacks, $template) {
 		dress('rcttb_rep_desc', htmlspecialchars(UTF8::lessenAsEm($trackback['subject'], $skinSetting['recentTrackbackLength'])), $view);
 		dress('rcttb_rep_time', fireEvent('ViewRecentTrackbackDate', Timestamp::format2($trackback['written']), $trackback['written']), $view);
 		dress('rcttb_rep_name', htmlspecialchars(UTF8::lessenAsEm($trackback['site'], $skinSetting['recentTrackbackLength'])), $view);
-		print $view;
+		$recentTrackbackView .= $view;
 	}
-	$view = ob_get_contents();
-	ob_end_clean();
-	return $view;
+	if(!is_null($trackbackView)) {
+		dress('rcttb_rep',$recentTrackbackView, $trackbackView);
+		// IE webslice support
+		if(Setting::getBlogSettingGlobal('useMicroformat',3) == 3) {
+			$recentTrackbackView = addWebSlice($trackbackView, 'recentCommentWebslice', htmlspecialchars($blog['title'].' - '._t('최근 트랙백'))); 
+		} else return $trackbackView;
+	}
+	return $recentTrackbackView;
 }
 
 function addWebSlice($content, $id, $title) {
@@ -1073,7 +1098,7 @@ function getLinksView($links, $template) {
 		$home = false;
 	}
 	ob_start();
-	$showXfn = (Model_Setting::getBlogSettingGlobal('useMicroformat',3) > 1);
+	$showXfn = (Setting::getBlogSettingGlobal('useMicroformat',3) > 1);
 	foreach ($links as $link) {
 		if((!doesHaveOwnership() && $link['visibility'] == 0) ||
 			(!doesHaveMembership() && $link['visibility'] < 2)) {
@@ -1102,7 +1127,7 @@ function getLinkListView($links) {
 	}
 	$categoryName = null;
 	$buffer = '<ul>'.CRLF;
-	$showXfn = (Model_Setting::getBlogSettingGlobal('useMicroformat',3) > 1);
+	$showXfn = (Setting::getBlogSettingGlobal('useMicroformat',3) > 1);
 	foreach ($links as $link) {
 		if((!doesHaveOwnership() && $link['visibility'] == 0) ||
 			(!doesHaveMembership() && $link['visibility'] < 2)) {
@@ -1130,7 +1155,7 @@ function getRandomTagsView($tags, $template) {
 	list($maxTagFreq, $minTagFreq) = getTagFrequencyRange();
 	foreach ($tags as $tag) {
 		$view = $template;
-		dress('tag_link', "$blogURL/tag/" . (Model_Setting::getBlogSettingGlobal('useSloganOnTag',true) ? URL::encode($tag['name'],$service['useEncodedURL']) : $tag['id']), $view);
+		dress('tag_link', "$blogURL/tag/" . (Setting::getBlogSettingGlobal('useSloganOnTag',true) ? URL::encode($tag['name'],$service['useEncodedURL']) : $tag['id']), $view);
 		dress('tag_name', htmlspecialchars($tag['name']), $view);
 		dress('tag_class', "cloud" . getTagFrequency($tag, $maxTagFreq, $minTagFreq), $view);
 		print $view;
@@ -1144,6 +1169,7 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 	global $hostURL, $service;
 	requireModel('blog.attachment');
 	requireModel('blog.keyword');
+	requireLibrary('blog.skin');
 	$content = fireEvent('Format' . $type . 'Content', $content, $id);
 	$func = ($bRssMode ? 'summarizeContent' : 'formatContent');
 	$view = $func($blogid, $id, $content, $formatter, $keywords, $useAbsolutePath);
@@ -1156,14 +1182,14 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 	$view = fireEvent('View' . $type . 'Content', $view, $id);
 	
 	// image resampling
-	if (Model_Setting::getBlogSettingGlobal('resamplingDefault') == true) {
+	if (Setting::getBlogSettingGlobal('resamplingDefault') == true) {
 		preg_match_all("@<img.+src=['\"](.+)['\"](.*)/>@Usi", $view, $images, PREG_SET_ORDER);
 		$view = preg_replace("@<img.+src=['\"].+['\"].*/>@Usi", '[#####_#####_#####_image_#####_#####_#####]', $view);
-		$contentWidth = Utils_Misc::getContentWidth();
+		$contentWidth = Misc::getContentWidth();
 			
 		if (count($images) > 0) {
 			for ($i=0; $i<count($images); $i++) {
-				if (strtolower(Utils_Misc::getFileExtension($images[$i][1])) == 'gif') {
+				if (strtolower(Misc::getFileExtension($images[$i][1])) == 'gif') {
 					$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', $images[$i][0], $view, 1);
 					continue;
 				}
@@ -1171,7 +1197,7 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 				$tempFileName = array_pop(explode('/', $images[$i][1]));
 
 				if (file_exists(ROOT . "/attach/{$blogid}/{$tempFileName}")) {
-					$tempAttributes = Utils_Misc::getAttributesFromString($images[$i][2]);
+					$tempAttributes = Misc::getAttributesFromString($images[$i][2]);
 					$tempOriginInfo = getimagesize(ROOT . "/attach/{$blogid}/{$tempFileName}");
 					if (isset($tempAttributes['width']) && ($tempOriginInfo[0] > $tempAttributes['width']))
 						$newImage = resampleImage($images[$i][0], ROOT . "/attach/{$blogid}/{$tempFileName}", $useAbsolutePath);
@@ -1281,7 +1307,7 @@ function printFeeds($blogid, $group = 0, $starredOnly = false, $searchKeyword = 
 															<div class="button-box">
 																<a id="iconFeedStatus<?php echo $feed['id'];?>" class="update-button button" onclick="Reader.updateFeed(<?php echo $feed['id'];?>, '<?php echo _t('피드를 갱신 했습니다.');?>'); event.cancelBubble=true; return false;" title="<?php echo _t('이 피드를 갱신 합니다.');?>"><span class="text"><?php echo _t('피드 갱신');?></span></a>
 																<span class="divider">|</span>
-																<a class="edit-button button" href="#void" onclick="Reader.editFeed(<?php echo $feed['id'];?>, '<?php echo escapeJSInAttribute($feed['xmlURL']);?>')" title="<?php echo _t('이 피드 정보를 수정합니다.');?>"><span class="text"><?php echo _t('수정');?></span></a>
+																<a class="edit-button button" href="#void" onclick="Reader.editFeed(<?php echo $feed['id'];?>, '<?php echo escapeJSInAttribute($feed['xmlurl']);?>')" title="<?php echo _t('이 피드 정보를 수정합니다.');?>"><span class="text"><?php echo _t('수정');?></span></a>
 															</div>
 														</li>
 <?php
@@ -1343,7 +1369,7 @@ function printFeedEntries($blogid, $group = 0, $feed = 0, $unreadOnly = false, $
 		$className .= ($count == 0) ? ' active-class' : ' inactive-class';
 		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="'._t('팟캐스트 포스트입니다.').'"><span class="text">' . _t('팟캐스트') . '</span></span>' : '';
 ?>
-														<tr id="entryTitleList<?php echo $entry['id'];?>" class="<?php echo $className;?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id'];?>)">
+														<tr id="entrytitleList<?php echo $entry['id'];?>" class="<?php echo $className;?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id'];?>)">
 															<td>
 																<div class="icons">
 <?php
@@ -1384,7 +1410,7 @@ function printFeedEntries($blogid, $group = 0, $feed = 0, $unreadOnly = false, $
 <?php
 	if (isset($firstEntryId)) {
 ?>
-														Reader.selectedEntryObject = document.getElementById("entryTitleList<?php echo $firstEntryId;?>").parentNode;
+														Reader.selectedEntryObject = document.getElementById("entrytitleList<?php echo $firstEntryId;?>").parentNode;
 <?php
 	}
 ?>
@@ -1406,7 +1432,7 @@ function printFeedEntriesMore($blogid, $group = 0, $feed = 0, $unreadOnly = fals
 		$class .= ' inactive-class';
 		$podcast = $entry['enclosure'] ? '<span class="podcast-icon bullet" title="'._t('팟캐스트 포스트입니다.').'"><span class="text">' . _t('팟캐스트') . '</span></span>' : '';
 ?>
-													<tr id="entryTitleList<?php echo $entry['id'];?>" class="<?php echo $class;?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id'];?>)">
+													<tr id="entrytitleList<?php echo $entry['id'];?>" class="<?php echo $class;?>" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="Reader.selectEntry(<?php echo $entry['id'];?>)">
 														<td>
 															<div class="icons">
 <?php
@@ -1513,7 +1539,7 @@ function addOpenIDPannel( $comment, $prefix ) {
 	$lastcomment = '';
 
 	$openidOnlySettingNotice = '';
-	if( Model_Setting::getBlogSettingGlobal( 'AddCommentMode', '' ) == 'openid' ) {
+	if( Setting::getBlogSettingGlobal( 'AddCommentMode', '' ) == 'openid' ) {
 		$openidOnlySettingNotice = "<b>"._text('오픈아이디로만 댓글을 남길 수 있습니다')."</b>";
 	}
 
@@ -1547,7 +1573,7 @@ function addOpenIDPannel( $comment, $prefix ) {
 					'background-repeat:no-repeat;background-position:0px center"';
 
 	if( $openid_identity ) {
-		$openid_input = '<span><a href="'.$openid_identity.'">'.Model_OpenID::getDisplayName($openid_identity).'</a></span>'.CRLF;
+		$openid_input = '<span><a href="'.$openid_identity.'">'.OpenID::getDisplayName($openid_identity).'</a></span>'.CRLF;
 		$openid_input .= '<input type="hidden" name="openid_identifier" id="openid_identifier_[##_article_rep_id_##]" value="'.htmlentities($openid_identity).'" />';
 		$openid_input = _text('현재 로그인한 오픈아이디').' '.$openid_input;
 		$_COOKIE['guestHomepage'] = $_SESSION['openid']['homepage'];
@@ -1601,7 +1627,7 @@ function addOpenIDPannel( $comment, $prefix ) {
 }
 
 function getTrackbackRDFView($blogid, $info) {
-	$buf = new Utils_OutputWriter();
+	$buf = new OutputWriter();
     $buf->buffer('<!--'.CRLF);
 	$buf->buffer('<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'.CRLF);
     $buf->buffer('      xmlns:dc="http://purl.org/dc/elements/1.1/"'.CRLF);

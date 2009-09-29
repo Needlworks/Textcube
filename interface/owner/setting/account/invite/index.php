@@ -16,18 +16,18 @@ require ROOT . '/library/preprocessor.php';
 requireModel('blog.user');
 requireStrictRoute();
 if (($service['type'] == 'single') || !Acl::check("group.creators"))
-	Utils_Respond::ResultPage(false);
-$useradd = Model_User::add($_POST['email'], $_POST['name']);
+	Respond::ResultPage(false);
+$useradd = User::add($_POST['email'], $_POST['name']);
 if($useradd !== true && $useradd != 9) {
-	Utils_Respond::ResultPage($useradd);
+	Respond::ResultPage($useradd);
 }
-$blogadd = addBlog(null, Model_User::getUserIdByEmail($_POST['email']),$_POST['identify']);
+$blogadd = addBlog(null, User::getUserIdByEmail($_POST['email']),$_POST['identify']);
 if($blogadd !== true) {
 	if($useradd != 9) { // If user is created at this time, delete that user.
-		Model_User::removePermanent(Model_User::getUserIdByEmail($_POST['email']));
+		User::removePermanent(User::getUserIdByEmail($_POST['email']));
 	}
-	Utils_Respond::ResultPage($blogadd);
+	Respond::ResultPage($blogadd);
 }
-$result = sendInvitationMail(null, Model_User::getUserIdByEmail($_POST['email']),$_POST['name'],$_POST['comment'], $_POST['senderName'], $_POST['senderEmail']);
-Utils_Respond::ResultPage($result);
+$result = sendInvitationMail(null, User::getUserIdByEmail($_POST['email']),$_POST['name'],$_POST['comment'], $_POST['senderName'], $_POST['senderEmail']);
+Respond::ResultPage($result);
 ?>

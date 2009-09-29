@@ -10,5 +10,5 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireModel('blog.attachment');
 $result = getAttachmentSizeLabel($blogid, $_GET['parent']);
-Utils_Respond::PrintResult(array ('error' => empty($result) ? 1 : 0, 'result' => $result));
+Respond::PrintResult(array ('error' => empty($result) ? 1 : 0, 'result' => $result));
 ?> 

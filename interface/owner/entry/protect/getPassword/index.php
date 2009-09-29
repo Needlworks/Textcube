@@ -5,9 +5,9 @@
 require ROOT . '/library/preprocessor.php';
 
 
-$password = Data_IAdapter::queryCell("SELECT `password` 
-		FROM `{$database['prefix']}Entries`
-		WHERE `blogid` = ".getBlogId()." AND `id` = {$suri['id']} AND `draft` = 0");
+$password = POD::queryCell("SELECT password
+		FROM {$database['prefix']}Entries
+		WHERE blogid = ".getBlogId()." AND id = {$suri['id']} AND draft = 0");
 if (is_null($password)) $password = '';
-Utils_Respond::PrintResult(array('error' => 0, 'password' => $password));
+Respond::PrintResult(array('error' => 0, 'password' => $password));
 ?>

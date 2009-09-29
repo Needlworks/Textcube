@@ -15,7 +15,7 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 $result = array('error' => '0');
 $entry = getFeedEntry($blogid, $_POST['group'], $_POST['feed'], $_POST['entry'], $_POST['unread'] == '1', $_POST['starred'] == '1', $_POST['keyword'] == '' ? null : $_POST['keyword'], 'after', 'unread');
-if (is_null($entry) || ($entry === false)) Utils_Respond::PrintResult(array('error' => '0', 'id' =>'0'));
+if (is_null($entry) || ($entry === false)) Respond::PrintResult(array('error' => '0', 'id' =>'0'));
 $result['id'] = $entry['id'];
-Utils_Respond::PrintResult($result);
+Respond::PrintResult($result);
 ?>

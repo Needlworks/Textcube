@@ -129,14 +129,19 @@ body
 
 #trackback-box #command-box .input-button
 {
-	border                           : 1px solid #777777;
-	background-color                 : #FFFFFF;
-	color                            : #000000;
-	font-weight                      : bold;
+	background-color                 : #fff;
+	background-image                 : url("./image/bg_submenu_item.gif");
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
+	border                           : 1px solid #777;
+	border-radius                    : 5px;
+	-moz-border-radius               : 5px;
+	-webkit-border-radius            : 5px;
+	cursor                           : pointer;
 	font-size                        : 1em;
-	height                           : 1.9em;
-	line-height                      : 1.9em;
-	padding                          : 0 6px;
+	height                           : 1.8em;
+	line-height                      : 1.8em;
+	padding                          : 0 5px !important;
 	vertical-align                   : middle;
 }
 
@@ -198,13 +203,18 @@ body
 
 #trackback-box .button-box .input-button
 {
-	border                           : 1px solid #777777;
-	background-color                 : #FFFFFF;
-	color                            : #000000;
-	font-weight                      : bold;
+	background-color                 : #fff;
+	background-image                 : url("./image/bg_submenu_item.gif");
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
+	border                           : 1px solid #777;
+	border-radius                    : 5px;
+	-moz-border-radius               : 5px;
+	-webkit-border-radius            : 5px;
+	cursor                           : pointer;
 	font-size                        : 1em;
-	height                           : 1.9em;
-	line-height                      : 1.9em;
-	padding                          : 0 6px;
+	height                           : 1.8em;
+	line-height                      : 1.8em;
+	padding                          : 0 5px !important;
 	vertical-align                   : middle;
 }

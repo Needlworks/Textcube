@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <adminSkin version="1.0" language="ko">
 	<information>
-		<name>Retro (1.0 관리패널 스킨)</name> 
+		<name>Retro</name> 
 		<version>1.7</version>
 		<description><![CDATA[1.0 코어의 관리자 스킨을 되새김질합니다.]]></description>
 		<license><![CDATA[수정, 재배포 가능합니다.]]></license>
@@ -9,5 +9,6 @@
 	<author>
 		<name>inureyes / graphittie ( Needlworks/TNF )</name>
 		<homepage>http://www.needlworks.org</homepage>
+		<email>contact@needlworks.org</email> 
 	</author> 
 </adminSkin>

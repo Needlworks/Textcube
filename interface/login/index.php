@@ -73,10 +73,10 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 		$redirect = $_POST['refererURI'];
 //		$redirect = $blogURL;
 	}
-	if (empty($_SESSION['lastLoginRedirected']) || $_SESSION['lastLoginRedirected'] != $redirect) {
-		$_SESSION['lastLoginRedirected'] = $redirect;
+	if (empty($_SESSION['lastloginRedirected']) || $_SESSION['lastloginRedirected'] != $redirect) {
+		$_SESSION['lastloginRedirected'] = $redirect;
 	} else {
-		unset($_SESSION['lastLoginRedirected']);
+		unset($_SESSION['lastloginRedirected']);
 	}
 	header('Location: '.$redirect);
 	exit;
@@ -98,7 +98,7 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/login.ie7.css" />
 	<![endif]-->
 	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/byTextcube.js"></script>
-	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/jquery/jquery-1.3.2.js"></script>
+	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
 	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/EAF4.js"></script>
 	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/common2.js"></script>

@@ -13,9 +13,9 @@ requireStrictBlogURL();
 if (false) {
 	fetchConfigVal();
 }
-$cache = new Cache_Page;
+$cache = new pageCache;
 if(!empty($suri['id'])) {
-	$cache->name = 'commentRSS_'.$suri['id'];
+	$cache->name = 'commentRSS-'.$suri['id'];
 	if(!$cache->load()) {
 		$result = getCommentFeedByEntryId(getBlogId(),$suri['id']);
 		if($result !== false) {

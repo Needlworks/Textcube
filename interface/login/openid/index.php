@@ -83,7 +83,7 @@ function TryAuthByRequest()
 		}
 	}
 	if( $errmsg ) {
-		Model_OpenIDConsumer::printErrorReturn( $errmsg, $tr['fallbackURI'] );
+		OpenIDConsumer::printErrorReturn( $errmsg, $tr['fallbackURI'] );
 		exit(0);
 	}
 
@@ -100,9 +100,9 @@ function TryAuthByRequest()
 	}
 
 	$tr['requestURI'] = $requestURI;
-	$tid = Model_Transaction::pickle( $tr );
+	$tid = Transaction::pickle( $tr );
 	$tr['finishURL'] = $hostURL . $blogURL . "/login/openid?action=finish&tid=$tid";
-	Model_Transaction::repickle( $tid, $tr );
+	Transaction::repickle( $tid, $tr );
 
 	$consumer = new OpenIDConsumer($tid);
 	return $consumer->tryAuth( $tid, $openid, $remember_openid );
@@ -113,9 +113,9 @@ function TryHardcoreAuth()
 	global $hostURL, $blogURL;
 	$tr = array();
 	$tr['requestURI'] = $_GET["requestURI"];
-	$tid = Model_Transaction::pickle( $tr );
+	$tid = Transaction::pickle( $tr );
 	$tr['finishURL'] = $hostURL . $blogURL . "/login/openid?action=finish&tid=$tid";
-	Model_Transaction::repickle( $tid, $tr );
+	Transaction::repickle( $tid, $tr );
 	$consumer = new OpenIDConsumer;
 	$consumer->tryAuth( $tid, $_COOKIE['openid'], true );
 }
@@ -124,7 +124,7 @@ function FinishAuth()
 {
 	if( empty($_GET['tid']) ) {
 		global $blogURL;
-		Model_OpenIDConsumer::printErrorReturn( _text('잘못된 트랜잭션입니다'), $blogURL );
+		OpenIDConsumer::printErrorReturn( _text('잘못된 트랜잭션입니다'), $blogURL );
 	}
 	$tid = $_GET['tid'];
 	$consumer = new OpenIDConsumer($tid);
@@ -133,7 +133,7 @@ function FinishAuth()
 
 function LogoutOpenID()
 {
-	Model_OpenIDConsumer::logout();
+	OpenIDConsumer::logout();
 	header("HTTP/1.0 302 Moved Temporarily");
 	header("Location: ".$_GET['requestURI']);
 
