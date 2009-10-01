@@ -34,20 +34,20 @@ function getSessionName() {
 }
 
 function readSession($id) {
-	global $memcache;
-	return $memcache->get("sessions/{$id}/{$_SERVER['REMOTE_ADDR']}");
+	global $memcache, $service;
+	return $memcache->get("{$service['domain']}/sessions/{$id}/{$_SERVER['REMOTE_ADDR']}");
 }
 
 function writeSession($id, $data) {
 	global $memcache, $service;
-	return $memcache->set("sessions/{$id}/{$_SERVER['REMOTE_ADDR']}",$data,$service['timeout']);
+	return $memcache->set("{$service['domain']}/sessions/{$id}/{$_SERVER['REMOTE_ADDR']}",$data,$service['timeout']);
 }
 
 function destroySession($id, $setCookie = false) {
-	global $memcache;
-	$memcache->delete("sessions/{$id}/{$_SERVER['REMOTE_ADDR']}");
-	$memcache->delete("anonymousSession/{$_SERVER['REMOTE_ADDR']}");
-	return $memcache->delete("authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
+	global $memcache, $service;
+	$memcache->delete("{$service['domain']}/sessions/{$id}/{$_SERVER['REMOTE_ADDR']}");
+	$memcache->delete("{$service['domain']}/anonymousSession/{$_SERVER['REMOTE_ADDR']}");
+	return $memcache->delete("{$service['domain']}/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
 }
 
 function gcSession($maxLifeTime = false) {
@@ -55,8 +55,8 @@ function gcSession($maxLifeTime = false) {
 }
 
 function getAnonymousSession() {
-	global $memcache;
-	$anonymousSessionId = $memcache->get("anonymousSession/{$_SERVER['REMOTE_ADDR']}");
+	global $memcache, $service;
+	$anonymousSessionId = $memcache->get("{$service['domain']}/anonymousSession/{$_SERVER['REMOTE_ADDR']}");
 	if(!empty($anonymousSessionId)) return $anonymousSessionId;
 	else return false;
 }
@@ -67,9 +67,9 @@ function newAnonymousSession() {
 		if (($id = getAnonymousSession()) !== false)
 			return $id;
 		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-		$result = $memcache->set("sessions/{$id}/{$_SERVER['REMOTE_ADDR']}",true,$service['timeout']);
+		$result = $memcache->set("{$service['domain']}/sessions/{$id}/{$_SERVER['REMOTE_ADDR']}",true,$service['timeout']);
 		if ($result > 0) {
-			$result = $memcache->set("anonymousSession/{$_SERVER['REMOTE_ADDR']}",$id,$service['timeout']);
+			$result = $memcache->set("{$service['domain']}/anonymousSession/{$_SERVER['REMOTE_ADDR']}",$id,$service['timeout']);
 			return $id;
 		}
 	}
@@ -92,16 +92,16 @@ function setSessionAnonymous($currentId) {
 }
 
 function isSessionAuthorized($id) {
-	global $memcache;
+	global $memcache, $service;
 	/* OpenID and Admin sessions are treated as authorized ones*/
-	$userid = $memcache->get("authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
+	$userid = $memcache->get("{$service['domain']}/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
 	if(!empty($userid)) return true;
 	else return false;
 }
 
 function isGuestOpenIDSession($id) {
-	global $memcache;
-	$userid = $memcache->get("authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
+	global $memcache, $service;
+	$userid = $memcache->get("{$service['domain']}/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
 	if(!empty($userid) && $userid < 0) return true;
 	else return false;
 }
@@ -132,7 +132,7 @@ function authorizeSession($blogid, $userid) {
 		$_SESSION['userid'] = $userid;
 		$id = session_id();
 		if( isGuestOpenIDSession($id) ) {
-			$result = $memcache->set("authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}",$userid,$service['timeout']);
+			$result = $memcache->set("{$service['domain']}/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}",$userid,$service['timeout']);
 			if ($result) {
 				return true;
 			}
@@ -141,7 +141,7 @@ function authorizeSession($blogid, $userid) {
 	if (isSessionAuthorized(session_id())) return true;
 	for ($i = 0; $i < 3; $i++) {
 		$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-		$result = $memcache->set("authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}",$userid,$service['timeout']);
+		$result = $memcache->set("{$service['domain']}/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}",$userid,$service['timeout']);
 
 		if ($result) {
 			@session_id($id);
