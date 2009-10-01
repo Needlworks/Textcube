@@ -18,6 +18,8 @@ if(!empty($database) && !empty($database["database"])) {
 
 $database['utf8'] = (POD::charset() == 'utf8') ? true : false;
 
+global $memcache;
+$memcache = null;
 /* Path-dependent environment setting
    ----------------------------------
    */
@@ -25,7 +27,12 @@ require ROOT.'/library/suri.php';
 
 /* Session initializing */
 if (!defined('NO_SESSION')) {
-	require_once ROOT.'/library/session.php';
+	if (isset($service['memcached']) && $service['memcached'] == true) {
+		$memcache = new Memcache;
+		$memcache->connect((isset($memcached['server']) && $memcached['server'] ? $memcached['server'] : 'localhost'));
+		require_once ROOT.'/library/session.memcached.php';
+	} else
+		require_once ROOT.'/library/session.php';
 	startSession();
 }
 if (!defined('NO_INITIALIZAION')) {
