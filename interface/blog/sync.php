@@ -46,7 +46,13 @@ if($entry = POD::queryRow("SELECT e.*, c.name AS categoryName
 		echo '<mimeType>', $attachment['mime'], '</mimeType>', "\r\n";
 		echo '<filename>', $attachment['label'], '</filename>', "\r\n";
 		echo '<length>', $attachment['size'], '</length>', "\r\n";
-		echo '<url>', $defaultURL, '/attachment/', $attachment['name'], '</url>', "\r\n";
+		switch (misc::getFileExtension($attachment['label'])) {
+			case 'jpg':case 'jpeg':case 'gif':case 'png':case 'bmp':
+				echo '<url>', $serviceURL, '/attach/',$blogid, '/', $attachment['name'], '</url>' , "\r\n";
+				break;
+			default:
+				echo '<url>', $defaultURL, '/attachment/', $attachment['name'], '</url>', "\r\n";
+		}
 		echo '</attachment>', "\r\n";
 	}
 	echo '</entry>', "\r\n";
