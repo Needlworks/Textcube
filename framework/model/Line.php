@@ -21,6 +21,7 @@ final class Model_Line extends DBModel {
 		$this->blogid = getBlogId();
 		$this->category = 'public';
 		$this->root = 'default';
+		$this->author = '';
 		$this->content = '';
 		$this->permalink = '';
 		$this->created = null;
@@ -35,7 +36,8 @@ final class Model_Line extends DBModel {
 		$this->setAttribute('id',$this->id);
 		$this->setAttribute('blogid',$this->blogid);
 		$this->setAttribute('category',$this->category,true);
-		$this->setAttribute('root',$this->category,true);
+		$this->setAttribute('root',$this->root,true);
+		$this->setAttribute('author',$this->author,true);
 		$this->setAttribute('content',$this->content,true);
 		$this->setAttribute('permalink',$this->content,true);
 		$this->setAttribute('created',$this->created);
@@ -118,6 +120,10 @@ final class Model_Line extends DBModel {
 		if(is_null($this->id)) $this->id = $this->getNextId();
 		$this->category = UTF8::lessenAsByte($this->category, 11);
 		$this->content = UTF8::lessenAsByte($this->content, 512);
+		if(empty($this->author)) {
+			$this->author = User::getName();	
+		}
+		$this->author = UTF8::lessenAsByte($this->author, 32);
 		if(!Validator::isInteger($this->blogid, 1)) return $this->error('blogid');		
 		if(!Validator::timestamp($this->created)) return $this->error('created');
 		return true;
