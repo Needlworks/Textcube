@@ -657,8 +657,10 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		CREATE TABLE {$database['prefix']}Lines (
 		  id int(11) NOT NULL default 0,
 		  blogid int(11) NOT NULL default 0,
+		  root varchar(11) NOT NULL default 'default', 
 		  category varchar(11) NOT NULL default 'public', 
-		  content mediumtext NOT NULL default '', 
+		  content mediumtext NOT NULL default '',
+		  permalink varchar(255) NOT NULL default '',
 		  created int(11) NOT NULL default 0,
 		  PRIMARY KEY (id),
 		  UNIQUE KEY (blogid, created),
@@ -672,6 +674,16 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		}
 	}
 	
+	if (!DBAdapter::queryExistence("DESC {$database['prefix']}Lines permalink")) {
+		$changed = true;
+		echo '<li>', _text('라인 기능에 여러 라인의 통합을 위한 필드를 추가합니다.'), ': ';
+		if (DBAdapter::execute("ALTER TABLE {$database['prefix']}Lines ADD root varchar(11) NOT NULL default 'default' AFTER blogid") && 
+			DBAdapter::execute("ALTER TABLE {$database['prefix']}Lines ADD permalink varchar(255) NOT NULL default '' AFTER content"))
+			showCheckupMessage(true);
+		else
+			showCheckupMessage(false);
+	}
+		
 	if (!doesExistTable($database['prefix'] . 'Widgets')) {
 		$changed = true;
 		echo '<li>', _text('위젯 기능 및 오픈소셜 지원을 위한 테이블을 만듭니다'), ': ';

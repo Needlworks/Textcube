@@ -20,7 +20,9 @@ final class Model_Line extends DBModel {
 		$this->id = null;
 		$this->blogid = getBlogId();
 		$this->category = 'public';
+		$this->root = 'default';
 		$this->content = '';
+		$this->permalink = '';
 		$this->created = null;
 		$this->filter = array();
 		$this->_error = array();
@@ -33,7 +35,9 @@ final class Model_Line extends DBModel {
 		$this->setAttribute('id',$this->id);
 		$this->setAttribute('blogid',$this->blogid);
 		$this->setAttribute('category',$this->category,true);
+		$this->setAttribute('root',$this->category,true);
 		$this->setAttribute('content',$this->content,true);
+		$this->setAttribute('permalink',$this->content,true);
 		$this->setAttribute('created',$this->created);
 		return $this->insert();
 	}
@@ -80,6 +84,8 @@ final class Model_Line extends DBModel {
 			$offset = ($page - 1) * $count;
 		}
 		if(isset($conditions['category'])) $this->setQualifier('category','equals',$conditions['category'],true);
+		if(isset($conditions['root'])) $this->setQualifier('root','equals',$conditions['root'],true);
+		if(isset($conditions['permalink'])) $this->setQualifier('permalink','equals',$conditions['permalink'],true);
 		if(isset($conditions['blogid'])) $this->setQualifier('blogid','equals',$conditions['blogid']);
 		else $this->setQualifier('blogid','equals',getBlogId());
 		if(isset($conditions['keyword'])) {
@@ -154,9 +160,21 @@ final class Model_Line extends DBModel {
 			"isNull"	=> false,
 			"default"	=> "public"
 			),
+		"root"	=> array(
+			"type"		=> "varchar",
+			"length"	=> 11,
+			"isNull"	=> false,
+			"default"	=> "default"
+			),
 		"content"	=>	array(
 			"type"		=> "mediumtext",
 			"isNull"	=> false
+			),
+		"permalink"	=> array(
+			"type"		=> "varchar",
+			"length"	=> 255,
+			"isNull"	=> false,
+			"default"	=> "default"
 			),
 		"created"	=> array(
 			"type"		=> "timestamp",

@@ -226,8 +226,10 @@ CREATE UNIQUE INDEX [##_dbPrefix_##]Filters_blogid_filtertype_pattern_idx ON [##
 CREATE TABLE [##_dbPrefix_##]Lines (
   id integer default 0 NOT NULL,
   blogid integer default 0 NOT NULL,
+  root varchar(11) default 'default' NOT NULL, 
   category varchar(11) default 'public' NOT NULL, 
-  content varchar(512) default '' NOT NULL, 
+  content varchar(512) default '' NOT NULL,
+  permalink varchar(255) default '' NOT NULL, 
   created integer default 0 NOT NULL,
   PRIMARY KEY (id)
 ) [##_charset_##];
