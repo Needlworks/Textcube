@@ -173,14 +173,13 @@ function printOwnerEditorScript($entryId = false) {
 		}
 		if (editor != null) {
 			try { editor.syncTextarea(); } catch(e) {}
-//			alert('synched');
 			editor.finalize();
 		}
-		// 4
-//		alert('finalized');
+		if(entryManager.isSaved != true) {
+			entryManager.save();	
+		}
 		entryManager.saveDraft();
-	//	entryManager.saveDraft();
-//		alert('saved');
+		
 		var url = '<?php echo $blogURL."/owner/entry/edit/";?>'+entryManager.entryId+'?editor='+key;
 		if ( entryManager.isSaved == true) {
 			url = url+'&draft=true';
@@ -188,9 +187,7 @@ function printOwnerEditorScript($entryId = false) {
 		if ( entryManager.returnURL != null ) {
 			url = url+'&returnURL='+encodeURIComponent(entryManager.returnURL);			
 		}
-//			alert('link : '+url);
 		window.location = url;
-		//alert(url);		
 	}
 //]]>
 </script>

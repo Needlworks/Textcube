@@ -510,6 +510,7 @@ if (isset($_GET['popupEditor'])) {
 										this.save();
 										return;
 									}
+
 									this.preview = function () {
 										this.isPreview = true;
 										if (!this.save()) {
