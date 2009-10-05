@@ -1080,39 +1080,42 @@ function protectEntry($id, $password) {
 }
 
 function syndicateEntry($id, $mode) {
+	/// TODO : Expand to support syndicate modules
 	global $database, $blog, $defaultURL;
 	$blogid = getBlogId();
-	$rpc = new XMLRPC();
-	$rpc->url = TEXTCUBE_SYNC_URL;
-	$summary = array('blogURL' => $defaultURL, 'syncURL' => "$defaultURL/sync/$id");
-	if($mode == 'create') {
-		$entry = getEntry($blogid, $id);
-		if (is_null($entry)) return false;
-		$summary['blogTitle'] = $blog['title'];
-		$summary['language'] = $blog['language'];
-		$summary['permalink'] = "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$entry['slogan']}": $entry['id']);
-		$summary['title'] = $entry['title'];
-		$summary['content'] = UTF8::lessenAsByte(stripHTML(getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'])), 1023, '');
-		$summary['author'] = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = {$entry['userid']}");
-		$summary['tags'] = array();
-		foreach(POD::queryAll("SELECT DISTINCT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND blogid = $blogid AND entry = $id ORDER BY name") as $tag)
-			array_push($summary['tags'], $tag['name']);
-		$summary['location'] = $entry['location'];
-		$summary['written'] = Timestamp::getRFC1123($entry['published']);
-	}
-	if(!$rpc->call("sync.$mode", $summary)) {
-		return false;
-	} else {
+	
+		$rpc = new XMLRPC();
+		$rpc->url = TEXTCUBE_SYNC_URL;
+		$summary = array('blogURL' => $defaultURL, 'syncURL' => "$defaultURL/sync/$id");
 		if($mode == 'create') {
-			fireEvent('CreatePostSyndicate', $id, $summary);
-		} else if($mode == 'modify') {
-			fireEvent('ModifyPostSyndicate', $id, $summary);
-		} else if($mode == 'delete') {
-			fireEvent('DeletePostSyndicate', $id, $summary);
+			$entry = getEntry($blogid, $id);
+			if (is_null($entry)) return false;
+			$summary['blogTitle'] = $blog['title'];
+			$summary['language'] = $blog['language'];
+			$summary['permalink'] = "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$entry['slogan']}": $entry['id']);
+			$summary['title'] = $entry['title'];
+			$summary['content'] = UTF8::lessenAsByte(stripHTML(getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'])), 1023, '');
+			$summary['author'] = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = {$entry['userid']}");
+			$summary['tags'] = array();
+			foreach(POD::queryAll("SELECT DISTINCT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND blogid = $blogid AND entry = $id ORDER BY name") as $tag)
+				array_push($summary['tags'], $tag['name']);
+			$summary['location'] = $entry['location'];
+			$summary['written'] = Timestamp::getRFC1123($entry['published']);
 		}
-	}
-	if($rpc->fault)
-		return false;
+		if(!$rpc->call("sync.$mode", $summary)) {
+			return false;
+		} else {
+			if($mode == 'create') {
+				fireEvent('CreatePostSyndicate', $id, $summary);
+			} else if($mode == 'modify') {
+				fireEvent('ModifyPostSyndicate', $id, $summary);
+			} else if($mode == 'delete') {
+				fireEvent('DeletePostSyndicate', $id, $summary);
+			}
+		}
+//		if($rpc->fault)
+//			return false;
+	
 	return true;
 }
 

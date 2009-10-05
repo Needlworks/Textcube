@@ -727,13 +727,6 @@ if (count($templateLists) == 0) {
 									 			</div>
 									 		</div>
 								 		</div>
-										
-										<script type="text/javascript">//<![CDATA[
-											var contentformatterObj = document.getElementById('contentformatter');
-											var contenteditorObj = document.getElementById('contenteditor');
-											setFormatter(contentformatterObj.value, contenteditorObj, false);
-											setCurrentEditor(contenteditorObj.value);
-										//]]></script>
 									</div>
 									
 									<hr class="hidden" />
@@ -962,6 +955,11 @@ switch($entry['category']) {
 	default:
 		echo 'type_post';break;
 		}?>');
+											var contentformatterObj = document.getElementById('contentformatter');
+											var contenteditorObj = document.getElementById('contenteditor');
+											setFormatter(contentformatterObj.value, contenteditorObj, false);
+											setCurrentEditor(contenteditorObj.value);
+		
 							//]]>
 						</script> 
 <?php
