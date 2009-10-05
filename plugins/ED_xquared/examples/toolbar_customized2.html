@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<title>Xquared example - Custom toolbar 2</title>
+	<link rel="stylesheet" type="text/css" href="../stylesheets/xq_ui.css" />
+	<style type="text/css">
+		.toolbar .buttons .selected {
+			font-weight: bold;
+		}
+	</style>
+	<script type="text/javascript" src="../javascripts/XQuared.js?load_others=1"></script>
+	<script type="text/javascript">//<![CDATA[
+	var xed;
+
+window.onload = function() {
+	xed = new xq.Editor("xqEditor", "xqToolbarContainer");
+	xed.setEditMode('wysiwyg');
+	xed.setWidth("100%");
+}
+	//]]></script>
+</head>
+
+<body>
+	<div class="toolbar" id="xqToolbarContainer">
+		<ul class="buttons">
+			<li class="foregroundColor"><span><a href="#" title="Foreground color" onclick="xed.handleForegroundColor('red');return false;" onmousedown="return false;">Foreground color</a></span></li>
+			<li class="strongEmphasis"><span><a href="#" title="Strong emphasis" onclick="xed.handleStrongEmphasis();return false;" onmousedown="return false;">Strong emphasis</a></span></li>
+			<li class="underline"><span><a href="#" title="underline" onclick="xed.handleUnderline(); return false;" onmousedown="return false;">Underline</a></span></li>
+			<li class="undo"><span><a href="#" title="Undo" onclick="xed.handleUndo();return false;" onmousedown="return false;">Undo</a></span></li>
+			<li class="redo"><span><a href="#" title="Redo" onclick="xed.handleRedo();return false;" onmousedown="return false;">Redo</a></span></li>
+		</ul>
+	</div>
+	<textarea id="xqEditor">
+	<p>Hello World</p><p>This is <b>strong emphasis</b></p><p>This is <u>underline</u></p><p>This is <u><b>strong and underline</b></u></p>
+	</textarea>
+</body>
+</html>

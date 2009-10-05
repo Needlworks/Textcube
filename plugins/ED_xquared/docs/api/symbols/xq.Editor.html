@@ -1,0 +1,5796 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>JsDoc Reference - xq.Editor</title>
+
+		<style type="text/css">
+			/* default.css */
+body
+{
+	font: 12px "Lucida Grande", Helvetica, sans-serif;
+	width: 800px;
+}
+
+.header
+{
+	clear: both;
+	background-color: #ccc;
+	padding: 8px;
+}
+
+h1
+{
+	font-size: 150%;
+	font-weight: bold;
+	padding: 0;
+	margin: 1em 0 0 .3em;
+}
+
+hr
+{
+	border: none 0;
+	border-top: 1px solid #7F8FB1;
+	height: 1px;
+}
+
+pre.code
+{
+	display: block;
+	padding: 8px;
+	border: 1px dashed #ccc;
+}
+
+#index
+{
+	margin-top: 24px;
+	float: left;
+	width: 200px;
+	position: absolute;
+	left: 8px;
+	background-color: #F3F3F3;
+	padding: 8px;
+}
+
+#content
+{
+	margin-left: 220px;
+	width: 750px;
+}
+
+.classList
+{
+	list-style-type: none;
+	padding: 0;
+	margin: 0 0 0 8px;
+	font-family: "Lucida Grande", Helvetica, sans-serif;
+	font-size: 1em;
+	overflow: auto;
+}
+
+.classList li
+{
+	padding: 0;
+	margin: 0 0 8px 0;
+}
+
+.summaryTable { width: 100%; }
+
+h1.classTitle
+{
+	font-size:170%;
+	line-height:130%;
+}
+
+h2 { font-size: 110%; }
+caption, div.sectionTitle
+{
+	background-color: #7F8FB1;
+	color: #fff;
+	font-size:130%;
+	text-align: left;
+	padding: 2px 6px 2px 6px;
+	border: 1px #7F8FB1 solid;
+}
+
+div.sectionTitle { margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+
+.summaryTable td
+{
+	vertical-align: top;
+	padding: 4px;
+	border-bottom: 1px #7F8FB1 solid;
+	border-right: 1px #7F8FB1 solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes
+{
+	border-left: 1px #7F8FB1 solid;
+	width: 140px;
+	text-align: right;
+}
+
+td.attributes, .fixedFont
+{
+	line-height: 15px;
+	color: #002EBE;
+	font-family: "Courier New",Courier,monospace;
+	font-size: 13px;
+}
+
+.summaryTable td.nameDescription
+{
+	text-align: left;
+	font-size: 13px;
+	line-height: 15px;
+}
+
+.summaryTable td.nameDescription, .description
+{
+	font: 13px "Lucida Grande", Helvetica, sans-serif;
+	line-height: 15px;
+	padding: 4px;
+	padding-left: 4px;
+}
+
+.summaryTable { margin-bottom: 8px; }
+
+ul.inheritsList
+{
+	list-style: square;
+	margin-left: 20px;
+	padding-left: 0;
+}
+
+.detailList {
+	margin-left: 20px; 
+	line-height: 15px;
+}
+.detailList dt { margin-left: 20px; }
+
+.detailList .heading
+{
+	font-weight: bold;
+	padding-bottom: 6px;
+	margin-left: 0;
+}
+
+.light, td.attributes, .light a:link, .light a:visited
+{
+	color: #777;
+	font-style: italic;
+}
+
+.fineprint
+{
+	text-align: right;
+	font-size: 10px;
+}
+		</style>
+	</head>
+
+	<body>
+<!-- ============================== header ================================= -->	
+		<!-- begin static/header.html -->
+		<div id="header">
+</div>
+		<!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+		<div id="index">
+			<!-- begin publish.classesIndex -->
+			<div align="center"><a href="../index.html">Class Index</a>
+| <a href="../files.html">File Index</a></div>
+<hr />
+<h2>Classes</h2>
+<ul class="classList">
+	
+	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
+	
+	<li><a href="../symbols/Array.html">Array</a></li>
+	
+	<li><a href="../symbols/Date.html">Date</a></li>
+	
+	<li><a href="../symbols/Function.html">Function</a></li>
+	
+	<li><a href="../symbols/String.html">String</a></li>
+	
+	<li><a href="../symbols/xq.html">xq</a></li>
+	
+	<li><a href="../symbols/xq.Browser.html">xq.Browser</a></li>
+	
+	<li><a href="../symbols/xq.Class.html">xq.Class</a></li>
+	
+	<li><a href="../symbols/xq.DomTree.html">xq.DomTree</a></li>
+	
+	<li><a href="../symbols/xq.EditHistory.html">xq.EditHistory</a></li>
+	
+	<li><a href="../symbols/xq.Editor.html">xq.Editor</a></li>
+	
+	<li><a href="../symbols/xq.Layer.html">xq.Layer</a></li>
+	
+	<li><a href="../symbols/xq.macro.html">xq.macro</a></li>
+	
+	<li><a href="../symbols/xq.macro.Base.html">xq.macro.Base</a></li>
+	
+	<li><a href="../symbols/xq.macro.Factory.html">xq.macro.Factory</a></li>
+	
+	<li><a href="../symbols/xq.macro.FlashMovieMacro.html">xq.macro.FlashMovieMacro</a></li>
+	
+	<li><a href="../symbols/xq.macro.IFrameMacro.html">xq.macro.IFrameMacro</a></li>
+	
+	<li><a href="../symbols/xq.macro.JavascriptMacro.html">xq.macro.JavascriptMacro</a></li>
+	
+	<li><a href="../symbols/xq.plugin.html">xq.plugin</a></li>
+	
+	<li><a href="../symbols/xq.plugin.Base.html">xq.plugin.Base</a></li>
+	
+	<li><a href="../symbols/xq.plugin.CustomStylePlugin.html">xq.plugin.CustomStylePlugin</a></li>
+	
+	<li><a href="../symbols/xq.plugin.EditorResizePlugin.html">xq.plugin.EditorResizePlugin</a></li>
+	
+	<li><a href="../symbols/xq.plugin.EventLogPlugin.html">xq.plugin.EventLogPlugin</a></li>
+	
+	<li><a href="../symbols/xq.plugin.ExtendColorPickerPlugin.html">xq.plugin.ExtendColorPickerPlugin</a></li>
+	
+	<li><a href="../symbols/xq.plugin.FileUploadPlugin.html">xq.plugin.FileUploadPlugin</a></li>
+	
+	<li><a href="../symbols/xq.plugin.FlashMovieMacroPlugin.html">xq.plugin.FlashMovieMacroPlugin</a></li>
+	
+	<li><a href="../symbols/xq.plugin.IFrameMacroPlugin.html">xq.plugin.IFrameMacroPlugin</a></li>
+	
+	<li><a href="../symbols/xq.plugin.JavascriptMacroPlugin.html">xq.plugin.JavascriptMacroPlugin</a></li>
+	
+	<li><a href="../symbols/xq.plugin.MacroPlugin.html">xq.plugin.MacroPlugin</a></li>
+	
+	<li><a href="../symbols/xq.plugin.SpringnotePlugin.html">xq.plugin.SpringnotePlugin</a></li>
+	
+	<li><a href="../symbols/xq.rdom.html">xq.rdom</a></li>
+	
+	<li><a href="../symbols/xq.rdom.Base.html">xq.rdom.Base</a></li>
+	
+	<li><a href="../symbols/xq.rdom.Gecko.html">xq.rdom.Gecko</a></li>
+	
+	<li><a href="../symbols/xq.rdom.Trident.html">xq.rdom.Trident</a></li>
+	
+	<li><a href="../symbols/xq.rdom.W3.html">xq.rdom.W3</a></li>
+	
+	<li><a href="../symbols/xq.rdom.Webkit.html">xq.rdom.Webkit</a></li>
+	
+	<li><a href="../symbols/xq.RichTable.html">xq.RichTable</a></li>
+	
+	<li><a href="../symbols/xq.Shortcut.html">xq.Shortcut</a></li>
+	
+	<li><a href="../symbols/xq.Timer.html">xq.Timer</a></li>
+	
+	<li><a href="../symbols/xq.ui.html">xq.ui</a></li>
+	
+	<li><a href="../symbols/xq.ui.FormDialog.html">xq.ui.FormDialog</a></li>
+	
+	<li><a href="../symbols/xq.ui.FormDialog.html">xq.ui.FormDialog</a></li>
+	
+	<li><a href="../symbols/xq.ui.QuickSearchDialog.html">xq.ui.QuickSearchDialog</a></li>
+	
+	<li><a href="../symbols/xq.ui.Toolbar.html">xq.ui.Toolbar</a></li>
+	
+	<li><a href="../symbols/xq.validator.html">xq.validator</a></li>
+	
+	<li><a href="../symbols/xq.validator.Base.html">xq.validator.Base</a></li>
+	
+	<li><a href="../symbols/xq.validator.Gecko.html">xq.validator.Gecko</a></li>
+	
+	<li><a href="../symbols/xq.validator.Trident.html">xq.validator.Trident</a></li>
+	
+	<li><a href="../symbols/xq.validator.W3.html">xq.validator.W3</a></li>
+	
+	<li><a href="../symbols/xq.validator.Webkit.html">xq.validator.Webkit</a></li>
+	
+</ul>
+<hr />
+			<!-- end publish.classesIndex -->
+		</div>
+		
+		<div id="content">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				Class xq.Editor
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+			
+				
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/client_javascripts__Editor.js.html">Editor.js</a>.
+				
+			</p>
+
+<!-- ============================== constructor summary ==================== -->			
+			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class xq.Editor.">
+				<caption>Constructor Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&nbsp;</td>
+						<td class="nameDescription">
+							<div class="fixedFont">
+							new <b><a href="../symbols/xq.Editor.html#constructor">xq.Editor</a></b>(contentElement, toolbarContainer)
+							</div>
+							<div class="description">Initialize editor but it doesn't automatically start designMode.</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+<!-- ============================== properties summary ===================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class xq.Editor.">
+					<caption>Field Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Field Attributes</th>
+							<th scope="col">Field Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/xq.Editor.html#body">body</a></b>
+								</div>
+								<div class="description">Body of content element</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/xq.Editor.html#config">config</a></b>
+								</div>
+								<div class="description">Editor's configuration.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/xq.Editor.html#contentElement">contentElement</a></b>
+								</div>
+								<div class="description">Original content element</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/xq.Editor.html#contextMenuContainer">contextMenuContainer</a></b>
+								</div>
+								<div class="description">Context menu container</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/xq.Editor.html#contextMenuItems">contextMenuItems</a></b>
+								</div>
+								<div class="description">Context menu items</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/xq.Editor.html#currentEditMode">currentEditMode</a></b>
+								</div>
+								<div class="description">False or 'source' means source editing mode, true or 'wysiwyg' means
+WYSIWYG editing mode.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/xq.Editor.html#doc">doc</a></b>
+								</div>
+								<div class="description">Owner document of content element</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/xq.Editor.html#editHistory">editHistory</a></b>
+								</div>
+								<div class="description">Undo/redo manager</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/xq.Editor.html#editorFrame">editorFrame</a></b>
+								</div>
+								<div class="description">Design mode iframe</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/xq.Editor.html#outerFrame">outerFrame</a></b>
+								</div>
+								<div class="description">Outer frame</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/xq.Editor.html#outmostWrapper">outmostWrapper</a></b>
+								</div>
+								<div class="description">Outmost wrapper div</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/xq.Editor.html#platformDepedentKeyEventType">platformDepedentKeyEventType</a></b>
+								</div>
+								<div class="description">Platform dependent key event type</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/xq.Editor.html#rdom">rdom</a></b>
+								</div>
+								<div class="description">Base instance</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/xq.Editor.html#sourceEditorDiv">sourceEditorDiv</a></b>
+								</div>
+								<div class="description">Source editor container</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/xq.Editor.html#sourceEditorTextarea">sourceEditorTextarea</a></b>
+								</div>
+								<div class="description">Source editor textarea</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/xq.Editor.html#timer">timer</a></b>
+								</div>
+								<div class="description">Timer</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/xq.Editor.html#toolbar">toolbar</a></b>
+								</div>
+								<div class="description">Toolbar container</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/xq.Editor.html#validator">validator</a></b>
+								</div>
+								<div class="description">Base instance</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/xq.Editor.html#wysiwygEditorDiv">wysiwygEditorDiv</a></b>
+								</div>
+								<div class="description">WYSIWYG editor container</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+
+<!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class xq.Editor.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#addAutocompletion">addAutocompletion</a></b>(id, criteria, handler)
+								</div>
+								<div class="description">Adds or replaces autocompletion handler.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#addAutocompletions">addAutocompletions</a></b>(list)
+								</div>
+								<div class="description">Adds several autocompletion handlers at once.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#addAutocorrection">addAutocorrection</a></b>(id, criteria, handler)
+								</div>
+								<div class="description">Adds or replaces autocorrection handler.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#addAutocorrections">addAutocorrections</a></b>(list)
+								</div>
+								<div class="description">Adds several autocorrection handlers at once.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#addContextMenuHandler">addContextMenuHandler</a></b>(id, handler)
+								</div>
+								<div class="description">Adds or replaces context menu handler.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#addContextMenuHandlers">addContextMenuHandlers</a></b>(list)
+								</div>
+								<div class="description">Adds several context menu handlers at once.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#addPlugin">addPlugin</a></b>(id)
+								</div>
+								<div class="description">Adds or replaces plugin.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#addPlugins">addPlugins</a></b>(list)
+								</div>
+								<div class="description">Adds several plugins at once.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#addShortcut">addShortcut</a></b>(shortcut, handler)
+								</div>
+								<div class="description">Adds or replaces keyboard shortcut.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#addShortcuts">addShortcuts</a></b>(list)
+								</div>
+								<div class="description">Adds several keyboard shortcuts at once.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#addTemplateProcessor">addTemplateProcessor</a></b>(id, handler)
+								</div>
+								<div class="description">Adds or replaces template processor.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#addTemplateProcessors">addTemplateProcessors</a></b>(list)
+								</div>
+								<div class="description">Adds several template processors at once.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#finalize">finalize</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#focus">focus</a></b>()
+								</div>
+								<div class="description">Gives focus to editor</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getAutocompletion">getAutocompletion</a></b>(id)
+								</div>
+								<div class="description">Returns autocompletion handler matches with given id</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getAutocompletions">getAutocompletions</a></b>()
+								</div>
+								<div class="description">Returns entire autocompletions' map</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getAutocorrection">getAutocorrection</a></b>(id)
+								</div>
+								<div class="description">Returns autocorrection handler matches with given id</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getAutocorrections">getAutocorrections</a></b>()
+								</div>
+								<div class="description">Returns entire autocorrections' map</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getBody">getBody</a></b>()
+								</div>
+								<div class="description">Returns designmode body object</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getContextMenuHandler">getContextMenuHandler</a></b>(id)
+								</div>
+								<div class="description">Returns context menu handler matches with given id</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getContextMenuHandlers">getContextMenuHandlers</a></b>()
+								</div>
+								<div class="description">Returns entire context menu handlers' map</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getCurrentContent">getCurrentContent</a></b>()
+								</div>
+								<div class="description">Gets editor's dynamic content from current editor(source or WYSIWYG)</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getCurrentEditMode">getCurrentEditMode</a></b>()
+								</div>
+								<div class="description">Returns current edit mode - wysiwyg, source</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getDefaultShortcuts">getDefaultShortcuts</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getDoc">getDoc</a></b>()
+								</div>
+								<div class="description">Returns designmode document object</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getFrame">getFrame</a></b>()
+								</div>
+								<div class="description">Returns designmode iframe object</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getOuterDoc">getOuterDoc</a></b>()
+								</div>
+								<div class="description">Returns outer iframe document</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getOuterFrame">getOuterFrame</a></b>()
+								</div>
+								<div class="description">Returns outer iframe object</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getOutmostWrapper">getOutmostWrapper</a></b>()
+								</div>
+								<div class="description">Returns outmost wrapper element</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getPlugin">getPlugin</a></b>(id)
+								</div>
+								<div class="description">Returns plugin matches with given identifier.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getPlugins">getPlugins</a></b>()
+								</div>
+								<div class="description">Returns entire plugins</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getShortcut">getShortcut</a></b>(shortcut)
+								</div>
+								<div class="description">Returns keyboard shortcut matches with given keymap expression.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getShortcuts">getShortcuts</a></b>()
+								</div>
+								<div class="description">Returns entire keyboard shortcuts' map</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getSourceContent">getSourceContent</a></b>(noValidation)
+								</div>
+								<div class="description">Gets editor's dynamic content from source editor</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getSourceEditorDiv">getSourceEditorDiv</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getStaticContent">getStaticContent</a></b>()
+								</div>
+								<div class="description">Gets editor's original content</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getStaticContentAsDOM">getStaticContentAsDOM</a></b>()
+								</div>
+								<div class="description">Gets editor's original content as (newely created) DOM node</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getTemplateProcessor">getTemplateProcessor</a></b>(id)
+								</div>
+								<div class="description">Returns template processor matches with given id</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getTemplateProcessors">getTemplateProcessors</a></b>()
+								</div>
+								<div class="description">Returns entire template processors' map</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getWin">getWin</a></b>()
+								</div>
+								<div class="description">Returns designmode window object</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getWysiwygContent">getWysiwygContent</a></b>()
+								</div>
+								<div class="description">Gets editor's dynamic content from WYSIWYG editor</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#getWysiwygEditorDiv">getWysiwygEditorDiv</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleApplyBlock">handleApplyBlock</a></b>(tagName, className, attrs)
+								</div>
+								<div class="description">Change or wrap current block(or selected blocks)'s tag</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleAutocompletion">handleAutocompletion</a></b>()
+								</div>
+								<div class="description">TODO: remove dup with handleAutocorrection</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleAutocorrection">handleAutocorrection</a></b>()
+								</div>
+								<div class="description">TODO: remove dup with handleAutocompletion</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleBackgroundColor">handleBackgroundColor</a></b>(color)
+								</div>
+								<div class="description">Applies background color</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleBackspace">handleBackspace</a></b>()
+								</div>
+								<div class="description">Called when backspace key pressed</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleCharacter">handleCharacter</a></b>(chr)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleClick">handleClick</a></b>(e, target)
+								</div>
+								<div class="description">Handles click event</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleColorPicker">handleColorPicker</a></b>(color)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleColumnProperty">handleColumnProperty</a></b>(prop)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleDelete">handleDelete</a></b>()
+								</div>
+								<div class="description">Called when delete key pressed</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleDeleteColumn">handleDeleteColumn</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleDeleteRow">handleDeleteRow</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleDeleteTable">handleDeleteTable</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleEmoticon">handleEmoticon</a></b>(fileName)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleEmphasis">handleEmphasis</a></b>()
+								</div>
+								<div class="description">Applies EM tag</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleEnter">handleEnter</a></b>(skipAutocorrection, forceInsertParagraph)
+								</div>
+								<div class="description">Called when enter key pressed.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleFontFace">handleFontFace</a></b>(face)
+								</div>
+								<div class="description">Applies font face</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleFontSize">handleFontSize</a></b>(font)
+								</div>
+								<div class="description">Applies font size</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleForegroundColor">handleForegroundColor</a></b>(color)
+								</div>
+								<div class="description">Applies foreground color</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleIndent">handleIndent</a></b>()
+								</div>
+								<div class="description">Performs block indentation</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleInsertLink">handleInsertLink</a></b>(autoSelection, url, title, text, className)
+								</div>
+								<div class="description">Inserts link or apply link into selected area</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleInsertNewColumnAt">handleInsertNewColumnAt</a></b>(where)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleInsertNewRowAt">handleInsertNewRowAt</a></b>(where)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleInsertTab">handleInsertTab</a></b>()
+								</div>
+								<div class="description">Inserts three non-breaking spaces</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleJustify">handleJustify</a></b>(dir)
+								</div>
+								<div class="description">Applies justification</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleLink">handleLink</a></b>()
+								</div>
+								<div class="description">Show link dialog
+
+TODO: should support modify/unlink
+TODO: Add selenium test</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleList">handleList</a></b>(type, CSS)
+								</div>
+								<div class="description">Applies list.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleMoveBlock">handleMoveBlock</a></b>(up)
+								</div>
+								<div class="description">Moves current block upward or downward</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleMoveToAboveCell">handleMoveToAboveCell</a></b>()
+								</div>
+								<div class="description">(in table) Moves caret to the above cell</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleMoveToBelowCell">handleMoveToBelowCell</a></b>()
+								</div>
+								<div class="description">(in table) Moves caret to the below cell</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleMoveToNextCell">handleMoveToNextCell</a></b>()
+								</div>
+								<div class="description">(in table) Moves caret to the next cell</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleMoveToPreviousCell">handleMoveToPreviousCell</a></b>()
+								</div>
+								<div class="description">(in table) Moves caret to the previous cell</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleOutdent">handleOutdent</a></b>()
+								</div>
+								<div class="description">Performs block outdentation</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleRedo">handleRedo</a></b>()
+								</div>
+								<div class="description">Performs REDO</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleRemoveBlock">handleRemoveBlock</a></b>()
+								</div>
+								<div class="description">Removes current block element</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleRemoveFormat">handleRemoveFormat</a></b>()
+								</div>
+								<div class="description">Removes all style</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleRemoveLink">handleRemoveLink</a></b>()
+								</div>
+								<div class="description">Remove link</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleRowProperty">handleRowProperty</a></b>(prop)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleSeparator">handleSeparator</a></b>()
+								</div>
+								<div class="description">Inserts separator (HR)</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleShiftTab">handleShiftTab</a></b>()
+								</div>
+								<div class="description">Called when shift+tab key pressed</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleSpace">handleSpace</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleStrike">handleStrike</a></b>()
+								</div>
+								<div class="description">Applies SPAN.strike tag</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleStrongEmphasis">handleStrongEmphasis</a></b>()
+								</div>
+								<div class="description">Applies STRONG tag</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleSubscription">handleSubscription</a></b>()
+								</div>
+								<div class="description">Applies subscription</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleSuperscription">handleSuperscription</a></b>()
+								</div>
+								<div class="description">Applies superscription</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleTab">handleTab</a></b>()
+								</div>
+								<div class="description">Called when tab key pressed</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleTable">handleTable</a></b>(attrs)
+								</div>
+								<div class="description">Inserts table</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleTableProperty">handleTableProperty</a></b>(prop)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleUnderline">handleUnderline</a></b>()
+								</div>
+								<div class="description">Applies EM.underline tag</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#handleUndo">handleUndo</a></b>()
+								</div>
+								<div class="description">Performs UNDO</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#hideContextMenu">hideContextMenu</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#insertTemplate">insertTemplate</a></b>(html)
+								</div>
+								<div class="description">Inserts HTML template</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#insertTemplateAt">insertTemplateAt</a></b>(html, target, where)
+								</div>
+								<div class="description">Places given HTML template nearby target.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#isElementVisible">isElementVisible</a></b>(element)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#loadCurrentContentFromStaticContent">loadCurrentContentFromStaticContent</a></b>()
+								</div>
+								<div class="description">Sets editor's dynamic content from static content</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#loadStylesheet">loadStylesheet</a></b>(path)
+								</div>
+								<div class="description">Load CSS into WYSIWYG mode document</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#removeAutocompletion">removeAutocompletion</a></b>(id)
+								</div>
+								<div class="description">Removes autocompletion handler matches with given id</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#removeAutocorrection">removeAutocorrection</a></b>(id)
+								</div>
+								<div class="description">Removes autocorrection handler matches with given id</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#removeContextMenuHandler">removeContextMenuHandler</a></b>(id)
+								</div>
+								<div class="description">Removes context menu handler matches with given id</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#removePlugin">removePlugin</a></b>(id)
+								</div>
+								<div class="description">Remove plugin matches with given identifier.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#removeShortcut">removeShortcut</a></b>(shortcut)
+								</div>
+								<div class="description">Remove keyboard shortcut matches with given keymap expression.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#removeTemplateProcessor">removeTemplateProcessor</a></b>(id)
+								</div>
+								<div class="description">Removes template processor matches with given id</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#removeUnnecessarySpaces">removeUnnecessarySpaces</a></b>(html)
+								</div>
+								<div class="description">Removes unnecessary spaces, tabs and new lines.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#replaceUrlToLink">replaceUrlToLink</a></b>()
+								</div>
+								<div class="description">Replace URL text nearby caret into a link</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#setEditMode">setEditMode</a></b>(mode)
+								</div>
+								<div class="description">Switches between WYSIWYG/Source mode.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#setHeight">setHeight</a></b>(h)
+								</div>
+								<div class="description">Sets height of editor.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#setStaticContent">setStaticContent</a></b>(content)
+								</div>
+								<div class="description">Sets editor's original content</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#setWidth">setWidth</a></b>(w)
+								</div>
+								<div class="description">Sets width of editor.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#showContextMenu">showContextMenu</a></b>(menuItems, x, y)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.Editor.html#toggleSourceAndWysiwygMode">toggleSourceAndWysiwygMode</a></b>()
+								</div>
+								<div class="description">Toggle edit mode between source and wysiwyg</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="details"><a name="constructor"> </a>
+				<div class="sectionTitle">
+					Constructor Detail
+				</div>
+				
+				<div class="fixedFont">
+					new <b>xq.Editor</b>(contentElement, toolbarContainer)
+				</div>
+				
+				<div class="description">
+					Initialize editor but it doesn't automatically start designMode. setEditMode should be called after initialization.
+					
+				</div>
+				
+				
+				
+				
+					
+						<dl class="detailList">
+						<dt class="heading">Parameters:</dt>
+						
+							<dt>
+								<span class="light fixedFont">{Object}</span>  <b>contentElement</b>
+								
+							</dt>
+								<dd>TEXTAREA to be replaced with editable area, or DOM ID string for TEXTAREA.</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Object}</span>  <b>toolbarContainer</b>
+								
+							</dt>
+								<dd>HTML element which contains toolbar icons, or DOM ID string.</dd>
+						
+						</dl>
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+					<a name="body"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>body</b>
+					
+					</div>
+					<div class="description">
+						Body of content element
+						
+						
+					</div>
+					
+					
+				
+					
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="config"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{object}</span>
+					<b>config</b>
+					
+					</div>
+					<div class="description">
+						Editor's configuration.
+						
+						
+					</div>
+					
+					
+				
+					
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="contentElement"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>contentElement</b>
+					
+					</div>
+					<div class="description">
+						Original content element
+						
+						
+					</div>
+					
+					
+				
+					
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="contextMenuContainer"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>contextMenuContainer</b>
+					
+					</div>
+					<div class="description">
+						Context menu container
+						
+						
+					</div>
+					
+					
+				
+					
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="contextMenuItems"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Array.html#constructor">Array</a>}</span>
+					<b>contextMenuItems</b>
+					
+					</div>
+					<div class="description">
+						Context menu items
+						
+						
+					</div>
+					
+					
+				
+					
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="currentEditMode"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Object}</span>
+					<b>currentEditMode</b>
+					
+					</div>
+					<div class="description">
+						False or 'source' means source editing mode, true or 'wysiwyg' means
+WYSIWYG editing mode.
+						
+						
+					</div>
+					
+					
+				
+					
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="doc"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Document}</span>
+					<b>doc</b>
+					
+					</div>
+					<div class="description">
+						Owner document of content element
+						
+						
+					</div>
+					
+					
+				
+					
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="editHistory"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/xq.EditHistory.html#constructor">xq.EditHistory</a>}</span>
+					<b>editHistory</b>
+					
+					</div>
+					<div class="description">
+						Undo/redo manager
+						
+						
+					</div>
+					
+					
+				
+					
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="editorFrame"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{IFrame}</span>
+					<b>editorFrame</b>
+					
+					</div>
+					<div class="description">
+						Design mode iframe
+						
+						
+					</div>
+					
+					
+				
+					
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="outerFrame"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{IFrame}</span>
+					<b>outerFrame</b>
+					
+					</div>
+					<div class="description">
+						Outer frame
+						
+						
+					</div>
+					
+					
+				
+					
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="outmostWrapper"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>outmostWrapper</b>
+					
+					</div>
+					<div class="description">
+						Outmost wrapper div
+						
+						
+					</div>
+					
+					
+				
+					
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="platformDepedentKeyEventType"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/String.html#constructor">String</a>}</span>
+					<b>platformDepedentKeyEventType</b>
+					
+					</div>
+					<div class="description">
+						Platform dependent key event type
+						
+						
+					</div>
+					
+					
+				
+					
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="rdom"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/xq.rdom.Base.html#constructor">xq.rdom.Base</a>}</span>
+					<b>rdom</b>
+					
+					</div>
+					<div class="description">
+						Base instance
+						
+						
+					</div>
+					
+					
+				
+					
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="sourceEditorDiv"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>sourceEditorDiv</b>
+					
+					</div>
+					<div class="description">
+						Source editor container
+						
+						
+					</div>
+					
+					
+				
+					
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="sourceEditorTextarea"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>sourceEditorTextarea</b>
+					
+					</div>
+					<div class="description">
+						Source editor textarea
+						
+						
+					</div>
+					
+					
+				
+					
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="timer"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/xq.Timer.html#constructor">xq.Timer</a>}</span>
+					<b>timer</b>
+					
+					</div>
+					<div class="description">
+						Timer
+						
+						
+					</div>
+					
+					
+				
+					
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="toolbar"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>toolbar</b>
+					
+					</div>
+					<div class="description">
+						Toolbar container
+						
+						
+					</div>
+					
+					
+				
+					
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="validator"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/xq.validator.Base.html#constructor">xq.validator.Base</a>}</span>
+					<b>validator</b>
+					
+					</div>
+					<div class="description">
+						Base instance
+						
+						
+					</div>
+					
+					
+				
+					
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="wysiwygEditorDiv"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>wysiwygEditorDiv</b>
+					
+					</div>
+					<div class="description">
+						WYSIWYG editor container
+						
+						
+					</div>
+					
+					
+				
+					
+						
+						
+						
+						
+
+					
+				
+			
+
+<!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name="addAutocompletion"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>addAutocompletion</b>(id, criteria, handler)
+					
+					</div>
+					<div class="description">
+						Adds or replaces autocompletion handler.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>id</b>
+									
+								</dt>
+								<dd>unique identifier</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>criteria</b>
+									
+								</dt>
+								<dd>regex pattern or function to be used as a criterion for match</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>handler</b>
+									
+								</dt>
+								<dd>string or function to be evaluated or called when criteria met</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="addAutocompletions"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>addAutocompletions</b>(list)
+					
+					</div>
+					<div class="description">
+						Adds several autocompletion handlers at once.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Array.html#constructor">Array</a>}</span> <b>list</b>
+									
+								</dt>
+								<dd>of autocompletion. each element should have following structure: {id:"identifier", criteria:criteria, handler:handler}</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="addAutocorrection"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>addAutocorrection</b>(id, criteria, handler)
+					
+					</div>
+					<div class="description">
+						Adds or replaces autocorrection handler.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>id</b>
+									
+								</dt>
+								<dd>unique identifier</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>criteria</b>
+									
+								</dt>
+								<dd>regex pattern or function to be used as a criterion for match</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>handler</b>
+									
+								</dt>
+								<dd>string or function to be evaluated or called when criteria met</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="addAutocorrections"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>addAutocorrections</b>(list)
+					
+					</div>
+					<div class="description">
+						Adds several autocorrection handlers at once.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Array.html#constructor">Array</a>}</span> <b>list</b>
+									
+								</dt>
+								<dd>of autocorrection. each element should have following structure: {id:"identifier", criteria:criteria, handler:handler}</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="addContextMenuHandler"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>addContextMenuHandler</b>(id, handler)
+					
+					</div>
+					<div class="description">
+						Adds or replaces context menu handler.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>id</b>
+									
+								</dt>
+								<dd>unique identifier</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>handler</b>
+									
+								</dt>
+								<dd>string or function to be evaluated or called when onContextMenu occured</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="addContextMenuHandlers"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>addContextMenuHandlers</b>(list)
+					
+					</div>
+					<div class="description">
+						Adds several context menu handlers at once.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Array.html#constructor">Array</a>}</span> <b>list</b>
+									
+								</dt>
+								<dd>of handlers. Each element should have following structure: {id:"identifier", handler:handler}</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="addPlugin"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>addPlugin</b>(id)
+					
+					</div>
+					<div class="description">
+						Adds or replaces plugin.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>id</b>
+									
+								</dt>
+								<dd>unique identifier</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="addPlugins"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>addPlugins</b>(list)
+					
+					</div>
+					<div class="description">
+						Adds several plugins at once.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Array.html#constructor">Array</a>}</span> <b>list</b>
+									
+								</dt>
+								<dd>of plugin ids.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="addShortcut"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>addShortcut</b>(shortcut, handler)
+					
+					</div>
+					<div class="description">
+						Adds or replaces keyboard shortcut.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>shortcut</b>
+									
+								</dt>
+								<dd>keymap expression like "CTRL+Space"</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>handler</b>
+									
+								</dt>
+								<dd>string or function to be evaluated or called</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="addShortcuts"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>addShortcuts</b>(list)
+					
+					</div>
+					<div class="description">
+						Adds several keyboard shortcuts at once.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Array.html#constructor">Array</a>}</span> <b>list</b>
+									
+								</dt>
+								<dd>of shortcuts. each element should have following structure: {event:"keymap expression", handler:handler}</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="addTemplateProcessor"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>addTemplateProcessor</b>(id, handler)
+					
+					</div>
+					<div class="description">
+						Adds or replaces template processor.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>id</b>
+									
+								</dt>
+								<dd>unique identifier</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>handler</b>
+									
+								</dt>
+								<dd>string or function to be evaluated or called when template inserted</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="addTemplateProcessors"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>addTemplateProcessors</b>(list)
+					
+					</div>
+					<div class="description">
+						Adds several template processors at once.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Array.html#constructor">Array</a>}</span> <b>list</b>
+									
+								</dt>
+								<dd>of template processors. Each element should have following structure: {id:"identifier", handler:handler}</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="finalize"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>finalize</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="focus"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>focus</b>()
+					
+					</div>
+					<div class="description">
+						Gives focus to editor
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getAutocompletion"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getAutocompletion</b>(id)
+					
+					</div>
+					<div class="description">
+						Returns autocompletion handler matches with given id
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>id</b>
+									
+								</dt>
+								<dd>unique identifier</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getAutocompletions"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getAutocompletions</b>()
+					
+					</div>
+					<div class="description">
+						Returns entire autocompletions' map
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getAutocorrection"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getAutocorrection</b>(id)
+					
+					</div>
+					<div class="description">
+						Returns autocorrection handler matches with given id
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>id</b>
+									
+								</dt>
+								<dd>unique identifier</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getAutocorrections"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getAutocorrections</b>()
+					
+					</div>
+					<div class="description">
+						Returns entire autocorrections' map
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getBody"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getBody</b>()
+					
+					</div>
+					<div class="description">
+						Returns designmode body object
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getContextMenuHandler"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getContextMenuHandler</b>(id)
+					
+					</div>
+					<div class="description">
+						Returns context menu handler matches with given id
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>id</b>
+									
+								</dt>
+								<dd>unique identifier</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getContextMenuHandlers"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getContextMenuHandlers</b>()
+					
+					</div>
+					<div class="description">
+						Returns entire context menu handlers' map
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getCurrentContent"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Object}</span>
+					<b>getCurrentContent</b>()
+					
+					</div>
+					<div class="description">
+						Gets editor's dynamic content from current editor(source or WYSIWYG)
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> HTML String</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getCurrentEditMode"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getCurrentEditMode</b>()
+					
+					</div>
+					<div class="description">
+						Returns current edit mode - wysiwyg, source
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getDefaultShortcuts"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getDefaultShortcuts</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getDoc"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getDoc</b>()
+					
+					</div>
+					<div class="description">
+						Returns designmode document object
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getFrame"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getFrame</b>()
+					
+					</div>
+					<div class="description">
+						Returns designmode iframe object
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getOuterDoc"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getOuterDoc</b>()
+					
+					</div>
+					<div class="description">
+						Returns outer iframe document
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getOuterFrame"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getOuterFrame</b>()
+					
+					</div>
+					<div class="description">
+						Returns outer iframe object
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getOutmostWrapper"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getOutmostWrapper</b>()
+					
+					</div>
+					<div class="description">
+						Returns outmost wrapper element
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getPlugin"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getPlugin</b>(id)
+					
+					</div>
+					<div class="description">
+						Returns plugin matches with given identifier.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>id</b>
+									
+								</dt>
+								<dd>unique identifier</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getPlugins"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getPlugins</b>()
+					
+					</div>
+					<div class="description">
+						Returns entire plugins
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getShortcut"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getShortcut</b>(shortcut)
+					
+					</div>
+					<div class="description">
+						Returns keyboard shortcut matches with given keymap expression.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>shortcut</b>
+									
+								</dt>
+								<dd>keymap expression like "CTRL+Space"</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getShortcuts"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getShortcuts</b>()
+					
+					</div>
+					<div class="description">
+						Returns entire keyboard shortcuts' map
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getSourceContent"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Object}</span>
+					<b>getSourceContent</b>(noValidation)
+					
+					</div>
+					<div class="description">
+						Gets editor's dynamic content from source editor
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>noValidation</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> HTML String</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getSourceEditorDiv"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getSourceEditorDiv</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getStaticContent"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Object}</span>
+					<b>getStaticContent</b>()
+					
+					</div>
+					<div class="description">
+						Gets editor's original content
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> HTML String</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getStaticContentAsDOM"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>getStaticContentAsDOM</b>()
+					
+					</div>
+					<div class="description">
+						Gets editor's original content as (newely created) DOM node
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> DIV element</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getTemplateProcessor"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getTemplateProcessor</b>(id)
+					
+					</div>
+					<div class="description">
+						Returns template processor matches with given id
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>id</b>
+									
+								</dt>
+								<dd>unique identifier</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getTemplateProcessors"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getTemplateProcessors</b>()
+					
+					</div>
+					<div class="description">
+						Returns entire template processors' map
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getWin"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getWin</b>()
+					
+					</div>
+					<div class="description">
+						Returns designmode window object
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getWysiwygContent"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Object}</span>
+					<b>getWysiwygContent</b>()
+					
+					</div>
+					<div class="description">
+						Gets editor's dynamic content from WYSIWYG editor
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> HTML String</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getWysiwygEditorDiv"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getWysiwygEditorDiv</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleApplyBlock"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleApplyBlock</b>(tagName, className, attrs)
+					
+					</div>
+					<div class="description">
+						Change or wrap current block(or selected blocks)'s tag
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>tagName</b>
+									<i>Optional, Default: </i>
+								</dt>
+								<dd>Name of tag. If not provided, it does not modify current tag name</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>className</b>
+									<i>Optional, Default: </i>
+								</dt>
+								<dd>Class name of tag. If not provided, it does not modify current class name, and if empty string is provided, class attribute will be removed.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{object}</span> <b>attrs</b>
+									<i>Optional, Default: </i>
+								</dt>
+								<dd>Attributes of tag. If not provided, it does not modify current attribute, and if empty string is provided, attribute will be removed.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleAutocompletion"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleAutocompletion</b>()
+					
+					</div>
+					<div class="description">
+						TODO: remove dup with handleAutocorrection
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleAutocorrection"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleAutocorrection</b>()
+					
+					</div>
+					<div class="description">
+						TODO: remove dup with handleAutocompletion
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleBackgroundColor"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleBackgroundColor</b>(color)
+					
+					</div>
+					<div class="description">
+						Applies background color
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>color</b>
+									
+								</dt>
+								<dd>CSS color string</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleBackspace"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleBackspace</b>()
+					
+					</div>
+					<div class="description">
+						Called when backspace key pressed
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleCharacter"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleCharacter</b>(chr)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>chr</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleClick"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleClick</b>(e, target)
+					
+					</div>
+					<div class="description">
+						Handles click event
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Event}</span> <b>e</b>
+									
+								</dt>
+								<dd>click event</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>target</b>
+									
+								</dt>
+								<dd>target element(usually has A tag)</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleColorPicker"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleColorPicker</b>(color)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>color</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleColumnProperty"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleColumnProperty</b>(prop)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>prop</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleDelete"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleDelete</b>()
+					
+					</div>
+					<div class="description">
+						Called when delete key pressed
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleDeleteColumn"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleDeleteColumn</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleDeleteRow"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleDeleteRow</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleDeleteTable"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleDeleteTable</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleEmoticon"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleEmoticon</b>(fileName)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>fileName</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleEmphasis"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleEmphasis</b>()
+					
+					</div>
+					<div class="description">
+						Applies EM tag
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleEnter"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleEnter</b>(skipAutocorrection, forceInsertParagraph)
+					
+					</div>
+					<div class="description">
+						Called when enter key pressed.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>skipAutocorrection</b>
+									
+								</dt>
+								<dd>if set true, skips autocorrection</dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>forceInsertParagraph</b>
+									
+								</dt>
+								<dd>if set true, inserts paragraph</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleFontFace"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleFontFace</b>(face)
+					
+					</div>
+					<div class="description">
+						Applies font face
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>face</b>
+									
+								</dt>
+								<dd>font face</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleFontSize"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleFontSize</b>(font)
+					
+					</div>
+					<div class="description">
+						Applies font size
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>font</b>
+									
+								</dt>
+								<dd>size (1 to 6)</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleForegroundColor"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleForegroundColor</b>(color)
+					
+					</div>
+					<div class="description">
+						Applies foreground color
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>color</b>
+									
+								</dt>
+								<dd>CSS color string</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleIndent"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleIndent</b>()
+					
+					</div>
+					<div class="description">
+						Performs block indentation
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleInsertLink"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>handleInsertLink</b>(autoSelection, url, title, text, className)
+					
+					</div>
+					<div class="description">
+						Inserts link or apply link into selected area
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>autoSelection</b>
+									
+								</dt>
+								<dd>if set true and there's no selection, automatically select word to link(if possible)</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>url</b>
+									
+								</dt>
+								<dd>url</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>title</b>
+									
+								</dt>
+								<dd>title of link</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>text</b>
+									
+								</dt>
+								<dd>text of link. If there's a selection(manually or automatically), it will be replaced with this text</dd>
+							
+								<dt>
+									<b>className</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> created element</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleInsertNewColumnAt"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleInsertNewColumnAt</b>(where)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>where</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleInsertNewRowAt"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleInsertNewRowAt</b>(where)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>where</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleInsertTab"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleInsertTab</b>()
+					
+					</div>
+					<div class="description">
+						Inserts three non-breaking spaces
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleJustify"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleJustify</b>(dir)
+					
+					</div>
+					<div class="description">
+						Applies justification
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>dir</b>
+									
+								</dt>
+								<dd>"left", "center", "right" or "both"</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleLink"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleLink</b>()
+					
+					</div>
+					<div class="description">
+						Show link dialog
+
+TODO: should support modify/unlink
+TODO: Add selenium test
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleList"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleList</b>(type, CSS)
+					
+					</div>
+					<div class="description">
+						Applies list.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>type</b>
+									
+								</dt>
+								<dd>"UL" or "OL"</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>CSS</b>
+									
+								</dt>
+								<dd>class name</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleMoveBlock"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleMoveBlock</b>(up)
+					
+					</div>
+					<div class="description">
+						Moves current block upward or downward
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>up</b>
+									
+								</dt>
+								<dd>moves current block upward</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleMoveToAboveCell"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleMoveToAboveCell</b>()
+					
+					</div>
+					<div class="description">
+						(in table) Moves caret to the above cell
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleMoveToBelowCell"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleMoveToBelowCell</b>()
+					
+					</div>
+					<div class="description">
+						(in table) Moves caret to the below cell
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleMoveToNextCell"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleMoveToNextCell</b>()
+					
+					</div>
+					<div class="description">
+						(in table) Moves caret to the next cell
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleMoveToPreviousCell"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleMoveToPreviousCell</b>()
+					
+					</div>
+					<div class="description">
+						(in table) Moves caret to the previous cell
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleOutdent"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleOutdent</b>()
+					
+					</div>
+					<div class="description">
+						Performs block outdentation
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleRedo"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleRedo</b>()
+					
+					</div>
+					<div class="description">
+						Performs REDO
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleRemoveBlock"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleRemoveBlock</b>()
+					
+					</div>
+					<div class="description">
+						Removes current block element
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleRemoveFormat"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleRemoveFormat</b>()
+					
+					</div>
+					<div class="description">
+						Removes all style
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleRemoveLink"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleRemoveLink</b>()
+					
+					</div>
+					<div class="description">
+						Remove link
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleRowProperty"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleRowProperty</b>(prop)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>prop</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleSeparator"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleSeparator</b>()
+					
+					</div>
+					<div class="description">
+						Inserts separator (HR)
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleShiftTab"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleShiftTab</b>()
+					
+					</div>
+					<div class="description">
+						Called when shift+tab key pressed
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleSpace"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleSpace</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleStrike"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleStrike</b>()
+					
+					</div>
+					<div class="description">
+						Applies SPAN.strike tag
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleStrongEmphasis"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleStrongEmphasis</b>()
+					
+					</div>
+					<div class="description">
+						Applies STRONG tag
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleSubscription"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleSubscription</b>()
+					
+					</div>
+					<div class="description">
+						Applies subscription
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleSuperscription"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleSuperscription</b>()
+					
+					</div>
+					<div class="description">
+						Applies superscription
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleTab"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleTab</b>()
+					
+					</div>
+					<div class="description">
+						Called when tab key pressed
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleTable"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleTable</b>(attrs)
+					
+					</div>
+					<div class="description">
+						Inserts table
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{object}</span> <b>attrs</b>
+									<i>Optional, Default: </i>
+								</dt>
+								<dd>Attributes of tag. If not provided, it does not modify current attribute, and if empty string is provided, attribute will be removed.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleTableProperty"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleTableProperty</b>(prop)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>prop</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleUnderline"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleUnderline</b>()
+					
+					</div>
+					<div class="description">
+						Applies EM.underline tag
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="handleUndo"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>handleUndo</b>()
+					
+					</div>
+					<div class="description">
+						Performs UNDO
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="hideContextMenu"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>hideContextMenu</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="insertTemplate"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>insertTemplate</b>(html)
+					
+					</div>
+					<div class="description">
+						Inserts HTML template
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>html</b>
+									
+								</dt>
+								<dd>Template string. It should have single root element</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> inserted element</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="insertTemplateAt"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>insertTemplateAt</b>(html, target, where)
+					
+					</div>
+					<div class="description">
+						Places given HTML template nearby target.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>html</b>
+									
+								</dt>
+								<dd>Template string. It should have single root element</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Node}</span> <b>target</b>
+									
+								</dt>
+								<dd>Target node.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>where</b>
+									
+								</dt>
+								<dd>Possible values: "before", "start", "end", "after"</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> Inserted element.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="isElementVisible"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>isElementVisible</b>(element)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>element</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="loadCurrentContentFromStaticContent"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>loadCurrentContentFromStaticContent</b>()
+					
+					</div>
+					<div class="description">
+						Sets editor's dynamic content from static content
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="loadStylesheet"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>loadStylesheet</b>(path)
+					
+					</div>
+					<div class="description">
+						Load CSS into WYSIWYG mode document
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>path</b>
+									
+								</dt>
+								<dd>URL</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="removeAutocompletion"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>removeAutocompletion</b>(id)
+					
+					</div>
+					<div class="description">
+						Removes autocompletion handler matches with given id
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>id</b>
+									
+								</dt>
+								<dd>unique identifier</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="removeAutocorrection"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>removeAutocorrection</b>(id)
+					
+					</div>
+					<div class="description">
+						Removes autocorrection handler matches with given id
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>id</b>
+									
+								</dt>
+								<dd>unique identifier</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="removeContextMenuHandler"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>removeContextMenuHandler</b>(id)
+					
+					</div>
+					<div class="description">
+						Removes context menu handler matches with given id
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>id</b>
+									
+								</dt>
+								<dd>unique identifier</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="removePlugin"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>removePlugin</b>(id)
+					
+					</div>
+					<div class="description">
+						Remove plugin matches with given identifier.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>id</b>
+									
+								</dt>
+								<dd>unique identifier</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="removeShortcut"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>removeShortcut</b>(shortcut)
+					
+					</div>
+					<div class="description">
+						Remove keyboard shortcut matches with given keymap expression.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>shortcut</b>
+									
+								</dt>
+								<dd>keymap expression like "CTRL+Space"</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="removeTemplateProcessor"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>removeTemplateProcessor</b>(id)
+					
+					</div>
+					<div class="description">
+						Removes template processor matches with given id
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>id</b>
+									
+								</dt>
+								<dd>unique identifier</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="removeUnnecessarySpaces"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/String.html#constructor">String</a>}</span>
+					<b>removeUnnecessarySpaces</b>(html)
+					
+					</div>
+					<div class="description">
+						Removes unnecessary spaces, tabs and new lines.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>html</b>
+									
+								</dt>
+								<dd>HTML string.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> Modified HTML string.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="replaceUrlToLink"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>replaceUrlToLink</b>()
+					
+					</div>
+					<div class="description">
+						Replace URL text nearby caret into a link
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setEditMode"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setEditMode</b>(mode)
+					
+					</div>
+					<div class="description">
+						Switches between WYSIWYG/Source mode.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>mode</b>
+									
+								</dt>
+								<dd>'wysiwyg' means WYSIWYG editing mode, and 'source' means source editing mode.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setHeight"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setHeight</b>(h)
+					
+					</div>
+					<div class="description">
+						Sets height of editor.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>h</b>
+									
+								</dt>
+								<dd>Valid CSS value for style.height. For example, "100%", "200px".</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setStaticContent"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setStaticContent</b>(content)
+					
+					</div>
+					<div class="description">
+						Sets editor's original content
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>content</b>
+									
+								</dt>
+								<dd>HTML String</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setWidth"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setWidth</b>(w)
+					
+					</div>
+					<div class="description">
+						Sets width of editor.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>w</b>
+									
+								</dt>
+								<dd>Valid CSS value for style.width. For example, "100%", "200px".</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="showContextMenu"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>showContextMenu</b>(menuItems, x, y)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>menuItems</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>x</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>y</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="toggleSourceAndWysiwygMode"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>toggleSourceAndWysiwygMode</b>()
+					
+					</div>
+					<div class="description">
+						Toggle edit mode between source and wysiwyg
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					
+				
+			
+			
+			<hr />
+		</div>
+		
+<!-- ============================== footer ================================= -->
+		<div class="fineprint" style="clear:both">
+			
+			Documentation generated by <a href="http://www.jsdoctoolkit.org/" target="_blank">JsDoc Toolkit</a> 2.0.preview_4 on Tue May 12 2009 10:42:36 GMT+0900 (KST)
+		</div>
+	</body>
+</html>

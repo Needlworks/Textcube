@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+	<title>SmartWrap</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link type="text/css" rel="stylesheet" href="../JSSpec.css" />
+	<script type="text/javascript" src="../diff_match_patch.js"></script>
+	<script type="text/javascript" src="../JSSpec.js"></script>
+	<script type="text/javascript" src="../../javascripts/XQuared.js?load_others=1"></script>
+</head>
+<body>
+<div style='position:absolute; height:0; margin:0; padding:0; overflow:hidden;'>
+	<div id="editor"></div>
+</div>
+
+<script type="text/javascript" language="javascript">// <![CDATA[
+//		function(text) {return text.indexOf("@")}
+
+describe('Default criteria', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should wrap single node': function() {
+		xq.$('editor').innerHTML = '<p>A<span id="end">!</span>B</p>';
+		var wrapper = rdom.smartWrap(rdom.$("end"));
+		value_of(wrapper.nodeName).should_be("SPAN");
+		value_of(wrapper.innerHTML).should_be("A");
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p><span>A</span><span id="end">!</span>B</p>');
+	},
+	'should insert empty wrapper when there\'s nothing to wrap (case 1)': function() {
+		xq.$('editor').innerHTML = '<p><span id="end">!</span></p>';
+		var wrapper = rdom.smartWrap(rdom.$("end"));
+		value_of(wrapper.nodeName).should_be("SPAN");
+		value_of(wrapper).should_have(0, 'childNodes');
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p><span></span><span id="end">!</span></p>');
+	},
+	'should wrap all nodes before end element': function() {
+		xq.$('editor').innerHTML = '<p><em>A</em>B<span id="end">!</span></p>';
+		rdom.smartWrap(rdom.$("end"));
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p><span><em>A</em>B</span><span id="end">!</span></p>');
+	},
+	'should wrap using given tag': function() {
+		xq.$('editor').innerHTML = '<p>A<span id="end">!</span></p>';
+		var wrapper = rdom.smartWrap(rdom.$("end"), "EM");
+		value_of(wrapper.nodeName).should_be("EM");
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p><em>A</em><span id="end">!</span></p>');
+	}
+});
+
+describe('At sign finder', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+		criteria = function(text) {return text.indexOf("@")};
+	},
+	'should wrap all previous nodes if criteria do not match': function() {
+		xq.$('editor').innerHTML = '<p><em>A</em>B<span id="end">!</span></p>';
+		var wrapper = rdom.smartWrap(rdom.$("end"), "SPAN", criteria);
+		value_of(wrapper.nodeName).should_be("SPAN");
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p><span><em>A</em>B</span><span id="end">!</span></p>');
+	},
+	'should stop when criteria match': function() {
+		xq.$('editor').innerHTML = '<p>Hello @From Xquared<span id="end">!</span></p>';
+		var wrapper = rdom.smartWrap(rdom.$("end"), "SPAN", criteria);
+		value_of(wrapper.nodeName).should_be("SPAN");
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>Hello <span>@From Xquared</span><span id="end">!</span></p>');
+	}
+});
+
+describe('Tester', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+		criteria = function(text) {return text.indexOf("@")};
+	},
+	'should return test results correctly': function() {
+		xq.$('editor').innerHTML = '<p>Hello @From Xquared<span id="end">!</span></p>';
+		var result = rdom.testSmartWrap(rdom.$("end"), criteria);
+		value_of(result).should_be({text:"@From Xquared", textIndex:6, nodeIndex:0, breakPoint:6});
+	},
+	'should not modify contents': function() {
+		xq.$('editor').innerHTML = '<p>Hello @From Xquared<span id="end">!</span></p>';
+		rdom.testSmartWrap(rdom.$("end"), criteria);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>Hello @From Xquared<span id="end">!</span></p>');
+	}
+});
+// ]]></script>
+</body>
+</html>

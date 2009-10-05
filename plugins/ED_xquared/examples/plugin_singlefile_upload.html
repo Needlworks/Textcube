@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="../stylesheets/xq_ui.css" />
+<script type="text/javascript" src="../javascripts/XQuared.js?load_others=1"></script>
+<script type="text/javascript" src="../javascripts/plugin/FileUploadPlugin.js"></script>
+<script type="text/javascript">//<![CDATA[
+var xed;
+
+window.onload = function() {
+	xed = new xq.Editor("xqEditor");
+	
+	xed.isSingleFileUpload = true;
+	xed.addPlugin('FileUpload');
+	xed.setFileUploadTarget('/examples/single_upload_submit.php', null);
+	xed.setEditMode('wysiwyg');
+	xed.setWidth("100%");
+};
+//]]>
+</script>
+<title>Editor Demo</title>
+</head>
+<body>
+	<textarea id="xqEditor">
+		Hello World
+	</textarea>
+</body>
+</html>

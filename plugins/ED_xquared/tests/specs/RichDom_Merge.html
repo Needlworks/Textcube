@@ -1,0 +1,451 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+	<title>Merge</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link type="text/css" rel="stylesheet" href="../JSSpec.css" />
+	<script type="text/javascript" src="../diff_match_patch.js"></script>
+	<script type="text/javascript" src="../JSSpec.js"></script>
+	<script type="text/javascript" src="../../javascripts/XQuared.js?load_others=1"></script>
+</head>
+<body>
+<div style='position:absolute; height:0; margin:0; padding:0; overflow:hidden;'>
+	<div id='editor'></div>
+</div>
+
+<script type="text/javascript" language="javascript">// <![CDATA[
+describe('Something + Block merge', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should do nothing when there\'s no element to merge': function() {
+		xq.$('editor').innerHTML = '<p id="target">A</p>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="target">A</p>');
+	},
+	'should merge two blocks': function() {
+		xq.$('editor').innerHTML = '<p id="target">A</p><p>B</p>';
+		var target = rdom.$('target');
+		x = xq.$('editor').parentNode;
+		rdom.mergeElement(target, true, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="target">AB</p>');
+	},
+	'should outdent when there\'s indentation': function() {
+		xq.$('editor').innerHTML = '<p id="target">A</p><p style="margin-left: 2em;">B</p>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="target">A</p><p>B</p>');
+	},
+	'should skip outdent when forced': function() {
+		xq.$('editor').innerHTML = '<p id="target">A</p><p style="margin-left: 2em;">B</p>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="target">AB</p>');
+	},
+	'should merge with single node DIV': function() {
+		xq.$('editor').innerHTML = '<div id="target">A</div><p>B</p>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div id="target">AB</div>');
+	},
+	'should merge with multi node DIV': function() {
+		xq.$('editor').innerHTML = '<div><p>A</p><p id="target">B</p></div><p>C</p>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><p>A</p><p id="target">BC</p></div>');
+	},
+	'should merge with single node LI': function() {
+		xq.$('editor').innerHTML = '<ul><li id="target">A</li></ul><p>B</p>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li id="target">AB</li></ul>');
+	},
+	'should merge with single multi node LI': function() {
+		xq.$('editor').innerHTML = '<ul><li>A</li><li id="target">B</li></ul><p>C</p>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li id="target">BC</li></ul>');
+	}
+});
+
+describe('Something + Container merge', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should outdent when there\'s indentation': function() {
+		xq.$('editor').innerHTML = '<p id="target">A</p><div style="margin-left: 2em;">B</div>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="target">A</p><div>B</div>');
+	},
+	'should skip outdent when forced': function() {
+		xq.$('editor').innerHTML = '<p id="target">A</p><div style="margin-left: 2em;">B</div>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="target">A</p><p>B</p>');
+	},
+	'should not outdent LI': function() {
+		xq.$('editor').innerHTML = '<ul><li><p id="target">A</p><ul><li>B</li></ul></li></ul>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li><p id="target">AB</p></li></ul>');
+	},
+	'should skip outdent list with nested LI when forced': function() {
+		xq.$('editor').innerHTML = '<ul><li><p id="target">A</p><ul><li>B</li></ul></li></ul>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li><p id="target">AB</p></li></ul>');
+	},
+	'should merge two LIs': function() {
+		xq.$('editor').innerHTML = '<ul><li id="target">A</li><li>B</li></ul>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li id="target"><p>A</p><p>B</p></li></ul>');
+	},
+	'should merge two LIs when forced': function() {
+		xq.$('editor').innerHTML = '<ul><li id="target">A</li><li>B</li></ul>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li id="target">AB</li></ul>');
+	},
+	'should merge single item list': function() {
+		xq.$('editor').innerHTML = '<p id="target">A</p><ul><li>B</li></ul>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="target">AB</p>');
+	},
+	'should merge single item list when forced': function() {
+		xq.$('editor').innerHTML = '<p id="target">A</p><ul><li>B</li></ul>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="target">AB</p>');
+	},
+	'should extract out first child of multi node LI': function() {
+		xq.$('editor').innerHTML = '<p id="target">A</p><ul><li><p>B</p><p>C</p></li></ul>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="target">AB</p><ul><li>C</li></ul>');
+	},
+	'should skip extract out first child of multi node LI when forced': function() {
+		xq.$('editor').innerHTML = '<p id="target">A</p><ul><li><p>B</p><p>C</p></li></ul>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="target">AB</p><ul><li>C</li></ul>');
+	},
+	'should unwrap single node container': function() {
+		xq.$('editor').innerHTML = '<p id="target">A</p><div>B</div>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="target">A</p><p>B</p>');
+	},
+	'should unwrap multi node container': function() {
+		xq.$('editor').innerHTML = '<p id="target">A</p><div><p>B</p><p>C</p></div>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="target">A</p><p>B</p><p>C</p>');
+	},
+	'should outdent and merge list (case 1)': function() {
+		xq.$('editor').innerHTML = '<p id="target">A</p><ul><li><p>B</p><ul><li>C</li></ul></li></ul>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="target">AB</p><ul><li>C</li></ul>');
+	},
+	'should merge list items which has nested list': function() {
+		xq.$('editor').innerHTML = '<ul><li id="target">A</li><li><p>B</p><ul><li>C</li></ul></li></ul>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li id="target"><p>AB</p><ul><li>C</li></ul></li></ul>');
+	}
+});
+
+describe('Container + Container merge', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should merge two containers': function() {
+		xq.$('editor').innerHTML = '<div id="target">A</div><div>B</div>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div id="target"><p>A</p><p>B</p></div>');
+	},
+	'should merge two list containers (case 1 - DEL)': function() {
+		xq.$('editor').innerHTML = '<ol><li>A</li><li id="target">B</li></ol><ul><li>C</li><li>D</li></ul>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol><li>A</li><li id="target">B</li><li>C</li><li>D</li></ol>');
+	},
+	'should merge two list containers (case 2 - BS)': function() {
+		xq.$('editor').innerHTML = '<ol><li>A</li><li id="target">B</li></ol><ul><li>C</li><li>D</li></ul>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol><li>A</li><li id="target">B</li><li>C</li><li>D</li></ol>');
+	},
+	'should merge two list containers (case 3)': function() {
+		xq.$('editor').innerHTML = '<ol><li><p>A</p><ol><li id="target">B</li></ol></li></ol><ul><li>C</li></ul>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol><li><p>A</p><ol><li id="target">B</li></ol></li><li>C</li></ol>');
+	},
+	'should merge two containers which contains multiple nodes': function() {
+		xq.$('editor').innerHTML = '<div><p>A</p><p id="target">B</p></div><div><blockquote><p>C</p></blockquote><p>D</p></div>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true, true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><p>A</p><p id="target">B</p><blockquote><p>C</p></blockquote><p>D</p></div>');
+	},
+	'complex case 1': function() {
+		xq.$('editor').innerHTML = '<div><p>A</p><p>B</p></div><div><blockquote><p id="target">C</p></blockquote><p>D</p></div>';
+		var target = rdom.$('target');
+		
+		rdom.mergeElement(target, false, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><p>A</p><p>B</p></div><div><p id="target">C</p><p>D</p></div>');
+		
+		rdom.mergeElement(target, false, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><p>A</p><p>B</p></div><p id="target">C</p><p>D</p>');
+	}
+});
+
+describe('Something + Table / Table + Something merge', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should delete table (block, with next)': function() {
+		xq.$('editor').innerHTML = '<p id="target">A</p><table><thead><tr><td>B</td></tr></thead><tbody><tr><td>C</td></tr></tbody></table>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="target">A</p>');
+	},
+	'should delete table (block, with prev)': function() {
+		xq.$('editor').innerHTML = '<table><thead><tr><td>A</td></tr></thead><tbody><tr><td>B</td></tr></tbody></table><p id="target">C</p>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, false, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="target">C</p>');
+	},
+	'should delete table (container, with next)': function() {
+		xq.$('editor').innerHTML = '<div><p id="target">A</p></div><table><thead><tr><td>B</td></tr></thead><tbody><tr><td>C</td></tr></tbody></table>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><p id="target">A</p></div>');
+	},
+	'should delete table (container, with prev)': function() {
+		xq.$('editor').innerHTML = '<table><thead><tr><td>A</td></tr></thead><tbody><tr><td>B</td></tr></tbody></table><div><p id="target">C</p></div>';
+		var target = rdom.$('target');
+		rdom.mergeElement(target, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><thead><tr><td>A</td></tr></thead><tbody><tr><td>B</td></tr></tbody></table><p id="target">C</p>');
+	}
+});
+
+describe('single node TD/TH', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+		xq.$('editor').innerHTML = '<table><thead><tr><td id="a">A</td><td id="b">B</td><td id="c">C</td></tr></thead><tbody><tr><td id="d">D</td><td id="e">E</td><td id="f">F</td></tr></tbody></table>';
+	},
+	'should not merge TD/TH (case 1)': function() {
+		rdom.mergeElement(rdom.$('a'), true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><thead><tr><td id="a">A</td><td id="b">B</td><td id="c">C</td></tr></thead><tbody><tr><td id="d">D</td><td id="e">E</td><td id="f">F</td></tr></tbody></table>');
+
+		rdom.mergeElement(rdom.$('a'), false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><thead><tr><td id="a">A</td><td id="b">B</td><td id="c">C</td></tr></thead><tbody><tr><td id="d">D</td><td id="e">E</td><td id="f">F</td></tr></tbody></table>');
+	},
+	'should not merge TD/TH (case 2)': function() {
+		rdom.mergeElement(rdom.$('b'), true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><thead><tr><td id="a">A</td><td id="b">B</td><td id="c">C</td></tr></thead><tbody><tr><td id="d">D</td><td id="e">E</td><td id="f">F</td></tr></tbody></table>');
+
+		rdom.mergeElement(rdom.$('b'), false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><thead><tr><td id="a">A</td><td id="b">B</td><td id="c">C</td></tr></thead><tbody><tr><td id="d">D</td><td id="e">E</td><td id="f">F</td></tr></tbody></table>');
+	},
+	'should not merge TD/TH (case 3)': function() {
+		rdom.mergeElement(rdom.$('c'), true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><thead><tr><td id="a">A</td><td id="b">B</td><td id="c">C</td></tr></thead><tbody><tr><td id="d">D</td><td id="e">E</td><td id="f">F</td></tr></tbody></table>');
+
+		rdom.mergeElement(rdom.$('c'), false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><thead><tr><td id="a">A</td><td id="b">B</td><td id="c">C</td></tr></thead><tbody><tr><td id="d">D</td><td id="e">E</td><td id="f">F</td></tr></tbody></table>');
+	},
+	'should not merge TD/TH (case 4)': function() {
+		rdom.mergeElement(rdom.$('d'), true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><thead><tr><td id="a">A</td><td id="b">B</td><td id="c">C</td></tr></thead><tbody><tr><td id="d">D</td><td id="e">E</td><td id="f">F</td></tr></tbody></table>');
+
+		rdom.mergeElement(rdom.$('d'), false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><thead><tr><td id="a">A</td><td id="b">B</td><td id="c">C</td></tr></thead><tbody><tr><td id="d">D</td><td id="e">E</td><td id="f">F</td></tr></tbody></table>');
+	},
+	'should not merge TD/TH (case 5)': function() {
+		rdom.mergeElement(rdom.$('e'), true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><thead><tr><td id="a">A</td><td id="b">B</td><td id="c">C</td></tr></thead><tbody><tr><td id="d">D</td><td id="e">E</td><td id="f">F</td></tr></tbody></table>');
+
+		rdom.mergeElement(rdom.$('e'), false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><thead><tr><td id="a">A</td><td id="b">B</td><td id="c">C</td></tr></thead><tbody><tr><td id="d">D</td><td id="e">E</td><td id="f">F</td></tr></tbody></table>');
+	},
+	'should not merge TD/TH (case 6)': function() {
+		rdom.mergeElement(rdom.$('f'), true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><thead><tr><td id="a">A</td><td id="b">B</td><td id="c">C</td></tr></thead><tbody><tr><td id="d">D</td><td id="e">E</td><td id="f">F</td></tr></tbody></table>');
+
+		rdom.mergeElement(rdom.$('f'), false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><thead><tr><td id="a">A</td><td id="b">B</td><td id="c">C</td></tr></thead><tbody><tr><td id="d">D</td><td id="e">E</td><td id="f">F</td></tr></tbody></table>');
+	}
+});
+
+describe('blocks in TD/TH', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'single P in TD/TH (BS)': function() {
+		xq.$('editor').innerHTML = '<table><thead><tr><td>A</td></tr></thead><tbody><tr><td><p>B</p></td></tr></tbody></table>';
+		var target = rdom.getRoot().getElementsByTagName('P')[0];
+		rdom.mergeElement(target, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><thead><tr><td>A</td></tr></thead><tbody><tr><td>B</td></tr></tbody></table>');
+	},
+	'single P in TD/TH (DEL)': function() {
+		xq.$('editor').innerHTML = '<table><thead><tr><td>A</td></tr></thead><tbody><tr><td><p>B</p></td></tr></tbody></table>';
+		var target = rdom.getRoot().getElementsByTagName('P')[0];
+		rdom.mergeElement(target, true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><thead><tr><td>A</td></tr></thead><tbody><tr><td>B</td></tr></tbody></table>');
+	},
+	'single DIV in TD/TH (BS)': function() {
+		xq.$('editor').innerHTML = '<table><thead><tr><td>A</td></tr></thead><tbody><tr><td><div>B</div></td></tr></tbody></table>';
+		var target = rdom.getRoot().getElementsByTagName('DIV')[0];
+		rdom.mergeElement(target, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><thead><tr><td>A</td></tr></thead><tbody><tr><td>B</td></tr></tbody></table>');
+	},
+	'single DIV in TD/TH (DEL)': function() {
+		xq.$('editor').innerHTML = '<table><thead><tr><td>A</td></tr></thead><tbody><tr><td><div>B</div></td></tr></tbody></table>';
+		var target = rdom.getRoot().getElementsByTagName('DIV')[0];
+		rdom.mergeElement(target, true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><thead><tr><td>A</td></tr></thead><tbody><tr><td><div>B</div></td></tr></tbody></table>');
+	}
+});
+
+describe('merge with empty block', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'P with H1 (DEL)': function() {
+		xq.$('editor').innerHTML = '<p>' + rdom.makePlaceHolderString() + '</p><h1>Hello</h1>';
+		var target = rdom.getRoot().firstChild;
+		rdom.mergeElement(target, true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<h1>Hello</h1>');
+	},
+	'P with H1 (BS)': function() {
+		xq.$('editor').innerHTML = '<p>' + rdom.makePlaceHolderString() + '</p><h1>Hello</h1>';
+		var target = rdom.getRoot().firstChild.nextSibling;
+		rdom.mergeElement(target, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<h1>Hello</h1>');
+	},
+	'Two Ps in LI (DEL)': function() {
+		xq.$('editor').innerHTML = '<ul><li><p>' + rdom.makePlaceHolderString() + '</p><p>Hello</p></ul>';
+		var target = rdom.getRoot().firstChild.firstChild.firstChild;
+		rdom.mergeElement(target, true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>Hello</li></ul>');
+	},
+	'Two Ps in LIs (BS)': function() {
+		xq.$('editor').innerHTML = '<ul><li><p>' + rdom.makePlaceHolderString() + '</p><p>Hello</p></ul>';
+		var target = rdom.getRoot().firstChild.firstChild.firstChild.nextSibling;
+		rdom.mergeElement(target, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>Hello</li></ul>');
+	}
+});
+
+describe('merge with empty LI', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'With empty LI (case 1)': function() {
+		// * A
+		//     <- BS
+		// * B
+		xq.$('editor').innerHTML = '<ul><li><p>A</p><p>' + rdom.makePlaceHolderString() + '</p></li><li>B</li></ul>';
+		var a = rdom.getRoot().firstChild.firstChild.firstChild;
+		var b = a.nextSibling;
+		var c = b.parentNode.nextSibling;
+		
+		rdom.mergeElement(b, false);
+		
+		// * A
+		// * B
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li>B</li></ul>');
+	},
+	'With empty LI (case 2)': function() {
+		// * A <- DEL
+		// * 
+		// * B
+		xq.$('editor').innerHTML = '<ul><li>A</li><li>' + rdom.makePlaceHolderString() + '</li><li>B</li></ul>';
+		var a = rdom.getRoot().firstChild.firstChild;
+		var b = a.nextSibling;
+		var c = b.nextSibling;
+		
+		rdom.mergeElement(a, true, true);
+		
+		// * A
+		// * B
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li>B</li></ul>');
+	},
+	'With empty LI (case 3)': function() {
+		// * A
+		// *   <- DEL
+		// * B
+		xq.$('editor').innerHTML = '<ul><li>A</li><li>' + rdom.makePlaceHolderString() + '</li><li>B</li></ul>';
+		var a = rdom.getRoot().firstChild.firstChild;
+		var b = a.nextSibling;
+		var c = b.nextSibling;
+		
+		rdom.mergeElement(b, true, true);
+		
+		// * A
+		// * B
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li>B</li></ul>');
+	},
+	'With empty LI (case 4)': function() {
+		// * A
+		// *  
+		//   B <- BS
+		xq.$('editor').innerHTML = '<ul><li>A</li><li><p>' + rdom.makePlaceHolderString() + '</p><p>B</p></li></ul>';
+		var a = rdom.getRoot().firstChild.firstChild;
+		var b = a.nextSibling.firstChild;
+		var c = b.nextSibling;
+
+		rdom.mergeElement(c, false);
+		
+		// * A
+		// * B
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li>B</li></ul>');
+	}
+});
+
+describe('merge with atomic block', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+		xq.$('editor').innerHTML = '<p>A</p><hr /><p>C</p>';
+		
+		a = rdom.getRoot().firstChild;
+		b = a.nextSibling;
+		c = b.nextSibling;
+	},
+	'case 1': function() {
+		rdom.mergeElement(a, true, true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p><p>C</p>');
+	},
+	'case 2': function() {
+		rdom.mergeElement(b, false);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p><p>C</p>');
+	}
+});
+// ]]></script>
+</body>
+</html>

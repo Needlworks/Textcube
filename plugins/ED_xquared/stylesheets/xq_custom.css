@@ -1,0 +1,68 @@
+
+/* linkDialog */
+#linkDialog {
+	width: 315px;
+	background: #f4f4f4 url(../images/dialogs/link_bg.gif) repeat-x 0 0;
+}
+#linkDialog .dialog-content {
+	padding: 13px 15px;
+}
+#linkDialog .dialog-content p {
+	color: #666;
+	margin: 0 0 4px;
+}
+#linkDialog .dialog-content label {
+	font-weight: bold;
+	color: #666;
+	margin-right: 13px;
+	/position: relative;
+	/top: -2px;
+}
+#linkDialog .dialog-content label.link-name {
+	margin-right: 0;
+}
+#linkDialog .dialog-content .explain {
+	font: 11px dotum, sans-serif;
+	color: #999;
+	margin: 6px 0 7px 74px;
+	letter-spacing: -1px;
+}
+#linkDialog .option {
+	font: 11px dotum, sans-serif;
+	color: #999;
+	letter-spacing: -1px;
+	position: absolute;
+	margin: 10px;
+	bottom: 5px;
+}
+#linkDialog .option input {
+	vertical-align: middle;
+}
+#linkDialog .dialog-content .type-text {
+	border: 1px solid #c0c0c0;
+	padding: 2px 2px 3px;
+	font: 12px arial, sans-serif;
+	color: #666;
+	width: 205px;	
+}
+#scriptDialog .dialog-buttons,
+#iframeDialog .dialog-buttons {
+	margin: 15px 0 0 80px;
+}
+#linkDialog .dialog-buttons {
+	margin-top: 11px;
+}
+
+/* backgroundColorDialog */
+#backgroundColorDialog {
+	width: 216px;
+}
+#backgroundColorDialog .item-list li {
+	margin: 0 0 2px 4px;
+	_margin: 0 0 0 2px !important;
+	width: 12px;
+	height: 12px;
+}
+#backgroundColorDialog .item-list a {
+	border: 1px solid #acacac;
+}

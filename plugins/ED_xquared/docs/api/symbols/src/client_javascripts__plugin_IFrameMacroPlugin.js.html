@@ -1,0 +1,70 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.linenumber {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='linenumber'>  1</span> <span class="COMM">/**
+<span class='linenumber'>  2</span>  * @requires XQuared.js
+<span class='linenumber'>  3</span>  * @requires Browser.js
+<span class='linenumber'>  4</span>  * @requires Editor.js
+<span class='linenumber'>  5</span>  * @requires plugin/Base.js
+<span class='linenumber'>  6</span>  * @requires ui/Control.js
+<span class='linenumber'>  7</span>  * @requires macro/Factory.js
+<span class='linenumber'>  8</span>  * @requires macro/IFrameMacro.js
+<span class='linenumber'>  9</span>  */</span><span class="WHIT">
+<span class='linenumber'> 10</span> </span><span class="NAME">xq.plugin.IFrameMacroPlugin</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">xq.Class</span><span class="PUNC">(</span><span class="NAME">xq.plugin.Base</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 11</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 12</span> 	 * @name xq.plugin.IFrameMacroPlugin
+<span class='linenumber'> 13</span> 	 * @lends xq.plugin.IFrameMacroPlugin.prototype
+<span class='linenumber'> 14</span> 	 * @extends xq.plugin.Base
+<span class='linenumber'> 15</span> 	 * @constructor
+<span class='linenumber'> 16</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 17</span> 	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 18</span> 	</span><span class="NAME">onAfterLoad</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">xed</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 19</span> 		</span><span class="NAME">xed.config.macroIds.push</span><span class="PUNC">(</span><span class="STRN">"IFrame"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 20</span> 		</span><span class="NAME">xed.config.defaultToolbarButtonGroups.insert.push</span><span class="PUNC">(</span><span class="WHIT">
+<span class='linenumber'> 21</span> 			</span><span class="PUNC">{</span><span class="NAME">className</span><span class="PUNC">:</span><span class="STRN">"iframe"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">title</span><span class="PUNC">:</span><span class="STRN">"IFrame"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">handler</span><span class="PUNC">:</span><span class="STRN">"xed.handleIFrame()"</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 22</span> 		</span><span class="PUNC">)</span><span class="WHIT">
+<span class='linenumber'> 23</span> 		
+<span class='linenumber'> 24</span> 		</span><span class="NAME">xed.handleInsertIFrame</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 25</span> 			</span><span class="NAME">this.focus</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 26</span> 			
+<span class='linenumber'> 27</span> 			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">macro</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.macroFactory.createMacroFromDefinition</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">id</span><span class="PUNC">:</span><span class="STRN">"IFrame"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">params</span><span class="PUNC">:</span><span class="NAME">data</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 28</span> 			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">macro</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 29</span> 				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">placeHolder</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">macro.createPlaceHolderHtml</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 30</span> 				</span><span class="NAME">this.rdom.insertHtml</span><span class="PUNC">(</span><span class="NAME">placeHolder</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 31</span> 			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 32</span> 				</span><span class="NAME">alert</span><span class="PUNC">(</span><span class="NAME">xed._</span><span class="PUNC">(</span><span class="STRN">"Unknown error"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 33</span> 			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 34</span> 		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 35</span> 		
+<span class='linenumber'> 36</span> 		</span><span class="NAME">xed.handleIFrame</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 37</span> 			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dialog</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">xq.ui.FormDialog</span><span class="PUNC">(</span><span class="WHIT">
+<span class='linenumber'> 38</span> 					</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 39</span> 					</span><span class="NAME">xq.ui_templates.basicIFrameDialog</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 40</span> 					</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">dialog</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 41</span> 					</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 42</span> 						</span><span class="NAME">this.focus</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 43</span> 					
+<span class='linenumber'> 44</span> 						</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">xq.Browser.isTrident</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 45</span> 							</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rng</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.rdom.rng</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 46</span> 							</span><span class="NAME">rng.moveToBookmark</span><span class="PUNC">(</span><span class="NAME">bm</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 47</span> 							</span><span class="NAME">rng.select</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 48</span> 						</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 49</span> 						
+<span class='linenumber'> 50</span> 						</span><span class="COMM">// cancel?</span><span class="WHIT">
+<span class='linenumber'> 51</span> 						</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 52</span> 						
+<span class='linenumber'> 53</span> 						</span><span class="NAME">this.handleInsertIFrame</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 54</span> 					</span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="WHIT">
+<span class='linenumber'> 55</span> 			</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 56</span> 			
+<span class='linenumber'> 57</span> 			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">xq.Browser.isTrident</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">bm</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.rdom.rng</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getBookmark</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 58</span> 			</span><span class="NAME">dialog.show</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">position</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'centerOfEditor'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 59</span> 			
+<span class='linenumber'> 60</span> 			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 61</span> 		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 62</span> 	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 63</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+	<title>DOM Tree</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link type="text/css" rel="stylesheet" href="../JSSpec.css" />
+	<script type="text/javascript" src="../diff_match_patch.js"></script>
+	<script type="text/javascript" src="../JSSpec.js"></script>
+	<script type="text/javascript" src="../../javascripts/XQuared.js?load_others=1"></script>
+</head>
+<body>
+<div style='position:absolute; height:0; margin:0; padding:0; overflow:hidden;'>
+	<div id="editor"></div>
+</div>
+
+<script type="text/javascript" language="javascript">// <![CDATA[
+describe('getLeavesAtEdge', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+		tree = rdom.tree;
+		root = rdom.getRoot();
+	},
+	'should return null when there\'s no child': function() {
+		xq.$('editor').innerHTML = '';
+		var leaves = tree.getLeavesAtEdge(root);
+		value_of(leaves).should_be([null, null]);
+	},
+	'should return same block': function() {
+		xq.$('editor').innerHTML = '<p>A</p>';
+		var leaves = tree.getLeavesAtEdge(root);
+		value_of(leaves).should_be([root.firstChild, root.firstChild]);
+	},
+	'should deal with flat siblings': function() {
+		xq.$('editor').innerHTML = '<p>A</p><p>B</p><p>C</p>';
+		var leaves = tree.getLeavesAtEdge(root);
+		value_of(leaves).should_be([root.firstChild, root.lastChild]);
+	},
+	'should deal with unflat siblings (case 1)': function() {
+		xq.$('editor').innerHTML = '<p>A</p><div><p>B</p></div>';
+		var leaves = tree.getLeavesAtEdge(root);
+		value_of(leaves).should_be([root.firstChild, root.lastChild.lastChild]);
+	},
+	'should deal with unflat siblings (case 2)': function() {
+		xq.$('editor').innerHTML = '<div><p>A</p></div><p>B</p>';
+		var leaves = tree.getLeavesAtEdge(root);
+		value_of(leaves).should_be([root.firstChild.firstChild, root.lastChild]);
+	},
+	'should pass complex case': function() {
+		xq.$('editor').innerHTML = '<div><p>A</p><p>B</p><div><p>C</p><div><p>D</p></div></div></div>';
+		var leaves = tree.getLeavesAtEdge(root);
+		value_of(leaves).should_be([root.firstChild.firstChild, root.firstChild.lastChild.lastChild.lastChild]);
+	},
+	'case 1': function() {
+		xq.$('editor').innerHTML = '<div><div>A<br /></div><div>B</div></div>';
+		var leaves = tree.getLeavesAtEdge(root);
+		value_of(leaves[0].tagName).should_be('DIV');
+		value_of(leaves[1].tagName).should_be('DIV');
+	}
+});
+// ]]></script>
+</body>
+</html>

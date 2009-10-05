@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+	<title>Base</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link type="text/css" rel="stylesheet" href="../JSSpec.css" />
+	<script type="text/javascript" src="../diff_match_patch.js"></script>
+	<script type="text/javascript" src="../JSSpec.js"></script>
+	<script type="text/javascript" src="../../javascripts/XQuared.js?load_others=1"></script>
+</head>
+<body>
+<div style='height:0; margin:0; padding:0; overflow:hidden;'>
+	<div id="editor"></div>
+</div>
+
+<script type="text/javascript" language="javascript">// <![CDATA[
+describe("Validation callback",{
+	'before': function() {
+		var rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+		
+		call_log = [];
+	},
+	
+	'should be called by correct order': function() {
+		callbacks = {
+			onValidatorBeforeDomValidation: function(element) {
+				call_log.push('onValidatorBeforeDomValidation'); 
+			},
+			onValidatorAfterDomValidation: function(element) {
+				call_log.push('onValidatorAfterDomValidation'); 
+			},
+			onValidatorBeforeStringValidation: function(html) {
+				call_log.push('onValidatorBeforeStringValidation');
+			},
+			onValidatorAfterStringValidation: function(html) {
+				call_log.push('onValidatorAfterStringValidation'); 
+			}
+		};
+		
+		v = xq.validator.Base.createInstance(null, false, null);
+		v.addListener(callbacks);
+
+		v.validate(xq.$('editor'));
+		value_of(call_log).should_be([
+			'onValidatorBeforeDomValidation',
+			'onValidatorAfterDomValidation',
+			'onValidatorBeforeStringValidation',
+			'onValidatorAfterStringValidation'
+		]);
+	},
+	
+	'should be ignored when there\'s no specific callback function': function() {
+		callbacks = {
+			onValidatorBeforeDomValidation: function(element) {
+				call_log.push('onValidatorBeforeDomValidation'); 
+			},
+			onValidatorBeforeStringValidation: function(html) {
+				call_log.push('onValidatorBeforeStringValidation');
+				return html; 
+			},
+			onValidatorAfterStringValidation: function(html) {
+				call_log.push('onValidatorAfterStringValidation'); 
+				return html; 
+			}
+		};
+		
+		v = xq.validator.Base.createInstance(null, false, null);
+		v.addListener(callbacks);
+
+		v.validate(xq.$('editor'));
+		value_of(call_log).should_be([
+			'onValidatorBeforeDomValidation',
+			'onValidatorBeforeStringValidation',
+			'onValidatorAfterStringValidation'
+		]);
+	},
+	
+	'should be ignored when there\'s no callbacks at all': function() {
+		v = xq.validator.Base.createInstance(null, false);
+		v.validate(xq.$('editor'));
+		value_of(call_log).should_be([]);
+	}
+});
+
+describe("Invalidation callback",{
+	'before': function() {
+		var rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+		
+		call_log = [];
+	},
+	
+	'should be called by correct order': function() {
+		callbacks = {
+			onValidatorBeforeDomInvalidation: function(element) {
+				call_log.push('onValidatorBeforeDomInvalidation'); 
+			},
+			onValidatorAfterDomInvalidation: function(element) {
+				call_log.push('onValidatorAfterDomInvalidation'); 
+			},
+			onValidatorBeforeStringInvalidation: function(html) {
+				call_log.push('onValidatorBeforeStringInvalidation'); 
+			},
+			onValidatorAfterStringInvalidation: function(html) {
+				call_log.push('onValidatorAfterStringInvalidation'); 
+			}
+		};
+		
+		v = xq.validator.Base.createInstance(null, false, null);
+		v.addListener(callbacks);
+
+		v.invalidate(xq.$('editor'));
+		value_of(call_log).should_be([
+			'onValidatorBeforeDomInvalidation',
+			'onValidatorAfterDomInvalidation',
+			'onValidatorBeforeStringInvalidation',
+			'onValidatorAfterStringInvalidation'
+		]);
+	},
+	
+	'should be ignored when there\'s no specific callback function': function() {
+		callbacks = {
+			onValidatorBeforeDomInvalidation: function(element) {
+				call_log.push('onValidatorBeforeDomInvalidation'); 
+			},
+			onValidatorBeforeStringInvalidation: function(html) {
+				call_log.push('onValidatorBeforeStringInvalidation'); 
+			},
+			onValidatorAfterStringInvalidation: function(html) {
+				call_log.push('onValidatorAfterStringInvalidation'); 
+			}
+		};
+		
+		v = xq.validator.Base.createInstance(null, false, null, callbacks);
+		v.addListener(callbacks);
+
+		v.invalidate(xq.$('editor'));
+		value_of(call_log).should_be([
+			'onValidatorBeforeDomInvalidation',
+			'onValidatorBeforeStringInvalidation',
+			'onValidatorAfterStringInvalidation'
+		]);
+	},
+	
+	'should be ignored when there\'s no callbacks at all': function() {
+		v = xq.validator.Base.createInstance(null, false);
+		v.invalidate(xq.$('editor'));
+		value_of(call_log).should_be([]);
+	}
+});
+// ]]></script>
+</body>
+</html>

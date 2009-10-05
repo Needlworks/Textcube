@@ -1,0 +1,6535 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>JsDoc Reference - xq.rdom.Base</title>
+
+		<style type="text/css">
+			/* default.css */
+body
+{
+	font: 12px "Lucida Grande", Helvetica, sans-serif;
+	width: 800px;
+}
+
+.header
+{
+	clear: both;
+	background-color: #ccc;
+	padding: 8px;
+}
+
+h1
+{
+	font-size: 150%;
+	font-weight: bold;
+	padding: 0;
+	margin: 1em 0 0 .3em;
+}
+
+hr
+{
+	border: none 0;
+	border-top: 1px solid #7F8FB1;
+	height: 1px;
+}
+
+pre.code
+{
+	display: block;
+	padding: 8px;
+	border: 1px dashed #ccc;
+}
+
+#index
+{
+	margin-top: 24px;
+	float: left;
+	width: 200px;
+	position: absolute;
+	left: 8px;
+	background-color: #F3F3F3;
+	padding: 8px;
+}
+
+#content
+{
+	margin-left: 220px;
+	width: 750px;
+}
+
+.classList
+{
+	list-style-type: none;
+	padding: 0;
+	margin: 0 0 0 8px;
+	font-family: "Lucida Grande", Helvetica, sans-serif;
+	font-size: 1em;
+	overflow: auto;
+}
+
+.classList li
+{
+	padding: 0;
+	margin: 0 0 8px 0;
+}
+
+.summaryTable { width: 100%; }
+
+h1.classTitle
+{
+	font-size:170%;
+	line-height:130%;
+}
+
+h2 { font-size: 110%; }
+caption, div.sectionTitle
+{
+	background-color: #7F8FB1;
+	color: #fff;
+	font-size:130%;
+	text-align: left;
+	padding: 2px 6px 2px 6px;
+	border: 1px #7F8FB1 solid;
+}
+
+div.sectionTitle { margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+
+.summaryTable td
+{
+	vertical-align: top;
+	padding: 4px;
+	border-bottom: 1px #7F8FB1 solid;
+	border-right: 1px #7F8FB1 solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes
+{
+	border-left: 1px #7F8FB1 solid;
+	width: 140px;
+	text-align: right;
+}
+
+td.attributes, .fixedFont
+{
+	line-height: 15px;
+	color: #002EBE;
+	font-family: "Courier New",Courier,monospace;
+	font-size: 13px;
+}
+
+.summaryTable td.nameDescription
+{
+	text-align: left;
+	font-size: 13px;
+	line-height: 15px;
+}
+
+.summaryTable td.nameDescription, .description
+{
+	font: 13px "Lucida Grande", Helvetica, sans-serif;
+	line-height: 15px;
+	padding: 4px;
+	padding-left: 4px;
+}
+
+.summaryTable { margin-bottom: 8px; }
+
+ul.inheritsList
+{
+	list-style: square;
+	margin-left: 20px;
+	padding-left: 0;
+}
+
+.detailList {
+	margin-left: 20px; 
+	line-height: 15px;
+}
+.detailList dt { margin-left: 20px; }
+
+.detailList .heading
+{
+	font-weight: bold;
+	padding-bottom: 6px;
+	margin-left: 0;
+}
+
+.light, td.attributes, .light a:link, .light a:visited
+{
+	color: #777;
+	font-style: italic;
+}
+
+.fineprint
+{
+	text-align: right;
+	font-size: 10px;
+}
+		</style>
+	</head>
+
+	<body>
+<!-- ============================== header ================================= -->	
+		<!-- begin static/header.html -->
+		<div id="header">
+</div>
+		<!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+		<div id="index">
+			<!-- begin publish.classesIndex -->
+			<div align="center"><a href="../index.html">Class Index</a>
+| <a href="../files.html">File Index</a></div>
+<hr />
+<h2>Classes</h2>
+<ul class="classList">
+	
+	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
+	
+	<li><a href="../symbols/Array.html">Array</a></li>
+	
+	<li><a href="../symbols/Date.html">Date</a></li>
+	
+	<li><a href="../symbols/Function.html">Function</a></li>
+	
+	<li><a href="../symbols/String.html">String</a></li>
+	
+	<li><a href="../symbols/xq.html">xq</a></li>
+	
+	<li><a href="../symbols/xq.Browser.html">xq.Browser</a></li>
+	
+	<li><a href="../symbols/xq.Class.html">xq.Class</a></li>
+	
+	<li><a href="../symbols/xq.DomTree.html">xq.DomTree</a></li>
+	
+	<li><a href="../symbols/xq.EditHistory.html">xq.EditHistory</a></li>
+	
+	<li><a href="../symbols/xq.Editor.html">xq.Editor</a></li>
+	
+	<li><a href="../symbols/xq.Layer.html">xq.Layer</a></li>
+	
+	<li><a href="../symbols/xq.macro.html">xq.macro</a></li>
+	
+	<li><a href="../symbols/xq.macro.Base.html">xq.macro.Base</a></li>
+	
+	<li><a href="../symbols/xq.macro.Factory.html">xq.macro.Factory</a></li>
+	
+	<li><a href="../symbols/xq.macro.FlashMovieMacro.html">xq.macro.FlashMovieMacro</a></li>
+	
+	<li><a href="../symbols/xq.macro.IFrameMacro.html">xq.macro.IFrameMacro</a></li>
+	
+	<li><a href="../symbols/xq.macro.JavascriptMacro.html">xq.macro.JavascriptMacro</a></li>
+	
+	<li><a href="../symbols/xq.plugin.html">xq.plugin</a></li>
+	
+	<li><a href="../symbols/xq.plugin.Base.html">xq.plugin.Base</a></li>
+	
+	<li><a href="../symbols/xq.plugin.CustomStylePlugin.html">xq.plugin.CustomStylePlugin</a></li>
+	
+	<li><a href="../symbols/xq.plugin.EditorResizePlugin.html">xq.plugin.EditorResizePlugin</a></li>
+	
+	<li><a href="../symbols/xq.plugin.EventLogPlugin.html">xq.plugin.EventLogPlugin</a></li>
+	
+	<li><a href="../symbols/xq.plugin.ExtendColorPickerPlugin.html">xq.plugin.ExtendColorPickerPlugin</a></li>
+	
+	<li><a href="../symbols/xq.plugin.FileUploadPlugin.html">xq.plugin.FileUploadPlugin</a></li>
+	
+	<li><a href="../symbols/xq.plugin.FlashMovieMacroPlugin.html">xq.plugin.FlashMovieMacroPlugin</a></li>
+	
+	<li><a href="../symbols/xq.plugin.IFrameMacroPlugin.html">xq.plugin.IFrameMacroPlugin</a></li>
+	
+	<li><a href="../symbols/xq.plugin.JavascriptMacroPlugin.html">xq.plugin.JavascriptMacroPlugin</a></li>
+	
+	<li><a href="../symbols/xq.plugin.MacroPlugin.html">xq.plugin.MacroPlugin</a></li>
+	
+	<li><a href="../symbols/xq.plugin.SpringnotePlugin.html">xq.plugin.SpringnotePlugin</a></li>
+	
+	<li><a href="../symbols/xq.rdom.html">xq.rdom</a></li>
+	
+	<li><a href="../symbols/xq.rdom.Base.html">xq.rdom.Base</a></li>
+	
+	<li><a href="../symbols/xq.rdom.Gecko.html">xq.rdom.Gecko</a></li>
+	
+	<li><a href="../symbols/xq.rdom.Trident.html">xq.rdom.Trident</a></li>
+	
+	<li><a href="../symbols/xq.rdom.W3.html">xq.rdom.W3</a></li>
+	
+	<li><a href="../symbols/xq.rdom.Webkit.html">xq.rdom.Webkit</a></li>
+	
+	<li><a href="../symbols/xq.RichTable.html">xq.RichTable</a></li>
+	
+	<li><a href="../symbols/xq.Shortcut.html">xq.Shortcut</a></li>
+	
+	<li><a href="../symbols/xq.Timer.html">xq.Timer</a></li>
+	
+	<li><a href="../symbols/xq.ui.html">xq.ui</a></li>
+	
+	<li><a href="../symbols/xq.ui.FormDialog.html">xq.ui.FormDialog</a></li>
+	
+	<li><a href="../symbols/xq.ui.FormDialog.html">xq.ui.FormDialog</a></li>
+	
+	<li><a href="../symbols/xq.ui.QuickSearchDialog.html">xq.ui.QuickSearchDialog</a></li>
+	
+	<li><a href="../symbols/xq.ui.Toolbar.html">xq.ui.Toolbar</a></li>
+	
+	<li><a href="../symbols/xq.validator.html">xq.validator</a></li>
+	
+	<li><a href="../symbols/xq.validator.Base.html">xq.validator.Base</a></li>
+	
+	<li><a href="../symbols/xq.validator.Gecko.html">xq.validator.Gecko</a></li>
+	
+	<li><a href="../symbols/xq.validator.Trident.html">xq.validator.Trident</a></li>
+	
+	<li><a href="../symbols/xq.validator.W3.html">xq.validator.W3</a></li>
+	
+	<li><a href="../symbols/xq.validator.Webkit.html">xq.validator.Webkit</a></li>
+	
+</ul>
+<hr />
+			<!-- end publish.classesIndex -->
+		</div>
+		
+		<div id="content">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				Class xq.rdom.Base
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+			
+				
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/client_javascripts__rdom_Base.js.html">Base.js</a>.
+				
+			</p>
+
+<!-- ============================== constructor summary ==================== -->			
+			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class xq.rdom.Base.">
+				<caption>Constructor Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&nbsp;</td>
+						<td class="nameDescription">
+							<div class="fixedFont">
+							new <b><a href="../symbols/xq.rdom.Base.html#constructor">xq.rdom.Base</a></b>()
+							</div>
+							<div class="description">Encapsulates browser incompatibility problem and provides rich set of DOM manipulation API.</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+<!-- ============================== properties summary ===================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class xq.rdom.Base.">
+					<caption>Field Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Field Attributes</th>
+							<th scope="col">Field Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/xq.rdom.Base.html#tree">tree</a></b>
+								</div>
+								<div class="description">Instance of DomTree</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+
+<!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class xq.rdom.Base.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#$">$</a></b>(id)
+								</div>
+								<div class="description">Shortcut for #getElementById</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#applyBackgroundColor">applyBackgroundColor</a></b>(color)
+								</div>
+								<div class="description">Applies background color to selected area</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#applyEmphasis">applyEmphasis</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#applyFontFace">applyFontFace</a></b>(face)
+								</div>
+								<div class="description">Applies font face to selected area</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#applyFontSize">applyFontSize</a></b>(size)
+								</div>
+								<div class="description">Applies font size to selected area</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#applyForegroundColor">applyForegroundColor</a></b>(color)
+								</div>
+								<div class="description">Applies foreground color to selected area</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#applyList">applyList</a></b>(element, type, className)
+								</div>
+								<div class="description">Turn given element into list.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#applyLists">applyLists</a></b>(from, to, type, className)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#applyRemoveFormat">applyRemoveFormat</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#applyStrike">applyStrike</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#applyStrongEmphasis">applyStrongEmphasis</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#applySubscription">applySubscription</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#applySuperscription">applySuperscription</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#applyTagIntoElement">applyTagIntoElement</a></b>(tag, element, className)
+								</div>
+								<div class="description">Wrap or replace element with given tag name.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#applyTagIntoElements">applyTagIntoElements</a></b>(tag, from, to, className)
+								</div>
+								<div class="description">Wrap or replace elements with given tag name.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#applyUnderline">applyUnderline</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#changeListTypeTo">changeListTypeTo</a></b>(element, type, className)
+								</div>
+								<div class="description">Extract given list item out and change its container's tag</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#clearRoot">clearRoot</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#collapseSelection">collapseSelection</a></b>(toStart)
+								</div>
+								<div class="description">Collapses current selection.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#collectStructureAndStyle">collectStructureAndStyle</a></b>(element)
+								</div>
+								<div class="description">Collect structure and style informations of given element.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#copyAttributes">copyAttributes</a></b>(from, to, copyId)
+								</div>
+								<div class="description">Copies attributes from one element into another.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#correctEmptyElement">correctEmptyElement</a></b>(element)
+								</div>
+								<div class="description">Insert place-holder for given empty element.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#correctParagraph">correctParagraph</a></b>()
+								</div>
+								<div class="description">Corrects current block-only-container to do not take any non-block element or node.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#createElement">createElement</a></b>(tagName)
+								</div>
+								<div class="description">Creates empty element by given tag name.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#createElementFromHtml">createElementFromHtml</a></b>(html)
+								</div>
+								<div class="description">Creates element from HTML string</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">xq.rdom.Base.<b><a href="../symbols/xq.rdom.Base.html#.createInstance">createInstance</a></b>()
+								</div>
+								<div class="description">Creates and returns instance of browser specific implementation.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#createMarker">createMarker</a></b>()
+								</div>
+								<div class="description">Create marker</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#createTextNode">createTextNode</a></b>(value)
+								</div>
+								<div class="description">Creates textnode by given node value.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#deleteNode">deleteNode</a></b>(node, deleteEmptyParentsRecursively, correctEmptyParent)
+								</div>
+								<div class="description">Deletes node from DOM tree.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#deleteSelection">deleteSelection</a></b>()
+								</div>
+								<div class="description">Delete selected area</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#execCommand">execCommand</a></b>(commandId, param)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#extractOutElementFromParent">extractOutElementFromParent</a></b>(element)
+								</div>
+								<div class="description">Extracts given element out from its parent element.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#focus">focus</a></b>()
+								</div>
+								<div class="description">Gives focus to root element's window</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getBlockElementAtSelectionEnd">getBlockElementAtSelectionEnd</a></b>()
+								</div>
+								<div class="description">Returns block element that contains selection end.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getBlockElementAtSelectionStart">getBlockElementAtSelectionStart</a></b>()
+								</div>
+								<div class="description">Returns block element that contains selection start.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getBlockElementsAtSelectionEdge">getBlockElementsAtSelectionEdge</a></b>(naturalOrder, ignoreEmptyEdges)
+								</div>
+								<div class="description">Returns blocks at each edge of selection(start and end).</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getBlockElementsBetween">getBlockElementsBetween</a></b>(from, to)
+								</div>
+								<div class="description">Collects all block elements between two elements</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getBottommostFirstChild">getBottommostFirstChild</a></b>(node)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getBottommostLastChild">getBottommostLastChild</a></b>(node)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getCurrentBlockElement">getCurrentBlockElement</a></b>()
+								</div>
+								<div class="description">Returns block element that contains caret.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getCurrentElement">getCurrentElement</a></b>()
+								</div>
+								<div class="description">Returns element that contains caret.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getDoc">getDoc</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getElementById">getElementById</a></b>(id)
+								</div>
+								<div class="description">Get element by ID</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getFirstChild">getFirstChild</a></b>(element)
+								</div>
+								<div class="description">Returns first "valid" child of given element.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getInnerText">getInnerText</a></b>(element)
+								</div>
+								<div class="description">Returns inner text of given element</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getLastChild">getLastChild</a></b>(element, includePlaceHolder)
+								</div>
+								<div class="description">Returns last "valid" child of given element.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getNextSibling">getNextSibling</a></b>(node)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getOuterHTML">getOuterHTML</a></b>(element)
+								</div>
+								<div class="description">Returns outer HTML of given element</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getParentBlockElementOf">getParentBlockElementOf</a></b>(element)
+								</div>
+								<div class="description">Returns parent block element of parameter.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getParentElementOf">getParentElementOf</a></b>(element, tagNames)
+								</div>
+								<div class="description">Returns parent element of parameter which has one of given tag name.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getRoot">getRoot</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getSelectedBlockElements">getSelectedBlockElements</a></b>()
+								</div>
+								<div class="description">Returns array of selected block elements</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getSelectionAsHtml">getSelectionAsHtml</a></b>()
+								</div>
+								<div class="description">Returns selected area as HTML string</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getSelectionAsText">getSelectionAsText</a></b>()
+								</div>
+								<div class="description">Returns selected area as text string</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#getWin">getWin</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#hasFocus">hasFocus</a></b>()
+								</div>
+								<div class="description">Returns true if root element's window has selection</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#hasImportantAttributes">hasImportantAttributes</a></b>(element)
+								</div>
+								<div class="description">Checks if the element has one or more important attributes: id, class, style</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#hasSelection">hasSelection</a></b>()
+								</div>
+								<div class="description">Returns true if DOM has selection</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#indentBlock">indentBlock</a></b>(element, treatListAsNormalBlock)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#indentElement">indentElement</a></b>(element, noParent, forceMargin)
+								</div>
+								<div class="description">Performs indent by increasing element's margin-left</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#indentElements">indentElements</a></b>(from, to)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#indentListItem">indentListItem</a></b>(element, treatListAsNormalBlock)
+								</div>
+								<div class="description">Performs indent for list item</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#insertHtml">insertHtml</a></b>(html)
+								</div>
+								<div class="description">Inserts given html into current caret position</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#insertHtmlAt">insertHtmlAt</a></b>(html, target, where)
+								</div>
+								<div class="description">Creates element from given HTML string and places given it nearby target.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#insertNewBlockAround">insertNewBlockAround</a></b>(block, before, forceTag)
+								</div>
+								<div class="description">Insert new block above or below given element.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#insertNode">insertNode</a></b>(node)
+								</div>
+								<div class="description">Inserts given node into current caret position</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#insertNodeAt">insertNodeAt</a></b>(node, target, where, performValidation)
+								</div>
+								<div class="description">Places given node nearby target.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#insertText">insertText</a></b>(text)
+								</div>
+								<div class="description">Creates textnode from given text and inserts it into current caret position</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#insertTextAt">insertTextAt</a></b>(text, target, where)
+								</div>
+								<div class="description">Creates textnode from given text and places given node nearby target.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#isCaretAtBlockEnd">isCaretAtBlockEnd</a></b>()
+								</div>
+								<div class="description">Checks if the caret is place at end of the block</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#isCaretAtBlockStart">isCaretAtBlockStart</a></b>()
+								</div>
+								<div class="description">Checks if the caret is place at start of the block</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#isCaretAtEmptyBlock">isCaretAtEmptyBlock</a></b>()
+								</div>
+								<div class="description">Checks if the caret is place in empty block element</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#isEmptyBlock">isEmptyBlock</a></b>(element)
+								</div>
+								<div class="description">Checks if the element is empty or not.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#isEmptyTextNode">isEmptyTextNode</a></b>(node)
+								</div>
+								<div class="description">Checks if the node is empty-text-node or not</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#isFirstBlockOfBody">isFirstBlockOfBody</a></b>(block)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#isFirstLiWithNestedList">isFirstLiWithNestedList</a></b>(block)
+								</div>
+								<div class="description">Checks if given block is the first LI whose next sibling is a nested list.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#isMarker">isMarker</a></b>(node)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#isPlaceHolder">isPlaceHolder</a></b>(node)
+								</div>
+								<div class="description">Checks if given node is place holder or not.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#justifyBlock">justifyBlock</a></b>(block, dir)
+								</div>
+								<div class="description">Performs justification</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#justifyBlocks">justifyBlocks</a></b>(blocks, dir)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#makeEmptyParagraph">makeEmptyParagraph</a></b>()
+								</div>
+								<div class="description">Makes empty paragraph which contains only one place-holder</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#makePlaceHolder">makePlaceHolder</a></b>()
+								</div>
+								<div class="description">Makes place-holder for empty element.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#makePlaceHolderString">makePlaceHolderString</a></b>()
+								</div>
+								<div class="description">Makes place-holder string.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#mergeAdjustLists">mergeAdjustLists</a></b>(container, force, dir)
+								</div>
+								<div class="description">Merges adjust list containers which has same tag name</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#mergeElement">mergeElement</a></b>(element, withNext, skip)
+								</div>
+								<div class="description">Merges two adjust elements</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#moveBlock">moveBlock</a></b>(block, up)
+								</div>
+								<div class="description">Moves block up or down</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#moveChildNodes">moveChildNodes</a></b>(from, to)
+								</div>
+								<div class="description">Moves child nodes from one element into another.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#outdentBlock">outdentBlock</a></b>(element, treatListAsNormalBlock)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#outdentElement">outdentElement</a></b>(element, noParent, forceMargin)
+								</div>
+								<div class="description">Performs outdent by decreasing element's margin-left</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#outdentElements">outdentElements</a></b>(from, to)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#outdentElementsCode">outdentElementsCode</a></b>(node)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#outdentListItem">outdentListItem</a></b>(element, treatListAsNormalBlock)
+								</div>
+								<div class="description">Performs outdent for list item</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#placeCaretAtStartOf">placeCaretAtStartOf</a></b>(element)
+								</div>
+								<div class="description">Places caret at start of the element</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#popMarker">popMarker</a></b>(moveCaret)
+								</div>
+								<div class="description">Removes last marker</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#pushMarker">pushMarker</a></b>()
+								</div>
+								<div class="description">Create and insert marker into current caret position.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#removeBlock">removeBlock</a></b>(block)
+								</div>
+								<div class="description">Remove given block</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#removePlaceHoldersAndEmptyNodes">removePlaceHoldersAndEmptyNodes</a></b>(element)
+								</div>
+								<div class="description">Removes place holders and empty text nodes of given element.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#removeTrailingWhitespace">removeTrailingWhitespace</a></b>(block)
+								</div>
+								<div class="description">Removes trailing whitespaces of given block</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#replaceTag">replaceTag</a></b>(tag, element)
+								</div>
+								<div class="description">Replaces element's tag by removing current element and creating new element by given tag name.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#restoreSelection">restoreSelection</a></b>(bookmark)
+								</div>
+								<div class="description">Restores current selection info</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#rng">rng</a></b>()
+								</div>
+								<div class="description">Returns range object</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#saveSelection">saveSelection</a></b>()
+								</div>
+								<div class="description">Saves current selection info</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#scrollIntoView">scrollIntoView</a></b>(element, toTop, moveCaret)
+								</div>
+								<div class="description">Adjust scrollbar to make the element visible in current viewport.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#searchAnchors">searchAnchors</a></b>(element, found)
+								</div>
+								<div class="description">Search all links within given element</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#searchHeadings">searchHeadings</a></b>(element, found)
+								</div>
+								<div class="description">Search all headings within given element</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#sel">sel</a></b>()
+								</div>
+								<div class="description">Returns selection object</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#selectAll">selectAll</a></b>()
+								</div>
+								<div class="description">Select all document</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#selectBlocksBetween">selectBlocksBetween</a></b>(start, end)
+								</div>
+								<div class="description">Select all elements between two blocks(inclusive).</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#selectElement">selectElement</a></b>(element, entireElement)
+								</div>
+								<div class="description">Select specified element.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#setAttributes">setAttributes</a></b>(element, map)
+								</div>
+								<div class="description">Sets multiple attributes into element at once</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#setRoot">setRoot</a></b>(root)
+								</div>
+								<div class="description">Initialize Base instance using root element.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#setWin">setWin</a></b>(win)
+								</div>
+								<div class="description">Initialize Base instance using window object.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#smartWrap">smartWrap</a></b>(endElement, tag, function, testOnly)
+								</div>
+								<div class="description">Create inline element with given tag name and wraps nodes nearby endElement by given criteria</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#splitContainerOf">splitContainerOf</a></b>(element, preserveElementItself, dir)
+								</div>
+								<div class="description">Split container of element into (maxium) three pieces.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#splitElementUpto">splitElementUpto</a></b>(seperator, element, excludeElement)
+								</div>
+								<div class="description">TODO: Add specs</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#splitParentElement">splitParentElement</a></b>(seperator)
+								</div>
+								<div class="description">TODO: Add specs</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#testSmartWrap">testSmartWrap</a></b>(endElement, criteria)
+								</div>
+								<div class="description">Tests #smartWrap with given criteria but doesn't change anything</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#turnElementIntoListItem">turnElementIntoListItem</a></b>(element, type, className)
+								</div>
+								<div class="description">Turns block element into list item</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#unwrapElement">unwrapElement</a></b>(element, wrapInlineAndTextNodes)
+								</div>
+								<div class="description">Unwraps element by extracting all children out and removing the element.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#unwrapUnnecessaryParagraph">unwrapUnnecessaryParagraph</a></b>(element)
+								</div>
+								<div class="description">Unwraps unnecessary paragraph.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#wrapAllInlineOrTextNodesAs">wrapAllInlineOrTextNodesAs</a></b>(tag, element, force)
+								</div>
+								<div class="description">Wraps all adjust inline elements and text nodes into block element.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#wrapBlock">wrapBlock</a></b>(tag, start, end)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#wrapElement">wrapElement</a></b>(tag, element)
+								</div>
+								<div class="description">Wraps element by given tag</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/xq.rdom.Base.html#wrapInlineOrTextNodesAs">wrapInlineOrTextNodesAs</a></b>(tag, node)
+								</div>
+								<div class="description">Wraps node and its adjust next siblings into an element</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="details"><a name="constructor"> </a>
+				<div class="sectionTitle">
+					Constructor Detail
+				</div>
+				
+				<div class="fixedFont">
+					new <b>xq.rdom.Base</b>()
+				</div>
+				
+				<div class="description">
+					Encapsulates browser incompatibility problem and provides rich set of DOM manipulation API.<br />
+<br />
+Base provides basic CRUD + Advanced DOM manipulation API, various query methods and caret/selection management API.
+					
+				</div>
+				
+				
+				
+				
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+					<a name="tree"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/xq.DomTree.html#constructor">xq.DomTree</a>}</span>
+					<b>tree</b>
+					
+					</div>
+					<div class="description">
+						Instance of DomTree
+						
+						
+					</div>
+					
+					
+				
+					
+						
+						
+						
+						
+
+					
+				
+			
+
+<!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name="$"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>$</b>(id)
+					
+					</div>
+					<div class="description">
+						Shortcut for #getElementById
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>id</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="applyBackgroundColor"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>applyBackgroundColor</b>(color)
+					
+					</div>
+					<div class="description">
+						Applies background color to selected area
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>color</b>
+									
+								</dt>
+								<dd>valid CSS color value</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="applyEmphasis"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>applyEmphasis</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="applyFontFace"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>applyFontFace</b>(face)
+					
+					</div>
+					<div class="description">
+						Applies font face to selected area
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>face</b>
+									
+								</dt>
+								<dd>font face</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="applyFontSize"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>applyFontSize</b>(size)
+					
+					</div>
+					<div class="description">
+						Applies font size to selected area
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>size</b>
+									
+								</dt>
+								<dd>font size (px)</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="applyForegroundColor"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>applyForegroundColor</b>(color)
+					
+					</div>
+					<div class="description">
+						Applies foreground color to selected area
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>color</b>
+									
+								</dt>
+								<dd>valid CSS color value</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="applyList"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>applyList</b>(element, type, className)
+					
+					</div>
+					<div class="description">
+						Turn given element into list. If the element is a list already, it will be reversed into normal element.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>target element</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>type</b>
+									
+								</dt>
+								<dd>one of "UL", "OL"</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>className</b>
+									
+								</dt>
+								<dd>CSS className</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> affected element</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="applyLists"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>applyLists</b>(from, to, type, className)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>from</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>to</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>type</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>className</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="applyRemoveFormat"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>applyRemoveFormat</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="applyStrike"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>applyStrike</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="applyStrongEmphasis"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>applyStrongEmphasis</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="applySubscription"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>applySubscription</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="applySuperscription"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>applySuperscription</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="applyTagIntoElement"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>applyTagIntoElement</b>(tag, element, className)
+					
+					</div>
+					<div class="description">
+						Wrap or replace element with given tag name.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>tag</b>
+									<i>Optional, Default: </i>
+								</dt>
+								<dd>Tag name. If not provided, it does not modify tag name.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>Target element</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>className</b>
+									<i>Optional, Default: </i>
+								</dt>
+								<dd>Class name of tag. If not provided, it does not modify current class name, and if empty string is provided, class attribute will be removed.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> wrapper element or replaced element.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="applyTagIntoElements"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Array.html#constructor">Array</a>}</span>
+					<b>applyTagIntoElements</b>(tag, from, to, className)
+					
+					</div>
+					<div class="description">
+						Wrap or replace elements with given tag name.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>tag</b>
+									<i>Optional, Default: </i>
+								</dt>
+								<dd>Tag name. If not provided, it does not modify tag name.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>from</b>
+									
+								</dt>
+								<dd>Start boundary (inclusive)</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>to</b>
+									
+								</dt>
+								<dd>End boundary (inclusive)</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>className</b>
+									<i>Optional, Default: </i>
+								</dt>
+								<dd>Class name of tag. If not provided, it does not modify current class name, and if empty string is provided, class attribute will be removed.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/Array.html#constructor">Array</a>}</span> Array of wrappers or replaced elements</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="applyUnderline"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>applyUnderline</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="changeListTypeTo"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>changeListTypeTo</b>(element, type, className)
+					
+					</div>
+					<div class="description">
+						Extract given list item out and change its container's tag
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>LI or P which is a child of LI</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>type</b>
+									
+								</dt>
+								<dd>"OL", "UL"</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>className</b>
+									
+								</dt>
+								<dd>CSS class name</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> changed element</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="clearRoot"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>clearRoot</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="collapseSelection"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>collapseSelection</b>(toStart)
+					
+					</div>
+					<div class="description">
+						Collapses current selection.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>toStart</b>
+									
+								</dt>
+								<dd>true to move caret to start of selected area.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="collectStructureAndStyle"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Object}</span>
+					<b>collectStructureAndStyle</b>(element)
+					
+					</div>
+					<div class="description">
+						Collect structure and style informations of given element.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>target element</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> object that contains information: {em: true, strong: false, block: "p", list: "ol", ...}</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="copyAttributes"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>copyAttributes</b>(from, to, copyId)
+					
+					</div>
+					<div class="description">
+						Copies attributes from one element into another.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>from</b>
+									
+								</dt>
+								<dd>source element</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>to</b>
+									
+								</dt>
+								<dd>target element</dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>copyId</b>
+									
+								</dt>
+								<dd>copy ID attribute of source element</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="correctEmptyElement"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>correctEmptyElement</b>(element)
+					
+					</div>
+					<div class="description">
+						Insert place-holder for given empty element. Empty element does not displayed and causes many editing problems.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>empty element</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="correctParagraph"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>correctParagraph</b>()
+					
+					</div>
+					<div class="description">
+						Corrects current block-only-container to do not take any non-block element or node.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="createElement"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>createElement</b>(tagName)
+					
+					</div>
+					<div class="description">
+						Creates empty element by given tag name.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>tagName</b>
+									
+								</dt>
+								<dd>name of tag</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> Created element</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="createElementFromHtml"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>createElementFromHtml</b>(html)
+					
+					</div>
+					<div class="description">
+						Creates element from HTML string
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>html</b>
+									
+								</dt>
+								<dd>HTML string</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> Created element</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".createInstance"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">xq.rdom.Base.</span><b>createInstance</b>()
+					
+					</div>
+					<div class="description">
+						Creates and returns instance of browser specific implementation.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/client_javascripts__rdom_Factory.js.html">Factory.js</a>.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Requires:</dt>
+							
+								<dd>XQuared.js</dd>
+							
+								<dd>rdom/Base.js</dd>
+							
+								<dd>rdom/Trident.js</dd>
+							
+								<dd>rdom/Gecko.js</dd>
+							
+								<dd>rdom/Webkit.js</dd>
+							
+							</dl>
+						
+						
+
+					<hr />
+				
+					<a name="createMarker"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>createMarker</b>()
+					
+					</div>
+					<div class="description">
+						Create marker
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="createTextNode"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Node}</span>
+					<b>createTextNode</b>(value)
+					
+					</div>
+					<div class="description">
+						Creates textnode by given node value.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>value</b>
+									
+								</dt>
+								<dd>value of textnode</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Node}</span> Created text node</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="deleteNode"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>deleteNode</b>(node, deleteEmptyParentsRecursively, correctEmptyParent)
+					
+					</div>
+					<div class="description">
+						Deletes node from DOM tree.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Node}</span> <b>node</b>
+									
+								</dt>
+								<dd>Target node which should be deleted</dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>deleteEmptyParentsRecursively</b>
+									
+								</dt>
+								<dd>Recursively delete empty parent elements</dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>correctEmptyParent</b>
+									
+								</dt>
+								<dd>Call #correctEmptyElement on empty parent element after deletion</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="deleteSelection"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>deleteSelection</b>()
+					
+					</div>
+					<div class="description">
+						Delete selected area
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="execCommand"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>execCommand</b>(commandId, param)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>commandId</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>param</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="extractOutElementFromParent"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>extractOutElementFromParent</b>(element)
+					
+					</div>
+					<div class="description">
+						Extracts given element out from its parent element.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>Target element</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="focus"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>focus</b>()
+					
+					</div>
+					<div class="description">
+						Gives focus to root element's window
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getBlockElementAtSelectionEnd"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getBlockElementAtSelectionEnd</b>()
+					
+					</div>
+					<div class="description">
+						Returns block element that contains selection end.
+
+This method will return exactly same result with getCurrentBlockElement method
+when there's no selection.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getBlockElementAtSelectionStart"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getBlockElementAtSelectionStart</b>()
+					
+					</div>
+					<div class="description">
+						Returns block element that contains selection start.
+
+This method will return exactly same result with getCurrentBlockElement method
+when there's no selection.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getBlockElementsAtSelectionEdge"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getBlockElementsAtSelectionEdge</b>(naturalOrder, ignoreEmptyEdges)
+					
+					</div>
+					<div class="description">
+						Returns blocks at each edge of selection(start and end).
+
+TODO: implement ignoreEmptyEdges for FF
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>naturalOrder</b>
+									
+								</dt>
+								<dd>Mak the start element always comes before the end element</dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>ignoreEmptyEdges</b>
+									
+								</dt>
+								<dd>Prevent some browser(Gecko) from selecting one more block than expected</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getBlockElementsBetween"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getBlockElementsBetween</b>(from, to)
+					
+					</div>
+					<div class="description">
+						Collects all block elements between two elements
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>from</b>
+									
+								</dt>
+								<dd>Start element(inclusive)</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>to</b>
+									
+								</dt>
+								<dd>End element(inclusive)</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getBottommostFirstChild"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getBottommostFirstChild</b>(node)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>node</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getBottommostLastChild"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getBottommostLastChild</b>(node)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>node</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getCurrentBlockElement"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getCurrentBlockElement</b>()
+					
+					</div>
+					<div class="description">
+						Returns block element that contains caret. Trident overrides this method.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getCurrentElement"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getCurrentElement</b>()
+					
+					</div>
+					<div class="description">
+						Returns element that contains caret.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getDoc"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getDoc</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>Document object of root element.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getElementById"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>getElementById</b>(id)
+					
+					</div>
+					<div class="description">
+						Get element by ID
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>id</b>
+									
+								</dt>
+								<dd>Element's ID</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> element or null</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getFirstChild"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Node}</span>
+					<b>getFirstChild</b>(element)
+					
+					</div>
+					<div class="description">
+						Returns first "valid" child of given element. It ignores empty textnodes.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>Target element</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Node}</span> first child node or null</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getInnerText"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/String.html#constructor">String</a>}</span>
+					<b>getInnerText</b>(element)
+					
+					</div>
+					<div class="description">
+						Returns inner text of given element
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>Target element</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> Text string</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getLastChild"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Node}</span>
+					<b>getLastChild</b>(element, includePlaceHolder)
+					
+					</div>
+					<div class="description">
+						Returns last "valid" child of given element. It ignores empty textnodes and place-holders.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>Target element</dd>
+							
+								<dt>
+									<b>includePlaceHolder</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Node}</span> last child node or null</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getNextSibling"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getNextSibling</b>(node)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>node</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getOuterHTML"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getOuterHTML</b>(element)
+					
+					</div>
+					<div class="description">
+						Returns outer HTML of given element
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>element</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getParentBlockElementOf"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>getParentBlockElementOf</b>(element)
+					
+					</div>
+					<div class="description">
+						Returns parent block element of parameter.
+If the parameter itself is a block, it will be returned.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>Target element</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> Element or null</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getParentElementOf"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>getParentElementOf</b>(element, tagNames)
+					
+					</div>
+					<div class="description">
+						Returns parent element of parameter which has one of given tag name.
+If the parameter itself has the same tag name, it will be returned.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>Target element</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Array.html#constructor">Array</a>}</span> <b>tagNames</b>
+									
+								</dt>
+								<dd>Array of string which contains tag names</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> Element or null</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getRoot"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getRoot</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>Root element.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getSelectedBlockElements"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getSelectedBlockElements</b>()
+					
+					</div>
+					<div class="description">
+						Returns array of selected block elements
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getSelectionAsHtml"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getSelectionAsHtml</b>()
+					
+					</div>
+					<div class="description">
+						Returns selected area as HTML string
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getSelectionAsText"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getSelectionAsText</b>()
+					
+					</div>
+					<div class="description">
+						Returns selected area as text string
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getWin"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getWin</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>Browser's window object.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="hasFocus"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>hasFocus</b>()
+					
+					</div>
+					<div class="description">
+						Returns true if root element's window has selection
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="hasImportantAttributes"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>hasImportantAttributes</b>(element)
+					
+					</div>
+					<div class="description">
+						Checks if the element has one or more important attributes: id, class, style
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>Target element</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="hasSelection"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>hasSelection</b>()
+					
+					</div>
+					<div class="description">
+						Returns true if DOM has selection
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="indentBlock"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>indentBlock</b>(element, treatListAsNormalBlock)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>element</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>treatListAsNormalBlock</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="indentElement"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>indentElement</b>(element, noParent, forceMargin)
+					
+					</div>
+					<div class="description">
+						Performs indent by increasing element's margin-left
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>element</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>noParent</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>forceMargin</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="indentElements"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>indentElements</b>(from, to)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>from</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>to</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="indentListItem"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>indentListItem</b>(element, treatListAsNormalBlock)
+					
+					</div>
+					<div class="description">
+						Performs indent for list item
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>element</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>treatListAsNormalBlock</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="insertHtml"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Node}</span>
+					<b>insertHtml</b>(html)
+					
+					</div>
+					<div class="description">
+						Inserts given html into current caret position
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>html</b>
+									
+								</dt>
+								<dd>HTML string</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Node}</span> Inserted node. It could be different with given node.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="insertHtmlAt"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Node}</span>
+					<b>insertHtmlAt</b>(html, target, where)
+					
+					</div>
+					<div class="description">
+						Creates element from given HTML string and places given it nearby target.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>html</b>
+									
+								</dt>
+								<dd>HTML to be inserted.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Node}</span> <b>target</b>
+									
+								</dt>
+								<dd>Target node.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>where</b>
+									
+								</dt>
+								<dd>Possible values: "before", "start", "end", "after"</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Node}</span> Inserted node.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="insertNewBlockAround"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>insertNewBlockAround</b>(block, before, forceTag)
+					
+					</div>
+					<div class="description">
+						Insert new block above or below given element.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>block</b>
+									
+								</dt>
+								<dd>Target block</dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>before</b>
+									
+								</dt>
+								<dd>Insert new block above(before) target block</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>forceTag</b>
+									
+								</dt>
+								<dd>New block's tag name. If omitted, target block's tag name will be used.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> Inserted block</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="insertNode"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Node}</span>
+					<b>insertNode</b>(node)
+					
+					</div>
+					<div class="description">
+						Inserts given node into current caret position
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Node}</span> <b>node</b>
+									
+								</dt>
+								<dd>Target node</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Node}</span> Inserted node. It could be different with given node.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="insertNodeAt"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Node}</span>
+					<b>insertNodeAt</b>(node, target, where, performValidation)
+					
+					</div>
+					<div class="description">
+						Places given node nearby target.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Node}</span> <b>node</b>
+									
+								</dt>
+								<dd>Node to be inserted.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Node}</span> <b>target</b>
+									
+								</dt>
+								<dd>Target node.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>where</b>
+									
+								</dt>
+								<dd>Possible values: "before", "start", "end", "after"</dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>performValidation</b>
+									
+								</dt>
+								<dd>Validate node if needed. For example when P placed into UL, its tag name automatically replaced with LI</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Node}</span> Inserted node. It could be different with given node.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="insertText"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Node}</span>
+					<b>insertText</b>(text)
+					
+					</div>
+					<div class="description">
+						Creates textnode from given text and inserts it into current caret position
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>text</b>
+									
+								</dt>
+								<dd>Value of textnode</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Node}</span> Inserted node</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="insertTextAt"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Node}</span>
+					<b>insertTextAt</b>(text, target, where)
+					
+					</div>
+					<div class="description">
+						Creates textnode from given text and places given node nearby target.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>text</b>
+									
+								</dt>
+								<dd>Text to be inserted.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Node}</span> <b>target</b>
+									
+								</dt>
+								<dd>Target node.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>where</b>
+									
+								</dt>
+								<dd>Possible values: "before", "start", "end", "after"</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Node}</span> Inserted node.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="isCaretAtBlockEnd"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>isCaretAtBlockEnd</b>()
+					
+					</div>
+					<div class="description">
+						Checks if the caret is place at end of the block
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="isCaretAtBlockStart"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>isCaretAtBlockStart</b>()
+					
+					</div>
+					<div class="description">
+						Checks if the caret is place at start of the block
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="isCaretAtEmptyBlock"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>isCaretAtEmptyBlock</b>()
+					
+					</div>
+					<div class="description">
+						Checks if the caret is place in empty block element
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="isEmptyBlock"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>isEmptyBlock</b>(element)
+					
+					</div>
+					<div class="description">
+						Checks if the element is empty or not. Place-holder is not counted as a child.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>Target element</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="isEmptyTextNode"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>isEmptyTextNode</b>(node)
+					
+					</div>
+					<div class="description">
+						Checks if the node is empty-text-node or not
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>node</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="isFirstBlockOfBody"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>isFirstBlockOfBody</b>(block)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>block</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="isFirstLiWithNestedList"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>isFirstLiWithNestedList</b>(block)
+					
+					</div>
+					<div class="description">
+						Checks if given block is the first LI whose next sibling is a nested list.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>block</b>
+									
+								</dt>
+								<dd>Target block</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="isMarker"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>isMarker</b>(node)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>node</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="isPlaceHolder"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>isPlaceHolder</b>(node)
+					
+					</div>
+					<div class="description">
+						Checks if given node is place holder or not.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Node}</span> <b>node</b>
+									
+								</dt>
+								<dd>DOM node</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="justifyBlock"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>justifyBlock</b>(block, dir)
+					
+					</div>
+					<div class="description">
+						Performs justification
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>block</b>
+									
+								</dt>
+								<dd>target element</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>dir</b>
+									
+								</dt>
+								<dd>one of "LEFT", "CENTER", "RIGHT", "BOTH"</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="justifyBlocks"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>justifyBlocks</b>(blocks, dir)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>blocks</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>dir</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="makeEmptyParagraph"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>makeEmptyParagraph</b>()
+					
+					</div>
+					<div class="description">
+						Makes empty paragraph which contains only one place-holder
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="makePlaceHolder"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Node}</span>
+					<b>makePlaceHolder</b>()
+					
+					</div>
+					<div class="description">
+						Makes place-holder for empty element.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Node}</span> Platform specific place holder</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="makePlaceHolderString"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/String.html#constructor">String</a>}</span>
+					<b>makePlaceHolderString</b>()
+					
+					</div>
+					<div class="description">
+						Makes place-holder string.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> Platform specific place holder string</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="mergeAdjustLists"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>mergeAdjustLists</b>(container, force, dir)
+					
+					</div>
+					<div class="description">
+						Merges adjust list containers which has same tag name
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>container</b>
+									
+								</dt>
+								<dd>target list container</dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>force</b>
+									
+								</dt>
+								<dd>force adjust list container even if they have different list type</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>dir</b>
+									
+								</dt>
+								<dd>Specify merge direction: PREV or NEXT. If not supplied it will be merged with both direction.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="mergeElement"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>mergeElement</b>(element, withNext, skip)
+					
+					</div>
+					<div class="description">
+						Merges two adjust elements
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>base element</dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>withNext</b>
+									
+								</dt>
+								<dd>merge base element with next sibling</dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>skip</b>
+									
+								</dt>
+								<dd>skip merge steps</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="moveBlock"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>moveBlock</b>(block, up)
+					
+					</div>
+					<div class="description">
+						Moves block up or down
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>block</b>
+									
+								</dt>
+								<dd>Target block</dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>up</b>
+									
+								</dt>
+								<dd>Move up if true</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> Moved block. It could be different with given block.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="moveChildNodes"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>moveChildNodes</b>(from, to)
+					
+					</div>
+					<div class="description">
+						Moves child nodes from one element into another.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Elemet}</span> <b>from</b>
+									
+								</dt>
+								<dd>source element</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Elemet}</span> <b>to</b>
+									
+								</dt>
+								<dd>target element</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="outdentBlock"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>outdentBlock</b>(element, treatListAsNormalBlock)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>element</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>treatListAsNormalBlock</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="outdentElement"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>outdentElement</b>(element, noParent, forceMargin)
+					
+					</div>
+					<div class="description">
+						Performs outdent by decreasing element's margin-left
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>element</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>noParent</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>forceMargin</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="outdentElements"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>outdentElements</b>(from, to)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>from</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>to</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="outdentElementsCode"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>outdentElementsCode</b>(node)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>node</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="outdentListItem"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>outdentListItem</b>(element, treatListAsNormalBlock)
+					
+					</div>
+					<div class="description">
+						Performs outdent for list item
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>element</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>treatListAsNormalBlock</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> outdented list item or null if no outdent performed</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="placeCaretAtStartOf"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>placeCaretAtStartOf</b>(element)
+					
+					</div>
+					<div class="description">
+						Places caret at start of the element
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>Target element</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="popMarker"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>popMarker</b>(moveCaret)
+					
+					</div>
+					<div class="description">
+						Removes last marker
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>moveCaret</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="pushMarker"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>pushMarker</b>()
+					
+					</div>
+					<div class="description">
+						Create and insert marker into current caret position.
+Marker is an inline element which has no child nodes. It can be used with many purposes.
+For example, You can push marker to mark current caret position.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> marker</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="removeBlock"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>removeBlock</b>(block)
+					
+					</div>
+					<div class="description">
+						Remove given block
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>block</b>
+									
+								</dt>
+								<dd>Target block</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> Nearest block of remove element</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="removePlaceHoldersAndEmptyNodes"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>removePlaceHoldersAndEmptyNodes</b>(element)
+					
+					</div>
+					<div class="description">
+						Removes place holders and empty text nodes of given element.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>target element</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="removeTrailingWhitespace"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>removeTrailingWhitespace</b>(block)
+					
+					</div>
+					<div class="description">
+						Removes trailing whitespaces of given block
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>block</b>
+									
+								</dt>
+								<dd>Target block</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="replaceTag"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>replaceTag</b>(tag, element)
+					
+					</div>
+					<div class="description">
+						Replaces element's tag by removing current element and creating new element by given tag name.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>tag</b>
+									
+								</dt>
+								<dd>New tag name</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>Target element</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> Replaced element</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="restoreSelection"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>restoreSelection</b>(bookmark)
+					
+					</div>
+					<div class="description">
+						Restores current selection info
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>bookmark</b>
+									
+								</dt>
+								<dd>Bookmark</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="rng"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>rng</b>()
+					
+					</div>
+					<div class="description">
+						Returns range object
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="saveSelection"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Object}</span>
+					<b>saveSelection</b>()
+					
+					</div>
+					<div class="description">
+						Saves current selection info
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> Bookmark for selection</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="scrollIntoView"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>scrollIntoView</b>(element, toTop, moveCaret)
+					
+					</div>
+					<div class="description">
+						Adjust scrollbar to make the element visible in current viewport.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>Target element</dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>toTop</b>
+									
+								</dt>
+								<dd>Align element to top of the viewport</dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>moveCaret</b>
+									
+								</dt>
+								<dd>Move caret to the element</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="searchAnchors"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Array.html#constructor">Array</a>}</span>
+					<b>searchAnchors</b>(element, found)
+					
+					</div>
+					<div class="description">
+						Search all links within given element
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									<i>Optional, Default: </i>
+								</dt>
+								<dd>Container element. If not given, the root element will be used.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Array.html#constructor">Array</a>}</span> <b>found</b>
+									<i>Optional, Default: </i>
+								</dt>
+								<dd>if passed, links will be appended into this array.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/Array.html#constructor">Array</a>}</span> Array of anchors. It returns empty array if there's no links.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="searchHeadings"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Array.html#constructor">Array</a>}</span>
+					<b>searchHeadings</b>(element, found)
+					
+					</div>
+					<div class="description">
+						Search all headings within given element
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									<i>Optional, Default: </i>
+								</dt>
+								<dd>Container element. If not given, the root element will be used.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Array.html#constructor">Array</a>}</span> <b>found</b>
+									<i>Optional, Default: </i>
+								</dt>
+								<dd>if passed, headings will be appended into this array.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/Array.html#constructor">Array</a>}</span> Array of headings. It returns empty array if there's no headings.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="sel"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>sel</b>()
+					
+					</div>
+					<div class="description">
+						Returns selection object
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="selectAll"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>selectAll</b>()
+					
+					</div>
+					<div class="description">
+						Select all document
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="selectBlocksBetween"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>selectBlocksBetween</b>(start, end)
+					
+					</div>
+					<div class="description">
+						Select all elements between two blocks(inclusive).
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>start</b>
+									
+								</dt>
+								<dd>start of selection</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>end</b>
+									
+								</dt>
+								<dd>end of selection</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="selectElement"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>selectElement</b>(element, entireElement)
+					
+					</div>
+					<div class="description">
+						Select specified element.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>element to select</dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>entireElement</b>
+									
+								</dt>
+								<dd>true to select entire element, false to select inner content of element</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setAttributes"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setAttributes</b>(element, map)
+					
+					</div>
+					<div class="description">
+						Sets multiple attributes into element at once
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>target element</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>map</b>
+									
+								</dt>
+								<dd>key-value pairs</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setRoot"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setRoot</b>(root)
+					
+					</div>
+					<div class="description">
+						Initialize Base instance using root element.
+Reads window and document from root element and sets them as a property.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>root</b>
+									
+								</dt>
+								<dd>Root element</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setWin"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setWin</b>(win)
+					
+					</div>
+					<div class="description">
+						Initialize Base instance using window object.
+Reads document and body from window object and sets them as a property
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Window}</span> <b>win</b>
+									
+								</dt>
+								<dd>Browser's window object</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="smartWrap"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>smartWrap</b>(endElement, tag, function, testOnly)
+					
+					</div>
+					<div class="description">
+						Create inline element with given tag name and wraps nodes nearby endElement by given criteria
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>endElement</b>
+									
+								</dt>
+								<dd>Boundary(end point, exclusive) of wrapper.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>tag</b>
+									
+								</dt>
+								<dd>Tag name of wrapper.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>function</b>
+									
+								</dt>
+								<dd>which returns text index of start boundary.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>testOnly</b>
+									
+								</dt>
+								<dd>just test boundary and do not perform actual wrapping.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> wrapper</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="splitContainerOf"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>splitContainerOf</b>(element, preserveElementItself, dir)
+					
+					</div>
+					<div class="description">
+						Split container of element into (maxium) three pieces.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>element</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>preserveElementItself</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>dir</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="splitElementUpto"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>splitElementUpto</b>(seperator, element, excludeElement)
+					
+					</div>
+					<div class="description">
+						TODO: Add specs
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>seperator</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>element</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>excludeElement</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="splitParentElement"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>splitParentElement</b>(seperator)
+					
+					</div>
+					<div class="description">
+						TODO: Add specs
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>seperator</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="testSmartWrap"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>testSmartWrap</b>(endElement, criteria)
+					
+					</div>
+					<div class="description">
+						Tests #smartWrap with given criteria but doesn't change anything
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>endElement</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>criteria</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="turnElementIntoListItem"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>turnElementIntoListItem</b>(element, type, className)
+					
+					</div>
+					<div class="description">
+						Turns block element into list item
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>Target element</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>type</b>
+									
+								</dt>
+								<dd>One of "UL", "OL".</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>className</b>
+									
+								</dt>
+								<dd>CSS class name.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> LI element</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="unwrapElement"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Node}</span>
+					<b>unwrapElement</b>(element, wrapInlineAndTextNodes)
+					
+					</div>
+					<div class="description">
+						Unwraps element by extracting all children out and removing the element.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>Target element</dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>wrapInlineAndTextNodes</b>
+									
+								</dt>
+								<dd>Wrap all inline and text nodes with P before unwrap</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Node}</span> First child of unwrapped element</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="unwrapUnnecessaryParagraph"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{boolean}</span>
+					<b>unwrapUnnecessaryParagraph</b>(element)
+					
+					</div>
+					<div class="description">
+						Unwraps unnecessary paragraph.
+
+Unnecessary paragraph is P which is the only child of given container element.
+For example, P which is contained by LI and is the only child is the unnecessary paragraph.
+But if given container element is a block-only-container(BLOCKQUOTE, BODY), this method does nothing.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>Container element</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{boolean}</span> True if unwrap performed.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="wrapAllInlineOrTextNodesAs"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/Array.html#constructor">Array</a>}</span>
+					<b>wrapAllInlineOrTextNodesAs</b>(tag, element, force)
+					
+					</div>
+					<div class="description">
+						Wraps all adjust inline elements and text nodes into block element.
+
+TODO: empty element should return empty array when it is not forced and (at least) single item array when forced
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>tag</b>
+									
+								</dt>
+								<dd>Tag name of wrapper</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>Target element</dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>force</b>
+									
+								</dt>
+								<dd>Force wrapping. If it is set to false, this method do not makes unnecessary wrapper.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/Array.html#constructor">Array</a>}</span> Array of wrappers. If nothing performed it returns empty array</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="wrapBlock"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>wrapBlock</b>(tag, start, end)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>tag</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>start</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>end</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="wrapElement"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Element}</span>
+					<b>wrapElement</b>(tag, element)
+					
+					</div>
+					<div class="description">
+						Wraps element by given tag
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/String.html#constructor">String</a>}</span> <b>tag</b>
+									
+								</dt>
+								<dd>tag name</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>target element to wrap</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> wrapper</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="wrapInlineOrTextNodesAs"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>wrapInlineOrTextNodesAs</b>(tag, node)
+					
+					</div>
+					<div class="description">
+						Wraps node and its adjust next siblings into an element
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>tag</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>node</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					
+				
+			
+			
+			<hr />
+		</div>
+		
+<!-- ============================== footer ================================= -->
+		<div class="fineprint" style="clear:both">
+			
+			Documentation generated by <a href="http://www.jsdoctoolkit.org/" target="_blank">JsDoc Toolkit</a> 2.0.preview_4 on Tue May 12 2009 10:42:37 GMT+0900 (KST)
+		</div>
+	</body>
+</html>

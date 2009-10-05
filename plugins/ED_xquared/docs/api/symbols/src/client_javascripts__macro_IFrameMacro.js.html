@@ -1,0 +1,43 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.linenumber {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='linenumber'>  1</span> <span class="COMM">/**
+<span class='linenumber'>  2</span>  * @requires macro/Base.js
+<span class='linenumber'>  3</span>  */</span><span class="WHIT">
+<span class='linenumber'>  4</span> </span><span class="NAME">xq.macro.IFrameMacro</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">xq.Class</span><span class="PUNC">(</span><span class="NAME">xq.macro.Base</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>  5</span> 	</span><span class="COMM">/**
+<span class='linenumber'>  6</span> 	 * IFrame macro
+<span class='linenumber'>  7</span> 	 * 
+<span class='linenumber'>  8</span> 	 * @name xq.macro.IFrameMacro
+<span class='linenumber'>  9</span> 	 * @lends xq.macro.IFrameMacro.prototype
+<span class='linenumber'> 10</span> 	 * @extends xq.macro.Base
+<span class='linenumber'> 11</span> 	 * @constructor
+<span class='linenumber'> 12</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 13</span> 	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 14</span> 	</span><span class="NAME">initFromHtml</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 15</span> 		</span><span class="NAME">this.params.html</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.html</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 16</span> 	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 17</span> 	</span><span class="NAME">initFromParams</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 18</span> 		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.params.html</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 19</span> 		
+<span class='linenumber'> 20</span> 		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">sb</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 21</span> 		</span><span class="NAME">sb.push</span><span class="PUNC">(</span><span class="STRN">'&lt;iframe'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 22</span> 		</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">attrName</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.params</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 23</span> 			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">attrValue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.params</span><span class="PUNC">[</span><span class="NAME">attrName</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 24</span> 			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">attrValue</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">sb.push</span><span class="PUNC">(</span><span class="STRN">' '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">attrName.substring</span><span class="PUNC">(</span><span class="STRN">"p_"</span><span class="PUNC">.</span><span class="NAME">length</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'="'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">attrValue</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'"'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 25</span> 		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 26</span> 		</span><span class="NAME">sb.push</span><span class="PUNC">(</span><span class="STRN">'>&lt;/iframe>'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 27</span> 		</span><span class="NAME">this.params</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">html</span><span class="PUNC">:</span><span class="NAME">sb.join</span><span class="PUNC">(</span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 28</span> 	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 29</span> 	</span><span class="NAME">createHtml</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 30</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.params.html</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 31</span> 	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 32</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 33</span> </span><span class="NAME">xq.macro.IFrameMacro.recognize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">html</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 34</span> 	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">p</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">xq.compilePattern</span><span class="PUNC">(</span><span class="STRN">"&lt;IFRAME\\s+[^>]+(?:/>|>.*?&lt;/(?:IFRAME)>)"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"img"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 35</span> 	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="PUNC">!</span><span class="NAME">html.match</span><span class="PUNC">(</span><span class="NAME">p</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 36</span> </span><span class="PUNC">}</span></pre></body></html>

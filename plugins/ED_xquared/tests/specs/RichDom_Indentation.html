@@ -1,0 +1,1065 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+	<title>Indentation</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link type="text/css" rel="stylesheet" href="../JSSpec.css" />
+	<script type="text/javascript" src="../diff_match_patch.js"></script>
+	<script type="text/javascript" src="../JSSpec.js"></script>
+	<script type="text/javascript" src="../../javascripts/XQuared.js?load_others=1"></script>
+</head>
+<body>
+<div style='position:absolute; height:0; margin:0; padding:0; overflow:hidden;'>
+	<div id="editor"></div>
+</div>
+
+<script type="text/javascript" language="javascript">// <![CDATA[
+describe('indentListItem', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+		
+		// * A
+		// * B
+		//   * C
+		//   * D
+		//   * E
+		// * F
+		xq.$('editor').innerHTML = '<ul><li>A</li><li><p>B</p><ul><li>C</li><li>D</li><li>E</li></ul></li><li>F</li></ul>';
+		ul = rdom.getRoot().firstChild;
+	},
+	'complex case 1': function() {
+		xq.$('editor').innerHTML = '<ul><li><p>A</p><ul><li><p>B</p><ul><li>C</li></ul></li><li>D</li></ul></li><li>E</li></ul>';
+		ul = rdom.getRoot().firstChild;
+		
+		var target = ul.firstChild.lastChild.firstChild.firstChild;
+		var affected = rdom.indentListItem(target);
+		
+		//value_of(affected).should_be(ul);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li><p>A</p><ul style="margin-left: 2em;"><li><p>B</p><ul><li>C</li></ul></li><li>D</li></ul></li><li>E</li></ul>');
+	},
+	'should indent container when it is a first child (case 1)': function() {
+		var target = ul.childNodes[0].firstChild;
+		var affected = rdom.indentListItem(target);
+		
+		// * A <- margin-left
+		// * B
+		//   * C
+		//   * D
+		//   * E
+		// * F
+		value_of(affected).should_be(ul);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul style="margin-left: 2em;"><li>A</li><li><p>B</p><ul><li>C</li><li>D</li><li>E</li></ul></li><li>F</li></ul>');
+	},
+	'should indent container when it is a first child (case 2)': function() {
+		xq.$('editor').innerHTML = '<ul><li><p>A</p><ul><li>B</li></ul></li></ul>';
+		ul = rdom.getRoot().firstChild;
+		
+		var target = ul.firstChild.firstChild;
+		var affected = rdom.indentElement(target);
+		
+		//_ * (A)
+		//   * B
+		value_of(affected).should_be(ul);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul style="margin-left: 2em;"><li><p>A</p><ul><li>B</li></ul></li></ul>');
+	},
+	'should indent item when it is not a first child (case 1)': function() {
+		var target = ul.childNodes[1].firstChild;
+		var affected = rdom.indentListItem(target);
+		
+		// * A
+		//   * B <-
+		//   * C
+		//   * D
+		//   * E
+		// * F
+		value_of(affected).should_be(ul.firstChild.lastChild.firstChild);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li><p>A</p><ul><li>B</li><li>C</li><li>D</li><li>E</li></ul></li><li>F</li></ul>');
+	},
+	'should indent item when it is not a first child (case 2)': function() {
+		var target = ul.childNodes[1].lastChild.childNodes[1].firstChild;
+		var affected = rdom.indentListItem(target);
+		
+		// * A
+		// * B
+		//   * C
+		//     * D <-
+		//   * E
+		// * F
+		value_of(affected).should_be(target.parentNode);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li><p>B</p><ul><li><p>C</p><ul><li>D</li></ul></li><li>E</li></ul></li><li>F</li></ul>');
+	},
+	'should indent item when it is not a first child (case 3)': function() {
+		var target = ul.childNodes[1].lastChild.childNodes[2].firstChild;
+		var affected = rdom.indentListItem(target);
+		
+		// * A
+		// * B
+		//   * C
+		//   * D
+		//     * E <-
+		// * F
+		value_of(affected).should_be(target.parentNode);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li><p>B</p><ul><li>C</li><li><p>D</p><ul><li>E</li></ul></li></ul></li><li>F</li></ul>');
+	},
+	'should indent item when it is not a first child (case 4)': function() {
+		var target = ul.childNodes[2].firstChild;
+		var affected = rdom.indentListItem(target);
+		
+		// * A
+		// * B
+		//   * C
+		//   * D
+		//   * E
+		//   * F <-
+		value_of(affected).should_be(target.parentNode);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li><p>B</p><ul><li>C</li><li>D</li><li>E</li><li>F</li></ul></li></ul>');
+	}
+})
+
+describe('outdentListItem', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+
+		// * A
+		// * B
+		//     * C
+		//     * D
+		//     * E
+		// * F
+		xq.$('editor').innerHTML = '<ul><li>A</li><li><p>B</p><ul style="margin-left: 2em;"><li>C</li><li>D</li><li>E</li></ul></li><li>F</li></ul>';
+		ul = rdom.getRoot().firstChild;
+	},
+	'should outdent container when container has margin-left and it\'s a first child': function() {
+		var target = ul.childNodes[1].lastChild.childNodes[0].firstChild;
+		var affected = rdom.outdentListItem(target);
+		
+		// * A
+		// * B
+		//     * C <- (remove margin-left)
+		//     * D
+		//     * E
+		// * F
+		value_of(affected).should_be(target.parentNode.parentNode);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li><p>B</p><ul><li>C</li><li>D</li><li>E</li></ul></li><li>F</li></ul>');
+	},
+	'should not change anything when it\'s not a nested list item and has no margin': function() {
+		var target = ul.childNodes[0].firstChild;
+		
+		var affected = rdom.outdentListItem(target);
+		
+		// * A <-
+		// * B
+		//   * C
+		//   * D
+		//   * E
+		// * F
+		value_of(affected).should_be_null();
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li><p>B</p><ul style="margin-left: 2em;"><li>C</li><li>D</li><li>E</li></ul></li><li>F</li></ul>');
+	},
+	'should outdent nested item (case 1)': function() {
+		var target = ul.childNodes[1].lastChild.childNodes[0].firstChild;
+		
+		// first, remove margin-left of ul
+		rdom.outdentListItem(target);
+		
+		var affected = rdom.outdentListItem(target);
+		
+		// * A
+		// * B
+		// * C <-
+		//   * D
+		//   * E
+		// * F
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li>B</li><li><p>C</p><ul><li>D</li><li>E</li></ul></li><li>F</li></ul>');
+	},
+	'should outdent nested item (case 2)': function() {
+		var target = ul.childNodes[1].lastChild.childNodes[1].firstChild;
+		var affected = rdom.outdentListItem(target);
+		
+		// * A
+		// * B
+		//     * C
+		// * D <-
+		//     * E
+		// * F
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li><p>B</p><ul style="margin-left: 2em;"><li>C</li></ul></li><li><p>D</p><ul style="margin-left: 2em;"><li>E</li></ul></li><li>F</li></ul>');
+	},
+	'should outdent nested item (case 3)': function() {
+		var target = ul.childNodes[1].lastChild.childNodes[2].firstChild;
+		var affected = rdom.outdentListItem(target);
+		
+		// * A
+		// * B
+		//     * C
+		//     * D
+		// * E <-
+		// * F
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li><p>B</p><ul style="margin-left: 2em;"><li>C</li><li>D</li></ul></li><li>E</li><li>F</li></ul>');
+	}
+})
+
+describe('outdentListItem for complex cases', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'case 1': function() {
+		// * A
+		//   * B <-
+		//     * C
+		//     * D
+		xq.$('editor').innerHTML = '<ul><li><p>A</p><ul><li><p>B</p><ul><li>C</li></ul></li><li>D</li></ul></li></ul>';
+		var ul = rdom.getRoot().firstChild;
+
+		var target = ul.childNodes[0].lastChild.childNodes[0].firstChild;
+		var affected = rdom.outdentListItem(target);
+		
+		// * A
+		// * B <-
+		//   * C
+		//   * D
+		value_of(affected).should_be(target.parentNode);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li><p>B</p><ul><li>C</li><li>D</li></ul></li></ul>');
+	},
+	'case 2': function() {
+		// * A
+		//   * B <-
+		xq.$('editor').innerHTML = '<ul><li><p>A</p><ul><li>B</li></ul></li></ul>';
+		var ul = rdom.getRoot().firstChild;
+
+		var target = ul.childNodes[0].lastChild.childNodes[0];
+		var affected = rdom.outdentListItem(target);
+		
+		// * A
+		// * B <-
+		value_of(affected).should_be(target);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li>B</li></ul>');
+	}
+});
+
+describe('indentElement', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should indent itself when it\'s not a first child': function() {
+		xq.$('editor').innerHTML = '<div><p>A</p><p id="target">B</p></div>';
+		var target = rdom.$('target');
+		var affected = rdom.indentElement(target);
+		
+		value_of(affected).should_be(target);
+		value_of(target.style.marginLeft).should_be('2em');
+	},
+	'should indent container when it\'s a first child': function() {
+		xq.$('editor').innerHTML = '<div><p id="target">A</p><p>B</p></div>';
+		var target = rdom.$('target');
+		var affected = rdom.indentElement(target);
+		
+		value_of(affected).should_be(target.parentNode);
+		value_of(target.parentNode.style.marginLeft).should_be('2em');
+	},
+	'should not indent root': function() {
+		xq.$('editor').innerHTML = '<p id="target">A</p>';
+		var target = rdom.$('target');
+		var affected = rdom.indentElement(target);
+		
+		value_of(affected).should_be(target);
+		value_of(affected.style.marginLeft).should_be('2em');
+		value_of(rdom.getRoot().style.marginLeft).should_be('');
+	},
+	'should increase margin when applied twice': function() {
+		xq.$('editor').innerHTML = '<div><p>A</p><p id="target">B</p></div>';
+		var target = rdom.$('target');
+		rdom.indentElement(target);
+		rdom.indentElement(target);
+		
+		value_of(target.style.marginLeft).should_be('4em');
+	},
+	'should follow existing unit of margin': function() {
+		xq.$('editor').innerHTML = '<div><p>A</p><p id="target" style="margin-left: 2px;">B</p></div>';
+		var target = rdom.$('target');
+		rdom.indentElement(target);
+		
+		value_of(target.style.marginLeft).should_be('4px');
+	},
+	'should return null when no element has been affected': function() {
+		var target= rdom.getRoot();
+		var affected = rdom.indentElement(target);
+		
+		value_of(affected).should_be_null();
+	},
+	'xxxx': function() {
+		xq.$('editor').innerHTML = '<ul><li><div id="target">B</div></li></ul>';
+		var target = rdom.$('target');
+		rdom.indentElement(target);
+		
+		value_of(rdom.getRoot().innerHTML.normalizeHtml()).should_be('<ul style="margin-left: 2em;"><li><div id="target">B</div></li></ul>');
+	}
+})
+
+describe('outdentElement', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should return null when nothing happened': function() {
+		xq.$('editor').innerHTML = '<div id="target">A</div>';
+		var target = rdom.$('target');
+		var affected = rdom.outdentElement(target);
+		
+		value_of(affected).should_be_null();
+	},
+	'should outdent itself when it\'s not a first child': function() {
+		xq.$('editor').innerHTML = '<div><p>A</p><p id="target" style="margin-left:4em">B</p></div>';
+		var target = rdom.$('target');
+		var affected = rdom.outdentElement(target);
+		
+		value_of(affected).should_be(target);
+		value_of(target.style.marginLeft).should_be('2em');
+	},
+	'should outdent container when it\'s a first child': function() {
+		xq.$('editor').innerHTML = '<div><p id="target" style="margin-left:4em">A</p><p>B</p></div>';
+		var target = rdom.$('target');
+		var affected = rdom.outdentElement(target);
+		
+		value_of(affected).should_be(target);
+		value_of(target.style.marginLeft).should_be('2em');
+	},
+	'should not outdent root': function() {
+		xq.$('editor').innerHTML = '<p id="target" style="margin-left:4em">A</p>';
+		var target = rdom.$('target');
+		var affected = rdom.outdentElement(target);
+		
+		value_of(affected).should_be(target);
+		value_of(affected.style.marginLeft).should_be('2em');
+		value_of(rdom.getRoot().style.marginLeft).should_be('');
+	},
+	'should decrease margin when applied twice': function() {
+		xq.$('editor').innerHTML = '<div><p>A</p><p id="target" style="margin-left:8em">B</p></div>';
+		var target = rdom.$('target');
+		rdom.outdentElement(target);
+		rdom.outdentElement(target);
+		
+		value_of(target.style.marginLeft).should_be('4em');
+	},
+	'should follow existing unit of margin': function() {
+		xq.$('editor').innerHTML = '<div><p>A</p><p id="target" style="margin-left: 6px;">B</p></div>';
+		var target = rdom.$('target');
+		rdom.outdentElement(target);
+		
+		value_of(target.style.marginLeft).should_be('4px');
+	},
+	'should outdent parent when it\'s a first child': function() {
+		xq.$('editor').innerHTML = '<div style="margin-left:4em"><p id="target">A</p><p>B</p></div>';
+		var target = rdom.$('target');
+		var affected = rdom.outdentElement(target);
+		
+		value_of(target.style.marginLeft).should_be('');
+		value_of(affected).should_be(target.parentNode);
+		value_of(affected.style.marginLeft).should_be('2em');
+	},
+	'should not outdent parent when it\'s not a first child': function() {
+		xq.$('editor').innerHTML = '<div style="margin-left:4em"><p>A</p><p id="target">B</p></div>';
+		var target = rdom.$('target');
+		var affected = rdom.outdentElement(target);
+		
+		value_of(target.style.marginLeft).should_be('');
+		value_of(target.parentNode.style.marginLeft).should_be('4em');
+	},
+	'should remove margin when it\'s value becomes 0': function() {
+		xq.$('editor').innerHTML = '<p id="target" style="margin-left:2em">A</p>';
+		var target = rdom.$('target');
+		var affected = rdom.outdentElement(target);
+		
+		value_of(target.style.marginLeft).should_be('');
+	},
+	'should not allow negative margin': function() {
+		xq.$('editor').innerHTML = '<p id="target" style="margin-left:1em">A</p>';
+		var target = rdom.$('target');
+		var affected = rdom.outdentElement(target);
+		
+		value_of(target.style.marginLeft).should_be('');
+	},
+	'should return null when no element has been affected': function() {
+		xq.$('editor').innerHTML = '<p id="target">A</p>';
+		var target = rdom.$('target');
+		var affected = rdom.outdentElement(target);
+		value_of(affected).should_be_null();
+	}
+})
+
+describe('ident with selection', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should indent siblings': function() {
+		// (A)(B)(C)
+		xq.$('editor').innerHTML = '<p id="from">A</p><p>B</p><p id="to">C</p>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.indentElements(from, to);
+		value_of(affected).should_have(3, 'items');
+		// (_A)(_B)(_C)
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="from" style="margin-left: 2em;">A</p><p style="margin-left: 2em;">B</p><p id="to" style="margin-left: 2em;">C</p>');
+	},
+	'should indent nested blocks (case 1)': function() {
+		// [(A)(B)(c)]
+		xq.$('editor').innerHTML = '<div><p id="from">A</p><p id="to">B</p><p>C</p></div>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.indentElements(from, to);
+		//value_of(affected).should_have(1, 'items');
+		
+		// [_(A)(B)(c)]
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div style="margin-left: 2em;"><p id="from">A</p><p id="to">B</p><p>C</p></div>');
+	},
+	'should indent nested blocks (case 2)': function() {
+		// [(a)(B)(C)]
+		xq.$('editor').innerHTML = '<div><p>A</p><p id="from">B</p><p id="to">C</p></div>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.indentElements(from, to);
+		value_of(affected).should_have(2, 'items');
+		
+		// [(a)(_B)(_C)]
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><p>A</p><p id="from" style="margin-left: 2em;">B</p><p id="to" style="margin-left: 2em;">C</p></div>');
+	},
+	'should indent container when selection covers whole children': function() {
+		// [(A)(B)(C)]
+		xq.$('editor').innerHTML = '<div><p id="from">A</p><p>B</p><p id="to">C</p></div>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.indentElements(from, to);
+		value_of(affected).should_have(1, 'items');
+		// [_(A)(B)(C)]
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div style="margin-left: 2em;"><p id="from">A</p><p>B</p><p id="to">C</p></div>');
+	},
+	'should indent container when selection covers whole children (case 1)': function() {
+		// (A)[(B)(C)](D)
+		xq.$('editor').innerHTML = '<p id="from">A</p><div><p>B</p><p>C</p></div><p id="to">D</p>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.indentElements(from, to);
+		value_of(affected).should_have(3, 'items');
+		// (_A)[_(B)(C)](_D)
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="from" style="margin-left: 2em;">A</p><div style="margin-left: 2em;"><p>B</p><p>C</p></div><p id="to" style="margin-left: 2em;">D</p>');
+	},
+	'should indent container when selection covers whole children (case 2)': function() {
+		// [(A)(B)][(C)(D)]
+		xq.$('editor').innerHTML = '<div><p id="from">A</p><p>B</p></div><div><p>C</p><p id="to">D</p></div>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.indentElements(from, to);
+		//value_of(affected).should_have(2, 'items');
+		// [_(A)(B)][_(C)(D)]
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div style="margin-left: 2em;"><p id="from">A</p><p>B</p></div><div style="margin-left: 2em;"><p>C</p><p id="to">D</p></div>');
+	},
+	'should indent container when selection covers whole children (case 3)': function() {
+		// [(A)[(B)]]
+		xq.$('editor').innerHTML = '<div><p id="from">A</p><div><p id="to">B</p></div></div>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.indentElements(from, to);
+		value_of(affected).should_have(1, 'items');
+		// [_(A)[(B)]]
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div style="margin-left: 2em;"><p id="from">A</p><div><p id="to">B</p></div></div>');
+	},
+	'should not indent container when selection doesn\'t cover whole children (case 1)': function() {
+		// (A)[(B)(c)](d)
+		xq.$('editor').innerHTML = '<p id="from">A</p><div><p id="to">B</p><p>C</p></div><p>D</p>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.indentElements(from, to);
+		value_of(affected).should_have(2, 'items');
+		// (_A)[_(B)(c)](d)
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="from" style="margin-left: 2em;">A</p><div style="margin-left: 2em;"><p id="to">B</p><p>C</p></div><p>D</p>');
+	},
+	'should not indent container when selection doesn\'t cover whole children (case 2)': function() {
+		// (a)[(b)(C)](D)
+		xq.$('editor').innerHTML = '<p>A</p><div><p>B</p><p id="from">C</p></div><p id="to">D</p>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.indentElements(from, to);
+		value_of(affected).should_have(2, 'items');
+		// (a)[(b)(_C)](_D)
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p><div><p>B</p><p id="from" style="margin-left: 2em;">C</p></div><p id="to" style="margin-left: 2em;">D</p>');
+	},
+	'should not indent container when selection doesn\'t cover whole children (case 3)': function() {
+		// [[(A)(B)]]
+		xq.$('editor').innerHTML = '<div><div><p id="from">A</p><p id="to">B</p></div></div>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.indentElements(from, to);
+		value_of(affected).should_have(1, 'items');
+		// [_[(A)(B)]]
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div style="margin-left: 2em;"><div><p id="from">A</p><p id="to">B</p></div></div>');
+	}
+});
+
+describe('indent list with selection', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should indent list (case 1)': function() {
+		// * A
+		// * B
+		xq.$('editor').innerHTML = '<ul><li id="from">A</li><li id="to">B</li></ul>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.indentElements(from, to);
+		value_of(affected).should_have(1, 'items');
+		value_of(affected).should_be([rdom.getRoot().firstChild]);
+		// _
+		//   * A
+		//   * B
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul style="margin-left: 2em;"><li id="from">A</li><li id="to">B</li></ul>');
+	},
+	'should indent list (case 2)': function() {
+		// * a
+		// * B
+		// * C
+		xq.$('editor').innerHTML = '<ul><li>A</li><li id="from">B</li><li id="to">C</li></ul>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.indentElements(from, to);
+		value_of(affected).should_have(2, 'items');
+		// * A
+		//  * B
+		//  * C
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li><p>A</p><ul><li id="from">B</li><li id="to">C</li></ul></li></ul>');
+	},
+	'should indent list (case 3)': function() {
+		// * A
+		// * B
+		// * c
+		xq.$('editor').innerHTML = '<ul><li id="from">A</li><li id="to">B</li><li>C</li></ul>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.indentElements(from, to);
+		// _* A
+		//  * B
+		//  * C
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul style="margin-left: 2em;"><li id="from">A</li><li id="to">B</li><li>C</li></ul>');
+		value_of(affected).should_have(1, 'items');
+	},
+	'should indent list (case 4)': function() {
+		// (A)
+		// * B
+		// (C)
+		xq.$('editor').innerHTML = '<p id="from">A</p><ul><li>B</li></ul><p id="to">C</p>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.indentElements(from, to);
+		//value_of(affected).should_have(2, 'items');
+		// (_A)
+		// *_ B
+		// (_C)
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="from" style="margin-left: 2em;">A</p><ul style="margin-left: 2em;"><li>B</li></ul><p id="to" style="margin-left: 2em;">C</p>');
+	},
+	'should indent list (case 5)': function() {
+		// (A)
+		// * B
+		//  * C
+		xq.$('editor').innerHTML = '<p id="from">A</p><ul><li>B</li><li id="to">C</li></ul>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.indentElements(from, to);
+		//value_of(affected).should_have(2, 'items');
+		// (_A)
+		// _* B
+		//   * C
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="from" style="margin-left: 2em;">A</p><ul style="margin-left: 2em;"><li>B</li><li id="to">C</li></ul>');
+	},
+	'should indent list (case 6)': function() {
+		// * a
+		// * B
+		// (C)
+		xq.$('editor').innerHTML = '<ul><li>A</li><li id="from">B</li></ul><p id="to">C</p>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.indentElements(from, to);
+		//value_of(affected).should_have(2, 'items');
+		// * a
+		//  * B
+		// (_C)
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li><p>A</p><ul><li id="from">B</li></ul></li></ul><p id="to" style="margin-left: 2em;">C</p>');
+	},
+	'should indent list (case 7)': function() {
+		// * a
+		//  * B
+		//   * C
+		//  * D
+		// *e
+		xq.$('editor').innerHTML = '<ul><li><p>A</p><ul><li><p id="from">B</p><ul><li>C</li></ul></li><li id="to">D</li></ul></li><li>E</li></ul>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.indentElements(from, to);
+		//value_of(affected).should_have(2, 'items');
+		// * a
+		//  _* B
+		//    * C
+		//   * D
+		// *e
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li><p>A</p><ul style="margin-left: 2em;"><li><p id="from">B</p><ul><li>C</li></ul></li><li id="to">D</li></ul></li><li>E</li></ul>');
+	},
+	'should indent list (case 8)': function() {
+		// * a
+		//  * B
+		//   * C
+		//  * d
+		// *e
+		xq.$('editor').innerHTML = '<ul><li><p>A</p><ul><li><p id="from">B</p><ul><li id="to">C</li></ul></li><li>D</li></ul></li><li>E</li></ul>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.indentElements(from, to);
+		//value_of(affected).should_have(2, 'items');
+		// * a
+		//  _* B
+		//    * C
+		//   * D
+		// *e
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li><p>A</p><ul style="margin-left: 2em;"><li><p id="from">B</p><ul><li id="to">C</li></ul></li><li>D</li></ul></li><li>E</li></ul>');
+	},
+	'should indent list (case 9)': function() {
+		// * (a)
+		//   (B)
+		//   (C)
+		xq.$('editor').innerHTML = '<ul><li><p>A</p><p id="from">B</p><p id="to">C</p></li></ul>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.indentElements(from, to);
+		//value_of(affected).should_have(2, 'items');
+		// * (a)
+		//   (_B)
+		//   (_C)
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li><p>A</p><p id="from" style="margin-left: 2em;">B</p><p id="to" style="margin-left: 2em;">C</p></li></ul>');
+	},
+	'should indent list (case 10)': function() {
+		// * (a)
+		//  * (B)
+		//   * C
+		// * D
+		xq.$('editor').innerHTML = '<ul><li><p>A</p><ul><li><p id="from">B</p><ul><li>C</li></ul></li></ul></li><li id="to">D</li></ul>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.indentElements(from, to);
+		//value_of(affected).should_have(2, 'items');
+		// * (a)
+		//  _* (B)
+		//    * C
+		//   * D
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li><p>A</p><ul style="margin-left: 2em;"><li><p id="from">B</p><ul><li>C</li></ul></li><li id="to">D</li></ul></li></ul>');
+	},
+	'should indent list (case 11)': function() {
+		// * (a)
+		//  * (b)
+		//   * C
+		// * D
+		xq.$('editor').innerHTML = '<ul><li><p>A</p><ul><li><p>B</p><ul><li id="from">C</li></ul></li></ul></li><li id="to">D</li></ul>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.indentElements(from, to);
+		//value_of(affected).should_have(2, 'items');
+		// * (a)
+		//  * (b)
+		//   _* C
+		//  * D
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li><p>A</p><ul><li><p>B</p><ul style="margin-left: 2em;"><li id="from">C</li></ul></li><li id="to">D</li></ul></li></ul>');
+	}
+});
+
+describe('outdent with selection', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should indent siblings': function() {
+		// (_A)(_B)(_C)
+		xq.$('editor').innerHTML = '<p id="from" style="margin-left: 2em;">A</p><p style="margin-left: 2em;">B</p><p id="to" style="margin-left: 2em;">C</p>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.outdentElements(from, to);
+		value_of(affected).should_have(3, 'items');
+		// (A)(B)(C)
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="from">A</p><p>B</p><p id="to">C</p>');
+	},
+	'should indent nested blocks (case 1)': function() {
+		// [(_A)(_B)(c)]
+		xq.$('editor').innerHTML = '<div><p id="from" style="margin-left: 2em;">A</p><p id="to" style="margin-left: 2em;">B</p><p>C</p></div>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.outdentElements(from, to);
+		value_of(affected).should_have(2, 'items');
+		
+		// [(A)(B)(c)]
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><p id="from">A</p><p id="to">B</p><p>C</p></div>');
+	},
+	'case 2': function() {
+		// [_(_A)(_B)(c)]
+		xq.$('editor').innerHTML = '<div style="margin-left: 2em;"><p id="from" style="margin-left: 2em;">A</p><p id="to" style="margin-left: 2em;">B</p><p>C</p></div>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.outdentElements(from, to);
+		value_of(affected).should_have(1, 'items');
+		
+		// [(_A)(_B)(c)]
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><p id="from" style="margin-left: 2em;">A</p><p id="to" style="margin-left: 2em;">B</p><p>C</p></div>');
+		
+		
+		// [(A)(B)(c)]
+		var affected = rdom.outdentElements(from, to);
+		value_of(affected).should_have(2, 'items');
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><p id="from">A</p><p id="to">B</p><p>C</p></div>');
+	},
+	'should indent nested blocks (case 2)': function() {
+		// [(a)(_B)(_C)]
+		xq.$('editor').innerHTML = '<div><p>A</p><p id="from" style="margin-left: 2em;">B</p><p id="to" style="margin-left: 2em;">C</p></div>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.outdentElements(from, to);
+		value_of(affected).should_have(2, 'items');
+		
+		// [(a)(B)(C)]
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><p>A</p><p id="from">B</p><p id="to">C</p></div>');
+	},
+	'should indent container when selection covers whole children1': function() {
+		// [_(A)(B)(C)]
+		xq.$('editor').innerHTML = '<div style="margin-left: 2em;"><p id="from">A</p><p>B</p><p id="to">C</p></div>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.outdentElements(from, to);
+		value_of(affected.first()).should_be(rdom.getRoot().firstChild);
+		value_of(affected.last()).should_be(rdom.getRoot().firstChild);
+		// [(A)(B)(C)]
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><p id="from">A</p><p>B</p><p id="to">C</p></div>');
+	},
+	'should indent container when selection covers whole children2': function() {
+		// (_A)[_(B)(C)](_D)
+		xq.$('editor').innerHTML = '<p id="from" style="margin-left: 2em;">A</p><div style="margin-left: 2em;"><p>B</p><p>C</p></div><p id="to" style="margin-left: 2em;">D</p>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.outdentElements(from, to);
+		value_of(affected.first()).should_be(from);
+		value_of(affected.last()).should_be(to);
+		// (A)[(B)(C)](D)
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="from">A</p><div><p>B</p><p>C</p></div><p id="to">D</p>');
+	},
+	'should not indent container when selection doesn\'t cover whole children (case 1)': function() {
+		// (_A)[(_B)(c)](d)
+		xq.$('editor').innerHTML = '<p id="from" style="margin-left: 2em;">A</p><div><p id="to" style="margin-left: 2em;">B</p><p>C</p></div><p>D</p>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.outdentElements(from, to);
+		value_of(affected.first()).should_be(from);
+		value_of(affected.last()).should_be(to);
+		// (A)[(B)(c)](d)
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="from">A</p><div><p id="to">B</p><p>C</p></div><p>D</p>');
+	},
+	'case 3': function() {
+		// (_A)[_(_B)(c)](d)
+		xq.$('editor').innerHTML = '<p id="from" style="margin-left: 2em;">A</p><div style="margin-left: 2em;"><p id="to" style="margin-left: 2em;">B</p><p>C</p></div><p>D</p>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.outdentElements(from, to);
+		value_of(affected.first()).should_be(from);
+		value_of(affected.last()).should_be(to);
+		// (A)[(_B)(c)](d)
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="from">A</p><div><p id="to" style="margin-left: 2em;">B</p><p>C</p></div><p>D</p>');
+	},
+	'should not indent container when selection doesn\'t cover whole children (case 2)': function() {
+		// (a)[(b)(_C)](_D)
+		xq.$('editor').innerHTML = '<p>A</p><div><p>B</p><p id="from" style="margin-left: 2em;">C</p></div><p id="to" style="margin-left: 2em;">D</p>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.outdentElements(from, to);
+		value_of(affected).should_have(2, 'items');
+		// (a)[(b)(C)](D)
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p><div><p>B</p><p id="from">C</p></div><p id="to">D</p>');
+	},
+	'should not indent container when selection doesn\'t cover whole children (case 2)': function() {
+		// [[_(A)(B)]]
+		xq.$('editor').innerHTML = '<div><div style="margin-left: 2em;"><p id="from">A</p><p id="to">B</p></div></div>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.outdentElements(from, to);
+		value_of(affected).should_have(1, 'items');
+		// [[(A)(B)]]
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><div><p id="from">A</p><p id="to">B</p></div></div>');
+	},
+	'case 1': function() {
+		// [_[_A][_B]]
+		xq.$('editor').innerHTML = '<div style="margin-left: 2em;"><div id="from" style="margin-left: 2em;">A</div><div id="to" style="margin-left: 2em;">B</div></div>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.outdentElements(from, to);
+		//value_of(affected).should_have(1, 'items');
+		// [[_A][_B]]
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><div id="from" style="margin-left: 2em;">A</div><div id="to" style="margin-left: 2em;">B</div></div>');
+	},
+	'case 4': function() {
+		// [_[_(_A)(_B)][_C]]
+		xq.$('editor').innerHTML = '<div style="margin-left: 2em;"><div style="margin-left: 2em;"><p id="from" style="margin-left: 2em;">A</p><p style="margin-left: 2em;">B</p></div><div id="to" style="margin-left: 2em;">C</div></div>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		// [[_(_A)(_B)][_C]]
+		var affected = rdom.outdentElements(from, to);
+		value_of(affected).should_have(1, 'items');
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><div style="margin-left: 2em;"><p id="from" style="margin-left: 2em;">A</p><p style="margin-left: 2em;">B</p></div><div id="to" style="margin-left: 2em;">C</div></div>');
+
+		// [[(_A)(_B)][C]]
+		var affected = rdom.outdentElements(from, to);
+		//value_of(affected).should_have(2, 'items');
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><div><p id="from" style="margin-left: 2em;">A</p><p style="margin-left: 2em;">B</p></div><div id="to">C</div></div>');
+		
+		// [[(A)(B)][C]]
+		//var affected = rdom.outdentElements(from, to);
+		//value_of(affected).should_have(2, 'items');
+		//value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><div><p id="from">A</p><p>B</p></div><div id="to">C</div></div>');
+	},
+	'case 5': function() {
+		// [_[_(_a)(_B)][_C]]
+		xq.$('editor').innerHTML = '<div style="margin-left: 2em;"><div style="margin-left: 2em;"><p style="margin-left: 2em;">A</p><p id="from" style="margin-left: 2em;">B</p></div><div id="to" style="margin-left: 2em;">C</div></div>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		// [_[_(_a)(B)][C]]
+		var affected = rdom.outdentElements(from, to);
+		value_of(affected).should_have(2, 'items');
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div style="margin-left: 2em;"><div style="margin-left: 2em;"><p style="margin-left: 2em;">A</p><p id="from">B</p></div><div id="to">C</div></div>');
+	},
+	'case 6': function() {
+		// [_A][_[_(_B)(_C)][_d]]
+		xq.$('editor').innerHTML = '<div id="from" style="margin-left: 2em;">A</div><div style="margin-left: 2em;"><div style="margin-left: 2em;"><p style="margin-left: 2em;">A</p><p id="to" style="margin-left: 2em;">B</p></div><div style="margin-left: 2em;">D</div></div>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		// [A][[_(_B)(_C)][_d]]
+		var affected = rdom.outdentElements(from, to);
+		value_of(affected.first()).should_be(from);
+		value_of(affected.last()).should_be(to);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div id="from">A</div><div><div style="margin-left: 2em;"><p style="margin-left: 2em;">A</p><p id="to" style="margin-left: 2em;">B</p></div><div style="margin-left: 2em;">D</div></div>');
+		
+		// [A][[(_B)(_C)][_d]]
+		var affected = rdom.outdentElements(from, to);
+		value_of(affected.first()).should_be(from);
+		value_of(affected.last()).should_be(to);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div id="from">A</div><div><div><p style="margin-left: 2em;">A</p><p id="to" style="margin-left: 2em;">B</p></div><div style="margin-left: 2em;">D</div></div>');
+	}
+});
+
+
+describe('outdent list with selection', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should outdent list (case 1)': function() {
+		// * a
+		//  * B
+		//  * C
+		xq.$('editor').innerHTML = '<ul><li><p>A</p><ul><li id="from">B</li><li id="to">C</li></ul></li></ul>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.outdentElements(from, to);
+		value_of(affected).should_have(2, 'items');
+		value_of(affected.first()).should_be(from);
+		value_of(affected.last()).should_be(to);
+		// * A
+		// * B
+		// * C
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li id="from">B</li><li id="to">C</li></ul>');
+	},
+	'should outdent list (case 2)': function() {
+		// * a
+		//  * B
+		//   * C
+		xq.$('editor').innerHTML = '<ul><li><p>A</p><ul><li id="from"><p>B</p><ul><li id="to">C</li></ul></li></ul></li></ul>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.outdentElements(from, to);
+		value_of(affected.first()).should_be(from);
+		// * A
+		// * B
+		//  * C
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li id="from"><p>B</p><ul><li id="to">C</li></ul></li></ul>');
+	},
+	'should outdent list (case 3)': function() {
+		// * a
+		//  * b
+		//   * C
+		//   * D
+		xq.$('editor').innerHTML = '<ul><li><p>A</p><ul><li><p>B</p><ul><li id="from">C</li><li id="to">D</li></ul></li></ul></li></ul>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.outdentElements(from, to);
+		value_of(affected).should_have(2, 'items');
+		// * a
+		//  * b
+		//  * C
+		//  * D
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li><p>A</p><ul><li>B</li><li id="from">C</li><li id="to">D</li></ul></li></ul>');
+	},
+	'should outdent list (case 4)': function() {
+		// * a
+		//  * b
+		//   * C
+		//  * D
+		xq.$('editor').innerHTML = '<ul><li><p>A</p><ul><li><p>B</p><ul><li id="from">C</li></ul></li><li id="to">D</li></ul></li></ul>';
+		var from = rdom.$("from");
+		var to = rdom.$("to");
+		
+		var affected = rdom.outdentElements(from, to);
+		value_of(affected).should_have(2, 'items');
+		// * a
+		//  * b
+		//  * C
+		// * D
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li><p>A</p><ul><li>B</li><li id="from">C</li></ul></li><li id="to">D</li></ul>');
+	}
+});
+
+
+describe('Indentation in code list', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+		
+		xq.$('editor').innerHTML = '<ol class="code"><li>A</li><li>B</li></ol>';
+		a = rdom.getRoot().firstChild.firstChild;
+		b = a.nextSibling;
+	},
+	'should indent entire block when it\'s the first child': function() {
+		var affected = rdom.indentElement(a);
+		value_of(affected).should_be(a.parentNode);
+		value_of(affected.style.marginLeft).should_be("2em");
+	},
+	'should use margin-left': function() {
+		var affected = rdom.indentElement(b);
+		value_of(affected).should_be(b);
+		value_of(affected.style.marginLeft).should_be("2em");
+	}
+});
+
+describe('Outdentation in code list', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+		
+		xq.$('editor').innerHTML = '<ol class="code" style="margin-left: 2em;"><li>A</li><li style="margin-left: 2em;">B</li></ol>';
+		a = rdom.getRoot().firstChild.firstChild;
+		b = a.nextSibling;
+	},
+	'should outdent entire block when it\'s the first child': function() {
+		var affected = rdom.outdentElement(a);
+		value_of(affected).should_be(a.parentNode);
+		value_of(affected.style.marginLeft).should_be("");
+	},
+	'should use margin-left': function() {
+		var affected = rdom.outdentElement(b);
+		value_of(affected).should_be(b);
+		value_of(affected.style.marginLeft).should_be("");
+	}
+});
+
+describe('Outdentation in code lists', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should outdent entire block when it\'s the first child case 1': function() {
+		xq.$('editor').innerHTML = '<ol class="code" style="margin-left: 2em;"><li style="margin-left: 4em;">A</li><li style="margin-left: 6em;">B</li><li style="margin-left: 8em;">C</li></ol>';
+		var target = rdom.getRoot().firstChild;
+		var from = target.firstChild;
+		var to = from.nextSibling;
+		
+		var affected = rdom.outdentElements(from, to);
+		value_of(affected).should_be([from, to]);
+		value_of(affected[0].style.marginLeft).should_be("2em");
+		value_of(affected[1].style.marginLeft).should_be("4em");
+		value_of(target.style.marginLeft).should_be("2em");
+	},
+	'should outdent entire block when it\'s the first child case 2': function() {
+		xq.$('editor').innerHTML = '<ol class="code" style="margin-left: 2em;"><li style="margin-left: 2em;">A</li><li style="margin-left: 4em;">B</li><li style="margin-left: 8em;">C</li></ol>';
+		var target = rdom.getRoot().firstChild;
+		var from = target.firstChild;
+		var to = from.nextSibling;
+		
+		var affected = rdom.outdentElements(from, to);
+		value_of(affected).should_be([from, to]);
+		value_of(affected[0].style.marginLeft).should_be("");
+		value_of(affected[1].style.marginLeft).should_be("2em");
+		value_of(target.style.marginLeft).should_be("2em");
+
+		affected = rdom.outdentElements(from, to);
+		value_of(affected).should_be([from, to]);
+		value_of(affected[0].style.marginLeft).should_be("");
+		value_of(affected[1].style.marginLeft).should_be("");
+		value_of(target.style.marginLeft).should_be("2em");
+	},
+	'should outdent entire block when it\'s the first child case 3': function() {
+		xq.$('editor').innerHTML = '<p>A</p><ol class="code" style="margin-left: 2em;"><li style="margin-left: 2em;">B</li><li style="margin-left: 2em;">C</li></ol><p>D</p>';
+		var from = rdom.getRoot().firstChild;
+		var to = rdom.getRoot().lastChild;
+		
+		var affected = rdom.outdentElements(from, to);
+		value_of(from.nextSibling.style.marginLeft).should_be("");
+		value_of(from.nextSibling.firstChild.style.marginLeft).should_be("2em");
+		value_of(from.nextSibling.lastChild.style.marginLeft).should_be("2em");
+	}
+});
+
+// ]]></script>
+</body>
+</html>

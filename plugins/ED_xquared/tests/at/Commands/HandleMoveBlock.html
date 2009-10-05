@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+	<title>Handle Move Block</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="../Table.css" />
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1"><tbody>
+    <tr><td colspan="3" class="title">Handle Move Block</td></tr>
+    
+    
+    
+    <tr><td colspan="3" class="comment">
+    	Handle Move Block - Up and Down
+    </td></tr>
+    <tr>
+      <td>open</td>
+      <td>SimplePage.html</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>setEditMode</td>
+      <td>wysiwyg</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>waitForEditMode</td>
+      <td>wysiwyg</td>
+      <td>&nbsp;</td>
+    </tr>
+
+
+
+    <tr><td colspan="3" class="comment">
+    	Move up
+    </td></tr>
+	<tr>
+		<td>setRawWysiwygContent</td>
+		<td>[p id="a"]A[/p][p id="b"]B[/p]</td>
+		<td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>selectElementById</td>
+      <td>a</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>execute</td>
+      <td>handleMoveBlock(false);</td>
+      <td>&nbsp;</td>
+    </tr>
+	<tr>
+		<td>verifyRawWysiwygContent</td>
+		<td>[p id="b"]B[/p][p id="a"]A[/p]</td>
+		<td>&nbsp;</td>
+    </tr>
+    
+    
+    
+    <tr><td colspan="3" class="comment">
+    	Move down
+    </td></tr>
+	<tr>
+		<td>setRawWysiwygContent</td>
+		<td>[p id="a"]A[/p][p id="b"]B[/p]</td>
+		<td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>selectElementById</td>
+      <td>b</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>execute</td>
+      <td>handleMoveBlock(true);</td>
+      <td>&nbsp;</td>
+    </tr>
+	<tr>
+		<td>verifyRawWysiwygContent</td>
+		<td>[p id="b"]B[/p][p id="a"]A[/p]</td>
+		<td>&nbsp;</td>
+    </tr>
+</tbody></table>
+</body>
+</html>

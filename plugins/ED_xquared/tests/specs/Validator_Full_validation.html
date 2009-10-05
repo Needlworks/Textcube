@@ -1,0 +1,421 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+	<title>Full Validation</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link type="text/css" rel="stylesheet" href="../JSSpec.css" />
+	<script type="text/javascript" src="../diff_match_patch.js"></script>
+	<script type="text/javascript" src="../JSSpec.js"></script>
+	<script type="text/javascript" src="../../javascripts/XQuared.js?load_others=1"></script>
+</head>
+<body>
+<div style='height:0; margin:0; padding:0; overflow:hidden;'>
+	<div id="editor"></div>
+	<div id="content"></div>
+</div>
+
+<script type="text/javascript" language="javascript">// <![CDATA[
+describe("XHTML normalization", {
+	'before': function() {
+		var rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+		
+		v = xq.validator.Base.createInstance('http://x.com/', false);
+	},
+	
+	'should validate self-closing elements': function() {
+		var invalid = '<p>Hello<br>World</p>';
+		var valid = '<p>Hello<br />World</p>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor'))).should_be(valid);
+	},
+	
+	'should lower tag names and attribute names [[xq.Browser.isTrident]]': function() {
+		var invalid = '<P>Hello</P>';
+		var valid = '<p>Hello</p>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor'))).should_be(valid);
+	},
+	
+	'should normalize quotation of attribute values [[xq.Browser.isTrident]]': function() {
+		var invalid = '<P CLASS="b" id=A>Hello</P>';
+		var valid = '<p class="b" id="A">Hello</p>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor'))).should_be(valid);
+	},
+	
+	'should generate value of value-less attribute [[xq.Browser.isTrident]]': function() {
+		v.whitelist.p.push('alt');
+		
+		var invalid = '<p alt>A</p>';
+		var valid = '<p alt="alt">A</p>';
+
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor'))).should_be(valid);
+	},
+	
+	'should preverse href in a tag': function() {
+		var html = '<a href="http://x.com/?a=1&amp;b=2">Test</a>';
+		xq.$('editor').innerHTML = html;
+		value_of(v.validate(xq.$('editor'))).should_be(html);
+	},
+	
+	'should preverse spaces in attributes': function() {
+		var html = '<p class="class1 class2 class3" id="a">Test</p>';
+		xq.$('editor').innerHTML = html;
+		value_of(v.validate(xq.$('editor'))).should_be(html);
+	},
+	
+	'should preverse complex and valid XHTML': function() {
+		var sb = [
+			'<p class="testclass" id="testid"><em class="highlight">Hello</em> There</p>',
+			'<p><a href="http://x.com/?a=" title="b">test</a></p>'
+		];
+		var html = sb.join('');
+		xq.$('editor').innerHTML = html;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(html);
+	}
+});
+
+describe("Applying Whitelist", {
+	'before': function() {
+		var rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+		
+		v = xq.validator.Base.createInstance('http://x.com/', false);
+	},
+	
+	'should remove unknown tags:': function() {
+		var invalid = '<p><ins id="1">A</ins><del>B</del></p>';
+		var valid = '<p>AB</p>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor'))).should_be(valid);
+	},
+	
+	'should remove unknown attrs:': function() {
+		var invalid = '<p unknown="1">A</p>';
+		var valid = '<p>A</p>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor'))).should_be(valid);
+	},
+	
+	'should remove unknown attrs from self-closing tag:': function() {
+		var invalid = '<p>A<img src="http://x.com/" unknown="2" /></p>';
+		var valid = '<p>A<img src="http://x.com/" /></p>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor'))).should_be(valid);
+	}
+});
+
+describe("URL parser", {
+	'should parse protocol://domain': function() {
+		value_of("http://hello.com".parseURL()).should_be({
+			includeHost: 'http://hello.com',
+			includeBase: 'http://hello.com/',
+			includePath: 'http://hello.com',
+			includeQuery: 'http://hello.com',
+			includeAnchor: 'http://hello.com',
+			protocol: 'http',
+			user: undefined,
+			password: undefined,
+			domain: 'hello.com',
+			port: undefined,
+			path: undefined,
+			query: undefined,
+			anchor: undefined
+		});
+	},
+	'should parse protocol://user@domain': function() {
+		value_of("http://jania@hello.com".parseURL()).should_be({
+			includeHost: 'http://jania@hello.com',
+			includeBase: 'http://jania@hello.com/',
+			includePath: 'http://jania@hello.com',
+			includeQuery: 'http://jania@hello.com',
+			includeAnchor: 'http://jania@hello.com',
+			protocol: 'http',
+			user: 'jania',
+			password: undefined,
+			domain: 'hello.com',
+			port: undefined,
+			path: undefined,
+			query: undefined,
+			anchor: undefined
+		});
+	},
+	'should parse protocol://user:password@domain': function() {
+		value_of("http://jania:1234@hello.com".parseURL()).should_be({
+			includeHost: 'http://jania:1234@hello.com',
+			includeBase: 'http://jania:1234@hello.com/',
+			includePath: 'http://jania:1234@hello.com',
+			includeQuery: 'http://jania:1234@hello.com',
+			includeAnchor: 'http://jania:1234@hello.com',
+			protocol: 'http',
+			user: 'jania',
+			password: '1234',
+			domain: 'hello.com',
+			port: undefined,
+			path: undefined,
+			query: undefined,
+			anchor: undefined
+		});
+	},
+	'should parse protocol://domain:port': function() {
+		value_of("http://hello.com:8080".parseURL()).should_be({
+			includeHost: 'http://hello.com:8080',
+			includeBase: 'http://hello.com:8080/',
+			includePath: 'http://hello.com:8080',
+			includeQuery: 'http://hello.com:8080',
+			includeAnchor: 'http://hello.com:8080',
+			protocol: 'http',
+			user: undefined,
+			password: undefined,
+			domain: 'hello.com',
+			port: '8080',
+			path: undefined,
+			query: undefined,
+			anchor: undefined
+		});
+	},
+	'should parse protocol://domain/path': function() {
+		value_of("http://hello.com/path/1.html".parseURL()).should_be({
+			includeHost: 'http://hello.com',
+			includeBase: 'http://hello.com/path/',
+			includePath: 'http://hello.com/path/1.html',
+			includeQuery: 'http://hello.com/path/1.html',
+			includeAnchor: 'http://hello.com/path/1.html',
+			protocol: 'http',
+			user: undefined,
+			password: undefined,
+			domain: 'hello.com',
+			port: undefined,
+			path: '/path/1.html',
+			query: undefined,
+			anchor: undefined
+		});
+	},
+	'should parse protocol://domain/path?query': function() {
+		value_of("http://hello.com/path/1.html?a=12&b=34".parseURL()).should_be({
+			includeHost: 'http://hello.com',
+			includeBase: 'http://hello.com/path/',
+			includePath: 'http://hello.com/path/1.html',
+			includeQuery: 'http://hello.com/path/1.html?a=12&b=34',
+			includeAnchor: 'http://hello.com/path/1.html?a=12&b=34',
+			protocol: 'http',
+			user: undefined,
+			password: undefined,
+			domain: 'hello.com',
+			port: undefined,
+			path: '/path/1.html',
+			query: 'a=12&b=34',
+			anchor: undefined
+		});
+	},
+	'should parse protocol://domain?query': function() {
+		value_of("http://hello.com?a=12&b=34".parseURL()).should_be({
+			includeHost: 'http://hello.com',
+			includeBase: 'http://hello.com/',
+			includePath: 'http://hello.com',
+			includeQuery: 'http://hello.com?a=12&b=34',
+			includeAnchor: 'http://hello.com?a=12&b=34',
+			protocol: 'http',
+			user: undefined,
+			password: undefined,
+			domain: 'hello.com',
+			port: undefined,
+			path: undefined,
+			query: 'a=12&b=34',
+			anchor: undefined
+		});
+	},
+	'should parse protocol://domain?query#anchor': function() {
+		value_of("http://hello.com?a=12&b=34#title1".parseURL()).should_be({
+			includeHost: 'http://hello.com',
+			includeBase: 'http://hello.com/',
+			includePath: 'http://hello.com',
+			includeQuery: 'http://hello.com?a=12&b=34',
+			includeAnchor: 'http://hello.com?a=12&b=34#title1',
+			protocol: 'http',
+			user: undefined,
+			password: undefined,
+			domain: 'hello.com',
+			port: undefined,
+			path: undefined,
+			query: 'a=12&b=34',
+			anchor: 'title1'
+		});
+	},
+	'should parse protocol:///path': function() {
+		value_of("file:///C:/test.prj".parseURL()).should_be({
+			includeHost: 'file://',
+			includeBase: 'file:///C:/',
+			includePath: 'file:///C:/test.prj',
+			includeQuery: 'file:///C:/test.prj',
+			includeAnchor: 'file:///C:/test.prj',
+			protocol: 'file',
+			user: undefined,
+			password: undefined,
+			domain: undefined,
+			port: undefined,
+			path: '/C:/test.prj',
+			query: undefined,
+			anchor: undefined
+		});
+	},
+	'should parse full URL': function() {
+		value_of("http://jania:1234@hello.com:8080/path/1.html?a=12&b=34#title1".parseURL()).should_be({
+			includeHost: 'http://jania:1234@hello.com:8080',
+			includeBase: 'http://jania:1234@hello.com:8080/path/',
+			includePath: 'http://jania:1234@hello.com:8080/path/1.html',
+			includeQuery: 'http://jania:1234@hello.com:8080/path/1.html?a=12&b=34',
+			includeAnchor: 'http://jania:1234@hello.com:8080/path/1.html?a=12&b=34#title1',
+			protocol: 'http',
+			user: 'jania',
+			password: '1234',
+			domain: 'hello.com',
+			port: '8080',
+			path: '/path/1.html',
+			query: 'a=12&b=34',
+			anchor: 'title1'
+		});
+	}
+});
+
+describe("URL validation(absolute)", {
+	'before': function() {
+		v = xq.validator.Base.createInstance("http://a.com/b/c.html?d=1", 'absolute');
+	},
+	'should validate "?e=1" form': function() {
+		
+		var invalid = '<p><a href="?e=1">Test</a></p>';
+		var valid = '<p><a href="http://a.com/b/c.html?e=1">Test</a></p>';
+		value_of(v.makeUrlsAbsolute(invalid)).should_be(valid);
+	},
+	'should validate "d.html" form': function() {
+		var invalid = '<p><a href="d.html">Test</a></p>';
+		var valid = '<p><a href="http://a.com/b/d.html">Test</a></p>';
+		value_of(v.makeUrlsAbsolute(invalid)).should_be(valid);
+	},
+	'should validate "/c/d.html" form': function() {
+		var invalid = '<p><a href="/c/d.html">Test</a></p>';
+		var valid = '<p><a href="http://a.com/c/d.html">Test</a></p>';
+		value_of(v.makeUrlsAbsolute(invalid)).should_be(valid);
+	},
+	'should validate "http://x.com/c/d.html" form': function() {
+		var invalid = '<p><a href="http://x.com/c/d.html">Test</a></p>';
+		var valid = '<p><a href="http://x.com/c/d.html">Test</a></p>';
+		value_of(v.makeUrlsAbsolute(invalid)).should_be(valid);
+	}
+});
+
+describe("URL validation(relative)", {
+	'before': function() {
+		v = xq.validator.Base.createInstance("http://a.com/b/c.html?d=1#e", true);
+	},
+	'should validate "#diff" form': function() {
+		var invalid = '<p><a href="#f">Test</a></p>';
+		var valid = '<p><a href="#f">Test</a></p>';
+		value_of(v.makeUrlsRelative(invalid)).should_be(valid);
+	},
+	'should validate "#same" form': function() {
+		var invalid = '<p><a href="#e">Test</a></p>';
+		var valid = '<p><a href="#e">Test</a></p>';
+		value_of(v.makeUrlsRelative(invalid)).should_be(valid);
+	},
+	'should validate "?diff" form': function() {
+		var invalid = '<p><a href="?d=2">Test</a></p>';
+		var valid = '<p><a href="?d=2">Test</a></p>';
+		value_of(v.makeUrlsRelative(invalid)).should_be(valid);
+	},
+	'should validate "?same#diff" form': function() {
+		var invalid = '<p><a href="?d=1#f">Test</a></p>';
+		var valid = '<p><a href="#f">Test</a></p>';
+		value_of(v.makeUrlsRelative(invalid)).should_be(valid);
+	},
+	'should validate "?same#same" form': function() {
+		var invalid = '<p><a href="?d=1#e">Test</a></p>';
+		var valid = '<p><a href="#e">Test</a></p>';
+		value_of(v.makeUrlsRelative(invalid)).should_be(valid);
+	},
+	'should validate "same?same" form': function() {
+		var invalid = '<p><a href="c.html?d=1">Test</a></p>';
+		var valid = '<p><a href="#">Test</a></p>';
+		value_of(v.makeUrlsRelative(invalid)).should_be(valid);
+	},
+	'should validate "same?diff" form': function() {
+		var invalid = '<p><a href="c.html?d=2">Test</a></p>';
+		var valid = '<p><a href="?d=2">Test</a></p>';
+		value_of(v.makeUrlsRelative(invalid)).should_be(valid);
+	},
+	'should validate "/diff/same?same" form': function() {
+		var invalid = '<p><a href="/b2/c.html?d=2">Test</a></p>';
+		var valid = '<p><a href="/b2/c.html?d=2">Test</a></p>';
+		value_of(v.makeUrlsRelative(invalid)).should_be(valid);
+	},
+	'should validate "/same/same?same" form': function() {
+		var invalid = '<p><a href="/b/c.html?d=1">Test</a></p>';
+		var valid = '<p><a href="#">Test</a></p>';
+		value_of(v.makeUrlsRelative(invalid)).should_be(valid);
+	},
+	'should validate "http://diff/same/same?same" form': function() {
+		var invalid = '<p><a href="http://x.com/b/c.html?d=1">Test</a></p>';
+		var valid = '<p><a href="http://x.com/b/c.html?d=1">Test</a></p>';
+		value_of(v.makeUrlsRelative(invalid)).should_be(valid);
+	},
+	'should validate "http://same" form': function() {
+		var invalid = '<p><a href="http://a.com">Test</a></p>';
+		var valid = '<p><a href="/">Test</a></p>';
+		value_of(v.makeUrlsRelative(invalid)).should_be(valid);
+	}
+});
+
+describe("URL validation(host_relative)", {
+	'before': function() {
+		v = xq.validator.Base.createInstance("http://a.com/b/c.html?d=1#e", 'host_relative');
+	},
+	'should validate "#diff" form': function() {
+		var invalid = '<p><a href="#f">Test</a></p>';
+		var valid = '<p><a href="#f">Test</a></p>';
+		value_of(v.makeUrlsHostRelative(invalid)).should_be(valid);
+	},
+	'should validate "?diff#diff" form': function() {
+		var invalid = '<p><a href="?d=2#f">Test</a></p>';
+		var valid = '<p><a href="/b/c.html?d=2#f">Test</a></p>';
+		value_of(v.makeUrlsHostRelative(invalid)).should_be(valid);
+	},
+	'should validate "same" form': function() {
+		var invalid = '<p><a href="c.html">Test</a></p>';
+		var valid = '<p><a href="/b/c.html">Test</a></p>';
+		value_of(v.makeUrlsHostRelative(invalid)).should_be(valid);
+	},
+	'should validate "diff" form': function() {
+		var invalid = '<p><a href="d.html">Test</a></p>';
+		var valid = '<p><a href="/b/d.html">Test</a></p>';
+		value_of(v.makeUrlsHostRelative(invalid)).should_be(valid);
+	},
+	'should validate "/same/same" form': function() {
+		var invalid = '<p><a href="/b/c.html">Test</a></p>';
+		var valid = '<p><a href="/b/c.html">Test</a></p>';
+		value_of(v.makeUrlsHostRelative(invalid)).should_be(valid);
+	},
+	'should validate "http://diff/diff" form': function() {
+		var invalid = '<p><a href="http://x.com/b/c.html">Test</a></p>';
+		var valid = '<p><a href="http://x.com/b/c.html">Test</a></p>';
+		value_of(v.makeUrlsHostRelative(invalid)).should_be(valid);
+	},
+	'should validate "http://same" form': function() {
+		var invalid = '<p><a href="http://a.com">Test</a></p>';
+		var valid = '<p><a href="/">Test</a></p>';
+		value_of(v.makeUrlsHostRelative(invalid)).should_be(valid);
+	}
+});
+// ]]></script>
+</body>
+</html>

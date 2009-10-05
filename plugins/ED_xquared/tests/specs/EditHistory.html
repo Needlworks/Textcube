@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+	<title>EditHistory</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link type="text/css" rel="stylesheet" href="../JSSpec.css" />
+	<script type="text/javascript" src="../diff_match_patch.js"></script>
+	<script type="text/javascript" src="../JSSpec.js"></script>
+	<script type="text/javascript" src="../../javascripts/XQuared.js?load_others=1"></script>
+</head>
+<body>
+<div style='height:0; margin:0; padding:0; overflow:hidden;'>
+	<div id="editor"></div>
+</div>
+
+<script type="text/javascript" language="javascript">// <![CDATA[
+describe("History management",{
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+		rdom.getRoot().innerHTML = "<p>init</p>";
+		rdom.hasFocus = function() {return true;}
+		rdom.getCurrentElement = function() {return true;}
+		
+		eh = new xq.EditHistory(rdom, 4);
+		eh.saveCaret = function() {}
+		eh.restoreCaret = function() {}
+		eh.clear();
+	},
+	
+	'should do nothing when there\'s no history': function() {
+		value_of(eh.isUndoable()).should_be_false();
+		
+		eh.undo();
+		value_of(rdom.getRoot().innerHTML.normalizeHtml()).should_be("<p>init</p>");
+	},
+	
+	'should do nothing when there\'s nothing to redo': function() {
+		value_of(eh.isRedoable()).should_be_false();
+		
+		eh.redo();
+		value_of(rdom.getRoot().innerHTML.normalizeHtml()).should_be("<p>init</p>");
+	},
+	
+	'should undo command': function() {
+		rdom.getRoot().innerHTML = "<p><strong>init</strong></p>";
+		eh.onCommand();
+		value_of(eh.isUndoable()).should_be_true();
+		
+		eh.undo();
+		value_of(rdom.getRoot().innerHTML.normalizeHtml()).should_be("<p>init</p>");
+	},
+	
+	'should undo command twice': function() {
+		rdom.getRoot().innerHTML = "<p><strong>init</strong></p>";
+		eh.onCommand();
+		rdom.getRoot().innerHTML = "<p><em><strong>init</strong></em></p>";
+		eh.onCommand();
+		value_of(eh.isUndoable()).should_be_true();
+
+		eh.undo();
+		value_of(rdom.getRoot().innerHTML.normalizeHtml()).should_be("<p><strong>init</strong></p>");
+		value_of(eh.isUndoable()).should_be_true();
+		
+		eh.undo();
+		value_of(rdom.getRoot().innerHTML.normalizeHtml()).should_be("<p>init</p>");
+		value_of(eh.isUndoable()).should_be_false();
+	},
+	'should undo once and redo twice': function() {
+		rdom.getRoot().innerHTML = "<p><strong>init</strong></p>";
+		eh.onCommand();
+		eh.undo();
+		value_of(eh.isRedoable()).should_be_true();
+		
+		eh.redo();
+		value_of(eh.isRedoable()).should_be_false();
+		
+		eh.redo();
+		value_of(rdom.getRoot().innerHTML.normalizeHtml()).should_be("<p><strong>init</strong></p>");
+	},
+	'should remove old histories': function() {
+		rdom.getRoot().innerHTML = "<p><strong>init</strong></p>";
+		eh.onCommand();
+		rdom.getRoot().innerHTML = "<p><em><strong>init</strong></em></p>";
+		eh.onCommand();
+		rdom.getRoot().innerHTML = "<p><em>init</em></p>";
+		eh.onCommand();
+
+		eh.undo();
+		eh.undo();
+		eh.undo();
+		value_of(eh.isUndoable()).should_be_false();
+		
+		eh.undo();
+		value_of(rdom.getRoot().innerHTML.normalizeHtml()).should_be("<p>init</p>");
+	},
+	'should remove redo histories': function() {
+		rdom.getRoot().innerHTML = "<p><strong>init</strong></p>";
+		eh.onCommand();
+		rdom.getRoot().innerHTML = "<p><em><strong>init</strong></em></p>";
+		eh.onCommand();
+		eh.undo();
+		eh.undo();
+		rdom.getRoot().innerHTML = "<p><em>init</em></p>";
+		eh.onCommand();
+		
+		value_of(eh.isRedoable()).should_be_false();
+
+		eh.redo();
+		value_of(rdom.getRoot().innerHTML.normalizeHtml()).should_be("<p><em>init</em></p>");
+	},
+	'should not make undo history when there\'s no diff': function() {
+		eh.onCommand();
+		value_of(eh.isUndoable()).should_be_false();
+
+		eh.undo();
+		value_of(rdom.getRoot().innerHTML.normalizeHtml()).should_be("<p>init</p>");
+	}
+});
+
+describe("Various events handling",{
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+		rdom.getRoot().innerHTML = "<p></p>";
+		rdom.hasFocus = function() {return true;}
+		rdom.getCurrentElement = function() {return true;}
+		
+		eh = new xq.EditHistory(rdom, 4);
+		eh.saveCaret = function() {}
+		eh.restoreCaret = function() {}
+		eh.clear();
+		
+		rdom.getRoot().innerHTML = "<p>init</p>";
+		eh.onCommand();
+	},
+	
+	'should ignore normal keys': function() {
+		var keydownEvent = {type:'keydown', ctrlKey:false, keyCode:97};
+		var keyupEvent = {type:'keyup', ctrlKey:false, keyCode:97};
+		
+		value_of(eh.onEvent(keydownEvent)).should_be_false();
+		rdom.getRoot().innerHTML = "<p>inita</p>";
+		value_of(eh.onEvent(keyupEvent)).should_be_false();
+		
+		value_of(eh.onEvent(keydownEvent)).should_be_false();
+		rdom.getRoot().innerHTML = "<p>initaa</p>";
+		value_of(eh.onEvent(keyupEvent)).should_be_false();
+		
+		value_of(eh.onEvent(keydownEvent)).should_be_false();
+		rdom.getRoot().innerHTML = "<p>initaaa</p>";
+		value_of(eh.onEvent(keyupEvent)).should_be_false();
+	},
+	'should ignore ctrl/alt/shift/meta key': function() {
+		rdom.getRoot().innerHTML = "<p>initaaa</p>";
+		value_of(eh.onEvent({type:'keydown', shiftKey:true, keyCode:16})).should_be_false();
+		value_of(eh.onEvent({type:'keydown', ctrlKey:true, keyCode:17})).should_be_false();
+		value_of(eh.onEvent({type:'keydown', altKey:true, keyCode:18})).should_be_false();
+		value_of(eh.onEvent({type:'keydown', metaKey:true, keyCode:224})).should_be_false();
+	},
+	'should add history when Ctrl+V [[!xq.Browser.isMac]]': function() {
+		rdom.getRoot().innerHTML = "<p>initaaa</p>";
+		value_of(eh.onEvent({type:'keydown', ctrlKey:true, keyCode:17})).should_be_false();
+		value_of(eh.onEvent({type:'keydown', ctrlKey:true, keyCode:86})).should_be_true();
+		
+		rdom.getRoot().innerHTML = "<p>initaaa pasted</p>";
+		value_of(eh.onEvent({type:'keyup', ctrlKey:true, keyCode:86})).should_be_true();
+	},
+	'should ignore Ctrl+V when there\'s no diff [[!xq.Browser.isMac]]': function() {
+		value_of(eh.onEvent({type:'keydown', ctrlKey:true, keyCode:86})).should_be_false();
+		rdom.getRoot().innerHTML = "<p>initaaa</p>";
+		value_of(eh.onEvent({type:'keyup', ctrlKey:true, keyCode:86})).should_be_true();
+	},
+	'should ignore Ctrl+Z, Ctrl+Y [[!xq.Browser.isMac]]': function() {
+		rdom.getRoot().innerHTML = "<p>initaaa</p>";
+		value_of(eh.onEvent({type:'keydown', ctrlKey:true, keyCode:17})).should_be_false();
+		value_of(eh.onEvent({type:'keydown', ctrlKey:true, keyCode:89})).should_be_false();
+		
+		value_of(eh.onEvent({type:'keydown', ctrlKey:true, keyCode:17})).should_be_false();
+		value_of(eh.onEvent({type:'keydown', ctrlKey:true, keyCode:90})).should_be_false();
+	},
+	'should add history when Meta+V [[xq.Browser.isMac]]': function() {
+		rdom.getRoot().innerHTML = "<p>initaaa</p>";
+		value_of(eh.onEvent({type:'keydown', metaKey:true, keyCode:224})).should_be_false();
+		value_of(eh.onEvent({type:'keydown', metaKey:true, keyCode:86})).should_be_true();
+		
+		rdom.getRoot().innerHTML = "<p>initaaa pasted</p>";
+		value_of(eh.onEvent({type:'keyup', metaKey:true, keyCode:86})).should_be_true();
+	},
+	'should ignore Meta+V when there\'s no diff [[xq.Browser.isMac]]': function() {
+		value_of(eh.onEvent({type:'keydown', metaKey:true, keyCode:86})).should_be_false();
+		rdom.getRoot().innerHTML = "<p>initaaa</p>";
+		value_of(eh.onEvent({type:'keyup', metaKey:true, keyCode:86})).should_be_true();
+	},
+	'should ignore Meta+Z, Meta+Y [[xq.Browser.isMac]]': function() {
+		rdom.getRoot().innerHTML = "<p>initaaa</p>";
+		value_of(eh.onEvent({type:'keydown', metaKey:true, keyCode:224})).should_be_false();
+		value_of(eh.onEvent({type:'keydown', metaKey:true, keyCode:89})).should_be_false();
+		
+		value_of(eh.onEvent({type:'keydown', metaKey:true, keyCode:224})).should_be_false();
+		value_of(eh.onEvent({type:'keydown', metaKey:true, keyCode:90})).should_be_false();
+	},
+	'should add history when arrow key pressed': function() {
+		rdom.getRoot().innerHTML = "<p>initaaa</p>";
+		value_of(eh.onEvent({type:'keypress', keyCode:33})).should_be_true();
+		value_of(eh.onEvent({type:'keypress', keyCode:34})).should_be_false();
+		value_of(eh.onEvent({type:'keypress', keyCode:35})).should_be_false();
+		value_of(eh.onEvent({type:'keypress', keyCode:36})).should_be_false();
+		value_of(eh.onEvent({type:'keypress', keyCode:37})).should_be_false();
+		value_of(eh.onEvent({type:'keypress', keyCode:39})).should_be_false();
+	}
+});
+// ]]></script>
+</body>
+</html>

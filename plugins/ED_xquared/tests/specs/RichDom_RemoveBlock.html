@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+	<title>RemoveBlock</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link type="text/css" rel="stylesheet" href="../JSSpec.css" />
+	<script type="text/javascript" src="../diff_match_patch.js"></script>
+	<script type="text/javascript" src="../JSSpec.js"></script>
+	<script type="text/javascript" src="../../javascripts/XQuared.js?load_others=1"></script>
+</head>
+<body>
+<div style='position:absolute; height:0; margin:0; padding:0; overflow:hidden;'>
+	<div id="editor"></div>
+</div>
+
+<script type="text/javascript" language="javascript">// <![CDATA[
+describe('RemoveBlock with normal blocks', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+		xq.$('editor').innerHTML = '<p>A</p><p>B</p>';
+		a = rdom.getRoot().firstChild;
+		b = a.nextSibling;
+	},
+	'should remove normal block and move to next block': function() {
+		var blockToMove = rdom.removeBlock(a);
+		value_of(blockToMove).should_be(b);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>B</p>');
+	},
+	'should remove normal block and move to prev block when there\'s no next sibling': function() {
+		var blockToMove = rdom.removeBlock(b);
+		value_of(blockToMove).should_be(a);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p>');
+	}
+});
+
+describe('RemoveBlock with atomic block', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+
+		xq.$('editor').innerHTML = '<p>A</p><hr /><p>C</p>';
+		a = rdom.getRoot().firstChild;
+		b = a.nextSibling;
+		c = a.nextSibling.nextSibling;
+	},
+	'should not move into atomic block (case 1)': function() {
+		var blockToMove = rdom.removeBlock(a);
+		value_of(blockToMove).should_be(c);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<hr /><p>C</p>');
+	},
+	'should not move into atomic block (case 2)': function() {
+		var blockToMove = rdom.removeBlock(c);
+		value_of(blockToMove).should_be(a);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p><hr />');
+	},
+	'should not remove block if there\'s only atomics': function() {
+		rdom.removeBlock(a);
+		var blockToMove = rdom.removeBlock(c);
+		value_of(blockToMove.nodeName).should_be("P");
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_match('<hr /><p>(&nbsp;|<br.*? />)</p>');
+	}
+});
+
+describe('RemoveBlock with block containers', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+
+		xq.$('editor').innerHTML = '<p>A</p><div><p>B</p></div><p>C</p>';
+		a = rdom.getRoot().firstChild;
+		b = a.nextSibling.firstChild;
+		c = a.nextSibling.nextSibling;
+	},
+	'should find proper next block when there\'s nested blocks': function() {
+		var blockToMove = rdom.removeBlock(a);
+		value_of(blockToMove).should_be(b);
+	},
+	'should find proper prev block when there\'s nested blocks': function() {
+		var blockToMove = rdom.removeBlock(c);
+		value_of(blockToMove).should_be(b);
+	},
+	'should remove container when removed block is the only child': function() {
+		var blockToMove = rdom.removeBlock(b);
+		value_of(blockToMove).should_be(c);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p><p>C</p>');
+	}
+});
+
+describe('Table', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should delete row and move to below row (case 1)': function() {
+		// |  A* |  B  |
+		// |  C  |  D  |
+		xq.$('editor').innerHTML = '<table><tbody><tr><td id="target">A</td><td>B</td></tr><tr><td>C</td><td>D</td></tr></tbody></table>';
+		var blockToMove = rdom.removeBlock(rdom.$('target'));
+		value_of(blockToMove.innerHTML).should_be('C');
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><tbody><tr><td>C</td><td>D</td></tr></tbody></table>');
+	},
+	'should delete row and move to below row (case 2)': function() {
+		// | (A*)|  B  |
+		// |  C  |  D  |
+		xq.$('editor').innerHTML = '<table><tbody><tr><td><p id="target">A</p></td><td>B</td></tr><tr><td>C</td><td>D</td></tr></tbody></table>';
+		var blockToMove = rdom.removeBlock(rdom.$('target'));
+		value_of(blockToMove.innerHTML).should_be('C');
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><tbody><tr><td>C</td><td>D</td></tr></tbody></table>');
+	},
+	'should delete thead also': function() {
+		// | (A*)|  B  |
+		// +-----+-----+
+		// |  C  |  D  |
+		xq.$('editor').innerHTML = '<table><thead><tr><td><p id="target">A</p></td><td>B</td></tr></thead><tbody><tr><td>C</td><td>D</td></tr></tbody></table>';
+		var blockToMove = rdom.removeBlock(rdom.$('target'));
+		value_of(blockToMove.innerHTML).should_be('C');
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><tbody><tr><td>C</td><td>D</td></tr></tbody></table>');
+	},
+	'should not delete row when there\'s thead and the row is the only child of tbody': function() {
+		// |  A  |  B  |
+		// +-----+-----+
+		// | (C*)|  D  |
+		xq.$('editor').innerHTML = '<table><thead><tr><td><p>A</p></td><td>B</td></tr></thead><tbody><tr><td id="target">C</td><td>D</td></tr></tbody></table>';
+		var blockToMove = rdom.removeBlock(rdom.$('target'));
+		value_of(blockToMove).should_be_null();
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><thead><tr><td><p>A</p></td><td>B</td></tr></thead><tbody><tr><td id="target">C</td><td>D</td></tr></tbody></table>');
+	},
+	'should delete entire table when it was the last row': function() {
+		// | (A*)|  B  |
+		xq.$('editor').innerHTML = '<table><tbody><tr><td id="target">A</td><td>B</td></tr></tbody></table>';
+		var blockToMove = rdom.removeBlock(rdom.$('target'));
+		value_of(blockToMove.nodeName).should_be('P');
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_match('<p>(&nbsp;|<br.*? />)</p>');
+	}
+});
+
+describe('Misc. cases', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should delete block\'s contents but not block itself when it\'s the only child': function() {
+		xq.$('editor').innerHTML = '<p id="a">A</p>';
+		var blockToMove = rdom.removeBlock(rdom.$('a'));
+		value_of(blockToMove).should_be(rdom.getRoot().firstChild);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_match('<p>(&nbsp;|<br.*? />)</p>');
+	},
+	'first LI of nested list': function() {
+		xq.$('editor').innerHTML = '<ul><li><p id="a">A</p><ul><li id="b">B</li></ul></li></ul>';
+		var a = rdom.$("a");
+		var b = rdom.$("b");
+		var blockToMove = rdom.removeBlock(a);
+		value_of(blockToMove).should_be(b);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_match('<ul><li id="b">B</li></ul>');
+	},
+	'single LI and normal block': function() {
+		xq.$('editor').innerHTML = '<p id="a">A</p><ul><li>B</li></ul>';
+		var blockToMove = rdom.removeBlock(rdom.$('a'));
+		value_of(blockToMove.nodeName).should_be('LI');
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_match('<ul><li>B</li></ul>');
+	}
+});
+// ]]></script>
+</body>
+</html>

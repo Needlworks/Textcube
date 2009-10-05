@@ -1,0 +1,940 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+	<title>Basic operations</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link type="text/css" rel="stylesheet" href="../JSSpec.css" />
+	<script type="text/javascript" src="../diff_match_patch.js"></script>
+	<script type="text/javascript" src="../JSSpec.js"></script>
+	<script type="text/javascript" src="../../javascripts/XQuared.js?load_others=1"></script>
+</head>
+<body>
+<div style='position:absolute; height:0; margin:0; padding:0; overflow:hidden;'>
+	<div id="editor"></div>
+</div>
+
+<script type="text/javascript" language="javascript">// <![CDATA[
+describe('isEmptyBlock', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+		root = rdom.getRoot();
+	},
+	'should ignore placeholder [[xq.Browser.isGecko]]': function() {
+		xq.$('editor').innerHTML = '<p></p>';
+		root.firstChild.appendChild(rdom.makePlaceHolder());
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_match('<p><br.*? /></p>');
+		value_of(rdom.isEmptyBlock(root.firstChild)).should_be_true();
+	},
+	'should ignore placeholder [[xq.Browser.isTrident]]': function() {
+		xq.$('editor').innerHTML = '<p></p>';
+		root.firstChild.appendChild(rdom.makePlaceHolder());
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p> </p>');
+		value_of(rdom.isEmptyBlock(root.firstChild)).should_be_true();
+	}
+});
+
+describe('removePlaceHoldersAndEmptyNodes', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+		root = rdom.getRoot();
+	},
+	'should remove place holders [[xq.Browser.isGecko || xq.Browser.isWebkit]]': function() {
+		xq.$('editor').innerHTML = '<p>' + rdom.makePlaceHolderString() +'</p>';
+		rdom.removePlaceHoldersAndEmptyNodes(root.firstChild);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p></p>');
+	},
+	'should remove all place holders [[xq.Browser.isGecko || xq.Browser.isWebkit]]': function() {
+		xq.$('editor').innerHTML = '<p>' + rdom.makePlaceHolderString() + rdom.makePlaceHolderString() + '</p>';
+		rdom.removePlaceHoldersAndEmptyNodes(root.firstChild);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p></p>');
+	},
+	'should preserve normal nodes [[xq.Browser.isGecko || xq.Browser.isWebkit]]': function() {
+		xq.$('editor').innerHTML = '<p>Hello' + rdom.makePlaceHolderString() + '<span>World</span></p>';
+		rdom.removePlaceHoldersAndEmptyNodes(root.firstChild);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>Hello<span>World</span></p>');
+	},
+	'should not touch outside of a block (case 1) [[xq.Browser.isGecko || xq.Browser.isWebkit]]': function() {
+		xq.$('editor').innerHTML = '<p>' + rdom.makePlaceHolderString() + '</p><p>' + rdom.makePlaceHolderString() + '</p>';
+		rdom.removePlaceHoldersAndEmptyNodes(root.firstChild);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_match('<p></p><p><br.*? /></p>');
+	},
+	'should not touch outside of a block (case 2) [[xq.Browser.isGecko || xq.Browser.isWebkit]]': function() {
+		xq.$('editor').innerHTML = '<div><p>' + rdom.makePlaceHolderString() + '</p></div><p>' + rdom.makePlaceHolderString() + '</p>';
+		rdom.removePlaceHoldersAndEmptyNodes(root.firstChild.firstChild);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_match('<div><p></p></div><p><br.*? /></p>');
+	}
+});
+
+describe('removeTrailingWhitespace', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+		root = rdom.getRoot();
+	},
+	'should not touch empty element [[xq.Browser.isTrident]]': function() {
+		xq.$('editor').innerHTML = '<p>&nbsp;</p>';
+		rdom.removeTrailingWhitespace(root.firstChild);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>&nbsp;</p>');
+	},
+	'should remove last blank space (case 1) [[xq.Browser.isTrident]]': function() {
+		xq.$('editor').innerHTML = '<p>&nbsp;&nbsp;</p>';
+		rdom.removeTrailingWhitespace(root.firstChild);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>&nbsp;</p>');
+	},
+	'should remove last blank space (case 2) [[xq.Browser.isTrident]]': function() {
+		xq.$('editor').innerHTML = '<p>A&nbsp;</p>';
+		rdom.removeTrailingWhitespace(root.firstChild);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p>');
+	},
+	'should not remove blank space at start [[xq.Browser.isTrident]]': function() {
+		xq.$('editor').innerHTML = '<p>&nbsp;A</p>';
+		rdom.removeTrailingWhitespace(root.firstChild);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>&nbsp;A</p>');
+	},
+	'should work with inline elements (case 1) [[xq.Browser.isTrident]]': function() {
+		xq.$('editor').innerHTML = '<p><span>Hello</span>&nbsp;</p>';
+		rdom.removeTrailingWhitespace(root.firstChild);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p><span>Hello</span></p>');
+	},
+	'should work with inline elements (case 2) [[xq.Browser.isTrident]]': function() {
+		xq.$('editor').innerHTML = '<p><span>Hello&nbsp;</span></p>';
+		rdom.removeTrailingWhitespace(root.firstChild);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p><span>Hello</span></p>');
+	},
+	'should work with inline elements (case 3) [[xq.Browser.isTrident]]': function() {
+		xq.$('editor').innerHTML = '<p><span>Hello</span><span>&nbsp;</span></p>';
+		rdom.removeTrailingWhitespace(root.firstChild);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p><span>Hello</span></p>');
+	}
+});
+
+describe('applyTagIntoElement', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should replace block into block': function() {
+		xq.$('editor').innerHTML = '<p id="target" style="text-align: center;">Hello</p>';
+		
+		var target = rdom.$('target');
+		var applied = rdom.applyTagIntoElement("H1", target);
+		
+		value_of(rdom.getRoot()).should_have(1, "childNodes");
+		value_of(rdom.getRoot().firstChild).should_be(applied);
+		value_of(applied.nodeName).should_be("H1");
+		value_of(applied.style.textAlign).should_be("center");
+	},
+	'should replace block into container': function() {
+		xq.$('editor').innerHTML = '<p>Hello</p>';
+		
+		var target = rdom.getRoot().firstChild;
+		var applied = rdom.applyTagIntoElement("DIV", target);
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div>Hello</div>');
+	},
+	'should wrap block into container if block has attributes': function() {
+		xq.$('editor').innerHTML = '<p id="target">Hello</p>';
+		
+		var target = rdom.$('target');
+		var applied = rdom.applyTagIntoElement("DIV", target);
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><p id="target">Hello</p></div>');
+	},
+	'should insert block into container': function() {
+		xq.$('editor').innerHTML = '<div id="target">Hello</div>';
+		
+		var target = rdom.$('target');
+		var applied = rdom.applyTagIntoElement("P", target);
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div id="target"><p>Hello</p></div>');
+	},
+	'should insert container into container': function() {
+		xq.$('editor').innerHTML = '<div id="target">Hello</div>';
+		
+		var target = rdom.$('target');
+		var applied = rdom.applyTagIntoElement("BLOCKQUOTE", target);
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div id="target"><blockquote><p>Hello</p></blockquote></div>');
+	},
+	'should perform replace on blocks and wrap inline/text children on container when there\'s selection': function() {
+		xq.$('editor').innerHTML = '<p>A</p><p id="from">B</p><div><p>C</p><p>D</p></div><div>E</div><p id="to">F</p><p>G</p>';
+		var applied = rdom.applyTagIntoElements('H1', rdom.$('from'), rdom.$('to'));
+		value_of(applied).should_have(5, "items");
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p><h1 id="from">B</h1><div><h1>C</h1><h1>D</h1></div><div><h1>E</h1></div><h1 id="to">F</h1><p>G</p>');
+	},
+	'should wrap selected elements': function() {
+		xq.$('editor').innerHTML = '<p>A</p><p id="from">B</p><div><p>C</p><p>D</p></div><div>E</div><p id="to">F</p><p>G</p>';
+		var applied = rdom.applyTagIntoElements('DIV', rdom.$('from'), rdom.$('to'));
+		
+		value_of(applied).should_have(1, "items");
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p><div><p id="from">B</p><div><p>C</p><p>D</p></div><div>E</div><p id="to">F</p></div><p>G</p>');
+	},
+	'should wrap parent when selected area covers whole parent': function() {
+		xq.$('editor').innerHTML = '<ul><li><p id="from">A</p><ul><li id="to">B</li></ul></li></ul>';
+		var applied = rdom.applyTagIntoElements('DIV', rdom.$('from'), rdom.$('to'));
+		
+		value_of(applied).should_have(1, "items");
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><ul><li><p id="from">A</p><ul><li id="to">B</li></ul></li></ul></div>');
+	},
+	'should set class name': function() {
+		xq.$('editor').innerHTML = '<p id="target">Hello</p>';
+		var target = rdom.$('target');
+		var applied = rdom.applyTagIntoElement(null, target, "hello");
+		value_of(applied.className).should_be("hello");
+	},
+	'should preserve name if className is not provided': function() {
+		xq.$('editor').innerHTML = '<p id="target" class="hello">Hello</p>';
+		var target = rdom.$('target');
+		var applied = rdom.applyTagIntoElement("p", target);
+		value_of(applied.className).should_be("hello");
+	},
+	'should do nothing if both tag name and class name is null': function() {
+		xq.$('editor').innerHTML = '<p id="target">Hello</p>';
+		var target = rdom.$('target');
+		var applied = rdom.applyTagIntoElement(null, target);
+		value_of(applied).should_be(null);
+	},
+	'should set class name when there\'s selection': function() {
+		xq.$('editor').innerHTML = '<p id="from">A</p><p>B</p><p id="to">C</p>';
+		var from = rdom.$('from');
+		var to = rdom.$('to');
+		rdom.applyTagIntoElements(null, from, to, "hello");
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p class="hello" id="from">A</p><p class="hello">B</p><p class="hello" id="to">C</p>');
+	},
+	'should preserve name if className is not provided when there\'s selection': function() {
+		xq.$('editor').innerHTML = '<p id="from">A</p><p class="hello">B</p><p id="to">C</p>';
+		var from = rdom.$('from');
+		var to = rdom.$('to');
+		var applied = rdom.applyTagIntoElements("p", from, to);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="from">A</p><p class="hello">B</p><p id="to">C</p>');
+	},
+	'should do nothing if both tag name and class name is null when there\'s selection': function() {
+		xq.$('editor').innerHTML = '<p id="from">A</p><p class="hello">B</p><p id="to">C</p>';
+		var from = rdom.$('from');
+		var to = rdom.$('to');
+		var applied = rdom.applyTagIntoElements(null, from, to);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="from">A</p><p class="hello">B</p><p id="to">C</p>');
+	}
+})
+
+describe('wrapAllInlineOrTextNodesAs', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should do nothing when the element is empty': function() {
+		xq.$('editor').innerHTML = '<div id="target"></div>';
+		
+		var target = rdom.$('target');
+		var wrappers = rdom.wrapAllInlineOrTextNodesAs('SPAN', target);
+		
+		value_of(wrappers).should_be_empty();
+	},
+	'should do nothing when there\'s no text/inline node at all': function() {
+		xq.$('editor').innerHTML = '<div id="target"><p>Hello</p><p>World</p></div>';
+		
+		var target = rdom.$('target');
+		var wrappers = rdom.wrapAllInlineOrTextNodesAs('SPAN', target);
+		
+		value_of(wrappers).should_be_empty();
+	},
+	'should wrap adjust inline/text child nodes': function() {
+		xq.$('editor').innerHTML = '<div id="target">Hello<p>, </p>World!</div>';
+		
+		var target = rdom.$('target');
+		var wrappers = rdom.wrapAllInlineOrTextNodesAs('SPAN', target);
+		
+		value_of(wrappers).should_have_exactly(2, 'items');
+		value_of(wrappers[0]).should_be(target.firstChild);
+		value_of(wrappers[1]).should_be(target.lastChild);
+	},
+	'should not wrap single inline/text child nodes': function() {
+		xq.$('editor').innerHTML = '<div id="target">Hello World!</div>';
+		
+		var target = rdom.$('target');
+		var wrappers = rdom.wrapAllInlineOrTextNodesAs('SPAN', target);
+		
+		value_of(wrappers).should_be_empty();
+	},
+	'should not wrap single inline/text child nodes when forced': function() {
+		xq.$('editor').innerHTML = '<div id="target">Hello World!</div>';
+		
+		var target = rdom.$('target');
+		var wrappers = rdom.wrapAllInlineOrTextNodesAs('SPAN', target, true);
+		
+		value_of(wrappers).should_have_exactly(1, 'items');
+		value_of(wrappers[0]).should_be(target.firstChild);
+	}
+});
+
+describe('unwrapUnnecessaryParagraph', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should remove P in block': function() {
+		xq.$('editor').innerHTML = '<div id="target"><p>Hello World</p></div>';
+		var target = rdom.$('target');
+		
+		var performed = rdom.unwrapUnnecessaryParagraph(target);
+		value_of(performed).should_be_true();
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div id="target">Hello World</div>');
+	},
+	'should not remove P in block when it\'s not the only child': function() {
+		xq.$('editor').innerHTML = '<div id="target"><p>Hello</p><p>World</p></div>';
+		var target = rdom.$('target');
+		
+		var performed = rdom.unwrapUnnecessaryParagraph(target);
+		value_of(performed).should_be_false();
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div id="target"><p>Hello</p><p>World</p></div>');
+	},
+	'should not remove P in block only container': function() {
+		xq.$('editor').innerHTML = '<blockquote id="target"><p>Hello World</p></blockquote>';
+		var target = rdom.$('target');
+		
+		var performed = rdom.unwrapUnnecessaryParagraph(target);
+		value_of(performed).should_be_false();
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<blockquote id="target"><p>Hello World</p></blockquote>');
+	},
+	'should not remove P if it has attribute': function() {
+		xq.$('editor').innerHTML = '<div id="target"><p style="text-align: center;">Hello World</p></div>';
+		var target = rdom.$('target');
+		
+		var performed = rdom.unwrapUnnecessaryParagraph(target);
+		value_of(performed).should_be_false();
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div id="target"><p style="text-align: center;">Hello World</p></div>');
+	},
+	'should not remove H1 since it should remove P only': function() {
+		xq.$('editor').innerHTML = '<div id="target"><h1>Hello World</h1></div>';
+		var target = rdom.$('target');
+		
+		var performed = rdom.unwrapUnnecessaryParagraph(target);
+		value_of(performed).should_be_false();
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div id="target"><h1>Hello World</h1></div>');
+	}
+});
+
+describe('insertNewBlockAround', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should insert element before with same tag': function() {
+		xq.$('editor').innerHTML = '<p id="target">Hello</p>';
+		var target = rdom.$('target');
+		var inserted = rdom.insertNewBlockAround(target, true);
+		
+		value_of(rdom.getRoot()).should_have(2, 'childNodes');
+		value_of(inserted).should_be(target.previousSibling);
+		value_of(inserted.tagName).should_be("P");
+	},
+	'should insert element after with same tag': function() {
+		xq.$('editor').innerHTML = '<p id="target">Hello</p>';
+		var target = rdom.$('target');
+		var inserted = rdom.insertNewBlockAround(target, false);
+		
+		value_of(rdom.getRoot()).should_have(2, 'childNodes');
+		value_of(inserted).should_be(target.nextSibling);
+		value_of(inserted.tagName).should_be("P");
+	},
+	'should insert P when current element is H1 (before)': function() {
+		xq.$('editor').innerHTML = '<h1 id="target">Hello</h1>';
+		var target = rdom.$('target');
+		var inserted = rdom.insertNewBlockAround(target, true);
+		value_of(rdom.getRoot()).should_have(2, 'childNodes');
+		value_of(inserted).should_be(target.previousSibling);
+		value_of(inserted.tagName).should_be("P");
+	},
+	'should insert P when current element is H1 (after)': function() {
+		xq.$('editor').innerHTML = '<h1 id="target">Hello</h1>';
+		var target = rdom.$('target');
+		var inserted = rdom.insertNewBlockAround(target, false);
+		value_of(rdom.getRoot()).should_have(2, 'childNodes');
+		value_of(inserted).should_be(target.nextSibling);
+		value_of(inserted.tagName).should_be("P");
+	},
+	'should insert P when current element is block container': function() {
+		xq.$('editor').innerHTML = '<div id="target">Hello</div>';
+		var target = rdom.$('target');
+		var inserted = rdom.insertNewBlockAround(target, false);
+		value_of(target).should_have(2, 'childNodes');
+		value_of(target.firstChild.nodeName).should_be("P");
+		value_of(target.lastChild.nodeName).should_be("P");
+	},
+	'should insert LI when current element is LI': function() {
+		xq.$('editor').innerHTML = '<ul><li id="target">Hello</li></ul>';
+		var target = rdom.$('target');
+		var inserted = rdom.insertNewBlockAround(target, false);
+		value_of(inserted).should_be(target.nextSibling);
+		value_of(inserted.nodeName).should_be("LI");
+	},
+	'should insert element with given tag': function() {
+		xq.$('editor').innerHTML = '<p id="target">Hello</p>';
+		var target = rdom.$('target');
+		var inserted = rdom.insertNewBlockAround(target, true, 'H1');
+		
+		value_of(rdom.getRoot()).should_have(2, 'childNodes');
+		value_of(inserted).should_be(target.previousSibling);
+		value_of(inserted.tagName).should_be("H1");
+	},
+	'should copy attributes except id': function() {
+		xq.$('editor').innerHTML = '<p id="target" style="text-align: center;">Hello</p>';
+		var target = rdom.$('target');
+		var inserted = rdom.insertNewBlockAround(target, true);
+		
+		value_of(inserted.id).should_be_empty();
+		value_of(inserted.style.textAlign).should_be("center");
+	},
+	'should insert LI before LI even if current block is P [[xq.Browser.isGecko || xq.Browser.isWebkit]]': function() {
+		// 1. A
+		//    B <- 
+		//    C
+		//    1. D
+		xq.$('editor').innerHTML = '<ul><li><p>A</p><p id="target">B</p><p>C</p><ul><li>D</li></ul></li></ul>';
+		var target = rdom.$('target');
+		var inserted = rdom.insertNewBlockAround(target, true);
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_match('<ul><li>A</li><li><p><br.*? /></p><p id="target">B</p><p>C</p><ul><li>D</li></ul></li></ul>');
+	},
+	'should insert LI after  LI even if current block is P [[xq.Browser.isGecko || xq.Browser.isWebkit]]': function() {
+		// 1. A
+		//    B <- 
+		//    C
+		//    1. D
+		xq.$('editor').innerHTML = '<ul><li><p>A</p><p id="target">B</p><p>C</p><ul><li>D</li></ul></li></ul>';
+		var target = rdom.$('target');
+		var inserted = rdom.insertNewBlockAround(target, false);
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_match('<ul><li><p>A</p><p id="target">B</p></li><li><p><br.*? /></p><p>C</p><ul><li>D</li></ul></li></ul>');
+	},
+	'should insert LI when current block is P and next sibling is list container [[xq.Browser.isGecko || xq.Browser.isWebkit]]': function() {
+		// 1. A <-
+		//    1. B
+		xq.$('editor').innerHTML = '<ul><li><p id="target">A</p><ul><li>B</li></ul></li></ul>';
+		var target = rdom.$('target');
+		var inserted = rdom.insertNewBlockAround(target, false);
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_match('<ul><li><p id="target">A</p></li><li><p><br.*? /></p><ul><li>B</li></ul></li></ul>');
+	},
+	'should insert LI before LI even if current block is P [[xq.Browser.isTrident]]': function() {
+		// 1. A
+		//    B <- 
+		//    C
+		//    1. D
+		xq.$('editor').innerHTML = '<ul><li><p>A</p><p id="target">B</p><p>C</p><ul><li>D</li></ul></li></ul>';
+		var target = rdom.$('target');
+		var inserted = rdom.insertNewBlockAround(target, true);
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li><p>&nbsp;</p><p id="target">B</p><p>C</p><ul><li>D</li></ul></li></ul>');
+	},
+	'should insert LI after  LI even if current block is P [[xq.Browser.isTrident]]': function() {
+		// 1. A
+		//    B <- 
+		//    C
+		//    1. D
+		xq.$('editor').innerHTML = '<ul><li><p>A</p><p id="target">B</p><p>C</p><ul><li>D</li></ul></li></ul>';
+		var target = rdom.$('target');
+		var inserted = rdom.insertNewBlockAround(target, false);
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li><p>A</p><p id="target">B</p></li><li><p>&nbsp;</p><p>C</p><ul><li>D</li></ul></li></ul>');
+	},
+	'should insert LI when current block is P and next sibling is list container [[xq.Browser.isTrident]]': function() {
+		// 1. A <-
+		//    1. B
+		xq.$('editor').innerHTML = '<ul><li><p id="target">A</p><ul><li>B</li></ul></li></ul>';
+		var target = rdom.$('target');
+		var inserted = rdom.insertNewBlockAround(target, false);
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li><p id="target">A</p></li><li><p>&nbsp;</p><ul><li>B</li></ul></li></ul>');
+	},
+	'should insert LI when current block is P and next sibling is list container (case 2)': function() {
+		// 1. A <-
+		//    1. B
+		xq.$('editor').innerHTML = '<ul><li><p id="target">A</p><ul><li>B</li></ul></li></ul>';
+		var target = rdom.$('target');
+		var inserted = rdom.insertNewBlockAround(target, true);
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_match('<ul><li>(&nbsp;|<br.*? />)</li><li><p id="target">A</p><ul><li>B</li></ul></li></ul>');
+	}
+});
+
+describe('moveChildNodes', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should move all children': function() {
+		xq.$('editor').innerHTML = '<p id="target">A<em>B</em>C<strong>D</strong></p><p></p>';
+		var from = rdom.$('target');
+		var to = from.nextSibling;
+		rdom.moveChildNodes(from, to);
+		
+		value_of(from).should_have(0, 'childNodes');
+		value_of(to.innerHTML.normalizeHtml()).should_be('A<em>B</em>C<strong>D</strong>');
+	},
+	'should do nothing when from == to': function() {
+		xq.$('editor').innerHTML = '<p id="target">A<em>B</em>C<strong>D</strong></p><p></p>';
+		var from = rdom.$('target');
+		rdom.moveChildNodes(from, from);
+		
+		value_of(from.innerHTML.normalizeHtml()).should_be('A<em>B</em>C<strong>D</strong>');
+		value_of(from.nextSibling).should_have(0, 'childNodes');
+	},
+	'should deal with tangled hierarchy': function() {
+		xq.$('editor').innerHTML = '<div id="target"><p>A</p><p>B</p></div>';
+		var from = rdom.$('target');
+		var to = from.firstChild;
+		
+		try {
+			rdom.moveChildNodes(from, to);
+			value_of(this).should_fail('Should not reach here');
+		} catch(expected) {}
+	}
+})
+
+describe('splitContainerOf', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should do nothing when there\'s no parent': function() {
+		xq.$('editor').innerHTML = '<p id="target">A</p>';
+		var target = rdom.$('target');
+		var result = rdom.splitContainerOf(target);
+		
+		value_of(result).should_be(target);
+		value_of(rdom.getRoot()).should_have(1, 'childNodes');
+		value_of(rdom.getRoot().firstChild).should_be(target);
+	},
+	'should do nothing when there\'s no sibling': function() {
+		xq.$('editor').innerHTML = '<div><p id="target">A</p></div>';
+		var target = rdom.$('target');
+		var result = rdom.splitContainerOf(target);
+		
+		value_of(result).should_be(target);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><p id="target">A</p></div>');
+	},
+	'should split container': function() {
+		xq.$('editor').innerHTML = '<div><p>A</p><p id="target">B</p><p>C</p></div>';
+		var target = rdom.$('target');
+		var result = rdom.splitContainerOf(target);
+		
+		value_of(rdom.getRoot().innerHTML.normalizeHtml()).should_be('<div>A</div><div><p id="target">B</p></div><div>C</div>');
+	},
+	'should preserve container\'s attributes': function() {
+		xq.$('editor').innerHTML = '<div style="text-align: center;"><p>A</p><p id="target">B</p><p>C</p></div>';
+		var target = rdom.$('target');
+		var result = rdom.splitContainerOf(target);
+
+		value_of(rdom.getRoot().firstChild.style.textAlign).should_be("center");
+		value_of(rdom.getRoot().lastChild.style.textAlign).should_be("center");
+	}
+});
+
+describe('insertNodeAt', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+		
+		xq.$('editor').innerHTML = '<div id="target">Target</div>';
+		node = rdom.createElement('P');
+		targetNode = rdom.$('target');
+	},
+	
+	'should insert node at before target': function() {
+		var result = rdom.insertNodeAt(node, targetNode, 'before');
+		value_of(targetNode.previousSibling).should_be(result);
+	},
+	'should insert node at start of target': function() {
+		var result = rdom.insertNodeAt(node, targetNode, 'start');
+		value_of(targetNode.firstChild).should_be(result);
+	},
+	'should insert node at end of target': function() {
+		var result = rdom.insertNodeAt(node, targetNode, 'end');
+		value_of(targetNode.lastChild).should_be(result);
+	},
+	'should insert node at after target': function() {
+		var result = rdom.insertNodeAt(node, targetNode, 'after');
+		value_of(targetNode.nextSibling).should_be(result);
+	}
+});
+
+describe('insertNodeAt with validation', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	
+	'should wrap LI if needed': function() {
+		xq.$('editor').innerHTML = '<p id="from">A</p><ul id="to"><li>B</li></ul>';
+		var from = rdom.$('from');
+		var to = rdom.$('to');
+		var inserted = rdom.insertNodeAt(from, to, "start", true);
+		value_of(inserted.nodeName).should_be("LI");
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul id="to"><li><p id="from">A</p></li><li>B</li></ul>');
+	},
+	'should unwrap LI if needed': function() {
+		xq.$('editor').innerHTML = '<div id="to"></div><ul><li id="from">A</li><li>B</li></ul>';
+		var from = rdom.$('from');
+		var to = rdom.$('to');
+		var inserted = rdom.insertNodeAt(from, to, "start", true);
+		value_of(inserted.nodeName).should_be("P");
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div id="to"><p>A</p></div><ul><li>B</li></ul>');
+	}
+});
+
+describe('extractOutElementFromParent', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should do nothing where the element is immediate child of ROOT': function() {
+		xq.$('editor').innerHTML = '<p id="target">A</p>';
+		var target = rdom.$('target');
+		var extracted = rdom.extractOutElementFromParent(target);
+		
+		value_of(extracted).should_be_null();
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="target">A</p>');
+	},
+	'should do nothing when parent element is table cell': function() {
+		xq.$('editor').innerHTML = '<table><tbody><tr><td><p id="target">A</p></td></tr></tbody></table>';
+		var target = rdom.$('target');
+		var extracted = rdom.extractOutElementFromParent(target);
+		
+		value_of(extracted).should_be_null();
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><tbody><tr><td><p id="target">A</p></td></tr></tbody></table>');
+	},
+	'should do nothing when element is table cell': function() {
+		xq.$('editor').innerHTML = '<table><tbody><tr><td id="target">A</td></tr></tbody></table>';
+		var target = rdom.$('target');
+		var extracted = rdom.extractOutElementFromParent(target);
+		
+		value_of(extracted).should_be_null();
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><tbody><tr><td id="target">A</td></tr></tbody></table>');
+	},
+	'should work when there\'s no sibling': function() {
+		xq.$('editor').innerHTML = '<div><p id="target">A</p></div>';
+		var target = rdom.$('target');
+		var extracted = rdom.extractOutElementFromParent(target);
+		
+		value_of(extracted).should_be(target);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="target">A</p>');
+	},
+	'should work when there\'re siblings': function() {
+		xq.$('editor').innerHTML = '<div><p>A</p><p id="target">B</p><p>C</p></div>';
+		var target = rdom.$('target');
+		var extracted = rdom.extractOutElementFromParent(target);
+		
+		value_of(extracted).should_be(target);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div>A</div><p id="target">B</p><div>C</div>');
+	},
+	'should work with list item which has no sibling': function() {
+	    // 1. A <-
+		xq.$('editor').innerHTML = '<ol><li id="target">A</li></ol>';
+		var target = rdom.$('target');
+		var extracted = rdom.extractOutElementFromParent(target);
+		
+		// A <-
+		value_of(extracted).should_be(rdom.getRoot().firstChild);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p>');
+	},
+	'should work with list item which has next sibling': function() {
+		// 1. A <-
+		// 2. B
+		xq.$('editor').innerHTML = '<ol><li><p id="target">A</p></li><li><p>B</p></li></ol>';
+		var target = rdom.$('target');
+		var extracted = rdom.extractOutElementFromParent(target);
+		
+		// A <-
+		// 1. B
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="target">A</p><ol><li><p>B</p></li></ol>');
+		value_of(extracted).should_be(target);
+	},
+	'should work with list item which has previous sibling': function() {
+		// 1. A
+		// 2. B <-
+		xq.$('editor').innerHTML = '<ol><li><p>A</p></li><li><p id="target">B</p></li></ol>';
+		var target = rdom.$('target');
+		var extracted = rdom.extractOutElementFromParent(target);
+		
+		// 1. A
+		// B <-
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol><li><p>A</p></li></ol><p id="target">B</p>');
+		value_of(extracted).should_be(target);
+	},
+	'should work with nested list item (case 1)': function() {
+		// 1. A <-
+		//    1. B 
+		//    2. C
+		// 2. D
+		xq.$('editor').innerHTML = '<ol><li><p id="target">A</p><ol><li><p>B</p></li><li><p>C</p></li></ol></li><li><p>D</p></li></ol>';
+		var target = rdom.$('target');
+		var extracted = rdom.extractOutElementFromParent(target);
+		
+		// A <-
+		// 1. B 
+		// 2. C
+		// 3. D
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p id="target">A</p><ol><li><p>B</p></li><li><p>C</p></li><li><p>D</p></li></ol>');
+		value_of(extracted).should_be(target);
+	},
+	'should work with nested list item (case 2)': function() {
+		// 1. A
+		//    1. B <-
+		//    2. C
+		// 2. D
+		xq.$('editor').innerHTML = '<ol><li><p>A</p><ol><li><p id="target">B</p></li><li><p>C</p></li></ol></li><li><p>D</p></li></ol>';
+		var target = rdom.$('target');
+		var extracted = rdom.extractOutElementFromParent(target);
+		
+		// 1. A
+		// 2. B <-
+		//    1. C
+		// 3. D
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol><li>A</li><li><p id="target">B</p><ol><li><p>C</p></li></ol></li><li><p>D</p></li></ol>');
+		value_of(extracted).should_be(target);
+	},
+	'should work with nested list item (case 3)': function() {
+		// 1. A
+		//    1. B
+		//    2. C  <-
+		// 2. D
+		xq.$('editor').innerHTML = '<ol><li><p>A</p><ol><li><p>B</p></li><li><p id="target">C</p></li></ol></li><li><p>D</p></li></ol>';
+		var target = rdom.$('target');
+		var extracted = rdom.extractOutElementFromParent(target);
+		
+		// 1. A
+		//    1. B
+		// 2. C <-
+		// 3. D
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol><li><p>A</p><ol><li><p>B</p></li></ol></li><li><p id="target">C</p></li><li><p>D</p></li></ol>');
+		value_of(extracted).should_be(target);
+	},
+	'should work with nested list item (case 4)': function() {
+		// 1. A
+		//    1. B
+		//    2. C
+		// 2. D  <-
+		xq.$('editor').innerHTML = '<ol><li><p>A</p><ol><li><p>B</p></li><li><p>C</p></li></ol></li><li><p id="target">D</p></li></ol>';
+		var target = rdom.$('target');
+		var extracted = rdom.extractOutElementFromParent(target);
+		
+		// 1. A
+		//    1. B
+		//    2. C
+		// D  <-
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol><li><p>A</p><ol><li><p>B</p></li><li><p>C</p></li></ol></li></ol><p id="target">D</p>');
+		value_of(extracted).should_be(target);
+	},
+	'should work with list item which contains two or more block elements (case 1)': function() {
+		// 1. A
+		// 2. B <-
+		//    C
+		//    D
+		// 3. E
+		xq.$('editor').innerHTML = '<ol><li><p>A</p></li><li><p id="target">B</p><p>C</p><p>D</p></li><li><p>E</p></li></ol>';
+		var target = rdom.$('target');
+		var extracted = rdom.extractOutElementFromParent(target);
+		
+		// 1. A
+		// B <-
+		// 1. C
+		//    D
+		// 2. E
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol><li><p>A</p></li></ol><p id="target">B</p><ol><li><p>C</p><p>D</p></li><li><p>E</p></li></ol>');
+		value_of(extracted).should_be(target);
+	},
+	'should work with list item which contains two or more block elements (case 2)': function() {
+		// 1. A
+		// 2. B
+		//    C <-
+		//    D
+		// 3. E
+		xq.$('editor').innerHTML = '<ol><li>A</li><li><p>B</p><p id="target">C</p><p>D</p></li><li>E</li></ol>';
+		var target = rdom.$('target');
+		var extracted = rdom.extractOutElementFromParent(target);
+		
+		// 1. A
+		// 2. B
+		// C <-
+		// 1. D
+		// 2. E
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol><li>A</li><li>B</li></ol><p id="target">C</p><ol><li>D</li><li>E</li></ol>');
+		value_of(extracted).should_be(target);
+	},
+	'should work with list item which contains two or more block elements (case 3)': function() {
+		// 1. A
+		// 2. B
+		//    C
+		//    D <-
+		// 3. E
+		xq.$('editor').innerHTML = '<ol><li>A</li><li><p>B</p><p>C</p><p id="target">D</p></li><li>E</li></ol>';
+		var target = rdom.$('target');
+		var extracted = rdom.extractOutElementFromParent(target);
+		
+		// 1. A
+		// 2. B
+		//    C
+		// D <-
+		// 1. E
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol><li>A</li><li><p>B</p><p>C</p></li></ol><p id="target">D</p><ol><li>E</li></ol>');
+		value_of(extracted).should_be(target);
+	},
+	'should work with nested list item which contains two or more block elements (case 1)': function() {
+		// 1. A
+		//    1. B
+		//    2. C <-
+		//       D
+		//       E
+		//    3. F
+		// 2. G
+		xq.$('editor').innerHTML = '<ol><li><p>A</p><ol><li><p>B</p></li><li><p id="target">C</p><p>D</p><p>E</p></li><li><p>F</p></li></ol></li><li><p>G</p></li></ol>';
+		var target = rdom.$('target');
+		var extracted = rdom.extractOutElementFromParent(target);
+		
+		// 1. A
+		//    1. B
+		// 2. C <-
+		//    D
+		//    E
+		//    1. F
+		// 2. G
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol><li><p>A</p><ol><li><p>B</p></li></ol></li><li><p id="target">C</p><p>D</p><p>E</p><ol><li><p>F</p></li></ol></li><li><p>G</p></li></ol>');
+		value_of(extracted).should_be(target);
+	},
+	'should work with nested list item which contains two or more block elements (case 2)': function() {
+		// 1. A
+		//    1. B
+		//    2. C
+		//       D <-
+		//       E
+		//    3. F
+		// 2. G
+		xq.$('editor').innerHTML = '<ol><li><p>A</p><ol><li>B</li><li><p>C</p><p id="target">D</p><p>E</p></li><li>F</li></ol></li><li>G</li></ol>';
+		var target = rdom.$('target');
+		var extracted = rdom.extractOutElementFromParent(target);
+		
+		// 1. A
+		//    1. B
+		//    2. C
+		// 2. D <-
+		//    3. E
+		//    4. F
+		// 3. G
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol><li><p>A</p><ol><li>B</li><li>C</li></ol></li><li><p id="target">D</p><ol><li>E</li><li>F</li></ol></li><li>G</li></ol>');
+		value_of(extracted).should_be(target);
+	},
+	'should work with nested list item which contains two or more block elements (case 3)': function() {
+		// 1. A
+		//    1. B
+		//    2. C
+		//       D
+		//       E <-
+		//    3. F
+		// 2. G
+		xq.$('editor').innerHTML = '<ol><li><p>A</p><ol><li><p>B</p></li><li><p>C</p><p>D</p><p id="target">E</p></li><li><p>F</p></li></ol></li><li><p>G</p></li></ol>';
+		var target = rdom.$('target');
+		var extracted = rdom.extractOutElementFromParent(target);
+		
+		// 1. A
+		//    1. B
+		//    2. C
+		//       D
+		// 2. E <-
+		//    1. F
+		// 3. G
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol><li><p>A</p><ol><li><p>B</p></li><li><p>C</p><p>D</p></li></ol></li><li><p id="target">E</p><ol><li><p>F</p></li></ol></li><li><p>G</p></li></ol>');
+		value_of(extracted).should_be(target);
+	}
+});
+
+describe('deleteNode', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should delete single node': function() {
+		xq.$('editor').innerHTML = '<div>A<p id="target">B</p>C</div>';
+		rdom.deleteNode(rdom.$('target'));
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div>AC</div>');
+	},
+	'should recursively delete parent nodes': function() {
+		xq.$('editor').innerHTML = '<div>A<blockquote><p id="target">B</p></blockquote>C</div>';
+		rdom.deleteNode(rdom.$('target'), true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div>AC</div>');
+	},
+	'should correct empty element after deletion': function() {
+		xq.$('editor').innerHTML = '<div><p id="target">B</p></div>';
+		rdom.deleteNode(rdom.$('target'), false, true);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_match('<div>(&nbsp;|<br.*? />)</div>');
+	}
+});
+
+describe('replaceTag', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	
+	'should preserve attributes': function() {
+		xq.$('editor').innerHTML = '<p class="strike" id="target" style="font-size: small;">Hello</p>';
+		rdom.replaceTag("h1", rdom.$('target'));
+		value_of(xq.$("editor").innerHTML.normalizeHtml()).should_be('<h1 class="strike" id="target" style="font-size: small;">Hello</h1>');
+	},
+	
+	'should not replace table cell': function() {
+		xq.$('editor').innerHTML = '<table><tbody><tr><td id="target">A</td></tr></tbody></table>';
+		var replaced = rdom.replaceTag("h1", rdom.$('target'));
+		value_of(replaced).should_be_null();
+		value_of(xq.$("editor").innerHTML.normalizeHtml()).should_be('<table><tbody><tr><td id="target">A</td></tr></tbody></table>');
+	}
+});
+
+describe('isFirstBlockOfBody', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should be true for first P': function() {
+		xq.$('editor').innerHTML = '<p id="target">Hello</p>';
+		value_of(rdom.isFirstBlockOfBody(rdom.$('target'))).should_be(true);
+	},
+	'should be true for first DIV': function() {
+		xq.$('editor').innerHTML = '<div id="target">Hello</div>';
+		value_of(rdom.isFirstBlockOfBody(rdom.$('target'))).should_be(true);
+	},
+	'should be true for first P in BLOCKQUOTE': function() {
+		xq.$('editor').innerHTML = '<blockquote><p id="target">Hello</p></blockquote>';
+		value_of(rdom.isFirstBlockOfBody(rdom.$('target'))).should_be(true);
+	},
+	'should be true for first P in LI': function() {
+		xq.$('editor').innerHTML = '<ol><li><p id="target">Hello</p><ol><li>B</li></ol></li></ol>';
+		value_of(rdom.isFirstBlockOfBody(rdom.$('target'))).should_be(true);
+	},
+	'should be false for second P': function() {
+		xq.$('editor').innerHTML = '<p>A</p><p id="target">Hello</p>';
+		value_of(rdom.isFirstBlockOfBody(rdom.$('target'))).should_be(false);
+	}
+});
+
+// ]]></script>
+</body>
+</html>

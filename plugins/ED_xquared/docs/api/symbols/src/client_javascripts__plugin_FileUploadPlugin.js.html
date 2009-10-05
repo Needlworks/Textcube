@@ -1,0 +1,406 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.linenumber {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='linenumber'>  1</span> <span class="COMM">/**
+<span class='linenumber'>  2</span>  * @requires Xquared.js
+<span class='linenumber'>  3</span>  * @requires Browser.js
+<span class='linenumber'>  4</span>  * @requires Editor.js
+<span class='linenumber'>  5</span>  * @requires plugin/Base.js
+<span class='linenumber'>  6</span>  * @requires ui/Control.js
+<span class='linenumber'>  7</span>  */</span><span class="WHIT">
+<span class='linenumber'>  8</span> </span><span class="NAME">xq.plugin.FileUploadPlugin</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">xq.Class</span><span class="PUNC">(</span><span class="NAME">xq.plugin.Base</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>  9</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 10</span> 	 * @name xq.plugin.FileUploadPlugin
+<span class='linenumber'> 11</span> 	 * @lends xq.plugin.FileUploadPlugin.prototype
+<span class='linenumber'> 12</span> 	 * @extends xq.plugin.Base
+<span class='linenumber'> 13</span> 	 * @constructor
+<span class='linenumber'> 14</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 15</span> 	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 16</span> 	</span><span class="NAME">onAfterLoad</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">xed</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 17</span> 		
+<span class='linenumber'> 18</span> 		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">xed.isSingleFileUpload</span><span class="PUNC">)</span><span class="WHIT">
+<span class='linenumber'> 19</span> 		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 20</span> 			</span><span class="NAME">xed.isSingleFileUpload</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 21</span> 		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 22</span> 		
+<span class='linenumber'> 23</span> 		</span><span class="NAME">xed.config.defaultToolbarButtonGroups.insert.push</span><span class="PUNC">(</span><span class="WHIT">
+<span class='linenumber'> 24</span> 			</span><span class="PUNC">{</span><span class="NAME">className</span><span class="PUNC">:</span><span class="STRN">"image"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">title</span><span class="PUNC">:</span><span class="STRN">"Upload Image"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">handler</span><span class="PUNC">:</span><span class="STRN">"xed.handleFileUpload("</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">xed.isSingleFileUpload</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">")"</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 25</span> 		</span><span class="PUNC">)</span><span class="WHIT">
+<span class='linenumber'> 26</span> 
+<span class='linenumber'> 27</span> 		</span><span class="NAME">xed.insertImageFileToEditor</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">filePath</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">alt</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">xed</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 28</span> 			</span><span class="NAME">xed</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">xed</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 29</span> 
+<span class='linenumber'> 30</span> 			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">img</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">xed.getDoc</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">createElement</span><span class="PUNC">(</span><span class="STRN">'IMG'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 31</span> 			</span><span class="NAME">img.src</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">filePath</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 32</span> 			</span><span class="NAME">img.alt</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">alt</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 33</span> 			
+<span class='linenumber'> 34</span> 			</span><span class="NAME">xed.focus</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 35</span> 			</span><span class="NAME">xed.rdom.insertNode</span><span class="PUNC">(</span><span class="NAME">img</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 36</span> 		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 37</span> 		
+<span class='linenumber'> 38</span> 		</span><span class="NAME">xed.fileUploadFieldName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"Filedata"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 39</span> 		</span><span class="NAME">xed.singleUploadTarget</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"/examples/single_upload_submit.php"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 40</span> 		</span><span class="NAME">xed.multiUploadTarget</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"/examples/upload.php"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 41</span> 
+<span class='linenumber'> 42</span> 		</span><span class="NAME">xed.setFileUploadTarget</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">singleUploadTarget</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">multiUploadTarget</span><span class="PUNC">)</span><span class="WHIT">
+<span class='linenumber'> 43</span> 		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 44</span> 			</span><span class="NAME">xed.singleUploadTarget</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">singleUploadTarget</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 45</span> 			</span><span class="NAME">xed.multiUploadTarget</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">multiUploadTarget</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 46</span> 		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 47</span> 		
+<span class='linenumber'> 48</span> 		</span><span class="NAME">xed.setUploadFieldName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">fieldName</span><span class="PUNC">)</span><span class="WHIT">
+<span class='linenumber'> 49</span> 		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 50</span> 			</span><span class="NAME">xed.fileUploadFieldName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fieldName</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 51</span> 		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 52</span> 		
+<span class='linenumber'> 53</span> 		</span><span class="NAME">xed.fileUploadTarget</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 54</span> 		</span><span class="COMM">// uploadTarget must be absolute path</span><span class="WHIT">
+<span class='linenumber'> 55</span> 			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">xed.isSingleFileUpload</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 56</span> 				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">xed.singleUploadTarget</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 57</span> 			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 58</span> 				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">xed.multiUploadTarget</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 59</span> 			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 60</span> 		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 61</span> 		
+<span class='linenumber'> 62</span> 		</span><span class="NAME">xed.handleFileUpload</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">isSingleFileUpload</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 63</span> 			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">requiredMajorVersion</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">9</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 64</span> 			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">requiredMinorVersion</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 65</span> 			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">requiredRevision</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 66</span> 
+<span class='linenumber'> 67</span> 			</span><span class="NAME">this.isSingleFileUpload</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">isSingleFileUpload</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">DetectFlashVer</span><span class="PUNC">(</span><span class="NAME">requiredMajorVersion</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">requiredMinorVersion</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">requiredRevision</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 68</span> 			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.fileUploadController.dialog</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this.fileUploadController.dialog.close</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 69</span> 
+<span class='linenumber'> 70</span> 			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dialog</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">xq.ui.FormDialog</span><span class="PUNC">(</span><span class="WHIT">
+<span class='linenumber'> 71</span> 				</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 72</span> 				</span><span class="PUNC">(</span><span class="NAME">this.isSingleFileUpload</span><span class="PUNC">)</span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">xq.ui_templates.basicFileUploadDialog</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">xq.ui_templates.basicMultiFileUploadDialog</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 73</span> 				</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">dialog</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 74</span> 					</span><span class="NAME">xed.fileUploadController.load</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 75</span> 				</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 76</span> 				</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">dialog</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 77</span> 					</span><span class="NAME">xed.focus</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 78</span> 
+<span class='linenumber'> 79</span> 					</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">xq.Browser.isTrident</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 80</span> 						</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rng</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">xed.rdom.rng</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 81</span> 						</span><span class="NAME">rng.moveToBookmark</span><span class="PUNC">(</span><span class="NAME">bm</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 82</span> 						</span><span class="NAME">rng.select</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 83</span> 					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 84</span> 					
+<span class='linenumber'> 85</span> 					</span><span class="COMM">// cancel?</span><span class="WHIT">
+<span class='linenumber'> 86</span> 					</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">dialog</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 87</span> 						</span><span class="NAME">xed.fileUploadController.dialog</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 88</span> 						</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">xed.isSingleFileUpload</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">xed.fileUploadController.swfUploader</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 89</span> 							</span><span class="NAME">xed.fileUploadController.swfUploader.destroy</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 90</span> 							</span><span class="NAME">xed.fileUploadController.swfUploader</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 91</span> 						</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 92</span> 						</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 93</span> 					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 94</span> 
+<span class='linenumber'> 95</span> 					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">xed.isSingleFileUpload</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 96</span> 						</span><span class="NAME">this.form.submit</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 97</span> 					</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 98</span> 						</span><span class="NAME">xed.fileUploadController.startUpload</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 99</span> 					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'>100</span> 					
+<span class='linenumber'>101</span> 					</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>102</span> 				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'>103</span> 			</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>104</span> 
+<span class='linenumber'>105</span> 			</span><span class="NAME">this.fileUploadController.dialog</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">dialog</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>106</span> 			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">xq.Browser.isTrident</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">bm</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.rdom.rng</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getBookmark</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>107</span> 			</span><span class="NAME">dialog.show</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">position</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'centerOfEditor'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">notSelfClose</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>108</span> 
+<span class='linenumber'>109</span> 			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>110</span> 		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'>111</span> 
+<span class='linenumber'>112</span> 		</span><span class="NAME">xed.fileUploadListener</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>113</span> 			</span><span class="NAME">fileListContainer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>114</span> 			</span><span class="NAME">isError</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>115</span> 			</span><span class="NAME">onReady</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>116</span> 				
+<span class='linenumber'>117</span> 			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>118</span> 			</span><span class="NAME">onProgress</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">bytesLoaded</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">bytesTotal</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>119</span> 				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">nPerc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">bytesLoaded</span><span class="WHIT"> </span><span class="REGX">/ bytesTotal * 100;
+<span class='linenumber'>120</span> 				xq.$('file-' + file.id + '-progress').style.width = nPerc + '%';
+<span class='linenumber'>121</span> 			},
+<span class='linenumber'>122</span> 			onSelectStart: function(){
+<span class='linenumber'>123</span> 				var ul = document.createElement('UL');
+<span class='linenumber'>124</span> 				ul.id = 'uploadFileList';
+<span class='linenumber'>125</span> 				this.fileListContainer = ul;
+<span class='linenumber'>126</span> 			},
+<span class='linenumber'>127</span> 			onSelectComplete: function(selectedFiles, successFiles, totalFiles){
+<span class='linenumber'>128</span> 				if(!successFiles) {
+<span class='linenumber'>129</span> 					this.filListContainer = null;
+<span class='linenumber'>130</span> 				} else {
+<span class='linenumber'>131</span> 					var fileListContainer = xq.$('fileListContainer');
+<span class='linenumber'>132</span> 					var fileUploadContainer = xq.$('fileUploadContainer');
+<span class='linenumber'>133</span> 	
+<span class='linenumber'>134</span> 				  	fileListContainer.style.display = 'block';
+<span class='linenumber'>135</span> 					
+<span class='linenumber'>136</span> 				  	if (fileUploadContainer.style.width != '1px'){
+<span class='linenumber'>137</span> 					  	fileUploadContainer.style.width = '1px';
+<span class='linenumber'>138</span> 					  	fileUploadContainer.style.height = '1px';
+<span class='linenumber'>139</span> 					  	fileUploadContainer.style.border = 'none';
+<span class='linenumber'>140</span> 					  	fileUploadContainer.style.padding = 0;
+<span class='linenumber'>141</span> 					  	fileUploadContainer.style.backgroundColor = '#ffffff';
+<span class='linenumber'>142</span> 	
+<span class='linenumber'>143</span> 					  	xed.fileUploadController.swfUploader.getMovieElement().style.width = '1px';
+<span class='linenumber'>144</span> 					  	xed.fileUploadController.swfUploader.getMovieElement().style.height = '1px';
+<span class='linenumber'>145</span> 	
+<span class='linenumber'>146</span> 					  	fileUploadContainer.removeChild(fileUploadContainer.getElementsByTagName('P')[0]);
+<span class='linenumber'>147</span> 				  	}
+<span class='linenumber'>148</span> 					
+<span class='linenumber'>149</span> 				  	fileListContainer.innerHTML = "";
+<span class='linenumber'>150</span> 				  	fileListContainer.appendChild(this.fileListContainer);
+<span class='linenumber'>151</span> 				}
+<span class='linenumber'>152</span> 			},
+<span class='linenumber'>153</span> 			
+<span class='linenumber'>154</span> 			onSelect: function(file){
+<span class='linenumber'>155</span> 				var li = document.createElement("LI");
+<span class='linenumber'>156</span> 				li.id = "file_" + file.id;
+<span class='linenumber'>157</span> 
+<span class='linenumber'>158</span> 				var fileName = file["name"];
+<span class='linenumber'>159</span> 				var charlength = fileName.length;
+<span class='linenumber'>160</span> 				var maxLength = 30;
+<span class='linenumber'>161</span> 				
+<span class='linenumber'>162</span> 				for (var j = 0; j &lt; fileName.length; j++){
+<span class='linenumber'>163</span> 					if (fileName.substr(j,1).charCodeAt() >= 256) {
+<span class='linenumber'>164</span> 						charlength++;
+<span class='linenumber'>165</span> 						maxLength--;
+<span class='linenumber'>166</span> 					}
+<span class='linenumber'>167</span> 				}
+<span class='linenumber'>168</span> 				if (charlength > maxLength) fileName = fileName.substr(0, maxLength) + '..';
+<span class='linenumber'>169</span> 
+<span class='linenumber'>170</span> 				var divLeft = document.createElement("DIV");
+<span class='linenumber'>171</span> 				divLeft.innerHTML = fileName;
+<span class='linenumber'>172</span> 				divLeft.className = 'div_left';
+<span class='linenumber'>173</span> 				li.appendChild(divLeft);
+<span class='linenumber'>174</span> 
+<span class='linenumber'>175</span> 				var span = document.createElement("SPAN");
+<span class='linenumber'>176</span> 				divLeft.appendChild(span);
+<span class='linenumber'>177</span> 				span.className = 'capacity';
+<span class='linenumber'>178</span> 				
+<span class='linenumber'>179</span> 				var sizes = ['B', 'KB', 'MB', 'GB'];
+<span class='linenumber'>180</span> 				var fileSize = file["size"];
+<span class='linenumber'>181</span> 				var i = 0;
+<span class='linenumber'>182</span> 				while (fileSize >= 1024 && i + 1 &lt; sizes.length) {
+<span class='linenumber'>183</span> 				    i++;
+<span class='linenumber'>184</span> 				    fileSize = fileSize /</span><span class="WHIT"> </span><span class="NUMB">1024</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>185</span> 				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'>186</span> 				
+<span class='linenumber'>187</span> 				</span><span class="NAME">span.innerHTML</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'('</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">Math.ceil</span><span class="PUNC">(</span><span class="NAME">fileSize</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">sizes</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">')'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>188</span> 
+<span class='linenumber'>189</span> 				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">div</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">"DIV"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>190</span> 
+<span class='linenumber'>191</span> 				</span><span class="NAME">li.appendChild</span><span class="PUNC">(</span><span class="NAME">div</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>192</span> 
+<span class='linenumber'>193</span> 				</span><span class="NAME">div.id</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'file-'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">file.id</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'-option'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>194</span> 				</span><span class="NAME">div.className</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'cancel_button'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>195</span> 
+<span class='linenumber'>196</span> 				</span><span class="NAME">div.innerHTML</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'&lt;a href="#" onclick="xed.fileUploadController.cancelUpload(\''</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">file.id</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'\'); return false;">Cancel&lt;/a>'</span><span class="WHIT">
+<span class='linenumber'>197</span> 
+<span class='linenumber'>198</span> 				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">graphdiv</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">"DIV"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>199</span> 				</span><span class="NAME">li.appendChild</span><span class="PUNC">(</span><span class="NAME">graphdiv</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>200</span> 				</span><span class="NAME">graphdiv.className</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'graph'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>201</span> 
+<span class='linenumber'>202</span> 				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">progressDiv</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">'DIV'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>203</span> 				</span><span class="NAME">graphdiv.appendChild</span><span class="PUNC">(</span><span class="NAME">progressDiv</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>204</span> 				</span><span class="NAME">progressDiv.id</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'file-'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">file.id</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'-progress'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>205</span> 
+<span class='linenumber'>206</span> 				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">img</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">'IMG'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>207</span> 				</span><span class="NAME">img.src</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">xed.config.imagePathForDialog</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'multifile_fill.gif'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>208</span> 				</span><span class="NAME">img.alt</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'Upload Complete'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>209</span> 				
+<span class='linenumber'>210</span> 				</span><span class="NAME">progressDiv.appendChild</span><span class="PUNC">(</span><span class="NAME">img</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>211</span> 				</span><span class="NAME">graphdiv.style.display</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'none'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>212</span> 				
+<span class='linenumber'>213</span> 				</span><span class="NAME">this.fileListContainer.appendChild</span><span class="PUNC">(</span><span class="NAME">li</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>214</span> 			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>215</span> 			</span><span class="NAME">onUploadStart</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>216</span> 				</span><span class="NAME">xq.$</span><span class="PUNC">(</span><span class="STRN">'file-'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">file.id</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'-progress'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">parentNode.style.display</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'block'</span><span class="WHIT">
+<span class='linenumber'>217</span> 				</span><span class="NAME">xq.$</span><span class="PUNC">(</span><span class="STRN">'file-'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">file.id</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'-option'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">style.display</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'none'</span><span class="WHIT">
+<span class='linenumber'>218</span> 			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>219</span> 			</span><span class="NAME">onSuccess</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">serverData</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>220</span> 				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">xed.isSingleFileUpload</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>221</span> 					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">doc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">xq.$</span><span class="PUNC">(</span><span class="STRN">"uploadTarget"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>222</span> 					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">serverData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">doc.contentWindow.document.body.innerHTML</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>223</span> 				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'>224</span> 				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">serverData</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>225</span> 				</span><span class="NAME">eval</span><span class="PUNC">(</span><span class="STRN">"var data = "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">serverData</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>226</span> 					
+<span class='linenumber'>227</span> 				</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">data.success</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>228</span> 					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">xed.isSingleFileUpload</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>229</span> 						</span><span class="NAME">xed.insertImageFileToEditor</span><span class="PUNC">(</span><span class="NAME">data.file_url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">file.name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">window.parent.xed</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>230</span> 						</span><span class="NAME">this.onQueueComplete</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>231</span> 					</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>232</span> 						</span><span class="NAME">xed.insertImageFileToEditor</span><span class="PUNC">(</span><span class="NAME">data.file_url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">file.name</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>233</span> 						</span><span class="NAME">xq.$</span><span class="PUNC">(</span><span class="STRN">'file-'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">file.id</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'-progress'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">style.width</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'100%'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>234</span> 					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'>235</span> 				</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>236</span> 					</span><span class="NAME">alert</span><span class="PUNC">(</span><span class="NAME">data.message</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>237</span> 				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'>238</span> 				
+<span class='linenumber'>239</span> 			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>240</span> 			</span><span class="NAME">onSelectError</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">errorCode</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">message</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>241</span> 				</span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>242</span> 					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">errorName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>243</span> 					</span><span class="KEYW">switch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">errorCode</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>244</span> 					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NAME">SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED</span><span class="PUNC">:</span><span class="WHIT">
+<span class='linenumber'>245</span> 						</span><span class="NAME">errorName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"QUEUE LIMIT EXCEEDED"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>246</span> 						</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>247</span> 					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NAME">SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT</span><span class="PUNC">:</span><span class="WHIT">
+<span class='linenumber'>248</span> 						</span><span class="NAME">errorName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"FILE EXCEEDS SIZE LIMIT"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>249</span> 						</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>250</span> 					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NAME">SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE</span><span class="PUNC">:</span><span class="WHIT">
+<span class='linenumber'>251</span> 						</span><span class="NAME">errorName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"ZERO BYTE FILE"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>252</span> 						</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>253</span> 					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NAME">SWFUpload.QUEUE_ERROR.INVALID_FILETYPE</span><span class="PUNC">:</span><span class="WHIT">
+<span class='linenumber'>254</span> 						</span><span class="NAME">errorName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"INVALID FILE TYPE"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>255</span> 						</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>256</span> 					</span><span class="KEYW">default</span><span class="PUNC">:</span><span class="WHIT">
+<span class='linenumber'>257</span> 						</span><span class="NAME">errorName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"UNKNOWN"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>258</span> 						</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>259</span> 					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'>260</span> 		
+<span class='linenumber'>261</span> 				</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ex</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>262</span> 				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'>263</span> 			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>264</span> 			</span><span class="NAME">onQueueComplete</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">numFilesUploaded</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>265</span> 				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.isError</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>266</span> 					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">xed.isSingleFileUpload</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">xed.fileUploadController.swfUploader</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>267</span> 						</span><span class="NAME">xed.fileUploadController.swfUploader.destroy</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>268</span> 						</span><span class="NAME">xed.fileUploadController.swfUploader</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>269</span> 					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'>270</span> 					</span><span class="NAME">xed.fileUploadController.dialog.close</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>271</span> 					</span><span class="NAME">xed.fileUploadController.dialog</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>272</span> 				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'>273</span> 			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>274</span> 			</span><span class="NAME">onUploadError</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">errorCode</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">message</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>275</span> 				</span><span class="NAME">this.isError</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>276</span> 				</span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>277</span> 					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">errorName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>278</span> 					</span><span class="KEYW">switch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">errorCode</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>279</span> 					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NAME">SWFUpload.UPLOAD_ERROR.HTTP_ERROR</span><span class="PUNC">:</span><span class="WHIT">
+<span class='linenumber'>280</span> 						</span><span class="NAME">errorName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"HTTP ERROR"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>281</span> 						</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>282</span> 					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NAME">SWFUpload.UPLOAD_ERROR.MISSING_UPLOAD_URL</span><span class="PUNC">:</span><span class="WHIT">
+<span class='linenumber'>283</span> 						</span><span class="NAME">errorName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"MISSING UPLOAD URL"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>284</span> 						</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>285</span> 					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NAME">SWFUpload.UPLOAD_ERROR.IO_ERROR</span><span class="PUNC">:</span><span class="WHIT">
+<span class='linenumber'>286</span> 						</span><span class="NAME">errorName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"IO ERROR"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>287</span> 						</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>288</span> 					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NAME">SWFUpload.UPLOAD_ERROR.SECURITY_ERROR</span><span class="PUNC">:</span><span class="WHIT">
+<span class='linenumber'>289</span> 						</span><span class="NAME">errorName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"SECURITY ERROR"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>290</span> 						</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>291</span> 					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NAME">SWFUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED</span><span class="PUNC">:</span><span class="WHIT">
+<span class='linenumber'>292</span> 						</span><span class="NAME">errorName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"UPLOAD LIMIT EXCEEDED"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>293</span> 						</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>294</span> 					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NAME">SWFUpload.UPLOAD_ERROR.UPLOAD_FAILED</span><span class="PUNC">:</span><span class="WHIT">
+<span class='linenumber'>295</span> 						</span><span class="NAME">errorName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"UPLOAD FAILED"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>296</span> 						</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>297</span> 					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NAME">SWFUpload.UPLOAD_ERROR.SPECIFIED_FILE_ID_NOT_FOUND</span><span class="PUNC">:</span><span class="WHIT">
+<span class='linenumber'>298</span> 						</span><span class="NAME">errorName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"SPECIFIED FILE ID NOT FOUND"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>299</span> 						</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>300</span> 					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NAME">SWFUpload.UPLOAD_ERROR.FILE_VALIDATION_FAILED</span><span class="PUNC">:</span><span class="WHIT">
+<span class='linenumber'>301</span> 						</span><span class="NAME">errorName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"FILE VALIDATION FAILED"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>302</span> 						</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>303</span> 					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NAME">SWFUpload.UPLOAD_ERROR.FILE_CANCELLED</span><span class="PUNC">:</span><span class="WHIT">
+<span class='linenumber'>304</span> 						</span><span class="NAME">errorName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"FILE CANCELLED"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>305</span> 						</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>306</span> 					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NAME">SWFUpload.UPLOAD_ERROR.UPLOAD_STOPPED</span><span class="PUNC">:</span><span class="WHIT">
+<span class='linenumber'>307</span> 						</span><span class="NAME">errorName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"FILE STOPPED"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>308</span> 						</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>309</span> 					</span><span class="KEYW">default</span><span class="PUNC">:</span><span class="WHIT">
+<span class='linenumber'>310</span> 						</span><span class="NAME">errorName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"UNKNOWN"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>311</span> 						</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>312</span> 					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'>313</span> 					
+<span class='linenumber'>314</span> 					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">file.id</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>315</span> 					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">div</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">xq.$</span><span class="PUNC">(</span><span class="STRN">'file-'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'-option'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>316</span> 					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">div</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>317</span> 					</span><span class="NAME">div.style.display</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"block"</span><span class="WHIT">
+<span class='linenumber'>318</span> 					</span><span class="NAME">div.innerHTML</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>319</span> 					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">xq.$</span><span class="PUNC">(</span><span class="STRN">'file-'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'-progress'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">xq.$</span><span class="PUNC">(</span><span class="STRN">'file-'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'-progress'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">parentNode.style.display</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="STRN">"none"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>320</span> 					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">sError</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">"SPAN"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>321</span> 					</span><span class="NAME">sError.className</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'error font-variation'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>322</span> 					</span><span class="NAME">sError.innerHTML</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">errorName</span><span class="PUNC">)</span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">errorName</span><span class="PUNC">:</span><span class="STRN">'Error'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>323</span> 					</span><span class="NAME">div.appendChild</span><span class="PUNC">(</span><span class="NAME">sError</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>324</span> 					
+<span class='linenumber'>325</span> 				</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ex</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>326</span> 				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'>327</span> 				
+<span class='linenumber'>328</span> 			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'>329</span> 		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'>330</span> 
+<span class='linenumber'>331</span> 		</span><span class="NAME">xed.fileUploadController</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>332</span> 			</span><span class="NAME">dialog</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>333</span> 			</span><span class="NAME">swfUploader</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>334</span> 			</span><span class="NAME">load</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">dialog</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>335</span> 				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">xed.isSingleFileUpload</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>336</span> 					</span><span class="NAME">dialog.form.action</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">xed.fileUploadTarget</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>337</span> 					</span><span class="NAME">xq.$</span><span class="PUNC">(</span><span class="STRN">'searchAttachFile'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">name</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">xed.fileUploadFieldName</span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='linenumber'>338</span> 					</span><span class="COMM">// iframe onload IE bug</span><span class="WHIT">
+<span class='linenumber'>339</span> 					</span><span class="COMM">/*
+<span class='linenumber'>340</span> 					xq.$("uploadTarget").onload = function() {
+<span class='linenumber'>341</span> 						parent.xed.fileUploadListener.onSuccess();
+<span class='linenumber'>342</span> 					}
+<span class='linenumber'>343</span> 					*/</span><span class="WHIT"> 
+<span class='linenumber'>344</span> 				</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>345</span> 					
+<span class='linenumber'>346</span> 					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">settings</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>347</span> 						</span><span class="NAME">flash_url</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"../javascripts/plugin/swfupload/swfupload.swf"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>348</span> 						</span><span class="NAME">upload_url</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">xed.fileUploadTarget</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">	</span><span class="COMM">// Relative to the SWF file</span><span class="WHIT">
+<span class='linenumber'>349</span> 						</span><span class="COMM">//post_params: {},</span><span class="WHIT">
+<span class='linenumber'>350</span> 						</span><span class="NAME">file_post_name</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">xed.fileUploadFieldName</span><span class="PUNC">,</span><span class="WHIT"> 
+<span class='linenumber'>351</span> 						</span><span class="NAME">file_types</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"*.jpg;*.gif;*.png;*.bmp;"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>352</span> 						</span><span class="NAME">file_types_description</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"Images"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>353</span> 						</span><span class="COMM">//file_size_limit : "1024",</span><span class="WHIT">
+<span class='linenumber'>354</span> 						</span><span class="COMM">//file_upload_limit : 10,</span><span class="WHIT">
+<span class='linenumber'>355</span> 						</span><span class="NAME">debug</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>356</span> 		
+<span class='linenumber'>357</span> 						</span><span class="COMM">// Button settings</span><span class="WHIT">
+<span class='linenumber'>358</span> 						</span><span class="NAME">button_image_url</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">xed.config.imagePathForDialog</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"btn_gray_bg_78X23.gif"</span><span class="PUNC">,</span><span class="WHIT">	</span><span class="COMM">// Relative to the Flash file</span><span class="WHIT">
+<span class='linenumber'>359</span> 						</span><span class="NAME">button_width</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"78"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>360</span> 						</span><span class="NAME">button_height</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"23"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>361</span> 						</span><span class="NAME">button_placeholder_id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"MultiFileUploaderDiv"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>362</span> 						</span><span class="NAME">button_text</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'&lt;span class="theFont">Add Files&lt;/span>'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>363</span> 						</span><span class="NAME">button_cursor</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">2</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>364</span> 						</span><span class="NAME">button_text_style</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">".theFont { font-size: 12px; font-family: dotum; color:#ffffff; }"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>365</span> 						</span><span class="NAME">button_text_left_padding</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"9"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>366</span> 						</span><span class="NAME">button_text_top_padding</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"4"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>367</span> 						
+<span class='linenumber'>368</span> 						</span><span class="COMM">// The event handler functions are defined in handlers.js</span><span class="WHIT">
+<span class='linenumber'>369</span> 						</span><span class="NAME">flash_ready__handler</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">xed.fileUploadListener.onReady</span><span class="PUNC">,</span><span class="WHIT"> 
+<span class='linenumber'>370</span> 						</span><span class="NAME">file_dialog_start_handler</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">xed.fileUploadListener.onSelectStart</span><span class="PUNC">,</span><span class="WHIT"> 
+<span class='linenumber'>371</span> 						</span><span class="NAME">file_queued_handler</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">xed.fileUploadListener.onSelect</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>372</span> 						</span><span class="NAME">file_queue_error_handler</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">xed.fileUploadListener.onSelectError</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>373</span> 						</span><span class="NAME">file_dialog_complete_handler</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">xed.fileUploadListener.onSelectComplete</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>374</span> 						</span><span class="NAME">upload_start_handler</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">xed.fileUploadListener.onUploadStart</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>375</span> 						</span><span class="NAME">upload_progress_handler</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">xed.fileUploadListener.onProgress</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>376</span> 						</span><span class="NAME">upload_error_handler</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">xed.fileUploadListener.onUploadError</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>377</span> 						</span><span class="NAME">upload_success_handler</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">xed.fileUploadListener.onSuccess</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>378</span> 						</span><span class="NAME">upload_complete_handler</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">xed.fileUploadListener.onComplete</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>379</span> 						</span><span class="NAME">queue_complete_handler</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">xed.fileUploadListener.onQueueComplete</span><span class="WHIT">
+<span class='linenumber'>380</span> 					</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>381</span> 					</span><span class="NAME">this.swfUploader</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">SWFUpload</span><span class="PUNC">(</span><span class="NAME">settings</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>382</span> 				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'>383</span> 			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>384</span> 			</span><span class="NAME">openDialog</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">isSingleFileUpload</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>385</span> 				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">isSingleFileUpload</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">xed.fileUploadController.swfUploader</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>386</span> 					</span><span class="NAME">xed.fileUploadController.swfUploader.destroy</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>387</span> 					</span><span class="NAME">xed.fileUploadController.swfUploader</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>388</span> 				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'>389</span> 				</span><span class="NAME">xed.handleFileUpload</span><span class="PUNC">(</span><span class="NAME">isSingleFileUpload</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>390</span> 			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>391</span> 			</span><span class="NAME">startUpload</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>392</span> 				</span><span class="NAME">this.swfUploader.startUpload</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>393</span> 			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>394</span> 			</span><span class="NAME">cancelUpload</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">file_id</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>395</span> 				</span><span class="NAME">this.swfUploader.cancelUpload</span><span class="PUNC">(</span><span class="NAME">file_id</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>396</span> 			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'>397</span> 		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'>398</span> 	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'>399</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

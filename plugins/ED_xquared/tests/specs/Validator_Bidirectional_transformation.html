@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+	<title>Bidirectional transformation</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link type="text/css" rel="stylesheet" href="../JSSpec.css" />
+	<script type="text/javascript" src="../diff_match_patch.js"></script>
+	<script type="text/javascript" src="../JSSpec.js"></script>
+	<script type="text/javascript" src="../../javascripts/XQuared.js?load_others=1"></script>
+</head>
+<body>
+<div style='height:0; margin:0; padding:0; overflow:hidden;'>
+	<div id="editor"></div>
+</div>
+
+<script type="text/javascript" language="javascript">// <![CDATA[
+describe("Bidirectional transformation - Validation and Invalidation", {
+	'before': function() {
+		var rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+		
+		v = xq.validator.Base.createInstance(null, false);
+	},
+	
+	'should transform between <i> and <em> [[xq.Browser.isGecko]]': function() {
+		var invalid = '<i>Hello</i>';
+		var valid = '<em>Hello</em>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+	},
+	
+	'should transform between <span> and <em> [[xq.Browser.isWebkit]]': function() {
+		var invalid = '<span class="Apple-style-span" style="font-style: italic;">Hello</span>';
+		var valid = '<em>Hello</em>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid.normalizeHtml());
+	},
+	
+	'should transform between <b> and <strong> [[xq.Browser.isGecko]]': function() {
+		var invalid = '<b>Hello</b>';
+		var valid = '<strong>Hello</strong>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+	},
+	
+	'should transform between <span> and <strong> [[xq.Browser.isWebkit]]': function() {
+		var invalid = '<span class="Apple-style-span" style="font-weight: bold;">Hello</span>';
+		var valid = '<strong>Hello</strong>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid.normalizeHtml());
+	},
+	
+	'should transform between <u> and <em class="underline"> [[xq.Browser.Trident || xq.Browser.isGecko]]': function() {
+		var invalid = '<u>Hello</u>';
+		var valid = '<em class="underline">Hello</em>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+	},
+	
+	'should transform between <span> and <em class="underline"> [[xq.Browser.isWebkit]]': function() {
+		var invalid = '<span class="Apple-style-span" style="text-decoration: underline;">Hello</span>';
+		var valid = '<em class="underline">Hello</em>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid.normalizeHtml());
+	},
+	
+	'should transform between <strike> and <span class="strike"> [[xq.Browser.Trident || xq.Browser.isGecko]]': function() {
+		var invalid = '<strike>Hello</strike>';
+		var valid = '<span class="strike">Hello</span>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+	},
+	
+	'should transform between <span> and <span class="strike"> [[xq.Browser.isWebkit]]': function() {
+		var invalid = '<span class="Apple-style-span" style="text-decoration: line-through;">Hello</span>';
+		var valid = '<span class="strike">Hello</span>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid.normalizeHtml());
+	},
+	
+	'should transform between <span> and <sup> [[xq.Browser.isWebkit]]': function() {
+		var invalid = '<span class="Apple-style-span" style="vertical-align: super;">Hello</span>';
+		var valid = '<sup>Hello</sup>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid.normalizeHtml());
+	},
+	
+	'should transform between <span> and <sub> [[xq.Browser.isWebkit]]': function() {
+		var invalid = '<span class="Apple-style-span" style="vertical-align: sub;">Hello</span>';
+		var valid = '<sub>Hello</sub>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid.normalizeHtml());
+	},
+	
+	'should transform between <font color> and <span style> [[xq.Browser.isTrident]]': function() {
+		var invalid = '<font color="#ff0000">Hello</font>';
+		var valid = '<span style="color: #ff0000;">Hello</span>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+	},
+	
+	'should transform between <font style="background-color"> and <span style> [[xq.Browser.isTrident]]': function() {
+		var invalid = '<font style="background-color: #ff0000;">Hello</font>';
+		var valid = '<span style="background-color: #ff0000;">Hello</span>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+	}, 
+	
+	'should transform between <font color="" style="background"> and <span style> [[xq.Browser.isTrident]]': function() {
+		var invalid = '<font color="#00ff00" style="background-color: #ff0000;">Hello</font>';
+		var valid = '<span style="background-color: #ff0000; color: #00ff00;">Hello</span>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+	}, 
+	
+	'should preserve attributes while transformation [[!xq.Browser.isWebkit]]': function() {
+		var invalid = '<strike id="some_id" style="font-size: small;">Hello</strike>';
+		var valid = '<span class="strike" id="some_id" style="font-size: small;">Hello</span>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+	},
+	
+	'should preserve attributes while transformation [[xq.Browser.isWebkit]]': function() {
+		var invalid = '<span class="Apple-style-span" id="some_id" style="font-weight: bold;">Hello</span>';
+		var valid = '<strong id="some_id">Hello</strong>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid.normalizeHtml());
+	},
+	
+	'should preserve nested spans [[xq.Browser.isTrident]]': function() {
+		var invalid = '<font style="background-color: #ff0000;">He<font style="background-color: #00ff00;">ll</font>o</font>';
+		var valid = '<span style="background-color: #ff0000;">He<span style="background-color: #00ff00;">ll</span>o</span>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+	},
+	
+	'should transform place-holders [[xq.Browser.isGecko]]': function() {
+		// without attrs
+		var invalid = '<p>Hello World</p><p><br type="_moz" /></p>';
+		var valid = '<p>Hello World</p><p>&nbsp;</p>';
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+		
+		// with attrs
+		var invalid = '<p>Hello World</p><p id="x"><br type="_moz" /></p>';
+		var valid = '<p>Hello World</p><p id="x">&nbsp;</p>';
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+	},
+	
+	'should transform place-holders [[xq.Browser.isWebkit]]': function() {
+		// without attrs
+		var invalid = '<p>Hello World</p><p><br class="webkit-block-placeholder" /></p>';
+		var valid = '<p>Hello World</p><p>&nbsp;</p>';
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+		
+		// with attrs
+		var invalid = '<p>Hello World</p><p id="x"><br class="webkit-block-placeholder" /></p>';
+		var valid = '<p>Hello World</p><p id="x">&nbsp;</p>';
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+	},
+
+	'should transform between <font> and <span> [[xq.Browser.isTrident]]': function() {
+		var invalid = '<font color="#ff0000" face="arial" size="3">Hello</font>';
+		var valid = '<span style="color: #ff0000; font-family: arial; font-size: medium;">Hello</span>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+	},
+
+	'should transform between <span> and <span font-family> [[xq.Browser.isWebkit]]': function() {
+		var invalid = '<span class="Apple-style-span" style="font-family: arial;">Hello</span>';
+		var valid = '<span style="font-family: arial;">Hello</span>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid.normalizeHtml());
+	},
+
+	'should transform between <font> and <span> [[xq.Browser.isGecko]]': function() {
+		var invalid = '<font color="#ff0000" face="arial" size="6">Hello</font>';
+		var valid = '<span style="color: rgb(255, 0, 0); font-family: arial; font-size: xx-large;">Hello</span>';
+		
+		xq.$('editor').innerHTML = invalid;
+		value_of(v.validate(xq.$('editor')).normalizeHtml()).should_be(valid);
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+	}
+});
+// ]]></script>
+</body>
+</html>

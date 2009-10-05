@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+	<title>List</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link type="text/css" rel="stylesheet" href="../JSSpec.css" />
+	<script type="text/javascript" src="../diff_match_patch.js"></script>
+	<script type="text/javascript" src="../JSSpec.js"></script>
+	<script type="text/javascript" src="../../javascripts/XQuared.js?load_others=1"></script>
+</head>
+<body>
+<div style='position:absolute; height:0; margin:0; padding:0; overflow:hidden;'>
+	<div id="editor"></div>
+</div>
+
+<script type="text/javascript" language="javascript">// <![CDATA[
+describe('mergeAdjustLists', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should merge three OLs': function() {
+		xq.$('editor').innerHTML = '<ol><li>A</li></ol><ol id="target"><li>B</li></ol><ol><li>C</li></ol>';
+
+		var target = rdom.$('target');
+		rdom.mergeAdjustLists(target);
+
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol id="target"><li>A</li><li>B</li><li>C</li></ol>');
+	},
+	'should merge same containers': function() {
+		xq.$('editor').innerHTML = '<ol><li>A</li></ol><ol id="target"><li>B</li></ol><ul><li>C</li></ul>';
+
+		var target = rdom.$('target');
+		rdom.mergeAdjustLists(target);
+
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol id="target"><li>A</li><li>B</li></ol><ul><li>C</li></ul>');
+	},
+	'should merge diff containers when forced': function() {
+		xq.$('editor').innerHTML = '<ol><li>A</li></ol><ol id="target"><li>B</li></ol><ul><li>C</li></ul>';
+
+		var target = rdom.$('target');
+		rdom.mergeAdjustLists(target, true);
+
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol id="target"><li>A</li><li>B</li><li>C</li></ol>');
+	},
+	'should merge prev container': function() {
+		xq.$('editor').innerHTML = '<ol><li>A</li></ol><ol id="target"><li>B</li></ol><ol><li>C</li></ol>';
+
+		var target = rdom.$('target');
+		rdom.mergeAdjustLists(target, true, "prev");
+
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol id="target"><li>A</li><li>B</li></ol><ol><li>C</li></ol>');
+	},
+	'should merge next container': function() {
+		xq.$('editor').innerHTML = '<ol><li>A</li></ol><ol id="target"><li>B</li></ol><ol><li>C</li></ol>';
+
+		var target = rdom.$('target');
+		rdom.mergeAdjustLists(target, true, "next");
+
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol><li>A</li></ol><ol id="target"><li>B</li><li>C</li></ol>');
+	},
+	'should merge prev container (forced)': function() {
+		xq.$('editor').innerHTML = '<ul><li>A</li></ul><ol id="target"><li>B</li></ol><ol><li>C</li></ol>';
+
+		var target = rdom.$('target');
+		rdom.mergeAdjustLists(target, false, "prev");
+
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li></ul><ol id="target"><li>B</li></ol><ol><li>C</li></ol>');
+	},
+	'should merge next container (forced)': function() {
+		xq.$('editor').innerHTML = '<ol><li>A</li></ol><ol id="target"><li>B</li></ol><ul><li>C</li></ul>';
+
+		var target = rdom.$('target');
+		rdom.mergeAdjustLists(target, false, "next");
+
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol><li>A</li></ol><ol id="target"><li>B</li></ol><ul><li>C</li></ul>');
+	},
+	'should not merge other block containers': function() {
+		xq.$('editor').innerHTML = '<ol><li>A</li></ol><ol id="target"><li>B</li></ol><div>C</div>';
+
+		var target = rdom.$('target');
+		rdom.mergeAdjustLists(target, true);
+
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol id="target"><li>A</li><li>B</li></ol><div>C</div>');
+	},
+	'should not merge OL(code) with OL': function() {
+		xq.$('editor').innerHTML = '<ol><li>A</li></ol><ol class="code" id="target"><li>B</li></ol><ol><li>C</li></ol>';
+
+		var target = rdom.$('target');
+		rdom.mergeAdjustLists(target);
+
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol><li>A</li></ol><ol class="code" id="target"><li>B</li></ol><ol><li>C</li></ol>');
+	},
+	'should merge OL(code) with OL when forced': function() {
+		xq.$('editor').innerHTML = '<ol class="code"><li>A</li></ol><ol id="target"><li>B</li></ol><ol class="code"><li>C</li></ol>';
+
+		var target = rdom.$('target');
+		rdom.mergeAdjustLists(target, true);
+
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol id="target"><li>A</li><li>B</li><li>C</li></ol>');
+	}
+})
+
+describe('changeListTypeTo', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should change OL into UL': function() {
+		xq.$('editor').innerHTML = '<ol><li>A</li><li id="target">B</li><li>C</li></ol>';
+		var target = rdom.$('target');
+		var affected = rdom.changeListTypeTo(target, "UL");
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol><li>A</li></ol><ul><li id="target">B</li></ul><ol><li>C</li></ol>');
+		value_of(affected).should_be(target);
+	},
+	'should change OL into OL(code)': function() {
+		xq.$('editor').innerHTML = '<ol><li>A</li><li id="target">B</li><li>C</li></ol>';
+		var target = rdom.$('target');
+		var affected = rdom.changeListTypeTo(target, "OL", "code");
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol><li>A</li></ol><ol class="code"><li id="target">B</li></ol><ol><li>C</li></ol>');
+		value_of(affected).should_be(target);
+	},
+	'should change OL(code) into UL': function() {
+		xq.$('editor').innerHTML = '<ol class="code"><li>A</li><li id="target">B</li><li>C</li></ol>';
+		var target = rdom.$('target');
+		var affected = rdom.changeListTypeTo(target, "UL");
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol class="code"><li>A</li></ol><ul><li id="target">B</li></ul><ol class="code"><li>C</li></ol>');
+		value_of(affected).should_be(target);
+	},
+	'should change OL(code) into OL': function() {
+		xq.$('editor').innerHTML = '<ol class="code"><li>A</li><li id="target">B</li><li>C</li></ol>';
+		var target = rdom.$('target');
+		var affected = rdom.changeListTypeTo(target, "OL");
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol class="code"><li>A</li></ol><ol><li id="target">B</li></ol><ol class="code"><li>C</li></ol>');
+		value_of(affected).should_be(target);
+	},
+	'should change UL into OL': function() {
+		xq.$('editor').innerHTML = '<ul><li>A</li><li id="target">B</li><li>C</li></ul>';
+		var target = rdom.$('target');
+		var affected = rdom.changeListTypeTo(target, "OL");
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li></ul><ol><li id="target">B</li></ol><ul><li>C</li></ul>');
+		value_of(affected).should_be(target);
+	},
+	'should change UL into OL(Code)': function() {
+		xq.$('editor').innerHTML = '<ul><li>A</li><li id="target">B</li><li>C</li></ul>';
+		var target = rdom.$('target');
+		var affected = rdom.changeListTypeTo(target, "OL", "code");
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li></ul><ol class="code"><li id="target">B</li></ol><ul><li>C</li></ul>');
+		value_of(affected).should_be(target);
+	},
+	'should change UL(style1) into UL(style2)': function() {
+		xq.$('editor').innerHTML = '<ul class="style1"><li>A</li><li id="target">B</li><li>C</li></ul>';
+		var target = rdom.$('target');
+		var affected = rdom.changeListTypeTo(target, "UL", "style2");
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul class="style1"><li>A</li></ul><ul class="style2"><li id="target">B</li></ul><ul class="style1"><li>C</li></ul>');
+		value_of(affected).should_be(target);
+	},
+	'should to nothing when try to change UL into UL or OL into OL': function() {
+		xq.$('editor').innerHTML = '<ul><li>A</li><li id="target">B</li><li>C</li></ul>';
+		var target = rdom.$('target');
+		var affected = rdom.changeListTypeTo(target, "UL");
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li id="target">B</li><li>C</li></ul>');
+		value_of(affected).should_be(target);
+	},
+	'should merged with adjust UL': function() {
+		xq.$('editor').innerHTML = '<ul><li>A</li></ul><ol><li id="target">B</li><li>C</li></ol>';
+		var target = rdom.$('target');
+		var affected = rdom.changeListTypeTo(target, "UL");
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li id="target">B</li></ul><ol><li>C</li></ol>');
+		value_of(affected).should_be(target);
+	},
+	'should merged with adjust OL': function() {
+		xq.$('editor').innerHTML = '<ol><li>A</li></ol><ul><li id="target">B</li><li>C</li></ul>';
+		var target = rdom.$('target');
+		var affected = rdom.changeListTypeTo(target, "OL");
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ol><li>A</li><li id="target">B</li></ol><ul><li>C</li></ul>');
+		value_of(affected).should_be(target);
+	},
+	'should change ancester LI': function() {
+		xq.$('editor').innerHTML = '<ol><li><div><p id="target">A</p><p>B</p></div></li></ol>';
+		var target = rdom.$('target');
+		var affected = rdom.changeListTypeTo(target, "UL");
+		
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li><div><p id="target">A</p><p>B</p></div></li></ul>');
+		value_of(affected).should_be(target);
+	},
+	'should throw an exception when it\'s not a descendant of LI': function() {
+		xq.$('editor').innerHTML = '<div id="target">A</div>';
+		var target = rdom.$('target');
+		
+		try {
+			rdom.changeListTypeTo(target, "OL");
+			value_of(this).should_fail('should not reach here!');
+		} catch(expected) {}
+	}
+});
+
+describe('turnElementIntoListItem', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+	},
+	'should turn P into UL': function() {
+		xq.$('editor').innerHTML = '<p>Hello</p>';
+		var target = rdom.getRoot().firstChild;
+		var li = rdom.turnElementIntoListItem(target, 'UL');
+		
+		value_of('UL').should_be(li.parentNode.nodeName);
+		value_of(li.innerHTML).should_be("Hello");
+	},
+	'should turn P into OL': function() {
+		xq.$('editor').innerHTML = '<p>Hello</p>';
+		var target = rdom.getRoot().firstChild;
+		var li = rdom.turnElementIntoListItem(target, 'OL');
+		
+		value_of('OL').should_be(li.parentNode.nodeName);
+		value_of(li.innerHTML).should_be("Hello");
+	},
+	'should not turn TD into OL but insert new OL into TD': function() {
+		xq.$('editor').innerHTML = '<table><thead><tr><td>A</td></tr></thead><tbody><tr><td id="b">B</td></tr></tbody></table>';
+		var target = rdom.$('b');
+		var li = rdom.turnElementIntoListItem(target, 'OL');
+		
+		value_of(li.parentNode.parentNode).should_be(target);
+	},
+	'should turn P into OL(Code)': function() {
+		xq.$('editor').innerHTML = '<p>Hello</p>';
+		var target = rdom.getRoot().firstChild;
+		var li = rdom.turnElementIntoListItem(target, 'OL', 'code');
+		
+		value_of('OL').should_be(li.parentNode.nodeName);
+		value_of('code').should_be(li.parentNode.className);
+		value_of(li.innerHTML).should_be("Hello");
+	},
+	'should turn DIV into LI': function() {
+		xq.$('editor').innerHTML = '<div id="target">Hello</div>';
+		var target = rdom.$('target');
+		var li = rdom.turnElementIntoListItem(target, 'UL');
+		
+		value_of('UL').should_be(li.parentNode.nodeName);
+		value_of(target).should_be(li.firstChild);
+	},
+	'should merge same kind of adjust list containers': function() {
+		xq.$('editor').innerHTML = '<ul><li>1</li></ul><p id="target">Hello</p><ul><li>2</li></ul>';
+		var target = rdom.$('target');
+		var li = rdom.turnElementIntoListItem(target, 'UL');
+		
+		value_of(xq.$('editor')).should_have(1, 'childNodes');
+		value_of(xq.$('editor').firstChild).should_have(3, 'childNodes');
+	},
+	'should not merge UL with OL': function() {
+		xq.$('editor').innerHTML = '<ol><li>1</li></ol><p id="target">Hello</p><ul><li>2</li></ul>';
+		var target = rdom.$('target');
+		var li = rdom.turnElementIntoListItem(target, 'UL');
+		
+		value_of(xq.$('editor')).should_have(2, 'childNodes');
+		value_of(xq.$('editor').firstChild.nodeName).should_be('OL');
+		value_of(xq.$('editor').lastChild.nodeName).should_be('UL');
+	}
+});
+// ]]></script>
+</body>
+</html>

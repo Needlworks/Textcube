@@ -1,0 +1,432 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+	<title>Move</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link type="text/css" rel="stylesheet" href="../JSSpec.css" />
+	<script type="text/javascript" src="../diff_match_patch.js"></script>
+	<script type="text/javascript" src="../JSSpec.js"></script>
+	<script type="text/javascript" src="../../javascripts/XQuared.js?load_others=1"></script>
+</head>
+<body>
+<div style='position:absolute; height:0; margin:0; padding:0; overflow:hidden;'>
+	<div id="editor"></div>
+</div>
+
+<script type="text/javascript" language="javascript">// <![CDATA[
+describe('block and block', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+
+		// (A)(B)
+		xq.$('editor').innerHTML = '<p>A</p><p>B</p>';
+		a = rdom.getRoot().firstChild;
+		b = a.nextSibling;
+	},
+	'should move down': function() {
+		var moved = rdom.moveBlock(a, false);
+		
+		// (B)(A)
+		value_of(moved).should_be(a);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>B</p><p>A</p>');
+	},
+	'should move up': function() {
+		var moved = rdom.moveBlock(b, true);
+		
+		// (B)(A)
+		value_of(moved).should_be(b);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>B</p><p>A</p>');
+	},
+	'should do nothing when there\'s no way to go (down)': function() {
+		var moved = rdom.moveBlock(b, false);
+		
+		// (A)(B)
+		value_of(moved).should_be_null();
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p><p>B</p>');
+	},
+	'should do nothing when there\'s no way to go (up)': function() {
+		var moved = rdom.moveBlock(a, true);
+		
+		// (A)(B)
+		value_of(moved).should_be_null();
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p><p>B</p>');
+	}
+});
+
+describe('flat list', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+
+		// * A
+		// * B
+		// * C
+		xq.$('editor').innerHTML = '<ul><li>A</li><li>B</li><li>C</li></ul>';
+		a = rdom.getRoot().firstChild.firstChild;
+		b = a.nextSibling;
+		c = b.nextSibling;
+	},
+	'should move up': function() {
+		var moved = rdom.moveBlock(b, true);
+		
+		// * B
+		// * A
+		// * C
+		value_of(moved).should_be(b);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>B</li><li>A</li><li>C</li></ul>');
+	},
+	'should move down': function() {
+		var moved = rdom.moveBlock(b, false);
+		
+		// * A
+		// * C
+		// * B
+		value_of(moved).should_be(b);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li>C</li><li>B</li></ul>');
+	}
+});
+
+describe('between nested list', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+
+		// * (A)
+		//   * B
+		xq.$('editor').innerHTML = '<ul><li><p>A</p><ul><li>B</li></ul></li></ul>';
+		a = rdom.getRoot().firstChild.firstChild.firstChild;
+		b = a.nextSibling.firstChild;
+	},
+	'should move down': function() {
+		var moved = rdom.moveBlock(a, false);
+		
+		// * _
+		//   * A
+		//   * B
+		value_of(moved).should_be(b.previousSibling);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_match('<ul><li><p>(&nbsp;|<br.*? />)</p><ul><li>A</li><li>B</li></ul></li></ul>');
+	},
+	'should move up': function() {
+		var moved = rdom.moveBlock(b, true);
+		
+		// * (A)
+		//   (B)
+		value_of(moved).should_be(a.nextSibling);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li><p>A</p><p>B</p></li></ul>');
+	}
+});
+
+describe('move into list', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+
+		// (A)
+		// * B
+		// [C]
+		xq.$('editor').innerHTML = '<p>A</p><ul><li>B</li></ul><div>C</div>';
+		a = rdom.getRoot().firstChild;
+		b = a.nextSibling.firstChild;
+		c = a.nextSibling.nextSibling;
+	},
+	'should move in (down)': function() {
+		var moved = rdom.moveBlock(a, false);
+		
+		// * A
+		// * B
+		// [C]
+		value_of(moved).should_be(b.previousSibling);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li>B</li></ul><div>C</div>');
+	},
+	'should move in (up)': function() {
+		var moved = rdom.moveBlock(c, true);
+		
+		// (A)
+		// * B
+		// * [C]
+		value_of(moved).should_be(b.nextSibling);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p><ul><li>B</li><li><div>C</div></li></ul>');
+	}
+});
+
+describe('move out from list', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+
+		// * A
+		// * B
+		// * [C]
+		xq.$('editor').innerHTML = '<ul><li>A</li><li>B</li><li><div>C</div></li></ul>';
+		a = rdom.getRoot().firstChild.firstChild;
+		b = a.nextSibling;
+		c = b.nextSibling.firstChild;
+	},
+	'should move out (up)': function() {
+		var moved = rdom.moveBlock(a, true);
+		
+		// (A)
+		// * B
+		// * [C]
+		value_of(moved).should_be(b.parentNode.previousSibling);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p><ul><li>B</li><li><div>C</div></li></ul>');
+	},
+	'should move in (up)': function() {
+		var moved = rdom.moveBlock(c, false);
+		
+		// * A
+		// * B
+		// [C]
+		value_of(moved).should_be(c);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<ul><li>A</li><li>B</li></ul><div>C</div>');
+	}
+});
+
+describe('move in to container', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+
+		// (A)[B](C)
+		xq.$('editor').innerHTML = '<p>A</p><div>B</div><p>C</p>';
+		a = rdom.getRoot().firstChild;
+		b = a.nextSibling;
+		c = b.nextSibling;
+	},
+	'should move in (down)': function() {
+		var moved = rdom.moveBlock(a, false);
+		
+		// [(A)(B)](C)
+		value_of(moved).should_be(a);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><p>A</p><p>B</p></div><p>C</p>');
+	},
+	'should move in (up)': function() {
+		var moved = rdom.moveBlock(c, true);
+		
+		// (A)[(B)(C)]
+		value_of(moved).should_be(c);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p><div><p>B</p><p>C</p></div>');
+	}
+});
+
+describe('move out from container', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+
+		// [(A)(B)]
+		xq.$('editor').innerHTML = '<div><p>A</p><p>B</p></div>';
+		a = rdom.getRoot().firstChild.firstChild;
+		b = a.nextSibling;
+	},
+	'should move out (up)': function() {
+		var moved = rdom.moveBlock(a, true);
+		
+		// (A)[B]
+		value_of(moved).should_be(a);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p><div>B</div>');
+	},
+	'should move out (down)': function() {
+		var moved = rdom.moveBlock(b, false);
+		
+		// (A)[B]
+		value_of(moved).should_be(b);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div>A</div><p>B</p>');
+	}
+});
+
+describe('container and block', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+
+		// [A](B)[C]
+		xq.$('editor').innerHTML = '<div>A</div><p>B</p><div>C</div>';
+		a = rdom.getRoot().firstChild;
+		b = a.nextSibling;
+		c = b.nextSibling;
+	},
+	'should move down': function() {
+		var moved = rdom.moveBlock(a, false);
+		
+		// (B)[A][C]
+		value_of(moved).should_be(a);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>B</p><div>A</div><div>C</div>');
+	},
+	'should move up': function() {
+		var moved = rdom.moveBlock(c, true);
+		
+		// [A][C](B)
+		value_of(moved).should_be(c);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div>A</div><div>C</div><p>B</p>');
+	}
+});
+
+describe('container and container (in)', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+
+		// [A][B][C]
+		xq.$('editor').innerHTML = '<div>A</div><div>B</div><div>C</div>';
+		a = rdom.getRoot().firstChild;
+		b = a.nextSibling;
+		c = b.nextSibling;
+	},
+	'should move in (down)': function() {
+		var moved = rdom.moveBlock(a, false);
+		
+		// [[A](B)][C]
+		value_of(moved).should_be(a);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><div>A</div><p>B</p></div><div>C</div>');
+	},
+	'should move in (up)': function() {
+		var moved = rdom.moveBlock(c, true);
+		
+		// [A][(B)[C]]
+		value_of(moved).should_be(c);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div>A</div><div><p>B</p><div>C</div></div>');
+	}
+});
+
+describe('container and container (out)', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+
+		// [(A)(B)]
+		xq.$('editor').innerHTML = '<div><p>A</p><p>B</p></div>';
+		a = rdom.getRoot().firstChild.firstChild;
+		b = a.nextSibling;
+	},
+	'should move in (up)': function() {
+		var moved = rdom.moveBlock(a, true);
+		
+		// (A)[B]
+		value_of(moved).should_be(a);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p><div>B</div>');
+	},
+	'should move in (down)': function() {
+		var moved = rdom.moveBlock(b, false);
+		
+		// [A](B)
+		value_of(moved).should_be(b);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div>A</div><p>B</p>');
+	}
+});
+
+describe('nested container', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+
+		// (A)[[B]](C)
+		xq.$('editor').innerHTML = '<p>A</p><div><div>B</div></div><p>C</p>';
+		a = rdom.getRoot().firstChild;
+		b = a.nextSibling.firstChild;
+		c = a.nextSibling.nextSibling;
+	},
+	'should move up': function() {
+		var moved = rdom.moveBlock(b, true);
+		
+		// [[B]](A)(C)
+		value_of(moved).should_be(b.parentNode);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<div><div>B</div></div><p>A</p><p>C</p>');
+	},
+	'should move down': function() {
+		var moved = rdom.moveBlock(b, false);
+		
+		// (A)(C)[[B]]
+		value_of(moved).should_be(b.parentNode);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p><p>C</p><div><div>B</div></div>');
+	}
+});
+
+describe('Table', {
+	'before': function() {
+		rdom = xq.rdom.Base.createInstance();
+		rdom.setWin(window);
+		rdom.setRoot(xq.$('editor'));
+
+		// (A)[TABLE - B,C,D](E)
+		original = '<p>A</p><table><thead><tr><th>B</th></tr></thead><tbody><tr><td>C</td></tr><tr><td>D</td></tr></tbody></table><p>E</p>';
+		xq.$('editor').innerHTML = original
+		a = rdom.getRoot().firstChild;
+		b = a.nextSibling.firstChild.firstChild.firstChild;
+		c = a.nextSibling.childNodes[1].firstChild.firstChild;
+		d = a.nextSibling.childNodes[1].childNodes[1].firstChild;
+		e = a.nextSibling.nextSibling;
+	},
+	'should not move down into table': function() {
+		var moved = rdom.moveBlock(a, false);
+		
+		// [TABLE - B,C,D](A)(E)
+		value_of(moved).should_be(e.previousSibling);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<table><thead><tr><th>B</th></tr></thead><tbody><tr><td>C</td></tr><tr><td>D</td></tr></tbody></table><p>A</p><p>E</p>');
+	},
+	'should not move up into table': function() {
+		var moved = rdom.moveBlock(e, true);
+		
+		// (A)(E)[TABLE - B,C,D]
+		value_of(moved).should_be(a.nextSibling);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p><p>E</p><table><thead><tr><th>B</th></tr></thead><tbody><tr><td>C</td></tr><tr><td>D</td></tr></tbody></table>');
+	},
+	'should move down row': function() {
+		var moved = rdom.moveBlock(c, false);
+		
+		// (A)[TABLE - B,D,C](E)
+		value_of(moved).should_be(c.parentNode);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p><table><thead><tr><th>B</th></tr></thead><tbody><tr><td>D</td></tr><tr><td>C</td></tr></tbody></table><p>E</p>');
+	},
+	'should move up row': function() {
+		var moved = rdom.moveBlock(d, true);
+		
+		// (A)[TABLE - B,D,C](E)
+		value_of(moved).should_be(d.parentNode);
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be('<p>A</p><table><thead><tr><th>B</th></tr></thead><tbody><tr><td>D</td></tr><tr><td>C</td></tr></tbody></table><p>E</p>');
+	},
+	'should not move down out of thead': function() {
+		var moved = rdom.moveBlock(b, false);
+		
+		// (A)[TABLE - B,C,D](E)
+		value_of(moved).should_be_null();
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be(original);
+	},
+	'should not move up out of tbody': function() {
+		var moved = rdom.moveBlock(c, true);
+		
+		// (A)[TABLE - B,C,D](E)
+		value_of(moved).should_be_null();
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be(original);
+	},
+	'should not move down out of table': function() {
+		var moved = rdom.moveBlock(d, false);
+		
+		// (A)[TABLE - B,C,D](E)
+		value_of(moved).should_be_null();
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be(original);
+	},
+	'should not move up out of table': function() {
+		var moved = rdom.moveBlock(b, true);
+		
+		// (A)[TABLE - B,C,D](E)
+		value_of(moved).should_be_null();
+		value_of(xq.$('editor').innerHTML.normalizeHtml()).should_be(original);
+	}
+});
+
+// ]]></script>
+</body>
+</html>

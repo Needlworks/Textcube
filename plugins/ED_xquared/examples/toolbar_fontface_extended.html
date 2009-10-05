@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<title>Xquared example - Default</title>
+	<link rel="stylesheet" type="text/css" href="../stylesheets/xq_ui.css" />
+	<script type="text/javascript" src="../javascripts/XQuared.js?load_others=1"></script>
+	<script type="text/javascript">//<![CDATA[
+	var xed;
+	
+	window.onload = function() {
+		xed = new xq.Editor("xqEditor");
+		
+		xed.config.defaultToolbarButtonMap = [
+			[
+				{className:"fontFace", title:"Font face", list:[
+                    {html:"굴림", style: {fontFamily: "'굴림','Gulim'"}, handler:"xed.handleFontFace('굴림,San-Serif')"},
+                    {html:"굴림체", style: {fontFamily: "'굴림체','Gulimche'"}, handler:"xed.handleFontFace('굴림체,San-Serif')"},
+                    {html:"궁서", style: {fontFamily: "'궁서','Gungseou'"}, handler:"xed.handleFontFace('궁서,Serif')"},
+                     {html:"Arial", style: {fontFamily: "Arial"}, handler:"xed.handleFontFace('Arial')"},
+                    {html:"Comic Sans MS", style: {fontFamily: "Comic Sans MS"}, handler:"xed.handleFontFace('Comic Sans MS')"},
+                    {html:"Courier New", style: {fontFamily: "Courier New"}, handler:"xed.handleFontFace('Courier New')"},
+                    {html:"Georgia", style: {fontFamily: "Georgia"}, handler:"xed.handleFontFace('Georgia')"},
+                    {html:"Tahoma", style: {fontFamily: "Tahoma"}, handler:"xed.handleFontFace('Tahoma')"},
+                    {html:"Times", style: {fontFamily: "Times"}, handler:"xed.handleFontFace('Times')"},
+                    {html:"Trebuchte MS", style: {fontFamily: "Trebuchte MS"}, handler:"xed.handleFontFace('Trebuchte MS')"},
+                    {html:"Verdana", style: {fontFamily: "Verdana"}, handler:"xed.handleFontFace('Verdana')"}
+				]}
+				,
+				
+				{className:"fontSize", title:"Font size", list:[
+                    {html:"Lorem ipsum dolor (8pt)", style: {fontSize: "8pt", marginBottom: "3px"}, handler:"xed.handleFontSize('1')"},
+                    {html:"Lorem ipsum dolor (10pt)", style: {fontSize: "10pt", marginBottom: "3px"}, handler:"xed.handleFontSize('2')"},
+                    {html:"Lorem ipsum dolor (12pt)", style: {fontSize: "12pt", marginBottom: "6px"}, handler:"xed.handleFontSize('3')"},
+                    {html:"Lorem ipsum dolor (14pt)", style: {fontSize: "14pt", marginBottom: "10px"}, handler:"xed.handleFontSize('4')"},
+                    {html:"Lorem ipsum dolor (18pt)", style: {fontSize: "18pt", marginBottom: "16px"}, handler:"xed.handleFontSize('5')"},
+                    {html:"Lorem ipsum dolor (24pt)", style: {fontSize: "24pt", marginBottom: "6px"}, handler:"xed.handleFontSize('6')"}
+				]}
+			],
+		    xed.config.defaultToolbarButtonGroups.color,
+		    xed.config.defaultToolbarButtonGroups.style,
+		    xed.config.defaultToolbarButtonGroups.justification,
+		    xed.config.defaultToolbarButtonGroups.indentation,
+		    xed.config.defaultToolbarButtonGroups.block,
+		    xed.config.defaultToolbarButtonGroups.link,
+		    xed.config.defaultToolbarButtonGroups.insert,
+			[
+				{className:"html", title:"Edit source", handler:"xed.toggleSourceAndWysiwygMode()"}
+			],
+			[
+				{className:"undo", title:"Undo", handler:"xed.handleUndo()"},
+				{className:"redo", title:"Redo", handler:"xed.handleRedo()"}
+			]
+		];
+		
+		
+		xed.setEditMode('wysiwyg');
+		xed.setWidth("100%");
+	}
+	//]]></script>
+</head>
+
+<body>
+	<textarea id="xqEditor">&lt;p&gt;Hello World&lt;/p&gt;</textarea>
+</body>
+</html>

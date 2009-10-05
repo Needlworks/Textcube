@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+	<title>Validator2 HTML to DOM</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link type="text/css" rel="stylesheet" href="../JSSpec.css" />
+	<script type="text/javascript" src="../diff_match_patch.js"></script>
+	<script type="text/javascript" src="../JSSpec.js"></script>
+	<script type="text/javascript" src="../../javascripts/XQuared.js?load_others=1"></script>
+</head>
+<body>
+<div style='height:0; margin:0; padding:0; overflow:hidden;'>
+	<div id="div"></div>
+</div>
+
+<script type="text/javascript" language="javascript">// <![CDATA[
+describe("Invalidation",{
+	'before': function() {
+		v = xq.validator2.Base.createInstance();
+	},
+	
+	'should remove HTML comments': function() {
+		var html = '<p>A</p><!-- B --><p>C</p>';
+		var expected = '<p>A</p><p>C</p>';
+		value_of(v.invalidate(html)).should_be(expected);
+	},
+	
+	'should remove HTML comments and preserve rest': function() {
+		var html = '<p>A</p><!-- B --><p>C</p><!-- D --><p>E</p>';
+		var expected = '<p>A</p><p>C</p><p>E</p>';
+		value_of(v.invalidate(html)).should_be(expected);
+	}
+});
+
+describe("Bidirectional", {
+	'before': function() {
+		v = xq.validator2.Base.createInstance();
+	},
+
+	'should transform place-holders [[xq.Browser.isTrident]]': function() {
+		// Trident uses &nbsp; as a place-holder. So it should be preserved.
+		var valid = '<p>Hello World</p><p>&nbsp;</p>';
+		var invalid = '<p>Hello World</p><p>&nbsp;</p>';
+		
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+		xq.$('div').innerHTML = invalid;
+		value_of(v.validate(xq.$('div')).normalizeHtml()).should_be(valid);
+	},
+	
+	'should transform place-holders [[xq.Browser.isGecko]]': function() {
+		var valid = '<p>Hello World</p><p>&nbsp;</p>';
+		var invalid = '<p>Hello World</p><p><br type="_moz" /></p>';
+		
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+		xq.$('div').innerHTML = invalid;
+		value_of(v.validate(xq.$('div')).normalizeHtml()).should_be(valid);
+	},
+	
+	'should transform place-holders [[xq.Browser.isWebkit]]': function() {
+		var valid = '<p>Hello World</p><p>&nbsp;</p>';
+		var invalid = '<p>Hello World</p><p><br class="webkit-block-placeholder" /></p>';
+		
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+		xq.$('div').innerHTML = invalid;
+		value_of(v.validate(xq.$('div')).normalizeHtml()).should_be(valid);
+	},
+
+	'should preserve nbsp from being transformed into place-holders [[!xq.Browser.isTrident]]': function() {
+		var htmls = [
+			'<p> A</p>',
+			'<p>A </p>',
+			'<p>A<span> </span></p>',
+			'<p>A<span> </span><span> </span>B</p>'
+		];
+		
+		for(var i = 0; i < htmls.length; i++) {
+			value_of(v.invalidate(htmls[i]).normalizeHtml()).should_be(htmls[i]);
+			xq.$('div').innerHTML = htmls[i];
+			value_of(v.validate(xq.$('div')).normalizeHtml()).should_be(htmls[i]);
+		}
+	},
+
+	'should transform <u> and <em class="underline"> [[xq.Browser.Trident || xq.Browser.isGecko]]': function() {
+		var invalid = '<u>Hello</u>';
+		var valid = '<em class="underline">Hello</em>';
+		
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+		xq.$('div').innerHTML = invalid;
+		value_of(v.validate(xq.$('div')).normalizeHtml()).should_be(valid);
+	},
+	
+	'should transform <span> and <em class="underline"> [[xq.Browser.isWebkit]]': function() {
+		var invalid = '<span class="Apple-style-span" style="text-decoration: underline;">Hello</span>';
+		var valid = '<em class="underline">Hello</em>';
+		
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+		xq.$('div').innerHTML = invalid;
+		value_of(v.validate(xq.$('div')).normalizeHtml()).should_be(valid);
+	},
+	
+	'should transform <strike> and <span class="strike"> [[xq.Browser.Trident || xq.Browser.isGecko]]': function() {
+		var invalid = '<strike>Hello</strike>';
+		var valid = '<span class="strike">Hello</span>';
+		
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+		xq.$('div').innerHTML = invalid;
+		value_of(v.validate(xq.$('div')).normalizeHtml()).should_be(valid);
+	},
+	
+	'should transform <span> and <span class="strike"> [[xq.Browser.isWebkit]]': function() {
+		var invalid = '<span class="Apple-style-span" style="text-decoration: line-through;">Hello</span>';
+		var valid = '<span class="strike">Hello</span>';
+		
+		value_of(v.invalidate(valid).normalizeHtml()).should_be(invalid);
+		xq.$('div').innerHTML = invalid;
+		value_of(v.validate(xq.$('div')).normalizeHtml()).should_be(valid);
+	}
+});
+// ]]></script>
+</body>
+</html>

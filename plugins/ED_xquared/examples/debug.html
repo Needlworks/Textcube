@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="../stylesheets/xq_ui.css" />
+<script type="text/javascript" src="../javascripts/XQuared.js?load_others=1"></script>
+<script type="text/javascript" src="../javascripts/plugin/SpringnotePlugin.js"></script>
+<script type="text/javascript" src="../javascripts/plugin/EditorResizePlugin.js"></script>
+<script type="text/javascript" src="../javascripts/plugin/MacroPlugin.js"></script>
+<script type="text/javascript" src="../javascripts/plugin/FlashMovieMacroPlugin.js"></script>
+<script type="text/javascript" src="../javascripts/plugin/IFrameMacroPlugin.js"></script>
+<script type="text/javascript" src="../javascripts/plugin/JavascriptMacroPlugin.js"></script>
+<script type="text/javascript" src="../javascripts/plugin/swfupload/AC_OETags.js"></script>
+<script type="text/javascript" src="../javascripts/plugin/swfupload/swfupload.js"></script>
+<script type="text/javascript" src="../javascripts/plugin/swfupload/swfupload.queue.js"></script>
+<script type="text/javascript" src="../javascripts/plugin/FileUploadPlugin.js"></script>
+<script type="text/javascript">//<![CDATA[
+var xed;
+
+window.onload = function() {
+	xed = new xq.Editor("xqEditor");
+	xed.config.autoFocusOnInit = true;
+	xed.config.urlValidationMode = 'host_relative';
+	xed.config.changeCursorOnLink = true;
+	
+	xed.addPlugin('Springnote');
+	xed.addPlugin('EditorResize');
+	xed.addPlugin('Macro');
+	xed.addPlugin('FlashMovieMacro');
+	xed.addPlugin('IFrameMacro');
+	xed.addPlugin('JavascriptMacro');
+	xed.addPlugin('FileUpload');
+
+	xed.setFileUploadTarget('/client/examples/single_upload_submit.php', '/client/examples/upload.php');
+	
+	xed.setEditMode('wysiwyg');
+	
+	xed.setWidth("100%");
+	xed.setHeight("200px");
+	
+	setInterval(renderDom, 500);
+	setInterval(renderCaretPath, 500);
+};
+
+function renderCaretPath(cur) {
+	if(!xq.$('debug').checked) return;
+	
+	var block = xed.rdom.getCurrentBlockElement();
+	if(!block) return;
+	
+	var start = xed.rdom.getBlockElementAtSelectionStart();
+	var end = xed.rdom.getBlockElementAtSelectionEnd();
+	
+	if(xed.rdom.hasSelection()) {
+		xq.$("selection").innerHTML = xed.rdom.getSelectionAsHtml().escapeHTML();
+		xq.$("sStart").innerHTML = start.nodeName + "(" + start.innerHTML.escapeHTML() + ")";
+		xq.$("sEnd").innerHTML = end.nodeName + "(" + end.innerHTML.escapeHTML() + ")";
+	} else {
+		xq.$("selection").innerHTML = "(None)";
+		xq.$("sStart").innerHTML = "(None)";
+		xq.$("sEnd").innerHTML = "(None)";
+	}
+}
+
+function renderDom() {
+	if(!xq.$('debug').checked) return;
+	var sb = [];
+	buildDomTree(sb, xed.getBody());
+	xq.$("domview").innerHTML = "<ul>" + sb.join("") + "<" + "/ul>";
+}
+
+function buildDomTree(sb, node) {
+	switch(node.nodeType) {
+		case 1:
+			sb.push("<li><span class='element'>");
+			sb.push(renderElement(node));
+			sb.push("<" + "/span><ul>");
+			var nodes = node.childNodes;
+			for(var i = 0; i < nodes.length; i++) {
+				buildDomTree(sb, nodes[i]);
+			}
+			sb.push("<" + "/ul>");
+			sb.push("<" + "/li>");
+			break;
+		case 3:
+			sb.push(
+				"<li><span class='textnode'>" + node.nodeValue.escapeHTML() + "<" + "/span> <span class='len'>" + 
+				(node.nodeValue.length === 1 ? "c:" + node.nodeValue.charCodeAt(0) : node.nodeValue.length) +
+				"<" + "/span>" + "<" + "/li>");
+			break;
+		default:
+			sb.push("<li>" + node.nodeType + "<" + "/li>");
+	}
+}
+
+function renderElement(element) {
+	var sb = [];
+	sb.push("<span class='tagname'>");
+	sb.push("&lt;");
+	sb.push(element.nodeName.toLowerCase());
+	sb.push("<" + "/span>");
+	
+	var attrs = element.attributes;
+	for(var i = 0; i < attrs.length; i++) {
+		if(
+			attrs[i].nodeValue &&
+			attrs[i].nodeName !== 'contentEditable' &&
+			attrs[i].nodeName !== 'style' &&
+			typeof attrs[i].nodeValue !== 'function'
+		) sb.push(" <span class='attr'>" + attrs[i].nodeName + "=" + "'" + attrs[i].nodeValue + "'<" + "/span>");
+	}
+	if(element.style && element.style.cssText) {
+		sb.push(" style=" + "'" + element.style.cssText + "'");
+	}
+	sb.push("&gt; <span class='len'>" + element.childNodes.length + "<" + "/span>");
+	return sb.join("");
+}
+//]]>
+</script>
+<style type="text/css">
+#domview li {
+	display: inline;
+	margin-right: 0.5em;
+}
+#domview .tagname {
+	color: blue;
+}
+#domview .attr {
+	color: red;
+}
+#domview .len {
+	color: #ccc;
+}
+</style>
+<title>Editor Demo</title>
+</head>
+<body>
+	<textarea id="xqEditor">
+		&lt;p&gt;Hello World&lt;/p&gt;
+	</textarea>
+	<p><input type="checkbox" id="debug" /></p>
+	<div class="panel" style="width:500px; float: left; font-size: smaller;">
+		<h2>DOM</h2>
+		<div id="domview"></div>
+	</div>
+	
+	<div class="panel" style="width:250px; overflow: auto; float: right; font-size: smaller;">
+		<h2>Caret</h2>
+		<ul>
+			<li>Selected: <span id="selection"></span></li>
+			<li>Start: <span id="sStart"></span></li>
+			<li>End: <span id="sEnd"></span></li>
+		</ul>
+	</div>
+</body>
+</html>
