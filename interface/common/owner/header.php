@@ -493,13 +493,13 @@ foreach($blogTopMenuItem as $menuItem) {
 			$blogMenu['contentMenu'] = 'guestbook';
 		else if($blogMenu['contentMenu'] == 'trackback') 
 			$blogMenu['contentMenu'] = $blogMenu['contentMenu'].$_POST['status'];
-	} else if(in_array($blogMenu['contentMenu'],array('trashcomment','trashtrackback')))
+	} else if(in_array($blogMenu['contentMenu'],array('trashcomment','trashtrackback'))) {
 		$blogMenu['contentMenu'] = 'trash';
-	else if(in_array($blogMenu['contentMenu'],array('linkadd','linkedit','linkcategoryEdit','xfn')))
+	} else if(in_array($blogMenu['contentMenu'],array('linkadd','linkedit','linkcategoryEdit','xfn'))) {
 		$blogMenu['contentMenu'] = 'link';
+	}
 //	else if(in_array($blogMenu['contentMenu'],array('coverpage','sidebar')))
 //		$blogMenu['contentMenu'] = 'widget';
-		
 	foreach($blogContentMenuItem[$menuItem['menu']] as &$contentMenuItem) {
 		$PostIdStr = null;
 		if(strstr($contentMenuItem['menu'], 'adminMenu?name=') !== false) {
@@ -563,7 +563,8 @@ if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 <?php
 	$firstChildClass = ' firstChild';
 	$submenuURL = null;
-	foreach($blogContentMenuItem[$blogMenu['topMenu']] as $contentMenuItem) {
+
+	foreach($blogContentMenuItem[$blogMenu['topMenu']] as &$contentMenuItem) {
 		$PostIdStr = null;
 		if(strstr($contentMenuItem['menu'], 'adminMenu?name=') !== false) {
 			$pluginMenuValue = explode('/',substr($contentMenuItem['menu'], 15));
