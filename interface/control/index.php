@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
 
-//require ROOT . '/library/preprocessor.php';
+require ROOT . '/library/preprocessor.php';
 // Redirect.
 header("Location: $blogURL/control/blog");
 ?>

@@ -103,7 +103,7 @@ final class Dispatcher {
 					case 'feeder':
 						$uri['interfaceType'] = 'feeder';
 						break;
-					case 'owner':
+					case 'owner': case 'control':
 						$uri['interfaceType'] = 'owner';
 						break;
 					case 'favicon.ico':
