@@ -83,7 +83,7 @@ if($bloglist){
 						<?php echo $itemBlogId?>
 					</td>
 					<td>
-						<a href="<?php echo $blogURL?>/owner/control/blog/detail/<?php echo $itemBlogId?>"><?php echo $bsetting['name']?></a>
+						<a href="<?php echo $blogURL?>/control/blog/detail/<?php echo $itemBlogId?>"><?php echo $bsetting['name']?></a>
 					</td>
 					<td>
 						<?php echo $bsetting['title']?>

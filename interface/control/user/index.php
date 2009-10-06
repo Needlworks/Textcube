@@ -65,7 +65,7 @@ if($userlist){
 ?>
 					<tr id="table-user-list_<?php echo $row['userid'];?>">
 						<td><?php echo $row['userid']?></td>
-						<td><a href="<?php echo $blogURL;?>/owner/control/user/detail/<?php echo $row['userid']?>"><?php echo $row['loginid'];?></a></td>
+						<td><a href="<?php echo $blogURL;?>/control/user/detail/<?php echo $row['userid']?>"><?php echo $row['loginid'];?></a></td>
 						<td><?php echo $row['name']?></td>
 						<td><?php echo ($row['lastlogin']?date("Y/m/d H:i:s T",$row['lastlogin']):'<span class="warning">'._t('아직 로그인하지 않았습니다.').'</span>');?></td>
 						<td><?php if(empty($row['lastlogin']) || null !== Setting::getUserSettingGlobal('AuthToken',null,$row['userid'])) echo Setting::getUserSettingGlobal('AuthToken',null,$row['userid']);?></td>
