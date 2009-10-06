@@ -56,6 +56,8 @@ closedir($handler);
 								else usePageCache = 0;
 								if(document.getElementById('useSkinCache').checked) useSkinCache = 1;
 								else useSkinCache = 0;
+								if(document.getElementById('useMemcached').checked) useMemcached = 1;
+								else useMemcached = 0;
 								if(document.getElementById('useExternalResource').checked) useExternalResource = 1;
 								else useExternalResource = 0;
 								if(document.getElementById('useReader').checked) useReader = 1;
@@ -81,6 +83,7 @@ closedir($handler);
 								param = '';
 								param += 'usePageCache='+usePageCache+'&';
 								param += 'useSkinCache='+useSkinCache +'&';
+								param += 'useMemcached='+useMemcached +'&';
 								param += 'useExternalResource='+useExternalResource +'&';
 								param += 'useReader='+useReader +'&';
 								param += 'useNumericRSS='+useNumericRSS +'&';
@@ -285,6 +288,12 @@ foreach($encodingList as $enc) {
 											<dt><span class="label"><?php echo _t('스킨 캐시 사용');?></span></dt>
 											<dd>
 												<input type="checkbox" id="useSkinCache" class="checkbox" name="useSkinCache"<?php echo $service['skincache'] ? ' checked="checked"' : '';?> /><label for="useSkinCache"><?php echo _t('스킨 캐시를 사용합니다.').' '._t('스킨 캐시를 사용하지 않도록 설정하면 페이지 캐시를 사용하도록 설정해도 스킨 캐시를 사용하지않습니다.').' '._t('스킨 파일을 직접 수정한 후 바로 변경된 결과를 보아야 하는 경우 스킨 캐시를 끄고 작업하시기 바랍니다.');?></label>
+											</dd>
+										</dl>
+										<dl id="memcached-line" class="line">
+											<dt><span class="label"><?php echo _t('Memcached 사용');?></span></dt>
+											<dd>
+												<input type="checkbox" id="useMemcached" class="checkbox" name="useMemcached"<?php echo (isset($service['memcached']) && $service['memcached']) ? ' checked="checked"' : '';?> /><label for="useMemcached"><?php echo _t('Memcached 모듈을 사용합니다.').' '._t('블로그의 속도 향상을 위하여 Memcached를 사용합니다. 이 기능을 사용하기 위해서는 서버에 Memcached가 설치되어 있고, PHP가 Memcached를 사용할 수 있도록 설정되어 있어야 합니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="reader-line" class="line">
