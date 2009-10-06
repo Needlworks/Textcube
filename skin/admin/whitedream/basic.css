@@ -415,7 +415,8 @@ textarea
 	line-height                      : 27px;
 }
 
-#menu-center 
+#menu-center,
+#menu-control
 {
 	margin-left                      : 200px !important;
 }
@@ -440,13 +441,6 @@ textarea
 	display                          : block;
 	height                           : 75px;
 	width                            : 180px;
-}
-
-#main-menu #menu-control
-{
-	position                         : absolute;
-	top                              : 50px;
-	right                            : 85px;
 }
 
 #main-menu li.divider

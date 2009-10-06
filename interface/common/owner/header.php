@@ -441,7 +441,11 @@ $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 				<div id="main-blog-box">
 					<div id="main-blog">
 <?php
-						if ('single' != $service['type'] ) {
+						if ($blogMenu['topMenu'] == 'control') {
+?>
+						<span class="text"><?php echo _t('컨트롤 패널');?></span>
+<?php						
+						} else if ('single' != $service['type'] ) {
 ?>
 						<label for="blog-list"><?php echo _t('현재 블로그');?></label>
 <?php echo User::changeBlog();
