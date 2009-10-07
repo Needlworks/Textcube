@@ -169,13 +169,22 @@ class pageCache {
 
 class queryCache {
 	function __construct($query = null, $prefix = null){
-		global $service;
+		global $service, $memcache;
 		$this->reset();
 		$this->query = $query;
-		$this->prefix = $prefix;
+		$this->prefix = (!is_null($prefix) ? $prefix : "")."-";
+		if(!is_null($memcache)) {
+			$this->namespace = $memcache->get(getBlogId()."-".$this->prefix."-");
+			if($this->namespace===false) { 
+				$memcache->set(getBlogId()."-".$prefix."-", rand(1, 100000));
+				$this->namespace = $memcache->get(getBlogId()."-".$this->prefix."-");
+			}
+		} else {
+			$this->namespace = $this->prefix;
+		}
 	}
 	public function reset() {
-		$this->query = $this->queryHash = $this->contents = $this->error = $this->prefix = null;
+		$this->query = $this->queryHash = $this->contents = $this->error = $this->prefix = $this->namespace = null;
 	}
 	public function create () {
 		$this->setPageCacheLog();
@@ -204,14 +213,14 @@ class queryCache {
 	}
 	private function getQueryHash(){ 
 		if(empty($this->query)) return false;
-		$this->queryHash = (isset($this->prefix) ? $this->prefix.'-' : '')."queryCache-".abs(crc32($this->query));
+		$this->queryHash = $this->namespace."queryCache-".abs(crc32($this->query));
 	}
 	private function getPageCacheLog() {
 		global $database, $memcache;
 		if(empty($this->queryHash)) $this->getQueryHash();
 		
 		if(!is_null($memcache)) {
-			$result = $memcache->get(getBlogId().'-'.$this->queryHash);
+			$result = $memcache->get($this->queryHash);
 		} else {
 			$query = new DBModel($database['prefix'].'PageCacheLog');
 			$query->setQualifier('blogid','equals',getBlogId());
@@ -231,7 +240,7 @@ class queryCache {
 		if(empty($this->queryHash)) $this->getQueryHash();
 		
 		if(!is_null($memcache)) {
-			return $memcache->set(getBlogId().'-'.$this->queryHash,serialize($this->contents));
+			return $memcache->set($this->queryHash,serialize($this->contents));
 		} else {
 
 			$name = $this->queryHash;
@@ -251,7 +260,7 @@ class queryCache {
 		if(empty($this->queryHash)) $this->getQueryHash();
 
 		if(!is_null($memcache)) {
-			return $memcache->delete(getBlogId().'-'.$this->queryHash);
+			return $memcache->delete($this->queryHash);
 		} else {
 			$query = new DBModel($database['prefix'].'PageCacheLog');
 			$query->setQualifier('blogid','equals',getBlogId());
@@ -555,7 +564,11 @@ class CacheControl {
 		}
 	}
 	function flushDBCache($prefix = null) {
-		global $database;
+		global $database, $memcache;
+	
+		if(!is_null($memcache)) {	// TODO : deleting memcache data
+			return $memcache->increment(getBlogId()."-".$this->prefix."-");
+		}
 		return POD::query("DELETE FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND name like '%".(!empty($prefix) ? $prefix.'-' : '')."queryCache%'");
