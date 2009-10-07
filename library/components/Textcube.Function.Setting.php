@@ -192,7 +192,7 @@ class Setting {
 			unset($__gCacheBlogSettings[$blogid][$name]);
 			$query = new TableQuery($database['prefix'] . 'BlogSettings');
 			$query->setQualifier('blogid','equals', $blogid);
-			$query->setQualifier('name','equals', $name);
+			$query->setQualifier('name','equals', $name, true);
 			return $query->delete();
 		}
 		
