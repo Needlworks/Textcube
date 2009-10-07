@@ -567,7 +567,7 @@ class CacheControl {
 		global $database, $memcache;
 	
 		if(!is_null($memcache)) {	// TODO : deleting memcache data
-			return $memcache->increment(getBlogId()."-".$this->prefix."-");
+			return $memcache->increment(getBlogId()."-".$prefix."-");
 		}
 		return POD::query("DELETE FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
