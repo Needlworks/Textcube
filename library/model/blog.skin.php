@@ -13,14 +13,14 @@ function setTreeSetting($blogid, $setting) {
 		Setting::setSkinSetting($key, $value, $blogid); 
 	}
 	Skin::purgeCache();
-	getSkinSetting($blogid, true); // refresh skin cache
+	Setting::getSkinSettings($blogid, true); // refresh skin cache
 	return true;
 }
 
 function reloadSkin($blogid)
 {
 	global $database, $service;
-	$skinSetting = getSkinSetting($blogid);
+	$skinSetting = Setting::getSkinSettings($blogid);
 	$skinName = $skinSetting['skin'];
 	if (file_exists(ROOT . "/skin/$skinName/index.xml")) {
 		$xml = file_get_contents(ROOT . "/skin/$skinName/index.xml");
@@ -179,7 +179,7 @@ function selectSkin($blogid, $skinName) {
 	CacheControl::flushAll();
 	Skin::purgeCache();
 	Path::removeFiles(ROOT . "/skin/customize/".getBlogId()."/");
-	getSkinSetting($blogid, true); // refresh skin cache
+	Setting::getSkinSettings($blogid, true); // refresh skin cache
 	return true;
 }
 
@@ -257,7 +257,7 @@ function setSkinSetting($blogid, $setting) {
 	CacheControl::flushCategory();
 	CacheControl::flushTag();
 	Skin::purgeCache();
-	getSkinSetting($blogid, true); // refresh skin cache
+	Setting::getSkinSettings($blogid, true); // refresh skin cache
 	return true;
 }
 ?>

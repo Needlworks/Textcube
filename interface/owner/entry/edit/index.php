@@ -183,6 +183,8 @@ if (defined('__TEXTCUBE_POST__')) {
 									this.delay     = false;
 									this.nowsaving = false;
 									this.isPreview   = false;
+									this.changeEditor = false;
+									this.currentEditor = "<?php echo $entry['contenteditor'];?>";
 									this.entryId   = <?php echo $entry['id'];?>;
 
 									this.pageHolder = new PageHolder(false, "<?php echo _t('아직 저장되지 않았습니다.');?>");
@@ -408,6 +410,9 @@ if (isset($_GET['returnURL'])) {
 												window.open("<?php echo $blogURL;?>/owner/entry/preview/"+entryManager.entryId, "previewEntry"+entryManager.entryId, "location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
 												entryManager.isPreview = false;
 											}
+											if (entryManager.changeEditor == true) {
+												reloadEditor();
+											}
 										}
 										request.onError = function () {
 											PM.removeRequest(this);
@@ -482,6 +487,8 @@ if (isset($_GET['popupEditor'])) {
 										PM.addRequest(request, "<?php echo _t('저장하고 있습니다.');?>");
 										request.send(data);
 									}
+									/// Do postprocessing after editor area is changed first.
+									/// e.g. starting writing, clicking, etc.
 									this.saveAuto = function () {
 										if(document.getElementById('templateDialog').style.display != 'none') {
 											toggleTemplateDialog();
@@ -501,7 +508,7 @@ if (isset($_GET['popupEditor'])) {
 											return;
 										}
 										this.timer = null;
-										if (this.delay) {
+										if (this.changeEditor != true && this.delay) {
 											this.delay = false;
 											this.autoSave = false;
 											this.timer = window.setTimeout(entryManager.saveDraft, 5000);

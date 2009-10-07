@@ -69,15 +69,14 @@ function printFormatterSelectScript() {
 }
 
 function printOwnerEditorScript($entryId = false) {
-	global $database, $skin, $hostURL, $blogURL, $service, $pluginURL, $pluginName;
-	$blogid = getBlogId();
-
-	$contentWidth = 500;
+	global $pluginURL, $pluginName;
 	
-	if($skin = POD::queryCell("SELECT skin FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid")) {
+	$contentWidth = 500;
+	$context = Model_Context::getInstance();
+	if($skin = $context->getProperty('skin.skin')) {
 		if($xml = @file_get_contents(ROOT."/skin/blog/$skin/index.xml")) {
 			$xmls = new XMLStruct();
-			$xmls->open($xml, $service['encoding']);
+			$xmls->open($xml, $context->getProperty('service.encoding'));
 			if($xmls->getValue('/skin/default/contentWidth')) {
 				$contentWidth = $xmls->getValue('/skin/default/contentWidth');
 			}
@@ -129,7 +128,6 @@ function printOwnerEditorScript($entryId = false) {
 
 	function getEditor() {
 <?php
-	$context = Model_Context::getInstance();
 	$setEditor = $context->getProperty('editor.key');
 	/// CHANGED FROM 1.8 : Editor only loads what user is using.
 	foreach (getAllEditors() as $id => $editor) {
@@ -168,6 +166,10 @@ function printOwnerEditorScript($entryId = false) {
 	}
 
 	function changeEditor(key, formatter) {
+		if (entryManager.nowsaving == true) {
+			alert("<?php echo _t('현재 자동 저장 중입니다. 저장이 완료된 후 다시 시도해 주세요.');?>");
+			return false;
+		}
 		if (!confirm("<?php echo _t('정말로 에디터를 변경하시겠습니까?');?>")) {
 			return false;
 		}
@@ -175,19 +177,21 @@ function printOwnerEditorScript($entryId = false) {
 			try { editor.syncTextarea(); } catch(e) {}
 			editor.finalize();
 		}
-		if(entryManager.isSaved != true) {
-			entryManager.save();	
-		}
+		entryManager.changeEditor = true;
+		entryManager.currentEditor = key;
 		entryManager.saveDraft();
-		
-		var url = '<?php echo $blogURL."/owner/entry/edit/";?>'+entryManager.entryId+'?editor='+key;
+	}
+	
+	function reloadEditor() {
+		var url = '<?php echo $context->getProperty('uri.blog')."/owner/entry/edit/";?>'+entryManager.entryId+'?editor='+entryManager.currentEditor;
+
 		if ( entryManager.isSaved == true) {
 			url = url+'&draft=true';
 		}
 		if ( entryManager.returnURL != null ) {
 			url = url+'&returnURL='+encodeURIComponent(entryManager.returnURL);			
 		}
-		window.location = url;
+		window.location = url;		
 	}
 //]]>
 </script>
@@ -198,8 +202,8 @@ function printOwnerEditorScript($entryId = false) {
 
 function printEntryFileList($attachments, $param) {
 	global $service, $blogURL, $adminSkinSetting;
-
-	$spacerURL = $service['path'].$adminSkinSetting['skin'].'/image/spacer.gif';
+	$context = Model_Context::getInstance();
+	$spacerURL = $context->getProperty('service.path').$adminSkinSetting['skin'].'/image/spacer.gif';
 
 	$blogid = getBlogId();
 	if(empty($attachments) || (
@@ -208,7 +212,7 @@ function printEntryFileList($attachments, $param) {
 	strpos($attachments[0]['name'] ,'.png') === false)) {
 		$fileName =  $spacerURL;
 	} else {
-		$fileName = "{$service['path']}/attach/$blogid/{$attachments[0]['name']}";
+		$fileName = "{$context->getProperty('service.path')}/attach/$blogid/{$attachments[0]['name']}";
 	}
 ?>
 											<div id="previewSelected" style="width: 120px; height: 90px;"><span class="text"><?php echo _t('미리보기');?></span></div>
@@ -341,42 +345,42 @@ function printEntryFileList($attachments, $param) {
 																	width = 90 / height * width;
 																	height = 90;
 																}
-																document.getElementById('previewSelected').innerHTML = '<img src="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/'+fileName+'?randseed='+Math.random()+'" width="' + parseInt(width) + '" height="' + parseInt(height) + '" alt="" style="margin-top: ' + ((90-height)/2) + 'px" onerror="if (this.src != \'<?php echo $spacerURL; ?>\') { this.src=\'<?php echo $spacerURL; ?>\' }"/>';																
+																document.getElementById('previewSelected').innerHTML = '<img src="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/'+fileName+'?randseed='+Math.random()+'" width="' + parseInt(width) + '" height="' + parseInt(height) + '" alt="" style="margin-top: ' + ((90-height)/2) + 'px" onerror="if (this.src != \'<?php echo $spacerURL; ?>\') { this.src=\'<?php echo $spacerURL; ?>\' }"/>';																
 															}
 															catch(e) { }
 															return false;
 														}
 														
 														if((new RegExp("\\.(mp3)$", "gi").exec(fileName))) {
-															var str = getEmbedCode("<?php echo $service['path'];?>/resources/script/jukebox/flash/mini.swf","100%","100%", "jukeBox0Flash","#FFFFFF", "sounds=<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/"+fileName+"&autoplay=false", "false");
+															var str = getEmbedCode("<?php echo $context->getProperty('service.path');?>/resources/script/jukebox/flash/mini.swf","100%","100%", "jukeBox0Flash","#FFFFFF", "sounds=<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/"+fileName+"&autoplay=false", "false");
 															writeCode(str, 'previewSelected');
 															return false;
 														}
 														
 														if((new RegExp("\\.(swf)$", "gi").exec(fileName))) {			
 															
-															code = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="100%" height="100%"><param name="movie" value="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/'+fileName+'"/><param name="allowscriptAccess" value="sameDomain" /><param name="menu" value="false" /><param name="quality" value="high" /><param name="bgcolor" value="#FFFFFF"/>';
-															code += '<!--[if !IE]> <--><object type="application/x-shockwave-flash" data="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/'+fileName+'" width="100%" height="100%"><param name="allowscriptAccess" value="sameDomain" /><param name="menu" value="false" /><param name="quality" value="high" /><param name="bgcolor" value="#FFFFFF"/><\/object><!--> <![endif]--><\/object>';
+															code = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="100%" height="100%"><param name="movie" value="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/'+fileName+'"/><param name="allowscriptAccess" value="sameDomain" /><param name="menu" value="false" /><param name="quality" value="high" /><param name="bgcolor" value="#FFFFFF"/>';
+															code += '<!--[if !IE]> <--><object type="application/x-shockwave-flash" data="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/'+fileName+'" width="100%" height="100%"><param name="allowscriptAccess" value="sameDomain" /><param name="menu" value="false" /><param name="quality" value="high" /><param name="bgcolor" value="#FFFFFF"/><\/object><!--> <![endif]--><\/object>';
 															
 															writeCode(code,'previewSelected');
 															return false;
 														}
 														
 														if((new RegExp("\\.(mov)$", "gi").exec(fileName))) {			
-															code = '<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" width="'+width+'" height="'+height+'"><param name="src" value="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/'+fileName+'"/><param name="controller" value="true"><param name="autoplay" value="false"><param name="scale" value="Aspect">';
-															code += '<!--[if !IE]> <--><object type="video/quicktime" data="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/'+fileName+'" width="'+width+'" height="'+height+'" showcontrols="true" TYPE="video/quicktime" scale="Aspect" nomenu="true"><param name="showcontrols" value="true"><param name="autoplay" value="false"><param name="scale" value="ToFit"><\/object><!--> <![endif]--><\/object>';
+															code = '<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" width="'+width+'" height="'+height+'"><param name="src" value="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/'+fileName+'"/><param name="controller" value="true"><param name="autoplay" value="false"><param name="scale" value="Aspect">';
+															code += '<!--[if !IE]> <--><object type="video/quicktime" data="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/'+fileName+'" width="'+width+'" height="'+height+'" showcontrols="true" TYPE="video/quicktime" scale="Aspect" nomenu="true"><param name="showcontrols" value="true"><param name="autoplay" value="false"><param name="scale" value="ToFit"><\/object><!--> <![endif]--><\/object>';
 															writeCode(code,'previewSelected');
 															return false;
 														}
 													
 														if((new RegExp("\\.(mp2|wma|mid|midi|mpg|wav|avi|mp4)$", "gi").exec(fileName))) {
 															code ='<object width="'+width+'" height="'+height+'" classid="CLSID:22D6F312-B0F6-11D0-94AB-0080C74C7E95" codebase="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701" standby="Loading for you" type="application/x-oleobject" align="middle">';		
-															code +='<param name="FileName" value="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/'+fileName+'">';
+															code +='<param name="FileName" value="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/'+fileName+'">';
 															code +='<param name="ShowStatusBar" value="False">';
 															code +='<param name="DefaultFrame" value="mainFrame">';
 															code +='<param name="autoplay" value="false">';
 															code +='<param name="showControls" value="true">';
-															code +='<embed type="application/x-mplayer2" pluginspage = "http://www.microsoft.com/Windows/MediaPlayer/" src="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/'+fileName+'" align="middle" width="'+width+'" height="'+height+'" showControls="true" defaultframe="mainFrame" showstatusbar="false" autoplay="false"><\/embed>';
+															code +='<embed type="application/x-mplayer2" pluginspage = "http://www.microsoft.com/Windows/MediaPlayer/" src="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/'+fileName+'" align="middle" width="'+width+'" height="'+height+'" showControls="true" defaultframe="mainFrame" showstatusbar="false" autoplay="false"><\/embed>';
 															code +='<\/object>';
 															
 															writeCode(code,'previewSelected');
@@ -386,8 +390,8 @@ function printEntryFileList($attachments, $param) {
 														
 														if((new RegExp("\\.(rm|ram)$", "gi").exec(fileName))) {		
 														/*
-															code = '<object classid="clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA" width="'+width+'" height="'+height+'"><param name="src" value="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/'+fileName+'"/><param name="CONTROLS" value="imagewindow"><param name="AUTOGOTOURL" value="FALSE"><param name="CONSOLE" value="radio"><param name="AUTOSTART" value="TRUE">';
-															code += '<!--[if !IE]> <--><object type="audio/x-pn-realaudio-plugin" data="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/'+fileName+'" width="'+width+'" height="'+height+'" ><param name="CONTROLS" value="imagewindow"><param name="AUTOGOTOURL" value="FALSE"><param name="CONSOLE" value="radio"><param name="AUTOSTART" value="TRUE"><\/object><!--> <![endif]--><\/object>';			
+															code = '<object classid="clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA" width="'+width+'" height="'+height+'"><param name="src" value="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/'+fileName+'"/><param name="CONTROLS" value="imagewindow"><param name="AUTOGOTOURL" value="FALSE"><param name="CONSOLE" value="radio"><param name="AUTOSTART" value="TRUE">';
+															code += '<!--[if !IE]> <--><object type="audio/x-pn-realaudio-plugin" data="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/'+fileName+'" width="'+width+'" height="'+height+'" ><param name="CONTROLS" value="imagewindow"><param name="AUTOGOTOURL" value="FALSE"><param name="CONSOLE" value="radio"><param name="AUTOSTART" value="TRUE"><\/object><!--> <![endif]--><\/object>';			
 														*/
 														}
 														
@@ -803,13 +807,13 @@ function printEntryFileList($attachments, $param) {
 														uploaderStr = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="uploader"'
 															+ 'width="400" height="40"'
 															+ 'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">'
-															+ '<param name="movie" value="<?php echo $service['path'];?>/resources/script/uploader/uploader.swf?<?php echo rand()?>" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="uploadPath=<?php echo $param['uploadPath'];?>'
+															+ '<param name="movie" value="<?php echo $context->getProperty('service.path');?>/resources/script/uploader/uploader.swf?<?php echo rand()?>" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="uploadPath=<?php echo $param['uploadPath'];?>'
 															+ entryManager.entryId
 															+ '&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>'
 															+ '&labelingPath=<?php echo $param['labelingPath'];?>'
 															+ entryManager.entryId
 															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[Session::getName()];?>" />'
-															+ '<embed id="uploader2" src="<?php echo $service['path'];?>/resources/script/uploader/uploader.swf?<?php echo rand() ?>" flashvars="uploadPath=<?php echo $param['uploadPath'];?>'
+															+ '<embed id="uploader2" src="<?php echo $context->getProperty('service.path');?>/resources/script/uploader/uploader.swf?<?php echo rand() ?>" flashvars="uploadPath=<?php echo $param['uploadPath'];?>'
 															+ entryManager.entryId
 															+ '&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>'
 															+ '&labelingPath=<?php echo $param['labelingPath'];?>'
@@ -817,7 +821,7 @@ function printEntryFileList($attachments, $param) {
 															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[Session::getName()];?>" width="400" height="40" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
 															
 														if (hasRightVersion && (isMoz || isIE || isMinSafari3)) {
-															if(<?php echo (isset($service['flashuploader']) && !$service['flashuploader']) ? 'false' : 'true';?>) { writeCode(uploaderStr,'uploaderNest'); }
+															if(<?php echo ($context->getProperty('service.flashuploader') ? 'false' : 'true';?>) { writeCode(uploaderStr,'uploaderNest'); }
 														}
 														window.uploader= document.getElementById('uploader');
 														refreshUploadButton();

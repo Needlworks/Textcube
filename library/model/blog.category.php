@@ -171,7 +171,7 @@ function getPrivateCategoryExclusionQuery($blogid) {
 
 function getCategoriesSkin() {
 	global $service;
-	$setting = getSkinSetting(getBlogId());
+	$setting = getSkinSettings(getBlogId());
 	$skin = array('name' => "{$setting['skin']}",
 			'url'               => $service['path'] . "/skin/tree/{$setting['tree']}",
 			'labelLength'       => $setting['labelLengthOnTree'],

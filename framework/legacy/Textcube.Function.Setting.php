@@ -333,7 +333,7 @@ class Setting {
 		return Setting::removeServiceSetting($name, true);
 	}
 	
-	function getSkinSetting($blogid, $forceReload = false) {
+	function getSkinSettings($blogid, $forceReload = false) {
 		global $database, $service, $__gCacheSkinSettings, $gCacheStorage;
 		if(empty($__gCacheSkinSettings)) $__gCacheSkinSettings = array();
 		if(is_null($blogid)) $blogid = getBlogId();
@@ -347,7 +347,6 @@ class Setting {
 				return $result;
 			}
 		}
-
 		$query = new DBModel($database['prefix'] . 'SkinSettings');
 		$query->setQualifier('blogid', 'equals', $blogid);
 		$skinSettings = $query->getAll();
@@ -422,7 +421,7 @@ class Setting {
 	
 		if (!array_key_exists($blogid, $__gCacheSkinSettings)) {
 			// force loading
-			Setting::getSkinSetting($blogid,false);
+			Setting::getSkinSettings($blogid,false);
 		}
 		if ($__gCacheBlogSettings[$blogid] === false) {
 			return null;

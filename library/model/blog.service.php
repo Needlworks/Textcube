@@ -24,8 +24,8 @@ function getBlogSettings($blogid) {
 	return Setting::getBlogSettingsGlobal($blogid);
 }
 
-function getSkinSetting($blogid, $forceReload = false) {
-	return Setting::getSkinSetting($blogid, $forceReload);
+function getSkinSettings($blogid, $forceReload = false) {
+	return Setting::getSkinSettings($blogid, $forceReload);
 }
 
 function getDefaultURL($blogid) {

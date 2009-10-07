@@ -16,14 +16,14 @@
 	<binding>
 		<listener event="ShowAdminHeader">Xquared_adminheader</listener>
 
-		<editor xml:lang="en" id="xquared" name="Xquared">
+		<editor xml:lang="en" id="xquared" name="xquared">
 			<initialize>Xquared_editorinit</initialize>
 			<!--<usedFor formatter="html" />-->
 			<usedFor formatter="ttml" />
 			<usedFor formatter="markdown" />
 			<usedFor formatter="textile" />
 		</editor>
-		<editor xml:lang="ko" id="xquared" name="Xquared">
+		<editor xml:lang="ko" id="xquared" name="xquared">
 			<initialize>Xquared_editorinit</initialize>
 			<!--<usedFor formatter="html" />-->
 			<usedFor formatter="ttml" />
