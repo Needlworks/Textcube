@@ -338,22 +338,24 @@ if (getBlogId()) {
 		activatePlugin('FM_Modern');
 	}
 	// sort mapping by its name, with exception for default formatter and editor
-	function _cmpfuncByFormatterName($x, $y) {
-		global $formatterMapping;
-		if ($x == 'html') return -1;
-		if ($y == 'html') return +1;
-		return strcmp($formatterMapping[$x]['name'], $formatterMapping[$y]['name']);
-	}
-	function _cmpfuncByEditorName($x, $y) {
-		global $editorMapping;
-		if ($x == 'plain') return -1;
-		if ($y == 'plain') return +1;
-		return strcmp($editorMapping[$x]['name'], $editorMapping[$y]['name']);
-	}
-	uksort($editorMapping, '_cmpfuncByEditorName');
-	uksort($formatterMapping, '_cmpfuncByFormatterName');
-	foreach ($formatterMapping as $formatterid => $formatterentry) {
-		uksort($formatterMapping[$formatterid]['editors'], '_cmpfuncByEditorName');
+	if (doesHaveOwnership()) {
+		function _cmpfuncByFormatterName($x, $y) {
+			global $formatterMapping;
+			if ($x == 'html') return -1;
+			if ($y == 'html') return +1;
+			return strcmp($formatterMapping[$x]['name'], $formatterMapping[$y]['name']);
+		}
+		function _cmpfuncByEditorName($x, $y) {
+			global $editorMapping;
+			if ($x == 'plain') return -1;
+			if ($y == 'plain') return +1;
+			return strcmp($editorMapping[$x]['name'], $editorMapping[$y]['name']);
+		}
+		uksort($editorMapping, '_cmpfuncByEditorName');
+		uksort($formatterMapping, '_cmpfuncByFormatterName');
+		foreach ($formatterMapping as $formatterid => $formatterentry) {
+			uksort($formatterMapping[$formatterid]['editors'], '_cmpfuncByEditorName');
+		}
 	}
 	unset($formatterid);
 	unset($formatterentry);
