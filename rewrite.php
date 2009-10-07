@@ -85,7 +85,7 @@
 				$interfacePath = 'interface/blog/'.$pathPart.'.php';
 				break;
 			case 'rss': case 'atom':
-				if($accessInfo['URLfragment'][1] == 'category') {
+				if(isset($accessInfo['URLfragment'][1]) && $accessInfo['URLfragment'][1] == 'category') {
 					$pathPart = $accessInfo['URLfragment'][0].'/category';
 					$interfacePath = 'interface/'.$pathPart.'/index.php';							
 				} else if (is_numeric(strtok(end($accessInfo['URLfragment']), '&'))) {
