@@ -201,7 +201,7 @@ function printOwnerEditorScript($entryId = false) {
 }
 
 function printEntryFileList($attachments, $param) {
-	global $service, $blogURL, $adminSkinSetting;
+	global $blogURL, $adminSkinSetting;
 	$context = Model_Context::getInstance();
 	$spacerURL = $context->getProperty('service.path').$adminSkinSetting['skin'].'/image/spacer.gif';
 
@@ -834,7 +834,7 @@ function printEntryFileList($attachments, $param) {
 }
 
 function printEntryFileUploadButton($entryId) {
-	global $service;
+	$context = Model_Context::getInstance();
 
 	$blogid = getBlogId();
 ?>
@@ -896,7 +896,7 @@ echo getAttachmentSizeLabel($blogid, $entryId);
 										</div>
 										<script type="text/javascript">
 										//<![CDATA[
-										if (!DetectFlashVer(8, 0, 0) || !(isIE || isMoz || isMinSafari3) || <?php echo (isset($service['flashuploader']) && !$service['flashuploader']) ? 'true' : 'false';?>) {
+										if (!DetectFlashVer(8, 0, 0) || !(isIE || isMoz || isMinSafari3) || <?php echo ($context->getProperty('service.flashuploader') ? 'true' : 'false');?>) {
 											var deleteButtonContainer = document.getElementById('fileUploadNest');
 											deleteButtonContainer.innerHTML = '<input type="button" id="deleteBtn" class="input-button" value="<?php echo _t('삭제하기');?>" onclick="deleteAttachment();return false" />' + deleteButtonContainer.innerHTML;
 										}
