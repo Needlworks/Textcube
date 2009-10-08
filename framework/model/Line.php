@@ -8,7 +8,7 @@ final class Model_Line extends DBModel {
 
 	public function __construct() {
 		$this->context = Model_Context::getInstance();
-		parent::reset($this->context->getProperty('database.prefix')."Lines");
+		parent::reset('Lines');
 		$this->reset();
 	}
 
