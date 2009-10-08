@@ -6,8 +6,8 @@
 /**
  * @requires Model_Context
  */
-class Cache_Memcache implements ICache extends Singleton
-{
+
+class Cache_Memcache extends Singleton {
 	private static $memcache, $__namespace, $__value, $__qualifiers;
 
 	public static function getInstance() {
@@ -15,6 +15,7 @@ class Cache_Memcache implements ICache extends Singleton
 	}
 	public function __construct() {
 		$context = Model_Context::getInstance();
+		$this->__qualifiers = array();
 		if($context->getProperty('service.memcached') == true):
 			$this->memcache = new Memcache;
 			$this->memcache->connect((!is_null($context->getProperty('memcached.server')) ? $context->getProperty('memcached.server') : 'localhost'));
@@ -66,7 +67,7 @@ class Cache_Memcache implements ICache extends Singleton
 		$this->useNamespace($ns);
 	}
 	public function setQualifier($key, $condition, $value, $param = null) {
-		array_push($this->qualifiers,$key.$condition.$value);
+		array_push($this->__qualifiers,$key.$condition.$value);
 	}
 	public function setAttribute($key, $value = null, $param = null) {
 		$this->__value = $value;	// Last attribute set will be used as key-value pair index.
@@ -103,8 +104,8 @@ class Cache_Memcache implements ICache extends Singleton
 		}
 	}
 	private function getKeyFromQualifiers() {
-		asort($this->qualifiers);
-		return abs(crc32(implode('-',$this->qualifiers)));
+		asort($this->__qualifiers);
+		return abs(crc32(implode('-',$this->__qualifiers)));
 	}
 }
 ?>

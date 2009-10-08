@@ -294,7 +294,7 @@ class globalCacheStorage extends pageCache {
 		$this->__usePageCache = $this->context->getProperty('service.pagecache');
 		if(is_null($blogid)) $this->_gBlogId = getBlogId();
 		else $this->_gBlogId = $blogid;
-		if($context->getProperty('service.memcached') == true) {
+		if($this->context->getProperty('service.memcached') == true) {
 			$this->pool = Cache_Memcache::getInstance();
 		} else {
 			$this->pool = DBModel::getInstance();
