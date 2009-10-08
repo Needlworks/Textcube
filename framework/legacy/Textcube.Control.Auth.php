@@ -366,7 +366,8 @@ class Auth {
 		if ((strlen($password) == 32) && preg_match('/[0-9a-f]{32}/i', $password)) { // Raw login. ( with/without auth token)
 			$userid = getUserIdByEmail($loginid);
 			if(!empty($userid) && !is_null($userid)) {
-				$query = new DBModel($database['prefix']. 'UserSettings');
+				$query = DBModel::getInstance();
+				$query->reset('UserSettings');
 				$query->setQualifier('userid','equals',$userid);
 				$query->setQualifier('name','equals','AuthToken',true);
 				$authtoken = $query->getCell('value');

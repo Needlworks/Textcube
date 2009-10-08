@@ -5,14 +5,15 @@
 
 function getTagId($blogid, $name) {
 	global $database;
-	$query = new DBModel($database['prefix']."Tags");
+	$query = DBModel::getInstance();
+	$query->reset('Tags');
 	$query->setQualifier('name','equals',$name,true);
 	return $query->getCell('id');
 }
 
 function getTagById($blogid, $id) {
-	global $database;
-	$query = new DBModel($database['prefix']."Tags");
+	$query = DBModel::getInstance();
+	$query->reset('Tags');
 	$query->setQualifier('id','equals',$id);
 	return $query->getCell('name');
 }
@@ -215,7 +216,6 @@ function deleteTagById($blogid, $id) {
 
 
 function addTag($blogid, $name) {
-	global $database;
 	$tagId = getTagId($blogid,$name);
 	if(empty($tagId)) {
 		$query = DBModel::getInstance();

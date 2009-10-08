@@ -499,7 +499,8 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			) TYPE=MyISAM
 		";
 		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query)) {
-			$query = new DBModel($database['prefix'] . 'SkinSettings');
+			$query = DBModel::getInstance();
+			$query->reset('SkinSettings');
 			if($query->doesExist()) {
 				$changed = true;
 				$fieldnames = array(

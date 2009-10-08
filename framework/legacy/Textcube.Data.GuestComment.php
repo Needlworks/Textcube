@@ -123,7 +123,8 @@ class GuestComment {
 	
 	function _buildQuery() {
 		global $database;
-		$query = new DBModel($database['prefix'] . 'Comments');
+		$query = DBModel::getInstance();
+		$query->reset('Comments');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		$query->setQualifier('entry', 'equals', 0);
 		if (isset($this->id)) {

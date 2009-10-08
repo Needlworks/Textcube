@@ -8,6 +8,7 @@ $IV = array(
 		'entriesOnPage' => array('int'),
 		'entriesOnList' => array('int'),
 		'entriesOnRecent' => array('int'),
+		'noticesOnRecent' => array('int'),
 		'commentsOnRecent' => array('int'),
 		'commentsOnGuestbook' => array('int'),
 		'archivesOnPage' => array('int'),

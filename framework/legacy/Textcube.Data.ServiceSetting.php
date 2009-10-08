@@ -71,8 +71,8 @@ class ServiceSetting {
 	}
 
 	function _buildQuery() {
-		global $database;
-		$query = new DBModel($database['prefix'] . 'ServiceSettings');
+		$query = DBModel::getInstance();
+		$query->reset('ServiceSettings');
 		$query->setQualifier('name', 'equals', UTF8::lessenAsEncoding($this->name, 32), false);
 		if (isset($this->value))
 			$query->setAttribute('value', UTF8::lessenAsEncoding($this->value, 255), true);

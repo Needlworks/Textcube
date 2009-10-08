@@ -13,7 +13,7 @@ requireStrictBlogURL();
 if (false) {
 	fetchConfigVal();
 }
-$cache = new pageCache;
+$cache = pageCache::getInstance();
 if(!empty($suri['id'])) {
 	$cache->name = 'trackbackATOM-'.$suri['id'];
 	if(!$cache->load()) {

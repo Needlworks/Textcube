@@ -156,8 +156,8 @@ class CommentNotified {
 	}
 
 	function _buildQuery() {
-		global $database;
-		$query = new DBModel($database['prefix'] . 'CommentsNotified');
+		$query = DBModel::getInstance();
+		$query->reset('CommentsNotified');
 		$query->setQualifier('blogid', 'equals',getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))

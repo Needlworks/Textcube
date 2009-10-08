@@ -7,7 +7,6 @@ require ROOT . '/interface/common/owner/header.php';
 
 $categories = getCategories($blogid);
 $selected = 0;
-var_dump($skinSetting);
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -93,6 +92,7 @@ var_dump($skinSetting);
 									param += 'entriesOnPage='+getValueById('entriesOnPage') +'&';
 									param += 'entriesOnList='+getValueById('entriesOnList') +'&';
 									param += 'entriesOnRecent='+getValueById('entriesOnRecent') +'&';
+									param += 'noticesOnRecent='+getValueById('noticesOnRecent') +'&';
 									param += 'commentsOnRecent='+getValueById('commentsOnRecent') +'&';
 									param += 'commentsOnGuestbook='+getValueById('commentsOnGuestbook') +'&';
 									param += 'archivesOnPage='+getValueById('archivesOnPage') +'&';
@@ -222,6 +222,32 @@ ob_end_clean();
 											<dt><span class="label"><?php echo _t('출력될 최근 글 수');?></span></dt>
 											<dd><?php echo _f('최근에 쓴 글을 %1개 보여줍니다.', $arg);?></dd>
 										</dl>
+<?php
+ob_start();
+?>
+
+												<select id="noticesOnRecent" name="noticesOnRecent">
+<?php
+for ($i = 1; $i <= 30; $i++) {
+	if ($i == $skinSetting['noticesOnRecent'])
+		$checked = ' selected="selected"';
+	else
+		$checked = '';
+?>
+													<option value="<?php echo $i;?>" <?php echo $checked;?>><?php echo $i;?></option>
+<?php
+}
+?>
+												</select>
+<?php
+$arg = ob_get_contents();
+ob_end_clean();
+?>
+										<dl id="recent-notice-line" class="line">
+											<dt><span class="label"><?php echo _t('출력될 최근 공지수');?></span></dt>
+											<dd><?php echo _f('최근에 쓴 공지를 %1개 보여줍니다.', $arg);?></dd>
+										</dl>
+
 <?php
 ob_start();
 ?>

@@ -305,7 +305,8 @@ class Post {
 		if (isset($slogan))
 			$this->slogan = $slogan;
 
-		$query = new DBModel($database['prefix'] . 'Entries');
+		$query = DBModel::getInstance();
+		$query->reset('Entries');
 		$query->setQualifier('blogid', 'equals', $this->blogid);
 		if(isset($this->userid)) $query->setQualifier('userid', 'equals', $this->userid);
 		$query->setQualifier('id', 'equals', $this->id);
@@ -544,7 +545,8 @@ class Post {
 	function _buildQuery() {
 		global $database;
 		$this->init();
-		$query = new DBModel($database['prefix'] . 'Entries');
+		$query = DBModel::getInstance();
+		$query->reset('Entries');
 		$query->setQualifier('blogid', 'equals', $this->blogid);
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))

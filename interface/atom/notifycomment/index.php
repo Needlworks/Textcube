@@ -20,7 +20,7 @@ requireModel("blog.entry");
 requireStrictBlogURL();
 validateAPIKey(getBlogId(),$_POST['loginid'],$_POST['key']);
 
-$cache = new pageCache;
+$cache = pageCache::getInstance();
 $cache->name = 'commentNotifiedATOM';
 if(!$cache->load()) {
 	$result = getCommentNotifiedFeedTotal(getBlogId(),'atom');

@@ -11,7 +11,7 @@ requireModel("blog.feed");
 requireStrictBlogURL();
 
 $children = array();
-$cache = new pageCache;
+$cache = pageCache::getInstance();
 
 $cache->name = 'linesATOM';
 if(!$cache->load()) {

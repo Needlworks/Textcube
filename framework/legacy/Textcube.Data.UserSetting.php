@@ -73,8 +73,8 @@ class UserSetting {
 	}
 
 	function _buildQuery() {
-		global $database;
-		$query = new DBModel($database['prefix'] . 'UserSettings');
+		$query = DBModel::getInstance();
+		$query->reset('UserSettings');
 		$query->setQualifier('userid', 'equals', getUserId());
 		$query->setQualifier('name', 'equals', $this->name, false);
 		if (isset($this->value))

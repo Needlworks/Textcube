@@ -111,8 +111,8 @@ class Trackback {
 	}
 	
 	function _buildQuery() {
-		global $database;
-		$query = new DBModel($database['prefix'] . 'RemoteResponses');
+		$query = DBModel::getInstance();
+		$query->reset('RemoteResponses');
 		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('type', 'trackback');
 		if (isset($this->id)) {
@@ -279,8 +279,8 @@ class Pingback {
 	}
 
 	function _buildQuery() {
-		global $database;
-		$query = new DBModel($database['prefix'] . 'RemoteResponses');
+		$query = DBModel::getInstance();
+		$query->reset('RemoteResponses');
 		$query->setQualifier('blogid', getBlogId());
 		$query->setQualifier('type', 'pingback');
 		if (isset($this->id)) {

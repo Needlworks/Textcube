@@ -122,7 +122,8 @@ class Link {
 
 	function _buildQuery() {
 		global $database;
-		$query = new DBModel($database['prefix'] . 'Links');
+		$query = DBModel::getInstance();
+		$query->reset('Links');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
@@ -297,7 +298,8 @@ class LinkCategories {
 	
 	function _buildQuery() {
 		global $database;
-		$query = new DBModel($database['prefix'] . 'LinkCategories');
+		$query = DBModel::getInstance();
+		$query->reset('LinkCategories');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))

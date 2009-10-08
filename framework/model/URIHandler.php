@@ -205,7 +205,8 @@ final class Model_URIHandler extends Singleton
 		}
 	}
 	private function __getBlogIdByName($name) {
-		$query = new DBModel($this->context->getProperty('database.prefix') . 'BlogSettings');
+		$query = DBModel::getInstance();
+		$query->reset('BlogSettings');
 		$query->setQualifier('name','equals','name',true);
 		$query->setQualifier('value', 'equals', $name, true);
 		return $query->getCell('blogid');

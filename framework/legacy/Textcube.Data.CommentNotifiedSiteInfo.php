@@ -132,8 +132,8 @@ class CommentNotifiedSiteInfo {
 	}
 
 	function _buildQuery() {
-		global $database;
-		$query = new DBModel($database['prefix'] . 'CommentsNotifiedSiteInfo');
+		$query = DBModel::getInstance();
+		$query->reset('CommentsNotifiedSiteInfo');
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');

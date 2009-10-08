@@ -109,8 +109,8 @@ class DailyStatistics {
 		if (!DailyStatistics::validateDate($this->date))
 			return $this->_error('date');
 			
-		global $database;
-		$query = new DBModel($database['prefix'] . 'DailyStatistics');
+		$query = DBModel::getInstance();
+		$query->reset('DailyStatistics');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		$query->setQualifier('datemark', 'equals', $this->date);
 		if (isset($this->visits)) {

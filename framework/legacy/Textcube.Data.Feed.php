@@ -9,7 +9,8 @@ class FeedGroup {
 		$name = UTF8::lessenAsEncoding($name);
 		if (empty($name))
 			return 0;
-		$query = new DBModel($database['prefix'] . 'FeedGroups');
+		$query = DBModel::getInstance();
+		$query->reset('FeedGroups');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		$query->setQualifier('title', 'equals', $name, true);
 		$id = $query->getCell('id');
@@ -33,7 +34,8 @@ class FeedGroup {
 			return null;
 		if ($id == 0)
 			return '';
-		$query = new DBModel($database['prefix'] . 'FeedGroups');
+		$query = DBModel::getInstance();
+		$query->reset('FeedGroups');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		$query->setQualifier('id', 'equals', $id);
 		return $query->getCell('title');
@@ -123,7 +125,8 @@ class Feed {
 		if (!isset($this->group) || !Validator::number($this->group, 0))
 			return $this->_error('group');
 
-		$query = new DBModel($database['prefix'] . 'Feeds');
+		$query = DBModel::getInstance();
+		$query->reset('Feeds');
 		$query->setQualifier('xmlurl', 'equals', UTF8::lessenAsEncoding($this->url, 255), true);
 		$query->setAttribute('title', UTF8::lessenAsEncoding($this->url, 255), true);
 		$query->setAttribute('id',($this->_getMaxId()+1));
@@ -266,7 +269,8 @@ class FeedItem {
 			return false;
 		}
 
-		$query = new DBModel($database['prefix'] . 'FeedItems');
+		$query = DBModel::getInstance();
+		$query->reset('FeedItems');
 		$query->setQualifier('feed', 'equals', $this->feed);
 		$query->setQualifier('permalink', 'equals', $this->link, true);
 		$this->id = $query->getCell('id');

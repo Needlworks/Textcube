@@ -58,9 +58,8 @@ class SkinSetting {
 	}
 	
 	function save() {
-		global $database;
-		
-		$query = new DBModel($database['prefix'] . 'SkinSettings');
+		$query = DBModel::getInstance();	
+		$query->reset('SkinSettings');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		if (isset($this->skin)) {
 			if (strncmp($this->skin, 'customize/', 10) == 0) {

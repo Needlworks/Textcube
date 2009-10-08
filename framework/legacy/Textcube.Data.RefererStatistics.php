@@ -106,7 +106,8 @@ class RefererStatistics {
 		$this->host = UTF8::lessenAsEncoding(trim($this->host), 64);
 		if (empty($this->host))
 			return $this->_error('host');
-		$query = new DBModel($database['prefix'] . 'RefererStatistics');
+		$query = DBModel::getInstance();
+		$query->reset('RefererStatistics');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		$query->setQualifier('host', 'equals', $this->host, true);
 		if (isset($this->count)) {

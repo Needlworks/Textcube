@@ -76,8 +76,8 @@ class PluginSetting {
 		if (!Validator::directory($this->name))
 			return $this->_error('name');
 		
-		global $database;
-		$query = new DBModel($database['prefix'] . 'Plugins');
+		$query = DBModel::getInstance();
+		$query->reset('Plugins');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		$query->setQualifier('name', 'equals', UTF8::lessenAsEncoding($this->name, 255), true);
 		if (isset($this->setting))

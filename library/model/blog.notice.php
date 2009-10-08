@@ -26,4 +26,13 @@ function getNotices($blogid) {
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	return POD::queryAll("SELECT id, title, slogan, published FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -2 ORDER BY published DESC");
 }
+function getRecentNotices($blogid) {
+	$context = Model_Context::getInstance();
+	$query = DBModel::getInstance();
+	$query->reset('Entries');
+
+	global $database;
+	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
+	return POD::queryAll("SELECT id, title, slogan, published FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -2 ORDER BY published DESC");
+}
 ?>

@@ -37,6 +37,7 @@ class DBModel extends Singleton implements IModel {
 	protected $_relations, $_filters, $_order, $_limitation, $table, $id, $_reservedFields, $_isReserved;
 			
 	function __construct($table = null) {
+		$this->context = Model_Context::getInstance();
 		$this->reset($table);
 	}
 	
@@ -45,7 +46,8 @@ class DBModel extends Singleton implements IModel {
 	}
 		
 	public function reset($table = null) {
-		$this->table = $table;
+		if(!is_null($table)) $this->table = $this->context->getProperty('database.prefix').$table;
+		else $this->table = null;
 		$this->id = null;
 		$this->_attributes = array();
 		$this->_qualifiers = array();

@@ -33,7 +33,8 @@ class BlogSetting {
 		global $database;
 		$blogid = getBlogId();
 		$this->reset();
-		$query = new DBModel($database['prefix'] . 'BlogSettings');
+		$query = DBModel::getInstance();
+		$query->reset('BlogSettings');
 		if($query->doesExist()){
 			$query->setQualifier('blogid','equals',$blogid);
 			$blogSettings = $query -> getAll('name,value');

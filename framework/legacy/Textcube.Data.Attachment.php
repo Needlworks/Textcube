@@ -168,8 +168,8 @@ class Attachment {
 		if (!Validator::filename($this->name))
 			return $this->_error('name');
 
-		global $database;
-		$query = new DBModel($database['prefix'] . 'Attachments');
+		$query = DBModel::getInstance();
+		$query->reset('Attachments');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		$query->setQualifier('name', 'equals', $this->name, true);
 		if (isset($this->parent)) {

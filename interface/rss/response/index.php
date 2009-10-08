@@ -12,7 +12,7 @@ requireStrictBlogURL();
 if (false) {
 	fetchConfigVal();
 }
-$cache = new pageCache;
+$cache = pageCache::getInstance();
 if(!empty($suri['id'])) {
 	$cache->name = 'responseRSS-'.$suri['id'];
 	if(!$cache->load()) {

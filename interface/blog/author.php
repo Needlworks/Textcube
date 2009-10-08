@@ -7,7 +7,7 @@ if (false) {
 	fetchConfigVal();
 }
 
-$cache = new pageCache;
+$cache = pageCache::getInstance();
 $author = empty($suri['value']) ? '' : $suri['value'];
 $authorId = User::getUserIdByName($author);
 if(empty($authorId)) exit;

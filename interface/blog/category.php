@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
 
-$cache = new pageCache;
+$cache = pageCache::getInstance();
 if(!isset($suri['id']) || (Setting::getBlogSettingGlobal('useSloganOnCategory',1) == 1)) {
 	$category = empty($suri['value']) ? 0 : getCategoryIdByLabel($blogid, $suri['value']);
 } else {

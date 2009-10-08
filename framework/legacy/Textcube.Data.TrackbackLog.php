@@ -97,8 +97,8 @@ class TrackbackLog {
 	}
 	
 	function _buildQuery() {
-		global $database;
-		$query = new DBModel($database['prefix'] . 'RemoteResponseLogs');
+		$query = DBModel::getInstance();
+		$query->reset('RemoteResponseLogs');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		$query->setQualifier('type', 'trackback',false);
 		if (isset($this->id)) {

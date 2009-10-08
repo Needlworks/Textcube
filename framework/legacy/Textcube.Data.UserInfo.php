@@ -125,8 +125,8 @@ class UserInfo {
 	}
 
 	function _buildQuery() {
-		global $database;
-		$query = new DBModel($database['prefix'] . 'Users');
+		$query = DBModel::getInstance();
+		$query->reset('Users');
 		$query->setQualifier('userid', getUserId());
 		
 		if (isset($this->userid)) {

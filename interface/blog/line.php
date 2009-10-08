@@ -41,7 +41,7 @@ if(!empty($content)) {
 		$lineobj->content = $content;
 		$result = $lineobj->add();
 		fireEvent('AddLine',$result, $lineobj);
-		$cache = new pageCache;
+		$cache = pageCache::getInstance();
 		$cache->name = 'linesATOM';
 		$cache->purge();
 		$cache->reset();

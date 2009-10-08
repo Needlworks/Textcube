@@ -179,7 +179,8 @@ class Keyword {
 	
 	function _buildQuery() {
 		global $database;
-		$query = new DBModel($database['prefix'] . 'Entries');
+		$query = DBModel::getInstance();
+		$query->reset('Entries');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		$query->setQualifier('category', 'equals', -1);
 		if (isset($this->id)) {

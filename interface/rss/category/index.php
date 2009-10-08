@@ -12,7 +12,7 @@ requireModel("blog.category");
 requireStrictBlogURL();
 
 $children = array();
-$cache = new pageCache;
+$cache = pageCache::getInstance();
 if(!empty($suri['id'])) {
 	$categoryId = $suri['id'];
 	if(in_array($categoryId, getCategoryVisibilityList($blogid, 'private'))) return false;

@@ -81,7 +81,8 @@ class RefererLog {
 
 	function _buildQuery() {
 		global $database;
-		$query = new DBModel($database['prefix'] . 'RefererLogs');
+		$query = DBModel::getInstance();
+		$query->reset('RefererLogs');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		if (isset($this->host)) {
 			$this->host = UTF8::lessenAsEncoding(trim($url['host']), 64);
