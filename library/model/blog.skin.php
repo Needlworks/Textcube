@@ -242,7 +242,7 @@ function setSkinSetting($blogid, $setting) {
 			return _t('실패 했습니다');
 	}
 	
-	$skinpath = ROOT . '/skin/blog/' . $skinSetting['skin'];
+	$skinpath = ROOT . '/skin/' . $skinSetting['skin'];
 	if (!is_dir($skinpath))
 		return _t('실패 했습니다');
 
