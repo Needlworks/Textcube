@@ -49,7 +49,7 @@ class Cache_Memcache extends Singleton {
 		return $this->memcache->delete($key);
 	}
 	public function flush() {
-		
+		return $this->memcache->flush();
 	}
 	/// Namespaces
 	public function useNamespace($ns = null) {
@@ -62,9 +62,9 @@ class Cache_Memcache extends Singleton {
 
 
 	/// Compatibility layer via Data_IModel
-	public function reset($ns) {
+	public function reset($ns,$param = '') {
 		$this->__qualifiers = array();
-		$this->useNamespace($ns);
+		$this->useNamespace($ns.$param);
 	}
 	public function setQualifier($key, $condition, $value, $param = null) {
 		array_push($this->__qualifiers,$key.$condition.$value);

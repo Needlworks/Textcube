@@ -171,19 +171,16 @@ class pageCache extends Singleton {
 
 class queryCache extends Singleton {
 	function __construct($query = null, $prefix = null){
-		global $service, $memcache;
 		$this->reset();
-		$this->pool = DBModel::getInstance();
+		$this->context = Model_Context::getInstance();
+		$this->__usePageCache = $this->context->getProperty('service.pagecache');
 		$this->query = $query;
 		$this->prefix = (!is_null($prefix) ? $prefix : "")."-";
-		if(!is_null($memcache)) {
-			$this->namespace = $memcache->get(getBlogId()."-".$this->prefix."-");
-			if($this->namespace===false) { 
-				$memcache->set(getBlogId()."-".$prefix."-", rand(1, 100000));
-				$this->namespace = $memcache->get(getBlogId()."-".$this->prefix."-");
-			}
+		
+		if($this->context->getProperty('service.memcached') == true) {
+			$this->pool = Cache_Memcache::getInstance();
 		} else {
-			$this->namespace = $this->prefix;
+			$this->pool = DBModel::getInstance();
 		}
 	}
 
@@ -194,47 +191,46 @@ class queryCache extends Singleton {
 	public function reset() {
 		$this->query = $this->queryHash = $this->contents = $this->error = $this->prefix = $this->namespace = null;
 	}
-	public function create () {
+	
+	public function create() {
 		$this->setPageCacheLog();
 		return true;
 	}
-	public function update () {
-		global $service;
-		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
+	public function update() {
+		if(empty($this->__usePageCache)) return false;
 		$this->purge();
 		$this->create();
 	}
-	public function load () {
-		global $service;
-		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
+	public function load() {
+		if(empty($this->__usePageCache)) return false;
 		if($this->getPageCacheLog()) {
 			return true;
 		}
 		else return false;
 	}
-	public function purge () {
-		global $service;
-		if(isset($service['pagecache']) && $service['pagecache'] == false) return true;
+	public function purge() {
+		if(empty($this->__usePageCache)) return false;
 		if($this->removePageCacheLog())
 			return true;
 		else return false;
 	}
+	public function flush() {
+		
+	}
+	
 	private function getQueryHash(){ 
 		if(empty($this->query)) return false;
 		$this->queryHash = $this->namespace."queryCache-".abs(crc32($this->query));
 	}
+	
 	private function getPageCacheLog() {
-		global $database, $memcache;
 		if(empty($this->queryHash)) $this->getQueryHash();
 		
-		if(!is_null($memcache)) {
-			$result = $memcache->get($this->queryHash);
-		} else {
-			$this->pool->reset('PageCacheLog');
-			$this->pool->setQualifier('blogid','equals',getBlogId());
-			$this->pool->setQualifier('name','equals',$this->queryHash,true);
-			$result = $query->getCell('value');
-		}
+		$this->pool->reset('PageCacheLog',$this->prefix);
+		$this->pool->setQualifier('blogid','equals',getBlogId());
+		$this->pool->setQualifier('name','equals',$this->queryHash,true);
+		$result = $this->pool->getCell('value');
+
 		if(!is_null($result) && !empty($result)) {
 			$this->contents = unserialize($result);
 			return true;
@@ -244,37 +240,26 @@ class queryCache extends Singleton {
 	}
 
 	private function setPageCacheLog() {
-		global $database, $memcache;
 		if(empty($this->queryHash)) $this->getQueryHash();
 		
-		if(!is_null($memcache)) {
-			return $memcache->set($this->queryHash,serialize($this->contents));
-		} else {
-
-			$name = $this->queryHash;
-			$value = serialize($this->contents);
-			$this->pool->reset('PageCacheLog');
-			$this->pool->setAttribute('blogid',getBlogId());
-			$this->pool->setAttribute('name',$name,true);
-			$this->pool->setAttribute('value',$value,true);
-			$this->pool->setQualifier('blogid','equals',getBlogId());
-			$this->pool->setQualifier('name','equals',$name,true);
-			return $this->pool->replace();
-		}
+		$name = $this->queryHash;
+		$value = serialize($this->contents);
+		$this->pool->reset('PageCacheLog',$this->prefix);
+		$this->pool->setAttribute('blogid',getBlogId());
+		$this->pool->setAttribute('name',$name,true);
+		$this->pool->setAttribute('value',serialize($this->contents),true);
+		$this->pool->setQualifier('blogid','equals',getBlogId());
+		$this->pool->setQualifier('name','equals',$name,true);
+		return $this->pool->replace();
 	}
 
 	private function removePageCacheLog() {
-		global $database, $memcache;
 		if(empty($this->queryHash)) $this->getQueryHash();
 
-		if(!is_null($memcache)) {
-			return $memcache->delete($this->queryHash);
-		} else {
-			$this->pool->reset('PageCacheLog');
-			$this->pool->setQualifier('blogid','equals',getBlogId());
-			$this->pool->setQualifier('name','equals',$this->queryHash,true);
-			return $this->pool->delete();
-		}
+		$this->pool->reset('PageCacheLog',$this->prefix);
+		$this->pool->setQualifier('blogid','equals',getBlogId());
+		$this->pool->setQualifier('name','equals',$this->queryHash,true);
+		return $this->pool->delete();
 	}
 
 	private function _error($error) {

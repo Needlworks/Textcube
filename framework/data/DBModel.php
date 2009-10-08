@@ -45,7 +45,7 @@ class DBModel extends Singleton implements IModel {
 		return self::_getInstance(__CLASS__);
 	}
 		
-	public function reset($table = null) {
+	public function reset($table = null, $param = null) {
 		if(!is_null($table)) $this->table = $this->context->getProperty('database.prefix').$table;
 		else $this->table = null;
 		$this->id = null;
@@ -54,7 +54,7 @@ class DBModel extends Singleton implements IModel {
 		$this->_relations = array();
 		$this->_filters = array();
 		$this->_order = array();	
-		$this->_limitation = array();
+		$this->_limit = array();
 		$this->_isReserved = array();
 		
 		$this->_reservedFields = POD::reservedFieldNames();
