@@ -67,82 +67,82 @@ function selectSkin($blogid, $skinName) {
 			return _t('실패 했습니다');
 	}
 		
-	if (file_exists(ROOT . "/skin/$skinName/index.xml")) {
-		$xml = file_get_contents(ROOT . "/skin/$skinName/index.xml");
+	if (file_exists(ROOT . "/skin/blog/$skinName/index.xml")) {
+		$xml = file_get_contents(ROOT . "/skin/blog/$skinName/index.xml");
 		$xmls = new XMLStruct();
 		if (!$xmls->open($xml, $service['encoding']))
 			return _t('실패했습니다.');
-		$assignments = array("skin='$skinName'");
+		$assignments = array('skin'=>$skinName);
 		$value = $xmls->getValue('/skin/default/recentEntries');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, array('entriesOnRecent'=>$value));
+			$assignments['entriesOnRecent'] = $value;
 		$value = $xmls->getValue('/skin/default/recentComments');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, array('commentsOnRecent'=>$value));
+			$assignments['commentsOnRecent'] = $value;
 		$value = $xmls->getValue('/skin/default/itemsOnGuestbook');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, array('commentsOnGuestbook'=>$value));
+			$assignments['commentsOnGuestbook'] = $value;
 		$value = $xmls->getValue('/skin/default/tagsInCloud');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, array('tagsOnTagbox'=>$value));
+			$assignments['tagsOnTagbox'] = $value;
 		$value = $xmls->getValue('/skin/default/sortInCloud');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, array('tagboxAlign'=>$value));
+			$assignments['tagboxAlign'] = $value;
 		$value = $xmls->getValue('/skin/default/recentTrackbacks');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, array('trackbacksOnRecent'=>$value));
+			$assignments['trackbacksOnRecent'] = $value;
 		$value = $xmls->getValue('/skin/default/expandComment');
 		if (isset($value))
-			array_push($assignments, array('expandComment'=>($value ? '1' : '0')));
+			$assignments['expandComment'] = ($value ? '1' : '0');
 		$value = $xmls->getValue('/skin/default/expandTrackback');
 		if (isset($value))
-			array_push($assignments, array('expandTrackback'=> ($value ? '1' : '0')));
+			$assignments['expandTrackback'] = ($value ? '1' : '0');
 		$value = $xmls->getValue('/skin/default/lengthOfRecentNotice');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, array('recentNoticeLength'=>$value));
+			$assignments['recentNoticeLength'] = $value;
 		$value = $xmls->getValue('/skin/default/lengthOfRecentEntry');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, array('recentEntryLength'=>$value));
+			$assignments['recentEntryLength'] = $value;
 		$value = $xmls->getValue('/skin/default/lengthOfRecentComment');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, array('recentCommentLength'=>$value));
+			$assignments['recentCommentLength'] = $value;
 		$value = $xmls->getValue('/skin/default/lengthOfRecentTrackback');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, array('recentTrackbackLength'=>$value));
+			$assignments['recentTrackbackLength'] = $value;
 		$value = $xmls->getValue('/skin/default/lengthOfLink');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, array('linkLength'=>$value));
+			$assignments['linkLength'] = $value;
 		$value = $xmls->getValue('/skin/default/showListOnCategory');
 		if (isset($value))
-			array_push($assignments, array('showListOnCategory'=>$value));
+			$assignments['showListOnCategory'] = $value;
 		$value = $xmls->getValue('/skin/default/showListOnArchive');
 		if (isset($value))
-			array_push($assignments, array('showListOnArchive'=>$value));
+			$assignments['showListOnArchive'] = $value;
 		$value = $xmls->getValue('/skin/default/showListOnTag');
 		if (isset($value))
-			array_push($assignments, array('showListOnTag'=>$value));
+			$assignments['showListOnTag'] = $value;
 		$value = $xmls->getValue('/skin/default/showListOnSearch');
 		if (isset($value))
-			array_push($assignments, array('showListOnSearch'=>$value));
+			$assignments['showListOnSearch'] = $value;
 		$value = $xmls->getValue('/skin/default/tree/color');
 		if (isset($value))
-			array_push($assignments, array('colorOnTree'=>$value));
+			$assignments['colorOnTree'] = $value;
 		$value = $xmls->getValue('/skin/default/tree/bgColor');
 		if (isset($value))
-			array_push($assignments, array('bgcolorOnTree'=>$value));
+			$assignments['bgcolorOnTree'] = $value;
 		$value = $xmls->getValue('/skin/default/tree/activeColor');
 		if (isset($value))
-			array_push($assignments, array('activecolorOnTree'=>$value));
+			$assignments['activecolorOnTree'] = $value;
 		$value = $xmls->getValue('/skin/default/tree/activeBgColor');
 		if (isset($value))
-			array_push($assignments, array('activebgcolorOnTree'=>$value));
+			$assignments['activebgcolorOnTree'] = $value;
 		$value = $xmls->getValue('/skin/default/tree/labelLength');
 		if (!empty($value) || is_numeric($value))
-			array_push($assignments, array('labelLengthOnTree'=>$value));
+			$assignments['labelLengthOnTree'] = $value;
 		$value = $xmls->getValue('/skin/default/tree/showValue');
 		if (isset($value))
-			array_push($assignments, array('showValueOnTree'=>($value ? '1' : '0')));
-		foreach($assignment as $name => $value) {
+			$assignments['showValueOnTree'] = ($value ? '1' : '0');
+		foreach($assignments as $name => $value) {
 			Setting::setSkinSetting($name, $value, $blogid);
 		}
 		
@@ -178,7 +178,7 @@ function selectSkin($blogid, $skinName) {
 	Setting::removeBlogSetting("sidebarOrder");
 	CacheControl::flushAll();
 	Skin::purgeCache();
-	Path::removeFiles(ROOT . "/skin/customize/".getBlogId()."/");
+	Path::removeFiles(ROOT . "/skin/blog/customize/".getBlogId()."/");
 	Setting::getSkinSettings($blogid, true); // refresh skin cache
 	return true;
 }
