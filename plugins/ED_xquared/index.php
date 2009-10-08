@@ -55,7 +55,7 @@ function Xquared_adminheader($target, $mother) {
 
 	if ($suri['directive'] == '/owner/entry/post' || $suri['directive'] == '/owner/entry/edit') {
 		$target .= "\t<link rel=\"stylesheet\" media=\"screen\" type=\"text/css\" href=\"$pluginURL/stylesheets/xq_ui.css\" />\n";
-		$target .= "\t<script type=\"text/javascript\" src=\"$pluginURL/javascripts/module/Full_merged.js\"></script>\n";
+		$target .= "\t<script type=\"text/javascript\" src=\"$pluginURL/javascripts/module/Full_merged_min.js\"></script>\n";
 	}
 	return $target;
 }
