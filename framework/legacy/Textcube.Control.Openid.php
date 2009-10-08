@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2007, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 define( 'OPENID_LIBRARY_ROOT', ROOT . "/library/contrib/phpopenid/" );
 define( 'XPATH_LIBRARY_ROOT', ROOT . "/library/contrib/phpxpath/" );

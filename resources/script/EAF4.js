@@ -1,6 +1,6 @@
 /// Copyright (c) 2005-2009. Tatter & Company / Needlworks
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 // Depends on jQuery 1.2.6 or later (from 2008/12/05, r7131)
 

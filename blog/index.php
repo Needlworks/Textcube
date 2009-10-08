@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 // Symbolic link to support migration from Tattertools 1.0x, 1.1x, Textcube 1.5 to Textcube 1.6
 if(isset($service['useFastCGI']) && $service['useFastCGI'] == true) {

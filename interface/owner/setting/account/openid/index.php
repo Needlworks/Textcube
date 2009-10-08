@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 define('OPENID_REGISTERS', 10); /* check also ../index.php */
 
 /* ID Provider로부터 Redirect되어 연결이 되므로 GET 방식으로 구현되었습니다 */
