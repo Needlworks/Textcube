@@ -290,6 +290,9 @@ class globalCacheStorage extends pageCache {
 	function __construct($blogid = null) {
 		$this->_isChanged = false;
 		$this->_gCacheStorage = array();
+		$this->pool = DBModel::getInstance();
+		$this->context = Model_Context::getInstance();
+
 		if(is_null($blogid)) $this->_gBlogId = getBlogId();
 		else $this->_gBlogId = $blogid;
 	}
@@ -299,8 +302,7 @@ class globalCacheStorage extends pageCache {
 	}
 
 	function load() {
-		global $database, $service;
-		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
+		if(empty($this->context->getProperty('service.pagecache'))) return false;
 		$this->pool->reset('PageCacheLog');
 		$this->pool->setQualifier('blogid','equals',$this->_gBlogId);
 		$this->pool->setQualifier('name','equals','globalCacheStorage',true);
@@ -309,8 +311,7 @@ class globalCacheStorage extends pageCache {
 	}
 
 	function save() {
-		global $database, $service;
-		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
+		if(empty($this->context->getProperty('service.pagecache'))) return false;
 		if($this->_isChanged) {	
 			$this->pool->reset('PageCacheLog');
 			$this->pool->setAttribute('blogid',$this->_gBlogId);
@@ -338,8 +339,7 @@ class globalCacheStorage extends pageCache {
 	}
 
 	function purge() {
-		global $database, $service;
-		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
+		if(empty($this->context->getProperty('service.pagecache'))) return false;
 		$this->pool->reset('PageCacheLog');
 		$this->pool->setQualifier('blogid','equals',$this->_gBlogId);
 		$this->pool->setQualifier('name','equals','globalCacheStorage',true);
