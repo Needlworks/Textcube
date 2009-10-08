@@ -68,21 +68,25 @@ class Cache_Memcache implements ICache extends Singleton
 	public function setQualifier($key, $condition, $value, $param = null) {
 		array_push($this->qualifiers,$key.$condition.$value);
 	}
-	public function setAttribute($key, $value, $param = null) {
-		if ($key == 'value') {	// Memcache only works as key-value pair storage.
-			$this->__value = $value;
-			return true;
-		} else return false;
+	public function setAttribute($key, $value = null, $param = null) {
+		$this->__value = $value;	// Last attribute set will be used as key-value pair index.
+		return true;
 	}
-	public function getAll() {}
+	public function getAll() {
+		return $this->getCell();
+	}
 	public function getCell() {
 		return $this->get($this->getKeyFromQualifiers());
 	}
 	public function insert(){
 		return $this->set($this->getKeyFromQualifiers(),$this->__value);
 	}
-	public function delete(){}
-	public function replace(){}
+	public function delete(){
+		return $this->purge($this->getKeyFromQualifiers());
+	}
+	public function replace(){
+		return $this->insert();
+	}
 
 	/// Private methods
 	private function getNamespaceHash($ns = null) {
