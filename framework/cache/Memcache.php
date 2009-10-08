@@ -3,18 +3,25 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
+/**
+ * @requires Model_Context
+ */
 class Cache_Memcache implements ICache extends Singleton
 {
-	private static $memcache, $__namespace;
+	private static $memcache, $__namespace, $__value, $__qualifiers;
+
 	public static function getInstance() {
 		return self::_getInstance(__CLASS__);
 	}
-	public function __construct() {		
+	public function __construct() {
+		$context = Model_Context::getInstance();
+		if($context->getProperty('service.memcached') == true):
+			$this->memcache = new Memcache;
+			$this->memcache->connect((!is_null($context->getProperty('memcached.server')) ? $context->getProperty('memcached.server') : 'localhost'));
+		endif;
 	}
 	public function __destruct() {		
 	}	
-	public function reset() {
-	}
 	/// Default methods
 	public function set($key, $value, $expirationDue = 0) {
 		if(strpos($key,'.') === false) {	// If key contains namespace, use it.
@@ -51,7 +58,32 @@ class Cache_Memcache implements ICache extends Singleton
 	public function getNamespace() {
 		return $this->__namespace;
 	}
-	
+
+
+	/// Compatibility layer via Data_IModel
+	public function reset($ns) {
+		$this->__qualifiers = array();
+		$this->useNamespace($ns);
+	}
+	public function setQualifier($key, $condition, $value, $param = null) {
+		array_push($this->qualifiers,$key.$condition.$value);
+	}
+	public function setAttribute($key, $value, $param = null) {
+		if ($key == 'value') {	// Memcache only works as key-value pair storage.
+			$this->__value = $value;
+			return true;
+		} else return false;
+	}
+	public function getAll() {}
+	public function getCell() {
+		return $this->get($this->getKeyFromQualifiers());
+	}
+	public function insert(){
+		return $this->set($this->getKeyFromQualifiers(),$this->__value);
+	}
+	public function delete(){}
+	public function replace(){}
+
 	/// Private methods
 	private function getNamespaceHash($ns = null) {
 		$context = Model_Context::getInstance();
@@ -65,6 +97,10 @@ class Cache_Memcache implements ICache extends Singleton
 		} else {
 			return $namehash;
 		}
+	}
+	private function getKeyFromQualifiers() {
+		asort($this->qualifiers);
+		return abs(crc32(implode('-',$this->qualifiers)));
 	}
 }
 ?>
