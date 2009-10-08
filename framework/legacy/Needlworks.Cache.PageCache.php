@@ -549,10 +549,12 @@ class CacheControl {
 		}
 	}
 	function flushDBCache($prefix = null) {
-		global $database, $memcache;
-	
-		if(!is_null($memcache)) {	// TODO : deleting memcache data
-			return $memcache->increment(getBlogId()."-".$prefix."-");
+		global $database;
+		$context = Model_Context::getInstance();
+		if($context->getProperty('service.memcached') == true) {
+			$memcache = Cache_Memcache::getInstance();
+			$memcache->reset('PageCacheLog',$prefix);
+			return $memcache->flush();
 		}
 		return POD::query("DELETE FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."

@@ -49,7 +49,8 @@ class Cache_Memcache extends Singleton {
 		return $this->memcache->delete($key);
 	}
 	public function flush() {
-		return $this->memcache->flush();
+		if(is_null($this->__namespace)) return $this->memcache->flush();
+		else $this->renewNamespaceHash($this->__namespace);
 	}
 	/// Namespaces
 	public function useNamespace($ns = null) {
@@ -59,7 +60,6 @@ class Cache_Memcache extends Singleton {
 	public function getNamespace() {
 		return $this->__namespace;
 	}
-
 
 	/// Compatibility layer via Data_IModel
 	public function reset($ns,$param = '') {
@@ -90,11 +90,12 @@ class Cache_Memcache extends Singleton {
 	}
 
 	/// Private methods
-	private function getNamespaceHash($ns = null) {
+	private function getNamespaceHash($ns = null, $renew = false) {
 		$context = Model_Context::getInstance();
 		if(is_null($ns)) $ns = $this->__namespace;
-		$prefix = $context->getProperty('service.domain').'-'.$context->getProperty('blog.id').'-';
-		$namehash = $this->memcache->get($prefix);
+		$prefix = $context->getProperty('service.domain').'-'.$context->getProperty('blog.id').'-'.$ns.'-';
+		if($renew !== false) $namehash = false;
+		else $namehash = $this->memcache->get($prefix);
 		if($namehash == false) {
 			$seed = dechex(rand(0x10000000, 0x7FFFFFFF)).dechex(rand(0x10000000, 0x7FFFFFFF));
 			$this->memcache->set($prefix,$seed);
@@ -102,6 +103,9 @@ class Cache_Memcache extends Singleton {
 		} else {
 			return $namehash;
 		}
+	}
+	private function renewNamespaceHash($ns = null) {
+		return $this->getNamespaceHash($ns, true);
 	}
 	private function getKeyFromQualifiers() {
 		asort($this->__qualifiers);
