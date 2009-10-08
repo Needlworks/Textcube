@@ -123,6 +123,9 @@ function selectSkin($blogid, $skinName) {
 			$assignments['showListOnTag'] = $value;
 		$value = $xmls->getValue('/skin/default/showListOnSearch');
 		if (isset($value))
+			$assignments['showListOnAuthor'] = $value;
+		$value = $xmls->getValue('/skin/default/showListOnAuthor');
+		if (isset($value))
 			$assignments['showListOnSearch'] = $value;
 		$value = $xmls->getValue('/skin/default/tree/color');
 		if (isset($value))

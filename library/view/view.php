@@ -553,7 +553,6 @@ function getCategoriesViewInSkinSetting($totalPosts, $categories, $selected) {
 function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 	requireLibrary('blog.skin');
 	requireModel('blog.entry');
-
 	global $skinSetting, $defaultURL, $blog;
 	$skin = $skinSetting;
 	if ($embedJava == false) { // not from getCategoriesViewInSkinSetting

@@ -7,6 +7,7 @@ require ROOT . '/interface/common/owner/header.php';
 
 $categories = getCategories($blogid);
 $selected = 0;
+var_dump($skinSetting);
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -129,9 +130,9 @@ $selected = 0;
 									param += 'url=<?php echo $service['path'];?>/skin/tree/'+document.getElementById('tree').value+'&';
 									param += 'showValue='+(document.getElementById('showValue').checked ? 1:0)+'&';
 									param += 'itemColor='+document.getElementById('colorOnTree').value+'&';
-									param += 'itemBgColor='+document.getElementById('bgcolorOnTree').value+'&';
-									param += 'activeItemColor='+document.getElementById('activecolorOnTree').value+'&';
-									param += 'activeItemBgColor='+document.getElementById('activebgcolorOnTree').value+'&';
+									param += 'itemBgColor='+document.getElementById('bgColorOnTree').value+'&';
+									param += 'activeItemColor='+document.getElementById('activeColorOnTree').value+'&';
+									param += 'activeItemBgColor='+document.getElementById('activeBgColorOnTree').value+'&';
 									param += 'labelLength='+document.getElementById('labelLengthOnTree').value+'&';
 									
 									document.getElementById('treePreview').src="<?php echo $blogURL;?>/owner/skin/setting/tree/preview/?"+param;
@@ -705,20 +706,20 @@ if ($dh = opendir($skinPath)) {
 												</dd>
 											</dl>
 											<dl id="selected-color-line" class="line">
-												<dt><label for="activecolorOnTree"><?php echo _t('선택된 글자색');?></label></dt>
-												<dd><input type="text" id="activecolorOnTree" class="input-text" name="activecolorOnTree" value="<?php echo $skinSetting['activecolorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
+												<dt><label for="activeColorOnTree"><?php echo _t('선택된 글자색');?></label></dt>
+												<dd><input type="text" id="activeColorOnTree" class="input-text" name="activeColorOnTree" value="<?php echo $skinSetting['activeColorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 											</dl>
 											<dl id="selected-bgcolor-line" class="line">
-												<dt><label for="activebgcolorOnTree"><?php echo _t('선택된 배경색');?></label></dt>
-												<dd><input type="text" id="activebgcolorOnTree" class="input-text" name="activebgcolorOnTree" value="<?php echo $skinSetting['activebgcolorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
+												<dt><label for="activeBgColorOnTree"><?php echo _t('선택된 배경색');?></label></dt>
+												<dd><input type="text" id="activeBgColorOnTree" class="input-text" name="activeBgColorOnTree" value="<?php echo $skinSetting['activeBgColorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 											</dl>
 											<dl id="unselected-color-line" class="line">
 												<dt><label for="colorOnTree"><?php echo _t('선택되지 않은 글자색');?></label></dt>
 												<dd><input type="text" id="colorOnTree" class="input-text" name="colorOnTree" value="<?php echo $skinSetting['colorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 											</dl>
 											<dl id="unselected-bgcolor-line" class="line">
-												<dt><label for="bgcolorOnTree"><?php echo _t('선택되지 않은 배경색');?></label></dt>
-												<dd><input type="text" id="bgcolorOnTree" class="input-text" name="bgcolorOnTree" value="<?php echo $skinSetting['bgcolorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
+												<dt><label for="bgColorOnTree"><?php echo _t('선택되지 않은 배경색');?></label></dt>
+												<dd><input type="text" id="bgColorOnTree" class="input-text" name="bgColorOnTree" value="<?php echo $skinSetting['bgColorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 											</dl>
 											<dl id="label-length-line" class="line">
 												<dt><label for="labelLengthOnTree"><?php echo _t('분류 길이');?></label></dt>

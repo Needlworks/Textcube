@@ -373,6 +373,8 @@ class Setting {
 				'showListOnCategory' => 1, 
 				'showListOnArchive' => 1, 
 				'showListOnTag' => 1, 
+				'showListOnAuthor' => 1, 
+				'showListOnSearch' => 1, 
 				'tree' => 'base', 
 				'colorOnTree' => '000000', 
 				'bgColorOnTree' => '', 
