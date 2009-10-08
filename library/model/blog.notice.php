@@ -16,23 +16,33 @@ function getNoticesWithPaging($blogid, $search, $page, $count) {
 }
 
 function getNotice($blogid, $id) {
-	global $database;
-	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
-	return POD::queryAll("SELECT id, title, content, published FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -2 AND id = $id");
+	$query = getDefaultDBModelOnNotice($blogid);
+	$query->setQualifier('id','equals',$id);
+	return $query->getAll('id, title, slogan, published');
 }
 
 function getNotices($blogid) {
-	global $database;
-	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
-	return POD::queryAll("SELECT id, title, slogan, published FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -2 ORDER BY published DESC");
+	$query = getDefaultDBModelOnNotice($blogid);
+	return $query->getAll('id, title, slogan, published');
 }
+
 function getRecentNotices($blogid) {
+	$context = Model_Context::getInstance();
+	$query = getDefaultDBModelOnNotice($blogid);
+	$query->setLimit($context->getProperty('skin.noticesOnRecent'));
+	return $query->getAll('id, title, slogan, published');
+}
+function getDefaultDBModelOnNotice($blogid) {
 	$context = Model_Context::getInstance();
 	$query = DBModel::getInstance();
 	$query->reset('Entries');
-
-	global $database;
-	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
-	return POD::queryAll("SELECT id, title, slogan, published FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -2 ORDER BY published DESC");
+	$query->setQualifier('blogid','equals',$blogid);
+	$query->setQualifier('draft','equals',0);
+	if(doesHaveOwnership()) {
+		$query->setQualifier('visibility','bigger',1);
+	}
+	$query->setQualifier('category','equals',-2);
+	$query->setOrder('published','DESC');
+	return $query;
 }
 ?>
