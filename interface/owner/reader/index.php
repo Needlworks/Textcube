@@ -268,7 +268,7 @@ if (getUserId() == 1) {
 									
 									<div id="listup" class="section" onscroll="Reader.listScroll(0)">
 <?php
-printFeedEntries($blogid);
+printFeedEntries($blogid,0,0,true);
 ?>
 									</div>
 									
