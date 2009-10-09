@@ -4,5 +4,5 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 $_POST['mode'] = 'edit';
-require ROOT. '/interface/comment/delete/index.php';
+require ROOT. '/interface/blog/comment/delete/index.php';
 ?>
