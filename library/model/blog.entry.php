@@ -1094,7 +1094,7 @@ function syndicateEntry($id, $mode) {
 	$pool->setQualifier('blogid','equals',$context->getProperty('blog.id'));
 	$sites = $pool->getAll('url,type');
 	
-	$entry = getEntry($blogid, $id);
+	$entry = getEntry($context->getProperty('blog.id'), $id);
 	if (is_null($entry)) return false;
 	
 	if(!empty($sites)) {
