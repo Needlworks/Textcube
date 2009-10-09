@@ -1,13 +1,14 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 $IV = array(
 	'POST' => array(
 		'entriesOnPage' => array('int'),
 		'entriesOnList' => array('int'),
 		'entriesOnRecent' => array('int'),
+		'noticesOnRecent' => array('int'),
 		'commentsOnRecent' => array('int'),
 		'commentsOnGuestbook' => array('int'),
 		'archivesOnPage' => array('int'),

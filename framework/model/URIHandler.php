@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 class URIError extends Exception {};
 
@@ -120,7 +120,9 @@ final class Model_URIHandler extends Singleton
 
 		$suri        = $this->suri;
 		$blog        = Setting::getBlogSettingsGlobal($this->blogid);
-		$skinSetting = Setting::getSkinSetting($this->blogid);
+		$blog['id']  = $this->blogid;
+		$skinSetting = Setting::getSkinSettings($this->blogid);
+
 		if(!is_null($this->context->getProperty('service.serviceURL'))) {
 			$this->uri['service'] = $this->context->getProperty('service.serviceURL');
 		}
@@ -183,6 +185,7 @@ final class Model_URIHandler extends Singleton
 		}
 
 		$this->blog = $blog;
+		$this->skin = $skinSetting;
 		$this->updateContext();
 	}
 	
@@ -191,7 +194,7 @@ final class Model_URIHandler extends Singleton
 		if(!is_null($ns)) {
 			$info = array($ns);
 		} else {
-			$info = array('uri','blog','suri');
+			$info = array('uri','blog','skin','suri');
 		}
 		foreach ($info as $namespace) {
 			if(!empty($this->$namespace) && is_array($this->$namespace)) {
@@ -201,9 +204,9 @@ final class Model_URIHandler extends Singleton
 			}
 		}
 	}
-
 	private function __getBlogIdByName($name) {
-		$query = new DBModel($this->context->getProperty('database.prefix') . 'BlogSettings');
+		$query = DBModel::getInstance();
+		$query->reset('BlogSettings');
 		$query->setQualifier('name','equals','name',true);
 		$query->setQualifier('value', 'equals', $name, true);
 		return $query->getCell('blogid');

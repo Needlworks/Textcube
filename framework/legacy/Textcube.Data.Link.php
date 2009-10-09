@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 // NOTE : it does not support to save link category yet, 
 // due to compartibility issues with other software under 'Project Tattertools.'
@@ -122,7 +122,8 @@ class Link {
 
 	function _buildQuery() {
 		global $database;
-		$query = new DBModel($database['prefix'] . 'Links');
+		$query = DBModel::getInstance();
+		$query->reset('Links');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
@@ -297,7 +298,8 @@ class LinkCategories {
 	
 	function _buildQuery() {
 		global $database;
-		$query = new DBModel($database['prefix'] . 'LinkCategories');
+		$query = DBModel::getInstance();
+		$query->reset('LinkCategories');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))

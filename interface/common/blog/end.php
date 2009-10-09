@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 //handleTags($view);
 
@@ -50,7 +50,7 @@ if (preg_match("@\\[##_random_tags_##\\]@iU", $view))
 	dress('random_tags', getRandomTagsView(getRandomTags($blogid), $skin->randomTags), $view, false, true);
 
 if (preg_match("@\\[##_rct_notice_##\\]@iU", $view)) {
-	$noticeView = getRecentNoticesView(getNotices($blogid), $skin->recentNotice, $skin->recentNoticeItem, false);
+	$noticeView = getRecentNoticesView(getRecentNotices($blogid), $skin->recentNotice, $skin->recentNoticeItem, false);
 	dress('rct_notice', $noticeView, $view, false, true);
 }
 if (preg_match("@\\[##_rct_page_##\\]@iU", $view)) {

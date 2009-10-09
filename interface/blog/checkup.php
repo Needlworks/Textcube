@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 define('__TEXTCUBE_LOGIN__',true);
 
@@ -499,7 +499,8 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			) TYPE=MyISAM
 		";
 		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query)) {
-			$query = new DBModel($database['prefix'] . 'SkinSettings');
+			$query = DBModel::getInstance();
+			$query->reset('SkinSettings');
 			if($query->doesExist()) {
 				$changed = true;
 				$fieldnames = array(
@@ -657,8 +658,11 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		CREATE TABLE {$database['prefix']}Lines (
 		  id int(11) NOT NULL default 0,
 		  blogid int(11) NOT NULL default 0,
+		  root varchar(11) NOT NULL default 'default', 
 		  category varchar(11) NOT NULL default 'public', 
-		  content mediumtext NOT NULL default '', 
+		  author varchar(32) NOT NULL default '', 
+		  content mediumtext NOT NULL default '',
+		  permalink varchar(128) NOT NULL default '',
 		  created int(11) NOT NULL default 0,
 		  PRIMARY KEY (id),
 		  UNIQUE KEY (blogid, created),
@@ -672,6 +676,17 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		}
 	}
 	
+	if (!DBAdapter::queryExistence("DESC {$database['prefix']}Lines permalink")) {
+		$changed = true;
+		echo '<li>', _text('라인 기능에 여러 라인의 통합을 위한 필드를 추가합니다.'), ': ';
+		if (DBAdapter::execute("ALTER TABLE {$database['prefix']}Lines ADD root varchar(11) NOT NULL default 'default' AFTER blogid") && 
+			DBAdapter::execute("ALTER TABLE {$database['prefix']}Lines ADD author varchar(32) NOT NULL default '' AFTER category") && 
+			DBAdapter::execute("ALTER TABLE {$database['prefix']}Lines ADD permalink varchar(128) NOT NULL default '' AFTER content"))
+			showCheckupMessage(true);
+		else
+			showCheckupMessage(false);
+	}
+		
 	if (!doesExistTable($database['prefix'] . 'Widgets')) {
 		$changed = true;
 		echo '<li>', _text('위젯 기능 및 오픈소셜 지원을 위한 테이블을 만듭니다'), ': ';

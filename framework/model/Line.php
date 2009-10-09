@@ -1,14 +1,14 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 final class Model_Line extends DBModel {
 	private $filter = array();
 
 	public function __construct() {
 		$this->context = Model_Context::getInstance();
-		parent::reset($this->context->getProperty('database.prefix')."Lines");
+		parent::reset('Lines');
 		$this->reset();
 	}
 
@@ -20,7 +20,10 @@ final class Model_Line extends DBModel {
 		$this->id = null;
 		$this->blogid = getBlogId();
 		$this->category = 'public';
+		$this->root = 'default';
+		$this->author = '';
 		$this->content = '';
+		$this->permalink = '';
 		$this->created = null;
 		$this->filter = array();
 		$this->_error = array();
@@ -33,7 +36,10 @@ final class Model_Line extends DBModel {
 		$this->setAttribute('id',$this->id);
 		$this->setAttribute('blogid',$this->blogid);
 		$this->setAttribute('category',$this->category,true);
+		$this->setAttribute('root',$this->root,true);
+		$this->setAttribute('author',$this->author,true);
 		$this->setAttribute('content',$this->content,true);
+		$this->setAttribute('permalink',$this->content,true);
 		$this->setAttribute('created',$this->created);
 		return $this->insert();
 	}
@@ -80,6 +86,8 @@ final class Model_Line extends DBModel {
 			$offset = ($page - 1) * $count;
 		}
 		if(isset($conditions['category'])) $this->setQualifier('category','equals',$conditions['category'],true);
+		if(isset($conditions['root'])) $this->setQualifier('root','equals',$conditions['root'],true);
+		if(isset($conditions['permalink'])) $this->setQualifier('permalink','equals',$conditions['permalink'],true);
 		if(isset($conditions['blogid'])) $this->setQualifier('blogid','equals',$conditions['blogid']);
 		else $this->setQualifier('blogid','equals',getBlogId());
 		if(isset($conditions['keyword'])) {
@@ -112,6 +120,10 @@ final class Model_Line extends DBModel {
 		if(is_null($this->id)) $this->id = $this->getNextId();
 		$this->category = UTF8::lessenAsByte($this->category, 11);
 		$this->content = UTF8::lessenAsByte($this->content, 512);
+		if(empty($this->author)) {
+			$this->author = User::getName();	
+		}
+		$this->author = UTF8::lessenAsByte($this->author, 32);
 		if(!Validator::isInteger($this->blogid, 1)) return $this->error('blogid');		
 		if(!Validator::timestamp($this->created)) return $this->error('created');
 		return true;
@@ -154,9 +166,21 @@ final class Model_Line extends DBModel {
 			"isNull"	=> false,
 			"default"	=> "public"
 			),
+		"root"	=> array(
+			"type"		=> "varchar",
+			"length"	=> 11,
+			"isNull"	=> false,
+			"default"	=> "default"
+			),
 		"content"	=>	array(
 			"type"		=> "mediumtext",
 			"isNull"	=> false
+			),
+		"permalink"	=> array(
+			"type"		=> "varchar",
+			"length"	=> 255,
+			"isNull"	=> false,
+			"default"	=> "default"
 			),
 		"created"	=> array(
 			"type"		=> "timestamp",

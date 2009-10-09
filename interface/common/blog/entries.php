@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 $entriesView = '';
 
@@ -45,6 +45,7 @@ if (isset($cache->contents)) {
 		if ($entry['category'] == - 1) { // This is keylog
 			$entryView = $skin->keylogItem;
 			dress('keylog_rep_date', fireEvent('ViewKeylogDate', Timestamp::format5($entry['published']), $entry['published']), $entryView);
+			dress('keylog_rep_date_modified', fireEvent('ViewKeylogDate', Timestamp::format5($entry['modified']), $entry['modified']), $entryView);
 			dress('keylog_rep_title', htmlspecialchars(fireEvent('ViewKeylogTitle', $entry['title'], $entry['id'])), $entryView);
 			// 사용자가 작성한 본문은 interface/common/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
 			$contentContainer["keylog_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'], null, 'Keylog');
@@ -57,6 +58,7 @@ if (isset($cache->contents)) {
 			dress('notice_rep_microformat_published', Timestamp::getISO8601($entry['published']), $entryView);
 			dress('notice_rep_microformat_updated', Timestamp::getISO8601($entry['modified']), $entryView);
 			dress('notice_rep_date', fireEvent('ViewNoticeDate', Timestamp::format5($entry['published']), $entry['published']), $entryView);
+			dress('notice_rep_date_modified', fireEvent('ViewNoticeDate', Timestamp::format5($entry['modified']), $entry['modified']), $entryView);
 			dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', $entry['title'], $entry['id'])), $entryView);
 			dress('notice_rep_link', $permalink, $entryView);
 			
@@ -132,6 +134,7 @@ if (isset($cache->contents)) {
 			dress('article_rep_microformat_published', Timestamp::getISO8601($entry['published']), $entryView);
 			dress('article_rep_microformat_updated', Timestamp::getISO8601($entry['modified']), $entryView);
 			dress('article_rep_date', fireEvent('ViewPostDate', Timestamp::format5($entry['published']), $entry['published']), $entryView);
+			dress('article_rep_date_modified', fireEvent('ViewPostDate', Timestamp::format5($entry['modified']), $entry['modified']), $entryView);
 			dress('entry_archive_link', "$blogURL/archive/" . Timestamp::getDate($entry['published']), $entryView);
 			if ($entry['acceptcomment'] || ($entry['comments'] > 0))
 				dress('article_rep_rp_link', "toggleLayer('entry{$entry['id']}Comment'); return false", $entryView);

@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class Comment {
 	function Comment() {
 		$this->reset();
@@ -139,7 +139,8 @@ class Comment {
 
 	function _buildQuery() {
 		global $database;
-		$query = new DBModel($database['prefix'] . 'Comments');
+		$query = DBModel::getInstance();
+		$query->reset('Comments');
 		$query->setQualifier('blogid', 'equals',getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))

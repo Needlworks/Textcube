@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 /***** Automatic menu location routine. *****/
 $blogMenu = array();
@@ -21,12 +21,16 @@ if(isset($urlFragments[2])&&strncmp($urlFragments[2],'adminMenu',9) == 0) {
 	$blogMenu['topMenu'] = $adminMenuMappings[$plugin]['topMenu'];
 }
 
-if(Acl::check('group.administrators')) {
+if($urlFragments[0] == 'control' && Acl::check('group.creators')) {
+	$blogTopMenuItem = array(
+		array('menu'=>'control','title'=>_t('서비스관리'),'link'=>'/control/blog')
+		);
+	$blogMenu['topMenu'] = 'control';
+} else if(Acl::check('group.administrators')) {
 	$blogTopMenuItem = array(
 		array('menu'=>'center','title'=>_t('센터'),'link'=>'/owner/center/dashboard'),
 		array('menu'=>'entry','title'=>_t('글'),'link'=>'/owner/entry'),
 		array('menu'=>'communication','title'=>_t('소통'),'link'=>'/owner/communication/comment'),
-//		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader'),
 		array('menu'=>'network','title'=>_t('네트워크'),'link'=>'/owner/network/link'),
 		array('menu'=>'skin','title'=>_t('꾸미기'),'link'=>'/owner/skin'),
 		array('menu'=>'plugin','title'=>_t('플러그인'),'link'=>'/owner/plugin'),	
@@ -38,18 +42,10 @@ if(Acl::check('group.administrators')) {
 		array('menu'=>'entry','title'=>_t('글'),'link'=>'/owner/entry'),
 		array('menu'=>'communication','title'=>_t('소통'),'link'=>'/owner/communication/comment'),
 		array('menu'=>'network','title'=>_t('네트워크'),'link'=>'/owner/network/link'),		
-//		array('menu'=>'reader','title'=>_t('리더'),'link'=>'/owner/reader'),
 		array('menu'=>'setting','title'=>_t('설정'),'link'=>'/owner/setting/account')
 		);
 }
-//if($service['reader'] === false) {
-//	if(Acl::check('group.administrators')) array_splice($blogTopMenuItem,3,1);
-//	else array_splice($blogTopMenuItem,2,1);
-//}
 
-if(Acl::check('group.creators')) { 
-	array_push($blogTopMenuItem, array('menu'=>'control','title'=>_t('서비스관리'),'link'=>'/owner/control/blog'));
-}
 switch($blogMenu['topMenu']) {
 	case 'center':
 		$blogMenu['title'] = _t('센터');
@@ -236,10 +232,10 @@ if(isset($blogMenu['topMenu'])) {
 	}
 	if(Acl::check('group.creators')) {
 		$blogContentMenuItem['control'] = array(
-			array('menu'=>'blog','title'=>_t('블로그'),'link'=>'/owner/control/blog'),
-			array('menu'=>'user','title'=>_t('사용자'),'link'=>'/owner/control/user'),
-			array('menu'=>'server','title'=>_t('서버'),'link'=>'/owner/control/server'),
-			array('menu'=>'system','title'=>_t('시스템 정보'),'link'=>'/owner/control/system')
+			array('menu'=>'blog','title'=>_t('블로그'),'link'=>'/control/blog'),
+			array('menu'=>'user','title'=>_t('사용자'),'link'=>'/control/user'),
+			array('menu'=>'server','title'=>_t('서버'),'link'=>'/control/server'),
+			array('menu'=>'system','title'=>_t('시스템 정보'),'link'=>'/control/system')
 		);
 	}
 }
@@ -445,7 +441,11 @@ $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 				<div id="main-blog-box">
 					<div id="main-blog">
 <?php
-						if ('single' != $service['type'] ) {
+						if ($blogMenu['topMenu'] == 'control') {
+?>
+						<span class="text"><?php echo _t('컨트롤 패널');?></span>
+<?php						
+						} else if ('single' != $service['type'] ) {
 ?>
 						<label for="blog-list"><?php echo _t('현재 블로그');?></label>
 <?php echo User::changeBlog();
@@ -497,13 +497,13 @@ foreach($blogTopMenuItem as $menuItem) {
 			$blogMenu['contentMenu'] = 'guestbook';
 		else if($blogMenu['contentMenu'] == 'trackback') 
 			$blogMenu['contentMenu'] = $blogMenu['contentMenu'].$_POST['status'];
-	} else if(in_array($blogMenu['contentMenu'],array('trashcomment','trashtrackback')))
+	} else if(in_array($blogMenu['contentMenu'],array('trashcomment','trashtrackback'))) {
 		$blogMenu['contentMenu'] = 'trash';
-	else if(in_array($blogMenu['contentMenu'],array('linkadd','linkedit','linkcategoryEdit','xfn')))
+	} else if(in_array($blogMenu['contentMenu'],array('linkadd','linkedit','linkcategoryEdit','xfn'))) {
 		$blogMenu['contentMenu'] = 'link';
+	}
 //	else if(in_array($blogMenu['contentMenu'],array('coverpage','sidebar')))
 //		$blogMenu['contentMenu'] = 'widget';
-		
 	foreach($blogContentMenuItem[$menuItem['menu']] as &$contentMenuItem) {
 		$PostIdStr = null;
 		if(strstr($contentMenuItem['menu'], 'adminMenu?name=') !== false) {
@@ -567,7 +567,8 @@ if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 <?php
 	$firstChildClass = ' firstChild';
 	$submenuURL = null;
-	foreach($blogContentMenuItem[$blogMenu['topMenu']] as $contentMenuItem) {
+
+	foreach($blogContentMenuItem[$blogMenu['topMenu']] as &$contentMenuItem) {
 		$PostIdStr = null;
 		if(strstr($contentMenuItem['menu'], 'adminMenu?name=') !== false) {
 			$pluginMenuValue = explode('/',substr($contentMenuItem['menu'], 15));

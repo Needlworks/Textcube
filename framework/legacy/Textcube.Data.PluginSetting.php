@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class PluginSetting {
 	function PluginSetting() {
 		$this->reset();
@@ -76,8 +76,8 @@ class PluginSetting {
 		if (!Validator::directory($this->name))
 			return $this->_error('name');
 		
-		global $database;
-		$query = new DBModel($database['prefix'] . 'Plugins');
+		$query = DBModel::getInstance();
+		$query->reset('Plugins');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		$query->setQualifier('name', 'equals', UTF8::lessenAsEncoding($this->name, 255), true);
 		if (isset($this->setting))

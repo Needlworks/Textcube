@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class GuestComment {
 	function GuestComment() {
 		$this->reset();
@@ -123,7 +123,8 @@ class GuestComment {
 	
 	function _buildQuery() {
 		global $database;
-		$query = new DBModel($database['prefix'] . 'Comments');
+		$query = DBModel::getInstance();
+		$query->reset('Comments');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		$query->setQualifier('entry', 'equals', 0);
 		if (isset($this->id)) {

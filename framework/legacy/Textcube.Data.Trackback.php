@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class Trackback {
 	function Trackback() {
 		$this->reset();
@@ -112,7 +112,8 @@ class Trackback {
 	
 	function _buildQuery() {
 		global $database;
-		$query = new DBModel($database['prefix'] . 'RemoteResponses');
+		$query = DBModel::getInstance();
+		$query->reset('RemoteResponses');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		$query->setQualifier('type', 'equals', 'trackback', false);
 		if (isset($this->id)) {

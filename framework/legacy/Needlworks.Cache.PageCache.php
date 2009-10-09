@@ -1,14 +1,19 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-class pageCache {
+class pageCache extends Singleton {
 	function __construct($name = null){
+		$this->pool = DBModel::getInstance();
 		$this->reset();
-		if($name != null) $this->name = $name;
 	}
-	public function reset() {
+    
+	public static function getInstance() {
+		return self::_getInstance(__CLASS__);
+	}
+
+	public function reset($name = null) {
 		$this->name = 
 		$this->realName = 
 		$this->realNameOwner = 
@@ -25,6 +30,7 @@ class pageCache {
 		$this->_fileCacheOnly =
 		$this->error = 
 		null;
+		if(!is_null($name)) $this->name = $name;
 	}
 
 	private function create () {
@@ -119,16 +125,14 @@ class pageCache {
 	}
 
 	private function getdbContents() {
-		global $database;
 		return $this->getPageCacheLog();
 	}
 
 	private function getPageCacheLog() {
-		global $database;
-		$query = new DBModel($database['prefix'].'PageCacheLog');
-		$query->setQualifier('blogid','equals',getBlogId());
-		$query->setQualifier('name','equals',$this->realName,true);
-		$result = $query->getCell('value');
+		$this->pool->reset('PageCacheLog');
+		$this->pool->setQualifier('blogid','equals',getBlogId());
+		$this->pool->setQualifier('name','equals',$this->realName,true);
+		$result = $this->pool->getCell('value');
 		if(!is_null($result)) {
 			$this->_dbContents = unserialize($result);
 			if(doesHaveOwnership()) $this->dbContents = isset($this->_dbContents['owner']) ? $this->_dbContents['owner'] : null;
@@ -140,24 +144,22 @@ class pageCache {
 	}
 
 	private function setPageCacheLog() {
-		global $database;
 		if(doesHaveOwnership()) $this->_dbContents['owner'] = $this->dbContents;
 		else $this->_dbContents['user'] = $this->dbContents;
-		$query = new DBModel($database['prefix'].'PageCacheLog');
-		$query->setAttribute('blogid',getBlogId());
-		$query->setAttribute('name',$this->realName,true);
-		$query->setAttribute('value',serialize($this->_dbContents),true);
-		$query->setQualifier('blogid','equals',getBlogId());
-		$query->setQualifier('name','equals',$this->realName,true);
-		return $query->replace();
+		$this->pool->reset('PageCacheLog');
+		$this->pool->setAttribute('blogid',getBlogId());
+		$this->pool->setAttribute('name',$this->realName,true);
+		$this->pool->setAttribute('value',serialize($this->_dbContents),true);
+		$this->pool->setQualifier('blogid','equals',getBlogId());
+		$this->pool->setQualifier('name','equals',$this->realName,true);
+		return $this->pool->replace();
 	}
 
 	private function removePageCacheLog() {
-		global $database;
-		$query = new DBModel($database['prefix'].'PageCacheLog');
-		$query->setQualifier('blogid','equals',getBlogId());
-		$query->setQualifier('name','equals',$this->realName,true);
-		return $query->delete();
+		$this->pool->reset('PageCacheLog');
+		$this->pool->setQualifier('blogid','equals',getBlogId());
+		$this->pool->setQualifier('name','equals',$this->realName,true);
+		return $this->pool->delete();
 	}
 
 	private function _error($error) {
@@ -167,57 +169,68 @@ class pageCache {
 
 }
 
-class queryCache {
+class queryCache extends Singleton {
 	function __construct($query = null, $prefix = null){
-		global $service;
 		$this->reset();
+		$this->context = Model_Context::getInstance();
+		$this->__usePageCache = $this->context->getProperty('service.pagecache');
 		$this->query = $query;
-		$this->prefix = $prefix;
+		$this->prefix = (!is_null($prefix) ? $prefix : "")."-";
+		
+		if($this->context->getProperty('service.memcached') == true) {
+			$this->pool = Cache_Memcache::getInstance();
+		} else {
+			$this->pool = DBModel::getInstance();
+		}
 	}
+
+	public static function getInstance() {
+		return self::_getInstance(__CLASS__);
+	}
+
 	public function reset() {
-		$this->query = $this->queryHash = $this->contents = $this->error = $this->prefix = null;
+		$this->query = $this->queryHash = $this->contents = $this->error = $this->prefix = $this->namespace = null;
 	}
-	public function create () {
+	
+	public function create() {
 		$this->setPageCacheLog();
 		return true;
 	}
-	public function update () {
-		global $service;
-		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
+	public function update() {
+		if(empty($this->__usePageCache)) return false;
 		$this->purge();
 		$this->create();
 	}
-	public function load () {
-		global $service;
-		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
+	public function load() {
+		if(empty($this->__usePageCache)) return false;
 		if($this->getPageCacheLog()) {
 			return true;
 		}
 		else return false;
 	}
-	public function purge () {
-		global $service;
-		if(isset($service['pagecache']) && $service['pagecache'] == false) return true;
+	public function purge() {
+		if(empty($this->__usePageCache)) return false;
 		if($this->removePageCacheLog())
 			return true;
 		else return false;
 	}
+	public function flush() {
+		
+	}
+	
 	private function getQueryHash(){ 
 		if(empty($this->query)) return false;
-		$this->queryHash = (isset($this->prefix) ? $this->prefix.'-' : '')."queryCache-".abs(crc32($this->query));
+		$this->queryHash = $this->namespace."queryCache-".abs(crc32($this->query));
 	}
+	
 	private function getPageCacheLog() {
-		global $database, $memcache;
 		if(empty($this->queryHash)) $this->getQueryHash();
 		
-		if(!is_null($memcache)) {
-			$result = $memcache->get(getBlogId().'-'.$this->queryHash);
-		} else {
-			$query = new DBModel($database['prefix'].'PageCacheLog');
-			$query->setQualifier('blogid','equals',getBlogId());
-			$query->setQualifier('name','equals',$this->queryHash,true);
-			$result = $query->getCell('value');
-		}
+		$this->pool->reset('PageCacheLog',$this->prefix);
+		$this->pool->setQualifier('blogid','equals',getBlogId());
+		$this->pool->setQualifier('name','equals',$this->queryHash,true);
+		$result = $this->pool->getCell('value');
+
 		if(!is_null($result) && !empty($result)) {
 			$this->contents = unserialize($result);
 			return true;
@@ -227,37 +240,26 @@ class queryCache {
 	}
 
 	private function setPageCacheLog() {
-		global $database, $memcache;
 		if(empty($this->queryHash)) $this->getQueryHash();
 		
-		if(!is_null($memcache)) {
-			return $memcache->set(getBlogId().'-'.$this->queryHash,serialize($this->contents));
-		} else {
-
-			$name = $this->queryHash;
-			$value = serialize($this->contents);
-			$query = new DBModel($database['prefix'].'PageCacheLog');
-			$query->setAttribute('blogid',getBlogId());
-			$query->setAttribute('name',$name,true);
-			$query->setAttribute('value',$value,true);
-			$query->setQualifier('blogid','equals',getBlogId());
-			$query->setQualifier('name','equals',$name,true);
-			return $query->replace();
-		}
+		$name = $this->queryHash;
+		$value = serialize($this->contents);
+		$this->pool->reset('PageCacheLog',$this->prefix);
+		$this->pool->setAttribute('blogid',getBlogId());
+		$this->pool->setAttribute('name',$name,true);
+		$this->pool->setAttribute('value',serialize($this->contents),true);
+		$this->pool->setQualifier('blogid','equals',getBlogId());
+		$this->pool->setQualifier('name','equals',$name,true);
+		return $this->pool->replace();
 	}
 
 	private function removePageCacheLog() {
-		global $database, $memcache;
 		if(empty($this->queryHash)) $this->getQueryHash();
 
-		if(!is_null($memcache)) {
-			return $memcache->delete(getBlogId().'-'.$this->queryHash);
-		} else {
-			$query = new DBModel($database['prefix'].'PageCacheLog');
-			$query->setQualifier('blogid','equals',getBlogId());
-			$query->setQualifier('name','equals',$this->queryHash,true);
-			return $query->delete();
-		}
+		$this->pool->reset('PageCacheLog',$this->prefix);
+		$this->pool->setQualifier('blogid','equals',getBlogId());
+		$this->pool->setQualifier('name','equals',$this->queryHash,true);
+		return $this->pool->delete();
 	}
 
 	private function _error($error) {
@@ -273,31 +275,40 @@ class globalCacheStorage extends pageCache {
 	function __construct($blogid = null) {
 		$this->_isChanged = false;
 		$this->_gCacheStorage = array();
+		$this->context = Model_Context::getInstance();
+		$this->__usePageCache = $this->context->getProperty('service.pagecache');
 		if(is_null($blogid)) $this->_gBlogId = getBlogId();
 		else $this->_gBlogId = $blogid;
+		if($this->context->getProperty('service.memcached') == true) {
+			$this->pool = Cache_Memcache::getInstance();
+		} else {
+			$this->pool = DBModel::getInstance();
+		}
 	}
-	
+
+	public static function getInstance() {
+		return self::_getInstance(__CLASS__);
+	}
+
 	function load() {
-		global $database, $service;
-		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
-		$query = new DBModel($database['prefix'].'PageCacheLog');
-		$query->setQualifier('blogid','equals',$this->_gBlogId);
-		$query->setQualifier('name','equals','globalCacheStorage',true);
-		$result = $query->getCell('value');
+		if(empty($this->__usePageCache)) return false;
+		$this->pool->reset('PageCacheLog');
+		$this->pool->setQualifier('blogid','equals',$this->_gBlogId);
+		$this->pool->setQualifier('name','equals','globalCacheStorage',true);
+		$result = $this->pool->getCell('value');
 		if(isset($result)) $this->_gCacheStorage[$this->_gBlogId] = unserialize($result);
 	}
 
 	function save() {
-		global $database, $service;
-		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
+		if(empty($this->__usePageCache)) return false;
 		if($this->_isChanged) {	
-			$query = new DBModel($database['prefix'].'PageCacheLog');
-			$query->setAttribute('blogid',$this->_gBlogId);
-			$query->setAttribute('name','globalCacheStorage',true);
-			$query->setAttribute('value',serialize($this->_gCacheStorage[$this->_gBlogId]),true);
-			$query->setQualifier('blogid','equals',$this->_gBlogId);
-			$query->setQualifier('name','equals','globalCacheStorage',true);
-			return $query->replace();
+			$this->pool->reset('PageCacheLog');
+			$this->pool->setAttribute('blogid',$this->_gBlogId);
+			$this->pool->setAttribute('name','globalCacheStorage',true);
+			$this->pool->setAttribute('value',serialize($this->_gCacheStorage[$this->_gBlogId]),true);
+			$this->pool->setQualifier('blogid','equals',$this->_gBlogId);
+			$this->pool->setQualifier('name','equals','globalCacheStorage',true);
+			return $this->pool->replace();
 		}
 	}
 	
@@ -317,19 +328,17 @@ class globalCacheStorage extends pageCache {
 	}
 
 	function purge() {
-		global $database, $service;
-		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
-		$query = new DBModel($database['prefix'].'PageCacheLog');
-		$query->setQualifier('blogid','equals',$this->_gBlogId);
-		$query->setQualifier('name','equals','globalCacheStorage',true);
-		return $query->delete();		
+		if(empty($this->__usePageCache)) return false;
+		$this->pool->reset('PageCacheLog');
+		$this->pool->setQualifier('blogid','equals',$this->_gBlogId);
+		$this->pool->setQualifier('name','equals','globalCacheStorage',true);
+		return $this->pool->delete();		
 	}
 }
 
 // CacheControl have functions for flushing caches.
 class CacheControl {
 	function flushAll($blogid = null) {
-		global $database;
 		if(empty($blogid)) $blogid = getBlogId();
 		
 		$dir = ROOT . '/cache/pageCache/'.$blogid;
@@ -340,7 +349,8 @@ class CacheControl {
 			if(!@unlink($dir.'/'.$object)) return false;
 		}
 		@rmdir($dir);
-		$query = new DBModel($database['prefix'].'PageCacheLog');
+		$query = DBModel::getInstance();
+		$query->reset('PageCacheLog');
 		$query->setQualifier('blogid','equals',$blogid);
 		$query->delete();
 		return true;
@@ -352,7 +362,6 @@ class CacheControl {
 		if(empty($categoryId)) $categoryId = '';
 		else $categoryId = $categoryId.'\\_';
 		
-		$cache = new pageCache;
 		$categoryLists = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
@@ -361,23 +370,19 @@ class CacheControl {
 				OR name like 'categoryATOM-".$categoryId."%')");
 		CacheControl::purgeItems($categoryLists);
 		CacheControl::flushRSS();
-		unset($cache);
 		return true;
 	}
 
 	function flushAuthor($authorId = null) {
 		global $database;
-
 		if(empty($authorId)) $authorId = '';
 		else $authorId = POD::escapeString($authorId).'\\_';
 		
-		$cache = new pageCache;
 		$pageLists = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'authorList\\_".$authorId."%')");
 		CacheControl::purgeItems($pageLists);
-		unset($cache);
 		return true;
 	}
 
@@ -386,7 +391,7 @@ class CacheControl {
 
 		if(empty($tagId)) $tagId = '';
 		else $tagId = $tagId.'\\_';
-		$cache = new pageCache;
+		$cache = pageCache::getInstance();
 		$tagLists = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
@@ -396,7 +401,6 @@ class CacheControl {
 		$cache->reset();
 		$cache->name = 'tagPage';
 		$cache->purge();
-		unset($cache);
 		return true;
 	}
 
@@ -405,13 +409,11 @@ class CacheControl {
 
 		if(empty($tagId)) $tagId = '';
 		else $tagId = $tagId.'\\_';
-		$cache = new pageCache;
 		$keywordEntries = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND name like 'keyword\\_".$tagId."%'");
 		CacheControl::purgeItems($keywordEntries);
-		unset($cache);
 		return true;
 	}
 	
@@ -420,7 +422,6 @@ class CacheControl {
 
 		if(empty($entryId)) $entryId = '';
 		else $entryId = $entryId.'\\_';
-		$cache = new pageCache;
 		$Entries = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
@@ -439,7 +440,6 @@ class CacheControl {
 			CacheControl::flushCategory();
 			CacheControl::flushDBCache();
 		}
-		unset($cache);
 		return true;
 	}
 	function flushRSS() {
@@ -454,7 +454,7 @@ class CacheControl {
 		global $database;
 
 		if(empty($entryId)) $entryId = '';
-		$cache = new pageCache;
+		$cache = pageCache::getInstance();
 		$cache->name = 'commentRSS-'.$entryId;
 		$cache->purge(); 
 		$cache->reset();
@@ -471,10 +471,8 @@ class CacheControl {
 	}
 	
 	function flushTrackbackRSS($entryId = null) {
-		global $database;
-
 		if(empty($entryId)) $entryId = '';
-		$cache = new pageCache;
+		$cache = pageCache::getInstance();
 		$cache->name = 'trackbackRSS-'.$entryId;
 		$cache->purge();
 		$cache->reset();
@@ -491,10 +489,8 @@ class CacheControl {
 	}
 		
 	function flushResponseRSS($entryId = null) {
-		global $database;
-
 		if(empty($entryId)) $entryId = '';
-		$cache = new pageCache;
+		$cache = pageCache::getInstance();
 		$cache->name = 'responseRSS-'.$entryId;
 		$cache->purge();
 		$cache->reset();
@@ -511,7 +507,7 @@ class CacheControl {
 
 	function flushCommentNotifyRSS() {
 		global $database;
-		$cache = new pageCache;
+		$cache = pageCache::getInstance();
 		$cache->name = 'commentNotifiedRSS';
 		$cache->purge();
 		$cache->reset();
@@ -521,8 +517,6 @@ class CacheControl {
 	}
 
 	function flushItemsByPlugin($pluginName) {
-		global $databases;
-
 		$xmls = new XMLStruct();
 		$manifest = @file_get_contents(ROOT . "/plugins/$pluginName/index.xml");
 		if ($manifest && $xmls->open($manifest)) {
@@ -556,13 +550,19 @@ class CacheControl {
 	}
 	function flushDBCache($prefix = null) {
 		global $database;
+		$context = Model_Context::getInstance();
+		if($context->getProperty('service.memcached') == true) {
+			$memcache = Cache_Memcache::getInstance();
+			$memcache->reset('PageCacheLog',$prefix);
+			return $memcache->flush();
+		}
 		return POD::query("DELETE FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND name like '%".(!empty($prefix) ? $prefix.'-' : '')."queryCache%'");
 	}
 	function purgeItems($items) {
 		if(!empty($items)) {
-			$cache = new pageCache;
+			$cache = pageCache::getInstance();
 			foreach($items as $item){
 				$cache->reset();
 				$cache->name = $item;

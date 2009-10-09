@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 class pageCache {
 /*	var $name;
@@ -320,7 +320,7 @@ class CacheControl {
 		if(empty($categoryId)) $categoryId = '';
 		else $categoryId = $categoryId.'\\_';
 		
-		$cache = new pageCache;
+		$cache = pageCache::getInstance();
 		$categoryLists = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
@@ -337,7 +337,7 @@ class CacheControl {
 		if(empty($authorId)) $authorId = '';
 		else $authorId = POD::escapeString($authorId).'\\_';
 		
-		$cache = new pageCache;
+		$cache = pageCache::getInstance();
 		$pageLists = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
@@ -352,7 +352,7 @@ class CacheControl {
 
 		if(empty($tagId)) $tagId = '';
 		else $tagId = $tagId.'\\_';
-		$cache = new pageCache;
+		$cache = pageCache::getInstance();
 		$tagLists = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
@@ -371,7 +371,7 @@ class CacheControl {
 
 		if(empty($tagId)) $tagId = '';
 		else $tagId = $tagId.'\\_';
-		$cache = new pageCache;
+		$cache = pageCache::getInstance();
 		$keywordEntries = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
@@ -386,7 +386,7 @@ class CacheControl {
 
 		if(empty($entryId)) $entryId = '';
 		else $entryId = $entryId.'\\_';
-		$cache = new pageCache;
+		$cache = pageCache::getInstance();
 		$Entries = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
@@ -420,7 +420,7 @@ class CacheControl {
 		global $database;
 
 		if(empty($entryId)) $entryId = '';
-		$cache = new pageCache;
+		$cache = pageCache::getInstance();
 		$cache->name = 'commentRSS_'.$entryId;
 		$cache->purge(); 
 		$cache->reset();
@@ -440,7 +440,7 @@ class CacheControl {
 		global $database;
 
 		if(empty($entryId)) $entryId = '';
-		$cache = new pageCache;
+		$cache = pageCache::getInstance();
 		$cache->name = 'trackbackRSS_'.$entryId;
 		$cache->purge();
 		$cache->reset();
@@ -460,7 +460,7 @@ class CacheControl {
 		global $database;
 
 		if(empty($entryId)) $entryId = '';
-		$cache = new pageCache;
+		$cache = pageCache::getInstance();
 		$cache->name = 'responseRSS_'.$entryId;
 		$cache->purge();
 		$cache->reset();
@@ -477,7 +477,7 @@ class CacheControl {
 
 	function flushCommentNotifyRSS() {
 		global $database;
-		$cache = new pageCache;
+		$cache = pageCache::getInstance();
 		$cache->name = 'commentNotifiedRSS';
 		$cache->purge();
 		$cache->reset();
@@ -528,7 +528,7 @@ class CacheControl {
 	}
 	function purgeItems($items) {
 		if(!empty($items)) {
-			$cache = new pageCache;
+			$cache = pageCache::getInstance();
 			foreach($items as $item){
 				$cache->reset();
 				$cache->name = $item;

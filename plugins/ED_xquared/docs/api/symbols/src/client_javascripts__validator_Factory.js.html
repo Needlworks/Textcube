@@ -1,0 +1,25 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.linenumber {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='linenumber'>  1</span> <span class="COMM">/**
+<span class='linenumber'>  2</span>  * Creates and returns instance of browser specific implementation.
+<span class='linenumber'>  3</span>  * 
+<span class='linenumber'>  4</span>  * @requires XQuared.js
+<span class='linenumber'>  5</span>  * @requires validator/Base.js
+<span class='linenumber'>  6</span>  * @requires validator/Trident.js
+<span class='linenumber'>  7</span>  * @requires validator/Gecko.js
+<span class='linenumber'>  8</span>  * @requires validator/Webkit.js
+<span class='linenumber'>  9</span>  */</span><span class="WHIT">
+<span class='linenumber'> 10</span> </span><span class="NAME">xq.validator.Base.createInstance</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">curUrl</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">urlValidationMode</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">whitelist</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 11</span> 	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">xq.Browser.isTrident</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 12</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">xq.validator.Trident</span><span class="PUNC">(</span><span class="NAME">curUrl</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">urlValidationMode</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">whitelist</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 13</span> 	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">xq.Browser.isWebkit</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 14</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">xq.validator.Webkit</span><span class="PUNC">(</span><span class="NAME">curUrl</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">urlValidationMode</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">whitelist</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 15</span> 	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 16</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">xq.validator.Gecko</span><span class="PUNC">(</span><span class="NAME">curUrl</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">urlValidationMode</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">whitelist</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 17</span> 	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 18</span> </span><span class="PUNC">}</span></pre></body></html>

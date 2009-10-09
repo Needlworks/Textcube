@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class CommentNotifiedSiteInfo {
 	function CommentNotifiedSiteInfo() {
 		$this->reset();
@@ -132,8 +132,8 @@ class CommentNotifiedSiteInfo {
 	}
 
 	function _buildQuery() {
-		global $database;
-		$query = new DBModel($database['prefix'] . 'CommentsNotifiedSiteInfo');
+		$query = DBModel::getInstance();
+		$query->reset('CommentsNotifiedSiteInfo');
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');

@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class RefererLog {
 	function RefererLog() {
 		$this->reset();
@@ -81,7 +81,8 @@ class RefererLog {
 
 	function _buildQuery() {
 		global $database;
-		$query = new DBModel($database['prefix'] . 'RefererLogs');
+		$query = DBModel::getInstance();
+		$query->reset('RefererLogs');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		if (isset($this->host)) {
 			$this->host = UTF8::lessenAsEncoding(trim($url['host']), 64);

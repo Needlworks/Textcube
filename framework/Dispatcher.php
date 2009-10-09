@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 final class Dispatcher {
 	private static $instances = array();
@@ -103,7 +103,7 @@ final class Dispatcher {
 					case 'feeder':
 						$uri['interfaceType'] = 'feeder';
 						break;
-					case 'owner':
+					case 'owner': case 'control':
 						$uri['interfaceType'] = 'owner';
 						break;
 					case 'favicon.ico':
@@ -143,7 +143,7 @@ final class Dispatcher {
 						case 'entry': case 'feeder': case 'foaf': case 'guestbook': case 'iMazing': 
 						case 'keylog': case 'line': case 'location': case 'locationSuggest': 
 						case 'logout': case 'notice': case 'page': case 'plugin': case 'pluginForOwner': 
-						case 'search': case 'suggest': case 'sync': case 'tag': case 'ttxml': 
+						case 'search': case 'suggest': case 'tag': case 'ttxml': 
 							$pathPart = $uri['fragment'][0];
 							$interfacePath = 'interface/blog/'.$pathPart.'.php';
 							break;

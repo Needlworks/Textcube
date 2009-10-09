@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class Notice {
 	function Notice() {
 		$this->reset();
@@ -165,7 +165,8 @@ class Notice {
 		if (isset($slogan))
 			$this->slogan = $slogan;
 
-		$query = new DBModel($database['prefix'] . 'Entries');
+		$query = DBModel::getInstance();
+		$query->reset('Entries');
 		$query->setQualifier('blogid',$this->blogid);
 		if(isset($this->userid)) $query->setQualifier('userid', $this->userid);
 		$query->setQualifier('id', $this->id);
@@ -215,8 +216,8 @@ class Notice {
 	}
 	
 	function _buildQuery() {
-		global $database;
-		$query = new DBModel($database['prefix'] . 'Entries');
+		$query = DBModel::getInstance();
+		$query->reset('Entries');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		$query->setQualifier('category', 'equals', -2);
 		if (isset($this->id)) {

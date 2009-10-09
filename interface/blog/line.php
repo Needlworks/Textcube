@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $IV = array(
 	'GET' => array(
 		'key' => array('string','default'=>''),
@@ -41,7 +41,7 @@ if(!empty($content)) {
 		$lineobj->content = $content;
 		$result = $lineobj->add();
 		fireEvent('AddLine',$result, $lineobj);
-		$cache = new pageCache;
+		$cache = pageCache::getInstance();
 		$cache->name = 'linesATOM';
 		$cache->purge();
 		$cache->reset();

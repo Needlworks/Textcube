@@ -1,0 +1,120 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.linenumber {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='linenumber'>  1</span> <span class="COMM">/**
+<span class='linenumber'>  2</span>  * @namespace Contains browser detection codes
+<span class='linenumber'>  3</span>  * 
+<span class='linenumber'>  4</span>  * @requires XQuared.js
+<span class='linenumber'>  5</span>  */</span><span class="WHIT">
+<span class='linenumber'>  6</span> </span><span class="NAME">xq.Browser</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>  7</span> 	
+<span class='linenumber'>  8</span> 	</span><span class="NAME">this.language</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">navigator.appName</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'Netscape'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">navigator.language</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">navigator.browserLanguage</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>  9</span> 	
+<span class='linenumber'> 10</span> 	</span><span class="COMM">// By Rendering Engines</span><span class="WHIT">
+<span class='linenumber'> 11</span> 	
+<span class='linenumber'> 12</span> 	</span><span class="COMM">/** 
+<span class='linenumber'> 13</span> 	 * True if rendering engine is Trident
+<span class='linenumber'> 14</span> 	 * @type boolean
+<span class='linenumber'> 15</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 16</span> 	</span><span class="NAME">this.isTrident</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">navigator.appName</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"Microsoft Internet Explorer"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 17</span> 	
+<span class='linenumber'> 18</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 19</span> 	 * True if rendering engine is Webkit
+<span class='linenumber'> 20</span> 	 * @type boolean
+<span class='linenumber'> 21</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 22</span> 	</span><span class="NAME">this.isWebkit</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">navigator.userAgent.indexOf</span><span class="PUNC">(</span><span class="STRN">'AppleWebKit/'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 23</span> 	
+<span class='linenumber'> 24</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 25</span> 	 * True if rendering engine is Gecko
+<span class='linenumber'> 26</span> 	 * @type boolean
+<span class='linenumber'> 27</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 28</span> 	</span><span class="NAME">this.isGecko</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">navigator.userAgent.indexOf</span><span class="PUNC">(</span><span class="STRN">'Gecko'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">navigator.userAgent.indexOf</span><span class="PUNC">(</span><span class="STRN">'KHTML'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 29</span> 	
+<span class='linenumber'> 30</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 31</span> 	 * True if rendering engine is KHTML
+<span class='linenumber'> 32</span> 	 * @type boolean
+<span class='linenumber'> 33</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 34</span> 	</span><span class="NAME">this.isKHTML</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">navigator.userAgent.indexOf</span><span class="PUNC">(</span><span class="STRN">'KHTML'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 35</span> 	
+<span class='linenumber'> 36</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 37</span> 	 * True if rendering engine is Presto
+<span class='linenumber'> 38</span> 	 * @type boolean
+<span class='linenumber'> 39</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 40</span> 	</span><span class="NAME">this.isPresto</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">navigator.appName</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"Opera"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 41</span> 	
+<span class='linenumber'> 42</span> 	
+<span class='linenumber'> 43</span> 	
+<span class='linenumber'> 44</span> 	</span><span class="COMM">// By Platforms</span><span class="WHIT">
+<span class='linenumber'> 45</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 46</span> 	 * True if platform is Mac
+<span class='linenumber'> 47</span> 	 * @type boolean
+<span class='linenumber'> 48</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 49</span> 	</span><span class="NAME">this.isMac</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">navigator.userAgent.indexOf</span><span class="PUNC">(</span><span class="STRN">"Macintosh"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 50</span> 	
+<span class='linenumber'> 51</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 52</span> 	 * True if platform is Ubuntu Linux
+<span class='linenumber'> 53</span> 	 * @type boolean
+<span class='linenumber'> 54</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 55</span> 	</span><span class="NAME">this.isUbuntu</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">navigator.userAgent.indexOf</span><span class="PUNC">(</span><span class="STRN">'Ubuntu'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 56</span> 	
+<span class='linenumber'> 57</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 58</span> 	 * True if platform is Windows
+<span class='linenumber'> 59</span> 	 * @type boolean
+<span class='linenumber'> 60</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 61</span> 	</span><span class="NAME">this.isWin</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">navigator.userAgent.indexOf</span><span class="PUNC">(</span><span class="STRN">'Windows'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 62</span> 
+<span class='linenumber'> 63</span> 
+<span class='linenumber'> 64</span> 
+<span class='linenumber'> 65</span> 	</span><span class="COMM">// By Browsers</span><span class="WHIT">
+<span class='linenumber'> 66</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 67</span> 	 * True if browser is Internet Explorer
+<span class='linenumber'> 68</span> 	 * @type boolean
+<span class='linenumber'> 69</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 70</span> 	</span><span class="NAME">this.isIE</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">navigator.appName</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"Microsoft Internet Explorer"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 71</span> 	
+<span class='linenumber'> 72</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 73</span> 	 * True if browser is Internet Explorer 6
+<span class='linenumber'> 74</span> 	 * @type boolean
+<span class='linenumber'> 75</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 76</span> 	</span><span class="NAME">this.isIE6</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">navigator.userAgent.indexOf</span><span class="PUNC">(</span><span class="STRN">'MSIE 6'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 77</span> 	
+<span class='linenumber'> 78</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 79</span> 	 * True if browser is Internet Explorer 7
+<span class='linenumber'> 80</span> 	 * @type boolean
+<span class='linenumber'> 81</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 82</span> 	</span><span class="NAME">this.isIE7</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">navigator.userAgent.indexOf</span><span class="PUNC">(</span><span class="STRN">'MSIE 7'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 83</span> 	
+<span class='linenumber'> 84</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 85</span> 	 * True if browser is Internet Explorer 8
+<span class='linenumber'> 86</span> 	 * @type boolean
+<span class='linenumber'> 87</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 88</span> 	</span><span class="NAME">this.isIE8</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">navigator.userAgent.indexOf</span><span class="PUNC">(</span><span class="STRN">'MSIE 8'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 89</span> 	
+<span class='linenumber'> 90</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 91</span> 	 * True if browser is Firefox
+<span class='linenumber'> 92</span> 	 * @type boolean
+<span class='linenumber'> 93</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 94</span> 	</span><span class="NAME">this.isFF</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">navigator.userAgent.indexOf</span><span class="PUNC">(</span><span class="STRN">'Firefox'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 95</span> 	
+<span class='linenumber'> 96</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 97</span> 	 * True if browser is Firefox 2
+<span class='linenumber'> 98</span> 	 * @type boolean
+<span class='linenumber'> 99</span> 	 */</span><span class="WHIT">
+<span class='linenumber'>100</span> 	</span><span class="NAME">this.isFF2</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">navigator.userAgent.indexOf</span><span class="PUNC">(</span><span class="STRN">'Firefox/2'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>101</span> 	
+<span class='linenumber'>102</span> 	</span><span class="COMM">/**
+<span class='linenumber'>103</span> 	 * True if browser is Firefox 3
+<span class='linenumber'>104</span> 	 * @type boolean
+<span class='linenumber'>105</span> 	 */</span><span class="WHIT">
+<span class='linenumber'>106</span> 	</span><span class="NAME">this.isFF3</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">navigator.userAgent.indexOf</span><span class="PUNC">(</span><span class="STRN">'Firefox/3'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>107</span> 	
+<span class='linenumber'>108</span> 	</span><span class="COMM">/**
+<span class='linenumber'>109</span> 	 * True if browser is Safari
+<span class='linenumber'>110</span> 	 * @type boolean
+<span class='linenumber'>111</span> 	 */</span><span class="WHIT">
+<span class='linenumber'>112</span> 	</span><span class="NAME">this.isSafari</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">navigator.userAgent.indexOf</span><span class="PUNC">(</span><span class="STRN">'Safari'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="WHIT">
+<span class='linenumber'>113</span> </span><span class="PUNC">}</span><span class="PUNC">;</span></pre></body></html>

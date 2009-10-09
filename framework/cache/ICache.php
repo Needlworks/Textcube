@@ -1,14 +1,20 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 interface ICache
 {
-	public function __construct($type);
-	public function setEntry($key, $expirationDue);
-	public function getEntry($key, $clear = false);
-
-	public static function generateKey();
+	public function __construct();
+	public function __destruct();
+	public function reset();
+	/// Default methods
+	public function set($key, $value, $expirationDue);
+	public function get($key, $clear = false);
+	public function purge($key);
+	public function flush();
+	/// Namespaces
+	public function useNamespace($ns = null);
+	public function getNamespace();
 }
 ?>

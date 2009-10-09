@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 // DB-related function. will be merged into DBMS unification function.
 function escapeSearchString($str) {
@@ -37,6 +37,7 @@ class DBModel extends Singleton implements IModel {
 	protected $_relations, $_filters, $_order, $_limitation, $table, $id, $_reservedFields, $_isReserved;
 			
 	function __construct($table = null) {
+		$this->context = Model_Context::getInstance();
 		$this->reset($table);
 	}
 	
@@ -44,15 +45,16 @@ class DBModel extends Singleton implements IModel {
 		return self::_getInstance(__CLASS__);
 	}
 		
-	public function reset($table = null) {
-		$this->table = $table;
+	public function reset($table = null, $param = null) {
+		if(!is_null($table)) $this->table = $this->context->getProperty('database.prefix').$table;
+		else $this->table = null;
 		$this->id = null;
 		$this->_attributes = array();
 		$this->_qualifiers = array();
 		$this->_relations = array();
 		$this->_filters = array();
 		$this->_order = array();	
-		$this->_limitation = array();
+		$this->_limit = array();
 		$this->_isReserved = array();
 		
 		$this->_reservedFields = POD::reservedFieldNames();

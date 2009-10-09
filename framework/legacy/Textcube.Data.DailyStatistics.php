@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class DailyStatistics {
 	function DailyStatistics() {
 		$this->reset();
@@ -109,8 +109,8 @@ class DailyStatistics {
 		if (!DailyStatistics::validateDate($this->date))
 			return $this->_error('date');
 			
-		global $database;
-		$query = new DBModel($database['prefix'] . 'DailyStatistics');
+		$query = DBModel::getInstance();
+		$query->reset('DailyStatistics');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		$query->setQualifier('datemark', 'equals', $this->date);
 		if (isset($this->visits)) {

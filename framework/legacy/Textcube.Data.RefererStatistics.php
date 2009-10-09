@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class RefererStatistics {
 	function RefererStatistics() {
 		$this->reset();
@@ -106,7 +106,8 @@ class RefererStatistics {
 		$this->host = UTF8::lessenAsEncoding(trim($this->host), 64);
 		if (empty($this->host))
 			return $this->_error('host');
-		$query = new DBModel($database['prefix'] . 'RefererStatistics');
+		$query = DBModel::getInstance();
+		$query->reset('RefererStatistics');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		$query->setQualifier('host', 'equals', $this->host, true);
 		if (isset($this->count)) {

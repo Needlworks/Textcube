@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class BlogSetting {
 	function BlogSetting() {
 		$this->reset();
@@ -33,7 +33,8 @@ class BlogSetting {
 		global $database;
 		$blogid = getBlogId();
 		$this->reset();
-		$query = new DBModel($database['prefix'] . 'BlogSettings');
+		$query = DBModel::getInstance();
+		$query->reset('BlogSettings');
 		if($query->doesExist()){
 			$query->setQualifier('blogid','equals',$blogid);
 			$blogSettings = $query -> getAll('name,value');

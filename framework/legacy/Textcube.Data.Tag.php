@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 /*@protected, static@*/
 function Tag_removeEmptyTagHelper($var)
 {
@@ -199,6 +199,14 @@ class Tag {
 				POD::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr )");
 			}		
 		}
+	}
+	function getTagsWithEntryId($blogid, $entry) {
+		global $database;
+		$tags = array();
+		foreach(POD::queryAll("SELECT DISTINCT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND blogid = $blogid AND entry = {$entry['id']} ORDER BY name") as $tag) {
+			array_push($tags, $tag['name']);
+		}
+		return $tags;
 	}
 	function _getMaxId() {
 		global $database;

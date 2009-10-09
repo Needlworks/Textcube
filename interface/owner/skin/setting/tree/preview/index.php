@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $IV = array(
 	'GET' => array(
 		'name' => array('string', 'mandatory' => false),
@@ -24,15 +24,15 @@ if (isset($_GET['name']))
 
 $skinSetting['url'] = $service['path'] . "/skin/tree/{$skinSetting['tree']}";
 $skinSetting['itemColor'] = isset($_GET['itemColor']) ? $_GET['itemColor'] : $skinSetting['colorOnTree'];
-$skinSetting['itemBgColor'] = isset($_GET['itemBgColor']) ? $_GET['itemBgColor'] : $skinSetting['bgcolorOnTree'];
-$skinSetting['activeItemColor'] = isset($_GET['activeItemColor']) ? $_GET['activeItemColor'] : $skinSetting['activecolorOnTree'];
-$skinSetting['activeItemBgColor'] = isset($_GET['activeItemBgColor']) ? $_GET['activeItemBgColor'] : $skinSetting['activebgcolorOnTree'];
+$skinSetting['itemBgColor'] = isset($_GET['itemBgColor']) ? $_GET['itemBgColor'] : $skinSetting['bgColorOnTree'];
+$skinSetting['activeItemColor'] = isset($_GET['activeItemColor']) ? $_GET['activeItemColor'] : $skinSetting['activeColorOnTree'];
+$skinSetting['activeItemBgColor'] = isset($_GET['activeItemBgColor']) ? $_GET['activeItemBgColor'] : $skinSetting['activeBgColorOnTree'];
 $skinSetting['labelLength'] = isset($_GET['labelLength']) ? $_GET['labelLength'] : $skinSetting['labelLengthOnTree'];
 $skinSetting['showValue'] = isset($_GET['showValue']) ? $_GET['showValue'] : $skinSetting['showValueOnTree'];
 
 
 if (isset($_GET['activeItemBgColor']))
-	$skinSetting['activebgcolorOnTree'] = $_GET['activeItemBgColor'];
+	$skinSetting['activeBgColorOnTree'] = $_GET['activeItemBgColor'];
 if (isset($_GET['labelLength']))
 	$skinSetting['labelLengthOnTree'] = $_GET['labelLength'];
 if (isset($_GET['showValue']))

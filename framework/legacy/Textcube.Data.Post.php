@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class Post {
 	function Post() {
 		$this->reset();
@@ -305,7 +305,8 @@ class Post {
 		if (isset($slogan))
 			$this->slogan = $slogan;
 
-		$query = new DBModel($database['prefix'] . 'Entries');
+		$query = DBModel::getInstance();
+		$query->reset('Entries');
 		$query->setQualifier('blogid', 'equals', $this->blogid);
 		if(isset($this->userid)) $query->setQualifier('userid', 'equals', $this->userid);
 		$query->setQualifier('id', 'equals', $this->id);
@@ -544,7 +545,8 @@ class Post {
 	function _buildQuery() {
 		global $database;
 		$this->init();
-		$query = new DBModel($database['prefix'] . 'Entries');
+		$query = DBModel::getInstance();
+		$query->reset('Entries');
 		$query->setQualifier('blogid', 'equals', $this->blogid);
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))

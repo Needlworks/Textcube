@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class SkinSetting {
 	function SkinSetting() {
 		$this->reset();
@@ -58,9 +58,8 @@ class SkinSetting {
 	}
 	
 	function save() {
-		global $database;
-		
-		$query = new DBModel($database['prefix'] . 'SkinSettings');
+		$query = DBModel::getInstance();	
+		$query->reset('SkinSettings');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		if (isset($this->skin)) {
 			if (strncmp($this->skin, 'customize/', 10) == 0) {

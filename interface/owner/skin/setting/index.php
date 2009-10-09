@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
 require ROOT . '/interface/common/owner/header.php';
 
@@ -92,6 +92,7 @@ $selected = 0;
 									param += 'entriesOnPage='+getValueById('entriesOnPage') +'&';
 									param += 'entriesOnList='+getValueById('entriesOnList') +'&';
 									param += 'entriesOnRecent='+getValueById('entriesOnRecent') +'&';
+									param += 'noticesOnRecent='+getValueById('noticesOnRecent') +'&';
 									param += 'commentsOnRecent='+getValueById('commentsOnRecent') +'&';
 									param += 'commentsOnGuestbook='+getValueById('commentsOnGuestbook') +'&';
 									param += 'archivesOnPage='+getValueById('archivesOnPage') +'&';
@@ -129,9 +130,9 @@ $selected = 0;
 									param += 'url=<?php echo $service['path'];?>/skin/tree/'+document.getElementById('tree').value+'&';
 									param += 'showValue='+(document.getElementById('showValue').checked ? 1:0)+'&';
 									param += 'itemColor='+document.getElementById('colorOnTree').value+'&';
-									param += 'itemBgColor='+document.getElementById('bgcolorOnTree').value+'&';
-									param += 'activeItemColor='+document.getElementById('activecolorOnTree').value+'&';
-									param += 'activeItemBgColor='+document.getElementById('activebgcolorOnTree').value+'&';
+									param += 'itemBgColor='+document.getElementById('bgColorOnTree').value+'&';
+									param += 'activeItemColor='+document.getElementById('activeColorOnTree').value+'&';
+									param += 'activeItemBgColor='+document.getElementById('activeBgColorOnTree').value+'&';
 									param += 'labelLength='+document.getElementById('labelLengthOnTree').value+'&';
 									
 									document.getElementById('treePreview').src="<?php echo $blogURL;?>/owner/skin/setting/tree/preview/?"+param;
@@ -221,6 +222,32 @@ ob_end_clean();
 											<dt><span class="label"><?php echo _t('출력될 최근 글 수');?></span></dt>
 											<dd><?php echo _f('최근에 쓴 글을 %1개 보여줍니다.', $arg);?></dd>
 										</dl>
+<?php
+ob_start();
+?>
+
+												<select id="noticesOnRecent" name="noticesOnRecent">
+<?php
+for ($i = 1; $i <= 30; $i++) {
+	if ($i == $skinSetting['noticesOnRecent'])
+		$checked = ' selected="selected"';
+	else
+		$checked = '';
+?>
+													<option value="<?php echo $i;?>" <?php echo $checked;?>><?php echo $i;?></option>
+<?php
+}
+?>
+												</select>
+<?php
+$arg = ob_get_contents();
+ob_end_clean();
+?>
+										<dl id="recent-notice-line" class="line">
+											<dt><span class="label"><?php echo _t('출력될 최근 공지수');?></span></dt>
+											<dd><?php echo _f('최근에 쓴 공지를 %1개 보여줍니다.', $arg);?></dd>
+										</dl>
+
 <?php
 ob_start();
 ?>
@@ -705,20 +732,20 @@ if ($dh = opendir($skinPath)) {
 												</dd>
 											</dl>
 											<dl id="selected-color-line" class="line">
-												<dt><label for="activecolorOnTree"><?php echo _t('선택된 글자색');?></label></dt>
-												<dd><input type="text" id="activecolorOnTree" class="input-text" name="activecolorOnTree" value="<?php echo $skinSetting['activecolorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
+												<dt><label for="activeColorOnTree"><?php echo _t('선택된 글자색');?></label></dt>
+												<dd><input type="text" id="activeColorOnTree" class="input-text" name="activeColorOnTree" value="<?php echo $skinSetting['activeColorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 											</dl>
 											<dl id="selected-bgcolor-line" class="line">
-												<dt><label for="activebgcolorOnTree"><?php echo _t('선택된 배경색');?></label></dt>
-												<dd><input type="text" id="activebgcolorOnTree" class="input-text" name="activebgcolorOnTree" value="<?php echo $skinSetting['activebgcolorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
+												<dt><label for="activeBgColorOnTree"><?php echo _t('선택된 배경색');?></label></dt>
+												<dd><input type="text" id="activeBgColorOnTree" class="input-text" name="activeBgColorOnTree" value="<?php echo $skinSetting['activeBgColorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 											</dl>
 											<dl id="unselected-color-line" class="line">
 												<dt><label for="colorOnTree"><?php echo _t('선택되지 않은 글자색');?></label></dt>
 												<dd><input type="text" id="colorOnTree" class="input-text" name="colorOnTree" value="<?php echo $skinSetting['colorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 											</dl>
 											<dl id="unselected-bgcolor-line" class="line">
-												<dt><label for="bgcolorOnTree"><?php echo _t('선택되지 않은 배경색');?></label></dt>
-												<dd><input type="text" id="bgcolorOnTree" class="input-text" name="bgcolorOnTree" value="<?php echo $skinSetting['bgcolorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
+												<dt><label for="bgColorOnTree"><?php echo _t('선택되지 않은 배경색');?></label></dt>
+												<dd><input type="text" id="bgColorOnTree" class="input-text" name="bgColorOnTree" value="<?php echo $skinSetting['bgColorOnTree'];?>" size="7" maxlength="6" onchange="changeTreeStyle()" /></dd>
 											</dl>
 											<dl id="label-length-line" class="line">
 												<dt><label for="labelLengthOnTree"><?php echo _t('분류 길이');?></label></dt>

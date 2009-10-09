@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class Filter {
 	function Filter() {
 		$this->reset();
@@ -134,10 +134,9 @@ class Filter {
 
 	/*@static@*/
 	function isAllowed($whiteurl) {
-		global $database;
-
 		$whiteurl = strtolower($whiteurl);
-		$query = new DBModel($database['prefix'].'Filters');
+		$query = DBModel::getInstance();
+		$query->reset('Filters');
 		$query->setQualifier('blogid','equals',getBlogId());
 		$query->setQualifier('filtertype','equals','whiteurl',true);
 		$query->setQualifier(POD::escapeString($whiteurl), 'like', "CONCAT('%', LOWER(pattern), '%')");
@@ -152,8 +151,8 @@ class Filter {
 	}
 
 	function _buildQuery() {
-		global $database;
-		$query = new DBModel($database['prefix'] . 'Filters');
+		$query = DBModel::getInstance();
+		$query->reset('Filters');
 		$query->setQualifier('blogid','equals',  getBlogId());
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))

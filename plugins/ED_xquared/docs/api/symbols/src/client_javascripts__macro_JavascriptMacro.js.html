@@ -1,0 +1,50 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.linenumber {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='linenumber'>  1</span> <span class="COMM">/**
+<span class='linenumber'>  2</span>  * @requires macro/Base.js
+<span class='linenumber'>  3</span>  */</span><span class="WHIT">
+<span class='linenumber'>  4</span> </span><span class="NAME">xq.macro.JavascriptMacro</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">xq.Class</span><span class="PUNC">(</span><span class="NAME">xq.macro.Base</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'>  5</span> 	</span><span class="COMM">/**
+<span class='linenumber'>  6</span> 	 * Javascript macro
+<span class='linenumber'>  7</span> 	 * 
+<span class='linenumber'>  8</span> 	 * @name xq.macro.JavascriptMacro
+<span class='linenumber'>  9</span> 	 * @lends xq.macro.JavascriptMacro.prototype
+<span class='linenumber'> 10</span> 	 * @extends xq.macro.Base
+<span class='linenumber'> 11</span> 	 * @constructor
+<span class='linenumber'> 12</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 13</span> 	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 14</span> 	</span><span class="NAME">initFromHtml</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 15</span> 		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">p</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">xq.compilePattern</span><span class="PUNC">(</span><span class="STRN">"src=[\"'](.+?)[\"']"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"img"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 16</span> 		</span><span class="NAME">this.params.url</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">p.exec</span><span class="PUNC">(</span><span class="NAME">this.html</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 17</span> 	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 18</span> 	</span><span class="NAME">initFromParams</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 19</span> 		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">xq.macro.JavascriptMacro.isSafeScript</span><span class="PUNC">(</span><span class="NAME">this.params.url</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"Unknown src"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 20</span> 	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 21</span> 	</span><span class="NAME">createHtml</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">'&lt;script type="text/javascript" src="'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.params.url</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'">&lt;/script>'</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 22</span> 	
+<span class='linenumber'> 23</span> 	</span><span class="NAME">onLayerInitialzied</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">layer</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 24</span> 		</span><span class="NAME">layer.getDoc</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">write</span><span class="PUNC">(</span><span class="NAME">this.createHtml</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 25</span> 	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 26</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 27</span> 
+<span class='linenumber'> 28</span> </span><span class="NAME">xq.macro.JavascriptMacro.recognize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">html</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 29</span> 	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">p</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">xq.compilePattern</span><span class="PUNC">(</span><span class="STRN">"&lt;SCRIPT\\s+[^>]*src=[\"']([^\"']+)[\"'][^>]*(?:/>|>.*?&lt;/(?:SCRIPT)>)"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"img"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 30</span> 	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">m</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">p.exec</span><span class="PUNC">(</span><span class="NAME">html</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 31</span> 	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">m</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">m</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 32</span> 	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.isSafeScript</span><span class="PUNC">(</span><span class="NAME">m</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 33</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 34</span> </span><span class="NAME">xq.macro.JavascriptMacro.isSafeScript</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 35</span> 	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">safeSrcs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 36</span> 		</span><span class="NAME">googleGadget</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/http:\/\/gmodules\.com\/ig\/ifr\?/img</span><span class="WHIT">
+<span class='linenumber'> 37</span> 	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 38</span> 	</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">id</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">safeSrcs</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 39</span> 		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">url.match</span><span class="PUNC">(</span><span class="NAME">safeSrcs</span><span class="PUNC">[</span><span class="NAME">id</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 40</span> 	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 41</span> 	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 42</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 43</span> </span></pre></body></html>

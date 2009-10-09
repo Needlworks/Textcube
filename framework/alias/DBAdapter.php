@@ -1,10 +1,10 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 	$context = Model_Context::getInstance();
-	$dbms = 'mysql';
+	$dbms = 'MySQL';
 	if(!is_null($context->getProperty('database.dbms'))) $dbms = $context->getProperty('database.dbms');
 	require_once(ROOT."/framework/data/IAdapter.php");	
 	require_once(ROOT."/framework/data/".$dbms."/Adapter.php");

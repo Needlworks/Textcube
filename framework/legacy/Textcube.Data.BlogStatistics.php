@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class BlogStatistics {
 	function BlogStatistics() {
 		$this->reset();
@@ -73,8 +73,8 @@ class BlogStatistics {
 	}
 	
 	function _buildQuery() {
-		global $database;
-		$query = new DBModel($database['prefix'] . 'BlogStatistics');
+		$query = DBModel::getInstance();
+		$query->reset('BlogStatistics');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		if (isset($this->visits)) {
 			if (!Validator::number($this->visits, 0))

@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 // Of course, BITWISE must be BITWISE! (2^)
 define( 'BITWISE_EDITOR', 0x1 );              // 00001
@@ -366,7 +366,8 @@ class Auth {
 		if ((strlen($password) == 32) && preg_match('/[0-9a-f]{32}/i', $password)) { // Raw login. ( with/without auth token)
 			$userid = getUserIdByEmail($loginid);
 			if(!empty($userid) && !is_null($userid)) {
-				$query = new DBModel($database['prefix']. 'UserSettings');
+				$query = DBModel::getInstance();
+				$query->reset('UserSettings');
 				$query->setQualifier('userid','equals',$userid);
 				$query->setQualifier('name','equals','AuthToken',true);
 				$authtoken = $query->getCell('value');

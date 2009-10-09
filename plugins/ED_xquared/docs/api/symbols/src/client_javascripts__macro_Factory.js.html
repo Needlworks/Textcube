@@ -1,0 +1,59 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.linenumber {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='linenumber'>  1</span> <span class="COMM">/**
+<span class='linenumber'>  2</span>  * @requires XQuared.js
+<span class='linenumber'>  3</span>  * @requires macro/Base.js
+<span class='linenumber'>  4</span>  */</span><span class="WHIT">
+<span class='linenumber'>  5</span> </span><span class="NAME">xq.macro.Factory</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">xq.Class</span><span class="PUNC">(</span><span class="COMM">/** @lends xq.macro.Factory.prototype */</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'>  6</span> 	</span><span class="COMM">/**
+<span class='linenumber'>  7</span>      * @constructs
+<span class='linenumber'>  8</span>      *
+<span class='linenumber'>  9</span>      * @param {String} URL to place holder image.
+<span class='linenumber'> 10</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 11</span> 	</span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">placeHolderImgSrc</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 12</span> 		</span><span class="NAME">this.placeHolderImgSrc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">placeHolderImgSrc</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 13</span> 		</span><span class="NAME">this.macroClazzes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 14</span> 	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 15</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 16</span> 	 * Registers new macro by ID.
+<span class='linenumber'> 17</span> 	 *
+<span class='linenumber'> 18</span> 	 * @param {String} id Macro id.
+<span class='linenumber'> 19</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 20</span> 	</span><span class="NAME">register</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 21</span> 		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">clazz</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">xq.macro</span><span class="PUNC">[</span><span class="NAME">id</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"Macro"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 22</span> 		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">clazz</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"Unknown macro id: ["</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">id</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"]"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 23</span> 		
+<span class='linenumber'> 24</span> 		</span><span class="NAME">this.macroClazzes</span><span class="PUNC">[</span><span class="NAME">id</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">clazz</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 25</span> 	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 26</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 27</span> 	 * Creates macro instance by given HTML fragment.
+<span class='linenumber'> 28</span> 	 *
+<span class='linenumber'> 29</span> 	 * @param {String} html HTML fragment.
+<span class='linenumber'> 30</span> 	 * @returns {xq.macro.Base} Macro instance or null if recognization of the HTML fragment fails.
+<span class='linenumber'> 31</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 32</span> 	</span><span class="NAME">createMacroFromHtml</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">html</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 33</span> 		</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">id</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.macroClazzes</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 34</span> 			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">clazz</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.macroClazzes</span><span class="PUNC">[</span><span class="NAME">id</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 35</span> 			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">clazz.recognize</span><span class="PUNC">(</span><span class="NAME">html</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">clazz</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">html</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.placeHolderImgSrc</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 36</span> 		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 37</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 38</span> 	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 39</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 40</span> 	 * Creates macro instance by given macro definition.
+<span class='linenumber'> 41</span> 	 *
+<span class='linenumber'> 42</span> 	 * @param {Object} def Macro definition.
+<span class='linenumber'> 43</span> 	 * @returns {xq.macro.Base} Macro instance
+<span class='linenumber'> 44</span> 	 * @throws If macro not found by def[id].
+<span class='linenumber'> 45</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 46</span> 	</span><span class="NAME">createMacroFromDefinition</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">def</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 47</span> 		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">clazz</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.macroClazzes</span><span class="PUNC">[</span><span class="NAME">def.id</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 48</span> 		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">clazz</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 49</span> 		
+<span class='linenumber'> 50</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">clazz</span><span class="PUNC">(</span><span class="NAME">def.id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">def.params</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.placeHolderImgSrc</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 51</span> 	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'> 52</span> </span><span class="PUNC">}</span><span class="PUNC">)</span></pre></body></html>

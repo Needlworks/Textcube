@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class ServiceSetting {
 	function ServiceSetting() {
 		$this->reset();
@@ -71,8 +71,8 @@ class ServiceSetting {
 	}
 
 	function _buildQuery() {
-		global $database;
-		$query = new DBModel($database['prefix'] . 'ServiceSettings');
+		$query = DBModel::getInstance();
+		$query->reset('ServiceSettings');
 		$query->setQualifier('name', 'equals', UTF8::lessenAsEncoding($this->name, 32), false);
 		if (isset($this->value))
 			$query->setAttribute('value', UTF8::lessenAsEncoding($this->value, 255), true);

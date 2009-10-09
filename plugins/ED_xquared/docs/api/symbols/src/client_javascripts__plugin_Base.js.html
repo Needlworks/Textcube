@@ -1,0 +1,109 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.linenumber {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='linenumber'>  1</span> <span class="COMM">/**
+<span class='linenumber'>  2</span>  * @namespace
+<span class='linenumber'>  3</span>  */</span><span class="WHIT">
+<span class='linenumber'>  4</span> </span><span class="NAME">xq.plugin</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'>  5</span> 
+<span class='linenumber'>  6</span> </span><span class="COMM">/**
+<span class='linenumber'>  7</span>  * @requires XQuared.js
+<span class='linenumber'>  8</span>  */</span><span class="WHIT">
+<span class='linenumber'>  9</span> </span><span class="NAME">xq.plugin.Base</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">xq.Class</span><span class="PUNC">(</span><span class="COMM">/** @lends xq.plugin.Base.prototype */</span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 10</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 11</span>      * Abstract base class for Xquared plugins.
+<span class='linenumber'> 12</span>      * 
+<span class='linenumber'> 13</span>      * @constructs
+<span class='linenumber'> 14</span>      */</span><span class="WHIT">
+<span class='linenumber'> 15</span> 	</span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 16</span> 	
+<span class='linenumber'> 17</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 18</span> 	 * Loads plugin. Automatically called by xq.Editor.
+<span class='linenumber'> 19</span> 	 *
+<span class='linenumber'> 20</span> 	 * @param {xq.Editor} editor Editor instance.
+<span class='linenumber'> 21</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 22</span> 	</span><span class="NAME">load</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">editor</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 23</span> 		</span><span class="NAME">this.editor</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">editor</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 24</span> 		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.isEventListener</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this.editor.addListener</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 25</span> 		
+<span class='linenumber'> 26</span> 		</span><span class="NAME">this.onBeforeLoad</span><span class="PUNC">(</span><span class="NAME">this.editor</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 27</span> 		</span><span class="NAME">this.editor.addShortcuts</span><span class="PUNC">(</span><span class="NAME">this.getShortcuts</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 28</span> 		</span><span class="NAME">this.editor.addAutocorrections</span><span class="PUNC">(</span><span class="NAME">this.getAutocorrections</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 29</span> 		</span><span class="NAME">this.editor.addAutocompletions</span><span class="PUNC">(</span><span class="NAME">this.getAutocompletions</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 30</span> 		</span><span class="NAME">this.editor.addTemplateProcessors</span><span class="PUNC">(</span><span class="NAME">this.getTemplateProcessors</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 31</span> 		</span><span class="NAME">this.editor.addContextMenuHandlers</span><span class="PUNC">(</span><span class="NAME">this.getContextMenuHandlers</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 32</span> 		</span><span class="NAME">this.onAfterLoad</span><span class="PUNC">(</span><span class="NAME">this.editor</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 33</span> 	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 34</span> 	
+<span class='linenumber'> 35</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 36</span> 	 * Unloads plugin. Automatically called by xq.Editor
+<span class='linenumber'> 37</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 38</span> 	</span><span class="NAME">unload</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='linenumber'> 39</span> 		</span><span class="NAME">this.onBeforeUnload</span><span class="PUNC">(</span><span class="NAME">this.editor</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 40</span> 		</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.getShortcuts</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this.editor.removeShortcut</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 41</span> 		</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.getAutocorrections</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this.editor.removeAutocorrection</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 42</span> 		</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.getAutocompletions</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this.editor.removeAutocompletion</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 43</span> 		</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.getTemplateProcessors</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this.editor.removeTemplateProcessor</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 44</span> 		</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.getContextMenuHandlers</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this.editor.removeContextMenuHandler</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 45</span> 		</span><span class="NAME">this.onAfterUnload</span><span class="PUNC">(</span><span class="NAME">this.editor</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='linenumber'> 46</span> 	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 47</span> 	
+<span class='linenumber'> 48</span> 	
+<span class='linenumber'> 49</span> 	
+<span class='linenumber'> 50</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 51</span> 	 * Always returns false.&lt;br />
+<span class='linenumber'> 52</span> 	 * &lt;br />
+<span class='linenumber'> 53</span> 	 * Derived class may override this to make a plugin as a event listener.&lt;br />
+<span class='linenumber'> 54</span> 	 * Whenever you override this function, you should also implement at least one event handler for xq.Editor.
+<span class='linenumber'> 55</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 56</span> 	</span><span class="NAME">isEventListener</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 57</span> 	
+<span class='linenumber'> 58</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 59</span> 	 * Callback function. Derived class may override this.
+<span class='linenumber'> 60</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 61</span> 	</span><span class="NAME">onBeforeLoad</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">editor</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 62</span> 	
+<span class='linenumber'> 63</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 64</span> 	 * Callback function. Derived class may override this.
+<span class='linenumber'> 65</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 66</span> 	</span><span class="NAME">onAfterLoad</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">editor</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 67</span> 	
+<span class='linenumber'> 68</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 69</span> 	 * Callback function. Derived class may override this.
+<span class='linenumber'> 70</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 71</span> 	</span><span class="NAME">onBeforeUnload</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">editor</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 72</span> 	
+<span class='linenumber'> 73</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 74</span> 	 * Callback function. Derived class may override this.
+<span class='linenumber'> 75</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 76</span> 	</span><span class="NAME">onAfterUnload</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">editor</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 77</span> 	
+<span class='linenumber'> 78</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 79</span> 	 * Callback function. Derived class may override this.
+<span class='linenumber'> 80</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 81</span> 	</span><span class="NAME">getShortcuts</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 82</span> 	
+<span class='linenumber'> 83</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 84</span> 	 * Callback function. Derived class may override this.
+<span class='linenumber'> 85</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 86</span> 	</span><span class="NAME">getAutocorrections</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 87</span> 	
+<span class='linenumber'> 88</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 89</span> 	 * Callback function. Derived class may override this.
+<span class='linenumber'> 90</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 91</span> 	</span><span class="NAME">getAutocompletions</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 92</span> 	
+<span class='linenumber'> 93</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 94</span> 	 * Callback function. Derived class may override this.
+<span class='linenumber'> 95</span> 	 */</span><span class="WHIT">
+<span class='linenumber'> 96</span> 	</span><span class="NAME">getTemplateProcessors</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='linenumber'> 97</span> 	
+<span class='linenumber'> 98</span> 	</span><span class="COMM">/**
+<span class='linenumber'> 99</span> 	 * Callback function. Derived class may override this.
+<span class='linenumber'>100</span> 	 */</span><span class="WHIT">
+<span class='linenumber'>101</span> 	</span><span class="NAME">getContextMenuHandlers</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="PUNC">}</span><span class="WHIT">
+<span class='linenumber'>102</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

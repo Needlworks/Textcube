@@ -80,8 +80,8 @@ class SubscriptionLog {
 	}
 
 	function _buildQuery() {
-		global $database;
-		$query = new DBModel($database['prefix'] . 'SubscriptionLogs');
+		$query = DBModel::getInstance();
+		$query->reset('SubscriptionLogs');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		if (isset($this->ip)) {
 			if (!Validator::ip($this->ip))

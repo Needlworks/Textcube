@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $IV = array(
 	'GET' => array(
 		'draft'       => array('any', 'mandatory' => false),
@@ -183,6 +183,8 @@ if (defined('__TEXTCUBE_POST__')) {
 									this.delay     = false;
 									this.nowsaving = false;
 									this.isPreview   = false;
+									this.changeEditor = false;
+									this.currentEditor = "<?php echo $entry['contenteditor'];?>";
 									this.entryId   = <?php echo $entry['id'];?>;
 
 									this.pageHolder = new PageHolder(false, "<?php echo _t('아직 저장되지 않았습니다.');?>");
@@ -408,6 +410,9 @@ if (isset($_GET['returnURL'])) {
 												window.open("<?php echo $blogURL;?>/owner/entry/preview/"+entryManager.entryId, "previewEntry"+entryManager.entryId, "location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
 												entryManager.isPreview = false;
 											}
+											if (entryManager.changeEditor == true) {
+												reloadEditor();
+											}
 										}
 										request.onError = function () {
 											PM.removeRequest(this);
@@ -482,6 +487,8 @@ if (isset($_GET['popupEditor'])) {
 										PM.addRequest(request, "<?php echo _t('저장하고 있습니다.');?>");
 										request.send(data);
 									}
+									/// Do postprocessing after editor area is changed first.
+									/// e.g. starting writing, clicking, etc.
 									this.saveAuto = function () {
 										if(document.getElementById('templateDialog').style.display != 'none') {
 											toggleTemplateDialog();
@@ -501,7 +508,7 @@ if (isset($_GET['popupEditor'])) {
 											return;
 										}
 										this.timer = null;
-										if (this.delay) {
+										if (this.changeEditor != true && this.delay) {
 											this.delay = false;
 											this.autoSave = false;
 											this.timer = window.setTimeout(entryManager.saveDraft, 5000);
@@ -510,6 +517,7 @@ if (isset($_GET['popupEditor'])) {
 										this.save();
 										return;
 									}
+
 									this.preview = function () {
 										this.isPreview = true;
 										if (!this.save()) {
@@ -727,13 +735,6 @@ if (count($templateLists) == 0) {
 									 			</div>
 									 		</div>
 								 		</div>
-										
-										<script type="text/javascript">//<![CDATA[
-											var contentformatterObj = document.getElementById('contentformatter');
-											var contenteditorObj = document.getElementById('contenteditor');
-											setFormatter(contentformatterObj.value, contenteditorObj, false);
-											setCurrentEditor(contenteditorObj.value);
-										//]]></script>
 									</div>
 									
 									<hr class="hidden" />
@@ -962,6 +963,11 @@ switch($entry['category']) {
 	default:
 		echo 'type_post';break;
 		}?>');
+											var contentformatterObj = document.getElementById('contentformatter');
+											var contenteditorObj = document.getElementById('contenteditor');
+											setFormatter(contentformatterObj.value, contenteditorObj, false);
+											setCurrentEditor(contenteditorObj.value);
+		
 							//]]>
 						</script> 
 <?php
