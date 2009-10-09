@@ -1091,7 +1091,7 @@ function syndicateEntry($id, $mode) {
 	$pool = DBModel::getInstance();
 	
 	$pool->reset('XMLRPCPingSettings');
-	$pool->setQualifier('blogid','equals',$context->getProperty('blog.id']));
+	$pool->setQualifier('blogid','equals',$context->getProperty('blog.id'));
 	$sites = $pool->getAll('url,type');
 	
 	$entry = getEntry($blogid, $id);
