@@ -97,7 +97,11 @@ if (getBlogId()) {
 						}
 						if ($xmls->doesExist('/plugin/binding/listener')) {
 							foreach ($xmls->selectNodes('/plugin/binding/listener') as $listener) {
-								if (!empty($listener['.attributes']['event']) && !empty($listener['.value'])) {
+								if (!empty($listener['.attributes']['event']) && !empty($listener['.attributes']['handler'])) {
+									if (!isset($eventMappings[$listener['.attributes']['event']]))
+										$eventMappings[$listener['.attributes']['event']] = array();
+									array_push($eventMappings[$listener['.attributes']['event']], array('plugin' => $plugin, 'listener' => $listener['.attributes']['handler']));
+								} else if (!empty($listener['.attributes']['event']) && !empty($listener['.value'])) {	// Legacy routine.
 									if (!isset($eventMappings[$listener['.attributes']['event']]))
 										$eventMappings[$listener['.attributes']['event']] = array();
 									array_push($eventMappings[$listener['.attributes']['event']], array('plugin' => $plugin, 'listener' => $listener['.value']));

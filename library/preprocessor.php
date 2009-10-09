@@ -86,10 +86,12 @@ require_once (ROOT.'/library/include.php');
 /** INITIALIZE : Sending header 
     ---------------------------
 */
-if(defined('__TEXTCUBE_HEADER_XML__')) {
-	header('Content-Type: text/xml; charset=utf-8');
-} else {
-	header('Content-Type: text/html; charset=utf-8');
+if(!defined('__TEXTCUBE_CUSTOM_HEADER__')) {
+	if(defined('__TEXTCUBE_HEADER_XML__')) {
+		header('Content-Type: text/xml; charset=utf-8');
+	} else {
+		header('Content-Type: text/html; charset=utf-8');
+	}
 }
 
 /** INITIALIZE : Database I/O

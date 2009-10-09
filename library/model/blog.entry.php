@@ -1087,42 +1087,30 @@ function protectEntry($id, $password) {
 }
 
 function syndicateEntry($id, $mode) {
-	/// TODO : Expand to support syndicate modules
-	global $database, $blog, $defaultURL;
-	$blogid = getBlogId();
+	$context = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
 	
-		$rpc = new XMLRPC();
-		$rpc->url = TEXTCUBE_SYNC_URL;
-		$summary = array('blogURL' => $defaultURL, 'syncURL' => "$defaultURL/sync/$id");
-		if($mode == 'create') {
-			$entry = getEntry($blogid, $id);
-			if (is_null($entry)) return false;
-			$summary['blogTitle'] = $blog['title'];
-			$summary['language'] = $blog['language'];
-			$summary['permalink'] = "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$entry['slogan']}": $entry['id']);
-			$summary['title'] = $entry['title'];
-			$summary['content'] = UTF8::lessenAsByte(stripHTML(getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'])), 1023, '');
-			$summary['author'] = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = {$entry['userid']}");
-			$summary['tags'] = array();
-			foreach(POD::queryAll("SELECT DISTINCT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND blogid = $blogid AND entry = $id ORDER BY name") as $tag)
-				array_push($summary['tags'], $tag['name']);
-			$summary['location'] = $entry['location'];
-			$summary['written'] = Timestamp::getRFC1123($entry['published']);
-		}
-		if(!$rpc->call("sync.$mode", $summary)) {
-			return false;
-		} else {
-			if($mode == 'create') {
-				fireEvent('CreatePostSyndicate', $id, $summary);
-			} else if($mode == 'modify') {
-				fireEvent('ModifyPostSyndicate', $id, $summary);
-			} else if($mode == 'delete') {
-				fireEvent('DeletePostSyndicate', $id, $summary);
-			}
-		}
-//		if($rpc->fault)
-//			return false;
+	$pool->reset('XMLRPCPingSettings');
+	$pool->setQualifier('blogid','equals',$context->getProperty('blog.id']));
+	$sites = $pool->getAll('url,type');
 	
+	$entry = getEntry($blogid, $id);
+	if (is_null($entry)) return false;
+	
+	if(!empty($sites)) {
+		foreach ($sites as $site) {
+			$rpc = new XMLRPC();
+			$rpc->url = $site['url'];
+			$result[$site['url']] = $rpc->call($context->getProperty('blog.title'), $context->getProperty('uri.default'));
+		}
+	}
+	if($mode == 'create') {
+		fireEvent('CreatePostSyndicate', $id, $entry);
+	} else if($mode == 'modify') {
+		fireEvent('ModifyPostSyndicate', $id, $entry);
+	} else if($mode == 'delete') {
+		fireEvent('DeletePostSyndicate', $id, $entry);
+	}
 	return true;
 }
 

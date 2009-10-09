@@ -200,6 +200,14 @@ class Tag {
 			}		
 		}
 	}
+	function getTagsWithEntryId($blogid, $entry) {
+		global $database;
+		$tags = array();
+		foreach(POD::queryAll("SELECT DISTINCT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND blogid = $blogid AND entry = {$entry['id']} ORDER BY name") as $tag) {
+			array_push($tags, $tag['name']);
+		}
+		return $tags;
+	}
 	function _getMaxId() {
 		global $database;
 		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Tags");
