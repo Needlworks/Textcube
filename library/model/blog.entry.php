@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function getEntriesTotalCount($blogid) {
 	global $database;
@@ -622,7 +622,8 @@ function addEntry($blogid, $entry, $userid = null) {
 		return false;
 	POD::query("UPDATE {$database['prefix']}Attachments SET parent = $id WHERE blogid = $blogid AND parent = 0");
 	POD::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 1");
-	updateEntriesOfCategory($blogid, $entry['category']);
+	updateCategoryByEntryId($blogid, $id, 'delete');
+
 	if ($entry['visibility'] == 3)
 		syndicateEntry($id, 'create');
 	if ($entry['visibility'] >= 2) {
@@ -756,8 +757,13 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	if ($result)
 		@POD::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 1");
 
-	updateEntriesOfCategory($blogid, $oldEntry['category']);
-	updateEntriesOfCategory($blogid, $entry['category']);
+//	updateEntriesOfCategory($blogid, $oldEntry['category']);
+//	updateEntriesOfCategory($blogid, $entry['category']);
+	updateCategoryByEntryId($blogid, $entry['id'], 'update', 
+		array('category'=>array($oldEntry['category'],$entry['category']),
+			'visibility'=>array($oldEntry['visibility'],$entry['visibility'])
+		));	
+
 	CacheControl::flushAuthor($entry['userid']);	
 	CacheControl::flushDBCache('entry');
 	$gCacheStorage->purge();
@@ -958,7 +964,7 @@ function deleteEntry($blogid, $id) {
 		$result = POD::query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND entry = $id");
 		$result = POD::query("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND entry = $id");
 		$result = POD::query("DELETE FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid AND entry = $id");
-		updateEntriesOfCategory($blogid, $target['category']);
+		updateCategoryByEntryId($blogid, $id, 'delete');
 		deleteAttachments($blogid, $id);
 		
 		Tag::deleteTagsWithEntryId($blogid, $id);
@@ -1056,7 +1062,8 @@ function setEntryVisibility($id, $visibility) {
 		if ((($oldVisibility == 3) && ($visibility <= 2)) || (($oldVisibility <= 2) && ($visibility == 3)))
 			clearFeed();
 		if ($category > 0)
-			updateEntriesOfCategory($blogid, $category);
+			updateCategoryByEntryId($blogid, $id, 'update',$parameters = array('visibility' => array($oldVisibility, $visibility)));
+//			updateEntriesOfCategory($blogid, $category);
 	}
 	CacheControl::flushEntry($id);
 	CacheControl::flushDBCache('entry');
@@ -1080,39 +1087,30 @@ function protectEntry($id, $password) {
 }
 
 function syndicateEntry($id, $mode) {
-	global $database, $blog, $defaultURL;
-	$blogid = getBlogId();
-	$rpc = new XMLRPC();
-	$rpc->url = TEXTCUBE_SYNC_URL;
-	$summary = array('blogURL' => $defaultURL, 'syncURL' => "$defaultURL/sync/$id");
-	if($mode == 'create') {
-		$entry = getEntry($blogid, $id);
-		if (is_null($entry)) return false;
-		$summary['blogTitle'] = $blog['title'];
-		$summary['language'] = $blog['language'];
-		$summary['permalink'] = "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$entry['slogan']}": $entry['id']);
-		$summary['title'] = $entry['title'];
-		$summary['content'] = UTF8::lessenAsByte(stripHTML(getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'])), 1023, '');
-		$summary['author'] = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = {$entry['userid']}");
-		$summary['tags'] = array();
-		foreach(POD::queryAll("SELECT DISTINCT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND blogid = $blogid AND entry = $id ORDER BY name") as $tag)
-			array_push($summary['tags'], $tag['name']);
-		$summary['location'] = $entry['location'];
-		$summary['written'] = Timestamp::getRFC1123($entry['published']);
-	}
-	if(!$rpc->call("sync.$mode", $summary)) {
-		return false;
-	} else {
-		if($mode == 'create') {
-			fireEvent('CreatePostSyndicate', $id, $summary);
-		} else if($mode == 'modify') {
-			fireEvent('ModifyPostSyndicate', $id, $summary);
-		} else if($mode == 'delete') {
-			fireEvent('DeletePostSyndicate', $id, $summary);
+	$context = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
+	
+	$pool->reset('XMLRPCPingSettings');
+	$pool->setQualifier('blogid','equals',$context->getProperty('blog.id'));
+	$sites = $pool->getAll('url,type');
+	
+	$entry = getEntry($blogid, $id);
+	if (is_null($entry)) return false;
+	
+	if(!empty($sites)) {
+		foreach ($sites as $site) {
+			$rpc = new XMLRPC();
+			$rpc->url = $site['url'];
+			$result[$site['url']] = $rpc->call($context->getProperty('blog.title'), $context->getProperty('uri.default'));
 		}
 	}
-	if($rpc->fault)
-		return false;
+	if($mode == 'create') {
+		fireEvent('CreatePostSyndicate', $id, $entry);
+	} else if($mode == 'modify') {
+		fireEvent('ModifyPostSyndicate', $id, $entry);
+	} else if($mode == 'delete') {
+		fireEvent('DeletePostSyndicate', $id, $entry);
+	}
 	return true;
 }
 

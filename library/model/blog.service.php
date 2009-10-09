@@ -1,14 +1,15 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 // for Global Cache
 $__gCacheBlogSettings = array();
 
 function getBlogidByName($name) {
 	global $database;
-	$query = new DBModel($database['prefix'] . 'BlogSettings');
+	$query = DBModel::getInstance();
+	$query->reset('BlogSettings');
 	$query->setQualifier('name','equals', 'name',true);
 	$query->setQualifier('value', 'equals', $name, true);
 	return $query->getCell('blogid');
@@ -24,8 +25,8 @@ function getBlogSettings($blogid) {
 	return Setting::getBlogSettingsGlobal($blogid);
 }
 
-function getSkinSetting($blogid, $forceReload = false) {
-	return Setting::getSkinSetting($blogid, $forceReload);
+function getSkinSettings($blogid, $forceReload = false) {
+	return Setting::getSkinSettings($blogid, $forceReload);
 }
 
 function getDefaultURL($blogid) {

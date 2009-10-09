@@ -1,7 +1,7 @@
 <?php 
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function setBlogTitle($blogid, $title) {
 	global $blog;
@@ -187,7 +187,7 @@ function setCommentsOnRSS($blogid, $commentsOnRSS) {
 		return true;
 	if(setBlogSetting('commentsOnRSS',$commentsOnRSS) === false) return false;
 	$blog['commentsOnRSS'] = $commentsOnRSS;
-	$cache = new pageCache;
+	$cache = pageCache::getInstance();
 	$cache->name = 'commentRSS';
 	$cache->purge();
 	return true;
@@ -368,8 +368,8 @@ function getBlogName($blogid) {
 		WHERE blogid = $blogid AND name = 'name'");
 }
 function getAuthToken($userid){
-	global $database;
-	$query = new DBModel($database['prefix'].'UserSettings');
+	$query = DBModel::getInstance();
+	$query->reset('UserSettings');
 	$query->setQualifier('userid', 'equals', $userid);
 	$query->setQualifier('name', 'equals', 'AuthToken', true);
 	return $query->getCell('value');

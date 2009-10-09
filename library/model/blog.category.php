@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 // global variables for Category information cache
 global $__gCacheCategoryTree, $__gCacheCategoryRaw, $__gCacheCategoryVisibilityList;
@@ -104,6 +104,22 @@ function getCategoryLinkById($blogid, $id) {
 	return $result;
 }
 
+function getCategory($blogid, $id = null, $field = null) {
+	requireComponent('Needlworks.Cache.PageCache');
+
+	global $__gCacheCategoryRaw;
+
+	if ($id === null)
+		return '';
+
+	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
+	if($result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id)) {
+		if(!empty($field) && !empty($result[$field])) {
+			return $result[$field];
+		} else return $result;
+	} else return false;
+}
+
 function getCategories($blogid, $format = 'tree') {
 	global $database;
 	global $__gCacheCategoryTree, $__gCacheCategoryRaw;
@@ -171,7 +187,7 @@ function getPrivateCategoryExclusionQuery($blogid) {
 
 function getCategoriesSkin() {
 	global $service;
-	$setting = getSkinSetting(getBlogId());
+	$setting = getSkinSettings(getBlogId());
 	$skin = array('name' => "{$setting['skin']}",
 			'url'               => $service['path'] . "/skin/tree/{$setting['tree']}",
 			'labelLength'       => $setting['labelLengthOnTree'],
@@ -276,7 +292,8 @@ function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
 	}
 
 	$result = POD::query("INSERT INTO {$database['prefix']}Categories (blogid, id, parent, name, priority, entries, entriesinlogin, label, visibility) VALUES ($blogid, $newId, $parent, '$name', $newPriority, 0, 0, '$label', 2)");
-	updateEntriesOfCategory($blogid);
+
+	updateEntriesOfCategory($blogid,$newId);
 	return $result ? true : false;
 }
 
@@ -330,14 +347,92 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 			AND id = $id");
 	if ($result)
 		clearFeed();
-	updateEntriesOfCategory($blogid);
+	updateEntriesOfCategory($blogid,$id);
 	CacheControl::flushCategory($id);
 	return $result ? true : false;
 }
 
-function updateEntriesOfCategory($blogid, $id = - 1) {
+function updateCategoryByEntryId($blogid, $entryId, $action = 'add',$parameters = null) {
+	$entry = getEntry($blogid, $entryId);
+	$categoryId = $entry['category'];
+	$parent       = getParentCategoryId($blogid, $categoryId);
+	$categories = array($categoryId=>$action);
+	foreach($categories as $c => $a) {
+		switch($action) {
+			case 'add':
+				updateCategoryByCategoryId($blogid, $c, 'add');
+				if(!empty($parent)) updateCategoryByCategoryId($blogid, $parent, 'add');
+				break;
+			case 'delete':
+				updateCategoryByCategoryId($blogid, $c, 'delete');
+				if(!empty($parent)) updateCategoryByCategoryId($blogid, $parent, 'delete');
+				break;
+			case 'update':
+				
+				
+				if(isset($parameters['category']) && $parameters['category'][0] != $parameters['category'][1]) { // category is changed. oldcategory - 1, newcategory + 1.
+					updateCategoryByCategoryId($blogid, $parameters[0], 'delete');
+					updateCategoryByCategoryId($blogid, $parameters[1], 'add');
+					$newparent = getParentCategoryId($blogid, $parameters[1]);
+					if(!empty($newparent) && $newparent != $parent) {
+						array_push($categories, array($parent=>'delete'));
+						array_push($categories, array($newparent=>'add'));
+					}
+				} else {	// Same category case. should see the visibility change
+					if(isset($parameters['visibility']) && $parameters['visibility'][0] != $parameters['visibility'][1]) {
+						updateCategoryByCategoryId($blogid, $parameters[1], 'update', $parameters);	
+					}
+				}
+			default:
+				break;
+		}
+	}
+}
+
+function updateCategoryByCategoryId($blogid, $categoryId, $action = 'add', $parameters = null) {
 	global $database;
-	$result = POD::queryAll("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent IS NULL");
+	$count        = getCategory($blogid, $categoryId, 'entries');
+	$countInLogin = getCategory($blogid, $categoryId, 'entriesinlogin');
+	switch($action) {
+		case 'add':
+			$countInLogin += 1;
+			if($entry['visibility'] > 1) $count += 1;
+			break;
+		case 'delete':
+			$countInLogin -= 1;
+			if($entry['visibility'] > 1) $count -= 1;
+			break;
+		case 'update':
+			if(isset($parameters['visibility'])) {
+				if($parameters['visibility'][0]	< 2 && $parameters['visibility'][1] > 1) { // private -> public
+					$count += 1;
+				} else if($parameters['visibility'][0] > 1 && $parameters['visibility'][1] < 2) { // public -> private
+					$count -= 1;
+				} else { // no change
+					return true;
+				}
+			}
+	}
+	return POD::query("UPDATE {$database['prefix']}Categories 
+			SET entries = $count, 
+				entriesinlogin = $countInLogin
+			WHERE blogid = $blogid AND id = $categoryId");
+}
+
+function updateEntriesOfCategory($blogid, $categoryId = - 1) {
+	global $database;
+	if ($categoryId == -1) {
+		$result = POD::queryAll("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent IS NULL");
+	} else {
+		$parent = getParentCategoryId($blogid, $categoryId);
+		if (empty($parent)) {	// It is parent.
+			$lookup = $categoryId;
+		} else {
+			$lookup = $parent;
+		}
+		$result = POD::queryAll("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $lookup");	
+	}
+	
 	foreach($result as $row) {
 		$parent = $row['id'];
 		$parentName = UTF8::lessenAsEncoding($row['name'], 127);
@@ -356,7 +451,7 @@ function updateEntriesOfCategory($blogid, $id = - 1) {
 		}
 		POD::query("UPDATE {$database['prefix']}Categories SET entries = $countParent, entriesinlogin = $countInLoginParent, label = '{$row['name']}' WHERE blogid = $blogid AND id = $parent");
 	}
-	if($id >=0) CacheControl::flushCategory($id);
+	if($categoryId >=0) CacheControl::flushCategory($categoryId);
 	clearCategoryCache();
 	return true;
 }
@@ -538,7 +633,7 @@ function moveCategory($blogid, $id, $direction) {
 			POD::query($sql);
 		}
 	}
-	updateEntriesOfCategory($blogid);
+//	updateEntriesOfCategory($blogid);
 	CacheControl::flushCategory($id);
 }
 

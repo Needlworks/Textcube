@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 global $__gDressTags;
 
@@ -366,14 +366,16 @@ class Skin {
 
 	function saveCache() {
 		$skinCache = get_object_vars($this);
-		$cache = new pageCache('skinCache');
+		$cache = pageCache::getInstance();
+		$cache->reset('skinCache');
 		$cache->contents = serialize($skinCache);
 		return $cache->update();
 	}
 	
 	function loadCache() {
 		global $__gDressTags;
-		$cache = new pageCache('skinCache');
+		$cache = pageCache::getInstance();
+		$cache->reset('skinCache');
 		if(!$cache->load()) return false;
 		$skinCache = unserialize($cache->contents);
 		foreach($skinCache as $key=>$value) {
@@ -385,7 +387,8 @@ class Skin {
 
 	function purgeCache() {
 		global $gCacheStorage;
-		$cache = new pageCache('skinCache');
+		$cache = pageCache::getInstance();
+		$cache->reset('skinCache');
 		$cache->purge();
 		$gCacheStorage->purge();
 	}

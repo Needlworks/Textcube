@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 // 사용되지 않는 함수이나 만약을 위해 남겨둠.
 function isLarge($target, $maxX, $maxY) {

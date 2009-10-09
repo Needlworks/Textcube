@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 /** Pre-processor 
     -------------
@@ -86,10 +86,12 @@ require_once (ROOT.'/library/include.php');
 /** INITIALIZE : Sending header 
     ---------------------------
 */
-if(defined('__TEXTCUBE_HEADER_XML__')) {
-	header('Content-Type: text/xml; charset=utf-8');
-} else {
-	header('Content-Type: text/html; charset=utf-8');
+if(!defined('__TEXTCUBE_CUSTOM_HEADER__')) {
+	if(defined('__TEXTCUBE_HEADER_XML__')) {
+		header('Content-Type: text/xml; charset=utf-8');
+	} else {
+		header('Content-Type: text/html; charset=utf-8');
+	}
 }
 
 /** INITIALIZE : Database I/O
@@ -143,6 +145,9 @@ if (!defined('NO_SESSION')) {
 	session_set_save_handler( array('Session','open'), array('Session','close'), array('Session','read'), array('Session','write'), array('Session','destroy'), array('Session','gc') );
 	session_cache_expire(1);
 	session_set_cookie_params(0, '/', $context->getProperty('service.session_cookie_domain'));
+	// Workaround for servers that modifies session cookie to its own way
+	$sess_cookie_params = session_get_cookie_params();
+	$context->setProperty('service.session_cookie_domain',$sess_cookie_params['domain']);
 	if (session_start() !== true) {
 		header('HTTP/1.1 503 Service Unavailable');
 		exit;

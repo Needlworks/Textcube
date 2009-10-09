@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $activePlugins        = array();
 $eventMappings        = array();
 $tagMappings          = array();
@@ -97,7 +97,11 @@ if (getBlogId()) {
 						}
 						if ($xmls->doesExist('/plugin/binding/listener')) {
 							foreach ($xmls->selectNodes('/plugin/binding/listener') as $listener) {
-								if (!empty($listener['.attributes']['event']) && !empty($listener['.value'])) {
+								if (!empty($listener['.attributes']['event']) && !empty($listener['.attributes']['handler'])) {
+									if (!isset($eventMappings[$listener['.attributes']['event']]))
+										$eventMappings[$listener['.attributes']['event']] = array();
+									array_push($eventMappings[$listener['.attributes']['event']], array('plugin' => $plugin, 'listener' => $listener['.attributes']['handler']));
+								} else if (!empty($listener['.attributes']['event']) && !empty($listener['.value'])) {	// Legacy routine.
 									if (!isset($eventMappings[$listener['.attributes']['event']]))
 										$eventMappings[$listener['.attributes']['event']] = array();
 									array_push($eventMappings[$listener['.attributes']['event']], array('plugin' => $plugin, 'listener' => $listener['.value']));
@@ -338,22 +342,24 @@ if (getBlogId()) {
 		activatePlugin('FM_Modern');
 	}
 	// sort mapping by its name, with exception for default formatter and editor
-	function _cmpfuncByFormatterName($x, $y) {
-		global $formatterMapping;
-		if ($x == 'html') return -1;
-		if ($y == 'html') return +1;
-		return strcmp($formatterMapping[$x]['name'], $formatterMapping[$y]['name']);
-	}
-	function _cmpfuncByEditorName($x, $y) {
-		global $editorMapping;
-		if ($x == 'plain') return -1;
-		if ($y == 'plain') return +1;
-		return strcmp($editorMapping[$x]['name'], $editorMapping[$y]['name']);
-	}
-	uksort($editorMapping, '_cmpfuncByEditorName');
-	uksort($formatterMapping, '_cmpfuncByFormatterName');
-	foreach ($formatterMapping as $formatterid => $formatterentry) {
-		uksort($formatterMapping[$formatterid]['editors'], '_cmpfuncByEditorName');
+	if (doesHaveOwnership()) {
+		function _cmpfuncByFormatterName($x, $y) {
+			global $formatterMapping;
+			if ($x == 'html') return -1;
+			if ($y == 'html') return +1;
+			return strcmp($formatterMapping[$x]['name'], $formatterMapping[$y]['name']);
+		}
+		function _cmpfuncByEditorName($x, $y) {
+			global $editorMapping;
+			if ($x == 'plain') return -1;
+			if ($y == 'plain') return +1;
+			return strcmp($editorMapping[$x]['name'], $editorMapping[$y]['name']);
+		}
+		uksort($editorMapping, '_cmpfuncByEditorName');
+		uksort($formatterMapping, '_cmpfuncByFormatterName');
+		foreach ($formatterMapping as $formatterid => $formatterentry) {
+			uksort($formatterMapping[$formatterid]['editors'], '_cmpfuncByEditorName');
+		}
 	}
 	unset($formatterid);
 	unset($formatterentry);

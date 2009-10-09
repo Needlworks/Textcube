@@ -1,7 +1,7 @@
 <?php
 /// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
-/// See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 global $pluginSetting;
 $pluginSetting = array();
@@ -179,7 +179,8 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 		if (is_null($result)) {
 			$keyname = UTF8::lessenAsEncoding($keyname, 32);
 			$value = UTF8::lessenAsEncoding($plugin . '/' . $version , 255);
-			$query = new DBModel($database['prefix']. 'ServiceSettings');
+			$query = DBModel::getInstance();
+			$query->reset('ServiceSettings');
 			$query->setAttribute('name',$keyname,true);
 			$query->setAttribute('value',$value,true);
 			$query->insert();
@@ -190,7 +191,8 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 			if (strcmp($plugin, $values[0]) != 0) { // diff plugin
 				return false; // nothing can be done
 			} else if (strcmp($version, $values[1]) != 0) {
-				$query = new DBModel($database['prefix']. 'ServiceSettings');
+				$query = DBModel::getInstance();
+				$query->reset('ServiceSettings');
 				$query->setQualifier('name','equals',$keyname,true);
 				$query->setAttribute('value',$value,true);
 				$query->update();
