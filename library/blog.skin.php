@@ -90,8 +90,10 @@ class Skin {
 
 	var $dressTags = array();
 
-	function Skin($name, $previewMode = false) {
+	function __construct($name, $previewMode = false) {
 		global $service, $blogURL, $suri, $blog, $__gDressTags;
+		$this->cache = new pageCache;
+		$this->cache->reset('skinCache');
 		$__gDressTags = array();
 		if($previewMode == true || ($service['skincache'] != true) || !$this->loadCache()) {
 			$this->noneCommentMessage = Setting::getBlogSettingGlobal('noneCommentMessage',null);
@@ -366,18 +368,14 @@ class Skin {
 
 	function saveCache() {
 		$skinCache = get_object_vars($this);
-		$cache = pageCache::getInstance();
-		$cache->reset('skinCache');
-		$cache->contents = serialize($skinCache);
-		return $cache->update();
+		$this->cache->contents = serialize($skinCache);
+		return $this->cache->update();
 	}
 	
 	function loadCache() {
 		global $__gDressTags;
-		$cache = pageCache::getInstance();
-		$cache->reset('skinCache');
-		if(!$cache->load()) return false;
-		$skinCache = unserialize($cache->contents);
+		if(!$this->cache->load()) return false;
+		$skinCache = unserialize($this->cache->contents);
 		foreach($skinCache as $key=>$value) {
 			$this->$key = $value;
 		}
@@ -387,9 +385,7 @@ class Skin {
 
 	function purgeCache() {
 		global $gCacheStorage;
-		$cache = pageCache::getInstance();
-		$cache->reset('skinCache');
-		$cache->purge();
+		$this->cache->purge();
 		$gCacheStorage->purge();
 	}
 

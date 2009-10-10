@@ -61,6 +61,7 @@ class pageCache extends Singleton {
 		global $service;
 		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
 		$this->initialize();
+		$this->contents = $this->dbContents = null;
 		if(!$this->getFileName()) return false;
 		if(empty($this->_fileCacheOnly)) $this->getdbContents();
 		if($this->getFileContents()) {
