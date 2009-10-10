@@ -11,21 +11,21 @@ require ROOT . '/library/preprocessor.php';
 requireModel("blog.tag");
 
 requireStrictBlogURL();
-
+$blogid = getBlogId();
 $children = array();
 $cache = pageCache::getInstance();
 if(!empty($suri['id'])) {
 	$tagId = $suri['id'];
 	$tagTitle = getTagById($blogid, $tagId);
 } else if (!empty($suri['value'])) {
- 	$tagId = getTagId($suri['value']);
+ 	$tagId = getTagId($blogid, $suri['value']);
 	$tagTitle = $suri['value'];
 } else { 	// If no tag is mentioned, redirect it to total atom.
 	header ("Location: $hostURL$blogURL/atom");
 	exit;
 }
 
-$cache->name = 'tagATOM-'.$categoryId;
+$cache->name = 'tagATOM-'.$tagId;
 if(!$cache->load()) {
 	requireModel("blog.feed");
 	$result = getTagFeedByTagId(getBlogId(),$tagId,'atom',$tagTitle);
