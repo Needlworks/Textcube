@@ -276,9 +276,9 @@ textarea
 /* main blog box */
 #main-blog-box
 {
-	right                            : 200px;
+	right                            : 320px;
 	position                         : absolute;
-	top                              : 13px;
+	top                              : 15px;
 }
 
 /* main menu */
