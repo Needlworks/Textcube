@@ -7,9 +7,11 @@ require ROOT . '/library/preprocessor.php';
 $cache = pageCache::getInstance();
 if(!isset($suri['id']) || (Setting::getBlogSettingGlobal('useSloganOnCategory',1) == 1)) {
 	$category = empty($suri['value']) ? 0 : getCategoryIdByLabel($blogid, $suri['value']);
+	$listFeedURL = 'category/'.$suri['value'];
 } else {
 	$category = $suri['id'];
 	$suri['value'] = getCategoryLabelById($blogid, $category);
+	$listFeedURL = 'category/'.$suri['id'];
 }
 if(!doesHaveOwnership() && getCategoryVisibility($blogid, $category) < 2)
 	$category = null;

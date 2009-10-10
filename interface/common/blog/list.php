@@ -35,6 +35,8 @@ if (isset($cache->contents)) {
 	dress('list_rep', $itemsView, $listView);
 	dress('list_conform', fireEvent('ViewListHeadTitle', htmlspecialchars($list['title']) ), $listView);
 	dress('list_count', isset($list['count']) ? $list['count'] : '0', $listView);
+	dress('list_rss_url', $context->getProperty('uri.default').'/rss/'.$listFeedURL, $listView);
+	dress('list_atom_url', $context->getProperty('uri.default').'/atom/'.$listFeedURL, $listView);
 	$listView = fireEvent('ViewList', $listView, $list);
 	if(empty($entries)) $listView = $listView.CRLF.'[##_paging_list_##]';
 	

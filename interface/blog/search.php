@@ -11,6 +11,7 @@ $list = array('title' => '', 'items' => array(), 'count' => 0);
 if (strlen($search) > 0 && !empty($suri['page'])) {
 	$listWithPaging = getEntryListWithPagingBySearch($blogid, $search, $suri['page'], $blog['entriesOnList']);
 	$list = array('title' => $search, 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
+	$listFeedURL = 'search/'.$search;
 	$paging = $listWithPaging[1];
 	require ROOT . '/interface/common/blog/begin.php';
 	require ROOT . '/interface/common/blog/list.php';
