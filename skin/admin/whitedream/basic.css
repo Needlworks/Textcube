@@ -246,6 +246,15 @@ textarea
 	padding                          : 0 16px !important;
 }
 
+#action-move-to-control-panel a
+{
+	background-image                 : url("./image/img_to_control_panel.png");
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	color                            : #222;
+	padding                          : 4px 20px 0 10px;
+}
+
 #action-move-to-blog a
 {
 	background-image                 : url("./image/img_to_my_blog.gif");

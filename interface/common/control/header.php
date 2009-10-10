@@ -432,7 +432,6 @@ $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 					<ul id="main-action">
 						<li id="action-helper"><a href="<?php echo getHelpURL($helpURL);?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
 						<li id="action-move-to-blog"><a href="<?php echo $blogURL.'/owner/center/dashboard';?>" title="<?php echo _t('센터로 이동합니다.');?>"><span class="text"><?php echo _t('블로그 관리');?></span></a></li>
-						<li id="action-move-to-blog"><a href="<?php echo $blogURL;?>/" title="<?php echo _t('블로그 메인으로 이동합니다.');?>"><span class="text"><?php echo _t('블로그로 이동');?></span></a></li>
 						<li id="action-logout"><a href="<?php echo $blogURL;?>/logout" title="<?php echo _t('로그아웃하고 블로그 메인으로 이동합니다.');?>"><span class="text"><?php echo _t('로그아웃');?></span></a></li>
 					</ul>
 				</div>
