@@ -397,8 +397,11 @@ class CacheControl {
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'tagList\\_".$tagId."%' 
-				OR name like 'keyword\\_".$tagId."%')");
+				OR name like 'keyword\\_".$tagId."%'
+				OR name like 'tagATOM-".$tagId."%'
+				OR name like 'tagRSS-".$tagId."%')");
 		CacheControl::purgeItems($tagLists);
+		CacheControl::flushRSS();
 		$cache->reset();
 		$cache->name = 'tagPage';
 		$cache->purge();
@@ -453,7 +456,6 @@ class CacheControl {
 
 	function flushCommentRSS($entryId = null) {
 		global $database;
-
 		if(empty($entryId)) $entryId = '';
 		$cache = pageCache::getInstance();
 		$cache->name = 'commentRSS-'.$entryId;
