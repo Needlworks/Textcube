@@ -5,7 +5,7 @@
 $service['admin_script']='control.js';
 
 require ROOT . '/library/preprocessor.php';
-require ROOT . '/interface/common/owner/header.php';
+require ROOT . '/interface/common/control/header.php';
 
 requirePrivilege('group.creators');
 global $database;
@@ -193,5 +193,5 @@ $blogsetting = getBlogSettings($bid);
 							</div>
 						</div>
 <?php
-require ROOT . '/interface/common/owner/footer.php';
+require ROOT . '/interface/common/control/footer.php';
 ?>

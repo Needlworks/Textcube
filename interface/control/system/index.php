@@ -10,7 +10,7 @@ $IV = array(
 );
 
 require ROOT . '/library/preprocessor.php';
-require ROOT . '/interface/common/owner/header.php';
+require ROOT . '/interface/common/control/header.php';
 
 requirePrivilege('group.creators');
 
@@ -222,4 +222,4 @@ hr {width: 600px; background-color: #cccccc; border: 0px; height: 1px; color: #0
 
 ?>
 	</div>
-<?php require ROOT . '/interface/common/owner/footer.php';?>
+<?php require ROOT . '/interface/common/control/footer.php';?>

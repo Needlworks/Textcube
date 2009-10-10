@@ -1,0 +1,10 @@
+@charset "utf-8";
+
+/* Plugin List */
+
+#part-plugin-list ul.data-inbox li .summary .plugin-buttons
+{
+	font-family: Dotum, 'Lucida Grande', Tahoma, sans-serif;
+	letter-spacing: -1px;
+	margin-top: 3px;
+}

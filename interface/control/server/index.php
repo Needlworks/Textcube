@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
-require ROOT . '/interface/common/owner/header.php';
+require ROOT . '/interface/common/control/header.php';
 
 
 // htacccess modification
@@ -445,5 +445,5 @@ if (isset($_GET['message'])) {
 <?php
 }
 
-require ROOT . '/interface/common/owner/footer.php';
+require ROOT . '/interface/common/control/footer.php';
 ?>
