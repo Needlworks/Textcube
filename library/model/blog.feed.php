@@ -450,6 +450,38 @@ function getTagFeedByTagId($blogid, $tagId, $mode = 'rss', $tagTitle = null) {
 	return false;
 }
 
+function getSearchFeedByKeyword($blogid, $search, $mode = 'rss', $title = null) {
+
+	global $database, $serviceURL, $defaultURL, $blog, $service;
+	$channel = array();
+	$channel = initializeRSSchannel($blogid);
+	$search = escapeSearchString($search);
+	$entries = POD::queryAll("SELECT 
+			e.*, 
+			c.name AS categoryName, 
+			u.name AS author
+		FROM {$database['prefix']}Entries e
+		LEFT JOIN {$database['prefix']}Categories c
+			ON e.blogid = c.blogid AND e.category = c.id
+		LEFT JOIN {$database['prefix']}Users u
+			ON e.userid = u.userid
+		WHERE e.blogid = $blogid AND e.draft = 0 AND e.visibility >= ".($blog['publishEolinSyncOnRSS'] ? '2' : '3')." AND c.visibility > 1 AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%') 
+		ORDER BY e.published 
+		DESC LIMIT {$blog['entriesOnRSS']}");
+	if (!$entries)
+		$entries = array();
+
+	$channel['items'] = getFeedItemByEntries($entries);
+	if(!is_null($tagTitle)) {
+		$channel['title'] = RSSMessage($blog['title']. ': '._textf('%1 이 포함된 글 목록',htmlspecialchars($title)));
+	}
+	$rss = array('channel' => $channel);
+
+	if($mode == 'rss') return publishRSS($blogid, $rss);
+	else if($mode == 'atom') return publishATOM($blogid, $rss);
+	return false;
+}
+
 function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss', $categoryTitle = null) {
 
 	global $database, $serviceURL, $defaultURL, $blog, $service;

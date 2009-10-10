@@ -3,9 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
-if (false) {
-	fetchConfigVal();
-}
+
 $search = isset($_GET['search']) ? $_GET['search'] : $suri['value'];
 $search = isset($_GET['q']) ? $_GET['q'] : $search; // Consider the common search query GET name. (for compatibility)
 $list = array('title' => '', 'items' => array(), 'count' => 0);
