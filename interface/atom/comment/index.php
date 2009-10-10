@@ -4,15 +4,13 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 define('NO_SESSION', true);
 define('__TEXTCUBE_LOGIN__',true);
+define('__TEXTCUBE_CUSTOM_HEADER__', true);
 
 require ROOT . '/library/preprocessor.php';
 requireModel("blog.feed");
 requireModel("blog.entry");
 
 requireStrictBlogURL();
-if (false) {
-	fetchConfigVal();
-}
 $cache = pageCache::getInstance();
 if(!empty($suri['id'])) {
 	$cache->name = 'commentATOM-'.$suri['id'];

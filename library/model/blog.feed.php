@@ -501,7 +501,7 @@ function getLinesFeed($blogid, $category = 'public', $mode = 'atom') {
 }
 
 function publishRSS($blogid, $data) {
-	global $blog;
+	$context = Model_Context::getInstance();
 	$blogid = getBlogId();
 	ob_start();
 	echo '<?xml version="1.0" encoding="UTF-8"?>', CRLF;
@@ -514,7 +514,7 @@ function publishRSS($blogid, $data) {
 	echo '		<pubDate>', Timestamp::getRFC1123($data['channel']['pubDate']), '</pubDate>', CRLF;
 	echo '		<generator>', $data['channel']['generator'], '</generator>', CRLF;
 
-	if (!empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
+	if ($context->getProperty('blog.logo') && file_exists(ROOT."/attach/$blogid/{$context->getProperty('blog.logo')}")) {
 		echo '		<image>', CRLF;
 		echo '		<title>', htmlspecialchars($data['channel']['title'], ENT_QUOTES), '</title>', CRLF;
 		echo '		<url>', $data['channel']['url'], '</url>', CRLF;
