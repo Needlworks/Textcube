@@ -472,7 +472,7 @@ function getSearchFeedByKeyword($blogid, $search, $mode = 'rss', $title = null) 
 		$entries = array();
 
 	$channel['items'] = getFeedItemByEntries($entries);
-	if(!is_null($tagTitle)) {
+	if(!is_null($title)) {
 		$channel['title'] = RSSMessage($blog['title']. ': '._textf('%1 이 포함된 글 목록',htmlspecialchars($title)));
 	}
 	$rss = array('channel' => $channel);
