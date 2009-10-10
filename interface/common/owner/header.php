@@ -431,6 +431,9 @@ $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 				<div id="main-action-box">
 					<ul id="main-action">
 						<li id="action-helper"><a href="<?php echo getHelpURL($helpURL);?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
+<?php if(Acl::check('group.creators')) { ?>
+						<li id="action-move-to-blog"><a href="<?php echo $blogURL.'/control';?>" title="<?php echo _t('제어판으로 이동합니다.');?>"><span class="text"><?php echo _t('텍스트큐브 관리');?></span></a></li>
+<?php } ?>
 						<li id="action-move-to-blog"><a href="<?php echo $blogURL;?>/" title="<?php echo _t('블로그 메인으로 이동합니다.');?>"><span class="text"><?php echo _t('블로그로 이동');?></span></a></li>
 						<li id="action-logout"><a href="<?php echo $blogURL;?>/logout" title="<?php echo _t('로그아웃하고 블로그 메인으로 이동합니다.');?>"><span class="text"><?php echo _t('로그아웃');?></span></a></li>
 					</ul>
@@ -441,11 +444,7 @@ $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 				<div id="main-blog-box">
 					<div id="main-blog">
 <?php
-						if ($blogMenu['topMenu'] == 'control') {
-?>
-						<span class="text"><?php echo _t('컨트롤 패널');?></span>
-<?php						
-						} else if ('single' != $service['type'] ) {
+						if ('single' != $service['type'] ) {
 ?>
 						<label for="blog-list"><?php echo _t('현재 블로그');?></label>
 <?php echo User::changeBlog();
