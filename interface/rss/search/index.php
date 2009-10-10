@@ -11,28 +11,27 @@ requireStrictBlogURL();
 
 $search = isset($_GET['search']) ? $_GET['search'] : $suri['value'];
 $search = isset($_GET['q']) ? $_GET['q'] : $search; // Consider the common search query GET name. (for compatibility)
-$list = array('title' => '', 'items' => array(), 'count' => 0);
 
 $blogid = getBlogId();
 list($entries, $paging) = getEntriesWithPagingBySearch($blogid, $search, 1, 1, 1);
 
 if(empty($entries)) {
-	header ("Location: $hostURL$blogURL/atom");
+	header ("Location: $hostURL$blogURL/rss");
 	exit;	
 }
 
 $cache = pageCache::getInstance();
-$cache->name = 'searchATOM-'.$search;
+$cache->name = 'searchRSS-'.$search;
 if(!$cache->load()) {
 	requireModel("blog.feed");
-	$result = getSearchFeedByKeyword(getBlogId(),$search,'atom',$search);
+	$result = getSearchFeedByKeyword(getBlogId(),$search,'rss',$search);
 	if($result !== false) {
 		$cache->contents = $result;
 		$cache->update();
 	}
 }
-header('Content-Type: application/atom+xml; charset=utf-8');
+header('Content-Type: application/rss+xml; charset=utf-8');
 fireEvent('FeedOBStart');
-echo fireEvent('ViewSearchATOM', $cache->contents);
+echo fireEvent('ViewSearchRSS', $cache->contents);
 fireEvent('FeedOBEnd');
 ?>

@@ -15,7 +15,7 @@ if(!doesHaveOwnership() && getCategoryVisibility($blogid, $category) < 2)
 	$category = null;
 
 if ($skinSetting['showListOnCategory'] != 0) {
-	$cache->name = 'categoryList_'.$category."_".$suri['page']."_";
+	$cache->name = 'categoryList-'.$category."-".$suri['page']."-";
 	if (!$cache->load()) {
 		if(!$listWithPaging = getEntryListWithPagingByCategory($blogid, $category, $suri['page'], $blog['entriesOnList']))
 			$listWithPaging = array(array(), array('total' => 0));
