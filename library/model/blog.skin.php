@@ -203,7 +203,7 @@ function selectSkin($blogid, $skinName) {
 		Setting::setSkinSetting('skin',$skinName, $blogid);
 	}
 	
-	Setting::removeBlogSetting("sidebarOrder");
+	Setting::removeBlogSetting("sidebarOrder",true);
 	CacheControl::flushAll();
 	Skin::purgeCache();
 	Path::removeFiles(ROOT . "/skin/blog/customize/".getBlogId()."/");
