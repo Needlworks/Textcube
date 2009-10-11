@@ -338,7 +338,7 @@ function sendTrackback($blogid, $entryId, $url) {
 	if (is_null($entry))
 		return false;
 	$link = "$defaultURL/$entryId";
-	$title = fireEvent('ViewPostTitle', $entry['title'], $entry['id']);
+	$title = htmlspecialchars($entry['title']);
 	$entry['content'] = getEntryContentView($blogid, $entryId, $entry['content'], $entry['contentformatter'], getKeywordNames($blogid));
 	$excerpt = str_tag_on(UTF8::lessen(removeAllTags(stripHTML($entry['content'])), 255));
 	$blogTitle = $blog['title'];
