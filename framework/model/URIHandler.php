@@ -45,7 +45,7 @@ final class Model_URIHandler extends Singleton
 		if ($this->context->getProperty('type') == 'single') {
 			$this->blogid = $defaultblogid;
 		} else {
-			if ($this->context->getProperty('type') == 'domain') {
+			if ($this->context->getProperty('type') == 'domain') {	// Domain-based service
 				if ($_SERVER['HTTP_HOST'] == $this->context->getProperty('domain')) {
 					$this->blogid = $defaultblogid;
 				} else {
@@ -58,7 +58,7 @@ final class Model_URIHandler extends Singleton
 							$this->blogid = $this->__getBlogidBySecondaryDomain($_SERVER['HTTP_HOST']);
 						}
 				}
-			} else {
+			} else {	// Path-based service
 				if ($url == '/') {
 					$this->blogid = $defaultblogid;
 				} else if (preg_match('@^/+([^/]+)(.*)$@', $url, $matches)) {
