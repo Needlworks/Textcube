@@ -269,7 +269,8 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										}
 									}
 									request.onError = function () {
-										window.location = "<?php echo $blogURL;?>/owner/entry";
+										alert("<?php echo _t('글 공개 정도를 변경하지 못했습니다.').' : entry ID : ';?>"+entry);
+//										window.location = "<?php echo $blogURL;?>/owner/entry";
 									}
 									request.send();
 								}
