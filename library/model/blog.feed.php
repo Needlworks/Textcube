@@ -105,7 +105,9 @@ function getFeedItemByEntries($entries) {
 		$content = preg_replace('/<a href=("|\')(#[^\1]+)\1/i', '<a href=$1' . htmlspecialchars($entryURL) . '$2$1', $content);
  		if (!$blog['publishWholeOnRSS']) {
 			$content .= "<p><strong><a href=\"" . htmlspecialchars($entryURL) . "\">" . _t('글 전체보기') . "</a></strong></p>";
- 		}
+ 		} else {
+			$content .= "<p><strong><a href=\"" . htmlspecialchars($entryURL) ."#entry".$row['id']."comment\">" . _t('댓글 쓰기') . "</a></strong></p>";
+		}
 		$row['repliesCount'] = $row['comments'] + $row['trackbacks'];
 		$item = array(
 			'id' => $row['id'], 
