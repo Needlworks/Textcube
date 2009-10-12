@@ -45,7 +45,7 @@ function setBlogSetting($name, $value, $blogid = null) {
 	return Setting::setBlogSetting($name, $value, $blogid, true);
 }
 
-function Setting::setBlogSettingGlobalDefault($name, $value, $blogid = null) {
+function setBlogSettingDefault($name, $value, $blogid = null) {
 	return Setting::setBlogSettingDefault($name, $value, $blogid);
 }
 
