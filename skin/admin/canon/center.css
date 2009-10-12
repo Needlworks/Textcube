@@ -424,7 +424,7 @@
 
 #independent-notice-line
 {
-	margin                           : 0 130px -35px 0;
+	margin                           : 0 150px -35px 0;
 }
 
 #independent-notice-line dd
@@ -438,6 +438,23 @@
 	display                          : none;
 }
 
+#widget-button-top 
+{
+	position                         : absolute;
+	top                              : -15px;
+	left                             : 350px;
+}
+#widget-button-bottom
+{
+	display                          : none;
+}
+#widget-container-0,
+#widget-container-1,
+#widget-container-2
+{
+	margin-top                       : 50px;
+	margin-bottom                    : 50px;
+}
 #direct-link-line
 {
 	margin                           : 25px 10px 20px 10px;
