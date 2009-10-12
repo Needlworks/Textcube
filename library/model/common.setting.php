@@ -38,11 +38,11 @@ function removeServiceSetting($name,$pruneSimilarEntries = false) {
 }
 
 function getBlogSetting($name, $default = null, $blogid = null) {
-	return Setting::getBlogSetting($name, $default, true);
+	return Setting::getBlogSettingGlobal($name, $default);
 }
 
 function setBlogSetting($name, $value, $blogid = null) {
-	return Setting::setBlogSetting($name, $value, $blogid, true);
+	return Setting::setBlogSettingGlobal($name, $value, $blogid);
 }
 
 function setBlogSettingDefault($name, $value, $blogid = null) {
