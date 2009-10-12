@@ -37,7 +37,7 @@ function removeServiceSetting($name,$pruneSimilarEntries = false) {
 	else return POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".POD::escapeString($name)."'");
 }
 
-function getBlogSetting($name, $default = null, $blogid = null) {
+function Setting::getBlogSettingGlobal($name, $default = null, $blogid = null) {
 	return Setting::getBlogSettingGlobal($name, $default);
 }
 

@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function getSidebarModuleOrderData($sidebarCount) {
-	if (!is_null($tempValue = getBlogSetting("sidebarOrder", NULL))) {
+	if (!is_null($tempValue = Setting::getBlogSettingGlobal("sidebarOrder", NULL))) {
 		$emptyArray = unserialize($tempValue);
 	} else {
 		$emptyArray = false;

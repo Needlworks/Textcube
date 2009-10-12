@@ -21,7 +21,7 @@ function getBlogidBySecondaryDomain($domain) {
 	return POD::queryCell("SELECT blogid FROM {$database['prefix']}BlogSettings WHERE name = 'secondaryDomain' AND (value = '$domain' OR  value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "')");
 }
 
-function getBlogSettings($blogid) {
+function Setting::getBlogSettingGlobals($blogid) {
 	return Setting::getBlogSettingsGlobal($blogid);
 }
 

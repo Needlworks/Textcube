@@ -41,12 +41,12 @@ if(isset($_POST['search'])) {
 } else $search = null;
 
 // get and set align type, scope type and status type.
-$selectedSort = getBlogSetting('pluginListSortType', 'ascend');
-$selectedScopes = explode('|', getBlogSetting("pluginListScopeType_{$_POST['visibility']}", $memberScopes));
-$selectedStatus = explode('|', getBlogSetting("pluginListStatusType_{$_POST['visibility']}", 'activated|deactivated'));
+$selectedSort = Setting::getBlogSettingGlobal('pluginListSortType', 'ascend');
+$selectedScopes = explode('|', Setting::getBlogSettingGlobal("pluginListScopeType_{$_POST['visibility']}", $memberScopes));
+$selectedStatus = explode('|', Setting::getBlogSettingGlobal("pluginListStatusType_{$_POST['visibility']}", 'activated|deactivated'));
 
 // get the list type.
-$listType = getBlogSetting('pluginViewType', 'iconview');
+$listType = Setting::getBlogSettingGlobal('pluginViewType', 'iconview');
 
 // get all plugin list.
 $plugins = array();

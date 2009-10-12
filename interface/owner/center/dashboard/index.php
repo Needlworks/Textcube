@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && 
 	(!isset($_REQUEST['edit'])) &&
 	(empty($_GET['useTTdashboard']))) {	// Turn off case.
-	$textcubeDashboard = getBlogSetting("textcubeDashboard",1);
+	$textcubeDashboard = Setting::getBlogSettingGlobal("textcubeDashboard",1);
 	if ($textcubeDashboard == 0) {
 		setBlogSetting("textcubeDashboard", 1);
 		$textcubeDashboard = 1;
@@ -43,16 +43,16 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&
 	setBlogSetting("textcubeDashboard", 1);
 	$textcubeDashboard = 1;
 } else {	// Just read it.
-	$textcubeDashboard = getBlogSetting("textcubeDashboard",1);
+	$textcubeDashboard = Setting::getBlogSettingGlobal("textcubeDashboard",1);
 }
 
 // Layout setting
-$layout = getBlogSetting('centerLayout', '');
+$layout = Setting::getBlogSettingGlobal('centerLayout', '');
 $newlayout = array();
 $addedlayout = array();
 $oldcenterlayout = array();
 $defaultPanelShown = false;
-//$textcubeDashboard = getBlogSetting("textcubeDashboard",1);
+//$textcubeDashboard = Setting::getBlogSettingGlobal("textcubeDashboard",1);
 
 if (count($centerMappings) == 0) {		// No center widgets
 	$layout = '';
@@ -436,7 +436,7 @@ function getDefaultCenterPanel($mapping) {
 	} else {
 		// Get default data
 		$stats = getStatistics($blogid);
-		$latestEntryId = getBlogSetting('LatestEditedEntry_user'.getUserId(),0);
+		$latestEntryId = Setting::getBlogSettingGlobal('LatestEditedEntry_user'.getUserId(),0);
 
 		$comments = getRecentComments($blogid,10);
 		$guestbooks = getRecentGuestbook($blogid,10);

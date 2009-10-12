@@ -14,10 +14,10 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 
-$backupScope = getBlogSetting("pluginListScopeType_{$_POST['visibility']}");
-$backupStatus = getBlogSetting("pluginListStatusType_{$_POST['visibility']}");
-$backupSort = getBlogSetting('pluginListSortType');
-$backupListView = getBlogSetting('pluginViewType');
+$backupScope = Setting::getBlogSettingGlobal("pluginListScopeType_{$_POST['visibility']}");
+$backupStatus = Setting::getBlogSettingGlobal("pluginListStatusType_{$_POST['visibility']}");
+$backupSort = Setting::getBlogSettingGlobal('pluginListSortType');
+$backupListView = Setting::getBlogSettingGlobal('pluginViewType');
 
 // 하나라도 저장에 실패하면 롤백.
 if (!setBlogSetting("pluginListScopeType_{$_POST['visibility']}", $_POST['scope']) || !setBlogSetting("pluginListStatusType_{$_POST['visibility']}", $_POST['status']) || !setBlogSetting("pluginListSortType", $_POST['sort']) || !setBlogSetting("pluginViewType", $_POST['viewtype'])) {

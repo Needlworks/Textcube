@@ -9,7 +9,7 @@
 function getDefaultEditor() {
 	global $editorMapping;
 	reset($editorMapping);
-	return getBlogSetting('defaultEditor', key($editorMapping));
+	return Setting::getBlogSettingGlobal('defaultEditor', key($editorMapping));
 }
 
 function& getAllEditors() { global $editorMapping; return $editorMapping; }
@@ -35,7 +35,7 @@ function getEditorInfo($editor) {
 function getDefaultFormatter() {
 	global $formatterMapping;
 	reset($formatterMapping);
-	return getBlogSetting('defaultFormatter', key($formatterMapping));
+	return Setting::getBlogSettingGlobal('defaultFormatter', key($formatterMapping));
 }
 
 function& getAllFormatters() { global $formatterMapping; return $formatterMapping; }

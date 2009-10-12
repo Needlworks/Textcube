@@ -39,7 +39,7 @@ function setBlogTags($blogid, $tags) {
 }
 
 function getBlogTags($blogid) {
-	if($tags = getBlogSetting('blogTags')) {
+	if($tags = Setting::getBlogSettingGlobal('blogTags')) {
 		return $tags;
 	}
 	return null;

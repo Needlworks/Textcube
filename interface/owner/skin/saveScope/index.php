@@ -10,7 +10,7 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 
-$backupListView = getBlogSetting('skinViewType');
+$backupListView = Setting::getBlogSettingGlobal('skinViewType');
 
 // 하나라도 저장에 실패하면 롤백.
 if (!setBlogSetting("skinViewType", $_POST['viewtype'])) {

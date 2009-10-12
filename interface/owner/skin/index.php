@@ -10,7 +10,7 @@ if(isset($_POST['search'])) {
 } else $search = null;
 
 // get the list type.
-$listType = getBlogSetting('skinViewType', 'iconview');
+$listType = Setting::getBlogSettingGlobal('skinViewType', 'iconview');
 
 $skins = array();
 $dirHandler = dir(ROOT . "/skin/blog");

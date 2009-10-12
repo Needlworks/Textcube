@@ -574,7 +574,7 @@ function addEntry($blogid, $entry, $userid = null) {
 		$published = $entry['published'];
 		$entry['visibility'] = 0 - $entry['visibility'];
 		if($entry['visibility'] < 0) {
-			$closestReservedTime = getBlogSetting('closestReservedPostTime',INT_MAX);
+			$closestReservedTime = Setting::getBlogSettingGlobal('closestReservedPostTime',INT_MAX);
 			if($published < $closestReservedTime) {
 				setBlogSetting('closestReservedPostTime',$published);
 			}
@@ -726,7 +726,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 			$published = $entry['published'];
 			$entry['visibility'] = 0 - $entry['visibility'];
 			if($entry['visibility'] < 0) {
-				$closestReservedTime = getBlogSetting('closestReservedPostTime',9999999999);
+				$closestReservedTime = Setting::getBlogSettingGlobal('closestReservedPostTime',9999999999);
 				if($published < $closestReservedTime) {
 					setBlogSetting('closestReservedPostTime',$published);
 				}
@@ -1117,7 +1117,7 @@ function syndicateEntry($id, $mode) {
 function publishEntries() {
 	global $database;
 	$blogid = getBlogId();
-	$closestReservedTime = getBlogSetting('closestReservedPostTime',INT_MAX);
+	$closestReservedTime = Setting::getBlogSettingGlobal('closestReservedPostTime',INT_MAX);
 	if($closestReservedTime < Timestamp::getUNIXtime()) {
 		$entries = POD::queryAll("SELECT id, visibility, category
 			FROM {$database['prefix']}Entries 

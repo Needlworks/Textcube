@@ -10,7 +10,7 @@ require ROOT . '/interface/common/control/header.php';
 requirePrivilege('group.creators');
 global $database;
 $bid=$suri['id'];
-$blogsetting = getBlogSettings($bid);
+$blogsetting = Setting::getBlogSettingGlobals($bid);
 ?>
 						<script type="text/javascript"> 
 						//<![CDATA[

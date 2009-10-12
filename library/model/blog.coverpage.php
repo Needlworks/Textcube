@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 function getCoverpageModuleOrderData() {
-	if (!is_null($tempValue = getBlogSetting("coverpageOrder", NULL))) {
+	if (!is_null($tempValue = Setting::getBlogSettingGlobal("coverpageOrder", NULL))) {
 		$emptyArray = unserialize($tempValue);
 	} else {
 		$emptyArray = false;

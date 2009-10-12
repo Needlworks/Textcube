@@ -59,7 +59,7 @@ function deleteAllThumbnails($path) {
 }
 
 function getWaterMarkPosition() {
-	$waterMarkPosition = getBlogSetting("waterMarkPosition", "left=10|bottom=10");
+	$waterMarkPosition = Setting::getBlogSettingGlobal("waterMarkPosition", "left=10|bottom=10");
 
 	list($horizontalPos, $verticalPos) = explode("|", $waterMarkPosition);
 	$horizontalPos = explode("=", $horizontalPos);
@@ -104,7 +104,7 @@ function getWaterMarkGamma() {
 }
 
 function getThumbnailPadding() {
-	$thumbnailPadding = getBlogSetting("thumbnailPadding", false);
+	$thumbnailPadding = Setting::getBlogSettingGlobal("thumbnailPadding", false);
 	if ($thumbnailPadding == false) {
 		return array("top" => 0, "right" => 0, "bottom" => 0, "left" => 0);
 	} else {
@@ -114,6 +114,6 @@ function getThumbnailPadding() {
 }
 
 function getThumbnailPaddingColor() {
-	return getBlogSetting("thumbnailPaddingColor", "FFFFFF");
+	return Setting::getBlogSettingGlobal("thumbnailPaddingColor", "FFFFFF");
 }
 ?>

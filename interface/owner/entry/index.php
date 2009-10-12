@@ -100,7 +100,7 @@ if (isset($_GET['tagId']) && !empty($_GET['tagId'])) {
 }
 
 // 페이지당 출력되는 포스트 수.
-$perPage = getBlogSetting('rowsPerPage', 10);
+$perPage = Setting::getBlogSettingGlobal('rowsPerPage', 10);
 if ( isset($_POST['perPage']) && (in_array($_POST['perPage'], array(10, 15, 20, 25, 30)))) {
 	if ($_POST['perPage'] != $perPage) {
 		setBlogSetting('rowsPerPage', $_POST['perPage']);

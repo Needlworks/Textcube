@@ -157,7 +157,7 @@ class Moblog
 	function statCallback( $total, $totalsize )
 	{
 		$this->log( "* ".sprintf( _t("총 %d개의 메시지"),$total) );
-		$lastStat = getBlogSetting( 'MmsPop3stat', '' );
+		$lastStat = Setting::getBlogSettingGlobal( 'MmsPop3stat', '' );
 		$stat = "$total $totalsize";
 		if( $stat == $lastStat ) {
 			$this->log( "* "._t("새로운 메시지가 없습니다") );
@@ -324,18 +324,18 @@ function moblog_check()
 	echo '<body style="font-size:0.9em"><ul><li>';
 	$moblog = new Moblog( 
 		array( 
-			'username' => getBlogSetting( 'MmsPop3Username', '' ),
-			'password' => getBlogSetting( 'MmsPop3Password', '' ),
-			'host' => getBlogSetting( 'MmsPop3Host', 'localhost' ),
-			'port' => getBlogSetting( 'MmsPop3Port', 110 ),
-			'ssl' => getBlogSetting( 'MmsPop3Ssl', 0 ),
-			'userid' => getBlogSetting( 'MmsPop3Fallbackuserid', 1 ),
-			'minsize' => getBlogSetting( 'MmsPop3MinSize', 0 )*1024,
-			'visibility' => getBlogSetting( 'MmsPop3Visibility', '2' ),
-			'category' => getBlogSetting( 'MmsPop3Category', 0 ), 
-			'allowonly' => getBlogSetting( 'MmsPop3AllowOnly', '0' ),
-			'allow' => getBlogSetting( 'MmsPop3Allow', '' ),
-			'subject' => getBlogSetting( 'MmsPop3Subject', '%Y-%M-%D' ) ) 
+			'username' => Setting::getBlogSettingGlobal( 'MmsPop3Username', '' ),
+			'password' => Setting::getBlogSettingGlobal( 'MmsPop3Password', '' ),
+			'host' => Setting::getBlogSettingGlobal( 'MmsPop3Host', 'localhost' ),
+			'port' => Setting::getBlogSettingGlobal( 'MmsPop3Port', 110 ),
+			'ssl' => Setting::getBlogSettingGlobal( 'MmsPop3Ssl', 0 ),
+			'userid' => Setting::getBlogSettingGlobal( 'MmsPop3Fallbackuserid', 1 ),
+			'minsize' => Setting::getBlogSettingGlobal( 'MmsPop3MinSize', 0 )*1024,
+			'visibility' => Setting::getBlogSettingGlobal( 'MmsPop3Visibility', '2' ),
+			'category' => Setting::getBlogSettingGlobal( 'MmsPop3Category', 0 ), 
+			'allowonly' => Setting::getBlogSettingGlobal( 'MmsPop3AllowOnly', '0' ),
+			'allow' => Setting::getBlogSettingGlobal( 'MmsPop3Allow', '' ),
+			'subject' => Setting::getBlogSettingGlobal( 'MmsPop3Subject', '%Y-%M-%D' ) ) 
 	);
 	$moblog->log( "--BEGIN--" );
 	$moblog->check();
@@ -373,19 +373,19 @@ function moblog_manage()
 		setBlogSetting( 'MmsPop3Allow', $_POST['pop3allow'] );
 		setBlogSetting( 'MmsPop3Subject', $_POST['pop3subject'] );
 	}
-	$pop3email = getBlogSetting( 'MmsPop3Email', '' );
-	$pop3host = getBlogSetting( 'MmsPop3Host', 'localhost' );
-	$pop3port = getBlogSetting( 'MmsPop3Port', 110 );
-	$pop3ssl = getBlogSetting( 'MmsPop3Ssl', 0 ) ? " checked=1 " : "";
-	$pop3username = getBlogSetting( 'MmsPop3Username', '' );
-	$pop3password = getBlogSetting( 'MmsPop3Password', '' );
-	$pop3minsize = getBlogSetting( 'MmsPop3MinSize', 0 );
-	$pop3category = getBlogSetting( 'MmsPop3Category', 0 );
-	$pop3fallheadercharset = getBlogSetting( 'MmsPop3Fallbackcharset', 'euc-kr' );
-	$pop3visibility = getBlogSetting( 'MmsPop3Visibility', '2' );
-	$pop3mmsallowonly = getBlogSetting( 'MmsPop3AllowOnly', '0' );
-	$pop3mmsallow = getBlogSetting( 'MmsPop3Allow', '' );
-	$pop3subject = getBlogSetting( 'MmsPop3Subject', '%Y-%M-%D' );
+	$pop3email = Setting::getBlogSettingGlobal( 'MmsPop3Email', '' );
+	$pop3host = Setting::getBlogSettingGlobal( 'MmsPop3Host', 'localhost' );
+	$pop3port = Setting::getBlogSettingGlobal( 'MmsPop3Port', 110 );
+	$pop3ssl = Setting::getBlogSettingGlobal( 'MmsPop3Ssl', 0 ) ? " checked=1 " : "";
+	$pop3username = Setting::getBlogSettingGlobal( 'MmsPop3Username', '' );
+	$pop3password = Setting::getBlogSettingGlobal( 'MmsPop3Password', '' );
+	$pop3minsize = Setting::getBlogSettingGlobal( 'MmsPop3MinSize', 0 );
+	$pop3category = Setting::getBlogSettingGlobal( 'MmsPop3Category', 0 );
+	$pop3fallheadercharset = Setting::getBlogSettingGlobal( 'MmsPop3Fallbackcharset', 'euc-kr' );
+	$pop3visibility = Setting::getBlogSettingGlobal( 'MmsPop3Visibility', '2' );
+	$pop3mmsallowonly = Setting::getBlogSettingGlobal( 'MmsPop3AllowOnly', '0' );
+	$pop3mmsallow = Setting::getBlogSettingGlobal( 'MmsPop3Allow', '' );
+	$pop3subject = Setting::getBlogSettingGlobal( 'MmsPop3Subject', '%Y-%M-%D' );
 ?>
 						<hr class="hidden" />
 						

@@ -76,7 +76,7 @@ if(empty($suri['id']) && empty($suri['value'])) {
 		<div class="entry_tags">
 <?php
 				$tags = array();
-				$relTag = getBlogSetting('useMicroformat', 3)>1 && (count($entries) == 1 || !empty($skin->hentryExisted) );
+				$relTag = Setting::getBlogSettingGlobal('useMicroformat', 3)>1 && (count($entries) == 1 || !empty($skin->hentryExisted) );
 				foreach ($entryTags as $entryTag) {
 					$tags[$entryTag['name']] = "<a href=\"$blogURL/tag/" . $entryTag['id'] . '">' . htmlspecialchars($entryTag['name']) . '</a>';
 				}
