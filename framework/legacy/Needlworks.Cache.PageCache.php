@@ -356,7 +356,14 @@ class CacheControl {
 		$query->delete();
 		return true;
 	}
-	
+	function flushSkin($blogid = null) {
+		global $gCacheStorage;
+		if(empty($blogid)) $blogid = getBlogId();
+		$cache = pageCache::getInstance();
+		$cache->reset('skinCache');
+		$cache->purge();
+		$gCacheStorage->purge();
+	}
 	function flushCategory($categoryId = null) {
 		global $database;
 

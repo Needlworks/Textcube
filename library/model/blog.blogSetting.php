@@ -4,15 +4,16 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function setBlogTitle($blogid, $title) {
-	global $blog;
-	if ($title == $blog['title'])
+	$context = Model_Context::getInstance();
+	if ($title == $context->getProperty('blog.title'))
 		return true;
-	if(setBlogSetting('title', UTF8::lessenAsEncoding($title, 255)) === false) return false;
+	if(Setting::setBlogSetting('title', UTF8::lessenAsEncoding($title, 255),true) === false) return false;
+	$context->setProperty('blog.title',$title);
 	$blog['title'] = $title;
 	requireModel('blog.feed');
 	requireLibrary('blog.skin');
 	clearFeed();
-	Skin::purgeCache();
+	CacheControl::flushSkin();
 	return true;
 }
 
@@ -25,7 +26,7 @@ function setBlogDescription($blogid, $description) {
 	requireModel('blog.feed');
 	requireLibrary('blog.skin');
 	clearFeed();
-	Skin::purgeCache();
+	CacheControl::flushSkin();
 	return true;
 }
 

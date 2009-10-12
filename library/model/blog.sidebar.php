@@ -53,7 +53,7 @@ function addSidebarModuleOrderData($dataArray, $sidebarNumber, $modulePos, $newM
 		
 		if ($matched == false) return null;
 	}
-	Skin::purgeCache();
+	CacheControl::flushSkin();
 	$gCacheStorage->purge();
 	return $dataArray;
 }
@@ -65,7 +65,7 @@ function deleteSidebarModuleOrderData($dataArray, $sidebarNumber, $modulePos) {
 	
 	array_splice($dataArray[$sidebarNumber], $modulePos, 1);
 	
-	Skin::purgeCache();	
+	CacheControl::flushSkin();	
 	$gCacheStorage->purge();
 	return $dataArray;
 }

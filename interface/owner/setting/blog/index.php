@@ -13,7 +13,9 @@ require ROOT . '/interface/common/owner/header.php';
 								
 								function setBlog() {
 									if (document.getElementById('common-form').title.value != title) {
-										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/title?title=" + encodeURIComponent(document.getElementById('common-form').title.value));
+										//var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/title?title=" + encodeURIComponent(document.getElementById('common-form').title.value));
+										
+										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/title");
 										request.onSuccess = function() {
 											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 											title = document.getElementById('common-form').title.value;
@@ -21,7 +23,8 @@ require ROOT . '/interface/common/owner/header.php';
 										request.onError = function() {
 											alert("<?php echo _t('블로그 제목을 변경하지 못했습니다.');?>");
 										}
-										request.send();
+										request.send("title=" + encodeURIComponent(document.getElementById('common-form').title.value));
+//										request.send();
 									}
 									if (document.getElementById('common-form').description.value != description) {
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/description/");

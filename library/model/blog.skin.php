@@ -11,7 +11,7 @@ function setTreeSetting($blogid, $setting) {
 	foreach ($setting as $key => $value) {
 		Setting::setSkinSetting($key, $value, $blogid); 
 	}
-	Skin::purgeCache();
+	CacheControl::flushSkin();
 	Setting::getSkinSettings($blogid, true); // refresh skin cache
 	return true;
 }
@@ -205,7 +205,7 @@ function selectSkin($blogid, $skinName) {
 	
 	Setting::removeBlogSetting("sidebarOrder",true);
 	CacheControl::flushAll();
-	Skin::purgeCache();
+	CacheControl::flushSkin();
 	Path::removeFiles(ROOT . "/skin/blog/customize/".getBlogId()."/");
 	Setting::getSkinSettings($blogid, true); // refresh skin cache
 	return true;
@@ -245,7 +245,7 @@ function writeSkinHtml($blogid, $contents, $mode, $file) {
 		fclose($handler);
 		@chmod(ROOT . "/skin/blog/customize/$blogid/$file", 0666);
 		CacheControl::flushAll();
-		Skin::purgeCache();
+		CacheControl::flushSkin();
 		return true;
 	}
 }
@@ -284,7 +284,7 @@ function setSkinSetting($blogid, $setting) {
 	Setting::setBlogSetting('entriesOnList',$setting['entriesOnList'],true);
 	CacheControl::flushCategory();
 	CacheControl::flushTag();
-	Skin::purgeCache();
+	CacheControl::flushSkin();
 	Setting::getSkinSettings($blogid, true); // refresh skin cache
 	return true;
 }
