@@ -28,28 +28,29 @@ final class Model_URIHandler extends Singleton
 	
 	private function __URIParser() {
 		if(!isset($this->uri)) $this->__URIInterpreter();
-		$config          = Model_Config::getInstance();
+		$this->context->useNamespace('service');
+		
 		$url             = $this->uri['fullpath'];
 		$defaultblogid   = Setting::getServiceSetting("defaultBlogId",1);
 		$this->suri            = array('url' => $url, 'value' => '');
 		$this->blogid    = null;
 		$this->uri['isStrictBlogURL'] = true;
-		$depth           = substr_count($config->service['path'], '/');
+		$depth           = substr_count($this->context->getProperty('path'), '/');
 		if ($depth > 0) {
 			if (preg_match('@^((/+[^/]+){' . $depth . '})(.*)$@', $url, $matches))
 				$url = $matches[3];
 			else
 				Respond::NotFoundPage();
 		}
-		if ($config->service['type'] == 'single') {
+		if ($this->context->getProperty('type') == 'single') {
 			$this->blogid = $defaultblogid;
 		} else {
-			if ($config->service['type'] == 'domain') {
-				if ($_SERVER['HTTP_HOST'] == $config->service['domain']) {
+			if ($this->context->getProperty('type') == 'domain') {	// Domain-based service
+				if ($_SERVER['HTTP_HOST'] == $this->context->getProperty('domain')) {
 					$this->blogid = $defaultblogid;
 				} else {
 					$domain = explode('.', $_SERVER['HTTP_HOST'], 2);
-					if ($domain[1] == $config->service['domain']) {
+					if ($domain[1] == $this->context->getProperty('domain')) {
 						$this->blogid = $this->__getBlogidByName($domain[0]);
 						if ($this->blogid === null) 
 							$this->blogid = $this->__getBlogidBySecondaryDomain($_SERVER['HTTP_HOST']);
@@ -57,7 +58,7 @@ final class Model_URIHandler extends Singleton
 							$this->blogid = $this->__getBlogidBySecondaryDomain($_SERVER['HTTP_HOST']);
 						}
 				}
-			} else {
+			} else {	// Path-based service
 				if ($url == '/') {
 					$this->blogid = $defaultblogid;
 				} else if (preg_match('@^/+([^/]+)(.*)$@', $url, $matches)) {
@@ -85,7 +86,7 @@ final class Model_URIHandler extends Singleton
 			$depth = substr_count(ROOT, '/');
 		}
 		if ($depth > 0) {
-			if($config->service['fancyURL'] === 0 || $config->service['fancyURL'] === 1) $url = '/'.$this->uri['input']; // Exclude /blog path.
+			if($this->context->getProperty('fancyURL') === 0 || $this->context->getProperty('fancyURL') === 1) $url = '/'.$this->uri['input']; // Exclude /blog path.
 			if (preg_match('@^((/+[^/]+){' . $depth . '})/*(.*)$@', $url, $matches)) {
 				$this->suri['directive'] = $matches[1];
 				if ($matches[3] !== false) {

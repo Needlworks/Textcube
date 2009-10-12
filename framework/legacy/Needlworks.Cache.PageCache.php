@@ -61,6 +61,7 @@ class pageCache extends Singleton {
 		global $service;
 		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
 		$this->initialize();
+		$this->contents = $this->dbContents = null;
 		if(!$this->getFileName()) return false;
 		if(empty($this->_fileCacheOnly)) $this->getdbContents();
 		if($this->getFileContents()) {
@@ -355,17 +356,24 @@ class CacheControl {
 		$query->delete();
 		return true;
 	}
-	
+	function flushSkin($blogid = null) {
+		global $gCacheStorage;
+		if(empty($blogid)) $blogid = getBlogId();
+		$cache = pageCache::getInstance();
+		$cache->reset('skinCache');
+		$cache->purge();
+		$gCacheStorage->purge();
+	}
 	function flushCategory($categoryId = null) {
 		global $database;
 
 		if(empty($categoryId)) $categoryId = '';
-		else $categoryId = $categoryId.'\\_';
+		else $categoryId = $categoryId.'-';
 		
 		$categoryLists = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND (name like 'categoryList\\_".$categoryId."%' 
+			AND (name like 'categoryList-".$categoryId."%' 
 				OR name like 'categoryRSS-".$categoryId."%'
 				OR name like 'categoryATOM-".$categoryId."%')");
 		CacheControl::purgeItems($categoryLists);
@@ -376,28 +384,29 @@ class CacheControl {
 	function flushAuthor($authorId = null) {
 		global $database;
 		if(empty($authorId)) $authorId = '';
-		else $authorId = POD::escapeString($authorId).'\\_';
+		else $authorId = POD::escapeString($authorId).'-';
 		
 		$pageLists = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND (name like 'authorList\\_".$authorId."%')");
+			AND (name like 'authorList-".$authorId."%')");
 		CacheControl::purgeItems($pageLists);
 		return true;
 	}
 
 	function flushTag($tagId = null) {
-		global $database;
-
 		if(empty($tagId)) $tagId = '';
-		else $tagId = $tagId.'\\_';
+		else $tagId = $tagId.'-';
 		$cache = pageCache::getInstance();
 		$tagLists = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND (name like 'tagList\\_".$tagId."%' 
-				OR name like 'keyword\\_".$tagId."%')");
+			AND (name like 'tagList-".$tagId."%' 
+				OR name like 'keyword-".$tagId."%'
+				OR name like 'tagATOM-".$tagId."%'
+				OR name like 'tagRSS-".$tagId."%')");
 		CacheControl::purgeItems($tagLists);
+		CacheControl::flushRSS();
 		$cache->reset();
 		$cache->name = 'tagPage';
 		$cache->purge();
@@ -408,12 +417,26 @@ class CacheControl {
 		global $database;
 
 		if(empty($tagId)) $tagId = '';
-		else $tagId = $tagId.'\\_';
+		else $tagId = $tagId.'-';
 		$keywordEntries = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND name like 'keyword\\_".$tagId."%'");
+			AND name like 'keyword-".$tagId."%'");
 		CacheControl::purgeItems($keywordEntries);
+		return true;
+	}
+	
+	function flushSearchKeywordRSS($search = null) {
+		global $database;
+
+		if(empty($search)) $search = '';
+		else $search = escapeSearchString($search);
+		$searchEntries = POD::queryColumn("SELECT name
+			FROM {$database['prefix']}PageCacheLog
+			WHERE blogid = ".getBlogId()."
+			AND (name like 'searchATOM-".$search."%'
+				OR name like 'searchRSS-".$search."%");
+		CacheControl::purgeItems($searchEntries);
 		return true;
 	}
 	
@@ -421,11 +444,11 @@ class CacheControl {
 		global $database;
 
 		if(empty($entryId)) $entryId = '';
-		else $entryId = $entryId.'\\_';
+		else $entryId = $entryId.'-';
 		$Entries = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND (name like 'entry\\_".$entryId."%' OR name = 'commentRSS_".$entryId."')");
+			AND (name like 'entry-".$entryId."%' OR name = 'commentRSS-".$entryId."')");
 		CacheControl::purgeItems($Entries);
 		if(!empty($entryId)) {
 			$entry = POD::queryCell("SELECT userid, category FROM {$database['prefix']}Entries
@@ -448,11 +471,11 @@ class CacheControl {
 		CacheControl::flushCommentRSS();
 		CacheControl::flushTrackbackRSS();
 		CacheControl::flushResponseRSS();
+		CacheControl::flushSearchKeywordRSS();
 	}
 
 	function flushCommentRSS($entryId = null) {
 		global $database;
-
 		if(empty($entryId)) $entryId = '';
 		$cache = pageCache::getInstance();
 		$cache->name = 'commentRSS-'.$entryId;

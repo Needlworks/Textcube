@@ -100,7 +100,7 @@ if (isset($_GET['tagId']) && !empty($_GET['tagId'])) {
 }
 
 // 페이지당 출력되는 포스트 수.
-$perPage = getBlogSetting('rowsPerPage', 10);
+$perPage = Setting::getBlogSettingGlobal('rowsPerPage', 10);
 if ( isset($_POST['perPage']) && (in_array($_POST['perPage'], array(10, 15, 20, 25, 30)))) {
 	if ($_POST['perPage'] != $perPage) {
 		setBlogSetting('rowsPerPage', $_POST['perPage']);
@@ -269,7 +269,8 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										}
 									}
 									request.onError = function () {
-										window.location = "<?php echo $blogURL;?>/owner/entry";
+										alert("<?php echo _t('글 공개 정도를 변경하지 못했습니다.').' : entry ID : ';?>"+entry);
+//										window.location = "<?php echo $blogURL;?>/owner/entry";
 									}
 									request.send();
 								}

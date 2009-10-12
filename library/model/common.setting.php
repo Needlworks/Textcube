@@ -68,8 +68,8 @@ function removeUserSetting($name, $userid = null) {
 function getDefinedTableNames() {
 	global $database;
 	$prefix = $database['prefix'];
-	$definedTables = array("
-			{$prefix}Attachments", 
+	$definedTables = array(
+			"{$prefix}Attachments", 
 			"{$prefix}BlogSettings", 
 			"{$prefix}BlogStatistics", 
 			"{$prefix}Categories", 
@@ -89,6 +89,7 @@ function getDefinedTableNames() {
 			"{$prefix}FeedSettings", 
 			"{$prefix}FeedStarred", 
 			"{$prefix}Filters", 
+			"{$prefix}Lines", 
 			"{$prefix}Links", 
 			"{$prefix}LinkCategories", 
 			"{$prefix}PageCacheLog", 

@@ -8,7 +8,7 @@
    Maintainer       : Peris, inureyes, graphittie
 
    Created at       : 2006.7.25
-   Last modified at : 2009.8.12
+   Last modified at : 2009.10.10
  
  This plugin shows recent entries on 'quilt'.
  For the detail, visit http://forum.tattersite.com/ko
@@ -25,8 +25,8 @@
 */
 
 function _getRecentEntries($blogid){
-	global $database,$skinSetting;
-	$query = new DBModel($database['prefix'].'Entries');
+	$query = DBModel::getInstance();
+	$query->reset('Entries');
 	$query->setQualifier('blogid','equals',$blogid);
 	$query->setQualifier('draft','equals',0);
 	if(doesHaveOwnership()) {
@@ -42,11 +42,12 @@ function _getRecentEntries($blogid){
 
 function _getRecentEntriesView($entries,$template){
 	global $blogURL,$skinSetting;
+	$context = Model_Context::getInstance();
 	ob_start();
 	foreach($entries as $entry){
 		$view = $template;
-		Misc::dress('rctps_rep_link',"$blogURL/{$entry['id']}",$view);
-		Misc::dress('rctps_rep_edit_link',"$blogURL/owner/entry/edit/{$entry['id']}",$view);
+		Misc::dress('rctps_rep_link',$context->getProperty('uri.blog')."/".$entry['id'],$view);
+		Misc::dress('rctps_rep_edit_link',$context->getProperty('uri.blog')."/owner/entry/edit/".$entry['id'],$view);
 		Misc::dress('rctps_rep_title',htmlspecialchars(UTF8::lessenAsEm($entry['title'],30)),$view);
 		Misc::dress('rctps_rep_rp_cnt',"<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments']>0?"({$entry['comments']})":'').'</span>',$view);
 		print $view;

@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function getSidebarModuleOrderData($sidebarCount) {
-	if (!is_null($tempValue = getBlogSetting("sidebarOrder", NULL))) {
+	if (!is_null($tempValue = Setting::getBlogSettingGlobal("sidebarOrder", NULL))) {
 		$emptyArray = unserialize($tempValue);
 	} else {
 		$emptyArray = false;
@@ -53,7 +53,7 @@ function addSidebarModuleOrderData($dataArray, $sidebarNumber, $modulePos, $newM
 		
 		if ($matched == false) return null;
 	}
-	Skin::purgeCache();
+	CacheControl::flushSkin();
 	$gCacheStorage->purge();
 	return $dataArray;
 }
@@ -65,7 +65,7 @@ function deleteSidebarModuleOrderData($dataArray, $sidebarNumber, $modulePos) {
 	
 	array_splice($dataArray[$sidebarNumber], $modulePos, 1);
 	
-	Skin::purgeCache();	
+	CacheControl::flushSkin();	
 	$gCacheStorage->purge();
 	return $dataArray;
 }

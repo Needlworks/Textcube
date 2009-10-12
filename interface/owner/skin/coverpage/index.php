@@ -213,7 +213,7 @@ $usedCoverpageBasicModule = array();
 $coverpageCount = count($skin->coverpageBasicModules);
 
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useCoverpageInit']))) {
-	$coverpageInitView = getBlogSetting("coverpageInitView");
+	$coverpageInitView = Setting::getBlogSettingGlobal("coverpageInitView");
 	if (is_null($coverpageInitView)) {
 		setBlogSetting("coverpageInitView", 1);
 		$coverpageInitView = 1;
@@ -225,7 +225,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useCoverpageInit'])
 		setBlogSetting("coverpageInitView", 1);
 		$coverpageInitView = 1;
 } else {
-	$coverpageInitView = getBlogSetting("coverpageInitView");
+	$coverpageInitView = Setting::getBlogSettingGlobal("coverpageInitView");
 }
 
 getBlogContentForCoverPage();

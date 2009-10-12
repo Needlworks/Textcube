@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && 
 	(!isset($_REQUEST['edit'])) &&
 	(empty($_GET['useTTdashboard']))) {	// Turn off case.
-	$textcubeDashboard = getBlogSetting("textcubeDashboard",1);
+	$textcubeDashboard = Setting::getBlogSettingGlobal("textcubeDashboard",1);
 	if ($textcubeDashboard == 0) {
 		setBlogSetting("textcubeDashboard", 1);
 		$textcubeDashboard = 1;
@@ -43,16 +43,16 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&
 	setBlogSetting("textcubeDashboard", 1);
 	$textcubeDashboard = 1;
 } else {	// Just read it.
-	$textcubeDashboard = getBlogSetting("textcubeDashboard",1);
+	$textcubeDashboard = Setting::getBlogSettingGlobal("textcubeDashboard",1);
 }
 
 // Layout setting
-$layout = getBlogSetting('centerLayout', '');
+$layout = Setting::getBlogSettingGlobal('centerLayout', '');
 $newlayout = array();
 $addedlayout = array();
 $oldcenterlayout = array();
 $defaultPanelShown = false;
-//$textcubeDashboard = getBlogSetting("textcubeDashboard",1);
+//$textcubeDashboard = Setting::getBlogSettingGlobal("textcubeDashboard",1);
 
 if (count($centerMappings) == 0) {		// No center widgets
 	$layout = '';
@@ -289,7 +289,7 @@ $secondposition = array(0, 0);
 if(Acl::check('group.owners')) {
 	if(!isset($_REQUEST['edit'])) {
 ?>
-								<div class="button-box">
+								<div id="widget-button-top" class="button-box">
 									<input type="submit" class="input-button" value="<?php echo _t('편집');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/center/dashboard?edit'; return false;" />
 									<input type="button" class="input-button" value="<?php echo _t('위젯 켜고 끄기');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/plugin?visibility=center'; return false;" />
 								</div>
@@ -369,7 +369,7 @@ if ($boardbarNumber < 2) {
 if(Acl::check('group.owners')) {
 	if(!isset($_REQUEST['edit'])) {
 ?>
-								<div class="button-box">
+								<div id="widget-button-bottom" class="button-box">
 									<input type="submit" class="input-button" value="<?php echo _t('편집');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/center/dashboard?edit'; return false;" />
 									<input type="button" class="input-button" value="<?php echo _t('위젯 켜고 끄기');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/plugin?visibility=center'; return false;" />
 								</div>
@@ -436,7 +436,7 @@ function getDefaultCenterPanel($mapping) {
 	} else {
 		// Get default data
 		$stats = getStatistics($blogid);
-		$latestEntryId = getBlogSetting('LatestEditedEntry_user'.getUserId(),0);
+		$latestEntryId = Setting::getBlogSettingGlobal('LatestEditedEntry_user'.getUserId(),0);
 
 		$comments = getRecentComments($blogid,10);
 		$guestbooks = getRecentGuestbook($blogid,10);

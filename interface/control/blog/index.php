@@ -11,7 +11,7 @@ $IV = array(
 
 $service['admin_script']='control.js';
 require ROOT . '/library/preprocessor.php';
-require ROOT . '/interface/common/owner/header.php';
+require ROOT . '/interface/common/control/header.php';
 
 requirePrivilege('group.creators');
 
@@ -114,7 +114,7 @@ $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]<
 		<span id="total-count"><?php echo _f('총 %1개의 블로그',$blogcount);?></span>
 	</div>
 <?php 
-require ROOT . '/interface/common/owner/footer.php';
+require ROOT . '/interface/common/control/footer.php';
 ?>
 <script type="text/javascript">
 //<![CDATA[

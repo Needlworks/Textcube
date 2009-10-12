@@ -30,7 +30,7 @@ function FM_Modern_editorinit(&$editor) {
 ?>
 			if (typeof(document.execCommand) == "undefined" || !(STD.isIE || STD.isFirefox || (STD.isWebkit && STD.engineVersion >= 419.3))) return null;
 			var editor = new TTModernEditor();
-			editor.fixPosition = <?php echo getBlogSetting('editorPropertyPositionFix', 0);?>;
+			editor.fixPosition = <?php echo Setting::getBlogSettingGlobal('editorPropertyPositionFix', 0);?>;
 			editor.hasGD = <?php echo extension_loaded('gd') ? 'true' : 'false';?>;
 			editor.propertyFilePath = "<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/";
 			editor.editMode = "<?php echo $config['defaultmode'];?>";

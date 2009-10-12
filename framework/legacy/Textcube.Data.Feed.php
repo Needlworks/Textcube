@@ -136,7 +136,7 @@ class Feed {
 		}
 		$this->id = $query->getCell('id');
 		
-		$query->reset($database['prefix'] . 'FeedGroupRelations');
+		$query->reset('FeedGroupRelations');
 		$query->setQualifier('blogid', 'equals',$blogid);
 		$query->setQualifier('feed', 'equals',$this->id);
 		$query->setQualifier('groupid', 'equals',$this->group);

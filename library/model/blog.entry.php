@@ -574,7 +574,7 @@ function addEntry($blogid, $entry, $userid = null) {
 		$published = $entry['published'];
 		$entry['visibility'] = 0 - $entry['visibility'];
 		if($entry['visibility'] < 0) {
-			$closestReservedTime = getBlogSetting('closestReservedPostTime',INT_MAX);
+			$closestReservedTime = Setting::getBlogSettingGlobal('closestReservedPostTime',INT_MAX);
 			if($published < $closestReservedTime) {
 				setBlogSetting('closestReservedPostTime',$published);
 			}
@@ -726,7 +726,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 			$published = $entry['published'];
 			$entry['visibility'] = 0 - $entry['visibility'];
 			if($entry['visibility'] < 0) {
-				$closestReservedTime = getBlogSetting('closestReservedPostTime',9999999999);
+				$closestReservedTime = Setting::getBlogSettingGlobal('closestReservedPostTime',9999999999);
 				if($published < $closestReservedTime) {
 					setBlogSetting('closestReservedPostTime',$published);
 				}
@@ -1094,7 +1094,7 @@ function syndicateEntry($id, $mode) {
 	$pool->setQualifier('blogid','equals',$context->getProperty('blog.id'));
 	$sites = $pool->getAll('url,type');
 	
-	$entry = getEntry($blogid, $id);
+	$entry = getEntry($context->getProperty('blog.id'), $id);
 	if (is_null($entry)) return false;
 	
 	if(!empty($sites)) {
@@ -1117,7 +1117,7 @@ function syndicateEntry($id, $mode) {
 function publishEntries() {
 	global $database;
 	$blogid = getBlogId();
-	$closestReservedTime = getBlogSetting('closestReservedPostTime',INT_MAX);
+	$closestReservedTime = Setting::getBlogSettingGlobal('closestReservedPostTime',INT_MAX);
 	if($closestReservedTime < Timestamp::getUNIXtime()) {
 		$entries = POD::queryAll("SELECT id, visibility, category
 			FROM {$database['prefix']}Entries 
@@ -1149,8 +1149,8 @@ function publishEntries() {
 		$newClosestTime = POD::queryCell("SELECT min(published)
 			FROM {$database['prefix']}Entries
 			WHERE blogid = $blogid AND draft = 0 AND visibility < 0 AND published > UNIX_TIMESTAMP()");
-		if(!empty($newClosestTime)) setBlogSetting('closestReservedPostTime',$newClosestTime);
-		else setBlogSetting('closestReservedPostTime',INT_MAX);
+		if(!empty($newClosestTime)) Setting::setBlogSettingGlobal('closestReservedPostTime',$newClosestTime);
+		else Setting::setBlogSettingGlobal('closestReservedPostTime',INT_MAX);
 	}
 }
 

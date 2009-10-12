@@ -263,6 +263,16 @@ textarea
 	background-image                 : url("./image/img_helper_hover.gif");
 }
 
+#action-move-to-control-panel a
+{
+	background-image                 : url("./image/img_control.gif");
+}
+
+#action-move-to-control-panel a:hover
+{
+	background-image                 : url("./image/img_control_hover.gif");
+}
+
 #action-logout a
 {
 	background-image                 : url("./image/img_logout.gif");
@@ -383,11 +393,6 @@ textarea
 #main-menu #menu-setting
 {
 	background-image                 : url("./image/img_menu_setting.png") !important;
-}
-
-#main-menu #menu-control
-{
-	background-image                 : url("./image/img_menu_control.png") !important;
 }
 
 #main-menu a.menu-name

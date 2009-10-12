@@ -14,9 +14,9 @@ if (!array_key_exists('defaultEditor',$_REQUEST) || !array_key_exists('defaultFo
 	Respond::ResultPage( -1);
 
 if (setBlogSetting("defaultEditor", $_REQUEST['defaultEditor']) 
-		&& setBlogSetting("defaultFormatter", $_REQUEST['defaultFormatter']) 
-		&& setBlogSetting("useBlogAPI", $useBlogAPI) 
-		&& setBlogSetting("blogApiPassword", $_REQUEST['blogApiPassword']) ) {
+		&& Setting::setBlogSettingGlobal("defaultFormatter", $_REQUEST['defaultFormatter']) 
+		&& Setting::setBlogSettingGlobal("useBlogAPI", $useBlogAPI) 
+		&& Setting::setBlogSettingGlobal("blogApiPassword", $_REQUEST['blogApiPassword']) ) {
 	Respond::ResultPage(0);
 }
 Respond::ResultPage( -1);

@@ -219,7 +219,7 @@ function addTag($blogid, $name) {
 	$tagId = getTagId($blogid,$name);
 	if(empty($tagId)) {
 		$query = DBModel::getInstance();
-		$query->reset($database['prefix']."Tags");
+		$query->reset("Tags");
 		$insertId = Tag::_getMaxId()+1;
 		$query->setAttribute('id',$insertId);
 		$query->setAttribute('name',$name,true);
@@ -237,7 +237,7 @@ function renameTag($blogid, $id, $name) {
 	$oldTagId = $id;
 	$newTagId = addTag($blogid, $name);
 	$query = DBModel::getInstance();
-	$query->reset($database['prefix']."TagRelations");
+	$query->reset("TagRelations");
 	$query->setAttribute('tag',$newTagId);
 	$query->setQualifier('blogid','equals',$blogid);
 	$query->setQualifier('tag','equals',$oldTagId);

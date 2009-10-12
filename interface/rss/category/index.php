@@ -3,10 +3,10 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 define('NO_SESSION', true);
+define('__TEXTCUBE_CUSTOM_HEADER__', true);
 define('__TEXTCUBE_LOGIN__',true);
 
 require ROOT . '/library/preprocessor.php';
-//requireModel("blog.entry");
 requireModel("blog.category");
 
 requireStrictBlogURL();

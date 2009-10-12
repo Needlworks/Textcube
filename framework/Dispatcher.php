@@ -148,8 +148,8 @@ final class Dispatcher {
 							$interfacePath = 'interface/blog/'.$pathPart.'.php';
 							break;
 						case 'rss': case 'atom':
-							if($uri['fragment'][1] == 'category') {
-								$pathPart = $uri['fragment'][0].'/category';
+							if(in_array($uri['fragment'][1],array('category','tag','search'))) {
+								$pathPart = $uri['fragment'][0].'/'.$uri['fragment'][1];
 								$interfacePath = 'interface/'.$pathPart.'/index.php';							
 							}
 							break;

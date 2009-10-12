@@ -606,7 +606,7 @@ ob_end_clean();
 										<dl id="advanced-foaf-line" class="line">
 											<dt><span class="label"><?php echo _t('FOAF 지원');?></span></dt>
 											<dd>
-												<input type="checkbox" id="useFOAF" class="checkbox" name="useFOAF"<?php echo getBlogSetting('useFOAF',1) ? ' checked="checked"' : '';?> /><label for="useFOAF"><?php echo _t('검색엔진이 링크 관계를 인식할 수 있도록 링크에 FOAF를 추가합니다.');?></label>
+												<input type="checkbox" id="useFOAF" class="checkbox" name="useFOAF"<?php echo Setting::getBlogSettingGlobal('useFOAF',1) ? ' checked="checked"' : '';?> /><label for="useFOAF"><?php echo _t('검색엔진이 링크 관계를 인식할 수 있도록 링크에 FOAF를 추가합니다.');?></label>
 											</dd>
 										</dl>
 									</fieldset>

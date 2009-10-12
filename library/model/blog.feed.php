@@ -105,7 +105,9 @@ function getFeedItemByEntries($entries) {
 		$content = preg_replace('/<a href=("|\')(#[^\1]+)\1/i', '<a href=$1' . htmlspecialchars($entryURL) . '$2$1', $content);
  		if (!$blog['publishWholeOnRSS']) {
 			$content .= "<p><strong><a href=\"" . htmlspecialchars($entryURL) . "\">" . _t('글 전체보기') . "</a></strong></p>";
- 		}
+ 		} else {
+			$content .= "<p><strong><a href=\"" . htmlspecialchars($entryURL) ."#entry".$row['id']."WriteComment\">" . _t('댓글 쓰기') . "</a></strong></p>";
+		}
 		$row['repliesCount'] = $row['comments'] + $row['trackbacks'];
 		$item = array(
 			'id' => $row['id'], 
@@ -215,7 +217,7 @@ function getCommentFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
 	$channel = initializeRSSchannel($blogid);
 	$channel['title'] = $blog['title']. ': '._text('최근 댓글 목록');
 	
-	$result = getRecentComments($blogid, getBlogSetting('commentsOnRSS',20), false, true);
+	$result = getRecentComments($blogid, Setting::getBlogSettingGlobal('commentsOnRSS',20), false, true);
 	if (!$result)
 		$result = array();
 
@@ -299,7 +301,7 @@ function getTrackbackFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
 	if(empty($blogid)) $blogid = getBlogId();
 	$channel = initializeRSSchannel($blogid);
 	$channel['title'] = RSSMessage($blog['title']. ': '._text('최근 트랙백 목록'));
-	$result = getRecentTrackbacks($blogid, getBlogSetting('commentsOnRSS',20), true);
+	$result = getRecentTrackbacks($blogid, Setting::getBlogSettingGlobal('commentsOnRSS',20), true);
 	if (!$result)
 		$result = array();
 
@@ -417,6 +419,71 @@ function getCommentNotifiedFeedTotal($blogid, $mode = 'rss') {
 	return false;
 }
 
+function getTagFeedByTagId($blogid, $tagId, $mode = 'rss', $tagTitle = null) {
+
+	global $database, $serviceURL, $defaultURL, $blog, $service;
+	$channel = array();
+	$channel = initializeRSSchannel($blogid);
+	$entries = POD::queryAll("SELECT 
+			e.*, 
+			c.name AS categoryName, 
+			u.name AS author
+		FROM {$database['prefix']}Entries e
+		LEFT JOIN {$database['prefix']}Categories c
+			ON e.blogid = c.blogid AND e.category = c.id
+		LEFT JOIN {$database['prefix']}Users u
+			ON e.userid = u.userid
+		LEFT JOIN {$database['prefix']}TagRelations t 
+			ON e.id = t.entry AND e.blogid = t.blogid 
+		WHERE e.blogid = $blogid AND e.draft = 0 AND e.visibility >= ".($blog['publishEolinSyncOnRSS'] ? '2' : '3')." AND c.visibility > 1 AND t.tag = $tagId
+		ORDER BY e.published 
+		DESC LIMIT {$blog['entriesOnRSS']}");
+	if (!$entries)
+		$entries = array();
+
+	$channel['items'] = getFeedItemByEntries($entries);
+	if(!is_null($tagTitle)) {
+		$channel['title'] = RSSMessage($blog['title']. ': '._textf('%1 태그 글 목록',htmlspecialchars($tagTitle)));
+	}
+	$rss = array('channel' => $channel);
+
+	if($mode == 'rss') return publishRSS($blogid, $rss);
+	else if($mode == 'atom') return publishATOM($blogid, $rss);
+	return false;
+}
+
+function getSearchFeedByKeyword($blogid, $search, $mode = 'rss', $title = null) {
+
+	global $database, $serviceURL, $defaultURL, $blog, $service;
+	$channel = array();
+	$channel = initializeRSSchannel($blogid);
+	$search = escapeSearchString($search);
+	$entries = POD::queryAll("SELECT 
+			e.*, 
+			c.name AS categoryName, 
+			u.name AS author
+		FROM {$database['prefix']}Entries e
+		LEFT JOIN {$database['prefix']}Categories c
+			ON e.blogid = c.blogid AND e.category = c.id
+		LEFT JOIN {$database['prefix']}Users u
+			ON e.userid = u.userid
+		WHERE e.blogid = $blogid AND e.draft = 0 AND e.visibility >= ".($blog['publishEolinSyncOnRSS'] ? '2' : '3')." AND c.visibility > 1 AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%') 
+		ORDER BY e.published 
+		DESC LIMIT {$blog['entriesOnRSS']}");
+	if (!$entries)
+		$entries = array();
+
+	$channel['items'] = getFeedItemByEntries($entries);
+	if(!is_null($title)) {
+		$channel['title'] = RSSMessage($blog['title']. ': '._textf('%1 이 포함된 글 목록',htmlspecialchars($title)));
+	}
+	$rss = array('channel' => $channel);
+
+	if($mode == 'rss') return publishRSS($blogid, $rss);
+	else if($mode == 'atom') return publishATOM($blogid, $rss);
+	return false;
+}
+
 function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss', $categoryTitle = null) {
 
 	global $database, $serviceURL, $defaultURL, $blog, $service;
@@ -446,7 +513,6 @@ function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss', $cate
 	else if($mode == 'atom') return publishATOM($blogid, $rss);
 	return false;
 }
-
 function getLinesFeed($blogid, $category = 'public', $mode = 'atom') {
 	global $blog;
 	$channel = array();
@@ -469,7 +535,7 @@ function getLinesFeed($blogid, $category = 'public', $mode = 'atom') {
 }
 
 function publishRSS($blogid, $data) {
-	global $blog;
+	$context = Model_Context::getInstance();
 	$blogid = getBlogId();
 	ob_start();
 	echo '<?xml version="1.0" encoding="UTF-8"?>', CRLF;
@@ -482,7 +548,7 @@ function publishRSS($blogid, $data) {
 	echo '		<pubDate>', Timestamp::getRFC1123($data['channel']['pubDate']), '</pubDate>', CRLF;
 	echo '		<generator>', $data['channel']['generator'], '</generator>', CRLF;
 
-	if (!empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
+	if ($context->getProperty('blog.logo') && file_exists(ROOT."/attach/$blogid/{$context->getProperty('blog.logo')}")) {
 		echo '		<image>', CRLF;
 		echo '		<title>', htmlspecialchars($data['channel']['title'], ENT_QUOTES), '</title>', CRLF;
 		echo '		<url>', $data['channel']['url'], '</url>', CRLF;

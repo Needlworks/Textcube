@@ -6,7 +6,7 @@ if (!defined('ROOT')) {
 }
 
 // TODO: generalize for multiple language support e.g. skin language
-$setting = getBlogSettings($blogid);
+$setting = Setting::getBlogSettingsGlobal($blogid);
 require 'owner/'.$setting['language'].'.php';
 
 echo "__text = {\n";

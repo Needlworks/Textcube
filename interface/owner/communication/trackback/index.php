@@ -39,7 +39,7 @@ $site = empty($_POST['site']) ? '' : $_POST['site'];
 $url = empty($_POST['url']) ? '' : $_POST['url'];
 $ip = empty($_POST['ip']) ? '' : $_POST['ip'];
 $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
-$perPage = getBlogSetting('rowsPerPage', 10);
+$perPage = Setting::getBlogSettingGlobal('rowsPerPage', 10);
 if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
 	setBlogSetting('rowsPerPage', $_POST['perPage']);

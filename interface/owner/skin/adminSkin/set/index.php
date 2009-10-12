@@ -11,7 +11,7 @@ $IV = array(
 
 require ROOT . '/library/preprocessor.php';
 
-if (empty($_POST['adminSkin']) || !file_exists(ROOT."/skin/admin/{$_POST['adminSkin']}/index.xml") || !setBlogSetting("adminSkin", $_POST['adminSkin']))
+if (empty($_POST['adminSkin']) || !file_exists(ROOT."/skin/admin/{$_POST['adminSkin']}/index.xml") || !Setting::setBlogSettingGlobal("adminSkin", $_POST['adminSkin']))
 	Respond::ResultPage(false);
 else
 	Respond::ResultPage(true);

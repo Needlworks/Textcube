@@ -4,15 +4,16 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function setBlogTitle($blogid, $title) {
-	global $blog;
-	if ($title == $blog['title'])
+	$context = Model_Context::getInstance();
+	if ($title == $context->getProperty('blog.title'))
 		return true;
-	if(setBlogSetting('title', UTF8::lessenAsEncoding($title, 255)) === false) return false;
+	if(Setting::setBlogSetting('title', UTF8::lessenAsEncoding($title, 255),true) === false) return false;
+	$context->setProperty('blog.title',$title);
 	$blog['title'] = $title;
 	requireModel('blog.feed');
 	requireLibrary('blog.skin');
 	clearFeed();
-	Skin::purgeCache();
+	CacheControl::flushSkin();
 	return true;
 }
 
@@ -25,7 +26,7 @@ function setBlogDescription($blogid, $description) {
 	requireModel('blog.feed');
 	requireLibrary('blog.skin');
 	clearFeed();
-	Skin::purgeCache();
+	CacheControl::flushSkin();
 	return true;
 }
 
@@ -38,7 +39,7 @@ function setBlogTags($blogid, $tags) {
 }
 
 function getBlogTags($blogid) {
-	if($tags = getBlogSetting('blogTags')) {
+	if($tags = Setting::getBlogSettingGlobal('blogTags')) {
 		return $tags;
 	}
 	return null;
@@ -149,8 +150,8 @@ function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSlog
 		&& $useSloganOnTag == $blog['useSloganOnTag'])
 		return true;
 /*	if(setBlogSetting('useSloganOnPost',$useSlogan) === false
-	|| setBlogSetting('useSloganOnCategory',$useSlogan) === false
-	|| setBlogSetting('useSloganOnTag',$useSlogan) === false
+	|| Setting::setBlogSettingGlobal('useSloganOnCategory',$useSlogan) === false
+	|| Setting::setBlogSettingGlobal('useSloganOnTag',$useSlogan) === false
 		) {
 		return false;
 	}*/
@@ -200,7 +201,7 @@ function setBlogLanguage($blogid, $language, $blogLanguage) {
 		return true;
 	$language = UTF8::lessenAsEncoding($language, 5);
 	$blogLanguage = UTF8::lessenAsEncoding($blogLanguage, 5);
-	if(setBlogSetting('language',$language) && setBlogSetting('blogLanguage',$blogLanguage)) {
+	if(Setting::setBlogSettingGlobal('language',$language) && Setting::setBlogSettingGlobal('blogLanguage',$blogLanguage)) {
 		$blog['language'] = $language;
 		$blog['blogLanguage'] = $blogLanguage;
 		clearFeed();
@@ -211,7 +212,7 @@ function setBlogLanguage($blogid, $language, $blogLanguage) {
 function setGuestbook($blogid, $write, $comment) {
 	if (!is_numeric($write) || !is_numeric($comment))
 		return false;
-	if(setBlogSetting('allowWriteOnGuestbook',$write) && setBlogSetting('allowWriteDblCommentOnGuestbook',$comment)) {
+	if(Setting::setBlogSettingGlobal('allowWriteOnGuestbook',$write) && Setting::setBlogSettingGlobal('allowWriteDblCommentOnGuestbook',$comment)) {
 		return true;
 	} else return false;
 }

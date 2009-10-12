@@ -68,7 +68,7 @@ if (!doesHaveMembership()) {
 				oForm.submit();
 			}
 			function confirmOverwrite() {
-				return confirm("<?php echo escapeJSInCData(_text('관리자가 방문객의 댓글을 수정하시면 작성자 이름을 관리자 아이디로 덮어 쓰게 됩니다.\n계속 하시겠습니까?'));?>");
+				return confirm("<?php echo escapeJSInCData(_text('관리자가 방문객의 댓글을 수정하시면 작성자 이름을 관리자 아이디로 덮어 쓰게 됩니다.')).escapeJSInCData('계속 하시겠습니까?');?>");
 			}
 		//]]>
 	</script>

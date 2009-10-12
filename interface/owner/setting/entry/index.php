@@ -157,7 +157,7 @@ foreach (getAllEditors() as $key => $value) {
 										<dl id="blogapi-password-line" class="line">
 											<dt><span class="label"><?php echo _t('블로그 API 용 비밀번호');?></span></dt>
 											<dd>
-												<input type="text" style="width:14em" class="input-text" id="blogApiPassword" name="blogApiPassword" value="<?php echo getBlogSetting("blogApiPassword", "");?>" />
+												<input type="text" style="width:14em" class="input-text" id="blogApiPassword" name="blogApiPassword" value="<?php echo Setting::getBlogSettingGlobal("blogApiPassword", "");?>" />
 												<input type="button" class="input-button" value="<?php echo _t('임의로 생성')?>" onclick="chooseBlogPassword()" />
 												<input type="button" class="input-button" value="<?php echo _t('관리자 비밀번호를 그대로 사용')?>" onclick="clearBlogPassword()" />
 											</dd>

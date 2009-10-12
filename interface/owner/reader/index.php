@@ -57,7 +57,7 @@ $setting = getReaderSetting($blogid);
 					TTReader.feedUpdating = "<?php echo _t('피드 업데이트 중');?>";
 					TTReader.feedFailure = "<?php echo _t('잘못된 피드');?>";
 					TTReader.feedUpdate = "<?php echo _t('피드 업데이트');?>";
-					Reader.isPannelCollapsed = <?php echo getBlogSetting('readerPannelVisibility', 1) == 1 ? 'false' : 'true';?>;
+					Reader.isPannelCollapsed = <?php echo Setting::getBlogSettingGlobal('readerPannelVisibility', 1) == 1 ? 'false' : 'true';?>;
 					STD.addEventListener(document);
 					document.addEventListener("mouseup", Reader.finishResizing, false);
 					STD.addEventListener(window);
@@ -106,7 +106,7 @@ if(defined('__TEXTCUBE_READER_SUBMENU__'))
 				
 				<div id="pseudo-box">
 					<div id="data-outbox">
-						<div id="pannel" style="display: <?php echo getBlogSetting('readerPannelVisibility', 1) == 1 ? 'block' : 'none';?>;">
+						<div id="pannel" style="display: <?php echo Setting::getBlogSettingGlobal('readerPannelVisibility', 1) == 1 ? 'block' : 'none';?>;">
 							<div id="groupsAndFeeds" class="part">
 								<h2 class="caption"><span class="main-text"><?php echo _t('피드 목록');?></span></h2>
 								
@@ -114,7 +114,7 @@ if(defined('__TEXTCUBE_READER_SUBMENU__'))
 									<div id="group-section" class="section">
 										<h3><?php echo _t('피드 그룹');?></h3>
 										
-										<div id="groupBox" class="container" style="height: <?php echo getBlogSetting('readerPannelHeight', 150);?>px;">
+										<div id="groupBox" class="container" style="height: <?php echo Setting::getBlogSettingGlobal('readerPannelHeight', 150);?>px;">
 <?php
 printFeedGroups($blogid);
 ?>
@@ -126,7 +126,7 @@ printFeedGroups($blogid);
 									<div id="feed-section" class="section">
 										<h3><?php echo _t('현재 그룹 내의 피드 목록');?></h3>
 									
-										<div id="feedBox" class="section" style="height: <?php echo getBlogSetting('readerPannelHeight', 150);?>px;">
+										<div id="feedBox" class="section" style="height: <?php echo Setting::getBlogSettingGlobal('readerPannelHeight', 150);?>px;">
 <?php
 printFeeds($blogid);
 ?>
@@ -246,8 +246,8 @@ if (getUserId() == 1) {
 									var show_str = '<?php echo _t('패널 보기');?>';
 									var hide_str = '<?php echo _t('패널 가리기');?>';
 									
-									document.write('<a id="toggleButton" class="pannel-<?php echo getBlogSetting('readerPannelVisibility', 1) == 1 ? 'show' : 'hide';?>" href="#void" onclick="Reader.togglePannel(event); return false;">');
-									document.write('<span class="text"><?php echo getBlogSetting('readerPannelVisibility', 1) == 1 ? _t('패널 가리기') : _t('패널 보기');?><\/span>');
+									document.write('<a id="toggleButton" class="pannel-<?php echo Setting::getBlogSettingGlobal('readerPannelVisibility', 1) == 1 ? 'show' : 'hide';?>" href="#void" onclick="Reader.togglePannel(event); return false;">');
+									document.write('<span class="text"><?php echo Setting::getBlogSettingGlobal('readerPannelVisibility', 1) == 1 ? _t('패널 가리기') : _t('패널 보기');?><\/span>');
 									document.write('<\/a>');
 								//]]>
 							</script>

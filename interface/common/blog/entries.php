@@ -25,7 +25,7 @@ if (isset($cache->contents)) {
 			'title="Responses (ATOM) : '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($blog['title']).'" '.
 			'href="'.$defaultURL.'/atom/response/'.$entry['id'].'" />'.CRLF;
 	}
-	if( getBlogSetting('useFOAF',1) && rtrim( $suri['url'], '/' ) == $pathURL ) {
+	if( Setting::getBlogSettingGlobal('useFOAF',1) && rtrim( $suri['url'], '/' ) == $pathURL ) {
 		/* same code exists in cover.php */
 		$foafDiscovery = "<link rel=\"meta\" type=\"application/rdf+xml\" title=\"FOAF\" href=\"$defaultURL/foaf\" />\n";
 	} else {
@@ -83,7 +83,7 @@ if (isset($cache->contents)) {
 			$entryTags = getTags($entry['blogid'], $entry['id']);
 			if (sizeof($entryTags) > 0) {
 				$tags = array();
-				$relTag = getBlogSetting('useMicroformat', 3)>1 && (count($entries) == 1 || !empty($skin->hentryExisted) );
+				$relTag = Setting::getBlogSettingGlobal('useMicroformat', 3)>1 && (count($entries) == 1 || !empty($skin->hentryExisted) );
 				foreach ($entryTags as $entryTag) {
 					$tags[$entryTag['name']] = "<a href=\"$defaultURL/tag/" . (getBlogSetting('useSloganOnTag',true) ? URL::encode($entryTag['name'],$service['useEncodedURL']) : $entryTag['id']). '"' . ($relTag ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>';
 					array_push($totalTags,$entryTag['name']);

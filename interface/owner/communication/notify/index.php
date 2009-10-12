@@ -38,7 +38,7 @@ $name = isset($_POST['name']) && !empty($_POST['name']) ? $_POST['name'] : $name
 $ip = isset($_GET['ip']) && !empty($_GET['ip']) ? $_GET['ip'] : '';
 $ip = isset($_POST['ip']) && !empty($_POST['ip']) ? $_POST['ip'] : $ip;
 $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
-$perPage = getBlogSetting('rowsPerPage', 10); 
+$perPage = Setting::getBlogSettingGlobal('rowsPerPage', 10); 
 if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
 	setBlogSetting('rowsPerPage', $_POST['perPage']);
@@ -198,7 +198,7 @@ require ROOT . '/interface/common/owner/communicationTab.php';
 <?php
 $more = false;
 $mergedComments = array();
-$lastVisitNotifiedPage = getBlogSetting('lastVisitNotifiedPage', null);
+$lastVisitNotifiedPage = Setting::getBlogSettingGlobal('lastVisitNotifiedPage', null);
 setBlogSetting('lastVisitNotifiedPage', time());
 for ($i = 0; $i < count($comments); $i++) {
 	array_push($mergedComments, $comments[$i]);
