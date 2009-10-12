@@ -441,10 +441,10 @@ function getCommentView($entry, $skin) {
 	}
 
 	if ($useForm == true) {
-		dress($prefix1 . '_input_form', "<form id=\"entry".$entry['id']."comment\" method=\"post\" action=\"$blogURL/comment/add/{$entry['id']}\" onsubmit=\"return false\" style=\"margin: 0\">" . $commentView . '</form>', $commentRrevView);
+		dress($prefix1 . '_input_form', "<form id=\"entry".$entry['id']."WriteComment\" method=\"post\" action=\"$blogURL/comment/add/{$entry['id']}\" onsubmit=\"return false\" style=\"margin: 0\">" . $commentView . '</form>', $commentRrevView);
 		$commentView = $commentRrevView;
 	} else {
-		$commentView = "<form id=\"entry".$entry['id']."comment\" method=\"post\" action=\"$blogURL/comment/add/{$entry['id']}\" onsubmit=\"return false\" style=\"margin: 0\">" . $commentView . '</form>';
+		$commentView = "<form id=\"entry".$entry['id']."WriteComment\" method=\"post\" action=\"$blogURL/comment/add/{$entry['id']}\" onsubmit=\"return false\" style=\"margin: 0\">" . $commentView . '</form>';
 	}
 
 	return $commentView;
