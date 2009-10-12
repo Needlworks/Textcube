@@ -37,15 +37,15 @@ function removeServiceSetting($name,$pruneSimilarEntries = false) {
 	else return POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name = '".POD::escapeString($name)."'");
 }
 
-function Setting::getBlogSettingGlobal($name, $default = null, $blogid = null) {
-	return Setting::getBlogSettingGlobal($name, $default);
+function getBlogSetting($name, $default = null, $blogid = null) {
+	return Setting::getBlogSetting($name, $default, true);
 }
 
 function setBlogSetting($name, $value, $blogid = null) {
-	return Setting::setBlogSettingGlobal($name, $value, $blogid);
+	return Setting::setBlogSetting($name, $value, $blogid, true);
 }
 
-function setBlogSettingDefault($name, $value, $blogid = null) {
+function Setting::setBlogSettingGlobalDefault($name, $value, $blogid = null) {
 	return Setting::setBlogSettingDefault($name, $value, $blogid);
 }
 

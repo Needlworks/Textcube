@@ -150,8 +150,8 @@ function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSlog
 		&& $useSloganOnTag == $blog['useSloganOnTag'])
 		return true;
 /*	if(setBlogSetting('useSloganOnPost',$useSlogan) === false
-	|| setBlogSetting('useSloganOnCategory',$useSlogan) === false
-	|| setBlogSetting('useSloganOnTag',$useSlogan) === false
+	|| Setting::setBlogSettingGlobal('useSloganOnCategory',$useSlogan) === false
+	|| Setting::setBlogSettingGlobal('useSloganOnTag',$useSlogan) === false
 		) {
 		return false;
 	}*/
@@ -201,7 +201,7 @@ function setBlogLanguage($blogid, $language, $blogLanguage) {
 		return true;
 	$language = UTF8::lessenAsEncoding($language, 5);
 	$blogLanguage = UTF8::lessenAsEncoding($blogLanguage, 5);
-	if(setBlogSetting('language',$language) && setBlogSetting('blogLanguage',$blogLanguage)) {
+	if(Setting::setBlogSettingGlobal('language',$language) && Setting::setBlogSettingGlobal('blogLanguage',$blogLanguage)) {
 		$blog['language'] = $language;
 		$blog['blogLanguage'] = $blogLanguage;
 		clearFeed();
@@ -212,7 +212,7 @@ function setBlogLanguage($blogid, $language, $blogLanguage) {
 function setGuestbook($blogid, $write, $comment) {
 	if (!is_numeric($write) || !is_numeric($comment))
 		return false;
-	if(setBlogSetting('allowWriteOnGuestbook',$write) && setBlogSetting('allowWriteDblCommentOnGuestbook',$comment)) {
+	if(Setting::setBlogSettingGlobal('allowWriteOnGuestbook',$write) && Setting::setBlogSettingGlobal('allowWriteDblCommentOnGuestbook',$comment)) {
 		return true;
 	} else return false;
 }

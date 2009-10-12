@@ -1149,8 +1149,8 @@ function publishEntries() {
 		$newClosestTime = POD::queryCell("SELECT min(published)
 			FROM {$database['prefix']}Entries
 			WHERE blogid = $blogid AND draft = 0 AND visibility < 0 AND published > UNIX_TIMESTAMP()");
-		if(!empty($newClosestTime)) setBlogSetting('closestReservedPostTime',$newClosestTime);
-		else setBlogSetting('closestReservedPostTime',INT_MAX);
+		if(!empty($newClosestTime)) Setting::setBlogSettingGlobal('closestReservedPostTime',$newClosestTime);
+		else Setting::setBlogSettingGlobal('closestReservedPostTime',INT_MAX);
 	}
 }
 
