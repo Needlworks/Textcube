@@ -150,7 +150,7 @@ foreach (getAllEditors() as $key => $value) {
 										<dl id="blogapi-line" class="line">
 											<dt><span class="label"><?php echo _t('블로그 API 사용 여부');?></span></dt>
 											<dd>
-												<input type="checkbox" class="checkbox" id="useBlogAPI" name="useBlogAPI" value="yes" <?php echo (getBlogSetting("useBlogAPI", 0) == "1") ? ' checked="checked"' : '';?> /><label for="useBlogAPI"><?php echo _t('MetaWeblog API나 Blogger API를 이용하여 글을 작성할 수 있도록 합니다.');?></label>
+												<input type="checkbox" class="checkbox" id="useBlogAPI" name="useBlogAPI" value="yes" <?php echo (Setting::getBlogSettingGlobal("useBlogAPI", 0) == "1") ? ' checked="checked"' : '';?> /><label for="useBlogAPI"><?php echo _t('MetaWeblog API나 Blogger API를 이용하여 글을 작성할 수 있도록 합니다.');?></label>
 											</dd>
 											<dd><?php echo _t('이 기능을 사용할 경우 BlogAPI를 지원하는 다양한 외부 프로그램을 사용하여 블로그에 글을 작성할 수 있습니다.').'<br />'._t('외부 프로그램에 텍스트큐브를 등록할 경우, BlogAPI 종류로는 MovableType 혹은 MetaWeblog API를 선택하시면 됩니다.'); ?></dd>
 										</dl>
@@ -269,7 +269,7 @@ if (extension_loaded('gd')) {
 										<dl id="resampling-default-line" class="line">
 											<dt><span class="label"><?php echo _t('기본 설정');?></span></dt>
 											<dd>
-												<input type="checkbox" class="checkbox" id="useResamplingAsDefault" name="useResamplingAsDefault" value="yes"<?php echo (getBlogSetting("resamplingDefault") == "yes") ? ' checked="checked"' : NULL;?> /><label for="useResamplingAsDefault"><?php echo _t('이미지 리샘플링 기능을 기본으로 사용합니다.');?> </label><br /><?php echo _t('이미지 리샘플링을 통하여 올린 이미지의 크기를 줄여 저장한 후 출력하여 블로그의 트래픽을 줄여줍니다.');?> <em><?php echo _t('이 기능을 사용하면 올린 이미지의 크기를 줄여 저장하는 과정에서 서버에 무리를 줄 수 있으니 주의하시기 바랍니다.');?></em>
+												<input type="checkbox" class="checkbox" id="useResamplingAsDefault" name="useResamplingAsDefault" value="yes"<?php echo (Setting::getBlogSettingGlobal("resamplingDefault") == "yes") ? ' checked="checked"' : NULL;?> /><label for="useResamplingAsDefault"><?php echo _t('이미지 리샘플링 기능을 기본으로 사용합니다.');?> </label><br /><?php echo _t('이미지 리샘플링을 통하여 올린 이미지의 크기를 줄여 저장한 후 출력하여 블로그의 트래픽을 줄여줍니다.');?> <em><?php echo _t('이 기능을 사용하면 올린 이미지의 크기를 줄여 저장하는 과정에서 서버에 무리를 줄 수 있으니 주의하시기 바랍니다.');?></em>
 											</dd>
 										</dl>
 									</fieldset>

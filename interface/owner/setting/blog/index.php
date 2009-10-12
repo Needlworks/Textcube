@@ -756,7 +756,7 @@ if( $acceptTrackbacks ) {
 										<dl id="blog-iphone-ui-line" class="line">
 											<dt><span class="label"><?php echo _t('모바일 인터페이스');?></span></dt>
 											<dd>
-												<input type="checkbox" id="useiPhoneUI" class="checkbox" name="useiPhoneUI"<?php echo (getBlogSetting('useiPhoneUI',true) ? ' checked="checked"' : '');?> /><label for="useiPhoneUI"><?php echo _t('iPhone / iPod Touch로 블로그에 접속할 경우 자동으로 iPhone용 인터페이스로 이동합니다.');?></label>
+												<input type="checkbox" id="useiPhoneUI" class="checkbox" name="useiPhoneUI"<?php echo (Setting::getBlogSettingGlobal('useiPhoneUI',true) ? ' checked="checked"' : '');?> /><label for="useiPhoneUI"><?php echo _t('iPhone / iPod Touch로 블로그에 접속할 경우 자동으로 iPhone용 인터페이스로 이동합니다.');?></label>
 											</dd>
 										</dl>
 									</fieldset>

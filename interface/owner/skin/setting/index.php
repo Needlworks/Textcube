@@ -597,9 +597,9 @@ ob_end_clean();
 										<dl id="advanced-microformat-line" class="line">
 											<dt><span class="label"><?php echo _t('Microformat 지원');?></span></dt>
 											<dd>
-												<input type="radio" id="microformatNone" class="radio" name="useMicroformat" value="1" <?php echo (getBlogSetting('useMicroformat',3) == 1 ? 'checked = "checked"' : '');?> /><label for="microformatNone"><?php echo _t('Microformat을 사용하지 않습니다.');?></label><br />
-												<input type="radio" id="microformatSome" class="radio" name="useMicroformat" value="2" <?php echo (getBlogSetting('useMicroformat',3) == 2 ? 'checked = "checked"' : '');?> /><label for="microformatSome"><?php echo _t('웹표준 권고안과 충돌할 수도 있는 규약을 제외한 Microformat을 사용합니다.');?></label><br />
-												<input type="radio" id="microformatFull" class="radio" name="useMicroformat" value="3" <?php echo (getBlogSetting('useMicroformat',3) == 3 ? 'checked = "checked"' : '');?> /><label for="microformatFull"><?php echo _t('가능한 모든 Microformat을 지원합니다.');?></label>
+												<input type="radio" id="microformatNone" class="radio" name="useMicroformat" value="1" <?php echo (Setting::getBlogSettingGlobal('useMicroformat',3) == 1 ? 'checked = "checked"' : '');?> /><label for="microformatNone"><?php echo _t('Microformat을 사용하지 않습니다.');?></label><br />
+												<input type="radio" id="microformatSome" class="radio" name="useMicroformat" value="2" <?php echo (Setting::getBlogSettingGlobal('useMicroformat',3) == 2 ? 'checked = "checked"' : '');?> /><label for="microformatSome"><?php echo _t('웹표준 권고안과 충돌할 수도 있는 규약을 제외한 Microformat을 사용합니다.');?></label><br />
+												<input type="radio" id="microformatFull" class="radio" name="useMicroformat" value="3" <?php echo (Setting::getBlogSettingGlobal('useMicroformat',3) == 3 ? 'checked = "checked"' : '');?> /><label for="microformatFull"><?php echo _t('가능한 모든 Microformat을 지원합니다.');?></label>
 											</dd>
 										</dl>
 

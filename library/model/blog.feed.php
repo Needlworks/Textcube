@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function RSSMessage($message) {
-	$isPublic = (getBlogSetting('visibility',2) == 2 ? true : false);
+	$isPublic = (Setting::getBlogSettingGlobal('visibility',2) == 2 ? true : false);
 	return ($isPublic ? $message : _text('비공개'));
 }
 
@@ -86,7 +86,7 @@ function initializeRSSchannel($blogid = null) {
 	$channel['pubDate'] = Timestamp::getUNIXtime();
 	$channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
 
-	if ((getBlogSetting('visibility',2) == 2) && !empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
+	if ((Setting::getBlogSettingGlobal('visibility',2) == 2) && !empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
 		$logoInfo = getimagesize(ROOT."/attach/$blogid/{$blog['logo']}");
 		$channel['url'] = $serviceURL."/attach/".$blogid."/".$blog['logo'];
 		$channel['width'] = $logoInfo[0];

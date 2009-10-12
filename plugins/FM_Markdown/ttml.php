@@ -353,7 +353,7 @@ function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderU
 		case 'jpg':case 'jpeg':case 'gif':case 'png':case 'bmp':
 			$bPassing = false;
 			if (defined('__TEXTCUBE_MOBILE__') || defined('__TEXTCUBE_IPHONE__')) {
-				if (!is_null(getBlogSetting("resamplingDefault"))) {
+				if (!is_null(Setting::getBlogSettingGlobal("resamplingDefault"))) {
 					$waterMarkOn = Setting::getBlogSettingGlobal("waterMarkDefault", "no");
 					$exist = preg_match('/class="tt-watermark"/i', $property);
 					if (($waterMarkOn == 'yes') && ($exist == 1)) $bPassing = true;
