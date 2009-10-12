@@ -20,11 +20,11 @@ $backupSort = Setting::getBlogSettingGlobal('pluginListSortType');
 $backupListView = Setting::getBlogSettingGlobal('pluginViewType');
 
 // 하나라도 저장에 실패하면 롤백.
-if (!setBlogSetting("pluginListScopeType_{$_POST['visibility']}", $_POST['scope']) || !setBlogSetting("pluginListStatusType_{$_POST['visibility']}", $_POST['status']) || !setBlogSetting("pluginListSortType", $_POST['sort']) || !setBlogSetting("pluginViewType", $_POST['viewtype'])) {
-	setBlogSetting("pluginListScopeType_{$_POST['visibility']}", $backupScope);
-	setBlogSetting("pluginListStatusType_{$_POST['visibility']}", $backupStatus);
-	setBlogSetting("pluginListSortType", $backupSort);
-	setBlogSetting("pluginViewType", $backupListView);
+if (!Setting::setBlogSettingGlobal("pluginListScopeType_{$_POST['visibility']}", $_POST['scope']) || !Setting::setBlogSettingGlobal("pluginListStatusType_{$_POST['visibility']}", $_POST['status']) || !Setting::setBlogSettingGlobal("pluginListSortType", $_POST['sort']) || !Setting::setBlogSettingGlobal("pluginViewType", $_POST['viewtype'])) {
+	Setting::setBlogSettingGlobal("pluginListScopeType_{$_POST['visibility']}", $backupScope);
+	Setting::setBlogSettingGlobal("pluginListStatusType_{$_POST['visibility']}", $backupStatus);
+	Setting::setBlogSettingGlobal("pluginListSortType", $backupSort);
+	Setting::setBlogSettingGlobal("pluginViewType", $backupListView);
 	Respond::ResultPage(1);
 } else {
 	Respond::ResultPage(0);
