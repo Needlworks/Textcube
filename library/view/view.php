@@ -225,17 +225,20 @@ function getTrackbacksView($entry, $skin, $accepttrackback) {
 	return $trackbacksView;
 }
 
-function getCommentView($entry, $skin, $inputBlock = true, $page = 1) {
-	global $database, $blogURL, $service, $suri, $paging, $contentContainer, $skinSetting, $blog, $skin;
+function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = 20) {
+	global $contentContainer, $skinSetting, $skin;
 	static $dressCommentBlock = false;
+	$context = Model_Context::getInstance();
+	
 	if(!isset($entry)) $entry['id'] = 0;
 	$blogid = getBlogId();
+	$useAjaxBlock = $context->getProperty('blog.useAjaxComment',true);
 	requireModel("common.setting");
 	requireModel("blog.entry");
 	requireModel("blog.comment");
 	requireLibrary('blog.skin');
 	$authorized = doesHaveOwnership();
-	$useMicroformat = Setting::getBlogSettingGlobal('useMicroformat',3);
+	$useMicroformat = $context->getProperty('blog.useMicroformat',3);
 	$fn = '';
 	$fn_nickname = '';
 	if( $useMicroformat > 1 ) {
@@ -254,7 +257,7 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1) {
 	if ($isComment == false) {
 		global $comments;
 		if(!isset($comments)) {
-			list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $suri['page'], $skinSetting['commentsOnGuestbook']);
+			list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $context->getProperty('suri.page'), $skinSetting['commentsOnGuestbook']);
 		}
 		foreach ($comments as $key => $value) {
 			if ($value['secret'] == 1) {
@@ -270,7 +273,11 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1) {
 			}
 		}
 	} else {
-		list($comments, $paging) = getCommentsWithPaging($blogid, $entry['id'], $page, 5);
+		if($useAjaxBlock) {
+			list($comments, $paging) = getCommentsWithPaging($blogid, $entry['id'], $page, $count,'loadComment','('.$entry['id'].',',');return false;');
+		} else {
+			$comments = getComments($entry['id']);	
+		}
 	}
 	if(empty($skin->dressCommentBlock)) {
 		if( $dressCommentBlock ) {
@@ -318,7 +325,7 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1) {
 			$contentContainer["{$prefix1}_{$commentSubItem['id']}"] = fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense($commentSubItem['comment'], ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem);
 			dress($prefix1 . '_rep_desc', setTempTag("{$prefix1}_{$commentSubItem['id']}"), $commentSubItemView);
 			dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentSubItem['written']), $commentSubItem['written']), $commentSubItemView);
-			dress($prefix1 . '_rep_link',"$blogURL/".($entry['id'] == 0 ? "guestbook/{$commentItem['id']}#guestbook{$commentSubItem['id']}" : ($blog['useSloganOnPost'] ? "entry/".URL::encode($entry['slogan'],$service['useEncodedURL']) : $entry['id'])."#comment{$commentSubItem['id']}"), $commentSubItemView);
+			dress($prefix1 . '_rep_link',$context->getProperty('uri.blog')."/".($entry['id'] == 0 ? "guestbook/{$commentItem['id']}#guestbook{$commentSubItem['id']}" : ($context->getProperty('blog.useSloganOnPost') ? "entry/".URL::encode($entry['slogan'],$context->getProperty('service.useEncodedURL')) : $entry['id'])."#comment{$commentSubItem['id']}"), $commentSubItemView);
 			dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentSubItem['id']}); return false;", $commentSubItemView);
 			
 			$commentSubItemsView .= $commentSubItemView;
@@ -364,8 +371,7 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1) {
 		}
 		dress($prefix1 . '_rep_onclick_reply', $doubleCommentPermissionScript . "commentComment({$commentItem['id']}); return false", $commentItemView);
 		dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentItem['id']});return false", $commentItemView);
-//		dress($prefix1 . '_rep_link', "$blogURL/".($entry['id'] == 0 ? "guestbook/{$commentSubItem['id']}#guestbook{$commentItem['id']}" : "{$entry['id']}#comment{$commentItem['id']}"), $commentItemView);
-		dress($prefix1 . '_rep_link',"$blogURL/".($entry['id'] == 0 ? "guestbook/{$commentItem['id']}#guestbook{$commentItem['id']}" : ($blog['useSloganOnPost'] ? "entry/".URL::encode($entry['slogan'],$service['useEncodedURL']) : $entry['id'])."#comment{$commentItem['id']}"), $commentItemView);
+		dress($prefix1 . '_rep_link',$context->getProperty('uri.blog')."/".($entry['id'] == 0 ? "guestbook/{$commentItem['id']}#guestbook{$commentItem['id']}" : ($context->getProperty('blog.useSloganOnPost') ? "entry/".URL::encode($entry['slogan'],$context->getProperty('service.useEncodedURL')) : $entry['id'])."#comment{$commentItem['id']}"), $commentItemView);
 		
 		$commentItemsView .= $commentItemView;
 	}
@@ -373,15 +379,24 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1) {
 	$commentContainer = ($isComment ? $skin->commentContainer : $skin->guestContainer);
 	dress(($isComment ? 'rp_rep' : 'guest_rep'), $commentItemsView, $commentContainer);
 	if (count($comments) > 0) {
-		$pagingView = getPagingView($paging, $skin->paging, $skin->pagingItem);
+		if($useAjaxBlock) {
+			$pagingView = Paging::getPagingView($paging, $skin->paging, $skin->pagingItem, false, 'onclick');
+		} else $pagingView = '';
 		dress($prefix1 . '_container', $commentContainer.$pagingView, $commentView);		
-//		$commentView .= $pagingView;
 	}
 
 	// Comment write block
 	if($inputBlock == true) {
-		$acceptcomment = POD::queryCell("SELECT acceptcomment FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = {$entry['id']}");
-	
+		if(!empty($entry['acceptcomment'])) {
+			$acceptcomment = $entry['acceptcomment'];
+		} else {
+			$pool = DBModel::getInstance();
+			$pool->reset('Entries');
+			$pool->setQualifier('blogid','equals',$blogid);
+			$pool->setQualifier('id','equals',$entry['id']);
+			$pool->setQualifier('draft','equals',0);
+			$acceptcomment = $pool->getCell('acceptcomment');
+		}
 		$useForm = false;
 		$openid_identity = Acl::getIdentity('openid');
 		if ($isComment) {
@@ -400,42 +415,39 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1) {
 	
 		$default_guestname = '';
 		$default_homepage = '';
-	
 		if (doesHaveOwnership() || ($isComment && $acceptcomment == 1 && Setting::getBlogSettingGlobal('acceptComments',1)) || ($isComment == false) || ($useForm == false)) {
-	//		if (!doesHaveOwnership()) {
-				$commentMemberView = ($isComment ? $skin->commentMember : $skin->guestMember);
-				if (!doesHaveMembership()) {
-					$commentGuestView = ($isComment ? $skin->commentGuest : $skin->guestGuest);
-					dress($prefix1 . '_input_name', 'name', $commentGuestView);
-					dress($prefix1 . '_input_password', 'password', $commentGuestView);
-					dress($prefix1 . '_input_homepage', 'homepage', $commentGuestView);
-					if (!empty($_POST["name_{$entry['id']}"]))
-						$guestName = htmlspecialchars($_POST["name_{$entry['id']}"]);
-					else if (!empty($_SESSION['openid']['nickname']))
-						$guestName = htmlspecialchars($_SESSION['openid']['nickname']);
-					else if (!empty($_COOKIE['guestName']))
-						$guestName = htmlspecialchars($_COOKIE['guestName']);
+			$commentMemberView = ($isComment ? $skin->commentMember : $skin->guestMember);
+			if (!doesHaveMembership()) {
+				$commentGuestView = ($isComment ? $skin->commentGuest : $skin->guestGuest);
+				dress($prefix1 . '_input_name', 'name', $commentGuestView);
+				dress($prefix1 . '_input_password', 'password', $commentGuestView);
+				dress($prefix1 . '_input_homepage', 'homepage', $commentGuestView);
+				if (!empty($_POST["name_{$entry['id']}"]))
+					$guestName = htmlspecialchars($_POST["name_{$entry['id']}"]);
+				else if (!empty($_SESSION['openid']['nickname']))
+					$guestName = htmlspecialchars($_SESSION['openid']['nickname']);
+				else if (!empty($_COOKIE['guestName']))
+					$guestName = htmlspecialchars($_COOKIE['guestName']);
+				else
+					$guestName = '';
+				dress('guest_name', $guestName, $commentGuestView);
+				if (!empty($_POST["homepage_{$entry['id']}"]) && $_POST["homepage_{$entry['id']}"] != 'http://') {
+					if (strpos($_POST["homepage_{$entry['id']}"], 'http://') === 0)
+						$guestHomepage = htmlspecialchars($_POST["homepage_{$entry['id']}"]);
 					else
-						$guestName = '';
-					dress('guest_name', $guestName, $commentGuestView);
-					if (!empty($_POST["homepage_{$entry['id']}"]) && $_POST["homepage_{$entry['id']}"] != 'http://') {
-						if (strpos($_POST["homepage_{$entry['id']}"], 'http://') === 0)
-							$guestHomepage = htmlspecialchars($_POST["homepage_{$entry['id']}"]);
-						else
-							$guestHomepage = 'http://' . htmlspecialchars($_POST["homepage_{$entry['id']}"]);
-					} else if (!empty($_SESSION['openid']['homepage'])) {
-						$guestHomepage = htmlspecialchars($_SESSION['openid']['homepage']);
-					} else if (!empty($_COOKIE['guestHomepage'])) {
-						$guestHomepage = htmlspecialchars($_COOKIE['guestHomepage']);
-					}
-					else
-						$guestHomepage = 'http://';
-					dress('guest_homepage', $guestHomepage, $commentGuestView);
-					dress($prefix1 . ($isComment ? '_guest' : '_form'), $commentGuestView, $commentMemberView);
+						$guestHomepage = 'http://' . htmlspecialchars($_POST["homepage_{$entry['id']}"]);
+				} else if (!empty($_SESSION['openid']['homepage'])) {
+					$guestHomepage = htmlspecialchars($_SESSION['openid']['homepage']);
+				} else if (!empty($_COOKIE['guestHomepage'])) {
+					$guestHomepage = htmlspecialchars($_COOKIE['guestHomepage']);
 				}
-				dress($prefix1 . '_input_is_secret', 'secret', $commentMemberView);
-				dress($prefix1 . '_member', $commentMemberView, $commentView);
-	//		}
+				else
+					$guestHomepage = 'http://';
+				dress('guest_homepage', $guestHomepage, $commentGuestView);
+				dress($prefix1 . ($isComment ? '_guest' : '_form'), $commentGuestView, $commentMemberView);
+			}
+			dress($prefix1 . '_input_is_secret', 'secret', $commentMemberView);
+			dress($prefix1 . '_member', $commentMemberView, $commentView);
 	
 			dress($prefix1 . '_input_comment', 'comment', $commentView);
 			dress($prefix1 . '_onclick_submit', "addComment(this, {$entry['id']}); return false;", $commentView);
@@ -446,10 +458,10 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1) {
 		}
 	
 		if ($useForm == true) {
-			dress($prefix1 . '_input_form', "<form id=\"entry".$entry['id']."WriteComment\" method=\"post\" action=\"$blogURL/comment/add/{$entry['id']}\" onsubmit=\"return false\" style=\"margin: 0\">" . $commentView . '</form>', $commentRrevView);
+			dress($prefix1 . '_input_form', "<form id=\"entry".$entry['id']."WriteComment\" method=\"post\" action=\"".$context->getProperty('uri.blog')."/comment/add/{$entry['id']}\" onsubmit=\"return false\" style=\"margin: 0\">" . $commentView . '</form>', $commentRrevView);
 			$commentView = $commentRrevView;
 		} else {
-			$commentView = "<form id=\"entry".$entry['id']."WriteComment\" method=\"post\" action=\"$blogURL/comment/add/{$entry['id']}\" onsubmit=\"return false\" style=\"margin: 0\">" . $commentView . '</form>';
+			$commentView = "<form id=\"entry".$entry['id']."WriteComment\" method=\"post\" action=\"".$context->getProperty('uri.blog')."/comment/add/{$entry['id']}\" onsubmit=\"return false\" style=\"margin: 0\">" . $commentView . '</form>';
 		}
 	}
 	return $commentView;

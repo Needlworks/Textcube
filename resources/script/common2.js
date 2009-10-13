@@ -1234,6 +1234,19 @@ function recallLastComment(caller,entryId) {
 	}
 }
 
+function loadComment(entryId, page) {
+
+	var request = new HTTPRequest("POST", blogURL + '/comment/load/' + entryId);
+	request.onSuccess = function () {
+		document.getElementById("entry" + entryId + "Comment").innerHTML = this.getText("/response/commentBlock");
+		window.location.href = '#entry' + entryId + 'Comment';
+	}
+	request.onError = function() {
+	}
+	request.send('&page='+page);
+}
+
+
 var openWindow='';
 
 function openCenteredWindow(url, name, width, height, scrollbars) {

@@ -29,7 +29,7 @@ final class Model_Context extends Singleton
 		$this->__property[$key] = $value;
 	}
 
-	public function getProperty($key) {
+	public function getProperty($key, $defaultValue = null) {
 		global $pluginName;
 		if(strpos($key,'.') === false) {	// If key doesn't contain namespace,
 			if (!empty($this->__namespace)) $key = $this->__namespace.'.'.$key;
@@ -42,7 +42,7 @@ final class Model_Context extends Singleton
 			}
 		}
 		if (isset($this->__property[$key])) return $this->__property[$key];
-		else return null;
+		else return $defaultValue;
 	}
 	
 	public function useNamespace($ns = null) {

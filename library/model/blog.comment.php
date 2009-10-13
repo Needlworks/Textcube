@@ -223,7 +223,7 @@ function getCommentCommentsNotified($parent) {
 	return $comments;
 }
 
-function getCommentsWithPaging($blogid, $entryId, $page, $count, $url = null, $prefix = '?page=', $countItem = null) {
+function getCommentsWithPaging($blogid, $entryId, $page, $count, $url = null, $prefix = '?page=', $postfix = '', $countItem = null) {
 	global $database;
 	$comments = array();
 	$sql = "SELECT * FROM {$database['prefix']}Comments
@@ -233,6 +233,7 @@ function getCommentsWithPaging($blogid, $entryId, $page, $count, $url = null, $p
 			AND isfiltered = 0
 		ORDER BY written DESC";
 	list($comments, $paging) = Paging::fetchWithPaging($sql, $page, $count, $url, $prefix, $countItem);
+	$paging['postfix'] = $postfix;
 	$comments = coverComments($comments);
 	return array($comments, $paging);
 }
