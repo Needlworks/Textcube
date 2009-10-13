@@ -79,7 +79,11 @@ $selected = 0;
 									} else {
 										tagboxAlign = 3;
 									}
-									
+									if (document.getElementById('pagingComment').checked) {
+										useAjaxComment = 1;
+									} else {
+										useAjaxComment = 0;									
+									}									
 									if (document.getElementById('microformatNone').checked) {
 										useMicroformat = 1;
 									} else if(document.getElementById('microformatSome').checked) {
@@ -111,6 +115,7 @@ $selected = 0;
 									param += 'recentCommentLength='+getValueById('recentCommentLength') +'&';
 									param += 'recentTrackbackLength='+getValueById('recentTrackbackLength') +'&';				
 									param += 'linkLength='+getValueById('linkLength') +'&';
+									param += 'useAjaxComent='+ useAjaxComment +'&';
 									param += 'useMicroformat='+ useMicroformat +'&';
 									param += 'useFOAF='+ useFOAF +'&';
 
@@ -392,6 +397,12 @@ ob_end_clean();
 											<dd>
 												<input type="checkbox" id="expandComment" class="checkbox" name="expandComment"<?php echo $skinSetting['expandComment'] ? ' checked="checked"' : '';?> /><label for="expandComment"><?php echo _t('댓글을 기본으로 펼칩니다.');?></label><br />
 												<input type="checkbox" id="expandTrackback" class="checkbox" name="expandTrackback"<?php echo $skinSetting['expandTrackback'] ? ' checked="checked"' : '';?> /><label for="expandTrackback"><?php echo _t('걸린글을 기본으로 펼칩니다.');?></label>
+											</dd>
+										</dl>
+										<dl id="comment-show-line" class="line">
+											<dt><span class="label"><?php echo _t('댓글을 표시할 때');?></span></dt>
+											<dd>
+												<input type="checkbox" id="pagingComment" class="checkbox" name="pagingComment"<?php echo (Setting::getBlogSettingGlobal('useAjaxComment',1) == 1 ? 'checked = "checked"' : '');?> /><label for="pagingComment"><?php echo _t('댓글 페이징을 사용합니다.');?></label><br />
 											</dd>
 										</dl>
 									</fieldset>
