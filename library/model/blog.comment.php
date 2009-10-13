@@ -223,16 +223,22 @@ function getCommentCommentsNotified($parent) {
 	return $comments;
 }
 
-function getCommentsWithPagingForGuestbook($blogid, $page, $count) {
+function getCommentsWithPaging($blogid, $entryId, $page, $count, $url = null, $prefix = '?page=', $countItem = null) {
 	global $database;
+	$comments = array();
 	$sql = "SELECT * FROM {$database['prefix']}Comments
 		WHERE blogid = $blogid
-			AND entry = 0
+			AND entry = $entryId
 			AND parent IS NULL
 			AND isfiltered = 0
 		ORDER BY written DESC";
-	$result = fetchWithPaging($sql, $page, $count);
-	return $result;
+	list($comments, $paging) = Paging::fetchWithPaging($sql, $page, $count, $url, $prefix, $countItem);
+	$comments = coverComments($comments);
+	return array($comments, $paging);
+}
+
+function getCommentsWithPagingForGuestbook($blogid, $page, $count) {
+	return getCommentsWithPaging($blogid, 0, $page, $count);
 }
 
 function getCommentAttributes($blogid, $id, $attributeNames) {
@@ -243,7 +249,6 @@ function getCommentAttributes($blogid, $id, $attributeNames) {
 function getComments($entry) {
 	global $database;
 	$comments = array();
-	$authorized = doesHaveOwnership();
 	$aux = ($entry == 0 ? 'ORDER BY written DESC' : 'ORDER BY id ASC');
 	$sql = "SELECT *
 		FROM {$database['prefix']}Comments
@@ -252,21 +257,29 @@ function getComments($entry) {
 			AND parent IS NULL
 			AND isfiltered = 0 $aux";
 	if ($result = POD::queryAll($sql)) {
-		foreach ($result as $comment) {
-			if (($comment['secret'] == 1) && !$authorized) {
-				if( !doesHaveOpenIDPriv($comment) ) {
-					$comment['name'] = '';
-					$comment['homepage'] = '';
-					$comment['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
-				}
-			}
-			if(!empty($comment['replier'])) {
-				$comment['homepage'] = User::getHomepage($comment['replier']);
-			}
-			array_push($comments, $comment);
-		}
+		$comments = coverComments($result);
 	}
 	return $comments;
+}
+
+function coverComments($comments) {
+	$result = array();
+	$authorized = doesHaveOwnership();
+
+	foreach ($comments as $comment) {
+		if (($comment['secret'] == 1) && !$authorized) {
+			if( !doesHaveOpenIDPriv($comment) ) {
+				$comment['name'] = '';
+				$comment['homepage'] = '';
+				$comment['comment'] = _text('관리자만 볼 수 있는 댓글입니다.');
+			}
+		}
+		if(!empty($comment['replier'])) {
+			$comment['homepage'] = User::getHomepage($comment['replier']);
+		}
+		array_push($result, $comment);
+	}
+	return $result;
 }
 
 function getCommentComments($parent,$parentComment=null) {

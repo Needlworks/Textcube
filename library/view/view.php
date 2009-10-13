@@ -226,7 +226,7 @@ function getTrackbacksView($entry, $skin, $accepttrackback) {
 }
 
 function getCommentView($entry, $skin, $inputBlock = true, $page = 1) {
-	global $database, $blogURL, $service, $suri, $paging, $contentContainer, $skinSetting, $blog;
+	global $database, $blogURL, $service, $suri, $paging, $contentContainer, $skinSetting, $blog, $skin;
 	static $dressCommentBlock = false;
 	if(!isset($entry)) $entry['id'] = 0;
 	$blogid = getBlogId();
@@ -270,7 +270,7 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1) {
 			}
 		}
 	} else {
-		$comments = getComments($entry['id']);
+		list($comments, $paging) = getCommentsWithPaging($blogid, $entry['id'], $page, 5);
 	}
 	if(empty($skin->dressCommentBlock)) {
 		if( $dressCommentBlock ) {
@@ -373,7 +373,9 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1) {
 	$commentContainer = ($isComment ? $skin->commentContainer : $skin->guestContainer);
 	dress(($isComment ? 'rp_rep' : 'guest_rep'), $commentItemsView, $commentContainer);
 	if (count($comments) > 0) {
-		dress($prefix1 . '_container', $commentContainer, $commentView);
+		$pagingView = getPagingView($paging, $skin->paging, $skin->pagingItem);
+		dress($prefix1 . '_container', $commentContainer.$pagingView, $commentView);		
+//		$commentView .= $pagingView;
 	}
 
 	// Comment write block
