@@ -246,6 +246,8 @@ function checkStep($step, $check = true) {
 					if (!empty($_POST['dbServer']) && !empty($_POST['dbName']) && !empty($_POST['dbUser']) && isset($_POST['dbPassword']) && isset($_POST['dbPrefix'])) {
 						$dbTemp = array('server'=>$_POST['dbServer'],'username'=>$_POST['dbUser'],'password'=>$_POST['dbPassword'],'port'=>$_POST['dbPort']);
 						if(!empty($_POST['dbName'])) $dbTemp['database'] = $_POST['dbName'];
+						global $dbms;
+						$dbms = $_POST['dbServer'];
 						if (!POD::bind($dbTemp))
 							$error = 1;
 //						else if (!POD::select_db($_POST['dbName']))	// select_db is deprecated.
@@ -260,6 +262,8 @@ function checkStep($step, $check = true) {
 					if (!empty($_POST['dbServer']) && !empty($_POST['dbName']) && !empty($_POST['dbUser']) && isset($_POST['dbPassword']) && !empty($_POST['dbPort'])) {
 						$dbTemp = array('server'=>$_POST['dbServer'],'username'=>$_POST['dbUser'],'password'=>$_POST['dbPassword'],'port'=>$_POST['dbPort']);
 						if(!empty($_POST['dbName'])) $dbTemp['database'] = $_POST['dbName'];
+						global $dbms;
+						$dbms = $_POST['dbServer'];
 						if (!POD::bind($dbTemp))
 							$error = 1;
 //						else if (!POD::select_db($_POST['dbName']))	// select_db is deprecated.
