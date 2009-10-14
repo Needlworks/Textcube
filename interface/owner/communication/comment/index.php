@@ -75,6 +75,7 @@ require ROOT . '/interface/common/owner/header.php';
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
+								(function($) {
 								function deleteCommentNow(id) {
 									if (!confirm("<?php echo (isset($tabsClass['guestbook']) ? _t('선택된 방명록 글을 삭제합니다. 계속 하시겠습니까?') : _t('선택된 댓글을 삭제합니다. 계속 하시겠습니까?'));?>"))
 										return;
@@ -109,17 +110,6 @@ require ROOT . '/interface/common/owner/header.php';
 										document.getElementById('list-form').submit();
 									}
 									request.send("targets=" + targets.join(","));
-								}
-								
-								function checkAll(checked) {
-									for (i = 0; document.getElementById('list-form').elements[i]; i++) {
-										if (document.getElementById('list-form').elements[i].name == "entry") {
-											if (document.getElementById('list-form').elements[i].checked != checked) {
-												document.getElementById('list-form').elements[i].checked = checked;
-												toggleThisTr(document.getElementById('list-form').elements[i]);
-											}
-										}
-									}
 								}
 								
 								function changeState(caller, value, no, mode) {
@@ -166,10 +156,17 @@ require ROOT . '/interface/common/owner/header.php';
 										alert(e.message);
 									}
 								}
-								
-								window.addEventListener("load", execLoadFunction, false);
-								function execLoadFunction() {
-									document.getElementById('allChecked').disabled = false;
+
+								function toggleThisTr(tr, isActive) {
+									if (isActive) {
+										$(tr).removeClass('inactive-class').addClass('active-class');
+									} else {
+										$(tr).removeClass('active-class').addClass('inactive-class');
+									}
+								}
+
+								$(document).ready(function() {
+									$('#allChecked').removeAttr('disabled');
 <?php 
 	if(!isset($tabsClass['guestbook'])){
 ?>
@@ -177,25 +174,31 @@ require ROOT . '/interface/common/owner/header.php';
 <?php
 	}
 ?>
-								}
-								
-								function toggleThisTr(obj) {
-									objTR = getParentByTagName("TR", obj);
-									
-									if (objTR.className.match('inactive')) {
-										objTR.className = objTR.className.replace('inactive', 'active');
-									} else {
-										objTR.className = objTR.className.replace('active', 'inactive');
-									}
-								}
+									$('#list-form tbody td.selection').click(function(ev) {
+										$('#allChecked').attr('checked', false);
+										var checked = $(':check', this).attr('checked');
+										$(':check', this).attr('checked', checked ? false : true);
+										toggleThisTr($(this).parent(), !checked);
+										ev.stopPropagation();
+									});
+									$('#list-form tbody td.selection :check').click(function(ev) {
+										$('#allChecked').attr('checked', false);
+										var checked = $(this).attr('checked');
+										toggleThisTr($(this).parent().parent(), checked);
+										ev.stopPropagation();
+									});
+									$('#allChecked').click(function(ev) {
+										var checked = $(this).attr('checked');
+										$('#list-form tbody td.selection :check').each(function(index, item) {
+											if ($(item).attr('checked') != checked) {
+												$(item).attr('checked', checked);
+												toggleThisTr($(item).parent().parent(), checked);
+											}
+										});
+									});
+								});
+								})(jQuery);
 
-								function toggleCheckbox(obj) {
-									if (obj.checked == true) {
-										obj.checked = false;
-									} else {
-										obj.checked = true;
-									}
-								}
 							//]]>
 						</script>
 						
@@ -268,7 +271,7 @@ foreach (getCategories($blogid) as $category) {
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" onclick="checkAll(this.checked);" disabled="disabled" /></th>
+											<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" disabled="disabled" /></th>
 											<th class="date"><span class="text"><?php echo _t('등록일자');?></span></th>
 											<th class="name"><span class="text"><?php echo _t('이름');?></span></th>
 											<th class="content"><span class="text"><?php echo _t('내용');?></span></th>
@@ -314,7 +317,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 	$className .= ($i == sizeof($comments) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over');return false;" onmouseout="rolloverClass(this, 'out');return false">
-											<td class="selection" onclick="document.getElementById('allChecked').checked=false; toggleCheckbox(this.childNodes[0]);toggleThisTr(this.childNodes[0]);"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id'];?>" onclick="toggleCheckbox(this); return false;" /></td>
+											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id'];?>"/></td>
 											<td class="date"><?php echo Timestamp::formatDate($comment['written']);?></td>
 											<td class="name">
 <?php
