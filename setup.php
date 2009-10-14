@@ -247,7 +247,7 @@ function checkStep($step, $check = true) {
 						$dbTemp = array('server'=>$_POST['dbServer'],'username'=>$_POST['dbUser'],'password'=>$_POST['dbPassword'],'port'=>$_POST['dbPort']);
 						if(!empty($_POST['dbName'])) $dbTemp['database'] = $_POST['dbName'];
 						global $dbms;
-						$dbms = $_POST['dbServer'];
+						$dbms = $_POST['dbms'];
 						if (!POD::bind($dbTemp))
 							$error = 1;
 //						else if (!POD::select_db($_POST['dbName']))	// select_db is deprecated.
@@ -263,7 +263,7 @@ function checkStep($step, $check = true) {
 						$dbTemp = array('server'=>$_POST['dbServer'],'username'=>$_POST['dbUser'],'password'=>$_POST['dbPassword'],'port'=>$_POST['dbPort']);
 						if(!empty($_POST['dbName'])) $dbTemp['database'] = $_POST['dbName'];
 						global $dbms;
-						$dbms = $_POST['dbServer'];
+						$dbms = $_POST['dbms'];
 						if (!POD::bind($dbTemp))
 							$error = 1;
 //						else if (!POD::select_db($_POST['dbName']))	// select_db is deprecated.
@@ -1107,7 +1107,9 @@ RewriteRule ^testrewrite$ setup.php [L]"
 			if(file_exists(ROOT.'/resources/setup/compatibility.'.POD::dbms().'.sql')) {
 				$schema = file_get_contents(ROOT.'/resources/setup/compatibility.'.POD::dbms().'.sql');
             	$query = explode(';', trim($schema));
-            	foreach ($query as $sub) @POD::query($sub);
+            	foreach ($query as $sub) {
+					@POD::query($sub);
+				}
 				$schema = '';
 				$query = array(); 
 			}
@@ -1128,13 +1130,13 @@ INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'timezone', '$baseTimezo
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'defaultEditor', 'modern');
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'defaultFormatter', 'ttml');
 INSERT INTO {$_POST['dbPrefix']}Plugins VALUES (1, 'CL_OpenID', null);
-INSERT INTO {$_POST['dbPrefix']}SkinSettings (blogid) VALUES (1);
+INSERT INTO {$_POST['dbPrefix']}SkinSettings VALUES (1,'skin','coolant');
 INSERT INTO {$_POST['dbPrefix']}FeedSettings (blogid) values(1);
 INSERT INTO {$_POST['dbPrefix']}FeedGroups (blogid) values(1);
 INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibility, location, title, slogan, contentformatter, contenteditor, starred, acceptcomment, accepttrackback, published, content) VALUES (1, 1, 1, 0, 2, '/', '".POD::escapeString(_t('환영합니다'))."', 'welcome', 'ttml', 'modern', 0, 1, 1, ".Timestamp::getUNIXtime().", '".POD::escapeString(getDefaultPostContent())."')";
             $query = explode(';', trim($schema));
             foreach ($query as $sub) {
-                if (!empty($sub) && !POD::query($sub, false)) {
+				if (!empty($sub) && !POD::query($sub, false)) {
 					$tables = getTables('1.8',$_POST['dbPrefix']);
 					foreach ($tables as $table) {
 						if (POD::dbms()=='Cubrid') {
@@ -1626,7 +1628,7 @@ function checkTables($version, $prefix) {
 function getTables($version, $prefix) {
 	switch ($version) {
 		case '1.8':
-			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}EntriesArchive", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Lines", "{$prefix}Links", "{$prefix}LinkCategories", "{$prefix}OpenIDUsers", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}Users", "{$prefix}UserSettings", "{$prefix}Widgets", "{$prefix}XMLRPCPingSettings", "{$prefix}Privileges", "{$prefix}PageCacheLog");
+			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}EntriesArchive", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Lines", "{$prefix}Links", "{$prefix}LinkCategories", "{$prefix}OpenIDUsers", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}RemoteResponseLogs", "{$prefix}RemoteResponses", "{$prefix}Users", "{$prefix}UserSettings", "{$prefix}Widgets", "{$prefix}XMLRPCPingSettings", "{$prefix}Privileges", "{$prefix}PageCacheLog");
 		case '1.7':
 			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}EntriesArchive", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Links", "{$prefix}LinkCategories", "{$prefix}OpenIDUsers", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}TrackbackLogs", "{$prefix}Trackbacks", "{$prefix}Users", "{$prefix}UserSettings", "{$prefix}XMLRPCPingSettings", "{$prefix}Teamblog", "{$prefix}PageCacheLog");
 		case '1.6':

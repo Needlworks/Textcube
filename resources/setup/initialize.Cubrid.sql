@@ -397,8 +397,8 @@ CREATE TABLE [##_dbPrefix_##]UserSettings (
   PRIMARY KEY (userid,name)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]Widgets (
-  id int(11) default 1 NOT NULL,
-  blogid int(11) default 1 NOT NULL,
+  id integer default 1 NOT NULL,
+  blogid integer default 1 NOT NULL,
   title varchar(64) default 'Widget' NOT NULL,
   author varchar(32) default 'Textcube' NOT NULL,
   email varchar(32) DEFAULT NULL,
@@ -408,8 +408,8 @@ CREATE TABLE [##_dbPrefix_##]Widgets (
   authorlink varchar(128) DEFAULT NULL,
   authorlocation varchar(32) DEFAULT NULL,
   authorphoto varchar(128) DEFAULT NULL,
-  height int(11) DEFAULT NULL,
-  scrolling int(1) default 0,
+  height integer DEFAULT NULL,
+  scrolling integer default 0,
   feature varchar(32) default 'opensocial',
   content varchar NOT NULL,
   PRIMARY KEY (id)

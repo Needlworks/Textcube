@@ -8,7 +8,7 @@
 global $fileCachedResult;
 
 class DBAdapter implements IAdapter {	
-	static $dbProperties, $cachedResult;
+	static $dbProperties, $cachedResult,$lastQueryType;
 	/*@static@*/
 	public static function bind($database) {
 		// Connects DB and set environment variables
@@ -339,7 +339,6 @@ class DBAdapter implements IAdapter {
 	}
 	
 	public static function clearCache() {
-		global self::$cachedResult;
 		self::$cachedResult = array();
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin("Cache cleared");
