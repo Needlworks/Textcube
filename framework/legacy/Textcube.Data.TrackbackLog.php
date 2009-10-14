@@ -100,7 +100,7 @@ class TrackbackLog {
 		$query = DBModel::getInstance();
 		$query->reset('RemoteResponseLogs');
 		$query->setQualifier('blogid', 'equals', getBlogId());
-		$query->setQualifier('type', 'trackback',false);
+		$query->setQualifier('type', 'equals', 'trackback',true);
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');
