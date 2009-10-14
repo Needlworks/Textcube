@@ -115,7 +115,7 @@ $selected = 0;
 									param += 'recentCommentLength='+getValueById('recentCommentLength') +'&';
 									param += 'recentTrackbackLength='+getValueById('recentTrackbackLength') +'&';				
 									param += 'linkLength='+getValueById('linkLength') +'&';
-									param += 'useAjaxComent='+ useAjaxComment +'&';
+									param += 'useAjaxComment='+ useAjaxComment +'&';
 									param += 'useMicroformat='+ useMicroformat +'&';
 									param += 'useFOAF='+ useFOAF +'&';
 
