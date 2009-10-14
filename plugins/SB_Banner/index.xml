@@ -14,6 +14,32 @@
     <textcube>1.5</textcube>
   </requirements>
   <binding>
+    <coverpage title="CodeBanner" handler="SB_Banner_withCode">
+      <params>
+        <param>
+          <title xml:lang="ko">HTML 코드</title>
+          <title xml:lang="en">HTML Code</title>
+          <name>text</name>
+          <type>textarea</type>
+        </param>
+      </params>
+    </coverpage>
+    <coverpage title="ImageBanner" handler="SB_Banner_withImage">
+      <params>
+        <param>
+          <title xml:lang="ko">이미지 경로</title>
+          <title xml:lang="en">image source</title>
+          <name>imgsrc</name>
+          <type>string</type>
+        </param>
+        <param>
+          <title xml:lang="ko">타겟 경로</title>
+          <title xml:lang="en">target URL</title>
+          <name>href</name>
+          <type>string</type>
+        </param>
+      </params>
+    </coverpage>
     <sidebar title="ImageBanner" handler="SB_Banner_withImage">
       <params>
         <param>

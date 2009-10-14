@@ -15,6 +15,7 @@
   </requirements>
   <binding>
     <sidebar title="Spacer" handler="SB_Spacer"></sidebar>
+    <coverpage title="Spacer" handler="SB_Spacer"></coverpage>
 	  <config xml:lang="ko" dataValHandler = "SB_Spacer_DataSet">
 		  <window width="500" height="525" />
 		  <fieldset legend="Spacer">
