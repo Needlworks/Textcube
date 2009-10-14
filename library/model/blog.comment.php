@@ -757,28 +757,32 @@ function getRecentGuestbook($blogid,$count = false) {
 	}
 	return $comments;
 }
-
 function getGuestbookPageById($blogid, $id) {
+	return getCommentPageById($blogid, 0, $id);
+}
+
+function getCommentPageById($blogid, $entryId, $commentId) {
 	global $database, $skinSetting;
 	$totalGuestbookId = POD::queryColumn("SELECT id
 		FROM {$database['prefix']}Comments
 		WHERE
-			blogid = $blogid AND entry = 0 AND isfiltered = 0 AND parent is null
+			blogid = $blogid AND entry = $entryId AND isfiltered = 0 AND parent is null
 		ORDER BY
 			written DESC");
-	$order = array_search($id, $totalGuestbookId);
+	$order = array_search($commentId, $totalGuestbookId);
 	if($order == false) {
 		$parentCommentId = POD::queryCell("SELECT parent
 			FROM {$database['prefix']}Comments
 			WHERE
-				blogid = $blogid AND entry = 0 AND isfiltered = 0 AND id = $id");
+				blogid = $blogid AND entry = $entryId AND isfiltered = 0 AND id = $commentId");
 		if($parentCommentId != false) {
 			$order = array_search($parentCommentId, $totalGuestbookId);
 		} else {
 			return false;
 		}
 	}
-	return intval($order / $skinSetting['commentsOnGuestbook'])+1;
+	$base = ($entryId == 0 ? $skinSetting['commentsOnGuestbook'] : $skinSetting['commentsOnEntry']);
+	return intval($order / $base)+1;
 }
 
 function deleteCommentInOwner($blogid, $id) {

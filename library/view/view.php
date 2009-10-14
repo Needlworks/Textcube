@@ -225,11 +225,17 @@ function getTrackbacksView($entry, $skin, $accepttrackback) {
 	return $trackbacksView;
 }
 
-function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = 20) {
+function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = null) {
 	global $contentContainer, $skinSetting, $skin;
 	static $dressCommentBlock = false;
 	$context = Model_Context::getInstance();
-	
+	if(is_null($count)) {
+		if($context->getProperty('skin.commentsOnEntry')) {
+			$count = $context->getProperty('skin.commentsOnEntry');
+		} else {
+			$count = 15;
+		}
+	}
 	if(!isset($entry)) $entry['id'] = 0;
 	$blogid = getBlogId();
 	$useAjaxBlock = $context->getProperty('blog.useAjaxComment',true);
