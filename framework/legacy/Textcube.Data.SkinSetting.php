@@ -37,22 +37,17 @@ class SkinSetting {
 	function load($fields = '*') {
 		global $database;
 		$this->reset();
-		if ($result = POD::query("SELECT $fields FROM {$database['prefix']}SkinSettings WHERE blogid = ".getBlogId())) {
-			if ($row = POD::fetch($result)) {
-				foreach ($row as $name => $value) {
-					if ($name == 'blogid')
-						continue;
-					switch ($name) {
-						case 'tagboxAlign':
-							$name = 'alignOnTagbox';
-							break;
-					}
-					$this->$name = $value;
-				}
-				POD::free($result);
-				return true;
+		$pool = DBModel::getInstance();
+		$pool->reset('SkinSettings');
+		$pool->setQualifier('blogid','equals',getBlogId());
+		$result = $pool->getAll('name, value');
+		if (!empty($result)) {
+			foreach ($result as $data) {
+				if ($data['name'] == 'tagboxAlign') $data['name'] = 'alignOnTagbox';
+//				dumpAsFile($data);
+				$this->$data['name'] = $data['value'];
 			}
-			POD::free($result);
+			return true;
 		}
 		return false;
 	}
