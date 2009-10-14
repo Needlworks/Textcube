@@ -3,7 +3,7 @@
   <title xml:lang="en">Banner Plug-in</title>
   <title xml:lang="ko">배너출력</title>
   <link>http://needlworks.org/</link>
-  <version>1.0</version>
+  <version>1.1</version>
   <description xml:lang="en">Display banner on sidebar.</description>
   <description xml:lang="ko">사이드바에 배너를 출력해 줍니다.</description>
   <license>GPL</license>

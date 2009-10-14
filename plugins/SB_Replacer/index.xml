@@ -3,7 +3,7 @@
   <title xml:lang="en">Inserter of Replacers</title>
   <title xml:lang="ko">태그 입력기</title>
   <link>http://needlworks.org/</link>
-  <version>1.0</version>
+  <version>1.1</version>
   <description xml:lang="en">Insert replacers for plug-in's tag on sidebar.</description>
   <description xml:lang="ko">사이드바에 플러그인을 위한 치환자를 출력해 줍니다.</description>
   <license>GPL</license>
