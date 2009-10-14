@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 $entriesView = '';
-
+requiremocel('blog.comment');
 if (isset($cache->contents)) {
 	$entriesView = $cache->contents;
 	if(strpos($cache->name,'keyword')!==false) $isKeylog = true;
