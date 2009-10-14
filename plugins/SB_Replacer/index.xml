@@ -14,6 +14,16 @@
     <textcube>1.5</textcube>
   </requirements>
   <binding>
+    <coverpage title="Replacer" handler="SB_Replacer">
+      <params>
+        <param>
+          <title xml:lang="ko">HTML 코드</title>
+          <title xml:lang="en">HTML Code</title>
+          <name>text</name>
+          <type>string</type>
+        </param>
+      </params>
+    </coverpage>	
     <sidebar title="Replacer" handler="SB_Replacer">
       <params>
         <param>
