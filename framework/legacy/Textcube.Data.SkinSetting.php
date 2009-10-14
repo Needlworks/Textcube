@@ -53,9 +53,6 @@ class SkinSetting {
 	}
 	
 	function save() {
-		$query = DBModel::getInstance();	
-		$query->reset('SkinSettings');
-		$query->setQualifier('blogid', 'equals', getBlogId());
 		if (isset($this->skin)) {
 			if (strncmp($this->skin, 'customize/', 10) == 0) {
 				if (strcmp($this->skin, "customize/".getBlogId()) != 0)
@@ -66,85 +63,82 @@ class SkinSetting {
 			}
 			if (!Validator::path($this->skin) || !file_exists(ROOT . '/skin/' . $this->skin))
 				return $this->_error('skin');
-			$query->setAttribute('skin', $this->skin, false);
+			Setting::setSkinSetting('skin', $this->skin);
 		}
 		if (isset($this->entriesOnRecent)) {
 			if (!Validator::number($this->entriesOnRecent, 1))
 				return $this->_error('entriesOnRecent');
-			$query->setAttribute('entriesOnRecent', $this->entriesOnRecent);
+			Setting::setSkinSetting('entriesOnRecent', $this->entriesOnRecent);
 		}
 		if (isset($this->commentsOnRecent)) {
 			if (!Validator::number($this->commentsOnRecent, 1))
 				return $this->_error('commentsOnRecent');
-			$query->setAttribute('commentsOnRecent', $this->commentsOnRecent);
+			Setting::setSkinSetting('commentsOnRecent', $this->commentsOnRecent);
 		}
 		if (isset($this->trackbacksOnRecent)) {
 			if (!Validator::number($this->trackbacksOnRecent, 1))
 				return $this->_error('trackbacksOnRecent');
-			$query->setAttribute('trackbacksOnRecent', $this->trackbacksOnRecent);
+			Setting::setSkinSetting('trackbacksOnRecent', $this->trackbacksOnRecent);
 		}
 		if (isset($this->commentsOnGuestbook)) {
 			if (!Validator::number($this->commentsOnGuestbook, 1))
 				return $this->_error('commentsOnGuestbook');
-			$query->setAttribute('commentsOnGuestbook', $this->commentsOnGuestbook);
+			Setting::setSkinSetting('commentsOnGuestbook', $this->commentsOnGuestbook);
 		}
 		if (isset($this->tagsOnTagbox)) {
 			if (!Validator::number($this->tagsOnTagbox, 1))
 				return $this->_error('tagsOnTagbox');
-			$query->setAttribute('tagsOnTagbox', $this->tagsOnTagbox);
+			Setting::setSkinSetting('tagsOnTagbox', $this->tagsOnTagbox);
 		}
 		if (isset($this->alignOnTagbox)) {
 			if (!Validator::number($this->alignOnTagbox, 1, 3))
 				return $this->_error('alignOnTagbox');
-			$query->setAttribute('tagboxAlign', $this->alignOnTagbox);
+			Setting::setSkinSetting('tagboxAlign', $this->alignOnTagbox);
 		}
 		if (isset($this->expandComment))
-			$query->setAttribute('expandComment', Validator::getBit($this->expandComment));
+			Setting::setSkinSetting('expandComment', Validator::getBit($this->expandComment));
 		if (isset($this->expandTrackback))
-			$query->setAttribute('expandTrackback', Validator::getBit($this->expandTrackback));
+			Setting::setSkinSetting('expandTrackback', Validator::getBit($this->expandTrackback));
 		if (isset($this->recentNoticeLength)) {
 			if (!Validator::number($this->recentNoticeLength, 0))
 				return $this->_error('recentNoticeLength');
-			$query->setAttribute('recentNoticeLength', $this->recentNoticeLength);
+			Setting::setSkinSetting('recentNoticeLength', $this->recentNoticeLength);
 		}
 		if (isset($this->recentTrackbackLength)) {
 			if (!Validator::number($this->recentTrackbackLength, 0))
 				return $this->_error('recentTrackbackLength');
-			$query->setAttribute('recentTrackbackLength', $this->recentTrackbackLength);
+			Setting::setSkinSetting('recentTrackbackLength', $this->recentTrackbackLength);
 		}
 		if (isset($this->linkLength)) {
 			if (!Validator::number($this->linkLength, 0))
 				return $this->_error('linkLength');
-			$query->setAttribute('linkLength', $this->linkLength);
+			Setting::setSkinSetting('linkLength', $this->linkLength);
 		}
 		if (isset($this->showListOnCategory))
-			$query->setAttribute('showListOnCategory', Validator::getBit($this->showListOnCategory));
+			Setting::setSkinSetting('showListOnCategory', Validator::getBit($this->showListOnCategory));
 		if (isset($this->showListOnArchive))
-			$query->setAttribute('showListOnArchive', Validator::getBit($this->showListOnArchive));
+			Setting::setSkinSetting('showListOnArchive', Validator::getBit($this->showListOnArchive));
 		if (isset($this->tree)) {
 			if (!Validator::directory($this->tree) || !file_exists(ROOT . '/skin/tree/' . $this->tree))
 				return $this->_error('tree');
-			$query->setAttribute('tree', $this->tree, false);
+			Setting::setSkinSetting('tree', $this->tree);
 		}
 		if (isset($this->colorOnTree))
-			$query->setAttribute('colorOnTree', $this->colorOnTree, true);
+			Setting::setSkinSetting('colorOnTree', $this->colorOnTree);
 		if (isset($this->bgcolorOnTree))
-			$query->setAttribute('bgcolorOnTree', $this->bgcolorOnTree, true);
+			Setting::setSkinSetting('bgcolorOnTree', $this->bgcolorOnTree);
 		if (isset($this->activecolorOnTree))
-			$query->setAttribute('activecolorOnTree', $this->activecolorOnTree, true);
+			Setting::setSkinSetting('activecolorOnTree', $this->activecolorOnTree);
 		if (isset($this->activebgcolorOnTree))
-			$query->setAttribute('activebgcolorOnTree', $this->activebgcolorOnTree, true);
+			Setting::setSkinSetting('activebgcolorOnTree', $this->activebgcolorOnTree);
 		if (isset($this->labelLengthOnTree)) {
 			if (!Validator::number($this->labelLengthOnTree, 0))
 				return $this->_error('labelLengthOnTree');
-			$query->setAttribute('labelLengthOnTree', $this->labelLengthOnTree);
+			Setting::setSkinSetting('labelLengthOnTree', $this->labelLengthOnTree);
 		}
 		if (isset($this->showValueOnTree))
-			$query->setAttribute('showValueOnTree', Validator::getBit($this->showValueOnTree));
-			
-		if ($query->update())
-			return true;
-		return $query->insert();
+			Setting::setSkinSetting('showValueOnTree', Validator::getBit($this->showValueOnTree));
+		return true;
 	}
 
 	function _error($error) {
