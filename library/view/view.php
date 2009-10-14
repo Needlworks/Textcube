@@ -370,14 +370,16 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 		$contentContainer["{$prefix1}_{$commentItem['id']}"] = fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense($commentItem['comment'], ' onclick="return openLinkInNewWindow(this)"')), $commentItem);
 		dress($prefix1 . '_rep_desc', setTempTag("{$prefix1}_{$commentItem['id']}"), $commentItemView);
 		dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentItem['written']), $commentItem['written']), $commentItemView);
-		if ($prefix1 == 'guest' && $authorized != true && $blog['allowWriteDblCommentOnGuestbook'] == 0) {
+		if ($prefix1 == 'guest' && $authorized != true && $context->getProperty('blog.allowWriteDblCommentOnGuestbook') == 0) {
 			$doubleCommentPermissionScript = 'alert(\'' . _text('댓글을 사용할 수 없습니다.') . '\'); return false;';
 		} else {
 			$doubleCommentPermissionScript = '';
 		}
 		dress($prefix1 . '_rep_onclick_reply', $doubleCommentPermissionScript . "commentComment({$commentItem['id']}); return false", $commentItemView);
 		dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentItem['id']});return false", $commentItemView);
-		dress($prefix1 . '_rep_link',$context->getProperty('uri.blog')."/".($entry['id'] == 0 ? "guestbook/{$commentItem['id']}#guestbook{$commentItem['id']}" : ($context->getProperty('blog.useSloganOnPost') ? "entry/".URL::encode($entry['slogan'],$context->getProperty('service.useEncodedURL')) : $entry['id'])."#comment{$commentItem['id']}"), $commentItemView);
+		dress($prefix1 . '_rep_link',
+			$context->getProperty('uri.blog')."/".($entry['id'] == 0 ? "guestbook/{$commentItem['id']}#guestbook{$commentItem['id']}" : 
+			($context->getProperty('blog.useSloganOnPost') ? "entry/".URL::encode($entry['slogan'],$context->getProperty('service.useEncodedURL')) : $entry['id'])."?commentId=".$commentItem['id']."#comment{$commentItem['id']}"), $commentItemView);
 		
 		$commentItemsView .= $commentItemView;
 	}
@@ -385,7 +387,7 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 	$commentContainer = ($isComment ? $skin->commentContainer : $skin->guestContainer);
 	dress(($isComment ? 'rp_rep' : 'guest_rep'), $commentItemsView, $commentContainer);
 	if (count($comments) > 0) {
-		if($useAjaxBlock) {
+		if($isComment && $useAjaxBlock) {
 			$pagingView = Paging::getPagingView($paging, $skin->paging, $skin->pagingItem, false, 'onclick');
 		} else $pagingView = '';
 		dress($prefix1 . '_container', $commentContainer.$pagingView, $commentView);		
@@ -1061,7 +1063,7 @@ function getRecentCommentsView($comments, $commentView = null, $template) {
 	$recentCommentView = '';
 	foreach ($comments as $comment) {
 		$view = "$template";
-		dress('rctrp_rep_link', "$blogURL/".($blog['useSloganOnPost'] ? "entry/".URL::encode($comment['slogan'],$service['useEncodedURL']) : $comment['entry'])."#comment{$comment['id']}", $view);
+		dress('rctrp_rep_link', "$blogURL/".($blog['useSloganOnPost'] ? "entry/".URL::encode($comment['slogan'],$service['useEncodedURL']) : $comment['entry'])."?commentId=".$comment['id']."#comment{$comment['id']}", $view);
 		$contentContainer["recent_comment_{$comment['id']}"] = htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['comment']), $skinSetting['recentCommentLength']));
 		dress('rctrp_rep_desc', setTempTag("recent_comment_{$comment['id']}"), $view);
 		dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::format2($comment['written']), $comment['written']), $view);

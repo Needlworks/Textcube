@@ -80,7 +80,7 @@ if (isset($cache->contents)) {
 			}
 			
 			dress('rp', "<div id=\"entry{$entry['id']}Comment\" style=\"display:$style\">" . 
-					($context->getProperty('blog.useAjaxComment',true) ? '' : getCommentView($entry, $skin)) . 
+					(!$context->getProperty('blog.showCommentBox',false) && $context->getProperty('blog.useAjaxComment',true) ? '' : getCommentView($entry, $skin)) . 
 					 "</div>", $entryView);
 			
 			$tagLabelView = $skin->tagLabel;
