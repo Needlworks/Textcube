@@ -4,7 +4,8 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $IV = array(
 		'GET' => array(
-			'commentId' => array('int',0,'mandatory'=>false)
+			'commentId' => array('int',0,'mandatory'=>false),
+			'commentInput' => array('bool','mandatory'=>false)
 			)
 		);
 
@@ -18,8 +19,12 @@ if(empty($suri['value'])) {
 	}
 } else { // Just normal entry view
 	list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value']);
-	if(isset($_GET['commentId'])) {
-		$commentId = $_GET['commentId'];
+	if(isset($_GET['commentId']) || isset($_GET['commentInput'])) {
+		if(isset($_GET['commentId']) && Validator::isInteger($_GET['commentId'],1)) {
+			$commentId = $_GET['commentId'];
+		} else {
+			$commentId = 1;
+		}
 		$suri['page'] = getCommentPageById(getBlogId(),$entries[0]['id'],$commentId);
 		$context->setProperty('blog.showCommentBox',true);
 	}

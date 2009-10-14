@@ -106,7 +106,7 @@ function getFeedItemByEntries($entries) {
  		if (!$blog['publishWholeOnRSS']) {
 			$content .= "<p><strong><a href=\"" . htmlspecialchars($entryURL) . "\">" . _t('글 전체보기') . "</a></strong></p>";
  		} else {
-			$content .= "<p><strong><a href=\"" . htmlspecialchars($entryURL) ."#entry".$row['id']."WriteComment\">" . _t('댓글 쓰기') . "</a></strong></p>";
+			$content .= "<p><strong><a href=\"" . htmlspecialchars($entryURL) ."?commentInput=true#entry".$row['id']."WriteComment\">" . _t('댓글 쓰기') . "</a></strong></p>";
 		}
 		$row['repliesCount'] = $row['comments'] + $row['trackbacks'];
 		$item = array(
