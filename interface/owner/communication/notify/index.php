@@ -61,6 +61,7 @@ require ROOT . '/interface/common/owner/header.php';
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
+							(function($) {
 								function deleteComment(id) {
 									if (!confirm("<?php echo _t('선택된 댓글을 삭제합니다. 계속 하시겠습니까?');?>"))
 										return;
@@ -86,17 +87,6 @@ require ROOT . '/interface/common/owner/header.php';
 										document.getElementById('list-form').submit();
 									}
 									request.send("targets=" + targets.join(','));
-								}
-								
-								function checkAll(checked) {
-									for (i = 0; document.getElementById('list-form').elements[i]; i++) {
-										if (document.getElementById('list-form').elements[i].name == "entry") {
-											if (document.getElementById('list-form').elements[i].checked != checked) {
-												document.getElementById('list-form').elements[i].checked = checked;
-												toggleThisTr(document.getElementById('list-form').elements[i]);
-											}
-										}
-									}
 								}
 								
 								function changeState(caller, value, mode) {
@@ -135,20 +125,40 @@ require ROOT . '/interface/common/owner/header.php';
 									}
 								}
 								
-								window.addEventListener("load", execLoadFunction, false);
-								function execLoadFunction() {
-									document.getElementById('allChecked').disabled = false;
-								}
-								
-								function toggleThisTr(obj) {
-									objTR = getParentByTagName("TR", obj);
-									
-									if (objTR.className.match('inactive')) {
-										objTR.className = objTR.className.replace('inactive', 'active');
+								function toggleThisTr(tr, isActive) {
+									if (isActive) {
+										$(tr).removeClass('inactive-class').addClass('active-class');
 									} else {
-										objTR.className = objTR.className.replace('active', 'inactive');
+										$(tr).removeClass('active-class').addClass('inactive-class');
 									}
 								}
+
+								$(document).ready(function() {
+									$('#allChecked').removeAttr('disabled');
+									$('#list-form tbody td.selection').click(function(ev) {
+										$('#allChecked').attr('checked', false);
+										var checked = $(':check', this).attr('checked');
+										$(':check', this).attr('checked', checked ? false : true);
+										toggleThisTr($(this).parent(), !checked);
+										ev.stopPropagation();
+									});
+									$('#list-form tbody td.selection :check').click(function(ev) {
+										$('#allChecked').attr('checked', false);
+										var checked = $(this).attr('checked');
+										toggleThisTr($(this).parent().parent(), checked);
+										ev.stopPropagation();
+									});
+									$('#allChecked').click(function(ev) {
+										var checked = $(this).attr('checked');
+										$('#list-form tbody td.selection :check').each(function(index, item) {
+											if ($(item).attr('checked') != checked) {
+												$(item).attr('checked', checked);
+												toggleThisTr($(item).parent().parent(), checked);
+											}
+										});
+									});
+								});
+							})(jQuery);
 							//]]>
 						</script>
 									
@@ -186,7 +196,7 @@ require ROOT . '/interface/common/owner/communicationTab.php';
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" onclick="checkAll(this.checked);" disabled="disabled" /></th>
+											<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" disabled="disabled" /></th>
 											<th class="date"><span class="text"><?php echo _t('등록일자');?></span></th>
 											<th class="site"><span class="text"><?php echo _t('사이트명');?></span></th>
 											<th class="name"><span class="text"><?php echo _t('이름');?></span></th>
@@ -229,7 +239,7 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 	$className .= ($i == sizeof($mergedComments) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id'];?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" /></td>
+											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id'];?>" /></td>
 											<td class="date"><?php echo Timestamp::formatDate($comment['written']);?></td>
 											<td class="site"><a href="<?php echo $comment['siteUrl'];?>" onclick="window.open(this.href); return false;" title="<?php echo _t('사이트를 연결합니다.');?>"><?php echo htmlspecialchars($comment['siteTitle']);?></a></td>
 											<td class="name">
