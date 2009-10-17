@@ -149,7 +149,7 @@ if (count($_FILES) == 1) {
 	<form method="post" action="" enctype="multipart/form-data" id="uploadForm">
 		<script type="text/javascript">
 			//<![CDATA[				
-				document.write('<input type="file" class="input-file" name="attachment" onchange="addAttachOption(this.value); document.getElementById(\'uploadForm\').submit();" />');
+				document.write('<input type="file" class="input-file" name="attachment" size="16" onchange="addAttachOption(this.value); document.getElementById(\'uploadForm\').submit();" />');
 			//]]>	
 		</script>
 		<input type="hidden" id="fileNameInput" name="fileName" value="" />
