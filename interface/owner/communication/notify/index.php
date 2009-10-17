@@ -62,7 +62,7 @@ require ROOT . '/interface/common/owner/header.php';
 						<script type="text/javascript">
 							//<![CDATA[
 							(function($) {
-								function deleteComment(id) {
+								deleteComment = function(id) {
 									if (!confirm("<?php echo _t('선택된 댓글을 삭제합니다. 계속 하시겠습니까?');?>"))
 										return;
 									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/notify/delete/" + id);
@@ -72,7 +72,7 @@ require ROOT . '/interface/common/owner/header.php';
 									request.send();
 								}
 								
-								function deleteComments() {	
+								deleteComments = function() {	
 									if (!confirm("<?php echo _t('선택된 댓글을 삭제합니다. 계속 하시겠습니까?');?>"))
 										return false;
 									var oElement;
@@ -89,7 +89,7 @@ require ROOT . '/interface/common/owner/header.php';
 									request.send("targets=" + targets.join(','));
 								}
 								
-								function changeState(caller, value, mode) {
+								changeState = function(caller, value, mode) {
 									try {			
 										if (caller.className == 'block-icon bullet') {
 											var command 	= 'unblock';

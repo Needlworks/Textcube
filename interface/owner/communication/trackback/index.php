@@ -86,7 +86,7 @@ foreach($trackbacks as $trackback) {
 
 if($tabsClass['received'] == true) {
 ?>
-							function changeState(caller, value, mode) {
+							changeState = function(caller, value, mode) {
 									try {			
 										if (caller.className == 'block-icon bullet') {
 											var command 	= 'unblock';
@@ -122,7 +122,7 @@ if($tabsClass['received'] == true) {
 									}
 								}
 								
-								function trashTrackback(id) {
+								trashTrackback = function(id) {
 									if (!confirm("<?php echo _t('선택된 걸린글을 휴지통으로 옮깁니다. 계속 하시겠습니까?');?>"))
 										return;
 									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trackback/delete/" + id);
@@ -139,7 +139,7 @@ if($tabsClass['received'] == true) {
 									request.send();
 								}
 
-								function sendTrackbackResponse(id,entryId) {
+								sendTrackbackResponse = function(id,entryId) {
 									if (!confirm("<?php echo _t('선택된 걸린글에 답글로 글을 겁니다. 계속 하시겠습니까?');?>"))
 										return;
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/trackback/reply/" + entryId);
@@ -156,7 +156,7 @@ if($tabsClass['received'] == true) {
 									request.send("url="+URLinfo[id]);	
 								}
 															
-								function trashTrackbacks() {
+								trashTrackbacks = function() {
 									try {
 										if (!confirm("<?php echo _t('선택된 걸린글을 지웁니다. 계속 하시겠습니까?');?>"))
 											return false;
@@ -179,7 +179,7 @@ if($tabsClass['received'] == true) {
 <?php
 } else {
 ?>
-								function removeTrackbackLog(id) {
+								removeTrackbackLog = function(id) {
 									if (confirm("<?php echo _t('선택된 글걸기 기록을 지웁니다. 계속 하시겠습니까?');?>")) {
 										var request = new HTTPRequest("<?php echo $blogURL;?>/owner/communication/trackback/log/remove/" + id);
 										request.onSuccess = function () {
@@ -192,7 +192,7 @@ if($tabsClass['received'] == true) {
 									}
 								}
 								
-								function trashTrackbacks() {
+								trashTrackbacks = function() {
 									try {
 										if (!confirm("<?php echo _t('선택된 걸린글 기록을 지웁니다. 계속 하시겠습니까?');?>"))
 											return false;
