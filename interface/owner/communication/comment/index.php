@@ -75,25 +75,25 @@ require ROOT . '/interface/common/owner/header.php';
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
-								(function($) {
-								function deleteCommentNow(id) {
+							(function($) {
+								deleteCommentNow = function(id) {
 									if (!confirm("<?php echo (isset($tabsClass['guestbook']) ? _t('선택된 방명록 글을 삭제합니다. 계속 하시겠습니까?') : _t('선택된 댓글을 삭제합니다. 계속 하시겠습니까?'));?>"))
-										return;
+										return false;
 									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/comment/delete/" + id);
 									request.onSuccess = function () {
 										PM.removeRequest(this);
 										PM.showMessage("<?php echo (isset($tabsClass['guestbook']) ? _t('방명록이 삭제되었습니다.') : _t('댓글이 삭제되었습니다.'));?>", "center", "bottom");
 										document.getElementById('list-form').submit();
-									}
+									};
 									request.onError = function() {
 										PM.removeRequest(this);
 										PM.showErrorMessage("<?php echo (isset($tabsClass['guestbook']) ? _t('방명록을 삭제하지 못하였습니다') : _t('댓글을 삭제하지 못하였습니다.'));?>", "center", "bottom");
-									}
+									};
 									PM.addRequest(request, "<?php echo (isset($tabsClass['guestbook']) ? _t('방명록을 삭제하고 있습니다.') : _t('댓글을 삭제하고 있습니다.'));?>");
 									request.send();
-								}
+								};
 								
-								function deleteComments() {	
+								deleteComments = function() {
 									if (!confirm("<?php echo (isset($tabsClass['guestbook']) ? _t('선택된 방명록을 삭제합니다. 계속 하시겠습니까?') : _t('선택된 댓글을 삭제합니다. 계속 하시겠습니까?'));?>"))
 										return false;
 									
@@ -110,9 +110,9 @@ require ROOT . '/interface/common/owner/header.php';
 										document.getElementById('list-form').submit();
 									}
 									request.send("targets=" + targets.join(","));
-								}
+								};
 								
-								function changeState(caller, value, no, mode) {
+								changeState = function(caller, value, no, mode) {
 									try {
 										if (caller.className == 'block-icon bullet') {
 											var command 	= 'unblock';
@@ -155,7 +155,7 @@ require ROOT . '/interface/common/owner/header.php';
 									} catch(e) {
 										alert(e.message);
 									}
-								}
+								};
 
 								function toggleThisTr(tr, isActive) {
 									if (isActive) {
@@ -197,8 +197,7 @@ require ROOT . '/interface/common/owner/header.php';
 										});
 									});
 								});
-								})(jQuery);
-
+							})(jQuery);
 							//]]>
 						</script>
 						
