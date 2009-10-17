@@ -1237,13 +1237,17 @@ function recallLastComment(caller,entryId) {
 function loadComment(entryId, page) {
 
 	var request = new HTTPRequest("POST", blogURL + '/comment/load/' + entryId);
-	request.onSuccess = function () {
-		document.getElementById("entry" + entryId + "Comment").innerHTML = this.getText("/response/commentBlock");
-		window.location.href = '#entry' + entryId + 'Comment';
+	var o = document.getElementById("entry" + entryId + "Comment");
+	if (o.style.display == 'none') {
+		request.onSuccess = function () {
+			o.innerHTML = this.getText("/response/commentBlock");
+			window.location.href = '#entry' + entryId + 'Comment';
+		};
+		request.onError = function() {
+		};
+		request.send('&page='+page);
 	}
-	request.onError = function() {
-	}
-	request.send('&page='+page);
+	o.style.display = (o.style.display == 'none') ? 'block' : 'none';
 }
 
 
