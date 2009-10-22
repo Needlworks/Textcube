@@ -964,7 +964,7 @@ function deleteEntry($blogid, $id) {
 		$result = POD::query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND entry = $id");
 		$result = POD::query("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND entry = $id");
 		$result = POD::query("DELETE FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid AND entry = $id");
-		updateCategoryByEntryId($blogid, $id, 'delete');
+		updateCategoryByEntryId($blogid, $id, 'delete', array('entry' => $target));
 		deleteAttachments($blogid, $id);
 		
 		Tag::deleteTagsWithEntryId($blogid, $id);

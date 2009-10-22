@@ -114,7 +114,7 @@ function getCategory($blogid, $id = null, $field = null) {
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
 	if($result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id)) {
-		if(!empty($field) && !empty($result[$field])) {
+		if(!empty($field) && isset($result[$field])) {
 			return $result[$field];
 		} else return $result;
 	} else return false;
@@ -353,8 +353,18 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 }
 
 function updateCategoryByEntryId($blogid, $entryId, $action = 'add',$parameters = null) {
-	$entry = getEntry($blogid, $entryId);
+	switch($action) {
+		case 'add':
+		case 'update':
+			$entry = getEntry($blogid, $entryId);
+			break;
+		case 'delete':
+			if(isset($parameters['entry']))
+				$entry = $parameters['entry'];
+			else return false;
+	}
 	$categoryId = $entry['category'];
+
 	$parent       = getParentCategoryId($blogid, $categoryId);
 	$categories = array($categoryId=>$action);
 	foreach($categories as $c => $a) {
