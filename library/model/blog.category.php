@@ -353,16 +353,11 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 }
 
 function updateCategoryByEntryId($blogid, $entryId, $action = 'add',$parameters = null) {
-	switch($action) {
-		case 'add':
-		case 'update':
-			$entry = getEntry($blogid, $entryId);
-			break;
-		case 'delete':
-			if(isset($parameters['entry']))
-				$entry = $parameters['entry'];
-			else return false;
-	}
+
+	$entry = getEntry($blogid, $entryId);
+	// for deleteEntry
+	if(is_null($entry) and isset($parameters['entry']))
+		$entry = $parameters['entry'];
 	$categoryId = $entry['category'];
 
 	$parent       = getParentCategoryId($blogid, $categoryId);
@@ -381,9 +376,9 @@ function updateCategoryByEntryId($blogid, $entryId, $action = 'add',$parameters 
 				
 				
 				if(isset($parameters['category']) && $parameters['category'][0] != $parameters['category'][1]) { // category is changed. oldcategory - 1, newcategory + 1.
-					updateCategoryByCategoryId($blogid, $parameters[0], 'delete');
-					updateCategoryByCategoryId($blogid, $parameters[1], 'add');
-					$newparent = getParentCategoryId($blogid, $parameters[1]);
+					updateCategoryByCategoryId($blogid, $parameters['category'][0], 'delete');
+					updateCategoryByCategoryId($blogid, $parameters['category'][1], 'add');
+					$newparent = getParentCategoryId($blogid, $parameters['category'][1]);
 					if(!empty($newparent) && $newparent != $parent) {
 						array_push($categories, array($parent=>'delete'));
 						array_push($categories, array($newparent=>'add'));
