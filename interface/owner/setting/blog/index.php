@@ -298,6 +298,8 @@ if ($service['type'] != 'single') {
 										}
 										request.send();
 									}
+
+									var visibilityPostParams = {};
 <?php
 if($service['allowBlogVisibilitySetting']){
 ?>									
@@ -305,17 +307,8 @@ if($service['allowBlogVisibilitySetting']){
 									else if(document.getElementById('visibilityMember').checked) newVisibility = 1;
 									else newVisibility = 2;
 
-									if ( blogVisibility != newVisibility) {
-										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/visibility/?visibility="+newVisibility);
-										request.onSuccess = function() {
-											blogVisibility = newVisibility;
-											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
-										}
-										request.onError = function() {
-											PM.showErrorMessage("<?php echo _t('실패했습니다.');?>", "center", "bottom");
-										}
-										request.send();
-									}
+									if (blogVisibility != newVisibility)
+										visibilityPostParams['visibility'] = newVisibility;
 <?php
 }
 ?>
@@ -334,7 +327,12 @@ if($service['allowBlogVisibilitySetting']){
 									request2.onError = function() {
 										PM.showErrorMessage("<?php echo _t('실패했습니다.');?>", "center", "bottom");
 									}
-									request2.send("useiPhoneUI="+newUseiPhoneUI+"&acceptComments="+acceptComments+"&acceptTrackbacks="+acceptTrackbacks);
+									visibilityPostParams = jQuery.extend({}, visibilityPostParams, {
+										'useiPhoneUI': newUseiPhoneUI,
+										'acceptComments': acceptComments,
+										'acceptTrackbacks': acceptTrackbacks
+									});
+									request2.send(jQuery.param(visibilityPostParams));
 
 									try {
 										var oonly = document.getElementById( 'openidonlycomment' );
