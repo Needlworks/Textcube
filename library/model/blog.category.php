@@ -114,7 +114,7 @@ function getCategory($blogid, $id = null, $field = null) {
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
 	if($result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id)) {
-		if(!empty($field) && !empty($result[$field])) {
+		if(!empty($field) && isset($result[$field])) {
 			return $result[$field];
 		} else return $result;
 	} else return false;
@@ -353,8 +353,13 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 }
 
 function updateCategoryByEntryId($blogid, $entryId, $action = 'add',$parameters = null) {
+
 	$entry = getEntry($blogid, $entryId);
+	// for deleteEntry
+	if(is_null($entry) and isset($parameters['entry']))
+		$entry = $parameters['entry'];
 	$categoryId = $entry['category'];
+
 	$parent       = getParentCategoryId($blogid, $categoryId);
 	$categories = array($categoryId=>$action);
 	foreach($categories as $c => $a) {
@@ -371,9 +376,9 @@ function updateCategoryByEntryId($blogid, $entryId, $action = 'add',$parameters 
 				
 				
 				if(isset($parameters['category']) && $parameters['category'][0] != $parameters['category'][1]) { // category is changed. oldcategory - 1, newcategory + 1.
-					updateCategoryByCategoryId($blogid, $parameters[0], 'delete');
-					updateCategoryByCategoryId($blogid, $parameters[1], 'add');
-					$newparent = getParentCategoryId($blogid, $parameters[1]);
+					updateCategoryByCategoryId($blogid, $parameters['category'][0], 'delete');
+					updateCategoryByCategoryId($blogid, $parameters['category'][1], 'add');
+					$newparent = getParentCategoryId($blogid, $parameters['category'][1]);
 					if(!empty($newparent) && $newparent != $parent) {
 						array_push($categories, array($parent=>'delete'));
 						array_push($categories, array($newparent=>'add'));
