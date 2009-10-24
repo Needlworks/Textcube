@@ -13,10 +13,11 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireLibrary('blog.skin');
 requireStrictRoute();
+$skin = new Skin($skinSetting['skin']);
 	
 $result = writeSkinHtml($blogid, $_POST['body'], $_POST['mode'], $_POST['file']);
 if ($result === true) {
-	Skin::purgeCache();
+	$skin->purgeCache();
 	Respond::PrintResult(array('error' => 0));
 } else {
 	Respond::PrintResult(array('error' => 1, 'msg' => $result));
