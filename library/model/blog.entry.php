@@ -611,7 +611,8 @@ function addEntry($blogid, $entry, $userid = null) {
 		return false;
 	POD::query("UPDATE {$database['prefix']}Attachments SET parent = $id WHERE blogid = $blogid AND parent = 0");
 	POD::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 1");
-	updateEntriesOfCategory($blogid, $entry['category']);
+	updateCategoryByEntryId($blogid, $id, 'add', array('visibility'=> $entry['visibility']));
+
 	if ($entry['visibility'] == 3)
 		syndicateEntry($id, 'create');
 	if ($entry['visibility'] >= 2) {
@@ -741,8 +742,10 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	if ($result)
 		@POD::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 1");
 
-	updateEntriesOfCategory($blogid, $oldEntry['category']);
-	updateEntriesOfCategory($blogid, $entry['category']);
+	updateCategoryByEntryId($blogid, $entry['id'], 'update', 
+		array('category'=>array($oldEntry['category'],$entry['category']),
+			'visibility'=>array($oldEntry['visibility'],$entry['visibility'])
+		));
 	CacheControl::flushAuthor($entry['userid']);	
 	CacheControl::flushDBCache('entry');
 	$gCacheStorage->purge();
@@ -936,7 +939,7 @@ function deleteEntry($blogid, $id) {
 		$result = POD::query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND entry = $id");
 		$result = POD::query("DELETE FROM {$database['prefix']}Trackbacks WHERE blogid = $blogid AND entry = $id");
 		$result = POD::query("DELETE FROM {$database['prefix']}TrackbackLogs WHERE blogid = $blogid AND entry = $id");
-		updateEntriesOfCategory($blogid, $target['category']);
+		updateCategoryByEntryId($blogid, $id, 'delete', array('target' => $target, 'visibility'=> $target['visibility']));
 		deleteAttachments($blogid, $id);
 		
 		Tag::deleteTagsWithEntryId($blogid, $id);

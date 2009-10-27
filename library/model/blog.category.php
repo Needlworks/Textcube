@@ -104,6 +104,22 @@ function getCategoryLinkById($blogid, $id) {
 	return $result;
 }
 
+function getCategory($blogid, $id = null, $field = null) {
+	requireComponent('Needlworks.Cache.PageCache');
+
+	global $__gCacheCategoryRaw;
+
+	if ($id === null)
+		return '';
+
+	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
+	if($result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id)) {
+		if(!empty($field) && isset($result[$field])) {
+			return $result[$field];
+		} else return $result;
+	} else return false;
+}
+
 function getCategories($blogid, $format = 'tree') {
 	global $database;
 	global $__gCacheCategoryTree, $__gCacheCategoryRaw;
@@ -333,6 +349,89 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 	updateEntriesOfCategory($blogid);
 	CacheControl::flushCategory($id);
 	return $result ? true : false;
+}
+
+function updateCategoryByEntryId($blogid, $entryId, $action = 'add',$parameters = null) {
+
+	$entry = getEntry($blogid, $entryId);
+	// for deleteEntry
+	if(is_null($entry) and isset($parameters['target']))
+		$entry = $parameters['target'];
+	$categoryId = $entry['category'];
+
+	$parent       = getParentCategoryId($blogid, $categoryId);
+	$categories = array($categoryId=>$action);
+
+	switch($action) {
+		case 'add':
+			updateCategoryByCategoryId($blogid, $categoryId, 'add', $parameters);
+			if(!empty($parent)) updateCategoryByCategoryId($blogid, $parent, 'add', $parameters);
+			break;
+		case 'delete':
+			updateCategoryByCategoryId($blogid, $categoryId, 'delete', $parameters);
+			if(!empty($parent)) updateCategoryByCategoryId($blogid, $parent, 'delete', $parameters);
+			break;
+		case 'update':
+			
+			if(isset($parameters['category']) && $parameters['category'][0] != $parameters['category'][1]) { // category is changed. oldcategory - 1, newcategory + 1.
+				$oldparent = getParentCategoryId($blogid, $parameters['category'][0]);
+				$newparent = getParentCategoryId($blogid, $parameters['category'][1]);
+						
+				if(is_null($oldparent) && !is_null($newparent) && $parameters['category'][0] == $newparent) { // level 1 -> 2. newcategory + 1
+					updateCategoryByCategoryId($blogid, $parameters['category'][1], 'add', array('visibility'=>$parameters['visibility'][1]));
+				} else if(!is_null($oldparent) && is_null($newparent) && $parameters['category'][1] == $oldparent) { // level 2 -> 1. oldcategory - 1
+					updateCategoryByCategoryId($blogid, $parameters['category'][0], 'delete', array('visibility'=>$parameters['visibility'][0]));
+				} else { // etcs
+					updateCategoryByCategoryId($blogid, $parameters['category'][0], 'delete', array('visibility'=>$parameters['visibility'][0]));						
+					updateCategoryByCategoryId($blogid, $parameters['category'][1], 'add', array('visibility'=>$parameters['visibility'][1]));						
+
+					if(!is_null($oldparent))
+						updateCategoryByCategoryId($blogid, $oldparent, 'delete', array('visibility'=>$parameters['visibility'][0]));	
+					if(!is_null($newparent))
+						updateCategoryByCategoryId($blogid, $newparent, 'add', array('visibility'=>$parameters['visibility'][1]));
+				}	
+
+			} else {	// Same category case. should see the visibility change
+				if(isset($parameters['visibility']) && $parameters['visibility'][0] != $parameters['visibility'][1]) {
+					updateCategoryByCategoryId($blogid, $categoryId, 'update', $parameters);	
+				}
+			}
+		default:
+			break;
+	}
+}
+
+function updateCategoryByCategoryId($blogid, $categoryid, $action = 'add', $parameters = null) {
+	global $database;
+	$count        = getCategory($blogid, $categoryid, 'entries');
+	$countInLogin = getCategory($blogid, $categoryid, 'entriesinlogin');
+
+	switch($action) {
+		case 'add':
+			$countInLogin += 1;
+			if(isset($parameters['visibility'])) {
+				if($parameters['visibility'] > 1) $count += 1;
+			}
+			break;
+		case 'delete':
+			$countInLogin -= 1;
+			if(isset($parameters['visibility'])) {
+				if($parameters['visibility'] > 1) $count -= 1;
+			}
+			break;
+		case 'update':
+			if(isset($parameters['visibility'])) {
+				if($parameters['visibility'][0]	< 2 && $parameters['visibility'][1] > 1) { // private -> public
+					$count += 1;
+				} else if($parameters['visibility'][0] > 1 && $parameters['visibility'][1] < 2) { // public -> private
+					$count -= 1;
+				} else { // no change
+					return true;
+				}
+			}
+	}
+
+	return POD::query("UPDATE {$database['prefix']}Categories SET entries = $count, entriesinlogin = $countInLogin WHERE blogid = $blogid AND id = $categoryid");
 }
 
 function updateEntriesOfCategory($blogid, $id = - 1) {
