@@ -618,19 +618,20 @@ function moveCategory($blogid, $id, $direction) {
 					$operator = ($direction == 'up') ? '-' : '+';
 					$sql = "UPDATE {$database['prefix']}Categories SET priority = $parentPriority $operator 1 WHERE id = $myId AND blogid = $blogid";
 					POD::query($sql);
-					return;
-				}
-				if ($direction == 'up') {
-					$aux = "SET priority = priority+1 WHERE priority >= $parentPriority AND blogid = $blogid";
-					$aux2 = "SET priority = $parentPriority WHERE id = $myId AND blogid = $blogid";
+//					return;
 				} else {
-					$aux = "SET priority = priority+1 WHERE priority >= $nextPriority AND blogid = $blogid";
-					$aux2 = "SET priority = $nextPriority WHERE id = $myId AND blogid = $blogid";
+					if ($direction == 'up') {
+						$aux = "SET priority = priority+1 WHERE priority >= $parentPriority AND blogid = $blogid";
+						$aux2 = "SET priority = $parentPriority WHERE id = $myId AND blogid = $blogid";
+					} else {
+						$aux = "SET priority = priority+1 WHERE priority >= $nextPriority AND blogid = $blogid";
+						$aux2 = "SET priority = $nextPriority WHERE id = $myId AND blogid = $blogid";
+					}
+					$sql = "UPDATE {$database['prefix']}Categories $aux";
+					POD::query($sql);
+					$sql = "UPDATE {$database['prefix']}Categories $aux2";
+					POD::query($sql);
 				}
-				$sql = "UPDATE {$database['prefix']}Categories $aux";
-				POD::query($sql);
-				$sql = "UPDATE {$database['prefix']}Categories $aux2";
-				POD::query($sql);
 			}
 		// 위치를 바꿀 대상이 2 depth이면 위치 교환.
 		} else {
@@ -648,8 +649,8 @@ function moveCategory($blogid, $id, $direction) {
 			POD::query($sql);
 		}
 	}
-	CacheControl::flushCategory($id);
 	updateEntriesOfCategory($blogid);
+	CacheControl::flushCategory($id);
 }
 
 function checkRootCategoryExistence($blogid) {
