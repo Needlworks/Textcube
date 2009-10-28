@@ -292,7 +292,7 @@ function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
 	}
 
 	$result = POD::query("INSERT INTO {$database['prefix']}Categories (blogid, id, parent, name, priority, entries, entriesinlogin, label, visibility) VALUES ($blogid, $newId, $parent, '$name', $newPriority, 0, 0, '$label', 2)");
-	updateEntriesOfCategory($blogid);
+	updateEntriesOfCategory($blogid, $newId);
 	return $result ? true : false;
 }
 
@@ -346,7 +346,7 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 			AND id = $id");
 	if ($result)
 		clearFeed();
-	updateEntriesOfCategory($blogid);
+	updateEntriesOfCategory($blogid, $id);
 	CacheControl::flushCategory($id);
 	return $result ? true : false;
 }
