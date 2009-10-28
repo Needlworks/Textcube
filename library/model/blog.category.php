@@ -364,12 +364,12 @@ function updateCategoryByEntryId($blogid, $entryId, $action = 'add',$parameters 
 
 	switch($action) {
 		case 'add':
-			updateCategoryByCategoryId($blogid, $categoryId, 'add', $parameters);
-			if(!empty($parent)) updateCategoryByCategoryId($blogid, $parent, 'add', $parameters);
+			updateCategoryByCategoryId($blogid, $categoryId, 'add', array('visibility'=> $entry['visibility']));
+			if(!empty($parent)) updateCategoryByCategoryId($blogid, $parent, 'add', array('visibility'=> $entry['visibility']));
 			break;
 		case 'delete':
-			updateCategoryByCategoryId($blogid, $categoryId, 'delete', $parameters);
-			if(!empty($parent)) updateCategoryByCategoryId($blogid, $parent, 'delete', $parameters);
+			updateCategoryByCategoryId($blogid, $categoryId, 'delete', array('visibility'=> $entry['visibility']));
+			if(!empty($parent)) updateCategoryByCategoryId($blogid, $parent, 'delete', array('visibility'=> $entry['visibility']));
 			break;
 		case 'update':
 			
@@ -434,9 +434,20 @@ function updateCategoryByCategoryId($blogid, $categoryid, $action = 'add', $para
 	return POD::query("UPDATE {$database['prefix']}Categories SET entries = $count, entriesinlogin = $countInLogin WHERE blogid = $blogid AND id = $categoryid");
 }
 
-function updateEntriesOfCategory($blogid, $id = - 1) {
+function updateEntriesOfCategory($blogid, $categoryId = - 1) {
 	global $database;
-	$result = POD::queryAll("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent IS NULL");
+	if ($categoryId == -1) {
+		$result = POD::queryAll("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent IS NULL");
+	} else {
+		$parent = getParentCategoryId($blogid, $categoryId);
+		if (empty($parent)) {	// It is parent.
+			$lookup = $categoryId;
+		} else {
+			$lookup = $parent;
+		}
+		$result = POD::queryAll("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $lookup");	
+	}
+	
 	foreach($result as $row) {
 		$parent = $row['id'];
 		$parentName = UTF8::lessenAsEncoding($row['name'], 127);
@@ -455,7 +466,7 @@ function updateEntriesOfCategory($blogid, $id = - 1) {
 		}
 		POD::query("UPDATE {$database['prefix']}Categories SET entries = $countParent, entriesinlogin = $countInLoginParent, label = '{$row['name']}' WHERE blogid = $blogid AND id = $parent");
 	}
-	if($id >=0) CacheControl::flushCategory($id);
+	if($categoryId >=0) CacheControl::flushCategory($categoryId);
 	clearCategoryCache();
 	return true;
 }
@@ -637,8 +648,8 @@ function moveCategory($blogid, $id, $direction) {
 			POD::query($sql);
 		}
 	}
-	updateEntriesOfCategory($blogid);
 	CacheControl::flushCategory($id);
+	updateEntriesOfCategory($blogid);
 }
 
 function checkRootCategoryExistence($blogid) {
