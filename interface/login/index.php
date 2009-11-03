@@ -42,7 +42,7 @@ $message = '';
 $showPasswordReset = false;
 if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 	global $service;
-	setcookie( getSessionName(), $_GET['session'], 0, $service['session_cookie_path'], $service['session_cookie_domain']);
+	setcookie( Session::getName(), $_GET['session'], 0, $service['session_cookie_path'], $service['session_cookie_domain']);
 	header('Location: ' . $_GET['requestURI']);
 	exit;
 } else if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {

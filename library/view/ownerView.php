@@ -777,13 +777,13 @@ function printEntryFileList($attachments, $param) {
 															+ '&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>'
 															+ '&labelingPath=<?php echo $param['labelingPath'];?>'
 															+ entryManager.entryId
-															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[getSessionName()];?>" />'
+															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[Session::getName()];?>" />'
 															+ '<embed id="uploader2" src="<?php echo $service['path'];?>/script/uploader/uploader.swf?<?php echo rand() ?>" flashvars="uploadPath=<?php echo $param['uploadPath'];?>'
 															+ entryManager.entryId
 															+ '&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>'
 															+ '&labelingPath=<?php echo $param['labelingPath'];?>'
 															+ entryManager.entryId
-															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[getSessionName()];?>" width="400" height="40" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
+															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[Session::getName()];?>" width="400" height="40" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
 														if (hasRightVersion && (isMoz || isIE || isMinSafari3)) {
 															if(<?php echo (isset($service['flashuploader']) && !$service['flashuploader']) ? 'false' : 'true';?>) { writeCode(uploaderStr,'uploaderNest'); }
 														}
