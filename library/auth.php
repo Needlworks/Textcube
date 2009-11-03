@@ -19,7 +19,7 @@ function login($loginid, $password, $preKnownPassword = null) {
 	}
 
 	if( in_array( "group.writers", Acl::getCurrentPrivilege() ) ) {
-		Session::authorize($blogid, $userid);
+		authorizeSession($blogid, $userid);
 	}
 	return true;
 }

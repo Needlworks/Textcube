@@ -11,7 +11,7 @@ require ROOT . '/library/includeForBlog.php';
 if (false) {
 	doesHaveMembership();
 	doesHaveOwnership();
-	Session::authorize();
+	authorizeSession();
 	login();
 	fetchConfigVal();
 }
