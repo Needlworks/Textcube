@@ -23,7 +23,7 @@ $pos = 0;
 for ($i = 7; $i >= 0; $i--) {
     $week = strtotime("-".$i." day");
     $xdata[] = date('d', $week);
-	if ( !isset($row[$pos]) || (date('d', $week) != substr($row[$pos]["date"], -2))) {
+	if ( !isset($row[$pos]) || (date('d', $week) != substr($row[$pos]["datemark"], -2))) {
         $ydata[] = 0;
     } else {
 		$ydata[] = $row[$pos++]["visits"];

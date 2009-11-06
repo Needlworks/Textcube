@@ -2,7 +2,7 @@
 <plugin version="1.0">
 	<title>Graphic Statistics</title>
 	<link>http://gendoh.com</link>
-	<version>0.95</version>
+	<version>0.96</version>
 	<description>
  		접속자 통계를 Graph로 표시합니다. [##_StatisticsGraph_##] 태그를 스킨에 삽입하거나 사이드바에서 추가하면 됩니다.
 	</description>
@@ -10,7 +10,7 @@
 	<author link="http://gendoh.com"><![CDATA[겐도]]></author>
 	<safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
 	<requirements>
-    	<textcube>1.5</textcube>
+    	<textcube>1.7.9</textcube>
 	</requirements>
 	<binding>
 		<tag name="StatisticsGraph" handler="DisplayStatisticsGraph" />
