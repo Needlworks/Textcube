@@ -116,8 +116,8 @@ for ($i=0; $i<sizeof($temp); $i++) {
 	$className .= ($i == sizeof($temp) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="window.location.href='<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['datemark'];?>'">
-											<td class="date"><a href="<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['date'];?>"><?php echo Timestamp::formatDate2(misc::getTimeFromPeriod($record['datemark']));?></a></td>
-											<td class="count"><a href="<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['date'];?>"><?php echo $record['visits'];?></a></td>
+											<td class="date"><a href="<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['datemark'];?>"><?php echo Timestamp::formatDate2(misc::getTimeFromPeriod($record['datemark']));?></a></td>
+											<td class="count"><a href="<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['datemark'];?>"><?php echo $record['visits'];?></a></td>
 										</tr>
 <?php
 }
