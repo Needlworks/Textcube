@@ -23,8 +23,7 @@ if(validateAPIKey($blogid, $_GET['loginid'], $_GET['key'])) {
 		if (file_exists(ROOT . "/cache/backup/$blogid.xml")) {
 			header('Content-Type: text/xml; charset=utf-8');
 			$fileHandle = fopen(ROOT . "/cache/backup/$blogid.xml", 'r+');
-			$result = fread($fileHandle, filesize(ROOT . "/cache/backup/$blogid.xml"));
-			echo $result;
+			fpassthru($fileHandle);
 			fclose($fileHandle);
 		}
 	}
