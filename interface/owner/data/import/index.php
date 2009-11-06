@@ -582,8 +582,7 @@ function importer($path, $node, $line) {
 		case '/blog/link':
 			setProgress($item++ / $items * 100, _t('링크를 복원하고 있습니다.'));
 			$link = new Link();
-			if (!isset($node['category'][0]['.value']))
-				$link->category = 0;
+			$link->category = empty($node['category'][0]['.value']) ? 0 : $node['category'][0]['.value'];
 			$link->url = $node['url'][0]['.value'];
 			$link->title = $node['title'][0]['.value'];
 			if (!empty($node['feed'][0]['.value']))
