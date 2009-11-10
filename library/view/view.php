@@ -1052,10 +1052,10 @@ function getRecentTrackbacksView($trackbacks, $trackbackView = null, $template) 
 		$recentTrackbackView .= $view;
 	}
 	if(!is_null($trackbackView)) {
-		dress('rctrp_rep',$recentTrackbackView, $trackbackView);
+		dress('rcttb_rep',$recentTrackbackView, $trackbackView);
 		// IE webslice support
 		if(Setting::getBlogSettingGlobal('useMicroformat',3) == 3) {
-			$recentTrackbackView = addWebSlice($trackbackView, 'recentCommentWebslice', htmlspecialchars($blog['title'].' - '._t('최근 댓글'))); 
+			$recentTrackbackView = addWebSlice($trackbackView, 'recentTrackbackWebslice', htmlspecialchars($blog['title'].' - '._t('최근 트랙백'))); 
 		} else return $trackbackView;
 	}
 	return $recentTrackbackView;
