@@ -128,7 +128,7 @@ $countResult = POD::queryExistence("SELECT id
 
 $teamblog_users = null;
 if(Acl::check('group.administrators')) {
-	 $teamblog_users = POD::queryAll("SELECT u.*, t.acl FROM {$database['prefix']}Users AS u INNER JOIN {$database['prefix']}Teamblog AS t ON u.userid = t.userid AND t.blogid = $blogid ORDER BY t.acl DESC, name ASC");
+	$teamblog_users = POD::queryAll("SELECT u.*, t.acl FROM {$database['prefix']}Users AS u INNER JOIN {$database['prefix']}Teamblog AS t ON u.userid = t.userid AND t.blogid = $blogid ORDER BY t.acl DESC, name ASC");
 }
 
 require ROOT . '/library/piece/owner/header.php';
@@ -869,7 +869,7 @@ foreach ($categories as $category) {
 								<input type="button" id="apply-button-top" class="apply-button input-button" value="<?php echo _t('적용');?>" onclick="processBatch(document.getElementById('commandBoxTop'));" />
 <?php
 if(Acl::check('group.administrators')) {
-	 if (isset($teamblog_users) && count($teamblog_users) > 1) {
+	if (isset($teamblog_users) && count($teamblog_users) > 1) {
 ?>
 								<?php echo _t('또는');?>
 								<select name="author-to-entry" id="author-to-entry"> 
@@ -885,11 +885,11 @@ if(Acl::check('group.administrators')) {
 									<option value="<?=$teamblog_user['userid']?>"><?="{$teamblog_user['name']}($tmpstr)"?></option>
 <?php
 		}
-	}
 ?>
 								</select>
 								<input type="button" class="input-button" onclick="processBatchByCommand('set_author');return false;" value="<?php echo _t('변경');?>"/>
 <?php
+	}
 }
 ?>
 							</div>
