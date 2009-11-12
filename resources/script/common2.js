@@ -1240,11 +1240,15 @@ function loadComment(entryId, page) {
 	var o = document.getElementById("entry" + entryId + "Comment");
 	if (o.style.display == 'none') {
 		request.onSuccess = function () {
+			PM.removeRequest(this);
 			o.innerHTML = this.getText("/response/commentBlock");
 			window.location.href = '#entry' + entryId + 'Comment';
 		};
 		request.onError = function() {
+			PM.removeRequest(this);
+			PM.showErrorMessage("Loading Failed.","center","bottom");
 		};
+		PM.addRequest(request,"Loading Comments...");
 		request.send('&page='+page);
 	}
 	o.style.display = (o.style.display == 'none') ? 'block' : 'none';
