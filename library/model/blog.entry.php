@@ -1029,6 +1029,19 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 	return false;
 }
 
+function changeAuthorOfEntries($blogid, $entries, $userid) {
+	global $database;
+	requireModel("blog.feed");
+
+	$targets = array_unique(preg_split('/,/', $entries, -1, PREG_SPLIT_NO_EMPTY));
+	foreach($targets as $entryId) {
+		POD::execute("UPDATE {$database['prefix']}Entries SET userid = $userid WHERE blogid = $blogid AND id = $entryId");
+	}
+	clearFeed();
+	CacheControl::flushAuthor();
+	return true;
+}
+
 function setEntryVisibility($id, $visibility) {
 	global $database;
 	requireModel("blog.feed");
