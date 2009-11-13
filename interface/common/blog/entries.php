@@ -73,7 +73,9 @@ if (isset($cache->contents)) {
 			$entryView = '<a id="entry_'.$entry['id'].'"></a>'.CRLF.$entryView;
 
 			dress('tb', getTrackbacksView($entry, $skin, $entry['accepttrackback']), $entryView);
-			if ($skinSetting['expandComment'] == 1 || (($suri['directive'] == '/' || $suri['directive'] == '/entry') && $suri['value'] != '')) {
+			if (!$context->getProperty('blog.showCommentBox',false) && $context->getProperty('blog.useAjaxComment',true)) {
+				$style = 'none';
+			} else if ($context->getProperty('skin.expandComment',true) || ($context->getProperty('suri.directive','/') == '/' || ($context->getProperty('suri.directive','/') == '/entry') && $context->getProperty('suri.value','') != '')) {
 				$style = 'block';
 			} else {
 				$style = 'none';
@@ -141,7 +143,6 @@ if (isset($cache->contents)) {
 			dress('article_rep_date_modified', fireEvent('ViewPostDate', Timestamp::format5($entry['modified']), $entry['modified']), $entryView);
 			dress('entry_archive_link', "$blogURL/archive/" . Timestamp::getDate($entry['published']), $entryView);
 			if ($entry['acceptcomment'] || ($entry['comments'] > 0))
-//				dress('article_rep_rp_link', "toggleLayer('entry{$entry['id']}Comment'); return false", $entryView);
 				dress('article_rep_rp_link', "loadComment({$entry['id']},1); return false", $entryView);
 			else
 				dress('article_rep_rp_link', "return false", $entryView);
