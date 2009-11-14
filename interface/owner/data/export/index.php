@@ -346,7 +346,7 @@ $statistics = new DailyStatistics();
 if ($statistics->open()) {
 	$writer->write('<statistics>');
 	do {
-		$writer->write('<daily>' . '<date>' . $statistics->date . '</date>' . '<visits>' . $statistics->visits . '</visits>' . '</daily>');
+		$writer->write('<daily>' . '<date>' . $statistics->datemark . '</date>' . '<visits>' . $statistics->visits . '</visits>' . '</daily>');
 		$writer->write(CRLF);
 	} while ($statistics->shift());
 	$writer->write('</statistics>');
