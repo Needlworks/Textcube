@@ -44,7 +44,7 @@ class Autoload_Legacy {
 	private static $data = array(
 		'Attachment','BlogSetting','BlogStatistics','Category','Comment','CommentNotified',
 		'CommentNotifiedSiteInfo','DailyStatistics','DataMaintenance','Feed',
-		'Filter','GuestComment','Keyword','Link','Notice','PluginSetting','Post',
+		'Filter','GuestComment','Keyword','Link','LinkCategories','Notice','PluginSetting','Post',
 		'RefererLog','RefererStatistics','ServiceSetting','SkinSetting','SubscriptionLog',
 		'SubscriptionStatistics','Tag','Trackback','TrackbackLog','UserInfo','UserSetting'
 		);

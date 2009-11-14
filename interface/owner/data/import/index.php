@@ -544,9 +544,26 @@ function importer($path, $node, $line) {
 				}
 			}
 			return true;
+		case '/blog/linkCategories':
+			setProgress($item++ / $items * 100, _t('링크 카테고리를 복원하고 있습니다.'));
+			$linkCategory = new LinkCategories();
+			$linkCategory->name = $node['name'][0]['.value'];
+			$linkCategory->priority = $node['priority'][0]['.value'];
+			$linkCategory->visibility = !isset($node['visibility'][0]['.value']) || empty($node['visibility'][0]['.value']) 
+				? 2 : $node['visibility'][0]['.value'];
+			$linkCategory->id = LinkCategories::getId($linkCategory->name); 
+			if ($linkCategory->id) {
+				if (!$linkCategory->update())
+					user_error(__LINE__ . $linkCategory->error);
+			} else {
+				if (!$linkCategory->add())
+					user_error(__LINE__ . $linkCategory->error);
+			}
+			return true;
 		case '/blog/link':
 			setProgress($item++ / $items * 100, _t('링크를 복원하고 있습니다.'));
 			$link = new Link();
+			$link->category = empty($node['category'][0]['.value']) ? 0 : $node['category'][0]['.value'];
 			$link->url = $node['url'][0]['.value'];
 			$link->title = $node['title'][0]['.value'];
 			if (!empty($node['feed'][0]['.value']))
