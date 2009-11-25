@@ -18,7 +18,7 @@ if(empty($suri['id']) && empty($suri['value'])) {
 	<ul class="posts" id="blog_posts_<?php echo $suri['page'];?>" title="<?php echo _text('글목록');?>" selected="false">
 	<?php
 		$itemsView = '<li class="group">'.CRLF;
-		$itemsView .= '	<span class="left">Post List ('.$list['count'].')</span>'.CRLF;
+		$itemsView .= '	<span class="left">'._text('글목록').'('.$list['count'].')</span>'.CRLF;
 		$itemsView .= '	<span class="right">Page <span class="now_page">' . $paging['page'] . '</span> / '.$paging['pages'].'</span>'.CRLF;
 		$itemsView .= '</li>'.CRLF;
 		foreach ($list['items'] as $item) {	
