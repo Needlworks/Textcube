@@ -629,7 +629,6 @@ function handleConfig($plugin) {
 				$config = $newXmls->selectNode('/config[lang()]');
 			}
 			unset( $newXmls);
-			$pluginURL = $pluginPath = $pluginName = "";
 		}
 		if( is_null( $config['fieldset'] ) ) 
 			return array( 'code' => _t('설정 값이 없습니다.') , 'script' => '[]' ) ;  	
