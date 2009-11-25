@@ -11,7 +11,7 @@ if(empty($suri['id'])) {
 	<div class="toolbar">
 		<h1 id="pageTitle"><?php echo htmlspecialchars($blog['title']);?> Blog</h1>
 		<a id="backButton" class="button" href="#"></a>
-		<a class="button" href="#searchForm" id="searchButton" onclick="searchAction(true);">Search</a>
+		<a class="button" href="#searchForm" id="searchButton" onclick="searchAction(true);"><?php echo _text('검색');?></a>
 	</div>
 	<div class="toolbar shortcut">
 		<ul>
@@ -85,9 +85,9 @@ if(empty($suri['id'])) {
 
     <form id="searchForm" method="GET" class="dialog snug editorBar" action="<?php echo $blogURL;?>/search">
         <fieldset>
-            <h1>Post Search</h1>
-            <a class="button leftButton" type="cancel" onclick="searchAction(false);">Cancel</a>
-            <a class="button blueButton" type="submit">Search</a>
+            <h1><?php echo _text('글 검색');?></h1>
+            <a class="button leftButton" type="cancel" onclick="searchAction(false);"><?php echo _text('취소');?></a>
+            <a class="button blueButton" type="submit"><?php echo _text('검색');?></a>
             
             <div class="searchIcon"></div>
 			<img id="clearButton" class="clearButton" src="<?php echo $service['path'];?>/resources/image/spacer.gif" onclick="cancelAction(this);" />

@@ -461,6 +461,7 @@ function preloadImages()
 function submitForm(form)
 {
 	iui.showPageByHref(form.action || "POST", encodeForm(form), form.method);
+	closeKeypad();
 }
 
 function encodeForm(form)
@@ -470,7 +471,7 @@ function encodeForm(form)
 		for (var i = 0; i < inputs.length; ++i)
 		{
 			if (inputs[i].name)
-				args.push(inputs[i].name + "=" + escape(inputs[i].value));
+				args.push(inputs[i].name + "=" + looseURIEncode(inputs[i].value));
 		}
 	}
 

@@ -17,7 +17,7 @@ if(strlen($search) > 0 && !empty($suri['page'])) {
 	<ul class="search" id="search_<?php echo $suri['page'];?>" title="<?php echo _text('검색 결과');?>" selected="false">
 	<?php
 		$itemsView .= '<li class="group">'.CRLF;
-		$itemsView .= '	<span class="left">'._text('검색 결과').'('.$list['count'].')</span>'.CRLF;
+		$itemsView .= '	<span class="left">'.htmlspecialchars($search).' '._text('검색 결과').'('.$list['count'].')</span>'.CRLF;
 		$itemsView .= '	<span class="right">'._text('페이지').'<span class="now_page">' . $paging['page'] . '</span> / '.$paging['pages'].'</span>'.CRLF;
 		$itemsView .= '</li>'.CRLF;
 		foreach ($list['items'] as $item) {	
