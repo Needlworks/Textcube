@@ -16,7 +16,7 @@ body > *:not(.toolbar) {
     margin: 0;
     padding: 0;
     left: 0;
-    top: 45px;
+    top: 75px;
     width: 100%;
     min-height: 372px;
     -webkit-transition-duration: 300ms;
@@ -81,6 +81,30 @@ body > .toolbar {
 body[orient="landscape"] > .toolbar > h1 {
     margin-left: -125px;
     width: 250px;
+}
+
+
+body > .shortcut {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border-bottom: 1px solid #2d3642;
+    padding: 10px;
+    height: 30px !important;
+    background-color: #CCC !important;
+	background-image: none !important;
+	/*
+    background: url(image/toolbar2.png) #191919 repeat-x;
+	*/
+}
+
+body > .shortcut ul {
+	margin-top:0;
+}
+
+body > .shortcut ul li{
+	display:inline;
+	padding-right:15px;
 }
 
 .button {
