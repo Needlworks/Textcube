@@ -8,7 +8,7 @@ requireView('iphoneView');
 list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
 $entry = $entries ? $entries[0] : null;
 ?>
-<div id="trackback_<?php echo $entry['id']."_".time();?>" title="Trackback <?php echo $entry['id'];?>" selected="false">
+<div id="trackback_<?php echo $entry['id']."_".time();?>" title="<?php echo _text('트랙백');?> : <?php echo $entry['title'];?>" selected="false">
 	<?php
 		printIphoneTrackbackView($entry['id']);
 	?>

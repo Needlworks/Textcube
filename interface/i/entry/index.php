@@ -41,10 +41,10 @@ if(empty($suri['id']) && empty($suri['value'])) {
 
 		$itemsView .= '<li class="pagination">'.CRLF;
 		if(isset($paging['prev'])){
-			$itemsView .= '<a href="' .$blogURL . '/entry?page=' . $paging['prev'] . '" class="previous">Page ' . $paging['prev'] . '</a>'.CRLF;
+			$itemsView .= '<a href="' .$blogURL . '/entry?page=' . $paging['prev'] . '" class="previous">'._textf('%1 페이지',$paging['prev']) . '</a>'.CRLF;
 		}
 		if (isset($paging['next'])) {
-			$itemsView .= '<a href="' .$blogURL . '/entry?page=' . $paging['next'] . '" class="next">Page ' . $paging['next'] . '</a>'.CRLF;
+			$itemsView .= '<a href="' .$blogURL . '/entry?page=' . $paging['next'] . '" class="next">'._textf('%1 페이지',$paging['next']) . '</a>'.CRLF;
 		}
 		if ($suri['page'] > 1 && $suri['page'] != $paging['pages']) {
 			$itemsView .= '<strong>' . $suri['page'] . '</strong>'.CRLF;

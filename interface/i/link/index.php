@@ -5,11 +5,8 @@
 define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
-if (false) {
-	fetchConfigVal();
-}
 
-$linkView .= '<ul class="posts" id="links" title="Links" selected="false">'.CRLF;
+$linkView .= '<ul class="posts" id="links" title="'._text('링크').'" selected="false">'.CRLF;
 $linkView .= printIphoneLinksView(getLinks($blogid));
 $linkView .= '</ul>';
 print $linkView;
