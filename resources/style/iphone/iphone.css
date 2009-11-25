@@ -1,4 +1,4 @@
-/* iui.css (c) 2007 by iUI Project Members, see LICENSE.txt for license */
+/* iui.css (c) 2007-2009 by iUI Project Members, see LICENSE.txt for license */
 body {
     margin: 0;
 	font-family:Helvetica, AppleGothic, "Lucida Grande",  Verdana, Arial sans-serif;
@@ -19,6 +19,9 @@ body > *:not(.toolbar) {
     top: 45px;
     width: 100%;
     min-height: 372px;
+    -webkit-transition-duration: 300ms;
+    -webkit-transition-property: -webkit-transform;
+    -webkit-transform: translateX(0%);    
 }
 
 body[orient="landscape"] > *:not(.toolbar) {
