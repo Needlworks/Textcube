@@ -354,32 +354,32 @@ function printIphoneNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 		<?php
 	if (isset($paging['prev'])) {
 ?>
-		<li><a href="<?php echo $blogURL;?>/entry/<?php echo $paging['prev'];?>" accesskey="1"><?php echo _text('Show previous post');?></a></li>
+		<li><a href="<?php echo $blogURL;?>/entry/<?php echo $paging['prev'];?>" accesskey="1"><?php echo _text('이전 글 보기');?></a></li>
 		<?php
 	}
 	if (isset($paging['next'])) {
 ?>
-		<li><a href="<?php echo $blogURL;?>/entry/<?php echo $paging['next'];?>" accesskey="2"><?php echo _text('Show next post');?></a></li>
+		<li><a href="<?php echo $blogURL;?>/entry/<?php echo $paging['next'];?>" accesskey="2"><?php echo _text('다음 글 보기');?></a></li>
 		<?php
 	}
 	if (!isset($paging)) {
 ?>	
-		<li><a href="<?php echo $blogURL;?>/entry/<?php echo $entry['id'];?>" accesskey="3"><?php echo _text('Show posts');?></a></li>
+		<li><a href="<?php echo $blogURL;?>/entry/<?php echo $entry['id'];?>" accesskey="3"><?php echo _text('글 보기');?></a></li>
 		<?php
 	}
 	if ($jumpToComment) {
 ?>
-		<li><a href="<?php echo $blogURL;?>/comment/<?php echo $entry['id'];?>" accesskey="4"><?php echo _text('Show comment');?> (<?php echo $entry['comments'];?>)</a></li>
+		<li><a href="<?php echo $blogURL;?>/comment/<?php echo $entry['id'];?>" accesskey="4"><?php echo _text('댓글 보기');?> (<?php echo $entry['comments'];?>)</a></li>
 		<?php
 	}
 	if ($jumpToTrackback) {
 ?>
-		<li><a href="<?php echo $blogURL;?>/trackback/<?php echo $entry['id'];?>" accesskey="5"><?php echo _text('Show trackbacks');?> (<?php echo $entry['trackbacks'];?>)</a></li>
+		<li><a href="<?php echo $blogURL;?>/trackback/<?php echo $entry['id'];?>" accesskey="5"><?php echo _text('트랙백 보기');?> (<?php echo $entry['trackbacks'];?>)</a></li>
 		<?php
 	}
-	if ($suri['directive'] != '/iphone') {
+	if ($suri['directive'] != '/i') {
 ?>
-		<li class="last_no_line"><a href="#" onclick="self.location.reload();" accesskey="6"><?php echo _text('Show front page');?></a></li>
+		<li class="last_no_line"><a href="#" onclick="self.location.reload();" accesskey="6"><?php echo _text('첫화면으로 돌아가기');?></a></li>
 		<?php
 	}
 ?>
@@ -391,7 +391,7 @@ function printIphoneTrackbackView($entryId) {
 	$trackbacks = getTrackbacks($entryId);
 	if (count($trackbacks) == 0) {
 ?>
-		<p>&nbsp;<?php echo _text('No trackback');?></p>
+		<p>&nbsp;<?php echo _text('트랙백이 없습니다');?></p>
 		<?php
 	} else {
 		foreach (getTrackbacks($entryId) as $trackback) {
@@ -418,7 +418,7 @@ function printIphoneCommentView($entryId) {
 	$comments = getComments($entryId);
 	if (count($comments) == 0) {
 ?>
-		<p>&nbsp;<?php echo _text('Comments does not exist');?></p>
+		<p>&nbsp;<?php echo _text('댓글이 없습니다');?></p>
 		<?php
 	} else {
 		foreach ($comments as $commentItem) {
@@ -430,8 +430,8 @@ function printIphoneCommentView($entryId) {
 					(<?php echo Timestamp::format5($commentItem['written']);?>)
 				</span>
 				<span class="right">
-					<a href="<?php echo $blogURL;?>/comment/comment/<?php echo $commentItem['id'];?>">RE</a> :
-					<a href="<?php echo $blogURL;?>/comment/delete/<?php echo $commentItem['id'];?>">DEL</a>
+					<a href="<?php echo $blogURL;?>/comment/comment/<?php echo $commentItem['id'];?>"><?php echo _text('댓글에 댓글 달기');?></a> :
+					<a href="<?php echo $blogURL;?>/comment/delete/<?php echo $commentItem['id'];?>"><?php echo _text('지우기');?></a>
 				</span>
 			</li>
 			<li class="body">
@@ -510,7 +510,7 @@ function printIphoneErrorPage($messageTitle, $messageBody, $redirectURL) {
 		<div class="content">
 			<?php echo htmlspecialchars($messageBody);?>
 		</div>
-		<a href="<?php echo $redirectURL;?>" class="whiteButton margin-top10"><?php echo _text('Go to previous page');?></a>
+		<a href="<?php echo $redirectURL;?>" class="whiteButton margin-top10"><?php echo _text('이전 페이지로 돌아가기');?></a>
 	</div>
 <?php
 }

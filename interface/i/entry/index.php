@@ -15,7 +15,7 @@ if(empty($suri['id']) && empty($suri['value'])) {
 	$list = array('title' => (empty($suri['value']) ? getCategoryLabelById($blogid, 0) : $suri['value']), 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	$paging = $listWithPaging[1];
 	?>
-	<ul class="posts" id="blog_posts_<?php echo $suri['page'];?>" title="Posts" selected="false">
+	<ul class="posts" id="blog_posts_<?php echo $suri['page'];?>" title="<?php echo _text('글목록');?>" selected="false">
 	<?php
 		$itemsView = '<li class="group">'.CRLF;
 		$itemsView .= '	<span class="left">Post List ('.$list['count'].')</span>'.CRLF;
@@ -62,7 +62,7 @@ if(empty($suri['id']) && empty($suri['value'])) {
 	}
 	$entry = $entries ? $entries[0] : null;
 ?>
-	<div id="post_<?php echo $entry['id'];?>" title="View Post <?php echo $entry['id'];?>" class="panel">
+	<div id="post_<?php echo $entry['id'];?>" title="<?php echo $entry['title'];?>" class="panel">
 		<div class="entry_info">
 			<h2><?php echo htmlspecialchars($entry['title']);?></h2>
 			<h2 class="noBorderLine"><?php echo Timestamp::format5($entry['published']);?></h2>
