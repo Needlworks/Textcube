@@ -52,11 +52,12 @@ if(empty($suri['id']) && empty($suri['value'])) {
 	</ul>
 <?php
 } else {
-	if(empty($suri['value'])) {
-		list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value']);
-	} else {
+	if(!empty($suri['id'])) {
 		list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
+	} else if(!empty($suri['value'])) {
+		list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value']);
 	}
+	
 	$entry = $entries ? $entries[0] : null;
 ?>
 	<div id="post_<?php echo $entry['id'];?>" title="<?php echo $entry['title'];?>" class="panel">

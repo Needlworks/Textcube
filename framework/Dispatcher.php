@@ -124,7 +124,6 @@ final class Dispatcher {
 		} else {
 			$uri['interfaceType'] = 'blog';
 		}
-		
 		/* Load interface. */
 		$interfacePath = null;
 		if ($uri['interfaceType'] == 'icon') {
@@ -156,6 +155,14 @@ final class Dispatcher {
 						case 'comment': case 'trackback':
 							$pathPart = implode("/",$uri['fragment']);
 							$interfacePath = 'interface/blog/'.$pathPart.'/index.php';
+							break;
+						case 'i':
+							if(in_array($uri['fragment'][1],array('entry'))) {
+								$pathPart = 'i/'.$uri['fragment'][1]; 
+							} else {
+								$pathPath = 'i/'; 
+							}
+							$interfacePath = 'interface/'.$pathPart.'/index.php';
 							break;
 						default:
 					}
