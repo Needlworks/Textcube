@@ -7,7 +7,12 @@ require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
 ?>
 <div id="guestbook_<?php echo time();?>" title="Guestbook" selected="false">
-	<?php
-		printIphoneCommentView(0);
-	?>
+<?php
+	printIphoneGuestbookView(0);
+?>
+	<fieldset class="navi margin-top10">
+<?php
+	printIphoneNavigation($entry, false, false, $paging);
+?>
+	</fieldset>
 </div>

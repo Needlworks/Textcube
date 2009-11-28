@@ -100,11 +100,17 @@ body > .shortcut {
 
 body > .shortcut ul {
 	margin-top:0;
+	padding-left:0 !important;
 }
 
 body > .shortcut ul li{
 	display:inline;
-	padding-right:15px;
+	padding-right:0;
+}
+
+body > .shortcut ul li a {
+	font-size:0.8em !important;
+	display:inline !important;
 }
 
 .button {

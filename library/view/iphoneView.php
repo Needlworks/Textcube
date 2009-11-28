@@ -213,7 +213,7 @@ function printIphoneHtmlHeader($title = '') {
 	</div>
 	<div class="toolbar shortcut">
 	<ul>
-		<li><a href="<?php echo $blogURL;?>"><?php echo _text('글목록');?></a></li>
+		<li><a href="<?php echo $blogURL;?>" onclick="window.location.href='<?php echo $blogURL;?>'"><?php echo _text('글목록');?></a></li>
 		<li><a href="<?php echo $blogURL;?>/comment"><?php echo _text('댓글');?></a></li>
 		<li><a href="<?php echo $blogURL;?>/trackback"><?php echo _text('트랙백');?></a></li>
 		<li><a href="<?php echo $blogURL;?>/guestbook"><?php echo _text('방명록');?></a></li>
@@ -427,12 +427,16 @@ function printIphoneTrackbackView($entryId) {
 	}
 }
 
-function printIphoneCommentView($entryId) {
-	global $blogURL;
-	$comments = getComments($entryId);
+function printIphoneCommentView($entryId, $page = null) {
+	global $blogURL, $blogid, $skinSetting, $paging;
+	if(!is_null($page)) {
+		list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $page, $skinSetting['commentsOnGuestbook']);
+	} else {
+		$comments = getComments($entryId);
+	}
 	if (count($comments) == 0) {
 ?>
-		<p>&nbsp;<?php echo _text('댓글이 없습니다');?></p>
+		<p>&nbsp;<?php echo ($entryId == 0 ? _text('방명록이 없습니다') : _text('댓글이 없습니다'));?></p>
 		<?php
 	} else {
 		foreach ($comments as $commentItem) {
@@ -444,7 +448,7 @@ function printIphoneCommentView($entryId) {
 					(<?php echo Timestamp::format5($commentItem['written']);?>)
 				</span>
 				<span class="right">
-					<a href="<?php echo $blogURL;?>/comment/comment/<?php echo $commentItem['id'];?>"><?php echo _text('댓글에 댓글 달기');?></a> :
+					<a href="<?php echo $blogURL;?>/comment/comment/<?php echo $commentItem['id'];?>"><?php echo ($entryId == 0 ? _text('방명록에 댓글 달기') : _text('댓글에 댓글 달기'));?></a> :
 					<a href="<?php echo $blogURL;?>/comment/delete/<?php echo $commentItem['id'];?>"><?php echo _text('지우기');?></a>
 				</span>
 			</li>
@@ -474,6 +478,10 @@ function printIphoneCommentView($entryId) {
 		}
 	}
 	printIphoneCommentFormView($entryId, 'Write comment', 'comment');
+}
+
+function printIphoneGuestbookView() {
+	return printIphoneCommentView(0, 1);
 }
 
 function printIphoneCommentFormView($entryId, $title, $actionURL) {
