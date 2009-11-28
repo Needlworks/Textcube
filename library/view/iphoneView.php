@@ -213,10 +213,10 @@ function printIphoneHtmlHeader($title = '') {
 	</div>
 	<div class="toolbar shortcut">
 	<ul>
-		<li><?php echo _text('글목록');?></li>
-		<li><?php echo _text('댓글');?></li>
-		<li><?php echo _text('트랙백');?></li>
-		<li><?php echo _text('방명록');?></li>
+		<li><a href="<?php echo $blogURL;?>"><?php echo _text('글목록');?></a></li>
+		<li><a href="<?php echo $blogURL;?>/comment"><?php echo _text('댓글');?></a></li>
+		<li><a href="<?php echo $blogURL;?>/trackback"><?php echo _text('트랙백');?></a></li>
+		<li><a href="<?php echo $blogURL;?>/guestbook"><?php echo _text('방명록');?></a></li>
 	</ul>
 	</div>
 
