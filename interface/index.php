@@ -47,7 +47,14 @@ require ROOT . '/library/preprocessor.php';
 
 // Redirect for ipod touch / iPhone
 if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && (isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'],'iPod') || strpos($_SERVER['HTTP_USER_AGENT'],'iPhone')))){
-	header("Location: $blogURL/i"); exit;
+	if(isset($suri['id'])) {
+		$slogan = getSloganById($blogid, $suri['id']);
+		if(!empty($slogan)) {
+			header("Location: $blogURL/i/entry/".$slogan); exit;
+		}
+	} else {
+		header("Location: $blogURL/i"); exit;
+	}
 }
 
 publishEntries();
