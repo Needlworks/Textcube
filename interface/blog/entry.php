@@ -11,6 +11,14 @@ $IV = array(
 
 require ROOT . '/library/preprocessor.php';
 
+if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && (isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'],'iPod') || strpos($_SERVER['HTTP_USER_AGENT'],'iPhone')))){
+	if(empty($suri['value'])) {
+		header("Location: $blogURL/i"); exit;
+	} else {
+		header("Location: $blogURL/i/entry/".$suri['value']); exit;
+	}
+}
+
 if(empty($suri['value'])) {
 	list($entries, $paging) = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnPage']);
 } else if(isset($_GET['category'])) { // category exists
