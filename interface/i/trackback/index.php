@@ -25,7 +25,7 @@ if(!empty($suri['id'])) {
 <?php
 } else {
 ?>	
-<div id="trackback_<?php echo "_".time();?>" title="<?php echo _text('최근 트랙백');?> : <?php echo $entry['title'];?>" selected="false">
+<div id="trackback_<?php echo "_".time();?>" title="<?php echo _text('최근 트랙백');?>" selected="false">
 <?php
 	printIphoneRecentTrackbackView($page);
 ?>
