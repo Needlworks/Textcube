@@ -485,7 +485,7 @@ function printIphoneCommentView($entryId, $page = null, $mode = null) {
 		}
 	}
 	if($mode != 'recent') {	
-		printIphoneCommentFormView($entryId, 'Write comment', 'comment');
+		printIphoneCommentFormView($entryId, ($entryId == 0 ? _text('방명록 쓰기') : _text('댓글 쓰기')), 'comment');
 	}
 }
 
@@ -514,19 +514,19 @@ function printIphoneCommentFormView($entryId, $title, $actionURL) {
 		<input type="hidden" name="id" value="<?php echo $entryId;?>" />
 		<input type="hidden" id="secret_<?php echo $entryId;?>" name="secret_<?php echo $entryId;?>" value="0" />
 		<div class="row">
-			<label>Private comment</label>
-			<div class="toggle" onclick="secretToggleCheck(this, <?php echo $entryId;?>);"><span class="thumb"></span><span class="toggleOn">ON</span><span class="toggleOff">OFF</span></div>
+			<label><?php echo _text('비밀 댓글');?></label>
+			<div class="toggle" onclick="secretToggleCheck(this, <?php echo $entryId;?>);"><span class="thumb"></span><span class="toggleOn">|</span><span class="toggleOff">O</span></div>
 		</div>
 		<div class="row">
-			<label for="name_<?php echo $entryId;?>"><?php echo _text('Name');?></label>
+			<label for="name_<?php echo $entryId;?>"><?php echo _text('이름');?></label>
 			<input type="text" id="name_<?php echo $entryId;?>" name="name_<?php echo $entryId;?>" value="<?php echo isset($_COOKIE['guestName']) ? htmlspecialchars($_COOKIE['guestName']) : '';?>" />
 		</div>
 		<div class="row">
-			<label for="password_<?php echo $entryId;?>"><?php echo _text('Password');?></label>
+			<label for="password_<?php echo $entryId;?>"><?php echo _text('비밀번호');?></label>
 			<input type="password" id="password_<?php echo $entryId;?>" name="password_<?php echo $entryId;?>" />
 		</div>
 		<div class="row">
-			<label for="homepage_<?php echo $entryId;?>"><?php echo _text('Homepage');?></label>
+			<label for="homepage_<?php echo $entryId;?>"><?php echo _text('홈페이지');?></label>
 			<input type="text" id="homepage_<?php echo $entryId;?>" name="homepage_<?php echo $entryId;?>"  value="<?php echo (isset($_COOKIE['guestHomepage']) && $_COOKIE['guestHomepage'] != 'http://') ? htmlspecialchars($_COOKIE['guestHomepage']) : 'http://';?>" />
 		</div>
 		<?php
@@ -535,7 +535,7 @@ function printIphoneCommentFormView($entryId, $title, $actionURL) {
 		<div class="row">
 			<textarea cols="40" rows="6" id="comment_<?php echo $entryId;?>" name="comment_<?php echo $entryId;?>"></textarea>
 		</div>
-		<a href="#" class="whiteButton margin-top10" type="submit"><?php echo _text('Submit');?></a>
+		<a href="#" class="whiteButton margin-top10" type="submit"><?php echo _text('작성');?></a>
 	</fieldset>
 	</form>
 	
