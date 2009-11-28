@@ -24,7 +24,7 @@ if(!empty($suri['id'])) {	// entry-related comment print
 <?php
 
 } else {	// All comments
-	?>
+?>
 <div id="comment_<?php echo time();?>" title="<?php echo _text('최근 댓글');?>" selected="false">
 <?php
 	printIphoneRecentCommentView($page);

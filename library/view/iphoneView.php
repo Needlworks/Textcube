@@ -401,14 +401,19 @@ function printIphoneNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 <?php
 }
 
-function printIphoneTrackbackView($entryId) {
-	$trackbacks = getTrackbacks($entryId);
+function printIphoneTrackbackView($entryId, $page, $mode = null) {
+	global $paging, $blogid;
+	if($mode == 'recent') {
+		list($trackbacks,$paging) = getRemoteResponsesWithPaging($blogid, -1, $page, 10, null, '?page=');
+	} else {
+		$trackbacks = getTrackbacks($entryId);
+	}
 	if (count($trackbacks) == 0) {
 ?>
 		<p>&nbsp;<?php echo _text('트랙백이 없습니다');?></p>
 		<?php
 	} else {
-		foreach (getTrackbacks($entryId) as $trackback) {
+		foreach ($trackbacks as $trackback) {
 ?>
 		<ul id="trackback_<?php echo $commentItem['id'];?>" class="trackback">
 			<li class="group">
@@ -490,6 +495,10 @@ function printIphoneGuestbookView($page) {
 
 function printIphoneRecentCommentView($page) {
 	return printIphoneCommentView(1, $page, 'recent');
+}
+
+function printIphoneRecentTrackbackView($page) {
+	return printIphoneTrackbackView(1, $page, 'recent');
 }
 
 function printIphoneCommentFormView($entryId, $title, $actionURL) {

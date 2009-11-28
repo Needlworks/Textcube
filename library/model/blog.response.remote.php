@@ -42,6 +42,25 @@ function getRemoteResponsesWithPagingForOwner($blogid, $category, $site, $ip, $s
 	return array($responses, $paging);
 }
 
+function getRemoteResponsesWithPaging($blogid, $entryId, $page, $count, $url = null, $prefix = '?page=',$postfix = '', $countItem = null, $type = 'trackback') {
+	global $database;
+	if (!is_null($type)) $typeFilter = " AND t.type = '".POD::escapeString($type)."'";
+	else $typeFilter = '';
+	if($entryId != -1) $typeFilter .= " AND t.entry = ".$entryId;
+	$postfix = '';
+	$authorized = doesHaveOwnership() ? '' : getPrivateCategoryExclusionQuery($blogid);
+
+	$sql = "SELECT t.*, c.name AS categoryName 
+		FROM {$database['prefix']}RemoteResponses t 
+		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
+		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
+		WHERE t.blogid = $blogid AND t.isfiltered = 0 $authorized $typeFilter";
+	$sql .= ' ORDER BY t.written DESC';
+	list($responses, $paging) = Paging::fetchWithPaging($sql, $page, $count, $url, $prefix, $countItem);
+	$paging['postfix'] .= $postfix; 
+	return array($responses, $paging);
+}
+
 function getRemoteResponseLogsWithPagingForOwner($blogid, $category, $site, $ip, $search, $page, $count, $type = null) {
 	global $database;
 	if (!is_null($type)) $typeFilter = " AND t.type = '".POD::escapeString($type)."'";

@@ -26,6 +26,9 @@ if(empty($suri['id'])) {
 		<li><a href="#categories" class="link"><?php echo _text('분류');?></a></li>
 		<li><a href="#archives" class="link"><?php echo _text('보관목록');?></a></li>
 		<li><a href="#tags" class="link"><?php echo _text('태그');?></a></li>
+		<li><a href="<?php echo $blogURL;?>/comment" class="link"><?php echo _text('최근 댓글');?></a></li>
+		<li><a href="<?php echo $blogURL;?>/trackback" class="link"><?php echo _text('최근 트랙백');?></a></li>
+		<li><a href="<?php echo $blogURL;?>/guestbook" class="link"><?php echo _text('방명록');?></a></li>
 		<li><a href="<?php echo $blogURL;?>/link" class="link"><?php echo _text('링크');?></a></li>
 	<?php
 		if (doesHaveOwnership()) {
