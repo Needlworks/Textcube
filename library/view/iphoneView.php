@@ -363,22 +363,27 @@ function printIphoneHtmlFooter() {
 
 function printIphoneNavigation($entry, $jumpToComment = true, $jumpToTrackback = true, $paging = null) {
 	global $suri, $blogURL;
+	if($entry == 0) {
+		$mode = 'guestbook';
+	} else {
+		$mode = 'entry';
+	}
 ?>
 	<ul class="content navigation">
 		<?php
 	if (isset($paging['prev'])) {
 ?>
-		<li><a href="<?php echo $blogURL;?>/entry/<?php echo $paging['prev'];?>" accesskey="1"><?php echo _text('이전 글 보기');?></a></li>
+		<li><a href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $paging['prev'];?>" accesskey="1"><?php echo _text('이전 페이지');?></a></li>
 		<?php
 	}
 	if (isset($paging['next'])) {
 ?>
-		<li><a href="<?php echo $blogURL;?>/entry/<?php echo $paging['next'];?>" accesskey="2"><?php echo _text('다음 글 보기');?></a></li>
+		<li><a href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $paging['next'];?>" accesskey="2"><?php echo _text('다음 페이지');?></a></li>
 		<?php
 	}
 	if (!isset($paging)) {
 ?>	
-		<li><a href="<?php echo $blogURL;?>/entry/<?php echo $entry['id'];?>" accesskey="3"><?php echo _text('글 보기');?></a></li>
+		<li><a href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $entry['id'];?>" accesskey="3"><?php echo _text('글 보기');?></a></li>
 		<?php
 	}
 	if ($jumpToComment) {
@@ -480,8 +485,8 @@ function printIphoneCommentView($entryId, $page = null) {
 	printIphoneCommentFormView($entryId, 'Write comment', 'comment');
 }
 
-function printIphoneGuestbookView() {
-	return printIphoneCommentView(0, 1);
+function printIphoneGuestbookView($page) {
+	return printIphoneCommentView(0, $page);
 }
 
 function printIphoneCommentFormView($entryId, $title, $actionURL) {

@@ -5,14 +5,16 @@
 define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
+if(isset($suri['id'])) $page = $suri['id'];
+else $page = 1;
 ?>
 <div id="guestbook_<?php echo time();?>" title="Guestbook" selected="false">
 <?php
-	printIphoneGuestbookView(0);
+	printIphoneGuestbookView($page);
 ?>
 	<fieldset class="navi margin-top10">
 <?php
-	printIphoneNavigation($entry, false, false, $paging);
+	printIphoneNavigation(0, false, false, $paging);
 ?>
 	</fieldset>
 </div>
