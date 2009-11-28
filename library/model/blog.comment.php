@@ -226,9 +226,11 @@ function getCommentCommentsNotified($parent) {
 function getCommentsWithPaging($blogid, $entryId, $page, $count, $url = null, $prefix = '?page=', $postfix = '', $countItem = null) {
 	global $database;
 	$comments = array();
+	if($entryId != -1) {
+	$filter = 'AND entry = '.$entryId;
+	} else $filter = '';
 	$sql = "SELECT * FROM {$database['prefix']}Comments
-		WHERE blogid = $blogid
-			AND entry = $entryId
+		WHERE blogid = $blogid $filter
 			AND parent IS NULL
 			AND isfiltered = 0
 		ORDER BY written DESC";

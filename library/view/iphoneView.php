@@ -361,24 +361,19 @@ function printIphoneHtmlFooter() {
 <?php
 }
 
-function printIphoneNavigation($entry, $jumpToComment = true, $jumpToTrackback = true, $paging = null) {
+function printIphoneNavigation($entry, $jumpToComment = true, $jumpToTrackback = true, $paging = null, $mode = 'entry') {
 	global $suri, $blogURL;
-	if($entry == 0) {
-		$mode = 'guestbook';
-	} else {
-		$mode = 'entry';
-	}
 ?>
 	<ul class="content navigation">
 		<?php
 	if (isset($paging['prev'])) {
 ?>
-		<li><a href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $paging['prev'];?>" accesskey="1"><?php echo _text('이전 페이지');?></a></li>
+		<li><a href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $paging['prefix'].$paging['prev'];?>" accesskey="1"><?php echo _text('이전 페이지');?></a></li>
 		<?php
 	}
 	if (isset($paging['next'])) {
 ?>
-		<li><a href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $paging['next'];?>" accesskey="2"><?php echo _text('다음 페이지');?></a></li>
+		<li><a href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $paging['prefix'].$paging['next'];?>" accesskey="2"><?php echo _text('다음 페이지');?></a></li>
 		<?php
 	}
 	if (!isset($paging)) {
@@ -432,11 +427,13 @@ function printIphoneTrackbackView($entryId) {
 	}
 }
 
-function printIphoneCommentView($entryId, $page = null) {
+function printIphoneCommentView($entryId, $page = null, $mode = null) {
 	global $blogURL, $blogid, $skinSetting, $paging;
-	if(!is_null($page)) {
+	if ($mode == 'recent') {	// Recent comments
+		list($comments, $paging) = getCommentsWithPaging($blogid, -1, $page, 10, null, '?page=');
+	} else if(!is_null($page)) {	// Guestbook
 		list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $page, $skinSetting['commentsOnGuestbook']);
-	} else {
+	} else {	// Comments related to specific article
 		$comments = getComments($entryId);
 	}
 	if (count($comments) == 0) {
@@ -458,7 +455,7 @@ function printIphoneCommentView($entryId, $page = null) {
 				</span>
 			</li>
 			<li class="body">
-				<?php echo ($commentItem['secret'] && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('Secret Comment').' &gt;&gt;</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentItem['comment'])));?>
+				<?php echo ($commentItem['secret'] && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'.($entryId == 0 ? _text('비밀 방명록') : _text('비밀 댓글')).' &gt;&gt;</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentItem['comment'])));?>
 			</li>
 			<?php
 			foreach (getCommentComments($commentItem['id']) as $commentSubItem) {
@@ -482,11 +479,17 @@ function printIphoneCommentView($entryId, $page = null) {
 		<?php
 		}
 	}
-	printIphoneCommentFormView($entryId, 'Write comment', 'comment');
+	if($mode != 'recent') {	
+		printIphoneCommentFormView($entryId, 'Write comment', 'comment');
+	}
 }
 
 function printIphoneGuestbookView($page) {
 	return printIphoneCommentView(0, $page);
+}
+
+function printIphoneRecentCommentView($page) {
+	return printIphoneCommentView(1, $page, 'recent');
 }
 
 function printIphoneCommentFormView($entryId, $title, $actionURL) {
