@@ -55,7 +55,9 @@ if(empty($suri['id']) && empty($suri['value'])) {
 	if(!empty($suri['id'])) {
 		list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
 	} else if(!empty($suri['value'])) {
+		$entryPrint = true;
 		list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value']);
+		printIphoneHtmlHeader();
 	}
 	
 	$entry = $entries ? $entries[0] : null;
@@ -96,5 +98,6 @@ if(empty($suri['id']) && empty($suri['value'])) {
         </fieldset>
 	</div>
 <?php
+	if(!empty($entryPrint)) printIphoneHtmlFooter();
 }
 ?>
