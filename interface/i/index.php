@@ -7,21 +7,8 @@ require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
 if(empty($suri['id'])) {
 	printIphoneHtmlHeader();
-	?>
-	<div class="toolbar">
-		<h1 id="pageTitle"><?php echo htmlspecialchars($blog['title']);?> Blog</h1>
-		<a id="backButton" class="button" href="#"></a>
-		<a class="button" href="#searchForm" id="searchButton" onclick="searchAction(true);"><?php echo _text('검색');?></a>
-	</div>
-	<div class="toolbar shortcut">
-		<ul>
-			<li><?php echo _text('글목록');?></li>
-			<li><?php echo _text('댓글');?></li>
-			<li><?php echo _text('트랙백');?></li>
-			<li><?php echo _text('방명록');?></li>
-		</ul>
-	</div>
-	<ul id="home" title="<?php echo htmlspecialchars(UTF8::lessenAsEm($blog['title'],30));?> Blog" selected="true">
+?>	
+	<ul id="home" title="<?php echo htmlspecialchars(UTF8::lessenAsEm($blog['title'],30));?>" selected="true">
 	<?php
 		$blogAuthor = User::getName($blogid);
 		$blogLogo = !empty($blog['logo']) ? printIphoneImageResizer($blogid, $blog['logo'], 80) : "{$service['path']}/resources/style/iphone/image/textcube_logo.png";

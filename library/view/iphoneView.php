@@ -197,15 +197,29 @@ function printIphoneHtmlHeader($title = '') {
 	global $blogURL, $blog, $service, $blogid;
 	$title = htmlspecialchars($blog['title']) . ' :: ' . $title;
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
-	<head>
-		<title><?php echo $title;?></title>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
-		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/resources/style/iphone/iphone.css" />
-		<script type="application/x-javascript" src="<?php echo $service['path'];?>/resources/script/iphone/iphone.js"></script>
-	</head>
-	<body>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+	<title><?php echo $title;?></title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/resources/style/iphone/iphone.css" />
+	<script type="application/x-javascript" src="<?php echo $service['path'];?>/resources/script/iphone/iphone.js"></script>
+</head>
+<body>
+	<div class="toolbar">
+		<h1 id="pageTitle"><?php echo htmlspecialchars($blog['title']);?></h1>
+		<a id="backButton" class="button" href="#"></a>
+		<a class="button" href="#searchForm" id="searchButton" onclick="searchAction(true);"><?php echo _text('검색');?></a>
+	</div>
+	<div class="toolbar shortcut">
+	<ul>
+		<li><?php echo _text('글목록');?></li>
+		<li><?php echo _text('댓글');?></li>
+		<li><?php echo _text('트랙백');?></li>
+		<li><?php echo _text('방명록');?></li>
+	</ul>
+	</div>
+
 <?php
 }
 
@@ -379,7 +393,7 @@ function printIphoneNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 	}
 	if ($suri['directive'] != '/i') {
 ?>
-		<li class="last_no_line"><a href="#" onclick="self.location.reload();" accesskey="6"><?php echo _text('첫화면으로 돌아가기');?></a></li>
+		<li class="last_no_line"><a href="<?php echo $blogURL;?>" onclick="window.location.href='<?php echo $blogURL;?>';" accesskey="6"><?php echo _text('첫화면으로 돌아가기');?></a></li>
 		<?php
 	}
 ?>

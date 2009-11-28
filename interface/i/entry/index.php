@@ -62,7 +62,7 @@ if(empty($suri['id']) && empty($suri['value'])) {
 	
 	$entry = $entries ? $entries[0] : null;
 ?>
-	<div id="post_<?php echo $entry['id'];?>" title="<?php echo $entry['title'];?>" class="panel">
+	<div id="post_<?php echo $entry['id'];?>" title="<?php echo htmlspecialchars($entry['title']);?>" class="panel"<?php echo (!empty($entryPrint) ? 'selected="true"' : '');?>>
 		<div class="entry_info">
 			<h2><?php echo htmlspecialchars($entry['title']);?></h2>
 			<h2 class="noBorderLine"><?php echo Timestamp::format5($entry['published']);?></h2>
@@ -98,6 +98,11 @@ if(empty($suri['id']) && empty($suri['value'])) {
         </fieldset>
 	</div>
 <?php
-	if(!empty($entryPrint)) printIphoneHtmlFooter();
+	if(!empty($entryPrint)) {
+?>
+		</div>
+<?php
+		printIphoneHtmlFooter();
+	}
 }
 ?>
