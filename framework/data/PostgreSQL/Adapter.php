@@ -5,18 +5,13 @@
 
 // DBQuery version 1.7 for Postgresql
 
-global $cachedResult;
 global $fileCachedResult;
-global $__gEscapeTag;
-global $__dbProperties;
-global $__gLastQueryType;
-$cachedResult = $__dbProperties = array();
-$__gEscapeTag = null;
 
 class DBAdapter implements IAdapter {	
+	static $dbProperties, $cachedResult;
 	/*@static@*/
 	public static function bind($database) {
-		global $__dbProperties;
+		global self::$dbProperties;
 		// Connects DB and set environment variables
 		// $database array should contain 'server','username','password'.
 		if(!isset($database) || empty($database)) return false;
@@ -29,7 +24,7 @@ class DBAdapter implements IAdapter {
 		
 		@pg_set_client_encoding($handle, "UTF8");
 
-		$__dbProperties['charset'] = 'utf8';
+		self::$dbProperties['charset'] = 'utf8';
 		return true;
 	}
 
@@ -39,8 +34,7 @@ class DBAdapter implements IAdapter {
 	}
 
 	public static function charset() {
-		global $__dbProperties;
-		if (array_key_exists('charset', $__dbProperties)) return $__dbProperties['charset'];
+		if (array_key_exists('charset', self::$dbProperties)) return self::$dbProperties['charset'];
 		else return null;
 	}
 
@@ -49,32 +43,30 @@ class DBAdapter implements IAdapter {
 	}
 
 	public static function version($mode = 'server') {
-		global $__dbProperties;
-		if (array_key_exists('version', $__dbProperties)) return $__dbProperties['version'];
+		if (array_key_exists('version', self::$dbProperties)) return self::$dbProperties['version'];
 		else {
-			$__dbProperties['version'] = pg_version();
-			if($mode == 'server') return $__dbProperties['version']['server'];
-			else return $__dbProperties['version']['client'];
+			self::$dbProperties['version'] = pg_version();
+			if($mode == 'server') return self::$dbProperties['version']['server'];
+			else return self::$dbProperties['version']['client'];
 		}
 	}
 	public static function tableList($condition = null) {
-		global $__dbProperties;
-		if (!array_key_exists('tableList', $__dbProperties)) { 
-			$__dbProperties['tableList'] = DBAdapter::queryColumn("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
+		if (!array_key_exists('tableList', self::$dbProperties)) { 
+			self::$dbProperties['tableList'] = self::queryColumn("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
 		}
 		if(!is_null($condition)) {
 			$result = array();
-			foreach($__dbProperties['tableList'] as $item) {
+			foreach(self::$dbProperties['tableList'] as $item) {
 				if(strpos($item, $condition) === 0) array_push($result, $item);
 			}
 			return $result;
 		} else {
-			return $__dbProperties['tableList'];
+			return self::$dbProperties['tableList'];
 		}
 	}
 
 	public static function setTimezone($time) {
-		return DBAdapter::query('SET TIME ZONE \'' . $time . '\'');
+		return self::query('SET TIME ZONE \'' . $time . '\'');
 	}
 
 	public static function reservedFieldNames() {
@@ -151,14 +143,14 @@ class DBAdapter implements IAdapter {
 			stristr($query, 'insert ') ||
 			stristr($query, 'delete ') ||
 			stristr($query, 'replace ') ) {
-			DBAdapter::clearCache();
+			self::clearCache();
 		}
 		return $result;
 	}
 	
 	/*@static@*/
 	public static function queryExistence($query) {
-		if ($result = DBAdapter::query($query)) {
+		if ($result = self::query($query)) {
 			if (pg_num_rows($result) > 0) {
 				pg_free_result($result);
 				return true;
@@ -173,7 +165,7 @@ class DBAdapter implements IAdapter {
 		global $__gLastQueryType;
 		$count = 0;
 		$query = trim($query);
-		if ($result = DBAdapter::query($query)) {
+		if ($result = self::query($query)) {
 			$operation = strtolower(substr($query, 0,6));
 			$__gLastQueryType = $operation;
 			switch ($operation) {
@@ -203,9 +195,9 @@ class DBAdapter implements IAdapter {
 		}
 
 		if( $useCache ) {
-			$result = POD::queryAllWithCache($query, $type);
+			$result = self::queryAllWithCache($query, $type);
 		} else {
-			$result = DBAdapter::queryAllWithoutCache($query, $type);
+			$result = self::queryAllWithoutCache($query, $type);
 		}
 		if( empty($result) ) {
 			return null;
@@ -216,9 +208,9 @@ class DBAdapter implements IAdapter {
 	/*@static@*/
 	public static function queryRow($query, $type = 'both', $useCache=true) {
 		if( $useCache ) {
-			$result = POD::queryAllWithCache($query, $type, 1);
+			$result = self::queryAllWithCache($query, $type, 1);
 		} else {
-			$result = DBAdapter::queryAllWithoutCache($query, $type, 1);
+			$result = self::queryAllWithoutCache($query, $type, 1);
 		}
 		if( empty($result) ) {
 			return null;
@@ -228,19 +220,18 @@ class DBAdapter implements IAdapter {
 	
 	/*@static@*/
 	public static function queryColumn($query, $useCache=true) {
-		global $cachedResult;
 		$cacheKey = "{$query}_queryColumn";
-		if( $useCache && isset( $cachedResult[$cacheKey] ) ) {
+		if( $useCache && isset( self::$cachedResult[$cacheKey] ) ) {
 			if( function_exists( '__tcSqlLogBegin' ) ) {
 				__tcSqlLogBegin($query);
 				__tcSqlLogEnd(null,1);
 			}
-			$cachedResult[$cacheKey][0]++;
-			return $cachedResult[$cacheKey][1];
+			self::$cachedResult[$cacheKey][0]++;
+			return self::$cachedResult[$cacheKey][1];
 		}
 
 		$column = null;
-		if ($result = DBAdapter::query($query)) {
+		if ($result = self::query($query)) {
 			$column = array();
 			while ($row = pg_fetch_row($result))
 				array_push($column, $row[0]);
@@ -248,21 +239,20 @@ class DBAdapter implements IAdapter {
 		}
 
 		if( $useCache ) {
-			$cachedResult[$cacheKey] = array( 1, $column );
+			self::$cachedResult[$cacheKey] = array( 1, $column );
 		}
 		return $column;
 	}
 	
 	/*@static@*/
 	public static function queryAll($query, $type = 'both', $count = -1) {
-		return DBAdapter::queryAllWithCache($query, $type, $count);
-		//return DBAdapter::queryAllWithoutCache($query, $type, $count);  // Your choice. :)
+		return self::queryAllWithCache($query, $type, $count);
 	}
 
 	public static function queryAllWithoutCache($query, $type = 'both', $count = -1) {
 		$all = array();
-		$realtype = DBAdapter::__queryType($type);
-		if ($result = DBAdapter::query($query)) {
+		$realtype = self::__queryType($type);
+		if ($result = self::query($query)) {
 			while ( ($count-- !=0) && $row = pg_fetch_array($result, null, $realtype))
 				array_push($all, $row);
 			pg_free_result($result);
@@ -272,24 +262,23 @@ class DBAdapter implements IAdapter {
 	}
 		
 	public static function queryAllWithCache($query, $type = 'both', $count = -1) {
-		global $cachedResult;
 		$cacheKey = "{$query}_{$type}_{$count}";
-		if( isset( $cachedResult[$cacheKey] ) ) {
+		if( isset( self::$cachedResult[$cacheKey] ) ) {
 			if( function_exists( '__tcSqlLogBegin' ) ) {
 				__tcSqlLogBegin($query);
 				__tcSqlLogEnd(null,1);
 			}
-			$cachedResult[$cacheKey][0]++;
-			return $cachedResult[$cacheKey][1];
+			self::$cachedResult[$cacheKey][0]++;
+			return self::$cachedResult[$cacheKey][1];
 		}
-		$all = DBAdapter::queryAllWithoutCache($query,$type,$count);
-		$cachedResult[$cacheKey] = array( 1, $all );
+		$all = self::queryAllWithoutCache($query,$type,$count);
+		self::$cachedResult[$cacheKey] = array( 1, $all );
 		return $all;
 	}
 	
 	/*@static@*/
 	public static function execute($query) {
-		return DBAdapter::query($query) ? true : false;
+		return self::query($query) ? true : false;
 	}
 	
 	/*@static@*/
@@ -298,9 +287,9 @@ class DBAdapter implements IAdapter {
 		foreach (func_get_args() as $query) {
 			if (is_array($query)) {
 				foreach ($query as $subquery)
-					if (($result = DBAdapter::query($subquery)) === false)
+					if (($result = self::query($subquery)) === false)
 						return false;
-			} else if (($result = DBAdapter::query($query)) === false)
+			} else if (($result = self::query($query)) === false)
 				return false;
 		}
 		return $result;
@@ -315,8 +304,7 @@ class DBAdapter implements IAdapter {
 	}
 	
 	public static function clearCache() {
-		global $cachedResult;
-		$cachedResult = array();
+		self::$cachedResult = array();
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin("Cache cleared");
 			__tcSqlLogEnd(null,2);
