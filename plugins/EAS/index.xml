@@ -3,15 +3,15 @@
   <title xml:lang="ko">EAS-Eolin Antispam Service</title>
   <title xml:lang="en">EAS-Eolin Antispam Service</title>
   <link>http://antispam.eolin.com</link>
-  <version>0.95 beta</version>
+  <version>0.96 beta</version>
   <description xml:lang="ko">EOLIN에서 제공하는 스팸 코멘트/트랙백 차단 서비스를 사용합니다.</description>
   <description xml:lang="en">Deny spam comments and trackback supplyed by EOLIN.</description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://www.tnccompany.com">Tatter &amp; Company</author>
-  <author xml:lang="ko" link="http://www.tnccompany.com">태터앤컴퍼니</author>
+  <author xml:lang="en" link="http://www.google.com">Google Inc.</author>
+  <author xml:lang="ko" link="http://www.google.com">구글</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="yes" accessRaw="no" />
   <requirements>
-    <textcube>1.5</textcube>
+    <textcube>1.8</textcube>
   </requirements>
   <binding>
     <listener event="AddingTrackback">EAS_AddingTrackback</listener>
