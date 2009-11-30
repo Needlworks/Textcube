@@ -59,7 +59,7 @@ class DBAdapter implements IAdapter {
 	}
 
 	public static function reservedFieldNames() {
-		return array('date','value','data','count','year','month');
+		return array('date','value','data','count','year','month', 'type');
 	}
 
 	public static function setTimezone($time) {
