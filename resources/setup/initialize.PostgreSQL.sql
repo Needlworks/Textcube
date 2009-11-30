@@ -367,7 +367,7 @@ CREATE TABLE [##_dbPrefix_##]RemoteResponses (
   id integer NOT NULL,
   blogid integer NOT NULL default 0,
   entry integer NOT NULL default 0,
-  type varchar(10) NOT NULL default 'trackback',
+  responsetype varchar(10) NOT NULL default 'trackback',
   url varchar(255) NOT NULL default '',
   writer integer default NULL,
   site varchar(255) NOT NULL default '',

@@ -345,14 +345,6 @@ CREATE TABLE [##_dbPrefix_##]Tags (
   PRIMARY KEY (id)
 ) [##_charset_##];
 CREATE UNIQUE INDEX Tags_name_idx ON [##_dbPrefix_##]Tags (name);
-CREATE TABLE [##_dbPrefix_##]RemoteResponseLogs (
-  blogid integer default 0 NOT NULL,
-  id integer NOT NULL,
-  entry integer default 0 NOT NULL,
-  url varchar(255) default '' NOT NULL,
-  written integer default 0 NOT NULL,
-  PRIMARY KEY  (blogid, entry, id)
-) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]Privileges (
   blogid integer default 1 NOT NULL,
   userid integer default 1 NOT NULL,
@@ -361,11 +353,21 @@ CREATE TABLE [##_dbPrefix_##]Privileges (
   lastlogin integer default 0 NOT NULL,
   PRIMARY KEY (blogid,userid)
 ) [##_charset_##];
+CREATE TABLE [##_dbPrefix_##]RemoteResponseLogs (
+  blogid integer default 0 NOT NULL,
+  id integer NOT NULL,
+  entry integer default 0 NOT NULL,
+  responsetype varchar(10) default 'trackback' NOT NULL,
+  url varchar(255) default '' NOT NULL,
+  written integer default 0 NOT NULL,
+  PRIMARY KEY  (blogid, entry, id)
+) [##_charset_##];
 CREATE UNIQUE INDEX [##_dbPrefix_##]RemoteResponseLogs_blogid_id_idx ON [##_dbPrefix_##]RemoteResponseLogs (blogid, id);
 CREATE TABLE [##_dbPrefix_##]RemoteResponses (
   id integer NOT NULL,
   blogid integer default 0 NOT NULL,
   entry integer default 0 NOT NULL,
+  responsetype varchar(10) default 'trackback' NOT NULL,
   url varchar(255) default '' NOT NULL,
   writer integer default NULL,
   site varchar(255) default '' NOT NULL,
