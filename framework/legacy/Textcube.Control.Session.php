@@ -8,7 +8,8 @@ define( 'SESSION_OPENID_USERID', -1 );
 final class Session {
 	private static $sessionMicrotime;
 	private static $sessionName = null;
-	private static $sessionDBRepair = false;	
+	private static $sessionDBRepair = false;
+	private static $sConfig = null;
 	function __construct() {
 		$sessionMicrotime = Timer::getMicroTime();
 	}
@@ -60,8 +61,10 @@ final class Session {
 		$result = self::query('count',"UPDATE {$config->database['prefix']}Sessions 
 				SET userid = $userid, privilege = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() 
 				WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
-		if ($result && $result == 1)
+		if ($result && $result == 1) {
+			@POD::commit();
 			return true;
+		}
 		return false;
 	}
 	
