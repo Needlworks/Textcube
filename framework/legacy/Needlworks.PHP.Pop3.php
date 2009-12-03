@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2008, Needlworks / Tatter Network Foundation
+/// Copyright (c) 2006-2009, Needlworks / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -417,5 +417,4 @@ class Pop3 {
 		}
 		return $mail;
 	}
-
 }

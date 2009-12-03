@@ -1,4 +1,5 @@
-<?
+<?php
+
 requireComponent( "Needlworks.Mail.Pop3" );
 requireModel( "common.setting" );
 
@@ -359,19 +360,19 @@ function moblog_manage()
 {
 	global $blogURL;
 	if( Acl::check('group.administrators') && $_SERVER['REQUEST_METHOD'] == 'POST' ) {
-		setBlogSetting( 'MmsPop3Email', $_POST['pop3email'] );
-		setBlogSetting( 'MmsPop3Host', $_POST['pop3host'] );
-		setBlogSetting( 'MmsPop3Port', $_POST['pop3port'] );
-		setBlogSetting( 'MmsPop3Ssl', !empty($_POST['pop3ssl'])?1:0 );
-		setBlogSetting( 'MmsPop3Username', $_POST['pop3username'] );
-		setBlogSetting( 'MmsPop3Password', $_POST['pop3password'] );
-		setBlogSetting( 'MmsPop3Visibility', $_POST['pop3visibility'] );
-		setBlogSetting( 'MmsPop3Category', $_POST['pop3category'] );
-		setBlogSetting( 'MmsPop3Fallbackuserid', getUserId() );
-		setBlogSetting( 'MmsPop3MinSize', 0 );
-		setBlogSetting( 'MmsPop3AllowOnly', !empty($_POST['pop3allowonly'])?1:0 );
-		setBlogSetting( 'MmsPop3Allow', $_POST['pop3allow'] );
-		setBlogSetting( 'MmsPop3Subject', $_POST['pop3subject'] );
+		Setting::setBlogSettingGlobal( 'MmsPop3Email', $_POST['pop3email'] );
+		Setting::setBlogSettingGlobal( 'MmsPop3Host', $_POST['pop3host'] );
+		Setting::setBlogSettingGlobal( 'MmsPop3Port', $_POST['pop3port'] );
+		Setting::setBlogSettingGlobal( 'MmsPop3Ssl', !empty($_POST['pop3ssl'])?1:0 );
+		Setting::setBlogSettingGlobal( 'MmsPop3Username', $_POST['pop3username'] );
+		Setting::setBlogSettingGlobal( 'MmsPop3Password', $_POST['pop3password'] );
+		Setting::setBlogSettingGlobal( 'MmsPop3Visibility', $_POST['pop3visibility'] );
+		Setting::setBlogSettingGlobal( 'MmsPop3Category', $_POST['pop3category'] );
+		Setting::setBlogSettingGlobal( 'MmsPop3Fallbackuserid', getUserId() );
+		Setting::setBlogSettingGlobal( 'MmsPop3MinSize', 0 );
+		Setting::setBlogSettingGlobal( 'MmsPop3AllowOnly', !empty($_POST['pop3allowonly'])?1:0 );
+		Setting::setBlogSettingGlobal( 'MmsPop3Allow', $_POST['pop3allow'] );
+		Setting::setBlogSettingGlobal( 'MmsPop3Subject', $_POST['pop3subject'] );
 	}
 	$pop3email = Setting::getBlogSettingGlobal( 'MmsPop3Email', '' );
 	$pop3host = Setting::getBlogSettingGlobal( 'MmsPop3Host', 'localhost' );
