@@ -110,7 +110,7 @@ final class Dispatcher {
 					case 'index.gif':
 						$uri['interfaceType'] = 'icon';
 						break;
-					case 'i':
+					case 'i':case 'm':
 						$uri['interfaceType'] = 'mobile';
 						break;
 					case 'checkup':
@@ -156,11 +156,11 @@ final class Dispatcher {
 							$pathPart = implode("/",$uri['fragment']);
 							$interfacePath = 'interface/blog/'.$pathPart.'/index.php';
 							break;
-						case 'i':
+						case 'i':case 'm':
 							if(in_array($uri['fragment'][1],array('entry','comment'))) {
-								$pathPart = 'i/'.$uri['fragment'][1]; 
+								$pathPart = $uri['fragment'][0].'/'.$uri['fragment'][1]; 
 							} else {
-								$pathPath = 'i/'; 
+								$pathPath = $uri['fragment'][0].'/'; 
 							}
 							$interfacePath = 'interface/'.$pathPart.'/index.php';
 							break;
