@@ -173,10 +173,9 @@ class pageCache extends Singleton {
 class queryCache extends Singleton {
 	function __construct($query = null, $prefix = null){
 		$this->reset();
+	
 		$this->context = Model_Context::getInstance();
 		$this->__usePageCache = $this->context->getProperty('service.pagecache');
-		$this->query = $query;
-		$this->prefix = (!is_null($prefix) ? $prefix : "")."-";
 		
 		if($this->context->getProperty('service.memcached') == true) {
 			$this->pool = Cache_Memcache::getInstance();
@@ -189,8 +188,10 @@ class queryCache extends Singleton {
 		return self::_getInstance(__CLASS__);
 	}
 
-	public function reset() {
+	public function reset($query = null, $prefix = null) {
 		$this->query = $this->queryHash = $this->contents = $this->error = $this->prefix = $this->namespace = null;
+		$this->query = $query;
+		$this->prefix = (!is_null($prefix) ? $prefix : "")."-";
 	}
 	
 	public function create() {
