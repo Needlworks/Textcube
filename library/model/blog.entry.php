@@ -1018,7 +1018,7 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 		$effected = true;
 	}	
 
-	if($effected) {
+	if(updateEntriesOfCategory($blogid, $category)) {
 		if ($effected) {
 			clearFeed();
 			CacheControl::flushDBCache('comment');
