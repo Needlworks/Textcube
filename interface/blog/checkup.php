@@ -468,14 +468,15 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			showCheckupMessage(false);
 	}
 
-	if (!POD::queryExistence("DESC {$database['prefix']}RemoteResponses responsetype") &&
+	if (!POD::queryExistence("DESC {$database['prefix']}RemoteResponses responsetype")) { 
 		$changed = true;
 		echo '<li>', _text('트랙백 테이블의 호환성을 위하여 필드 이름을 변경합니다.'), ': ';
 		if (POD::execute("ALTER TABLE {$database['prefix']}RemoteResponses CHANGE type responsetype ENUM('trackback','pingback') NOT NULL DEFAULT 'trackback'") &&
-		if (POD::execute("ALTER TABLE {$database['prefix']}RemoteResponseLogs CHANGE type responsetype ENUM('trackback','pingback') NOT NULL DEFAULT 'trackback'"))
+		(POD::execute("ALTER TABLE {$database['prefix']}RemoteResponseLogs CHANGE type responsetype ENUM('trackback','pingback') NOT NULL DEFAULT 'trackback'"))) {
 			showCheckupMessage(true);
-		else
+		} else {
 			showCheckupMessage(false);
+		}
 	}
 	
 	/* From Textcube 1.7.9 (backport branch) */
