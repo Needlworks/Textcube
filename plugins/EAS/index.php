@@ -2,9 +2,6 @@
 
 function EAS_Call($type, $name, $title, $url, $content)
 {
-	requireComponent('Eolin.PHP.Core');
-	requireComponent('Eolin.PHP.XMLRPC');
-	
 	global $hostURL, $blogURL, $database;
 	
 	$blogstr = $hostURL . $blogURL;
