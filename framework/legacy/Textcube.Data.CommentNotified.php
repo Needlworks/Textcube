@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class CommentNotified {
-	function CommenNotified() {
+	function __construct() {
 		$this->reset();
 	}
 
@@ -81,7 +81,6 @@ class CommentNotified {
 	}
 	
 	function add() {
-		global $database;
 		if (!isset($this->id))
 			$this->id = $this->nextId();
 		else $this->id = $this->nextId($this->id);

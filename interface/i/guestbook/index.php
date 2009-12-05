@@ -5,9 +5,16 @@
 define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
-
-$linkView .= '<ul class="posts" id="links" title="'._text('링크').'" selected="false">'.CRLF;
-$linkView .= printIphoneLinksView(getLinks($blogid));
-$linkView .= '</ul>';
-print $linkView;
+if(isset($suri['id'])) $page = $suri['id'];
+else $page = 1;
 ?>
+<div id="guestbook_<?php echo time();?>" title="<?php echo _text('방명록');?>" selected="false">
+<?php
+	printIphoneGuestbookView($page);
+?>
+	<fieldset class="navi margin-top10">
+<?php
+	printIphoneNavigation(0, false, false, $paging, 'guestbook');
+?>
+	</fieldset>
+</div>

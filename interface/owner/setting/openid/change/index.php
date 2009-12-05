@@ -15,13 +15,14 @@ requireComponent( 'Textcube.Control.Openid' );
 requireLibrary('blog.skin');
 requireStrictRoute();
 requireModel( 'common.plugin' );
+$skin = new Skin($skinSetting['skin']);
 
 if( OpenIDConsumer::setComment( $_POST['openidonlycomment'] ) &&
 	OpenIDConsumer::setOpenIDLogoDisplay( $_POST['openidlogodisplay'] ) ) {
 	if( !empty($_POST['openidonlycomment']) || !empty($_POST['openidlogodisplay']) ) {
 		activatePlugin('CL_OpenID');
 	}
-	Skin::purgeCache();
+	$skin->purgeCache();
 	Respond::ResultPage(0);
 } else {
 	Respond::ResultPage(-1);

@@ -16,10 +16,10 @@ if(isset($category)) {
 	$list = array('title' => (empty($suri['value']) ? getCategoryLabelById($blogid, 0) : $suri['value']), 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	$paging = $listWithPaging[1];
 	?>
-	<ul class="posts" id="category_<?php echo $suri['page'];?>" title="<?php echo ($category == 0 ? 'All Category' : ucwords(getCategoryNameById($blogid, $category)));?>" selected="false">
+	<ul class="posts" id="category_<?php echo $suri['page'];?>" title="<?php echo ($category == 0 ? _text('모든 카테고리') : ucwords(getCategoryNameById($blogid, $category)));?>" selected="false">
 	<?php
 		$itemsView .= '<li class="group">'.CRLF;
-		$itemsView .= '	<span class="left">' . ($category == 0 ? 'All Category' : ucwords(getCategoryNameById($blogid, $category))) . ' ('.$list['count'].')</span>'.CRLF;
+		$itemsView .= '	<span class="left">' . ($category == 0 ? _text('모든 카테고리') : ucwords(getCategoryNameById($blogid, $category))) . ' ('.$list['count'].')</span>'.CRLF;
 		$itemsView .= '	<span class="right">Page <span class="now_page">' . $paging['page'] . '</span> / '.$paging['pages'].'</span>'.CRLF;
 		$itemsView .= '</li>'.CRLF;
 		foreach ($list['items'] as $item) {	
@@ -42,10 +42,10 @@ if(isset($category)) {
 
 		$itemsView .= '<li class="pagination">'.CRLF;
 		if(isset($paging['prev'])){
-			$itemsView .= '<a href="' .$blogURL . '/category/' . $category . '?page=' . $paging['prev'] . '" class="previous">Page ' . $paging['prev'] . '</a>'.CRLF;
+			$itemsView .= '<a href="' .$blogURL . '/category/' . $category . '?page=' . $paging['prev'] . '" class="previous">'._textf('%1 페이지',$paging['prev']) . '</a>'.CRLF;
 		}
 		if (isset($paging['next'])) {
-			$itemsView .= '<a href="' .$blogURL . '/category/' . $category . '?page=' . $paging['next'] . '" class="next">Page ' . $paging['next'] . '</a>'.CRLF;
+			$itemsView .= '<a href="' .$blogURL . '/category/' . $category . '?page=' . $paging['next'] . '" class="next">'._textf('%1 페이지',$paging['next']) . '</a>'.CRLF;
 		}
 		if ($suri['page'] > 1 && $suri['page'] != $paging['pages']) {
 			$itemsView .= '<strong>' . $suri['page'] . '</strong>'.CRLF;

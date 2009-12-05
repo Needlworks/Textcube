@@ -12,7 +12,7 @@ if(isset($_POST['search'])) {
 // get the list type.
 $listType = Setting::getBlogSetting('skinViewType', 'iconview',true);
 
-$currentAdminSkin = Setting::getBlogSetting("adminSkin", "whitedream", true);
+$currentAdminSkin = Setting::getBlogSetting("adminSkin", "canon", true);
 
 $skins = array();
 

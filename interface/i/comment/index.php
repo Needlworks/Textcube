@@ -5,16 +5,36 @@
 define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
-list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
-$entry = $entries ? $entries[0] : null;
+if(isset($_GET['page'])) $page = $_GET['page'];
+else $page = 1;
+if(!empty($suri['id'])) {	// entry-related comment print
+	list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
+	$entry = $entries ? $entries[0] : null;
 ?>
 <div id="comment_<?php echo $entry['id']."_".time();?>" title="Comment <?php echo $entry['id'];?>" selected="false">
-	<?php
-		printIphoneCommentView($entry['id']);
-	?>
+<?php
+	printIphoneCommentView($entry['id']);
+?>
 	<fieldset class="navi margin-top10">
-	<?php
-		printIphoneNavigation($entry, false, true);
-	?>
+<?php
+	printIphoneNavigation($entry, false, true);
+?>
 	</fieldset>
 </div>
+<?php
+
+} else {	// All comments
+?>
+<div id="comment_<?php echo time();?>" title="<?php echo _text('최근 댓글');?>" selected="false">
+<?php
+	printIphoneRecentCommentView($page);
+?>
+	<fieldset class="navi margin-top10">
+<?php
+	printIphoneNavigation($entry, false, false, $paging, 'comment');
+?>
+	</fieldset>
+</div>
+<?php
+}
+?>

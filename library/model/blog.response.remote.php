@@ -6,7 +6,7 @@
 /** Common remote response part */
 function getRemoteResponsesWithPagingForOwner($blogid, $category, $site, $ip, $search, $page, $count, $type = null) {
 	global $database;
-	if (!is_null($type)) $typeFilter = " AND t.type = '".POD::escapeString($type)."'";
+	if (!is_null($type)) $typeFilter = " AND t.responsetype = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
 	$postfix = '';
 	$sql = "SELECT t.*, c.name AS categoryName 
@@ -42,9 +42,28 @@ function getRemoteResponsesWithPagingForOwner($blogid, $category, $site, $ip, $s
 	return array($responses, $paging);
 }
 
+function getRemoteResponsesWithPaging($blogid, $entryId, $page, $count, $url = null, $prefix = '?page=',$postfix = '', $countItem = null, $type = 'trackback') {
+	global $database;
+	if (!is_null($type)) $typeFilter = " AND t.responsetype = '".POD::escapeString($type)."'";
+	else $typeFilter = '';
+	if($entryId != -1) $typeFilter .= " AND t.entry = ".$entryId;
+	$postfix = '';
+	$authorized = doesHaveOwnership() ? '' : getPrivateCategoryExclusionQuery($blogid);
+
+	$sql = "SELECT t.*, c.name AS categoryName 
+		FROM {$database['prefix']}RemoteResponses t 
+		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
+		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
+		WHERE t.blogid = $blogid AND t.isfiltered = 0 $authorized $typeFilter";
+	$sql .= ' ORDER BY t.written DESC';
+	list($responses, $paging) = Paging::fetchWithPaging($sql, $page, $count, $url, $prefix, $countItem);
+	$paging['postfix'] .= $postfix; 
+	return array($responses, $paging);
+}
+
 function getRemoteResponseLogsWithPagingForOwner($blogid, $category, $site, $ip, $search, $page, $count, $type = null) {
 	global $database;
-	if (!is_null($type)) $typeFilter = " AND t.type = '".POD::escapeString($type)."'";
+	if (!is_null($type)) $typeFilter = " AND t.responsetype = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
 	$postfix = '&amp;status=sent';
 	$sql = "SELECT t.*, e.title AS subject, c.name AS categoryName 
@@ -74,7 +93,7 @@ function getRemoteResponseLogsWithPagingForOwner($blogid, $category, $site, $ip,
 
 function getRemoteResponses($entry, $type = null) {
 	global $database;
-	if (!is_null($type)) $typeFilter = " AND type = '".POD::escapeString($type)."'";
+	if (!is_null($type)) $typeFilter = " AND responsetype = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
 	$responses = array();
 	$result = POD::query("SELECT * 
@@ -90,7 +109,7 @@ function getRemoteResponses($entry, $type = null) {
 
 function getRemoteResponseList($blogid, $search, $type = null) {
 	global $database;
-	if (!is_null($type)) $typeFilter = " AND type = '".POD::escapeString($type)."'";
+	if (!is_null($type)) $typeFilter = " AND responsetype = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
 	$list = array('title' => "$search", 'items' => array());
 	$search = escapeSearchString($search);
@@ -110,7 +129,7 @@ function getRemoteResponseList($blogid, $search, $type = null) {
 
 function getRecentRemoteResponses($blogid, $count = false, $guestShip = false, $type = null) {
 	global $database, $skinSetting;
-	if (!is_null($type)) $typeFilter = " AND t.type = '".POD::escapeString($type)."'";
+	if (!is_null($type)) $typeFilter = " AND t.responsetype = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
 	$sql = (doesHaveOwnership() && !$guestShip) ? "SELECT t.*, e.slogan 
 		FROM 
@@ -191,7 +210,7 @@ function revertRemoteResponse($blogid, $id) {
 function getRemoteResponseLog($blogid, $entry, $type = null) {
 	global $database;
 	if($type === null) $filter = '';
-	else $filter = " AND type = '".POD::escapeString($type)."'";
+	else $filter = " AND responsetype = '".POD::escapeString($type)."'";
 	$result = POD::query("SELECT * FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid AND entry = $entry $filter");
 	$str = '';
 	while ($row = POD::fetch($result)) {
@@ -203,7 +222,7 @@ function getRemoteResponseLog($blogid, $entry, $type = null) {
 function getRemoteResponseLogs($blogid, $entryId, $type = null) {
 	global $database;
 	if($type === null) $filter = '';
-	else $filter = " AND type = '".POD::escapeString($type)."'";
+	else $filter = " AND responsetype = '".POD::escapeString($type)."'";
 	$logs = array();
 	$result = POD::query("SELECT * FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid AND entry = $entryId $filter");
 	while ($log = POD::fetch($result))

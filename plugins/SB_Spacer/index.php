@@ -1,14 +1,14 @@
 <?php
 /* Spacer plugin for Textcube 1.1
    ----------------------------------
-   Version 1.0
+   Version 1.1
    Tatter and Friends development team.
 
    Creator          : inureyes
    Maintainer       : inureyes
 
    Created at       : 2006.11.1
-   Last modified at : 2006.11.2
+   Last modified at : 2009.10.28
  
  This plugin adds space on the sidebar.
  For the detail, visit http://forum.tattersite.com/ko

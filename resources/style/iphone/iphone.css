@@ -1,4 +1,4 @@
-/* iui.css (c) 2007 by iUI Project Members, see LICENSE.txt for license */
+/* iui.css (c) 2007-2009 by iUI Project Members, see LICENSE.txt for license */
 body {
     margin: 0;
 	font-family:Helvetica, AppleGothic, "Lucida Grande",  Verdana, Arial sans-serif;
@@ -16,9 +16,12 @@ body > *:not(.toolbar) {
     margin: 0;
     padding: 0;
     left: 0;
-    top: 45px;
+    top: 75px;
     width: 100%;
     min-height: 372px;
+    -webkit-transition-duration: 300ms;
+    -webkit-transition-property: -webkit-transform;
+    -webkit-transform: translateX(0%);    
 }
 
 body[orient="landscape"] > *:not(.toolbar) {
@@ -78,6 +81,36 @@ body > .toolbar {
 body[orient="landscape"] > .toolbar > h1 {
     margin-left: -125px;
     width: 250px;
+}
+
+
+body > .shortcut {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border-bottom: 1px solid #2d3642;
+    padding: 10px;
+    height: 30px !important;
+    background-color: #CCC !important;
+	background-image: none !important;
+	/*
+    background: url(image/toolbar2.png) #191919 repeat-x;
+	*/
+}
+
+body > .shortcut ul {
+	margin-top:0;
+	padding-left:0 !important;
+}
+
+body > .shortcut ul li{
+	display:inline;
+	padding-right:0;
+}
+
+body > .shortcut ul li a {
+	font-size:0.8em !important;
+	display:inline !important;
 }
 
 .button {

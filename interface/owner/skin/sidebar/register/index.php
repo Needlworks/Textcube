@@ -30,7 +30,7 @@ if (($module !== false) && (count($module) == 3) &&
 	$sidebarOrder = addSidebarModuleOrderData($sidebarOrder, $_REQUEST['sidebarNumber'], $_REQUEST['modulePos'], $module);
 	if (!is_null($sidebarOrder)) {
 		setBlogSetting("sidebarOrder", serialize($sidebarOrder));
-		Skin::purgeCache();
+		$skin->purgeCache();
 	}
 }
 

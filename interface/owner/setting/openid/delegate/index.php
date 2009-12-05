@@ -13,10 +13,11 @@ require ROOT . '/library/preprocessor.php';
 requireComponent( 'Textcube.Control.Openid' );
 requireLibrary('blog.skin');
 requireStrictRoute();
+$skin = new Skin($skinSetting['skin']);
 
 $consumer = new OpenIDConsumer;
 if( $consumer->setDelegate( $_GET['openid_identifier'] ) ) {
-	Skin::purgeCache();
+	$skin->purgeCache();
 	Respond::ResultPage(0);
 } else {
 	Respond::ResultPage(-1);

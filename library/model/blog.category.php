@@ -356,56 +356,69 @@ function updateCategoryByEntryId($blogid, $entryId, $action = 'add',$parameters 
 
 	$entry = getEntry($blogid, $entryId);
 	// for deleteEntry
-	if(is_null($entry) and isset($parameters['entry']))
-		$entry = $parameters['entry'];
+	if(is_null($entry) and isset($parameters['target']))
+		$entry = $parameters['target'];
 	$categoryId = $entry['category'];
 
 	$parent       = getParentCategoryId($blogid, $categoryId);
 	$categories = array($categoryId=>$action);
-	foreach($categories as $c => $a) {
-		switch($action) {
-			case 'add':
-				updateCategoryByCategoryId($blogid, $c, 'add');
-				if(!empty($parent)) updateCategoryByCategoryId($blogid, $parent, 'add');
-				break;
-			case 'delete':
-				updateCategoryByCategoryId($blogid, $c, 'delete');
-				if(!empty($parent)) updateCategoryByCategoryId($blogid, $parent, 'delete');
-				break;
-			case 'update':
-				
-				
-				if(isset($parameters['category']) && $parameters['category'][0] != $parameters['category'][1]) { // category is changed. oldcategory - 1, newcategory + 1.
-					updateCategoryByCategoryId($blogid, $parameters['category'][0], 'delete');
-					updateCategoryByCategoryId($blogid, $parameters['category'][1], 'add');
-					$newparent = getParentCategoryId($blogid, $parameters['category'][1]);
-					if(!empty($newparent) && $newparent != $parent) {
-						array_push($categories, array($parent=>'delete'));
-						array_push($categories, array($newparent=>'add'));
-					}
-				} else {	// Same category case. should see the visibility change
-					if(isset($parameters['visibility']) && $parameters['visibility'][0] != $parameters['visibility'][1]) {
-						updateCategoryByCategoryId($blogid, $parameters[1], 'update', $parameters);	
-					}
+
+	switch($action) {
+		case 'add':
+			updateCategoryByCategoryId($blogid, $categoryId, 'add', array('visibility'=> $entry['visibility']));
+			if(!empty($parent)) updateCategoryByCategoryId($blogid, $parent, 'add', array('visibility'=> $entry['visibility']));
+			break;
+		case 'delete':
+			updateCategoryByCategoryId($blogid, $categoryId, 'delete', array('visibility'=> $entry['visibility']));
+			if(!empty($parent)) updateCategoryByCategoryId($blogid, $parent, 'delete', array('visibility'=> $entry['visibility']));
+			break;
+		case 'update':
+			
+			if(isset($parameters['category']) && $parameters['category'][0] != $parameters['category'][1]) { // category is changed. oldcategory - 1, newcategory + 1.
+				$oldparent = getParentCategoryId($blogid, $parameters['category'][0]);
+				$newparent = getParentCategoryId($blogid, $parameters['category'][1]);
+						
+				if(is_null($oldparent) && !is_null($newparent) && $parameters['category'][0] == $newparent) { // level 1 -> 2. newcategory + 1
+					updateCategoryByCategoryId($blogid, $parameters['category'][1], 'add', array('visibility'=>$parameters['visibility'][1]));
+				} else if(!is_null($oldparent) && is_null($newparent) && $parameters['category'][1] == $oldparent) { // level 2 -> 1. oldcategory - 1
+					updateCategoryByCategoryId($blogid, $parameters['category'][0], 'delete', array('visibility'=>$parameters['visibility'][0]));
+				} else { // etcs
+					updateCategoryByCategoryId($blogid, $parameters['category'][0], 'delete', array('visibility'=>$parameters['visibility'][0]));						
+					updateCategoryByCategoryId($blogid, $parameters['category'][1], 'add', array('visibility'=>$parameters['visibility'][1]));						
+
+					if(!is_null($oldparent))
+						updateCategoryByCategoryId($blogid, $oldparent, 'delete', array('visibility'=>$parameters['visibility'][0]));	
+					if(!is_null($newparent))
+						updateCategoryByCategoryId($blogid, $newparent, 'add', array('visibility'=>$parameters['visibility'][1]));
+				}	
+
+			} else {	// Same category case. should see the visibility change
+				if(isset($parameters['visibility']) && $parameters['visibility'][0] != $parameters['visibility'][1]) {
+					updateCategoryByCategoryId($blogid, $categoryId, 'update', $parameters);	
 				}
-			default:
-				break;
-		}
+			}
+		default:
+			break;
 	}
 }
 
-function updateCategoryByCategoryId($blogid, $categoryId, $action = 'add', $parameters = null) {
+function updateCategoryByCategoryId($blogid, $categoryid, $action = 'add', $parameters = null) {
 	global $database;
-	$count        = getCategory($blogid, $categoryId, 'entries');
-	$countInLogin = getCategory($blogid, $categoryId, 'entriesinlogin');
+	$count        = getCategory($blogid, $categoryid, 'entries');
+	$countInLogin = getCategory($blogid, $categoryid, 'entriesinlogin');
+
 	switch($action) {
 		case 'add':
 			$countInLogin += 1;
-			if($entry['visibility'] > 1) $count += 1;
+			if(isset($parameters['visibility'])) {
+				if($parameters['visibility'] > 1) $count += 1;
+			}
 			break;
 		case 'delete':
 			$countInLogin -= 1;
-			if($entry['visibility'] > 1) $count -= 1;
+			if(isset($parameters['visibility'])) {
+				if($parameters['visibility'] > 1) $count -= 1;
+			}
 			break;
 		case 'update':
 			if(isset($parameters['visibility'])) {
@@ -418,10 +431,8 @@ function updateCategoryByCategoryId($blogid, $categoryId, $action = 'add', $para
 				}
 			}
 	}
-	return POD::query("UPDATE {$database['prefix']}Categories 
-			SET entries = $count, 
-				entriesinlogin = $countInLogin
-			WHERE blogid = $blogid AND id = $categoryId");
+
+	return POD::query("UPDATE {$database['prefix']}Categories SET entries = $count, entriesinlogin = $countInLogin WHERE blogid = $blogid AND id = $categoryid");
 }
 
 function updateEntriesOfCategory($blogid, $categoryId = - 1) {
@@ -608,19 +619,19 @@ function moveCategory($blogid, $id, $direction) {
 					$operator = ($direction == 'up') ? '-' : '+';
 					$sql = "UPDATE {$database['prefix']}Categories SET priority = $parentPriority $operator 1 WHERE id = $myId AND blogid = $blogid";
 					POD::query($sql);
-					return;
-				}
-				if ($direction == 'up') {
-					$aux = "SET priority = priority+1 WHERE priority >= $parentPriority AND blogid = $blogid";
-					$aux2 = "SET priority = $parentPriority WHERE id = $myId AND blogid = $blogid";
 				} else {
-					$aux = "SET priority = priority+1 WHERE priority >= $nextPriority AND blogid = $blogid";
-					$aux2 = "SET priority = $nextPriority WHERE id = $myId AND blogid = $blogid";
+					if ($direction == 'up') {
+						$aux = "SET priority = priority+1 WHERE priority >= $parentPriority AND blogid = $blogid";
+						$aux2 = "SET priority = $parentPriority WHERE id = $myId AND blogid = $blogid";
+					} else {
+						$aux = "SET priority = priority+1 WHERE priority >= $nextPriority AND blogid = $blogid";
+						$aux2 = "SET priority = $nextPriority WHERE id = $myId AND blogid = $blogid";
+					}
+					$sql = "UPDATE {$database['prefix']}Categories $aux";
+					POD::query($sql);
+					$sql = "UPDATE {$database['prefix']}Categories $aux2";
+					POD::query($sql);
 				}
-				$sql = "UPDATE {$database['prefix']}Categories $aux";
-				POD::query($sql);
-				$sql = "UPDATE {$database['prefix']}Categories $aux2";
-				POD::query($sql);
 			}
 		// 위치를 바꿀 대상이 2 depth이면 위치 교환.
 		} else {
@@ -638,7 +649,7 @@ function moveCategory($blogid, $id, $direction) {
 			POD::query($sql);
 		}
 	}
-//	updateEntriesOfCategory($blogid);
+	updateEntriesOfCategory($blogid);
 	CacheControl::flushCategory($id);
 }
 

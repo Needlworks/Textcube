@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 $entriesView = '';
-
+requireModel('blog.comment');
 if (isset($cache->contents)) {
 	$entriesView = $cache->contents;
 	if(strpos($cache->name,'keyword')!==false) $isKeylog = true;
@@ -73,19 +73,25 @@ if (isset($cache->contents)) {
 			$entryView = '<a id="entry_'.$entry['id'].'"></a>'.CRLF.$entryView;
 
 			dress('tb', getTrackbacksView($entry, $skin, $entry['accepttrackback']), $entryView);
-			if ($skinSetting['expandComment'] == 1 || (($suri['directive'] == '/' || $suri['directive'] == '/entry') && $suri['value'] != '')) {
+			if (!$context->getProperty('blog.showCommentBox',false) && $context->getProperty('blog.useAjaxComment',true)) {
+				$style = 'none';
+			} else if ($context->getProperty('skin.expandComment',true) || ($context->getProperty('suri.directive','/') == '/' || ($context->getProperty('suri.directive','/') == '/entry') && $context->getProperty('suri.value','') != '')) {
 				$style = 'block';
 			} else {
 				$style = 'none';
 			}
-			dress('rp', "<div id=\"entry{$entry['id']}Comment\" style=\"display:$style\">" . getCommentView($entry, $skin) . "</div>", $entryView);
+			
+			dress('rp', "<div id=\"entry{$entry['id']}Comment\" style=\"display:$style\">" . 
+					(!$context->getProperty('blog.showCommentBox',false) && $context->getProperty('blog.useAjaxComment',true) ? '' : getCommentView($entry, $skin)) . 
+					 "</div>", $entryView);
+			
 			$tagLabelView = $skin->tagLabel;
 			$entryTags = getTags($entry['blogid'], $entry['id']);
 			if (sizeof($entryTags) > 0) {
 				$tags = array();
 				$relTag = Setting::getBlogSettingGlobal('useMicroformat', 3)>1 && (count($entries) == 1 || !empty($skin->hentryExisted) );
 				foreach ($entryTags as $entryTag) {
-					$tags[$entryTag['name']] = "<a href=\"$defaultURL/tag/" . (getBlogSetting('useSloganOnTag',true) ? URL::encode($entryTag['name'],$service['useEncodedURL']) : $entryTag['id']). '"' . ($relTag ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>';
+					$tags[$entryTag['name']] = "<a href=\"$defaultURL/tag/" . (Setting::getBlogSettingGlobal('useSloganOnTag',true) ? URL::encode($entryTag['name'],$service['useEncodedURL']) : $entryTag['id']). '"' . ($relTag ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>';
 					array_push($totalTags,$entryTag['name']);
 				}
 				$tags = fireEvent('ViewTagLists', $tags, $entry['id']);
@@ -137,7 +143,7 @@ if (isset($cache->contents)) {
 			dress('article_rep_date_modified', fireEvent('ViewPostDate', Timestamp::format5($entry['modified']), $entry['modified']), $entryView);
 			dress('entry_archive_link', "$blogURL/archive/" . Timestamp::getDate($entry['published']), $entryView);
 			if ($entry['acceptcomment'] || ($entry['comments'] > 0))
-				dress('article_rep_rp_link', "toggleLayer('entry{$entry['id']}Comment'); return false", $entryView);
+				dress('article_rep_rp_link', "loadComment({$entry['id']},1); return false", $entryView);
 			else
 				dress('article_rep_rp_link', "return false", $entryView);
 		

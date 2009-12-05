@@ -757,8 +757,6 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	if ($result)
 		@POD::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 1");
 
-//	updateEntriesOfCategory($blogid, $oldEntry['category']);
-//	updateEntriesOfCategory($blogid, $entry['category']);
 	updateCategoryByEntryId($blogid, $entry['id'], 'update', 
 		array('category'=>array($oldEntry['category'],$entry['category']),
 			'visibility'=>array($oldEntry['visibility'],$entry['visibility'])
@@ -981,7 +979,7 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 	requireModel("blog.feed");
 
 	$targets = array_unique(preg_split('/,/', $entries, -1, PREG_SPLIT_NO_EMPTY));
-	$effectedCategories = array();	
+	$effectedCategories = array();
 	if ( count($targets)<1 || !is_numeric($category) ) 
 		return false;
 		
@@ -991,12 +989,13 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 			if (is_null($title)) return false;
 			if (POD::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id <> $entryId AND draft = 0 AND title = '$title' AND category = -1") == true) return false;
 		}
-	} else
-		array_push($effectedCategories, $category);
-
+	} else {
+		$parent = getParentCategoryId($blogid, $categoryId);
+		array_push($effectedCategories, $parent);
+	}
+	
 	foreach($targets as $entryId) {
-		list($effectedCategory, $oldVisibility) = POD::queryRow("SELECT category, visibility FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0");
-
+		list($effectedCategoryId, $oldVisibility) = POD::queryRow("SELECT category, visibility FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0");
 		$visibility = 	$oldVisibility;
 		if ($category < 0) {
 			if ($visibility == 1) $visibility = 0;
@@ -1007,24 +1006,40 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 			syndicateEntry($entryId, 'delete');
 			
 		POD::execute("UPDATE {$database['prefix']}Entries SET category = $category , visibility = $visibility WHERE blogid = $blogid AND id = $entryId");
-		
-		if (!in_array($effectedCategory, $effectedCategories))
-			array_push($effectedCategories, $effectedCategory);
+
+		if (!in_array($effectedCategoryId, $effectedCategories)) {
+			$parent = getParentCategoryId($blogid, $effectedCategoryId);
+			array_push($effectedCategories, $parent);
+		}
 	}
-		
 	$effected = false;
 	foreach($effectedCategories as $effectedCategory) {
 		updateEntriesOfCategory($blogid, $effectedCategory);
 		$effected = true;
-	}
+	}	
 
 	if($effected) {
-		clearFeed();
-		CacheControl::flushDBCache('comment');
-		CacheControl::flushDBCache('trackback');
+		if ($effected) {
+			clearFeed();
+			CacheControl::flushDBCache('comment');
+			CacheControl::flushDBCache('trackback');
+		}
 		return true;	
 	}
 	return false;
+}
+
+function changeAuthorOfEntries($blogid, $entries, $userid) {
+	global $database;
+	requireModel("blog.feed");
+
+	$targets = array_unique(preg_split('/,/', $entries, -1, PREG_SPLIT_NO_EMPTY));
+	foreach($targets as $entryId) {
+		POD::execute("UPDATE {$database['prefix']}Entries SET userid = $userid WHERE blogid = $blogid AND id = $entryId");
+	}
+	clearFeed();
+	CacheControl::flushAuthor();
+	return true;
 }
 
 function setEntryVisibility($id, $visibility) {

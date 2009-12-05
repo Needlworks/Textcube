@@ -16,7 +16,7 @@ requireModel('blog.feed');
 requireStrictRoute();
 $result = false;
 if(isset($_POST['visibility'])) {
-	if (setBlogSetting('visibility',$_POST['visibility'])) {
+	if (Setting::setBlogSettingGlobal('visibility',$_POST['visibility'])) {
 		CacheControl::flushCommentRSS();
 		CacheControl::flushTrackbackRSS();
 		clearFeed();

@@ -16,7 +16,7 @@ $skin = new Skin($skinSetting['skin']);
 $sidebarCount = count($skin->sidebarBasicModules);
 $sidebarOrder = deleteSidebarModuleOrderData(getSidebarModuleOrderData($sidebarCount), $_GET['sidebarNumber'], $_GET['modulePos']);
 setBlogSetting("sidebarOrder", serialize($sidebarOrder));
-Skin::purgeCache();
+$skin->purgeCache();
 
 //Respond::ResultPage(0);
 if ($_GET['viewMode'] != '') $_GET['viewMode'] = '?' . $_GET['viewMode'];

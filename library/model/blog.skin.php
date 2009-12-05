@@ -279,6 +279,7 @@ function setSkinSetting($blogid, $setting) {
 	}
 	Setting::setSkinSetting('skin', $skinSetting['skin'], $blogid);
 	Setting::setBlogSetting('useMicroformat',$setting['useMicroformat'],true);
+	Setting::setBlogSetting('useAjaxComment',$setting['useAjaxComment'],true);
 	Setting::setBlogSetting('useFOAF',(($setting['useFOAF'] == 1) ? 1: 0),true);
 	Setting::setBlogSetting('entriesOnPage',$setting['entriesOnPage'],true);
 	Setting::setBlogSetting('entriesOnList',$setting['entriesOnList'],true);

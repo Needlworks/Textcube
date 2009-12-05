@@ -345,14 +345,6 @@ CREATE TABLE [##_dbPrefix_##]Tags (
   PRIMARY KEY (id)
 ) [##_charset_##];
 CREATE UNIQUE INDEX Tags_name_idx ON [##_dbPrefix_##]Tags (name);
-CREATE TABLE [##_dbPrefix_##]RemoteResponseLogs (
-  blogid integer default 0 NOT NULL,
-  id integer NOT NULL,
-  entry integer default 0 NOT NULL,
-  url varchar(255) default '' NOT NULL,
-  written integer default 0 NOT NULL,
-  PRIMARY KEY  (blogid, entry, id)
-) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]Privileges (
   blogid integer default 1 NOT NULL,
   userid integer default 1 NOT NULL,
@@ -361,11 +353,21 @@ CREATE TABLE [##_dbPrefix_##]Privileges (
   lastlogin integer default 0 NOT NULL,
   PRIMARY KEY (blogid,userid)
 ) [##_charset_##];
+CREATE TABLE [##_dbPrefix_##]RemoteResponseLogs (
+  blogid integer default 0 NOT NULL,
+  id integer NOT NULL,
+  entry integer default 0 NOT NULL,
+  responsetype varchar(10) default 'trackback' NOT NULL,
+  url varchar(255) default '' NOT NULL,
+  written integer default 0 NOT NULL,
+  PRIMARY KEY  (blogid, entry, id)
+) [##_charset_##];
 CREATE UNIQUE INDEX [##_dbPrefix_##]RemoteResponseLogs_blogid_id_idx ON [##_dbPrefix_##]RemoteResponseLogs (blogid, id);
 CREATE TABLE [##_dbPrefix_##]RemoteResponses (
   id integer NOT NULL,
   blogid integer default 0 NOT NULL,
   entry integer default 0 NOT NULL,
+  responsetype varchar(10) default 'trackback' NOT NULL,
   url varchar(255) default '' NOT NULL,
   writer integer default NULL,
   site varchar(255) default '' NOT NULL,
@@ -397,8 +399,8 @@ CREATE TABLE [##_dbPrefix_##]UserSettings (
   PRIMARY KEY (userid,name)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]Widgets (
-  id int(11) default 1 NOT NULL,
-  blogid int(11) default 1 NOT NULL,
+  id integer default 1 NOT NULL,
+  blogid integer default 1 NOT NULL,
   title varchar(64) default 'Widget' NOT NULL,
   author varchar(32) default 'Textcube' NOT NULL,
   email varchar(32) DEFAULT NULL,
@@ -408,8 +410,8 @@ CREATE TABLE [##_dbPrefix_##]Widgets (
   authorlink varchar(128) DEFAULT NULL,
   authorlocation varchar(32) DEFAULT NULL,
   authorphoto varchar(128) DEFAULT NULL,
-  height int(11) DEFAULT NULL,
-  scrolling int(1) default 0,
+  height integer DEFAULT NULL,
+  scrolling integer default 0,
   feature varchar(32) default 'opensocial',
   content varchar NOT NULL,
   PRIMARY KEY (id)

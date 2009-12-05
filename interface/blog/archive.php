@@ -3,9 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
-if (false) {
-	fetchConfigVal();
-}
+
 if(!empty($suri['id'])) $period = $suri['id'];
 else $period = Timestamp::getYearMonth();
 

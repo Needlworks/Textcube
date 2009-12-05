@@ -30,7 +30,7 @@ class Trackback {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}RemoteResponses WHERE blogid = ".getBlogId()." AND type = 'trackback' $filter $sort");
+		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}RemoteResponses WHERE blogid = ".getBlogId()." AND responsetype = 'trackback' $filter $sort");
 		if ($this->_result) {
 			if ($this->_count = POD::num_rows($this->_result))
 				return $this->shift();
@@ -115,7 +115,7 @@ class Trackback {
 		$query = DBModel::getInstance();
 		$query->reset('RemoteResponses');
 		$query->setQualifier('blogid', 'equals', getBlogId());
-		$query->setQualifier('type', 'equals', 'trackback', false);
+		$query->setQualifier('responsetype', 'equals', 'trackback', false);
 		if (isset($this->id)) {
 			if (!Validator::number($this->id, 1))
 				return $this->_error('id');

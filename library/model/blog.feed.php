@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function RSSMessage($message) {
-	$isPublic = (getBlogSetting('visibility',2) == 2 ? true : false);
+	$isPublic = (Setting::getBlogSettingGlobal('visibility',2) == 2 ? true : false);
 	return ($isPublic ? $message : _text('비공개'));
 }
 
@@ -86,7 +86,7 @@ function initializeRSSchannel($blogid = null) {
 	$channel['pubDate'] = Timestamp::getUNIXtime();
 	$channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
 
-	if ((getBlogSetting('visibility',2) == 2) && !empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
+	if ((Setting::getBlogSettingGlobal('visibility',2) == 2) && !empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
 		$logoInfo = getimagesize(ROOT."/attach/$blogid/{$blog['logo']}");
 		$channel['url'] = $serviceURL."/attach/".$blogid."/".$blog['logo'];
 		$channel['width'] = $logoInfo[0];
@@ -106,7 +106,7 @@ function getFeedItemByEntries($entries) {
  		if (!$blog['publishWholeOnRSS']) {
 			$content .= "<p><strong><a href=\"" . htmlspecialchars($entryURL) . "\">" . _t('글 전체보기') . "</a></strong></p>";
  		} else {
-			$content .= "<p><strong><a href=\"" . htmlspecialchars($entryURL) ."#entry".$row['id']."WriteComment\">" . _t('댓글 쓰기') . "</a></strong></p>";
+			$content .= "<p><strong><a href=\"" . htmlspecialchars($entryURL) ."?commentInput=true#entry".$row['id']."WriteComment\">" . _t('댓글 쓰기') . "</a></strong></p>";
 		}
 		$row['repliesCount'] = $row['comments'] + $row['trackbacks'];
 		$item = array(

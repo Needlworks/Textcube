@@ -21,7 +21,7 @@ function setBlogDescription($blogid, $description) {
 	global $blog;
 	if ($description == $blog['description'])
 		return true;
-	if(setBlogSetting('description',UTF8::lessenAsEncoding($description, 255)) === false) return false;
+	if(Setting::setBlogSettingGlobal('description',UTF8::lessenAsEncoding($description, 255)) === false) return false;
 	$blog['description'] = $description;
 	requireModel('blog.feed');
 	requireLibrary('blog.skin');
@@ -49,7 +49,7 @@ function removeBlogLogo($blogid) {
 	global $blog;
 	requireModel('blog.attachment');
 	
-	if(setBlogSetting('logo','') === false) return false;
+	if(Setting::setBlogSettingGlobal('logo','') === false) return false;
 	else {
 		deleteAttachment($blogid, - 1, $blog['logo']);
 		$blog['logo'] = '';
@@ -67,7 +67,7 @@ function changeBlogLogo($blogid, $file) {
 		deleteAttachment($blogid, - 1, $attachment['name']);
 		return false;
 	}
-	if(setBlogSetting('logo',$attachment['name'])) {
+	if(Setting::setBlogSettingGlobal('logo',$attachment['name'])) {
 		deleteAttachment($blogid, - 1, $blog['logo']);
 		$blog['logo'] = $attachment['name'];
 		return true;
@@ -91,7 +91,7 @@ function setPrimaryDomain($blogid, $name) {
 		return 2;
 	if (POD::queryCount("SELECT * FROM {$database['prefix']}BlogSettings WHERE name = 'name' AND value = '$name'") > 0)
 		return 3;
-	if(setBlogSetting('name', $name)) {
+	if(Setting::setBlogSettingGlobal('name', $name)) {
 		$blog['name'] = $name;
 		clearFeed();
 	} else {
@@ -130,7 +130,7 @@ function setDefaultDomain($blogid, $default) {
 		return false;
 	if ($default == $blog['defaultDomain'])
 		return true;
-	if(setBlogSetting('defaultDomain',$default) === false) {
+	if(Setting::setBlogSettingGlobal('defaultDomain',$default) === false) {
 		return false;
 	}
 	$blog['defaultDomain'] = $default;
@@ -149,7 +149,7 @@ function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSlog
 		&& $useSloganOnCategory == $blog['useSloganOnCategory']
 		&& $useSloganOnTag == $blog['useSloganOnTag'])
 		return true;
-/*	if(setBlogSetting('useSloganOnPost',$useSlogan) === false
+/*	if(Setting::setBlogSettingGlobal('useSloganOnPost',$useSlogan) === false
 	|| Setting::setBlogSettingGlobal('useSloganOnCategory',$useSlogan) === false
 	|| Setting::setBlogSettingGlobal('useSloganOnTag',$useSlogan) === false
 		) {
@@ -175,7 +175,7 @@ function setEntriesOnRSS($blogid, $entriesOnRSS) {
 	requireModel('blog.feed');
 	if ($entriesOnRSS == $blog['entriesOnRSS'])
 		return true;
-	if(setBlogSetting('entriesOnRSS',$entriesOnRSS) === false) return false;
+	if(Setting::setBlogSettingGlobal('entriesOnRSS',$entriesOnRSS) === false) return false;
 	$blog['entriesOnRSS'] = $entriesOnRSS;
 	clearFeed();
 	return true;
@@ -186,7 +186,7 @@ function setCommentsOnRSS($blogid, $commentsOnRSS) {
 	requireModel('blog.feed');
 	if ($commentsOnRSS == $blog['commentsOnRSS'])
 		return true;
-	if(setBlogSetting('commentsOnRSS',$commentsOnRSS) === false) return false;
+	if(Setting::setBlogSettingGlobal('commentsOnRSS',$commentsOnRSS) === false) return false;
 	$blog['commentsOnRSS'] = $commentsOnRSS;
 	$cache = pageCache::getInstance();
 	$cache->name = 'commentRSS';

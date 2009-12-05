@@ -411,6 +411,7 @@ function handleCenters($mapping) {
 // 저장된 사이드바 정렬 순서 정보를 가져온다.
 function handleSidebars(& $sval, & $obj, $previewMode) {
 	global $service, $pluginURL, $pluginPath, $pluginName, $configVal, $configMappings;
+	requireModel('blog.sidebar');
 	$newSidebarAllOrders = array(); 
 	// [sidebar id][element id](type, id, parameters)
 	// type : 1=skin text, 2=default handler, 3=plug-in
@@ -621,7 +622,6 @@ function handleConfig($plugin) {
 					
 				$manifest = call_user_func( $handler , $plugin );
 				if(!is_null($languageDomain)) $locale->domain = $languageDomain;		
-				$pluginURL = $pluginPath = $pluginName = "";
 			}
 			$newXmls = new XMLStruct();
 			if($newXmls->open( $manifest) ) {	 

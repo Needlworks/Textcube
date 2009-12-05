@@ -52,6 +52,7 @@ $__text['데이터베이스 호환성을 위하여 댓글 테이블의 인덱스
 $__text['데이터베이스 호환성을 위하여 댓글 테이블의 자동 증가 설정을 제거합니다.'] = 'Removing auto increment setting from comment table.';
 $__text['데이터베이스 호환성을 위하여 트랙백 테이블의 자동 증가 설정을 제거합니다.'] = 'Removing auto increment setting from trackback table.';
 $__text['동시 접속자 관리를 위하여 세션 테이블의 인덱스 설정을 변경합니다.'] = 'Modifying index setting of session table.';
+//$__text['라인 기능에 여러 라인의 통합을 위한 필드를 추가합니다.'] = '';
 //$__text['라인 기능을 위한 테이블을 만듭니다'] = '';
 $__text['링크 카테고리 테이블을 만듭니다'] = 'Making link category table';
 $__text['버전 검사'] = 'Version test';
@@ -67,6 +68,7 @@ $__text['오픈아이디 댓글 테이블을 기존 댓글 테이블에 병합�
 $__text['오픈아이디 사용자 테이블을 만듭니다'] = 'Creating OpenID User table';
 $__text['완료되었습니다.'] = 'Completed';
 //$__text['원격 댓글 지원 기능을 위해 트랙백 테이블의 이름을 변경합니다.'] = '';
+//$__text['위젯 기능 및 오픈소셜 지원을 위한 테이블을 만듭니다'] = '';
 $__text['첫번째 점검'] = 'First maintenance';
 $__text['텍스트큐브 점검을 시작합니다.'] = 'Starts textcube maintenance.';
 $__text['텍스트큐브를 점검합니다.'] = 'Textcube maintenance start.';

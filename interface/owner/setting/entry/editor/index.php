@@ -13,7 +13,7 @@ if(array_key_exists('useBlogAPI',  $_REQUEST)) {
 if (!array_key_exists('defaultEditor',$_REQUEST) || !array_key_exists('defaultFormatter',$_REQUEST))
 	Respond::ResultPage( -1);
 
-if (setBlogSetting("defaultEditor", $_REQUEST['defaultEditor']) 
+if (Setting::setBlogSettingGlobal("defaultEditor", $_REQUEST['defaultEditor']) 
 		&& Setting::setBlogSettingGlobal("defaultFormatter", $_REQUEST['defaultFormatter']) 
 		&& Setting::setBlogSettingGlobal("useBlogAPI", $useBlogAPI) 
 		&& Setting::setBlogSettingGlobal("blogApiPassword", $_REQUEST['blogApiPassword']) ) {

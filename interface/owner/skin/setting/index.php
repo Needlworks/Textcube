@@ -79,7 +79,11 @@ $selected = 0;
 									} else {
 										tagboxAlign = 3;
 									}
-									
+									if (document.getElementById('pagingComment').checked) {
+										useAjaxComment = 1;
+									} else {
+										useAjaxComment = 0;									
+									}									
 									if (document.getElementById('microformatNone').checked) {
 										useMicroformat = 1;
 									} else if(document.getElementById('microformatSome').checked) {
@@ -111,6 +115,7 @@ $selected = 0;
 									param += 'recentCommentLength='+getValueById('recentCommentLength') +'&';
 									param += 'recentTrackbackLength='+getValueById('recentTrackbackLength') +'&';				
 									param += 'linkLength='+getValueById('linkLength') +'&';
+									param += 'useAjaxComment='+ useAjaxComment +'&';
 									param += 'useMicroformat='+ useMicroformat +'&';
 									param += 'useFOAF='+ useFOAF +'&';
 
@@ -394,6 +399,12 @@ ob_end_clean();
 												<input type="checkbox" id="expandTrackback" class="checkbox" name="expandTrackback"<?php echo $skinSetting['expandTrackback'] ? ' checked="checked"' : '';?> /><label for="expandTrackback"><?php echo _t('걸린글을 기본으로 펼칩니다.');?></label>
 											</dd>
 										</dl>
+										<dl id="comment-show-line" class="line">
+											<dt><span class="label"><?php echo _t('댓글을 표시할 때');?></span></dt>
+											<dd>
+												<input type="checkbox" id="pagingComment" class="checkbox" name="pagingComment"<?php echo (Setting::getBlogSettingGlobal('useAjaxComment',1) == 1 ? 'checked = "checked"' : '');?> /><label for="pagingComment"><?php echo _t('댓글 페이징을 사용합니다.');?></label><br />
+											</dd>
+										</dl>
 									</fieldset>
 									
 									<fieldset id="length-container" class="container">
@@ -597,9 +608,9 @@ ob_end_clean();
 										<dl id="advanced-microformat-line" class="line">
 											<dt><span class="label"><?php echo _t('Microformat 지원');?></span></dt>
 											<dd>
-												<input type="radio" id="microformatNone" class="radio" name="useMicroformat" value="1" <?php echo (getBlogSetting('useMicroformat',3) == 1 ? 'checked = "checked"' : '');?> /><label for="microformatNone"><?php echo _t('Microformat을 사용하지 않습니다.');?></label><br />
-												<input type="radio" id="microformatSome" class="radio" name="useMicroformat" value="2" <?php echo (getBlogSetting('useMicroformat',3) == 2 ? 'checked = "checked"' : '');?> /><label for="microformatSome"><?php echo _t('웹표준 권고안과 충돌할 수도 있는 규약을 제외한 Microformat을 사용합니다.');?></label><br />
-												<input type="radio" id="microformatFull" class="radio" name="useMicroformat" value="3" <?php echo (getBlogSetting('useMicroformat',3) == 3 ? 'checked = "checked"' : '');?> /><label for="microformatFull"><?php echo _t('가능한 모든 Microformat을 지원합니다.');?></label>
+												<input type="radio" id="microformatNone" class="radio" name="useMicroformat" value="1" <?php echo (Setting::getBlogSettingGlobal('useMicroformat',3) == 1 ? 'checked = "checked"' : '');?> /><label for="microformatNone"><?php echo _t('Microformat을 사용하지 않습니다.');?></label><br />
+												<input type="radio" id="microformatSome" class="radio" name="useMicroformat" value="2" <?php echo (Setting::getBlogSettingGlobal('useMicroformat',3) == 2 ? 'checked = "checked"' : '');?> /><label for="microformatSome"><?php echo _t('웹표준 권고안과 충돌할 수도 있는 규약을 제외한 Microformat을 사용합니다.');?></label><br />
+												<input type="radio" id="microformatFull" class="radio" name="useMicroformat" value="3" <?php echo (Setting::getBlogSettingGlobal('useMicroformat',3) == 3 ? 'checked = "checked"' : '');?> /><label for="microformatFull"><?php echo _t('가능한 모든 Microformat을 지원합니다.');?></label>
 											</dd>
 										</dl>
 

@@ -32,7 +32,7 @@ $__text['금요일'] = 'Fri';
 $__text['토요일'] = 'Sat';
 
 
-$__text['"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.'] = 'Cannot create directory "%2" in "%1". Change \\ the permission setting of "%1" to "%3".';
+$__text['"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.'] = 'Cannot create directory "%2" in "%1". Change \ the permission setting of "%1" to "%3".';
 $__text['"%1"에 %2 파일을 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.'] = 'Cannot create file "%2" in "%1". Change the permission setting of "%1" to "%3"';
 $__text['"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.'] = 'Cannot access to "%1". Change the permission setting to $2';
 //$__text['%1 버전'] = '';

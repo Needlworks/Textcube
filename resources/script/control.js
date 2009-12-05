@@ -286,7 +286,7 @@ ctlUserSuggest.prototype.requestSuggestion = function()
 	debug("Request " + instance.cursor);
 
 	var script = document.createElement("script");
-	script.setAttribute("src", blogURL + "/owner/control/action/user/suggest/?id=" + instance.container.getAttribute("id") + "&cursor=" + instance.cursor + "&input=" + encodeURIComponent(instance.input.value) + (STD.isSafari ? "&encode=1" : ""));
+	script.setAttribute("src", blogURL + "/control/action/user/suggest/?id=" + instance.container.getAttribute("id") + "&cursor=" + instance.cursor + "&input=" + encodeURIComponent(instance.input.value) + (STD.isSafari ? "&encode=1" : ""));
 	document.body.appendChild(script);
 }
 
@@ -342,7 +342,7 @@ function debug(s){try{document.getElementById("debug").innerHTML=++x+")"+s+"<br 
 // 여기까지 Suggestion용 Function
 
 function sendUserAddInfo(name,email) {
-	var request = new HTTPRequest(blogURL + "/owner/control/action/user/add/?name=" + name + "&email=" + email);
+	var request = new HTTPRequest(blogURL + "/control/action/user/add/?name=" + name + "&email=" + email);
 	request.onSuccess = function() {
 		PM.showMessage(_t('새로운 사용자가 추가되었습니다.'), "right", "top");
 		ctlRefresh();
@@ -355,7 +355,7 @@ function sendUserAddInfo(name,email) {
 }
 
 function sendBlogAddInfo(owner,identify) {
-	var request = new HTTPRequest(blogURL + "/owner/control/action/blog/add/?owner="+owner+"&identify="+identify);
+	var request = new HTTPRequest(blogURL + "/control/action/blog/add/?owner="+owner+"&identify="+identify);
 	request.onSuccess = function() {
 		PM.showMessage(_t('새로운 블로그가 추가되었습니다.'), "right", "top");
 		ctlRefresh();
@@ -369,7 +369,7 @@ function sendBlogAddInfo(owner,identify) {
 
 function cleanUser(uid) {
 	if (!confirm(_t('모든 글과 블로그가 관리자의 소유로 옮겨집니다.') + '\t\n\n' + _t('되돌릴 수 없습니다.') + '\t\n\n' + _t('계속 진행하시겠습니까?'))) return false;
-	var request = new HTTPRequest(blogURL + "/owner/control/action/user/delete/?userid="+uid);
+	var request = new HTTPRequest(blogURL + "/control/action/user/delete/?userid="+uid);
 	request.onSuccess = function() {
 		PM.removeRequest(this);
 		window.location.href = '../';

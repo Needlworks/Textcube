@@ -100,7 +100,7 @@ function getWaterMarkPosition() {
 }
 
 function getWaterMarkGamma() {
-	return 100;//intval(getBlogSetting("gammaForWaterMark", "100"));
+	return 100;//intval(Setting::getBlogSettingGlobal("gammaForWaterMark", "100"));
 }
 
 function getThumbnailPadding() {

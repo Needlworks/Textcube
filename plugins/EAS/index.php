@@ -2,9 +2,6 @@
 
 function EAS_Call($type, $name, $title, $url, $content)
 {
-	requireComponent('Eolin.PHP.Core');
-	requireComponent('Eolin.PHP.XMLRPC');
-	
 	global $hostURL, $blogURL, $database;
 	
 	$blogstr = $hostURL . $blogURL;
@@ -16,11 +13,11 @@ function EAS_Call($type, $name, $title, $url, $content)
 		// call fail
 		// Do Local spam check with "Thief-cat algorithm"
 		$count = 0;
-		$tableName = $database['prefix'] . 'Trackbacks';
+		$tableName = $database['prefix'] . 'RemoteResponses';
 			
 		if ($type == 2) // Trackback Case
 		{
-			$sql = 'SELECT COUNT(id) as cc FROM ' . $database['prefix'] . 'Trackbacks WHERE';
+			$sql = 'SELECT COUNT(id) as cc FROM ' . $database['prefix'] . 'RemoteResponses WHERE';
 			$sql .= ' url = \'' . POD::escapeString($url) . '\'';
 			$sql .= ' AND isfiltered > 0';
 			

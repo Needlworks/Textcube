@@ -27,6 +27,7 @@ $IV = array(
 		'recentCommentLength' => array('int'),
 		'recentTrackbackLength' => array('int'),
 		'linkLength' => array('int'),
+		'useAjaxComment' => array('int'),
 		'useMicroformat' => array('int'),
 		'useFOAF' => array('int')
 	)

@@ -371,6 +371,7 @@ class Setting {
 				'noticesOnRecent' => 5, 
 				'commentsOnRecent' => 5, 
 				'commentsOnGuestbook' => 5, 
+				'commentsOnEntry' => 15, 
 				'archivesOnPage' => 5,
 				'tagsOnTagbox' => 30, 
 				'tagboxAlign' => 3, 

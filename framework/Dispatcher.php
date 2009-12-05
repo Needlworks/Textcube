@@ -110,7 +110,7 @@ final class Dispatcher {
 					case 'index.gif':
 						$uri['interfaceType'] = 'icon';
 						break;
-					case 'i':
+					case 'i':case 'm':
 						$uri['interfaceType'] = 'mobile';
 						break;
 					case 'checkup':
@@ -124,7 +124,6 @@ final class Dispatcher {
 		} else {
 			$uri['interfaceType'] = 'blog';
 		}
-		
 		/* Load interface. */
 		$interfacePath = null;
 		if ($uri['interfaceType'] == 'icon') {
@@ -156,6 +155,14 @@ final class Dispatcher {
 						case 'comment': case 'trackback':
 							$pathPart = implode("/",$uri['fragment']);
 							$interfacePath = 'interface/blog/'.$pathPart.'/index.php';
+							break;
+						case 'i':case 'm':
+							if(in_array($uri['fragment'][1],array('entry','comment'))) {
+								$pathPart = $uri['fragment'][0].'/'.$uri['fragment'][1]; 
+							} else {
+								$pathPath = $uri['fragment'][0].'/'; 
+							}
+							$interfacePath = 'interface/'.$pathPart.'/index.php';
 							break;
 						default:
 					}

@@ -121,7 +121,7 @@ if ($post->open('', '*', 'published, id')) {
 		}
 		if ($comment = $post->getComments()) {
 			do {
-				if($comment->isFiltered == 0) {
+				if($comment->isfiltered == 0) {
 					$writer->write('<comment>' . '<id>'. $comment->id . '</id>' . '<commenter' . ' id="' . $comment->commenter . '">' . '<name>' . htmlspecialchars(UTF8::correct($comment->name)) . '</name>' . '<homepage>' . htmlspecialchars(UTF8::correct($comment->homepage)) . '</homepage>' . '<ip>' . $comment->ip . '</ip>' . '<openid>' . $comment->openid . '</openid>' . '</commenter>' .
 					'<content>' . htmlspecialchars($comment->content) . '</content>' . '<password>' . htmlspecialchars($comment->password) . '</password>' . '<secret>' . htmlspecialchars($comment->secret) . '</secret>' .'<longitude>'.$comment->longitude .'</longitude>'.'<latitude>'.$comment->latitude.'</latitude>' . '<written>' . $comment->written . '</written>' . '<isFiltered>' . $comment->isfiltered . '</isFiltered>');
 					$writer->write(CRLF);
@@ -322,7 +322,7 @@ $statistics = new DailyStatistics();
 if ($statistics->open()) {
 	$writer->write('<statistics>');
 	do {
-		$writer->write('<daily>' . '<date>' . $statistics->date . '</date>' . '<visits>' . $statistics->visits . '</visits>' . '</daily>');
+		$writer->write('<daily>' . '<date>' . $statistics->datemark . '</date>' . '<visits>' . $statistics->visits . '</visits>' . '</daily>');
 		$writer->write(CRLF);
 	} while ($statistics->shift());
 	$writer->write('</statistics>');

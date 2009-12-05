@@ -7,7 +7,7 @@ require ROOT . '/library/preprocessor.php';
 
 $cache = pageCache::getInstance();
 if (strlen($suri['value'])) {
-	if(!isset($suri['id']) || (getBlogSetting('useSloganOnTag',1) == 1)) {
+	if(!isset($suri['id']) || (Setting::getBlogSettingGlobal('useSloganOnTag',1) == 1)) {
 		$tag = getTagId($blogid, $suri['value']);
 		$listFeedURL = 'tag/'.$suri['value'];
 	} else {
@@ -44,7 +44,7 @@ if (strlen($suri['value'])) {
 	// Now, print starts.
 	require ROOT . '/interface/common/blog/begin.php';
 	$cache->reset();
-	if(getBlogSetting('useKeywordAsTag',true)==true) {
+	if(Setting::getBlogSettingGlobal('useKeywordAsTag',true)==true) {
 		$cache->name = 'keyword-'.$tag.'-';
 		if($cache->load()) {
 			require ROOT . '/interface/common/blog/entries.php';
