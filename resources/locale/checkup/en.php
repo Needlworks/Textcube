@@ -74,6 +74,7 @@ $__text['텍스트큐브 점검을 시작합니다.'] = 'Starts textcube mainten
 $__text['텍스트큐브를 점검합니다.'] = 'Textcube maintenance start.';
 $__text['트랙백 불러오기 속도를 개선하기 위하여 트랙백 테이블의 인덱스 설정을 변경합니다.'] = 'Modifying index setting of trackback table.';
 //$__text['트랙백 테이블에 컨텐츠 종류를 판단하기 위한 필드를 추가합니다.'] = '';
+//$__text['트랙백 테이블의 호환성을 위하여 필드 이름을 변경합니다.'] = '';
 $__text['페이지 캐시를 초기화합니다.'] = 'Reset page cache';
 //$__text['필터 테이블에 예외 목록을 추가하기 위하여 필드 속성을 변경합니다.'] = '';
 //$__text['필터 호환성을 위하여 필드의 이름을 변경합니다.'] = '';
