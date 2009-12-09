@@ -404,18 +404,6 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			showCheckupMessage(false);
 	}
 	/* From Textcube 1.7.7 (or 1.8) */
-	if (!POD::queryExistence("DESC {$database['prefix']}RemoteResponses blogid") &&
-		!POD::queryExistence("DESC {$database['prefix']}Trackbacks type")) {
-		$changed = true;
-		echo '<li>', _text('트랙백 테이블에 컨텐츠 종류를 판단하기 위한 필드를 추가합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}Trackbacks ADD responsetype enum('trackback','pingback') NOT NULL default 'trackback' AFTER entry") && 
-			POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs ADD responsetype enum('trackback','pingback') NOT NULL default 'trackback' AFTER entry")
-		) {
-			showCheckupMessage(true);
-		} else
-			showCheckupMessage(false);
-	}
-	
 	if (!POD::queryExistence("DESC {$database['prefix']}RemoteResponses type")) {
 		$changed = true;
 		echo '<li>', _text('원격 댓글 지원 기능을 위해 트랙백 테이블의 이름을 변경합니다.'), ': ';
@@ -428,6 +416,17 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			showCheckupMessage(false);
 	}	
 
+	if(!POD::queryExistence("DESC {$database['prefix']}RemoteResponses type")) {
+		$changed = true;
+		echo '<li>', _text('트랙백 테이블에 컨텐츠 종류를 판단하기 위한 필드를 추가합니다.'), ': ';
+		if (POD::execute("ALTER TABLE {$database['prefix']}RemoteResponses ADD responsetype enum('trackback','pingback') NOT NULL default 'trackback' AFTER entry") && 
+			POD::execute("ALTER TABLE {$database['prefix']}RemoteResponseLogs ADD responsetype enum('trackback','pingback') NOT NULL default 'trackback' AFTER entry")
+		) {
+			showCheckupMessage(true);
+		} else
+			showCheckupMessage(false);
+	}
+	
 	if (!POD::queryExistence("DESC {$database['prefix']}Entries pingbacks")) {
 		$changed = true;
 		echo '<li>', _text('핑백 기능을 위해 글 테이블에 핑백 필드를 추가합니다.'), ': ';
