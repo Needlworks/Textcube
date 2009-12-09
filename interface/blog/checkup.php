@@ -408,8 +408,8 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		!POD::queryExistence("DESC {$database['prefix']}Trackbacks type")) {
 		$changed = true;
 		echo '<li>', _text('트랙백 테이블에 컨텐츠 종류를 판단하기 위한 필드를 추가합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}Trackbacks ADD type enum('trackback','pingback') NOT NULL default 'trackback' AFTER entry") && 
-			POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs ADD type enum('trackback','pingback') NOT NULL default 'trackback' AFTER entry")
+		if (POD::execute("ALTER TABLE {$database['prefix']}Trackbacks ADD responsetype enum('trackback','pingback') NOT NULL default 'trackback' AFTER entry") && 
+			POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs ADD responsetype enum('trackback','pingback') NOT NULL default 'trackback' AFTER entry")
 		) {
 			showCheckupMessage(true);
 		} else
