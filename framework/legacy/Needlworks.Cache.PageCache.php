@@ -191,7 +191,11 @@ class queryCache extends Singleton {
 	public function reset($query = null, $prefix = null) {
 		$this->query = $this->queryHash = $this->contents = $this->error = $this->prefix = $this->namespace = null;
 		$this->query = $query;
-		$this->prefix = (!is_null($prefix) ? $prefix : "")."-";
+		if(!is_null($prefix)) {
+			$this->prefix = $prefix."-";
+			$this->namespace = $this->prefix;
+		}
+		
 	}
 	
 	public function create() {
