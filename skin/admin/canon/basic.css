@@ -556,6 +556,7 @@ textarea
 /*	height                           : 100%;*/
 	border-right                     : solid 1px #BBB;
 	-webkit-box-shadow               : 0 0 7px #666;
+	-moz-box-shadow                  : 0 0 7px #666;
 }
 
 #sub-menu li
@@ -596,6 +597,7 @@ textarea
 	text-decoration                  : none !important;
 	background-image                 : url("./image/bg_submenu_item_selected.gif");
 	-webkit-text-shadow              : 0 0 5px #FFE13C !important;
+	-moz-text-shadow                 : 0 0 5px #FFE13C !important;
 /*	background-color                 : #CCC;*/
 }
 
@@ -1427,6 +1429,7 @@ table.data-inbox tbody tr td.inactive-class
 	background-image                 : url("./image/bg_submenu_item_selected.gif");
 	border                           : 1px solid #333;
 	-webkit-box-shadow               : 0 0 7px #FFE13C;
+	-moz-box-shadow                  : 0 0 7px #FFE13C;
 }
 
 .wide-button
