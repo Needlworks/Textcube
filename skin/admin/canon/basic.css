@@ -505,6 +505,8 @@ textarea
 	border-radius                    : 5px;
 	-moz-border-radius               : 5px;
 	-webkit-border-radius            : 5px;
+	-webkit-transition-duration      : 300ms;
+	-webkit-transform                : translate(0.3em,0);
 }
 
 #main-menu li:hover ul li a:link,
