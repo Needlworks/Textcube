@@ -54,7 +54,7 @@ if(!doesHaveOwnership()) {
 			<?php };?>
             <div class="row">
 				<label for="loginid"><?php echo _text('E-mail');?></label>
-				<input type="text" class="input-text" id="loginid" name="loginid" value="<?php echo htmlspecialchars(empty($_POST['loginid']) ? (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : $_COOKIE['TSSESSION_LOGINID']) : $_POST['loginid']);?>" maxlength="64" tabindex="1" />
+				<input type="email" class="input-text" id="loginid" name="loginid" value="<?php echo htmlspecialchars(empty($_POST['loginid']) ? (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : $_COOKIE['TSSESSION_LOGINID']) : $_POST['loginid']);?>" maxlength="64" tabindex="1" />
             </div>
             <div class="row">
 				<label for="password"><?php echo _text('비밀번호');?></label>
@@ -62,7 +62,7 @@ if(!doesHaveOwnership()) {
             </div>
             <div class="row">
                 <label><?php echo _text('E-mail 저장');?></label>
-                <div id="emailSave" class="toggle" <?php echo (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : 'toggled="true"');?> onclick="emailSaveToggleCheck(this);"><span class="thumb"></span><span class="toggleOn">ON</span><span class="toggleOff">OFF</span></div>
+                <div id="emailSave" class="toggle" <?php echo (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : 'toggled="true"');?> onclick="emailSaveToggleCheck(this);"><span class="thumb"></span><span class="toggleOn">|</span><span class="toggleOff">O</span></div>
 			</div>
 		</fieldset>
 		<input type="hidden" id="save" class="checkbox" name="save" />    
