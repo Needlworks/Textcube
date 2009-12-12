@@ -611,6 +611,8 @@ if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 	$helpURL = $blogMenu['topMenu'].(isset($blogMenu['contentMenu']) ? '/'.$submenuURL : '');
 ?>
 					</ul>
+					<div id="custom-sub-menu">
+					</div>
 				</div>
 <?php
 if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
