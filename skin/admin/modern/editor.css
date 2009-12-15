@@ -16,20 +16,23 @@ h3
 }
 
 /* title ----------------------------------------------------------------------------------------*/
-#title-section
+#title-section,
+#category-section
 {
 	margin                           : 0 20px 0 0;
 	padding                          : 5px 3px 5px 5px;
 	width                            : 658px;
 }
 
-#title-section dl
+#title-section dl,
+#category-section dl
 {
 	border                           : none;
 	margin-bottom                    : 6px;
 }
 
-#title-section dl dt
+#title-section dl dt,
+#category-section dl dt
 {
 	color                            : #666666;
 	font-weight                      : bold;
@@ -37,16 +40,19 @@ h3
 	width                            : 70px !important;
 }
 
-#title-section dl dd
+#title-section dl dd,
+#category-section dl dd
 {
 	margin-left                      : 80px;
 }
+
 #title-section dl dd div.starred
 {
 	margin-left:10px !important;
 }
 
-#title-section dl dd select
+#title-section dl dd select,
+#category-section dl dd select
 {
 	vertical-align                   : middle;
 	width                            : 160px;
