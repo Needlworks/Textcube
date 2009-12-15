@@ -640,6 +640,9 @@ if (defined('__TEXTCUBE_POST__')) {
 												<input type="text" id="title" class="input-text" name="title" value="<?php echo htmlspecialchars($entry['title']);?>" onkeypress="return preventEnter(event);" size="60" />
 											</dd>
 										</dl>
+									</div>
+									<div id="category-section" class="section">
+										<h3><?php echo _t('분류');?></h3>
 										<dl id="category-line" class="line">
 											<dt><label for="category"><?php echo _t('분류');?></label></dt>
 											<dd>
