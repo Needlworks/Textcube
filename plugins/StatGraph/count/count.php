@@ -2,7 +2,28 @@
 
 define('ROOT', '../../..');
 
-require ROOT . '/library/includeForIcon.php';
+require ROOT . '/library/include.icon.php';
+
+foreach (new DirectoryIterator(ROOT.'/framework/boot') as $fileInfo) {
+	if($fileInfo->isFile()) require_once($fileInfo->getPathname());
+}
+$context = Model_Context::getInstance();
+$config  = Model_Config::getInstance();
+
+if(!is_null($context->getProperty('database.database'))) {
+	$context->useNamespace('database');
+	$db['database'] = $context->getProperty('database');
+	$db['server']   = $context->getProperty('server');
+	$db['port']     = $context->getProperty('port');
+	$db['username'] = $context->getProperty('username');
+	$db['password'] = $context->getProperty('password');
+	$context->useNamespace();
+	if(POD::bind($db) === false) {
+		Respond::MessagePage('Problem with connecting database.<br /><br />Please re-visit later.');
+		exit;
+	}
+}
+$database['utf8'] = (POD::charset() == 'utf8') ? true : false;
 
 include ("src/jpgraph.php");
 include ("src/jpgraph_scatter.php");
@@ -12,7 +33,6 @@ if ((isset($_REQUEST['blogid'])) && is_numeric($_REQUEST['blogid'])) {
 	$blogid = intval($_REQUEST['blogid']);
 }
 
-requireComponent('Eolin.PHP.Core');
 requireComponent('Textcube.Model.Statistics');
 $row = Statistics::getWeeklyStatistics();
 
