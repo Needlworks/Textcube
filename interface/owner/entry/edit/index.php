@@ -184,6 +184,7 @@ if (defined('__TEXTCUBE_POST__')) {
 									this.nowsaving = false;
 									this.isPreview   = false;
 									this.changeEditor = false;
+									this.draftSaved = false;
 									this.currentEditor = "<?php echo $entry['contenteditor'];?>";
 									this.entryId   = <?php echo $entry['id'];?>;
 
@@ -396,10 +397,13 @@ if (isset($_GET['returnURL'])) {
 												document.getElementById("saveButton").style.color = "#BBB";
 												PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 											}
-											if(entryManager.isSaved == false) {
+											if(entryManager.isSaved == false) {	// First save.
 												entryManager.entryId = this.getText("/response/entryId");
 												entryManager.isSaved = true;
+												entryManager.draftSaved = false;
 												reloadUploader();
+											} else {
+												entryManager.draftSaved = true;
 											}
 
 											entryManager.savedData = data;

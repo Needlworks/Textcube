@@ -185,7 +185,7 @@ function printOwnerEditorScript($entryId = false) {
 	function reloadEditor() {
 		var url = '<?php echo $context->getProperty('uri.blog')."/owner/entry/edit/";?>'+entryManager.entryId+'?editor='+entryManager.currentEditor;
 
-		if ( entryManager.isSaved == true) {
+		if ( entryManager.draftSaved == true) {
 			url = url+'&draft=true';
 		}
 		if ( entryManager.returnURL != null ) {
