@@ -1474,7 +1474,7 @@ input.input-text
 	font-weight: normal !important;
 	padding: 27px 25px 13px 25px!important;
 	color: #000 !important;
-	z-index: 1000;
+	z-index: 2000;
 }
 
 .ajaxProcessingMessage, .ajaxSuccessMessage
