@@ -107,9 +107,19 @@ h3
 
 #category-section
 {
-	margin                           : 0 20px 0 0;
-	padding                          : 5px 3px 5px 5px;
-	width                            : 100%;
+	margin                           : 0;
+	width                            : 550px;
+	position                         : fixed;
+	top                              : 36px;
+	right                            : 0;
+	height                           : 30px;
+	z-index                          : 1150;
+	background-color                 : #222;
+    filter                           : alpha(opacity=80);
+    opacity                          : .80;		
+	color:#fff;
+       -moz-border-radius-bottomleft       : 8px;
+       -webkit-border-bottom-left-radius   : 8px;
 }
 
 #category-section dl
@@ -120,9 +130,9 @@ h3
 
 #category-section dl dt
 {
-	color                            : #666666;
+	color                            : #EEE;
 	font-weight                      : bold;
-	padding                          : 0 0 3px 0;
+	padding                          : 0 0 3px 10px;
 	width                            : 70px !important;
 }
 
@@ -417,7 +427,7 @@ h3
 	margin                           : 0;
 	/*padding                          : 15px 5px 0 5px;*/
 	padding                          : 0;
-	width                            : 650px !important;
+	width                            : 100% !important;
 	height                           : 55px;
 /*	float                            : right !important;*/
 	border-top                       : 1px solid #EEEEEE;
@@ -494,12 +504,17 @@ h3
 /* upload ---------------------------------------------------------------------------------------*/
 #upload-section
 {
-	background-color                 : #F5F5F5;
-	margin                           : 0 20px 2px 0;
+	background-color                 : #FFF;
+	margin                           : 10px 20px 2px 0;
 	position                         : relative;
-	width                            : 650px;
+	width                            : 100%;
 /*	width                            : 550px;*/
 /*	float                            : left;*/
+	border:1px solid #F2F2F2;
+       -moz-border-radius-topleft       : 8px;
+       -moz-border-radius-topright      : 8px;
+       -webkit-border-top-left-radius   : 8px;
+       -webkit-border-top-right-radius  : 8px;	
 }
 
 #upload-section h3
@@ -507,6 +522,10 @@ h3
 	background-color                 : #F2F2F2;
 	display                          : block;
 	padding                          : 10px 10px 3px 10px;
+       -moz-border-radius-topleft       : 8px;
+       -moz-border-radius-topright      : 8px;
+       -webkit-border-top-left-radius   : 8px;
+       -webkit-border-top-right-radius  : 8px;
 }
 
 #upload-detail
@@ -612,7 +631,7 @@ h3
 {
 	position                         : absolute;
 	top                              : 36px;
-	right                            : 5px;
+	left                             : 550px;
 	width                            : 100px;
 }
 
@@ -705,7 +724,7 @@ h3
 	margin                           : 0;
 	position                         : relative; 
 	padding                          : 0 0 8px 0;
-	width                            : 650px;
+	width                            : 100%;
 /*	float                            : left;*/
 /*	display                          : none;*/
 	border-left                      : 1px solid #EEEEEE;
