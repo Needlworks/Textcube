@@ -210,7 +210,7 @@ h3
 	width                            : 100%;
 	position                         : fixed;
 	top                              : 40px;
-	height                           : 30px;
+	height                           : 31px;
 	z-index                          : 1150;
 	background-color                 : #fff;
     filter                           : alpha(opacity=90);
@@ -925,18 +925,33 @@ dl#power-line
 
 #templateDialog dl dt
 {
-	margin: 10px 0 3px 0;
-	font-weight: bold !important;
+	margin                           : 10px 0 3px 0;
+	font-weight                      : bold !important;
 }
 
 #templateDialog dl dd.noItem
 {
-	border: 1px dotted #DBDBDB;
-	text-align: center;
-	padding: 10px;
+	border                           : 1px dotted #DBDBDB;
+	text-align                       : center;
+	padding                          : 10px;
 }
 
 #templateDialog .button-box
 {
-	padding: 10px 0 5px 0 !important;
+	padding                          : 10px 0 5px 0 !important;
+}
+
+/** Specified for xquared editor **/
+.xquared .toolbar {
+	border-bottom                    : 1px solid #c2c2c2 !important;
+}
+.xquared .editor {
+	border-top                       : 1px solid #c2c2c2 !important;
+}
+
+.xquared div.toolbar {
+	position                         : fixed !important;
+	top                              : 40px !important;
+	height                           : 30px !important;
+	z-index                          : 1200;
 }
