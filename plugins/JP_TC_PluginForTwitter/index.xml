@@ -11,7 +11,9 @@
   <author xml:lang="ko" link="http://create74.com"><![CDATA[박용주 (J.Parker / Needlworks)]]></author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
-    <textcube>1.7</textcube>
+    <textcube>
+      <minVersion>1.8</minVersion> 
+    </textcube>
   </requirements>
   <binding>
 	<center handler="CT_Twitter_updating" title="트위터 글쓰기" />

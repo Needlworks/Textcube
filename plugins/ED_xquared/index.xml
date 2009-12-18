@@ -11,7 +11,9 @@
 	<author xml:lang="ko" link="http://forest.nubimaru.com/"><![CDATA[inureyes]]></author>
 	<safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
 	<requirements>
-		<textcube>1.8</textcube>
+		<textcube>
+			<minVersion>1.8</minVersion>
+		</textcube>
 	</requirements>
 	<binding>
 		<listener event="ShowAdminHeader">Xquared_adminheader</listener>
