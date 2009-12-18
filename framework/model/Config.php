@@ -15,7 +15,7 @@ final class Model_Config extends Singleton {
 	}
 	
 	private function __basicConfigLoader() {
-		global $database, $service;
+		global $database, $service;	// For Legacy global variable support
 		$this->settings = array();
 		require_once(ROOT.'/library/config.default.php');	// Loading default configuration
 		if (file_exists(ROOT.'/config.php')) @include(ROOT.'/config.php');	// Override configuration
@@ -24,8 +24,7 @@ final class Model_Config extends Singleton {
 			$service['port'] = $_SERVER['SERVER_PORT'];
 		
 		// Include installation configuration.
-		$service['session_cookie_path'] = '/';
-		if(!defined('__TEXTCUBE_SETUP__')) @include_once ROOT . '/config.php';
+		if(!isset($service['session_cookie_path'])) $service['session_cookie_path'] = '/';
 		// Set service path.
 		if(isset($serviceURL)) $service['serviceURL'] = $serviceURL;
 		// Set resource path.

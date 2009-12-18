@@ -182,7 +182,7 @@ function trashRemoteResponse($blogid, $id) {
 	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!POD::query("UPDATE {$database['prefix']}RemoteResponses SET isFiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id"))
+	if (!POD::query("UPDATE {$database['prefix']}RemoteResponses SET isfiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id"))
 		return false;
 	CacheControl::flushDBCache('trackback');
 	CacheControl::flushDBCache('remoteResponse');
@@ -198,7 +198,7 @@ function revertRemoteResponse($blogid, $id) {
 	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
 	if ($entry === null)
 		return false;
-	if (!POD::execute("UPDATE {$database['prefix']}RemoteResponses SET isFiltered = 0 WHERE blogid = $blogid AND id = $id"))
+	if (!POD::execute("UPDATE {$database['prefix']}RemoteResponses SET isfiltered = 0 WHERE blogid = $blogid AND id = $id"))
 		return false;
 	CacheControl::flushDBCache('trackback');
 	CacheControl::flushDBCache('remoteResponse');
