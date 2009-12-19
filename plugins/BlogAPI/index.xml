@@ -11,7 +11,9 @@
   <author xml:lang="ko" link="http://coolengineer.com"><![CDATA[최호진 (coolengineer / Needlworks)]]></author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
-    <textcube>1.5</textcube>
+    <textcube>
+		<minVersion>1.8</minVersion>
+	</textcube>
   </requirements>
   <binding>
 	<tag name="SKIN_head_end" handler="AddRSD" />

@@ -6,6 +6,7 @@
 class pageCache extends Singleton {
 	function __construct($name = null){
 		$this->pool = DBModel::getInstance();
+		$this->context = Model_Context::getInstance();
 		$this->reset();
 	}
     
@@ -51,15 +52,13 @@ class pageCache extends Singleton {
 	}
 
 	public function update () {
-		global $service;
-		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
+		if($this->context->getProperty('service.pagecache') != true) return false;
 		$this->purge();
 		$this->create();
 	}
 
 	public function load () {
-		global $service;
-		if(isset($service['pagecache']) && $service['pagecache'] == false) return false;
+		if($this->context->getProperty('service.pagecache') != true) return false;
 		$this->initialize();
 		$this->contents = $this->dbContents = null;
 		if(!$this->getFileName()) return false;
@@ -81,8 +80,7 @@ class pageCache extends Singleton {
 		 }
 	}
 	public function purge () {
-		global $service;
-		if(isset($service['pagecache']) && $service['pagecache'] == false) return true;
+		if($this->context->getProperty('service.pagecache') != true) return true;
 		$this->getFileName();
 		if(
 			(file_exists($this->absoluteFilePathOwner) && @chmod($this->absoluteFilePathOwner, 0777))
@@ -191,7 +189,11 @@ class queryCache extends Singleton {
 	public function reset($query = null, $prefix = null) {
 		$this->query = $this->queryHash = $this->contents = $this->error = $this->prefix = $this->namespace = null;
 		$this->query = $query;
-		$this->prefix = (!is_null($prefix) ? $prefix : "")."-";
+		if(!is_null($prefix)) {
+			$this->prefix = $prefix."-";
+			$this->namespace = $this->prefix;
+		}
+		
 	}
 	
 	public function create() {

@@ -1,7 +1,5 @@
 <?php
 function FM_Modern_handleconfig($configVal) {
-	requireComponent('Textcube.Function.misc');
-	requireComponent('Textcube.Function.Setting');
 	$config = Setting::fetchConfigVal($configVal);
 	if (isset($config['defaultmode']) && $config['defaultmode'] != 'WYSIWYG' && $config['defaultmode'] != 'TEXTAREA') return false;
 	if (isset($config['paragraphdelim']) && $config['paragraphdelim'] != 'P' && $config['paragraphdelim'] != 'BR') return false;
@@ -10,8 +8,6 @@ function FM_Modern_handleconfig($configVal) {
 
 function FM_Modern_editorinit(&$editor) {
 	global $service, $configVal, $entry;
-	requireComponent('Textcube.Function.misc');
-	requireComponent('Textcube.Function.Setting');
 	$blogid = getBlogId();
 	if (is_null($configVal) || empty($configVal)) {
 		$config = array('paragraphdelim' => 'BR',

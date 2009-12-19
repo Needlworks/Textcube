@@ -478,6 +478,10 @@ textarea
 {
 	display                          : none;
 }
+#custom-sub-menu
+{
+	display                          : none;
+}
 
 /* pseudo box */
 #pseudo-box

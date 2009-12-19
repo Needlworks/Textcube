@@ -9,7 +9,8 @@ $IV = array(
 		'blogIconSize' => array(array('0','16','32','48'), 'mandatory' => false),
 		'deleteLogo' => array('string', 'default' => NULL),
 		'deleteBlogIcon' => array('string', 'default' => NULL),
-		'deleteFavicon' => array('string', 'default' => NULL)
+		'deleteFavicon' => array('string', 'default' => NULL),
+		'useBlogIconAsIphoneShortcut' => array('bool','default'=>false)
 	),
 	'FILES' => array(
 		'blogIcon' => array('file', 'mandatory' => false),
@@ -85,7 +86,7 @@ if (!empty($_FILES['blogIcon']['tmp_name'])) {
 		}
 	}
 }
-
+Setting::setBlogSettingGlobal('useBlogIconAsIphoneShortcut',$_POST['useBlogIconAsIphoneShortcut']);
 if (!empty($errorText)) {
 	$errorText = urlencode(implode('<br />',$errorText));
 } else {

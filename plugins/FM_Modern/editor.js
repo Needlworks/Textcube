@@ -111,7 +111,8 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	var div = document.createElement('div');
 	div.id = 'moderneditor-textbox';
 	div.className = 'container';
-	textarea.parentNode.insertBefore(this.getEditorPalette(), textarea);
+	//textarea.parentNode.insertBefore(this.getEditorPalette(), textarea);
+	document.getElementById('formatbox-container').innerHTML = this.getEditorPalette(true);
 	textarea.parentNode.insertBefore(div, textarea);
 	textarea.parentNode.removeChild(textarea);
 	div.appendChild(textarea);
@@ -142,7 +143,7 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	this.iframe.style.height = STD.isIE ? "448px" : "452px";
 	this.iframe.style.margin = "0px auto";
 	this.iframe.style.overflowY = "scroll";
-	this.iframe.style.width = Math.min(skinContentWidth + (STD.isIE ? 56 : 64), 650) + "px";
+	this.iframe.style.width = Math.min(skinContentWidth + (STD.isIE ? 56 : 64), 1050) + "px";
 
 	// IFRAME을 감싸는 DIV
 	//this.iframeWrapper = document.createElement("div");
@@ -2272,7 +2273,7 @@ TTModernEditor.prototype.addObject = function(data) {
 
 // moved from library/view/ownerView.php, printEntryEditorPalette()
 
-TTModernEditor.prototype.getEditorPalette = function() {
+TTModernEditor.prototype.getEditorPalette = function(htmlonly) {
 	var colors = ['008000', '009966', '99CC66', '999966', 'CC9900', 'D41A01',
 	              'FF0000', 'FF7635', 'FF9900', 'FF3399', '9B18C1', '993366',
 	              '666699', '0000FF', '177FCD', '006699', '003366', '333333',
@@ -2395,7 +2396,10 @@ TTModernEditor.prototype.getEditorPalette = function() {
 	}
 	html = html.replace(new RegExp('__EDITOR__', 'g'), 'TTModernEditor.editors.' + this.name);
 	html = html.replace(new RegExp('__ID__', 'g'), this.id);
-
+	
+	if(htmlonly == true) {
+		return '<div id="moderneditor-palette">'+html+'</div>';
+	}
 	var div = document.createElement('div');
 	div.id = 'moderneditor-palette';
 	div.className = 'container';

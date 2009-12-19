@@ -194,29 +194,36 @@ function printIphoneLinksView($links) {
 }
 
 function printIphoneHtmlHeader($title = '') {
-	global $blogURL, $blog, $service, $blogid;
-	$title = htmlspecialchars($blog['title']) . ' :: ' . $title;
+	$context = Model_Context::getInstance();
+	$title = htmlspecialchars($context->getProperty('blog.title') . ' :: ' . $title);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 	<title><?php echo $title;?></title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/resources/style/iphone/iphone.css" />
-	<script type="application/x-javascript" src="<?php echo $service['path'];?>/resources/script/iphone/iphone.js"></script>
+	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path');?>/resources/style/iphone/iphone.css" />
+<?php
+	if(Setting::getBlogSettingGlobal('useBlogIconAsIphoneShortcut',true) && file_exists(ROOT."/attach/".$context->getProperty('blog.id')."/index.gif")) {
+?>
+	<link rel="apple-touch-icon" href="<?php echo $context->getProperty('uri.default')."/index.gif";?>" />
+<?php
+	}
+?>
+	<script type="application/x-javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/iphone/iphone.js"></script>
 </head>
 <body>
 	<div class="toolbar">
-		<h1 id="pageTitle"><?php echo htmlspecialchars($blog['title']);?></h1>
+		<h1 id="pageTitle"><?php echo htmlspecialchars($context->getProperty('blog.title'));?></h1>
 		<a id="backButton" class="button" href="#"></a>
 		<a class="button" href="#searchForm" id="searchButton" onclick="searchAction(true);"><?php echo _text('검색');?></a>
 	</div>
 	<div class="toolbar shortcut">
 	<ul>
-		<li><a href="<?php echo $blogURL;?>" onclick="window.location.href='<?php echo $blogURL;?>'"><?php echo _text('글목록');?></a></li>
-		<li><a href="<?php echo $blogURL;?>/comment"><?php echo _text('댓글');?></a></li>
-		<li><a href="<?php echo $blogURL;?>/trackback"><?php echo _text('트랙백');?></a></li>
-		<li><a href="<?php echo $blogURL;?>/guestbook"><?php echo _text('방명록');?></a></li>
+		<li><a href="<?php echo $context->getProperty('uri.blog');?>" onclick="window.location.href='<?php echo $context->getProperty('uri.blog');?>'"><?php echo _text('글목록');?></a></li>
+		<li><a href="<?php echo $context->getProperty('uri.blog');?>/comment"><?php echo _text('댓글');?></a></li>
+		<li><a href="<?php echo $context->getProperty('uri.blog');?>/trackback"><?php echo _text('트랙백');?></a></li>
+		<li><a href="<?php echo $context->getProperty('uri.blog');?>/guestbook"><?php echo _text('방명록');?></a></li>
 	</ul>
 	</div>
 

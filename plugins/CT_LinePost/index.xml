@@ -10,7 +10,9 @@
 	<author link="http://forest.nubimaru.com">Jeongkyu Shin (inureyes)</author>
 	<safety changeData="yes" exposeData="no" accessLocal="yes" accessRemote="no" accessRaw="yes" />
 	<requirements>
-		<textcube>1.7</textcube>
+		<textcube>
+			<minVersion>1.8</minVersion>
+		</textcube>
 	</requirements>
 	<binding>
 		<center handler="linePost_Widget" />

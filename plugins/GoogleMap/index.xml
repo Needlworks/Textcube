@@ -11,7 +11,9 @@
   <author xml:lang="ko" link="http://forum.tattersite.com/ko">태터네트워크재단</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="yes" accessRaw="no" />
   <requirements>
-    <textcube>1.7.7</textcube>
+    <textcube>
+      <minVersion>1.8</minVersion>
+	</textcube>
   </requirements>
   <binding>
     <listener event="/plugin/GMapCustomInsert/">GoogleMapUI_InsertMap</listener>

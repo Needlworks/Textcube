@@ -43,15 +43,22 @@ if (getBlogId()) {
 				if ($manifest && $xmls->open($manifest)) {
 					$requiredTattertoolsVersion = $xmls->getValue('/plugin/requirements/tattertools');
 					$requiredTextcubeVersion = $xmls->getValue('/plugin/requirements/textcube');
-					
-					if (!is_null($requiredTattertoolsVersion) && !is_null($requiredTextcubeVersion)) {
-						if (version_compare($currentTextcubeVersion,$requiredTattertoolsVersion) == -1 && version_compare($currentTextcubeVersion,$requiredTextcubeVersion) == -1)
+					if(is_null($requiredTextcubeVersion) && !is_null($requiredTattertoolsVersion)) {
+						$requiredTextcubeVersion = $requiredTattertoolsVersion;
+					}
+					$requiredMinVersion = $xmls->getValue('/plugin/requirements/textcube/minVersion');
+					$requiredMaxVersion = $xmls->getValue('/plugin/requirements/textcube/maxVersion');
+					if (!is_null($requiredMinVersion)) {
+						if (version_compare($currentTextcubeVersion, $requiredMinVersion) < 0)
 							$disablePlugin = true;
-					} else if (!is_null($requiredTattertoolsVersion) && is_null($requiredTextcubeVersion)) {
-						if (version_compare($currentTextcubeVersion,$requiredTattertoolsVersion) == -1)
+					}
+					if (!is_null($requiredMaxVersion)) {
+						if (version_compare($currentTextcubeVersion, $requiredMaxVersion) > 0)
 							$disablePlugin = true;
-					} else if (is_null($requiredTattertoolsVersion) && !is_null($requiredTextcubeVersion)) {
-						if (version_compare($currentTextcubeVersion,$requiredTextcubeVersion) == -1)
+					}
+
+					if (!is_null($requiredTextcubeVersion)) {
+						if (version_compare($currentTextcubeVersion,$requiredTextcubeVersion) < 0)
 							$disablePlugin = true;
 					}
 					

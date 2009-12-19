@@ -436,6 +436,11 @@ textarea
 	padding                          : 0 16px !important;
 }
 
+#custom-sub-menu
+{
+	display                          : none;
+}
+
 /* pseudo box */
 #pseudo-box
 {

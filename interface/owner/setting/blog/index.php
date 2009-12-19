@@ -573,6 +573,7 @@ if (file_exists(ROOT."/attach/$blogid/index.gif")) {
 ?>
 												<input type="file" class="input-file" name="blogIcon" />
 												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteBlogIcon" name="deleteBlogIcon" value="yes"<?php echo file_exists(ROOT."/attach/$blogid/index.gif") ? '' : ' disabled="disabled"';?> /><label for="deleteBlogIcon"><?php echo _t('블로그 아이콘을 초기화합니다.');?></label></div>
+												<div class="init-box"><input type="checkbox" class="checkbox" id="useBlogIconAsIphoneShortcut" name="useBlogIconAsIphoneShortcut" <?php echo (Setting::getBlogSettingGlobal('useBlogIconAsIphoneShortcut',true) ? ' checked="checked"' : '');?> /><label for="useBlogIconAsIphoneShortcut"><?php echo _t('iPhone / iPod Touch에서 블로그 아이콘을 바로가기 아이콘으로 사용합니다.');?></label></div>
 												<p><?php echo _t('블로그 아이콘은 댓글과 방명록에서 사용됩니다. 크기는 16×16 이상, 48×48 이하까지 지원합니다.');?></p>
 											</dd>
 										</dl>

@@ -184,6 +184,7 @@ if (defined('__TEXTCUBE_POST__')) {
 									this.nowsaving = false;
 									this.isPreview   = false;
 									this.changeEditor = false;
+									this.draftSaved = false;
 									this.currentEditor = "<?php echo $entry['contenteditor'];?>";
 									this.entryId   = <?php echo $entry['id'];?>;
 
@@ -396,10 +397,13 @@ if (isset($_GET['returnURL'])) {
 												document.getElementById("saveButton").style.color = "#BBB";
 												PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 											}
-											if(entryManager.isSaved == false) {
+											if(entryManager.isSaved == false) {	// First save.
 												entryManager.entryId = this.getText("/response/entryId");
 												entryManager.isSaved = true;
+												entryManager.draftSaved = false;
 												reloadUploader();
+											} else {
+												entryManager.draftSaved = true;
 											}
 
 											entryManager.savedData = data;
@@ -640,6 +644,9 @@ if (defined('__TEXTCUBE_POST__')) {
 												<input type="text" id="title" class="input-text" name="title" value="<?php echo htmlspecialchars($entry['title']);?>" onkeypress="return preventEnter(event);" size="60" />
 											</dd>
 										</dl>
+									</div>
+									<div id="category-section" class="section">
+										<h3><?php echo _t('분류');?></h3>
 										<dl id="category-line" class="line">
 											<dt><label for="category"><?php echo _t('분류');?></label></dt>
 											<dd>
@@ -697,6 +704,7 @@ if (defined('__TEXTCUBE_POST__')) {
 ?>
 											</select></dd>
 										</dl>
+										<div id="formatbox-container" class="container"></div>
 										<textarea id="editWindow" name="content" cols="80" rows="20"><?php echo htmlspecialchars($entry['content']);?></textarea>
 										<div id="status-container" class="container"><span id="pathStr"><?php echo _t('path');?></span><span class="divider"> : </span><span id="pathContent"></span></div>
 <?php

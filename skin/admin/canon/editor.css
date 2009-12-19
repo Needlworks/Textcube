@@ -24,36 +24,34 @@ h3
 /* title ----------------------------------------------------------------------------------------*/
 #title-section
 {
-	margin                           : 0 20px 0 0;
-	padding                          : 5px 3px 5px 5px;
-/*	width                            : 658px;*/
-	width                            : 100%;
+	position                         : fixed;
+	top                              : 0;
+	right                            : 105px;
+	height                           : 40px;
+	z-index                          : 1100;
+	background-color                 : #ffffff;	
+	background-image                 : url("./image/bg_menu_round.png");
 }
-
 #title-section dl
 {
-	border                           : none;
-	margin-bottom                    : 6px;
+	padding-top:6px;	
 }
 
 #title-section dl dt
 {
-	color                            : #666666;
-	font-weight                      : bold;
-	padding                          : 0 0 3px 0;
-	width                            : 70px !important;
+	color                            : #eee;
+	padding                          : 6px 0 3px 10px;
+	width                            : 40px !important;
 }
 
 #title-section dl dd
 {
-	margin-left                      : 80px;
-}
-#title-section dl dd div.starred
-{
-	margin-left:10px !important;
+	margin-left                      : 45px;
 }
 
-#title-section dl dd select
+
+#title-section dl dd select,
+#category-section dl dd select
 {
 	vertical-align                   : middle;
 	width                            : 160px;
@@ -63,14 +61,18 @@ h3
 {
 	border                           : 1px solid #999999;
 	vertical-align                   : middle;
-	width                            : 500px !important;
-	margin-left                      : 8px;
+	width                            : 400px !important;
+	margin-left                      : 0;
 }
 
 #starred
 {
+	position                         : fixed;
+	top                              : 11px;
+	right                            : 110px;
 	width                            : 20px !important;
-	display                          : inline;
+	display                          : block;
+	background-color                 : #ffffff !important;
 }
 
 .star-icon span,
@@ -82,23 +84,51 @@ h3
 .star-icon a
 {
 	background-image                 : url("./image/icon_starred.gif");
+	background-color                 : #ffffff !important;
 	background-position              : left bottom;
 	background-repeat                : no-repeat;
-	display                          : block; 
+	display                          : block;
 	width                            : 16px;
-	height                           : 20px;
+	height                           : 16px;
 	float                            : left;
 }
 
 .unstar-icon a
 {
 	background-image                 : url("./image/icon_unstarred.gif");
+	background-color                 : #ffffff !important;
 	background-position              : left bottom;
 	background-repeat                : no-repeat;
 	display                          : block; 
 	width                            : 16px;
-	height                           : 20px;
+	height                           : 16px;
 	float                            : left;
+}
+
+#category-section
+{
+	margin                           : 30px 20px 0 0; 
+	padding                          : 5px 3px 5px 5px; 
+	width                            : 100%; 
+}
+
+#category-section dl
+{
+	border                           : none;
+	margin-bottom                    : 6px;
+}
+
+#category-section dl dt
+{
+	color                            : #666;
+	font-weight                      : bold;
+	padding                          : 0 0 3px 10px;
+	width                            : 70px !important;
+}
+
+#category-section dl dd
+{
+	margin-left                      : 80px;
 }
 
 #category-line
@@ -173,6 +203,21 @@ h3
 }
 
 /* editor */
+
+#formatbox-container
+{
+	margin                           : 0 auto;
+	width                            : 100%;
+	position                         : fixed;
+	top                              : 40px;
+	height                           : 31px;
+	z-index                          : 190;
+	background-color                 : #fff;
+    filter                           : alpha(opacity=90);
+    opacity                          : .90;		
+	color                            : #fff;
+	border-bottom                    :1px solid #BBB;
+}
 
 #editWindow
 {
@@ -387,7 +432,7 @@ h3
 	margin                           : 0;
 	/*padding                          : 15px 5px 0 5px;*/
 	padding                          : 0;
-	width                            : 650px !important;
+	width                            : 100% !important;
 	height                           : 55px;
 /*	float                            : right !important;*/
 	border-top                       : 1px solid #EEEEEE;
@@ -464,12 +509,17 @@ h3
 /* upload ---------------------------------------------------------------------------------------*/
 #upload-section
 {
-	background-color                 : #F5F5F5;
-	margin                           : 0 20px 2px 0;
+	background-color                 : #FFF;
+	margin                           : 10px 20px 2px 0;
 	position                         : relative;
-	width                            : 650px;
+	width                            : 100%;
 /*	width                            : 550px;*/
 /*	float                            : left;*/
+	border:1px solid #F2F2F2;
+       -moz-border-radius-topleft       : 8px;
+       -moz-border-radius-topright      : 8px;
+       -webkit-border-top-left-radius   : 8px;
+       -webkit-border-top-right-radius  : 8px;	
 }
 
 #upload-section h3
@@ -477,6 +527,10 @@ h3
 	background-color                 : #F2F2F2;
 	display                          : block;
 	padding                          : 10px 10px 3px 10px;
+       -moz-border-radius-topleft       : 8px;
+       -moz-border-radius-topright      : 8px;
+       -webkit-border-top-left-radius   : 8px;
+       -webkit-border-top-right-radius  : 8px;
 }
 
 #upload-detail
@@ -582,7 +636,7 @@ h3
 {
 	position                         : absolute;
 	top                              : 36px;
-	right                            : 5px;
+	left                             : 550px;
 	width                            : 100px;
 }
 
@@ -675,7 +729,7 @@ h3
 	margin                           : 0;
 	position                         : relative; 
 	padding                          : 0 0 8px 0;
-	width                            : 650px;
+	width                            : 100%;
 /*	float                            : left;*/
 /*	display                          : none;*/
 	border-left                      : 1px solid #EEEEEE;
@@ -871,18 +925,33 @@ dl#power-line
 
 #templateDialog dl dt
 {
-	margin: 10px 0 3px 0;
-	font-weight: bold !important;
+	margin                           : 10px 0 3px 0;
+	font-weight                      : bold !important;
 }
 
 #templateDialog dl dd.noItem
 {
-	border: 1px dotted #DBDBDB;
-	text-align: center;
-	padding: 10px;
+	border                           : 1px dotted #DBDBDB;
+	text-align                       : center;
+	padding                          : 10px;
 }
 
 #templateDialog .button-box
 {
-	padding: 10px 0 5px 0 !important;
+	padding                          : 10px 0 5px 0 !important;
+}
+
+/** Specified for xquared editor **/
+.xquared .toolbar {
+	border-bottom                    : 1px solid #c2c2c2 !important;
+}
+.xquared .editor {
+	border-top                       : 1px solid #c2c2c2 !important;
+}
+
+.xquared div.toolbar {
+	position                         : fixed !important;
+	top                              : 40px !important;
+	height                           : 30px !important;
+	z-index                          : 190;
 }
