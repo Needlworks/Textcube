@@ -8,7 +8,7 @@ define( 'SESSION_OPENID_USERID', -1 );
 final class Session {
 	private static $sessionName = null;
 	private static $mc = null;	
-	private $context;
+	private static $context;
 	private static function initialize() {
 		global $memcache;        /** After PHP 5.0.5, session write performs after object destruction. */
 		self::$mc = $memcache;   /** To Avoid this, just copy memcache handle into Session object.     */
@@ -26,7 +26,7 @@ final class Session {
 	public static function getName() {
 		if(is_null(self::$mc)) self::initialize();
 		if( self::$sessionName == null ) { 
-			if( !empty($service['session_cookie']) ) {
+			if( !is_null(self::$context->getProperty('service.session_cookie'))) {
 				self::$sessionName = self::$context->getProperty('service.session_cookie');
 			} else {
 				self::$sessionName = 'TSSESSION'.self::$context->getProperty('service.domain').self::$context->getProperty('service.path'); 
@@ -123,7 +123,7 @@ final class Session {
 	public static function authorize($blogid, $userid) {
 		if(is_null(self::$mc)) self::initialize();
 		$session_cookie_path = "/";
-		if( !empty(self::$context->getProperty('service.session_cookie_path') )) {
+		if( !is_null(self::$context->getProperty('service.session_cookie_path') )) {
 			$session_cookie_path = self::$context->getProperty('service.session_cookie_path');
 		}
 		if (!is_numeric($userid)) return false;
