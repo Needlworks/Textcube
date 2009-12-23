@@ -85,7 +85,7 @@ class DBModel extends Singleton implements IModel {
 		if (is_null($value))
 			$this->_attributes[$name] = 'NULL';
 		else
-			$this->_attributes[$name] = (is_null($escape) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
+			$this->_attributes[$name] = (is_null($escape) && !is_string($value) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
 	}
 	
 	public function unsetAttribute($name) {
@@ -147,7 +147,7 @@ class DBModel extends Singleton implements IModel {
 				default:
 					$this->_relations[$name] = 'LIKE';
 			}
-			$this->_qualifiers[$name] = (is_null($escape) ? 
+			$this->_qualifiers[$name] = (is_null($escape) && !is_string($value) ? 
 					$value : ($escape ? '\'' . 
 						POD::escapeString(
 							(($this->_relations[$name] == 'LIKE') ? '%'.$value.'%' : $value)
