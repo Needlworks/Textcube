@@ -219,7 +219,8 @@ class queryCache extends Singleton {
 		else return false;
 	}
 	public function flush() {
-		
+		$this->pool->reset('PageCacheLog',$this->prefix);
+		$this->pool->flush();
 	}
 	
 	private function getQueryHash(){ 
