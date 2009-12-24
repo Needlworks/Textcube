@@ -75,7 +75,7 @@ if (isset($cache->contents)) {
 			dress('tb', getTrackbacksView($entry, $skin, $entry['accepttrackback']), $entryView);
 			if (!$context->getProperty('blog.showCommentBox',false) && $context->getProperty('blog.useAjaxComment',true)) {
 				$style = 'none';
-			} else if ($context->getProperty('skin.expandComment',true) || ($context->getProperty('suri.directive','/') == '/' || ($context->getProperty('suri.directive','/') == '/entry') && $context->getProperty('suri.value','') != '')) {
+			} else if ($context->getProperty('skin.expandComment',true) || (($context->getProperty('suri.directive','/') == '/' || $context->getProperty('suri.directive','/') == '/entry') && $context->getProperty('suri.value','') != '')) {
 				$style = 'block';
 			} else {
 				$style = 'none';
