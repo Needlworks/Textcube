@@ -1199,9 +1199,9 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
             $schema = "
 				UPDATE {$_POST['dbPrefix']}Users SET loginid = '$loginid', name = '$name' WHERE userid = 1;
 				UPDATE {$_POST['dbPrefix']}Users SET password = '$password' WHERE userid = 1 AND password <> '$password2';
-				UPDATE {$_POST['dbPrefix']}BlogSettings SET \"value\" = '{$_POST['blog']}' where blogid = 1 AND name = 'name';
-				UPDATE {$_POST['dbPrefix']}BlogSettings SET \"value\" = '$baseLanguage' where blogid = 1 AND name = 'language';
-				UPDATE {$_POST['dbPrefix']}BlogSettings SET \"value\" = '$baseTimezone' where blogid = 1 AND name = 'timezone';";
+				UPDATE {$_POST['dbPrefix']}BlogSettings SET 'value' = '{$_POST['blog']}' where blogid = 1 AND name = 'name';
+				UPDATE {$_POST['dbPrefix']}BlogSettings SET 'value' = '$baseLanguage' where blogid = 1 AND name = 'language';
+				UPDATE {$_POST['dbPrefix']}BlogSettings SET 'value' = '$baseTimezone' where blogid = 1 AND name = 'timezone';";
             $query = explode(';', trim($schema));
             foreach ($query as $sub) {
                 if (!empty($sub) && !POD::query($sub)) {
