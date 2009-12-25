@@ -4,7 +4,6 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 final class Locale extends Singleton {
-	static $directory, $domain, $locale, $resource, $defaultLanguage;
 	public static function getInstance() {
 		return self::_getInstance(__CLASS__);
 	}
@@ -13,10 +12,18 @@ final class Locale extends Singleton {
 	public function get() {
 		return $this->locale;
 	}
+	
+	public function reset() {
+		$this->defaultLanguage = null;
+		$this->resource = $this->locale = array();
+		$this->directory = null;	
+	}
 
 	public function set($locale, $domain = 'global') {
 		list($common) = explode('-', $locale, 2);
-
+		if(!isset($this->resource)) $this->resource = array();
+		if(!isset($this->locale)) $this->locale = array();
+		if(!isset($this->directory)) $this->directory = null;
 		if (file_exists($this->directory . '/' . $locale .'.php')) { // If locale file exists
 			$this->resource[$domain] = $this->includeLocaleFile($this->directory . '/' . $locale . '.php');
 			$this->locale[$domain] = $locale;
