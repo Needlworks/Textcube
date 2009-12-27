@@ -181,8 +181,9 @@ class Notice {
 		$slogan0 = UTF8::lessenAsEncoding($slogan0, 255);
 
 		for ($i = 1; $i < 1000; $i++) {
-			$checkSlogan = POD::escapeString($this->slogan);
-			$query->setAttribute('slogan', $checkSlogan, false);
+//			$checkSlogan = POD::escapeString($this->slogan);
+			$checkSlogan = $this->slogan;
+			$query->setAttribute('slogan', $checkSlogan, true);
 			if (!POD::queryExistence(
 				"SELECT id FROM {$database['prefix']}Entries " 
 				. "WHERE blogid = ".$this->blogid." AND id <> {$this->id} AND slogan ='{$checkSlogan}'")
