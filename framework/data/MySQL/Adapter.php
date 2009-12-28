@@ -79,6 +79,9 @@ class DBAdapter implements IAdapter {
 	public static function reservedFieldNames() {
 		return null;
 	}
+	public static function reservedFunctionNames() {
+		return array('UNIX_TIMESTAMP()');
+	}
 	/*@static@*/
 	public static function queryExistence($query) {
 		if ($result = self::query($query)) {

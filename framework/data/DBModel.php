@@ -57,7 +57,8 @@ class DBModel extends Singleton implements IModel {
 		$this->_limit = array();
 		$this->_isReserved = array();
 		
-		$this->_reservedFields = POD::reservedFieldNames();
+		$this->_reservedFields    = POD::reservedFieldNames();
+		$this->_reservedFunctions = POD::reservedFunctionNames();
 		if(!empty($this->_reservedFields)) {
 			foreach($this->_reservedFields as $reserved) {
 				$this->_isReserved[$reserved] = true;
@@ -81,11 +82,11 @@ class DBModel extends Singleton implements IModel {
 		return $this->_attributes[$name];
 	}
 	
-	public function setAttribute($name, $value, $escape = null) {
+	public function setAttribute($name, $value, $escape = false) {
 		if (is_null($value))
 			$this->_attributes[$name] = 'NULL';
 		else
-			$this->_attributes[$name] = (is_null($escape) && !is_string($value) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
+			$this->_attributes[$name] = ($escape === false && (!is_string($value) || in_array($value,$this->_reservedFunctions)) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
 	}
 	
 	public function unsetAttribute($name) {
@@ -109,7 +110,7 @@ class DBModel extends Singleton implements IModel {
 		return $this->_qualifiers[$name];
 	}
 	
-	public function setQualifier($name, $condition, $value = null, $escape = null) {
+	public function setQualifier($name, $condition, $value = null, $escape = false) {
 	//OR, setQualifier(string(name_condition_value), $escape = null)     - Descriptive mode (NOT implemented)
 		if (is_null($condition)) {
 			$this->_qualifiers[$name] = 'NULL';
@@ -147,7 +148,7 @@ class DBModel extends Singleton implements IModel {
 				default:
 					$this->_relations[$name] = 'LIKE';
 			}
-			$this->_qualifiers[$name] = (is_null($escape) && !is_string($value) ? 
+			$this->_qualifiers[$name] = ($escape === false && (!is_string($value) || in_array($value,$this->_reservedFunctions)) ? 
 					$value : ($escape ? '\'' . 
 						POD::escapeString(
 							(($this->_relations[$name] == 'LIKE') ? '%'.$value.'%' : $value)
@@ -308,7 +309,7 @@ class DBModel extends Singleton implements IModel {
 		foreach ($this->_qualifiers as $name => $value) {
 			$clause .= (strlen($clause) ? ' AND ' : '') . 
 				(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) .
-				' '.$this->_relations[$name] . ' ' . $value;
+				' '.(is_null($value) ? 'IS NULL' : $this->_relations[$name] . ' ' . $value);
 		}
 		if(!empty($this->_order)) $clause .= ' ORDER BY '.$this->_treatReservedFields($this->_order['attribute']).' '.$this->_order['order'];
 		if(!empty($this->_limit)) $clause .= ' LIMIT '.$this->_limit['count'].' OFFSET '.$this->_limit['offset'];

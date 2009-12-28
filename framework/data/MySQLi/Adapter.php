@@ -90,6 +90,10 @@ class DBAdapter implements IAdapter {
 		return null;
 	}
 	
+	public static function reservedFunctionNames() {
+		return array('UNIX_TIMESTAMP()');
+	}
+	
 	public static function queryExistence($query) {
 		if ($result = self::query($query)) {
 			if ($result->num_rows > 0) {

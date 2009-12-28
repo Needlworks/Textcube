@@ -14,6 +14,7 @@ interface IAdapter {
 	public static function tableList($condition = null);
 	public static function setTimezone($time);
 	public static function reservedFieldNames();
+	public static function reservedFunctionNames();
 	/// Querying
 	public static function queryExistence($query);
 	public static function queryCount($query);

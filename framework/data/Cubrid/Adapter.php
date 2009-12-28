@@ -61,7 +61,11 @@ class DBAdapter implements IAdapter {
 	public static function reservedFieldNames() {
 		return array('date','value','data','count','year','month', 'type');
 	}
-
+	
+	public static function reservedFunctionNames() {
+		return array('UNIX_TIMESTAMP()');
+	}
+	
 	public static function setTimezone($time) {
 		return true;
 		return self::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');

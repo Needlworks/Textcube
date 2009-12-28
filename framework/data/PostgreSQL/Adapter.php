@@ -74,6 +74,10 @@ class DBAdapter implements IAdapter {
 	}
 
 	/*@static@*/
+	public static function reservedFunctionNames() {
+		return array('UNIX_TIMESTAMP()');
+	}
+
 	public static function query($query, $compatiblity = true) {
 		global $__gLastQueryType;
 		/// Bypassing compatiblitiy issue : will be replace to NAF2.
