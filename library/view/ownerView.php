@@ -821,7 +821,7 @@ function printEntryFileList($attachments, $param) {
 															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[Session::getName()];?>" width="400" height="40" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
 															
 														if (hasRightVersion && (isMoz || isIE || isMinSafari3)) {
-															if(<?php echo ($context->getProperty('service.flashuploader') ? 'false' : 'true');?>) { writeCode(uploaderStr,'uploaderNest'); }
+															if(<?php echo ($context->getProperty('service.flashuploader') ? 'true' : 'false');?>) { writeCode(uploaderStr,'uploaderNest'); }
 														}
 														window.uploader= document.getElementById('uploader');
 														refreshUploadButton();
