@@ -24,6 +24,7 @@ $IV = array(
 define('__TEXTCUBE_LOGIN__',true);
 define('__TEXTCUBE_ADMINPANEL__',true);
 require ROOT . '/library/preprocessor.php';
+$context = Model_Context::getInstance(); 
 
 //$blogURL = getBlogURL();
 if (isset($_GET['loginid']))
@@ -35,7 +36,7 @@ if (!empty($_GET['requestURI']))
 else if (empty($_POST['requestURI']) && !empty($_SERVER['HTTP_REFERER']) )
 	$_POST['requestURI'] = $_SERVER['HTTP_REFERER'];
 else
-	$_POST['requestURI'] = $blogURL;
+	$_POST['requestURI'] = $context->getProperty('uri.blog');
 if (!empty($_GET['refererURI'])) $_POST['refererURI'] = $_GET['refererURI'];
 else $_POST['refererURI'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 
@@ -43,7 +44,7 @@ $message = '';
 $showPasswordReset = false;
 if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 	global $service;
-	setcookie( Session::getName(), $_GET['session'], 0, $service['session_cookie_path'], $service['session_cookie_domain']);
+	setcookie( Session::getName(), $_GET['session'], 0, $context->getProperty('service.session_cookie_path'), $context->getProperty('service.session_cookie_domain'));
 	header('Location: ' . $_GET['requestURI']);
 	exit;
 } else if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
@@ -64,14 +65,12 @@ $authResult = fireEvent('LOGIN_try_auth', false);
 if (doesHaveOwnership() || doesHaveMembership()) {
 	if (doesHaveOwnership() && !empty($_POST['requestURI'])) {
 		$url = parse_url($_POST['requestURI']);
-		if ($url && isset($url['host']) && !String::endsWith( '.' . $url['host'], '.' . $service['domain']))
-			$redirect = "{$blogURL}/login?requestURI=" . rawurlencode($_POST['requestURI']) . '&session=' . rawurlencode(session_id());
+		if ($url && isset($url['host']) && !String::endsWith( '.' . $url['host'], '.' . $context->getProperty('service.domain')))
+			$redirect = $context->getProperty('uri.blog')."/login?requestURI=" . rawurlencode($_POST['requestURI']) . '&session=' . rawurlencode(session_id());
 		else
 			$redirect = $_POST['requestURI'];
 	} else {
-		global $blogURL;
 		$redirect = $_POST['refererURI'];
-//		$redirect = $blogURL;
 	}
 	if (empty($_SESSION['lastloginRedirected']) || $_SESSION['lastloginRedirected'] != $redirect) {
 		$_SESSION['lastloginRedirected'] = $redirect;
@@ -87,7 +86,7 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo _text('Textcube - Login');?></title>
 	
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/basic.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/login.css" />
 	<!--[if lte IE 6]>
 		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie.css" />
@@ -97,15 +96,15 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie7.css" />
 		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/login.ie7.css" />
 	<![endif]-->
-	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/byTextcube.js"></script>
-	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/byTextcube.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
-	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/EAF4.js"></script>
-	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/common2.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/EAF4.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/common2.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
 			var servicePath = "<?php echo $service['path'];?>";
-			var blogURL = "<?php echo $blogURL;?>";
+			var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
 			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
 
 			window.addEventListener("load", execLoadFunction, false);
@@ -123,7 +122,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 			window.addEventListener("load", checkTextcubeVersion, false);
 			function checkTextcubeVersion() {
 				if (confirm("<?php echo _text('버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?');?>"))
-					window.location.href = "<?php echo $blogURL;?>/checkup";
+					window.location.href = "<?php echo $context->getProperty('uri.blog');?>/checkup";
 			}
 		//]]>
 	</script>
@@ -135,7 +134,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 			window.addEventListener("load", checkTextcubeVersion, false);
 			function checkTextcubeVersion() {
 				if (confirm("<?php echo _text('텍스트큐브 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
-					window.location.href = "<?php echo $blogURL;?>/checkup";
+					window.location.href = "<?php echo $context->getProperty('uri.blog');?>/checkup";
 				}
 		//]]>
 	</script>
@@ -187,7 +186,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 	}
 	list( $openid_help_link, $openid_signup_link ) = fireEvent( "OpenIDAffiliateLinks", array('',''), $_POST['requestURI'] );
 ?>
-					<form method="get" name="openid_form" action="<?php echo $blogURL; ?>/login/openid?action=try_auth">
+					<form method="get" name="openid_form" action="<?php echo $context->getProperty('uri.blog'); ?>/login/openid?action=try_auth">
 						<input type="hidden" name="requestURI" value="<?php echo htmlspecialchars($_POST['requestURI']); ?>" />
 						<input type="hidden" name="refererURI" value="<?php echo htmlspecialchars($_POST['refererURI']); ?>" />
 						<input type="hidden" name="need_writers" value="1" />
