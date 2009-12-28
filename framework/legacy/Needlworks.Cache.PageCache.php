@@ -399,6 +399,8 @@ class CacheControl {
 	}
 
 	function flushTag($tagId = null) {
+		global $database;
+
 		if(empty($tagId)) $tagId = '';
 		else $tagId = $tagId.'-';
 		$cache = pageCache::getInstance();
@@ -439,7 +441,7 @@ class CacheControl {
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'searchATOM-".$search."%'
-				OR name like 'searchRSS-".$search."%");
+				OR name like 'searchRSS-".$search."%')");
 		CacheControl::purgeItems($searchEntries);
 		return true;
 	}
