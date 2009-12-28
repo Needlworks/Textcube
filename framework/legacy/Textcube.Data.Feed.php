@@ -5,7 +5,6 @@
 class FeedGroup {
 	/*@static@*/
 	function getId($name, $add = false) {
-		global $database;
 		$name = UTF8::lessenAsEncoding($name);
 		if (empty($name))
 			return 0;
@@ -29,7 +28,6 @@ class FeedGroup {
 
 	/*@static@*/
 	function getName($id) {
-		global $database;
 		if (!Validator::number($id, 0))
 			return null;
 		if ($id == 0)
@@ -295,38 +293,62 @@ class FeedItem {
 	}
 	
 	function isRead() {
-		global $database;
-		if (isset($this->id))
-			return POD::queryExistence("SELECT * FROM {$database['prefix']}FeedReads WHERE blogid = ".getBlogId()." AND item = {$this->id}");
+		if (isset($this->id)) {
+			$pool = DBModel::getInstance();
+			$context = Model_Context::getInstance();
+			$blogid = intval($context->getProperty('blog.id'));
+			$pool->reset('FeedReads');
+			$pool->setQualifier('blogid','equals',$blogid);
+			$pool->setQualifier('item','equals',$this->id);
+			return $pool->doesExist();
+		}
 		return false;
 	}
 	
 	function setRead() {
-		global $database;
-		if (isset($this->id))
-			return POD::execute("INSERT INTO {$database['prefix']}FeedReads VALUES(".getBlogId().", {$this->id})");
+		if (isset($this->id)) {
+			$pool = DBModel::getInstance();
+			$context = Model_Context::getInstance();
+			$blogid = intval($context->getProperty('blog.id'));
+			$pool->reset('FeedReads');
+			$pool->setAttribute('blogid',$blogid);
+			$pool->setAttribute('item', $this->id);
+			return $pool->insert();
+		}
 		return false;
 	}
 	
 	function isStarred() {
-		global $database;
-		if (isset($this->id))
-			return POD::queryExistence("SELECT * FROM {$database['prefix']}FeedStarred 
-					WHERE blogid = ".getBlogId()." AND item = {$this->id}");
+		if (isset($this->id)){
+			$pool = DBModel::getInstance();
+			$context = Model_Context::getInstance();
+			$blogid = intval($context->getProperty('blog.id'));
+			$pool->reset('FeedStarred');
+			$pool->setQualifier('blogid','equals',$blogid);
+			$pool->setQualifier('item','equals',$this->id);
+			return $pool->doesExist();
+		}
 		return false;
 	}
 	
 	function setStarred() {
-		global $database;
-		if (isset($this->id))
-			return POD::execute("INSERT INTO {$database['prefix']}FeedStarred VALUES(".getBlogId().", {$this->id})");
+		if (isset($this->id)) {
+			$pool = DBModel::getInstance();
+			$context = Model_Context::getInstance();
+			$blogid = intval($context->getProperty('blog.id'));
+			$pool->reset('FeedStarred');
+			$pool->setAttribute('blogid',$blogid);
+			$pool->setAttribute('item',$this->id);
+			return $pool->insert();
+		}
 		return false;
 	}
 
 	function _getMaxId() {
-		global $database;
-		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}FeedItems");
-		if($maxId) return $maxId;
+		$pool = DBModel::getInstance();
+		$pool->reset('FeedItems');
+		$maxId = $pool->getCell('max(id)');
+		if(!empty($maxId)) return $maxId;
 		else return 0;
 	}
 }
