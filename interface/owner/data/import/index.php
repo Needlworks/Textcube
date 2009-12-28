@@ -802,9 +802,4 @@ function importer($path, $node, $line) {
 	}
 }
 
-/// Optimizer Directives!
-if (false) {
-	scanner();
-	importer();
-}
 ?>

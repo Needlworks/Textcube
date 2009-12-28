@@ -214,7 +214,7 @@ class DBModel extends Singleton implements IModel {
 		$attributes = array_merge($this->_qualifiers, $this->_attributes);
 		if (empty($attributes))
 			return false;
-		$this->_query = 'INSERT INTO ' . $this->table . ' (' . implode(',', $this->_capsulateFields(array_keys($attributes))) . ') VALUES(' . implode(',', $attributes) . ')';
+		$this->_query = 'INSERT INTO ' . $this->table . ' (' . implode(',', $this->_capsulateFields(array_keys($attributes))) . ') VALUES (' . implode(',', $attributes) . ')';
 		if (POD::query($this->_query)) {
 //			$this->id = POD::insertId();
 			return true;
