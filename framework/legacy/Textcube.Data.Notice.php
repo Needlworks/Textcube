@@ -9,6 +9,7 @@ class Notice {
 
 	function reset() {
 		$this->error =
+		$this->blogid = 
 		$this->userid = 
 		$this->id =
 		$this->visibility =
@@ -23,10 +24,16 @@ class Notice {
 		$this->modified =
 			null;
 	}
+	
+	function init() {
+		if(!isset($this->blogid) || $this->blogid === null) $this->blogid = getBlogId();
+	}
 
 	/*@polymorphous(numeric $id, $fields, $sort)@*/
 	function open($filter = '', $fields = '*', $sort = 'published DESC') {
 		global $database;
+		$this->close();
+		$this->init();
 		if (is_numeric($filter))
 			$filter = 'AND id = ' . $filter;
 		else if (!empty($filter))
@@ -76,6 +83,7 @@ class Notice {
 	
 	function add($userid = null) {
 		global $database;
+		$this->init();
 		if (isset($this->id) && !Validator::number($this->id, 1))
 			 return $this->_error('id');
 		$this->title = trim($this->title);
@@ -90,7 +98,7 @@ class Notice {
 			$this->id = $this->nextEntryId();
 		}
 		$query->setQualifier('id', 'equals', $this->id);
-		
+			
 		if (empty($this->starred))
 			$this->starred = 0;
 		if (!isset($this->published))
@@ -99,6 +107,7 @@ class Notice {
 			$query->setAttribute('created', 'UNIX_TIMESTAMP()');
 		if (!isset($this->modified))
 			$query->setAttribute('modified', 'UNIX_TIMESTAMP()');
+		$query->setAttribute('blogid',$this->blogid);
 		if (!isset($this->userid)){
 			$this->userid = getUserId();
 			$query->setAttribute('userid',getUserId());
@@ -112,6 +121,7 @@ class Notice {
 	
 	function remove($id) {
 		global $database;
+		$this->init();
 		if (is_numeric($id)) {
 			return false;
 		}
@@ -122,6 +132,7 @@ class Notice {
 	}
 	
 	function update() {
+		$this->init();
 		if (!isset($this->id) || !Validator::number($this->id, 1))
 			return $this->_error('id');
 
@@ -158,6 +169,7 @@ class Notice {
 
 	function saveSlogan($slogan = null) {
 		global $database;
+		$this->init();
 		if (!Validator::number($this->id, 1))
 			return $this->_error('id');
 		if (!Validator::number($this->userid, 1))
