@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
+/// Copyright (c) 2004-2010, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -61,7 +61,11 @@ class DBAdapter implements IAdapter {
 	public static function reservedFieldNames() {
 		return array('date','value','data','count','year','month', 'type');
 	}
-
+	
+	public static function reservedFunctionNames() {
+		return array('UNIX_TIMESTAMP()');
+	}
+	
 	public static function setTimezone($time) {
 		return true;
 		return self::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');

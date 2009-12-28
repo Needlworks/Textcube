@@ -1,7 +1,6 @@
 <?php
 function BlogIcon_main($target, $mother) {  
 	global $configVal, $pluginURL;
-	requireComponent('Textcube.Function.misc');
 	$data = Setting::fetchConfigVal( $configVal);
 
 	if (!is_null($data))	$ico_size = $data['ico_size'];
@@ -85,5 +84,10 @@ function BlogIcon_ConfigOut_en($plugin) {
 	$manifest .= '</config>';
 	
 	return $manifest;
+}
+
+function BlogIcon_DataSet($DATA){
+	$cfg = Setting::fetchConfigVal( $DATA );
+    return true;
 }
 ?>

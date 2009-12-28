@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
+/// Copyright (c) 2004-2010, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -74,6 +74,10 @@ class DBAdapter implements IAdapter {
 	}
 
 	/*@static@*/
+	public static function reservedFunctionNames() {
+		return array('UNIX_TIMESTAMP()');
+	}
+
 	public static function query($query, $compatiblity = true) {
 		global $__gLastQueryType;
 		/// Bypassing compatiblitiy issue : will be replace to NAF2.

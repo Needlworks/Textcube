@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
+/// Copyright (c) 2004-2010, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -15,19 +15,15 @@ if( !defined( 'OPENID_REGISTERS' ) ) {
 
 global $hostURL, $service;
 
-requireComponent( "Textcube.Function.misc" );
-
 function openid_Logout($target)
 {
-	requireComponent( "Textcube.Control.Openid" );
 	OpenIDConsumer::logout();
 	return $target;
 }
 
 function openid_hardcore_login($target)
 {
-	global $suri;
-	global $hostURL, $service, $blogURL;
+	$context = Model_Context::getInstance();
 	if( !isset($_COOKIE['openid_auto']) || $_COOKIE['openid_auto'] != 'y' ) {
 		return $target;
 	}
@@ -43,20 +39,20 @@ function openid_hardcore_login($target)
 	if( headers_sent() ) {
 		return $target;
 	}
-	header( "Location: $blogURL/login/openid?action=hardcore&requestURI=" . urlencode($_SERVER["REQUEST_URI"]) );
+	header( "Location: ".$context->getProperty('uri.blog')."/login/openid?action=hardcore&requestURI=" . urlencode($_SERVER["REQUEST_URI"]) );
 	exit;
 }
 
 function openid_add_delegate($target)
 {
-	global $suri;
+	$context = Model_Context::getInstance();
 	$openid_delegate = Setting::getBlogSettingGlobal( 'OpenIDDelegate', '' );
 	$openid_server = Setting::getBlogSettingGlobal( 'OpenIDServer', '' );
 	$openid_xrduri = Setting::getBlogSettingGlobal( 'OpenIDXRDSUri', '' );
 	if( empty($openid_delegate) ) {
 		return $target;
 	}
-	if( $suri['directive'] != '/' ) {
+	if( $context->getProperty('suri.directive') != '/' ) {
 		return $target;
 	}
 	$target ="<!--OpenID Delegation Begin-->
@@ -71,9 +67,7 @@ $target";
 
 function openid_ViewCommenter($name, $comment)
 {
-	global $database;
-	global $hostURL, $service, $blogURL;
-	$blogid = getBlogId();
+	$context = Model_Context::getInstance();
 
 	if( $comment['secret'] ) {
 		return $name;
@@ -83,7 +77,7 @@ function openid_ViewCommenter($name, $comment)
 	}
 	$openidlogodisplay = Setting::getBlogSettingGlobal( "OpenIDLogoDisplay", 0 );
 	if( $openidlogodisplay ) {
-		$name = "<a href=\"".$comment['openid']."\" class=\"openid\"><img src=\"" .$service['path']. "/resources/image/icon_openid.gif\" alt=\"OpenID Logo\" title=\"" .
+		$name = "<a href=\"".$comment['openid']."\" class=\"openid\"><img src=\"" .$context->getProperty('service.path'). "/resources/image/icon_openid.gif\" alt=\"OpenID Logo\" title=\"" .
 			_textf("오픈아이디(%1)로 작성하였습니다", $comment['openid'] ) . "\" /></a>" . $name;
 	} else {
 		preg_match_all('@<a(.*)>(.*)</a>@Usi', $name, $temp);

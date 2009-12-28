@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
+/// Copyright (c) 2004-2010, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -31,19 +31,26 @@ function activatePlugin($name) {
 	$manifest = @file_get_contents(ROOT . "/plugins/$name/index.xml");
 	if ($xmls->open($manifest)) {
 		list($currentTextcubeVersion) = explode(' ', TEXTCUBE_VERSION, 2);
+		
 		$requiredTattertoolsVersion = $xmls->getValue('/plugin/requirements/tattertools');
 		$requiredTextcubeVersion = $xmls->getValue('/plugin/requirements/textcube');
-		
-		if (!is_null($requiredTattertoolsVersion) && !is_null($requiredTextcubeVersion)) {
-			if ($currentTextcubeVersion < $requiredTattertoolsVersion && $currentTextcubeVersion < $requiredTextcubeVersion)
-				return false;
-		} else if (!is_null($requiredTattertoolsVersion) && is_null($requiredTextcubeVersion)) {
-			if ($currentTextcubeVersion < $requiredTattertoolsVersion)
-				return false;
-		} else if (is_null($requiredTattertoolsVersion) && !is_null($requiredTextcubeVersion)) {
-			if ($currentTextcubeVersion < $requiredTextcubeVersion)
+		if(is_null($requiredTextcubeVersion) && !is_null($requiredTattertoolsVersion)) {
+			$requiredTextcubeVersion = $requiredTattertoolsVersion;
+		}
+		$requiredMinVersion = $xmls->getValue('/plugin/requirements/textcube/minVersion');
+		$requiredMaxVersion = $xmls->getValue('/plugin/requirements/textcube/maxVersion');
+		if (!is_null($requiredMinVersion)) {
+			if (version_compare($currentTextcubeVersion, $requiredMinVersion) < 0)
 				return false;
 		}
+		if (!is_null($requiredMaxVersion)) {
+			if (version_compare($currentTextcubeVersion, $requiredMaxVersion) > 0)
+				return false;
+		}
+		if (!is_null($requiredTextcubeVersion)) {
+			if (version_compare($currentTextcubeVersion,$requiredTextcubeVersion) < 0)
+				return false;
+		}		
 	} else {
 		return false;
 	}

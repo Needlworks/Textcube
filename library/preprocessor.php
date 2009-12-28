@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
+/// Copyright (c) 2004-2010, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -210,14 +210,11 @@ if (!defined('NO_INITIALIZAION')) {
 */
 	if(in_array($context->getProperty('uri.interfaceType'), array('owner','reader')) || defined('__TEXTCUBE_ADMINPANEL__')) {
 		$adminSkinSetting = array();
-		$adminSkinSetting['skin'] = "/skin/admin/".getBlogSetting("adminSkin", "canon");
-		// 1.5에서 올라온 경우 스킨이 있는 경우를 위한 workaround.
-	/*		if(($adminSkinSetting['skin'] == '/skin/admin/default') ||
-		 ($adminSkinSetting['skin'] == '/skin/admin/whitedream')) {
-			setBlogSetting("adminSkin", "canon");
-			$adminSkinSetting['skin'] = "/skin/admin/canon";
-		}*/
-		
+		if(!is_null($context->getProperty('service.adminskin'))) {
+			$adminSkinSetting['skin'] = "/skin/admin/".$context->getProperty('service.adminskin');
+		} else {
+			$adminSkinSetting['skin'] = "/skin/admin/".Setting::getBlogSettingGlobal("adminSkin", "whitedream");
+		}		
 		// content 본문에 removeAllTags()가 적용되는 것을 방지하기 위한 프로세스를 위한 변수.
 		$contentContainer = array();
 	

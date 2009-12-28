@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
+/// Copyright (c) 2004-2010, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -14,6 +14,7 @@ interface IAdapter {
 	public static function tableList($condition = null);
 	public static function setTimezone($time);
 	public static function reservedFieldNames();
+	public static function reservedFunctionNames();
 	/// Querying
 	public static function queryExistence($query);
 	public static function queryCount($query);

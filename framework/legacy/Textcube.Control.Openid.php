@@ -21,9 +21,6 @@ if( !file_exists("/dev/urandom") ) {
 	define('Auth_OpenID_RAND_SOURCE', null);
 }
 
-requireComponent('Textcube.Core');
-requireComponent('Textcube.Control.Auth');
-
 include_once OPENID_LIBRARY_ROOT."Auth/Yadis/XML.php";
 include_once XPATH_LIBRARY_ROOT."XPath.class.php";
 
@@ -86,10 +83,11 @@ class Auth_Textcube_xmlparser extends XPath
 class OpenID {
 	function setCookie( $key, $value )
 	{
-		$config = Model_Config::getInstance();
+		$context = Model_Context::getInstance();
 		$session_cookie_path = "/";
-		if( !empty($config->service['session_cookie_path']) ) {
-			$session_cookie_path = $config->service['session_cookie_path'];
+		$savedPath = $context->getProperty('service.session_cookie_path');
+		if( !empty($savedPath)) {
+			$session_cookie_path = $context->getProperty('service.session_cookie_path');
 		}
 		if( !headers_sent() ) {
 			setcookie( $key, $value, time()+3600*24*30, $session_cookie_path );
@@ -98,10 +96,11 @@ class OpenID {
 
 	function clearCookie( $key )
 	{
-		$config = Model_Config::getInstance();
+		$context = Model_Context::getInstance();
 		$session_cookie_path = "/";
-		if( !empty($config->service['session_cookie_path']) ) {
-			$session_cookie_path = $config->service['session_cookie_path'];
+		$savedPath = $context->getProperty('service.session_cookie_path');
+		if( !empty($savedPath)) {
+			$session_cookie_path = $context->getProperty('service.session_cookie_path');
 		}
 		if( !headers_sent() ) {
 			setcookie( $key, '', time()-3600, $session_cookie_path );
@@ -158,12 +157,10 @@ class OpenIDSession {
 
 class OpenIDConsumer extends OpenID {
 	function __construct($tid = null) {
-		set_include_path(get_include_path() . PATH_SEPARATOR . OPENID_LIBRARY_ROOT);
-		require_once "Auth/OpenID/Consumer.php";
-		require_once "Auth/OpenID/FileStore.php";
-		require_once "Auth/OpenID/SReg.php";
-		require_once "Auth/OpenID/AX.php";
-		restore_include_path();
+		require_once OPENID_LIBRARY_ROOT."Auth/OpenID/Consumer.php";
+		require_once OPENID_LIBRARY_ROOT."Auth/OpenID/FileStore.php";
+		require_once OPENID_LIBRARY_ROOT."Auth/OpenID/SReg.php";
+		require_once OPENID_LIBRARY_ROOT."Auth/OpenID/AX.php";
 
 		$store_path = ROOT . "/cache/openidstore";
 
@@ -228,8 +225,8 @@ class OpenIDConsumer extends OpenID {
 
 	function tryAuth( $tid, $openid, $remember_openid = null )
 	{
-		global $hostURL, $blogURL;
-		$trust_root = $hostURL . "/";
+		$context = Model_Context::getInstance();
+		$trust_root = $context->getProperty('uri.host'). "/";
 		ob_start();
 		$auth_request = $this->consumer->begin($openid);
 		ob_end_clean();
@@ -269,7 +266,6 @@ class OpenIDConsumer extends OpenID {
 
 	function finishAuth( $tid )
 	{
-		global $hostURL, $blogURL;
 		// Complete the authentication process using the server's response.
 		$tr = Transaction::taste($tid);
 		ob_start();
@@ -365,13 +361,12 @@ class OpenIDConsumer extends OpenID {
 
 	function isExisted($openid)
 	{
-		global $database;
-		$blogid = getBlogId();
-		$openid = POD::escapeString($openid);
-
-		$query = "SELECT openid FROM {$database['prefix']}OpenIDUsers WHERE blogid={$blogid} and openid='{$openid}'";
-		$result = POD::queryCell($query);
-
+		$context = Model_Context::getInstance();
+		$pool = DBModel::getInstance();
+		$pool->reset('OpenIDUsers');
+		$pool->setQualifier('blogid','equals',$context->getProperty('blog.id'));
+		$pool->setQualifier('openid','equals',$openid,true);
+		$result = $pool->getCell('openid');
 		if (is_null($result)) {
 			return false;
 		}
@@ -401,14 +396,18 @@ class OpenIDConsumer extends OpenID {
 
 	function updateUserInfo( $nickname, $homepage )
 	{
-		global $database;
 		$openid = Acl::getIdentity( 'openid' );
 		if( empty($openid) ) {
 			return false;
 		}
-		$openid = POD::escapeString($openid);
-		$query = "SELECT openidinfo FROM {$database['prefix']}OpenIDUsers WHERE openid='{$openid}'";
-		$result = POD::queryCell($query);
+		
+		$context = Model_Context::getInstance();
+		$pool = DBModel::getInstance();
+		
+		$pool->reset('OpenIDUsers');
+		$pool->setQualifier('openid','equals',$openid,true);
+		$result = $pool->getCell('openidinfo');
+		
 		$data = unserialize( $result );
 
 		if( !empty($nickname) ) $data['nickname'] = $nickname;
@@ -416,25 +415,35 @@ class OpenIDConsumer extends OpenID {
 		OpenIDConsumer::setUserInfo( $data['nickname'], $data['homepage'] );
 
 		$data = serialize( $data );
-		POD::execute("UPDATE {$database['prefix']}OpenIDUsers SET openidinfo='{$data}' WHERE openid = '{$openid}'");
+		$pool->reset('OpenIDUsers');
+		$pool->setAttribute('openidinfo',$data,true);
+		$pool->setQualifier('openid','equals',$openid,true);
+		$pool->update();
 	}
 
 	function update($openid,$delegatedid,$nickname,$homepage=null)
 	{
-		global $database;
-		$blogid = getBlogId();
-		$openid = POD::escapeString($openid);
-		$delegatedid = POD::escapeString($delegatedid);
-
-		$query = "SELECT openidinfo FROM {$database['prefix']}OpenIDUsers WHERE openid='{$openid}'";
-		$result = POD::queryCell($query);
+		$context = Model_Context::getInstance();
+		$pool = DBModel::getInstance();
+		
+		$pool->reset('OpenIDUsers');
+		$pool->setQualifier('openid','equals',$openid,true);
+		$result = $pool->getCell('openidinfo');
 
 		if (is_null($result)) {
 			$data = serialize( array( 'nickname' => $nickname, 'homepage' => $homepage ) );
 			OpenIDConsumer::setUserInfo( $nickname, $homepage );
 
 			/* Owner column is used for reference, all openid records are shared */
-			POD::execute("INSERT INTO {$database['prefix']}OpenIDUsers (blogid,openid,delegatedid,firstlogin,lastlogin,logincount,openidinfo) VALUES ($blogid,'{$openid}','{$delegatedid}',UNIX_TIMESTAMP(),UNIX_TIMESTAMP(),1,'{$data}')");
+			$pool->reset('OpenIDUsers');
+			$pool->setAttribute('blogid',$context->getProperty('blog.id'));
+			$pool->setAttribute('openid',$openid,true);
+			$pool->setAttribute('delegatedid',$deligatedid,true);
+			$pool->setAttribute('firstlogin',Timestamp::getUNIXTime());
+			$pool->setAttribute('lastlogin',Timestamp::getUNIXTime());
+			$pool->setAttribute('logincount',1);
+			$pool->setAttribute('openidinfo',$data,true);
+			$pool->insert();
 		} else {
 			$data = unserialize( $result );
 
@@ -443,24 +452,35 @@ class OpenIDConsumer extends OpenID {
 			OpenIDConsumer::setUserInfo( $data['nickname'], $data['homepage'] );
 
 			$data = serialize( $data );
-			POD::execute("UPDATE {$database['prefix']}OpenIDUsers SET openidinfo='{$data}', lastlogin = UNIX_TIMESTAMP(), logincount = logincount + 1 WHERE openid = '{$openid}'");
+
+
+			$pool->reset('OpenIDUsers');
+			$pool->setQualifier('openid',$openid,true);
+			$lastcount = $pool->getCell('logincount');	
+			
+			$pool->reset('OpenIDUsers');
+			$pool->setAttribute('openidinfo',$data,true);
+			$pool->setAttribute('lastlogin',Timestamp::getUNIXTime());
+			$pool->setAttribute('logincount',$lastcount + 1);
+			$pool->setQualifier('openid',$openid,true);
+			$pool->update();	
 		}
 		return;
 	}
 
 	function setAcl($openid)
 	{
-		global $database;
-
 		Acl::authorize('openid', $openid);
 
-		$blogid = getBlogId();
-		$query = "SELECT userid FROM {$database['prefix']}UserSettings WHERE name LIKE 'openid.%' and value='".POD::escapeString($openid)."' ORDER BY userid ASC";
-		$result = POD::queryRow($query);
+		$pool->reset('UserSettings');
+		$pool->setQualifier('name','like','openid.'.true);
+		$pool->setQualifier('value','equals',$openid,true);
+		$pool->setOrder('userid','ASC');
+		$result = getCell('userid');
 
 		$userid = null;
 		if( $result ) {
-			$userid = $result['userid'];
+			$userid = $result;
 			Acl::authorize('textcube', $userid);
 		}
 
@@ -506,10 +526,13 @@ class OpenIDConsumer extends OpenID {
 	}
 
 	function getCommentInfo($blogid,$id){
-		global $database;
 
-		$sql="SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id";
-		return POD::queryRow($sql, 'assoc');
+		$context = Model_Context::getInstance();
+		$pool = DBModel::getInstance();
+		$pool->reset('Comments');
+		$pool->setQualifier('blogid','equals',$context->getProperty('blog.id'));
+		$pool->setQualifier('id','equals',$id);
+		return $pool->getRow('*');
 	}
 
 	function commentFetchHint( $comment_ids, $blogid )

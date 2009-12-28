@@ -104,7 +104,7 @@ class SubscriptionStatistics {
 		if (isset($this->ip)) {
 			if (!Validator::ip($this->ip))
 				return $this->_error('ip');
-			$query->setAttribute('ip', $this->ip);
+			$query->setAttribute('ip', $this->ip, true);
 		}
 		if (isset($this->host))
 			$query->setAttribute('host', $this->host, true);

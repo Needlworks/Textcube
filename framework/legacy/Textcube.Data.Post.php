@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
+/// Copyright (c) 2004-2010, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class Post {
@@ -321,8 +321,9 @@ class Post {
 		$slogan0 = UTF8::lessenAsEncoding($slogan0, 255);
 
 		for ($i = 1; $i < 1000; $i++) {
-			$checkSlogan = POD::escapeString($this->slogan);
-			$query->setAttribute('slogan', $checkSlogan, false);
+//			$checkSlogan = POD::escapeString($this->slogan);
+			$checkSlogan = $this->slogan;
+			$query->setAttribute('slogan', $checkSlogan, true);
 			if (!POD::queryExistence(
 				"SELECT id FROM {$database['prefix']}Entries " 
 				. "WHERE blogid = ".$this->blogid." AND id <> {$this->id} AND slogan ='{$checkSlogan}'")

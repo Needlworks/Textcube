@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
+/// Copyright (c) 2004-2010, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -933,8 +933,8 @@ function saveDraftEntry($blogid, $entry) {
 
 function updateRemoteResponsesOfEntry($blogid, $id) {
 	global $database;
-	$trackbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND entry = $id AND isfiltered = 0 AND type = 'trackback'");
-	$pingbacks  = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND entry = $id AND isfiltered = 0 AND type = 'pingback'");
+	$trackbacks = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND entry = $id AND isfiltered = 0 AND responsetype = 'trackback'");
+	$pingbacks  = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND entry = $id AND isfiltered = 0 AND responsetype = 'pingback'");
 	if ($trackbacks === null || $pingbacks === null)
 		return false;
 	return POD::execute("UPDATE {$database['prefix']}Entries SET trackbacks = $trackbacks, pingbacks = $pingbacks WHERE blogid = $blogid AND id = $id");

@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
+/// Copyright (c) 2004-2010, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 if (isset($_POST['page']))
@@ -41,7 +41,7 @@ $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_P
 $perPage = Setting::getBlogSettingGlobal('rowsPerPage', 10); 
 if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
-	setBlogSetting('rowsPerPage', $_POST['perPage']);
+	Setting::setBlogSettingGlobal('rowsPerPage', $_POST['perPage']);
 }
 $tabsClass = array();
 $tabsClass['postfix'] = null;

@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
+/// Copyright (c) 2004-2010, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -13,7 +13,7 @@ function getTrashTrackbackWithPagingForOwner($blogid, $category, $site, $url, $i
 		FROM {$database['prefix']}RemoteResponses t 
 		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
 		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
-		WHERE t.blogid = $blogid AND t.isfiltered > 0 AND t.type = 'trackback'";
+		WHERE t.blogid = $blogid AND t.isfiltered > 0 AND t.responsetype = 'trackback'";
 	if ($category > 0) {
 		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
@@ -106,7 +106,7 @@ function getRecentTrackbackTrash($blogid) {
 		DESC LIMIT {$skinSetting['trackbacksOnRecent']}" : 
 		"SELECT t.* FROM {$database['prefix']}RemoteResponses t, 
 		{$database['prefix']}Entries e 
-		WHERE t.blogid = $blogid AND t.blogid = e.blogid AND t.entry = e.id AND t.type = 'trackback' AND e.draft = 0 AND e.visibility >= 2 
+		WHERE t.blogid = $blogid AND t.blogid = e.blogid AND t.entry = e.id AND t.responsetype = 'trackback' AND e.draft = 0 AND e.visibility >= 2 
 		ORDER BY t.written DESC LIMIT {$skinSetting['trackbacksOnRecent']}";
 	if ($result = POD::query($sql)) {
 		while ($trackback = POD::fetch($result))

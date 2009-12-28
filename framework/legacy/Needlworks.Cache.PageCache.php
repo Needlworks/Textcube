@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2009, Needlworks / Tatter Network Foundation
+/// Copyright (c) 2004-2010, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -219,7 +219,8 @@ class queryCache extends Singleton {
 		else return false;
 	}
 	public function flush() {
-		
+		$this->pool->reset('PageCacheLog',$this->prefix);
+		$this->pool->flush();
 	}
 	
 	private function getQueryHash(){ 

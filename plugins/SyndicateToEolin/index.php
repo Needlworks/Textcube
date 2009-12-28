@@ -50,17 +50,7 @@ function SyndicateToEolin ($entryId, $entry, $mode) {
 		$summary['location'] = $entry['location'];
 		$summary['written'] = Timestamp::getRFC1123($entry['published']);
 	}
-	if(!$rpc->call("sync.$mode", $summary)) {
-		return false;
-	} else {
-		if($mode == 'create') {
-			fireEvent('CreatePostSyndicate', $id, $summary);
-		} else if($mode == 'modify') {
-			fireEvent('ModifyPostSyndicate', $id, $summary);
-		} else if($mode == 'delete') {
-			fireEvent('DeletePostSyndicate', $id, $summary);
-		}
-	}
+	return $rpc->call("sync.$mode", $summary);
 }
 /**
  * @brief Send abstract about specific entry.

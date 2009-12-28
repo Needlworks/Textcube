@@ -14,8 +14,9 @@ $another_config = str_replace( ".php", ".local.php", $another_config);
 if( file_exists( $another_config ) ) {
 	require( $another_config );
 } else {
+	$context = Model_Context::getInstance();
 	global $hostURL, $blogURL;
-	$_try_auth_url = $hostURL . $blogURL . "/login/openid?action=try_auth&requestURI=$requestURI";
+	$_try_auth_url = $context->getProperty('uri.host') . $context->getProperty('uri.blog') . "/login/openid?action=try_auth&requestURI=$requestURI";
 	$_op_base = "http://www.idtail.com";
 	$_encoded_args      = base64_encode( "login_url:" . $_try_auth_url );
 	$openid_help_link   = $_op_base . "/affiliate/help/textcube/" . $_encoded_args;
