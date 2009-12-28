@@ -85,7 +85,8 @@ class OpenID {
 	{
 		$context = Model_Context::getInstance();
 		$session_cookie_path = "/";
-		if( !empty($config->service['session_cookie_path']) ) {
+		$savedPath = $context->getProperty('service.session_cookie_path');
+		if( !empty($savedPath)) {
 			$session_cookie_path = $context->getProperty('service.session_cookie_path');
 		}
 		if( !headers_sent() ) {
@@ -97,7 +98,8 @@ class OpenID {
 	{
 		$context = Model_Context::getInstance();
 		$session_cookie_path = "/";
-		if( !empty($context->getProperty('service.session_cookie_path') )) {
+		$savedPath = $context->getProperty('service.session_cookie_path');
+		if( !empty($savedPath)) {
 			$session_cookie_path = $context->getProperty('service.session_cookie_path');
 		}
 		if( !headers_sent() ) {
@@ -223,7 +225,7 @@ class OpenIDConsumer extends OpenID {
 
 	function tryAuth( $tid, $openid, $remember_openid = null )
 	{
-		$context = Model_Context::geInstance();
+		$context = Model_Context::getInstance();
 		$trust_root = $context->getProperty('uri.host'). "/";
 		ob_start();
 		$auth_request = $this->consumer->begin($openid);
