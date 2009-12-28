@@ -52,7 +52,7 @@ function openid_add_delegate($target)
 	if( empty($openid_delegate) ) {
 		return $target;
 	}
-	if( $context->getProperty('suri.directive'.) != '/' ) {
+	if( $context->getProperty('suri.directive') != '/' ) {
 		return $target;
 	}
 	$target ="<!--OpenID Delegation Begin-->
