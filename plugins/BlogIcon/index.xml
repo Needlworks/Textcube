@@ -20,9 +20,9 @@
 	</textcube>
   </requirements>
   <binding>
-    <listener event="ViewCommenter">BlogIcon_main</listener>
-    <listener event="ViewGuestCommenter">BlogIcon_main</listener>
-    <config xml:lang="ko" dataValHandler="" manifestHandler="BlogIcon_ConfigOut_ko"></config>
-    <config xml:lang="en" dataValHandler="" manifestHandler="BlogIcon_ConfigOut_en"></config>
+    <listener event="ViewCommenter" handler="BlogIcon_main" />
+    <listener event="ViewGuestCommenter" handler="BlogIcon_main" />
+    <config xml:lang="ko" dataValHandler="BlogIcon_DataSet" manifestHandler="BlogIcon_ConfigOut_ko"></config>
+    <config xml:lang="en" dataValHandler="BlogIcon_DataSet" manifestHandler="BlogIcon_ConfigOut_en"></config>
   </binding>
 </plugin>
