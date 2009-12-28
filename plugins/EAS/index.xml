@@ -11,10 +11,12 @@
   <author xml:lang="ko" link="http://www.google.com">구글</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="yes" accessRaw="no" />
   <requirements>
-    <textcube>1.8</textcube>
+    <textcube>
+		<minVersion>1.8</minVersion>
+	</textcube>
   </requirements>
   <binding>
-    <listener event="AddingTrackback">EAS_AddingTrackback</listener>
-    <listener event="AddingComment">EAS_AddingComment</listener>
+    <listener event="AddingTrackback" handler="EAS_AddingTrackback" />
+    <listener event="AddingComment" handler="EAS_AddingComment" />
   </binding>
 </plugin>

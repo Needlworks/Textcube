@@ -11,15 +11,17 @@
   <author xml:lang="ko" link="http://create74.com"><![CDATA[박용주 (J.Parker / Needlworks)]]></author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
-    <textcube>1.7</textcube>
+    <textcube>
+		<minVersion>1.8</minVersion>
+	</textcube>
   </requirements>
   <binding>
-  	<listener event="AddPost">MT_Cover_getRecentEntries_purgeCache</listener>
-  	<listener event="UpdatePost">MT_Cover_getRecentEntries_purgeCache</listener>
-  	<listener event="DeletePost">MT_Cover_getRecentEntries_purgeCache</listener>
-	<listener event="ChangeVisibility">MT_Cover_getRecentEntries_purgeCache</listener>
-	<listener event="ToggleBlogSlogan">MT_Cover_getRecentEntries_purgeCache</listener>
-	<listener event="ModifyPluginParam_MT_Meta_RecentPS_Default">MT_Cover_getRecentEntries_purgeCache</listener>
+  	<listener event="AddPost" handler="MT_Cover_getRecentEntries_purgeCache" />
+  	<listener event="UpdatePost" handler="MT_Cover_getRecentEntries_purgeCache" />
+  	<listener event="DeletePost" handler="MT_Cover_getRecentEntries_purgeCache" />
+	<listener event="ChangeVisibility" handler="MT_Cover_getRecentEntries_purgeCache" />
+	<listener event="ToggleBlogSlogan" handler="MT_Cover_getRecentEntries_purgeCache" />
+	<listener event="ModifyPluginParam_MT_Meta_RecentPS_Default" handler="MT_Cover_getRecentEntries_purgeCache" />
 	<tag name="SKIN_head_end" handler="MT_Cover_getRecentEntryStyle" />
     <coverpage title="Recent Posts" handler="MT_Cover_getRecentEntries">
       <params>

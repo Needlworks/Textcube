@@ -1,10 +1,6 @@
 <?php
 function MT_Cover_getRecentEntries($parameters){
 	global $database, $blog, $service, $serviceURL, $suri, $configVal, $defaultURL, $skin;
-	requireComponent('Textcube.Core');
-	requireComponent('Needlworks.Cache.PageCache');
-	requireComponent('Textcube.Function.Setting');
-	requireComponent('Textcube.Function.misc');
 	requireModel("blog.entry");
 	requireModel("blog.tag");
 	$data = Setting::fetchConfigVal($configVal);
@@ -59,7 +55,7 @@ function MT_Cover_getRecentEntries($parameters){
 		AND value < 2");
 	if(!empty($privateBlogId)) $privateBlogs = ' AND e.blogid NOT IN ('.implode(',',$privateBlogId).')';
 	else $privateBlogs = '';
-	list($entries, $paging) = fetchWithPaging("SELECT e.blogid, e.id, e.userid, e.title, e.content, e.slogan, e.category, e.published, e.contentformatter, c.label
+	list($entries, $paging) = Paging::fetchWithPaging("SELECT e.blogid, e.id, e.userid, e.title, e.content, e.slogan, e.category, e.published, e.contentformatter, c.label
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id
 		WHERE $multiple e.draft = 0 $visibility AND e.category >= 0 $privateBlogs
@@ -108,7 +104,6 @@ function MT_Cover_getRecentEntries($parameters){
 	}
 
 	if ($data['paging'] == '1') {
-		requireComponent('Textcube.Model.Paging');
 
 		$paging['page'] = $page;
 		$paging['total'] = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries e WHERE $multiple e.draft = 0 $visibility AND e.category >= 0");
@@ -138,7 +133,6 @@ function MT_Cover_getRecentEntries($parameters){
 }
 
 function MT_Cover_getRecentEntries_purgeCache($target, $mother) {
-	requireComponent('Needlworks.Cache.PageCache');
 	$cache = new PageCache;
 	$cache->name = 'MT_Cover_RecentPS';
 	$cache->purge();
@@ -268,7 +262,6 @@ function MT_Cover_getAttachmentExtract($content){
 
 function MT_Cover_getRecentEntryStyle($target){
 	global $pluginURL, $configVal;
-	requireComponent('Textcube.Function.Setting');
 	$data = Setting::fetchConfigVal($configVal);
 	$data['cssSelect']	= !isset($data['cssSelect'])?1:$data['cssSelect'];
 	if($data['cssSelect'] == 1){
@@ -278,7 +271,6 @@ function MT_Cover_getRecentEntryStyle($target){
 }
 
 function MT_Cover_getRecentEntries_DataSet($DATA){
-	requireComponent('Textcube.Function.Setting');
 	$cfg = Setting::fetchConfigVal($DATA);
 
 	MT_Cover_getRecentEntries_purgeCache(null, null);
@@ -286,8 +278,6 @@ function MT_Cover_getRecentEntries_DataSet($DATA){
 }
 
 function MT_Cover_getRecentEntries_ConfigOut_ko($plugin) {
-	global $service;
-
 	$manifest = NULL;
 
 	$manifest .= '<?xml version="1.0" encoding="utf-8"?>'.CRLF;
@@ -319,7 +309,6 @@ function MT_Cover_getRecentEntries_ConfigOut_ko($plugin) {
 }
 
 function MT_Cover_getRecentEntries_ConfigOut_en($plugin) {
-	global $service;
 
 	$manifest = NULL;
 
