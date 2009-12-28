@@ -1195,21 +1195,37 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
 			}
         }
 		else {
-			$password2 = POD::escapeString($_POST['password']);
-            $schema = "
-				UPDATE {$_POST['dbPrefix']}Users SET loginid = '$loginid', name = '$name' WHERE userid = 1;
-				UPDATE {$_POST['dbPrefix']}Users SET password = '$password' WHERE userid = 1 AND password <> '$password2';
-				UPDATE {$_POST['dbPrefix']}BlogSettings SET 'value' = '{$_POST['blog']}' where blogid = 1 AND name = 'name';
-				UPDATE {$_POST['dbPrefix']}BlogSettings SET 'value' = '$baseLanguage' where blogid = 1 AND name = 'language';
-				UPDATE {$_POST['dbPrefix']}BlogSettings SET 'value' = '$baseTimezone' where blogid = 1 AND name = 'timezone';";
-            $query = explode(';', trim($schema));
-            foreach ($query as $sub) {
-                if (!empty($sub) && !POD::query($sub)) {
-					echo '<script type="text/javascript">//<![CDATA['.CRLF.'alert("', _t('정보를 갱신하지 못했습니다.'), '")//]]></script>';
-					$error = 2;
-					break;
-				}
-			}
+			$pool = DBModel::getInstance();
+			$pool->reset('Users');
+			$pool->setAttribute('loginid',$loginid,true);
+			$pool->setAttribute('name',$name,true);
+			$pool->setQualifier('userid','equals',1);
+			$pool->update();
+			
+			$pool->reset('Users');
+			$pool->setAttribute('password',$password,true);
+			$pool->setQualifier('userid','equals',1);
+			$pool->setQualifier('password','not',$password2,true);
+			$pool->update();
+
+			$pool->reset('BlogSettings');
+			$pool->setAttribute('value',$_POST['blog'],true);
+			$pool->setQualifier('blogid','equals',1);
+			$pool->setQualifier('name','equals','name',true);
+			$pool->update();
+
+			$pool->reset('BlogSettings');
+			$pool->setAttribute('value',$baseLanguage,true);
+			$pool->setQualifier('blogid','equals',1);
+			$pool->setQualifier('name','equals','language',true);
+			$pool->update();
+			
+			$pool->reset('BlogSettings');
+			$pool->setAttribute('value',$baseTimezone,true);
+			$pool->setQualifier('blogid','equals',1);
+			$pool->setQualifier('name','equals','timezone',true);
+			$pool->update();
+		
 		}
 		if (!$error) {
 			POD::unbind();
