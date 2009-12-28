@@ -3,8 +3,8 @@
   <title xml:lang="en">Recent Replies</title>
   <title xml:lang="ko">최근 댓글</title>
    <title xml:lang="ja">最新コメント</title>
- <link>http://needlworks.org/</link>
-  <version>1.6</version>
+  <link>http://needlworks.org/</link>
+  <version>1.8</version>
   <description xml:lang="en">Shows recent replies</description>
   <description xml:lang="ko">최근에 작성된 댓글들을 보여줍니다</description>
   <description xml:lang="ja">最新コメント・プラグ・イン</description>
@@ -14,7 +14,9 @@
   <author xml:lang="ja" link="http://rsef.net">Peris (Tatter Network Foundation)</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
-    <textcube>1.6</textcube>
+    <textcube>
+		<minVersion>1.8</minVersion>
+	</textcube>
   </requirements>
   <binding>
     <center handler="CT_RecentRP_Default" />

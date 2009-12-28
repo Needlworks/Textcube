@@ -1,7 +1,7 @@
 <?php
-/* Recent Replies plugin for Textcube 1.6
+/* Recent Replies plugin for Textcube 1.8
    ----------------------------------
-   Version 1.6
+   Version 1.8
    Tatter and Friends development team.
 
    Creator          : Peris
@@ -9,7 +9,7 @@
    Editor			: J.Parker
 
    Created at       : 2006.7.25
-   Last modified at : 2008.2.25
+   Last modified at : 2009.12.28
 
  This plugin shows recent eeplies on 'quilt'.
  For the detail, visit http://forum.tattersite.com/ko
@@ -25,36 +25,45 @@
 
 */
 
-// library/model/comment.php : 367 line
-function _getRecentComments($blogid) {
-	global $skinSetting, $database, $configVal, $pluginURL;
-	$data = fetchConfigVal($configVal);
+function RecentRP_getRecentComments($blogid) {
+	global $configVal, $pluginURL;
+	$data = Setting::fetchConfigVal($configVal);
+	$context = Model_Context::getInstance();
 	$comments = array();
-	$repliesChk = ($data['repliesChk'] == 1)?"":" AND replier is NULL ";
-	$limitLine = ($data['repliesList'])?$data['repliesList']:$skinSetting['commentsOnRecent'];
-	$sql = "SELECT * FROM {$database['prefix']}Comments WHERE blogid = {$blogid} AND entry>0 AND isfiltered = 0 {$repliesChk} ORDER BY written DESC LIMIT {$limitLine}";
-	if ($result = POD::query($sql)) {
-		while ($comment = POD::fetch($result)) {
-			if ($data['repliesChk'] == 2) {
-				$row = POD::queryCell("select count(*) from {$database['prefix']}Comments where blogid = $blogid AND parent = ".$comment['id']);
-				$comment['replier'] = ($row)?"<img src=\"{$pluginURL}/replier.gif\" width=\"11\" height=\"9\" align=\"top\" style=\"margin-left:2px;\" alt=\"\" />":"";
-			}else{$comment['replier'] = "";}
-			$comment['secret'] = ($comment['secret'] == 1)?"<img src=\"{$pluginURL}/secret.gif\" width=\"9\" height=\"11\" style=\"margin-left:2px;\" alt=\"\" />":"";
-			array_push($comments, $comment);
+	$limitLine = ($data['repliesList'])?$data['repliesList']:$context->getProperty('skin.commentsOnRecent');
+
+	$pool = DBModel::getInstance();
+	$pool->reset('Comments');
+	$pool->setQualifier('blogid','equals',intval($context->getProperty('blog.id')));
+	$pool->setQualifier('isfiltered','equals',0);
+	if ($data['repliesChk'] != 1) $pool->setQualifier('replier',null);
+	$pool->setOrder('written','DESC');
+	$pool->setLimit($limitLine);
+	$result = $pool->getAll();
+
+	foreach ($result as $comment) {
+		if ($data['repliesChk'] == 2) {
+			$pool->reset('Comments');
+			$pool->setQualifier('blogid','equals',$context->getProperty('blog.id'));
+			$pool->setQualifier('parent','equals',$comment['id']);
+			$row = $pool->getCell('COUNT(*)');
+			$comment['replier'] = ($row)?"<img src=\"{$pluginURL}/replier.gif\" width=\"11\" height=\"9\" align=\"top\" style=\"margin-left:2px;\" alt=\"\" />":"";
+		} else {
+			$comment['replier'] = "";
 		}
+		$comment['secret'] = ($comment['secret'] == 1)?"<img src=\"{$pluginURL}/secret.gif\" width=\"9\" height=\"11\" style=\"margin-left:2px;\" alt=\"\" />":"";
+		array_push($comments, $comment);
 	}
 	return $comments;
 }
 
-// library/view/view.php : 906 line
-function _getRecentCommentsView($comments, $template) {
-	requireComponent("Eolin.PHP.Core");
-	requireComponent("Textcube.Function.misc");
-	global $blogURL, $skinSetting, $contentContainer;
+function RecentRP_getRecentCommentsView($comments, $template) {
+	global $contentContainer;
+	$context = Model_Context::getInstance();
 	ob_start();
 	foreach ($comments as $comment) {
 		$view = "$template";
-		Misc::dress('rctrp_rep_link', "$blogURL/{$comment['entry']}#comment{$comment['id']}", $view);
+		Misc::dress('rctrp_rep_link', $context->getProperty('uri.blog')."/{$comment['entry']}#comment{$comment['id']}", $view);
 		
 		$contentContainer["recent_comment_{$comment['id']}"] = htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['comment']), 30));
 		Misc::dress('rctrp_rep_desc', setTempTag("recent_comment_{$comment['id']}"), $view);
@@ -70,17 +79,15 @@ function _getRecentCommentsView($comments, $template) {
 
 // library/piece/blog/end.php : 48 line
 function CT_RecentRP_Default($target) {
-	global $blogid;
-
+	$context = Model_Context::getInstance();
 	$target .= '<ol>'.CRLF;
-	$target .= _getRecentCommentsView(_getRecentComments($blogid),'											<li><span class="date" style="display: block; font-family: Verdana, 돋움, Dotum, Tahoma, \'Lucida Grande\', sans-serif; font-size: 0.9em;">[##_rctrp_rep_time_##]</span> <a href="[##_rctrp_rep_link_##]">[##_rctrp_rep_desc_##]</a> <span class="name" style="color: #ABABAB;">[##_rctrp_rep_name_##]</span></li>'.CRLF);
+	$target .= RecentRP_getRecentCommentsView(RecentRP_getRecentComments($context->getProperty('blog.id')),'											<li><span class="date" style="display: block; font-family: Verdana, 돋움, Dotum, Tahoma, \'Lucida Grande\', sans-serif; font-size: 0.9em;">[##_rctrp_rep_time_##]</span> <a href="[##_rctrp_rep_link_##]">[##_rctrp_rep_desc_##]</a> <span class="name" style="color: #ABABAB;">[##_rctrp_rep_name_##]</span></li>'.CRLF);
 	$target .= '										</ol>'.CRLF;
 
 	return revertTempTags($target);
 }
 
 function CT_RecentRP_Default_DataSet($DATA){
-	requireComponent('Textcube.Function.Setting');
 	$cfg = Setting::fetchConfigVal($DATA);
 	return true;
 }

@@ -84,7 +84,8 @@ class DBModel extends Singleton implements IModel {
 	
 	public function setAttribute($name, $value, $escape = false) {
 		if (is_null($value))
-			$this->_attributes[$name] = 'NULL';
+			$this->_attributes[$name] = null;
+//			$this->_attributes[$name] = 'NULL';
 		else
 			$this->_attributes[$name] = ($escape === false && (!is_string($value) || in_array($value,$this->_reservedFunctions)) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
 	}
@@ -113,7 +114,8 @@ class DBModel extends Singleton implements IModel {
 	public function setQualifier($name, $condition, $value = null, $escape = false) {
 	//OR, setQualifier(string(name_condition_value), $escape = null)     - Descriptive mode (NOT implemented)
 		if (is_null($condition)) {
-			$this->_qualifiers[$name] = 'NULL';
+			$this->_qualifiers[$name] = null;
+//			$this->_qualifiers[$name] = 'NULL';
 		} else {
 			switch(strtolower($condition)) {
 				case 'equals':
@@ -309,7 +311,7 @@ class DBModel extends Singleton implements IModel {
 		foreach ($this->_qualifiers as $name => $value) {
 			$clause .= (strlen($clause) ? ' AND ' : '') . 
 				(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) .
-				' '.(is_null($value) ? 'IS NULL' : $this->_relations[$name] . ' ' . $value);
+				' '.(is_null($value) ? ' IS NULL' : $this->_relations[$name] . ' ' . $value);
 		}
 		if(!empty($this->_order)) $clause .= ' ORDER BY '.$this->_treatReservedFields($this->_order['attribute']).' '.$this->_order['order'];
 		if(!empty($this->_limit)) $clause .= ' LIMIT '.$this->_limit['count'].' OFFSET '.$this->_limit['offset'];
