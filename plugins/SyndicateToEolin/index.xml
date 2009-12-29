@@ -17,6 +17,7 @@
       <listener event="CreatePostSyndicate" handler="SyndicateToEolin_Create" />
       <listener event="ModifyPostSyndicate" handler="SyndicateToEolin_Modify" />
       <listener event="DeletePostSyndicate" handler="SyndicateToEolin_Delete" />
-      <listener event="/plugin/abstractToEolin/" handler="sendAbstractToEolin" />
+      
+	  <listener event="/plugin/abstractToEolin" handler="sendAbstractToEolin" />
   </binding>
 </plugin>
