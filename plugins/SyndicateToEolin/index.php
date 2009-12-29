@@ -16,15 +16,18 @@ the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 */
 function SyndicateToEolin_Create ($target, $mother) {
-	return SyndicateToEolin($target, $mother, 'create');
+	SyndicateToEolin($target, $mother, 'create');
+	return $target;
 }
 
 function SyndicateToEolin_Modify ($target, $mother) {
-	return SyndicateToEolin($target, $mother, 'modify');
+	SyndicateToEolin($target, $mother, 'modify');
+	return $target;
 }
 
 function SyndicateToEolin_Delete ($target, $mother) {
-	return SyndicateToEolin($target, $mother, 'delete');
+	SyndicateToEolin($target, $mother, 'delete');
+	return $target;
 }
 /**
  * @brief Syndicating routine.
@@ -38,7 +41,7 @@ function SyndicateToEolin ($entryId, $entry, $mode) {
 	$rpc = new XMLRPC();
 	$rpc->url = 'http://ping.eolin.com/';
 
-	$summary = array('blogURL' => $defaultURL, 'syncURL' => "$defaultURL/plugin/abstractToEolin?entryId=$id");
+	$summary = array('blogURL' => $defaultURL, 'syncURL' => "$defaultURL/plugin/abstractToEolin?entryId=$entryId");
 	if($mode == 'create') {
 		$summary['blogTitle'] = $context->getProperty('blog.title');
 		$summary['language']  = $context->getProperty('blog.language');
