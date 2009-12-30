@@ -1114,8 +1114,9 @@ RewriteRule ^testrewrite$ setup.php [L]"
 				$query = array(); 
 			}
             // Loading create schema from sql file. (DBMS specific)
-			
-			$schema .= file_get_contents(ROOT.'/resources/setup/initialize.'.POD::dbms().'.sql');
+			if(POD::dbms() == 'MySQLi') $dbSelector = 'MySQL';
+			else $dbSelector = POD::dbms();
+			$schema .= file_get_contents(ROOT.'/resources/setup/initialize.'.$dbSelector.'.sql');
 			$schema = str_replace('[##_dbPrefix_##]',$_POST['dbPrefix'],$schema);
 			$schema = str_replace('[##_charset_##]',$charset,$schema);
 			
