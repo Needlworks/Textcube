@@ -214,7 +214,10 @@ class DBModel extends Singleton implements IModel {
 		$attributes = array_merge($this->_qualifiers, $this->_attributes);
 		if (empty($attributes))
 			return false;
-		$this->_query = 'INSERT INTO ' . $this->table . ' (' . implode(',', $this->_capsulateFields(array_keys($attributes))) . ') VALUES (' . implode(',', $attributes) . ')';
+		$pairs = $attributes;
+		foreach($pairs as $key => $value) if (is_null($value)) $pairs[$key] = 'NULL';
+		
+		$this->_query = 'INSERT INTO ' . $this->table . ' (' . implode(',', $this->_capsulateFields(array_keys($attributes))) . ') VALUES (' . implode(',', $pairs) . ')';
 		if (POD::query($this->_query)) {
 //			$this->id = POD::insertId();
 			return true;
@@ -226,9 +229,12 @@ class DBModel extends Singleton implements IModel {
 		if (empty($this->table) || empty($this->_attributes))
 			return false;
 		$attributes = array();
+		
 		foreach ($this->_attributes as $name => $value)
 			array_push($attributes, 
-				(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) . '=' . $value);
+				(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) . '=' . 
+				(is_null($value) ? ' NULL' : $value ));
+		
 		$this->_query = 'UPDATE ' . $this->table . ' SET ' . implode(',', $attributes) . $this->_makeWhereClause();
 		if (POD::query($this->_query))
 			return true;
@@ -242,9 +248,11 @@ class DBModel extends Singleton implements IModel {
 		$attributes = array_merge($this->_qualifiers, $this->_attributes);
 		if (empty($attributes))
 			return false;
+		$pairs = $attributes;
+		foreach($pairs as $key => $value) if (is_null($value)) $pairs[$key] = 'NULL';
 		$attributeFields = $this->_capsulateFields(array_keys($attributes));
 		if (in_array(POD::dbms(), array('MySQL','MySQLi'))) { // Those supports 'REPLACE'
-			$this->_query = 'REPLACE INTO ' . $this->table . ' (' . implode(',', $attributeFields) . ') VALUES(' . implode(',', $attributes) . ')';
+			$this->_query = 'REPLACE INTO ' . $this->table . ' (' . implode(',', $attributeFields) . ') VALUES(' . implode(',', $pairs) . ')';
 			if (POD::query($this->_query)) {
 				$this->id = POD::insertId();
 				return true;

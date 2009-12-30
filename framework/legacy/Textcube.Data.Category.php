@@ -81,17 +81,21 @@ class Category {
 	}
 	
 	function add() {
-		global $database;
 		if($this->id != 0) $this->id = null;
+		
 		if (isset($this->parent) && !is_numeric($this->parent))
 			return $this->_error('parent');
+		
 		$this->name = UTF8::lessenAsEncoding(trim($this->name), 127);
+
 		if (empty($this->name))
 			return $this->_error('name');
 		
 		$query = DBModel::getInstance();
 		$query->reset('Categories');
+		
 		$query->setQualifier('blogid', 'equals', getBlogId());
+		
 		if (isset($this->parent)) {
 			if (is_null($parentLabel = Category::getLabel($this->parent))) {
 				return $this->_error('parent');
@@ -130,7 +134,7 @@ class Category {
 
 	function getNextCategoryId($id = 0) {
 		$context = Model_Context::getInstance();
-		$pool    = DBModel::getInstance();
+		$pool    = new DBModel();
 		
 		$pool->reset('Categories');
 		$blogid = intval($context->getProperty('blog.id'));
@@ -167,7 +171,7 @@ class Category {
 		if ($id == 0) return true; // not specified case
 
 		$context = Model_Context::getInstance();
-		$pool    = DBModel::getInstance();
+		$pool    = new DBModel();
 		
 		$pool->reset('Categories');
 		$blogid = intval($context->getProperty('blog.id'));
@@ -182,7 +186,7 @@ class Category {
 			return null;
 
 		$context = Model_Context::getInstance();
-		$pool    = DBModel::getInstance();
+		$pool    = new DBModel();
 		
 		$pool->reset('Categories');
 		$blogid = intval($context->getProperty('blog.id'));
@@ -196,7 +200,7 @@ class Category {
 			return null;
 
 		$context = Model_Context::getInstance();
-		$pool    = DBModel::getInstance();
+		$pool    = new DBModel();
 		
 		$pool->reset('Categories');
 		$blogid = intval($context->getProperty('blog.id'));
@@ -211,7 +215,7 @@ class Category {
 			return null;
 			
 		$context = Model_Context::getInstance();
-		$pool    = DBModel::getInstance();
+		$pool    = new DBModel();
 		
 		$pool->reset('Categories');
 		$blogid = intval($context->getProperty('blog.id'));

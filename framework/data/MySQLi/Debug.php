@@ -35,6 +35,7 @@ function __tcSqlLogBegin( $sql )
 
 	$__tcSqlLog[$__tcSqlLogCount] = array( 'sql' => trim($sql), 'backtrace' => $backtrace );
 	$__tcSqlQueryBeginTime = explode(' ', microtime());
+	//dumpAsFile($sql);
 }
 function __tcSqlLogEnd( $result, $cachedResult = 0 )
 {
@@ -422,14 +423,14 @@ function dumpAsFile($data) {
 		@mkdir(ROOT."/cache");
 		@chmod(ROOT."/cache",0777);
 	}
-
 	$dumpFile = ROOT.'/cache/dump';
 	if(file_exists($dumpFile)) {
 		$dumpedLog = @file_get_contents($dumpFile);
 	} else {
 		$dumpedLog = '';
 	}
-	$dumpedLog = $dumpedLog.Timestamp::format5()." : ".print_r($data,true).CRLF;
+	//$dumpedLog = $dumpedLog.Timestamp::format5()." : ".var_export($data,true).CRLF;
+	$dumpedLog = $dumpedLog.var_export($data,true).CRLF;
 	$fileHandle = fopen($dumpFile,'w');
 	fwrite($fileHandle, $dumpedLog);
 	fclose($fileHandle);

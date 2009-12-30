@@ -25,7 +25,7 @@
 */
 function PN_Referer_Default()
 {
-	global $pluginMenuURL, $pluginSelfParam ;
+	global $pluginMenuURL, $pluginSelfParam;
 	if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['page']))
 		$_GET['page'] = $_POST['page'];
 	

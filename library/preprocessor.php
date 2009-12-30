@@ -69,7 +69,7 @@ if($context->getProperty('service.debugmode') == true) {
 		require_once(ROOT. "/framework/data/".$context->getProperty('database.dbms')."/Debug.php");
 	} else require_once(ROOT. "/framework/data/MySQL/Debug.php");
 } else {
-	if(!function_exists('dumpAsFile')) {function dumpAsFile($dummy){}}
+	if(!function_exists('dumpAsFile')) {function dumpAsFile($dummy){return true;}}
 }
     
 /** LOAD : Required components / models / views 
