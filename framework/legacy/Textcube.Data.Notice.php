@@ -82,7 +82,6 @@ class Notice {
 	}
 	
 	function add($userid = null) {
-		global $database;
 		$this->init();
 		if (isset($this->id) && !Validator::number($this->id, 1))
 			 return $this->_error('id');
@@ -177,7 +176,7 @@ class Notice {
 		if (isset($slogan))
 			$this->slogan = $slogan;
 
-		$query = DBModel::getInstance();
+		$query = new DBModel;
 		$query->reset('Entries');
 		$query->setQualifier('blogid',$this->blogid);
 		if(isset($this->userid)) $query->setQualifier('userid', $this->userid);
