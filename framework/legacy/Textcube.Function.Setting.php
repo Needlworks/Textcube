@@ -146,7 +146,7 @@ class Setting {
 			$query->setAttribute('name', $name, true);
 			$query->setAttribute('value',$value, true);
 			return $query->replace();
-		}
+		} 
 		
 		// insert new value
 		$__gCacheBlogSettings[$blogid][$name] = $value;
