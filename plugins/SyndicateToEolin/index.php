@@ -35,13 +35,12 @@ function SyndicateToEolin_Delete ($target, $mother) {
  */	
 function SyndicateToEolin ($entryId, $entry, $mode) {
 	$context = Model_Context::getInstance();
-	$pool = DBModel::getInstance();
 	$blogid = $context->getProperty('blog.id');
 	
 	$rpc = new XMLRPC();
 	$rpc->url = 'http://ping.eolin.com/';
 
-	$summary = array('blogURL' => $defaultURL, 'syncURL' => "$defaultURL/plugin/abstractToEolin?entryId=$entryId");
+	$summary = array('blogURL' => $context->getProperty('uri.default'), 'syncURL' => $context->getProperty('uri.default')."/plugin/abstractToEolin?entryId=$entryId");
 	if($mode == 'create') {
 		$summary['blogTitle'] = $context->getProperty('blog.title');
 		$summary['language']  = $context->getProperty('blog.language');
@@ -62,18 +61,18 @@ function SyndicateToEolin ($entryId, $entry, $mode) {
 function sendAbstractToEolin () {
 	// TODO : Rewrite routines to fit Textcube 1.8 or later.
 	requireModel('blog.category');
-	global $database;
 	$entryId = $_GET['entryId'];
 	$context = Model_Context::getInstance();
 	$blogid = $context->getProperty('blog.id');
 	echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<response>\r\n";
+
 	list($allComments, $allTrackbacks) = POD::queryRow("SELECT 
 			SUM(comments), SUM(trackbacks) 
-			FROM {$database['prefix']}Entries 
+			FROM {$context->getProperty('database.prefix')}Entries 
 			WHERE blogid = ".$blogid." AND draft = 0 AND visibility = 3", 'num');
 	if($entry = POD::queryRow("SELECT e.*, c.name AS categoryName 
-				FROM {$database['prefix']}Entries e 
-				LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
+				FROM {$context->getProperty('database.prefix')}Entries e 
+				LEFT JOIN {$context->getProperty('database.prefix')}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 				WHERE e.blogid = ".$blogid." AND e.id = ".$entryId." AND e.draft = 0 AND e.visibility = 3".getPrivateCategoryExclusionQuery($blogid))) {
 					
 		header('Content-Type: text/xml; charset=utf-8');
