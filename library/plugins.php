@@ -365,7 +365,7 @@ if (getBlogId()) {
 		uksort($editorMapping, '_cmpfuncByEditorName');
 		uksort($formatterMapping, '_cmpfuncByFormatterName');
 		foreach ($formatterMapping as $formatterid => $formatterentry) {
-			uksort($formatterMapping[$formatterid]['editors'], '_cmpfuncByEditorName');
+//			uksort($formatterMapping[$formatterid]['editors'], '_cmpfuncByEditorName');
 		}
 	}
 	unset($formatterid);
