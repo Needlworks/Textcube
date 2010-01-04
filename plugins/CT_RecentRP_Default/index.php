@@ -36,6 +36,7 @@ function RecentRP_getRecentComments($blogid) {
 	$pool->reset('Comments');
 	$pool->setQualifier('blogid','equals',intval($context->getProperty('blog.id')));
 	$pool->setQualifier('isfiltered','equals',0);
+	$pool->setQualifier('entry','neq',0);
 	if ($data['repliesChk'] != 1) $pool->setQualifier('replier',null);
 	$pool->setOrder('written','DESC');
 	$pool->setLimit($limitLine);
