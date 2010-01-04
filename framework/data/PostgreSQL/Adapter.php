@@ -8,10 +8,9 @@
 global $fileCachedResult;
 
 class DBAdapter implements IAdapter {	
-	static $dbProperties, $cachedResult;
+	static $dbProperties, $cachedResult, $lastQueryType;
 	/*@static@*/
 	public static function bind($database) {
-		global self::$dbProperties;
 		// Connects DB and set environment variables
 		// $database array should contain 'server','username','password'.
 		if(!isset($database) || empty($database)) return false;
@@ -79,7 +78,6 @@ class DBAdapter implements IAdapter {
 	}
 
 	public static function query($query, $compatiblity = true) {
-		global $__gLastQueryType;
 		/// Bypassing compatiblitiy issue : will be replace to NAF2.
 		if($compatibility) {
 			$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compatibility issue.
@@ -142,7 +140,7 @@ class DBAdapter implements IAdapter {
 		} else {
 			$result = pg_query($query);
 		}
-		$__gLastQueryType = strtolower(substr($query, 0,6));
+		self::$lastQueryType = strtolower(substr($query, 0,6));
 		if( stristr($query, 'update ') ||
 			stristr($query, 'insert ') ||
 			stristr($query, 'delete ') ||
@@ -166,12 +164,11 @@ class DBAdapter implements IAdapter {
 
 	/*@static@*/
 	public static function queryCount($query) {
-		global $__gLastQueryType;
 		$count = 0;
 		$query = trim($query);
 		if ($result = self::query($query)) {
 			$operation = strtolower(substr($query, 0,6));
-			$__gLastQueryType = $operation;
+			self::$lastQueryType = $operation;
 			switch ($operation) {
 				case 'select':
 					$count = pg_num_rows($result);
@@ -330,8 +327,7 @@ class DBAdapter implements IAdapter {
 	/* Raw public static functions (to easier adoptation) */
 	/*@static@*/
 	public static function num_rows($handle = null) {
-		global $__gLastQueryType;
-		switch($__gLastQueryType) {
+		switch(self::$lastQueryType) {
 			case 'select':
 				return pg_num_rows($handle);
 				break;
