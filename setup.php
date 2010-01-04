@@ -307,7 +307,9 @@ foreach($dbmsSupport as $dbms) {
       <tr>
         <th><?php echo _t('데이터베이스 포트');?> :</th>
         <td>
-          <input type="text" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : '3389');?>" class="input<?php echo ($check && (empty($_POST['dbPort']) || ($error == 1)) ? ' input_error' : '');?>" />
+          <input type="text" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : 
+		  '3306'
+		  );?>" class="input<?php echo ($check && (empty($_POST['dbPort']) || ($error == 1)) ? ' input_error' : '');?>" />
         </td>
       </tr>
 	  <tr>
