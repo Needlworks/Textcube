@@ -124,7 +124,7 @@ class DBModel extends Singleton implements IModel {
 					break;
 				case 'not':
 				case 'neq':
-					$this->_relations[$name] = 'NOT';
+					$this->_relations[$name] = '<>';
 					break;
 				case 'bigger':
 				case 'b':
