@@ -277,6 +277,27 @@ function checkStep($step, $check = true) {
 ?>
   <input type="hidden" name="step" value="3" />
   <input type="hidden" name="mode" value="<?php echo $_POST['mode'];?>" />
+  <script type="text/javascript">
+    //<![CDATA[
+     function suggestDefaultPort(db) {
+		switch(db) {
+			case 'MySQL':
+			case 'MySQLi':
+			default:
+				port = 3306;
+				break;
+			case 'Cubrid':
+				port = 30000;
+				break;
+			case 'PostgreSQL':
+				port = 5432;
+				break;
+		}
+		document.getElementById('dbPort').value = port;
+		return true;
+	 }
+    //]]>
+  </script>
   <div id="inner">
     <h2><span class="step"><?php echo _f('%1단계', 3);?></span> : <?php echo _t('작업 정보를 입력해 주십시오.');?></h2>
     <div id="userinput">
@@ -292,7 +313,7 @@ if(function_exists('pg_connect')) array_push($dbmsSupport,'PostgreSQL');
 if(function_exists('cubrid_connect')) array_push($dbmsSupport,'Cubrid');
 foreach($dbmsSupport as $dbms) {
 ?>
-	      <input type="radio" name="dbms" value="<?php echo $dbms;?>" <?php echo (((isset($_POST['dbms']) && $_POST['dbms'] == $dbms)||(!isset($_POST['dbms']) && $dbms == $dbmsSupport[0])) ? 'checked' : '');?>/> <?php echo $dbms;?> 
+	      <input type="radio" name="dbms" value="<?php echo $dbms;?>" <?php echo (((isset($_POST['dbms']) && $_POST['dbms'] == $dbms)||(!isset($_POST['dbms']) && $dbms == $dbmsSupport[0])) ? 'checked' : '');?> onclick="suggestDefaultPort('<?php echo $dbms;?>');return false;" /> <?php echo $dbms;?> 
 <?php
 }
 ?>
@@ -307,7 +328,7 @@ foreach($dbmsSupport as $dbms) {
       <tr>
         <th><?php echo _t('데이터베이스 포트');?> :</th>
         <td>
-          <input type="text" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : 
+          <input type="text" id="dbPort" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : 
 		  '3306'
 		  );?>" class="input<?php echo ($check && (empty($_POST['dbPort']) || ($error == 1)) ? ' input_error' : '');?>" />
         </td>
