@@ -147,7 +147,7 @@ final class Dispatcher {
 							$interfacePath = 'interface/blog/'.$pathPart.'.php';
 							break;
 						case 'rss': case 'atom':
-							if(in_array($uri['fragment'][1],array('category','tag','search'))) {
+							if(isset($uri['fragment'][1]) && in_array($uri['fragment'][1],array('category','tag','search'))) {
 								$pathPart = $uri['fragment'][0].'/'.$uri['fragment'][1];
 								$interfacePath = 'interface/'.$pathPart.'/index.php';							
 							}
@@ -156,11 +156,11 @@ final class Dispatcher {
 							$pathPart = implode("/",$uri['fragment']);
 							$interfacePath = 'interface/blog/'.$pathPart.'/index.php';
 							break;
-						case 'i':case 'm':
-							if(in_array($uri['fragment'][1],array('entry','comment'))) {
+						case 'i': case 'm':
+							if(isset($uri['fragment'][1]) && in_array($uri['fragment'][1],array('entry','comment'))) {
 								$pathPart = $uri['fragment'][0].'/'.$uri['fragment'][1]; 
 							} else {
-								$pathPath = $uri['fragment'][0].'/'; 
+								$pathPart = $uri['fragment'][0].'/'; 
 							}
 							$interfacePath = 'interface/'.$pathPart.'/index.php';
 							break;
