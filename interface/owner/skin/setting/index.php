@@ -402,7 +402,7 @@ ob_end_clean();
 										<dl id="comment-show-line" class="line">
 											<dt><span class="label"><?php echo _t('댓글을 표시할 때');?></span></dt>
 											<dd>
-												<input type="checkbox" id="pagingComment" class="checkbox" name="pagingComment"<?php echo (Setting::getBlogSettingGlobal('useAjaxComment',1) == 1 ? 'checked = "checked"' : '');?> /><label for="pagingComment"><?php echo _t('댓글 페이징을 사용합니다.');?></label><br />
+												<input type="checkbox" id="pagingComment" class="checkbox" name="pagingComment"<?php echo (Setting::getBlogSettingGlobal('useAjaxComment',1) == 1 ? 'checked = "checked"' : '');?> /><label for="pagingComment"><?php echo _t('댓글 페이징을 사용합니다.');?> <br /><?php echo _t('댓글이 많은 블로그에서 댓글 보기를 누를 경우에만 댓글을 AJAX로 불러와 최근 댓글의 일부부터 보여줍니다.');?> <?php echo _t('댓글 페이징을 사용하면 댓글은 기본적으로 닫힌 채로 출력됩니다.');?></label><br />
 											</dd>
 										</dl>
 									</fieldset>
