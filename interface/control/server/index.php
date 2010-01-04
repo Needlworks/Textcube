@@ -16,18 +16,9 @@ if (file_exists(ROOT . "/.htaccess")) {
 $encodingList = array('UTF-8','EUC-KR','SHIFT_JIS','EUC-JP','BIG5','EUC-CN','EUC-TW','GBK');
 
 // Languages
-$languageList = array($service['language'] => null);
-if (is_dir(ROOT.'/resources/locale/') && $handler = opendir(ROOT.'/resources/locale/')) {
-	while (($file = readdir($handler)) !== false) {
-		//if (is_dir(ROOT.'/resources/locale/'.$file) || substr($file, -4) != '.php' || $file == 'messages.php') {
-		if (!is_dir(ROOT.'/resources/locale/'.$file) || $file == 'po') {
-			continue;
-		}
-//		$file = substr($file, 0, -4);
-		$languageList[$file] = null;
-	}
-}
-closedir($handler);
+$locale = Locale::getInstance();
+$locale->setDirectory(ROOT.'/resources/locale/description');
+$supportedLanguages = $locale->getSupportedLocales();
 
 // Skins
 $skinList = array($service['skin'] => null);
@@ -213,9 +204,9 @@ foreach ($skinList as $skin => $value) {
 											<dd>
 												<select id="language" name="language">
 <?php
-foreach ($languageList as $lang => $value) {
+foreach ($supportedLanguages as $locale => $language) {
 ?>
-													<option value="<?php echo $lang; ?>"<?php echo ($lang == $service['language'] ? ' selected="selected"' : ''); ?>><?php echo $lang; ?></option>
+													<option value="<?php echo $locale; ?>"<?php echo ($locale == $service['language'] ? ' selected="selected"' : ''); ?>><?php echo $language; ?></option>
 <?php
 }
 ?>												</select>
