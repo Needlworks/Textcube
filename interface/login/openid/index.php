@@ -27,11 +27,7 @@ $IV = array(
 		'tid' => array('string', 'mandatory' => false ),
 	)
 );
-
 require ROOT . '/library/preprocessor.php';
-
-requireComponent( "Textcube.Core" );
-requireComponent( "Textcube.Control.Openid" );
 
 global $service;
 global $openid_session_name, $openid_session_id, $openid_session, $openid_session_path;
@@ -77,6 +73,7 @@ function TryAuthByRequest()
 	if (empty($openid)) {
 		$errmsg = _text("오픈아이디를 입력하세요");
 	} else if (strstr($openid, ".") === false ) {
+		require_once(ROOT.'/framework/legacy/Textcube.Control.Openid.php');
 		require_once OPENID_LIBRARY_ROOT."Auth/Yadis/XRI.php";
 		if( Auth_Yadis_identifierScheme($openid) == 'URI' ) {
 			$errmsg = _text("오픈아이디에 도메인 부분이 없습니다. 예) textcube.idtail.com");

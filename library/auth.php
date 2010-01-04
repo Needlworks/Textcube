@@ -61,13 +61,13 @@ function requireMembership() {
 }
 
 function getUserId() {
-	return Acl::getIdentity('textcube');
+	return intval(Acl::getIdentity('textcube'));
 }
 
 
 function getBlogId() {
 	global $blogid;
-	return $blogid;
+	return intval($blogid);
 }
 
 function setBlogId($id) {

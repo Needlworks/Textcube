@@ -294,6 +294,7 @@ function checkStep($step, $check = true) {
 				break;
 		}
 		document.getElementById('dbPort').value = port;
+		document.getElementById('dbms'+db).checked = checked;
 		return true;
 	 }
     //]]>
@@ -313,7 +314,7 @@ if(function_exists('pg_connect')) array_push($dbmsSupport,'PostgreSQL');
 if(function_exists('cubrid_connect')) array_push($dbmsSupport,'Cubrid');
 foreach($dbmsSupport as $dbms) {
 ?>
-	      <input type="radio" name="dbms" value="<?php echo $dbms;?>" <?php echo (((isset($_POST['dbms']) && $_POST['dbms'] == $dbms)||(!isset($_POST['dbms']) && $dbms == $dbmsSupport[0])) ? 'checked' : '');?> onclick="suggestDefaultPort('<?php echo $dbms;?>');return false;" /> <?php echo $dbms;?> 
+	      <input type="radio" id="dbms<?php echo $dbms;?>" name="dbms" value="<?php echo $dbms;?>" <?php echo (((isset($_POST['dbms']) && $_POST['dbms'] == $dbms)||(!isset($_POST['dbms']) && $dbms == $dbmsSupport[0])) ? 'checked' : '');?> onclick="suggestDefaultPort('<?php echo $dbms;?>');return false;" /> <?php echo $dbms;?> 
 <?php
 }
 ?>

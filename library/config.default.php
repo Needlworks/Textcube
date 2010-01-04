@@ -5,10 +5,10 @@
 
 // Define basic signatures.
 define('TEXTCUBE_NAME', 'Textcube');
-define('TEXTCUBE_VERSION', '1.8.0.1 : Secondary Dominant');
-define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2009. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
+define('TEXTCUBE_VERSION', '1.8.1 : Secondary Dominant');
+define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2010. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
 define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.org/');
-define('TEXTCUBE_RESOURCE_URL', 'http://resources.textcube.org/1.8');
+define('TEXTCUBE_RESOURCE_URL', 'http://resources.textcube.org/1.8.1');
 define('CRLF', "\r\n");
 define('TAB', "	");
 define('INT_MAX',2147483647);
@@ -18,6 +18,11 @@ if( strstr( PHP_OS, "WIN") !== false ) {
 } else {
 	define('DS', "/");
 }
+define( "OPENID_LIBRARY_ROOT", ROOT . "/library/contrib/phpopenid/" );
+define( "XPATH_LIBRARY_ROOT", ROOT . "/library/contrib/phpxpath/" );
+define( "Auth_OpenID_NO_MATH_SUPPORT", 1 );
+define( "OPENID_PASSWORD", "-OPENID-" );
+
 // Define global variable.
 global $database, $service, $blog, $memcache;
 

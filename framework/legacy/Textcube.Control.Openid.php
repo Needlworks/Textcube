@@ -3,11 +3,6 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-define( 'OPENID_LIBRARY_ROOT', ROOT . "/library/contrib/phpopenid/" );
-define( 'XPATH_LIBRARY_ROOT', ROOT . "/library/contrib/phpxpath/" );
-define( 'Auth_OpenID_NO_MATH_SUPPORT', 1 );
-define( 'OPENID_PASSWORD', "-OPENID-" );
-
 $path_extra = dirname(__FILE__);
 $path = ini_get('include_path');
 
@@ -471,12 +466,14 @@ class OpenIDConsumer extends OpenID {
 	function setAcl($openid)
 	{
 		Acl::authorize('openid', $openid);
-
+		$pool = DBModel::getInstance();
+		$context = Model_Context::getInstance();
+		$blogid = intval($context->getProperty('blog.id'));
 		$pool->reset('UserSettings');
 		$pool->setQualifier('name','like','openid.'.true);
 		$pool->setQualifier('value','equals',$openid,true);
 		$pool->setOrder('userid','ASC');
-		$result = getCell('userid');
+		$result = $pool->getCell('userid');
 
 		$userid = null;
 		if( $result ) {
@@ -526,11 +523,11 @@ class OpenIDConsumer extends OpenID {
 	}
 
 	function getCommentInfo($blogid,$id){
-
 		$context = Model_Context::getInstance();
+		$blogid = intval($context->getProperty('blog.id'));
 		$pool = DBModel::getInstance();
 		$pool->reset('Comments');
-		$pool->setQualifier('blogid','equals',$context->getProperty('blog.id'));
+		$pool->setQualifier('blogid','equals',$blogid);
 		$pool->setQualifier('id','equals',$id);
 		return $pool->getRow('*');
 	}
