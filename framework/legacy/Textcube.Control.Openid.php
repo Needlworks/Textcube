@@ -359,7 +359,7 @@ class OpenIDConsumer extends OpenID {
 		$context = Model_Context::getInstance();
 		$pool = DBModel::getInstance();
 		$pool->reset('OpenIDUsers');
-		$pool->setQualifier('blogid','equals',$context->getProperty('blog.id'));
+		$pool->setQualifier('blogid','equals',intval($context->getProperty('blog.id')));
 		$pool->setQualifier('openid','equals',$openid,true);
 		$result = $pool->getCell('openid');
 		if (is_null($result)) {
@@ -450,14 +450,14 @@ class OpenIDConsumer extends OpenID {
 
 
 			$pool->reset('OpenIDUsers');
-			$pool->setQualifier('openid',$openid,true);
+			$pool->setQualifier('openid','equals',$openid,true);
 			$lastcount = $pool->getCell('logincount');	
 			
 			$pool->reset('OpenIDUsers');
 			$pool->setAttribute('openidinfo',$data,true);
 			$pool->setAttribute('lastlogin',Timestamp::getUNIXTime());
 			$pool->setAttribute('logincount',$lastcount + 1);
-			$pool->setQualifier('openid',$openid,true);
+			$pool->setQualifier('openid','equals',$openid,true);
 			$pool->update();	
 		}
 		return;
@@ -469,12 +469,13 @@ class OpenIDConsumer extends OpenID {
 		$pool = DBModel::getInstance();
 		$context = Model_Context::getInstance();
 		$blogid = intval($context->getProperty('blog.id'));
+		
 		$pool->reset('UserSettings');
-		$pool->setQualifier('name','like','openid.'.true);
+		$pool->setQualifier('name','like','openid.',true);
 		$pool->setQualifier('value','equals',$openid,true);
 		$pool->setOrder('userid','ASC');
 		$result = $pool->getCell('userid');
-
+		
 		$userid = null;
 		if( $result ) {
 			$userid = $result;
@@ -498,9 +499,9 @@ class OpenIDConsumer extends OpenID {
 		if( $openid ) {
 			list( $openid, $openid_server, $xrds_uri ) = $this->fetchXRDSUri( $openid );
 		}
-		if( Misc::setBlogSettingGlobal( "OpenIDDelegate", $openid ) && 
-			Misc::setBlogSettingGlobal( "OpenIDServer", $openid_server ) && 
-			Misc::setBlogSettingGlobal( "OpenIDXRDSUri", $xrds_uri ) ) {
+		if( Setting::setBlogSettingGlobal( "OpenIDDelegate", $openid ) && 
+			Setting::setBlogSettingGlobal( "OpenIDServer", $openid_server ) && 
+			Setting::setBlogSettingGlobal( "OpenIDXRDSUri", $xrds_uri ) ) {
 			return true;
 		}
 		return false;
@@ -511,7 +512,7 @@ class OpenIDConsumer extends OpenID {
 		if( !Acl::check( array("group.administrators") ) ) {
 			return false;
 		}
-		return Misc::setBlogSettingGlobal( "AddCommentMode", empty($mode) ? '' : 'openid' );
+		return Setting::setBlogSettingGlobal( "AddCommentMode", empty($mode) ? '' : 'openid' );
 	}
 
 	function setOpenIDLogoDisplay( $mode )
@@ -519,7 +520,7 @@ class OpenIDConsumer extends OpenID {
 		if( !Acl::check( array("group.administrators") ) ) {
 			return false;
 		}
-		return Misc::setBlogSettingGlobal( "OpenIDLogoDisplay", $mode  );
+		return Setting::setBlogSettingGlobal( "OpenIDLogoDisplay", $mode  );
 	}
 
 	function getCommentInfo($blogid,$id){

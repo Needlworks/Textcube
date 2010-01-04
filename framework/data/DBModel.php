@@ -189,6 +189,7 @@ class DBModel extends Singleton implements IModel {
 	
 	public function getCell($field = '*') {
 		$field = $this->_treatReservedFields($field);
+//		var_dump('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
 		return POD::queryCell('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
 	}
 	
