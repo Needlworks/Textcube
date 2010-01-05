@@ -222,7 +222,7 @@ class queryCache {
 	}
 	function getQueryHash(){ 
 		if(empty($this->query)) return false;
-		$this->queryHash = (isset($this->prefix) ? $this->prefix.'_' : '')."queryCache_".abs(crc32($this->query));
+		$this->queryHash = (isset($this->prefix) ? $this->prefix.'-' : '')."queryCache_".abs(crc32($this->query));
 	}
 	function getPageCacheLog() {
 		global $database;
@@ -351,13 +351,15 @@ class CacheControl {
 		global $database;
 
 		if(empty($categoryId)) $categoryId = '';
-		else $categoryId = $categoryId.'\\_';
+		else $categoryId = $categoryId.'-';
 		
 		$cache = new pageCache;
 		$categoryLists = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND (name like 'categoryList\\_".$categoryId."%')");
+			AND (name like 'categoryList-".$categoryId."%' 
+				OR name like 'categoryRSS-".$categoryId."%'
+				OR name like 'categoryATOM-".$categoryId."%')");
 		CacheControl::purgeItems($categoryLists);
 		CacheControl::flushRSS();
 		unset($cache);
@@ -368,13 +370,13 @@ class CacheControl {
 		global $database;
 
 		if(empty($authorId)) $authorId = '';
-		else $authorId = POD::escapeString($authorId).'\\_';
+		else $authorId = POD::escapeString($authorId).'-';
 		
 		$cache = new pageCache;
 		$pageLists = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND (name like 'authorList\\_".$authorId."%')");
+			AND (name like 'authorList-".$authorId."%')");
 		CacheControl::purgeItems($pageLists);
 		unset($cache);
 		return true;
@@ -384,13 +386,13 @@ class CacheControl {
 		global $database;
 
 		if(empty($tagId)) $tagId = '';
-		else $tagId = $tagId.'\\_';
+		else $tagId = $tagId.'-';
 		$cache = new pageCache;
 		$tagLists = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND (name like 'tagList\\_".$tagId."%' 
-				OR name like 'keyword\\_".$tagId."%')");
+			AND (name like 'tagList-".$tagId."%' 
+				OR name like 'keyword-".$tagId."%')");
 		CacheControl::purgeItems($tagLists);
 		$cache->reset();
 		$cache->name = 'tagPage';
@@ -403,12 +405,12 @@ class CacheControl {
 		global $database;
 
 		if(empty($tagId)) $tagId = '';
-		else $tagId = $tagId.'\\_';
+		else $tagId = $tagId.'-';
 		$cache = new pageCache;
 		$keywordEntries = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND name like 'keyword\\_".$tagId."%'");
+			AND name like 'keyword-".$tagId."%'");
 		CacheControl::purgeItems($keywordEntries);
 		unset($cache);
 		return true;
@@ -418,12 +420,12 @@ class CacheControl {
 		global $database;
 
 		if(empty($entryId)) $entryId = '';
-		else $entryId = $entryId.'\\_';
+		else $entryId = $entryId.'-';
 		$cache = new pageCache;
 		$Entries = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND (name like 'entry\\_".$entryId."%' OR name = 'commentRSS_".$entryId."')");
+			AND (name like 'entry-".$entryId."%' OR name = 'commentRSS_".$entryId."' OR name = 'commentATOM_".$entryId."')");
 		CacheControl::purgeItems($Entries);
 		if(!empty($entryId)) {
 			$entry = POD::queryCell("SELECT userid, category FROM {$database['prefix']}Entries
@@ -454,13 +456,13 @@ class CacheControl {
 
 		if(empty($entryId)) $entryId = '';
 		$cache = new pageCache;
-		$cache->name = 'commentRSS_'.$entryId;
+		$cache->name = 'commentRSS-'.$entryId;
 		$cache->purge(); 
 		$cache->reset();
 		$cache->name = 'commentRSS';
 		$cache->purge();
 		$cache->reset();
-		$cache->name = 'commentATOM_'.$entryId;
+		$cache->name = 'commentATOM-'.$entryId;
 		$cache->purge();
 		$cache->reset();
 		$cache->name = 'commentATOM';
@@ -474,13 +476,13 @@ class CacheControl {
 
 		if(empty($entryId)) $entryId = '';
 		$cache = new pageCache;
-		$cache->name = 'trackbackRSS_'.$entryId;
+		$cache->name = 'trackbackRSS-'.$entryId;
 		$cache->purge();
 		$cache->reset();
 		$cache->name = 'trackbackRSS';
 		$cache->purge();
 		$cache->reset();
-		$cache->name = 'trackbackATOM_'.$entryId;
+		$cache->name = 'trackbackATOM-'.$entryId;
 		$cache->purge();
 		$cache->reset();
 		$cache->name = 'trackbackATOM';
@@ -494,13 +496,13 @@ class CacheControl {
 
 		if(empty($entryId)) $entryId = '';
 		$cache = new pageCache;
-		$cache->name = 'responseRSS_'.$entryId;
+		$cache->name = 'responseRSS-'.$entryId;
 		$cache->purge();
 		$cache->reset();
 		$cache->name = 'responseRSS';
 		$cache->purge();
 		$cache->reset();
-		$cache->name = 'responseATOM_'.$entryId;
+		$cache->name = 'responseATOM-'.$entryId;
 		$cache->purge();
 		$cache->reset();
 		$cache->name = 'responseATOM';
@@ -557,7 +559,7 @@ class CacheControl {
 		global $database;
 		return POD::query("DELETE FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND name like '%".(!empty($prefix) ? $prefix.'\\_' : '')."queryCache%'");
+			AND name like '%".(!empty($prefix) ? $prefix.'-' : '')."queryCache%'");
 	}
 	function purgeItems($items) {
 		if(!empty($items)) {

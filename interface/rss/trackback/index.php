@@ -15,7 +15,7 @@ if (false) {
 }
 $cache = new pageCache;
 if(!empty($suri['id'])) {
-	$cache->name = 'trackbackRSS_'.$suri['id'];
+	$cache->name = 'trackbackRSS-'.$suri['id'];
 	if(!$cache->load()) {
 		$result = getTrackbackFeedByEntryId(getBlogId(),$suri['id']);
 		if($result !== false) {

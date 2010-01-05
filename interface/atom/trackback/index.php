@@ -15,7 +15,7 @@ if (false) {
 }
 $cache = new pageCache;
 if(!empty($suri['id'])) {
-	$cache->name = 'trackbackATOM_'.$suri['id'];
+	$cache->name = 'trackbackATOM-'.$suri['id'];
 	if(!$cache->load()) {
 		$result = getTrackbackFeedByEntryId(getBlogId(),$suri['id'],false,'atom');
 		if($result !== false) {

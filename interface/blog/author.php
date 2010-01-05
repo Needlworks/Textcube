@@ -13,7 +13,7 @@ $authorId = User::getUserIdByName($author);
 if(empty($authorId)) exit;
 
 if ($skinSetting['showListOnAuthor'] != 0) {
-	$cache->name = 'authorList_'.$authorId."_".$suri['page']."_";
+	$cache->name = 'authorList-'.$authorId."-".$suri['page']."-";
 	if (!$cache->load()) {
 		if(!$listWithPaging = getEntryListWithPagingByAuthor($blogid, $author, $suri['page'], $blog['entriesOnList']))
 			$listWithPaging = array(array(), array('total' => 0));
