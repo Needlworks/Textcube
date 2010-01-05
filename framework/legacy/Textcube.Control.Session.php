@@ -218,7 +218,7 @@ final class Session {
 			if ($result) {
 				@session_id($id);
 				//$service['domain'] = $service['domain'].':8888';
-				setcookie( self::getName(), $id, 0, $session_cookie_path, $config->service['session_cookie_domain']);
+				setcookie( self::getName(), $id, 0, $session_cookie_path, self::$context->getProperty('service.session_cookie_domain'));
 				return true;
 			}
 		}
