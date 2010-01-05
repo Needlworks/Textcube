@@ -128,7 +128,6 @@ final class Dispatcher {
 		$interfacePath = null;
 		if ($uri['interfaceType'] == 'icon') {
 			$uri['interfacePath'] = $this->interfacePath = 'interface/'.$pathPart.'.php';
-			$this->uri = $uri;
 		} else {
 			if (!empty($uri['fragment'])) {
 				if (is_numeric(strtok(end($uri['fragment']), '&'))) {
@@ -160,7 +159,7 @@ final class Dispatcher {
 							if(in_array($uri['fragment'][1],array('entry','comment'))) {
 								$pathPart = $uri['fragment'][0].'/'.$uri['fragment'][1]; 
 							} else {
-								$pathPart = $uri['fragment'][0].'/'; 
+								$pathPart = $uri['fragment'][0];
 							}
 							$interfacePath = 'interface/'.$pathPart.'/index.php';
 							break;
@@ -176,8 +175,8 @@ final class Dispatcher {
 				header("HTTP/1.0 404 Not Found");exit;
 			}
 			$uri['interfacePath'] = $this->interfacePath = $interfacePath;
-			$this->uri = $uri;
 		}
+		$this->uri = $uri;
 	}
 }
 ?>
