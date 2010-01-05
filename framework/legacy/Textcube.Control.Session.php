@@ -30,8 +30,9 @@ final class Session {
 	
 	public static function getName() {
 		if(is_null(self::$context)) self::initialize();	
-		if( self::$sessionName == null ) { 
-			if( !empty($service['session_cookie']) ) {
+		if( self::$sessionName == null ) {
+			$t = self::$context->getProperty('service.session_cookie');
+			if( !empty($t) ) {
 				self::$sessionName = self::$context->getProperty('service.session_cookie');
 			} else {
 				self::$sessionName = 'TSSESSION'.self::$context->getProperty('service.domain').self::$context->getProperty('service.path'); 
@@ -112,8 +113,9 @@ final class Session {
 	private static function newAnonymousSession() {
 		if(is_null(self::$context)) self::initialize();
 		$meet_again_baby = 3600;
-		if( !empty(self::$context->getProperty('service.timeout'))) { 
-			$meet_again_baby = $config->service['timeout'];
+		$t = self::$context->getProperty('service.timeout'); 
+		if( !empty($t)) { 
+			$meet_again_baby = self::$context->getProperty('service.timeout');
 		}
 
  		//If you are not a robot, subsequent UPDATE query will override to proper timestamp.
@@ -189,7 +191,8 @@ final class Session {
 		if(is_null(self::$context)) self::initialize();
 
 		$session_cookie_path = "/";
-		if( !empty(self::$context->getProperty('service.session_cookie_path')) ) {
+		$t = self::$context->getProperty('service.session_cookie_path');
+		if( !empty($t)) {
 			$session_cookie_path = self::$context->getProperty('service.session_cookie_path');
 		}
 		if (!is_numeric($userid))
