@@ -16,7 +16,7 @@ final class Session {
 		$sessionMicrotime = Timer::getMicroTime();
 	}
 	
-	function initialize() {
+	private static function initialize() {
 		self::$context = Model_Context::getInstance();
 	}
 
@@ -31,8 +31,7 @@ final class Session {
 	public static function getName() {
 		if(is_null(self::$context)) self::initialize();	
 		if( self::$sessionName == null ) {
-			$t = self::$context->getProperty('service.session_cookie');
-			if( !empty($t) ) {
+			if( self::$context->getProperty('service.session_cookie') !== null) {
 				self::$sessionName = self::$context->getProperty('service.session_cookie');
 			} else {
 				self::$sessionName = 'TSSESSION'.self::$context->getProperty('service.domain').self::$context->getProperty('service.path'); 
@@ -46,7 +45,7 @@ final class Session {
 		if(is_null(self::$context)) self::initialize();
 
 		if ($result = self::query('cell',"SELECT privilege FROM ".self::$context->getProperty('database.prefix')."Sessions 
-			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND updated >= (UNIX_TIMESTAMP() - ".self::$context->getProperty('service.timeout'))) {
+			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND updated >= (UNIX_TIMESTAMP() - ".self::$context->getProperty('service.timeout').")")) {
 			return $result;
 		}
 		return '';
