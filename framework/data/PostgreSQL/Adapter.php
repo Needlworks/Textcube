@@ -7,11 +7,10 @@
 
 global $fileCachedResult;
 
-class DBAdapter implements IAdapter {	
+class DBAdapter implements IAdapter {
 	static $dbProperties, $cachedResult;
 	/*@static@*/
 	public static function bind($database) {
-		global self::$dbProperties;
 		// Connects DB and set environment variables
 		// $database array should contain 'server','username','password'.
 		if(!isset($database) || empty($database)) return false;
@@ -21,7 +20,7 @@ class DBAdapter implements IAdapter {
 		if(isset($database['database'])) $sql .= " dbname=".$database['database'];
 		$handle = @pg_connect($sql);
 		if(!$handle) return false;
-		
+
 		@pg_set_client_encoding($handle, "UTF8");
 
 		self::$dbProperties['charset'] = 'utf8';
@@ -51,7 +50,7 @@ class DBAdapter implements IAdapter {
 		}
 	}
 	public static function tableList($condition = null) {
-		if (!array_key_exists('tableList', self::$dbProperties)) { 
+		if (!array_key_exists('tableList', self::$dbProperties)) {
 			self::$dbProperties['tableList'] = self::queryColumn("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
 		}
 		if(!is_null($condition)) {
@@ -134,7 +133,7 @@ class DBAdapter implements IAdapter {
 					}
 				}
 			} while ($ppos < $length);
-		}		
+		}
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);
 			$result = pg_query($query);
@@ -151,7 +150,7 @@ class DBAdapter implements IAdapter {
 		}
 		return $result;
 	}
-	
+
 	/*@static@*/
 	public static function queryExistence($query) {
 		if ($result = self::query($query)) {
@@ -188,7 +187,7 @@ class DBAdapter implements IAdapter {
 		}
 		return $count;
 	}
-		
+
 	/*@static@*/
 	public static function queryCell($query, $field = 0, $useCache=true) {
 		$type = 'both';
@@ -208,7 +207,7 @@ class DBAdapter implements IAdapter {
 		}
 		return $result[0][$field];
 	}
-	
+
 	/*@static@*/
 	public static function queryRow($query, $type = 'both', $useCache=true) {
 		if( $useCache ) {
@@ -221,7 +220,7 @@ class DBAdapter implements IAdapter {
 		}
 		return $result[0];
 	}
-	
+
 	/*@static@*/
 	public static function queryColumn($query, $useCache=true) {
 		$cacheKey = "{$query}_queryColumn";
@@ -247,7 +246,7 @@ class DBAdapter implements IAdapter {
 		}
 		return $column;
 	}
-	
+
 	/*@static@*/
 	public static function queryAll($query, $type = 'both', $count = -1) {
 		return self::queryAllWithCache($query, $type, $count);
@@ -264,7 +263,7 @@ class DBAdapter implements IAdapter {
 		}
 		return null;
 	}
-		
+
 	public static function queryAllWithCache($query, $type = 'both', $count = -1) {
 		$cacheKey = "{$query}_{$type}_{$count}";
 		if( isset( self::$cachedResult[$cacheKey] ) ) {
@@ -279,12 +278,12 @@ class DBAdapter implements IAdapter {
 		self::$cachedResult[$cacheKey] = array( 1, $all );
 		return $all;
 	}
-	
+
 	/*@static@*/
 	public static function execute($query) {
 		return self::query($query) ? true : false;
 	}
-	
+
 	/*@static@*/
 	public static function multiQuery() {
 		$result = false;
@@ -298,15 +297,15 @@ class DBAdapter implements IAdapter {
 		}
 		return $result;
 	}
-	
+
 	public static function insertId() {
 		return null;
 	}
-	
+
 	public static function escapeString($string, $link = null){
 		return pg_escape_string($string);
 	}
-	
+
 	public static function clearCache() {
 		self::$cachedResult = array();
 		if( function_exists( '__tcSqlLogBegin' ) ) {
@@ -323,7 +322,7 @@ class DBAdapter implements IAdapter {
 		global $fileCachedResult;
 	}
 
-	public static function commit() { 
+	public static function commit() {
 		return true; // Auto commit.
 	}
 
@@ -341,48 +340,48 @@ class DBAdapter implements IAdapter {
 		}
 		return null;
 	}
-	
+
 	/*@static@*/
 	public static function free($handle = null) {
 		pg_free_result($handle);
 	}
-	
+
 	/*@static@*/
 	public static function fetch($handle = null, $type = 'assoc') {
 		if($type == 'array') return pg_fetch_array($handle); // Can I use mysql_fetch_row instead?
 		else if ($type == 'row') return pg_fetch_row($handle);
 		else return pg_fetch_assoc($handle);
 	}
-	
+
 	/*@static@*/
 	public static function error($err = null) {
 		if($err === null) return pg_error();
 		else return pg_error($err);
 	}
-	
+
 	/*@static@*/
 	public static function stat($stat = null) {
 		if($stat === null) return mysql_stat();
 		else return mysql_stat($stat);
 	}
-	
+
 	/*@static@*/
 	public static function __queryType($type) {
 		switch(strtolower($type)) {
 			case 'num':
 				return PGSQL_NUM;
 			case 'assoc':
-				return PGSQL_ASSOC;				
+				return PGSQL_ASSOC;
 			case 'both':
 			default:
 				return PGSQL_BOTH;
 		}
 	}
-	
+
 	public static function fieldType($abstractType) {
 		if(isset($typeTable[$abstractType])) return $typeTable[$abstractType];
 	}
-	
+
 	static $typeTable = array(
 		"integer" => "integer",
 		"float"	=> "float",

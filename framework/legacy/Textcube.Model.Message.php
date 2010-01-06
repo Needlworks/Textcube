@@ -20,7 +20,7 @@ class Message extends Singleton {
 			'message'=>array('string','default'=>'Default message'),
 			'detail'=>array('string','default'=>'','mandatory'=>false)
 			);
-	private static int $__maxid = 0;
+	private static $__maxid = 0;
 	private static $__storage = array();
 	public static function getInstance() {
 		return self::_getInstance(__CLASS__);
@@ -30,14 +30,14 @@ class Message extends Singleton {
 	function __construct() {
 	}
 	public function add($message) {
-		Validator::validateiArray($message, $IV);
-		$message['id'] = $__maxid++; 
+		Validator::validateiArray($message, self::$IV);
+		$message['id'] = self::$__maxid++;
 		array_push($this->__storage,$message);
 		return $message['id'];
 	}
 	public function remove($condition) {
 	}
-	public function print($mode) {
+	public function dump($mode) {
 	}
 	public function get($condition = null) {
 		$result = array();
@@ -45,7 +45,7 @@ class Message extends Singleton {
 		if(isset($condition['category'])) {
 			if(is_array($condition['category'])) {
 				foreach ($condition['category'] as $cat) {
-					array_push($result, MMCache::queryAll($this->__storage,'category',$cat);
+					array_push($result, MMCache::queryAll($this->__storage,'category',$cat));
 				}
 			} else {
 				array_push($result, MMCache::queryAll($this->__storage,'category',$condition['category']));

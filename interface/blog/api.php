@@ -20,14 +20,13 @@ function SendRSD()
 	global $blogid;
 	$homeurl = $hostURL.$blogURL;
 	$apiurl = $homeurl . "/api";
-	$blogid = $blogid;
 
 	header( "Content-type: text/xml", true );
 
-	print( '<?xml version="1.0" encoding="utf-8" ?> 
+	print( '<?xml version="1.0" encoding="utf-8" ?>
 <rsd xmlns="http://archipelago.phrasewise.com/rsd" version="1.0">
     <service xmlns="">
-        <engineName>Textcube</engineName> 
+        <engineName>Textcube</engineName>
         <engineLink>http://www.textcube.org/</engineLink>
         <homePageLink>' . $homeurl . '/</homePageLink>
         <apis>

@@ -5,7 +5,7 @@
 // Created       : 2007.11.30
 // Last modified : 2007.12.21
 
-// (C) 2007 Jeongkyu Shin. All rights reserved. 
+// (C) 2007 Jeongkyu Shin. All rights reserved.
 // Licensed under the GPL.
 // See the GNU General Public License for more details. (/LICENSE, /COPYRIGHT)
 // For more information, visit http://pod.nubimaru.com
@@ -80,11 +80,11 @@ class POD extends DBQuery {
 		}
 		else return $this->_false();
 	}
-	
+
 	function purge() {
 		if(empty($this->_prototype)) return $this->_false();
 		$this->execute("DROP TABLE ".$this->_tablePrefix.$this->_prototype);
-		
+
 		if(isset($this->_structure[$this->domain()][$this->type()]['subclasses'])) {
 			foreach($this->_structure[$this->domain()][$this->type()]['subclasses'] as $subClass) {
 				if($this->execute("DROP TABLE ".$this->_tablePrefix.$subClass)) {
@@ -102,11 +102,11 @@ class POD extends DBQuery {
 		unset($this->_structure[$this->domain()][$this->type()]);
 		$this->_saveStructure();
 	}
-	
-	function alter() {
-		return _alterStructure();
-	}
-	
+
+//	function alter() {
+//		return _alterStructure();
+//	}
+
 	function reset() {
 		$this->_structure = $this->_queue = $this->_loadStructure();
 		$this->_instances =
@@ -119,24 +119,24 @@ class POD extends DBQuery {
 		$this->_foreignKeyId = null;
 		$this->_isCheckout = false;
 	}
-	
+
 	function structure() {
 		return $this->_structure[$this->domain()][$this->type()];
 	}
-	
+
 	function superClass() {
 		if($this->type()==null) return null;
 		else return $this->_structure[$this->domain()][$this->type()]['superclasses'];
 	}
-	
+
 	function subClass() {
 		if($this->type()==null) return null;
 		else return $this->_structure[$this->domain()][$this->type()]['subclasses'];
 	}
-	
+
 	function documentation() {
 	}
-	
+
 	/** Attributes **/
 	function domain($domain = null) {
 		if(!empty($domain)) {
@@ -146,7 +146,7 @@ class POD extends DBQuery {
 		if(empty($this->_domain)) return 'default';
 		else return $this->_domain;
 	}
-	
+
 	function type($type = null) {
 		if(!empty($type)) {
 			$this->_type = $type;
@@ -155,13 +155,13 @@ class POD extends DBQuery {
 		if(empty($this->_type)) return null;
 		else return $this->_type;
 	}
-	
+
 	function version($version = null) {
 		if(!empty($version)) $this->_version = $version;
 		if($this->type()==null) return null;
 		else return $this->_structure[$this->domain()][$this->type()]['version'];
 	}
-	
+
 	function setInstance($instance, $attribute = null, $additional = null) {
 		$this->_queue[$this->domain()][$this->type()]['instances'][$instance] = array();
 		if($attribute!=null) $this->_queue[$this->domain()][$this->type()]['instances'][$instance]['attribute'] = $attribute;
@@ -170,7 +170,7 @@ class POD extends DBQuery {
 
 	function isProducedBy() {
 	}
-	
+
 	function subClassOf($type) {
 		if($this->_queue[$this->domain()][$this->type()]['superclasses'] == null)
 			$this->_queue[$this->domain()][$this->type()]['superclasses'] = array();
@@ -188,19 +188,19 @@ class POD extends DBQuery {
 		}
 		return true;
 	}
-	
+
 	function superClassOf($type) {
 		if($this->_queue[$this->domain()][$this->type()]['subclasses'] == null)
 			$this->_queue[$this->domain()][$this->type()]['subclasses'] = array();
 		if($this->_queue[$this->domain()][$type]['superclasses'] == null)
 			$this->_queue[$this->domain()][$type]['superclasses'] = array();
-		
+
 		if(!array_search($type, $this->_queue[$this->domain()][$this->type()]['subclasses'])) {
 			$item = $this->_queue[$this->domain()][$this->type()]['subclasses'];
 			array_push($item, $type);
 			$this->_queue[$this->domain()][$this->type()]['subclasses'] = $item;
 		}
-		
+
 		if(!array_search($type, $this->_queue[$this->domain()][$type]['superclasses'])) {
 			$item = $this->_queue[$this->domain()][$type]['superclasses'];
 			array_push($item, $this->type());
@@ -208,7 +208,7 @@ class POD extends DBQuery {
 		}
 		return true;
 	}
-	
+
 	function relation($type, $field, $matches) {
 		// Every elements should exist before marking relation.
 		if($this->_queue[$this->domain()][$type] == null) return $this->_false();
@@ -242,7 +242,7 @@ class POD extends DBQuery {
 		}
 		return true;
 	}
-	
+
 	function allInstances($instances = null) {
 		if($instances != null) {
 			$instance = explode(',',$instances);
@@ -254,10 +254,10 @@ class POD extends DBQuery {
 		}
 		return $this->_instances;
 	}
-	
+
 	function valueType($instance) {
 	}
-	
+
 	function valueCardinality($instance) {
 		if(empty($this->_repository) || empty($this->_repository[0][$instance])) return null;
 		if($this->_numberOfClasses == 0) return $this->_false();
@@ -267,11 +267,11 @@ class POD extends DBQuery {
 		}
 		return count(array_count_values($column));
 	}
-	
+
 	function cardinality() {
 		return $this->_numberOfClasses;
 	}
-	
+
 	function allValues($instance = null){
 		if($instance == null) return $this->_repository;
 		if(!$this->_validateInstance($instance)) return $this->_false();
@@ -283,25 +283,25 @@ class POD extends DBQuery {
 		}
 		return $column;
 	}
-	
+
 	function hasValue($instances) {
 	}
-	
+
 	function hasAttribute() {
 	}
-	
+
 	function hasOneOf() {
 	}
-	
+
 	function onto() {
 	}
-	
+
 	function totalOn() {
 	}
 
 	function setType() {
 	}
-	
+
 	function commit() {
 		if(empty($this->_prototype)) return $this->_false();
 		if($this->_isCheckout == true) {	// Update case.
@@ -324,7 +324,7 @@ class POD extends DBQuery {
 		var_dump($clause);
 		return $this->execute($clause);
 	}
-	
+
 	function checkout($instances = '*') {
 		if(empty($this->_prototype)) return $this->_false();
 		if($instances != '*') {
@@ -385,7 +385,7 @@ class POD extends DBQuery {
 		}
 		return $this->_false();
 	}
-	
+
 	function remove() {
 		if(empty($this->_prototype)) return $this->_false();
 		// Find field pairs.
@@ -404,14 +404,14 @@ class POD extends DBQuery {
 		}
 		return $this->_false();
 	}
-		
-	
+
+
 	/** Relations **/
 	function rangeOf($instance, $range) {
 		array_push($this->_conditions, $instance.$range);
 		return true;
 	}
-	
+
 	function relatedTo($instance1, $instance2, $relation = '=') {
 		switch(strtolower($relation)) {
 			case 'req': $relation = '=<'; break;
@@ -422,13 +422,13 @@ class POD extends DBQuery {
 		array_push($this->_conditions, $instance1.$relation.$instance2);
 		return true;
 	}
-	
+
 	function slotCardinality() {
 	}
-	
+
 	function classPartition() {
 	}
-	
+
 	function sameSlotValues() {
 	}
 
@@ -438,17 +438,17 @@ class POD extends DBQuery {
 		$this->_mergeWith[$type] = true; // TO DO : Need to validate $relation.
 		return true;
 	}
-	
+
 	function refer($type, $condition = null) {
 		if(!$this->_validateType($type)) return $this->_false();
 		$this->_references[$type] = true;
 		if($condition != null) $this->restrict($type, $condition);
 		return true;
 	}
-	
+
 	function duplicate() {
 	}
-	
+
 	function restrict($type, $condition = null) {
 		if(!$this->_validateType($type)) return $this->_false();
 		if($this->_references[$type] == null) return $this->_false();
@@ -459,13 +459,13 @@ class POD extends DBQuery {
 		$this->_references[$type] = $item;
 		return true;
 	}
-	
+
 	function projection() {
 	}
-	
+
 	function composition() {
 	}
-	
+
 	function shift() {
 		if(($this->_classPointer+1) >= $this->_numberOfClasses) {
 			return $this->_false(); // End of pointer.
@@ -476,7 +476,7 @@ class POD extends DBQuery {
 		}
 		return true;
 	}
-	
+
 	function unshift() {
 		if(($this->_classPointer-1) < 0) return $this->_false(); // End of pointer.
 		$this->_classPointer -= 1;
@@ -488,7 +488,7 @@ class POD extends DBQuery {
 
 	function reverse() {
 	}
-	
+
 	function sort() {
 	}
 
@@ -525,7 +525,7 @@ class POD extends DBQuery {
 	function _clause() {
 		$condition = '';
 		$baseMarkup = '';
-		if(!empty($this->_mergeWith) || !empty($this->_references)) $baseMarkup = $this->type().'.'; 
+		if(!empty($this->_mergeWith) || !empty($this->_references)) $baseMarkup = $this->type().'.';
 		// Value restriction
 		if(!empty($this->_instances)) {
 			foreach($this->_instances as $instance => $value) {
@@ -555,7 +555,7 @@ class POD extends DBQuery {
 		$condition .= ' ('.implode(',',array_keys($this->_instances)).') VALUES ('.implode(',',$this->_instances).')';
 		return $condition;
 	}
-	
+
 	function _updateClause() {
 		$condition = ' SET ';
 		if(!isset($this->_foreignKeyId)) {
@@ -568,30 +568,30 @@ class POD extends DBQuery {
 		$condition .= " WHERE pid = ".$this->_foreignKeyId;
 		return $condition;
 	}
-	
+
 	function _setCharset() {
 		if($this->charset())
 			return ' DEFAULT CHARSET='.$this->charset();
 		else return '';
 	}
-	
+
 	function setIndex($indexName, $instances = null) {
 		if(empty($instances)) $instances = $indexName;
 		$indexSet = explode(',',$instances);
 		$this->_queue[$this->domain()][$this->type()]['indexes'][$indexName] = $indexSet;
 	}
-	
+
 	function _validateInstance($instance) {
 		if($this->_structure[$this->domain()][$this->type()]['instances'][$instance] == null) return $this->_false();
 		if($this->_repository[0][$instance] == null) return $this->_false();
 		return true;
 	}
-	
+
 	function _validateType($type) {
 		if($this->_structure[$this->domain()][$type] == null) return $this->_false();
 		return true;
 	}
-	
+
 	function _alterStructure() {
 		if($this->_version <= $this->_structure[$this->domain()][$this->type()]['version']) return $this->_false();
 		if(empty($this->_queue)) return $this->_false();
@@ -601,7 +601,7 @@ class POD extends DBQuery {
 			foreach($this->_queue[$this->domain()][$this->type()]['instances'] as $instance => $options) {
 				if(empty($this->_structure[$this->domain()][$this->type()]['instances'][$instance])) {
 					$addition[$instance] = $options;
-				} else { 
+				} else {
 					if($options['attribute'] != $this->_structure[$this->domain()][$this->type()]['instances'][$instance]['attribute'])
 						$alternation[$instance]['attribute'] = $options['attribute'];
 					if($options['additional'] != $this->_structure[$this->domain()][$this->type()]['instances'][$instance]['additional'])
@@ -629,7 +629,7 @@ class POD extends DBQuery {
 		$clause = rtrim($clause,',');
 		// Remapping structure tree.
 		if($this->execute($clause)) {
-			$this->_structure[$this->domain()][$this->type()]['version'] = $this->_version; 
+			$this->_structure[$this->domain()][$this->type()]['version'] = $this->_version;
 			if(isset($addition)) {
 				foreach($addition as $instance => $options)
 					$this->_structure[$this->domain()][$this->type()]['instances'][$instance] = $options;
@@ -644,17 +644,17 @@ class POD extends DBQuery {
 			$this->_saveStructure();
 			return true;
 		}
-		return $this->_false();	
+		return $this->_false();
 	}
-	
+
 	function _getNewKeyId() {
 		return $this->queryCell("SELECT max(pid) FROM ".$this->_tablePrefix.$this->type()) + 1;
 	}
-	
+
 	function _false($err = null) {
 		return false;
 	}
-	
+
 	/** Additional features for Textcube **/
 	/** NOTICE : PARTS BELOW EXTENDS DBQuery Class WHICH IS THE BASE OF POD
 	             AND WORKS ONLY WITH 'PageCache' Component in Textcube **/

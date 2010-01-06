@@ -36,7 +36,7 @@ function timeInterval($start, $current) {
 	} else if (31104000 <= $interval) {
 		return ceil($interval / 60 / 60 / 24 / 30 / 12) . _text('년');
 	}
-	return ceil($interval / 60 / 60 / 24 / 30 / 12 / 100) . _test('세기');
+	return ceil($interval / 60 / 60 / 24 / 30 / 12 / 100) . _text('세기');
 }
 
 function getTimeFromPeriod($period) {

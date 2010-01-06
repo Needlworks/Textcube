@@ -24,9 +24,9 @@ function printIphoneEntryContentView($blogid, $entry, $keywords = array()) {
 
 function printIphoneEntryContent($blogid, $userid, $id) {
 	global $database;
-	$result = POD::queryCell("SELECT content 
+	$result = POD::queryCell("SELECT content
 		FROM {$database['prefix']}Entries
-		WHERE 
+		WHERE
 			blogid = $blogid AND userid = $userid AND id = $id");
 	return $result;
 }
@@ -45,11 +45,11 @@ function printIphoneCategoriesView($totalPosts, $categories) {
 		if(doesHaveOwnership() || getCategoryVisibility($blogid, $category1['id']) > 1) {
 			foreach ($category1['children'] as $category2) {
 				if( doesHaveOwnership() || getCategoryVisibility($blogid, $category2['id']) > 1) {
-					array_push($children, 
-						array('id' => $category2['id'], 
-							'label' => $category2['name'], 
-							'value' => (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']), 
-							'link' => "$blogURL/category/" . $category2['id'], 
+					array_push($children,
+						array('id' => $category2['id'],
+							'label' => $category2['name'],
+							'value' => (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']),
+							'link' => "$blogURL/category/" . $category2['id'],
 							'children' => array()
 						)
 					);
@@ -59,11 +59,11 @@ function printIphoneCategoriesView($totalPosts, $categories) {
 			}
 			$parentCategoryCount = (doesHaveOwnership() ? $category1['entriesinlogin'] - $categoryCountAll : $category1['entries'] - $categoryCountAll);
 			if($category1['id'] != 0) {
-				array_push($tree['children'], 
-					array('id' => $category1['id'], 
-						'label' => $category1['name'], 
-						'value' => $categoryCount + $parentCategoryCount, 
-						'link' => "$blogURL/category/" . $category1['id'], 
+				array_push($tree['children'],
+					array('id' => $category1['id'],
+						'label' => $category1['name'],
+						'value' => $categoryCount + $parentCategoryCount,
+						'link' => "$blogURL/category/" . $category1['id'],
 						'children' => $children)
 				);
 			}
@@ -103,11 +103,11 @@ function printIphoneArchives($blogid) {
 	$archives = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$skinSetting = Setting::getSkinSettings($blogid);
-	$result = POD::queryAllWithDBCache("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(e.published)) period, COUNT(*) count 
+	$result = POD::queryAllWithDBCache("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(e.published)) period, COUNT(*) count
 		FROM {$database['prefix']}Entries e
-		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
-		GROUP BY period 
-		ORDER BY period 
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0
+		GROUP BY period
+		ORDER BY period
 		DESC ");
 	if ($result) {
 		foreach($result as $archive)
@@ -140,24 +140,24 @@ function printIphoneTags($blogid, $flag = 'random', $max = 10) {
 	$aux = "limit $max";
 	if ($flag == 'count') { // order by count
 			$tags = POD::queryAll("SELECT name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t,
-				{$database['prefix']}TagRelations r, 
-				{$database['prefix']}Entries e 
-				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
+				{$database['prefix']}TagRelations r,
+				{$database['prefix']}Entries e
+				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid
 				GROUP BY r.tag, name, cnt, t.id
 				ORDER BY cnt DESC $aux");
 	} else if ($flag == 'name') {  // order by name
-			$tags = POD::queryAll("SELECT DISTINCT name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t, 
+			$tags = POD::queryAll("SELECT DISTINCT name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t,
 				{$database['prefix']}TagRelations r,
-				{$database['prefix']}Entries e 
-				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
-				GROUP BY r.tag, name, cnt, t.id 
+				{$database['prefix']}Entries e
+				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid
+				GROUP BY r.tag, name, cnt, t.id
 				ORDER BY t.name $aux");
 	} else { // random
 			$tags = POD::queryAll("SELECT name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t,
 				{$database['prefix']}TagRelations r,
 				{$database['prefix']}Entries e
-				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
-				GROUP BY r.tag 
+				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid
+				GROUP BY r.tag
 				ORDER BY RAND() $aux");
 	}
 	return $tags;
@@ -259,10 +259,10 @@ function printIphoneImageResizer($blogid, $filename, $cropSize){
 		@mkdir(ROOT."/cache/thumbnail/" . $blogid . "/iphoneThumbnail/");
 		@chmod(ROOT."/cache/thumbnail/" . $blogid . "/iphoneThumbnail/", 0777);
 	}
-	
+
 	$thumbFilename = $filename;
 	$imageURL = "{$serviceURL}/attach/{$blogid}/{$filename}";
-	if (extension_loaded('gd')) {	
+	if (extension_loaded('gd')) {
 		if (stristr($filename, 'http://')) {
 			$thumbFilename = printIphoneRemoteImageFilename($filename);
 		}
@@ -384,7 +384,7 @@ function printIphoneNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 		<?php
 	}
 	if (!isset($paging)) {
-?>	
+?>
 		<li><a href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $entry['id'];?>" accesskey="3"><?php echo _text('글 보기');?></a></li>
 		<?php
 	}
@@ -491,7 +491,7 @@ function printIphoneCommentView($entryId, $page = null, $mode = null) {
 		<?php
 		}
 	}
-	if($mode != 'recent') {	
+	if($mode != 'recent') {
 		printIphoneCommentFormView($entryId, ($entryId == 0 ? _text('방명록 쓰기') : _text('댓글 쓰기')), 'comment');
 	}
 }
@@ -511,8 +511,8 @@ function printIphoneRecentTrackbackView($page) {
 function printIphoneCommentFormView($entryId, $title, $actionURL) {
 	global $blogURL;
 ?>
-	
-	<form method="GET" action="<?php echo $blogURL;?>/<?php echo $actionURL;?>/add/<?php echo $entryId;?>" class="commentForm">
+
+	<form method="get" action="<?php echo $blogURL;?>/<?php echo $actionURL;?>/add/<?php echo $entryId;?>" class="commentForm">
 	<h2><?php echo $title;?></h2>
 	<fieldset>
 		<?php
@@ -545,7 +545,7 @@ function printIphoneCommentFormView($entryId, $title, $actionURL) {
 		<a href="#" class="whiteButton margin-top10" type="submit"><?php echo _text('작성');?></a>
 	</fieldset>
 	</form>
-	
+
 	<?php
 }
 
