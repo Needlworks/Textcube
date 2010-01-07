@@ -19,7 +19,7 @@ global $openid_list;
 $openid_list = array();
 for( $i=0; $i<OPENID_REGISTERS; $i++ )
 {
-	$openid = getUserSetting( "openid." . $i );
+	$openid = Setting::getUserSetting( "openid." . $i ,null,true);
 	if( !empty($openid) ) {
 		array_push( $openid_list, $openid );
 	}
@@ -27,31 +27,30 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 
 function loginOpenIDforAdding($claimedOpenID)
 {
-	global $blogURL;
-	header( "Location: $blogURL/login/openid?action=try_auth" .
+	$context = Model_Context::getInstance();
+	header( "Location: ".$context->getProperty('uri.blog')."/login/openid?action=try_auth" .
 		"&authenticate_only=1&openid_identifier=" . urlencode($claimedOpenID) .
-		"&requestURI=" .  urlencode( $blogURL . "/owner/setting/account/openid" . "?mode=add&authenticate_only=1&openid_identifier=" . urlencode($claimedOpenID) ) );
+		"&requestURI=" .  urlencode( $context->getProperty('uri.blog') . "/owner/setting/account/openid" . "?mode=add&authenticate_only=1&openid_identifier=" . urlencode($claimedOpenID) ) );
 }
 
 function exitWithError($msg)
 {
-	global $blogURL;
+	$context = Model_Context::getInstance();
 	echo "<html><head><script type=\"text/javascript\">//<![CDATA[".CRLF
-		."alert('$msg'); document.location.href='" . $blogURL . "/owner/setting/account'; //]]></script></head></html>";
+		."alert('$msg'); document.location.href='" . $context->getProperty('uri.blog') . "/owner/setting/account'; //]]></script></head></html>";
 	exit;
 }
 
 function addOpenID()
 {
 	global $openid_list;
-	global $blogURL;
+	$context = Model_Context::getInstance();
 
 	if( empty( $_GET['openid_identifier'] ) || strstr( $_GET['openid_identifier'], "." ) === false  ) {
 			exitWithError( _t('오픈아이디를 입력하지 않았거나, 도메인 없는 오픈아이디를 입력하였습니다.') );
 	}
 
 	$currentOpenID = Acl::getIdentity( 'openid_temp' );
-	requireComponent( "Textcube.Control.Openid" );
 	$fc = new OpenIDConsumer;
 	$claimedOpenID = $fc->fetch( $_GET['openid_identifier'] );
 
@@ -60,7 +59,7 @@ function addOpenID()
 	}
 
 	if( $_GET['authenticated'] === "0" ) {
-		header( "Location: $blogURL/owner/setting/account" );
+		header( "Location: ".$context->getProperty('uri.blog')."/owner/setting/account" );
 		exit(0);
 	}
 
@@ -72,33 +71,33 @@ function addOpenID()
 	if( !in_array( $currentOpenID, $openid_list ) ) {
 		for( $i=0; $i<OPENID_REGISTERS; $i++ )
 		{
-			$openid = getUserSetting( "openid." . $i );
+			$openid = Setting::getUserSetting( "openid." . $i , null, true);
 			if( empty($openid) ) {
-				setUserSetting( "openid." . $i, $currentOpenID );
+				Setting::setUserSetting( "openid." . $i, $currentOpenID , true);
 				break;
 			}
 		}
 	}
 
 	echo "<html><head><script type=\"text/javascript\">//<![CDATA[".CRLF
-		."alert('" . _t('연결하였습니다.') . " : " . $currentOpenID . "'); document.location.href='" . $blogURL . "/owner/setting/account'; //]]></script></head></html>";
+		."alert('" . _t('연결하였습니다.') . " : " . $currentOpenID . "'); document.location.href='" . $context->getProperty('uri.blog') . "/owner/setting/account'; //]]></script></head></html>";
 
 }
 
 function deleteOpenID($openidForDel)
 {
-	global $blogURL;
+	$context = Model_Context::getInstance();
 	for( $i=0; $i<OPENID_REGISTERS; $i++ )
 	{
-		$openid = getUserSetting( "openid." . $i );
+		$openid = Setting::getUserSetting( "openid." . $i , null, true);
 		if( $openid == $openidForDel ) {
-			removeUserSetting( "openid." . $i );
+			Setting::removeUserSetting( "openid." . $i, true);
 			break;
 		}
 	}
 
 	echo "<html><head><script type=\"text/javascript\">//<![CDATA[".CRLF
-		."alert('" . _t('삭제되었습니다.') . "'); document.location.href='" . $blogURL . "/owner/setting/account'; //]]></script></head></html>";
+		."alert('" . _t('삭제되었습니다.') . "'); document.location.href='" . $context->getProperty('uri.blog') . "/owner/setting/account'; //]]></script></head></html>";
 
 }
 

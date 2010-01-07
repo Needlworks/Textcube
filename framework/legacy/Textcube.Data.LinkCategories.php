@@ -1,4 +1,8 @@
 <?php
+/// Copyright (c) 2004-2010, Needlworks  / Tatter Network Foundation
+/// All rights reserved. Licensed under the GPL.
+/// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
+
 class LinkCategories {
 	function LinkCategories() {
 		$this->reset();
@@ -122,7 +126,7 @@ class LinkCategories {
 	}
 	function getNextLinkCategoryPid($id = 0) {
 		global $database;
-		$maxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}LinkCategories"); 
+		$maxId = POD::queryCell("SELECT MAX(pid) FROM {$database['prefix']}LinkCategories"); 
 		if($id==0)
 			return $maxId + 1;
 		else

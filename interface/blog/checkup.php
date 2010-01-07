@@ -631,6 +631,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			&& POD::execute("ALTER TABLE {$database['prefix']}OpenIDUsers
 				CHANGE data openidinfo text, 
 				CHANGE firstLogin firstlogin int(11) default NULL,
+				CHANGE loginCount logincount int(11) default NULL,
 				CHANGE lastLogin lastlogin int(11) default NULL")
 			&& POD::execute("ALTER TABLE {$database['prefix']}Sessions
 				CHANGE data privilege text")										

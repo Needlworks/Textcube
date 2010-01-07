@@ -6,12 +6,12 @@
 define('__TEXTCUBE_ADMINPANEL__',true);
 require ROOT . '/library/preprocessor.php';
 
-global $hostURL, $blogURL, $service;
 global $openid_session;
 global $openid_session_id;
 
+$context = Model_Context::getInstance();
 if( empty( $_GET['requestURI'] ) ) {
-	$requestURI = $blogURL;
+	$requestURI = $context->getProperty('uri.blog');
 } else {
 	$requestURI = $_GET['requestURI'];
 	if( Acl::getIdentity( 'openid' ) ) {
@@ -22,7 +22,7 @@ if( empty( $_GET['requestURI'] ) ) {
 
 list( $openid_help_link, $openid_signup_link ) = fireEvent( 'OpenIDAffiliateLinks', $requestURI );
 
-$img_url = $hostURL . $service['path'] . "/plugins/" . basename(dirname( __file__ )) . "/login-bg.gif";
+$img_url = $context->getProperty('uri.host').$context->getProperty('service.path') . "/plugins/" . basename(dirname( __file__ )) . "/login-bg.gif";
 
 if( !empty($_COOKIE['openid']) ) {
 	$openid_remember_check = "checked";
@@ -36,28 +36,28 @@ if( !empty($_COOKIE['openid']) ) {
 <html><head>
 <title><?php echo _text('텍스트큐브') .":". _text('오픈아이디 인증'); ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/login.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/basic.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/login.css" />
 <!--[if lte IE 6]>
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/login.ie.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/basic.ie.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/login.ie.css" />
 <![endif]-->
 <!--[if IE 7]>
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie7.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/login.ie7.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/basic.ie7.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/login.ie7.css" />
 <![endif]-->
 </head>
 <body id="body-login" onload="document.getElementById('openid_identifier').focus()">
 	<div id="temp-wrap">
 		<div id="all-wrap">
-			<form method="get" name="openid_form" action="<?php echo $blogURL . '/login/openid?action=try_auth'?>" >
+			<form method="get" name="openid_form" action="<?php echo $context->getProperty('uri.blog') . '/login/openid?action=try_auth'?>" >
         		<input type="hidden" name="action" value="try_auth" />
         		<input type="hidden" name="requestURI" value="<?php echo $requestURI; ?>" />
 				<input type="hidden" name="need_writers" value="0" />
 				<div id="data-outbox">
 					<div id="login-box">
 						<div id="logo-box">
-							<img src="<?php echo $service['path'] ?>/skin/admin/whitedream/image/logo_textcube.png" alt="<?php echo _text('텍스트큐브 로고'); ?>" />
+							<img src="<?php echo $context->getProperty('service.path');?>/skin/admin/whitedream/image/logo_textcube.png" alt="<?php echo _text('텍스트큐브 로고'); ?>" />
 			            </div>
 			            
 			            <div class="field-box">

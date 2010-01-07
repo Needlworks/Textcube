@@ -27,13 +27,8 @@ $IV = array(
 		'tid' => array('string', 'mandatory' => false ),
 	)
 );
-
 require ROOT . '/library/preprocessor.php';
 
-requireComponent( "Textcube.Core" );
-requireComponent( "Textcube.Control.Openid" );
-
-global $service;
 global $openid_session_name, $openid_session_id, $openid_session, $openid_session_path;
 
 function _openid_ip_address()
@@ -43,27 +38,28 @@ function _openid_ip_address()
 
 function TryAuthByRequest()
 {
-	global $hostURL, $blogURL;
+	$context = Model_Context::getInstance();
+
 	/* User clicked cancel button at login form */
 	if( isset($_GET['openid_cancel']) || isset($_GET['openid_cancel_x']) ) {
-		header( "Location: " . $hostURL . $blogURL);
+		header( "Location: " . $context->getProperty('uri.host').$context->getProperty('uri.blog'));
 		exit(0);
 	}
 
 	if( !empty( $_GET['requestURI'] ) ) {
 		$requestURI = $_GET['requestURI'];
 	} else {
-		$requestURI = $blogURL;
+		$requestURI = $context->getProperty('uri.blog');
 	}
 
 	$tr = array();
 	$tr['need_writers'] = '';
 	if( empty($_GET['fallbackURI']) ) {
 		if( !empty($_GET['need_writers'])) {
-			$tr['fallbackURI'] = "$blogURL/login?requestURI=" . urlencode($requestURI);
+			$tr['fallbackURI'] = $context->getProperty('uri.blog')."/login?requestURI=" . urlencode($requestURI);
 			$tr['need_writers'] = '1';
 		} else {
-			$tr['fallbackURI'] = "$blogURL/login/openid/guest?requestURI=" . urlencode($requestURI);
+			$tr['fallbackURI'] = $context->getProperty('uri.blog')."/login/openid/guest?requestURI=" . urlencode($requestURI);
 		}
 	} else {
 		$tr['fallbackURI'] = $_GET['fallbackURI'];
@@ -77,6 +73,7 @@ function TryAuthByRequest()
 	if (empty($openid)) {
 		$errmsg = _text("오픈아이디를 입력하세요");
 	} else if (strstr($openid, ".") === false ) {
+		require_once(ROOT.'/framework/legacy/Textcube.Control.Openid.php');
 		require_once OPENID_LIBRARY_ROOT."Auth/Yadis/XRI.php";
 		if( Auth_Yadis_identifierScheme($openid) == 'URI' ) {
 			$errmsg = _text("오픈아이디에 도메인 부분이 없습니다. 예) textcube.idtail.com");
@@ -101,7 +98,7 @@ function TryAuthByRequest()
 
 	$tr['requestURI'] = $requestURI;
 	$tid = Transaction::pickle( $tr );
-	$tr['finishURL'] = $hostURL . $blogURL . "/login/openid?action=finish&tid=$tid";
+	$tr['finishURL'] = $context->getProperty('uri.host') . $context->getProperty('uri.blog') . "/login/openid?action=finish&tid=$tid";
 	Transaction::repickle( $tid, $tr );
 
 	$consumer = new OpenIDConsumer($tid);
@@ -110,11 +107,11 @@ function TryAuthByRequest()
 
 function TryHardcoreAuth()
 {
-	global $hostURL, $blogURL;
+	$context = Model_Context::getInstance();
 	$tr = array();
 	$tr['requestURI'] = $_GET["requestURI"];
 	$tid = Transaction::pickle( $tr );
-	$tr['finishURL'] = $hostURL . $blogURL . "/login/openid?action=finish&tid=$tid";
+	$tr['finishURL'] = $context->getProperty('uri.host').$context->getProperty('uri.blog') . "/login/openid?action=finish&tid=$tid";
 	Transaction::repickle( $tid, $tr );
 	$consumer = new OpenIDConsumer;
 	$consumer->tryAuth( $tid, $_COOKIE['openid'], true );
@@ -123,8 +120,8 @@ function TryHardcoreAuth()
 function FinishAuth()
 {
 	if( empty($_GET['tid']) ) {
-		global $blogURL;
-		OpenIDConsumer::printErrorReturn( _text('잘못된 트랜잭션입니다'), $blogURL );
+		$context = Model_Context::getInstance();
+		OpenIDConsumer::printErrorReturn( _text('잘못된 트랜잭션입니다'), $context->getProperty('uri.blog'));
 	}
 	$tid = $_GET['tid'];
 	$consumer = new OpenIDConsumer($tid);

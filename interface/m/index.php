@@ -10,9 +10,7 @@ if(strpos($_SERVER['HTTP_USER_AGENT'],'iPod') || strpos($_SERVER['HTTP_USER_AGEN
 	header("Location: ".$pathURL.getFancyURLpostfix()."/i");	exit;
 }
 requireView('mobileView');
-if (false) {
-	fetchConfigVal();
-}
+
 if(empty($suri['id'])) {
 	list($entry, $paging) = getEntriesWithPaging($blogid, 1, 1);
 	if(empty($entry))

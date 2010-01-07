@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class BlogStatistics {
-	function BlogStatistics() {
+	function __construct() {
 		$this->reset();
 	}
 
@@ -39,7 +39,8 @@ class BlogStatistics {
 			return false;
 
 		if ($query->doesExist()) {
-			$query->setAttribute('visits', "visits + {$this->visits}");
+			$currentVisit = $query->getCell('visits');
+			$query->setAttribute('visits', $currentVisit + $this->visits);
 			if (!$query->update())
 				return $this->_error('update');
 		} else if (!$query->insert()) {

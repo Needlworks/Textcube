@@ -131,7 +131,7 @@ class Link {
 	}
 	function getNextLinkPid($id = 0) {
 		global $database;
-		$maxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Links"); 
+		$maxId = POD::queryCell("SELECT MAX(pid) FROM {$database['prefix']}Links"); 
 		if($id==0)
 			return $maxId + 1;
 		else

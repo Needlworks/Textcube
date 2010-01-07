@@ -2,8 +2,10 @@
 /// Copyright (c) 2004-2010, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
+
+
 class Category {
-	function Category() {
+	function __construct() {
 		$this->reset();
 	}
 
@@ -22,21 +24,29 @@ class Category {
 	/*@polymorphous(bool $parentOnly, $fields, $sort)@*/
 	/*@polymorphous(numeric $id, $fields, $sort)@*/
 	function open($filter = true, $fields = '*', $sort = 'priority') {
-		global $database;
+		$context = Model_Context::getInstance();
+		$pool = DBModel::getInstance();
+		
+		$pool->reset('Categories');		
+		$blogid = intval($context->getProperty('blog.id'));
+		$pool->setQualifier('blogid','equals',$blogid);
 		if (is_numeric($filter)) {
-			$filter = 'AND id = ' . $filter;
+			$pool->setQualifier('id','equals',$filter);
 		} else if (is_bool($filter)) {
 			if ($filter)
-				$filter = 'AND parent IS NULL';
+				$pool->setQualifier('parent',null);
 		} else if (!empty($filter)) {
-			$filter = 'AND ' . $filter;
+			$condition = explode('=',$filter);
+			$condition = trim($condition);
+			$pool->setQualifier($condition[0],'equals',$condition[1]);
 		}
 		if (!empty($sort))
-			$sort = 'ORDER BY ' . $sort;
+			$pool->setOrder($sort);
 		$this->close();
-		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." $filter $sort");
+		$this->_result = $pool->getAll($fields);
+//		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." $filter $sort");
 		if ($this->_result)
-			$this->_count = POD::num_rows($this->_result);
+			$this->_count = count($this->_result);
 		return $this->shift();
 	}
 	
@@ -51,7 +61,7 @@ class Category {
 	
 	function shift() {
 		$this->reset();
-		if ($this->_result && ($row = POD::fetch($this->_result))) {
+		if ($this->_result && ($row = each($this->_result))) {
 			foreach ($row as $name => $value) {
 				if ($name == 'blogid')
 					continue;
@@ -71,20 +81,25 @@ class Category {
 	}
 	
 	function add() {
-		global $database;
 		if($this->id != 0) $this->id = null;
+		
 		if (isset($this->parent) && !is_numeric($this->parent))
 			return $this->_error('parent');
+		
 		$this->name = UTF8::lessenAsEncoding(trim($this->name), 127);
+
 		if (empty($this->name))
 			return $this->_error('name');
 		
 		$query = DBModel::getInstance();
 		$query->reset('Categories');
+		
 		$query->setQualifier('blogid', 'equals', getBlogId());
+		
 		if (isset($this->parent)) {
-			if (is_null($parentLabel = Category::getLabel($this->parent)))
+			if (is_null($parentLabel = Category::getLabel($this->parent))) {
 				return $this->_error('parent');
+			}
 			$query->setQualifier('parent', 'equals', $this->parent);
 			$query->setAttribute('label', UTF8::lessenAsEncoding($parentLabel . '/' . $this->name, 255), true);
 		} else {
@@ -118,8 +133,15 @@ class Category {
 	}
 
 	function getNextCategoryId($id = 0) {
-		global $database;
-		$maxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()); 
+		$context = Model_Context::getInstance();
+		$pool    = new DBModel();
+		
+		$pool->reset('Categories');
+		$blogid = intval($context->getProperty('blog.id'));
+		$pool->setQualifier('blogid','equals',$blogid);		
+		
+		$maxId = $pool->getCell('MAX(id)');
+
 		if($id==0)
 			return $maxId + 1;
 		else
@@ -143,37 +165,63 @@ class Category {
 		$this->label = Validator::escapeXML(@$this->label, $escape);
 	}
 
-	/*@static@*/
-	function doesExist($id) {
-		global $database;
+	static function doesExist($id) {
 		if (!Validator::number($id, 0))
 			return false;
 		if ($id == 0) return true; // not specified case
-		return POD::queryExistence("SELECT id FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND id = $id");
+
+		$context = Model_Context::getInstance();
+		$pool    = new DBModel();
+		
+		$pool->reset('Categories');
+		$blogid = intval($context->getProperty('blog.id'));
+		$pool->setQualifier('blogid','equals',$blogid);
+		$pool->setQualifier('id','equals',$id);		
+	
+		return $pool->doesExist('id');
 	}
 	
-	/*@static@*/
-	function getId($label) {
-		global $database;
+	static function getId($label) {
 		if (empty($label))
 			return null;
-		return POD::queryCell("SELECT id FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND label = '" . POD::escapeString($label) . "'");
+
+		$context = Model_Context::getInstance();
+		$pool    = new DBModel();
+		
+		$pool->reset('Categories');
+		$blogid = intval($context->getProperty('blog.id'));
+		$pool->setQualifier('blogid','equals',$blogid);
+		$pool->setQualifier('label','equals',$label,true);
+		return $pool->getCell('id');
 	}
 	
-	/*@static@*/
-	function getLabel($id) {
-		global $database;
+	static function getLabel($id) {
 		if (!Validator::number($id, 1))
 			return null;
-		return POD::queryCell("SELECT label FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND id = $id");
+
+		$context = Model_Context::getInstance();
+		$pool    = new DBModel();
+		
+		$pool->reset('Categories');
+		$blogid = intval($context->getProperty('blog.id'));
+		$pool->setQualifier('blogid','equals',$blogid);
+		$pool->setQualifier('id','equals',$id);
+		return $pool->getCell('label');
 	}
 
 	/*@static@*/
-	function getParent($id) {
-		global $database;
+	static function getParent($id) {
 		if (!Validator::number($id, 1))
 			return null;
-		return POD::queryCell("SELECT parent FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND id = $id");
+			
+		$context = Model_Context::getInstance();
+		$pool    = new DBModel();
+		
+		$pool->reset('Categories');
+		$blogid = intval($context->getProperty('blog.id'));
+		$pool->setQualifier('blogid','equals',$blogid);
+		$pool->setQualifier('id','equals',$id);
+		return $pool->getCell('parent');
 	}
 
 	function _error($error) {

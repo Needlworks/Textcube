@@ -146,7 +146,7 @@ class Setting {
 			$query->setAttribute('name', $name, true);
 			$query->setAttribute('value',$value, true);
 			return $query->replace();
-		}
+		} 
 		
 		// insert new value
 		$__gCacheBlogSettings[$blogid][$name] = $value;
@@ -230,7 +230,7 @@ class Setting {
 	}
 
 	function getUserSettingGlobal($name, $default = null, $userid = null, $directAccess = false) {
-		global $database, $userSetting;
+		global $userSetting;
 		if($directAccess !== false) {
 			$query = DBModel::getInstance();
 			$query->reset('UserSettings');
@@ -275,14 +275,11 @@ class Setting {
 	}
 	
 	function removeUserSetting($name, $global = null) {
-		global $database;
 		if(is_null($global)) $name = 'plugin_' . $name;
-		return Setting::removeUserSettingGlobal($name);
+		return Setting::removeUserSettingGlobal($name, null, null);
 	}
 
-	function removeUserSettingGlobal($name, $userid = null) {
-		global $database;
-		if(is_null($global)) $name = 'plugin_' . $name;
+	function removeUserSettingGlobal($name, $userid = null, $global = null) {
 		clearUserSettingCache();
 		$query = DBModel::getInstance();
 		$query->reset('UserSettings');
@@ -292,7 +289,7 @@ class Setting {
 	}
 
 	function getServiceSetting($name, $default = null, $global = null) {
-		global $database, $__serviceSetting;
+		global $__serviceSetting;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		if( empty($__serviceSetting) ) {
 			$query = DBModel::getInstance();
@@ -309,7 +306,7 @@ class Setting {
 	}
 		
 	function setServiceSetting($name, $value, $global = null) {
-		global $database, $__serviceSetting;
+		global $__serviceSetting;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		$name = UTF8::lessenAsEncoding($name, 32);
 		$query = DBModel::getInstance();
@@ -322,7 +319,6 @@ class Setting {
 	}
 
 	function removeServiceSetting($name, $global = null) {
-		global $database;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		$name = 'plugin_' . $name;
 		$query = DBModel::getInstance();

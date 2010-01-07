@@ -471,7 +471,7 @@ $currentOpenID = Acl::getIdentity( 'openid' );
 $openid_list = array();
 for( $i=0; $i<OPENID_REGISTERS; $i++ )
 {
-	$openid_identity = getUserSetting( "openid." . $i );
+	$openid_identity = Setting::getUserSettingGlobal( "openid." . $i );
 	if( !empty($openid_identity) ) {
 		array_push( $openid_list, $openid_identity );
 	}

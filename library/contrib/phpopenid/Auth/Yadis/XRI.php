@@ -9,9 +9,9 @@
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
 
-require_once 'Auth/Yadis/Misc.php';
-require_once 'Auth/Yadis/Yadis.php';
-require_once 'Auth/OpenID.php';
+require_once OPENID_LIBRARY_ROOT.'Auth/Yadis/Misc.php';
+require_once OPENID_LIBRARY_ROOT.'Auth/Yadis/Yadis.php';
+require_once OPENID_LIBRARY_ROOT.'Auth/OpenID.php';
 
 function Auth_Yadis_getDefaultProxy()
 {

@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-if(isset($config->service['reader']) && $config->service['reader'] === false) exit;
+if($context->getProperty('service.reader') === false) exit;
 
 define('NO_LOCALE',true);
 

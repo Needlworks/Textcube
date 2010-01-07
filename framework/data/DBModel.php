@@ -84,7 +84,8 @@ class DBModel extends Singleton implements IModel {
 	
 	public function setAttribute($name, $value, $escape = false) {
 		if (is_null($value))
-			$this->_attributes[$name] = 'NULL';
+			$this->_attributes[$name] = null;
+//			$this->_attributes[$name] = 'NULL';
 		else
 			$this->_attributes[$name] = ($escape === false && (!is_string($value) || in_array($value,$this->_reservedFunctions)) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
 	}
@@ -113,7 +114,8 @@ class DBModel extends Singleton implements IModel {
 	public function setQualifier($name, $condition, $value = null, $escape = false) {
 	//OR, setQualifier(string(name_condition_value), $escape = null)     - Descriptive mode (NOT implemented)
 		if (is_null($condition)) {
-			$this->_qualifiers[$name] = 'NULL';
+			$this->_qualifiers[$name] = null;
+//			$this->_qualifiers[$name] = 'NULL';
 		} else {
 			switch(strtolower($condition)) {
 				case 'equals':
@@ -122,7 +124,7 @@ class DBModel extends Singleton implements IModel {
 					break;
 				case 'not':
 				case 'neq':
-					$this->_relations[$name] = 'NOT';
+					$this->_relations[$name] = '<>';
 					break;
 				case 'bigger':
 				case 'b':
@@ -187,6 +189,7 @@ class DBModel extends Singleton implements IModel {
 	
 	public function getCell($field = '*') {
 		$field = $this->_treatReservedFields($field);
+//		var_dump('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
 		return POD::queryCell('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
 	}
 	
@@ -212,7 +215,10 @@ class DBModel extends Singleton implements IModel {
 		$attributes = array_merge($this->_qualifiers, $this->_attributes);
 		if (empty($attributes))
 			return false;
-		$this->_query = 'INSERT INTO ' . $this->table . ' (' . implode(',', $this->_capsulateFields(array_keys($attributes))) . ') VALUES(' . implode(',', $attributes) . ')';
+		$pairs = $attributes;
+		foreach($pairs as $key => $value) if (is_null($value)) $pairs[$key] = 'NULL';
+		
+		$this->_query = 'INSERT INTO ' . $this->table . ' (' . implode(',', $this->_capsulateFields(array_keys($attributes))) . ') VALUES (' . implode(',', $pairs) . ')';
 		if (POD::query($this->_query)) {
 //			$this->id = POD::insertId();
 			return true;
@@ -224,9 +230,12 @@ class DBModel extends Singleton implements IModel {
 		if (empty($this->table) || empty($this->_attributes))
 			return false;
 		$attributes = array();
+		
 		foreach ($this->_attributes as $name => $value)
 			array_push($attributes, 
-				(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) . '=' . $value);
+				(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) . '=' . 
+				(is_null($value) ? ' NULL' : $value ));
+		
 		$this->_query = 'UPDATE ' . $this->table . ' SET ' . implode(',', $attributes) . $this->_makeWhereClause();
 		if (POD::query($this->_query))
 			return true;
@@ -240,9 +249,11 @@ class DBModel extends Singleton implements IModel {
 		$attributes = array_merge($this->_qualifiers, $this->_attributes);
 		if (empty($attributes))
 			return false;
+		$pairs = $attributes;
+		foreach($pairs as $key => $value) if (is_null($value)) $pairs[$key] = 'NULL';
 		$attributeFields = $this->_capsulateFields(array_keys($attributes));
 		if (in_array(POD::dbms(), array('MySQL','MySQLi'))) { // Those supports 'REPLACE'
-			$this->_query = 'REPLACE INTO ' . $this->table . ' (' . implode(',', $attributeFields) . ') VALUES(' . implode(',', $attributes) . ')';
+			$this->_query = 'REPLACE INTO ' . $this->table . ' (' . implode(',', $attributeFields) . ') VALUES(' . implode(',', $pairs) . ')';
 			if (POD::query($this->_query)) {
 				$this->id = POD::insertId();
 				return true;
@@ -309,7 +320,7 @@ class DBModel extends Singleton implements IModel {
 		foreach ($this->_qualifiers as $name => $value) {
 			$clause .= (strlen($clause) ? ' AND ' : '') . 
 				(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) .
-				' '.(is_null($value) ? 'IS NULL' : $this->_relations[$name] . ' ' . $value);
+				' '.(is_null($value) ? ' IS NULL' : $this->_relations[$name] . ' ' . $value);
 		}
 		if(!empty($this->_order)) $clause .= ' ORDER BY '.$this->_treatReservedFields($this->_order['attribute']).' '.$this->_order['order'];
 		if(!empty($this->_limit)) $clause .= ' LIMIT '.$this->_limit['count'].' OFFSET '.$this->_limit['offset'];

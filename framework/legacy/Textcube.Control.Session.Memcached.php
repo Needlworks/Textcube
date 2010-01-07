@@ -42,6 +42,7 @@ final class Session {
 	}
 	
 	public static function write($id, $data) {
+		if(is_null(self::$mc)) self::initialize();		
 		return self::$mc->set(self::$context->getProperty('service.domain')."/sessions/{$id}/{$_SERVER['REMOTE_ADDR']}",$data,self::$context->getProperty('service.timeout'));
 	}
 	

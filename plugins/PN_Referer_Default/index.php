@@ -25,19 +25,15 @@
 */
 function PN_Referer_Default()
 {
-	global $pluginMenuURL, $pluginSelfParam ;
-	requireComponent( "Textcube.Model.Statistics");
-	requireComponent( "Textcube.Model.Paging");
-	requireComponent( "Textcube.Function.misc");
+	global $pluginMenuURL, $pluginSelfParam;
 	if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['page']))
 		$_GET['page'] = $_POST['page'];
 	
-	$page = Setting::getBlogSetting('RowsPerPage',20,true);
-	
+	$page = Setting::getBlogSetting('RowsPerPageReferer',20);
 	if (empty($_POST['perPage'])) {  
 		$perPage = $page;  
-	} else if ($page != $_POST['perPage']) {  
-		Setting::setBlogSetting('RowsPerPage',$_POST['perPage'],true);  
+	} else if ($page != $_POST['perPage']) { 
+		Setting::setBlogSetting('RowsPerPageReferer',$_POST['perPage']);  
 		$perPage = $_POST['perPage'];  
 	} else {  
 		$perPage = $_POST['perPage'];  

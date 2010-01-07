@@ -277,6 +277,28 @@ function checkStep($step, $check = true) {
 ?>
   <input type="hidden" name="step" value="3" />
   <input type="hidden" name="mode" value="<?php echo $_POST['mode'];?>" />
+  <script type="text/javascript">
+    //<![CDATA[
+     function suggestDefaultPort(db) {
+		switch(db) {
+			case 'MySQL':
+			case 'MySQLi':
+			default:
+				port = 3306;
+				break;
+			case 'Cubrid':
+				port = 30000;
+				break;
+			case 'PostgreSQL':
+				port = 5432;
+				break;
+		}
+		document.getElementById('dbPort').value = port;
+		document.getElementById('dbms'+db).checked = checked;
+		return true;
+	 }
+    //]]>
+  </script>
   <div id="inner">
     <h2><span class="step"><?php echo _f('%1단계', 3);?></span> : <?php echo _t('작업 정보를 입력해 주십시오.');?></h2>
     <div id="userinput">
@@ -292,7 +314,7 @@ if(function_exists('pg_connect')) array_push($dbmsSupport,'PostgreSQL');
 if(function_exists('cubrid_connect')) array_push($dbmsSupport,'Cubrid');
 foreach($dbmsSupport as $dbms) {
 ?>
-	      <input type="radio" name="dbms" value="<?php echo $dbms;?>" <?php echo (((isset($_POST['dbms']) && $_POST['dbms'] == $dbms)||(!isset($_POST['dbms']) && $dbms == $dbmsSupport[0])) ? 'checked' : '');?>/> <?php echo $dbms;?> 
+	      <input type="radio" id="dbms<?php echo $dbms;?>" name="dbms" value="<?php echo $dbms;?>" <?php echo (((isset($_POST['dbms']) && $_POST['dbms'] == $dbms)||(!isset($_POST['dbms']) && $dbms == $dbmsSupport[0])) ? 'checked' : '');?> onclick="suggestDefaultPort('<?php echo $dbms;?>');return false;" /> <?php echo $dbms;?> 
 <?php
 }
 ?>
@@ -307,7 +329,9 @@ foreach($dbmsSupport as $dbms) {
       <tr>
         <th><?php echo _t('데이터베이스 포트');?> :</th>
         <td>
-          <input type="text" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : '3389');?>" class="input<?php echo ($check && (empty($_POST['dbPort']) || ($error == 1)) ? ' input_error' : '');?>" />
+          <input type="text" id="dbPort" name="dbPort" value="<?php echo (isset($_POST['dbPort']) ? $_POST['dbPort'] : 
+		  '3306'
+		  );?>" class="input<?php echo ($check && (empty($_POST['dbPort']) || ($error == 1)) ? ' input_error' : '');?>" />
         </td>
       </tr>
 	  <tr>
@@ -1114,8 +1138,9 @@ RewriteRule ^testrewrite$ setup.php [L]"
 				$query = array(); 
 			}
             // Loading create schema from sql file. (DBMS specific)
-			
-			$schema .= file_get_contents(ROOT.'/resources/setup/initialize.'.POD::dbms().'.sql');
+			if(POD::dbms() == 'MySQLi') $dbSelector = 'MySQL';
+			else $dbSelector = POD::dbms();
+			$schema .= file_get_contents(ROOT.'/resources/setup/initialize.'.$dbSelector.'.sql');
 			$schema = str_replace('[##_dbPrefix_##]',$_POST['dbPrefix'],$schema);
 			$schema = str_replace('[##_charset_##]',$charset,$schema);
 			
@@ -1195,21 +1220,37 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
 			}
         }
 		else {
-			$password2 = POD::escapeString($_POST['password']);
-            $schema = "
-				UPDATE {$_POST['dbPrefix']}Users SET loginid = '$loginid', name = '$name' WHERE userid = 1;
-				UPDATE {$_POST['dbPrefix']}Users SET password = '$password' WHERE userid = 1 AND password <> '$password2';
-				UPDATE {$_POST['dbPrefix']}BlogSettings SET 'value' = '{$_POST['blog']}' where blogid = 1 AND name = 'name';
-				UPDATE {$_POST['dbPrefix']}BlogSettings SET 'value' = '$baseLanguage' where blogid = 1 AND name = 'language';
-				UPDATE {$_POST['dbPrefix']}BlogSettings SET 'value' = '$baseTimezone' where blogid = 1 AND name = 'timezone';";
-            $query = explode(';', trim($schema));
-            foreach ($query as $sub) {
-                if (!empty($sub) && !POD::query($sub)) {
-					echo '<script type="text/javascript">//<![CDATA['.CRLF.'alert("', _t('정보를 갱신하지 못했습니다.'), '")//]]></script>';
-					$error = 2;
-					break;
-				}
-			}
+			$pool = DBModel::getInstance();
+			$pool->reset('Users');
+			$pool->setAttribute('loginid',$loginid,true);
+			$pool->setAttribute('name',$name,true);
+			$pool->setQualifier('userid','equals',1);
+			$pool->update();
+			
+			$pool->reset('Users');
+			$pool->setAttribute('password',$password,true);
+			$pool->setQualifier('userid','equals',1);
+			$pool->setQualifier('password','not',$password2,true);
+			$pool->update();
+
+			$pool->reset('BlogSettings');
+			$pool->setAttribute('value',$_POST['blog'],true);
+			$pool->setQualifier('blogid','equals',1);
+			$pool->setQualifier('name','equals','name',true);
+			$pool->update();
+
+			$pool->reset('BlogSettings');
+			$pool->setAttribute('value',$baseLanguage,true);
+			$pool->setQualifier('blogid','equals',1);
+			$pool->setQualifier('name','equals','language',true);
+			$pool->update();
+			
+			$pool->reset('BlogSettings');
+			$pool->setAttribute('value',$baseTimezone,true);
+			$pool->setQualifier('blogid','equals',1);
+			$pool->setQualifier('name','equals','timezone',true);
+			$pool->update();
+		
 		}
 		if (!$error) {
 			POD::unbind();

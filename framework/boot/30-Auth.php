@@ -233,7 +233,11 @@ class Acl {
 		} else {
 			$ownership = "group.owners";
 		}
-		$result = POD::queryAllWithCache("SELECT blogid,acl FROM {$context->getProperty('database.prefix')}Privileges WHERE userid = $userid");
+		$data = DBModel::getInstance();
+		$data->reset('Privileges');
+		$data->setQualifier('userid','equals',$userid);
+		$result = $data->getAll('blogid,acl');
+
 		foreach( $result as $rec ) {
 			$priv = array("group.writers", "textcube.$userid");
 
@@ -251,7 +255,6 @@ class Acl {
 		}
 
 		$blogid = getBlogId();
-		$data = DBModel::getInstance();
 		$data->reset('Privileges');
 		$data->setQualifier('blogid','equals',$blogid);
 		$data->setQualifier('userid','equals',$userid);
