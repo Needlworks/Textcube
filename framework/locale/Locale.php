@@ -25,12 +25,16 @@ final class Locale extends Singleton {
 		if(!isset($this->locale)) $this->locale = array();
 		if(!isset($this->directory)) $this->directory = null;
 		if (file_exists($this->directory . '/' . $locale .'.php')) { // If locale file exists
-			$this->resource[$domain] = $this->includeLocaleFile($this->directory . '/' . $locale . '.php');
-			$this->locale[$domain] = $locale;
+			if(!isset($this->resource[$domain])) {
+				$this->resource[$domain] = $this->includeLocaleFile($this->directory . '/' . $locale . '.php');
+				$this->locale[$domain] = $locale;
+			}
 			return true;
 		} else if (($common != $locale) && file_exists($this->directory . '/' . $common . '.php')) {
-			$this->resource[$domain] = $this->includeLocaleFile($this->directory . '/' . $common . '.php');
-			$this->locale[$domain] = $common;
+			if(!isset($this->resource[$domain])) {
+				$this->resource[$domain] = $this->includeLocaleFile($this->directory . '/' . $common . '.php');
+				$this->locale[$domain] = $common;
+			}
 			return true;
 		}
 		return false;
