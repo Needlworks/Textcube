@@ -9,6 +9,13 @@ ini_set('display_errors', 'on');
 
 define('ROOT','.');
 
+if (version_compare(PHP_VERSION,'5.2.0', '<')) {
+    header('HTTP/1.1 503 Service Unavailable');
+	echo "PHP Version mismatch. You need at least PHP 5.2.0 to install this version of Textcube.";
+	exit;
+}
+
+
 foreach (new DirectoryIterator(ROOT.'/framework/boot') as $fileInfo) {
 	if($fileInfo->isFile()) require_once($fileInfo->getPathname());
 }

@@ -91,7 +91,15 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 		$entry['id'] = $entryId;
 		$entry['slogan'] = getSloganById($blogid, $entryId);
 		if(!$comment['secret']) {
-			if($row = POD::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0 AND visibility = 3 AND acceptcomment = 1"))
+			$pool = DBModel::getInstance();
+			$pool->reset('Entries');
+			$pool->setQualifier('blogid','equals',$blogid);
+			$pool->setQualifier('id','equals',$entryId);
+			$pool->setQualifier('draft','equals',0);
+			$pool->setQualifier('visibility','equals',3);
+			$pool->setQualifier('acceptcomment','equals',1);
+			$row = $pool->getAll('*');
+			if(!empty($row))
 				sendCommentPing($entryId, "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$row['slogan']}": $entryId), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
 		}
 		$skin = new Skin($skinSetting['skin']);
@@ -99,7 +107,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 			$commentBlock = getCommentView($entry, $skin);
 			dress('article_rep_id', $entryId, $commentBlock);
 			$commentBlock = escapeCData(revertTempTags(removeAllTags($commentBlock)));
-			$recentCommentBlock = escapeCData(revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComment, $skin->recentCommentItem)));
+			$recentCommentBlock = escapeCData(revertTempTags(getRecentCommentsView(getRecentComments($blogid), null, $skin->recentCommentItem)));
 			$commentCount = getCommentCount($blogid, $entryId);
 			$commentCount = ($commentCount > 0) ? $commentCount : 0;
 			list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);

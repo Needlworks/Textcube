@@ -14,7 +14,7 @@ if(is_null($password)) {
 	Setting::setBlogSetting('LinePassword',$password,true);
 } 
 
-$provider = new OpenSearchProvider();
+$provider = new Model_OpenSearchProvider();
 $provider->setDescriptor('ShortName',Setting::getBlogSetting('title','TITLE',true));
 $provider->setDescriptor('Description',Setting::getBlogSetting('description','DESCRIPTION',true));
 $provider->setDescriptor('Url',null);

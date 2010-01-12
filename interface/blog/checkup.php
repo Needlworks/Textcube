@@ -619,7 +619,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			&& POD::execute("ALTER TABLE {$database['prefix']}FeedSettings
 				CHANGE updateCycle updatecycle int(11) NOT NULL DEFAULT 120,
 				CHANGE feedLife feedlife int(11) NOT NULL DEFAULT 30,
-				CHANGE loadImage loadimge int(11) NOT NULL DEFAULT 1,
+				CHANGE loadImage loadimage int(11) NOT NULL DEFAULT 1,
 				CHANGE allowScript allowscript int(11) NOT NULL DEFAULT 2,
 				CHANGE newWindow newwindow int(11) NOT NULL DEFAULT 1")
 			&& POD::execute("ALTER TABLE {$database['prefix']}Feeds
