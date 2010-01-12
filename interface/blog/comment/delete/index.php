@@ -147,7 +147,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 					}
 					printHtmlHeader();
 					$tempComments = revertTempTags(removeAllTags(getCommentView($entry, $skin)));
-					$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComment, $skin->recentCommentItem));
+					$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($blogid), null, $skin->recentCommentItem));
 ?>
 <script type="text/javascript">
 	//<![CDATA[		
