@@ -254,7 +254,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												document.getElementById("publicIcon_" + entry).className = 'public-on-icon';
 												document.getElementById("publicIcon_" + entry).setAttribute('title', '<?php echo _t('현재 공개 상태입니다.');?>');
 												
-												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=syndicate" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('발행되었습니다. 클릭하시면 발행을 취소합니다.');?>"><span class="text"><?php echo _t('발행');?><\/span><\/a>';
+												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/edit/' + entry + '?command=public" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('발행되었습니다. 클릭하시면 발행을 취소합니다.');?>"><span class="text"><?php echo _t('발행');?><\/span><\/a>';
 												document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-on-icon';
 																								
 												if (countSyndicated == false) {
