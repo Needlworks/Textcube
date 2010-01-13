@@ -1,14 +1,14 @@
 <?php
 /* Spacer plugin for Textcube 1.1
    ----------------------------------
-   Version 1.0
+   Version 1.1
    Tatter and Friends development team.
 
    Creator          : inureyes
    Maintainer       : inureyes
 
    Created at       : 2006.11.1
-   Last modified at : 2006.11.2
+   Last modified at : 2009.10.28
  
  This plugin adds space on the sidebar.
  For the detail, visit http://forum.tattersite.com/ko
@@ -27,7 +27,7 @@ function SB_Spacer($target)
 {
 	global $configVal;
 	requireComponent('Textcube.Function.misc');
-	$data = setting::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	if(!is_null($data) && array_key_exists('height', $data)){
 		$height = $data['height'];
 	} else {
@@ -40,7 +40,7 @@ function SB_Spacer($target)
 function SB_Spacer_DataSet($data){
 	requireComponent('Textcube.Function.misc');
 	if(!is_integer(intval($data['height']))) return false;
-	$cfg = setting::fetchConfigVal($data);
+	$cfg = Setting::fetchConfigVal($data);
 	return true;
 }
 ?>
