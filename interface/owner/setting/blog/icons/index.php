@@ -93,6 +93,7 @@ if (!empty($errorText)) {
 } else {
 	$errorText = urlencode(_T('저장되었습니다'));
 }
+	CacheControl::flushAll();
 	$url = $_SERVER['HTTP_REFERER'];
 	$pos = strpos($url, '?message=');
 	if ($pos != false) {
