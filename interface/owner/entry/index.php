@@ -126,6 +126,11 @@ $countResult = POD::queryExistence("SELECT `id`
 		FROM `{$database['prefix']}Entries` 
 		WHERE `blogid` = ".getBlogId()." AND `visibility` = 3 LIMIT 1");
 
+$teamblog_users = null;
+if(Acl::check('group.administrators')) {
+	$teamblog_users = POD::queryAll("SELECT u.*, t.acl FROM {$database['prefix']}Users AS u INNER JOIN {$database['prefix']}Teamblog AS t ON u.userid = t.userid AND t.blogid = $blogid ORDER BY t.acl DESC, name ASC");
+}
+
 require ROOT . '/library/piece/owner/header.php';
 
 ?>
@@ -468,6 +473,44 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 											if (category == -3)
 												category = 0;
 											request.send("category="+category+"&targets="+targets);
+											break;
+										case 'set_author':
+											var targets = "";
+											var authorId = "";
+											authorId = document.getElementById('author-to-entry').value;
+											if (authorId == '') return false;
+											for (var i = 0; i < document.getElementById('list-form').elements.length; i++) {
+												var oElement = document.getElementById('list-form').elements[i];
+												if ((oElement.name == "entry") && oElement.checked) {
+													targets += oElement.value + ',';
+												}
+											}
+											targets = targets.substr(0,targets.length-1);
+											if (targets == '') return false;
+
+											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/setAuthor/");
+											request.onSuccess = function () {
+												var resultResponse = this.getText("/response/error");
+												var resultName = resultResponse ? this.getText("/response/name") : '';
+
+												if (resultResponse && resultName != '')
+												{
+													for (var i = 0; i < document.getElementById('list-form').elements.length; i++) {
+														var oElement = document.getElementById('list-form').elements[i];
+														if ((oElement.name == "entry") && oElement.checked) {
+															id = "author_" + oElement.value;
+															document.getElementById(id).innerHTML = resultName;
+														}
+													}
+												} else
+													alert("<?php echo _t('글 작성자를 변경하지 못했습니다.');?>");
+											}
+
+											request.onError = function () {
+												alert("<?php echo _t('글 작성자를 변경하지 못했습니다.');?>");
+											}
+
+											request.send("targets="+targets+"&userid="+authorId);
 											break;
 									}
 									obj.selectedIndex = 0
@@ -824,7 +867,31 @@ foreach ($categories as $category) {
 									</optgroup>
 								</select>
 								<input type="button" id="apply-button-top" class="apply-button input-button" value="<?php echo _t('적용');?>" onclick="processBatch(document.getElementById('commandBoxTop'));" />
-								
+<?php
+if(Acl::check('group.administrators')) {
+	if (isset($teamblog_users) && count($teamblog_users) > 1) {
+?>
+								<?php echo _t('또는');?>
+								<select name="author-to-entry" id="author-to-entry"> 
+									<option value=""><?=_t('글 작성자를 변경합니다.')?></option>
+<?php 
+		foreach($teamblog_users as $teamblog_user) {
+			$tmpstr = '';
+			if ($teamblog_user['acl'] & BITWISE_ADMINISTRATOR) $tmpstr .= _t("관리자");
+			if ($teamblog_user['acl'] & BITWISE_OWNER) $tmpstr .= _t("소유자");
+			if ($teamblog_user['acl'] & BITWISE_EDITOR) $tmpstr .= _t("글관리");
+			$tmpstr = ($tmpstr?$tmpstr:_t("없음"));
+?>
+									<option value="<?=$teamblog_user['userid']?>"><?="{$teamblog_user['name']}($tmpstr)"?></option>
+<?php
+		}
+?>
+								</select>
+								<input type="button" class="input-button" onclick="processBatchByCommand('set_author');return false;" value="<?php echo _t('변경');?>"/>
+<?php
+	}
+}
+?>
 							</div>
 							
 							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/entry">
@@ -913,7 +980,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 ?>
 											</td>
 											<td class="author">
-												<?php echo User::getName($entry['userid']);?>
+												<span id="author_<?=$entry['id']?>"><?php echo User::getName($entry['userid']);?></span> 
 											</td>
 											<td class="response">
 											<a href="<?php echo $blogURL.((isset($blog['useSloganOnPost']) && $blog['useSloganOnPost'] == 1) ? '/entry/'.$entry['slogan'] : '/'.$entry['id']).'#entry'.$entry['id'].'Comment';?>"><?php echo $entry['comments']+$entry['trackbacks'];?></a>
