@@ -47,8 +47,8 @@ if ((isset($_REQUEST['name'])) && (isset($adminMenuMappings[$_REQUEST['name']]))
 			$languageDomain = $locale->domain;
 			if(file_exists($pluginPath.'/locale/'.$locale->defaultLanguage.'.php')) {
 				$locale->setDirectory($pluginPath.'/locale');
-				$locale->set($locale->defaultLanguage, $mapping['plugin']);
-				$locale->domain = $mapping['plugin'];
+				$locale->set($locale->defaultLanguage, $pluginName);
+				$locale->domain = $pluginName;
 			}
 		}		
 		include_once (ROOT . "/plugins/{$plugin}/index.php");
