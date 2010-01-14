@@ -1123,7 +1123,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
 		$baseLanguage = POD::escapeString( $_POST['Lang']);
 		$baseTimezone = POD::escapeString( substr(_t('default:Asia/Seoul'),8));
 
-		if(POD::dbms() == 'MySQL') {
+		if(POD::dbms() == 'MySQL' || POD::dbms() == 'MySQLi') {
 	        $charset = 'TYPE=MyISAM DEFAULT CHARSET=utf8';
 //    	    if (!@POD::query('SET CHARACTER SET utf8'))
   //      	    $charset = 'TYPE=MyISAM';
