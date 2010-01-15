@@ -9,7 +9,6 @@ function setBlogTitle($blogid, $title) {
 		return true;
 	if(Setting::setBlogSetting('title', UTF8::lessenAsEncoding($title, 255),true) === false) return false;
 	$context->setProperty('blog.title',$title);
-	$blog['title'] = $title;
 	requireModel('blog.feed');
 	requireLibrary('blog.skin');
 	clearFeed();
@@ -18,11 +17,9 @@ function setBlogTitle($blogid, $title) {
 }
 
 function setBlogDescription($blogid, $description) {
-	global $blog;
 	if ($description == $blog['description'])
 		return true;
 	if(Setting::setBlogSettingGlobal('description',UTF8::lessenAsEncoding($description, 255)) === false) return false;
-	$blog['description'] = $description;
 	requireModel('blog.feed');
 	requireLibrary('blog.skin');
 	clearFeed();
@@ -46,19 +43,19 @@ function getBlogTags($blogid) {
 }
 
 function removeBlogLogo($blogid) {
-	global $blog;
+	$context = Model_Context::getInstance();
 	requireModel('blog.attachment');
 	
 	if(Setting::setBlogSettingGlobal('logo','') === false) return false;
 	else {
-		deleteAttachment($blogid, - 1, $blog['logo']);
-		$blog['logo'] = '';
+		
+		deleteAttachment($blogid, - 1, $context->getProperty('blog.logo'));
 		return true;
 	}
 }
 
 function changeBlogLogo($blogid, $file) {
-	global $blog;
+	$context = Model_Context::getInstance();
 	requireModel('blog.attachment');
 	if (($attachment = addAttachment($blogid, - 1, $file)) === false) {
 		return false;
@@ -68,8 +65,7 @@ function changeBlogLogo($blogid, $file) {
 		return false;
 	}
 	if(Setting::setBlogSettingGlobal('logo',$attachment['name'])) {
-		deleteAttachment($blogid, - 1, $blog['logo']);
-		$blog['logo'] = $attachment['name'];
+		deleteAttachment($blogid, - 1, $context->getProperty('blog.logo'));
 		return true;
 	}
 	return false;
@@ -80,16 +76,21 @@ function checkBlogName($name) {
 }
 
 function setPrimaryDomain($blogid, $name) {
-	global $database, $blog;
 	requireModel('blog.feed');
 	$name = UTF8::lessenAsEncoding(strtolower(trim($name)), 32);
 	if ($name == $blog['name'])
 		return 0;
 	if (!checkBlogName($name))
 		return 1;
-	if (POD::queryCount("SELECT * FROM {$database['prefix']}ReservedWords WHERE '$name' like word") > 0)
+	$pool = DBModel::getInstance();
+	$pool->reset('ReservedWords');
+	$pool->setQualifier('word','like',$name,true);
+	if($pool->getCell('count(*)') > 0) 
 		return 2;
-	if (POD::queryCount("SELECT * FROM {$database['prefix']}BlogSettings WHERE name = 'name' AND value = '$name'") > 0)
+	$pool->reset('BlogSettings');
+	$pool->setQualifier('name','equals','name',true);
+	$pool->setQualifier('value','=',$name,true);
+	if($pool->getCount('*') > 0)
 		return 3;
 	if(Setting::setBlogSettingGlobal('name', $name)) {
 		$blog['name'] = $name;
@@ -106,14 +107,14 @@ function setSecondaryDomain($blogid, $domain) {
 	if ($domain == $blog['secondaryDomain'])
 		return 0;
 	if (empty($domain))
-		setBlogSetting('secondaryDomain','');
+		Setting::setBlogSettingGlobal('secondaryDomain','');
 	else if (Validator::domain($domain)) {
 		if (POD::queryExistence("SELECT * FROM {$database['prefix']}BlogSettings 
 			WHERE blogid <> $blogid 
 				AND name = 'secondaryDomain'
 				AND (value = '$domain' OR value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "')"))
 			return 1;
-		setBlogSetting('secondaryDomain',$domain);
+		Setting::setBlogSettingGlobal('secondaryDomain',$domain);
 	}
 	else
 		return 2;

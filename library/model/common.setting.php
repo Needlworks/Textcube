@@ -3,9 +3,10 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-global $userSetting;
-$userSetting = array();
+//global $userSetting;
+//$userSetting = array();
 
+/* TO BE DEPRECATED SINCE 1.9
 function clearServiceSettingCache() {
 	global $__serviceSetting;
 	if( !empty($__serviceSetting) ) {
@@ -64,10 +65,10 @@ function setUserSetting($name, $value, $userid = null) {
 function removeUserSetting($name, $userid = null) {
 	return Setting::removeUserSettingGlobal($name, $userid);
 }
-
+*/
 function getDefinedTableNames() {
-	global $database;
-	$prefix = $database['prefix'];
+	$context = Model_Context::getInstance();
+	$prefix = $context->getProperty('database.prefix');
 	$definedTables = array(
 			"{$prefix}Attachments", 
 			"{$prefix}BlogSettings", 
@@ -94,6 +95,7 @@ function getDefinedTableNames() {
 			"{$prefix}LinkCategories", 
 			"{$prefix}PageCacheLog", 
 			"{$prefix}Plugins", 
+			"{$prefix}Privileges", 
 			"{$prefix}RefererLogs", 
 			"{$prefix}RefererStatistics", 
 			"{$prefix}ReservedWords", 
@@ -103,7 +105,6 @@ function getDefinedTableNames() {
 			"{$prefix}SkinSettings", 
 			"{$prefix}TagRelations", 
 			"{$prefix}Tags", 
-			"{$prefix}Privileges", 
 			"{$prefix}TeamEntryRelations", 
 			"{$prefix}RemoteResponseLogs", 
 			"{$prefix}RemoteResponses", 
