@@ -156,7 +156,7 @@ final class Dispatcher {
 							$interfacePath = 'interface/blog/'.$pathPart.'/index.php';
 							break;
 						case 'i': case 'm':
-							if(isset($uri['fragment'][1]) && in_array($uri['fragment'][1],array('entry','comment','guestbook','trackback','pannels'))) {
+							if(isset($uri['fragment'][1]) && in_array($uri['fragment'][1],array('entry','comment','guestbook','trackback','pannels','imageResizer'))) {
 								$pathPart = $uri['fragment'][0].'/'.$uri['fragment'][1]; 
 							} else {
 								$pathPart = $uri['fragment'][0];
