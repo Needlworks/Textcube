@@ -478,7 +478,7 @@ function handleSidebars(& $sval, & $obj, $previewMode) {
 	
 	if (count($newSidebarAllOrders) > 0) {
 		if (($previewMode == false) && !is_null($sidebarAllOrders)) {
-			setBlogSetting("sidebarOrder", serialize($sidebarAllOrders));
+			Setting::setBlogSettingGlobal("sidebarOrder", serialize($sidebarAllOrders));
 			CacheControl::flushSkin();
 		}
 	}

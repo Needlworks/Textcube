@@ -146,7 +146,7 @@ function getCategoryVisibilityList($blogid, $mode = 'private') {
 		} else {
 			$CategoryVisibilityList[$mode] = array();
 		}
-		$context->setProperty('category.visibilityList'.$mode, $CategoryVisibilityList);
+		$context->setProperty('category.visibilityList'.$mode, $CategoryVisibilityList[$mode]);
 	}
 	return $context->getProperty('category.visibilityList'.$mode);
 }
