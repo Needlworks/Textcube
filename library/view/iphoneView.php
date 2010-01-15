@@ -428,7 +428,7 @@ function printIphoneTrackbackView($entryId, $page, $mode = null) {
 					<?php echo htmlspecialchars($trackback['subject']);?>
 				</span>
 				<span class="right">
-					<a href="<?php echo $blogURL;?>/i/<?php echo $trackback['entry'];?>"><?php echo  _text('글보기');?></a>
+					<a href="<?php echo $blogURL;?>/i/entry/<?php echo $trackback['entry'];?>"><?php echo  _text('글보기');?></a>
 				</span>
 			</li>
 			<li class="body">
