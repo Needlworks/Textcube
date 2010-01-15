@@ -32,7 +32,7 @@ function setBlogDescription($blogid, $description) {
 
 function setBlogTags($blogid, $tags) {
 	if(isset($tags)) {
-		setBlogSetting('blogTags',$tags);
+		Setting::setBlogSettingGlobal('blogTags',$tags);
 		return true;
 	}
 	return false;

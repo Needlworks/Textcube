@@ -99,8 +99,8 @@ function getBlogURLRule($domain = null, $path = null, $type = null) {
 }
 
 function getHelpURL($path) {
-	global $blog;
-	return 'http://help.tattertools.com/'.$blog['language'].'/Textcube/Menu/'.$path;
+	$context = Model_Context::getInstance();
+	return 'http://help.tattertools.com/'.$context->getProperty('blog.language').'/Textcube/Menu/'.$path;
 }
 
 function writeHtaccess($contents) {

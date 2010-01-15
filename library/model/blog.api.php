@@ -443,28 +443,6 @@ function api_BlogAPI()
 		exit;
 	}
 	
-	if (false) {
-		blogger_getUsersBlogs();
-		blogger_newPost();
-		blogger_editPost();
-		blogger_getTemplate();
-		blogger_getRecentPosts();
-		blogger_deletePost();
-		blogger_getPost();
-		metaWeblog_newPost();
-		metaWeblog_getPost();
-		metaWeblog_getCategories();
-		metaWeblog_getRecentPosts();
-		metaWeblog_editPost();
-		metaWeblog_newMediaObject();
-		mt_getPostCategories();
-		mt_setPostCategories();
-		mt_getCategoryList();	
-		mt_supportedMethods();
-		mt_publishPost();
-		mt_getRecentPostTitles();
-	}
-	
 	$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
 
 	$blogApiFunctions = array(
@@ -514,8 +492,7 @@ function api_BlogAPI()
 
 function blogger_getUsersBlogs()
 {
-	global $blog, $hostURL, $blogURL;
-
+	$context = Model_Context::getInstance();
 	$params = func_get_args();
 	$result = api_login( $params[1], $params[2] );
 	if( $result )
@@ -525,9 +502,9 @@ function blogger_getUsersBlogs()
 
 	$blogs = array( 
 		array( 
-				"url" => $hostURL . $blogURL,
+				"url" => $context->getProperty('uri.host') . $context->getProperty('uri.blog'),
 				"blogid" => (string)getBlogId(),
-				"blogName" => $blog['title'],
+				"blogName" => $context->getProperty('blog.title'),
 		) 
 	);
 	return $blogs;

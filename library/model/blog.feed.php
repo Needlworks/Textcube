@@ -514,7 +514,8 @@ function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss', $cate
 	return false;
 }
 function getLinesFeed($blogid, $category = 'public', $mode = 'atom') {
-	global $blog;
+	$context = Model_Context::getInstance();
+	$blogTitle = $context->getProperty('blog.title');
 	$channel = array();
 	$channel = initializeRSSchannel($blogid);	
 	$lineobj = Model_Line::getInstance();
@@ -525,7 +526,7 @@ function getLinesFeed($blogid, $category = 'public', $mode = 'atom') {
 	$lines = $lineobj->get();
 	
 	$channel['items'] = getFeedItemByLines($lines);
-	$channel['title'] = RSSMessage($blog['title']. ': '._text('Lines'));
+	$channel['title'] = RSSMessage($blogTitle. ': '._text('Lines'));
 
 	$rss = array('channel' => $channel);
 
@@ -593,7 +594,6 @@ function clearFeed() {
 
 
 function publishATOM($blogid, $data) {
-	global $blog;
 	$blogid = getBlogId();
 	ob_start();
 	echo '<?xml version="1.0" encoding="UTF-8"?>', CRLF;
