@@ -3,24 +3,15 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-// global variables for Category information cache
-global $__gCacheCategoryTree, $__gCacheCategoryRaw, $__gCacheCategoryVisibilityList;
 
-$__gCacheCategoryTree = array();
-$__gCacheCategoryRaw = array();
-$__gCacheCategoryVisibilityList = array();
-
-function getCategoryId($blogid, $name, $parentName = false) {
-	requireComponent('Needlworks.Cache.PageCache');
-
-	global $__gCacheCategoryRaw;
-
-	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	if($result = MMCache::queryRow($__gCacheCategoryRaw,'name',$name)) {
+function getCategoryId($blogid, $name, $parentName = false) {	
+	$context = Model_Context::getInstance();
+	if($context->getProperty('category.raw')=== null) getCategories($blogid, 'raw'); //To cache category information.
+	if($result = MMCache::queryRow($context->getProperty('category.raw'),'name',$name)) {
 		if($parentName == false) {
 			return $result['id'];
 		} else {
-			$parent = MMCache::queryRow($__gCacheCategoryRaw,'name',$parentName);
+			$parent = MMCache::queryRow($context->getProperty('category.raw'),'name',$parentName);
 			if($parent['id'] == $result['parent']) return $result['id'];
 		}
 	}
@@ -28,48 +19,36 @@ function getCategoryId($blogid, $name, $parentName = false) {
 }
 
 function getCategoryIdByLabel($blogid, $label) {
-	requireComponent('Needlworks.Cache.PageCache');
-
-	global $__gCacheCategoryRaw;
 	if (empty($label))
 		return 0;
-
-	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	if($result = MMCache::queryRow($__gCacheCategoryRaw,'label',$label))
+	$context = Model_Context::getInstance();
+	if($context->getProperty('category.raw')=== null) getCategories($blogid, 'raw'); //To cache category information.
+	if($result = MMCache::queryRow($context->getProperty('category.raw'),'label',$label))
 		return $result['id'];
 	else return null;
 }
 
 function getCategoryNameById($blogid, $id) {
-	requireComponent('Needlworks.Cache.PageCache');
-
-	global $__gCacheCategoryRaw;
-
-	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	if($result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id))
+	$context = Model_Context::getInstance();
+	if($context->getProperty('category.raw')=== null) getCategories($blogid, 'raw'); //To cache category information.
+	if($result = MMCache::queryRow($context->getProperty('category.raw'),'id',$id))
 		return $result['name'];
 	else return _text('전체');
 }
 
 function getCategoryBodyIdById($blogid, $id) {
-	requireComponent('Needlworks.Cache.PageCache');
-
-	global $__gCacheCategoryRaw;
-
-	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	$result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id);
+	$context = Model_Context::getInstance();
+	if($context->getProperty('category.raw')=== null) getCategories($blogid, 'raw'); //To cache category information.
+	$result = MMCache::queryRow($context->getProperty('category.raw'),'id',$id);
 	if (($id === 0) || ($result == '') || ($id === null))
 		return 'tt-body-category';
 	else return $result['bodyid'];
 }
 
 function getEntriesCountByCategory($blogid, $id) {
-	requireComponent('Needlworks.Cache.PageCache');
-
-	global $__gCacheCategoryRaw;
-
-	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	$result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id);
+	$context = Model_Context::getInstance();
+	if($context->getProperty('category.raw')=== null) getCategories($blogid, 'raw'); //To cache category information.
+	$result = MMCache::queryRow($context->getProperty('category.raw'),'id',$id);
 	if (($id === 0) || ($result == '') || ($id === null)) {
 		return 0;
 	} else {
@@ -79,15 +58,11 @@ function getEntriesCountByCategory($blogid, $id) {
 }
 
 function getCategoryLabelById($blogid, $id) {
-	requireComponent('Needlworks.Cache.PageCache');
-
-	global $__gCacheCategoryRaw;
-
 	if ($id === null)
 		return '';
-
-	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	if($result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id))
+	$context = Model_Context::getInstance();
+	if($context->getProperty('category.raw')=== null) getCategories($blogid, 'raw'); //To cache category information.
+	if($result = MMCache::queryRow($context->getProperty('category.raw'),'id',$id))
 		return $result['label'];
 	else return _text('분류 전체보기');
 }
@@ -104,16 +79,13 @@ function getCategoryLinkById($blogid, $id) {
 	return $result;
 }
 
-function getCategory($blogid, $id = null, $field = null) {
-	requireComponent('Needlworks.Cache.PageCache');
-
-	global $__gCacheCategoryRaw;
-
+function getCategory($blogid, $id = null, $field = null) {	
 	if ($id === null)
 		return '';
+	$context = Model_Context::getInstance();
+	if($context->getProperty('category.raw')=== null) getCategories($blogid, 'raw'); //To cache category information.
 
-	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	if($result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id)) {
+	if($result = MMCache::queryRow($context->getProperty('category.raw'),'id',$id)) {
 		if(!empty($field) && isset($result[$field])) {
 			return $result[$field];
 		} else return $result;
@@ -121,17 +93,19 @@ function getCategory($blogid, $id = null, $field = null) {
 }
 
 function getCategories($blogid, $format = 'tree') {
-	global $database;
-	global $__gCacheCategoryTree, $__gCacheCategoryRaw;
-	if($format == 'tree' && !empty($__gCacheCategoryTree))
-		return $__gCacheCategoryTree;
-	else if($format == 'raw' && !empty($__gCacheCategoryRaw))
-		return $__gCacheCategoryRaw;
-	$rows = POD::queryAllWithCache("SELECT *
-			FROM {$database['prefix']}Categories
-			WHERE blogid = $blogid
-				AND id >= 0
-			ORDER BY parent, priority");
+	$context = Model_Context::getInstance();	
+	if($format == 'tree' && $context->getProperty('category.tree') !== null)
+		return $context->getProperty('category.tree');
+	else if($format == 'raw' &&  $context->getProperty('category.raw') !== null)
+		return $context->getProperty('category.raw');
+	
+	$pool = DBModel::getInstance();
+	$pool->reset('Categories');
+	$pool->setQualifier('blogid','equals',$blogid);
+	$pool->setQualifier('id','beq',0);
+	$pool->setOrder('parent , priority');
+	$rows = $pool->getAll();
+	
 	$categories = array();
 	if( empty($rows) ) {
 		$rows = array();
@@ -140,7 +114,7 @@ function getCategories($blogid, $format = 'tree') {
 		foreach ($rows as $category) {
 			$categories[$category['id']] = $category;
 		}
-		$__gCacheCategoryRaw = $categories;
+		$context->setProperty('category.raw',$categories);
 		return $categories;
 	}
 	foreach ($rows as $category) {
@@ -151,16 +125,13 @@ function getCategories($blogid, $format = 'tree') {
 			array_push($categories[$category['parent']]['children'], $category);
 		}
 	}
-	$__gCacheCategoryTree = $categories;
+	$context->setProperty('category.tree',$categories);
 	return $categories;
 }
 
 function getCategoryVisibilityList($blogid, $mode = 'private') {
-	requireComponent('Needlworks.Cache.PageCache');
-
-	global $__gCacheCategoryVisibilityList, $__gCacheCategoryRaw;
-
-	if(!array_key_exists($mode,$__gCacheCategoryVisibilityList)) {
+	$context = Model_Context::getInstance();
+	if($context->getProperty('category.visibilityList'.$mode) === null) {
 		switch($mode) {
 			case 'public':
 				$visibility = 2;
@@ -169,14 +140,15 @@ function getCategoryVisibilityList($blogid, $mode = 'private') {
 			default:
 				$visibility = 1;
 		}
-		if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-		if($list = MMCache::queryColumn($__gCacheCategoryRaw,'visibility',$visibility,'id')) {
-			$__gCacheCategoryVisibilityList[$mode] = $list;
+				if($context->getProperty('category.raw')=== null) getCategories($blogid, 'raw'); //To cache category information.
+		if($list = MMCache::queryColumn($context->getProperty('category.raw'),'visibility',$visibility,'id')) {
+			$CategoryVisibilityList[$mode] = $list;
 		} else {
-			$__gCacheCategoryVisibilityList[$mode] = array();
+			$CategoryVisibilityList[$mode] = array();
 		}
+		$context->setProperty('category.visibilityList'.$mode, $CategoryVisibilityList);
 	}
-	return $__gCacheCategoryVisibilityList[$mode];
+	return $context->getProperty('category.visibilityList'.$mode);
 }
 
 function getPrivateCategoryExclusionQuery($blogid) {
@@ -200,21 +172,18 @@ function getCategoriesSkin() {
 }
 
 function getParentCategoryId($blogid, $id) {
-	requireComponent('Needlworks.Cache.PageCache');
-	global $__gCacheCategoryRaw;
-
-	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	if($result = MMCache::queryRow($__gCacheCategoryRaw,'id',$id))
+	$context = Model_Context::getInstance();
+	if($context->getProperty('category.raw')=== null) getCategories($blogid, 'raw'); //To cache category information.	
+	
+	if($result = MMCache::queryRow($context->getProperty('category.raw'),'id',$id))
 		return $result['parent'];
 	return null;
 }
 
 function getChildCategoryId($blogid, $id) {
-	requireComponent('Needlworks.Cache.PageCache');
-	global $__gCacheCategoryRaw;
-
-	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
-	if($result = MMCache::queryColumn($__gCacheCategoryRaw,'parent',$id,'id'))
+	$context = Model_Context::getInstance();
+	if($context->getProperty('category.raw')=== null) getCategories($blogid, 'raw'); //To cache category information.
+	if($result = MMCache::queryColumn($context->getProperty('category.raw'),'parent',$id,'id'))
 		return $result;
 	return null;
 }
@@ -722,10 +691,8 @@ function setChildCategoryVisibility($blogid, $id, $visibility) {
 }
 
 function clearCategoryCache() {
-	global $__gCacheCategoryTree, $__gCacheCategoryRaw;
-	if(isset($__gCacheCategoryTree))
-		$__gCacheCategoryTree = array();
-	if(isset($__gCacheCategoryRaw))
-		$__gCacheCategoryRaw = array();
+	$context = Model_Context::getInstance();
+	$context->setProperty('category.tree',null);
+	$context->setProperty)'category.raw',null);
 }
 ?>
