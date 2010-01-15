@@ -7,16 +7,22 @@ global $__gCacheAttachment;
 $__gCacheAttachment = array();
 
 function getAttachments($blogid, $parent, $orderBy = null, $sort='ASC') {
-	global $database, $__gCacheAttachment;
+	global $__gCacheAttachment;
 	if(isset($__gCacheAttachment) && !empty($__gCacheAttachment)) {
 		if($result = getAttachmentsFromCache($blogid, $parent, 'parent')) {
 			return $result;
 		}
 	}
 	$attachments = array();
-	if ($result = POD::queryAll("SELECT * 
-		FROM {$database['prefix']}Attachments 
-		WHERE blogid = $blogid AND parent = $parent ".( is_null($orderBy ) ? '' : "ORDER BY $orderBy $sort"))) {
+	$pool = DBModel::getInstance();
+	$pool->reset('Attachments');
+	$pool->setQualifier('blogid','equals',$blogid);
+	$pool->setQualifier('parent','equals',$parent);
+	if(!is_null($orderBy)) {
+		$pool->setOrder($orderBy, $sort);
+	}
+	$result = $pool->getAll('*');
+	if($result) {
 		foreach($result as $attachment) {
 			array_push($attachments, $attachment);
 			array_push($__gCacheAttachment, $attachment);
@@ -52,7 +58,7 @@ function getAttachmentFromCache($blogid, $value, $filter = 'name') {
 }
 
 function getAttachmentByName($blogid, $parent, $name) {
-	global $database, $__gCacheAttachment;
+	global $__gCacheAttachment;
 	if(!isset($__gCacheAttachment))
 		getAttachments($blogid, $parent);
 	if($result = getAttachmentFromCache($blogid, $name, 'name') && $result['parent'] == $parent) {
@@ -62,52 +68,56 @@ function getAttachmentByName($blogid, $parent, $name) {
 }
 
 function getAttachmentByOnlyName($blogid, $name) {
-	global $database, $__gCacheAttachment;
+	global $__gCacheAttachment;
 	if(!empty($__gCacheAttachment) && $result = getAttachmentFromCache($blogid, $name, 'name')) {
 		return $result;
 	} else {
-		$newAttachment = POD::queryRow("SELECT * FROM {$database['prefix']}Attachments 
-			WHERE blogid = $blogid AND name = '".POD::escapeString($name)."'");
+		$pool = DBModel::getInstance();
+		$pool->reset('Attachments');
+		$pool->setQualifier('blogid','equals',$blogid);
+		$pool->setQualifier('name','equals',$name, true);
+		$newAttachment = $pool->getRow('*');
 		array_push($__gCacheAttachment,$newAttachment);
 		return $newAttachment;
 	}
 }
 
 function getAttachmentByLabel($blogid, $parent, $label) {
-	global $database;
 	if ($parent === false)
 		$parent = 0;
-	$label = POD::escapeString($label);
-	return POD::queryRow("SELECT * FROM {$database['prefix']}Attachments WHERE blogid = $blogid AND parent = $parent AND label = '$label'");
+	$pool = DBModel::getInstance();
+	$pool->reset('Attachments');
+	$pool->setQualifier('blogid','equals',$blogid);
+	$pool->setQualifier('parent','equals',$parent);
+	$pool->setQualifier('label','equals',$label,true);
+	return $pool->getRow('*');
 }
 
 function getAttachmentSize($blogid=null, $parent = null) {
-	global $database;	
-	$blogidStr = '';
-	$parentStr = '';	
+	$pool = DBModel::getInstance();
+	$pool->reset('Attachments');
 
 	if (!empty($blogid))
-		$blogidStr = "blogid = $blogid ";
+		$pool->setQualifier('blogid','equals',$blogid);
 	if ($parent == 0 || !empty($parent))
-		$parentStr = "AND parent = $parent";
-	return POD::queryCell("SELECT sum(size) FROM {$database['prefix']}Attachments WHERE $blogidStr $parentStr");
+		$pool->setQualifier('parent','equals',$parent);
+	return $pool->getCell('sum(size)');
 }
 
 function getAttachmentSizeLabel($blogid=null, $parent = null) {
-	//return number_format(ceil(getAttachmentSize($blogid,$parent)/1024)).' / '.number_format(ceil(getAttachmentSize($blogid)/1024)).' (KByte)';
 	return number_format(ceil(getAttachmentSize($blogid,$parent)/1024)).' (KByte)';
 }
 
 function addAttachment($blogid, $parent, $file) {
-	global $database;
+	$pool = DBModel::getInstance();
 	if (empty($file['name']) || ($file['error'] != 0))
 		return false;
-	$filename = POD::escapeString($file['name']);
-	if (POD::queryCell("SELECT count(*) 
-		FROM {$database['prefix']}Attachments 
-		WHERE blogid=$blogid 
-			AND parent=$parent 
-			AND label='$filename'")>0) {
+	$pool->reset('Attachments');
+	$pool->setQualifier('blogid','equals',$blogid);
+	$pool->setQualifier('parent','equals',$parent);
+	$pool->setQualifier('label','equals',$file['name'], true);
+	
+	if($pool->getCell('count(*)') > 0) {
 		return false;
 	}
 	$attachment = array();
@@ -150,7 +160,19 @@ function addAttachment($blogid, $parent, $file) {
 	$label = POD::escapeString(UTF8::lessenAsEncoding($attachment['label'], 64));
 	$attachment['mime'] = UTF8::lessenAsEncoding($attachment['mime'], 32);
 	
-	$result = POD::execute("INSERT INTO {$database['prefix']}Attachments VALUES ($blogid, {$attachment['parent']}, '$name', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
+	$pool->reset('Attachments');
+	$pool->setAttribute('blogid',$blogid);
+	$pool->setAttribute('parent',$parent);
+	$pool->setAttribute('name',$name, true);
+	$pool->setAttribute('label',$label,true);
+	$pool->setAttribute('mime',$attachment['mime'],true);
+	$pool->setAttribute('size',$attachment['size']);
+	$pool->setAttribute('width',$attachment['width']);
+	$pool->setAttribute('height',$attachment['height']);
+	$pool->setAttribute('attached',Timestamp::getUNIXtime());
+	$pool->setAttribute('downloads',0);
+	$pool->setAttribute('enclosure',0);
+	$result = $pool->insert();	
 	if (!$result) {
 		@unlink($attachment['path']);
 		return false;
@@ -159,13 +181,16 @@ function addAttachment($blogid, $parent, $file) {
 }
 
 function deleteAttachment($blogid, $parent, $name) {
-	global $database;
 	requireModel('blog.feed');
 	if (!Validator::filename($name)) 
 		return false;
 	$origname = $name;
-	$name = POD::escapeString($name);
-	if (POD::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid AND name = '$name'")) {
+	
+	$pool = DBModel::getInstance();
+	$pool->reset('Attachments');
+	$pool->setQualifier('blogid','equals',$blogid);
+	$pool->setQualifier('name','equals',$name, true);
+	if ($pool->delete()) {
 		if( file_exists( ROOT . "/attach/$blogid/$origname") ) {
 			@unlink(ROOT . "/attach/$blogid/$origname");
 		}
@@ -180,14 +205,14 @@ function copyAttachments($blogid, $originalEntryId, $targetEntryId) {
 	$path = ROOT . "/attach/$blogid";
 	$attachments = getAttachments($blogid, $originalEntryId);
 	if(empty($attachments)) return true;
-	if(!POD::queryCell("SELECT id 
-		FROM {$database['prefix']}Entries
-		WHERE blogid = $blogid
-			AND id = $originalEntryId")) return 2; // original entry does not exists;
-	if(!POD::queryCell("SELECT id 
-		FROM {$database['prefix']}Entries
-		WHERE blogid = $blogid
-			AND id = $targetEntryId")) return 3; // target entry does not exists;
+	
+	$pool = DBModel::getInstance();
+	$pool->reset('Entries');
+	$pool->setQualifier('blogid','equals',$blogid);
+	$pool->setQualifier('id','equals',$originalEntryId);
+	if(!$pool->getCell('id')) return 2; // original entry does not exists
+	$pool->setQualifier('id','equals',$targetEntryId);
+	if(!$pool->getCell('id')) return 3; // target entry does not exists
 
 	foreach($attachments as $attachment) {
 		$extension = Misc::getFileExtension($attachment['label']);
@@ -197,20 +222,22 @@ function copyAttachments($blogid, $originalEntryId, $targetEntryId) {
 			$attachment['path'] = "$path/{$attachment['name']}";
 		} while (file_exists($attachment['path']));
 		if(!copy($originalPath, $attachment['path'])) return 4; // copy failed.
-		if(!POD::execute("INSERT INTO {$database['prefix']}Attachments 
-			(blogid, parent, name, label, mime, size, width, height, attached, downloads, enclosure)
-			VALUES ($blogid, 
-				$targetEntryId,
-				'{$attachment['name']}',
-				'{$attachment['label']}',
-				'{$attachment['mime']}',
-				{$attachment['size']},
-				{$attachment['width']},
-				{$attachment['height']}, 
-				UNIX_TIMESTAMP(), 
-				0,
-				0)"))
+		
+		$pool->reset('Attachments');
+		$pool->setAttribute('blogid',$blogid);
+		$pool->setAttribute('parent',$targetEntryId);
+		$pool->setAttribute('name',$attachment['name'], true);
+		$pool->setAttribute('label',$attachment['label'],true);
+		$pool->setAttribute('mime',$attachment['mime'],true);
+		$pool->setAttribute('size',$attachment['size']);
+		$pool->setAttribute('width',$attachment['width']);
+		$pool->setAttribute('height',$attachment['height']);
+		$pool->setAttribute('attached',Timestamp::getUNIXtime());
+		$pool->setAttribute('downloads',0);
+		$pool->setAttribute('enclosure',0);
+		if(!$pool->insert()) {
 			return false;
+		}
 	}
 	return true;
 }
@@ -227,7 +254,6 @@ function deleteTotalAttachment($blogid) {
 }
 
 function deleteAttachmentMulti($blogid, $parent, $names) {
-	global $database;
 	requireModel('blog.feed');
 	$files = explode('!^|', $names);
 	foreach ($files as $name) {
@@ -236,8 +262,13 @@ function deleteAttachmentMulti($blogid, $parent, $names) {
 		if (!Validator::filename($name)) 
 			continue;
 		$origname = $name;
-		$name = POD::escapeString($name);
-		if (POD::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid AND parent = $parent AND name = '$name'")) {
+		
+		$pool = DBModel::getInstance();
+		$pool->reset('Attachments');
+		$pool->setQualifier('blogid','equals',$blogid);
+		$pool->setQualifier('parent','equals',$parent);
+		$pool->setQualifier('name','equals',$name, true);
+		if($pool->delete()) {	
 			unlink(ROOT . "/attach/$blogid/$origname");
 		} else {
 		}
@@ -246,8 +277,6 @@ function deleteAttachmentMulti($blogid, $parent, $names) {
 	return true;
 }
 
-
-
 function deleteAttachments($blogid, $parent) {
 	$attachments = getAttachments($blogid, $parent);
 	foreach ($attachments as $attachment)
@@ -255,22 +284,39 @@ function deleteAttachments($blogid, $parent) {
 }
 
 function downloadAttachment($name) {
-	requireModel('blog.feed');
-	global $database;
-	$name = POD::escapeString($name);
-	POD::query("UPDATE {$database['prefix']}Attachments SET downloads = downloads + 1 WHERE blogid = ".getBlogId()." AND name = '$name'");
+	$context = Model_Context::getInstance();
+	$blogid = intval($context->getProperty('blog.id'));
+	$pool = DBModel::getInstance();
+	$pool->reset('Attachments');
+	$pool->setQualifier('blogid','equals',$blogid);
+	$pool->setQualifier('name','equals',$name, true);
+	$count = $pool->getCell('downloads');
+	
+	$pool->setAttribute('downloads',$count + 1);
+	$pool->update();
 }
 
 function setEnclosure($name, $order) {
-	global $database;
 	requireModel('blog.feed');
 	requireModel('blog.attachment');
-	$name = POD::escapeString($name);
-	if (($parent = POD::queryCell("SELECT parent FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND name = '$name'")) !== null) {
-		POD::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 0 WHERE parent = $parent AND blogid = ".getBlogId());
+	
+	$pool = DBModel::getInstance();
+	$pool->reset('Attachments');
+	$pool->setQualifier('blogid','equals',$blogid);
+	$pool->setQualifier('name','equals',$name, true);
+	$parent = $pool->getCell('parent');
+	if($parent !== null) {	
+		$pool->setAttribute('enclosure',0);
+		$pool->setQualifier('parent','equals',$parent);
+		$pool->unsetQualifier('name');
+		$pool->update();
 		if ($order) {
 			clearFeed();
-			return POD::execute("UPDATE {$database['prefix']}Attachments SET enclosure = 1 WHERE blogid = ".getBlogId()." AND name = '$name'") ? 1 : 2;
+			$pool->setAttribute('enclosure',1);
+			$pool->unsetQualifier('parent');
+			$pool->setQualifier('name','equals',$name, true);
+			$result = $pool->update();
+			return ($update ? 1 : 2);
 		} else
 			return 0;
 	} else
@@ -281,7 +327,14 @@ function getEnclosure($entry) {
 	global $database;
 	if ($entry < 0)
 		return null;
-	return POD::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE parent = $entry AND enclosure = 1 AND blogid = ".getBlogId());
+	$context = Model_Context::getInstance();
+	$blogid = intval($context->getProperty('blog.id'));
+	$pool = DBModel::getInstance();
+	$pool->reset('Attachments');
+	$pool->setQualifier('parent','equals',$entry);
+	$pool->setQualifier('enclosure', 'equals', 1);
+	$pool->setQualifier('blogid','equals',$blogid);
+	return $pool->getCell('name');
 }
 
 function return_bytes($val) {
