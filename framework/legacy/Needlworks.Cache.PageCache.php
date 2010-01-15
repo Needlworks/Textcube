@@ -578,16 +578,20 @@ class CacheControl {
 		}
 	}
 	function flushDBCache($prefix = null) {
+		$pool = queryCache::getInstance();
+		$pool->reset('PageCacheLog',$prefix);
+		return $pool->flush();
+/*		
 		global $database;
 		$context = Model_Context::getInstance();
-		if($context->getProperty('service.memcached') == true) {
+		if($context->getProperty('service.memcached') !== null) {
 			$memcache = Cache_Memcache::getInstance();
 			$memcache->reset('PageCacheLog',$prefix);
 			return $memcache->flush();
 		}
 		return POD::query("DELETE FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND name like '%".(!empty($prefix) ? $prefix.'-' : '')."queryCache%'");
+			AND name like '%".(!empty($prefix) ? $prefix.'-' : '')."queryCache%'");*/
 	}
 	function purgeItems($items) {
 		if(!empty($items)) {

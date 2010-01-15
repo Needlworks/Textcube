@@ -8,11 +8,11 @@ define('TEXTCUBE_NAME', 'Textcube');
 define('TEXTCUBE_VERSION', '1.9 : Alpha 1');
 define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2010. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
 define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.org/');
-define('TEXTCUBE_RESOURCE_URL', 'http://resources.textcube.org/1.8.1');
+define('TEXTCUBE_RESOURCE_URL', 'http://resources.textcube.org/1.8.2');
 define('CRLF', "\r\n");
 define('TAB', "	");
 define('INT_MAX',2147483647);
-define('JQUERY_VERSION','1.3.2');
+define('JQUERY_VERSION','1.4');
 if( strstr( PHP_OS, "WIN") !== false ) {
 	define('DS', "\\");
 } else {

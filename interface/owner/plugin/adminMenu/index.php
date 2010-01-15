@@ -6,13 +6,6 @@
 require ROOT . '/library/preprocessor.php';
 require ROOT . '/interface/common/owner/header.php';
 
-
-if (false) {
-	fetchConfigVal();
-	getBlogSetting();
-	setBlogSetting();
-}
-
 if ((isset($_REQUEST['name'])) && (isset($adminMenuMappings[$_REQUEST['name']]))) 
 {
 	
@@ -46,6 +39,18 @@ if ((isset($_REQUEST['name'])) && (isset($adminMenuMappings[$_REQUEST['name']]))
 		$pluginURL = "{$service['path']}/plugins/{$plugin}";
 		$pluginPath = ROOT . "/plugins/{$plugin}";
 		$pluginName = $plugin;
+
+		// Loading locale resource
+		$languageDomain = null;
+		if(is_dir($pluginPath . '/locale/')) {
+			$locale = Locale::getInstance();
+			$languageDomain = $locale->domain;
+			if(file_exists($pluginPath.'/locale/'.$locale->defaultLanguage.'.php')) {
+				$locale->setDirectory($pluginPath.'/locale');
+				$locale->set($locale->defaultLanguage, $pluginName);
+				$locale->domain = $pluginName;
+			}
+		}		
 		include_once (ROOT . "/plugins/{$plugin}/index.php");
 		if (function_exists($handler)) {
 			if( !empty( $configMappings[$plugin]['config'] ) ) 				
@@ -54,6 +59,8 @@ if ((isset($_REQUEST['name'])) && (isset($adminMenuMappings[$_REQUEST['name']]))
 				$configVal ='';
 			call_user_func($handler);
 		}
+		/// unload.
+		if(!is_null($languageDomain)) $locale->domain = $languageDomain;		
 	}
 }
 require ROOT . '/interface/common/owner/footer.php';

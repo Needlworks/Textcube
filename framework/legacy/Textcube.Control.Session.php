@@ -230,7 +230,7 @@ final class Session {
 
 		$result = self::DBQuery($mode,$sql);
 		if($result === false) {
-			if (self::$sessionDBRepair === false) {		
+			if (self::$sessionDBRepair === false) {	
 				@POD::query("REPAIR TABLE ".self::$context->getProperty('database.prefix')."Sessions, ".self::$context->getProperty('database.prefix')."SessionVisits");
 				$result = self::DBQuery($mode,$sql);
 				self::$sessionDBRepair = true;
@@ -238,6 +238,7 @@ final class Session {
 		}
 		return $result;
 	}
+
 	private static function DBQuery($mode='query',$sql) {
 		switch($mode) {
 			case 'cell':	return POD::queryCell($sql);
