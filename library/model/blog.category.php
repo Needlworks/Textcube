@@ -693,6 +693,6 @@ function setChildCategoryVisibility($blogid, $id, $visibility) {
 function clearCategoryCache() {
 	$context = Model_Context::getInstance();
 	$context->setProperty('category.tree',null);
-	$context->setProperty)'category.raw',null);
+	$context->setProperty('category.raw',null);
 }
 ?>
