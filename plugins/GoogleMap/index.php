@@ -186,13 +186,13 @@ function GoogleMap_View($target, $mother) {
 
 function GoogleMap_LocationLogView($target) {
 	$ctx = Model_Context::getInstance();
-	$blogid = $ctx->getProperty('blog.id');
+	$blogId = $ctx->getProperty('blog.id');
 	$blogURL = $ctx->getProperty('uri.blog');
 	$serviceURL = $ctx->getProperty('uri.service');
 	global $pluginURL, $configVal;
 	$ctx->setProperty('is_used', true);
 	$config = Setting::fetchConfigVal($configVal);
-	$locatives =  getEntries($blogid, 'id, title, slogan, location, longitude, latitude','(length(location)>1 AND category > -1) OR (`longitude` IS NOT NULL AND `latitude` IS NOT NULL)', 'location');
+	$locatives =  getEntries($blogId, 'id, title, slogan, location, longitude, latitude','(length(location)>1 AND category > -1) OR (`longitude` IS NOT NULL AND `latitude` IS NOT NULL)', 'location');
 	$width = Misc::getContentWidth();
 	$height = intval($width * 1.2);
 	$default_type = isset($config['locative_maptype']) ? $config['locative_maptype'] : 'G_HYBRID_MAP';
@@ -275,7 +275,7 @@ function GoogleMap_LocationLogView($target) {
 			$lng = $locative['longitude'];
 			$locative['location'] = _t("위도")." : " . $lat . ", "._t("경도")." : " . $lng;
 		} else {
-			$row = POD::queryRow("SELECT * FROM {$dbPrefix}GMapLocations WHERE blogid = ".getBlogId()." AND original_address = '".POD::escapeString($locative['location'])."'");
+			$row = POD::queryRow("SELECT * FROM {$dbPrefix}GMapLocations WHERE blogid = {$blogId} AND original_address = '".POD::escapeString($locative['location'])."'");
 			if ($row == null || empty($row)) {
 				$found = false;
 			} else {
