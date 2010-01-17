@@ -1,7 +1,5 @@
 <?php
 
-// TODO: i18n (Ticket #1133)
-
 function GoogleMap_Header($target) {
 	global $configVal, $pluginURL;
 	$config = Setting::fetchConfigVal($configVal);
@@ -310,7 +308,7 @@ function GoogleMap_ConfigHandler($data) {
 	$config = Setting::fetchConfigVal($data);
 	if (!is_numeric($config['latitude']) || !is_numeric($config['longitude']) ||
 		$config['latitude'] < -90 || $config['latitude'] > 90 || $config['longitude'] < -180 || $config['longitude'] > 180)
-		return '위도 또는 경도의 값이 올바르지 않습니다.';
+		return _t('위도 또는 경도의 값이 올바르지 않습니다.');
 	$config['useSensor'] = !isset($config['useSensor']) ? true : false;
 	return true;
 }
