@@ -335,9 +335,9 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
 				// Event listener language setting as scope defined.
 				if(strpos($event, "/plugin/") === 0) {
 					if($mapping['scope'] == 'owner') {
-						$language = $context->getProperty('blog.language') !== null ? $context->getProperty('blog.language') : $context->getProperty('service.language']);
+						$language = $context->getProperty('blog.language') !== null ? $context->getProperty('blog.language') : $context->getProperty('service.language');
 					} else {
-						$language = $context->getProperty('blog.blogLanguage') !== null ? $context->getProperty('blog.blogLanguage') : $context->getProperty('service.language']);
+						$language = $context->getProperty('blog.blogLanguage') !== null ? $context->getProperty('blog.blogLanguage') : $context->getProperty('service.language');
 					}
 				} else {
 					$language = $locale->defaultLanguage;
