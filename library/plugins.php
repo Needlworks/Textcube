@@ -107,7 +107,7 @@ if (getBlogId()) {
 								if (!empty($listener['.attributes']['event']) && !empty($listener['.attributes']['handler'])) {
 									if (!isset($eventMappings[$listener['.attributes']['event']]))
 										$eventMappings[$listener['.attributes']['event']] = array();
-									if (!isset($listener['.attributes']['scope']) && in_array($listener['.attributes']['scope'], array('blog','mobile','owner')))
+									if (isset($listener['.attributes']['scope']) && in_array($listener['.attributes']['scope'], array('blog','mobile','owner')))
 										$scope = $listener['.attributes']['scope'];
 									else $scope = 'blog';
 									array_push($eventMappings[$listener['.attributes']['event']], array('plugin' => $plugin, 'listener' => $listener['.attributes']['handler'], 'scope' => $scope));
