@@ -101,7 +101,6 @@ function getCovertDate($reqTime, $published) {
 // Twitter Recipients List
 function getTwitterRecipientsList($target) {
 	global $service, $pluginURL, $blogURL, $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Misc::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 	$tw = new Twitter($data['username'], $data['password']);
@@ -115,7 +114,6 @@ function getTwitterRecipientsList($target) {
 // Twitter Create Favorites
 function getCreateFavorites($target) {
 	global $service, $pluginURL, $blogURL, $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Misc::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 	$id = (isset($_POST['id']) && !empty($_POST['id'])) ? $_POST['id'] : '';
@@ -131,7 +129,6 @@ function getCreateFavorites($target) {
 // Twitter Destroy Favorites
 function getDestroyFavorites($target) {
 	global $service, $pluginURL, $blogURL, $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Misc::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 	$id = (isset($_POST['id']) && !empty($_POST['id'])) ? $_POST['id'] : '';
@@ -156,7 +153,6 @@ function getBindSearchHighlight($keyword, $content) {
 
 // Twitter Saved Searches open or close
 function getSavedSearchesOpenClose($target) {
-	requireComponent('Textcube.Function.misc');
 	$savedSearchesView = (isset($_POST['openclose']) && !empty($_POST['openclose'])) ? $_POST['openclose'] : 'open';
 	Setting::setBlogSetting("saved_searches", $savedSearchesView);
 	header('Content-Type: text/xml; charset=UTF-8');
@@ -167,7 +163,6 @@ function getSavedSearchesOpenClose($target) {
 // Twitter Create Saved Searches
 function getCreateSavedSearches($target) {
 	global $service, $pluginURL, $blogURL, $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Misc::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 
@@ -199,7 +194,6 @@ function getCreateSavedSearches($target) {
 // Twitter Destroy Saved Searches
 function getDestroySavedSearches($target) {
 	global $service, $pluginURL, $blogURL, $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Misc::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 
@@ -231,7 +225,6 @@ function getDestroySavedSearches($target) {
 // Twitter management (Admin->center->Twitter management)
 function PN_Twitter_Management() {
 	global $service, $pluginURL, $blogURL, $pluginMenuURL, $pluginName, $handler, $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Misc::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 
@@ -708,7 +701,6 @@ function PN_Twitter_Management() {
 // Twitter more paging
 function getTwitterUpateMorePaging($target) {
 	global $service, $pluginURL, $blogURL, $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Misc::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 
@@ -950,7 +942,6 @@ function getTwitterUpateMorePaging($target) {
 
 function getTwitterPostUpdate($target) {
 	global $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Misc::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 	$menu = (isset($_POST['menu']) && !empty($_POST['menu'])) ? $_POST['menu'] : "";
@@ -1039,7 +1030,6 @@ function getTwitterPostUpdate($target) {
 
 function getTwitterDestroyStatus($target) {
 	global $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Misc::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 	$id = (isset($_POST['id']) && !empty($_POST['id'])) ? $_POST['id'] : "";
@@ -1068,7 +1058,6 @@ function getTwitterDestroyStatus($target) {
 
 function getTwitterNewMessage($target) {
 	global $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Misc::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 	$menu = (isset($_POST['menu']) && !empty($_POST['menu'])) ? $_POST['menu'] : "";
@@ -1149,7 +1138,6 @@ function getTwitterNewMessage($target) {
 
 function getTwitterDestroyMessage($target) {
 	global $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Misc::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 	$id = (isset($_POST['id']) && !empty($_POST['id'])) ? $_POST['id'] : "";
@@ -1180,7 +1168,6 @@ function getTwitterDestroyMessage($target) {
 
 function getTwitterCreateFriendship($target) {
 	global $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Misc::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 	$menu = (isset($_POST['menu']) && !empty($_POST['menu'])) ? $_POST['menu'] : "";
@@ -1214,7 +1201,6 @@ function getTwitterCreateFriendship($target) {
 
 function getTwitterDestroyFriendship($target) {
 	global $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Misc::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 	$menu = (isset($_POST['menu']) && !empty($_POST['menu'])) ? $_POST['menu'] : "";
@@ -1251,7 +1237,6 @@ function getTwitterDestroyFriendship($target) {
 // Twitter update (Admin->center->dashboard->Twitter update widget)
 function CT_Twitter_updating($target){
 	global $service, $pluginURL, $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Misc::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 
@@ -1298,7 +1283,6 @@ function getBitlyShortenURLCreate($target) {
 
 function getUpdatingNewPostToTwitter($target, $mother) {
 	global $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Misc::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 
@@ -1319,7 +1303,6 @@ function getUpdatingNewPostToTwitter($target, $mother) {
 
 function getUpdatingNewLineToTwitter($target, $mother) {
 	global $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Misc::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 
@@ -1333,7 +1316,6 @@ function getUpdatingNewLineToTwitter($target, $mother) {
 
 function getUpdatingNewPostToTwitterSynd($target, $mother) {
 	global $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Misc::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 
@@ -1354,7 +1336,6 @@ function getUpdatingNewPostToTwitterSynd($target, $mother) {
 
 function getTwitterContent($blogid, $entryId, $updateText='title') {
 	global $blog, $service, $defaultURL, $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Misc::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 
@@ -1380,7 +1361,6 @@ function getTwitterContent($blogid, $entryId, $updateText='title') {
 
 function getTwitterBitlyShortenURL($longURL) {
 	global $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Misc::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 
@@ -1427,7 +1407,6 @@ function getTwitterInitConfigVal(&$data) {
 }
 
 function getTwitterDataSet($DATA) {
-	requireComponent('Textcube.Function.misc');
 	$cfg = Misc::fetchConfigVal($DATA);
 	$tw = new Twitter($cfg['username'], $cfg['password']);
 	$res = $tw->getUserTimeline();
