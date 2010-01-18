@@ -16,14 +16,14 @@
 	</textcube>
   </requirements>
   <binding>
-    <listener event="/plugin/GMapCustomInsert/">GoogleMapUI_InsertMap</listener>
-    <listener event="/plugin/GMapGetLocation/">GoogleMapUI_GetLocation</listener>
-    <listener event="/plugin/GMapCache/">GoogleMap_Cache</listener>
-    <listener event="ViewPostContent">GoogleMap_View</listener>
-    <listener event="ViewNoticeContent">GoogleMap_View</listener>
-    <listener event="AddPostEditorToolbox">GoogleMap_AddToolbox</listener>
-    <listener event="ShowAdminHeader">GoogleMap_AdminHeader</listener>
-    <listener event="ShowAdminFooter">GoogleMap_AdminFooter</listener>
+    <listener event="/plugin/GMapCustomInsert/" handler="GoogleMapUI_InsertMap" scope="owner" />
+    <listener event="/plugin/GMapGetLocation/" handler="GoogleMapUI_GetLocation" scope="owner" />
+    <listener event="/plugin/GMapCache/" handler="GoogleMap_Cache" />
+    <listener event="ViewPostContent" handler="GoogleMap_View" />
+    <listener event="ViewNoticeContent" handler="GoogleMap_View" />
+    <listener event="AddPostEditorToolbox" handler="GoogleMap_AddToolbox" />
+    <listener event="ShowAdminHeader" handler="GoogleMap_AdminHeader" />
+    <listener event="ShowAdminFooter" handler="GoogleMap_AdminFooter" />
     <tag name="SKIN_head_end" handler="GoogleMap_Header" />
     <tag name="SKIN_body_end" handler="GoogleMap_Footer" />
     <tag name="SKIN_local_rep_start" handler="GoogleMap_LocationLogView" />

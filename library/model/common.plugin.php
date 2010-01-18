@@ -331,11 +331,16 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
 			if(is_dir($pluginPath . '/locale/')) {
 				$locale = Locale::getInstance();
 				$languageDomain = $locale->domain;
+
 				// Event listener language setting as scope defined.
-				if($mapping['scope'] == 'owner') {
-					$language = $context->getProperty('blog.language') !== null ? $context->getProperty('blog.language') : $context->getProperty('service.language']);
+				if(strpos($event, "/plugin/") === 0) {
+					if($mapping['scope'] == 'owner') {
+						$language = $context->getProperty('blog.language') !== null ? $context->getProperty('blog.language') : $context->getProperty('service.language']);
+					} else {
+						$language = $context->getProperty('blog.blogLanguage') !== null ? $context->getProperty('blog.blogLanguage') : $context->getProperty('service.language']);
+					}
 				} else {
-					$language = $context->getProperty('blog.blogLanguage') !== null ? $context->getProperty('blog.blogLanguage') : $context->getProperty('service.language']);
+					$language = $locale->defaultLanguage;
 				}
 
 				if(file_exists($pluginPath.'/locale/'.$language.'.php')) {
