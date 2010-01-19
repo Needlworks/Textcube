@@ -260,14 +260,7 @@ textarea
 /* main - blog selector */
 #main-blog-box
 {
-	height                           : 27px;
-	line-height                      : 3em;
-	margin-top                       : 0;
-	position                         : fixed;
-	bottom                           : 5px;
-	right                            : 0;
-	width                            : 160px;
-	z-index                          : 510;
+	display : none;
 }
 
 #blog-list
