@@ -263,13 +263,6 @@ textarea
 	display : none;
 }
 
-#blog-list
-{
-	width                            : 150px;
-	color                            : #444;
-	border                           : 1px solid #CCC;
-}
-
 /* main menu */
 #main-menu-box
 {
@@ -277,7 +270,6 @@ textarea
 	background-position              : left center;
 	background-repeat                : repeat-x;
 	height                           : 40px;
-/*	width                            : 135px;*/
 	line-height                      : 3em;
 	margin-top                       : 0;
 	width                            : 100%;
@@ -833,7 +825,6 @@ table.data-inbox tr .selection
 	position                         : fixed !important;
 	top                              : 0; 
 	right                            : 95px;
-/*	width                            : 100%;*/
 	height                           : 40px;
 	text-align                       : right;
 	z-index                          : 230;

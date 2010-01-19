@@ -270,6 +270,13 @@ $blogContentMenuItem['center'] = array_merge($blogContentMenuItem['center'] , ar
 	<title><?php echo htmlspecialchars($blog['title']);?> &gt; <?php echo $blogMenu['title'];?></title>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.css" />
 <?php
+	$browser = Utils_Browser::getInstance();
+	var_dump($browser->getBrowserName());
+	if($browser->getBrowserName() == 'mSafari') {
+?>
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+<?php
+	}
 // common CSS.
 foreach($blogMenu['loadCSS'] as $loadCSS) {
 ?>

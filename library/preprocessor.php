@@ -212,7 +212,8 @@ if (!defined('NO_INITIALIZAION')) {
 		$adminSkinSetting = array();
 		
 		/// TODO : This is a test routine. we should abstract this.
-		if(isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'],'iPod') || strpos($_SERVER['HTTP_USER_AGENT'],'iPhone'))){
+		$browser = Utils_Browser::getInstance();
+		if($browser->getBrowserName() == 'mSafari') {
 			$adminSkinSetting['skin'] = "/skin/admin/mobile";
 		} else {
 

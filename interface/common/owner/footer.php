@@ -137,6 +137,12 @@ if (Acl::check('group.creators')) {
 			}
 <?php
 	echo activateDetailPanelJS();
+	$browser = Utils_Browser::getInstance();
+	if($browser->getBrowserName() == 'mSafari') {
+?>
+			window.addEventListener('load', function(){setTimeout(scrollTo, 0, 0, 1);}, false);
+<?php
+	}
 ?>
 	//]]>
 	</script>
