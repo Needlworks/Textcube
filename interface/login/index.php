@@ -85,7 +85,14 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo _text('Textcube - Login');?></title>
-	
+<?php
+	$browser = Utils_Browser::getInstance();
+	if($browser->getBrowserName() === 'mSafari') {
+?>
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+<?php
+	}
+?>
 	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/basic.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/login.css" />
 	<!--[if lte IE 6]>
