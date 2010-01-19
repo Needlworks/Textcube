@@ -217,12 +217,12 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 							</div>
 							
 							<?php if (!empty($openid_help_link) || !empty($openid_signup_link)) { ?>
-							<ul>
+							<ul id="openid-intro">
 								<?php if( !empty( $openid_help_link ) ) { ?>
 								<li id="openid-help"><a href="<?php echo $openid_help_link; ?>" ><?php echo _text('오픈아이디란?') ?></a></li>
 								<?php } ?>
 								<?php if( !empty( $openid_signup_link ) ) { ?>
-								<li><a href="<?php echo $openid_signup_link; ?>"><?php echo _text('오픈아이디 발급하기'); ?></a></li>
+								<li id="openid-generate"><a href="<?php echo $openid_signup_link; ?>"><?php echo _text('오픈아이디 발급하기'); ?></a></li>
 								<?php } ?>
 							</ul>
 							<?php } ?>

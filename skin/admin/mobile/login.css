@@ -138,24 +138,24 @@ hr
 
 #openid-line .example
 {
-	font-size: 0.85em;
-	line-height: 1em;
-	margin-top: 5px;
+	font-size                        : 0.85em;
+	line-height                      : 1em;
+	margin-top                       : 5px;
 }
 
 #openid_identifier
 {
-	background-color: rgba(255,255,255,0.6);
-	background-image: url("../../../resources/image/icon_login_openid.png");
-	background-position: left center;
-	background-repeat: no-repeat;
-	padding-left                     : 30px;
-	width: 183px;
+	background-color       : rgba(255,255,255,0.6);
+	background-image       : url("../../../resources/image/icon_login_openid.png");
+	background-position    : left center;
+	background-repeat      : no-repeat;
+	padding-left           : 30px;
+	width                  : 183px;
 }
 
 #openid-remember dt
 {
-	display: none;
+	display                : none;
 }
 
 #openid-remember dd
@@ -175,6 +175,11 @@ hr
 #openid-helper a
 {
 	color: #aaa;
+}
+
+#openid-intro
+{
+	display                 : none;
 }
 
 input[type=password], input[type=text] {
