@@ -317,13 +317,13 @@ textarea
 	background-position              : left center;
 	background-repeat                : repeat-x;
 	height                           : 40px;
-	width                            : 135px;
+/*	width                            : 135px;*/
 	line-height                      : 3em;
 	margin-top                       : 0;
-/*	width                            : 100%;*/
+	width                            : 100%;
 	position                         : fixed;
 	top                              : 0;
-	z-index                          : 240;
+	z-index                          : 200;
 }
 
 #main-menu
@@ -1226,7 +1226,7 @@ table.data-inbox tbody tr td.inactive-class
 	position                         : fixed !important;
 	top                              : 0; 
 	right                            : 95px;
-	width                            : 100%;
+/*	width                            : 100%;*/
 	height                           : 40px;
 	text-align                       : right;
 	z-index                          : 230;
@@ -1248,7 +1248,7 @@ table.data-inbox tbody tr td.inactive-class
 	background-image                 : url("./image/bg_search_icon.gif");
 	background-position              : center right;
 	background-repeat                : no-repeat;
-	width:100px;
+	width                            : 100px;
 }
 
 #search-form .search-button
