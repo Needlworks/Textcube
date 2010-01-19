@@ -431,7 +431,7 @@ function GoogleMapUI_GetLocation() {
 
 function _GMap_printHeaderForUI($title, $jsName, $api_key, $use_sensor) {
 	$ctx = Model_Context::getInstance();
-	$blogURL = $ctx->getProperty('blog.uri');
+	$blogURL = $ctx->getProperty('uri.blog');
 	global $pluginURL;
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

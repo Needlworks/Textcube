@@ -78,7 +78,7 @@ if(!doesHaveOwnership()) {
 			<?php echo _text('로그인 하였습니다.');?>
 		</div>
 		<a href="#" onclick="self.location.reload();" class="whiteButton margin-top10"><?php echo _text('첫 페이지로 돌아가기');?></a>
-		<a href="<?php echo $blogURL."/owner/center/dashboard";?>" class="whiteButton margin-top10"><?php echo _text('관리 패널로 들어가기');?></a>
+		<a href="<?php echo $defaultURL."/owner/center/dashboard";?>" class="whiteButton margin-top10"><?php echo _text('관리 패널로 들어가기');?></a>
 	</div>
 <?php
 }

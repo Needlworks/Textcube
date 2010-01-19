@@ -271,7 +271,6 @@ $blogContentMenuItem['center'] = array_merge($blogContentMenuItem['center'] , ar
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.css" />
 <?php
 	$browser = Utils_Browser::getInstance();
-	var_dump($browser->getBrowserName());
 	if($browser->getBrowserName() == 'mSafari') {
 ?>
 	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
