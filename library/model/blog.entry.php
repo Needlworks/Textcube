@@ -383,7 +383,7 @@ function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false
 	if (!$result || !$currentEntry)
 		return array($entries, $paging);
 	if($categoryId !== false) {
-		$paging['pages'] = getEntriesCountByCategory($blogid, $categoryId);
+		$paging['pages'] = $categoryId == 0 ? getEntriesTotalCount($blogid):getEntriesCountByCategory($blogid, $categoryId);
 		$paging['postfix'] = '?category='.$categoryId;
 	} else {
 		$paging['pages'] = ($isNotice) ? getNoticesTotalCount($blogid) : getEntriesTotalCount($blogid);
@@ -455,7 +455,7 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false, $catego
 		return array($entries, $paging);
 	
 	if($categoryId !== false) {
-		$paging['pages'] = getEntriesCountByCategory($blogid, $categoryId);
+		$paging['pages'] = $categoryId == 0 ? getEntriesTotalCount($blogid):getEntriesCountByCategory($blogid, $categoryId);
 		$paging['postfix'] = '?category='.$categoryId;
 	} else {
 		$paging['pages'] = ($isNotice) ? getNoticesTotalCount($blogid) : getEntriesTotalCount($blogid);

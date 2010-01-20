@@ -38,7 +38,8 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 } else {
 	$IV = array(
 		'GET' => array(
-			'page' => array('int', 1, 'default' => 1)
+			'page' => array('int', 1, 'default' => 1),
+			'category' => array('int', 0, 'mandatory'=>false)
 		)
 	);
 }
