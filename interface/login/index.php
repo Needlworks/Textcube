@@ -118,6 +118,14 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 			
 			function execLoadFunction() {
 				document.forms[0].<?php echo (empty($_COOKIE['TSSESSION_LOGINID']) ? 'loginid' : 'password');?>.focus();
+<?php
+	$browser = Utils_Browser::getInstance();
+	if($browser->getBrowserName() == 'mSafari') {
+?>
+				setTimeout(scrollTo, 0, 0, 1);
+<?php
+	}
+?>
 			}
 		//]]>
 	</script>
@@ -249,6 +257,10 @@ if (!empty($message)) {
 			</div> <!-- data-outbox -->
 		</div> <!-- all-wrap -->
 	</div> <!-- temp-wrap -->
-	<?php if( function_exists('__tcSqlLogDump') ) { __tcSqlLogDump(); } ?>
+<?php
+	if( function_exists('__tcSqlLogDump') ) { 
+		__tcSqlLogDump();
+	}
+?>
 </body>
 </html>

@@ -27,7 +27,7 @@ abbr, acronym
 
 address
 {
-	font-style: normal;
+	font-style                       : normal;
 }
 
 body
@@ -163,11 +163,13 @@ textarea
 #temp-wrap
 {
 	width                            : 100%;
+	padding                          : 0;
+	margin                           : 0;
 }
 
 #all-wrap
 {
-	font-size                        : 0.925em;
+	font-size                        : 1em;
 	text-align                       : justify;
 }
 
@@ -883,7 +885,7 @@ table.data-inbox tr .selection
 
 #login-information
 {
-	width                            : 200px;
+	padding-left                     : 30px;
 }
 #version
 {

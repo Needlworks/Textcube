@@ -24,9 +24,9 @@
 #defaultDashboardWidget
 {
 	background-color                 : #FAFAFA;
-	width                            : 270px;
+	width                            : 280px;
 	padding                          : 10px;
-	margin                           : 10px auto;
+	margin                           : 5px auto;
 	-moz-border-radius               : 5px;
 	-webkit-border-radius            : 5px;
 }
@@ -281,7 +281,7 @@
 #part-center-lint .panel,
 #part-center-lint-edit .panel
 {
-	margin                      : 0 auto;
+	margin                           : 0 auto;
 	min-height                       : 100px;
 	width                            : 300px;
 }
