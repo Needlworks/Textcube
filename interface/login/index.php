@@ -85,7 +85,14 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo _text('Textcube - Login');?></title>
-	
+<?php
+	$browser = Utils_Browser::getInstance();
+	if($browser->getBrowserName() === 'mSafari') {
+?>
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+<?php
+	}
+?>
 	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/basic.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/login.css" />
 	<!--[if lte IE 6]>
@@ -111,6 +118,14 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 			
 			function execLoadFunction() {
 				document.forms[0].<?php echo (empty($_COOKIE['TSSESSION_LOGINID']) ? 'loginid' : 'password');?>.focus();
+<?php
+	$browser = Utils_Browser::getInstance();
+	if($browser->getBrowserName() == 'mSafari') {
+?>
+				setTimeout(scrollTo, 0, 0, 1);
+<?php
+	}
+?>
 			}
 		//]]>
 	</script>
@@ -210,12 +225,12 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 							</div>
 							
 							<?php if (!empty($openid_help_link) || !empty($openid_signup_link)) { ?>
-							<ul>
+							<ul id="openid-intro">
 								<?php if( !empty( $openid_help_link ) ) { ?>
 								<li id="openid-help"><a href="<?php echo $openid_help_link; ?>" ><?php echo _text('오픈아이디란?') ?></a></li>
 								<?php } ?>
 								<?php if( !empty( $openid_signup_link ) ) { ?>
-								<li><a href="<?php echo $openid_signup_link; ?>"><?php echo _text('오픈아이디 발급하기'); ?></a></li>
+								<li id="openid-generate"><a href="<?php echo $openid_signup_link; ?>"><?php echo _text('오픈아이디 발급하기'); ?></a></li>
 								<?php } ?>
 							</ul>
 							<?php } ?>
@@ -242,6 +257,10 @@ if (!empty($message)) {
 			</div> <!-- data-outbox -->
 		</div> <!-- all-wrap -->
 	</div> <!-- temp-wrap -->
-	<?php if( function_exists('__tcSqlLogDump') ) { __tcSqlLogDump(); } ?>
+<?php
+	if( function_exists('__tcSqlLogDump') ) { 
+		__tcSqlLogDump();
+	}
+?>
 </body>
 </html>

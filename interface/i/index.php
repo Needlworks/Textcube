@@ -33,6 +33,7 @@ if(empty($suri['id'])) {
 	<?php
 		if (doesHaveOwnership()) {
 	?>
+		<li><a href="<?php echo $defaultURL;?>/owner/center/dashboard" onclick="window.location.href='<?php echo $defaultURL;?>/owner/center/dashboard'" class="link dashboard"><?php echo _text('관리 패널');?></a></li>
 		<li><a href="<?php echo $blogURL;?>/logout" class="link logout"><?php echo _text('로그아웃');?></a></li>
 	<?php
 		}else{

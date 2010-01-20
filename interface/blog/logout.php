@@ -13,10 +13,12 @@ $IV = array(
 );
 define('__TEXTCUBE_LOGIN__',true);
 require ROOT . '/library/preprocessor.php';
-
+$ctx = Model_Context::getInstance();
+$userURL = $ctx->getProperty('user.homepage');
+$blogURL = $ctx->getProperty('uri.blog');
 if (substr($blogURL, -1) != '/') $blogURL .= '/';
-if (!isset($user['homepage']) ) $user['homepage'] = '/';
-if (substr($user['homepage'], -1) != '/') $user['homepage'] .= '/';
+if (!isset($userURL) ) $userURL = '/';
+if (substr($userURL, -1) != '/') $userURL .= '/';
 
 if (isset($_GET['requestURI']))
 	$_POST['requestURI'] = $_GET['requestURI'];

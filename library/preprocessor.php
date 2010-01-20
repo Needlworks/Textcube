@@ -176,8 +176,8 @@ if (!defined('NO_INITIALIZAION')) {
 */
 	if(!is_null($context->getProperty('database.database'))) {
 		$timezone = new Timezone;
-		$timezone->set(isset($blog['timezone']) ? $blog['timezone'] : $context->getProperty('service.timezone'));
-		POD::setTimezone(isset($blog['timezone']) ? $blog['timezone'] : $context->getProperty('service.timezone'));
+		$timezone->set($context->getProperty('blog.timezone') !== null ? $context->getProperty('blog.timezone') : $context->getProperty('service.timezone'));
+		POD::setTimezone($context->getProperty('blog.timezone') !== null ? $context->getProperty('blog.timezone') : $context->getProperty('service.timezone'));
 	}
 /** Locale Resources
     ----------------
@@ -191,9 +191,9 @@ if (!defined('NO_INITIALIZAION')) {
 		else $languageDomain = $context->getProperty('uri.interfaceType');
 		
 		if($languageDomain == 'owner') {
-			$language = isset($blog['language']) ? $blog['language'] : $service['language'];
+			$language = $context->getProperty('blog.language') !== null ?  $context->getProperty('blog.language') : $context->getProperty('service.language');
 		} else {
-			$language = isset($blog['blogLanguage']) ? $blog['blogLanguage'] : $service['language'];
+			$language = $context->getProperty('blog.blogLanguage') !== null ?  $context->getProperty('blog.blogLanguage') : $context->getProperty('service.language');
 		}
 		$locale = Locale::getInstance();
 		$locale->setDirectory(ROOT . '/resources/locale/'.$languageDomain);
@@ -210,11 +210,19 @@ if (!defined('NO_INITIALIZAION')) {
 */
 	if(in_array($context->getProperty('uri.interfaceType'), array('owner','reader')) || defined('__TEXTCUBE_ADMINPANEL__')) {
 		$adminSkinSetting = array();
-		if(!is_null($context->getProperty('service.adminskin'))) {
-			$adminSkinSetting['skin'] = "/skin/admin/".$context->getProperty('service.adminskin');
+		
+		/// TODO : This is a test routine. we should abstract this.
+		$browser = Utils_Browser::getInstance();
+		if($browser->getBrowserName() == 'mSafari') {
+			$adminSkinSetting['skin'] = "/skin/admin/mobile";
 		} else {
-			$adminSkinSetting['skin'] = "/skin/admin/".Setting::getBlogSettingGlobal("adminSkin", "whitedream");
-		}		
+
+			if(!is_null($context->getProperty('service.adminskin'))) {
+				$adminSkinSetting['skin'] = "/skin/admin/".$context->getProperty('service.adminskin');
+			} else {
+				$adminSkinSetting['skin'] = "/skin/admin/".Setting::getBlogSettingGlobal("adminSkin", "whitedream");
+			}
+		}
 		// content 본문에 removeAllTags()가 적용되는 것을 방지하기 위한 프로세스를 위한 변수.
 		$contentContainer = array();
 	

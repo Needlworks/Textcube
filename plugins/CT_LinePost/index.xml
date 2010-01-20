@@ -16,6 +16,6 @@
 	</requirements>
 	<binding>
 		<center handler="linePost_Widget" />
-		<listener event="/plugin/linePostWidget.js">linePost_widget_Javascript</listener>
+		<listener event="/plugin/linePostWidget.js" handler="linePost_widget_Javascript" />
 	</binding>
 </plugin>

@@ -1,7 +1,5 @@
 <?php
 
-// TODO: i18n (Ticket #1133)
-
 function GoogleMap_Header($target) {
 	global $configVal, $pluginURL;
 	$config = Setting::fetchConfigVal($configVal);
@@ -20,8 +18,11 @@ EOS;
 }
 
 function GoogleMap_AdminHeader($target) {
-	global $suri, $pluginURL, $blogURL, $serviceURL, $configVal;
-	if ($suri['directive'] == '/owner/entry/post' || $suri['directive'] == '/owner/entry/edit') {
+	$ctx = Model_Context::getInstance();
+	$blogURL = $ctx->getProperty('uri.blog');
+	$serviceURL = $ctx->getProperty('uri.service');
+	global $pluginURL, $configVal;
+	if ($ctx->getProperty('suri.directive') == '/owner/entry/post' || $ctx->getProperty('suri.directive') == '/owner/entry/edit') {
 		$config = Setting::fetchConfigVal($configVal);
 		$use_sensor = $config['useSensor'] ? 'true' : 'false';
 		$target .= <<<EOS
@@ -41,8 +42,8 @@ EOS;
 
 function GoogleMap_Footer($target) {
 	global $configVal, $pluginURL;
-	$context = Model_Context::getInstance();
-	if ($context->getProperty('is_used')) {
+	$ctx= Model_Context::getInstance();
+	if ($ctx->getProperty('is_used')) {
 		$config = Setting::fetchConfigVal($configVal);
 		if (!is_null($config) && isset($config['apiKey'])) {
 			$api_key = $config['apiKey'];
@@ -69,8 +70,8 @@ EOS;
 
 function GoogleMap_AdminFooter($target) {
 	global $configVal, $pluginURL;
-	$context = Model_Context::getInstance();
-	if ($context->getProperty('is_used')) {
+	$ctx = Model_Context::getInstance();
+	if ($ctx ->getProperty('is_used')) {
 		$config = Setting::fetchConfigVal($configVal);
 		if (!is_null($config) && isset($config['apiKey'])) {
 			$api_key = $config['apiKey'];
@@ -109,17 +110,17 @@ EOS;
 }
 
 function GoogleMap_View($target, $mother) {
-	global $configVal, $pluginURL, $surl;
-	$context = Model_Context::getInstance();
-	if ($context->getProperty('is_used') === null)
-		$context->setProperty('is_used', false);
+	global $configVal, $pluginURL;
+	$ctx= Model_Context::getInstance();
+	if ($ctx->getProperty('is_used') === null)
+		$ctx->setProperty('is_used', false);
 	$config = Setting::fetchConfigVal($configVal);
 	$matches = array();
 	$offset = 0;
 
 
 	while (preg_match('/\[##_GoogleMap\|(([^|]+)\|)?_##\]/', $target, $matches, PREG_OFFSET_CAPTURE, $offset) > 0) {
-		$context->setProperty('is_used', true);
+		$ctx->setProperty('is_used', true);
 		// SUGGUEST: [##_GoogleMap|{JSON_REPRESENTATION_OF_PARAMETERS_WITHOUT_NEWLINES}|_##]
 		$id = 'GMapContainer'.$mother.rand();
 		ob_start();
@@ -182,11 +183,14 @@ function GoogleMap_View($target, $mother) {
 }
 
 function GoogleMap_LocationLogView($target) {
-	global $blogid, $blog, $blogURL, $pluginURL, $configVal, $service, $database;
-	$context = Model_Context::getInstance();
-	$context->setProperty('is_used', true);
+	$ctx = Model_Context::getInstance();
+	$blogId = $ctx->getProperty('blog.id');
+	$blogURL = $ctx->getProperty('uri.blog');
+	$serviceURL = $ctx->getProperty('uri.service');
+	global $pluginURL, $configVal;
+	$ctx->setProperty('is_used', true);
 	$config = Setting::fetchConfigVal($configVal);
-	$locatives =  getEntries($blogid, 'id, title, slogan, location, longitude, latitude','(length(location)>1 AND category > -1) OR (`longitude` IS NOT NULL AND `latitude` IS NOT NULL)', 'location');
+	$locatives =  getEntries($blogId, 'id, title, slogan, location, longitude, latitude','(length(location)>1 AND category > -1) OR (`longitude` IS NOT NULL AND `latitude` IS NOT NULL)', 'location');
 	$width = Misc::getContentWidth();
 	$height = intval($width * 1.2);
 	$default_type = isset($config['locative_maptype']) ? $config['locative_maptype'] : 'G_HYBRID_MAP';
@@ -257,9 +261,10 @@ function GoogleMap_LocationLogView($target) {
 <?php
 	$count = 0;
 	$countRemoteQuery = 0;
+	$dbPrefix = $ctx->getProperty('database.prefix');
 	foreach ($locatives as $locative) {
 		//if ($count == 10) break; // for testing purpose
-		$locative['link'] = "$blogURL/" . ($blog['useSloganOnPost'] ? 'entry/' . URL::encode($locative['slogan'],$service['useEncodedURL']) : $locative['id']);
+		$locative['link'] = "$blogURL/" . ($ctx->getProperty('blog.useSloganOnPost') ? 'entry/' . URL::encode($locative['slogan'],$ctx->getProperty('service.useEncodedURL')) : $locative['id']);
 		$found = false;
 
 		if ($locative['longitude'] != NULL && $locative['latitude'] != NULL) {
@@ -268,7 +273,7 @@ function GoogleMap_LocationLogView($target) {
 			$lng = $locative['longitude'];
 			$locative['location'] = _t("위도")." : " . $lat . ", "._t("경도")." : " . $lng;
 		} else {
-			$row = POD::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND original_address = '".POD::escapeString($locative['location'])."'");
+			$row = POD::queryRow("SELECT * FROM {$dbPrefix}GMapLocations WHERE blogid = {$blogId} AND original_address = '".POD::escapeString($locative['location'])."'");
 			if ($row == null || empty($row)) {
 				$found = false;
 			} else {
@@ -303,13 +308,15 @@ function GoogleMap_ConfigHandler($data) {
 	$config = Setting::fetchConfigVal($data);
 	if (!is_numeric($config['latitude']) || !is_numeric($config['longitude']) ||
 		$config['latitude'] < -90 || $config['latitude'] > 90 || $config['longitude'] < -180 || $config['longitude'] > 180)
-		return '위도 또는 경도의 값이 올바르지 않습니다.';
+		return _t('위도 또는 경도의 값이 올바르지 않습니다.');
 	$config['useSensor'] = !isset($config['useSensor']) ? true : false;
 	return true;
 }
 
 function GoogleMap_Cache() {
-	global $database;
+	$ctx = Model_Context::getInstance();
+	$dbPrefix = $ctx->getProperty('database.prefix');
+	$blogId = $ctx->getProperty('blog.id');
 	$IV = array(
 		'POST' => array(
 			'original_path' => array('string', 'default'=>''),
@@ -325,9 +332,9 @@ function GoogleMap_Cache() {
 	}
 	$original_path_e = POD::escapeString($_POST['original_path']);
 	$path_e = POD::escapeString($_POST['path']);
-	$row = POD::queryRow("SELECT * FROM {$database['prefix']}GMapLocations WHERE blogid = ".getBlogId()." AND original_address = '$original_path_e'");
+	$row = POD::queryRow("SELECT * FROM {$dbPrefix}GMapLocations WHERE blogid = {$blogId} AND original_address = '$original_path_e'");
 	if ($row == null || empty($row)) {
-		if (POD::execute("INSERT INTO {$database['prefix']}GMapLocations VALUES (".getBlogId().", '$original_path_e', '$path_e', {$_POST['lng']}, {$_POST['lat']}, ".time().")"))
+		if (POD::execute("INSERT INTO {$dbPrefix}GMapLocations VALUES ({$blogId}, '$original_path_e', '$path_e', {$_POST['lng']}, {$_POST['lat']}, ".time().")"))
 			echo 'ok';
 		else
 			echo 'error: cache failed';
@@ -423,7 +430,9 @@ function GoogleMapUI_GetLocation() {
 }
 
 function _GMap_printHeaderForUI($title, $jsName, $api_key, $use_sensor) {
-	global $pluginURL, $blogURL;
+	$ctx = Model_Context::getInstance();
+	$blogURL = $ctx->getProperty('uri.blog');
+	global $pluginURL;
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

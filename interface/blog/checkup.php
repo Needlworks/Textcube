@@ -652,6 +652,26 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		}
 	}
 
+	if (!POD::queryExistence("DESC {$database['prefix']}FeedSettings loadimage")) { 
+		$changed = true;
+		echo '<li>', _text('피드 설정 테이블의 테이블 구조 오류를 보정합니다.'), ': ';
+		if (POD::execute("ALTER TABLE {$database['prefix']}FeedSettings CHANGE loadimge loadimage int(11) NOT NULL DEFAULT 1")) {
+			showCheckupMessage(true);
+		} else {
+			showCheckupMessage(false);
+		}
+	}
+
+	if (!POD::queryExistence("DESC {$database['prefix']}OpenIDUsers loginCount")) { 
+		$changed = true;
+		echo '<li>', _text('OpenID 사용자 테이블의 테이블 구조 오류를 보정합니다.'), ': ';
+		if (POD::execute("ALTER TABLE {$database['prefix']}OpenIDUsers CHANGE loginCount logincount int(11) default NULL")) {
+			showCheckupMessage(true);
+		} else {
+			showCheckupMessage(false);
+		}
+	}
+		
 	if (!POD::queryExistence("DESC {$database['prefix']}Filters filtertype")) {
 		$changed = true;
 		echo '<li>', _text('필터 호환성을 위하여 필드의 이름을 변경합니다.'), ': ';

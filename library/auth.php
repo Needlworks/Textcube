@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function login($loginid, $password, $preKnownPassword = null) {
-	global $service;
+	$ctx = Model_Context::getInstance();
 	$loginid = POD::escapeString($loginid);
 	$blogid = getBlogId();
 	$userid = Auth::authenticate($blogid , $loginid, $password );
@@ -14,9 +14,9 @@ function login($loginid, $password, $preKnownPassword = null) {
 	}
 
 	if (empty($_POST['save'])) {
-		setcookie('TSSESSION_LOGINID', '', time() - 31536000, $service['path'] . '/', $service['domain']);
+		setcookie('TSSESSION_LOGINID', '', time() - 31536000, $ctx->getProperty('service.path') . '/', $ctx->getProperty('service.domain'));
 	} else {
-		setcookie('TSSESSION_LOGINID', $loginid, time() + 31536000, $service['path'] . '/', $service['domain']);
+		setcookie('TSSESSION_LOGINID', $loginid, time() + 31536000, $ctx->getProperty('service.path') . '/', $ctx->getProperty('service.domain'));
 	}
 
 	if( in_array( "group.writers", Acl::getCurrentPrivilege() ) ) {

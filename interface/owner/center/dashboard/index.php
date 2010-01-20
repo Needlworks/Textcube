@@ -15,6 +15,9 @@ requireModel('common.setting');
 
 $blogMenu['topMenu'] = 'center';
 $blogMenu['contentMenu'] = 'dashboard';
+
+$ctx = Model_Context::getInstance();
+
 // Move spams to trash.
 if (!isset($_REQUEST['ajaxcall'])) {
 	require ROOT . '/interface/common/owner/header.php';
@@ -32,15 +35,15 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') &&
 	(empty($_GET['useTTdashboard']))) {	// Turn off case.
 	$textcubeDashboard = Setting::getBlogSettingGlobal("textcubeDashboard",1);
 	if ($textcubeDashboard == 0) {
-		setBlogSetting("textcubeDashboard", 1);
+		Setting::setBlogSettingGlobal("textcubeDashboard", 1);
 		$textcubeDashboard = 1;
 	} else {
-		setBlogSetting("textcubeDashboard", 0);
+		Setting::setBlogSettingGlobal("textcubeDashboard", 0);
 		$textcubeDashboard = 0;
 	}
 } else if (($_SERVER['REQUEST_METHOD'] == 'POST') &&
 	!isset($_REQUEST['edit'])) {	// Turn on case.
-	setBlogSetting("textcubeDashboard", 1);
+	Setting::setBlogSettingGlobal("textcubeDashboard", 1);
 	$textcubeDashboard = 1;
 } else {	// Just read it.
 	$textcubeDashboard = Setting::getBlogSettingGlobal("textcubeDashboard",1);
@@ -56,7 +59,7 @@ $defaultPanelShown = false;
 
 if (count($centerMappings) == 0) {		// No center widgets
 	$layout = '';
-	setBlogSetting('centerLayout', '');
+	Setting::setBlogSettingGlobal('centerLayout', '');
 	unset($_GET['pos']);
 	unset($_GET['rel']);
 }
@@ -160,7 +163,7 @@ if ((count($centerMappings) > 0) || (count($addedlayout) > 0) || ($modified == t
 	{
 		unset($saveLayout[$i]['title']);
 	}
-	setBlogSetting('centerLayout', serialize($saveLayout));
+	Setting::setBlogSettingGlobal('centerLayout', serialize($saveLayout));
 }
 
 unset($addedlayout);
@@ -176,13 +179,13 @@ $editClass = NULL;
 if (isset($_REQUEST['edit'])) {
 	$editClass = "-edit";
 ?>
-<script src="<?php echo $service['path'];?>/resources/script/jquery/jquery.ui.essentials.1.6.js" type="text/javascript"></script>
+<script src="<?php echo $ctx->getProperty('service.path');?>/resources/script/jquery/jquery.ui.essentials.1.6.js" type="text/javascript"></script>
 <script type="text/javascript">
 //<![CDATA[
 <?php echo "\tvar editMode = ".isset($_REQUEST['edit']).";\n";?>
 //]]>
 </script>
-<script src="<?php echo $service['path'];?>/resources/script/dashboard.js" type="text/javascript"></script>
+<script src="<?php echo $ctx->getProperty('service.path');?>/resources/script/dashboard.js" type="text/javascript"></script>
 <?php
 }
 ?>
@@ -198,7 +201,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								window.addEventListener("load", checkTextcubeVersion, false);
 								function checkTextcubeVersion() {
 									if (confirm("<?php echo _t('버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?');?>"))
-										window.location.href = "<?php echo $blogURL;?>/checkup";
+										window.location.href = "<?php echo $ctx->getProperty('uri.blog');?>/checkup";
 								}
 <?php
 } else {
@@ -209,7 +212,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								window.addEventListener("load", checkTextcubeVersion, false);
 								function checkTextcubeVersion() {
 									if (confirm("<?php echo _t('텍스트큐브 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
-										window.location.href = "<?php echo $blogURL;?>/checkup";
+										window.location.href = "<?php echo $ctx->getProperty('uri.blog');?>/checkup";
 								}
 <?php
 	}
@@ -217,7 +220,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 if(Acl::check("group.administrators")) {
 ?>
 								function cleanupCache() {
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/center/dashboard/cleanup/");
+									var request = new HTTPRequest("GET", "<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard/cleanup/");
 									request.onSuccess = function () {
 										PM.removeRequest(this);
 										PM.showMessage("<?php echo _t('캐시를 정리하였습니다.');?>", "center", "bottom");
@@ -259,14 +262,7 @@ if(Acl::check("group.administrators")) {
 ?>
 							//]]>
 						</script>
-<?php
-if (false) {
-	fetchConfigVal();
-}
-?>	
-<?php
-?>
-						<form id="form-quilt" method="post" action="<?php echo parseURL($blogURL.'/owner/center/dashboard');?>">
+						<form id="form-quilt" method="post" action="<?php echo parseURL($ctx->getProperty('uri.blog').'/owner/center/dashboard');?>">
 							<div id="part-center-quilt<?php echo $editClass;?>" class="part">
 								<h2 class="caption"><span class="main-text"><?php echo _t('조각보를 봅니다');?></span></h2>
 								
@@ -290,14 +286,14 @@ if(Acl::check('group.owners')) {
 	if(!isset($_REQUEST['edit'])) {
 ?>
 								<div id="widget-button-top" class="button-box">
-									<input type="submit" class="input-button" value="<?php echo _t('편집');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/center/dashboard?edit'; return false;" />
-									<input type="button" class="input-button" value="<?php echo _t('위젯 켜고 끄기');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/plugin?visibility=center'; return false;" />
+									<input type="submit" class="input-button" value="<?php echo _t('편집');?>" onclick="window.location.href='<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard?edit'; return false;" />
+									<input type="button" class="input-button" value="<?php echo _t('위젯 켜고 끄기');?>" onclick="window.location.href='<?php echo $ctx->getProperty('uri.blog');?>/owner/plugin?visibility=center'; return false;" />
 								</div>
 <?php
 	} else {
 ?>
 								<div class="button-box">
-									<input type="button" class="input-button" value="<?php echo _t('돌아가기');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/center/dashboard'; return false;" />
+									<input type="button" class="input-button" value="<?php echo _t('돌아가기');?>" onclick="window.location.href='<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard'; return false;" />
 								</div>
 <?php
 	}
@@ -330,8 +326,8 @@ foreach ($newlayout as $mapping) {
 		if (isset($_REQUEST['edit'])) {
 ?>
 				
-											<a class="widget-reorder-up" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter; ?>&amp;rel=-1&edit"><?php echo _t("위로");?></a>
-											<a class="widget-reorder-down" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter;?>&amp;rel=1&edit"><?php echo _t("아래로");?></a>
+											<a class="widget-reorder-up" href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter; ?>&amp;rel=-1&edit"><?php echo _t("위로");?></a>
+											<a class="widget-reorder-down" href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter;?>&amp;rel=1&edit"><?php echo _t("아래로");?></a>
 <?php
 		}
 ?>
@@ -370,14 +366,14 @@ if(Acl::check('group.owners')) {
 	if(!isset($_REQUEST['edit'])) {
 ?>
 								<div id="widget-button-bottom" class="button-box">
-									<input type="submit" class="input-button" value="<?php echo _t('편집');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/center/dashboard?edit'; return false;" />
-									<input type="button" class="input-button" value="<?php echo _t('위젯 켜고 끄기');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/plugin?visibility=center'; return false;" />
+									<input type="submit" class="input-button" value="<?php echo _t('편집');?>" onclick="window.location.href='<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard?edit'; return false;" />
+									<input type="button" class="input-button" value="<?php echo _t('위젯 켜고 끄기');?>" onclick="window.location.href='<?php echo $ctx->getProperty('uri.blog');?>/owner/plugin?visibility=center'; return false;" />
 								</div>
 <?php
 	} else {
 ?>
 								<div class="button-box">
-									<input type="button" class="input-button" value="<?php echo _t('돌아가기');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/center/dashboard'; return false;" />
+									<input type="button" class="input-button" value="<?php echo _t('돌아가기');?>" onclick="window.location.href='<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard'; return false;" />
 								</div>
 <?php
 	}
@@ -393,7 +389,7 @@ if(Acl::check('group.owners')) {
 <?php
 if(Acl::check("group.creators") && !isset($_REQUEST['edit'])) {
 ?>
-						<form id="dataOptimizer" method="get" action="<?php echo $blogURL;?>/owner/data/optimize" target="blackhole"></form>
+						<form id="dataOptimizer" method="get" action="<?php echo $ctx->getProperty('uri.blog');?>/owner/data/optimize" target="blackhole"></form>
 						<div id="optimizingDialogBox" class="part">
 							<div id="optimizingDataDialog" class="system-dialog" style="position: absolute; display: none; z-index: 500;">
 								<h4 id="optimizingDataDialogTitle"></h4>
@@ -411,8 +407,8 @@ if(Acl::check("group.creators") && !isset($_REQUEST['edit'])) {
 
 //************ Default Center Widget module.
 function getDefaultCenterPanel($mapping) {
-	global $service,$blog,$blogURL,$blogid;
-
+	$ctx = Model_Context::getInstance();
+	$blogid = $ctx->getProperty('blog.id');
 ?>
 									<div id="<?php echo $mapping['plugin'];?>" class="section">
 									<h3 class="caption<?php echo isset($_REQUEST['edit']) ? ' visible' : ' invisible';?>">
@@ -420,8 +416,8 @@ function getDefaultCenterPanel($mapping) {
 <?php
 	if (isset($_REQUEST['edit'])) {
 ?>
-											<a id="<?php echo $mapping['plugin'];?>dojoup" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter; ?>&amp;rel=-1&edit"><?php echo _t("위로");?></a>
-											<a id="<?php echo $mapping['plugin'];?>dojodown" href="<?php echo $blogURL;?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter;?>&amp;rel=1&edit"><?php echo _t("아래로");?></a>
+											<a id="<?php echo $mapping['plugin'];?>dojoup" href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter; ?>&amp;rel=-1&edit"><?php echo _t("위로");?></a>
+											<a id="<?php echo $mapping['plugin'];?>dojodown" href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter;?>&amp;rel=1&edit"><?php echo _t("아래로");?></a>
 <?php
 	}
 ?>
@@ -447,28 +443,28 @@ function getDefaultCenterPanel($mapping) {
 			array_push($recents, array(
 			'title'   =>$comment['comment'],
 			'date'    =>$comment['written'],
-			'link'    => $blogURL."/".$comment['entry']."#comment".$comment['id'],
+			'link'    => $ctx->getProperty('uri.blog')."/".$comment['entry']."#comment".$comment['id'],
 			'category'=>'comment'));
 		}
 		foreach($commentNotifies as $comment) {
 			array_push($recents, array(
 			'title'   =>$comment['comment'],
 			'date'    =>$comment['written'],
-			'link'    => $blogURL."/owner/communication/notify",
+			'link'    => $ctx->getProperty('uri.blog')."/owner/communication/notify",
 			'category'=>'commentNotify'));
 		}
 		foreach($guestbooks as $guestbook) {
 			array_push($recents, array(
 			'title'   =>$guestbook['comment'],
 			'date'    =>$guestbook['written'],
-			'link'    => $blogURL."/guestbook/".$guestbook['id']."#guestbook".$guestbook['id'],
+			'link'    => $ctx->getProperty('uri.blog')."/guestbook/".$guestbook['id']."#guestbook".$guestbook['id'],
 			'category'=>'guestbook'));
 		}
 		foreach($trackbacks as $trackback) {
 			array_push($recents, array(
 			'title'   =>$trackback['subject'],
 			'date'    =>$trackback['written'],
-			'link'    => $blogURL."/".$trackback['entry']."#trackback".$trackback['id'],
+			'link'    => $ctx->getProperty('uri.blog')."/".$trackback['entry']."#trackback".$trackback['id'],
 			'category'=>'trackback'));
 		}
 		$sort_array = array();
@@ -490,28 +486,28 @@ function getDefaultCenterPanel($mapping) {
 											<h4 class="caption"><span><?php echo _t('바로가기');?></span></h4>
 											
 											<ul>
-												<li class="newPost"><a class="newPost" href="<?php echo $blogURL;?>/owner/entry/post"><span><?php echo _t('새 글 쓰기');?></span></a></li>
+												<li class="newPost"><a class="newPost" href="<?php echo $ctx->getProperty('uri.blog');?>/owner/entry/post"><span><?php echo _t('새 글 쓰기');?></span></a></li>
 <?php
 		if($latestEntryId !== 0) {
 			$latestEntry = getEntry($blogid,$latestEntryId);
 			if(!is_null($latestEntry)) {
 ?>
-												<li class="modifyPost"><a href="<?php echo $blogURL;?>/owner/entry/edit/<?php echo $latestEntry['id'];?>"><?php echo _f('최근글(%1) 수정', htmlspecialchars(UTF8::lessenAsEm($latestEntry['title'],10)));?></a></li>
+												<li class="modifyPost"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/entry/edit/<?php echo $latestEntry['id'];?>"><?php echo _f('최근글(%1) 수정', htmlspecialchars(UTF8::lessenAsEm($latestEntry['title'],10)));?></a></li>
 <?php
 			}
 		}
-		if ($service['reader'] == true) {
+		if ($ctx->getProperty('service.reader') == true) {
 ?>
-												<li class="rssReader"><a href="<?php echo $blogURL;?>/owner/network/reader"><?php echo _t('RSS로 등록한 이웃 글 보기');?></a></li>
+												<li class="rssReader"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/network/reader"><?php echo _t('RSS로 등록한 이웃 글 보기');?></a></li>
 <?php
 		}
 		if(Acl::check("group.administrators")) {
 ?>
-												<li class="deleteCache"><a href="<?php echo $blogURL;?>/owner/center/dashboard/cleanup" onclick="cleanupCache();return false;"><?php echo _t('캐시 지우기');?></a></li>
+												<li class="deleteCache"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard/cleanup" onclick="cleanupCache();return false;"><?php echo _t('캐시 지우기');?></a></li>
 <?php
 			if(Acl::check("group.creators")) {
 ?>
-												<li class="optimizeStorage"><a href="<?php echo $blogURL;?>/owner/data" onclick="optimizeData();return false;"><?php echo _t('저장소 최적화');?></a></li>
+												<li class="optimizeStorage"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/data" onclick="optimizeData();return false;"><?php echo _t('저장소 최적화');?></a></li>
 <?php
 			}
 		}
@@ -583,7 +579,7 @@ function getDefaultCenterPanel($mapping) {
 										</div>
 
 										<div id="myBlogInfo">
-											<h4 class="caption"><span><a href="<?php echo $blogURL.'/owner/communication/comment';?>"><?php echo _t('알림판');?></a></span></h4>
+											<h4 class="caption"><span><a href="<?php echo $ctx->getProperty('uri.blog').'/owner/communication/comment';?>"><?php echo _t('알림판');?></a></span></h4>
 											<table class="recent">
 												<caption>asdasd</caption>
 												<thead>
@@ -603,13 +599,13 @@ function getDefaultCenterPanel($mapping) {
 															<?php
 			switch($item['category']) {
 				case 'trackback' : 
-					echo '<a href="'.$blogURL.'/owner/communication/trackback?status=received">'._t('걸린글').'</a>';break;
+					echo '<a href="'.$ctx->getProperty('uri.blog').'/owner/communication/trackback?status=received">'._t('걸린글').'</a>';break;
 				case 'comment' : 
-					echo '<a href="'.$blogURL.'/owner/communication/comment?status=comment">'._t('댓글').'</a>';break;
+					echo '<a href="'.$ctx->getProperty('uri.blog').'/owner/communication/comment?status=comment">'._t('댓글').'</a>';break;
 				case 'commentNotify' : 
-					echo '<a href="'.$blogURL.'/owner/communication/notify">'._t('알리미').'</a>';break;
+					echo '<a href="'.$ctx->getProperty('uri.blog').'/owner/communication/notify">'._t('알리미').'</a>';break;
 				case 'guestbook' : 
-					echo '<a href="'.$blogURL.'/owner/communication/comment?status=guestbook">'._t('방명록').'</a>';break;
+					echo '<a href="'.$ctx->getProperty('uri.blog').'/owner/communication/comment?status=guestbook">'._t('방명록').'</a>';break;
 			}
 ?>
 														</td>
@@ -624,17 +620,18 @@ function getDefaultCenterPanel($mapping) {
 								
 <?php
 		$noticeURL = "http://notice.textcube.org/";
-		$noticeURLRSS = $noticeURL.(isset($blog['language']) ? $blog['language'] : "ko")."/rss";
+		$noticeURLRSS = $noticeURL.($ctx->getProperty('blog.language') ? $ctx->getProperty('blog.language') : "ko")."/rss";
+		$noticeEntries = array();
 
-		if(!is_null(getServiceSetting('TextcubeNotice'.$blog['language']))) {
-			$noticeEntries = unserialize(getServiceSetting('TextcubeNotice'.$blog['language']));
+		if(!is_null(Setting::getServiceSetting('TextcubeNotice'.$ctx->getProperty('blog.language')))) {
+			$noticeEntries = unserialize(Setting::getServiceSetting('TextcubeNotice'.$ctx->getProperty('blog.language')));
 		} else {
 			list($result, $feed, $xml) = getRemoteFeed($noticeURLRSS);
 			if ($result == 0) {
 				$xmls = new XMLStruct();
 				$xmls->setXPathBaseIndex(1);
 				$noticeEntries = array();
-				if ($xmls->open($xml, $service['encoding'])) {
+				if ($xmls->open($xml, $ctx->getProperty('service.encoding'))) {
 					if ($xmls->getAttribute('/rss', 'version')) {
 						for ($i = 1; $link = $xmls->getValue("/rss/channel/item[$i]/link"); $i++) {
 							$item = array('permalink' => rawurldecode($link));
@@ -649,12 +646,12 @@ function getDefaultCenterPanel($mapping) {
 						}
 					}
 				}
-				setServiceSetting('TextcubeNotice'.$blog['language'],serialize($noticeEntries));
+				Setting::setServiceSetting('TextcubeNotice'.$ctx->getProperty('blog.language'),serialize($noticeEntries));
 			}
 		}
 ?>
 										<div id="textcube-notice">
-											<h4 class="caption"><span><a href="<?php echo $noticeURL.(isset($blog['language']) ? $blog['language'] : "ko");?>"><?php echo _t('공지사항');?></a></span></h4>
+											<h4 class="caption"><span><a href="<?php echo $noticeURL.($ctx->getProperty('blog.language') ? $ctx->getProperty('blog.language') : "ko");?>"><?php echo _t('공지사항');?></a></span></h4>
 <?php
 		if (count($noticeEntries) > 0) {
 			array_splice($noticeEntries, 3, count($noticeEntries) - 3);

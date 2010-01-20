@@ -21,36 +21,34 @@ h3
 	background                       : transparent;
 }
 
+#part-editor h2
+{
+	display:none;	
+}
 /* title ----------------------------------------------------------------------------------------*/
 #title-section
 {
-	position                         : fixed;
-	top                              : 0;
-	left                             : 350px;
-	height                           : 40px;
+	height                           : 15px;
 	z-index                          : 100;
     width                            : 100%;
-	padding-left                     : 80px;
-	background-color                 : #ffffff;	
-/*	background-image                 : url("./image/bg_menu_round.png");*/
-    filter                           : alpha(opacity=90);
-    opacity                          : .90;		
+	background-color                 : #ffffff;			
 }
+
 #title-section dl
 {
-	padding-top:6px;	
+	padding-top                      : 0;	
 }
 
 #title-section dl dt
 {
 	color                            : #222;
-	padding                          : 6px 0 3px 10px;
+	padding                          : 0 0 3px 23px;
 	width                            : 40px !important;
 }
 
 #title-section dl dd
 {
-	margin-left                      : 45px;
+	margin-left                      : 70px;
 }
 
 
@@ -65,18 +63,18 @@ h3
 {
 	border                           : 1px solid #999999;
 	vertical-align                   : middle;
-	width                            : 400px !important;
+	width                            : 220px !important;
 	margin-left                      : 0;
 }
 
 #starred
 {
 	position                         : fixed;
-	top                              : 11px;
-	left                             : 410px;
+	top                              : 47px;
+	left                             : 10px;
 	width                            : 20px !important;
 	display                          : block;
-	z-index                          : 210;
+	z-index                          : 110;
 	background-color                 : #ffffff !important;
     filter                           : alpha(opacity=90);
     opacity                          : .90;		
@@ -114,8 +112,8 @@ h3
 
 #category-section
 {
-	margin                           : 30px 20px 0 0; 
-	padding                          : 5px 3px 5px 5px; 
+	margin                           : 3px 0 0 0; 
+	padding                          : 5px 0 2px 0; 
 	width                            : 100%; 
 }
 
@@ -135,7 +133,7 @@ h3
 
 #category-section dl dd
 {
-	margin-left                      : 80px;
+	margin-left                      : 0;
 }
 
 #category-line
@@ -145,9 +143,8 @@ h3
 
 #category-line dt
 {
-	padding                          : 5px 0 3px 0;
+	display                          : none;
 }
-
 #category-line dd div
 {
 	display                          : inline;
@@ -163,50 +160,52 @@ h3
 	vertical-align                   : middle;
 }
 
+#category-line #category
+{
+	width                            : 100px;	
+}
+
+#category-line dd .entrytype-template
+{
+	display:none;	
+}
+
 /* textarea -------------------------------------------------------------------------------------*/
 #textarea-section
 {
 	background-color                 : #F2F2F2;
 	clear                            : both;
-	margin                           : 0 0px 0 0;
+	margin                           : 0;
 	padding                          : 0 0 5px 0;
-/*	width                            : 650px;*/
-	width                            : 100%;
+	width                            : 300px;
 }
 
 #textarea-section dl.editoroption
 {
-	border                           : none;
+	display                          : none;
+/*	border                           : none;
 	height                           : 24px;
 	padding                          : 5px 5px 4px 5px;
-	position                         : relative;
+	position                         : relative;*/
 }
 
 #textarea-section dl.editoroption dt
 {
-	color                            : #6B90C3;
-	float                            : left;
-	font-weight                      : bold;
-	left                             : 0;
-	line-height                      : 24px;
-	padding                          : 0;
-	position                         : relative;
-	top                              : 0;
-	text-align                       : right;
-	width                            : 80px;
+	display:none;
 }
 
 #textarea-section dl.editoroption dd
 {
 	float                            : left;
 	margin                           : 0 0 0 10px;
+	width:43%;
 }
 
 #textarea-section dl.editoroption dd select
 {
 	margin                           : 0;
 	vertical-align                   : middle;
-	width                            : 160px;
+	width                            : 95%;
 }
 
 /* editor */
@@ -215,9 +214,6 @@ h3
 {
 	margin                           : 0 auto;
 	width                            : 100%;
-	position                         : fixed;
-	top                              : 40px;
-	height                           : 31px;
 	z-index                          : 190;
 	background-color                 : #fff;
     filter                           : alpha(opacity=90);
@@ -271,9 +267,11 @@ h3
 	border                           : 2px solid #999999;
 	padding                          : 0 10px 10px 10px;
 	position                         : absolute;
-	right                            : 0;
-	top                              : 0;
+	top                              : 145px;
+	left                             : 15px;
 	width                            : 245px;
+	-webkit-box-shadow               : 0 0 7px #666;
+	-moz-box-shadow                  : 0 0 7px #666;
 }
 
 .entry-editor-property .entry-editor-property-option
@@ -790,6 +788,14 @@ dl#permalink-line dd p
 	text-align                       : right;
 }
 
+dl#permalink-line dd samp
+{
+/*	width                            : 30px;
+	text-overflow                    : ellipsis;
+	overflow                         : hidden;*/
+	display                          : none;
+}
+
 dl#date-line dd div,
 dl#status-line dd div,
 dl#finish-line dd div,
@@ -826,106 +832,21 @@ dl#power-line
 	border                           : 1px solid #BBBBBB;
 	color                            : #000000;
 	font-weight                      : bold;
-	height                           : 3em;
-	line-height                      : 3em;
+	height                           : 2em;
+	line-height                      : 2em;
 	padding-top                      : 8px;
 	padding-bottom                   : 6px;
 	vertical-align                   : middle;
 }
 
-.preview-button,
+.preview-button
+{
+	display                          : none;	
+}
 .list-button
 {
 	height                           : 2em !important;
 	line-height                      : 2em !important;
-}
-
-/* Eolin Dialogue ********************************************************************************/
-
-#eolinDialog
-{
-	background-color                 : #FFFFFF;
-	background-image                 : url('./image/img_eolin_head.jpg');
-	background-repeat                : no-repeat;
-	border                           : 1px solid #666666;
-	left                             : 220px !important;
-	padding                          : 58px 8px 15px 8px;
-	position                         : relative;
-	top                              : 600px !important;
-	width                            : 492px;
-}
-
-#eolinDialog .temp-box
-{
-	border                           : 3px solid #4783B2;
-}
-
-#eolinDialog .temp-box h4
-{
-	border-bottom                    : 1px solid #E6E6E6;
-	color                            : #284A9F;
-	font-size                        : 1em;
-	font-weight                      : bold;
-	margin                           : 20px 15px 10px 15px;
-}
-
-#eolinDialog .temp-box em
-{
-	color                            : #646464;
-	display                          : block;
-	font-weight                      : bold;
-	margin-bottom                    : 5px;
-}
-
-#eolinDialog .temp-box p
-{
-	color                            : #7C7C7C;
-	line-height                      : 1.5em;
-	margin                           : 0 17px;
-}
-
-#eolinDialog .button-box
-{
-	border-top                       : 1px solid #E6E6E6;
-	margin                           : 15px 15px 10px 15px;
-	padding                          : 15px 0 5px 0;
-	width                            : auto;
-}
-
-#eolinDialog .button-box button
-{
-	background-image                 : url('./image/bg_eolin_button.gif');
-	background-position              : left top;
-	background-repeat                : no-repeat;
-	border                           : none;
-	color                            : #284A9F;
-	height                           : 36px;
-	width                            : 313px;
-}
-
-#eolinDialog .button-box button span
-{
-	background-image                 : url('./image/img_eolin_bullet.jpg');
-	background-position              : right top;
-	background-repeat                : no-repeat;
-	padding-right                    : 16px;
-}
-
-#eolinDialog .button-box #close-button
-{
-	background-image                 : url('./image/img_eolin_close.jpg');
-	background-repeat                : no-repeat;
-	display                          : block;
-	height                           : 17px;
-	position                         : absolute;
-	top                              : 10px;
-	right                            : 10px;
-	width                            : 17px;
-}
-
-#eolinDialog .button-box #close-button span
-{
-	display                          : none;
 }
 
 /* Template Dialogue ********************************************************************************/
