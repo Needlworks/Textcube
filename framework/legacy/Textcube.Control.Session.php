@@ -11,6 +11,7 @@ final class Session {
 	private static $sessionDBRepair = false;
 	private static $sConfig = null;
 	private static $context = null;
+	private static $pool = null;
 	
 	function __construct() {
 		$sessionMicrotime = Timer::getMicroTime();
@@ -18,6 +19,7 @@ final class Session {
 	
 	private static function initialize() {
 		self::$context = Model_Context::getInstance();
+		self::$pool = DBModel::getInstance();
 	}
 
 	public static function open($savePath, $sessionName) {
@@ -94,9 +96,7 @@ final class Session {
 		if ($result) {
 			$gc = array();
 			foreach ($result as $g)
-				array_push($gc, $g);
-			foreach ($gc as $g)
-				@self::query('query',"DELETE FROM ".self::$context->getProperty('database.prefix')."SessionVisits WHERE id = '{$g[0]}' AND address = '{$g[1]}'");
+				@self::query('query',"DELETE FROM ".self::$context->getProperty('database.prefix')."SessionVisits WHERE id = '{$g['id']}' AND address = '{$g['address']}'");
 		}
 		return true;
 	}
@@ -231,7 +231,8 @@ final class Session {
 		$result = self::DBQuery($mode,$sql);
 		if($result === false) {
 			if (self::$sessionDBRepair === false) {	
-				@POD::query("REPAIR TABLE ".self::$context->getProperty('database.prefix')."Sessions, ".self::$context->getProperty('database.prefix')."SessionVisits");
+				@POD::query("REPAIR TABLE ".self::$context->getProperty('database.prefix')."Sessions");
+				@POD::query("REPAIR TABLE ".self::$context->getProperty('database.prefix')."SessionVisits");
 				$result = self::DBQuery($mode,$sql);
 				self::$sessionDBRepair = true;
 			}
