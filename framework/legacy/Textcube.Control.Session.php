@@ -80,23 +80,24 @@ final class Session {
 	
 	public static function destroy($id, $setCookie = false) {
 		if(is_null(self::$context)) self::initialize();
-		@self::query('cell',"DELETE FROM ".self::$context->getProperty('database.prefix')."Sessions 
+		self::query('query',"DELETE FROM ".self::$context->getProperty('database.prefix')."Sessions 
 			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 		self::gc();
 	}
 	
 	public static function gc($maxLifeTime = false) {
 		if(is_null(self::$context)) self::initialize();
-		@self::query('query',"DELETE FROM ".self::$context->getProperty('database.prefix')."Sessions 
+		self::query('query',"DELETE FROM ".self::$context->getProperty('database.prefix')."Sessions 
 			WHERE updated < (UNIX_TIMESTAMP() - ".self::$context->getProperty('service.timeout').")");
-		$result = @self::query('all',"SELECT DISTINCT v.id, v.address 
+		$result = self::query('all',"SELECT DISTINCT v.id, v.address 
 			FROM ".self::$context->getProperty('database.prefix')."SessionVisits v 
 			LEFT JOIN ".self::$context->getProperty('database.prefix')."Sessions s ON v.id = s.id AND v.address = s.address 
 			WHERE s.id IS NULL AND s.address IS NULL");
 		if ($result) {
 			$gc = array();
-			foreach ($result as $g)
-				@self::query('query',"DELETE FROM ".self::$context->getProperty('database.prefix')."SessionVisits WHERE id = '{$g['id']}' AND address = '{$g['address']}'");
+			foreach ($result as $g) {
+				self::query('query',"DELETE FROM ".self::$context->getProperty('database.prefix')."SessionVisits WHERE id = '{$g['id']}' AND address = '{$g['address']}'");
+			}
 		}
 		return true;
 	}
