@@ -169,6 +169,7 @@ class pageCache extends Singleton {
 }
 
 class queryCache extends Singleton {
+	private $pooltype = null;
 	function __construct($query = null, $prefix = null){
 		$this->reset();
 	
@@ -177,8 +178,10 @@ class queryCache extends Singleton {
 		
 		if($this->context->getProperty('service.memcached') == true) {
 			$this->pool = Cache_Memcache::getInstance();
+			$this->pooltype = 'memcache';
 		} else {
 			$this->pool = DBModel::getInstance();
+			$this->pooltype = 'db';
 		}
 	}
 
@@ -219,8 +222,15 @@ class queryCache extends Singleton {
 		else return false;
 	}
 	public function flush() {
+		if(empty($this->__usePageCache)) return false;
 		$this->pool->reset('PageCacheLog',$this->prefix);
-		$this->pool->flush();
+		if($this->pooltype == 'memcache') {	
+			$this->pool->flush();
+		} else {
+			$this->pool->setQualifier('blogid','equals',getBlogId());
+			$this->pool->setQualifier('name','like',$this->prefix,true);
+			$this->pool->delete();
+		}
 	}
 	
 	private function getQueryHash(){ 

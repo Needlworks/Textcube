@@ -4,7 +4,6 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 require ROOT . '/library/preprocessor.php';
-requireComponent('Textcube.Control.Openid');
 
 $entryId = $suri['id'];
 $IV = array(
@@ -102,6 +101,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 			if(!empty($row))
 				sendCommentPing($entryId, "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$row['slogan']}": $entryId), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
 		}
+		requireModel('blog.skin');
 		$skin = new Skin($skinSetting['skin']);
 		if ($entryId > 0) {
 			$commentBlock = getCommentView($entry, $skin);

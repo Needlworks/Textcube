@@ -34,7 +34,7 @@ function doesExistTable($tablename) {
 
 class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_query;
-	protected $_relations, $_filters, $_order, $_limitation, $table, $id, $_reservedFields, $_isReserved;
+	protected $_relations, $_filters, $_order, $_limitation, $table, $id, $_reservedFields, $_isReserved, $param;
 			
 	function __construct($table = null) {
 		$this->context = Model_Context::getInstance();
@@ -56,7 +56,7 @@ class DBModel extends Singleton implements IModel {
 		$this->_order = array();	
 		$this->_limit = array();
 		$this->_isReserved = array();
-		
+		$this->param = array();	
 		$this->_reservedFields    = POD::reservedFieldNames();
 		$this->_reservedFunctions = POD::reservedFunctionNames();
 		if(!empty($this->_reservedFields)) {
@@ -64,6 +64,7 @@ class DBModel extends Singleton implements IModel {
 				$this->_isReserved[$reserved] = true;
 			}
 		}
+		if(!empty($param)) $this->param = $param;
 	}
 	
 	public function resetAttributes() {
@@ -277,7 +278,7 @@ class DBModel extends Singleton implements IModel {
 			return true;
 		return false;
 	}
-	
+
 	/// To use create() method, $this->structure variable must be defined.
 	public function create() {
 		if(!isset($this->structure) || empty($this->structure) || !is_array($this->structure)) return false;

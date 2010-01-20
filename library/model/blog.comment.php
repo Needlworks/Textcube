@@ -3,8 +3,6 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-requireComponent( "Textcube.Control.Openid" );
-
 function doesHaveOpenIDPriv( & $comment )
 {
 	global $database;
@@ -431,7 +429,7 @@ function addComment($blogid, & $comment) {
 				$blockType = "comment";
 				$filtered = 1;
 			} elseif ( !Acl::check( "group.writers" ) && !$openid &&
-				getBlogSetting('AddCommentMode', '') == 'openid' ) {
+					Setting::getBlogSettingGlobal('AddCommentMode', '') == 'openid' ) {
 				$blockType = "openidonly";
 				$filtered = 1;
 			} else if (!fireEvent('AddingComment', true, $comment)) {
