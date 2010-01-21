@@ -7,7 +7,7 @@
 // due to compartibility issues with other software under 'Project Tattertools.'
 
 class Link {
-	function Link() {
+	function __construct() {
 		$this->reset();
 	}
 
@@ -82,7 +82,7 @@ class Link {
 		if (!$query = $this->_buildQuery())
 			return false;
 		if (!isset($this->registered))
-			$query->setAttribute('written', 'UNIX_TIMESTAMP()');
+			$query->setAttribute('written', Timestamp::getUNIXtime());
 		
 		if (!$query->insert())
 			return $this->_error('insert');
