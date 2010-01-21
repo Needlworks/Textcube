@@ -1,7 +1,7 @@
 CREATE TABLE [##_dbPrefix_##]Attachments (
   blogid integer default 0 NOT NULL ,
   parent integer default 0 NOT NULL,
-  name varchar(32) default '' NOT NULL,
+  name varchar(64) default '' NOT NULL,
   label varchar(64) default '' NOT NULL,
   mime varchar(32) default '' NOT NULL,
   "size" integer default 0 NOT NULL,
