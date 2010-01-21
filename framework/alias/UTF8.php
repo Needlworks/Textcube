@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 	
 if(!class_exists('UTF8')) {
-	class UTF8 extends Utils_UTF8 {
+	class UTF8 extends Utils_Unicode {
 	}
 }
 ?>

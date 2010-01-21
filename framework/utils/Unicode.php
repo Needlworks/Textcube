@@ -5,7 +5,7 @@
 
 
 /// @description Unicode string manipulation class.
-class Utils_UTF8 {
+class Utils_Unicode {
 	static function validate($str, $truncated = false) {
 		$length = strlen($str);
 		if ($length == 0)
