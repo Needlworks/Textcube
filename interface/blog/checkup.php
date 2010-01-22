@@ -478,7 +478,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		}
 	}
 	/* From Textcube 1.7.9 */
-	if (DBQuery::queryCell("DESC {$database['prefix']}Attachments name", 'Type') == 'varchar(32)') {
+	if (POD::queryCell("DESC {$database['prefix']}Attachments name", 'Type') == 'varchar(32)') {
 		$changed = true;
 		echo '<li>', _text('티스토리 데이터 백업 호환성을 위하여 첨부파일 이름 필드 크기를 확장합니다.'), ': ';
 		if (POD::execute("ALTER TABLE {$database['prefix']}Attachments CHANGE name name varchar(64) NOT NULL DEFAULT ''"))
