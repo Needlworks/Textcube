@@ -753,12 +753,12 @@ if (count($templateLists) == 0) {
 											<div id="attachment-container" class="container">
 <?php
 $param = array(
-		'uploadPath'=> "$context->getProperty('uri.blog')/owner/entry/attachmulti/", 
-		'singleUploadPath'=> "$context->getProperty('uri.blog')/owner/entry/attach/", 
-		'deletePath'=>"$context->getProperty('uri.blog')/owner/entry/detach/multi/",
-		'labelingPath'=> "$context->getProperty('uri.blog')/owner/entry/attachmulti/list/", 
-		'refreshPath'=> "$context->getProperty('uri.blog')/owner/entry/attachmulti/refresh/", 
-		'fileSizePath'=> "$context->getProperty('uri.blog')/owner/entry/size?parent=");		
+		'uploadPath'=>       $context->getProperty('uri.blog')."/owner/entry/attachmulti/", 
+		'singleUploadPath'=> $context->getProperty('uri.blog')."/owner/entry/attach/", 
+		'deletePath'=>       $context->getProperty('uri.blog')."/owner/entry/detach/multi/",
+		'labelingPath'=>     $context->getProperty('uri.blog')."/owner/entry/attachmulti/list/", 
+		'refreshPath'=>      $context->getProperty('uri.blog')."/owner/entry/attachmulti/refresh/", 
+		'fileSizePath'=>     $context->getProperty('uri.blog')."/owner/entry/size?parent=");		
 printEntryFileList(getAttachments($blogid, $entry['id'], 'label'), $param);
 ?>
 											</div>
