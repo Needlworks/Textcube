@@ -37,7 +37,7 @@ function correctSidebarImage( $subject ) {
 } 
 
 function correctImagePath($match ) {
-	global $skinSetting, $context->getProperty('uri.service');
+	global $skinSetting;
 	$pathArr = explode( "/" , $match[1]);
 	if( false === $pathArr  ) 
 		return $match[0];
@@ -53,11 +53,9 @@ function correctImagePath($match ) {
 	return str_replace( $match[1],  $context->getProperty('uri.service') . "/skin/{$skinSetting['skin']}/" . $match[1], $match[0]);
 }
 
-if (false) correctImagePath('');
-
 function getBlogContentForSideBar()
 {
-	global $blogid, $blog, $context->getProperty('uri.blog'), $database, $service, $stats, $skinSetting;
+	global $blogid, $blog, $database, $service, $stats, $skinSetting;
 	
 	global $pd_category, $pd_categoryXhtml, $pd_archive, $pd_calendar, $pd_tags, $pd_notices, $pd_recentEntry;
 	global $pd_recentComment, $pd_recentTrackback, $pd_link, $pd_authorList;
@@ -81,7 +79,7 @@ function getBlogContentForSideBar()
 
 function pretty_dress($view)
 {
-	global $blogid, $blog, $context->getProperty('uri.blog'), $database, $service, $stats, $skinSetting;
+	global $blogid, $blog, $database, $service, $stats, $skinSetting;
 	
 	/* local static */
 	global $pd_category, $pd_categoryXhtml, $pd_archive, $pd_calendar, $pd_tags, $pd_notices, $pd_recentEntry;

@@ -38,7 +38,6 @@ function correctCoverpageImage( $subject ) {
 } 
 
 function correctImagePath($match ) {
-	global $skinSetting, $context->getProperty('uri.service');
 	$pathArr = explode( "/" , $match[1]);
 	if( false === $pathArr  ) 
 		return $match[0];
@@ -51,15 +50,14 @@ function correctImagePath($match ) {
 		return $match[0] ; // full url의 경우 스킵
 	if( $pathArr[0] != '.'  && $pathArr[0] != '..' ) 
 		return $match[0] ; //첫 디렉토리가 현재 디렉토리가 아닌경우 스킵
-	return str_replace( $match[1],  $context->getProperty('uri.service') . "/skin/{$skinSetting['skin']}/" . $match[1], $match[0]);
+	return str_replace( $match[1],  $context->getProperty('uri.service') . "/skin/".$context->getProperty('skin.skin')."/" . $match[1], $match[0]);
 }
 
-if (false) correctImagePath('');
 
 function getBlogContentForSideBar()
 {
-	global $blogid, $blog, $context->getProperty('uri.blog'), $database, $service, $stats, $skinSetting;
-	
+	$blogid = getBlogId();
+	global $categories, $totalPosts;
 	global $pd_category, $pd_categoryXhtml, $pd_archive, $pd_calendar, $pd_tags, $pd_notices, $pd_recentEntry;
 	global $pd_recentComment, $pd_recentTrackback, $pd_link, $pd_authorList;
 	
@@ -82,7 +80,7 @@ function getBlogContentForSideBar()
 
 function pretty_dress($view)
 {
-	global $blogid, $database, $service, $stats, $skinSetting;
+	global $blogid, $database, $service, $stats;
 	
 	/* local static */
 	global $pd_category, $pd_categoryXhtml, $pd_archive, $pd_calendar, $pd_tags, $pd_notices, $pd_recentEntry;
@@ -142,7 +140,7 @@ function pretty_dress($view)
 		$itemsView = '';
 		foreach ($notices as $notice) {
 			$itemView = $recentNoticeItem;
-			dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', UTF8::lessenAsEm($notice['title'], $skinSetting['recentNoticeLength']), $notice['id'])), $itemView);
+			dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', UTF8::lessenAsEm($notice['title'], $context->getProperty('skin.recentNoticeLength')), $notice['id'])), $itemView);
 			dress('notice_rep_link', $context->getProperty('uri.blog')."/notice/{$notice['id']}", $itemView);
 			$itemsView .= $itemView;
 		}
