@@ -7,7 +7,7 @@ function getArchives($blogid, $option = 'yearmonth') {
 	global $database;
 	$archives = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
-	$skinSetting = getSkinSettings($blogid);
+	$skinSetting = Setting::getSkinSettings($blogid);
 	$archivesOnPage = $skinSetting['archivesOnPage'];
 	
 	switch (POD::dbms()) {

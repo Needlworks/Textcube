@@ -4,6 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 $confirmString = '';
+$context = Model_Context::getInstance();
 
 if (empty($comment['name']) ) {
 	if( isset($_SESSION['openid']['nickname'])) {
@@ -31,12 +32,12 @@ if( Acl::getIdentity('openid') ) {
 <head>
 	<title><?php echo $pageHeadTitle ;?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/popup-comment.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path') . $context->getProperty('panel.skin');?>/popup-comment.css" />
 	<script type="text/javascript">
 		//<![CDATA[
-			var servicePath = "<?php echo $service['path'];?>";
-			var blogURL = "<?php echo $blogURL;?>";
-			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
+			var servicePath = "<?php echo $context->getProperty('service.path');?>";
+			var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
+			var adminSkin = "<?php echo $context->getProperty('panel.skin');?>";
 		//]]>
 	</script>
 	<script type="text/javascript" src="<?php echo (doesHaveOwnership() ? $service['path'].'/resources' : $service['resourcepath']);?>/script/common2.js"></script>
@@ -89,17 +90,17 @@ if (!doesHaveMembership()) {
 <?php
 }
 ?>
-	<form name="commentToComment" method="post" action="<?php echo ($_POST['mode'] == 'edit' ? $blogURL . '/comment/delete/' . $suri['id'] : $suri['url']);?>">
+	<form name="commentToComment" method="post" action="<?php echo ($_POST['mode'] == 'edit' ? $context->getProperty('uri.blog') . '/comment/delete/' . $context->getProperty('suri.id'): $context->getProperty('suri.url');?>">
 		<input type="hidden" name="mode" value="commit" />
 		<input type="hidden" name="oldPassword" value="<?php echo isset($_POST['password']) ? $_POST['password'] : '';?>" />
 
 		<div id="comment-reply-box">
-			<img src="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />
+			<img src="<?php echo $context->getProperty('service.path') . $context->getProperty('panel.skin');?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />
 
 			<div class="title"><span class="text" id="title"><?php echo $pageTitle ;?></span></div>
 <?php
 if($viewMode == 'comment') {
-	$parent = getComment(getBlogId(), $suri['id'], null, false);
+	$parent = getComment(getBlogId(), $context->getProperty('suri.id'), null, false);
 	if(($parent['secret'] == 1) && !doesHaveOwnership()) {
 		$parent['name'] = $parent['written'] = $parent['comment'] = _t('[비밀댓글]');
 	}

@@ -17,11 +17,12 @@ $IV = array(
 	)
 );
 require ROOT . '/library/preprocessor.php';
-requireComponent('Textcube.Control.Openid');
 
+$context = Model_Context::getInstance();
 $blogid = getBlogId();
-list($replier) = getCommentAttributes($blogid,$suri['id'],'replier');
-$comment = POD::queryRow("SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$suri['id']}");
+
+list($replier) = getCommentAttributes($blogid,$context->getProperty('suri.id'),'replier');
+$comment = POD::queryRow("SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = ".$context->getProperty('suri.id'));
 $openid_identity = Acl::getIdentity('openid');
 
 if(!Acl::check('group.administrators') && !Acl::check('group.owners')) { // If no administration permission,
@@ -34,7 +35,7 @@ if(!Acl::check('group.administrators') && !Acl::check('group.owners')) { // If n
 		}
 	}
 }
-list($replier) = getCommentAttributes($blogid, $suri['id'], 'replier');
+list($replier) = getCommentAttributes($blogid, $context->getProperty('suri.id'), 'replier');
 if (!empty($_POST['mode'])) {
 	switch ($_POST['mode']) {
 		case 'delete':
@@ -42,12 +43,12 @@ if (!empty($_POST['mode'])) {
 				Respond::ErrorPage(_text('댓글이 존재하지 않습니다.'));
 			$result = false;
 			if (doesHaveOwnership()) {
-				$result = trashComment($blogid, $suri['id'], $entryId, isset($_POST['password']) ? $_POST['password'] : '');
+				$result = trashComment($blogid, $context->getProperty('suri.id'), $entryId, isset($_POST['password']) ? $_POST['password'] : '');
 			} else {
-				$result = deleteComment($blogid, $suri['id'], $entryId, isset($_POST['password']) ? $_POST['password'] : '');
+				$result = deleteComment($blogid, $context->getProperty('suri.id'), $entryId, isset($_POST['password']) ? $_POST['password'] : '');
 			}			
 			if ($result == true) {
-				$skin = new Skin($skinSetting['skin']);
+				$skin = new Skin($context->getProperty('skin.skin'));
 				$entry = array();
 				$entry['id'] = $entryId;
 				$entry['slogan'] = getSloganById($blogid, $entry['id']);
@@ -94,7 +95,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 					$comment = false;
 				}
 			} else {
-				$comment = getComment($blogid, $suri['id'], isset($_POST['password']) ? $_POST['password'] : '');
+				$comment = getComment($blogid, $context->getProperty('suri.id'), isset($_POST['password']) ? $_POST['password'] : '');
 			}
 			if ($comment === false)
 				Respond::ErrorPage(_text('댓글이 존재하지 않거나 패스워드가 일치하지 않습니다.'));
@@ -109,7 +110,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 					$comment = false;
 				}
 			} else {
-				$comment = getComment($blogid, $suri['id'], isset($_POST['oldPassword']) ? $_POST['oldPassword'] : '');
+				$comment = getComment($blogid, $context->getProperty('suri.id'), isset($_POST['oldPassword']) ? $_POST['oldPassword'] : '');
 			}
 			if ($comment === false)
 				Respond::ErrorPage(_text('댓글이 존재하지 않거나 패스워드가 일치하지 않습니다.'));
@@ -137,8 +138,8 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 					printHtmlFooter();
 					exit;
 				} else if ($result !== false) {
-					$skin = new Skin($skinSetting['skin']);
-					$suri['page'] = getGuestbookPageById($blogid, $suri['id']);
+					$skin = new Skin($context->getProperty('skin.skin'));
+					$suri['page'] = getGuestbookPageById($blogid, $context->getProperty('suri.id'));
 					$entry = array();
 					$entry['id'] = $comment['entry'];
 					$entry['slogan'] = getSloganById($blogid, $entry['id']);
@@ -187,20 +188,20 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 <head>
 	<title><?php echo _text('댓글 삭제') ;?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/popup-comment.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path') . $context->getProperty('panel.skin');?>/popup-comment.css" />
 	<script type="text/javascript">
 		//<![CDATA[
-			var servicePath = "<?php echo $service['path'];?>";
-			var blogURL = "<?php echo $blogURL;?>";
-			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
+			var servicePath = "<?php echo i$context->getProperty('service.path');?>";
+			var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
+			var adminSkin = "<?php echo $context->getProperty('panel.skin');?>";
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/common2.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/common2.js"></script>
 </head>
 <body>
-	<form name="deleteComment" method="post" action="<?php echo $blogURL;?>/comment/delete/<?php echo $suri['id'];?>">
+	<form name="deleteComment" method="post" action="<?php echo $context->getProperty('uri.blog');?>/comment/delete/<?php echo $context->getProperty('suri.id');?>">
 		<div id="comment-box">
-			<img src="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />	
+			<img src="<?php echo $context->getProperty('service.path') . $context->getProperty('admin.skin');?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />	
 			
 			<div id="command-box">
 <?php 

@@ -133,10 +133,10 @@ $uri->URIParser();
 $uri->VariableParser();
 
 /// Setting global variables
-//if($context->getProperty('service.legacyMode') == true) {
+if($context->getProperty('service.legacymode') == true) {
 	$legacy = Model_LegacySupport::getInstance();
 	$legacy->addSupport('URLglobals');
-//}
+}
 
 /** INITIALIZE : Session (if necessary)
     -----------------------------------
@@ -211,27 +211,29 @@ if (!defined('NO_INITIALIZAION')) {
     When necessary, loads admin panel skin information.
 */
 	if(in_array($context->getProperty('uri.interfaceType'), array('owner','reader')) || defined('__TEXTCUBE_ADMINPANEL__')) {
-		$adminSkinSetting = array();
-		
-		/// TODO : This is a test routine. we should abstract this.
 		$browser = Utils_Browser::getInstance();
 		if($browser->getBrowserName() == 'mSafari') {
-			$adminSkinSetting['skin'] = "/skin/admin/mobile";
+			$context->setProperty('panel.skin', "/skin/admin/mobile");
+//			$adminSkinSetting['skin'] = "/skin/admin/mobile";
 		} else {
 
 			if(!is_null($context->getProperty('service.adminskin'))) {
-				$adminSkinSetting['skin'] = "/skin/admin/".$context->getProperty('service.adminskin');
+				$context->setProperty('panel.skin',"/skin/admin/".$context->getProperty('service.adminskin'));
+//				$adminSkinSetting['skin'] = "/skin/admin/".$context->getProperty('service.adminskin');
 			} else {
-				$adminSkinSetting['skin'] = "/skin/admin/".Setting::getBlogSettingGlobal("adminSkin", "whitedream");
+				$context->setProperty('panel.skin',"/skin/admin/".Setting::getBlogSettingGlobal("adminSkin", "whitedream"));
+//				$adminSkinSetting['skin'] = "/skin/admin/".Setting::getBlogSettingGlobal("adminSkin", "whitedream");
 			}
 		}
 		// content 본문에 removeAllTags()가 적용되는 것을 방지하기 위한 프로세스를 위한 변수.
 		$contentContainer = array();
 	
-		if (file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/wysiwyg.css"))
-			$adminSkinSetting['editorTemplate'] = "/skin/blog/{$skinSetting['skin']}/wysiwyg.css";
+		if (file_exists(ROOT . "/skin/blog/".$context->getProperty('skin.skin')."/wysiwyg.css"))
+			$context->setProperty('panel.editorTemplate',"/skin/blog/".$context->getProperty('skin.skin')."/wysiwyg.css");
+			//$adminSkinSetting['editorTemplate'] = "/skin/blog/{$skinSetting['skin']}/wysiwyg.css";
 		else
-			$adminSkinSetting['editorTemplate'] = "/resources/style/default-wysiwyg.css";
+			$context->setProperty('panel.editorTemplate',"/resources/style/default-wysiwyg.css");
+			//$adminSkinSetting['editorTemplate'] = "/resources/style/default-wysiwyg.css";
 	}
 }
 	

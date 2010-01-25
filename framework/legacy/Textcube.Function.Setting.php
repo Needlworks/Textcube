@@ -411,7 +411,6 @@ class Setting {
 		return false;
 	}
 	function setSkinSettingDefault($name, $value, $blogid = null) {
-		global $database;
 		if(is_null($blogid)) $blogid = getBlogId();
 		$query = DBModel::getInstance();
 		$query->reset('SkinSettings');
@@ -424,7 +423,6 @@ class Setting {
 	}	
 	
 	function setSkinSetting($name, $value, $blogid = null) {
-		global $database;
 		global $__gCacheSkinSettings;
 		global $gCacheStorage;
 	

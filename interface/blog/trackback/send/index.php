@@ -6,7 +6,8 @@
 define('__TEXTCUBE_ADMINPANEL__',true);
 
 require ROOT . '/library/preprocessor.php';
-$entry = getEntry($blogid, $suri['id']);
+$context = Model_Context::getInstance();
+$entry = getEntry($blogid, $context->getProperty('suri.id'));
 if (is_null($entry)) {
 	Respond::NotFoundPage();
 	exit;
@@ -17,17 +18,17 @@ if (is_null($entry)) {
 <head>
 	<title><?php echo _text('글걸기 시도');?></title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/popup-trackback.css" />
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path') . $context->getProperty('panel.skin');?>/popup-trackback.css" />
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
-	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/common2.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/EAF4.js"></script>
-	<!-- script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/EAF4.js"></script -->
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/common2.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/EAF4.js"></script>
+	<!-- script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/EAF4.js"></script -->
 	<script type="text/javascript">
 		//<![CDATA[
-			var servicePath = "<?php echo $service['path'];?>";
-			var blogURL = "<?php echo $blogURL;?>";
-			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
+			var servicePath = "<?php echo $context->getProperty('$service.path');?>";
+			var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
+			var adminSkin = "<?php echo $context->getProperty('panel.skin');?>";
 			
 			function onclick_send(form) {
 				trim_all(form);
@@ -47,7 +48,7 @@ if (is_null($entry)) {
 			function sendTrackback(id) {
 				try {
 					var trackbackField = document.getElementById('url');
-					var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trackback/send/" + id + "?url=" + encodeURIComponent(trackbackField.value));
+					var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback/send/" + id + "?url=" + encodeURIComponent(trackbackField.value));
 					request.onSuccess = function() {
 						showTrackbackSender(id);
 						trackbackField.value ='';
@@ -63,7 +64,7 @@ if (is_null($entry)) {
 			}
 			
 			function showTrackbackSender(id) {
-				var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trackback/log/" + id);
+				var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback/log/" + id);
 				request.onSuccess = function() {
 					resultRow = this.getText("/response/result").split('*');
 					if (resultRow.length == 1) {
@@ -97,7 +98,7 @@ if (is_null($entry)) {
 			
 			function removeTrackbackLog(id,entry) {
 				if(confirm("<?php echo _text('선택된 걸린글을 지웁니다. 계속 하시겠습니까?');?>")) {
-					var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trackback/log/remove/" + id);
+					var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback/log/remove/" + id);
 					request.onSuccess = function() {
 						showTrackbackSender(entry);
 					}
@@ -113,17 +114,17 @@ if (is_null($entry)) {
 			}
 
 			window.onload = function() {
-				showTrackbackSender(<?php echo $suri['id'];?>);
+				showTrackbackSender(<?php echo $context->getProperty('suri.id');?>);
 				//resize();
 			}
 		//]]>
 	</script>
 </head>
 <body>
-	<form name="trackback" method="post" action="<?php echo $suri['url'];?>">
+	<form name="trackback" method="post" action="<?php echo $context->getProperty('suri.url');?>">
 	
 		<div id="trackback-box">
-			<img src="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />
+			<img src="<?php echo $service['path'] . $context->getProperty('panel.skin');?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />
 			
 			<div class="title"><span class="text"><?php echo _text('글걸기를 시도합니다');?></span></div>
 	      	<div id="command-box">
@@ -135,11 +136,11 @@ if (is_null($entry)) {
 					<dt><label for="url"><?php echo _text('주소입력');?></label><span class="divider"> | </span></dt>
 					<dd>
 						<input type="text" id="url" class="input-text" name="url" onkeydown="if (event.keyCode == 13) { sendTrackback(<?php echo $suri['id'];?>); return false;}" />
-						<input type="button" class="input-button" name="Submit" value="<?php echo _text('전송');?>" onclick="sendTrackback(<?php echo $suri['id'];?>); return false;" />
+						<input type="button" class="input-button" name="Submit" value="<?php echo _text('전송');?>" onclick="sendTrackback(<?php echo $context->getProperty('suri.id');?>); return false;" />
 					</dd>
 				</dl>
 				
-				<div id="logs_<?php echo $suri['id'];?>"></div>
+				<div id="logs_<?php echo $context->getProperty('suri.id');?>"></div>
 			</div>
 			
 			<div class="button-box">

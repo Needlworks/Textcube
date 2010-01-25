@@ -3,16 +3,18 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
+$context = Model_Context::getInstance();
+
 /***** Automatic menu location routine. *****/
 $blogMenu = array();
-$urlFragments = preg_split('/\//',ltrim($suri['directive'],'/'));
+$urlFragments = preg_split('/\//',ltrim($context->getProperty('suri.directive'),'/'));
 if(isset($urlFragments[1])) $blogMenu['topMenu'] = $urlFragments[1];
 if(isset($urlFragments[2])) $blogMenu['contentMenu'] = $urlFragments[2];
 else $blogMenu['contentMenu'] = $urlFragments[1];
 if(isset($urlFragments[3])) $blogMenu['contentMenu'] .= $urlFragments[3];
 // If admin.panel plugin, set the menu location again.
 if(isset($urlFragments[2])&&strncmp($urlFragments[2],'adminMenu',9) == 0) {
-	if($service['fancyURL'] < 2) {
+	if($context->getProperty('service.fancyURL') < 2) {
 		$plugin = isset($_GET['/owner/plugin/adminMenu?name']) ? $_GET['/owner/plugin/adminMenu?name'] : '';
 	} else {
 		$plugin = isset($_GET['name']) ? $_GET['name'] : '';
@@ -195,10 +197,10 @@ if(isset($blogMenu['topMenu'])) {
 			array('menu'=>'teamblog','title'=>_t('필진 목록'),'link'=>'/owner/network/teamblog'),			
 			array('menu'=>'link','title'=>_t('링크'),'link'=>'/owner/network/link')
 		);
-		if($service['reader'] == true) array_push($blogContentMenuItem['network'],array('menu'=>'reader','title'=>_t('바깥 글 읽기'),'link'=>'/owner/network/reader'));
+		if($context->getProperty('service.reader') == true) array_push($blogContentMenuItem['network'],array('menu'=>'reader','title'=>_t('바깥 글 읽기'),'link'=>'/owner/network/reader'));
 	} else {
 		$blogContentMenuItem['network'] = array();
-		if($service['reader'] == true) array_push($blogContentMenuItem['network'],array('menu'=>'reader','title'=>_t('바깥 글 읽기'),'link'=>'/owner/network/reader'));
+		if($context->getProperty('service.reader') == true) array_push($blogContentMenuItem['network'],array('menu'=>'reader','title'=>_t('바깥 글 읽기'),'link'=>'/owner/network/reader'));
 	}	
 	if(Acl::check('group.administrators')) {
 		$blogContentMenuItem['skin'] = array(
@@ -268,7 +270,7 @@ $blogContentMenuItem['center'] = array_merge($blogContentMenuItem['center'] , ar
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo htmlspecialchars($blog['title']);?> &gt; <?php echo $blogMenu['title'];?></title>
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/basic.css" />
 <?php
 	$browser = Utils_Browser::getInstance();
 	if($browser->getBrowserName() == 'mSafari') {
@@ -279,26 +281,26 @@ $blogContentMenuItem['center'] = array_merge($blogContentMenuItem['center'] , ar
 // common CSS.
 foreach($blogMenu['loadCSS'] as $loadCSS) {
 ?>
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/<?php echo $loadCSS;?>.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/<?php echo $loadCSS;?>.css" />
 <?php
 }
 
 foreach ($pluginListForCSS as $tempPluginDir) {
 	if (isset($tempPluginDir) && file_exists(ROOT . "/plugins/$tempPluginDir/plugin-main.css")) {
 ?>
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $tempPluginDir;?>/plugin-main.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path');?>/plugins/<?php echo $tempPluginDir;?>/plugin-main.css" />
 <?php
 	}
 }
 ?>
 	<!--[if lte IE 6]>
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie.css" />
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/basic.ie.css" />
 <?php
 // CSS for Internet Explorer 6
 if (array_key_exists('loadCSSIE6', $blogMenu)) {
 	foreach($blogMenu['loadCSSIE6'] as $loadCSS) {
 ?>
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/<?php echo $loadCSS;?>.ie.css" />
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/<?php echo $loadCSS;?>.ie.css" />
 <?php
 	}
 }
@@ -306,20 +308,20 @@ if (array_key_exists('loadCSSIE6', $blogMenu)) {
 foreach ($pluginListForCSS as $tempPluginDir) {
 	if (isset($tempPluginDir) && file_exists(ROOT . "/plugins/$tempPluginDir/plugin-main.ie.css")) {
 ?>
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $tempPluginDir;?>/plugin-main.ie.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path');?>/plugins/<?php echo $tempPluginDir;?>/plugin-main.ie.css" />
 <?php
 	}
 }
 ?>	
 	<![endif]-->
 	<!--[if IE 7]>
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie7.css" />
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/basic.ie7.css" />
 <?php
 // CSS for Internet Explorer 7
 if (array_key_exists('loadCSSIE7', $blogMenu)) {
 	foreach($blogMenu['loadCSSIE7'] as $loadCSS) {
 ?>
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/<?php echo $loadCSS;?>.ie7.css" />
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/<?php echo $loadCSS;?>.ie7.css" />
 <?php
 	}
 }
@@ -327,7 +329,7 @@ if (array_key_exists('loadCSSIE7', $blogMenu)) {
 foreach ($pluginListForCSS as $tempPluginDir) {
 	if (isset($tempPluginDir) && file_exists(ROOT . "/plugins/$tempPluginDir/plugin-main.ie7.css")) {
 ?>
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $tempPluginDir;?>/plugin-main.ie7.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path');?>/plugins/<?php echo $tempPluginDir;?>/plugin-main.ie7.css" />
 <?php
 	}
 }
@@ -338,14 +340,14 @@ unset($tempPluginDir);
 	<![endif]-->
 	<script type="text/javascript">
 		//<![CDATA[
-			var servicePath = "<?php echo $service['path'];?>";
-			var blogURL = "<?php echo $blogURL;?>";
-			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
+			var servicePath = "<?php echo $context->getProperty('service.path');?>";
+			var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
+			var adminSkin = "<?php echo $context->getProperty('panel.skin');?>";
 <?php
 if (in_array($blogMenu['contentMenu'],array('post','edit'))) {
-	if(file_exists(ROOT.$adminSkinSetting['editorTemplate'])) {
+	if(file_exists(ROOT.$context->getProperty('panel.editorTemplate'))) {
 ?>
-			var editorCSS = "<?php echo $adminSkinSetting['editorTemplate'];?>";
+			var editorCSS = "<?php echo $context->getProperty('panel.editorTemplate');?>";
 <?php
 	} else {
 ?>
@@ -357,32 +359,32 @@ include ROOT . '/resources/locale/messages.php';
 ?>
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/byTextcube.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/byTextcube.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/EAF4.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/common2.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/owner.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/EAF4.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/common2.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/owner.js"></script>
 <?php
 if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
 ?>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/mootools10.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/moodalbox/moodalbox.js"></script>
-	<link rel="stylesheet" href="<?php echo $service['path'];?>/resources/style/helper/moodalbox.css" type="text/css" media="screen" />
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/mootools10.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/moodalbox/moodalbox.js"></script>
+	<link rel="stylesheet" href="<?php echo $context->getProperty('service.path');?>/resources/style/helper/moodalbox.css" type="text/css" media="screen" />
 <?php
 }
 ?>
 <?php
 /*if($service['helperPanel'] == true) {
 ?>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/dojo/dojo.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/helpdialog.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/dojo/dojo.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/helpdialog.js"></script>
 <?php
 }*/
 if($service['interface'] == 'simple') {
 	if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
 ?>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/mootools.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/mootools.js"></script>
 <?php
 	}
 }
@@ -390,18 +392,18 @@ if( isset($service['admin_script']) ) {
 	if( is_array($service['admin_script']) ) {
 		foreach( $service['admin_script'] as $src ) {
 ?>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/<?php echo $src;?>"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/<?php echo $src;?>"></script>
 <?php
 		}
 	} else {
 ?>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/<?php echo $service['admin_script'];?>"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/<?php echo $service['admin_script'];?>"></script>
 <?php
 	}
 }
 if($blogMenu['topMenu']=='entry' && in_array($blogMenu['contentMenu'],array('post','edit','keylog','template','notice'))) {
 ?>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/editor3.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/editor3.js"></script>
 <?php
 }
 echo fireEvent('ShowAdminHeader', '');
@@ -437,11 +439,11 @@ $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 				<div id="main-action-box">
 					<ul id="main-action">
 <?php if(Acl::check('group.creators')) { ?>
-						<li id="action-move-to-control-panel"><a href="<?php echo $blogURL.'/control';?>" title="<?php echo _t('관리 패널로 이동합니다.');?>"><span class="text"><?php echo _t('텍스트큐브 관리');?></span></a></li>
+						<li id="action-move-to-control-panel"><a href="<?php echo $context->getProperty('uri.blog').'/control';?>" title="<?php echo _t('관리 패널로 이동합니다.');?>"><span class="text"><?php echo _t('텍스트큐브 관리');?></span></a></li>
 <?php } ?>
 						<li id="action-helper"><a href="<?php echo getHelpURL($helpURL);?>" onclick="window.open(this.href); return false;"><span class="text"><?php echo _t('도우미');?></span></a></li>
-						<li id="action-move-to-blog"><a href="<?php echo $blogURL;?>/" title="<?php echo _t('블로그 메인으로 이동합니다.');?>"><span class="text"><?php echo _t('블로그로 이동');?></span></a></li>
-						<li id="action-logout"><a href="<?php echo $blogURL;?>/logout" title="<?php echo _t('로그아웃하고 블로그 메인으로 이동합니다.');?>"><span class="text"><?php echo _t('로그아웃');?></span></a></li>
+						<li id="action-move-to-blog"><a href="<?php echo $context->getProperty('uri.blog');?>/" title="<?php echo _t('블로그 메인으로 이동합니다.');?>"><span class="text"><?php echo _t('블로그로 이동');?></span></a></li>
+						<li id="action-logout"><a href="<?php echo $context->getProperty('uri.blog');?>/logout" title="<?php echo _t('로그아웃하고 블로그 메인으로 이동합니다.');?>"><span class="text"><?php echo _t('로그아웃');?></span></a></li>
 					</ul>
 				</div>
 				
@@ -465,13 +467,13 @@ $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 				
 				<div id="main-menu-box">
 					<ul id="main-menu">
-						<li id="menu-textcube"><a href="<?php echo $blogURL.'/owner/center/dashboard';?>" title="<?php echo _t('센터로 이동합니다.');?>"><span class="text"><?php echo _t('텍스트큐브');?></span></a></li>
+						<li id="menu-textcube"><a href="<?php echo $context->getProperty('uri.blog').'/owner/center/dashboard';?>" title="<?php echo _t('센터로 이동합니다.');?>"><span class="text"><?php echo _t('텍스트큐브');?></span></a></li>
 <?php //echo User::changeBlog();?>						
 <?php
 foreach($blogTopMenuItem as $menuItem) {
 ?>
 						<li id="menu-<?php echo $menuItem['menu'];?>"<?php echo $menuItem['menu']==$blogMenu['topMenu'] ? ' class="selected"' : '';?>>
-							<a href="<?php echo $blogURL.$menuItem['link'];?>" class="menu-name"><span><?php echo $menuItem['title'];?></span><!--[if gte IE 7]><!--></a><!--<![endif]-->
+							<a href="<?php echo $context->getProperty('uri.blog').$menuItem['link'];?>" class="menu-name"><span><?php echo $menuItem['title'];?></span><!--[if gte IE 7]><!--></a><!--<![endif]-->
 							<!--[if lte IE 6]><table><tr><td><![endif]-->							
 							<ul id="submenu-<?php echo $menuItem['menu'];?>" class="sub-menu">
 <?php
@@ -533,7 +535,7 @@ foreach($blogTopMenuItem as $menuItem) {
 		}
 		if($contentMenuItem['menu'] != 'divider') {
 ?><a href="<?php 
-						echo $blogURL.
+						echo $context->getProperty('uri.blog').
 							$contentMenuItem['link'].
 							($contentMenuItem['menu'] == 'post' && isset($currentCategory) ? '?category='.$currentCategory : '');
 						?>"><span class="text"><?php echo $contentMenuItem['title'];?></span></a><?php
@@ -604,7 +606,7 @@ if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 							($blogMenu['contentMenu'] == 'edit' && $contentMenuItem['menu'] == 'post')) ? " class=\"selected{$firstChildClass}\"" : ($firstChildClass ? " class=\"$firstChildClass\"" : ''));?>><?php
 			if($contentMenuItem['menu'] == 'divider') {?><span class="divider"><?php echo $contentMenuItem['title'];?></span><?php
 				} else {?><a href="<?php 
-						echo $blogURL.
+						echo $context->getProperty('uri.blog').
 							$contentMenuItem['link'].
 							($contentMenuItem['menu'] == 'post' && isset($currentCategory) ? '?category='.$currentCategory : '');
 						?>"><span class="text"><?php echo $contentMenuItem['title'];?></span></a><?php

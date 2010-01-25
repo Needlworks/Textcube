@@ -158,10 +158,10 @@ function getPrivateCategoryExclusionQuery($blogid) {
 }
 
 function getCategoriesSkin() {
-	global $service;
-	$setting = getSkinSettings(getBlogId());
+	$ctx = Model_Context::getInstance();
+	$setting = Setting::getSkinSettings(getBlogId());
 	$skin = array('name' => "{$setting['skin']}",
-			'url'               => $service['path'] . "/skin/tree/{$setting['tree']}",
+			'url'               => $ctx->getProperty('service.path') . "/skin/tree/{$setting['tree']}",
 			'labelLength'       => $setting['labelLengthOnTree'],
 			'showValue'         => $setting['showValueOnTree'],
 			'itemColor'         => "{$setting['colorOnTree']}",
