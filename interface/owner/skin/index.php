@@ -75,7 +75,7 @@ function writeValue($value, $label, $className) {
 											return;
 									}
 									try {
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/skin/change/");
+										var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/skin/change/");
 										request.onSuccess = function() {
 											isSkinModified = false;
 											PM.showMessage("<?php echo _t('성공적으로 변경했습니다.');?>", "center", "bottom");
@@ -106,7 +106,7 @@ function writeValue($value, $label, $className) {
 									} else {
 										viewtype = 'iconview';
 									}
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/skin/saveScope");
+									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/skin/saveScope");
 
 									request.onSuccess = function() {
 										document.getElementById('search-form').submit();
@@ -162,9 +162,9 @@ if (file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/index.xml")) {
 ?>
 										</div>
 										<div class="button-box">
-											<a class="edit-button button" href="<?php echo $blogURL;?>/owner/skin/edit"><span class="text"><?php echo _t('편집하기');?></span></a>
+											<a class="edit-button button" href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/edit"><span class="text"><?php echo _t('편집하기');?></span></a>
 											<span class="hidden">|</span>
-											<a class="setting-button button" href="<?php echo $blogURL;?>/owner/skin/setting"><span class="text"><?php echo _t('세부 설정');?></span></a>
+											<a class="setting-button button" href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/setting"><span class="text"><?php echo _t('세부 설정');?></span></a>
 										</div>
 <?php
 } else {
@@ -190,7 +190,7 @@ if (file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/index.xml")) {
 						
 						<div id="part-skin-list" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('사용가능한 스킨들의 목록입니다');?></span></h2>
-							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/skin">
+							<form id="search-form" class="data-subbox" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/skin">
 								
 								<h2><?php echo _t('검색');?></h2>
 								<div id="search-box" class="section">
@@ -199,7 +199,7 @@ if (file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/index.xml")) {
 									<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="document.getElementById('search-form').submit();return false;" />
 								</div>
 							</form>
-							<form id="skin-search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/skin">
+							<form id="skin-search-form" class="data-subbox" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/skin">
 								<dl id="viewmode-box" class="line">
 									<dt class="hidden"><?php echo _t('출력 설정');?></dt>
 									<dd id="viewmode-line-align">
@@ -249,9 +249,9 @@ for ($i = 0; $i < count($skins); $i++) {
 ?>
 										</div>
 										<div id="button_<?php echo $skin['name'];?>" class="button-box">
-											<a class="preview-button button" href="<?php echo $blogURL;?>/owner/skin/preview/?skin=<?php echo $skin['name'];?>" onclick="window.open(this.href, &quot;<?php echo $skin['name'];?>&quot;,&quot;location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0&quot;); return false;"><span><?php echo _t('미리보기');?></span></a>
+											<a class="preview-button button" href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/preview/?skin=<?php echo $skin['name'];?>" onclick="window.open(this.href, &quot;<?php echo $skin['name'];?>&quot;,&quot;location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0&quot;); return false;"><span><?php echo _t('미리보기');?></span></a>
 											<span class="hidden">|</span>
-											<a class="apply-button button" href="<?php echo $blogURL;?>/owner/skin/change/?skinName=<?php echo urlencode($skin['name']);?>" onclick="selectSkin('<?php echo $skin['name'];?>'); return false;"><span><?php echo _t('적용');?></span></a>
+											<a class="apply-button button" href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/change/?skinName=<?php echo urlencode($skin['name']);?>" onclick="selectSkin('<?php echo $skin['name'];?>'); return false;"><span><?php echo _t('적용');?></span></a>
 										</div>
 									</div>
 								</div>

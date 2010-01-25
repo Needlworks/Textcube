@@ -21,7 +21,7 @@ require ROOT . '/interface/common/owner/header.php';
 									<img src="http://www.w3.org/Icons/valid-xhtml11-blue" alt="Valid XHTML 1.1!" />
 								</div>
 								<div id="Needlworks-Icon">
-									<img src="<?php echo $serviceURL;?>/resources/image/needlworks.png" alt="Made by Needlworks / TNF" />
+									<img src="<?php echo $context->getProperty('uri.service');?>/resources/image/needlworks.png" alt="Made by Needlworks / TNF" />
 								</div>
 								<div class="clear"></div>
 							</div>

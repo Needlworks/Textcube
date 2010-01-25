@@ -20,5 +20,5 @@ $skin->purgeCache();
 
 //Respond::ResultPage(0);
 if ($_GET['viewMode'] != '') $_GET['viewMode'] = '?' . $_GET['viewMode'];
-header('Location: '. $blogURL . '/owner/skin/sidebar' . $_GET['viewMode']);
+header('Location: '. $context->getProperty('uri.blog') . '/owner/skin/sidebar' . $_GET['viewMode']);
 ?>

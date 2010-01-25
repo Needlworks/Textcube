@@ -171,7 +171,7 @@ require ROOT . '/interface/common/owner/header.php';
 									</div>
 								</div>
 
-								<form class="section" method="post" action="<?php echo $blogURL;?>/owner/entry/category">
+								<form class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/entry/category">
 									<fieldset id="property-box" class="container">
 										<legend><?php echo _t('분류 관리 및 설정');?></legend>
 

@@ -59,7 +59,7 @@ require ROOT . '/interface/common/owner/header.php';
 								function deleteComment(id) {
 									if (!confirm("<?php echo _t('선택된 댓글 또는 방명록을 삭제합니다. 계속 하시겠습니까?');?>"))
 										return;
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trash/comment/delete/" + id);
+									var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/comment/delete/" + id);
 									request.onSuccess = function () {
 										document.getElementById('list-form').submit();
 									}
@@ -71,7 +71,7 @@ require ROOT . '/interface/common/owner/header.php';
 								function deleteCommentAll() {
 									if (!confirm("<?php echo _t('휴지통 내의 모든 댓글 및 방명록을 삭제합니다. 계속 하시겠습니까?');?>"))
 										return;
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trash/emptyTrash/?type=1&ajaxcall");
+									var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/emptyTrash/?type=1&ajaxcall");
 									request.onSuccess = function () {
 										window.location.reload();
 									}
@@ -92,7 +92,7 @@ require ROOT . '/interface/common/owner/header.php';
 											targets += oElement.value +'~*_)';
 										}
 									}
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/trash/comment/delete/");
+									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/comment/delete/");
 									request.onSuccess = function() {
 										document.getElementById('list-form').submit();
 									}
@@ -105,7 +105,7 @@ require ROOT . '/interface/common/owner/header.php';
 								function revertComment(id) {
 									if (!confirm("<?php echo _t('선택된 댓글 및 방명록을 복원합니다. 계속 하시겠습니까?');?>"))
 										return;
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trash/comment/revert/" + id);
+									var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/comment/revert/" + id);
 									request.onSuccess = function () {
 										document.getElementById('list-form').submit();
 									}
@@ -126,7 +126,7 @@ require ROOT . '/interface/common/owner/header.php';
 											targets += oElement.value +'~*_)';
 										}
 									}
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/trash/comment/revert/");
+									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/comment/revert/");
 									request.onSuccess = function() {
 										document.getElementById('list-form').submit();
 									}
@@ -160,7 +160,7 @@ require ROOT . '/interface/common/owner/header.php';
 										param 	+= '&command=' 	+ command;
 										param 	+= '&id=' 	+ no;
 										
-										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/filter/change/" + param);
+										var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter/change/" + param);
 										var iconList = document.getElementsByTagName("a");
 										for (var i = 0; i < iconList.length; i++) {
 											icon = iconList[i];
@@ -282,7 +282,7 @@ require ROOT . '/interface/common/owner/communicationTab.php';
 								<p class="explain"><?php echo _t('휴지통에 버려진 댓글은 15일이 지나면 자동으로 지워집니다. 광고 댓글의 차단 및 분석을 위하여 휴지통의 데이터를 사용하는 플러그인이 있을 수 있으므로 수동으로 지우지 않는 것을 권장합니다.');?></p>
 							</div>	
 
-							<form id="trash-form" method="post" action="<?php echo $blogURL;?>/owner/communication/trash">
+							<form id="trash-form" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash">
 								<fieldset class="section">
 									<legend><?php echo _t('삭제된 파일 보기 설정');?></legend>
 									
@@ -304,7 +304,7 @@ require ROOT . '/interface/common/owner/communicationTab.php';
 								</fieldset>
 							</form>
 							
-							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/communication/trash/comment">
+							<form id="list-form" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/comment">
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
@@ -361,19 +361,19 @@ for ($i=0; $i<sizeof($comments); $i++) {
 <?php
 	if ($isNameFiltered) {
 ?>
-												<a id="nameFilter<?php echo $currentNumber;?>-<?php echo $i;?>" class="block-icon bullet" href="<?php echo $blogURL;?>/owner/communication/filter/change/?value=<?php echo urlencode(escapeJSInAttribute($comment['name']));?>&amp;mode=name&amp;command=unblock&amp;id=<?php echo $filter->id;?>" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name']);?>', '<?php echo $filter->id;?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>"><span class="text"><?php echo _t('[차단됨]');?></span></a>
+												<a id="nameFilter<?php echo $currentNumber;?>-<?php echo $i;?>" class="block-icon bullet" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter/change/?value=<?php echo urlencode(escapeJSInAttribute($comment['name']));?>&amp;mode=name&amp;command=unblock&amp;id=<?php echo $filter->id;?>" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name']);?>', '<?php echo $filter->id;?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>"><span class="text"><?php echo _t('[차단됨]');?></span></a>
 <?php
 	} else {
 ?>
-												<a id="nameFilter<?php echo $currentNumber;?>-<?php echo $i;?>" class="unblock-icon bullet" href="<?php echo $blogURL;?>/owner/communication/filter/change/?value=<?php echo urlencode(escapeJSInAttribute($comment['name']));?>&amp;mode=name&amp;command=block&amp;id=<?php echo $filter->id;?>" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name']);?>', '<?php echo $filter->id;?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.');?>"><span class="text"><?php echo _t('[허용됨]');?></span></a>
+												<a id="nameFilter<?php echo $currentNumber;?>-<?php echo $i;?>" class="unblock-icon bullet" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter/change/?value=<?php echo urlencode(escapeJSInAttribute($comment['name']));?>&amp;mode=name&amp;command=block&amp;id=<?php echo $filter->id;?>" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name']);?>', '<?php echo $filter->id;?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.');?>"><span class="text"><?php echo _t('[허용됨]');?></span></a>
 <?php
 	}
 ?>
-												<a href="<?php echo $blogURL;?>/owner/communication/trash/comment?name=<?php echo urlencode(escapeJSInAttribute($comment['name']));?>" title="<?php echo _t('이 이름으로 등록된 댓글 목록을 보여줍니다.');?>"><?php echo htmlspecialchars($comment['name']);?></a>
+												<a href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/comment?name=<?php echo urlencode(escapeJSInAttribute($comment['name']));?>" title="<?php echo _t('이 이름으로 등록된 댓글 목록을 보여줍니다.');?>"><?php echo htmlspecialchars($comment['name']);?></a>
 											</td>
 											<td class="content">
 <?php
-	echo '<a class="entryURL" href="'.$blogURL.'/'.$comment['entry'].'#comment'.$comment['id'].'" title="'._t('댓글이 작성된 포스트로 직접 이동합니다.').'">';
+	echo '<a class="entryURL" href="'.$context->getProperty('uri.blog').'/'.$comment['entry'].'#comment'.$comment['id'].'" title="'._t('댓글이 작성된 포스트로 직접 이동합니다.').'">';
 	echo '<span class="entry-title">'. htmlspecialchars($comment['title']) .'</span>';
 	
 	if ($comment['title'] != '' && $comment['parent'] != '') {
@@ -397,21 +397,21 @@ for ($i=0; $i<sizeof($comments); $i++) {
 <?php
 	if ($isIpFiltered) {
 ?>
-												<a id="ipFilter<?php echo $currentIP;?>-<?php echo $i;?>" class="block-icon bullet" href="<?php echo $blogURL;?>/owner/communication/filter/change/?value=<?php echo urlencode(escapeJSInAttribute($comment['ip']));?>&amp;mode=ip&amp;command=unblock&amp;id=<?php echo $filter->id;?>" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['ip']);?>', '<?php echo $filter->id;?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>"><span class="text"><?php echo _t('[차단됨]');?></span></a>
+												<a id="ipFilter<?php echo $currentIP;?>-<?php echo $i;?>" class="block-icon bullet" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter/change/?value=<?php echo urlencode(escapeJSInAttribute($comment['ip']));?>&amp;mode=ip&amp;command=unblock&amp;id=<?php echo $filter->id;?>" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['ip']);?>', '<?php echo $filter->id;?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>"><span class="text"><?php echo _t('[차단됨]');?></span></a>
 <?php
 	} else {
 ?>
-												<a id="ipFilter<?php echo $currentIP;?>-<?php echo $i;?>" class="unblock-icon bullet" href="<?php echo $blogURL;?>/owner/communication/filter/change/?value=<?php echo urlencode(escapeJSInAttribute($comment['ip']));?>&amp;mode=ip&amp;command=block&amp;id=<?php echo $filter->id;?>" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['ip']);?>', '<?php echo $filter->id;?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.');?>"><span class="text"><?php echo _t('[허용됨]');?></span></a>
+												<a id="ipFilter<?php echo $currentIP;?>-<?php echo $i;?>" class="unblock-icon bullet" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter/change/?value=<?php echo urlencode(escapeJSInAttribute($comment['ip']));?>&amp;mode=ip&amp;command=block&amp;id=<?php echo $filter->id;?>" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['ip']);?>', '<?php echo $filter->id;?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.');?>"><span class="text"><?php echo _t('[허용됨]');?></span></a>
 <?php
 	}
 ?>
-												<a href="<?php echo $blogURL;?>/owner/communication/trash/comment?ip=<?php echo urlencode(escapeJSInAttribute($comment['ip']));?>" title="<?php echo _t('이 IP로 등록된 댓글 목록을 보여줍니다.');?>"><?php echo $comment['ip'];?></a>
+												<a href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/comment?ip=<?php echo urlencode(escapeJSInAttribute($comment['ip']));?>" title="<?php echo _t('이 IP로 등록된 댓글 목록을 보여줍니다.');?>"><?php echo $comment['ip'];?></a>
 											</td>
 											<td class="revert">
-												<a class="revert-button button" href="<?php echo $blogURL;?>/owner/communication/trash/comment/revert/<?php echo $comment['id'];?>" onclick="revertComment(<?php echo $comment['id'];?>); return false;" title="<?php echo _t('이 댓글을 복원합니다.');?>"><span class="text"><?php echo _t('복원');?></span></a>
+												<a class="revert-button button" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/comment/revert/<?php echo $comment['id'];?>" onclick="revertComment(<?php echo $comment['id'];?>); return false;" title="<?php echo _t('이 댓글을 복원합니다.');?>"><span class="text"><?php echo _t('복원');?></span></a>
 											</td>
 											<td class="delete">
-												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/communication/trash/comment/delete/<?php echo $comment['id'];?>" onclick="deleteComment(<?php echo $comment['id'];?>); return false;" title="<?php echo _t('이 댓글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
+												<a class="delete-button button" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/comment/delete/<?php echo $comment['id'];?>" onclick="deleteComment(<?php echo $comment['id'];?>); return false;" title="<?php echo _t('이 댓글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
 											</td>
 						  				</tr>
 <?php
@@ -472,7 +472,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 							
 							<hr class="hidden" />
 							
-							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/communication/trash/comment">
+							<form id="search-form" class="data-subbox" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/comment">
 								<h2><?php echo _t('검색');?></h2>
 								
 								<div class="section">
@@ -484,7 +484,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 							</form>
 							
 							<div class="button-box">
-								<a class="all-delete-button button" href="<?php echo $blogURL;?>/owner/communication/trash/emptyTrash/?type=1" onclick="deleteCommentAll(); return false;" title="<?php echo _t('휴지통의 댓글을 한 번에 삭제합니다.');?>"><span class="text"><?php echo _t('휴지통 비우기');?></span></a>
+								<a class="all-delete-button button" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/emptyTrash/?type=1" onclick="deleteCommentAll(); return false;" title="<?php echo _t('휴지통의 댓글을 한 번에 삭제합니다.');?>"><span class="text"><?php echo _t('휴지통 비우기');?></span></a>
 							</div>
 						</div>
 <?php

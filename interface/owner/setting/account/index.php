@@ -47,7 +47,7 @@ require ROOT . '/interface/common/owner/header.php';
 											document.getElementById('homepage').select();
 											return false;
 										}
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/account/homepage");
+										var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/setting/account/homepage");
 										request.onSuccess = function() {
 											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 										}
@@ -73,7 +73,7 @@ require ROOT . '/interface/common/owner/header.php';
 											nick.select();
 											return false;
 										}
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/account/profile/");
+										var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/setting/account/profile/");
 										request.onSuccess = function() {
 											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 										}
@@ -108,7 +108,7 @@ require ROOT . '/interface/common/owner/header.php';
 										PM.showMessage("<?php echo _t('비밀번호를 입력해 주십시오.');?>","center","top");
 										return false;
 									}
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/account/password/");
+									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/setting/account/password/");
 									request.onSuccess = function() {
 										PM.showMessage("<?php echo _t('변경했습니다.');?>", "center", "bottom");
 										prevPwd.value = '';
@@ -124,7 +124,7 @@ require ROOT . '/interface/common/owner/header.php';
 								function saveAPIKey() {
 									var apiPasswd = document.getElementById('TCApiPassword');
 									
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/account/apikey/");
+									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/setting/account/apikey/");
 									request.onSuccess = function() {
 										PM.showMessage("<?php echo _t('변경했습니다.');?>", "center", "bottom");
 									}
@@ -155,7 +155,7 @@ require ROOT . '/interface/common/owner/header.php';
 											alert( "<?php echo _t('블로그 주소를 오픈아이디로 사용하지 않습니다.') ?>");
 										}
 							
-										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/openid/delegate?openid_identifier=" + escape(delegatedid));
+										var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/setting/openid/delegate?openid_identifier=" + escape(delegatedid));
 										request.onSuccess = function() {
 											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 										}
@@ -230,13 +230,13 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 										alert(errorStr);
 										return false;
 									}
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/account/invite/");
+									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/setting/account/invite/");
 									request.onVerify = function() {
 										return this.getText("/response/error") == 0;
 									}
 									request.onSuccess = function() {
 										PM.showMessage("<?php echo _t('초대장을 발송했습니다.');?>", "center", "bottom");
-										window.location.href='<?php echo $blogURL;?>/owner/setting/account/';
+										window.location.href='<?php echo $context->getProperty('uri.blog');?>/owner/setting/account/';
 									}
 									request.onError = function() {
 										switch(Number(this.getText("/response/error"))) {
@@ -280,7 +280,7 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 										if( msg ) {
 											alert( msg );
 										}
-										//window.location.href='<?php echo $blogURL;?>/owner/setting/account/';
+										//window.location.href='<?php echo $context->getProperty('uri.blog');?>/owner/setting/account/';
 									}
 									request.send("&senderName="+encodeURIComponent(sender[0][0])+"&senderEmail="+encodeURIComponent(sender[0][1])+"&email="+inviteList[0][1]+"&name="+encodeURIComponent(inviteList[0][0])+"&identify="+identify.value+"&comment="+encodeURIComponent(comment.value));
 								}
@@ -297,10 +297,10 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 								
 								function cancelInvite(userid, caller) {
 									if(!confirm('<?php echo _t('삭제하시겠습니까?');?>')) return false;
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/account/cancelInvite/");
+									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/setting/account/cancelInvite/");
 									request.onSuccess = function() {
 										//caller.parentNode.parentNode.removeNode();
-										window.location.href="<?php echo $blogURL;?>/owner/setting/account";
+										window.location.href="<?php echo $context->getProperty('uri.blog');?>/owner/setting/account";
 									}
 									request.onError = function() {
 										PM.showErrorMessage('<?php echo _t('실패했습니다.');?>', "center", "bottom");
@@ -326,7 +326,7 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 							<h2 class="caption"><span class="main-text"><?php echo _t('로그인 정보');?></span></h2>
 							
 							<div class="data-inbox">
-								<form id="info-section" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/account">
+								<form id="info-section" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/setting/account">
 									<fieldset class="container">
 										<legend><?php echo _t('개인 정보');?></legend>
 										
@@ -349,7 +349,7 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 								
 								<hr class="hidden" />
 								
-								<form id="account-section" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/account">
+								<form id="account-section" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/setting/account">
 									<fieldset class="container">
 										<legend><?php echo _t('비밀번호 변경');?></legend>
 										
@@ -370,7 +370,7 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="savePwd(); return false;" />
 									</div>
 								</form>
-								<form id="apikey-section" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/apikey">
+								<form id="apikey-section" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/setting/apikey">
 									<fieldset class="container">
 										<legend><?php echo _t('API Key 설정');?></legend>
 										
@@ -412,7 +412,7 @@ if ($hptype == 'internal' || 'author') {
 	$blogidforhomepage = getUserSetting("blogidforhomepage"); 
 }
 ?>
-								<form id="homepage-section" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/account/homepage">
+								<form id="homepage-section" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/setting/account/homepage">
 									<fieldset class="container">
 										<legend><?php echo _t('대표 주소');?></legend>
 										<dl id="blogger-name-line" class="line">
@@ -482,7 +482,7 @@ for ($i=0; $i<count($openid_list); $i++) {
 ?>
 									<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td><?php echo $openid_list[$i] ?></td>
-										<td><a href="<?php echo $blogURL?>/owner/setting/account/openid?mode=del&amp;openid_identifier=<?php echo urlencode($openid_list[$i])?>"><?php echo _t('삭제') ?></a></td>
+										<td><a href="<?php echo $context->getProperty('uri.blog')?>/owner/setting/account/openid?mode=del&amp;openid_identifier=<?php echo urlencode($openid_list[$i])?>"><?php echo _t('삭제') ?></a></td>
 									</tr>
 <?php
 }
@@ -502,7 +502,7 @@ if( $i > 0 ) { /* 출력된것이 하나라도 있다면*/
 <?php
 if( isActivePlugin( 'CL_OpenID' ) || Acl::check('group.administrators') ) {
 ?>
-								<form id="openid-section" class="section" method="get" action="<?php echo $blogURL;?>/owner/setting/account/openid">
+								<form id="openid-section" class="section" method="get" action="<?php echo $context->getProperty('uri.blog');?>/owner/setting/account/openid">
 									<fieldset class="container">
 										<legend><?php echo _t('이 아이디에 오픈아이디를 연결하기');?></legend>
 										
@@ -543,7 +543,7 @@ if( isActivePlugin( 'CL_OpenID' ) || Acl::check('group.administrators') ) {
 							<h2 class="caption"><span class="main-text"><?php echo _t('블로그 주소를 오픈아이디로 사용하기')?></span></h2>
 							
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _f('블로그 주소(%1)를 현재 아이디와 연결된 오픈아이디 중 하나에 위임하여 오픈아이디로 사용할 수 있습니다.', "$hostURL$blogURL").' '._t('위임을 통하여 이후 오픈아이디를 사용하는 다른 서비스에서 이 블로그 주소를 오픈아이디로 사용할 수 있습니다.');?></p>
+								<p class="explain"><?php echo _f('블로그 주소(%1)를 현재 아이디와 연결된 오픈아이디 중 하나에 위임하여 오픈아이디로 사용할 수 있습니다.', "$context->getProperty('uri.host')$context->getProperty('uri.blog')").' '._t('위임을 통하여 이후 오픈아이디를 사용하는 다른 서비스에서 이 블로그 주소를 오픈아이디로 사용할 수 있습니다.');?></p>
 							</div>
 							
 							<div class="data-inbox">
@@ -586,11 +586,11 @@ if ($service['type'] != 'single' && Acl::check("group.creators")):
 							
 <?php if( !function_exists( 'mail' ) && !getServiceSetting( 'useCustomSMTP', 0 )  ) { ?>
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t('시스템에 자체에서 메일을 보낼 수가 없습니다. 외부 메일 서버를 지정해주세요.');?> <a href="<?php echo $blogURL ?>/owner/control/server"><?php echo _t('메일 서버 설정 바로가기')?></a></p>
+								<p class="explain"><?php echo _t('시스템에 자체에서 메일을 보낼 수가 없습니다. 외부 메일 서버를 지정해주세요.');?> <a href="<?php echo $context->getProperty('uri.blog') ?>/owner/control/server"><?php echo _t('메일 서버 설정 바로가기')?></a></p>
 							</div>
 <?php } else { ?>
 							<div class="data-inbox">
-								<form id="letter-section" class="section" method="post" action="<?php echo $blogURL;?>/owner/setting/account">
+								<form id="letter-section" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/setting/account">
 									<dl>
 										<dt class="title"><span class="label"><?php echo _t('초대장');?></span></dt>
 										<dd id="letter">

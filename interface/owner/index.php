@@ -8,5 +8,5 @@ require ROOT . '/library/preprocessor.php';
 $refererURI = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 // Redirect.
 $_SESSION['refererURI'] = $refererURI;
-header("Location: $blogURL/owner/center/dashboard");
+header("Location: $context->getProperty('uri.blog')/owner/center/dashboard");
 ?>

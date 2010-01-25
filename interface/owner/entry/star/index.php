@@ -22,7 +22,7 @@ requireStrictRoute();
 // TeamBlog ACL check whether or not current user can edit this post.
 if(Acl::check('group.writers') === false && !empty($suri['id'])) {
 	if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) { 
-		@header("location:".$blogURL ."/owner/entry");
+		@header("location:".$context->getProperty('uri.blog') ."/owner/entry");
 		exit;
 	}
 }

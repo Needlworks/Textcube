@@ -28,9 +28,9 @@ if ((isset($_REQUEST['name'])) && (isset($adminMenuMappings[$_REQUEST['name']]))
 		$plugin = $adminMenuMappings[$_REQUEST['name']]['plugin'];
 		$handler = $adminMenuMappings[$_REQUEST['name']]['handler'];
 
-		$pluginAccessURL = $blogURL . '/owner/plugin/adminMenu?name=' . $plugin;
-		$pluginMenuURL = $blogURL . '/owner/plugin/adminMenu?name=' . $plugin . '/' . $handler;
-		$pluginHandlerURL = $blogURL . '/owner/plugin/adminHandler?name=' . $plugin;
+		$pluginAccessURL = $context->getProperty('uri.blog') . '/owner/plugin/adminMenu?name=' . $plugin;
+		$pluginMenuURL = $context->getProperty('uri.blog') . '/owner/plugin/adminMenu?name=' . $plugin . '/' . $handler;
+		$pluginHandlerURL = $context->getProperty('uri.blog') . '/owner/plugin/adminHandler?name=' . $plugin;
 		$pluginSelfURL = $pluginMenuURL;
 
 		$pluginAccessParam = '?name=' . $plugin;

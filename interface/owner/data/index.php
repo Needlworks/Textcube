@@ -17,7 +17,7 @@ if (isset($checkFunction)) unset($checkFunction);
 							//<![CDATA[
 								function checkForceTextcubeVersion() {
 									if (confirm("<?php echo _t('텍스트큐브 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
-										window.location.href = "<?php echo $blogURL;?>/checkup";
+										window.location.href = "<?php echo $context->getProperty('uri.blog');?>/checkup";
 									else
 										alert("<?php echo _t('점검 없이 이 기능을 사용할 수 없습니다.');?>");
 								}
@@ -32,7 +32,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								window.addEventListener("load", checkTextcubeVersion, false);
 								function checkTextcubeVersion() {
 									if (confirm("<?php echo _t('버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?');?>"))
-										window.location.href = "<?php echo $blogURL;?>/checkup";
+										window.location.href = "<?php echo $context->getProperty('uri.blog');?>/checkup";
 								}
 							//]]>
 						</script>
@@ -45,7 +45,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								window.addEventListener("load", checkTextcubeVersion, false);
 								function checkTextcubeVersion() {
 									if (confirm("<?php echo _t('텍스트큐브 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
-										window.location.href = "<?php echo $blogURL;?>/checkup";
+										window.location.href = "<?php echo $context->getProperty('uri.blog');?>/checkup";
 								}
 							//]]>
 						</script>
@@ -98,7 +98,7 @@ if (false) forceCheckBlog('');
 								}
 								
 								function backupData() {
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/data/backup?includeFileContents=" + document.getElementById("includeFileContents-yes").checked);
+									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/data/backup?includeFileContents=" + document.getElementById("includeFileContents-yes").checked);
 									PM.addRequest(request, "<?php echo _t('백업을 저장하고 있습니다.');?>");
 									request.onSuccess = function () {
 										PM.removeRequest(this);
@@ -113,12 +113,12 @@ if (false) forceCheckBlog('');
 								}
 								
 								function exportData() {
-									window.location.href = "<?php echo $blogURL;?>/owner/data/export?includeFileContents=" + document.getElementById("includeFileContents-yes").checked;
+									window.location.href = "<?php echo $context->getProperty('uri.blog');?>/owner/data/export?includeFileContents=" + document.getElementById("includeFileContents-yes").checked;
 									hideDialog();
 								}
 								
 								function downloadBackup() {
-									window.location.href = "<?php echo $blogURL;?>/owner/data/download";
+									window.location.href = "<?php echo $context->getProperty('uri.blog');?>/owner/data/download";
 									hideDialog();
 								}
 								
@@ -159,7 +159,7 @@ if (false) forceCheckBlog('');
 										confirmativePassword.focus();
 										return false;
 									}
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/data/remove");
+									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/data/remove");
 									PM.addRequest(request, "<?php echo _t('데이터를 삭제하고 있습니다.');?>");
 									request.onSuccess = function () {
 										PM.removeRequest(this);
@@ -202,7 +202,7 @@ if (false) forceCheckBlog('');
 								</p>
 							</div>
 							
-							<form id="dataCorrector" method="get" action="<?php echo $blogURL;?>/owner/data/correct" target="blackhole"></form>
+							<form id="dataCorrector" method="get" action="<?php echo $context->getProperty('uri.blog');?>/owner/data/correct" target="blackhole"></form>
 							
 							<div id="correctingDataDialog" class="system-dialog" style="position: absolute; display: none; z-index: 110;">
 								<h3 id="correctingDataDialogTitle"></h3>
@@ -230,7 +230,7 @@ if(Acl::check("group.creators")) {
 								</p>
 							</div>
 							
-							<form id="dataOptimizer" method="get" action="<?php echo $blogURL;?>/owner/data/optimize" target="blackhole"></form>
+							<form id="dataOptimizer" method="get" action="<?php echo $context->getProperty('uri.blog');?>/owner/data/optimize" target="blackhole"></form>
 							
 							<div id="optimizingDataDialog" class="system-dialog" style="position: absolute; display: none; z-index: 110;">
 								<h3 id="optimizingDataDialogTitle"></h3>
@@ -270,7 +270,7 @@ if(Acl::check("group.creators")) {
 ?>
 								<p>
 									 <?php echo _t('복원을 위하여 외부에서 백업 파일에 접근하려면 아래의 주소를 이용하세요.');?></p>
-								<p class="url"><?php echo $defaultURL."/ttxml?loginid=".User::getEmail(getUserId())."&key=".$apikey;?></p>
+								<p class="url"><?php echo $context->getProperty('uri.default')."/ttxml?loginid=".User::getEmail(getUserId())."&key=".$apikey;?></p>
 <?php
 		} else {
 ?>
@@ -284,7 +284,7 @@ if(Acl::check("group.creators")) {
 <?php
 	}
 ?>
-							<form id="DBExportDialog" class="dialog" method="get" action="<?php echo $blogURL;?>/owner/data/backup" style="position: absolute; display: none; z-index: 100;">
+							<form id="DBExportDialog" class="dialog" method="get" action="<?php echo $context->getProperty('uri.blog');?>/owner/data/backup" style="position: absolute; display: none; z-index: 100;">
 								<h3><?php echo _t('데이터 백업을 시작합니다');?></h3>
 								
 								<div class="message-body">
@@ -331,7 +331,7 @@ if(defined('__TEXTCUBE_NO_FANCY_URL__')) {
 								</p>
 							</div>
 							<div id="DBImportDialog" class="dialog" style="position: absolute; display: none; z-index: 100;">
-								<form id="dataImporter" method="post" action="<?php echo $blogURL;?>/owner/data/import" enctype="multipart/form-data" target="blackhole">
+								<form id="dataImporter" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/data/import" enctype="multipart/form-data" target="blackhole">
 									<h3><?php echo _t('데이터 복원을 시작합니다');?></h3>
 									
 									<div class="message-body">
@@ -398,7 +398,7 @@ if ($backup) {
 								</p>
 							</div>
 							
-							<form id="DBRemoveDialog" class="dialog" method="get" action="<?php echo $blogURL;?>/owner/data/remove" style="position: absolute; display: none; z-index: 100;">
+							<form id="DBRemoveDialog" class="dialog" method="get" action="<?php echo $context->getProperty('uri.blog');?>/owner/data/remove" style="position: absolute; display: none; z-index: 100;">
 								<h3><?php echo _t('데이터 삭제를 시작합니다');?></h3>
 								
 								<div class="message-body">

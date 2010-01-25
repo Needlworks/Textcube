@@ -127,7 +127,7 @@ if ($ajaxcall == false) {
 $modeParam = !empty($_REQUEST['viewMode']) ? '&' . $_REQUEST['viewMode'] : '';
 
 echo '<h2 class="caption"><span class="main-text">' . $title . '</span></h2>';
-echo '<form action="' . $blogURL . '/owner/skin/sidebar/setPlugin?sidebarNumber=', $sidebarNumber, '&modulePos=', $modulePos, $modeParam, '" method="POST" >';
+echo '<form action="' . $context->getProperty('uri.blog') . '/owner/skin/sidebar/setPlugin?sidebarNumber=', $sidebarNumber, '&modulePos=', $modulePos, $modeParam, '" method="POST" >';
 echo '	<div class="field-box">';
 echo $result;
 echo '	</div>';

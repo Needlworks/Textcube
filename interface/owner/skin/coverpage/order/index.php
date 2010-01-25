@@ -26,7 +26,7 @@ $coverpageOrder = getCoverpageModuleOrderData($coverpageCount);
 
 if ($_REQUEST['targetPos'] < 0 || $_REQUEST['targetPos'] > count($coverpageOrder[$_REQUEST['coverpageNumber']]) || $_REQUEST['targetCoverpageNumber'] < 0 || $_REQUEST['targetCoverpageNumber'] >= count($coverpageOrder)) {
 	if ($_SERVER['REQUEST_METHOD'] != 'POST')
-		header('Location: '. $blogURL . '/owner/skin/coverpage' . $_REQUEST['viewMode']);
+		header('Location: '. $context->getProperty('uri.blog') . '/owner/skin/coverpage' . $_REQUEST['viewMode']);
 	else
 		Respond::ResultPage(-1);
 } else {
@@ -44,7 +44,7 @@ if ($_REQUEST['targetPos'] < 0 || $_REQUEST['targetPos'] > count($coverpageOrder
 if ($_REQUEST['viewMode'] != '') $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST')
-	header('Location: '. $blogURL . '/owner/skin/coverpage' . $_REQUEST['viewMode']);
+	header('Location: '. $context->getProperty('uri.blog') . '/owner/skin/coverpage' . $_REQUEST['viewMode']);
 else
 	Respond::ResultPage(0);
 ?>

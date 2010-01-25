@@ -24,7 +24,7 @@ $tabsClass['add'] = true;
 									} else {
 										uri = document.getElementById('addForm').rss.value;
 									}
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/network/link/site/?rss=" + uri);
+									var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/network/link/site/?rss=" + uri);
 									request.onVerify = function() {
 										return (this.getText("/response/url") != "");
 									}
@@ -105,7 +105,7 @@ require ROOT . '/interface/common/owner/linkTab.php';
 								<p class="explain"><?php echo _t('RSS 주소를 입력해서 링크할 홈페이지의 정보를 읽어올 수 있습니다. 수동으로 제목과 주소를 입력하셔도 됩니다. RSS 주소를 입력해서 홈페이지의 정보를 읽어온 경우 링크를 추가할 때 바깥 글 읽기에 RSS 주소를 추가할지를 물어봅니다.');?></p>
 							</div>
 								
-							<form id="addForm" method="post" action="<?php echo $blogURL;?>/owner/network/link/add/">
+							<form id="addForm" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/network/link/add/">
 								<div class="data-inbox">
 									<dl id="rss-address-line" class="line">
 										<dt><label for="rss"><?php echo _t('<acronym title="Rich Site Summary">RSS</acronym> 주소');?></label></dt>
@@ -142,7 +142,7 @@ foreach ($categories as $category) {
 								<div class="button-box">
 									<input type="submit" class="add-button input-button" value="<?php echo _t('추가하기');?>" onclick="addLink(); return false" />
 									<span class="hidden">|</span>
-									<input type="button" class="cancel-button input-button" value="<?php echo _t('취소하기');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/network/link'" />
+									<input type="button" class="cancel-button input-button" value="<?php echo _t('취소하기');?>" onclick="window.location.href='<?php echo $context->getProperty('uri.blog');?>/owner/network/link'" />
 								</div>
 							</form>
 						</div>

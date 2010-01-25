@@ -15,7 +15,7 @@ if (Acl::check('group.creators')) {
 								function deletePluginTable(name, type) {
 									if(!confirm("<?php echo _t('해당 테이블을 정말 삭제하시겠습니까? 사용중인 플러그인은 자동으로 해제됩니다.');?>"))
 											return;								
-									var queryURL = "<?php echo $blogURL;?>/owner/plugin/tableSetting/delete";
+									var queryURL = "<?php echo $context->getProperty('uri.blog');?>/owner/plugin/tableSetting/delete";
 									queryURL += '?name=' + encodeURI(name);
 									queryURL += '&type=' + type;
 									var request = new HTTPRequest("POST", queryURL);
@@ -40,7 +40,7 @@ if (Acl::check('group.creators')) {
 							//]]>
 						</script>
 						
-						<form id="part-plugin-table-list" class="part" method="post" action="<?php echo $blogURL."/owner/plugin/tableSetting";?>">
+						<form id="part-plugin-table-list" class="part" method="post" action="<?php echo $context->getProperty('uri.blog')."/owner/plugin/tableSetting";?>">
 							<h2 class="caption"><span class="main-text"><?php echo _t('플러그인이 생성한 테이블입니다');?></span></h2>
 							
 							<div class="main-explain-box">

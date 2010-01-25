@@ -113,7 +113,7 @@ function printFilterBox($mode, $title) {
 									param += '&command=unblock';
 									param += '&id=' + id;
 									
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/filter/change/" + param);
+									var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter/change/" + param);
 									request.onSuccess = function() {
 										PM.removeRequest(this);
 										PM.showMessage("<?php echo _t('필터를 삭제하였습니다.');?>", "center", "bottom");							
@@ -203,7 +203,7 @@ function printFilterBox($mode, $title) {
 									param  = '?mode=' + mode;
 									param += '&value=' + target.value;
 									
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/filter/change/" + param);
+									var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter/change/" + param);
 									request.onSuccess = function() {
 										PM.removeRequest(this);
 										PM.showMessage("<?php echo _t('필터를 추가하였습니다.');?>", "center", "bottom");
@@ -265,25 +265,25 @@ function printFilterBox($mode, $title) {
 							</div>
 							
 							<div class="data-inbox">
-								<form id="ipSection" class="section" method="post" action="<?php echo $blogURL;?>/owner/communication/filter">
+								<form id="ipSection" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter">
 <?php echo printFilterBox('ip', _t('IP 필터링'));?>
 								</form>
 										
 								<hr class="hidden" />
 										
-								<form id="urlSection" class="section" method="post" action="<?php echo $blogURL;?>/owner/communication/filter">
+								<form id="urlSection" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter">
 <?php echo printFilterBox('url', _t('홈페이지 필터링'));?>
 								</form>
 								
 								<hr class="hidden" />
 								
-								<form id="contentSection" class="section" method="post" action="<?php echo $blogURL;?>/owner/communication/filter">
+								<form id="contentSection" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter">
 <?php echo printFilterBox('content', _t('본문 필터링'));?>
 								</form>
 								
 								<hr class="hidden" />
 								
-								<form id="nameSection" class="section" method="post" action="<?php echo $blogURL;?>/owner/communication/filter">
+								<form id="nameSection" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter">
 <?php echo printFilterBox('name', _t('이름 필터링'));?>
 								</form>
 							</div>
@@ -297,7 +297,7 @@ function printFilterBox($mode, $title) {
 							</div>
 							
 							<div class="data-inbox">
-								<form id="whiteurlSection" class="section" method="post" action="<?php echo $blogURL;?>/owner/communication/filter">
+								<form id="whiteurlSection" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter">
 <?php echo printFilterBox('whiteurl', _t('예외 처리할 홈페이지'));?>
 								</form>
 								

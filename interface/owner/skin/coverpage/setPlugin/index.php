@@ -77,6 +77,6 @@ setBlogSetting("coverpageOrder", serialize($coverpageOrderData));
 
 if ($ajaxcall == false) {
 	if ($_REQUEST['viewMode'] != '') $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];
-	header('Location: '. $blogURL . '/owner/skin/coverpage' . $_REQUEST['viewMode']);
+	header('Location: '. $context->getProperty('uri.blog') . '/owner/skin/coverpage' . $_REQUEST['viewMode']);
 }
 ?>

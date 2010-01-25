@@ -21,7 +21,7 @@ if(isset($suri['id'])) {
 	exit;
 } else {
 	if (setTreeSetting($blogid, $_POST)) {
-		header("Location: $blogURL/owner/skin/setting");
+		header("Location: $context->getProperty('uri.blog')/owner/skin/setting");
 	} else {
 	}
 }

@@ -38,7 +38,7 @@ function correctCoverpageImage( $subject ) {
 } 
 
 function correctImagePath($match ) {
-	global $skinSetting, $serviceURL;
+	global $skinSetting, $context->getProperty('uri.service');
 	$pathArr = explode( "/" , $match[1]);
 	if( false === $pathArr  ) 
 		return $match[0];
@@ -51,14 +51,14 @@ function correctImagePath($match ) {
 		return $match[0] ; // full url의 경우 스킵
 	if( $pathArr[0] != '.'  && $pathArr[0] != '..' ) 
 		return $match[0] ; //첫 디렉토리가 현재 디렉토리가 아닌경우 스킵
-	return str_replace( $match[1],  $serviceURL . "/skin/{$skinSetting['skin']}/" . $match[1], $match[0]);
+	return str_replace( $match[1],  $context->getProperty('uri.service') . "/skin/{$skinSetting['skin']}/" . $match[1], $match[0]);
 }
 
 if (false) correctImagePath('');
 
 function getBlogContentForSideBar()
 {
-	global $blogid, $blog, $blogURL, $database, $service, $stats, $skinSetting;
+	global $blogid, $blog, $context->getProperty('uri.blog'), $database, $service, $stats, $skinSetting;
 	
 	global $pd_category, $pd_categoryXhtml, $pd_archive, $pd_calendar, $pd_tags, $pd_notices, $pd_recentEntry;
 	global $pd_recentComment, $pd_recentTrackback, $pd_link, $pd_authorList;
@@ -82,7 +82,7 @@ function getBlogContentForSideBar()
 
 function pretty_dress($view)
 {
-	global $blogid, $blog, $blogURL, $database, $service, $stats, $skinSetting;
+	global $blogid, $blog, $context->getProperty('uri.blog'), $database, $service, $stats, $skinSetting;
 	
 	/* local static */
 	global $pd_category, $pd_categoryXhtml, $pd_archive, $pd_calendar, $pd_tags, $pd_notices, $pd_recentEntry;
@@ -108,17 +108,17 @@ function pretty_dress($view)
 		dress('image', "{$service['path']}/attach/$blogid/{$blog['logo']}", $view);
 	else
 		dress('image', "{$service['path']}/resources/image/spacer.gif", $view);
-	dress('blog_link', "$blogURL/", $view);
-	dress('keylog_link', "$blogURL/keylog", $view);
-	dress('localog_link', "$blogURL/location", $view);
-	dress('taglog_link', "$blogURL/tag", $view);
-	dress('guestbook_link', "$blogURL/guestbook", $view);
+	dress('blog_link', "$context->getProperty('uri.blog')/", $view);
+	dress('keylog_link', "$context->getProperty('uri.blog')/keylog", $view);
+	dress('localog_link', "$context->getProperty('uri.blog')/location", $view);
+	dress('taglog_link', "$context->getProperty('uri.blog')/tag", $view);
+	dress('guestbook_link', "$context->getProperty('uri.blog')/guestbook", $view);
 	
 	list($view, $searchView) = Skin::cutSkinTag($view, 'search');
 	dress('search_name', 'search', $searchView);
 	dress('search_text', isset($search) ? htmlspecialchars($search) : '', $searchView);
 	dress('search_onclick_submit', 'searchBlog()', $searchView);
-	dress('search', '<form id="TTSearchForm" action="'.$blogURL.'/search/" method="get" onsubmit="return searchBlog()">'.$searchView.'</form>', $view);
+	dress('search', '<form id="TTSearchForm" action="'.$context->getProperty('uri.blog').'/search/" method="get" onsubmit="return searchBlog()">'.$searchView.'</form>', $view);
 	
 	dress('category', $pd_category, $view);
 	dress('category_list', $pd_categoryXhtml, $view);
@@ -143,7 +143,7 @@ function pretty_dress($view)
 		foreach ($notices as $notice) {
 			$itemView = $recentNoticeItem;
 			dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', UTF8::lessenAsEm($notice['title'], $skinSetting['recentNoticeLength']), $notice['id'])), $itemView);
-			dress('notice_rep_link', "$blogURL/notice/{$notice['id']}", $itemView);
+			dress('notice_rep_link', "$context->getProperty('uri.blog')/notice/{$notice['id']}", $itemView);
 			$itemsView .= $itemView;
 		}
 		dress('rct_notice_rep', $itemsView, $noticeView);
@@ -160,8 +160,8 @@ function pretty_dress($view)
 	dress('rcttb_rep', getRecentTrackbacksView($pd_recentTrackback, $recentTrackback), $view);
 	list($view, $s_link_rep) = Skin::cutSkinTag($view, 'link_rep');	
 	dress('link_rep', getLinksView($pd_link, $s_link_rep), $view);
-	dress('rss_url', "$blogURL/rss", $view);
-	dress('owner_url', "$blogURL/owner", $view);
+	dress('rss_url', "$context->getProperty('uri.blog')/rss", $view);
+	dress('owner_url', "$context->getProperty('uri.blog')/owner", $view);
 	dress('textcube_name', TEXTCUBE_NAME, $view);
 	dress('textcube_version', TEXTCUBE_VERSION, $view);
 	

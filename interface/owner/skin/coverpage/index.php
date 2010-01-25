@@ -33,7 +33,7 @@ function correctCoverpageImage( $subject ) {
 } 
 
 function correctImagePath($match ) {
-	global $skinSetting, $serviceURL;
+	global $skinSetting, $context->getProperty('uri.service');
 	$pathArr = explode( "/" , $match[1]);
 	if( false === $pathArr  ) 
 		return $match[0];
@@ -46,14 +46,14 @@ function correctImagePath($match ) {
 		return $match[0] ; // full url의 경우 스킵
 	if( $pathArr[0] != '.'  && $pathArr[0] != '..' ) 
 		return $match[0] ; //첫 디렉토리가 현재 디렉토리가 아닌경우 스킵
-	return str_replace( $match[1],  $serviceURL . "/skin/{$skinSetting['skin']}/" . $match[1], $match[0]);
+	return str_replace( $match[1],  $context->getProperty('uri.service') . "/skin/{$skinSetting['skin']}/" . $match[1], $match[0]);
 }
 
 if (false) correctImagePath('');
 
 function getBlogContentForCoverPage()
 {
-	global $blogid, $blog, $blogURL, $database, $service, $stats, $skinSetting;
+	global $blogid, $blog, $context->getProperty('uri.blog'), $database, $service, $stats, $skinSetting;
 
 	global $pd_category, $pd_categoryXhtml, $pd_archive, $pd_calendar, $pd_tags, $pd_notices, $pd_recentEntry;
 	global $pd_recentComment, $pd_recentTrackback, $pd_link, $pd_authorList;
@@ -77,7 +77,7 @@ function getBlogContentForCoverPage()
 
 function pretty_dress($view)
 {
-	global $blogid, $blog, $blogURL, $database, $service, $stats, $skinSetting;
+	global $blogid, $blog, $context->getProperty('uri.blog'), $database, $service, $stats, $skinSetting;
 	
 	/* local static */
 	global $pd_category, $pd_categoryXhtml, $pd_archive, $pd_calendar, $pd_tags, $pd_notices, $pd_recentEntry;
@@ -103,17 +103,17 @@ function pretty_dress($view)
 		dress('image', "{$service['path']}/attach/$blogid/{$blog['logo']}", $view);
 	else
 		dress('image', "{$service['path']}/resources/image/spacer.gif", $view);
-	dress('blog_link', "$blogURL/", $view);
-	dress('keylog_link', "$blogURL/keylog", $view);
-	dress('localog_link', "$blogURL/location", $view);
-	dress('taglog_link', "$blogURL/tag", $view);
-	dress('guestbook_link', "$blogURL/guestbook", $view);
+	dress('blog_link', "$context->getProperty('uri.blog')/", $view);
+	dress('keylog_link', "$context->getProperty('uri.blog')/keylog", $view);
+	dress('localog_link', "$context->getProperty('uri.blog')/location", $view);
+	dress('taglog_link', "$context->getProperty('uri.blog')/tag", $view);
+	dress('guestbook_link', "$context->getProperty('uri.blog')/guestbook", $view);
 	
 	list($view, $searchView) = Skin::cutSkinTag($view, 'search');
 	dress('search_name', 'search', $searchView);
 	dress('search_text', isset($search) ? htmlspecialchars($search) : '', $searchView);
 	dress('search_onclick_submit', 'searchBlog()', $searchView);
-	dress('search', '<form id="TTSearchForm" action="'.parseURL($blogURL.'/search/').'" method="get" onsubmit="return searchBlog()">'.$searchView.'</form>', $view);
+	dress('search', '<form id="TTSearchForm" action="'.parseURL($context->getProperty('uri.blog').'/search/').'" method="get" onsubmit="return searchBlog()">'.$searchView.'</form>', $view);
 	
 	dress('category', $pd_category, $view);
 	dress('category_list', $pd_categoryXhtml, $view);
@@ -138,7 +138,7 @@ function pretty_dress($view)
 		foreach ($notices as $notice) {
 			$itemView = $recentNoticeItem;
 			dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', UTF8::lessenAsEm($notice['title'], $skinSetting['recentNoticeLength']), $notice['id'])), $itemView);
-			dress('notice_rep_link', "$blogURL/notice/{$notice['id']}", $itemView);
+			dress('notice_rep_link', "$context->getProperty('uri.blog')/notice/{$notice['id']}", $itemView);
 			$itemsView .= $itemView;
 		}
 		dress('rct_notice_rep', $itemsView, $noticeView);
@@ -155,8 +155,8 @@ function pretty_dress($view)
 	dress('rcttb_rep', getRecentTrackbacksView($pd_recentTrackback, $recentTrackback), $view);
 	list($view, $s_link_rep) = Skin::cutSkinTag($view, 'link_rep');	
 	dress('link_rep', getLinksView($pd_link, $s_link_rep), $view);
-	dress('rss_url', "$blogURL/rss", $view);
-	dress('owner_url', "$blogURL/owner", $view);
+	dress('rss_url', "$context->getProperty('uri.blog')/rss", $view);
+	dress('owner_url', "$context->getProperty('uri.blog')/owner", $view);
 	dress('textcube_name', TEXTCUBE_NAME, $view);
 	dress('textcube_version', TEXTCUBE_VERSION, $view);
 	
@@ -230,7 +230,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useCoverpageInit'])
 
 getBlogContentForCoverPage();
 ?>
-						<form id="part-coverpage-order" class="part" method="post" action="<?php echo parseURL($blogURL.'/owner/skin/coverpage');?>">
+						<form id="part-coverpage-order" class="part" method="post" action="<?php echo parseURL($context->getProperty('uri.blog').'/owner/skin/coverpage');?>">
 							<h2 class="caption"><span class="main-text"><?php echo _t('블로그 표지를 관리합니다');?></span></h2>
 <?php
 require ROOT . '/interface/common/owner/skinTab.php';
@@ -250,13 +250,13 @@ require ROOT . '/interface/common/owner/skinTab.php';
 	}
 ?>
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t('블로그의 표지 구성을 변경할 수 있습니다.');?> <?php echo _f('표지는 블로그 첫 화면 또는 %1/cover 에 표시되는 부분입니다.',$defaultURL);?> <?php echo _t('표지에 새로운 요소를 추가/삭제할 수 있으며 패널들을 자유롭게 배치 할 수 있습니다.');?>
+								<p class="explain"><?php echo _t('블로그의 표지 구성을 변경할 수 있습니다.');?> <?php echo _f('표지는 블로그 첫 화면 또는 %1/cover 에 표시되는 부분입니다.',$context->getProperty('uri.default'));?> <?php echo _t('표지에 새로운 요소를 추가/삭제할 수 있으며 패널들을 자유롭게 배치 할 수 있습니다.');?>
 								<?php echo ($service['type'] == 'path' || $service['type'] == 'domain') ?  _t('다중 사용자 모드로 설치된 경우 블로그 관리자는 표지 기능을 이용하여 대표 블로그를 다른 블로그들에 대한 센터 기능을 하도록 구성할 수 있습니다.') : '';?></p>
 							</div>
 							
 							<dl id="direct-link-line" class="line">
 								<dt><?php echo _t('플러그인 설정');?></dt>
-								<dd><a class="button" href="<?php echo $blogURL;?>/owner/plugin?visibility=coverpage"><?php echo _t('위젯 켜고 끄기');?></a></dd>
+								<dd><a class="button" href="<?php echo $context->getProperty('uri.blog');?>/owner/plugin?visibility=coverpage"><?php echo _t('위젯 켜고 끄기');?></a></dd>
 							</dl>	
 <?php
 if (is_null($skin->cover) || count($coverpageMappings) == 0) {
@@ -266,7 +266,7 @@ if (is_null($skin->cover) || count($coverpageMappings) == 0) {
 		$errmsg = _t('사용중인 표지 플러그인이 없습니다.');
 ?>
 							<ul id="coverpage-tabs-box" class="tabs-box">
-								<li class="selected"><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/skin/coverpage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
+								<li class="selected"><a id="default-mode-button" class="button" href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/coverpage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
 							</ul>
 							
 							<div id="coverpage-box-disabled" class="data-inbox">
@@ -288,9 +288,9 @@ if (is_null($coverpageConfig)) {
 }
 ?>
 							<ul id="coverpage-tabs-box" class="tabs-box">
-								<li<?php echo $defaultModeSelected ? ' class="selected"' : NULL;?>><a id="default-mode-button" class="button" href="<?php echo $blogURL;?>/owner/skin/coverpage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
-								<li<?php echo $safeModeSelected ? ' class="selected"' : NULL;?>><a id="safe-mode-button" class="button" href="<?php echo $blogURL;?>/owner/skin/coverpage?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a></li>
-								<li<?php echo $tagModeSelected ? ' class="selected"' : NULL;?>><a id="tag-mode-button" class="button" href="<?php echo $blogURL;?>/owner/skin/coverpage?tag" title="<?php echo _t('실제 블로그 표지에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a></li>
+								<li<?php echo $defaultModeSelected ? ' class="selected"' : NULL;?>><a id="default-mode-button" class="button" href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/coverpage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
+								<li<?php echo $safeModeSelected ? ' class="selected"' : NULL;?>><a id="safe-mode-button" class="button" href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/coverpage?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a></li>
+								<li<?php echo $tagModeSelected ? ' class="selected"' : NULL;?>><a id="tag-mode-button" class="button" href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/coverpage?tag" title="<?php echo _t('실제 블로그 표지에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a></li>
 								<li<?php echo $initModeSelected ? ' class="selected"' : NULL;?>><a id="init-button" class="button" href="coverpage/initialize<?php echo $viewMode2;?>" onclick="if (!confirm('<?php echo _t('정말 표지의 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('표지의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a></li>
 							</ul>
 							
@@ -344,7 +344,7 @@ for ($i=0; $i<$coverpageCount; $i++) {
 <?php
 				} else {
 ?>
-														<a href="<?php echo parseURL($blogURL.'/owner/skin/coverpage/order/?coverpageNumber='.$i.'&amp;targetcoverpageNumber='.$i.'&amp;modulePos='.$j.'&amp;targetPos='.($j - 1).$viewMode);?>" title="<?php echo _t('이 표지 모듈을 위로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_moveup_module.jpg" border="0" alt="<?php echo _t('위로');?>" /></a>
+														<a href="<?php echo parseURL($context->getProperty('uri.blog').'/owner/skin/coverpage/order/?coverpageNumber='.$i.'&amp;targetcoverpageNumber='.$i.'&amp;modulePos='.$j.'&amp;targetPos='.($j - 1).$viewMode);?>" title="<?php echo _t('이 표지 모듈을 위로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_moveup_module.jpg" border="0" alt="<?php echo _t('위로');?>" /></a>
 <?php
 				}
 				
@@ -354,11 +354,11 @@ for ($i=0; $i<$coverpageCount; $i++) {
 <?php
 				} else {
 ?>
-														<a href="<?php echo parseURL($blogURL.'/owner/skin/coverpage/order/?coverpageNumber='.$i.'&amp;targetcoverpageNumber='.$i.'&amp;modulePos='.$j.'&amp;targetPos='.($j + 2).$viewMode);?>" title="<?php echo _t('이 표지 모듈을 아래로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_movedown_module.jpg" border="0" alt="<?php echo _t('아래로');?>" /></a>
+														<a href="<?php echo parseURL($context->getProperty('uri.blog').'/owner/skin/coverpage/order/?coverpageNumber='.$i.'&amp;targetcoverpageNumber='.$i.'&amp;modulePos='.$j.'&amp;targetPos='.($j + 2).$viewMode);?>" title="<?php echo _t('이 표지 모듈을 아래로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_movedown_module.jpg" border="0" alt="<?php echo _t('아래로');?>" /></a>
 <?php
 				}
 ?>
-														<a href="<?php echo parseURL($blogURL.'/owner/skin/coverpage/delete/?coverpageNumber='.$i.'&amp;modulePos='.$j.$viewMode);?>" title="<?php echo _t('이 표지 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.gif" border="0" alt="<?php echo _t('삭제');?>" /></a>
+														<a href="<?php echo parseURL($context->getProperty('uri.blog').'/owner/skin/coverpage/delete/?coverpageNumber='.$i.'&amp;modulePos='.$j.$viewMode);?>" title="<?php echo _t('이 표지 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.gif" border="0" alt="<?php echo _t('삭제');?>" /></a>
 														<!-- TODO : coverpage plugin settting -->									
 													</div>
 <?php 
@@ -366,7 +366,7 @@ for ($i=0; $i<$coverpageCount; $i++) {
 				if (count($pluginparameters) > 0) {
 ?>
 													<div class="edit-button-box">
-														<a href="<?php echo parseURL($blogURL.'/owner/skin/coverpage/edit?coverpageNumber='.$i.'&amp;modulePos='.$j.$viewMode);?>"><?php echo _t('편집');?></a>
+														<a href="<?php echo parseURL($context->getProperty('uri.blog').'/owner/skin/coverpage/edit?coverpageNumber='.$i.'&amp;modulePos='.$j.$viewMode);?>"><?php echo _t('편집');?></a>
 													</div>
 <?php 
 				}

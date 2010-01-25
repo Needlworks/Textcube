@@ -29,7 +29,7 @@ if (strlen($paramStr) > 0) {
 	$paramStr = '?' . $paramStr;
 }
 
-$location = $blogURL . 'owner/center';
+$location = $context->getProperty('uri.blog') . 'owner/center';
 if (empty($_REQUEST['trashType']) || $_REQUEST['trashType'] == "comment") {
 	$location = 'trash/comment';
 }

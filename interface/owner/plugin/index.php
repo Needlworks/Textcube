@@ -122,7 +122,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 									}
 									
 									if (command) {
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/plugin/activate");
+										var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/plugin/activate");
 										request.onSuccess = function() {												
 											currentIcon.setAttribute('alt', '<?php echo _t('켜짐');?>');
 											currentIcon.setAttribute('title', '<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>');
@@ -135,15 +135,15 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 												objLI.className = objLI.className.replace('inactive', 'active');
 												
 												if (STD.isIE6) {
-													if (currentIcon.style.filter == 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png", sizingMethod="scale")')
-														currentIcon.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png", sizingMethod="scale")'
+													if (currentIcon.style.filter == 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $context->getProperty('uri.service') . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png", sizingMethod="scale")')
+														currentIcon.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $context->getProperty('uri.service') . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png", sizingMethod="scale")'
 													else
-														currentIcon.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $serviceURL;?>/plugins/' + plugin + '/images/icon_plugin_on.png", sizingMethod="scale")'
+														currentIcon.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $context->getProperty('uri.service');?>/plugins/' + plugin + '/images/icon_plugin_on.png", sizingMethod="scale")'
 												} else {
-													if (currentIcon.src == "<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png")
-														currentIcon.src = '<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png';
+													if (currentIcon.src == "<?php echo $context->getProperty('uri.service') . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png")
+														currentIcon.src = '<?php echo $context->getProperty('uri.service') . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png';
 													else
-														currentIcon.src = '<?php echo $serviceURL;?>/plugins/' + plugin + '/images/icon_plugin_on.png';
+														currentIcon.src = '<?php echo $context->getProperty('uri.service');?>/plugins/' + plugin + '/images/icon_plugin_on.png';
 												}
 											
 												if (currentSettingButton.className == 'dimmed') {
@@ -163,7 +163,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 										}
 										request.send("name=" + plugin);
 									} else {
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/plugin/deactivate");
+										var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/plugin/deactivate");
 
 										request.onSuccess = function() {
 											currentIcon.setAttribute('alt', '<?php echo _t('꺼짐');?>');
@@ -177,15 +177,15 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 												objLI.className = objLI.className.replace('active', 'inactive');
 												
 												if (STD.isIE6) {
-													if (currentIcon.style.filter == 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png", sizingMethod="scale")')
-														currentIcon.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png", sizingMethod="scale")'
+													if (currentIcon.style.filter == 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $context->getProperty('uri.service') . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png", sizingMethod="scale")')
+														currentIcon.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $context->getProperty('uri.service') . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png", sizingMethod="scale")'
 													else
-														currentIcon.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $serviceURL;?>/plugins/' + plugin + '/images/icon_plugin_off.png", sizingMethod="scale")'
+														currentIcon.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $context->getProperty('uri.service');?>/plugins/' + plugin + '/images/icon_plugin_off.png", sizingMethod="scale")'
 												} else {
-													if (currentIcon.src == "<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png")
-														currentIcon.src = '<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png';
+													if (currentIcon.src == "<?php echo $context->getProperty('uri.service') . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png")
+														currentIcon.src = '<?php echo $context->getProperty('uri.service') . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png';
 													else
-														currentIcon.src = '<?php echo $serviceURL;?>/plugins/' + plugin + '/images/icon_plugin_off.png';
+														currentIcon.src = '<?php echo $context->getProperty('uri.service');?>/plugins/' + plugin + '/images/icon_plugin_off.png';
 												}
 											
 												if (currentSettingButton.className == 'enabled') {
@@ -237,7 +237,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 										return false;
 									}
 									
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/plugin/saveScope");
+									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/plugin/saveScope");
 
 									request.onSuccess = function() {
 										document.getElementById('part-plugin-list').submit();
@@ -274,13 +274,13 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 								function getCurrentSetting( plugin, setYN, width, height, tab) {
 									//if( "N" == setYN ) return ;
 									if( '' != currentSetting ) currentSetting.close();
-									window.open('<?php echo $blogURL;?>/owner/plugin/currentSetting/?Name='+plugin+'&Tab='+tab, 'CurrentSetting', 'width='+width+', height='+height+', scrollbars=1, status=0, resizable=1');	
+									window.open('<?php echo $context->getProperty('uri.blog');?>/owner/plugin/currentSetting/?Name='+plugin+'&Tab='+tab, 'CurrentSetting', 'width='+width+', height='+height+', scrollbars=1, status=0, resizable=1');	
 									return;
 								}								
 							//]]>
 						</script>
 						
-						<form id="part-plugin-list" class="part" method="post" action="<?php echo parseURL($blogURL."/owner/plugin");?>">
+						<form id="part-plugin-list" class="part" method="post" action="<?php echo parseURL($context->getProperty('uri.blog')."/owner/plugin");?>">
 							<input type="hidden" name="search" value="<?php echo $search;?>" />
 							<h2 class="caption"><span class="main-text"><?php echo _t('설치된 플러그인 목록입니다');?></span></h2>
 							
@@ -289,9 +289,9 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 							</div>
 							
 							<ul id="plugin-tabs-box" class="tabs-box">
-								<li<?php echo isset($tabsClass['blog']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/plugin"><?php echo _t('블로그/관리자 기능');?></a></li>
-								<li<?php echo isset($tabsClass['center']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/plugin?visibility=center"><?php echo _t('알림판 위젯');?></a></li>
-								<li<?php echo isset($tabsClass['coverpage']) ? ' class="selected"' : NULL;?>><a href="<?php echo $blogURL;?>/owner/plugin?visibility=coverpage"><?php echo _t('블로그 표지 위젯');?></a></li>
+								<li<?php echo isset($tabsClass['blog']) ? ' class="selected"' : NULL;?>><a href="<?php echo $context->getProperty('uri.blog');?>/owner/plugin"><?php echo _t('블로그/관리자 기능');?></a></li>
+								<li<?php echo isset($tabsClass['center']) ? ' class="selected"' : NULL;?>><a href="<?php echo $context->getProperty('uri.blog');?>/owner/plugin?visibility=center"><?php echo _t('알림판 위젯');?></a></li>
+								<li<?php echo isset($tabsClass['coverpage']) ? ' class="selected"' : NULL;?>><a href="<?php echo $context->getProperty('uri.blog');?>/owner/plugin?visibility=coverpage"><?php echo _t('블로그 표지 위젯');?></a></li>
 							</ul>
 							
 							<fieldset id="plugin-display-box">
@@ -360,10 +360,10 @@ if (defined('__TAB_BLOG__')) {
 <?php
 if (defined('__TAB_CENTER__') || defined('__TAB_COVERPAGE__')) {
 	$text = defined('__TAB_CENTER__') ? _t('센터로 바로 가기') : _t('표지 설정으로 바로가기');
-	$link = defined('__TAB_CENTER__') ? $blogURL . '/owner/center/dashboard' : $blogURL . '/owner/skin/coverpage';
+	$link = defined('__TAB_CENTER__') ? $context->getProperty('uri.blog') . '/owner/center/dashboard' : $context->getProperty('uri.blog') . '/owner/skin/coverpage';
 } else {
 	$text = _t('사이드바로 바로 가기');
-	$link = $blogURL . '/owner/skin/sidebar';
+	$link = $context->getProperty('uri.blog') . '/owner/skin/sidebar';
 }
 ?>
 								<dl id="direct-link-line" class="line">
@@ -409,7 +409,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 ?>
 										<div class="plugin-box">
 											<img class="plugin-icon plugin-disabled-icon" src="<?php 
-		echo $serviceURL . 
+		echo $context->getProperty('uri.service') . 
 			(file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_off.png") ?
 				"/plugins/{$pluginDir}/images/icon_plugin_off.png" :
 				$adminSkinSetting['skin'] . "/image/icon_plugin_off.png");?>" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 현재 텍스트큐브와 호환되지 않습니다. 플러그인의 업데이트가 필요합니다.');?>" />
@@ -418,7 +418,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 ?>
 										<div class="plugin-box">
 											<img id="pluginIcon<?php echo $i;?>" class="plugin-icon" src="<?php 
-		echo $serviceURL . 
+		echo $context->getProperty('uri.service') . 
 			(file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_on.png") ? 
 				"/plugins/{$pluginDir}/images/icon_plugin_on.png" :
 				$adminSkinSetting['skin'] . "/image/icon_plugin_on.png");?>" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null); return false;" alt="<?php echo _t('켜짐');?>" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>" />
@@ -428,7 +428,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 ?>
 										<div class="plugin-box">
 											<img id="pluginIcon<?php echo $i;?>" class="plugin-icon" src="<?php 
-		echo $serviceURL . 
+		echo $context->getProperty('uri.service') . 
 			(file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_off.png") ? 
 				"/plugins/{$pluginDir}/images/icon_plugin_off.png" : 
 				$adminSkinSetting['skin'] . "/image/icon_plugin_off.png");?>" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null); return false;" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 사용 중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>" />
@@ -516,7 +516,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 						</form>
 						
 						<hr class="hidden" />
-						<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/plugin">
+						<form id="search-form" class="data-subbox" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/plugin">
 							<h2><?php echo _t('검색');?></h2>
 							<div class="section">
 								<label for="search"><?php echo _t('제목');?>, <?php echo _t('내용');?></label>

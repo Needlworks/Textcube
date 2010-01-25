@@ -48,7 +48,7 @@ if (isset($_GET['showValue']))
 	<script type="text/javascript">
 		//<![CDATA[
 			var servicePath = "<?php echo $service['path'];?>";
-			var blogURL = "<?php echo $blogURL;?>";
+			var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
 			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
 		//]]>
 	</script>

@@ -74,7 +74,7 @@ Setting::setBlogSettingGlobal("sidebarOrder", serialize($sidebarOrderData));
 $skin->purgeCache();
 if ($ajaxcall == false) {
 	if ($_REQUEST['viewMode'] != '') $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];
-	header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
+	header('Location: '. $context->getProperty('uri.blog') . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
 } else {
 	Respond::ResultPage(0);
 }

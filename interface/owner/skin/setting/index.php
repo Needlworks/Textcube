@@ -119,7 +119,7 @@ $selected = 0;
 									param += 'useMicroformat='+ useMicroformat +'&';
 									param += 'useFOAF='+ useFOAF +'&';
 
-									var request = new HTTPRequest("POST", '<?php echo $blogURL;?>/owner/skin/setting/skin/');
+									var request = new HTTPRequest("POST", '<?php echo $context->getProperty('uri.blog');?>/owner/skin/setting/skin/');
 									request.onSuccess = function() {
 										PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 									}
@@ -140,7 +140,7 @@ $selected = 0;
 									param += 'activeItemBgColor='+document.getElementById('activeBgColorOnTree').value+'&';
 									param += 'labelLength='+document.getElementById('labelLengthOnTree').value+'&';
 									
-									document.getElementById('treePreview').src="<?php echo $blogURL;?>/owner/skin/setting/tree/preview/?"+param;
+									document.getElementById('treePreview').src="<?php echo $context->getProperty('uri.blog');?>/owner/skin/setting/tree/preview/?"+param;
 								}
 							//]]>
 						</script>
@@ -149,7 +149,7 @@ $selected = 0;
 							<h2 class="caption"><span class="main-text"><?php echo setDetailPanel('panel_skin_setting','link',_t('스킨에 따라 표시되는 여러 값들을 세세하게 변경합니다'));?></span></h2>
 							
 							<div id="panel_skin_setting" class="data-inbox folding">
-								<form id="skinSetting" class="section" method="post" action="<?php echo $blogURL;?>/owner/skin/setting/skin" enctype="application/x-www-form-urlencoded">
+								<form id="skinSetting" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/skin/setting/skin" enctype="application/x-www-form-urlencoded">
 									<fieldset id="per-page-container" class="container">
 										<legend><?php echo _t('출력 숫자 조절');?></legend>
 <?php
@@ -708,11 +708,11 @@ ob_end_clean();
 						<div id="part-skin-tree" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('분류 디자인을 변경합니다');?></span></h2>
 							
-							<form id="setSkinForm" method="post" action="<?php echo $blogURL;?>/owner/skin/setting/tree" enctype="application/x-www-form-urlencoded">
+							<form id="setSkinForm" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/skin/setting/tree" enctype="application/x-www-form-urlencoded">
 								<div class="data-inbox">
 									<div id="tree-preview-box">
 										<div class="title"><?php echo _t('미리보기');?></div>
-										<iframe id="treePreview" src="<?php echo $blogURL;?>/owner/skin/setting/tree/preview" width="300" height="300" frameborder="0" style="overflow: visible;"></iframe>
+										<iframe id="treePreview" src="<?php echo $context->getProperty('uri.blog');?>/owner/skin/setting/tree/preview" width="300" height="300" frameborder="0" style="overflow: visible;"></iframe>
 									</div>
 									
 									<div class="section">

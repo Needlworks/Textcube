@@ -26,7 +26,7 @@ if (!empty($_POST['deleteTag'])) {
 if (!empty($_POST['modifyTag']) && !empty($_POST['newName'])) {
 	$newTagId = renameTag($blogid, $_POST['modifyTag'], $_POST['newName']);
 	$newTagList = getTagListTemplate(getSiteTags($blogid));
-	$newEntryList = '<a href="'.$blogURL.'/owner/entry/?tagId='.$newTagId.'">'._f('"%1" 태그를 갖는 모든 글의 목록을 봅니다',$_POST['newName']).'</a>';
+	$newEntryList = '<a href="'.$context->getProperty('uri.blog').'/owner/entry/?tagId='.$newTagId.'">'._f('"%1" 태그를 갖는 모든 글의 목록을 봅니다',$_POST['newName']).'</a>';
 	$result = array('error'=>0, 'tagId' => $newTagId, 'entryList' => $newEntryList, 'tagList' => $newTagList);	
 	Respond::PrintResult($result);
 	exit;
@@ -62,7 +62,7 @@ require ROOT . '/interface/common/owner/header.php';
 							//<![CDATA[
 							var tagId = 0;
 							function updateTagPanel(id) {
-								var request = new HTTPRequest("POST","<?php echo $blogURL;?>/owner/entry/tag/panel/");
+								var request = new HTTPRequest("POST","<?php echo $context->getProperty('uri.blog');?>/owner/entry/tag/panel/");
 								request.onSuccess = function () {
 									PM.removeRequest(this);
 									tagName = this.getText("/response/tagName");
@@ -94,7 +94,7 @@ require ROOT . '/interface/common/owner/header.php';
 									alert('<?php echo _t('먼저 삭제할 태그를 선택하세요');?>');
 									return false;
 								}
-								var request = new HTTPRequest("POST","<?php echo $blogURL;?>/owner/entry/tag/");
+								var request = new HTTPRequest("POST","<?php echo $context->getProperty('uri.blog');?>/owner/entry/tag/");
 								request.onSuccess = function () {
 									PM.removeRequest(this);
 									updatePanel("tag-name",'<?php echo _t('선택되지 않았습니다.');?>');
@@ -120,7 +120,7 @@ require ROOT . '/interface/common/owner/header.php';
 								}
 								var newName = document.getElementById('tag-newname').value;
 								
-								var request = new HTTPRequest("POST","<?php echo $blogURL;?>/owner/entry/tag/");
+								var request = new HTTPRequest("POST","<?php echo $context->getProperty('uri.blog');?>/owner/entry/tag/");
 								request.onSuccess = function () {
 									PM.removeRequest(this);
 									updatePanel("tag-name",newName);

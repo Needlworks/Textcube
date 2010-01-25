@@ -22,5 +22,5 @@ setBlogSetting("coverpageOrder", serialize($coverpageOrder));
 
 //Respond::PrintResult(array('error' => 0));
 if ($_GET['viewMode'] != '') $_GET['viewMode'] = '?' . $_GET['viewMode'];
-header('Location: '. $blogURL . '/owner/skin/coverpage' . $_GET['viewMode']);
+header('Location: '. $context->getProperty('uri.blog') . '/owner/skin/coverpage' . $_GET['viewMode']);
 ?>

@@ -32,13 +32,13 @@ requireStrictRoute();
 		<script type="text/javascript">
 			//<![CDATA[
 				var servicePath = "<?php echo $service['path'];?>";
-				var blogURL = "<?php echo $blogURL;?>";
+				var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
 				var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
 				var oSelect = window.parent.document.getElementById('TCfilelist');
 				
 				function addAttachOption(value) {
 					try {
-						//window.parent.makeCrossDamainSubmit("<?php echo $blogURL;?>/owner/entry/attach/<?php echo $suri['id'];?>","ie");	
+						//window.parent.makeCrossDamainSubmit("<?php echo $context->getProperty('uri.blog');?>/owner/entry/attach/<?php echo $suri['id'];?>","ie");	
 						if (!isSafari) {
 							if (isWin) {
 								var fileName = value.substring(value.lastIndexOf('\\')+1);
@@ -117,7 +117,7 @@ if (count($_FILES) == 1) {
 ?>
 					oSelect.appendChild(oOption);
 					//oSelect.selectedIndex = oSelect.options.length - 1;
-					//window.parent.document.getElementById("selectedImage").src = "<?php echo (strncmp($attachment['mime'], 'image/', 6) == 0 ? "{$blogURL}/attach/$blogid/{$attachment['name']}" : "{$blogURL}/resources/image/spacer.gif");?>";
+					//window.parent.document.getElementById("selectedImage").src = "<?php echo (strncmp($attachment['mime'], 'image/', 6) == 0 ? "{$context->getProperty('uri.blog')}/attach/$blogid/{$attachment['name']}" : "{$context->getProperty('uri.blog')}/resources/image/spacer.gif");?>";
 					parent.refreshFileSize();
 				} catch(e) {
 				alert('['+e.message+']');

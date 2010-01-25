@@ -15,6 +15,6 @@ else $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];
 
 Setting::removeBlogSettingGlobal('sidebarOrder');
 $skin->purgeCache();
-if($ajaxcall == false) header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
+if($ajaxcall == false) header('Location: '. $context->getProperty('uri.blog') . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
 else Respond::ResultPage(0);
 ?>

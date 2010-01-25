@@ -28,7 +28,7 @@ else {
 	else {
 		$message = '대표 주소 변경에 실패 하였습니다.';
 	}
-	Respond::NoticePage($message, $blogURL."/owner/setting/account");
+	Respond::NoticePage($message, $context->getProperty('uri.blog')."/owner/setting/account");
 }
 */
 ?>

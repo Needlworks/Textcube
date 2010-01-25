@@ -14,7 +14,7 @@ require ROOT . '/interface/common/owner/header.php';
 								function setBlog() {
 									if (document.getElementById('common-form').title.value != title) {
 										
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/title");
+										var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/setting/blog/title");
 										request.onSuccess = function() {
 											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 											title = document.getElementById('common-form').title.value;
@@ -25,7 +25,7 @@ require ROOT . '/interface/common/owner/header.php';
 										request.send("title=" + encodeURIComponent(document.getElementById('common-form').title.value));
 									}
 									if (document.getElementById('common-form').description.value != description) {
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/description/");
+										var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/setting/blog/description/");
 										request.onSuccess = function() {
 											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 											description = document.getElementById('common-form').description.value;
@@ -46,7 +46,7 @@ require ROOT . '/interface/common/owner/header.php';
 										tagValue = oForm.blog-tag.value;
 									}
 									
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/tag/");
+									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/setting/blog/tag/");
 									request.onSuccess = function() {
 										PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 									}
@@ -109,7 +109,7 @@ if ($service['type'] != 'single') {
 									newDefaultDomain = document.getElementById('multi-form').defaultDomain[0].checked ? 0 : 1;
 								
 									if(primaryDomain != newPrimaryDomain || secondaryDomain != newSecondaryDomain || defaultDomain != newDefaultDomain) {
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/domain/set/");
+										var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/setting/domain/set/");
 										request.onSuccess = function() {
 											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 //alert(newDefaultDomain);
@@ -117,11 +117,11 @@ if ($service['type'] != 'single') {
 //alert(secondaryDomain);
 											if(newDefaultDomain == 0) {
 												alert("<?php echo _t('변경된 1차 블로그 주소로 이동합니다');?>");
-												window.location.href = "http://" + newPrimaryDomain + ".<?php echo $service['domain'];?><?php echo $blogURL;?>/owner/setting/blog";
+												window.location.href = "http://" + newPrimaryDomain + ".<?php echo $service['domain'];?><?php echo $context->getProperty('uri.blog');?>/owner/setting/blog";
 											}
 											else if(newDefaultDomain == 1) {
 												alert("<?php echo _t('변경된 2차 블로그 주소로 이동합니다');?>");
-												window.location.href = "http://" + newSecondaryDomain + "<?php echo $blogURL;?>/owner/setting/blog";
+												window.location.href = "http://" + newSecondaryDomain + "<?php echo $context->getProperty('uri.blog');?>/owner/setting/blog";
 											}
 											primaryDomain = newPrimaryDomain;
 											secondaryDomain = newSecondaryDomain;
@@ -174,7 +174,7 @@ if ($service['type'] != 'single') {
 ?>
 									newPathDomain = document.getElementById('multi-form').pathDomain.value;
 									if(pathDomain != newPathDomain) {
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/domain/set/");
+										var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/setting/domain/set/");
 										request.onSuccess = function() {
 											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 											alert("<?php echo _t('변경된 블로그 주소로 이동합니다');?>");
@@ -250,7 +250,7 @@ if ($service['type'] != 'single') {
 									if (document.getElementById('rss-form').useSlogan[useSlogan].checked == true
 										|| document.getElementById('rss-form').useCSlogan[useCSlogan].checked == true
 										|| document.getElementById('rss-form').useTSlogan[useTSlogan].checked == true) {
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/slogan/");
+										var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/setting/blog/slogan/");
 										
 										request.onSuccess = function() {
 											useSlogan = document.getElementById('rss-form').useSlogan[0].checked ? 1 : 0;
@@ -267,7 +267,7 @@ if ($service['type'] != 'single') {
 										);
 									} 
 									
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/feed/");
+									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/setting/blog/feed/");
 									request.onSuccess = function() {
 										publishEolinSyncOnRSS = document.getElementById('rss-form').publishEolinSyncOnRSS[0].checked ? 1 : 0;
 										useFeedViewOnCategory = document.getElementById('rss-form').useFeedViewOnCategory[0].checked ? 1 : 0;
@@ -288,7 +288,7 @@ if ($service['type'] != 'single') {
 
 									isAllowCommentGuestbook = document.getElementById('allowCommentGuestbook').checked ? 1 : 0;
 									if ( isAllowCommentGuestbook != allowCommentGuestbook) {
-										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/guestbook/?comment="+isAllowCommentGuestbook+"&write=1");
+										var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/setting/blog/guestbook/?comment="+isAllowCommentGuestbook+"&write=1");
 										request.onSuccess = function() {
 											allowCommentGuestbook = isAllowCommentGuestbook;
 											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
@@ -320,7 +320,7 @@ if($service['allowBlogVisibilitySetting']){
 									if(document.getElementById('acceptTrackbacks').checked) acceptTrackbacks = 0;
 									else acceptTrackbacks = 1;
 									
-									var request2 = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/visibility/");
+									var request2 = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/setting/blog/visibility/");
 									request2.onSuccess = function() {
 										PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 									}
@@ -339,7 +339,7 @@ if($service['allowBlogVisibilitySetting']){
 										oonly = oonly.checked ? "1" : "0";
 										var ologo = document.getElementById( 'openidlogodisplay' );
 										ologo = ologo.checked ? "1" : "0";
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/openid/change");
+										var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/setting/openid/change");
 										request.onSuccess = function() {
 											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 										}
@@ -359,7 +359,7 @@ if($service['allowBlogVisibilitySetting']){
 									errorType = "";
 
 									if (document.getElementById('language-form').timezone.value != timezone) {
-										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/timezone?timezone=" + encodeURIComponent(document.getElementById('language-form').timezone.value));
+										var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/setting/blog/timezone?timezone=" + encodeURIComponent(document.getElementById('language-form').timezone.value));
 										request.onSuccess = function() {
 											timezone = document.getElementById('language-form').timezone.value;
 											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
@@ -376,13 +376,13 @@ if($service['allowBlogVisibilitySetting']){
 									if (document.getElementById('language-form').adminLanguage.value != language || document.getElementById('language-form').blogLanguage.value != skinLanguage) {
 										var needRefresh = false;
 										if (document.getElementById('language-form').adminLanguage.value != language) needRefresh = true;
-										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/setting/blog/language?language=" + encodeURIComponent(document.getElementById('language-form').adminLanguage.value) + "&blogLanguage=" + encodeURIComponent(document.getElementById('language-form').blogLanguage.value));
+										var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/setting/blog/language?language=" + encodeURIComponent(document.getElementById('language-form').adminLanguage.value) + "&blogLanguage=" + encodeURIComponent(document.getElementById('language-form').blogLanguage.value));
 										request.onSuccess = function() {
 											language = document.getElementById('language-form').adminLanguage.value;
 											skinLanguage = document.getElementById('language-form').blogLanguage.value;
 											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 											if (needRefresh == true) {
-												window.location.href = "<?php echo $blogURL;?>/owner/setting/blog";
+												window.location.href = "<?php echo $context->getProperty('uri.blog');?>/owner/setting/blog";
 											}
 										}
 										request.onError = function() {
@@ -404,7 +404,7 @@ if($service['allowBlogVisibilitySetting']){
 							<h2 class="caption"><span class="main-text"><?php echo _t('블로그의 기본 정보를 설정합니다');?></span></h2>
 							
 							<div class="data-inbox">
-								<form id="common-form" class="section" method="post" action="<?php echo parseURL($blogURL.'/owner/setting/blog/title');?>">
+								<form id="common-form" class="section" method="post" action="<?php echo parseURL($context->getProperty('uri.blog').'/owner/setting/blog/title');?>">
 									<fieldset class="container">
 										<legend><?php echo _t('블로그 정보');?></legend>
 										
@@ -425,7 +425,7 @@ if($service['allowBlogVisibilitySetting']){
 $urlRule = getBlogURLRule();
 if ($service['type'] != 'single') {
 ?>
-								<form id="multi-form" class="section" method="post" action="<?php echo parseURL($blogURL.'/owner/setting/blog');?>">
+								<form id="multi-form" class="section" method="post" action="<?php echo parseURL($context->getProperty('uri.blog').'/owner/setting/blog');?>">
 									<fieldset class="container">
 										<legend><?php echo _t('블로그 주소');?></legend>
 									
@@ -441,7 +441,7 @@ if ($service['type'] != 'single') {
 										<dl id="second-blog-address-line" class="line">
 											<dt><label for="secondaryDomain"><?php echo _t('2차 블로그 주소');?></label></dt>
 											<dd>
-												<input type="radio" class="radio" name="defaultDomain" <?php echo ($blog['defaultDomain'] ? 'checked="checked"' : '');?>title="<?php echo _t('기본 도메인');?>" /> http://<input type="text" id="secondaryDomain" class="input-text" name="secondaryDomain" value="<?php echo htmlspecialchars($blog['secondaryDomain']);?>" /><?php echo $blogURL;?>
+												<input type="radio" class="radio" name="defaultDomain" <?php echo ($blog['defaultDomain'] ? 'checked="checked"' : '');?>title="<?php echo _t('기본 도메인');?>" /> http://<input type="text" id="secondaryDomain" class="input-text" name="secondaryDomain" value="<?php echo htmlspecialchars($blog['secondaryDomain']);?>" /><?php echo $context->getProperty('uri.blog');?>
 											</dd>
 										</dl>
 <?php
@@ -462,7 +462,7 @@ if ($service['type'] != 'single') {
 <?php
 }
 ?>
-								<form id="tag-form" class="section" method="post" action="<?php echo parseURL($blogURL.'/owner/setting/blog/tag');?>">
+								<form id="tag-form" class="section" method="post" action="<?php echo parseURL($context->getProperty('uri.blog').'/owner/setting/blog/tag');?>">
 									<fieldset class="container">
 										<legend><?php echo _t('블로그 태그');?></legend>
 										
@@ -505,7 +505,7 @@ if ($service['type'] != 'single') {
 						<div id="part-setting-profile" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('블로그 이미지 및 아이콘을 설정합니다');?></span></h2>
 							
-							<form id="icons-form" class="data-inbox" method="post" action="<?php echo parseURL($blogURL.'/owner/setting/blog/icons');?>" enctype="multipart/form-data">
+							<form id="icons-form" class="data-inbox" method="post" action="<?php echo parseURL($context->getProperty('uri.blog').'/owner/setting/blog/icons');?>" enctype="multipart/form-data">
 								<div id="icons-upload-section" class="section">
 									<fieldset class="container">
 										<legend><?php echo _t('블로그 로고 및 파비콘');?></legend>
@@ -590,7 +590,7 @@ if (file_exists(ROOT."/attach/$blogid/index.gif")) {
 						<div id="part-setting-rss" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('블로그 공개 정책을 설정합니다');?></span></h2>
 							
-							<form id="rss-form" class="data-inbox" method="post" action="<?php echo parseURL($blogURL.'/owner/setting/blog');?>">
+							<form id="rss-form" class="data-inbox" method="post" action="<?php echo parseURL($context->getProperty('uri.blog').'/owner/setting/blog');?>">
 								<div id="rss-section" class="section">
 									<fieldset class="container">
 										<legend><?php echo _t('피드 설정');?></legend>
@@ -770,7 +770,7 @@ if( $acceptTrackbacks ) {
 						
 						<div id="part-setting-language" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo setDetailPanel('language_setting','link',_t('언어, 시간대를 설정합니다'));?></span></h2>
-							<form id="language-form" class="data-inbox" method="post" action="<?php echo parseURL($blogURL.'/owner/setting/blog/language');?>">
+							<form id="language-form" class="data-inbox" method="post" action="<?php echo parseURL($context->getProperty('uri.blog').'/owner/setting/blog/language');?>">
 								<div id="language_setting" class="section folding">
 									<fieldset class="container">
 										<legend><?php echo _t('언어 및 시간대');?></legend>

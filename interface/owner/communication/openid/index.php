@@ -6,9 +6,9 @@ define( 'OPENID_REGISTERS', 10 );
 require ROOT . '/library/preprocessor.php';
 require ROOT . '/interface/common/owner/header.php';
 
-global $database, $blogURL, $hostURL;
+global $database, $context->getProperty('uri.blog'), $context->getProperty('uri.host');
 
-$menu_url = $hostURL . $blogURL . "/owner/communication/openid";
+$menu_url = $context->getProperty('uri.host') . $context->getProperty('uri.blog') . "/owner/communication/openid";
 $menu1 = $menu_url . "?mode=1";
 $menu2 = $menu_url . "?mode=3";
 $menu3 = $menu_url . "?mode=5";

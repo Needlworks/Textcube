@@ -17,7 +17,7 @@ if (false) { // For optimization process
 	checkboxTreat();
 	radioTreat();
 }
-$targetURL = $hostURL.preg_replace( '/(currentSetting)$/' , 'receiveConfig' , $folderURL );
+$targetURL = $context->getProperty('uri.host').preg_replace( '/(currentSetting)$/' , 'receiveConfig' , $context->getProperty('uri.folder') );
 $pluginName = $_GET['Name'];
 $tabName = $_GET['Tab'];
 $active = in_array($pluginName, $activePlugins);
@@ -61,9 +61,9 @@ if (!$xmls->doesExist('/plugin/binding/config') || !$active) {
 }
 
 if (file_exists(ROOT . "/plugins/{$pluginName}/images/icon_plugin.png")) {
-	$iconPath = $serviceURL . "/plugins/{$pluginName}/images/icon_plugin.png";
+	$iconPath = $context->getProperty('uri.service') . "/plugins/{$pluginName}/images/icon_plugin.png";
 } else {
-	$iconPath = $serviceURL . $adminSkinSetting['skin'] . "/image/icon_plugin.png";
+	$iconPath = $context->getProperty('uri.service') . $adminSkinSetting['skin'] . "/image/icon_plugin.png";
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
