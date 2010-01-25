@@ -75,13 +75,13 @@ function clearCache() {
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo _text('텍스트큐브를 점검합니다.');?></title>
-	<link rel="stylesheet" media="screen" type="text/css" href="<?php echo $service['path']?>/resources/style/setup/style.css" />
+	<link rel="stylesheet" media="screen" type="text/css" href="<?php echo $context->getProperty('service.path')?>/resources/style/setup/style.css" />
 </head>
 <body>
 	<div id="container">
 		<form id="checkup">
 			<div id="title">
-				<h1><img src="<?php echo $service['path']?>/resources/style/setup/image/title.gif" width="253" height="44" alt="Textcube를 점검합니다." /></h1>
+				<h1><img src="<?php echo $context->getProperty('service.path')?>/resources/style/setup/image/title.gif" width="253" height="44" alt="Textcube를 점검합니다." /></h1>
 			</div>
 
 			<div id="inner">
@@ -782,7 +782,7 @@ if ((preg_match('@rewrite\.php@', $content) == 0 ) ||
 #</IfModule>
 #SetEnv PRELOAD_CONFIG 1
 RewriteEngine On
-RewriteBase ".$service['path']."/
+RewriteBase ".$context->getProperty('service.path')."/
 RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^(cache)+/+(.+[^/])\\.(cache|xml|txt|log)$ - [NC,F,L]
 RewriteCond %{REQUEST_FILENAME} -d
@@ -822,7 +822,7 @@ if (((!file_exists(ROOT . '/cache/CHECKUP')) || (trim(file_get_contents(ROOT . '
 				</div>
 
 				<div id="navigation">
-					<a href="<?php echo $blogURL.'/owner/center/dashboard';?>"><img src="<?php echo $service['path']?>/resources/style/setup/image/icon_ok.gif" width="74" height="24" alt="돌아가기" /></a>
+					<a href="<?php echo $blogURL.'/owner/center/dashboard';?>"><img src="<?php echo $context->getProperty('service.path')?>/resources/style/setup/image/icon_ok.gif" width="74" height="24" alt="돌아가기" /></a>
 				</div>
 			</div>
 		</form>

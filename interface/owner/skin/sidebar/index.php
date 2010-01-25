@@ -94,12 +94,12 @@ function pretty_dress($view)
 	
 	dress('page_title', htmlspecialchars($pageTitle), $view);
 	dress('blogger', htmlspecialchars($writer), $view);
-	dress('title', htmlspecialchars($blog['title']), $view);
-	dress('desc', htmlspecialchars($blog['description']), $view);
-	if (!empty($blog['logo']))
-		dress('image', "{$service['path']}/attach/$blogid/{$blog['logo']}", $view);
+	dress('title', htmlspecialchars($context->getProperty('blog.title')), $view);
+	dress('desc', htmlspecialchars($context->getProperty('blog.description')), $view);
+	if (!empty($context->getProperty('blog.logo')))
+		dress('image', "{$context->getProperty('service.path')}/attach/$blogid/{$context->getProperty('blog.logo')}", $view);
 	else
-		dress('image', "{$service['path']}/resources/image/spacer.gif", $view);
+		dress('image', "{$context->getProperty('service.path')}/resources/image/spacer.gif", $view);
 	dress('blog_link', "$context->getProperty('uri.blog')/", $view);
 	dress('keylog_link', "$context->getProperty('uri.blog')/keylog", $view);
 	dress('localog_link', "$context->getProperty('uri.blog')/location", $view);
@@ -287,26 +287,26 @@ for ($i=0; $i<$sidebarCount; $i++) {
 <?php
 			if ($j == 0) {
 ?>
-														<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_moveup_module_disabled.jpg" border="0" alt="<?php echo _t('위로');?>" />
+														<img src="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/image/img_moveup_module_disabled.jpg" border="0" alt="<?php echo _t('위로');?>" />
 <?php
 			} else {
 ?>
-														<a href="<?php echo parseURL($context->getProperty('uri.blog').'/owner/skin/sidebar/order/?sidebarNumber='.$i.'&amp;targetSidebarNumber='.$i.'&amp;modulePos='.$j.'&amp;targetPos='.($j - 1).$viewMode);?>" title="<?php echo _t('이 사이드바 모듈을 위로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_moveup_module.jpg" border="0" alt="<?php echo _t('위로');?>" /></a>
+														<a href="<?php echo parseURL($context->getProperty('uri.blog').'/owner/skin/sidebar/order/?sidebarNumber='.$i.'&amp;targetSidebarNumber='.$i.'&amp;modulePos='.$j.'&amp;targetPos='.($j - 1).$viewMode);?>" title="<?php echo _t('이 사이드바 모듈을 위로 이동합니다.');?>"><img src="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/image/img_moveup_module.jpg" border="0" alt="<?php echo _t('위로');?>" /></a>
 <?php
 			}
 				
 			if ($j == count($orderConfig) - 1) {
 ?>
-														<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_movedown_module_disabled.jpg" border="0" alt="<?php echo _t('아래로');?>" />
+														<img src="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/image/img_movedown_module_disabled.jpg" border="0" alt="<?php echo _t('아래로');?>" />
 <?php
 			} else {
 ?>
-														<a href="<?php echo parseURL($context->getProperty('uri.blog').'/owner/skin/sidebar/order/?sidebarNumber='.$i.'&amp;targetSidebarNumber='.$i.'&amp;modulePos='.$j.'&amp;targetPos='.($j + 2).$viewMode);?>" title="<?php echo _t('이 사이드바 모듈을 아래로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_movedown_module.jpg" border="0" alt="<?php echo _t('아래로');?>" /></a>
+														<a href="<?php echo parseURL($context->getProperty('uri.blog').'/owner/skin/sidebar/order/?sidebarNumber='.$i.'&amp;targetSidebarNumber='.$i.'&amp;modulePos='.$j.'&amp;targetPos='.($j + 2).$viewMode);?>" title="<?php echo _t('이 사이드바 모듈을 아래로 이동합니다.');?>"><img src="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/image/img_movedown_module.jpg" border="0" alt="<?php echo _t('아래로');?>" /></a>
 <?php
 			}
 ?>
 												
-														<a href="<?php echo $context->getProperty('uri.blog'); ?>/owner/skin/sidebar/delete/?sidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?><?php echo $viewMode;?>" title="<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.gif" border="0" alt="<?php echo _t('삭제');?>" /></a>
+														<a href="<?php echo $context->getProperty('uri.blog'); ?>/owner/skin/sidebar/delete/?sidebarNumber=<?php echo $i;?>&amp;modulePos=<?php echo $j;?><?php echo $viewMode;?>" title="<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"><img src="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/image/img_delete_module.gif" border="0" alt="<?php echo _t('삭제');?>" /></a>
 													</div>
 													<div class="module-content"><?php echo pretty_dress($skin->sidebarBasicModules[$skini][$skinj]['body']);?></div>
 												</li>
@@ -345,25 +345,25 @@ for ($i=0; $i<$sidebarCount; $i++) {
 <?php
 				if ($j == 0) {
 ?>
-														<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_moveup_module_disabled.jpg" border="0" alt="<?php echo _t('위로');?>" />
+														<img src="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/image/img_moveup_module_disabled.jpg" border="0" alt="<?php echo _t('위로');?>" />
 <?php
 				} else {
 ?>
-														<a href="<?php echo parseURL($context->getProperty('uri.blog').'/owner/skin/sidebar/order/?sidebarNumber='.$i.'&amp;targetSidebarNumber='.$i.'&amp;modulePos='.$j.'&amp;targetPos='.($j - 1).$viewMode);?>" title="<?php echo _t('이 사이드바 모듈을 위로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_moveup_module.jpg" border="0" alt="<?php echo _t('위로');?>" /></a>
+														<a href="<?php echo parseURL($context->getProperty('uri.blog').'/owner/skin/sidebar/order/?sidebarNumber='.$i.'&amp;targetSidebarNumber='.$i.'&amp;modulePos='.$j.'&amp;targetPos='.($j - 1).$viewMode);?>" title="<?php echo _t('이 사이드바 모듈을 위로 이동합니다.');?>"><img src="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/image/img_moveup_module.jpg" border="0" alt="<?php echo _t('위로');?>" /></a>
 <?php
 				}
 				
 				if ($j == count($orderConfig) - 1) {
 ?>
-														<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_movedown_module_disabled.jpg" border="0" alt="<?php echo _t('아래로');?>" />
+														<img src="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/image/img_movedown_module_disabled.jpg" border="0" alt="<?php echo _t('아래로');?>" />
 <?php
 				} else {
 ?>
-														<a href="<?php echo parseURL($context->getProperty('uri.blog').'/owner/skin/sidebar/order/?sidebarNumber='.$i.'&amp;targetSidebarNumber='.$i.'&amp;modulePos='.$j.'&amp;targetPos='.($j + 2).$viewMode);?>" title="<?php echo _t('이 사이드바 모듈을 아래로 이동합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_movedown_module.jpg" border="0" alt="<?php echo _t('아래로');?>" /></a>
+														<a href="<?php echo parseURL($context->getProperty('uri.blog').'/owner/skin/sidebar/order/?sidebarNumber='.$i.'&amp;targetSidebarNumber='.$i.'&amp;modulePos='.$j.'&amp;targetPos='.($j + 2).$viewMode);?>" title="<?php echo _t('이 사이드바 모듈을 아래로 이동합니다.');?>"><img src="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/image/img_movedown_module.jpg" border="0" alt="<?php echo _t('아래로');?>" /></a>
 <?php
 				}
 ?>
-														<a href="<?php echo parseURL($context->getProperty('uri.blog').'/owner/skin/sidebar/delete/?sidebarNumber='.$i.'&amp;modulePos='.$j.$viewMode);?>" title="<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"><img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/img_delete_module.gif" border="0" alt="<?php echo _t('삭제');?>" /></a>
+														<a href="<?php echo parseURL($context->getProperty('uri.blog').'/owner/skin/sidebar/delete/?sidebarNumber='.$i.'&amp;modulePos='.$j.$viewMode);?>" title="<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>"><img src="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/image/img_delete_module.gif" border="0" alt="<?php echo _t('삭제');?>" /></a>
 														<!-- TODO : sidebar plugin settting -->									
 													</div>
 <?php 
@@ -379,7 +379,7 @@ for ($i=0; $i<$sidebarCount; $i++) {
 													<div class="module-content">
 <?php
 				if (($invalidPlugin == false) && function_exists($handler)) {
-					$pluginURL = "{$service['path']}/plugins/{$orderConfig[$j]['id']['plugin']}";
+					$pluginURL = "{$context->getProperty('service.path')}/plugins/{$orderConfig[$j]['id']['plugin']}";
 					echo pretty_dress(call_user_func($handler, $orderConfig[$j]['parameters']));
 				}
 ?>
@@ -472,7 +472,7 @@ foreach ($sidebarPluginArray as $nowKey) {
 											</div>
 											<div class="module-content">
 <?php
-	$pluginURL = "{$service['path']}/plugins/{$nowKey['plugin']}";
+	$pluginURL = "{$context->getProperty('service.path')}/plugins/{$nowKey['plugin']}";
 	include_once (ROOT . "/plugins/{$nowKey['plugin']}/index.php");
 	echo pretty_dress(call_user_func($nowKey['id'], array('preview' => '')));
 ?>
@@ -494,8 +494,8 @@ foreach ($sidebarPluginArray as $nowKey) {
 							</p>
 						</form>
 						
-						<script src="<?php echo $service['path'];?>/resources/script/dojo/dojo.js" type="text/javascript"></script>
-						<script src="<?php echo $service['path'];?>/resources/script/sidebar.js" type="text/javascript"></script>
+						<script src="<?php echo $context->getProperty('service.path');?>/resources/script/dojo/dojo.js" type="text/javascript"></script>
+						<script src="<?php echo $context->getProperty('service.path');?>/resources/script/sidebar.js" type="text/javascript"></script>
 						<script type="text/javascript">
 							//<![CDATA[
 								var decorateDragPanelString_deleteTitle = "<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>";

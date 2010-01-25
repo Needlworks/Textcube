@@ -7,7 +7,7 @@ require ROOT . '/library/preprocessor.php';
 requireView('mobileView');
 list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
 $entry = $entries ? $entries[0] : null;
-printMobileHtmlHeader(htmlspecialchars($blog['title']));
+printMobileHtmlHeader(htmlspecialchars($context->getProperty('blog.title')));
 ?>
 <div id="pannels">
 	<!--

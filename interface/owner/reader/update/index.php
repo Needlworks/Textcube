@@ -28,7 +28,7 @@ ob_implicit_flush();
 		<script type="text/javascript" src="<?php echo $context->getProperty('uri.service');?>/resources/script/common2.js"></script>
 		<script type="text/javascript">
 			//<![CDATA[
-				var servicePath = "<?php echo $service['path'];?>";
+				var servicePath = "<?php echo $context->getProperty('service.path');?>";
 				var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
 				var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
 			//]]>

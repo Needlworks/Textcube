@@ -269,7 +269,7 @@ $blogContentMenuItem['center'] = array_merge($blogContentMenuItem['center'] , ar
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo (isset($blog['language']) ? $blog['language'] : "ko");?>">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title><?php echo htmlspecialchars($blog['title']);?> &gt; <?php echo $blogMenu['title'];?></title>
+	<title><?php echo htmlspecialchars($context->getProperty('blog.title'));?> &gt; <?php echo $blogMenu['title'];?></title>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/basic.css" />
 <?php
 	$browser = Utils_Browser::getInstance();

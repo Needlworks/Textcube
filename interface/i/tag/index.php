@@ -34,7 +34,7 @@ if(strlen($suri['value'])) {
 			if($imageName = printIphoneAttachmentExtract(printIphoneEntryContent($blogid, $item['userid'], $item['id']))){
 				$imageSrc = printIphoneImageResizer($blogid, $imageName, 28);
 			}else{
-				$imageSrc = $service['path'] . '/resources/style/iphone/image/noPostThumb.png';
+				$imageSrc = $context->getProperty('service.path') . '/resources/style/iphone/image/noPostThumb.png';
 			}
 			$itemsView .= '<li class="post_item">'.CRLF;
 			$itemsView .= '	<span class="image"><img src="' . $imageSrc . '" width="28" height="28" /></span>'.CRLF;

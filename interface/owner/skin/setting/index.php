@@ -132,7 +132,7 @@ $selected = 0;
 								function changeTreeStyle() {	
 									var param = '';
 									param += 'name='+document.getElementById('tree').value+'&';
-									param += 'url=<?php echo $service['path'];?>/skin/tree/'+document.getElementById('tree').value+'&';
+									param += 'url=<?php echo $context->getProperty('service.path');?>/skin/tree/'+document.getElementById('tree').value+'&';
 									param += 'showValue='+(document.getElementById('showValue').checked ? 1:0)+'&';
 									param += 'itemColor='+document.getElementById('colorOnTree').value+'&';
 									param += 'itemBgColor='+document.getElementById('bgColorOnTree').value+'&';

@@ -22,16 +22,16 @@ requireStrictRoute();
 	<head>
 		<title><?php echo _t('File Uploader');?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/editor.css" />
-		<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/editor.ie.css" /><![endif]-->
-		<!--[if IE 7]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/editor.ie7.css" /><![endif]-->
-		<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/editor.css" />
+		<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/editor.ie.css" /><![endif]-->
+		<!--[if IE 7]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/editor.ie7.css" /><![endif]-->
+		<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 		<script type="text/javascript">jQuery.noConflict();</script>
-		<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/EAF4.js"></script>
-		<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/common2.js"></script>
+		<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/EAF4.js"></script>
+		<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/common2.js"></script>
 		<script type="text/javascript">
 			//<![CDATA[
-				var servicePath = "<?php echo $service['path'];?>";
+				var servicePath = "<?php echo $context->getProperty('service.path');?>";
 				var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
 				var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
 				var oSelect = window.parent.document.getElementById('TCfilelist');

@@ -124,7 +124,7 @@ if (is_null($entry)) {
 	<form name="trackback" method="post" action="<?php echo $context->getProperty('suri.url');?>">
 	
 		<div id="trackback-box">
-			<img src="<?php echo $service['path'] . $context->getProperty('panel.skin');?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />
+			<img src="<?php echo $context->getProperty('service.path') . $context->getProperty('panel.skin');?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />
 			
 			<div class="title"><span class="text"><?php echo _text('글걸기를 시도합니다');?></span></div>
 	      	<div id="command-box">

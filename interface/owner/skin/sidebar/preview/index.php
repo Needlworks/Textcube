@@ -101,12 +101,12 @@ function pretty_dress($view)
 	
 	dress('page_title', htmlspecialchars($pageTitle), $view);
 	dress('blogger', htmlspecialchars($writer), $view);
-	dress('title', htmlspecialchars($blog['title']), $view);
-	dress('desc', htmlspecialchars($blog['description']), $view);
-	if (!empty($blog['logo']))
-		dress('image', "{$service['path']}/attach/$blogid/{$blog['logo']}", $view);
+	dress('title', htmlspecialchars($context->getProperty('blog.title')), $view);
+	dress('desc', htmlspecialchars($context->getProperty('blog.description')), $view);
+	if (!empty($context->getProperty('blog.logo')))
+		dress('image', "{$context->getProperty('service.path')}/attach/$blogid/{$context->getProperty('blog.logo')}", $view);
 	else
-		dress('image', "{$service['path']}/resources/image/spacer.gif", $view);
+		dress('image', "{$context->getProperty('service.path')}/resources/image/spacer.gif", $view);
 	dress('blog_link', "$context->getProperty('uri.blog')/", $view);
 	dress('keylog_link', "$context->getProperty('uri.blog')/keylog", $view);
 	dress('localog_link', "$context->getProperty('uri.blog')/location", $view);
@@ -197,7 +197,7 @@ if (($_REQUEST['sidebarNumber'] >= 0) 	&& ($_REQUEST['sidebarNumber'] < $sidebar
 		$sidbarPluginIndex = $target['id']['plugin'] . '/' . $target['id']['handler'];
 			
 		if (array_key_exists($sidbarPluginIndex,  $sidebarPluginArray)) {
-			$pluginURL = "{$service['path']}/plugins/{$target['id']['plugin']}";
+			$pluginURL = "{$context->getProperty('service.path')}/plugins/{$target['id']['plugin']}";
 			include_once (ROOT . "/plugins/{$target['id']['plugin']}/index.php");
 			if(!empty( $configMappings[$target['id']['plugin']]['config'] ))
 				$configVal = getCurrentSetting($target['id']['plugin']);

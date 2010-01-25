@@ -13,16 +13,16 @@ if (isset($cache->contents)) {
 	$entryRsses = '';
 	foreach ($entries as $entry) {
 //		$entryRsses .= '<link rel="alternate" type="application/rss+xml" '.
-//			'title="Trackback: '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($blog['title']).'" '.
+//			'title="Trackback: '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($context->getProperty('blog.title')).'" '.
 //			'href="'.$defaultURL.'/rss/trackback/'.$entry['id'].'" />'.CRLF;
 //		$entryRsses .= '<link rel="alternate" type="application/rss+xml" '.
-//			'title="Comment: '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($blog['title']).'" '.
+//			'title="Comment: '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($context->getProperty('blog.title')).'" '.
 //			'href="'.$defaultURL.'/rss/comment/'.$entry['id'].'" />'.CRLF;
 		$entryRsses .= '<link rel="alternate" type="application/rss+xml" '.
-			'title="Responses (RSS) : '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($blog['title']).'" '.
+			'title="Responses (RSS) : '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($context->getProperty('blog.title')).'" '.
 			'href="'.$defaultURL.'/rss/response/'.$entry['id'].'" />'.CRLF.
 			'<link rel="alternate" type="application/atom+xml" '.
-			'title="Responses (ATOM) : '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($blog['title']).'" '.
+			'title="Responses (ATOM) : '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($context->getProperty('blog.title')).'" '.
 			'href="'.$defaultURL.'/atom/response/'.$entry['id'].'" />'.CRLF;
 	}
 	if( Setting::getBlogSettingGlobal('useFOAF',1) && rtrim( $suri['url'], '/' ) == $pathURL ) {

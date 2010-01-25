@@ -19,8 +19,8 @@ if($entry = POD::queryRow("SELECT e.*, c.name AS categoryName
 	echo '<generator>Textcube/1.1</generator>', "\r\n";
 	echo '<language>', htmlspecialchars($blog['language']), '</language>', "\r\n";
 	echo '<url>', htmlspecialchars($defaultURL), '</url>', "\r\n";
-	echo '<title>', htmlspecialchars($blog['title']), '</title>', "\r\n";
-	echo '<description>', htmlspecialchars($blog['description']), '</description>', "\r\n";
+	echo '<title>', htmlspecialchars($context->getProperty('blog.title')), '</title>', "\r\n";
+	echo '<description>', htmlspecialchars($context->getProperty('blog.description')), '</description>', "\r\n";
 	echo '<comments>', $allComments, '</comments>', "\r\n";
 	echo '<trackbacks>', $allTrackbacks, '</trackbacks>', "\r\n";
 	echo '</blog>', "\r\n";

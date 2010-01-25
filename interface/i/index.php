@@ -8,16 +8,16 @@ requireView('iphoneView');
 if(empty($suri['id'])) {
 	printIphoneHtmlHeader();
 ?>	
-	<ul id="home" title="<?php echo htmlspecialchars(UTF8::lessenAsEm($blog['title'],30));?>" selected="true">
+	<ul id="home" title="<?php echo htmlspecialchars(UTF8::lessenAsEm($context->getProperty('blog.title'),30));?>" selected="true">
 	<?php
 		$blogAuthor = User::getName($blogid);
-		$blogLogo = !empty($blog['logo']) ? printIphoneImageResizer($blogid, $blog['logo'], 80) : "{$service['path']}/resources/style/iphone/image/textcube_logo.png";
+		$blogLogo = !empty($context->getProperty('blog.logo')) ? printIphoneImageResizer($blogid, $context->getProperty('blog.logo'), 80) : "{$context->getProperty('service.path')}/resources/style/iphone/image/textcube_logo.png";
 		$itemsView = '<li class="blog_info">'.CRLF;
 		$itemsView .= '	<div class="logo"><img src="' . $blogLogo . '" /></div>'.CRLF;
 		$itemsView .= '	<div class="blog_container">'.CRLF;
-		$itemsView .= '		<span class="title">' . htmlspecialchars($blog['title']). '</span>'.CRLF;
+		$itemsView .= '		<span class="title">' . htmlspecialchars($context->getProperty('blog.title')). '</span>'.CRLF;
 		$itemsView .= '		<span class="author">by ' . $blogAuthor . '</span>'.CRLF;
-		$itemsView .= '		<span class="description">' . htmlspecialchars($blog['description']) . '</span>'.CRLF;
+		$itemsView .= '		<span class="description">' . htmlspecialchars($context->getProperty('blog.description')) . '</span>'.CRLF;
 		$itemsView .= '	</div>'.CRLF;
 		$itemsView .= '</li>'.CRLF;
 		print $itemsView;
@@ -81,7 +81,7 @@ if(empty($suri['id'])) {
             <a class="button blueButton" type="submit"><?php echo _text('검색');?></a>
             
             <div class="searchIcon"></div>
-			<img id="clearButton" class="clearButton" src="<?php echo $service['path'];?>/resources/image/spacer.gif" onclick="cancelAction(this);" />
+			<img id="clearButton" class="clearButton" src="<?php echo $context->getProperty('service.path');?>/resources/image/spacer.gif" onclick="cancelAction(this);" />
 			<input id="qString" type="text" name="search" autocomplete="off" unedited="true" class="search" onkeyup="searchKeywordCheck(this);" onkeydown="searchKeywordCheck(this);" />
 		</fieldset>
     </form>

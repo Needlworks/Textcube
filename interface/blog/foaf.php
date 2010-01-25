@@ -23,9 +23,9 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>';
 <?php
 if( trim($blog['name']) != '' ) { echo "<foaf:name>{$blog['name']}</foaf:name>\n"; }
 if( !empty($blog['OpenIDDelegate']) ) { echo "<foaf:openid>{$blog['OpenIDDelegate']}</foaf:openid>\n"; }
-if( !empty($blog['logo']) ) { 
-	echo "<foaf:depiction rdf:resource=\"http://{$service['domain']}{$service['path']}/attach/$blogid/{$blog['logo']}\" />\n";
-	echo "<foaf:img rdf:resource=\"http://{$service['domain']}{$service['path']}/attach/$blogid/{$blog['logo']}\" />\n";
+if( !empty($context->getProperty('blog.logo')) ) { 
+	echo "<foaf:depiction rdf:resource=\"http://{$service['domain']}{$context->getProperty('service.path')}/attach/$blogid/{$context->getProperty('blog.logo')}\" />\n";
+	echo "<foaf:img rdf:resource=\"http://{$service['domain']}{$context->getProperty('service.path')}/attach/$blogid/{$context->getProperty('blog.logo')}\" />\n";
 }
 foreach( $links as $link ) {
 	if( $link['visibility'] < 2 || !$link['xfn'] ) { continue; }

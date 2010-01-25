@@ -5,11 +5,11 @@
 require ROOT . '/library/preprocessor.php';
 require ROOT . '/interface/common/owner/header.php';
 ?>
-						<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/generaltag.js"></script>
+						<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/generaltag.js"></script>
 						<script type="text/javascript">
 							//<![CDATA[
-								var title = "<?php echo escapeJSInCData($blog['title']);?>";
-								var description = "<?php echo escapeJSInCData(trim($blog['description']));?>";
+								var title = "<?php echo escapeJSInCData($context->getProperty('blog.title'));?>";
+								var description = "<?php echo escapeJSInCData(trim($context->getProperty('blog.description')));?>";
 								
 								function setBlog() {
 									if (document.getElementById('common-form').title.value != title) {
@@ -178,7 +178,7 @@ if ($service['type'] != 'single') {
 										request.onSuccess = function() {
 											PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 											alert("<?php echo _t('변경된 블로그 주소로 이동합니다');?>");
-											window.location.href = "http://<?php echo $service['domain'];?><?php echo $service['path'];?>/" + newPathDomain + "/owner/setting/blog";
+											window.location.href = "http://<?php echo $service['domain'];?><?php echo $context->getProperty('service.path');?>/" + newPathDomain + "/owner/setting/blog";
 											pathDomain = newPathDomain;
 										}
 										request.onError = function() {
@@ -410,11 +410,11 @@ if($service['allowBlogVisibilitySetting']){
 										
 										<dl id="blog-title-line" class="line">
 											<dt><label for="title"><?php echo _t('블로그 제목');?></label></dt>
-											<dd><input type="text" id="title" class="input-text" name="title" value="<?php echo htmlspecialchars($blog['title']);?>" /></dd>
+											<dd><input type="text" id="title" class="input-text" name="title" value="<?php echo htmlspecialchars($context->getProperty('blog.title'));?>" /></dd>
 										</dl>
 										<dl id="blog-description-line" class="line">
 											<dt><label for="description"><?php echo _t('블로그 설명');?></label></dt>
-											<dd><textarea id="description" name="description" cols="15" rows="5"><?php echo htmlspecialchars($blog['description']);?></textarea></dd>
+											<dd><textarea id="description" name="description" cols="15" rows="5"><?php echo htmlspecialchars($context->getProperty('blog.description'));?></textarea></dd>
 										</dl>
 									</fieldset>
 									<div class="button-box">
@@ -514,22 +514,22 @@ if ($service['type'] != 'single') {
 											<dt><span class="label"><?php echo _t('로고 그림');?></span></dt>
 											<dd>
 <?php
-if (!empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
-	$logoInfo = @getimagesize(ROOT."/attach/$blogid/{$blog['logo']}");
+if (!empty($context->getProperty('blog.logo')) && file_exists(ROOT."/attach/$blogid/{$context->getProperty('blog.logo')}")) {
+	$logoInfo = @getimagesize(ROOT."/attach/$blogid/{$context->getProperty('blog.logo')}");
 	if ($logoInfo[0] > 150) {
 ?>
-												<a href="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/<?php echo $blog['logo'];?>" onclick="window.open(this.href); return false;"><img src="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/<?php echo $blog['logo'];?>" width="150" border="1" alt="<?php echo _t('사용자 로고');?>" /></a>
+												<a href="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/<?php echo $context->getProperty('blog.logo');?>" onclick="window.open(this.href); return false;"><img src="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/<?php echo $context->getProperty('blog.logo');?>" width="150" border="1" alt="<?php echo _t('사용자 로고');?>" /></a>
 <?php
 	} else {
 ?>
-												<img src="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/<?php echo $blog['logo'];?>" border="1" alt="<?php echo _t('사용자 로고');?>" />
+												<img src="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/<?php echo $context->getProperty('blog.logo');?>" border="1" alt="<?php echo _t('사용자 로고');?>" />
 <?php
 	}
 }
 ?>
 
 												<input type="file" class="input-file" name="logo" />
-												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteLogo" name="deleteLogo" value="yes"<?php echo empty($blog['logo']) ? ' disabled="disabled"' : '';?> /><label for="deleteLogo"><?php echo _t('로고를 초기화합니다.');?></label></div>
+												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteLogo" name="deleteLogo" value="yes"<?php echo empty($context->getProperty('blog.logo')) ? ' disabled="disabled"' : '';?> /><label for="deleteLogo"><?php echo _t('로고를 초기화합니다.');?></label></div>
 											</dd>
 										</dl>
 										<dl id="favicon-line" class="line">
@@ -538,11 +538,11 @@ if (!empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")
 <?php
 if (file_exists(ROOT."/attach/$blogid/favicon.ico") && !stristr($_SERVER['HTTP_USER_AGENT'], ' MSIE')) {
 ?>
-												<img src="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/favicon.ico" border="1" alt="<?php echo _t('파비콘');?>" />
+												<img src="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/favicon.ico" border="1" alt="<?php echo _t('파비콘');?>" />
 <?php
 } else if (file_exists(ROOT."/attach/$blogid/favicon.ico") && stristr($_SERVER['HTTP_USER_AGENT'], ' MSIE')) {
 ?>
-												<a id="favicon-preview" href="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/favicon.ico"><?php echo _t('미리 보기');?></a>
+												<a id="favicon-preview" href="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/favicon.ico"><?php echo _t('미리 보기');?></a>
 <?php
 }
 ?>
@@ -566,7 +566,7 @@ if (file_exists(ROOT."/attach/$blogid/index.gif")) {
 	$blogIconInfo = getimagesize(ROOT."/attach/$blogid/index.gif");
 	if ($blogIconInfo != false) {
 ?>
-												<img src="<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/index.gif"<?php echo ($blogIconInfo[0] > 48) ? ' width="48"' : '';?> border="1" alt="<?php echo _t('블로그 아이콘');?>" />
+												<img src="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/index.gif"<?php echo ($blogIconInfo[0] > 48) ? ' width="48"' : '';?> border="1" alt="<?php echo _t('블로그 아이콘');?>" />
 <?php
 	}
 }

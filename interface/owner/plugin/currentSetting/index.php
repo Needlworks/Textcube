@@ -71,18 +71,18 @@ if (file_exists(ROOT . "/plugins/{$pluginName}/images/icon_plugin.png")) {
 <head>
 	<title><?php echo _f("%1 설정", $pluginAttrs['title']);?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/plugin-config.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path') . $adminSkinSetting['skin'];?>/plugin-config.css" />
 <?php
 if (true === file_exists(ROOT . "/plugins/$pluginName/plugin-config.css")) {
 ?>
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginName;?>/plugin-config.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path');?>/plugins/<?php echo $pluginName;?>/plugin-config.css" />
 <?php
 }
 ?>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/EAF4.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/pluginconfig.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/EAF4.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/pluginconfig.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
 			var fieldnamelist = <?php echo $result['script'] ;?>;

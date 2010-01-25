@@ -36,7 +36,7 @@ if ((isset($_REQUEST['name'])) && (isset($adminMenuMappings[$_REQUEST['name']]))
 		$pluginAccessParam = '?name=' . $plugin;
 		$pluginSelfParam = '?name=' . $plugin . '/' . $handler;
 		
-		$pluginURL = "{$service['path']}/plugins/{$plugin}";
+		$pluginURL = "{$context->getProperty('service.path')}/plugins/{$plugin}";
 		$pluginPath = ROOT . "/plugins/{$plugin}";
 		$pluginName = $plugin;
 

@@ -22,7 +22,7 @@ $selected = 0;
 if (isset($_GET['name']))
 	$skinSetting['tree'] = $_GET['name'];
 
-$skinSetting['url'] = $service['path'] . "/skin/tree/{$skinSetting['tree']}";
+$skinSetting['url'] = $context->getProperty('service.path') . "/skin/tree/{$skinSetting['tree']}";
 $skinSetting['itemColor'] = isset($_GET['itemColor']) ? $_GET['itemColor'] : $skinSetting['colorOnTree'];
 $skinSetting['itemBgColor'] = isset($_GET['itemBgColor']) ? $_GET['itemBgColor'] : $skinSetting['bgColorOnTree'];
 $skinSetting['activeItemColor'] = isset($_GET['activeItemColor']) ? $_GET['activeItemColor'] : $skinSetting['activeColorOnTree'];
@@ -43,20 +43,20 @@ if (isset($_GET['showValue']))
 <head>
 	<title>Tree Structure Preview</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/skin.css" />
-	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/skin.ie.css" /><![endif]-->
+	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/skin.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/skin.ie.css" /><![endif]-->
 	<script type="text/javascript">
 		//<![CDATA[
-			var servicePath = "<?php echo $service['path'];?>";
+			var servicePath = "<?php echo $context->getProperty('service.path');?>";
 			var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
 			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/EAF4.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/common2.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/owner.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/EAF4.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/common2.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/owner.js"></script>
 	<style type="text/css">
 		/*<![CDATA[*/
 			body

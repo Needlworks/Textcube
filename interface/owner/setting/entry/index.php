@@ -9,8 +9,8 @@ printFormatterSelectScript();
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
-								var title = "<?php echo escapeJSInCData($blog['title']);?>";
-								var description = "<?php echo escapeJSInCData(trim($blog['description']));?>";
+								var title = "<?php echo escapeJSInCData($context->getProperty('blog.title'));?>";
+								var description = "<?php echo escapeJSInCData(trim($context->getProperty('blog.description')));?>";
 								
 								function setResample() {
 									document.getElementById("resample-form").submit();

@@ -115,7 +115,7 @@ if(!empty($sidebarElements)) {
 		$pluginData = $skin->sidebarStorage[$element];
 		$plugin = $pluginData['plugin'];
 		include_once (ROOT . "/plugins/{$plugin}/index.php");
-		$pluginURL = "{$service['path']}/plugins/{$plugin}";
+		$pluginURL = "{$context->getProperty('service.path')}/plugins/{$plugin}";
 		$pluginPath = ROOT . "/plugins/{$plugin}";
 		if( !empty( $configMappings[$plugin]['config'] ) ) 				
 			$configVal = getCurrentSetting($plugin);
