@@ -4,6 +4,8 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $IV = array(
 		'GET' => array(
+			'category' => array('int',0,'mandatory'=>false),
+			'page' => array('int', 1, 'default' => 1),
 			'commentId' => array('int',0,'mandatory'=>false),
 			'commentInput' => array('bool','mandatory'=>false)
 			)
@@ -21,20 +23,22 @@ if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && (isset($_SERVER['HTTP_US
 
 if(empty($suri['value'])) {
 	list($entries, $paging) = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnPage']);
-} else if(isset($_GET['category'])) { // category exists
-	if(Validator::isInteger($_GET['category'], 0)) {
-		list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value'],false,$_GET['category']);
-	}
-} else { // Just normal entry view
-	list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value']);
-	if(isset($_GET['commentId']) || isset($_GET['commentInput'])) {
-		if(isset($_GET['commentId']) && Validator::isInteger($_GET['commentId'],1)) {
-			$commentId = $_GET['commentId'];
-		} else {
-			$commentId = 1;
+} else {
+	if(isset($_GET['category'])) { // category exists
+		if(Validator::isInteger($_GET['category'], 0)) {
+			list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value'],false,$_GET['category']);
 		}
-		$suri['page'] = getCommentPageById(getBlogId(),$entries[0]['id'],$commentId);
-		$context->setProperty('blog.showCommentBox',true);
+	} else { // Just normal entry view
+		list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value']);
+		if(isset($_GET['commentId']) || isset($_GET['commentInput'])) {
+			if(isset($_GET['commentId']) && Validator::isInteger($_GET['commentId'],1)) {
+				$commentId = $_GET['commentId'];
+			} else {
+				$commentId = 1;
+			}
+			$suri['page'] = getCommentPageById(getBlogId(),$entries[0]['id'],$commentId);
+			$context->setProperty('blog.showCommentBox',true);
+		}
 	}
 }
 

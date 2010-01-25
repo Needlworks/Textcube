@@ -110,6 +110,8 @@ if(!is_null($context->getProperty('database.database'))) {
 		Respond::MessagePage('Problem with connecting database.<br /><br />Please re-visit later.');
 		exit;
 	}
+	POD::cacheLoad();
+	register_shutdown_function( array('POD','cacheSave') );
 }
 $database['utf8'] = (POD::charset() == 'utf8') ? true : false;
 /// Memcache module bind (if possible)

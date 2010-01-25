@@ -88,7 +88,7 @@ final class Session {
 	public static function gc($maxLifeTime = false) {
 		if(is_null(self::$context)) self::initialize();
 		self::query('query',"DELETE FROM ".self::$context->getProperty('database.prefix')."Sessions 
-			WHERE updated < (UNIX_TIMESTAMP() - ".self::$context->getProperty('service.timeout').")");
+			WHERE updated < ".(Timestamp::getUNIXtime() - self::$context->getProperty('service.timeout')));
 		$result = self::query('all',"SELECT DISTINCT v.id, v.address 
 			FROM ".self::$context->getProperty('database.prefix')."SessionVisits v 
 			LEFT JOIN ".self::$context->getProperty('database.prefix')."Sessions s ON v.id = s.id AND v.address = s.address 
