@@ -94,7 +94,19 @@ function clearCache() {
 						<li><?php echo _textf('기존 버전 - %1',$currentVersion);?></li>
 						<li><?php echo _textf('현재 버전 - %1',TEXTCUBE_VERSION);?></li>
 					</ul>
-					
+<?php
+	if(version_compare($currentVersion,'1.8.0') < 0) {
+?>
+					<h3><?php echo _text('업그레이드 안내');?></h3>
+					<ul id="upgradeInstruction">
+						<li class="instruction"><?php echo _text('텍스트큐브 1.8 미만에서 텍스트큐브로 이전할 경우, 기본 스킨의 저장 위치가 아래와 같이 변경됩니다.').' '._text('기존의 스킨들을 새 디렉토리로 옮겨 주시기 바랍니다.');?></li>
+						<li class="detail"><?php echo _textf('스킨 디렉토리 : %1 에서 %2로 변경','/skin/','/skin/blog/');?></li>
+						<li class="detail"><?php echo _textf('관리 패널 스킨 디렉토리 : %1 에서 %2로 변경','/style/admin/','/skin/admin/');?></li>
+					</ul>
+
+<?php
+	}
+?>
 					<h3><?php echo _text('변경 중');?></h3>
 					
 					<ul id="processList">

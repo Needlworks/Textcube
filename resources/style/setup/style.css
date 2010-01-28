@@ -292,3 +292,12 @@ span.instruction
 {
 	color: #156B0F;
 }
+#upgradeInstruction li.instruction
+{
+	color: #ff2222;
+}
+#upgradeInstruction li.detail
+{
+	color: #2222ff;
+}
+
