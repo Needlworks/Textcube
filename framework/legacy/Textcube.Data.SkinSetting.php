@@ -43,9 +43,10 @@ class SkinSetting {
 		$result = $pool->getAll('name, value');
 		if (!empty($result)) {
 			foreach ($result as $data) {
-				if ($data['name'] == 'tagboxAlign') $data['name'] = 'alignOnTagbox';
-//				dumpAsFile($data);
-				$this->$data['name'] = $data['value'];
+				if (!empty($date['name'])) {
+					if ($data['name'] == 'tagboxAlign') $data['name'] = 'alignOnTagbox';
+					$this->$data['name'] = $data['value'];
+				}
 			}
 			return true;
 		}
