@@ -38,7 +38,7 @@ function getDefaultDBModelOnNotice($blogid) {
 	$query->reset('Entries');
 	$query->setQualifier('blogid','equals',$blogid);
 	$query->setQualifier('draft','equals',0);
-	if(doesHaveOwnership()) {
+	if(!doesHaveOwnership()) {
 		$query->setQualifier('visibility','bigger',1);
 	}
 	$query->setQualifier('category','equals',-2);
