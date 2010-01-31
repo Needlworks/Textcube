@@ -12,6 +12,4 @@
 	}
 	require_once(ROOT."/framework/data/IAdapter.php");	
 	require_once(ROOT."/framework/data/".$dbms."/Adapter.php");
-	DBAdapter::cacheLoad();
-	register_shutdown_function( array('DBAdapter','cacheSave') );
 ?>

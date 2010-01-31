@@ -58,4 +58,7 @@ class POD extends DBAdapter {
 		return $cache->contents;
 	}
 }
+
+POD::cacheLoad();
+register_shutdown_function( array('POD','cacheSave') );	
 ?>
