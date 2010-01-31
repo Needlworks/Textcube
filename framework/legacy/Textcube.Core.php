@@ -400,27 +400,23 @@ class Blog {
 
 class Transaction {
 	function pickle($data) {
-		if( !isset( $_SESSION['pickle'] ) ) {
-			$_SESSION['pickle'] = array();
+		$pickle_dir = ROOT.DS."cache".DS."pickle".DS;
+		if( !file_exists( $pickle_dir ) ) {
+			mkdir( $pickle_dir );
 		}
 		$tid = sprintf("%010dP%s",time(),md5( microtime(true) ));
-		while( isset( $_SESSION['pickle'][$tid] ) ) {
+		while( file_exists( $pickle_dir.$tid ) ) {
 			$tid = sprintf("%010dP%s",time(),md5( microtime(true) ));
 			usleep(50);
 		}
-		$_SESSION['pickle'][$tid] = $data;
+		file_put_contents( $pickle_dir.$tid, serialize($data) );
 		return $tid;
 	}
 
 	function unpickle( $tid ) {
-		if( !isset( $_SESSION['pickle'] ) || !isset( $_SESSION['pickle'][$tid] ) ) {
-			return null;
-		}
-		$data = $_SESSION['pickle'][$tid];
-		unset( $_SESSION['pickle'][$tid] );
-		if( empty( $_SESSION['pickle'] ) ) {
-			unset( $_SESSION['pickle'] );
-		}
+		$pickle_file = ROOT.DS."cache".DS."pickle".DS.$tid;
+		$data = unserialize(file_get_contents( $pickle_file ));
+		unlink( $pickle_file );
 		return $data;
 	}
 
@@ -429,42 +425,32 @@ class Transaction {
 			return;
 		}
 		$_SESSION['pickle'][$tid] = $data;
+		$pickle_dir = ROOT.DS."cache".DS."pickle".DS;
+		if( !file_exists( $pickle_dir ) ) {
+			mkdir( $pickle_dir );
+		}
+		file_put_contents( $pickle_dir.$tid, serialize($data) );
 	}
 
 	function taste( $tid ) {
-		if( !isset( $_SESSION['pickle'] ) || !isset( $_SESSION['pickle'][$tid] ) ) {
+		$pickle_file = ROOT.DS."cache".DS."pickle".DS.$tid;
+		if( !file_exists( $pickle_file ) ) {
 			return null;
 		}
-		return $_SESSION['pickle'][$tid];
+		$data = unserialize(file_get_contents( $pickle_file ));
+		return $data;
 	}
 
 	function clear() {
-		if( isset( $_SESSION['pickle'] ) ) {
-			unset( $_SESSION['pickle'] );
-		}
+		return;
 	}
 
 	function gc() {
-		if( !isset( $_SESSION['pickle'] ) ) {
-			return;
-		}
-		$current = time();
-		foreach( array_keys( $_SESSION['pickle'] ) as $k ) {
-			$created_time = intval($k);
-			if( $created_time < $current - 3600 ) {
-				unset( $_SESSION['pickle'][$k] );
-			}
-		}
-		if( empty($_SESSION['pickle']) ) {
-			unset( $_SESSION['pickle'] );
-		}
+		return;
 	}
 
 	function debug( $tid = null ) {
-		header( "X-Debug-tid: $tid" );
-		foreach( $_SESSION['pickle'][$tid] as $k => $v ) {
-			header( "X-Debug-$k: [$v]" );
-		}
+		return;
 	}
 }
 
