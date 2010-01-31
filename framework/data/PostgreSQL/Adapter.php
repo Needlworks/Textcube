@@ -317,11 +317,12 @@ class DBAdapter implements IAdapter {
 	}
 
 	public static function cacheSave() {
-		global $fileCachedResult;
+		@self::commit();
 	}
 
 	public static function commit() { 
-		return true; // Auto commit.
+		return pg_query("commit");
+//		return true; // Auto commit.
 	}
 
 	/* Raw public static functions (to easier adoptation) */
@@ -358,8 +359,8 @@ class DBAdapter implements IAdapter {
 	
 	/*@static@*/
 	public static function stat($stat = null) {
-		if($stat === null) return mysql_stat();
-		else return mysql_stat($stat);
+		if($stat === null) return pg_connection_status();
+		else return pg_connection_status($stat);
 	}
 	
 	/*@static@*/
