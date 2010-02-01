@@ -4,14 +4,17 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
 requireModel('blog.entry');
+requireModel('blog.response.remote');
 requireModel('blog.sidebar');
 $entries = array();
 if (is_null($entry = getEntry($blogid, $suri['id'], true)))
 	$entry = getEntry($blogid, $suri['id'], false);
-if (!is_null($entry) && ($entry['category'] >= 0)) {
+if (!is_null($entry)) {
 	if (isset($entry['appointed']))
 		$entry['published'] = $entry['appointed'];
-	$entry['categoryLabel'] = getCategoryLabelById($blogid, $entry['category']);
+	if(isset($entry['category']) && $entry['category'] >= 0) {
+		$entry['categoryLabel'] = getCategoryLabelById($blogid, $entry['category']);
+	}
 	$entries[0] = $entry;
 }
 unset($entry);
