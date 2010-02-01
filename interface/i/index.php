@@ -22,23 +22,23 @@ if(empty($suri['id'])) {
 		$itemsView .= '</li>'.CRLF;
 		print $itemsView;
 	?>
-		<li><a href="<?php echo $blogURL;?>/entry" class="link"><?php echo _text('글목록');?></a></li>
+		<li><a href="<?php echo $context->getProperty('uri.blog');?>/entry" class="link"><?php echo _text('글목록');?></a></li>
 		<li><a href="#categories" class="link"><?php echo _text('분류');?></a></li>
 		<li><a href="#archives" class="link"><?php echo _text('보관목록');?></a></li>
 		<li><a href="#tags" class="link"><?php echo _text('태그');?></a></li>
-		<li><a href="<?php echo $blogURL;?>/comment" class="link"><?php echo _text('최근 댓글');?></a></li>
-		<li><a href="<?php echo $blogURL;?>/trackback" class="link"><?php echo _text('최근 트랙백');?></a></li>
-		<li><a href="<?php echo $blogURL;?>/guestbook" class="link"><?php echo _text('방명록');?></a></li>
-		<li><a href="<?php echo $blogURL;?>/link" class="link"><?php echo _text('링크');?></a></li>
+		<li><a href="<?php echo $context->getProperty('uri.blog');?>/comment" class="link"><?php echo _text('최근 댓글');?></a></li>
+		<li><a href="<?php echo $context->getProperty('uri.blog');?>/trackback" class="link"><?php echo _text('최근 트랙백');?></a></li>
+		<li><a href="<?php echo $context->getProperty('uri.blog');?>/guestbook" class="link"><?php echo _text('방명록');?></a></li>
+		<li><a href="<?php echo $context->getProperty('uri.blog');?>/link" class="link"><?php echo _text('링크');?></a></li>
 	<?php
 		if (doesHaveOwnership()) {
 	?>
-		<li><a href="<?php echo $defaultURL;?>/owner/center/dashboard" onclick="window.location.href='<?php echo $defaultURL;?>/owner/center/dashboard'" class="link dashboard"><?php echo _text('관리 패널');?></a></li>
-		<li><a href="<?php echo $blogURL;?>/logout" class="link logout"><?php echo _text('로그아웃');?></a></li>
+		<li><a href="<?php echo $context->getProperty('uri.default');?>/owner/center/dashboard" onclick="window.location.href='<?php echo $context->getProperty('uri.default');?>/owner/center/dashboard'" class="link dashboard"><?php echo _text('관리 패널');?></a></li>
+		<li><a href="<?php echo $context->getProperty('uri.blog');?>/logout" class="link logout"><?php echo _text('로그아웃');?></a></li>
 	<?php
 		}else{
 	?>
-		<li><a href="<?php echo $blogURL;?>/login" class="link"><?php echo _text('로그인');?></a></li>
+		<li><a href="<?php echo $context->getProperty('uri.blog');?>/login" class="link"><?php echo _text('로그인');?></a></li>
 	<?php
 		}
 	?>
@@ -74,7 +74,7 @@ if(empty($suri['id'])) {
 		</li>
 	</ul>
 
-    <form id="searchForm" method="GET" class="dialog snug editorBar" action="<?php echo $blogURL;?>/search">
+    <form id="searchForm" method="GET" class="dialog snug editorBar" action="<?php echo $context->getProperty('uri.blog');?>/search">
         <fieldset>
             <h1><?php echo _text('글 검색');?></h1>
             <a class="button leftButton" type="cancel" onclick="searchAction(false);"><?php echo _text('취소');?></a>

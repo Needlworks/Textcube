@@ -21,12 +21,12 @@ if (false) {
 }
 if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']) && !empty($_POST['mode']) && ($_POST['mode'] == 'commit') || !Setting::getBlogSettingGlobal('acceptComments',1)) {
 	if (!empty($_POST['name']))
-		setcookie('guestName', $_POST['name'], time() + 2592000, "$blogURL/");
+		setcookie('guestName', $_POST['name'], time() + 2592000, "$context->getProperty('uri.blog')/");
 	if (!empty($_POST['homepage']) && ($_POST['homepage'] != 'http://')) {
 		if (strpos($_POST['homepage'], 'http://') === 0)
-			setcookie('guestHomepage', $_POST['homepage'], time() + 2592000, "$blogURL/");
+			setcookie('guestHomepage', $_POST['homepage'], time() + 2592000, "$context->getProperty('uri.blog')/");
 		else
-			setcookie('guestHomepage', 'http://' . $_POST['homepage'], time() + 2592000, "$blogURL/");
+			setcookie('guestHomepage', 'http://' . $_POST['homepage'], time() + 2592000, "$context->getProperty('uri.blog')/");
 	}
 	$comment = array();
 	list($comment['entry']) = getCommentAttributes($blogid, $suri['id'], 'entry');
@@ -59,7 +59,7 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 		if(!$comment['secret']) {
 			if($row = POD::queryRow("SELECT * FROM {$database['prefix']}Entries 
 				WHERE blogid = $blogid AND id = {$comment['entry']} AND draft = 0 AND visibility = 3 AND acceptcomment = 1"))
-				sendCommentPing($comment['entry'], "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$row['slogan']}": $comment['entry']), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
+				sendCommentPing($comment['entry'], "$context->getProperty('uri.default')/".($blog['useSloganOnPost'] ? "entry/{$row['slogan']}": $comment['entry']), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
 		}
 		$skin = new Skin($skinSetting['skin']);
 		printHtmlHeader();

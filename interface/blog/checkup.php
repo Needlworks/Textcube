@@ -834,7 +834,7 @@ if (((!file_exists(ROOT . '/cache/CHECKUP')) || (trim(file_get_contents(ROOT . '
 				</div>
 
 				<div id="navigation">
-					<a href="<?php echo $blogURL.'/owner/center/dashboard';?>"><img src="<?php echo $context->getProperty('service.path')?>/resources/style/setup/image/icon_ok.gif" width="74" height="24" alt="돌아가기" /></a>
+					<a href="<?php echo $context->getProperty('uri.blog').'/owner/center/dashboard';?>"><img src="<?php echo $context->getProperty('service.path')?>/resources/style/setup/image/icon_ok.gif" width="74" height="24" alt="돌아가기" /></a>
 				</div>
 			</div>
 		</form>

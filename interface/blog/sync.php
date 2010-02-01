@@ -18,14 +18,14 @@ if($entry = POD::queryRow("SELECT e.*, c.name AS categoryName
 	echo '<blog>', "\r\n";
 	echo '<generator>Textcube/1.1</generator>', "\r\n";
 	echo '<language>', htmlspecialchars($blog['language']), '</language>', "\r\n";
-	echo '<url>', htmlspecialchars($defaultURL), '</url>', "\r\n";
+	echo '<url>', htmlspecialchars($context->getProperty('uri.default')), '</url>', "\r\n";
 	echo '<title>', htmlspecialchars($context->getProperty('blog.title')), '</title>', "\r\n";
 	echo '<description>', htmlspecialchars($context->getProperty('blog.description')), '</description>', "\r\n";
 	echo '<comments>', $allComments, '</comments>', "\r\n";
 	echo '<trackbacks>', $allTrackbacks, '</trackbacks>', "\r\n";
 	echo '</blog>', "\r\n";
 	echo '<entry>', "\r\n";
-	echo '<permalink>', htmlspecialchars("$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$entry['slogan']}": $entry['id'])), '</permalink>', "\r\n";
+	echo '<permalink>', htmlspecialchars("$context->getProperty('uri.default')/".($blog['useSloganOnPost'] ? "entry/{$entry['slogan']}": $entry['id'])), '</permalink>', "\r\n";
 	echo '<title>', htmlspecialchars($entry['title']), '</title>', "\r\n";
 	echo '<content>', htmlspecialchars(getEntryContentView($blogid, $suri['id'], $entry['content'], $entry['contentformatter'])), '</content>', "\r\n";
 	echo '<author>', htmlspecialchars(POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = ".$entry['userid'])), '</author>', "\r\n";
@@ -51,7 +51,7 @@ if($entry = POD::queryRow("SELECT e.*, c.name AS categoryName
 				echo '<url>', $serviceURL, '/attach/',$blogid, '/', $attachment['name'], '</url>' , "\r\n";
 				break;
 			default:
-				echo '<url>', $defaultURL, '/attachment/', $attachment['name'], '</url>', "\r\n";
+				echo '<url>', $context->getProperty('uri.default'), '/attachment/', $attachment['name'], '</url>', "\r\n";
 		}
 		echo '</attachment>', "\r\n";
 	}

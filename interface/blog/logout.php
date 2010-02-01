@@ -15,8 +15,8 @@ define('__TEXTCUBE_LOGIN__',true);
 require ROOT . '/library/preprocessor.php';
 $ctx = Model_Context::getInstance();
 $userURL = $ctx->getProperty('user.homepage');
-$blogURL = $ctx->getProperty('uri.blog');
-if (substr($blogURL, -1) != '/') $blogURL .= '/';
+$context->getProperty('uri.blog') = $ctx->getProperty('uri.blog');
+if (substr($context->getProperty('uri.blog'), -1) != '/') $context->getProperty('uri.blog') .= '/';
 if (!isset($userURL) ) $userURL = '/';
 if (substr($userURL, -1) != '/') $userURL .= '/';
 
@@ -26,9 +26,9 @@ if (doesHaveMembership()) {
 	if (!empty($_POST['requestURI']))
 		$returnURL = $_POST['requestURI'];
 	else
-		$returnURL = $blogURL;
+		$returnURL = $context->getProperty('uri.blog');
 } else {
-	$returnURL = $blogURL;
+	$returnURL = $context->getProperty('uri.blog');
 }
 logout();
 header("Location: $returnURL");

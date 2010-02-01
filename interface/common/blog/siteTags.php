@@ -13,7 +13,7 @@ if(isset($cache->contents)) {
 	foreach ($siteTags as $siteTag) {
 		$itemView = $skin->siteTagItem;
 		dress('tag_name', htmlspecialchars($siteTag['name']), $itemView);
-		dress('tag_link', "$blogURL/tag/" . (Setting::getBlogSettingGlobal('useSloganOnTag',true) ? URL::encode($siteTag['name'],$service['useEncodedURL']) : $siteTag['id']), $itemView);
+		dress('tag_link', "$context->getProperty('uri.blog')/tag/" . (Setting::getBlogSettingGlobal('useSloganOnTag',true) ? URL::encode($siteTag['name'],$service['useEncodedURL']) : $siteTag['id']), $itemView);
 		dress('tag_class', "cloud" . getTagFrequency($siteTag['name'], $maxTagFreq, $minTagFreq), $itemView);
 		$itemsView .= $itemView;
 	}

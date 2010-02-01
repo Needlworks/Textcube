@@ -30,7 +30,7 @@ $searchView = $skin->search;
 dress('search_name', 'search', $searchView);
 dress('search_text', isset($search) ? htmlspecialchars($search) : '', $searchView);
 dress('search_onclick_submit', 'searchBlog()', $searchView);
-dress('search', '<form id="TTSearchForm" action="'.$blogURL.'/search/" method="get" onsubmit="return searchBlog()">'.$searchView.'</form>', $view);
+dress('search', '<form id="TTSearchForm" action="'.$context->getProperty('uri.blog').'/search/" method="get" onsubmit="return searchBlog()">'.$searchView.'</form>', $view);
 
 $totalPosts = getEntriesTotalCount($blogid);
 $categories = getCategories($blogid);

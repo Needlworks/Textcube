@@ -21,7 +21,7 @@ printMobileHtmlHeader(htmlspecialchars($context->getProperty('blog.title')));
 			echo '<ul>';
 		foreach ($comments as $comment) {
 		?>
-			<li><a href="<?php echo $blogURL;?>/comment/<?php echo $comment['entry'];?>"><?php echo htmlspecialchars($comment['comment']);?></a><br /><?php echo htmlspecialchars($comment['name']);?> (<?php echo Timestamp::format2($comment['written']);?>)</li>
+			<li><a href="<?php echo $context->getProperty('uri.blog');?>/comment/<?php echo $comment['entry'];?>"><?php echo htmlspecialchars($comment['comment']);?></a><br /><?php echo htmlspecialchars($comment['name']);?> (<?php echo Timestamp::format2($comment['written']);?>)</li>
 		<?php
 		}
 		if(count($comments) > 0)
@@ -34,7 +34,7 @@ printMobileHtmlHeader(htmlspecialchars($context->getProperty('blog.title')));
 			echo '<ul>';
 		foreach ($trackbacks as $trackback) {
 		?>
-			<li><a href="<?php echo $blogURL;?>/trackback/<?php echo $trackback['entry'];?>"><?php echo htmlspecialchars($trackback['subject']);?></a><br /><?php echo htmlspecialchars($trackback['site']);?> (<?php echo Timestamp::format2($trackback['written']);?>)</li>
+			<li><a href="<?php echo $context->getProperty('uri.blog');?>/trackback/<?php echo $trackback['entry'];?>"><?php echo htmlspecialchars($trackback['subject']);?></a><br /><?php echo htmlspecialchars($trackback['site']);?> (<?php echo Timestamp::format2($trackback['written']);?>)</li>
 		<?php
 		}
 		if(count($trackbacks) > 0)
@@ -46,7 +46,7 @@ printMobileHtmlHeader(htmlspecialchars($context->getProperty('blog.title')));
 	<?php
 foreach (getArchives($blogid) as $archive) {
 ?>
-	<li><a href="<?php echo $blogURL;?>/archive/<?php echo $archive['period'];?>"><?php echo getPeriodLabel($archive['period']);?></a> (<?php echo $archive['count'];?>)</li>
+	<li><a href="<?php echo $context->getProperty('uri.blog');?>/archive/<?php echo $archive['period'];?>"><?php echo getPeriodLabel($archive['period']);?></a> (<?php echo $archive['count'];?>)</li>
 	<?php
 }
 ?>

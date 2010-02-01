@@ -95,7 +95,7 @@ closedir($handler);
 								param += 'encoding='+getEncodedValueById('encoding') +'&';
 								param += 'serviceurl='+getEncodedValueById('serviceurl') + '&';
 								param += 'externalResourceURL='+getEncodedValueById('externalResourceURL');
-								var request = new HTTPRequest("POST", '<?php echo $blogURL;?>/control/server/config/');
+								var request = new HTTPRequest("POST", '<?php echo $context->getProperty('uri.blog');?>/control/server/config/');
 								request.onSuccess = function() {
 									PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 								}
@@ -110,7 +110,7 @@ closedir($handler);
 								var smtpHost = document.getElementById('smtpHost').value;
 								var smtpPort = document.getElementById('smtpPort').value;
 
-								var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/control/server/mailhost/");
+								var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/control/server/mailhost/");
 								request.onVerify = function() {
 									return this.getText("/response/error") == 0;
 								}
@@ -129,7 +129,7 @@ if(!defined('__TEXTCUBE_NO_FANCY_URL__')) {
 								if(!confirm('<?php echo _f('적용하시면 기존의 %1 파일이 변경됩니다. 이 변경사항은 되돌릴 수 없습니다. 그래도 적용하시겠습니까?','.htaccess');?>')) return;
 								var htaccess = document.getElementById('rewrite');
 
-								var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/control/server/rewrite/");
+								var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/control/server/rewrite/");
 								request.onSuccess = function() {
 									PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 								}
@@ -167,7 +167,7 @@ if (!is_writable(ROOT . "/config.php")) {
 							</div>
 
 							<div class="data-inbox">
-								<form id="configSetting" class="section" method="post" action="<?php echo $blogURL;?>/control/server/config" enctype="application/x-www-form-urlencoded">
+								<form id="configSetting" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/control/server/config" enctype="application/x-www-form-urlencoded">
 									<fieldset id="cache-container" class="container">
 										<legend><?php echo _t('기본 설정');?></legend>
 
@@ -368,7 +368,7 @@ foreach($encodingList as $enc) {
 							<h2 class="caption"><span class="main-text"><?php	echo _t('메일 보낼 서버를 지정합니다');?></span></h2>
 
 							<div class="data-inbox">
-								<form class="section" method="post" action="<?php echo $blogURL;?>/control/server/mailhost">
+								<form class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/control/server/mailhost">
 									<dl>
 										<dt class="title"><span class="label"><?php	echo _t('메일 서버 설정');?></span></dt>
 										<dd>
@@ -408,7 +408,7 @@ if (!is_writable(ROOT . "/.htaccess")) {
 ?>
 							</div>
 							<div class="data-inbox">
-								<form id="rewriteSectionForm" class="section" method="post" action="<?php echo $blogURL;?>/control/server/rewrite/">
+								<form id="rewriteSectionForm" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/control/server/rewrite/">
 
 									<div id="rewrite-container">
 										<textarea id="rewrite" name="htaccess" cols="100" rows="20" onkeyup="htaccessSaved=false"><?php echo htmlspecialchars($htaccessContent);?></textarea>

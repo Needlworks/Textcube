@@ -39,12 +39,12 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 	echo '<?xml version="1.0" encoding="utf-8"?><response><error>2</error><description><![CDATA[', _text('본문을 입력해 주십시오.'), ']]></description></response>';
 } else {
 	if (!empty($userName)) {
-		setcookie('guestName', $userName, time() + 2592000, "$blogURL/");
+		setcookie('guestName', $userName, time() + 2592000, "$context->getProperty('uri.blog')/");
 	}
 	if (!empty($userHomepage) && ($userHomepage != 'http://')) {
 		if (strpos($userHomepage, 'http://') !== 0)
 			$userHomepage = "http://$userHomepage";
-		setcookie('guestHomepage', $userHomepage, time() + 2592000, "$blogURL/");
+		setcookie('guestHomepage', $userHomepage, time() + 2592000, "$context->getProperty('uri.blog')/");
 	}
 	if( Acl::getIdentity( 'openid' ) ) {
 		OpenIDConsumer::updateUserInfo( $userName, $userHomepage );
@@ -99,7 +99,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 			$pool->setQualifier('acceptcomment','equals',1);
 			$row = $pool->getAll('*');
 			if(!empty($row))
-				sendCommentPing($entryId, "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$row['slogan']}": $entryId), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
+				sendCommentPing($entryId, "$context->getProperty('uri.default')/".($blog['useSloganOnPost'] ? "entry/{$row['slogan']}": $entryId), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
 		}
 		requireModel('blog.skin');
 		$skin = new Skin($skinSetting['skin']);

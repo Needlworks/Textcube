@@ -22,7 +22,7 @@ if(!empty($suri['id'])) {
 	if(in_array($categoryId, getCategoryVisibilityList($blogid, 'private'))) return false;
 	$categoryTitle = $suri['value'];
 } else { 	// If no category is mentioned, redirect it to total rss.
-	header ("Location: $hostURL$blogURL/rss");
+	header ("Location: $hostURL$context->getProperty('uri.blog')/rss");
 	exit;
 }
 

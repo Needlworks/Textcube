@@ -31,7 +31,7 @@ if(isset($category)) {
 			}
 			$itemsView .= '<li class="post_item">'.CRLF;
 			$itemsView .= '	<span class="image"><img src="' . $imageSrc . '" width="28" height="28" /></span>'.CRLF;
-			$itemsView .= '	<a href="' . $blogURL . '/entry/' . $item['id'] . '" class="link">'.CRLF;
+			$itemsView .= '	<a href="' . $context->getProperty('uri.blog') . '/entry/' . $item['id'] . '" class="link">'.CRLF;
 			$itemsView .= '		<div class="post">'.CRLF;
 			$itemsView .= '			<span class="title">' . fireEvent('ViewListTitle', htmlspecialchars($item['title'])) . '</span>'.CRLF;
 			$itemsView .= '			<span class="description">' . Timestamp::format5($item['published']) . ', ' . 'Comments(' . ($item['comments'] > 0 ? $item['comments'] : 0) . ')' . '</span>'.CRLF;
@@ -42,10 +42,10 @@ if(isset($category)) {
 
 		$itemsView .= '<li class="pagination">'.CRLF;
 		if(isset($paging['prev'])){
-			$itemsView .= '<a href="' .$blogURL . '/category/' . $category . '?page=' . $paging['prev'] . '" class="previous">'._textf('%1 페이지',$paging['prev']) . '</a>'.CRLF;
+			$itemsView .= '<a href="' .$context->getProperty('uri.blog') . '/category/' . $category . '?page=' . $paging['prev'] . '" class="previous">'._textf('%1 페이지',$paging['prev']) . '</a>'.CRLF;
 		}
 		if (isset($paging['next'])) {
-			$itemsView .= '<a href="' .$blogURL . '/category/' . $category . '?page=' . $paging['next'] . '" class="next">'._textf('%1 페이지',$paging['next']) . '</a>'.CRLF;
+			$itemsView .= '<a href="' .$context->getProperty('uri.blog') . '/category/' . $category . '?page=' . $paging['next'] . '" class="next">'._textf('%1 페이지',$paging['next']) . '</a>'.CRLF;
 		}
 		if ($suri['page'] > 1 && $suri['page'] != $paging['pages']) {
 			$itemsView .= '<strong>' . $suri['page'] . '</strong>'.CRLF;

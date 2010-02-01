@@ -16,7 +16,7 @@ $blogid = getBlogId();
 list($entries, $paging) = getEntriesWithPagingBySearch($blogid, $search, 1, 1, 1);
 
 if(empty($entries)) {
-	header ("Location: $hostURL$blogURL/rss");
+	header ("Location: $hostURL$context->getProperty('uri.blog')/rss");
 	exit;	
 }
 

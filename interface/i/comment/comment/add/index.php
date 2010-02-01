@@ -20,9 +20,9 @@ if(!Validator::validate($IV))
 	Respond::NotFoundPage();
 list($entryId) = getCommentAttributes($blogid, $replyId, 'entry');
 if (!doesHaveOwnership() && empty($_GET["name_$replyId"])) {
-	printIphoneErrorPage(_text('Comment write error.'), _text('Please enter your name.'), "$blogURL/comment/comment/$replyId");
+	printIphoneErrorPage(_text('Comment write error.'), _text('Please enter your name.'), "$context->getProperty('uri.blog')/comment/comment/$replyId");
 } else if (!doesHaveOwnership() && empty($_GET["comment_$replyId"])) {
-	printIphoneErrorPage(_text('Comment write error.'), _text('Please enter content.'), "$blogURL/comment/comment/$replyId");
+	printIphoneErrorPage(_text('Comment write error.'), _text('Please enter content.'), "$context->getProperty('uri.blog')/comment/comment/$replyId");
 } else {
 	$comment = array();
 	$comment['entry'] = $entryId;
@@ -40,13 +40,13 @@ if (!doesHaveOwnership() && empty($_GET["name_$replyId"])) {
 		} else {
 			$blockMessage = _textf('Blocked %1', $result);
 		}
-		printIphoneErrorPage(_text('Comment write blocked.'), $blockMessage, "$blogURL/comment/$entryId");
+		printIphoneErrorPage(_text('Comment write blocked.'), $blockMessage, "$context->getProperty('uri.blog')/comment/$entryId");
 	} else if ($result === false) {
-		printIphoneErrorPage(_text('Comment write error.'), _text('Cannot write comment.'), "$blogURL/comment/$entryId");
+		printIphoneErrorPage(_text('Comment write error.'), _text('Cannot write comment.'), "$context->getProperty('uri.blog')/comment/$entryId");
 	} else {
-		setcookie('guestName', $comment['name'], time() + 2592000, $blogURL);
-		setcookie('guestHomepage', $comment['homepage'], time() + 2592000, $blogURL);
-		printIphoneSimpleMessage(_text('Comment registered.'), _text('Go to comments page'), "$blogURL/comment/$entryId");
+		setcookie('guestName', $comment['name'], time() + 2592000, $context->getProperty('uri.blog'));
+		setcookie('guestHomepage', $comment['homepage'], time() + 2592000, $context->getProperty('uri.blog'));
+		printIphoneSimpleMessage(_text('Comment registered.'), _text('Go to comments page'), "$context->getProperty('uri.blog')/comment/$entryId");
 	}
 }
 ?>

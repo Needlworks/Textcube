@@ -51,10 +51,10 @@ if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && (isset($_SERVER['HTTP_US
 	if(isset($suri['id'])) {
 		$slogan = getSloganById($blogid, $suri['id']);
 		if(!empty($slogan)) {
-			header("Location: $blogURL/i/entry/".$slogan); exit;
+			header("Location: $context->getProperty('uri.blog')/i/entry/".$slogan); exit;
 		}
 	} else {
-		header("Location: $blogURL/i"); exit;
+		header("Location: $context->getProperty('uri.blog')/i"); exit;
 	}
 }
 

@@ -606,34 +606,34 @@ class KeylogSkin {
 }
 
 function dressStaticElements(& $view) {
-	global $blogid, $blog, $defaultURL, $blogURL, $service;
-
+	$ctx = Model_Context::getInstance();
+	$blogid = $ctx->getProperty('blog.id');
 	$writer = User::getBlogOwnerName($blogid);
 
-	dress('title', htmlspecialchars($blog['title']), $view);
+	dress('title', htmlspecialchars( $ctx->getProperty('blog.title')), $view);
 	dress('blogger', htmlspecialchars($writer), $view);
-	dress('desc', htmlspecialchars($blog['description']), $view);
-	if (!empty($blog['logo']))
-		dress('image', "{$service['path']}/attach/$blogid/{$blog['logo']}", $view);
+	dress('desc', htmlspecialchars( $ctx->getProperty('blog.description')), $view);
+	if ( $ctx->getProperty('blog.logo') !== null)
+		dress('image', $ctx->getProperty('service.path')."/attach/$blogid/". $ctx->getProperty('blog.logo'), $view);
 	else
-		dress('image', "{$service['path']}/resources/image/spacer.gif", $view);
-	dress('blog_link', "$blogURL/", $view);
-	dress('keylog_link', "$blogURL/keylog", $view);
-	dress('localog_link', "$blogURL/location", $view);
-	dress('taglog_link', "$blogURL/tag", $view);
-	dress('guestbook_link', "$blogURL/guestbook", $view);
+		dress('image',  $ctx->getProperty('service.path')."/resources/image/spacer.gif", $view);
+	dress('blog_link', $ctx->getProperty('uri.blog')."/", $view);
+	dress('keylog_link',  $ctx->getProperty('uri.blog')."/keylog", $view);
+	dress('localog_link',  $ctx->getProperty('uri.blog')."/location", $view);
+	dress('taglog_link',  $ctx->getProperty('uri.blog')."/tag", $view);
+	dress('guestbook_link',  $ctx->getProperty('uri.blog')."/guestbook", $view);
 	
-	dress('rss_url', "$defaultURL/rss", $view);
-	dress('response_rss_url', "$defaultURL/rss/response", $view);
-	dress('comment_rss_url', "$defaultURL/rss/comment", $view);
-	dress('trackback_rss_url', "$defaultURL/rss/trackback", $view);
+	dress('rss_url',  $ctx->getProperty('uri.default')."/rss", $view);
+	dress('response_rss_url',  $ctx->getProperty('uri.default')."/rss/response", $view);
+	dress('comment_rss_url',  $ctx->getProperty('uri.default')."/rss/comment", $view);
+	dress('trackback_rss_url',  $ctx->getProperty('uri.default')."/rss/trackback", $view);
 	
-	dress('atom_url', "$defaultURL/atom", $view);
-	dress('response_atom_url', "$defaultURL/atom/response", $view);
-	dress('comment_atom_url', "$defaultURL/atom/comment", $view);
-	dress('trackback_atom_url', "$defaultURL/atom/trackback", $view);
+	dress('atom_url',  $ctx->getProperty('uri.default')."/atom", $view);
+	dress('response_atom_url',  $ctx->getProperty('uri.default')."/atom/response", $view);
+	dress('comment_atom_url',  $ctx->getProperty('uri.default')."/atom/comment", $view);
+	dress('trackback_atom_url',  $ctx->getProperty('uri.default')."/atom/trackback", $view);
 	
-	dress('owner_url', "$blogURL/owner", $view);
+	dress('owner_url',  $ctx->getProperty('uri.blog')."/owner", $view);
 	dress('textcube_name', TEXTCUBE_NAME, $view);
 	dress('textcube_version', TEXTCUBE_VERSION, $view);
 	dress('tattertools_name', TEXTCUBE_NAME, $view); // For skin legacy.

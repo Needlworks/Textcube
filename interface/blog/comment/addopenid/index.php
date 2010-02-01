@@ -70,12 +70,12 @@ if( $openid_identity ) {
 } else {
 	if( empty($tr['openid_errormsg']) ) {
 		/* OpenID request path.. */
-		global $blogURL;
+		global $context->getProperty('uri.blog');
 		$tid = Transaction::pickle( array('_POST' => $_POST, 'HTTP_REFERER' => $_SERVER['HTTP_REFERER'] ) );
-		$requestURI = urlencode("$blogURL/comment/addopenid/$entryId?tid=$tid&__T__=".$_GET['__T__']);
+		$requestURI = urlencode("$context->getProperty('uri.blog')/comment/addopenid/$entryId?tid=$tid&__T__=".$_GET['__T__']);
 
 		/* eas_mode will redirect your browser to the IdP authentication page in EAS4.js addComment-onError handler */
-		header( "Location: $blogURL/login/openid?action=try_auth&openid_remember=y&requestURI=$requestURI&fallbackURI=".urlencode($_POST["requestURI"]).
+		header( "Location: $context->getProperty('uri.blog')/login/openid?action=try_auth&openid_remember=y&requestURI=$requestURI&fallbackURI=".urlencode($_POST["requestURI"]).
 			"&openid_identifier=".urlencode($_POST["openid_identifier_$entryId"]) );
 		exit;
 	} else {

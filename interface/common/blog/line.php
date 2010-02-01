@@ -33,8 +33,8 @@ if (isset($cache->contents)) {
 	}
 	dress('line_rep', $itemsView, $lineView);
 	$lineView = fireEvent('ViewLine', $lineView, $lines);
-	dress('line_rssurl',$defaultURL.'/rss/line',$lineView);
-	dress('line_atomurl',$defaultURL.'/atom/line',$lineView);
+	dress('line_rssurl',$context->getProperty('uri.default').'/rss/line',$lineView);
+	dress('line_atomurl',$context->getProperty('uri.default').'/atom/line',$lineView);
 
 //	if(empty($lines)) $lineView = $lineView.CRLF.'[##_paging_line_##]';
 	

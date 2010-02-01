@@ -15,7 +15,7 @@ require ROOT . '/interface/common/control/header.php';
 
 requirePrivilege('group.creators');
 
-global $blogURL;
+global $context->getProperty('uri.blog');
 $page = $_GET['page'];
 ?>
 	<div id="part-create-newblog" class="part">
@@ -83,7 +83,7 @@ if($bloglist){
 						<?php echo $itemBlogId?>
 					</td>
 					<td>
-						<a href="<?php echo $blogURL?>/control/blog/detail/<?php echo $itemBlogId?>"><?php echo $bsetting['name']?></a>
+						<a href="<?php echo $context->getProperty('uri.blog')?>/control/blog/detail/<?php echo $itemBlogId?>"><?php echo $bsetting['name']?></a>
 					</td>
 					<td>
 						<?php echo $bsetting['title']?>
