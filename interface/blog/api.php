@@ -16,9 +16,9 @@ if (Setting::getBlogSettingGlobal('useBlogAPI', 0) != 1) {
 
 function SendRSD()
 {
-	global $hostURL, $context->getProperty('uri.blog');
-	global $blogid;
-	$homeurl = $hostURL.$context->getProperty('uri.blog');
+	$context = Model_Context::getInstance();
+	$blogid = $context->getProperty('blog.id');
+	$homeurl = $context->getProperty('uri.host').$context->getProperty('uri.blog');
 	$apiurl = $homeurl . "/api";
 
 	header( "Content-type: text/xml", true );

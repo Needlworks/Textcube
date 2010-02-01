@@ -20,9 +20,9 @@ $IV = array(
 if(!Validator::validate($IV))
 	Respond::NotFoundPage();
 if (!doesHaveOwnership() && empty($_GET["name_$entryId"])) {
-	printIphoneErrorPage(_text('Comment write error.'), _text('Please enter your name.'), "$context->getProperty('uri.blog')/comment/$entryId");
+	printIphoneErrorPage(_text('Comment write error.'), _text('Please enter your name.'), $context->getProperty('uri.blog')."/comment/$entryId");
 } else if (!doesHaveOwnership() && empty($_GET["comment_$entryId"])) {
-	printIphoneErrorPage(_text('Comment write error.'), _text('Please enter content.'), "$context->getProperty('uri.blog')/comment/$entryId");
+	printIphoneErrorPage(_text('Comment write error.'), _text('Please enter content.'), $context->getProperty('uri.blog')."/comment/$entryId");
 } else {
 	$comment = array();
 	$comment['entry'] = $entryId;
@@ -46,7 +46,7 @@ if (!doesHaveOwnership() && empty($_GET["name_$entryId"])) {
 	} else {
 		setcookie('guestName', $comment['name'], time() + 2592000, $context->getProperty('uri.blog'));
 		setcookie('guestHomepage', $comment['homepage'], time() + 2592000, $context->getProperty('uri.blog'));
-		printIphoneSimpleMessage(_text('Comment registered.'), _text('Go to comments page'), "$context->getProperty('uri.blog')/comment/$entryId");
+		printIphoneSimpleMessage(_text('Comment registered.'), _text('Go to comments page'), $context->getProperty('uri.blog')."/comment/$entryId");
 	}
 }
 ?>

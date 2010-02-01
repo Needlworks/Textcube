@@ -78,7 +78,7 @@ if(empty($suri['id']) && empty($suri['value'])) {
 		$tags = array();
 		$relTag = Setting::getBlogSettingGlobal('useMicroformat', 3)>1 && (count($entries) == 1 || !empty($skin->hentryExisted) );
 		foreach ($entryTags as $entryTag) {
-			$tags[$entryTag['name']] = "<a href=\"$context->getProperty('uri.blog')/tag/" . $entryTag['id'] . '">' . htmlspecialchars($entryTag['name']) . '</a>';
+			$tags[$entryTag['name']] = "<a href=\"".$context->getProperty('uri.blog')."/tag/" . $entryTag['id'] . '">' . htmlspecialchars($entryTag['name']) . '</a>';
 		}
 		echo implode(",\r\n", array_values($tags));
 ?>

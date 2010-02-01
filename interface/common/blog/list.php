@@ -25,7 +25,7 @@ if (isset($cache->contents)) {
 				fireEvent('ViewListName', htmlspecialchars($author)),
 				fireEvent('ViewListName', htmlspecialchars($author)),
 				((!empty($skinSetting['showListWithTotalEntries'])) ? "#entry_".$item['id'] :
-				"$context->getProperty('uri.blog')/" . ($blog['useSloganOnPost'] ? 'entry/' . URL::encode($item['slogan'],$service['useEncodedURL']) : $item['id'])).(isset($list['category']) ? '?category='.$list['category'] : ''),
+				$context->getProperty('uri.blog')."/" . ($context->getProperty('blog.useSloganOnPost') ? 'entry/' . URL::encode($item['slogan'],$service['useEncodedURL']) : $item['id'])).(isset($list['category']) ? '?category='.$list['category'] : ''),
 				fireEvent('ViewListTitle', htmlspecialchars($item['title'])),
 				($item['comments'] > 0) ? "({$item['comments']})" : ''
 			),

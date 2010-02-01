@@ -143,8 +143,8 @@ if (Acl::check('group.creators')) {
 	<?php echo fireEvent('ShowAdminFooter', ''); ?>
 <?php if( $service['type'] == 'domain' && empty($_SESSION['sso_done']) && !empty($blog['secondaryDomain']) ){ 
 $_SESSION['sso_done'] = true; ?>
-<iframe style="width:0;height:0;border:0" src="<?php echo getBlogURL();?>/login?requestURI=about:blank&session=<?php echo $_COOKIE[getSessionName()];?>"></iframe>
-<iframe style="width:0;height:0;border:0" src="<?php echo "http://".$blog['secondaryDomain'].$context->getProperty('uri.blog');?>/login?requestURI=about:blank&session=<?php echo $_COOKIE[getSessionName()];?>"></iframe>
+<iframe style="width:0;height:0;border:0" src="<?php echo getBlogURL();?>/login?requestURI=about:blank&session=<?php echo $_COOKIE[Session::getName()];?>"></iframe>
+<iframe style="width:0;height:0;border:0" src="<?php echo "http://".$context->getProperty('blog.secondaryDomain').$context->getProperty('uri.blog');?>/login?requestURI=about:blank&session=<?php echo $_COOKIE[Session::getName()];?>"></iframe>
 <?php } ?>
 </body>
 </html>

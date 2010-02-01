@@ -11,7 +11,7 @@ if(isset($keywords)) {
 		$itemView = $skin->keywordItem;
 		dress('keyword_label', htmlspecialchars($item), $itemView);
 		if($skinSetting['keylogSkin']!= null) {
-			dress('onclick_keyword', "openKeyword('$context->getProperty('uri.blog')/keylog/" . escapeJSInAttribute($item) . "'); return false;", $itemView);
+			dress('onclick_keyword', "openKeyword('".$context->getProperty('uri.blog')."/keylog/" . escapeJSInAttribute($item) . "'); return false;", $itemView);
 		} else {
 			dress('onclick_keyword', "return false;", $itemView);
 		}

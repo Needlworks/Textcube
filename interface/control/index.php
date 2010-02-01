@@ -5,5 +5,5 @@
 
 require ROOT . '/library/preprocessor.php';
 // Redirect.
-header("Location: $context->getProperty('uri.blog')/control/blog");
+header("Location: ".$context->getProperty('uri.blog')."/control/blog");
 ?>

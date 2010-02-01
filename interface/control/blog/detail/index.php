@@ -141,7 +141,7 @@ $blogsetting = getBlogSettingGlobals($bid);
 	$teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Privileges` WHERE blogid = " . $bid);
 	foreach ($teamblog as $row){
 		echo "<tr>".CRLF;
-		echo "<td class=\"name\"><a href=\"{$context->getProperty('uri.blog')}/control/user/detail/{$row['userid']}\">".User::getName($row['userid'])."(".User::getEmail($row['userid']).")</a></td>".CRLF;
+		echo "<td class=\"name\"><a href=\"".$context->getProperty('uri.blog')."/control/user/detail/{$row['userid']}\">".User::getName($row['userid'])."(".User::getEmail($row['userid']).")</a></td>".CRLF;
 
 		if ($row['acl'] & BITWISE_OWNER) {
 			echo '<td class="role" colspan="4">'._t('이 사용자는 블로그의 소유자입니다.').'</td>'.CRLF;

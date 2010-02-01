@@ -91,7 +91,7 @@ if (isset($cache->contents)) {
 				$tags = array();
 				$relTag = Setting::getBlogSettingGlobal('useMicroformat', 3)>1 && (count($entries) == 1 || !empty($skin->hentryExisted) );
 				foreach ($entryTags as $entryTag) {
-					$tags[$entryTag['name']] = "<a href=\"$context->getProperty('uri.default')/tag/" . (Setting::getBlogSettingGlobal('useSloganOnTag',true) ? URL::encode($entryTag['name'],$service['useEncodedURL']) : $entryTag['id']). '"' . ($relTag ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>';
+					$tags[$entryTag['name']] = "<a href=\"".$context->getProperty('uri.default')."/tag/" . (Setting::getBlogSettingGlobal('useSloganOnTag',true) ? URL::encode($entryTag['name'],$service['useEncodedURL']) : $entryTag['id']). '"' . ($relTag ? ' rel="tag"' : '') . '>' . htmlspecialchars($entryTag['name']) . '</a>';
 					array_push($totalTags,$entryTag['name']);
 				}
 				$tags = fireEvent('ViewTagLists', $tags, $entry['id']);
@@ -104,7 +104,7 @@ if (isset($cache->contents)) {
 				if( isset($service['useEncodedURL'])) {
 					$useEncodedURL = $service['useEncodedURL'];
 				}
-				dress('s_ad_m_link', "$context->getProperty('uri.blog')/owner/entry/edit/{$entry['id']}?returnURL=" . ($useEncodedURL ? $permalink : str_replace('%2F', '/', rawurlencode($permalink))), $managementView);
+				dress('s_ad_m_link', $context->getProperty('uri.blog')."/owner/entry/edit/{$entry['id']}?returnURL=" . ($useEncodedURL ? $permalink : str_replace('%2F', '/', rawurlencode($permalink))), $managementView);
 				dress('s_ad_m_onclick', "editEntry({$entry['id']},'".($useEncodedURL ? $permalink : str_replace('%2F', '/', rawurlencode($permalink)))."'); return false;", $managementView);
 				dress('s_ad_s1_label', getEntryVisibilityName($entry['visibility']), $managementView);
 				if ($entry['visibility'] < 2) {

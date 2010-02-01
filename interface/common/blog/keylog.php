@@ -13,7 +13,7 @@ $itemsView = '';
 $contentContainer = array();
 foreach ($entries as $item) {
 	$itemView = $skin->keylogItem;
-	dress('blog_rep_link', "$context->getProperty('uri.blog')/{$item['id']}", $itemView);
+	dress('blog_rep_link', $context->getProperty('uri.blog')."/{$item['id']}", $itemView);
 	dress('blog_rep_title', htmlspecialchars($item['title']), $itemView);
 	dress('blog_rep_regdate', Timestamp::format3($item['published']), $itemView);
 	if ($item['comments'] > 0)

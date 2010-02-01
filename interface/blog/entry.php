@@ -15,9 +15,9 @@ require ROOT . '/library/preprocessor.php';
 
 if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && (isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'],'iPod') || strpos($_SERVER['HTTP_USER_AGENT'],'iPhone')))){
 	if(empty($suri['value'])) {
-		header("Location: $context->getProperty('uri.blog')/i"); exit;
+		header("Location: ".$context->getProperty('uri.blog')."/i"); exit;
 	} else {
-		header("Location: $context->getProperty('uri.blog')/i/entry/".$suri['value']); exit;
+		header("Location: ".$context->getProperty('uri.blog')."/i/entry/".$suri['value']); exit;
 	}
 }
 

@@ -21,7 +21,7 @@ if(!empty($suri['id'])) {
  	$tagId = getTagId($blogid, $suri['value']);
 	$tagTitle = $suri['value'];
 } else { 	// If no tag is mentioned, redirect it to total atom.
-	header ("Location: $hostURL$context->getProperty('uri.blog')/atom");
+	header ("Location: ".$context->getProperty('uri.host').$context->getProperty('uri.blog')."/atom");
 	exit;
 }
 

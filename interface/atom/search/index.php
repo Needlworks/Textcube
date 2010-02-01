@@ -17,7 +17,7 @@ $blogid = getBlogId();
 list($entries, $paging) = getEntriesWithPagingBySearch($blogid, $search, 1, 1, 1);
 
 if(empty($entries)) {
-	header ("Location: $hostURL$context->getProperty('uri.blog')/atom");
+	header ("Location: ".$context->getProperty('uri.host').$context->getProperty('uri.blog')."/atom");
 	exit;	
 }
 

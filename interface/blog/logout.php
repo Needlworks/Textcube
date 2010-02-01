@@ -15,7 +15,6 @@ define('__TEXTCUBE_LOGIN__',true);
 require ROOT . '/library/preprocessor.php';
 $ctx = Model_Context::getInstance();
 $userURL = $ctx->getProperty('user.homepage');
-$context->getProperty('uri.blog') = $ctx->getProperty('uri.blog');
 if (substr($context->getProperty('uri.blog'), -1) != '/') $context->getProperty('uri.blog') .= '/';
 if (!isset($userURL) ) $userURL = '/';
 if (substr($userURL, -1) != '/') $userURL .= '/';

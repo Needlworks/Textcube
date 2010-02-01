@@ -15,7 +15,6 @@ require ROOT . '/interface/common/control/header.php';
 
 requirePrivilege('group.creators');
 
-global $context->getProperty('uri.blog');
 $page = $_GET['page'];
 
 ?>

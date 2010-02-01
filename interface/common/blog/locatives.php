@@ -17,7 +17,7 @@ foreach ($locatives as $locative) {
 	}
 	$entryView = $skin->locativeEntry;
 	dress('local_info_depth', $depth + 20, $entryView);
-	dress('local_info_link', "$context->getProperty('uri.blog')/" . ($blog['useSloganOnPost'] ? 'entry/' . URL::encode($locative['slogan'],$service['useEncodedURL']) : $locative['id']), $entryView);
+	dress('local_info_link', $context->getProperty('uri.blog')."/" . ($context->getProperty('blog.useSloganOnPost') ? 'entry/' . URL::encode($locative['slogan'],$service['useEncodedURL']) : $locative['id']), $entryView);
 	dress('local_info_title', htmlspecialchars($locative['title']), $entryView);
 	dress('local_info_author', User::getName($locative['userid']), $entryView);
 	$locativeView .= $entryView;

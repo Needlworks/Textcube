@@ -26,7 +26,6 @@ define('__TEXTCUBE_ADMINPANEL__',true);
 require ROOT . '/library/preprocessor.php';
 $context = Model_Context::getInstance(); 
 
-//$context->getProperty('uri.blog') = getBlogURL();
 if (isset($_GET['loginid']))
 	$_POST['loginid'] = $_GET['loginid'];
 if (isset($_GET['password']))
