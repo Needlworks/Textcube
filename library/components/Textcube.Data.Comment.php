@@ -90,6 +90,9 @@ class Comment {
 			$this->ip = $_SERVER['REMOTE_ADDR'];
 		if (!isset($this->isFiltered))
 			$this->isFiltered = 0;
+
+		//regacy
+		if (isset($this->commenter)) {$this->replier = $this->commenter;/*unset($this->commenter);*/}
 		
 		if (!$query = $this->_buildQuery())
 			return false;
