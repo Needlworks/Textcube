@@ -1250,7 +1250,7 @@ function loadComment(entryId, page, force) {
 		PM.addRequest(request,"Loading Comments...");
 		request.send('&page='+page);
 	}
-	if (!force && o.style.display == 'none')
+	if (!force)
 		o.style.display = (o.style.display == 'none') ? 'block' : 'none';
 }
 
