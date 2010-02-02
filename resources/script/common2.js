@@ -1234,15 +1234,14 @@ function recallLastComment(caller,entryId) {
 	}
 }
 
-function loadComment(entryId, page) {
-
+function loadComment(entryId, page, force) {
 	var request = new HTTPRequest("POST", blogURL + '/comment/load/' + entryId);
 	var o = document.getElementById("entry" + entryId + "Comment");
-	if (o.style.display == 'none') {
+	if ((!force && o.style.display == 'none') || force) {
 		request.onSuccess = function () {
 			PM.removeRequest(this);
 			o.innerHTML = this.getText("/response/commentBlock");
-			window.location.href = '#entry' + entryId + 'Comment';
+//			window.location.href = '#entry' + entryId + 'Comment';
 		};
 		request.onError = function() {
 			PM.removeRequest(this);
@@ -1251,7 +1250,8 @@ function loadComment(entryId, page) {
 		PM.addRequest(request,"Loading Comments...");
 		request.send('&page='+page);
 	}
-	o.style.display = (o.style.display == 'none') ? 'block' : 'none';
+	if (!force && o.style.display == 'none')
+		o.style.display = (o.style.display == 'none') ? 'block' : 'none';
 }
 
 
