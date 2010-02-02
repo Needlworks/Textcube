@@ -60,8 +60,8 @@ class Category {
 	
 	function shift() {
 		$this->reset();
-		if ($this->_result && ($row = each($this->_result))) {
-			foreach ($row['value'] as $name => $value) {
+		if ($this->_result && ($row = POD::fetch($this->_result))) {
+			foreach ($row as $name => $value) {
 				if ($name == 'blogid')
 					continue;
 				switch ($name) {

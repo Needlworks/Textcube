@@ -402,7 +402,7 @@ if ($comment->open('parent IS NULL')) {
 $filter = new Filter();
 if ($filter->open()) {
 	do {
-		$writer->write('<filter type="' . $filter->type . '">' . '<pattern>' . htmlspecialchars($filter->pattern) . '</pattern>' . '</filter>');
+		$writer->write('<filter type="' . $filter->filtertype . '">' . '<pattern>' . htmlspecialchars($filter->pattern) . '</pattern>' . '</filter>');
 		$writer->write(CRLF);
 	} while ($filter->shift());
 	$filter->close();
