@@ -91,7 +91,7 @@ class Comment {
 		if (!isset($this->isFiltered))
 			$this->isFiltered = 0;
 
-		//regacy
+		// legacy
 		if (isset($this->commenter)) {$this->replier = $this->commenter;/*unset($this->commenter);*/}
 		
 		if (!$query = $this->_buildQuery())

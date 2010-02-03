@@ -376,8 +376,10 @@ function importer($path, $node, $line) {
 					$comment->entry = $post->id;
 					$cursor = & $node['comment'][$i];
 					$comment->name = $cursor['commenter'][0]['name'][0]['.value'];
-					if (!empty($cursor['commenter'][0]['id'][0]['.value']))
-						$comment->id = $cursor['commenter'][0]['id'][0]['.value'];
+					if (!empty($cursor['id'][0]['.value']))
+						$comment->id = $cursor['id'][0]['.value'];
+					if (!empty($cursor['commenter'][0]['.attributes']['id']))
+						$comment->commenter = $cursor['commenter'][0]['.attributes']['id'];
 					if (!empty($cursor['commenter'][0]['homepage'][0]['.value']))
 						$comment->homepage = $cursor['commenter'][0]['homepage'][0]['.value'];
 					if (!empty($cursor['commenter'][0]['ip'][0]['.value']))
@@ -398,8 +400,10 @@ function importer($path, $node, $line) {
 							$childComment->entry = $post->id;
 							$childComment->parent = $comment->id;
 							$cursor = & $node['comment'][$i]['comment'][$j];
-							if (!empty($cursor['commenter'][0]['id'][0]['.value']))
-								$childComment->id = $cursor['commenter'][0]['id'][0]['.value'];
+							if (!empty($cursor['id'][0]['.value']))
+								$childComment->id = $cursor['id'][0]['.value'];
+							if (!empty($cursor['commenter'][0]['.attributes']['id']))
+								$childComment->commenter = $cursor['commenter'][0]['.attributes']['id'];
 							$childComment->name = $cursor['commenter'][0]['name'][0]['.value'];
 							if (!empty($cursor['commenter'][0]['homepage'][0]['.value']))
 								$childComment->homepage = $cursor['commenter'][0]['homepage'][0]['.value'];
@@ -763,6 +767,8 @@ function importer($path, $node, $line) {
 			setProgress($item++ / $items * 100, _t('방명록을 복원하고 있습니다.'));
 			$comment = new GuestComment();
 			$comment->name = $node['commenter'][0]['name'][0]['.value'];
+			if (!empty($node['id'][0]['.value']))
+				$comment->id = $node['id'][0]['.value'];
 			if (!empty($node['commenter'][0]['.attributes']['id']))
 				$comment->commenter = $node['commenter'][0]['.attributes']['id'];
 			if (!empty($node['commenter'][0]['homepage'][0]['.value']))
@@ -774,7 +780,7 @@ function importer($path, $node, $line) {
 			$comment->password = $node['password'][0]['.value'];
 			$comment->secret = @$node['secret'][0]['.value'];
 			$comment->written = $node['written'][0]['.value'];
-			$comment->content = $node['content'][0]['.value'];ob_start();var_dump($comment);$ob = ob_get_contents();ob_clean();file_put_contents('log.txt', $ob, FILE_APPEND);
+			$comment->content = $node['content'][0]['.value'];
 			if (!$comment->add())
 				user_error(__LINE__ . $comment->error);
 			if (isset($node['comment'])) {
@@ -783,6 +789,9 @@ function importer($path, $node, $line) {
 					$childComment->parent = $comment->id;
 					$cursor = & $node['comment'][$j];
 					$childComment->name = $cursor['commenter'][0]['name'][0]['.value'];
+
+					if (!empty($cursor['id'][0]['.value']))
+						$comment->id = $cursor['id'][0]['.value'];
 					if (!empty($cursor['commenter'][0]['.attributes']['id']))
 						$childComment->commenter = $cursor['commenter'][0]['.attributes']['id'];
 					if (!empty($cursor['commenter'][0]['homepage'][0]['.value']))
