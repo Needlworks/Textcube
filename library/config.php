@@ -8,7 +8,7 @@ define('TEXTCUBE_NAME', 'Textcube');
 define('TEXTCUBE_VERSION', '1.7.9 : Con moto');
 define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2009. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
 define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.org/');
-define('TEXTCUBE_RESOURCE_URL', 'http://resources.textcube.org/1.7.7');
+define('TEXTCUBE_RESOURCE_URL', 'http://resources.textcube.org/1.7.9');
 define('TEXTCUBE_SYNC_URL', 'http://ping.eolin.com/');
 define('CRLF', "\r\n");
 define('TAB', "	");

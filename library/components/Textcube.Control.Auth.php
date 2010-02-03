@@ -30,6 +30,7 @@ $requiredPrivFromUri = array(
 			'/owner/network*',
 			'/owner/reader*',
 			'/owner/setting*',
+			'/owner/skin*',
 			'/owner/plugin/admin*'
 			),
 		"group.editors" => array(
