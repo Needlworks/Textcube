@@ -10,14 +10,14 @@ final class Model_Config extends Singleton {
 		return self::_getInstance(__CLASS__);
 	}
 
-	protected function __construct() {
-		$this->__basicConfigLoader();
+	protected function __construct($id = 'textcube') {
+		$this->__basicConfigLoader($id);
 	}
 	
-	private function __basicConfigLoader() {
+	private function __basicConfigLoader($id) {
 		global $database, $service;	// For Legacy global variable support
 		$this->settings = array();
-		require_once(ROOT.'/library/config.default.php');	// Loading default configuration
+		require_once(ROOT.'/framework/id/'.$id.'/config.default.php');	// Loading default configuration
 		if (file_exists(ROOT.'/config.php')) @include(ROOT.'/config.php');	// Override configuration
 		// Map port setting.
 		if (@is_numeric($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80) && ($_SERVER['SERVER_PORT'] != 443))
