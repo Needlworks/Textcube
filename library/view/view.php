@@ -82,9 +82,7 @@ function getScriptsOnHead() {
 }
 
 function getUpperView($paging) {
-	global $blogURL;
-	$config = Model_Config::getInstance();
-	$service = $config->service;
+	$context = Model_Context::getInstance();
 	ob_start();
 ?>
 	<!--
@@ -95,13 +93,13 @@ function getUpperView($paging) {
 	-->
 	<script type="text/javascript">
 	//<![CDATA[
-		var servicePath = "<?php echo $service['path'];?>";
-		var blogURL = "<?php echo $blogURL;?>";
+		var servicePath = "<?php echo $context->getProperty('service.path');?>";
+		var blogURL = "<?php echo $config->getProperty('uri.blog');?>";
 		var prevURL = "<?php echo isset($paging['prev']) ? escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['prev']}{$paging['postfix']}") : '';?>";
 		var nextURL = "<?php echo isset($paging['next']) ? escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}") : '';?>";
 		var commentKey = "<?php echo md5(filemtime(ROOT . '/config.php'));?>";
 		var doesHaveOwnership = <?php echo doesHaveOwnership() ? 'true' : 'false'; ?>;
-		var isReaderEnabled = <?php echo ($service['reader'] ? 'true' : 'false'); ?>;
+		var isReaderEnabled = <?php echo ($context->getProperty('service.reader') ? 'true' : 'false'); ?>;
 		var messages = {
 			"trackbackUrlCopied": "<?php echo _text('엮인글 주소가 복사되었습니다.');?>",
 			"operationFailed": "<?php echo _text('실패했습니다.');?>",
@@ -114,7 +112,7 @@ function getUpperView($paging) {
 <?php
 	if (doesHaveOwnership()) {
 ?>
-	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/owner.js" ></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/owner.js" ></script>
 <?php
 	}
 ?>
@@ -124,7 +122,7 @@ function getUpperView($paging) {
 		//]]>
 	</script>
 <?php
-	if($service['flashclipboardpoter'] == true) {
+	if($context->getProperty('service.flashclipboardpoter') == true) {
 ?>
 <div style="position:absolute;top:0;left:0; background-color:transparent;background-image:none">
 <script type="text/javascript">
@@ -134,12 +132,12 @@ function getUpperView($paging) {
 		'width','1',
 		'height','1',
 		'id','clipboardPoter',
-		'src','<?php echo $service['path'];?>/resources/script/clipboardPoter/clipboardPoter',
+		'src','<?php echo $context->getProperty('service.path');?>/resources/script/clipboardPoter/clipboardPoter',
 		'wmode','transparent',
 		'name','clipboardPoter',
 		'allowscriptaccess','sameDomain',
 		'pluginspage','http://www.macromedia.com/go/getflashplayer',
-		'movie','<?php echo $service['path'];?>/resources/script/clipboardPoter/clipboardPoter',
+		'movie','<?php echo $context->getProperty('service.path');?>/resources/script/clipboardPoter/clipboardPoter',
 		'flashvars', 'callback=onClipBoard'
 	);
 	window.clipboardPoter = document.getElementById("clipboardPoter");

@@ -1,0 +1,54 @@
+//
+// Textcube service-wide configurable options via config.php
+// ---------------------------------------------------------
+//
+// This document explains about the available options at config.php
+//
+<?php
+ini_set('display_errors', 'off');
+$database['server'] = 'localhost';  // Location of DBMS server
+$database['database'] = 'noname';   // Database name
+$database['username'] = 'noname';   // user name to estiblish database connection
+$database['password'] = 'noname';   // password to establish database connection
+$database['prefix'] = 'tt_';        // prefix (useful when you try to install two or more textcubes in one database.
+$service['type'] = 'path';          // Service type. 
+// 'path'   : path-based    e.g.) http://www.example.com/blog1 , 
+// 'domain' : domain-based. e.g.) http://blog1.example.com
+// If you installed Textcube on http://www.example.com/tc, )
+$service['domain'] = 'domain.ext';  // Default service domain. (e.g.) http://www.example.com 
+$service['path'] = '/path1/path2';  // URI path where textcube is installed (e.g.) /tc
+$service['skin'] = 'coolant';     // Default blog skin name.
+$service['timeout'] = 3600;                 // Session timeout limit (sec.)
+$service['disableEolinSuggestion'] = false; // Disable auto-suggestion using EOLIN server. 
+//Usually it searches local tag by default.
+// From Tattertools 1.1
+$service['useEncodedURL'] = false; // URL encoding using RFC1738
+$serviceURL = ''; // Useful if using other web program under the same domain
+// From Textcube 1.5
+$service['fancyURL'] = 2;    // fancy-URL control when web server does not support rewrite engine.
+// 0 : Do not use fancy-URL,   e.g.) http://www.example.com/index.php?tag
+// 1 : Use php direction only. e.g.) http://www.example.com/?tag
+// 2 : Use full fancy-URL.     e.g.) http://www.example.com/tag
+$service['useNumericURLonRSS'] = false; // Can force permalink to numeric format on RSS output.
+$service['useLegacySupport'] = false;   // Uses legacy support (for tattertools plugins) function.
+// From Textcube 1.6
+$service['flashuploader'] = true;  // Use Flash uploader to upload multiple files.
+$service['clipboardpoter'] = true;  // Use Flash clipboard copy to support one-click trackback address copy.
+$service['reader'] = true;     // Use Textcube reader. You can set it to false if you do not use Textcube reader, and want to decrease DB load.
+$service['pagecache'] = true;  // pagecache function. (changed from disablePageCache option at TC 1.5)
+$service['debugmode'] = false; // Textcube debug mode. (for core / plugin debug or optimization)
+$service['debug_session_dump'] = false;   // session info debuging.
+$service['debug_rewrite_module'] = false; // rewrite handling module info debuging.
+$service['allowBlogVisibilitySetting'] = true; // Allow service users to change blog visibility
+$service['externalresources'] = false;  // Loads resources from external storage.
+$service['resourcepath'] = 'http://example.com/resource';	// Specify the full URI of external resource.
+$service['favicon_daily_traffic'] = 10; // Set favicon traffic limitation. default is 10MB.
+// From Textcube 1.7
+$service['skincache'] = true;        // Use skin pre-fetching. 
+// Textcube will parse static elements (blog name, title…) only when you change skin.
+// From Textcube 1.8
+$database['port'] = 3639;            // Database port number
+$database['dbms'] = 'MySQL';         // DBMS. (MySQL, MySQLi, PostgreSQL, Cubrid.)
+$service['memcached'] = false;       // Using memcache to handle session and cache
+$memcached['server'] = 'localhost';  // Where memcache server is.
+?>

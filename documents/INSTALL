@@ -1,7 +1,7 @@
 Textcube Installation
 ---------------------
 
-Please read requirements.txt to see what softwares you need before installation.
+Please read manual_requirements.txt to see what softwares you need before installation.
 
 For MySQL 4.1 or above, UTF-8 for default character set and collation settings
 is strongly recommended.
@@ -35,14 +35,6 @@ is strongly recommended.
           IIS_IUSRS group or appropriate user/groups.
 
   Step 4: Run setup.php on your web browser.
-
-     NOTE: (for localhost installers)
-      * Use 127.0.0.1 instead of localhost to avoid later login problems for most
-        of web browsers.
-      * If you're using Google Chrome, you have to edit your hosts configuration
-        to avoid login problems, because it refuses to save cookies even for
-        127.0.0.1 IP address.
-        See C:\Windows\System32\drivers\etc\hosts file.
 
   Step 5: You will see a notice about IIS during installation.
 
