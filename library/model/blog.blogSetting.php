@@ -18,11 +18,11 @@ function setBlogTitle($blogid, $title) {
 }
 
 function setBlogDescription($blogid, $description) {
-	global $blog;
-	if ($description == $blog['description'])
+	$context = Model_Context::getInstance();
+	if ($description == $context->getProperty('blog.description'))
 		return true;
 	if(Setting::setBlogSettingGlobal('description',UTF8::lessenAsEncoding($description, 255)) === false) return false;
-	$blog['description'] = $description;
+	$context->setProperty('blog.description', $description);
 	requireModel('blog.feed');
 	requireLibrary('blog.skin');
 	clearFeed();
@@ -32,7 +32,7 @@ function setBlogDescription($blogid, $description) {
 
 function setBlogTags($blogid, $tags) {
 	if(isset($tags)) {
-		setBlogSetting('blogTags',$tags);
+		Setting::setBlogSettingGlobal('blogTags',$tags);
 		return true;
 	}
 	return false;
@@ -46,13 +46,13 @@ function getBlogTags($blogid) {
 }
 
 function removeBlogLogo($blogid) {
-	global $blog;
+	$context = Model_Context::getInstance();
 	requireModel('blog.attachment');
 	
 	if(Setting::setBlogSettingGlobal('logo','') === false) return false;
 	else {
-		deleteAttachment($blogid, - 1, $blog['logo']);
-		$blog['logo'] = '';
+		deleteAttachment($blogid, - 1, $context->getProperty('blog.logo'));
+		$context->setProperty('blog.logo','');
 		return true;
 	}
 }
