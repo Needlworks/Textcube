@@ -58,4 +58,5 @@ $service['flashuploader'] = true;
 $service['debug_session_dump'] = false;
 $service['debug_rewrite_module'] = false;
 $service['useNumericURLonRSS'] = false;
+//$service['adminskin'] = 'whitedream'; 
 ?>
