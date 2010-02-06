@@ -94,7 +94,7 @@ function getUpperView($paging) {
 	<script type="text/javascript">
 	//<![CDATA[
 		var servicePath = "<?php echo $context->getProperty('service.path');?>";
-		var blogURL = "<?php echo $config->getProperty('uri.blog');?>";
+		var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
 		var prevURL = "<?php echo isset($paging['prev']) ? escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['prev']}{$paging['postfix']}") : '';?>";
 		var nextURL = "<?php echo isset($paging['next']) ? escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}") : '';?>";
 		var commentKey = "<?php echo md5(filemtime(ROOT . '/config.php'));?>";

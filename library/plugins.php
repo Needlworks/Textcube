@@ -13,7 +13,7 @@ $storageKeymappings   = array();
 $adminMenuMappings    = array();
 $adminHandlerMappings = array();
 $configMappings       = array();
-$baseConfigPost = $service['path'].'/owner/setting/plugins/currentSetting';
+$baseConfigPost = $context->getProperty('service.path').'/owner/setting/plugins/currentSetting';
 $configPost  = '';
 $configVal   = '';
 $typeSchema  = null;
@@ -25,7 +25,10 @@ list($currentTextcubeVersion) = explode(' ', TEXTCUBE_VERSION, 2);
 if (getBlogId()) {
 	if($gCacheStorage->getContent('activePlugins')) $activePlugins = $gCacheStorage->getContent('activePlugins');
 	else {
-		$activePlugins = POD::queryColumn("SELECT name FROM {$database['prefix']}Plugins WHERE blogid = ".getBlogId());
+		$pool = DBModel::getInstance();
+		$pool->reset('Plugins');
+		$pool->setQualifier('blogid','eq',getBlogId());
+		$activePlugins = $pool->getColumn('name');
 		$gCacheStorage->setContent('activePlugins',$activePlugins);
 	}
 	$xmls = new XMLStruct();
