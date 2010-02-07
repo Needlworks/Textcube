@@ -406,7 +406,7 @@ if($currentVersion != TEXTCUBE_VERSION) {
 		else {
 			showCheckupMessage(false);
 		}
-	}	
+	}
 }
 
 /***** Common parts. *****/
