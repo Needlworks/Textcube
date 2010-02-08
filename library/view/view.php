@@ -65,16 +65,16 @@ function dressInsertBefore($tag, $value, & $contents, $useCache = false, $forceP
 }
 
 function getScriptsOnHead() {
-	global $service;
+	$context = Model_Context::getInstance();
+	$context->getProperty('service.resourcepath');
 	ob_start();
 ?>
-<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
-<script type="text/javascript">jQuery.noConflict();</script>
-<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/EAF4.js"></script>
-<!-- script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/EAF4.js"></script -->
-<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/common2.js"></script>
-<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/gallery.js" ></script>
-<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/flash.js" ></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+	<script type="text/javascript">jQuery.noConflict();</script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/EAF4.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/common2.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/gallery.js" ></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/flash.js" ></script>
 <?php
 	$view = ob_get_contents();
 	ob_end_clean();
@@ -159,9 +159,9 @@ function getLowerView() {
 }
 
 function getScriptsOnFoot() {
-	global $service;
+	$context = Model_Context::getInstance();
 	ob_start();
-	if(($service['reader'] != false) && (gmmktime() - getServiceSetting('lastFeedUpdate',0) > 180)) {	
+	if(($context->getProperty('service.reader') != false) && (gmmktime() - Setting::getServiceSetting('lastFeedUpdate',0) > 180)) {	
 ?>
 	<script type="text/javascript">
 		//<![CDATA[
@@ -470,6 +470,8 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 			$commentView = "<form id=\"entry".$entry['id']."WriteComment\" method=\"post\" action=\"".$context->getProperty('uri.blog')."/comment/add/{$entry['id']}\" onsubmit=\"return false\" style=\"margin: 0\">" . $commentView . '</form>';
 		}
 	}
+	dress('article_rep_rp_atomurl', $context->getProperty('uri.default').'/atom/comment/'.$entry['id'], $commentView);
+	dress('article_rep_rp_rssurl', $context->getProperty('uri.default').'/rss/comment/'.$entry['id'], $commentView);
 	return $commentView;
 }
 
