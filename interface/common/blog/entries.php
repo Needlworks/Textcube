@@ -167,7 +167,7 @@ if (isset($cache->contents)) {
 			$protectedEntryView = $skin->entryProtected;
 			$author = User::getName($entry['userid']);
 			dress('article_rep_author', fireEvent('ViewPostAuthor', $author, $entry['id']), $protectedEntryView);
-			dress('article_rep_author_link', rawurlencode($author), $protectedEntryView);
+			dress('article_rep_author_link', $blogURL."/author/".rawurlencode($author), $protectedEntryView);
 			dress('article_rep_id', $entry['id'], $protectedEntryView);
 			dress('article_rep_link', $permalink, $protectedEntryView);
 			dress('article_rep_title', htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id'])), $protectedEntryView);
