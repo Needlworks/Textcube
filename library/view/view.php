@@ -1022,9 +1022,10 @@ function getRecentNoticesView($notices, $noticeView, $noticeItemView, $isPage = 
 			} else {
 				$noticeURL = $notice['id'];
 			}
-			
+			$name = User::getName($notice['userid']);
 			dress($prefix.'_rep_link', "$blogURL/".$prefix."/$noticeURL", $itemView);
-			dress($prefix.'_rep_author', User::getName($notice['userid']), $itemView);
+			dress($prefix.'_rep_author', $name, $itemView);
+			dress($prefix.'_rep_author', $blogURL."/author/".rawurlencode($name), $itemView);
 			$itemsView .= $itemView;
 		}
 		dress('rct_'.$prefix.'_rep', $itemsView, $noticeView);
@@ -1045,7 +1046,9 @@ function getRecentEntriesView($entries, $entriesView = null, $template) {
 		dress('rctps_rep_link', $permalink, $view);
 		$contentContainer["recent_entry_{$entry['id']}"] = htmlspecialchars(UTF8::lessenAsEm($entry['title'], $skinSetting['recentEntryLength']));
 		dress('rctps_rep_title', setTempTag("recent_entry_{$entry['id']}"), $view);
-		dress('rctps_rep_author',  User::getName($entry['userid']), $view);
+		$name = User::getName($entry['userid']);
+		dress('rctps_rep_author',  $name, $view);
+		dress('rctps_rep_author_link', $blogURL."/author/" . rawurlencode($name), $view);
 		dress('rctps_rep_time', fireEvent('ViewRecentPostDate', Timestamp::format2($entry['published']), $entry['published']), $view);
 		dress('rctps_rep_rp_cnt', "<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments'] > 0 ? "({$entry['comments']})" : '').'</span>', $view);
 		$recentEntriesView .= $view;
