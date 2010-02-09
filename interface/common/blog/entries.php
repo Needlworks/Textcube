@@ -18,16 +18,16 @@ if (isset($cache->contents)) {
 //		$entryRsses .= '<link rel="alternate" type="application/rss+xml" '.
 //			'title="Comment: '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($blog['title']).'" '.
 //			'href="'.$defaultURL.'/rss/comment/'.$entry['id'].'" />'.CRLF;
-		$entryRsses .= '<link rel="alternate" type="application/rss+xml" '.
+		$entryRsses .= '	<link rel="alternate" type="application/rss+xml" '.
 			'title="Responses (RSS) : '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($blog['title']).'" '.
 			'href="'.$defaultURL.'/rss/response/'.$entry['id'].'" />'.CRLF.
-			'<link rel="alternate" type="application/atom+xml" '.
+			'	<link rel="alternate" type="application/atom+xml" '.
 			'title="Responses (ATOM) : '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($blog['title']).'" '.
 			'href="'.$defaultURL.'/atom/response/'.$entry['id'].'" />'.CRLF;
 	}
 	if( Setting::getBlogSettingGlobal('useFOAF',1) && rtrim( $suri['url'], '/' ) == $pathURL ) {
 		/* same code exists in cover.php */
-		$foafDiscovery = "<link rel=\"meta\" type=\"application/rdf+xml\" title=\"FOAF\" href=\"$defaultURL/foaf\" />\n";
+		$foafDiscovery = "	<link rel=\"meta\" type=\"application/rdf+xml\" title=\"FOAF\" href=\"$defaultURL/foaf\" />\n";
 	} else {
 		$foafDiscovery = "";
 	}

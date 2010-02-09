@@ -69,8 +69,8 @@ function getScriptsOnHead() {
 	$context->getProperty('service.resourcepath');
 	ob_start();
 ?>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
-	<script type="text/javascript">jQuery.noConflict();</script>
+<!--	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+	<script type="text/javascript">jQuery.noConflict();</script>-->
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/EAF4.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/gallery.js" ></script>
@@ -1024,6 +1024,7 @@ function getRecentNoticesView($notices, $noticeView, $noticeItemView, $isPage = 
 			}
 			
 			dress($prefix.'_rep_link', "$blogURL/".$prefix."/$noticeURL", $itemView);
+			dress($prefix.'_rep_author', User::getName($notice['userid']), $itemView);
 			$itemsView .= $itemView;
 		}
 		dress('rct_'.$prefix.'_rep', $itemsView, $noticeView);
@@ -1044,6 +1045,7 @@ function getRecentEntriesView($entries, $entriesView = null, $template) {
 		dress('rctps_rep_link', $permalink, $view);
 		$contentContainer["recent_entry_{$entry['id']}"] = htmlspecialchars(UTF8::lessenAsEm($entry['title'], $skinSetting['recentEntryLength']));
 		dress('rctps_rep_title', setTempTag("recent_entry_{$entry['id']}"), $view);
+		dress('rctps_rep_author',  User::getName($entry['userid']), $view);
 		dress('rctps_rep_time', fireEvent('ViewRecentPostDate', Timestamp::format2($entry['published']), $entry['published']), $view);
 		dress('rctps_rep_rp_cnt', "<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments'] > 0 ? "({$entry['comments']})" : '').'</span>', $view);
 		$recentEntriesView .= $view;
