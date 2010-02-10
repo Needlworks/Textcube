@@ -280,13 +280,14 @@ TTModernEditor.prototype.finalize = function() {
 
 TTModernEditor.prototype.syncTextarea = function() {
 	if (this.editMode == "WYSIWYG") {
-		this.textarea.value = this.html2ttml(this.contentDocument.body.innerHTML);
+		this.correctContent();
+		this.textarea.value = this.html2ttml();
 	}
 }
 
 TTModernEditor.prototype.syncEditorWindow = function() {
 	if (this.editMode == "WYSIWYG") {
-		this.contentDocument.body.innerHTML = this.ttml2html(this.textarea.value);
+		this.contentDocument.body.innerHTML = this.ttml2html();
 	}
 }
 
@@ -1643,20 +1644,19 @@ TTModernEditor.prototype.eventHandler = function(event) {
 		case "keypress":
 			var range = this.getSelectionRange();
 			if(event.keyCode == 13) {
-				if(this.newLineToParagraph) {
-					if(STD.isFirefox && !event.shiftKey) {
-						// TODO : put a p tag
-					} else {
-					}
-				} else {
-					if(STD.isIE && range.parentElement && range.parentElement().tagName != "LI") {
-						event.returnValue = false;
-						event.cancelBubble = true;
-						range.pasteHTML("<br />");
-						range.collapse(false);
-						range.select();
-						return false;
-					}
+				if(STD.isFirefox && !event.shiftKey) {
+					// TODO : put a p tag 
+
+				} else if(STD.isWebkit && !event.shiftKey) {
+					// TODO : put a p tag 
+
+				} else if(STD.isIE && range.parentElement && range.parentElement().tagName != "LI") {
+					event.returnValue = false;
+					event.cancelBubble = true;
+					range.pasteHTML("<br />");
+					range.collapse(false);
+					range.select();
+					return false;
 				}
 			}
 	}
@@ -2022,6 +2022,7 @@ TTModernEditor.prototype.toggleMode = function() {
 
 // 위지윅 모드에서의 selection을 리턴한다
 TTModernEditor.prototype.getSelectionRange = function() {
+	if (!STD.isIE) this.contentWindow.focus();
 	return STD.isIE ? this.contentDocument.selection.createRange() : this.contentWindow.getSelection().getRangeAt(0);
 }
 

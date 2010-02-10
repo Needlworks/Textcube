@@ -956,6 +956,10 @@ if (isset($entry['latitude']) && !is_null($entry['latitude'])) {
 				 		
 						<script type="text/javascript">
 							//<![CDATA[
+								var contentformatterObj = document.getElementById('contentformatter');
+								var contenteditorObj = document.getElementById('contenteditor');
+								setFormatter(contentformatterObj.value, contenteditorObj, false);
+								setCurrentEditor(contenteditorObj.value);
 								entryManager = new EntryManager();
 								reloadUploader();
 								window.setInterval("entryManager.saveDraft();", 300000);
@@ -971,10 +975,6 @@ switch($entry['category']) {
 	default:
 		echo 'type_post';break;
 		}?>');
-											var contentformatterObj = document.getElementById('contentformatter');
-											var contenteditorObj = document.getElementById('contenteditor');
-											setFormatter(contentformatterObj.value, contenteditorObj, false);
-											setCurrentEditor(contenteditorObj.value);
 		
 							//]]>
 						</script> 
