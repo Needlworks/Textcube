@@ -274,13 +274,14 @@ TTModernEditor.prototype.finalize = function() {
 
 TTModernEditor.prototype.syncTextarea = function() {
 	if (this.editMode == "WYSIWYG") {
-		this.textarea.value = this.html2ttml(this.contentDocument.body.innerHTML);
+		this.correctContent();
+		this.textarea.value = this.html2ttml();
 	}
 }
 
 TTModernEditor.prototype.syncEditorWindow = function() {
 	if (this.editMode == "WYSIWYG") {
-		this.contentDocument.body.innerHTML = this.ttml2html(this.textarea.value);
+		this.contentDocument.body.innerHTML = this.ttml2html();
 	}
 }
 
@@ -1713,7 +1714,7 @@ TTModernEditor.prototype.correctContent = function() {
 	}
 
 	// Make tags strict.
-	html = html.replace(new RegExp("<b>(.*?)</b>", "gi"), "<strong$1>$2</strong>");
+	html = html.replace(new RegExp("<b>(.*?)</b>", "gi"), "<strong>$2</strong>");
 	html = html.replace(new RegExp("<i([^>]*?)>(.*?)</i>", "gi"), "<em$1>$2</em>");
 	html = html.replace(new RegExp("<u([^>]*?)>(.*?)</u>", "gi"), "<ins$1>$2</ins>");
 	html = html.replace(new RegExp("<strike([^>]*?)>(.*?)</strike>", "gi"), "<del$1>$2</del>");
@@ -2016,6 +2017,7 @@ TTModernEditor.prototype.toggleMode = function() {
 
 // 위지윅 모드에서의 selection을 리턴한다
 TTModernEditor.prototype.getSelectionRange = function() {
+	if (!STD.isIE) this.contentWindow.focus(); 
 	return STD.isIE ? this.contentDocument.selection.createRange() : this.contentWindow.getSelection().getRangeAt(0);
 }
 
