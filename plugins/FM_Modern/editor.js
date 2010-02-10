@@ -1999,8 +1999,8 @@ TTModernEditor.prototype.toggleMode = function() {
 		this.iframe.style.display = "none";
 		this.textarea.style.display = "block";
 		this.editMode = "TEXTAREA";
-		this.textarea.value = this.html2ttml();
 		this.correctContent();
+		this.textarea.value = this.html2ttml();	
 		this.textarea.focus();
 		this.resizer.target = this.textarea;
 	}
