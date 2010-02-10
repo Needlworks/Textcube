@@ -1643,7 +1643,7 @@ TTModernEditor.prototype.eventHandler = function(event) {
 			break;
 		case "keypress":
 			var range = this.getSelectionRange();
-			if(this.newLineToParagraph) { 
+			if(event.keyCode == 13) { 
 				if(this.newLineToParagraph) {
 					if(STD.isFirefox && !event.shiftKey) {
 						// TODO : put a p tag
