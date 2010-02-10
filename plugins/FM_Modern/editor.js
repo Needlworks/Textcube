@@ -1643,20 +1643,21 @@ TTModernEditor.prototype.eventHandler = function(event) {
 			break;
 		case "keypress":
 			var range = this.getSelectionRange();
-			if(event.keyCode == 13) {
-				if(STD.isFirefox && !event.shiftKey) {
-					// TODO : put a p tag 
-
-				} else if(STD.isWebkit && !event.shiftKey) {
-					// TODO : put a p tag 
-
-				} else if(STD.isIE && range.parentElement && range.parentElement().tagName != "LI") {
-					event.returnValue = false;
-					event.cancelBubble = true;
-					range.pasteHTML("<br />");
-					range.collapse(false);
-					range.select();
-					return false;
+			if(this.newLineToParagraph) { 
+				if(this.newLineToParagraph) {
+					if(STD.isFirefox && !event.shiftKey) {
+						// TODO : put a p tag
+					} else {
+					}
+				} else {
+					if(STD.isIE && range.parentElement && range.parentElement().tagName != "LI") {
+						event.returnValue = false;
+						event.cancelBubble = true;
+						range.pasteHTML("<br />");
+						range.collapse(false);
+						range.select();
+						return false;
+					}
 				}
 			}
 	}
