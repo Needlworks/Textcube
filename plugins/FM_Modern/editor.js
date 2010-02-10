@@ -274,13 +274,14 @@ TTModernEditor.prototype.finalize = function() {
 
 TTModernEditor.prototype.syncTextarea = function() {
 	if (this.editMode == "WYSIWYG") {
-		this.textarea.value = this.html2ttml(this.contentDocument.body.innerHTML);
+		this.correctContent();
+		this.textarea.value = this.html2ttml();
 	}
 }
 
 TTModernEditor.prototype.syncEditorWindow = function() {
 	if (this.editMode == "WYSIWYG") {
-		this.contentDocument.body.innerHTML = this.ttml2html(this.textarea.value);
+		this.contentDocument.body.innerHTML = this.ttml2html();
 	}
 }
 
@@ -1992,8 +1993,8 @@ TTModernEditor.prototype.toggleMode = function() {
 		this.iframe.style.display = "none";
 		this.textarea.style.display = "block";
 		this.editMode = "TEXTAREA";
-		this.textarea.value = this.html2ttml();
 		this.correctContent();
+		this.textarea.value = this.html2ttml();
 		this.textarea.focus();
 		this.resizer.target = this.textarea;
 	}
@@ -2016,6 +2017,7 @@ TTModernEditor.prototype.toggleMode = function() {
 
 // 위지윅 모드에서의 selection을 리턴한다
 TTModernEditor.prototype.getSelectionRange = function() {
+	if (!STD.isIE) this.contentWindow.focus();
 	return STD.isIE ? this.contentDocument.selection.createRange() : this.contentWindow.getSelection().getRangeAt(0);
 }
 
