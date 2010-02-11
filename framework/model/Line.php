@@ -108,6 +108,7 @@ final class Model_Line extends DBModel {
 		foreach($data as $d) {
 			$template = $conditions['template'];
 			$d['created'] = Timestamp::getHumanReadable($d['created']);
+			if($d['root'] == 'default') $d['root'] = 'Textcube Line';
 			foreach($conditions['dress'] as $tag => $match) {
 				dress($tag, $d[$match],$template);
 			}
