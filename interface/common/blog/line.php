@@ -22,9 +22,9 @@ if (isset($cache->contents)) {
 			),
 			array(
 				fireEvent('ViewLineDate', $time, $item['created']),
-				fireEvent('ViewLineContent', htmlspecialchars($item['content'])),
+				fireEvent('ViewLineContent', $item['content']),
 				fireEvent('ViewLineAuthor', htmlspecialchars($item['author'])),
-				fireEvent('ViewLineSource', htmlspecialchars($item['source'])),
+				fireEvent('ViewLineSource', htmlspecialchars($item['root'])),
 				fireEvent('ViewLinePermalink', $item['permalink'])
 			),
 			$skin->lineItem
