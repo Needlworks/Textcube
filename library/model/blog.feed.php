@@ -164,7 +164,7 @@ function getFeedItemByLines($lines) {
 			'description' => RSSMessage($content), 
 			'pubDate' => $row['created'],
 			'updDate' => $row['created'],
-			'guid' => "$defaultURL/" . $row['id'],
+			'guid' => "$defaultURL/line#" . $row['id'],
 		);
 		array_push($channelItems, $item);
 	}
