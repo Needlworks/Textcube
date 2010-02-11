@@ -273,8 +273,8 @@ TTModernEditor.prototype.finalize = function() {
 }
 
 TTModernEditor.prototype.syncTextarea = function() {
+	this.correctContent();
 	if (this.editMode == "WYSIWYG") {
-		this.correctContent();
 		this.textarea.value = this.html2ttml();
 	}
 }
@@ -1699,6 +1699,7 @@ TTModernEditor.prototype.correctContent = function() {
 	html = html.replaceAll('class="webkit-block-placeholder"','');
 	html = html.replaceAll('br class="webkit-block-placeholder"','br /');
 	html = html.replaceAll('<div><br /></div>','<br />');
+	html = html.replaceAll('<br>', '<br />');
 	var dmodeExprs = new Array("font-weight: bold;",
 		"font-style: italic;",
 		"text-decoration: underline;",
@@ -1714,7 +1715,7 @@ TTModernEditor.prototype.correctContent = function() {
 	}
 
 	// Make tags strict.
-	html = html.replace(new RegExp("<b>(.*?)</b>", "gi"), "<strong$1>$2</strong>");
+	html = html.replace(new RegExp("<b>(.*?)</b>", "gi"), "<strong>$1</strong>");
 	html = html.replace(new RegExp("<i([^>]*?)>(.*?)</i>", "gi"), "<em$1>$2</em>");
 	html = html.replace(new RegExp("<u([^>]*?)>(.*?)</u>", "gi"), "<ins$1>$2</ins>");
 	html = html.replace(new RegExp("<strike([^>]*?)>(.*?)</strike>", "gi"), "<del$1>$2</del>");
@@ -1993,8 +1994,8 @@ TTModernEditor.prototype.toggleMode = function() {
 		this.iframe.style.display = "none";
 		this.textarea.style.display = "block";
 		this.editMode = "TEXTAREA";
-		this.correctContent();
 		this.textarea.value = this.html2ttml();
+		this.correctContent();
 		this.textarea.focus();
 		this.resizer.target = this.textarea;
 	}
@@ -2008,8 +2009,8 @@ TTModernEditor.prototype.toggleMode = function() {
 			return;
 		}
 		this.editMode = "WYSIWYG";
-		this.contentDocument.body.innerHTML = this.ttml2html();
 		this.correctContent();
+		this.contentDocument.body.innerHTML = this.ttml2html();
 		try { this.contentDocument.body.focus(); } catch(e) { }
 		this.resizer.target = this.iframe;
 	}
@@ -2017,7 +2018,7 @@ TTModernEditor.prototype.toggleMode = function() {
 
 // 위지윅 모드에서의 selection을 리턴한다
 TTModernEditor.prototype.getSelectionRange = function() {
-	if (!STD.isIE) this.contentWindow.focus();
+	if (STD.isWebkit) this.contentWindow.focus();
 	return STD.isIE ? this.contentDocument.selection.createRange() : this.contentWindow.getSelection().getRangeAt(0);
 }
 
