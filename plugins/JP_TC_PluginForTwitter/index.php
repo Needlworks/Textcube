@@ -101,7 +101,7 @@ function getCovertDate($reqTime, $published) {
 // Twitter Recipients List
 function getTwitterRecipientsList($target) {
 	global $service, $pluginURL, $blogURL, $configVal;
-	$data = Misc::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 	$tw = new Twitter($data['username'], $data['password']);
 	$recipientsList = $tw->getRecipientsList(array('twttr'=>'true'));
@@ -114,7 +114,7 @@ function getTwitterRecipientsList($target) {
 // Twitter Create Favorites
 function getCreateFavorites($target) {
 	global $service, $pluginURL, $blogURL, $configVal;
-	$data = Misc::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 	$id = (isset($_POST['id']) && !empty($_POST['id'])) ? $_POST['id'] : '';
 	$tw = new Twitter($data['username'], $data['password']);
@@ -129,7 +129,7 @@ function getCreateFavorites($target) {
 // Twitter Destroy Favorites
 function getDestroyFavorites($target) {
 	global $service, $pluginURL, $blogURL, $configVal;
-	$data = Misc::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 	$id = (isset($_POST['id']) && !empty($_POST['id'])) ? $_POST['id'] : '';
 	$tw = new Twitter($data['username'], $data['password']);
@@ -163,7 +163,7 @@ function getSavedSearchesOpenClose($target) {
 // Twitter Create Saved Searches
 function getCreateSavedSearches($target) {
 	global $service, $pluginURL, $blogURL, $configVal;
-	$data = Misc::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 
 	$q = (isset($_POST['qdata']) && !empty($_POST['qdata'])) ? $_POST['qdata'] : '';
@@ -194,7 +194,7 @@ function getCreateSavedSearches($target) {
 // Twitter Destroy Saved Searches
 function getDestroySavedSearches($target) {
 	global $service, $pluginURL, $blogURL, $configVal;
-	$data = Misc::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 
 	$id = (isset($_POST['qdata']) && !empty($_POST['qdata'])) ? $_POST['qdata'] : '';
@@ -225,7 +225,7 @@ function getDestroySavedSearches($target) {
 // Twitter management (Admin->center->Twitter management)
 function PN_Twitter_Management() {
 	global $service, $pluginURL, $blogURL, $pluginMenuURL, $pluginName, $handler, $configVal;
-	$data = Misc::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 
 	$savedSearchesView = !is_null(Setting::getBlogSetting("saved_searches")) ? Setting::getBlogSetting("saved_searches") : "open";
@@ -445,7 +445,7 @@ function PN_Twitter_Management() {
 <?php 
 	}
 ?>
-				<ul id="timeline" class="statuses <?php echo ($menu == "direct" ? "directMessage" : "");?>">
+				<ul id="Times-Mirror" class="statuses <?php echo ($menu == "direct" ? "directMessage" : "");?>">
 <?php
 				//friends Timeline
 				$user_photo = "";
@@ -701,7 +701,7 @@ function PN_Twitter_Management() {
 // Twitter more paging
 function getTwitterUpateMorePaging($target) {
 	global $service, $pluginURL, $blogURL, $configVal;
-	$data = Misc::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 
 	$page = (isset($_GET['page']) && !empty($_GET['page'])) ? $_GET['page'] : '1';
@@ -942,7 +942,7 @@ function getTwitterUpateMorePaging($target) {
 
 function getTwitterPostUpdate($target) {
 	global $configVal;
-	$data = Misc::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 	$menu = (isset($_POST['menu']) && !empty($_POST['menu'])) ? $_POST['menu'] : "";
 	$update_body = (isset($_POST['body']) && !empty($_POST['body'])) ? $_POST['body'] : "";
@@ -1030,7 +1030,7 @@ function getTwitterPostUpdate($target) {
 
 function getTwitterDestroyStatus($target) {
 	global $configVal;
-	$data = Misc::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 	$id = (isset($_POST['id']) && !empty($_POST['id'])) ? $_POST['id'] : "";
 
@@ -1058,7 +1058,7 @@ function getTwitterDestroyStatus($target) {
 
 function getTwitterNewMessage($target) {
 	global $configVal;
-	$data = Misc::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 	$menu = (isset($_POST['menu']) && !empty($_POST['menu'])) ? $_POST['menu'] : "";
 	$text = (isset($_POST['text']) && !empty($_POST['text'])) ? $_POST['text'] : "";
@@ -1138,7 +1138,7 @@ function getTwitterNewMessage($target) {
 
 function getTwitterDestroyMessage($target) {
 	global $configVal;
-	$data = Misc::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 	$id = (isset($_POST['id']) && !empty($_POST['id'])) ? $_POST['id'] : "";
 
@@ -1168,7 +1168,7 @@ function getTwitterDestroyMessage($target) {
 
 function getTwitterCreateFriendship($target) {
 	global $configVal;
-	$data = Misc::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 	$menu = (isset($_POST['menu']) && !empty($_POST['menu'])) ? $_POST['menu'] : "";
 	$user_id = (isset($_POST['user_id']) && !empty($_POST['user_id'])) ? $_POST['user_id'] : "";
@@ -1201,7 +1201,7 @@ function getTwitterCreateFriendship($target) {
 
 function getTwitterDestroyFriendship($target) {
 	global $configVal;
-	$data = Misc::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 	$menu = (isset($_POST['menu']) && !empty($_POST['menu'])) ? $_POST['menu'] : "";
 	$user_id = (isset($_POST['user_id']) && !empty($_POST['user_id'])) ? $_POST['user_id'] : "";
@@ -1237,7 +1237,7 @@ function getTwitterDestroyFriendship($target) {
 // Twitter update (Admin->center->dashboard->Twitter update widget)
 function CT_Twitter_updating($target){
 	global $service, $pluginURL, $configVal;
-	$data = Misc::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 
 	$twFlagCHK = "";
@@ -1283,7 +1283,7 @@ function getBitlyShortenURLCreate($target) {
 
 function getUpdatingNewPostToTwitter($target, $mother) {
 	global $configVal;
-	$data = Misc::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 
 	$blogid = getBlogId();
@@ -1303,7 +1303,7 @@ function getUpdatingNewPostToTwitter($target, $mother) {
 
 function getUpdatingNewLineToTwitter($target, $mother) {
 	global $configVal;
-	$data = Misc::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 
 	if (!empty($data['username']) && !empty($data['password'])) {
@@ -1316,7 +1316,7 @@ function getUpdatingNewLineToTwitter($target, $mother) {
 
 function getUpdatingNewPostToTwitterSynd($target, $mother) {
 	global $configVal;
-	$data = Misc::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 
 	$blogid = getBlogId();
@@ -1336,7 +1336,7 @@ function getUpdatingNewPostToTwitterSynd($target, $mother) {
 
 function getTwitterContent($blogid, $entryId, $updateText='title') {
 	global $blog, $service, $defaultURL, $configVal;
-	$data = Misc::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 
 	$content = array();
@@ -1361,7 +1361,7 @@ function getTwitterContent($blogid, $entryId, $updateText='title') {
 
 function getTwitterBitlyShortenURL($longURL) {
 	global $configVal;
-	$data = Misc::fetchConfigVal($configVal);
+	$data = Setting::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 
 	$result = array();
@@ -1404,10 +1404,11 @@ function getTwitterInitConfigVal(&$data) {
 	$data['twitterUpdate'] = isset($data['twitterUpdate']) && !empty($data['twitterUpdate']) ? $data['twitterUpdate'] : "none";
 	$data['updateText'] = isset($data['updateText']) && !empty($data['updateText']) ? $data['updateText'] : "title";
 	$data['listLength'] = isset($data['listLength']) && !empty($data['listLength']) ? $data['listLength'] : "10";
+	$data['synchronizeLine'] = isset($data['synchronizeLine']) && !empty($data['synchronizeLine']) ? $data['synchronizeLine'] : false;
 }
 
 function getTwitterDataSet($DATA) {
-	$cfg = Misc::fetchConfigVal($DATA);
+	$cfg = Setting::fetchConfigVal($DATA);
 	$tw = new Twitter($cfg['username'], $cfg['password']);
 	$res = $tw->getUserTimeline();
 	if (!empty($res->error)) {
@@ -1415,5 +1416,55 @@ function getTwitterDataSet($DATA) {
 	}
 
 	return true;
+}
+
+/************************/
+// Synchronizing twitter
+function synchronizeTwitterWithLine() {
+	global $configVal;
+	$data = Setting::fetchConfigVal($configVal);
+	getTwitterInitConfigVal($data);
+	if(empty($data['synchronizeLine'])) return false;
+
+	$page = 1;
+	$tw = new Twitter($data['username'], $data['password']);
+	$limit = 0;
+	
+	$option = array('page'=>$page, 'count'=>40);
+
+	$timeline = $tw->getUserTimeline($option);
+	$timelineResults = $timeline;
+
+	$line = Model_Line::getInstance();
+	
+	foreach ($timelineResults as $status) {
+		$status_id = $status->id;
+		$user_id = $status->user->id;
+		$user_name = $status->user->name;
+		$user_screen_name = $status->user->screen_name;
+		$user_link = "https://twitter.com/{$user_screen_name}";
+		$text = $status->text;
+		$text_convert = getTextBodyConvert($text);
+		$source = getTextLinkConvert($status->source);
+		$published = getTwitterDateConvert($status->created_at);
+		$published_link = "https://twitter.com/{$user_screen_name}/status/{$status_id}";
+		
+		$line->reset();
+		$line->setFilter(array('root','equals','Twitter',true));
+		$line->setFilter(array('content','equals',$text_convert,true));
+		$line->setFilter(array('created','>',Timestamp::getUNIXtime() - 3600));
+		$line->setLimit(1);
+		if(!$line->get('id')) {
+			$line->reset();
+			$line->created = strtotime($status->created_at);
+			$line->content = $text_convert;
+			$line->author = $user_name;
+			$line->permalink = $published_link;
+			$line->root = 'Twitter';
+			$line->category = 'public';
+			$line->add();
+		}
+	}
+	flush();
 }
 ?>

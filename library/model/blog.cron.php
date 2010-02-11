@@ -18,6 +18,7 @@ function dumbCronScheduler($checkOnly=true)
 	$schedules = array(
 					'1m'  => 60,
 					'5m'  => 60*5,
+					'10m' => 60*10,
 					'30m' => 60*30,
 					'1h'  => 60*60,
 					'2h'  => 60*60*2,
