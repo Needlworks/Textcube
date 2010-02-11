@@ -1465,6 +1465,12 @@ function synchronizeTwitterWithLine() {
 			$line->add();
 		}
 	}
+	$cache = pageCache::getInstance();
+	$cache->name = 'linesATOM';
+	$cache->purge();
+	$cache->reset();
+	$cache->name = 'linesRSS';
+	$cache->purge();
 	flush();
 }
 ?>
