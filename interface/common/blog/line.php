@@ -12,21 +12,20 @@ if (isset($cache->contents)) {
 	$printDate = '';
 	foreach ($lines as $item) {
 		$time = Timestamp::getHumanReadable($item['created']);
-		/*
-		if($printDate != Timestamp::formatDate($item['created'])) {
-			$time = Timestamp::format5($item['created']);
-			$printDate = Timestamp::formatDate($item['created']);
-		} else {
-			$time = Timestamp::format('%H:%M',$item['created']);
-		}*/
 		$itemsView .= str_replace(
 			array(
 				'[##_line_rep_regdate_##]',
-				'[##_line_rep_content_##]'
+				'[##_line_rep_content_##]',
+				'[##_line_rep_author_##]',
+				'[##_line_rep_source_##]',
+				'[##_line_rep_permalink_##]'
 			),
 			array(
 				fireEvent('ViewLineDate', $time, $item['created']),
-				fireEvent('ViewLineContent', htmlspecialchars($item['content']))
+				fireEvent('ViewLineContent', htmlspecialchars($item['content'])),
+				fireEvent('ViewLineAuthor', htmlspecialchars($item['author'])),
+				fireEvent('ViewLineSource', htmlspecialchars($item['source'])),
+				fireEvent('ViewLinePermalink', $item['permalink'])
 			),
 			$skin->lineItem
 		);
