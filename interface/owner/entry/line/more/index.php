@@ -30,7 +30,7 @@ $conditions['template'] = <<<EOS
 				<dd class="delete input-button" onclick="deleteLine('[##_id_##]');return false;"><span class="text">{$d}</span></dd>
 			</dl>
 EOS;
-$conditions['dress'] = array('id'=>'id','date'=>'created','content'=>'content');
+$conditions['dress'] = array('id'=>'id','date'=>'created','content'=>'content','permalink'=>'permalink','root'=>'root');
 $line = Model_Line::getInstance();
 $contentView = $line->getFormattedList($conditions);
 if(empty($contentView)) {
