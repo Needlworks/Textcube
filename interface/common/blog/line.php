@@ -12,6 +12,7 @@ if (isset($cache->contents)) {
 	$printDate = '';
 	foreach ($lines as $item) {
 		$time = Timestamp::getHumanReadable($item['created']);
+		if($item['root'] == 'default') $item['root'] = 'Textcube Line';
 		$itemsView .= str_replace(
 			array(
 				'[##_line_rep_regdate_##]',
