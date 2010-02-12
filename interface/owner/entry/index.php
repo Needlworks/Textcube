@@ -1182,7 +1182,7 @@ if($entry['category'] < 0) {
 											<span id="page-list">
 <?php
 $pagingTemplate = '[##_paging_rep_##]';
-$pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
+$pagingItemTemplate = '<a [##_paging_rep_link_##]>[##_paging_rep_link_num_##]</a>';
 echo str_repeat("\t", 12).getPagingView($paging, $pagingTemplate, $pagingItemTemplate, false).CRLF;
 ?>
 											</span>
