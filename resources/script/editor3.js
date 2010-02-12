@@ -19,7 +19,7 @@ TTEditorResizer.prototype.initialize = function() {
 			'mousemove.doc': docEventHandler,
 			'mousedown.doc': docEventHandler,
 			'mouseup.doc': docEventHandler,
-			'selectstart.doc': docEventHandler,
+			'selectstart.doc': docEventHandler
 		});
 	}
 };
