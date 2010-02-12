@@ -26,7 +26,6 @@ TTEditorResizer.prototype.initialize = function() {
 
 TTEditorResizer.prototype.finalize = function() {
 	for (var i = 0, doc; doc = this.documents[i]; ++i) {
-		alert('jquery unbind');
 		jQuery(doc).unbind('.doc');
 	}
 };
