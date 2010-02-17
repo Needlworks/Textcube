@@ -6,7 +6,7 @@
 
 if(!class_exists('Textile')) require_once 'classTextile.php';
 
-function FM_Textile_format($blogid, $id, $content, $keywords = array(), $useAbsolutePath = false, $bRssMode = false) {
+function FM_Textile_format($blogid, $id, $content, $keywords = array(), $useAbsolutePath = true, $bRssMode = false) {
 	global $service;
 	$textile = new Textile();
 	$path = ROOT . "/attach/$blogid";
@@ -20,7 +20,7 @@ function FM_Textile_format($blogid, $id, $content, $keywords = array(), $useAbso
 	return $view;
 }
 
-function FM_Textile_summary($blogid, $id, $content, $keywords = array(), $useAbsolutePath = false) {
+function FM_Textile_summary($blogid, $id, $content, $keywords = array(), $useAbsolutePath = true) {
 	global $blog;
 	$view = FM_Textile_format($blogid, $id, $content, $keywords, $useAbsolutePath, true);
     if (!$blog['publishWholeOnRSS']) $view = UTF8::lessen(removeAllTags(stripHTML($view)), 255);

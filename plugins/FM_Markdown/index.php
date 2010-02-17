@@ -4,7 +4,7 @@
 
 if(!function_exists('Markdown')) require_once 'markdown.php';
 
-function FM_Markdown_format($blogid, $id, $content, $keywords = array(), $useAbsolutePath = false, $bRssMode = false) {
+function FM_Markdown_format($blogid, $id, $content, $keywords = array(), $useAbsolutePath = true, $bRssMode = false) {
 	global $service;
 	$path = ROOT . "/attach/$blogid";
 	$url = "{$service['path']}/attach/$blogid";
@@ -17,7 +17,7 @@ function FM_Markdown_format($blogid, $id, $content, $keywords = array(), $useAbs
 	return $view;
 }
 
-function FM_Markdown_summary($blogid, $id, $content, $keywords = array(), $useAbsolutePath = false) {
+function FM_Markdown_summary($blogid, $id, $content, $keywords = array(), $useAbsolutePath = true) {
 	global $blog;
 	$view = FM_Markdown_format($blogid, $id, $content, $keywords, $useAbsolutePath, true);
     if (!$blog['publishWholeOnRSS']) $view = UTF8::lessen(removeAllTags(stripHTML($view)), 255);
