@@ -1493,7 +1493,7 @@ function printScript($filename, $obfuscate = true) {
 	if (!$file = @file_get_contents(ROOT . "/script/$filename"))
 		return '';
 	$file = "<script type=\"text/javascript\">//<![CDATA[" . CRLF
-		. "var servicePath=\"".$serviceURL."\"; var blogURL=\"".$hostURL.$blogURL."/\";".$file;
+		. "var serviceURL=\"".$serviceURL."\"; var blogURL=\"".$hostURL.$blogURL."/\";".$file;
 //	if ($obfuscate) {
 //	}
 	return "$file //]]></script>";
