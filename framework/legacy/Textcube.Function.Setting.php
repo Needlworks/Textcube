@@ -320,10 +320,9 @@ class Setting {
 
 	function removeServiceSetting($name, $global = null) {
 		if(is_null($global)) $name = 'plugin_' . $name;
-		$name = 'plugin_' . $name;
 		$query = DBModel::getInstance();
 		$query->reset('ServiceSettings');
-		$query->setQualifier('name','equals', $name,true);
+		$query->setQualifier('name','like', $name,true);
 		return $query->delete();
 	}
 
