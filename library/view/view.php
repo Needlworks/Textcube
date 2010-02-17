@@ -79,7 +79,7 @@ function getScriptsOnHead() {
 }
 
 function getUpperView($paging) {
-	global $service, $blogURL;
+	global $service, $blogURL, $serviceURL;
 	ob_start();
 ?>
 	<!--
@@ -90,7 +90,7 @@ function getUpperView($paging) {
 	-->
 	<script type="text/javascript">
 	//<![CDATA[
-		var servicePath = "<?php echo $service['path'];?>";
+		var servicePath = "<?php echo $serviceURL;?>";
 		var blogURL = "<?php echo $blogURL;?>";
 		var prevURL = "<?php echo isset($paging['prev']) ? escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['prev']}{$paging['postfix']}") : '';?>";
 		var nextURL = "<?php echo isset($paging['next']) ? escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}") : '';?>";
@@ -128,12 +128,12 @@ function getUpperView($paging) {
 		'width','1',
 		'height','1',
 		'id','clipboardPoter',
-		'src','<?php echo $service['path'];?>/script/clipboardPoter/clipboardPoter',
+		'src','<?php echo $service['resourcepath'];?>/script/clipboardPoter/clipboardPoter',
 		'wmode','transparent',
 		'name','clipboardPoter',
 		'allowscriptaccess','sameDomain',
 		'pluginspage','http://www.macromedia.com/go/getflashplayer',
-		'movie','<?php echo $service['path'];?>/script/clipboardPoter/clipboardPoter',
+		'movie','<?php echo $service['resourcepath'];?>/script/clipboardPoter/clipboardPoter',
 		'flashvars', 'callback=onClipBoard'
 	);
 	window.clipboardPoter = document.getElementById("clipboardPoter");
@@ -1489,11 +1489,11 @@ function printFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly 
 }
 
 function printScript($filename, $obfuscate = true) {
-	global $service, $hostURL, $blogURL;
+	global $service, $hostURL, $blogURL, $serviceURL;
 	if (!$file = @file_get_contents(ROOT . "/script/$filename"))
 		return '';
 	$file = "<script type=\"text/javascript\">//<![CDATA[" . CRLF
-		. "var servicePath=\"".$hostURL.$service['path']."\"; var blogURL=\"".$hostURL.$blogURL."/\";".$file;
+		. "var servicePath=\"".$serviceURL."\"; var blogURL=\"".$hostURL.$blogURL."/\";".$file;
 //	if ($obfuscate) {
 //	}
 	return "$file //]]></script>";
