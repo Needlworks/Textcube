@@ -90,7 +90,7 @@ function getUpperView($paging) {
 	-->
 	<script type="text/javascript">
 	//<![CDATA[
-		var servicePath = "<?php echo $serviceURL;?>";
+		var servicePath = "<?php echo $service['path'];?>";
 		var blogURL = "<?php echo $blogURL;?>";
 		var prevURL = "<?php echo isset($paging['prev']) ? escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['prev']}{$paging['postfix']}") : '';?>";
 		var nextURL = "<?php echo isset($paging['next']) ? escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}") : '';?>";
