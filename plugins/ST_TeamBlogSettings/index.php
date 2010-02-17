@@ -94,10 +94,10 @@ function getTeamBlogSettings() {
 		POD::execute("INSERT INTO {$database['prefix']}TeamUserSettings (blogid,userid,style,image,profile,updated) VALUES('".getBlogId()."','".getUserId()."','','', '',UNIX_TIMESTAMP())");
 	}
 	if($row['image']){
-		$image = "{$serviceURL}/attach/".getBlogId()."/team/".$row['image'];
+		$image = "{$blogURL}/attach/".getBlogId()."/team/".$row['image'];
 		$imageRemoveCheck = "";
 	}else{
-		$image = "{$serviceURL}/image/spacer.gif";
+		$image = "{$blogURL}/image/spacer.gif";
 		$imageRemoveCheck = " disabled ";
 	}
 
@@ -306,6 +306,7 @@ function getImageFileUpload($target){
 	$script .= '	window.parent.top.PM.showMessage("'.$errmsg.'", "center", "bottom");';
 	$script .= '//]]></script>';
 	echo $script;
+	exit;
 }
 
 function getAddAttachment($file){
