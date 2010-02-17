@@ -18,7 +18,7 @@ if(strlen($search) > 0 && !empty($suri['page'])) {
 	?>
 	<ul class="search" id="search_<?php echo $suri['page'];?>" title="Search List" selected="false">
 	<?php
-		$itemsView .= '<li class="group">'.CRLF;
+		$itemsView = '<li class="group">'.CRLF;
 		$itemsView .= '	<span class="left">Search List ('.$list['count'].')</span>'.CRLF;
 		$itemsView .= '	<span class="right">Page <span class="now_page">' . $paging['page'] . '</span> / '.$paging['pages'].'</span>'.CRLF;
 		$itemsView .= '</li>'.CRLF;

@@ -25,7 +25,7 @@ if(strlen($suri['value'])) {
 	?>
 	<ul class="posts" id="tag_<?php echo $suri['page'];?>" title="<?php echo getTagById($blogid, $suri['id']);?>" selected="false">
 	<?php
-		$itemsView .= '<li class="group">'.CRLF;
+		$itemsView = '<li class="group">'.CRLF;
 		$itemsView .= '	<span class="left">' . getTagById($blogid, $suri['id']) . ' ('.$list['count'].')</span>'.CRLF;
 		$itemsView .= '	<span class="right">Page <span class="now_page">' . $paging['page'] . '</span> / '.$paging['pages'].'</span>'.CRLF;
 		$itemsView .= '</li>'.CRLF;
