@@ -17,7 +17,6 @@ $IV = array(
 	)
 );
 require ROOT . '/library/preprocessor.php';
-requireComponent('Textcube.Control.Openid');
 
 $blogid = getBlogId();
 list($replier) = getCommentAttributes($blogid,$suri['id'],'replier');

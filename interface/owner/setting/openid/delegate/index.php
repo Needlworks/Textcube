@@ -10,7 +10,6 @@ $IV = array(
 );
 
 require ROOT . '/library/preprocessor.php';
-requireComponent( 'Textcube.Control.Openid' );
 requireLibrary('blog.skin');
 requireStrictRoute();
 $skin = new Skin($skinSetting['skin']);

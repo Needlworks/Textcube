@@ -141,7 +141,6 @@ function setDefaultDomain($blogid, $default) {
 function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSloganOnTag) {
 	global $blog;
 	requireModel('blog.feed');
-	requireComponent('Needlworks.Cache.PageCache');
 	$useSloganOnPost     = $useSloganOnPost     ? 1 : 0;
 	$useSloganOnCategory = $useSloganOnCategory ? 1 : 0;
 	$useSloganOnTag      = $useSloganOnTag      ? 1 : 0;

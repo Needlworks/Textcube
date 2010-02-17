@@ -4,7 +4,6 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
 requireModel("blog.link");
-requireComponent("Textcube.Core.BackwardCompatibility");
 
 if( isset($_POST['usexfn']) ) {
 	updateXfn( $blogid, $_POST );
