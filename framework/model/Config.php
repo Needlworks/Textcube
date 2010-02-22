@@ -17,6 +17,7 @@ final class Model_Config extends Singleton {
 	private function __basicConfigLoader($id) {
 		global $database, $service;	// For Legacy global variable support
 		$this->settings = array();
+		if (file_exists(ROOT.'/framework/id/load')) $id = file_get_contents(ROOT.'/framework/id/load');
 		require_once(ROOT.'/framework/id/'.$id.'/config.default.php');	// Loading default configuration
 		if (file_exists(ROOT.'/config.php')) @include(ROOT.'/config.php');	// Override configuration
 		// Map port setting.
