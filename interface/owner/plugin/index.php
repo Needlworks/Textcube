@@ -140,7 +140,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 													else
 														currentIcon.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $service['path'];?>/plugins/' + plugin + '/images/icon_plugin_on.png", sizingMethod="scale")'
 												} else {
-													if (currentIcon.src == "<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png")
+													if (currentIcon.src == "<?php echo $hostURL.$service['path'] . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png")
 														currentIcon.src = '<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png';
 													else
 														currentIcon.src = '<?php echo $service['path'];?>/plugins/' + plugin + '/images/icon_plugin_on.png';
@@ -182,7 +182,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 													else
 														currentIcon.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $service['path'];?>/plugins/' + plugin + '/images/icon_plugin_off.png", sizingMethod="scale")'
 												} else {
-													if (currentIcon.src == "<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png")
+													if (currentIcon.src == "<?php echo $hostURL.$service['path'] . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png")
 														currentIcon.src = '<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png';
 													else
 														currentIcon.src = '<?php echo $service['path'];?>/plugins/' + plugin + '/images/icon_plugin_off.png';
