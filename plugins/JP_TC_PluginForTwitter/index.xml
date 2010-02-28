@@ -36,6 +36,7 @@
 	<listener event="AddLine">getUpdatingNewLineToTwitter</listener>
 	<listener event="AddPostByBlogAPI">getUpdatingNewPostToTwitter</listener>
 	<listener event="CreatePostSyndicate">getUpdatingNewPostToTwitterSynd</listener>
+	<listener event="ModifyPostSyndicate">getUpdatingNewPostToTwitterSynd</listener>
 	<listener event="ShowAdminHeader" handler="getJQueryCheckLoad" />
 
 	<listener event="Cron10m" handler="synchronizeTwitterWithLine" />
