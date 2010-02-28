@@ -5,9 +5,13 @@
 === 추가된 점 ===
  * 블로그  : 최근 공지와 최근 글의 필자 치환자 추가 및 동작 추가 (#1437)
  * 관리패널 : 모바일용 관리 모드 추가 (베타) (#1418)
-=== 변경된 점 ===
+ * 일반    : camouflage 기능 추가 (알파) (#1431)
 
+=== 변경된 점 ===
+ * 일반    : 스태틱 리소스의 더 많은 부분을 serviceURL에서 불러오도록 함 (대용량 서비스 구축시 리소스 서버 분리시 적용) (#1441)
+ 
 === 버그 수정 ===
+ * 일반    : 공지사항 등의 피드 로드가 갱신되지 않는 오류 수정 (#1440)
  * 블로그  : 댓글 ajax 블록 로드시에 ATOM/RSS 피드 치환자가 동작하지 않는 문제 수정 (#1435)
  * 블로그  : 댓글 페이지 사용시 클릭했을때 2번째 페이지가 보이지 않는 문제 수정 (#1201)
  * 블로그  : 댓글을 폈을 때 접히지 않는 문제 수정 (#1201)
@@ -22,20 +26,28 @@
 텍스트큐브 1.8.3부터는 아래의 스킨 치환자를 추가로 지원합니다.
 
 ==== 공지 영역 <s_notice> 내 ====
- * notice_rep_author
- * notice_rep_author_link
+ * notice_rep_author : 저자 이름
+ * notice_rep_author_link : 저자가 작성한 글 목록 페이지로 가는 링크
 
 ==== 키로그 영역 <s_keylog> 내 ====
- * keylog_rep_author
- * keylog_rep_author_link
+ * keylog_rep_author : 저자 이름
+ * keylog_rep_author_link : 저자가 작성한 글 목록 페이지로 가는 링크
 
 ==== 본문 영역 <s_article> 내 ====
- * article_rep_author_link
- * article_rep_author_link
+ * article_rep_author_link : 저자 이름
+ * article_rep_author_link : 저자가 작성한 글 목록 페이지로 가는 링크
 
 ==== 사이드바의 최근 댓글 영역 <s_rctps> 내 ====
- * rctps_rep_author
- * rctps_rep_author_link
+ * rctps_rep_author : 저자 이름
+ * rctps_rep_author_link : 저자가 작성한 글 목록 페이지로 가는 링크
+
+=== 모바일 관리 패널 안내 ===
+텍스트큐브 1.8.3에는 모바일 관리 패널의 초기 버전이 반영되었습니다. 아직 초기 버전이기 때문에 사용을 위해서는 옵션 파일의 수정이 필요합니다. 설치된 디렉토리의 config.php 에 아래의 한 줄을 추가하시면 됩니다.
+
+$service['usemobileadmin'] = true;
+
+이후 정식 기능이 될 경우에는 서버 메뉴의 환경 설정 패널에서 조정할 수 있게 될 예정입니다.
+
 
 == v1.8.2 개발 관련 노트 ==
 === 추가된 점 ===
