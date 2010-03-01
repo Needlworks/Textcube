@@ -392,7 +392,6 @@ h4
 
 .subject .infoCategory
 {
-	padding-top:15px;
 	background: url('./images/bullet_folder.gif') no-repeat 5px 50%;
 }
 
@@ -1193,13 +1192,9 @@ form input:focus, textarea:focus
 /*-------------------------------*/
 .line dl.box
 {
-	border:1px solid #ccc;
-	border-bottom:2px solid #f1f1f1;
-	border-right:2px solid #f1f1f1;
+	border-left:3px solid #ddd;
 	padding:10px; 
-	border-radius:4px; 
-	-moz-border-radius:4px; 
-	-webkit-border-radius:4px;
+	margin-top:5px;
 	margin-bottom:10px;
 }
 .line dl.box dt
