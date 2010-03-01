@@ -219,6 +219,7 @@ class DBModel extends Singleton implements IModel {
 		foreach($pairs as $key => $value) if (is_null($value)) $pairs[$key] = 'NULL';
 		
 		$this->_query = 'INSERT INTO ' . $this->table . ' (' . implode(',', $this->_capsulateFields(array_keys($attributes))) . ') VALUES (' . implode(',', $pairs) . ')';
+
 		if (POD::query($this->_query)) {
 //			$this->id = POD::insertId();
 			return true;
