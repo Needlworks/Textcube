@@ -160,11 +160,12 @@ function getFeedItemByLines($lines) {
 			'id' => $row['id'], 
 			'title' => RSSMessage(Timestamp::format5($row['created'])), 
 			'link' => $entryURL, 
+			'author' => RSSMessage($row['author']), 
 			'categories' => array(), 
 			'description' => RSSMessage($content), 
 			'pubDate' => $row['created'],
 			'updDate' => $row['created'],
-			'guid' => "$defaultURL/" . $row['id'],
+			'guid' => $entryURL
 		);
 		array_push($channelItems, $item);
 	}

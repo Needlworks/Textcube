@@ -22,12 +22,10 @@ function clearUserSettingCache() {
 }
 
 function getServiceSetting($name, $default = null) {
-	requireComponent('Textcube.Function.Setting');
 	return Setting::getServiceSetting($name, $default, true);
 }
 
 function setServiceSetting($name, $value) {
-	requireComponent('Textcube.Function.Setting');
 	return Setting::setServiceSettingGlobal($name, $value);
 }
 

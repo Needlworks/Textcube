@@ -30,7 +30,7 @@ function getRecentNotices($blogid) {
 	$context = Model_Context::getInstance();
 	$query = getDefaultDBModelOnNotice($blogid);
 	$query->setLimit($context->getProperty('skin.noticesOnRecent'));
-	return $query->getAll('id, title, slogan, published');
+	return $query->getAll('id, title, slogan, published, userid');
 }
 function getDefaultDBModelOnNotice($blogid) {
 	$context = Model_Context::getInstance();

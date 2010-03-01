@@ -17,9 +17,11 @@ function setBlogTitle($blogid, $title) {
 }
 
 function setBlogDescription($blogid, $description) {
-	if ($description == $blog['description'])
+	$context = Model_Context::getInstance();
+	if ($description == $context->getProperty('blog.description'))
 		return true;
 	if(Setting::setBlogSettingGlobal('description',UTF8::lessenAsEncoding($description, 255)) === false) return false;
+	$context->setProperty('blog.description', $description);
 	requireModel('blog.feed');
 	requireLibrary('blog.skin');
 	clearFeed();
@@ -48,8 +50,8 @@ function removeBlogLogo($blogid) {
 	
 	if(Setting::setBlogSettingGlobal('logo','') === false) return false;
 	else {
-		
 		deleteAttachment($blogid, - 1, $context->getProperty('blog.logo'));
+		$context->setProperty('blog.logo','');
 		return true;
 	}
 }
@@ -142,7 +144,6 @@ function setDefaultDomain($blogid, $default) {
 function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSloganOnTag) {
 	global $blog;
 	requireModel('blog.feed');
-	requireComponent('Needlworks.Cache.PageCache');
 	$useSloganOnPost     = $useSloganOnPost     ? 1 : 0;
 	$useSloganOnCategory = $useSloganOnCategory ? 1 : 0;
 	$useSloganOnTag      = $useSloganOnTag      ? 1 : 0;

@@ -10,7 +10,6 @@ $IV = array(
 );
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
-requireComponent('Textcube.Data.DataMaintenance');
 if (empty($_POST['confirmativePassword']) || !User::confirmPassword(User::getBlogOwner(getBlogId()), $_POST['confirmativePassword']))
 	Respond::ResultPage(1);
 DataMaintenance::removeAll(Validator::getBool(@$_POST['removeAttachments']));

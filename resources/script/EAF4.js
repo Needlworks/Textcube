@@ -105,7 +105,7 @@ Standardizer.prototype.querySelector = function(selector) {
 	if (typeof(selector) != 'string')
 		return null;
 	return jQuery(selector)[0];
-	// NOTE: Possilbe side-effect:
+	// NOTE: Possible side-effect:
 	//       If you pass a html string as selector, jQuery function will return a new extended DOM node.
 }
 
@@ -115,7 +115,7 @@ Standardizer.prototype.querySelectorAll = function(selector) {
 	if (typeof(selector) != 'string')
 		return null;
 	return jQuery(selector);
-	// NOTE: Possilbe side-effect:
+	// NOTE: Possible side-effect:
 	//       If you pass a html string as selector, jQuery function will return a new extended DOM node.
 }
 

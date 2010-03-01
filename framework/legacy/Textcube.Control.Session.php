@@ -125,7 +125,7 @@ final class Session {
 			if (($id = self::getAnonymousSession()) !== false)
 				return $id;
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-			$result = self::query('count',"INSERT INTO ".self::$context->getProperty('database.prefix')."Sessions (id, address, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP() - $meet_again_baby)");
+			$result = self::query('count',"INSERT INTO ".self::$context->getProperty('database.prefix')."Sessions (id, address, server, request, referer, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', '', '', '', UNIX_TIMESTAMP(), UNIX_TIMESTAMP() - $meet_again_baby)");
 			if ($result > 0)
 				return $id;
 		}

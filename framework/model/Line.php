@@ -17,6 +17,7 @@ final class Model_Line extends DBModel {
 	}
 		
 	public function reset($param = null) {
+		parent::reset('Lines');
 		$this->id = null;
 		$this->blogid = getBlogId();
 		$this->category = 'public';
@@ -39,7 +40,7 @@ final class Model_Line extends DBModel {
 		$this->setAttribute('root',$this->root,true);
 		$this->setAttribute('author',$this->author,true);
 		$this->setAttribute('content',$this->content,true);
-		$this->setAttribute('permalink',$this->content,true);
+		$this->setAttribute('permalink',$this->permalink,true);
 		$this->setAttribute('created',$this->created);
 		return $this->insert();
 	}
@@ -107,6 +108,7 @@ final class Model_Line extends DBModel {
 		foreach($data as $d) {
 			$template = $conditions['template'];
 			$d['created'] = Timestamp::getHumanReadable($d['created']);
+			if($d['root'] == 'default') $d['root'] = 'Textcube Line';
 			foreach($conditions['dress'] as $tag => $match) {
 				dress($tag, $d[$match],$template);
 			}

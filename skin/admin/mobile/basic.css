@@ -326,7 +326,7 @@ textarea
 	background-image                 : url("./image/img_menu_post.png") !important;
 }
 #main-menu #menu-entry .divider,
-#main-menu #menu-entry #sub-menu-entry,
+/*#main-menu #menu-entry #sub-menu-entry,*/
 #main-menu #menu-entry #sub-menu-line,
 #main-menu #menu-entry #sub-menu-category,
 #main-menu #menu-entry #sub-menu-tag
@@ -744,8 +744,8 @@ table.data-inbox tr .selection
 .data-subbox
 {
 	position                         : relative;
-	padding:0 !important;
-	margin:0 !important;
+	padding                          : 0 !important;
+	margin                           : 0 !important;
 }
 
 #change-section,
@@ -777,7 +777,7 @@ table.data-inbox tr .selection
 	background-color                 : #FFFFFF;
 	margin                           : 20px 0 40px 0;
 	text-align                       : center;
-	width                            : 940px;
+	width                            : 100%;
 }
 
 #page-navigation span .selected
@@ -791,10 +791,9 @@ table.data-inbox tr .selection
 	margin-bottom                    : 5px;
 }
 
-#page-list a
-{
-	color                            : #999999;
-	padding                          : 0 1px;
+#page-list a {
+	padding                          : 4px;
+	border                           : 1px solid #CCC;
 }
 
 #total-count

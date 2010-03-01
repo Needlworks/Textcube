@@ -487,7 +487,10 @@ if (isset($_GET['popupEditor'])) {
 											PM.removeRequest(this);
 											alert("<?php echo _t('저장하지 못했습니다');?>");
 											this.nowsaving = false;
+											document.getElementById("saveAndReturnButton").value = "<?php echo _t('저장 후 돌아가기');?>";
+
 										}
+										document.getElementById("saveAndReturnButton").value = "<?php echo _t('저장중...');?>";
 										PM.addRequest(request, "<?php echo _t('저장하고 있습니다.');?>");
 										request.send(data);
 									}
@@ -497,7 +500,7 @@ if (isset($_GET['popupEditor'])) {
 										if(document.getElementById('templateDialog').style.display != 'none') {
 											toggleTemplateDialog();
 										}
-										document.getElementById("saveButton").value = "<?php echo _t('저장하기');?>";
+										document.getElementById("saveButton").value = "<?php echo _t('중간 저장');?>";
 										document.getElementById("saveButton").style.color = "#000";
 										if (this.timer == null)
 											this.timer = window.setTimeout(entryManager.saveDraft, 5000);
@@ -894,7 +897,7 @@ if (isset($_GET['popupEditor'])) {
 											<span class="hidden">|</span>
 											<input type="submit" id="saveButton" value="<?php echo _t('중간 저장');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
 											<span class="hidden">|</span>
-											<input type="submit" value="<?php echo _t('저장 후 돌아가기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />									
+											<input type="submit" id="saveAndReturnButton" value="<?php echo _t('저장 후 돌아가기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />									
 										</div>
 <?php
 } else {
@@ -904,7 +907,7 @@ if (isset($_GET['popupEditor'])) {
 											<span class="hidden">|</span>
 							    	  	 		<input type="submit" id="saveButton" value="<?php echo _t('중간 저장');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
 											<span class="hidden">|</span>
-							       			<input type="submit" value="<?php echo _t('저장 후 돌아가기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />
+							       			<input type="submit" id="saveAndReturnButton" value="<?php echo _t('저장 후 돌아가기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />
 											<span class="hidden">|</span>
 											<input type="submit" value="<?php echo _t('목록으로');?>" class="list-button input-button" onclick="returnToList();return false;" />
 										</div>
@@ -956,6 +959,10 @@ if (isset($entry['latitude']) && !is_null($entry['latitude'])) {
 				 		
 						<script type="text/javascript">
 							//<![CDATA[
+								var contentformatterObj = document.getElementById('contentformatter');
+								var contenteditorObj = document.getElementById('contenteditor');
+								setFormatter(contentformatterObj.value, contenteditorObj, false);
+								setCurrentEditor(contenteditorObj.value);
 								entryManager = new EntryManager();
 								reloadUploader();
 								window.setInterval("entryManager.saveDraft();", 300000);
@@ -971,10 +978,6 @@ switch($entry['category']) {
 	default:
 		echo 'type_post';break;
 		}?>');
-											var contentformatterObj = document.getElementById('contentformatter');
-											var contenteditorObj = document.getElementById('contenteditor');
-											setFormatter(contentformatterObj.value, contenteditorObj, false);
-											setCurrentEditor(contenteditorObj.value);
 		
 							//]]>
 						</script> 

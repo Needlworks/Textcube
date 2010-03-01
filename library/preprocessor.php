@@ -56,13 +56,13 @@ if (!$valid) {
 /** LOAD : Configuration and Debug module (if necessary)
     --------------------
 */
-global $config, $context, $uri;
+global $context, $uri;
+//global $config, $context, $uri;
 
 /// Loading configuration	
 $context = Model_Context::getInstance(); // automatic initialization via first instanciation
 $config  = Model_Config::getInstance();
 $uri     = Model_URIHandler::getInstance();
-
 /// Loading debug module
 if($context->getProperty('service.debugmode') == true) {
 	if(!is_null($context->getProperty('database.dbms'))) {

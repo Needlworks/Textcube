@@ -200,7 +200,7 @@ class DBModel extends Singleton implements IModel {
 	
 	public function getColumn($field = '*') {
 		$field = $this->_treatReservedFields($field);
-		return POD::queryColumn('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
+		return POD::queryColumn('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
 	}
 	
 	public function getAll($field = '*') {

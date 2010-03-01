@@ -5,7 +5,7 @@
   <description xml:lang="en"><![CDATA[Textcube plugin for Twitter.]]></description>
   <description xml:lang="ko"><![CDATA[트위터를 위한 텍스트큐브 플러그인.]]></description>
   <link>http://create74.com/</link>
-  <version>1.9.0716</version>
+  <version>1.10.0221</version>
   <license>GPL</license>
   <author xml:lang="en" link="http://create74.com"><![CDATA[Yong-ju, Park (J.Parker / Needlworks)]]></author>
   <author xml:lang="ko" link="http://create74.com"><![CDATA[박용주 (J.Parker / Needlworks)]]></author>
@@ -36,8 +36,12 @@
 	<listener event="AddLine">getUpdatingNewLineToTwitter</listener>
 	<listener event="AddPostByBlogAPI">getUpdatingNewPostToTwitter</listener>
 	<listener event="CreatePostSyndicate">getUpdatingNewPostToTwitterSynd</listener>
-	<listener event="ShowAdminHeader">getJQueryCheckLoad</listener>
-    <adminMenu>
+	<listener event="ModifyPostSyndicate">getUpdatingNewPostToTwitterSynd</listener>
+	<listener event="ShowAdminHeader" handler="getJQueryCheckLoad" />
+
+	<listener event="Cron10m" handler="synchronizeTwitterWithLine" />
+
+	<adminMenu>
       <viewMethods>
         <method>
           <topMenu>center</topMenu>
@@ -94,6 +98,11 @@
 		<fieldset legend="트위터 글 목록" >
 			<field title=" : 글 목록 길이" name="listLength" type="text" size="5" titledirection="bk" value="10" >
 				<caption><![CDATA[* 기본 목록 10개 보여줌. <br/> * 단, 'following', 'followers' 목록 제외]]></caption>
+			</field>
+		</fieldset>
+		<fieldset legend="트위터-라인 동기화">
+			<field title=" " type="checkbox" name="synchronizeLine" checked="checked">
+				<op value="true" name="synchronizeLine"><![CDATA[&nbsp;트위터와 라인을 동기화합니다. 트위터에 적은 글이 자동으로 라인의 새 글로 등록됩니다.]]></op>
 			</field>
 		</fieldset>
 	</config>

@@ -18,12 +18,10 @@ if( strstr( PHP_OS, "WIN") !== false ) {
 } else {
 	define('DS', "/");
 }
-
-// OpenID-Specific parameters
-define( 'OPENID_LIBRARY_ROOT', ROOT . "/library/contrib/phpopenid/" );
-define( 'XPATH_LIBRARY_ROOT', ROOT . "/library/contrib/phpxpath/" );
-define( 'Auth_OpenID_NO_MATH_SUPPORT', 1 );
-define( 'OPENID_PASSWORD', "-OPENID-" );
+define( "OPENID_LIBRARY_ROOT", ROOT . "/library/contrib/phpopenid/" );
+define( "XPATH_LIBRARY_ROOT", ROOT . "/library/contrib/phpxpath/" );
+define( "Auth_OpenID_NO_MATH_SUPPORT", 1 );
+define( "OPENID_PASSWORD", "-OPENID-" );
 
 // Define global variable.
 global $database, $service, $blog, $memcache;
@@ -60,4 +58,5 @@ $service['flashuploader'] = true;
 $service['debug_session_dump'] = false;
 $service['debug_rewrite_module'] = false;
 $service['useNumericURLonRSS'] = false;
+//$service['adminskin'] = 'whitedream'; 
 ?>

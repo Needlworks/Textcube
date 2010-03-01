@@ -120,6 +120,7 @@ function printIphoneArchivesView($archives) {
 	global $blogURL;
 	$oldPeriod = '';
 	$newPeriod = '';
+	$printArchive = '';
 	foreach ($archives as $archive) {
 		$newPeriod = substr($archive['period'],0,4);
 		if($newPeriod != $oldPeriod){

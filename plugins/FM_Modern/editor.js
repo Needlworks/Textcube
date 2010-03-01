@@ -279,14 +279,15 @@ TTModernEditor.prototype.finalize = function() {
 }
 
 TTModernEditor.prototype.syncTextarea = function() {
+	this.correctContent();
 	if (this.editMode == "WYSIWYG") {
-		this.textarea.value = this.html2ttml(this.contentDocument.body.innerHTML);
+		this.textarea.value = this.html2ttml();
 	}
 }
 
 TTModernEditor.prototype.syncEditorWindow = function() {
 	if (this.editMode == "WYSIWYG") {
-		this.contentDocument.body.innerHTML = this.ttml2html(this.textarea.value);
+		this.contentDocument.body.innerHTML = this.ttml2html();
 	}
 }
 
@@ -1642,20 +1643,24 @@ TTModernEditor.prototype.eventHandler = function(event) {
 			break;
 		case "keypress":
 			var range = this.getSelectionRange();
-			if(event.keyCode == 13) {
+			if(event.keyCode == 13) { 
 				if(this.newLineToParagraph) {
 					if(STD.isFirefox && !event.shiftKey) {
-						// TODO : put a p tag
-					} else {
+						// TODO : test<br /> -> <p>test</p>
+					} else if(STD.isWebkit && !event.shiftKey) {
+						// TODO : test or <div>test</div> -> <p>test</p>
 					}
 				} else {
 					if(STD.isIE && range.parentElement && range.parentElement().tagName != "LI") {
+						// TODO : <p>test</p> -> <br />
 						event.returnValue = false;
 						event.cancelBubble = true;
 						range.pasteHTML("<br />");
 						range.collapse(false);
 						range.select();
 						return false;
+					} else if(STD.isWebkit && !event.shiftKey) {
+						// TODO : test or <div>test</div> -> test<br />
 					}
 				}
 			}
@@ -1704,6 +1709,7 @@ TTModernEditor.prototype.correctContent = function() {
 	html = html.replaceAll('class="webkit-block-placeholder"','');
 	html = html.replaceAll('br class="webkit-block-placeholder"','br /');
 	html = html.replaceAll('<div><br /></div>','<br />');
+	html = html.replaceAll('<br>', '<br />');
 	var dmodeExprs = new Array("font-weight: bold;",
 		"font-style: italic;",
 		"text-decoration: underline;",
@@ -2013,8 +2019,8 @@ TTModernEditor.prototype.toggleMode = function() {
 			return;
 		}
 		this.editMode = "WYSIWYG";
-		this.contentDocument.body.innerHTML = this.ttml2html();
 		this.correctContent();
+		this.contentDocument.body.innerHTML = this.ttml2html();
 		try { this.contentDocument.body.focus(); } catch(e) { }
 		this.resizer.target = this.iframe;
 	}
@@ -2022,6 +2028,7 @@ TTModernEditor.prototype.toggleMode = function() {
 
 // 위지윅 모드에서의 selection을 리턴한다
 TTModernEditor.prototype.getSelectionRange = function() {
+	if (STD.isWebkit) this.contentWindow.focus();
 	return STD.isIE ? this.contentDocument.selection.createRange() : this.contentWindow.getSelection().getRangeAt(0);
 }
 

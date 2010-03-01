@@ -12,31 +12,25 @@ var TTEditorResizer = function(target, resizer, documents) {
 };
 
 TTEditorResizer.prototype.initialize = function() {
-	var _this = this;
-	var docEventHandler = function(event) { _this.docEventHandler(event); };
-	this.docEventHandler_bounded = docEventHandler; // keep it to remove the handler later
-	
+	var docEventHandler = jQuery.proxy(this.docEventHandler, this);
 	for (var i = 0, doc; doc = this.documents[i]; ++i) {
 		STD.addEventListener(doc);
-		doc.addEventListener("mousemove", docEventHandler, false);
-		doc.addEventListener("mousedown", docEventHandler, false);
-		doc.addEventListener("mouseup", docEventHandler, false);
-		doc.addEventListener("selectstart", docEventHandler, false);
+		jQuery(doc).bind({
+			'mousemove.doc': docEventHandler,
+			'mousedown.doc': docEventHandler,
+			'mouseup.doc': docEventHandler,
+			'selectstart.doc': docEventHandler
+		});
 	}
 };
 
 TTEditorResizer.prototype.finalize = function() {
 	for (var i = 0, doc; doc = this.documents[i]; ++i) {
-		doc.removeEventListener("mousemove", this.docEventHandler_bounded, false);
-		doc.removeEventListener("mousedown", this.docEventHandler_bounded, false);
-		doc.removeEventListener("mouseup", this.docEventHandler_bounded, false);
-		doc.removeEventListener("selectstart", this.docEventHandler_bounded, false);
+		jQuery(doc).unbind('.doc');
 	}
 };
 
 TTEditorResizer.prototype.docEventHandler = function(event) {
-	if (STD.isIE) event.target = event.srcElement;
-
 	switch (event.type) {
 	case "mousemove":
 		if (this.rowResizeDown) {

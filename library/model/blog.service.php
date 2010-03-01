@@ -7,7 +7,6 @@
 $__gCacheBlogSettings = array();
 
 function getBlogidByName($name) {
-	global $database;
 	$query = DBModel::getInstance();
 	$query->reset('BlogSettings');
 	$query->setQualifier('name','equals', 'name',true);
@@ -30,32 +29,32 @@ function getSkinSettings($blogid, $forceReload = false) {
 }
 
 function getDefaultURL($blogid) {
-	global $database, $service;
-	$blog = Setting::getBlogSettingsGlobal( $blogid );
-	switch ($service['type']) {
+	$context = Model_Context::getInstance();
+	switch ($context->getProperty('service.type')) {
 		case 'domain':
-			if ($blog['defaultDomain'] && $blog['secondaryDomain'])
-				return ('http://' . $blog['secondaryDomain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $service['path']);
+			if ($context->getProperty('blog.defaultDomain') && $context->getProperty('blog.secondaryDomain'))
+				return ('http://' . $context->getProperty('blog.secondaryDomain') . ($context->getProperty('service.port') ? ':' . $context->getProperty('service.port') : '') . $context->getProperty('service.path'));
 			else
-				return ('http://' . $blog['name'] . '.' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $service['path']);
+				return ('http://' . $context->getProperty('blog.name') . '.' . $context->getProperty('service.domain') . ($context->getProperty('service.port') ? ':' . $context->getProperty('service.port') : '') . $context->getProperty('service.path'));
 		case 'path':
-			return ('http://' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $service['path'] . '/' . $blog['name']);
+			return ('http://' . $context->getProperty('service.domain') . ($context->getProperty('service.port') ? ':' . $context->getProperty('service.port') : '') . $context->getProperty('service.path') . '/' . $context->getProperty('blog.name'));
 		case 'single':
 		default:
-			return ('http://' . $service['domain'] . (isset($service['port']) ? ':' . $service['port'] : '') . $service['path']);
+			return ('http://' . $context->getProperty('service.domain') . ($context->getProperty('service.port') ? ':' . $context->getProperty('service.port') : '') . $context->getProperty('service.path'));
 	}
 }
 
 function getBlogURL($name = null, $domain = null, $path = null, $type = null) {
-	global $service, $blog;
+	$context = Model_Context::getInstance();
+	$context->useNamespace('service');
 	if ($type === null)
-		$type = $service['type'];
+		$type = $context->getProperty('type');
 	if ($path === null)
-		$path = $service['path'];
+		$path = $context->getProperty('path');
 	if ($domain === null)
-		$domain = $service['domain'] . (isset($service['port']) ? ":{$service['port']}" : '');
+		$domain = $context->getProperty('domain') . ($context->getProperty('port') ? ':'.$context->getProperty('port') : '');
 	if ($name === null)
-		$name = $blog['name'];
+		$name = $context->getProperty('blog.name');
 	switch ($type) {
 		case 'domain':
 			return "http://$name.$domain$path";
@@ -72,8 +71,8 @@ function getBlogURLById($id = null, $domain = null, $path = null, $type = null) 
 }
 
 function getFancyURLpostfix() {
-	global $service;
-	switch($service['fancyURL']) {
+	$context = Model_Context::getInstance();
+	switch($context->getProperty('service.fancyURL')) {
 		case 0: return '/index.php?';
 		case 1: return '/?';
 		case 2:default: return '';
@@ -81,13 +80,14 @@ function getFancyURLpostfix() {
 }
 
 function getBlogURLRule($domain = null, $path = null, $type = null) {
-	global $service, $blog;
+	$context = Model_Context::getInstance();
+	$context->useNamespace('service');
 	if ($type === null)
-		$type = $service['type'];
+		$type = $context->getProperty('type');
 	if ($path === null)
-		$path = $service['path'];
+		$path = $context->getProperty('path');
 	if ($domain === null)
-		$domain = $service['domain'] . (isset($service['port']) ? ":{$service['port']}" : '');
+		$domain = $context->getProperty('domain') . ($context->getProperty('port') ? ':'.$context->getProperty('port') : '');
 	switch ($type) {
 		case 'domain':
 			return array('http://', ".$domain$path");
@@ -118,9 +118,10 @@ function writeHtaccess($contents) {
 }
 
 function writeConfigFile($settings) {
+	$context = Model_Context::getInstance();
 	$writer = new OutputWriter;
-	
-	global $database, $service;
+	$database = $context->getAllFromNamespace('database');
+	$service = $context->getAllFromNamespace('service');
 	
 	$config = array();
 	$contents = "<?php".CRLF."ini_set('display_errors', 'off');".CRLF;

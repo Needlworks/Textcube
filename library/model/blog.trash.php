@@ -142,15 +142,15 @@ function restoreTrackbackTrash($blogid, $id) {
 function trashVan() {
    	global $database;
 	requireModel('common.setting');
-	if(Timestamp::getUNIXtime() - getServiceSetting('lastTrashSweep',0) > 86400) {
+	if(Timestamp::getUNIXtime() - Setting::getServiceSetting('lastTrashSweep',0, true) > 86400) {
 		POD::execute("DELETE FROM {$database['prefix']}Comments where isfiltered < UNIX_TIMESTAMP() - 1296000 AND isfiltered > 0");
 		POD::execute("DELETE FROM {$database['prefix']}RemoteResponses where isfiltered < UNIX_TIMESTAMP() - 1296000 AND isfiltered > 0");
 		POD::execute("DELETE FROM {$database['prefix']}RefererLogs WHERE referred < UNIX_TIMESTAMP() - 604800");
-		setServiceSetting('lastTrashSweep',Timestamp::getUNIXtime());
+		Setting::setServiceSetting('lastTrashSweep',Timestamp::getUNIXtime(),true);
 	}
 	if(Timestamp::getUNIXtime() - getServiceSetting('lastNoticeRead',0) > 43200) {
-		removeServiceSetting('TextcubeNotice%',true);
-		setServiceSetting('lastNoticeRead',Timestamp::getUNIXtime());
+		Setting::removeServiceSetting('TextcubeNotice%',true);
+		Setting::setServiceSetting('lastNoticeRead',Timestamp::getUNIXtime(),true);
 	}
 }
 

@@ -26,10 +26,11 @@ $conditions['template'] = <<<EOS
 			<dl id="line_[##_id_##]" class="line">
 				<dt class="date">[##_date_##]</dt>
 				<dd class="content">[##_content_##]</dd>
+				<dd class="permalink"><a href="[##_permalink_##]" class="permalink">at [##_root_##]</a></dd>
 				<dd class="delete input-button" onclick="deleteLine('[##_id_##]');return false;"><span class="text">{$d}</span></dd>
 			</dl>
 EOS;
-$conditions['dress'] = array('id'=>'id','date'=>'created','content'=>'content');
+$conditions['dress'] = array('id'=>'id','date'=>'created','content'=>'content','permalink'=>'permalink','root'=>'root');
 $line = Model_Line::getInstance();
 $contentView = $line->getFormattedList($conditions);
 if(empty($contentView)) {

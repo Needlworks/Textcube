@@ -26,7 +26,6 @@ function activatePlugin($name) {
 		return false;
 	if (!file_exists(ROOT . "/plugins/$name/index.xml") || !file_exists(ROOT . "/plugins/$name/index.php"))
 		return false;
-	
 	$xmls = new XMLStruct();
 	$manifest = @file_get_contents(ROOT . "/plugins/$name/index.xml");
 	if ($xmls->open($manifest)) {

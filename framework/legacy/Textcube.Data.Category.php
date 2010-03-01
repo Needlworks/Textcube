@@ -36,8 +36,7 @@ class Category {
 			if ($filter)
 				$pool->setQualifier('parent',null);
 		} else if (!empty($filter)) {
-			$condition = explode('=',$filter);
-			$condition = trim($condition);
+			$condition = array_map(create_function('$s','return trim($s);'), explode('=',$filter));
 			$pool->setQualifier($condition[0],'equals',$condition[1]);
 		}
 		if (!empty($sort))
@@ -61,7 +60,7 @@ class Category {
 	
 	function shift() {
 		$this->reset();
-		if ($this->_result && ($row = each($this->_result))) {
+		if ($this->_result && ($row = POD::fetch($this->_result))) {
 			foreach ($row as $name => $value) {
 				if ($name == 'blogid')
 					continue;

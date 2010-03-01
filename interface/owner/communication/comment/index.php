@@ -176,24 +176,16 @@ require ROOT . '/interface/common/owner/header.php';
 ?>
 									$('#list-form tbody td.selection').click(function(ev) {
 										$('#allChecked').attr('checked', false);
-										var checked = $(':check', this).attr('checked');
-										$(':check', this).attr('checked', checked ? false : true);
-										toggleThisTr($(this).parent(), !checked);
-										ev.stopPropagation();
-									});
-									$('#list-form tbody td.selection :check').click(function(ev) {
-										$('#allChecked').attr('checked', false);
-										var checked = $(this).attr('checked');
-										toggleThisTr($(this).parent().parent(), checked);
+										var checked = $(':checked', this).attr('checked');
+										$(':checked', this).attr('checked', checked ? true : false);
+										toggleThisTr($(this).parent(), checked);
 										ev.stopPropagation();
 									});
 									$('#allChecked').click(function(ev) {
 										var checked = $(this).attr('checked');
-										$('#list-form tbody td.selection :check').each(function(index, item) {
-											if ($(item).attr('checked') != checked) {
-												$(item).attr('checked', checked);
-												toggleThisTr($(item).parent().parent(), checked);
-											}
+										$('#list-form tbody td.selection input:checkbox').each(function(index, item) {
+											$(item).attr('checked', checked ? true : false);
+											toggleThisTr($(item).parent().parent(), checked);
 										});
 									});
 								});

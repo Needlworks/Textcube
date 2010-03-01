@@ -102,6 +102,10 @@ require ROOT . '/interface/common/owner/header.php';
 												<td class="name vcard"><a class="fn url" href="http://junwhan.com">Jun-whan Ahn</a></td>
 												<td class="role"><?php echo _t('Optimization / Bug tracking / Editor / Formatter');?></td>
 											</tr>
+											<tr>
+												<td class="name vcard"><a class="fn url" href="http://yupmin.com">Young-jin Yoon</a></td>
+												<td class="role"><?php echo _t('Maintenance / Backporting');?></td>
+											</tr>
 										</tbody>
 									</table>
 								</div>

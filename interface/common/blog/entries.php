@@ -18,10 +18,10 @@ if (isset($cache->contents)) {
 //		$entryRsses .= '<link rel="alternate" type="application/rss+xml" '.
 //			'title="Comment: '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($context->getProperty('blog.title')).'" '.
 //			'href="'.$context->getProperty('uri.default').'/rss/comment/'.$entry['id'].'" />'.CRLF;
-		$entryRsses .= '<link rel="alternate" type="application/rss+xml" '.
+		$entryRsses .= '	<link rel="alternate" type="application/rss+xml" '.
 			'title="Responses (RSS) : '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($context->getProperty('blog.title')).'" '.
 			'href="'.$context->getProperty('uri.default').'/rss/response/'.$entry['id'].'" />'.CRLF.
-			'<link rel="alternate" type="application/atom+xml" '.
+			'	<link rel="alternate" type="application/atom+xml" '.
 			'title="Responses (ATOM) : '.htmlspecialchars($entry['title']).' - '.htmlspecialchars($context->getProperty('blog.title')).'" '.
 			'href="'.$context->getProperty('uri.default').'/atom/response/'.$entry['id'].'" />'.CRLF;
 	}
@@ -50,7 +50,8 @@ if (isset($cache->contents)) {
 			// 사용자가 작성한 본문은 interface/common/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
 			$contentContainer["keylog_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'], null, 'Keylog');
 			dress('keylog_rep_desc', setTempTag("keylog_{$entry['id']}"), $entryView);
-			dress('keylog_rep_author', User::getName($entry['userid']), $entryView);
+			dress('keylog_rep_author',  User::getName($entry['userid']), $entryView);
+			dress('keylog_rep_author_link', $blogURL."/author/".rawurlencode(User::getName($entry['userid'])), $entryView);
 			$entriesView .= $entryView;
 			$isKeylog = true;
 		} else if ($entry['category'] == - 2) { // This is notice
@@ -66,6 +67,7 @@ if (isset($cache->contents)) {
 			$contentContainer["notice_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'], getKeywordNames($blogid), 'Notice');
 			dress('notice_rep_desc', setTempTag("notice_{$entry['id']}"), $entryView);
 			dress('notice_rep_author', User::getName($entry['userid']), $entryView);
+			dress('notice_rep_author_link', $blogURL."/author/".rawurlencode(User::getName($entry['userid'])), $entryView);
 			$entriesView .= $entryView;
 
 		} else if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {	// This is post
@@ -120,6 +122,7 @@ if (isset($cache->contents)) {
 			}
 			$author = User::getName($entry['userid']);
 			dress('article_rep_author', fireEvent('ViewPostAuthor', $author, $entry['id']), $entryView);
+			dress('article_rep_author_link', $blogURL."/author/".rawurlencode($author), $entryView);
 			dress('article_rep_id', $entry['id'], $entryView);
 			dress('article_rep_link', $permalink, $entryView);
 			dress('article_rep_rp_rssurl', $context->getProperty('uri.default').'/rss/comment/'.$entry['id'], $entryView);
@@ -143,7 +146,7 @@ if (isset($cache->contents)) {
 			dress('article_rep_date_modified', fireEvent('ViewPostDate', Timestamp::format5($entry['modified']), $entry['modified']), $entryView);
 			dress('entry_archive_link', $context->getProperty('uri.blog')."/archive/" . Timestamp::getDate($entry['published']), $entryView);
 			if ($entry['acceptcomment'] || ($entry['comments'] > 0))
-				dress('article_rep_rp_link', "loadComment({$entry['id']},1); return false", $entryView);
+				dress('article_rep_rp_link', "loadComment({$entry['id']},1,false); return false", $entryView);
 			else
 				dress('article_rep_rp_link', "return false", $entryView);
 		
@@ -164,6 +167,7 @@ if (isset($cache->contents)) {
 			$protectedEntryView = $skin->entryProtected;
 			$author = User::getName($entry['userid']);
 			dress('article_rep_author', fireEvent('ViewPostAuthor', $author, $entry['id']), $protectedEntryView);
+			dress('article_rep_author_link', $blogURL."/author/".rawurlencode($author), $protectedEntryView);
 			dress('article_rep_id', $entry['id'], $protectedEntryView);
 			dress('article_rep_link', $permalink, $protectedEntryView);
 			dress('article_rep_title', htmlspecialchars(fireEvent('ViewPostTitle', $entry['title'], $entry['id'])), $protectedEntryView);

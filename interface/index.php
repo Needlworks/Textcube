@@ -57,7 +57,6 @@ if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && (isset($_SERVER['HTTP_US
 		header("Location: ".$context->getProperty('uri.blog')."/i"); exit;
 	}
 }
-
 publishEntries();
 
 if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') { // Treat comment notifier.
@@ -69,7 +68,6 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') { // Treat comment notifie
 } else {
 	notifyComment();
 }
-
 
 fireEvent('OBStart');
 
