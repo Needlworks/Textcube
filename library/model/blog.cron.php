@@ -59,6 +59,7 @@ function doCronJob()
 function checkCronJob()
 {
 	global $defaultURL;
+	requireComponent('Eolin.PHP.HTTPRequest');
 	/* Cron, only in single page request, not in a page dead link */
 	if( !empty($_SERVER['HTTP_REFERER']) || !dumbCronScheduler(true) ) return;
 	$request = new HTTPRequest('GET', $defaultURL.'/cron');
