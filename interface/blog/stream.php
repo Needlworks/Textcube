@@ -49,7 +49,7 @@ foreach ($stream as $item) {
 	);
 }
 
-if(empty($contentView)) {
+if(empty($stream)) {
 	$contentView = '';
 	$buttonView = '';
 } else {

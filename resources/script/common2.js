@@ -1306,7 +1306,7 @@ function updateStream(contentView, buttonView, position) {
 	} else {
 		Ocontent.innerHTML = Ocontent.innerHTML+contentView;
 	}
-	if(buttonView != "") Pcontent.innerHTML = buttonView;
+	Pcontent.innerHTML = buttonView;
 	return true;							
 }
 																					
