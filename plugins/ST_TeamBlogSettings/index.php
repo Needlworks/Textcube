@@ -81,7 +81,7 @@ function getTeamProfile($userid){
 }
 
 function getTeamBlogSettings() {
-	global $database, $serviceURL, $blogURL, $pluginURL, $configVal;
+	global $database, $service, $serviceURL, $blogURL, $pluginURL, $configVal;
 	requireComponent('Textcube.Function.misc');
 	$data = Setting::fetchConfigVal($configVal);
 	getTeamBlogInitConfigVal($data);
@@ -94,10 +94,10 @@ function getTeamBlogSettings() {
 		POD::execute("INSERT INTO {$database['prefix']}TeamUserSettings (blogid,userid,style,image,profile,updated) VALUES(".getBlogId().",".getUserId().",'','', '',UNIX_TIMESTAMP())");
 	}
 	if($row['image']){
-		$image = "{$serviceURL}/attach/".getBlogId()."/team/".$row['image'];
+		$image = "{$service['path']}/attach/".getBlogId()."/team/".$row['image'];
 		$imageRemoveCheck = "";
 	}else{
-		$image = "{$serviceURL}/image/spacer.gif";
+		$image = "{$service['path']}/image/spacer.gif";
 		$imageRemoveCheck = " disabled ";
 	}
 
@@ -306,6 +306,7 @@ function getImageFileUpload($target){
 	$script .= '	window.parent.top.PM.showMessage("'.$errmsg.'", "center", "bottom");';
 	$script .= '//]]></script>';
 	echo $script;
+	exit;
 }
 
 function getAddAttachment($file){

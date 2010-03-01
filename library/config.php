@@ -71,7 +71,7 @@ if($service['externalresources']) {
 	else 
 		$service['resourcepath'] = TEXTCUBE_RESOURCE_URL;
 } else {
-	$service['resourcepath'] = $service['path'];
+	$service['resourcepath'] = empty($serviceURL) ? $service['path']:$serviceURL;
 }
 
 if(!empty($service['domain']) && strstr( $_SERVER['HTTP_HOST'], $service['domain'] ) ) {
