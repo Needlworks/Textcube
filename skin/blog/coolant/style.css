@@ -392,6 +392,7 @@ h4
 
 .subject .infoCategory
 {
+	padding-top:15px;
 	background: url('./images/bullet_folder.gif') no-repeat 5px 50%;
 }
 
