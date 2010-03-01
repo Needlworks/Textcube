@@ -5,13 +5,12 @@
 
 function dumbCronScheduler($checkOnly=true)
 {
-	global $service, $blog;
-	requireModel('common.setting');
+	$ctx = Model_Context::getInstance();
 	$now = Timestamp::getUNIXtime();
 
-	$dumbCronStamps = getServiceSetting('dumbCronStamps',
+	$dumbCronStamps = Setting::getServiceSetting('dumbCronStamps',
 			serialize( array( '1m' => 0, '5m' => 0, '30m' => 0, 
-					'1h' => 0, '2h' => 0, '6h' => 0, '12h' => 0, '24h' => 0, 'Daily' => 0 )));
+					'1h' => 0, '2h' => 0, '6h' => 0, '12h' => 0, '24h' => 0, 'Daily' => 0 )),true);
 
 	$dumbCronStamps = unserialize( $dumbCronStamps );
 
@@ -28,20 +27,23 @@ function dumbCronScheduler($checkOnly=true)
 					'Daily' => 60*60*24,
 					'1w'  => 60*60*24*7 );
 	/* Events: Cron1m, Cron5m, Cron30m, Cron1h, Cron2h, Cron6h, Cron12h */
-	$log_file = dirname(__FILE__).DS."..".DS."..".DS."cache".DS."cronlog.txt";
+	$log_file = ROOT.'/cache/cronlog.txt';
 	$log = fopen( $log_file, "a" );
 	foreach( $schedules as $d => $diff ) {
 		if( !isset( $dumbCronStamps[$d] ) ) {
 			$dumbCronStamps[$d] = 0;
 		}
 		if( $now > $diff + $dumbCronStamps[$d] ) { 
-			if( $checkOnly && eventExists("Cron$d") ) return true;
+			if( $checkOnly && eventExists("Cron$d") ) {
+				fclose($log);
+				return true;
+			}
 			fireEvent( "Cron$d",  null, $now );
 			if($d == '6h') {
 				requireModel('blog.trash');
 				trashVan();
 			}
-			fwrite( $log, date( 'Y-m-d H:i:s' ).' '.$blog['name']." Cron$d executed ({$_SERVER['REQUEST_URI']})\r\n" );
+			fwrite( $log, date( 'Y-m-d H:i:s' ).' '.$ctx->getProperty('blog.name')." Cron$d executed ({$_SERVER['REQUEST_URI']})\r\n" );
 			$dumbCronStamps[$d] = $now;
 		}
 	}
@@ -53,7 +55,7 @@ function dumbCronScheduler($checkOnly=true)
 	$log = fopen( $log_file, "w" );
 	fwrite( $log, $logcontent );
 	fclose( $log );
-	setServiceSetting( 'dumbCronStamps', serialize( $dumbCronStamps ) );
+	Setting::setServiceSetting( 'dumbCronStamps', serialize( $dumbCronStamps ), true );
 	return false;
 }
 
@@ -64,11 +66,15 @@ function doCronJob()
 
 function checkCronJob()
 {
-	global $service,$blogURL;
+	$ctx = Model_Context::getInstance();
+//	global $service,$blogURL;
 	/* Cron, only in single page request, not in a page dead link */
 	if( !empty($_SERVER['HTTP_REFERER']) || !dumbCronScheduler(true) ) return;
 
-	ob_start();
+	$request = new HTTPRequest('GET', $ctx->getProperty('uri.default').'/cron');
+	$request->timeout = 2;
+	$request->send();
+	/*ob_start();
 	$s = fsockopen( $_SERVER['SERVER_ADDR'], isset($service['port']) ? $service['port'] : 80 );
 	fputs( $s, "GET {$blogURL}/cron HTTP/1.1\r\n" );
 	fputs( $s, "Host: {$_SERVER['HTTP_HOST']}\r\n" );
@@ -82,6 +88,6 @@ function checkCronJob()
 		echo ob_get_clean();
 	} else {
 		ob_clean();
-	}
+	}*/
 }
 ?>

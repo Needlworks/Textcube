@@ -4,9 +4,6 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
 
-if (false) {
-	fetchConfigVal();
-}
 list($status, $url) = updateRandomFeed();
 Respond::PrintResult(array('error' => $status, 'url' => $url));
 ?>
