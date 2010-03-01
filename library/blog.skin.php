@@ -79,6 +79,7 @@ class Skin {
 	
 	var $line;
 	var $lineItem;
+	var $lineButton;
 
 	var $noneCommentMessage;
 	var $singleCommentMessage;
@@ -203,6 +204,7 @@ class Skin {
 			list($sval, $this->cover) = $this->cutSkinTag($sval, 'cover');
 			
 			list($sval, $this->lineItem) = $this->cutSkinTag($sval, 'line_rep');
+			list($sval, $this->lineButton) = $this->cutSkinTag($sval, 'line_button');
 			list($sval, $this->line) = $this->cutSkinTag($sval, 'line');
 	
 			list($sval, $this->listItem) = $this->cutSkinTag($sval, 'list_rep');
