@@ -227,7 +227,7 @@ class Moblog
 			$tags = $this->extractTags( $mail ); /* mail content will be changed */
 			$post->tags = array_merge( $post->tags, $tags );
 			$post->content .= $moblog_begin.$this->_getDecoratedContent( $mail, $docid );
-			$post->modified = time();
+			$post->modified = $mail['date'];
 			$post->visibility = $this->visibility;
 		} else {
 			$this->log( "* 새 글을 작성합니다. (SLOGAN:$slogan)" );
@@ -249,7 +249,7 @@ class Moblog
 			$post->accepttrackback = true;
 			$post->visibility = $this->visibility;
 			$post->published = time();
-			$post->modified = time();
+			$post->modified = $mail['date'];
 			$post->slogan = $slogan;
 			if( !$post->add() ) {
 				$this->logMail( $mail, "ERROR" );
