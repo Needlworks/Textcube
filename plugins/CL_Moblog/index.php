@@ -142,17 +142,23 @@ class Moblog
 	}
 
 	function _getDecoratedContent( & $mail, $docid ) {
-			if( !empty($mail['text']) && strstr($mail['text'],'magicn.com') ) {
-				$mail['text'] = preg_replace( '@.*<BODY>(.*?)<style.*@smi', '$1', $mail['text']);
-				$mail['text'] = preg_replace( '@<IMG[^>]*?cid:[^>]*?>@smi', '', $mail['text']);
-				$mail['text'] = preg_replace( '@<BR>\s*<BR>\s*<BR>@smi', '<BR>', $mail['text']);
+		if( !empty($mail['text']) && strstr($mail['text'],'magicn.com') ) {
+			$mail['text'] = preg_replace( '@.*<BODY>(.*?)<style.*@smi', '$1', $mail['text']);
+			$mail['text'] = preg_replace( '@<IMG[^>]*?cid:[^>]*?>@smi', '', $mail['text']);
+			$mail['text'] = preg_replace( '@<BR>\s*<BR>\s*<BR>@smi', '<BR>', $mail['text']);
+		}
+		$text = "<h3 class=\"moblog-title\" id=\"$docid\">$docid</h3>\r\n";
+		//$text .= empty($mail['subject']) ? '' : ("<p>".$mail['subject']."</p>\r\n");
+		if( !empty($mail['text']) ) {
+			$content = $mail['text'];
+			if($mail['content_type'] == 'text/plain') {
+				$newLineFrom = array("￦n","\\n");
+				$newLineTo = "<br />\r\n";
+				$content = str_replace($newLineFrom, $newLineTo, $content); 
 			}
-			$text = "<h3 class=\"moblog-title\" id=\"$docid\">$docid</h3>\r\n";
-			//$text .= empty($mail['subject']) ? '' : ("<p>".$mail['subject']."</p>\r\n");
-			if( !empty($mail['text']) ) {
-				$text .= "<div class=\"moblog-body\">{$mail['text']}</div>\r\n";
-			}
-			return $text;
+			$text .= "<div class=\"moblog-body\">".$content."</div>\r\n";
+		}
+		return $text;
 	}
 
 	function statCallback( $total, $totalsize )
