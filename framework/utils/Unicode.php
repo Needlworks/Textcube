@@ -197,7 +197,7 @@ class Utils_Unicode {
 		elseif($siclVerifyInt===3) // Head byte of multi-bytes characters.
 			$siclLocationSubtInt=1;
 		elseif($siclVerifyInt===2) { // Middle of multi-bytes character.
-			for($siclLoopInt=2;$siclLengthInt>=$siclLoopInt;$siclLoopInt++) { // Seeking for head byte.
+			for($siclLoopInt=2;$bytes>=$siclLoopInt;$siclLoopInt++) { // Seeking for head byte.
 				if((ord($str[$bytes-$siclLoopInt])>>6)!==2)
 					break;
 			}
