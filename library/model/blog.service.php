@@ -30,14 +30,15 @@ function getSkinSettings($blogid, $forceReload = false) {
 
 function getDefaultURL($blogid) {
 	$context = Model_Context::getInstance();
+	$blog = Setting::getBlogSettingsGlobal($blogid);
 	switch ($context->getProperty('service.type')) {
 		case 'domain':
-			if ($context->getProperty('blog.defaultDomain') && $context->getProperty('blog.secondaryDomain'))
-				return ('http://' . $context->getProperty('blog.secondaryDomain') . ($context->getProperty('service.port') ? ':' . $context->getProperty('service.port') : '') . $context->getProperty('service.path'));
+			if (!empty($blog['defaultDomain']) && !empty($blog['secondaryDomain']))
+				return ('http://' . $blog['secondaryDomain'] . ($context->getProperty('service.port') ? ':' . $context->getProperty('service.port') : '') . $context->getProperty('service.path'));
 			else
-				return ('http://' . $context->getProperty('blog.name') . '.' . $context->getProperty('service.domain') . ($context->getProperty('service.port') ? ':' . $context->getProperty('service.port') : '') . $context->getProperty('service.path'));
+				return ('http://' . $blog['name'] . '.' . $context->getProperty('service.domain') . ($context->getProperty('service.port') ? ':' . $context->getProperty('service.port') : '') . $context->getProperty('service.path'));
 		case 'path':
-			return ('http://' . $context->getProperty('service.domain') . ($context->getProperty('service.port') ? ':' . $context->getProperty('service.port') : '') . $context->getProperty('service.path') . '/' . $context->getProperty('blog.name'));
+			return ('http://' . $context->getProperty('service.domain') . ($context->getProperty('service.port') ? ':' . $context->getProperty('service.port') : '') . $context->getProperty('service.path') . '/' . $blog['name']);
 		case 'single':
 		default:
 			return ('http://' . $context->getProperty('service.domain') . ($context->getProperty('service.port') ? ':' . $context->getProperty('service.port') : '') . $context->getProperty('service.path'));
