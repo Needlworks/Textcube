@@ -143,12 +143,12 @@ function trashVan() {
    	global $database;
 	requireModel('common.setting');
 	if(Timestamp::getUNIXtime() - Setting::getServiceSetting('lastTrashSweep',0, true) > 86400) {
-		POD::execute("DELETE FROM {$database['prefix']}Comments where isfiltered < UNIX_TIMESTAMP() - 1296000 AND isfiltered > 0");
-		POD::execute("DELETE FROM {$database['prefix']}RemoteResponses where isfiltered < UNIX_TIMESTAMP() - 1296000 AND isfiltered > 0");
-		POD::execute("DELETE FROM {$database['prefix']}RefererLogs WHERE referred < UNIX_TIMESTAMP() - 604800");
+		POD::execute("DELETE FROM {$database['prefix']}Comments where isfiltered < ".Timestamp::getUNIXtime()." - 1296000 AND isfiltered > 0");
+		POD::execute("DELETE FROM {$database['prefix']}RemoteResponses where isfiltered < ".Timestamp::getUNIXtime()." - 1296000 AND isfiltered > 0");
+		POD::execute("DELETE FROM {$database['prefix']}RefererLogs WHERE referred < ".Timestamp::getUNIXtime()." - 604800");
 		Setting::setServiceSetting('lastTrashSweep',Timestamp::getUNIXtime(),true);
 	}
-	if(Timestamp::getUNIXtime() - getServiceSetting('lastNoticeRead',0) > 43200) {
+	if(Timestamp::getUNIXtime() - Setting::getServiceSetting('lastNoticeRead',0) > 43200,true) {
 		Setting::removeServiceSetting('TextcubeNotice%',true);
 		Setting::setServiceSetting('lastNoticeRead',Timestamp::getUNIXtime(),true);
 	}
