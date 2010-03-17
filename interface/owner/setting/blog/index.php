@@ -617,7 +617,7 @@ if (file_exists(ROOT."/attach/$blogid/index.gif")) {
 												<?php echo getArrayValue(explode('%1', _t('최근 %1 개의 블로그 글을 피드로 내보냅니다.')), 0);?>
 												<select id="entriesOnRSS" name="entriesOnRSS">
 <?php
-for ($i = 5; $i <= 30; $i += 5) {
+for ($i = 5; $i <= 50; $i += 5) {
 ?>
 													<option value="<?php echo $i;?>"<?php echo ($i == $blog['entriesOnRSS'] ? ' selected="selected"' : '');?>><?php echo $i;?></option>
 <?php
