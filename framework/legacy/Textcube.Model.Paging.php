@@ -94,9 +94,9 @@ class Paging {
 		$itemsView = ob_get_contents();
 		ob_end_clean();
 		$view = $template;
-		Misc::dress('prev_page', isset($paging['prev']) ? ($mode == 'href' ? "href='" : "href='#' onclick='")."$url$prefix{$paging['prev']}$postfix'" : '', $view, $useCache);
+		Misc::dress('prev_page', isset($paging['prev']) ? ($mode == 'href' ? "href=\"" : "href=\"#\" onclick=\"")."$url$prefix{$paging['prev']}$postfix\" rel=\"prev\"" : '', $view, $useCache);
 		Misc::dress('paging_rep', $itemsView, $view, $useCache);
-		Misc::dress('next_page', isset($paging['next']) ? ($mode == 'href' ? "href='" : "href='#' onclick='")."$url$prefix{$paging['next']}$postfix' rel='next'" : '', $view, $useCache);
+		Misc::dress('next_page', isset($paging['next']) ? ($mode == 'href' ? "href=\"" : "href=\"#\" onclick=\"")."$url$prefix{$paging['next']}$postfix\" rel=\"next\"" : '', $view, $useCache);
 		Misc::dress('no_more_prev', isset($paging['prev']) ? '' : 'no-more-prev', $view, $useCache);
 		Misc::dress('no_more_next', isset($paging['next']) ? '' : 'no-more-next', $view, $useCache);
 		
