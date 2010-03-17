@@ -45,7 +45,6 @@ if(empty($accessInfo)) {
 $_SERVER['PHP_SELF'] = rtrim($_SERVER['PHP_SELF'], '/');
 
 $__requireBasics = array(
-	'config.default',               // Basics
 	'function/string',
 	'function/time',
 	'function/javascript',
