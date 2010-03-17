@@ -8,12 +8,8 @@ requireView('iphoneView');
 if(empty($suri['id'])) {
 	printIphoneHtmlHeader();
 	?>
-	<div class="toolbar">
-		<h1 id="pageTitle"><?php echo htmlspecialchars($blog['title']);?> Blog</h1>
-		<a id="backButton" class="button" href="#"></a>
-		<a class="button" href="#searchForm" id="searchButton" onclick="searchAction(true);">Search</a>
-	</div>
-	<ul id="home" title="<?php echo htmlspecialchars(UTF8::lessenAsEm($blog['title'],30));?> Blog" selected="true">
+
+	<ul id="home" title="<?php echo htmlspecialchars(UTF8::lessenAsEm($blog['title'],30));?>" selected="true">
 	<?php
 		$blogAuthor = User::getBlogOwnerName($blogid);
 		$blogLogo = !empty($blog['logo']) ? $blogURL . "/imageResizer?f=" . $blog['logo'] . "&m=80" : "{$service['path']}/style/iphone/image/textcube_logo.png";
@@ -27,19 +23,19 @@ if(empty($suri['id'])) {
 		$itemsView .= '</li>'.CRLF;
 		print $itemsView;
 	?>
-		<li><a href="<?php echo $blogURL;?>/entry" class="link">Posts</a></li>
-		<li><a href="#categories" class="link">Categories</a></li>
-		<li><a href="#archives" class="link">Archives</a></li>
-		<li><a href="#tags" class="link">Tags</a></li>
-		<li><a href="<?php echo $blogURL;?>/link" class="link">Links</a></li>
+		<li><a href="<?php echo $blogURL;?>/entry" class="link"><?php echo _text('글목록');?></a></li>
+		<li><a href="#categories" class="link"><?php echo _text('분류');?></a></li>
+		<li><a href="#archives" class="link"><?php echo _text('보관목록');?></a></li>
+		<li><a href="#tags" class="link"><?php echo _text('태그');?></a></li>
+		<li><a href="<?php echo $blogURL;?>/link" class="link"><?php echo _text('링크');?></a></li>
 	<?php
 		if (doesHaveOwnership()) {
 	?>
-		<li><a href="<?php echo $blogURL;?>/logout" class="link logout">Logout</a></li>
+		<li><a href="<?php echo $blogURL;?>/logout" class="link logout"><?php echo _text('로그아웃');?></a></li>
 	<?php
 		}else{
 	?>
-		<li><a href="<?php echo $blogURL;?>/login" class="link">Login</a></li>
+		<li><a href="<?php echo $blogURL;?>/login" class="link"><?php echo _text('로그인');?></a></li>
 	<?php
 		}
 	?>
@@ -77,9 +73,9 @@ if(empty($suri['id'])) {
 
     <form id="searchForm" method="GET" class="dialog snug editorBar" action="<?php echo $blogURL;?>/search">
         <fieldset>
-            <h1>Post Search</h1>
-            <a class="button leftButton" type="cancel" onclick="searchAction(false);">Cancel</a>
-            <a class="button blueButton" type="submit">Search</a>
+            <h1><?php echo _text('글 검색');?></h1>
+            <a class="button leftButton" type="cancel" onclick="searchAction(false);"><?php echo _text('취소');?></a>
+            <a class="button blueButton" type="submit"><?php echo _text('검색');?></a>
             
             <div class="searchIcon"></div>
 			<img id="clearButton" class="clearButton" src="<?php echo $service['path'];?>/image/spacer.gif" onclick="cancelAction(this);" />

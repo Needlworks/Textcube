@@ -73,14 +73,43 @@
 	/* Load interface. */
 	$interfacePath = null;
 	if (in_array($pathPart, array('favicon.ico','index.gif'))) {require_once 'interface/'.$pathPart.'.php';	exit;}
-	if (!empty($accessInfo['URLfragment']) &&
-		in_array($accessInfo['URLfragment'][0],
-				 array('api','archive','attachment','author','category','checkup','cover','cron','entry','feeder','foaf','guestbook','iMazing','keylog','location','locationSuggest','logout','notice','page','plugin','pluginForOwner','search','suggest','sync','tag','ttxml')))
-	{
-		$pathPart = $accessInfo['URLfragment'][0];
-		$interfacePath = 'interface/blog/'.$pathPart.'.php';
-	} else if (is_numeric(strtok(end($accessInfo['URLfragment']), '&'))) {
-		$pathPart = count($accessInfo['URLfragment'])==1 ? null : implode('/', array_slice($accessInfo['URLfragment'], 0, count($accessInfo['URLfragment']) - 1));
+	if (!empty($accessInfo['URLfragment'])) {
+		if (is_numeric(strtok(end($accessInfo['URLfragment']), '&'))) {
+			$pathPart = count($accessInfo['URLfragment'])==1 ? null : implode('/', array_slice($accessInfo['URLfragment'], 0, count($accessInfo['URLfragment']) - 1));
+		}
+
+		if(isset($accessInfo['URLfragment'][0])) {
+			switch($accessInfo['URLfragment'][0]) {
+				case 'api': case 'archive': case 'attachment': case 'author':
+				case 'category':  case 'cfeed': case 'checkup': case 'cover': case 'cron': 
+				case 'entry': case 'feeder': case 'foaf': case 'guestbook': case 'iMazing': 
+				case 'keylog': case 'line': case 'location': case 'locationSuggest': 
+				case 'logout': case 'notice': case 'page': case 'plugin': case 'pluginForOwner': 
+				case 'search': case 'stream': case 'suggest': case 'tag': case 'ttxml': 
+					$pathPart = $accessInfo['URLfragment'][0];
+					$interfacePath = 'interface/blog/'.$pathPart.'.php';
+					break;
+				case 'rss': case 'atom':
+					if(isset($accessInfo['URLfragment'][1]) && in_array($accessInfo['URLfragment'][1],array('category','tag','search'))) {
+						$pathPart = $accessInfo['URLfragment'][0].'/'.$accessInfo['URLfragment'][1];
+						$interfacePath = 'interface/'.$pathPart.'/index.php';							
+					}
+					break;
+				case 'comment': case 'trackback':
+					$pathPart = implode("/",$accessInfo['URLfragment']);
+					$interfacePath = 'interface/blog/'.$pathPart.'/index.php';
+					break;
+				case 'i': case 'm':
+					if(isset($accessInfo['URLfragment'][1]) && in_array($accessInfo['URLfragment'][1],array('archive','category','comment','entry','guestbook','imageResizer','link','login','logout','pannels','protected','search','tag','trackback'))) {
+						$pathPart = $accessInfo['URLfragment'][0].'/'.$accessInfo['URLfragment'][1]; 
+					} else {
+						$pathPart = $accessInfo['URLfragment'][0];
+					}
+					$interfacePath = 'interface/'.$pathPart.'/index.php';
+					break;
+				default:
+			}
+		}
 	}
 	if (empty($interfacePath)) $interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
 	define('PATH', 'interface/'.(empty($pathPart) ? '' : $pathPart.'/'));

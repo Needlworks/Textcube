@@ -8,17 +8,17 @@ requireView('iphoneView');
 if (false) {
 	fetchConfigVal();
 }
-if(empty($suri['id'])) {
+if(empty($suri['id']) && empty($suri['value'])) {
 	$blog['entriesOnList'] = 8;
 	if(!$listWithPaging = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnList']))
 		$listWithPaging = array(array(), array('total' => 0));
 	$list = array('title' => (empty($suri['value']) ? getCategoryLabelById($blogid, 0) : $suri['value']), 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	$paging = $listWithPaging[1];
 	?>
-	<ul class="posts" id="blog_posts_<?php echo $suri['page'];?>" selected="false">
+	<ul class="posts" id="blog_posts_<?php echo $suri['page'];?>" title="<?php echo _text('글목록');?>" selected="false">
 	<?php
 		$itemsView = '<li class="group">'.CRLF;
-		$itemsView .= '	<span class="left">Post List ('.$list['count'].')</span>'.CRLF;
+		$itemsView .= '	<span class="left">'._text('글목록').'('.$list['count'].')</span>'.CRLF;
 		$itemsView .= '	<span class="right">Page <span class="now_page">' . $paging['page'] . '</span> / '.$paging['pages'].'</span>'.CRLF;
 		$itemsView .= '</li>'.CRLF;
 		foreach ($list['items'] as $item) {	
@@ -55,10 +55,16 @@ if(empty($suri['id'])) {
 	</ul>
 <?php
 } else {
-	list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
+	if(!empty($suri['id'])) {
+		list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
+	} else if(!empty($suri['value'])) {
+		$entryPrint = true;
+		list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value']);
+		printIphoneHtmlHeader();
+	}
 	$entry = $entries ? $entries[0] : null;
 ?>
-	<div id="post_<?php echo $entry['id'];?>" title="View Post <?php echo $entry['id'];?>" class="panel">
+	<div id="post_<?php echo $entry['id'];?>" title="<?php echo htmlspecialchars($entry['title']);?>" class="panel" <?php echo (!empty($entryPrint) ? 'selected="true"' : '');?>>
 		<div class="entry_info">
 			<h2><?php echo htmlspecialchars($entry['title']);?></h2>
 			<h2 class="noBorderLine"><?php echo Timestamp::format5($entry['published']);?></h2>
@@ -83,16 +89,22 @@ if(empty($suri['id'])) {
 		}
 ?>
         <fieldset class="margin-top10">
-		<?php 
+<?php 
 	
-			if(doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
-				printIphoneNavigation($entry, true, true, $paging);
-			} else {
-				printIphoneNavigation($entry, false, false, $paging);
-			}
-		?>
+	if(doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
+		printIphoneNavigation($entry, true, true, $paging);
+	} else {
+		printIphoneNavigation($entry, false, false, $paging);
+	}
+?>
         </fieldset>
 	</div>
 <?php
+	if(!empty($entryPrint)) {
+?>
+		</div>
+<?php
+		printIphoneHtmlFooter();
+	}
 }
 ?>

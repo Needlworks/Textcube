@@ -207,6 +207,20 @@ function printIphoneHtmlHeader($title = '') {
 		<script type="application/x-javascript" src="<?php echo $service['path'];?>/script/iphone/iphone.js"></script>
 	</head>
 	<body>
+	<div class="toolbar">
+		<h1 id="pageTitle"><?php echo htmlspecialchars($blog['title']);?></h1>
+		<a id="backButton" class="button" href="#"></a>
+		<a class="button" href="#searchForm" id="searchButton" onclick="searchAction(true);"><?php echo _text('검색');?></a>
+	</div>
+	<div class="toolbar shortcut">
+	<ul>
+		<li><a href="<?php echo $blogURL;?>" onclick="window.location.href='<?php echo $blogURL;?>'" ><?php echo _text('블로그');?></a></li>
+		<li><a href="<?php echo $blogURL;?>/entry"><?php echo _text('글목록');?></a></li>
+		<!--li><a href="<?php echo $blogURL;?>/comment"><?php echo _text('댓글');?></a></li>
+		<li><a href="<?php echo $blogURL;?>/trackback"><?php echo _text('트랙백');?></a></li>
+		<li><a href="<?php echo $blogURL;?>/guestbook"><?php echo _text('방명록');?></a></li-->
+	</ul>
+	</div>
 <?php
 }
 
