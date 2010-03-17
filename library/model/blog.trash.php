@@ -148,7 +148,7 @@ function trashVan() {
 		POD::execute("DELETE FROM {$database['prefix']}RefererLogs WHERE referred < ".Timestamp::getUNIXtime()." - 604800");
 		Setting::setServiceSetting('lastTrashSweep',Timestamp::getUNIXtime(),true);
 	}
-	if(Timestamp::getUNIXtime() - Setting::getServiceSetting('lastNoticeRead',0) > 43200,true) {
+	if(Timestamp::getUNIXtime() - Setting::getServiceSetting('lastNoticeRead',0) > 43200) {
 		Setting::removeServiceSetting('TextcubeNotice%',true);
 		Setting::setServiceSetting('lastNoticeRead',Timestamp::getUNIXtime(),true);
 	}
