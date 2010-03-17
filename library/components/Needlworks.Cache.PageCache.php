@@ -324,7 +324,9 @@ class CacheControl {
 		$categoryLists = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND (name like 'categoryList\\_".$categoryId."%')");
+			AND (name like 'categoryList\\_".$categoryId."%' 
+				OR name like 'categoryRSS\\_".$categoryId."%'
+				OR name like 'categoryATOM\\_".$categoryId."%')");
 		CacheControl::purgeItems($categoryLists);
 		CacheControl::flushRSS();
 		unset($cache);
@@ -390,7 +392,7 @@ class CacheControl {
 		$Entries = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND (name like 'entry\\_".$entryId."%' OR name = 'commentRSS_".$entryId."')");
+			AND (name like 'entry\\_".$entryId."%' OR name = 'commentRSS_".$entryId."' OR name = 'commentATOM_".$entryId."')");
 		CacheControl::purgeItems($Entries);
 		if(!empty($entryId)) {
 			$entry = POD::queryCell("SELECT userid, category FROM {$database['prefix']}Entries
