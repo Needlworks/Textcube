@@ -25,7 +25,7 @@ function getLinks($blogid, $sort="category") {
 
 function getLinksWithPagingForOwner($blogid, $page, $count) {
 	global $database;
-	return fetchWithPaging("SELECT l.*, lc.name AS categoryName
+	return Paging::fetch("SELECT l.*, lc.name AS categoryName
 			FROM {$database['prefix']}Links l 
 			LEFT JOIN {$database['prefix']}LinkCategories lc ON lc.blogid = l.blogid AND lc.id = l.category
 			WHERE l.blogid = $blogid ORDER BY l.name", $page, $count );

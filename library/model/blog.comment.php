@@ -79,7 +79,7 @@ function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, 
 	}
 
 	$sql .= ' ORDER BY c.written DESC';
-	list($comments, $paging) = fetchWithPaging($sql, $page, $count);
+	list($comments, $paging) = Paging::fetch($sql, $page, $count);
 	if (strlen($postfix) > 0) {
 		$postfix .= '&amp;withSearch=on';
 		$paging['postfix'] .= $postfix;
@@ -112,7 +112,7 @@ function getGuestbookWithPagingForOwner($blogid, $name, $ip, $search, $page, $co
 	}
 
 	$sql .= ' ORDER BY c.written DESC';
-	list($comments, $paging) = fetchWithPaging($sql, $page, $count);
+	list($comments, $paging) = Paging::fetch($sql, $page, $count);
 	if (strlen($postfix) > 0) {
 		$postfix .= '&amp;withSearch=on';
 		$paging['postfix'] .= $postfix;
@@ -181,7 +181,7 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 		$sql .= $childListStr . ' ORDER BY c.modified DESC';
 	}
 
-	list($comments, $paging) = fetchWithPaging($sql, $page, $count);
+	list($comments, $paging) = Paging::fetch($sql, $page, $count);
 	if (strlen($postfix) > 0) {
 		$postfix .= '&amp;withSearch=on';
 		$paging['postfix'] .= $postfix;
@@ -232,7 +232,7 @@ function getCommentsWithPaging($blogid, $entryId, $page, $count, $url = null, $p
 			AND parent IS NULL
 			AND isfiltered = 0
 		ORDER BY written DESC";
-	list($comments, $paging) = Paging::fetchWithPaging($sql, $page, $count, $url, $prefix, $countItem);
+	list($comments, $paging) = Paging::fetch($sql, $page, $count, $url, $prefix, $countItem);
 	$paging['postfix'] = $postfix;
 	$comments = coverComments($comments);
 	return array($comments, $paging);

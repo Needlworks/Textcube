@@ -12,7 +12,7 @@ function getNoticesWithPaging($blogid, $search, $page, $count) {
 	}
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	$sql = "SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -2 $aux ORDER BY published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
+	return Paging::fetch($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
 
 function getNotice($blogid, $id) {

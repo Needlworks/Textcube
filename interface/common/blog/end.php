@@ -102,7 +102,9 @@ if (preg_match("@\\[##_paging_##\\]@iU", $view)) {
 		$postfix = isset($paging['postfix']) ? $paging['postfix'] : '';
 		// prev_page, next_page for legacy support.
 		dress('prev_page', isset($paging['prev']) ? "href='$url$prefix{$paging['prev']}$postfix'" : '',$view);
+		dress('prev_page_title', isset($paging['prev_title']) ? $paging['prev_title'] : '',$view);
 		dress('next_page', isset($paging['next']) ? "href='$url$prefix{$paging['next']}$postfix'" : '',$view);
+		dress('next_page_title', isset($paging['next_title']) ? $paging['next_title'] : '',$view);
 	} else if(isset($cache) && strpos($cache->name,'Paging')!==false && $cache->load()) {
 		dress('paging', $cache->contents, $view, false, true);
 	}

@@ -43,7 +43,7 @@ function getKeywordsWithPaging($blogid, $search, $page, $count) {
 			AND draft = 0 $visibility 
 			AND category = -1 $aux 
 		ORDER BY published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
+	return Paging::fetch($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
 
 function getKeyword($blogid, $keyword) {	
@@ -123,7 +123,7 @@ function bindKeywords($keywords, $content) {
 	$pattern = array();
 	foreach ($keywords as $keyword)
 		$pattern[] = preg_quote($keyword, '/');
-	$pattern = '/(?<![a-zA-Z\x80-\xff])(?:'.implode('|',$pattern).')/'; // ´ë¼Ò¹®ÀÚ ±¸º° ¹× Å°¿öµåÀÇ ´Ü¾î Ã¹¸Ó¸® Ã³¸®
+	$pattern = '/(?<![a-zA-Z\x80-\xff])(?:'.implode('|',$pattern).')/'; // ï¿½ï¿½Ò¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Å°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ü¾ï¿½ Ã¹ï¿½Ó¸ï¿½ Ã³ï¿½ï¿½
 
 	// list of unbindable & (always) singleton elements
 	$unbindables = array('a', 'object', 'applet', 'select', 'option', 'optgroup', 'textarea',

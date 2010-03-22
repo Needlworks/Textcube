@@ -39,7 +39,7 @@ function getTrashTrackbackWithPagingForOwner($blogid, $category, $site, $url, $i
 		$postfix .= '&amp;search=' . rawurlencode($search);
 	}
 	$sql .= ' ORDER BY t.written DESC';
-	list($trackbacks, $paging) =  fetchWithPaging($sql, $page, $count);
+	list($trackbacks, $paging) =  Paging::fetch($sql, $page, $count);
 	if (strlen($postfix) > 0) {
 		$paging['postfix'] .= $postfix . '&amp;withSearch=on';
 	}
@@ -77,7 +77,7 @@ function getTrashCommentsWithPagingForOwner($blogid, $category, $name, $ip, $sea
 		$postfix .= '&amp;search=' . rawurlencode($search);
 	}
 	$sql .= ' ORDER BY c.written DESC';
-	list($comments, $paging) =  fetchWithPaging($sql, $page, $count);
+	list($comments, $paging) =  Paging::fetch($sql, $page, $count);
 	if (strlen($postfix) > 0) {
 		$paging['postfix'] .= $postfix . '&amp;withSearch=on';
 	}

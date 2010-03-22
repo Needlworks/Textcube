@@ -64,7 +64,7 @@ class Statistics {
 
 	function getRefererLogsWithPage($page, $count) {  
 		global $database, $blogid;
-		return Paging::fetchWithPaging("SELECT host, url, referred FROM {$database['prefix']}RefererLogs WHERE blogid = $blogid ORDER BY referred DESC", $page, $count);  
+		return Paging::fetch("SELECT host, url, referred FROM {$database['prefix']}RefererLogs WHERE blogid = $blogid ORDER BY referred DESC", $page, $count);  
 	}
 
 	function getRefererLogs() {

@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class Paging {
-	function initPaging($url, $prefix = '?page=') {
+	function init($url, $prefix = '?page=') {
 		return array('url' => rtrim($url,'?'), 'prefix' => $prefix, 'postfix' => '', 'total' => 0, 'pages' => 0, 'page' => 0, 'before' => array(), 'after' => array());
 	}
 	
@@ -95,18 +95,20 @@ class Paging {
 		ob_end_clean();
 		$view = $template;
 		Misc::dress('prev_page', isset($paging['prev']) ? ($mode == 'href' ? "href=\"" : "href=\"#\" onclick=\"")."$url$prefix{$paging['prev']}$postfix\" rel=\"prev\"" : '', $view, $useCache);
+		Misc::dress('prev_page_title', isset($paging['prev_title']) ? $paging['prev_title'] : '', $view, $useCache);
 		Misc::dress('paging_rep', $itemsView, $view, $useCache);
 		Misc::dress('next_page', isset($paging['next']) ? ($mode == 'href' ? "href=\"" : "href=\"#\" onclick=\"")."$url$prefix{$paging['next']}$postfix\" rel=\"next\"" : '', $view, $useCache);
+		Misc::dress('next_page_title', isset($paging['next_title']) ? $paging['next'] : '', $view, $useCache);
 		Misc::dress('no_more_prev', isset($paging['prev']) ? '' : 'no-more-prev', $view, $useCache);
 		Misc::dress('no_more_next', isset($paging['next']) ? '' : 'no-more-next', $view, $useCache);
 		
 		return $view;
 	}
 	
-	function fetchWithPaging($sql, $page, $count, $url = null, $prefix = '?page=', $countItem = null, $onclick = null) {
-		global $folderURL, $service;
+	function fetch($sql, $page, $count, $url = null, $prefix = '?page=', $countItem = null, $onclick = null) {
+		$context = Model_Context::getInstance();
 		if ($url === null)
-			$url = $folderURL;
+			$url = $context->getProperty('uri.folder');
 		$paging = array('url' => $url, 'prefix' => $prefix, 'postfix' => '', 'onclick' => $onclick);
 		if (empty($sql))
 			return array(array(), $paging);
