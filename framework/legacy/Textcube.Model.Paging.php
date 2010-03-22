@@ -136,5 +136,14 @@ class Paging {
 		if ($countItem !== null) $count = $countItem;
 		return array(POD::queryAll("$sql LIMIT $count OFFSET $offset"), $paging);
 	}
+	/** Legacy methods **/
+
+	function init($url, $prefix = '?page=') {
+		return self::initPaging($url, $prefix);
+	}
+
+	function fetchWithPaging($sql, $page, $count, $url = null, $prefix = '?page=', $countItem = null, $onclick = null) {
+		return self::fetch($sql, $page, $count, $url, $prefix, $countItem, $onclick);
+	}
 }
 ?>
