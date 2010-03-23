@@ -138,8 +138,8 @@ class Paging {
 	}
 	/** Legacy methods **/
 
-	function init($url, $prefix = '?page=') {
-		return self::initPaging($url, $prefix);
+	function initPaging($url, $prefix = '?page=') {
+		return self::init($url, $prefix);
 	}
 
 	function fetchWithPaging($sql, $page, $count, $url = null, $prefix = '?page=', $countItem = null, $onclick = null) {
