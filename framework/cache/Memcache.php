@@ -32,7 +32,7 @@ class Cache_Memcache extends Singleton {
 				$key = $this->getNamespaceHash('global').$key;
 			}
 		}
-		$this->memcache->set($key,$value,$expirationDue);
+		$this->memcache->set($key,$value,0,$expirationDue);
 	}
 	public function get($key, $clear = false) {
 		if(strpos($key,'.') === false) {	// If key doesn't contain namespace,
