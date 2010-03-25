@@ -463,9 +463,9 @@ TTModernEditor.prototype.html2ttml = function() {
 		// Workaround for Webkit's misbehaviour (All closing non-html '>' are not converted to the entity '&gt;')
 		// NOTE: This solution can't process cases like ">>>>".
 		str = str.replace(new RegExp("(&lt;[^<]*?)>", "gi"), "$1&gt;");
+		str = str.replaceAll('<div><br /></div>','<br />');
 	}
 
-	str = str.replaceAll('<div><br /></div>','<br />');
 	// more/less handling
 	str = this.morelessConvert(str);
 
@@ -1705,11 +1705,20 @@ TTModernEditor.prototype.correctContent = function() {
 	} else {
 		var html = this.textarea.value;
 	}
-	html = html.replaceAll('class="Apple-style-span"','');
-	html = html.replaceAll('class="webkit-block-placeholder"','');
-	html = html.replaceAll('br class="webkit-block-placeholder"','br /');
-	html = html.replaceAll('<div><br /></div>','<br />');
+	// Webkit-specific correction
 	html = html.replaceAll('<br>', '<br />');
+	if(STD.isWebkit) {
+		html = html.replaceAll('class="Apple-style-span"','');
+		html = html.replaceAll('class="webkit-block-placeholder"','');
+		html = html.replaceAll('br class="webkit-block-placeholder"','br /');
+		html = html.replaceAll('<div><br /></div>','<br />');
+		if(this.newLineToParagraph) {
+			html = html.replace(new RegExp("<div>(.*?)</div>", "gi"), "<p>$1</p>");
+		} else {
+			html = html.replace(new RegExp("<div>(.*?)</div>", "gi"), "<br />$1");
+		}
+	}
+	//html = html.replaceAll('<br>', '<br />');
 	var dmodeExprs = new Array("font-weight: bold;",
 		"font-style: italic;",
 		"text-decoration: underline;",
@@ -1731,7 +1740,7 @@ TTModernEditor.prototype.correctContent = function() {
 	html = html.replace(new RegExp("<strike([^>]*?)>(.*?)</strike>", "gi"), "<del$1>$2</del>");
 	html = html.replace(new RegExp("<(img|br|hr)(\\s+[^>]*[^>/]|)>", "gi"), "<$1$2 />");
 	// delete blanks
-	html = html.replace(new RegExp("(<(p|div|li|blockquote)(|\\s+[^>]+)>)\\s*(<br\\s*/?>)+", "gi"), "$1");
+	html = html.replace(new RegExp("(<(p|div|li|blockquote)(|\\s+[^>]+)>)\\s*(<br\\s*/?>)+", "gi"), "$1");////
 	html = html.replace(new RegExp("(<br\\s*/?>)+\\s*(</(p|div|li|blockquote)(|\\s+[^>]+))", "gi"), "$2");
 	html = html.replace(new RegExp("<p>\\s*</p>", "gi"), "");
 	html = html.replace(new RegExp("<li>\\s*<p>", "gi"), "<li>");
