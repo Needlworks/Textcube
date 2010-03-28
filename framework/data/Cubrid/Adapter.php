@@ -81,13 +81,15 @@ class DBAdapter implements IAdapter {
 					'/(ASC|DESC) LIMIT ([0-9]+) OFFSET 0/si',
 					'/(ASC|DESC) LIMIT ([0-9]+) OFFSET ([0-9]+)/si',
 					'/(ASC|DESC) LIMIT 1(^[0-9])/si',
-					'/(ASC|DESC) LIMIT ([0-9]+)/si'
+					'/(ASC|DESC) LIMIT ([0-9]+)/si',
+					'/RAND() LIMIT ([0-9]+)/si'
 				);
 				$descPagingInst = array(
 					'$1 FOR ORDERBY_NUM() BETWEEN 1 AND $2',
 					'$1 FOR ORDERBY_NUM() BETWEEN ($3+1) AND ($2+$3)',
 					'$1 FOR ORDERBY_NUM() = 1',
-					'$1 FOR ORDERBY_NUM() BETWEEN 1 AND $2'
+					'$1 FOR ORDERBY_NUM() BETWEEN 1 AND $2',
+					'RANDOM() FOR ORDERBY_NUM() BETWEEN 1 AND $2'
 				);
 			} else if(stripos($query, "GROUP BY")!==false) {
 				$origPagingInst = array(
