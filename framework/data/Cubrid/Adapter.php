@@ -188,6 +188,7 @@ class DBAdapter implements IAdapter {
 			stristr($query, 'insert ') ||
 			stristr($query, 'delete ') ||
 			stristr($query, 'replace ') ) {
+			self::commit();
 			self::clearCache();
 		}
 		return $result;
