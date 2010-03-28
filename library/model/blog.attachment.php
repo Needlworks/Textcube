@@ -16,8 +16,8 @@ function getAttachments($blogid, $parent, $orderBy = null, $sort='ASC') {
 	$attachments = array();
 	$pool = DBModel::getInstance();
 	$pool->reset('Attachments');
-	$pool->setQualifier('blogid','equals',$blogid);
-	$pool->setQualifier('parent','equals',$parent);
+	$pool->setQualifier('blogid','equals',intval($blogid));
+	$pool->setQualifier('parent','equals',intval($parent));
 	if(!is_null($orderBy)) {
 		$pool->setOrder($orderBy,$sort);
 	}
