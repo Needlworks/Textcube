@@ -82,27 +82,29 @@ class DBAdapter implements IAdapter {
 					'/(ASC|DESC) LIMIT ([0-9]+) OFFSET ([0-9]+)/si',
 					'/(ASC|DESC) LIMIT 1(^[0-9])/si',
 					'/(ASC|DESC) LIMIT ([0-9]+)/si',
-					'/RAND() LIMIT ([0-9]+)/si'
+					'/RAND\(\) LIMIT ([0-9]+)/si'
 				);
 				$descPagingInst = array(
 					'$1 FOR ORDERBY_NUM() BETWEEN 1 AND $2',
 					'$1 FOR ORDERBY_NUM() BETWEEN ($3+1) AND ($2+$3)',
 					'$1 FOR ORDERBY_NUM() = 1',
 					'$1 FOR ORDERBY_NUM() BETWEEN 1 AND $2',
-					'RANDOM() FOR ORDERBY_NUM() BETWEEN 1 AND $2'
+					'RANDOM() FOR ORDERBY_NUM() BETWEEN 1 AND $1'
 				);
 			} else if(stripos($query, "GROUP BY")!==false) {
 				$origPagingInst = array(
 					'/GROUP BY(.*)(ORDER BY)(.*)(ASC|DESC) LIMIT ([0-9]+) OFFSET 0/si',
 					'/GROUP BY(.*)(ORDER BY)(.*)(ASC|DESC) LIMIT ([0-9]+) OFFSET ([0-9]+)/si',
 					'/GROUP BY(.*)(ORDER BY)(.*)(ASC|DESC) LIMIT 1(^[0-9])/si',
-					'/GROUP BY(.*)(ORDER BY)(.*)(ASC|DESC) LIMIT ([0-9]+)/si'
+					'/GROUP BY(.*)(ORDER BY)(.*)(ASC|DESC) LIMIT ([0-9]+)/si',
+					'/GROUP BY(.*)(ORDER BY)(.*)RAND\(\) LIMIT ([0-9]+)/si'
 				);
 				$descPagingInst = array(
 					'GROUP BY $1 HAVING GROUPBY_NUM() = $5 $2 $3 $4',
 					'GROUP BY $1 HAVING GROUPBY_NUM() BETWEEN ($6+1) AND $5 $2 $3 $4',
 					'GROUP BY $1 HAVING GROUPBY_NUM() = 1 $2 $3 $4',
-					'GROUP BY $1 HAVING GROUPBY_NUM() BETWEEN 1 AND $5 $2 $3 $4'
+					'GROUP BY $1 HAVING GROUPBY_NUM() BETWEEN 1 AND $5 $2 $3 $4',
+					'GROUP BY $1 HAVING GROUPBY_NUM() BETWEEN 1 AND $4 $2 RANDOM() $3'
 				);
 			} else {
 				$origPagingInst = array(
@@ -285,7 +287,7 @@ class DBAdapter implements IAdapter {
 	}
 	
 	/*@static@*/
-	public static function queryAll ($query, $type = 'both', $count = -1) {
+	public static function queryAll($query, $type = 'both', $count = -1) {
 		return self::queryAllWithCache($query, $type, $count);
 		//return self::queryAllWithoutCache($query, $type, $count);  // Your choice. :)
 	}
