@@ -184,10 +184,7 @@ class DBAdapter implements IAdapter {
 			$result = cubrid_execute(self::$dbProperties['handle'],$query);
 		}
 		self::$lastQueryType = strtolower(substr($query, 0,6));
-		if( stristr($query, 'update ') ||
-			stristr($query, 'insert ') ||
-			stristr($query, 'delete ') ||
-			stristr($query, 'replace ') ) {
+		if( in_array(self::$lastQueryType, array('insert','update','delete','replac'))) {
 			self::commit();
 			self::clearCache();
 		}
@@ -366,7 +363,6 @@ class DBAdapter implements IAdapter {
 	}
 	
 	public static function commit() {
-		global $fileCachedResult;
 		@cubrid_commit(self::$dbProperties['handle']);
 	}
 
