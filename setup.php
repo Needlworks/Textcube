@@ -16,6 +16,7 @@ if (version_compare(PHP_VERSION,'5.2.0', '<')) {
 }
 
 
+require ROOT.'/framework/id/textcube/config.default.php';
 foreach (new DirectoryIterator(ROOT.'/framework/boot') as $fileInfo) {
 	if($fileInfo->isFile()) require_once($fileInfo->getPathname());
 }
