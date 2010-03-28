@@ -593,7 +593,7 @@ final class Timestamp {
 	}
 
 	static function getUNIXtime($time = null) {
-		return (isset($time) ? date('U', $time) : date('U'));
+		return intval(isset($time) ? date('U', $time) : date('U'));
 	}
 		
 	static function getHumanReadable($time = null, $from = null) {

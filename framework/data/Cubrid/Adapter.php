@@ -59,7 +59,7 @@ class DBAdapter implements IAdapter {
 	}
 
 	public static function reservedFieldNames() {
-		return array('date','value','data','count','year','month', 'type');
+		return array('date','value','data','count','year','month', 'type', 'size');
 	}
 	
 	public static function reservedFunctionNames() {
@@ -111,13 +111,15 @@ class DBAdapter implements IAdapter {
 					'/WHERE(.*)LIMIT ([0-9]+) OFFSET 0/si',
 					'/WHERE(.*)LIMIT ([0-9]+) OFFSET ([0-9]+)/si',
 					'/WHERE(.*)LIMIT 1(^[0-9])/si',
-					'/WHERE(.*)LIMIT ([0-9]+)/si'
+					'/WHERE(.*)LIMIT ([0-9]+)/si',
+					'/SUM\((size|value)\)/si'
 					);
 				$descPagingInst = array(
 					'WHERE ROWNUM BETWEEN 1 AND $2 AND $1',	
 					'WHERE ROWNUM BETWEEN ($3+1) AND ($2+$3) AND $1',
 					'WHERE ROWNUM = 1 AND $1',
-					'WHERE ROWNUM BETWEEN 1 AND $2 AND $1'
+					'WHERE ROWNUM BETWEEN 1 AND $2 AND $1',
+					'SUM("$1")'
 					);
 			}
 			$query = preg_replace($origPagingInst, $descPagingInst,$query);

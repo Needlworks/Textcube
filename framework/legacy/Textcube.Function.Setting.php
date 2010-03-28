@@ -37,7 +37,7 @@ class Setting {
 		if($directAccess == true) {
 			$query = DBModel::getInstance();
 			$query->reset('BlogSettings');
-			$query->setQualifier('blogid', 'equals', $blogid);
+			$query->setQualifier('blogid', 'equals', intval($blogid));
 			$query->setQualifier('name', 'equals', $name, true);
 			return $query->getCell('value');
 		}
@@ -65,7 +65,7 @@ class Setting {
 		}
 		$query = DBModel::getInstance();
 		$query->reset('BlogSettings');
-		$query->setQualifier('blogid', 'equals', $blogid);
+		$query->setQualifier('blogid', 'equals', intval($blogid));
 		$blogSettings = $query->getAll();
 		if( $blogSettings ) {
 			$result = array();
@@ -354,7 +354,7 @@ class Setting {
 		}
 		$query = DBModel::getInstance();
 		$query->reset('SkinSettings');
-		$query->setQualifier('blogid', 'equals', $blogid);
+		$query->setQualifier('blogid', 'equals', intval($blogid));
 		$skinSettings = $query->getAll();
 		if( $skinSettings ) {
 			$result = array();
