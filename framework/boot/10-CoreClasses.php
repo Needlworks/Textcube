@@ -406,7 +406,7 @@ final class Timezone {
 	static function set($timezone) {
 		if ( isset( $_ENV['OS'] ) && strncmp($_ENV['OS'], 'Windows', 7) == 0)
 			$timezone = Timezone::getAlternative($timezone);
-
+		date_default_timezone_set($timezone);
 		return putenv('TZ=' . $timezone);
 	}
 
