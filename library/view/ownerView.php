@@ -73,12 +73,17 @@ function printOwnerEditorScript($entryId = false) {
 	
 	$contentWidth = 500;
 	$context = Model_Context::getInstance();
-	if($skin = $context->getProperty('skin.skin')) {
-		if($xml = @file_get_contents(ROOT."/skin/blog/$skin/index.xml")) {
-			$xmls = new XMLStruct();
-			$xmls->open($xml, $context->getProperty('service.encoding'));
-			if($xmls->getValue('/skin/default/contentWidth')) {
-				$contentWidth = $xmls->getValue('/skin/default/contentWidth');
+	$browser = Utils_Browser::getInstance();
+	if($browser->isMobile()) {
+		$contentWidth = 270;
+	} else {
+		if($skin = $context->getProperty('skin.skin')) {
+			if($xml = @file_get_contents(ROOT."/skin/blog/$skin/index.xml")) {
+				$xmls = new XMLStruct();
+				$xmls->open($xml, $context->getProperty('service.encoding'));
+				if($xmls->getValue('/skin/default/contentWidth')) {
+					$contentWidth = $xmls->getValue('/skin/default/contentWidth');
+				}
 			}
 		}
 	}

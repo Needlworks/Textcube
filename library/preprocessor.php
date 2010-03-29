@@ -215,7 +215,7 @@ if (!defined('NO_INITIALIZAION')) {
 		
 		/// TODO : This is a test routine. we should abstract this.
 		$browser = Utils_Browser::getInstance();
-		if($browser->getBrowserName() == 'mSafari') {
+		if($browser->isMobile()) {
 			$adminSkinSetting['skin'] = "/skin/admin/mobile";
 		} else {
 
