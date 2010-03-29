@@ -235,7 +235,7 @@ class Acl {
 		}
 		$data = DBModel::getInstance();
 		$data->reset('Privileges');
-		$data->setQualifier('userid','equals',$userid);
+		$data->setQualifier('userid','equals',intval($userid));
 		$result = $data->getAll('blogid,acl');
 
 		foreach( $result as $rec ) {
@@ -257,9 +257,9 @@ class Acl {
 		$blogid = getBlogId();
 		$data->reset('Privileges');
 		$data->setQualifier('blogid','equals',$blogid);
-		$data->setQualifier('userid','equals',$userid);
+		$data->setQualifier('userid','equals',intval($userid));
 		$data->setAttribute('lastLogin',Timestamp::getUNIXtime());
-		$data->update();	
+		$data->update();
 //		POD::execute("UPDATE {$this->context->getProperty('database.prefix')}Privileges SET lastLogin = ".Timestamp::getUNIXtime()." WHERE blogid = $blogid AND userid = $userid");
 		return;
 	}
@@ -378,7 +378,7 @@ class Auth {
 			if(!empty($userid) && !is_null($userid)) {
 				$query = DBModel::getInstance();
 				$query->reset('UserSettings');
-				$query->setQualifier('userid','equals',$userid);
+				$query->setQualifier('userid','equals',intval($userid));
 				$query->setQualifier('name','equals','AuthToken',true);
 				$authtoken = $query->getCell('value');
 				if (!empty($authtoken) && ($authtoken === $password)) {	// If user requested auth token, use it to confirm.

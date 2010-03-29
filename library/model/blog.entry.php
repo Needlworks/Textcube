@@ -141,7 +141,7 @@ function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
 			FROM {$database['prefix']}Entries e 
 			WHERE e.blogid = $blogid AND e.draft = 0 $visibility $cond 
 			ORDER BY e.published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/".((!getBlogSetting('useSloganOnCategory',true) && isset($suri['id'])) ? $suri['id'] : $suri['value']));
+	return Paging::fetch($sql, $page, $count, "$folderURL/".((!getBlogSetting('useSloganOnCategory',true) && isset($suri['id'])) ? $suri['id'] : $suri['value']));
 }
 
 function getEntryListWithPagingByAuthor($blogid, $author, $page, $count) {
@@ -157,7 +157,7 @@ function getEntryListWithPagingByAuthor($blogid, $author, $page, $count) {
 			FROM {$database['prefix']}Entries e 
 			WHERE e.blogid = $blogid AND e.userid = $userid AND e.draft = 0 $visibility 
 			ORDER BY e.published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
+	return Paging::fetch($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
 
 function getEntryListWithPagingByTag($blogid, $tag, $page, $count) {
@@ -172,7 +172,7 @@ function getEntryListWithPagingByTag($blogid, $tag, $page, $count) {
 		LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.blogid = t.blogid 
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag' 
 		ORDER BY published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/".((!getBlogSetting('useSloganOnTag',true) && isset($suri['id'])) ? $suri['id'] : $suri['value']));
+	return Paging::fetch($sql, $page, $count, "$folderURL/".((!getBlogSetting('useSloganOnTag',true) && isset($suri['id'])) ? $suri['id'] : $suri['value']));
 }
 
 function getEntryListWithPagingByPeriod($blogid, $period, $page, $count) {
@@ -184,7 +184,7 @@ function getEntryListWithPagingByPeriod($blogid, $period, $page, $count) {
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond 
 		ORDER BY e.published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
+	return Paging::fetch($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
 
 function getEntryListWithPagingBySearch($blogid, $search, $page, $count) {
@@ -197,7 +197,7 @@ function getEntryListWithPagingBySearch($blogid, $search, $page, $count) {
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond
 		ORDER BY e.published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
+	return Paging::fetch($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
 
 function getEntriesWithPaging($blogid, $page, $count) {
@@ -209,13 +209,13 @@ function getEntriesWithPaging($blogid, $page, $count) {
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 		ORDER BY e.published DESC";
-	return fetchWithPaging($sql, $page, $count);
+	return Paging::fetch($sql, $page, $count);
 }
 
 function getEntriesWithPagingByCategory($blogid, $category, $page, $count, $countItem) {
 	global $database, $folderURL, $suri;
 	if ($category === null)
-		return fetchWithPaging(null, $page, $count, "$folderURL/{$suri['value']}");
+		return Paging::fetch(null, $page, $count, "$folderURL/{$suri['value']}");
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	if ($category > 0) {
@@ -232,13 +232,13 @@ function getEntriesWithPagingByCategory($blogid, $category, $page, $count, $coun
 		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.blogid = c.blogid 
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility $cond 
 		ORDER BY e.published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/".((!getBlogSetting('useSloganOnCategory',true) && isset($suri['id'])) ? $suri['id'] : $suri['value']),"?page=",$countItem);
+	return Paging::fetch($sql, $page, $count, "$folderURL/".((!getBlogSetting('useSloganOnCategory',true) && isset($suri['id'])) ? $suri['id'] : $suri['value']),"?page=",$countItem);
 }
 
 function getEntriesWithPagingByTag($blogid, $tag, $page, $count, $countItem = null) {
 	global $database, $folderURL, $suri;
 	if ($tag === null)
-		return fetchWithPaging(null, $page, $count, "$folderURL/{$suri['value']}");
+		return Paging::fetch(null, $page, $count, "$folderURL/{$suri['value']}");
 	$tag = POD::escapeString($tag);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
@@ -248,7 +248,7 @@ function getEntriesWithPagingByTag($blogid, $tag, $page, $count, $countItem = nu
 		LEFT JOIN {$database['prefix']}TagRelations t ON e.id = t.entry AND e.blogid = t.blogid 
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag' 
 		ORDER BY e.published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/".((!getBlogSetting('useSloganOnTag',true) && isset($suri['id'])) ? $suri['id'] : $suri['value']),"?page=", $countItem);
+	return Paging::fetch($sql, $page, $count, "$folderURL/".((!getBlogSetting('useSloganOnTag',true) && isset($suri['id'])) ? $suri['id'] : $suri['value']),"?page=", $countItem);
 }
 
 function getEntriesWithPagingByNotice($blogid, $page, $count, $countItem = null) {
@@ -259,7 +259,7 @@ function getEntriesWithPagingByNotice($blogid, $page, $count, $countItem = null)
 		FROM {$database['prefix']}Entries 
 		WHERE blogid = $blogid $visibility AND category = -2 
 		ORDER BY published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
+	return Paging::fetch($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
 }
 
 function getEntriesWithPagingByPeriod($blogid, $period, $page, $count) {
@@ -272,7 +272,7 @@ function getEntriesWithPagingByPeriod($blogid, $period, $page, $count) {
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond 
 		ORDER BY e.published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}");
+	return Paging::fetch($sql, $page, $count, "$folderURL/{$suri['value']}");
 }
 
 function getEntriesWithPagingBySearch($blogid, $search, $page, $count, $countItem) {
@@ -286,7 +286,7 @@ function getEntriesWithPagingBySearch($blogid, $search, $page, $count, $countIte
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond 
 		ORDER BY e.published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
+	return Paging::fetch($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
 }
 
 function getEntriesWithPagingByAuthor($blogid, $author, $page, $count, $countItem = null) {
@@ -299,7 +299,7 @@ function getEntriesWithPagingByAuthor($blogid, $author, $page, $count, $countIte
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid AND e.userid = $userid AND e.draft = 0 $visibility AND e.category >= 0 
 		ORDER BY e.published DESC";
-	return fetchWithPaging($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
+	return Paging::fetch($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
 }
 
 function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count, $visibility = null, $starred = null, $draft = null, $tag = null) {
@@ -352,14 +352,14 @@ function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count
 	}
 
 	$sql .= ' ORDER BY e.published DESC';
-	return fetchWithPaging($sqlTable.$sql, $page, $count);
+	return Paging::fetch($sqlTable.$sql, $page, $count);
 }
 
 function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false) {
 	global $database, $folderURL;
 	requireModel('blog.category');
 	$entries = array();
-	$paging = initPaging($folderURL, '/');
+	$paging = Paging::init($folderURL, '/');
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	$visibility .= ($isNotice || doesHaveOwnership())  ? '' : ' AND (c.visibility > 1 OR e.category = 0)';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
@@ -429,7 +429,7 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false, $catego
 	global $blogURL;
 	requireModel('blog.category');
 	$entries = array();
-	$paging = $isNotice ? initPaging("$blogURL/notice", '/') : initPaging("$blogURL/entry", '/');
+	$paging = $isNotice ? Paging::init("$blogURL/notice", '/') : Paging::init("$blogURL/entry", '/');
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	$visibility .= ($isNotice || doesHaveOwnership()) ? '' : getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';

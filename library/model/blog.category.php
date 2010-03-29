@@ -375,7 +375,8 @@ function updateCategoryByCategoryId($blogid, $categoryid, $action = 'add', $para
 	global $database;
 	$count        = getCategory($blogid, $categoryid, 'entries');
 	$countInLogin = getCategory($blogid, $categoryid, 'entriesinlogin');
-
+	if(empty($count)) $count = 0;
+	if(empty($countInLogin)) $countInLogin = 0;
 	switch($action) {
 		case 'add':
 			$countInLogin += 1;

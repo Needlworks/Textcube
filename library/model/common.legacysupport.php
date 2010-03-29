@@ -58,11 +58,11 @@ function setTotalStatistics($blogid) {
 }
 
 /***** common.paging *****/
-function initPaging($url, $prefix = '?page=') {
-	return Paging::initPaging($url,$prefix);
+function pagingInit($url, $prefix = '?page=') {
+	return Paging::init($url,$prefix);
 }
 
 function fetchWithPaging($sql, $page, $count, $url = null, $prefix = '?page=', $countItem = null) {
-	return Paging::fetchWithPaging($sql,$page,$count,$url,$prefix,$countItem);
+	return Paging::fetch($sql,$page,$count,$url,$prefix,$countItem);
 }
 ?>

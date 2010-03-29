@@ -273,7 +273,7 @@ $blogContentMenuItem['center'] = array_merge($blogContentMenuItem['center'] , ar
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/basic.css" />
 <?php
 	$browser = Utils_Browser::getInstance();
-	if($browser->getBrowserName() == 'mSafari') {
+	if($browser->isMobile()) {
 ?>
 	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
 <?php

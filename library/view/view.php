@@ -69,8 +69,8 @@ function getScriptsOnHead() {
 	$context->getProperty('service.resourcepath');
 	ob_start();
 ?>
-<!--	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
-	<script type="text/javascript">jQuery.noConflict();</script>-->
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+	<script type="text/javascript">jQuery.noConflict();</script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/EAF4.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/gallery.js" ></script>
@@ -278,7 +278,7 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 		}
 	} else {
 		if($useAjaxBlock) {
-			list($comments, $paging) = getCommentsWithPaging($blogid, $entry['id'], $page, $count,'loadComment','('.$entry['id'].',',',true);return false;');
+			list($comments, $paging) = getCommentsWithPagingByEntryId($blogid, $entry['id'], $page, $count,'loadComment','('.$entry['id'].',',',true);return false;');
 		} else {
 			$comments = getComments($entry['id']);	
 		}

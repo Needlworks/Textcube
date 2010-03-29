@@ -49,6 +49,7 @@ final class Utils_Browser extends Singleton
 	}
 	
 	public function isMobile() {
+		return (in_array($this->getBrowserName(),array('mSafari')));
 	}
 	public function isSafari() {
 	}

@@ -86,7 +86,7 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 	<title><?php echo _text('Textcube - Login');?></title>
 <?php
 	$browser = Utils_Browser::getInstance();
-	if($browser->getBrowserName() === 'mSafari') {
+	if($browser->isMobile()) {
 ?>
 	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
 <?php
@@ -119,7 +119,7 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 				document.forms[0].<?php echo (empty($_COOKIE['TSSESSION_LOGINID']) ? 'loginid' : 'password');?>.focus();
 <?php
 	$browser = Utils_Browser::getInstance();
-	if($browser->getBrowserName() == 'mSafari') {
+	if($browser->isMobile()) {
 ?>
 				setTimeout(scrollTo, 0, 0, 1);
 <?php

@@ -445,7 +445,7 @@ function printIphoneTrackbackView($entryId, $page, $mode = null) {
 function printIphoneCommentView($entryId, $page = null, $mode = null) {
 	global $blogURL, $blogid, $skinSetting, $paging;
 	if ($mode == 'recent') {	// Recent comments
-		list($comments, $paging) = getCommentsWithPaging($blogid, -1, $page, 10, null, '?page=');
+		list($comments, $paging) = getCommentsWithPaging($blogid, $page, 10, null, '?page=');
 	} else if(!is_null($page)) {	// Guestbook
 		list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $page, $skinSetting['commentsOnGuestbook']);
 	} else {	// Comments related to specific article

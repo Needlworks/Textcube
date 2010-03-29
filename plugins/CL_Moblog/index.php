@@ -142,17 +142,23 @@ class Moblog
 	}
 
 	function _getDecoratedContent( & $mail, $docid ) {
-			if( !empty($mail['text']) && strstr($mail['text'],'magicn.com') ) {
-				$mail['text'] = preg_replace( '@.*<BODY>(.*?)<style.*@smi', '$1', $mail['text']);
-				$mail['text'] = preg_replace( '@<IMG[^>]*?cid:[^>]*?>@smi', '', $mail['text']);
-				$mail['text'] = preg_replace( '@<BR>\s*<BR>\s*<BR>@smi', '<BR>', $mail['text']);
+		if( !empty($mail['text']) && strstr($mail['text'],'magicn.com') ) {
+			$mail['text'] = preg_replace( '@.*<BODY>(.*?)<style.*@smi', '$1', $mail['text']);
+			$mail['text'] = preg_replace( '@<IMG[^>]*?cid:[^>]*?>@smi', '', $mail['text']);
+			$mail['text'] = preg_replace( '@<BR>\s*<BR>\s*<BR>@smi', '<BR>', $mail['text']);
+		}
+		$text = "<h3 class=\"moblog-title\" id=\"$docid\">$docid</h3>\r\n";
+		//$text .= empty($mail['subject']) ? '' : ("<p>".$mail['subject']."</p>\r\n");
+		if( !empty($mail['text']) ) {
+			$content = $mail['text'];
+			if($mail['content_type'] == 'text/plain') {
+				$newLineFrom = array("￦n","\\n");
+				$newLineTo = "<br />\r\n";
+				$content = str_replace($newLineFrom, $newLineTo, $content); 
 			}
-			$text = "<h3 class=\"moblog-title\" id=\"$docid\">$docid</h3>\r\n";
-			//$text .= empty($mail['subject']) ? '' : ("<p>".$mail['subject']."</p>\r\n");
-			if( !empty($mail['text']) ) {
-				$text .= "<div class=\"moblog-body\">{$mail['text']}</div>\r\n";
-			}
-			return $text;
+			$text .= "<div class=\"moblog-body\">".$content."</div>\r\n";
+		}
+		return $text;
 	}
 
 	function statCallback( $total, $totalsize )
@@ -227,7 +233,7 @@ class Moblog
 			$tags = $this->extractTags( $mail ); /* mail content will be changed */
 			$post->tags = array_merge( $post->tags, $tags );
 			$post->content .= $moblog_begin.$this->_getDecoratedContent( $mail, $docid );
-			$post->modified = time();
+			$post->modified = $mail['date'];
 			$post->visibility = $this->visibility;
 		} else {
 			$this->log( "* 새 글을 작성합니다. (SLOGAN:$slogan)" );
@@ -249,7 +255,7 @@ class Moblog
 			$post->accepttrackback = true;
 			$post->visibility = $this->visibility;
 			$post->published = time();
-			$post->modified = time();
+			$post->modified = $mail['date'];
 			$post->slogan = $slogan;
 			if( !$post->add() ) {
 				$this->logMail( $mail, "ERROR" );

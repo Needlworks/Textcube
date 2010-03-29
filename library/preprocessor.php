@@ -212,7 +212,7 @@ if (!defined('NO_INITIALIZAION')) {
 */
 	if(in_array($context->getProperty('uri.interfaceType'), array('owner','reader')) || defined('__TEXTCUBE_ADMINPANEL__')) {
 		$browser = Utils_Browser::getInstance();
-		if($browser->getBrowserName() == 'mSafari') {
+		if($browser->isMobile()) {
 			$context->setProperty('panel.skin', "/skin/admin/mobile");
 //			$adminSkinSetting['skin'] = "/skin/admin/mobile";
 		} else {

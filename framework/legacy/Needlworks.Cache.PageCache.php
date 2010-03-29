@@ -460,7 +460,7 @@ class CacheControl {
 		global $database;
 
 		if(empty($entryId)) $entryId = '';
-		else $entryId = $entryId.'-';
+		else $entryId = intval($entryId);
 		$Entries = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."

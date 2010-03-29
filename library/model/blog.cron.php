@@ -67,27 +67,11 @@ function doCronJob()
 function checkCronJob()
 {
 	$ctx = Model_Context::getInstance();
-//	global $service,$blogURL;
 	/* Cron, only in single page request, not in a page dead link */
 	if( !empty($_SERVER['HTTP_REFERER']) || !dumbCronScheduler(true) ) return;
 
 	$request = new HTTPRequest('GET', $ctx->getProperty('uri.default').'/cron');
 	$request->timeout = 2;
 	$request->send();
-	/*ob_start();
-	$s = fsockopen( $_SERVER['SERVER_ADDR'], isset($service['port']) ? $service['port'] : 80 );
-	fputs( $s, "GET {$blogURL}/cron HTTP/1.1\r\n" );
-	fputs( $s, "Host: {$_SERVER['HTTP_HOST']}\r\n" );
-	fputs( $s, "Referer: {$_SERVER['REQUEST_URI']} from {$_SERVER['REMOTE_ADDR']}\r\n" );
-	fputs( $s, "\r\n");
-	while( ($x = fread($s,1024000) ) ) {
-		print $x;
-	}
-	fclose($s);
-	if( !empty($service['debugmode']) ) {
-		echo ob_get_clean();
-	} else {
-		ob_clean();
-	}*/
 }
 ?>

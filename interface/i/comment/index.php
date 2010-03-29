@@ -11,7 +11,7 @@ if(!empty($suri['id'])) {	// entry-related comment print
 	list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
 	$entry = $entries ? $entries[0] : null;
 ?>
-<div id="comment_<?php echo $entry['id']."_".time();?>" title="Comment <?php echo $entry['id'];?>" selected="false">
+<div id="comment_<?php echo $entry['id']."_".time();?>" title="<?php echo _text('댓글');?> : <?php echo htmlspecialchars($entry['title']);?>" selected="false">
 <?php
 	printIphoneCommentView($entry['id']);
 ?>

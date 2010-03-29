@@ -151,12 +151,16 @@ class DBModel extends Singleton implements IModel {
 				default:
 					$this->_relations[$name] = 'LIKE';
 			}
-			$this->_qualifiers[$name] = ($escape === false && (!is_string($value) || in_array($value,$this->_reservedFunctions)) ? 
+			if($name == 'blogid') {	// Legacy support for plugins (with string-type blogid)
+				$this->_qualifiers[$name] = intval($value);
+			} else {
+				$this->_qualifiers[$name] = ($escape === false && (!is_string($value) || in_array($value,$this->_reservedFunctions)) ? 
 					$value : ($escape ? '\'' . 
 						POD::escapeString(
 							(($this->_relations[$name] == 'LIKE') ? '%'.$value.'%' : $value)
 						) . 
 				'\'' : "'" . $value . "'"));
+			}
 		}
 	}
 	
@@ -224,6 +228,7 @@ class DBModel extends Singleton implements IModel {
 		foreach($pairs as $key => $value) if (is_null($value)) $pairs[$key] = 'NULL';
 		
 		$this->_query = 'INSERT INTO ' . $this->table . ' (' . implode(',', $this->_capsulateFields(array_keys($attributes))) . ') VALUES (' . implode(',', $pairs) . ')';
+
 		if (POD::query($this->_query)) {
 //			$this->id = POD::insertId();
 			return true;

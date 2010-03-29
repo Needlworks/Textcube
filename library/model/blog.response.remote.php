@@ -35,7 +35,7 @@ function getRemoteResponsesWithPagingForOwner($blogid, $category, $site, $ip, $s
 		$postfix .= '&amp;search=' . rawurlencode($search);
 	}
 	$sql .= ' ORDER BY t.written DESC';
-	list($responses, $paging) = fetchWithPaging($sql, $page, $count);
+	list($responses, $paging) = Paging::fetch($sql, $page, $count);
 	if (strlen($postfix) > 0) {
 		$paging['postfix'] .= $postfix . '&amp;withSearch=on';
 	}
@@ -56,7 +56,7 @@ function getRemoteResponsesWithPaging($blogid, $entryId, $page, $count, $url = n
 		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
 		WHERE t.blogid = $blogid AND t.isfiltered = 0 $authorized $typeFilter";
 	$sql .= ' ORDER BY t.written DESC';
-	list($responses, $paging) = Paging::fetchWithPaging($sql, $page, $count, $url, $prefix, $countItem);
+	list($responses, $paging) = Paging::fetch($sql, $page, $count, $url, $prefix, $countItem);
 	$paging['postfix'] .= $postfix; 
 	return array($responses, $paging);
 }
@@ -84,7 +84,7 @@ function getRemoteResponseLogsWithPagingForOwner($blogid, $category, $site, $ip,
 		$postfix .= '&amp;search=' . rawurlencode($search);
 	}
 	$sql .= ' ORDER BY t.written DESC';
-	list($responses, $paging) = fetchWithPaging($sql, $page, $count);
+	list($responses, $paging) = Paging::fetch($sql, $page, $count);
 	if (strlen($postfix) > 0) {
 		$paging['postfix'] .= $postfix . '&amp;withSearch=on';
 	}

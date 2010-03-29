@@ -31,7 +31,19 @@ if (isset($cache->contents)) {
 			$skin->lineItem
 		);
 	}
+	$itemsView = '<div id="line-content">'.CRLF.$itemsView.CRLF.'</div>';
 	dress('line_rep', $itemsView, $lineView);
+	$buttonView = str_replace(
+		array(
+			'[##_line_onclick_more_##]'
+		),
+		array(
+			'getMoreLineStream(2,20,\'bottom\');return false;'
+		),
+		$skin->lineButton
+	);
+	$buttonView = '<div id="line-more-page">'.CRLF.$buttonView.CRLF.'</div>';
+	dress('line_button', $buttonView, $lineView);
 	$lineView = fireEvent('ViewLine', $lineView, $lines);
 	dress('line_rssurl',$context->getProperty('uri.default').'/rss/line',$lineView);
 	dress('line_atomurl',$context->getProperty('uri.default').'/atom/line',$lineView);
@@ -39,6 +51,7 @@ if (isset($cache->contents)) {
 //	if(empty($lines)) $lineView = $lineView.CRLF.'[##_paging_line_##]';
 	
 	dress('line', $lineView, $view);
+	
 	if(isset($cache)) { 
 		$cache->contents = $lineView;
 		$cache->dbContents = $paging;

@@ -1284,6 +1284,32 @@ function commentComment(parent) {
 	openCenteredWindow(blogURL + "/comment/comment/" + parent, "tatter", 460, 600);
 }
 
+function getMoreLineStream(page,lines,mode) {
+	var request = new HTTPRequest("POST",blogURL + "/stream/");
+	request.onSuccess = function () {
+		contentView = this.getText("/response/contentView");
+		buttonView = this.getText("/response/buttonView");
+		if(page == 1 && lines == 1) buttonView = "";
+		updateStream(contentView, buttonView, mode);
+	}
+	request.onError = function () {
+	}
+	request.send("page="+page
+		+"&lines="+lines);
+}
+
+function updateStream(contentView, buttonView, position) {
+	Ocontent = document.getElementById("line-content");
+	Pcontent = document.getElementById("line-more-page");
+	if(position == "top") {
+		Ocontent.innerHTML = contentView+Ocontent.innerHTML;
+	} else {
+		Ocontent.innerHTML = Ocontent.innerHTML+contentView;
+	}
+	Pcontent.innerHTML = buttonView;
+	return true;							
+}
+																					
 function editEntry(parent,child) {
 	openCenteredWindow(blogURL + "/owner/entry/edit/" + parent + "?popupEditor&returnURL=" + child, "tatter", 1020, 550, true);
 }

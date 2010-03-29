@@ -75,7 +75,7 @@ function getRandomTags($blogid) {
 			$tags = POD::queryAll("SELECT t.name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t,
 				{$database['prefix']}TagRelations r
 				WHERE t.id = r.tag AND r.blogid = $blogid
-				GROUP BY r.tag, t.name, t.id
+				GROUP BY r.tag, t.name, t.id 
 				ORDER BY RAND() $aux");
 		else
 			$tags = POD::queryAll("SELECT t.name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t,

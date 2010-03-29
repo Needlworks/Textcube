@@ -109,10 +109,14 @@
                    <dl class="box">
                        <dt class="date">[##_line_rep_regdate_##]</li>
                        <dd class="content">[##_line_rep_content_##]</li>
-                       <dd class="author">[##_line_rep_author_##]</li>
-                       <dd class="source">[##_line_rep_source_##]</li>
+                       <dd class="author">[##_line_rep_author_##]. </li>
+                       <dd class="source">Streamed from [##_line_rep_source_##].</li>
+                       <dd class="permalink"><a href="[##_line_rep_permalink_##]">Permalink</a></li>
                    </dl>
                 </s_line_rep>
+				<s_line_button>
+					<input type="submit" class="more-button input-button" value="More" onclick="[##_line_onclick_more_##]" />
+				</s_line_button>
 			</div>
 			</s_line>
 			<s_local>
@@ -279,7 +283,7 @@
 						<h2><a href="[##_article_rep_link_##]">[##_article_rep_title_##]</a></h2>
 						<ul class="postInfo">
 							<li class="infoDate"><dfn>Posted</dfn> at [##_article_rep_date_##]</li>
-							<li class="infoDate"><dfn>Modified</dfn> at [##_article_rep_date_modified_##]</li>
+							<!--<li class="infoModifiedDate"><dfn>Modified</dfn> at [##_article_rep_date_modified_##]</li>-->
 							<li class="infoCategory"><dfn>Filed</dfn> under <a href="[##_article_rep_category_link_##]">[##_article_rep_category_##]</a></li>
 							<li class="infoCategoryFeed">
 								<a href="[##_article_rep_category_rssurl_##]" onclick="window.open(this.href); return false"><img src="./images/rss_12.png" alt="RSS Icon" /></a>

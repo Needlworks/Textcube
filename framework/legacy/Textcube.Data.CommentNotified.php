@@ -112,9 +112,9 @@ class CommentNotified {
 		if (!$query = $this->_buildQuery())
 			return false;
 		if (!$query->hasAttribute('written'))
-			$query->setAttribute('written', 'UNIX_TIMESTAMP()');
+			$query->setAttribute('written', Timestamp::getUNIXtime());
 		if (!$query->hasAttribute('modified'))
-			$query->setAttribute('modified', 'UNIX_TIMESTAMP()');
+			$query->setAttribute('modified', Timestamp::getUNIXtime());
 		
 		if (!$query->insert()) {
 			return $this->_error('insert');

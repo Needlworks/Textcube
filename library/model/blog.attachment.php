@@ -16,8 +16,8 @@ function getAttachments($blogid, $parent, $orderBy = null, $sort='ASC') {
 	$attachments = array();
 	$pool = DBModel::getInstance();
 	$pool->reset('Attachments');
-	$pool->setQualifier('blogid','equals',$blogid);
-	$pool->setQualifier('parent','equals',$parent);
+	$pool->setQualifier('blogid','equals',intval($blogid));
+	$pool->setQualifier('parent','equals',intval($parent));
 	if(!is_null($orderBy)) {
 		$pool->setOrder($orderBy,$sort);
 	}
@@ -101,7 +101,7 @@ function getAttachmentSize($blogid=null, $parent = null) {
 	if ($parent == 0 || !empty($parent)) {
 		$pool->setQualifier('parent','equals',$parent);	
 	}	
-	return $pool->getCell('sum(size)');
+	return $pool->getCell('SUM(size)');
 }
 
 function getAttachmentSizeLabel($blogid=null, $parent = null) {

@@ -623,8 +623,8 @@ function importer($path, $node, $line) {
 			}
 			$cmtNotified->siteid = $site->id;
 			$site->close();
-			$cmtNotified->remoteid = $node['remoteid'][0]['.value'];
-			$cmtNotified->entrytitle = (!isset($node['entryTitle'][0]['.value']) || empty($node['entryTitle'][0]['.value'])) ? 'No title' : $node['entrytitle'][0]['.value'];
+			$cmtNotified->remoteid = $node['remoteId'][0]['.value'];
+			$cmtNotified->entrytitle = (!isset($node['entryTitle'][0]['.value']) || empty($node['entryTitle'][0]['.value'])) ? 'No title' : $node['entryTitle'][0]['.value'];
 			$cmtNotified->entryurl = $node['entryUrl'][0]['.value'];
 			if (!$cmtNotified->add())
 				user_error(__LINE__ . $cmtNotified->error);
