@@ -278,7 +278,7 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 		}
 	} else {
 		if($useAjaxBlock) {
-			list($comments, $paging) = getCommentsWithPaging($blogid, $entry['id'], $page, $count,'loadComment','('.$entry['id'].',',',true);return false;');
+			list($comments, $paging) = getCommentsWithPagingByEntryId($blogid, $entry['id'], $page, $count,'loadComment','('.$entry['id'].',',',true);return false;');
 		} else {
 			$comments = getComments($entry['id']);	
 		}
