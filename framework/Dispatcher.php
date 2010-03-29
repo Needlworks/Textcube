@@ -157,7 +157,7 @@ final class Dispatcher {
 							break;
 						case 'i': case 'm':
 							if(isset($uri['fragment'][1]) && in_array($uri['fragment'][1],array('archive','category','comment','entry','guestbook','imageResizer','link','login','logout','pannels','protected','search','tag','trackback'))) {
-								$pathPart = $uri['fragment'][0].'/'.$uri['fragment'][1]; 
+								$pathPart = $uri['fragment'][0].'/'.$uri['fragment'][1].(isset($uri['fragment'][2]) ? '/'.$uri['fragment'][2] : '').(isset($uri['fragment'][3]) ? '/'.$uri['fragment'][3] : ''); 
 							} else {
 								$pathPart = $uri['fragment'][0];
 							}

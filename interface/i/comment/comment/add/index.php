@@ -20,9 +20,9 @@ if(!Validator::validate($IV))
 	Respond::NotFoundPage();
 list($entryId) = getCommentAttributes($blogid, $replyId, 'entry');
 if (!doesHaveOwnership() && empty($_GET["name_$replyId"])) {
-	printIphoneErrorPage(_text('Comment write error.'), _text('Please enter your name.'), "$blogURL/comment/comment/$replyId");
+	printIphoneErrorPage(_text('댓글 작성 오류.'), _text('이름을 입력해 주세요.'), "$blogURL/comment/comment/$replyId");
 } else if (!doesHaveOwnership() && empty($_GET["comment_$replyId"])) {
-	printIphoneErrorPage(_text('Comment write error.'), _text('Please enter content.'), "$blogURL/comment/comment/$replyId");
+	printIphoneErrorPage(_text('댓글 작성 오류.'), _text('내용을 입력해 주세요.'), "$blogURL/comment/comment/$replyId");
 } else {
 	$comment = array();
 	$comment['entry'] = $entryId;
@@ -36,17 +36,17 @@ if (!doesHaveOwnership() && empty($_GET["name_$replyId"])) {
 	$result = addComment($blogid, $comment);
 	if (in_array($result, array('ip', 'name', 'homepage', 'comment', 'openidonly', 'etc'))) {
 		if ($result == 'openidonly') {
-			$blockMessage = _text('You have to log in with and OpenID to leave a comment.');
+			$blockMessage = _text('댓글을 쓰기 위해서는 OpenID로 로그인해야 합니다.');
 		} else {
-			$blockMessage = _textf('Blocked %1', $result);
+			$blockMessage = _textf('%1 은 차단되었습니다.', $result);
 		}
-		printIphoneErrorPage(_text('Comment write blocked.'), $blockMessage, "$blogURL/comment/$entryId");
+		printIphoneErrorPage(_text('댓글 작성이 차단되었습니다.'), $blockMessage, "$blogURL/comment/$entryId");
 	} else if ($result === false) {
-		printIphoneErrorPage(_text('Comment write error.'), _text('Cannot write comment.'), "$blogURL/comment/$entryId");
+		printIphoneErrorPage(_text('댓글 작성 오류.'), _text('댓글을 작성할 수 없었습니다.'), "$blogURL/comment/$entryId");
 	} else {
 		setcookie('guestName', $comment['name'], time() + 2592000, $blogURL);
 		setcookie('guestHomepage', $comment['homepage'], time() + 2592000, $blogURL);
-		printIphoneSimpleMessage(_text('Comment registered.'), _text('Go to comments page'), "$blogURL/comment/$entryId");
+		printIphoneSimpleMessage(_text('댓글이 등록되었습니다.'), _text('댓글 페이지로 이동'), "$blogURL/comment/$entryId");
 	}
 }
 ?>
