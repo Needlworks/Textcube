@@ -257,7 +257,7 @@ function getCommentsWithPaging($blogid, $page, $count, $url = null, $prefix = '?
 	return array($comments, $paging);
 }
 function getCommentsWithPagingForGuestbook($blogid, $page, $count) {
-	return getCommentsWithPagingByEntry($blogid, 0, $page, $count);
+	return getCommentsWithPagingByEntryId($blogid, 0, $page, $count);
 }
 
 function getCommentAttributes($blogid, $id, $attributeNames) {
