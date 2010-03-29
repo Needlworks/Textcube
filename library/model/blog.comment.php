@@ -241,13 +241,13 @@ function getCommentsWithPagingByEntryId($blogid, $entryId, $page, $count, $url =
 function getCommentsWithPaging($blogid, $page, $count, $url = null, $prefix = '?page=', $postfix = '', $countItem = null) {
 	global $database;
 	$comments = array();
-	$sql = "SELECT r.*, e.title, e.slogan
+	$sql = "SELECT r.*
 		FROM
 			{$database['prefix']}Comments r
 			INNER JOIN {$database['prefix']}Entries e ON r.blogid = e.blogid AND r.entry = e.id AND e.draft = 0
 			LEFT OUTER JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id
 		WHERE
-			r.blogid = $blogid AND e.draft = 0".(doesHaveOwnership() ? "" : " AND e.visibility >= 2").getPrivateCategoryExclusionQuery($blogid)."
+			r.blogid = $blogid AND e.draft = 0 AND r.parent IS NULL".(doesHaveOwnership() ? "" : " AND e.visibility >= 2").getPrivateCategoryExclusionQuery($blogid)."
 			AND r.entry > 0 AND r.isfiltered = 0
 		ORDER BY
 			r.written DESC";
