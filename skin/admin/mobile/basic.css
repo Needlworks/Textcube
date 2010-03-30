@@ -793,7 +793,9 @@ table.data-inbox tr .selection
 
 #page-list a {
 	padding                          : 4px;
-	border                           : 1px solid #CCC;
+	margin-left                      : 5px;
+	margin-right                     : 5px;
+	border                           : 1px solid #BBB;
 }
 
 #total-count
