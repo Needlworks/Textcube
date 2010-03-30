@@ -225,7 +225,7 @@ h3
 #editWindow
 {
 	height                           : 448px;
-	width                            : 644px;
+	width                            : 300px;
 }
 
 #visualEditorWindow
@@ -233,7 +233,7 @@ h3
 	border                           : 1px solid #DDDDDD;
 	display                          : block;
 	height                           : 450px;
-	width                            : 648px;
+	width                            : 300px;
 }
 
 #status-container
