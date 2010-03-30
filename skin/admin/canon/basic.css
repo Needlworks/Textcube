@@ -305,13 +305,18 @@ textarea
 	position                         : fixed;
 	bottom                           : 5px;
 	right                            : 0;
-	width                            : 160px;
+	width                            : 140px;
 	z-index                          : 510;
+}
+
+#main-blog label
+{
+	display                          : none;
 }
 
 #blog-list
 {
-	width                            : 150px;
+	width                            : 135px;
 	color                            : #444;
 	border                           : 1px solid #CCC;
 }
