@@ -23,7 +23,8 @@ table.data-inbox tr .site,
 /* table header */
 table.data-inbox tr .title
 {
-	width:300px !important;	
+	width:300px !important;
+	word-wrap : break-word;
 }
 
 /* table body */
