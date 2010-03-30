@@ -17,7 +17,7 @@ final class Utils_Browser extends Singleton
 	public function getBrowserName() {
 		/// Blocking (is in development)
 		$ctx = Model_Context::getInstance();
-		if($ctx->getProperty('service.usemobileadmin') != true) {
+		if($ctx->getProperty('service.usemobileadmin',true) === false) {
 			return 'unknown';
 		}
 		if(!is_null($this->browserName)) return $this->browserName;
