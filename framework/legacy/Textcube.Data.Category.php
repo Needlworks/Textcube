@@ -7,6 +7,7 @@
 class Category {
 	function __construct() {
 		$this->reset();
+		$this->pointer = null;
 	}
 
 	function reset() {
@@ -44,8 +45,10 @@ class Category {
 		$this->close();
 		$this->_result = $pool->getAll($fields);
 //		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." $filter $sort");
-		if ($this->_result)
+		if ($this->_result) {
 			$this->_count = count($this->_result);
+			$this->pointer = 0;
+		}
 		return $this->shift();
 	}
 	
@@ -60,7 +63,24 @@ class Category {
 	
 	function shift() {
 		$this->reset();
-		if ($this->_result && ($row = POD::fetch($this->_result))) {
+		if($this->_result && !empty($this->_result[$this->pointer])) {
+			foreach ($this->_result[$this->pointer] as $name => $value) {
+				if ($name == 'blogid')
+					continue;
+				switch ($name) {
+					case 'entries':
+						$name = 'exposedPosts';
+						break;
+					case 'entriesinlogin':
+						$name = 'posts';
+						break;
+				}
+				$this->$name = $value;
+			}
+			$this->pointer++;
+			return true;
+		}
+/*		if ($this->_result && ($row = POD::fetch($this->_result))) {
 			foreach ($row as $name => $value) {
 				if ($name == 'blogid')
 					continue;
@@ -75,7 +95,7 @@ class Category {
 				$this->$name = $value;
 			}
 			return true;
-		}
+		}*/
 		return false;
 	}
 	
