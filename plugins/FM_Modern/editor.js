@@ -284,6 +284,9 @@ TTModernEditor.prototype.syncContents = function() {
 	}
 }
 
+TTModernEditor.prototype.syncTextarea = function() {
+	return this.syncContents();
+}
 // TTML로 작성된 파일을 HTML 뷰에 뿌려주기 위해 변환
 // Convert TTML-format to HTML view
 TTModernEditor.prototype.ttml2html = function() {
