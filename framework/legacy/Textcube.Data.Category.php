@@ -44,7 +44,6 @@ class Category {
 			$pool->setOrder($sort);
 		$this->close();
 		$this->_result = $pool->getAll($fields);
-//		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." $filter $sort");
 		if ($this->_result) {
 			$this->_count = count($this->_result);
 			$this->pointer = 0;
@@ -80,22 +79,6 @@ class Category {
 			$this->pointer++;
 			return true;
 		}
-/*		if ($this->_result && ($row = POD::fetch($this->_result))) {
-			foreach ($row as $name => $value) {
-				if ($name == 'blogid')
-					continue;
-				switch ($name) {
-					case 'entries':
-						$name = 'exposedPosts';
-						break;
-					case 'entriesinlogin':
-						$name = 'posts';
-						break;
-				}
-				$this->$name = $value;
-			}
-			return true;
-		}*/
 		return false;
 	}
 	
