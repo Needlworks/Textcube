@@ -43,7 +43,7 @@ if ((isset($_REQUEST['name'])) && (isset($adminMenuMappings[$_REQUEST['name']]))
 		// Loading locale resource
 		$languageDomain = null;
 		if(is_dir($pluginPath . '/locale/')) {
-			$locale = Locale::getInstance();
+			$locale = Locales::getInstance();
 			$languageDomain = $locale->domain;
 			if(file_exists($pluginPath.'/locale/'.$locale->defaultLanguage.'.php')) {
 				$locale->setDirectory($pluginPath.'/locale');

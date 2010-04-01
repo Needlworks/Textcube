@@ -68,7 +68,7 @@ if (!empty($_GET['test'])) {
 }
 $baseLanguage = 'ko';
 if( !empty($_POST['Lang']) ) $baseLanguage = $_POST['Lang'];
-$locale = Locale::getInstance();
+$locale = Locales::getInstance();
 $locale->setDomain('setup');
 if( $locale->setDirectory(ROOT.'/resource/locale/setup') ) $locale->set( $baseLanguage , "setup");
 
@@ -1583,7 +1583,7 @@ EOF;
 }
  
 function drawSetLang( $currentLang = "ko"  ,$curPosition = 'Norm' /*or 'Err'*/ ){ 
-	$locale = Locale::getInstance();
+	$locale = Locales::getInstance();
 	if( $locale->setDirectory(ROOT.'/resources/locale/setup'))   $availableLanguages =   $locale->getSupportedLocales(); 
 	else return false; 
 ?> 

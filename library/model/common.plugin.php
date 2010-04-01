@@ -328,7 +328,7 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
 			// Loading locale resource
 			$languageDomain = null;
 			if(is_dir($pluginPath . '/locale/')) {
-				$locale = Locale::getInstance();
+				$locale = Locales::getInstance();
 				$languageDomain = $locale->domain;
 
 				// Event listener language setting as scope defined.
@@ -377,7 +377,7 @@ function handleTags( & $content) {
 					// Loading locale resource
 					$languageDomain = null;
 					if(is_dir($pluginPath . '/locale/')) {
-						$locale = Locale::getInstance();
+						$locale = Locales::getInstance();
 						$languageDomain = $locale->domain;
 						if(file_exists($pluginPath.'/locale/'.$locale->defaultLanguage.'.php')) {
 							$locale->setDirectory($pluginPath.'/locale');
@@ -411,7 +411,7 @@ function handleCenters($mapping) {
 		// Loading locale resource
 		$languageDomain = null;
 		if(is_dir($pluginPath . '/locale/')) {
-			$locale = Locale::getInstance();
+			$locale = Locales::getInstance();
 			$languageDomain = $locale->domain;
 			if(file_exists($pluginPath.'/locale/'.$locale->defaultLanguage.'.php')) {
 				$locale->setDirectory($pluginPath.'/locale');
@@ -532,7 +532,7 @@ function handleCoverpages(& $obj, $previewMode = false) {
 						// Loading locale resource
 						$languageDomain = null;
 						if(is_dir($pluginPath . '/locale/')) {
-							$locale = Locale::getInstance();
+							$locale = Locales::getInstance();
 							$languageDomain = $locale->domain;
 							if(file_exists($pluginPath.'/locale/'.$locale->defaultLanguage.'.php')) {
 								$locale->setDirectory($pluginPath.'/locale');
@@ -577,7 +577,7 @@ function handleDataSet( $plugin , $DATA ) {
 			// Loading locale resource
 			$languageDomain = null;
 			if(is_dir($pluginPath . '/locale/')) {
-				$locale = Locale::getInstance();
+				$locale = Locales::getInstance();
 				$languageDomain = $locale->domain;
 				if(file_exists($pluginPath.'/locale/'.$locale->defaultLanguage.'.php')) {
 					$locale->setDirectory($pluginPath.'/locale');
