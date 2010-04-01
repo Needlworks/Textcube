@@ -4,7 +4,7 @@
 
 if(!function_exists('FM_TTML_bindAttachments')) require_once 'ttml.php';
 
-function FM_TTML_format($blogid, $id, $content, $keywords = array(), $useAbsolutePath = false, $bRssMode = false) {
+function FM_TTML_format($blogid, $id, $content, $keywords = array(), $useAbsolutePath = true, $bRssMode = false) {
 	global $service;
 	$path = ROOT . "/attach/$blogid";
 	$url = "{$service['path']}/attach/$blogid";
@@ -14,7 +14,7 @@ function FM_TTML_format($blogid, $id, $content, $keywords = array(), $useAbsolut
 	return $view;
 }
 
-function FM_TTML_summary($blogid, $id, $content, $keywords = array(), $useAbsolutePath = false) {
+function FM_TTML_summary($blogid, $id, $content, $keywords = array(), $useAbsolutePath = true) {
 	global $blog;
 	$view = FM_TTML_format($blogid, $id, $content, $keywords, $useAbsolutePath, true);
 	if (!$blog['publishWholeOnRSS']) $view = UTF8::lessen(removeAllTags(stripHTML($view)), 255);

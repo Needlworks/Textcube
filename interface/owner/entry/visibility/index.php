@@ -17,7 +17,7 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireModel("blog.entry");
 
-requireStrictRoute();
+//requireStrictRoute();
 
 // TeamBlog ACL check whether or not current user can edit this post.
 if(Acl::check('group.writers') === false && !empty($suri['id'])) {
