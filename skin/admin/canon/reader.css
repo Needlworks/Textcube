@@ -1164,6 +1164,11 @@ ul#feedList li .edit-button span
 	position                         : relative;
 }
 
+#entryFoot .shortcut-box li
+{
+	display                          : inline;	
+}
+
 #entryFoot .button-box
 {
 	margin-top                       : 5px;
@@ -1171,12 +1176,7 @@ ul#feedList li .edit-button span
 
 #entryFoot .button-box .button
 {
-	background-color                 : #DDDDDD;
-	border                           : 1px solid #979797;
-	color                            : #333333;
 	display                          : block;
-	font-size                        : 92%;
-	font-weight                      : bold;
 	height                           : auto !important;
 	margin                           : 0 0 0 auto !important;
 	padding                          : 0 0 1px 0 !important;

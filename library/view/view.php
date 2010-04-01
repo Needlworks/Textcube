@@ -1540,7 +1540,20 @@ function printFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly 
 	}
 ?>
 													<div class="button-box">
-														<a class="non-read-button button" href="#void" onclick="Reader.markAsUnread(<?php echo $entry['id'];?>)"><span class="text"><?php echo _t('안 읽은 글로 표시');?></span></a>
+														<a class="non-read-button button input-button" href="#void" onclick="Reader.markAsUnread(<?php echo $entry['id'];?>)"><span class="text"><?php echo _t('안 읽은 글로 표시');?></span></a>
+													</div>
+													<div class="shortcut-box">
+													<ul>
+														<li><kbd>A</kbd>, <kbd>H</kbd> - <?php echo _t('이전 글');?></li>
+														<li><kbd>S</kbd>, <kbd>L</kbd> - <?php echo _t('다음 글');?></li>
+<li><kbd>D</kbd> - <?php echo _t('새 창으로');?></li>
+														<li><kbd>F</kbd> - <?php echo _t('안 읽은 글만보기');?></li>
+														<li><kbd>G</kbd> - <?php echo _t('스크랩된 글 보기');?></li>
+														<li><kbd>W</kbd> - <?php echo _t('현재글 스크랩');?></li>
+														<li><kbd>T</kbd> - <?php echo _t('글 수집하기');?></li>
+														<li><kbd>J</kbd> - <?php echo _t('위로 스크롤');?></li>
+														<li class="last-shortcut"><kbd>K</kbd> - <?php echo _t('아래로 스크롤');?></li>
+													</ul>
 													</div>
 												</div>
 <?php
