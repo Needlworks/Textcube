@@ -219,7 +219,8 @@ textarea
 	position                         : fixed;
 	top                              : 0;
 	right                            : 0;
-	background-image                 : url("./image/bg_menu_round.png");
+	/*background-image                 : url("./image/bg_menu_round.png");*/
+	background-image                 : url("./image/bg_menu.png");
 	background-position              : left center;
 	z-index                          : 220;
 /*	box-shadow                       : -2px 2px 5px #ccc;
@@ -324,13 +325,15 @@ textarea
 /* main menu */
 #main-menu-box
 {
-	background-image                 : url("./image/bg_menu_round.png");
+/*	background-image                 : url("./image/bg_menu_round.png");
 	background-position              : right top;
+	background-repeat                : repeat-x;*/
+	background-image                 : url("./image/bg_menu.png");
 	background-repeat                : repeat-x;
 	height                           : 40px;
 	line-height                      : 3em;
 	margin-top                       : 0;
-/*	width                            : 100%;*/
+	width                            : 100%;
 	position                         : fixed;
 	top                              : 0;
 	z-index                          : 200;
@@ -746,6 +749,10 @@ h2.caption span
 	float                            : left;
 	list-style-type                  : none;
 	margin                           : 0 1px;
+    -moz-border-radius-topleft       : 8px;
+    -moz-border-radius-topright      : 8px;
+	-webkit-border-top-left-radius   : 8px;
+	-webkit-border-top-right-radius  : 8px;
 }
 
 .right li
@@ -1252,7 +1259,8 @@ table.data-inbox tbody tr td.inactive-class
 #search-form
 {
 	background-color                 : transparent;
-	background-image                 : url("./image/bg_menu_round.png");
+/*	background-image                 : url("./image/bg_menu_round.png");*/
+	background-image                 : url("./image/bg_menu.png");
 	background-position              : left top;
 	border                           : none;
 	margin                           : 0;

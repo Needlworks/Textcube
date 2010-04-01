@@ -15,16 +15,19 @@
 
 #plugin-tabs-box
 {
-	position                         : fixed;
-	top                              : 10px;
-	width                            : 500px;
-	margin                           : 0 auto 0 auto;
-	padding-left                     : 200px;
-
+/*	position                         : fixed;*/
+	position                         : relative;
+	top                              : -113px;
+	margin                           : 0 200px 20px 300px;
+	padding-left                     : 0;
+	z-index                          : 20;
+	background-color                 : transparent !important;
+	background-image                 : none;
 }
+
 #part-plugin-list
 {
-	font-size: 1em;
+	font-size                        : 1em;
 	padding-bottom                   : 50px;
 	position                         : relative;
 }
@@ -67,11 +70,6 @@
 #part-plugin-list .line .radio
 {
 	margin-left                      : 5px;
-}
-
-#plugin-tabs-box
-{
-	margin-bottom                    : 20px;
 }
 
 #none-scope-label

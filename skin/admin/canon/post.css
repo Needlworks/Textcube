@@ -104,6 +104,11 @@ table.data-inbox tbody tr td.ip
 	display                         : none;
 }
 
+#entry-tabs-box li.entry-post
+{
+	display                         : none;
+}
+
 #category
 {
 	margin                          : 0 10px;
