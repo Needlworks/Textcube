@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-final class Locale extends Singleton {
+final class Locales extends Singleton {
 	public static function getInstance() {
 		return self::_getInstance(__CLASS__);
 	}
@@ -124,7 +124,7 @@ function _t_noop($t) {
    Direct locale call functions.
  */
 function _t($t) {
-	$locale = Locale::getInstance();	
+	$locale = Locales::getInstance();	
 	if(isset($locale->resource[$locale->domain]) && isset($locale->resource[$locale->domain][$t])) {
 		return $locale->resource[$locale->domain][$t];	
 	} else return $t;
@@ -145,7 +145,7 @@ function _f($t) {
 // Function for skin language resource.
 // _t() follows the admin panel locale setting, however _text() follows the skin locale setting.
 function _text($t) {
-	$locale = Locale::getInstance();
+	$locale = Locales::getInstance();
 	if(isset($locale->resource['blog']) && isset($locale->resource['blog'][$t])) {
 		return $locale->resource['blog'][$t];	
 	} else return $t;

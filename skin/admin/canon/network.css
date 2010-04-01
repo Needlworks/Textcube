@@ -33,13 +33,25 @@ dl dd
 
 #link-tabs-box
 {
-	margin                           : -40px auto 10px auto;
-	padding-left                     : 250px;
+	position                         : relative;
+	margin                           : -53px auto 10px 250px;
+	background-image                 : none;
+	background-color                 : transparent;
+}
+
+#link-tabs-box li
+{
+	border-bottom                    : 1px solid #eee;	
+}
+
+#link-tabs-box li.selected
+{
+	border-bottom                    : none !important;
 }
 
 #part-link-list h2
 {
-	display                          : none;
+/*	display                          : none;*/
 }
 #part-link-list .caption,
 #part-link-add .caption,

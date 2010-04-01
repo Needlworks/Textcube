@@ -375,12 +375,6 @@ if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
 }
 ?>
 <?php
-/*if($service['helperPanel'] == true) {
-?>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/dojo/dojo.js"></script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/helpdialog.js"></script>
-<?php
-}*/
 if($service['interface'] == 'simple') {
 	if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
 ?>

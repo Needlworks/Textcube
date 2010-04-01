@@ -711,7 +711,7 @@ class XMLStruct {
 			} else {
 				$lang = "";
 			}
-			$locale = Locale::getInstance();
+			$locale = Locales::getInstance();
 			switch ($locale->match($lang)) {
 				case 3:
 					$matched = $param[$i];
@@ -929,7 +929,7 @@ class XMLStruct {
 					} else {
 						$lang = "";
 					}
-					$locale = Locale::getInstance();
+					$locale = Locales::getInstance();
 
 					switch ($locale->match($lang)) {
 						case 3:

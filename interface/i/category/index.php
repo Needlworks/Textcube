@@ -18,7 +18,7 @@ if(isset($category)) {
 	?>
 	<ul class="posts" id="category_<?php echo $suri['page'];?>" title="<?php echo ($category == 0 ? _text('모든 카테고리') : ucwords(getCategoryNameById($blogid, $category)));?>" selected="false">
 	<?php
-		$itemsView .= '<li class="group">'.CRLF;
+		$itemsView = '<li class="group">'.CRLF;
 		$itemsView .= '	<span class="left">' . ($category == 0 ? _text('모든 카테고리') : ucwords(getCategoryNameById($blogid, $category))) . ' ('.$list['count'].')</span>'.CRLF;
 		$itemsView .= '	<span class="right">Page <span class="now_page">' . $paging['page'] . '</span> / '.$paging['pages'].'</span>'.CRLF;
 		$itemsView .= '</li>'.CRLF;

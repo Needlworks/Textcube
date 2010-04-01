@@ -25,8 +25,8 @@ h3
 #title-section
 {
 	position                         : fixed;
-	top                              : 0;
-	left                             : 350px;
+	top                              : 45px;
+	left                             : 80px;
 	height                           : 40px;
 	z-index                          : 100;
     width                            : 100%;
@@ -44,13 +44,13 @@ h3
 #title-section dl dt
 {
 	color                            : #222;
-	padding                          : 6px 0 3px 10px;
-	width                            : 40px !important;
+	padding                          : 6px 0 3px 15px;
+	width                            : 80px !important;
 }
 
 #title-section dl dd
 {
-	margin-left                      : 45px;
+	margin-left                      : 85px;
 }
 
 
@@ -72,8 +72,8 @@ h3
 #starred
 {
 	position                         : fixed;
-	top                              : 11px;
-	left                             : 410px;
+	top                              : 56px;
+	left                             : 220px;
 	width                            : 20px !important;
 	display                          : block;
 	z-index                          : 210;
@@ -114,7 +114,7 @@ h3
 
 #category-section
 {
-	margin                           : 30px 20px 0 0; 
+	margin                           : 65px 20px 0 0; 
 	padding                          : 5px 3px 5px 5px; 
 	width                            : 100%; 
 }
@@ -216,14 +216,14 @@ h3
 	margin                           : 0 auto;
 	width                            : 100%;
 	position                         : fixed;
-	top                              : 40px;
+	top                              : 80px;
 	height                           : 31px;
-	z-index                          : 190;
 	background-color                 : #fff;
     filter                           : alpha(opacity=90);
     opacity                          : .90;		
 	color                            : #fff;
-	border-bottom                    :1px solid #BBB;
+	border-bottom                    : 1px solid #BBB;
+	z-index                          : 5;
 }
 
 #editWindow
@@ -271,6 +271,7 @@ h3
 	border                           : 2px solid #999999;
 	padding                          : 0 10px 10px 10px;
 	position                         : absolute;
+	z-index                          : 1;
 	right                            : 0;
 	top                              : 0;
 	width                            : 245px;

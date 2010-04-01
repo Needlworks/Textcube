@@ -780,7 +780,7 @@ if( $acceptTrackbacks ) {
 											<dd>
 												<select id="admin-language" name="adminLanguage">
 <?php
-$locale = Locale::getInstance();
+$locale = Locales::getInstance();
 $locale->setDirectory(ROOT.'/resources/locale/owner');
 $supportedLanguages = $locale->getSupportedLocales();
 foreach ($supportedLanguages as $locale => $language) {
@@ -798,7 +798,7 @@ foreach ($supportedLanguages as $locale => $language) {
 											<dd>
 												<select id="blog-language" name="blogLanguage">
 <?php
-$locale = Locale::getInstance();
+$locale = Locales::getInstance();
 $locale->setDirectory(ROOT.'/resources/locale/blog');
 $supportedLanguages = $locale->getSupportedLocales();
 foreach ($supportedLanguages as $locale => $language) {

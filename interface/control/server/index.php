@@ -16,7 +16,7 @@ if (file_exists(ROOT . "/.htaccess")) {
 $encodingList = array('UTF-8','EUC-KR','SHIFT_JIS','EUC-JP','BIG5','EUC-CN','EUC-TW','GBK');
 
 // Languages
-$locale = Locale::getInstance();
+$locale = Locales::getInstance();
 $locale->setDirectory(ROOT.'/resources/locale/description');
 $supportedLanguages = $locale->getSupportedLocales();
 

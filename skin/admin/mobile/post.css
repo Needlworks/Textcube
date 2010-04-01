@@ -21,11 +21,24 @@ table.data-inbox tr .site,
 }
 
 /* table header */
-table.data-inbox tr .title
+table.data-inbox tr td.title
 {
-	width:300px !important;	
+	width                            : 200px !important;
+	word-wrap                        : break-word;
 }
-
+table.data-inbox tr td.title a
+{
+	width                            : 200px;
+	overflow                         : hidden;
+	word-wrap                        : break-word;
+}
+table.data-inbox tr td.title span.description
+{
+	display                          : none;
+	overflow                         : hidden;
+	word-wrap                        : break-word;
+/*	white-space                      : pre-wrap;*/
+}
 /* table body */
 
 
@@ -37,7 +50,7 @@ table.data-inbox tr .title
 
 #entry-tabs-box li
 {
-	height:20px;	
+	height                          : 25px;	
 }
 
 #entry-tabs-box li label

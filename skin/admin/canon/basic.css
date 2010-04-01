@@ -219,7 +219,8 @@ textarea
 	position                         : fixed;
 	top                              : 0;
 	right                            : 0;
-	background-image                 : url("./image/bg_menu_round.png");
+	/*background-image                 : url("./image/bg_menu_round.png");*/
+	background-image                 : url("./image/bg_menu.png");
 	background-position              : left center;
 	z-index                          : 220;
 /*	box-shadow                       : -2px 2px 5px #ccc;
@@ -305,13 +306,18 @@ textarea
 	position                         : fixed;
 	bottom                           : 5px;
 	right                            : 0;
-	width                            : 160px;
+	width                            : 140px;
 	z-index                          : 510;
+}
+
+#main-blog label
+{
+	display                          : none;
 }
 
 #blog-list
 {
-	width                            : 150px;
+	width                            : 135px;
 	color                            : #444;
 	border                           : 1px solid #CCC;
 }
@@ -319,13 +325,15 @@ textarea
 /* main menu */
 #main-menu-box
 {
-	background-image                 : url("./image/bg_menu_round.png");
+/*	background-image                 : url("./image/bg_menu_round.png");
 	background-position              : right top;
+	background-repeat                : repeat-x;*/
+	background-image                 : url("./image/bg_menu.png");
 	background-repeat                : repeat-x;
 	height                           : 40px;
 	line-height                      : 3em;
 	margin-top                       : 0;
-/*	width                            : 100%;*/
+	width                            : 100%;
 	position                         : fixed;
 	top                              : 0;
 	z-index                          : 200;
@@ -741,6 +749,10 @@ h2.caption span
 	float                            : left;
 	list-style-type                  : none;
 	margin                           : 0 1px;
+    -moz-border-radius-topleft       : 8px;
+    -moz-border-radius-topright      : 8px;
+	-webkit-border-top-left-radius   : 8px;
+	-webkit-border-top-right-radius  : 8px;
 }
 
 .right li
@@ -1247,13 +1259,14 @@ table.data-inbox tbody tr td.inactive-class
 #search-form
 {
 	background-color                 : transparent;
-	background-image                 : url("./image/bg_menu_round.png");
+/*	background-image                 : url("./image/bg_menu_round.png");*/
+	background-image                 : url("./image/bg_menu.png");
 	background-position              : left top;
 	border                           : none;
 	margin                           : 0;
 	position                         : fixed !important;
 	top                              : 0; 
-	right                            : 100px;
+	right                            : 150px;
 	width                            : 200px;
 	height                           : 40px;
 	text-align                       : right;
@@ -1416,28 +1429,37 @@ table.data-inbox tbody tr td.inactive-class
 
 .input-button
 {
-	background-color                 : #fff;
-	background-image                 : url("./image/bg_submenu_item.gif");
+	background-color                 : #fbfbfb;
+/*	background-image                 : url("./image/bg_submenu_item.gif");*/
 	background-position              : left bottom;
 	background-repeat                : repeat-x;
 	border                           : 1px solid #777;
-	border-radius                    : 5px;
+/*	border-radius                    : 5px;
 	-moz-border-radius               : 5px;
-	-webkit-border-radius            : 5px;
+	-webkit-border-radius            : 5px;*/
 	cursor                           : pointer;
 	font-size                        : 1em;
 	height                           : 1.8em;
 	line-height                      : 1.8em;
 	padding                          : 0 5px !important;
 	vertical-align                   : middle;
+	background-image: -webkit-gradient(linear, left 14, left bottom, from(#fff), to(#eee));
 }
 
 .input-button:hover
 {
+	background-color                 : #f2f2f2;
 	background-image                 : url("./image/bg_submenu_item_selected.gif");
 	border                           : 1px solid #333;
 	-webkit-box-shadow               : 0 0 7px #FFE13C;
 	-moz-box-shadow                  : 0 0 7px #FFE13C;
+	background-image: -webkit-gradient(linear, left 14, left bottom, from(#fbfbfb), to(#ddd));
+}
+
+.input-button:active
+{
+	background-color                 : #ddd;
+	background-image: -webkit-gradient(linear, left 14, left bottom, to(#f8f8f8), from(#ddd));
 }
 
 .wide-button

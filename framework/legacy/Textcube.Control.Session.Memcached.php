@@ -38,16 +38,19 @@ final class Session {
 	
 	public static function read($id) {
 		if(is_null(self::$mc)) self::initialize();
-		return self::$mc->get(self::$context->getProperty('service.domain')."/sessions/{$id}/{$_SERVER['REMOTE_ADDR']}");
+		//return self::$mc->get(self::$context->getProperty('service.domain')."/sessions/{$id}/{$_SERVER['REMOTE_ADDR']}");
+		return self::$mc->get(self::$context->getProperty('service.domain')."/sessions/{$id}");
 	}
 	
 	public static function write($id, $data) {
 		if(is_null(self::$mc)) self::initialize();		
-		return self::$mc->set(self::$context->getProperty('service.domain')."/sessions/{$id}/{$_SERVER['REMOTE_ADDR']}",$data,0,self::$context->getProperty('service.timeout'));
+		//return self::$mc->set(self::$context->getProperty('service.domain')."/sessions/{$id}/{$_SERVER['REMOTE_ADDR']}",$data,0,self::$context->getProperty('service.timeout'));
+		return self::$mc->set(self::$context->getProperty('service.domain')."/sessions/{$id}",$data,0,self::$context->getProperty('service.timeout'));
 	}
 	
 	public static function destroy($id, $setCookie = false) {
-		self::$mc->delete(self::$context->getProperty('service.domain')."/sessions/{$id}/{$_SERVER['REMOTE_ADDR']}");
+		//self::$mc->delete(self::$context->getProperty('service.domain')."/sessions/{$id}/{$_SERVER['REMOTE_ADDR']}");
+		self::$mc->delete(self::$context->getProperty('service.domain')."/sessions/{$id}");
 		self::$mc->delete(self::$context->getProperty('service.domain')."/anonymousSession/{$_SERVER['REMOTE_ADDR']}");
 		return self::$mc->delete(self::$context->getProperty('service.domain')."/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
 	}
@@ -94,14 +97,16 @@ final class Session {
 	public static function isAuthorized($id) {
 		if(is_null(self::$mc)) self::initialize();
 		/* OpenID and Admin sessions are treated as authorized ones*/
-		$userid = self::$mc->get(self::$context->getProperty('service.domain')."/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
+		//$userid = self::$mc->get(self::$context->getProperty('service.domain')."/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
+		$userid = self::$mc->get(self::$context->getProperty('service.domain')."/authorizedSession/{$id}");
 		if(!empty($userid)) return true;
 		else return false;
 	}
 	
 	public static function isGuestOpenIDSession($id) {
 		if(is_null(self::$mc)) self::initialize();
-		$userid = self::$mc->get(self::$context->getProperty('service.domain')."/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
+		//$userid = self::$mc->get(self::$context->getProperty('service.domain')."/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
+		$userid = self::$mc->get(self::$context->getProperty('service.domain')."/authorizedSession/{$id}");
 		if(!empty($userid) && $userid < 0) return true;
 		else return false;
 	}
@@ -132,7 +137,8 @@ final class Session {
 			$_SESSION['userid'] = $userid;
 			$id = session_id();
 			if( self::isGuestOpenIDSession($id) ) {
-				$result = self::$mc->set(self::$context->getProperty('service.domain')."/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}",$userid,0,self::$context->getProperty('service.timeout'));
+				//$result = self::$mc->set(self::$context->getProperty('service.domain')."/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}",$userid,0,self::$context->getProperty('service.timeout'));
+				$result = self::$mc->set(self::$context->getProperty('service.domain')."/authorizedSession/{$id}",$userid,0,self::$context->getProperty('service.timeout'));
 				if ($result) {
 					return true;
 				}
@@ -141,7 +147,8 @@ final class Session {
 		if (self::isAuthorized(session_id())) return true;
 		for ($i = 0; $i < 3; $i++) {
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-			$result = self::$mc->set(self::$context->getProperty('service.domain')."/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}",$userid,0,self::$context->getProperty('service.timeout'));
+			//$result = self::$mc->set(self::$context->getProperty('service.domain')."/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}",$userid,0,self::$context->getProperty('service.timeout'));
+			$result = self::$mc->set(self::$context->getProperty('service.domain')."/authorizedSession/{$id}",$userid,0,self::$context->getProperty('service.timeout'));
 			
 			if ($result) {
 				@session_id($id);

@@ -153,9 +153,9 @@ final class Session {
 
 		$result = self::query('cell',"SELECT id 
 			FROM ".self::$context->getProperty('database.prefix')."Sessions 
-			WHERE id = '$id' 
-				AND address = '{$_SERVER['REMOTE_ADDR']}' 
-				AND (userid IS NOT NULL OR preexistence IS NOT NULL)");
+			WHERE id = '$id' "
+//				AND address = '{$_SERVER['REMOTE_ADDR']}' 
+				."AND (userid IS NOT NULL OR preexistence IS NOT NULL)");
 		if ($result)
 			return true;
 		return false;

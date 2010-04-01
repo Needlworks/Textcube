@@ -197,7 +197,7 @@ if (!defined('NO_INITIALIZAION')) {
 		} else {
 			$language = $context->getProperty('blog.blogLanguage') !== null ?  $context->getProperty('blog.blogLanguage') : $context->getProperty('service.language');
 		}
-		$locale = Locale::getInstance();
+		$locale = Locales::getInstance();
 		$locale->setDirectory(ROOT . '/resources/locale/'.$languageDomain);
 		$locale->set($language,$languageDomain);
 		$locale->setDomain($languageDomain);

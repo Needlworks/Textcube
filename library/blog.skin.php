@@ -92,7 +92,7 @@ class Skin {
 	var $dressTags = array();
 
 	function __construct($name, $previewMode = false) {
-		global $service, $blogURL, $suri, $blog, $__gDressTags;
+		global $service, $blogURL, $suri, $blog, $__gDressTags, $serviceURL;
 		$this->cache = new pageCache;
 		$this->cache->reset('skinCache');
 		$__gDressTags = array();
@@ -190,12 +190,12 @@ class Skin {
 			$this->coverpageBasicModules[0] = array();
 			$this->coverpageName[0] =_t('표지');
 	
-			$sval = str_replace('./', "{$service['path']}/skin/blog/$name/", $sval);
+			$sval = str_replace('./', "{$serviceURL}/skin/blog/$name/", $sval);
 	
-			$this->noneCommentMessage = str_replace('./', "{$service['path']}/skin/blog/$name/", $this->noneCommentMessage);
-			$this->singleCommentMessage = str_replace('./', "{$service['path']}/skin/blog/$name/", $this->singleCommentMessage);
-			$this->noneTrackbackMessage = str_replace('./', "{$service['path']}/skin/blog/$name/", $this->noneTrackbackMessage);
-			$this->singleTrackbackMessage = str_replace('./', "{$service['path']}/skin/blog/$name/", $this->singleTrackbackMessage);
+			$this->noneCommentMessage = str_replace('./', "{$serviceURL}/skin/blog/$name/", $this->noneCommentMessage);
+			$this->singleCommentMessage = str_replace('./', "{$serviceURL}/skin/blog/$name/", $this->singleCommentMessage);
+			$this->noneTrackbackMessage = str_replace('./', "{$serviceURL}/skin/blog/$name/", $this->noneTrackbackMessage);
+			$this->singleTrackbackMessage = str_replace('./', "{$serviceURL}/skin/blog/$name/", $this->singleTrackbackMessage);
 	
 			// Store skin tags.
 			$__gDressTags = $this->getDressTags($sval);
@@ -616,9 +616,9 @@ function dressStaticElements(& $view) {
 	dress('blogger', htmlspecialchars($writer), $view);
 	dress('desc', htmlspecialchars( $ctx->getProperty('blog.description')), $view);
 	if ( $ctx->getProperty('blog.logo') !== null)
-		dress('image', $ctx->getProperty('service.path')."/attach/$blogid/". $ctx->getProperty('blog.logo'), $view);
+		dress('image', $ctx->getProperty('uri.service')."/attach/$blogid/". $ctx->getProperty('blog.logo'), $view);
 	else
-		dress('image',  $ctx->getProperty('service.path')."/resources/image/spacer.gif", $view);
+		dress('image',  $ctx->getProperty('uri.service')."/resources/image/spacer.gif", $view);
 	dress('blog_link', $ctx->getProperty('uri.blog')."/", $view);
 	dress('keylog_link',  $ctx->getProperty('uri.blog')."/keylog", $view);
 	dress('localog_link',  $ctx->getProperty('uri.blog')."/location", $view);
