@@ -1,7 +1,5 @@
 <?php
 function Xquared_handleconfig($configVal) {
-	requireComponent('Textcube.Function.misc');
-	requireComponent('Textcube.Function.Setting');
 	$config = Setting::fetchConfigVal($configVal);
 	if (isset($config['defaultmode']) && $config['defaultmode'] != 'WYSIWYG' && $config['defaultmode'] != 'TEXTAREA') return false;
 	if (isset($config['paragraphdelim']) && $config['paragraphdelim'] != 'P' && $config['paragraphdelim'] != 'BR') return false;
@@ -9,7 +7,7 @@ function Xquared_handleconfig($configVal) {
 }
 
 function Xquared_editorinit(&$editor) {
-	global $service, $configVal, $entry, $pluginURL;
+	global $configVal, $entry, $pluginURL;
 	$blogid = getBlogId();
 	if (is_null($configVal) || empty($configVal)) {
 		$config = array('paragraphdelim' => 'BR',

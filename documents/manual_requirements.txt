@@ -18,7 +18,7 @@ Textcube 1.8 Requirements
     * with mode_rewrite module
   * PHP 5.2 or above
     * with iconv / gd module
-  * MySQL 5.0 or above
+  * MySQL 5.0 / MariaDB 5.1 or above
     * with UTF-8 character set and collation settings
  
  For massive service or heavy load :
