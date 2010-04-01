@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-final class Locale extends Singleton {
+final class Locales extends Singleton {
 	public static function getInstance() {
 		return self::_getInstance(__CLASS__);
 	}
