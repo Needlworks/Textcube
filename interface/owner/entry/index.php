@@ -128,10 +128,6 @@ if (isset($_POST['visibility'])) {
 	$paging['postfix'] .= '&amp;visibility='.urlencode($_POST['visibility']);
 }
 
-// 이올린에 발행한 적이 있는지 체크.
-$countResult = POD::queryExistence("SELECT id 
-		FROM {$database['prefix']}Entries
-		WHERE blogid = ".getBlogId()." AND visibility = 3 LIMIT 1");
 
 $teamblog_users = null;
 if(Acl::check('group.administrators')) {
@@ -264,10 +260,6 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 												document.getElementById("syndicatedIcon_" + entry).innerHTML = '<a href="<?php echo $blogURL;?>/owner/entry/visibility/' + entry + '?command=syndicate" onclick="setEntryVisibility('+entry+', 2); return false;" title="<?php echo _t('발행되었습니다. 클릭하시면 발행을 취소합니다.');?>"><span class="text"><?php echo _t('발행');?><\/span><\/a>';
 												document.getElementById("syndicatedIcon_" + entry).className = 'syndicated-on-icon';
 																								
-												if (countSyndicated == false) {
-													viewWhatIsEolin();
-												}
-												
 												countSyndicated = true;
 												
 												break;
@@ -739,27 +731,6 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 									}
 								}
 								
-								countSyndicated = <?php echo $countResult == true ? 'true' : 'false';?>;
-								
-								function viewWhatIsEolin() {
-									if (document.getElementById('eolinDialog').style.display == 'none') {
-										dialog = document.getElementById('eolinDialog');
-										PM.showPanel(dialog);
-								
-										if (STD.isIE) {
-											document.getElementById('commandBox').style.visibility = 'hidden';
-										}
-									} else {
-										window.open('http://www.eolin.com');
-									}
-								}
-								
-								function closeWhatIsEolin() {
-									document.getElementById('eolinDialog').style.display = 'none';
-									if (STD.isIE) {
-										document.getElementById('commandBox').style.visibility = 'hidden';
-									}
-								}
 							//]]>
 						</script>
 						
@@ -1139,7 +1110,7 @@ if($entry['category'] < 0) {
 										</dl>
 										<dl class="eolin-description">
 											<dt><?php echo _t('발행');?></dt>
-											<dd><?php echo _f('%1에 글을 공개합니다.', '<a href="http://www.eolin.com" onclick="viewWhatIsEolin(); return false;">' . _t('이올린') . '</a>');?></dd>
+											<dd><?php echo _t('발행 플러그인들을 통해 다양한 사이트에 공개합니다.');?></dd>
 										</dl>
 										<dl class="trackback-description">
 											<dt><?php echo _t('글걸기');?></dt>
@@ -1147,30 +1118,9 @@ if($entry['category'] < 0) {
 										</dl>
 										<dl class="protect-description">
 											<dt><?php echo _t('보호글');?></dt>
-											<dd><?php echo _t('보호글인 상태에서 한 번 더 아이콘을 눌러 비밀번호를 설정합니다.');?></dd>
+											<dd><?php echo _t('글에 비밀번호를 설정합니다.');?></dd>
 										</dl>
 										
-										<div id="eolinDialog" class="dialog" style="position: absolute; display: none; z-index: 100;">
-											<div class="temp-box">
-												<h4><?php echo _t('이올린이란?');?></h4>
-
-												<p class="message">
-													<?php echo _t('이올린은 텍스트큐브와 텍스트큐브 기반의 블로그에서 "발행"을 통해 보내진 글들을 다양한 방법으로 만날 수 있는 텍스트큐브 블로거들의 열린 공간입니다.');?>
-												</p>
-
-												<h4><?php echo _t('발행 방법');?></h4>
-
-												<p class="message">
-													<em><?php echo _t('텍스트큐브 글목록에서 발행버튼을 누르거나 글쓰기시 공개범위를 "발행"으로 체크하면 됩니다.');?></em>
-													<?php echo _t('발행을 통해 이올린으로 보내진 게시물들의 저작권을 포함한 일체에 관한 권리는 별도의 의사표시가 없는 한 각 회원에게 있습니다. 이올린에서는 발행된 게시물을 블로거의 동의 없이 상업적으로 이용하지 않습니다. 다만 비영리적 목적인 경우는 이용이 가능하며, 또한 이올린 서비스 내의 게재권, 사용권을 갖습니다.');?>
-												</p>
-
-												<div class="button-box">
-													<button id="eolin-button" class="eolin-button input-button" onclick="window.open('http://www.eolin.com');" title="<?php echo _t('이올린으로 연결합니다.');?>"><span class="text"><?php echo _t('이올린, 지금 만나보세요');?></span></button>
-													<button id="close-button" class="close-button input-button" onclick="closeWhatIsEolin();" title="<?php echo _t('이 대화상자를 닫습니다.');?>"><span class="text"><?php echo _t('닫기');?></span></button>
-									 			</div>
-									 		</div>
-								 		</div>
 									</div>
 									
 									<hr class="hidden" />
