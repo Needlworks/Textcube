@@ -62,6 +62,12 @@ table.data-inbox tbody tr td.title span.excerpt
 	color                            : #DDD;
 }
 
+table.data-inbox tbody tr td
+{
+	padding-top                      : 4px;
+	padding-bottom                   : 4px;
+}
+
 /* Tab     ****************************************************************************************/
 #communication-tabs-box
 {

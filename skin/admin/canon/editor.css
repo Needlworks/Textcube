@@ -222,7 +222,8 @@ h3
     filter                           : alpha(opacity=90);
     opacity                          : .90;		
 	color                            : #fff;
-	border-bottom                    :1px solid #BBB;
+	border-bottom                    : 1px solid #BBB;
+	z-index                          : 5;
 }
 
 #editWindow
@@ -270,7 +271,7 @@ h3
 	border                           : 2px solid #999999;
 	padding                          : 0 10px 10px 10px;
 	position                         : absolute;
-	z-index                          : 200;
+	z-index                          : 1;
 	right                            : 0;
 	top                              : 0;
 	width                            : 245px;
