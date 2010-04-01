@@ -33,29 +33,29 @@ h2
 #reader-menu-box
 {
 	background-color                 : #FFFFFF;
-	position: fixed;
-	top : 35px;
-	z-index:100;
-	width:100%;
+	position                         : fixed;
+	top                              : 35px;
+	z-index                          : 100;
+	width                            : 100%;
 	margin                           : 5px 0 0 0;
 	padding                          : 5px 0 0 0;
 }
 
 #pannel
 {
-	position:fixed;
-	top:85px;
-	left:150px;
-	z-index:100;
-	width:100%;
+	position                         : fixed;
+	top                              : 90px;
+	left                             : 0;
+	z-index                          : 190;
+	width                            : 100%;
 }
 
 #toggleBar
 {
 	position:fixed;
 	top:80px;
-	left:0;
-	z-index:100;
+	left:150px;
+	z-index:180;
 }
 #reader-menu
 {
@@ -240,7 +240,7 @@ h2
 	background-color                 : #D2D2CC !important;
 	border                           : none !important;
 	margin                           : 0 !important;
-	padding                          : 0 0 8px 0 !important;
+	padding                          : 8px 0 8px 0 !important;
 
 }
 
@@ -873,7 +873,7 @@ ul#feedList li .edit-button span
 	border                           : 4px solid #B4B4A1;
 	clear                            : both;
 /*	height                           : 480px;*/
-	min-height                       : 300px;
+	height                           : 300px;
 	overflow-y                       : auto;
 	overflow-x                       : hidden;
 	padding                          : 5px;
@@ -1060,7 +1060,7 @@ ul#feedList li .edit-button span
 	min-height                       : 620px;
 	margin                           : 0 6px 0 6px;
 	overflow                         : auto;
-	padding-top                      : 15px;
+	padding-top                      : 70px;
 	padding-bottom                   : 6px !important;
 	width                            : auto !important;
 }
@@ -1080,7 +1080,7 @@ ul#feedList li .edit-button span
 #post-content .title .move
 {
 	position                         : absolute;
-	top                              : 14px;
+	top                              : 15px;
 	right                            : 11px;
 	z-index                          : 40;
 }
@@ -1108,9 +1108,9 @@ ul#feedList li .edit-button span
 	position                         : relative;
 	width                            : 97%;
 	z-index                          : 50;
-	box-shadow                       : -5px 3px 15px #aaa;
+/*	box-shadow                       : -5px 3px 15px #aaa;
 	-webkit-box-shadow               : -5px 3px 15px #aaa;
-	-moz-box-shadow                  : -5px 3px 15px #aaa;
+	-moz-box-shadow                  : -5px 3px 15px #aaa;*/
 }
 
 #entryHead
