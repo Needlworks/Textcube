@@ -143,8 +143,8 @@ function trashVan() {
    	global $database;
 	requireModel('common.setting');
 	if(Timestamp::getUNIXtime() - Setting::getServiceSetting('lastTrashSweep',0, true) > 86400) {
-		var_dump(Timestamp::getUNIXtime());
-		var_dump(Setting::getServiceSetting('lastTrashSweep',0, true));
+//		var_dump(Timestamp::getUNIXtime());
+//		var_dump(Setting::getServiceSetting('lastTrashSweep',0, true));
 		POD::execute("DELETE FROM {$database['prefix']}Comments where isfiltered < ".Timestamp::getUNIXtime()." - 1296000 AND isfiltered > 0");
 		POD::execute("DELETE FROM {$database['prefix']}RemoteResponses where isfiltered < ".Timestamp::getUNIXtime()." - 1296000 AND isfiltered > 0");
 		POD::execute("DELETE FROM {$database['prefix']}RefererLogs WHERE referred < ".Timestamp::getUNIXtime()." - 604800");
