@@ -94,6 +94,7 @@ function getUpperView($paging) {
 	<script type="text/javascript">
 	//<![CDATA[
 		var servicePath = "<?php echo $context->getProperty('service.path');?>";
+		var serviceURL  = "<?php echo $context->getProperty('uri.service');?>";
 		var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
 		var prevURL = "<?php echo isset($paging['prev']) ? escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['prev']}{$paging['postfix']}") : '';?>";
 		var nextURL = "<?php echo isset($paging['next']) ? escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}") : '';?>";
@@ -1564,7 +1565,7 @@ function printScript($filename, $obfuscate = true) {
 	if (!$file = @file_get_contents(ROOT . "/resources/script/$filename"))
 		return '';
 	$file = "<script type=\"text/javascript\">//<![CDATA[" . CRLF
-		. "var serviceURL=\"".$serviceURL."\"; var blogURL=\"".$hostURL.$blogURL."/\";".$file;
+		. $file;
 //	if ($obfuscate) {
 //	}
 	return "$file //]]></script>";
