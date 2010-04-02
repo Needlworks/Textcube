@@ -1560,11 +1560,11 @@ function printFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly 
 }
 
 function printScript($filename, $obfuscate = true) {
-	global $service, $hostURL, $blogURL;
+	global $service, $hostURL, $blogURL, $serviceURL;
 	if (!$file = @file_get_contents(ROOT . "/resources/script/$filename"))
 		return '';
 	$file = "<script type=\"text/javascript\">//<![CDATA[" . CRLF
-		. "var servicePath=\"".$hostURL.$service['path']."\"; var blogURL=\"".$hostURL.$blogURL."/\";".$file;
+		. "var serviceURL=\"".$serviceURL."\"; var blogURL=\"".$hostURL.$blogURL."/\";".$file;
 //	if ($obfuscate) {
 //	}
 	return "$file //]]></script>";
