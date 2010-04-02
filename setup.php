@@ -10,7 +10,7 @@ ini_set('display_errors', 'on');
 define('ROOT','.');
 require ROOT.'/framework/id/textcube/config.default.php';
 
-if ($version_compare(PHP_VERSION,'5.2.0', '<')) {
+if (version_compare(PHP_VERSION,'5.2.0', '<')) {
 	if(!isset($service['forceinstall']) || $service['forceinstall'] != true) {
 	    header('HTTP/1.1 503 Service Unavailable');
 		echo "PHP Version mismatch. You need at least PHP 5.2.0 to install this version of Textcube.";
