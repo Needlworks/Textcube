@@ -122,7 +122,7 @@ class LinkCategories {
 		if($id==0)
 			return $maxId + 1;
 		else
-			return ($maxId > $id ? $maxId : $id);
+			return ($maxId > $id ? $maxId + 1: $id);
 	}
 	function getNextLinkCategoryPid($id = 0) {
 		global $database;
@@ -130,7 +130,7 @@ class LinkCategories {
 		if($id==0)
 			return $maxId + 1;
 		else
-			return ($maxId > $id ? $maxId : $id);
+			return ($maxId > $id ? $maxId + 1: $id);
 	}
 	
 	function _buildQuery() {
