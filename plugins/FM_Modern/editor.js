@@ -278,15 +278,14 @@ TTModernEditor.prototype.finalize = function() {
 
 TTModernEditor.prototype.syncContents = function() {
 	if (this.editMode == "WYSIWYG") {
-		this.correctContent();
 		this.textarea.value = this.html2ttml();
 	} else if (this.editMode == "TEXTAREA") {
-		this.correctContent();
 		this.contentDocument.body.innerHTML = this.ttml2html();
 	}
 }
 
 TTModernEditor.prototype.syncTextarea = function() {
+	this.correctContent();
 	return this.syncContents();
 }
 // TTML로 작성된 파일을 HTML 뷰에 뿌려주기 위해 변환
@@ -2011,7 +2010,7 @@ TTModernEditor.prototype.toggleMode = function() {
 		this.iframe.style.display = "none";
 		this.textarea.style.display = "block";
 		this.editMode = "TEXTAREA";
-//		this.correctContent();
+		this.correctContent();
 		this.textarea.focus();
 		this.resizer.target = this.textarea;
 	}
@@ -2026,7 +2025,7 @@ TTModernEditor.prototype.toggleMode = function() {
 			return;
 		}
 		this.editMode = "WYSIWYG";
-//		this.correctContent();
+		this.correctContent();
 		try { this.contentDocument.body.focus(); } catch(e) { }
 		this.resizer.target = this.iframe;
 	}
