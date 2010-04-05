@@ -163,9 +163,16 @@ class Comment {
 		if (isset($this->commenter)) {
 			if (!Validator::number($this->commenter, 1))
 				return $this->_error('commenter');
-			if (!$this->name = User::getName($this->commenter))
-				return $this->_error('commenter');
-			$query->setAttribute('replier', $this->commenter);
+			if(!isset($this->name)) {
+				if (!$this->name = User::getName($this->commenter))
+					return $this->_error('commenter');
+			} else {	// name information exists. however, replier maybe different from services.
+				// It is a limitation of spec.
+				if($this->name == User::getName($this->commenter)) {	// If name == commenter, it is same service (maybe).
+					$query->setAttribute('replier', $this->commenter);
+				}
+			}
+//			$query->setAttribute('replier', $this->commenter);
 		}
 		if (isset($this->name)) {
 			$this->name = UTF8::lessenAsEncoding(trim($this->name), 80);

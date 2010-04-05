@@ -371,7 +371,7 @@ function importer($path, $node, $line) {
 						$comment->latitude = $cursor['latitude'][0]['.value'];
 					$comment->content = $cursor['content'][0]['.value'];
 					if (!empty($cursor['isFiltered'][0]['.value']))
-					    	$comment->isfiltered = $cursor['isFiltered'][0]['.value'];
+				    	$comment->isfiltered = $cursor['isFiltered'][0]['.value'];
 					if (!$comment->add())
 						user_error(__LINE__ . $comment->error);
 					if (isset($node['comment'][$i]['comment'])) {
@@ -394,9 +394,13 @@ function importer($path, $node, $line) {
 							$childComment->password = $cursor['password'][0]['.value'];
 							$childComment->secret = $cursor['secret'][0]['.value'];
 							$childComment->written = $cursor['written'][0]['.value'];
+							if (isset($cursor['longitude'][0]['.value']))
+								$comment->longitude = $cursor['longitude'][0]['.value'];
+							if (isset($cursor['latitude'][0]['.value']))
+								$comment->latitude = $cursor['latitude'][0]['.value'];
 							$childComment->content = $cursor['content'][0]['.value'];
 							if (!empty($cursor['isFiltered'][0]['.value']))
-					    			$childComment->isFiltered = $cursor['isFiltered'][0]['.value'];
+					    		$childComment->isfiltered = $cursor['isFiltered'][0]['.value'];
 							if (!$childComment->add())
 								user_error(__LINE__ . $childComment->error);
 						}
