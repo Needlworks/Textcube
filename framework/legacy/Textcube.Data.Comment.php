@@ -93,13 +93,13 @@ class Comment {
 		if (!isset($this->isfiltered))
 			$this->isfiltered = 0;
 
-		//regacy
+		// legacy
 		if (isset($this->commenter)) {$this->replier = $this->commenter;/*unset($this->commenter);*/;}
 
 		if (!$query = $this->_buildQuery())
 			return false;
 		if (!$query->hasAttribute('written'))
-			$query->setAttribute('written', 'UNIX_TIMESTAMP()');
+			$query->setAttribute('written', Timestamp::getUNIXtime());
 		
 		if (!$query->insert())
 			return $this->_error('insert');
@@ -137,7 +137,7 @@ class Comment {
 		if($id == 0)
 			return $maxId + 1;
 		else
-			 return ($maxId > $id ? $maxId : $id);
+			 return ($maxId > $id ? $maxId + 1 : $id);
 	}
 
 	function _buildQuery() {
