@@ -421,68 +421,16 @@ h3
 {
 	height                           : 200px;
 }
-
-/* Setting container ----------------------------------------------------------------------------*/
-
-#setting-section
-{
-	position : fixed;
-	bottom : 30px;
-	left:160px;
-	width:100%;
-	height:150px !important;
-	background-color:#ffffff;
-}
-
-#upload-section h3
-{
-	width : 150px;
-	position:absolute;
-	top:0;
-	left:0;
-	background-color                 : #F2F2F2;
-	display                          : block;
-	padding                          : 10px 10px 3px 10px;
-}
-
-#taglocal-section h3
-{
-	width : 150px;
-	position:absolute;
-	top:0;
-	left:200px;
-	display:block;
-	padding                          : 10px 10px 3px 10px;
-}
-
-#power-section h3
-{
-	width : 150px;
-	position:absolute;
-	top:0;
-	left:400px;
-	display:block;
-	padding                          : 10px 10px 3px 10px;
-}
-
-#upload-container,
-#tag-location-container
-{
-	padding-top:35px;
-}
-
-#tag-location-container,
-#power-container
-{
-	display:none;
-}
-
 /* Save -----------------------------------------------------------------------------------------*/
 #save-section
 {
+/*	background-color                 : #F2F2F2 !important;*/
+/*	margin                           : 0 20px 0 0;*/
 	margin                           : 0 auto;
 	padding                          : 0 5px 0 5px;
+/*	width                            : 350px !important;*/
 	height                           : 75px;
+/*	float                            : right !important;*/
 }
 
 /* tag and location -----------------------------------------------------------------------------*/
@@ -490,8 +438,11 @@ h3
 {
 	background-color                 : #FFFFFF !important;
 	margin                           : 0;
+	/*padding                          : 15px 5px 0 5px;*/
 	padding                          : 0;
 	width                            : 100% !important;
+	height                           : 55px;
+/*	float                            : right !important;*/
 	border-top                       : 1px solid #EEEEEE;
 	border-left                      : 1px solid #EEEEEE;
 	border-right                     : 1px solid #EEEEEE;
@@ -505,11 +456,14 @@ h3
 
 #taglocal-section dl dt
 {
+/*	color                            : #6B90C3;*/
 	color                            : #666;
 	font-weight                      : bold;
 	left                             : 0;
 	line-height                      : 20px;
 	padding                          : 0 0 0 10px;
+/*	position                         : absolute;
+	top                              : 0;*/
 	text-align                       : left;
 	width                            : 75px;
 }
@@ -570,10 +524,21 @@ h3
 /*	width                            : 550px;*/
 /*	float                            : left;*/
 	border:1px solid #F2F2F2;
-/*       -moz-border-radius-topleft       : 8px;
+       -moz-border-radius-topleft       : 8px;
        -moz-border-radius-topright      : 8px;
        -webkit-border-top-left-radius   : 8px;
-       -webkit-border-top-right-radius  : 8px;	*/
+       -webkit-border-top-right-radius  : 8px;	
+}
+
+#upload-section h3
+{
+	background-color                 : #F2F2F2;
+	display                          : block;
+	padding                          : 10px 10px 3px 10px;
+       -moz-border-radius-topleft       : 8px;
+       -moz-border-radius-topright      : 8px;
+       -webkit-border-top-left-radius   : 8px;
+       -webkit-border-top-right-radius  : 8px;
 }
 
 #upload-detail
@@ -765,6 +730,20 @@ h3
 }
 
 /* power ----------------------------------------------------------------------------------------*/
+#power-section
+{
+/*	background-color                 : #F5F5F5;*/
+	line-height                      : 17px;
+	margin                           : 0;
+	position                         : relative; 
+	padding                          : 0 0 8px 0;
+	width                            : 100%;
+/*	float                            : left;*/
+/*	display                          : none;*/
+	border-left                      : 1px solid #EEEEEE;
+	border-right                      : 1px solid #EEEEEE;
+	border-bottom                      : 1px solid #EEEEEE;
+}
 
 #power-section dl
 {
