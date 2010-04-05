@@ -75,7 +75,8 @@
 	if (in_array($pathPart, array('favicon.ico','index.gif'))) {require_once 'interface/'.$pathPart.'.php';	exit;}
 	if (!empty($accessInfo['URLfragment'])) {
 		if (is_numeric(strtok(end($accessInfo['URLfragment']), '&'))) {
-			$pathPart = count($accessInfo['URLfragment'])==1 ? null : implode('/', array_slice($accessInfo['URLfragment'], 0, count($accessInfo['URLfragment']) - 1));
+			array_pop($accessInfo['URLfragment']);
+			$pathPart = count($accessInfo['URLfragment'])==1 ? null : implode('/',$accessInfo['URLfragment']);
 		}
 
 		if(isset($accessInfo['URLfragment'][0])) {
@@ -97,7 +98,7 @@
 					break;
 				case 'comment': case 'trackback':
 					$pathPart = implode("/",$accessInfo['URLfragment']);
-					$interfacePath = 'interface/blog/'.$pathPart.'/index.php';
+					$interfacePath = 'interface/'.$pathPart.'/index.php';
 					break;
 				case 'i': case 'm':
 					if(isset($accessInfo['URLfragment'][1]) && in_array($accessInfo['URLfragment'][1],array('archive','category','comment','entry','guestbook','imageResizer','link','login','logout','pannels','protected','search','tag','trackback'))) {
