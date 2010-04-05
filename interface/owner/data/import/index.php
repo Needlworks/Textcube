@@ -688,7 +688,7 @@ function importer($path, $node, $line) {
 			$setting->tagsOnTagbox = $node['tagsOnTagbox'][0]['.value'];
 			$setting->alignOnTagbox = $node['alignOnTagbox'][0]['.value'];
 			$setting->expandComment = $node['expandComment'][0]['.value'];
-			$setting->expandTrackback = $node['expandCrackback'][0]['.value'];
+			$setting->expandTrackback = $node['expandTrackback'][0]['.value'];
 			if (!empty($node['recentNoticeLength'][0]['.value']))
 				$setting->recentNoticeLength = $node['recentNoticeLength'][0]['.value'];
 			$setting->recentEntryLength = $node['recentEntryLength'][0]['.value'];
