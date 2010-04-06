@@ -181,6 +181,7 @@ body
 #comment-reply-box #command-box dl dd
 {
 	float                            : left;
+	width                            : 250px;
 }
 
 #comment-reply-box #command-box label
@@ -234,7 +235,7 @@ body
 	text-align                       : left;
 }
 
-#comment-reply-box #command-box .input-button
+.input-button
 {
 	border                           : 1px solid #777777;
 	background-color                 : #83afe0;
@@ -245,6 +246,25 @@ body
 	line-height                      : 1.9em;
 	padding                          : 0 6px;
 	width: 200px;
+}
+.input-button
+{
+	background-color                 : #fbfbfb;
+	background-image: -webkit-gradient(linear, left 14, left bottom, from(#fff), to(#eee));
+}
+
+.input-button:hover
+{
+	background-color                 : #f2f2f2;
+	-webkit-box-shadow               : 0 0 7px #FFE13C;
+	-moz-box-shadow                  : 0 0 7px #FFE13C;
+	background-image: -webkit-gradient(linear, left 14, left bottom, from(#fbfbfb), to(#ddd));
+}
+
+.input-button:active
+{
+	background-color                 : #ddd;
+	background-image: -webkit-gradient(linear, left 14, left bottom, to(#f8f8f8), from(#ddd));
 }
 
 #homepage
