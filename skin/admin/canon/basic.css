@@ -1449,7 +1449,7 @@ table.data-inbox tbody tr td.inactive-class
 .input-button:hover
 {
 	background-color                 : #f2f2f2;
-	background-image                 : url("./image/bg_submenu_item_selected.gif");
+/*	background-image                 : url("./image/bg_submenu_item_selected.gif");*/
 	border                           : 1px solid #333;
 	-webkit-box-shadow               : 0 0 7px #FFE13C;
 	-moz-box-shadow                  : 0 0 7px #FFE13C;
