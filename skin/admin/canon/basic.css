@@ -1216,7 +1216,7 @@ table.data-inbox tbody tr td.inactive-class
 	background-color                 : #FFFFFF;
 	margin                           : 20px 0 40px 0;
 	text-align                       : center;
-	width                            : 940px;
+	width                            : 100%;
 }
 
 #page-navigation span .selected
@@ -1233,12 +1233,16 @@ table.data-inbox tbody tr td.inactive-class
 #page-list a
 {
 	color                            : #999999;
-	padding                          : 0 1px;
+	padding                          : 5px;
+	margin-right                     : 5px;
+	border                           : 1px solid #bbb;
 }
 
 #total-count
 {
 	color                            : #999999;
+	margin-top                       : 10px;
+	display                          : block;
 }
 
 #page-section .page-count
