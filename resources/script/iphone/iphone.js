@@ -387,6 +387,7 @@ function slidePages(fromPage, toPage, backwards)
 	  setTimeout(updatePage, 0, toPage, fromPage);
 	  fromPage.removeEventListener('webkitTransitionEnd', slideDone, false);
 	}
+	window.scroll(0,0);
 }
 
 function canDoSlideAnim()

@@ -5,10 +5,10 @@
 
 function printIphoneEntryContentView($blogid, $entry, $keywords = array()) {
 	global $blogURL;
-	if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password']))))
-		print '<div class="entry_body">'.(getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'], $keywords)).'</div>';
-	else
-	{
+	if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
+		$content = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'], $keywords, 'Post', false);
+		print '<div class="entry_body">' . printIphoneFreeImageResizer($content) . '</div>';
+	} else {
 	?>
 	<p><b><?php echo _text('Protected post!');?></b></p>
 	<form id="passwordForm" class="dialog" method="post" action="<?php echo $blogURL;?>/protected/<?php echo $entry['id'];?>">
@@ -232,16 +232,43 @@ function printIphoneHtmlHeader($title = '') {
 }
 
 function printIphoneAttachmentExtract($content){
+	global $service;
+	$blogid = getBlogId();
 	$result = null;
+
 	if(preg_match_all('/\[##_(1R|1L|1C|2C|3C|iMazing|Gallery)\|[^|]*\.(gif|jpg|jpeg|png|bmp|GIF|JPG|JPEG|PNG|BMP)\|.*_##\]/si', $content, $matches)) {
 		$split = explode("|", $matches[0][0]);
 		$result = $split[1];
-	}else if(preg_match_all('/<img[^>]+?src=("|\')?([^\'">]*?)("|\')/si', $content, $matches)) {
-		if(stristr($matches[2][0], 'http://') ){
+	} else if(preg_match_all('/<img[^>]+?src=("|\')?([^\'">]*?)("|\')/si', $content, $matches)) {
+		$pattern1 = $service['path'] . "/attach/{$blogid}/";
+		$pattern2 = "[##_ATTACH_PATH_##]";
+
+		if ((strpos($matches[2][0], $pattern1) === 0) || (strpos($matches[2][0], $pattern2) === 0)) {
+			$result = basename($matches[2][0]);
+		} else {
 			$result = $matches[2][0];
 		}
 	}
 	return $result;
+}
+
+function printIphoneFreeImageResizer($content) {
+	global $service, $blogURL;
+	$blogid = getBlogId();
+	$pattern1 = "@<img.+src=['\"](.+)['\"].*>@Usi";
+	$pattern2 = $service['path'] . "/attach/{$blogid}/";
+
+	if (preg_match_all($pattern1, $content, $matches)) {
+		foreach($matches[0] as $imageTag) {
+			preg_match($pattern1, $imageTag, $matche);
+			if (strpos($matche[1], $pattern2) === 0) {
+				$filename = basename($matche[1]);
+				$replaceTag = preg_replace($pattern1 , "<img src=\"{$blogURL}/imageResizer/?f={$filename}\" alt=\"\" />", $matche[0]);
+				$content = str_replace($matche[0], $replaceTag, $content);
+			}
+		}
+	}
+	return $content;
 }
 
 function printIphoneImageResizer($blogid, $filename, $cropSize){
