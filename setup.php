@@ -568,7 +568,7 @@ xml_set_object
             if (!function_exists($function))
                 array_push($required, $function);
         }
-		if (version_compare(PHP_VERSION, '5.2.0') === -1) {
+		if (version_compare(PHP_VERSION, '5.2.0') === -1 && ( !isset( $service['forceinstall'] ) || $service['forceinstall']==false) ) {
 			$error = 4;
 ?>
                 <span style="color:red"><?php echo _f('PHP 버전이 낮습니다. 설치를 위해서는 최소한 %1 이상의 버전이 필요합니다.','5.2.0');?></span>
