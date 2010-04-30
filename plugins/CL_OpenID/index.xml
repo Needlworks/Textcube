@@ -15,15 +15,17 @@
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <scope>blog</scope>
   <requirements>
-    <textcube>1.6</textcube>
+    <textcube>
+	  <minVersion>1.8</minVersion>
+	</textcube>
   </requirements>
   <binding>
-	<listener event="Logout">openid_Logout</listener>
-	<listener event="AddComment">openid_AddComment</listener>
-	<listener event="AddGuestComment">openid_AddComment</listener>
-	<listener event="ViewCommenter">openid_ViewCommenter</listener>
-	<listener event="ViewGuestCommenter">openid_ViewCommenter</listener>
-	<listener event="OpenIDAffiliateLinks">openid_OpenIDAffiliateLinks</listener>
+	<listener event="Logout" handler="openid_Logout" />
+	<listener event="AddComment" handler="openid_AddComment" />
+	<listener event="AddGuestComment" handler="openid_AddComment" />
+	<listener event="ViewCommenter" handler="openid_ViewCommenter" />
+	<listener event="ViewGuestCommenter" handler="openid_ViewCommenter" />
+	<listener event="OpenIDAffiliateLinks" handler="openid_OpenIDAffiliateLinks" />
 
 	<tag name="SKIN_head_start" handler="openid_add_delegate" />
   </binding>

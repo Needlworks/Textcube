@@ -14,7 +14,9 @@
   <author xml:lang="ja" link="http://rsef.net">Peris (Tatter Network Foundation)</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
-    <textcube>1.6</textcube>
+    <textcube>
+      <minVersion>1.8</minVersion>
+    </textcube>
   </requirements>
   <binding>
 	<center handler="CT_RecentPS_Default" />

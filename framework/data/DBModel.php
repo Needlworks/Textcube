@@ -31,7 +31,7 @@ function doesExistTable($tablename) {
 }
 
 /* DBModel */
-
+/* 1.2.20100429 */
 class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_query;
 	protected $_relations, $_filters, $_order, $_limitation, $table, $id, $_reservedFields, $_isReserved, $param;
@@ -147,6 +147,9 @@ class DBModel extends Singleton implements IModel {
 				case '<=':
 					$this->_relations[$name] = '<=';
 					break;
+				//case 'hasOneOf':
+				//case 'hasAnyOf':
+				//case 'hasNoneOf':
 				case 'like':
 				default:
 					$this->_relations[$name] = 'LIKE';

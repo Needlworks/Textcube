@@ -405,6 +405,7 @@ function updateCommentsOfEntry($blogid, $entryId) {
 }
 
 function sendCommentPing($entryId, $permalink, $name, $homepage) {
+	return true;
 	global $database, $blog;
 	$blogid = getBlogId();
 	if($slogan = POD::queryCell("SELECT slogan
@@ -886,7 +887,6 @@ function notifyComment() {
 			ORDER BY CNQ.id ASC LIMIT 1 OFFSET 0";
 	$queue = POD::queryRow($sql);
 	if (empty($queue) && empty($queue['queueId'])) {
-		//POD::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
 		return false;
 	}
 	$comments = (POD::queryRow("SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$queue['commentid']}"));

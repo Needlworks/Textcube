@@ -14,7 +14,9 @@
   <author xml:lang="ja" link="http://needlworks.org">Jeongkyu Shin (inureyes / Needlworks)</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
-    <textcube>1.6</textcube>
+    <textcube>
+	  <minVersion>1.6</minVersion>
+	</textcube>
   </requirements>
   <binding>
 	<center handler="CT_Statistics_Default" />

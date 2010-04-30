@@ -1,14 +1,14 @@
 <?php
-/* BlogAPI RSD automarker for Textcube 1.1
+/* BlogAPI RSD automarker for Textcube 1.8
    ----------------------------------
-   Version 1.0
-   Tatter and Friends development team.
+   Version 1.8
+   Needlworks development team.
 
    Creator          : coolengineer
    Maintainer       : coolengineer
 
    Created at       : 2006.8.6
-   Last modified at : 2006.10.27
+   Last modified at : 2010.4.30
  
  This plugin adds RSD link into blog skin.
  For the detail, visit http://forum.tattersite.com/ko
