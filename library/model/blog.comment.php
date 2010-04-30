@@ -510,21 +510,22 @@ function addComment($blogid, & $comment) {
 		)");
 	if ($result) {
 		$id = $insertId;
-		CacheControl::flushCommentRSS($comment['entry']);
-		CacheControl::flushDBCache('comment');
-		if ($parent != 'null' && $comment['secret'] < 1) {
-			$insertId = getCommentsNotifiedQueueMaxId() + 1;
-			POD::execute("INSERT INTO {$database['prefix']}CommentsNotifiedQueue
-					( blogid , id, commentid , sendstatus , checkdate , written )
-				VALUES
-					('".$blogid."' , '".$insertId."', '" . $id . "', '0', '0', UNIX_TIMESTAMP())");
-		}
-		updateCommentsOfEntry($blogid, $comment['entry']);
-		fireEvent($comment['entry'] ? 'AddComment' : 'AddGuestComment', $id, $comment);
-		if ($filtered == 1)
-			return $blockType;
-		else
+		if($filtered != 1) {
+			CacheControl::flushCommentRSS($comment['entry']);
+			CacheControl::flushDBCache('comment');
+			if ($parent != 'null' && $comment['secret'] < 1) {
+				$insertId = getCommentsNotifiedQueueMaxId() + 1;
+				POD::execute("INSERT INTO {$database['prefix']}CommentsNotifiedQueue
+						( blogid , id, commentid , sendstatus , checkdate , written )
+					VALUES
+						('".$blogid."' , '".$insertId."', '" . $id . "', '0', '0', UNIX_TIMESTAMP())");
+			}
+			updateCommentsOfEntry($blogid, $comment['entry']);
+			fireEvent($comment['entry'] ? 'AddComment' : 'AddGuestComment', $id, $comment);
 			return $id;
+		} else {
+			return $blockType;
+		}
 	}
 	return false;
 }
