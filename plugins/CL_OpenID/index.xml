@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title xml:lang="ko">OpenID</title>
-  <title xml:lang="en">OpenID</title>
+  <title xml:lang="ko">OpenID(일본어판)</title>
+  <title xml:lang="en">OpenID(Japanese)</title>
+  <title xml:lang="ja">OpenID(日本語版)</title>
   <link>http://www.needlworks.org/</link>
   <version>1.0</version>
   <description xml:lang="en">This plugin enables OpenID facility.</description>
   <description xml:lang="ko"><![CDATA[OpenID 사용을 가능하게 합니다. 오픈아이디 가입링크를 수정하시려면, CL_OpenID 플러그인 디렉토리안의 affiliate.php를 참조하세요.]]></description>
+  <description xml:lang="ja">OpenIDを利用します。OpenID登録サイトへのリンクを変更するためには、CL_OpenID の affiliate.phpから変更してください。</description>
   <license>GPL</license>
   <author xml:lang="en" link="http://coolengineer.com/">Hojin Choi (coolengineer / Needlworks)</author>
   <author xml:lang="ko" link="http://coolengineer.com/"><![CDATA[최호진 (coolengineer / Needlworks)]]></author>
+  <author xml:lang="ja" link="http://www.needlworks.org/">Hojin Choi (coolengineer / Needlworks)</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <scope>blog</scope>
   <requirements>
-    <textcube>
-		<minVersion>1.8</minVersion>
-	</textcube>
+    <textcube>1.6</textcube>
   </requirements>
   <binding>
 	<listener event="Logout">openid_Logout</listener>

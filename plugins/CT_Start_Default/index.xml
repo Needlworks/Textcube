@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title xml:lang="en">Start</title>
-  <title xml:lang="ko">시작하기</title>
+  <title xml:lang="en">Start(Japanese)</title>
+  <title xml:lang="ko">시작하기(일본어판)</title>
+  <title xml:lang="ja">スタート(日本語版)</title>
   <link>http://needlworks.org/</link>
   <version>1.6</version>
   <description xml:lang="en">Adds shortcuts to start tasks what you want to with Textcube.</description>
   <description xml:lang="ko"><![CDATA[글쓰기, 리더 보기, 다양한 설정 바꾸기 등 여러 일들에 대한 바로가기를 센터에 추가합니다.]]></description>
+  <description xml:lang="ja">Textcube管理者のスタートページを構成します。</description>
   <license>GPL</license>
   <author xml:lang="en" link="http://forest.nubimaru.com">Jeongkyu Shin (inureyes /Needlworks)</author>
   <author xml:lang="ko" link="http://forest.nubimaru.com"><![CDATA[신정규 (inureyes / Needlworks)]]></author>

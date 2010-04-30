@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-	<title xml:lang="en">Date Format Changer</title>
-	<title xml:lang="ko">날짜 언어/형식 변경 플러그인</title>
+	<title xml:lang="en">Date Format Changer(Japanese)</title>
+	<title xml:lang="ko">날짜 언어/형식 변경 플러그인(일본어판)</title>
+	<title xml:lang="ja">日付形式変更(日本語版)</title>
 	<link>http://needlworks.org/</link>
 	<version>1.6</version>
 	<description xml:lang="en">Change all date format in this blog</description>
 	<description xml:lang="ko">블로그에 표시되는 날짜의 언어와 형식을 변경해주는 플러그인입니다.</description>
+	<description xml:lang="ja">ブログから表示される日付の形式を変更します。</description>
 	<license>GPL</license>
 	<author xml:lang="en" link="http://graphittie.org/blog">graphittie™ (Needlworks)</author>
 	<author xml:lang="ko" link="http://graphittie.org/blog">graphittie™ (Needlworks)</author>
+	<author xml:lang="ja" link="http://graphittie.org/blog">graphittie™ (Needlworks)</author>
 	<safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
 	<requirements>
 		<textcube>1.5</textcube>
@@ -35,26 +38,26 @@
 					<op value="korean" checked="checked">한국어</op>
 					<caption>
 						<![CDATA[
-	<kbd>%Y</kbd> = 4자리수 연도.<br />
-	<kbd>%y</kbd> = 2자리수 연도.<br />
-	
-	<kbd>%M</kbd> = 앞의 0을 표시하는 달 또는 라틴 문자권의 완전형 월 명칭. <samp>[01~12] or January/Febuary/March/April...</samp><br />
-	<kbd>%m</kbd> = 앞의 0을 표시하지 않는 달 또는 라틴 문자권의 생략형 월 명칭. <samp>[1~12] or Jan/Feb/Mar/Apr...</samp><br />
-	
-	<kbd>%D</kbd> = 앞의 0을 표시하는 일(日). <samp>[01~31]</samp><br />
-	<kbd>%d</kbd> = 앞의 0을 표시하지 않는 일(日). <samp>[1~31]</samp><br />
-	<kbd>%o</kbd> = 서수 어미가 붙은 일(日). 주로 라틴 문자권에서 사용. <samp>[1st|2nd|3rd|4th...|30th|31st]</samp><br />
-	
-	<kbd>%H</kbd> = 앞의 0을 표시하는 24시간. <samp>[00~23]</samp><br />
-	<kbd>%h</kbd> = 앞의 0을 표시하지 않는 24시간. <samp>[0~23]</samp><br />
-	<kbd>%F</kbd> = 앞의 0을 표시하는 12시간. <samp>[01~12]</samp><br />
-	<kbd>%f</kbd> = 앞의 0을 표시하지 않는 12시간. <samp>[1~12]</samp><br />
-	
-	<kbd>%I</kbd> = 앞의 0을 표시하는 분. <samp>[00~59]</samp><br />
-	<kbd>%i</kbd> = 앞의 0을 표시하지 않는 분. <samp>[0~59]</samp><br />
-	
-	<kbd>%S</kbd> = 앞의 0을 표시하는 초. <samp>[00~59]</samp><br />
-	<kbd>%s</kbd> = 앞의 0을 표시하지 않는 초. <samp>[0~59]</samp>
+							<kbd>%Y</kbd> = 4자리수 연도.<br />
+							<kbd>%y</kbd> = 2자리수 연도.<br />
+							
+							<kbd>%M</kbd> = 앞의 0을 표시하는 달 또는 라틴 문자권의 완전형 월 명칭. <samp>[01~12] or January/Febuary/March/April...</samp><br />
+							<kbd>%m</kbd> = 앞의 0을 표시하지 않는 달 또는 라틴 문자권의 생략형 월 명칭. <samp>[1~12] or Jan/Feb/Mar/Apr...</samp><br />
+							
+							<kbd>%D</kbd> = 앞의 0을 표시하는 일(日). <samp>[01~31]</samp><br />
+							<kbd>%d</kbd> = 앞의 0을 표시하지 않는 일(日). <samp>[1~31]</samp><br />
+							<kbd>%o</kbd> = 서수 어미가 붙은 일(日). 주로 라틴 문자권에서 사용. <samp>[1st|2nd|3rd|4th...|30th|31st]</samp><br />
+							
+							<kbd>%H</kbd> = 앞의 0을 표시하는 24시간. <samp>[00~23]</samp><br />
+							<kbd>%h</kbd> = 앞의 0을 표시하지 않는 24시간. <samp>[0~23]</samp><br />
+							<kbd>%F</kbd> = 앞의 0을 표시하는 12시간. <samp>[01~12]</samp><br />
+							<kbd>%f</kbd> = 앞의 0을 표시하지 않는 12시간. <samp>[1~12]</samp><br />
+							
+							<kbd>%I</kbd> = 앞의 0을 표시하는 분. <samp>[00~59]</samp><br />
+							<kbd>%i</kbd> = 앞의 0을 표시하지 않는 분. <samp>[0~59]</samp><br />
+							
+							<kbd>%S</kbd> = 앞의 0을 표시하는 초. <samp>[00~59]</samp><br />
+							<kbd>%s</kbd> = 앞의 0을 표시하지 않는 초. <samp>[0~59]</samp>
 						]]>
 					</caption>
 				</field>
@@ -73,52 +76,101 @@
 				<field title="최근 트랙백 날짜 : " name="recent_trackback_date" type="text" value="{%o }%M"></field>
 			</fieldset>
 	 	</config>
-    <config xml:lang="en" dataValHandler="">
-      <window width="500" height="525" />
-      <fieldset legend="Select default language for displaying dates.">
-        <field title="Default Language : " name="language" type="select">
-          <op value="english">English</op>
-          <op value="japanese">Japanese</op>
-          <op value="korean" checked="checked">Korean</op>
-          <caption>
-            <![CDATA[
-	<kbd>%Y</kbd> = the 4-digit year.<br />
-	<kbd>%y</kbd> = the 2-digit year.<br />
-	
-	<kbd>%M</kbd> = month (0..12) or locale's abbreviated month name. <samp>[01~12] or January/Febuary/March/April...</samp><br />
-	<kbd>%m</kbd> = month (1..12) or locale's abbreviated month name. <samp>[1~12] or Jan/Feb/Mar/Apr...</samp><br />
-	
-	<kbd>%D</kbd> = day of month (01..31). <samp>[01~31]</samp><br />
-	<kbd>%d</kbd> = day of month, blank padded. <samp>[1~31]</samp><br />
-	<kbd>%o</kbd> = day of month with postfix - 'th'. <samp>[1st|2nd|3rd|4th...|30th|31st]</samp><br />
-	
-	<kbd>%H</kbd> = hour (00..23). <samp>[00~23]</samp><br />
-	<kbd>%h</kbd> = hour (0..23). <samp>[0~23]</samp><br />
-	<kbd>%F</kbd> = hour (01..12). <samp>[01~12]</samp><br />
-	<kbd>%f</kbd> = hour (1..12). <samp>[1~12]</samp><br />
-	
-	<kbd>%I</kbd> = minute (00..59). <samp>[00~59]</samp><br />
-	<kbd>%i</kbd> = minute (0..59). <samp>[0~59]</samp><br />
-	
-	<kbd>%S</kbd> = second (00..59). <samp>[00~59]</samp><br />
-	<kbd>%s</kbd> = second (0..59). <samp>[0~59]</samp>
-						]]>
-          </caption>
-        </field>
-      </fieldset>
-      <fieldset legend="Specify a date format for each parts.">
-        <field title="Post Archive : " name="archive_date" type="text" value="{%Y|}{%M}"></field>
-        <field title="Calendar : " name="calendar_date" type="text" value="{%m }{%Y}"></field>
-        <field title="Comment : " name="comment_date" type="text" value="{%Y}/{%M}/{%D}-{%H}:{%I}"></field>
-        <field title="Comment List : " name="comment_list_date" type="text" value="{%Y}/{%M}/{%D}"></field>
-        <field title="Guestbook : " name="guestbook_date" type="text" value="{%Y}/{%M}/{%D}-{%H:}{I분}"></field>
-        <field title="List : " name="list_date" type="text" value="{%Y}/{%M}/{%D}"></field>
-        <field title="Notice : " name="notice_date" type="text" value="{%Y}/{%M}/{%D}-{%H}:{%I}:{%S}"></field>
-        <field title="Post : " name="post_date" type="text" value="{%M}{ %o,}{ %Y}{ %H}{:%I}{:%S}"></field>
-        <field title="Recent Comment : " name="recent_comment_date" type="text" value="{%M}{ %d,}{ %Y}{ %H}:{%I}:{%S}"></field>
-        <field title="Recent Trackback : " name="recent_trackback_date" type="text" value="{%o }%M"></field>
-        <field title="Trackback : " name="trackback_date" type="text" value="%M{ %d,} %Y{ %H}{:%I}{:%S}"></field>
-      </fieldset>
-    </config>
+	 	
+		<config xml:lang="en" dataValHandler="">
+			<window width="500" height="525" />
+			<fieldset legend="Select default language for displaying dates.">
+				<field title="Default Language : " name="language" type="select">
+				<op value="english">English</op>
+				<op value="japanese">Japanese</op>
+				<op value="korean" checked="checked">Korean</op>
+				<caption>
+					<![CDATA[
+						<kbd>%Y</kbd> = the 4-digit year.<br />
+						<kbd>%y</kbd> = the 2-digit year.<br />
+						
+						<kbd>%M</kbd> = month (0..12) or locale's abbreviated month name. <samp>[01~12] or January/Febuary/March/April...</samp><br />
+						<kbd>%m</kbd> = month (1..12) or locale's abbreviated month name. <samp>[1~12] or Jan/Feb/Mar/Apr...</samp><br />
+						
+						<kbd>%D</kbd> = day of month (01..31). <samp>[01~31]</samp><br />
+						<kbd>%d</kbd> = day of month, blank padded. <samp>[1~31]</samp><br />
+						<kbd>%o</kbd> = day of month with postfix - 'th'. <samp>[1st|2nd|3rd|4th...|30th|31st]</samp><br />
+						
+						<kbd>%H</kbd> = hour (00..23). <samp>[00~23]</samp><br />
+						<kbd>%h</kbd> = hour (0..23). <samp>[0~23]</samp><br />
+						<kbd>%F</kbd> = hour (01..12). <samp>[01~12]</samp><br />
+						<kbd>%f</kbd> = hour (1..12). <samp>[1~12]</samp><br />
+						
+						<kbd>%I</kbd> = minute (00..59). <samp>[00~59]</samp><br />
+						<kbd>%i</kbd> = minute (0..59). <samp>[0~59]</samp><br />
+						
+						<kbd>%S</kbd> = second (00..59). <samp>[00~59]</samp><br />
+						<kbd>%s</kbd> = second (0..59). <samp>[0~59]</samp>
+					]]>
+				</caption>
+				</field>
+			</fieldset>
+			<fieldset legend="Specify a date format for each parts.">
+				<field title="Post Archive : " name="archive_date" type="text" value="{%Y|}{%M}"></field>
+				<field title="Calendar : " name="calendar_date" type="text" value="{%m }{%Y}"></field>
+				<field title="Comment : " name="comment_date" type="text" value="{%Y}/{%M}/{%D}-{%H}:{%I}"></field>
+				<field title="Comment List : " name="comment_list_date" type="text" value="{%Y}/{%M}/{%D}"></field>
+				<field title="Guestbook : " name="guestbook_date" type="text" value="{%Y}/{%M}/{%D}-{%H:}{I분}"></field>
+				<field title="List : " name="list_date" type="text" value="{%Y}/{%M}/{%D}"></field>
+				<field title="Notice : " name="notice_date" type="text" value="{%Y}/{%M}/{%D}-{%H}:{%I}:{%S}"></field>
+				<field title="Post : " name="post_date" type="text" value="{%M}{ %o,}{ %Y}{ %H}{:%I}{:%S}"></field>
+				<field title="Recent Comment : " name="recent_comment_date" type="text" value="{%M}{ %d,}{ %Y}{ %H}:{%I}:{%S}"></field>
+				<field title="Recent Trackback : " name="recent_trackback_date" type="text" value="{%o }%M"></field>
+				<field title="Trackback : " name="trackback_date" type="text" value="%M{ %d,} %Y{ %H}{:%I}{:%S}"></field>
+			</fieldset>
+		</config>
+ 
+ 		<config xml:lang="ja" dataValHandler="">
+			<window width="500" height="525" />
+			<fieldset legend="言語をご選択ください。">
+				<field title="言語設定 : " name="language" type="select">
+				<op value="english">英語</op>
+				<op value="japanese" checked="checked">日本語</op>
+				<op value="korean">韓国語</op>
+				<caption>
+					<![CDATA[
+						<kbd>%Y</kbd> = 年度を4字数で表示<br />
+						<kbd>%y</kbd> = 年度を2字数で表示<br />
+						
+						<kbd>%M</kbd> = 月を表示するときに0を表示(英語標準表記) <samp>[01~12] or January/Febuary/March/April...</samp><br />
+						<kbd>%m</kbd> = 月を表示するときに0を表示しない(英語簡素表記)  <samp>[1~12] or Jan/Feb/Mar/Apr...</samp><br />
+						
+						<kbd>%D</kbd> = 日を表示するときに0を表示 <samp>[01~31]</samp><br />
+						<kbd>%d</kbd> = 日を表示するときに0を表示しない <samp>[1~31]</samp><br />
+						<kbd>%o</kbd> = 英語序数で日を表示 <samp>[1st|2nd|3rd|4th...|30th|31st]</samp><br />
+						
+						<kbd>%H</kbd> = 24時間表記(0を表示) <samp>[00~23]</samp><br />
+						<kbd>%h</kbd> = 24時間表記 <samp>[0~23]</samp><br />
+						<kbd>%F</kbd> = 12時間表記(0を表示) <samp>[01~12]</samp><br />
+						<kbd>%f</kbd> = 12時間表記 <samp>[1~12]</samp><br />
+						
+						<kbd>%I</kbd> = 分を表示するときに0を表示 <samp>[00~59]</samp><br />
+						<kbd>%i</kbd> = 分を表示するときに0を表示しない <samp>[0~59]</samp><br />
+						
+						<kbd>%S</kbd> = 秒を表示するときに0を表示 <samp>[00~59]</samp><br />
+						<kbd>%s</kbd> = 秒を表示するときに0を表示しない <samp>[0~59]</samp>
+					]]>
+				</caption>
+				</field>
+			</fieldset>
+			<fieldset legend="日付形式をご選択ください。">
+				<field title="アーカイブ : " name="archive_date" type="text" value="{%Y|}{%M}"></field>
+				<field title="カレンダー : " name="calendar_date" type="text" value="{%m }{%Y}"></field>
+				<field title="コメントリスト : " name="comment_list_date" type="text" value="{%Y年}{ %M月}{ %D日}"></field>
+				<field title="一般リスト : " name="list_date" type="text" value="{%Y年}{ %M月}{ %D日}"></field>
+				<field title="コメント : " name="comment_date" type="text" value="{%Y年}{ %M月}{ %D日}{ %H時}{ %I分}"></field>
+				<field title="掲示板 : " name="guestbook_date" type="text" value="{%Y年}{ %M月}{ %D日}{ %H時}{ %I分}"></field>
+				<field title="告知 : " name="notice_date" type="text" value="{%Y年}{ %M月}{ %D日}{ %H時}{ %I分}{ %S秒}"></field>
+				<field title="記事 : " name="post_date" type="text" value="{%M}{ %o,}{ %Y}{ %H}{:%I}{:%S}"></field>
+				<field title="トラックバック : " name="trackback_date" type="text" value="%M{ %d,} %Y{ %H}{:%I}{:%S}"></field>
+				<field title="最新コメント : " name="recent_comment_date" type="text" value="{%M}{ %d,}{ %Y}{ %H時}{ %I分}{ %S秒}"></field>
+				<field title="最新トラックバック : " name="recent_trackback_date" type="text" value="{%o }%M"></field>
+			</fieldset>
+		</config>
   </binding>
 </plugin>
