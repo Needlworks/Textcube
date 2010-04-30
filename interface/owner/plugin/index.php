@@ -182,7 +182,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 													else
 														currentIcon.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $context->getProperty('service.path');?>/plugins/' + plugin + '/images/icon_plugin_off.png", sizingMethod="scale")'
 												} else {
-													if (currentIcon.src == "<?php echo $context->getProperty('service.path') . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png")
+													if (currentIcon.src == "<?php echo $context->getPropeerty('uri.host').$context->getProperty('service.path') . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png")
 														currentIcon.src = '<?php echo $context->getProperty('service.path') . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png';
 													else
 														currentIcon.src = '<?php echo $context->getProperty('service.path');?>/plugins/' + plugin + '/images/icon_plugin_off.png';

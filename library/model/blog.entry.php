@@ -1119,7 +1119,7 @@ function syndicateEntry($id, $mode) {
 	
 	$pool->reset('XMLRPCPingSettings');
 	$pool->setQualifier('blogid','equals',$context->getProperty('blog.id'));
-	$sites = $pool->getAll('url,type');
+	$sites = $pool->getAll('url,pingtype');
 	
 	$entry = getEntry($context->getProperty('blog.id'), $id);
 	if (is_null($entry)) return false;

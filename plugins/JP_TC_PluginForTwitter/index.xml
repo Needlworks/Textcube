@@ -101,8 +101,9 @@
 			</field>
 		</fieldset>
 		<fieldset legend="트위터-라인 동기화">
-			<field title=" " type="checkbox" name="synchronizeLine" checked="checked">
-				<op value="true" name="synchronizeLine"><![CDATA[&nbsp;트위터와 라인을 동기화합니다. 트위터에 적은 글이 자동으로 라인의 새 글로 등록됩니다.]]></op>
+			<field title=" " type="checkbox" name="synchronizeLine" titledirection="bk" checked="checked">
+				<op value="true" name="synchronizeLine"><![CDATA[&nbsp;트위터와 라인을 동기화합니다.]]></op>
+				<caption><![CDATA[* 트위터에 적은 글이 자동으로 라인의 새 글로 등록됩니다. <br/> * 라인에 적은 글이 자동으로 트위터의 새 글로 등록됩니다.]]></caption>
 			</field>
 		</fieldset>
 	</config>

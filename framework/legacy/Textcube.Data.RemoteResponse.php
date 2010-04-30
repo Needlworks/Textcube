@@ -107,7 +107,7 @@ class Trackback {
 		if($id == 0)
 			return $maxId + 1;
 		else
-			 return ($maxId > $id ? $maxId : $id);
+			 return ($maxId > $id ? $maxId + 1: $id);
 	}
 	
 	function _buildQuery() {
@@ -275,7 +275,7 @@ class Pingback {
 		if($id == 0)
 			return $maxId + 1;
 		else
-			 return ($maxId > $id ? $maxId : $id);
+			 return ($maxId > $id ? $maxId + 1: $id);
 	}
 
 	function _buildQuery() {

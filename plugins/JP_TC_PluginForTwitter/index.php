@@ -1306,7 +1306,7 @@ function getUpdatingNewLineToTwitter($target, $mother) {
 	$data = Setting::fetchConfigVal($configVal);
 	getTwitterInitConfigVal($data);
 
-	if (!empty($data['username']) && !empty($data['password'])) {
+	if (!empty($data['username']) && !empty($data['password']) && !empty($data['synchronizeLine'])) {
 		$content = UTF8::lessenAsEncoding($mother->content,140);
 		$tw = new Twitter($data['username'], $data['password']);
 		$updated = $tw->updateStatus($content);

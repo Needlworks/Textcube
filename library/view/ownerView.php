@@ -900,7 +900,7 @@ echo getAttachmentSizeLabel($blogid, $entryId);
 										</div>
 										<script type="text/javascript">
 										//<![CDATA[
-										if (!DetectFlashVer(8, 0, 0) || !(isIE || isMoz || isMinSafari3) || <?php echo ($context->getProperty('service.flashuploader') ? 'true' : 'false');?>) {
+										if (!DetectFlashVer(8, 0, 0) || !(isIE || isMoz || isMinSafari3) || <?php echo ($context->getProperty('service.flashuploader', true) ? 'false' : 'true');?>) {
 											var deleteButtonContainer = document.getElementById('fileUploadNest');
 											deleteButtonContainer.innerHTML = '<input type="button" id="deleteBtn" class="input-button" value="<?php echo _t('삭제하기');?>" onclick="deleteAttachment();return false" />' + deleteButtonContainer.innerHTML;
 										}

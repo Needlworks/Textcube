@@ -113,10 +113,10 @@ function eolinTagFunction_showLocalSuggestion(id, cursor, filter)
 							instance.suggestion.style.display = "block";
 							instance.isSuggestionShown = true;
 
-							try {
-								document.getElementById("previewSelected").style.visibility = "hidden";
-								document.getElementById("TCfilelist").style.visibility = "hidden";
-							} catch(e) { }
+//							try {
+//								document.getElementById("previewSelected").style.visibility = "hidden";
+//								document.getElementById("TCfilelist").style.visibility = "hidden";
+//							} catch(e) { }
 							try { document.body.removeChild(instance.suggestion) } catch(e) { };
 							document.body.appendChild(instance.suggestion);
 						}

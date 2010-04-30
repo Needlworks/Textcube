@@ -263,9 +263,9 @@ function deleteAttachmentMulti($blogid, $parent, $names) {
 			continue;
 		$origname = $name;
 		$pool->reset('Attachments');
-		$pool->setAttribute('blogid','eq',$blogid);
-		$pool->setAttribute('parent','eq',$parent);
-		$pool->setAttribute('name','eq',$name,true);
+		$pool->setQualifier('blogid','eq',$blogid);
+		$pool->setQualifier('parent','eq',intval($parent));
+		$pool->setQualifier('name','eq',$name,true);
 		if($pool->delete()) {	
 			unlink(ROOT . "/attach/$blogid/$origname");
 		} else {
