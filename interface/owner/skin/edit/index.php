@@ -119,9 +119,9 @@ if (count($styleFileList) > 0 && !empty($currentStyleFile) && file_exists(ROOT .
 								var currentStyleLiNumber = 0;
 								var documentIcons = new Array();
 								documentIcons['css_off'] = new Image();
-								documentIcons['css_off'].src = '<?php echo $context->getProperty('uri.service') . $adminSkinSetting['skin'];?>/image/img_css_document_off.gif';
+								documentIcons['css_off'].src = '<?php echo $context->getProperty('uri.service') . $context->getProperty('panel.skin');?>/image/img_css_document_off.gif';
 								documentIcons['css_on'] = new Image();
-								documentIcons['css_on'].src = '<?php echo $context->getProperty('uri.service') . $adminSkinSetting['skin'];?>/image/img_css_document_on.gif';
+								documentIcons['css_on'].src = '<?php echo $context->getProperty('uri.service') . $context->getProperty('panel.skin');?>/image/img_css_document_on.gif';
 								
 								function changeCSSFile(obj, file) {
 									if (skinStyleSaved == false && confirm("<?php echo _t('변경된 스타일이 아직 저장되지 않았습니다.\n저장하시겠습니까?');?>"))
@@ -213,7 +213,7 @@ if (file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/index.xml")) {
 								
 								<form id="htmlSectionForm" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/skin/edit/skin/">
 									<ul>
-										<li class="selected"><a><img src="<?php echo $context->getProperty('uri.service') . $adminSkinSetting['skin'];?>/image/img_html_document_on.gif" alt="" /><strong>skin.html</strong></a>
+										<li class="selected"><a><img src="<?php echo $context->getProperty('uri.service') . $context->getProperty('panel.skin');?>/image/img_html_document_on.gif" alt="" /><strong>skin.html</strong></a>
 											<span id="skin-download" class="download">
 <?php
 if (file_exists(ROOT . "/skin/blog/customize/".getBlogId()."/skin.html")) {
@@ -272,11 +272,11 @@ if (count($styleFileList) > 0) {
 		$tempFile = str_replace(ROOT . "/skin/blog/{$skinSetting['skin']}/", '', $styleFile);
 		if ($tempFile == $currentStyleFile) {
 ?>
-										<li class="selected"><a href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/edit/?style=<?php echo $tempFile;?>" onclick="changeCSSFile(this, '<?php echo $tempFile;?>'); return false;"><strong><img src="<?php echo $context->getProperty('uri.service') . $adminSkinSetting['skin'];?>/image/img_css_document_on.gif" alt="" /><?php echo basename($tempFile);?></strong></a></li>
+										<li class="selected"><a href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/edit/?style=<?php echo $tempFile;?>" onclick="changeCSSFile(this, '<?php echo $tempFile;?>'); return false;"><strong><img src="<?php echo $context->getProperty('uri.service') . $context->getProperty('panel.skin');?>/image/img_css_document_on.gif" alt="" /><?php echo basename($tempFile);?></strong></a></li>
 <?php
 		} else {
 ?>
-										<li><a href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/edit/?style=<?php echo $tempFile;?>" onclick="changeCSSFile(this, '<?php echo $tempFile;?>'); return false;"><img src="<?php echo $context->getProperty('uri.service') . $adminSkinSetting['skin'];?>/image/img_css_document_off.gif" alt="" /><?php echo basename($tempFile);?></a></li>
+										<li><a href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/edit/?style=<?php echo $tempFile;?>" onclick="changeCSSFile(this, '<?php echo $tempFile;?>'); return false;"><img src="<?php echo $context->getProperty('uri.service') . $context->getProperty('panel.skin');?>/image/img_css_document_off.gif" alt="" /><?php echo basename($tempFile);?></a></li>
 <?php
 		}
 		

@@ -43,13 +43,13 @@ if (isset($_GET['showValue']))
 <head>
 	<title>Tree Structure Preview</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/skin.css" />
-	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/skin.ie.css" /><![endif]-->
+	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/skin.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/skin.ie.css" /><![endif]-->
 	<script type="text/javascript">
 		//<![CDATA[
 			var servicePath = "<?php echo $context->getProperty('service.path');?>";
 			var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
-			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
+			var adminSkin = "<?php echo $context->getProperty('panel.skin');?>";
 		//]]>
 	</script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>

@@ -134,7 +134,7 @@ if (file_exists(ROOT."/skin/admin/".$currentAdminSkin."/preview.jpg")) {
 <?php
 } else {
 ?>
-										<img src="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/image/noPreview.gif" width="150" height="150" alt="<?php echo _t('스킨 미리보기');?>" />
+										<img src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/image/noPreview.gif" width="150" height="150" alt="<?php echo _t('스킨 미리보기');?>" />
 <?php
 }
 ?>
@@ -214,7 +214,7 @@ for ($i = 0; $i < count($skins); $i++) {
 <?php
 	if ($skin['preview'] == '') {
 ?>
-										<img src="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/image/noPreview.gif" width="150" height="150" alt="<?php echo _t('스킨 미리보기');?>" />
+										<img src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/image/noPreview.gif" width="150" height="150" alt="<?php echo _t('스킨 미리보기');?>" />
 <?php
 	} else {
 ?>

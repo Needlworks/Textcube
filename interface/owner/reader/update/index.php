@@ -30,7 +30,7 @@ ob_implicit_flush();
 			//<![CDATA[
 				var servicePath = "<?php echo $context->getProperty('service.path');?>";
 				var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
-				var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
+				var adminSkin = "<?php echo $context->getProperty('panel.skin');?>";
 			//]]>
 		</script>
 	</head>

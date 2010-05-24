@@ -135,13 +135,13 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 												objLI.className = objLI.className.replace('inactive', 'active');
 												
 												if (STD.isIE6) {
-													if (currentIcon.style.filter == 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $context->getProperty('service.path') . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png", sizingMethod="scale")')
-														currentIcon.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $context->getProperty('service.path') . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png", sizingMethod="scale")'
+													if (currentIcon.style.filter == 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $context->getProperty('service.path') . $context->getProperty('panel.skin');?>/image/icon_plugin_off.png", sizingMethod="scale")')
+														currentIcon.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $context->getProperty('service.path') . $context->getProperty('panel.skin');?>/image/icon_plugin_on.png", sizingMethod="scale")'
 													else
 														currentIcon.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $context->getProperty('service.path');?>/plugins/' + plugin + '/images/icon_plugin_on.png", sizingMethod="scale")'
 												} else {
-													if (currentIcon.src == "<?php echo $context->getProperty('service.path') . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png")
-														currentIcon.src = '<?php echo $context->getProperty('service.path') . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png';
+													if (currentIcon.src == "<?php echo $context->getProperty('service.path') . $context->getProperty('panel.skin');?>/image/icon_plugin_off.png")
+														currentIcon.src = '<?php echo $context->getProperty('service.path') . $context->getProperty('panel.skin');?>/image/icon_plugin_on.png';
 													else
 														currentIcon.src = '<?php echo $context->getProperty('service.path');?>/plugins/' + plugin + '/images/icon_plugin_on.png';
 												}
@@ -177,13 +177,13 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 												objLI.className = objLI.className.replace('active', 'inactive');
 												
 												if (STD.isIE6) {
-													if (currentIcon.style.filter == 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $context->getProperty('service.path') . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png", sizingMethod="scale")')
-														currentIcon.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $context->getProperty('service.path') . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png", sizingMethod="scale")'
+													if (currentIcon.style.filter == 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $context->getProperty('service.path') . $context->getProperty('panel.skin');?>/image/icon_plugin_on.png", sizingMethod="scale")')
+														currentIcon.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $context->getProperty('service.path') . $context->getProperty('panel.skin');?>/image/icon_plugin_off.png", sizingMethod="scale")'
 													else
 														currentIcon.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="<?php echo $context->getProperty('service.path');?>/plugins/' + plugin + '/images/icon_plugin_off.png", sizingMethod="scale")'
 												} else {
-													if (currentIcon.src == "<?php echo $context->getPropeerty('uri.host').$context->getProperty('service.path') . $adminSkinSetting['skin'];?>/image/icon_plugin_on.png")
-														currentIcon.src = '<?php echo $context->getProperty('service.path') . $adminSkinSetting['skin'];?>/image/icon_plugin_off.png';
+													if (currentIcon.src == "<?php echo $context->getPropeerty('uri.host').$context->getProperty('service.path') . $context->getProperty('panel.skin');?>/image/icon_plugin_on.png")
+														currentIcon.src = '<?php echo $context->getProperty('service.path') . $context->getProperty('panel.skin');?>/image/icon_plugin_off.png';
 													else
 														currentIcon.src = '<?php echo $context->getProperty('service.path');?>/plugins/' + plugin + '/images/icon_plugin_off.png';
 												}
@@ -412,7 +412,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 		echo $context->getProperty('service.path') . 
 			(file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_off.png") ?
 				"/plugins/{$pluginDir}/images/icon_plugin_off.png" :
-				$adminSkinSetting['skin'] . "/image/icon_plugin_off.png");?>" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 현재 텍스트큐브와 호환되지 않습니다. 플러그인의 업데이트가 필요합니다.');?>" />
+				$context->getProperty('panel.skin') . "/image/icon_plugin_off.png");?>" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 현재 텍스트큐브와 호환되지 않습니다. 플러그인의 업데이트가 필요합니다.');?>" />
 <?php
 	} else if ($active) {
 ?>
@@ -421,7 +421,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 		echo $context->getProperty('service.path') . 
 			(file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_on.png") ? 
 				"/plugins/{$pluginDir}/images/icon_plugin_on.png" :
-				$adminSkinSetting['skin'] . "/image/icon_plugin_on.png");?>" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null); return false;" alt="<?php echo _t('켜짐');?>" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>" />
+				$context->getProperty('panel.skin') . "/image/icon_plugin_on.png");?>" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null); return false;" alt="<?php echo _t('켜짐');?>" title="<?php echo _t('이 플러그인은 사용중입니다. 클릭하시면 사용을 중지합니다.');?>" />
 											<input type="hidden" id="pluginStatus<?php echo $i;?>" value="1" />
 <?php
 	} else {
@@ -431,7 +431,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 		echo $context->getProperty('service.path') . 
 			(file_exists(ROOT . "/plugins/{$pluginDir}/images/icon_plugin_off.png") ? 
 				"/plugins/{$pluginDir}/images/icon_plugin_off.png" : 
-				$adminSkinSetting['skin'] . "/image/icon_plugin_off.png");?>" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null); return false;" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 사용 중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>" />
+				$context->getProperty('panel.skin') . "/image/icon_plugin_off.png");?>" onclick="togglePlugin('<?php echo $pluginDir;?>',<?php echo $i;?>,'<?php echo $width;?>','<?php echo $height;?>', this, null); return false;" alt="<?php echo _t('꺼짐');?>" title="<?php echo _t('이 플러그인은 사용 중지 상태입니다. 클릭하시면 사용을 시작합니다.');?>" />
 											<input type="hidden" id="pluginStatus<?php echo $i;?>" value="0" />
 <?php
 	}

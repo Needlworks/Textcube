@@ -63,7 +63,7 @@ if (!$xmls->doesExist('/plugin/binding/config') || !$active) {
 if (file_exists(ROOT . "/plugins/{$pluginName}/images/icon_plugin.png")) {
 	$iconPath = $context->getProperty('uri.service') . "/plugins/{$pluginName}/images/icon_plugin.png";
 } else {
-	$iconPath = $context->getProperty('uri.service') . $adminSkinSetting['skin'] . "/image/icon_plugin.png";
+	$iconPath = $context->getProperty('uri.service') . $context->getProperty('panel.skin') . "/image/icon_plugin.png";
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -71,7 +71,7 @@ if (file_exists(ROOT . "/plugins/{$pluginName}/images/icon_plugin.png")) {
 <head>
 	<title><?php echo _f("%1 설정", $pluginAttrs['title']);?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path') . $adminSkinSetting['skin'];?>/plugin-config.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path') . $context->getProperty('panel.skin');?>/plugin-config.css" />
 <?php
 if (true === file_exists(ROOT . "/plugins/$pluginName/plugin-config.css")) {
 ?>

@@ -162,7 +162,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 			<div id="data-outbox">
 				<div id="login-box">
 					<div id="logo-box">
-						<img src="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/image/logo_textcube.png" alt="<?php echo _text('텍스트큐브 로고');?>" />
+						<img src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/image/logo_textcube.png" alt="<?php echo _text('텍스트큐브 로고');?>" />
 					</div>
 					<form method="post" action="">
 						<input type="hidden" name="requestURI" value="<?php echo htmlspecialchars($_POST['requestURI']);?>" />

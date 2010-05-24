@@ -195,7 +195,7 @@ if (false) forceCheckBlog('');
 							
 							<div class="data-inbox main-explain-box">
 								<div class="image" onclick="correctData(); return false">
-									<img src="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/image/dbCorrect.png" alt="<?php echo _t('데이터 교정 이미지');?>" />
+									<img src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/image/dbCorrect.png" alt="<?php echo _t('데이터 교정 이미지');?>" />
 								</div>
 								<p class="explain">
 									<?php echo _t('비정상적인 데이터를 교정합니다.<br />동적인 캐쉬 데이터는 재계산하여 저장합니다.');?>
@@ -223,7 +223,7 @@ if(Acl::check("group.creators")) {
 							
 							<div class="data-inbox main-explain-box">
 								<div class="image" onclick="optimizeData()">
-									<img src="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/image/dbOptimize.png" alt="<?php echo _t('데이터베이스 최적화 이미지');?>" />
+									<img src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/image/dbOptimize.png" alt="<?php echo _t('데이터베이스 최적화 이미지');?>" />
 								</div>
 								<p class="explain">
 									<?php echo _t('잦은 입출력으로 비효율적이 된 데이터베이스를 최적화 합니다.');?>
@@ -251,7 +251,7 @@ if(Acl::check("group.creators")) {
 							
 							<div class="data-inbox main-explain-box">
 								<div class="image" onclick="showDialog('DBExport')">
-									<img src="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/image/dbExport.png" alt="<?php echo _t('데이터 백업 이미지');?>" />
+									<img src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/image/dbExport.png" alt="<?php echo _t('데이터 백업 이미지');?>" />
 								</div>
 								<p class="explain">
 									<?php echo _t('현재의 모든 데이터를 TTXML형태의 백업파일로 보관합니다.<br />첨부파일을 포함시킬 수 있으며, 복원할 경우 자동으로 첨부파일이 처리됩니다.<br />백업파일은 서버에 저장하거나 다운받으실 수 있습니다.');?>
@@ -324,7 +324,7 @@ if(defined('__TEXTCUBE_NO_FANCY_URL__')) {
 							
 							<div class="data-inbox main-explain-box">
 								<div class="image" onclick="<?php echo forceCheckBlog("showDialog('DBImport');"); ?> return false">
-									<img src="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/image/dbImport.png" alt="<?php echo _t('데이터 복원 이미지');?>" />
+									<img src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/image/dbImport.png" alt="<?php echo _t('데이터 복원 이미지');?>" />
 								</div>
 								<p class="explain">
 									<?php echo _t('백업파일을 읽어서 데이터를 복원합니다.<br />백업파일에 첨부파일이 포함되어 있으면 첨부파일도 자동으로 복원됩니다.<br />이전 버전으로부터의 데이터도 복원을 통해 가져올 수 있습니다.');?>
@@ -391,7 +391,7 @@ if ($backup) {
 							
 							<div class="data-inbox main-explain-box">
 								<div class="image" onclick="showDialog('DBRemove')">
-									<img src="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/image/dbClear.png" alt="<?php echo _t('데이터 삭제 이미지');?>" />
+									<img src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/image/dbClear.png" alt="<?php echo _t('데이터 삭제 이미지');?>" />
 								</div>
 								<p class="explain">
 									<?php echo _t('텍스트큐브의 모든 데이터를 삭제합니다.<br />첨부파일의 삭제 여부를 선택하실 수 있습니다.<br />데이터의 복원은 백업파일을 통해서만 가능하므로 먼저 백업을 하시기 바랍니다.');?>
