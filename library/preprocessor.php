@@ -214,15 +214,12 @@ if (!defined('NO_INITIALIZAION')) {
 		$browser = Utils_Browser::getInstance();
 		if($browser->isMobile()) {
 			$context->setProperty('panel.skin', "/skin/admin/mobile");
-//			$adminSkinSetting['skin'] = "/skin/admin/mobile";
 		} else {
 
 			if(!is_null($context->getProperty('service.adminskin'))) {
 				$context->setProperty('panel.skin',"/skin/admin/".$context->getProperty('service.adminskin'));
-//				$adminSkinSetting['skin'] = "/skin/admin/".$context->getProperty('service.adminskin');
 			} else {
 				$context->setProperty('panel.skin',"/skin/admin/".Setting::getBlogSettingGlobal("adminSkin", "whitedream"));
-//				$adminSkinSetting['skin'] = "/skin/admin/".Setting::getBlogSettingGlobal("adminSkin", "whitedream");
 			}
 		}
 		// content 본문에 removeAllTags()가 적용되는 것을 방지하기 위한 프로세스를 위한 변수.
@@ -230,10 +227,8 @@ if (!defined('NO_INITIALIZAION')) {
 	
 		if (file_exists(ROOT . "/skin/blog/".$context->getProperty('skin.skin')."/wysiwyg.css"))
 			$context->setProperty('panel.editorTemplate',"/skin/blog/".$context->getProperty('skin.skin')."/wysiwyg.css");
-			//$adminSkinSetting['editorTemplate'] = "/skin/blog/{$skinSetting['skin']}/wysiwyg.css";
 		else
 			$context->setProperty('panel.editorTemplate',"/resources/style/default-wysiwyg.css");
-			//$adminSkinSetting['editorTemplate'] = "/resources/style/default-wysiwyg.css";
 	}
 }
 	
