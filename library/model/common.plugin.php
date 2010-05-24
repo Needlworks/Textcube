@@ -177,11 +177,12 @@ function getPluginInformation($plugin) {
 }
 
 function treatPluginTable($plugin, $name, $fields, $keys, $version) {
-	global $database;
-	if(doesExistTable($database['prefix'] . $name)) {
+	$context = Model_Context::getInstance();
+//	global $context;
+	if(doesExistTable($context->getProperty('database.prefix'). $name)) {
 		$keyname = 'Database_' . $name;
 		$value = $plugin;
-		$result = getServiceSetting($keyname, null);
+		$result = Setting::getServiceSetting($keyname,null, true);
 		if (is_null($result)) {
 			$keyname = UTF8::lessenAsEncoding($keyname, 32);
 			$value = UTF8::lessenAsEncoding($plugin . '/' . $version , 255);
