@@ -2,16 +2,21 @@
 <plugin version="1.0">
   <title xml:lang="en">Recent Entries</title>
   <title xml:lang="ko">최근 글</title>
+  <title xml:lang="ja">最新記事</title>
   <link>http://needlworks.org/</link>
   <version>1.6</version>
   <description xml:lang="en">Shows recent entries</description>
   <description xml:lang="ko">최근에 작성된 글들을 보여줍니다</description>
+  <description xml:lang="ja">最新記事を表示します。</description>
   <license>GPL</license>
   <author xml:lang="en" link="http://rsef.net">Peris (Tatter Network Foundation)</author>
   <author xml:lang="ko" link="http://rsef.net">Peris (Tatter Network Foundation)</author>
+  <author xml:lang="ja" link="http://rsef.net">Peris (Tatter Network Foundation)</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
-    <textcube>1.6</textcube>
+    <textcube>
+      <minVersion>1.8</minVersion>
+    </textcube>
   </requirements>
   <binding>
 	<center handler="CT_RecentPS_Default" />

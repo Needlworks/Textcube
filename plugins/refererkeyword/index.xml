@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title xml:lang="en">Keyword Statistics</title>
-  <title xml:lang="ko">리퍼러 검색어 통계</title>
-  <title xml:lang="ja">キーワード統計</title>
+  <title xml:lang="en">Keyword Statistics(Japanese)</title>
+  <title xml:lang="ko">리퍼러 검색어 통계(일본어판)</title>
+  <title xml:lang="ja">キーワード統計(日本語版)</title>
   <link>http://forum.tattersite.com/ko/</link>
   <version>1.2+</version>
   <description xml:lang="en">Keyword Statistics</description>
   <description xml:lang="ko">리퍼러에서 검색 키워드를 추출하여 통계를 출력합니다.</description>
-  <description xml:lang="ja">リファラからキーワードを抽出してそのランキングを見せます。</description>
+  <description xml:lang="ja">キーワード統計を表示します。</description>
   <license>GPL</license>
   <author xml:lang="en" link="http://forum.tattersite.com/en">Tatter &amp; Friends (Chiri)</author>
   <author xml:lang="ko" link="http://forum.tattersite.com/ko/">태터앤프렌즈 (치리)</author>
@@ -41,7 +41,7 @@
         </method>
       </viewMethods>
     </adminMenu>
-	<config dataValHandler = "KeywordStatisticsDataSet" >
+	<config dataValHandler = "KeywordStatisticsDataSet" xml:lang="ko" >
 		<window width="500" height="450" />
 		<fieldset legend="통계 페이지 출력 설정" name="KSsetting1">
 			<field title="검색어 순위를 얼마큼 보여줄지 선택" name="limitRank" type="select">
@@ -64,5 +64,30 @@
 
 		</fieldset>
 	</config>
+
+	<config dataValHandler = "KeywordStatisticsDataSet" xml:lang="ja" >
+		<window width="500" height="450" />
+		<fieldset legend="統計表示設定" name="KSsetting1">
+			<field title="キーワード順位表示設定" name="limitRank" type="select">
+				<op value="5" checked="checked">5位まで</op>
+				<op value="10">10位まで</op>
+				<op value="15">15位まで</op>
+				<op value="3939">全体順位表示</op>
+				<caption> - 統計表示時に基本表示範囲を設定します。</caption>
+			</field>
+			<field title="キーワードのリファラ表示設定" name="showURL" type="select">
+				<op value="0" checked="checked">非表示</op>
+				<op value="1">表示</op>
+				<caption> - キーワードのリファラの表示可否を設定します。</caption>
+			</field>
+		</fieldset>
+		<fieldset legend="集計除外設定" name="KSsetting2">
+			<field title="複数のキーワードの入力時には半角コンマ(,)、または空白( )で各項目を区分します。" name="WordFiltering" rows="6" cols="50" titledirection="bk" type="textarea">
+				<![CDATA[]]>
+			</field>
+
+		</fieldset>
+	</config>
+
   </binding>
 </plugin>

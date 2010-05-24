@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title xml:lang="en">Team Blog Settings</title>
-  <title xml:lang="ko">팀블로그 설정</title>
+  <title xml:lang="en">Team Blog Settings(Japanese)</title>
+  <title xml:lang="ko">팀블로그 설정(일본어판)</title>
+  <title xml:lang="ja">チームブログ設定(日本語版)</title>
   <link>http://needlworks.org/</link>
   <version>1.7</version>
   <description xml:lang="en"><![CDATA[Adds some detail settings for team blog use.]]></description>
   <description xml:lang="ko"><![CDATA[팀블로그를 사용할 경우 사용자 프로필 등의 다양한 기능을 텍스트큐브에 추가합니다.]]></description>
+  <description xml:lang="ja"><![CDATA[チームブログ機能を設定します。]]></description>
   <license>GPL</license>
   <author xml:lang="en" link="http://create74.com">Yong-ju, Park / Young-sun Park (J.Parker / chakani)</author>
   <author xml:lang="en" link="http://chakani.net">Yong-ju, Park / Young-sun Park (J.Parker / chakani)</author>
@@ -26,16 +28,16 @@
 	<config dataValHandler = "getTeamBlog_DataSet" >
 		<window width="500" height="550" />
 		<fieldset legend="Writer profile" >
-			<field title="적용 항목 :" name="postCheck" type="checkbox"  >
-				<op name="p1" value="1" checked="checked"><![CDATA[본문&nbsp;(]]></op>
-				<op name="p2" value="1"><![CDATA[본문 치환자 사용)]]></op>
-				<caption><![CDATA[* 본문용 치환자 : <b>[##_TeamBlogProfileTag_##]</b><br>* 치환자는 사용하는 스킨 skin.html파일에 추가 삽입.]]></caption>
+			<field title="適用対象:" name="postCheck" type="checkbox"  >
+				<op name="p1" value="1" checked="checked"><![CDATA[本文&nbsp;(]]></op>
+				<op name="p2" value="1"><![CDATA[Textcube用の機能タグを利用)]]></op>
+				<caption><![CDATA[* 機能タグ: <b>[##_TeamBlogProfileTag_##]</b><br>*  機能タグは利用中のテーマのskin.htmlに挿入]]></caption>
 			</field>
-			<field title="사진 크기 :" name="imageSize" type="text" size="5" value="80" />
-			<field title="테두리 색 :" name="lineColor" type="text" size="10" value="#e3e3e3" />
-			<field title="CSS 적용 :" name="cssSelect" type="radio"  >
-				<op value="1" checked="checked">적용</op>
-				<op value="2">미적용</op>
+			<field title="画像サイズ:" name="imageSize" type="text" size="5" value="80" />
+			<field title="縁色:" name="lineColor" type="text" size="10" value="#e3e3e3" />
+			<field title="CSS適用 :" name="cssSelect" type="radio"  >
+				<op value="1" checked="checked">適用</op>
+				<op value="2">非適用</op>
 			</field>
 		</fieldset>
 		<fieldset legend="Post profile HTML">

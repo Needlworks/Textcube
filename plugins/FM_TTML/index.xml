@@ -6,6 +6,7 @@
 	<version>1.7</version>
 	<description xml:lang="en">Implements TTML formatter, dedicated HTML-like syntax for Textcube.</description>
 	<description xml:lang="ko">텍스트큐브 용으로 사용되는 TTML 문법을 구현합니다.</description>
+	<description xml:lang="ja">Textcube専用のTTML文法を構成・解釈するプラグイン。</description>
 	<license>GPL</license>
 	<author xml:lang="en" link="http://tokigun.net/">Kang Seonghoon (lifthrasiir / Needlworks)</author>
 	<author xml:lang="ko" link="http://tokigun.net/"><![CDATA[강 성훈 (lifthrasiir / Needlworks)]]></author>
@@ -18,7 +19,6 @@
 			<format>FM_TTML_format</format>
 			<summary>FM_TTML_summary</summary>
 			<usedFor editor="modern" />
-			<usedFor editor="xquared" />
 		</formatter>
 	</binding>
 </plugin>

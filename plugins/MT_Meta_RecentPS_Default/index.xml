@@ -2,32 +2,34 @@
 <plugin version="1.0">
   <title xml:lang="en">Coverpage Recent Entries as blogmeta</title>
   <title xml:lang="ko">모든 블로그의 최근 글 보기</title>
+  <title xml:lang="ja">全体ブログの最新記事表示</title>
   <link>http://needlworks.org/</link>
-  <version>1.8</version>
+  <version>1.7</version>
   <description xml:lang="en">Shows coverpage with recent entries</description>
   <description xml:lang="ko">다중 사용자 모드에서 모든 블로그들의 최근에 작성된 글들을 표지에 보여줍니다</description>
+  <description xml:lang="ja">全体ブログの最新記事をメタページから表示します。</description>
   <license>GPL</license>
   <author xml:lang="en" link="http://create74.com">Yong-ju, Park (J.Parker / Needlworks)</author>
   <author xml:lang="ko" link="http://create74.com"><![CDATA[박용주 (J.Parker / Needlworks)]]></author>
+  <author xml:lang="ja" link="http://create74.com">Yong-ju, Park (J.Parker / Needlworks)</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
-    <textcube>
-		<minVersion>1.8</minVersion>
-	</textcube>
+    <textcube>1.7</textcube>
   </requirements>
   <binding>
-  	<listener event="AddPost" handler="MT_Cover_getRecentEntries_purgeCache" />
-  	<listener event="UpdatePost" handler="MT_Cover_getRecentEntries_purgeCache" />
-  	<listener event="DeletePost" handler="MT_Cover_getRecentEntries_purgeCache" />
-	<listener event="ChangeVisibility" handler="MT_Cover_getRecentEntries_purgeCache" />
-	<listener event="ToggleBlogSlogan" handler="MT_Cover_getRecentEntries_purgeCache" />
-	<listener event="ModifyPluginParam_MT_Meta_RecentPS_Default" handler="MT_Cover_getRecentEntries_purgeCache" />
+  	<listener event="AddPost">MT_Cover_getRecentEntries_purgeCache</listener>
+  	<listener event="UpdatePost">MT_Cover_getRecentEntries_purgeCache</listener>
+  	<listener event="DeletePost">MT_Cover_getRecentEntries_purgeCache</listener>
+	<listener event="ChangeVisibility">MT_Cover_getRecentEntries_purgeCache</listener>
+	<listener event="ToggleBlogSlogan">MT_Cover_getRecentEntries_purgeCache</listener>
+	<listener event="ModifyPluginParam_MT_Meta_RecentPS_Default">MT_Cover_getRecentEntries_purgeCache</listener>
 	<tag name="SKIN_head_end" handler="MT_Cover_getRecentEntryStyle" />
     <coverpage title="Recent Posts" handler="MT_Cover_getRecentEntries">
       <params>
         <param>
-          <title xml:lang="en">Show recent posts per list</title>
-		  <title xml:lang="ko">출력될 최근 글 수</title>
+	<title xml:lang="en">Show recent posts per list</title>
+	<title xml:lang="ko">출력될 최근 글 수</title>
+	<title xml:lang="ja">1ページ毎の表示記事数</title>
           <name>entryLength</name>
           <type>int</type>
 		  <default>5</default>
@@ -35,10 +37,13 @@
 	  </params>
 	</coverpage>
 	<config xml:lang="ko" dataValHandler="MT_Cover_getRecentEntries_DataSet" manifestHandler="MT_Cover_getRecentEntries_ConfigOut_ko">
-		<window width="500" height="375" />
+		<window width="500" height="298" />
 	</config>
 	<config xml:lang="en" dataValHandler="MT_Cover_getRecentEntries_DataSet" manifestHandler="MT_Cover_getRecentEntries_ConfigOut_en">
-		<window width="500" height="375" />
+		<window width="500" height="298" />
+	</config>
+	<config xml:lang="ja" dataValHandler="MT_Cover_getRecentEntries_DataSet" manifestHandler="MT_Cover_getRecentEntries_ConfigOut_ja">
+		<window width="500" height="298" />
 	</config>
   </binding>
 </plugin>

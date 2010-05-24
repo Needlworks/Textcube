@@ -2,30 +2,34 @@
 <plugin version="1.0">
   <title xml:lang="ko">모바일 블로그</title>
   <title xml:lang="en">Moblog</title>
+  <title xml:lang="ja">Moblog</title>
   <link>http://www.needlworks.org/</link>
   <version>1.0</version>
   <description xml:lang="en">This plugin enables Mobile blogging</description>
   <description xml:lang="ko">이동전화로 이메일을 보내면 첨부된 사진을 글로 등록합니다. 관리자화면/설정/모바일 메뉴를 확인하세요</description>
+  <description xml:lang="ja">携帯電話からのメール送信で記事作成ができます。</description>
   <license>GPL 2.0</license>
   <author xml:lang="en" link="http://www.needlworks.org/">Hojin Choi</author>
   <author xml:lang="ko" link="http://www.needlworks.org/">Coolengineer</author>
+  <author xml:lang="ja" link="http://www.needlworks.org/">Hojin Choi</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <scope>blog</scope>
   <requirements>
     <textcube>
-        <minVersion>1.8</minVersion> 
+	  <minVersion>1.8</minVersion>
 	</textcube>
   </requirements>
   <binding>
-	<listener event="/plugin/moblog/check">moblog_check</listener>
-	<listener event="Cron5m">moblog_check</listener>
-	<listener event="Cron24h">moblog_logrotate</listener>
+	<listener event="/plugin/moblog/check" handler="moblog_check" />
+	<listener event="Cron5m" handler="moblog_check" />
+	<listener event="Cron24h" handler="moblog_logrotate" />
     <adminMenu>
       <viewMethods>
         <method>
           <topMenu>setting</topMenu>
           <title xml:lang="en">Mobile</title>
           <title xml:lang="ko">모바일</title>
+          <title xml:lang="ja">モバイル設定</title>
           <handler>moblog_manage</handler>
           <params>
 			  <param>

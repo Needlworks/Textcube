@@ -6,6 +6,7 @@
 	<version>1.6</version>
 	<description xml:lang="en">Implements Textile formatter, to support semantic XHTML with simple markup syntax. For more information, refer http://textile.thresholdstate.com/ .</description>
 	<description xml:lang="ko">일반적인 텍스트 문서를 통하여 의미론적인 XHTML을 생성해내는 Textile 포맷을 지원합니다.자세한 설명은 http://textile.thresholdstate.com/ 를 참조하세요.</description>
+	<description xml:lang="ja">XHTML標準勧告に合わせた文書作成環境を提供する Textileフォーマット用プラグイン。詳細なことは http://textile.thresholdstate.com/ からご参考ください。</description>
 	<license>GPL</license>
 	<author xml:lang="en" link="http://forest.nubimaru.com/">Jeongkyu Shin (inureyes / Needlworks)</author>
 	<author xml:lang="en" link="http://textile.thresholdstate.com/">Threshold State (Textile library)</author>

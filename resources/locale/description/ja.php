@@ -1,5 +1,5 @@
 <?php  //日本語
-/* Translated by Louice P. (http://www.louice.net/) */
+/* Translated by Sojeong Yoon (http://www.louice.net/) */
 /* Contributed by !Nazu NT */
 /* Contributed by Shungchul Kim */
 /* Contributed by M. Satoh */

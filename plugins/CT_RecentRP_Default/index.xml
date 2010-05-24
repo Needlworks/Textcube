@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title xml:lang="en">Recent Replies</title>
-  <title xml:lang="ko">최근 댓글</title>
-   <title xml:lang="ja">最新コメント</title>
+  <title xml:lang="en">Recent Replies(Japanese)</title>
+  <title xml:lang="ko">최근 댓글(일본어판)</title>
+  <title xml:lang="ja">新着コメント(日本語版)</title>
   <link>http://needlworks.org/</link>
   <version>1.8</version>
   <description xml:lang="en">Shows recent replies</description>
   <description xml:lang="ko">최근에 작성된 댓글들을 보여줍니다</description>
-  <description xml:lang="ja">最新コメント・プラグ・イン</description>
+  <description xml:lang="ja">新着コメントを表示します。</description>
   <license>GPL</license>
   <author xml:lang="en" link="http://rsef.net">Peris (Tatter Network Foundation)</author>
   <author xml:lang="ko" link="http://rsef.net">Peris (Tatter Network Foundation)</author>
@@ -22,14 +22,14 @@
     <center handler="CT_RecentRP_Default" />
 	<config dataValHandler="CT_RecentRP_Default_DataSet" >
 		<window width="500" height="314" />
-		<fieldset legend="목록 표시설정">
-			<field title="관리자 댓글 :" name="repliesChk" type="radio"  >
-				<op value="1" checked="checked">보이기</op>
-				<op value="2">안보이기</op>
-				<caption><![CDATA['<b>안보이기</b>'를 선택했을 경우 손님댓글에 댓글을 달았는지 표시됩니다.]]></caption>
+		<fieldset legend="表示設定">
+			<field title="管理者コメント :" name="repliesChk" type="radio"  >
+				<op value="1" checked="checked">表示</op>
+				<op value="2">非表示</op>
+				<caption><![CDATA['<b>非表示</b>'で設定したら管理者のコメントは表示しません。]]></caption>
 			</field>
-			<field title="출력될 글수 :" name="repliesList" type="text" size="4" >
-				<caption><![CDATA['<b>공백</b>'이면 기본 출력 글수로 보여줍니다.]]></caption>
+			<field title="表示数 :" name="repliesList" type="text" size="4" >
+				<caption><![CDATA['<b>空白</b>'で置いといたら基本設定で表示します。]]></caption>
 			</field>
 		</fieldset>
 	</config>

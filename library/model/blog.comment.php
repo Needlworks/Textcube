@@ -405,6 +405,7 @@ function updateCommentsOfEntry($blogid, $entryId) {
 }
 
 function sendCommentPing($entryId, $permalink, $name, $homepage) {
+	return true;
 	global $database, $blog;
 	$blogid = getBlogId();
 	if($slogan = POD::queryCell("SELECT slogan
@@ -509,21 +510,22 @@ function addComment($blogid, & $comment) {
 		)");
 	if ($result) {
 		$id = $insertId;
-		CacheControl::flushCommentRSS($comment['entry']);
-		CacheControl::flushDBCache('comment');
-		if ($parent != 'null' && $comment['secret'] < 1) {
-			$insertId = getCommentsNotifiedQueueMaxId() + 1;
-			POD::execute("INSERT INTO {$database['prefix']}CommentsNotifiedQueue
-					( blogid , id, commentid , sendstatus , checkdate , written )
-				VALUES
-					('".$blogid."' , '".$insertId."', '" . $id . "', '0', '0', UNIX_TIMESTAMP())");
-		}
-		updateCommentsOfEntry($blogid, $comment['entry']);
-		fireEvent($comment['entry'] ? 'AddComment' : 'AddGuestComment', $id, $comment);
-		if ($filtered == 1)
-			return $blockType;
-		else
+		if($filtered != 1) {
+			CacheControl::flushCommentRSS($comment['entry']);
+			CacheControl::flushDBCache('comment');
+			if ($parent != 'null' && $comment['secret'] < 1) {
+				$insertId = getCommentsNotifiedQueueMaxId() + 1;
+				POD::execute("INSERT INTO {$database['prefix']}CommentsNotifiedQueue
+						( blogid , id, commentid , sendstatus , checkdate , written )
+					VALUES
+						('".$blogid."' , '".$insertId."', '" . $id . "', '0', '0', UNIX_TIMESTAMP())");
+			}
+			updateCommentsOfEntry($blogid, $comment['entry']);
+			fireEvent($comment['entry'] ? 'AddComment' : 'AddGuestComment', $id, $comment);
 			return $id;
+		} else {
+			return $blockType;
+		}
 	}
 	return false;
 }
@@ -886,7 +888,6 @@ function notifyComment() {
 			ORDER BY CNQ.id ASC LIMIT 1 OFFSET 0";
 	$queue = POD::queryRow($sql);
 	if (empty($queue) && empty($queue['queueId'])) {
-		//POD::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
 		return false;
 	}
 	$comments = (POD::queryRow("SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$queue['commentid']}"));

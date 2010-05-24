@@ -7,7 +7,7 @@
   <version>1.6</version>
   <description xml:lang="en">Referer log Plugin using Textcube Components.</description>
   <description xml:lang="ko">텍스트큐브 컴포넌트를 이용하여 리퍼러 기록을 보여줍니다.</description>
-  <description xml:lang="ja">テト・ツールズのコンポーネントを利用して、詳細なリファラ情報を見せます。</description>
+  <description xml:lang="ja">Textcubeの構成要素を利用して、詳細なリファラ統計を表示します。</description>
   <license>GPL</license>
   <author xml:lang="en" link="http://needlworks.org">Needlworks</author>
   <author xml:lang="ko" link="http://needlworks.org">Needlworks</author>
