@@ -92,15 +92,15 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 <?php
 	}
 ?>
-	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/basic.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/login.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/basic.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/login.css" />
 	<!--[if lte IE 6]>
-		<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/basic.ie.css" />
-		<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/login.ie.css" />
+		<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/basic.ie.css" />
+		<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/login.ie.css" />
 	<![endif]-->
 	<!--[if IE 7]>
-		<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/basic.ie7.css" />
-		<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/login.ie7.css" />
+		<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/basic.ie7.css" />
+		<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/login.ie7.css" />
 	<![endif]-->
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/byTextcube.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
@@ -111,7 +111,7 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 		//<![CDATA[
 			var servicePath = "<?php echo $context->getProperty('service.path');?>";
 			var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
-			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
+			var adminSkin = "<?php echo $context->getProperty('panel.skin');?>";
 
 			window.addEventListener("load", execLoadFunction, false);
 			
