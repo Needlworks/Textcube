@@ -356,17 +356,19 @@ if (getBlogId()) {
 	}
 	// sort mapping by its name, with exception for default formatter and editor
 	if (doesHaveOwnership()) {
+		$_fMapping = $formatterMapping;
+		$_eMapping = $editorMapping;
 		function _cmpfuncByFormatterName($x, $y) {
-			global $formatterMapping;
+			global $_fMapping;
 			if ($x == 'html') return -1;
 			if ($y == 'html') return +1;
-			return strcmp($formatterMapping[$x]['name'], $formatterMapping[$y]['name']);
+			return strcmp($_fMapping[$x]['name'], $_fMapping[$y]['name']);
 		}
 		function _cmpfuncByEditorName($x, $y) {
-			global $editorMapping;
+			global $_eMapping;
 			if ($x == 'plain') return -1;
 			if ($y == 'plain') return +1;
-			return strcmp($editorMapping[$x]['name'], $editorMapping[$y]['name']);
+			return strcmp($_eMapping[$x]['name'], $_eMapping[$y]['name']);
 		}
 		uksort($editorMapping, '_cmpfuncByEditorName');
 		uksort($formatterMapping, '_cmpfuncByFormatterName');
