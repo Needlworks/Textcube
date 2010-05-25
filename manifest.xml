@@ -1,0 +1,9 @@
+<MSDeploy.iisApp>
+       <iisApp path="tc"/>
+       <setAcl path="tc" setAclAccess="Read,Write,Modify" setAclUser="anonymousAuthenticationUser" />
+       <dbmysql
+    path="wpi-init-install.sql"
+    commandDelimiter="//"
+    removeCommandDelimiter="true"
+    />
+</MSDeploy.iisApp>

@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter
+    name="AppPath"
+    defaultValue="Default Web Site/tc"
+    tags="iisapp"
+    >
+    <parameterEntry
+      type="ProviderPath"
+      scope="iisapp"
+      match="tc"
+      />
+  </parameter>
+  <parameter
+    name="SetAcl1"
+    defaultValue="{AppPath}"
+    tags="Hidden"
+    >
+    <parameterEntry
+      type="ProviderPath"
+      scope="setAcl"
+      match="tc"
+      />
+  </parameter>
+
+
+  <!-- Database Parameters
+  The tags provided here tells the UI being used what type of parameter
+  this is.  The UI can then construct an appropriate dialog for the
+  database parameters, or fill them in if the user doesn't need to
+  provide them
+  -->
+
+  <!-- This parameter prompts the user for the database server name.  
+  Note that this parameter has only one parameterEntry element.
+  This parameter is used with the configuration file and the
+  connection string.  It is not used within the SQL script itself
+  like the other paramters are.
+  -->
+  <parameter
+    name="dbServer"
+    defaultValue="localhost"
+    tags="MySQL, dbServer"
+    >
+  </parameter>
+
+
+  <!-- Prompts for the admin creds and uses it for the administrator
+  connection string. This is used here eate a login and assign
+  permissions. The MySQL tag indicates it is a parameter required for
+  MySQL.
+  The DbAdminUsername tag indicates it should be used when the user
+  is creating a new database. If they're not, it can be filled in
+  with the DbUsername value.  The UI should be able to figure out
+  whether or not the user needs to be prompted for this.
+  -->
+  <parameter
+    name="dbAdminUsername"
+    defaultValue="root"
+    tags="MySQL, DbAdminUsername"
+    >
+  </parameter>
+
+  <!-- Prompts for the admin password and uses it for the administrator
+  connection string.
+  -->
+  <parameter
+    name="dbAdminPassword"
+    tags="Password, MySQL, DbAdminPassword"
+    >
+  </parameter>
+
+  <!-- This parameter prompts the user for the database name.  
+  -->
+  <parameter
+    name="dbName"
+    defaultValue="TextCube"
+    tags="MySQL, dbName"
+    >
+    <parameterValidation
+      type="RegularExpression"
+      validationString="^\w{1,16}$"
+      />
+    <parameterEntry
+      type="TextFile"
+      scope="install.sql"
+      match="PlaceHolderForDbName"
+      />
+  </parameter>
+
+
+  <parameter
+    name="DbUser"
+    defaultValue="TextCubeuser"
+    tags="MySQL,DbUsername"
+    >
+    <parameterValidation
+      type="RegularExpression"
+      validationString="^\w{1,16}$"
+      />
+    <parameterEntry
+      type="TextFile"
+      scope="install.sql"
+      match="PlaceholderForDbUser"
+      />
+  </parameter>
+
+  <parameter
+    name="DbPassword"
+    tags="Password,New,MySQL,DbUserPassword"
+    >
+    <parameterEntry
+      type="TextFile"
+      scope="install.sql"
+      match="PlaceholderForDbPassword"
+      />
+  </parameter>
+
+  <!-- This is the hidden admin connection string used to run the
+  database scripts.  Note that this connection string is just used
+  here, and will probably be different from the connection string that
+  is used by the application itself.
+  -->
+  <parameter
+    name="Connection String"
+    defaultValue="Server={dbServer};Database={dbName};uid={dbAdminUsername};Pwd={dbAdminPassword};"
+    tags="MySQL,MySQLConnectionString,Validate,Hidden"
+    >
+    <parameterEntry
+      type="ProviderPath"
+      scope="dbmysql"
+      match="install.sql"
+      />
+  </parameter>
+
+</parameters>
