@@ -11,7 +11,8 @@ $(document).ready(function() {
 			if (mode == 'started') {
 				$('#status').html('<img src="'+pluginURL+'/images/icon_loading.gif" style="vertical-align:middle" width="16" height="16" alt="가져오는 중..." />');
 				navigator.geolocation.getCurrentPosition(function(pos) {
-					map.setCenter(new GLatLng(pos.coords.latitude, pos.coords.longitude), 10);
+					map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+					map.setZoom(10);
 					position = pos;
 					$('#status').html('가져오기 성공.');
 					$('#getLocation').text('좌표 설정하기');
