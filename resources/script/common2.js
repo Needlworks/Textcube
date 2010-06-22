@@ -1234,9 +1234,16 @@ function recallLastComment(caller,entryId) {
 	}
 }
 
-function loadComment(entryId, page, force) {
+function loadComment(entryId, page, force, listOnly) {
+	var listView;
+	if(listOnly == true) {
+		listView = 1;
+		var o = document.getElementById("entry" + entryId + "CommentList");
+	} else {
+		listView = 0;
+		var o = document.getElementById("entry" + entryId + "Comment");
+	}
 	var request = new HTTPRequest("POST", blogURL + '/comment/load/' + entryId);
-	var o = document.getElementById("entry" + entryId + "Comment");
 	if ((!force && o.style.display == 'none') || force) {
 		request.onSuccess = function () {
 			PM.removeRequest(this);
@@ -1248,7 +1255,7 @@ function loadComment(entryId, page, force) {
 			PM.showErrorMessage("Loading Failed.","center","bottom");
 		};
 		PM.addRequest(request,"Loading Comments...");
-		request.send('&page='+page);
+		request.send('&page='+page+'&listOnly='+listView);
 	}
 	if (!force)
 		o.style.display = (o.style.display == 'none') ? 'block' : 'none';

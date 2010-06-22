@@ -280,7 +280,7 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 			}
 		} else {
 			if($useAjaxBlock) {
-				list($comments, $paging) = getCommentsWithPagingByEntryId($blogid, $entry['id'], $page, $count,'loadComment','('.$entry['id'].',',',true);return false;');
+				list($comments, $paging) = getCommentsWithPagingByEntryId($blogid, $entry['id'], $page, $count,'loadComment','('.$entry['id'].',',',true,true);return false;');
 			} else {
 				$comments = getComments($entry['id']);	
 			}
@@ -391,7 +391,7 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 			if($isComment && $useAjaxBlock) {
 				$pagingView = Paging::getPagingView($paging, $skin->paging, $skin->pagingItem, false, 'onclick');
 			} else $pagingView = '';
-			dress($prefix1 . '_container', $commentContainer.$pagingView, $commentView);		
+			dress($prefix1 . '_container', "<div id=\"entry".$entry['id']."CommentList\">".$commentContainer.$pagingView."</div>", $commentView);		
 		}
 	} else {
 		dress($prefix1 . '_container', '', $commentView);

@@ -146,7 +146,7 @@ if (isset($cache->contents)) {
 			dress('article_rep_date_modified', fireEvent('ViewPostDate', Timestamp::format5($entry['modified']), $entry['modified']), $entryView);
 			dress('entry_archive_link', "$blogURL/archive/" . Timestamp::getDate($entry['published']), $entryView);
 			if ($entry['acceptcomment'] || ($entry['comments'] > 0))
-				dress('article_rep_rp_link', "loadComment({$entry['id']},1,false); return false", $entryView);
+				dress('article_rep_rp_link', "loadComment({$entry['id']},1,false,false); return false", $entryView);
 			else
 				dress('article_rep_rp_link', "return false", $entryView);
 		

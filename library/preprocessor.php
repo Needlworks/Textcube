@@ -191,7 +191,6 @@ if (!defined('NO_INITIALIZAION')) {
 	if(!defined('NO_LOCALE')) {
 		if($context->getProperty('uri.interfaceType') == 'reader') { $languageDomain = 'owner'; }
 		else $languageDomain = $context->getProperty('uri.interfaceType');
-		
 		if($languageDomain == 'owner') {
 			$language = $context->getProperty('blog.language') !== null ?  $context->getProperty('blog.language') : $context->getProperty('service.language');
 		} else {
