@@ -6,6 +6,7 @@
 $IV = array(
 	'POST' => array(
 		'allowBlogVisibility'    => array('int'),
+		'requireLogin'           => array('int',0,1),
 		'disableEolinSuggestion' => array('int',0,1),
 		'encoding'               => array('string'),
 		'faviconDailyTraffic'    => array('int'),
@@ -51,6 +52,7 @@ $matchTable = array(
 	'externalResourceURL'=>'resourceURL',
 	'disableEolinSuggestion'=>'disableEolinSuggestion',
 	'allowBlogVisibility'   => 'allowBlogVisibilitySetting',
+	'requireLogin'          => 'requirelogin',
 	'flashClipboardPoter'   => 'flashclipboardpoter',
 	'flashUploader' => 'flashuploader',
 	'useDebugMode'  =>'debugmode',

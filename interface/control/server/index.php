@@ -62,6 +62,8 @@ closedir($handler);
 								else disableEolinSuggestion = 1; // Note that it is reversed!
 								if(document.getElementById('allowBlogVisibilitySetting').checked) allowBlogVisibilitySetting = 1;
 								else allowBlogVisibilitySetting = 0;
+								if(document.getElementById('requireLogin').checked) requireLogin = 1;
+								else requireLogin = 0;
 								if(document.getElementById('flashClipboardPoter').checked) flashClipboardPoter = 1;
 								else flashClipboardPoter = 0;
 								if(document.getElementById('flashUploader').checked) flashUploader = 1;
@@ -82,6 +84,7 @@ closedir($handler);
 								param += 'useEncodedURL='+useEncodedURL +'&';
 								param += 'disableEolinSuggestion='+disableEolinSuggestion +'&';
 								param += 'allowBlogVisibility='+allowBlogVisibilitySetting +'&';
+								param += 'requireLogin='+requireLogin +'&';
 								param += 'flashClipboardPoter='+flashClipboardPoter +'&';
 								param += 'flashUploader='+flashUploader +'&';
 								param += 'useDebugMode='+useDebugMode +'&';
@@ -320,6 +323,12 @@ foreach($encodingList as $enc) {
 											<dt><span class="label"><?php echo _t('블로그 공개 설정 변경 허용');?></span></dt>
 											<dd>
 												<input type="checkbox" id="allowBlogVisibilitySetting" class="checkbox" name="allowBlogVisibilitySetting"<?php echo $service['allowBlogVisibilitySetting'] ? ' checked="checked"' : '';?> /><label for="allowBlogVisibilitySetting"><?php echo _t('다중 블로그 모드에서 블로그 운영자가 블로그를 비공개로 설정하는 것을 허용합니다.');?></label>
+											</dd>
+										</dl>
+										<dl id="blog-service-visibility-line" class="line">
+											<dt><span class="label"><?php echo _t('블로그 서비스 공개 정도');?></span></dt>
+											<dd>
+												<input type="checkbox" id="requireLogin" class="checkbox" name="requireLogin"<?php echo $service['requirelogin'] ? ' checked="checked"' : '';?> /><label for="requireLogin"><?php echo _t('다중 블로그 모드에서 블로그 회원만 다른 블로그를 볼 수 있도록 합니다. 비공개 블로그 커뮤니티에 유용합니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="flash-clipboard--line" class="line">
