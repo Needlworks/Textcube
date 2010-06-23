@@ -4,7 +4,12 @@
 window.plugin = window.plugin || {};
 plugin.gmap = {
 	activeInfoWindow: null,
-	geocoder: null
+	geocoder: null,
+	closeActiveInfoWindow: function() {
+		if (this.activeInfoWindow)
+			this.activeInfoWindow.close();
+		this.activeInfoWindow = null;
+	}
 };
 
 function GMap_normalizeAddress(address) {
@@ -43,7 +48,8 @@ function GMap_addLocationMark(gmap, location_path, title, link, boundary, locati
 	plugin.gmap.geocoder.geocode({
 		'address': address
 	}, function(results, status) {
-		GMap_findLocationCallback(results, status, gmap, {'address': address, 'path': location_path, 'original_path': location_path}, title, link, boundary, locations);});
+		GMap_findLocationCallback(results, status, gmap, {'address': address, 'path': location_path, 'original_path': location_path}, title, link, boundary, locations);
+	});
 }
 
 function GMap_addLocationMarkDirect(gmap, location_info, title, link, point, boundary, locations, cache) {
@@ -77,8 +83,7 @@ function GMap_addLocationMarkDirect(gmap, location_info, title, link, point, bou
 		locations.push(locative);
 		info.setContent(GMap_buildLocationInfoHTML(locative));
 		google.maps.event.addListener(marker, 'click', function() {
-			if (plugin.gmap.activeInfoWindow)
-				plugin.gmap.activeInfoWindow.close()
+			plugin.gmap.closeActiveInfoWindow();
 			info.open(marker.getMap(), marker);
 			plugin.gmap.activeInfoWindow = info;
 		});
@@ -124,7 +129,7 @@ function GMap_findLocationCallback(results, status, gmap, location_info, title, 
 			var new_address = new_path_parts.join(' ');
 			var new_path = new_path_parts.join('/');
 			if (new_path[0] != '/') new_path = '/' + new_path;
-			geocoder.getLocations({
+			geocoder.geocode({
 				'address': new_address
 			}, function(results, status) {
 				GMap_findLocationCallback(results, status, gmap, {'address': new_address, 'path': new_path, 'original_path': location_info.original_path}, title, link, boundary, locations);
@@ -156,13 +161,11 @@ function GMap_CreateMap(container, options) {
 			});
 			if (um.title.trim() != '') {
 				var info = new google.maps.InfoWindow({
-					'title': '',
 					'content': '<div class="GMapInfo"><h4>'+um.title+'</h4><p>'+um.desc+'</p></div>',
 					'map': map
 				});
 				google.maps.event.addListener(marker, 'click', function() {
-					if (plugin.gmap.activeInfoWindow)
-						plugin.gmap.activeInfoWindow.close();
+					plugin.gmap.closeActiveInfoWindow();
 					info.open(marker.getMap(), marker);
 					plugin.gmap.activeInfoWindow = info;
 				});

@@ -157,7 +157,7 @@ function GoogleMap_View($target, $mother) {
 				$markers .= "{$json['user_markers'][$i]['lat']},{$json['user_markers'][$i]['lng']}";
 			}
 			$use_sensor = $config['useSensor'] ? 'true' : 'false';
-			echo "<div class=\"googlemap\"><img src=\"{$staticimg}center={$json['center']['latitude']},{$json['center']['longitude']}&amp;zoom={$json['zoom']}&amp;size={$json['width']}x{$json['height']}&amp;maptype={$maptype}&amp;format={$imgformat}&amp;markers={$markers}&amp;sensor={$use_sensor}\"title=\"{$json['user_markers'][0]['title']} - {$json['user_markers'][0]['desc']}\" alt=\"Google Map Test\" /></div>";
+			echo "<div class=\"googlemap\"><img src=\"{$staticimg}center={$json['center']['latitude']},{$json['center']['longitude']}&amp;zoom={$json['zoom']}&amp;size={$json['width']}x{$json['height']}&amp;maptype={$maptype}&amp;format={$imgformat}&amp;markers={$markers}&amp;sensor={$use_sensor}\"title=\"{$json['user_markers'][0]['title']} - {$json['user_markers'][0]['desc']}\" alt=\"User-inserted Map\" /></div>";
 		}
 		// Desktop
 		else {
@@ -167,7 +167,7 @@ function GoogleMap_View($target, $mother) {
 		//<![CDATA[
 		GMapOnLoadCallbacks.push(function() {
 			var c = document.getElementById('<?php echo $id;?>');
-			if (GBrowserIsCompatible()) {
+			if (true) { // (GBrowserIsCompatible()) {
 				var map = GMap_CreateMap(c, <?php echo $matches[2][0];?>);
 			} else {
 				c.innerHTML = '<p style="text-align:center; color:#c99;"><?php echo _t("이 웹브라우저는 구글맵과 호환되지 않습니다.");?></p>';
@@ -236,7 +236,7 @@ function GoogleMap_LocationLogView($target) {
 		var c = document.getElementById('<?php echo $id;?>');
 		c.style.width = "<?php echo $width;?>px"
 		c.style.height = "<?php echo $height;?>px";
-		if (true) { // GBrowserIsCompatible()) {
+		if (true) { // (GBrowserIsCompatible()) {
 			locationMap = new google.maps.Map(c, {
 				'center': new google.maps.LatLng(<?php echo $lat;?>, <?php echo $lng;?>),
 				'zoom': <?php echo $zoom;?>,
@@ -343,7 +343,7 @@ function GoogleMapUI_InsertMap() {
 	$config = Setting::fetchConfigVal($configVal);
 	$lat = $config['latitude'];
 	$lng = $config['longitude'];
-	$default_type = 'HYBRID';
+	$default_type = 'ROADMAP';
 	$default_width = min(Misc::getContentWidth(), 500);
 	$default_height = 400;
 	$zoom = 10;
@@ -367,6 +367,7 @@ function GoogleMapUI_InsertMap() {
 			'navigationControl': true,
 			'scaleControl': true
 		});
+		google.maps.event.addListenerOnce(map, 'idle', initializeCustomizableMap);
 	});
 	//]]>
 	</script>
@@ -391,7 +392,7 @@ function GoogleMapUI_GetLocation() {
 	$config = Setting::fetchConfigVal($configVal);
 	$lat = $config['latitude'];
 	$lng = $config['longitude'];
-	$default_type = 'HYBRID';
+	$default_type = 'ROADMAP';
 	$default_width = 500;
 	$default_height = 400;
 	$zoom = 10;
@@ -437,6 +438,8 @@ function _GMap_printHeaderForUI($title, $jsName, $use_sensor) {
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-mousewheel.min.js"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-json.js"></script>
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/common.js"></script>
+	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/<?php echo $jsName;?>.js"></script>
 	<script type="text/javascript">
 	//<![CDATA[
 	var pluginURL = '<?php echo $pluginURL;?>';
@@ -460,12 +463,9 @@ function _GMap_printFooterForUI($jsName) {
 	(function($) {
 	$(document).ready(function() {
 		//$(window).unload(function() {GUnload();}); // not available in v3
-		$.getScript('<?php echo $pluginURL;?>/scripts/common.js', function() {
-			var i;
-			for (i = 0; i < GMapOnLoadCallbacks.length; i++)
-				GMapOnLoadCallbacks[i]();
-			$.getScript('<?php echo $pluginURL;?>/scripts/<?php echo $jsName; ?>.js');
-		});
+		var i;
+		for (i = 0; i < GMapOnLoadCallbacks.length; i++)
+			GMapOnLoadCallbacks[i]();
 	});
 	})(jQuery);
 	//]]>
@@ -485,7 +485,8 @@ function _GMap_convertLegacyMapType($type) {
 	$names = Array(
 		'G_NORMAL_MAP' => 'ROADMAP',
 		'G_SATELLITE_MAP' => 'SATELLITE',
-		'G_HYBRID_MAP' => 'HYBRID'
+		'G_HYBRID_MAP' => 'HYBRID',
+		'G_PHYSICAL_MAP' => 'TERRAIN'
 	);
 	if ($names[$type])
 		return $names[$type];
