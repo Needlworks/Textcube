@@ -147,7 +147,7 @@ function GMap_CreateMap(container, options) {
 	var map = new google.maps.Map(container, {
 		'center': new google.maps.LatLng(options.center.latitude, options.center.longitude),
 		'zoom': options.zoom,
-		'mapTypeId': eval(options.type) || google.maps.MapTypeId.ROADMAP,
+		'mapTypeId': eval('google.maps.MapTypeId.' + options.type) || google.maps.MapTypeId.ROADMAP,
 		'mapTypeControl': true,
 		'navigationControl': true,
 		'scaleControl': true

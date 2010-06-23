@@ -40,7 +40,7 @@ function initializeCustomizableMap() {
 	$('#doInsert').click(function() {
 		if (!map)
 			return;
-		map.closeInfoWindow();
+		plugin.gmap.closeActiveInfoWindow();
 		var editor = window.opener.editor;
 		if (!editor) {
 			alert('The editor is not accessible.');
