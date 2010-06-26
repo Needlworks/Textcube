@@ -72,11 +72,11 @@ dl#toolbox-googlemap dd.command-box a.button:hover {
 }
 
 dl#toolbox-googlemap dd.command-box #gmap-insertMap {
-	background-image: url(./images/toolbox-map.png);
+	background-image: url(../images/toolbox-map.png);
 }
 
 dl#toolbox-googlemap dd.command-box #gmap-getLocation {
-	background-image: url(./images/toolbox-location.png);
+	background-image: url(../images/toolbox-location.png);
 }
 
 #googlemap-geolocation-container {

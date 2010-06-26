@@ -6,7 +6,7 @@ function GoogleMap_Header($target) {
 	if (!is_null($config)) {
 		$use_sensor = (isset($config['useSensor']) && $config['useSensor']) ? 'true' : 'false';
 		$target .= <<<EOS
-<link rel="stylesheet" type="text/css" href="$pluginURL/common.css" />
+<link rel="stylesheet" type="text/css" href="$pluginURL/styles/common.css" />
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=$use_sensor"></script>
 <script type="text/javascript" src="$pluginURL/scripts/common.js"></script>
 <script type="text/javascript">
@@ -28,7 +28,7 @@ function GoogleMap_AdminHeader($target) {
 		$config = Setting::fetchConfigVal($configVal);
 		$use_sensor = $config['useSensor'] ? 'true' : 'false';
 		$target .= <<<EOS
-<link rel="stylesheet" type="text/css" href="$pluginURL/common.css" />
+<link rel="stylesheet" type="text/css" href="$pluginURL/styles/common.css" />
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=$use_sensor"></script>
 <script type="text/javascript" src="$pluginURL/scripts/common.js"></script>
 <script type="text/javascript" src="$pluginURL/scripts/editor.js"></script>
@@ -396,7 +396,7 @@ function _GMap_printHeaderForUI($title, $jsName, $use_sensor) {
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Google Map Plugin: <?php echo $title;?></title>
-	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/popup.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/styles/popup.css" />
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-1.3.2.min.js"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-ui-1.7.2.custom.min.js"></script>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/jquery-mousewheel.min.js"></script>

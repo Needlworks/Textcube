@@ -20,7 +20,7 @@ h1 {
 
 h2 {
 	font-size: 1.0em;
-	background: #f2f2f2 url(./images/bg-h2.png) repeat-x left top;
+	background: #f2f2f2 url(../images/bg-h2.png) repeat-x left top;
 	color: white;
 	text-shadow: 0 0 2px black;
 	margin: 10px 4px;
@@ -84,8 +84,8 @@ h2 {
 .ui-resizable-s { cursor: s-resize; height: 8px; width: 100%; bottom: -8px; left: 0px; }
 .ui-resizable-e { cursor: e-resize; width: 8px; right: -8px; top: 0px; height: 100%; }
 .ui-resizable-w { cursor: w-resize; width: 8px; left: -8px; top: 0px; height: 100%; }
-.ui-resizable-se { cursor: se-resize; width: 8px; height: 8px; right: -8px; bottom: -8px; background-image: url(./images/ui-resizable-grabber-se.gif); background-repeat: no-repeat; background-position: right bottom; }
-.ui-resizable-sw { cursor: sw-resize; width: 8px; height: 8px; left: -8px; bottom: -8px; background-image: url(./images/ui-resizable-grabber-sw.gif); background-repeat: no-repeat; background-position: left bottom;}
+.ui-resizable-se { cursor: se-resize; width: 8px; height: 8px; right: -8px; bottom: -8px; background-image: url(../images/ui-resizable-grabber-se.gif); background-repeat: no-repeat; background-position: right bottom; }
+.ui-resizable-sw { cursor: sw-resize; width: 8px; height: 8px; left: -8px; bottom: -8px; background-image: url(../images/ui-resizable-grabber-sw.gif); background-repeat: no-repeat; background-position: left bottom;}
 .ui-resizable-nw { cursor: nw-resize; width: 8px; height: 8px; left: -8px; top: -8px; }
 .ui-resizable-ne { cursor: ne-resize; width: 8px; height: 8px; right: -8px; top: -8px;}
 
