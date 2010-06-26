@@ -9,26 +9,28 @@ plugin.gmap = {
 		if (this.activeInfoWindow)
 			this.activeInfoWindow.close();
 		this.activeInfoWindow = null;
+	},
+	detectMobileSafari: function() {
+		return navigator.userAgent.indexOf('iPhone') != -1 || navigator.userAgent.indexOf('iPod') != -1 || navigator.userAgent.indexOf('iPad') != -1;
+	},
+	normalizeAddress: function(address) {
+		return address.split('/').join(' ');
+	},
+	sendCache: function(original_path, path, lat, lng) {
+		jQuery.ajax({
+			'type': 'POST',
+			'url': servicePath + '/plugin/GMapCache/',
+			'data': {
+				'original_path': original_path,
+				'path': path,
+				'lat': lat,
+				'lng': lng
+			}
+		});
+		// Here, we don't need the cache result actually.
 	}
 };
 
-function GMap_normalizeAddress(address) {
-	return address.split('/').join(' ');
-}
-
-function GMap_sendCache(original_path, path, lat, lng) {
-	jQuery.ajax({
-		'type': 'POST',
-		'url': servicePath + '/plugin/GMapCache/',
-		'data': {
-			'original_path': original_path,
-			'path': path,
-			'lat': lat,
-			'lng': lng
-		}
-	});
-	// Here, we don't need the cache result actually.
-}
 
 /**
  * @brief 지역로그와 연동되어 특정 위치와 연관된 엔트리 정보를 marker 형태로 맵에 추가한다.
@@ -44,7 +46,7 @@ function GMap_sendCache(original_path, path, lat, lng) {
 function GMap_addLocationMark(gmap, location_path, title, link, boundary, locations) {
 	if (!plugin.gmap.geocoder)
 		plugin.gmap.geocoder = new google.maps.Geocoder();
-	var address = GMap_normalizeAddress(location_path);
+	var address = plugin.gmap.normalizeAddress(location_path);
 	plugin.gmap.geocoder.geocode({
 		'address': address
 	}, function(results, status) {
@@ -94,7 +96,7 @@ function GMap_addLocationMarkDirect(gmap, location_info, title, link, point, bou
 		prev.infoWindow.setContent(GMap_buildLocationInfoHTML(prev));
 	}
 	if (cache)
-		GMap_sendCache(location_info.original_path, location_info.path, point.lat(), point.lng());
+		plugin.gmap.sendCache(location_info.original_path, location_info.path, point.lat(), point.lng());
 	if (process_count != undefined)
 		process_count++;
 }
@@ -121,7 +123,7 @@ function GMap_findLocationCallback(results, status, gmap, location_info, title, 
 		var new_path_parts = location_info.path.split('/').slice(0,-1);
 		if (new_path_parts.length < 2) {
 			// give up search...
-			GMap_sendCache(location_info.original_path, location_info.path, null, null);
+			plugin.gmap.sendCache(location_info.original_path, location_info.path, null, null);
 			if (process_count != undefined)
 				process_count++;
 		} else {

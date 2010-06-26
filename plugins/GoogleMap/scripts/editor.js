@@ -7,10 +7,9 @@ function GMapTool_insertMap() {
 
 function GMapTool_getLocation() {
 	var $ = jQuery;
-	var is_iphone = navigator.userAgent.toLowerCase().indexOf('iphone') != -1;
 	if (navigator.geolocation) {
 		var offset = $('#gmap-getLocation').offset();
-		var height = $('#gmap-getLocation').outerHeight() - (is_iphone ? $(window).scrollTop() : 0);
+		var height = $('#gmap-getLocation').outerHeight() - (plugin.gmap.detectMobileSafari() ? $(window).scrollTop() : 0);
 		$('#googlemap-geolocation-preview')
 		.css({'width': '240px'})
 		.empty().append('<p style="text-align:center"><img src="' + pluginURL + '/images/icon_loading.gif" style="vertical-align:middle" />Loading...</p>');
