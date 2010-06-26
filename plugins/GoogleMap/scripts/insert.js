@@ -181,19 +181,15 @@ function GMap_onClick(latlng) {
 		return;
 	}
 	var id = 'um' + (new Date).valueOf() + (Math.ceil(Math.random()*90)+10);
-	console.log('id = ' + id);
 	var marker = new google.maps.Marker({
 		'position': latlng,
 		'map': map,
 		'title': 'Click to edit',
 		'draggable': true
 	});
-	console.log(marker);
 	var info = new google.maps.InfoWindow({
 		'content' : ''
 	});
-	console.log(info);
-	console.log('created');
 	gogole.maps.event.addListener(marker, 'click', GMarker_onClick);
 	google.maps.event.addListener(info, 'closeclick', function() {
 		user_markers[id].title = $('#info_title').val();
