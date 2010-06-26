@@ -387,42 +387,6 @@ function GoogleMapUI_InsertMap() {
 	_GMap_printFooterForUI('insert');
 }
 
-function GoogleMapUI_GetLocation() {
-	global $configVal, $pluginURL;
-	$config = Setting::fetchConfigVal($configVal);
-	$lat = $config['latitude'];
-	$lng = $config['longitude'];
-	$default_type = 'ROADMAP';
-	$default_width = 500;
-	$default_height = 400;
-	$zoom = 10;
-	_GMap_printHeaderForUI(_t('현재 위치 알아내기'), 'getlocation');
-?>
-	<h2><?php echo _t("이용 안내");?></h2>
-	<p><?php echo _t("웹브라우저가 제공하는 Geolocation 서비스를 이용하여 현재 위치 정보를 가져옵니다. 정확도는 사용하고 계신 기기나 지역에 따라 다를 수 있습니다.");?> <a href="#help">(<?php echo _t("자세히 알아보기");?>)</a></p>
-	<p><span id="availability"></span><span id="status"></span></p>
-	<h2>미리보기</h2>
-	<div style="text-align:center;">
-		<div id="GoogleMapPreview" style="width:<?php echo $default_width;?>px; height:<?php echo $default_height;?>px; margin:0 auto;"></div>
-	</div>
-	<script type="text/javascript">
-	//<![CDATA[
-	GMapOnLoadCallbacks.push(function() {
-		map = new google.maps.Map($('#GoogleMapPreview')[0], {
-			'center':new google.maps.LatLng(<?php echo $lat;?>, <?php echo $lng;?>),
-			'zoom': <?php echo $zoom;?>,
-			'mapTypeId': google.maps.MapTypeId.<?php echo $default_type;?>,
-			'mapTypeControl': true,
-			'navigationControl': true,
-			'scaleControl': true
-		});
-	});
-	//]]>
-	</script>
-<?php
-	_GMap_printFooterForUI('getlocation');
-}
-
 function _GMap_printHeaderForUI($title, $jsName, $use_sensor) {
 	$ctx = Model_Context::getInstance();
 	$blogURL = $ctx->getProperty('uri.blog');

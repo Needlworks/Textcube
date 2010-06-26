@@ -17,7 +17,6 @@
   </requirements>
   <binding>
     <listener event="/plugin/GMapCustomInsert/" handler="GoogleMapUI_InsertMap" scope="owner" />
-    <listener event="/plugin/GMapGetLocation/" handler="GoogleMapUI_GetLocation" scope="owner" />
     <listener event="/plugin/GMapCache/" handler="GoogleMap_Cache" />
     <listener event="ViewPostContent" handler="GoogleMap_View" />
     <listener event="ViewNoticeContent" handler="GoogleMap_View" />
