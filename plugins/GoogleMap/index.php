@@ -114,6 +114,8 @@ function GoogleMap_View($target, $mother) {
 	$ctx= Model_Context::getInstance();
 	if ($ctx->getProperty('is_used') === null)
 		$ctx->setProperty('is_used', false);
+	$dbPrefix = $ctx->getProperty('database.prefix');
+	$blogId = $ctx->getProperty('blog.id');
 	$config = Setting::fetchConfigVal($configVal);
 	$matches = array();
 	$offset = 0;
@@ -181,6 +183,16 @@ function GoogleMap_View($target, $mother) {
 
 		ob_end_clean();
 		$target = substr_replace($target, $output, $matches[0][1], strlen($matches[0][0]));
+	}
+	// Check if location is attached to this post.
+	$row = POD::queryRow("SELECT latitude, longitude FROM {$dbPrefix}Entries WHERE blogid = {$blogId} AND id = {$mother}");
+	if ($row['latitude'] && $row['longitude']) {
+		$target .= <<<EOS
+<div class="googlemap-geolocation-attached">
+	<h5>Location</h5>
+	<a href="#link-to-googlemap"><img src="http://maps.google.com/maps/api/staticmap?center={$row['latitude']},{$row['longitude']}&zoom=12&size=260x120&maptype=roadmap&sensor=true&markers=color:red|{$row['latitude']},{$row['longitude']}" /></a>
+</div>
+EOS;
 	}
 	return $target;
 }
