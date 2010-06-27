@@ -12,7 +12,7 @@ function GMapTool_getLocation() {
 		var height = $('#gmap-getLocation').outerHeight() - (plugin.gmap.detectMobileSafari() ? $(window).scrollTop() : 0);
 		$('#googlemap-geolocation-preview')
 		.css({'width': '240px'})
-		.empty().append('<p style="text-align:center"><img src="' + pluginURL + '/images/icon_loading.gif" style="vertical-align:middle" />Loading...</p>');
+		.empty().append('<p style="text-align:center"><img src="' + pluginURL + '/images/icon_loading.gif" style="vertical-align:middle" />&nbsp;Loading...</p>');
 		$('#googlemap-geolocation-container').css({'top': offset.top + height, 'left': offset.left - 75}).show();
 		navigator.geolocation.getCurrentPosition(function(pos) {
 			$('#googlemap-geolocation-preview')
@@ -57,23 +57,17 @@ jQuery(document).ready(function() {
 		var e = document.getElementById('googlemap-geolocation-container-arrow');
 		if (e.getContext) {
 			var ctx = e.getContext('2d');
-			ctx.fillStyle = '#fff';
+			ctx.fillStyle = $('#googlemap-geolocation-preview').css('background-color');
 			ctx.beginPath();
-			ctx.moveTo(5, 0);
-			ctx.lineTo(10, 7);
-			ctx.lineTo(0, 7);
+			ctx.moveTo(5, 0); ctx.lineTo(10, 7); ctx.lineTo(0, 7);
 			ctx.fill();
-			ctx.strokeStyle = '#ccc';
+			ctx.strokeStyle = $('#googlemap-geolocation-preview').css('border-top-color');
 			ctx.beginPath();
-			ctx.moveTo(5, 0);
-			ctx.lineTo(10, 7);
-			ctx.closePath();
-			ctx.stroke();
+			ctx.moveTo(5, 0); ctx.lineTo(10, 7);
+			ctx.closePath(); ctx.stroke();
 			ctx.beginPath();
-			ctx.moveTo(5, 0);
-			ctx.lineTo(0, 7);
-			ctx.closePath();
-			ctx.stroke();
+			ctx.moveTo(5, 0); ctx.lineTo(0, 7);
+			ctx.closePath(); ctx.stroke();
 		}
 	}
 });

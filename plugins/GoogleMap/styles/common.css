@@ -98,8 +98,9 @@ dl#toolbox-googlemap dd.command-box #gmap-getLocation {
 #googlemap-geolocation-preview {
 	position: relative;
 	top: -4px;
-	border: 1px solid #ccc;
+	border: 1px solid #aaa;
 	background: white;
+	color: #999;
 	margin: 0;
 	padding: 4px;
 	box-shadow: 0px 2px 5px rgba(0,0,0,0.3);
