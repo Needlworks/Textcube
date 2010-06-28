@@ -217,7 +217,7 @@ function GoogleMap_View($target, $mother) {
 		$target .= <<<EOS
 <div class="googlemap-geolocation-attached">
 	<h5>Location</h5>
-	<a href="#link-to-googlemap"><img src="http://maps.google.com/maps/api/staticmap?center={$row['latitude']},{$row['longitude']}&zoom=12&size=260x120&maptype=roadmap&sensor=true&markers=color:red|{$row['latitude']},{$row['longitude']}" /></a>
+	<a href="http://maps.google.com/maps?iwloc=exact&amp;q={$row['latitude']},{$row['longitude']}&amp;z=15"><img src="http://maps.google.com/maps/api/staticmap?center={$row['latitude']},{$row['longitude']}&zoom=12&size=260x120&maptype=roadmap&sensor=true&markers=color:red|size:small|{$row['latitude']},{$row['longitude']}" /></a>
 </div>
 EOS;
 	}
