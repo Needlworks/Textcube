@@ -1,5 +1,20 @@
 <?php
 
+function GoogleMap_generateTranslationJavascript($messages) {
+	// The language setting follows in which context this function is called.
+	ob_start();
+	echo "<script type=\"text/javascript\">\n";
+	echo "__text == __text || {};\n";
+	foreach ($messages as $text) {
+		$translated_text = _t($text);
+		echo "__text['$text'] = '$translated_text';\n";
+	};
+	echo "</script>\n";
+	$output = ob_get_contents();
+	ob_end_clean();
+	return $output;
+}
+
 function GoogleMap_Header($target) {
 	global $configVal, $pluginURL;
 	$config = Setting::fetchConfigVal($configVal);
@@ -98,12 +113,24 @@ EOS;
 
 function GoogleMap_AddToolbox($target) {
 	global $pluginURL;
-	$m_addGoogleMap = _t("구글맵 추가하기");
-	$m_getPosition = _t("현재 위치 알아내기");
+	$m_addGoogleMap = _t("지도 삽입하기");
+	$m_attachLocation = _t("현재 위치 첨부하기");
+	$target .= GoogleMap_generateTranslationJavascript(array(
+		'지도 삽입하기',
+		'현재 위치 첨부하기',
+		'첨부된 위치 제거하기',
+		'첨부된 위치 정보를 제거하시겠습니까?',
+		'위치 정보를 가져오지 못하였습니다.',
+		'권한 없음',
+		'위치정보 없음',
+		'시간 제한 초과',
+		'알 수 없는 오류',
+		'현재 웹브라우저는 Geolocation 기능을 지원하지 않습니다.'
+	));
 	$target .= <<<EOS
-<dl id="toolbox-googlemap">
-	<dd class="command-box"><a class="button" id="gmap-insertMap" href="#insertGoogleMap" onclick="GMapTool_insertMap(); return false;">$m_addGoogleMap</a></dd>
-	<dd class="command-box"><a class="button" href="#getLocation" id="gmap-getLocation" onclick="GMapTool_getLocation(); return false;">$m_getPosition</a></dd>
+	<dl id="toolbox-googlemap">
+		<dd class="command-box"><a class="button" id="googlemap-insertMap" href="#insertGoogleMap" onclick="GMapTool_insertMap(); return false;">$m_addGoogleMap</a></dd>
+		<dd class="command-box"><a class="button" id="googlemap-attachLocation" href="#getLocation" onclick="GMapTool_attachLocation(); return false;">$m_attachLocation</a></dd>
 	</dl>
 EOS;
 	return $target;
