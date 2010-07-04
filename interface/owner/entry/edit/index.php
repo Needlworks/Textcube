@@ -749,10 +749,16 @@ if (count($templateLists) == 0) {
 									</div>
 									
 									<hr class="hidden" />
-																		
+
+									<div id="setting-section">
+									<script type="text/javascript">
+									//<![CDATA[
+										var settingMenus = new Array("upload-container","tag-location-container","power-container");
+									//]]>
+									</script>
 									<div id="upload-section" class="section">
-										<h3><a href="#void" onclick="toggleLayer('upload-detail');return false;"><?php echo _t('업로드');?></a></h3>
-										<div id="upload-detail">
+										<h3><a href="#void" onclick="focusLayer('upload-container',settingMenus);return false;"><?php echo _t('업로드');?></a></h3>
+										<div id="upload-container">
 											<div id="attachment-container" class="container">
 <?php
 $param = array(
@@ -787,7 +793,7 @@ printEntryFileUploadButton($entry['id']);
 									<hr class="hidden" />
 									
 									<div id="taglocal-section" class="section">
-										<h3><?php echo _t('태그 &amp; 위치');?></h3>
+										<h3><a href="#void" onclick="focusLayer('tag-location-container',settingMenus);return false;"><?php echo _t('태그 &amp; 위치');?></a></h3>
 												
 										<div id="tag-location-container" class="container">
 											<dl id="tag-line">
@@ -834,6 +840,8 @@ printEntryFileUploadButton($entry['id']);
 									<hr class="hidden" />
 
 									<div id="power-section" class="section">
+										<h3><a href="#void" onclick="focusLayer('power-container',settingMenus);return false;"><?php echo _t('기타 설정');?></a></h3>
+										
 										<div id="power-container" class="container">
 											<dl id="permalink-line" class="line"<?php if($isKeyword) echo ' style="display: none"';?>>
 												<dt><label for="permalink"><?php echo _t('절대 주소');?></label></dt>
@@ -885,7 +893,7 @@ if (defined('__TEXTCUBE_POST__')) {
 											</dl>
 										</div>
 									</div>
-
+									</div><!-- setting-section -->
 									<hr class="hidden clear" />
 									
 									<div id="save-section">

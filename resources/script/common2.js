@@ -229,6 +229,22 @@ function toggleLayer(id) {
 	}
 	return true;
 }
+
+function focusLayer(id, others) {
+	try {
+		var obj = document.getElementById(id);
+		obj.style.display = "block";
+		for (x in others) {
+			if(others[x] != id) {
+				var obj = document.getElementById(others[x]);
+				obj.style.display = "none";
+			}
+		}
+	} catch (e) {
+	}
+	return true;
+}
+
 function showLayer(id) {
 	document.getElementById(id).style.display = "block";
 	return true;
