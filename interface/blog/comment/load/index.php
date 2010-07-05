@@ -18,6 +18,6 @@ $IV = array(
 );
 $result['error'] = 0;
 $result['commentBlock'] = revertTempTags(removeAllTags(getCommentView($entry, $skin, ($_POST['listOnly'] ? false:true),
-	$_POST['page'], 20,($_POST['listOnly'] ? true:false))));
+	$_POST['page'], 20,true)));
 Respond::PrintResult($result);
 ?>
