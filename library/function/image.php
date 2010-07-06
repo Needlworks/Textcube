@@ -96,7 +96,7 @@ function getImageResizer($filename, $options = null, $blogid = null) {
 
 	if (is_null($blogid)) $blogid = getBlogId();
 	$force = isset($options['force']) ? $options['force'] : false;
-	$absolute = isset($options['absolute']) ? $options['absolute'] : false;
+	$absolute = isset($options['absolute']) ? $options['absolute'] : true;
 
 	$originSrc = ROOT."/attach/{$blogid}/{$filename}";
 	$originURL = ($absolute ? $context->getProperty('uri.service'):$context->getProperty('uri.path'))."/attach/{$blogid}/{$filename}";
