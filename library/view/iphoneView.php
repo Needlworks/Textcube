@@ -321,10 +321,9 @@ function printIphoneCropProcess($blogid, $filename, $cropSize) {
 
 	$thumbnailSrc = ROOT . "/cache/thumbnail/{$blogid}/iphoneThumbnail/th_{$filename}";
 	if (file_exists($originSrc)) {
-		requireComponent('Textcube.Function.Image');
 		$imageInfo = getimagesize($originSrc);
 
-		$objThumbnail = new Image();
+		$objThumbnail = new Utils_Image();
 		if ($imageInfo[0] > $imageInfo[1])
 			list($tempWidth, $tempHeight) = $objThumbnail->calcOptimizedImageSize($imageInfo[0], $imageInfo[1], NULL, $cropSize);
 		else

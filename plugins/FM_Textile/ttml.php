@@ -1,11 +1,12 @@
 <?php
 // PHP TTML parser
-// Version 1.6 (2008.1.20)
+// Version 1.8 (2010.7.6)
 // 2004-2009 Needlworks / TNF / Tatter and Company
 // Original TTML is created by JH, 2004.4
 // TTML port for Tattertools 1.0 by papacha, 2005.10
 // TTML Module port for Tattertools 1.1 by lifthrasiir, 2007.1
 // TTML External library for Textcube 1.6 by inureyes, 2008.1
+// TTML External library for Textcube 1.8 by inureyes, 2010.7
 
 function FM_TTML_bindTags($id, $content) {
 	for ($no = 0; (($start = strpos($content, '[#M_')) !== false) && (($end = strpos($content, '_M#]', $start + 4)) !== false); $no++) {
@@ -30,7 +31,6 @@ function FM_TTML_bindTags($id, $content) {
 function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolutePath = false, $bRssMode = false) {
 	global $service, $hostURL, $blogURL, $serviceURL;
 	requireModel('blog.attachment');
-	requireComponent('Textcube.Function.misc');
 	$blogid = getBlogId();
 	getAttachments($blogid, $entryId); // For attachment caching.
 	$view = str_replace('[##_ATTACH_PATH_##]', ($useAbsolutePath ? "{$serviceURL}/attach/$blogid" : $folderURL), $content);
@@ -341,7 +341,6 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 
 function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderURL, $imageBlocks = 1, $useAbsolutePath = true, $bRssMode = false, $onclickFlag=false) {
 	global $database, $skinSetting, $service, $blogURL, $hostURL, $serviceURL;
-	requireComponent('Textcube.Function.misc');
 	$blogid = getBlogId();
 	$path = "$folderPath/$filename";
 	if ($useAbsolutePath)
@@ -409,9 +408,9 @@ function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderU
 
 function FM_TTML_createNewProperty($filename, $imageWidth, $property) {
 	$blogid = getBlogId();
-	requireComponent('Textcube.Function.Image');
-	if (in_array(Image::getImageType(ROOT."/attach/$blogid/$filename"), array('gif', 'png', 'jpg', 'bmp')))
-		return Image::resizeImageToContent($property, ROOT."/attach/$blogid/$filename", $imageWidth);
+	$image = Utils_Image::getInstance();
+	if (in_array($image->getImageType(ROOT."/attach/$blogid/$filename"), array('gif', 'png', 'jpg', 'bmp')))
+		return $image->resizeImageToContent($property, ROOT."/attach/$blogid/$filename", $imageWidth);
 	else
 		return array($property, false);
 }

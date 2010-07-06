@@ -119,8 +119,7 @@ function getImageResizer($filename, $options = null, $blogid = null) {
 		@chmod(ROOT."/cache/thumbnail/" . $blogid, 0777);
 	}
 
-	requireComponent('Textcube.Function.Image');
-	$objResize = new Image();
+	$objResize = new Utils_Image();
 	$objResize->imageFile = $originSrc;
 	if (isset($options['size']) && is_numeric($options['size'])) {
 		if ($imageInfo[0] > $imageInfo[1])

@@ -182,7 +182,7 @@ function MT_Cover_getCropProcess($blogid, $filename, $cropSize) {
 		requireComponent('Textcube.Function.Image');
 		$imageInfo = getimagesize($originSrc);
 
-		$objThumbnail = new Image();
+		$objThumbnail = new Utils_Image();
 		if ($imageInfo[0] > $imageInfo[1])
 			list($tempWidth, $tempHeight) = $objThumbnail->calcOptimizedImageSize($imageInfo[0], $imageInfo[1], NULL, $cropSize);
 		else

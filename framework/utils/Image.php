@@ -2,11 +2,16 @@
 /// Copyright (c) 2004-2010, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
-class Utils_Image {
+
+class Utils_Image extends Singleton {
 	function __construct() {
 		$this->reset();
 	}
-	
+
+	public static function getInstance() {
+		return self::_getInstance(__CLASS__);
+	}
+
 	function reset() {
 		$this->extraPadding = 0;
 		$this->imageFile = NULL;
