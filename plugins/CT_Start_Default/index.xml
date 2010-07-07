@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title xml:lang="en">Start(Japanese)</title>
-  <title xml:lang="ko">시작하기(일본어판)</title>
-  <title xml:lang="ja">スタート(日本語版)</title>
+  <title xml:lang="en">Start</title>
+  <title xml:lang="ko">시작하기</title>
+  <title xml:lang="ja">スタート</title>
   <link>http://needlworks.org/</link>
   <version>1.6</version>
   <description xml:lang="en">Adds shortcuts to start tasks what you want to with Textcube.</description>

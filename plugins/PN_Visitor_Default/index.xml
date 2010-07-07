@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title xml:lang="en">Visitors(Japanese)</title>
-  <title xml:lang="ko">방문자 기록(일본어판)</title>
-  <title xml:lang="ja">詳細統計(日本語版)</title>
+  <title xml:lang="en">Visitors</title>
+  <title xml:lang="ko">방문자 기록</title>
+  <title xml:lang="ja">詳細統計</title>
   <link>http://needlworks.org/</link>
   <version>1.1.1.1</version>
   <description xml:lang="en">Default Visitor log Plugin</description>

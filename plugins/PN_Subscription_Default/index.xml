@@ -2,7 +2,7 @@
 <plugin version="1.0">
   <title xml:lang="en">Feed Subscription Log</title>
   <title xml:lang="ko">피드 구독 통계</title>
-  <title xml:lang="ja">RSSフィード統計(日本語版)</title>
+  <title xml:lang="ja">RSSフィード統計</title>
   <link>http://needlworks.org/</link>
   <version>2.1</version>
   <description xml:lang="en">Shows Feed Subscription Log using Textcube Components.</description>
