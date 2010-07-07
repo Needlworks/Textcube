@@ -637,7 +637,7 @@ if ($service['type'] != 'single' && Acl::check("group.creators")):
 <?php
 $invitedList = getInvited(getUserId());
 ?>
-											<table cellspacing="0" cellpadding="0">
+											<table class="data-inbox" cellspacing="0" cellpadding="0">
 												<thead>
 													<tr>
 														<th class="email"><span class="text"><?php echo _t('이름(e-mail)');?></span></th>
