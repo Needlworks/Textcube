@@ -47,18 +47,21 @@ function getBlogTags($blogid) {
 
 function removeBlogLogo($blogid) {
 	$context = Model_Context::getInstance();
+	$skin = new Skin($context->getProperty('skin.skin'));
 	requireModel('blog.attachment');
 	
 	if(Setting::setBlogSettingGlobal('logo','') === false) return false;
 	else {
 		deleteAttachment($blogid, - 1, $context->getProperty('blog.logo'));
 		$context->setProperty('blog.logo','');
+		$skin->purgeCache();
 		return true;
 	}
 }
 
 function changeBlogLogo($blogid, $file) {
-	global $blog;
+	$context = Model_Context::getInstance();
+	$skin = new Skin($context->getProperty('skin.skin'));
 	requireModel('blog.attachment');
 	if (($attachment = addAttachment($blogid, - 1, $file)) === false) {
 		return false;
@@ -68,7 +71,7 @@ function changeBlogLogo($blogid, $file) {
 		return false;
 	}
 	if(Setting::setBlogSettingGlobal('logo',$attachment['name'])) {
-		deleteAttachment($blogid, - 1, $blog['logo']);
+		deleteAttachment($blogid, - 1, $context->getProperty('blog.logo'));
 		$blog['logo'] = $attachment['name'];
 		return true;
 	}
@@ -154,9 +157,9 @@ function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSlog
 		) {
 		return false;
 	}*/
-	setBlogSetting('useSloganOnPost',$useSloganOnPost);
-	setBlogSetting('useSloganOnCategory',$useSloganOnCategory);
-	setBlogSetting('useSloganOnTag',$useSloganOnTag);
+	Setting::setBlogSettingGlobal('useSloganOnPost',$useSloganOnPost);
+	Setting::setBlogSettingGlobal('useSloganOnCategory',$useSloganOnCategory);
+	Setting::setBlogSettingGlobal('useSloganOnTag',$useSloganOnTag);
 
 	$blog['useSloganOnPost'] = $useSloganOnPost;
 	$blog['useSloganOnCategory'] = $useSloganOnCategory;
@@ -170,12 +173,12 @@ function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSlog
 }
 
 function setEntriesOnRSS($blogid, $entriesOnRSS) {
-	global $blog;
+	$context = Model_Context::getInstance();
 	requireModel('blog.feed');
-	if ($entriesOnRSS == $blog['entriesOnRSS'])
+	if ($entriesOnRSS == $context->getProperty('blog.entriesOnRSS'))
 		return true;
 	if(Setting::setBlogSettingGlobal('entriesOnRSS',$entriesOnRSS) === false) return false;
-	$blog['entriesOnRSS'] = $entriesOnRSS;
+	$context->setProperty('blog.entriesOnRSS',$entriesOnRSS);
 	clearFeed();
 	return true;
 }
