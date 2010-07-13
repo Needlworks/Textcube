@@ -31,7 +31,7 @@ final class Model_URIHandler extends Singleton
 		$this->context->useNamespace('service');
 		
 		$url             = $this->uri['fullpath'];
-		$defaultblogid   = Setting::getServiceSetting("defaultBlogId",1);
+		$defaultblogid   = Setting::getServiceSetting("defaultBlogId",1,true);
 		$this->suri            = array('url' => $url, 'value' => '');
 		$this->blogid    = null;
 		$this->uri['isStrictBlogURL'] = true;
