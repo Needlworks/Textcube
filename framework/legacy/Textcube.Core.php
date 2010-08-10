@@ -6,8 +6,6 @@
 /* This component contains 'User', 'Blog' and 'Transaction' class. 
    NOTE : Classes described below are actually not object. Usually they are static.*/
 
-requireComponent('Textcube.Control.Auth');
-
 // for Global Cache
 global $__gCacheUserNames;
 $__gCacheUserNames = array();
