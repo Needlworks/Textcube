@@ -33,6 +33,6 @@ if(User::getEmail() == $_POST['email']) {
 	Respond::ResultPage($result);
 } else {
 	$result = sendInvitationMail(null, User::getUserIdByEmail($_POST['email']),$_POST['name'],$_POST['comment'], $_POST['senderName'], $_POST['senderEmail']);
+	Respond::ResultPage($result);
 }
-Respond::ResultPage($result);
 ?>
