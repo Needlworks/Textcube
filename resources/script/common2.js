@@ -1030,6 +1030,7 @@ function addComment(caller, entryId) {
 	}
 	var request = new HTTPRequest("POST", oForm.action);
 	request.onSuccess = function () {
+		PM.removeRequest(this);
 		commentSavingNow = false;
 		document.getElementById("entry" + entryId + "Comment").innerHTML = this.getText("/response/commentBlock");
 		if(getObject("recentComments") != null)
@@ -1040,6 +1041,7 @@ function addComment(caller, entryId) {
 			document.getElementById("commentCountOnRecentEntries" + entryId).innerHTML = "(" + this.getText("/response/commentCount") + ")";
 	}
 	request.onError = function() {
+		PM.removeRequest(this);
 		commentSavingNow = false;
 		alert(this.getText("/response/description"));
 	}
@@ -1118,6 +1120,7 @@ function addComment(caller, entryId) {
 		}
 	}
 	commentSavingNow = true;
+	PM.addRequest(request,"Saving Comments...");
 	request.send(queryString);
 }
 
