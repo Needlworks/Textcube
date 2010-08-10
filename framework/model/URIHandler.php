@@ -51,18 +51,18 @@ final class Model_URIHandler extends Singleton
 				} else {
 					$domain = explode('.', $_SERVER['HTTP_HOST'], 2);
 					if ($domain[1] == $this->context->getProperty('domain')) {
-						$this->blogid = $this->__getBlogidByName($domain[0]);
+						$this->blogid = $this->__getBlogIdByName($domain[0]);
 						if ($this->blogid === null) 
-							$this->blogid = $this->__getBlogidBySecondaryDomain($_SERVER['HTTP_HOST']);
+							$this->blogid = $this->__getBlogIdBySecondaryDomain($_SERVER['HTTP_HOST']);
 						} else {
-							$this->blogid = $this->__getBlogidBySecondaryDomain($_SERVER['HTTP_HOST']);
+							$this->blogid = $this->__getBlogIdBySecondaryDomain($_SERVER['HTTP_HOST']);
 						}
 				}
 			} else {	// Path-based service
 				if ($url == '/') {
 					$this->blogid = $defaultblogid;
 				} else if (preg_match('@^/+([^/]+)(.*)$@', $url, $matches)) {
-					$this->blogid = $this->__getBlogidByName(strtok($matches[1],'?'));
+					$this->blogid = $this->__getBlogIdByName(strtok($matches[1],'?'));
 					if ($this->blogid === null) {
 						$this->blogid = $defaultblogid;
 						$this->uri['isStrictBlogURL']= false;
