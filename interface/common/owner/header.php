@@ -281,8 +281,6 @@ $blogContentMenuItem['center'] = array_merge($blogContentMenuItem['center'] , ar
 	<link rel="apple-touch-icon" href="<?php echo $context->getProperty('uri.default')."/index.gif";?>" />
 <?php
 	}
-?>
-
 // common CSS.
 foreach($blogMenu['loadCSS'] as $loadCSS) {
 ?>
