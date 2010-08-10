@@ -73,6 +73,7 @@ function changeBlogLogo($blogid, $file) {
 	if(Setting::setBlogSettingGlobal('logo',$attachment['name'])) {
 		deleteAttachment($blogid, - 1, $context->getProperty('blog.logo'));
 		$blog['logo'] = $attachment['name'];
+		$skin->purgeCache();
 		return true;
 	}
 	return false;
