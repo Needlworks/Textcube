@@ -572,12 +572,12 @@ function removeBlog($blogid) {
 
 function setSmtpServer( $useCustomSMTP, $smtpHost, $smtpPort ) {
 	if( empty($useCustomSMTP) ) {
-		setServiceSetting( 'useCustomSMTP', 0 );
+		Setting::setServiceSettingGlobal( 'useCustomSMTP', 0 );
 		return true;
 	}
-	if( !setServiceSetting( 'useCustomSMTP', 1 ) ) return false;
-	if( !setServiceSetting( 'smtpHost', $smtpHost ) ) return false;
-	if( !setServiceSetting( 'smtpPort', $smtpPort ) ) return false;
+	if( !Setting::setServiceSettingGlobal( 'useCustomSMTP', 1 ) ) return false;
+	if( !Setting::setServiceSettingGlobal( 'smtpHost', $smtpHost ) ) return false;
+	if( !Setting::setServiceSettingGlobal( 'smtpPort', $smtpPort ) ) return false;
 	return true;
 }
 
@@ -585,7 +585,7 @@ function setDefaultBlog( $blogid ) {
 	if(!Acl::check("group.creators")) {
 		return false;
 	}
-	$result = setServiceSetting("defaultBlogId", $_GET['blogid']);
+	$result = Setting::setServiceSettingGlobal("defaultBlogId", $_GET['blogid']);
 	return $result;
 }
 ?>
