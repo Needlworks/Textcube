@@ -28,6 +28,11 @@ if($blogadd !== true) {
 	}
 	Respond::ResultPage($blogadd);
 }
-$result = sendInvitationMail(null, User::getUserIdByEmail($_POST['email']),$_POST['name'],$_POST['comment'], $_POST['senderName'], $_POST['senderEmail']);
+if(User::getEmail() == $_POST['email']) {
+	$result = array('error'=>0,'message'=>_t('이 계정에 새로운 블로그를 추가하였습니다.'));
+	Respond::ResultPage($result);
+} else {
+	$result = sendInvitationMail(null, User::getUserIdByEmail($_POST['email']),$_POST['name'],$_POST['comment'], $_POST['senderName'], $_POST['senderEmail']);
+}
 Respond::ResultPage($result);
 ?>

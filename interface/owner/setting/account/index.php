@@ -147,6 +147,7 @@ require ROOT . '/interface/common/owner/header.php';
 									}
 									blogApiPassword.value = value;
 								}
+
 								function setDelegate() {
 									try {
 										var odlg = document.getElementById( 'openid_for_delegation' );
@@ -235,7 +236,12 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 										return this.getText("/response/error") == 0;
 									}
 									request.onSuccess = function() {
-										PM.showMessage("<?php echo _t('초대장을 발송했습니다.');?>", "center", "bottom");
+										msg = this.getText("/response/message");
+										if(msg) {
+											PM.showMessage(msg, "center", "bottom");
+										} else {
+											PM.showMessage("<?php echo _t('초대장을 발송했습니다.');?>", "center", "bottom");
+										}
 										window.location.href='<?php echo $blogURL;?>/owner/setting/account/';
 									}
 									request.onError = function() {
