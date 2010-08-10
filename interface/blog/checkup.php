@@ -769,7 +769,16 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		else {
 			showCheckupMessage(false);
 		}
-	}	
+	}
+	/* From Textcube 1.8.4 */
+	if (!POD::queryExistence("DESC {$database['prefix']}RemoteResponseLogs responsetype")) { 
+		$changed = true;
+		echo '<li>', _text('트랙백과 핑백의 출력을 위하여 필드 속성을 변경합니다.'), ': ';
+		if (POD::execute("ALTER TABLE {$database['prefix']}RemoteResponseLogs CHANGE type responsetype ENUM('trackback','pingback') NOT NULL DEFAULT 'trackback'"))
+			showCheckupMessage(true);
+		else
+			showCheckupMessage(false);
+	}
 }
 
 /***** Common parts. *****/
