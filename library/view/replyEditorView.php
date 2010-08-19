@@ -4,7 +4,6 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 $confirmString = '';
-
 if (empty($comment['name']) ) {
 	if( isset($_SESSION['openid']['nickname'])) {
 		$comment['name'] = $_SESSION['openid']['nickname'];
